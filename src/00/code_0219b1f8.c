@@ -47,7 +47,7 @@ void WiFiGpMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 
                         if (wiFiConnection->mState == 5 || wiFiConnection->mMatching.mMode == 2 ||
                             wiFiConnection->mMatching.mMode == 3) {
                             message += strlen(gDwcGpCommandMatchString);
-                            ParseMatchingGpMessage(connection, arg->mUnk_00, message);
+                            ParseMatchingGpMessage(connection, arg->mProfile, message);
                         }
                     }
                 }

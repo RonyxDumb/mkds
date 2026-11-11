@@ -8,12 +8,12 @@
 
 BOOL GpiForEachProfileWhileNonZero(GpConnection *a, void *b, void *c) {
     GpiConnection *r;
-    Unk02194840Arg d;
+    GPIProfileMapData d;
 
     r = a->mGpiConnection;
-    d.mUnk_00 = a;
-    d.mUnk_04 = b;
-    d.mUnk_08 = c;
+    d.mConnection = a;
+    d.mFunc = b;
+    d.mData = c;
     if (HashtableFindByFn(r->mProfileList.mTable, (s32) gpiProfileMapCallback, &d) == NULL) {
         return TRUE;
     }

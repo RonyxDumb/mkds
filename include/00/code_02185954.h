@@ -116,15 +116,15 @@ typedef struct DWCAuth {
 } DWCAuth;
 
 // Some of the locals of DWCi_Auth_Prepare_FirstPost.
-typedef struct Unk02185984Data {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[6];
-    /* 08 */ u8 mUnk_08[6];
-    /* 0e */ char mUnk_0e[5];
-    /* 13 */ char mUnk_13[3];
-    /* 16 */ char mUnk_16[5];
-    /* 1b */ char mUnk_1b[4];
-} Unk02185984Data;
+typedef struct AuthFirstPostValues {
+    /* 00 */ u16 mEssidLength;
+    /* 02 */ u8 mMacAddress[6];
+    /* 08 */ u8 mBssid[6];
+    /* 0e */ char mGameCode[5];
+    /* 13 */ char mMakerCode[3];
+    /* 16 */ char mBirthday[5];
+    /* 1b */ char mPassword[4];
+} AuthFirstPostValues;
 
 #include "00/code_021ad734.h"
 

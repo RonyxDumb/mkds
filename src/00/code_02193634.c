@@ -62,9 +62,9 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(arg, 0, 0x20);
-                arg->mUnk_00 = operation->mUnk_1c;
+                arg->mResult = operation->mUnk_1c;
                 if (gpState->mErrorNumber == 0x201) {
-                    arg->mUnk_04 = gpState->mProfileId;
+                    arg->mProfile = gpState->mProfileId;
                     gpState->mProfileId = 0;
                 }
                 result = GpiQueueCallback(connection, callback, arg, operation, 0);
@@ -92,7 +92,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(arg, 0, 0x204);
-                arg->mUnk_00 = operation->mUnk_1c;
+                arg->mResult = operation->mUnk_1c;
                 result = GpiQueueCallback(connection, callback, arg, operation, 0);
                 if (result != 0) {
                     return result;

@@ -33,7 +33,7 @@
 void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
     GpiConnection *iconnection;
     GpiCallback e;
-    Unk02190f4c *f;
+    ErrorData *f;
 
     iconnection = a->mGpiConnection;
     if (iconnection == NULL) {
@@ -52,10 +52,10 @@ void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
     if (e.mCallback != NULL) {
         f = DWCi_GsMalloc(0x10);
         if (f != NULL) {
-            f->mUnk_00 = result;
-            f->mUnk_0c = fatal;
-            f->mUnk_04 = iconnection->mErrorNumber;
-            f->mUnk_08 = iconnection;
+            f->mResult = result;
+            f->mFatal = fatal;
+            f->mErrorCode = iconnection->mErrorNumber;
+            f->mErrorString = iconnection;
         }
         GpiQueueCallback(a, e, f, NULL, 1);
     }

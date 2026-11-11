@@ -15,15 +15,15 @@
 
 BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
     SOCHostEnt *resolvedHost;
-    address->mUnk_01 = 2;
-    address->mUnk_02 = (((u16) port >> 8) & 0xff) | (((u16) port << 8) & 0xff00);
-    address->mUnk_04 = inet_addr((u32) hostname);
-    if (address->mUnk_04 == -1) {
+    address->mFamily = 2;
+    address->mPort = (((u16) port >> 8) & 0xff) | (((u16) port << 8) & 0xff00);
+    address->mAddr = inet_addr((u32) hostname);
+    if (address->mAddr == -1) {
         resolvedHost = SOC_GetHostByName(hostname);
         if (resolvedHost == NULL) {
             return FALSE;
         }
-        address->mUnk_04 = **resolvedHost->mUnk_0c;
+        address->mAddr = **resolvedHost->mUnk_0c;
     }
     return TRUE;
 }

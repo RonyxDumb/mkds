@@ -541,7 +541,7 @@ s32 DWCi_Auth_FillResult(void) {
 
 u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *ingamesn, DWCHttpLabelValue *labelValues,
                                 s32 labelValueCount, s32 getWiFiInfoFromFlash) {
-    Unk02185984Data postData;
+    AuthFirstPostValues postData;
     RTCDate date;
     RTCTime time;
     DWCHttpParseResult results;
@@ -560,7 +560,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     s32 macIndex;
     s32 postItemCount;
     char *postValue;
-    OS_GetMacAddress(postData.mUnk_02);
+    OS_GetMacAddress(postData.mMacAddress);
     OS_GetOwnerInfo(&ownerInfo);
     if (RTC_GetDate(&date) != 0 || RTC_GetTime(&time) != 0) {
         return 5;
@@ -571,20 +571,20 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
         OS_RestoreInterrupts(interruptState);
         return 3;
     }
-    MI_CpuCopy8(bssidPointer, postData.mUnk_08, 6);
+    MI_CpuCopy8(bssidPointer, postData.mBssid, 6);
     MI_CpuFill8(apInfoBytes, 0, 0x21);
     apInfoPointer = WCM_GetApEssid((u16 *) &postData);
     if (apInfoPointer == NULL) {
         OS_RestoreInterrupts(interruptState);
         return 3;
     }
-    MI_CpuCopy8(apInfoPointer, apInfoBytes, postData.mUnk_00);
+    MI_CpuCopy8(apInfoPointer, apInfoBytes, postData.mEssidLength);
     OS_RestoreInterrupts(interruptState);
-    MI_CpuCopy8((const void *) 0x27ffe0c, postData.mUnk_0e, 4);
-    postData.mUnk_0e[4] = 0;
-    MI_CpuCopy8((const void *) 0x27ffe10, postData.mUnk_13, 2);
-    postData.mUnk_13[2] = 0;
-    macCursor = postData.mUnk_02;
+    MI_CpuCopy8((const void *) 0x27ffe0c, postData.mGameCode, 4);
+    postData.mGameCode[4] = 0;
+    MI_CpuCopy8((const void *) 0x27ffe10, postData.mMakerCode, 2);
+    postData.mMakerCode[2] = 0;
+    macCursor = postData.mMacAddress;
     for (macIndex = 0; macIndex < 6; macCursor++, macIndex++) {
         OS_SPrintf(&macAddressText[macIndex * 2], data_ov000_021b1060, *macCursor);
     }
@@ -592,7 +592,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     if (ownerInfo.mLanguage > 6) {
         ownerInfo.mLanguage = 1;
     }
-    OS_SNPrintf(postData.mUnk_16, 5, data_ov000_021b1068, ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
+    OS_SNPrintf(postData.mBirthday, 5, data_ov000_021b1068, ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
     OS_SNPrintf(deviceTimeText, 0xd, data_ov000_021b1074, date.mYear, date.mMonth, date.mDay, time.mHour, time.mMinute,
                 time.mSecond);
     MI_CpuCopy8(ownerInfo.mNickName, deviceName, 0x14);
@@ -623,25 +623,25 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
         OS_SNPrintf(userIdText, 0xe, data_ov000_021b10d0, gAuthWiFiInfo.mNotAttestedId);
     }
     DWCi_Http_AddResult(&results, gUseridPairName, userIdText);
-    OS_SNPrintf(postData.mUnk_1b, 4, data_ov000_021b10e0, gAuthWiFiInfo.mPass);
-    DWCi_Http_AddResult(&results, gPasswdPairName, postData.mUnk_1b);
-    OS_SNPrintf(bssidText, 0xd, data_ov000_021b10f0, postData.mUnk_08[0], postData.mUnk_08[1], postData.mUnk_08[2],
-                postData.mUnk_08[3], postData.mUnk_08[4], postData.mUnk_08[5]);
+    OS_SNPrintf(postData.mPassword, 4, data_ov000_021b10e0, gAuthWiFiInfo.mPass);
+    DWCi_Http_AddResult(&results, gPasswdPairName, postData.mPassword);
+    OS_SNPrintf(bssidText, 0xd, data_ov000_021b10f0, postData.mBssid[0], postData.mBssid[1], postData.mBssid[2],
+                postData.mBssid[3], postData.mBssid[4], postData.mBssid[5]);
     OS_SNPrintf(apInfoText, 0xd, data_ov000_021b110c, 0);
     DWCi_AC_GetPostalCode(apInfoBytes, &apInfoText[3]);
-    DWCi_Http_AddResult(&results, gGamecdPairName, postData.mUnk_0e);
-    DWCi_Http_AddResult(&results, gMakercdPairName, postData.mUnk_13);
+    DWCi_Http_AddResult(&results, gGamecdPairName, postData.mGameCode);
+    DWCi_Http_AddResult(&results, gMakercdPairName, postData.mMakerCode);
     DWCi_Http_AddResult(&results, gUnitcdPairName, gUnitcdPairValue);
     DWCi_Http_AddResult(&results, gMacadrPairName, macAddressText);
     DWCi_Http_AddResult(&results, gLangPairName, data_ov000_021b1004[ownerInfo.mLanguage]);
-    DWCi_Http_AddResult(&results, gBirthPairName, postData.mUnk_16);
+    DWCi_Http_AddResult(&results, gBirthPairName, postData.mBirthday);
     DWCi_Http_AddResult(&results, gDevtimePairName, deviceTimeText);
     DWCi_Http_AddResult(&results, gBssidPairName, bssidText);
     DWCi_Http_AddResult(&results, gApinfoPairName, apInfoText);
     if (DWC_Http_Add_HeaderItem(http, gUserAgentHeaderName, gUserAgentHeaderValue) != FALSE) {
         return 7;
     }
-    if (DWC_Http_Add_HeaderItem(http, gHttpXGamecdHeaderName, postData.mUnk_0e) != FALSE) {
+    if (DWC_Http_Add_HeaderItem(http, gHttpXGamecdHeaderName, postData.mGameCode) != FALSE) {
         return 7;
     }
     for (postItemCount = 0; labelValues->mFirst != NULL; labelValues++, postItemCount++) {

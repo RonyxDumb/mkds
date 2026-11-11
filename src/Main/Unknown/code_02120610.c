@@ -391,15 +391,15 @@ void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
     gWiFiSession->mKeys[1].mValue = kartType;
     gWiFiSession->mUnk_194c = 4;
     if (useTimeLimit == 0) {
-        gWiFiSession->mUnk_18e0.mUnk_00 = 1;
-        gWiFiSession->mUnk_18e0.mUnk_01 = 2;
-        gWiFiSession->mUnk_18e0.mTimeLimit = 1;
+        gWiFiSession->mMinCompleteOption.mValid = 1;
+        gWiFiSession->mMinCompleteOption.mMinEntry = 2;
+        gWiFiSession->mMinCompleteOption.mTimeLimit = 1;
     } else {
-        gWiFiSession->mUnk_18e0.mUnk_00 = 1;
-        gWiFiSession->mUnk_18e0.mUnk_01 = 2;
-        gWiFiSession->mUnk_18e0.mTimeLimit = 0xea60;
+        gWiFiSession->mMinCompleteOption.mValid = 1;
+        gWiFiSession->mMinCompleteOption.mMinEntry = 2;
+        gWiFiSession->mMinCompleteOption.mTimeLimit = 0xea60;
     }
-    DWC_SetMatchingOption(0, &gWiFiSession->mUnk_18e0, 0);
+    DWC_SetMatchingOption(0, &gWiFiSession->mMinCompleteOption, 0);
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 3;
     stateMachine->mNextStateRequested = 1;

@@ -55,9 +55,9 @@ BOOL CheckMagic(const u8 *data) {
 void SendNegotiatorPacket(u32 sock, u32 toaddr, u16 toport, void *data, s32 length) {
     SOCSockAddrIn sockaddr;
 
-    sockaddr.mUnk_01 = 2;
-    sockaddr.mUnk_02 = toport >> 8 & 0xff | toport << 8 & 0xff00;
-    sockaddr.mUnk_04 = toaddr;
+    sockaddr.mFamily = 2;
+    sockaddr.mPort = toport >> 8 & 0xff | toport << 8 & 0xff00;
+    sockaddr.mAddr = toaddr;
     sendto(sock, data, length, 0, &sockaddr, 8);
 }
 
@@ -110,7 +110,7 @@ u16 GetLocalPort(u32 sock) {
     result = getsockname(sock, &sockaddr, &sockaddrLength);
     port = 0;
     if (result != -1) {
-        port = sockaddr.mUnk_02;
+        port = sockaddr.mPort;
     }
     return port;
 }
@@ -330,9 +330,9 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
     if (negotiator->mState == 3) {
         if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
             if (negotiator->mGameSock == -1) {
-                resultAddress.mUnk_01 = 2;
-                resultAddress.mUnk_02 = negotiator->mGuessedPort >> 8 & 0xff | negotiator->mGuessedPort << 8 & 0xff00;
-                resultAddress.mUnk_04 = negotiator->mGuessedIP;
+                resultAddress.mFamily = 2;
+                resultAddress.mPort = negotiator->mGuessedPort >> 8 & 0xff | negotiator->mGuessedPort << 8 & 0xff00;
+                resultAddress.mAddr = negotiator->mGuessedIP;
                 negotiator->mCompletedCallback(0, negotiator->mDescriptor, &resultAddress, negotiator->mUserdata);
                 negotiator->mDescriptor = -1;
             }
@@ -368,8 +368,8 @@ void SendConnectAck(NatTraversalEntry *negotiator, SOCSockAddrIn *toaddr) {
     cookie = negotiator->mCookie;
     *(u32 *) packet.mUnk_08 =
         (cookie << 24 & 0xff000000) | ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00)));
-    SendNegotiatorPacket(negotiator->mDescriptor, toaddr->mUnk_04,
-                     toaddr->mUnk_02 >> 8 & 0xff | toaddr->mUnk_02 << 8 & 0xff00, &packet, 0x15);
+    SendNegotiatorPacket(negotiator->mDescriptor, toaddr->mAddr, toaddr->mPort >> 8 & 0xff | toaddr->mPort << 8 & 0xff00,
+                     &packet, 0x15);
 }
 
 void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress) {
@@ -401,8 +401,8 @@ void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, 
 
 void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress) {
     if (negotiator->mState >= 2) {
-        negotiator->mGuessedIP = fromAddress->mUnk_04;
-        negotiator->mGuessedPort = fromAddress->mUnk_02 >> 8 & 0xff | fromAddress->mUnk_02 << 8 & 0xff00;
+        negotiator->mGuessedIP = fromAddress->mAddr;
+        negotiator->mGuessedPort = fromAddress->mPort >> 8 & 0xff | fromAddress->mPort << 8 & 0xff00;
         negotiator->mGotRemoteData = 1;
         if (packet->mUnk_12 == 0) {
             SendPingPacket(negotiator);
@@ -441,8 +441,8 @@ void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSoc
             break;
         case 2:
             packet->mUnk_07 = 3;
-            SendNegotiatorPacket(negotiator->mDescriptor, fromAddress->mUnk_04,
-                             fromAddress->mUnk_02 >> 8 & 0xff | fromAddress->mUnk_02 << 8 & 0xff00, packet, 0x15);
+            SendNegotiatorPacket(negotiator->mDescriptor, fromAddress->mAddr,
+                             fromAddress->mPort >> 8 & 0xff | fromAddress->mPort << 8 & 0xff00, packet, 0x15);
             break;
     }
 }

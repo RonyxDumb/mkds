@@ -230,7 +230,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
     EmailCheckReply *u2;
     UserNicksReply *u3;
     FindPlayersReply *u4;
-    Unk02194cac_08 *u5;
+    GpCheckNewUserResponseArg *u5;
     ReverseBuddiesReply *u7;
     s32 i;
     SuggestNickReply *u9;
@@ -411,7 +411,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             i = e.mUnk_04 - 1;
                             t1 = &q1[i];
                             memset(t1, 0, 0xac);
-                            q1[i].mUnk_00 = StrtolBase10(value);
+                            q1[i].mProfile = StrtolBase10(value);
                             f = FALSE;
                             do {
                                 g = n;
@@ -652,8 +652,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u5->mUnk_00 = x;
-                        u5->mUnk_04 = y;
+                        u5->mResult = x;
+                        u5->mProfile = y;
                         result = GpiQueueCallback(connection, c5, u5, operation, 0);
                         if (result != 0) {
                             return result;
@@ -690,8 +690,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u5->mUnk_00 = x;
-                        u5->mUnk_04 = y;
+                        u5->mResult = x;
+                        u5->mProfile = y;
                         result = GpiQueueCallback(connection, c6, u5, operation, 0);
                         if (result != 0) {
                             return result;
@@ -737,7 +737,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 t1 = &q1[i];
                                 memset(t1, 0, 0xac);
                                 u7->mUnk_04++;
-                                q1[i].mUnk_00 = StrtolBase10(value);
+                                q1[i].mProfile = StrtolBase10(value);
                                 f = FALSE;
                                 do {
                                     g = n;

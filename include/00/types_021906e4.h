@@ -58,12 +58,12 @@ typedef struct Unk02191284Data {
 } Unk02191284Data;
 
 // Object GpiQueueErrorCallback allocates and hands to GpiQueueCallback.
-typedef struct Unk02190f4c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk02190f4c;
+typedef struct ErrorData {
+    /* 00 */ s32 mResult;
+    /* 04 */ u32 mErrorCode;
+    /* 08 */ void *mErrorString;
+    /* 0c */ s32 mFatal;
+} ErrorData;
 
 // Object GpiProcessConnectOperation allocates and hands to GpiQueueCallback.
 typedef struct Unk02191284Node {

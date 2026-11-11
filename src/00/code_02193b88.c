@@ -537,7 +537,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
     len = strlen(message);
     {
         GPIMessage queuedMsg = {0};
-        queuedMsg.mUnk_10 = type;
+        queuedMsg.mType = type;
         result = GpiAppendBufferString(connection, &queuedMsg, data_ov000_021b338c);
         if (result != 0) {
             return result;
@@ -558,7 +558,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
         if (result != 0) {
             return result;
         }
-        queuedMsg.mUnk_14 = queuedMsg.mBuffer.mLength;
+        queuedMsg.mStart = queuedMsg.mBuffer.mLength;
         result = GpiAppendBufferBytes(connection, &queuedMsg.mBuffer, message, len);
         if (result != 0) {
             return result;

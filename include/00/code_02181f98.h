@@ -179,12 +179,12 @@ typedef struct WiFiPlayerRecord {
 } WiFiPlayerRecord;
 
 // 8-byte object at member 0x18e0 of WiFiSession.
-typedef struct Unk0217d384_18e0 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
+typedef struct DWCMatchOptMinComplete {
+    /* 00 */ u8 mValid;
+    /* 01 */ u8 mMinEntry;
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ s32 mTimeLimit;
-} Unk0217d384_18e0;
+} DWCMatchOptMinComplete;
 
 // 0x18-byte elements of the table at member 0x18ec of WiFiSession.
 typedef struct KartKey {
@@ -209,7 +209,7 @@ typedef struct WiFiSession {
     // (0x200), elo, region and seed. The own element is sent (kind 1), the others are received into.
     /* 021c */ WiFiPlayerRecord mPlayerRecords[4];
     /* 0b2c */ u8 mConnection[0xdb4];
-    /* 18e0 */ Unk0217d384_18e0 mUnk_18e0;
+    /* 18e0 */ DWCMatchOptMinComplete mMinCompleteOption;
     /* 18e8 */ s32 mStartStatus;
     /* 18ec */ KartKey mKeys[4];
     /* 194c */ u8 mUnk_194c;

@@ -15,8 +15,8 @@ typedef struct Unk02193858 {
 
 // Buffers made by GpiQueueOperationCallback, one for each request type; the first word is taken from the request.
 typedef struct ConnectReply {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ s32 mResult;
+    /* 04 */ u32 mProfile;
     /* 08 */ u8 mUnk_08[0x18];
 } ConnectReply;
 
@@ -46,8 +46,8 @@ typedef struct GpiTransferId {
 // Output buffer description built by GpiPeerQueueMessage.
 typedef struct GPIMessage {
     /* 00 */ GpiBuffer mBuffer;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 10 */ u32 mType;
+    /* 14 */ u32 mStart;
 } GPIMessage;
 
 // Address passed to connect by GpiPeerConnect.

@@ -99,8 +99,8 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 return 1;
             }
             strcpy(messageArg->mUnk_08, buffer);
-            messageArg->mUnk_00 = profileNumber;
-            messageArg->mUnk_04 = date;
+            messageArg->mProfile = profileNumber;
+            messageArg->mDate = date;
             result = GpiQueueCallback(connection, messageCallback, messageArg, NULL, 2);
             if (result != 0) {
                 return result;
@@ -224,9 +224,9 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            messageArg->mUnk_00 = profileNumber;
+            messageArg->mProfile = profileNumber;
             messageArg->mUnk_08 = (void *) buddyInfo->mIndex;
-            messageArg->mUnk_04 = date;
+            messageArg->mDate = date;
             result = GpiQueueCallback(connection, statusCallback, messageArg, NULL, 5);
             if (result != 0) {
                 return result;

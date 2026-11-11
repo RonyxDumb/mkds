@@ -261,20 +261,20 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, S
     SOCHostEnt *hent;
 
     hent = NULL;
-    saddr->mUnk_01 = 2;
-    saddr->mUnk_02 = Qr2SwapBytes16(port);
+    saddr->mFamily = 2;
+    saddr->mPort = Qr2SwapBytes16(port);
     if (host == NULL) {
-        saddr->mUnk_04 = 0;
+        saddr->mAddr = 0;
     } else {
-        saddr->mUnk_04 = inet_addr((u32) host);
+        saddr->mAddr = inet_addr((u32) host);
     }
-    if (saddr->mUnk_04 == -1) {
+    if (saddr->mAddr == -1) {
         if (strcmp(host, gBroadcastAddress) != 0) {
             hent = SOC_GetHostByName(host);
             if (hent == NULL) {
                 return FALSE;
             }
-            saddr->mUnk_04 = **hent->mUnk_0c;
+            saddr->mAddr = **hent->mUnk_0c;
         }
     }
     if (savehent != NULL) {

@@ -102,14 +102,14 @@ void InitOptionSelectMenu(void *a) {
     gOptionSelectMenu->mBg0Bg1Offset = -140;
     for (i = 0; i < 3; i++) {
         if (i == 2) {
-            gOptionSelectMenu->mUnk_26[i].mUnk_00 = 0;
-            gOptionSelectMenu->mUnk_26[i].mUnk_02 = 0x28;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetX = 0;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetY = 0x28;
         } else if (i == 1) {
-            gOptionSelectMenu->mUnk_26[i].mUnk_00 = 250;
-            gOptionSelectMenu->mUnk_26[i].mUnk_02 = 0;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetX = 250;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetY = 0;
         } else {
-            gOptionSelectMenu->mUnk_26[i].mUnk_00 = -250;
-            gOptionSelectMenu->mUnk_26[i].mUnk_02 = 0;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetX = -250;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetY = 0;
         }
     }
     SetOptionSoundRowFromSave();
@@ -228,9 +228,9 @@ void AdvanceOptionSelectMenuState0(void) {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
             if (i == 1) {
-                gOptionSelectMenu->mUnk_26[i].mUnk_00 = -v;
+                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = -v;
             } else {
-                gOptionSelectMenu->mUnk_26[i].mUnk_00 = v;
+                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = v;
             }
         }
     }
@@ -242,7 +242,7 @@ void AdvanceOptionSelectMenuState0(void) {
 
 void AdvanceOptionSelectMenuState1(void) {
     gOptionSelectMenu->mStateFrames++;
-    gOptionSelectMenu->mUnk_26[2].mUnk_02 = -LookupSelectReturnState1Bg2Offset(gOptionSelectMenu->mStateFrames);
+    gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnState1Bg2Offset(gOptionSelectMenu->mStateFrames);
     if (gOptionSelectMenu->mStateFrames >= 10) {
         gOptionSelectMenu->mNextState = 2;
         gOptionSelectMenu->mStateFrames = 0;
@@ -419,13 +419,13 @@ void AdvanceOptionSelectMenuState4(void) {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
             if (i == 1) {
-                gOptionSelectMenu->mUnk_26[i].mUnk_00 = -t;
+                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = -t;
             } else {
-                gOptionSelectMenu->mUnk_26[i].mUnk_00 = t;
+                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = t;
             }
         }
     }
-    gOptionSelectMenu->mUnk_26[2].mUnk_02 = -LookupSelectReturnState4Bg2Offset(gOptionSelectMenu->mStateFrames);
+    gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnState4Bg2Offset(gOptionSelectMenu->mStateFrames);
     if (gOptionSelectMenu->mStateFrames >= 10) {
         if (gOptionSelectMenu->mStateFrames >= 10 && IsSelectReturnState2NoState3Or4Request() != 0) {
             gOptionSelectMenu->mUnk_3c = FALSE;
@@ -486,14 +486,14 @@ void WriteOptionSelectMenuTableOffsets(void) {
     for (i = 0; i < 3; i++) {
         for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuGroupSTableIndices[i][j]].mOffsetX =
-                gOptionSelectMenu->mUnk_26[i].mUnk_00;
+                gOptionSelectMenu->mGroupOffsets[i].mOffsetX;
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuGroupSTableIndices[i][j]].mOffsetY =
-                gOptionSelectMenu->mUnk_26[i].mUnk_02;
+                gOptionSelectMenu->mGroupOffsets[i].mOffsetY;
         }
         (gOptionSelectMenu->mOptionSelectMenuSTable + b)[data_ov001_021a6a34[i]].mOffsetX =
-            gOptionSelectMenu->mUnk_26[i].mUnk_00;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetX;
         (gOptionSelectMenu->mOptionSelectMenuSTable + b)[data_ov001_021a6a34[i]].mOffsetY =
-            gOptionSelectMenu->mUnk_26[i].mUnk_02;
+            gOptionSelectMenu->mGroupOffsets[i].mOffsetY;
     }
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {

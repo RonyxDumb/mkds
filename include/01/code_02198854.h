@@ -7,10 +7,10 @@
 #include "Main/Unknown/code_02125de0.h"
 
 // An s16 pair of OptionSelectMenu.
-typedef struct Unk021a9be8Pair {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-} Unk021a9be8Pair;
+typedef struct OptionSelectMenuGroupOffset {
+    /* 00 */ s16 mOffsetX;
+    /* 02 */ s16 mOffsetY;
+} OptionSelectMenuGroupOffset;
 
 // Object behind gOptionSelectMenu.
 typedef struct OptionSelectMenu {
@@ -24,7 +24,7 @@ typedef struct OptionSelectMenu {
        the Back path state 4 keeps counting while it requests the next option state */
     /* 20 */ s32 mStateFrames;
     /* 24 */ s16 mBg0Bg1Offset;
-    /* 26 */ Unk021a9be8Pair mUnk_26[3];
+    /* 26 */ OptionSelectMenuGroupOffset mGroupOffsets[3];
     /* 32 */ u8 mUnk_32[2];
     /* 34 */ s32 mNextOptionState; /* only ever 0 (the top menu state), passed to RequestOptionState */
     /* 38 */ BOOL mUnk_38;

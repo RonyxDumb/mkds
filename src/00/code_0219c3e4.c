@@ -156,25 +156,25 @@ s32 ReportWiFiLoginGpResult(s32 result) {
 // profile id and DWCi_GPGetInfoCallback as its callback; a GP error goes to ReportWiFiLoginGpResult.
 void WiFiLoginGpConnectCallback(GpConnection *connection, ConnectReply *arg, u32 param) {
     gWiFiLogin->mConnectPending = FALSE;
-    if (arg->mUnk_00 == 0) {
+    if (arg->mResult == 0) {
         if (gWiFiLogin->mState == 2) {
             if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(1, data_ov000_021b4064, NULL)) == 0) {
-                if (gWiFiLogin->mUnk_20->mGsProfileId == arg->mUnk_04) {
-                    if (DWCi_GT2Startup() == 0 && DWCi_QR2Startup(arg->mUnk_04) == 0) {
+                if (gWiFiLogin->mUnk_20->mGsProfileId == arg->mProfile) {
+                    if (DWCi_GT2Startup() == 0 && DWCi_QR2Startup(arg->mProfile) == 0) {
                         gWiFiLogin->mState = 5;
-                        gWiFiLogin->mResultCallback(0, arg->mUnk_04, gWiFiLogin->mResultCallbackArg);
+                        gWiFiLogin->mResultCallback(0, arg->mProfile, gWiFiLogin->mResultCallbackArg);
                     }
                 } else {
                     ReportWiFiLoginError(6, -60000);
                 }
             }
         } else if (gWiFiLogin->mState == 3) {
-            if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mUnk_04, 0, 0, DWCi_GPGetInfoCallback, 0)) != 0) {
+            if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) != 0) {
                 return;
             }
         }
     } else {
-        ReportWiFiLoginGpResult(arg->mUnk_00);
+        ReportWiFiLoginGpResult(arg->mResult);
     }
 }
 

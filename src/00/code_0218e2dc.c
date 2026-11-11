@@ -120,35 +120,35 @@ s32 GetSendBufferSize(s32 sock) {
 s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *theExceptFlag) {
     SOCPollFD pollEntry;
     s32 pollResult;
-    pollEntry.mUnk_00 = theSocket;
-    pollEntry.mUnk_04 = 0;
+    pollEntry.mFd = theSocket;
+    pollEntry.mEvents = 0;
     if (theReadFlag != NULL) {
-        pollEntry.mUnk_04 |= 1;
+        pollEntry.mEvents |= 1;
     }
     if (theWriteFlag != NULL) {
-        pollEntry.mUnk_04 |= 8;
+        pollEntry.mEvents |= 8;
     }
-    pollEntry.mUnk_06 = 0;
+    pollEntry.mRevents = 0;
     pollResult = SOC_Poll(&pollEntry, 1, 0);
     if (pollResult < 0) {
         return -1;
     }
     if (theReadFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mUnk_06 & 0x41) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & 0x41) != 0) {
             *theReadFlag = 1;
         } else {
             *theReadFlag = 0;
         }
     }
     if (theWriteFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mUnk_06 & 8) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & 8) != 0) {
             *theWriteFlag = 1;
         } else {
             *theWriteFlag = 0;
         }
     }
     if (theExceptFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mUnk_06 & 0x20) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & 0x20) != 0) {
             *theExceptFlag = 1;
         } else {
             *theExceptFlag = 0;

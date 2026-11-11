@@ -57,13 +57,13 @@ s32 SOC_Socket(s32 protocolFamily, s32 socketType, s32 protocol) {
 
 s32 SOC_Bind(s32 socket, const void *sockAddr) {
     const SOCSockAddrIn *addr = sockAddr;
-    u16 localPort = ((addr->mUnk_02 >> 8) & 0xff) | ((addr->mUnk_02 << 8) & 0xff00);
+    u16 localPort = ((addr->mPort >> 8) & 0xff) | ((addr->mPort << 8) & 0xff00);
     return SOCL_Bind((SOCLSocket *) socket, localPort);
 }
 
 s32 SOC_Connect(SOCLSocket *socket, SOCSockAddrIn *sockAddr) {
-    u32 networkAddress = sockAddr->mUnk_04;
-    u16 port = ((sockAddr->mUnk_02 >> 8) & 0xff) | ((sockAddr->mUnk_02 << 8) & 0xff00);
+    u32 networkAddress = sockAddr->mAddr;
+    u16 port = ((sockAddr->mPort >> 8) & 0xff) | ((sockAddr->mPort << 8) & 0xff00);
     u32 hostAddress =
         ((networkAddress << 24) & 0xff000000) |
         (((networkAddress << 8) & 0xff0000) | (((networkAddress >> 24) & 0xff) | ((networkAddress >> 8) & 0xff00)));
@@ -83,9 +83,9 @@ s32 SOC_RecvFrom(s32 sockObj, void *buffer, s32 length, s32 flags, void *sockFro
     s32 result = SOCL_ReadFrom(sockObj, buffer, length, (u32) &netPort, &remoteIp, flags);
     if (result >= 0 && sockFrom != NULL) {
         addr = sockFrom;
-        addr->mUnk_02 = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
-        addr->mUnk_04 = ((remoteIp << 24) & 0xff000000) |
-                        (((remoteIp << 8) & 0xff0000) | (((remoteIp >> 24) & 0xff) | ((remoteIp >> 8) & 0xff00)));
+        addr->mPort = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
+        addr->mAddr = ((remoteIp << 24) & 0xff000000) |
+                      (((remoteIp << 8) & 0xff0000) | (((remoteIp >> 24) & 0xff) | ((remoteIp >> 8) & 0xff00)));
     }
     return result;
 }
@@ -101,10 +101,9 @@ s32 SOC_SendTo(s32 sockObj, void *buffer, s32 length, s32 flags, void *sockTo) {
     u16 netPort;
     u32 remoteIp;
     if (addr != NULL) {
-        netPort = ((addr->mUnk_02 >> 8) & 0xff) | ((addr->mUnk_02 << 8) & 0xff00);
-        remoteIp =
-            ((addr->mUnk_04 << 24) & 0xff000000) |
-            (((addr->mUnk_04 << 8) & 0xff0000) | (((addr->mUnk_04 >> 24) & 0xff) | ((addr->mUnk_04 >> 8) & 0xff00)));
+        netPort = ((addr->mPort >> 8) & 0xff) | ((addr->mPort << 8) & 0xff00);
+        remoteIp = ((addr->mAddr << 24) & 0xff000000) |
+                   (((addr->mAddr << 8) & 0xff0000) | (((addr->mAddr >> 24) & 0xff) | ((addr->mAddr >> 8) & 0xff00)));
     } else {
         netPort = 0;
         remoteIp = 0;
@@ -156,12 +155,12 @@ s32 SOC_GetSockName(u32 socketHandle, void *sockAddr) {
     if (ownAddr == 0) {
         ownPort = 0;
     }
-    addr->mUnk_00 = 8;
-    addr->mUnk_01 = 2;
+    addr->mLen = 8;
+    addr->mFamily = 2;
     portValue = ownPort;
-    addr->mUnk_02 = ((portValue >> 8) & 0xff) | ((portValue << 8) & 0xff00);
-    addr->mUnk_04 = ((ownAddr << 24) & 0xff000000) |
-                    (((ownAddr << 8) & 0xff0000) | (((ownAddr >> 24) & 0xff) | ((ownAddr >> 8) & 0xff00)));
+    addr->mPort = ((portValue >> 8) & 0xff) | ((portValue << 8) & 0xff00);
+    addr->mAddr = ((ownAddr << 24) & 0xff000000) |
+                  (((ownAddr << 8) & 0xff0000) | (((ownAddr >> 24) & 0xff) | ((ownAddr >> 8) & 0xff00)));
     return 0;
 }
 
@@ -228,9 +227,9 @@ s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 f) {
     u32 peerAddr;
     s32 result = SOCL_Accept(socket, &remotePort, &peerAddr);
     if (result >= 0) {
-        sockAddr->mUnk_02 = ((remotePort >> 8) & 0xff) | ((remotePort << 8) & 0xff00);
-        sockAddr->mUnk_04 = ((peerAddr << 24) & 0xff000000) |
-                            (((peerAddr << 8) & 0xff0000) | (((peerAddr >> 24) & 0xff) | ((peerAddr >> 8) & 0xff00)));
+        sockAddr->mPort = ((remotePort >> 8) & 0xff) | ((remotePort << 8) & 0xff00);
+        sockAddr->mAddr = ((peerAddr << 24) & 0xff000000) |
+                          (((peerAddr << 8) & 0xff0000) | (((peerAddr >> 24) & 0xff) | ((peerAddr >> 8) & 0xff00)));
     }
     return result;
 }

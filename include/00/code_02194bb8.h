@@ -5,7 +5,7 @@
 
 // 0xac-byte array element GpiUpdateSearch fills.
 typedef struct ProfileMatch {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mProfile;
     /* 04 */ char mUnk_04[0x1f];
     /* 23 */ char mUnk_23[0x15];
     /* 38 */ char mUnk_38[0x1f];
@@ -30,10 +30,10 @@ typedef struct Unk02194cac_10 {
 } Unk02194cac_10;
 
 // Objects GpiUpdateSearch allocates and passes to GpiQueueCallback.
-typedef struct Unk02194cac_08 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-} Unk02194cac_08;
+typedef struct GpCheckNewUserResponseArg {
+    /* 00 */ s32 mResult;
+    /* 04 */ s32 mProfile;
+} GpCheckNewUserResponseArg;
 
 typedef struct ReverseBuddiesReply {
     /* 00 */ s32 mUnk_00;
