@@ -279,11 +279,13 @@ void AddMissionRunCountForKind0(void) {
 BOOL IsAnyBalloonUnparked(void) {
     MapObjectList *list;
     Balloon *balloon;
-    s32 i;
+    s32 balloonIndex;
 
     list = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BALLOON);
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (balloon = list->mMapObjects[i]) != NULL; i++) {
+        for (balloonIndex = 0;
+             balloonIndex < list->mMapObjectCount && (balloon = list->mMapObjects[balloonIndex]) != NULL;
+             balloonIndex++) {
             if ((balloon->mMapObject.mFlags & 0x100) == 0) {
                 return TRUE;
             }
@@ -330,9 +332,9 @@ void AddMissionRunBossCount(short amount) {
 }
 
 void AddMissionRunPendingCountUp(s32 stepCount) {
-    s32 i;
+    s32 stepIndex;
 
-    for (i = 0; i < stepCount; i++) {
+    for (stepIndex = 0; stepIndex < stepCount; stepIndex++) {
         if (++gMissionRunData->mPendingCountUp > GetMissionRunCountLimit()) {
             gMissionRunData->mPendingCountUp = GetMissionRunCountLimit();
             return;
@@ -349,12 +351,12 @@ void AddMissionRunPendingCountUp(s32 stepCount) {
 }
 
 void AddMissionRunPendingCountUpFromBoss(s32 stepCount) {
-    s32 i;
+    s32 stepIndex;
 
     if ((u32) stepCount >= gMissionRunData->mBossCount) {
         stepCount = gMissionRunData->mBossCount;
     }
-    for (i = 0; i < stepCount; i++) {
+    for (stepIndex = 0; stepIndex < stepCount; stepIndex++) {
         gMissionRunData->mBossCount--;
         if (++gMissionRunData->mPendingCountUp > GetMissionRunCountLimit()) {
             gMissionRunData->mPendingCountUp = GetMissionRunCountLimit();

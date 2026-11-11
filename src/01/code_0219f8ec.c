@@ -40,194 +40,209 @@
 MissionRunMSsel *gMissionRunMSsel;
 
 void LoadMissionRunMSselAndBossIconData(void) {
-    Ncgr *a = NULL;
-    Unk02021dc8 *b = NULL;
-    Nclr *c = NULL;
-    Ncgr *d = NULL;
-    Unk02021dc8 *e = NULL;
-    Nclr *f = NULL;
-    Ncgr *g = NULL;
-    Nscr *h = NULL;
-    Nscr *i = NULL;
-    Nclr *j = NULL;
+    Ncgr *missionRunMSselMChars = NULL;
+    Unk02021dc8 *missionRunMSselMCells = NULL;
+    Nclr *missionRunMSselMOPalette = NULL;
+    Ncgr *missionRunMSselSChars = NULL;
+    Unk02021dc8 *missionRunMSselSCells = NULL;
+    Nclr *missionRunMSselSOPalette = NULL;
+    Ncgr *missionRunMSselMBChars = NULL;
+    Nscr *missionRunMSselMWScreenMap = NULL;
+    Nscr *missionRunMSselMScreenMap = NULL;
+    Nclr *missionRunMSselMBPalette = NULL;
 
-    LoadNcgrData(&g, FindSceneFile(gMissionRunMSselMBNcgrName));
-    LoadNclrData(&j, FindSceneFile(gMissionRunMSselMBNclrName));
-    LoadNscrData(&h, FindSceneFile(gMissionRunMSselMWNscrName));
-    LoadNscrData(&i, FindSceneFile(gMissionRunMSselMNscrName));
-    LoadNcgrData2(&a, FindSceneFile(gMissionRunMSselMNcgrName));
-    LoadNcerData(&b, FindSceneFile(gMissionRunMSselMNcerName));
-    LoadNclrData(&c, FindSceneFile(gMissionRunMSselMONclrName));
-    LoadNcgrData2(&d, FindSceneFile(gMissionRunMSselSNcgrName));
-    LoadNcerData(&e, FindSceneFile(gMissionRunMSselSNcerName));
-    LoadNclrData(&f, FindSceneFile(gMissionRunMSselSONclrName));
+    LoadNcgrData(&missionRunMSselMBChars, FindSceneFile(gMissionRunMSselMBNcgrName));
+    LoadNclrData(&missionRunMSselMBPalette, FindSceneFile(gMissionRunMSselMBNclrName));
+    LoadNscrData(&missionRunMSselMWScreenMap, FindSceneFile(gMissionRunMSselMWNscrName));
+    LoadNscrData(&missionRunMSselMScreenMap, FindSceneFile(gMissionRunMSselMNscrName));
+    LoadNcgrData2(&missionRunMSselMChars, FindSceneFile(gMissionRunMSselMNcgrName));
+    LoadNcerData(&missionRunMSselMCells, FindSceneFile(gMissionRunMSselMNcerName));
+    LoadNclrData(&missionRunMSselMOPalette, FindSceneFile(gMissionRunMSselMONclrName));
+    LoadNcgrData2(&missionRunMSselSChars, FindSceneFile(gMissionRunMSselSNcgrName));
+    LoadNcerData(&missionRunMSselSCells, FindSceneFile(gMissionRunMSselSNcerName));
+    LoadNclrData(&missionRunMSselSOPalette, FindSceneFile(gMissionRunMSselSONclrName));
     LoadMissionRunBossIconData();
 }
 
 void LocateAndQueueMissionRunMSsel(void) {
-    Ncgr *a = NULL;
-    Nclr *b = NULL;
-    Ncgr *c = NULL;
-    Ncgr *d = NULL;
-    Nscr *e = NULL;
-    Nscr *f = NULL;
-    Nclr *g = NULL;
-    u16 *p;
+    Ncgr *missionRunMSselMChars = NULL;
+    Nclr *missionRunMSselMOPalette = NULL;
+    Ncgr *missionRunMSselSChars = NULL;
+    Ncgr *missionRunMSselMBChars = NULL;
+    Nscr *missionRunMSselMWScreenMap = NULL;
+    Nscr *missionRunMSselMScreenMap = NULL;
+    Nclr *missionRunMSselMBPalette = NULL;
+    u16 *paletteData;
 
-    LocateNcgr(&d, FindSceneFile(gMissionRunMSselMBNcgrName));
-    LocateNclr(&g, FindSceneFile(gMissionRunMSselMBNclrName));
-    LocateNscr(&e, FindSceneFile(gMissionRunMSselMWNscrName));
-    LocateNscr(&f, FindSceneFile(gMissionRunMSselMNscrName));
+    LocateNcgr(&missionRunMSselMBChars, FindSceneFile(gMissionRunMSselMBNcgrName));
+    LocateNclr(&missionRunMSselMBPalette, FindSceneFile(gMissionRunMSselMBNclrName));
+    LocateNscr(&missionRunMSselMWScreenMap, FindSceneFile(gMissionRunMSselMWNscrName));
+    LocateNscr(&missionRunMSselMScreenMap, FindSceneFile(gMissionRunMSselMNscrName));
     gMissionRunMSsel->mUnk_48 = HeapAlloc(gMissionRunMSsel->mHeap, 0x800);
     gMissionRunMSsel->mMissionRunMSselMBncl = FindSceneFile(gMissionRunMSselMBnclName);
     gMissionRunMSsel->mMissionRunMSselMBnll = FindSceneFile(gMissionRunMSselMBnllName);
-    LocateNcgr2(&a, FindSceneFile(gMissionRunMSselMNcgrName));
+    LocateNcgr2(&missionRunMSselMChars, FindSceneFile(gMissionRunMSselMNcgrName));
     LocateNcer(&gMissionRunMSsel->mMissionRunMSselMNcer, FindSceneFile(gMissionRunMSselMNcerName));
-    LocateNclr(&b, FindSceneFile(gMissionRunMSselMONclrName));
+    LocateNclr(&missionRunMSselMOPalette, FindSceneFile(gMissionRunMSselMONclrName));
     gMissionRunMSsel->mMissionRunMSselSBncl = FindSceneFile(gMissionRunMSselSBnclName);
     gMissionRunMSsel->mMissionRunMSselSBnbl = FindSceneFile(gMissionRunMSselSBnblName);
     gMissionRunMSsel->mMissionRunMSselSBnll = FindSceneFile(gMissionRunMSselSBnllName);
-    LocateNcgr2(&c, FindSceneFile(gMissionRunMSselSNcgrName));
+    LocateNcgr2(&missionRunMSselSChars, FindSceneFile(gMissionRunMSselSNcgrName));
     LocateNcer(&gMissionRunMSsel->mMissionRunMSselSNcer, FindSceneFile(gMissionRunMSselSNcerName));
     LocateNclr((Nclr **) &gMissionRunMSsel->mUnk_1c, FindSceneFile(gMissionRunMSselSONclrName));
-    p = b->mData;
-    NNS_GfdRegisterNewVramTransferTask(4, 0, d->mData, d->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, e->mData, e->mDataSize);
+    paletteData = missionRunMSselMOPalette->mData;
+    NNS_GfdRegisterNewVramTransferTask(4, 0, missionRunMSselMBChars->mData, missionRunMSselMBChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, missionRunMSselMBPalette->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, missionRunMSselMWScreenMap->mData, missionRunMSselMWScreenMap->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
     NNS_GfdRegisterNewVramTransferTask(8, 0x1000, gMissionRunMSsel->mUnk_48, 0x800);
     NNS_GfdRegisterNewVramTransferTask(8, 0x1800, gMissionRunMSsel->mUnk_48, 0x800);
-    NNS_GfdRegisterNewVramTransferTask(9, 0, f->mData, f->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, missionRunMSselMScreenMap->mData, missionRunMSselMScreenMap->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(9, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, p + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, missionRunMSselMChars->mData, missionRunMSselMChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, missionRunMSselMOPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, missionRunMSselSChars->mData, missionRunMSselSChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gMissionRunMSsel->mUnk_1c->mUnk_0c, gMissionRunMSsel->mUnk_1c->mUnk_08);
 }
 
-void func_ov001_021a0e34(void) {
+void SetMissionRunMSselAllRecorded(void) {
     s32 out;
-    s32 i;
+    s32 missionIndex;
 
     gMissionRunMSsel->mUnk_a0 = 1;
-    for (i = 0; i < 8; i++) {
-        gMissionRunMSsel->mUnk_a0 &= GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (i + 1), &out);
+    for (missionIndex = 0; missionIndex < 8; missionIndex++) {
+        gMissionRunMSsel->mUnk_a0 &= GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (missionIndex + 1), &out);
     }
 }
 
-void func_ov001_021a0e08(s32 a, u16 *b) {
-    FormatAsciiNumber(GetMissionTableRow(), b);
-    b[1] = 0x2d;
-    FormatAsciiNumber(a + 1, b + 2);
-    b[3] = 0;
+void FormatMissionRunMissionNumber(s32 missionIndex, u16 *text) {
+    FormatAsciiNumber(GetMissionTableRow(), text);
+    text[1] = 0x2d;
+    FormatAsciiNumber(missionIndex + 1, text + 2);
+    text[3] = 0;
 }
 
-void func_ov001_021a0b3c(void) {
-    u16 cnt10;
-    s32 i;
-    u16 cnt04;
-    s32 j;
+void InitMissionRunMSselCells(void) {
+    u16 subLayoutCellCount;
+    s32 missionIndex;
+    u16 mainLayoutCellCount;
+    s32 slotIndex;
     s32 out;
-    u16 buf[18];
-    cnt04 = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
-    cnt10 = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[i]].mVisible = 0;
-        for (j = 0; j < 9; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][j]].mVisible = 0;
+    u16 text[18];
+    mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
+    for (missionIndex = 0; missionIndex < 9; missionIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[missionIndex]].mVisible = 0;
+        for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][slotIndex]]
+                .mVisible = 0;
         }
-        for (j = 0; j < 2; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[cnt10 + data_ov001_021a6e10[i][j]].mVisible = 0;
+        for (slotIndex = 0; slotIndex < 2; slotIndex++) {
+            gMissionRunMSsel
+                ->mMissionRunMSselSTable[subLayoutCellCount +
+                                         gMissionRunMSselLabelSTableIndices[missionIndex][slotIndex]]
+                .mVisible = 0;
         }
     }
-    for (j = 0; j < 7; j++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d88[j]].mVisible = 0;
+    for (slotIndex = 0; slotIndex < 7; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mVisible = 0;
     }
-    gMissionRunMSsel->mMissionRunMSselMTable[cnt04].mVisible = 1;
-    for (i = 0; i < 9; i++) {
-        if (i == 8) {
+    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mVisible = 1;
+    for (missionIndex = 0; missionIndex < 9; missionIndex++) {
+        if (missionIndex == 8) {
             if (gMissionRunMSsel->mUnk_a0 != 0) {
-                gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][1]].mVisible = 1;
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible =
+                    1;
                 QueueMissionRunBossIcon((s16) (GetMissionTableRow() - 1), 1, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl, 0x2d, 8, 1);
             } else {
-                gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][4]].mVisible = 1;
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][4]].mVisible =
+                    1;
                 QueueMissionRunBossIcon((s16) (GetMissionTableRow() - 1), 0, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl, 0x2d, 8, 1);
             }
         } else {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][1]].mVisible = 1;
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible = 1;
         }
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][0]].mVisible = 1;
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][2]].mVisible = 0;
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][3]].mVisible = 0;
-        if (GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (i + 1), &out)) {
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][0]].mVisible = 1;
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][2]].mVisible = 0;
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][3]].mVisible = 0;
+        if (GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (missionIndex + 1), &out)) {
             if (out <= 4) {
-                gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][5]].mVisible = 1;
-                gMissionRunMSsel->mMissionRunMSselSTable[cnt10 + data_ov001_021a6e10[i][0]].mVisible = 1;
-                PrintLabelLayoutTextNoFixedAdvance(
-                    1, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll, data_ov001_021a92c8[out],
-                    gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSTable);
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][5]].mVisible =
+                    1;
+                gMissionRunMSsel
+                    ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[missionIndex][0]]
+                    .mVisible = 1;
+                PrintLabelLayoutTextNoFixedAdvance(1, gMissionRunMSselLabelSTableIndices[missionIndex][0],
+                                                   gMissionRunMSsel->mMissionRunMSselSBnll, data_ov001_021a92c8[out],
+                                                   gMissionRunMSsel->mMissionRunMSselSBncl,
+                                                   gMissionRunMSsel->mMissionRunMSselSTable);
             } else if (out <= 7) {
-                gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][out + 1]].mVisible = 1;
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][out + 1]]
+                    .mVisible = 1;
             }
-            if (i == 8) {
+            if (missionIndex == 8) {
                 gMissionRunMSsel->mUnk_a4 = TRUE;
             }
         }
         LoadMissionRunMSselSoundData(0, GetMissionTableRow());
-        if (i == 8) {
-            SetCellPaletteIndex(data_ov001_021a6e7c[i][2], 2, gMissionRunMSsel->mMissionRunMSselSNcer,
-                                gMissionRunMSsel->mMissionRunMSselSBncl);
-            SetCellPaletteIndex(data_ov001_021a6e7c[i][1], 5, gMissionRunMSsel->mMissionRunMSselSNcer,
-                                gMissionRunMSsel->mMissionRunMSselSBncl);
+        if (missionIndex == 8) {
+            SetCellPaletteIndex(gMissionRunMSselIndexSTableIndices[missionIndex][2], 2,
+                                gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl);
+            SetCellPaletteIndex(gMissionRunMSselIndexSTableIndices[missionIndex][1], 5,
+                                gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl);
             if (gMissionRunMSsel->mUnk_a0 != 0) {
                 if (GetPreviousMenuScreenNumber() == SCREEN_MISSION_RUN_LVSEL) {
                     gMissionRunMSsel->mIndex = 8;
                 }
                 if (gMissionRunMSsel->mUnk_a4 == FALSE) {
                     gMissionRunMSsel->mIndex = 8;
-                    SetCellPaletteIndex(data_ov001_021a6e7c[i][2], 0xb, gMissionRunMSsel->mMissionRunMSselSNcer,
+                    SetCellPaletteIndex(gMissionRunMSselIndexSTableIndices[missionIndex][2], 0xb,
+                                        gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
-                    SetCellPaletteIndex(data_ov001_021a6e7c[i][1], 0xe, gMissionRunMSsel->mMissionRunMSselSNcer,
+                    SetCellPaletteIndex(gMissionRunMSselIndexSTableIndices[missionIndex][1], 0xe,
+                                        gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
                     LoadMissionRunMSselSoundData(3, GetMissionTableRow());
                 }
             }
         }
-        gMissionRunMSsel->mMissionRunMSselSTable[cnt10 + data_ov001_021a6e10[i][1]].mVisible = 1;
-        func_ov001_021a0e08((s16) i, buf);
-        PrintLabelLayoutTextNoFixedAdvance(1, data_ov001_021a6e10[i][1], gMissionRunMSsel->mMissionRunMSselSBnll, buf,
-                                           gMissionRunMSsel->mMissionRunMSselSBncl,
-                                           gMissionRunMSsel->mMissionRunMSselSTable);
-        SetCellOamModeXlu(data_ov001_021a6e7c[i][0], 1, gMissionRunMSsel->mMissionRunMSselSNcer,
-                          gMissionRunMSsel->mMissionRunMSselSBncl);
+        gMissionRunMSsel
+            ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[missionIndex][1]]
+            .mVisible = 1;
+        FormatMissionRunMissionNumber((s16) missionIndex, text);
+        PrintLabelLayoutTextNoFixedAdvance(
+            1, gMissionRunMSselLabelSTableIndices[missionIndex][1], gMissionRunMSsel->mMissionRunMSselSBnll, text,
+            gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSTable);
+        SetCellOamModeXlu(gMissionRunMSselIndexSTableIndices[missionIndex][0], 1,
+                          gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl);
     }
     gMissionRunMSsel->mMissionRunMSselSTable[45].mVisible = 1;
 }
 
-void func_ov001_021a09a4(void) {
-    s32 k;
-    s32 ra;
-    s32 ga;
-    s32 ba;
-    s32 rb;
-    s32 gb;
-    s32 bb;
-    s32 c0;
-    s32 c1;
-    s32 c2;
+void AdvanceMissionRunMSselPaletteBlend(void) {
+    s32 colorIndex;
+    s32 fromRed;
+    s32 fromGreen;
+    s32 fromBlue;
+    s32 toRed;
+    s32 toGreen;
+    s32 toBlue;
+    s32 fromPaletteRow;
+    s32 toPaletteRow;
+    s32 blendPaletteRow;
     volatile u16 zero;
-    u8 *pal;
-    s32 col0;
-    s32 col1;
-    s32 cnt;
-    s32 t;
-    s32 d;
-    s32 r;
-    s32 g;
-    s32 bl;
+    u8 *palette;
+    s32 fromColor;
+    s32 toColor;
+    s32 blendFrame;
+    s32 secondHalfFrame;
+    s32 channelDifference;
+    s32 red;
+    s32 green;
+    s32 blue;
 
     if (gMissionRunMSsel->mUnk_a0 != 0) {
         if (gMissionRunMSsel->mUnk_a4 == FALSE) {
@@ -236,86 +251,91 @@ void func_ov001_021a09a4(void) {
                 gMissionRunMSsel->mUnk_a8 = 0;
             }
             if (gMissionRunMSsel->mIndex == 8) {
-                c0 = 9;
-                c1 = 10;
-                c2 = 11;
+                fromPaletteRow = 9;
+                toPaletteRow = 10;
+                blendPaletteRow = 11;
             } else {
-                c0 = 12;
-                c1 = 13;
-                c2 = 14;
+                fromPaletteRow = 12;
+                toPaletteRow = 13;
+                blendPaletteRow = 14;
             }
             zero = 0;
             MIi_CpuClear16(zero, gMissionRunMSsel->mUnk_20, 0x20);
-            pal = gMissionRunMSsel->mUnk_1c->mUnk_0c;
-            for (k = 0; k < 16; k++) {
-                col0 = ((u16 *) (pal + c0 * 32))[k];
-                col1 = ((u16 *) (pal + c1 * 32))[k];
-                ra = col0 & 0x1f;
-                ga = (col0 & 0x3e0) >> 5;
-                ba = (col0 & 0x7c00) >> 10;
-                rb = col1 & 0x1f;
-                gb = (col1 & 0x3e0) >> 5;
-                bb = (col1 & 0x7c00) >> 10;
-                cnt = gMissionRunMSsel->mUnk_a8;
-                if (cnt < 50) {
-                    r = ra + cnt * (rb - ra) * 2 / 100;
-                    g = ga + cnt * (gb - ga) * 2 / 100;
-                    bl = ba + cnt * (bb - ba) * 2 / 100;
+            palette = gMissionRunMSsel->mUnk_1c->mUnk_0c;
+            for (colorIndex = 0; colorIndex < 16; colorIndex++) {
+                fromColor = ((u16 *) (palette + fromPaletteRow * 32))[colorIndex];
+                toColor = ((u16 *) (palette + toPaletteRow * 32))[colorIndex];
+                fromRed = fromColor & 0x1f;
+                fromGreen = (fromColor & 0x3e0) >> 5;
+                fromBlue = (fromColor & 0x7c00) >> 10;
+                toRed = toColor & 0x1f;
+                toGreen = (toColor & 0x3e0) >> 5;
+                toBlue = (toColor & 0x7c00) >> 10;
+                blendFrame = gMissionRunMSsel->mUnk_a8;
+                if (blendFrame < 50) {
+                    red = fromRed + blendFrame * (toRed - fromRed) * 2 / 100;
+                    green = fromGreen + blendFrame * (toGreen - fromGreen) * 2 / 100;
+                    blue = fromBlue + blendFrame * (toBlue - fromBlue) * 2 / 100;
                 } else {
-                    t = cnt - 50;
-                    d = ra - rb;
-                    r = rb + d * t * 2 / 100;
-                    d = ga - gb;
-                    g = gb + d * t * 2 / 100;
-                    d = ba - bb;
-                    bl = bb + d * t * 2 / 100;
+                    secondHalfFrame = blendFrame - 50;
+                    channelDifference = fromRed - toRed;
+                    red = toRed + channelDifference * secondHalfFrame * 2 / 100;
+                    channelDifference = fromGreen - toGreen;
+                    green = toGreen + channelDifference * secondHalfFrame * 2 / 100;
+                    channelDifference = fromBlue - toBlue;
+                    blue = toBlue + channelDifference * secondHalfFrame * 2 / 100;
                 }
-                gMissionRunMSsel->mUnk_20[k] = r | ((bl << 10) | (g << 5));
+                gMissionRunMSsel->mUnk_20[colorIndex] = red | ((blue << 10) | (green << 5));
             }
             DC_FlushRange(gMissionRunMSsel->mUnk_20, 0x20);
-            NNS_GfdRegisterNewVramTransferTask(0x1e, c2 << 5, gMissionRunMSsel->mUnk_20, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1e, blendPaletteRow << 5, gMissionRunMSsel->mUnk_20, 0x20);
         }
     }
 }
 
-void func_ov001_021a08d8(void) {
-    s32 i;
-    s32 cnt;
-    s16 n;
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][1]].mVisible = 0;
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][2]].mVisible = 0;
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][3]].mVisible = 0;
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][4]].mVisible = 0;
-        cnt = gMissionRunMSsel->mUnk_6c[i];
-        if (cnt > 0) {
-            gMissionRunMSsel->mUnk_6c[i] = cnt - 1;
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][3]].mVisible = 1;
-            n = gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][2]].mOffsetY + 1;
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][3]].mOffsetY = n;
-        } else if (gMissionRunMSsel->mIndex == i) {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][2]].mVisible = 1;
-        } else if (i == 8) {
+void UpdateMissionRunMSselIndexCells(void) {
+    s32 missionIndex;
+    s32 remainingFrames;
+    s16 offsetY;
+    for (missionIndex = 0; missionIndex < 9; missionIndex++) {
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible = 0;
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][2]].mVisible = 0;
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][3]].mVisible = 0;
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][4]].mVisible = 0;
+        remainingFrames = gMissionRunMSsel->mUnk_6c[missionIndex];
+        if (remainingFrames > 0) {
+            gMissionRunMSsel->mUnk_6c[missionIndex] = remainingFrames - 1;
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][3]].mVisible = 1;
+            offsetY =
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][2]].mOffsetY +
+                1;
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][3]].mOffsetY =
+                offsetY;
+        } else if (gMissionRunMSsel->mIndex == missionIndex) {
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][2]].mVisible = 1;
+        } else if (missionIndex == 8) {
             if (gMissionRunMSsel->mUnk_a0) {
-                gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][1]].mVisible = 1;
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible =
+                    1;
             } else {
-                gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][4]].mVisible = 1;
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][4]].mVisible =
+                    1;
             }
         } else {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][1]].mVisible = 1;
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible = 1;
         }
     }
 }
 
-void func_ov001_021a0774(void) {
-    MissionRunMSsel *d;
-    s32 i;
+void RefreshMissionRunMSselMCells(void) {
+    MissionRunMSsel *missionRunMSsel;
+    s32 slotIndex;
     s32 out;
-    s32 ret;
-    gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d88[GetMissionTableRow() - 1]].mVisible = 0;
+    s32 hasRecord;
+    gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[GetMissionTableRow() - 1]].mVisible = 0;
     gMissionRunMSsel->mMissionRunMSselMTable[9].mVisible = 0;
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[i]].mVisible = 0;
+    for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mVisible = 0;
     }
     if (gMissionRunMSsel->mIndex == 8) {
         gMissionRunMSsel->mMissionRunMSselMTable[0].mVisible = 0;
@@ -323,75 +343,82 @@ void func_ov001_021a0774(void) {
     } else {
         gMissionRunMSsel->mMissionRunMSselMTable[0].mVisible = 1;
         gMissionRunMSsel->mMissionRunMSselMTable[1].mVisible = 0;
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d88[GetMissionTableRow() - 1]].mVisible = 1;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[GetMissionTableRow() - 1]].mVisible =
+            1;
         gMissionRunMSsel->mMissionRunMSselMTable[9].mVisible = 1;
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[gMissionRunMSsel->mIndex]].mVisible = 1;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[gMissionRunMSsel->mIndex]]
+            .mVisible = 1;
     }
-    ret = GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (gMissionRunMSsel->mIndex + 1), &out);
+    hasRecord = GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (gMissionRunMSsel->mIndex + 1), &out);
     gMissionRunMSsel->mMissionRunMSselMTable[18].mVisible = 0;
-    for (i = 0; i < 6; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[i]].mVisible = 0;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mVisible = 0;
     }
-    if (ret != 0 && out <= 7) {
+    if (hasRecord != 0 && out <= 7) {
         if (out <= 4) {
             gMissionRunMSsel->mMissionRunMSselMTable[18].mVisible = 1;
         }
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[out - 2]].mVisible = 1;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[out - 2]].mVisible = 1;
     }
-    d = gMissionRunMSsel;
+    missionRunMSsel = gMissionRunMSsel;
     PrintLabelLayoutTextNoFixedAdvance(
         0, 0, gMissionRunMSsel->mMissionRunMSselMBnll,
-        GetBmgEntry(
-            d->mMissionMessages,
-            d->mUnk_50[GetMissionTableValue(gMissionRunMSsel->mMissionTableMtbl, GetMissionTableRow(), d->mIndex + 1) -
-                       1]
-                .mUnk_0c),
-        d->mMissionRunMSselMBncl, d->mMissionRunMSselMTable);
+        GetBmgEntry(missionRunMSsel->mMissionMessages,
+                    missionRunMSsel
+                        ->mUnk_50[GetMissionTableValue(gMissionRunMSsel->mMissionTableMtbl, GetMissionTableRow(),
+                                                       missionRunMSsel->mIndex + 1) -
+                                  1]
+                        .mUnk_0c),
+        missionRunMSsel->mMissionRunMSselMBncl, missionRunMSsel->mMissionRunMSselMTable);
 }
 
-void func_ov001_021a0734(void) {
-    u32 v0;
-    u32 v1;
+void SetMissionFromMissionRunMSsel(void) {
+    u32 missionTableRow;
+    u32 missionTableColumn;
 
     SetMissionTableColumn((s8) (gMissionRunMSsel->mIndex + 1));
-    v0 = GetMissionTableRow();
-    v1 = GetMissionTableColumn();
-    SetMissionFileRowIndex((u16) (GetMissionTableValue(gMissionRunMSsel->mMissionTableMtbl, v0, v1) - 1));
+    missionTableRow = GetMissionTableRow();
+    missionTableColumn = GetMissionTableColumn();
+    SetMissionFileRowIndex(
+        (u16) (GetMissionTableValue(gMissionRunMSsel->mMissionTableMtbl, missionTableRow, missionTableColumn) - 1));
 }
 
-BOOL func_ov001_021a071c(void) {
+BOOL IsMissionRunMSselIndexChangeRunning(void) {
     if (gMissionRunMSsel->mUnk_ac != 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_ov001_021a0620(void) {
-    u16 b;
-    s16 v;
-    s32 i;
+void AdvanceMissionRunMSselIndexChange(void) {
+    u16 mainLayoutCellCount;
+    s16 offsetY;
+    s32 slotIndex;
 
-    if (func_ov001_021a071c() != FALSE) {
+    if (IsMissionRunMSselIndexChangeRunning() != FALSE) {
         if (gMissionRunMSsel->mUnk_ac == 7) {
             gMissionRunMSsel->mUnk_b0 = gMissionRunMSsel->mIndex;
-            func_ov001_021a0774();
+            RefreshMissionRunMSselMCells();
         } else {
-            b = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
-            v = LookupIndexChangeOffset(7 - gMissionRunMSsel->mUnk_ac, 1);
-            gMissionRunMSsel->mBg0OffsetY = v;
-            gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetY = v;
-            gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetY = v;
-            gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetY = v;
-            gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetY = v;
-            for (i = 0; i < 7; i++) {
-                gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d88[i]].mOffsetY = v;
+            mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+            offsetY = LookupIndexChangeOffset(7 - gMissionRunMSsel->mUnk_ac, 1);
+            gMissionRunMSsel->mBg0OffsetY = offsetY;
+            gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetY = offsetY;
+            gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetY = offsetY;
+            gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetY = offsetY;
+            gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetY = offsetY;
+            for (slotIndex = 0; slotIndex < 7; slotIndex++) {
+                gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetY =
+                    offsetY;
             }
-            for (i = 0; i < 6; i++) {
-                gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[i]].mOffsetY = v;
+            for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+                gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetY =
+                    offsetY;
             }
-            gMissionRunMSsel->mMissionRunMSselMTable[b].mOffsetY = v;
-            for (i = 0; i < 9; i++) {
-                gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[i]].mOffsetY = v;
+            gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetY = offsetY;
+            for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+                gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetY =
+                    offsetY;
             }
         }
         gMissionRunMSsel->mUnk_ac = gMissionRunMSsel->mUnk_ac - 1;
@@ -400,14 +427,14 @@ void func_ov001_021a0620(void) {
     }
 }
 
-void func_ov001_021a04f0(void) {
-    s32 i;
-    s32 j;
-    u16 a;
-    u16 b;
+void ResetMissionRunMSselOffsets(void) {
+    s32 slotIndex;
+    s32 cellSlot;
+    u16 mainLayoutCellCount;
+    u16 subLayoutCellCount;
 
-    a = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
-    b = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
+    mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mNextState = 0;
     gMissionRunMSsel->mStateFrames = 0;
     gMissionRunMSsel->mBg0OffsetX = 0x100;
@@ -417,21 +444,24 @@ void func_ov001_021a04f0(void) {
     gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = 0x100;
     gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = 0x100;
     gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = 0x100;
-    for (i = 0; i < 7; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d88[i]].mOffsetX = 0x100;
+    for (slotIndex = 0; slotIndex < 7; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetX = 0x100;
     }
     gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = 0x100;
-    for (i = 0; i < 6; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[i]].mOffsetX = 0x100;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetX = 0x100;
     }
-    gMissionRunMSsel->mMissionRunMSselMTable[a].mOffsetX = 0x100;
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[i]].mOffsetX = 0x100;
-        for (j = 0; j < 9; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][j]].mOffsetX = 0x100;
+    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetX = 0x100;
+    for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetX = 0x100;
+        for (cellSlot = 0; cellSlot < 9; cellSlot++) {
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[slotIndex][cellSlot]].mOffsetX =
+                0x100;
         }
-        for (j = 0; j < 2; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[b + data_ov001_021a6e10[i][j]].mOffsetX = 0x100;
+        for (cellSlot = 0; cellSlot < 2; cellSlot++) {
+            gMissionRunMSsel
+                ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[slotIndex][cellSlot]]
+                .mOffsetX = 0x100;
         }
     }
 }
@@ -443,7 +473,7 @@ void RequestMissionRunMSselState1(void) {
     gMissionRunMSsel->mStateFrames = 0;
 }
 
-void func_ov001_021a04c0(void) {
+void RequestMissionRunMSselState2(void) {
     gMissionRunMSsel->mNextState = 2;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnState1();
@@ -456,22 +486,22 @@ void RequestMissionRunMSselState3(void) {
     gMissionRunMSsel->mStateFrames = 0;
 }
 
-s32 func_ov001_021a0488(void) {
+s32 RequestMissionRunMSselState4(void) {
     gMissionRunMSsel->mNextState = 4;
     gMissionRunMSsel->mStateFrames = 0;
     return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
-void func_ov001_021a0428(void) {
-    s32 i;
-    void *v0;
+void RequestMissionRunMSselState5(void) {
+    s32 missionIndex;
+    void *firstText;
 
     gMissionRunMSsel->mNextState = 5;
     gMissionRunMSsel->mStateFrames = 0;
-    v0 = GetBmgEntry(gMissionRunMSsel->mCommonMessages, 4);
-    StartSelectChoises(v0, GetBmgEntry(gMissionRunMSsel->mCommonMessages, 2), 0);
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][0]].mVisible = 0;
+    firstText = GetBmgEntry(gMissionRunMSsel->mCommonMessages, 4);
+    StartSelectChoises(firstText, GetBmgEntry(gMissionRunMSsel->mCommonMessages, 2), 0);
+    for (missionIndex = 0; missionIndex < 9; missionIndex++) {
+        gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][0]].mVisible = 0;
     }
 }
 
@@ -482,13 +512,13 @@ void RequestMissionRunMSselState6(void) {
     gMissionRunMSsel->mStateFrames = 0;
 }
 
-void func_ov001_021a03f8(void) {
+void RequestMissionRunMSselState7(void) {
     gMissionRunMSsel->mNextState = 7;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectChoisesState0();
 }
 
-void func_ov001_021a03a0(void) {
+void RequestMissionRunMSselState8(void) {
     gMissionRunMSsel->mNextState = 8;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnState4();
@@ -502,8 +532,8 @@ void func_ov001_021a03a0(void) {
     }
 }
 
-void InitMissionRunMSsel(void *a, void *b, void *c) {
-    s32 i;
+void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) {
+    s32 missionIndex;
     void *heap;
     s32 rem;
     u16 base;
@@ -512,7 +542,7 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd204;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x9004;
-    heap = CreateFrmHeapFromMaxFree(a);
+    heap = CreateFrmHeapFromMaxFree(parentHeap);
     gMissionRunMSsel = HeapAlloc(heap, 0xc0);
     gMissionRunMSsel->mHeap = heap;
     gMissionRunMSsel->mState = 0;
@@ -520,13 +550,13 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
     gMissionRunMSsel->mUnk_9c = 0;
     gMissionRunMSsel->mUnk_ac = 0;
     gMissionRunMSsel->mUnk_a4 = FALSE;
-    gMissionRunMSsel->mUnk_b4 = b;
-    gMissionRunMSsel->mUnk_b8 = c;
+    gMissionRunMSsel->mUnk_b4 = mainOamList;
+    gMissionRunMSsel->mUnk_b8 = subOamList;
     gMissionRunMSsel->mResult = 0;
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mUnk_6c[i] = 0;
+    for (missionIndex = 0; missionIndex < 9; missionIndex++) {
+        gMissionRunMSsel->mUnk_6c[missionIndex] = 0;
     }
-    func_ov001_021a0e34();
+    SetMissionRunMSselAllRecorded();
     LocateAndQueueMissionRunMSsel();
     ResetOamLists(gMissionRunMSsel->mUnk_b4, gMissionRunMSsel->mUnk_b8);
     InitLayoutTable(gMissionRunMSsel->mHeap, gMissionRunMSsel->mMissionRunMSselMBncl,
@@ -541,24 +571,26 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
                     gMissionRunMSsel->mMissionRunMSselMNcer, gMissionRunMSsel->mMissionRunMSselMBncl,
                     gMissionRunMSsel->mMissionRunMSselMTable, 0x8000);
     rem = GX_GetSizeOfSubOBJ();
-    for (i = 0; i < 9; i++) {
-        rem -=
-            InitLabelCanvas(gMissionRunMSsel->mHeap, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll,
-                            data_ov001_021a6e34[i][0], data_ov001_021a6e58[i][0], data_ov001_021a6e7c[i][5],
-                            gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
-                            gMissionRunMSsel->mMissionRunMSselSTable, rem);
-        base = data_ov001_021a6e10[i][0];
-        rem -= InitLabelCanvas(gMissionRunMSsel->mHeap, data_ov001_021a6e10[i][1],
-                               gMissionRunMSsel->mMissionRunMSselSBnll, data_ov001_021a6e34[i][1],
-                               data_ov001_021a6e58[i][1], base + gMissionRunMSsel->mMissionRunMSselSBncl->mCount,
+    for (missionIndex = 0; missionIndex < 9; missionIndex++) {
+        rem -= InitLabelCanvas(gMissionRunMSsel->mHeap, gMissionRunMSselLabelSTableIndices[missionIndex][0],
+                               gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSselLabelWidths[missionIndex][0],
+                               gMissionRunMSselLabelHeights[missionIndex][0],
+                               gMissionRunMSselIndexSTableIndices[missionIndex][5],
+                               gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
+                               gMissionRunMSsel->mMissionRunMSselSTable, rem);
+        base = gMissionRunMSselLabelSTableIndices[missionIndex][0];
+        rem -= InitLabelCanvas(gMissionRunMSsel->mHeap, gMissionRunMSselLabelSTableIndices[missionIndex][1],
+                               gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSselLabelWidths[missionIndex][1],
+                               gMissionRunMSselLabelHeights[missionIndex][1],
+                               base + gMissionRunMSsel->mMissionRunMSselSBncl->mCount,
                                gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
                                gMissionRunMSsel->mMissionRunMSselSTable, rem);
     }
     CreateMissionRunBossIcon(gMissionRunMSsel->mHeap);
-    func_ov001_021a0b3c();
+    InitMissionRunMSselCells();
     gMissionRunMSsel->mUnk_b0 = gMissionRunMSsel->mIndex;
-    func_ov001_021a0774();
-    func_ov001_021a04f0();
+    RefreshMissionRunMSselMCells();
+    ResetMissionRunMSselOffsets();
     FrmHeapShrinkInParent(gMissionRunMSsel->mHeap);
 }
 
@@ -584,44 +616,47 @@ void AdvanceMissionRunMSselState0(void) {
 }
 
 void AdvanceMissionRunMSselState1(void) {
-    s32 i;
-    s32 j;
-    u16 a;
-    s16 v0;
-    u16 b;
-    s16 v1;
+    s32 slotIndex;
+    s32 cellSlot;
+    u16 mainLayoutCellCount;
+    s16 offsetX;
+    u16 subLayoutCellCount;
+    s16 bg1Offset;
 
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
-    a = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
-    b = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
+    mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    v0 = InterpolateS16(1, 0x100, 0, gMissionRunMSsel->mStateFrames, 10);
-    v1 = InterpolateS16(1, -192, 0, gMissionRunMSsel->mStateFrames, 10);
-    gMissionRunMSsel->mBg0OffsetX = v0;
-    gMissionRunMSsel->mBg1Offset = v1;
-    gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = v0;
-    gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = v0;
-    gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = v0;
-    gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = v0;
-    for (i = 0; i < 7; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d88[i]].mOffsetX = v0;
+    offsetX = InterpolateS16(1, 0x100, 0, gMissionRunMSsel->mStateFrames, 10);
+    bg1Offset = InterpolateS16(1, -192, 0, gMissionRunMSsel->mStateFrames, 10);
+    gMissionRunMSsel->mBg0OffsetX = offsetX;
+    gMissionRunMSsel->mBg1Offset = bg1Offset;
+    gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = offsetX;
+    gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = offsetX;
+    gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = offsetX;
+    gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = offsetX;
+    for (slotIndex = 0; slotIndex < 7; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetX = offsetX;
     }
-    gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = v0;
-    for (i = 0; i < 6; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[i]].mOffsetX = v0;
+    gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = offsetX;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetX = offsetX;
     }
-    gMissionRunMSsel->mMissionRunMSselMTable[a].mOffsetX = v0;
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[i]].mOffsetX = v0;
-        for (j = 0; j < 9; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][j]].mOffsetX = v0;
+    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetX = offsetX;
+    for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetX = offsetX;
+        for (cellSlot = 0; cellSlot < 9; cellSlot++) {
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[slotIndex][cellSlot]].mOffsetX =
+                offsetX;
         }
-        for (j = 0; j < 2; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[b + data_ov001_021a6e10[i][j]].mOffsetX = v0;
+        for (cellSlot = 0; cellSlot < 2; cellSlot++) {
+            gMissionRunMSsel
+                ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[slotIndex][cellSlot]]
+                .mOffsetX = offsetX;
         }
     }
     if (gMissionRunMSsel->mStateFrames >= 10) {
-        func_ov001_021a04c0();
+        RequestMissionRunMSselState2();
     }
 }
 
@@ -643,7 +678,7 @@ void AdvanceMissionRunMSselState3(void) {
     s16 target;
 
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
-    func_ov001_021a0620();
+    AdvanceMissionRunMSselIndexChange();
     flag_b = FALSE;
     flag_a = FALSE;
     value = gInputSlots[slot].mPair.mHasPair;
@@ -672,41 +707,41 @@ void AdvanceMissionRunMSselState3(void) {
             goto skip;
         }
     }
-    if (func_ov001_021a071c() != FALSE) {
+    if (IsMissionRunMSselIndexChangeRunning() != FALSE) {
         return;
     }
     SetSelectReturnSoundId(0xe);
     gMissionRunMSsel->mUnk_9c = 0x100;
     gMissionRunMSsel->mResult = 2;
-    func_ov001_021a03a0();
+    RequestMissionRunMSselState8();
     RequestSelectReturnState3WithSound(0);
     return;
 skip:
     if (result <= 8) {
-        target = data_ov001_021a6d98[result];
+        target = gMissionRunMSselRectIndices[result];
         if (target == 8 && gMissionRunMSsel->mUnk_a0 == 0) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
             return;
         }
         gMissionRunMSsel->mIndex = target;
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
-        func_ov001_021a0488();
+        RequestMissionRunMSselState4();
         return;
     }
     if ((u16) (gInputSlots[slot].mPressedBits & PAD_KEY_A) != 0) {
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
-        func_ov001_021a0488();
+        RequestMissionRunMSselState4();
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP)) {
         current = gMissionRunMSsel->mIndex;
-        delta = data_ov001_021a6de8[current];
+        delta = gMissionRunMSselUpSteps[current];
         if (delta == 0) {
             return;
         }
         target = current + delta;
         if (target == 8 && gMissionRunMSsel->mUnk_a0 == 0) {
-            target = target + data_ov001_021a6de8[target];
+            target = target + gMissionRunMSselUpSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
@@ -715,13 +750,13 @@ skip:
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_DOWN)) {
         current = gMissionRunMSsel->mIndex;
-        delta = data_ov001_021a6dac[current];
+        delta = gMissionRunMSselDownSteps[current];
         if (delta == 0) {
             return;
         }
         target = current + delta;
         if (target == 8 && gMissionRunMSsel->mUnk_a0 == 0) {
-            target = target + data_ov001_021a6dac[target];
+            target = target + gMissionRunMSselDownSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
@@ -730,13 +765,13 @@ skip:
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_LEFT)) {
         current = gMissionRunMSsel->mIndex;
-        delta = data_ov001_021a6dc0[current];
+        delta = gMissionRunMSselLeftSteps[current];
         if (delta == 0) {
             return;
         }
         target = current + delta;
         if (target == 8 && gMissionRunMSsel->mUnk_a0 == 0) {
-            target = target + data_ov001_021a6dc0[target];
+            target = target + gMissionRunMSselLeftSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
@@ -745,13 +780,13 @@ skip:
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT)) {
         current = gMissionRunMSsel->mIndex;
-        delta = data_ov001_021a6dfc[current];
+        delta = gMissionRunMSselRightSteps[current];
         if (delta == 0) {
             return;
         }
         target = current + delta;
         if (target == 8 && gMissionRunMSsel->mUnk_a0 == 0) {
-            target = target + data_ov001_021a6dfc[target];
+            target = target + gMissionRunMSselRightSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
@@ -761,18 +796,18 @@ skip:
 
 void AdvanceMissionRunMSselState4(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
-    func_ov001_021a0620();
+    AdvanceMissionRunMSselIndexChange();
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
     if (gMissionRunMSsel->mStateFrames >= 5) {
-        if (func_ov001_021a071c() == FALSE) {
-            func_ov001_021a0428();
+        if (IsMissionRunMSselIndexChangeRunning() == FALSE) {
+            RequestMissionRunMSselState5();
         }
     }
 }
 
 void AdvanceMissionRunMSselState5(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
-    func_ov001_021a0620();
+    AdvanceMissionRunMSselIndexChange();
     if (IsSelectChoisesState1NoState0Request()) {
         RequestMissionRunMSselState6();
     }
@@ -780,48 +815,48 @@ void AdvanceMissionRunMSselState5(void) {
 
 void AdvanceMissionRunMSselState6(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
-    func_ov001_021a0620();
+    AdvanceMissionRunMSselIndexChange();
     if (GetSelectChoisesDone()) {
-        func_ov001_021a03f8();
+        RequestMissionRunMSselState7();
     }
 }
 
 void AdvanceMissionRunMSselState7(void) {
-    s32 i;
-    s32 r;
+    s32 missionIndex;
+    s32 choisesIndex;
 
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mUnk_a8);
-    func_ov001_021a0620();
+    AdvanceMissionRunMSselIndexChange();
     if (IsSelectChoisesState0NoState1Request()) {
-        r = GetSelectChoisesIndex();
-        switch (r) {
+        choisesIndex = GetSelectChoisesIndex();
+        switch (choisesIndex) {
             case 0:
-                func_ov001_021a0734();
+                SetMissionFromMissionRunMSsel();
                 gMissionRunMSsel->mResult = 1;
                 gMissionRunMSsel->mUnk_9c = -0x100;
-                func_ov001_021a03a0();
+                RequestMissionRunMSselState8();
                 break;
             case -1:
             case 1:
                 RequestMissionRunMSselState3();
                 break;
         }
-        for (i = 0; i < 9; i++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][0]].mVisible = 1;
+        for (missionIndex = 0; missionIndex < 9; missionIndex++) {
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][0]].mVisible = 1;
         }
     }
 }
 
 void AdvanceMissionRunMSselState8(void) {
-    s32 i;
-    s32 j;
+    s32 slotIndex;
+    s32 cellSlot;
     s16 first;
     s16 second;
-    u16 a;
-    u16 b;
+    u16 mainLayoutCellCount;
+    u16 subLayoutCellCount;
 
-    a = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
-    b = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
+    mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
+    subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
     first = InterpolateS16(1, 0, gMissionRunMSsel->mUnk_9c, gMissionRunMSsel->mStateFrames, 10);
     second = InterpolateS16(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, 10);
@@ -831,21 +866,24 @@ void AdvanceMissionRunMSselState8(void) {
     gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = first;
     gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = first;
     gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = first;
-    for (i = 0; i < 7; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d88[i]].mOffsetX = first;
+    for (slotIndex = 0; slotIndex < 7; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetX = first;
     }
     gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = first;
-    for (i = 0; i < 6; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[i]].mOffsetX = first;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetX = first;
     }
-    gMissionRunMSsel->mMissionRunMSselMTable[a].mOffsetX = first;
-    for (i = 0; i < 9; i++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6dd4[i]].mOffsetX = first;
-        for (j = 0; j < 9; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][j]].mOffsetX = first;
+    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetX = first;
+    for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetX = first;
+        for (cellSlot = 0; cellSlot < 9; cellSlot++) {
+            gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[slotIndex][cellSlot]].mOffsetX =
+                first;
         }
-        for (j = 0; j < 2; j++) {
-            gMissionRunMSsel->mMissionRunMSselSTable[b + data_ov001_021a6e10[i][j]].mOffsetX = first;
+        for (cellSlot = 0; cellSlot < 2; cellSlot++) {
+            gMissionRunMSsel
+                ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[slotIndex][cellSlot]]
+                .mOffsetX = first;
         }
     }
     if (gMissionRunMSsel->mStateFrames == 5) {
@@ -884,8 +922,8 @@ s32 AdvanceMissionRunMSsel(void) {
             AdvanceMissionRunMSselState8();
             break;
     }
-    func_ov001_021a08d8();
-    func_ov001_021a09a4();
+    UpdateMissionRunMSselIndexCells();
+    AdvanceMissionRunMSselPaletteBlend();
     DrawLayoutTable(gMissionRunMSsel->mMissionRunMSselMBncl, gMissionRunMSsel->mMissionRunMSselMNcer,
                     gMissionRunMSsel->mMissionRunMSselMBnll, gMissionRunMSsel->mUnk_b4,
                     gMissionRunMSsel->mMissionRunMSselMTable);
@@ -898,7 +936,7 @@ s32 AdvanceMissionRunMSsel(void) {
     return 0;
 }
 
-void func_ov001_0219f8ec(void) {
+void WriteMissionRunMSselBgOffsets(void) {
     reg_G2_BG0OFS = (-gMissionRunMSsel->mBg0OffsetX & 0x1ff) | ((-gMissionRunMSsel->mBg0OffsetY << 16) & 0x1ff0000);
     reg_G2_BG1OFS = (-gMissionRunMSsel->mBg1Offset << 16) & 0x1ff0000;
 }

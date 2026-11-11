@@ -20,7 +20,7 @@
 #include "Main/Unknown/code_0214a000.h"
 #include "registers.h"
 
-void func_ov001_021a4fa0(void) {
+void UploadEmblemMainScreen(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1700;
     reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffcfffef;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
@@ -46,7 +46,7 @@ void func_ov001_021a4fa0(void) {
     reg_G2_BG2OFS = 0;
 }
 
-void func_ov001_021a4d10(void) {
+void UploadEmblemSubScreen(void) {
     GXS_SetGraphicsMode(1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1e00;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
@@ -59,7 +59,7 @@ void func_ov001_021a4d10(void) {
     reg_G2S_DB_BG0OFS = 0;
     reg_G2S_DB_BG1OFS = 0;
     reg_G2S_DB_BG2OFS = 0;
-    G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, data_ov001_021a6fd8, 16, 16, -0x70, -0x40);
+    G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, gEmblemSubBg3AffineMatrix, 16, 16, -0x70, -0x40);
     DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
     GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
     DC_FlushRange(gEmblem->mEmblemSONcgr->mData, gEmblem->mEmblemSONcgr->mDataSize);
@@ -84,7 +84,7 @@ void func_ov001_021a4d10(void) {
     GXS_LoadBG3Scr((const void *) (GetEmblemGridScr()), GetEmblemGridScrOffset(), GetEmblemGridScrSize());
 }
 
-void func_ov001_021a4ba0(void) {
+void UploadEmblemCameraSubScreen(void) {
     GXS_SetGraphicsMode(1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1600;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
@@ -108,7 +108,7 @@ void func_ov001_021a4ba0(void) {
     GXS_LoadBG2Scr(gEmblem->mEmblemCameraSBgNscr->mData, 0, gEmblem->mEmblemCameraSBgNscr->mDataSize);
 }
 
-void func_ov001_021a4b28(void) {
+void StartEmblemChoises(void) {
     RequestEmblemChoisesGraphicsUpload();
     SetEmblemChoisesShownAndReset(1);
     gEmblem->mUnk_1090 = 10;
@@ -118,7 +118,7 @@ void func_ov001_021a4b28(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -3);
 }
 
-void func_ov001_021a4aac(void) {
+void StopEmblemChoises(void) {
     SetEmblemChoisesShownAndReset(0);
     gEmblem->mUnk_1090 = 0;
     gEmblem->mUnk_1098 = 15;
@@ -128,7 +128,7 @@ void func_ov001_021a4aac(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
-void func_ov001_021a4a10(void) {
+void StartEmblemTemplateSlideIn(void) {
     gEmblem->mUnk_1090 = 2;
     gEmblem->mUnk_1098 = 2;
     gEmblem->mUnk_10a0 = 0;
@@ -139,7 +139,7 @@ void func_ov001_021a4a10(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -3);
 }
 
-void func_ov001_021a499c(void) {
+void AdvanceEmblemTemplateSlideIn(void) {
     gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
     gEmblem->mUnk_10a4 -= 2;
     if (gEmblem->mUnk_10a0 >= 0xc0) {
@@ -151,7 +151,7 @@ void func_ov001_021a499c(void) {
     gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
 }
 
-void func_ov001_021a4914(void) {
+void StartEmblemTemplateSlideOut(void) {
     gEmblem->mUnk_1090 = 3;
     gEmblem->mUnk_1098 = 6;
     gEmblem->mUnk_10a0 = 0xc0;
@@ -161,7 +161,7 @@ void func_ov001_021a4914(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
-void func_ov001_021a48a4(void) {
+void AdvanceEmblemTemplateSlideOut(void) {
     gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
     gEmblem->mUnk_10a4 += 2;
     if (gEmblem->mUnk_10a0 <= 0) {
@@ -173,20 +173,20 @@ void func_ov001_021a48a4(void) {
     gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
 }
 
-void func_ov001_021a4878(void) {
+void StartEmblemFadeOutToCamera(void) {
     gEmblem->mUnk_1090 = 5;
     gEmblem->mUnk_1098 = 13;
     gEmblem->mUnk_109c = 0;
 }
 
-void func_ov001_021a4844(void) {
+void StartEmblemFadeOutToGrid(void) {
     gEmblem->mUnk_1090 = 7;
     gEmblem->mUnk_1098 = 10;
     gEmblem->mUnk_109c = 0;
     SetKartModelMenuInputSeqs(2, 0);
 }
 
-void func_ov001_021a4804(void) {
+void AdvanceEmblemFadeOutToCamera(void) {
     gEmblem->mUnk_109c += 2;
     if (gEmblem->mUnk_109c > 16) {
         gEmblem->mUnk_109c = 16;
@@ -195,7 +195,7 @@ void func_ov001_021a4804(void) {
     }
 }
 
-void func_ov001_021a47b4(void) {
+void AdvanceEmblemFadeInAtCamera(void) {
     gEmblem->mUnk_109c -= 2;
     if (gEmblem->mUnk_109c < 0) {
         gEmblem->mUnk_109c = 0;
@@ -205,7 +205,7 @@ void func_ov001_021a47b4(void) {
     }
 }
 
-void func_ov001_021a4774(void) {
+void AdvanceEmblemFadeOutToGrid(void) {
     gEmblem->mUnk_109c += 2;
     if (gEmblem->mUnk_109c > 16) {
         gEmblem->mUnk_109c = 16;
@@ -214,7 +214,7 @@ void func_ov001_021a4774(void) {
     }
 }
 
-void func_ov001_021a4724(void) {
+void AdvanceEmblemFadeInAtGrid(void) {
     gEmblem->mUnk_109c -= 2;
     if (gEmblem->mUnk_109c < 0) {
         gEmblem->mUnk_109c = 0;

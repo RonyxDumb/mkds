@@ -4,13 +4,13 @@
 
 typedef struct Camera Camera;
 
-// Object whose address func_ov001_021a2048 receives as its second argument.
+// Object whose address UpdateCameraEffect receives as its second argument.
 typedef struct Unk021a2048_9c {
     /* 00 */ u8 mUnk_00[0x28];
     /* 28 */ s16 mUnk_28;
 } Unk021a2048_9c;
 
-typedef struct Unk021a2048 {
+typedef struct EffectMapObject {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;
     /* 04 */ Vec3 mUnk_04;
@@ -20,19 +20,19 @@ typedef struct Unk021a2048 {
     /* 9c */ Unk021a2048_9c *mUnk_9c;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ void *mUnk_a4;
-} Unk021a2048;
+} EffectMapObject;
 
-// Argument of func_ov001_021a2300: a table of objects and the number of its entries.
+// Argument of InitPeriodicEffectObjects: a table of objects and the number of its entries.
 typedef struct Unk021a2300 {
-    /* 00 */ Unk021a2048 **mUnk_00;
+    /* 00 */ EffectMapObject **mUnk_00;
     /* 04 */ u16 mUnk_04;
 } Unk021a2300;
 
-void *func_ov001_021a2034(void);
-void func_ov001_021a2048(void *p0, Unk021a2048 *p1);
-// Writes into out the point 0x58000 (88.0) ahead of the camera g along its forward x and z, at the height of
-// o->mUnk_04.y.
-void ComputePointAheadOfCamera(Unk021a2048 *o, Camera *g, Vec3 *out);
-void *func_ov001_021a226c(void);
-void func_ov001_021a2284(void *p0, Unk021a2048 *p1);
-void func_ov001_021a2300(Unk021a2300 *p);
+void *CreateCameraEffectUpdateList(void);
+void UpdateCameraEffect(void *p0, EffectMapObject *object);
+// Writes into out the point 0x58000 (88.0) ahead of the camera along its forward x and z, at the height of
+// the object's mUnk_04.y.
+void ComputePointAheadOfCamera(EffectMapObject *object, Camera *camera, Vec3 *out);
+void *CreatePeriodicEffectUpdateList(void);
+void UpdatePeriodicEffect(void *p0, EffectMapObject *object);
+void InitPeriodicEffectObjects(Unk021a2300 *objectList);

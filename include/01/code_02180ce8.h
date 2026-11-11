@@ -13,9 +13,9 @@ typedef struct EmblemGridPoint {
 #include "Main/Unknown/code_02133000.h"
 
 s32 FillEmblemGridRegion(s32 startX, s32 startY, s32 newValue);
-s32 SetEmblemGridLine(s32 x, s32 y, s32 endX, s32 endY, s32 value);
-u8 GetEmblemGridCellValue(s32 x, s32 y);
-u32 SetEmblemGridCellValue(u32 x, u32 y, u32 value);
+s32 SetEmblemGridLine(s32 lineX, s32 lineY, s32 endX, s32 endY, s32 value);
+u8 GetEmblemGridCellValue(s32 cellX, s32 cellY);
+u32 SetEmblemGridCellValue(u32 cellX, u32 cellY, u32 value);
 void ResetEmblemGridChanges(void);
 unsigned int IsEmblemGridChanged(void);
 void ClearEmblemGridCopied(void);
@@ -30,6 +30,6 @@ int GetEmblemGridScrSize(void);
 unsigned int GetEmblemGridScrOffset(void);
 unsigned int GetEmblemGridScr(void);
 void CopyEmblemGridCellsOnFirstChange(void);
-u8 *GetEmblemGridCellPtr(s32 x, s32 y);
+u8 *GetEmblemGridCellPtr(s32 cellX, s32 cellY);
 unsigned int GetEmblemGridSide(void);
 void CreateEmblemGrid(s32 side, s32 scrSide, s32 tableCount);

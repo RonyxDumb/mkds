@@ -30,7 +30,7 @@
 Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     s16 *box;
     LldEntry *entry;
-    s32 i;
+    s32 entryIndex;
     Lld *list;
     LldData *data;
     LldRecord *rec;
@@ -43,16 +43,19 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     list->mCells = cells;
     list->mCellAnims = cellAnims;
     rec = data->mRecords;
-    for (i = 0; i < list->mEntryCount; i++) {
-        entry = &list->mEntries[i];
+    for (entryIndex = 0; entryIndex < list->mEntryCount; entryIndex++) {
+        entry = &list->mEntries[entryIndex];
         entry->mLld = list;
-        entry->mAnimIndex = rec[i].mUnk_00;
-        entry->mPosX = rec[i].mUnk_02 > 0 ? 0.5f + (rec[i].mUnk_02 << 12) : (rec[i].mUnk_02 << 12) - 0.5f;
-        entry->mPosY = rec[i].mUnk_04 > 0 ? 0.5f + (rec[i].mUnk_04 << 12) : (rec[i].mUnk_04 << 12) - 0.5f;
+        entry->mAnimIndex = rec[entryIndex].mUnk_00;
+        entry->mPosX = rec[entryIndex].mUnk_02 > 0 ? 0.5f + (rec[entryIndex].mUnk_02 << 12)
+                                                   : (rec[entryIndex].mUnk_02 << 12) - 0.5f;
+        entry->mPosY = rec[entryIndex].mUnk_04 > 0 ? 0.5f + (rec[entryIndex].mUnk_04 << 12)
+                                                   : (rec[entryIndex].mUnk_04 << 12) - 0.5f;
         entry->mScale = 0x1000;
-        entry->mShown = rec[i].mUnk_06 != 0;
-        NNS_G2dInitCellAnimation(&entry->mUnk_2c, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[i].mUnk_00), cells);
-        if (rec[i].mUnk_06 > 1) {
+        entry->mShown = rec[entryIndex].mUnk_06 != 0;
+        NNS_G2dInitCellAnimation(&entry->mUnk_2c, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mUnk_00),
+                                 cells);
+        if (rec[entryIndex].mUnk_06 > 1) {
             entry->mUnk_2c.mUnk_08 = TRUE;
         } else {
             entry->mUnk_2c.mUnk_08 = FALSE;
@@ -70,7 +73,7 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
 }
 
 void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
-    s32 i;
+    s32 entryIndex;
     LldEntry *entry;
     Unk02022030 *cellAnim;
     s32 screenX;
@@ -79,8 +82,8 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
     s32 unscaledPos[2];
     Unk021a5a58_2c_2c *cell;
 
-    for (i = 0; i < lld->mEntryCount; i++) {
-        entry = &lld->mEntries[i];
+    for (entryIndex = 0; entryIndex < lld->mEntryCount; entryIndex++) {
+        entry = &lld->mEntries[entryIndex];
         cellAnim = &entry->mUnk_2c;
         if (entry->mCallback != NULL) {
             if (entry->mCallback(entry) != 0) {
@@ -131,18 +134,18 @@ LldEntry *GetLldEntry(Lld *lld, s32 index) {
 }
 
 s32 FindLldEntryAtPoint(Lld *lld, s32 startIndex, s32 pointX, s32 pointY) {
-    s32 fx;
-    s32 fy;
+    s32 fixedX;
+    s32 fixedY;
     u16 count;
     LldEntry *entry;
 
-    fx = pointX > 0 ? 0.5f + (pointX << 12) : (pointX << 12) - 0.5f;
-    fy = pointY > 0 ? 0.5f + (pointY << 12) : (pointY << 12) - 0.5f;
+    fixedX = pointX > 0 ? 0.5f + (pointX << 12) : (pointX << 12) - 0.5f;
+    fixedY = pointY > 0 ? 0.5f + (pointY << 12) : (pointY << 12) - 0.5f;
     count = lld->mEntryCount;
     for (; startIndex < count; startIndex++) {
         entry = &lld->mEntries[startIndex];
-        if (fx > entry->mPosX + entry->mBoundsLeft && fx < entry->mPosX + entry->mBoundsRight &&
-            fy > entry->mPosY + entry->mBoundsTop && fy < entry->mPosY + entry->mBoundsBottom) {
+        if (fixedX > entry->mPosX + entry->mBoundsLeft && fixedX < entry->mPosX + entry->mBoundsRight &&
+            fixedY > entry->mPosY + entry->mBoundsTop && fixedY < entry->mPosY + entry->mBoundsBottom) {
             return startIndex;
         }
     }

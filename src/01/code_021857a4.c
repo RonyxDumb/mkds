@@ -71,7 +71,7 @@ void WriteMissionRunMSselScreenRegisters(void) {
         MissionRunGXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
-    func_ov001_0219f8ec();
+    WriteMissionRunMSselBgOffsets();
 }
 
 void UpdateMissionRunMSsel(void) {

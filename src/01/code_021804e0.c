@@ -179,7 +179,7 @@ void TestSceneInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *fon
 void InitTestSceneObject(void) {
     DisplaySettingsDesc displaySettingsDesc = {1, 0x16, 4, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 8, 0};
     DisplaySettings *displaySettings;
-    int i;
+    int canvasIndex;
 
     gTestScene = HeapAlloc(TestSceneGetCurrentHeap(), 0x66a8);
     gTestScene->mUnk_0000 = 0;
@@ -195,10 +195,10 @@ void InitTestSceneObject(void) {
     gTestScene->mFonts[0] = GetFontByIndex(0);
     gTestScene->mFonts[1] = GetFontByIndex(1);
     gTestScene->mFonts[2] = GetFontByIndex(2);
-    for (i = 0; i < 3; i++) {
-        NNS_G2dCharCanvasInitForBG(gTestScene->mCharCanvases[i], gTestScene->mChars, 0x20, 0x18, 4);
-        TestSceneInitTextCanvas(&gTestScene->mTextCanvases[i], gTestScene->mCharCanvases[i], gTestScene->mFonts[i], 0,
-                                0);
+    for (canvasIndex = 0; canvasIndex < 3; canvasIndex++) {
+        NNS_G2dCharCanvasInitForBG(gTestScene->mCharCanvases[canvasIndex], gTestScene->mChars, 0x20, 0x18, 4);
+        TestSceneInitTextCanvas(&gTestScene->mTextCanvases[canvasIndex], gTestScene->mCharCanvases[canvasIndex],
+                                gTestScene->mFonts[canvasIndex], 0, 0);
     }
     InitEmblemChoises();
 }

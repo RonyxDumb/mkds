@@ -41,48 +41,48 @@
 SelectEngine *gSelectEngine;
 
 void LoadSelectEngineData(void) {
-    Ncgr *l0 = NULL;
-    Unk02021dc8 *l1 = NULL;
-    Nclr *l2 = NULL;
-    Ncgr *l3 = NULL;
-    Unk02021dc8 *l4 = NULL;
-    Nclr *l5 = NULL;
-    Ncgr *l6 = NULL;
-    Nscr *l7 = NULL;
-    Nclr *l8 = NULL;
+    Ncgr *selectEngineMChars = NULL;
+    Unk02021dc8 *selectEngineMCells = NULL;
+    Nclr *selectEngineMOPalette = NULL;
+    Ncgr *selectEngineSChars = NULL;
+    Unk02021dc8 *selectEngineSCells = NULL;
+    Nclr *selectEngineSOPalette = NULL;
+    Ncgr *selectEngineMBChars = NULL;
+    Nscr *selectEngineMScreenMap = NULL;
+    Nclr *selectEngineMBPalette = NULL;
 
-    LoadNcgrData(&l6, FindSceneFile(gSelectEngineMBNcgrName));
-    LoadNclrData(&l8, FindSceneFile(gSelectEngineMBNclrName));
-    LoadNscrData(&l7, FindSceneFile(gSelectEngineMNscrName));
-    LoadNcgrData2(&l0, FindSceneFile(gSelectEngineMNcgrName));
-    LoadNcerData(&l1, FindSceneFile(gSelectEngineMNcerName));
-    LoadNclrData(&l2, FindSceneFile(gSelectEngineMONclrName));
-    LoadNcgrData2(&l3, FindSceneFile(gSelectEngineSNcgrName));
-    LoadNcerData(&l4, FindSceneFile(gSelectEngineSNcerName));
-    LoadNclrData(&l5, FindSceneFile(gSelectEngineSONclrName));
+    LoadNcgrData(&selectEngineMBChars, FindSceneFile(gSelectEngineMBNcgrName));
+    LoadNclrData(&selectEngineMBPalette, FindSceneFile(gSelectEngineMBNclrName));
+    LoadNscrData(&selectEngineMScreenMap, FindSceneFile(gSelectEngineMNscrName));
+    LoadNcgrData2(&selectEngineMChars, FindSceneFile(gSelectEngineMNcgrName));
+    LoadNcerData(&selectEngineMCells, FindSceneFile(gSelectEngineMNcerName));
+    LoadNclrData(&selectEngineMOPalette, FindSceneFile(gSelectEngineMONclrName));
+    LoadNcgrData2(&selectEngineSChars, FindSceneFile(gSelectEngineSNcgrName));
+    LoadNcerData(&selectEngineSCells, FindSceneFile(gSelectEngineSNcerName));
+    LoadNclrData(&selectEngineSOPalette, FindSceneFile(gSelectEngineSONclrName));
 }
 
 void LocateAndQueueSelectEngine(void) {
-    Ncgr *a = NULL;
-    Nclr *b = NULL;
-    Ncgr *c = NULL;
-    Nclr *d = NULL;
-    Ncgr *e = NULL;
-    Nscr *f = NULL;
-    Nclr *g = NULL;
-    u16 *h;
+    Ncgr *selectEngineMChars = NULL;
+    Nclr *selectEngineMOPalette = NULL;
+    Ncgr *selectEngineSChars = NULL;
+    Nclr *selectEngineSOPalette = NULL;
+    Ncgr *selectEngineMBChars = NULL;
+    Nscr *selectEngineMScreenMap = NULL;
+    Nclr *selectEngineMBPalette = NULL;
+    u16 *paletteData;
 
-    LocateNcgr(&e, FindSceneFile(gSelectEngineMBNcgrName));
-    LocateNclr(&g, FindSceneFile(gSelectEngineMBNclrName));
-    LocateNscr(&f, FindSceneFile(gSelectEngineMNscrName));
+    LocateNcgr(&selectEngineMBChars, FindSceneFile(gSelectEngineMBNcgrName));
+    LocateNclr(&selectEngineMBPalette, FindSceneFile(gSelectEngineMBNclrName));
+    LocateNscr(&selectEngineMScreenMap, FindSceneFile(gSelectEngineMNscrName));
     gSelectEngine->mUnk_1c = HeapAlloc(gSelectEngine->mHeap, 0x800);
     gSelectEngine->mSelectEngineMBncl = FindSceneFile(gSelectEngineMBnclName);
-    LocateNcgr2(&a, FindSceneFile(gSelectEngineMNcgrName));
+    LocateNcgr2(&selectEngineMChars, FindSceneFile(gSelectEngineMNcgrName));
     LocateNcer(&gSelectEngine->mSelectEngineMNcer, FindSceneFile(gSelectEngineMNcerName));
-    LocateNclr(&b, FindSceneFile(gSelectEngineMONclrName));
-    LocateNcgr2(&c, FindSceneFile(gSelectEngineSNcgrName));
+    LocateNclr(&selectEngineMOPalette, FindSceneFile(gSelectEngineMONclrName));
+    LocateNcgr2(&selectEngineSChars, FindSceneFile(gSelectEngineSNcgrName));
     LocateNcer(&gSelectEngine->mSelectEngineSNcer, FindSceneFile(gSelectEngineSNcerName));
-    LocateNclr(&d, FindSceneFile(gSelectEngineSONclrName));
+    LocateNclr(&selectEngineSOPalette, FindSceneFile(gSelectEngineSONclrName));
     if (IsBackupFlagSet(0x10) != 0) {
         gSelectEngine->mSelectEngineAOrBSBncl = FindSceneFile(gSelectEngineBSBnclName);
         gSelectEngine->mSelectEngineAOrBSBnbl = FindSceneFile(gSelectEngineBSBnblName);
@@ -90,102 +90,102 @@ void LocateAndQueueSelectEngine(void) {
         gSelectEngine->mSelectEngineAOrBSBncl = FindSceneFile(gSelectEngineASBnclName);
         gSelectEngine->mSelectEngineAOrBSBnbl = FindSceneFile(gSelectEngineASBnblName);
     }
-    h = b->mData;
-    NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x100);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, f->mData, f->mDataSize);
+    paletteData = selectEngineMOPalette->mData;
+    NNS_GfdRegisterNewVramTransferTask(4, 0, selectEngineMBChars->mData, selectEngineMBChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectEngineMBPalette->mData, 0x100);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, selectEngineMScreenMap->mData, selectEngineMScreenMap->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mUnk_1c, 0x800);
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) h + 0x1c0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectEngineMChars->mData, selectEngineMChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectEngineMOPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) paletteData + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectEngineSChars->mData, selectEngineSChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, selectEngineSOPalette->mData, selectEngineSOPalette->mDataSize);
 }
 
-void func_ov001_021a1cb0(void) {
-    s32 i;
-    s32 j;
+void InitSelectEngineCells(void) {
+    s32 slotIndex;
+    s32 cellSlot;
 
-    for (i = 0; i < 4; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[i]].mVisible = 0;
-        for (j = 0; j < 3; j++) {
-            gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][j]].mVisible = 0;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mVisible = 0;
+        for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+            gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]].mVisible = 0;
         }
     }
-    for (i = 0; i < 6; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f68[i]].mVisible = 1;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mVisible = 1;
     }
     gSelectEngine->mSelectEngineMTable[6].mVisible = 1;
-    gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[gSelectEngine->mIndex]].mVisible = 1;
-    for (i = 0; i < 4; i++) {
-        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][0]].mVisible = 1;
-        SetCellOamModeXlu(data_ov001_021a6fa0[i][0], 1, gSelectEngine->mSelectEngineSNcer,
+    gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[gSelectEngine->mIndex]].mVisible = 1;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][0]].mVisible = 1;
+        SetCellOamModeXlu(gSelectEngineAOrBSTableIndices[slotIndex][0], 1, gSelectEngine->mSelectEngineSNcer,
                           gSelectEngine->mSelectEngineAOrBSBncl);
     }
     SetCellOamModeXlu(2, 1, gSelectEngine->mSelectEngineMNcer, gSelectEngine->mSelectEngineMBncl);
 }
 
-void func_ov001_021a1c34(void) {
-    s32 i;
+void UpdateSelectEngineIndexCells(void) {
+    s32 slotIndex;
 
-    for (i = 0; i < 4; i++) {
-        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][1]].mVisible = 0;
-        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][2]].mVisible = 0;
-        if (gSelectEngine->mIndex == i && gSelectEngine->mUnk_38 != FALSE) {
-            gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][2]].mVisible = 1;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][1]].mVisible = 0;
+        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][2]].mVisible = 0;
+        if (gSelectEngine->mIndex == slotIndex && gSelectEngine->mUnk_38 != FALSE) {
+            gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][2]].mVisible = 1;
         } else {
-            gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][1]].mVisible = 1;
+            gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][1]].mVisible = 1;
         }
     }
     if (IsBackupFlagSet(0x10) == 0) {
-        for (i = 0; i < 3; i++) {
-            gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[3][i]].mVisible = 0;
+        for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+            gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[3][slotIndex]].mVisible = 0;
         }
     }
 }
 
-void func_ov001_021a1bf8(void) {
-    s32 i;
+void RefreshSelectEngineMCells(void) {
+    s32 slotIndex;
 
-    for (i = 0; i < 4; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[i]].mVisible = 0;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mVisible = 0;
     }
-    gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[gSelectEngine->mIndex]].mVisible = 1;
+    gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[gSelectEngine->mIndex]].mVisible = 1;
 }
 
-void func_ov001_021a1bb8(void) {
+void SetEngineFromSelectEngine(void) {
     if (gSelectEngine->mIndex == 3) {
-        SetEngineIndex(data_ov001_021a6f90[2]);
+        SetEngineIndex(gSelectEngineEngineIndices[2]);
         SetMirrorMode();
     } else {
-        SetEngineIndex(data_ov001_021a6f90[gSelectEngine->mIndex]);
+        SetEngineIndex(gSelectEngineEngineIndices[gSelectEngine->mIndex]);
         ClearMirrorMode();
     }
     SetCupIndex(0);
 }
 
-u32 func_ov001_021a1ba0(void) {
+u32 IsSelectEngineIndexChangeRunning(void) {
     if (gSelectEngine->mUnk_3c != 0) {
         return 1;
     }
     return 0;
 }
 
-void func_ov001_021a1b08(void) {
-    s32 i;
-    s16 v;
+void AdvanceSelectEngineIndexChange(void) {
+    s32 slotIndex;
+    s16 offsetY;
 
-    if (func_ov001_021a1ba0() != 0) {
+    if (IsSelectEngineIndexChangeRunning() != 0) {
         if (gSelectEngine->mUnk_3c == 7) {
             gSelectEngine->mUnk_40 = gSelectEngine->mIndex;
-            func_ov001_021a1bf8();
+            RefreshSelectEngineMCells();
         } else {
-            v = LookupIndexChangeOffset(7 - gSelectEngine->mUnk_3c, 0);
-            for (i = 0; i < 6; i++) {
-                gSelectEngine->mSelectEngineMTable[data_ov001_021a6f68[i]].mOffsetY = v;
+            offsetY = LookupIndexChangeOffset(7 - gSelectEngine->mUnk_3c, 0);
+            for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+                gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[i]].mOffsetY = v;
+            for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+                gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = offsetY;
             }
         }
         gSelectEngine->mUnk_3c -= 1;
@@ -194,37 +194,40 @@ void func_ov001_021a1b08(void) {
     }
 }
 
-void func_ov001_021a1a04(void) {
-    s32 i;
-    s32 j;
+void ResetSelectEngineOffsets(void) {
+    s32 slotIndex;
+    s32 cellSlot;
 
     gSelectEngine->mNextState = 0;
     gSelectEngine->mStateFrames = 0;
     gSelectEngine->mBg0Offset = 0xc0;
-    for (i = 0; i < 6; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f68[i]].mOffsetY = 0xc0;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = 0xc0;
     }
     gSelectEngine->mSelectEngineMTable[6].mOffsetY = -0xc0;
-    for (i = 0; i < 4; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[i]].mOffsetY = 0xc0;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = 0xc0;
         if (IsBackupFlagSet(0x10) != 0) {
-            switch (i) {
+            switch (slotIndex) {
                 case 0:
                 case 2:
-                    for (j = 0; j < 3; j++) {
-                        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][j]].mOffsetX = -0xe0;
+                    for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
+                            .mOffsetX = -0xe0;
                     }
                     break;
                 case 1:
                 case 3:
-                    for (j = 0; j < 3; j++) {
-                        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][j]].mOffsetX = 0xe0;
+                    for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
+                            .mOffsetX = 0xe0;
                     }
                     break;
             }
         } else {
-            for (j = 0; j < 3; j++) {
-                gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][j]].mOffsetX = 0xe0;
+            for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]].mOffsetX =
+                    0xe0;
             }
         }
     }
@@ -244,7 +247,7 @@ void RequestSelectEngineState2(void) {
     gSelectEngine->mStateFrames = 0;
 }
 
-void func_ov001_021a19c0(void) {
+void RequestSelectEngineState3(void) {
     gSelectEngine->mNextState = 3;
     gSelectEngine->mStateFrames = 0;
     RequestSelectReturnState1();
@@ -257,11 +260,11 @@ void RequestSelectEngineState4(void) {
     gSelectEngine->mStateFrames = 0;
 }
 
-void func_ov001_021a1978(void) {
+void RequestSelectEngineState5(void) {
     gSelectEngine->mNextState = 5;
     gSelectEngine->mStateFrames = 0;
     gSelectEngine->mResult = 1;
-    func_ov001_021a1bb8();
+    SetEngineFromSelectEngine();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
@@ -272,32 +275,32 @@ void RequestSelectEngineState6(void) {
     gSelectEngine->mStateFrames = 0;
 }
 
-void InitSelectEngine(void *a, void *b, void *c) {
+void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     void *heap;
-    SelectEngine *p;
-    vu16 *bg0 = &reg_G2_BG0CNT;
-    vu16 *bg1 = &reg_G2_BG1CNT;
+    SelectEngine *selectEngine;
+    vu16 *bg0Control = &reg_G2_BG0CNT;
+    vu16 *bg1Control = &reg_G2_BG1CNT;
 
-    *bg0 = (*bg0 & ~3) | 1;
-    *bg1 = (*bg1 & ~3) | 1;
-    *bg0 = (*bg0 & 0x43) | 0x9004;
-    *bg1 = (*bg1 & 0x43) | 0x9204;
+    *bg0Control = (*bg0Control & ~3) | 1;
+    *bg1Control = (*bg1Control & ~3) | 1;
+    *bg0Control = (*bg0Control & 0x43) | 0x9004;
+    *bg1Control = (*bg1Control & 0x43) | 0x9204;
     reg_G2_BG0OFS = 0xc00000;
     reg_G2_BG1OFS = 0xc00000;
-    heap = CreateFrmHeapFromMaxFree(a);
-    p = HeapAlloc(heap, 0x50);
-    gSelectEngine = p;
-    p->mHeap = heap;
+    heap = CreateFrmHeapFromMaxFree(parentHeap);
+    selectEngine = HeapAlloc(heap, 0x50);
+    gSelectEngine = selectEngine;
+    selectEngine->mHeap = heap;
     gSelectEngine->mState = 0;
     gSelectEngine->mUnk_3c = 0;
     gSelectEngine->mUnk_38 = TRUE;
-    gSelectEngine->mUnk_44 = b;
-    gSelectEngine->mUnk_48 = c;
+    gSelectEngine->mUnk_44 = mainOamList;
+    gSelectEngine->mUnk_48 = subOamList;
     gSelectEngine->mResult = 0;
     if (GetMirrorMode() != 0) {
         gSelectEngine->mIndex = 3;
     } else {
-        gSelectEngine->mIndex = data_ov001_021a6f74[GetEngineIndex()];
+        gSelectEngine->mIndex = gSelectEngineIndicesByEngineIndex[GetEngineIndex()];
     }
     gSelectEngine->mUnk_40 = gSelectEngine->mIndex;
     LocateAndQueueSelectEngine();
@@ -305,9 +308,9 @@ void InitSelectEngine(void *a, void *b, void *c) {
     InitLayoutTable(gSelectEngine->mHeap, gSelectEngine->mSelectEngineMBncl, NULL, &gSelectEngine->mSelectEngineMTable);
     InitLayoutTable(gSelectEngine->mHeap, gSelectEngine->mSelectEngineAOrBSBncl, NULL,
                     &gSelectEngine->mSelectEngineAOrBSTable);
-    func_ov001_021a1cb0();
-    func_ov001_021a1bf8();
-    func_ov001_021a1a04();
+    InitSelectEngineCells();
+    RefreshSelectEngineMCells();
+    ResetSelectEngineOffsets();
     FrmHeapShrinkInParent(gSelectEngine->mHeap);
 }
 
@@ -317,46 +320,49 @@ void ReleaseSelectEngine(void) {
 }
 
 void AdvanceSelectEngineState0(void) {
-    int v1;
-    v1 = AreBrightnessFadesClear();
-    if (v1 != 0) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
         RequestSelectEngineState1();
     }
 }
 
 void AdvanceSelectEngineState1(void) {
-    s16 a;
-    s16 b;
-    s32 j;
-    s32 i;
+    s16 slideX;
+    s16 slideY;
+    s32 cellSlot;
+    s32 slotIndex;
     gSelectEngine->mStateFrames = gSelectEngine->mStateFrames + 1;
-    a = InterpolateS16(1, 0xe0, 0, gSelectEngine->mStateFrames, 10);
-    b = InterpolateS16(1, -0xc0, 0, gSelectEngine->mStateFrames, 10);
-    gSelectEngine->mBg0Offset = -b;
-    for (i = 0; i < 6; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f68[i]].mOffsetY = -b;
+    slideX = InterpolateS16(1, 0xe0, 0, gSelectEngine->mStateFrames, 10);
+    slideY = InterpolateS16(1, -0xc0, 0, gSelectEngine->mStateFrames, 10);
+    gSelectEngine->mBg0Offset = -slideY;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = -slideY;
     }
-    gSelectEngine->mSelectEngineMTable[6].mOffsetY = b;
-    for (i = 0; i < 4; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[i]].mOffsetY = -b;
+    gSelectEngine->mSelectEngineMTable[6].mOffsetY = slideY;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = -slideY;
         if (IsBackupFlagSet(0x10)) {
-            switch (i) {
+            switch (slotIndex) {
                 case 0:
                 case 2:
-                    for (j = 0; j < 3; j++) {
-                        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][j]].mOffsetX = -a;
+                    for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
+                            .mOffsetX = -slideX;
                     }
                     break;
                 case 1:
                 case 3:
-                    for (j = 0; j < 3; j++) {
-                        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][j]].mOffsetX = a;
+                    for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
+                            .mOffsetX = slideX;
                     }
                     break;
             }
         } else {
-            for (j = 0; j < 3; j++) {
-                gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][j]].mOffsetX = a;
+            for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]].mOffsetX =
+                    slideX;
             }
         }
     }
@@ -366,71 +372,73 @@ void AdvanceSelectEngineState1(void) {
 }
 
 void AdvanceSelectEngineState2(void) {
-    s16 x;
-    s32 j;
+    s16 selectedPressOffset;
+    s32 slotIndex;
     gSelectEngine->mStateFrames = gSelectEngine->mStateFrames + 1;
-    x = GetSelectedPressOffset(gSelectEngine->mStateFrames);
-    gSelectEngine->mBg0Offset = x;
-    for (j = 0; j < 6; j++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f68[j]].mOffsetY = x;
+    selectedPressOffset = GetSelectedPressOffset(gSelectEngine->mStateFrames);
+    gSelectEngine->mBg0Offset = selectedPressOffset;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = selectedPressOffset;
     }
-    for (j = 0; j < 4; j++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[j]].mOffsetY = x;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = selectedPressOffset;
     }
     if (gSelectEngine->mStateFrames >= 10) {
-        func_ov001_021a19c0();
+        RequestSelectEngineState3();
     }
 }
 
 void AdvanceSelectEngineState3(void) {
-    int v1;
-    v1 = IsSelectReturnState2NoState3Or4Request();
-    if (v1 != 0) {
+    int returnState2NoState3Or4Request;
+    returnState2NoState3Or4Request = IsSelectReturnState2NoState3Or4Request();
+    if (returnState2NoState3Or4Request != 0) {
         RequestSelectEngineState4();
     }
 }
 
 void AdvanceSelectEngineState4(void) {
-    u32 r5 = -1;
-    InputSlotIndex idx = UNK_02175628_INDEX_8;
-    BOOL b1;
-    s32 a1;
-    BOOL b2;
-    s32 a2;
-    u32 v;
-    u32 w;
-    s32 t;
+    u32 touchedRectIndex = -1;
+    InputSlotIndex inputSlotIndex = UNK_02175628_INDEX_8;
+    BOOL pairStarted;
+    s32 recentlyNoPair;
+    BOOL pairStartedAgain;
+    s32 recentlyNoPairAgain;
+    u32 hasPair;
+    u32 hasPairAgain;
+    s32 currentIndex;
     s32 s;
-    SelectEngine *o;
+    SelectEngine *selectEngine;
 
-    func_ov001_021a1b08();
-    a1 = b1 = FALSE;
-    v = gInputSlots[idx].mPair.mHasPair;
-    if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
-        a1 = 1;
+    AdvanceSelectEngineIndexChange();
+    recentlyNoPair = pairStarted = FALSE;
+    hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+        recentlyNoPair = 1;
     }
-    if (a1 == 0 && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
-        b1 = TRUE;
+    if (recentlyNoPair == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        pairStarted = TRUE;
     }
-    if (b1 != FALSE) {
-        r5 = RectTableFindContaining(gSelectEngine->mSelectEngineAOrBSBnbl, gInputSlots[idx].mPair.mPairX,
-                                     gInputSlots[idx].mPair.mPairY);
+    if (pairStarted != FALSE) {
+        touchedRectIndex =
+            RectTableFindContaining(gSelectEngine->mSelectEngineAOrBSBnbl, gInputSlots[inputSlotIndex].mPair.mPairX,
+                                    gInputSlots[inputSlotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) == 0) {
-        a2 = b2 = FALSE;
-        w = gInputSlots[idx].mPair.mHasPair;
-        if (w == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
-            a2 = 1;
+    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
+        recentlyNoPairAgain = pairStartedAgain = FALSE;
+        hasPairAgain = gInputSlots[inputSlotIndex].mPair.mHasPair;
+        if (hasPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+            recentlyNoPairAgain = 1;
         }
-        if (a2 == 0 && gInputSlots[idx].mPair.mPrevHasPair == 0 && w != 0) {
-            b2 = TRUE;
+        if (recentlyNoPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPairAgain != 0) {
+            pairStartedAgain = TRUE;
         }
-        if (b2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX,
-                                                                           gInputSlots[idx].mPair.mPairY) == FALSE) {
+        if (pairStartedAgain == FALSE ||
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,
+                                                            gInputSlots[inputSlotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
-    if (func_ov001_021a1ba0() != 0) {
+    if (IsSelectEngineIndexChangeRunning() != 0) {
         return;
     }
     SetSelectReturnSoundId(0xe);
@@ -439,126 +447,129 @@ void AdvanceSelectEngineState4(void) {
     RequestSelectReturnState3WithSound(0);
     return;
 next:
-    if (r5 <= 3) {
-        s = data_ov001_021a6f80[r5];
+    if (touchedRectIndex <= 3) {
+        s = gSelectEngineRectIndices[touchedRectIndex];
         if (gSelectEngine->mIndex == s) {
             gSelectEngine->mUnk_38 = FALSE;
         }
         gSelectEngine->mIndex = s;
-        func_ov001_021a1978();
+        RequestSelectEngineState5();
         return;
     }
-    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
         gSelectEngine->mUnk_38 = FALSE;
-        func_ov001_021a1978();
+        RequestSelectEngineState5();
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f20[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineUpStepsFlagSet[currentIndex];
         } else {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f40[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineUpStepsFlagClear[currentIndex];
         }
         if (s != 0) {
-            o->mIndex = t + s;
+            selectEngine->mIndex = currentIndex + s;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f30[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineDownStepsFlagSet[currentIndex];
         } else {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f48[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineDownStepsFlagClear[currentIndex];
         }
         if (s != 0) {
-            o->mIndex = t + s;
+            selectEngine->mIndex = currentIndex + s;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f38[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineLeftStepsFlagSet[currentIndex];
         } else {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f50[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineLeftStepsFlagClear[currentIndex];
         }
         if (s != 0) {
-            o->mIndex = t + s;
+            selectEngine->mIndex = currentIndex + s;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f60[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineRightStepsFlagSet[currentIndex];
         } else {
-            t = gSelectEngine->mIndex;
-            o = gSelectEngine;
-            s = data_ov001_021a6f58[t];
+            currentIndex = gSelectEngine->mIndex;
+            selectEngine = gSelectEngine;
+            s = gSelectEngineRightStepsFlagClear[currentIndex];
         }
         if (s != 0) {
-            o->mIndex = t + s;
+            selectEngine->mIndex = currentIndex + s;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     }
 }
 
 void AdvanceSelectEngineState5(void) {
-    func_ov001_021a1b08();
+    AdvanceSelectEngineIndexChange();
     if (gSelectEngine->mStateFrames == 5) {
         gSelectEngine->mUnk_38 = TRUE;
     }
     gSelectEngine->mStateFrames++;
     if (gSelectEngine->mStateFrames >= 10) {
-        if (func_ov001_021a1ba0() == 0) {
+        if (IsSelectEngineIndexChangeRunning() == 0) {
             RequestSelectEngineState6();
         }
     }
 }
 
 void AdvanceSelectEngineState6(void) {
-    s16 a;
-    s16 b;
-    s32 i;
-    s32 k;
+    s16 slideX;
+    s16 slideY;
+    s32 slotIndex;
+    s32 cellSlot;
 
     gSelectEngine->mStateFrames++;
-    a = InterpolateS16(1, 0, 0xc0, gSelectEngine->mStateFrames, 10);
-    b = InterpolateS16(1, 0, -0xc0, gSelectEngine->mStateFrames, 10);
-    gSelectEngine->mBg0Offset = -b;
-    for (i = 0; i < 6; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f68[i]].mOffsetY = -b;
+    slideX = InterpolateS16(1, 0, 0xc0, gSelectEngine->mStateFrames, 10);
+    slideY = InterpolateS16(1, 0, -0xc0, gSelectEngine->mStateFrames, 10);
+    gSelectEngine->mBg0Offset = -slideY;
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = -slideY;
     }
-    gSelectEngine->mSelectEngineMTable[6].mOffsetY = b;
-    for (i = 0; i < 4; i++) {
-        gSelectEngine->mSelectEngineMTable[data_ov001_021a6f28[i]].mOffsetY = -b;
+    gSelectEngine->mSelectEngineMTable[6].mOffsetY = slideY;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = -slideY;
         if (IsBackupFlagSet(0x10) != 0) {
-            switch (i) {
+            switch (slotIndex) {
                 case 0:
                 case 2:
-                    for (k = 0; k < 3; k++) {
-                        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][k]].mOffsetX = -a;
+                    for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
+                            .mOffsetX = -slideX;
                     }
                     break;
                 case 1:
                 case 3:
-                    for (k = 0; k < 3; k++) {
-                        gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][k]].mOffsetX = a;
+                    for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                        gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
+                            .mOffsetX = slideX;
                     }
                     break;
             }
         } else {
-            for (k = 0; k < 3; k++) {
-                gSelectEngine->mSelectEngineAOrBSTable[data_ov001_021a6fa0[i][k]].mOffsetX = a;
+            for (cellSlot = 0; cellSlot < 3; cellSlot++) {
+                gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]].mOffsetX =
+                    slideX;
             }
         }
     }
@@ -589,7 +600,7 @@ int AdvanceSelectEngine(void) {
             AdvanceSelectEngineState6();
             break;
     }
-    func_ov001_021a1c34();
+    UpdateSelectEngineIndexCells();
     DrawLayoutTable(gSelectEngine->mSelectEngineMBncl, gSelectEngine->mSelectEngineMNcer, NULL, gSelectEngine->mUnk_44,
                     gSelectEngine->mSelectEngineMTable);
     DrawLayoutTable(gSelectEngine->mSelectEngineAOrBSBncl, gSelectEngine->mSelectEngineSNcer, NULL,

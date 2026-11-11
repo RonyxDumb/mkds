@@ -1674,7 +1674,7 @@ void AdvanceShownSlotAndQueueEmblem(void) {
     if (shownSlotIndex >= 0) {
         AdvanceModelAnimation(gKartModelMenu->mSlots[shownSlotIndex].mCharacterAnimation);
         if (gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested == FALSE) {
-            QueueKartEmblemTexture(func_ov001_021a2398(), func_ov001_021a23ac());
+            QueueKartEmblemTexture(GetEmblemRecordBytes(), GetEmblemSBPalette());
         }
     }
 }

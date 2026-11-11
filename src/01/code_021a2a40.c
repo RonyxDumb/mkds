@@ -46,7 +46,7 @@
 #include "code_0214a390.h"
 #include "registers.h"
 
-void func_ov001_021a4fa0(void) {
+void UploadEmblemMainScreen(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1700;
     reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffcfffef;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
@@ -72,7 +72,7 @@ void func_ov001_021a4fa0(void) {
     reg_G2_BG2OFS = 0;
 }
 
-void func_ov001_021a4d10(void) {
+void UploadEmblemSubScreen(void) {
     GXS_SetGraphicsMode(1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1e00;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
@@ -85,7 +85,7 @@ void func_ov001_021a4d10(void) {
     reg_G2S_DB_BG0OFS = 0;
     reg_G2S_DB_BG1OFS = 0;
     reg_G2S_DB_BG2OFS = 0;
-    G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, data_ov001_021a6fd8, 16, 16, -0x70, -0x40);
+    G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, gEmblemSubBg3AffineMatrix, 16, 16, -0x70, -0x40);
     DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
     GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
     DC_FlushRange(gEmblem->mEmblemSONcgr->mData, gEmblem->mEmblemSONcgr->mDataSize);
@@ -110,7 +110,7 @@ void func_ov001_021a4d10(void) {
     GXS_LoadBG3Scr((const void *) (GetEmblemGridScr()), GetEmblemGridScrOffset(), GetEmblemGridScrSize());
 }
 
-void func_ov001_021a4ba0(void) {
+void UploadEmblemCameraSubScreen(void) {
     GXS_SetGraphicsMode(1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1600;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
@@ -134,7 +134,7 @@ void func_ov001_021a4ba0(void) {
     GXS_LoadBG2Scr(gEmblem->mEmblemCameraSBgNscr->mData, 0, gEmblem->mEmblemCameraSBgNscr->mDataSize);
 }
 
-void func_ov001_021a4b28(void) {
+void StartEmblemChoises(void) {
     RequestEmblemChoisesGraphicsUpload();
     SetEmblemChoisesShownAndReset(1);
     gEmblem->mUnk_1090 = 10;
@@ -144,7 +144,7 @@ void func_ov001_021a4b28(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -3);
 }
 
-void func_ov001_021a4aac(void) {
+void StopEmblemChoises(void) {
     SetEmblemChoisesShownAndReset(0);
     gEmblem->mUnk_1090 = 0;
     gEmblem->mUnk_1098 = 15;
@@ -154,7 +154,7 @@ void func_ov001_021a4aac(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
-void func_ov001_021a4a10(void) {
+void StartEmblemTemplateSlideIn(void) {
     gEmblem->mUnk_1090 = 2;
     gEmblem->mUnk_1098 = 2;
     gEmblem->mUnk_10a0 = 0;
@@ -165,7 +165,7 @@ void func_ov001_021a4a10(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -3);
 }
 
-void func_ov001_021a499c(void) {
+void AdvanceEmblemTemplateSlideIn(void) {
     gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
     gEmblem->mUnk_10a4 -= 2;
     if (gEmblem->mUnk_10a0 >= 0xc0) {
@@ -177,7 +177,7 @@ void func_ov001_021a499c(void) {
     gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
 }
 
-void func_ov001_021a4914(void) {
+void StartEmblemTemplateSlideOut(void) {
     gEmblem->mUnk_1090 = 3;
     gEmblem->mUnk_1098 = 6;
     gEmblem->mUnk_10a0 = 0xc0;
@@ -187,7 +187,7 @@ void func_ov001_021a4914(void) {
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
-void func_ov001_021a48a4(void) {
+void AdvanceEmblemTemplateSlideOut(void) {
     gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
     gEmblem->mUnk_10a4 += 2;
     if (gEmblem->mUnk_10a0 <= 0) {
@@ -199,20 +199,20 @@ void func_ov001_021a48a4(void) {
     gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
 }
 
-void func_ov001_021a4878(void) {
+void StartEmblemFadeOutToCamera(void) {
     gEmblem->mUnk_1090 = 5;
     gEmblem->mUnk_1098 = 13;
     gEmblem->mUnk_109c = 0;
 }
 
-void func_ov001_021a4844(void) {
+void StartEmblemFadeOutToGrid(void) {
     gEmblem->mUnk_1090 = 7;
     gEmblem->mUnk_1098 = 10;
     gEmblem->mUnk_109c = 0;
     SetKartModelMenuInputSeqs(2, 0);
 }
 
-void func_ov001_021a4804(void) {
+void AdvanceEmblemFadeOutToCamera(void) {
     gEmblem->mUnk_109c += 2;
     if (gEmblem->mUnk_109c > 16) {
         gEmblem->mUnk_109c = 16;
@@ -221,7 +221,7 @@ void func_ov001_021a4804(void) {
     }
 }
 
-void func_ov001_021a47b4(void) {
+void AdvanceEmblemFadeInAtCamera(void) {
     gEmblem->mUnk_109c -= 2;
     if (gEmblem->mUnk_109c < 0) {
         gEmblem->mUnk_109c = 0;
@@ -231,7 +231,7 @@ void func_ov001_021a47b4(void) {
     }
 }
 
-void func_ov001_021a4774(void) {
+void AdvanceEmblemFadeOutToGrid(void) {
     gEmblem->mUnk_109c += 2;
     if (gEmblem->mUnk_109c > 16) {
         gEmblem->mUnk_109c = 16;
@@ -240,7 +240,7 @@ void func_ov001_021a4774(void) {
     }
 }
 
-void func_ov001_021a4724(void) {
+void AdvanceEmblemFadeInAtGrid(void) {
     gEmblem->mUnk_109c -= 2;
     if (gEmblem->mUnk_109c < 0) {
         gEmblem->mUnk_109c = 0;
@@ -250,14 +250,14 @@ void func_ov001_021a4724(void) {
     }
 }
 
-void func_ov001_021a41c8(s32 a, s32 b) {
-    s32 n;
-    u8 *p;
-    u16 buf[16];
+void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
+    s32 templateByteSize;
+    u8 *templateBytes;
+    u16 templateCellValues[16];
 
     switch (gEmblem->mUnk_1090) {
         case 0:
-            switch (a) {
+            switch (entryIndex) {
                 case 0x1b:
                 case 0x1c:
                 case 0x1d:
@@ -273,15 +273,15 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0x27:
                 case 0x28:
                 case 0x29:
-                    if (b) {
+                    if (isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
-                        gEmblem->mUnk_1080 = a - 0x1b;
+                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
                         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
                     } else {
-                        gEmblem->mUnk_1080 = a - 0x1b;
-                        func_ov001_021a5df0((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
+                        func_ov001_021a5df0((gEmblem->mEmblemSLld), entryIndex);
                         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f0);
                     }
@@ -292,11 +292,11 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x2a:
-                    if (b) {
+                    if (isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     }
-                    func_ov001_021a59cc((gEmblem->mEmblemSLld), a);
-                    if (b) {
+                    func_ov001_021a59cc((gEmblem->mEmblemSLld), entryIndex);
+                    if (isTouch) {
                         gEmblem->mUnk_1094 = 3;
                         return;
                     }
@@ -304,30 +304,30 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0xe:
                 case 0xf:
                 case 0x10:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(0);
-                    func_ov001_021a6388(a - 0xe);
+                    func_ov001_021a6388(entryIndex - 0xe);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x11:
                 case 0x12:
                 case 0x13:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(1);
-                    func_ov001_021a6388(a - 0x11);
+                    func_ov001_021a6388(entryIndex - 0x11);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x14:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(2);
                     func_ov001_021a6388(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x15:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(3);
                     func_ov001_021a6388(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
@@ -335,8 +335,8 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     return;
                 case 0x16:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4a10;
-                        func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_108c = StartEmblemTemplateSlideIn;
+                        func_ov001_021a5d00((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f3);
                         gEmblem->mUnk_10b0 = TRUE;
                     }
@@ -350,17 +350,17 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fc);
                         }
                         SwapEmblemGridCells();
-                        func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
+                        func_ov001_021a5d00((gEmblem->mEmblemSLld), entryIndex);
                     }
-                    if (b) {
+                    if (isTouch) {
                         gEmblem->mUnk_1094 = 3;
                         return;
                     }
                     break;
                 case 0x19:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4878;
-                        func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_108c = StartEmblemFadeOutToCamera;
+                        func_ov001_021a5d00((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
                         gEmblem->mUnk_10b0 = TRUE;
                         gEmblem->mUnk_10ac = FALSE;
@@ -369,8 +369,8 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     return;
                 case 0x1a:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4b28;
-                        func_ov001_021a5c28((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_108c = StartEmblemChoises;
+                        func_ov001_021a5c28((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
                         gEmblem->mUnk_10b0 = TRUE;
                     }
@@ -379,10 +379,10 @@ void func_ov001_021a41c8(s32 a, s32 b) {
             }
             break;
         case 1:
-            switch (a) {
+            switch (entryIndex) {
                 case 0:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4914;
+                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
                         func_ov001_021a5a40((gEmblem->mEmblemTemplateSLld), 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
                         gEmblem->mUnk_10b0 = TRUE;
@@ -419,17 +419,18 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0x1e:
                 case 0x1f:
                     if (gEmblem->mUnk_108c == NULL) {
-                        n = (s32) (GetEmblemGridSide() * GetEmblemGridSide()) / 2;
-                        p = (u8 *) gEmblem->mEmblemTemplateBNcgr->mData + (a - 3) * n;
-                        buf[0] = 0;
-                        buf[1] = (func_ov001_021a63b4() == 1) ? 2 : 1;
-                        buf[2] = func_ov001_021a63b4();
-                        SplitBytesIntoNibbles(p, gEmblem->mUnk_0c7c, GetEmblemGridSide());
-                        SetEmblemGridCellsFromTable((gEmblem->mUnk_0c7c), (buf));
+                        templateByteSize = (s32) (GetEmblemGridSide() * GetEmblemGridSide()) / 2;
+                        templateBytes =
+                            (u8 *) gEmblem->mEmblemTemplateBNcgr->mData + (entryIndex - 3) * templateByteSize;
+                        templateCellValues[0] = 0;
+                        templateCellValues[1] = (func_ov001_021a63b4() == 1) ? 2 : 1;
+                        templateCellValues[2] = func_ov001_021a63b4();
+                        SplitBytesIntoNibbles(templateBytes, gEmblem->mUnk_0c7c, GetEmblemGridSide());
+                        SetEmblemGridCellsFromTable((gEmblem->mUnk_0c7c), (templateCellValues));
                         ClearEmblemGridCopied();
-                        gEmblem->mUnk_108c = func_ov001_021a4914;
-                        func_ov001_021a5d00((gEmblem->mEmblemTemplateSLld), a);
-                        gEmblem->mUnk_1084 = a - 3;
+                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
+                        func_ov001_021a5d00((gEmblem->mEmblemTemplateSLld), entryIndex);
+                        gEmblem->mUnk_1084 = entryIndex - 3;
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
                     }
                     gEmblem->mUnk_1094 = 3;
@@ -437,10 +438,10 @@ void func_ov001_021a41c8(s32 a, s32 b) {
             }
             break;
         case 4:
-            if (a == 1) {
+            if (entryIndex == 1) {
                 if (gEmblem->mUnk_108c == NULL) {
-                    gEmblem->mUnk_108c = func_ov001_021a4844;
-                    func_ov001_021a5d00((gEmblem->mEmblemCameraSLld), a);
+                    gEmblem->mUnk_108c = StartEmblemFadeOutToGrid;
+                    func_ov001_021a5d00((gEmblem->mEmblemCameraSLld), entryIndex);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
                     gEmblem->mUnk_10ac = TRUE;
                 }
@@ -450,76 +451,76 @@ void func_ov001_021a41c8(s32 a, s32 b) {
     }
 }
 
-void func_ov001_021a401c(void) {
-    int a;
-    int b;
+void AdvanceEmblemKartList(void) {
+    int kartListNumber;
+    int kartListCount;
 
-    a = GetKartListNumber();
-    b = GetKartListCount();
+    kartListNumber = GetKartListNumber();
+    kartListCount = GetKartListCount();
     AdvanceKartModelMenuInput();
-    if (b >= 10) {
+    if (kartListCount >= 10) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 4), 0);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 5), -5);
-        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 6), b / 10);
-        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 7), b % 10);
-        if (a >= 10) {
-            ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 1), a / 10);
-            ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 2), a % 10);
+        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 6), kartListCount / 10);
+        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 7), kartListCount % 10);
+        if (kartListNumber >= 10) {
+            ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 1), kartListNumber / 10);
+            ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 2), kartListNumber % 10);
         } else {
             ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 1), -5);
-            ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 2), a);
+            ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 2), kartListNumber);
         }
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 3), -5);
     } else {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 4), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 5), 0);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 6), -5);
-        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 7), b);
+        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 7), kartListCount);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 1), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 2), -5);
-        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 3), a);
+        ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemMLld, 3), kartListNumber);
     }
 }
 
-void func_ov001_021a30e0(void) {
-    s32 i;
-    s32 x;
-    s32 y;
+void AdvanceEmblemGridScreen(void) {
+    s32 touchedEntry;
+    s32 inputX;
+    s32 inputY;
     s32 dx;
     s32 dy;
     s32 dz;
-    s32 prev;
+    s32 previousCursor;
     BOOL flag;
-    void *entry8;
-    void *entry9;
-    void *entry;
+    void *buttonCursorEntry;
+    void *colorCursorEntry;
+    void *targetEntry;
 
     flag = FALSE;
     if (GetEmblemInputPressed()) {
-        y = GetEmblemInputY();
-        x = GetEmblemInputX();
-        i = FindLldEntryAtPoint(gEmblem->mEmblemSLld, 0, x, y);
-        while (i >= 0) {
-            func_ov001_021a41c8(i, 1);
-            y = GetEmblemInputY();
-            x = GetEmblemInputX();
-            i = FindLldEntryAtPoint(gEmblem->mEmblemSLld, i + 1, x, y);
+        inputY = GetEmblemInputY();
+        inputX = GetEmblemInputX();
+        touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemSLld, 0, inputX, inputY);
+        while (touchedEntry >= 0) {
+            ActivateEmblemEntry(touchedEntry, 1);
+            inputY = GetEmblemInputY();
+            inputX = GetEmblemInputX();
+            touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemSLld, touchedEntry + 1, inputX, inputY);
         }
     }
 
     if (GetEmblemInputNewBits(8)) {
-        func_ov001_021a41c8(0x1a, 0);
+        ActivateEmblemEntry(0x1a, 0);
     } else if (GetEmblemInputNewBits(4)) {
-        func_ov001_021a41c8(0x19, 0);
+        ActivateEmblemEntry(0x19, 0);
     } else if (GetEmblemInputNewBits(2)) {
-        func_ov001_021a41c8(0x17, 0);
+        ActivateEmblemEntry(0x17, 0);
     } else if (GetEmblemInputNewBits(0x800)) {
-        func_ov001_021a41c8(0x2a, 0);
+        ActivateEmblemEntry(0x2a, 0);
     } else {
-        entry8 = GetLldEntry(gEmblem->mEmblemSLld, 8);
-        GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a6fe8[gEmblem->mUnk_107c]);
-        entry9 = GetLldEntry(gEmblem->mEmblemSLld, 9);
-        GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
+        buttonCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 8);
+        GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mUnk_107c]);
+        colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 9);
+        GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
         dx = 0;
         dy = 0;
         dz = 0;
@@ -575,24 +576,24 @@ void func_ov001_021a30e0(void) {
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
-                    ApplyLldEntryFrameCommand(entry8, -5);
+                    ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz > 0) {
                     gEmblem->mUnk_1094 = 3;
-                    ApplyLldEntryFrameCommand(entry8, -5);
+                    ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    if (data_ov001_021a6fe8[gEmblem->mUnk_107c] != 0x17 || IsEmblemGridChanged()) {
-                        func_ov001_021a41c8(data_ov001_021a6fe8[gEmblem->mUnk_107c], 0);
+                    if (gEmblemButtonLldEntries[gEmblem->mUnk_107c] != 0x17 || IsEmblemGridChanged()) {
+                        ActivateEmblemEntry(gEmblemButtonLldEntries[gEmblem->mUnk_107c], 0);
                     }
                 } else {
-                    prev = gEmblem->mUnk_107c;
-                    gEmblem->mUnk_107c = data_ov001_021a710c[dy + 1][prev];
-                    gEmblem->mUnk_107c = data_ov001_021a719c[dx + 1][gEmblem->mUnk_107c];
-                    entry = GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a6fe8[gEmblem->mUnk_107c]);
-                    ApplyLldEntryFrameCommand(entry8, 0);
-                    SetLldEntryPos(entry8, GetLldEntryX(entry), GetLldEntryY(entry));
-                    if (gEmblem->mUnk_107c != prev) {
+                    previousCursor = gEmblem->mUnk_107c;
+                    gEmblem->mUnk_107c = gEmblemButtonCursorVerticalMoves[dy + 1][previousCursor];
+                    gEmblem->mUnk_107c = gEmblemButtonCursorHorizontalMoves[dx + 1][gEmblem->mUnk_107c];
+                    targetEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mUnk_107c]);
+                    ApplyLldEntryFrameCommand(buttonCursorEntry, 0);
+                    SetLldEntryPos(buttonCursorEntry, GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
+                    if (gEmblem->mUnk_107c != previousCursor) {
                         StartSoundOncePerFrame(0x1ef);
                     }
                 }
@@ -620,31 +621,31 @@ void func_ov001_021a30e0(void) {
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 8), NULL);
-                    SetLldEntryScale(entry9, 0);
+                    SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
-                    ApplyLldEntryFrameCommand(entry9, -5);
+                    ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
                     gEmblem->mUnk_1094 = 3;
-                    SetLldEntryScale(entry9, 0);
+                    SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
-                    ApplyLldEntryFrameCommand(entry9, -5);
+                    ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    func_ov001_021a41c8(data_ov001_021a7058[gEmblem->mUnk_1080], 0);
+                    ActivateEmblemEntry(gEmblemColorLldEntries[gEmblem->mUnk_1080], 0);
                 } else {
-                    prev = gEmblem->mUnk_1080;
-                    gEmblem->mUnk_1080 = data_ov001_021a722c[dy + 1][prev];
-                    gEmblem->mUnk_1080 = data_ov001_021a72ec[dx + 1][gEmblem->mUnk_1080];
-                    GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
+                    previousCursor = gEmblem->mUnk_1080;
+                    gEmblem->mUnk_1080 = gEmblemColorCursorVerticalMoves[dy + 1][previousCursor];
+                    gEmblem->mUnk_1080 = gEmblemColorCursorHorizontalMoves[dx + 1][gEmblem->mUnk_1080];
+                    GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
                     if (gEmblem->mUnk_1080 < 0xf) {
-                        ApplyLldEntryFrameCommand(entry9, 0);
+                        ApplyLldEntryFrameCommand(colorCursorEntry, 0);
                     } else {
-                        ApplyLldEntryFrameCommand(entry9, -5);
+                        ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     }
-                    if (gEmblem->mUnk_1080 != prev) {
+                    if (gEmblem->mUnk_1080 != previousCursor) {
                         StartSoundOncePerFrame(0x1ef);
                     }
                 }
@@ -775,9 +776,9 @@ void func_ov001_021a30e0(void) {
             break;
     }
 
-    entry = GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
-    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 9), GetLldEntryX(entry), GetLldEntryY(entry));
-    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 10), GetLldEntryX(entry), GetLldEntryY(entry));
+    targetEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 9), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 10), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
 
     if (gEmblem->mUnk_1080 < 0xf) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 4), -5);
@@ -796,50 +797,50 @@ void func_ov001_021a30e0(void) {
     }
 }
 
-void func_ov001_021a2e0c(void) {
-    void *entry_a;
-    void *entry_b;
-    s32 i;
-    s32 h;
-    s32 v;
-    s32 w;
+void AdvanceEmblemTemplateScreen(void) {
+    void *templateCursorEntry;
+    void *templateEntry;
+    s32 touchedEntry;
+    s32 horizontalStep;
+    s32 verticalStep;
+    s32 colorStep;
     s32 sel;
     s32 u;
     s32 t;
-    u32 y;
-    s32 x;
-    void *entry_c;
-    void *entry_d;
+    u32 inputY;
+    s32 inputX;
+    void *colorEntry;
+    void *colorCursorEntry;
 
     if (GetEmblemInputPressed() != 0) {
-        y = GetEmblemInputY();
-        x = GetEmblemInputX();
-        i = FindLldEntryAtPoint(gEmblem->mEmblemTemplateSLld, 0, x, y);
-        while (i >= 0) {
-            func_ov001_021a41c8(i, 1);
-            y = GetEmblemInputY();
-            x = GetEmblemInputX();
-            i = FindLldEntryAtPoint(gEmblem->mEmblemTemplateSLld, i + 1, x, y);
+        inputY = GetEmblemInputY();
+        inputX = GetEmblemInputX();
+        touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemTemplateSLld, 0, inputX, inputY);
+        while (touchedEntry >= 0) {
+            ActivateEmblemEntry(touchedEntry, 1);
+            inputY = GetEmblemInputY();
+            inputX = GetEmblemInputX();
+            touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemTemplateSLld, touchedEntry + 1, inputX, inputY);
         }
     }
     if (GetEmblemInputNewBits(1) != 0) {
-        func_ov001_021a41c8(data_ov001_021a7098[gEmblem->mUnk_1084], 0);
+        ActivateEmblemEntry(gEmblemTemplateLldEntries[gEmblem->mUnk_1084], 0);
         return;
     }
     if (GetEmblemInputNewBits(2) != 0) {
-        func_ov001_021a41c8(0, 0);
+        ActivateEmblemEntry(0, 0);
         return;
     }
-    h = 0;
-    v = 0;
-    w = 0;
-    h += (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) ? -1 : 0;
-    h += (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) ? 1 : 0;
-    v += (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) ? -1 : 0;
-    v += (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) ? 1 : 0;
-    w += (GetNewOrRepeatBits(8, PAD_KEY_L) != 0) ? -1 : 0;
-    w += (GetNewOrRepeatBits(8, PAD_KEY_R) != 0) ? 1 : 0;
-    gEmblem->mUnk_1080 = w + (func_ov001_021a63b4() - 1);
+    horizontalStep = 0;
+    verticalStep = 0;
+    colorStep = 0;
+    horizontalStep += (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) ? -1 : 0;
+    horizontalStep += (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) ? 1 : 0;
+    verticalStep += (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) ? -1 : 0;
+    verticalStep += (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) ? 1 : 0;
+    colorStep += (GetNewOrRepeatBits(8, PAD_KEY_L) != 0) ? -1 : 0;
+    colorStep += (GetNewOrRepeatBits(8, PAD_KEY_R) != 0) ? 1 : 0;
+    gEmblem->mUnk_1080 = colorStep + (func_ov001_021a63b4() - 1);
     t = gEmblem->mUnk_1080;
     if (t < 0) {
         t = 0xe;
@@ -852,64 +853,64 @@ void func_ov001_021a2e0c(void) {
     gEmblem->mUnk_1080 = u;
     sel = gEmblem->mUnk_1080;
     if (sel != func_ov001_021a63b4() - 1) {
-        entry_c = GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7018[sel]);
-        entry_d = GetLldEntry(gEmblem->mEmblemSLld, 9);
-        SetLldEntryPos(entry_d, GetLldEntryX(entry_c), GetLldEntryY(entry_c));
-        entry_d = GetLldEntry(gEmblem->mEmblemSLld, 10);
-        SetLldEntryPos(entry_d, GetLldEntryX(entry_c), GetLldEntryY(entry_c));
+        colorEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemTemplateScreenColorEntries[sel]);
+        colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 9);
+        SetLldEntryPos(colorCursorEntry, GetLldEntryX(colorEntry), GetLldEntryY(colorEntry));
+        colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 10);
+        SetLldEntryPos(colorCursorEntry, GetLldEntryX(colorEntry), GetLldEntryY(colorEntry));
         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
     }
     sel = gEmblem->mUnk_1084;
-    gEmblem->mUnk_1084 = data_ov001_021a73ac[v + 1][sel];
-    gEmblem->mUnk_1084 = data_ov001_021a7508[h + 1][gEmblem->mUnk_1084];
-    entry_a = GetLldEntry(gEmblem->mEmblemTemplateSLld, 2);
-    entry_b = GetLldEntry(gEmblem->mEmblemTemplateSLld, data_ov001_021a7098[gEmblem->mUnk_1084]);
-    ApplyLldEntryFrameCommand(entry_a, 0);
-    SetLldEntryPos(entry_a, GetLldEntryX(entry_b), GetLldEntryY(entry_b));
+    gEmblem->mUnk_1084 = gEmblemTemplateCursorVerticalMoves[verticalStep + 1][sel];
+    gEmblem->mUnk_1084 = gEmblemTemplateCursorHorizontalMoves[horizontalStep + 1][gEmblem->mUnk_1084];
+    templateCursorEntry = GetLldEntry(gEmblem->mEmblemTemplateSLld, 2);
+    templateEntry = GetLldEntry(gEmblem->mEmblemTemplateSLld, gEmblemTemplateLldEntries[gEmblem->mUnk_1084]);
+    ApplyLldEntryFrameCommand(templateCursorEntry, 0);
+    SetLldEntryPos(templateCursorEntry, GetLldEntryX(templateEntry), GetLldEntryY(templateEntry));
     if (gEmblem->mUnk_1084 != sel) {
         StartSoundOncePerFrame(0x1ef);
     }
     {
-        s32 k;
-        void *q;
+        s32 templateIndex;
+        void *entryAtIndex;
 
-        for (k = 0; k < 0x1d; k++) {
-            q = GetLldEntry(gEmblem->mEmblemTemplateSLld, data_ov001_021a7098[k]);
-            ApplyLldEntryFrameCommand(q, k == gEmblem->mUnk_1084 ? 1 : 0);
+        for (templateIndex = 0; templateIndex < 0x1d; templateIndex++) {
+            entryAtIndex = GetLldEntry(gEmblem->mEmblemTemplateSLld, gEmblemTemplateLldEntries[templateIndex]);
+            ApplyLldEntryFrameCommand(entryAtIndex, templateIndex == gEmblem->mUnk_1084 ? 1 : 0);
         }
     }
 }
 
-void func_ov001_021a2d90(void) {
-    s32 i;
-    u32 y;
-    s32 x;
+void AdvanceEmblemCameraScreen(void) {
+    s32 touchedEntry;
+    u32 inputY;
+    s32 inputX;
 
     if (GetEmblemInputPressed() != 0) {
-        y = GetEmblemInputY();
-        x = GetEmblemInputX();
-        i = FindLldEntryAtPoint(gEmblem->mEmblemCameraSLld, 0, x, y);
-        while (i >= 0) {
-            func_ov001_021a41c8(i, 1);
-            y = GetEmblemInputY();
-            x = GetEmblemInputX();
-            i = FindLldEntryAtPoint(gEmblem->mEmblemCameraSLld, i + 1, x, y);
+        inputY = GetEmblemInputY();
+        inputX = GetEmblemInputX();
+        touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemCameraSLld, 0, inputX, inputY);
+        while (touchedEntry >= 0) {
+            ActivateEmblemEntry(touchedEntry, 1);
+            inputY = GetEmblemInputY();
+            inputX = GetEmblemInputX();
+            touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemCameraSLld, touchedEntry + 1, inputX, inputY);
         }
     }
     if (GetEmblemInputNewBits(4) != 0) {
-        func_ov001_021a41c8(1, 0);
+        ActivateEmblemEntry(1, 0);
     }
 }
 
-void func_ov001_021a2cf0(void) {
-    s32 v;
+void AdvanceEmblemChoisesScreen(void) {
+    s32 choisesResult;
 
-    v = GetEmblemChoisesResult();
-    switch (v) {
+    choisesResult = GetEmblemChoisesResult();
+    switch (choisesResult) {
         case -2:
         case 0:
-            func_ov001_021a4aac();
+            StopEmblemChoises();
             break;
         case 1:
             SetEmblemChoisesShownAndReset(0);
@@ -928,7 +929,7 @@ void func_ov001_021a2cf0(void) {
     WriteEmblemChoisesScreenMapWrapper();
 }
 
-void func_ov001_021a2a40(void) {
+void AdvanceEmblem(void) {
     s32 t;
 
     AdvanceEmblemInput();
@@ -943,66 +944,66 @@ void func_ov001_021a2a40(void) {
     switch (gEmblem->mUnk_1090) {
         case 0:
             if (gEmblem->mUnk_10b0 == FALSE) {
-                func_ov001_021a30e0();
+                AdvanceEmblemGridScreen();
             }
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 1:
             if (gEmblem->mUnk_10b0 == FALSE) {
-                func_ov001_021a2e0c();
+                AdvanceEmblemTemplateScreen();
             }
             AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mUnk_0404);
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 2:
-            func_ov001_021a499c();
+            AdvanceEmblemTemplateSlideIn();
             AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mUnk_0404);
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 3:
-            func_ov001_021a48a4();
+            AdvanceEmblemTemplateSlideOut();
             AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mUnk_0404);
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 4:
             if (gEmblem->mUnk_10ac == FALSE) {
-                func_ov001_021a401c();
+                AdvanceEmblemKartList();
             }
             if (gEmblem->mUnk_10b0 == FALSE) {
-                func_ov001_021a2d90();
+                AdvanceEmblemCameraScreen();
             }
             AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mUnk_0404);
             break;
         case 5:
             if (gEmblem->mUnk_10ac == FALSE) {
-                func_ov001_021a401c();
+                AdvanceEmblemKartList();
             }
-            func_ov001_021a4804();
+            AdvanceEmblemFadeOutToCamera();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 6:
             if (gEmblem->mUnk_10ac == FALSE) {
-                func_ov001_021a401c();
+                AdvanceEmblemKartList();
             }
-            func_ov001_021a47b4();
+            AdvanceEmblemFadeInAtCamera();
             AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mUnk_0404);
             break;
         case 7:
             if (gEmblem->mUnk_10b0 == FALSE) {
-                func_ov001_021a30e0();
+                AdvanceEmblemGridScreen();
             }
-            func_ov001_021a4774();
+            AdvanceEmblemFadeOutToGrid();
             AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mUnk_0404);
             break;
         case 8:
             if (gEmblem->mUnk_10b0 == FALSE) {
-                func_ov001_021a30e0();
+                AdvanceEmblemGridScreen();
             }
-            func_ov001_021a4724();
+            AdvanceEmblemFadeInAtGrid();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 10:
-            func_ov001_021a2cf0();
+            AdvanceEmblemChoisesScreen();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 11:

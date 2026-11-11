@@ -9,27 +9,27 @@
 #include "Main/Unknown/code_02078000.h"
 #include "Main/Unknown/code_020ac000.h"
 
-void func_ov001_021a23f4(void) {
+void InitEmblemAndAdvanceKartList(void) {
     InitEmblem();
-    func_ov001_021a401c();
+    AdvanceEmblemKartList();
 }
 
-BOOL func_ov001_021a23c8(void) {
-    func_ov001_021a2a40();
+BOOL AdvanceEmblemAndCheckDone(void) {
+    AdvanceEmblem();
     if (gEmblem->mUnk_1090 == 0xc) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_ov001_021a23c0(void) {
-    func_ov001_021a2408();
+void AdvanceEmblemDisplayWrapper(void) {
+    AdvanceEmblemDisplay();
 }
 
-u16 *func_ov001_021a23ac(void) {
+u16 *GetEmblemSBPalette(void) {
     return gEmblem->mEmblemSBNclr->mData;
 }
 
-u8 *func_ov001_021a2398(void) {
+u8 *GetEmblemRecordBytes(void) {
     return gEmblem->mUnk_087c;
 }

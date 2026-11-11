@@ -52,7 +52,7 @@ void ClearRaceHudSubScreenCoinCells(void) {
 }
 
 void UpdateRaceHudSubScreenCoinCells(void) {
-    s32 i;
+    s32 objectIndex;
     s32 cellCount;
     MapObject *object;
     Vec3 *position;
@@ -60,8 +60,8 @@ void UpdateRaceHudSubScreenCoinCells(void) {
 
     cellCount = 0;
     raceHudSubScreenScale = GetRaceHudSubScreenScale();
-    for (i = 0; i < gRaceHudSubScreenCoinCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenCoinCells->mObjects[i];
+    for (objectIndex = 0; objectIndex < gRaceHudSubScreenCoinCells->mObjectCount; objectIndex++) {
+        object = gRaceHudSubScreenCoinCells->mObjects[objectIndex];
         if ((object->mFlags & 1) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos,

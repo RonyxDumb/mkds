@@ -12,7 +12,7 @@ s32 RunEmblemScene(void *sceneNumbers);
 void UpdateEmblemScene(SceneNumbers *sceneNumbers);
 void WriteEmblemSceneRegistersCallback(void);
 unsigned int EmblemSceneReturnArgument(unsigned int value);
-// Calls StopWvrAndWait, ResetInputSlots and InitEmblem through func_ov001_021a23f4 (InitEmblem also
+// Calls StopWvrAndWait, ResetInputSlots and InitEmblem through InitEmblemAndAdvanceKartList (InitEmblem also
 // calls InitEmblemChoises).
 void InitEmblemScene(void);
 BOOL IsKeyRecordingPlaybackNearBufferEnd(KeyRecording *keyRecording);

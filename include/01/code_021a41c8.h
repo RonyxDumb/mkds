@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov001_021a41c8(s32 a, s32 b);
+void ActivateEmblemEntry(s32 entryIndex, s32 isTouch);

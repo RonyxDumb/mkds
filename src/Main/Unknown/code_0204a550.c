@@ -110,7 +110,7 @@ void InitEmblemScene(void) {
     GetHeap(GetCurrentHeapCall());
     StopWvrAndWait();
     ResetInputSlots();
-    func_ov001_021a23f4();
+    InitEmblemAndAdvanceKartList();
 }
 
 u32 EmblemSceneReturnArgument(u32 value) {
@@ -118,13 +118,13 @@ u32 EmblemSceneReturnArgument(u32 value) {
 }
 
 void WriteEmblemSceneRegistersCallback(void) {
-    func_ov001_021a23c0();
+    AdvanceEmblemDisplayWrapper();
 }
 
 void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
     s32 r;
 
-    r = func_ov001_021a23c8();
+    r = AdvanceEmblemAndCheckDone();
     if (sceneNumbers != NULL && r != 0) {
         switch (sceneNumbers->mUnk_00) {
             case 7:

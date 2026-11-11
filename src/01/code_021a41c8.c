@@ -14,14 +14,14 @@
 #include "Main/Unknown/code_020ac000.h"
 #include "code_0212df7c.h"
 
-void func_ov001_021a41c8(s32 a, s32 b) {
-    s32 n;
-    u8 *p;
-    u16 buf[16];
+void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
+    s32 templateByteSize;
+    u8 *templateBytes;
+    u16 templateCellValues[16];
 
     switch (gEmblem->mUnk_1090) {
         case 0:
-            switch (a) {
+            switch (entryIndex) {
                 case 0x1b:
                 case 0x1c:
                 case 0x1d:
@@ -37,15 +37,15 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0x27:
                 case 0x28:
                 case 0x29:
-                    if (b) {
+                    if (isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
-                        gEmblem->mUnk_1080 = a - 0x1b;
+                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
                         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
                     } else {
-                        gEmblem->mUnk_1080 = a - 0x1b;
-                        func_ov001_021a5df0((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
+                        func_ov001_021a5df0((gEmblem->mEmblemSLld), entryIndex);
                         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f0);
                     }
@@ -56,11 +56,11 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x2a:
-                    if (b) {
+                    if (isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     }
-                    func_ov001_021a59cc((gEmblem->mEmblemSLld), a);
-                    if (b) {
+                    func_ov001_021a59cc((gEmblem->mEmblemSLld), entryIndex);
+                    if (isTouch) {
                         gEmblem->mUnk_1094 = 3;
                         return;
                     }
@@ -68,30 +68,30 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0xe:
                 case 0xf:
                 case 0x10:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(0);
-                    func_ov001_021a6388(a - 0xe);
+                    func_ov001_021a6388(entryIndex - 0xe);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x11:
                 case 0x12:
                 case 0x13:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(1);
-                    func_ov001_021a6388(a - 0x11);
+                    func_ov001_021a6388(entryIndex - 0x11);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x14:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(2);
                     func_ov001_021a6388(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x15:
-                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
+                    func_ov001_021a5ab0((gEmblem->mEmblemSLld), entryIndex);
                     func_ov001_021a63a8(3);
                     func_ov001_021a6388(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
@@ -99,8 +99,8 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     return;
                 case 0x16:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4a10;
-                        func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_108c = StartEmblemTemplateSlideIn;
+                        func_ov001_021a5d00((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f3);
                         gEmblem->mUnk_10b0 = TRUE;
                     }
@@ -114,17 +114,17 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fc);
                         }
                         SwapEmblemGridCells();
-                        func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
+                        func_ov001_021a5d00((gEmblem->mEmblemSLld), entryIndex);
                     }
-                    if (b) {
+                    if (isTouch) {
                         gEmblem->mUnk_1094 = 3;
                         return;
                     }
                     break;
                 case 0x19:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4878;
-                        func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_108c = StartEmblemFadeOutToCamera;
+                        func_ov001_021a5d00((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
                         gEmblem->mUnk_10b0 = TRUE;
                         gEmblem->mUnk_10ac = FALSE;
@@ -133,8 +133,8 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     return;
                 case 0x1a:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4b28;
-                        func_ov001_021a5c28((gEmblem->mEmblemSLld), a);
+                        gEmblem->mUnk_108c = StartEmblemChoises;
+                        func_ov001_021a5c28((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
                         gEmblem->mUnk_10b0 = TRUE;
                     }
@@ -143,10 +143,10 @@ void func_ov001_021a41c8(s32 a, s32 b) {
             }
             break;
         case 1:
-            switch (a) {
+            switch (entryIndex) {
                 case 0:
                     if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4914;
+                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
                         func_ov001_021a5a40((gEmblem->mEmblemTemplateSLld), 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
                         gEmblem->mUnk_10b0 = TRUE;
@@ -183,17 +183,18 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0x1e:
                 case 0x1f:
                     if (gEmblem->mUnk_108c == NULL) {
-                        n = (s32) (GetEmblemGridSide() * GetEmblemGridSide()) / 2;
-                        p = (u8 *) gEmblem->mEmblemTemplateBNcgr->mData + (a - 3) * n;
-                        buf[0] = 0;
-                        buf[1] = (func_ov001_021a63b4() == 1) ? 2 : 1;
-                        buf[2] = func_ov001_021a63b4();
-                        SplitBytesIntoNibbles(p, gEmblem->mUnk_0c7c, GetEmblemGridSide());
-                        SetEmblemGridCellsFromTable((gEmblem->mUnk_0c7c), (buf));
+                        templateByteSize = (s32) (GetEmblemGridSide() * GetEmblemGridSide()) / 2;
+                        templateBytes =
+                            (u8 *) gEmblem->mEmblemTemplateBNcgr->mData + (entryIndex - 3) * templateByteSize;
+                        templateCellValues[0] = 0;
+                        templateCellValues[1] = (func_ov001_021a63b4() == 1) ? 2 : 1;
+                        templateCellValues[2] = func_ov001_021a63b4();
+                        SplitBytesIntoNibbles(templateBytes, gEmblem->mUnk_0c7c, GetEmblemGridSide());
+                        SetEmblemGridCellsFromTable((gEmblem->mUnk_0c7c), (templateCellValues));
                         ClearEmblemGridCopied();
-                        gEmblem->mUnk_108c = func_ov001_021a4914;
-                        func_ov001_021a5d00((gEmblem->mEmblemTemplateSLld), a);
-                        gEmblem->mUnk_1084 = a - 3;
+                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
+                        func_ov001_021a5d00((gEmblem->mEmblemTemplateSLld), entryIndex);
+                        gEmblem->mUnk_1084 = entryIndex - 3;
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
                     }
                     gEmblem->mUnk_1094 = 3;
@@ -201,10 +202,10 @@ void func_ov001_021a41c8(s32 a, s32 b) {
             }
             break;
         case 4:
-            if (a == 1) {
+            if (entryIndex == 1) {
                 if (gEmblem->mUnk_108c == NULL) {
-                    gEmblem->mUnk_108c = func_ov001_021a4844;
-                    func_ov001_021a5d00((gEmblem->mEmblemCameraSLld), a);
+                    gEmblem->mUnk_108c = StartEmblemFadeOutToGrid;
+                    func_ov001_021a5d00((gEmblem->mEmblemCameraSLld), entryIndex);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
                     gEmblem->mUnk_10ac = TRUE;
                 }

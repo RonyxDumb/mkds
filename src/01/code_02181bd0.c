@@ -162,7 +162,7 @@ void AddPendingBossTransferInMissionRun(u32 amount) {
 }
 
 void SetBossCoinShownCount(s32 shownCount) {
-    int i;
+    int coinIndex;
     s32 foundCount;
     MapObjectList *coinList;
     Coin *coin;
@@ -173,7 +173,8 @@ void SetBossCoinShownCount(s32 shownCount) {
     coinList = FindMapObjectKindUpdateList(0x68);
     GetKart((u16) gRaceSetup->mEntryIndex);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
+        for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
+             coinIndex++) {
             if (coin->mState == 7) {
                 foundCount++;
                 if (foundCount <= shownCount) {
@@ -214,13 +215,14 @@ void ParkBossCoins(s32 parkCount) {
     MapObjectList *coinList;
     Coin *coin;
     s32 count;
-    int i;
+    int coinIndex;
 
     count = 0;
     coinList = FindMapObjectKindUpdateList(0x68);
     GetKart((u16) gRaceSetup->mEntryIndex);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
+        for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
+             coinIndex++) {
             if (coin->mState == 7) {
                 if (coin->mTargetPos != NULL) {
                     coin->mTargetPos = NULL;
@@ -240,14 +242,15 @@ void ParkBossCoins(s32 parkCount) {
 }
 
 void StartCoinsFadeOut(void) {
-    int i;
+    int coinIndex;
     Coin *coin;
     MapObjectList *coinList;
     NNSSndSeqPlayer **sndHandleSlot;
 
     coinList = FindMapObjectKindUpdateList(0x68);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
+        for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
+             coinIndex++) {
             if (coin->mState == 0 && (coin->mUnk_000.mFlags & 0x100) == 0) {
                 coin->mUnk_000.mPosStep.y = 0x5000;
                 coin->mModelAlpha = 0x32;
@@ -269,14 +272,15 @@ void StartCoinsFadeOut(void) {
 }
 
 void StartCoinsFadeIn(void) {
-    int i;
+    int coinIndex;
     Coin *coin;
     MapObjectList *coinList;
     NNSSndSeqPlayer **sndHandleSlot;
 
     coinList = FindMapObjectKindUpdateList(0x68);
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
+        for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
+             coinIndex++) {
             if (coin->mState == 9 && (coin->mUnk_000.mFlags & 0x100) == 0) {
                 coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mUnk_00.x;
                 coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xa000;
@@ -374,12 +378,13 @@ void DrawCoin(void *mapObjectList, Coin *coin) {
 }
 
 void InitCoinObjects(MapObjectList *coinList) {
-    int i;
+    int coinIndex;
     Coin *coin;
     s32 speed;
 
     if (coinList != NULL) {
-        for (i = 0; i < coinList->mMapObjectCount && (coin = coinList->mMapObjects[i]) != NULL; i++) {
+        for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
+             coinIndex++) {
             coin->mUnk_0d8 = coin->mUnk_000.mCourseMapRow->mUnk_00;
             coin->mUnk_000.mPos = coin->mUnk_0d8;
             coin->mUnk_000.mPos.y = coin->mUnk_000.mPos.y + 0xe000;
@@ -432,7 +437,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             break;
         case 0: {
             u16 radius;
-            s32 i;
+            s32 kartIndex;
             BOOL found;
             Vec3 *kartPos;
             s32 dx;
@@ -450,8 +455,8 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             }
             if (coin->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
                 radius = coin->mUnk_000.mCourseMapRow->mUnk_2a;
-                for (i = 0; i < gRaceSetup->mKartCount; i++) {
-                    kartPos = &GetKart((u16) i)->mPos;
+                for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+                    kartPos = &GetKart((u16) kartIndex)->mPos;
                     dx = kartPos->x - coin->mUnk_000.mPos.x;
                     dz = kartPos->z - coin->mUnk_000.mPos.z;
                     if ((s64) dx * dx + (s64) dz * dz < (s64) (radius << 12) * (radius << 12)) {

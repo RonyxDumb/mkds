@@ -18,45 +18,45 @@
 #include "Main/Unknown/code_02105000.h"
 #include "code_0212df7c.h"
 
-void func_ov001_021a30e0(void) {
-    s32 i;
-    s32 x;
-    s32 y;
+void AdvanceEmblemGridScreen(void) {
+    s32 touchedEntry;
+    s32 inputX;
+    s32 inputY;
     s32 dx;
     s32 dy;
     s32 dz;
-    s32 prev;
+    s32 previousCursor;
     BOOL flag;
-    void *entry8;
-    void *entry9;
-    void *entry;
+    void *buttonCursorEntry;
+    void *colorCursorEntry;
+    void *targetEntry;
 
     flag = FALSE;
     if (GetEmblemInputPressed()) {
-        y = GetEmblemInputY();
-        x = GetEmblemInputX();
-        i = FindLldEntryAtPoint(gEmblem->mEmblemSLld, 0, x, y);
-        while (i >= 0) {
-            func_ov001_021a41c8(i, 1);
-            y = GetEmblemInputY();
-            x = GetEmblemInputX();
-            i = FindLldEntryAtPoint(gEmblem->mEmblemSLld, i + 1, x, y);
+        inputY = GetEmblemInputY();
+        inputX = GetEmblemInputX();
+        touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemSLld, 0, inputX, inputY);
+        while (touchedEntry >= 0) {
+            ActivateEmblemEntry(touchedEntry, 1);
+            inputY = GetEmblemInputY();
+            inputX = GetEmblemInputX();
+            touchedEntry = FindLldEntryAtPoint(gEmblem->mEmblemSLld, touchedEntry + 1, inputX, inputY);
         }
     }
 
     if (GetEmblemInputNewBits(8)) {
-        func_ov001_021a41c8(0x1a, 0);
+        ActivateEmblemEntry(0x1a, 0);
     } else if (GetEmblemInputNewBits(4)) {
-        func_ov001_021a41c8(0x19, 0);
+        ActivateEmblemEntry(0x19, 0);
     } else if (GetEmblemInputNewBits(2)) {
-        func_ov001_021a41c8(0x17, 0);
+        ActivateEmblemEntry(0x17, 0);
     } else if (GetEmblemInputNewBits(0x800)) {
-        func_ov001_021a41c8(0x2a, 0);
+        ActivateEmblemEntry(0x2a, 0);
     } else {
-        entry8 = GetLldEntry(gEmblem->mEmblemSLld, 8);
-        GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a6fe8[gEmblem->mUnk_107c]);
-        entry9 = GetLldEntry(gEmblem->mEmblemSLld, 9);
-        GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
+        buttonCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 8);
+        GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mUnk_107c]);
+        colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 9);
+        GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
         dx = 0;
         dy = 0;
         dz = 0;
@@ -112,24 +112,24 @@ void func_ov001_021a30e0(void) {
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
-                    ApplyLldEntryFrameCommand(entry8, -5);
+                    ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz > 0) {
                     gEmblem->mUnk_1094 = 3;
-                    ApplyLldEntryFrameCommand(entry8, -5);
+                    ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    if (data_ov001_021a6fe8[gEmblem->mUnk_107c] != 0x17 || IsEmblemGridChanged()) {
-                        func_ov001_021a41c8(data_ov001_021a6fe8[gEmblem->mUnk_107c], 0);
+                    if (gEmblemButtonLldEntries[gEmblem->mUnk_107c] != 0x17 || IsEmblemGridChanged()) {
+                        ActivateEmblemEntry(gEmblemButtonLldEntries[gEmblem->mUnk_107c], 0);
                     }
                 } else {
-                    prev = gEmblem->mUnk_107c;
-                    gEmblem->mUnk_107c = data_ov001_021a710c[dy + 1][prev];
-                    gEmblem->mUnk_107c = data_ov001_021a719c[dx + 1][gEmblem->mUnk_107c];
-                    entry = GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a6fe8[gEmblem->mUnk_107c]);
-                    ApplyLldEntryFrameCommand(entry8, 0);
-                    SetLldEntryPos(entry8, GetLldEntryX(entry), GetLldEntryY(entry));
-                    if (gEmblem->mUnk_107c != prev) {
+                    previousCursor = gEmblem->mUnk_107c;
+                    gEmblem->mUnk_107c = gEmblemButtonCursorVerticalMoves[dy + 1][previousCursor];
+                    gEmblem->mUnk_107c = gEmblemButtonCursorHorizontalMoves[dx + 1][gEmblem->mUnk_107c];
+                    targetEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mUnk_107c]);
+                    ApplyLldEntryFrameCommand(buttonCursorEntry, 0);
+                    SetLldEntryPos(buttonCursorEntry, GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
+                    if (gEmblem->mUnk_107c != previousCursor) {
                         StartSoundOncePerFrame(0x1ef);
                     }
                 }
@@ -157,31 +157,31 @@ void func_ov001_021a30e0(void) {
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 8), NULL);
-                    SetLldEntryScale(entry9, 0);
+                    SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
-                    ApplyLldEntryFrameCommand(entry9, -5);
+                    ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
                     gEmblem->mUnk_1094 = 3;
-                    SetLldEntryScale(entry9, 0);
+                    SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
-                    ApplyLldEntryFrameCommand(entry9, -5);
+                    ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    func_ov001_021a41c8(data_ov001_021a7058[gEmblem->mUnk_1080], 0);
+                    ActivateEmblemEntry(gEmblemColorLldEntries[gEmblem->mUnk_1080], 0);
                 } else {
-                    prev = gEmblem->mUnk_1080;
-                    gEmblem->mUnk_1080 = data_ov001_021a722c[dy + 1][prev];
-                    gEmblem->mUnk_1080 = data_ov001_021a72ec[dx + 1][gEmblem->mUnk_1080];
-                    GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
+                    previousCursor = gEmblem->mUnk_1080;
+                    gEmblem->mUnk_1080 = gEmblemColorCursorVerticalMoves[dy + 1][previousCursor];
+                    gEmblem->mUnk_1080 = gEmblemColorCursorHorizontalMoves[dx + 1][gEmblem->mUnk_1080];
+                    GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
                     if (gEmblem->mUnk_1080 < 0xf) {
-                        ApplyLldEntryFrameCommand(entry9, 0);
+                        ApplyLldEntryFrameCommand(colorCursorEntry, 0);
                     } else {
-                        ApplyLldEntryFrameCommand(entry9, -5);
+                        ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     }
-                    if (gEmblem->mUnk_1080 != prev) {
+                    if (gEmblem->mUnk_1080 != previousCursor) {
                         StartSoundOncePerFrame(0x1ef);
                     }
                 }
@@ -312,9 +312,9 @@ void func_ov001_021a30e0(void) {
             break;
     }
 
-    entry = GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
-    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 9), GetLldEntryX(entry), GetLldEntryY(entry));
-    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 10), GetLldEntryX(entry), GetLldEntryY(entry));
+    targetEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 9), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 10), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
 
     if (gEmblem->mUnk_1080 < 0xf) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 4), -5);

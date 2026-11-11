@@ -20,10 +20,10 @@
 #include "Main/Unknown/code_020ca000.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-void func_ov001_021a2408(void) {
-    u16 *src;
-    u16 *dst;
-    u32 bits;
+void AdvanceEmblemDisplay(void) {
+    u16 *sbColors;
+    u16 *soColors;
+    u32 dispcntBits;
 
     if ((gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled ? gBackupAccess->mCommandRunning : 0) : 1) == 0) {
         AdvanceKartModelMenuLoad();
@@ -31,16 +31,16 @@ void func_ov001_021a2408(void) {
 
     switch (gEmblem->mUnk_1098) {
         case 0:
-            func_ov001_021a4fa0();
-            func_ov001_021a4d10();
+            UploadEmblemMainScreen();
+            UploadEmblemSubScreen();
             gEmblem->mUnk_10b4++;
             if (gEmblem->mUnk_10b4 >= 2) {
                 gEmblem->mUnk_1098 = 8;
             }
             break;
         case 2:
-            bits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | ((bits | 1) << 8);
+            dispcntBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | ((dispcntBits | 1) << 8);
             reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
             reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x8a10;
             reg_G2S_DB_BG0OFS = (-(gEmblem->mUnk_10a0 - 0xc0) << 16) & 0x1ff0000;
@@ -68,10 +68,10 @@ void func_ov001_021a2408(void) {
             GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
             DC_FlushRange(gEmblem->mUnk_0a7c, 0x200);
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
-            src = gEmblem->mEmblemSBNclr->mData;
-            dst = gEmblem->mEmblemSONclr->mData;
-            dst[0x91] = src[func_ov001_021a63b4() == 1 ? 2 : 1];
-            dst[0x92] = src[func_ov001_021a63b4()];
+            sbColors = gEmblem->mEmblemSBNclr->mData;
+            soColors = gEmblem->mEmblemSONclr->mData;
+            soColors[0x91] = sbColors[func_ov001_021a63b4() == 1 ? 2 : 1];
+            soColors[0x92] = sbColors[func_ov001_021a63b4()];
             DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
             GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
@@ -87,8 +87,8 @@ void func_ov001_021a2408(void) {
             gEmblem->mUnk_1098 = 5;
             break;
         case 7:
-            bits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | ((bits & ~1) << 8);
+            dispcntBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | ((dispcntBits & ~1) << 8);
             reg_G2S_DB_BG2OFS =
                 ((gEmblem->mUnk_10a8 >> 12) & 0x1ff) | (((-gEmblem->mUnk_10a8 >> 12) << 16) & 0x1ff0000);
             gEmblem->mUnk_1098 = 8;
@@ -96,10 +96,10 @@ void func_ov001_021a2408(void) {
         case 5:
             DC_FlushRange(gEmblem->mUnk_0a7c, 0x200);
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
-            src = gEmblem->mEmblemSBNclr->mData;
-            dst = gEmblem->mEmblemSONclr->mData;
-            dst[0x91] = src[func_ov001_021a63b4() == 1 ? 2 : 1];
-            dst[0x92] = src[func_ov001_021a63b4()];
+            sbColors = gEmblem->mEmblemSBNclr->mData;
+            soColors = gEmblem->mEmblemSONclr->mData;
+            soColors[0x91] = sbColors[func_ov001_021a63b4() == 1 ? 2 : 1];
+            soColors[0x92] = sbColors[func_ov001_021a63b4()];
             DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
             GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
@@ -110,21 +110,21 @@ void func_ov001_021a2408(void) {
             GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
             DC_FlushRange(gEmblem->mUnk_0a7c, 0x200);
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
-            src = gEmblem->mEmblemSBNclr->mData;
-            dst = gEmblem->mEmblemSONclr->mData;
-            dst[0x91] = src[func_ov001_021a63b4() == 1 ? 2 : 1];
-            dst[0x92] = src[func_ov001_021a63b4()];
+            sbColors = gEmblem->mEmblemSBNclr->mData;
+            soColors = gEmblem->mEmblemSONclr->mData;
+            soColors[0x91] = sbColors[func_ov001_021a63b4() == 1 ? 2 : 1];
+            soColors[0x92] = sbColors[func_ov001_021a63b4()];
             DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
             GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
         case 12:
             G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 0x3e, -16);
-            func_ov001_021a4d10();
+            UploadEmblemSubScreen();
             gEmblem->mUnk_1098 = 13;
             break;
         case 9:
             G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 0x3e, -16);
-            func_ov001_021a4ba0();
+            UploadEmblemCameraSubScreen();
             gEmblem->mUnk_1098 = 10;
             break;
         case 10:
@@ -137,14 +137,14 @@ void func_ov001_021a2408(void) {
             G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 0x3e, -gEmblem->mUnk_109c);
             break;
         case 14:
-            func_ov001_021a4d10();
+            UploadEmblemSubScreen();
             reg_G2S_DB_BG0OFS = 0;
             reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
             reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0xa00;
             gEmblem->mUnk_1098 = 1;
             break;
         case 15:
-            func_ov001_021a4d10();
+            UploadEmblemSubScreen();
             gEmblem->mUnk_1098 = 8;
             break;
     }

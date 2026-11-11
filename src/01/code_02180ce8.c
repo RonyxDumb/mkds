@@ -33,8 +33,8 @@
 EmblemGrid *gEmblemGrid;
 
 void CreateEmblemGrid(s32 side, s32 scrSide, s32 tableCount) {
-    s32 j;
-    s32 i;
+    s32 column;
+    s32 row;
     void *heap;
 
     heap = GetHeap(GetCurrentHeapCall());
@@ -48,9 +48,9 @@ void CreateEmblemGrid(s32 side, s32 scrSide, s32 tableCount) {
     gEmblemGrid->mBuffers[0] = HeapAllocAligned(heap, gEmblemGrid->mScrSide / 8 * (gEmblemGrid->mScrSide / 8), 0x20);
     MI_CpuFill8(gEmblemGrid->mBuffers[0], gEmblemGrid->mSide / 8 * gEmblemGrid->mSide / 8,
                 gEmblemGrid->mScrSide / 8 * (gEmblemGrid->mScrSide / 8));
-    for (i = 0; i < gEmblemGrid->mSide / 8; i++) {
-        for (j = 0; j < gEmblemGrid->mSide / 8; j++) {
-            gEmblemGrid->mBuffers[0][i * gEmblemGrid->mScrSide / 8 + j] = j + i * gEmblemGrid->mSide / 8;
+    for (row = 0; row < gEmblemGrid->mSide / 8; row++) {
+        for (column = 0; column < gEmblemGrid->mSide / 8; column++) {
+            gEmblemGrid->mBuffers[0][row * gEmblemGrid->mScrSide / 8 + column] = column + row * gEmblemGrid->mSide / 8;
         }
     }
     heap = GetHeap(GetCurrentHeapCall());
@@ -67,10 +67,10 @@ u32 GetEmblemGridSide(void) {
     return (gEmblemGrid->mSide);
 }
 
-u8 *GetEmblemGridCellPtr(s32 x, s32 y) {
-    if (x >= 0 && x < gEmblemGrid->mSide && y >= 0 && y < gEmblemGrid->mSide) {
+u8 *GetEmblemGridCellPtr(s32 cellX, s32 cellY) {
+    if (cellX >= 0 && cellX < gEmblemGrid->mSide && cellY >= 0 && cellY < gEmblemGrid->mSide) {
         return gEmblemGrid->mBuffers[1] +
-               ((y & 7) * 8 + ((x & 7) + x / 8 * 64) + gEmblemGrid->mSide / 8 * (y / 8 * 64));
+               ((cellY & 7) * 8 + ((cellX & 7) + cellX / 8 * 64) + gEmblemGrid->mSide / 8 * (cellY / 8 * 64));
     }
     return NULL;
 }
@@ -111,30 +111,31 @@ u8 *GetEmblemGridCells(void) {
 }
 
 u32 SetEmblemGridCells(u8 *src) {
-    int i;
+    int cellIndex;
     u32 ret;
 
     ret = 0;
-    for (i = 0; i < gEmblemGrid->mSide * gEmblemGrid->mSide; i++) {
-        if (gEmblemGrid->mBuffers[1][i] != src[i]) {
+    for (cellIndex = 0; cellIndex < gEmblemGrid->mSide * gEmblemGrid->mSide; cellIndex++) {
+        if (gEmblemGrid->mBuffers[1][cellIndex] != src[cellIndex]) {
             ret = 1;
             CopyEmblemGridCellsOnFirstChange();
-            gEmblemGrid->mBuffers[1][i] = src[i];
+            gEmblemGrid->mBuffers[1][cellIndex] = src[cellIndex];
         }
     }
     return ret;
 }
 
 s32 SetEmblemGridCellsFromTable(u8 *indices, u16 *table) {
-    s32 i;
+    s32 cellIndex;
     BOOL changed;
 
     changed = FALSE;
-    for (i = 0; i < gEmblemGrid->mSide * gEmblemGrid->mSide; i++) {
-        if (indices[i] < gEmblemGrid->mTableCount && gEmblemGrid->mBuffers[1][i] != (u8) table[indices[i]]) {
+    for (cellIndex = 0; cellIndex < gEmblemGrid->mSide * gEmblemGrid->mSide; cellIndex++) {
+        if (indices[cellIndex] < gEmblemGrid->mTableCount &&
+            gEmblemGrid->mBuffers[1][cellIndex] != (u8) table[indices[cellIndex]]) {
             changed = TRUE;
             CopyEmblemGridCellsOnFirstChange();
-            gEmblemGrid->mBuffers[1][i] = table[indices[i]];
+            gEmblemGrid->mBuffers[1][cellIndex] = table[indices[cellIndex]];
         }
     }
     return changed;
@@ -168,11 +169,11 @@ void ResetEmblemGridChanges(void) {
     MIi_CpuCopyFast(gEmblemGrid->mBuffers[1], gEmblemGrid->mBuffers[2], gEmblemGrid->mSide * gEmblemGrid->mSide);
 }
 
-u32 SetEmblemGridCellValue(u32 x, u32 y, u32 value) {
+u32 SetEmblemGridCellValue(u32 cellX, u32 cellY, u32 value) {
     u8 *cellPtr;
     u32 changed;
     changed = 0;
-    cellPtr = GetEmblemGridCellPtr(x, y);
+    cellPtr = GetEmblemGridCellPtr(cellX, cellY);
     if ((cellPtr != NULL) && (*cellPtr != value)) {
         changed = 1;
         CopyEmblemGridCellsOnFirstChange();
@@ -181,45 +182,45 @@ u32 SetEmblemGridCellValue(u32 x, u32 y, u32 value) {
     return changed;
 }
 
-u8 GetEmblemGridCellValue(s32 x, s32 y) {
+u8 GetEmblemGridCellValue(s32 cellX, s32 cellY) {
     u8 *cellPtr;
-    cellPtr = GetEmblemGridCellPtr(x, y);
+    cellPtr = GetEmblemGridCellPtr(cellX, cellY);
     if (cellPtr != NULL) {
         return *cellPtr;
     }
     return 0;
 }
 
-s32 SetEmblemGridLine(s32 x, s32 y, s32 endX, s32 endY, s32 value) {
+s32 SetEmblemGridLine(s32 lineX, s32 lineY, s32 endX, s32 endY, s32 value) {
     s32 dy;
     s32 dx;
     s32 stepY;
     s32 stepX;
     BOOL changed;
     s32 stepCount;
-    s32 i;
+    s32 stepIndex;
     u8 *cellPtr;
 
     changed = FALSE;
-    if ((endX >> 12) > (x >> 12)) {
-        dx = endX - x;
-    } else if ((x >> 12) > (endX >> 12)) {
-        dx = x - endX;
+    if ((endX >> 12) > (lineX >> 12)) {
+        dx = endX - lineX;
+    } else if ((lineX >> 12) > (endX >> 12)) {
+        dx = lineX - endX;
     } else {
         dx = 0;
     }
-    if ((endY >> 12) > (y >> 12)) {
-        dy = endY - y;
-    } else if ((y >> 12) > (endY >> 12)) {
-        dy = y - endY;
+    if ((endY >> 12) > (lineY >> 12)) {
+        dy = endY - lineY;
+    } else if ((lineY >> 12) > (endY >> 12)) {
+        dy = lineY - endY;
     } else {
         dy = 0;
     }
     if (dx == 0) {
         stepX = 0;
     } else if (dx < dy) {
-        stepX = FX_Div(endX - x, dy);
-    } else if (endX > x) {
+        stepX = FX_Div(endX - lineX, dy);
+    } else if (endX > lineX) {
         stepX = 0x1000;
     } else {
         stepX = -0x1000;
@@ -227,8 +228,8 @@ s32 SetEmblemGridLine(s32 x, s32 y, s32 endX, s32 endY, s32 value) {
     if (dy == 0) {
         stepY = 0;
     } else if (dy < dx) {
-        stepY = FX_Div(endY - y, dx);
-    } else if (endY > y) {
+        stepY = FX_Div(endY - lineY, dx);
+    } else if (endY > lineY) {
         stepY = 0x1000;
     } else {
         stepY = -0x1000;
@@ -238,8 +239,8 @@ s32 SetEmblemGridLine(s32 x, s32 y, s32 endX, s32 endY, s32 value) {
     } else {
         stepCount = dy >> 12;
     }
-    for (i = 0; i <= stepCount; i++, x += stepX, y += stepY) {
-        cellPtr = GetEmblemGridCellPtr(x >> 12, y >> 12);
+    for (stepIndex = 0; stepIndex <= stepCount; stepIndex++, lineX += stepX, lineY += stepY) {
+        cellPtr = GetEmblemGridCellPtr(lineX >> 12, lineY >> 12);
         if (cellPtr != NULL && *cellPtr != value) {
             changed = TRUE;
             CopyEmblemGridCellsOnFirstChange();
@@ -258,12 +259,12 @@ s32 SetEmblemGridLine(s32 x, s32 y, s32 endX, s32 endY, s32 value) {
 s32 FillEmblemGridRegion(s32 startX, s32 startY, s32 newValue) {
     BOOL result;
     s32 stackCount;
-    s32 k;
+    s32 edgeIndex;
     s32 *rowStep;
     u8 rightEdge;
     s32 *scanStep;
     s32 rowY;
-    s32 m;
+    s32 rowStepIndex;
     u8 *cellPtr;
     u8 *visitedCell;
     u8 oldValue;
@@ -287,7 +288,7 @@ s32 FillEmblemGridRegion(s32 startX, s32 startY, s32 newValue) {
 
                 stackCount--;
                 point = ((EmblemGridPoint *) gEmblemGrid->mBuffers[4])[stackCount];
-                for (k = 0, edgeSlot = edges, scanStep = steps, rowY = point.mY; k < 2; k++) {
+                for (edgeIndex = 0, edgeSlot = edges, scanStep = steps, rowY = point.mY; edgeIndex < 2; edgeIndex++) {
                     *edgeSlot = point.mX;
                     for (;;) {
                         cellPtr = GetEmblemGridCellPtr(*edgeSlot, rowY);
@@ -302,7 +303,7 @@ s32 FillEmblemGridRegion(s32 startX, s32 startY, s32 newValue) {
                     edgeSlot++;
                     scanStep++;
                 }
-                for (m = 0, rowStep = steps, rightEdge = edges[1]; m < 2; m++) {
+                for (rowStepIndex = 0, rowStep = steps, rightEdge = edges[1]; rowStepIndex < 2; rowStepIndex++) {
                     scanPoint.mY = rowY + *rowStep;
                     for (scanPoint.mX = edges[0]; scanPoint.mX <= rightEdge; scanPoint.mX++) {
                         cellPtr = GetEmblemGridCellPtr(scanPoint.mX, scanPoint.mY);

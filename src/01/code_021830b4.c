@@ -33,14 +33,14 @@ void StartDonketuWaterJumpState(Unk02188950 *donketu) {
 }
 
 void StartDonketuWaterWalkState(Unk02188950 *donketu) {
-    u32 v1;
+    u32 targetAndPerCall;
     StartMapObjectState(donketu, 8, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_210, donketu->mPrm->mUnk_214);
-    v1 = donketu->mPrm->mUnk_21c;
-    TurnToPointMoveFollowsAngle(donketu, v1, v1);
+    targetAndPerCall = donketu->mPrm->mUnk_21c;
+    TurnToPointMoveFollowsAngle(donketu, targetAndPerCall, targetAndPerCall);
     SetAnglePointAndMoveAnglePoint(donketu, (Vec3 *) donketu->mUnk_000.mCourseMapRow);
-    v1 = donketu->mPrm->mUnk_218;
-    SetSpeedTargetAndPerCall(donketu, v1, v1);
+    targetAndPerCall = donketu->mPrm->mUnk_218;
+    SetSpeedTargetAndPerCall(donketu, targetAndPerCall, targetAndPerCall);
     StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_220, &StartDonketuWaterJumpState);
 }
 
@@ -345,11 +345,12 @@ void StartDonketuChainStartupFirst(Unk02188950 *donketu) {
 }
 
 void InitDonketuObjects(MapObjectList *list) {
-    s32 i;
+    s32 objectIndex;
     Unk02188950 *donketu;
 
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (donketu = list->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0; objectIndex < list->mMapObjectCount && (donketu = list->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             DecrementEntryIndexSkipZero(donketu);
             donketu->mUnk_000.mCourseMapRow->mUnk_00.x = 0;
             donketu->mUnk_000.mCourseMapRow->mUnk_00.z = 0;
@@ -424,10 +425,11 @@ void InitDonketuSoundSource(Unk02188950 *donketu) {
 
 void InitBossDonketu(MapObjectList *list) {
     Unk02188950 *donketu;
-    s32 i;
+    s32 objectIndex;
 
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (donketu = list->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0; objectIndex < list->mMapObjectCount && (donketu = list->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
@@ -443,10 +445,11 @@ void InitBossDonketu(MapObjectList *list) {
 
 void InitKingIceDonketu(MapObjectList *list) {
     Unk02188950 *donketu;
-    s32 i;
+    s32 objectIndex;
 
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (donketu = list->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0; objectIndex < list->mMapObjectCount && (donketu = list->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
