@@ -578,12 +578,12 @@ void SetGameInfo(void) {
     gConnectionWork->mStep = 0xf;
     gConnectionWork->mRequestPending = 1;
     children = &gConnectionWork->mChildren;
-    children->mUnk_38->mUnk_0e.mChildCount = children->mChildCount;
+    children->mGameInfo->mUnk_0e.mChildCount = children->mChildCount;
     r = TRUE;
     if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
         r = FALSE;
     }
-    if (WM_SetGameInfo(ClearRequestPending, children->mUnk_38, 0x1c, 0x25, gConnectionWork->mParentParameter->mUnk_0c,
+    if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, 0x1c, 0x25, gConnectionWork->mParentParameter->mUnk_0c,
                        r == FALSE) != 2) {
         gConnectionWork->mRequestPending = 0;
     }

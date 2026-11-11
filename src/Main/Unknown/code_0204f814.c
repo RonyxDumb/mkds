@@ -167,7 +167,7 @@ void FillParentParameter(s32 a) {
 
     parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = gConnectionWork->mChildren.mUnk_38;
+    gameInfo = gConnectionWork->mChildren.mGameInfo;
     gameInfo->mUnk_0e.mHasGhost = 0;
     gameInfo->mUnk_0e.mKartIndex = 0;
     gameInfo->mCharacterIndex = 0;
@@ -192,7 +192,7 @@ void FillParentParameter(s32 a) {
     }
     parentParameter->mUnk_32 = gConnectionWork->mParentChannel;
     parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gConnectionWork->mChildren.mUnk_38;
+    parentParameter->mUnk_00 = gConnectionWork->mChildren.mGameInfo;
     parentParameter->mUnk_04 = 0x1c;
     parentParameter->mUnk_10 = 7;
     parentParameter->mUnk_0e = a != 0 ? 1 : 0;
@@ -209,7 +209,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
 
     parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = gConnectionWork->mChildren.mUnk_38;
+    gameInfo = gConnectionWork->mChildren.mGameInfo;
     gameInfo->mUnk_0e.mHasGhost = 1;
     MI_CpuCopy8(ghostRecord->mName, gameInfo, 0x14);
     gameInfo->mUnk_0e.mKartIndex = ghostRecord->mKartIndex;
@@ -230,7 +230,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
     parentParameter->mUnk_32 = gConnectionWork->mParentChannel;
     parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gConnectionWork->mChildren.mUnk_38;
+    parentParameter->mUnk_00 = gConnectionWork->mChildren.mGameInfo;
     parentParameter->mUnk_04 = 0x1c;
     parentParameter->mUnk_10 = 1;
     parentParameter->mUnk_34 = 0x1b6;

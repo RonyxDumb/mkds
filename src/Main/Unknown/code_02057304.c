@@ -57,7 +57,7 @@ void ResetBackupFirstBlock(s32 copyOwnerName) {
         MI_CpuCopy8(ownerText, data_0217aa08->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
     }
     data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
-    data_0217aa08->mFirstBlock->mUnk_31_3 = 0;
+    data_0217aa08->mFirstBlock->mEmblemOff = 0;
     data_0217aa08->mFirstBlock->mLocateFriendOff = 0;
     data_0217aa08->mFirstBlock->mElo = 0x1388;
     SetSecretMessageFlagsWrapper();

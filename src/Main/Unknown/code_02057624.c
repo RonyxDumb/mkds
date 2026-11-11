@@ -18,7 +18,7 @@ void ResetBuddyRecord(BuddyRecord *record) {
     MI_CpuFill8(record->mName, 0, 20);
     record->mFilled = 0;
     record->mNotYetBuddy = 0;
-    record->mUnk_22_2 = 0;
+    record->mHasEmblem = 0;
     record->mFlagged = 0;
 }
 #pragma thumb off

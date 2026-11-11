@@ -40,7 +40,7 @@ typedef struct BackupFirstBlock {
         struct {
             u8 mHasPlayerName : 1;
             u8 mSoundMode : 2;
-            u8 mUnk_31_3 : 1;
+            u8 mEmblemOff : 1;
             u8 mLocateFriendOff : 1;
             u8 mUnk_31_5 : 3;
         };
@@ -116,7 +116,7 @@ typedef struct MissionRecord {
         u8 mUnk_00;
         struct {
             u8 mFilled : 1;
-            u8 mUnk_00_1 : 7;
+            u8 mValue : 7;
         };
     };
 } MissionRecord;
@@ -147,7 +147,7 @@ typedef struct GhostRecordHead {
         struct {
             u32 mFilled : 1;
             u32 mHasEmblem : 1;
-            u32 mUnk_08_2 : 2;
+            u32 mRegion : 2;
             u32 mUnk_08_4 : 4;
             u32 mMinute : 7;
             u32 mSecond : 7;
@@ -159,7 +159,7 @@ typedef struct GhostRecordHead {
     /* 2f */ union {
         u8 mUnk_2f;
         struct {
-            u8 mUnk_2f_0 : 2;
+            u8 mLowestGrandPrixRecordValue : 2;
         };
     };
 } GhostRecordHead;
@@ -204,7 +204,7 @@ typedef struct BuddyRecord {
             u8 mFilled : 1;
 // Set when the buddy was added by friend key; cleared once the library reports a buddy.
             u8 mNotYetBuddy : 1;
-            u8 mUnk_22_2 : 1;
+            u8 mHasEmblem : 1;
             u8 mFlagged : 1;
         };
     };
@@ -215,7 +215,7 @@ typedef struct BuddyRecord {
 typedef struct BuddyRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ BuddyRecord mRecords[60];
-    /* 874 */ DWCAccFriendData mUnk_874[60];
+    /* 874 */ DWCAccFriendData mFriendData[60];
 } BuddyRecordBlock;
 
 // 0xb00 bytes behind member 0x24 of Unk0217aa08: a byte at 0x04 and five 0x200-byte rows from 0x08.
@@ -282,13 +282,13 @@ typedef struct ChildEntry {
 // 0x44 bytes from 0x44 of ConnectionWork.
 typedef struct ChildList {
     /* 00 */ ChildEntry mEntries[7];
-    /* 38 */ UserGameInfo *mUnk_38;
+    /* 38 */ UserGameInfo *mGameInfo;
     /* 3c */ u16 mUnk_3c;
 // Next player name to send (0 to 7); 8 to 0x2c count a pause, then it restarts at 0.
     /* 3e */ u16 mNameSendIndex;
     /* 40 */ u8 mChildCount;
     /* 41 */ s8 mDisconnectingIndex;
-    /* 42 */ u8 mUnk_42;
+    /* 42 */ u8 mExpectedRecordMask;
     /* 43 */ u8 mChildMask;
 } ChildList;
 
@@ -378,7 +378,7 @@ typedef struct PlayerRecord {
         u8 mUnk_228;
         struct {
             u8 mRegion : 4;
-            u8 mUnk_228_4 : 4;
+            u8 mLanguageIndex : 4;
         };
     };
     /* 229 */ u8 mLowestGrandPrixRecordValue;
@@ -447,7 +447,7 @@ typedef struct DataSharing {
     /* 00 */ WMDataSharingInfo *mUnk_00;
     /* 04 */ WMDataSet *mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ SharingReceiveRecord *mUnk_0c;
+    /* 0c */ SharingReceiveRecord *mReceivedRecords;
     /* 10 */ s32 mSharedDataCopied[8];
     /* 30 */ u8 mUnk_30;
     /* 31 */ u8 mUnk_31[3];
@@ -1318,9 +1318,9 @@ typedef struct ModelAnimation ModelAnimation;
 // Object behind member 0x20 of an KartModelMenuSlot: a word at 0x10 and rows of three words from 0x14 and from 0x44.
 typedef struct Unk0217ad08_058_20 {
     /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ Vec3 mUnk_14[4];
-    /* 44 */ Vec3 mUnk_44[1];
+    /* 10 */ s32 mTireScale;
+    /* 14 */ Vec3 mTireOffsets[4];
+    /* 44 */ Vec3 mCharacterOffsets[1];
     /* 50 */ u8 mUnk_50[0x90];
 } Unk0217ad08_058_20;
 
@@ -1336,7 +1336,7 @@ typedef struct KartModelMenuSlot {
     /* 1c */ struct ShadowModel *mShadowModel;
     /* 20 */ Unk0217ad08_058_20 *mKartOffsetData;
     /* 24 */ u8 mUnk_24[0x8c];
-    /* b0 */ s32 mUnk_b0;
+    /* b0 */ s32 mRegion;
     /* b4 */ struct NNSG3dResTex *mEmblemTex;
 } KartModelMenuSlot;
 
@@ -1363,7 +1363,7 @@ typedef struct KartModelMenuFiles {
 
 // Six halfwords; the 0xc-byte entries behind member 0x1c of KartModelMenuData.
 typedef struct KartMenuParams {
-    /* 00 */ u16 mUnk_00[6];
+    /* 00 */ u16 mParams[6];
 } KartMenuParams;
 
 // Embedded in KartModelMenuData at 0x24 (0x34 bytes).
@@ -1375,8 +1375,8 @@ typedef struct KartModelMenuView {
     /* 10 */ s32 mUnk_10;
     /* 14 */ u16 mSpinAngle;
     /* 16 */ u16 mYawAngle;
-    /* 18 */ s16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
+    /* 18 */ s16 mTiltAngle;
+    /* 1a */ u16 mDrawnTiltAngle;
     /* 1c */ u8 mUnk_1c[0x10];
     /* 2c */ s32 mBg0Offset;
     /* 30 */ s32 mBg0Direction;
@@ -1513,6 +1513,13 @@ typedef struct KartAiParamRow {
 } KartAiParamRow;
 
 // State the CPU kart code shares: per-kart tables, the random generator pointer and the team counts.
+// KartAiShared.mPointsGapKind: no large gap, or any mode but Grand Prix.
+#define KART_AI_POINTS_GAP_NONE 1
+// KartAiShared.mPointsGapKind: the best non-CPU kart is 4 or more points ahead of the best CPU kart (not on easy).
+#define KART_AI_POINTS_GAP_NON_CPU_AHEAD 2
+// KartAiShared.mPointsGapKind: the best non-CPU kart is 5 or more points behind the best CPU kart (Grand Prix, two
+// listed CPU karts).
+#define KART_AI_POINTS_GAP_NON_CPU_BEHIND 0
 typedef struct KartAiShared {
     /* 000 */ s32 mRaceProgressScaled[8];
     // Kart index at rank n + 1, -1 when no kart has that rank.
@@ -1525,9 +1532,9 @@ typedef struct KartAiShared {
     /* 08c */ s32 mFirstRankProgressRatio;
     /* 090 */ s32 mTableIndex[8];
     /* 0b0 */ KartAiTableIndexEntry mTableIndexEntries[8];
-    /* 110 */ s32 mUnk_110;
+    /* 110 */ s32 mPointsGapKind;
     /* 114 */ s32 mListedCpuKartPoints[2];
-    /* 11c */ s32 mUnk_11c;
+    /* 11c */ s32 mLowerPointsListedCpuIndex;
     /* 120 */ s32 mOneKartNotHumanOrPeer;
     /* 124 */ s16 mNonCpuRank;
     /* 126 */ u8 mUnk_126[2];
@@ -1571,7 +1578,7 @@ typedef struct KartNameTags {
     /* 144 */ void *mEmblemTex[8];
     /* 164 */ void *mEmblemPltt[8];
     /* 184 */ s32 mUnk_184;
-    /* 188 */ void *mUnk_188;
+    /* 188 */ void *mEmblemPlttData;
     /* 18c */ u8 mUnk_18c[8];
 } KartNameTags;
 
@@ -1639,7 +1646,7 @@ extern s32 gEntryCameraUpdateRan;
 // Ten bytes: bytes 6 to 9 are signed values read in rows of four.
 typedef struct ParticipantKartMap {
     /* 00 */ s8 mParticipantOfKart[4];
-    /* 04 */ u8 mUnk_04;
+    /* 04 */ u8 mParticipantMask;
     /* 05 */ u8 mUnk_05;
     /* 06 */ s8 mKartOfParticipant[4];
 } ParticipantKartMap;
@@ -1667,7 +1674,7 @@ typedef struct CourseTeamResult {
     /* 03 */ union {
         u8 mUnk_03;
         struct {
-            u8 mUnk_03_0 : 1;
+            u8 mWinning : 1;
         };
     };
 } CourseTeamResult;

@@ -1241,7 +1241,7 @@ void LoadKartModelMenuEmblemTexData(NNSG3dResFileHeader *file) {
 
 void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot) {
     InitKartModelsEntry(slot);
-    slot->mUnk_b0 = gStartupWork->mRegion;
+    slot->mRegion = gStartupWork->mRegion;
     slot->mEmblemTex = 0;
     slot->mCharacterNsbmd = HeapAlloc(heap, 0x6c);
     slot->mKartNsbmd = HeapAlloc(heap, 0x6c);
@@ -1258,7 +1258,7 @@ void InitKartModelMenuView(KartModelMenuView *view, int b) {
     view->mScale = 0x1000;
     view->mYawAngle = 0xeaab;
     view->mSpinAngle = view->mYawAngle;
-    view->mUnk_18 = 0;
+    view->mTiltAngle = 0;
     view->mUnk_0c = 0;
     view->mUnk_10 = 0xffffff88;
     if (b != 0) {
@@ -1312,7 +1312,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
     for (i = 0; i < 2; i = (u16) (i + 1)) {
         InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[i]);
     }
-    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
+    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mEmblemOff == 0) {
         gKartModelMenu->mEmblemData = data_0217aa08->mEmblemRecord->mEmblemData;
         gKartModelMenu->mEmblemPalette = GetEmblemSBNclr()->mData;
     }
@@ -1390,12 +1390,12 @@ s16 *ComputeKartMenuParams(s32 kartIndex, s32 characterIndex) {
     KartModelMenuData *menu = gKartModelMenu;
     s16 *characterParam = &menu->mCharMenuParams[characterIndex];
     KartMenuParams *kartParams = &menu->mKartMenuParams[kartIndex];
-    menu->mMenuParams[0] = kartParams->mUnk_00[0];
-    menu->mMenuParams[1] = kartParams->mUnk_00[1];
-    menu->mMenuParams[2] = kartParams->mUnk_00[2];
-    menu->mMenuParams[3] = kartParams->mUnk_00[3];
-    menu->mMenuParams[4] = kartParams->mUnk_00[4];
-    menu->mMenuParams[5] = kartParams->mUnk_00[5];
+    menu->mMenuParams[0] = kartParams->mParams[0];
+    menu->mMenuParams[1] = kartParams->mParams[1];
+    menu->mMenuParams[2] = kartParams->mParams[2];
+    menu->mMenuParams[3] = kartParams->mParams[3];
+    menu->mMenuParams[4] = kartParams->mParams[4];
+    menu->mMenuParams[5] = kartParams->mParams[5];
     menu->mMenuParams[2] += *characterParam;
     return gKartModelMenu->mMenuParams;
 }
@@ -1540,8 +1540,8 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     scale.y = scaleValue;
     scale.z = scaleValue;
     MTX_RotY33_(&rotationMatrix, FX_SinIdx(view->mYawAngle), FX_CosIdx(view->mYawAngle));
-    MTX_RotX33_(&tiltMatrix, FX_SinCosTable_[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2],
-                FX_SinCosTable_[(((u16) (data_usa_021656dc + view->mUnk_1a)) >> 4) * 2 + 1]);
+    MTX_RotX33_(&tiltMatrix, SIN_OF_ANGLE((u16) (data_usa_021656dc + view->mDrawnTiltAngle)),
+                COS_OF_ANGLE((u16) (data_usa_021656dc + view->mDrawnTiltAngle)));
     MTX_Concat33(&rotationMatrix, &tiltMatrix, &rotationMatrix);
     if (slot->mKartOffsetData != NULL) {
         MTX_Copy33To43_(&rotationMatrix, &kartMatrix);
@@ -1583,15 +1583,15 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
         if (slot->mTireNsbmd != NULL) {
             for (i = 0; i < 4; i++) {
                 if (i < 2) {
-                    scaleValue = slot->mKartOffsetData->mUnk_10;
+                    scaleValue = slot->mKartOffsetData->mTireScale;
                     tireScale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleValue);
                     tireScale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleValue);
                     tireScale.z = MUL_FIXED12_NO_ROUND(scale.z, scaleValue);
                 } else {
                     tireScale = scale;
                 }
-                if (i != 1 || slot->mKartOffsetData->mUnk_14[0].x != 0) {
-                    tireOffsets = &slot->mKartOffsetData->mUnk_14[i];
+                if (i != 1 || slot->mKartOffsetData->mTireOffsets[0].x != 0) {
+                    tireOffsets = &slot->mKartOffsetData->mTireOffsets[i];
                     tireOffset.x = tireOffsets->x >> 4;
                     tireOffset.y = tireOffsets->y >> 4;
                     tireOffset.z = tireOffsets->z >> 4;
@@ -1609,7 +1609,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             }
         }
         if (slot->mCharacterNsbmd != NULL) {
-            MTX_MultVec43(&slot->mKartOffsetData->mUnk_44[slot->mCharacterIndex], &kartMatrix, &translation);
+            MTX_MultVec43(&slot->mKartOffsetData->mCharacterOffsets[slot->mCharacterIndex], &kartMatrix, &translation);
             NNS_G3dGlbSetBaseTrans(&translation);
             NNS_G3dGlbFlushP();
             if (mirrored != 0) {
@@ -1682,7 +1682,7 @@ void AdvanceShownSlotAndQueueEmblem(void) {
 void AdvanceKartModelMenuInput(void) {
     KartModelMenuView *view = &gKartModelMenu->mView;
     s32 a = 0;
-    BOOL b;
+    BOOL yawChanged;
     s32 d;
     s32 characterIndex;
     u16 buttons;
@@ -1733,36 +1733,36 @@ void AdvanceKartModelMenuInput(void) {
             }
         }
     }
-    b = FALSE;
-    d = b;
+    yawChanged = FALSE;
+    d = yawChanged;
     GetSndHandleSlot(2);
     inputSlot = UNK_02175628_INDEX_8;
     buttons = gInputSlots[inputSlot].mBits;
     if ((u16) (buttons & PAD_KEY_RIGHT) != 0) {
         view->mYawAngle += 0x1c2;
-        b = TRUE;
+        yawChanged = TRUE;
     } else if ((u16) (buttons & PAD_KEY_LEFT) != 0) {
         view->mYawAngle -= 0x1c2;
-        b = TRUE;
+        yawChanged = TRUE;
     }
     inputSlot = UNK_02175628_INDEX_8;
     buttons = gInputSlots[inputSlot].mBits;
     if ((u16) (buttons & PAD_KEY_DOWN) != 0) {
-        view->mUnk_18 += 0x1c2;
-        if (view->mUnk_18 > 0x1b58) {
-            view->mUnk_18 = 0x1b58;
+        view->mTiltAngle += 0x1c2;
+        if (view->mTiltAngle > 0x1b58) {
+            view->mTiltAngle = 0x1b58;
         } else {
             d = 1;
         }
     } else if ((u16) (buttons & PAD_KEY_UP) != 0) {
-        view->mUnk_18 -= 0x1c2;
-        if (view->mUnk_18 < -0x1388) {
-            view->mUnk_18 = -0x1388;
+        view->mTiltAngle -= 0x1c2;
+        if (view->mTiltAngle < -0x1388) {
+            view->mTiltAngle = -0x1388;
         } else {
             d = 1;
         }
     }
-    if (d != 0 || b != FALSE) {
+    if (d != 0 || yawChanged != FALSE) {
         a = 1;
     }
     GetSndHandleSlot(1);
@@ -1787,7 +1787,7 @@ void AdvanceKartModelMenuInput(void) {
             }
         }
     }
-    view->mUnk_1a = view->mUnk_18;
+    view->mDrawnTiltAngle = view->mTiltAngle;
     SetKartModelMenuInputSeqs(v, a);
     QueueKartModelMenuLoad();
     ClearKartModelMenuRequests();

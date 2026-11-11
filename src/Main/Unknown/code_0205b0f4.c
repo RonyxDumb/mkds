@@ -76,7 +76,7 @@ void SetParticipantKartMapFromMask(u32 participantMask) {
             kart++;
         }
     }
-    gParticipantKartMap->mUnk_04 = participantMask;
+    gParticipantKartMap->mParticipantMask = participantMask;
     while (kart < 4) {
         gParticipantKartMap->mParticipantOfKart[kart] = -1;
         kart++;
@@ -124,7 +124,7 @@ void InitWiFiRaceSync(void *heap) {
             gWiFiRaceSync->mReceivedItemDataSlots[i][j].mData = HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
         }
     }
-    gWiFiRaceSync->mStartParticipantMask = gParticipantKartMap->mUnk_04;
+    gWiFiRaceSync->mStartParticipantMask = gParticipantKartMap->mParticipantMask;
     MI_CpuFill8(gWiFiRaceSync->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
     for (entryIndex = 0; entryIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; entryIndex++) {
         // Clears the record part of the entry.

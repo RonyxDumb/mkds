@@ -123,14 +123,14 @@ void GetClockTimeOrZero(RTCTime *time) {
 void CopyCourseGhostToSlotGhost(GhostRecord *courseGhost, SlotGhostRecord *slotGhost) {
     MI_CpuCopy8(courseGhost, slotGhost, 0x30);
     MI_CpuCopy8(courseGhost->mKeyRecordingBuffer, slotGhost->mKeyRecordingBuffer, 0xdcc);
-    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
+    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mEmblemOff == 0) {
         MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, slotGhost->mEmblem, 0x200);
         slotGhost->mHead.mUnk_08 |= 2;
     } else {
         MI_CpuFill8(slotGhost->mEmblem, 0, 0x200);
         slotGhost->mHead.mUnk_08 &= ~2;
     }
-    slotGhost->mHead.mUnk_2f_0 = GetLowestGrandPrixRecordValue();
+    slotGhost->mHead.mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
 }
 
 #pragma thumb on

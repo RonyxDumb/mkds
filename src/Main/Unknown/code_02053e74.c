@@ -313,7 +313,7 @@ BOOL FinishDataSharingSync(void) {
         ConnectionWork *connection;
 
         connection = gConnectionWork;
-        if (func_02054754_inline(dataSharing->mUnk_0c) != 0) {
+        if (func_02054754_inline(dataSharing->mReceivedRecords) != 0) {
             if ((connection->mFlags & CONNECTION_FLAG_RACE) != 0) {
                 connection->mState = 9;
             } else {
@@ -322,7 +322,7 @@ BOOL FinishDataSharingSync(void) {
             finished = TRUE;
             gConnectionWork->mUnk_15f4 = 0;
         } else if (func_02053e74_inline() == 1) {
-            if (func_02054754_inline2(dataSharing, dataSharing->mUnk_0c) != 0) {
+            if (func_02054754_inline2(dataSharing, dataSharing->mReceivedRecords) != 0) {
                 connection->mStatusFlags |= CONNECTION_STATUS_SHARING_SYNCED;
             }
         }
@@ -405,7 +405,7 @@ void InitConnectionBuffers(void *heap) {
     gConnectionWork->mAllocHeap = 0;
     gConnectionWork->mMultiBootWork = 0;
     gConnectionWork->mMultiBootSegment = 0;
-    gConnectionWork->mChildren.mUnk_38 = HeapAllocAligned(heap, 0x1c, 0x20);
+    gConnectionWork->mChildren.mGameInfo = HeapAllocAligned(heap, 0x1c, 0x20);
     gConnectionWork->mHeap = NNS_FndCreateExpHeapEx(HeapAlloc(heap, 0x7800), 0x7800, 1);
     gConnectionWork->mMPReceiveBuffer = 0;
     gConnectionWork->mMPReceiveBufferSize = 0;
@@ -430,7 +430,7 @@ void ResetDataSharing(DataSharing *dataSharing) {
     MI_CpuFill8(gConnectionWork->mSharingSendRecord, 0, 8);
     for (i = 0; i < 8; i++) {
         dataSharing->mSharedDataCopied[i] = 0;
-        MI_CpuFill8(&dataSharing->mUnk_0c[i], 0, 8);
+        MI_CpuFill8(&dataSharing->mReceivedRecords[i], 0, 8);
     }
     dataSharing->mUnk_3c[0] = 0;
     for (i = 0; i < 7; i++) {
@@ -467,7 +467,7 @@ void ResetConnectionData(void) {
             q[j] = 0;
         }
     }
-    gConnectionWork->mChildren.mUnk_42 = 0;
+    gConnectionWork->mChildren.mExpectedRecordMask = 0;
     gConnectionWork->mChildren.mChildMask = 0;
     gConnectionWork->mChildren.mChildCount = 0;
     gConnectionWork->mChildren.mUnk_3c = 0;
@@ -476,9 +476,9 @@ void ResetConnectionData(void) {
     gConnectionWork->mRemovedChildMask = 0;
     gConnectionWork->mStatusFlags = 0;
     gConnectionWork->mChildren.mNameSendIndex = 0;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mUnk_38, 0x14);
-    gConnectionWork->mChildren.mUnk_38->mUnk_0e.mLanguageIndex = gStartupWork->mLanguageIndex;
-    gConnectionWork->mChildren.mUnk_38->mUnk_0e.mChildCount = 0;
+    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, 0x14);
+    gConnectionWork->mChildren.mGameInfo->mUnk_0e.mLanguageIndex = gStartupWork->mLanguageIndex;
+    gConnectionWork->mChildren.mGameInfo->mUnk_0e.mChildCount = 0;
     for (j = 0; j < 4; j++) {
         gConnectionWork->mScanSlots[j].mInUse = 0;
         gConnectionWork->mScanSlots[j].mAge = 0;

@@ -184,8 +184,8 @@ void InitKartAiGrandPrixPoints(void) {
     for (; clearIndex < 2; clearIndex++) {
         gKartAiShared->mListedCpuKartPoints[clearIndex] = 0;
     }
-    gKartAiShared->mUnk_110 = 1;
-    gKartAiShared->mUnk_11c = 0;
+    gKartAiShared->mPointsGapKind = KART_AI_POINTS_GAP_NONE;
+    gKartAiShared->mLowerPointsListedCpuIndex = 0;
     if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
         for (i = 0; i < gRaceSetup->mKartCount; i++) {
             kartIndex = i;
@@ -213,13 +213,13 @@ void InitKartAiGrandPrixPoints(void) {
         pointsDifference = bestNonCpuPoints - bestCpuPoints;
         if (pointsDifference <= -5) {
             if (gRaceSetup->mListedCpuCount > 1) {
-                gKartAiShared->mUnk_110 = 0;
+                gKartAiShared->mPointsGapKind = KART_AI_POINTS_GAP_NON_CPU_BEHIND;
                 if (gKartAiShared->mListedCpuKartPoints[0] > gKartAiShared->mListedCpuKartPoints[1]) {
-                    gKartAiShared->mUnk_11c = 1;
+                    gKartAiShared->mLowerPointsListedCpuIndex = 1;
                 }
             }
         } else if (gRaceSetup->mCpuDifficulty != CPU_DIFFICULTY_EASY && pointsDifference >= 4) {
-            gKartAiShared->mUnk_110 = 2;
+            gKartAiShared->mPointsGapKind = KART_AI_POINTS_GAP_NON_CPU_AHEAD;
         }
     }
 }
@@ -278,10 +278,10 @@ void InitKartAiTableIndices(void) {
 s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
     s32 tableIndex;
     BOOL hasFixedIndex;
-    BOOL g;
+    BOOL isNonCpuAhead;
     BOOL isNonCpu;
     s32 s;
-    s32 m;
+    s32 pointsGapKind;
     s32 otherIndex;
     u16 listedIndex;
     NNSFndList *tableIndexList;
@@ -296,11 +296,11 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
     hasFixedIndex = FALSE;
     tableIndex = -1;
     kartAiShared = gKartAiShared;
-    m = kartAiShared->mUnk_110;
-    if (m == 2) {
-        g = TRUE;
+    pointsGapKind = kartAiShared->mPointsGapKind;
+    if (pointsGapKind == KART_AI_POINTS_GAP_NON_CPU_AHEAD) {
+        isNonCpuAhead = TRUE;
     } else {
-        g = FALSE;
+        isNonCpuAhead = FALSE;
     }
     isNonCpu = FALSE;
     raceSetup = gRaceSetup;
@@ -312,8 +312,8 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
         tableIndex = *nextNonCpuTableIndexPointer;
         *nextNonCpuTableIndexPointer = tableIndex - 1;
     } else {
-        if (m == 0) {
-            s = kartAiShared->mUnk_11c;
+        if (pointsGapKind == KART_AI_POINTS_GAP_NON_CPU_BEHIND) {
+            s = kartAiShared->mLowerPointsListedCpuIndex;
             if (s != 0) {
                 s = 1;
             } else {
@@ -339,7 +339,7 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
                         tableIndex = 1;
                     } else {
                         tableIndex = 2;
-                        if (g != FALSE) {
+                        if (isNonCpuAhead != FALSE) {
                             tableIndex = 1;
                         }
                     }

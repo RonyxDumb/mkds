@@ -302,7 +302,7 @@ void StartDispCapFadeToClear(u32 frameCount) {
 BOOL IsSharedDispCapFadeFlagSet(void) {
     if (func_02055b1c_inline()) {
         if (IsDataSharingSyncDone() != 0) {
-            return (gConnectionWork->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
+            return (gConnectionWork->mUnk_15bc_view.mReceivedRecords->mUnk_06_0 & 4) != 0;
         }
         return FALSE;
     }

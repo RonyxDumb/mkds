@@ -331,7 +331,7 @@ void UpdateMPState8(void) {
 
     if (func_0205821c_inline() == 1) {
         work = gConnectionWork;
-        expectedMask = work->mChildren.mUnk_42;
+        expectedMask = work->mChildren.mExpectedRecordMask;
         receivedMask = work->mRecordReceivedMask;
         if (expectedMask == (expectedMask & receivedMask)) {
             if (QueueMPChunk(0xfe, NULL, (u8) (receivedMask | 1), 0, receivedMask) != FALSE) {
@@ -345,7 +345,7 @@ void UpdateMPState8(void) {
             }
             gConnectionWork->mMPStateMachine.mEntryWaitFrames++;
             if (gConnectionWork->mMPStateMachine.mEntryWaitFrames > v) {
-                gConnectionWork->mChildren.mUnk_42 = gConnectionWork->mChildren.mChildMask;
+                gConnectionWork->mChildren.mExpectedRecordMask = gConnectionWork->mChildren.mChildMask;
             }
         }
     } else {
@@ -419,7 +419,7 @@ void EnterMPState10(void) {
     u8 slot;
 
     WM_SetPortCallback(14, NULL, NULL);
-    gConnectionWork->mLanguageIndex = gConnectionWork->mPlayerRecords[0].mUnk_228_4;
+    gConnectionWork->mLanguageIndex = gConnectionWork->mPlayerRecords[0].mLanguageIndex;
     if (gBootInfo->mUnk_00 == 2) {
         gStartupWork->mLanguageIndex = gConnectionWork->mLanguageIndex;
     }

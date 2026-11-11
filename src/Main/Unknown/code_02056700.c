@@ -24,7 +24,7 @@
 void PackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
     if (unpackedMissionRecord->mFilled != 0) {
         missionRecord->mFilled = 1;
-        missionRecord->mUnk_00_1 = unpackedMissionRecord->mValue;
+        missionRecord->mValue = unpackedMissionRecord->mValue;
     } else {
         missionRecord->mFilled = 0;
     }
@@ -33,7 +33,7 @@ void PackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpa
 void UnpackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
     if (missionRecord->mFilled != 0) {
         unpackedMissionRecord->mFilled = 1;
-        unpackedMissionRecord->mValue = missionRecord->mUnk_00_1;
+        unpackedMissionRecord->mValue = missionRecord->mValue;
     } else {
         unpackedMissionRecord->mFilled = 0;
     }
@@ -86,9 +86,9 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     ghostRecord->mHead.mCourseId = (u8) tempValue;
     ghostRecord->mHead.mFilled = 1;
     ghostRecord->mHead.mHasEmblem = 0;
-    ghostRecord->mHead.mUnk_08_2 = gStartupWork->mRegion;
+    ghostRecord->mHead.mRegion = gStartupWork->mRegion;
     ghostRecord->mHead.mUnk_08_4 = 0;
-    ghostRecord->mHead.mUnk_2f_0 = GetLowestGrandPrixRecordValue();
+    ghostRecord->mHead.mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
     GetKartFinishTime(entryIndex, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
     ghostRecord->mHead.mMinute = kartTime.mMinute;
     ghostRecord->mHead.mSecond = kartTime.mSecond;

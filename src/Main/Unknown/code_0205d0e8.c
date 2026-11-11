@@ -176,9 +176,9 @@ void SetCupWinningTeam(s32 team) {
         otherTeam = 1;
     }
     p = gCupRecords->mTeamResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)].mTeams;
-    p[team].mUnk_03_0 = 1;
+    p[team].mWinning = 1;
     q = gCupRecords->mTeamResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)].mTeams;
-    q[otherTeam].mUnk_03_0 = 0;
+    q[otherTeam].mWinning = 0;
 }
 
 // Stores each team's win count (the winning team gains one, max 99) and its karts' total points (max 9999).
@@ -244,9 +244,9 @@ s32 GetCupWinningTeam(void) {
     CourseTeamResults *courseTeams;
 
     winningTeam = -1;
-    courseTeams = &gCupRecords->mTeamResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)];
+    courseTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4);
     for (team = 0; team < 2; team++) {
-        if (courseTeams->mTeams[(u32) team].mUnk_03_0) {
+        if (GetCupCourseTeamResult(courseTeams, team)->mWinning) {
             winningTeam = team;
             break;
         }

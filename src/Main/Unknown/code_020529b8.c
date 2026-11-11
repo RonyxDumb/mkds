@@ -231,7 +231,7 @@ BOOL UpdateDataSharing(void) {
     }
     for (i = 0; i < 8; i++) {
         if (allRead != FALSE && (gConnectionWork->mParticipantMask & (1 << i)) != 0) {
-            MI_CpuCopy8(&buf[i], &dataSharing->mUnk_0c[i], 8);
+            MI_CpuCopy8(&buf[i], &dataSharing->mReceivedRecords[i], 8);
             dataSharing->mSharedDataCopied[i] = 1;
         } else {
             dataSharing->mSharedDataCopied[i] = 0;

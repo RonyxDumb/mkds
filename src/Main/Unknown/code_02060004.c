@@ -30,7 +30,7 @@ static inline s32 func_02060004_inline(s32 courseId, s32 recordIndex, TimeRecord
 }
 
 void CopyWiFiBuddiesToRecordBlock(DWCAccFriendData *buddies) {
-    MI_CpuCopy8(buddies, data_0217aa08->mBuddyRecordBlock->mUnk_874, 0x2d0);
+    MI_CpuCopy8(buddies, data_0217aa08->mBuddyRecordBlock->mFriendData, 0x2d0);
 }
 
 void RefreshNotYetBuddyFlags(void) {
@@ -40,7 +40,7 @@ void RefreshNotYetBuddyFlags(void) {
     for (recordIndex = 0; recordIndex < 60; recordIndex++) {
         GetBuddyRecord(recordIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 &&
-            DWC_IsBuddyFriendData(&data_0217aa08->mBuddyRecordBlock->mUnk_874[recordIndex]) != 0) {
+            DWC_IsBuddyFriendData(&data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex]) != 0) {
             buddyRecord.mNotYetBuddy = 0;
             SetBuddyRecord(recordIndex, &buddyRecord);
         }
@@ -173,9 +173,9 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
     buddyRecord.mFilled = 0;
     SetBuddyRecord(recordIndex, &buddyRecord);
     if (gWiFiSession->mStateMachine.mState != 0) {
-        RemoveBuddyEntry(&data_0217aa08->mBuddyRecordBlock->mUnk_874[recordIndex]);
+        RemoveBuddyEntry(&data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex]);
     } else {
-        MI_CpuFill8(&data_0217aa08->mBuddyRecordBlock->mUnk_874[recordIndex], 0, 0xc);
+        MI_CpuFill8(&data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex], 0, 0xc);
     }
     WriteBackupBuddyRecords();
     return wasFilled;
@@ -215,7 +215,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
     }
     combinedRecord.mFilled = 1;
     combinedRecord.mNotYetBuddy = 0;
-    combinedRecord.mUnk_22_2 = keptRecord.mUnk_22_2;
+    combinedRecord.mHasEmblem = keptRecord.mHasEmblem;
     combinedRecord.mFlagged = keptRecord.mFlagged == 1 || mergedRecord.mFlagged == 1;
     SetBuddyRecord(keptIndex, &combinedRecord);
     MI_CpuFill8(&mergedRecord, 0, 0x24);
@@ -231,7 +231,7 @@ BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut) {
 
     found = FALSE;
     GetBuddyRecord(recordIndex, &buddyRecord);
-    friendData = &data_0217aa08->mBuddyRecordBlock->mUnk_874[recordIndex];
+    friendData = &data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex];
     if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 && IsFriendDataTypeNonZero(friendData) != 0) {
         hasFriendKey = TRUE;
     } else {

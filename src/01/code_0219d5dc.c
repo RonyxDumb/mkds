@@ -84,10 +84,10 @@ void LocateAndQueueOptionEmbremSelect(void) {
 }
 
 BOOL func_ov001_0219de38(void) {
-    if (data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
+    if (data_0217aa08->mFirstBlock->mEmblemOff == 0) {
         return FALSE;
     }
-    if (data_0217aa08->mFirstBlock->mUnk_31_3 != 0) {
+    if (data_0217aa08->mFirstBlock->mEmblemOff != 0) {
         return TRUE;
     }
     return TRUE;
@@ -175,9 +175,9 @@ void AdvanceOptionEmbremSelectState3(void) {
             RequestSelectReturnState3WithSound(0);
         }
         if (gOptionEmbremSelect->mUnk_0c == 0) {
-            data_0217aa08->mFirstBlock->mUnk_31_3 = 0;
+            data_0217aa08->mFirstBlock->mEmblemOff = 0;
         } else {
-            data_0217aa08->mFirstBlock->mUnk_31_3 = 1;
+            data_0217aa08->mFirstBlock->mEmblemOff = 1;
         }
         WriteBackupFirstBlockWrapper();
     } else {

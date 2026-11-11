@@ -140,7 +140,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     exchangeTokenSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData;
     f = FALSE;
     if (p->mEmblemRecord->mFilled != 0) {
-        f = p->mFirstBlock->mUnk_31_3 == 0;
+        f = p->mFirstBlock->mEmblemOff == 0;
     }
     if (f != FALSE) {
         hasEmblem = TRUE;
@@ -191,21 +191,21 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
                     *nameSlot = &data_0217aa08->mCourseGhostRecord->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
                     *hasEmblemSlot = hasEmblem != FALSE ? 1 : 0;
-                    *regionSlot = data_0217aa08->mCourseGhostRecord->mHead.mUnk_08_2;
+                    *regionSlot = data_0217aa08->mCourseGhostRecord->mHead.mRegion;
                     *lowestRecordValueSlot = 0;
                     break;
                 case 1:
                     *nameSlot = &data_0217aa08->mSlotGhostRecords[0]->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mSlotGhostRecords[0]->mEmblem;
                     *hasEmblemSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mHasEmblem;
-                    *regionSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_08_2;
-                    *lowestRecordValueSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_2f_0;
+                    *regionSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mRegion;
+                    *lowestRecordValueSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mLowestGrandPrixRecordValue;
                     break;
                 case 2:
                     *nameSlot = &data_0217aa08->mSlotGhostRecords[1]->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mSlotGhostRecords[1]->mEmblem;
                     *hasEmblemSlot = 1;
-                    *regionSlot = data_0217aa08->mSlotGhostRecords[1]->mHead.mUnk_08_2;
+                    *regionSlot = data_0217aa08->mSlotGhostRecords[1]->mHead.mRegion;
                     *lowestRecordValueSlot = 1;
                     break;
             }

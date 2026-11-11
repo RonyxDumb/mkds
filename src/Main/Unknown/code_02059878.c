@@ -156,9 +156,9 @@ void InitMPStateMachine(void) {
         connectionMode = connectionWork->mConnectionMode;
     }
     if (connectionMode == 1) {
-        connectionWork->mChildren.mUnk_42 = (connectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0
-                                                ? connectionWork->mMultiBootChildMask
-                                                : connectionWork->mChildren.mChildMask;
+        connectionWork->mChildren.mExpectedRecordMask = (connectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0
+                                                            ? connectionWork->mMultiBootChildMask
+                                                            : connectionWork->mChildren.mChildMask;
     }
     gConnectionWork->mRaceSeed = 0;
 }

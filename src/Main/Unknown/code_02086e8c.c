@@ -78,7 +78,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
     }
     gKartNameTags = HeapAlloc(heap, 0x194);
     gKartNameTags->mUnk_184 = 0;
-    gKartNameTags->mUnk_188 = NULL;
+    gKartNameTags->mEmblemPlttData = NULL;
     if (IsRaceAwardOrStaffRoll() != 0) {
         gKartNameTags->mNameTagCount = 0;
     } else if (isGrandPrix == FALSE) {
@@ -269,7 +269,7 @@ void UploadKartNameTagTextures(void) {
         fourthTexPltt = &texPlttEntries->mEntries[3];
         texPlttEntries->mEntries[0].mTexByteCount = 0x200;
         texPlttEntries->mEntries[0].mPlttByteCount = 0x20;
-        texPlttEntries->mEntries[0].mPlttData = gKartNameTags->mUnk_188;
+        texPlttEntries->mEntries[0].mPlttData = gKartNameTags->mEmblemPlttData;
         kartObject->mKartPaletteColor = GetKartPaletteColor(kartObject->mKartIndex);
         SetupKartEmblemTexture(&texPlttEntries->mEntries[0], kartObject->mKartIndex);
         SetupKartEntryNameTexture(entryNameTexPltt, kartObject->mKartIndex);

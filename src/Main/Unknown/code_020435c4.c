@@ -353,7 +353,7 @@ void UpdateInputSlots(void) {
     if (func_02043648_inline(gConnectionWork) != 0) {
         padOrParticipantKeys = GetParticipantPadKeys(GetParticipantIndex(data_02175624->mParticipantPosition));
         padOrParticipantTouchPoint =
-            gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mParticipantPosition)]
+            gConnectionWork->mUnk_15bc_view.mReceivedRecords[GetParticipantIndex(data_02175624->mParticipantPosition)]
                 .mTouchPoint;
         GetParticipantIndex(data_02175624->mParticipantPosition);
     }
@@ -438,9 +438,10 @@ void UpdateInputSlots(void) {
                     } else {
                         skipUpdate = TRUE;
                     }
-                    touchPoint = gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mTouchPoint;
-                    micValue =
-                        gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mMicOverThreshold;
+                    touchPoint =
+                        gConnectionWork->mUnk_15bc_view.mReceivedRecords[GetParticipantIndex(slotIndex)].mTouchPoint;
+                    micValue = gConnectionWork->mUnk_15bc_view.mReceivedRecords[GetParticipantIndex(slotIndex)]
+                                   .mMicOverThreshold;
                     break;
                 case 6:
                     slotKeys = padKeys;

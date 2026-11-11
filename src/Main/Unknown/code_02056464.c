@@ -89,7 +89,7 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
 
 void FillPlayerRecord(PlayerRecord *a) {
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, a->mName, 0x14);
-    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
+    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mEmblemOff == 0) {
         a->mHasEmblem = 1;
         MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, a->mEmblem, 0x200);
     } else {
@@ -98,7 +98,7 @@ void FillPlayerRecord(PlayerRecord *a) {
     }
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mFlags, a->mBits, 4);
     a->mRegion = gStartupWork->mRegion;
-    a->mUnk_228_4 = gStartupWork->mLanguageIndex;
+    a->mLanguageIndex = gStartupWork->mLanguageIndex;
     a->mElo = data_0217aa08->mFirstBlock->mElo;
     a->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
     if (gBootInfo->mUnk_00 == 2) {

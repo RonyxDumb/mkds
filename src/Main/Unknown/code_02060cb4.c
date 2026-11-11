@@ -101,7 +101,7 @@ s32 CheckFriendKeyString(const void *keyString) {
         return 1;
     }
     InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
-    friendDataList = data_0217aa08->mBuddyRecordBlock->mUnk_874;
+    friendDataList = data_0217aa08->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
     for (i = 0; i < 60; i++) {
         DWCAccFriendData *entry;
@@ -127,7 +127,7 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
     u8 i;
     DWCAccFriendData *friendDataList;
 
-    friendDataList = data_0217aa08->mBuddyRecordBlock->mUnk_874;
+    friendDataList = data_0217aa08->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
     for (i = 0; i < 60; i++) {
         DWCAccFriendData *entry;
@@ -229,7 +229,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         buddyRecord.mNotYetBuddy = 0;
     }
     MI_CpuCopy8(name, buddyRecord.mName, 0x14);
-    buddyRecord.mUnk_22_2 = e != 0;
+    buddyRecord.mHasEmblem = e != 0;
     buddyRecord.mFilled = 1;
     SetBuddyRecord(slot, &buddyRecord);
     return slotIndex;
@@ -241,5 +241,5 @@ s32 AddBuddyFromFriendKey(const void *keyString, void *name) {
 
     friendKey = DWC_StringToFriendKey(keyString);
     InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
-    return AddOrUpdateBuddyRecord(data_0217aa08->mBuddyRecordBlock->mUnk_874, name, &friendData, 1, 0, 1);
+    return AddOrUpdateBuddyRecord(data_0217aa08->mBuddyRecordBlock->mFriendData, name, &friendData, 1, 0, 1);
 }
