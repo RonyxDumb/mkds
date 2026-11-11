@@ -10,33 +10,34 @@
 #include "Main/Unknown/code_0203c5f8.h"
 
 s32 PackOwnKartProgress(void) {
-    u32 c;
+    u32 progress;
     s32 kartStartRank;
     u16 kartIndex;
-    s32 d;
+    s32 value;
     s32 lapBits;
 
     kartIndex = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
     kartStartRank = GetKartStartRank(kartIndex);
-    c = GetKartFinishTimeMs(kartIndex) & WIFI_RACE_SYNC_PROGRESS_TIME_MASK;
+    progress = GetKartFinishTimeMs(kartIndex) & WIFI_RACE_SYNC_PROGRESS_TIME_MASK;
     if (IsKartEnded(kartIndex) != 0 &&
         gRaceProgress->mKarts[kartIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
         gWiFiRaceSync->mFinishRecorded == FALSE) {
-        c = WIFI_RACE_SYNC_PROGRESS_DID_NOT_FINISH;
+        progress = WIFI_RACE_SYNC_PROGRESS_DID_NOT_FINISH;
     }
-    if (c == 0) {
-        c = kartStartRank - 1;
+    if (progress == 0) {
+        progress = kartStartRank - 1;
     }
     if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
-        d = 0;
+        value = 0;
     } else {
-        d = 6 - GetKartHighestLap(kartIndex);
+        value = 6 - GetKartHighestLap(kartIndex);
     }
-    lapBits = (d << WIFI_RACE_SYNC_PROGRESS_LAPS_SHIFT) & WIFI_RACE_SYNC_PROGRESS_LAPS_MASK;
+    lapBits = (value << WIFI_RACE_SYNC_PROGRESS_LAPS_SHIFT) & WIFI_RACE_SYNC_PROGRESS_LAPS_MASK;
     if (IsKartEnded(kartIndex) == 0 && gWiFiRaceSync->mFinishRecorded == FALSE) {
-        d = 1;
+        value = 1;
     } else {
-        d = 0;
+        value = 0;
     }
-    return c | (((d << WIFI_RACE_SYNC_PROGRESS_RACING_SHIFT) & WIFI_RACE_SYNC_PROGRESS_RACING_MASK) | lapBits);
+    return progress |
+           (((value << WIFI_RACE_SYNC_PROGRESS_RACING_SHIFT) & WIFI_RACE_SYNC_PROGRESS_RACING_MASK) | lapBits);
 }

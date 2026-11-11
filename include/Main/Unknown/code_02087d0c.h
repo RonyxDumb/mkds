@@ -63,7 +63,7 @@ void InitModelAnimationEntries(ModelAnimation *modelAnimation, void *anmFile, vo
 void InitModelAnimationEntry(ModelAnimation *modelAnimation, s32 entryIndex, void *anmResource, u32 loopFlag,
                              void *heap);
 void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,
-                        void *f);
+                        void *file);
 unsigned int MatCGetAnmObjFrameCount(Unk020882fc *anmObj);
 unsigned int VisGetAnmObjFrameCount(Unk020882fc *anmObj);
 unsigned int TexPatGetAnmObjFrameCount(Unk020882fc *anmObj);

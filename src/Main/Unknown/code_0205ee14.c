@@ -40,7 +40,7 @@ static inline BOOL BuddyRecordIsConnectionActive(void) {
 
 BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     u8 packedBytes[10] = {0};
-    u32 e;
+    u32 value;
     s32 cupCourseIndex;
     u32 characterKartValue;
     u8 bitPosition;
@@ -49,11 +49,11 @@ BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     u8 bitIndex;
     u32 bitOffset;
     s32 byteIndex;
-    u8 q;
+    u8 startBit;
     s32 xorKey;
 
-    e = timeRecord->mMillisecond + (timeRecord->mSecond * 1000 + timeRecord->mMinute * 60000);
-    if (e >= 240000) {
+    value = timeRecord->mMillisecond + (timeRecord->mSecond * 1000 + timeRecord->mMinute * 60000);
+    if (value >= 240000) {
         return 0;
     }
     cupCourseIndex = FindCupCourseIndex(courseId);
@@ -64,8 +64,8 @@ BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     if (characterKartValue >= 0x200) {
         return 0;
     }
-    e = ((e & 0x3ffff) << 14) | ((cupCourseIndex & 0x1f) << 9);
-    *(u32 *) &packedBytes[0] = e | (characterKartValue & 0x1ff);
+    value = ((value & 0x3ffff) << 14) | ((cupCourseIndex & 0x1f) << 9);
+    *(u32 *) &packedBytes[0] = value | (characterKartValue & 0x1ff);
     MI_CpuCopy8(&timeRecord->mName, &packedBytes[4], 4);
     *(u16 *) &packedBytes[8] = 0;
     WriteBlockTail(packedBytes, 10, 1);
@@ -77,12 +77,12 @@ BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
     for (charIndex = 0, bitOffset = 0; charIndex < 16; charIndex++) {
         charValue = 0;
         for (bitIndex = 0; bitIndex < 5; bitIndex++) {
-            q = bitOffset;
-            bitPosition = q + bitIndex;
+            startBit = bitOffset;
+            bitPosition = startBit + bitIndex;
             charValue = (u16) (charValue | ((packedBytes[(u8) (bitPosition / 8)] >> (u8) (7 - bitPosition % 8)) & 1))
                         << 1;
         }
-        charsOut[charIndex] = gTimeRecordCharTable[(u8) (charValue / 2)];
+        charsOut[charIndex] = GetTimeRecordChar(charValue / 2);
         bitOffset += 5;
     }
     return 1;

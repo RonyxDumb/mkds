@@ -49,13 +49,13 @@ void SNDi_CallAlarmHandler(int alarmNo) {
 // Waits for the other processor's side of the command channel, links all records into the free list, clears the
 // counters and queues the command that hands over the shared work area.
 void SND_CommandInit(void) {
-    s32 i;
+    s32 commandIndex;
     SNDCommand *command;
 
     InitPXI();
     data_021732c8 = data_021735a0;
-    for (i = 0; i < 255; i++) {
-        data_021735a0[i].mNext = &data_021735a0[i + 1];
+    for (commandIndex = 0; commandIndex < 255; commandIndex++) {
+        data_021735a0[commandIndex].mNext = &data_021735a0[commandIndex + 1];
     }
     data_021735a0[255].mNext = 0;
     data_021732d8 = &data_021735a0[255];
@@ -84,7 +84,7 @@ const SNDCommand *SND_RecvCommandReply(u32 flags) {
     u32 enabled;
     SNDCommand *commandList;
     SNDCommand *commandListEnd;
-    s32 i;
+    s32 listIndex;
 
     enabled = OS_DisableInterrupts();
     if ((flags & 1) != 0) {
@@ -97,9 +97,9 @@ const SNDCommand *SND_RecvCommandReply(u32 flags) {
         OS_RestoreInterrupts(enabled);
         return 0;
     }
-    i = data_021732dc;
-    commandList = data_021732ec[i];
-    data_021732dc = i + 1;
+    listIndex = data_021732dc;
+    commandList = data_021732ec[listIndex];
+    data_021732dc = listIndex + 1;
     if (data_021732dc > 8) {
         data_021732dc = 0;
     }

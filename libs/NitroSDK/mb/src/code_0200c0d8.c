@@ -23,12 +23,12 @@ void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer) {
 #pragma thumb on
 
 void MBi_ClearParentPieceBuffer(s32 child) {
-    s32 i;
+    s32 childIndex;
 
     if (gPieceBuffer != NULL) {
-        i = child - 1;
-        MI_CpuFill8(&gPieceBuffer->mDataBuf[i * 0x20], 0, 0x1e);
-        gPieceBuffer->mDataBmp[i] = 0;
+        childIndex = child - 1;
+        MI_CpuFill8(&gPieceBuffer->mDataBuf[childIndex * 0x20], 0, 0x1e);
+        gPieceBuffer->mDataBmp[childIndex] = 0;
     }
 }
 
@@ -62,7 +62,7 @@ u8 *MBi_MakeParentSendBuffer(u8 *input, u8 *output) {
 }
 
 u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
-    u8 *v1;
+    u8 *result;
     message->mKind = bytes[0];
     switch (message->mKind) {
         case 7:
@@ -74,24 +74,24 @@ u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
                 return NULL;
             }
             MI_CpuCopy8(bytes + 2, (u8 *) message + 3, gPieceSizes.mPieceSize);
-            v1 = MBi_ReceiveRequestDataPiece(message, child);
+            result = MBi_ReceiveRequestDataPiece(message, child);
             break;
         case 8:
             message->mUnk_02 = bytes[1] & 0xff;
-            v1 = bytes + 3;
+            result = bytes + 3;
             message->mUnk_02 |= (bytes[2] << 8) & 0xff00;
             break;
         case 9:
             message->mUnk_02 = bytes[1] & 0xff;
-            v1 = bytes + 3;
+            result = bytes + 3;
             message->mUnk_02 |= (bytes[2] << 8) & 0xff00;
-            MI_CpuCopy8(v1, message->mUnk_04, gPieceSizes.mPieceSize);
-            v1 += gPieceSizes.mPieceSize;
+            MI_CpuCopy8(result, message->mUnk_04, gPieceSizes.mPieceSize);
+            result += gPieceSizes.mPieceSize;
             break;
         default:
             return NULL;
     }
-    return v1;
+    return result;
 }
 
 u8 *MBi_ReceiveRequestDataPiece(ChildMessage *message, u32 child) {
@@ -119,19 +119,19 @@ u8 *MBi_ReceiveRequestDataPiece(ChildMessage *message, u32 child) {
 }
 
 u32 IsGetAllRequestData(u32 child) {
-    u16 i;
+    u16 pieceIndex;
     s32 pieceCount;
     u32 receivedMask;
-    i = 0;
+    pieceIndex = 0;
     pieceCount = gPieceSizes.mPieceCount;
     if (pieceCount > 0) {
         receivedMask = gPieceBuffer->mDataBmp[child - 1];
         do {
-            if (((1 << i) & receivedMask) == 0) {
+            if (((1 << pieceIndex) & receivedMask) == 0) {
                 return 0;
             }
-            i++;
-        } while (i < pieceCount);
+            pieceIndex++;
+        } while (pieceIndex < pieceCount);
     }
     return 1;
 }
@@ -172,16 +172,16 @@ u8 MBi_SendRequestDataPiece(void *output, void *pieces) {
 }
 
 u8 *MBi_SetRecvBufferFromParent(ParentMessage *message, u8 *buffer) {
-    u8 *v1;
+    u8 *highByte;
     message->mKind = *buffer++;
     switch (message->mKind) {
         case 4:
             message->mUnk_02 = buffer[0];
             message->mUnk_02 |= buffer[1] << 8;
             message->mUnk_04 = buffer[2];
-            v1 = buffer + 3;
+            highByte = buffer + 3;
             buffer += 4;
-            message->mUnk_04 |= *v1 << 8;
+            message->mUnk_04 |= *highByte << 8;
             break;
         case 1:
         case 2:

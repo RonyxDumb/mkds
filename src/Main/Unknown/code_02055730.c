@@ -205,12 +205,12 @@ void ToggleDispCapBanks(void) {
 }
 
 // Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (bit 2 of mFlags set) or 0x1000.
-void AdvanceDispCapBlend(s32 a) {
+void AdvanceDispCapBlend(s32 prevMenuOpen) {
     u8 weight;
 
     weight = gDispCap->mBlendMin + (((16 - gDispCap->mBlendMin) * gDispCap->mBlendFactor) >> 12);
     reg_GX_DISPCAPCNT = weight | (0xc0330000 | (u8) (16 - weight) << 8);
-    if (a != 0) {
+    if (prevMenuOpen != 0) {
         return;
     }
     if (gDispCap->mFlags & 2) {
@@ -232,15 +232,15 @@ void AdvanceDispCapBlend(s32 a) {
     }
 }
 
-void AdvanceDispCap(s32 a) {
+void AdvanceDispCap(s32 prevMenuOpen) {
     switch (gDispCap->mMode) {
         case 1:
-            if (a == 0) {
+            if (prevMenuOpen == 0) {
                 ToggleDispCapBanks();
             }
             break;
         case 2:
-            AdvanceDispCapBlend(a);
+            AdvanceDispCapBlend(prevMenuOpen);
             break;
     }
     if (!(gDispCap->mFlags & 4)) {

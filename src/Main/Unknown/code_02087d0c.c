@@ -32,17 +32,17 @@ u32 MatCGetAnmObjFrameCount(Unk020882fc *anmObj) {
 }
 
 void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,
-                        void *f) {
-    u16 i;
+                        void *file) {
+    u16 objIndex;
 
     if (anmObjCount != 0) {
-        i = 0;
+        objIndex = 0;
         if (heap != NULL) {
             modelAnimation->mAnmObjs = HeapAlloc(heap, anmObjCount * 4);
             modelAnimation->mLoopFlags = HeapAlloc(heap, anmObjCount * 4);
-            for (; i < anmObjCount; i++) {
-                modelAnimation->mAnmObjs[i] = NULL;
-                modelAnimation->mLoopFlags[i] = 0;
+            for (; objIndex < anmObjCount; objIndex++) {
+                modelAnimation->mAnmObjs[objIndex] = NULL;
+                modelAnimation->mLoopFlags[objIndex] = 0;
             }
         }
     }
@@ -76,35 +76,35 @@ void InitModelAnimationEntry(ModelAnimation *modelAnimation, s32 entryIndex, voi
 
 void InitModelAnimationEntries(ModelAnimation *modelAnimation, void *anmFile, void *heap) {
     void *anmResource = NULL;
-    u8 i = 0;
+    u8 objIndex = 0;
     NNSG3dAnmObj *anmObj;
 
-    for (i = 0; i < modelAnimation->mAnmObjCount; i++) {
+    for (objIndex = 0; objIndex < modelAnimation->mAnmObjCount; objIndex++) {
         switch (modelAnimation->mKind) {
             case MODEL_ANIMATION_KIND_JOINT:
-                anmResource = NNS_G3dGetJntAnmByIdx(NNS_G3dGetJntAnmSet(anmFile), i);
+                anmResource = NNS_G3dGetJntAnmByIdx(NNS_G3dGetJntAnmSet(anmFile), objIndex);
                 break;
             case MODEL_ANIMATION_KIND_TEX_PAT:
-                anmResource = NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(anmFile), i);
+                anmResource = NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(anmFile), objIndex);
                 break;
             case MODEL_ANIMATION_KIND_TEX_SRT:
-                anmResource = NNS_G3dGetTexSRTAnmByIdx(NNS_G3dGetTexSRTAnmSet(anmFile), i);
+                anmResource = NNS_G3dGetTexSRTAnmByIdx(NNS_G3dGetTexSRTAnmSet(anmFile), objIndex);
                 break;
             case MODEL_ANIMATION_KIND_VIS:
-                anmResource = NNS_G3dGetVisAnmByIdx(NNS_G3dGetVisAnmSet(anmFile), i);
+                anmResource = NNS_G3dGetVisAnmByIdx(NNS_G3dGetVisAnmSet(anmFile), objIndex);
                 break;
             case MODEL_ANIMATION_KIND_MAT_C:
-                anmResource = NNS_G3dGetMatCAnmByIdx(NNS_G3dGetMatCAnmSet(anmFile), i);
+                anmResource = NNS_G3dGetMatCAnmByIdx(NNS_G3dGetMatCAnmSet(anmFile), objIndex);
                 break;
         }
         if (heap != NULL) {
             gAnmObjSizeRequired = NNS_G3dAnmObjCalcSizeRequired(anmResource, modelAnimation->mRenderObj->mResMdl);
             anmObj = HeapAlloc(heap, gAnmObjSizeRequired);
-            modelAnimation->mAnmObjs[i] = anmObj;
-            modelAnimation->mLoopFlags[i] = 0;
+            modelAnimation->mAnmObjs[objIndex] = anmObj;
+            modelAnimation->mLoopFlags[objIndex] = 0;
         } else {
-            anmObj = modelAnimation->mAnmObjs[i];
-            modelAnimation->mLoopFlags[i] = 0;
+            anmObj = modelAnimation->mAnmObjs[objIndex];
+            modelAnimation->mLoopFlags[objIndex] = 0;
         }
         NNS_G3dAnmObjInit(anmObj, anmResource, modelAnimation->mRenderObj->mResMdl,
                           modelAnimation->mRenderObj->mResFileEntry.mTexture);

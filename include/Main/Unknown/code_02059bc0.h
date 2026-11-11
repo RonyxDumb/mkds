@@ -7,7 +7,7 @@ typedef struct SceneNumbers SceneNumbers;
 
 struct MapObjectKindDescriptor;
 
-void UpdateResultScene(SceneNumbers *arg0);
+void UpdateResultScene(SceneNumbers *sceneNumbers);
 void WriteResultSceneRegistersCallback(void);
 void ReleaseResultScene(void);
 void InitResultScene(void);

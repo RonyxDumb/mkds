@@ -46,13 +46,13 @@ void CallKartSlot6AndToggleFlag(Kart *kart) {
 }
 
 void KartAiCallKartSlot6AndToggleFlag(Kart *kart) {
-    u32 b;
+    u32 flagBits;
 
-    b = kart->mUnk_7c & 0x400;
-    if (b != 0) {
+    flagBits = kart->mUnk_7c & 0x400;
+    if (flagBits != 0) {
         return;
     }
-    if (b == 0) {
+    if (flagBits == 0) {
         kart->mSlotFunctions[6](kart);
         if ((kart->mUnk_7c & 0x200) != 0) {
             kart->mParticipantRecordData->mEventToggleFlags ^= 0x10000;
@@ -65,7 +65,7 @@ void KartAiCallKartSlot6AndToggleFlag(Kart *kart) {
 
 void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
     u32 killerItemKartIndex;
-    MtxFx33 c;
+    MtxFx33 rotationMatrix;
     MtxFx43 positionMatrix;
     Vec3 effectPosition;
     Vec3 offset;
@@ -81,12 +81,12 @@ void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
         return;
     }
     currentViewMatrix = GetCurrentViewMatrix();
-    NNS_G3dGetCurrentMtx(&positionMatrix, &c);
+    NNS_G3dGetCurrentMtx(&positionMatrix, &rotationMatrix);
     MTX_Inverse43(currentViewMatrix, &inverseViewMatrix);
     MTX_Concat43(&positionMatrix, &inverseViewMatrix, &positionMatrix);
-    MTX_Concat33(&c, &inverseViewMatrix.mAxes, &c);
+    MTX_Concat33(&rotationMatrix, &inverseViewMatrix.mAxes, &rotationMatrix);
     effectPosition = positionMatrix.mRows[3];
-    offset = c.mRows[2];
+    offset = rotationMatrix.mRows[2];
     kart = GetKart(killerItemKartIndex);
     offsetScale = MUL_FIXED12_ROUNDED(kart->mRadiusFactor, -0xd000) >> 4;
     offset.x = MUL_FIXED12_NO_ROUND(offset.x, offsetScale);

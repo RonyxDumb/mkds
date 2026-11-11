@@ -53,7 +53,7 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     u16 nsbmdIndex;
     Nsbmd *nsbmd;
     Nsbmd *nsbcaModel;
-    ModelAnimation *g;
+    ModelAnimation *nsbcaAnimation;
     u16 nsbcaIndex;
     Nsbmd *nsbmaModel;
     ModelAnimation *nsbmaAnimation;
@@ -89,11 +89,11 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     }
     for (nsbcaIndex = 0; nsbcaIndex < stemSetParams->mNsbcaCount; nsbcaIndex++) {
         nsbcaModel = &stemSet->mNsbmds[nsbcaIndex];
-        g = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
+        nsbcaAnimation = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
         snprintf(fileName, 0x80, "%s.nsbca", stemSetParams->mStems[nsbcaIndex]);
-        InitModelAnimation(0, g, nsbcaModel, 1, heap, NULL);
-        InitModelAnimationEntries(g, FindSceneFile(fileName), heap);
-        SetModelAnimation(g, 0);
+        InitModelAnimation(0, nsbcaAnimation, nsbcaModel, 1, heap, NULL);
+        InitModelAnimationEntries(nsbcaAnimation, FindSceneFile(fileName), heap);
+        SetModelAnimation(nsbcaAnimation, 0);
     }
     for (nsbmaIndex = 0; nsbmaIndex < stemSetParams->mNsbmaCount; nsbmaIndex++) {
         nsbmaModel = &stemSet->mNsbmds[nsbmaIndex];
@@ -104,14 +104,15 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
         SetModelAnimation(nsbmaAnimation, 0);
     }
     if (useOneNsbtpAnimation != FALSE) {
-        g = stemSet->mNsbcaNsbmaNsbtp[2];
-        InitModelAnimation(2, g, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
+        nsbcaAnimation = stemSet->mNsbcaNsbmaNsbtp[2];
+        InitModelAnimation(2, nsbcaAnimation, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
         for (nsbtpIndex = 0; nsbtpIndex < stemSetParams->mNsbtpCount; nsbtpIndex++) {
             snprintf(fileName, 0x80, "%s.nsbtp", stemSetParams->mStems[nsbtpIndex]);
-            InitModelAnimationEntry(
-                g, nsbtpIndex, NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(FindSceneFile(fileName)), 0), 0, heap);
+            InitModelAnimationEntry(nsbcaAnimation, nsbtpIndex,
+                                    NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(FindSceneFile(fileName)), 0), 0,
+                                    heap);
         }
-        SetModelAnimation(g, 0);
+        SetModelAnimation(nsbcaAnimation, 0);
     }
 }
 
@@ -159,7 +160,7 @@ void InitStemSetArray(void *heap) {
 
 void StartStemSet(s32 setIndex) {
     StemSet *stemSet;
-    ModelAnimation *e;
+    ModelAnimation *animations;
     u16 nsbmdIndex;
     s32 animationIndex;
     s32 loopCount;
@@ -190,15 +191,15 @@ void StartStemSet(s32 setIndex) {
                 loopCount = 3;
             }
             SetModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
-            e = stemSet->mNsbcaNsbmaNsbtp[0];
-            if (e != NULL) {
-                e[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
-                e[nsbmdIndex].mHead.mLoopCount = loopCount;
+            animations = stemSet->mNsbcaNsbmaNsbtp[0];
+            if (animations != NULL) {
+                animations[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
+                animations[nsbmdIndex].mHead.mLoopCount = loopCount;
             }
-            e = stemSet->mNsbcaNsbmaNsbtp[1];
-            if (e != NULL) {
-                e[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
-                e[nsbmdIndex].mHead.mLoopCount = loopCount;
+            animations = stemSet->mNsbcaNsbmaNsbtp[1];
+            if (animations != NULL) {
+                animations[nsbmdIndex].mHead.mLoopMode = MODEL_ANIMATION_LOOP_MODE_LOOP_COUNT;
+                animations[nsbmdIndex].mHead.mLoopCount = loopCount;
             }
         }
     }

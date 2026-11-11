@@ -17,29 +17,29 @@
 #pragma thumb on
 
 u64 DWC_StringToFriendKey(const char *string) {
-    const s8 *p = (const s8 *) string;
+    const s8 *chars = (const s8 *) string;
     u64 result;
     u64 dec;
-    s32 i;
+    s32 digitIndex;
 
     result = 0;
     dec = 1;
-    for (i = 0; i < 12; i++) {
-        result += dec * (s64) (*(p + 11 - i) - 0x30);
+    for (digitIndex = 0; digitIndex < 12; digitIndex++) {
+        result += dec * (s64) (*(chars + 11 - digitIndex) - 0x30);
         dec *= 10;
     }
     return result;
 }
 
 void DWCi_Acc_U64ToString32(u64 num, s32 bitnum, char *result) {
-    s32 i;
+    s32 charIndex;
     s32 len;
     const s8 *table;
 
     len = (bitnum + 4) / 5;
     table = data_0216f2b0;
-    for (i = 0; i < len; i++) {
-        *(result + len - 1 - i) = table[num & 0x1f];
+    for (charIndex = 0; charIndex < len; charIndex++) {
+        *(result + len - 1 - charIndex) = table[num & 0x1f];
         num = num >> 5;
     }
     result[len] = 0;

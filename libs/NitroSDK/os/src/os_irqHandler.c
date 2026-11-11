@@ -10,21 +10,21 @@
 // Optionally clears the bits irqFlags of the IRQ check flag, then sleeps the thread until one of them is set.
 void OS_WaitIrq(u32 clear, u32 irqFlags) {
     u32 enabled;
-    Unk027e0000 *p;
-    u32 *q;
+    Unk027e0000 *dtcm;
+    u32 *pendingFlags;
 
     enabled = OS_DisableInterrupts();
-    p = HW_DTCM;
+    dtcm = HW_DTCM;
     if (clear != 0) {
-        p->mUnk_3ff8 &= ~irqFlags;
+        dtcm->mUnk_3ff8 &= ~irqFlags;
     }
     OS_RestoreInterrupts(enabled);
-    p = HW_DTCM;
-    if ((irqFlags & p->mUnk_3ff8) != 0) {
+    dtcm = HW_DTCM;
+    if ((irqFlags & dtcm->mUnk_3ff8) != 0) {
         return;
     }
-    q = &p->mUnk_3ff8;
+    pendingFlags = &dtcm->mUnk_3ff8;
     do {
         OS_SleepThread(&data_027e0000.mUnk_0000);
-    } while ((irqFlags & *q) == 0);
+    } while ((irqFlags & *pendingFlags) == 0);
 }

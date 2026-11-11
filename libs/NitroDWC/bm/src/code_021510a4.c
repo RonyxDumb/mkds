@@ -33,22 +33,22 @@ u8 DWCi_BACKUPlConvMaskCidr(const u8 *mask) {
 }
 
 void DWCi_BACKUPlConvMaskAddr(u32 mask, u8 *buf) {
-    s32 i;
+    s32 byteIndex;
     u32 value;
     u32 shift;
-    i = 0;
-    value = ((u32) ~i >> mask) ^ ~i;
-    shift = i;
-    for (; i < 4; i++) {
-        buf[i] = value >> (0x18 - shift);
+    byteIndex = 0;
+    value = ((u32) ~byteIndex >> mask) ^ ~byteIndex;
+    shift = byteIndex;
+    for (; byteIndex < 4; byteIndex++) {
+        buf[byteIndex] = value >> (0x18 - shift);
         shift += 8;
     }
 }
 
 BOOL DWC_BACKUPlCheckSsid(const u8 *ssid) {
-    s32 i;
-    for (i = 0; i < 0x20; i++) {
-        if (ssid[i] != 0) {
+    s32 byteIndex;
+    for (byteIndex = 0; byteIndex < 0x20; byteIndex++) {
+        if (ssid[byteIndex] != 0) {
             return 1;
         }
     }
@@ -85,43 +85,44 @@ BOOL DWC_BACKUPlCheckAddress(const u8 *address) {
     return 0;
 }
 
-static inline u32 sendSixWords(u32 tag, u32 w0, u32 w1, u32 w2, u32 w3, u32 w4, u32 w5) {
-    if (PXI_SendWordByFifo(tag, w0, 0) < 0) {
+static inline u32 sendSixWords(u32 tag, u32 firstWord, u32 secondWord, u32 thirdWord, u32 fourthWord, u32 fifthWord,
+                               u32 sixthWord) {
+    if (PXI_SendWordByFifo(tag, firstWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, w1, 0) < 0) {
+    if (PXI_SendWordByFifo(tag, secondWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, w2, 0) < 0) {
+    if (PXI_SendWordByFifo(tag, thirdWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, w3, 0) < 0) {
+    if (PXI_SendWordByFifo(tag, fourthWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, w4, 0) < 0) {
+    if (PXI_SendWordByFifo(tag, fifthWord, 0) < 0) {
         return 0;
     }
-    if (PXI_SendWordByFifo(tag, w5, 0) < 0) {
-        return 0;
-    }
-    return 1;
-}
-
-static inline u32 sendThreeWords(u32 tag, u32 w0, u32 w1, u32 w2) {
-    if (PXI_SendWordByFifo(tag, w0, 0) < 0) {
-        return 0;
-    }
-    if (PXI_SendWordByFifo(tag, w1, 0) < 0) {
-        return 0;
-    }
-    if (PXI_SendWordByFifo(tag, w2, 0) < 0) {
+    if (PXI_SendWordByFifo(tag, sixthWord, 0) < 0) {
         return 0;
     }
     return 1;
 }
 
-static inline u32 sendOneWord(u32 tag, u32 w0) {
-    if (PXI_SendWordByFifo(tag, w0, 0) >= 0) {
+static inline u32 sendThreeWords(u32 tag, u32 firstWord, u32 secondWord, u32 thirdWord) {
+    if (PXI_SendWordByFifo(tag, firstWord, 0) < 0) {
+        return 0;
+    }
+    if (PXI_SendWordByFifo(tag, secondWord, 0) < 0) {
+        return 0;
+    }
+    if (PXI_SendWordByFifo(tag, thirdWord, 0) < 0) {
+        return 0;
+    }
+    return 1;
+}
+
+static inline u32 sendOneWord(u32 tag, u32 word) {
+    if (PXI_SendWordByFifo(tag, word, 0) >= 0) {
         return 1;
     }
     return 0;

@@ -43,10 +43,10 @@ u32 NNS_SndPlayerStopSeq(NNSSndSeqPlayer **handle, u32 fadeSteps) {
 
 // Stops every sequence player that is in use.
 void NNS_SndPlayerStopSeqAll(u32 fadeSteps) {
-    s32 i;
+    s32 playerNo;
     NNSSndSeqPlayer *seq;
 
-    for (i = 0, seq = data_0217d45c; i < 16; i++) {
+    for (playerNo = 0, seq = data_0217d45c; playerNo < 16; playerNo++) {
         if (seq->mStatus != 0) {
             NNSi_SndPlayerStopSeq(seq, fadeSteps);
         }
@@ -228,18 +228,18 @@ BOOL NNS_SndPlayerWriteVariable(NNSSndSeqPlayer **handle, int variable, s16 valu
 
 // Sets up the lists of busy and free sequence players, and the player objects.
 void NNSi_SndPlayerInit(void) {
-    s32 i;
+    s32 index;
     NNSSndSeqPlayer *seq;
     NNSSndPlayer *player;
 
     NNS_FndInitList(&data_0217d450, 0x14);
     NNS_FndInitList(&data_0217d444, 0x14);
-    for (i = 0, seq = data_0217d45c; i < 16; i++, seq++) {
+    for (index = 0, seq = data_0217d45c; index < 16; index++, seq++) {
         seq->mStatus = 0;
-        seq->mPlayerNo = i;
+        seq->mPlayerNo = index;
         NNS_FndAppendListObject(&data_0217d444, seq);
     }
-    for (i = 0, player = data_0217d89c; i < 32; i++, player++) {
+    for (index = 0, player = data_0217d89c; index < 32; index++, player++) {
         NNS_FndInitList(&player->mPlayerList, 0xc);
         NNS_FndInitList(&player->mHeapList, 0);
         player->mVolume = 0x7f;

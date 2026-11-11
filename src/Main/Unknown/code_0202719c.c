@@ -423,25 +423,25 @@ void StartSelectCharacterReturn(void) {
 
 void SetSelectCharacterRowCellsVisible(s32 visible) {
     SelectCharacter *selectCharacter;
-    s32 i;
+    s32 rowIndex;
     CellFileSet *sParts;
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
     if (gBootInfo->mUnk_00 != 2) {
-        for (i = 0; i < gSelectCharacter->mTableRowCount; i++) {
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mVisible = visible;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mVisible =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mVisible;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_00].mVisible =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mVisible;
+        for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible = visible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mVisible =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible;
         }
         sParts->mCellTable[25].mVisible = visible;
     }
 }
 
 void SetSelectCharacterBracketsResting(void) {
-    s32 i;
+    s32 rowIndex;
     CellFileSet *sParts;
     SelectCharacterRowCellIndices *tableRow;
 
@@ -450,7 +450,7 @@ void SetSelectCharacterBracketsResting(void) {
         sParts->mCellTable[24].mVisible = 0;
         sParts->mCellTable[25].mVisible = 1;
         tableRow = gSelectCharacterRowCellIndices;
-        for (i = 0; i < 12; i++) {
+        for (rowIndex = 0; rowIndex < 12; rowIndex++) {
             sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetX = 0;
             sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetY = 0;
             tableRow++;

@@ -144,8 +144,8 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
     enum { K0 } rowIndex;
     BOOL rowWritten;
     s32 raceMode;
-    BOOL s;
-    BOOL t;
+    BOOL overridden;
+    BOOL matched;
     SoundRow courseRow;
     Unk021759c0_28 *mission;
 
@@ -161,12 +161,12 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                     rowWritten = TRUE;
                     if (raceMode == MODE_MISSION_RUN) {
                         mission = &gRaceSetup->mUnk_28_view;
-                        s = FALSE;
+                        overridden = FALSE;
                         if (mission->mMissionTableValue == 4) {
                             output->mUnk_00[1] = 0x2a;
-                            s = TRUE;
+                            overridden = TRUE;
                         }
-                        if (s == FALSE) {
+                        if (overridden == FALSE) {
                             switch (mission->mMissionKind) {
                                 case 1:
                                     output->mUnk_00[1] = 0x2c;
@@ -177,7 +177,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                                     break;
                             }
                         }
-                        t = TRUE;
+                        matched = TRUE;
                         switch (mission->mMissionTableValue) {
                             case 9:
                             case 10:
@@ -198,10 +198,10 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                             case 0x31:
                                 break;
                             default:
-                                t = FALSE;
+                                matched = FALSE;
                                 break;
                         }
-                        if (t != FALSE) {
+                        if (matched != FALSE) {
                             output->mUnk_00[3] = 0x22;
                         }
                     }

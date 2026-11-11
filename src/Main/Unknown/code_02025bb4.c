@@ -5,10 +5,10 @@
 
 #pragma thumb on
 
-void SetCellLayoutEntryXY(int entryId, int x, int y, LayoutEntryTable *cellLayout) {
+void SetCellLayoutEntryXY(int entryId, int entryX, int entryY, LayoutEntryTable *cellLayout) {
     short *entry = (GetCellLayoutEntry(cellLayout, entryId));
-    entry[0] = (entry[0] & 0xfffff000U) | (x & 0xfff);
-    entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
+    entry[0] = (entry[0] & 0xfffff000U) | (entryX & 0xfff);
+    entry[1] = (entry[1] & 0xfffff000U) | (entryY & 0xfff);
 }
 
 void CopyCellLayoutEntryPosition(u32 destinationId, u32 sourceId, LayoutEntryTable *cellLayout) {
@@ -44,10 +44,10 @@ void SetLayoutEntryPositionFromLabel(u32 entryId, LayoutTableEntry *output, Layo
     output->mPositionY = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
-void RectTableSetEntryXY(int id, int x, int y, LayoutEntryTable *graphics) {
+void RectTableSetEntryXY(int id, int entryX, int entryY, LayoutEntryTable *graphics) {
     short *entry = (s16 *) RectTableGetEntry(graphics, id);
-    entry[0] = (entry[0] & 0xfffff000U) | (x & 0xfff);
-    entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
+    entry[0] = (entry[0] & 0xfffff000U) | (entryX & 0xfff);
+    entry[1] = (entry[1] & 0xfffff000U) | (entryY & 0xfff);
 }
 
 #pragma thumb off

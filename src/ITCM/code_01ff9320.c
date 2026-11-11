@@ -22,7 +22,7 @@ Unk01ff9320_Fn calcTexMtx_[8] = {
 void texmtxCalc_flagTS_(s32 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     s32 widthFixed;
     s32 heightFixed;
-    s32 t;
+    s32 negSum;
 
     widthFixed = matAnmResult->mUnk_2c << 12;
     heightFixed = matAnmResult->mUnk_2e << 12;
@@ -31,21 +31,21 @@ void texmtxCalc_flagTS_(s32 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     matrix[5] = matAnmResult->mUnk_20[1];
     matrix[1] = (-matAnmResult->mUnk_20[0] * FX_GetDivResult()) >> 12;
     FX_DivAsync(widthFixed, heightFixed);
-    t = -(matAnmResult->mUnk_20[0] + matAnmResult->mUnk_20[1]);
-    matrix[12] = (matAnmResult->mUnk_2c * (t + 0x1000)) << 3;
+    negSum = -(matAnmResult->mUnk_20[0] + matAnmResult->mUnk_20[1]);
+    matrix[12] = (matAnmResult->mUnk_2c * (negSum + 0x1000)) << 3;
     matrix[13] = (matAnmResult->mUnk_2e * (matAnmResult->mUnk_20[0] - matAnmResult->mUnk_20[1] + 0x1000)) << 3;
     matrix[4] = (matAnmResult->mUnk_20[0] * FX_GetDivResult()) >> 12;
 }
 
 void texmtxCalc_flagTR_(s32 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
-    s32 t;
+    s32 negScale;
 
     matrix[0] = matAnmResult->mUnk_18[0];
     matrix[5] = matAnmResult->mUnk_18[1];
     matrix[1] = 0;
     matrix[12] = 0;
-    t = -(matAnmResult->mUnk_18[1] << 1);
-    matrix[13] = (matAnmResult->mUnk_2e * (t + 0x2000)) << 3;
+    negScale = -(matAnmResult->mUnk_18[1] << 1);
+    matrix[13] = (matAnmResult->mUnk_2e * (negScale + 0x2000)) << 3;
     matrix[4] = 0;
 }
 

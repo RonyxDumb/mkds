@@ -12,7 +12,7 @@ void PickRandomKarts(CharacterKartPicks *picks) {
     u32 givenBits;
     u8 entry;
     RandomState64 *random;
-    u8 u;
+    u8 kartOffset;
     u8 candidateBits;
     u8 seen;
     s32 kart;
@@ -45,23 +45,25 @@ void PickRandomKarts(CharacterKartPicks *picks) {
         candidateBits = 0;
         if ((givenBits & (1 << entry)) == 0) {
             picks->mKartIndices[entry] = -1;
-            u = 0;
+            kartOffset = 0;
             firstKart = character * 3;
-            for (; u < 3; u++) {
-                if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, u + firstKart) != FALSE) {
-                    candidateBits = candidateBits | (1 << u);
+            for (; kartOffset < 3; kartOffset++) {
+                if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, kartOffset + firstKart) !=
+                    FALSE) {
+                    candidateBits = candidateBits | (1 << kartOffset);
                 }
             }
-            for (u = 0; u < 8; u++) {
-                if ((givenBits & (1 << u)) != 0 && picks->mKartIndices[u] >= firstKart &&
-                    picks->mKartIndices[u] < (character + 1) * 3) {
-                    candidateBits = candidateBits & ~(1 << (picks->mKartIndices[u] - firstKart));
+            for (kartOffset = 0; kartOffset < 8; kartOffset++) {
+                if ((givenBits & (1 << kartOffset)) != 0 && picks->mKartIndices[kartOffset] >= firstKart &&
+                    picks->mKartIndices[kartOffset] < (character + 1) * 3) {
+                    candidateBits = candidateBits & ~(1 << (picks->mKartIndices[kartOffset] - firstKart));
                 }
             }
             if (candidateBits == 0) {
-                for (u = 0; u < 3; u++) {
-                    if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, u + firstKart) != FALSE) {
-                        candidateBits = candidateBits | (1 << u);
+                for (kartOffset = 0; kartOffset < 3; kartOffset++) {
+                    if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, kartOffset + firstKart) !=
+                        FALSE) {
+                        candidateBits = candidateBits | (1 << kartOffset);
                     }
                 }
             }
@@ -77,10 +79,10 @@ void PickRandomKarts(CharacterKartPicks *picks) {
                 }
             }
             seen = 0;
-            for (u = 0; u < 3 && kart == -1; u++) {
-                if ((candidateBits & (1 << u)) != 0) {
+            for (kartOffset = 0; kartOffset < 3 && kart == -1; kartOffset++) {
+                if ((candidateBits & (1 << kartOffset)) != 0) {
                     if (seen == (u16) pick) {
-                        kart = u + firstKart;
+                        kart = kartOffset + firstKart;
                     } else {
                         seen = seen + 1;
                     }
@@ -95,7 +97,7 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     RandomState64 localRandom;
     u16 availableBits;
     BOOL useSharedRandom;
-    s32 x;
+    s32 connectionMode;
     u32 givenBits;
     RandomState64 *random;
     u8 character;
@@ -114,11 +116,11 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     givenBits = picks->mCharacterGivenBits;
     useSharedRandom = FALSE;
     if (gConnectionWork == NULL) {
-        x = 0;
+        connectionMode = 0;
     } else {
-        x = gConnectionWork->mConnectionMode;
+        connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (x != 0 && gConnectionWork->mState != 0xd) {
+    if (connectionMode != 0 && gConnectionWork->mState != 0xd) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {

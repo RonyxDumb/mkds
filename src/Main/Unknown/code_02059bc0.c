@@ -247,26 +247,26 @@ void FreeOverlayExpHeap(void) {
 
 // Same finish as the wait loop without waiting: returns 1 when the overlay is loaded, else 0.
 s32 TryFinishOverlayLoad(void) {
-    enum { K0 } r;
+    enum { K0 } result;
     s32 state;
     OverlayLoader *loader;
 
-    r = 0;
+    result = 0;
     loader = gOverlayLoader;
     state = loader->mLoadState;
     if (state == 2) {
         return 1;
     }
     if (state != 1) {
-        return r;
+        return result;
     }
     if (loader->mFile.mStat & 1) {
         state = 1;
     } else {
-        state = r;
+        state = result;
     }
     if (state != 0) {
-        return r;
+        return result;
     }
     FS_StartOverlay(&loader->mInfo);
     FS_CloseFile(&gOverlayLoader->mFile);
@@ -307,17 +307,17 @@ void InitResultScene(void) {
 }
 
 void ReleaseResultScene(void) {
-    u32 value12;
+    u32 unusedValue;
     ReleaseResultsByMode();
 }
 
 void WriteResultSceneRegistersCallback(void) {
-    u32 value12;
+    u32 unusedValue;
     WriteResultsByMode();
 }
 
-void UpdateResultScene(SceneNumbers *arg0) {
-    SceneNumbers *value0 = arg0;
-    u32 value12;
-    AdvanceResultsByMode(value0);
+void UpdateResultScene(SceneNumbers *sceneNumbers) {
+    SceneNumbers *numbers = sceneNumbers;
+    u32 unusedValue;
+    AdvanceResultsByMode(numbers);
 }

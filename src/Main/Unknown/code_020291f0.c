@@ -53,14 +53,15 @@ void SetSelectKartPositionDigits(void) {
 }
 
 void MoveSelectKartNext(void) {
-    SelectKart *d;
+    SelectKart *selectKart;
     s32 index;
     index = gSelectKart->mKartTableIndex + 1;
     if (index >= 0x24) {
         index = 0;
     }
-    while (d = gSelectKart, index != d->mKartTableIndex) {
-        if (IsKartAppearWithinLimit(d->mKartAppear, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
+    while (selectKart = gSelectKart, index != selectKart->mKartTableIndex) {
+        if (IsKartAppearWithinLimit(selectKart->mKartAppear, selectKart->mCharacterIndex,
+                                    GetKartIndexAtTableIndex(index)) != 0) {
             gSelectKart->mKartTableIndex = index;
             gSelectKart->mKartIndex = GetKartIndexAtTableIndex(gSelectKart->mKartTableIndex);
         } else {
@@ -74,14 +75,15 @@ void MoveSelectKartNext(void) {
 }
 
 void MoveSelectKartPrev(void) {
-    SelectKart *d;
+    SelectKart *selectKart;
     s32 index;
     index = gSelectKart->mKartTableIndex - 1;
     if (index < 0) {
         index = 0x23;
     }
-    while (d = gSelectKart, index != d->mKartTableIndex) {
-        if (IsKartAppearWithinLimit(d->mKartAppear, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
+    while (selectKart = gSelectKart, index != selectKart->mKartTableIndex) {
+        if (IsKartAppearWithinLimit(selectKart->mKartAppear, selectKart->mCharacterIndex,
+                                    GetKartIndexAtTableIndex(index)) != 0) {
             gSelectKart->mKartTableIndex = index;
             gSelectKart->mKartIndex = GetKartIndexAtTableIndex(gSelectKart->mKartTableIndex);
         } else {

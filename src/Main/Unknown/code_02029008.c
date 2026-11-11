@@ -21,7 +21,7 @@
 #pragma thumb on
 s32 UpdateSelectKartTouchHold(void) {
     s32 result = -1;
-    CellFileSet *p = &gSelectKart->mSelectKartSParts;
+    CellFileSet *cellFileSet = &gSelectKart->mSelectKartSParts;
     u16 slotIndex = GetPadInputSlot();
     s32 pairX;
     s32 pairY;
@@ -30,7 +30,7 @@ s32 UpdateSelectKartTouchHold(void) {
         if (SelectKartSlotHasPairOrLost(slotIndex) != 0) {
             pairX = SelectKartGetSlotPairX(slotIndex);
             pairY = SelectKartGetSlotPairY(slotIndex);
-            rectIndex = FindRectContainingPoint(pairX, pairY, p->mRects);
+            rectIndex = FindRectContainingPoint(pairX, pairY, cellFileSet->mRects);
             if (rectIndex != gSelectKart->mTouchRect) {
                 gSelectKart->mTouchHeld = FALSE;
                 gSelectKart->mTouchHeldFrames = 0;
@@ -43,8 +43,8 @@ s32 UpdateSelectKartTouchHold(void) {
             gSelectKart->mTouchHeldFrames = 0;
         }
     } else if (SelectKartIsSlotPairNew(slotIndex) != 0) {
-        result =
-            FindRectContainingPoint(SelectKartGetSlotPairX(slotIndex), SelectKartGetSlotPairY(slotIndex), p->mRects);
+        result = FindRectContainingPoint(SelectKartGetSlotPairX(slotIndex), SelectKartGetSlotPairY(slotIndex),
+                                         cellFileSet->mRects);
         gSelectKart->mTouchHeld = TRUE;
         gSelectKart->mTouchHeldFrames = 0;
     }
@@ -54,10 +54,10 @@ s32 UpdateSelectKartTouchHold(void) {
 u32 IsSelectKartTouchRepeat(s32 rectIndex) {
     u32 result = 0;
     u32 repeatDue;
-    SelectKart *d = gSelectKart;
+    SelectKart *selectKart = gSelectKart;
     s32 heldFrames;
-    if (d->mTouchRect == rectIndex) {
-        heldFrames = d->mTouchHeldFrames;
+    if (selectKart->mTouchRect == rectIndex) {
+        heldFrames = selectKart->mTouchHeldFrames;
         result |= (heldFrames == 0);
         repeatDue = 0;
         if (heldFrames >= 0x3c) {

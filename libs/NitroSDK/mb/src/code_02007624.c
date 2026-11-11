@@ -74,15 +74,15 @@ void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data) {
 }
 
 void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
-    u32 v1;
-    u8 i;
+    u32 childBit;
+    u8 slotIndex;
     MB_CommPWork *work;
-    u32 v2;
+    u32 value;
     u16 child;
     u8 entryIndex;
     s32 childEntryIndex;
     void (*callback)(u32, u32, void *);
-    v1 = 0;
+    childBit = 0;
     switch (eventCode) {
         case 0x15:
             MBi_CommChangeParentState(0, 1, eventData);
@@ -100,18 +100,18 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
                 MI_CpuFill8(mbc->mChildggid + (eventData->mUnk_10 - 1), 0, 4);
                 MI_CpuFill8(&mbc->mChildUser[eventData->mUnk_10 - 1], 0, 0x16);
                 MBi_ClearParentPieceBuffer(eventData->mUnk_10);
-                v2 = 0;
-                mbc->mReq2child[eventData->mUnk_10 - 1] = v2;
+                value = 0;
+                mbc->mReq2child[eventData->mUnk_10 - 1] = value;
                 child = eventData->mUnk_10;
                 childEntryIndex = mbc->mChildEntryIndex[(s32) child - 1];
-                v2 = ~v2;
-                if (childEntryIndex != v2) {
-                    v1 = 1 << child;
+                value = ~value;
+                if (childEntryIndex != value) {
+                    childBit = 1 << child;
                     entryIndex = childEntryIndex;
-                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp &= ~v1;
-                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= v1;
-                    mbc->mChildEntryIndex[child - 1] = v2;
-                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~v1;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp &= ~childBit;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= childBit;
+                    mbc->mChildEntryIndex[child - 1] = value;
+                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~childBit;
                 }
                 if ((mbc->mChildEntryBmp & (1 << eventData->mUnk_10)) != 0) {
                     mbc->mChildNum--;
@@ -134,20 +134,20 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
             MBi_CommParentSendData();
             break;
         case 0x1c:
-            i = 0;
-            v1 = 0;
+            slotIndex = 0;
+            childBit = 0;
             do {
                 work = mbc;
-                v2 = i * 0x5d4;
-                if ((OFFSET_PTR(MB_CommPWork, work, v2))->mEntryUsed != 0 &&
-                    (OFFSET_PTR(MB_CommPWork, work, v2))->mGameinfoChangedBmp != 0) {
-                    MB_UpdateGameInfoMember((GameInfoEntry *) (work->mUnk_1788 + 0xe4 + v2), work->mChildUser,
-                                            (OFFSET_PTR(MB_CommPWork, work, v2))->mGameinfoChildBmp,
-                                            (OFFSET_PTR(MB_CommPWork, work, v2))->mGameinfoChangedBmp);
-                    (OFFSET_PTR(MB_CommPWork, mbc, v2))->mGameinfoChangedBmp = v1;
+                value = slotIndex * 0x5d4;
+                if ((OFFSET_PTR(MB_CommPWork, work, value))->mEntryUsed != 0 &&
+                    (OFFSET_PTR(MB_CommPWork, work, value))->mGameinfoChangedBmp != 0) {
+                    MB_UpdateGameInfoMember((GameInfoEntry *) (work->mUnk_1788 + 0xe4 + value), work->mChildUser,
+                                            (OFFSET_PTR(MB_CommPWork, work, value))->mGameinfoChildBmp,
+                                            (OFFSET_PTR(MB_CommPWork, work, value))->mGameinfoChangedBmp);
+                    (OFFSET_PTR(MB_CommPWork, mbc, value))->mGameinfoChangedBmp = childBit;
                 }
-                i++;
-            } while (i < 16);
+                slotIndex++;
+            } while (slotIndex < 16);
             {
                 u32 ggid;
                 u16 tgid;
@@ -213,7 +213,7 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
     u8 bitIndex;
     u8 bitCount;
     u8 entryIndex;
-    u32 v12;
+    u32 index;
     if (child == 0 || child > 15) {
         return;
     }
@@ -227,12 +227,12 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
                     return;
                 }
                 MI_CpuCopy8(payload, &payloadCopy, 0x1d);
-                v12 = child - 1;
+                index = child - 1;
                 mbc->mChildggid[arrayIndex] = payloadCopy.mUnk_00;
-                mbc->mChildversion[v12] = payloadCopy.mUnk_1a;
-                v12 *= 0x16;
-                MI_CpuCopy8(payloadCopy.mUnk_04, OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, v12), 0x16);
-                OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, v12)->mUnk_00_4 = child;
+                mbc->mChildversion[index] = payloadCopy.mUnk_1a;
+                index *= 0x16;
+                MI_CpuCopy8(payloadCopy.mUnk_04, OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, index), 0x16);
+                OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, index)->mUnk_00_4 = child;
                 MBi_CommChangeParentState(child, 0xa, payloadCopy.mUnk_04);
             }
             if (childValue == 10) {
@@ -319,20 +319,20 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
 }
 
 void MBi_CommParentRecvData(Unk021432ac *header) {
-    u16 i;
+    u16 index;
     u16 firstHalfword;
     void *childData;
-    for (i = 0; i < 16; i++) {
-        if ((OFFSET_PTR(MB_CommPWork, mbc, i * 0x5d4))->mEntryUsed != 0) {
-            (OFFSET_PTR(MB_CommPWork, mbc, i * 0x5d4))->mNextb = 0;
+    for (index = 0; index < 16; index++) {
+        if ((OFFSET_PTR(MB_CommPWork, mbc, index * 0x5d4))->mEntryUsed != 0) {
+            (OFFSET_PTR(MB_CommPWork, mbc, index * 0x5d4))->mNextb = 0;
         }
     }
-    for (i = 1; i <= 15; i++) {
-        childData = WM_ReadMPData(header, i);
+    for (index = 1; index <= 15; index++) {
+        childData = WM_ReadMPData(header, index);
         if (childData != NULL) {
             firstHalfword = *(u16 *) childData;
             if (firstHalfword != 0xffff && firstHalfword != 0) {
-                MBi_CommParentRecvDataPerChild(childData, i);
+                MBi_CommParentRecvDataPerChild(childData, index);
             }
         }
     }

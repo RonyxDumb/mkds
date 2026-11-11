@@ -11,38 +11,38 @@
 u32 MBi_CommParentSendBlock(void) {
     ParentMessage message;
     MB_BlockInfo blockInfo;
-    u8 v11;
+    u8 attemptCount;
     u8 segmentNum;
     MB_CommPWork *work;
     MB_CommPWork *childEntry;
     MBiCacheList *rangeTable;
     MBiCacheInfo *lowestRange;
-    s32 i;
+    s32 rangeIndex;
     MBiCacheInfo *range;
     u8 *sendBlock;
     u32 readOffset;
     DataRangeLoadJob *loadJob;
-    MB_CommPWork *v12;
-    MB_CommPWork *v13;
-    v12 = mbc;
-    if (v12->mEntryCount == 0) {
+    MB_CommPWork *parentWork;
+    MB_CommPWork *parentWorkAgain;
+    parentWork = mbc;
+    if (parentWork->mEntryCount == 0) {
         return 21;
     }
-    v11 = 0;
+    attemptCount = 0;
     do {
         work = mbc;
         work->mCurFileid = (work->mCurFileid + 1) % 16;
-        v13 = (MB_CommPWork *) *(u32 *) &mbc;
-        childEntry = OFFSET_PTR(MB_CommPWork, v13, v13->mCurFileid * 0x5d4);
+        parentWorkAgain = (MB_CommPWork *) *(u32 *) &mbc;
+        childEntry = OFFSET_PTR(MB_CommPWork, parentWorkAgain, parentWorkAgain->mCurFileid * 0x5d4);
         if (childEntry->mEntryUsed != 0 && childEntry->mPollbmp != 0) {
             break;
         }
-        v11++;
-    } while (v11 < 16);
-    if (v11 == 16) {
+        attemptCount++;
+    } while (attemptCount < 16);
+    if (attemptCount == 16) {
         return 21;
     }
-    MBi_calc_sendblock(v13->mCurFileid);
+    MBi_calc_sendblock(parentWorkAgain->mCurFileid);
     work = mbc;
     childEntry = OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4);
     if (MBi_get_blockinfo(&blockInfo, work->mUnk_1d2c + work->mCurFileid * 0x5d4, childEntry->mCurrentb,
@@ -67,7 +67,7 @@ u32 MBi_CommParentSendBlock(void) {
             if (rangeTable->mUnk_00 != 0) {
                 range = rangeTable->mList;
                 lowestRange = NULL;
-                for (i = 0; i < 4; range++, i++) {
+                for (rangeIndex = 0; rangeIndex < 4; range++, rangeIndex++) {
                     if (range->mState == 2) {
                         if (lowestRange == NULL || lowestRange->mSrc > range->mSrc) {
                             lowestRange = range;
@@ -94,29 +94,29 @@ u32 MBi_CommParentSendBlock(void) {
 
 int MBi_CommParentSendData(void) {
     u16 childMasks[6];
-    u16 i;
+    u16 childNo;
     int result;
     MB_CommPWork *work;
     childMasks[0] = 0;
     MIi_CpuClear16(childMasks[0], &childMasks[1], 10);
-    i = 1;
+    childNo = 1;
     work = mbc;
-    for (; i <= 15; i++) {
-        switch (work->mPCommState[i - 1]) {
+    for (; childNo <= 15; childNo++) {
+        switch (work->mPCommState[childNo - 1]) {
             case 2:
-                childMasks[1] |= 1 << i;
+                childMasks[1] |= 1 << childNo;
                 break;
             case 5:
-                childMasks[2] |= 1 << i;
+                childMasks[2] |= 1 << childNo;
                 break;
             case 4:
-                childMasks[3] |= 1 << i;
+                childMasks[3] |= 1 << childNo;
                 break;
             case 8:
-                childMasks[4] |= 1 << i;
+                childMasks[4] |= 1 << childNo;
                 break;
             case 11:
-                childMasks[5] |= 1 << i;
+                childMasks[5] |= 1 << childNo;
                 break;
         }
     }

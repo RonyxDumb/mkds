@@ -88,10 +88,10 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
     MI_CpuCopy8(input, buffer, length);
 }
 
-// Callers pass ctx and digest only. The prologue pushes r0-r3 (the form 1.2 gives a variadic function), and the call
+// Callers pass ctx and digest only. The prologue pushes r0-r3, and the call
 // to MIi_CpuClear32 at the end clears the pushed ctx.
 void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
-    volatile u32 z;
+    volatile u32 zero;
     u32 *blockWords;
     u8 *blockBytes;
     int len;
@@ -159,8 +159,8 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
     digest[18] = value >> 8;
     digest[19] = value;
     ctx->mBufferLen = 0;
-    z = 0;
-    MIi_CpuClear32(z, &ctx, 4);
+    zero = 0;
+    MIi_CpuClear32(zero, &ctx, 4);
 }
 
 // Hashes length bytes of source in 64-byte blocks, clearing the words at offsets 0x18 and 0x38 of each block while it
@@ -168,11 +168,11 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
 void DGTi_Hash2ProcessMessageBlock(DGTHash2Context *ctx, u8 *source, int length) {
     u32 saved18;
     u32 saved38;
-    int i;
+    int blockIndex;
     int blocks;
 
     blocks = length / 64;
-    for (i = 0; i < blocks; i++) {
+    for (blockIndex = 0; blockIndex < blocks; blockIndex++) {
         saved18 = *OFFSET_PTR(u32, source, 0x18);
         saved38 = *OFFSET_PTR(u32, source, 0x38);
         *OFFSET_PTR(u32, source, 0x18) = 0;
@@ -191,7 +191,7 @@ void DGT_Hash2CalcHmac(u8 *digest, const u8 *bin, u32 binLen, const u8 *key, s32
     u8 inner[0x14];
     DGTHash2Context ctx;
     u8 *innerPtr;
-    s32 i;
+    s32 keyIndex;
 
     innerPtr = inner;
     if (digest == 0 || bin == 0 || binLen == 0 || key == 0 || keyLen == 0) {
@@ -204,13 +204,13 @@ void DGT_Hash2CalcHmac(u8 *digest, const u8 *bin, u32 binLen, const u8 *key, s32
         key = innerPtr;
         keyLen = 0x14;
     }
-    for (i = 0; i < keyLen; i++) {
-        ipad[i] = *key ^ 0x36;
-        opad[i] = *key++ ^ 0x5c;
+    for (keyIndex = 0; keyIndex < keyLen; keyIndex++) {
+        ipad[keyIndex] = *key ^ 0x36;
+        opad[keyIndex] = *key++ ^ 0x5c;
     }
-    for (; i < 0x40; i++) {
-        ipad[i] = 0x36;
-        opad[i] = 0x5c;
+    for (; keyIndex < 0x40; keyIndex++) {
+        ipad[keyIndex] = 0x36;
+        opad[keyIndex] = 0x5c;
     }
     DGT_Hash2Reset(&ctx);
     DGT_Hash2SetSource(&ctx, ipad, 0x40);

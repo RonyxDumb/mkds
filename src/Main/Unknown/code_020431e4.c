@@ -45,13 +45,13 @@ void SetReadRaceKeys(u32 enable) {
 }
 
 void ResetInputSlotsFromParticipants(void) {
-    u16 i;
-    u16 j;
+    u16 slotIndex;
+    u16 positionIndex;
     ConnectionWork *connectionWork;
     InputSlot *inputSlot;
 
-    for (i = 0; i < 8; i++) {
-        inputSlot = &gInputSlots[i];
+    for (slotIndex = 0; slotIndex < 8; slotIndex++) {
+        inputSlot = &gInputSlots[slotIndex];
         ResetInputSlot(inputSlot);
         SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
@@ -63,9 +63,9 @@ void ResetInputSlotsFromParticipants(void) {
     }
     connectionWork = gConnectionWork;
     if (RaceKeysIsConnectionActive(connectionWork) != 0) {
-        for (j = 0; j < 8; j++) {
-            if (connectionWork->mParticipantMask & (1 << connectionWork->mParticipantIndexByPos[j])) {
-                gInputSlots[j].mSourceKind = 4;
+        for (positionIndex = 0; positionIndex < 8; positionIndex++) {
+            if (connectionWork->mParticipantMask & (1 << connectionWork->mParticipantIndexByPos[positionIndex])) {
+                gInputSlots[positionIndex].mSourceKind = 4;
             }
         }
     }

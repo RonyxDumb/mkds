@@ -14,21 +14,21 @@
 
 #pragma thumb on
 
-void InitScrollList(void *heap, s32 b, const void *groupFirstEntries, u16 cursorEntry, u16 e, s32 f,
-                    LayoutTableEntry *entries, void *rects, const void *screenMap, s32 upRectIndex, s32 downRectIndex,
-                    s32 firstRowRectIndex, s32 rowCount,
-                    void (*callback)(int heap, int b, int groupFirstEntries, int cursorEntry)) {
+void InitScrollList(void *heap, s32 groupCount, const void *groupFirstEntries, u16 cursorEntry, u16 scrollEntry,
+                    s32 scrollOffsetRange, LayoutTableEntry *entries, void *rects, const void *screenMap,
+                    s32 upRectIndex, s32 downRectIndex, s32 firstRowRectIndex, s32 rowCount,
+                    void (*callback)(int heap, int groupCount, int groupFirstEntries, int cursorEntry)) {
     s32 row;
     gScrollList = HeapAlloc(heap, 0x674);
     ScrollListMI_CpuClearFast(gScrollList, 0x674);
-    gScrollList->mGroupCount = b;
-    b = b * 2;
-    gScrollList->mGroupFirstEntries = HeapAllocAligned(heap, b, 0x20);
-    ScrollListMI_CpuCopy16(groupFirstEntries, gScrollList->mGroupFirstEntries, b);
+    gScrollList->mGroupCount = groupCount;
+    groupCount = groupCount * 2;
+    gScrollList->mGroupFirstEntries = HeapAllocAligned(heap, groupCount, 0x20);
+    ScrollListMI_CpuCopy16(groupFirstEntries, gScrollList->mGroupFirstEntries, groupCount);
     ScrollListMI_CpuCopy16(screenMap, gScrollList->mScreenMap, 0x600);
     gScrollList->mCursorEntry = cursorEntry;
-    gScrollList->mScrollEntry = e;
-    gScrollList->mScrollOffsetRange = f;
+    gScrollList->mScrollEntry = scrollEntry;
+    gScrollList->mScrollOffsetRange = scrollOffsetRange;
     gScrollList->mEntries = entries;
     gScrollList->mRowCount = rowCount;
     gScrollList->mCallback = callback;

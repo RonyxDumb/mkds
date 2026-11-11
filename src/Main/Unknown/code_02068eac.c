@@ -375,7 +375,7 @@ void StartKartKiller(Kart *kart) {
     KartItemEffectState *effectState;
     KartKillerEndRankOffsets rankOffsets;
     KartFollowEffectIds effectIds;
-    s32 i;
+    s32 effectIndex;
     u8 kartCount;
 
     rankOffsets = data_usa_0216557c;
@@ -434,8 +434,8 @@ void StartKartKiller(Kart *kart) {
     }
     if (kart->mKartModelsEntry->mKartModelHidden == 0) {
         effectIds = gKartFollowEffectIds;
-        for (i = 0; i < 3; i++) {
-            SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
+        for (effectIndex = 0; effectIndex < 3; effectIndex++) {
+            SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[effectIndex], &kart->mPos), kart->mIndex, 0x14);
         }
     }
     StartKartKillerEffect(kart->mIndex);
@@ -451,7 +451,7 @@ void StartKartKiller(Kart *kart) {
 void AdvanceKartKiller(Kart *kart) {
     KartItemEffectState *effectState;
     KartItemEffectState *effectStateAgain;
-    s32 i;
+    s32 effectIndex;
     BOOL rankReached;
     BOOL endEarly;
     KartFollowEffectIds effectIds;
@@ -482,12 +482,12 @@ void AdvanceKartKiller(Kart *kart) {
         }
         kart->mRadiusFactor = 0x1000;
         kart->mSurfaceGroup = -1;
-        i = 0;
+        effectIndex = 0;
         kart->mItemEffect = 0;
         if (kart->mKartModelsEntry->mKartModelHidden == 0) {
             effectIds = gKartFollowEffectIds;
-            for (i = 0; i < 3; i++) {
-                SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
+            for (effectIndex = 0; effectIndex < 3; effectIndex++) {
+                SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[effectIndex], &kart->mPos), kart->mIndex, 0x14);
             }
         }
         StopKartKillerEffect(kart->mIndex);

@@ -12,18 +12,18 @@ OSIrqCallbackInfo OSi_IrqCallbackInfo[8];
 
 // Sets the handler for each interrupt bit in intrBit. DMA and timer bits register a callback with no argument.
 void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function) {
-    s32 i;
+    s32 irqNo;
     OSIrqCallbackInfo *info;
 
-    for (i = 0; i < 22; i++) {
+    for (irqNo = 0; irqNo < 22; irqNo++) {
         if (intrBit & 1) {
             info = 0;
-            if (i >= 8 && i <= 11) {
-                info = &OSi_IrqCallbackInfo[i - 8];
-            } else if (i >= 3 && i <= 6) {
-                info = &OSi_IrqCallbackInfo[i + 1];
+            if (irqNo >= 8 && irqNo <= 11) {
+                info = &OSi_IrqCallbackInfo[irqNo - 8];
+            } else if (irqNo >= 3 && irqNo <= 6) {
+                info = &OSi_IrqCallbackInfo[irqNo + 1];
             } else {
-                OS_IRQTable[i] = function;
+                OS_IRQTable[irqNo] = function;
             }
             if (info != 0) {
                 info->mFunc = function;
@@ -37,17 +37,17 @@ void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function) {
 
 // Returns the handler of the lowest interrupt bit set in intrBit, or 0 when none is set.
 OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit) {
-    s32 i;
+    s32 irqNo;
     OSIrqFunction *table;
 
     table = OS_IRQTable;
-    for (i = 0; i < 22; i++, table++) {
+    for (irqNo = 0; irqNo < 22; irqNo++, table++) {
         if (intrBit & 1) {
-            if (i >= 8 && i <= 11) {
-                return OSi_IrqCallbackInfo[i - 8].mFunc;
+            if (irqNo >= 8 && irqNo <= 11) {
+                return OSi_IrqCallbackInfo[irqNo - 8].mFunc;
             }
-            if (i >= 3 && i <= 6) {
-                return OSi_IrqCallbackInfo[i + 1].mFunc;
+            if (irqNo >= 3 && irqNo <= 6) {
+                return OSi_IrqCallbackInfo[irqNo + 1].mFunc;
             }
             return *table;
         }

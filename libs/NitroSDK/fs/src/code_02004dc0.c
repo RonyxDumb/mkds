@@ -178,19 +178,19 @@ u32 FS_LoadOverlayImage(FSOverlayInfo *info) {
 
 // Computes the digest of a block and compares it with the expected one.
 u32 FSi_CompareDigest(const u8 *expected, const u8 *data, u32 size) {
-    u8 digest[0x14];
+    u8 hmac[0x14];
     u8 key[0x40];
-    u32 i;
+    u32 byteOffset;
 
-    MI_CpuFill8(digest, 0, 0x14);
+    MI_CpuFill8(hmac, 0, 0x14);
     MI_CpuCopy8(fsi_digest_key_ptr, key, fsi_digest_key_len);
-    DGT_Hash2CalcHmac(digest, data, size, key, fsi_digest_key_len);
-    for (i = 0; i < 0x14; i += 4) {
-        if (*(u32 *) (digest + i) != *(u32 *) (expected + i)) {
+    DGT_Hash2CalcHmac(hmac, data, size, key, fsi_digest_key_len);
+    for (byteOffset = 0; byteOffset < 0x14; byteOffset += 4) {
+        if (*(u32 *) (hmac + byteOffset) != *(u32 *) (expected + byteOffset)) {
             break;
         }
     }
-    return i == 0x14;
+    return byteOffset == 0x14;
 }
 
 // Checks the overlay when authentication is required, flushes it and runs its initializers.

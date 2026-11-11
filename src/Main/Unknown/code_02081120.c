@@ -25,11 +25,11 @@ void StartKartSpinSideEffects(s32 kartIndex) {
     } while (effectIndex < 2);
 }
 
-void AdvanceKartSpinSideEffect(Unk0201ca6c *effect, s32 a) {
-    if (a != 0) {
+void AdvanceKartSpinSideEffect(Unk0201ca6c *effect, s32 phase) {
+    if (phase != 0) {
         return;
     }
-    AdvanceKartSideEffect(effect, a);
+    AdvanceKartSideEffect(effect, phase);
     if (effect->mUnk_98_0 >= 7) {
         effect->mUnk_98_8 = 1;
     } else {
@@ -52,7 +52,7 @@ void StartKartSpinFollowEffect(u32 kartIndex) {
     effect->mUnk_90 = AdvanceKartSpinFollowEffect;
 }
 
-void AdvanceKartSpinFollowEffect(Unk0201ca6c *effect, s32 a) {
+void AdvanceKartSpinFollowEffect(Unk0201ca6c *effect, s32 phase) {
     u32 ended;
     u8 elapsedFrames;
     u8 kartIndex;
@@ -61,7 +61,7 @@ void AdvanceKartSpinFollowEffect(Unk0201ca6c *effect, s32 a) {
     s32 kartY;
     s32 kartZ;
 
-    if (a != 0) {
+    if (phase != 0) {
         return;
     }
     kartIndex = effect->mUnk_98_24;

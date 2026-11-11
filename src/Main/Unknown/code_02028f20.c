@@ -13,13 +13,13 @@
 #pragma thumb on
 void SetSelectKartSPartsOffsetY(void) {
     CellFileSet *parts;
-    s32 i;
+    s32 cellIndex;
     s32 count;
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         parts = &gSelectKart->mSelectKartSParts;
         count = GetCellLayoutCount(parts->mCellLayout) + GetLabelLayoutCount(parts->mLabelLayout);
-        for (i = 0; i < count; i++) {
-            parts->mCellTable[i].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
+        for (cellIndex = 0; cellIndex < count; cellIndex++) {
+            parts->mCellTable[cellIndex].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
         }
     }
 }
@@ -33,14 +33,14 @@ u32 IsSelectKartModeAndTimerZero(void) {
 }
 
 void PrintSelectKartMessage(void) {
-    s32 i;
+    s32 labelIndex;
     CellFileSet *parts;
     void *message;
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
-        for (i = 8; i >= 7; i--) {
-            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_021537f4[i].mUnk_00, parts->mLabelLayout, message,
+        for (labelIndex = 8; labelIndex >= 7; labelIndex--) {
+            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_021537f4[labelIndex].mUnk_00, parts->mLabelLayout, message,
                                                parts->mCellLayout, parts->mCellTable);
         }
     }

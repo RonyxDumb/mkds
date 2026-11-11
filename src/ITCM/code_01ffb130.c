@@ -44,23 +44,23 @@ void AdvanceKartByVelocity(Kart *kart) {
     Vec3 velocity;
     Vec3 forward;
     MtxFx33 turnMatrix;
-    MtxFx33 m2;
-    Vec3 v3;
+    MtxFx33 boostMatrix;
+    Vec3 tangentForward;
     Vec3 easeDelta;
     KartItemEffectState *itemEffectState;
-    s32 d;
+    s32 dot;
     s32 hitVelocityDecay;
-    u32 w;
+    u32 kartBits;
 
     velocityScale = kart->mVelocityScaleFactor;
     if (kart->mUnk_4c & 0x8000000) {
         AdvanceKartGesso(kart);
     }
-    w = kart->mUnk_4c;
-    if (w & 0x10000000) {
+    kartBits = kart->mUnk_4c;
+    if (kartBits & 0x10000000) {
         AdvanceKartKiller(kart);
     } else {
-        if (w & KART_4C_THUNDER_SHRINK) {
+        if (kartBits & KART_4C_THUNDER_SHRINK) {
             AdvanceKartThunderShrink(kart);
         }
         if (kart->mUnk_4c & 0x10000) {
@@ -140,22 +140,22 @@ void AdvanceKartByVelocity(Kart *kart) {
         MTX_RotAxis33(&turnMatrix, &kart->mGroundNormal, FX_SinIdx((u16) kart->mTurnAngle),
                       FX_CosIdx((u16) kart->mTurnAngle));
         if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
-            MTX_RotAxis33(&m2, &kart->mUnk_120, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
-            MTX_Concat33(&m2, &turnMatrix, &turnMatrix);
+            MTX_RotAxis33(&boostMatrix, &kart->mUnk_120, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
+            MTX_Concat33(&boostMatrix, &turnMatrix, &turnMatrix);
         }
         MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);
-        d = VEC_DotProduct(&kart->mGroundNormal, &kart->mTurnedForward);
-        v3.x = kart->mTurnedForward.x - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.x, d);
-        v3.y = kart->mTurnedForward.y - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.y, d);
-        v3.z = kart->mTurnedForward.z - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.z, d);
-        kart->mSpeedLimitGroundFactor = VEC_Mag(&v3);
+        dot = VEC_DotProduct(&kart->mGroundNormal, &kart->mTurnedForward);
+        tangentForward.x = kart->mTurnedForward.x - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.x, dot);
+        tangentForward.y = kart->mTurnedForward.y - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.y, dot);
+        tangentForward.z = kart->mTurnedForward.z - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.z, dot);
+        kart->mSpeedLimitGroundFactor = VEC_Mag(&tangentForward);
     } else {
-        d = Vec3DotUnrounded(&kart->mForward, &kart->mGroundNormal);
+        dot = Vec3DotUnrounded(&kart->mForward, &kart->mGroundNormal);
         kart->mTurnedForward = kart->mForward;
         if (kart->mAirTiltAngleOffset > 0) {
             kart->mSpeedLimitGroundFactor = 0x1000;
-        } else if (d < 0) {
-            kart->mSpeedLimitGroundFactor = 0x1000 - d;
+        } else if (dot < 0) {
+            kart->mSpeedLimitGroundFactor = 0x1000 - dot;
         } else {
             kart->mSpeedLimitGroundFactor = 0x1000;
         }

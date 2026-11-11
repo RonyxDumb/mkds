@@ -35,13 +35,13 @@
 
 void InitKartMapObjectResponses(void) {
     RaceSetup *raceSetup;
-    u16 i;
+    u16 responseIndex;
     void **responseSlot;
     void **secondResponseSlot;
 
     data_0217ac14 = IsLowestOffsetFarOnHitBit;
     raceSetup = gRaceSetup;
-    i = 0;
+    responseIndex = 0;
     responseSlot = gCollideKartWithMapObjectResponses;
     secondResponseSlot = gKartMapObjectSecondResponses;
     if (raceSetup->mCourseId == COURSE_ID_RAINBOW || raceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
@@ -57,8 +57,8 @@ void InitKartMapObjectResponses(void) {
                 break;
         }
     }
-    for (; i < 15; i++, responseSlot++, secondResponseSlot++) {
-        switch (i) {
+    for (; responseIndex < 15; responseIndex++, responseSlot++, secondResponseSlot++) {
+        switch (responseIndex) {
             case 0:
                 *responseSlot = CollideKartWithMapObjectResponse0;
                 *secondResponseSlot = MapObjectResponseReturnArgument;
@@ -127,7 +127,7 @@ void InitKartMapObjectResponses(void) {
 void InitKartResources(Kart *kart) {
     void *heap;
     Vec3 *collisionPos;
-    u16 i;
+    u16 entryIndex;
 
     heap = GetHeap(GetCurrentHeapCall());
     kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycle;
@@ -143,11 +143,11 @@ void InitKartResources(Kart *kart) {
         if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
             kart->mUnk_7c |= 2;
             if (kart->mUnk_7c & 2) {
-                for (i = 0; i < 12; i++) {
-                    if (i != 0) {
-                        kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[i] << 2;
-                        if (kart->mPhysicalParam->mUnk_38[i] > kart->mPhysicalParam->mUnk_38[0]) {
-                            kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[0];
+                for (entryIndex = 0; entryIndex < 12; entryIndex++) {
+                    if (entryIndex != 0) {
+                        kart->mPhysicalParam->mUnk_38[entryIndex] = kart->mPhysicalParam->mUnk_38[entryIndex] << 2;
+                        if (kart->mPhysicalParam->mUnk_38[entryIndex] > kart->mPhysicalParam->mUnk_38[0]) {
+                            kart->mPhysicalParam->mUnk_38[entryIndex] = kart->mPhysicalParam->mUnk_38[0];
                         }
                     }
                 }

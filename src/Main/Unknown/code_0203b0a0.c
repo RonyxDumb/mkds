@@ -102,8 +102,8 @@ BOOL TrySetGrandPrixRecord(void) {
     TimeRecord newRecord;
     BOOL stored = FALSE;
     s32 engineClass;
-    MenuShared *p = gMenuShared;
-    switch (p->mEngineIndex) {
+    MenuShared *menuShared = gMenuShared;
+    switch (menuShared->mEngineIndex) {
         case 0:
             engineClass = stored;
             break;
@@ -111,10 +111,10 @@ BOOL TrySetGrandPrixRecord(void) {
             engineClass = 1;
             break;
         case 2:
-            engineClass = (p->mMirrorMode != 0) ? 3 : 2;
+            engineClass = (menuShared->mMirrorMode != 0) ? 3 : 2;
             break;
     }
-    GetGrandPrixRecord(p->mCupIndex, engineClass, &storedRecord);
+    GetGrandPrixRecord(menuShared->mCupIndex, engineClass, &storedRecord);
     FillGrandPrixRecord(&newRecord);
     if (ShouldSetGrandPrixRecord(&storedRecord, &newRecord) != FALSE) {
         SetGrandPrixRecord(gMenuShared->mCupIndex, engineClass, &newRecord);
@@ -130,13 +130,13 @@ u32 TrySetMissionRecord(void) {
     u32 stored = 0;
     s32 missionRow;
     s32 missionColumn;
-    s32 t;
+    s32 endKind;
     BOOL shouldStore;
     missionRow = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableRow : -1;
     missionColumn = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableColumn : -1;
-    t = IsKartEnded((u16) gRaceSetup->mEntryIndex);
-    t = (t != 0) ? gRaceProgress->mEntryEndKind : 6;
-    if (t != 0) {
+    endKind = IsKartEnded((u16) gRaceSetup->mEntryIndex);
+    endKind = (endKind != 0) ? gRaceProgress->mEntryEndKind : 6;
+    if (endKind != 0) {
         return 0;
     }
     GetMissionRecord((u16) missionRow, (u16) missionColumn, &storedRecord);

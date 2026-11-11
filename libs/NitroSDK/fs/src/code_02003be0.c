@@ -14,7 +14,7 @@ Unk02003024U current_dir_pos;
 // Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
 u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
     Unk02003024U pos;
-    s32 i;
+    s32 charIndex;
     FSArchive *archive;
     s32 loaded;
 
@@ -26,12 +26,12 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
         path++;
     } else {
         pos = current_dir_pos;
-        for (i = 0; i <= 3; i++) {
-            if (path[i] == 0 || path[i] == '/' || path[i] == '\\') {
+        for (charIndex = 0; charIndex <= 3; charIndex++) {
+            if (path[charIndex] == 0 || path[charIndex] == '/' || path[charIndex] == '\\') {
                 break;
             }
-            if (path[i] == ':') {
-                archive = FS_FindArchive(path, i);
+            if (path[charIndex] == ':') {
+                archive = FS_FindArchive(path, charIndex);
                 if (archive == 0) {
                     return 0;
                 }
@@ -47,7 +47,7 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
                 pos.h.mUnk_08 = 0;
                 pos.h.mUnk_06 = 0;
                 pos.h.mUnk_04 = 0;
-                path += i + 1;
+                path += charIndex + 1;
                 if (*path == '/' || *path == '\\') {
                     path++;
                 }
@@ -249,16 +249,16 @@ u32 FS_ChangeDir(const u8 *path) {
 u32 FSi_GetPackedName(const u8 *name, s32 nameLen) {
     u32 packed;
     u32 diff;
-    int i;
+    int charIndex;
 
     packed = 0;
     if (nameLen <= 3) {
-        for (i = 0; i < nameLen; i++) {
-            if (name[i] == 0) {
+        for (charIndex = 0; charIndex < nameLen; charIndex++) {
+            if (name[charIndex] == 0) {
                 break;
             }
-            diff = name[i] - 0x41;
-            packed |= ((diff <= 0x19) ? diff + 0x61 : diff + 0x41) << (i * 8);
+            diff = name[charIndex] - 0x41;
+            packed |= ((diff <= 0x19) ? diff + 0x61 : diff + 0x41) << (charIndex * 8);
         }
     }
     return packed;
@@ -284,7 +284,7 @@ s32 FSi_ReadMemoryCore(FSArchive *archive, void *dst, u32 pos, u32 size) {
 
 // Cancels flagged commands and returns the next command the archive should run, if it is not suspended.
 FSFile *FSi_NextCommand(FSArchive *archive) {
-    FSFile tmp;
+    FSFile procFile;
     FSFile *file;
     FSFile *next;
     u32 enabled;
@@ -332,9 +332,9 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
     if (archive->mFlag & 0x10) {
         archive->mFlag &= ~0x10;
         if (archive->mProcFlag & 0x400) {
-            FS_InitFile(&tmp);
-            tmp.mArc = archive;
-            archive->mProc(&tmp, 10);
+            FS_InitFile(&procFile);
+            procFile.mArc = archive;
+            archive->mProc(&procFile, 10);
         }
     }
     if (archive->mFlag & 0x40) {
@@ -589,7 +589,7 @@ u32 FS_UnloadArchive(FSArchive *archive) {
 
 // Copies the two tables into memory; returns the size needed.
 u32 FS_LoadArchiveTables(FSArchive *archive, u32 mem, u32 maxSize) {
-    FSFile tmp;
+    FSFile tableFile;
     u32 totalSize;
 
     totalSize = ((s32) (archive->mFatSize + archive->mFntSize + 32) + 31) & ~31;
@@ -597,20 +597,20 @@ u32 FS_LoadArchiveTables(FSArchive *archive, u32 mem, u32 maxSize) {
         u8 *cache;
 
         cache = (u8 *) ((mem + 31) & ~31);
-        FS_InitFile(&tmp);
-        if (FS_OpenFileDirect(&tmp, archive, archive->mFat, archive->mFat + archive->mFatSize, -1) != 0) {
-            if (FS_ReadFile(&tmp, cache, archive->mFatSize) < 0) {
+        FS_InitFile(&tableFile);
+        if (FS_OpenFileDirect(&tableFile, archive, archive->mFat, archive->mFat + archive->mFatSize, -1) != 0) {
+            if (FS_ReadFile(&tableFile, cache, archive->mFatSize) < 0) {
                 MI_CpuFill8(cache, 0, archive->mFatSize);
             }
-            FS_CloseFile(&tmp);
+            FS_CloseFile(&tableFile);
         }
         archive->mFat = (u32) cache;
         cache += archive->mFatSize;
-        if (FS_OpenFileDirect(&tmp, archive, archive->mFnt, archive->mFnt + archive->mFntSize, -1) != 0) {
-            if (FS_ReadFile(&tmp, cache, archive->mFntSize) < 0) {
+        if (FS_OpenFileDirect(&tableFile, archive, archive->mFnt, archive->mFnt + archive->mFntSize, -1) != 0) {
+            if (FS_ReadFile(&tableFile, cache, archive->mFntSize) < 0) {
                 MI_CpuFill8(cache, 0, archive->mFntSize);
             }
-            FS_CloseFile(&tmp);
+            FS_CloseFile(&tableFile);
         }
         archive->mFnt = (u32) cache;
         archive->mLoadMem = mem;
