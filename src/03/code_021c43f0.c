@@ -26,19 +26,19 @@
 #include "03/unk_021d5000.h"
 #include "03/code_021bf410.h"
 
-void func_ov003_021c4670(void) {
-    data_ov003_021da1c0 = 0;
-    func_ov003_021c460c();
+void SetupOptMenuMessage(void) {
+    gOptMenuMessageShowNext = 0;
+    LoadOptMenuMessageFileAndSetBgCnt();
     LoadHlScr(19);
     func_ov003_021bf43c(141, -1, 0);
     PrintMessage(93);
-    SetUpdateFunction(func_ov003_021c45d0);
+    SetUpdateFunction(StartOptMenuMessageFadeIn);
 }
 
-void func_ov003_021c460c(void) {
+void LoadOptMenuMessageFileAndSetBgCnt(void) {
     void *nscName = &data_ov003_021d716c;
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
     u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
@@ -82,107 +82,107 @@ void func_ov003_021c460c(void) {
     *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021c45d0(void) {
+void StartOptMenuMessageFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c45ac);
+    SetUpdateFunction(UpdateOptMenuMessageFadeIn);
 }
 
-void func_ov003_021c45ac(void) {
+void UpdateOptMenuMessageFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
     if (fadeSlotBusy == 0) {
         func_ov003_021bf5c8(3);
-        SetUpdateFunction(func_ov003_021c4588);
+        SetUpdateFunction(UpdateOptMenuMessageButtonsIn);
     }
 }
 
-void func_ov003_021c4588(void) {
+void UpdateOptMenuMessageButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
-        SetUpdateFunction(func_ov003_021c4570);
+        SetUpdateFunction(UpdateOptMenuMessage);
     }
 }
 
-void func_ov003_021c4570(void) {
-    func_ov003_021c4544();
-    func_ov003_021c4540();
-    func_ov003_021c4500();
+void UpdateOptMenuMessage(void) {
+    UpdateOptMenuMessageInput();
+    UpdateOptMenuMessageNop();
+    UpdateOptMenuMessageResult();
 }
 
-void func_ov003_021c4544(void) {
-    int v1;
-    v1 = AreKeysPressed(1);
-    if (v1 != 0) {
+void UpdateOptMenuMessageInput(void) {
+    int allKeysPressed;
+    allKeysPressed = AreKeysPressed(1);
+    if (allKeysPressed != 0) {
         SetButtonResultIfNone((u8) 1);
     }
-    v1 = AreKeysPressed(2);
-    if (v1 != 0) {
+    allKeysPressed = AreKeysPressed(2);
+    if (allKeysPressed != 0) {
         SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021c4540(void) {}
+void UpdateOptMenuMessageNop(void) {}
 
-void func_ov003_021c4500(void) {
+void UpdateOptMenuMessageResult(void) {
     switch (GetButtonResult()) {
         case 0:
             StartSoundSeq(7);
             break;
         case 1:
             StartSoundSeq(6);
-            data_ov003_021da1c0 = 1;
+            gOptMenuMessageShowNext = 1;
             break;
         default:
             return;
     }
-    SetUpdateFunction(func_ov003_021c44e0);
+    SetUpdateFunction(StartOptMenuMessageClose);
 }
 
-void func_ov003_021c44e0(void) {
+void StartOptMenuMessageClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c4498);
+    SetUpdateFunction(UpdateOptMenuMessageFadeOut);
 }
 
-void func_ov003_021c4498(void) {
+void UpdateOptMenuMessageFadeOut(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if (fadeSlotBusy == 0) {
         StartSlideButtonsOut();
-        if (data_ov003_021da1c0 == 0) {
+        if (gOptMenuMessageShowNext == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021c4410);
+        SetUpdateFunction(UpdateOptMenuMessageRelease);
     }
 }
 
-void func_ov003_021c4410(void) {
+void UpdateOptMenuMessageRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((data_ov003_021da1c0 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
+    if ((v1 == 0) && (((gOptMenuMessageShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
                        (v1 = func_ov003_021bf2f0(), v1 != 0)))) {
         ReleaseBgTextCanvasOfScreen(0);
-        if (data_ov003_021da1c0 == 0) {
+        if (gOptMenuMessageShowNext == 0) {
             func_ov003_021bf410();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da1c0 == 0) {
+        if (gOptMenuMessageShowNext == 0) {
             func_ov003_021c2120(0, 1);
             SetUpdateFunction(SetupOptMenu);
             return;
         }
         func_ov003_021c2120(0, 1);
-        SetUpdateFunction(func_ov003_021c43f0);
+        SetUpdateFunction(SetupOptMenuMessageNext);
     }
 }
 
-void func_ov003_021c43f0(void) {
-    func_ov003_021c43a4();
+void SetupOptMenuMessageNext(void) {
+    OptMenuMessageNextSetBgPriorities();
     PrintMessage(0x5c);
-    SetUpdateFunction(func_ov003_021c437c);
+    SetUpdateFunction(StartOptMenuMessageNextFadeIn);
 }

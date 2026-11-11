@@ -5,19 +5,19 @@
 #include "03/code_021d1f70.h"
 #include "03/code_021d254c.h"
 
-void func_ov003_021c371c(void) {
+void StartJb5InfoFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c36ec);
+    SetUpdateFunction(UpdateJb5InfoFadeIn);
 }
 
-void func_ov003_021c36ec(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateJb5InfoFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         func_ov003_021bf5c8(2);
-        SetUpdateFunction(func_ov003_021c36c8);
+        SetUpdateFunction(UpdateJb5InfoButtonsIn);
     }
 }

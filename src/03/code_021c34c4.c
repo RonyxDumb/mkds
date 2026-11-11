@@ -4,9 +4,9 @@
 #include "03/code_021c209c.h"
 #include "03/code_021c34ac.h"
 
-void func_ov003_021c34c4(void) {
+void UpdateYb5MultiNextButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
-        SetUpdateFunction(func_ov003_021c34ac);
+        SetUpdateFunction(UpdateYb5MultiNext);
     }
 }

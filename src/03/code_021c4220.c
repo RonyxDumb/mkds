@@ -10,7 +10,7 @@
 #include "03/code_021d254c.h"
 #include "03/code_021d2940.h"
 
-void func_ov003_021c42f4(void) {
+void UpdateOptMenuMessageNextInput(void) {
     int allKeysPressed;
     allKeysPressed = AreKeysPressed(1);
     if (allKeysPressed != 0) {
@@ -18,34 +18,34 @@ void func_ov003_021c42f4(void) {
     }
 }
 
-void func_ov003_021c42f0(void) {}
+void UpdateOptMenuMessageNextNop(void) {}
 
-void func_ov003_021c42cc(void) {
+void UpdateOptMenuMessageNextResult(void) {
     int buttonResult;
     buttonResult = GetButtonResult();
     if (buttonResult == 0) {
         StartSoundSeq(6);
-        SetUpdateFunction(func_ov003_021c42ac);
+        SetUpdateFunction(StartOptMenuMessageNextClose);
     }
 }
 
-void func_ov003_021c42ac(void) {
+void StartOptMenuMessageNextClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c427c);
+    SetUpdateFunction(UpdateOptMenuMessageNextFadeOut);
 }
 
-void func_ov003_021c427c(void) {
+void UpdateOptMenuMessageNextFadeOut(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if (fadeSlotBusy == 0) {
         StartSlideButtonsOut();
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021c4240);
+        SetUpdateFunction(UpdateOptMenuMessageNextRelease);
     }
 }
 
-void func_ov003_021c4240(void) {
+void UpdateOptMenuMessageNextRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if ((v1 == 0) && (v1 = func_ov003_021bf2f0(), v1 != 0)) {
@@ -56,8 +56,8 @@ void func_ov003_021c4240(void) {
     }
 }
 
-void func_ov003_021c4220(void) {
-    func_ov003_021c41d4();
+void SetupLinkMessageNext(void) {
+    SetBgPriorities();
     PrintMessage(0x61);
-    SetUpdateFunction(func_ov003_021c41ac);
+    SetUpdateFunction(StartLinkMessageNextFadeIn);
 }

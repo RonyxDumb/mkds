@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_ov003_021c4188(void);
-void func_ov003_021c41ac(void);
+void UpdateLinkMessageNextFadeIn(void);
+void StartLinkMessageNextFadeIn(void);

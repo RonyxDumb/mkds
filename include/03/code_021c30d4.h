@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov003_021c30d4(void);
+void UpdateYb5MultiMessageClose(void);

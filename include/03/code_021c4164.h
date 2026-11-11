@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov003_021c4164(void);
+void UpdateLinkMessageNextButtonsIn(void);

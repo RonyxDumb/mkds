@@ -37,11 +37,11 @@ void SetupJb2Menu(void) {
     PlaceSelectionCorners(
         gJb2MenuSelectionLeft[gJb2MenuSelectedIndex * 4], gJb2MenuSelectionRight[gJb2MenuSelectedIndex * 4],
         gJb2MenuSelectionTop[gJb2MenuSelectedIndex * 4], gJb2MenuSelectionBottom[gJb2MenuSelectedIndex * 4]);
-    SetUpdateFunction(func_ov003_021c2f98);
+    SetUpdateFunction(StartJb2MenuFadeIn);
 }
 
 void LoadJb2MenuFilesAndSetBgCnt(void) {
-    Unk021d6fd4 ybBgStep11NclName;
+    YbBgStep11NclName ybBgStep11NclName;
     ybBgStep11NclName = gYbBgStep11NclName;
     LoadFileToVram(gJbBgStep1NcgName2, GX_LoadBG2Char);
     LoadFileToVram(gJbBgStep1NclName2, GX_LoadBGPltt);
@@ -53,24 +53,24 @@ void LoadJb2MenuFilesAndSetBgCnt(void) {
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 3;
 }
 
-void func_ov003_021c2f98(void) {
+void StartJb2MenuFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x14, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x14);
-    SetUpdateFunction(func_ov003_021c2f68);
+    SetUpdateFunction(UpdateJb2MenuFadeIn);
 }
 
-void func_ov003_021c2f68(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateJb2MenuFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         func_ov003_021bf5c8(0);
-        SetUpdateFunction(func_ov003_021c2f44);
+        SetUpdateFunction(UpdateJb2MenuButtonsIn);
     }
 }
 
-void func_ov003_021c2f44(void) {
+void UpdateJb2MenuButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateJb2Menu);
@@ -79,8 +79,8 @@ void func_ov003_021c2f44(void) {
 
 void UpdateJb2Menu(void) {
     UpdateJb2MenuInput();
-    func_ov003_021c2e3c();
-    func_ov003_021c2df4();
+    UpdateJb2MenuNop();
+    UpdateJb2MenuResult();
 }
 
 void UpdateJb2MenuInput(void) {
@@ -110,9 +110,9 @@ void UpdateJb2MenuInput(void) {
     }
 }
 
-void func_ov003_021c2e3c(void) {}
+void UpdateJb2MenuNop(void) {}
 
-void func_ov003_021c2df4(void) {
+void UpdateJb2MenuResult(void) {
     switch (GetButtonResult()) {
         case 0:
             StartSoundSeq(7);
@@ -120,29 +120,29 @@ void func_ov003_021c2df4(void) {
             break;
         case 1:
             StartSoundSeq(6);
-            func_ov003_021c2c94();
-            SetUpdateFunction(func_ov003_021c2dd4);
+            RequestJb2MenuPaletteRowCopy();
+            SetUpdateFunction(StartJb2MenuClose);
             break;
     }
 }
 
-void func_ov003_021c2dd4(void) {
+void StartJb2MenuClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c2d9c);
+    SetUpdateFunction(UpdateJb2MenuFadeOut);
 }
 
-void func_ov003_021c2d9c(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateJb2MenuFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartBlendBrightnessFade(3, 1, 1, 8);
         StartBlendBrightnessFade(3, 0, 0x14, 8);
-        SetUpdateFunction(func_ov003_021c2d18);
+        SetUpdateFunction(UpdateJb2MenuRelease);
     }
 }
 
-void func_ov003_021c2d18(void) {
+void UpdateJb2MenuRelease(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         ReleaseSelectionObjectSlots();
         func_ov003_021bf410();
@@ -172,10 +172,10 @@ void MoveJb2MenuSelection(s32 direction) {
     }
 }
 
-void func_ov003_021c2c94(void) {
-    Unk021d6fd0 a;
+void RequestJb2MenuPaletteRowCopy(void) {
+    Jb2MenuPaletteRows paletteRows;
     u8 tableByte;
-    a = data_ov003_021d6fd0;
-    tableByte = a.mUnk_00[gJb2MenuSelectedIndex];
+    paletteRows = gJb2MenuPaletteRows;
+    tableByte = paletteRows.mUnk_00[gJb2MenuSelectedIndex];
     func_ov003_021cc948(gYbBgStep11Ncl, tableByte, tableByte);
 }

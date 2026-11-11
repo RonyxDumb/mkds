@@ -4,7 +4,7 @@
 #include "03/code_021c209c.h"
 #include "03/code_021c36b0.h"
 
-void func_ov003_021c36c8(void) {
+void UpdateJb5InfoButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateJb5Info);

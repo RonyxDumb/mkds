@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov003_021c34c4(void);
+void UpdateYb5MultiNextButtonsIn(void);

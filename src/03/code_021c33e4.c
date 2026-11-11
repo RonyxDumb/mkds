@@ -6,45 +6,45 @@
 #include "code_0200fc8c.h"
 #include "pm.h"
 
-void func_ov003_021c3490(void) {
-    int v1;
-    v1 = AreKeysPressed(1);
-    if (v1 != 0) {
+void UpdateYb5MultiNextInput(void) {
+    int allKeysPressed;
+    allKeysPressed = AreKeysPressed(1);
+    if (allKeysPressed != 0) {
         SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021c348c(void) {}
+void UpdateYb5MultiNextNop(void) {}
 
-void func_ov003_021c3468(void) {
+void UpdateYb5MultiNextResult(void) {
     int buttonResult;
     buttonResult = GetButtonResult();
     if (buttonResult == 0) {
         StartSoundSeq(6);
-        SetUpdateFunction(func_ov003_021c3448);
+        SetUpdateFunction(StartYb5MultiNextClose);
     }
 }
 
-void func_ov003_021c3448(void) {
+void StartYb5MultiNextClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c3410);
+    SetUpdateFunction(UpdateYb5MultiNextFadeOut);
 }
 
-void func_ov003_021c3410(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateYb5MultiNextFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartBlendBrightnessFade(3, 1, 0x3f, 0x40);
         StartBlendBrightnessFade(3, 0, 0x3f, 0x40);
-        SetUpdateFunction(func_ov003_021c33e4);
+        SetUpdateFunction(UpdateYb5MultiNextPowerOff);
     }
 }
 
-void func_ov003_021c33e4(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateYb5MultiNextPowerOff(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         OS_SpinWait((0x01000000u));
         PM_ForceToPowerOff();
     }

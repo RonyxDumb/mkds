@@ -40,28 +40,28 @@
 #include "registers.h"
 
 void SetupOptMenu(void) {
-    OamEntry *a;
-    data_ov003_021da1b0[0] = 0;
+    OamEntry *oamEntry;
+    gOptMenuEntryChosen[0] = 0;
     LoadOptMenuFilesAndSetBgCnt();
     LoadHlScr(0x10);
     func_ov003_021cdcf0(3);
     func_ov003_021bf43c(0x88, -1, 0);
-    data_ov003_021da1b8 = CreateOamEntryFromNceImage(0, 0x5b);
-    a = data_ov003_021da1b8;
-    a->mUnk_00 =
-        ((data_ov003_021d634c[0] & 0x1ff) << 16) | ((a->mUnk_00 & 0xfe00ff00) | (data_ov003_021d634c[1] & 0xff));
-    a = data_ov003_021da1b8;
-    a->mUnk_04 = (a->mUnk_04 & 0xfffff3ff) | 0xc00;
+    gOptMenuOamEntry = CreateOamEntryFromNceImage(0, 0x5b);
+    oamEntry = gOptMenuOamEntry;
+    oamEntry->mUnk_00 = ((gOptMenuOamEntryPosition[0] & 0x1ff) << 16) |
+                        ((oamEntry->mUnk_00 & 0xfe00ff00) | (gOptMenuOamEntryPosition[1] & 0xff));
+    oamEntry = gOptMenuOamEntry;
+    oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
     PlaceSelectionCorners(
         gOptMenuSelectionLeft[gOptMenuSelectedIndex * 4], gOptMenuSelectionRight[gOptMenuSelectedIndex * 4],
         gOptMenuSelectionTop[gOptMenuSelectedIndex * 4], gOptMenuSelectionBottom[gOptMenuSelectedIndex * 4]);
-    SetUpdateFunction(func_ov003_021c3c88);
+    SetUpdateFunction(StartOptMenuFadeIn);
 }
 
 void LoadOptMenuFilesAndSetBgCnt(void) {
     u8 *palette;
-    Unk021d70f8 ybBgOptionNclName;
-    Unk021d7110 ybBgOption1NclName;
+    YbBgOptionNclName ybBgOptionNclName;
+    YbBgOption1NclName ybBgOption1NclName;
     DWCWiFiInfo wifiInfo;
     u8 *copyFrom;
     u8 *copyTo;
@@ -89,24 +89,24 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 3;
 }
 
-void func_ov003_021c3c88(void) {
+void StartOptMenuFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x14, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x14);
-    SetUpdateFunction(func_ov003_021c3c58);
+    SetUpdateFunction(UpdateOptMenuFadeIn);
 }
 
-void func_ov003_021c3c58(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateOptMenuFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         func_ov003_021bf5c8(0);
-        SetUpdateFunction(func_ov003_021c3c34);
+        SetUpdateFunction(UpdateOptMenuButtonsIn);
     }
 }
 
-void func_ov003_021c3c34(void) {
+void UpdateOptMenuButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateOptMenu);
@@ -115,8 +115,8 @@ void func_ov003_021c3c34(void) {
 
 void UpdateOptMenu(void) {
     UpdateOptMenuInput();
-    func_ov003_021c3b5c();
-    func_ov003_021c3ae4();
+    UpdateOptMenuNop();
+    UpdateOptMenuResult();
 }
 
 void UpdateOptMenuInput(void) {
@@ -142,9 +142,9 @@ void UpdateOptMenuInput(void) {
     }
 }
 
-void func_ov003_021c3b5c(void) {}
+void UpdateOptMenuNop(void) {}
 
-void func_ov003_021c3ae4(void) {
+void UpdateOptMenuResult(void) {
     DWCWiFiInfo wifiInfo;
     switch (GetButtonResult()) {
         case 0:
@@ -158,43 +158,43 @@ void func_ov003_021c3ae4(void) {
                 return;
             }
             StartSoundSeq(6);
-            func_ov003_021c391c();
-            data_ov003_021da1b0[0] = 1;
+            RequestOptMenuPaletteRowCopy();
+            gOptMenuEntryChosen[0] = 1;
             break;
         default:
             return;
     }
-    SetUpdateFunction(func_ov003_021c3ac4);
+    SetUpdateFunction(StartOptMenuClose);
 }
 
-void func_ov003_021c3ac4(void) {
+void StartOptMenuClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c3a7c);
+    SetUpdateFunction(UpdateOptMenuFadeOut);
 }
 
-void func_ov003_021c3a7c(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
-        if ((*(u8 *) &data_ov003_021da1b0) != 0) {
+void UpdateOptMenuFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
+        if ((*(u8 *) &gOptMenuEntryChosen) != 0) {
             StartSlideButtonsOut();
         }
         StartBlendBrightnessFade(3, 1, 1, 8);
         StartBlendBrightnessFade(3, 0, 0x14, 8);
-        SetUpdateFunction(func_ov003_021c39a4);
+        SetUpdateFunction(UpdateOptMenuRelease);
     }
 }
 
-void func_ov003_021c39a4(void) {
+void UpdateOptMenuRelease(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021bf2f0() != 0) {
-        DeleteOamEntry((u32 *) data_ov003_021da1b8);
+        DeleteOamEntry((u32 *) gOptMenuOamEntry);
         ReleaseSelectionObjectSlots();
         func_ov003_021bf410();
         DeleteLoadedFile(gYbBgOption1Ncl);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
-        if (data_ov003_021da1b0[0] == 0) {
+        if (gOptMenuEntryChosen[0] == 0) {
             func_ov003_021c2120(0, 0);
             SetUpdateFunction(SetupJb2Menu);
         } else {
@@ -209,7 +209,7 @@ void func_ov003_021c39a4(void) {
                     break;
                 case 2:
                     func_ov003_021c2120(0, 1);
-                    SetUpdateFunction(func_ov003_021c4670);
+                    SetUpdateFunction(SetupOptMenuMessage);
                     break;
             }
         }
@@ -228,7 +228,7 @@ void MoveOptMenuSelection(s32 direction) {
         gOptMenuSelectionTop[gOptMenuSelectedIndex * 4], gOptMenuSelectionBottom[gOptMenuSelectedIndex * 4]);
 }
 
-void func_ov003_021c391c(void) {
-    u8 tableByte = data_ov003_021d6348[gOptMenuSelectedIndex];
+void RequestOptMenuPaletteRowCopy(void) {
+    u8 tableByte = gOptMenuPaletteRows[gOptMenuSelectedIndex];
     func_ov003_021cc948(gYbBgOption1Ncl, tableByte, tableByte);
 }

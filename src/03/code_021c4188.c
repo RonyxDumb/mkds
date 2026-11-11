@@ -5,17 +5,17 @@
 #include "03/code_021d1f70.h"
 #include "03/code_021d254c.h"
 
-void func_ov003_021c41ac(void) {
+void StartLinkMessageNextFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c4188);
+    SetUpdateFunction(UpdateLinkMessageNextFadeIn);
 }
 
-void func_ov003_021c4188(void) {
+void UpdateLinkMessageNextFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
     if (fadeSlotBusy == 0) {
         func_ov003_021bf5c8(5);
-        SetUpdateFunction(func_ov003_021c4164);
+        SetUpdateFunction(UpdateLinkMessageNextButtonsIn);
     }
 }

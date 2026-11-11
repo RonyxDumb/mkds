@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_ov003_021c434c(void);
-void func_ov003_021c437c(void);
+void UpdateOptMenuMessageNextFadeIn(void);
+void StartOptMenuMessageNextFadeIn(void);

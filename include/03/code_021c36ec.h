@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_ov003_021c36ec(void);
-void func_ov003_021c371c(void);
+void UpdateJb5InfoFadeIn(void);
+void StartJb5InfoFadeIn(void);

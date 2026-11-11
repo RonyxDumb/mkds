@@ -4,9 +4,9 @@
 #include "03/code_021c209c.h"
 #include "03/code_021c414c.h"
 
-void func_ov003_021c4164(void) {
+void UpdateLinkMessageNextButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
-        SetUpdateFunction(func_ov003_021c414c);
+        SetUpdateFunction(UpdateLinkMessageNext);
     }
 }

@@ -12,7 +12,7 @@
 #include "code_0214b824.h"
 #include "pm.h"
 
-void func_ov003_021c4130(void) {
+void UpdateLinkMessageNextInput(void) {
     int allKeysPressed;
     allKeysPressed = AreKeysPressed(1);
     if (allKeysPressed != 0) {
@@ -20,55 +20,55 @@ void func_ov003_021c4130(void) {
     }
 }
 
-void func_ov003_021c412c(void) {}
+void UpdateLinkMessageNextNop(void) {}
 
-void func_ov003_021c4108(void) {
+void UpdateLinkMessageNextResult(void) {
     int buttonResult;
     buttonResult = GetButtonResult();
     if (buttonResult == 0) {
         StartSoundSeq(6);
-        SetUpdateFunction(func_ov003_021c40e8);
+        SetUpdateFunction(StartLinkMessageNextClose);
     }
 }
 
-void func_ov003_021c40e8(void) {
+void StartLinkMessageNextClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c40b0);
+    SetUpdateFunction(UpdateLinkMessageNextFadeOut);
 }
 
-void func_ov003_021c40b0(void) {
+void UpdateLinkMessageNextFadeOut(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if (fadeSlotBusy == 0) {
         StartBlendBrightnessFade(3, 1, 0x3f, 0x40);
         StartBlendBrightnessFade(3, 0, 0x3f, 0x40);
-        SetUpdateFunction(func_ov003_021c4084);
+        SetUpdateFunction(UpdateLinkMessageNextPowerOff);
     }
 }
 
-void func_ov003_021c4084(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateLinkMessageNextPowerOff(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         OS_SpinWait((0x01000000u));
         PM_ForceToPowerOff();
     }
 }
 
-void func_ov003_021c4054(void) {
-    func_ov003_021c3ff0();
+void SetupLinkMessage(void) {
+    LoadLinkMessageFileAndSetBgCnt();
     PrintMessage(0x60);
     func_ov003_021beef8(0);
     CreateLinkLevel(1);
     StartSoundSeq(0xb);
-    SetUpdateFunction(func_ov003_021c3fc8);
+    SetUpdateFunction(StartLinkMessageFadeIn);
 }
 
-void func_ov003_021c3ff0(void) {
+void LoadLinkMessageFileAndSetBgCnt(void) {
     void *nscName = &data_ov003_021d7158;
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
     u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
@@ -112,8 +112,8 @@ void func_ov003_021c3ff0(void) {
     *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021c3fc8(void) {
+void StartLinkMessageFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c3fa0);
+    SetUpdateFunction(UpdateLinkMessageFadeIn);
 }

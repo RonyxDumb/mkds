@@ -185,7 +185,7 @@ void func_ov003_021c4ae0(void) {
             SetUpdateFunction(SetupOptMenu);
             return;
         }
-        SetUpdateFunction(func_ov003_021c4054);
+        SetUpdateFunction(SetupLinkMessage);
     }
 }
 
