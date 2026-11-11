@@ -23,15 +23,15 @@ void ClearRaceHudSubScreenPakkunSpitCells(void) {
 }
 
 void UpdateRaceHudSubScreenPakkunSpitCells(void) {
-    s32 i;
+    s32 objectIndex;
     s32 cellCount;
     s32 raceHudSubScreenScale;
     MapObject *object;
 
     cellCount = 0;
     raceHudSubScreenScale = GetRaceHudSubScreenScale();
-    for (i = 0; i < gRaceHudSubScreenPakkunSpitCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenPakkunSpitCells->mObjects[i];
+    for (objectIndex = 0; objectIndex < gRaceHudSubScreenPakkunSpitCells->mObjectCount; objectIndex++) {
+        object = gRaceHudSubScreenPakkunSpitCells->mObjects[objectIndex];
         if ((object->mFlags & 1) == 0) {
             if (ComputeRaceHudSubScreenPosition(&object->mPos,
                                                 &gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mDrawPos,

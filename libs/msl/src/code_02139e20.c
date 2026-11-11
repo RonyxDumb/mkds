@@ -6,10 +6,10 @@
 #include "Main/Unknown/unk_0216f000.h"
 #include "Main/Unknown/unk_0217e000.h"
 
-int raise(int a) {
-    Unk02139e20Func f;
+int raise(int signalNumber) {
+    Unk02139e20Func handler;
 
-    if (a < 1 || a > 7) {
+    if (signalNumber < 1 || signalNumber > 7) {
         return -1;
     }
     if (OS_TryLockMutex((OSMutex *) data_0217eadc[7]) == 0) {
@@ -22,20 +22,20 @@ int raise(int a) {
         gLockOwnerThreadIds[7] = OSi_ThreadInfo.mListHead->mId;
         gLockHoldCounts[7] = 1;
     }
-    f = gRaiseHandlers[a - 1];
-    if (f != (Unk02139e20Func) 1) {
-        gRaiseHandlers[a - 1] = 0;
+    handler = gRaiseHandlers[signalNumber - 1];
+    if (handler != (Unk02139e20Func) 1) {
+        gRaiseHandlers[signalNumber - 1] = 0;
     }
     gLockHoldCounts[7]--;
     if (gLockHoldCounts[7] == 0) {
         OS_UnlockMutex((OSMutex *) data_0217eadc[7]);
     }
-    if (f == (Unk02139e20Func) 1 || (f == 0 && a == 1)) {
+    if (handler == (Unk02139e20Func) 1 || (handler == 0 && signalNumber == 1)) {
         return 0;
     }
-    if (f == 0) {
+    if (handler == 0) {
         exit(0);
     }
-    f(a);
+    handler(signalNumber);
     return 0;
 }

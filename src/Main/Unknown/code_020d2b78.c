@@ -55,10 +55,10 @@ void ClearMapObjectListSlots(void) {
 s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotIndex, s32 itemKind,
                                 Vec3 *hitOffset) {
     s32 bestResponse;
-    s32 i;
+    s32 foundIndex;
     bestResponse = 0;
     FindCollisionSlotsOverlappingSlot(collisionSlotIndex, 0x2000);
-    i = 0;
+    foundIndex = 0;
     if (gFoundCollisionSlotCount != 0) {
         Vec3 overlapOffset;
         Vec3 lowest;
@@ -76,8 +76,8 @@ s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 
             highest = zeroHigh;
         }
         itemObject = &gMapObjects->mUnk_18c;
-        for (; i < gFoundCollisionSlotCount; i++) {
-            mapObject = gFoundCollisionSlotObjects[i];
+        for (; foundIndex < gFoundCollisionSlotCount; foundIndex++) {
+            mapObject = gFoundCollisionSlotObjects[foundIndex];
             if (IsSphereHittingMapObject(position, radius, mapObject, &overlapOffset) != FALSE) {
                 if (!(mapObject->mFlags & 0x40) && DoesItemObjectRespondToMapObject(itemKind, mapObject) != 0) {
                     overlapX = overlapOffset.x;

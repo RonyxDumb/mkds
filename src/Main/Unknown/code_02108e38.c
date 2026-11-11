@@ -5,9 +5,9 @@
 #pragma optimize_for_size on
 
 void StopSndHandleSlots7To11(void) {
-    s32 i;
+    s32 slotIndex;
 
-    for (i = 7; i < 12; i++) {
-        NNS_SndPlayerStopSeq(&gSndHandleSlots[i], 0);
+    for (slotIndex = 7; slotIndex < 12; slotIndex++) {
+        NNS_SndPlayerStopSeq(&gSndHandleSlots[slotIndex], 0);
     }
 }

@@ -41,12 +41,12 @@ MapObjectList *CreateWanwanChainUpdateList(void) {
     return data_0217b6e0;
 }
 
-void DrawWanwanChain(void *unused, WanwanChainObject *chainObject, s32 c, u16 d) {
-    DrawWanwanChainLinks(&chainObject->mChain, gWanwanChain, c, d);
+void DrawWanwanChain(void *unused, WanwanChainObject *chainObject, s32 unusedValue, u16 maxAlpha) {
+    DrawWanwanChainLinks(&chainObject->mChain, gWanwanChain, unusedValue, maxAlpha);
     if (chainObject->mHasKui == FALSE) {
         return;
     }
-    DrawWanwanChainKui(&chainObject->mChain, gWanwanKui, &chainObject->mPos, c, d);
+    DrawWanwanChainKui(&chainObject->mChain, gWanwanKui, &chainObject->mPos, unusedValue, maxAlpha);
 }
 
 void UpdateWanwanChain(void *unused, WanwanChainObject *chainObject) {

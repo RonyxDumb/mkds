@@ -20,11 +20,11 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 void ResetItemGesso(ItemGesso *gesso) {
-    s32 i;
+    s32 quadIndex;
 
     gesso->mKart = NULL;
-    for (i = 0; i < 8; i++) {
-        gesso->mOrthoQuadCounts[i] = 0;
+    for (quadIndex = 0; quadIndex < 8; quadIndex++) {
+        gesso->mOrthoQuadCounts[quadIndex] = 0;
     }
     gesso->mStepIndex = -1;
     gesso->mItemObject.mAlpha = 0x1f;

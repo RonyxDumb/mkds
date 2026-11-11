@@ -25,7 +25,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
     Vec3 direction;
     Vec3 push;
     s32 soundId;
-    s32 n;
+    s32 value;
     s32 radius;
     void (*soundCallback)(ItemObject *, s32);
 
@@ -84,13 +84,13 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             if (item->mFlags & 0x1000) {
                 RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~0xff00)->mItemInUse, item);
             }
-            n = 0;
+            value = 0;
             if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +
                     (s64) otherVelocity->z * otherVelocity->z >=
                 0x10) {
-                n = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
+                value = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
             }
-            if (n != 0) {
+            if (value != 0) {
                 ApplyItemObjectPush(item, otherPos, otherVelocity, &direction);
             } else {
                 VEC_Subtract(&item->mPos, otherPos, &direction);
@@ -110,9 +110,9 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             if (soundId == -1 || (item->mFlags & 0x8000000)) {
                 FadeOutUsedUpItemObject(item, 1);
             } else {
-                n = item->mKind;
+                value = item->mKind;
                 FadeOutEndedItemObject(item, 1);
-                if (n == 5 || n == 9) {
+                if (value == 5 || value == 9) {
                     soundId = -1;
                 }
             }

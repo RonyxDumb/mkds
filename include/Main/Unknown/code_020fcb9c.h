@@ -4,4 +4,4 @@
 
 typedef struct ItemKouraW ItemKouraW;
 
-void SetItemKouraWKartItems(ItemKouraW *a, int b);
+void SetItemKouraWKartItems(ItemKouraW *itemKouraW, int kartIndex);

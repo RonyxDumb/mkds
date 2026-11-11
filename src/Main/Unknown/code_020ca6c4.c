@@ -48,11 +48,11 @@ void InitEmblemChoises(void) {
                                 IsLanguageJa(), 0);
     {
         s32 bmgIndices[3] = {2, 0, 1};
-        s32 i;
+        s32 choiseIndex;
 
-        for (i = 0; i < gEmblemChoises->mChoisesCount; i++) {
-            EmblemChoisesDrawTextOnCanvas(&gEmblemChoises->mTextCanvas, 0x90, i * 16 + 9, 12, 0x412,
-                                          GetBmgEntry(FindSceneFileWrapper("emblem.bmg"), bmgIndices[i]));
+        for (choiseIndex = 0; choiseIndex < gEmblemChoises->mChoisesCount; choiseIndex++) {
+            EmblemChoisesDrawTextOnCanvas(&gEmblemChoises->mTextCanvas, 0x90, choiseIndex * 16 + 9, 12, 0x412,
+                                          GetBmgEntry(FindSceneFileWrapper("emblem.bmg"), bmgIndices[choiseIndex]));
         }
     }
 }

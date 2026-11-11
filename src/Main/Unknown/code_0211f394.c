@@ -71,7 +71,7 @@ void RequestSelectRaceRuleWaitState2(void) {
 
 void InitSelectRaceRuleWait(void *heap, void *oamList) {
     SelectRaceRuleWait *selectRaceRuleWait;
-    s32 i;
+    s32 entryIndex;
     u16 cellEntryCount;
     u32 subObjSize;
 
@@ -88,10 +88,10 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRuleWait->mBnll,
                                        GetBmgEntry(selectRaceRuleWait->mCommonMessages, 0x79),
                                        selectRaceRuleWait->mBncl, selectRaceRuleWait->mTable);
-    i = 0;
+    entryIndex = 0;
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
-    for (; i < cellEntryCount; i++) {
-        gSelectRaceRuleWait->mTable[i].mVisible = 0;
+    for (; entryIndex < cellEntryCount; entryIndex++) {
+        gSelectRaceRuleWait->mTable[entryIndex].mVisible = 0;
     }
     gSelectRaceRuleWait->mTable[0x2a].mVisible = 1;
     CreateWait(heap, gSelectRaceRuleWait->mNcer, gSelectRaceRuleWait->mBncl, 0x2a, 0xe, 1);

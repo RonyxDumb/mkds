@@ -3,6 +3,6 @@
 #include "Main/Unknown/code_020ee684.h"
 #include "Main/Unknown/unk_027e0000.h"
 
-void SetItemKouraWKartItems(ItemKouraW *a, int b) {
-    a->mKartItems = &gKartItems[b];
+void SetItemKouraWKartItems(ItemKouraW *itemKouraW, int kartIndex) {
+    itemKouraW->mKartItems = &gKartItems[kartIndex];
 }

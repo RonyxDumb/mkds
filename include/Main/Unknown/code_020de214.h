@@ -12,5 +12,5 @@ void InitEarthenPipe(PushedObject *pipe);
 MapObjectKindData *CreateWanwanChainKindData(void);
 MapObjectDrawList *CreateWanwanChainDrawList(void);
 MapObjectList *CreateWanwanChainUpdateList(void);
-void DrawWanwanChain(void *unused, WanwanChainObject *chainObject, s32 c, u16 d);
+void DrawWanwanChain(void *unused, WanwanChainObject *chainObject, s32 unusedValue, u16 maxAlpha);
 void UpdateWanwanChain(void *unused, WanwanChainObject *chainObject);

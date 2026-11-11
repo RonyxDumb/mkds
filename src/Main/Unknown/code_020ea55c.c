@@ -7,9 +7,9 @@
 
 #pragma thumb on
 
-void CreateShadowModel(ShadowModel **slot, void *file, u32 c) {
+void CreateShadowModel(ShadowModel **slot, void *file, u32 polygonId) {
     *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
-    InitShadowModel(*slot, file, (u8) c);
+    InitShadowModel(*slot, file, (u8) polygonId);
 }
 
 #pragma thumb off

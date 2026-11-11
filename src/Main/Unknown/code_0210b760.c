@@ -5,21 +5,21 @@
 #include "Main/Unknown/unk_0217c000.h"
 
 void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 distanceSquared) {
-    s32 a;
+    s32 value;
     s32 oldChange;
 
-    a = tracker->mDistanceSquared;
-    if (a == -1) {
+    value = tracker->mDistanceSquared;
+    if (value == -1) {
         tracker->mDistanceSquared = distanceSquared;
         tracker->mDifference = 0;
         return;
     }
     oldChange = tracker->mDifference;
-    tracker->mPrevDistanceSquared = a;
+    tracker->mPrevDistanceSquared = value;
     tracker->mDistanceSquared = distanceSquared;
     tracker->mDifference = (tracker->mPrevDistanceSquared - tracker->mDistanceSquared) >> tracker->mShift;
-    a = tracker->mDifference;
-    if (a > 0x600 || a < -0x600) {
+    value = tracker->mDifference;
+    if (value > 0x600 || value < -0x600) {
         tracker->mDifference = oldChange;
     }
 }

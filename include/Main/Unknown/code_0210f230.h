@@ -33,6 +33,6 @@ extern u32 gCourseSoundTableIndex;
 extern CourseSoundTableRow gCourseSoundTable[5];
 
 void SelectCourseSoundTable(u32 courseId);
-void ApplyCourseSoundTableEntry(s32 a);
+void ApplyCourseSoundTableEntry(s32 entryIndex);
 BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId);
 BOOL UpdateCourseSound(u32 slotIndex, u32 soundId);

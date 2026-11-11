@@ -15,7 +15,7 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
     s32 frame;
     LayoutTableEntry *mainCells;
     LayoutTableEntry *subCells;
-    s32 i;
+    s32 cellIndex;
     s16 offset;
 
     frame = GetFramesSinceMenuScreenSwitch();
@@ -24,14 +24,14 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
     if (frame < 10) {
         mainCells->mOffsetY = InterpolateS16(1, -0x28, 0, frame, 10);
         offset = InterpolateS16(1, 0xf0, 0, frame, 10);
-        for (i = 0; i <= 14; i++) {
-            subCells[i].mOffsetX = offset;
+        for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
+            subCells[cellIndex].mOffsetX = offset;
         }
         RequestSelectReturnState1();
     } else {
         mainCells->mOffsetY = 0;
-        for (i = 0; i <= 14; i++) {
-            subCells[i].mOffsetX = 0;
+        for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
+            subCells[cellIndex].mOffsetX = 0;
         }
         SwitchMenuScreen(1, 0x1f);
         SetSelectReturnSoundId(0xf);

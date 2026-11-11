@@ -27,7 +27,7 @@ void RefreshRaceGoalSRows(void) {
     s32 zeroFirst;
     BOOL falseValueSecond;
     s32 zeroSecond;
-    u16 i;
+    u16 index;
     u16 rowIndex;
     u16 kartIndex;
     s32 newRowIndex;
@@ -40,40 +40,40 @@ void RefreshRaceGoalSRows(void) {
     falseValueSecond = FALSE;
     zeroSecond = 0;
     {
-        for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+        for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
             if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
                 isHumanGhostOrPeer = falseValueFirst;
-                if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3 &&
-                    ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= 3 &&
+                    ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     isHumanGhostOrPeer = 1;
                 }
                 humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zeroFirst;
-                lowByte = GetLowByte(i);
+                lowByte = GetLowByte(index);
                 courseIndexInCup = GetCourseIndexInCup();
                 score = gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)].mWinCount;
-                sortKeys[i] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(i);
+                sortKeys[index] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(index);
             } else {
                 isHumanGhostOrPeer = falseValueSecond;
-                if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3 &&
-                    ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= 3 &&
+                    ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     isHumanGhostOrPeer = 1;
                 }
                 humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zeroSecond;
-                lowByte = GetLowByte(i);
+                lowByte = GetLowByte(index);
                 courseIndexInCup = GetCourseIndexInCup();
                 record = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
                 score = record->mTotalPoints;
-                sortKeys[i] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(i);
-                lowByte = GetLowByte(i);
+                sortKeys[index] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(index);
+                lowByte = GetLowByte(index);
                 courseIndexInCup = GetCourseIndexInCup();
                 record = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
-                gRaceGoalS->mShownNumbers[i] = record->mTotalPoints;
+                gRaceGoalS->mShownNumbers[index] = record->mTotalPoints;
             }
         }
     }
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        gRaceGoalS->mRowKartIndex[i] = i;
-        sortKeys[i] = sortKeys[i] * minusOne;
+    for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
+        gRaceGoalS->mRowKartIndex[index] = index;
+        sortKeys[index] = sortKeys[index] * minusOne;
     }
     SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, gRaceSetup->mKartCount);
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
@@ -86,9 +86,9 @@ void RefreshRaceGoalSRows(void) {
                     break;
                 }
             }
-            for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-                if (kartIndex == gRaceGoalS->mPreviousRowKartIndex[i]) {
-                    previousRowIndex = i;
+            for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
+                if (kartIndex == gRaceGoalS->mPreviousRowKartIndex[index]) {
+                    previousRowIndex = index;
                     break;
                 }
             }

@@ -7,4 +7,4 @@ typedef void (*Unk02139e20Func)(int a);
 
 extern Unk02139e20Func gRaiseHandlers[];
 
-int raise(int a);
+int raise(int signalNumber);

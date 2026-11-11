@@ -8,15 +8,15 @@
 void UpdateSinglePlaySelectSubCells(void) {
     LayoutTableEntry *subCells;
     s32 selectedIndex;
-    s32 i;
+    s32 cellIndex;
 
     subCells = gMenuScene->mSinglePlaySelectModeSLayoutTable;
     selectedIndex = gMenuScene->mSinglePlaySelectModeIndex;
-    for (i = 0; i <= 9; i++) {
-        subCells[i].mVisible = 1;
+    for (cellIndex = 0; cellIndex <= 9; cellIndex++) {
+        subCells[cellIndex].mVisible = 1;
     }
-    for (i = 10; i <= 14; i++) {
-        subCells[i].mVisible = 0;
+    for (cellIndex = 10; cellIndex <= 14; cellIndex++) {
+        subCells[cellIndex].mVisible = 0;
     }
     if (GetMenuScreenNumber() != 3 || gMenuScene->mSinglePlaySelectStartedOnSelected == FALSE ||
         GetFramesSinceMenuScreenSwitch() >= 5) {

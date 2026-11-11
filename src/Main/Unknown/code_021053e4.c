@@ -41,12 +41,12 @@ BOOL IsRaceSceneNormalOrReplay(void) {
 
 BOOL IsMissionRunBossColumn(void) {
     u32 result = 0;
-    s32 a = gRaceSetup->mMode;
-    if (a != MODE_MISSION_RUN) {
+    s32 value = gRaceSetup->mMode;
+    if (value != MODE_MISSION_RUN) {
         return result;
     }
-    a = a == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1;
-    if (a == 9) {
+    value = value == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1;
+    if (value == 9) {
         result = 1;
     }
     return result;

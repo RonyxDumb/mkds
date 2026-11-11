@@ -54,12 +54,12 @@ void CreateSeqRowHeap(void *heapMemory, u32 heapSize) {
     gSeqRowState.mSeqRow = NULL;
 }
 
-// Loads the sequences of the row for index a unless that row is already loaded; returns 0 if a load fails.
+// Loads the sequences of the row for index unless that row is already loaded; returns 0 if a load fails.
 u32 LoadSeqRowIfChanged(s32 index) {
     SeqRowState *state;
     u32 *row;
     NNSSndHeap *savedHeap;
-    s32 i;
+    s32 seqIndex;
     savedHeap = gCurrentSndHeap;
     state = &gSeqRowState;
     if (index == 4 && (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
@@ -72,9 +72,9 @@ u32 LoadSeqRowIfChanged(s32 index) {
     }
     gCurrentSndHeap = gSeqRowState.mSeqHeap;
     NNS_SndHeapClear(state->mSeqHeap);
-    for (i = 0; i < 6; i++) {
-        if (row[i] != 0xff) {
-            if (NNS_SndArcLoadSeq(row[i], gCurrentSndHeap) == 0) {
+    for (seqIndex = 0; seqIndex < 6; seqIndex++) {
+        if (row[seqIndex] != 0xff) {
+            if (NNS_SndArcLoadSeq(row[seqIndex], gCurrentSndHeap) == 0) {
                 gCurrentSndHeap = savedHeap;
                 return 0;
             }

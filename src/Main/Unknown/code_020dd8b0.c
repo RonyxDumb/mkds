@@ -8,7 +8,8 @@
 
 const Vec3 data_021583c8 = {0x100, 0x400, 0x100};
 
-void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32 pointCount, s32 e, Vec3 *f) {
+void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32 pointCount, s32 value,
+                     Vec3 *modelScale) {
     s32 segmentCount;
     void *heap;
 
@@ -18,8 +19,8 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
     chain->mPoints = HeapAlloc(heap, pointCount * 12);
     heap = GetHeap(GetCurrentHeapCall());
     chain->mVelocities = HeapAlloc(heap, pointCount * 12);
-    chain->mModelScale = *f;
-    chain->mUnk_40 = MUL_FIXED12_NO_ROUND(e, f->y);
+    chain->mModelScale = *modelScale;
+    chain->mUnk_40 = MUL_FIXED12_NO_ROUND(value, modelScale->y);
     segmentCount = pointCount - 1;
     chain->mStepFraction = 0x1000 / segmentCount;
     chain->mLinkLength = MUL_FIXED12_NO_ROUND(length, 0x119a) / segmentCount;

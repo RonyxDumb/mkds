@@ -10,7 +10,7 @@
 #include "code_02147cd8.h"
 
 void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
-    s32 a;
+    s32 value;
     MapObjectKindData *kindData;
     s32 kindViewRadius;
     mapObject->mScale.x = scale->x;
@@ -22,16 +22,16 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
             case 3:
             case 4:
             case 5:
-                a = VEC_Mag(&mapObject->mExtent);
+                value = VEC_Mag(&mapObject->mExtent);
                 break;
             case 0:
             case 1:
             case 2:
             default:
-                a = mapObject->mExtent.x;
+                value = mapObject->mExtent.x;
                 break;
         }
-        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
+        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, value);
     }
     mapObject->mExtent.y = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_10, mapObject->mScale.y);
     if (mapObject->mCollisionSlotIndex >= 0) {
@@ -39,16 +39,16 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
             case 3:
             case 4:
             case 5:
-                a = VEC_Mag(&mapObject->mExtent);
+                value = VEC_Mag(&mapObject->mExtent);
                 break;
             case 0:
             case 1:
             case 2:
             default:
-                a = mapObject->mExtent.x;
+                value = mapObject->mExtent.x;
                 break;
         }
-        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
+        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, value);
     }
     mapObject->mExtent.z = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mUnk_14, mapObject->mScale.z);
     if (mapObject->mCollisionSlotIndex >= 0) {
@@ -56,27 +56,27 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
             case 3:
             case 4:
             case 5:
-                a = VEC_Mag(&mapObject->mExtent);
+                value = VEC_Mag(&mapObject->mExtent);
                 break;
             case 0:
             case 1:
             case 2:
             default:
-                a = mapObject->mExtent.x;
+                value = mapObject->mExtent.x;
                 break;
         }
-        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
+        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, value);
     }
-    a = mapObject->mScale.x;
+    value = mapObject->mScale.x;
     kindData = mapObject->mKindData;
     kindViewRadius = kindData->mUnk_2c;
-    if (a < mapObject->mScale.y) {
-        a = mapObject->mScale.y;
+    if (value < mapObject->mScale.y) {
+        value = mapObject->mScale.y;
     }
-    if (a < mapObject->mScale.z) {
-        a = mapObject->mScale.z;
+    if (value < mapObject->mScale.z) {
+        value = mapObject->mScale.z;
     }
-    mapObject->mViewRadius = MUL_FIXED12_NO_ROUND(kindViewRadius, a);
+    mapObject->mViewRadius = MUL_FIXED12_NO_ROUND(kindViewRadius, value);
 }
 
 void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {

@@ -20,7 +20,7 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_02024000.h"
 
-void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32 d, s32 e) {
+void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32 value, s32 fraction) {
     s32 soundId;
     soundId = mapObject->mKindData->mSoundId;
     if (soundId == -1) {
@@ -30,9 +30,9 @@ void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32
         return;
     }
     if (mapObject->mSound != NULL) {
-        StartSoundVolumeFromFractionIfTwo(&mapObject->mSound->mSoundSource, soundId, e, d);
+        StartSoundVolumeFromFractionIfTwo(&mapObject->mSound->mSoundSource, soundId, fraction, value);
     } else {
-        StartSoundVolumeFromFractionIfTwo(soundSource, soundId, e, d);
+        StartSoundVolumeFromFractionIfTwo(soundSource, soundId, fraction, value);
     }
 }
 

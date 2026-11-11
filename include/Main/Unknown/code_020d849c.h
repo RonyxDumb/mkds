@@ -26,5 +26,5 @@ typedef struct SegmentProgress {
 void ReverseGroupFollower(GroupFollower *follower);
 void SetupGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, u16 entryValue, s32 entryIndex);
 s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower);
-void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 a);
+void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 value);
 BOOL AdvanceSegmentProgress(SegmentProgress *segmentProgress);

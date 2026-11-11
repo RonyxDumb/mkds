@@ -23,5 +23,6 @@ typedef struct WanwanChain {
 
 extern const Vec3 data_021583c8;
 
-void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32 pointCount, s32 e, Vec3 *f);
+void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32 pointCount, s32 value,
+                     Vec3 *modelScale);
 void SetWanwanChainPointsEvenly(WanwanChain *chain, Vec3 *start, Vec3 *end);

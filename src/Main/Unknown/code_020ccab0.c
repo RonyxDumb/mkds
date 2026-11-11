@@ -7,17 +7,18 @@
 #pragma optimize_for_size on
 #pragma thumb on
 void SetNextRaceEntriesFromRaceSetupCopy(void) {
-    u8 i;
+    u8 entryIndex;
     s32 teamIndex;
 
-    for (i = 0; i < 8; i++) {
-        if (GetRaceSetupCopy()->mCpuDifficulty == 0 && GetRaceSetupCopy()->mEntries[i].mPlayerKind == 1) {
-            SetNextRaceEntryNone(i);
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        if (GetRaceSetupCopy()->mCpuDifficulty == 0 && GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind == 1) {
+            SetNextRaceEntryNone(entryIndex);
         } else {
-            teamIndex = GetRaceSetupCopy()->mUseTeams != 0 ? GetRaceSetupCopy()->mEntries[i].mTeamIndex : -1;
-            SetNextRaceEntry(i, GetRaceSetupCopy()->mEntries[i].mCharacterIndex,
-                             GetRaceSetupCopy()->mEntries[i].mKartIndex, GetRaceSetupCopy()->mEntries[i].mPlayerKind,
-                             teamIndex, GetRaceSetupCopy()->mEntries[i].mListedCpuSlot);
+            teamIndex = GetRaceSetupCopy()->mUseTeams != 0 ? GetRaceSetupCopy()->mEntries[entryIndex].mTeamIndex : -1;
+            SetNextRaceEntry(entryIndex, GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex,
+                             GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex,
+                             GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind, teamIndex,
+                             GetRaceSetupCopy()->mEntries[entryIndex].mListedCpuSlot);
         }
     }
 }

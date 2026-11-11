@@ -15,7 +15,7 @@ void abort(void) {
     exit(1);
 }
 
-void exit(int a) {
+void exit(int status) {
     if (gAborted == 0) {
         RunListNodeCallbacks();
         if (data_0217e988 != 0) {
@@ -23,10 +23,10 @@ void exit(int a) {
             data_0217e988 = 0;
         }
     }
-    ExitTail(a);
+    ExitTail(status);
 }
 
-void ExitTail(int a) {
+void ExitTail(int status) {
     if (OS_TryLockMutex((OSMutex *) data_0217eadc[0]) == 0) {
         gLockOwnerThreadIds[0] = OSi_ThreadInfo.mListHead->mId;
         gLockHoldCounts[0] = 1;

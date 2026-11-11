@@ -5,9 +5,9 @@
 #pragma thumb on
 
 void InitLayoutTableEntries(LayoutTableEntry *entry, s32 count) {
-    s32 i;
+    s32 entryIndex;
 
-    for (i = 0; i < count; i++) {
+    for (entryIndex = 0; entryIndex < count; entryIndex++) {
         entry->mVisible = 1;
         entry->mOffsetX = 0;
         entry->mOffsetY = 0;

@@ -5,12 +5,12 @@
 #pragma thumb on
 void SetFriendDataType(DWCAccFriendData *friendData, u32 dataType) {
     u32 flags;
-    u32 d;
+    u32 value;
     flags = GetFriendDataFlags(friendData);
-    d = 3;
-    flags = flags & ~d;
-    d = flags;
-    d = d | dataType;
-    SetFriendDataFlags(friendData, d);
+    value = 3;
+    flags = flags & ~value;
+    value = flags;
+    value = value | dataType;
+    SetFriendDataFlags(friendData, value);
 }
 #pragma thumb off

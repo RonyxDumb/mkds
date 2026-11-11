@@ -6,8 +6,7 @@
 // clang-format off
 // Clears the floating-point status word (GetFloatStatus) and the five words from offset 4 of the block GetFloatTrapTable
 // returns.
-// Not compiled code: it saves lr alone with `stmdb sp!, {lr}`, a 4-byte frame with no padding word; the 1.2 compiler
-// pads every frame to 8 bytes (frame layout in the compiler; C of the same function gives `sub sp, sp, #4`).
+// Hand-written asm: it saves lr alone with `stmdb sp!, {lr}`, a 4-byte frame with no padding word.
 asm void _fp_init(void) {
     stmdb sp!, {lr}
     bl GetFloatStatus
@@ -24,11 +23,9 @@ asm void _fp_init(void) {
     bx lr
 }
 
-// Updates the floating-point status word: clears the bits in a, then flips the bits in b; returns the old value.
-// Not compiled code: it saves r0-r2, ip and lr around its call, inside the body (a 20-byte frame); 1.2 saves registers
-// only in its prologue, never ip or the argument registers, and pads every frame to 8 bytes (docs/compiler.md; frame
-// layout in the compiler).
-asm u32 FloatStatusClearXor(u32 a, u32 b) {
+// Updates the floating-point status word: clears the bits in clearMask, then flips the bits in xorMask; returns the old value.
+// Hand-written asm: it saves r0-r2, ip and lr around its call, inside the body (a 20-byte frame).
+asm u32 FloatStatusClearXor(u32 clearMask, u32 xorMask) {
     stmfd sp!, {r0, r1, r2, ip, lr}
     bl GetFloatStatus
     mov r3, r0
@@ -41,12 +38,11 @@ asm u32 FloatStatusClearXor(u32 a, u32 b) {
     bx lr
 }
 
-// Like FloatStatusClearXor, for the flag bits only: a and b hold flags in bits 0-4 and trap enables in bits 16-20, which are
+// Like FloatStatusClearXor, for the flag bits only: clearFlags and xorFlags hold flags in bits 0-4 and trap enables in bits 16-20, which are
 // moved down to bits 8-12 first. Returns the old flags (bits 0-4), the old trap enables moved up to bits 16-20, and bit
 // 30 set.
-// Not compiled code: it saves r0-r2, ip and lr around its call, inside the body; 1.2 saves registers only in its
-// prologue, never ip or the argument registers, and pads every frame to 8 bytes.
-asm u32 FloatFlagsClearXor(u32 a, u32 b) {
+// Hand-written asm: it saves r0-r2, ip and lr around its call, inside the body.
+asm u32 FloatFlagsClearXor(u32 clearFlags, u32 xorFlags) {
     and r2, r0, #0x1f
     and r3, r0, #0x1f0000
     orr r0, r2, r3, lsr #8

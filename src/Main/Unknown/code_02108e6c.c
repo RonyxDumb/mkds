@@ -20,7 +20,7 @@
 #include "code_0212df7c.h"
 
 void StartMissionRunCountSeq(s32 count, s32 countLimit) {
-    u32 c;
+    u32 value;
     PlayingSound *playingSound;
 
     if (count == countLimit) {
@@ -31,13 +31,13 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1de);
             return;
         }
-        c = gRaceSetup->mMissionMapObjectKind0;
-        if (c == 0x65 || c == 0xc9) {
+        value = gRaceSetup->mMissionMapObjectKind0;
+        if (value == 0x65 || value == 0xc9) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xd4);
         }
     } else {
-        c = gMissionRunCountSeqNo[0];
-        if (c == 0xff) {
+        value = gMissionRunCountSeqNo[0];
+        if (value == 0xff) {
             return;
         }
         if (!(gRaceSoundKind & 1)) {
@@ -53,7 +53,7 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
         if (playingSound->mSeqPlayer != NULL) {
             NNS_SndPlayerStopSeq(&playingSound->mSeqPlayer, 0);
         }
-        NNS_SndArcPlayerStartSeqArc(&playingSound->mSeqPlayer, 0, c);
+        NNS_SndArcPlayerStartSeqArc(&playingSound->mSeqPlayer, 0, value);
     }
 }
 

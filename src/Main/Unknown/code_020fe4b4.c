@@ -243,7 +243,7 @@ static inline u8 *CopyItemVelocityByte(u8 *cursor, s32 *valueSlot, void *toData,
 
 u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
     ItemObject *item;
-    u16 *p;
+    u16 *ownerKartIndexAndFlags;
 
     item = object;
 
@@ -272,12 +272,12 @@ u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
     cursor = CopyItemVelocityByte(
         cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->z : 0,
         toData, 10);
-    p = object != NULL ? &item->mOwnerKartIndexAndFlags : 0;
-    if (p != NULL) {
+    ownerKartIndexAndFlags = object != NULL ? &item->mOwnerKartIndexAndFlags : 0;
+    if (ownerKartIndexAndFlags != NULL) {
         if (toData != NULL) {
-            *(u16 *) cursor = *p;
+            *(u16 *) cursor = *ownerKartIndexAndFlags;
         } else {
-            *p = *(u16 *) cursor;
+            *ownerKartIndexAndFlags = *(u16 *) cursor;
         }
     }
     return cursor + 2;

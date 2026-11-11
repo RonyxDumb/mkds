@@ -90,7 +90,7 @@ void UpdateBuddyStatuses(void) {
     u8 status4Count = 0;
     WiFiSession *session;
     WiFiSession *countSession;
-    u8 i;
+    u8 buddyIndex;
 
     if (gWiFiSession->mBuddyPollIndex >= 0x3c) {
         gWiFiSession->mBuddyPollIndex = 0;
@@ -100,17 +100,17 @@ void UpdateBuddyStatuses(void) {
         func_ov000_0219daa8(&session->mBuddies[session->mBuddyPollIndex], NULL);
     gWiFiSession->mBuddyPollIndex++;
     countSession = gWiFiSession;
-    i = 0;
+    buddyIndex = 0;
     do {
-        switch (countSession->mBuddyStatuses[i]) {
+        switch (countSession->mBuddyStatuses[buddyIndex]) {
             case 2:
                 break;
             case 4:
                 status4Count++;
                 break;
         }
-        i++;
-    } while (i < 0x3c);
+        buddyIndex++;
+    } while (buddyIndex < 0x3c);
     countSession->mStatus4BuddyCount = status4Count;
 }
 

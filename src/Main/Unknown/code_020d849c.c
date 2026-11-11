@@ -20,7 +20,8 @@ void SetupGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, u16 entryIn
     speed = follower->mUnk_30;
     follower->mGroupFollower.mSpeed = speed;
     follower->mGroupFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-        speed, follower->mGroupFollower.mPath->mSegments[follower->mGroupFollower.mSegmentIndex].mInverseProgressLength);
+        speed,
+        follower->mGroupFollower.mPath->mSegments[follower->mGroupFollower.mSegmentIndex].mInverseProgressLength);
 }
 
 s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
@@ -40,16 +41,17 @@ s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
                 MUL_FIXED12_NO_ROUND(follower->mToSpeed, blend);
         follower->mGroupFollower.mSpeed = speed;
         follower->mGroupFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-            speed, follower->mGroupFollower.mPath->mSegments[follower->mGroupFollower.mSegmentIndex].mInverseProgressLength);
+            speed,
+            follower->mGroupFollower.mPath->mSegments[follower->mGroupFollower.mSegmentIndex].mInverseProgressLength);
     }
     return crossedEnd;
 }
 
-void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 a) {
+void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 value) {
     s32 inverseLength = segmentProgress->mSegment.mInverseProgressLength;
-    segmentProgress->mRate = a;
-    a = inverseLength != 0 ? MUL_FIXED12_NO_ROUND(a, inverseLength) : 0x1000000;
-    segmentProgress->mProgressStep = a;
+    segmentProgress->mRate = value;
+    value = inverseLength != 0 ? MUL_FIXED12_NO_ROUND(value, inverseLength) : 0x1000000;
+    segmentProgress->mProgressStep = value;
 }
 
 BOOL AdvanceSegmentProgress(SegmentProgress *segmentProgress) {

@@ -3,5 +3,5 @@
 #include "types.h"
 
 void _fp_init(void);
-u32 FloatStatusClearXor(u32 a, u32 b);
-u32 FloatFlagsClearXor(u32 a, u32 b);
+u32 FloatStatusClearXor(u32 clearMask, u32 xorMask);
+u32 FloatFlagsClearXor(u32 clearFlags, u32 xorFlags);

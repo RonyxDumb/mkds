@@ -146,11 +146,11 @@ s32 GetRaceEndResultKind(void) {
 void StartRaceEndSeq(s32 unused) {
     s32 seqId;
     s32 resultKind;
-    u32 c;
+    u32 value;
     u32 *seqRow;
     seqId = -1;
-    c = gRaceSetup->mRaceKind;
-    if (c != RACE_KIND_REPLAY && c != RACE_KIND_NORMAL) {
+    value = gRaceSetup->mRaceKind;
+    if (value != RACE_KIND_REPLAY && value != RACE_KIND_NORMAL) {
         return;
     }
     if (gSoundModeHolder.mMode != 2) {
@@ -159,19 +159,19 @@ void StartRaceEndSeq(s32 unused) {
     EndRaceSounds();
     resultKind = GetRaceEndResultKind();
     seqRow = gSeqRowState.mSeqRow;
-    c = 0xff;
+    value = 0xff;
     switch (resultKind) {
         case 0:
-            c = seqRow[0];
+            value = seqRow[0];
             break;
         case 1:
-            c = seqRow[1];
+            value = seqRow[1];
             break;
         case 2:
-            c = seqRow[2];
+            value = seqRow[2];
             break;
     }
-    StartScenePlayersSeqNo(&gScenePlayers, c, NULL);
+    StartScenePlayersSeqNo(&gScenePlayers, value, NULL);
     gRaceEndSeqStarted = 1;
     gRaceEndNextSeqPending = 1;
     switch (gRaceSetup->mCourseId) {

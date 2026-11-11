@@ -6,11 +6,11 @@
 
 #pragma thumb on
 
-void InitItemObject(ItemObject *a, u32 b, int c) {
-    a->mCreationNumber = b;
-    CreateCollisionHitLink(&a->mCollisionHitLink);
-    InitSoundSource(&a->mSoundSource, gItemKinds[c].mFalloffIndex, &a->mPos);
-    ReleaseSoundSourceWrapper(&a->mSoundSource);
+void InitItemObject(ItemObject *itemObject, u32 creationNumber, int itemKind) {
+    itemObject->mCreationNumber = creationNumber;
+    CreateCollisionHitLink(&itemObject->mCollisionHitLink);
+    InitSoundSource(&itemObject->mSoundSource, gItemKinds[itemKind].mFalloffIndex, &itemObject->mPos);
+    ReleaseSoundSourceWrapper(&itemObject->mSoundSource);
 }
 
 #pragma thumb off

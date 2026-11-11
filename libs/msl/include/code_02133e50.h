@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void ExitTail(int a);
-void exit(int a);
+void ExitTail(int status);
+void exit(int status);
 void abort(void);

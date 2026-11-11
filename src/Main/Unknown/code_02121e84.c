@@ -22,21 +22,21 @@ void PackWiFiSessionIndicesWrapper(void) {
 // Gives each index in mKartMask the next running number in mPackedIndices (others -1) and tells CopyKartCupRecords the
 // old and new number.
 void PackWiFiSessionIndices(void) {
-    u8 i;
+    u8 kartIndex;
     s8 nextNumber = 0;
     u8 oldNumber;
-    for (i = 0; i < 4; i++) {
-        if (i < gWiFiSession->mStartKartCount) {
-            if ((gWiFiSession->mKartMask & (1 << i)) == 0) {
-                gWiFiSession->mPackedIndices[i] = -1;
+    for (kartIndex = 0; kartIndex < 4; kartIndex++) {
+        if (kartIndex < gWiFiSession->mStartKartCount) {
+            if ((gWiFiSession->mKartMask & (1 << kartIndex)) == 0) {
+                gWiFiSession->mPackedIndices[kartIndex] = -1;
             } else {
-                oldNumber = gWiFiSession->mPackedIndices[i];
-                gWiFiSession->mPackedIndices[i] = nextNumber;
+                oldNumber = gWiFiSession->mPackedIndices[kartIndex];
+                gWiFiSession->mPackedIndices[kartIndex] = nextNumber;
                 nextNumber++;
-                CopyKartCupRecords(oldNumber, gWiFiSession->mPackedIndices[i]);
+                CopyKartCupRecords(oldNumber, gWiFiSession->mPackedIndices[kartIndex]);
             }
         } else {
-            gWiFiSession->mPackedIndices[i] = -1;
+            gWiFiSession->mPackedIndices[kartIndex] = -1;
         }
     }
 }

@@ -510,7 +510,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
     s32 rankPos[2];
     u16 inflateFrames;
     u16 count;
-    s32 i;
+    s32 value;
     s32 oamIndex;
     GXOamAttr *oam;
     NNSG2dCellDataWithBR *cell;
@@ -528,12 +528,12 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
         case MODE_BATTLE:
             if (IsKartEnded(GetFollowedKartOrEntryIndex()) == 0) {
                 if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
-                    i = 0;
+                    value = 0;
                     count = gRaceModeCount->mNumberHalves[1];
                     inflateFrames = gRaceModeCount->mNumberHalves[0];
-                    for (; i < count; i++) {
+                    for (; value < count; value++) {
                         cell = GetRaceBattleMNcerEntry(10);
-                        balloonPos[0] = (0xfe - i * 0xe) << 12;
+                        balloonPos[0] = (0xfe - value * 0xe) << 12;
                         balloonPos[1] = 0xc000;
                         oamBuffer->mOamCount +=
                             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
@@ -546,14 +546,14 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                         return;
                     }
                     cell = GetRaceBattleMNcerEntry(10);
-                    inflatingBalloonPos[0] = (0xfe - i * 0xe) << 12;
+                    inflatingBalloonPos[0] = (0xfe - value * 0xe) << 12;
                     inflatingBalloonPos[1] = 0xc000;
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                               cell, NULL, inflatingBalloonPos, 0, 1);
                 } else {
-                    i = GetRaceStartSequenceFrames() % 16;
-                    if (IsKartLastByBalloonOrShineCount(GetFollowedKartOrEntryIndex()) != 0 && i >= 10) {
+                    value = GetRaceStartSequenceFrames() % 16;
+                    if (IsKartLastByBalloonOrShineCount(GetFollowedKartOrEntryIndex()) != 0 && value >= 10) {
                         return;
                     }
                     count = gRaceModeCount->mNumberHalves[0];

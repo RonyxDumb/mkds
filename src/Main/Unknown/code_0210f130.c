@@ -17,7 +17,7 @@ void InitMicAndAmp(void) {
 
 void SetupMicAutoSampling(MicBuffer *micBuffer) {
     MICAutoParam *autoParam;
-    s32 i;
+    s32 sampleIndex;
 
     if (gMicInitialized == 0) {
         MIC_Init();
@@ -26,8 +26,8 @@ void SetupMicAutoSampling(MicBuffer *micBuffer) {
         gMicInitialized = 1;
     }
     micBuffer->mSkipFrames = 0;
-    for (i = 0; i < 0x400; i++) {
-        micBuffer->mSamples[i] = 0;
+    for (sampleIndex = 0; sampleIndex < 0x400; sampleIndex++) {
+        micBuffer->mSamples[sampleIndex] = 0;
     }
     micBuffer->mAutoParam.mType = MIC_SAMPLING_TYPE_SIGNED_8BIT;
     autoParam = &micBuffer->mAutoParam;
