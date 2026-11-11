@@ -4,4 +4,4 @@
 
 typedef struct NNSGfdVramTransferTaskQueue NNSGfdVramTransferTaskQueue;
 
-s32 NNSi_GfdPopVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *p);
+s32 NNSi_GfdPopVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue);

@@ -20,7 +20,7 @@ void WLMenuSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 c
     SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void WLMenuSetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
-                                 u32 cntVal8, u32 cntVal2) {
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+void WLMenuSetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14,
+                                 u32 cntVal7Or13, u32 cntVal8, u32 cntVal2) {
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }

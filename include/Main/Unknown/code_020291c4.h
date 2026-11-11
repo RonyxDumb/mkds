@@ -4,4 +4,4 @@
 
 typedef struct LayoutEntryTable LayoutEntryTable;
 
-s32 FindRectContainingPoint(u32 x, u32 y, LayoutEntryTable *rects);
+s32 FindRectContainingPoint(u32 pointX, u32 pointY, LayoutEntryTable *rects);

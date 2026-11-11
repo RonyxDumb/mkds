@@ -3,9 +3,9 @@
 #include "unk_02000000.h"
 
 // clang-format off
-// Fills c bytes at b with the word a.
+// Fills byteCount bytes at dest with the word value.
 // Hand-written asm: it stores with a conditional `stmlt r1!, {r0}`.
-asm void INITi_CpuClear32(u32 a, u32 *b, u32 c) {
+asm void INITi_CpuClear32(u32 value, u32 *dest, u32 byteCount) {
     add ip, r1, r2
 loop:
     cmp r1, ip
@@ -14,11 +14,11 @@ loop:
     bx lr
 }
 
-// Unpacks the compressed block that ends at p0, working backwards from its end: the two words before p0 give the
+// Unpacks the compressed block that ends at compressedEnd, working backwards from its end: the two words before it give the
 // packed and unpacked extents; each flag byte selects, per bit from the top, a literal byte or a copy of 3 to 18
 // earlier bytes. Then cleans and invalidates the cache lines of the unpacked range.
 // Hand-written asm: it reads the two words with `ldmdb`, writes coprocessor 15 (mcr) and tests with `tst`.
-asm void MIi_UncompressBackward(void *p0) {
+asm void MIi_UncompressBackward(void *compressedEnd) {
     cmp r0, #0x0
     beq done
     stmdb sp!, {r4, r5, r6, r7}

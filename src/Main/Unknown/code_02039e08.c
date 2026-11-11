@@ -43,40 +43,40 @@
 
 void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;
-    u32 c;
+    u32 value;
     if (IsDataSharingIncomplete() == 0) {
         if (IsInputOpenDuringRace() == 0) {
             if (sceneNumbers != NULL) {
                 if (RaceSceneGetCurrentMode() == 5) {
-                    c = GetWiFiRaceSyncPickedValue();
+                    value = GetWiFiRaceSyncPickedValue();
                 } else {
-                    c = GetChoisesSPickedValue();
+                    value = GetChoisesSPickedValue();
                 }
-                if (c != 0) {
-                    SetPickedValue(c);
-                    SetNextSceneFromPickedValue(sceneNumbers, c);
+                if (value != 0) {
+                    SetPickedValue(value);
+                    SetNextSceneFromPickedValue(sceneNumbers, value);
                 }
                 switch (GetCurrentRaceKind()) {
                     case RACE_KIND_DEMO:
-                        c = 0;
+                        value = 0;
                         if (sceneFrames > GetDemoRaceFrameLimit()) {
                             if (IsSeqVariableChanged(1) != 0) {
-                                c = 1;
+                                value = 1;
                                 SetDemoEndedByInput(0);
                             }
                         }
-                        if (c == 0) {
+                        if (value == 0) {
                             if (GetDownBits(GetRaceSceneInputSlot(), 0x2fff) != 0) {
-                                c = 1;
+                                value = 1;
                                 StartRaceSceneSound(5);
                                 SetDemoEndedByInput(1);
                             } else if (RaceSceneSlotHasPairOrLost(GetRaceSceneInputSlot()) != 0) {
-                                c = 1;
+                                value = 1;
                                 StartRaceSceneSound(5);
                                 SetDemoEndedByInput(1);
                             }
                         }
-                        if (c != 0) {
+                        if (value != 0) {
                             sceneNumbers->mNextScene = 0;
                         }
                         break;
@@ -105,11 +105,11 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                         }
                         break;
                     case RACE_KIND_STAFF_ROLL:
-                        c = 0x2a5a;
+                        value = 0x2a5a;
                         if (RaceSceneGetCurrentCourseId() == COURSE_ID_STAFFROLLTRUE) {
-                            c = 0x2b02;
+                            value = 0x2b02;
                         }
-                        if (sceneFrames > c) {
+                        if (sceneFrames > value) {
                             sceneNumbers->mNextScene = 0xf;
                             break;
                         }
@@ -142,15 +142,15 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     }
     raceSetup = gRaceSetup;
     if (raceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        c = 1;
+        value = 1;
     } else {
         if (sceneFrames < 0x708) {
-            c = 0;
+            value = 0;
         } else {
-            c = 1;
+            value = 1;
         }
     }
-    if (c != 0) {
+    if (value != 0) {
         if (raceSetup->mMode != MODE_WIFI || IsFrameSpanningVBlank() == 0) {
             DrawRace();
         }

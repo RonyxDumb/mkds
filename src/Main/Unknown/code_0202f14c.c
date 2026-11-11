@@ -43,7 +43,7 @@ void WLMenuGXS_SetOBJVRamModeChar(u32 bits) {
 
 void InitWLMenuScene(void *heap) {
     DisplaySettings *displaySettings;
-    SceneTextInitParams v1;
+    SceneTextInitParams sceneTextInitParams;
 
     gWLMenuScene = HeapAllocAligned(heap, 0x874, 0x20);
     WLMenuMI_CpuClearFast(gWLMenuScene, 0x874);
@@ -52,18 +52,18 @@ void InitWLMenuScene(void *heap) {
     WLMenuSetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 6);
     InitDisplayFromSettings(displaySettings);
     if (WLMenuMB_IsMultiBootChildWrapper() == 0) {
-        v1.mUseTxtSystem = 1;
-        v1.mTxtSystemFont = GetFontByIndex(1);
-        v1.mUseCanvas1 = 0;
-        v1.mUseCanvas2 = 1;
-        v1.mUseCanvas3 = 0;
-        v1.mUseSelectChoises = 0;
-        v1.mSelectChoisesFont = NULL;
-        v1.mUseSelectReturn = 1;
-        v1.mUseBackScreen = GetWLMenuKind() == 0;
-        v1.mBackScreenKind = 0;
+        sceneTextInitParams.mUseTxtSystem = 1;
+        sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);
+        sceneTextInitParams.mUseCanvas1 = 0;
+        sceneTextInitParams.mUseCanvas2 = 1;
+        sceneTextInitParams.mUseCanvas3 = 0;
+        sceneTextInitParams.mUseSelectChoises = 0;
+        sceneTextInitParams.mSelectChoisesFont = NULL;
+        sceneTextInitParams.mUseSelectReturn = 1;
+        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == 0;
+        sceneTextInitParams.mBackScreenKind = 0;
         LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-        InitSceneText(heap, &v1);
+        InitSceneText(heap, &sceneTextInitParams);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (GetWLMenuKind()) {
@@ -97,7 +97,7 @@ void InitWLMenuScene(void *heap) {
     gWLMenuScene->mCurrentCallbacks->mInit(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
-void AdvanceWLMenuScene(void *a) {
+void AdvanceWLMenuScene(void *sceneNumbers) {
     s32 callbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
     WLMenuCallbacks *previousCallbacks;
 
@@ -109,7 +109,7 @@ void AdvanceWLMenuScene(void *a) {
         gWLMenuScene->mCurrentCallbacks->mInit(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
     } else {
         ClearOamListCounts(gWLMenuScene, gWLMenuScene->mSubOam);
-        callbacksIndex = gWLMenuScene->mCurrentCallbacks->mAdvance(a);
+        callbacksIndex = gWLMenuScene->mCurrentCallbacks->mAdvance(sceneNumbers);
         if (callbacksIndex != -1) {
             gWLMenuScene->mRequestedCallbacksIndex = callbacksIndex;
         }
@@ -126,10 +126,10 @@ void AdvanceWLMenuScene(void *a) {
 #pragma thumb on
 
 void ReleaseWLMenuScene(void) {
-    int v1;
+    int isMultiBootChild;
     gWLMenuScene->mCurrentCallbacks->mRelease();
-    v1 = WLMenuMB_IsMultiBootChildWrapper();
-    if (v1 == 0) {
+    isMultiBootChild = WLMenuMB_IsMultiBootChildWrapper();
+    if (isMultiBootChild == 0) {
         ReleaseSceneText();
     }
     ClearLinkLevelIconsPointer();
@@ -152,9 +152,9 @@ u32 WLMenuMB_IsMultiBootChildWrapper(void) {
 #pragma thumb on
 
 void WriteWLMenuSceneRegisters(void) {
-    int v1;
-    v1 = WLMenuMB_IsMultiBootChildWrapper();
-    if (v1 == 0) {
+    int isMultiBootChild;
+    isMultiBootChild = WLMenuMB_IsMultiBootChildWrapper();
+    if (isMultiBootChild == 0) {
         WriteSceneTextRegisters();
     }
     gWLMenuScene->mCurrentCallbacks->mWriteRegisters();

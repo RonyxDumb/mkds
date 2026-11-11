@@ -4,4 +4,4 @@
 
 typedef struct WBTPacketBitmap WBTPacketBitmap;
 
-void MarkChunkReceived(WBTPacketBitmap *a, u32 b);
+void MarkChunkReceived(WBTPacketBitmap *bitmap, u32 chunkIndex);

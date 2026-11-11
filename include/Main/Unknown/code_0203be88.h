@@ -22,7 +22,7 @@ void GetClockDateOrDefault(s32 *date);
 // Scene function of gSceneFuncs[0] (scene 'Title' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
 u32 RunTitleScene(SceneNumbers *sceneNumbers);
-void UpdateTitleScene(s32 a);
+void UpdateTitleScene(s32 flag);
 void WriteTitleSceneRegistersCallback(void);
 void ReleaseTitleScene(void);
 void InitTitleScene(void);

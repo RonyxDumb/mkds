@@ -93,9 +93,9 @@ void WriteTitleSceneRegistersCallback(void) {
     WriteTitleSceneRegisters();
 }
 
-void UpdateTitleScene(s32 a) {
+void UpdateTitleScene(s32 flag) {
     PrepareDisplayFrame();
-    AdvanceTitleStates(a);
+    AdvanceTitleStates(flag);
 }
 
 u32 RunTitleScene(SceneNumbers *sceneNumbers) {

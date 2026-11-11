@@ -41,7 +41,7 @@ u32 WLMenuMB_IsMultiBootChildWrapper(void);
 u32 WLMenuMB_IsMultiBootChild(void);
 u16 *WLMenuMB_GetMultiBootParam(void);
 void ReleaseWLMenuScene(void);
-void AdvanceWLMenuScene(void *a);
+void AdvanceWLMenuScene(void *sceneNumbers);
 void InitWLMenuScene(void *heap);
 void WLMenuGXS_SetOBJVRamModeChar(u32 bits);
 void WLMenuGX_SetOBJVRamModeChar(u32 bits);

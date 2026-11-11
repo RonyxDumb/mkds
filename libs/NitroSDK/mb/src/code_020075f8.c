@@ -5,11 +5,11 @@
 
 #pragma thumb on
 
-int MBi_CommParentSendMsg(u8 a, u32 b) {
+int MBi_CommParentSendMsg(u8 messageKind, u32 childMask) {
     u8 message[8];
-    message[0] = a;
+    message[0] = messageKind;
     MBi_MakeParentSendBuffer(message, (u8 *) mbc);
-    return MBi_BlockHeaderEnd(6, b, (u32) mbc);
+    return MBi_BlockHeaderEnd(6, childMask, (u32) mbc);
 }
 
 #pragma thumb off

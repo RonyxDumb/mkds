@@ -36,13 +36,13 @@ void NNSi_G3dSendJointSRTBasic(const NNSG3dJntAnmResult *result) {
     }
 }
 
-void NNSi_G3dGetJointScaleBasic(NNSG3dJntAnmResult *pResult, const s32 *p, const u8 *cmd, u32 srtflag) {
+void NNSi_G3dGetJointScaleBasic(NNSG3dJntAnmResult *pResult, const s32 *scale, const u8 *cmd, u32 srtflag) {
     if (srtflag & 4) {
         pResult->mFlag |= 1;
     } else {
-        pResult->mScale.x = p[0];
-        pResult->mScale.y = p[1];
-        pResult->mScale.z = p[2];
+        pResult->mScale.x = scale[0];
+        pResult->mScale.y = scale[1];
+        pResult->mScale.z = scale[2];
     }
     pResult->mFlag |= 0x18;
 }

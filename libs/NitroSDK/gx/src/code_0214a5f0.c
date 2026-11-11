@@ -22,7 +22,7 @@ void G3X_SetClearColor(u32 rgb, u32 alpha, u16 depth, u32 polygonID, s32 fog) {
 void G3X_InitTable(void) {
     volatile u32 zero0;
     volatile u32 zero1;
-    s32 i;
+    s32 writeIndex;
 
     if (GXi_DmaId != -1) {
         MI_DmaFill32Async(GXi_DmaId, (void *) 0x4000330, 0, 0x10, 0, 0);
@@ -33,7 +33,7 @@ void G3X_InitTable(void) {
         zero1 = 0;
         MIi_CpuClear32(zero1, (void *) 0x4000360, 0x60);
     }
-    for (i = 0; i < 32; i++) {
+    for (writeIndex = 0; writeIndex < 32; writeIndex++) {
         *(vu32 *) 0x40004d0 = 0;
     }
 }

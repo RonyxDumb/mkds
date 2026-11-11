@@ -18,7 +18,7 @@ u32 GetResultSceneSeqKind(void) {
     s32 ownEntryIndex;
     s32 scores[8];
     s32 unused;
-    s32 i;
+    s32 scoreIndex;
     s32 maxScore;
     s32 allEqual;
     s32 kartIndex;
@@ -80,27 +80,27 @@ u32 GetResultSceneSeqKind(void) {
         }
         return 6;
     }
-    i = 0;
+    scoreIndex = 0;
     maxScore = -1;
     allEqual = 1;
-    for (; i < kartCount; i++) {
+    for (; scoreIndex < kartCount; scoreIndex++) {
         if (gStartupWork->mConnectionKind == 3 || gRaceSetup->mRuleKind == 2) {
-            kartIndex = GetLowByte((u16) i);
+            kartIndex = GetLowByte((u16) scoreIndex);
             courseIndex = GetCourseIndexInCup();
             record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
-            scores[i] = record->mTotalPoints;
+            scores[scoreIndex] = record->mTotalPoints;
         } else {
-            kartIndex = GetLowByte((u16) i);
+            kartIndex = GetLowByte((u16) scoreIndex);
             courseIndex = GetCourseIndexInCup();
             record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
-            scores[i] = record->mWinCount;
+            scores[scoreIndex] = record->mWinCount;
         }
-        if (maxScore < scores[i]) {
-            maxScore = scores[i];
+        if (maxScore < scores[scoreIndex]) {
+            maxScore = scores[scoreIndex];
         }
     }
-    for (i = 1; i < kartCount; i++) {
-        allEqual = allEqual & (scores[0] == scores[i]);
+    for (scoreIndex = 1; scoreIndex < kartCount; scoreIndex++) {
+        allEqual = allEqual & (scores[0] == scores[scoreIndex]);
     }
     if (allEqual != 0) {
         return 4;

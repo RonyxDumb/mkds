@@ -14,13 +14,13 @@
 
 // Steps the four stream players: start, volume and fade-out.
 void NNSi_SndArcStrmMain(void) {
-    s32 i;
+    s32 playerIndex;
     s32 initVolume;
     s32 volume;
     Unk0212c7f0 *player;
 
     player = data_0217e404;
-    for (i = 0; i < 4; i++, player++) {
+    for (playerIndex = 0; playerIndex < 4; playerIndex++, player++) {
         if (!player->mActiveFlag) {
             continue;
         }

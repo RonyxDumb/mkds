@@ -2,10 +2,8 @@
 
 // clang-format off
 // Shifts the 64-bit value r1:r0 right (logical) by r2 modulo 64 and returns it in r1:r0.
-// Not compiled code: it tests the result of `subs r3, r2, #32` with ge; the 1.2 compiler folds a compare with zero into
-// a flag-setting subtract only for eq/ne/mi/pl, so the same C gives `subs` and pl (docs/compiler.md, Conditions; `if
-// ((int) (n - 32) >= 0)` compiles to `subs r2, r3, #32; lsrpl`).
-asm u64 ShiftRightLogical64(u64 a, u32 b) {
+// Hand-written asm: it tests the result of `subs r3, r2, #32` with ge.
+asm u64 ShiftRightLogical64(u64 operand, u32 bitCount) {
     // A shift of 0 returns the value.
     ands r2, r2, #0x3f
     bxeq lr

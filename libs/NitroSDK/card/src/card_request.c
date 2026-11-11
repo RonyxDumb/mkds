@@ -5,7 +5,7 @@
 
 // Tag 11 callback: when a reply arrives, clears the request bit of CARDiCommon.mFlag and wakes CARDiCommon.mCurTh.
 void CARDi_OnFifoRecv(u32 tag, u32 data, u32 err) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     u32 value;
 
     if (tag != 0xb) {
@@ -14,9 +14,9 @@ void CARDi_OnFifoRecv(u32 tag, u32 data, u32 err) {
     if (err == 0) {
         return;
     }
-    p = (CARDiCommon *) &gAccessState;
-    value = p->mFlag;
+    common = (CARDiCommon *) &gAccessState;
+    value = common->mFlag;
     value = value & ~0x20;
-    p->mFlag = value;
-    OS_WakeupThreadDirect(p->mCurTh);
+    common->mFlag = value;
+    OS_WakeupThreadDirect(common->mCurTh);
 }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void MBi_ReadSegmentHeader(u32 *a, u32 b, u32 c, int d);
+void MBi_ReadSegmentHeader(u32 *segmentHeader, u32 offsetStart, u32 offsetEnd, int fillFlag);

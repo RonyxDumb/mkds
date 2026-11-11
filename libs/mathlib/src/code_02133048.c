@@ -2,13 +2,12 @@
 
 // clang-format off
 // Multiplies the 64-bit integers r1:r0 and r3:r2 and returns the low 64 bits of the product in r1:r0.
-// Not compiled code: it saves three registers (r4, r5, lr) with no padding word, where the 1.2 compiler always pads a
-// frame to 8 bytes, and it keeps its values in r4 and r5 while ip is free; 1.2's own 64-bit product uses ip and lr
-// (frame layout in the compiler; docs/compiler.md, Registers).
-// The same routine is also `_ull_mul`, which 1.2 calls for an unsigned product: a second name at this address in
+// Hand-written asm: it saves three registers (r4, r5, lr) with no padding word and keeps its values in r4 and r5
+// while ip is free.
+// The same routine is also `_ull_mul`: a second name at this address in
 // symbols.txt (after `_ll_mul`, so dsd keeps naming the original's calls `_ll_mul`). An asm function cannot export a
 // second name (a label in its body stays local), so the delinked object carries it.
-asm u64 _ll_mul(u64 a, u64 b) {
+asm u64 _ll_mul(u64 lhs, u64 rhs) {
     // Low words multiplied in full, plus the two cross products into the high word.
     stmfd sp!, {r4, r5, lr}
     umull r5, r4, r0, r2
@@ -25,10 +24,9 @@ asm u64 _ll_mul(u64 a, u64 b) {
 // is shifted up by the number of leading quotient bits that must be zero (found four at a time), then a computed jump
 // enters a run of 32 identical steps at the right place; each step shifts the next dividend bit into the remainder and
 // subtracts the divisor when it fits, the carry giving the quotient bit.
-// Not compiled code: the computed jump `add pc, pc, r2, lsl #2` has no bound check and lands inside straight-line code,
-// where 1.2 dispatches only switches, through `addls pc` and a table of branches; and every step tests the carry of an
-// `adcs` with `sublo`, a condition 1.2 takes only from a compare (docs/compiler.md, Conditions).
-asm u64 _s32_div_f(u32 param_1, u32 param_2) {
+// Hand-written asm: the computed jump `add pc, pc, r2, lsl #2` has no bound check and lands inside straight-line
+// code, and every step tests the carry of an `adcs` with `sublo`.
+asm u64 _s32_div_f(u32 numerator, u32 denominator) {
     // ip bit 31 = the quotient's sign, bit 0 = the dividend's sign. Work on the magnitudes. A zero divisor returns at
     // once; a dividend below the divisor gives quotient 0 and the dividend as remainder.
     eor ip, r0, r1

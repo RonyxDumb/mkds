@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-double SqrtDouble(double a);
+double SqrtDouble(double value);

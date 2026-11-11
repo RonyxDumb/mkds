@@ -30,16 +30,16 @@ void CARD_Enable(u32 enable) {
 
 // Waits while a transfer is running. Returns 1 when CARDiCommandArg.mResult is 0.
 int CARDi_WaitAsync(void) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     u32 enabled;
 
-    p = (CARDiCommon *) (u32) &gAccessState;
+    common = (CARDiCommon *) (u32) &gAccessState;
     enabled = OS_DisableInterrupts();
-    while (p->mFlag & 4) {
-        OS_SleepThread(&p->mBusyQ);
+    while (common->mFlag & 4) {
+        OS_SleepThread(&common->mBusyQ);
     }
     OS_RestoreInterrupts(enabled);
-    return p->mCmd->mResult == 0;
+    return common->mCmd->mResult == 0;
 }
 
 // Returns 1 when no transfer is running.

@@ -18,17 +18,17 @@
 s32 NNS_SndCaptureStartEffect(void *buffer, u32 bufSize, u32 format, u32 rate, u32 interval,
                               NNSSndCaptureCallback callback, void *arg) {
     volatile u32 zero;
-    u8 *a = buffer;
+    u8 *bufferBytes = buffer;
 
     NNS_SndCaptureStopEffect();
     if (data_0217ddd0.mActiveFlag != 0) {
         return 0;
     }
     zero = 0;
-    MIi_CpuClear32(zero, a, bufSize);
-    DC_FlushRange(a, bufSize);
-    return NNSi_SndCaptureStart(1, a, a + (bufSize >> 1), bufSize >> 1, format, 0, 0, 1, rate, 0x7f, 0, 0x7f, interval,
-                                callback, arg);
+    MIi_CpuClear32(zero, bufferBytes, bufSize);
+    DC_FlushRange(bufferBytes, bufSize);
+    return NNSi_SndCaptureStart(1, bufferBytes, bufferBytes + (bufSize >> 1), bufSize >> 1, format, 0, 0, 1, rate, 0x7f,
+                                0, 0x7f, interval, callback, arg);
 }
 
 // Stops the capture when it is a running effect capture.

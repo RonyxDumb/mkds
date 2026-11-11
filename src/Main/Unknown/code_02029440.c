@@ -135,8 +135,8 @@ void SetPlayerKind(u16 entryIndex, u32 playerKind) {
     gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = playerKind;
 }
 
-void SetListedCpuSlot(u16 entryIndex, u32 b) {
-    gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = b;
+void SetListedCpuSlot(u16 entryIndex, u32 cpuSlot) {
+    gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = cpuSlot;
 }
 
 void SetKartStored(u16 entryIndex, u32 kartStored) {
@@ -147,8 +147,8 @@ void SetKartStored(u16 entryIndex, u32 kartStored) {
 
 #pragma thumb on
 
-void SetRaceSetupCopyGhostRecordIndex(u32 p0) {
-    gRaceSetupCopy->mGhostRecordIndex = p0;
+void SetRaceSetupCopyGhostRecordIndex(u32 ghostRecordIndex) {
+    gRaceSetupCopy->mGhostRecordIndex = ghostRecordIndex;
 }
 
 void SetMissionTableRow(u32 missionTableRow) {

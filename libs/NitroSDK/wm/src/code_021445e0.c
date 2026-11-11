@@ -27,7 +27,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
     u32 ownIndex;
     Unk02142988 *status;
     int result;
-    int i;
+    int index;
     u16 mask;
     u32 count;
     WMDataSet *block;
@@ -77,17 +77,17 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
     dsInfo->mDataSetLength += 4;
     dsInfo->mStatus = 1;
     if (ownIndex == 0) {
-        for (i = 0; i < 4; i++) {
-            dsInfo->mDs[i].mAidBitmap = dsInfo->mMemberMask & (readyMembers | 1);
+        for (index = 0; index < 4; index++) {
+            dsInfo->mDs[index].mAidBitmap = dsInfo->mMemberMask & (readyMembers | 1);
         }
         WM_SetPortCallback(port, WmDataSharingReceiveCallback_Parent, dsInfo);
         block = dsInfo->mDs;
-        for (i = 0; i < (dsInfo->mDoubleMode == 1 ? 2 : 1); block++, i++) {
+        for (index = 0; index < (dsInfo->mDoubleMode == 1 ? 2 : 1); block++, index++) {
             dsInfo->mWriteIndex = (dsInfo->mWriteIndex + 1) & 3;
             result = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, block, dsInfo->mDataSetLength,
                                           dsInfo->mMemberMask & readyMembers, dsInfo->mPort, 1);
             if (result == 7) {
-                dsInfo->mSeqNum[i] = 0xffff;
+                dsInfo->mSeqNum[index] = 0xffff;
                 dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
             } else if (result != 0 && result != 2) {
                 dsInfo->mStatus = 5;

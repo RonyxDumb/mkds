@@ -82,7 +82,7 @@ s32 AdvanceMultiSelectNS(void) {
     MultiSelectNS *multiSelectNS;
     s32 result;
     s32 touchInReturnRect;
-    s32 b;
+    s32 value;
     s32 pairY;
     u16 slotIndex;
 
@@ -103,12 +103,12 @@ s32 AdvanceMultiSelectNS(void) {
             break;
         case 1:
             touchInReturnRect = 0;
-            b = -1;
+            value = -1;
             if (MultiSelectNSIsSlotPairNew(slotIndex) != 0) {
-                b = MultiSelectNSGetSlotPairX(slotIndex);
+                value = MultiSelectNSGetSlotPairX(slotIndex);
                 pairY = MultiSelectNSGetSlotPairY(slotIndex);
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(b, pairY);
-                b = FindRectContainingPoint(b, pairY, multiSelectNS->mBnbl);
+                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(value, pairY);
+                value = FindRectContainingPoint(value, pairY, multiSelectNS->mBnbl);
             }
             if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_A) != 0) {
                 SetMultiSimple(gMultiSelectNS->mIndex == 1 ? 1 : 0);
@@ -128,14 +128,14 @@ s32 AdvanceMultiSelectNS(void) {
                 gMultiSelectNS->mIndex++;
                 RefreshMultiSelectNS(1);
                 MultiSelectNSStartSeqArcWrapper(0);
-            } else if (b == 0) {
+            } else if (value == 0) {
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 0 ? 1 : 0);
                 MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 0;
                 SetMultiSimple(0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
-            } else if (b == 1) {
+            } else if (value == 1) {
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 1 ? 1 : 0);
                 MultiSelectNSStartOnMemorySeqArc(4);

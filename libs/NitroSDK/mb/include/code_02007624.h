@@ -18,4 +18,4 @@ u32 MB_CommResponseRequest(u32 child, u32 pairIndex);
 u32 MB_CommIsBootable(u32 child);
 void *MB_CommGetChildUser(u32 child);
 void MBi_CommCallParentError(u32 aid, u16 errcode);
-u32 IsChildAidValid(u32 a);
+u32 IsChildAidValid(u32 aid);

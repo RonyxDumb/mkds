@@ -72,46 +72,46 @@ s32 NNS_GfdFreeLnkTexVram(u32 texKey) {
 }
 
 void NNS_GfdResetLnkTexVramState(void) {
-    LnkTexBankData t[4] = {{0x20000, 0, 0}, {0x20000, 0, 0}, {0x20000, 0, 0}, {0x20000, 0, 0}};
-    u32 rest4x4;
+    LnkTexBankData banks[4] = {{0x20000, 0, 0}, {0x20000, 0, 0}, {0x20000, 0, 0}, {0x20000, 0, 0}};
+    u32 left4x4;
     LnkTexBankData *bank;
     u32 bankNo;
-    u32 restNrm;
+    u32 leftNormal;
     u32 indexSize;
     u32 amount;
     u32 bank0NrmAddr;
     u32 bank2NrmAddr;
     u32 bank2Nrm;
 
-    rest4x4 = gTexVramManager.mSzByteFor4x4;
-    restNrm = gTexVramManager.mSzByte;
-    indexSize = rest4x4 >> 1;
-    restNrm = restNrm - (rest4x4 + indexSize);
-    bank = t;
+    left4x4 = gTexVramManager.mSzByteFor4x4;
+    leftNormal = gTexVramManager.mSzByte;
+    indexSize = left4x4 >> 1;
+    leftNormal = leftNormal - (left4x4 + indexSize);
+    bank = banks;
     for (bankNo = 0; bankNo < 4; bankNo++) {
         if (bankNo == 0 || bankNo == 2) {
-            if (bank->mSzFree != 0 && rest4x4 != 0) {
+            if (bank->mSzFree != 0 && left4x4 != 0) {
                 amount = bank->mSzFree;
-                if (amount > rest4x4) {
-                    amount = rest4x4;
+                if (amount > left4x4) {
+                    amount = left4x4;
                 }
                 bank->mSz4x4 += amount;
-                rest4x4 -= amount;
+                left4x4 -= amount;
                 bank->mSzFree -= amount;
             }
         }
         bank++;
     }
-    t[1].mSzFree -= indexSize;
-    bank = t;
+    banks[1].mSzFree -= indexSize;
+    bank = banks;
     for (bankNo = 0; bankNo < 4; bankNo++) {
-        if (bank->mSzFree != 0 && restNrm != 0) {
+        if (bank->mSzFree != 0 && leftNormal != 0) {
             amount = bank->mSzFree;
-            if (amount > restNrm) {
-                amount = restNrm;
+            if (amount > leftNormal) {
+                amount = leftNormal;
             }
             bank->mSzNrm += amount;
-            restNrm -= amount;
+            leftNormal -= amount;
             bank->mSzFree -= amount;
         }
         bank++;
@@ -120,25 +120,25 @@ void NNS_GfdResetLnkTexVramState(void) {
     NNSi_GfdInitLnkVramMan(&data_02173238);
     gTexVramManager.mBlockList =
         NNSi_GfdInitLnkVramBlockPool(gTexVramManager.mWorkHead, gTexVramManager.mSzByteManagementWork >> 4);
-    if (t[0].mSz4x4 != 0) {
-        NNSi_GfdAddNewFreeBlock(&data_02173238, &data_0217323c, 0, t[0].mSz4x4);
+    if (banks[0].mSz4x4 != 0) {
+        NNSi_GfdAddNewFreeBlock(&data_02173238, &data_0217323c, 0, banks[0].mSz4x4);
     }
-    bank0NrmAddr = t[0].mSz4x4;
-    if (t[0].mSzNrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, bank0NrmAddr, t[0].mSzNrm);
+    bank0NrmAddr = banks[0].mSz4x4;
+    if (banks[0].mSzNrm != 0) {
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, bank0NrmAddr, banks[0].mSzNrm);
     }
-    if (t[2].mSz4x4 != 0) {
-        NNSi_GfdAddNewFreeBlock(&data_02173238, &data_0217323c, 0x40000, t[2].mSz4x4);
+    if (banks[2].mSz4x4 != 0) {
+        NNSi_GfdAddNewFreeBlock(&data_02173238, &data_0217323c, 0x40000, banks[2].mSz4x4);
     }
-    bank2Nrm = t[2].mSzNrm;
-    bank2NrmAddr = t[2].mSz4x4 + 0x40000;
+    bank2Nrm = banks[2].mSzNrm;
+    bank2NrmAddr = banks[2].mSz4x4 + 0x40000;
     if (bank2Nrm != 0) {
         NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, bank2NrmAddr, bank2Nrm);
     }
-    if (t[3].mSzNrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, 0x60000, t[3].mSzNrm);
+    if (banks[3].mSzNrm != 0) {
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, 0x60000, banks[3].mSzNrm);
     }
-    if (t[1].mSzNrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, indexSize + 0x20000, t[1].mSzNrm);
+    if (banks[1].mSzNrm != 0) {
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, indexSize + 0x20000, banks[1].mSzNrm);
     }
 }

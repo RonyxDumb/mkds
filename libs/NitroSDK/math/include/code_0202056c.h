@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 CountSetBits(u32 a);
+u32 CountSetBits(u32 value);

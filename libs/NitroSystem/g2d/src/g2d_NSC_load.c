@@ -1,13 +1,13 @@
 #include "g2d_NSC_load.h"
 
 NNSG2dBinaryBlockHeader *FindPartByTag(NNSG2dBinaryFileHeader *file, u32 tag) {
-    u16 i;
+    u16 blockIndex;
     u16 count;
     NNSG2dBinaryBlockHeader *part;
 
     part = OFFSET_PTR(NNSG2dBinaryBlockHeader, file, file->mHeaderSize);
     count = file->mDataBlocks;
-    for (i = 0; i < count; i++) {
+    for (blockIndex = 0; blockIndex < count; blockIndex++) {
         if (part->mKind == tag) {
             return part;
         }

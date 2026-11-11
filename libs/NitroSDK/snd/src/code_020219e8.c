@@ -46,7 +46,7 @@ void SND_AssignWaveArc(Unk02021968 *bank, s32 index, Unk02021968 *waveArc) {
 
 // Takes each of the four entries of bank out of the list of the wave archive it is in.
 void SND_DestroyBank(Unk02021968 *bank) {
-    s32 i;
+    s32 linkIndex;
     Unk02021968 *waveArchive;
     Unk02021be8 *cur;
     Unk02021be8 *link;
@@ -54,12 +54,12 @@ void SND_DestroyBank(Unk02021968 *bank) {
 
     SNDi_LockMutex();
     link = &bank->mUnk_18[0];
-    for (i = 0; i < 4; i++) {
-        waveArchive = bank->mUnk_18[i].mUnk_00;
+    for (linkIndex = 0; linkIndex < 4; linkIndex++) {
+        waveArchive = bank->mUnk_18[linkIndex].mUnk_00;
         if (waveArchive != 0) {
             cur = waveArchive->mUnk_18[0].mUnk_00;
             if (link == cur) {
-                waveArchive->mUnk_18[0].mUnk_00 = bank->mUnk_18[i].mUnk_04;
+                waveArchive->mUnk_18[0].mUnk_00 = bank->mUnk_18[linkIndex].mUnk_04;
                 DC_StoreRange(waveArchive, 0x3c);
             } else {
                 while (cur != 0) {
@@ -69,7 +69,7 @@ void SND_DestroyBank(Unk02021968 *bank) {
                     }
                     cur = next;
                 }
-                cur->mUnk_04 = bank->mUnk_18[i].mUnk_04;
+                cur->mUnk_04 = bank->mUnk_18[linkIndex].mUnk_04;
                 DC_StoreRange(cur, 8);
             }
         }

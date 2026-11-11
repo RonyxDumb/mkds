@@ -5,10 +5,9 @@
 // clang-format off
 // Converts the float r0 to a double in r1:r0 (always exact). Denormals are normalised; a signalling NaN raises invalid
 // (or traps with event code 0x04000018) and, like a quiet NaN, gives the default NaN.
-// Not compiled code: it counts leading zeros with clz and tests bits with tst, neither of which the 1.2 compiler
-// builds, and saves ip and the argument registers around its call in the middle of the body, where 1.2 saves registers
-// only in the prologue and never ip (docs/compiler.md).
-asm u64 _f2d(u32 a) {
+// Hand-written asm: it counts leading zeros with clz, tests bits with tst, and saves ip and the argument registers
+// around its call in the middle of the body.
+asm u64 _f2d(u32 floatBits) {
     // r2 = the sign, ip = the exponent, r3 = the significand without its leading one, at the top. Exponent 0 (zero,
     // denormal) and 0xff (infinity, NaN) are special.
     and r2, r0, #0x80000000

@@ -5,8 +5,8 @@
 
 #pragma thumb on
 
-u32 IsChildAidValid(u32 a) {
-    if ((a >= 1) && (a <= 15)) {
+u32 IsChildAidValid(u32 aid) {
+    if ((aid >= 1) && (aid <= 15)) {
         return 1;
     }
     return 0;

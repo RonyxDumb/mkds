@@ -1,8 +1,8 @@
 #include "code_0200e688.h"
 
 // clang-format off
-// Hand-written asm: the compiler schedules the instructions in a different order and picks different registers.
-asm void ThreadInitContext(OSThread *t, void (*f)(void *), u32 v) {
+// Hand-written asm: the instruction order and register choice are fixed.
+asm void ThreadInitContext(OSThread *thread, void (*entry)(void *), u32 value) {
     add r1, r1, #0x4
     str r1, [r0, #0x40]
     str r2, [r0, #0x44]

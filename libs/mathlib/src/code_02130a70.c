@@ -6,10 +6,9 @@
 // Returns the square root of the double r1:r0, computed one bit at a time and rounded as the floating-point status word
 // says (GetFloatStatus; see code_0212f884.s). Zero and +infinity return themselves, a quiet NaN returns itself; negative
 // numbers and signalling NaNs raise invalid (or trap with event code 0x04000097).
-// Not compiled code: it counts leading zeros with clz and tests bits with tst, neither of which the 1.2 compiler
-// builds, and saves ip and the argument registers around its call in the middle of the body, where 1.2 saves registers
-// only in the prologue and never ip (docs/compiler.md).
-asm double SqrtDouble(double a) {
+// Hand-written asm: it counts leading zeros with clz, tests bits with tst, and saves ip and the argument registers
+// around its call in the middle of the body.
+asm double SqrtDouble(double value) {
     // Negative numbers, infinities and NaNs (high word 0x7ff00000 or above, unsigned) are special.
     stmfd sp!, {r4, r5, r6, lr}
     ldr r2, =0x7ff00000

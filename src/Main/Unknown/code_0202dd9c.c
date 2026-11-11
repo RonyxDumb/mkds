@@ -43,7 +43,7 @@
 void InitGhostScene(void *heap) {
     SceneTextInitParams arg;
     DisplaySettings *displaySettings;
-    s32 i;
+    s32 index;
     u32 courseId;
     GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
@@ -71,21 +71,21 @@ void InitGhostScene(void *heap) {
     SetTxtSystemMode(1);
     InitLinkLevelIcons(heap, gGhostScene);
     CreateKartIcon(heap);
-    for (i = 0; i < 0x20; i++) {
-        gGhostScene->mCupCourseIndices[i] = -1;
+    for (index = 0; index < 0x20; index++) {
+        gGhostScene->mCupCourseIndices[index] = -1;
     }
-    for (i = 0; i < 10; i++) {
-        gGhostScene->mSlotIndices[i] = -1;
+    for (index = 0; index < 10; index++) {
+        gGhostScene->mSlotIndices[index] = -1;
     }
     gGhostScene->mCourseGhostRecords = CreateCourseGhostRecords(heap);
     StartReadCourseGhostRecords(gGhostScene->mCourseGhostRecords);
     WaitThreadFunctionsDone();
-    for (i = 0; i < 0x20; i++) {
-        courseId = GhostSceneGetCupCourseIdAtIndex(i);
+    for (index = 0; index < 0x20; index++) {
+        courseId = GhostSceneGetCupCourseIdAtIndex(index);
         courseRecords = gGhostScene->mCourseGhostRecords;
         cupCourseIndex = FindCupCourseIndex(courseId);
         if (IsGhostRecordFilled(&courseRecords[cupCourseIndex]) != FALSE) {
-            gGhostScene->mCupCourseIndices[gGhostScene->mCourseGhostCount] = i;
+            gGhostScene->mCupCourseIndices[gGhostScene->mCourseGhostCount] = index;
             gGhostScene->mGhostCount++;
             gGhostScene->mCourseGhostCount++;
         }
@@ -93,9 +93,9 @@ void InitGhostScene(void *heap) {
     gGhostScene->mSlotGhostRecords = CreateSlotGhostRecords(heap);
     StartReadSlotGhostRecords(gGhostScene->mSlotGhostRecords);
     WaitThreadFunctionsDone();
-    for (i = 0; i < 10; i++) {
-        if (IsGhostRecordFilled(&gGhostScene->mSlotGhostRecords[(u8) i].mHead) != FALSE) {
-            gGhostScene->mSlotIndices[gGhostScene->mSlotGhostCount] = i;
+    for (index = 0; index < 10; index++) {
+        if (IsGhostRecordFilled(GetSlotGhostRecordHead(index)) != FALSE) {
+            gGhostScene->mSlotIndices[gGhostScene->mSlotGhostCount] = index;
             gGhostScene->mGhostCount++;
             gGhostScene->mSlotGhostCount++;
         }

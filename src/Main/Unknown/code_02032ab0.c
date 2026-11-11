@@ -93,7 +93,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     LayoutEntryTable *cellLayout;
     u32 remainingObjSize;
     s32 firstTeamScore;
-    s32 k;
+    s32 value;
     s32 orderIndex;
     u16 itemIndex;
     u16 entryIndex;
@@ -157,24 +157,24 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     FillResultsBattleEntries();
     if (gRaceSetup->mUseTeams != 0) {
         firstTeamScore = 0;
-        k = 0;
+        value = 0;
         switch (gRaceSetup->mRuleKind) {
             case 1:
                 firstTeamScore = ResultsBattleGetCourseTeamResult(0)->mWinCount;
-                k = ResultsBattleGetCourseTeamResult(1)->mWinCount;
+                value = ResultsBattleGetCourseTeamResult(1)->mWinCount;
                 break;
             case 2:
                 firstTeamScore = GetCourseTeamResults()->mTeams[0].mTotalPoints;
-                k = GetCourseTeamResults()->mTeams[1].mTotalPoints;
+                value = GetCourseTeamResults()->mTeams[1].mTotalPoints;
                 break;
         }
-        if (firstTeamScore == k) {
+        if (firstTeamScore == value) {
             gResultsBattle->mIconKartCount = gResultsBattle->mKartCount;
             gResultsBattle->mFileSetKind = 2;
-        } else if (firstTeamScore > k) {
+        } else if (firstTeamScore > value) {
             gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[0];
             gResultsBattle->mFileSetKind = 3;
-        } else if (k > firstTeamScore) {
+        } else if (value > firstTeamScore) {
             gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[1];
             gResultsBattle->mFileSetKind = 4;
         }
@@ -249,8 +249,8 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     }
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
         orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
-        k = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
-        if ((k == PLAYER_KIND_HUMAN || k == PLAYER_KIND_CPU || k == PLAYER_KIND_PEER) &&
+        value = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+        if ((value == PLAYER_KIND_HUMAN || value == PLAYER_KIND_CPU || value == PLAYER_KIND_PEER) &&
             (gResultsBattle->mMode != 3 || gResultsBattle->mEntries[entryIndex].mScore != 0)) {
             QueueResultsBattleCharacterIcon(1, entryIndex, orderIndex + 0x30, 1);
             ResultsBattleMI_CpuClear16(entryName, 0x16);
@@ -285,26 +285,26 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     switch (gResultsBattle->mFileSetKind) {
         case 3:
             if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 0) {
-                k = 0;
+                value = 0;
             } else {
-                k = 7;
+                value = 7;
             }
             break;
         case 4:
             if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 1) {
-                k = 0;
+                value = 0;
             } else {
-                k = 7;
+                value = 7;
             }
             break;
         case 0:
-            k = 0;
+            value = 0;
             break;
         default:
-            k = 7;
+            value = 7;
             break;
     }
-    InitTrophy(8, (u16) k);
+    InitTrophy(8, (u16) value);
 }
 
 #pragma thumb off

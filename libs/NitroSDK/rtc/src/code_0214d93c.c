@@ -295,17 +295,17 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
 u32 RtcBCD2HEX(u32 bcd) {
     u32 hex;
     u32 scale;
-    s32 i;
+    s32 digitIndex;
 
     hex = 0;
-    for (i = 0; i < 8; i++) {
-        if (((bcd >> (i * 4)) & 0xf) >= 10) {
+    for (digitIndex = 0; digitIndex < 8; digitIndex++) {
+        if (((bcd >> (digitIndex * 4)) & 0xf) >= 10) {
             return 0;
         }
     }
     scale = 1;
-    for (i = 0; i < 8; i++) {
-        hex += scale * ((bcd >> (i * 4)) & 0xf);
+    for (digitIndex = 0; digitIndex < 8; digitIndex++) {
+        hex += scale * ((bcd >> (digitIndex * 4)) & 0xf);
         scale *= 10;
     }
     return hex;

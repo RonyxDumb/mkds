@@ -35,7 +35,7 @@ asm void MTX_Copy43To44_(const MtxFx43 *src, MtxFx44 *dst) {
 #pragma thumb on
 
 // Sets dst to the scale matrix with x, y and z on the diagonal and a zero translation.
-asm void MTX_Scale43_(MtxFx43 *dst, s32 x, s32 y, s32 z) {
+asm void MTX_Scale43_(MtxFx43 *dst, s32 scaleX, s32 scaleY, s32 scaleZ) {
     stmia r0!, {r1}
     mov r1, #0
     str r3, [r0, #28]

@@ -3,10 +3,10 @@
 
 #pragma thumb on
 
-void MarkChunkReceived(WBTPacketBitmap *a, u32 b) {
-    a->mCount = a->mCount + 1;
-    a->mCurrent = b;
-    a->mBitmap[(s32) b >> 5] = a->mBitmap[(s32) b >> 5] | 1 << (b & 0x1f);
+void MarkChunkReceived(WBTPacketBitmap *bitmap, u32 chunkIndex) {
+    bitmap->mCount = bitmap->mCount + 1;
+    bitmap->mCurrent = chunkIndex;
+    *GetPacketBitmapWord(bitmap, chunkIndex) = *GetPacketBitmapWord(bitmap, chunkIndex) | 1 << (chunkIndex & 0x1f);
 }
 
 #pragma thumb off

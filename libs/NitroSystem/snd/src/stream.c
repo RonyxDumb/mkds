@@ -40,12 +40,12 @@ void NNS_SndStrmStop(NNSSndStrm *stream) {
 // Sets NNSSndStrm.mVolume and the volume of every channel of the stream, added to the volume of the channel.
 void NNS_SndStrmSetVolume(NNSSndStrm *stream, s32 volume) {
     u32 channel;
-    s32 i;
+    s32 channelIndex;
     s32 level;
 
     stream->mVolume = volume;
-    for (i = 0; i < stream->mNumChannels; i++) {
-        channel = stream->mChannelNo[i];
+    for (channelIndex = 0; channelIndex < stream->mNumChannels; channelIndex++) {
+        channel = stream->mChannelNo[channelIndex];
         level = SND_CalcChannelVolume(stream->mVolume + data_0217dd28[channel].mVolume);
         SND_SetChannelVolume(1 << channel, level & 0xff, level >> 8);
     }

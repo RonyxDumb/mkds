@@ -21,12 +21,12 @@ void NNS_G2dUnpackNCE(Unk02021dc8 *bank) {
     NNSG2dCellOAMAttrData *oamHead;
     NNSG2dCellDataWithBR *cell;
     NNSG2dVramTransferData *transfer;
-    u16 i;
+    u16 cellIndex;
 
     bank->mPCellDataArrayHead += (u32) bank;
     oamHead = GetPtrOamArrayHead_(bank);
-    for (i = 0; i < bank->mNumCells; i++) {
-        cell = NNS_G2dGetCellDataByIdx(bank, i);
+    for (cellIndex = 0; cellIndex < bank->mNumCells; cellIndex++) {
+        cell = NNS_G2dGetCellDataByIdx(bank, cellIndex);
         cell->mPOamAttrArray = OFFSET_PTR(NNSG2dCellOAMAttrData, cell->mPOamAttrArray, (u32) oamHead);
     }
     if (bank->mPVramTransferData != 0) {

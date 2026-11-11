@@ -113,24 +113,24 @@ void TP_Init(void) {
 BOOL TP_GetUserInfo(TPCalibrateParam *calibrate) {
     Unk0214eadc *info = &SYSTEM_WORK->mNvramUserInfo;
     u16 rawX1;
-    u16 y1;
-    u16 x2;
-    u16 y2;
+    u16 rawY1;
+    u16 rawX2;
+    u16 rawY2;
     u16 dx1;
     u16 dy1;
     u16 dx2;
     u16 dy2;
 
     rawX1 = info->mRawX1;
-    y1 = info->mRawY1;
+    rawY1 = info->mRawY1;
     dx1 = info->mDx1;
     dy1 = info->mDy1;
-    x2 = info->mRawX2;
-    y2 = info->mRawY2;
+    rawX2 = info->mRawX2;
+    rawY2 = info->mRawY2;
     dx2 = info->mDx2;
     dy2 = info->mDy2;
-    if ((rawX1 == 0 && x2 == 0 && y1 == 0 && y2 == 0) ||
-        TP_CalcCalibrateParam(calibrate, rawX1, y1, dx1, dy1, x2, y2, dx2, dy2) != 0) {
+    if ((rawX1 == 0 && rawX2 == 0 && rawY1 == 0 && rawY2 == 0) ||
+        TP_CalcCalibrateParam(calibrate, rawX1, rawY1, dx1, dy1, rawX2, rawY2, dx2, dy2) != 0) {
         calibrate->mX0 = 0;
         calibrate->mY0 = 0;
         calibrate->mXDotSize = 0;
@@ -221,7 +221,7 @@ u32 TP_WaitRawResult(TPData *result) {
 
 // Stores the ring and sends the two command words that start automatic sampling.
 void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData *samplingBufs, u16 bufSize) {
-    u32 i;
+    u32 sampleIndex;
     OSIntrMode enabled;
     u8 ok;
     TPRecvCallback callback;
@@ -230,8 +230,8 @@ void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData *samplin
     gTouchPanelState.mAutoSampleIndex = 0;
     gTouchPanelState.mFrequence = frequence;
     gTouchPanelState.mAutoSampleBufferCount = bufSize;
-    for (i = 0; i < bufSize; i++) {
-        gTouchPanelState.mAutoSampleBuffer[i].mTouch = 0;
+    for (sampleIndex = 0; sampleIndex < bufSize; sampleIndex++) {
+        gTouchPanelState.mAutoSampleBuffer[sampleIndex].mTouch = 0;
     }
     enabled = OS_DisableInterrupts();
     if (PXI_SendWordByFifo(6, (frequence & 0xff) | 0x2000100, 0) < 0) {

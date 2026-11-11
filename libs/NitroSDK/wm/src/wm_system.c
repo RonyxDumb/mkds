@@ -106,7 +106,7 @@ void WMi_SetCallbackTable(u32 id, Unk021425e8Func callback) {
 s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
     void *buffer;
     u32 *args;
-    s32 i;
+    s32 argIndex;
     s32 result;
 
     if (OS_ReceiveMessage(&data_0217eed8, &buffer, 0) == 0) {
@@ -124,9 +124,9 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
     }
     *(u16 *) buffer = id;
     args = (u32 *) (((u32) &paramNum & ~3) + 4);
-    for (i = 0; i < paramNum; i++) {
+    for (argIndex = 0; argIndex < paramNum; argIndex++) {
         args++;
-        (OFFSET_PTR(u32, buffer, 4))[i] = args[-1];
+        (OFFSET_PTR(u32, buffer, 4))[argIndex] = args[-1];
     }
     DC_StoreRange(buffer, 0x100);
     result = PXI_SendWordByFifo(0xa, (u32) buffer, 0);

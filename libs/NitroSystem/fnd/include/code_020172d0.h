@@ -5,7 +5,7 @@
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
-s32 NNS_GfdGetLnkPlttVramManagerWorkSize(s32 a);
+s32 NNS_GfdGetLnkPlttVramManagerWorkSize(s32 blockCount);
 void *NNS_FndGetNthListObject(NNSFndList *list, u16 index);
 void *NNS_FndGetPrevListObject(NNSFndList *list, void *object);
 void *NNS_FndGetNextListObject(NNSFndList *list, void *object);

@@ -67,7 +67,7 @@ void PMi_CallCallbackAndUnlock(u32 result) {
 // Runs once: opens the power-management channel (PXI tag 8), waits for the other processor, installs
 // PMi_CommonCallback as its handler and clears the register buffers.
 void PM_Init(void) {
-    int i;
+    int slotIndex;
 
     if (gPowerInitialized != 0) {
         return;
@@ -79,8 +79,8 @@ void PM_Init(void) {
     while (PXI_IsCallbackReady(8, 1) == 0) {
     }
     PXI_SetFifoRecvCallback(8, PMi_CommonCallback);
-    for (i = 0; i < 4; i++) {
-        gPowerRegisterSlots[i].mFlag = 0;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        gPowerRegisterSlots[slotIndex].mFlag = 0;
     }
     OS_InitMutex(&data_02180458);
     data_02180440 = SYSTEM_WORK->mVblankCount;
