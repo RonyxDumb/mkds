@@ -24,11 +24,11 @@ void WCMi_InitCpsif(void) {
     }
 }
 
-void WCMi_CpsifRecvCallback(Unk021a6bb4 *recv) {
+void WCMi_CpsifRecvCallback(WMDcfRecvBuf *recv) {
     Unk021b5f54Func callback = gWcmCpsifWork.mRecvCallback;
 
     if (callback != NULL) {
-        callback(recv->mUnk_1e, recv->mUnk_18, recv->mUnk_2c, recv->mUnk_06);
+        callback(recv->mSrcAdrs, recv->mDestAdrs, recv->mData, recv->mLength);
     }
 }
 

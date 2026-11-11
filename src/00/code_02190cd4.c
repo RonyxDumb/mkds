@@ -91,8 +91,8 @@ u32 GpiQueueCallback(GpConnection *a, GpiCallback b, void *c, GpiOperation *d, s
 }
 
 void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
-    Unk02190da0Data *c;
-    Unk02190da0Data *e;
+    CallbackArgData *c;
+    CallbackArgData *e;
     s32 d;
 
     if (data->mCallback.mCallback == NULL) {
@@ -136,7 +136,7 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
             c->mUnk_08 = NULL;
         }
     } else if (data->mUnk_0c == 9) {
-        Unk02190da0Data *f = data->mArg;
+        CallbackArgData *f = data->mArg;
         for (d = 0; d < f->mUnk_04; d++) {
             DWCi_GsFree(f->mUnk_08[d]);
             f->mUnk_08[d] = NULL;

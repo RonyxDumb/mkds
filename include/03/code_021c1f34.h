@@ -3,9 +3,9 @@
 #include "types.h"
 
 // 0x104 bytes moved as one value.
-typedef struct Unk021c1fc8_02 {
+typedef struct ValueRecordsRequestItem {
     /* 000 */ u16 mUnk_00[0x82];
-} Unk021c1fc8_02;
+} ValueRecordsRequestItem;
 
 // Stack object of InitValueRecordsRequest.
 typedef struct Unk021c1fc8 {

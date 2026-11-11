@@ -15,5 +15,5 @@ u32 WCM_SetRecvDCFCallback(Unk021b5f54Func callback);
 u8 *WCM_GetApEssid(u16 *length);
 u8 *WCM_GetApMacAddress(void);
 void WCMi_CpsifSendNullPacket(void);
-void WCMi_CpsifRecvCallback(Unk021a6bb4 *recv);
+void WCMi_CpsifRecvCallback(WMDcfRecvBuf *recv);
 void WCMi_InitCpsif(void);

@@ -37,7 +37,7 @@ void DWC_Netcheck_Abort(void) {
 }
 
 void DWCi_Netcheck_Thread(void) {
-    Unk0218635c authResult;
+    DWCAuthResult authResult;
     DWCWiFiInfo wiFiInfo;
     char ssidText[0x24];
     char retcodeText[4];
@@ -215,8 +215,8 @@ void DWCi_Netcheck_Thread(void) {
                 if (DWC_Auth_GetError() == 9) {
                     gNetcheck->mUnk_04 = -1;
                 } else {
-                    DWC_Auth_GetResult(&authResult.mUnk_000);
-                    gNetcheck->mUnk_04 = authResult.mUnk_000;
+                    DWC_Auth_GetResult(&authResult.mReturnCode);
+                    gNetcheck->mUnk_04 = authResult.mReturnCode;
                 }
                 DWCi_Netcheck_SetError(6);
                 break;

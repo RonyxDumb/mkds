@@ -17,7 +17,7 @@ typedef struct GpiCallback {
 } GpiCallback;
 
 // Data behind GpiQueuedCallback.mArg: the members freed depend on the value at 0x0c.
-typedef struct Unk02190da0Data {
+typedef struct CallbackArgData {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mUnk_04;
     /* 08 */ void **mUnk_08;
@@ -27,12 +27,12 @@ typedef struct Unk02190da0Data {
     /* 38 */ s32 mUnk_38;
     /* 3c */ void **mUnk_3c;
     /* 40 */ void **mUnk_40;
-} Unk02190da0Data;
+} CallbackArgData;
 
 // Entry of the list whose head and tail are at 0x438 and 0x43c of the object.
 typedef struct GpiQueuedCallback {
     /* 00 */ GpiCallback mCallback;
-    /* 08 */ struct Unk02190da0Data *mArg;
+    /* 08 */ struct CallbackArgData *mArg;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ u32 mUnk_10;
     /* 14 */ struct GpiQueuedCallback *mNext;

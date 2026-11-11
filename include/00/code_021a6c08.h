@@ -2,14 +2,14 @@
 
 #include "types.h"
 
-typedef struct Unk021a6bb4 {
+typedef struct WMDcfRecvBuf {
     /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mLength;
     /* 08 */ u8 mUnk_08[0x10];
-    /* 18 */ u8 mUnk_18[6];
-    /* 1e */ u8 mUnk_1e[0xe];
-    /* 2c */ u8 mUnk_2c[1];
-} Unk021a6bb4;
+    /* 18 */ u8 mDestAdrs[6];
+    /* 1e */ u8 mSrcAdrs[0xe];
+    /* 2c */ u8 mData[1];
+} WMDcfRecvBuf;
 
 void WCMi_ShelterRssi(u8 rssi);
 s32 WcmGetLinkLevel(void);

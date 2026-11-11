@@ -250,12 +250,12 @@ void StartWiFiLoginRequest(void (*callback)(), void *param) {
 // s, otherwise closes it and issues it again.
 void UpdateWiFiLoginRequest(void) {
     AuthCreateParams authParams;
-    Unk0218635c authResult;
-    Unk0218635c failedAuthResult;
+    DWCAuthResult authResult;
+    DWCAuthResult failedAuthResult;
     if (DWC_Auth_GetError() == 0x14) {
-        DWC_Auth_GetResult(&authResult.mUnk_000);
-        strcpy(gWiFiLogin->mAuthToken, authResult.mUnk_04a);
-        strcpy(gWiFiLogin->mUnk_14c, authResult.mUnk_177);
+        DWC_Auth_GetResult(&authResult.mReturnCode);
+        strcpy(gWiFiLogin->mAuthToken, authResult.mToken);
+        strcpy(gWiFiLogin->mUnk_14c, authResult.mChallenge);
         DWC_Auth_Destroy();
         DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
@@ -266,11 +266,11 @@ void UpdateWiFiLoginRequest(void) {
         }
     } else if (DWC_Auth_GetError() != 0) {
         if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
-            DWC_Auth_GetResult(&failedAuthResult.mUnk_000);
+            DWC_Auth_GetResult(&failedAuthResult.mReturnCode);
             DWC_Auth_Destroy();
             DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
             gWiFiLogin->mHttp = NULL;
-            ReportWiFiLoginError(2, failedAuthResult.mUnk_000);
+            ReportWiFiLoginError(2, failedAuthResult.mReturnCode);
         } else {
             DWC_Auth_Destroy();
             MI_CpuFill8(&authParams, 0, 0x2c);

@@ -24,7 +24,7 @@ void InitValueRecordsRequest(void) {
     MI_CpuCopy8(gNintendoDsItemBytes, requestItem.mItemBytes, 0xc);
     gValueRecordsRequest->mWantedRecordMask = 3;
     request = gValueRecordsRequest;
-    *(Unk021c1fc8_02 *) &request->mItemType = *(Unk021c1fc8_02 *) &requestItem.mItemType;
+    *(ValueRecordsRequestItem *) &request->mItemType = *(ValueRecordsRequestItem *) &requestItem.mItemType;
     request->mScanRetryLimit = 1;
     gValueRecordsRequest->mScanRetryDelayMs = -1;
     gValueRecordsRequest->mSendAttemptLimit = 1;

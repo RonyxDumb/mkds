@@ -31,12 +31,12 @@ typedef struct DWCNetcheck {
 } DWCNetcheck;
 
 // Object filled by DWC_Auth_GetResult.
-typedef struct Unk0218635c {
-    /* 000 */ s32 mUnk_000;
+typedef struct DWCAuthResult {
+    /* 000 */ s32 mReturnCode;
     /* 004 */ u8 mUnk_004[0x46];
-    /* 04a */ char mUnk_04a[0x12d];
-    /* 177 */ char mUnk_177[0x4d];
-} Unk0218635c;
+    /* 04a */ char mToken[0x12d];
+    /* 177 */ char mChallenge[0x4d];
+} DWCAuthResult;
 
 #include "os_thread.h"
 
