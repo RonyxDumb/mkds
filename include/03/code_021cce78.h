@@ -7,17 +7,6 @@
 #include "03/unk_021da000.h"
 #include "code_02142eac.h"
 
-// Object found through the pointers at 0x10 of an WMStartScanExCallback.
-typedef struct Unk021ccf30_10 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u8 mUnk_04[6];
-    /* 0a */ u8 mUnk_0a[2];
-    /* 0c */ u8 mUnk_0c[0x20];
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u8 mUnk_2e[0xe];
-    /* 3c */ u16 mUnk_3c;
-} Unk021ccf30_10;
-
 typedef struct WMStartScanExCallback {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mErrcode;
@@ -27,7 +16,7 @@ typedef struct WMStartScanExCallback {
     /* 0a */ u16 mUnk_0a;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mBssDescCount;
-    /* 10 */ Unk021ccf30_10 *mBssDesc[0x10];
+    /* 10 */ WMBssDesc *mBssDesc[0x10];
     /* 50 */ u16 mLinkLevel[0x10];
 } WMStartScanExCallback;
 

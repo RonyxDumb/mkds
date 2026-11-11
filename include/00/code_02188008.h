@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "00/code_021884d8.h"
+#include "code_02142eac.h"
 
 // Three words: a function called with (name, size) that returns a block, a function called with (name, block, 0) that
 // releases it, and a word.
@@ -28,25 +29,12 @@ typedef struct Unk02188408Entry4 {
     /* 03 */ u8 mUnk_03;
 } Unk02188408Entry4;
 
-// Element of the table at 0x470 of an Unk02188408; also the layout of the block written into it.
-typedef struct Unk02188408Entry0xc0 {
-    /* 00 */ u8 pad_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ char mUnk_04[6];
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ char mUnk_0c[0x20];
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u8 pad_2e[8];
-    /* 36 */ u16 mUnk_36;
-    /* 38 */ u8 pad_38[0x88];
-} Unk02188408Entry0xc0;
-
 // Object behind gAcWork.
 typedef struct Unk02188408 {
     /* 000 */ u8 pad_000[0x300];
     /* 300 */ Unk02188408Entry24 mUnk_300[9];
     /* 444 */ Unk02188408Entry4 mUnk_444[11];
-    /* 470 */ Unk02188408Entry0xc0 mUnk_470[11];
+    /* 470 */ WMBssDesc mUnk_470[11];
     /* cb0 */ u8 pad_cb0[0x5a];
     /* d0a */ u8 mUnk_d0a;
     /* d0b */ u8 mUnk_d0b_0 : 2;

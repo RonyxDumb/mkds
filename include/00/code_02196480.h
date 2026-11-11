@@ -2,14 +2,6 @@
 
 #include "types.h"
 
-// Block filled by GpiOpenSearchSocket.
-typedef struct Unk021962d4Addr {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u32 mUnk_04;
-} Unk021962d4Addr;
-
 #include "00/code_0218f960.h"
 #include "00/code_02194000.h"
 #include "00/code_0218e8d4.h"

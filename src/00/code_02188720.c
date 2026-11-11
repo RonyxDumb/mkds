@@ -42,7 +42,7 @@ void DWCi_AC_CallBackWCM(Unk02188d78 *notice) {
     }
 }
 
-void DWCi_AC_GetBeacon(Unk02188408Entry0xc0 *bssdesc) {
+void DWCi_AC_GetBeacon(WMBssDesc *bssdesc) {
     Unk02188408 *work;
     s32 type;
     u32 phase;
@@ -53,10 +53,10 @@ void DWCi_AC_GetBeacon(Unk02188408Entry0xc0 *bssdesc) {
     phase = DWCi_AC_GetPhase();
     switch (phase) {
         case 3:
-            if (bssdesc->mUnk_0a == 0 || bssdesc->mUnk_0c[0] == 0) {
-                DWCi_AC_SetStealthChannel(bssdesc->mUnk_36);
-            } else if (bssdesc->mUnk_0a == 1 || bssdesc->mUnk_0c[0] == 0x20) {
-                DWCi_AC_SetStealthChannel(bssdesc->mUnk_36);
+            if (bssdesc->mSsidLength == 0 || bssdesc->mSsid[0] == 0) {
+                DWCi_AC_SetStealthChannel(bssdesc->mChannel);
+            } else if (bssdesc->mSsidLength == 1 || bssdesc->mSsid[0] == 0x20) {
+                DWCi_AC_SetStealthChannel(bssdesc->mChannel);
                 type = CompareList(bssdesc, work->mUnk_d10, work->mUnk_300);
             } else {
                 type = CompareList(bssdesc, work->mUnk_d10, work->mUnk_300);
@@ -77,23 +77,23 @@ void DWCi_AC_GetBeacon(Unk02188408Entry0xc0 *bssdesc) {
     }
 }
 
-s32 DWCi_AC_CheckNintendoSSID(Unk02188408Entry0xc0 *bssdesc) {
+s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc) {
     Unk02188408 *work;
     u8 nintendoFlag;
 
     work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
     if (work->mUnk_d0c_0 == 0 || work->mUnk_d0c_0 == 4) {
-        nintendoFlag = bssdesc->mUnk_2c >> 4 & 1;
+        nintendoFlag = bssdesc->mCapaInfo >> 4 & 1;
         if (nintendoFlag == 1) {
-            if (DWCi_AC_CheckNintendoUsbAP((const u8 *) bssdesc->mUnk_0c) == 1) {
+            if (DWCi_AC_CheckNintendoUsbAP((const u8 *) bssdesc->mSsid) == 1) {
                 return 6;
             }
         }
     }
     if (work->mUnk_d0c_0 == 0 || work->mUnk_d0c_0 == 5) {
-        nintendoFlag = bssdesc->mUnk_2c >> 4 & 1;
+        nintendoFlag = bssdesc->mCapaInfo >> 4 & 1;
         if (nintendoFlag == 1) {
-            if (DWCi_AC_CheckNintendoShopAP((const u8 *) bssdesc->mUnk_0c) == 1) {
+            if (DWCi_AC_CheckNintendoShopAP((const u8 *) bssdesc->mSsid) == 1) {
                 return 7;
             }
         }
@@ -101,12 +101,12 @@ s32 DWCi_AC_CheckNintendoSSID(Unk02188408Entry0xc0 *bssdesc) {
     return -1;
 }
 
-s32 CompareList(Unk02188408Entry0xc0 *bssdesc, s32 num, Unk02188408Entry24 *list) {
+s32 CompareList(WMBssDesc *bssdesc, s32 num, Unk02188408Entry24 *list) {
     s32 i;
     s32 checkResult;
     u16 ssidLength;
 
-    if (bssdesc->mUnk_0a == 0x20) {
+    if (bssdesc->mSsidLength == 0x20) {
         checkResult = DWCi_AC_CheckNintendoSSID(bssdesc);
         if (checkResult > 0) {
             return checkResult;
@@ -114,10 +114,10 @@ s32 CompareList(Unk02188408Entry0xc0 *bssdesc, s32 num, Unk02188408Entry24 *list
     }
     i = 0;
     if (num > 0) {
-        ssidLength = bssdesc->mUnk_0a;
+        ssidLength = bssdesc->mSsidLength;
         do {
             if ((u8) ssidLength == list->mUnk_03) {
-                if (strncmp(bssdesc->mUnk_0c, list->mUnk_04, ssidLength) == 0) {
+                if (strncmp((const char *) bssdesc->mSsid, list->mUnk_04, ssidLength) == 0) {
                     return list->mUnk_01;
                 }
             }
@@ -128,21 +128,21 @@ s32 CompareList(Unk02188408Entry0xc0 *bssdesc, s32 num, Unk02188408Entry24 *list
     return -1;
 }
 
-s32 AddList(u32 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) {
+s32 AddList(u32 type, WMBssDesc *bssdesc, Unk02188408 *work) {
     s32 i;
     s32 found;
-    char *entryBssid;
+    u8 *entryBssid;
     s32 findListNum;
 
     i = 0;
     found = -1;
     findListNum = work->mUnk_d12;
     if (findListNum > 0) {
-        entryBssid = work->mUnk_470[0].mUnk_04;
+        entryBssid = work->mUnk_470[0].mBssid;
         do {
-            if (bssdesc->mUnk_04[0] == entryBssid[0] && bssdesc->mUnk_04[1] == entryBssid[1] &&
-                bssdesc->mUnk_04[2] == entryBssid[2] && bssdesc->mUnk_04[3] == entryBssid[3] &&
-                bssdesc->mUnk_04[4] == entryBssid[4] && bssdesc->mUnk_04[5] == entryBssid[5]) {
+            if (bssdesc->mBssid[0] == entryBssid[0] && bssdesc->mBssid[1] == entryBssid[1] &&
+                bssdesc->mBssid[2] == entryBssid[2] && bssdesc->mBssid[3] == entryBssid[3] &&
+                bssdesc->mBssid[4] == entryBssid[4] && bssdesc->mBssid[5] == entryBssid[5]) {
                 found = i;
                 break;
             }
@@ -162,30 +162,30 @@ s32 AddList(u32 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) {
     return found;
 }
 
-void SetDataListTail(u8 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) {
+void SetDataListTail(u8 type, WMBssDesc *bssdesc, Unk02188408 *work) {
     Unk02188408Entry4 *tailFind;
-    Unk02188408Entry0xc0 *tailBss;
+    WMBssDesc *tailBss;
     u16 rssiWord;
 
     tailFind = &work->mUnk_444[10];
     tailBss = &work->mUnk_470[10];
     tailFind->mApType = type;
-    rssiWord = bssdesc->mUnk_02;
+    rssiWord = bssdesc->mRssi;
     tailFind->mUnk_02 = (rssiWord & 2) != 0 ? (u8) (rssiWord >> 2) : (u8) ((rssiWord >> 2) + 0x19);
     tailFind->mUnk_03 = work->mUnk_d11 + 1;
     MIi_CpuCopy32(bssdesc, tailBss, 0xc0);
 }
 
-void UpDateList(u32 listIndex, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) {
+void UpDateList(u32 listIndex, WMBssDesc *bssdesc, Unk02188408 *work) {
     Unk02188408Entry4 *findEntry;
-    Unk02188408Entry0xc0 *bssEntry;
+    WMBssDesc *bssEntry;
     u16 rssiWord;
     u8 rssiLevelByte;
     s32 rssiLevel;
 
     findEntry = &work->mUnk_444[listIndex];
     bssEntry = &work->mUnk_470[listIndex];
-    rssiWord = bssdesc->mUnk_02;
+    rssiWord = bssdesc->mRssi;
     rssiLevel = (rssiWord & 2) != 0 ? (u8) (rssiWord >> 2) : (u8) ((rssiWord >> 2) + 0x19);
     rssiLevelByte = rssiLevel;
     if (rssiLevelByte > findEntry->mUnk_02) {
@@ -197,11 +197,11 @@ void UpDateList(u32 listIndex, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work)
 
 void SortList(u32 listIndex, Unk02188408 *work) {
     Unk02188408Entry4 *findList;
-    Unk02188408Entry0xc0 *bssDescList;
+    WMBssDesc *bssDescList;
     Unk02188408Entry4 *previousFind;
-    Unk02188408Entry0xc0 *previousBss;
+    WMBssDesc *previousBss;
     Unk02188408Entry4 swapFind;
-    Unk02188408Entry0xc0 swapBss;
+    WMBssDesc swapBss;
     s32 i;
 
     findList = work->mUnk_444;

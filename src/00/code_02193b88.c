@@ -483,7 +483,7 @@ int gpiPeerGetSig(GpConnection *connection, GpiPeer *peer) {
 }
 
 s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
-    Unk02193d64 address;
+    SOCSockAddrIn address;
     GpiProfile *profileRec;
     s32 openResult;
     u32 *addressWords;
@@ -507,9 +507,9 @@ s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
     addressWords = (u32 *) &address;
     addressWords[0] = 0;
     addressWords[1] = 0;
-    address.mUnk_01 = 2;
-    address.mUnk_04 = profileRec->mBuddyStatus->mIp;
-    address.mUnk_02 = profileRec->mBuddyStatus->mPort;
+    address.mFamily = 2;
+    address.mAddr = profileRec->mBuddyStatus->mIp;
+    address.mPort = profileRec->mBuddyStatus->mPort;
     openResult = connect(peer->mSocket, &address, 8);
     if (openResult == -1) {
         openResult = GOAGetLastError(peer->mSocket);

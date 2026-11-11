@@ -6,9 +6,9 @@
 #include "code_0214d018.h"
 #include "code_02139f70.h"
 
-u32 DWCi_AC_CheckFreespot(Unk02188ee0 *bssDesc) {
+u32 DWCi_AC_CheckFreespot(WMBssDesc *bssDesc) {
     int compare;
-    compare = strncmp((const char *) bssDesc->mUnk_0c, gFreespotSsid, 8);
+    compare = strncmp((const char *) bssDesc->mSsid, gFreespotSsid, 8);
     if (compare == 0) {
         return 8;
     }
@@ -117,7 +117,7 @@ u8 MakeUserList(ACWORK *work) {
     return num;
 }
 
-u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, Unk02188ee0 *bssDescs) {
+u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, WMBssDesc *bssDescs) {
     u8 num;
     u8 i;
     u8 j;
@@ -127,15 +127,15 @@ u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, Unk0
         if (i >= 9) {
             break;
         }
-        if (findList->mState == 0 && bssDescs->mUnk_36 != findList->mChannel) {
+        if (findList->mState == 0 && bssDescs->mChannel != findList->mChannel) {
             for (j = 0; j < 0x20; j++) {
-                if (bssDescs->mUnk_0c[j] == 0) {
+                if (bssDescs->mSsid[j] == 0) {
                     break;
                 }
-                searchList->mSsid[j] = bssDescs->mUnk_0c[j];
+                searchList->mSsid[j] = bssDescs->mSsid[j];
             }
             searchList->mSsidLength = j;
-            searchList->mChannel = bssDescs->mUnk_36 - 1;
+            searchList->mChannel = bssDescs->mChannel - 1;
             searchList++;
             num++;
         }

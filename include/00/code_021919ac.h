@@ -66,17 +66,6 @@ typedef struct Unk021919ac_h {
     /* 04 */ u32 mUnk_04;
 } Unk021919ac_h;
 
-// Address of 8 bytes that GpiOpenSockets passes on.
-typedef union Unk021919ac_sa {
-    struct {
-        /* 00 */ u8 mUnk_00;
-        /* 01 */ u8 mUnk_01;
-        /* 02 */ u16 mUnk_02;
-        /* 04 */ u32 mUnk_04;
-    } f;
-    u32 w[2];
-} Unk021919ac_sa;
-
 void randomString(s8 *buffer, s32 numChars);
 u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data);
 u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniquenick, const char *email,

@@ -26,7 +26,7 @@ typedef struct DWCACConfig {
 typedef struct Unk02188d78 {
     /* 00 */ s16 mNotify;
     /* 02 */ s16 mResult;
-    /* 04 */ Unk02188408Entry0xc0 *mUnk_04;
+    /* 04 */ WMBssDesc *mUnk_04;
     /* 08 */ s32 mUnk_08;
 } Unk02188d78;
 
@@ -40,10 +40,10 @@ u32 DWC_AC_GetStatus(void);
 s32 DWC_AC_Process(void);
 BOOL DWC_AC_Create(DWCACConfig *config);
 void SortList(u32 listIndex, Unk02188408 *work);
-void UpDateList(u32 listIndex, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work);
-void SetDataListTail(u8 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work);
-s32 AddList(u32 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work);
-s32 CompareList(Unk02188408Entry0xc0 *bssdesc, s32 num, Unk02188408Entry24 *list);
-s32 DWCi_AC_CheckNintendoSSID(Unk02188408Entry0xc0 *bssdesc);
-void DWCi_AC_GetBeacon(Unk02188408Entry0xc0 *bssdesc);
+void UpDateList(u32 listIndex, WMBssDesc *bssdesc, Unk02188408 *work);
+void SetDataListTail(u8 type, WMBssDesc *bssdesc, Unk02188408 *work);
+s32 AddList(u32 type, WMBssDesc *bssdesc, Unk02188408 *work);
+s32 CompareList(WMBssDesc *bssdesc, s32 num, Unk02188408Entry24 *list);
+s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
+void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
 void DWCi_AC_CallBackWCM(Unk02188d78 *notice);

@@ -225,28 +225,21 @@ u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     return 1;
 }
 
-typedef struct Unk0219914cHeader {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} Unk0219914cHeader;
-
 u32 gti2ReceiveMessages(Gt2Socket *socket) {
-    Unk0219914cHeader address;
+    SOCSockAddrIn address;
     u8 buffer[0x5dc];
     s32 senderAddrLen;
     s32 receivedLen;
     u32 error;
     while (CanReceiveOnSocket(socket->mDescriptor) != 0) {
         senderAddrLen = 8;
-        receivedLen = recvfrom(socket->mDescriptor, buffer, 0x5dc, 0, (u8 *) &address, &senderAddrLen);
+        receivedLen = recvfrom(socket->mDescriptor, buffer, 0x5dc, 0, &address, &senderAddrLen);
         if (receivedLen == -1) {
             error = GOAGetLastError(socket->mDescriptor);
             if (error == -15) {
                 if (gti2HandleConnectionReset(
-                        socket, address.mUnk_04,
-                        (u16) (((address.mUnk_02 >> 8) & 0xff) | ((address.mUnk_02 << 8) & 0xff00))) == 0) {
+                        socket, address.mAddr,
+                        (u16) (((address.mPort >> 8) & 0xff) | ((address.mPort << 8) & 0xff00))) == 0) {
                     return 0;
                 }
             } else if (error != -35) {
@@ -254,8 +247,8 @@ u32 gti2ReceiveMessages(Gt2Socket *socket) {
                 return 0;
             }
         } else {
-            if (gti2HandleMessage(socket, buffer, receivedLen, address.mUnk_04,
-                                  (u16) (((address.mUnk_02 >> 8) & 0xff) | ((address.mUnk_02 << 8) & 0xff00))) == 0) {
+            if (gti2HandleMessage(socket, buffer, receivedLen, address.mAddr,
+                                  (u16) (((address.mPort >> 8) & 0xff) | ((address.mPort << 8) & 0xff00))) == 0) {
                 return 0;
             }
         }

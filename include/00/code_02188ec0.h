@@ -2,22 +2,7 @@
 
 #include "types.h"
 #include "00/code_02188de4.h"
-
-// Eleven entries of 0xc0 bytes at 0x470 of ACWORK.
-typedef struct Unk02188ee0 {
-    /* 00 */ u8 pad_00[0xa];
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
-    /* 16 */ u8 mUnk_16;
-    /* 17 */ u8 pad_17[0x15];
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u8 pad_2e[8];
-    /* 36 */ u16 mUnk_36;
-    /* 38 */ u8 pad_38[0x88];
-} Unk02188ee0;
+#include "code_02142eac.h"
 
 // Entries of 0x24 bytes at 0x300 of ACWORK.
 typedef struct ACSL {
@@ -41,7 +26,7 @@ typedef struct ACWORK {
     /* 000 */ DWCMemPage mUserInfo[3];
     /* 300 */ ACSL mSearchList[9];
     /* 444 */ ACFL mFindList[11];
-    /* 470 */ Unk02188ee0 mBssDesc[11];
+    /* 470 */ WMBssDesc mBssDesc[11];
     /* cb0 */ u64 mTimeOut;
     /* cb8 */ WCMWepDesc mWepKey;
     /* d0a */ u8 mDmaNo;

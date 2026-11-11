@@ -21,13 +21,6 @@
 #include "00/code_021a3668.h"
 #include "00/code_0219a654.h"
 
-typedef struct Unk0219a430Addr {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} Unk0219a430Addr;
-
 void gti2ConnectionFree(Gt2Connection **element) {
     gti2ConnectionCleanup(*element);
 }
@@ -50,7 +43,7 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
                      u32 errorCallback) {
     Gt2Socket *newSocket;
     u16 netPort;
-    Unk0219a430Addr socketAddress;
+    SOCSockAddrIn socketAddress;
     u32 address;
     s32 addressLength;
     u32 *bindWords;
@@ -95,9 +88,9 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     bindWords = (u32 *) &socketAddress;
     bindWords[0] = 0;
     bindWords[1] = 0;
-    socketAddress.mUnk_01 = 2;
-    socketAddress.mUnk_04 = address;
-    socketAddress.mUnk_02 = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
+    socketAddress.mFamily = 2;
+    socketAddress.mAddr = address;
+    socketAddress.mPort = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
     if (bind(newSocket->mDescriptor, &socketAddress, 8) == -1) {
         closesocket(newSocket->mDescriptor);
         HashtableDelete(newSocket->mConnections);
@@ -107,8 +100,8 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     }
     addressLength = 8;
     getsockname(newSocket->mDescriptor, &socketAddress, (u32 *) &addressLength);
-    newSocket->mAddress = socketAddress.mUnk_04;
-    newSocket->mPort = ((socketAddress.mUnk_02 >> 8) & 0xff) | ((socketAddress.mUnk_02 << 8) & 0xff00);
+    newSocket->mAddress = socketAddress.mAddr;
+    newSocket->mPort = ((socketAddress.mPort >> 8) & 0xff) | ((socketAddress.mPort << 8) & 0xff00);
     *socketOut = newSocket;
     return 0;
 }

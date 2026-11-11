@@ -25,19 +25,10 @@ struct UsbScan {
     /* 1b82 */ u8 mUnk_1b82;
 };
 
-typedef struct Unk021ce5b8_10 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u8 mUnk_04[6];
-    /* 0a */ u8 mUnk_0a[2];
-    /* 0c */ u8 mUnk_0c[8];
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
-} Unk021ce5b8_10;
-
 typedef struct Unk021ce5b8 {
     /* 00 */ u8 mUnk_00[0xe];
     /* 0e */ u16 mUnk_0e;
-    /* 10 */ Unk021ce5b8_10 *mUnk_10[1];
+    /* 10 */ WMBssDesc *mUnk_10[1];
 } Unk021ce5b8;
 
 #include "03/unk_021da000.h"

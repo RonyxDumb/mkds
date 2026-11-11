@@ -23,13 +23,6 @@
 #include "00/code_021a3668.h"
 #include "code_021382a8.h"
 
-typedef struct Unk0219a110Addr {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} Unk0219a110Addr;
-
 u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 address, u32 port) {
     Gt2Connection *newConnection = NULL;
     if (gti2SocketFindConnection(socket, address, port) != NULL) {
@@ -113,11 +106,11 @@ u32 gti2SocketSend(u32 *socketPointer, u32 address, int port, u32 message, u32 l
         return 1;
     }
     {
-        Unk0219a110Addr sockaddr = {0, 0, 0, 0};
-        Unk0219a110Addr *sockaddrPointer = &sockaddr;
-        sockaddrPointer->mUnk_01 = 2;
-        sockaddrPointer->mUnk_04 = address;
-        sockaddrPointer->mUnk_02 = ((port >> 8) & 0xff) | ((port << 8) & 0xff00);
+        SOCSockAddrIn sockaddr = {0, 0, 0, 0};
+        SOCSockAddrIn *sockaddrPointer = &sockaddr;
+        sockaddrPointer->mFamily = 2;
+        sockaddrPointer->mAddr = address;
+        sockaddrPointer->mPort = ((port >> 8) & 0xff) | ((port << 8) & 0xff00);
         if (sendto(socket->mDescriptor, (void *) message, length, 0, &sockaddr, 8) == -1) {
             lastError = GOAGetLastError(socket->mDescriptor);
             if (lastError == -15) {

@@ -44,7 +44,7 @@ void randomString(s8 *buffer, s32 numChars) {
 
 u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
     GpiConnection *gpState;
-    Unk021919ac_sa address;
+    SOCSockAddrIn address;
     SOCHostEnt *resolvedHost;
     u32 len;
     s32 openResult;
@@ -63,7 +63,7 @@ u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
             return 3;
         }
         __builtin__clear(&address, sizeof(address));
-        address.f.mUnk_01 = 2;
+        address.mFamily = 2;
         if (bind(gpState->mListenSocket, &address, 8) == -1) {
             GpiSetError(connection, 5, gBindSocketErrorString);
             GpiQueueErrorCallback(connection, 3, 1);
@@ -80,7 +80,7 @@ u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;
         }
-        gpState->mPort = address.f.mUnk_02;
+        gpState->mPort = address.mPort;
     } else {
         gpState->mListenSocket = -1;
         gpState->mPort = 0;
@@ -103,12 +103,12 @@ u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
         return 3;
     }
     __builtin__clear(&address, sizeof(address));
-    address.f.mUnk_01 = 2;
-    address.f.mUnk_04 = **resolvedHost->mAddrList;
-    if (address.f.mUnk_04 == 0) {
+    address.mFamily = 2;
+    address.mAddr = **resolvedHost->mAddrList;
+    if (address.mAddr == 0) {
         AssertionFailed(gAddressNotZeroAssertion, gGpiConnectFileName, NULL, 0x90);
     }
-    address.f.mUnk_02 = 0xcc74;
+    address.mPort = 0xcc74;
     if (connect(gpState->mConnectSocket, &address, 8) == -1) {
         openResult = GOAGetLastError(gpState->mConnectSocket);
         if (openResult != -6 && openResult != -26 && openResult != -76) {

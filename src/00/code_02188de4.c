@@ -28,11 +28,11 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
             break;
         case 6:
             wepKey->mMode = 2;
-            DWCi_AC_GetNintendoUSBWepKey(work->mBssDesc[work->mConnectNo].mUnk_0c, wepKey->mKey);
+            DWCi_AC_GetNintendoUSBWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
         case 7:
             wepKey->mMode = 2;
-            DWCi_AC_GetNintendoShopWepKey(work->mBssDesc[work->mConnectNo].mUnk_0c, wepKey->mKey);
+            DWCi_AC_GetNintendoShopWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
         case 8:
         case 9:

@@ -64,24 +64,24 @@ u32 DWCi_AC_ConnectAP(void) {
 }
 
 u32 ConnectStart(ACWORK *work) {
-    Unk02188ee0 *bssDesc;
+    WMBssDesc *bssDesc;
 
     bssDesc = &work->mBssDesc[work->mConnectNo];
     work->mConnectApType = GetConnectType(work);
     MI_CpuFill8(&work->mWepKey, 0, 0x52);
     if (FillApWepKey(work, work->mConnectApType, &work->mWepKey) != 0) {
         work->mAuthMode = 1;
-        if (((bssDesc->mUnk_2c >> 4) & 1) == 0) {
+        if (((bssDesc->mCapaInfo >> 4) & 1) == 0) {
             work->mFindList[work->mConnectNo].mState = 3;
             return 9;
         }
-        if (work->mConnectApType == 6 && bssDesc->mUnk_15 == 0) {
+        if (work->mConnectApType == 6 && bssDesc->mSsid[9] == 0) {
             work->mFindList[work->mConnectNo].mState = 3;
             return 9;
         }
     } else {
         work->mAuthMode = 0;
-        if (((bssDesc->mUnk_2c >> 4) & 1) == 1) {
+        if (((bssDesc->mCapaInfo >> 4) & 1) == 1) {
             work->mFindList[work->mConnectNo].mState = 3;
             return 9;
         }
@@ -92,7 +92,7 @@ u32 ConnectStart(ACWORK *work) {
 }
 
 u32 ConnectAP(ACWORK *work) {
-    Unk02188ee0 *bssDesc;
+    WMBssDesc *bssDesc;
     u32 powerMode;
     u32 connPhase;
 
@@ -119,7 +119,7 @@ u32 ConnectAP(ACWORK *work) {
                 return 9;
             }
         }
-        WCM_ConnectAsync((WMBssDesc *) bssDesc, &work->mWepKey, powerMode | GetAuthMode(work));
+        WCM_ConnectAsync(bssDesc, &work->mWepKey, powerMode | GetAuthMode(work));
     } else if (connPhase == 9) {
         work->mCount = 0;
         work->mTimeOut = OS_GetTick();
@@ -129,7 +129,7 @@ u32 ConnectAP(ACWORK *work) {
 }
 
 u8 GetConnectType(ACWORK *work) {
-    Unk02188ee0 *bssDesc;
+    WMBssDesc *bssDesc;
     s32 apType;
     s32 i;
     s32 matchCount;
@@ -138,14 +138,14 @@ u8 GetConnectType(ACWORK *work) {
     apType = 0;
     if (work->mDuplicateFlag == 0) {
         matchCount = apType;
-        if (bssDesc->mUnk_0a == 0x20) {
-            apType = DWCi_AC_CheckNintendoSSID((Unk02188408Entry0xc0 *) bssDesc);
+        if (bssDesc->mSsidLength == 0x20) {
+            apType = DWCi_AC_CheckNintendoSSID(bssDesc);
             if (apType > 0) {
                 matchCount++;
             } else {
                 apType = 0;
             }
-        } else if (bssDesc->mUnk_0a == 8) {
+        } else if (bssDesc->mSsidLength == 8) {
             apType = DWCi_AC_CheckFreespot(bssDesc);
             if (apType != 0) {
                 matchCount++;
@@ -154,8 +154,8 @@ u8 GetConnectType(ACWORK *work) {
             }
         }
         for (i = 0; i < work->mSearchListNum; i++) {
-            if (bssDesc->mUnk_0a == work->mSearchList[i].mSsidLength &&
-                strncmp((const char *) bssDesc->mUnk_0c, (const char *) work->mSearchList[i].mSsid, bssDesc->mUnk_0a) ==
+            if (bssDesc->mSsidLength == work->mSearchList[i].mSsidLength &&
+                strncmp((const char *) bssDesc->mSsid, (const char *) work->mSearchList[i].mSsid, bssDesc->mSsidLength) ==
                     0) {
                 if (matchCount == 0) {
                     apType = work->mSearchList[i].mApType;

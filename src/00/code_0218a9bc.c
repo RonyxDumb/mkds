@@ -3,11 +3,12 @@
 #include "00/code_0218ab18.h"
 #include "00/code_0218aea4.h"
 #include "00/code_0218e2dc.h"
+#include "03/code_021bb03c.h" // SocketAddress
 #include "00/code_021a3a18.h"
 
 void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
     s32 recvSocket;
-    Unk0218aa14 address;
+    SocketAddress address;
     s32 addressLength;
     s32 length;
     SbServer *queryEntry;
@@ -25,10 +26,10 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
         }
         data[length] = 0;
         for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mNext) {
-            if ((probeSocket != 0 && (queryEntry->mFlags & 8) != 0 && queryEntry->mIcmpIp == address.mUnk_04) ||
-                (queryEntry->mPublicIp == address.mUnk_04 && (queryEntry->mPublicPort == address.mUnk_02 || probeSocket != 0)) ||
+            if ((probeSocket != 0 && (queryEntry->mFlags & 8) != 0 && queryEntry->mIcmpIp == address.mAddress) ||
+                (queryEntry->mPublicIp == address.mAddress && (queryEntry->mPublicPort == address.mPort || probeSocket != 0)) ||
                 (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & 2) != 0 &&
-                 queryEntry->mPrivateIp == address.mUnk_04 && queryEntry->mPrivatePort == address.mUnk_02)) {
+                 queryEntry->mPrivateIp == address.mAddress && queryEntry->mPrivatePort == address.mPort)) {
                 if (probeSocket != 0) {
                     if (ParseSingleICMPReply(engine, queryEntry, data, length) != 0) {
                         break;

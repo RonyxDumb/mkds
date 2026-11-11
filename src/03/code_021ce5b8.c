@@ -125,7 +125,7 @@ void StoreUsbScanEntries(Unk021ce5b8 *scanResult) {
     s32 i;
 
     for (i = 0; i < scanResult->mUnk_0e; i++) {
-        Unk021ce5b8_10 *bssDesc;
+        WMBssDesc *bssDesc;
         s32 j;
         u8 *slotBssid;
         u8 *freeSlotBssid;
@@ -134,18 +134,18 @@ void StoreUsbScanEntries(Unk021ce5b8 *scanResult) {
 
         bssDesc = scanResult->mUnk_10[i];
         DC_InvalidateRange(bssDesc, 0xc0);
-        if (memcmp(bssDesc->mUnk_0c, gUsbSsidPrefix, 8) != 0) {
+        if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
             continue;
         }
         j = 0;
         scan = gUsbScan;
         slotBssid = scan->mUnk_1300[0].mBssid;
         for (; j < 16; j++) {
-            if (memcmp(bssDesc->mUnk_04, slotBssid, 6) == 0) {
+            if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
                 if (scan->mUnk_1300[j].mFlag != 0) {
                     goto next;
                 }
-                if ((bssDesc->mUnk_15 & 1) == 0) {
+                if ((bssDesc->mSsid[9] & 1) == 0) {
                     goto next;
                 }
                 if (scan->mUnk_1370 != NULL) {
@@ -159,8 +159,8 @@ void StoreUsbScanEntries(Unk021ce5b8 *scanResult) {
         freeSlotBssid = scan->mUnk_1300[0].mBssid;
         for (; k < 16; k++) {
             if (memcmp(freeSlotBssid, gUsbScanEmptyBssid, 6) == 0) {
-                MI_CpuCopy8(bssDesc->mUnk_04, scan->mUnk_1300[k].mBssid, 6);
-                gUsbScan->mUnk_1300[k].mFlag = (bssDesc->mUnk_15 & 1) ? 1 : 0;
+                MI_CpuCopy8(bssDesc->mBssid, scan->mUnk_1300[k].mBssid, 6);
+                gUsbScan->mUnk_1300[k].mFlag = (bssDesc->mSsid[9] & 1) ? 1 : 0;
                 goto next;
             }
             freeSlotBssid += 7;
@@ -190,17 +190,17 @@ void CheckUsbScanEntries(Unk021ce5b8 *scanResult) {
         do {
             s32 j;
             u8 *slotBssid;
-            Unk021ce5b8_10 *bssDesc;
+            WMBssDesc *bssDesc;
 
             bssDesc = scanResult->mUnk_10[i];
-            if (memcmp(bssDesc->mUnk_0c, gUsbSsidPrefix, 8) != 0) {
+            if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
                 continue;
             }
-            if ((bssDesc->mUnk_15 & 1) == 0) {
+            if ((bssDesc->mSsid[9] & 1) == 0) {
                 continue;
             }
             for (j = 0, slotBssid = q->mUnk_1300[0].mBssid; j < 16; j++) {
-                if (memcmp(bssDesc->mUnk_04, slotBssid, 6) == 0) {
+                if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
                     if (q->mUnk_1300[j].mFlag != 0) {
                         break;
                     }

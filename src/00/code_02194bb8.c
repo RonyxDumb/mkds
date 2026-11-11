@@ -81,14 +81,14 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         return 3;
     }
     {
-        Unk021962d4Addr address = {0};
+        SOCSockAddrIn address = {0};
 
-        address.mUnk_01 = 2;
-        address.mUnk_04 = resolvedHost->mAddrList[0][0];
-        if (address.mUnk_04 == 0) {
+        address.mFamily = 2;
+        address.mAddr = resolvedHost->mAddrList[0][0];
+        if (address.mAddr == 0) {
             AssertionFailed(data_ov000_021b394c, gGpiSearchFileName, NULL, 0x59);
         }
-        address.mUnk_02 = 0xcd74;
+        address.mPort = 0xcd74;
         if (connect(data->mSocket, &address, 8) == -1) {
             openResult = GOAGetLastError(data->mSocket);
             if (openResult != -6 && openResult != -0x1a && openResult != -0x4c) {

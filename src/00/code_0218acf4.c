@@ -3,16 +3,17 @@
 #include "00/code_0218ae5c.h"
 #include "00/code_0218aea4.h"
 #include "00/code_0218e2dc.h"
+#include "03/code_021bb03c.h" // SocketAddress
 #include "00/unk_021b4000.h"
 
 void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
-    Unk0218aa14 address;
+    SocketAddress address;
     u8 query[0x100];
     s32 queryLength;
     s32 i;
     FIFOAddRear(&engine->mQueryList, server);
     server->mPing = GetElapsedMilliseconds();
-    address.mUnk_01 = 2;
+    address.mFamily = 2;
     if ((server->mStateFlags & 0x20) == 0) {
         if (engine->mQueryVersion == 1) {
             query[0] = 0xfe;
@@ -41,11 +42,11 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
             queryLength = 8;
         }
         if (server->mPublicIp == engine->mMyPublicIp && (server->mFlags & 2) != 0) {
-            address.mUnk_04 = server->mPrivateIp;
-            address.mUnk_02 = server->mPrivatePort;
+            address.mAddress = server->mPrivateIp;
+            address.mPort = server->mPrivatePort;
         } else {
-            address.mUnk_04 = server->mPublicIp;
-            address.mUnk_02 = server->mPublicPort;
+            address.mAddress = server->mPublicIp;
+            address.mPort = server->mPublicPort;
         }
         sendto(engine->mQuerySock, query, queryLength, 0, &address, 8);
     }
