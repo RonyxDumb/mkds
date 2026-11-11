@@ -46,8 +46,8 @@ void CreateBridge(void) {
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mCollisionData.mUnk_e8 = bridge->mCollisionMapObject.mMapObject.mPos;
-    bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
-    bridge->mCollisionMapObject.mCollisionData.mInitialMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
+    bridge->mCollisionMapObject.mCollisionData.mInitialMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;

@@ -68,7 +68,7 @@ void SetupItemFBoxPooledMapObjects(void) {
         return;
     }
     axis = gItemFBoxRotationAxis;
-    MTX_RotAxis33(&gItemFBoxRotation.mUnk_00_m, &axis, 0xb50, 0xb50);
+    MTX_RotAxis33(&gItemFBoxRotation.mAxes, &axis, 0xb50, 0xb50);
     pool = &gItemPools[7];
     objectCursor = pool->mObjects;
     objectCount = pool->mObjectCount;

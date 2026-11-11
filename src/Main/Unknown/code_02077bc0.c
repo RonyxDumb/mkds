@@ -1546,7 +1546,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     MTX_Concat33(&rotationMatrix, &tiltMatrix, &rotationMatrix);
     if (slot->mKartOffsetData != NULL) {
         MTX_Copy33To43_(&rotationMatrix, &kartMatrix);
-        kartMatrix.mUnk_00[3] = translation;
+        kartMatrix.mRows[3] = translation;
         MTX_ScaleApply43(&kartMatrix, &kartMatrix, scale.x, scale.y, scale.z);
     } else {
         MTX_Identity43_(&kartMatrix);

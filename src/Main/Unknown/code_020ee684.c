@@ -888,7 +888,7 @@ void StartItemInUseOne(ItemInUse *itemInUse) {
 
     inUseAlias = itemInUse;
     object = itemInUse->mObjects[0];
-    forwardAxis = &itemInUse->mKartOrientation.mUnk_00[2];
+    forwardAxis = &itemInUse->mKartOrientation.mRows[2];
     inUseAlias->mSmoothedDirection = *forwardAxis;
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
@@ -897,7 +897,7 @@ void StartItemInUseOne(ItemInUse *itemInUse) {
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
-                &itemInUse->mKartOrientation.mUnk_00[1], &inUseAlias->mBehindPos, &object->mPos);
+                &itemInUse->mKartOrientation.mRows[1], &inUseAlias->mBehindPos, &object->mPos);
 }
 
 void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
@@ -908,7 +908,7 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
 
     inUseAlias = itemInUse;
     object = itemInUse->mObjects[0];
-    forwardAxis = &itemInUse->mKartOrientation.mUnk_00[2];
+    forwardAxis = &itemInUse->mKartOrientation.mRows[2];
     inUseAlias->mSmoothedDirection = *forwardAxis;
     inUseAlias->mBehindDirection.x = -forwardAxis->x;
     inUseAlias->mBehindDirection.y = -forwardAxis->y;
@@ -917,13 +917,13 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &inUseAlias->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &inUseAlias->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
-                &itemInUse->mKartOrientation.mUnk_00[1], &inUseAlias->mBehindPos, &object->mPos);
-    object->mTransformMtx.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
-    object->mTransformMtx.mUnk_00[2].x = -inUseAlias->mBehindDirection.x;
-    object->mTransformMtx.mUnk_00[2].y = -inUseAlias->mBehindDirection.y;
-    object->mTransformMtx.mUnk_00[2].z = -inUseAlias->mBehindDirection.z;
-    Vec3CrossUnrounded(&object->mTransformMtx.mUnk_00[1], &object->mTransformMtx.mUnk_00[2],
-                       &object->mTransformMtx.mUnk_00[0]);
+                &itemInUse->mKartOrientation.mRows[1], &inUseAlias->mBehindPos, &object->mPos);
+    object->mTransformMtx.mRows[1] = itemInUse->mKartOrientation.mRows[1];
+    object->mTransformMtx.mRows[2].x = -inUseAlias->mBehindDirection.x;
+    object->mTransformMtx.mRows[2].y = -inUseAlias->mBehindDirection.y;
+    object->mTransformMtx.mRows[2].z = -inUseAlias->mBehindDirection.z;
+    Vec3CrossUnrounded(&object->mTransformMtx.mRows[1], &object->mTransformMtx.mRows[2],
+                       &object->mTransformMtx.mRows[0]);
 }
 
 void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 *behindPos) {
@@ -935,7 +935,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
 
     inUseAlias = itemInUse;
     smoothedDirection = &inUseAlias->mSmoothedDirection;
-    direction = itemInUse->mKartOrientation.mUnk_00[2];
+    direction = itemInUse->mKartOrientation.mRows[2];
     if (itemInUse->mMovingForward != 0) {
         VEC_MultAdd(0x19a, &itemInUse->mKartMovement, &direction, &direction);
     }
@@ -964,7 +964,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
     }
     VEC_MultAdd(inUseAlias->mSmoothedHopHeight - itemInUse->mKartHopHeight +
                     MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
-                &itemInUse->mKartOrientation.mUnk_00[1], behindPos, objectPos);
+                &itemInUse->mKartOrientation.mRows[1], behindPos, objectPos);
 }
 
 void AdvanceItemInUseOne(ItemInUse *itemInUse) {
@@ -1021,17 +1021,17 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
         direction.x = ((s64) inUseAlias->mBehindDirection.x << 13) >> 12;
         direction.y = ((s64) inUseAlias->mBehindDirection.y << 13) >> 12;
         direction.z = ((s64) inUseAlias->mBehindDirection.z << 13) >> 12;
-        VEC_Add(&direction, &itemInUse->mKartOrientation.mUnk_00[2], &direction);
+        VEC_Add(&direction, &itemInUse->mKartOrientation.mRows[2], &direction);
         lengthSquared = LENGTH_SQUARED(direction);
         if (lengthSquared >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        object->mTransformMtx.mUnk_00[2].x = -direction.x;
-        object->mTransformMtx.mUnk_00[2].y = -direction.y;
-        object->mTransformMtx.mUnk_00[2].z = -direction.z;
-        object->mTransformMtx.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_00[1];
-        Vec3CrossUnrounded(&object->mTransformMtx.mUnk_00[1], &object->mTransformMtx.mUnk_00[2],
-                           &object->mTransformMtx.mUnk_00[0]);
+        object->mTransformMtx.mRows[2].x = -direction.x;
+        object->mTransformMtx.mRows[2].y = -direction.y;
+        object->mTransformMtx.mRows[2].z = -direction.z;
+        object->mTransformMtx.mRows[1] = itemInUse->mKartOrientation.mRows[1];
+        Vec3CrossUnrounded(&object->mTransformMtx.mRows[1], &object->mTransformMtx.mRows[2],
+                           &object->mTransformMtx.mRows[0]);
     }
     kind = object->mKind;
     if (gItemKinds[kind].mAdvanceInUse != NULL) {
@@ -1055,16 +1055,16 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
     objects = itemInUse->mObjects;
     object = objects[0];
     objectPos = &object->mPos;
-    forwardAxis = &itemInUse->mKartOrientation.mUnk_00[2];
+    forwardAxis = &itemInUse->mKartOrientation.mRows[2];
     itemInUse->mSmoothedDirection = *forwardAxis;
-    itemInUse->mBehindDirection.x = -itemInUse->mKartOrientation.mUnk_00[2].x;
+    itemInUse->mBehindDirection.x = -itemInUse->mKartOrientation.mRows[2].x;
     itemInUse->mBehindDirection.y = -forwardAxis->y;
     itemInUse->mBehindDirection.z = -forwardAxis->z;
     scaleOffset = ((s64) itemInUse->mKartScaleFactorTimesBase.z << 14) >> 12;
     VEC_MultAdd(itemInUse->mBehindDistance + scaleOffset, &itemInUse->mBehindDirection, &itemInUse->mKartDrawMatrixPos,
                 &itemInUse->mBehindPos);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mObjectHeight, itemInUse->mKartScaleFactorTimesBase.z),
-                &itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mBehindPos, objectPos);
+                &itemInUse->mKartOrientation.mRows[1], &itemInUse->mBehindPos, objectPos);
     objects[1]->mPos = itemInUse->mObjects[0]->mPos;
     objects[2]->mPos = objects[1]->mPos;
     itemInUse->mSecondBehindPos = itemInUse->mBehindPos;
@@ -1072,7 +1072,7 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
     itemInUse->mKartMovementWeights[0] = ITEM_IN_USE_MOVEMENT_WEIGHT_START;
     itemInUse->mKartMovementWeights[1] = itemInUse->mKartMovementWeights[0];
     itemInUse->mKartMovementWeights[2] = itemInUse->mKartMovementWeights[1];
-    itemInUse->mPreviousBehindDirection = itemInUse->mKartOrientation.mUnk_00[2];
+    itemInUse->mPreviousBehindDirection = itemInUse->mKartOrientation.mRows[2];
     itemInUse->mHopHeightHistoryCount = 0;
     for (i = 0; i < ITEM_IN_USE_HOP_HISTORY_SIZE; i++) {
         itemInUse->mHopHeightHistory[0][i] = 0;
@@ -1182,7 +1182,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
             }
         }
         VEC_MultAdd(d + MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, ITEM_IN_USE_OBJECT_HEIGHT),
-                    &itemInUse->mKartOrientation.mUnk_00[1], trailPos, &object->mPos);
+                    &itemInUse->mKartOrientation.mRows[1], trailPos, &object->mPos);
         previousPos = trailPos;
         if (GrowItemObjectScale(object, scaleLimit, 0x19a + i * 0xcd) != 0) {
             SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
@@ -1246,8 +1246,8 @@ void PlaceItemInUseCircleObjects(ItemInUse *itemInUse) {
     negativeHalfOffsetY = -offsetY >> 1;
     negativeHalfOffsetX = -offsetX >> 1;
     objects = itemInUse->mObjects;
-    thirdAxis = &itemInUse->mKartOrientation.mUnk_00[2];
-    firstAxis = &itemInUse->mKartOrientation.mUnk_00[0];
+    thirdAxis = &itemInUse->mKartOrientation.mRows[2];
+    firstAxis = &itemInUse->mKartOrientation.mRows[0];
     center = &itemInUse->mCircleCenter;
     offsetYScaled = MUL_FIXED12_NO_ROUND(offsetY, 0xddb);
     offsetXScaled = MUL_FIXED12_NO_ROUND(offsetX, 0xddb);
@@ -1277,7 +1277,7 @@ void StartItemInUseCircle(ItemInUse *itemInUse) {
         itemInUse->mCircleSlots[i] = i;
     }
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, ITEM_IN_USE_OBJECT_HEIGHT),
-                &itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
+                &itemInUse->mKartOrientation.mRows[1], &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     PlaceItemInUseCircleObjects(itemInUse);
     if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
         StartSoundFullVolume(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
@@ -1313,7 +1313,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
         itemInUse->mCircleHopHeight - MUL_FIXED12_NO_ROUND(itemInUse->mCircleHopHeight, 0x333);
     VEC_MultAdd((itemInUse->mCircleHopHeight - itemInUse->mKartHopHeight) +
                     MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, ITEM_IN_USE_OBJECT_HEIGHT),
-                &itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
+                &itemInUse->mKartOrientation.mRows[1], &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     itemInUse->mCircleRadius =
         itemInUse->mCircleRadius +
         MUL_FIXED12_NO_ROUND(

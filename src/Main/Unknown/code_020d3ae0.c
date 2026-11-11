@@ -73,16 +73,16 @@ void UpdateViewFrustum(MtxFx43 *viewMatrix) {
     MtxFx33 buf;
 
     MTX_Transpose33_(viewMatrix, &buf);
-    MTX_MultVec33(&viewMatrix->mUnk_00[3], &buf, &gViewFrustum.mCameraPos);
+    MTX_MultVec33(&viewMatrix->mRows[3], &buf, &gViewFrustum.mCameraPos);
     gViewFrustum.mCameraPos.x = -gViewFrustum.mCameraPos.x;
     gViewFrustum.mCameraPos.y = -gViewFrustum.mCameraPos.y;
     gViewFrustum.mCameraPos.z = -gViewFrustum.mCameraPos.z;
     gViewFrustum.mCameraPos.x = gViewFrustum.mCameraPos.x << 4;
     gViewFrustum.mCameraPos.y = gViewFrustum.mCameraPos.y << 4;
     gViewFrustum.mCameraPos.z = gViewFrustum.mCameraPos.z << 4;
-    gViewFrustum.mViewDirection.x = -buf.mUnk_00[2].x;
-    gViewFrustum.mViewDirection.y = -buf.mUnk_00[2].y;
-    gViewFrustum.mViewDirection.z = -buf.mUnk_00[2].z;
+    gViewFrustum.mViewDirection.x = -buf.mRows[2].x;
+    gViewFrustum.mViewDirection.y = -buf.mRows[2].y;
+    gViewFrustum.mViewDirection.z = -buf.mRows[2].z;
     MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_20, &buf, &gViewFrustum.mUnk_20);
     MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_2c, &buf, &gViewFrustum.mUnk_2c);
     MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_38, &buf, &gViewFrustum.mUnk_38);
@@ -725,11 +725,11 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
             ComputeCylinderOverlapOffset(position, &mapObject->mPos, combinedRadius, combinedHeight, overlapOffset);
             return TRUE;
         case 3:
-            return ComputeSphereHitOnRotatedCylinder(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
+            return ComputeSphereHitOnRotatedCylinder(position, &mapObject->mPos, &mapObject->mMatrix.mRows[0],
                                                      mapObject->mExtent.x, mapObject->mExtent.y, mapObject->mExtent.y,
                                                      radius, overlapOffset) != 0;
         case 4:
-            return ComputeSphereHitOnRotatedBox(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
+            return ComputeSphereHitOnRotatedBox(position, &mapObject->mPos, &mapObject->mMatrix.mRows[0],
                                                 &mapObject->mExtent, &mapObject->mExtent, radius, overlapOffset) != 0;
         case 0:
             return FALSE;

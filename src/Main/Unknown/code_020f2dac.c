@@ -692,7 +692,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     s32 alongY;
     s32 alongZ;
 
-    n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_00[2]);
+    n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mRows[2]);
     kartOnBoostSurface = (itemInUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) != 0;
     n = MUL_FIXED12_NO_ROUND(n, 0x1ec);
     if (n < 0x666) {
@@ -724,19 +724,19 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
             dx = itemInUse->mKartMovement.y > 0 ? 0x666 : 0x1333;
             n += MUL_FIXED12_NO_ROUND(dx, itemInUse->mKartMovement.y);
         }
-        VEC_MultAdd(n, &itemInUse->mKartOrientation.mUnk_00[1], &v, &item->mItemObject.mVelocity);
+        VEC_MultAdd(n, &itemInUse->mKartOrientation.mRows[1], &v, &item->mItemObject.mVelocity);
     }
     if (throwForward == 0) {
         VEC_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->mPointMotion, &item->mItemObject.mVelocity);
     }
     if (throwForward != 0) {
         item->mItemObject.mPos = itemInUse->mKart->mCollisionCenter;
-        VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mUnk_00[2], &item->mItemObject.mPos,
+        VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mRows[2], &item->mItemObject.mPos,
                     &item->mItemObject.mPos);
     } else {
         if (itemInUse->mKartHopHeight != 0 && itemInUse->mKartVelocityLength < 0x2000 &&
             item->mItemObject.mScale.z < 0xccd) {
-            VEC_Subtract(&itemInUse->mKartOrientation.mUnk_00[1], &itemInUse->mKartOrientation.mUnk_00[2], &v);
+            VEC_Subtract(&itemInUse->mKartOrientation.mRows[1], &itemInUse->mKartOrientation.mRows[2], &v);
             VEC_MultAdd(0x2000, &v, &item->mItemObject.mPos, &item->mItemObject.mPos);
         }
     }
@@ -752,14 +752,14 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     if (!kartOnBoostSurface) {
         return;
     }
-    n = VEC_DotProduct(&itemInUse->mKartOrientation.mUnk_00[1], &item->mItemObject.mVelocity);
-    dx = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].x, n);
-    alongY = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].y, n);
-    alongZ = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mUnk_00[1].z, n);
+    n = VEC_DotProduct(&itemInUse->mKartOrientation.mRows[1], &item->mItemObject.mVelocity);
+    dx = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mRows[1].x, n);
+    alongY = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mRows[1].y, n);
+    alongZ = MUL_FIXED12_NO_ROUND(itemInUse->mKartOrientation.mRows[1].z, n);
     item->mItemObject.mVelocity.x -= dx;
     item->mItemObject.mVelocity.y -= alongY;
     item->mItemObject.mVelocity.z -= alongZ;
-    VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mUnk_00[1],
+    VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mRows[1],
                 &item->mItemObject.mVelocity, &item->mItemObject.mVelocity);
     item->mBouncesRemaining = 0;
 }

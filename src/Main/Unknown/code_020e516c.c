@@ -129,23 +129,23 @@ s32 RefreshShadowMatrix(ShadowMatrix *shadowCopy, Vec3 *position, s32 scale, u32
                                 NULL) != 0) {
         hit = TRUE;
         QuaternionFromYAxisToVec3(&direction, &rotation);
-        Matrix3x3FromQuaternion(&shadowCopy->mMatrix.mUnk_00_m, &rotation);
+        Matrix3x3FromQuaternion(&shadowCopy->mMatrix.mAxes, &rotation);
         scaleTenth = scale / 10;
-        shadowCopy->mMatrix.mUnk_00[0].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[0].x, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[0].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[0].y, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[0].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[0].z, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[1].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[1].x, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[1].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[1].y, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[1].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[1].z, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[2].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[2].x, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[2].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[2].y, scaleTenth);
-        shadowCopy->mMatrix.mUnk_00[2].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mUnk_00[2].z, scaleTenth);
+        shadowCopy->mMatrix.mRows[0].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[0].x, scaleTenth);
+        shadowCopy->mMatrix.mRows[0].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[0].y, scaleTenth);
+        shadowCopy->mMatrix.mRows[0].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[0].z, scaleTenth);
+        shadowCopy->mMatrix.mRows[1].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[1].x, scaleTenth);
+        shadowCopy->mMatrix.mRows[1].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[1].y, scaleTenth);
+        shadowCopy->mMatrix.mRows[1].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[1].z, scaleTenth);
+        shadowCopy->mMatrix.mRows[2].x = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[2].x, scaleTenth);
+        shadowCopy->mMatrix.mRows[2].y = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[2].y, scaleTenth);
+        shadowCopy->mMatrix.mRows[2].z = MUL_FIXED12_NO_ROUND(shadowCopy->mMatrix.mRows[2].z, scaleTenth);
     } else {
-        MTX_Identity33_(&shadowCopy->mMatrix.mUnk_00_m);
+        MTX_Identity33_(&shadowCopy->mMatrix.mAxes);
     }
-    shadowCopy->mMatrix.mUnk_00[3].x = raisedPosition.x >> 4;
-    shadowCopy->mMatrix.mUnk_00[3].y = raisedPosition.y >> 4;
-    shadowCopy->mMatrix.mUnk_00[3].z = raisedPosition.z >> 4;
+    shadowCopy->mMatrix.mRows[3].x = raisedPosition.x >> 4;
+    shadowCopy->mMatrix.mRows[3].y = raisedPosition.y >> 4;
+    shadowCopy->mMatrix.mRows[3].z = raisedPosition.z >> 4;
     shadowCopy->mAlphaCap = alphaCap;
     return hit;
 }

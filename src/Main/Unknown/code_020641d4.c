@@ -51,11 +51,11 @@ void AdvanceKartDrawState(Kart *kart) {
         pivotOffset.x = MUL_FIXED12_NO_ROUND(q->x, -0x5000);
         pivotOffset.y = MUL_FIXED12_NO_ROUND(q->y, -0x5000);
         pivotOffset.z = MUL_FIXED12_NO_ROUND(q->z, -0x5000);
-        offsetMatrix.mUnk_00[3] = pivotOffset;
+        offsetMatrix.mRows[3] = pivotOffset;
         pivotOffset.x = -pivotOffset.x;
         pivotOffset.y = -pivotOffset.y;
         pivotOffset.z = -pivotOffset.z;
-        negatedOffsetMatrix.mUnk_00[3] = pivotOffset;
+        negatedOffsetMatrix.mRows[3] = pivotOffset;
         MTX_Concat43(&kart->mUnk_120_m, &offsetMatrix, drawMatrix);
         MTX_Concat43(drawMatrix, &rotationMatrix, drawMatrix);
         MTX_Concat43(drawMatrix, &negatedOffsetMatrix, drawMatrix);
@@ -64,9 +64,9 @@ void AdvanceKartDrawState(Kart *kart) {
             MTX_RotY43_(&extraYRotationMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
             MTX_Concat43(drawMatrix, &extraYRotationMatrix, drawMatrix);
         }
-        drawMatrix->mUnk_00[3].x = drawMatrix->mUnk_00[3].x + kart->mPosSource->x;
-        drawMatrix->mUnk_00[3].y = drawMatrix->mUnk_00[3].y + kart->mPosSource->y;
-        drawMatrix->mUnk_00[3].z = drawMatrix->mUnk_00[3].z + kart->mPosSource->z;
+        drawMatrix->mRows[3].x = drawMatrix->mRows[3].x + kart->mPosSource->x;
+        drawMatrix->mRows[3].y = drawMatrix->mRows[3].y + kart->mPosSource->y;
+        drawMatrix->mRows[3].z = drawMatrix->mRows[3].z + kart->mPosSource->z;
     } else if ((kartBits & 0x20) != 0) {
         pairIndex = (kart->mYRotationAngle >> 4) * 2;
         MTX_RotY43_(&yRotationMatrix, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);

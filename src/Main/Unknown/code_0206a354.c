@@ -374,10 +374,10 @@ BOOL TryStartKartState4(Kart *kart, MapObject *mapObject) {
     if (!v1) {
         return FALSE;
     }
-    t = mapObject->mMatrix.mUnk_00[0];
+    t = mapObject->mMatrix.mRows[0];
     VEC_Subtract(&kart->mPos, &mapObject->mPos, &u);
-    VEC_CrossProduct(&mapObject->mMatrix.mUnk_00[2], &u, &w);
-    if (VEC_DotProduct(&w, &mapObject->mMatrix.mUnk_00[1]) < 0) {
+    VEC_CrossProduct(&mapObject->mMatrix.mRows[2], &u, &w);
+    if (VEC_DotProduct(&w, &mapObject->mMatrix.mRows[1]) < 0) {
         t.x = -t.x;
         t.y = -t.y;
         t.z = -t.z;

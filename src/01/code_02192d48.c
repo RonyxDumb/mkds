@@ -23,7 +23,7 @@ void InitStopSign(Unk02188950 *a) {
     RefreshMapObjectMatrixFromHitNormal(&a->mUnk_000);
     a->mUnk_000.mAngle = (a->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
     MTX_RotY33_(&m, gPairsByAngle[(a->mUnk_000.mAngle >> 4) * 2], gPairsByAngle[(a->mUnk_000.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33(&m, &a->mUnk_000.mMatrix.mUnk_00_m, &a->mUnk_000.mMatrix.mUnk_00_m);
+    MTX_Concat33(&m, &a->mUnk_000.mMatrix.mAxes, &a->mUnk_000.mMatrix.mAxes);
 }
 
 void LoadStopSign(Unk0219b478 *a) {

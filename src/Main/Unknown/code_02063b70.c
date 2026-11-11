@@ -158,9 +158,9 @@ BOOL DrawKartKillerItem(Kart *kart) {
         t = kart->mRadius + 0x5000;
         matrix = *kart->mDrawMatrix;
         VEC_MultAdd(t, &kart->mUnk_12c, kart->mPosSource, &position);
-        matrix.mUnk_00[3].x = position.x >> 4;
-        matrix.mUnk_00[3].y = position.y >> 4;
-        matrix.mUnk_00[3].z = position.z >> 4;
+        matrix.mRows[3].x = position.x >> 4;
+        matrix.mRows[3].y = position.y >> 4;
+        matrix.mRows[3].z = position.z >> 4;
         radiusFactor = kart->mRadiusFactor;
         scale.x = MUL_FIXED12_NO_ROUND(kart->mScale.x, radiusFactor);
         scale.y = MUL_FIXED12_NO_ROUND(kart->mScale.y, radiusFactor);

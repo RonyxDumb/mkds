@@ -247,16 +247,16 @@ void DrawStemSets(void) {
         return;
     }
     if (gStemSets->mShownIndex != 9) {
-        baseTranslation = &baseTransform.mUnk_00[3];
+        baseTranslation = &baseTransform.mRows[3];
         baseTranslation->x = 0;
         baseTranslation->y = 0;
         baseTranslation->z = 0;
         baseScale = data_0216608c;
-        baseTransform.mUnk_00[3].y = data_02166048;
+        baseTransform.mRows[3].y = data_02166048;
         if (gStemSets->mShownIndex == 2) {
-            baseTransform.mUnk_00[3].y = 0x50000;
+            baseTransform.mRows[3].y = 0x50000;
         }
-        MTX_Identity33_(&baseTransform.mUnk_00_m);
+        MTX_Identity33_(&baseTransform.mAxes);
         for (nsbmdIndex = 0; nsbmdIndex < gStemSets->mSets[8]->mNsbmdCount; nsbmdIndex++) {
             nsbmd = &gStemSets->mSets[8]->mNsbmds[nsbmdIndex];
             G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0, &data_0217029c.mProjMtx);
@@ -264,7 +264,7 @@ void DrawStemSets(void) {
             NNS_G3dGlbSetBaseScale(&baseScale);
             MI_Copy36B(&baseTransform, &data_0217029c.mPrmBaseRot);
             data_0217029c.mFlag &= ~0xa4;
-            NNS_G3dGlbSetBaseTrans(&baseTransform.mUnk_00[3]);
+            NNS_G3dGlbSetBaseTrans(&baseTransform.mRows[3]);
             NNS_G3dGlbFlushP();
             DrawNsbmdRenderObj(nsbmd);
         }

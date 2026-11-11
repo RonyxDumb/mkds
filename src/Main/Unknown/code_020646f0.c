@@ -79,9 +79,9 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
     kart->mUnk_174.y = kart->mDrawMatrixPos.y;
     kart->mUnk_174.z = kart->mDrawMatrixPos.z;
     rotationMatrix = &kart->mUnk_120_m;
-    kart->mForward.x = rotationMatrix->mUnk_00[2].x;
-    kart->mForward.y = rotationMatrix->mUnk_00[2].y;
-    kart->mForward.z = rotationMatrix->mUnk_00[2].z;
+    kart->mForward.x = rotationMatrix->mRows[2].x;
+    kart->mForward.y = rotationMatrix->mRows[2].y;
+    kart->mForward.z = rotationMatrix->mRows[2].z;
     kart->mTurnedForward = kart->mForward;
     kart->mDrawMatrix = &kart->mUnk_150_m;
     characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;

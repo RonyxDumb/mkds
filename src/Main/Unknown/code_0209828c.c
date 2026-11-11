@@ -154,9 +154,9 @@ void DrawPakkunMouth(void *a, Pakkun *pakkun) {
     s32 t;
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    pakkun->mMapObject.mMatrix.mUnk_00[3].x = pakkun->mMapObject.mPos.x >> 4;
-    pakkun->mMapObject.mMatrix.mUnk_00[3].y = pakkun->mMapObject.mPos.y >> 4;
-    pakkun->mMapObject.mMatrix.mUnk_00[3].z = pakkun->mMapObject.mPos.z >> 4;
+    pakkun->mMapObject.mMatrix.mRows[3].x = pakkun->mMapObject.mPos.x >> 4;
+    pakkun->mMapObject.mMatrix.mRows[3].y = pakkun->mMapObject.mPos.y >> 4;
+    pakkun->mMapObject.mMatrix.mRows[3].z = pakkun->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &pakkun->mMapObject.mMatrix, 12);
     f[1] = pakkun->mUnk_1f8 >> 4;
     f[0] = 0;

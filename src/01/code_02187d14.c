@@ -70,15 +70,15 @@ void func_ov001_02187d14(NNSG3dRS *renderState) {
         NNS_G3dGetCurrentMtx(&currentMatrix, NULL);
         MTX_Inverse43(&currentCamera->mViewMatrix, &inverseViewMatrix);
         MTX_Concat43(&currentMatrix, &inverseViewMatrix, &currentMatrix);
-        mapObject->mUnk_2e8.x = currentMatrix.mUnk_00[3].x << 4;
-        mapObject->mUnk_2e8.y = currentMatrix.mUnk_00[3].y << 4;
-        mapObject->mUnk_2e8.z = currentMatrix.mUnk_00[3].z << 4;
+        mapObject->mUnk_2e8.x = currentMatrix.mRows[3].x << 4;
+        mapObject->mUnk_2e8.y = currentMatrix.mRows[3].y << 4;
+        mapObject->mUnk_2e8.z = currentMatrix.mRows[3].z << 4;
         if (mapObject->mItemBomb != NULL) {
             bombPosition = mapObject->mUnk_2e8;
-            VEC_MultAdd(mapObject->mUnk_2f4.x, &currentMatrix.mUnk_00[0], &bombPosition, &bombPosition);
-            VEC_MultAdd(mapObject->mUnk_2f4.y, &currentMatrix.mUnk_00[1], &bombPosition, &bombPosition);
-            VEC_MultAdd(mapObject->mUnk_2f4.z, &currentMatrix.mUnk_00[2], &bombPosition, &bombPosition);
-            PlaceItemBomb(mapObject->mItemBomb, &currentMatrix.mUnk_00[0], &bombPosition);
+            VEC_MultAdd(mapObject->mUnk_2f4.x, &currentMatrix.mRows[0], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->mUnk_2f4.y, &currentMatrix.mRows[1], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->mUnk_2f4.z, &currentMatrix.mRows[2], &bombPosition, &bombPosition);
+            PlaceItemBomb(mapObject->mItemBomb, &currentMatrix.mRows[0], &bombPosition);
         }
     }
 }

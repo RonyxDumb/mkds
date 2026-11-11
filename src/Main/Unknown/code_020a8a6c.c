@@ -88,7 +88,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.y = bankChainY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankChainZ;
                     VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
-                                &courseSoundObject->mMapObject.mMatrix.mUnk_00[2],
+                                &courseSoundObject->mMapObject.mMatrix.mRows[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     break;
                 default:
@@ -154,7 +154,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.y = bankFirstY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankFirstZ;
                     VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
-                                &courseSoundObject->mMapObject.mMatrix.mUnk_00[2],
+                                &courseSoundObject->mMapObject.mMatrix.mRows[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     bankSecondZ = courseMapRow->mUnk_00.z;
@@ -169,7 +169,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.y = bankSecondY;
                     courseSoundObject->mSecondPart.mSourcePos.z = bankSecondZ;
                     VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, -0x5000),
-                                &courseSoundObject->mMapObject.mMatrix.mUnk_00[2],
+                                &courseSoundObject->mMapObject.mMatrix.mRows[2],
                                 &courseSoundObject->mSecondPart.mSourcePos, &courseSoundObject->mSecondPart.mSourcePos);
                     break;
                 default:

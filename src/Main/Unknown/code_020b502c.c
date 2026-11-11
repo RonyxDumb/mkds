@@ -135,7 +135,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
             } else {
                 camera = GetChaseCamera();
             }
-            rawAngle = FX_Atan2Idx(camera->mViewMatrix.mUnk_00[2].z, camera->mViewMatrix.mUnk_00[0].z);
+            rawAngle = FX_Atan2Idx(camera->mViewMatrix.mRows[2].z, camera->mViewMatrix.mRows[0].z);
             angle = (0x14000 - rawAngle) % 0x10000;
             gRaceHudSubScreenProjection->mScrollTimer = 0;
             break;

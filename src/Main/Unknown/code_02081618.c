@@ -76,7 +76,7 @@ void ComputeKartSidePoints(Kart *kart) {
         kartEffects->mSidePositions[i].x = kartEffects->mSidePositions[i].x >> 4;
         kartEffects->mSidePositions[i].y = kartEffects->mSidePositions[i].y >> 4;
         kartEffects->mSidePositions[i].z = kartEffects->mSidePositions[i].z >> 4;
-        MTX_MultVec33(&gKartSideDirectionVectors[i], &kart->mUnk_150_m.mUnk_00_m, &sideDirection);
+        MTX_MultVec33(&gKartSideDirectionVectors[i], &kart->mUnk_150_m.mAxes, &sideDirection);
         kartEffects->mSideDirections[i].x = sideDirection.x;
         kartEffects->mSideDirections[i].y = sideDirection.y;
         kartEffects->mSideDirections[i].z = sideDirection.z;

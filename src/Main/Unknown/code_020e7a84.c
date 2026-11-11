@@ -390,36 +390,36 @@ void ComputeJgMatrixAndInverse(void) {
     Vec3 *turnedForward;
 
     gJgPreviousInverseMatrix = gJgInverseMatrix;
-    VEC_Subtract(&gJgKartPos, &gJgMatrix.mUnk_00[3], &data_0217b9b4);
-    gJgMatrix.mUnk_00[3] = gJgKartPos;
-    gJgMatrix.mUnk_00[3].y = gJgMatrix.mUnk_00[3].y + (gJgKart->mVelocity.y - gJgKart->mHopSpeed);
-    gJgMatrix.mUnk_00[1] = data_02159494;
+    VEC_Subtract(&gJgKartPos, &gJgMatrix.mRows[3], &data_0217b9b4);
+    gJgMatrix.mRows[3] = gJgKartPos;
+    gJgMatrix.mRows[3].y = gJgMatrix.mRows[3].y + (gJgKart->mVelocity.y - gJgKart->mHopSpeed);
+    gJgMatrix.mRows[1] = data_02159494;
 
     if (GetEntryRaceEnded() != 0) {
         turnedForward = &gJgKart->mTurnedForward;
-        gJgMatrix.mUnk_00[2].x = -turnedForward->x;
-        gJgMatrix.mUnk_00[2].y = -turnedForward->y;
-        gJgMatrix.mUnk_00[2].z = -turnedForward->z;
+        gJgMatrix.mRows[2].x = -turnedForward->x;
+        gJgMatrix.mRows[2].y = -turnedForward->y;
+        gJgMatrix.mRows[2].z = -turnedForward->z;
     } else {
-        gJgMatrix.mUnk_00[2] = ((MtxFx43 *) GetViewTransposeMatrix())->mUnk_00[2];
+        gJgMatrix.mRows[2] = ((MtxFx43 *) GetViewTransposeMatrix())->mRows[2];
     }
-    Vec3CrossUnrounded(&gJgMatrix.mUnk_00[1], &gJgMatrix.mUnk_00[2], &gJgMatrix.mUnk_00[2]);
-    lengthSquared = (s64) gJgMatrix.mUnk_00[2].x * gJgMatrix.mUnk_00[2].x +
-                    (s64) gJgMatrix.mUnk_00[2].y * gJgMatrix.mUnk_00[2].y +
-                    (s64) gJgMatrix.mUnk_00[2].z * gJgMatrix.mUnk_00[2].z;
+    Vec3CrossUnrounded(&gJgMatrix.mRows[1], &gJgMatrix.mRows[2], &gJgMatrix.mRows[2]);
+    lengthSquared = (s64) gJgMatrix.mRows[2].x * gJgMatrix.mRows[2].x +
+                    (s64) gJgMatrix.mRows[2].y * gJgMatrix.mRows[2].y +
+                    (s64) gJgMatrix.mRows[2].z * gJgMatrix.mRows[2].z;
     normalizedLength = 0;
     if (lengthSquared >= 0x10) {
-        normalizedLength = Vec3NormalizeAndGetLengthUnchecked(&gJgMatrix.mUnk_00[2], &gJgMatrix.mUnk_00[2]);
+        normalizedLength = Vec3NormalizeAndGetLengthUnchecked(&gJgMatrix.mRows[2], &gJgMatrix.mRows[2]);
     }
     if (normalizedLength != 0) {
-        gJgMatrix.mUnk_00[0] = gJgMatrix.mUnk_00[2];
+        gJgMatrix.mRows[0] = gJgMatrix.mRows[2];
     }
-    Vec3CrossUnrounded(&gJgMatrix.mUnk_00[0], &gJgMatrix.mUnk_00[1], &gJgMatrix.mUnk_00[2]);
+    Vec3CrossUnrounded(&gJgMatrix.mRows[0], &gJgMatrix.mRows[1], &gJgMatrix.mRows[2]);
     MTX_Transpose33_(&gJgMatrix, &gJgInverseMatrix);
-    MTX_MultVec33(&gJgMatrix.mUnk_00[3], &gJgInverseMatrix.mUnk_00_m, &gJgInverseMatrixPos);
-    gJgInverseMatrix.mUnk_00[3].x = -gJgInverseMatrix.mUnk_00[3].x;
-    gJgInverseMatrix.mUnk_00[3].y = -gJgInverseMatrix.mUnk_00[3].y;
-    gJgInverseMatrix.mUnk_00[3].z = -gJgInverseMatrix.mUnk_00[3].z;
+    MTX_MultVec33(&gJgMatrix.mRows[3], &gJgInverseMatrix.mAxes, &gJgInverseMatrixPos);
+    gJgInverseMatrix.mRows[3].x = -gJgInverseMatrix.mRows[3].x;
+    gJgInverseMatrix.mRows[3].y = -gJgInverseMatrix.mRows[3].y;
+    gJgInverseMatrix.mRows[3].z = -gJgInverseMatrix.mRows[3].z;
 }
 
 static inline void UpdateJgPosition_inline(Vec3 *result, const Vec3 *first, const Vec3 *second) {
@@ -484,20 +484,20 @@ void UpdateJgPosition(void) {
         data_0217b918 = data_0217b93c;
         if (data_0217b8f8 != 0) {
             halfOffset = -gJgOffsetX >> 1;
-            t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[0].x, halfOffset);
-            t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[0].y, halfOffset);
-            t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[0].z, halfOffset);
+            t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].x, halfOffset);
+            t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].y, halfOffset);
+            t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].z, halfOffset);
         } else {
             halfOffset = gJgOffsetX >> 1;
-            t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[0].x, halfOffset);
-            t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[0].y, halfOffset);
-            t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[0].z, halfOffset);
+            t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].x, halfOffset);
+            t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].y, halfOffset);
+            t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].z, halfOffset);
         }
         VEC_Add(&gJgPos, &t, &data_0217b93c);
         halfOffset = -gJgOffsetY >> 1;
-        t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[1].x, halfOffset);
-        t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[1].y, halfOffset);
-        t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mUnk_00[1].z, halfOffset);
+        t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[1].x, halfOffset);
+        t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[1].y, halfOffset);
+        t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[1].z, halfOffset);
         VEC_Add(&data_0217b93c, &t, &data_0217b93c);
         data_0217b8fc = 0;
         if (data_0217b900 == 0) {
@@ -547,7 +547,7 @@ void UpdateJgPosition(void) {
                 if (w <= 0) {
                     w = -w;
                 }
-                if (Vec3DotUnrounded(&v, &gJgMatrix.mUnk_00[0]) > 0) {
+                if (Vec3DotUnrounded(&v, &gJgMatrix.mRows[0]) > 0) {
                     data_0217b8b8 = ((s64) w << 11) >> 12;
                 } else {
                     data_0217b8b8 = -(s32) (((s64) w << 11) >> 12);
@@ -594,12 +594,12 @@ void UpdateJgPosition(void) {
             }
             VEC_Subtract(&gJgTargetPos, &gJgPos, &t);
             t.y += data_0217b8ec;
-            u.x = Vec3DotUnrounded(&t, &gJgMatrix.mUnk_00[0]);
+            u.x = Vec3DotUnrounded(&t, &gJgMatrix.mRows[0]);
             u.z = Vec3DotUnrounded(&t, &gJgMatrixAxis2);
             gJgVelocity.x = MUL_FIXED12_NO_ROUND(data_0217b908, u.x);
             gJgVelocity.z +=
                 MUL_FIXED12_NO_ROUND(data_021593bc.z, u.z) - MUL_FIXED12_NO_ROUND(data_021593b0.z, gJgVelocity.z);
-            v.x = Vec3DotUnrounded(&data_0217b9b4, &gJgMatrix.mUnk_00[0]);
+            v.x = Vec3DotUnrounded(&data_0217b9b4, &gJgMatrix.mRows[0]);
             v.z = Vec3DotUnrounded(&data_0217b9b4, &gJgMatrixAxis2);
             gJgVelocity.x -= v.x;
             gJgVelocity.z -= v.z;
@@ -619,7 +619,7 @@ void UpdateJgPosition(void) {
             }
             gJgVelocity.x += v.x;
             gJgVelocity.z += v.z;
-            MTX_MultVec33(&gJgVelocity, &gJgMatrix.mUnk_00_m, &u);
+            MTX_MultVec33(&gJgVelocity, &gJgMatrix.mAxes, &u);
         }
         gJgVelocity.y = gJgVelocity.y + (MUL_FIXED12_NO_ROUND(data_021593bc.y, t.y) -
                                          MUL_FIXED12_NO_ROUND(data_021593b0.y, gJgVelocity.y));
@@ -632,8 +632,8 @@ void UpdateJgPosition(void) {
         return;
     }
     data_0217b8f0 = (ComputeTwoPlaneViewTest(&gJgPos, 0x12000, 0x708000, 0x5f592e1, 0x1f) & 3) == 0 ? 1 : 0;
-    deltaX = gJgPos.x - gJgMatrix.mUnk_00[3].x;
-    deltaZ = gJgPos.z - gJgMatrix.mUnk_00[3].z;
+    deltaX = gJgPos.x - gJgMatrix.mRows[3].x;
+    deltaZ = gJgPos.z - gJgMatrix.mRows[3].z;
     distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
     data_0217b8bc = distanceSquared < 0x57e4000000LL ? 1 : 0;
     if (data_0217b8bc != 0) {
@@ -856,7 +856,7 @@ void EnterJgState4(void) {
     data_0217b8b4 = 0;
     if (GetEntryRaceEnded() != 0) {
         matrix = GetViewRotatedMatrix();
-        matrix->mUnk_00[3] = gJgKartPos;
+        matrix->mRows[3] = gJgKartPos;
         MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);
     } else {
         MTX_MultVec43(&gJgKind4Offset, &gJgMatrix, &gJgTargetPos);
@@ -909,7 +909,7 @@ void UpdateJgState4(void) {
     }
     if (GetEntryRaceEnded() != 0) {
         matrix = GetViewRotatedMatrix();
-        matrix->mUnk_00[3] = gJgKartPos;
+        matrix->mRows[3] = gJgKartPos;
         MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);
     } else {
         MTX_MultVec43(&gJgKind4Offset, &gJgMatrix, &gJgTargetPos);

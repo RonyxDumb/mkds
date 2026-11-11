@@ -27,9 +27,9 @@ void DrawPicture(void *a, Picture *b) {
 
     s = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
-    b->mMapObject.mMatrix.mUnk_00[3].x = b->mMapObject.mPos.x >> 4;
-    b->mMapObject.mMatrix.mUnk_00[3].y = b->mMapObject.mPos.y >> 4;
-    b->mMapObject.mMatrix.mUnk_00[3].z = b->mMapObject.mPos.z >> 4;
+    b->mMapObject.mMatrix.mRows[3].x = b->mMapObject.mPos.x >> 4;
+    b->mMapObject.mMatrix.mRows[3].y = b->mMapObject.mPos.y >> 4;
+    b->mMapObject.mMatrix.mRows[3].z = b->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &b->mMapObject.mMatrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
     switch (b->mPictureIndex) {

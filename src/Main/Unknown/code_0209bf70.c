@@ -295,10 +295,10 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
             v1.x = v2.x - v0.x;
             v1.y = v2.y - v0.y;
             v1.z = v2.z - v0.z;
-            t = VEC_DotProduct(&bound->mMapObject.mMatrix.mUnk_00[1], &v1);
-            v0.x = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mUnk_00[1].x, t);
-            v0.y = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mUnk_00[1].y, t);
-            v0.z = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mUnk_00[1].z, t);
+            t = VEC_DotProduct(&bound->mMapObject.mMatrix.mRows[1], &v1);
+            v0.x = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mRows[1].x, t);
+            v0.y = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mRows[1].y, t);
+            v0.z = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mRows[1].z, t);
             v1.x -= v0.x;
             v1.y -= v0.y;
             v1.z -= v0.z;
@@ -313,7 +313,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c) {
                 bound->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(v1.y, 0xc000);
                 bound->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(v1.z, 0xc000);
             }
-            VEC_Subtract(&v0, &bound->mMapObject.mMatrix.mUnk_00[1], &v0);
+            VEC_Subtract(&v0, &bound->mMapObject.mMatrix.mRows[1], &v0);
             VEC_MultAdd(0x19a, &v0, &bound->mMapObject.mPosStep, &bound->mMapObject.mPosStep);
             bound->mKartTimers[kart->mIndex] = 0x1f;
             if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -400,12 +400,12 @@ u8 CollideItemObjectWithBound(Bound *bound, void *a, u8 *b, u8 *c) {
 BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut) {
     if ((bound->mMapObject.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
         bound->mSphereHit =
-            ComputeSphereHitOnRotatedCylinder(sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mUnk_00[0],
+            ComputeSphereHitOnRotatedCylinder(sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mRows[0],
                                               MUL_FIXED12_NO_ROUND(bound->mMapObject.mExtent.x, bound->mWobbleScaleX),
                                               bound->mMapObject.mExtent.y, 0, sphereRadius, pushOut);
     } else {
         bound->mSphereHit = ComputeSphereHitOnRotatedCylinder(
-            sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mUnk_00[0], bound->mMapObject.mExtent.x,
+            sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mRows[0], bound->mMapObject.mExtent.x,
             bound->mMapObject.mExtent.y, 0, sphereRadius, pushOut);
     }
     return bound->mSphereHit != 0;
@@ -423,9 +423,9 @@ void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mMapObject.mMatrix.mUnk_00[3].x = bound->mMapObject.mPos.x >> 4;
-    bound->mMapObject.mMatrix.mUnk_00[3].y = bound->mMapObject.mPos.y >> 4;
-    bound->mMapObject.mMatrix.mUnk_00[3].z = bound->mMapObject.mPos.z >> 4;
+    bound->mMapObject.mMatrix.mRows[3].x = bound->mMapObject.mPos.x >> 4;
+    bound->mMapObject.mMatrix.mRows[3].y = bound->mMapObject.mPos.y >> 4;
+    bound->mMapObject.mMatrix.mRows[3].z = bound->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &bound->mMapObject.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
@@ -457,9 +457,9 @@ void DrawCream(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mMapObject.mMatrix.mUnk_00[3].x = bound->mMapObject.mPos.x >> 4;
-    bound->mMapObject.mMatrix.mUnk_00[3].y = bound->mMapObject.mPos.y >> 4;
-    bound->mMapObject.mMatrix.mUnk_00[3].z = bound->mMapObject.mPos.z >> 4;
+    bound->mMapObject.mMatrix.mRows[3].x = bound->mMapObject.mPos.x >> 4;
+    bound->mMapObject.mMatrix.mRows[3].y = bound->mMapObject.mPos.y >> 4;
+    bound->mMapObject.mMatrix.mRows[3].z = bound->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &bound->mMapObject.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
@@ -480,9 +480,9 @@ void DrawBerry(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mMapObject.mMatrix.mUnk_00[3].x = bound->mMapObject.mPos.x >> 4;
-    bound->mMapObject.mMatrix.mUnk_00[3].y = bound->mMapObject.mPos.y >> 4;
-    bound->mMapObject.mMatrix.mUnk_00[3].z = bound->mMapObject.mPos.z >> 4;
+    bound->mMapObject.mMatrix.mRows[3].x = bound->mMapObject.mPos.x >> 4;
+    bound->mMapObject.mMatrix.mRows[3].y = bound->mMapObject.mPos.y >> 4;
+    bound->mMapObject.mMatrix.mRows[3].z = bound->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &bound->mMapObject.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;

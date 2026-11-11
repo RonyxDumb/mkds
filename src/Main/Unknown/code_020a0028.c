@@ -27,9 +27,9 @@ void DrawAirship(void *a, Airship *airship) {
     translation.x = 0;
     translation.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
-    airship->mMapObject.mMatrix.mUnk_00[3].x = airship->mMapObject.mPos.x >> 4;
-    airship->mMapObject.mMatrix.mUnk_00[3].y = airship->mMapObject.mPos.y >> 4;
-    airship->mMapObject.mMatrix.mUnk_00[3].z = airship->mMapObject.mPos.z >> 4;
+    airship->mMapObject.mMatrix.mRows[3].x = airship->mMapObject.mPos.x >> 4;
+    airship->mMapObject.mMatrix.mRows[3].y = airship->mMapObject.mPos.y >> 4;
+    airship->mMapObject.mMatrix.mRows[3].z = airship->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &airship->mMapObject.mMatrix, 0xc);
     if (airship->mMapObject.mAngle != 0) {
         MTX_RotY33_(&rotationMatrix, gPairsByAngle[((airship->mMapObject.mAngle >> 4) << 1)],

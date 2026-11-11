@@ -32,7 +32,7 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
     Vec3 endPoint;
 
     wanwan = chainObject->mWanwan;
-    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mMapObject.mMatrix.mUnk_00[2], &wanwan->mMapObject.mPos, &endPoint);
+    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mMapObject.mMatrix.mRows[2], &wanwan->mMapObject.mPos, &endPoint);
     startPoint = wanwan->mCenterPos;
     startPoint.y -= wanwan->mUnk_f0 >> 1;
     SetWanwanChainPointsEvenly(&chainObject->mChain, &startPoint, &endPoint);

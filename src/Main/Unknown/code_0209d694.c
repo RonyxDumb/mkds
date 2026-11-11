@@ -230,7 +230,7 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mTimer = 0x1c2;
     sunFireball->mStartPos = *startPos;
     sunFireball->mMapObject.mPos = sunFireball->mStartPos;
-    sunFireball->mMapObject.mMatrix.mUnk_00[2] = *direction;
+    sunFireball->mMapObject.mMatrix.mRows[2] = *direction;
     sunFireball->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(direction->x, 0x2000);
     sunFireball->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(direction->y, 0x2000);
     sunFireball->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(direction->z, 0x2000);

@@ -146,9 +146,9 @@ MapObjectList *CreateSecondHandUpdateList(void) {
 }
 
 void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha) {
-    secondHand->mMapObject.mMatrix.mUnk_00[3].x = secondHand->mMapObject.mPos.x >> 4;
-    secondHand->mMapObject.mMatrix.mUnk_00[3].y = secondHand->mMapObject.mPos.y >> 4;
-    secondHand->mMapObject.mMatrix.mUnk_00[3].z = secondHand->mMapObject.mPos.z >> 4;
+    secondHand->mMapObject.mMatrix.mRows[3].x = secondHand->mMapObject.mPos.x >> 4;
+    secondHand->mMapObject.mMatrix.mRows[3].y = secondHand->mMapObject.mPos.y >> 4;
+    secondHand->mMapObject.mMatrix.mRows[3].z = secondHand->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gSecondHand, &secondHand->mMapObject.mMatrix, &secondHand->mMapObject.mScale, alpha);
 }
 
@@ -156,7 +156,7 @@ void UpdateSecondHand(u32 a, SecondHand *secondHand) {
     AdvanceStateMachine(&secondHand->mMapObject.mStateMachine);
     QuaternionMultiplyAngleAroundY(&secondHand->mInitialRotationQuaternion, secondHand->mMapObject.mAngle,
                                    &secondHand->mRotationQuaternion);
-    Matrix3x3FromQuaternion(&secondHand->mMapObject.mMatrix.mUnk_00_m, &secondHand->mRotationQuaternion);
+    Matrix3x3FromQuaternion(&secondHand->mMapObject.mMatrix.mAxes, &secondHand->mRotationQuaternion);
 }
 
 void EnterSecondHandState0(SecondHand *secondHand) {
@@ -236,7 +236,7 @@ void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s3
     halfSizesNegative.x = secondHand->mMapObject.mExtent.x;
     halfSizesNegative.y = extentY;
     halfSizesNegative.z = 0;
-    ComputeSphereHitOnRotatedBox(sphereCenter, &secondHand->mMapObject.mPos, &secondHand->mMapObject.mMatrix.mUnk_00[0],
+    ComputeSphereHitOnRotatedBox(sphereCenter, &secondHand->mMapObject.mPos, &secondHand->mMapObject.mMatrix.mRows[0],
                                  &secondHand->mMapObject.mExtent, &halfSizesNegative, sphereRadius, overlapOffset);
 }
 

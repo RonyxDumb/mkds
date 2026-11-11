@@ -120,21 +120,21 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) {
     } else {
         rotation = &gBoxRotations[itemBox->mBoxRotationIndex];
         cosine = rotation->mCosine;
-        matrix.mUnk_00[0].x = cosine;
+        matrix.mRows[0].x = cosine;
         sine = rotation->mSine;
-        matrix.mUnk_00[0].y = sine;
-        matrix.mUnk_00[0].z = 0;
+        matrix.mRows[0].y = sine;
+        matrix.mRows[0].z = 0;
         negatedProduct = -rotation->mCosineSineProduct;
-        matrix.mUnk_00[1].x = negatedProduct;
-        matrix.mUnk_00[1].y = rotation->mCosineSquared;
-        matrix.mUnk_00[1].z = sine;
-        matrix.mUnk_00[2].x = rotation->mSineSquared;
-        matrix.mUnk_00[2].y = negatedProduct;
-        matrix.mUnk_00[2].z = cosine;
+        matrix.mRows[1].x = negatedProduct;
+        matrix.mRows[1].y = rotation->mCosineSquared;
+        matrix.mRows[1].z = sine;
+        matrix.mRows[2].x = rotation->mSineSquared;
+        matrix.mRows[2].y = negatedProduct;
+        matrix.mRows[2].z = cosine;
         position = itemBox->mPositionSource;
-        matrix.mUnk_00[3].x = position->x >> 4;
-        matrix.mUnk_00[3].y = position->y >> 4;
-        matrix.mUnk_00[3].z = position->z >> 4;
+        matrix.mRows[3].x = position->x >> 4;
+        matrix.mRows[3].y = position->y >> 4;
+        matrix.mRows[3].z = position->z >> 4;
         polygonId = itemBox->mPolygonId;
         model = gBox;
         model->mPolygonAttributes = model->mPolygonAttributes & 0xc0ffffff;
@@ -183,20 +183,20 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
     }
     rotation = &gQuestionRotations[itemBox->mQuestionRotationIndex];
     cosine = rotation->mCosine;
-    matrix.mUnk_00[0].x = cosine;
-    matrix.mUnk_00[0].y = 0;
+    matrix.mRows[0].x = cosine;
+    matrix.mRows[0].y = 0;
     negatedSine = -rotation->mSine;
-    matrix.mUnk_00[0].z = negatedSine;
-    matrix.mUnk_00[1].x = 0;
-    matrix.mUnk_00[1].y = 0x1000;
-    matrix.mUnk_00[1].z = 0;
-    matrix.mUnk_00[2].x = -negatedSine;
-    matrix.mUnk_00[2].y = 0;
-    matrix.mUnk_00[2].z = cosine;
+    matrix.mRows[0].z = negatedSine;
+    matrix.mRows[1].x = 0;
+    matrix.mRows[1].y = 0x1000;
+    matrix.mRows[1].z = 0;
+    matrix.mRows[2].x = -negatedSine;
+    matrix.mRows[2].y = 0;
+    matrix.mRows[2].z = cosine;
     position = itemBox->mPositionSource;
-    matrix.mUnk_00[3].x = position->x >> 4;
-    matrix.mUnk_00[3].y = position->y >> 4;
-    matrix.mUnk_00[3].z = position->z >> 4;
+    matrix.mRows[3].x = position->x >> 4;
+    matrix.mRows[3].y = position->y >> 4;
+    matrix.mRows[3].z = position->z >> 4;
     alphaModel = gQuestion;
     alpha = itemBox->mQuestionAlpha;
     alphaModel->mPolygonAttributes &= 0xffe0ffff;
@@ -270,9 +270,9 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
     }
     if (itemBox->mUsesGroupShadow != 0) {
         position = itemBox->mPositionSource;
-        gItemBoxShadowMatrix.mUnk_00[3].x = position->x >> 4;
-        gItemBoxShadowMatrix.mUnk_00[3].y = position->y >> 4;
-        gItemBoxShadowMatrix.mUnk_00[3].z = position->z >> 4;
+        gItemBoxShadowMatrix.mRows[3].x = position->x >> 4;
+        gItemBoxShadowMatrix.mRows[3].y = position->y >> 4;
+        gItemBoxShadowMatrix.mRows[3].z = position->z >> 4;
         DrawJgShadowWithMatrix(&gGroupItemBoxShadowScale, &gItemBoxShadowMatrix, (u16) n, maxAlpha);
         return;
     }
@@ -283,9 +283,9 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         matrix = SetTranslationMatrixPos(itemBox->mPositionSource);
     } else {
         position = itemBox->mPositionSource;
-        gItemBoxShadowMatrix.mUnk_00[3].x = position->x >> 4;
-        gItemBoxShadowMatrix.mUnk_00[3].y = position->y >> 4;
-        gItemBoxShadowMatrix.mUnk_00[3].z = position->z >> 4;
+        gItemBoxShadowMatrix.mRows[3].x = position->x >> 4;
+        gItemBoxShadowMatrix.mRows[3].y = position->y >> 4;
+        gItemBoxShadowMatrix.mRows[3].z = position->z >> 4;
         matrix = &gItemBoxShadowMatrix;
     }
     DrawJgShadowWithMatrix(&shadowScale, matrix, (u16) n, maxAlpha);

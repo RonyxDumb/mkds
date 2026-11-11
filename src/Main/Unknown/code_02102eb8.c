@@ -105,7 +105,7 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     VEC_MultAdd(GetEntryRaceEnded() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mItemObject.mPos,
                 &gesso->mItemObject.mPos);
     VEC_Subtract(&gesso->mItemObject.mPos, &camera->mPos, &gesso->mViewOffset);
-    MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mUnk_00_m, &gesso->mViewOffset);
+    MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mAxes, &gesso->mViewOffset);
     if (fromData != 0) {
         if (gesso->mItemObject.mFlags & 0x10000000) {
             SetupNextItemGessoStep(gesso);

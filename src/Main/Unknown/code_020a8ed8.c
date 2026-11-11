@@ -94,7 +94,7 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         InitGroupFollower(&ironBall->mFollower, ironBall->mMapObject.mCourseMapRow, z0);
         GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
         ironBall->mPathPos.y += 0x1000;
-        VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mUnk_00[1], &ironBall->mPathPos,
+        VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
                     &ironBall->mMapObject.mPos);
         if (ironBall->mMapObject.mFlags & 0x800) {
             ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mUnk_2a;
@@ -284,7 +284,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
         GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
         ironBall->mPathPos.y += 0x1000;
     }
-    VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mUnk_00[1], &ironBall->mPathPos,
+    VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
                 &ironBall->mMapObject.mPos);
     ironBall->mMapObject.mPos.y = ironBall->mMapObject.mPos.y + ironBall->mHeightOffset;
     if (ironBall->mRotateZAngle < 0) {

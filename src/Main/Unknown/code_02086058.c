@@ -353,25 +353,25 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
         reg_G3_PLTT_BASE = texPlttEntry->mPlttOffset >> (4 - ((texPlttEntry->mTexImageParam >> 26 & 7) == 2));
     }
     MTX_Identity43_(&quadMatrix);
-    quadMatrix.mUnk_00[3] = kartObject->mPos;
+    quadMatrix.mRows[3] = kartObject->mPos;
     MTX_Concat43(&quadMatrix, viewMatrix, &quadMatrix);
-    quadMatrix.mUnk_00[3].x = screenX;
+    quadMatrix.mRows[3].x = screenX;
     if (kartObject->mUnk_10 == TRUE) {
-        quadMatrix.mUnk_00[3].x = screenX + (MUL_FIXED12_ROUNDED(xOffset, scaleX) + 0x1e000);
+        quadMatrix.mRows[3].x = screenX + (MUL_FIXED12_ROUNDED(xOffset, scaleX) + 0x1e000);
     }
-    quadMatrix.mUnk_00[3].y = 0x5000 + screenY + MUL_FIXED12_ROUNDED(yOffset, scaleY);
-    quadMatrix.mUnk_00[3].z = 0;
+    quadMatrix.mRows[3].y = 0x5000 + screenY + MUL_FIXED12_ROUNDED(yOffset, scaleY);
+    quadMatrix.mRows[3].z = 0;
     texWidthFixed = texPlttEntry->mTexWidthFixed;
     texHeightFixed = texPlttEntry->mTexHeightFixed;
-    quadMatrix.mUnk_00[1].y = scaleY;
-    quadMatrix.mUnk_00[0].x = scaleX;
-    quadMatrix.mUnk_00[0].y = 0;
-    quadMatrix.mUnk_00[0].z = 0;
-    quadMatrix.mUnk_00[1].x = 0;
-    quadMatrix.mUnk_00[1].z = 0;
-    quadMatrix.mUnk_00[2].z = 0;
-    quadMatrix.mUnk_00[2].y = 0;
-    quadMatrix.mUnk_00[2].x = 0;
+    quadMatrix.mRows[1].y = scaleY;
+    quadMatrix.mRows[0].x = scaleX;
+    quadMatrix.mRows[0].y = 0;
+    quadMatrix.mRows[0].z = 0;
+    quadMatrix.mRows[1].x = 0;
+    quadMatrix.mRows[1].z = 0;
+    quadMatrix.mRows[2].z = 0;
+    quadMatrix.mRows[2].y = 0;
+    quadMatrix.mRows[2].x = 0;
     reg_G3_POLYGON_ATTR = (GetKartNameTagPolygonIdBits(kartObject) | 0xc0) | (alpha << 16);
     reg_G3_MTX_MODE = 2;
     G3_LoadMtx43(&quadMatrix);

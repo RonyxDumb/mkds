@@ -135,9 +135,9 @@ MapObjectList *CreatePendulumUpdateList(void) {
 }
 
 void DrawPendulum(u32 unused0, PendulumObject *pendulum, u32 unused1, u32 alpha) {
-    pendulum->mMapObject.mMatrix.mUnk_00[3].x = pendulum->mCourseRowPos.x >> 4;
-    pendulum->mMapObject.mMatrix.mUnk_00[3].y = pendulum->mCourseRowPos.y >> 4;
-    pendulum->mMapObject.mMatrix.mUnk_00[3].z = pendulum->mCourseRowPos.z >> 4;
+    pendulum->mMapObject.mMatrix.mRows[3].x = pendulum->mCourseRowPos.x >> 4;
+    pendulum->mMapObject.mMatrix.mRows[3].y = pendulum->mCourseRowPos.y >> 4;
+    pendulum->mMapObject.mMatrix.mRows[3].z = pendulum->mCourseRowPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gPendulum, &pendulum->mMapObject.mMatrix, &pendulum->mMapObject.mScale, alpha);
     DrawShadowWithMaxAlpha(gPendulumShadow, &pendulum->mShadowMatrix, &pendulum->mMapObject.mScale, alpha);
 }
@@ -170,8 +170,8 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
         }
     }
     QuaternionMultiplyAngleAroundZ(&pendulum->mRotationQuaternion, swingAngle, &swingRotation);
-    Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix.mUnk_00_m, &swingRotation);
-    VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mUnk_00[1], &pendulum->mCourseRowPos,
+    Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix.mAxes, &swingRotation);
+    VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
     pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
     pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
@@ -188,7 +188,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     s64 distanceSquared;
 
     VEC_Subtract(sphereCenter, &pendulum->mMapObject.mPos, &sphereOffset);
-    axisDistance = Vec3DotUnrounded(&sphereOffset, &pendulum->mMapObject.mMatrix.mUnk_00[2]);
+    axisDistance = Vec3DotUnrounded(&sphereOffset, &pendulum->mMapObject.mMatrix.mRows[2]);
     if (axisDistance > 0) {
         axisOverlap = pendulum->mHalfSizeZ + sphereRadius - axisDistance;
         if (axisOverlap < 0) {
@@ -213,9 +213,9 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         return FALSE;
     }
     if ((axisOverlap > 0 ? axisOverlap : -axisOverlap) < d) {
-        out->x = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].x, axisOverlap);
-        out->y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].y, axisOverlap);
-        out->z = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mUnk_00[2].z, axisOverlap);
+        out->x = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].x, axisOverlap);
+        out->y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].y, axisOverlap);
+        out->z = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].z, axisOverlap);
         pendulum->mUnk_10c = FALSE;
     } else {
         if (sphereOffset.y < 0) {
@@ -248,13 +248,13 @@ void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     pendulum->mMapObject.mExtent.y =
         MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mUnk_18.z);
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &pendulum->mRotationQuaternion);
-    pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mUnk_00_m;
+    pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mAxes;
     pendulum->mCourseRowDistance = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.y, 0x1f4000);
     pendulum->mSwingAngle = 0;
     pendulum->mCourseRowPos.x = courseRow->mUnk_00.x;
     pendulum->mCourseRowPos.y = courseRow->mUnk_00.y;
     pendulum->mCourseRowPos.z = courseRow->mUnk_00.z;
-    VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mUnk_00[1], &pendulum->mCourseRowPos,
+    VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
     pendulum->mPrevPos = pendulum->mMapObject.mPos;
     pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;

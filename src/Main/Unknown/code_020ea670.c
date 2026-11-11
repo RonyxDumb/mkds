@@ -134,9 +134,9 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
     Vec3 shadowPos;
 
     state = woodbox->mMapObject.mStateMachine.mState;
-    woodbox->mMapObject.mMatrix.mUnk_00[3].x = woodbox->mMapObject.mPos.x >> 4;
-    woodbox->mMapObject.mMatrix.mUnk_00[3].y = woodbox->mMapObject.mPos.y >> 4;
-    woodbox->mMapObject.mMatrix.mUnk_00[3].z = woodbox->mMapObject.mPos.z >> 4;
+    woodbox->mMapObject.mMatrix.mRows[3].x = woodbox->mMapObject.mPos.x >> 4;
+    woodbox->mMapObject.mMatrix.mRows[3].y = woodbox->mMapObject.mPos.y >> 4;
+    woodbox->mMapObject.mMatrix.mRows[3].z = woodbox->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gWoodbox1, &woodbox->mMapObject.mMatrix, &woodbox->mMapObject.mScale, maxAlpha);
     if (state == 0) {
         return;
@@ -165,7 +165,7 @@ void EnterWoodbox1State0(Woodbox1 *woodbox) {
     velocity->z = 0;
     woodbox->mMapObject.mPos = woodbox->mBasePos;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
 }
 
 // With a chance given by the box, starts one item object that moves off with the given velocity.
@@ -246,7 +246,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     s32 extent;
 
     cornerPos = woodbox->mMapObject.mPos;
-    axis = &woodbox->mMapObject.mMatrix.mUnk_00[0];
+    axis = &woodbox->mMapObject.mMatrix.mRows[0];
     extent = woodbox->mMapObject.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
@@ -254,7 +254,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     } else {
         VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
-    axis = &woodbox->mMapObject.mMatrix.mUnk_00[1];
+    axis = &woodbox->mMapObject.mMatrix.mRows[1];
     extent = woodbox->mMapObject.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
@@ -262,7 +262,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     } else {
         VEC_MultAdd(extent, axis, &cornerPos, &cornerPos);
     }
-    axis = &woodbox->mMapObject.mMatrix.mUnk_00[2];
+    axis = &woodbox->mMapObject.mMatrix.mRows[2];
     extent = woodbox->mMapObject.mExtent.x;
     dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
     if (dot > 0) {
@@ -315,7 +315,7 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     VEC_Add(&woodbox->mGroundUp, &woodbox->mTiltOffset, &woodbox->mTiltedUp);
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
 }
 
 void UpdateWoodbox1State2(Woodbox1 *woodbox) {
@@ -353,7 +353,7 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     }
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
     if (woodbox->mMapObject.mStateMachine.mStateFrames >= 90) {
         data_0217bbf0 = NULL;
         woodbox->mMapObject.mStateMachine.mNextState = 0;
@@ -434,7 +434,7 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mMapObject.mPosStep.z = 0;
     woodbox->mHeadingAngle = (((s64) courseRow->mUnk_0c.y * 0xB60B60B60BLL) + 0x80000000000LL) >> 44;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mUnk_00_m, &rotation);
+    Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
     woodbox->mUnk_0f4.x = -woodbox->mGroundUp.x;
     woodbox->mUnk_0f4.y = 0;
     woodbox->mUnk_0f4.z = -woodbox->mGroundUp.z;
@@ -446,8 +446,8 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
         length = Vec3NormalizeAndGetLengthUnchecked(&woodbox->mUnk_0f4, &woodbox->mUnk_0f4);
     }
     if (length == 0) {
-        woodbox->mUnk_0f4.x = -woodbox->mMapObject.mMatrix.mUnk_00[2].x;
-        woodbox->mUnk_0f4.z = -woodbox->mMapObject.mMatrix.mUnk_00[2].z;
+        woodbox->mUnk_0f4.x = -woodbox->mMapObject.mMatrix.mRows[2].x;
+        woodbox->mUnk_0f4.z = -woodbox->mMapObject.mMatrix.mRows[2].z;
     }
     Vec3RotateAroundY(&woodbox->mUnk_0f4, 0x0aab, &woodbox->mUnk_100);
     Vec3RotateAroundY(&woodbox->mUnk_0f4, 0xf555, &woodbox->mUnk_0f4);

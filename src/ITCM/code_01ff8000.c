@@ -543,27 +543,27 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
             MI_Zero36B(&jntAnmResult->mRot);
             r += 2;
             m = (*p & 0x100) ? -0x1000 : 0x1000;
-            jntAnmResult->mRot.mUnk_00_a[k] = m;
-            jntAnmResult->mRot.mUnk_00_a[pivotUtil_[k][0]] = b0;
-            jntAnmResult->mRot.mUnk_00_a[pivotUtilSecondColumn_[k][0]] = b1;
+            jntAnmResult->mRot.a[k] = m;
+            jntAnmResult->mRot.a[pivotUtil_[k][0]] = b0;
+            jntAnmResult->mRot.a[pivotUtilSecondColumn_[k][0]] = b1;
             if (*p & 0x200) {
                 b1 = -b1;
             }
-            jntAnmResult->mRot.mUnk_00_a[pivotUtilThirdColumn_[k][0]] = b1;
+            jntAnmResult->mRot.a[pivotUtilThirdColumn_[k][0]] = b1;
             if (*p & 0x400) {
                 b0 = -b0;
             }
-            jntAnmResult->mRot.mUnk_00_a[pivotUtilFourthColumn_[k][0]] = b0;
+            jntAnmResult->mRot.a[pivotUtilFourthColumn_[k][0]] = b0;
         } else {
-            jntAnmResult->mRot.mUnk_00_a[0] = ((s16 *) p)[1];
-            jntAnmResult->mRot.mUnk_00_a[1] = ((s16 *) r)[0];
-            jntAnmResult->mRot.mUnk_00_a[2] = ((s16 *) r)[1];
-            jntAnmResult->mRot.mUnk_00_a[3] = ((s16 *) r)[2];
-            jntAnmResult->mRot.mUnk_00_a[4] = ((s16 *) r)[3];
-            jntAnmResult->mRot.mUnk_00_a[5] = ((s16 *) r)[4];
-            jntAnmResult->mRot.mUnk_00_a[6] = ((s16 *) r)[5];
-            jntAnmResult->mRot.mUnk_00_a[7] = ((s16 *) r)[6];
-            jntAnmResult->mRot.mUnk_00_a[8] = ((s16 *) r)[7];
+            jntAnmResult->mRot.a[0] = ((s16 *) p)[1];
+            jntAnmResult->mRot.a[1] = ((s16 *) r)[0];
+            jntAnmResult->mRot.a[2] = ((s16 *) r)[1];
+            jntAnmResult->mRot.a[3] = ((s16 *) r)[2];
+            jntAnmResult->mRot.a[4] = ((s16 *) r)[3];
+            jntAnmResult->mRot.a[5] = ((s16 *) r)[4];
+            jntAnmResult->mRot.a[6] = ((s16 *) r)[5];
+            jntAnmResult->mRot.a[7] = ((s16 *) r)[6];
+            jntAnmResult->mRot.a[8] = ((s16 *) r)[7];
             r += 8;
         }
         renderState->mUnk_e8(jntAnmResult, r, renderState->mC, *p);

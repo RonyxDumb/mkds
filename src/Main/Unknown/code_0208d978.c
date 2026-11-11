@@ -69,12 +69,12 @@ void DrawPosStripQuad(const MtxFx43 *viewMatrix, PosStripPoint *firstPoint, PosS
 
     MTX_Scale43_(&firstMatrix, 0x1000, firstPoint->mHeight, 0x1000);
     MTX_Scale43_(&secondMatrix, 0x1000, secondPoint->mHeight, 0x1000);
-    firstMatrix.mUnk_00[3].x = firstPoint->mPos.x;
-    firstMatrix.mUnk_00[3].y = firstPoint->mPos.y;
-    firstMatrix.mUnk_00[3].z = firstPoint->mPos.z;
-    secondMatrix.mUnk_00[3].x = secondPoint->mPos.x;
-    secondMatrix.mUnk_00[3].y = secondPoint->mPos.y;
-    secondMatrix.mUnk_00[3].z = secondPoint->mPos.z;
+    firstMatrix.mRows[3].x = firstPoint->mPos.x;
+    firstMatrix.mRows[3].y = firstPoint->mPos.y;
+    firstMatrix.mRows[3].z = firstPoint->mPos.z;
+    secondMatrix.mRows[3].x = secondPoint->mPos.x;
+    secondMatrix.mRows[3].y = secondPoint->mPos.y;
+    secondMatrix.mRows[3].z = secondPoint->mPos.z;
     MTX_Concat43(&firstMatrix, viewMatrix, &firstMatrix);
     MTX_Concat43(&secondMatrix, viewMatrix, &secondMatrix);
     reg_G3_BEGIN_VTXS = 1;
@@ -202,9 +202,9 @@ void DrawModelEffects(void) {
     }
     do {
         if (modelEffect->mVisible != 0) {
-            drawMatrix.mUnk_00[3].x = modelEffect->mPos.x >> 4;
-            drawMatrix.mUnk_00[3].y = modelEffect->mPos.y >> 4;
-            drawMatrix.mUnk_00[3].z = modelEffect->mPos.z >> 4;
+            drawMatrix.mRows[3].x = modelEffect->mPos.x >> 4;
+            drawMatrix.mRows[3].y = modelEffect->mPos.y >> 4;
+            drawMatrix.mRows[3].z = modelEffect->mPos.z >> 4;
             SetNsbmdPolygonIdAll(&modelEffect->mNsbmd, modelEffect->mPolygonId);
             DrawNsbmdWithMatrix(&modelEffect->mNsbmd, &drawMatrix, (u32 *) modelEffect->mScale);
         }

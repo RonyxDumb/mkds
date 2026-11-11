@@ -46,9 +46,9 @@ void DrawNsKiller1(void *a, NsKiller1 *nsKiller1) {
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
     NNS_G3dGeBufferOP_N(0x1b, &nsKiller1->mMapObject.mScale, 3);
-    nsKiller1->mMapObject.mMatrix.mUnk_00[3].x = nsKiller1->mMapObject.mPos.x >> 4;
-    nsKiller1->mMapObject.mMatrix.mUnk_00[3].y = nsKiller1->mMapObject.mPos.y >> 4;
-    nsKiller1->mMapObject.mMatrix.mUnk_00[3].z = nsKiller1->mMapObject.mPos.z >> 4;
+    nsKiller1->mMapObject.mMatrix.mRows[3].x = nsKiller1->mMapObject.mPos.x >> 4;
+    nsKiller1->mMapObject.mMatrix.mRows[3].y = nsKiller1->mMapObject.mPos.y >> 4;
+    nsKiller1->mMapObject.mMatrix.mRows[3].z = nsKiller1->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &nsKiller1->mMapObject.mMatrix, 12);
     DrawMapObjectModel(a, gNsKiller1, nsKiller1);
 }
@@ -103,7 +103,7 @@ void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
             nsKiller1->mStateTimer--;
             break;
         case 3:
-            StartNsKiller2(&nsKiller1->mMapObject.mPos, &nsKiller1->mMapObject.mMatrix.mUnk_00[2], nsKiller1->mMapObject.mAngle);
+            StartNsKiller2(&nsKiller1->mMapObject.mPos, &nsKiller1->mMapObject.mMatrix.mRows[2], nsKiller1->mMapObject.mAngle);
             if ((nsKiller1->mMapObject.mFlags & 0x12) == 0) {
                 StartEffect(0x4b, &nsKiller1->mMapObject.mPos);
                 StartEffect(0x4c, &nsKiller1->mMapObject.mPos);
@@ -242,9 +242,9 @@ void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle) {
     nsKiller2->mMapObject.mPos.x = startPos->x;
     nsKiller2->mMapObject.mPos.y = startPos->y + 0x2a000;
     nsKiller2->mMapObject.mPos.z = startPos->z;
-    nsKiller2->mMapObject.mMatrix.mUnk_00[2].x = b->x;
-    nsKiller2->mMapObject.mMatrix.mUnk_00[2].y = 0;
-    nsKiller2->mMapObject.mMatrix.mUnk_00[2].z = b->z;
+    nsKiller2->mMapObject.mMatrix.mRows[2].x = b->x;
+    nsKiller2->mMapObject.mMatrix.mRows[2].y = 0;
+    nsKiller2->mMapObject.mMatrix.mRows[2].z = b->z;
     nsKiller2->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(b->x, 0x6000);
     nsKiller2->mMapObject.mPosStep.y = 0;
     nsKiller2->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(b->z, 0x6000);

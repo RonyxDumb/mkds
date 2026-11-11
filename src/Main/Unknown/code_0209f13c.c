@@ -125,9 +125,9 @@ void DrawRainStar(void *a, Unk0209f1c8 *b) {
 
     l = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &l, 1);
-    b->mMapObject.mMatrix.mUnk_00[3].x = b->mMapObject.mPos.x >> 4;
-    b->mMapObject.mMatrix.mUnk_00[3].y = b->mMapObject.mPos.y >> 4;
-    b->mMapObject.mMatrix.mUnk_00[3].z = b->mMapObject.mPos.z >> 4;
+    b->mMapObject.mMatrix.mRows[3].x = b->mMapObject.mPos.x >> 4;
+    b->mMapObject.mMatrix.mRows[3].y = b->mMapObject.mPos.y >> 4;
+    b->mMapObject.mMatrix.mRows[3].z = b->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &b->mMapObject.mMatrix, 0xc);
     if (b->mMapObject.mAngle != 0) {
         i = b->mMapObject.mAngle >> 4;

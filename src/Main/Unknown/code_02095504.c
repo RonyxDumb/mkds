@@ -200,9 +200,9 @@ void DrawBakubaku(void *a, Bakubaku *bakubaku) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    bakubaku->mMapObject.mMatrix.mUnk_00[3].x = bakubaku->mMapObject.mPos.x >> 4;
-    bakubaku->mMapObject.mMatrix.mUnk_00[3].y = bakubaku->mMapObject.mPos.y >> 4;
-    bakubaku->mMapObject.mMatrix.mUnk_00[3].z = bakubaku->mMapObject.mPos.z >> 4;
+    bakubaku->mMapObject.mMatrix.mRows[3].x = bakubaku->mMapObject.mPos.x >> 4;
+    bakubaku->mMapObject.mMatrix.mRows[3].y = bakubaku->mMapObject.mPos.y >> 4;
+    bakubaku->mMapObject.mMatrix.mRows[3].z = bakubaku->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &bakubaku->mMapObject.mMatrix, 12);
     NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mMapObject.mScale, 3);
     DrawMapObjectModel(a, gBakuShadow, bakubaku);
@@ -220,7 +220,7 @@ void InitBakubakuObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (bakubaku = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mUnk_00[2], &bakubaku->mMapObject.mCourseMapRow->mUnk_00,
+        VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mRows[2], &bakubaku->mMapObject.mCourseMapRow->mUnk_00,
                     &bakubaku->mUnk_a4);
     }
 }
@@ -249,9 +249,9 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
             bakubaku->mMapObject.mPos.x = bakubaku->mMapObject.mCourseMapRow->mUnk_00.x;
             bakubaku->mMapObject.mPos.y = bakubaku->mMapObject.mCourseMapRow->mUnk_00.y - 0x32000;
             bakubaku->mMapObject.mPos.z = bakubaku->mMapObject.mCourseMapRow->mUnk_00.z;
-            bakubaku->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mUnk_00[2].x, 0xc000);
+            bakubaku->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mRows[2].x, 0xc000);
             bakubaku->mMapObject.mPosStep.y = 0xc000;
-            bakubaku->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mUnk_00[2].z, 0xc000);
+            bakubaku->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mRows[2].z, 0xc000);
             bakubaku->mState = 1;
             break;
         case 1:

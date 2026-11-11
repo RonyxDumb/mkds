@@ -74,9 +74,9 @@ void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
     SetMapObjectModelNsbcaFrameIndex(gKanoke64, kanoke64->mNsbcaFrameIndex);
     commandArg = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
-    kanoke64->mMapObject.mMatrix.mUnk_00[3].x = kanoke64->mMapObject.mPos.x >> 4;
-    kanoke64->mMapObject.mMatrix.mUnk_00[3].y = kanoke64->mMapObject.mPos.y >> 4;
-    kanoke64->mMapObject.mMatrix.mUnk_00[3].z = kanoke64->mMapObject.mPos.z >> 4;
+    kanoke64->mMapObject.mMatrix.mRows[3].x = kanoke64->mMapObject.mPos.x >> 4;
+    kanoke64->mMapObject.mMatrix.mRows[3].y = kanoke64->mMapObject.mPos.y >> 4;
+    kanoke64->mMapObject.mMatrix.mRows[3].z = kanoke64->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &kanoke64->mMapObject.mMatrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &kanoke64->mMapObject.mScale, 3);
     DrawMapObjectModel(mapObjectList, gKanoke64, kanoke64);

@@ -155,9 +155,9 @@ void InitRotaryObjects(BridgeDrawList *list) {
 void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *kindInfo) {
     InitStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
     object->mCollisionMapObject.mCollisionData.mUnk_e8 = object->mCollisionMapObject.mMapObject.mPos;
-    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mInitialMatrix =
-        object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+        object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
@@ -258,18 +258,18 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
         angleDelta += 0x10000;
     }
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.x =
-        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[0].x, angleDelta);
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].x, angleDelta);
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y =
-        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[0].y, angleDelta);
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].y, angleDelta);
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z =
-        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[0].z, angleDelta);
+        MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].z, angleDelta);
     bridge->mAngleX = y;
-    bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
-    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m, gPairsByAngle[(y >> 4) * 2],
+    bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
+    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, gPairsByAngle[(y >> 4) * 2],
                 gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33(&bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m, &bridge->mCollisionMapObject.mCollisionData.mInitialMatrix,
-                 &bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-bridge->mCollisionMapObject.mCollisionData.mHalfSizeY, &bridge->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1],
+    MTX_Concat33(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, &bridge->mCollisionMapObject.mCollisionData.mInitialMatrix,
+                 &bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes);
+    VEC_MultAdd(-bridge->mCollisionMapObject.mCollisionData.mHalfSizeY, &bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
                 &bridge->mCollisionMapObject.mMapObject.mPos, &bridge->mCollisionMapObject.mCollisionData.mCenterPos);
     if (bridge->mPauseTimer != 0) {
         bridge->mPauseTimer--;
@@ -299,9 +299,9 @@ void DrawBridge(CollisionMapObject *object, void *viewMatrix, u32 alpha) {
     Bridge *bridge = (Bridge *) object;
     ModelAnimation *animation;
 
-    object->mMapObject.mMatrix.mUnk_00[3].x = object->mMapObject.mPos.x >> 4;
-    object->mMapObject.mMatrix.mUnk_00[3].y = object->mMapObject.mPos.y >> 4;
-    object->mMapObject.mMatrix.mUnk_00[3].z = object->mMapObject.mPos.z >> 4;
+    object->mMapObject.mMatrix.mRows[3].x = object->mMapObject.mPos.x >> 4;
+    object->mMapObject.mMatrix.mRows[3].y = object->mMapObject.mPos.y >> 4;
+    object->mMapObject.mMatrix.mRows[3].z = object->mMapObject.mPos.z >> 4;
     animation = gBridgeNsbca;
     animation->mHead.mFrameIndex = bridge->mAnimationFrameIndex;
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;

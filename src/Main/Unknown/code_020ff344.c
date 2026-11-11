@@ -69,7 +69,7 @@ BOOL IsMissionRunBoxKind(u32 kind) {
 #pragma thumb on
 
 void InitMissionRunBoxMapObject(Unk020ff97c *object) {
-    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
@@ -90,7 +90,7 @@ void InitMissionRunBoxMapObject(Unk020ff97c *object) {
     object->mCollisionMapObject.mMapObject.mPosStep.x = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.y = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.z = 0;
-    VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY, &object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1],
+    VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY, &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
                 &object->mCollisionMapObject.mMapObject.mPos, &object->mCollisionMapObject.mCollisionData.mCenterPos);
     object->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     object->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
@@ -104,11 +104,11 @@ void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     Vec3 *position;
 
     position = fbox->mBouncingItemObject.mItemObject.mPosPointer;
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[3].x = position->x >> 4;
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[3].y = position->y >> 4;
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[3].z = position->z >> 4;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].x = position->x >> 4;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].y = position->y >> 4;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].z = position->z >> 4;
     *out = fbox->mBouncingItemObject.mItemObject.mTransformMtx;
-    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &out->mUnk_00_m, &out->mUnk_00_m);
+    MTX_Concat33(&gItemFBoxRotation.mAxes, &out->mAxes, &out->mAxes);
 }
 
 void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
@@ -118,77 +118,75 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x80000) && GetChoisesSOpenDuringRace() == 0) {
         s32 row0Dot, row2Dot;
 
-        row0Dot = ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].x * fbox->mPushDirection.x +
-                   (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].z * fbox->mPushDirection.z) >>
-                  12;
+        row0Dot = DOT2_FIXED12(fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x, fbox->mPushDirection.x,
+                               fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z, fbox->mPushDirection.z);
         scaledX = MUL_FIXED12_NO_ROUND(fbox->mPushDirection.x, 0xa4);
-        row2Dot = ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].x * fbox->mPushDirection.x +
-                   (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].z * fbox->mPushDirection.z) >>
-                  12;
+        row2Dot = DOT2_FIXED12(fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x, fbox->mPushDirection.x,
+                               fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].z, fbox->mPushDirection.z);
         scaledZ = MUL_FIXED12_NO_ROUND(fbox->mPushDirection.z, 0xa4);
-        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].x =
-            (s32) (fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].x + scaledX);
-        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].z += scaledZ;
-        if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].x *
-                    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].x +
-                (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].y *
-                    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].y +
-                (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].z *
-                    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1].z >=
+        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].x =
+            (s32) (fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].x + scaledX);
+        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].z += scaledZ;
+        if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].x *
+                    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].x +
+                (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].y *
+                    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].y +
+                (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].z *
+                    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1],
-                                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1]);
+            Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+                                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1]);
         }
         if (row0Dot * row0Dot > row2Dot * row2Dot) {
-            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].x =
-                (s32) (fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].x - scaledX);
-            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0]);
-            if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].x *
-                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].x +
-                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].y *
-                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].y +
-                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].z *
-                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].z >=
+            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x =
+                (s32) (fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x - scaledX);
+            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].z -= scaledZ;
+            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
+            if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x *
+                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x +
+                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].y *
+                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].y +
+                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z *
+                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0],
-                                                   &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0]);
+                Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+                                                   &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
             }
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2]);
+            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
         } else {
-            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].x -= scaledX;
-            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2]);
-            if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].x *
-                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].x +
-                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].y *
-                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].y +
-                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].z *
-                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2].z >=
+            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x -= scaledX;
+            fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z -= scaledZ;
+            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
+            if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x *
+                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].x +
+                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].y *
+                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].y +
+                    (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].z *
+                        fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2],
-                                                   &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2]);
+                Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2],
+                                                   &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
             }
-            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2],
-                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0]);
+            Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2],
+                               &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
         }
     }
     position = fbox->mBouncingItemObject.mItemObject.mPosPointer;
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[3].x = position->x >> 4;
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[3].y = position->y >> 4;
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[3].z = position->z >> 4;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].x = position->x >> 4;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].y = position->y >> 4;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].z = position->z >> 4;
     *out = fbox->mBouncingItemObject.mItemObject.mTransformMtx;
 }
 
 void ResetItemFBox(ItemFBox *fbox) {
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00_m = gItemFBoxRotation.mUnk_00_m;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes = gItemFBoxRotation.mAxes;
     ResetPooledMapObject(fbox->mPooledMapObject);
     fbox->mPooledMapObject->mShadowMode = 2;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
@@ -207,8 +205,8 @@ void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
 u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     StartItemObjectSoundSource(&fbox->mBouncingItemObject.mItemObject);
     fbox->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= gItemObjectExcludedUntilCourseHitBit;
-    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00_m,
-                 &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00_m);
+    MTX_Concat33(&gItemFBoxRotation.mAxes, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,
+                 &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes);
     fbox->mPushDirection.x = 0;
     fbox->mPushDirection.y = 0;
     fbox->mPushDirection.z = 0;
@@ -269,21 +267,21 @@ s32 ItemFBoxFadeOutCallback(ItemFBox *fbox) {
 }
 
 void SetupItemFBoxAfterLaunch(ItemFBox *fbox) {
-    if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].x *
-                fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].x +
-            (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].y *
-                fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].y +
-            (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].z *
-                fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0].z >=
+    if ((s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x *
+                fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x +
+            (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].y *
+                fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].y +
+            (s64) fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z *
+                fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0],
-                                           &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0]);
+        Vec3NormalizeAndGetLengthUnchecked(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+                                           &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0]);
     }
-    Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[0],
-                       &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[1],
-                       &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00[2]);
-    MTX_Concat33(&gItemFBoxRotation.mUnk_00_m, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00_m,
-                 &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mUnk_00_m);
+    Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
+                       &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
+                       &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
+    MTX_Concat33(&gItemFBoxRotation.mAxes, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,
+                 &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes);
     if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
         fbox->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
     }

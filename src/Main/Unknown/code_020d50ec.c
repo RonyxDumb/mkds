@@ -214,9 +214,9 @@ void ResetRock(RockObject *rock) {
     rock->mOffsetZ = zero;
     rock->mMapObject.mPos.y = rock->mStartY;
     rock->mMapObject.mPosStep.y = 0x8000;
-    rock->mMapObject.mMatrix.mUnk_00[0] = data_021569d8;
-    rock->mMapObject.mMatrix.mUnk_00[1] = data_021569e4;
-    rock->mMapObject.mMatrix.mUnk_00[2] = data_021569f0;
+    rock->mMapObject.mMatrix.mRows[0] = data_021569d8;
+    rock->mMapObject.mMatrix.mRows[1] = data_021569e4;
+    rock->mMapObject.mMatrix.mRows[2] = data_021569f0;
     startScale = rock->mStartScale;
     bottomOffset = (startScale * 0x1e000) >> 12;
     FX_DivAsync(0x1000, bottomOffset);

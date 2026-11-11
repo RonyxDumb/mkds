@@ -181,7 +181,7 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     }
     InitItemKouraWCommon(item);
     // one 36-byte copy of the three vectors (three Vec3 assignments give 0x160 bytes against 0x150)
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00_m = itemInUse->mKartOrientation;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mAxes = itemInUse->mKartOrientation;
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
         item->mStateMachine.mNextState = 0;
         item->mStateMachine.mNextStateRequested = 1;
@@ -224,15 +224,15 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
 
     if (normal != NULL) {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(direction, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[2]);
+            Vec3NormalizeAndGetLengthUnchecked(direction, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2]);
         }
         smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xccd);
         smoothedDelta->y = MUL_FIXED12_NO_ROUND(smoothedDelta->y, 0xccd);
         smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xccd);
         VEC_MultAdd(0x3000, smoothedDelta, normal, &buf);
-        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[2], &buf);
+        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2], &buf);
         if (LENGTH_SQUARED(buf) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0]);
+            Vec3NormalizeAndGetLengthUnchecked(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
         }
     } else {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
@@ -241,7 +241,7 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         if (buf.x * buf.x + buf.z * buf.z < 0x112510) {
             return;
         }
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[2] = buf;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2] = buf;
         if (followDelta != 0) {
             smoothedDelta->x += MUL_FIXED12_NO_ROUND(direction->x - previousDirection->x - smoothedDelta->x, 0x148);
             smoothedDelta->z += MUL_FIXED12_NO_ROUND(direction->z - previousDirection->z - smoothedDelta->z, 0x148);
@@ -253,30 +253,30 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         v3.x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0x3000);
         v3.z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0x3000);
         buf = v3;
-        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[2],
-                           &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0]);
-        if ((s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].x *
-                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].x +
-                (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].y *
-                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].y +
-                (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].z *
-                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].z >=
+        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
+                           &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
+        if ((s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].x *
+                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].x +
+                (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].y *
+                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].y +
+                (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].z *
+                    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].z >=
             0x10) {
-            ok = Vec3NormalizeAndGetLengthUnchecked(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0],
-                                                    &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0]);
+            ok = Vec3NormalizeAndGetLengthUnchecked(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0],
+                                                    &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
         } else {
             ok = 0;
         }
         if (ok == 0) {
             Vec3 t = {0, 0, 0};
-            t.x = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].z;
-            t.z = -item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0].x;
-            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0] = t;
+            t.x = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].z;
+            t.z = -item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].x;
+            item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0] = t;
         }
     }
-    Vec3CrossUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[2],
-                       &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[0],
-                       &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[1]);
+    Vec3CrossUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
+                       &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0],
+                       &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[1]);
     *previousDirection = *direction;
 }
 
@@ -765,7 +765,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
                                            &directionQuaternion.mDirection);
     }
     QuaternionFromYAxisToVec3(&directionQuaternion.mDirection, &directionQuaternion.mQuaternion);
-    Matrix3x3FromQuaternion(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00_m,
+    Matrix3x3FromQuaternion(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mAxes,
                             &directionQuaternion.mQuaternion);
 }
 
@@ -797,9 +797,9 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
         Vec3 *position;
 
         position = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer;
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[3].x = position->x >> 4;
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[3].y = position->y >> 4;
-        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mUnk_00[3].z = position->z >> 4;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[3].x = position->x >> 4;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[3].y = position->y >> 4;
+        item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[3].z = position->z >> 4;
         matrix = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx;
     }
     DrawNsbmdWithMatrixAndMaxAlpha(gKouraW, matrix, &scale, 0x1f);

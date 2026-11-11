@@ -1336,18 +1336,18 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
                 kart->mAirTiltAngle = -5000;
             }
         }
-        MTX_RotAxis33(&m2.mUnk_00_m, &kart->mUnk_120, gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2],
+        MTX_RotAxis33(&m2.mAxes, &kart->mUnk_120, gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2],
                       gPairsByAngle[((u16) kart->mAirTiltAngle >> 4) * 2 + 1]);
-        MTX_MultVec33(&groundNormal, &m2.mUnk_00_m, &groundNormal);
+        MTX_MultVec33(&groundNormal, &m2.mAxes, &groundNormal);
         kart->mGroundNormal = groundNormal;
         AdvanceKartOrientation(kart, &groundNormal);
     }
 
     kart->mForwardSpeed = 0x1e000;
     t = kart->mForwardSpeed;
-    m2.mUnk_00[3].x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, t);
-    m2.mUnk_00[3].y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, t);
-    m2.mUnk_00[3].z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, t);
+    m2.mRows[3].x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, t);
+    m2.mRows[3].y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, t);
+    m2.mRows[3].z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, t);
     kart->mEasedTurnedForward = kart->mTurnedForward;
     if (distance < 0x3e8000) {
         t = MUL_FIXED12_NO_ROUND(distance, 0x29) + 0x14000;
@@ -1355,7 +1355,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             kart->mForwardSpeed = t;
         }
     }
-    kart->mVelocity = m2.mUnk_00[3];
+    kart->mVelocity = m2.mRows[3];
     VEC_Add(&kart->mPos, &kart->mVelocity, &kart->mPos);
 }
 

@@ -95,9 +95,9 @@ void SetupCameraBehindKart(void) {
     chaseCamera = gChaseCamera;
     Matrix3x3FromQuaternion(&axes, &kart->mUnk_e0);
     behindDistance = MUL_FIXED12_ROUNDED(-gDefaultFollowDistance, chaseCamera->mFollowDirectionSign);
-    offset.x = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].x, behindDistance);
-    offset.y = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].y, behindDistance);
-    offset.z = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].z, behindDistance);
+    offset.x = MUL_FIXED12_NO_ROUND(axes.mRows[2].x, behindDistance);
+    offset.y = MUL_FIXED12_NO_ROUND(axes.mRows[2].y, behindDistance);
+    offset.z = MUL_FIXED12_NO_ROUND(axes.mRows[2].z, behindDistance);
     VEC_Add(&kart->mPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = data_usa_02154fc4;
@@ -1079,9 +1079,9 @@ void ResetCameraBehind(const Vec3 *kartPos, void *quaternion) {
     chaseCamera = gChaseCamera;
     Matrix3x3FromQuaternion(&axes, quaternion);
     behindDistance = MUL_FIXED12_ROUNDED(-gDefaultFollowDistance, chaseCamera->mFollowDirectionSign);
-    offset.x = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].x, behindDistance);
-    offset.y = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].y, behindDistance);
-    offset.z = MUL_FIXED12_NO_ROUND(axes.mUnk_00[2].z, behindDistance);
+    offset.x = MUL_FIXED12_NO_ROUND(axes.mRows[2].x, behindDistance);
+    offset.y = MUL_FIXED12_NO_ROUND(axes.mRows[2].y, behindDistance);
+    offset.z = MUL_FIXED12_NO_ROUND(axes.mRows[2].z, behindDistance);
     VEC_Add(kartPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = data_usa_02154fc4;

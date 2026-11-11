@@ -36,8 +36,7 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
         (missionGateObject->mMapObject.mCourseMapRow->mUnk_0c.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
     MTX_RotY33_(&mtx, gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2],
                 gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33(&mtx, &missionGateObject->mMapObject.mMatrix.mUnk_00_m,
-                 &missionGateObject->mMapObject.mMatrix.mUnk_00_m);
+    MTX_Concat33(&mtx, &missionGateObject->mMapObject.mMatrix.mAxes, &missionGateObject->mMapObject.mMatrix.mAxes);
     sideExtentX = MUL_FIXED12_NO_ROUND(0xA000, missionGateObject->mMapObject.mScale.x);
     sideExtentY = MUL_FIXED12_NO_ROUND(0xF000, missionGateObject->mMapObject.mScale.y);
     saved = missionGateObject->mMapObject.mCourseMapRow->mUnk_28;
@@ -46,11 +45,10 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     missionGateObject->mPositiveSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);
     missionGateObject->mMapObject.mCourseMapRow->mUnk_28 = saved;
     VEC_MultAdd(-(missionGateObject->mMapObject.mExtent.x + sideExtentX),
-                &missionGateObject->mMapObject.mMatrix.mUnk_00[0], &missionGateObject->mMapObject.mPos,
+                &missionGateObject->mMapObject.mMatrix.mRows[0], &missionGateObject->mMapObject.mPos,
                 &missionGateObject->mNegativeSideObject->mPos);
-    VEC_MultAdd(missionGateObject->mMapObject.mExtent.x + sideExtentX,
-                &missionGateObject->mMapObject.mMatrix.mUnk_00[0], &missionGateObject->mMapObject.mPos,
-                &missionGateObject->mPositiveSideObject->mPos);
+    VEC_MultAdd(missionGateObject->mMapObject.mExtent.x + sideExtentX, &missionGateObject->mMapObject.mMatrix.mRows[0],
+                &missionGateObject->mMapObject.mPos, &missionGateObject->mPositiveSideObject->mPos);
     SetMapObjectExtentX(missionGateObject->mNegativeSideObject, sideExtentX);
     SetMapObjectExtentX(missionGateObject->mPositiveSideObject, sideExtentX);
     SetMapObjectExtentY(missionGateObject->mNegativeSideObject, sideExtentY);
@@ -88,9 +86,9 @@ void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject) 
 
     buf = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &buf, 1);
-    missionGateObject->mMapObject.mMatrix.mUnk_00[3].x = missionGateObject->mMapObject.mPos.x >> 4;
-    missionGateObject->mMapObject.mMatrix.mUnk_00[3].y = missionGateObject->mMapObject.mPos.y >> 4;
-    missionGateObject->mMapObject.mMatrix.mUnk_00[3].z = missionGateObject->mMapObject.mPos.z >> 4;
+    missionGateObject->mMapObject.mMatrix.mRows[3].x = missionGateObject->mMapObject.mPos.x >> 4;
+    missionGateObject->mMapObject.mMatrix.mRows[3].y = missionGateObject->mMapObject.mPos.y >> 4;
+    missionGateObject->mMapObject.mMatrix.mRows[3].z = missionGateObject->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &missionGateObject->mMapObject.mMatrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &missionGateObject->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->mUnk_28);

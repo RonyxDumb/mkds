@@ -739,9 +739,9 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
             StepIntTowardTarget(mapObject->mScaleTarget, mapObject->mScalePerCall, mapObject->mUnk_000.mScale.x);
     }
     if (mapObject->mCollisionShape == 1) {
-        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mUnk_00_m, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2],
+        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mAxes, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2],
                     gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]);
-        MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mUnk_00_m, &mapObject->mPosWithOffset);
+        MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mAxes, &mapObject->mPosWithOffset);
         VEC_Add(&mapObject->mPosWithOffset, &mapObject->mUnk_000.mPos, &mapObject->mPosWithOffset);
     } else {
         mapObject->mPosWithOffset.x = mapObject->mUnk_000.mPos.x + mapObject->mOffset.x;
@@ -963,12 +963,12 @@ s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCe
             return 0;
         case 2:
             return ComputeSphereHitOnRotatedCylinder(sphereCenter, &mapObject->mPosWithOffset,
-                                                     &mapObject->mUnk_000.mMatrix.mUnk_00[0],
+                                                     &mapObject->mUnk_000.mMatrix.mRows[0],
                                                      mapObject->mCollisionExtent.x, mapObject->mCollisionExtent.y,
                                                      mapObject->mCollisionExtent.y, sphereRadius, overlapOffset);
         case 1:
             return ComputeSphereHitOnRotatedBox(sphereCenter, &mapObject->mPosWithOffset,
-                                                &mapObject->mUnk_000.mMatrix.mUnk_00[0], &mapObject->mCollisionExtent,
+                                                &mapObject->mUnk_000.mMatrix.mRows[0], &mapObject->mCollisionExtent,
                                                 &mapObject->mCollisionExtent, sphereRadius, overlapOffset);
         default:
             return 0;

@@ -169,10 +169,10 @@ void DrawItemGesso(ItemGesso *gesso, s32 param_2, NsbmdModel *model) {
         d = -d;
     }
     d = 0x1000 - MUL_FIXED12_NO_ROUND(d, 0xa4);
-    matrix.mUnk_00[1].x = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].x, d);
-    matrix.mUnk_00[1].y = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].y, d);
-    matrix.mUnk_00[1].z = MUL_FIXED12_NO_ROUND(matrix.mUnk_00[1].z, d);
-    VEC_MultAdd(gesso->mShear, &matrix.mUnk_00[0], &matrix.mUnk_00[1], &matrix.mUnk_00[1]);
+    matrix.mRows[1].x = MUL_FIXED12_NO_ROUND(matrix.mRows[1].x, d);
+    matrix.mRows[1].y = MUL_FIXED12_NO_ROUND(matrix.mRows[1].y, d);
+    matrix.mRows[1].z = MUL_FIXED12_NO_ROUND(matrix.mRows[1].z, d);
+    VEC_MultAdd(gesso->mShear, &matrix.mRows[0], &matrix.mRows[1], &matrix.mRows[1]);
     scale.x = MUL_FIXED12_NO_ROUND(gesso->mScaleX, gesso->mItemObject.mScale.x);
     scale.y = MUL_FIXED12_NO_ROUND(gesso->mUnk_184.x, gesso->mItemObject.mScale.y);
     scale.z = gesso->mItemObject.mScale.z;

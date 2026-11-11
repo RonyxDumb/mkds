@@ -55,12 +55,12 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     MTX_RotZ43_(&rotationMatrixZ, gPairsByAngle[(angleZ >> 4) * 2], gPairsByAngle[(angleZ >> 4) * 2 + 1]);
     MTX_Concat43(&rotationMatrixX, &rotationMatrixZ, &rotationMatrix);
     MTX_Concat43(&rotationMatrixY, &rotationMatrix, &rotationMatrix);
-    negatedFirstAxisX = -rotationMatrix.mUnk_00[0].x;
-    negatedFirstAxisY = -rotationMatrix.mUnk_00[0].y;
-    negatedFirstAxisZ = -rotationMatrix.mUnk_00[0].z;
-    negatedThirdAxisX = -rotationMatrix.mUnk_00[2].x;
-    negatedThirdAxisY = -rotationMatrix.mUnk_00[2].y;
-    negatedThirdAxisZ = -rotationMatrix.mUnk_00[2].z;
+    negatedFirstAxisX = -rotationMatrix.mRows[0].x;
+    negatedFirstAxisY = -rotationMatrix.mRows[0].y;
+    negatedFirstAxisZ = -rotationMatrix.mRows[0].z;
+    negatedThirdAxisX = -rotationMatrix.mRows[2].x;
+    negatedThirdAxisY = -rotationMatrix.mRows[2].y;
+    negatedThirdAxisZ = -rotationMatrix.mRows[2].z;
     outPos->x = placement->mPos.x + MUL_FIXED12_ROUNDED(negatedFirstAxisX, firstAxisOffset) +
                 MUL_FIXED12_ROUNDED(negatedThirdAxisX, thirdAxisOffset);
     outPos->y = placement->mPos.y + MUL_FIXED12_ROUNDED(negatedFirstAxisY, firstAxisOffset) +

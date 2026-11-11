@@ -337,15 +337,15 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
             G3_MultMtx43(invMtx + jntIdx * 0x54);
         }
         if (i != 0) {
-            sum.nrm.mUnk_00[0].x += (weight * vec[0]) >> 12;
-            sum.nrm.mUnk_00[0].y += (weight * vec[1]) >> 12;
-            sum.nrm.mUnk_00[0].z += (weight * vec[2]) >> 12;
-            sum.nrm.mUnk_00[1].x += (weight * vec[3]) >> 12;
-            sum.nrm.mUnk_00[1].y += (weight * vec[4]) >> 12;
-            sum.nrm.mUnk_00[1].z += (weight * vec[5]) >> 12;
-            sum.nrm.mUnk_00[2].x += (weight * vec[6]) >> 12;
-            sum.nrm.mUnk_00[2].y += (weight * vec[7]) >> 12;
-            sum.nrm.mUnk_00[2].z += (weight * vec[8]) >> 12;
+            sum.nrm.mRows[0].x += (weight * vec[0]) >> 12;
+            sum.nrm.mRows[0].y += (weight * vec[1]) >> 12;
+            sum.nrm.mRows[0].z += (weight * vec[2]) >> 12;
+            sum.nrm.mRows[1].x += (weight * vec[3]) >> 12;
+            sum.nrm.mRows[1].y += (weight * vec[4]) >> 12;
+            sum.nrm.mRows[1].z += (weight * vec[5]) >> 12;
+            sum.nrm.mRows[2].x += (weight * vec[6]) >> 12;
+            sum.nrm.mRows[2].y += (weight * vec[7]) >> 12;
+            sum.nrm.mRows[2].z += (weight * vec[8]) >> 12;
         }
         if (!cached) {
             while (G3X_GetClipMtx(clip) != 0) {
@@ -355,33 +355,33 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
         }
         vec = data_02171944[jntIdx];
         weight = p[2] << 4;
-        sum.pos.mUnk_00[0].x += (weight * clip[0]) >> 12;
-        sum.pos.mUnk_00[0].y += (weight * clip[1]) >> 12;
-        sum.pos.mUnk_00[0].z += (weight * clip[2]) >> 12;
-        sum.pos.mUnk_00[1].x += (weight * clip[4]) >> 12;
-        sum.pos.mUnk_00[1].y += (weight * clip[5]) >> 12;
-        sum.pos.mUnk_00[1].z += (weight * clip[6]) >> 12;
-        sum.pos.mUnk_00[2].x += (weight * clip[8]) >> 12;
-        sum.pos.mUnk_00[2].y += (weight * clip[9]) >> 12;
-        sum.pos.mUnk_00[2].z += (weight * clip[10]) >> 12;
-        sum.pos.mUnk_00[3].x += (weight * clip[12]) >> 12;
-        sum.pos.mUnk_00[3].y += (weight * clip[13]) >> 12;
-        sum.pos.mUnk_00[3].z += (weight * clip[14]) >> 12;
+        sum.pos.mRows[0].x += (weight * clip[0]) >> 12;
+        sum.pos.mRows[0].y += (weight * clip[1]) >> 12;
+        sum.pos.mRows[0].z += (weight * clip[2]) >> 12;
+        sum.pos.mRows[1].x += (weight * clip[4]) >> 12;
+        sum.pos.mRows[1].y += (weight * clip[5]) >> 12;
+        sum.pos.mRows[1].z += (weight * clip[6]) >> 12;
+        sum.pos.mRows[2].x += (weight * clip[8]) >> 12;
+        sum.pos.mRows[2].y += (weight * clip[9]) >> 12;
+        sum.pos.mRows[2].z += (weight * clip[10]) >> 12;
+        sum.pos.mRows[3].x += (weight * clip[12]) >> 12;
+        sum.pos.mRows[3].y += (weight * clip[13]) >> 12;
+        sum.pos.mRows[3].z += (weight * clip[14]) >> 12;
         p += 3;
         if (!cached) {
             while (G3X_GetVectorMtx(vec) != 0) {
             }
         }
     }
-    sum.nrm.mUnk_00[0].x += (weight * vec[0]) >> 12;
-    sum.nrm.mUnk_00[0].y += (weight * vec[1]) >> 12;
-    sum.nrm.mUnk_00[0].z += (weight * vec[2]) >> 12;
-    sum.nrm.mUnk_00[1].x += (weight * vec[3]) >> 12;
-    sum.nrm.mUnk_00[1].y += (weight * vec[4]) >> 12;
-    sum.nrm.mUnk_00[1].z += (weight * vec[5]) >> 12;
-    sum.nrm.mUnk_00[2].x += (weight * vec[6]) >> 12;
-    sum.nrm.mUnk_00[2].y += (weight * vec[7]) >> 12;
-    sum.nrm.mUnk_00[2].z += (weight * vec[8]) >> 12;
+    sum.nrm.mRows[0].x += (weight * vec[0]) >> 12;
+    sum.nrm.mRows[0].y += (weight * vec[1]) >> 12;
+    sum.nrm.mRows[0].z += (weight * vec[2]) >> 12;
+    sum.nrm.mRows[1].x += (weight * vec[3]) >> 12;
+    sum.nrm.mRows[1].y += (weight * vec[4]) >> 12;
+    sum.nrm.mRows[1].z += (weight * vec[5]) >> 12;
+    sum.nrm.mRows[2].x += (weight * vec[6]) >> 12;
+    sum.nrm.mRows[2].y += (weight * vec[7]) >> 12;
+    sum.nrm.mRows[2].z += (weight * vec[8]) >> 12;
     G3_LoadMtx43(&sum.nrm);
     reg_G3_MTX_MODE = 1;
     G3_LoadMtx43(&sum.pos);
@@ -446,10 +446,10 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
         }
         width = state->mMatAnmResult->mUnk_2c;
         height = state->mMatAnmResult->mUnk_2e;
-        nrm.mUnk_00[3].x = width << 15;
-        nrm.mUnk_00[3].y = -height << 15;
-        nrm.mUnk_00[3].z = 0x10000;
-        NNS_G3dGeBufferOP_N(0x1b, &nrm.mUnk_00[3], 3);
+        nrm.mRows[3].x = width << 15;
+        nrm.mRows[3].y = -height << 15;
+        nrm.mRows[3].z = 0x10000;
+        NNS_G3dGeBufferOP_N(0x1b, &nrm.mRows[3], 3);
         texCoord = (u16) (s16) (width << 3) | ((u16) (s16) (height << 3) << 16);
         NNS_G3dGeBufferOP_N(0x22, &texCoord, 1);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &state->mResMat->mDict, state->mResMat->mDict.mOfsEntry);
@@ -681,24 +681,24 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
                 result->mTrans.z += MUL_FIXED12_NO_ROUND(weight, r.mTrans.z);
             }
             if (!(r.mFlag & 2)) {
-                result->mRot.mUnk_00[0].x += (weight * r.mRot.mUnk_00[0].x) >> 12;
-                result->mRot.mUnk_00[0].y += (weight * r.mRot.mUnk_00[0].y) >> 12;
-                result->mRot.mUnk_00[0].z += (weight * r.mRot.mUnk_00[0].z) >> 12;
-                result->mRot.mUnk_00[1].x += (weight * r.mRot.mUnk_00[1].x) >> 12;
-                result->mRot.mUnk_00[1].y += (weight * r.mRot.mUnk_00[1].y) >> 12;
-                result->mRot.mUnk_00[1].z += (weight * r.mRot.mUnk_00[1].z) >> 12;
+                result->mRot.mRows[0].x += (weight * r.mRot.mRows[0].x) >> 12;
+                result->mRot.mRows[0].y += (weight * r.mRot.mRows[0].y) >> 12;
+                result->mRot.mRows[0].z += (weight * r.mRot.mRows[0].z) >> 12;
+                result->mRot.mRows[1].x += (weight * r.mRot.mRows[1].x) >> 12;
+                result->mRot.mRows[1].y += (weight * r.mRot.mRows[1].y) >> 12;
+                result->mRot.mRows[1].z += (weight * r.mRot.mRows[1].z) >> 12;
             } else {
-                result->mRot.mUnk_00[0].x += weight;
-                result->mRot.mUnk_00[1].y += weight;
+                result->mRot.mRows[0].x += weight;
+                result->mRot.mRows[1].y += weight;
             }
             result->mFlag &= r.mFlag;
         }
         anmObj = anmObj->mNext;
     } while (anmObj != 0);
-    VEC_CrossProduct(&result->mRot.mUnk_00[0], &result->mRot.mUnk_00[1], &result->mRot.mUnk_00[2]);
-    VEC_Normalize(&result->mRot.mUnk_00[0], &result->mRot.mUnk_00[0]);
-    VEC_Normalize(&result->mRot.mUnk_00[2], &result->mRot.mUnk_00[2]);
-    VEC_CrossProduct(&result->mRot.mUnk_00[2], &result->mRot.mUnk_00[0], &result->mRot.mUnk_00[1]);
+    VEC_CrossProduct(&result->mRot.mRows[0], &result->mRot.mRows[1], &result->mRot.mRows[2]);
+    VEC_Normalize(&result->mRot.mRows[0], &result->mRot.mRows[0]);
+    VEC_Normalize(&result->mRot.mRows[2], &result->mRot.mRows[2]);
+    VEC_CrossProduct(&result->mRot.mRows[2], &result->mRot.mRows[0], &result->mRot.mRows[1]);
     return 1;
 }
 

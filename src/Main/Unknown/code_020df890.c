@@ -102,7 +102,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     InitGroupFollower(&koopaBlock->mFollower, courseRow, koopaBlock->mFollowSpeed);
     koopaBlock->mPauseTimer = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mPrevMatrix =
-        koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
+        koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;

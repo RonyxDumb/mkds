@@ -39,18 +39,18 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
         VEC_Add(&object->mItemObject.mVelocity, &inUse->mKart->mPointMotion, &object->mItemObject.mVelocity);
     }
     if (inUse->mKart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
-        dot = VEC_DotProduct(&inUse->mKartOrientation.mUnk_00[1], &object->mItemObject.mVelocity);
+        dot = VEC_DotProduct(&inUse->mKartOrientation.mRows[1], &object->mItemObject.mVelocity);
         {
             s32 alongX, alongY, alongZ;
 
-            alongX = MUL_FIXED12_NO_ROUND(inUse->mKartOrientation.mUnk_00[1].x, dot);
-            alongY = MUL_FIXED12_NO_ROUND(inUse->mKartOrientation.mUnk_00[1].y, dot);
-            alongZ = MUL_FIXED12_NO_ROUND(inUse->mKartOrientation.mUnk_00[1].z, dot);
+            alongX = MUL_FIXED12_NO_ROUND(inUse->mKartOrientation.mRows[1].x, dot);
+            alongY = MUL_FIXED12_NO_ROUND(inUse->mKartOrientation.mRows[1].y, dot);
+            alongZ = MUL_FIXED12_NO_ROUND(inUse->mKartOrientation.mRows[1].z, dot);
             object->mItemObject.mVelocity.x = (s32) (object->mItemObject.mVelocity.x - alongX);
             object->mItemObject.mVelocity.y -= alongY;
             object->mItemObject.mVelocity.z -= alongZ;
         }
-        VEC_MultAdd(-0x1000, &inUse->mKartOrientation.mUnk_00[1], &object->mItemObject.mVelocity,
+        VEC_MultAdd(-0x1000, &inUse->mKartOrientation.mRows[1], &object->mItemObject.mVelocity,
                     &object->mItemObject.mVelocity);
     }
     if (object->mItemObject.mScale.z < 0xccd) {
@@ -59,7 +59,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
         object->mItemObject.mScale.z = 0xccd;
         if (throwForward != 0) {
             object->mItemObject.mPos = inUse->mKart->mCollisionCenter;
-            VEC_MultAdd(object->mItemObject.mScale.z * 10, &inUse->mKartOrientation.mUnk_00[2], &object->mItemObject.mPos,
+            VEC_MultAdd(object->mItemObject.mScale.z * 10, &inUse->mKartOrientation.mRows[2], &object->mItemObject.mPos,
                         &object->mItemObject.mPos);
         }
     }

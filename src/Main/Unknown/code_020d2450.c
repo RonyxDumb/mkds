@@ -12,7 +12,7 @@ void RefreshMapObjectMatrixFromHitNormal(MapObject *mapObject) {
                                   NULL, NULL, NULL);
     if (hit != 0) {
         QuaternionFromYAxisToVec3(&normal, &quaternion);
-        Matrix3x3FromQuaternion(&mapObject->mMatrix.mUnk_00_m, &quaternion);
+        Matrix3x3FromQuaternion(&mapObject->mMatrix.mAxes, &quaternion);
         return;
     }
 }

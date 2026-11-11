@@ -86,14 +86,14 @@ void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
             wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
         }
     }
-    wanwan->mMapObject.mMatrix.mUnk_00[3].x = wanwan->mMapObject.mPos.x >> 4;
-    wanwan->mMapObject.mMatrix.mUnk_00[3].y = wanwan->mMapObject.mPos.y >> 4;
-    wanwan->mMapObject.mMatrix.mUnk_00[3].z = wanwan->mMapObject.mPos.z >> 4;
+    wanwan->mMapObject.mMatrix.mRows[3].x = wanwan->mMapObject.mPos.x >> 4;
+    wanwan->mMapObject.mMatrix.mRows[3].y = wanwan->mMapObject.mPos.y >> 4;
+    wanwan->mMapObject.mMatrix.mRows[3].z = wanwan->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gWanwan, &wanwan->mMapObject.mMatrix, &wanwan->mMapObject.mScale, maxAlpha);
-    Matrix3x3FromQuaternion(&shadowMatrix.mUnk_00_m, &wanwan->mYawQuaternion);
-    shadowMatrix.mUnk_00[3].x = wanwan->mMapObject.mPos.x >> 4;
-    shadowMatrix.mUnk_00[3].y = wanwan->mMapObject.mPos.y >> 4;
-    shadowMatrix.mUnk_00[3].z = wanwan->mMapObject.mPos.z >> 4;
+    Matrix3x3FromQuaternion(&shadowMatrix.mAxes, &wanwan->mYawQuaternion);
+    shadowMatrix.mRows[3].x = wanwan->mMapObject.mPos.x >> 4;
+    shadowMatrix.mRows[3].y = wanwan->mMapObject.mPos.y >> 4;
+    shadowMatrix.mRows[3].z = wanwan->mMapObject.mPos.z >> 4;
     DrawShadowWithMaxAlpha(gWanwanRockShadow, &shadowMatrix, &wanwan->mMapObject.mScale, maxAlpha);
 }
 
@@ -229,7 +229,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     QuaternionBlendTowardNearerSign(&wanwan->mOrientation, &targetOrientation, &wanwan->mOrientation,
                                     wanwan->mOrientationBlendAmount);
     QuaternionNormalizeUnlessNearOne(&wanwan->mOrientation, &wanwan->mOrientation);
-    Matrix3x3FromQuaternion(&wanwan->mMapObject.mMatrix.mUnk_00_m, &wanwan->mOrientation);
+    Matrix3x3FromQuaternion(&wanwan->mMapObject.mMatrix.mAxes, &wanwan->mOrientation);
     if (wanwan->mMapObject.mPos.y >= 0) {
         return;
     }
@@ -268,11 +268,11 @@ void EnterWanwanState0(Wanwan *wanwan) {
     wanwan->mCurvePoints[0] = NULL;
     *wanwan->mCurvePoints[1] = wanwan->mMapObject.mPos;
     *wanwan->mCurvePoints[2] = *wanwan->mCurvePoints[1];
-    wanwan->mCurvePoints[2]->x += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[2].x, wanwan->mUnk_f0);
-    wanwan->mCurvePoints[2]->z += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[2].z, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[2]->x += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mRows[2].x, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[2]->z += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mRows[2].z, wanwan->mUnk_f0);
     *wanwan->mCurvePoints[3] = *wanwan->mCurvePoints[2];
-    wanwan->mCurvePoints[3]->x += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[0].x, wanwan->mUnk_f0);
-    wanwan->mCurvePoints[3]->z += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mUnk_00[0].z, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[3]->x += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mRows[0].x, wanwan->mUnk_f0);
+    wanwan->mCurvePoints[3]->z += MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mMatrix.mRows[0].z, wanwan->mUnk_f0);
     InitSegmentProgress(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints, 0x1000);
     wanwan->mCurvePoints[0] = savedPoint;
 }

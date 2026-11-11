@@ -145,7 +145,7 @@ void DrawCrab(void *a, Crab *crab) {
 
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    BuildYAxisMatrix(&crab->mMapObject.mMatrix.mUnk_00[1]);
+    BuildYAxisMatrix(&crab->mMapObject.mMatrix.mRows[1]);
     NNS_G3dGeBufferOP_N(0x19, SetYAxisMatrixPos(&crab->mMapObject.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
         MTX_RotZ33_(&crabRotation, gPairsByAngle[(crab->mRotateZAngle >> 4) * 2],
@@ -276,17 +276,17 @@ void UpdateCrab(void *a, Crab *crab) {
             func_0209a7dc_inline(&crab->mHandWobble);
             GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mMapObject.mPos);
             v = *GetGroupFollowerSegmentUp(&crab->mFollower);
-            VEC_Subtract(&v, &crab->mMapObject.mMatrix.mUnk_00[1], &v);
+            VEC_Subtract(&v, &crab->mMapObject.mMatrix.mRows[1], &v);
             v.x = MUL_FIXED12_NO_ROUND(v.x, 0x800);
             v.y = MUL_FIXED12_NO_ROUND(v.y, 0x800);
             v.z = MUL_FIXED12_NO_ROUND(v.z, 0x800);
-            VEC_Add(&crab->mMapObject.mMatrix.mUnk_00[1], &v, &crab->mMapObject.mMatrix.mUnk_00[1]);
-            if ((s64) crab->mMapObject.mMatrix.mUnk_00[1].x * crab->mMapObject.mMatrix.mUnk_00[1].x +
-                    (s64) crab->mMapObject.mMatrix.mUnk_00[1].y * crab->mMapObject.mMatrix.mUnk_00[1].y +
-                    (s64) crab->mMapObject.mMatrix.mUnk_00[1].z * crab->mMapObject.mMatrix.mUnk_00[1].z >=
+            VEC_Add(&crab->mMapObject.mMatrix.mRows[1], &v, &crab->mMapObject.mMatrix.mRows[1]);
+            if ((s64) crab->mMapObject.mMatrix.mRows[1].x * crab->mMapObject.mMatrix.mRows[1].x +
+                    (s64) crab->mMapObject.mMatrix.mRows[1].y * crab->mMapObject.mMatrix.mRows[1].y +
+                    (s64) crab->mMapObject.mMatrix.mRows[1].z * crab->mMapObject.mMatrix.mRows[1].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&crab->mMapObject.mMatrix.mUnk_00[1],
-                                                   &crab->mMapObject.mMatrix.mUnk_00[1]);
+                Vec3NormalizeAndGetLengthUnchecked(&crab->mMapObject.mMatrix.mRows[1],
+                                                   &crab->mMapObject.mMatrix.mRows[1]);
             }
             break;
         case 2:

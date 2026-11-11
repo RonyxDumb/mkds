@@ -18,9 +18,9 @@ void GetKartUp(const Kart *kart, Vec3 *upDirection) {
     const MtxFx43 *matrix;
 
     matrix = &kart->mUnk_120_m;
-    upDirection->x = matrix->mUnk_00[1].x;
-    upDirection->y = matrix->mUnk_00[1].y;
-    upDirection->z = matrix->mUnk_00[1].z;
+    upDirection->x = matrix->mRows[1].x;
+    upDirection->y = matrix->mRows[1].y;
+    upDirection->z = matrix->mRows[1].z;
 }
 
 // Copies row 2 of the matrix at 0x120 (mUnk_120_m), the kart's forward direction, to the out vector. The camera follows
@@ -30,9 +30,9 @@ void GetKartForward(const Kart *kart, Vec3 *forward) {
     const MtxFx43 *matrix;
 
     matrix = &kart->mUnk_120_m;
-    forward->x = matrix->mUnk_00[2].x;
-    forward->y = matrix->mUnk_00[2].y;
-    forward->z = matrix->mUnk_00[2].z;
+    forward->x = matrix->mRows[2].x;
+    forward->y = matrix->mRows[2].y;
+    forward->z = matrix->mRows[2].z;
 }
 
 void CallKartSlot6AndToggleFlag(Kart *kart) {
@@ -84,9 +84,9 @@ void PlaceKartKillerEffectCallback(Unk0206390c *renderState) {
     NNS_G3dGetCurrentMtx(&positionMatrix, &c);
     MTX_Inverse43(currentViewMatrix, &inverseViewMatrix);
     MTX_Concat43(&positionMatrix, &inverseViewMatrix, &positionMatrix);
-    MTX_Concat33(&c, &inverseViewMatrix.mUnk_00_m, &c);
-    effectPosition = positionMatrix.mUnk_00[3];
-    offset = c.mUnk_00[2];
+    MTX_Concat33(&c, &inverseViewMatrix.mAxes, &c);
+    effectPosition = positionMatrix.mRows[3];
+    offset = c.mRows[2];
     kart = GetKart(killerItemKartIndex);
     offsetScale = MUL_FIXED12_ROUNDED(kart->mRadiusFactor, -0xd000) >> 4;
     offset.x = MUL_FIXED12_NO_ROUND(offset.x, offsetScale);

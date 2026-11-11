@@ -810,33 +810,33 @@ void SPLUtil_RotateXYZ(s32 sinValue, s32 cosValue, MtxFx43 *mtx) {
     y = t1 + t2;
     z = t1 - t2;
     x = t1 + cosValue;
-    mtx->mUnk_00[0].x = x;
-    mtx->mUnk_00[1].x = y;
-    mtx->mUnk_00[2].x = z;
-    mtx->mUnk_00[3].x = 0;
-    mtx->mUnk_00[0].y = z;
-    mtx->mUnk_00[1].y = x;
-    mtx->mUnk_00[2].y = y;
-    mtx->mUnk_00[3].y = 0;
-    mtx->mUnk_00[0].z = y;
-    mtx->mUnk_00[1].z = z;
-    mtx->mUnk_00[2].z = x;
-    mtx->mUnk_00[3].z = 0;
+    mtx->mRows[0].x = x;
+    mtx->mRows[1].x = y;
+    mtx->mRows[2].x = z;
+    mtx->mRows[3].x = 0;
+    mtx->mRows[0].y = z;
+    mtx->mRows[1].y = x;
+    mtx->mRows[2].y = y;
+    mtx->mRows[3].y = 0;
+    mtx->mRows[0].z = y;
+    mtx->mRows[1].z = z;
+    mtx->mRows[2].z = x;
+    mtx->mRows[3].z = 0;
 }
 
 void SPLUtil_RotateY(s32 sinValue, s32 cosValue, MtxFx43 *mtx) {
-    mtx->mUnk_00[0].x = cosValue;
-    mtx->mUnk_00[1].x = 0;
-    mtx->mUnk_00[2].x = sinValue;
-    mtx->mUnk_00[3].x = 0;
-    mtx->mUnk_00[0].y = 0;
-    mtx->mUnk_00[1].y = 0x1000;
-    mtx->mUnk_00[2].y = 0;
-    mtx->mUnk_00[3].y = 0;
-    mtx->mUnk_00[0].z = -sinValue;
-    mtx->mUnk_00[1].z = 0;
-    mtx->mUnk_00[2].z = cosValue;
-    mtx->mUnk_00[3].z = 0;
+    mtx->mRows[0].x = cosValue;
+    mtx->mRows[1].x = 0;
+    mtx->mRows[2].x = sinValue;
+    mtx->mRows[3].x = 0;
+    mtx->mRows[0].y = 0;
+    mtx->mRows[1].y = 0x1000;
+    mtx->mRows[2].y = 0;
+    mtx->mRows[3].y = 0;
+    mtx->mRows[0].z = -sinValue;
+    mtx->mRows[1].z = 0;
+    mtx->mRows[2].z = cosValue;
+    mtx->mRows[3].z = 0;
 }
 
 void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -886,18 +886,18 @@ void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&t, q, &t);
         t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
         t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = MUL_FIXED12_ROUNDED(t1, f0);
-        m.mUnk_00[0].y = MUL_FIXED12_ROUNDED(t0, f0);
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
-        m.mUnk_00[1].y = MUL_FIXED12_ROUNDED(t1, f1);
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
+        m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
+        m.mRows[0].z = 0;
+        m.mRows[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
+        m.mRows[1].y = MUL_FIXED12_ROUNDED(t1, f1);
+        m.mRows[1].z = 0;
+        m.mRows[2].x = 0;
+        m.mRows[2].y = 0;
+        m.mRows[2].z = 0x1000;
+        m.mRows[3].x = t.x;
+        m.mRows[3].y = t.y;
+        m.mRows[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&m);
     } else {
@@ -907,18 +907,18 @@ void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&t, q, &t);
         t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
         t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = MUL_FIXED12_ROUNDED(t1, f0);
-        m.mUnk_00[0].y = MUL_FIXED12_ROUNDED(t0, f0);
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
-        m.mUnk_00[1].y = MUL_FIXED12_ROUNDED(t1, f1);
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
+        m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
+        m.mRows[0].z = 0;
+        m.mRows[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
+        m.mRows[1].y = MUL_FIXED12_ROUNDED(t1, f1);
+        m.mRows[1].z = 0;
+        m.mRows[2].x = 0;
+        m.mRows[2].y = 0;
+        m.mRows[2].z = 0x1000;
+        m.mRows[3].x = t.x;
+        m.mRows[3].y = t.y;
+        m.mRows[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
         z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -980,18 +980,18 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&t, q, &t);
         t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
         t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = MUL_FIXED12_ROUNDED(t1, f0);
-        m.mUnk_00[0].y = MUL_FIXED12_ROUNDED(t0, f0);
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
-        m.mUnk_00[1].y = MUL_FIXED12_ROUNDED(t1, f1);
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
+        m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
+        m.mRows[0].z = 0;
+        m.mRows[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
+        m.mRows[1].y = MUL_FIXED12_ROUNDED(t1, f1);
+        m.mRows[1].z = 0;
+        m.mRows[2].x = 0;
+        m.mRows[2].y = 0;
+        m.mRows[2].z = 0x1000;
+        m.mRows[3].x = t.x;
+        m.mRows[3].y = t.y;
+        m.mRows[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&m);
     } else {
@@ -1001,18 +1001,18 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&t, q, &t);
         t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
         t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = MUL_FIXED12_ROUNDED(t1, f0);
-        m.mUnk_00[0].y = MUL_FIXED12_ROUNDED(t0, f0);
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
-        m.mUnk_00[1].y = MUL_FIXED12_ROUNDED(t1, f1);
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        m.mRows[0].x = MUL_FIXED12_ROUNDED(t1, f0);
+        m.mRows[0].y = MUL_FIXED12_ROUNDED(t0, f0);
+        m.mRows[0].z = 0;
+        m.mRows[1].x = MUL_FIXED12_ROUNDED(-t0, f1);
+        m.mRows[1].y = MUL_FIXED12_ROUNDED(t1, f1);
+        m.mRows[1].z = 0;
+        m.mRows[2].x = 0;
+        m.mRows[2].y = 0;
+        m.mRows[2].z = 0x1000;
+        m.mRows[3].x = t.x;
+        m.mRows[3].y = t.y;
+        m.mRows[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
         z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1077,9 +1077,9 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
         pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+        col.x = m->mRows[0].z;
+        col.y = m->mRows[1].z;
+        col.z = m->mRows[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1090,25 +1090,25 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);
-        t = MUL_FIXED12_ROUNDED(c.x, -m->mUnk_00[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mUnk_00[1].z) +
-            MUL_FIXED12_ROUNDED(c.z, -m->mUnk_00[2].z);
+        t = MUL_FIXED12_ROUNDED(c.x, -m->mRows[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mRows[1].z) +
+            MUL_FIXED12_ROUNDED(c.z, -m->mRows[2].z);
         if (t < 0) {
             t = -t;
         }
         u = MUL_FIXED12_ROUNDED(0x1000 - t, (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8);
         x = MUL_FIXED12_ROUNDED(w, u + 0x1000);
-        buf.mUnk_00[0].x = MUL_FIXED12_ROUNDED(v.x, h);
-        buf.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
-        buf.mUnk_00[2].x = 0;
-        buf.mUnk_00[3].x = pos.x;
-        buf.mUnk_00[0].y = MUL_FIXED12_ROUNDED(v.y, h);
-        buf.mUnk_00[1].y = MUL_FIXED12_ROUNDED(v.x, x);
-        buf.mUnk_00[2].y = 0;
-        buf.mUnk_00[3].y = pos.y;
-        buf.mUnk_00[0].z = 0;
-        buf.mUnk_00[1].z = 0;
-        buf.mUnk_00[2].z = 0x1000;
-        buf.mUnk_00[3].z = pos.z;
+        buf.mRows[0].x = MUL_FIXED12_ROUNDED(v.x, h);
+        buf.mRows[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
+        buf.mRows[2].x = 0;
+        buf.mRows[3].x = pos.x;
+        buf.mRows[0].y = MUL_FIXED12_ROUNDED(v.y, h);
+        buf.mRows[1].y = MUL_FIXED12_ROUNDED(v.x, x);
+        buf.mRows[2].y = 0;
+        buf.mRows[3].y = pos.y;
+        buf.mRows[0].z = 0;
+        buf.mRows[1].z = 0;
+        buf.mRows[2].z = 0x1000;
+        buf.mRows[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&buf);
     } else {
@@ -1116,9 +1116,9 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
         pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+        col.x = m->mRows[0].z;
+        col.y = m->mRows[1].z;
+        col.z = m->mRows[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1129,25 +1129,25 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);
-        t = MUL_FIXED12_ROUNDED(c.x, -m->mUnk_00[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mUnk_00[1].z) +
-            MUL_FIXED12_ROUNDED(c.z, -m->mUnk_00[2].z);
+        t = MUL_FIXED12_ROUNDED(c.x, -m->mRows[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mRows[1].z) +
+            MUL_FIXED12_ROUNDED(c.z, -m->mRows[2].z);
         if (t < 0) {
             t = -t;
         }
         u = MUL_FIXED12_ROUNDED(0x1000 - t, (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8);
         x = MUL_FIXED12_ROUNDED(w, u + 0x1000);
-        buf.mUnk_00[0].x = MUL_FIXED12_ROUNDED(v.x, h);
-        buf.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
-        buf.mUnk_00[2].x = 0;
-        buf.mUnk_00[3].x = pos.x;
-        buf.mUnk_00[0].y = MUL_FIXED12_ROUNDED(v.y, h);
-        buf.mUnk_00[1].y = MUL_FIXED12_ROUNDED(v.x, x);
-        buf.mUnk_00[2].y = 0;
-        buf.mUnk_00[3].y = pos.y;
-        buf.mUnk_00[0].z = 0;
-        buf.mUnk_00[1].z = 0;
-        buf.mUnk_00[2].z = 0x1000;
-        buf.mUnk_00[3].z = pos.z;
+        buf.mRows[0].x = MUL_FIXED12_ROUNDED(v.x, h);
+        buf.mRows[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
+        buf.mRows[2].x = 0;
+        buf.mRows[3].x = pos.x;
+        buf.mRows[0].y = MUL_FIXED12_ROUNDED(v.y, h);
+        buf.mRows[1].y = MUL_FIXED12_ROUNDED(v.x, x);
+        buf.mRows[2].y = 0;
+        buf.mRows[3].y = pos.y;
+        buf.mRows[0].z = 0;
+        buf.mRows[1].z = 0;
+        buf.mRows[2].z = 0x1000;
+        buf.mRows[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
         n = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         j = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1214,9 +1214,9 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
         pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+        col.x = m->mRows[0].z;
+        col.y = m->mRows[1].z;
+        col.z = m->mRows[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1227,25 +1227,25 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);
-        t = MUL_FIXED12_ROUNDED(c.x, -m->mUnk_00[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mUnk_00[1].z) +
-            MUL_FIXED12_ROUNDED(c.z, -m->mUnk_00[2].z);
+        t = MUL_FIXED12_ROUNDED(c.x, -m->mRows[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mRows[1].z) +
+            MUL_FIXED12_ROUNDED(c.z, -m->mRows[2].z);
         if (t < 0) {
             t = -t;
         }
         u = MUL_FIXED12_ROUNDED(0x1000 - t, (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8);
         x = MUL_FIXED12_ROUNDED(w, u + 0x1000);
-        buf.mUnk_00[0].x = MUL_FIXED12_ROUNDED(v.x, h);
-        buf.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
-        buf.mUnk_00[2].x = 0;
-        buf.mUnk_00[3].x = pos.x;
-        buf.mUnk_00[0].y = MUL_FIXED12_ROUNDED(v.y, h);
-        buf.mUnk_00[1].y = MUL_FIXED12_ROUNDED(v.x, x);
-        buf.mUnk_00[2].y = 0;
-        buf.mUnk_00[3].y = pos.y;
-        buf.mUnk_00[0].z = 0;
-        buf.mUnk_00[1].z = 0;
-        buf.mUnk_00[2].z = 0x1000;
-        buf.mUnk_00[3].z = pos.z;
+        buf.mRows[0].x = MUL_FIXED12_ROUNDED(v.x, h);
+        buf.mRows[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
+        buf.mRows[2].x = 0;
+        buf.mRows[3].x = pos.x;
+        buf.mRows[0].y = MUL_FIXED12_ROUNDED(v.y, h);
+        buf.mRows[1].y = MUL_FIXED12_ROUNDED(v.x, x);
+        buf.mRows[2].y = 0;
+        buf.mRows[3].y = pos.y;
+        buf.mRows[0].z = 0;
+        buf.mRows[1].z = 0;
+        buf.mRows[2].z = 0x1000;
+        buf.mRows[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&buf);
     } else {
@@ -1253,9 +1253,9 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
         pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+        col.x = m->mRows[0].z;
+        col.y = m->mRows[1].z;
+        col.z = m->mRows[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1266,25 +1266,25 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MTX_MultVec43(&pos, m, &pos);
         c = ptcl->mUnk_14;
         VEC_Normalize(&c, &c);
-        t = MUL_FIXED12_ROUNDED(c.x, -m->mUnk_00[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mUnk_00[1].z) +
-            MUL_FIXED12_ROUNDED(c.z, -m->mUnk_00[2].z);
+        t = MUL_FIXED12_ROUNDED(c.x, -m->mRows[0].z) + MUL_FIXED12_ROUNDED(c.y, -m->mRows[1].z) +
+            MUL_FIXED12_ROUNDED(c.z, -m->mRows[2].z);
         if (t < 0) {
             t = -t;
         }
         u = MUL_FIXED12_ROUNDED(0x1000 - t, (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8);
         x = MUL_FIXED12_ROUNDED(w, u + 0x1000);
-        buf.mUnk_00[0].x = MUL_FIXED12_ROUNDED(v.x, h);
-        buf.mUnk_00[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
-        buf.mUnk_00[2].x = 0;
-        buf.mUnk_00[3].x = pos.x;
-        buf.mUnk_00[0].y = MUL_FIXED12_ROUNDED(v.y, h);
-        buf.mUnk_00[1].y = MUL_FIXED12_ROUNDED(v.x, x);
-        buf.mUnk_00[2].y = 0;
-        buf.mUnk_00[3].y = pos.y;
-        buf.mUnk_00[0].z = 0;
-        buf.mUnk_00[1].z = 0;
-        buf.mUnk_00[2].z = 0x1000;
-        buf.mUnk_00[3].z = pos.z;
+        buf.mRows[0].x = MUL_FIXED12_ROUNDED(v.x, h);
+        buf.mRows[1].x = MUL_FIXED12_ROUNDED(-v.y, x);
+        buf.mRows[2].x = 0;
+        buf.mRows[3].x = pos.x;
+        buf.mRows[0].y = MUL_FIXED12_ROUNDED(v.y, h);
+        buf.mRows[1].y = MUL_FIXED12_ROUNDED(v.x, x);
+        buf.mRows[2].y = 0;
+        buf.mRows[3].y = pos.y;
+        buf.mRows[0].z = 0;
+        buf.mRows[1].z = 0;
+        buf.mRows[2].z = 0x1000;
+        buf.mRows[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
         n = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         j = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1339,15 +1339,15 @@ void SPLDraw_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&c, &b, &a);
     if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         reg_G3_MTX_IDENTITY = 0;
         z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1405,15 +1405,15 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&b, &c, &a);
     if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         reg_G3_MTX_IDENTITY = 0;
         z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1479,15 +1479,15 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     }
     VEC_CrossProduct(&v, &e, &u);
     VEC_CrossProduct(&v, &u, &w);
-    d.mUnk_00[0].x = u.x;
-    d.mUnk_00[0].y = u.y;
-    d.mUnk_00[0].z = u.z;
-    d.mUnk_00[1].x = v.x;
-    d.mUnk_00[1].y = v.y;
-    d.mUnk_00[1].z = v.z;
-    d.mUnk_00[2].x = w.x;
-    d.mUnk_00[2].y = w.y;
-    d.mUnk_00[2].z = w.z;
+    d.mRows[0].x = u.x;
+    d.mRows[0].y = u.y;
+    d.mRows[0].z = u.z;
+    d.mRows[1].x = v.x;
+    d.mRows[1].y = v.y;
+    d.mRows[1].z = v.z;
+    d.mRows[2].x = w.x;
+    d.mRows[2].y = w.y;
+    d.mRows[2].z = w.z;
     MTX_Concat43(&b, &d, &b);
     f1 = ptcl->mUnk_30;
     f0 = MUL_FIXED12_ROUNDED(f1, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
@@ -1506,15 +1506,15 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&c, &b, &a);
     if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         reg_G3_MTX_IDENTITY = 0;
         z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
@@ -1581,15 +1581,15 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     }
     VEC_CrossProduct(&v, &e, &u);
     VEC_CrossProduct(&v, &u, &w);
-    d.mUnk_00[0].x = u.x;
-    d.mUnk_00[0].y = u.y;
-    d.mUnk_00[0].z = u.z;
-    d.mUnk_00[1].x = v.x;
-    d.mUnk_00[1].y = v.y;
-    d.mUnk_00[1].z = v.z;
-    d.mUnk_00[2].x = w.x;
-    d.mUnk_00[2].y = w.y;
-    d.mUnk_00[2].z = w.z;
+    d.mRows[0].x = u.x;
+    d.mRows[0].y = u.y;
+    d.mRows[0].z = u.z;
+    d.mRows[1].x = v.x;
+    d.mRows[1].y = v.y;
+    d.mRows[1].z = v.z;
+    d.mRows[2].x = w.x;
+    d.mRows[2].y = w.y;
+    d.mRows[2].z = w.z;
     MTX_Concat43(&b, &d, &b);
     f1 = ptcl->mUnk_30;
     f0 = MUL_FIXED12_ROUNDED(f1, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
@@ -1608,15 +1608,15 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&b, &c, &a);
     if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.mRows[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        a.mRows[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+        a.mRows[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         reg_G3_MTX_IDENTITY = 0;
         z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
         y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;

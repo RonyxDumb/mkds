@@ -42,7 +42,7 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
                         MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.x, 0x12000), 0xd);
     pukupuku->mInitialGroundY = position->y;
     {
-        Vec3 *secondRow = &pukupuku->mShadowMatrix.mMatrix.mUnk_00[1];
+        Vec3 *secondRow = &pukupuku->mShadowMatrix.mMatrix.mRows[1];
         pukupuku->mGroundSlopeX = -FX_Div(secondRow->x, secondRow->y);
         pukupuku->mGroundSlopeZ = -FX_Div(secondRow->z, secondRow->y);
     }
@@ -103,20 +103,20 @@ void UpdateRotary(u32 unused, Rotary *object) {
         angleChange += 0x10000;
     }
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x =
-        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1].x, angleChange);
+        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mRows[1].x, angleChange);
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y =
-        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1].y, angleChange);
+        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mRows[1].y, angleChange);
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z =
-        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1].z, angleChange);
-    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m;
-    MTX_RotY33_(&object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m,
+        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mRows[1].z, angleChange);
+    object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
+    MTX_RotY33_(&object->mCollisionMapObject.mMapObject.mMatrix.mAxes,
                 gPairsByAngle[(object->mCollisionMapObject.mMapObject.mAngle >> 4) * 2],
                 gPairsByAngle[(object->mCollisionMapObject.mMapObject.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33(&object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m,
+    MTX_Concat33(&object->mCollisionMapObject.mMapObject.mMatrix.mAxes,
                  &object->mCollisionMapObject.mCollisionData.mInitialMatrix,
-                 &object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00_m);
+                 &object->mCollisionMapObject.mMapObject.mMatrix.mAxes);
     VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
-                &object->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1],
+                &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
                 &object->mCollisionMapObject.mMapObject.mPos, &object->mCollisionMapObject.mCollisionData.mCenterPos);
     if (object->mCollisionMapObject.mMapObject.mStateMachine.mState == ROTARY_STATE_PAUSE) {
         return;

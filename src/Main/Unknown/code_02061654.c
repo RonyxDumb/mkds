@@ -427,12 +427,12 @@ void DrawRaceWorld(void) {
     currentCamera = gCurrentCamera;
     NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);
     NNS_G3dGlbLightColor(0, 0x7fff);
-    a.x = currentCamera->mViewMatrix.mUnk_00[0].y;
-    a.y = currentCamera->mViewMatrix.mUnk_00[1].y;
-    a.z = currentCamera->mViewMatrix.mUnk_00[2].y;
-    b.x = -currentCamera->mViewMatrix.mUnk_00[0].z;
-    b.y = -currentCamera->mViewMatrix.mUnk_00[1].z;
-    b.z = -currentCamera->mViewMatrix.mUnk_00[2].z;
+    a.x = currentCamera->mViewMatrix.mRows[0].y;
+    a.y = currentCamera->mViewMatrix.mRows[1].y;
+    a.z = currentCamera->mViewMatrix.mRows[2].y;
+    b.x = -currentCamera->mViewMatrix.mRows[0].z;
+    b.y = -currentCamera->mViewMatrix.mRows[1].z;
+    b.z = -currentCamera->mViewMatrix.mRows[2].z;
     VEC_Subtract(&b, &a, &lightVector);
     if ((s64) lightVector.x * lightVector.x + (s64) lightVector.y * lightVector.y +
             (s64) lightVector.z * lightVector.z >=

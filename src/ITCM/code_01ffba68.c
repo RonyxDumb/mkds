@@ -54,7 +54,7 @@ void QuaternionBlend(Vec4 *a, const Vec4 *b, Vec4 *c, s32 d) {
 }
 
 void Matrix4x3FromQuaternion(MtxFx43 *a, const Vec4 *b) {
-    s32 *o = &a->mUnk_00[0].x;
+    s32 *o = &a->mRows[0].x;
     s32 w;
     s32 x;
     s32 y;
@@ -97,7 +97,7 @@ void Matrix4x3FromQuaternion(MtxFx43 *a, const Vec4 *b) {
 }
 
 void Matrix3x3FromQuaternion(MtxFx33 *a, void *b) {
-    s32 *o = &a->mUnk_00[0].x;
+    s32 *o = &a->mRows[0].x;
     const Vec4 *q = b;
     s32 w;
     s32 x;

@@ -106,7 +106,7 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
     InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
     SetStateMachineState(&wanwan->mMapObject.mStateMachine, 0);
-    wanwan->mUnk_200 = wanwan->mMapObject.mMatrix.mUnk_00[2];
+    wanwan->mUnk_200 = wanwan->mMapObject.mMatrix.mRows[2];
     ResetWanwan(wanwan);
     wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius, 0x400, wanwan);
     wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[4].mUnk_20;
@@ -142,7 +142,7 @@ void ResetWanwan(Wanwan *wanwan) {
                44),
         &wanwan->mYawQuaternion);
     QuaternionMultiplyByYawIgnoreY(&wanwan->mSurfaceOrientation, &wanwan->mYawQuaternion, &wanwan->mOrientation);
-    Matrix3x3FromQuaternion(&wanwan->mMapObject.mMatrix.mUnk_00_m, &wanwan->mOrientation);
+    Matrix3x3FromQuaternion(&wanwan->mMapObject.mMatrix.mAxes, &wanwan->mOrientation);
     wanwan->mUnk_e4 = 0;
     if (wanwan->mFollowsPath == 0) {
         ResetWanwanChainPoints(wanwan->mChainObject);

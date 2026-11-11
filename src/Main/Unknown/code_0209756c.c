@@ -58,7 +58,7 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
         } else {
             VEC_Subtract(&kart->mPos, &flipper->mMapObject.mPos, &offset);
             f = VEC_Mag(&offset);
-            e = &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[2];
+            e = &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[2];
             f = MUL_FIXED12_NO_ROUND(f, s);
             flipper->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(e->x, f);
             flipper->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(e->y, f);
@@ -83,10 +83,10 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
 
     flipper->mUnk_a0 = 0;
     if (ComputeSphereHitOnRotatedBox(
-            sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
+            sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0],
             &data_usa_0215650c[flipper->mMirror], &data_usa_0215653c[flipper->mMirror], sphereRadius, NULL) != 0) {
         hitResult = ComputeSphereHitOnRotatedBox(
-            sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
+            sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0],
             &data_usa_02156554[flipper->mMirror], &data_usa_021564dc[flipper->mMirror], sphereRadius, pushOut);
         if (hitResult == 4 || flipper->mState == 2) {
             flipper->mUnk_a0 = 1;
@@ -95,10 +95,10 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
         }
     } else {
         if (ComputeSphereHitOnRotatedBox(
-                sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
+                sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0],
                 &data_usa_021564c4[flipper->mMirror], &data_usa_02156524[flipper->mMirror], sphereRadius, NULL) != 0) {
             hitResult = ComputeSphereHitOnRotatedBox(
-                sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_648[flipper->mUnk_ec0].mUnk_00[0],
+                sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_648[flipper->mUnk_ec0].mRows[0],
                 &data_usa_0215656c[flipper->mMirror], &data_usa_021564f4[flipper->mMirror], sphereRadius, pushOut);
             if (hitResult == 4 || flipper->mState == 3) {
                 flipper->mUnk_a0 = -1;
@@ -107,7 +107,7 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
             }
         } else {
             hitResult = ComputeSphereHitOnRotatedCylinder(sphereCenter, &flipper->mMapObject.mPos,
-                                                          &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0], 0x32000,
+                                                          &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0], 0x32000,
                                                           0x3c000, 0, sphereRadius, pushOut);
         }
     }
@@ -128,9 +128,9 @@ void DrawFlipper(void *a, Flipper *flipper) {
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
     matrix = &flipper->mUnk_a8[flipper->mUnk_ec0];
-    matrix->mUnk_00[3].x = flipper->mMapObject.mPos.x >> 4;
-    matrix->mUnk_00[3].y = flipper->mMapObject.mPos.y >> 4;
-    matrix->mUnk_00[3].z = flipper->mMapObject.mPos.z >> 4;
+    matrix->mRows[3].x = flipper->mMapObject.mPos.x >> 4;
+    matrix->mRows[3].y = flipper->mMapObject.mPos.y >> 4;
+    matrix->mRows[3].z = flipper->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &flipper->mMapObject.mScale, 3);
     SetMapObjectModelMirror(gFlipper, flipper->mMirror, 0);
@@ -192,8 +192,8 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             k = (u16) e >> 4;
             MTX_RotY33_(&m1, gPairsByAngle[k * 2], gPairsByAngle[k * 2 + 1]);
             q = &flipper->mUnk_a8[j];
-            MTX_Concat33(&m1, &flipper->mMapObject.mMatrix.mUnk_00_m, &q->mUnk_00_m);
-            MTX_Concat33(&m2, &q->mUnk_00_m, &flipper->mUnk_648[j].mUnk_00_m);
+            MTX_Concat33(&m1, &flipper->mMapObject.mMatrix.mAxes, &q->mAxes);
+            MTX_Concat33(&m2, &q->mAxes, &flipper->mUnk_648[j].mAxes);
             flipper->mUnk_be8[j].x = flipper->mMapObject.mPos.x >> 4;
             flipper->mUnk_be8[j].y = flipper->mMapObject.mPos.y >> 4;
             flipper->mUnk_be8[j].z = flipper->mMapObject.mPos.z >> 4;

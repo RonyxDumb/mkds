@@ -188,7 +188,7 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, -28877),
-                    &itemInUse->mKartOrientation.mUnk_00[1], &box->mBouncingItemObject.mItemObject.mPos, &box->mMapObjectPos);
+                    &itemInUse->mKartOrientation.mRows[1], &box->mBouncingItemObject.mItemObject.mPos, &box->mMapObjectPos);
         scaleRatio = box->mScaleRatio;
         scale.x = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.x, scaleRatio);
         scale.y = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.y, scaleRatio);

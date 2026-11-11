@@ -245,18 +245,18 @@ void G3i_LookAt_(const Vec3 *camPos, const Vec3 *camUp, const Vec3 *target, int 
         *fifo = transZ;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[0].x = right.x;
-        mtx->mUnk_00[0].y = up.x;
-        mtx->mUnk_00[0].z = look.x;
-        mtx->mUnk_00[1].x = right.y;
-        mtx->mUnk_00[1].y = up.y;
-        mtx->mUnk_00[1].z = look.y;
-        mtx->mUnk_00[2].x = right.z;
-        mtx->mUnk_00[2].y = up.z;
-        mtx->mUnk_00[2].z = look.z;
-        mtx->mUnk_00[3].x = transX;
-        mtx->mUnk_00[3].y = transY;
-        mtx->mUnk_00[3].z = transZ;
+        mtx->mRows[0].x = right.x;
+        mtx->mRows[0].y = up.x;
+        mtx->mRows[0].z = look.x;
+        mtx->mRows[1].x = right.y;
+        mtx->mRows[1].y = up.y;
+        mtx->mRows[1].z = look.y;
+        mtx->mRows[2].x = right.z;
+        mtx->mRows[2].y = up.z;
+        mtx->mRows[2].z = look.z;
+        mtx->mRows[3].x = transX;
+        mtx->mRows[3].y = transY;
+        mtx->mRows[3].z = transZ;
     }
 }
 

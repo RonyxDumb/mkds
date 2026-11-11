@@ -155,24 +155,24 @@ void DrawWater(Water *water, struct MtxFx43 *unused) {
     }
     if (water->mDrawModelAFirst != 0) {
         if (water->mModelAFile != NULL) {
-            water->mDrawMatrix.mUnk_00[3].x = water->mModelAX >> 4;
-            water->mDrawMatrix.mUnk_00[3].y = water->mHeight >> 4;
-            water->mDrawMatrix.mUnk_00[3].z = water->mModelAZ >> 4;
+            water->mDrawMatrix.mRows[3].x = water->mModelAX >> 4;
+            water->mDrawMatrix.mRows[3].y = water->mHeight >> 4;
+            water->mDrawMatrix.mRows[3].z = water->mModelAZ >> 4;
             DrawNsbmdWithMatrix(&water->mModelA, &water->mDrawMatrix, NULL);
         }
-        water->mDrawMatrix.mUnk_00[3].x = water->mModelCX >> 4;
-        water->mDrawMatrix.mUnk_00[3].y = water->mModelCY >> 4;
-        water->mDrawMatrix.mUnk_00[3].z = water->mModelCZ >> 4;
+        water->mDrawMatrix.mRows[3].x = water->mModelCX >> 4;
+        water->mDrawMatrix.mRows[3].y = water->mModelCY >> 4;
+        water->mDrawMatrix.mRows[3].z = water->mModelCZ >> 4;
         DrawNsbmdWithMatrix(&water->mModelC, &water->mDrawMatrix, NULL);
     } else {
-        water->mDrawMatrix.mUnk_00[3].x = water->mModelCX >> 4;
-        water->mDrawMatrix.mUnk_00[3].y = water->mModelCY >> 4;
-        water->mDrawMatrix.mUnk_00[3].z = water->mModelCZ >> 4;
+        water->mDrawMatrix.mRows[3].x = water->mModelCX >> 4;
+        water->mDrawMatrix.mRows[3].y = water->mModelCY >> 4;
+        water->mDrawMatrix.mRows[3].z = water->mModelCZ >> 4;
         DrawNsbmdWithMatrix(&water->mModelC, &water->mDrawMatrix, NULL);
         if (water->mModelAFile != NULL) {
-            water->mDrawMatrix.mUnk_00[3].x = water->mModelAX >> 4;
-            water->mDrawMatrix.mUnk_00[3].y = water->mHeight >> 4;
-            water->mDrawMatrix.mUnk_00[3].z = water->mModelAZ >> 4;
+            water->mDrawMatrix.mRows[3].x = water->mModelAX >> 4;
+            water->mDrawMatrix.mRows[3].y = water->mHeight >> 4;
+            water->mDrawMatrix.mRows[3].z = water->mModelAZ >> 4;
             DrawNsbmdWithMatrix(&water->mModelA, &water->mDrawMatrix, NULL);
         }
     }

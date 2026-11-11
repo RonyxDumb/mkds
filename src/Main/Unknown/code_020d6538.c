@@ -71,7 +71,7 @@ BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightL
 void SetViewYawQuaternion(MtxFx43 *viewMatrix) {
     s32 angle;
     s32 pairIndex;
-    angle = FX_Atan2(viewMatrix->mUnk_00[0].z, viewMatrix->mUnk_00[2].z);
+    angle = FX_Atan2(viewMatrix->mRows[0].z, viewMatrix->mRows[2].z);
     angle = (((s64) angle * 0x28BE60DB9391LL) + 0x80000000000LL) >> 44;
     pairIndex = (u16) ((u16) angle >> 1) >> 4;
     gViewYawQuaternion.mComponents[0] = 0;
@@ -539,7 +539,7 @@ MapObjectList *CreateRockUpdateList(void) {
 
 void SetupDrawRock(void) {
     s32 pairIndex = (s32) (GetRaceUpdateFrames() << 25 >> 16) >> 4;
-    MTX_RotY33_(&gRockDrawList->mShadowMatrix.mUnk_00_m, gPairsByAngle[pairIndex * 2],
+    MTX_RotY33_(&gRockDrawList->mShadowMatrix.mAxes, gPairsByAngle[pairIndex * 2],
                 gPairsByAngle[pairIndex * 2 + 1]);
 }
 
@@ -551,32 +551,32 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
     MtxFx43 *shadowMatrix;
     s32 dot;
     if (GetChoisesSOpenDuringRace() == 0) {
-        xAxis = rock->mMapObject.mMatrix.mUnk_00[0];
-        yAxis = rock->mMapObject.mMatrix.mUnk_00[1];
+        xAxis = rock->mMapObject.mMatrix.mRows[0];
+        yAxis = rock->mMapObject.mMatrix.mRows[1];
         tiltAxis.x = MUL_FIXED12_NO_ROUND(rock->mMapObject.mPosStep.z, rock->mBottomOffsetReciprocal);
         tiltAxis.z = -MUL_FIXED12_NO_ROUND(rock->mMapObject.mPosStep.x, rock->mBottomOffsetReciprocal);
         tiltAxis.y = 0;
         Vec3CrossUnrounded(&tiltAxis, &xAxis, &crossProduct);
         VEC_Add(&xAxis, &crossProduct, &xAxis);
-        Vec3NormalizeAndGetLengthUnchecked(&xAxis, &rock->mMapObject.mMatrix.mUnk_00[0]);
+        Vec3NormalizeAndGetLengthUnchecked(&xAxis, &rock->mMapObject.mMatrix.mRows[0]);
         Vec3CrossUnrounded(&tiltAxis, &yAxis, &crossProduct);
         VEC_Add(&yAxis, &crossProduct, &yAxis);
-        dot = VEC_DotProduct(&rock->mMapObject.mMatrix.mUnk_00[0], &yAxis);
-        yAxis.x = yAxis.x - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mUnk_00[0].x, dot);
-        yAxis.y = yAxis.y - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mUnk_00[0].y, dot);
-        yAxis.z = yAxis.z - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mUnk_00[0].z, dot);
-        Vec3NormalizeAndGetLengthUnchecked(&yAxis, &rock->mMapObject.mMatrix.mUnk_00[1]);
-        Vec3CrossUnrounded(&rock->mMapObject.mMatrix.mUnk_00[0], &rock->mMapObject.mMatrix.mUnk_00[1],
-                           &rock->mMapObject.mMatrix.mUnk_00[2]);
+        dot = VEC_DotProduct(&rock->mMapObject.mMatrix.mRows[0], &yAxis);
+        yAxis.x = yAxis.x - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mRows[0].x, dot);
+        yAxis.y = yAxis.y - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mRows[0].y, dot);
+        yAxis.z = yAxis.z - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mRows[0].z, dot);
+        Vec3NormalizeAndGetLengthUnchecked(&yAxis, &rock->mMapObject.mMatrix.mRows[1]);
+        Vec3CrossUnrounded(&rock->mMapObject.mMatrix.mRows[0], &rock->mMapObject.mMatrix.mRows[1],
+                           &rock->mMapObject.mMatrix.mRows[2]);
     }
-    rock->mMapObject.mMatrix.mUnk_00[3].x = rock->mMapObject.mPos.x >> 4;
-    rock->mMapObject.mMatrix.mUnk_00[3].y = rock->mMapObject.mPos.y >> 4;
-    rock->mMapObject.mMatrix.mUnk_00[3].z = rock->mMapObject.mPos.z >> 4;
+    rock->mMapObject.mMatrix.mRows[3].x = rock->mMapObject.mPos.x >> 4;
+    rock->mMapObject.mMatrix.mRows[3].y = rock->mMapObject.mPos.y >> 4;
+    rock->mMapObject.mMatrix.mRows[3].z = rock->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gRock, &rock->mMapObject.mMatrix, &rock->mMapObject.mScale, alpha);
     shadowMatrix = &gRockDrawList->mShadowMatrix;
-    shadowMatrix->mUnk_00[3].x = rock->mMapObject.mPos.x >> 4;
-    shadowMatrix->mUnk_00[3].y = rock->mMapObject.mPos.y >> 4;
-    shadowMatrix->mUnk_00[3].z = rock->mMapObject.mPos.z >> 4;
+    shadowMatrix->mRows[3].x = rock->mMapObject.mPos.x >> 4;
+    shadowMatrix->mRows[3].y = rock->mMapObject.mPos.y >> 4;
+    shadowMatrix->mRows[3].z = rock->mMapObject.mPos.z >> 4;
     DrawShadowWithMaxAlpha(gRockShadow, &gRockDrawList->mShadowMatrix, &rock->mMapObject.mScale, alpha);
 }
 

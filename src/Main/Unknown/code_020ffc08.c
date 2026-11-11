@@ -64,10 +64,10 @@ void DrawDram(void *unusedFirst, Dram *dram, void *unusedThird, s32 maxAlpha) {
 
     matrix = &dram->mMapObject.mMatrix;
     angleIndex = (u16) (-(s32) dram->mAngleX) >> 4;
-    MTX_RotX33_(&matrix->mUnk_00_m, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
-    matrix->mUnk_00[3].x = dram->mMapObject.mPos.x >> 4;
-    matrix->mUnk_00[3].y = dram->mMapObject.mPos.y >> 4;
-    matrix->mUnk_00[3].z = dram->mMapObject.mPos.z >> 4;
+    MTX_RotX33_(&matrix->mAxes, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    matrix->mRows[3].x = dram->mMapObject.mPos.x >> 4;
+    matrix->mRows[3].y = dram->mMapObject.mPos.y >> 4;
+    matrix->mRows[3].z = dram->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gDram, matrix, &dram->mMapObject.mScale, maxAlpha);
 }
 

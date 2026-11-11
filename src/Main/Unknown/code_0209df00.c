@@ -126,7 +126,7 @@ void DrawFireball2(void *a, Fireball2 *b) {
     Camera *q;
 
     q = GetCurrentCamera();
-    c = Vec3DotUnrounded(&b->mMapObject.mMatrix.mUnk_00[0], &q->mForward);
+    c = Vec3DotUnrounded(&b->mMapObject.mMatrix.mRows[0], &q->mForward);
     for (i = 0; i < b->mRowCount; i++) {
         if (c >= 0) {
             f = 1;
@@ -251,7 +251,7 @@ void UpdateFireball2(void *a, Fireball2 *b) {
         p = GetKart((u16) gRaceSetup->mEntryIndex);
         if (func_0209df84_inline(p, b, n - 0xf000) != FALSE) {
             VEC_Subtract(&p->mPos, &b->mMapObject.mPos, &v);
-            d = Vec3DotUnrounded(&v, &b->mMapObject.mMatrix.mUnk_00[2]);
+            d = Vec3DotUnrounded(&v, &b->mMapObject.mMatrix.mRows[2]);
             if ((b->mEntryKartAxisDistance < 0 && d > 0) || (b->mEntryKartAxisDistance > 0 && d < 0)) {
                 StopSndHandleSlots7To11();
                 h = GetSndHandleSlot(7);
@@ -280,9 +280,9 @@ void UpdateFireball2(void *a, Fireball2 *b) {
         for (j = 0; j < b->mRowCount; j++) {
             w = w + b->mRowAngleSpacing;
             b->mElements[j][i].mUnk_0c = w;
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2 + 1]), &b->mMapObject.mMatrix.mUnk_00[0],
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2 + 1]), &b->mMapObject.mMatrix.mRows[0],
                         &b->mMapObject.mPos, &b->mElements[j][i].mUnk_00);
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2]), &b->mMapObject.mMatrix.mUnk_00[1],
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, gPairsByAngle[(w >> 4) * 2]), &b->mMapObject.mMatrix.mRows[1],
                         &b->mElements[j][i].mUnk_00, &b->mElements[j][i].mUnk_00);
             b->mElements[j][i].mUnk_0e = b->mElements[j][i].mUnk_0e + 0x51e;
         }

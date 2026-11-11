@@ -32,15 +32,15 @@ void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *veloc
     s32 localY;
 
     VEC_Subtract(position, &object->mMapObject.mPos, &offset);
-    localZ = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[2]);
-    localY = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[1]);
-    link->mLocalPosition.x = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mUnk_00[0]);
+    localZ = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[2]);
+    localY = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[1]);
+    link->mLocalPosition.x = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
     link->mLocalPosition.y = localY;
     link->mLocalPosition.z = localZ;
     if (velocity != NULL && object->mCollisionData.mUnk_130 != FALSE) {
-        localZ = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mUnk_00[2]);
-        localY = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mUnk_00[1]);
-        link->mLocalVelocity.x = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mUnk_00[0]);
+        localZ = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[2]);
+        localY = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[1]);
+        link->mLocalVelocity.x = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[0]);
         link->mLocalVelocity.y = localY;
         link->mLocalVelocity.z = localZ;
     } else {
@@ -57,7 +57,7 @@ void GetCollisionHitLinkPosition(CollisionHitLink *link, Vec3 *outPosition) {
     if (object == NULL) {
         return;
     }
-    MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mUnk_00_m, outPosition);
+    MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mAxes, outPosition);
     VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
 }
 
@@ -65,10 +65,10 @@ BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition
     CollisionMapObject *object = link->mObject;
 
     if (object != NULL) {
-        MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mUnk_00_m, outPosition);
+        MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mAxes, outPosition);
         VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
         if (object->mCollisionData.mUnk_130 != FALSE) {
-            MTX_MultVec33(&link->mLocalVelocity, &object->mMapObject.mMatrix.mUnk_00_m, outVelocity);
+            MTX_MultVec33(&link->mLocalVelocity, &object->mMapObject.mMatrix.mAxes, outVelocity);
             if (outVelocity->y < object->mCollisionData.mUnk_120) {
                 return TRUE;
             }
@@ -160,7 +160,7 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
                  &koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8,
                  &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);
     VEC_MultAdd(-koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeY,
-                &koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mUnk_00[1],
+                &koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
                 &koopaBlock->mCollisionMapObject.mMapObject.mPos,
                 &koopaBlock->mCollisionMapObject.mCollisionData.mCenterPos);
 }

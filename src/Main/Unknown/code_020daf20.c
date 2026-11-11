@@ -84,13 +84,13 @@ void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
     drawMatrix = &dossun->mMapObject.mMatrix;
     if (dossun->mHitState != 0) {
         drawMatrix = &gDossunDrawMatrix;
-        MTX_RotY33_(&gDossunDrawMatrix.mUnk_00_m, gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2],
+        MTX_RotY33_(&gDossunDrawMatrix.mAxes, gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2],
                     gPairsByAngle[((u16) dossun->mSpinAngle >> 4) * 2 + 1]);
-        MTX_Concat33(&gDossunDrawMatrix.mUnk_00_m, &dossun->mMapObject.mMatrix.mUnk_00_m, &gDossunDrawMatrix.mUnk_00_m);
+        MTX_Concat33(&gDossunDrawMatrix.mAxes, &dossun->mMapObject.mMatrix.mAxes, &gDossunDrawMatrix.mAxes);
     }
-    drawMatrix->mUnk_00[3].x = dossun->mMapObject.mPos.x >> 4;
-    drawMatrix->mUnk_00[3].y = dossun->mMapObject.mPos.y >> 4;
-    drawMatrix->mUnk_00[3].z = dossun->mMapObject.mPos.z >> 4;
+    drawMatrix->mRows[3].x = dossun->mMapObject.mPos.x >> 4;
+    drawMatrix->mRows[3].y = dossun->mMapObject.mPos.y >> 4;
+    drawMatrix->mRows[3].z = dossun->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gDossun, drawMatrix, &dossun->mMapObject.mScale, maxAlpha);
     DrawShadowWithMaxAlpha(gDossunShadow, drawMatrix, &dossun->mMapObject.mScale, maxAlpha);
 }
@@ -456,16 +456,16 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha) {
     NsbmdModel *model;
     if (kuribo->mFollower.mGroupIndex == 0xffff) {
         QuaternionMultiplyByYawIgnoreY(&kuribo->mOrientation, &gViewYawQuaternion, &orientation);
-        Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix.mUnk_00_m, &orientation);
+        Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix.mAxes, &orientation);
     } else {
         BuildMatrixFromYAxis(GetGroupFollowerSegmentUp(&kuribo->mFollower), &kuribo->mMapObject.mMatrix);
     }
     scale.z = kuribo->mMapObject.mScale.z;
     scale.y = MUL_FIXED12_NO_ROUND(kuribo->mMapObject.mScale.y, kuribo->mScaleFactorY);
     scale.x = MUL_FIXED12_NO_ROUND(kuribo->mMapObject.mScale.x, ((0x1000 - kuribo->mScaleFactorY) >> 1) + 0x1000);
-    kuribo->mMapObject.mMatrix.mUnk_00[3].x = kuribo->mMapObject.mPos.x >> 4;
-    kuribo->mMapObject.mMatrix.mUnk_00[3].y = kuribo->mMapObject.mPos.y >> 4;
-    kuribo->mMapObject.mMatrix.mUnk_00[3].z = kuribo->mMapObject.mPos.z >> 4;
+    kuribo->mMapObject.mMatrix.mRows[3].x = kuribo->mMapObject.mPos.x >> 4;
+    kuribo->mMapObject.mMatrix.mRows[3].y = kuribo->mMapObject.mPos.y >> 4;
+    kuribo->mMapObject.mMatrix.mRows[3].z = kuribo->mMapObject.mPos.z >> 4;
     if (kuribo->mFrameIndex < 0x14) {
         gKuribo->mFrameIndex = kuribo->mFrameIndex;
     } else {
