@@ -116,10 +116,10 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (fromLowSpeedTurn != 0) {
         return;
     }
-    if (kart->mUnk_38a <= 50) {
-        kart->mUnk_38a = 50;
+    if (kart->mDriftHeadingAnglePerFrame <= 50) {
+        kart->mDriftHeadingAnglePerFrame = 50;
     } else {
-        kart->mUnk_38a = MUL_FIXED12_NO_ROUND(kart->mUnk_38a, 0xf33);
+        kart->mDriftHeadingAnglePerFrame = MUL_FIXED12_NO_ROUND(kart->mDriftHeadingAnglePerFrame, 0xf33);
     }
     AdvanceKartDriftCharge(kart);
     if (!(kart->mUnk_44 & KART_44_ON_GROUND)) {
@@ -266,7 +266,7 @@ recheck:
         if (!(kart->mUnk_44 & KART_44_DRIFTING)) {
             return;
         }
-        kart->mUnk_38a = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, 0x1a);
+        kart->mDriftHeadingAnglePerFrame = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, 0x1a);
         return;
     }
     entryIndex = kart->mEntryIndex;
@@ -292,7 +292,7 @@ recheck:
     kart->mVerticalSpeed += 0x21a2;
     kart->mHopHeight = 0;
     kart->mTurnDirection = 0;
-    kart->mUnk_38a = 0;
+    kart->mDriftHeadingAnglePerFrame = 0;
     kart->mDriftCharge = 0;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;

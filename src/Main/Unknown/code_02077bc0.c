@@ -334,7 +334,7 @@ void SetKartModelsFogEnable(s32 fogEnableFlag) {
 }
 
 BOOL IsKartInRespawnWait(s32 kartIndex) {
-    return (gKarts[kartIndex].mUnk_48 & 0x800) != 0 ? 1 : 0;
+    return (gKarts[kartIndex].mUnk_48 & KART_48_RESPAWN_WAIT) != 0 ? 1 : 0;
 }
 
 BOOL IsEntryKartNotNormalOrScaleTableBit(void) {

@@ -92,7 +92,7 @@ void AdvancePeerKartMotion(Kart *kart) {
         recordState->mHopSpeed = 0;
     }
     if (IsRaceStarted() == 1) {
-        kart->mUnk_230 = AdvanceKartOffsetCycleIndex;
+        kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycleIndex;
     }
     if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
         kart->mVerticalSpeed = 0;
@@ -135,7 +135,7 @@ void AdvancePeerKartCollision(Kart *kart) {
     if ((kart->mUnk_4c & 8) != 0) {
         AdvanceKartModelScaleAnimation(kart);
     }
-    kart->mUnk_230(kart);
+    kart->mAdvanceOffsetCycle(kart);
     groundedPos = kart->mPos;
     groundedPos.y = groundedPos.y - recordState->mHopHeight;
     blendFactor = recordState->mPosBlendFactor;
@@ -169,7 +169,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     s32 hopHeightTilt;
 
     recordState = kart->mUnk_514;
-    kart->mUnk_3f8 = 0x1000;
+    kart->mVelocityScaleFactor = 0x1000;
     if (kart->mAirborneFrames > 5 && (kart->mUnk_514->mUnk_44 & 1) == 0) {
         kart->mQuaternionBlendFactor = 0xf6;
         ComputeKartAirTiltQuaternion(kart, &kart->mUnk_100_q);

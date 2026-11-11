@@ -82,8 +82,8 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         ResetKartMotionState(kart, 0);
         return;
     }
-    if (!(kart->mUnk_48 & 0x800)) {
-        kart->mUnk_48 |= 0x800;
+    if (!(kart->mUnk_48 & KART_48_RESPAWN_WAIT)) {
+        kart->mUnk_48 |= KART_48_RESPAWN_WAIT;
         kartIndex = kart->mIndex;
         if (gRaceSetup->mMode == MODE_BATTLE) {
             respawnSlot = GetCourseMapRespawnSlot(0);
@@ -152,7 +152,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         return;
     }
     b = (u16) ((PickCollisionHitValue(0x800) & 0xe0) >> 5);
-    kart->mUnk_4bc = kart->mUnk_3f8;
+    kart->mUnk_4bc = kart->mVelocityScaleFactor;
     kart->mUnk_4c |= 0x200000;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetEntryCameraUpdateHold(1);
@@ -330,7 +330,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 }
             }
         }
-        kart->mUnk_230 = AdvanceKartOffsetCycleIndex;
+        kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycleIndex;
         if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
             kart->mUnk_44 |= 0x1000000;
         }
@@ -413,7 +413,7 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
     ApplyKartContact(kart, contactNormal, (kart->mUnk_44 & 0x80) != 0, baseSpeedLimitHitFactor,
                      (s32) (hitValue & 0x1f00) >> 8, ((hitValue & 0xe0) << 11) >> 16, 2);
     kart->mUnk_44 |= 0x80;
-    kart->mUnk_250 = *contactNormal;
+    kart->mCourseContactNormal = *contactNormal;
     if (kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP && contactNormal->y < -0x800 && kart->mVerticalSpeed > 0) {
         kart->mVerticalSpeed = -kart->mVerticalSpeed;
     }

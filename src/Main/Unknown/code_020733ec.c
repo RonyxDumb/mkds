@@ -130,7 +130,7 @@ void InitKartResources(Kart *kart) {
     u16 i;
 
     heap = GetHeap(GetCurrentHeapCall());
-    kart->mUnk_230 = AdvanceKartOffsetCycle;
+    kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycle;
     InitKartPhysicalParams(kart);
     InitKartFlags(kart);
     if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
@@ -154,8 +154,8 @@ void InitKartResources(Kart *kart) {
             }
         }
     }
-    kart->mUnk_2ca = -1;
-    kart->mCollisionSlot = kart->mUnk_2ca;
+    kart->mSecondCollisionSlot = -1;
+    kart->mCollisionSlot = kart->mSecondCollisionSlot;
     if (gRaceSetup->mMode == 5) {
         collisionPos = &kart->mPointAlongUp;
     } else {
@@ -164,9 +164,9 @@ void InitKartResources(Kart *kart) {
     if (kart->mCollisionSlot == -1) {
         kart->mCollisionSlot = CreateCollisionSlot(collisionPos, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
     }
-    if (kart->mUnk_2ca == -1) {
-        kart->mUnk_2ca =
-            CreateCollisionSlot(&kart->mUnk_1f0, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+    if (kart->mSecondCollisionSlot == -1) {
+        kart->mSecondCollisionSlot = CreateCollisionSlot(
+            &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
     }
     kart->mUnk_44 |= KART_44_ON_GROUND;
     kart->mUnk_4d0 = 0x64;

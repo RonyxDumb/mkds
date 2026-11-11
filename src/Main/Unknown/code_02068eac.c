@@ -80,7 +80,7 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetCameraHalfFovAngleGoal(0x1f40);
     }
-    kart->mUnk_394 = 0xb33;
+    kart->mShrinkFactor = 0xb33;
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     mode = gRaceSetup->mMode;
     if (mode == MODE_MISSION_RUN) {
@@ -116,7 +116,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             if (effectState->mScaleTableIndex > 0x19) {
                 kart->mUnk_4c &= ~0x10000;
                 if (!(kart->mUnk_4c & 0x10080)) {
-                    kart->mUnk_394 = 0x1000;
+                    kart->mShrinkFactor = 0x1000;
                 }
                 return;
             }
@@ -179,7 +179,7 @@ void ResetKartScaleEffects(Kart *kart) {
     kart->mScaleFactor.y = 0x1000;
     kart->mScaleFactor.z = 0x1000;
     if (!(kart->mUnk_4c & 0x10080)) {
-        kart->mUnk_394 = 0x1000;
+        kart->mShrinkFactor = 0x1000;
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         ResetCameraHalfFovAngleGoal();
@@ -650,8 +650,8 @@ BOOL StartKartRemoval(Kart *kart, s32 fromRaceProgress) {
         if (kart->mCollisionSlot != -1) {
             kart->mCollisionSlot = FreeCollisionSlot(kart->mCollisionSlot);
         }
-        if (kart->mUnk_2ca != -1) {
-            kart->mUnk_2ca = FreeCollisionSlot(kart->mUnk_2ca);
+        if (kart->mSecondCollisionSlot != -1) {
+            kart->mSecondCollisionSlot = FreeCollisionSlot(kart->mSecondCollisionSlot);
         }
         if (gRaceSetup->mMode == MODE_BATTLE && fromRaceProgress == 0) {
             StartSound(&kart->mSoundSource, 0xd3, 0x7f, 0);

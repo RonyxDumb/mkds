@@ -90,9 +90,10 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                     kart->mCollisionSlot =
                         CreateCollisionSlot(collisionCenter, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
                 }
-                if (kart->mUnk_2ca == -1) {
+                if (kart->mSecondCollisionSlot == -1) {
                     c = kart->mPhysicalParam->mRadius;
-                    kart->mUnk_2ca = CreateCollisionSlot(&kart->mUnk_1f0, (s64) c << 15 >> 12, 0x800, kart);
+                    kart->mSecondCollisionSlot =
+                        CreateCollisionSlot(&kart->mSecondCollisionCenter, (s64) c << 15 >> 12, 0x800, kart);
                 }
                 bitsPointerAgain = &kart->mUnk_7c;
                 kart->mUnk_7c = kart->mUnk_7c & 0xdfffff9f;
@@ -307,9 +308,10 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
             kart->mCollisionSlot =
                 CreateCollisionSlot(collisionCenter, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
         }
-        if (kart->mUnk_2ca == -1) {
+        if (kart->mSecondCollisionSlot == -1) {
             radius = kart->mPhysicalParam->mRadius;
-            kart->mUnk_2ca = CreateCollisionSlot(&kart->mUnk_1f0, (s64) radius << 15 >> 12, 0x800, kart);
+            kart->mSecondCollisionSlot =
+                CreateCollisionSlot(&kart->mSecondCollisionCenter, (s64) radius << 15 >> 12, 0x800, kart);
         }
         kart->mUnk_7c = kart->mUnk_7c | 0x80;
         kart->mUnk_7c = kart->mUnk_7c & ~0x60;

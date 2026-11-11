@@ -103,8 +103,8 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     u32 respawnSlot;
 
     if (kart->mPos.y < 0) {
-        if (!(kart->mUnk_7c & 0x400) && !(kart->mUnk_48 & 0x800)) {
-            kart->mUnk_48 = kart->mUnk_48 | 0x800;
+        if (!(kart->mUnk_7c & 0x400) && !(kart->mUnk_48 & KART_48_RESPAWN_WAIT)) {
+            kart->mUnk_48 = kart->mUnk_48 | KART_48_RESPAWN_WAIT;
             kartIndex = kart->mIndex;
             if (gRaceSetup->mMode == MODE_BATTLE) {
                 respawnSlot = GetCourseMapRespawnSlot(0);
@@ -186,7 +186,7 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
     Vec4 v;
     u32 t;
 
-    p->mUnk_3f8 = 0x1000;
+    p->mVelocityScaleFactor = 0x1000;
     if (p->mAirborneFrames > 5) {
         p->mQuaternionBlendFactor = 0xf6;
         ComputeKartAirTiltQuaternion(p, &p->mUnk_100_q);

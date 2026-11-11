@@ -209,6 +209,8 @@ typedef struct ParticipantKartRecordState {
 // Set from the release of a fully charged drift until mUnk_23c has counted down.
 #define KART_48_MINI_TURBO 0x80000
 // Set by ApplyKartSurfaceKind19 (the boost surface) and read as "the Kart is on a boost surface".
+// Respawn wait: the kart has fallen off the course and waits to be put back (IsKartInRespawnWait).
+#define KART_48_RESPAWN_WAIT 0x800
 #define KART_48_ON_BOOST_SURFACE 1
 
 // The values of Kart.mState; each indexes gKartStateFunctions.
@@ -270,7 +272,7 @@ typedef struct Kart {
     // the kart's limit.
     /* cc */ s32 mSpeedLimitGoal;
     /* d0 */ s32 mSpeedLimit;
-    /* d4 */ u32 mUnk_d4;
+    /* d4 */ u32 mSpeedLimitGroundFactor;
     /* d8 */ s32 mAheadSpeedLimitFactor;
     /* dc */ s32 mSpeedLimitFactor;
     /* e0 */ union {
@@ -325,7 +327,7 @@ typedef struct Kart {
     /* 1d4 */ s32 mUnk_1d4;
     /* 1d8 */ Vec3 mPointAlongUp;
     /* 1e4 */ Vec3 mPrevPointAlongUp;
-    /* 1f0 */ Vec3 mUnk_1f0;
+    /* 1f0 */ Vec3 mSecondCollisionCenter;
     /* 1fc */ Vec3 mPointMotion;
     /* 208 */ struct CollisionHitLink *mCollisionHitLink;
     // The functions of one Kart, one per slot index: 0 set-up at creation, 1 reset to the starting values, 2 stores the
@@ -334,19 +336,19 @@ typedef struct Kart {
     // it from gKartDefaultSlotFunctions and replaces slots 2 to 5; it also replaces slots 3 and 4 with an empty
     // function when gRace.mUseChainCameras is set and RaceSetup.mUnk_00c is not 5.
     /* 20c */ void (*mSlotFunctions[9])(struct Kart *);
-    /* 230 */ void (*mUnk_230)(struct Kart *);
+    /* 230 */ void (*mAdvanceOffsetCycle)(struct Kart *);
     /* 234 */ s16 mAirTiltAngle;
     // Angle about world up that orients the kart (0x10000 per turn): set from a direction vector or a start rotation,
     // turned by the step functions and by mHeadingAnglePerFrame; mHeadingAngleOffset is added on top when the
     // orientation is built.
     /* 236 */ u16 mHeadingAngle;
     /* 238 */ s16 mBoostTimer;
-    /* 23a */ s16 mUnk_23a;
+    /* 23a */ s16 mStateEndTimer;
     /* 23c */ s16 mMiniTurboTimer;
     /* 23e */ u8 mUnk_23e[2];
     /* 240 */ u32 mTurnedForwardEaseFactor;
     /* 244 */ Vec3 mGroundNormal;
-    /* 250 */ Vec3 mUnk_250;
+    /* 250 */ Vec3 mCourseContactNormal;
     /* 25c */ union {
         Vec3 mUnk_25c;
         struct {
@@ -387,7 +389,7 @@ typedef struct Kart {
     // 0x10 / 0x20) and cleared when it ends; read only as a sign.
     /* 2c4 */ s32 mTurnDirection;
     /* 2c8 */ s16 mCollisionSlot;
-    /* 2ca */ s16 mUnk_2ca;
+    /* 2ca */ s16 mSecondCollisionSlot;
     // Pointer to this slot's KartPhysicalParam; set once in InitKartPhysicalParams. The record is shared by nothing
     // else.
     /* 2cc */ KartPhysicalParam *mPhysicalParam;
@@ -397,7 +399,7 @@ typedef struct Kart {
     /* 2d4 */ s32 mTurnRatio;
     /* 2d8 */ Vec3 mHitVelocity;
     /* 2e4 */ Vec3 mPrevHitVelocity;
-    /* 2f0 */ Vec3 mUnk_2f0;
+    /* 2f0 */ Vec3 mPrevPrevHitVelocity;
     /* 2fc */ s32 mDriftCharge;
     /* 300 */ u16 mLeftTurnCount;
     /* 302 */ u16 mRightTurnCount;
@@ -410,10 +412,10 @@ typedef struct Kart {
     /* 318 */ s32 mRotationAngleSum;
     /* 31c */ Vec3 mRotationAxis;
     /* 328 */ Vec3 mLaunchForward;
-    /* 334 */ s32 mUnk_334;
-    /* 338 */ u16 mUnk_338;
+    /* 334 */ s32 mLaunchAxisSwing;
+    /* 338 */ u16 mLaunchAxisSwingAngle;
     /* 33a */ u8 mUnk_33a[2];
-    /* 33c */ s32 mUnk_33c;
+    /* 33c */ s32 mLaunchAxisSwingAngleSum;
     /* 340 */ s32 mLaunchStartY;
     /* 344 */ s32 mUnk_344;
     /* 348 */ s32 mLaunchFrames;
@@ -425,9 +427,9 @@ typedef struct Kart {
     /* 366 */ u16 mYRotationCount;
     /* 368 */ s32 mYRotationAngleSum;
     /* 36c */ s32 mYRotationAnglePerFrame;
-    /* 370 */ u16 mUnk_370;
+    /* 370 */ u16 mVerticalSpeedStepCount;
     /* 372 */ u8 mUnk_372[2];
-    /* 374 */ Vec3 mUnk_374;
+    /* 374 */ Vec3 mCollisionPushVelocity;
     // Calls of UpdateKartAirborne since KART_44_ON_GROUND was last set; not every step (skipped below
     // y = 0).
     /* 380 */ u32 mAirborneFrames;
@@ -440,10 +442,10 @@ typedef struct Kart {
     // Angle that follows mTurnDirection: eased toward 11000 or -11000, changed by the turn input and cut back to 0 on
     // the ground; it is the angle of the rotation of mUnk_278 about mUnk_244 in AdvanceKartByVelocity.
     /* 388 */ s16 mTurnAngle;
-    /* 38a */ s16 mUnk_38a;
+    /* 38a */ s16 mDriftHeadingAnglePerFrame;
     /* 38c */ s32 mSpeedLimitHitFactor;
     /* 390 */ u8 mUnk_390[4];
-    /* 394 */ s32 mUnk_394;
+    /* 394 */ s32 mShrinkFactor;
     /* 398 */ s32 mUnk_398;
     /* 39c */ s32 mMapObjectVectorLength;
     /* 3a0 */ s32 mMapObjectVectorForwardDot;
@@ -482,12 +484,12 @@ typedef struct Kart {
     /* 3e0 */ s32 mSurfaceKind;
     // Bits 5..7 of the same attribute: second selector (effect tables).
     /* 3e4 */ s32 mSurfaceVariant;
-    /* 3e8 */ s16 mUnk_3e8;
+    /* 3e8 */ s16 mAirTiltAngleOffset;
     /* 3ea */ u8 mUnk_3ea[2];
     /* 3ec */ s32 mTurnHeadingAnglePerFrameGoal;
     /* 3f0 */ s32 mTurnHeadingAnglePerFrame;
     /* 3f4 */ s32 mSpeedLimitFactorPerDepth;
-    /* 3f8 */ s32 mUnk_3f8;
+    /* 3f8 */ s32 mVelocityScaleFactor;
     /* 3fc */ u16 mModelScaleKind;
     /* 3fe */ u16 mModelScaleFrameIndex;
     /* 400 */ u16 mModelScaleFrameCount;

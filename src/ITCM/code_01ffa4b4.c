@@ -95,12 +95,12 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                     pushVector.x = MUL_FIXED12_NO_ROUND(pushVector.x, pushStrength);
                     pushVector.y = MUL_FIXED12_NO_ROUND(pushVector.y, pushStrength);
                     pushVector.z = MUL_FIXED12_NO_ROUND(pushVector.z, pushStrength);
-                    kart->mUnk_374 = pushVector;
-                    kart->mUnk_374.y = -0x19a;
+                    kart->mCollisionPushVelocity = pushVector;
+                    kart->mCollisionPushVelocity.y = -0x19a;
                 }
                 kart->mUnk_44 |= 0x200;
             } else {
-                kart->mUnk_374 = data_02154f94;
+                kart->mCollisionPushVelocity = data_02154f94;
                 kart->mUnk_44 &= ~0x200;
             }
         } else {
@@ -137,7 +137,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
             *groundNormal = normal;
             if (LENGTH_SQUARED(*groundNormal) >= 0x10) {
                 kart->mUnk_48 &= ~0x10000000;
-                kart->mUnk_3e8 = 0;
+                kart->mAirTiltAngleOffset = 0;
                 RefreshKartSurface(kart);
                 if ((collisionFlags & 0x20000) && !(kart->mUnk_4c & 0x10000040) && !(kart->mUnk_7c & 0x402000)) {
                     kart->mUnk_4c |= 0x40000000;
@@ -172,12 +172,12 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                             landingPushVector.x = MUL_FIXED12_NO_ROUND(landingPushVector.x, pushStrength);
                             landingPushVector.y = MUL_FIXED12_NO_ROUND(landingPushVector.y, pushStrength);
                             landingPushVector.z = MUL_FIXED12_NO_ROUND(landingPushVector.z, pushStrength);
-                            kart->mUnk_374 = landingPushVector;
-                            kart->mUnk_374.y = -0x19a;
+                            kart->mCollisionPushVelocity = landingPushVector;
+                            kart->mCollisionPushVelocity.y = -0x19a;
                         }
                         kart->mUnk_44 |= 0x200;
                     } else {
-                        kart->mUnk_374 = data_02154f94;
+                        kart->mCollisionPushVelocity = data_02154f94;
                         kart->mUnk_44 &= ~0x200;
                     }
                 }

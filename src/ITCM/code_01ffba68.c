@@ -183,7 +183,7 @@ void AdvanceKartCollision(Kart *p) {
     if (p->mUnk_4c & 8) {
         AdvanceKartModelScaleAnimation(p);
     }
-    p->mUnk_230(p);
+    p->mAdvanceOffsetCycle(p);
 }
 
 void UpdateKartPrevValuesAndClearFlags(Kart *p) {
@@ -194,7 +194,7 @@ void UpdateKartPrevValuesAndClearFlags(Kart *p) {
     p->mNearKartMask = 0;
     p->mPrevPos = p->mPos;
     p->mPrevPointAlongUp = p->mPointAlongUp;
-    p->mUnk_2f0 = p->mPrevHitVelocity;
+    p->mPrevPrevHitVelocity = p->mPrevHitVelocity;
     p->mPrevHitVelocity = p->mHitVelocity;
     p->mSlotFunctions[5](p);
 }
@@ -205,8 +205,8 @@ static inline const s32 func_01ffc090_inline(void) {
 
 void ResetKartTurnAndRadius(Kart *kart) {
     kart->mUnk_48 &= ~(KART_48_TURN_LEFT | KART_48_TURN_RIGHT);
-    kart->mRadius =
-        MUL_FIXED12_NO_ROUND(kart->mRadiusFactor, MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mRadius, kart->mUnk_394));
+    kart->mRadius = MUL_FIXED12_NO_ROUND(kart->mRadiusFactor,
+                                         MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mRadius, kart->mShrinkFactor));
     kart->mUnk_1d4 = MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mUnk_04, kart->mScale.z);
     kart->mTurnHeadingAnglePerFrameGoal = 0;
 }
@@ -271,9 +271,9 @@ void AdvanceKartInputAndTurn(Kart *kart) {
     enum { K0 } entryIndex;
 
     if (kart->mUnk_48 & 0x4000) {
-        kart->mUnk_23a = kart->mUnk_23a - 1;
-        if (kart->mUnk_23a <= 0) {
-            kart->mUnk_23a = 0;
+        kart->mStateEndTimer = kart->mStateEndTimer - 1;
+        if (kart->mStateEndTimer <= 0) {
+            kart->mStateEndTimer = 0;
             kart->mUnk_48 &= ~0x44000;
         }
     }
@@ -465,7 +465,7 @@ s32 ApplyKartTurn(Kart *p, s16 a, s16 b, s32 c, s32 d, u32 e) {
     u32 f;
     s32 m;
 
-    k = p->mUnk_38a;
+    k = p->mDriftHeadingAnglePerFrame;
     p->mUnk_48 |= e;
     if (d != 0) {
         if (!(p->mUnk_44 & KART_44_DRIFTING)) {
@@ -504,7 +504,7 @@ void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied) {
     if (turnApplied == 0) {
         if (kart->mUnk_44 & KART_44_DRIFTING) {
             kart->mTurnHeadingAnglePerFrameGoal =
-                -kart->mTurnDirection * ((kart->mPhysicalParam->mUnk_32 + kart->mUnk_38a) >> 1);
+                -kart->mTurnDirection * ((kart->mPhysicalParam->mUnk_32 + kart->mDriftHeadingAnglePerFrame) >> 1);
         }
         DecayValueToZero(&kart->mTurnRatio);
     }
@@ -548,7 +548,7 @@ void UpdateKartSpeedLimitGoal(Kart *p) {
 
     p->mSpeedLimitGoal =
         MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mBaseSpeedLimit, p->mSpeedLimitFactor),
-                             MUL_FIXED12_NO_ROUND((s32) p->mUnk_d4, p->mAheadSpeedLimitFactor));
+                             MUL_FIXED12_NO_ROUND((s32) p->mSpeedLimitGroundFactor, p->mAheadSpeedLimitFactor));
     q = &p->mSpeedLimitGoal;
     if (p->mUnk_7c & 0x402000) {
         *q = p->mPhysicalParam->mBaseSpeedLimit;

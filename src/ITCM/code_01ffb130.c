@@ -52,7 +52,7 @@ void AdvanceKartByVelocity(Kart *kart) {
     s32 hitVelocityDecay;
     u32 w;
 
-    velocityScale = kart->mUnk_3f8;
+    velocityScale = kart->mVelocityScaleFactor;
     if (kart->mUnk_4c & 0x8000000) {
         AdvanceKartGesso(kart);
     }
@@ -108,7 +108,7 @@ void AdvanceKartByVelocity(Kart *kart) {
             }
         }
     }
-    if ((kart->mUnk_48 & 0x800) && AdvanceKartRespawnWait(kart, &velocityScale) != 0) {
+    if ((kart->mUnk_48 & KART_48_RESPAWN_WAIT) && AdvanceKartRespawnWait(kart, &velocityScale) != 0) {
         return;
     }
     if (kart->mUnk_7c & KART_7C_REMOVED) {
@@ -148,16 +148,16 @@ void AdvanceKartByVelocity(Kart *kart) {
         v3.x = kart->mTurnedForward.x - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.x, d);
         v3.y = kart->mTurnedForward.y - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.y, d);
         v3.z = kart->mTurnedForward.z - MUL_FIXED12_NO_ROUND(kart->mGroundNormal.z, d);
-        kart->mUnk_d4 = VEC_Mag(&v3);
+        kart->mSpeedLimitGroundFactor = VEC_Mag(&v3);
     } else {
         d = Vec3DotUnrounded(&kart->mForward, &kart->mGroundNormal);
         kart->mTurnedForward = kart->mForward;
-        if (kart->mUnk_3e8 > 0) {
-            kart->mUnk_d4 = 0x1000;
+        if (kart->mAirTiltAngleOffset > 0) {
+            kart->mSpeedLimitGroundFactor = 0x1000;
         } else if (d < 0) {
-            kart->mUnk_d4 = 0x1000 - d;
+            kart->mSpeedLimitGroundFactor = 0x1000 - d;
         } else {
-            kart->mUnk_d4 = 0x1000;
+            kart->mSpeedLimitGroundFactor = 0x1000;
         }
     }
     scaledForwardSpeed = LimitKartForwardSpeedAndGetScaled(kart);
@@ -185,13 +185,13 @@ void AdvanceKartByVelocity(Kart *kart) {
         velocity.y = 0;
     }
     kart->mVelocity = velocity;
-    VEC_Add(&kart->mVelocity, &kart->mUnk_374, &kart->mVelocity);
+    VEC_Add(&kart->mVelocity, &kart->mCollisionPushVelocity, &kart->mVelocity);
     kart->mVelocity.y += kart->mVerticalSpeed;
     VEC_MultAdd(kart->mAttractorPullSpeed, &kart->mAttractorPullDirection, &kart->mVelocity, &kart->mVelocity);
     if (!(kart->mUnk_44 & KART_44_ON_GROUND) && kart->mAirborneFrames > 5 && kart->mVelocity.y < -0x6000) {
         kart->mVelocity.y = -0x6000;
     }
-    VEC_Add(&kart->mVelocity, &kart->mUnk_2f0, &kart->mVelocity);
+    VEC_Add(&kart->mVelocity, &kart->mPrevPrevHitVelocity, &kart->mVelocity);
     VEC_Add(&kart->mVelocity, &kart->mPointMotion, &kart->mVelocity);
     AdvanceKartHop(kart);
     ScaleKartVelocityAndSetCappedLengthAndDirection(kart, velocityScale);

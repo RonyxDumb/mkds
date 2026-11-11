@@ -300,8 +300,9 @@ void UpdateKartAheadEffect(Kart *kart) {
 
     distance = 0;
     aheadFound = FALSE;
-    ComputeKartPointAlongUp(&kart->mUnk_1f0, kart->mUnk_510, 0x400, kart);
-    VEC_MultAdd(MUL_FIXED12_NO_ROUND(kart->mRadius, -0x4000), &kart->mTurnedForward, &kart->mUnk_1f0, &kart->mUnk_1f0);
+    ComputeKartPointAlongUp(&kart->mSecondCollisionCenter, kart->mUnk_510, 0x400, kart);
+    VEC_MultAdd(MUL_FIXED12_NO_ROUND(kart->mRadius, -0x4000), &kart->mTurnedForward, &kart->mSecondCollisionCenter,
+                &kart->mSecondCollisionCenter);
     if (kart->mIndex == GetRaceUpdateFramesMod8() && !(kart->mUnk_4c & (0x10000000 | KART_4C_AHEAD_BOOST))) {
         if (kart->mVelocityLength > 0x4000 && kart->mState == KART_STATE_NORMAL) {
             for (i = 0; i < gFoundCollisionSlotCount; i++) {

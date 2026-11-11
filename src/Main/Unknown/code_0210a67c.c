@@ -538,7 +538,7 @@ void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
     if (kartArg->mUnk_44 == 0) {
         o = (Vec3 *) &kartArg->mUnk_168.y;
     } else {
-        o = (Vec3 *) &kartArg->mUnk_250.z;
+        o = (Vec3 *) &kartArg->mCourseContactNormal.z;
     }
     pitchOffset += o->z;
     heightAboveWater = GetHeightAboveWaterOrEfct(kartArg->mTurnedForward.y);

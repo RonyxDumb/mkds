@@ -36,7 +36,7 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
         }
     }
     g = p->mMapObjectVectorLength +
-        (b + (s32) ((s64) c * (s32) ((s64) p->mSpeedLimitHitFactor * p->mUnk_394 >> 12) >> 12));
+        (b + (s32) ((s64) c * (s32) ((s64) p->mSpeedLimitHitFactor * p->mShrinkFactor >> 12) >> 12));
     if (a > g) {
         p->mForwardSpeed = g;
     } else {

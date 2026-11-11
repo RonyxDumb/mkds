@@ -315,7 +315,7 @@ void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward) 
     if (d & 0x10000) {
         e = -0x3c000;
     }
-    if (kart->mUnk_3e8 > 0) {
+    if (kart->mAirTiltAngleOffset > 0) {
         easeRate = 0x52;
     }
     if ((kart->mUnk_44 & KART_44_ON_GROUND) || (d & 0x10000)) {

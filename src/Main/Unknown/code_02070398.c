@@ -371,9 +371,9 @@ void ResetKartToStartPlacement(Kart *kart) {
     if (kart->mCollisionSlot == -1) {
         kart->mCollisionSlot = CreateCollisionSlot(collisionPos, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
     }
-    if (kart->mUnk_2ca == -1) {
-        kart->mUnk_2ca =
-            CreateCollisionSlot(&kart->mUnk_1f0, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+    if (kart->mSecondCollisionSlot == -1) {
+        kart->mSecondCollisionSlot = CreateCollisionSlot(
+            &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
     }
     kart->mUnk_7c |= 0x80;
     kart->mUnk_7c &= ~0x60;
@@ -420,7 +420,7 @@ void InitKartPhysicalParams(Kart *kart) {
 void ResetKartMotionVectorsAndFactors(Kart *kart) {
     Vec3 zeroVector;
 
-    kart->mUnk_d4 = 0x1000;
+    kart->mSpeedLimitGroundFactor = 0x1000;
     kart->mAheadSpeedLimitFactor = 0x1000;
     kart->mSpeedLimitFactor = 0x1000;
     kart->mSpeedLimitHitFactor = 0x1000;
@@ -432,11 +432,11 @@ void ResetKartMotionVectorsAndFactors(Kart *kart) {
     kart->mHopStartForward = zeroVector;
     kart->mHitVelocity = zeroVector;
     kart->mPrevHitVelocity = zeroVector;
-    kart->mUnk_2f0 = zeroVector;
+    kart->mPrevPrevHitVelocity = zeroVector;
     kart->mUnk_25c = zeroVector;
     kart->mAirborneFrames = 0;
     kart->mTurnAngle = 0;
-    kart->mUnk_38a = 0;
+    kart->mDriftHeadingAnglePerFrame = 0;
     kart->mTurnedForwardEaseFactor = 0x1000;
     kart->mHeadingAnglePerFrame = 0;
 }
@@ -468,7 +468,7 @@ void ResetKart(Kart *kart) {
     kart->mGravity = -0x2b9;
     kart->mSpeedLimitGoal = 0;
     kart->mSpeedLimit = 0xd000;
-    kart->mUnk_d4 = 0x1000;
+    kart->mSpeedLimitGroundFactor = 0x1000;
     kart->mAheadSpeedLimitFactor = 0x1000;
     kart->mState = KART_STATE_NORMAL;
     ClearKartItemEffectState(&kart->mUnk_538);
@@ -479,7 +479,7 @@ void ResetKart(Kart *kart) {
     kart->mPrevPointAlongUp = kart->mPointAlongUp;
     kart->mPrevCollisionCenter = kart->mPrevPointAlongUp;
     kart->mCollisionCenter = kart->mPrevCollisionCenter;
-    kart->mUnk_1f0 = zeroVector;
+    kart->mSecondCollisionCenter = zeroVector;
     kart->mPointMotion = zeroVector;
     kart->mSpeedLimitFactor = 0x1000;
     kart->mUnk_e0_m = data_usa_02154f14;
@@ -489,11 +489,11 @@ void ResetKart(Kart *kart) {
     kart->mAirTiltAngle = 0;
     kart->mHeadingAngle = 0;
     kart->mBoostTimer = 0;
-    kart->mUnk_23a = 0;
+    kart->mStateEndTimer = 0;
     kart->mMiniTurboTimer = 0;
     kart->mTurnedForwardEaseFactor = 0x1000;
     kart->mGroundNormal = data_02154f7c;
-    kart->mUnk_250 = zeroVector;
+    kart->mCourseContactNormal = zeroVector;
     kart->mUnk_25c = zeroVector;
     kart->mAttractorPullDirection = zeroVector;
     kart->mAttractorPullSpeed = 0;
@@ -515,9 +515,9 @@ void ResetKart(Kart *kart) {
     kart->mTurnDirection = 0;
     kart->mTurnRatio = 0;
     kart->mHitVelocity = zeroVector;
-    kart->mUnk_334 = 0;
-    kart->mUnk_338 = 0;
-    kart->mUnk_33c = 0;
+    kart->mLaunchAxisSwing = 0;
+    kart->mLaunchAxisSwingAngle = 0;
+    kart->mLaunchAxisSwingAngleSum = 0;
     kart->mUnk_344 = 0;
     kart->mLaunchStartY = kart->mPos.y;
     kart->mLaunchFrames = 0;
@@ -537,15 +537,15 @@ void ResetKart(Kart *kart) {
     kart->mYRotationAnglePerFrame = 0;
     kart->mYRotationCount = 0;
     kart->mYRotationAngleSum = 0;
-    kart->mUnk_370 = 0;
-    kart->mUnk_374 = zeroVector;
+    kart->mVerticalSpeedStepCount = 0;
+    kart->mCollisionPushVelocity = zeroVector;
     kart->mAirborneFrames = 0;
     kart->mVisible = 0xffff;
     kart->mHeadingAnglePerFrame = 0;
     kart->mTurnAngle = 0;
-    kart->mUnk_38a = 0;
+    kart->mDriftHeadingAnglePerFrame = 0;
     kart->mSpeedLimitHitFactor = 0x1000;
-    kart->mUnk_394 = 0x1000;
+    kart->mShrinkFactor = 0x1000;
     kart->mMapObjectVectorLength = 0;
     kart->mMapObjectVectorForwardDot = 0;
     kart->mTireSpinAngle = 0;
@@ -562,10 +562,10 @@ void ResetKart(Kart *kart) {
     kart->mSurfaceGroup = -1;
     kart->mSurfaceKind = 0;
     kart->mSurfaceVariant = 0;
-    kart->mUnk_3e8 = 0;
+    kart->mAirTiltAngleOffset = 0;
     kart->mTurnHeadingAnglePerFrameGoal = 0;
     kart->mTurnHeadingAnglePerFrame = 0;
-    kart->mUnk_3f8 = 0x1000;
+    kart->mVelocityScaleFactor = 0x1000;
     kart->mModelScaleKind = 0;
     kart->mModelScaleFrameIndex = 0;
     kart->mModelScaleFrameCount = 0;
@@ -1313,7 +1313,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         kart->mUnk_48 &= ~0x10000;
         AdvanceKartQuaternionBlendFactor(kart, &kart->mGroundNormal);
         kart->mUnk_48 &= ~0x40000;
-        kart->mUnk_3e8 = (s16) (MUL_FIXED12_NO_ROUND(placementAngles.x, 0x4000) >> 12) + 0x32;
+        kart->mAirTiltAngleOffset = (s16) (MUL_FIXED12_NO_ROUND(placementAngles.x, 0x4000) >> 12) + 0x32;
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
             NNS_SndPlayerStopSeq(GetSndHandleSlot(7), 0x14);
         }
@@ -1434,7 +1434,7 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     if (Vec3DotUnrounded(&kart->mUnk_12c, &data_02154f7c) <= 0) {
         return;
     }
-    kart->mAirTiltAngle = kart->mAirTiltAngle + kart->mUnk_3e8;
+    kart->mAirTiltAngle = kart->mAirTiltAngle + kart->mAirTiltAngleOffset;
     headingAngle = kart->mHeadingAngle;
     airTiltAngle = kart->mAirTiltAngle;
     MTX_RotY43_(&headingMatrix, gPairsByAngle[(headingAngle >> 4) * 2], gPairsByAngle[(headingAngle >> 4) * 2 + 1]);
@@ -1456,9 +1456,9 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     if (dot <= 0) {
         dot = -dot;
     }
-    kart->mUnk_3f8 = dot;
-    if (kart->mUnk_3f8 < 0xb33) {
-        kart->mUnk_3f8 = 0xb33;
+    kart->mVelocityScaleFactor = dot;
+    if (kart->mVelocityScaleFactor < 0xb33) {
+        kart->mVelocityScaleFactor = 0xb33;
     }
 }
 
