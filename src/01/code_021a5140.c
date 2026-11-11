@@ -78,7 +78,7 @@ void InitEmblem(void) {
     InitKartModelMenuWithKartList(GetHeap(GetCurrentHeapCall()));
     InitEmblemChoises();
     ResetOamLists(&gEmblem->mUnk_0000, &gEmblem->mUnk_0404);
-    func_ov001_021a6238(0x40, 0x10, 0x20, 0x80, 0x10);
+    CreateEmblemCursorAndGrid(0x40, 0x10, 0x20, 0x80, 0x10);
     p = gBackupBuffers->mEmblemRecord;
     if (p->mFilled) {
         MI_CpuCopy8(p->mEmblemData, gEmblem->mUnk_087c, 0x200);
@@ -88,12 +88,12 @@ void InitEmblem(void) {
         SetEmblemGridCells(gEmblem->mUnk_0c7c);
         ResetEmblemGridChanges();
     }
-    func_ov001_021a63cc(2);
-    func_ov001_021a63c0(1);
-    func_ov001_021a63a8(0);
-    func_ov001_021a6388(0);
-    func_ov001_021a6350(GetLldEntryX(GetLldEntry(gEmblem->mEmblemSLld, 0)),
-                        GetLldEntryY(GetLldEntry(gEmblem->mEmblemSLld, 0)));
+    SetEmblemCursorCellShift(2);
+    SetEmblemCursorCellValue(1);
+    SetEmblemCursorMode(0);
+    SetEmblemCursorSizeIndex(0);
+    SetEmblemCursorCellFromPoint(GetLldEntryX(GetLldEntry(gEmblem->mEmblemSLld, 0)),
+                                 GetLldEntryY(GetLldEntry(gEmblem->mEmblemSLld, 0)));
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 14), 1);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 12), 0);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);

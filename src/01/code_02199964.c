@@ -67,14 +67,14 @@ void LocateAndQueueOptionHensyuMenu(void) {
     Nscr *nscr;
     Nclr *nclr;
 
-    LocateNcgr(&ncgr, FindSceneFile(data_ov001_021a866c));
-    LocateNscr(&nscr, FindSceneFile(data_ov001_021a8688));
-    LocateNclr(&nclr, FindSceneFile(data_ov001_021a86a0));
-    gOptionHensyuMenu->mOptionHensyuMenuSBncl = FindSceneFile(data_ov001_021a86bc);
-    gOptionHensyuMenu->mOptionHensyuMenuSBnbl = FindSceneFile(data_ov001_021a86d8);
-    LocateNcgr2(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindSceneFile(data_ov001_021a86f4));
-    LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindSceneFile(data_ov001_021a8714));
-    LocateNclr(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindSceneFile(data_ov001_021a8734));
+    LocateNcgr(&ncgr, FindSceneFile(gHensyuOptionTopMenuMBNcgrName));
+    LocateNscr(&nscr, FindSceneFile(gHensyuOptionTopMenuMNscrName));
+    LocateNclr(&nclr, FindSceneFile(gHensyuOptionTopMenuMBNclrName));
+    gOptionHensyuMenu->mOptionHensyuMenuSBncl = FindSceneFile(gOptionHensyuMenuSBnclName);
+    gOptionHensyuMenu->mOptionHensyuMenuSBnbl = FindSceneFile(gOptionHensyuMenuSBnblName);
+    LocateNcgr2(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindSceneFile(gOptionHensyuMenuSNcgrName));
+    LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindSceneFile(gOptionHensyuMenuSNcerName));
+    LocateNclr(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindSceneFile(gOptionHensyuMenuSONclrName));
     NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(15, 0, nclr->mData, 0x100);

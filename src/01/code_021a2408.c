@@ -70,8 +70,8 @@ void AdvanceEmblemDisplay(void) {
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
             sbColors = gEmblem->mEmblemSBNclr->mData;
             soColors = gEmblem->mEmblemSONclr->mData;
-            soColors[0x91] = sbColors[func_ov001_021a63b4() == 1 ? 2 : 1];
-            soColors[0x92] = sbColors[func_ov001_021a63b4()];
+            soColors[0x91] = sbColors[GetEmblemCursorCellValue() == 1 ? 2 : 1];
+            soColors[0x92] = sbColors[GetEmblemCursorCellValue()];
             DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
             GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
@@ -98,8 +98,8 @@ void AdvanceEmblemDisplay(void) {
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
             sbColors = gEmblem->mEmblemSBNclr->mData;
             soColors = gEmblem->mEmblemSONclr->mData;
-            soColors[0x91] = sbColors[func_ov001_021a63b4() == 1 ? 2 : 1];
-            soColors[0x92] = sbColors[func_ov001_021a63b4()];
+            soColors[0x91] = sbColors[GetEmblemCursorCellValue() == 1 ? 2 : 1];
+            soColors[0x92] = sbColors[GetEmblemCursorCellValue()];
             DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
             GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
@@ -112,8 +112,8 @@ void AdvanceEmblemDisplay(void) {
             GX_LoadBG2Char((gEmblem->mUnk_0a7c), 0, 0x200);
             sbColors = gEmblem->mEmblemSBNclr->mData;
             soColors = gEmblem->mEmblemSONclr->mData;
-            soColors[0x91] = sbColors[func_ov001_021a63b4() == 1 ? 2 : 1];
-            soColors[0x92] = sbColors[func_ov001_021a63b4()];
+            soColors[0x91] = sbColors[GetEmblemCursorCellValue() == 1 ? 2 : 1];
+            soColors[0x92] = sbColors[GetEmblemCursorCellValue()];
             DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
             GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
@@ -150,22 +150,22 @@ void AdvanceEmblemDisplay(void) {
     }
 
     if (gEmblem->mUnk_10b8 != FALSE) {
-        if (func_ov001_021a639c() == 0) {
-            if (func_ov001_021a637c() == 0) {
+        if (GetEmblemCursorMode() == 0) {
+            if (GetEmblemCursorSizeIndex() == 0) {
                 SetEmblemSoundValue(0);
-            } else if (func_ov001_021a637c() == 1) {
+            } else if (GetEmblemCursorSizeIndex() == 1) {
                 SetEmblemSoundValue(1);
                 gEmblem->mUnk_10bc = 1;
-            } else if (func_ov001_021a637c() == 2) {
+            } else if (GetEmblemCursorSizeIndex() == 2) {
                 SetEmblemSoundValue(2);
                 gEmblem->mUnk_10bc = 2;
             }
-        } else if (func_ov001_021a639c() == 1) {
-            if (func_ov001_021a637c() == 0) {
+        } else if (GetEmblemCursorMode() == 1) {
+            if (GetEmblemCursorSizeIndex() == 0) {
                 SetEmblemSoundValue(3);
-            } else if (func_ov001_021a637c() == 1) {
+            } else if (GetEmblemCursorSizeIndex() == 1) {
                 SetEmblemSoundValue(4);
-            } else if (func_ov001_021a637c() == 2) {
+            } else if (GetEmblemCursorSizeIndex() == 2) {
                 SetEmblemSoundValue(5);
             }
         }

@@ -603,7 +603,7 @@ void ReleaseMissionRunMSsel(void) {
             StopMissionRunMSselSeqsAtOnce(0, GetMissionTableRow());
             break;
     }
-    func_ov001_021a64a0();
+    ClearMissionRunBossIconPointer();
     HeapDestroy(gMissionRunMSsel->mHeap);
     gMissionRunMSsel = NULL;
 }

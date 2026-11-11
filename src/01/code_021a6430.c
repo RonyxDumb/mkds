@@ -17,51 +17,53 @@
 #include "code_0212df7c.h"
 
 void LoadMissionRunBossIconData(void) {
-    void *v1;
-    Ncgr *v2;
-    Unk02021dc8 *v3;
-    Nclr *v4[1];
-    v2 = NULL;
-    v3 = NULL;
-    v4[0] = NULL;
-    v1 = FindSceneFile(gMissionRunBossIconSNcgrName);
-    LoadNcgrData(&v2, v1);
-    v1 = FindSceneFile(gMissionRunBossIconSNcerName);
-    LoadNcerData(&v3, v1);
-    v1 = FindSceneFile(gMissionRunBossIconSONclrName);
-    LoadNclrData(v4, v1);
+    void *sceneFile;
+    Ncgr *ncgr;
+    Unk02021dc8 *ncer;
+    Nclr *nclr[1];
+    ncgr = NULL;
+    ncer = NULL;
+    nclr[0] = NULL;
+    sceneFile = FindSceneFile(gMissionRunBossIconSNcgrName);
+    LoadNcgrData(&ncgr, sceneFile);
+    sceneFile = FindSceneFile(gMissionRunBossIconSNcerName);
+    LoadNcerData(&ncer, sceneFile);
+    sceneFile = FindSceneFile(gMissionRunBossIconSONclrName);
+    LoadNclrData(nclr, sceneFile);
 }
 
-void CreateMissionRunBossIcon(void *a) {
-    gMissionRunBossIcon = HeapAlloc(a, 0x10);
+void CreateMissionRunBossIcon(void *heap) {
+    gMissionRunBossIcon = HeapAlloc(heap, 0x10);
     LocateNcgr2(&gMissionRunBossIcon->mNcgr, FindSceneFile(gMissionRunBossIconSNcgrName));
     LocateNcer(&gMissionRunBossIcon->mNcer, FindSceneFile(gMissionRunBossIconSNcerName));
     LocateNclr((Nclr **) &gMissionRunBossIcon->mNclr, FindSceneFile(gMissionRunBossIconSONclrName));
     gMissionRunBossIcon->mBncl = FindSceneFile(gMissionRunBossIconSBnclName);
 }
 
-void func_ov001_021a64a0(void) {
+void ClearMissionRunBossIconPointer(void) {
     *(u32 *) &gMissionRunBossIcon = 0;
 }
 
-void QueueMissionRunBossIcon(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s32 flagG) {
+void QueueMissionRunBossIcon(s32 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,
+                             u16 paletteSlot, s32 queueSelector) {
     s32 v0 = 14;
-    MissionRunBossIcon *p;
-    u8 *dst;
-    s32 v1;
+    MissionRunBossIcon *missionRunBossIcon;
+    u8 *paletteData;
+    s32 paletteIndex;
 
-    if (flagG != 0) {
-        if (flagG == 1) {
+    if (queueSelector != 0) {
+        if (queueSelector == 1) {
             v0 = 30;
         }
     }
-    p = gMissionRunBossIcon;
-    QueueCellChars(data_ov001_021a7664[a], p->mNcer, p->mNcgr, p->mBncl, flagG, e, (c), (d));
-    dst = gMissionRunBossIcon->mNclr->mUnk_0c;
-    if (flagB != 0) {
-        v1 = data_ov001_021a7674[a];
+    missionRunBossIcon = gMissionRunBossIcon;
+    QueueCellChars(gMissionRunBossIconCellIndices[rowIndex], missionRunBossIcon->mNcer, missionRunBossIcon->mNcgr,
+                   missionRunBossIcon->mBncl, queueSelector, destIndex, (destCells), (destCellLayout));
+    paletteData = gMissionRunBossIcon->mNclr->mUnk_0c;
+    if (usePaletteIndex != 0) {
+        paletteIndex = gMissionRunBossIconPaletteIndices[rowIndex];
     } else {
-        v1 = 7;
+        paletteIndex = 7;
     }
-    NNS_GfdRegisterNewVramTransferTask(v0, f << 5, dst + (v1 << 5), 32);
+    NNS_GfdRegisterNewVramTransferTask(v0, paletteSlot << 5, paletteData + (paletteIndex << 5), 32);
 }

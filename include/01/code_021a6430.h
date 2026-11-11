@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-void QueueMissionRunBossIcon(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s32 flagG);
-void func_ov001_021a64a0(void);
+void QueueMissionRunBossIcon(s32 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,
+                             u16 paletteSlot, s32 queueSelector);
+void ClearMissionRunBossIconPointer(void);
 void CreateMissionRunBossIcon(void *param_1);
 void LoadMissionRunBossIconData(void);

@@ -149,8 +149,8 @@ typedef struct SelectEngine {
     /* 4c */ s32 mResult;
 } SelectEngine;
 
-// Object behind data_ov001_021ca420, allocated by func_ov001_021a6238.
-typedef struct Unk021ca420 {
+// Object behind gEmblemCursor, allocated by CreateEmblemCursorAndGrid.
+typedef struct EmblemCursor {
     /* 00 */ s32 mMode;
     /* 04 */ s32 mSizeIndex;
     /* 08 */ u8 mCellValue;
@@ -167,7 +167,7 @@ typedef struct Unk021ca420 {
     /* 38 */ s32 mCellY;
     /* 3c */ s32 mPrevCellX;
     /* 40 */ s32 mPrevCellY;
-} Unk021ca420;
+} EmblemCursor;
 
 typedef struct Unk021ca424_08 {
     /* 00 */ u8 mUnk_00[0xc];

@@ -42,8 +42,8 @@ void InitOptionTopMenu(void *heap) {
     }
     gOptionTopMenu->mStateFrames = 0;
     gOptionTopMenu->mUnk_14 = TRUE;
-    gOptionTopMenu->mOptionMessages = FindSceneFile(data_ov001_021a8254);
-    gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a8260);
+    gOptionTopMenu->mOptionMessages = FindSceneFile(gOptionBmgName);
+    gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives(gOptionTopMenuCommonBmgName);
     if (GetOptionPrevState() == 1) {
         gOptionTopMenu->mBg0Offset = 0x32;
     } else {
@@ -77,14 +77,14 @@ void LocateAndQueueOptionTopMenu(void) {
     Nscr *nscr;
     Nclr *nclr;
 
-    LocateNcgr(&ncgr, FindSceneFile(data_ov001_021a8180));
-    LocateNscr(&nscr, FindSceneFile(data_ov001_021a819c));
-    LocateNclr(&nclr, FindSceneFile(data_ov001_021a81b4));
-    gOptionTopMenu->mOptionTopMenuSBncl = FindSceneFile(data_ov001_021a81d0);
-    gOptionTopMenu->mOptionTopMenuSBnbl = FindSceneFile(data_ov001_021a81e8);
-    LocateNcgr2(&gOptionTopMenu->mOptionTopMenuSNcgr, FindSceneFile(data_ov001_021a8200));
-    LocateNcer(&gOptionTopMenu->mOptionTopMenuSNcer, FindSceneFile(data_ov001_021a821c));
-    LocateNclr(&gOptionTopMenu->mOptionTopMenuSONclr, FindSceneFile(data_ov001_021a8238));
+    LocateNcgr(&ncgr, FindSceneFile(gTopMenuOptionTopMenuMBNcgrName));
+    LocateNscr(&nscr, FindSceneFile(gTopMenuOptionTopMenuMNscrName));
+    LocateNclr(&nclr, FindSceneFile(gTopMenuOptionTopMenuMBNclrName));
+    gOptionTopMenu->mOptionTopMenuSBncl = FindSceneFile(gOptionTopMenuSBnclName);
+    gOptionTopMenu->mOptionTopMenuSBnbl = FindSceneFile(gOptionTopMenuSBnblName);
+    LocateNcgr2(&gOptionTopMenu->mOptionTopMenuSNcgr, FindSceneFile(gOptionTopMenuSNcgrName));
+    LocateNcer(&gOptionTopMenu->mOptionTopMenuSNcer, FindSceneFile(gOptionTopMenuSNcerName));
+    LocateNclr(&gOptionTopMenu->mOptionTopMenuSONclr, FindSceneFile(gOptionTopMenuSONclrName));
     NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(15, 0, nclr->mData, 0x100);
