@@ -34,7 +34,7 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     Lld *list;
     LldData *data;
     LldRecord *rec;
-    Unk021a5a58_2c_2c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x18);
     data = FindSceneFile((fileName));
@@ -60,9 +60,9 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
         } else {
             entry->mCellAnim.mActive = FALSE;
         }
-        cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
-        if ((cell->mUnk_02 >> 11) & 1) {
-            box = cell->mUnk_08;
+        cell = entry->mCellAnim.mPCurrentCell;
+        if ((cell->mCellAttr >> 11) & 1) {
+            box = &cell->mMaxX;
             entry->mBoundsLeft = TO_FIXED12(box[2]);
             entry->mBoundsTop = TO_FIXED12(box[3]);
             entry->mBoundsRight = TO_FIXED12(box[0]);
@@ -80,7 +80,7 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
     s32 screenY;
     s32 scaledPos[2];
     s32 unscaledPos[2];
-    Unk021a5a58_2c_2c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     for (entryIndex = 0; entryIndex < lld->mEntryCount; entryIndex++) {
         entry = &lld->mEntries[entryIndex];
@@ -106,19 +106,19 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPD = mtx.mUnk_00[3] >> 4;
                     mtx.mUnk_00[0] = entry->mScale;
                     mtx.mUnk_00[3] = entry->mScale;
-                    cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
+                    cell = entry->mCellAnim.mPCurrentCell;
                     scaledPos[0] = TO_FIXED12(screenX);
                     scaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
                         (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
-                        (NNSG2dCellDataWithBR *) cell, &mtx, scaledPos, idx, 1);
+                        cell, &mtx, scaledPos, idx, 1);
                 } else {
-                    cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
+                    cell = entry->mCellAnim.mPCurrentCell;
                     unscaledPos[0] = TO_FIXED12(screenX);
                     unscaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
                         (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
-                        (NNSG2dCellDataWithBR *) cell, NULL, unscaledPos, 0, 0);
+                        cell, NULL, unscaledPos, 0, 0);
                 }
             }
         }

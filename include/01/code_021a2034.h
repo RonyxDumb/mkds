@@ -3,12 +3,8 @@
 #include "types.h"
 
 typedef struct Camera Camera;
-
-// Object whose address UpdateCameraEffect receives as its second argument.
-typedef struct Unk021a2048_9c {
-    /* 00 */ u8 mUnk_00[0x28];
-    /* 28 */ s16 mUnk_28;
-} Unk021a2048_9c;
+typedef struct CourseMapRow CourseMapRow;
+typedef struct MapObjectList MapObjectList;
 
 typedef struct EffectMapObject {
     /* 00 */ u8 mUnk_00[2];
@@ -17,16 +13,10 @@ typedef struct EffectMapObject {
     /* 10 */ u8 mUnk_10[0x56];
     /* 66 */ u16 mAlpha;
     /* 68 */ u8 mUnk_68[0x34];
-    /* 9c */ Unk021a2048_9c *mCourseMapRow;
+    /* 9c */ CourseMapRow *mCourseMapRow;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ void *mEffectHandle;
 } EffectMapObject;
-
-// Argument of InitPeriodicEffectObjects: a table of objects and the number of its entries.
-typedef struct Unk021a2300 {
-    /* 00 */ EffectMapObject **mUnk_00;
-    /* 04 */ u16 mUnk_04;
-} Unk021a2300;
 
 void *CreateCameraEffectUpdateList(void);
 void UpdateCameraEffect(void *p0, EffectMapObject *object);
@@ -35,4 +25,4 @@ void UpdateCameraEffect(void *p0, EffectMapObject *object);
 void ComputePointAheadOfCamera(EffectMapObject *object, Camera *camera, Vec3 *out);
 void *CreatePeriodicEffectUpdateList(void);
 void UpdatePeriodicEffect(void *p0, EffectMapObject *object);
-void InitPeriodicEffectObjects(Unk021a2300 *objectList);
+void InitPeriodicEffectObjects(MapObjectList *objectList);

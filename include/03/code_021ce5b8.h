@@ -12,29 +12,25 @@ typedef struct UsbScanEntry {
 struct UsbScan {
     /* 0000 */ u8 mUnk_0000[0xf00];
     /* 0f00 */ u8 mUnk_0f00[0x400];
-    /* 1300 */ UsbScanEntry mUnk_1300[16];
-    /* 1370 */ void (*mUnk_1370)(u32);
+    /* 1300 */ UsbScanEntry mEntries[16];
+    /* 1370 */ void (*mResultCallback)(u32);
     /* 1374 */ ScanExParam mUnk_1374;
     /* 13ac */ u8 mUnk_13ac[0xc];
     /* 13b8 */ Unk02142988 mUnk_13b8;
-    /* 1b74 */ u32 mUnk_1b74;
-    /* 1b78 */ u32 mUnk_1b78;
-    /* 1b7c */ u32 mUnk_1b7c;
+    /* 1b74 */ u32 mStartTickLow;
+    /* 1b78 */ u32 mStartTickHigh;
+    /* 1b7c */ u32 mReportTask;
     /* 1b80 */ u8 mUnk_1b80;
     /* 1b81 */ u8 mUnk_1b81;
-    /* 1b82 */ u8 mUnk_1b82;
+    /* 1b82 */ u8 mReported;
 };
 
-typedef struct Unk021ce5b8 {
-    /* 00 */ u8 mUnk_00[0xe];
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ WMBssDesc *mUnk_10[1];
-} Unk021ce5b8;
+typedef struct WMStartScanExCallback WMStartScanExCallback;
 
 #include "03/unk_021da000.h"
 
-void CheckUsbScanEntries(Unk021ce5b8 *scanResult);
-void StoreUsbScanEntries(Unk021ce5b8 *scanResult);
+void CheckUsbScanEntries(WMStartScanExCallback *scanResult);
+void StoreUsbScanEntries(WMStartScanExCallback *scanResult);
 void UsbScanCallback(Unk021425e8 *message);
 void SetUsbScanCallback(u32 callback);
 BOOL ReleaseUsbScan(void);

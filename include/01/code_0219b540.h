@@ -17,12 +17,6 @@
 #include "Main/Unknown/code_0201ea58.h"
 #include "code_0212df7c.h"
 
-// Object with a pointer at offset 0xc.
-typedef struct Unk021a9bf4Block {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 *mUnk_0c;
-} Unk021a9bf4Block;
-
 // Object behind gSelectGhost.
 typedef struct SelectGhost {
     /* 00 */ struct Unk02021dc8 *mSelectCupCourseMNcer;
@@ -35,7 +29,7 @@ typedef struct SelectGhost {
     /* 1c */ Nclr *mSelectGhostSONclr;
     /* 20 */ void *mPlayerCharacterMNcgr;
     /* 24 */ struct Unk02021dc8 *mPlayerCharacterMNcer;
-    /* 28 */ Unk021a9bf4Block *mPlayerCharacterMONclr;
+    /* 28 */ Nclr *mPlayerCharacterMONclr;
     /* 2c */ struct LayoutEntryTable *mPlayerCharacterMBncl;
     /* 30 */ LayoutTableEntry *mSelectCupCourseTaMTable;
     /* 34 */ LayoutTableEntry *mSelectGhostSTable;

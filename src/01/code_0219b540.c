@@ -202,7 +202,7 @@ void RefreshSelectGhostForIndex(void) {
     u16 kartCellIndex;
     u16 nameLabelIndex;
     u16 timeLabelIndex;
-    u8 *paletteData;
+    u16 *paletteData;
     s32 characterCell;
     s32 ghostRecordSetKartIndex;
     u8 buf14[4];
@@ -240,9 +240,9 @@ void RefreshSelectGhostForIndex(void) {
     QueueCellChars(characterCell, gSelectGhost->mPlayerCharacterMNcer, gSelectGhost->mPlayerCharacterMNcgr,
                    gSelectGhost->mPlayerCharacterMBncl, 1, characterCellIndex, gSelectGhost->mSelectGhostSONcer,
                    gSelectGhost->mSelectGhostSBncl);
-    paletteData = gSelectGhost->mPlayerCharacterMONclr->mUnk_0c;
+    paletteData = gSelectGhost->mPlayerCharacterMONclr->mData;
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0x100,
-                                       paletteData +
+                                       (u8 *) paletteData +
                                            (GetCellPaletteIndex(characterCell, gSelectGhost->mPlayerCharacterMNcer,
                                                                 gSelectGhost->mPlayerCharacterMBncl)
                                             << 5),

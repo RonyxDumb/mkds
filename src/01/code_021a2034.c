@@ -4,6 +4,8 @@
 #include "Main/Unknown/code_0208aea8.h"
 #include "Main/Unknown/code_0208b484.h"
 #include "Main/Unknown/code_0209b000.h"
+#include "Main/Unknown/code_020e6fd4.h"
+#include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/code_0208b000.h"
 #include "Main/Unknown/code_020b4000.h"
 #include "00/code_02181f98.h"
@@ -13,7 +15,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 
-void InitPeriodicEffectObjects(Unk021a2300 *objectList) {
+void InitPeriodicEffectObjects(MapObjectList *objectList) {
     s32 objectIndex;
     EffectMapObject *object;
     RaceProgress *raceProgress;
@@ -21,7 +23,7 @@ void InitPeriodicEffectObjects(Unk021a2300 *objectList) {
 
     if (objectList != NULL) {
         objectIndex = 0;
-        while (objectIndex < objectList->mUnk_04 && (object = objectList->mUnk_00[objectIndex]) != NULL) {
+        while (objectIndex < objectList->mMapObjectCount && (object = objectList->mMapObjects[objectIndex]) != NULL) {
             raceProgress = gRaceProgress;
             localRandom = &raceProgress->mLocalRandom;
             localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
@@ -68,7 +70,7 @@ void UpdateCameraEffect(void *p0, EffectMapObject *object) {
     switch (object->mUnk_a0) {
         case 0:
             object->mUnk_a0 = 1;
-            switch (object->mCourseMapRow->mUnk_28) {
+            switch (object->mCourseMapRow->mSettings[0]) {
                 case 0:
                     StartEffect(0x400, &effectPosition);
                     StartEffect(0x3ff, &effectPosition);
@@ -101,7 +103,7 @@ void UpdateCameraEffect(void *p0, EffectMapObject *object) {
             }
             break;
         case 1:
-            switch (object->mCourseMapRow->mUnk_28) {
+            switch (object->mCourseMapRow->mSettings[0]) {
                 case 0:
                     PlaceEffect(object->mEffectHandle, &camera->mPos);
                     break;

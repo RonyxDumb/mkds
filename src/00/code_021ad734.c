@@ -25,7 +25,7 @@
 void reset_network_vars(u32 reason) {
     u32 addressSeen;
     OSThread *thread;
-    Unk021b04f8 *socket;
+    CPSSoc *socket;
     s32 i;
     CPSFragTable *fragment;
 
@@ -51,8 +51,8 @@ void reset_network_vars(u32 reason) {
                     if (socket->mState != 10 && socket->mState != 11) {
                         socket->mState = 0;
                     }
-                    if (socket->mUnk_04 != 0) {
-                        socket->mUnk_04 = 0;
+                    if (socket->mBlockType != 0) {
+                        socket->mBlockType = 0;
                         OS_WakeupThreadDirect(socket->mThread);
                     }
                 }
@@ -215,9 +215,9 @@ u16 calc_checksum(const void *buffer, u32 length) {
     return invert_checksum(calc_checksum_do(buffer, length, 0));
 }
 
-BOOL check_tcpudpsum(const void *buffer, u32 length, const Unk021b0138 *header, u32 sum) {
+BOOL check_tcpudpsum(const void *buffer, u32 length, const IpHeader *header, u32 sum) {
     sum = calc_checksum_do(buffer, length, sum);
-    sum = calc_checksum_do(header->mUnk_0c, 8, sum);
+    sum = calc_checksum_do(&header->mSourceAddressHigh, 8, sum);
     sum += length;
     if (sum & 0x10000) {
         sum = (sum + 1) & 0xffff;
@@ -1251,7 +1251,7 @@ void dt_rst(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
 }
 
 void dispatch_tcp(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
-    if (check_tcpudpsum(tcpHeader, length, (const Unk021b0138 *) ipHeader, 6) != FALSE) {
+    if (check_tcpudpsum(tcpHeader, length, ipHeader, 6) != FALSE) {
         return;
     }
     length -= (tcpHeader->mDataOffset & 0xf0) / 4;
@@ -1290,7 +1290,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
     CPSSoc *socket;
 
     if (udpHeader->mChecksum != 0 &&
-        check_tcpudpsum(udpHeader, length, (const Unk021b0138 *) ipHeader, 0x11) != FALSE) {
+        check_tcpudpsum(udpHeader, length, ipHeader, 0x11) != FALSE) {
         return;
     }
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {

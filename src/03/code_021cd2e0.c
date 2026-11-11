@@ -12,6 +12,7 @@
 #include "03/code_021b94b8.h"
 #include "03/code_021cd000.h"
 #include "03/unk_021d7000.h"
+#include "03/unk_021d8000.h"
 #include "os_printf.h"
 #include "string.h"
 #include "code_02134398.h"
@@ -208,16 +209,16 @@ void WriteApWorkCopy(void) {
     WriteApEntryToNvram(workCopy->mEntryIndex);
 }
 
-void WriteApWorkFromExchangeResult(const Unk021cd5e0_arg *exchangeResult) {
+void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     ApWorkCopy *workCopy;
     u32 keyLength;
     s32 i;
-    u8 *sourceKey;
+    const u8 *sourceKey;
     u8 *destinationKey;
     workCopy = &gApStore->mWorkCopy;
     MI_CpuFill8(workCopy, 0, 0xef);
     MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsid, 0x20);
-    switch (exchangeResult->mUnk_20) {
+    switch (exchangeResult->mKind) {
         case 1:
             workCopy->mEntry.mWepMode = 1;
             keyLength = 5;
@@ -238,7 +239,7 @@ void WriteApWorkFromExchangeResult(const Unk021cd5e0_arg *exchangeResult) {
     workCopy->mEntry.mWepNotation = 0;
     i = 0;
     destinationKey = workCopy->mEntry.mWepKeys[0];
-    sourceKey = (u8 *) exchangeResult->mUnk_28;
+    sourceKey = exchangeResult->mValueBytes[0];
     for (; i < 4; i++) {
         MI_CpuCopy8(sourceKey, destinationKey, keyLength);
         destinationKey += 0x10;

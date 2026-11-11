@@ -40,13 +40,7 @@ typedef struct ApStore {
     /* 400 */ ApWorkCopy mWorkCopy;
 } ApStore;
 
-// Argument of WriteApWorkFromExchangeResult.
-typedef struct Unk021cd5e0_arg {
-    /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u8 mUnk_24[4];
-    /* 28 */ u8 mUnk_28[4][0x20];
-} Unk021cd5e0_arg;
+typedef struct ExchangeResult ExchangeResult;
 
 extern u8 gSettingNone[];
 
@@ -56,7 +50,7 @@ void ResetApEntries(void);
 void ResetApEntry(int entryIndex);
 struct ApStore *GetApStore(void);
 void WriteApWorkFromAossResult(int response);
-void WriteApWorkFromExchangeResult(const Unk021cd5e0_arg *exchangeResult);
+void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult);
 void WriteApWorkCopy(void);
 void CopyApEntryToWorkCopy(s32 entryIndex);
 u8 GetApEntrySetType(int entryIndex);

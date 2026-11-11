@@ -4,12 +4,7 @@
 #include "01/code_02188950.h"
 
 typedef struct MapObjectList MapObjectList;
-
-// Offsets 0x50..0x5b of the object are a position.
-typedef struct Unk0218fd20 {
-    /* 00 */ u8 mUnk_00[0x50];
-    /* 50 */ Vec3 mUnk_50;
-} Unk0218fd20;
+typedef struct ItemObject ItemObject;
 
 #include "01/code_02185ef4.h"
 
@@ -44,7 +39,7 @@ void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject);
 void InitIwanteObjects(MapObjectList *mapObjectList);
 void UpdateIwanteHands(u32 mapObjectList, MissionRunMapObject *mapObject);
 void InitIwanteHandsObjects(MapObjectList *mapObjectList);
-void IwanteItemHitCallback(MissionRunMapObject *mapObject, Unk0218fd20 *itemObject);
+void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObject);
 void IwanteItemResponse2Callback(MissionRunMapObject *mapObject);
 void StartIwanteChainCameraHold(MissionRunMapObject *mapObject);
 void StartIwanteChainCameraCourseWait(MissionRunMapObject *mapObject);

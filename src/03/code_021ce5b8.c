@@ -1,4 +1,5 @@
 #include "03/code_021ce5b8.h"
+#include "03/code_021cce78.h"
 #include "03/unk_021d6000.h"
 
 #include "03/code_021ce000.h"
@@ -21,11 +22,11 @@ BOOL InitUsbScan(void (*callback)(u32)) {
     u64 tick;
 
     gUsbScan = AllocZeroedExpHeapBlock(0x1ba0, 0x20);
-    gUsbScan->mUnk_1370 = callback;
+    gUsbScan->mResultCallback = callback;
     scan = gUsbScan;
     tick = OS_GetTick();
-    scan->mUnk_1b74 = tick;
-    scan->mUnk_1b78 = tick >> 32;
+    scan->mStartTickLow = tick;
+    scan->mStartTickHigh = tick >> 32;
     if (WM_Initialize(scan, UsbScanCallback, 3) == 2) {
         do {
             WM_ReadStatus(&gUsbScan->mUnk_13b8);
@@ -39,7 +40,7 @@ BOOL InitUsbScan(void (*callback)(u32)) {
         gUsbScan->mUnk_1374.mSsid[9] = 1;
         MI_CpuCopy8(ownerInfo.mNickName, &gUsbScan->mUnk_1374.mSsid[0xc], ownerInfo.mNickNameLength * 2);
         if (StartUsbScan() != 0) {
-            gUsbScan->mUnk_1b7c = AddTask(0, AdvanceUsbScanReport, NULL, 0x78);
+            gUsbScan->mReportTask = AddTask(0, AdvanceUsbScanReport, NULL, 0x78);
             return 1;
         }
     }
@@ -73,8 +74,8 @@ BOOL ReleaseUsbScan(void) {
         return 0;
     }
     scan = gUsbScan;
-    if (scan->mUnk_1b7c != 0) {
-        RemoveTaskEntryWrapper(0, scan->mUnk_1b7c);
+    if (scan->mReportTask != 0) {
+        RemoveTaskEntryWrapper(0, scan->mReportTask);
     }
     scan = gUsbScan;
     while (*(vu8 *) &scan->mUnk_1b80 != 2) {
@@ -84,7 +85,7 @@ BOOL ReleaseUsbScan(void) {
 }
 
 void SetUsbScanCallback(u32 callback) {
-    gUsbScan->mUnk_1370 = (void (*)(u32)) callback;
+    gUsbScan->mResultCallback = (void (*)(u32)) callback;
 }
 
 void UsbScanCallback(Unk021425e8 *message) {
@@ -105,10 +106,10 @@ void UsbScanCallback(Unk021425e8 *message) {
     }
     switch (message->mUnk_08_0) {
         case 5:
-            if (scan->mUnk_1b82 != 0) {
-                CheckUsbScanEntries((Unk021ce5b8 *) message);
+            if (scan->mReported != 0) {
+                CheckUsbScanEntries((WMStartScanExCallback *) message);
             } else {
-                StoreUsbScanEntries((Unk021ce5b8 *) message);
+                StoreUsbScanEntries((WMStartScanExCallback *) message);
             }
             StartUsbScan();
             break;
@@ -121,10 +122,10 @@ void UsbScanCallback(Unk021425e8 *message) {
     }
 }
 
-void StoreUsbScanEntries(Unk021ce5b8 *scanResult) {
+void StoreUsbScanEntries(WMStartScanExCallback *scanResult) {
     s32 i;
 
-    for (i = 0; i < scanResult->mUnk_0e; i++) {
+    for (i = 0; i < scanResult->mBssDescCount; i++) {
         WMBssDesc *bssDesc;
         s32 j;
         u8 *slotBssid;
@@ -132,35 +133,35 @@ void StoreUsbScanEntries(Unk021ce5b8 *scanResult) {
         s32 k;
         UsbScan *scan;
 
-        bssDesc = scanResult->mUnk_10[i];
+        bssDesc = scanResult->mBssDesc[i];
         DC_InvalidateRange(bssDesc, 0xc0);
         if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
             continue;
         }
         j = 0;
         scan = gUsbScan;
-        slotBssid = scan->mUnk_1300[0].mBssid;
+        slotBssid = scan->mEntries[0].mBssid;
         for (; j < 16; j++) {
             if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
-                if (scan->mUnk_1300[j].mFlag != 0) {
+                if (scan->mEntries[j].mFlag != 0) {
                     goto next;
                 }
                 if ((bssDesc->mSsid[9] & 1) == 0) {
                     goto next;
                 }
-                if (scan->mUnk_1370 != NULL) {
-                    scan->mUnk_1370(1);
+                if (scan->mResultCallback != NULL) {
+                    scan->mResultCallback(1);
                 }
                 return;
             }
             slotBssid += 7;
         }
         k = 0;
-        freeSlotBssid = scan->mUnk_1300[0].mBssid;
+        freeSlotBssid = scan->mEntries[0].mBssid;
         for (; k < 16; k++) {
             if (memcmp(freeSlotBssid, gUsbScanEmptyBssid, 6) == 0) {
-                MI_CpuCopy8(bssDesc->mBssid, scan->mUnk_1300[k].mBssid, 6);
-                gUsbScan->mUnk_1300[k].mFlag = (bssDesc->mSsid[9] & 1) ? 1 : 0;
+                MI_CpuCopy8(bssDesc->mBssid, scan->mEntries[k].mBssid, 6);
+                gUsbScan->mEntries[k].mFlag = (bssDesc->mSsid[9] & 1) ? 1 : 0;
                 goto next;
             }
             freeSlotBssid += 7;
@@ -169,7 +170,7 @@ void StoreUsbScanEntries(Unk021ce5b8 *scanResult) {
     }
 }
 
-void CheckUsbScanEntries(Unk021ce5b8 *scanResult) {
+void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
     s32 i;
     UsbScan *q;
     s32 resultCount;
@@ -177,14 +178,14 @@ void CheckUsbScanEntries(Unk021ce5b8 *scanResult) {
 
     scan = gUsbScan;
     if (scan->mUnk_1b81 != 0) {
-        if (scan->mUnk_1370 != NULL) {
-            scan->mUnk_1370(scan->mUnk_1b81);
+        if (scan->mResultCallback != NULL) {
+            scan->mResultCallback(scan->mUnk_1b81);
         }
         return;
     }
     DC_InvalidateRange(scan->mUnk_0f00, 0x400);
     i = 0;
-    resultCount = scanResult->mUnk_0e;
+    resultCount = scanResult->mBssDescCount;
     if (resultCount > 0) {
         q = gUsbScan;
         do {
@@ -192,20 +193,20 @@ void CheckUsbScanEntries(Unk021ce5b8 *scanResult) {
             u8 *slotBssid;
             WMBssDesc *bssDesc;
 
-            bssDesc = scanResult->mUnk_10[i];
+            bssDesc = scanResult->mBssDesc[i];
             if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
                 continue;
             }
             if ((bssDesc->mSsid[9] & 1) == 0) {
                 continue;
             }
-            for (j = 0, slotBssid = q->mUnk_1300[0].mBssid; j < 16; j++) {
+            for (j = 0, slotBssid = q->mEntries[0].mBssid; j < 16; j++) {
                 if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
-                    if (q->mUnk_1300[j].mFlag != 0) {
+                    if (q->mEntries[j].mFlag != 0) {
                         break;
                     }
-                    if (q->mUnk_1370 != NULL) {
-                        q->mUnk_1370(1);
+                    if (q->mResultCallback != NULL) {
+                        q->mResultCallback(1);
                         return;
                     }
                     q->mUnk_1b81 = 1;

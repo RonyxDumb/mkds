@@ -1,4 +1,5 @@
 #include "03/code_021ce110.h"
+#include "03/code_021ce5b8.h"
 #include "code_0212df7c.h"
 #include "03/code_021cdbd0.h"
 #include "03/code_021d1790.h"
@@ -17,17 +18,17 @@
 
 void AdvanceUsbScanReport(u32 task) {
     u32 flagSetFound;
-    Unk021ce4d4 *scan;
+    UsbScan *scan;
     u32 flagClearFound;
     s32 i;
     u64 tick = OS_GetTick();
-    scan = (Unk021ce4d4 *) gUsbScan;
-    if (tick >= *(u64 *) scan->mStartTick + 0x17f898) {
+    scan = gUsbScan;
+    if (tick >= *(u64 *) &scan->mStartTickLow + 0x17f898) {
         flagClearFound = 0;
         flagSetFound = 0;
         for (i = 0; i < 0x10; i++) {
-            if (memcmp(scan->mEntries[i].mUnk_00, gUsbScanEmptyBssid, 6) != 0) {
-                if (scan->mEntries[i].mUnk_06 != 0) {
+            if (memcmp(scan->mEntries[i].mBssid, gUsbScanEmptyBssid, 6) != 0) {
+                if (scan->mEntries[i].mFlag != 0) {
                     flagSetFound = 1;
                 } else {
                     flagClearFound = 1;
@@ -47,8 +48,8 @@ void AdvanceUsbScanReport(u32 task) {
                 scan->mResultCallback(0);
             }
         }
-        ((Unk021ce4d4 *) gUsbScan)->mReportTask = 0;
-        ((Unk021ce4d4 *) gUsbScan)->mReported = 1;
+        gUsbScan->mReportTask = 0;
+        gUsbScan->mReported = 1;
         RequestTaskRemoval(0, task);
     }
 }

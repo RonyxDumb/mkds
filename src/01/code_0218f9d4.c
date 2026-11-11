@@ -1253,13 +1253,13 @@ void IwanteItemResponse2Callback(MissionRunMapObject *mapObject) {
 }
 
 // Item hit on a hand: knocks both hands back and counts one hit on the third object.
-void IwanteItemHitCallback(MissionRunMapObject *mapObject, Unk0218fd20 *itemObject) {
+void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
     int diff;
     int limit;
     Vec3 velocity;
 
-    diff = (u16) (FX_Atan2Idx(itemObject->mUnk_50.x - mapObject->mUnk_000.mPos.x,
-                              itemObject->mUnk_50.z - mapObject->mUnk_000.mPos.z) -
+    diff = (u16) (FX_Atan2Idx(itemObject->mPos.x - mapObject->mUnk_000.mPos.x,
+                              itemObject->mPos.z - mapObject->mUnk_000.mPos.z) -
                   mapObject->mAngle);
     if (diff > 0x8000) {
         diff -= 0x10000;
@@ -1279,9 +1279,9 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, Unk0218fd20 *itemObje
                                u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                          : 0),
                     &velocity);
-        StartEffect(0x3eb, &itemObject->mUnk_50);
-        StartEffect(0x3ec, &itemObject->mUnk_50);
-        StartEffect(0x3ed, &itemObject->mUnk_50);
+        StartEffect(0x3eb, &itemObject->mPos);
+        StartEffect(0x3ec, &itemObject->mPos);
+        StartEffect(0x3ed, &itemObject->mPos);
         mapObject->mUnk_000.mDistanceSquaredAndFlags |= gMapObjectItemHitReportFlag;
         ApplyIwanteHandsHit(
             gRaceSetup->mMode == MODE_MISSION_RUN

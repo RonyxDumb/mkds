@@ -78,7 +78,7 @@ void StoreExchangeResultForAp(void) {
     if (CopyExchangeResult(&exchangeResult) != 1) {
         OS_Terminate();
     }
-    WriteApWorkFromExchangeResult((const Unk021cd5e0_arg *) &exchangeResult);
+    WriteApWorkFromExchangeResult(&exchangeResult);
 }
 
 void StoreExchangeStatus(const ExchangeStatus *status) {

@@ -97,10 +97,6 @@ typedef struct ArpRequestFrame {
     /* 28 */ u16 mTargetAddressLow;
 } ArpRequestFrame;
 
-typedef struct Unk021b0138 {
-    /* 00 */ u8 pad_00[0xc];
-    /* 0c */ u8 mUnk_0c[8];
-} Unk021b0138;
 
 extern void (*gDhcpCallback)(void);
 
@@ -111,12 +107,6 @@ extern void (*gDhcpCallback)(void);
 typedef struct CPSFragTable CPSFragTable;
 typedef struct CPSConfig CPSConfig;
 
-// Object linked from OSThread.mUnk_a4.
-typedef struct Unk021b04f8 {
-    /* 00 */ OSThread *mThread;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u8 mState;
-} Unk021b04f8;
 
 #include "00/code_021a78a4.h"
 
@@ -230,7 +220,7 @@ BOOL is_multicast(u32 address);
 BOOL is_broadcast(u32 address);
 u32 get_targetip(u32 address);
 BOOL ip_islocal(u32 address);
-BOOL check_tcpudpsum(const void *buffer, u32 length, const Unk021b0138 *header, u32 sum);
+BOOL check_tcpudpsum(const void *buffer, u32 length, const IpHeader *header, u32 sum);
 u16 calc_checksum(const void *buffer, u32 length);
 u16 invert_checksum(u16 sum);
 u32 calc_checksum_do(const void *buffer, u32 length, u32 sum);

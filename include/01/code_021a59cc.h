@@ -3,14 +3,6 @@
 #include "types.h"
 #include "code_02022030.h"
 
-// Object at Unk021a5a58_2c.mUnk_2c.
-typedef struct Unk021a5a58_2c_2c {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0x4];
-    /* 08 */ s16 mUnk_08[4];
-} Unk021a5a58_2c_2c;
-
 // Object at LldEntry.mUnk_2c.
 typedef struct Unk021a5a58_2c {
     /* 00 */ u8 mUnk_00[0x8];
@@ -18,7 +10,7 @@ typedef struct Unk021a5a58_2c {
     /* 0c */ u8 mUnk_0c[0x8];
     /* 14 */ s32 mUnk_14;
     /* 18 */ u8 mUnk_18[0x14];
-    /* 2c */ Unk021a5a58_2c_2c *mUnk_2c;
+    /* 2c */ NNSG2dCellDataWithBR *mUnk_2c;
     /* 30 */ u8 mUnk_30[0x24];
 } Unk021a5a58_2c;
 
