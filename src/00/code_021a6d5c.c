@@ -294,8 +294,8 @@ s32 SOC_Startup(void *configPointer) {
     AllocFunc_SOC = socConfig->mUnk_04;
     *(void **) FreeFunc_SOC = socConfig->mUnk_08;
     soclConfig.mCmdPacketMax = 0x40;
-    soclConfig.mMtu = socConfig->mUnk_2c;
-    soclConfig.mRwin = socConfig->mUnk_30;
+    soclConfig.mMtu = socConfig->mMtu;
+    soclConfig.mRwin = socConfig->mRwin;
     return SOCL_Startup(&soclConfig);
 }
 
@@ -1688,18 +1688,18 @@ SOCLSocket *SOCLi_StartupSocket(SOCLSocketParam *param) {
 s32 SOCLi_GetSizeSocket(SOCLSocketParam *param) {
     s32 size = 0x80;
 
-    if (param->mUnk_02 != 0) {
+    if (param->mRcvbufSize != 0) {
         size += 0x114;
-        size += SOCLi_RoundUp4(param->mUnk_02);
-        size += SOCLi_RoundUp4(param->mUnk_08);
-        size += SOCLi_GetSizeCommandPipe(&param->mUnk_10);
+        size += SOCLi_RoundUp4(param->mRcvbufSize);
+        size += SOCLi_RoundUp4(param->mLinbufSize);
+        size += SOCLi_GetSizeCommandPipe(&param->mRecvPipe);
     }
-    if (param->mUnk_06 != 0) {
+    if (param->mSndbufSize != 0) {
         size += 0x110;
-        size += SOCLi_RoundUp4(param->mUnk_06);
-        size += SOCLi_RoundUp4(param->mUnk_0a);
-        size += SOCLi_RoundUp4(param->mUnk_0c);
-        size += SOCLi_GetSizeCommandPipe(&param->mUnk_14);
+        size += SOCLi_RoundUp4(param->mSndbufSize);
+        size += SOCLi_RoundUp4(param->mOutbufSize);
+        size += SOCLi_RoundUp4(param->mWrtbufSize);
+        size += SOCLi_GetSizeCommandPipe(&param->mSendPipe);
     }
     return size;
 }
@@ -1717,28 +1717,28 @@ u8 *SOCLi_InitSocket(SOCLSocket *socket, SOCLSocketParam *param) {
     SOCLiSocketRecvCommandPipe *inPipe;
     SOCLiSocketSendCommandPipe *outPipe;
 
-    socket->mFlagMode = param->mUnk_00;
-    socket->mFlagBlock = param->mUnk_01;
+    socket->mFlagMode = param->mFlagMode;
+    socket->mFlagBlock = param->mFlagBlock;
     cursor = (u8 *) &socket->mUnk_80;
-    if (param->mUnk_02 != 0) {
+    if (param->mRcvbufSize != 0) {
         inPipe = &socket->mUnk_80;
         socket->mReceiveBlock = inPipe;
-        inPipe->mConsumedMin = param->mUnk_04;
-        cursor = SOCLi_InitCommandPipe(inPipe->mCommandMessages, &inPipe->mCommandPipe, &param->mUnk_10);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mReceiveBuffer, param->mUnk_02);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mUnk_50, param->mUnk_08);
-        inPipe->mUdpDataSizeMax = param->mUnk_0e;
+        inPipe->mConsumedMin = param->mRcvbufConsumeMin;
+        cursor = SOCLi_InitCommandPipe(inPipe->mCommandMessages, &inPipe->mCommandPipe, &param->mRecvPipe);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mReceiveBuffer, param->mRcvbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mUnk_50, param->mLinbufSize);
+        inPipe->mUdpDataSizeMax = param->mUdpbufSize;
         inPipe->mUdpDataWaiting.mTail = NULL;
         inPipe->mUdpDataWaiting.mHead = inPipe->mUdpDataWaiting.mTail;
     }
-    if (param->mUnk_06 != 0) {
+    if (param->mSndbufSize != 0) {
         outPipe = (SOCLiSocketSendCommandPipe *) cursor;
         socket->mSendBlock = outPipe;
         outPipe->mExeSocket = socket;
-        cursor = SOCLi_InitCommandPipe(outPipe->mCommandMessages, &outPipe->mCommandPipe, &param->mUnk_14);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mSendBuffer, param->mUnk_06);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mUnk_58, param->mUnk_0a);
-        cursor = SOCLi_InitSocketBuffer(cursor, &outPipe->mBufferArea, param->mUnk_0c);
+        cursor = SOCLi_InitCommandPipe(outPipe->mCommandMessages, &outPipe->mCommandPipe, &param->mSendPipe);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mSendBuffer, param->mSndbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mUnk_58, param->mOutbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &outPipe->mBufferArea, param->mWrtbufSize);
         outPipe->mBufferWaitingTail = 0;
         outPipe->mBufferWaitingHead = outPipe->mBufferWaitingTail;
     } else {
@@ -1957,8 +1957,8 @@ void SOCLi_StartupCPS(void) {
         rwin = 0x10c0;
     }
     cfgBlock->mMyMss = c - 0x28;
-    SOCLSocketParamTCP.mUnk_02 = rwin;
-    SOCLSocketParamTCP.mUnk_04 = rwin / 2;
+    SOCLSocketParamTCP.mRcvbufSize = rwin;
+    SOCLSocketParamTCP.mRcvbufConsumeMin = rwin / 2;
     CPSMyIp = 0;
     if (config->mUseDhcp != 0) {
         SOCLiDhcpState = 1;

@@ -17,8 +17,8 @@ typedef struct Unk021a8c94 {
     /* 0c */ s32 mUnk_0c;
     /* 10 */ u32 mUnk_10[5];
     /* 24 */ u8 mUnk_24[8];
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
+    /* 2c */ s32 mMtu;
+    /* 30 */ s32 mRwin;
 } Unk021a8c94;
 
 extern void *(*AllocFunc_SOC)(u32 a, u32 b);

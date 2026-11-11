@@ -39,7 +39,7 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
                 if (DWCi_RefreshFriendListForth(gWiFiBuddySync->mBuddies, friendIdx,
                                                 arg->mUnk_0c[matchSlot].mUnk_00) != FALSE) {
                     gWiFiBuddySync->mSyncIndex++;
-                    gWiFiBuddySync->mUnk_1e = 1;
+                    gWiFiBuddySync->mBuddyUpdateState = 1;
                     arg->mUnk_08 = 0x601;
                     return;
                 }
@@ -54,14 +54,14 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
                     DWCi_SetBuddyFriendData(&gWiFiBuddySync->mBuddies[friendIdx]);
                     DWCi_CallBuddyFriendCallback(friendIdx);
                     gWiFiBuddySync->mSyncIndex++;
-                    gWiFiBuddySync->mUnk_1e = 1;
+                    gWiFiBuddySync->mBuddyUpdateState = 1;
                     arg->mUnk_08 = 0x601;
                     return;
                 }
             }
             if (arg->mUnk_08 != 0x600) {
                 gWiFiBuddySync->mSyncIndex++;
-                gWiFiBuddySync->mUnk_1e = 1;
+                gWiFiBuddySync->mBuddyUpdateState = 1;
             }
         }
     } else {
@@ -71,7 +71,7 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
             }
         } else if (gWiFiBuddySync->mState == 1 || GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) == 0) {
             gWiFiBuddySync->mSyncIndex++;
-            gWiFiBuddySync->mUnk_1e = 1;
+            gWiFiBuddySync->mBuddyUpdateState = 1;
         }
     }
 }
@@ -147,9 +147,9 @@ void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated) {
         DWCi_StopFriendProcess(6, -72200);
         return;
     }
-    gWiFiBuddySync->mUnk_24 = profileId;
-    OS_SNPrintf(keyValues, 0x40, gDwcNameKeyFormat, gWiFiBuddySync->mUnk_28);
-    DWCi_SetPersistDataValuesAsync(gWiFiBuddySync->mUnk_24, 3, (u32) keyValues, 0x80000001);
+    gWiFiBuddySync->mProfileId = profileId;
+    OS_SNPrintf(keyValues, 0x40, gDwcNameKeyFormat, gWiFiBuddySync->mPlayerName);
+    DWCi_SetPersistDataValuesAsync(gWiFiBuddySync->mProfileId, 3, (u32) keyValues, 0x80000001);
 }
 
 void DWCi_SetPersistDataValuesAsync(u32 profileId, u32 type, u32 valueString, u32 param) {

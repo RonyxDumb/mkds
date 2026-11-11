@@ -6,8 +6,8 @@
 void CPSi_sha1_result(Hash20Context *context, u8 *digest) {
     int bufferIndex;
     int paddingLength;
-    char_from_long(digest, &context->mUnk_14, 8);
-    bufferIndex = context->mUnk_18 >> 3 & 0x3f;
+    char_from_long(digest, &context->mBitCountHigh, 8);
+    bufferIndex = context->mBitCountLow >> 3 & 0x3f;
     if (bufferIndex < 0x38) {
         paddingLength = 0x38 - bufferIndex;
     } else {
@@ -15,10 +15,10 @@ void CPSi_sha1_result(Hash20Context *context, u8 *digest) {
     }
     CPSi_sha1_calc(context, gSha1PaddingBytes, paddingLength);
     CPSi_sha1_calc(context, digest, 8);
-    char_from_long(digest, &context->mUnk_00, 0x14);
+    char_from_long(digest, &context->mStateA, 0x14);
 }
 
 void CPSi_sha1_result_prng(Hash20Context *context, u8 *digest) {
     CPSi_sha1_calc(context, gSha1ZeroPaddingBytes, 0x2c);
-    char_from_long(digest, &context->mUnk_00, 0x14);
+    char_from_long(digest, &context->mStateA, 0x14);
 }

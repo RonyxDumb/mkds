@@ -22,13 +22,13 @@ void BuddySyncStatsSaveCallback(u32 localId, u32 profileId, s32 type, u32 index,
     }
     if ((flag & 0x80000000) == 0) {
         if (success != 0) {
-            if (gWiFiBuddySync->mUnk_4c != NULL) {
-                gWiFiBuddySync->mUnk_4c(1, (u32) (type - 2) <= 1 ? 1 : 0, instance);
+            if (gWiFiBuddySync->mSaveCallback != NULL) {
+                gWiFiBuddySync->mSaveCallback(1, (u32) (type - 2) <= 1 ? 1 : 0, instance);
             }
         } else {
             DWCi_StopFriendProcess(6, -72220);
-            if (gWiFiBuddySync->mUnk_4c != NULL) {
-                gWiFiBuddySync->mUnk_4c(0, 0, instance);
+            if (gWiFiBuddySync->mSaveCallback != NULL) {
+                gWiFiBuddySync->mSaveCallback(0, 0, instance);
             }
         }
     }

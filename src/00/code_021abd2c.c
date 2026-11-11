@@ -3,9 +3,9 @@
 
 void CPSi_sha1_init(Hash20Context *context) {
     MI_CpuFill8(context, 0, 0x5c);
-    context->mUnk_00 = (0x67452301u);
-    context->mUnk_04 = (0xefcdab89u);
-    context->mUnk_08 = (0x98badcfeu);
-    context->mUnk_0c = (0x10325476u);
-    context->mUnk_10 = (0xc3d2e1f0u);
+    context->mStateA = (0x67452301u);
+    context->mStateB = (0xefcdab89u);
+    context->mStateC = (0x98badcfeu);
+    context->mStateD = (0x10325476u);
+    context->mStateE = (0xc3d2e1f0u);
 }

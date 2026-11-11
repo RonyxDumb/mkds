@@ -62,9 +62,9 @@ void CreateEditAddr(void) {
     LoadHlScr(secondaryPairFirst + 0xb);
     ShowSubScreenMessage(subScreenMessageIndices[secondaryPairFirst], -1, 0);
     CreateObjectsForMenuPair(2);
-    gEditAddr->mUnk_00 = InitBgTextCanvas(0, 0);
-    gEditAddr->mUnk_04 = CreateOamEntryFromNceImage(0, 0x3f);
-    gEditAddr->mUnk_04->mUnk_04 = (gEditAddr->mUnk_04->mUnk_04 & 0xfffff3ff) | 0xc00;
+    gEditAddr->mBgTextCanvas = InitBgTextCanvas(0, 0);
+    gEditAddr->mOamEntry = CreateOamEntryFromNceImage(0, 0x3f);
+    gEditAddr->mOamEntry->mUnk_04 = (gEditAddr->mOamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
     PlaceEditAddrGroupOam();
     PrintEditAddrText();
     SetUpdateFunction(StartEditAddrFadeIn);
@@ -204,20 +204,20 @@ void UpdateEditAddrInput(void) {
             SetEditAddrKeyboardNextGroupEnabled(0);
             break;
         case 0x12:
-            gEditAddr->mUnk_15 = 0;
+            gEditAddr->mResult = 0;
             StartSoundSeq(7);
             SetUpdateFunction(StartEditAddrClose);
             return;
         case 0x13:
             if (IsEditAddrTextValid() != FALSE) {
                 StartSoundSeq(6);
-                gEditAddr->mUnk_15 = 1;
+                gEditAddr->mResult = 1;
             } else {
-                gEditAddr->mUnk_15 = 2;
+                gEditAddr->mResult = 2;
                 StartSoundSeq(9);
             }
             gEditAddr->mGroupIndex = 3;
-            gEditAddr->mUnk_04->mUnk_00 = (gEditAddr->mUnk_04->mUnk_00 & 0xc1fffcff) | 0x200;
+            gEditAddr->mOamEntry->mUnk_00 = (gEditAddr->mOamEntry->mUnk_00 & 0xc1fffcff) | 0x200;
             PlaceEditAddrGroupOam();
             WriteEditAddrGroupPadding();
             SetUpdateFunction(StartEditAddrClose);
@@ -316,7 +316,7 @@ void UpdateEditAddrSlideOut(void) {
 void UpdateEditAddrResult(void) {
     u8 result;
     if (HasEditAddrKeyboard() == 0) {
-        result = gEditAddr->mUnk_15;
+        result = gEditAddr->mResult;
         if (result == 0) {
             SetUpdateFunction(ReleaseEditAddr);
             return;
@@ -334,7 +334,7 @@ void UpdateEditAddrResult(void) {
 void ReleaseEditAddr(void) {
     int secondaryPair[1];
     HideSubScreenMessage();
-    DeleteOamEntry((u32 *) (u32) (gEditAddr->mUnk_04));
+    DeleteOamEntry((u32 *) (u32) (gEditAddr->mOamEntry));
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&gYbObjMainNclName3, &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
@@ -361,7 +361,7 @@ void PrintEditAddrText(void) {
     rectAndChar[3] = gEditAddrCharRect[3];
     rectAndChar[2] = gEditAddrCharSize[0];
     rectAndChar[3] = gEditAddrCharSize[1];
-    ClearBgTextCanvas(gEditAddr->mUnk_00, 0);
+    ClearBgTextCanvas(gEditAddr->mBgTextCanvas, 0);
     charIndex = 0;
     rectAndChar[5] = 0;
     charX = gEditAddrCharX;
@@ -370,12 +370,12 @@ void PrintEditAddrText(void) {
         rectAndChar[4] = editAddr->mText[charIndex];
         charXPosition = *charX;
         rectAndChar[0] = charXPosition;
-        DrawCanvasTextRect(editAddr->mUnk_00, charXPosition, rectAndChar[1], rectAndChar[2], rectAndChar[3], 2, 0x480,
-                           &rectAndChar[4]);
+        DrawCanvasTextRect(editAddr->mBgTextCanvas, charXPosition, rectAndChar[1], rectAndChar[2], rectAndChar[3], 2,
+                           0x480, &rectAndChar[4]);
         charX++;
         charIndex++;
     } while (charIndex < 12);
-    RequestBgTextCanvasUpload(gEditAddr->mUnk_00);
+    RequestBgTextCanvasUpload(gEditAddr->mBgTextCanvas);
 }
 
 void PlaceEditAddrGroupOam(void) {
@@ -388,14 +388,14 @@ void PlaceEditAddrGroupOam(void) {
     if (groupIndex > 3) {
         groupIndex = 3;
     }
-    oamEntry = editAddr->mUnk_04;
+    oamEntry = editAddr->mOamEntry;
     xBits = (gEditAddrCharX[groupIndex * 3 + 2] & 0x1ff) << 16;
     oamEntry->mUnk_00 = xBits | ((oamEntry->mUnk_00 & 0xfe00ff00) | 0x28);
 }
 
 void UpdateEditAddrMessageResult(void) {
-    gEditAddr->mUnk_15 = GetMessageBoxResult();
-    switch (gEditAddr->mUnk_15) {
+    gEditAddr->mResult = GetMessageBoxResult();
+    switch (gEditAddr->mResult) {
         case 0:
             StartSoundSeq(7);
             break;
@@ -414,8 +414,8 @@ void UpdateEditAddrMessageClose(void) {
     s32 secondaryPairFirst;
     storeFuncs = gEditAddrStoreFuncs;
     if (IsMessageBoxOpen() == 0) {
-        if (gEditAddr->mUnk_15 == 0) {
-            gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & 0xc1fffcff;
+        if (gEditAddr->mResult == 0) {
+            gEditAddr->mOamEntry->mUnk_00 = gEditAddr->mOamEntry->mUnk_00 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditAddrFadeIn);
             return;
         }
@@ -534,7 +534,7 @@ void UpdateEditAddrInvalidMessageClose(void) {
     int messageOpen;
     messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
-        gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & (0xc1fffcffu);
+        gEditAddr->mOamEntry->mUnk_00 = gEditAddr->mOamEntry->mUnk_00 & (0xc1fffcffu);
         SetUpdateFunction(UpdateEditAddrFadeIn);
     }
 }

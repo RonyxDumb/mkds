@@ -7,22 +7,22 @@ void CPSi_sha1_calc(void *rawContext, const u8 *input, u32 inputLength) {
     Hash20Context *context = rawContext;
     u32 bufferIndex;
     u32 inputOffset;
-    bufferIndex = (context->mUnk_18 >> 3) & 0x3f;
-    context->mUnk_18 += inputLength << 3;
-    if (context->mUnk_18 < (inputLength << 3)) {
-        context->mUnk_14++;
+    bufferIndex = (context->mBitCountLow >> 3) & 0x3f;
+    context->mBitCountLow += inputLength << 3;
+    if (context->mBitCountLow < (inputLength << 3)) {
+        context->mBitCountHigh++;
     }
-    context->mUnk_14 += inputLength >> 29;
+    context->mBitCountHigh += inputLength >> 29;
     inputOffset = 64 - bufferIndex;
     if (inputLength >= inputOffset) {
-        MI_CpuCopy8(input, &context->mUnk_1c[bufferIndex], inputOffset);
+        MI_CpuCopy8(input, &context->mBuffer[bufferIndex], inputOffset);
         bufferIndex = 0;
-        CPSi_sha1_block(context, context->mUnk_1c);
+        CPSi_sha1_block(context, context->mBuffer);
         for (; inputOffset + 63 < inputLength; inputOffset += 64) {
             CPSi_sha1_block(context, input + inputOffset);
         }
     } else {
         inputOffset = 0;
     }
-    MI_CpuCopy8(input + inputOffset, &context->mUnk_1c[bufferIndex], inputLength - inputOffset);
+    MI_CpuCopy8(input + inputOffset, &context->mBuffer[bufferIndex], inputLength - inputOffset);
 }

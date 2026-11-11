@@ -18,11 +18,11 @@ void CPSi_sha1_block(Hash20Context *context, const u8 *block) {
     u32 stateE;
     u32 wordIndex;
     s32 groupIndex;
-    stateA = context->mUnk_00;
-    stateB = context->mUnk_04;
-    stateC = context->mUnk_08;
-    stateD = context->mUnk_0c;
-    stateE = context->mUnk_10;
+    stateA = context->mStateA;
+    stateB = context->mStateB;
+    stateC = context->mStateC;
+    stateD = context->mStateD;
+    stateE = context->mStateE;
     long_from_char(words, block, 0x40);
     wordIndex = 0;
     for (groupIndex = 0; groupIndex < 3; groupIndex++) {
@@ -118,9 +118,9 @@ void CPSi_sha1_block(Hash20Context *context, const u8 *block) {
         stateC = (stateC << 30) | (stateC >> 2);
         wordIndex += 1;
     }
-    context->mUnk_00 += stateA;
-    context->mUnk_04 += stateB;
-    context->mUnk_08 += stateC;
-    context->mUnk_0c += stateD;
-    context->mUnk_10 += stateE;
+    context->mStateA += stateA;
+    context->mStateB += stateB;
+    context->mStateC += stateC;
+    context->mStateD += stateD;
+    context->mStateE += stateE;
 }

@@ -6,11 +6,11 @@ typedef struct BgTextCanvas BgTextCanvas;
 typedef struct Unk021da1f8_04 Unk021da1f8_04;
 
 typedef struct EditAddr {
-    /* 00 */ BgTextCanvas *mUnk_00;
-    /* 04 */ Unk021da1f8_04 *mUnk_04;
+    /* 00 */ BgTextCanvas *mBgTextCanvas;
+    /* 04 */ Unk021da1f8_04 *mOamEntry;
     /* 08 */ u8 mText[0xc];
     /* 14 */ u8 mGroupIndex;
-    /* 15 */ u8 mUnk_15;
+    /* 15 */ u8 mResult;
 } EditAddr;
 
 // Five functions called with the object at 0x08.

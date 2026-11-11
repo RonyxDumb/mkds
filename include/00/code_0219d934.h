@@ -35,7 +35,7 @@ typedef struct WiFiBuddySync {
     // WiFiSession.mUnk_1cfc so the list is saved (code_0211f6cc.c). Set early in the reply handler
     // DWCi_GPProfileSearchCallback, so it can be 1 without a change.
     /* 1d */ u8 mBuddiesChanged;
-    /* 1e */ u8 mUnk_1e;
+    /* 1e */ u8 mBuddyUpdateState;
     // Parts of the sync that ended; at 2 DWCi_FriendProcess calls DWCi_EndUpdateServers (the finish step). Part 1 is
     // the name part (only run when a name was given: the one caller passes NULL, so it is counted at once); part 2 is
     // the list part.
@@ -44,8 +44,8 @@ typedef struct WiFiBuddySync {
     // is nonzero and the stats link is gone (DWCi_FriendProcess). Only live when a name was given to StartBuddySync
     // (the one caller passes NULL).
     /* 20 */ u32 mPendingStatsRequestCount;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ char *mUnk_28;
+    /* 24 */ s32 mProfileId;
+    /* 28 */ char *mPlayerName;
     // Set by StartBuddySync (the owner passes DWCi_UpdateServersCallback); called with (code, mBuddiesChanged, arg) by
     // the finish step DWCi_EndUpdateServers (code 0) and the error reporter DWCi_StopFriendProcess (error).
     /* 2c */ void (*mResultCallback)(s32, u8, void *);
@@ -64,7 +64,7 @@ typedef struct WiFiBuddySync {
     // running (mState 1). The one caller passes BuddyChangedCallback.
     /* 44 */ void *mBuddyChangedCallback;
     /* 48 */ void *mBuddyChangedCallbackArg;
-    /* 4c */ void (*mUnk_4c)(s32 a, s32 b, u32 c);
+    /* 4c */ void (*mSaveCallback)(s32 a, s32 b, u32 c);
     /* 50 */ u32 mUnk_50;
 } WiFiBuddySync;
 

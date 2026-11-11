@@ -59,9 +59,9 @@ void CreateEdit(void) {
         ShowSubScreenMessage(subScreenMessages[secondaryPairFirst], -1, 0);
     }
     CreateObjectsForMenuPair(2);
-    gEdit->mUnk_00 = InitBgTextCanvas(0, 0);
-    gEdit->mUnk_04 = CreateOamEntryFromNceImage(0, 0x3e);
-    gEdit->mUnk_04->mUnk_04 = (gEdit->mUnk_04->mUnk_04 & 0xfffff3ff) | 0xc00;
+    gEdit->mBgTextCanvas = InitBgTextCanvas(0, 0);
+    gEdit->mOamEntry = CreateOamEntryFromNceImage(0, 0x3e);
+    gEdit->mOamEntry->mUnk_04 = (gEdit->mOamEntry->mUnk_04 & 0xfffff3ff) | 0xc00;
     PlaceEditTextCursor();
     PrintEditText();
     SetUpdateFunction(StartEditFadeIn);
@@ -179,18 +179,18 @@ void UpdateEditInput(void) {
             break;
         case 0x82:
             StartSoundSeq(7);
-            gEdit->mUnk_2a = 0;
+            gEdit->mResult = 0;
             SetUpdateFunction(StartEditClose);
             return;
         case 0x83:
             if (IsEditTextValid() != FALSE) {
                 StartSoundSeq(6);
-                gEdit->mUnk_2a = 1;
+                gEdit->mResult = 1;
             } else {
-                gEdit->mUnk_2a = 2;
+                gEdit->mResult = 2;
                 StartSoundSeq(9);
             }
-            gEdit->mUnk_04->mUnk_00 = (gEdit->mUnk_04->mUnk_00 & 0xc1fffcff) | 0x200;
+            gEdit->mOamEntry->mUnk_00 = (gEdit->mOamEntry->mUnk_00 & 0xc1fffcff) | 0x200;
             SetUpdateFunction(StartEditClose);
             return;
         case 0:
@@ -236,9 +236,9 @@ void UpdateEditKeyboardOut(void) {
     s32 messageIds[2] = {0x9b, 0x9c};
     s32 secondaryPairSecond;
     if (HasEditKeyboard() == 0) {
-        if (gEdit->mUnk_2a == 0) {
+        if (gEdit->mResult == 0) {
             SetUpdateFunction(UpdateEditRelease);
-        } else if (gEdit->mUnk_2a == 2) {
+        } else if (gEdit->mResult == 2) {
             CreateMessageBox(0x2f, 3, 1, -1, 0);
             SetUpdateFunction(UpdateEditInvalidMessageResult);
         } else {
@@ -253,7 +253,7 @@ void UpdateEditRelease(void) {
     s32 secondaryPairFirst;
     int secondaryPairSecond[1];
     HideSubScreenMessage();
-    DeleteOamEntry((u32 *) (u32) gEdit->mUnk_04);
+    DeleteOamEntry((u32 *) (u32) gEdit->mOamEntry);
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&gYbObjMainNclName2, &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
@@ -263,7 +263,7 @@ void UpdateEditRelease(void) {
         SetPrimaryMenuPair(2, 1);
         SetSecondaryMenuPair(0, secondaryPairFirst);
         SetUpdateFunction(CreateJb3List);
-    } else if (gEdit->mUnk_2a == 0) {
+    } else if (gEdit->mResult == 0) {
         SetPrimaryMenuPair(0, 1);
         SetSecondaryMenuPair(1, 0);
         SetUpdateFunction(CreateApList);
@@ -284,7 +284,7 @@ void PrintEditText(void) {
     charRect.mY = gEditLineY[0];
     charRect.mUnk_04 = gEditCharSize[0];
     charRect.mUnk_06 = gEditCharSize[1];
-    ClearBgTextCanvas(gEdit->mUnk_00, 0);
+    ClearBgTextCanvas(gEdit->mBgTextCanvas, 0);
     charText[1] = 0;
     charIndex = 0;
     column = charIndex;
@@ -302,10 +302,10 @@ void PrintEditText(void) {
             charText[0] = edit->mText[charIndex];
         }
         charRect.mX = gEditColumnX[column];
-        DrawCanvasTextRect(edit->mUnk_00, charRect.mX, charRect.mY, charRect.mUnk_04, charRect.mUnk_06, 2, 0x480,
+        DrawCanvasTextRect(edit->mBgTextCanvas, charRect.mX, charRect.mY, charRect.mUnk_04, charRect.mUnk_06, 2, 0x480,
                            charText);
     }
-    RequestBgTextCanvasUpload(gEdit->mUnk_00);
+    RequestBgTextCanvasUpload(gEdit->mBgTextCanvas);
 }
 
 void PlaceEditTextCursor(void) {
@@ -321,13 +321,13 @@ void PlaceEditTextCursor(void) {
         column = 0xf;
         line = 1;
     }
-    edit->mUnk_04->mUnk_00 =
-        ((gEditColumnX[column] & 0x1ff) << 16) | ((edit->mUnk_04->mUnk_00 & 0xfe00ff00) | (gEditLineY[line] & 0xff));
+    edit->mOamEntry->mUnk_00 =
+        ((gEditColumnX[column] & 0x1ff) << 16) | ((edit->mOamEntry->mUnk_00 & 0xfe00ff00) | (gEditLineY[line] & 0xff));
 }
 
 void UpdateEditMessageResult(void) {
-    gEdit->mUnk_2a = GetMessageBoxResult();
-    switch (gEdit->mUnk_2a) {
+    gEdit->mResult = GetMessageBoxResult();
+    switch (gEdit->mResult) {
         case 0:
             StartSoundSeq(7);
             break;
@@ -345,8 +345,8 @@ void UpdateEditMessageClose(void) {
     void (*storeFuncs[2])(const u8 *) = {StoreApWorkSsid, StoreApWorkWepKey};
     s32 secondaryPairFirst;
     if (IsMessageBoxOpen() == 0) {
-        if (gEdit->mUnk_2a == 0) {
-            gEdit->mUnk_04->mUnk_00 = gEdit->mUnk_04->mUnk_00 & 0xc1fffcff;
+        if (gEdit->mResult == 0) {
+            gEdit->mOamEntry->mUnk_00 = gEdit->mOamEntry->mUnk_00 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditFadeIn);
             return;
         }

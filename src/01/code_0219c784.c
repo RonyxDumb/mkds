@@ -48,7 +48,7 @@ void InitSelectBattleStage(void *parentHeap, s32 d, void *mainOam, void *subOam)
     gSelectBattleStage->mStateFrames = 0;
     gSelectBattleStage->mOffsetTimer = 0;
     gSelectBattleStage->mOffset = 0;
-    gSelectBattleStage->mUnk_20 = TRUE;
+    gSelectBattleStage->mHighlightVisible = TRUE;
     gSelectBattleStage->mResult = -4;
     gSelectBattleStage->mMenuMessages = FindSceneFile("menu.bmg");
     gSelectBattleStage->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -58,8 +58,8 @@ void InitSelectBattleStage(void *parentHeap, s32 d, void *mainOam, void *subOam)
         SetCellOamModeXlu(gSelectBattleStageSTableIndices[i][0], 1, gSelectBattleStage->mSelectBattleStageSNcer,
                           gSelectBattleStage->mSelectBattleStageBncls[1]);
     }
-    gSelectBattleStage->mUnk_1078 = mainOam;
-    gSelectBattleStage->mUnk_107c = subOam;
+    gSelectBattleStage->mMainOamList = mainOam;
+    gSelectBattleStage->mSubOamList = subOam;
     ResetOamLists(mainOam, subOam);
     for (i = 0; i < 2; i++) {
         InitLayoutTable(gSelectBattleStage->mHeap, gSelectBattleStage->mSelectBattleStageBncls[i],
@@ -67,7 +67,7 @@ void InitSelectBattleStage(void *parentHeap, s32 d, void *mainOam, void *subOam)
                         &gSelectBattleStage->mSelectBattleStageTables[i]);
     }
     gSelectBattleStage->mSelectBattleStageTables[0][0].mOffsetY = -0xa0;
-    gSelectBattleStage->mUnk_14 = 0xa0;
+    gSelectBattleStage->mSlideOffsetY = 0xa0;
     UpdateSelectBattleStageCellOffsets();
     for (i = 0; i < 6; i++) {
         for (j = 0; j < 3; j++) {
@@ -174,19 +174,19 @@ void UpdateSelectBattleStageCellOffsets(void) {
 
     for (i = 0; i < 1; i++) {
         gSelectBattleStage->mSelectBattleStageTables[0][gSelectBattleStageNegatedYCells[i]].mOffsetY =
-            -gSelectBattleStage->mUnk_14;
+            -gSelectBattleStage->mSlideOffsetY;
     }
     for (i = 0; i < 3; i++) {
         gSelectBattleStage->mSelectBattleStageTables[0][gSelectBattleStageOffsetYCells[i]].mOffsetY =
-            gSelectBattleStage->mOffset - gSelectBattleStage->mUnk_14;
+            gSelectBattleStage->mOffset - gSelectBattleStage->mSlideOffsetY;
     }
     for (i = 0; i < 3; i++) {
         gSelectBattleStage->mSelectBattleStageTables[0][gSelectBattleStageXCells[i]].mOffsetX =
-            gSelectBattleStage->mUnk_18;
+            gSelectBattleStage->mSlideOffsetX;
     }
     for (i = 0; i < 2; i++) {
         (gSelectBattleStage->mSelectBattleStageTables[0] + layoutCount)[gSelectBattleStageSecondXCells[i]].mOffsetX =
-            gSelectBattleStage->mUnk_18;
+            gSelectBattleStage->mSlideOffsetX;
     }
 }
 
@@ -207,8 +207,8 @@ void AdvanceSelectBattleStageState0(void) {
             }
         }
     } else {
-        gSelectBattleStage->mUnk_14 = InterpolateS16(1, 0xa0, 0, gSelectBattleStage->mStateFrames, 10);
-        gSelectBattleStage->mUnk_18 = InterpolateS16(1, -0x100, 0, gSelectBattleStage->mStateFrames, 10);
+        gSelectBattleStage->mSlideOffsetY = InterpolateS16(1, 0xa0, 0, gSelectBattleStage->mStateFrames, 10);
+        gSelectBattleStage->mSlideOffsetX = InterpolateS16(1, -0x100, 0, gSelectBattleStage->mStateFrames, 10);
         for (i = 0; i < 6; i++) {
             for (j = 0; j < 3; j++) {
                 gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][j]].mOffsetX =
@@ -292,7 +292,7 @@ next:
             gSelectBattleStage->mIndex = touchedStage;
         }
         if (gSelectBattleStage->mIndex == previousIndex) {
-            gSelectBattleStage->mUnk_20 = FALSE;
+            gSelectBattleStage->mHighlightVisible = FALSE;
         }
         gSelectBattleStage->mPendingResult = gSelectBattleStage->mIndex;
         gSelectBattleStage->mNextState = 3;
@@ -337,7 +337,7 @@ void AdvanceSelectBattleStageState3(void) {
         SetSelectChoisesSoundId(0, 7);
         SetSelectChoisesSoundId(1, 0x10);
     } else if (gSelectBattleStage->mStateFrames >= 5) {
-        gSelectBattleStage->mUnk_20 = TRUE;
+        gSelectBattleStage->mHighlightVisible = TRUE;
     }
 }
 
@@ -388,8 +388,8 @@ void AdvanceSelectBattleStageState6(void) {
     if (gSelectBattleStage->mStateFrames > 10) {
         gSelectBattleStage->mStateFrames = 10;
     }
-    gSelectBattleStage->mUnk_14 = InterpolateS16(1, 0, 0xa0, gSelectBattleStage->mStateFrames, 10);
-    gSelectBattleStage->mUnk_18 = InterpolateS16(1, 0, -0x100, gSelectBattleStage->mStateFrames, 10);
+    gSelectBattleStage->mSlideOffsetY = InterpolateS16(1, 0, 0xa0, gSelectBattleStage->mStateFrames, 10);
+    gSelectBattleStage->mSlideOffsetX = InterpolateS16(1, 0, -0x100, gSelectBattleStage->mStateFrames, 10);
     for (i = 0; i < 6; i++) {
         for (j = 0; j < 3; j++) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][j]].mOffsetX =
@@ -403,7 +403,7 @@ void UpdateSelectBattleStageHighlight(void) {
     BOOL zero = FALSE;
 
     for (i = 0; i < 6; i++) {
-        if (i == gSelectBattleStage->mIndex && gSelectBattleStage->mUnk_20 != FALSE) {
+        if (i == gSelectBattleStage->mIndex && gSelectBattleStage->mHighlightVisible != FALSE) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][1]].mVisible = 1;
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][2]].mVisible = 0;
         } else {
@@ -454,7 +454,7 @@ s32 AdvanceSelectBattleStage(void) {
     for (i = 0; i < 2; i++) {
         DrawLayoutTable(gSelectBattleStage->mSelectBattleStageBncls[i],
                         (&gSelectBattleStage->mSelectBattleStageMNcer)[i],
-                        gSelectBattleStage->mSelectBattleStageBnlls[i], (&gSelectBattleStage->mUnk_1078)[i],
+                        gSelectBattleStage->mSelectBattleStageBnlls[i], (&gSelectBattleStage->mMainOamList)[i],
                         gSelectBattleStage->mSelectBattleStageTables[i]);
     }
     return gSelectBattleStage->mResult;
@@ -466,5 +466,5 @@ void WriteSelectBattleStageRegisters(void) {
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 1;
     reg_G2_BLDCNT = 0;
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
-    reg_G2_BG2OFS = ((gSelectBattleStage->mUnk_14 - gSelectBattleStage->mOffset) << 16) & 0x1ff0000;
+    reg_G2_BG2OFS = ((gSelectBattleStage->mSlideOffsetY - gSelectBattleStage->mOffset) << 16) & 0x1ff0000;
 }

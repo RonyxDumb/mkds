@@ -100,10 +100,10 @@ typedef struct SelectBattleStage {
     /* 0008 */ s32 mIndex;
     /* 000c */ s32 mStateFrames;
     /* 0010 */ s32 mOffsetTimer;
-    /* 0014 */ s32 mUnk_14;
-    /* 0018 */ s32 mUnk_18;
+    /* 0014 */ s32 mSlideOffsetY;
+    /* 0018 */ s32 mSlideOffsetX;
     /* 001c */ s32 mOffset;
-    /* 0020 */ BOOL mUnk_20;
+    /* 0020 */ BOOL mHighlightVisible;
     /* 0024 */ s32 mResult;
     /* 0028 */ s32 mPendingResult;
     /* 002c */ BOOL mUnk_2c;
@@ -119,8 +119,8 @@ typedef struct SelectBattleStage {
     /* 105c */ void *mSelectBattleStageBnbls[2];
     /* 1064 */ void *mSelectBattleStageBnlls[2];
     /* 106c */ Nscr *mSelectBattleStageMNscrs[3];
-    /* 1078 */ void *mUnk_1078;
-    /* 107c */ void *mUnk_107c;
+    /* 1078 */ void *mMainOamList;
+    /* 107c */ void *mSubOamList;
     /* 1080 */ struct Bmg *mMenuMessages;
     /* 1084 */ struct Bmg *mCommonMessages;
 } SelectBattleStage;

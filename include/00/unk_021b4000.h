@@ -15,17 +15,17 @@
 
 // Settings SOCLi_GetSizeSocket reads and SOCLi_InitSocket applies.
 typedef struct SOCLSocketParam {
-    /* 00 */ s8 mUnk_00;
-    /* 01 */ s8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ SOCLSocketCommandPipeParam mUnk_10;
-    /* 14 */ SOCLSocketCommandPipeParam mUnk_14;
+    /* 00 */ s8 mFlagMode;
+    /* 01 */ s8 mFlagBlock;
+    /* 02 */ u16 mRcvbufSize;
+    /* 04 */ u16 mRcvbufConsumeMin;
+    /* 06 */ u16 mSndbufSize;
+    /* 08 */ u16 mLinbufSize;
+    /* 0a */ u16 mOutbufSize;
+    /* 0c */ u16 mWrtbufSize;
+    /* 0e */ u16 mUdpbufSize;
+    /* 10 */ SOCLSocketCommandPipeParam mRecvPipe;
+    /* 14 */ SOCLSocketCommandPipeParam mSendPipe;
 } SOCLSocketParam;
 
 // Objects whose layout isn't known yet.

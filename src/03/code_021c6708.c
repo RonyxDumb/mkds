@@ -19,7 +19,7 @@ void UpdateEditInvalidMessageClose(void) {
     int messageOpen;
     messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
-        gEdit->mUnk_04->mUnk_00 = gEdit->mUnk_04->mUnk_00 & (0xc1fffcffu);
+        gEdit->mOamEntry->mUnk_00 = gEdit->mOamEntry->mUnk_00 & (0xc1fffcffu);
         SetUpdateFunction(UpdateEditFadeIn);
     }
 }

@@ -53,11 +53,11 @@ void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GpConnection *gpConnection
     gWiFiBuddySync->mBuddies = friendList;
     gWiFiBuddySync->mSyncIndex = 0;
     gWiFiBuddySync->mBuddiesChanged = 0;
-    gWiFiBuddySync->mUnk_1e = 0;
+    gWiFiBuddySync->mBuddyUpdateState = 0;
     gWiFiBuddySync->mCompletedParts = 0;
     gWiFiBuddySync->mPendingStatsRequestCount = 0;
-    gWiFiBuddySync->mUnk_24 = 0;
-    gWiFiBuddySync->mUnk_28 = playerName;
+    gWiFiBuddySync->mProfileId = 0;
+    gWiFiBuddySync->mPlayerName = playerName;
     gWiFiBuddySync->mResultCallback = NULL;
     gWiFiBuddySync->mResultCallbackArg = NULL;
     gWiFiBuddySync->mBuddyStatusCallback = NULL;
@@ -66,7 +66,7 @@ void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GpConnection *gpConnection
     gWiFiBuddySync->mEntryMergedCallbackArg = NULL;
     gWiFiBuddySync->mBuddyChangedCallback = NULL;
     gWiFiBuddySync->mBuddyChangedCallbackArg = NULL;
-    gWiFiBuddySync->mUnk_4c = NULL;
+    gWiFiBuddySync->mSaveCallback = NULL;
     gWiFiBuddySync->mUnk_50 = 0;
 }
 
@@ -90,12 +90,13 @@ void DWCi_FriendProcess(void) {
         if (ReportBuddySyncGpResult(DWCi_GPProcess()) != 0) {
             return;
         }
-        if (gWiFiBuddySync->mBuddies != NULL && gWiFiBuddySync->mUnk_1e != 3 && gWiFiBuddySync->mPollCount > 7) {
-            if (gWiFiBuddySync->mUnk_1e <= 1) {
+        if (gWiFiBuddySync->mBuddies != NULL && gWiFiBuddySync->mBuddyUpdateState != 3 &&
+            gWiFiBuddySync->mPollCount > 7) {
+            if (gWiFiBuddySync->mBuddyUpdateState <= 1) {
                 DWCi_UpdateFriendReq(gWiFiBuddySync->mBuddies, gWiFiBuddySync->mBuddyEntryCount);
             }
             if (gWiFiBuddySync->mSyncIndex >= gWiFiBuddySync->mBuddyEntryCount) {
-                gWiFiBuddySync->mUnk_1e = 3;
+                gWiFiBuddySync->mBuddyUpdateState = 3;
                 gWiFiBuddySync->mCompletedParts++;
             }
         }
@@ -121,10 +122,10 @@ void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCa
     gWiFiBuddySync->mEntryMergedCallbackArg = deleteParam;
     attemptIndex = 0;
     gWiFiBuddySync->mBuddiesChanged = 0;
-    gWiFiBuddySync->mUnk_1e = 0;
+    gWiFiBuddySync->mBuddyUpdateState = 0;
     gWiFiBuddySync->mCompletedParts = 0;
     gWiFiBuddySync->mState = 1;
-    if (((s8 *) gWiFiBuddySync->mUnk_28)[attemptIndex] != 0) {
+    if (((s8 *) gWiFiBuddySync->mPlayerName)[attemptIndex] != 0) {
         j = attemptIndex;
         for (; attemptIndex < 5; attemptIndex++) {
             statsResult = GstatsConnect(j);
@@ -291,7 +292,7 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
     char searchName[0x18];
     GpBuddyStatus buddyInfo;
     s32 profileId;
-    if (gWiFiBuddySync->mUnk_1e == 0) {
+    if (gWiFiBuddySync->mBuddyUpdateState == 0) {
         ReportBuddySyncGpResult(GpGetBuddyCount(gWiFiBuddySync->mGpConnection, &buddyCount));
         for (buddyIndex = 0; buddyIndex < buddyCount; buddyIndex++) {
             ReportBuddySyncGpResult(GpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, &buddyInfo));
@@ -311,7 +312,7 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
                 buddyIndex--;
             }
         }
-        gWiFiBuddySync->mUnk_1e = 1;
+        gWiFiBuddySync->mBuddyUpdateState = 1;
     }
     for (; gWiFiBuddySync->mSyncIndex < friendListLength; gWiFiBuddySync->mSyncIndex++) {
         profileId = DWCi_GetProfileIDFromList(gWiFiBuddySync->mSyncIndex);
@@ -327,7 +328,7 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
             DWC_LoginIdToUserName(DWCi_GetUserData(), &friendList[gWiFiBuddySync->mSyncIndex], searchName);
             GpProfileSearchA(gWiFiBuddySync->mGpConnection, NULL, NULL, NULL, NULL, (s8 *) searchName, 0, 0,
                              (Unk0218f0a8Cb) DWCi_GPProfileSearchCallback, gWiFiBuddySync->mSyncIndex);
-            gWiFiBuddySync->mUnk_1e = 2;
+            gWiFiBuddySync->mBuddyUpdateState = 2;
             return;
         }
     }
@@ -417,7 +418,7 @@ s32 DWCi_RefreshFriendListAll(DWCAccFriendData *friendList, s32 friendListLength
 // error check; the buddy exists only once the other side authorizes.
 u32 DWCi_GPSendBuddyRequest(u32 profileId) {
     u32 sendResult;
-    sendResult = GpWriteAddbuddy(gWiFiBuddySync->mGpConnection, profileId, gWiFiBuddySync->mUnk_28);
+    sendResult = GpWriteAddbuddy(gWiFiBuddySync->mGpConnection, profileId, gWiFiBuddySync->mPlayerName);
     ReportBuddySyncGpResult(sendResult);
     return sendResult;
 }
