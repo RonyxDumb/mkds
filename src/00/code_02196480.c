@@ -38,7 +38,7 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
     if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
     }
-    if (strncmp(input, data_ov000_021b39c4, 4) != 0) {
+    if (strncmp(input, gRnKey, 4) != 0) {
         GpiSetError(connection, 1, data_ov000_021b39cc);
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
@@ -71,7 +71,7 @@ s32 gpiSendTransferReply(GpConnection *connection, s32 *transferID, GpiPeer *pee
     if (stepResult != 0) {
         return stepResult;
     }
-    sprintf(buffer, data_ov000_021b39ac, 1, result);
+    sprintf(buffer, gVersionResultFormat, 1, result);
     stepResult = GpiPeerSendString(connection, (Unk02190988 *) peer, buffer);
     if (stepResult != 0) {
         return stepResult;

@@ -432,7 +432,7 @@ void AdvanceMissionRunLVselState3(void) {
     return;
 next:
     if (touchedRect <= 6) {
-        targetIndex = data_ov001_021a6c90[touchedRect];
+        targetIndex = gMissionRunLVselTouchLevelIndices[touchedRect];
         if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
             gMissionRunLVsel->mIndex = targetIndex;
             gMissionRunLVsel->mUnk_28[gMissionRunLVsel->mIndex] = 5;

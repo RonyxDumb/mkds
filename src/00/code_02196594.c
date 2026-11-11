@@ -13,10 +13,10 @@
 
 void GpiCopyString(char *dest, const char *src, s32 len) {
     if (dest == NULL) {
-        AssertionFailed(data_ov000_021b3b10, gGpiUtilityFileName, NULL, 0x2f);
+        AssertionFailed(gDestAssertText, gGpiUtilityFileName, NULL, 0x2f);
     }
     if (src == NULL) {
-        AssertionFailed(data_ov000_021b3b20, gGpiUtilityFileName, NULL, 0x30);
+        AssertionFailed(gSrcAssertText, gGpiUtilityFileName, NULL, 0x30);
     }
     strncpy(dest, src, len);
     *(dest + len + -1) = 0;
@@ -30,11 +30,11 @@ BOOL GpiReadError(GpConnection *connection, const char *input, s32 callErrorCall
     char buffer[0x10];
 
     gpState = connection->mGpiConnection;
-    if (strncmp(input, data_ov000_021b3aec, 7) == 0) {
-        if (GpiGetValue(input, data_ov000_021b3af4, buffer, 0x10) != FALSE) {
+    if (strncmp(input, gErrorKey, 7) == 0) {
+        if (GpiGetValue(input, gErrKey, buffer, 0x10) != FALSE) {
             gpState->mErrorNumber = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, data_ov000_021b3afc, gpState->mErrorMessage, 0x100) == FALSE) {
+        if (GpiGetValue(input, gGpErrmsgKey, gpState->mErrorMessage, 0x100) == FALSE) {
             gpState->mErrorMessage[0] = 0;
         }
         if (callErrorCallback != 0) {
@@ -54,7 +54,7 @@ BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
     s8 character;
 
     if (command == NULL) {
-        AssertionFailed(data_ov000_021b3ad4, gGpiUtilityFileName, NULL, 0x10d);
+        AssertionFailed(gCommandAssertText, gGpiUtilityFileName, NULL, 0x10d);
     }
     if (key == NULL) {
         AssertionFailed(gKeyAssertText, gGpiUtilityFileName, NULL, 0x10e);
@@ -86,19 +86,19 @@ u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state) {
     errFlags[0] = 0;
     readyNum = GSISocketSelect((u32) sock, NULL, (u32 *) (&canWrite), (u32 *) errFlags);
     if (readyNum == -1) {
-        gpiDebug(connection, data_ov000_021b3a58);
-        GpiSetError(connection, 5, data_ov000_021b3a6c);
+        gpiDebug(connection, gErrorConnectingDebugText);
+        GpiSetError(connection, 5, gCompletedConnectionErrorString);
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
     if (0 < readyNum) {
         if (errFlags[0] != 0) {
-            gpiDebug(connection, data_ov000_021b3aa4);
+            gpiDebug(connection, gConnectionRejectedDebugText);
             *state = 4;
             return 0;
         }
         if (canWrite != 0) {
-            gpiDebug(connection, data_ov000_021b3abc);
+            gpiDebug(connection, gConnectionAcceptedDebugText);
             *state = 3;
             return 0;
         }
@@ -113,7 +113,7 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, s8 *key, s
     s32 length;
 
     if (buffer == NULL) {
-        AssertionFailed(data_ov000_021b3a0c, gGpiUtilityFileName, NULL, 0x199);
+        AssertionFailed(gBufferAssertText, gGpiUtilityFileName, NULL, 0x199);
     }
     if (key == NULL) {
         AssertionFailed(gKeyAssertText, gGpiUtilityFileName, NULL, 0x19a);

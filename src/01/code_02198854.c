@@ -88,7 +88,7 @@ void InitOptionSelectMenu(void *a) {
     LocateAndQueueOptionSelectMenu();
     InitPaletteBlend(a, gOptionSelectMenu->mOptionSelectMenuSONclr, 3);
     for (i = 0; i < 2; i++) {
-        SetCellOamModeXlu(data_ov001_021a6a28[i], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
+        SetCellOamModeXlu(gOptionSelectMenuXluCellIndices[i], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
                           gOptionSelectMenu->mOptionSelectMenuSBncl);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
@@ -148,9 +148,9 @@ void LocateAndQueueOptionSelectMenu(void) {
     Nscr *b;
     Nclr *c;
 
-    LocateNcgr(&a, FindSceneFile(data_ov001_021a84ac));
-    LocateNscr(&b, FindSceneFile(data_ov001_021a84c8));
-    LocateNclr(&c, FindSceneFile(data_ov001_021a84e4));
+    LocateNcgr(&a, FindSceneFile(gOptionSelectMenuMBNcgrName));
+    LocateNscr(&b, FindSceneFile(gOptionSelectMenuMNscrName));
+    LocateNclr(&c, FindSceneFile(gOptionSelectMenuMBNclrName));
     gOptionSelectMenu->mOptionSelectMenuMBncl = FindSceneFile(gOptionSelectMenuMBnclName);
     gOptionSelectMenu->mOptionSelectMenuSBncl = FindSceneFile(gOptionSelectMenuSBnclName);
     gOptionSelectMenu->mOptionSelectMenuSBnbl = FindSceneFile(gOptionSelectMenuSBnblName);
@@ -477,7 +477,8 @@ void WriteOptionSelectMenuTableOffsets(void) {
     a = gOptionSelectMenu->mOptionSelectMenuMBncl->mCount;
     b = gOptionSelectMenu->mOptionSelectMenuSBncl->mCount;
     for (i = 0; i < 1; i++) {
-        gOptionSelectMenu->mOptionSelectMenuMTable[data_ov001_021a6a20[i]].mOffsetY = gOptionSelectMenu->mBg0Bg1Offset;
+        gOptionSelectMenu->mOptionSelectMenuMTable[gOptionSelectMenuOffsetMIndices[i]].mOffsetY =
+            gOptionSelectMenu->mBg0Bg1Offset;
     }
     for (i = 0; i < 2; i++) {
         (gOptionSelectMenu->mOptionSelectMenuMTable + a)[gOptionSelectMenuMLabelIndices[i]].mOffsetY =

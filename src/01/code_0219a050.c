@@ -452,7 +452,7 @@ void AdvanceRecordTopMenuState4(void) {
     return;
 skip:
     if ((u32) touchedRect <= 2) {
-        rowIndex = data_ov001_021a6acc[touchedRect];
+        rowIndex = gRecordTopMenuTouchRowIndices[touchedRect];
         if (gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mVisible != 0) {
             if (gRecordTopMenu->mIndex == rowIndex) {
                 SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
@@ -498,7 +498,7 @@ void AdvanceRecordTopMenuState5(void) {
             RequestRecordTopMenuState7();
             return;
         }
-        gRecordTopMenu->mUnk_44 = data_ov001_021a6ad8[gRecordTopMenu->mIndex];
+        gRecordTopMenu->mUnk_44 = gRecordTopMenuRowRecordScreens[gRecordTopMenu->mIndex];
         RequestRecordTopMenuState6();
     }
 }

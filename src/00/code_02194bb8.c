@@ -44,8 +44,8 @@ void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type,
     char value[0x40];
     s32 transferKey[3];
 
-    if (GpiGetValue(headers, data_ov000_021b3994, value, 0x40) != FALSE) {
-        if (sscanf(value, data_ov000_021b399c, &transferKey[0], &transferKey[1], &transferKey[2]) == 3) {
+    if (GpiGetValue(headers, gXferKey, value, 0x40) != FALSE) {
+        if (sscanf(value, gTransferIdFormat, &transferKey[0], &transferKey[1], &transferKey[2]) == 3) {
             gpiSendTransferReply(connection, transferKey, peer, 2, NULL);
         }
     }
@@ -76,7 +76,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
     }
     resolvedHost = SOC_GetHostByName(gSearchManagerName);
     if (resolvedHost == NULL) {
-        GpiSetError(connection, 5, data_ov000_021b391c);
+        GpiSetError(connection, 5, gResolveSearchHostErrorString);
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }

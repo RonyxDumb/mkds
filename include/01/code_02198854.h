@@ -53,7 +53,7 @@ typedef struct OptionSelectMenu {
 } OptionSelectMenu;
 
 // Object behind gBackupBuffers; the byte at 0x31 of the object at its first member holds flags.
-extern u8 data_ov001_021a6a20[];
+extern u8 gOptionSelectMenuOffsetMIndices[];
 extern u8 gOptionSelectMenuMLabelIndices[];
 extern u8 gOptionSelectMenuValueCounts[];
 extern u8 gOptionSelectMenuRowSTableIndices[];

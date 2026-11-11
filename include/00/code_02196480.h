@@ -17,8 +17,8 @@ typedef struct Unk021962d4Addr {
 #include "00/code_02193000.h"
 
 extern char data_ov000_021b39a8[];
-extern char data_ov000_021b39ac[];
-extern char data_ov000_021b39c4[];
+extern char gVersionResultFormat[];
+extern char gRnKey[];
 extern char data_ov000_021b39cc[];
 extern u8 data_ov000_021b39fc[];
 

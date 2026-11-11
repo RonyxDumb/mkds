@@ -22,7 +22,7 @@ int GetBufferUnusedSize(Gt2Buffer *a) {
 void AppendBufferByte(Gt2Buffer *buffer, u8 b) {
     int v1;
     if (buffer->mLength >= buffer->mSize) {
-        AssertionFailed(data_ov000_021b3f34, gGt2BufferFileName, NULL, 0x23);
+        AssertionFailed(gGt2BufferWriteByteAssert, gGt2BufferFileName, NULL, 0x23);
     }
     v1 = buffer->mLength;
     buffer->mLength = v1 + 1;
@@ -32,7 +32,7 @@ void AppendBufferByte(Gt2Buffer *buffer, u8 b) {
 void AppendBufferU16(Gt2Buffer *buffer, s32 b) {
     int v1;
     if (buffer->mLength + 2 > buffer->mSize) {
-        AssertionFailed(data_ov000_021b3f10, gGt2BufferFileName, NULL, 0x2e);
+        AssertionFailed(gGt2BufferWriteU16Assert, gGt2BufferFileName, NULL, 0x2e);
     }
     v1 = buffer->mLength;
     buffer->mLength = v1 + 1;

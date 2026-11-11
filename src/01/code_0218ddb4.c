@@ -527,8 +527,8 @@ void HideKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 7;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65b4;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65b8;
+    mapObject->mUnk_000.mFlags |= gKingTeresaSkipViewTestFlag;
+    mapObject->mUnk_000.mFlags |= gKingTeresaSkipListCallbackFlag;
     mapObject->mUnk_000.mFlags |= gKingTeresaHiddenFlag;
 }
 

@@ -826,7 +826,7 @@ void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged) {
         qr2_buffer_addA(&buf, gStatechangedKey);
         qr2_buffer_add_int(&buf, statechanged);
     }
-    qr2_buffer_addA(&buf, data_ov000_021b43c0);
+    qr2_buffer_addA(&buf, gGamenamePlainKey);
     qr2_buffer_addA(&buf, qrec->mUnk_04);
     if (qrec->mUnk_a8 != 0) {
         qr2_buffer_addA(&buf, gPublicipKey);

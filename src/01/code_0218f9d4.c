@@ -99,7 +99,7 @@ void IwanteKartResponse11Callback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2d8 = 0xb;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
     mapObject->mUnk_000.mDistanceSquaredAndFlags =
-        mapObject->mUnk_000.mDistanceSquaredAndFlags | (*(u32 *) &data_ov001_021a65d4);
+        mapObject->mUnk_000.mDistanceSquaredAndFlags | (*(u32 *) &gIwanteSkipKindSoundFlag);
 }
 
 void SetIwanteHandsApproachPoint(void) {
@@ -642,9 +642,9 @@ void HideIwanteAtEndReached(MissionRunMapObject *mapObject) {
         soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
         StartSndHandleSoundUnchecked(&soundParams, GetSecondSndHandleSlot());
     }
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65c8;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65cc;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65d0;
+    mapObject->mUnk_000.mFlags |= gIwanteSkipViewTestFlag;
+    mapObject->mUnk_000.mFlags |= gIwanteSkipListCallbackFlag;
+    mapObject->mUnk_000.mFlags |= gIwanteDisabledFlag;
 }
 
 void StartIwanteHideAtEndReached(MissionRunMapObject *mapObject) {

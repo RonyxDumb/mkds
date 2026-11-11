@@ -217,7 +217,7 @@ u32 ResolveServer(char *overrideHostname, const char *defaultHostname) {
     char fullHostname[0x80];
 
     if (overrideHostname == NULL) {
-        snprintf(fullHostname, 0x80, data_ov000_021b404c, gGsiAcGamename, defaultHostname);
+        snprintf(fullHostname, 0x80, gGamenameHostnameFormat, gGsiAcGamename, defaultHostname);
         overrideHostname = fullHostname;
     }
     return NameToIp(overrideHostname);
@@ -496,12 +496,12 @@ u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
     if (ipAddress != 0) {
         inAddress.addr = ipAddress;
         if (port != 0) {
-            sprintf(addressString, data_ov000_021b3ffc, SOC_InetNtoA(inAddress), port);
+            sprintf(addressString, gAddressPortFormat, SOC_InetNtoA(inAddress), port);
         } else {
-            sprintf(addressString, data_ov000_021b4004, SOC_InetNtoA(inAddress));
+            sprintf(addressString, gAddressOnlyFormat, SOC_InetNtoA(inAddress));
         }
     } else if (port != 0) {
-        sprintf(addressString, data_ov000_021b4008, port);
+        sprintf(addressString, gPortOnlyFormat, port);
     } else {
         addressString[0] = 0;
     }
@@ -532,7 +532,7 @@ BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
             } else {
                 g = portSeparator - string;
                 if (g >= 0x100) {
-                    AssertionFailed(data_ov000_021b3fcc, data_ov000_021b3fec, NULL, 0x81);
+                    AssertionFailed(gGt2HostLengthAssert, gGt2UtilityFileName, NULL, 0x81);
                 }
                 memcpy(hostCopy, string, g);
                 hostCopy[g] = 0;

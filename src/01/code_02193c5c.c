@@ -127,7 +127,7 @@ void SetupRecordGpxValues(s32 row) {
     recordValue = GetGrandPrixRecordKartIndex(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
     gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[row][1]].mVisible = 1;
     QueueKartIcon(recordValue, gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl,
-                  gRecordGpxCharacterKartCellIndices[row][1], data_ov001_021a668c[row], 1);
+                  gRecordGpxCharacterKartCellIndices[row][1], gRecordGpxKartPaletteSlots[row], 1);
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
     GetGrandPrixRecordTime(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row], &recordTime);
     FormatTimeAscii(&recordTime, buf);

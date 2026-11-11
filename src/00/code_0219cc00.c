@@ -148,7 +148,7 @@ void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated) {
         return;
     }
     gWiFiBuddySync->mUnk_24 = profileId;
-    OS_SNPrintf(keyValues, 0x40, data_ov000_021b4068, gWiFiBuddySync->mUnk_28);
+    OS_SNPrintf(keyValues, 0x40, gDwcNameKeyFormat, gWiFiBuddySync->mUnk_28);
     DWCi_SetPersistDataValuesAsync(gWiFiBuddySync->mUnk_24, 3, (u32) keyValues, 0x80000001);
 }
 

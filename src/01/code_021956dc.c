@@ -154,7 +154,7 @@ void SetupRecordTAttRowValues(u16 row) {
         slot = gRecordTAttKartIconCellIndices[row][0];
         gRecordTAtt->mRecordTAttSTable[slot].mVisible = 1;
         QueueKartIcon(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, slot,
-                      data_ov001_021a6846[row], 1);
+                      gRecordTAttKartPaletteSlots[row], 1);
         cnt = gRecordTAtt->mRecordTAttSBncl->mCount;
         GetTimeRecordTime(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex, &time);
         FormatTimeAscii(&time, str);

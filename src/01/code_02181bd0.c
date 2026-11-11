@@ -339,8 +339,8 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondR
 }
 
 void LoadCoin(MapObjectList *drawList) {
-    gCoinModel = LoadMapObjectModelAnimated(drawList, data_ov001_021a78c0);
-    LoadMapObjectModelNsbtpAnimation(gCoinModel, data_ov001_021a78cc);
+    gCoinModel = LoadMapObjectModelAnimated(drawList, gCoinNsbmdName);
+    LoadMapObjectModelNsbtpAnimation(gCoinModel, gCoinNsbtpName);
     SetMapObjectModelPolygonId(gCoinModel, 0x3f);
     SetMapObjectModelLightEnableFlag(gCoinModel, 2);
     SetNsbmdEmiAll(gCoinModel->mAnimatedModel, 0x294a);

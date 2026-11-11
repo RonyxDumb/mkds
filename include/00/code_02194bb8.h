@@ -130,11 +130,11 @@ extern char gUsdoneKey[];
 extern char gSuggestedNickCountAssertion[];
 extern char data_ov000_021b38c0[];
 extern char data_ov000_021b38e8[];
-extern char data_ov000_021b391c[];
+extern char gResolveSearchHostErrorString[];
 extern char data_ov000_021b394c[];
 extern char data_ov000_021b396c[];
-extern char data_ov000_021b3994[];
-extern char data_ov000_021b399c[];
+extern char gXferKey[];
+extern char gTransferIdFormat[];
 
 BOOL GpiUpdateSearches(GpConnection *connection);
 s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation);

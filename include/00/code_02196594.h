@@ -14,15 +14,15 @@ BOOL GpiReadError(GpConnection *connection, const char *input, s32 callErrorCall
 
 void GpiCopyString(char *dest, const char *src, s32 len);
 
-extern char data_ov000_021b3a0c[];
+extern char gBufferAssertText[];
 extern char gKeyAssertText[];
 extern char gValueAssertText[];
 extern char gParseErrorString[];
-extern char data_ov000_021b3ad4[];
+extern char gCommandAssertText[];
 extern char data_ov000_021b3ae4[];
-extern char data_ov000_021b3aec[];
-extern char data_ov000_021b3af4[];
-extern char data_ov000_021b3afc[];
+extern char gErrorKey[];
+extern char gErrKey[];
+extern char gGpErrmsgKey[];
 extern char data_ov000_021b3b08[];
 
 void gpiDebug(GpConnection *connection, const char *fmt, ...);

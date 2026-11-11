@@ -1172,15 +1172,15 @@ gKurikingDisabledFlag kind:data(any) addr:0x021a6584
 gKurikingJumpFlag kind:data(any) addr:0x021a6588
 gHanachanSkipKindSoundFlag kind:data(any) addr:0x021a658c
 gKingTeresaNoPushOutFlag kind:data(any) addr:0x021a6590
-data_ov001_021a65b4 kind:data(any) addr:0x021a6594
-data_ov001_021a65b8 kind:data(any) addr:0x021a6598
+gKingTeresaSkipViewTestFlag kind:data(any) addr:0x021a6594
+gKingTeresaSkipListCallbackFlag kind:data(any) addr:0x021a6598
 gKingTeresaHiddenFlag kind:data(any) addr:0x021a659c
 gMapObjectMirrorFlag kind:data(any) addr:0x021a65a0
 gMapObjectItemHitReportFlag kind:data(any) addr:0x021a65a4
-data_ov001_021a65c8 kind:data(any) addr:0x021a65a8
-data_ov001_021a65cc kind:data(any) addr:0x021a65ac
-data_ov001_021a65d0 kind:data(any) addr:0x021a65b0
-data_ov001_021a65d4 kind:data(any) addr:0x021a65b4
+gIwanteSkipViewTestFlag kind:data(any) addr:0x021a65a8
+gIwanteSkipListCallbackFlag kind:data(any) addr:0x021a65ac
+gIwanteDisabledFlag kind:data(any) addr:0x021a65b0
+gIwanteSkipKindSoundFlag kind:data(any) addr:0x021a65b4
 gOptionTopMenuCellIndices kind:data(any) addr:0x021a65b8
 gOptionTopMenuXluCellIndices kind:data(any) addr:0x021a65bc
 gOptionTopMenuSTableIndices kind:data(any) addr:0x021a65c0
@@ -1205,7 +1205,7 @@ gRecordGpxTrophyCellIndices kind:data(any) addr:0x021a664c
 gRecordGpxCharacterKartCellIndices kind:data(any) addr:0x021a6654
 data_usa_ov001_021a6656 kind:data(any) addr:0x021a6656
 gRecordGpxCharacterPaletteSlots kind:data(any) addr:0x021a6664
-data_ov001_021a668c kind:data(any) addr:0x021a666c
+gRecordGpxKartPaletteSlots kind:data(any) addr:0x021a666c
 gRecordGpxRecordIndices kind:data(any) addr:0x021a6674
 gRecordGpxCupTrophyCells kind:data(any) addr:0x021a6684
 gRecordGpxGradeCellIndices kind:data(any) addr:0x021a6694
@@ -1229,7 +1229,7 @@ gRecordTAttNameLabelIndices kind:data(any) addr:0x021a67f0
 gRecordTAttButtonSequence kind:data(any) addr:0x021a67fc
 gRecordTAttRecordIndices kind:data(any) addr:0x021a6808
 gRecordTAttCharacterPaletteSlots kind:data(any) addr:0x021a681c
-data_ov001_021a6846 kind:data(any) addr:0x021a6826
+gRecordTAttKartPaletteSlots kind:data(any) addr:0x021a6826
 gRecordTAttCharacterKartCellIndices kind:data(any) addr:0x021a6830
 gRecordTAttKartIconCellIndices kind:data(any) addr:0x021a6832
 data_usa_ov001_021a6834 kind:data(any) addr:0x021a6834
@@ -1241,9 +1241,9 @@ gTimeAttackTopMenuVisibleTableIndices kind:data(any) addr:0x021a69e0
 gTimeAttackTopMenuOffsetIndices kind:data(any) addr:0x021a69e8
 gTimeAttackTopMenuXluCellIndices kind:data(any) addr:0x021a69f0
 gTimeAttackTopMenuPaletteCellIndices kind:data(any) addr:0x021a69f8
-data_ov001_021a6a20 kind:data(any) addr:0x021a6a00
+gOptionSelectMenuOffsetMIndices kind:data(any) addr:0x021a6a00
 gOptionSelectMenuMLabelIndices kind:data(any) addr:0x021a6a04
-data_ov001_021a6a28 kind:data(any) addr:0x021a6a08
+gOptionSelectMenuXluCellIndices kind:data(any) addr:0x021a6a08
 gOptionSelectMenuValueCounts kind:data(any) addr:0x021a6a0c
 gOptionSelectMenuRowSTableIndices kind:data(any) addr:0x021a6a10
 gOptionSelectMenuSLabelIndices kind:data(any) addr:0x021a6a14
@@ -1262,8 +1262,8 @@ gRecordTopMenuGradeSTableIndices kind:data(any) addr:0x021a6a8c
 gRecordTopMenuOffsetSTableIndices kind:data(any) addr:0x021a6a94
 gRecordTopMenuRecordMessageIndices kind:data(any) addr:0x021a6a9c
 gRecordTopMenuXluCellIndices kind:data(any) addr:0x021a6aa4
-data_ov001_021a6acc kind:data(any) addr:0x021a6aac
-data_ov001_021a6ad8 kind:data(any) addr:0x021a6ab8
+gRecordTopMenuTouchRowIndices kind:data(any) addr:0x021a6aac
+gRecordTopMenuRowRecordScreens kind:data(any) addr:0x021a6ab8
 gRecordTopMenuLabelIndices kind:data(any) addr:0x021a6ac4
 data_usa_ov001_021a6aca kind:data(any) addr:0x021a6aca
 gRecordTopMenuLabelWidths kind:data(any) addr:0x021a6ad8
@@ -1300,7 +1300,7 @@ gEndingSceneStateTable kind:data(any) addr:0x021a6c30
 gMissionRunLVselGradeLabelIndices kind:data(any) addr:0x021a6c40
 gMissionRunLVselGradeLabelWidths kind:data(any) addr:0x021a6c50
 gMissionRunLVselGradeLabelHeights kind:data(any) addr:0x021a6c60
-data_ov001_021a6c90 kind:data(any) addr:0x021a6c70
+gMissionRunLVselTouchLevelIndices kind:data(any) addr:0x021a6c70
 gMissionRunLVselUpIndexOffsets kind:data(any) addr:0x021a6c80
 gMissionRunLVselDownIndexOffsets kind:data(any) addr:0x021a6c90
 gMissionRunLVselLeftIndexOffsets kind:data(any) addr:0x021a6ca0
@@ -1361,8 +1361,8 @@ data_usa_ov001_021a7720 kind:data(any) addr:0x021a7720 ambiguous
 @4329 kind:data(any) addr:0x021a7794 local
 @4107 kind:data(any) addr:0x021a7854 local
 data_usa_ov001_021a785c kind:data(any) addr:0x021a785c ambiguous
-data_ov001_021a78c0 kind:data(any) addr:0x021a7890
-data_ov001_021a78cc kind:data(any) addr:0x021a789c
+gCoinNsbmdName kind:data(any) addr:0x021a7890
+gCoinNsbtpName kind:data(any) addr:0x021a789c
 @3035 kind:data(any) addr:0x021a78a8 local
 data_usa_ov001_021a78b8 kind:data(any) addr:0x021a78b8 ambiguous
 data_usa_ov001_021a78ec kind:data(any) addr:0x021a78ec ambiguous
@@ -1501,9 +1501,9 @@ data_usa_ov001_021a841c kind:data(any) addr:0x021a841c
 @5294 kind:data(any) addr:0x021a8458 local
 @5305 kind:data(any) addr:0x021a8460 local
 @5688 kind:data(any) addr:0x021a846c local
-data_ov001_021a84ac kind:data(any) addr:0x021a847c
-data_ov001_021a84c8 kind:data(any) addr:0x021a8498
-data_ov001_021a84e4 kind:data(any) addr:0x021a84b4
+gOptionSelectMenuMBNcgrName kind:data(any) addr:0x021a847c
+gOptionSelectMenuMNscrName kind:data(any) addr:0x021a8498
+gOptionSelectMenuMBNclrName kind:data(any) addr:0x021a84b4
 gOptionSelectMenuMBnclName kind:data(any) addr:0x021a84d0
 gOptionSelectMenuSBnclName kind:data(any) addr:0x021a84ec
 gOptionSelectMenuSBnblName kind:data(any) addr:0x021a8508
