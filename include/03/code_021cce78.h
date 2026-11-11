@@ -19,7 +19,13 @@ typedef struct Unk021ccf30_10 {
 } Unk021ccf30_10;
 
 typedef struct WMStartScanExCallback {
-    /* 00 */ u8 mUnk_00[0xe];
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mBssDescCount;
     /* 10 */ Unk021ccf30_10 *mBssDesc[0x10];
     /* 50 */ u16 mLinkLevel[0x10];

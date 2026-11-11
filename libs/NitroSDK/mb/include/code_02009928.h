@@ -18,7 +18,7 @@ s32 MBi_StartParentCore(u16 channel);
 s32 MBi_StartCommon(void);
 u32 MB_SetParentCommParam(u32 sendDataSize, u32 maxChildren);
 u32 MBi_IsCommSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren);
-s32 MB_Init(void *buffer, Unk02009ff4 *user, u32 ggid, u32 tgid, u32 dmaNo);
+s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo);
 u32 MBi_GetBeaconPeriodDispersion(void);
 void MBi_ChildCallback(Unk021425e8 *result);
 void MBi_ChildPortCallback(Unk021425e8 *result);

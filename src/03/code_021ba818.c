@@ -345,7 +345,7 @@ BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size) {
     gEssidConnectBlock = (WCMWepDesc *) buffer;
     gEssidWcmConfig = (WCMConfig *) (((u32) buffer + 0x53) & ~3);
     gEssidWcmWork = (u8 *) (((u32) gEssidWcmConfig + 0x2f) & ~0x1f);
-    gEssidConnectRecord = (Unk021a5e84 *) (((u32) gEssidWcmWork + 0x231f) & ~0x1f);
+    gEssidConnectRecord = (WMBssDesc *) (((u32) gEssidWcmWork + 0x231f) & ~0x1f);
     gEssidWcmConfig->mPbdBuffer = (u8 *) (((u32) gEssidConnectRecord + 0xdf) & ~0x1f);
     gEssidWcmConfig->mNbdBuffer = (buffer + size) - gEssidWcmConfig->mPbdBuffer;
     gEssidWcmConfig->mNbdMode = 0;

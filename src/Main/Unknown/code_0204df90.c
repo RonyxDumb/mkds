@@ -43,7 +43,7 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
 }
 
-void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *childInfo) {
+void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
     gConnectionWork->mUnk_1658_view.mChildStateCodes[index] = code;
     if (gConnectionWork->mStep == 0x1b && code != 0xc) {
         return;
@@ -53,7 +53,7 @@ void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *childInfo) {
             u32 accept = 1;
             if (gConnectionWork->mMultiBootRequestFlags & 1) {
                 accept = 0;
-            } else if ((gConnectionWork->mStatusFlags & 4) && childInfo->mUnk_00_4 == 0) {
+            } else if ((gConnectionWork->mStatusFlags & 4) && childInfo->mPlayerNo == 0) {
                 accept = 0;
             }
             if (accept != 0) {
@@ -151,16 +151,16 @@ void ResetConnectionBuffers(MultiBootStateView *view) {
 }
 
 void StartMultiBootParent(void) {
-    Unk0204e4d8 user;
+    MBUserInfo user;
     gConnectionWork->mStep = 0x16;
     gConnectionWork->mRequestPending = 1;
     ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
-    user.mUnk_01 = 10;
-    user.mUnk_00_0 = gStartupWork->mUnk_40;
-    user.mUnk_00_4 = 8;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
+    user.mNameLength = 10;
+    user.mFavoriteColor = gStartupWork->mUnk_40;
+    user.mPlayerNo = 8;
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mName, 0x14);
     gConnectionWork->mParentTgid = ComputeParentTgid(1);
-    if (MB_Init(gConnectionWork->mMultiBootWork, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mParentTgid, 2) != 0) {
+    if (MB_Init(gConnectionWork->mMultiBootWork, &user, 0x25, gConnectionWork->mParentTgid, 2) != 0) {
         SetRequestErrorCode(5);
     }
     MB_SetParentCommParam(0x1fe, 7);
@@ -176,13 +176,13 @@ void StartMultiBootParent(void) {
 }
 
 void SetupScanConnect(void) {
-    Unk0204e4d8 userInfo;
+    MBUserInfo userInfo;
     gConnectionWork->mStep = 0x1c;
     gConnectionWork->mRequestPending = 1;
-    userInfo.mUnk_00_0 = gStartupWork->mUnk_40;
-    userInfo.mUnk_01 = 10;
-    userInfo.mUnk_00_4 = 9;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mUnk_02, 0x14);
+    userInfo.mFavoriteColor = gStartupWork->mUnk_40;
+    userInfo.mNameLength = 10;
+    userInfo.mPlayerNo = 9;
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mName, 0x14);
     gConnectionWork->mScanEntryIndex = -1;
     InitScanConnectWork(gConnectionWork->mMultiBootWork, &userInfo);
     SetScanConnectStateCallback(ScanConnectStateCallback);

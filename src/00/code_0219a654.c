@@ -53,7 +53,7 @@ BOOL CheckMagic(const u8 *data) {
 }
 
 void SendNegotiatorPacket(u32 sock, u32 toaddr, u16 toport, void *data, s32 length) {
-    Unk021a4654 sockaddr;
+    SOCSockAddrIn sockaddr;
 
     sockaddr.mUnk_01 = 2;
     sockaddr.mUnk_02 = toport >> 8 & 0xff | toport << 8 & 0xff00;
@@ -101,7 +101,7 @@ static inline void CopyNNMagic(void *destination, const void *source) {
 }
 
 u16 GetLocalPort(u32 sock) {
-    Unk021a4654 sockaddr;
+    SOCSockAddrIn sockaddr;
     u32 sockaddrLength;
     s32 result;
     u16 port;
@@ -286,10 +286,10 @@ void NNCancel(u32 cookie) {
 }
 
 void NegotiateThink(NatTraversalEntry *negotiator) {
-    Unk021a4654 senderAddress;
+    SOCSockAddrIn senderAddress;
     s32 senderAddressLength;
     s32 receivedLength;
-    Unk021a4654 resultAddress;
+    SOCSockAddrIn resultAddress;
 
     senderAddressLength = 8;
     if (negotiator->mState == 4) {
@@ -357,7 +357,7 @@ void NNThink(void) {
     }
 }
 
-void SendConnectAck(NatTraversalEntry *negotiator, Unk021a4654 *toaddr) {
+void SendConnectAck(NatTraversalEntry *negotiator, SOCSockAddrIn *toaddr) {
     InitPacket packet;
     u32 cookie;
 
@@ -372,7 +372,7 @@ void SendConnectAck(NatTraversalEntry *negotiator, Unk021a4654 *toaddr) {
                      toaddr->mUnk_02 >> 8 & 0xff | toaddr->mUnk_02 << 8 & 0xff00, &packet, 0x15);
 }
 
-void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, Unk021a4654 *fromAddress) {
+void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress) {
     s32 result;
 
     if (packet->mUnk_13 == 0) {
@@ -399,7 +399,7 @@ void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, 
     }
 }
 
-void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, Unk021a4654 *fromAddress) {
+void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress) {
     if (negotiator->mState >= 2) {
         negotiator->mGuessedIP = fromAddress->mUnk_04;
         negotiator->mGuessedPort = fromAddress->mUnk_02 >> 8 & 0xff | fromAddress->mUnk_02 << 8 & 0xff00;
@@ -423,7 +423,7 @@ void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, Unk
     }
 }
 
-void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, Unk021a4654 *fromAddress) {
+void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSockAddrIn *fromAddress) {
     u32 portKind;
 
     switch (packet->mUnk_07) {

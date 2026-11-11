@@ -119,7 +119,7 @@ u32 ConnectAP(ACWORK *work) {
                 return 9;
             }
         }
-        WCM_ConnectAsync((Unk021a5e84 *) bssDesc, &work->mUnk_cb8, powerMode | GetAuthMode(work));
+        WCM_ConnectAsync((WMBssDesc *) bssDesc, &work->mUnk_cb8, powerMode | GetAuthMode(work));
     } else if (connPhase == 9) {
         work->mUnk_d15 = 0;
         work->mUnk_cb0 = OS_GetTick();

@@ -9,6 +9,14 @@ typedef struct SOCSockAddr {
     /* 02 */ u8 mUnk_02[6];
 } SOCSockAddr;
 
+// Object ServerListConnect builds.
+typedef struct SOCSockAddrIn {
+    /* 0 */ u8 mUnk_00;
+    /* 1 */ u8 mUnk_01;
+    /* 2 */ u16 mUnk_02;
+    /* 4 */ u32 mUnk_04;
+} SOCSockAddrIn;
+
 // Object SOC_GetHostByName returns; mUnk_0c points at a table of pointers to a word.
 typedef struct SOCHostEnt {
     /* 00 */ u8 *mUnk_00;

@@ -3,8 +3,6 @@
 #include "types.h"
 #include "00/code_021a6fa8.h"
 
-typedef struct Unk021a8ab8 Unk021a8ab8;
-
 // The 0x64 bytes SOCL_Resolve hands to func_ov000_021ae304: two blocks of a size and a start address.
 typedef struct CPSSoc {
     /* 00 */ u8 mUnk_00[0x3c];
@@ -19,4 +17,4 @@ s32 SOCL_Resolve(const char *hostname);
 s32 SOCLi_GetReadBufferOccpiedSize(SOCLSocket *socket);
 u32 SOCL_GetStatus(SOCLSocket *socket);
 u32 SOCLi_RoundUp4(int size);
-BOOL SOCL_SocketIsInTrash(Unk021a8ab8 *node);
+BOOL SOCL_SocketIsInTrash(SOCLSocket *node);

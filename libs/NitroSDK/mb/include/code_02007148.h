@@ -9,18 +9,11 @@
 
 struct SegmentBuffer;
 
-// The 0x16 bytes at 0x1300 of MB_CommPWork: a count at mUnk_01 and that many halfwords from mUnk_02.
-typedef struct Unk02009ff4 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02[10];
-} Unk02009ff4;
-
 // Object behind mbc. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
 typedef struct MB_CommPWork {
     /* 0000 */ u8 mUnk_0000[0x1300];
-    /* 1300 */ Unk02009ff4 mUser;
+    /* 1300 */ MBUserInfo mUser;
     /* 1316 */ u16 mIsMbInitialized;
     /* 1318 */ s32 mBlockSizeMax;
     /* 131c */ u32 mStartMpBusy;

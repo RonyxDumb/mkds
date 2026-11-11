@@ -49,9 +49,15 @@ typedef struct MbBeaconRecvStatus {
 
 // Element of the array at 0x10 in MbBeacon.
 typedef struct MBUserInfo {
-    /* 00 */ u8 mFavoriteColor : 4;
-    /* 00 */ u8 mPlayerNo : 4;
-    /* 01 */ u8 mUnk_01[0x15];
+    /* 00 */ union {
+        u8 mUnk_00;
+        struct {
+            u8 mFavoriteColor : 4;
+            u8 mPlayerNo : 4;
+        };
+    };
+    /* 01 */ u8 mNameLength;
+    /* 02 */ u16 mName[10];
 } MBUserInfo;
 
 // Object behind gReceivedGameInfo.

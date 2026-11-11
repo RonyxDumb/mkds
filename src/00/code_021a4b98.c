@@ -25,6 +25,7 @@
 #include "code_0200f5ac.h"
 #include "code_0200f790.h"
 #include "00/unk_021b0000.h"
+#include "03/code_021cce78.h"
 
 WCMApList *WcmSearchApList(const u8 *bssid) {
     WCMWork *work;
@@ -366,7 +367,7 @@ s32 WCM_EndSearchAsync(void) {
     return 3;
 }
 
-s32 WCM_ConnectAsync(Unk021a5e84 *bssDesc, WCMWepDesc *wepDesc, u32 option) {
+s32 WCM_ConnectAsync(WMBssDesc *bssDesc, WCMWepDesc *wepDesc, u32 option) {
     u32 enabled;
     s32 result;
     WCMWork *work;
@@ -383,7 +384,7 @@ s32 WCM_ConnectAsync(Unk021a5e84 *bssDesc, WCMWepDesc *wepDesc, u32 option) {
                 OS_RestoreInterrupts(enabled);
                 return 1;
             }
-            if (bssDesc->mUnk_3c != 0) {
+            if (bssDesc->mGameInfoLength != 0) {
                 OS_RestoreInterrupts(enabled);
                 return 1;
             }
@@ -879,7 +880,7 @@ asm u32 WcmCountLeadingZero(u32 value) {
 #pragma thumb on
 // clang-format on
 
-void WcmWmcbScanEx(Unk021a5088 *callback) {
+void WcmWmcbScanEx(WMStartScanExCallback *callback) {
     s32 result;
     s32 index;
     u32 option;
@@ -898,9 +899,9 @@ void WcmWmcbScanEx(Unk021a5088 *callback) {
                     gWcmWork->mNotifyId = 7;
                     if (callback->mUnk_08 == 5) {
                         DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
-                        for (index = 0; index < callback->mUnk_0e; index++) {
-                            WCMi_EntryApList((Unk021a5e84 *) callback->mUnk_10[index], callback->mUnk_50[index]);
-                            WcmNotifyEx(7, 0, callback->mUnk_10[index], (u32) callback, 0x70b);
+                        for (index = 0; index < callback->mBssDescCount; index++) {
+                            WCMi_EntryApList((WMBssDesc *) callback->mBssDesc[index], callback->mLinkLevel[index]);
+                            WcmNotifyEx(7, 0, callback->mBssDesc[index], (u32) callback, 0x70b);
                         }
                     }
                     option = gWcmWork->mOption;
@@ -971,7 +972,7 @@ void WcmWmcbEndScan(Unk021425e8 *callback) {
     }
 }
 
-void WcmWmcbConnect(Unk021a5088 *callback) {
+void WcmWmcbConnect(WMStartScanExCallback *callback) {
     u16 authId;
     s32 result;
 
@@ -1031,7 +1032,7 @@ void WcmWmcbConnect(Unk021a5088 *callback) {
             }
             break;
         case 1:
-            gWcmWork->mWlStatusOnConnectFail = callback->mUnk_0e;
+            gWcmWork->mWlStatusOnConnectFail = callback->mBssDescCount;
         case 6:
         case 11:
         case 12:

@@ -91,13 +91,13 @@ u8 *WCM_PointApList(u16 index) {
     return apNode->mData;
 }
 
-void WCMi_EntryApList(Unk021a5e84 *bssDesc, u16 linkLevel) {
+void WCMi_EntryApList(WMBssDesc *bssDesc, u16 linkLevel) {
     WCMWork *work;
     WCMApList *entry;
 
     work = WCMi_GetSystemWork();
-    if (work != NULL && work->mApListLock == 0 && bssDesc->mUnk_3c == 0) {
-        entry = WcmSearchApList(bssDesc->mUnk_04);
+    if (work != NULL && work->mApListLock == 0 && bssDesc->mGameInfoLength == 0) {
+        entry = WcmSearchApList(bssDesc->mBssid);
         if (entry == NULL) {
             entry = WcmAllocApList();
         }

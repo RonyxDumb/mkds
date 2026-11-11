@@ -38,7 +38,6 @@
 #include "00/code_021ae000.h"
 #include "00/code_021a86bc.h"
 #include "00/code_021b026c.h"
-#include "00/types_021a8ab8.h"
 #include "00/code_021a8a80.h"
 #include "00/code_0218e2dc.h"
 #include "00/code_021a3a18.h"
@@ -57,12 +56,12 @@ s32 SOC_Socket(s32 protocolFamily, s32 socketType, s32 protocol) {
 }
 
 s32 SOC_Bind(s32 socket, const void *sockAddr) {
-    const Unk021a8e18 *addr = sockAddr;
+    const SOCSockAddrIn *addr = sockAddr;
     u16 localPort = ((addr->mUnk_02 >> 8) & 0xff) | ((addr->mUnk_02 << 8) & 0xff00);
     return SOCL_Bind((SOCLSocket *) socket, localPort);
 }
 
-s32 SOC_Connect(SOCLSocket *socket, Unk021a8e18 *sockAddr) {
+s32 SOC_Connect(SOCLSocket *socket, SOCSockAddrIn *sockAddr) {
     u32 networkAddress = sockAddr->mUnk_04;
     u16 port = ((sockAddr->mUnk_02 >> 8) & 0xff) | ((sockAddr->mUnk_02 << 8) & 0xff00);
     u32 hostAddress =
@@ -78,7 +77,7 @@ s32 SOC_Recv(s32 sockObj, void *buffer, s32 length, s32 flags) {
 }
 
 s32 SOC_RecvFrom(s32 sockObj, void *buffer, s32 length, s32 flags, void *sockFrom) {
-    Unk021a8e18 *addr;
+    SOCSockAddrIn *addr;
     u16 netPort;
     u32 remoteIp;
     s32 result = SOCL_ReadFrom(sockObj, buffer, length, (u32) &netPort, &remoteIp, flags);
@@ -98,7 +97,7 @@ s32 SOC_Send(s32 sockObj, void *buffer, s32 length, s32 flags) {
 }
 
 s32 SOC_SendTo(s32 sockObj, void *buffer, s32 length, s32 flags, void *sockTo) {
-    Unk021a8e18 *addr = sockTo;
+    SOCSockAddrIn *addr = sockTo;
     u16 netPort;
     u32 remoteIp;
     if (addr != NULL) {
@@ -141,7 +140,7 @@ SOCHostEnt *SOC_GetHostByName(const char *hostname) {
 
 s32 SOC_GetSockName(u32 socketHandle, void *sockAddr) {
     SOCLSocket *socket = (SOCLSocket *) socketHandle;
-    Unk021a8e18 *addr = sockAddr;
+    SOCSockAddrIn *addr = sockAddr;
     u32 ownAddr;
     u32 ownPort;
     u16 portValue;
@@ -224,7 +223,7 @@ s32 SOC_Listen(s32 descriptor) {
     return SOCL_Listen(descriptor);
 }
 
-s32 SOC_Accept(SOCLSocket *socket, Unk021a8e18 *sockAddr, s32 f) {
+s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 f) {
     u16 remotePort;
     u32 peerAddr;
     s32 result = SOCL_Accept(socket, &remotePort, &peerAddr);
@@ -405,18 +404,18 @@ void SOCLi_SocketUnregister(SOCLSocket *socket) {
     u32 value3;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketList;
-    SOCLi_SocketUnregisterList((Unk021a8ab8 **) listAddress, (Unk021a8ab8 *) socketAddress);
+    SOCLi_SocketUnregisterList((SOCLSocket **) listAddress, (SOCLSocket *) socketAddress);
 }
 
-void SOCLi_SocketUnregisterList(Unk021a8ab8 **head, Unk021a8ab8 *node) {
-    Unk021a8ab8 **link = SOCLi_SocketGetNextPtr(head, node);
+void SOCLi_SocketUnregisterList(SOCLSocket **head, SOCLSocket *node) {
+    SOCLSocket **link = SOCLi_SocketGetNextPtr(head, node);
     if (link != NULL) {
         *link = node->mNext;
     }
 }
 
-Unk021a8ab8 **SOCLi_SocketGetNextPtr(Unk021a8ab8 **head, Unk021a8ab8 *node) {
-    Unk021a8ab8 *entry = *head;
+SOCLSocket **SOCLi_SocketGetNextPtr(SOCLSocket **head, SOCLSocket *node) {
+    SOCLSocket *entry = *head;
     while (entry != NULL) {
         if (entry == node) {
             return head;
@@ -433,19 +432,18 @@ void SOCLi_SocketUnregisterTrash(SOCLSocket *socket) {
     u32 value3;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketListTrash;
-    SOCLi_SocketUnregisterList((Unk021a8ab8 **) listAddress, (Unk021a8ab8 *) socketAddress);
+    SOCLi_SocketUnregisterList((SOCLSocket **) listAddress, (SOCLSocket *) socketAddress);
 }
 
 BOOL SOCL_SocketIsInvalid(SOCLSocket *socket) {
-    if ((s32) socket <= 0 ||
-        SOCLi_SocketGetNextPtr((Unk021a8ab8 **) &SOCLiSocketList, (Unk021a8ab8 *) socket) == NULL) {
+    if ((s32) socket <= 0 || SOCLi_SocketGetNextPtr(&SOCLiSocketList, socket) == NULL) {
         return 1;
     }
     return 0;
 }
 
-BOOL SOCL_SocketIsInTrash(Unk021a8ab8 *node) {
-    if (SOCLi_SocketGetNextPtr((Unk021a8ab8 **) &SOCLiSocketListTrash, node) != NULL) {
+BOOL SOCL_SocketIsInTrash(SOCLSocket *node) {
+    if (SOCLi_SocketGetNextPtr(&SOCLiSocketListTrash, node) != NULL) {
         return TRUE;
     }
     return FALSE;
@@ -652,7 +650,7 @@ s32 SOCL_CalmDown(void) {
 BOOL SOCL_IsClosed(SOCLSocket *socket) {
     int checkResult;
     if (((0 <= (s32) socket) && (checkResult = SOCL_SocketIsInvalid(socket), checkResult != 0)) &&
-        (checkResult = SOCL_SocketIsInTrash((Unk021a8ab8 *) socket), checkResult == 0)) {
+        (checkResult = SOCL_SocketIsInTrash(socket), checkResult == 0)) {
         return 1;
     }
     return 0;
@@ -682,7 +680,7 @@ s32 SOCL_Close(s32 socketHandle) {
     if (socketHandle <= 0) {
         return -0x1c;
     }
-    if (SOCL_SocketIsInTrash((Unk021a8ab8 *) sockObj) != FALSE) {
+    if (SOCL_SocketIsInTrash(sockObj) != FALSE) {
         return -0x1a;
     }
     if (SOCL_SocketIsInvalid(sockObj) != 0) {

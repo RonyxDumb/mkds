@@ -476,7 +476,7 @@ BOOL InitExchangeWcm(void (*callback)(u32, u32), void *buffer, u32 size) {
     cursor = ((u32) alignedBlock + 0x2f) & ~0x1f;
     gExchangeWcmWork = (void *) cursor;
     cursor = (cursor + 0x231f) & ~0x1f;
-    gExchangeConnectRecord = (Unk021a5e84 *) cursor;
+    gExchangeConnectRecord = (WMBssDesc *) cursor;
     cursor = (cursor + 0xdf) & ~0x1f;
     alignedBlock->mPbdBuffer = (u8 *) cursor;
     gExchangeWcmConfig->mNbdBuffer = (u32) buffer + size - (u32) gExchangeWcmConfig->mPbdBuffer;

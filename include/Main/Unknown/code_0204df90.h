@@ -3,19 +3,7 @@
 #include "types.h"
 
 typedef struct MultiBootStateView MultiBootStateView;
-
-// Twenty bytes after a two-byte head.
-typedef struct Unk0204e4d8 {
-    /* 00 */ union {
-        u8 mUnk_00;
-        struct {
-            u8 mUnk_00_0 : 4;
-            u8 mUnk_00_4 : 4;
-        };
-    };
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02[0x14];
-} Unk0204e4d8;
+typedef struct MBUserInfo MBUserInfo;
 
 void ReadMultiBootParentBssDesc(void);
 void ReadFakeParentBssDesc(u32 entryIndex);
@@ -36,5 +24,5 @@ void StartCloseScanConnect(void);
 void SetupScanConnect(void);
 void StartMultiBootParent(void);
 void ResetConnectionBuffers(MultiBootStateView *view);
-void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *childInfo);
+void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo);
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg);

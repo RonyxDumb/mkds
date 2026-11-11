@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_0218e2dc.h" // SOCSockAddrIn
 
 typedef struct DWCInetControl DWCInetControl;
 
@@ -30,12 +31,6 @@ typedef struct Unk021a3a18 {
     /* 10c */ u32 mUnk_10c;
 } Unk021a3a18;
 
-// A buffer and its length, which follows the 0x800 bytes of the buffer.
-typedef struct Unk021a4480 {
-    /* 000 */ u8 mUnk_000[0x800];
-    /* 800 */ s32 mUnk_800;
-} Unk021a4480;
-
 typedef struct Unk021a3a18 Unk021a3a18;
 
 typedef struct Unk021a3a18 Unk021a3a18;
@@ -54,14 +49,6 @@ typedef struct QueryBuffer {
     /* 000 */ u8 mUnk_000[0x800];
     /* 800 */ s32 mUnk_800;
 } QueryBuffer;
-
-// Address record filled by ResolveQueryHostAddress.
-typedef struct Unk021a4654 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} Unk021a4654;
 
 // Four-byte entry moved by enum_local_ips.
 typedef struct Unk021a46d4 {
@@ -106,7 +93,7 @@ typedef struct QueryRecord {
     /* 0c0 */ s32 mQport;
     /* 0c4 */ BOOL mReadSocket;
     /* 0c8 */ s32 mNatNegotiate;
-    /* 0cc */ Unk021a4654 mHbAddr;
+    /* 0cc */ SOCSockAddrIn mHbAddr;
     /* 0d4 */ s32 mCdkeyProcess;
     /* 0d8 */ s32 mClientMessageKeys[10];
     /* 100 */ s32 mCurMessageKey;
@@ -145,7 +132,7 @@ void gs_encrypt(u8 *key, s32 keyLength, u8 *dataBytes, s32 bufferLength);
 void gs_encode(const u8 *ins, s32 size, u8 *result);
 unsigned char encode_ct(u32 value);
 void swap_byte(u8 *first, u8 *second);
-BOOL ResolveQueryHostAddress(const char *host, u32 port, Unk021a4654 *saddr, SOCHostEnt **savehent);
+BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, SOCHostEnt **savehent);
 void enum_local_ips(void);
 void qr2_buffer_addA(QueryBuffer *outbuf, const char *value);
 void qr2_buffer_add_int(QueryBuffer *outbuf, s32 value);

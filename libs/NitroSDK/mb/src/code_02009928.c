@@ -547,7 +547,7 @@ u32 MBi_GetBeaconPeriodDispersion(void) {
     return (byteSum + SYSTEM_WORK->mVblankCount) * 7 % 0x14;
 }
 
-s32 MB_Init(void *buffer, Unk02009ff4 *user, u32 ggid, u32 tgid, u32 dmaNo) {
+s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     MBiParam *wirelessWork;
     MB_CommPWork *parentWork;
     u32 savedInterrupts;
@@ -572,8 +572,8 @@ s32 MB_Init(void *buffer, Unk02009ff4 *user, u32 ggid, u32 tgid, u32 dmaNo) {
     clearValue16 = 0;
     MIi_CpuClear16(clearValue16, parentWork, 0x1340);
     cursor = wirelessWork->mUnk_530;
-    for (index = 0; index < user->mUnk_01; index++) {
-        *cursor = user->mUnk_02[index];
+    for (index = 0; index < user->mNameLength; index++) {
+        *cursor = user->mName[index];
         cursor++;
     }
     cursor = wirelessWork->mUnk_538;
@@ -585,8 +585,8 @@ s32 MB_Init(void *buffer, Unk02009ff4 *user, u32 ggid, u32 tgid, u32 dmaNo) {
         cursor++;
     }
     MI_CpuCopy8(user, &parentWork->mUser, 0x16);
-    if (user->mUnk_01 < 10) {
-        parentWork->mUser.mUnk_02[user->mUnk_01] = 0;
+    if (user->mNameLength < 10) {
+        parentWork->mUser.mName[user->mNameLength] = 0;
     }
     wirelessWork->mSendDataSize = 0x100;
     wirelessWork->mReceiveDataSize = 8;

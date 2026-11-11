@@ -23,14 +23,8 @@ typedef struct Unk021a8c94 {
 
 extern void *(*AllocFunc_SOC)(u32 a, u32 b);
 
-typedef struct Unk021a8e18 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} Unk021a8e18;
+typedef struct SOCSockAddrIn SOCSockAddrIn;
 
-#include "00/types_021a8ab8.h"
 #include "00/unk_021b5000.h"
 #include "00/unk_021b4000.h"
 
@@ -44,8 +38,8 @@ extern SOCLConfig soclConfig;
 extern s8 entName[0x104];
 
 void SOCLi_SocketUnregisterTrash(SOCLSocket *socket);
-Unk021a8ab8 **SOCLi_SocketGetNextPtr(Unk021a8ab8 **head, Unk021a8ab8 *node);
-void SOCLi_SocketUnregisterList(Unk021a8ab8 **head, Unk021a8ab8 *node);
+SOCLSocket **SOCLi_SocketGetNextPtr(SOCLSocket **head, SOCLSocket *node);
+void SOCLi_SocketUnregisterList(SOCLSocket **head, SOCLSocket *node);
 void SOCLi_SocketUnregister(SOCLSocket *socket);
 void SOCLi_SocketRegisterTrash(SOCLSocket *socket);
 void SOCLi_SocketRegisterList(u32 listAddress, u32 socketAddress);
@@ -60,7 +54,7 @@ s32 SOC_Startup(void *configPointer);
 void FreeFunc_SOCL(int memory);
 void *AllocFunc_SOCL(u32 size);
 s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode);
-s32 SOC_Accept(SOCLSocket *socket, Unk021a8e18 *sockAddr, s32 f);
+s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 f);
 s32 SOC_Listen(s32 descriptor);
 void SOC_SetResolver(unsigned int *firstDns, unsigned int *secondDns);
 unsigned int SOC_GetHostID(void);
@@ -71,5 +65,5 @@ s32 SOC_SendTo(s32 id, void *buffer, s32 length, s32 flags, void *addr);
 s32 SOC_Send(s32 sockObj, void *buffer, s32 length, s32 flags);
 s32 SOC_RecvFrom(s32 id, void *buffer, s32 length, s32 flags, void *addr);
 s32 SOC_Recv(s32 sockObj, void *buffer, s32 length, s32 flags);
-s32 SOC_Connect(SOCLSocket *socket, Unk021a8e18 *sockAddr);
+s32 SOC_Connect(SOCLSocket *socket, SOCSockAddrIn *sockAddr);
 s32 SOC_Socket(s32 domain, s32 type, s32 protocol);

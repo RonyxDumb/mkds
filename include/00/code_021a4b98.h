@@ -67,19 +67,7 @@ typedef struct WCMWork {
     /* 22fa */ u8 mUnk_22fa[6];
 } WCMWork;
 
-// Event of the callbacks WcmWmcbConnect and WcmWmcbScanEx take.
-typedef struct Unk021a5088 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u8 *mUnk_10[16];
-    /* 50 */ u16 mUnk_50[16];
-} Unk021a5088;
+typedef struct WMStartScanExCallback WMStartScanExCallback;
 
 void WcmWmcbCommon(Unk021425e8 *event);
 
@@ -89,9 +77,9 @@ void WcmWmcbReset(Unk021425e8 *event);
 void WcmWmcbEndDCF(Unk021425e8 *event);
 void WcmWmcbStartDCF(Unk021425e8 *event);
 void WcmWmcbDisconnect(Unk021425e8 *event);
-void WcmWmcbConnect(Unk021a5088 *event);
+void WcmWmcbConnect(WMStartScanExCallback *event);
 void WcmWmcbEndScan(Unk021425e8 *event);
-void WcmWmcbScanEx(Unk021a5088 *event);
+void WcmWmcbScanEx(WMStartScanExCallback *event);
 u32 WCM_GetPhase(void);
 s32 WCM_DisconnectAsync(void);
 s32 WCM_EndSearchAsync(void);

@@ -61,10 +61,10 @@ typedef struct InitPacketWithGamename {
 BOOL Gt2ParseAddress(const char *string, u32 *ipOut, u16 *portOut);
 u32 Gt2FormatAddress(u32 ipAddress, u32 port, char *buffer);
 void NNProcessData(u8 *data, s32 length, void *fromAddress);
-void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, Unk021a4654 *fromAddress);
-void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, Unk021a4654 *fromAddress);
-void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, Unk021a4654 *fromAddress);
-void SendConnectAck(NatTraversalEntry *negotiator, Unk021a4654 *toaddr);
+void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSockAddrIn *fromAddress);
+void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress);
+void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress);
+void SendConnectAck(NatTraversalEntry *negotiator, SOCSockAddrIn *toaddr);
 void NNThink(void);
 void NegotiateThink(NatTraversalEntry *negotiator);
 void NNCancel(u32 cookie);

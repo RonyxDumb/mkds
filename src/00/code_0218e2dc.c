@@ -248,7 +248,7 @@ s32 bind(s32 sock, void *addr, s32 len) {
 s32 connect(s32 sock, void *addr, s32 len) {
     SOCSockAddr target = *(SOCSockAddr *) addr;
     target.mUnk_00 = len;
-    return CheckRcode(SOC_Connect((SOCLSocket *) sock, (Unk021a8e18 *) &target), -1);
+    return CheckRcode(SOC_Connect((SOCLSocket *) sock, (SOCSockAddrIn *) &target), -1);
 }
 
 s32 listen(s32 descriptor) {
@@ -261,7 +261,7 @@ s32 AcceptConnection(s32 sock, void *addr, s32 *len) {
     s32 inputLen = *lenPointer;
     s32 rcode;
     *addrBytes = inputLen;
-    rcode = SOC_Accept((SOCLSocket *) sock, (Unk021a8e18 *) addrBytes, inputLen);
+    rcode = SOC_Accept((SOCLSocket *) sock, (SOCSockAddrIn *) addrBytes, inputLen);
     *lenPointer = *addrBytes;
     return CheckRcode(rcode, -1);
 }

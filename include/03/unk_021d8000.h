@@ -104,7 +104,7 @@ extern WCMConfig *gExchangeWcmConfig;
 extern void *gExchangeWcmWork;
 extern u8 *gExchangeSearchAddress;
 extern u8 *gExchangeSearchEssid;
-extern Unk021a5e84 *gExchangeConnectRecord;
+extern WMBssDesc *gExchangeConnectRecord;
 extern u32 gExchangeConnectOption;
 extern u32 gExchangeSearchOption;
 extern UnkFunc *gExchangeEventCallback;

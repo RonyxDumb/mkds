@@ -62,14 +62,6 @@ typedef struct UnalignedWord {
 
 typedef struct SbServerList SbServerList;
 
-// Object ServerListConnect builds.
-typedef struct SOCSockAddrIn {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} SOCSockAddrIn;
-
 // Declared here until the code that defines it is decompiled.
 
 void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName,
