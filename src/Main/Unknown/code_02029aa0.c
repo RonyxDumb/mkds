@@ -258,14 +258,14 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                     u16 z;
                     y = FALSE;
                     x = FALSE;
-                    z = gInputHasPairs[inputSlotIndex].mPressedBits;
+                    z = gInputSlots[inputSlotIndex].mPair.mHasPair;
                     if (z == 0) {
-                        if (gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+                        if (gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
                             x = TRUE;
                         }
                     }
                     if (x == FALSE) {
-                        if (gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0) {
+                        if (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0) {
                             if (z != 0) {
                                 y = TRUE;
                             }

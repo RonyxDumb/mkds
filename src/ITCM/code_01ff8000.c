@@ -53,17 +53,17 @@ void simpleUnlock_(u32 *a) {
 }
 
 void NNS_G3dGeSendDL(const void *commands, u32 commandLength) {
-    if (commandLength < 0x100 || data_0216f074[0] == 0xffffffff) {
+    if (commandLength < 0x100 || GXi_DmaId == 0xffffffff) {
         NNS_G3dGeBufferOP_N(*(u32 *) commands, commands + 4, (commandLength >> 2) - 1);
         return;
     }
     NNS_G3dGeFlushBuffer();
     NNS_G3dFlagGXDmaAsync = 1;
     if (NNS_G3dFlagUseFastDma != 0) {
-        MI_SendGXCommandAsyncFast(data_0216f074[0], commands, commandLength, (MIDmaCallback) simpleUnlock_,
+        MI_SendGXCommandAsyncFast(GXi_DmaId, commands, commandLength, (MIDmaCallback) simpleUnlock_,
                                   &NNS_G3dFlagGXDmaAsync);
     } else {
-        MI_SendGXCommandAsync(data_0216f074[0], commands, commandLength, (MIDmaCallback) simpleUnlock_,
+        MI_SendGXCommandAsync(GXi_DmaId, commands, commandLength, (MIDmaCallback) simpleUnlock_,
                               &NNS_G3dFlagGXDmaAsync);
     }
 }

@@ -39,7 +39,7 @@ typedef struct StopSignObject {
 void *CreateStopSignDrawList(void);
 void CreateStopSignKindData(void);
 void DrawStopSign(void *mapObjectList, StopSignObject *mapObject);
-void LoadStopSign(Unk0219b478 *mapObjectList);
+void LoadStopSign(MapObjectList *mapObjectList);
 void InitStopSign(Unk02188950 *mapObject); /* object is MapObject-sized; Unk02188950 is only the prefix view */
 
 #include "01/code_0219b540.h"

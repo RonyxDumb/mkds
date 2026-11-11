@@ -600,12 +600,12 @@ static inline BOOL SelectChoisesIsPointInByteRect(u16 pointX, u16 pointY, u8 min
 static inline s32 SelectChoisesIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
     BOOL recentlyLost = FALSE;
-    u16 hasPair = gInputHasPairs[inputSlotIndex].mPressedBits;
+    u16 hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
 
-    if (hasPair == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         result = TRUE;
     }
     return result;
@@ -619,8 +619,8 @@ void AdvanceSelectChoisesState1(void) {
     u16 keys;
 
     inputSlotIndex = UNK_02175628_INDEX_8;
-    touchX = gInputPairXs[inputSlotIndex].mPressedBits;
-    touchY = gInputPairYs[inputSlotIndex].mPressedBits;
+    touchX = gInputSlots[inputSlotIndex].mPair.mPairX;
+    touchY = gInputSlots[inputSlotIndex].mPair.mPairY;
     if (gSelectChoises->mState0Requested != 0) {
         gSelectChoises->mNextState = 0;
         gSelectChoises->mState0Requested = 0;

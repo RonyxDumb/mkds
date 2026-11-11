@@ -256,28 +256,28 @@ void AdvanceWiFiVSSettingState4(void) {
     InputSlot *e;
     u32 messageIndex;
 
-    if (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) {
+    if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
         v5 = TRUE;
     }
-    if (v5 == FALSE && gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0) {
+    if (v5 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
         v3 = TRUE;
     }
     if (v3 != FALSE) {
-        v4 = RectTableFindContaining(gWiFiVSSetting->mWiFiVSSettingBnbl, gInputPairXs[i].mPressedBits,
-                                     gInputPairYs[i].mPressedBits);
+        v4 = RectTableFindContaining(gWiFiVSSetting->mWiFiVSSettingBnbl, gInputSlots[i].mPair.mPairX,
+                                     gInputSlots[i].mPair.mPairY);
     }
     e = &gInputSlots[i];
     v8 = e->mPressedBits & PAD_KEY_B;
     if ((u16) v8 == 0) {
         v7 = v6 = FALSE;
-        if (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) {
+        if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             v7 = 1;
         }
-        if (v7 == 0 && gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0) {
+        if (v7 == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
             v6 = TRUE;
         }
-        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[i].mPressedBits,
-                                                                           gInputPairYs[i].mPressedBits) == FALSE) {
+        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                           gInputSlots[i].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -474,18 +474,18 @@ void AdvanceWiFiVSSettingState7(void) {
         if ((u16) (gInputSlots[v1].mPressedBits & PAD_KEY_B) == 0) {
             a = FALSE;
             b = FALSE;
-            v = gInputHasPairs[v1].mPressedBits;
-            if (v == 0 && gInputNoPairCounts[v1].mPressedBits < 5) {
+            v = gInputSlots[v1].mPair.mHasPair;
+            if (v == 0 && gInputSlots[v1].mPair.mNoPairCount < 5) {
                 b = TRUE;
             }
-            if (b == FALSE && gInputPrevHasPairs[v1].mPressedBits == 0 && v != 0) {
+            if (b == FALSE && gInputSlots[v1].mPair.mPrevHasPair == 0 && v != 0) {
                 a = TRUE;
             }
             if (a == FALSE) {
                 return;
             }
-            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[v1].mPressedBits,
-                                                                gInputPairYs[v1].mPressedBits) == FALSE) {
+            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[v1].mPair.mPairX,
+                                                                gInputSlots[v1].mPair.mPairY) == FALSE) {
                 return;
             }
         }
@@ -513,18 +513,18 @@ void AdvanceWiFiVSSettingState8(void) {
         if ((u16) (gInputSlots[v1].mPressedBits & PAD_KEY_B) == 0) {
             a = FALSE;
             b = FALSE;
-            v = gInputHasPairs[v1].mPressedBits;
-            if (v == 0 && gInputNoPairCounts[v1].mPressedBits < 5) {
+            v = gInputSlots[v1].mPair.mHasPair;
+            if (v == 0 && gInputSlots[v1].mPair.mNoPairCount < 5) {
                 b = TRUE;
             }
-            if (b == FALSE && gInputPrevHasPairs[v1].mPressedBits == 0 && v != 0) {
+            if (b == FALSE && gInputSlots[v1].mPair.mPrevHasPair == 0 && v != 0) {
                 a = TRUE;
             }
             if (a == FALSE) {
                 return;
             }
-            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[v1].mPressedBits,
-                                                                gInputPairYs[v1].mPressedBits) == FALSE) {
+            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[v1].mPair.mPairX,
+                                                                gInputSlots[v1].mPair.mPairY) == FALSE) {
                 return;
             }
         }

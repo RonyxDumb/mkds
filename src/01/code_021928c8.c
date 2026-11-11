@@ -213,11 +213,11 @@ u32 GetEmblemInputPrevDown(void) {
 }
 
 u16 GetEmblemInputNewBits(u16 mask) {
-    return gEmblemInputSlotWords[0x10] & mask;
+    return gInputSlots[UNK_02175628_INDEX_8].mPressedBits & mask;
 }
 
 u16 GetEmblemInputBits(u16 mask) {
-    return gEmblemInputSlotWords[0x11] & mask;
+    return gInputSlots[UNK_02175628_INDEX_8].mBits & mask;
 }
 
 BOOL IsEmblemInputRepeat(int mask) {

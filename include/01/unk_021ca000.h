@@ -169,15 +169,10 @@ typedef struct EmblemCursor {
     /* 40 */ s32 mPrevCellY;
 } EmblemCursor;
 
-typedef struct Unk021ca424_08 {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 *mUnk_0c;
-} Unk021ca424_08;
-
 typedef struct MissionRunBossIcon {
     /* 00 */ Ncgr *mNcgr;
     /* 04 */ struct Unk02021dc8 *mNcer;
-    /* 08 */ Unk021ca424_08 *mNclr;
+    /* 08 */ Nclr *mNclr;
     /* 0c */ void *mBncl;
 } MissionRunBossIcon;
 

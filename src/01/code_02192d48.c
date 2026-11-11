@@ -28,7 +28,7 @@ void InitStopSign(Unk02188950 *mapObject) {
     MTX_Concat33(&rotationMatrix, &mapObject->mUnk_000.mMatrix.mAxes, &mapObject->mUnk_000.mMatrix.mAxes);
 }
 
-void LoadStopSign(Unk0219b478 *mapObjectList) {
+void LoadStopSign(MapObjectList *mapObjectList) {
     gStopSign = LoadMapObjectModelAnimated(mapObjectList, "StopSign.nsbmd");
     SetMapObjectModelPolygonId(gStopSign, 0x3f);
     SetMapObjectModelLightEnableFlag(gStopSign, 2);

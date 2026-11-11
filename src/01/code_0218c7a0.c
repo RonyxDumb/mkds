@@ -294,13 +294,13 @@ void InitHanachanMapObject(Unk02188950 *mapObject) {
     fourthFollower->mUnk_0a4 = (struct Unk0218dabc *) thirdFollower;
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xd, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x1d];
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }
 
 void InitHanachanFollowerMapObject(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xd, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x1d];
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }
 
 void HanachanKartHitCallback(Unk02188950 *mapObject, MissionRunPrm *kart) {

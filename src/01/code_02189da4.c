@@ -177,7 +177,7 @@ void InitBombKingMapObject(Unk02188950 *mapObject) {
     CreateParkedMapObjects(0xc9, 0xa, mapObject);
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource((SoundSource *) mapObject->mUnk_000.mSound, 0xc, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x50 / 4];
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
 void SetBombKingEffectScale(Unk0201ca6c *emitter) {

@@ -68,7 +68,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin);
 void CoinBeforeObjectsNop(void);
 void InitCoinObjects(MapObjectList *coinList);
 void DrawCoin(void *mapObjectList, Coin *coin);
-void LoadCoin(Unk0219b478 *drawList);
+void LoadCoin(MapObjectList *drawList);
 u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void SetMissionRunCoinCallbacks(void);
 void StartCoinsFadeIn(void);

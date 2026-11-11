@@ -314,7 +314,7 @@ void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, PointLinkCursor *linkCur
 }
 
 BOOL IsKartTargetable(s32 kartIndex) {
-    return (GetKart(kartIndex)->mUnk_7c & 0x402020) == 0;
+    return IsKartFlagMaskClear(kartIndex);
 }
 
 s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {

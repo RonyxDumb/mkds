@@ -715,16 +715,16 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             rectIndex = -1;
             pairIsNew = 0;
             pairRecentlyGone = 0;
-            hasPair = gInputHasPairs[slotIndex].mPressedBits;
-            if (hasPair == 0 && gInputNoPairCounts[slotIndex].mPressedBits < 5) {
+            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
                 pairRecentlyGone = 1;
             }
-            if (pairRecentlyGone == 0 && gInputPrevHasPairs[slotIndex].mPressedBits == 0 && hasPair != 0) {
+            if (pairRecentlyGone == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                 pairIsNew = 1;
             }
             if (pairIsNew != 0) {
-                x = gInputPairXs[slotIndex].mPressedBits;
-                pairY = gInputPairYs[slotIndex].mPressedBits;
+                x = gInputSlots[slotIndex].mPair.mPairX;
+                pairY = gInputSlots[slotIndex].mPair.mPairY;
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(x, pairY);
                 rectIndex = RectTableFindContaining(subFileSet->mRects, x, pairY);
             }
@@ -867,16 +867,16 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
         case 1:
             pairIsNew = 0;
             pairRecentlyGone = 0;
-            hasPair = gInputHasPairs[slotIndex].mPressedBits;
-            if (hasPair == 0 && gInputNoPairCounts[slotIndex].mPressedBits < 5) {
+            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
                 pairRecentlyGone = 1;
             }
-            if (pairRecentlyGone == 0 && gInputPrevHasPairs[slotIndex].mPressedBits == 0 && hasPair != 0) {
+            if (pairRecentlyGone == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                 pairIsNew = 1;
             }
             if (pairIsNew != 0) {
                 touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(
-                    gInputPairXs[slotIndex].mPressedBits, gInputPairYs[slotIndex].mPressedBits);
+                    gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
             }
             started = gMultiSelectMember->mStarted;
             if (started == 0) {

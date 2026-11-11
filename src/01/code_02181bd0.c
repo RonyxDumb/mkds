@@ -338,13 +338,13 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondR
     return secondResponse;
 }
 
-void LoadCoin(Unk0219b478 *drawList) {
+void LoadCoin(MapObjectList *drawList) {
     data_ov001_021a9b98 = LoadMapObjectModelAnimated(drawList, data_ov001_021a78c0);
     LoadMapObjectModelNsbtpAnimation(data_ov001_021a9b98, data_ov001_021a78cc);
     SetMapObjectModelPolygonId(data_ov001_021a9b98, 0x3f);
     SetMapObjectModelLightEnableFlag(data_ov001_021a9b98, 2);
     SetNsbmdEmiAll(data_ov001_021a9b98->mAnimatedModel, 0x294a);
-    drawList->mUnk_1c = 1;
+    drawList->mSortByDistance = 1;
 }
 
 void DrawCoin(void *mapObjectList, Coin *coin) {

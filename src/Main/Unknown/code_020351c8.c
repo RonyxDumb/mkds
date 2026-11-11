@@ -296,16 +296,16 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     AdvanceInterpolation(&gTimeAttackGhostGetSlot->mInterpolation);
     pairIsNew = FALSE;
     pairRecentlyGone = FALSE;
-    hasPair = gInputHasPairs[slotIndex].mPressedBits;
-    if (hasPair == 0 && gInputNoPairCounts[slotIndex].mPressedBits < 5) {
+    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         pairRecentlyGone = TRUE;
     }
-    if (pairRecentlyGone == FALSE && gInputPrevHasPairs[slotIndex].mPressedBits == 0 && hasPair != 0) {
+    if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         pairIsNew = TRUE;
     }
     if (pairIsNew != FALSE) {
-        touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[slotIndex].mPressedBits,
-                                                                            gInputPairYs[slotIndex].mPressedBits);
+        touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                            gInputSlots[slotIndex].mPair.mPairY);
     }
     object = gTimeAttackGhostGetSlot;
     switch (object->mState) {

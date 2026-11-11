@@ -31,12 +31,6 @@ typedef struct OptionTopMenu {
     /* 3c */ struct Bmg *mCommonMessages;
 } OptionTopMenu;
 
-// Object behind RecordGpx.mPlayerCharacterMONclr.
-typedef struct Unk021a9bd8_40 {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 *mUnk_0c;
-} Unk021a9bd8_40;
-
 // Object behind gRecordGpx.
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;
@@ -55,7 +49,7 @@ typedef struct RecordGpx {
     /* 34 */ void *mRecordTrophySOBncl;
     /* 38 */ void *mPlayerCharacterMNcgr;
     /* 3c */ struct Unk02021dc8 *mPlayerCharacterMNcer;
-    /* 40 */ Unk021a9bd8_40 *mPlayerCharacterMONclr;
+    /* 40 */ Nclr *mPlayerCharacterMONclr;
     /* 44 */ struct LayoutEntryTable *mPlayerCharacterMBncl;
     /* 48 */ Nscr *mRecordGpxSNscr;
     /* 4c */ void *mZeroBuffer;

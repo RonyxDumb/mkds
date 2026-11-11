@@ -430,17 +430,17 @@ void AdvanceRecordVSEraseState4(void) {
     AdvanceRecordVSEraseOffsetTimers();
     AdvanceRecordVSEraseIndexChange();
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
-    n = (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) ||
-        gInputHasPairs[i].mPressedBits != 0;
+    n = (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) ||
+        gInputSlots[i].mPair.mHasPair != 0;
     if (n) {
-        downRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputPairXs[i].mPressedBits,
-                                                gInputPairYs[i].mPressedBits);
+        downRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputSlots[i].mPair.mPairX,
+                                                gInputSlots[i].mPair.mPairY);
     }
-    n = !(gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) &&
-        (gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0);
+    n = !(gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) &&
+        (gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0);
     if (n) {
-        pressedRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputPairXs[i].mPressedBits,
-                                                   gInputPairYs[i].mPressedBits);
+        pressedRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputSlots[i].mPair.mPairX,
+                                                   gInputSlots[i].mPair.mPairY);
     }
     if (downRectIndex != 5) {
         gRecordVSErase->mPageDecrementRepeat = FALSE;
@@ -449,9 +449,9 @@ void AdvanceRecordVSEraseState4(void) {
         gRecordVSErase->mPageIncrementRepeat = FALSE;
     }
     if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) != 0 ||
-        ((n = !(gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) &&
-              (gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0)) &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[i].mPressedBits, gInputPairYs[i].mPressedBits) !=
+        ((n = !(gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) &&
+              (gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0)) &&
+         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX, gInputSlots[i].mPair.mPairY) !=
              FALSE)) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;

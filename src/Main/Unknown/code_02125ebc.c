@@ -420,11 +420,11 @@ static inline s32 TxtSystemIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
     BOOL recentlyLost = FALSE;
 
-    if (gInputHasPairs[inputSlotIndex].mPressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+    if (gInputSlots[inputSlotIndex].mPair.mHasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 &&
-        gInputHasPairs[inputSlotIndex].mPressedBits != 0) {
+    if (recentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 &&
+        gInputSlots[inputSlotIndex].mPair.mHasPair != 0) {
         result = TRUE;
     }
     return result;
@@ -449,9 +449,9 @@ void AdvanceTxtSystemState2(void) {
             inputSlotIndex = GetPadInputSlot();
             break;
     }
-    touchX = gInputPairXs[inputSlotIndex].mPressedBits;
+    touchX = gInputSlots[inputSlotIndex].mPair.mPairX;
     txtSystem = gTxtSystem;
-    offsetTouchY = txtSystem->mBgOffset[1] + gInputPairYs[inputSlotIndex].mPressedBits;
+    offsetTouchY = txtSystem->mBgOffset[1] + gInputSlots[inputSlotIndex].mPair.mPairY;
     if (offsetTouchY < 0) {
         offsetTouchY = 0xff;
     }

@@ -186,16 +186,16 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     UpdateScanSelectedIndex();
                     pairIsNew = FALSE;
                     pairRecentlyGone = FALSE;
-                    hasPair = gInputHasPairs[slotIndex].mPressedBits;
-                    if (hasPair == 0 && gInputNoPairCounts[slotIndex].mPressedBits < 5) {
+                    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+                    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
                         pairRecentlyGone = TRUE;
                     }
-                    if (pairRecentlyGone == FALSE && gInputPrevHasPairs[slotIndex].mPressedBits == 0 && hasPair != 0) {
+                    if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                         pairIsNew = TRUE;
                     }
                     if (pairIsNew != FALSE) {
-                        pairX = gInputPairXs[slotIndex].mPressedBits;
-                        pairY = gInputPairYs[slotIndex].mPressedBits;
+                        pairX = gInputSlots[slotIndex].mPair.mPairX;
+                        pairY = gInputSlots[slotIndex].mPair.mPairY;
                         touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
                         rectIndex = RectTableFindContaining(subCellFileSet->mRects, pairX, pairY);
                     }

@@ -84,7 +84,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -139,7 +139,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -215,7 +215,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -285,7 +285,7 @@ void UpdateRaceHudSubScreen(void) {
                         if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                             e = FALSE;
                             if (IsChoisesSOpen() == 0) {
-                                if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
+                                if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
                                     e = TRUE;
                                 }
                             } else {
@@ -332,7 +332,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
                                 e = TRUE;
                             }
                         } else {

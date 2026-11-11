@@ -94,38 +94,38 @@ void LocateAndQueueRecordGpx(void) {
 }
 
 void SetupRecordGpxValues(s32 row) {
-    s32 i;
-    s32 k;
+    s32 cellIndex;
+    s32 recordValue;
     u32 grandPrixRecordTotalPoints;
     s32 subLayoutCount;
     s32 grandPrixRecordGrade;
     u32 recordTime;
     u16 buf[16];
-    u8 *paletteData;
+    u16 *paletteData;
 
-    k = GetGrandPrixRecordCupRank(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
+    recordValue = GetGrandPrixRecordCupRank(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
     gRecordGpx->mRecordGpxSTable[gRecordGpxTrophyCellIndices[row]].mVisible = 1;
     QueueCellChars(gRecordGpxCupTrophyCells[gRecordGpx->mIndex], (gRecordGpx->mRecordTrophyONcer),
                    (gRecordGpx->mRecordTrophyONcgr), (gRecordGpx->mRecordTrophySOBncl), 1,
                    gRecordGpxTrophyCellIndices[row], (gRecordGpx->mRecordGpxSNcer), (gRecordGpx->mRecordGpxSBncl));
-    SetCellPaletteIndex(gRecordGpxTrophyCellIndices[row], (u8) gRecordGpxTrophyPaletteIndices[k],
+    SetCellPaletteIndex(gRecordGpxTrophyCellIndices[row], (u8) gRecordGpxTrophyPaletteIndices[recordValue],
                         gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl);
-    k = GetGrandPrixRecordCharacterIndex(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
+    recordValue = GetGrandPrixRecordCharacterIndex(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
     gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[row][0]].mVisible = 1;
-    QueueCellChars(gRecordGpxCharacterCells[k], (gRecordGpx->mPlayerCharacterMNcer),
+    QueueCellChars(gRecordGpxCharacterCells[recordValue], (gRecordGpx->mPlayerCharacterMNcer),
                    (gRecordGpx->mPlayerCharacterMNcgr), (gRecordGpx->mPlayerCharacterMBncl), 1,
                    gRecordGpxCharacterKartCellIndices[row][0], (gRecordGpx->mRecordGpxSNcer),
                    (gRecordGpx->mRecordGpxSBncl));
-    paletteData = gRecordGpx->mPlayerCharacterMONclr->mUnk_0c;
+    paletteData = gRecordGpx->mPlayerCharacterMONclr->mData;
     NNS_GfdRegisterNewVramTransferTask(
         0x1e, gRecordGpxCharacterPaletteSlots[row] << 5,
-        paletteData + (GetCellPaletteIndex(gRecordGpxCharacterCells[k], (gRecordGpx->mPlayerCharacterMNcer),
-                                           (gRecordGpx->mPlayerCharacterMBncl))
-                       << 5),
+        (u8 *) paletteData + (GetCellPaletteIndex(gRecordGpxCharacterCells[recordValue], (gRecordGpx->mPlayerCharacterMNcer),
+                                                  (gRecordGpx->mPlayerCharacterMBncl))
+                              << 5),
         0x20);
-    k = GetGrandPrixRecordKartIndex(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
+    recordValue = GetGrandPrixRecordKartIndex(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
     gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[row][1]].mVisible = 1;
-    QueueKartIcon(k, gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl,
+    QueueKartIcon(recordValue, gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl,
                   gRecordGpxCharacterKartCellIndices[row][1], data_ov001_021a668c[row], 1);
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
     GetGrandPrixRecordTime(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row], &recordTime);
@@ -139,8 +139,8 @@ void SetupRecordGpxValues(s32 row) {
     gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTotalPointsLabelIndices[row]].mVisible = 1;
     PrintLabelLayoutTextFixedAdvance(1, gRecordGpxTotalPointsLabelIndices[row], gRecordGpx->mRecordGpxSBnll, buf,
                                      gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, 7);
-    for (i = 0; i < 3; i++) {
-        gRecordGpx->mRecordGpxSTable[gRecordGpxTotalPointsCellIndices[row][i]].mVisible = 0;
+    for (cellIndex = 0; cellIndex < 3; cellIndex++) {
+        gRecordGpx->mRecordGpxSTable[gRecordGpxTotalPointsCellIndices[row][cellIndex]].mVisible = 0;
     }
     switch (grandPrixRecordTotalPoints) {
         case 0:
@@ -154,8 +154,8 @@ void SetupRecordGpxValues(s32 row) {
             break;
     }
     gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[row]].mVisible = 0;
-    for (i = 0; i < 3; i++) {
-        gRecordGpx->mRecordGpxSTable[gRecordGpxGradeCellIndices[row][i]].mVisible = 0;
+    for (cellIndex = 0; cellIndex < 3; cellIndex++) {
+        gRecordGpx->mRecordGpxSTable[gRecordGpxGradeCellIndices[row][cellIndex]].mVisible = 0;
     }
     grandPrixRecordGrade =
         GetGrandPrixRecordGrade(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);

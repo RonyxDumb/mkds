@@ -30,7 +30,8 @@ extern u8 OverlaySignatures[][0x14];
 // 1 while the main display is on; GX_DispOff clears it, GX_DispOn sets it, GX_SetGraphicsMode writes mode 0 while it is
 // 0 and clears it when its first argument is 0. Initial value 1.
 extern u8 gDispOn[];
-extern u32 data_0216f074[];
+extern u32 GXi_DmaId;
+extern s32 sDayOfYear[12];
 
 extern u32 data_0216ff44;
 extern u32 data_0216ff48;

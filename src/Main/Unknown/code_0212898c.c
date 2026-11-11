@@ -471,16 +471,16 @@ void AdvanceKeyboardState2(void) {
     result = FALSE;
     touchedRectIndex = -1;
     g = FALSE;
-    c = gInputHasPairs[inputSlotIndex].mPressedBits;
-    if (c == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+    c = gInputSlots[inputSlotIndex].mPair.mHasPair;
+    if (c == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
         g = TRUE;
     }
-    if (g == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && c != 0) {
+    if (g == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && c != 0) {
         result = TRUE;
     }
     if (result != FALSE) {
-        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[0], gInputPairXs[inputSlotIndex].mPressedBits,
-                                                   gInputPairYs[inputSlotIndex].mPressedBits);
+        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[0], gInputSlots[inputSlotIndex].mPair.mPairX,
+                                                   gInputSlots[inputSlotIndex].mPair.mPairY);
     }
     keyboard = gKeyboard;
     textRecord = &keyboard->mRecords[keyboard->mKind];
@@ -651,16 +651,16 @@ void AdvanceKeyboardState7(void) {
     f = FALSE;
     touchedRectIndex = -1;
     g = FALSE;
-    c = gInputHasPairs[inputSlotIndex].mPressedBits;
-    if (c == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+    c = gInputSlots[inputSlotIndex].mPair.mHasPair;
+    if (c == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
         g = TRUE;
     }
-    if (g == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && c != 0) {
+    if (g == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && c != 0) {
         f = TRUE;
     }
     if (f != FALSE) {
-        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[1], gInputPairXs[inputSlotIndex].mPressedBits,
-                                                   gInputPairYs[inputSlotIndex].mPressedBits);
+        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[1], gInputSlots[inputSlotIndex].mPair.mPairX,
+                                                   gInputSlots[inputSlotIndex].mPair.mPairY);
     }
     keyboard = gKeyboard;
     textRecord = &keyboard->mRecords[keyboard->mKind];

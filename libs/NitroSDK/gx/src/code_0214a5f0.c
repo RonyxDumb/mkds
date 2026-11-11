@@ -17,16 +17,16 @@ void G3X_SetClearColor(u32 rgb, u32 alpha, u16 depth, u32 polygonID, s32 fog) {
     reg_G3X_CLEAR_DEPTH = depth;
 }
 
-// Zeroes the edge color table (16 bytes at 0x4000330) and the fog table (96 bytes at 0x4000360), by DMA when the
-// first word of data_0216f074 is not -1 and by CPU otherwise, then writes 0 to the shininess command 32 times.
+// Zeroes the edge color table (16 bytes at 0x4000330) and the fog table (96 bytes at 0x4000360), by DMA when
+// GXi_DmaId is not -1 and by CPU otherwise, then writes 0 to the shininess command 32 times.
 void G3X_InitTable(void) {
     volatile u32 zero0;
     volatile u32 zero1;
     s32 i;
 
-    if (data_0216f074[0] != -1) {
-        MI_DmaFill32Async(data_0216f074[0], (void *) 0x4000330, 0, 0x10, 0, 0);
-        MI_DmaFill32(data_0216f074[0], (void *) 0x4000360, 0, 0x60);
+    if (GXi_DmaId != -1) {
+        MI_DmaFill32Async(GXi_DmaId, (void *) 0x4000330, 0, 0x10, 0, 0);
+        MI_DmaFill32(GXi_DmaId, (void *) 0x4000360, 0, 0x60);
     } else {
         zero0 = 0;
         MIi_CpuClear32(zero0, (void *) 0x4000330, 0x10);

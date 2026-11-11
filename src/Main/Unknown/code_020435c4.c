@@ -479,5 +479,5 @@ void SetInputOpenDuringRace(u32 openDuringRace) {
 }
 
 u32 GetVolatileHalfwordIndex39(void) {
-    return gInputSlot8PairWords[0x27];
+    return gInputSlots[9].mHoldLong;
 }

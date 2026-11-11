@@ -71,7 +71,7 @@
 void InitIwanteSoundSource(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource((SoundSource *) mapObject->mUnk_000.mSound, 0xc, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x14];
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
 void IwanteKartResponse2Callback(Unk02188950 *mapObject) {

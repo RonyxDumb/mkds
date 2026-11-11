@@ -11,7 +11,8 @@ s32 RTC_ConvertDateToDay(const RTCDate *date) {
         return -1;
     }
     dayNum = date->mDay - 1;
-    dayNum += data_0216f074[date->mMonth];
+    // The month is 1-based.
+    dayNum += (sDayOfYear - 1)[date->mMonth];
     if (date->mMonth >= 3 && (date->mYear & 3) == 0) {
         dayNum++;
     }

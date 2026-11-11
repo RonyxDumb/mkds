@@ -1,6 +1,7 @@
 #include "01/code_0219b250.h"
 
 #include "01/unk_021a6000.h"
+#include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020483e4.h"
 #include "Main/Unknown/code_0207a000.h"
@@ -43,7 +44,7 @@ void *LoadMissionRunFile(const char *fileName) {
 }
 
 // Overlay-1 version of CreateMapObjectModelAnimated; the file comes from LoadMissionRunFile.
-MapObjectModel *LoadMapObjectModelAnimated(Unk0219b478 *mapObjectList, const char *nsbmdName) {
+MapObjectModel *LoadMapObjectModelAnimated(MapObjectList *mapObjectList, const char *nsbmdName) {
     MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     if (mapObjectList != NULL) {
         mapObjectList->mUnk_18 = 1;

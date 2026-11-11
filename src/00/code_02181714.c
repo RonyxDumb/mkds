@@ -153,27 +153,27 @@ void AdvanceWiFiTopMenuState3(void) {
     BOOL v6;
     s32 v7;
 
-    if (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) {
+    if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
         v3 = TRUE;
     }
-    if (v3 == FALSE && gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0) {
+    if (v3 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
         v1 = TRUE;
     }
     if (v1 != FALSE) {
-        v2 = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, gInputPairXs[i].mPressedBits,
-                                     gInputPairYs[i].mPressedBits);
+        v2 = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, gInputSlots[i].mPair.mPairX,
+                                     gInputSlots[i].mPair.mPairY);
     }
     v5 = gInputSlots[i].mPressedBits & PAD_KEY_B;
     if ((u16) v5 == 0) {
         v7 = v6 = FALSE;
-        if (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) {
+        if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
             v7 = 1;
         }
-        if (v7 == 0 && gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0) {
+        if (v7 == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
             v6 = TRUE;
         }
-        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[i].mPressedBits,
-                                                                           gInputPairYs[i].mPressedBits) == FALSE) {
+        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
+                                                                           gInputSlots[i].mPair.mPairY) == FALSE) {
             goto next;
         }
     }

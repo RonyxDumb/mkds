@@ -11061,7 +11061,8 @@ data_0216ef70 kind:data(any) addr:0x0216ef50
 @317 kind:data(any) addr:0x0216f048 local
 data_0216f06c kind:data(any) addr:0x0216f04c
 gDispOn kind:data(any) addr:0x0216f050
-data_0216f074 kind:data(any) addr:0x0216f054
+GXi_DmaId kind:data(any) addr:0x0216f054
+sDayOfYear kind:data(any) addr:0x0216f058
 data_0216f0a8 kind:data(any) addr:0x0216f088
 data_0216f0ac kind:data(any) addr:0x0216f08c
 data_0216f16c kind:data(any) addr:0x0216f14c

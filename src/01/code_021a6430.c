@@ -36,7 +36,7 @@ void CreateMissionRunBossIcon(void *heap) {
     gMissionRunBossIcon = HeapAlloc(heap, 0x10);
     LocateNcgr2(&gMissionRunBossIcon->mNcgr, FindSceneFile(gMissionRunBossIconSNcgrName));
     LocateNcer(&gMissionRunBossIcon->mNcer, FindSceneFile(gMissionRunBossIconSNcerName));
-    LocateNclr((Nclr **) &gMissionRunBossIcon->mNclr, FindSceneFile(gMissionRunBossIconSONclrName));
+    LocateNclr(&gMissionRunBossIcon->mNclr, FindSceneFile(gMissionRunBossIconSONclrName));
     gMissionRunBossIcon->mBncl = FindSceneFile(gMissionRunBossIconSBnclName);
 }
 
@@ -59,7 +59,7 @@ void QueueMissionRunBossIcon(s32 rowIndex, s32 usePaletteIndex, void *destCells,
     missionRunBossIcon = gMissionRunBossIcon;
     QueueCellChars(gMissionRunBossIconCellIndices[rowIndex], missionRunBossIcon->mNcer, missionRunBossIcon->mNcgr,
                    missionRunBossIcon->mBncl, queueSelector, destIndex, (destCells), (destCellLayout));
-    paletteData = gMissionRunBossIcon->mNclr->mUnk_0c;
+    paletteData = (u8 *) gMissionRunBossIcon->mNclr->mData;
     if (usePaletteIndex != 0) {
         paletteIndex = gMissionRunBossIconPaletteIndices[rowIndex];
     } else {

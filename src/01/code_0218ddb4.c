@@ -598,7 +598,7 @@ void StartKingTeresaZeroAlphaWait(Unk02188950 *mapObject) {
 void InitKingTeresaMapObject(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xe, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsSecond[6];
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[14].mFarDistanceSquared;
 }
 
 void KingTeresaParkBossCoinsCallback(Unk02188950 *mapObject, Kart *kart) {

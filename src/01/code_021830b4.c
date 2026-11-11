@@ -420,7 +420,7 @@ void UpdateDonketu(u32 mapObjectList, Unk02188950 *donketu) {
 void InitDonketuSoundSource(Unk02188950 *donketu) {
     donketu->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource((SoundSource *) donketu->mUnk_000.mSound, 0xc, &donketu->mUnk_000.mPos);
-    donketu->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[20];
+    donketu->mUnk_000.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
 void InitBossDonketu(MapObjectList *list) {

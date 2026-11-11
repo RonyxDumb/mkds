@@ -54,11 +54,11 @@ static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) 
 
     result = FALSE;
     recentlyLost = FALSE;
-    hasPair = gInputHasPairs[inputIndex].mPressedBits;
-    if (hasPair == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
+    hasPair = gInputSlots[inputIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[inputIndex].mPair.mNoPairCount < 5) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && gInputSlots[inputIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         result = TRUE;
     }
     return result;
@@ -74,13 +74,13 @@ void AdvanceSelectCupCourseState3(void) {
     AdvanceSelectCupCourseIndexChange();
     if (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0) {
         touchedRectIndex =
-            RectTableFindContaining(gSelectCupCourse->mSelectCupMBnbl, gInputPairXs[inputIndex].mPressedBits,
-                                    gInputPairYs[inputIndex].mPressedBits + 0x20);
+            RectTableFindContaining(gSelectCupCourse->mSelectCupMBnbl, gInputSlots[inputIndex].mPair.mPairX,
+                                    gInputSlots[inputIndex].mPair.mPairY + 0x20);
     }
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
         (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0 &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPressedBits,
-                                                         gInputPairYs[inputIndex].mPressedBits) != FALSE)) {
+         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputIndex].mPair.mPairX,
+                                                         gInputSlots[inputIndex].mPair.mPairY) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
             if (gBootInfo->mUnk_00 == 2) {
                 SetSelectReturnSoundId(-1);
