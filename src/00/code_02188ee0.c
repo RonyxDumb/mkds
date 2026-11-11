@@ -72,17 +72,17 @@ u32 ConnectStart(ACWORK *work) {
     if (FillApWepKey(work, work->mConnectApType, &work->mWepKey) != 0) {
         work->mAuthMode = 1;
         if (((bssDesc->mUnk_2c >> 4) & 1) == 0) {
-            work->mFindList[work->mConnectNo].mUnk_00 = 3;
+            work->mFindList[work->mConnectNo].mState = 3;
             return 9;
         }
         if (work->mConnectApType == 6 && bssDesc->mUnk_15 == 0) {
-            work->mFindList[work->mConnectNo].mUnk_00 = 3;
+            work->mFindList[work->mConnectNo].mState = 3;
             return 9;
         }
     } else {
         work->mAuthMode = 0;
         if (((bssDesc->mUnk_2c >> 4) & 1) == 1) {
-            work->mFindList[work->mConnectNo].mUnk_00 = 3;
+            work->mFindList[work->mConnectNo].mState = 3;
             return 9;
         }
     }
@@ -103,7 +103,7 @@ u32 ConnectAP(ACWORK *work) {
         work->mCount++;
         if (work->mCount > 3) {
             work->mCount = 0;
-            work->mFindList[work->mConnectNo].mUnk_00 = 1;
+            work->mFindList[work->mConnectNo].mState = 1;
             return 9;
         }
         if (work->mCount != 1) {
@@ -111,11 +111,11 @@ u32 ConnectAP(ACWORK *work) {
                 work->mAuthMode = 0;
             } else if (work->mConnectResult == 2) {
                 work->mCount = 0;
-                work->mFindList[work->mConnectNo].mUnk_00 = 3;
+                work->mFindList[work->mConnectNo].mState = 3;
                 return 9;
             } else if (work->mConnectResult == 3) {
                 work->mCount = 0;
-                work->mFindList[work->mConnectNo].mUnk_00 = 4;
+                work->mFindList[work->mConnectNo].mState = 4;
                 return 9;
             }
         }

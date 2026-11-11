@@ -65,7 +65,7 @@ void CreateEditKeyboard(void) {
                                    2, 0x480, text);
             }
             if (i == 0) {
-                gEditKeyboard->mUnk_104[j] = CreateOamRange(0, entryCount, 1);
+                gEditKeyboard->mRowTextRanges[j] = CreateOamRange(0, entryCount, 1);
             }
         }
     }

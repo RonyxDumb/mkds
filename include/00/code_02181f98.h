@@ -204,7 +204,7 @@ typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;
     /* 0008 */ StateMachine mStateMachine;
-    /* 001c */ u8 mUnk_001c[4][0x80];
+    /* 001c */ u8 mRecvBuffers[4][0x80];
     // One 0x244-byte record per index: a 12-byte message header, then the player's name (0x14 bytes) and emblem
     // (0x200), elo, region and seed. The own element is sent (kind 1), the others are received into.
     /* 021c */ WiFiPlayerRecord mPlayerRecords[4];
@@ -212,7 +212,7 @@ typedef struct WiFiSession {
     /* 18e0 */ DWCMatchOptMinComplete mMinCompleteOption;
     /* 18e8 */ s32 mStartStatus;
     /* 18ec */ KartKey mKeys[4];
-    /* 194c */ u8 mUnk_194c;
+    /* 194c */ u8 mNumEntry;
     /* 194d */ u8 mStatus4BuddyCount;
     /* 194e */ u8 mEarlyStepTimedOut;
     /* 194f */ u8 mUnk_194f;
@@ -244,7 +244,7 @@ typedef struct WiFiSession {
     /* 1cc0 */ u8 mBuddyStatuses[0x3c];
     /* 1cfc */ BOOL mBuddiesChanged;
     // 0x44-byte buffers the net layer receives the kind 0..9 messages into (re-posted by the receive callback). The
-    // 0x244 profile records (mPlayerRecords) and mUnk_001c (0x80 bytes) are also posted as receive buffers.
+    // 0x244 profile records (mPlayerRecords) and mRecvBuffers (0x80 bytes) are also posted as receive buffers.
     /* 1d00 */ WiFiSessionMessage mReceiveBuffers[4];
     /* 1e10 */ WiFiSessionMessage mIndexMessages[4];
     /* 1f20 */ WiFiSessionLogin mLogin;

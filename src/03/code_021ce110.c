@@ -22,12 +22,12 @@ void AdvanceUsbScanReport(u32 task) {
     s32 i;
     u64 tick = OS_GetTick();
     scan = (Unk021ce4d4 *) gUsbScan;
-    if (tick >= *(u64 *) scan->mUnk_1b74 + 0x17f898) {
+    if (tick >= *(u64 *) scan->mStartTick + 0x17f898) {
         flagClearFound = 0;
         flagSetFound = 0;
         for (i = 0; i < 0x10; i++) {
-            if (memcmp(scan->mUnk_1300[i].mUnk_00, gUsbScanEmptyBssid, 6) != 0) {
-                if (scan->mUnk_1300[i].mUnk_06 != 0) {
+            if (memcmp(scan->mEntries[i].mUnk_00, gUsbScanEmptyBssid, 6) != 0) {
+                if (scan->mEntries[i].mUnk_06 != 0) {
                     flagSetFound = 1;
                 } else {
                     flagClearFound = 1;
@@ -35,20 +35,20 @@ void AdvanceUsbScanReport(u32 task) {
             }
         }
         if (flagSetFound != 0 && flagClearFound != 0) {
-            if (scan->mUnk_1370 != NULL) {
-                scan->mUnk_1370(2);
+            if (scan->mResultCallback != NULL) {
+                scan->mResultCallback(2);
             }
         } else if (flagSetFound != 0) {
-            if (scan->mUnk_1370 != NULL) {
-                scan->mUnk_1370(1);
+            if (scan->mResultCallback != NULL) {
+                scan->mResultCallback(1);
             }
         } else if (flagClearFound == 0) {
-            if (scan->mUnk_1370 != NULL) {
-                scan->mUnk_1370(0);
+            if (scan->mResultCallback != NULL) {
+                scan->mResultCallback(0);
             }
         }
-        ((Unk021ce4d4 *) gUsbScan)->mUnk_1b7c = 0;
-        ((Unk021ce4d4 *) gUsbScan)->mUnk_1b82 = 1;
+        ((Unk021ce4d4 *) gUsbScan)->mReportTask = 0;
+        ((Unk021ce4d4 *) gUsbScan)->mReported = 1;
         RequestTaskRemoval(0, task);
     }
 }

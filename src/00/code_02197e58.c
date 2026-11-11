@@ -36,8 +36,8 @@ void gti2ConnectionClosed(Gt2Connection *connection, ...) {
 }
 
 void gti2ConnectionCleanup(Gt2Connection *connection) {
-    if (connection->mUnk_38.mData != NULL) {
-        DWCi_GsFree(connection->mUnk_38.mData);
+    if (connection->mInitialMessage.mData != NULL) {
+        DWCi_GsFree(connection->mInitialMessage.mData);
     }
     if (connection->mIncomingBuffer.mData != NULL) {
         DWCi_GsFree(connection->mIncomingBuffer.mData);

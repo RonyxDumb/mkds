@@ -33,8 +33,8 @@ typedef struct CallbackArgData {
 typedef struct GpiQueuedCallback {
     /* 00 */ GpiCallback mCallback;
     /* 08 */ struct CallbackArgData *mArg;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
+    /* 0c */ s32 mType;
+    /* 10 */ u32 mOperationId;
     /* 14 */ struct GpiQueuedCallback *mNext;
 } GpiQueuedCallback;
 
@@ -49,7 +49,7 @@ typedef struct Unk02190988 {
 
 // Object at 0x04 of GpiOperation.
 typedef struct Unk02191284Data {
-    /* 000 */ char mUnk_000[0x80];
+    /* 000 */ char mServerChallenge[0x80];
     /* 080 */ char mUnk_80[0x21];
     /* 0a1 */ char mUnk_a1[0x21];
     /* 0c2 */ s8 mUnk_c2[0x200];

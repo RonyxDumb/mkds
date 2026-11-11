@@ -111,8 +111,8 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             *end = 0;
             input = peer->mInputBuffer;
             if (strncmp(input, gAnackStatement, 7) == 0) {
-                peer->mUnk_14 = peer->mUnk_14 + 1;
-                if (peer->mUnk_14 > 1) {
+                peer->mNackCount = peer->mNackCount + 1;
+                if (peer->mNackCount > 1) {
                     GpiSetErrorMessage(connection, gPeerAuthorizationErrorString);
                     return 3;
                 }
@@ -125,7 +125,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                 return 3;
             }
             peer->mState = 0x69;
-            peer->mUnk_20 = FALSE;
+            peer->mInputBufferLength = FALSE;
             break;
         default:
             AssertionFailed(data_ov000_021b3440, gGpiPeerFileName, NULL, 0x9f);
@@ -202,7 +202,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
             peer->mState = 0x6a;
             return 0;
         }
-        peer->mUnk_20 = FALSE;
+        peer->mInputBufferLength = FALSE;
     }
     return 0;
 }
@@ -268,7 +268,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
         return 0;
     }
     if (len > 0) {
-        peerConn->mUnk_10 = GetUnixTime(NULL) + 0x12c;
+        peerConn->mTimeout = GetUnixTime(NULL) + 0x12c;
     }
     do {
         result = gpiReadMessageFromBuffer(connection, (GpiBuffer *) &peerConn->mInputBuffer, &buffer, &type, &msgBytes);
@@ -325,7 +325,7 @@ s32 GpiPeerUpdate(GpConnection *connection, GpiPeer *peer) {
         AssertionFailed(gPeerNotConnectedAssertion, gGpiPeerFileName, NULL, 0x1d9);
     }
     if (peer->mState != 0x69) {
-        if (peer->mUnk_04 != 0) {
+        if (peer->mInitiated != 0) {
             result = gpiProcessPeerInitiatingConnection(connection, peer);
         } else {
             result = GpiPeerUpdateWaiting(connection, peer);
@@ -427,7 +427,7 @@ s32 GpiUpdatePeers(GpConnection *connection) {
     while (peerConn != NULL) {
         followingPeer = peerConn->mNext;
         d = GpiPeerUpdate(connection, peerConn);
-        if (peerConn->mState == 0x6a || d != 0 || (s32) GetUnixTime(NULL) > peerConn->mUnk_10) {
+        if (peerConn->mState == 0x6a || d != 0 || (s32) GetUnixTime(NULL) > peerConn->mTimeout) {
             GpiPeerRemoveAndWriteQueuedMessages(connection, peerConn);
         }
         peerConn = followingPeer;
@@ -460,10 +460,10 @@ GpiPeer *GpiPeerCreate(GpConnection *connection, u32 profileid, u32 initiate) {
     }
     memset(peerConn, 0, 0x40);
     peerConn->mState = 0x64;
-    peerConn->mUnk_04 = initiate;
+    peerConn->mInitiated = initiate;
     peerConn->mSocket = -1;
     peerConn->mProfileId = profileid;
-    peerConn->mUnk_10 = GetUnixTime(NULL) + 0x12c;
+    peerConn->mTimeout = GetUnixTime(NULL) + 0x12c;
     peerConn->mNext = gpState->mPeerList;
     peerConn->mQueuedMessages = DarrayCreate(0x18, 0, (void (*)(void *)) gpiFreeMessage);
     gpState->mPeerList = peerConn;
@@ -567,7 +567,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
             return result;
         }
         DarrayAppend(peer->mQueuedMessages, &queuedMsg);
-        peer->mUnk_10 = GetUnixTime(NULL) + 0x12c;
+        peer->mTimeout = GetUnixTime(NULL) + 0x12c;
         return 0;
     }
 }
@@ -611,6 +611,6 @@ s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *messa
     if (result != 0) {
         return result;
     }
-    peer->mUnk_10 = GetUnixTime(NULL) + 0x12c;
+    peer->mTimeout = GetUnixTime(NULL) + 0x12c;
     return 0;
 }

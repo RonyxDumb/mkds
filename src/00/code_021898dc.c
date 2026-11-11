@@ -251,7 +251,7 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
     i = 0;
     findListNum = work->mFindListNum;
     for (; i < findListNum; i++) {
-        if (work->mFindList[i].mUnk_00 == 0) {
+        if (work->mFindList[i].mState == 0) {
             break;
         }
     }
@@ -271,7 +271,7 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
         if (findListNum == i) {
             return phase;
         }
-        if (work->mFindList[i].mUnk_02 < 0x14) {
+        if (work->mFindList[i].mRssi < 0x14) {
             return phase;
         }
     }

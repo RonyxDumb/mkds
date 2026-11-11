@@ -31,10 +31,10 @@ typedef struct ACSL {
 
 // Entries of 4 bytes at 0x444 of ACWORK.
 typedef struct ACFL {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 mState;
     /* 01 */ u8 pad_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
+    /* 02 */ u8 mRssi;
+    /* 03 */ u8 mChannel;
 } ACFL;
 
 typedef struct ACWORK {

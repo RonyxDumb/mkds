@@ -45,9 +45,9 @@ extern u8 gSubScreenMessageShown;
 extern OamRange **gSelectionObjects;
 // Object behind gLinkLevel.
 typedef struct LinkLevel {
-    /* 00 */ OamEntry *mUnk_00;
+    /* 00 */ OamEntry *mOamEntry;
     /* 04 */ u32 mTask;
-    /* 08 */ s8 mUnk_08;
+    /* 08 */ s8 mImageRow;
 } LinkLevel;
 
 extern LinkLevel *gLinkLevel;
@@ -58,14 +58,14 @@ typedef struct EditKeyboard {
     /* 030 */ OamEntry *mKeys[0x2f];
     /* 0ec */ OamEntry *mExtraKeys[4];
     /* 0fc */ OamRange *mRow4Keys[2];
-    /* 104 */ void *mUnk_104[4];
+    /* 104 */ void *mRowTextRanges[4];
     /* 114 */ OamRange *mCursor;
     /* 118 */ TaskEntry *mStepTask;
     /* 11c */ u8 mInput;
     /* 11d */ u8 mPage;
     /* 11e */ s8 mPressedKeyIndex;
     /* 11f */ s8 mHighlightedKeyIndex;
-    /* 120 */ s8 mUnk_120;
+    /* 120 */ s8 mPreviousKeyIndex;
     /* 121 */ s8 mCursorKeyIndex;
     /* 122 */ u8 mRepeatCalls;
     /* 123 */ u8 mRemoveCharEnabled;

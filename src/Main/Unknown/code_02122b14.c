@@ -503,7 +503,7 @@ void AdvanceWiFiSessionStep9(void) {
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
         if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
-            if (DWC_SetRecvBuffer(participantIndex, gWiFiSession->mUnk_001c[participantIndex], 0x80) == FALSE) {
+            if (DWC_SetRecvBuffer(participantIndex, gWiFiSession->mRecvBuffers[participantIndex], 0x80) == FALSE) {
                 return;
             }
         }

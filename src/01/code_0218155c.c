@@ -204,10 +204,10 @@ void UpdateMissionRunData(void) {
 }
 
 void SetMissionRunTimerValues(u16 startTimer, u16 maxTimer, u16 countUpTimerAdd, u16 bossTransferTimerAdd) {
-    gMissionRunData->mUnk_10 = startTimer;
-    gMissionRunData->mUnk_12 = maxTimer;
-    gMissionRunData->mUnk_14 = countUpTimerAdd;
-    gMissionRunData->mUnk_16 = bossTransferTimerAdd;
+    gMissionRunData->mTimerStart = startTimer;
+    gMissionRunData->mTimerMax = maxTimer;
+    gMissionRunData->mCountUpTimerAdd = countUpTimerAdd;
+    gMissionRunData->mBossTransferTimerAdd = bossTransferTimerAdd;
 }
 
 s32 GetMissionRunTimer(void) {
@@ -340,11 +340,11 @@ void AddMissionRunPendingCountUp(s32 stepCount) {
             return;
         }
         if (gMissionRunData->mTimer == 0) {
-            gMissionRunData->mTimer = gMissionRunData->mUnk_10;
+            gMissionRunData->mTimer = gMissionRunData->mTimerStart;
         } else {
-            gMissionRunData->mTimer += gMissionRunData->mUnk_14;
-            if (gMissionRunData->mTimer > gMissionRunData->mUnk_12) {
-                gMissionRunData->mTimer = gMissionRunData->mUnk_12;
+            gMissionRunData->mTimer += gMissionRunData->mCountUpTimerAdd;
+            if (gMissionRunData->mTimer > gMissionRunData->mTimerMax) {
+                gMissionRunData->mTimer = gMissionRunData->mTimerMax;
             }
         }
     }
@@ -363,11 +363,11 @@ void AddMissionRunPendingCountUpFromBoss(s32 stepCount) {
             return;
         }
         if (gMissionRunData->mTimer == 0) {
-            gMissionRunData->mTimer = gMissionRunData->mUnk_10;
+            gMissionRunData->mTimer = gMissionRunData->mTimerStart;
         } else {
-            gMissionRunData->mTimer += gMissionRunData->mUnk_16;
-            if (gMissionRunData->mTimer > gMissionRunData->mUnk_12) {
-                gMissionRunData->mTimer = gMissionRunData->mUnk_12;
+            gMissionRunData->mTimer += gMissionRunData->mBossTransferTimerAdd;
+            if (gMissionRunData->mTimer > gMissionRunData->mTimerMax) {
+                gMissionRunData->mTimer = gMissionRunData->mTimerMax;
             }
         }
     }

@@ -849,7 +849,7 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
 
 // Recovers the entry's 0x30 bytes from b, derives the key bytes and sets mSetupState to 5.
 void rcv_client_key_exchange(HttpsState *httpsState, const u8 *encryptedSecret) {
-    decrypt_premaster_secret(httpsState->mEntry->mMasterSecret, encryptedSecret, httpsState->mUnk_7f0);
+    decrypt_premaster_secret(httpsState->mEntry->mMasterSecret, encryptedSecret, httpsState->mPrivateKey);
     ReplaceEntryBytesWithLabeledDigests(httpsState);
     DeriveBytesAndInitKeyStreamStates(httpsState);
     httpsState->mSetupState = 5;

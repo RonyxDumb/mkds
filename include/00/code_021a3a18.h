@@ -29,8 +29,8 @@ typedef struct QueryRecord QueryRecord;
 
 // List of values and their count; filled by the callback at mUnk_094 of a QueryRecord.
 typedef struct MatchingKeyIds {
-    /* 000 */ u8 mUnk_000[0x100];
-    /* 100 */ s32 mUnk_100;
+    /* 000 */ u8 mKeys[0x100];
+    /* 100 */ s32 mKeyCount;
 } MatchingKeyIds;
 
 typedef void (*Unk021a4a08Func88)(u8 a, QueryBuffer *b, void *c);

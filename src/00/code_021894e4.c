@@ -127,7 +127,7 @@ u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, Unk0
         if (i >= 9) {
             break;
         }
-        if (findList->mUnk_00 == 0 && bssDescs->mUnk_36 != findList->mUnk_03) {
+        if (findList->mState == 0 && bssDescs->mUnk_36 != findList->mChannel) {
             for (j = 0; j < 0x20; j++) {
                 if (bssDescs->mUnk_0c[j] == 0) {
                     break;

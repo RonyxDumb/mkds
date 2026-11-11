@@ -74,11 +74,11 @@ u32 GpiQueueCallback(GpConnection *a, GpiCallback b, void *c, GpiOperation *d, s
     g->mCallback = b;
     g->mArg = c;
     if (d != NULL) {
-        g->mUnk_10 = d->mId;
+        g->mOperationId = d->mId;
     } else {
-        g->mUnk_10 = 0;
+        g->mOperationId = 0;
     }
-    g->mUnk_0c = e;
+    g->mType = e;
     g->mNext = NULL;
     if (f->mCallbackQueueHead == NULL) {
         f->mCallbackQueueHead = g;
@@ -102,12 +102,12 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
         AssertionFailed(gDataArgAssertText, gGpiCallbackFileName, NULL, 0x6f);
     }
     data->mCallback.mCallback(a, data->mArg, data->mCallback.mUnk_04);
-    if (data->mUnk_0c == 2) {
+    if (data->mType == 2) {
         c = data->mArg;
         DWCi_GsFree(c->mUnk_08);
         c = data->mArg;
         c->mUnk_08 = NULL;
-    } else if (data->mUnk_0c == 3) {
+    } else if (data->mType == 3) {
         e = data->mArg;
         for (d = 0; d < e->mUnk_38; d++) {
             DWCi_GsFree(e->mUnk_3c[d]);
@@ -119,23 +119,23 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
         e->mUnk_3c = NULL;
         DWCi_GsFree(e->mUnk_40);
         e->mUnk_40 = NULL;
-    } else if (data->mUnk_0c == 4) {
+    } else if (data->mType == 4) {
         c = data->mArg;
         DWCi_GsFree(c->mUnk_0c);
         c->mUnk_0c = NULL;
-    } else if (data->mUnk_0c == 7) {
+    } else if (data->mType == 7) {
         c = data->mArg;
         if (c->mUnk_10 != NULL) {
             DWCi_GsFree(c->mUnk_10);
             c->mUnk_10 = NULL;
         }
-    } else if (data->mUnk_0c == 8) {
+    } else if (data->mType == 8) {
         c = data->mArg;
         if (c->mUnk_08 != NULL) {
             DWCi_GsFree(c->mUnk_08);
             c->mUnk_08 = NULL;
         }
-    } else if (data->mUnk_0c == 9) {
+    } else if (data->mType == 9) {
         CallbackArgData *f = data->mArg;
         for (d = 0; d < f->mUnk_04; d++) {
             DWCi_GsFree(f->mUnk_08[d]);
@@ -167,7 +167,7 @@ u32 GpiCallQueuedCallbacks(GpConnection *a, s32 b) {
         if (g != NULL) {
             do {
                 GpiQueuedCallback *h = g->mNext;
-                if (g->mUnk_10 == b || g->mUnk_0c == 1) {
+                if (g->mOperationId == b || g->mType == 1) {
                     if (f != NULL) {
                         f->mNext = h;
                     } else {

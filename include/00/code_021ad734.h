@@ -80,21 +80,21 @@ typedef struct CPSArpCache CPSArpCache;
 // Frame built by send_arprequest.
 typedef struct ArpRequestFrame {
     /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u8 mUnk_06[6];
-    /* 0c */ u16 mUnk_0c;
+    /* 06 */ u8 mSourceMac[6];
+    /* 0c */ u16 mEtherType;
     /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
-    /* 10 */ u8 mUnk_10;
+    /* 0f */ u8 mHardwareTypeLow;
+    /* 10 */ u8 mProtocolTypeHigh;
     /* 11 */ u8 mUnk_11;
-    /* 12 */ u16 mUnk_12;
+    /* 12 */ u16 mAddressLengths;
     /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
-    /* 16 */ u8 mUnk_16[6];
-    /* 1c */ u16 mUnk_1c;
-    /* 1e */ u16 mUnk_1e;
+    /* 15 */ u8 mOperationLow;
+    /* 16 */ u8 mSenderMac[6];
+    /* 1c */ u16 mSenderAddressHigh;
+    /* 1e */ u16 mSenderAddressLow;
     /* 20 */ u8 mUnk_20[6];
-    /* 26 */ u16 mUnk_26;
-    /* 28 */ u16 mUnk_28;
+    /* 26 */ u16 mTargetAddressHigh;
+    /* 28 */ u16 mTargetAddressLow;
 } ArpRequestFrame;
 
 typedef struct Unk021b0138 {

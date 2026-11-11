@@ -362,7 +362,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if (GpiGetValue(input, gChallengeKey, data->mUnk_000, 0x80) == FALSE) {
+            if (GpiGetValue(input, gChallengeKey, data->mServerChallenge, 0x80) == FALSE) {
                 GpiSetError(connection, 1, data_ov000_021b2bb0);
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;

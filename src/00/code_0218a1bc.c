@@ -13,7 +13,7 @@ u32 GetIPAddress(ACWORK *work) {
         return 0xd;
     }
     if ((OS_GetTick() - work->mTimeOut) * 64 / 0x1ff6210 >= 10) {
-        work->mFindList[work->mConnectNo].mUnk_00 = 1;
+        work->mFindList[work->mConnectNo].mState = 1;
         return 0xb;
     }
     return 0xc;

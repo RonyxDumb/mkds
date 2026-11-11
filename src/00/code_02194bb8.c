@@ -779,9 +779,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u9->mUnk_00 = 0;
-                        u9->mUnk_04 = 0;
-                        u9->mUnk_08 = NULL;
+                        u9->mResult = 0;
+                        u9->mNumSuggestedNicks = 0;
+                        u9->mSuggestedNicks = NULL;
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                         if (result != 0) {
                             return result;
@@ -791,9 +791,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
-                        u9->mUnk_04 = StrtolBase10(value);
-                        u9->mUnk_08 = DWCi_GsMalloc(u9->mUnk_04 * 4);
-                        if (u9->mUnk_08 == NULL) {
+                        u9->mNumSuggestedNicks = StrtolBase10(value);
+                        u9->mSuggestedNicks = DWCi_GsMalloc(u9->mNumSuggestedNicks * 4);
+                        if (u9->mSuggestedNicks == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
@@ -804,18 +804,18 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return result;
                             }
                             if (strcmp(key, gNickResultKey) == 0) {
-                                u9->mUnk_08[i] = DWCi_GsMalloc(0x15);
-                                if (u9->mUnk_08[i] == NULL) {
+                                u9->mSuggestedNicks[i] = DWCi_GsMalloc(0x15);
+                                if (u9->mSuggestedNicks[i] == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
                                 }
-                                GpiCopyString(u9->mUnk_08[i], value, 0x15);
+                                GpiCopyString(u9->mSuggestedNicks[i], value, 0x15);
                                 i++;
                             } else if (strcmp(key, gUsdoneKey) == 0) {
-                                if (i != u9->mUnk_04) {
+                                if (i != u9->mNumSuggestedNicks) {
                                     AssertionFailed(gSuggestedNickCountAssertion, gGpiSearchFileName, NULL, 0x515);
                                 }
-                                u9->mUnk_04 = i;
+                                u9->mNumSuggestedNicks = i;
                                 d = TRUE;
                             } else {
                                 GpiSetError(connection, 1, gSearchServerReadErrorString);

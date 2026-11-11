@@ -42,9 +42,9 @@ typedef struct ReverseBuddiesReply {
 } ReverseBuddiesReply;
 
 typedef struct SuggestNickReply {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ char **mUnk_08;
+    /* 00 */ s32 mResult;
+    /* 04 */ s32 mNumSuggestedNicks;
+    /* 08 */ char **mSuggestedNicks;
 } SuggestNickReply;
 
 typedef struct FindPlayersReply {

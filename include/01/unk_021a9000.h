@@ -65,10 +65,10 @@ typedef struct MissionRunData {
     /* 0a */ u16 mPendingDrop;
     /* 0c */ u16 mPendingBossTransfer;
     /* 0e */ u16 mTimer;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u16 mUnk_16;
+    /* 10 */ u16 mTimerStart;
+    /* 12 */ u16 mTimerMax;
+    /* 14 */ u16 mCountUpTimerAdd;
+    /* 16 */ u16 mBossTransferTimerAdd;
     /* 18 */ UnkFunc *mCountUpCallback;
     /* 1c */ UnkFunc *mDropCallback;
     /* 20 */ UnkFunc *mBossTransferCallback;

@@ -142,13 +142,13 @@ u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int 
         return 0;
     }
     gti2GetResponse(response, (const s8 *) (message + 0x20));
-    if (gti2SendClientResponse(connection, (const u8 *) response, connection->mUnk_38.mData,
-                               connection->mUnk_38.mSize) == 0) {
+    if (gti2SendClientResponse(connection, (const u8 *) response, connection->mInitialMessage.mData,
+                               connection->mInitialMessage.mSize) == 0) {
         return 0;
     }
-    if (connection->mUnk_38.mData != NULL) {
-        DWCi_GsFree(connection->mUnk_38.mData);
-        connection->mUnk_38.mData = NULL;
+    if (connection->mInitialMessage.mData != NULL) {
+        DWCi_GsFree(connection->mInitialMessage.mData);
+        connection->mInitialMessage.mData = NULL;
     }
     connection->mState = 1;
     return 1;

@@ -204,10 +204,10 @@ void qr2_shutdown(QueryRecord *qrec) {
 
 void qr2_keybuffer_add(MatchingKeyIds *keybuffer, int keyid) {
     int keyCount;
-    keyCount = keybuffer->mUnk_100;
+    keyCount = keybuffer->mKeyCount;
     if (((keyCount < 0xfe) && (1 <= keyid)) && (keyid <= 254)) {
-        keybuffer->mUnk_100 = keyCount + 1;
-        keybuffer->mUnk_000[keyCount] = (s8) keyid;
+        keybuffer->mKeyCount = keyCount + 1;
+        keybuffer->mKeys[keyCount] = (s8) keyid;
     }
 }
 
@@ -454,7 +454,7 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
     u8 *countBytes;
     u8 *writePtr;
 
-    keybuffer.mUnk_100 = 0;
+    keybuffer.mKeyCount = 0;
     if (keycount == 0) {
         return;
     }
@@ -476,8 +476,8 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
     if (keycount == 0xff) {
         qrec->mKeyListCallback(keytype, &keybuffer, qrec->mUserData);
         keyIndex = 0;
-        if (keybuffer.mUnk_100 > 0) {
-            keyCursor = keybuffer.mUnk_000;
+        if (keybuffer.mKeyCount > 0) {
+            keyCursor = keybuffer.mKeys;
             do {
                 keyName = gQr2RegisteredKeyList[*keyCursor];
                 if (keyName == NULL) {
@@ -493,14 +493,14 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
                 }
                 keyCursor++;
                 keyIndex++;
-            } while (keyIndex < keybuffer.mUnk_100);
+            } while (keyIndex < keybuffer.mKeyCount);
         }
         if (0x800 - buf->mLen < 1) {
             return;
         }
         buf->mBuffer[buf->mLen++] = 0;
-        keycount = keybuffer.mUnk_100;
-        keys = keybuffer.mUnk_000;
+        keycount = keybuffer.mKeyCount;
+        keys = keybuffer.mKeys;
         if (keytype == 0) {
             return;
         }
@@ -592,7 +592,7 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
     const char *keyName;
     u8 *keyCursor;
 
-    keybuffer.mUnk_100 = 0;
+    keybuffer.mKeyCount = 0;
     if ((u32) (keytype - 1) <= 1) {
         teamTotal = qrec->mPlayerTeamCountCallback(keytype, qrec->mUserData);
     } else {
@@ -600,8 +600,8 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
     }
     qrec->mKeyListCallback(keytype, &keybuffer, qrec->mUserData);
     keyIndex = 0;
-    if (keybuffer.mUnk_100 > 0) {
-        keyCursor = keybuffer.mUnk_000;
+    if (keybuffer.mKeyCount > 0) {
+        keyCursor = keybuffer.mKeys;
         firstPindex = keyIndex;
         do {
             keyName = gQr2RegisteredKeyList[*keyCursor];
@@ -640,7 +640,7 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
             }
             keyCursor++;
             keyIndex++;
-        } while (keyIndex < keybuffer.mUnk_100);
+        } while (keyIndex < keybuffer.mKeyCount);
     }
 }
 

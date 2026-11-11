@@ -43,14 +43,14 @@ typedef struct GpiOperation {
 
 typedef struct GpiPeer {
     /* 00 */ s32 mState;
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ u32 mInitiated;
     /* 08 */ s32 mSocket;
     /* 0c */ u32 mProfileId;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 10 */ s32 mTimeout;
+    /* 14 */ s32 mNackCount;
     /* 18 */ void *mInputBuffer;
     /* 1c */ u32 mUnk_1c;
-    /* 20 */ BOOL mUnk_20;
+    /* 20 */ BOOL mInputBufferLength;
     /* 24 */ u8 mUnk_24[4];
     /* 28 */ u8 mOutputBuffer[8];
     /* 30 */ s32 mOutputBufferLength;

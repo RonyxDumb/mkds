@@ -433,17 +433,17 @@ void send_arprequest(u32 address) {
 
     MI_CpuFill8(&frame, 0, 0x2a);
     MI_CpuFill8(&frame, 0xff, 6);
-    MI_CpuCopy8(CPSMyMac, frame.mUnk_06, 6);
-    frame.mUnk_0c = 0x608;
-    frame.mUnk_0f = 1;
-    frame.mUnk_10 = 8;
-    frame.mUnk_12 = 0x406;
-    frame.mUnk_15 = 1;
-    MI_CpuCopy8(CPSMyMac, frame.mUnk_16, 6);
-    frame.mUnk_1c = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
-    frame.mUnk_1e = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
-    frame.mUnk_26 = ((u16) (address >> 16) >> 8) | ((u16) (address >> 16) << 8);
-    frame.mUnk_28 = ((u16) address >> 8) | ((u16) address << 8);
+    MI_CpuCopy8(CPSMyMac, frame.mSourceMac, 6);
+    frame.mEtherType = 0x608;
+    frame.mHardwareTypeLow = 1;
+    frame.mProtocolTypeHigh = 8;
+    frame.mAddressLengths = 0x406;
+    frame.mOperationLow = 1;
+    MI_CpuCopy8(CPSMyMac, frame.mSenderMac, 6);
+    frame.mSenderAddressHigh = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
+    frame.mSenderAddressLow = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
+    frame.mTargetAddressHigh = ((u16) (address >> 16) >> 8) | ((u16) (address >> 16) << 8);
+    frame.mTargetAddressLow = ((u16) address >> 8) | ((u16) address << 8);
     send_packet((u8 *) &frame, 0x2a, NULL, 0);
 }
 

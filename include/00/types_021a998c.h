@@ -84,7 +84,7 @@ typedef struct HttpsState {
     // Pointer to the table of authority records.
     /* 7e8 */ u32 mAuthorities;
     /* 7ec */ u32 mAuthorityCount;
-    /* 7f0 */ CPSPrivateKey *mUnk_7f0;
+    /* 7f0 */ CPSPrivateKey *mPrivateKey;
     /* 7f4 */ ItemList *mItemList;
     /* 7f8 */ u8 *mReceivedBlock;
     /* 7fc */ u32 mReceivedBlockEnd;

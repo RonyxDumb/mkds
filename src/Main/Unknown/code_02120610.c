@@ -378,7 +378,7 @@ void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
     MI_CpuFill8(&gWiFiSession->mKeys[2], 0, 0x18);
     MI_CpuFill8(&gWiFiSession->mKeys[3], 0, 0x18);
     gWiFiSession->mEarlyStepTimedOut = 0;
-    gWiFiSession->mUnk_194c = 0;
+    gWiFiSession->mNumEntry = 0;
     gWiFiSession->mStatus4BuddyCount = 0;
     gWiFiSession->mKartCount = 0;
     gWiFiSession->mStartKartCount = 0;
@@ -387,7 +387,7 @@ void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
     gWiFiSession->mKartRemoveMask = 0;
     MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
     gWiFiSession->mKeys[1].mValue = kartType;
-    gWiFiSession->mUnk_194c = 4;
+    gWiFiSession->mNumEntry = 4;
     if (useTimeLimit == 0) {
         gWiFiSession->mMinCompleteOption.mValid = 1;
         gWiFiSession->mMinCompleteOption.mMinEntry = 2;
@@ -448,18 +448,18 @@ void RegisterKartKeysAndStart(void) {
     }
     switch (gWiFiSession->mKeys[1].mValue) {
         case 3:
-            DWC_ConnectToAnybodyAsync(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+            DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
                                       ComputeRegionEval, 0);
             break;
         case 4:
-            DWC_ConnectToAnybodyAsync(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+            DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
                                       ComputeRegionEloEval, 0);
             break;
         case 0:
-            DWC_ConnectToFriendsAsync(NULL, 0, gWiFiSession->mUnk_194c, 1, KartKeysStartCallback, NULL, 0, 0);
+            DWC_ConnectToFriendsAsync(NULL, 0, gWiFiSession->mNumEntry, 1, KartKeysStartCallback, NULL, 0, 0);
             break;
         case 1:
-            DWC_ConnectToAnybodyAsync(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+            DWC_ConnectToAnybodyAsync(gWiFiSession->mNumEntry, gKartFilterString, KartKeysStartCallback, NULL,
                                       ComputeEloEval, 0);
             break;
     }
@@ -597,7 +597,7 @@ void SetWiFiDisconnectKind(s32 kind) {
 }
 
 void ResetWiFiSession(void) {
-    MI_CpuFill8(gWiFiSession->mUnk_001c, 0, 0x200);
+    MI_CpuFill8(gWiFiSession->mRecvBuffers, 0, 0x200);
     MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, 0x910);
     MI_CpuFill8(gWiFiSession->mConnection, 0, 0xe24);
     MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);

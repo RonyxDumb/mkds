@@ -24,7 +24,7 @@ u32 DWCi_AC_ConnectRetryAP(void) {
         case 3:
             nextPhase = work->mPhaseBak;
             if (work->mDuplicateFlag == 1) {
-                work->mFindList[work->mConnectNo].mUnk_00 = 0;
+                work->mFindList[work->mConnectNo].mState = 0;
                 nextPhase = 7;
             } else if (nextPhase >= 3 && nextPhase <= 5) {
                 DWCi_AC_SearchReStart(nextPhase);

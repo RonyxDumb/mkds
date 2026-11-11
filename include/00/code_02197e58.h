@@ -58,7 +58,7 @@ typedef struct Gt2Connection {
     /* 20 */ u32 mTimeSinceCreateLimit;
     /* 24 */ s32 mCallbackLevel;
     /* 28 */ Gt2ConnectionCallbacks mCallbacks;
-    /* 38 */ Gt2Buffer mUnk_38;
+    /* 38 */ Gt2Buffer mInitialMessage;
     /* 44 */ Gt2Buffer mIncomingBuffer;
     /* 50 */ Gt2Buffer mSendBuffer;
     /* 5c */ struct Darray *mIncomingBufferMessages;
