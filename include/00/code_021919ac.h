@@ -31,27 +31,15 @@
 
 // Object of 0x308 bytes that GpiStartConnect allocates and fills.
 typedef struct GPIConnectData {
-    /* 000 */ char mUnk_000[0x80];
+    /* 000 */ char mServerChallenge[0x80];
     /* 080 */ char mUserChallenge[0x21];
     /* 0a1 */ char mPasswordHash[0x21];
     /* 0c2 */ s8 mAuthtoken[0x100];
     /* 1c2 */ s8 mPartnerChallenge[0x100];
-    /* 2c2 */ char mCdkey[0x41];
+    /* 2c2 */ s8 mCdkey[0x41];
     /* 303 */ u8 mUnk_303;
     /* 304 */ s32 mNewUser;
 } GPIConnectData;
-
-// Object that GpiCreateOperation returns through its fourth argument.
-typedef struct Unk021919ac_node {
-    /* 00 */ u32 mType;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ GPIInfoCache *mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mId;
-    /* 1c */ u32 mUnk_1c;
-} Unk021919ac_node;
 
 // Object of 0x204 bytes that gpiGetInfo allocates.
 typedef struct Unk021919ac_m {
@@ -60,15 +48,9 @@ typedef struct Unk021919ac_m {
     /* 008 */ u8 mUnk_008[0x1fc];
 } Unk021919ac_m;
 
-// Two words that gpiFindProfileByUser returns through its last argument.
-typedef struct Unk021919ac_h {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-} Unk021919ac_h;
-
 void randomString(s8 *buffer, s32 numChars);
 u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data);
 u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniquenick, const char *email,
                     const char *password, const s8 *authtoken, const s8 *partnerchallenge, const char *cdkey,
                     s32 firewall, s32 newuser, s32 blocking, s32 callback, s32 param);
-u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation);
+u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation);

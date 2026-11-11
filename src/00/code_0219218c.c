@@ -811,7 +811,7 @@ u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
 
 u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, u32 callback, u32 param) {
     GpiProfile *profileEntry;
-    Unk021919ac_node *pendingOp;
+    GpiOperation *pendingOp;
     Unk021919ac_m *arg;
     GpiCallback queuedCallback;
     u32 result;
@@ -845,11 +845,11 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
             return result;
         }
         operationId = pendingOp->mId;
-        result = GpiQueueCallback(connection, queuedCallback, arg, (GpiOperation *) pendingOp, 0);
+        result = GpiQueueCallback(connection, queuedCallback, arg, pendingOp, 0);
         if (result != 0) {
             return result;
         }
-        GpiRemoveOperation(connection, (GpiOperation *) pendingOp);
+        GpiRemoveOperation(connection, pendingOp);
     } else {
         result = GpiCreateOperation(connection, 2, 0, (s32 *) &pendingOp, blocking, callback, param);
         if (result != 0) {

@@ -75,10 +75,7 @@ typedef struct GpConnection {
     /* 00 */ GpiConnection *mGpiConnection;
 } GpConnection;
 
-typedef struct Unk0218fa98 {
-    /* 00 */ u8 pad_00[8];
-    /* 08 */ s32 *mUnk_08;
-} Unk0218fa98;
+typedef struct GpiProfile GpiProfile;
 
 typedef struct GpConnection GpConnection;
 
@@ -117,7 +114,7 @@ extern char gPipeLKey[];
 extern char data_ov000_021b2854[];
 
 u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile);
-s32 GpiDecrementBuddyIndexAbove(void *unused, Unk0218fa98 *object, s32 minimum);
+s32 GpiDecrementBuddyIndexAbove(void *unused, GpiProfile *profile, s32 minimum);
 u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile);
 u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);
 u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);

@@ -4,15 +4,6 @@
 #include "00/code_0218f960.h"
 #include "00/code_0218e8d4.h"
 
-// Payload at 0x04 of a GpiOperation whose 0x00 is 3.
-typedef struct Unk02193858 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ void *mUnk_18;
-} Unk02193858;
-
 // Buffers made by GpiQueueOperationCallback, one for each request type; the first word is taken from the request.
 typedef struct ConnectReply {
     /* 00 */ s32 mResult;
@@ -46,7 +37,7 @@ typedef struct GpiTransferId {
 // Output buffer description built by GpiPeerQueueMessage.
 typedef struct GPIMessage {
     /* 00 */ GpiBuffer mBuffer;
-    /* 10 */ u32 mType;
+    /* 10 */ s32 mType;
     /* 14 */ u32 mStart;
 } GPIMessage;
 
@@ -57,27 +48,12 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
 #include "00/code_02196594.h"
 #include "00/code_0218e2dc.h"
 
-// Entry of the list behind GpiPeer.mQueuedMessages.
-typedef struct Unk0219405c {
-    /* 00 */ const char *mBuffer;
-    /* 04 */ u8 mUnk_04[0xc];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-} Unk0219405c;
-
 // Message handed to GpiQueueCallback by gpiProcessPeerConnected.
 typedef struct Unk021941c4Msg {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ void *mUnk_08;
 } Unk021941c4Msg;
-
-// Entry of the list at 0x38 of GpiPeer.
-typedef struct Unk02194370Entry {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 mLength;
-    /* 0c */ u32 mPos;
-} Unk02194370Entry;
 
 extern s8 gPeerBufferName[];
 extern u8 data_ov000_021b3494[];

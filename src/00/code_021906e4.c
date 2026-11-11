@@ -134,7 +134,7 @@ u32 GpiSendBytes(GpConnection *a, s32 b, const void *c, s32 d, s32 *e, s32 *f, c
     return 0;
 }
 
-u32 GpiPeerSendByte(GpConnection *a, Unk02190988 *b, s8 c) {
+u32 GpiPeerSendByte(GpConnection *a, GpiPeer *b, s8 c) {
     s32 d;
     s32 e;
     u32 f;
@@ -154,7 +154,7 @@ u32 GpiPeerSendByte(GpConnection *a, Unk02190988 *b, s8 c) {
     return GpiAppendBufferByte(a, &b->mOutputBuffer, c);
 }
 
-u32 GpiPeerSendBytes(GpConnection *a, Unk02190988 *b, const char *c, s32 d) {
+u32 GpiPeerSendBytes(GpConnection *a, GpiPeer *b, const char *c, s32 d) {
     s32 e;
     s32 f;
     s32 g;
@@ -188,7 +188,7 @@ u32 GpiPeerSendBytes(GpConnection *a, Unk02190988 *b, const char *c, s32 d) {
     return 0;
 }
 
-u32 GpiPeerSendString(GpConnection *p0, Unk02190988 *p1, const char *p2) {
+u32 GpiPeerSendString(GpConnection *p0, GpiPeer *p1, const char *p2) {
     u32 v6 = strlen(p2);
     return GpiPeerSendBytes(p0, p1, p2, v6);
 }

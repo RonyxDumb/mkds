@@ -75,14 +75,14 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                     GpiSetErrorMessage(connection, gPeerConnectErrorString);
                     return 3;
                 }
-                GpiAppendBufferString(connection, peer->mOutputBuffer, gAuthStatement);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34d8);
-                GpiAppendBufferNumber(connection, peer->mOutputBuffer, gpState->mProfileId);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34e0);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, gpState->mNick);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34e8);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, profileEntry->mPeerSig);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34c8);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, gAuthStatement);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34d8);
+                GpiAppendBufferNumber(connection, &peer->mOutputBuffer, gpState->mProfileId);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34e0);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, gpState->mNick);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34e8);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, profileEntry->mPeerSig);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34c8);
                 for (otherPeer = gpState->mPeerList; otherPeer != NULL; otherPeer = otherPeer->mNext) {
                     if (otherPeer->mProfileId == peer->mProfileId && otherPeer != peer && otherPeer->mState <= 0x67) {
                         canFreeSig = FALSE;
@@ -131,8 +131,8 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             AssertionFailed(data_ov000_021b3440, gGpiPeerFileName, NULL, 0x9f);
             break;
     }
-    if (peer->mOutputBufferLength > 0) {
-        result = GpiSendBuffer(connection, peer->mSocket, (GpiBuffer *) peer->mOutputBuffer, &socketGone, 1,
+    if (peer->mOutputBuffer.mLength > 0) {
+        result = GpiSendBuffer(connection, peer->mSocket, &peer->mOutputBuffer, &socketGone, 1,
                                gPeerBufferName);
         if (socketGone != 0 || result != 0) {
             peer->mState = 0x6a;
@@ -189,13 +189,13 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
             sprintf(buffer, gSigHashFormat, gpState->mPassword, gpState->mProfileId, pid);
             MD5Digest(buffer, strlen(buffer), sigDigest);
             if (strcmp(sig, sigDigest) != 0) {
-                GpiAppendBufferString(connection, peer->mOutputBuffer, gAnackStatement);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34c8);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, gAnackStatement);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34c8);
                 peer->mState = 0x6a;
                 return 0;
             }
-            GpiAppendBufferString(connection, peer->mOutputBuffer, gAackStatement);
-            GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34c8);
+            GpiAppendBufferString(connection, &peer->mOutputBuffer, gAackStatement);
+            GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34c8);
             peer->mState = 0x69;
             peer->mProfileId = pid;
         } else {
@@ -208,22 +208,22 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
 }
 
 s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
-    Unk02194370Entry *message;
+    GPIMessage *message;
     u32 socketGone;
     s32 result;
 
-    if (peer->mOutputBufferLength != 0) {
+    if (peer->mOutputBuffer.mLength != 0) {
         return 0;
     }
     if (DarrayGetCount(peer->mQueuedMessages) != 0) {
         do {
             message = DarrayGetElement(peer->mQueuedMessages, 0);
-            result = GpiSendBuffer(connection, peer->mSocket, (GpiBuffer *) message, &socketGone, 0, gPeerBufferName);
+            result = GpiSendBuffer(connection, peer->mSocket, &message->mBuffer, &socketGone, 0, gPeerBufferName);
             if (socketGone != 0 || result != 0) {
                 peer->mState = 0x6a;
                 return 0;
             }
-            if (message->mPos != message->mLength) {
+            if (message->mBuffer.mPos != message->mBuffer.mLength) {
                 break;
             }
             DarrayRemove(peer->mQueuedMessages, 0);
@@ -244,15 +244,15 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
     s32 result;
 
     gpState = connection->mGpiConnection;
-    if (peerConn->mOutputBufferLength != 0) {
-        result = GpiSendBuffer(connection, peerConn->mSocket, (GpiBuffer *) peerConn->mOutputBuffer, &socketGone, 1,
+    if (peerConn->mOutputBuffer.mLength != 0) {
+        result = GpiSendBuffer(connection, peerConn->mSocket, &peerConn->mOutputBuffer, &socketGone, 1,
                                gPeerBufferName);
         if (socketGone != 0 || result != 0) {
             peerConn->mState = 0x6a;
             return 0;
         }
     }
-    if (peerConn->mOutputBufferLength == 0) {
+    if (peerConn->mOutputBuffer.mLength == 0) {
         result = gpiPeerSendMessages(connection, peerConn);
         if (result != 0) {
             return result;
@@ -342,8 +342,8 @@ void GpiPeerDelete(GpConnection *connection, GpiPeer *peer) {
     closesocket(peer->mSocket);
     DWCi_GsFree(peer->mInputBuffer);
     peer->mInputBuffer = NULL;
-    DWCi_GsFree(*(void **) peer->mOutputBuffer);
-    *(void **) peer->mOutputBuffer = NULL;
+    DWCi_GsFree(peer->mOutputBuffer.mBuffer);
+    peer->mOutputBuffer.mBuffer = NULL;
     if (peer->mQueuedMessages != NULL) {
         DarrayDelete(peer->mQueuedMessages);
         peer->mQueuedMessages = NULL;
@@ -355,7 +355,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
     GpiConnection *gpState = connection->mGpiConnection;
     GpiPeer *previous;
     GpiPeer *current;
-    Unk0219405c *message;
+    GPIMessage *message;
     s32 e;
 
     if (peer == NULL) {
@@ -380,9 +380,9 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
     if (DarrayGetCount(peer->mQueuedMessages) != 0) {
         do {
             message = DarrayGetElement(peer->mQueuedMessages, 0);
-            if (message->mUnk_10 < 0x64) {
-                gpiSendServerBuddyMessage(connection, peer->mProfileId, message->mUnk_10,
-                                          message->mBuffer + message->mUnk_14);
+            if (message->mType < 0x64) {
+                gpiSendServerBuddyMessage(connection, peer->mProfileId, message->mType,
+                                          (const char *) message->mBuffer.mBuffer + message->mStart);
             }
             DarrayRemove(peer->mQueuedMessages, 0);
         } while (DarrayGetCount(peer->mQueuedMessages) != 0);
@@ -582,7 +582,7 @@ u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransf
         AssertionFailed(gTransferIdAssertText, gGpiPeerFileName, NULL, 0x376);
     }
     sprintf(buffer, gTransferMessageFormat, type, profileid, count, time);
-    return GpiPeerSendString(connection, (Unk02190988 *) peer, buffer);
+    return GpiPeerSendString(connection, peer, buffer);
 }
 
 s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *message, s32 len) {
@@ -599,15 +599,15 @@ s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *messa
         len = strlen(message);
     }
     sprintf(buffer, gLenMsgFormat, len);
-    result = GpiPeerSendString(connection, (Unk02190988 *) peer, buffer);
+    result = GpiPeerSendString(connection, peer, buffer);
     if (result != 0) {
         return result;
     }
-    result = GpiPeerSendBytes(connection, (Unk02190988 *) peer, message, len);
+    result = GpiPeerSendBytes(connection, peer, message, len);
     if (result != 0) {
         return result;
     }
-    result = GpiPeerSendByte(connection, (Unk02190988 *) peer, 0);
+    result = GpiPeerSendByte(connection, peer, 0);
     if (result != 0) {
         return result;
     }

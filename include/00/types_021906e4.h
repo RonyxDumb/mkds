@@ -38,25 +38,6 @@ typedef struct GpiQueuedCallback {
     /* 14 */ struct GpiQueuedCallback *mNext;
 } GpiQueuedCallback;
 
-// Object whose 0x28 member is a buffer; 0x08 is the descriptor written to.
-typedef struct Unk02190988 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ s32 mSocket;
-    /* 0c */ u8 mUnk_0c[0x1c];
-    /* 28 */ GpiBuffer mOutputBuffer;
-    /* 38 */ u32 *mQueuedMessages;
-} Unk02190988;
-
-// Object at 0x04 of GpiOperation.
-typedef struct Unk02191284Data {
-    /* 000 */ char mServerChallenge[0x80];
-    /* 080 */ char mUnk_80[0x21];
-    /* 0a1 */ char mUnk_a1[0x21];
-    /* 0c2 */ s8 mUnk_c2[0x200];
-    /* 2c2 */ s8 mUnk_2c2[0x42];
-    /* 304 */ s32 mUnk_304;
-} Unk02191284Data;
-
 // Object GpiQueueErrorCallback allocates and hands to GpiQueueCallback.
 typedef struct ErrorData {
     /* 00 */ s32 mResult;

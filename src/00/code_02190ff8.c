@@ -42,7 +42,7 @@ void randomString(s8 *buffer, s32 numChars) {
     buffer[index] = 0;
 }
 
-u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
+u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
     GpiConnection *gpState;
     SOCSockAddrIn address;
     SOCHostEnt *resolvedHost;
@@ -117,7 +117,7 @@ u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
             return 3;
         }
     }
-    operation->mUnk_14 = 1;
+    operation->mState = 1;
     gpState->mConnectState = 1;
     return 0;
 }
@@ -127,7 +127,7 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
                     s32 firewall, s32 newuser, s32 blocking, s32 callback, s32 param) {
     GpiConnection *gpState;
     GPIConnectData *data;
-    Unk021919ac_node *pendingOp;
+    GpiOperation *pendingOp;
     u32 result;
 
     gpState = connection->mGpiConnection;
@@ -170,7 +170,7 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
         GpiCopyString((char *) data->mPartnerChallenge, (const char *) partnerchallenge, 0x100);
     }
     if (cdkey != NULL) {
-        GpiCopyString(data->mCdkey, cdkey, 0x41);
+        GpiCopyString((char *) data->mCdkey, cdkey, 0x41);
     }
     result = GpiCreateOperation(connection, 0, (s32) data, (s32 *) &pendingOp, blocking, callback, param);
     if (result != 0) {
@@ -178,12 +178,12 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
     }
     result = GpiOpenSockets(connection, pendingOp);
     if (result != 0) {
-        pendingOp->mUnk_1c = result;
-        GpiQueueOperationCallback(connection, (GpiOperation *) pendingOp);
+        pendingOp->mResult = result;
+        GpiQueueOperationCallback(connection, pendingOp);
         GpiCloseConnection(connection, 0);
         return result;
     }
-    if (pendingOp->mUnk_08 != NULL) {
+    if (pendingOp->mBlocking != 0) {
         result = GpiUpdateConnection(connection, pendingOp->mId);
         if (result != 0) {
             return result;
@@ -196,7 +196,7 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     GpiConnection *gpState;
     s8 *passwordPtr;
     s8 *loginName;
-    Unk021919ac_h *profileRec;
+    GpiProfile *profileRec;
     char response[0x21];
     char buffer[0x200];
     char loginNameBuf[0x57];
@@ -224,8 +224,8 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     if (gpState->mInfoCaching != 0) {
         gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, (void **) &profileRec);
         if (profileRec != NULL) {
-            gpState->mUserId = profileRec->mUnk_04;
-            gpState->mProfileId = profileRec->mUnk_00;
+            gpState->mUserId = profileRec->mUserId;
+            gpState->mProfileId = profileRec->mProfileId;
         }
     }
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gLoginKey);
@@ -271,7 +271,7 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     return 0;
 }
 
-u32 GpiWriteNewuser(GpConnection *connection, Unk02191284Data *data) {
+u32 GpiWriteNewuser(GpConnection *connection, GPIConnectData *data) {
     GpiConnection *gpState;
     u32 length;
     u32 index;
@@ -305,12 +305,12 @@ u32 GpiWriteNewuser(GpConnection *connection, Unk02191284Data *data) {
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mNamespaceId);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gUniquenickKey);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gpState->mUniquenick);
-    if (data->mUnk_2c2[0] != 0) {
-        length = strlen((const char *) data->mUnk_2c2);
+    if (data->mCdkey[0] != 0) {
+        length = strlen((const char *) data->mCdkey);
         Util_RandSeed(0x79707367);
         for (index = 0; index < length; index++) {
             randomByte = Util_RandInt(0, 0xff);
-            cdKeyMasked[index] = randomByte ^ data->mUnk_2c2[index];
+            cdKeyMasked[index] = randomByte ^ data->mCdkey[index];
         }
         cdKeyMasked[index] = 0;
         B64Encode(cdKeyMasked, cdKeyEncoded, length, 1);
@@ -324,7 +324,7 @@ u32 GpiWriteNewuser(GpConnection *connection, Unk02191284Data *data) {
 
 u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation, const char *input) {
     GpiConnection *gpState;
-    Unk02191284Data *data;
+    GPIConnectData *data;
     char digestHex[0x21];
     char uniqueNickText[0x15];
     char buffer[0x200];
@@ -354,7 +354,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
         GpiQueueErrorCallback(connection, 4, 0);
         return 4;
     }
-    data = (Unk02191284Data *) operation->mData;
+    data = (GPIConnectData *) operation->mData;
     switch (operation->mState) {
         case 1:
             if (strncmp(input, gLc1Key, 5) != 0) {
@@ -367,14 +367,14 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if (data->mUnk_304 != 0) {
+            if (data->mNewUser != 0) {
                 result = GpiWriteNewuser(connection, data);
                 if (result != 0) {
                     return result;
                 }
                 operation->mState = 3;
             } else {
-                result = GpiWriteLogin(connection, (GPIConnectData *) data);
+                result = GpiWriteLogin(connection, data);
                 if (result != 0) {
                     return result;
                 }
@@ -399,7 +399,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 return 3;
             }
             gpState->mProfileId = StrtolBase10(buffer);
-            result = GpiWriteLogin(connection, (GPIConnectData *) data);
+            result = GpiWriteLogin(connection, data);
             if (result != 0) {
                 return result;
             }
@@ -435,16 +435,16 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
             if (GpiGetValue(input, gLtKey, (char *) gpState->mUnk_474, 0x19) == FALSE) {
                 gpState->mUnk_474[0] = 0;
             }
-            if (data->mUnk_c2[0] != 0) {
-                loginTarget = data->mUnk_c2;
+            if (data->mAuthtoken[0] != 0) {
+                loginTarget = data->mAuthtoken;
             } else if (gpState->mUniquenick[0] != 0) {
                 loginTarget = gpState->mUniquenick;
             } else {
                 sprintf(loginNameBuf, gNickEmailFormat, gpState->mNick, gpState->mEmail);
                 loginTarget = loginNameBuf;
             }
-            sprintf(buffer, gChallengeResponseFormat, data->mUnk_a1, gSpacePadding, loginTarget, data, data->mUnk_80,
-                    data->mUnk_a1);
+            sprintf(buffer, gChallengeResponseFormat, data->mPasswordHash, gSpacePadding, loginTarget, data, data->mUserChallenge,
+                    data->mPasswordHash);
             MD5Digest(buffer, strlen(buffer), digestHex);
             if (GpiGetValue(input, gProofKey, buffer, 0x200) == FALSE) {
                 GpiSetError(connection, 1, gConnectUnexpectedDataErrorString);

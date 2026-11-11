@@ -72,7 +72,7 @@ s32 gpiSendTransferReply(GpConnection *connection, s32 *transferID, GpiPeer *pee
         return stepResult;
     }
     sprintf(buffer, gVersionResultFormat, 1, result);
-    stepResult = GpiPeerSendString(connection, (Unk02190988 *) peer, buffer);
+    stepResult = GpiPeerSendString(connection, peer, buffer);
     if (stepResult != 0) {
         return stepResult;
     }

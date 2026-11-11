@@ -4,7 +4,7 @@
 
 typedef struct SOCHostEnt SOCHostEnt;
 
-// Entry of the list behind gServerReqs; the function at 0x18 takes the arguments of the entry's type.
+// Entry of the list behind gServerReqs, appended by AddRequestCallback; the function at 0x18 takes the arguments of the entry's type.
 typedef union ServerReqCallback {
     void (*mAuthCallback)(u32 a, u32 b, s32 c, const u8 *d, u32 e);
     void (*mDataCallback)(u32 a, u32 b, u32 c, u32 d, s32 e, s32 f, const u8 *g, s32 h, u32 i);
@@ -25,24 +25,6 @@ typedef struct ServerReq {
 typedef struct ConnErrorBytes {
     /* 00 */ u8 mText[0x10];
 } ConnErrorBytes;
-
-// Entry of the list at gServerReqs; only the words read here.
-typedef struct Unk02196d84 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-} Unk02196d84;
-
-// Record appended to the list at gServerReqs by AddRequestCallback.
-typedef struct Unk02197020 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ UnkFunc *mUnk_18;
-} Unk02197020;
 
 typedef struct SetPersistRespformatText {
     /* 00 */ s8 mText[0x3f];

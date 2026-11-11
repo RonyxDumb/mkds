@@ -165,20 +165,20 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
 
 void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
     GpiConnection *gpState = connection->mGpiConnection;
-    Unk02193858 *searchData;
+    GPISearchData *searchData;
 
     if (operation->mType == 3) {
-        searchData = (Unk02193858 *) operation->mData;
+        searchData = operation->mData;
         gpState->mSearchCount--;
         if (gpState->mSearchCount < 0) {
             AssertionFailed(gNumSearchesAssertion, gGpiOperationFileName, NULL, 0xb6);
         }
-        shutdown(searchData->mUnk_04, 2);
-        closesocket(searchData->mUnk_04);
-        DWCi_GsFree(searchData->mUnk_18);
-        searchData->mUnk_18 = NULL;
-        DWCi_GsFree(searchData->mUnk_08);
-        searchData->mUnk_08 = NULL;
+        shutdown(searchData->mSocket, 2);
+        closesocket(searchData->mSocket);
+        DWCi_GsFree(searchData->mOutputBuffer);
+        searchData->mOutputBuffer = NULL;
+        DWCi_GsFree(searchData->mInputBuffer);
+        searchData->mInputBuffer = NULL;
     }
     DWCi_GsFree(operation->mData);
     operation->mData = NULL;

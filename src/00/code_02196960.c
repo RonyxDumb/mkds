@@ -195,14 +195,14 @@ BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **s
 
 void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, UnkFunc *callback,
                         s32 instance) {
-    Unk02197020 req;
-    req.mUnk_18 = callback;
-    req.mUnk_14 = instance;
-    req.mUnk_04 = ownId;
-    req.mUnk_00 = reqType;
-    req.mUnk_08 = profileId;
-    req.mUnk_0c = dataKind;
-    req.mUnk_10 = dataIndex;
+    ServerReq req;
+    req.mCallback.mAuthCallback = callback;
+    req.mInstance = instance;
+    req.mLocalId = ownId;
+    req.mReqType = reqType;
+    req.mProfileId = profileId;
+    req.mPdType = dataKind;
+    req.mPdIndex = dataIndex;
     if (gServerReqs == NULL) {
         gServerReqs = DarrayCreate(0x1c, 2, NULL);
     }
@@ -293,7 +293,7 @@ const s8 *FindFinal(const s8 *buff, s32 len) {
 
 s32 FindRequest(s32 reqType, s32 ownId, s32 profileId) {
     s32 index;
-    Unk02196d84 *req;
+    ServerReq *req;
     if (gServerReqs == NULL) {
         return -1;
     }
@@ -301,7 +301,7 @@ s32 FindRequest(s32 reqType, s32 ownId, s32 profileId) {
     if (DarrayGetCount((u32 *) gServerReqs) > 0) {
         do {
             req = DarrayGetElement(gServerReqs, index);
-            if (req->mUnk_00 == reqType && req->mUnk_04 == ownId && req->mUnk_08 == profileId) {
+            if (req->mReqType == reqType && req->mLocalId == ownId && req->mProfileId == profileId) {
                 return index;
             }
             index++;
@@ -316,8 +316,8 @@ void ProcessPlayerAuth(u8 *buf, s32 len) {
     const s8 *failText = value_for_key_safe((const s8 *) buf, gErrmsgKey);
     s32 requestPos = FindRequest(0, lid, 0);
     if (requestPos != -1) {
-        Unk02196d84 *req = DarrayGetElement(gServerReqs, requestPos);
-        req->mUnk_08 = pid;
+        ServerReq *req = DarrayGetElement(gServerReqs, requestPos);
+        req->mProfileId = pid;
         CallReqCallback(requestPos, pid > 0 ? 1 : 0, 0, (const u8 *) failText, 0);
     }
 }

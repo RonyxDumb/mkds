@@ -363,9 +363,9 @@ u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
     return result;
 }
 
-s32 GpiDecrementBuddyIndexAbove(void *unused, Unk0218fa98 *object, s32 minimum) {
-    if (object->mUnk_08 != NULL && *object->mUnk_08 > minimum) {
-        --*object->mUnk_08;
+s32 GpiDecrementBuddyIndexAbove(void *unused, GpiProfile *profile, s32 minimum) {
+    if (profile->mBuddyStatus != NULL && profile->mBuddyStatus->mIndex > minimum) {
+        --profile->mBuddyStatus->mIndex;
     }
     return 1;
 }
