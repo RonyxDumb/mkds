@@ -39,7 +39,7 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
     Unk02021968 *bankFile;
     u32 loaded;
     u32 listCount;
-    s32 i;
+    s32 waveArcSlot;
 
     if (moveWaveArcs != 0) {
         if (NNS_SndArcLoadWaveArc(0x61, gCurrentSndHeap) == 0) {
@@ -96,8 +96,8 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
     }
     bankInfo = NNS_SndArcGetBankInfo(0);
     bankFile = NNS_SndArcGetFileAddress(bankInfo->mFileId);
-    for (i = 0; i < 4; i++) {
-        waveArcNo = bankInfo->mWaveArcNo[i];
+    for (waveArcSlot = 0; waveArcSlot < 4; waveArcSlot++) {
+        waveArcNo = bankInfo->mWaveArcNo[waveArcSlot];
         if (waveArcNo == 0xffff) {
             continue;
         }
@@ -113,7 +113,7 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
         if (waveArcFile == NULL) {
             continue;
         }
-        SND_AssignWaveArc(bankFile, i, waveArcFile);
+        SND_AssignWaveArc(bankFile, waveArcSlot, waveArcFile);
     }
     if (LoadSndGroup(groupId) == 0) {
         return 0;
@@ -127,7 +127,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     SndFileIdList *fileIdList;
     u32 loaded;
     u32 listCount;
-    s32 i;
+    s32 fileIndex;
     SndFileIdList *list;
 
     if (soundSet.mSeqId == 0xff && soundSet.mFirstBankId == 0xff && soundSet.mSecondBankId == 0xff) {
@@ -138,12 +138,12 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     }
     ReleaseSoundSet(GetLoadedSoundSet());
     fileIdList = &gSoundSetFileIdList;
-    for (i = 0; i < fileIdList->mCount; i++) {
-        NNS_SndArcSetFileAddress(fileIdList->mFileIds[i], NULL);
+    for (fileIndex = 0; fileIndex < fileIdList->mCount; fileIndex++) {
+        NNS_SndArcSetFileAddress(fileIdList->mFileIds[fileIndex], NULL);
     }
     list = &gSoundSetFileIdList;
-    for (i = 0; i < 16; i++) {
-        list->mFileIds[i] = 0;
+    for (fileIndex = 0; fileIndex < 16; fileIndex++) {
+        list->mFileIds[fileIndex] = 0;
     }
     list->mCount = 0;
     if (loadExtras != 0) {

@@ -6,16 +6,16 @@
 #pragma thumb on
 
 void AdvanceTitleBlend(void) {
-    s32 n;
-    s32 m;
+    s32 blendFrame;
+    s32 fadeFrame;
 
-    n = gTitleScene->mBlendFrames++;
-    if (n < 30) {
+    blendFrame = gTitleScene->mBlendFrames++;
+    if (blendFrame < 30) {
         TitleWriteMainBlendAlpha(4, 8, 0, 16);
-    } else if (n < 47) {
-        m = n - 30;
-        TitleWriteMainBlendAlpha(4, 8, m, 16 - m);
-    } else if (n < 107) {
+    } else if (blendFrame < 47) {
+        fadeFrame = blendFrame - 30;
+        TitleWriteMainBlendAlpha(4, 8, fadeFrame, 16 - fadeFrame);
+    } else if (blendFrame < 107) {
         TitleWriteMainBlendAlpha(0, 0, 0, 0);
     } else {
         TitleWriteMainBlendAlpha(0, 0, 0, 0);

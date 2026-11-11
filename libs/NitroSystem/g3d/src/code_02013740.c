@@ -55,34 +55,35 @@ NNSG3dResJntAnmSet *NNS_G3dGetJntAnmSet(const u8 *pFileHead) {
 
 // Dictionaries of 16 or more entries are searched through their tree.
 void *NNS_G3dGetResDataByName(const void *dict, const u32 *name) {
-    const NNSG3dResDict *p;
+    const NNSG3dResDict *resDict;
     const NNSG3dResDictEntryHeader *dictEntries;
     const NNSG3dResDictTreeNode *base;
     const NNSG3dResDictTreeNode *prev;
     const NNSG3dResDictTreeNode *node;
     const u32 *entryName;
-    u32 i;
-    u32 k0;
-    u32 k1;
-    u32 k2;
-    u32 k3;
+    u32 entryIndex;
+    u32 nameWord0;
+    u32 nameWord1;
+    u32 nameWord2;
+    u32 nameWord3;
 
-    p = dict;
-    if (p->mNumEntry < 0x10) {
-        k0 = name[0];
-        k1 = name[1];
-        k2 = name[2];
-        k3 = name[3];
-        for (i = 0; i < p->mNumEntry; i++) {
-            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
-            entryName = DICT_ENTRY_NAME(dictEntries, i);
-            if (entryName[0] == k0 && entryName[1] == k1 && entryName[2] == k2 && entryName[3] == k3) {
-                dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
-                return (dictEntries->mData + dictEntries->mSizeUnit * i);
+    resDict = dict;
+    if (resDict->mNumEntry < 0x10) {
+        nameWord0 = name[0];
+        nameWord1 = name[1];
+        nameWord2 = name[2];
+        nameWord3 = name[3];
+        for (entryIndex = 0; entryIndex < resDict->mNumEntry; entryIndex++) {
+            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, resDict, resDict->mOfsEntry);
+            entryName = DICT_ENTRY_NAME(dictEntries, entryIndex);
+            if (entryName[0] == nameWord0 && entryName[1] == nameWord1 && entryName[2] == nameWord2 &&
+                entryName[3] == nameWord3) {
+                dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, resDict, resDict->mOfsEntry);
+                return (dictEntries->mData + dictEntries->mSizeUnit * entryIndex);
             }
         }
     } else {
-        base = p->mNode;
+        base = resDict->mNode;
         prev = base;
         if (prev->mIdxLeft != 0) {
             node = base + prev->mIdxLeft;
@@ -90,11 +91,11 @@ void *NNS_G3dGetResDataByName(const void *dict, const u32 *name) {
                 prev = node;
                 node = base + (&node->mIdxLeft)[(name[node->mRefBit >> 5] >> (node->mRefBit & 0x1f)) & 1];
             }
-            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
+            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, resDict, resDict->mOfsEntry);
             entryName = DICT_ENTRY_NAME(dictEntries, node->mIdxEntry);
             if (entryName[0] == name[0] && entryName[1] == name[1] && entryName[2] == name[2] &&
                 entryName[3] == name[3]) {
-                dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
+                dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, resDict, resDict->mOfsEntry);
                 return (dictEntries->mData + dictEntries->mSizeUnit * node->mIdxEntry);
             }
         }
@@ -104,33 +105,34 @@ void *NNS_G3dGetResDataByName(const void *dict, const u32 *name) {
 
 // Dictionaries of 16 or more entries are searched through their tree.
 int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name) {
-    const NNSG3dResDict *p;
+    const NNSG3dResDict *resDict;
     const NNSG3dResDictEntryHeader *dictEntries;
     const NNSG3dResDictTreeNode *base;
     const NNSG3dResDictTreeNode *prev;
     const NNSG3dResDictTreeNode *node;
     const u32 *entryName;
-    u32 i;
-    u32 k0;
-    u32 k1;
-    u32 k2;
-    u32 k3;
+    u32 entryIndex;
+    u32 nameWord0;
+    u32 nameWord1;
+    u32 nameWord2;
+    u32 nameWord3;
 
-    p = dict;
-    if (p->mNumEntry < 0x10) {
-        k0 = name[0];
-        k1 = name[1];
-        k2 = name[2];
-        k3 = name[3];
-        for (i = 0; i < p->mNumEntry; i++) {
-            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
-            entryName = DICT_ENTRY_NAME(dictEntries, i);
-            if (entryName[0] == k0 && entryName[1] == k1 && entryName[2] == k2 && entryName[3] == k3) {
-                return i;
+    resDict = dict;
+    if (resDict->mNumEntry < 0x10) {
+        nameWord0 = name[0];
+        nameWord1 = name[1];
+        nameWord2 = name[2];
+        nameWord3 = name[3];
+        for (entryIndex = 0; entryIndex < resDict->mNumEntry; entryIndex++) {
+            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, resDict, resDict->mOfsEntry);
+            entryName = DICT_ENTRY_NAME(dictEntries, entryIndex);
+            if (entryName[0] == nameWord0 && entryName[1] == nameWord1 && entryName[2] == nameWord2 &&
+                entryName[3] == nameWord3) {
+                return entryIndex;
             }
         }
     } else {
-        base = p->mNode;
+        base = resDict->mNode;
         prev = base;
         if (prev->mIdxLeft != 0) {
             node = base + prev->mIdxLeft;
@@ -138,7 +140,7 @@ int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name) {
                 prev = node;
                 node = base + (&node->mIdxLeft)[(name[node->mRefBit >> 5] >> (node->mRefBit & 0x1f)) & 1];
             }
-            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, p, p->mOfsEntry);
+            dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, resDict, resDict->mOfsEntry);
             entryName = DICT_ENTRY_NAME(dictEntries, node->mIdxEntry);
             if (entryName[0] == name[0] && entryName[1] == name[1] && entryName[2] == name[2] &&
                 entryName[3] == name[3]) {

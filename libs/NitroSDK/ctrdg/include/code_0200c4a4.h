@@ -91,10 +91,10 @@ void CTRDGi_UnlockByProcessor(u16 lockID, Unk0200c4a4 *info);
 void CTRDGi_LockByProcessor(u16 lockID, Unk0200c4a4 *info);
 // Writes the first word of r (shifted left by 2) into bits 2 and 3 and the second word (shifted left by 4) into bit 4
 // of the halfword at 0x04000204.
-void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *r);
+void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *cycleInfo);
 // Stores bits 2 and 3 of the halfword at 0x04000204 (as 0 to 3) in the first word of the record r and bit 4 in the
 // second word, then sets bits 2 and 3 and clears bit 4.
-void CTRDGi_ChangeLatestAccessCycle(Unk0200c4a4 *r);
+void CTRDGi_ChangeLatestAccessCycle(Unk0200c4a4 *cycleInfo);
 // Returns 0 when the halfword at 0x027ffc30 is 0xffff or bit 1 of the byte at 0x027ffc35 is set. Otherwise locks and
 // compares the record with the window: the halfword at 0x080000be (0x0801fffe when the byte at 0x080000b2 is not 0x96)
 // against the halfword at 0x027ffc30, and when bit 0 of the byte at 0x027ffc35 is set the word at 0x080000ac against

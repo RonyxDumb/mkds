@@ -11,24 +11,24 @@
 #pragma thumb on
 
 void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, s32 uncompress) {
-    u16 i;
-    for (i = 0; i < 12; i++) {
-        if (gConnectionWork->mBlockEntries[i].mPath == 0) {
-            MI_CpuCopy8(path, &gConnectionWork->mBlockEntries[i].mPath, 0x40);
+    u16 entryIndex;
+    for (entryIndex = 0; entryIndex < 12; entryIndex++) {
+        if (gConnectionWork->mBlockEntries[entryIndex].mPath == 0) {
+            MI_CpuCopy8(path, &gConnectionWork->mBlockEntries[entryIndex].mPath, 0x40);
             if (uncompress != 0) {
-                gConnectionWork->mBlockEntries[i].mBuffer = gConnectionWork->mCompressedBuffer;
-                gConnectionWork->mBlockEntries[i].mUncompressedBuffer = 0;
-                gConnectionWork->mBlockEntries[i].mUncompressPending = 1;
-                gConnectionWork->mBlockEntries[i].mUnk_84_0 = value;
+                gConnectionWork->mBlockEntries[entryIndex].mBuffer = gConnectionWork->mCompressedBuffer;
+                gConnectionWork->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
+                gConnectionWork->mBlockEntries[entryIndex].mUncompressPending = 1;
+                gConnectionWork->mBlockEntries[entryIndex].mUnk_84_0 = value;
             } else {
-                gConnectionWork->mBlockEntries[i].mBuffer = 0;
-                gConnectionWork->mBlockEntries[i].mUncompressedBuffer = 0;
-                gConnectionWork->mBlockEntries[i].mUncompressPending = 0;
-                gConnectionWork->mBlockEntries[i].mUnk_84_0 = value;
+                gConnectionWork->mBlockEntries[entryIndex].mBuffer = 0;
+                gConnectionWork->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
+                gConnectionWork->mBlockEntries[entryIndex].mUncompressPending = 0;
+                gConnectionWork->mBlockEntries[entryIndex].mUnk_84_0 = value;
             }
-            gConnectionWork->mBlockEntries[i].mHeap = heap;
-            gConnectionWork->mBlockEntries[i].mUnk_84_30 = 1;
-            gConnectionWork->mBlockEntries[i].mDataOutput = dataOutput;
+            gConnectionWork->mBlockEntries[entryIndex].mHeap = heap;
+            gConnectionWork->mBlockEntries[entryIndex].mUnk_84_30 = 1;
+            gConnectionWork->mBlockEntries[entryIndex].mDataOutput = dataOutput;
             return;
         }
     }
@@ -55,14 +55,14 @@ void StartChildSideBlockTransfer(void) {
 }
 
 void AllocTransferBuffers(void *heap) {
-    s32 i;
+    s32 blockInfoIndex;
     gConnectionWork->mMPSendBufferSize = 0x1c0;
     gConnectionWork->mMPSendBuffer = HeapAllocAligned(heap, gConnectionWork->mMPSendBufferSize, 0x20);
     gConnectionWork->mMPReceiveBufferSize = 0x400;
     gConnectionWork->mMPReceiveBuffer = HeapAllocAligned(heap, gConnectionWork->mMPReceiveBufferSize, 0x20);
-    for (i = 0; i < 8; i++) {
-        gConnectionWork->mBlockInfos[i] = HeapAllocAligned(heap, 0x28, 0x20);
-        gConnectionWork->mChunkBitmaps[i] = HeapAllocAligned(heap, 4, 0x20);
+    for (blockInfoIndex = 0; blockInfoIndex < 8; blockInfoIndex++) {
+        gConnectionWork->mBlockInfos[blockInfoIndex] = HeapAllocAligned(heap, 0x28, 0x20);
+        gConnectionWork->mChunkBitmaps[blockInfoIndex] = HeapAllocAligned(heap, 4, 0x20);
     }
     gConnectionWork->mPacketBuffer = HeapAllocAligned(heap, 0x192, 0x20);
     gConnectionWork->mScanGhostInfos = HeapAllocAligned(heap, 0x20, 0x20);
@@ -70,13 +70,13 @@ void AllocTransferBuffers(void *heap) {
 
 void InitBlockEntries(void *heap, s32 mode) {
     BlockTransferView *view = &gConnectionWork->mUnk_16a0_view;
-    s32 i;
-    for (i = 0; i < 12; i++) {
-        view->mBlockEntries[i].mPath = 0;
-        view->mBlockEntries[i].mBuffer = NULL;
-        view->mBlockEntries[i].mUncompressedBuffer = NULL;
-        view->mBlockEntries[i].mUncompressPending = 0;
-        view->mBlockEntries[i].mUnk_84_0 = 0;
+    s32 entryIndex;
+    for (entryIndex = 0; entryIndex < 12; entryIndex++) {
+        view->mBlockEntries[entryIndex].mPath = 0;
+        view->mBlockEntries[entryIndex].mBuffer = NULL;
+        view->mBlockEntries[entryIndex].mUncompressedBuffer = NULL;
+        view->mBlockEntries[entryIndex].mUncompressPending = 0;
+        view->mBlockEntries[entryIndex].mUnk_84_0 = 0;
     }
     view->mUnk_660 = mode;
     view->mZeroWordReceived = FALSE;

@@ -16,7 +16,7 @@
 #include "code_02147cd8.h"
 #include "registers.h"
 
-BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int radius, u16 queryFlags,
+BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, int radius, u16 queryFlags,
                              short collisionSlotIndex, Vec3 *pushOut, Vec3 *normal, Vec3 *secondNormal,
                              u32 *collisionBits, Vec3 *lowestOffset, Vec3 *pointMotion, u16 *angleChange,
                              u32 *hitObjects) {
@@ -25,24 +25,24 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
     s64 radiusSquared;
     Vec3 *points;
     Vec3s16 *normals;
-    u16 hw;
-    s64 qq;
-    s64 tq;
+    u16 hitBitIndex;
+    s64 remainingSquared;
+    s64 sqrtInput;
     CourseTriangle triangle;
     Vec3 positionCopy;
     Vec3 prevPositionCopy;
-    Vec3 ua;
-    Vec3 ub;
+    Vec3 relativePosition;
+    Vec3 relativeVector;
     BOOL anyHit = FALSE;
     Vec3 offset = {0, 0, 0};
     BOOL wantsHitRecords = pushOut != NULL || normal != NULL || secondNormal != NULL;
     u32 hitBits = 0;
     CollisionHitRecord firstHitRecord = data_0216b8c4;
     CollisionHitRecord secondHitRecord = data_0216b8ec;
-    Vec3 ca = {0, 0, 0};
-    Vec3 cb = {0, 0, 0};
-    Vec3 cc = {0, 0, 0};
-    Vec3 cd = {0, 0, 0};
+    Vec3 extraMaxOffset = {0, 0, 0};
+    Vec3 extraMinOffset = {0, 0, 0};
+    Vec3 maxXZOffset = {0, 0, 0};
+    Vec3 minXZOffset = {0, 0, 0};
     Vec3 trianglePoint;
     Vec3 triangleNormals[4];
     Vec3 lowestOffsetValue;
@@ -52,17 +52,17 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
     u32 cellZ;
     u32 shift;
     u8 *treeCursor;
-    s32 v;
+    s32 value;
     u16 triangleIndex;
     s32 penetration;
-    s32 d0;
-    s32 d1;
-    s32 d2;
-    s32 d3;
+    s32 planeDistance;
+    s32 firstEdgeDistance;
+    s32 secondEdgeDistance;
+    s32 thirdEdgeDistance;
     u16 triangleFlags;
     s32 dot;
     u32 triangleHitBits;
-    s32 i;
+    s32 foundObjectIndex;
     s32 hitObjectCount;
     void *foundObject;
     u32 hitObjectBit;
@@ -92,17 +92,18 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
         return FALSE;
     }
     shift = courseCollision->mTopShift;
-    v = ((cellZ >> shift) << courseCollision->mZIndexShift) | ((cellY >> shift) << courseCollision->mYIndexShift) |
-        (cellX >> shift);
+    value = ((cellZ >> shift) << courseCollision->mZIndexShift) | ((cellY >> shift) << courseCollision->mYIndexShift) |
+            (cellX >> shift);
     treeCursor = courseCollision->mTree;
-    v = ((s32 *) treeCursor)[v];
-    while (v >= 0) {
-        treeCursor += v;
+    value = ((s32 *) treeCursor)[value];
+    while (value >= 0) {
+        treeCursor += value;
         shift--;
-        v = ((s32 *)
+        value =
+            ((s32 *)
                  treeCursor)[((cellX >> shift) & 1) | ((((cellZ >> shift) & 1) << 2) | (((cellY >> shift) & 1) << 1))];
     }
-    treeCursor += v & 0x7fffffff;
+    treeCursor += value & 0x7fffffff;
     triangles = courseCollision->mTriangles;
     points = courseCollision->mPoints;
     normals = courseCollision->mNormals;
@@ -110,37 +111,37 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
     while ((triangleIndex = *++triangleIndexCursor) != 0) {
         triangle = triangles[triangleIndex];
         trianglePoint = points[triangle.mPointIndex];
-        VEC_Subtract(&positionCopy, &trianglePoint, &ua);
+        VEC_Subtract(&positionCopy, &trianglePoint, &relativePosition);
         triangleNormals[3].x = normals[triangle.mThirdEdgeNormalIndex].x;
         triangleNormals[3].y = normals[triangle.mThirdEdgeNormalIndex].y;
         triangleNormals[3].z = normals[triangle.mThirdEdgeNormalIndex].z;
-        dot = Vec3DotUnrounded(&ua, &triangleNormals[3]);
+        dot = Vec3DotUnrounded(&relativePosition, &triangleNormals[3]);
         if (dot < -radius) {
             continue;
         }
-        d3 = dot - triangle.mThirdEdgeOffset;
-        if (d3 >= radius) {
+        thirdEdgeDistance = dot - triangle.mThirdEdgeOffset;
+        if (thirdEdgeDistance >= radius) {
             continue;
         }
         triangleNormals[1].x = normals[triangle.mFirstEdgeNormalIndex].x;
         triangleNormals[1].y = normals[triangle.mFirstEdgeNormalIndex].y;
         triangleNormals[1].z = normals[triangle.mFirstEdgeNormalIndex].z;
-        d1 = Vec3DotUnrounded(&ua, &triangleNormals[1]);
-        if (d1 >= radius) {
+        firstEdgeDistance = Vec3DotUnrounded(&relativePosition, &triangleNormals[1]);
+        if (firstEdgeDistance >= radius) {
             continue;
         }
         triangleNormals[2].x = normals[triangle.mSecondEdgeNormalIndex].x;
         triangleNormals[2].y = normals[triangle.mSecondEdgeNormalIndex].y;
         triangleNormals[2].z = normals[triangle.mSecondEdgeNormalIndex].z;
-        d2 = Vec3DotUnrounded(&ua, &triangleNormals[2]);
-        if (d2 >= radius) {
+        secondEdgeDistance = Vec3DotUnrounded(&relativePosition, &triangleNormals[2]);
+        if (secondEdgeDistance >= radius) {
             continue;
         }
         triangleNormals[0].x = normals[triangle.mPlaneNormalIndex].x;
         triangleNormals[0].y = normals[triangle.mPlaneNormalIndex].y;
         triangleNormals[0].z = normals[triangle.mPlaneNormalIndex].z;
-        d0 = Vec3DotUnrounded(&ua, &triangleNormals[0]);
-        penetration = radius - d0;
+        planeDistance = Vec3DotUnrounded(&relativePosition, &triangleNormals[0]);
+        penetration = radius - planeDistance;
         if (penetration >= 0 && penetration <= 0x1e000) {
             triangleFlags = triangle.mHitValue;
             if (triangleFlags & 0x2010) {
@@ -154,210 +155,213 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             if ((queryFlags & 0x10) && (triangleFlags & 0xa000)) {
                 continue;
             }
-            offset.y = -MUL_FIXED12_NO_ROUND(d0, triangleNormals[0].y);
-            offset.x = -MUL_FIXED12_NO_ROUND(d0, triangleNormals[0].x);
-            offset.z = -MUL_FIXED12_NO_ROUND(d0, triangleNormals[0].z);
-            v = 1;
-            if (d1 > d2) {
-                if (d1 > d3) {
+            offset.y = -MUL_FIXED12_NO_ROUND(planeDistance, triangleNormals[0].y);
+            offset.x = -MUL_FIXED12_NO_ROUND(planeDistance, triangleNormals[0].x);
+            offset.z = -MUL_FIXED12_NO_ROUND(planeDistance, triangleNormals[0].z);
+            value = 1;
+            if (firstEdgeDistance > secondEdgeDistance) {
+                if (firstEdgeDistance > thirdEdgeDistance) {
                     goto la;
                 } else {
                     goto lc;
                 }
             } else {
-                if (d2 > d3) {
+                if (secondEdgeDistance > thirdEdgeDistance) {
                     goto lb;
                 } else {
                     goto lc;
                 }
             }
         la:
-            if (d1 <= 0) {
+            if (firstEdgeDistance <= 0) {
                 goto lm;
             }
-            if (d0 < 0) {
+            if (planeDistance < 0) {
                 if (prevPosition == NULL) {
                     continue;
                 }
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &ub);
-                if (Vec3DotUnrounded(&ub, &triangleNormals[0]) < 0) {
+                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&ub, &triangleNormals[1]) > 0) {
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[1]) > 0) {
                     continue;
                 }
             }
-            if (d2 > d3) {
+            if (secondEdgeDistance > thirdEdgeDistance) {
                 dot = Vec3DotUnrounded(&triangleNormals[1], &triangleNormals[2]);
-                if (MUL_FIXED12_NO_ROUND(dot, d1) > d2) {
+                if (MUL_FIXED12_NO_ROUND(dot, firstEdgeDistance) > secondEdgeDistance) {
                     goto ld;
                 } else {
                     goto lg;
                 }
             } else {
                 dot = Vec3DotUnrounded(&triangleNormals[1], &triangleNormals[3]);
-                if (MUL_FIXED12_NO_ROUND(dot, d1) > d3) {
+                if (MUL_FIXED12_NO_ROUND(dot, firstEdgeDistance) > thirdEdgeDistance) {
                     goto ld;
                 } else {
                     goto li;
                 }
             }
         lb:
-            if (d2 <= 0) {
+            if (secondEdgeDistance <= 0) {
                 goto lm;
             }
-            if (d0 < 0) {
+            if (planeDistance < 0) {
                 if (prevPosition == NULL) {
                     continue;
                 }
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &ub);
-                if (Vec3DotUnrounded(&ub, &triangleNormals[0]) < 0) {
+                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&ub, &triangleNormals[2]) > 0) {
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[2]) > 0) {
                     continue;
                 }
             }
-            if (d3 > d1) {
+            if (thirdEdgeDistance > firstEdgeDistance) {
                 dot = Vec3DotUnrounded(&triangleNormals[2], &triangleNormals[3]);
-                if (MUL_FIXED12_NO_ROUND(dot, d2) > d3) {
+                if (MUL_FIXED12_NO_ROUND(dot, secondEdgeDistance) > thirdEdgeDistance) {
                     goto le;
                 } else {
                     goto lh;
                 }
             } else {
                 dot = Vec3DotUnrounded(&triangleNormals[2], &triangleNormals[1]);
-                if (MUL_FIXED12_NO_ROUND(dot, d2) > d1) {
+                if (MUL_FIXED12_NO_ROUND(dot, secondEdgeDistance) > firstEdgeDistance) {
                     goto le;
                 } else {
                     goto lg;
                 }
             }
         lc:
-            if (d3 <= 0) {
+            if (thirdEdgeDistance <= 0) {
                 goto lm;
             }
-            if (d0 < 0) {
+            if (planeDistance < 0) {
                 if (prevPosition == NULL) {
                     continue;
                 }
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &ub);
-                if (Vec3DotUnrounded(&ub, &triangleNormals[0]) < 0) {
+                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&ub, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
                     continue;
                 }
             }
-            if (d1 > d2) {
+            if (firstEdgeDistance > secondEdgeDistance) {
                 dot = Vec3DotUnrounded(&triangleNormals[3], &triangleNormals[1]);
-                if (MUL_FIXED12_NO_ROUND(dot, d3) > d1) {
+                if (MUL_FIXED12_NO_ROUND(dot, thirdEdgeDistance) > firstEdgeDistance) {
                     goto lf;
                 } else {
                     goto li;
                 }
             } else {
                 dot = Vec3DotUnrounded(&triangleNormals[3], &triangleNormals[2]);
-                if (MUL_FIXED12_NO_ROUND(dot, d3) > d2) {
+                if (MUL_FIXED12_NO_ROUND(dot, thirdEdgeDistance) > secondEdgeDistance) {
                     goto lf;
                 } else {
                     goto lh;
                 }
             }
         ld:
-            qq = radiusSquared - (s64) d1 * d1;
+            remainingSquared = radiusSquared - (s64) firstEdgeDistance * firstEdgeDistance;
             if (triangleNormals[1].y > 0x424 || triangleNormals[1].y < -0x424) {
-                v = 0;
+                value = 0;
             }
             if (lowestOffset != NULL) {
-                VEC_MultAdd(-d1, &triangleNormals[1], &offset, &offset);
+                VEC_MultAdd(-firstEdgeDistance, &triangleNormals[1], &offset, &offset);
             }
             goto lk;
         le:
-            qq = radiusSquared - (s64) d2 * d2;
+            remainingSquared = radiusSquared - (s64) secondEdgeDistance * secondEdgeDistance;
             if (triangleNormals[2].y > 0x424 || triangleNormals[2].y < -0x424) {
-                v = 0;
+                value = 0;
             }
             if (lowestOffset != NULL) {
-                VEC_MultAdd(-d2, &triangleNormals[2], &offset, &offset);
+                VEC_MultAdd(-secondEdgeDistance, &triangleNormals[2], &offset, &offset);
             }
             goto lk;
         lf:
-            qq = radiusSquared - (s64) d3 * d3;
+            remainingSquared = radiusSquared - (s64) thirdEdgeDistance * thirdEdgeDistance;
             if (triangleNormals[3].y > 0x424 || triangleNormals[3].y < -0x424) {
-                v = 0;
+                value = 0;
             }
             if (lowestOffset != NULL) {
-                VEC_MultAdd(-d3, &triangleNormals[3], &offset, &offset);
+                VEC_MultAdd(-thirdEdgeDistance, &triangleNormals[3], &offset, &offset);
             }
             goto lk;
         lg:
-            ComputeVec3FromDotProducts(dot, d2, d1, &ua, &triangleNormals[1], &triangleNormals[2], &qq);
+            ComputeVec3FromDotProducts(dot, secondEdgeDistance, firstEdgeDistance, &relativePosition,
+                                       &triangleNormals[1], &triangleNormals[2], &remainingSquared);
             goto lj;
         lh:
-            ComputeVec3FromDotProducts(dot, d3, d2, &ua, &triangleNormals[2], &triangleNormals[3], &qq);
+            ComputeVec3FromDotProducts(dot, thirdEdgeDistance, secondEdgeDistance, &relativePosition,
+                                       &triangleNormals[2], &triangleNormals[3], &remainingSquared);
             goto lj;
         li:
-            ComputeVec3FromDotProducts(dot, d1, d3, &ua, &triangleNormals[3], &triangleNormals[1], &qq);
+            ComputeVec3FromDotProducts(dot, firstEdgeDistance, thirdEdgeDistance, &relativePosition,
+                                       &triangleNormals[3], &triangleNormals[1], &remainingSquared);
         lj:
-            qq = radiusSquared - qq;
-            if (qq <= 0) {
+            remainingSquared = radiusSquared - remainingSquared;
+            if (remainingSquared <= 0) {
                 continue;
             }
             if (lowestOffset != NULL) {
-                VEC_Subtract(&offset, &ua, &offset);
+                VEC_Subtract(&offset, &relativePosition, &offset);
             }
-            v = 0;
+            value = 0;
         lk:
-            tq = qq;
+            sqrtInput = remainingSquared;
             reg_CP_SQRTCNT = 1;
-            reg_CP_SQRT_PARAM = tq;
+            reg_CP_SQRT_PARAM = sqrtInput;
             while (reg_CP_SQRTCNT & 0x8000) {
             }
-            penetration = reg_CP_SQRT_RESULT - d0;
+            penetration = reg_CP_SQRT_RESULT - planeDistance;
             if (penetration < 0) {
                 continue;
             }
             goto ln;
         lm:
-            if (d0 < 0 && prevPosition != NULL) {
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &ub);
-                if (Vec3DotUnrounded(&ub, &triangleNormals[0]) < 0) {
+            if (planeDistance < 0 && prevPosition != NULL) {
+                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) < 0) {
                     if (queryFlags & 0x20) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&ub, &triangleNormals[1]) > 0) {
+                    if (Vec3DotUnrounded(&relativeVector, &triangleNormals[1]) > 0) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&ub, &triangleNormals[2]) > 0) {
+                    if (Vec3DotUnrounded(&relativeVector, &triangleNormals[2]) > 0) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&ub, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
+                    if (Vec3DotUnrounded(&relativeVector, &triangleNormals[3]) > triangle.mThirdEdgeOffset) {
                         continue;
                     }
                 }
             }
-            v = 0;
+            value = 0;
         ln:
             triangleHitBits = 1 << ((triangleFlags & 0x1f00) >> 8);
             triangleHitBits |= 1 << (((triangleFlags & 0xc) >> 2) + 0x1a);
             triangleHitBits |= (triangleFlags & 2) << 0x17;
             if (prevPosition != NULL) {
-                VEC_Subtract(&prevPositionCopy, &trianglePoint, &ub);
-                dot = Vec3DotUnrounded(&ub, &triangleNormals[0]);
+                VEC_Subtract(&prevPositionCopy, &trianglePoint, &relativeVector);
+                dot = Vec3DotUnrounded(&relativeVector, &triangleNormals[0]);
                 if (dot < 0) {
-                    if (v && (triangleHitBits & 0x214300) && c != 0) {
-                        ua.x = ((s64) penetration * triangleNormals[0].x) >> 2;
-                        ua.z = ((s64) penetration * triangleNormals[0].z) >> 2;
-                        if (ua.x > cc.x) {
-                            cc.x = ua.x;
-                        } else if (ua.x < cd.x) {
-                            cd.x = ua.x;
+                    if (value && (triangleHitBits & 0x214300) && vector != 0) {
+                        relativePosition.x = ((s64) penetration * triangleNormals[0].x) >> 2;
+                        relativePosition.z = ((s64) penetration * triangleNormals[0].z) >> 2;
+                        if (relativePosition.x > maxXZOffset.x) {
+                            maxXZOffset.x = relativePosition.x;
+                        } else if (relativePosition.x < minXZOffset.x) {
+                            minXZOffset.x = relativePosition.x;
                         }
-                        if (ua.z > cc.z) {
-                            cc.z = ua.z;
-                        } else if (ua.z < cd.z) {
-                            cd.z = ua.z;
+                        if (relativePosition.z > maxXZOffset.z) {
+                            maxXZOffset.z = relativePosition.z;
+                        } else if (relativePosition.z < minXZOffset.z) {
+                            minXZOffset.z = relativePosition.z;
                         }
                     }
                     if (queryFlags & 0x3b) {
@@ -367,20 +371,20 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
                         continue;
                     }
                 }
-                VEC_Subtract(&positionCopy, &prevPositionCopy, &ub);
-                if (Vec3DotUnrounded(&ub, &triangleNormals[0]) > 0x333) {
-                    if (v && (triangleHitBits & 0x214300) && c != 0) {
-                        ua.x = ((s64) penetration * triangleNormals[0].x) >> 2;
-                        ua.z = ((s64) penetration * triangleNormals[0].z) >> 2;
-                        if (ua.x > cc.x) {
-                            cc.x = ua.x;
-                        } else if (ua.x < cd.x) {
-                            cd.x = ua.x;
+                VEC_Subtract(&positionCopy, &prevPositionCopy, &relativeVector);
+                if (Vec3DotUnrounded(&relativeVector, &triangleNormals[0]) > 0x333) {
+                    if (value && (triangleHitBits & 0x214300) && vector != 0) {
+                        relativePosition.x = ((s64) penetration * triangleNormals[0].x) >> 2;
+                        relativePosition.z = ((s64) penetration * triangleNormals[0].z) >> 2;
+                        if (relativePosition.x > maxXZOffset.x) {
+                            maxXZOffset.x = relativePosition.x;
+                        } else if (relativePosition.x < minXZOffset.x) {
+                            minXZOffset.x = relativePosition.x;
                         }
-                        if (ua.z > cc.z) {
-                            cc.z = ua.z;
-                        } else if (ua.z < cd.z) {
-                            cd.z = ua.z;
+                        if (relativePosition.z > maxXZOffset.z) {
+                            maxXZOffset.z = relativePosition.z;
+                        } else if (relativePosition.z < minXZOffset.z) {
+                            minXZOffset.z = relativePosition.z;
                         }
                     }
                     continue;
@@ -421,20 +425,20 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
                 } else if (triangleHitBits & 0x214300) {
                     if (triangleHitBits & 0x10000) {
                         triangleHitBits |= data_02156904;
-                        if (offset.x > ca.x) {
-                            ca.x = offset.x;
-                        } else if (offset.x < cb.x) {
-                            cb.x = offset.x;
+                        if (offset.x > extraMaxOffset.x) {
+                            extraMaxOffset.x = offset.x;
+                        } else if (offset.x < extraMinOffset.x) {
+                            extraMinOffset.x = offset.x;
                         }
-                        if (offset.y > ca.y) {
-                            ca.y = offset.y;
-                        } else if (offset.y < cb.y) {
-                            cb.y = offset.y;
+                        if (offset.y > extraMaxOffset.y) {
+                            extraMaxOffset.y = offset.y;
+                        } else if (offset.y < extraMinOffset.y) {
+                            extraMinOffset.y = offset.y;
                         }
-                        if (offset.z > ca.z) {
-                            ca.z = offset.z;
-                        } else if (offset.z < cb.z) {
-                            cb.z = offset.z;
+                        if (offset.z > extraMaxOffset.z) {
+                            extraMaxOffset.z = offset.z;
+                        } else if (offset.z < extraMinOffset.z) {
+                            extraMinOffset.z = offset.z;
                         }
                     } else {
                         if (offset.x > secondHitRecord.mMaxOffset.x) {
@@ -459,16 +463,16 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
                         secondHitRecord.mDeepestNormal.y = triangleNormals[0].y;
                         secondHitRecord.mDeepestNormal.z = triangleNormals[0].z;
                     }
-                    if (c != 0) {
-                        if (((s32 *) &offset)[0] > cc.x) {
-                            cc.x = ((s32 *) &offset)[0];
-                        } else if (((s32 *) &offset)[0] < cd.x) {
-                            cd.x = ((s32 *) &offset)[0];
+                    if (vector != 0) {
+                        if (((s32 *) &offset)[0] > maxXZOffset.x) {
+                            maxXZOffset.x = ((s32 *) &offset)[0];
+                        } else if (((s32 *) &offset)[0] < minXZOffset.x) {
+                            minXZOffset.x = ((s32 *) &offset)[0];
                         }
-                        if (((s32 *) &offset)[2] > cc.z) {
-                            cc.z = ((s32 *) &offset)[2];
-                        } else if (((s32 *) &offset)[2] < cd.z) {
-                            cd.z = ((s32 *) &offset)[2];
+                        if (((s32 *) &offset)[2] > maxXZOffset.z) {
+                            maxXZOffset.z = ((s32 *) &offset)[2];
+                        } else if (((s32 *) &offset)[2] < minXZOffset.z) {
+                            minXZOffset.z = ((s32 *) &offset)[2];
                         }
                     }
                 }
@@ -504,19 +508,19 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
         } else {
             FindCollisionSlotsOverlappingSlot(collisionSlotIndex, 0x1000);
         }
-        for (i = 0; i < gFoundCollisionSlotCount; i++) {
-            foundObject = gFoundCollisionSlotObjects[i];
+        for (foundObjectIndex = 0; foundObjectIndex < gFoundCollisionSlotCount; foundObjectIndex++) {
+            foundObject = gFoundCollisionSlotObjects[foundObjectIndex];
             if (ComputeSphereHitOnCollisionData(foundObject, position, radius, queryFlags, &firstHitRecord,
-                                                &secondHitRecord, lowestOffset != NULL ? &lowestOffsetValue : 0, &hw,
-                                                pointMotion, angleChange)) {
+                                                &secondHitRecord, lowestOffset != NULL ? &lowestOffsetValue : 0,
+                                                &hitBitIndex, pointMotion, angleChange)) {
                 hitBits |= data_0215690c;
-                hitBits |= 1 << hw;
+                hitBits |= 1 << hitBitIndex;
                 if (gCollisionHitCount == 16) {
                     gCollisionHitCount--;
                 }
-                hitObjectBit = 1 << hw;
+                hitObjectBit = 1 << hitBitIndex;
                 gCollisionHitBits[gCollisionHitCount] = hitObjectBit;
-                gCollisionHitValues[gCollisionHitCount] = hw << 8;
+                gCollisionHitValues[gCollisionHitCount] = hitBitIndex << 8;
                 gCollisionHitCount++;
                 if (hitObjects != NULL) {
                     if (hitObjectBit & 0x1e34ef) {
@@ -572,20 +576,20 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
             } else {
                 hitBits = (hitBits & ~0x10000) | data_02156910;
             }
-            if (ca.y > offset.y) {
-                offset.y = ca.y;
+            if (extraMaxOffset.y > offset.y) {
+                offset.y = extraMaxOffset.y;
             }
-            if (ca.x > secondHitRecord.mMaxOffset.x) {
-                secondHitRecord.mMaxOffset.x = ca.x;
+            if (extraMaxOffset.x > secondHitRecord.mMaxOffset.x) {
+                secondHitRecord.mMaxOffset.x = extraMaxOffset.x;
             }
-            if (cb.x < secondHitRecord.mMinOffset.x) {
-                secondHitRecord.mMinOffset.x = cb.x;
+            if (extraMinOffset.x < secondHitRecord.mMinOffset.x) {
+                secondHitRecord.mMinOffset.x = extraMinOffset.x;
             }
-            if (ca.z > secondHitRecord.mMaxOffset.z) {
-                secondHitRecord.mMaxOffset.z = ca.z;
+            if (extraMaxOffset.z > secondHitRecord.mMaxOffset.z) {
+                secondHitRecord.mMaxOffset.z = extraMaxOffset.z;
             }
-            if (cb.z < secondHitRecord.mMinOffset.z) {
-                secondHitRecord.mMinOffset.z = cb.z;
+            if (extraMinOffset.z < secondHitRecord.mMinOffset.z) {
+                secondHitRecord.mMinOffset.z = extraMinOffset.z;
             }
         }
     lo:
@@ -600,25 +604,25 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *c, int ra
         pushOut->x = offset.x >> 10;
         pushOut->y = offset.y >> 10;
         pushOut->z = offset.z >> 10;
-        if ((hitBits & 0x214300) && c != 0 && pointMotion != NULL && secondNormal != NULL) {
-            cc.x = cc.x + cd.x;
-            cc.z = cc.z + cd.z;
-            qq = (s64) cc.x * secondNormal->z - (s64) cc.z * secondNormal->x;
-            if (qq < -16 || qq > 16) {
-                cd.x = MUL_FIXED12_NO_ROUND(cc.x, (c)->x);
-                cd.z = MUL_FIXED12_NO_ROUND(cc.z, (c)->z);
-                cc.x = cc.x - MUL_FIXED12_NO_ROUND(cd.x, (c)->x);
-                cc.z = cc.z - MUL_FIXED12_NO_ROUND(cd.z, (c)->z);
-                VEC_Add(&firstHitRecord.mMaxOffset, &firstHitRecord.mMinOffset, &ua);
-                if (Vec3DotUnrounded(&cc, &ua) >= 0) {
-                    if (LENGTH_SQUARED(cc) >= 16) {
-                        Vec3NormalizeAndGetLengthUnchecked(&cc, &cc);
+        if ((hitBits & 0x214300) && vector != 0 && pointMotion != NULL && secondNormal != NULL) {
+            maxXZOffset.x = maxXZOffset.x + minXZOffset.x;
+            maxXZOffset.z = maxXZOffset.z + minXZOffset.z;
+            remainingSquared = (s64) maxXZOffset.x * secondNormal->z - (s64) maxXZOffset.z * secondNormal->x;
+            if (remainingSquared < -16 || remainingSquared > 16) {
+                minXZOffset.x = MUL_FIXED12_NO_ROUND(maxXZOffset.x, (vector)->x);
+                minXZOffset.z = MUL_FIXED12_NO_ROUND(maxXZOffset.z, (vector)->z);
+                maxXZOffset.x = maxXZOffset.x - MUL_FIXED12_NO_ROUND(minXZOffset.x, (vector)->x);
+                maxXZOffset.z = maxXZOffset.z - MUL_FIXED12_NO_ROUND(minXZOffset.z, (vector)->z);
+                VEC_Add(&firstHitRecord.mMaxOffset, &firstHitRecord.mMinOffset, &relativePosition);
+                if (Vec3DotUnrounded(&maxXZOffset, &relativePosition) >= 0) {
+                    if (LENGTH_SQUARED(maxXZOffset) >= 16) {
+                        Vec3NormalizeAndGetLengthUnchecked(&maxXZOffset, &maxXZOffset);
                     }
-                    cc.x = MUL_FIXED12_NO_ROUND(cc.x, radius >> 5);
-                    cc.y = MUL_FIXED12_NO_ROUND(cc.y, radius >> 5);
-                    cc.z = MUL_FIXED12_NO_ROUND(cc.z, radius >> 5);
-                    pointMotion->x += cc.x;
-                    pointMotion->z += cc.z;
+                    maxXZOffset.x = MUL_FIXED12_NO_ROUND(maxXZOffset.x, radius >> 5);
+                    maxXZOffset.y = MUL_FIXED12_NO_ROUND(maxXZOffset.y, radius >> 5);
+                    maxXZOffset.z = MUL_FIXED12_NO_ROUND(maxXZOffset.z, radius >> 5);
+                    pointMotion->x += maxXZOffset.x;
+                    pointMotion->z += maxXZOffset.z;
                 }
             }
         }

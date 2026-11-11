@@ -6,10 +6,10 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void UpdateTitleState5(SceneNumbers *a) {
-    s16 v[5] = {1, 6, 12, 7, 8};
+void UpdateTitleState5(SceneNumbers *sceneNumbers) {
+    s16 nextScenes[5] = {1, 6, 12, 7, 8};
 
-    if (a != NULL) {
+    if (sceneNumbers != NULL) {
         switch (gTitleScene->mSelectedIndex) {
             case 0:
             case 3:
@@ -25,7 +25,7 @@ void UpdateTitleState5(SceneNumbers *a) {
                 SetConnectionKind(3);
                 break;
         }
-        a->mNextScene = v[gTitleScene->mSelectedIndex];
+        sceneNumbers->mNextScene = nextScenes[gTitleScene->mSelectedIndex];
         StopSceneSeqWithFadeSteps();
     }
 }

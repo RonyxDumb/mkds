@@ -18,14 +18,14 @@ void MBi_CheckSeqNoVolat(u32 entryIndex) {
 }
 
 void MBi_InvalidateGameInfoBssID(const u8 *bssid) {
-    s32 i;
+    s32 entryIndex;
     u32 entryOffset;
     u32 zero;
-    i = 0;
+    entryIndex = 0;
     entryOffset = 0;
     zero = 0;
-    for (; i < 0x10; i++) {
-        if (mbrsp->mUsedMask & (1 << i)) {
+    for (; entryIndex < 0x10; entryIndex++) {
+        if (mbrsp->mUsedMask & (1 << entryIndex)) {
             u8 *firstBssid = mbrsp->mEntries[0].mBssid;
             u8 *entryBssid = firstBssid + entryOffset;
             if (bssid[0] == firstBssid[entryOffset] && bssid[1] == entryBssid[1] && bssid[2] == entryBssid[2] &&
@@ -67,19 +67,19 @@ void MBi_RecvFixedBeacon(u32 entryIndex) {
 
 void MBi_RecvVolatBeacon(u32 entryIndex) {
     MBGameInfoRecvList *entry;
-    s32 i;
-    u32 j;
+    s32 index;
+    u32 recordIndex;
     u8 *record;
     vu16 clearValue;
     u16 zero;
     entry = &mbrsp->mEntries[entryIndex];
     if (entry->mUnk_4b4 != gReceivedGameInfo->mUnk_06) {
         if ((u8) (entry->mUnk_4b4 + 1) == gReceivedGameInfo->mUnk_06) {
-            i = 0;
+            index = 0;
             record = entry->mUnk_35e;
             zero = 0;
-            for (; i < 0xf; i++) {
-                if (gReceivedGameInfo->mUnk_0e & (2 << i)) {
+            for (; index < 0xf; index++) {
+                if (gReceivedGameInfo->mUnk_0e & (2 << index)) {
                     clearValue = zero;
                     MIi_CpuClear16(clearValue, record, 0x16);
                 }
@@ -101,13 +101,13 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
     entry->mUnk_35a = gReceivedGameInfo->mUnk_0c;
     entry->mUnk_35c = gReceivedGameInfo->mUnk_0e;
     entry->mUnk_588 |= 1;
-    for (i = 0; i < 8; i++) {
-        entry->mUnk_4a8[i] = gReceivedGameInfo->mUnk_68[i];
+    for (index = 0; index < 8; index++) {
+        entry->mUnk_4a8[index] = gReceivedGameInfo->mUnk_68[index];
     }
-    for (j = 0; j < 4; j++) {
-        u32 recordNumber = gReceivedGameInfo->mUnk_10[j].mUnk_00_4;
+    for (recordIndex = 0; recordIndex < 4; recordIndex++) {
+        u32 recordNumber = gReceivedGameInfo->mUnk_10[recordIndex].mUnk_00_4;
         if (recordNumber != 0) {
-            MIi_CpuCopy16(&gReceivedGameInfo->mUnk_10[j], &entry->mUnk_35e[(recordNumber - 1) * 0x16], 0x16);
+            MIi_CpuCopy16(&gReceivedGameInfo->mUnk_10[recordIndex], &entry->mUnk_35e[(recordNumber - 1) * 0x16], 0x16);
             entry->mUnk_588 |= 1 << recordNumber;
         }
     }

@@ -27,25 +27,25 @@
 
 void SetMultiSelectNSCellTableOffsetY(void) {
     MultiSelectNS *multiSelectNS;
-    s32 i;
+    s32 cellIndex;
     s32 entryCount;
 
     multiSelectNS = gMultiSelectNS;
     entryCount =
         MultiSelectNSGetCellLayoutCount(multiSelectNS->mBncl) + MultiSelectNSGetLabelLayoutCount(multiSelectNS->mBnll);
-    for (i = 0; i < entryCount; i++) {
-        multiSelectNS->mCellTable[i].mOffsetY = gMultiSelectNS->mOffset;
+    for (cellIndex = 0; cellIndex < entryCount; cellIndex++) {
+        multiSelectNS->mCellTable[cellIndex].mOffsetY = gMultiSelectNS->mOffset;
     }
 }
 
 void RefreshMultiSelectNS(s32 showSelected) {
     u32 valueTable[2];
-    s32 i;
+    s32 rowIndex;
     MultiSelectNS *multiSelectNS;
     s32 rowSelected;
     s32 rowNotSelected;
-    BOOL z1;
-    BOOL z2;
+    BOOL rowSelectedDefault;
+    BOOL rowNotSelectedDefault;
     u16 *rowCellIndices;
     u32 firstValue;
     u32 secondValue;
@@ -55,20 +55,20 @@ void RefreshMultiSelectNS(s32 showSelected) {
     secondValue = *(volatile u32 *) &gMultiSelectNSLabelValues[1];
     valueTable[0] = firstValue;
     valueTable[1] = secondValue;
-    z1 = FALSE;
-    z2 = FALSE;
-    for (i = 0; i < 2; i++) {
-        if (gMultiSelectNS->mIndex == i && showSelected != 0) {
+    rowSelectedDefault = FALSE;
+    rowNotSelectedDefault = FALSE;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        if (gMultiSelectNS->mIndex == rowIndex && showSelected != 0) {
             rowSelected = 1;
         } else {
-            rowSelected = z1;
+            rowSelected = rowSelectedDefault;
         }
-        rowCellIndices = gMultiSelectNSRowCellIndices[i];
+        rowCellIndices = gMultiSelectNSRowCellIndices[rowIndex];
         multiSelectNS->mCellTable[rowCellIndices[0]].mVisible = rowSelected;
         if (rowSelected == 0) {
             rowNotSelected = 1;
         } else {
-            rowNotSelected = z2;
+            rowNotSelected = rowNotSelectedDefault;
         }
         multiSelectNS->mCellTable[rowCellIndices[1]].mVisible = rowNotSelected;
         SetLabelPaletteIndex(rowCellIndices[2], valueTable[rowSelected], multiSelectNS->mBnll,
@@ -93,7 +93,7 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     void *heap;
     MultiSelectNS *multiSelectNS;
     Unk02153d2c *labelMessageRow;
-    s32 i;
+    s32 labelRowIndex;
     u32 subObjSizeLeft;
     s32 labelIndex;
 
@@ -114,8 +114,8 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     multiSelectNS->mBnbl = FindSceneFile(gMultiSelectNSSBnblName);
     multiSelectNS->mBnll = FindSceneFile(gMultiSelectNSSBnllName);
     InitLayoutTable(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
-    for (i = 0; i < 2; i++) {
-        labelMessageRow = &gMultiSelectNSLabelMessageRows[i];
+    for (labelRowIndex = 0; labelRowIndex < 2; labelRowIndex++) {
+        labelMessageRow = &gMultiSelectNSLabelMessageRows[labelRowIndex];
         labelIndex = labelMessageRow->mUnk_00;
         subObjSizeLeft -=
             InitLabelCanvas(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mUnk_02,

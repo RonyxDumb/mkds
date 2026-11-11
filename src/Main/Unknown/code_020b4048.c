@@ -28,18 +28,18 @@ void LoadFontAndPlayerCharacterData(void) {
 }
 
 void ClearFontAndPlayerCharacterTables(void) {
-    s32 i;
-    s32 j;
+    s32 fontIndex;
+    s32 characterSetIndex;
 
-    for (i = 0; i < 3; i++) {
-        gFontTable[i] = NULL;
+    for (fontIndex = 0; fontIndex < 3; fontIndex++) {
+        gFontTable[fontIndex] = NULL;
     }
-    for (j = 0; j < 2; j++) {
-        gPlayerCharacterNclr[j] = NULL;
-        gPlayerCharacterShyguyNclr[j] = NULL;
-        gPlayerCharacterNcgr[j] = NULL;
-        gPlayerCharacterNcer[j] = NULL;
-        gPlayerCharacterBncl[j] = NULL;
+    for (characterSetIndex = 0; characterSetIndex < 2; characterSetIndex++) {
+        gPlayerCharacterNclr[characterSetIndex] = NULL;
+        gPlayerCharacterShyguyNclr[characterSetIndex] = NULL;
+        gPlayerCharacterNcgr[characterSetIndex] = NULL;
+        gPlayerCharacterNcer[characterSetIndex] = NULL;
+        gPlayerCharacterBncl[characterSetIndex] = NULL;
     }
 }
 #pragma thumb off

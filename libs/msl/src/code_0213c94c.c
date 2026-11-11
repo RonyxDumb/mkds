@@ -2,35 +2,35 @@
 
 #include "code_0213c94c.h"
 
-u16 *wmemchr(const u16 *s, int c, u32 n) {
-    while (n != 0) {
-        if (*s == c) {
-            return (u16 *) s;
+u16 *wmemchr(const u16 *buffer, int wideChar, u32 count) {
+    while (count != 0) {
+        if (*buffer == wideChar) {
+            return (u16 *) buffer;
         }
-        s++;
-        n--;
+        buffer++;
+        count--;
     }
     return 0;
 }
 
-int fwide(FILE *a, int b) {
-    if (a == 0 || a->mUnk_04_7 == 0) {
+int fwide(FILE *stream, int mode) {
+    if (stream == 0 || stream->mUnk_04_7 == 0) {
         return 0;
     }
-    switch (a->mUnk_04_10) {
+    switch (stream->mUnk_04_10) {
         case 0:
-            if (b > 0) {
-                a->mUnk_04_10 = 2;
-            } else if (b < 0) {
-                a->mUnk_04_10 = 1;
+            if (mode > 0) {
+                stream->mUnk_04_10 = 2;
+            } else if (mode < 0) {
+                stream->mUnk_04_10 = 1;
             }
             break;
         case 1:
-            b = -1;
+            mode = -1;
             break;
         case 2:
-            b = 1;
+            mode = 1;
             break;
     }
-    return b;
+    return mode;
 }

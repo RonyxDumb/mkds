@@ -33,13 +33,13 @@ void UploadEndingStaffRollOam(void) {
 }
 
 void InitEndingStaffRoll(void) {
-    s32 i;
+    s32 oamIndex;
     Unk02021dc8 *cells;
     RaceHudOamBits *oamBits;
 
     gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x414);
-    for (i = 0; i < 0x80; i++) {
-        oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[i];
+    for (oamIndex = 0; oamIndex < 0x80; oamIndex++) {
+        oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[oamIndex];
         oamBits->mUnk_0a = 3;
     }
     gEndingStaffRoll->mStaffRollFrames = 0;
@@ -71,7 +71,7 @@ u16 UpdateEndingStaffRoll(void) {
 
 void DrawEndingStaffRoll(void) {
     RaceHudOamBuffer *oamBuffer;
-    s32 i;
+    s32 oamIndex;
     EndingStaffRollObject *staffRoll;
     NNSG2dCellDataWithBR *cell;
     RaceHudOamBits *oamBits;
@@ -81,13 +81,14 @@ void DrawEndingStaffRoll(void) {
     staffRoll = gEndingStaffRoll;
     if (staffRoll->mStaffRollFrames < 0x21c) {
         oamBuffer = &staffRoll->mOamBuffer;
-        i = oamBuffer->mOamCount;
+        oamIndex = oamBuffer->mOamCount;
         cell = staffRoll->mCell;
         position[0] = 0x80000;
         position[1] = 0x60000;
-        oamBits = &oamBuffer->mOamBits[i];
-        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[i], 0x80 - i, cell, NULL, position, 0, 1);
-        for (; i < oamBuffer->mOamCount; i++) {
+        oamBits = &oamBuffer->mOamBits[oamIndex];
+        oamBuffer->mOamCount +=
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+        for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
             oamBits->mUnk_0a = 1;
             oamBits->mUnk_0e = 1;
             oamBits++;

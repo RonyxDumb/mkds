@@ -16,6 +16,6 @@ typedef struct CourseColorBlend {
     /* 10 */ s16 mBlendFactor;
 } CourseColorBlend;
 
-void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 c);
+void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 step);
 void SetCourseColorBlendColor(CourseColorBlend *blend, u32 colorMask);
 CourseColorBlend *InitCourseColorBlend(CourseColorBlend *blend, u32 colorMask);

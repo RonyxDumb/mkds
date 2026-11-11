@@ -105,7 +105,7 @@ void ReleaseWiFiSession(void) {
 }
 
 void SetupWiFiSessionLogin(void) {
-    u8 i;
+    u8 buddyIndex;
     WiFiSession *session;
 
     MI_CpuFill8(&gWiFiSession->mLogin, 0, 0x10);
@@ -120,11 +120,11 @@ void SetupWiFiSessionLogin(void) {
     func_ov000_021a39c4(&gWiFiSession->mLogin);
     func_ov000_021a397c(2);
     func_ov000_021a3910();
-    i = 0;
+    buddyIndex = 0;
     if (func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
         do {
-            i++;
-        } while (i < func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c));
+            buddyIndex++;
+        } while (buddyIndex < func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c));
     }
     session = gWiFiSession;
     InitWiFiConnection(&session->mConnection, &session->mUserData, 0x4d6, "mariokartds", "yeJ3x8", 0, 0,
@@ -200,18 +200,18 @@ void WiFiSessionLoginCallback(s32 result) {
 }
 
 void WiFiSessionBuddySyncCallback(s32 result, s32 changed) {
-    u8 i;
+    u8 buddyIndex;
 
     if (result == 0) {
         if (changed != 0) {
             gWiFiSession->mBuddiesChanged = TRUE;
         }
-        i = 0;
+        buddyIndex = 0;
         if (func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
             do {
-                DWC_ReportFriendData(&gWiFiSession->mUserData, &gWiFiSession->mBuddies[i]);
-                i++;
-            } while (i < func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c));
+                DWC_ReportFriendData(&gWiFiSession->mUserData, &gWiFiSession->mBuddies[buddyIndex]);
+                buddyIndex++;
+            } while (buddyIndex < func_ov000_0219d9b0(&gWiFiSession->mBuddies[0], 0x3c));
         }
         gWiFiSession->mLogin.mStep = 5;
     } else {

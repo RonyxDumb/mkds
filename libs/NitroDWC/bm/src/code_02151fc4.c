@@ -29,28 +29,28 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
         u8 b[8];
     } value;
     u8 copy[8];
-    s32 i;
+    s32 byteIndex;
     u8 *src;
     u8 *dst;
     const u8 *order;
     value.v = (((u64) rand & 0xffff) << 27) |
               ((((u64) mac & 0xffffff) << 3) | (((u64) mainunit & 3) | (((u64) vend & 1) << 2)));
     src = value.b;
-    for (i = 0; i < 6; i++) {
+    for (byteIndex = 0; byteIndex < 6; byteIndex++) {
         *src ^= 0xd6;
         src++;
     }
-    i = 0;
+    byteIndex = 0;
     src = value.b;
-    for (; i < 5; i++) {
+    for (; byteIndex < 5; byteIndex++) {
         *src = (data_usa_02161738[(*src >> 4) & 0xf] << 4) | data_usa_02161738[*src & 0xf];
         src++;
     }
     MI_CpuCopy8(value.b, copy, 8);
-    i = 0;
+    byteIndex = 0;
     dst = copy;
     order = data_usa_02161730;
-    for (; i < 5; i++) {
+    for (; byteIndex < 5; byteIndex++) {
         value.b[*order] = *dst;
         dst++;
         order++;
@@ -61,7 +61,7 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     value.v <<= 1;
     value.b[0] |= (value.b[5] >> 3) & 1;
     src = value.b;
-    for (i = 0; i < 6; i++) {
+    for (byteIndex = 0; byteIndex < 6; byteIndex++) {
         *src ^= 0x67;
         src++;
     }

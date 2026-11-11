@@ -6,10 +6,10 @@ s32 GetPackedIndex(s32 index) {
 }
 
 s32 GetIndexOfPackedIndex(u8 packedIndex) {
-    s8 i;
-    for (i = 0; i < 4; i++) {
-        if (packedIndex == gWiFiSession->mPackedIndices[i]) {
-            return i;
+    s8 slotIndex;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        if (packedIndex == gWiFiSession->mPackedIndices[slotIndex]) {
+            return slotIndex;
         }
     }
     return -1;

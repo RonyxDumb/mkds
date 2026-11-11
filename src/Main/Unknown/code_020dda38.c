@@ -57,16 +57,16 @@ void CreateWanwanChainAndWanwanKui(void) {
 }
 
 void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan *wanwan) {
-    s32 d;
+    s32 distance;
 
     chainObject->mPos = wanwan->mCenterPos;
     chainObject->mHasKui = wanwan->mFollowsPath == 0;
     if (chainObject->mHasKui != FALSE) {
-        d = wanwan->mMaxRadius;
+        distance = wanwan->mMaxRadius;
     } else {
-        d = 0x55000;
+        distance = 0x55000;
     }
-    InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, d - wanwan->mUnk_f0,
+    InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, distance - wanwan->mUnk_f0,
                     wanwan->mFollowsPath != 0 ? 4 : 7, 0x6000, &chainObject->mUnk_1c);
     if (chainObject->mHasKui == FALSE) {
         ClearWanwanChainFirstLinkFlag(&chainObject->mChain);
@@ -80,11 +80,11 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
     }
     chainObject->mWanwan = wanwan;
     if (chainObject->mHasKui != FALSE) {
-        d = wanwan->mUnk_f8;
+        distance = wanwan->mUnk_f8;
     } else {
-        d = 0xc8000;
+        distance = 0xc8000;
     }
-    chainObject->mUnk_68 = 1.2f * (d + wanwan->mUnk_f0);
+    chainObject->mUnk_68 = 1.2f * (distance + wanwan->mUnk_f0);
 }
 
 #pragma thumb off
@@ -98,7 +98,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
     Vec3 *points;
     s32 downwardStep;
     s32 damping;
-    Vec3 t;
+    Vec3 delta;
     Vec3 offset;
     Vec3 pullScale;
     Vec3 *current;
@@ -129,25 +129,26 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
     current = &points[reversePointIndex];
     *current = *endPoint;
     for (; reversePointIndex > 1; reversePointIndex--) {
-        VEC_Subtract(&points[reversePointIndex - 1], current, &t);
-        excessSquared = (s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z - chain->mLinkLengthSquared;
+        VEC_Subtract(&points[reversePointIndex - 1], current, &delta);
+        excessSquared =
+            (s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) (excessSquared >> 12);
         if (excess != 0) {
-            Vec3NormalizeAndGetLengthUnchecked(&t, &offset);
+            Vec3NormalizeAndGetLengthUnchecked(&delta, &offset);
             linkLength = chain->mLinkLength;
             offset.x = MUL_FIXED12_NO_ROUND(offset.x, linkLength);
             offset.y = MUL_FIXED12_NO_ROUND(offset.y, linkLength);
             offset.z = MUL_FIXED12_NO_ROUND(offset.z, linkLength);
             VEC_Add(current, &offset, &points[reversePointIndex - 1]);
-            VEC_Subtract(&offset, &t, &t);
-            t.x = MUL_FIXED12_NO_ROUND(t.x, pullScale.x);
-            t.y = MUL_FIXED12_NO_ROUND(t.y, pullScale.y);
-            t.z = MUL_FIXED12_NO_ROUND(t.z, pullScale.z);
+            VEC_Subtract(&offset, &delta, &delta);
+            delta.x = MUL_FIXED12_NO_ROUND(delta.x, pullScale.x);
+            delta.y = MUL_FIXED12_NO_ROUND(delta.y, pullScale.y);
+            delta.z = MUL_FIXED12_NO_ROUND(delta.z, pullScale.z);
             weight = chain->mStepFraction * reversePointIndex;
-            t.x = MUL_FIXED12_NO_ROUND(t.x, weight);
-            t.y = MUL_FIXED12_NO_ROUND(t.y, weight);
-            t.z = MUL_FIXED12_NO_ROUND(t.z, weight);
-            VEC_Add(&velocities[reversePointIndex - 1], &t, &velocities[reversePointIndex - 1]);
+            delta.x = MUL_FIXED12_NO_ROUND(delta.x, weight);
+            delta.y = MUL_FIXED12_NO_ROUND(delta.y, weight);
+            delta.z = MUL_FIXED12_NO_ROUND(delta.z, weight);
+            VEC_Add(&velocities[reversePointIndex - 1], &delta, &velocities[reversePointIndex - 1]);
         }
         current--;
     }
@@ -157,11 +158,12 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         pullIndex = 2;
     }
     for (; pullIndex < pointCount; pullIndex++) {
-        VEC_Subtract(&points[pullIndex], &points[pullIndex - 1], &t);
-        excessSquared = (s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z - chain->mLinkLengthSquared;
+        VEC_Subtract(&points[pullIndex], &points[pullIndex - 1], &delta);
+        excessSquared =
+            (s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) (excessSquared >> 12);
         if (excess != 0) {
-            Vec3NormalizeAndGetLengthUnchecked(&t, &offset);
+            Vec3NormalizeAndGetLengthUnchecked(&delta, &offset);
             linkLength = chain->mLinkLength;
             offset.x = MUL_FIXED12_NO_ROUND(offset.x, linkLength);
             offset.y = MUL_FIXED12_NO_ROUND(offset.y, linkLength);

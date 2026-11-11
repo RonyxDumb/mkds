@@ -27,12 +27,12 @@ void StartSceneSoundSetSeq(void) {
 }
 
 void StopSceneSoundSetSeq(void) {
-    StartupWork *p = gStartupWork;
+    StartupWork *startupWork = gStartupWork;
 
-    if (!p->mSoundSetSeqPlaying) {
+    if (!startupWork->mSoundSetSeqPlaying) {
         return;
     }
-    StopSoundSetSeq(&p->mSoundSetPlayer, GetSoundFadeSteps());
+    StopSoundSetSeq(&startupWork->mSoundSetPlayer, GetSoundFadeSteps());
     gStartupWork->mSoundSetSeqPlaying = 0;
 }
 
@@ -55,9 +55,9 @@ void StopSceneSoundSetSeqWithSteps(u32 fadeSteps) {
 }
 
 BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
-    StartupWork *p = gStartupWork;
-    s32 firstBackLightOn = p->mFirstBackLightOn;
-    s32 secondBackLightOn = p->mSecondBackLightOn;
+    StartupWork *startupWork = gStartupWork;
+    s32 firstBackLightOn = startupWork->mFirstBackLightOn;
+    s32 secondBackLightOn = startupWork->mSecondBackLightOn;
     BOOL allSet = TRUE;
 
     if (firstRequest == 0) {
@@ -70,7 +70,7 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
     } else if (secondRequest == 1) {
         secondBackLightOn = 0;
     }
-    if (firstBackLightOn != p->mFirstBackLightOn) {
+    if (firstBackLightOn != startupWork->mFirstBackLightOn) {
         if (PM_SetBackLight(0, firstBackLightOn) == 0) {
             gStartupWork->mFirstBackLightOn = firstBackLightOn;
         } else {
@@ -89,12 +89,12 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
 
 RandomState64 *GetRandomState(void) {
     void *random = NULL;
-    StartupWork *p = gStartupWork;
+    StartupWork *startupWork = gStartupWork;
 
-    switch (p->mConnectionKind) {
+    switch (startupWork->mConnectionKind) {
         case 0:
         case 3:
-            random = &p->mRandom;
+            random = &startupWork->mRandom;
             break;
         case 1:
         case 2:

@@ -25,7 +25,7 @@ void NNS_GfdInitFrmTexVramManager(u16 numBanks, BOOL useAsDefault) {
 
 void NNS_GfdResetFrmTexVramState(void) {
     u32 numBanks;
-    s32 i;
+    s32 regionIndex;
     NNSGfdFrmTexRegionState *region;
 
     numBanks = data_02173210;
@@ -33,8 +33,8 @@ void NNS_GfdResetFrmTexVramState(void) {
     if (numBanks > 1) {
         numBanks++;
     }
-    for (i = 0; i < 5; i++) {
-        if (i < (s32) numBanks) {
+    for (regionIndex = 0; regionIndex < 5; regionIndex++) {
+        if (regionIndex < (s32) numBanks) {
             region->mBActive = 1;
         } else {
             region->mBActive = 0;
@@ -54,7 +54,7 @@ u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt) {
     u32 addr;
     u32 size;
     u32 found;
-    s32 i;
+    s32 regionIndex;
     volatile NNSGfdFrmTexRegionState *region;
     NNSGfdFrmTexRegionState *palRegion;
     u32 halfSize;
@@ -69,8 +69,8 @@ u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt) {
     }
     if (is4x4comp != 0) {
         halfSize = size >> 1;
-        for (i = 0; i < 2; i++) {
-            region = data_021619fc[i];
+        for (regionIndex = 0; regionIndex < 2; regionIndex++) {
+            region = data_021619fc[regionIndex];
             if (region->mBActive != 0 && region->mTail - region->mHead >= size) {
                 switch (region->mIndex) {
                     case 0:
@@ -95,11 +95,11 @@ u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt) {
         }
         found = 0;
     } else {
-        s32 j;
+        s32 normRegionIndex;
         volatile NNSGfdFrmTexRegionState *normRegion;
 
-        for (j = 0; j < 5; j++) {
-            normRegion = data_02161a04[j];
+        for (normRegionIndex = 0; normRegionIndex < 5; normRegionIndex++) {
+            normRegion = data_02161a04[normRegionIndex];
             if (normRegion->mBActive != 0 && normRegion->mTail - normRegion->mHead >= size) {
                 normRegion->mTail -= size;
                 found = 1;

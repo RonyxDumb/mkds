@@ -69,7 +69,7 @@
 
 void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedSlot) {
     CellFileSet *subCellFileSet;
-    s32 i;
+    s32 rowIndex;
     s32 paletteIndex;
     s32 timeLabelIndex;
     MinuteSecondMillisecondTime time;
@@ -87,14 +87,14 @@ void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedS
         PrintLabelLayoutTextFixedDigits(1, slot + 7, subCellFileSet->mLabelLayout, timeText,
                                         subCellFileSet->mCellLayout, subCellFileSet->mCellTable, 7);
     } else if (action == 0) {
-        for (i = 0; i < 7; i++) {
-            timeLabelIndex = i + 7;
-            if (i == selectedSlot) {
+        for (rowIndex = 0; rowIndex < 7; rowIndex++) {
+            timeLabelIndex = rowIndex + 7;
+            if (rowIndex == selectedSlot) {
                 paletteIndex = 14;
             } else {
                 paletteIndex = 15;
             }
-            SetLabelPaletteIndex(i, paletteIndex, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+            SetLabelPaletteIndex(rowIndex, paletteIndex, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                                  subCellFileSet->mCellLayout);
             SetLabelPaletteIndex(timeLabelIndex, paletteIndex, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                                  subCellFileSet->mCellLayout);
@@ -156,7 +156,7 @@ void UpdateSlotSlideOffsets(void) {
     CellFileSet *subCellFileSet;
     s32 mainEntryCount;
     s32 subEntryCount;
-    s32 i;
+    s32 entryIndex;
     s16 offset;
 
     mainCellFileSet = &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[0];
@@ -164,11 +164,11 @@ void UpdateSlotSlideOffsets(void) {
     mainEntryCount = mainCellFileSet->mCellLayout->mCount + mainCellFileSet->mLabelLayout->mCount;
     subEntryCount = subCellFileSet->mCellLayout->mCount + subCellFileSet->mLabelLayout->mCount;
     offset = GetInterpolatedValue(&gTimeAttackGhostGetSlot->mInterpolation);
-    for (i = 0; i < mainEntryCount; i++) {
-        mainCellFileSet->mCellTable[i].mOffsetY = -offset;
+    for (entryIndex = 0; entryIndex < mainEntryCount; entryIndex++) {
+        mainCellFileSet->mCellTable[entryIndex].mOffsetY = -offset;
     }
-    for (i = 0; i < subEntryCount; i++) {
-        subCellFileSet->mCellTable[i].mOffsetY = offset;
+    for (entryIndex = 0; entryIndex < subEntryCount; entryIndex++) {
+        subCellFileSet->mCellTable[entryIndex].mOffsetY = offset;
     }
 }
 
@@ -283,7 +283,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     s32 touchInReturnRect;
     BOOL pairIsNew;
     BOOL pairRecentlyGone;
-    s32 i;
+    s32 index;
     u16 slotIndex;
     u16 hasPair;
     void *message;
@@ -321,9 +321,9 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
                 SetupGhostMainTextEx();
             }
             AdvanceScrollList();
-            i = GetScrollListSelectedRow();
-            if (gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex != i) {
-                gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex = i;
+            index = GetScrollListSelectedRow();
+            if (gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex != index) {
+                gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex = index;
                 PrintSelectedGhostRecord();
             }
             if (IsScrollListPickStarted() != 0) {
@@ -382,10 +382,10 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             }
             break;
     }
-    for (i = 0; i < 2; i++) {
+    for (index = 0; index < 2; index++) {
         cellFileSets = gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets;
-        DrawLayoutTable(cellFileSets[i].mCellLayout, cellFileSets[i].mCells, cellFileSets[i].mLabelLayout,
-                        gTimeAttackGhostGetSlot->mOamLists[i], cellFileSets[i].mCellTable);
+        DrawLayoutTable(cellFileSets[index].mCellLayout, cellFileSets[index].mCells, cellFileSets[index].mLabelLayout,
+                        gTimeAttackGhostGetSlot->mOamLists[index], cellFileSets[index].mCellTable);
     }
     return result;
 }

@@ -1,13 +1,13 @@
 #include "Main/Unknown/code_0201ea30.h"
 
-void *GetCellLayoutEntry(LayoutEntryTable *a, s32 b) {
-    u8 *p;
-    s32 n;
+void *GetCellLayoutEntry(LayoutEntryTable *layoutEntryTable, s32 entryIndex) {
+    u8 *entries;
+    s32 entryCount;
 
-    p = (u8 *) (a + 1);
-    n = a->mCount;
-    if (b < 0 || b >= n) {
+    entries = (u8 *) (layoutEntryTable + 1);
+    entryCount = layoutEntryTable->mCount;
+    if (entryIndex < 0 || entryIndex >= entryCount) {
         return 0;
     }
-    return p + b * 8;
+    return entries + entryIndex * 8;
 }

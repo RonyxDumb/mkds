@@ -100,17 +100,17 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
 
 void DrawLayoutTable(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout, void *oamList,
                      LayoutTableEntry *table) {
-    s32 i;
-    for (i = cellLayout->mCount - 1; i >= 0; i--) {
-        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, table + i, 1);
+    s32 entryIndex;
+    for (entryIndex = cellLayout->mCount - 1; entryIndex >= 0; entryIndex--) {
+        DrawLayoutEntry(entryIndex, cells, cellLayout, labelLayout, oamList, table + entryIndex, 1);
     }
 }
 
 void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout,
                                     void *oamList, LayoutTableEntry *table) {
-    s32 i;
-    for (i = cellLayout->mCount - 1; i >= 0; i--) {
-        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, table + i, 0);
+    s32 entryIndex;
+    for (entryIndex = cellLayout->mCount - 1; entryIndex >= 0; entryIndex--) {
+        DrawLayoutEntry(entryIndex, cells, cellLayout, labelLayout, oamList, table + entryIndex, 0);
     }
 }
 

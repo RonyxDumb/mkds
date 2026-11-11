@@ -46,14 +46,14 @@ void ClearGhostRecordSetPointer(void) {
 }
 
 void SetupGhostRecordSetForCourse(u32 courseId) {
-    s32 i;
+    s32 slotIndex;
 
     gGhostRecordSet->mCourseId = courseId;
     gGhostRecordSet->mSlotIndex = -1;
-    for (i = 0; i < 0xa; i++) {
-        if (IsGhostRecordFilled(&gGhostRecordSet->mSlotGhostRecords[(u8) i].mHead) != FALSE &&
-            GetGhostRecordCourseId(&gGhostRecordSet->mSlotGhostRecords[(u8) i].mHead) == courseId) {
-            gGhostRecordSet->mSlotIndex = i;
+    for (slotIndex = 0; slotIndex < 0xa; slotIndex++) {
+        if (IsGhostRecordFilled(GetGhostRecordSetSlotHead(slotIndex)) != FALSE &&
+            GetGhostRecordCourseId(GetGhostRecordSetSlotHead(slotIndex)) == courseId) {
+            gGhostRecordSet->mSlotIndex = slotIndex;
             return;
         }
     }
@@ -187,12 +187,12 @@ BOOL IsGhostRecordSetKindSelectable(u32 kind) {
 }
 
 BOOL HasNoSelectableGhost(void) {
-    u32 a = 0;
+    u32 selectable = 0;
 
-    a |= IsGhostRecordSetKindSelectable(a);
-    a |= IsGhostRecordSetKindSelectable(1);
-    a |= IsGhostRecordSetKindSelectable(2);
-    if (a == 0) {
+    selectable |= IsGhostRecordSetKindSelectable(selectable);
+    selectable |= IsGhostRecordSetKindSelectable(1);
+    selectable |= IsGhostRecordSetKindSelectable(2);
+    if (selectable == 0) {
         return TRUE;
     }
     return FALSE;

@@ -47,12 +47,12 @@ void addLink_(NNSG3dAnmObj **l, NNSG3dAnmObj *item) {
 
 // Marks the entries the chain maps.
 void updateHintVec_(u32 *pVec, const NNSG3dAnmObj *pAnmObj) {
-    int i;
+    int mapIndex;
 
     while (pAnmObj != 0) {
-        for (i = 0; i < pAnmObj->mNumMapData; i++) {
-            if ((pAnmObj->mMapData[i] & 0x100) != 0) {
-                pVec[i >> 5] |= 1 << (i & 31);
+        for (mapIndex = 0; mapIndex < pAnmObj->mNumMapData; mapIndex++) {
+            if ((pAnmObj->mMapData[mapIndex] & 0x100) != 0) {
+                pVec[mapIndex >> 5] |= 1 << (mapIndex & 31);
             }
         }
         pAnmObj = pAnmObj->mNext;

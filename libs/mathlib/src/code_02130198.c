@@ -6,10 +6,9 @@
 // Converts the double r1:r0 to an unsigned 64-bit integer in r1:r0, dropping the fraction. Fractions set inexact (or
 // trap); negative values below -1, values of 2^64 and more, and NaN raise invalid (or trap) and give all ones; -1 < x <
 // 0 gives 0.
-// Not compiled code: it uses tst, which the 1.2 compiler never builds, and saves ip and the argument registers around
-// its calls in the middle of the body; 1.2 saves registers only in the prologue, never ip, and pads every frame to 8
-// bytes (docs/compiler.md; frame layout in the compiler), unlike the one-word `stmdb sp!, {lr}` frames here.
-asm u64 _ll_ufrom_d(u32 a, u32 b) {
+// Hand-written asm: it uses tst, and saves ip and the argument registers around its calls in the middle of the body
+// with one-word `stmdb sp!, {lr}` frames.
+asm u64 _ll_ufrom_d(u32 lowWord, u32 highWord) {
     // Negative input: see u64_negative. ip = 0x43e - exponent is the right shift that turns the 64-bit significand into
     // the integer; below 0 the value is too large, 64 or more it is below 1.
     tst r1, #0x80000000
@@ -117,9 +116,8 @@ u64_trap_inexact:
 }
 
 // Converts the unsigned integer r0 to a double in r1:r0 (always exact).
-// Not compiled code: it counts leading zeros with clz, which the 1.2 compiler never builds, and builds the constant
-// 0x41e with mov and add, where 1.2 loads such a constant from a constant word (docs/compiler.md).
-asm u64 _dfltu(u32 a) {
+// Hand-written asm: it counts leading zeros with clz and builds the constant 0x41e with mov and add.
+asm u64 _dfltu(u32 value) {
     // Zero gives 0. Shift the leading one to bit 31 and lower the exponent 0x41e by the shift.
     cmp r0, #0
     mov r1, #0
@@ -141,8 +139,8 @@ u_normalised:
 }
 
 // Converts the signed integer r0 to a double in r1:r0 (always exact).
-// Not compiled code: clz and the mov/add constant, as in _dfltu.
-asm u64 _dflt(s32 a) {
+// Hand-written asm: clz and the mov/add constant, as in _dfltu.
+asm u64 _dflt(s32 value) {
     // r2 = the sign; work on the magnitude. Zero gives 0.
     ands r2, r0, #0x80000000
     rsbmi r0, r0, #0

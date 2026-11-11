@@ -4,5 +4,5 @@
 
 typedef struct MapObjectList MapObjectList;
 
-void AddToMapObjectListCount(MapObjectList *p, s32 n);
-void ClearMapObjectListCount(MapObjectList *p);
+void AddToMapObjectListCount(MapObjectList *mapObjectList, s32 addedCount);
+void ClearMapObjectListCount(MapObjectList *mapObjectList);

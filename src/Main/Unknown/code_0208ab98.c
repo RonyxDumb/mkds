@@ -45,11 +45,11 @@ void SetCourseColorBlendColor(CourseColorBlend *blend, u32 colorMask) {
     blend->mColorBit = 1 << colorIndex;
 }
 
-void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 c) {
+void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 step) {
     u16 newColorBits = ~blend->mColorBit & colorMask;
     u16 colorIndex;
     u16 color;
-    s32 n;
+    s32 unusedValue;
 
     if (newColorBits != 0) {
         for (colorIndex = 0; colorIndex < 4; colorIndex++) {
@@ -70,14 +70,12 @@ void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 c) {
     if (blend->mBlendFactor == 0x1000) {
         return;
     }
-    blend->mBlendFactor = blend->mBlendFactor + (MUL_FIXED12_ROUNDED(c, 0xa4) + 0x29);
+    blend->mBlendFactor = blend->mBlendFactor + (MUL_FIXED12_ROUNDED(step, 0xa4) + 0x29);
     if (blend->mBlendFactor >= 0x1000) {
         blend->mBlendFactor = 0x1000;
     }
     blend->mColor =
         (s16) (blend->mStartComponent0 + MUL_FIXED12_ROUNDED(blend->mComponentDelta0, blend->mBlendFactor)) +
-        ((s16) (blend->mStartComponent1 + MUL_FIXED12_ROUNDED(blend->mComponentDelta1, blend->mBlendFactor))
-         << 5) +
-        ((s16) (blend->mStartComponent2 + MUL_FIXED12_ROUNDED(blend->mComponentDelta2, blend->mBlendFactor))
-         << 10);
+        ((s16) (blend->mStartComponent1 + MUL_FIXED12_ROUNDED(blend->mComponentDelta1, blend->mBlendFactor)) << 5) +
+        ((s16) (blend->mStartComponent2 + MUL_FIXED12_ROUNDED(blend->mComponentDelta2, blend->mBlendFactor)) << 10);
 }

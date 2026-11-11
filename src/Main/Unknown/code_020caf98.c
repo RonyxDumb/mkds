@@ -18,34 +18,34 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateSinglePlaySelectInput(s32 a) {
-    u32 v;
+void UpdateSinglePlaySelectInput(s32 inputEnabled) {
+    u32 value;
     u32 pairX;
     s32 touchedIndex;
     s32 previousSelected;
     MenuScene *menu;
 
-    if (a != 0) {
-        v = GetMenuInputSlot();
-        if (MenuGetNewBits(v, PAD_KEY_A)) {
+    if (inputEnabled != 0) {
+        value = GetMenuInputSlot();
+        if (MenuGetNewBits(value, PAD_KEY_A)) {
             SwitchMenuScreen(3, 0x1f);
             StartMenuSound(5);
             gMenuScene->mSinglePlaySelectStartedOnSelected = TRUE;
-        } else if (MenuGetNewBits(v, PAD_KEY_B)) {
+        } else if (MenuGetNewBits(value, PAD_KEY_B)) {
             SwitchMenuScreen(2, 0x1b);
             RequestSelectReturnState3WithSound(1);
-        } else if (GetNewOrRepeatBits(v, PAD_KEY_UP)) {
+        } else if (GetNewOrRepeatBits(value, PAD_KEY_UP)) {
             menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
             StartSoundOncePerFrame(0);
-        } else if (GetNewOrRepeatBits(v, PAD_KEY_DOWN)) {
+        } else if (GetNewOrRepeatBits(value, PAD_KEY_DOWN)) {
             menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 6) % 5;
             StartSoundOncePerFrame(0);
-        } else if (MenuIsSlotPairNew(v)) {
-            pairX = MenuGetSlotPairX(v);
-            v = MenuGetSlotPairY(v);
-            touchedIndex = FindRectContainingPoint(pairX, v, gMenuScene->mSinglePlaySelectModeSBnbl);
+        } else if (MenuIsSlotPairNew(value)) {
+            pairX = MenuGetSlotPairX(value);
+            value = MenuGetSlotPairY(value);
+            touchedIndex = FindRectContainingPoint(pairX, value, gMenuScene->mSinglePlaySelectModeSBnbl);
             menu = gMenuScene;
             previousSelected = menu->mSinglePlaySelectModeIndex;
             if (touchedIndex != -1) {
@@ -55,7 +55,7 @@ void UpdateSinglePlaySelectInput(s32 a) {
                 gMenuScene->mSinglePlaySelectModeIndex = touchedIndex;
                 SwitchMenuScreen(3, 0x1f);
                 StartMenuSound(5);
-            } else if (IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, v)) {
+            } else if (IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, value)) {
                 SwitchMenuScreen(2, 0x1b);
                 RequestSelectReturnState3WithSound(1);
             }

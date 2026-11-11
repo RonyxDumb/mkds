@@ -3,11 +3,11 @@
 #include "Main/Unknown/code_020e6fd4.h"
 
 #pragma thumb on
-void ClearMapObjectListCount(MapObjectList *p) {
-    p->mMapObjectCount = 0;
+void ClearMapObjectListCount(MapObjectList *mapObjectList) {
+    mapObjectList->mMapObjectCount = 0;
 }
 
-void AddToMapObjectListCount(MapObjectList *p, s32 n) {
-    p->mMapObjectCount = p->mMapObjectCount + n;
+void AddToMapObjectListCount(MapObjectList *mapObjectList, s32 addedCount) {
+    mapObjectList->mMapObjectCount = mapObjectList->mMapObjectCount + addedCount;
 }
 #pragma thumb off

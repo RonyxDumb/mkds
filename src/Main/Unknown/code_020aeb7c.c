@@ -39,8 +39,8 @@ void UpdateRaceHudSubScreen(void) {
     BOOL switchPressed;
     BOOL switchAllowed;
     BOOL raceKindAllowsSwitch;
-    BOOL e;
-    s32 v;
+    BOOL condition;
+    s32 value;
 
     UpdateRaceLinkLevel();
     if (gRaceSetup->mRaceKind - 3 <= 3) {
@@ -82,15 +82,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
-                        e = FALSE;
+                        condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
-                                e = TRUE;
+                                condition = TRUE;
                             }
                         } else {
-                            e = FALSE;
+                            condition = FALSE;
                         }
-                        if (e == FALSE) {
+                        if (condition == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -137,15 +137,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
-                        e = FALSE;
+                        condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
-                                e = TRUE;
+                                condition = TRUE;
                             }
                         } else {
-                            e = FALSE;
+                            condition = FALSE;
                         }
-                        if (e == FALSE) {
+                        if (condition == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -213,15 +213,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
-                        e = FALSE;
+                        condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
-                                e = TRUE;
+                                condition = TRUE;
                             }
                         } else {
-                            e = FALSE;
+                            condition = FALSE;
                         }
-                        if (e == FALSE) {
+                        if (condition == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -283,15 +283,15 @@ void UpdateRaceHudSubScreen(void) {
                     if (switchAllowed != FALSE) {
                         switchPressed = TRUE;
                         if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
-                            e = FALSE;
+                            condition = FALSE;
                             if (IsChoisesSOpen() == 0) {
                                 if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
-                                    e = TRUE;
+                                    condition = TRUE;
                                 }
                             } else {
-                                e = FALSE;
+                                condition = FALSE;
                             }
-                            if (e == FALSE) {
+                            if (condition == FALSE) {
                                 switchPressed = FALSE;
                             }
                         }
@@ -330,15 +330,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
-                        e = FALSE;
+                        condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
-                                e = TRUE;
+                                condition = TRUE;
                             }
                         } else {
-                            e = FALSE;
+                            condition = FALSE;
                         }
-                        if (e == FALSE) {
+                        if (condition == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -369,21 +369,21 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
                     if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
-                        v = gRaceProgress->mEntryEndKind;
+                        value = gRaceProgress->mEntryEndKind;
                     } else {
-                        v = 6;
+                        value = 6;
                     }
-                    if (v == 0) {
+                    if (value == 0) {
                         gRaceHud->mGoalMDelayFrameCount = 0xaf;
                     }
                 }
             } else if (gRaceProgress->mRaceDone != 0) {
                 if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
-                    v = gRaceProgress->mEntryEndKind;
+                    value = gRaceProgress->mEntryEndKind;
                 } else {
-                    v = 6;
+                    value = 6;
                 }
-                if (v != 0) {
+                if (value != 0) {
                     gRaceHud->mGoalMEnabled = 1;
                 }
             }
@@ -417,27 +417,27 @@ void UpdateRaceHudSubScreen(void) {
         return;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        v = (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9;
+        value = (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9;
     } else {
-        v = 0;
+        value = 0;
     }
-    if (v == 0) {
+    if (value == 0) {
         return;
     }
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
-        v = 0;
+        value = 0;
     } else {
-        v = IsWinnerDecidedAndEndReached();
+        value = IsWinnerDecidedAndEndReached();
     }
-    if (v == 0) {
+    if (value == 0) {
         return;
     }
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
-        v = 0;
+        value = 0;
     } else {
-        v = IsKartEliminated(GetFollowedKartOrEntryIndex());
+        value = IsKartEliminated(GetFollowedKartOrEntryIndex());
     }
-    if (v != 0) {
+    if (value != 0) {
         gMenuShared->mUnfilledNotEliminated = 0;
     } else {
         gMenuShared->mUnfilledNotEliminated = gRaceHud->mMissionRunRecordFilled == 0;

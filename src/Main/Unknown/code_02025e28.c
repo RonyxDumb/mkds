@@ -21,17 +21,17 @@ s32 GetCharacterKartIndexByMode(s32 characterIndex) {
 }
 
 s32 FindKartTableIndex(u32 kartIndex) {
-    s32 i = 0;
-    s32 r = -1;
+    s32 tableIndex = 0;
+    s32 foundIndex = -1;
     if (kartIndex != 0x24) {
-        for (; i < 0x24; i++) {
-            if (kartIndex == gKartIndexTable[i]) {
-                r = i;
+        for (; tableIndex < 0x24; tableIndex++) {
+            if (kartIndex == gKartIndexTable[tableIndex]) {
+                foundIndex = tableIndex;
                 break;
             }
         }
     }
-    return r;
+    return foundIndex;
 }
 #pragma thumb off
 

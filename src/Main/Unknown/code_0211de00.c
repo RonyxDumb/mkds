@@ -85,25 +85,26 @@ void ClearCupMarkPointer(void) {
 
 #pragma thumb on
 
-void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 d, u16 paletteSlot, s32 f) {
+void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
+                  s32 queueSelector) {
     CupMark *cupMark;
     u8 *dst;
-    u32 v0 = 14;
+    u32 transferKind = 14;
     u32 id;
     u32 paletteIndex;
 
-    if (f != 0) {
-        if (f == 1) {
-            v0 = 30;
+    if (queueSelector != 0) {
+        if (queueSelector == 1) {
+            transferKind = 30;
         }
     }
     id = ((u16 *) gCupMarkBnclIndices)[cupMarkIndex];
     cupMark = gCupMark;
-    QueueCellChars(id, cupMark->mNcer, cupMark->mNcgr, cupMark->mBncl, f, d, cells, cellLayout);
+    QueueCellChars(id, cupMark->mNcer, cupMark->mNcgr, cupMark->mBncl, queueSelector, destIndex, cells, cellLayout);
     cupMark = gCupMark;
     dst = (u8 *) cupMark->mNclr->mData;
     paletteIndex = GetCellPaletteIndex(id, cupMark->mNcer, cupMark->mBncl);
-    NNS_GfdRegisterNewVramTransferTask(v0, paletteSlot << 5, dst + (paletteIndex << 5), 32);
+    NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5, dst + (paletteIndex << 5), 32);
 }
 
 void LoadSelectCupNameMData(void) {
@@ -141,9 +142,10 @@ void ClearSelectCupNameMPointer(void) {
 
 #pragma thumb on
 
-void QueueSelectCupNameM(u32 nameIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 d, u32 e) {
+void QueueSelectCupNameM(u32 nameIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 destIndex,
+                         u32 queueSelector) {
     QueueCellChars(gSelectCupNameMBnclIndices[nameIndex], gSelectCupNameM->mNcer, gSelectCupNameM->mNcgr,
-                   gSelectCupNameM->mBncl, e, d, cells, cellLayout);
+                   gSelectCupNameM->mBncl, queueSelector, destIndex, cells, cellLayout);
 }
 
 #pragma thumb off

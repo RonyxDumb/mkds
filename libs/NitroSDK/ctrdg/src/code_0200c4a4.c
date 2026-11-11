@@ -51,7 +51,7 @@ void CTRDGi_InitModuleInfo(void) {
     Unk0200c4a4 lockInfo;
     Unk0200c4a4 romCycle;
     s32 priority;
-    s32 i;
+    s32 infoIndex;
     Unk027ffc30 *idInfo;
     Unk0216fe20 *chb;
 
@@ -77,8 +77,8 @@ void CTRDGi_InitModuleInfo(void) {
     chb = &gCartridgeHeaderCopy;
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
     idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mUnk_3e;
-    for (i = 0; i < 3; i++) {
-        idInfo->mUnk_02[i] = chb->mHeaderTailCopy.mUnk_35[i];
+    for (infoIndex = 0; infoIndex < 3; infoIndex++) {
+        idInfo->mUnk_02[infoIndex] = chb->mHeaderTailCopy.mUnk_35[infoIndex];
     }
     idInfo->mUnk_06 = chb->mHeaderTailCopy.mUnk_30;
     idInfo->mIdWord = chb->mHeaderTailCopy.mUnk_2c;
@@ -160,20 +160,20 @@ s32 CTRDG_IsExisting(void) {
     return exists;
 }
 
-void CTRDGi_ChangeLatestAccessCycle(Unk0200c4a4 *r) {
-    r->mUnk_00 = (reg_MI_EXMEMCNT & 0xc) >> 2;
-    r->mUnk_04 = (reg_MI_EXMEMCNT & 0x10) >> 4;
+void CTRDGi_ChangeLatestAccessCycle(Unk0200c4a4 *cycleInfo) {
+    cycleInfo->mUnk_00 = (reg_MI_EXMEMCNT & 0xc) >> 2;
+    cycleInfo->mUnk_04 = (reg_MI_EXMEMCNT & 0x10) >> 4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | 0xc;
     reg_MI_EXMEMCNT &= ~0x10;
 }
 
-void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *r) {
+void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *cycleInfo) {
     u32 cycle1;
     u32 cycle2;
 
-    cycle1 = r->mUnk_00;
+    cycle1 = cycleInfo->mUnk_00;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | (cycle1 << 2);
-    cycle2 = r->mUnk_04;
+    cycle2 = cycleInfo->mUnk_04;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x10) | (cycle2 << 4);
 }
 

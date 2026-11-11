@@ -58,7 +58,7 @@ void InitBackScreenDisplay(void) {
 }
 
 s32 LoadBackScreen(s32 subCharOffset) {
-    s32 i;
+    s32 rowIndex;
     s32 nclrSOffset;
     s32 nclrSSize;
     Ncgr *ncgrM;
@@ -70,7 +70,7 @@ s32 LoadBackScreen(s32 subCharOffset) {
     s32 kind;
     u8 indexM;
     u8 indexS;
-    s32 j;
+    s32 columnIndex;
     s32 nclrMOffset;
     s32 nclrMSize;
 
@@ -113,10 +113,10 @@ s32 LoadBackScreen(s32 subCharOffset) {
     NNS_GfdRegisterNewVramTransferTask(0xf, nclrMOffset, OFFSET_PTR(void, nclrM->mData, nclrMOffset), nclrMSize);
     subCharOffset -= ncgrS->mDataSize;
     NNS_GfdRegisterNewVramTransferTask(0x15, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
-    for (i = 0; i < 0x20; i++) {
-        for (j = 0; j < 0x20; j++) {
-            *(gSceneText->mBackScreenSNscrCopy + i * 0x20 + j) =
-                (subCharOffset >> 5) + *((u16 *) nscrS->mData + i * 0x20 + j);
+    for (rowIndex = 0; rowIndex < 0x20; rowIndex++) {
+        for (columnIndex = 0; columnIndex < 0x20; columnIndex++) {
+            *(gSceneText->mBackScreenSNscrCopy + rowIndex * 0x20 + columnIndex) =
+                (subCharOffset >> 5) + *((u16 *) nscrS->mData + rowIndex * 0x20 + columnIndex);
         }
     }
     NNS_GfdRegisterNewVramTransferTask(0x19, 0, gSceneText->mBackScreenSNscrCopy, nscrS->mDataSize);

@@ -7,15 +7,15 @@
 #pragma thumb on
 #pragma optimize_for_size on
 void LocateBmgSections(Bmg *bmg) {
-    u32 i;
-    BmgSectionHeader *p;
+    u32 sectionIndex;
+    BmgSectionHeader *nextSection;
     BmgSectionHeader *section;
     u32 tag;
 
-    p = &bmg->mFirstSection;
-    for (i = 0; i < bmg->mSectionCount; i++) {
-        section = p;
-        p = OFFSET_PTR(BmgSectionHeader, p, p->mNextOffset);
+    nextSection = &bmg->mFirstSection;
+    for (sectionIndex = 0; sectionIndex < bmg->mSectionCount; sectionIndex++) {
+        section = nextSection;
+        nextSection = OFFSET_PTR(BmgSectionHeader, nextSection, nextSection->mNextOffset);
         tag = ReverseBytes32(section->mTag);
         switch (tag) {
             case 0x494e4631:

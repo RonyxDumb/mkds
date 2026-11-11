@@ -50,38 +50,38 @@ void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, CourseSurfaceS
 
 u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     void *idArray;
-    s32 v;
+    s32 value;
 
     idArray = gSurfaceSoundIds[surfaceKind].mIdArrays[surfaceVariant];
-    v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
-    if (v != 0xffff) {
-        return (u16) v;
+    value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
+    if (value != 0xffff) {
+        return (u16) value;
     }
-    v = data_0215a6fc[surfaceKind][surfaceVariant];
-    if (v == 0x14) {
-        v = 0xffff;
+    value = data_0215a6fc[surfaceKind][surfaceVariant];
+    if (value == 0x14) {
+        value = 0xffff;
     }
-    if (v == 0xffff) {
+    if (value == 0xffff) {
         return 0xffff;
     }
-    return *(u16 *) (data_0216ca84 + entryIndex * 0x26 + v * 2);
+    return *(u16 *) (data_0216ca84 + entryIndex * 0x26 + value * 2);
 }
 
 u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     void *idArray;
-    s32 v;
+    s32 value;
 
     idArray = gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex];
-    v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
-    if (v != 0xffff) {
-        return (u16) v;
+    value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
+    if (value != 0xffff) {
+        return (u16) value;
     }
-    v = data_0215a6fc[rowIndex][columnIndex];
-    if (v == 0xe) {
-        v = 0xffff;
+    value = data_0215a6fc[rowIndex][columnIndex];
+    if (value == 0xe) {
+        value = 0xffff;
     }
-    if (v == 0xffff) {
+    if (value == 0xffff) {
         return 0xffff;
     }
-    return *(u16 *) (data_0216ca68 + entryIndex * 0x1a + v * 2);
+    return *(u16 *) (data_0216ca68 + entryIndex * 0x1a + value * 2);
 }

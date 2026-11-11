@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateSinglePlaySelectInput(s32 a);
+void UpdateSinglePlaySelectInput(s32 inputEnabled);

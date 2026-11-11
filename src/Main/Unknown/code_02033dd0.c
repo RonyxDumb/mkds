@@ -141,25 +141,28 @@ void AssignResultsBattleTeamOrderByScore(void) {
 }
 
 void FillResultsBattleEntries(void) {
-    u16 j;
-    u16 k;
+    u16 rankKartIndex;
+    u16 kartIndex;
     s32 higherCount;
 
-    for (k = 0; k < gResultsBattle->mKartCount; k++) {
+    for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
         if (gResultsBattle->mMode == 3 || gRaceSetup->mRuleKind == 2) {
-            gResultsBattle->mEntries[k].mScore = ResultsBattleGetKartCourseResult(GetLowByte(k))->mTotalPoints;
+            gResultsBattle->mEntries[kartIndex].mScore =
+                ResultsBattleGetKartCourseResult(GetLowByte(kartIndex))->mTotalPoints;
         } else {
-            gResultsBattle->mEntries[k].mScore = ResultsBattleGetKartCourseResult(GetLowByte(k))->mWinCount;
+            gResultsBattle->mEntries[kartIndex].mScore =
+                ResultsBattleGetKartCourseResult(GetLowByte(kartIndex))->mWinCount;
         }
     }
-    for (j = 0; j < gResultsBattle->mKartCount; j++) {
+    for (rankKartIndex = 0; rankKartIndex < gResultsBattle->mKartCount; rankKartIndex++) {
         higherCount = 0;
-        for (k = 0; k < gResultsBattle->mKartCount; k++) {
-            if (j != k && gResultsBattle->mEntries[j].mScore < gResultsBattle->mEntries[k].mScore) {
+        for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
+            if (rankKartIndex != kartIndex &&
+                gResultsBattle->mEntries[rankKartIndex].mScore < gResultsBattle->mEntries[kartIndex].mScore) {
                 higherCount++;
             }
         }
-        gResultsBattle->mEntries[j].mRank = higherCount;
+        gResultsBattle->mEntries[rankKartIndex].mRank = higherCount;
     }
     if (gRaceSetup->mUseTeams != 0) {
         if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mRuleKind == 1) {
@@ -168,24 +171,24 @@ void FillResultsBattleEntries(void) {
             AssignResultsBattleTeamOrderByScore();
         }
     } else if (gRaceSetup->mMode == MODE_BATTLE) {
-        for (k = 0; k < gResultsBattle->mKartCount; k++) {
-            gResultsBattle->mEntries[k].mOrderIndex = gMenuShared->mUnk_ec[k];
+        for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
+            gResultsBattle->mEntries[kartIndex].mOrderIndex = gMenuShared->mUnk_ec[kartIndex];
         }
     } else {
-        for (k = 0; k < gResultsBattle->mKartCount; k++) {
-            gResultsBattle->mEntries[k].mOrderIndex = GetKartCupRank(k) - 1;
+        for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
+            gResultsBattle->mEntries[kartIndex].mOrderIndex = GetKartCupRank(kartIndex) - 1;
         }
     }
 }
 
 s32 AreResultsBattleRanksAllZero(void) {
     s32 allRanksZero;
-    s32 i;
+    s32 kartIndex;
 
     allRanksZero = 1;
-    i = 0;
-    for (; i < gResultsBattle->mKartCount; i++) {
-        allRanksZero &= gResultsBattle->mEntries[i].mRank == 0 ? 1 : 0;
+    kartIndex = 0;
+    for (; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
+        allRanksZero &= gResultsBattle->mEntries[kartIndex].mRank == 0 ? 1 : 0;
     }
     return allRanksZero;
 }
