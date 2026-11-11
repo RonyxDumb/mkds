@@ -43,7 +43,7 @@ u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstRespo
 void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
     s32 falloffIndex;
     SoundStartParams soundRequest;
-    Unk0209905c_d0_08 *entry;
+    Unk0201e3c8 *entry;
     switch (pakkunSpit->mState) {
         case 0:
             pakkunSpit->mHeightOffset = pakkunSpit->mHeightOffset + pakkunSpit->mHeightSpeed;

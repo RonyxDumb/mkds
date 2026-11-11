@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0211130c.h"
+#include "Main/Unknown/code_020487fc.h" // SceneNumbers
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020ae5e4.h"
 #include "Main/Unknown/code_020ae630.h"
@@ -44,12 +45,12 @@ void WriteRecordSceneRegistersCallback(void) {
 
 #pragma thumb on
 
-void UpdateRecordScene(Unk02111324 *sceneNumbers) {
+void UpdateRecordScene(SceneNumbers *sceneNumbers) {
     ClearOamListCounts(gRecordMainOam, gRecordSubOam);
     AdvanceRecordScene();
     HideUnusedOams(gRecordMainOam, gRecordSubOam);
     if (sceneNumbers != NULL && GetRecordNextScene() != -1) {
-        sceneNumbers->mUnk_04 = GetRecordNextScene();
+        sceneNumbers->mNextScene = GetRecordNextScene();
     }
 }
 

@@ -131,7 +131,7 @@ u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos) {
             case 0x10:
                 drumSet = OFFSET_PTR(Unk02021aa8, bank, (entry >> 8));
                 while (pos->mIndex < drumSet->mUnk_01 - drumSet->mUnk_00 + 1) {
-                    inst->mEntry = drumSet->mUnk_02[pos->mIndex];
+                    *inst = drumSet->mUnk_02[pos->mIndex];
                     pos->mIndex++;
                     return 1;
                 }
@@ -142,7 +142,7 @@ u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos) {
                     if (keySplit->mUnk_00[pos->mIndex] == 0) {
                         break;
                     }
-                    inst->mEntry = keySplit->mUnk_08[pos->mIndex];
+                    *inst = keySplit->mUnk_08[pos->mIndex];
                     pos->mIndex++;
                     return 1;
                 }

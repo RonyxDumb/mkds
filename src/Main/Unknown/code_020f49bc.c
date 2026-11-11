@@ -81,8 +81,7 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     VEC_MultAdd(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mCoursePointOrParams);
     UpdateCollisionHitLink(collisionHitLink, item->mCollisionBits, item->mCollisionHitLink, &item->mCoursePointOrParams,
                            &item->mNormal);
-    if (item->mCollisionHitLink->mObject != NULL &&
-        IsHitLinkOutsideGearRadiusOrFlagged((Unk020e0448 *) item->mCollisionHitLink) != 0) {
+    if (item->mCollisionHitLink->mObject != NULL && IsHitLinkOutsideGearRadiusOrFlagged(item->mCollisionHitLink) != 0) {
         item->mHitLinkTimer = ITEM_OBJECT_HIT_LINK_TIMER_FRAMES;
     } else {
         item->mHitLinkTimer = 0;

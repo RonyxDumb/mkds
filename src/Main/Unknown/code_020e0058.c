@@ -78,14 +78,14 @@ BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition
 }
 
 // Any map object: the clock gears compare against their radius, every other object returns its collision flag.
-s32 IsHitLinkOutsideGearRadiusOrFlagged(Unk020e0448 *link) {
-    Rotary *object = link->mUnk_00;
+s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link) {
+    Rotary *object = (Rotary *) link->mObject;
     s64 horizontalDistanceSquared;
     s64 limitSquared;
 
     if (object->mCollisionMapObject.mCollisionData.mUnk_138 != 0 &&
         object->mCollisionMapObject.mMapObject.mKind == MAP_OBJECT_KIND_ROTARY_GEAR) {
-        horizontalDistanceSquared = HORIZONTAL_LENGTH_SQUARED(link->mUnk_04);
+        horizontalDistanceSquared = HORIZONTAL_LENGTH_SQUARED(link->mLocalPosition);
         limitSquared = (s64) object->mGearRadius * object->mGearRadius;
         return horizontalDistanceSquared >= limitSquared;
     }

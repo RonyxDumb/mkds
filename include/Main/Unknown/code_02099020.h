@@ -2,21 +2,14 @@
 
 #include "types.h"
 #include "code_02146d78.h"
+#include "code_0201c528.h" // Unk0201e3c8
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
-
-// Entry of the list behind the word at 0x08 of Unk0209905c_d0: a link at 0x00 and two halfwords at 0x24 and 0x26.
-typedef struct Unk0209905c_d0_08 {
-    /* 00 */ struct Unk0209905c_d0_08 *mUnk_00;
-    /* 04 */ u8 mUnk_04[0x20];
-    /* 24 */ u16 mUnk_24;
-    /* 26 */ u16 mUnk_26;
-} Unk0209905c_d0_08;
 
 // Object behind the word at 0xd0 of PakkunSpit: a list at 0x08 and a flags word at 0x24.
 typedef struct Unk0209905c_d0 {
     /* 00 */ u8 mUnk_00[8];
-    /* 08 */ Unk0209905c_d0_08 *mUnk_08;
+    /* 08 */ Unk0201e3c8 *mUnk_08;
     /* 0c */ u8 mUnk_0c[0x18];
     /* 24 */ u32 mUnk_24;
 } Unk0209905c_d0;

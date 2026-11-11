@@ -1315,15 +1315,7 @@ typedef struct KartModels {
 extern KartModels *gKartModels;
 
 typedef struct ModelAnimation ModelAnimation;
-
-// Object behind member 0x20 of an KartModelMenuSlot: a word at 0x10 and rows of three words from 0x14 and from 0x44.
-typedef struct Unk0217ad08_058_20 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ s32 mTireScale;
-    /* 14 */ Vec3 mTireOffsets[4];
-    /* 44 */ Vec3 mCharacterOffsets[1];
-    /* 50 */ u8 mUnk_50[0x90];
-} Unk0217ad08_058_20;
+typedef struct KartOffsetData KartOffsetData;
 
 // 0xb8-byte entries from 0x58 of KartModelMenuData.
 typedef struct KartModelMenuSlot {
@@ -1335,7 +1327,7 @@ typedef struct KartModelMenuSlot {
     /* 14 */ struct Nsbmd *mKartNsbmd;
     /* 18 */ struct Nsbmd *mTireNsbmd;
     /* 1c */ struct ShadowModel *mShadowModel;
-    /* 20 */ Unk0217ad08_058_20 *mKartOffsetData;
+    /* 20 */ KartOffsetData *mKartOffsetData;
     /* 24 */ u8 mUnk_24[0x8c];
     /* b0 */ s32 mRegion;
     /* b4 */ struct NNSG3dResTex *mEmblemTex;
@@ -1394,7 +1386,7 @@ typedef struct KartModelMenuData {
     /* 020 */ KartModelMenuSlot *mLoadSlot;
     /* 024 */ KartModelMenuView mView;
     /* 058 */ KartModelMenuSlot mSlots[2];
-    /* 1c8 */ Unk0217ad08_058_20 *mKartOffsetTable;
+    /* 1c8 */ KartOffsetData *mKartOffsetTable;
     /* 1cc */ struct Nsbmd *mSelectModel;
     /* 1d0 */ void *mKartAPalette;
     /* 1d4 */ void *mEmblemTex;

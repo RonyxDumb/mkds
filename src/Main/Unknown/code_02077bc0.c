@@ -1584,7 +1584,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
         if (slot->mTireNsbmd != NULL) {
             for (tireIndex = 0; tireIndex < 4; tireIndex++) {
                 if (tireIndex < 2) {
-                    scaleValue = slot->mKartOffsetData->mTireScale;
+                    scaleValue = slot->mKartOffsetData->mFirstTiresScale;
                     tireScale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleValue);
                     tireScale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleValue);
                     tireScale.z = MUL_FIXED12_NO_ROUND(scale.z, scaleValue);
@@ -1962,7 +1962,7 @@ void LoadKartAndCharacterFiles(void) {
         NNS_G3dResDefaultRelease(loadFiles->mTireNsbtxFile);
         NNS_G3dResDefaultRelease(loadFiles->mKartShadowNsbmdFile);
     }
-    tireName = (char *) &gKartModelMenu->mKartOffsetTable[kartIndex];
+    tireName = gKartModelMenu->mKartOffsetTable[kartIndex].mTireName;
     LoadFileIntoHeap(BuildCharacterNsbmdPath(characterIndex, 1), loadFiles->mHeap,
                      (void **) &loadFiles->mCharacterNsbmdFile);
     LoadFileIntoHeap(BuildCharacterNsbtxPath(characterIndex, 1), loadFiles->mHeap,

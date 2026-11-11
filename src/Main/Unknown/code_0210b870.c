@@ -61,15 +61,15 @@ void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId) {
 }
 
 void StartBalloonSound(void *position, s32 distanceSquared) {
-    Unk0216ca48 requestCopy;
-    Unk0216ca48 *request;
+    SoundStartParams requestCopy;
+    SoundStartParams *request;
 
     request = &requestCopy;
     *request = gBalloonSoundStartParams;
-    request->mUnk_04 = position;
-    request->mUnk_0c = distanceSquared;
+    request->mPositionSource = position;
+    request->mDistanceSquared = distanceSquared;
     if (gRaceSoundKind & 1) {
-        StartSoundOnPoolEntry(0, request->mUnk_00, request->mUnk_04, request);
+        StartSoundOnPoolEntry(0, request->mSoundId, request->mPositionSource, request);
     }
 }
 
