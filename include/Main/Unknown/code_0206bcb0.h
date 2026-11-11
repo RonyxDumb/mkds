@@ -148,12 +148,12 @@ typedef struct ParticipantKartRecordState {
 } ParticipantKartRecordState;
 
 // Bits of Kart.mUnk_7c.
-// Set once at set-up (InitKartFlags) when mIndex == gRaceSetup->mEntryIndex, i.e. the selected entry.
+// Set once at set-up (InitKartFlags) when mIndex == gRaceSetup.mEntryIndex, i.e. the selected entry.
 #define KART_7C_INDEX_IS_SELECTED_ENTRY 0x1
 // Set at set-up when the entry is PLAYER_KIND_GHOST. Bit 0x2 and this bit are also tested together as 6 / 0x402004
 // (left literal).
 #define KART_7C_ENTRY_IS_GHOST 0x4
-// Set at set-up when mKartModelsEntry->mUnk_008 != NULL (a snapshot taken then).
+// Set at set-up when mKartModelsEntry.mUnk_008 != NULL (a snapshot taken then).
 #define KART_7C_MODELS_ENTRY_008_SET 0x10
 // Kart is hidden: AdvanceKartRemovalShrink sets it once the removal shrink has finished (25 steps after
 // KART_7C_REMOVED). The staff roll sets it on every Kart but the entry Kart and clears it as each one comes into view.
@@ -173,8 +173,7 @@ typedef struct ParticipantKartRecordState {
 // 0x57ffffdf).
 #define KART_44_NEAR_KART 0x20
 // Set in the step when mForwardSpeed is negative (the Kart is reversing).
-// Set by ApplyKartLanding at each landing and cleared only by ResetKart; the flip states and the mission standing check
-// read it.
+// Set by ApplyKartLanding at each landing; cleared by ResetKart.
 #define KART_44_LANDED 0x10000
 #define KART_44_REVERSING 0x100
 
@@ -213,17 +212,13 @@ typedef struct ParticipantKartRecordState {
 // Set by ApplyKartSurfaceKind19 (the boost surface) and read as "the Kart is on a boost surface".
 // Respawn wait: the kart has fallen off the course and waits to be put back (IsKartInRespawnWait).
 #define KART_48_RESPAWN_WAIT 0x800
-// Part of the mask IsKartNotNormalOrFlagged tests, which narrows the input mask. Set by ResetKartMotionState(kart, 0),
-// with KART_48_STATE_END_TIMER and by the fall-out literal 0x41000; cleared with it and when the kart is placed.
+// Set by ResetKartMotionState(kart, 0); narrows the input mask IsKartNotNormalOrFlagged tests.
 #define KART_48_INPUT_LOCKED 0x40000
-// Set when a special state hands back to normal driving, with KART_48_INPUT_LOCKED; AdvanceKartInputAndTurn counts
-// mStateEndTimer down and clears both at 0.
+// Set when a special state hands back to normal driving; AdvanceKartInputAndTurn counts mStateEndTimer down.
 #define KART_48_STATE_END_TIMER 0x4000
-// Set while the kart sinks after being placed (ResetKartAndSetPos): mPos.y drops each step until mSinkFrames passes
-// 0x41.
+// Set while the kart sinks after being placed (ResetKartAndSetPos).
 #define KART_48_SINKING 0x40
-// Set with KART_48_SINKING by ResetKartAndSetPos and cleared with it; mission gates, coins, the mission run and the
-// entry-kart object checks skip the kart while it is set. Battle mode clears it every step.
+// Set while the kart is placed after a fall; mission gates, coins and entry-kart object checks skip it.
 #define KART_48_OBJECTS_SKIP 0x200
 #define KART_48_ON_BOOST_SURFACE 1
 
@@ -336,7 +331,7 @@ typedef struct Kart {
     // Collision center of the previous step, set from the previous position by slot 5 of Kart.mSlotFunctions: the start
     // of the collision sweep that ends at Kart.mCollisionCenter.
     /* 1c4 */ Vec3 mPrevCollisionCenter;
-    // Current radius: the record's radius times two scales (code_01ffba68.c:208), set from the record at creation.
+    // Current radius: the record's radius times two scales, set from the record at creation.
     /* 1d0 */ s32 mRadius;
     /* 1d4 */ s32 mUnk_1d4;
     /* 1d8 */ Vec3 mPointAlongUp;
@@ -555,8 +550,7 @@ typedef struct Kart {
     /* 500 */ u32 mWaterDepth;
     /* 504 */ u16 mBlinkFrames;
     /* 506 */ u16 mBlinkCycleFrames;
-    // Points to mPos, or for a kind-3 entry in mode 5 to a Vec3 of the received record (mParticipantRecordData); set in
-    // InitKart. Draw, culling, effect placement and the position getter read the position through it.
+    // Points to mPos, or in mode 5 to a Vec3 of the received record; set in InitKart.
     /* 508 */ Vec3 *mPosSource;
     /* 50c */ Vec4 *mRotationSource;
     /* 510 */ Vec3 *mCollisionPosSource;

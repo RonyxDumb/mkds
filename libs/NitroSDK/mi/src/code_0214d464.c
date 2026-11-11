@@ -5,7 +5,7 @@
 // write and the position inside the current flag byte and back copy (MIUncompContextLZ.mDestp, .mDestCount, .mFlags,
 // .mFlagIndex, .mLength, .mLengthFlg). Reads at most len bytes from data, writes every output byte with swpb, stores the
 // state back and returns the number of bytes still to write.
-// Not compiled code: it uses swpb, tst and a flag-setting add of an asr operand, which the 1.2 compiler never builds.
+// Hand-written asm: uses swpb, tst and a flag-setting add of an asr operand.
 asm s32 MI_ReadUncompLZ8(MIUncompContextLZ *context, const u8 *data, u32 len) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10}
     ldr r3, [r0, #0x0]

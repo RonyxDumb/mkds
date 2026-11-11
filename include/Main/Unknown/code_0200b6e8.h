@@ -68,7 +68,6 @@ typedef struct CommandResult {
 
 extern u8 gDefaultScanBssid[6];
 
-// Declared here until the code that defines it is decompiled.
 void ScanConnectEndScan(void);
 void RequestEndScan(void);
 u32 PickScanChannel(void);

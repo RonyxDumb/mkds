@@ -54,8 +54,8 @@ typedef struct Water {
     // X of model C (the model of mModelCFile, letter C from ..._waterC): mCenterX + mModelCRadius * the first pair
     // value for mCircleAngle - mModelCAngleOffset; its y is mUnk_10 (copy of mHeight).
     /* 0c */ s32 mModelCX;
-    // y of model C: every write copies mHeight (code_020d94dc.c:79, :110, :200), the only reads are the translation y
-    // of model C in DrawWater (code_020d94dc.c:165, :170); it is only ever set from mHeight.
+    // y of model C: every write copies mHeight, the only reads are the translation y
+    // of model C in DrawWater; it is only ever set from mHeight.
     /* 10 */ s32 mModelCY;
     // Z of model C, as mModelCX with the second pair value.
     /* 14 */ s32 mModelCZ;

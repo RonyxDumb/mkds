@@ -4,7 +4,7 @@
 
 // clang-format off
 // Saves the exception context with OSi_SetExContext, then shows it with OSi_DisplayExContext.
-// Hand-written asm: pushes only lr, which the compiler never does (it always pads the frame to 8 bytes).
+// Hand-written asm: pushes only lr, with no padding word.
 asm void OSi_GetAndDisplayContext(u32 exinfo) {
     stmfd sp!, {lr}
     bl OSi_SetExContext

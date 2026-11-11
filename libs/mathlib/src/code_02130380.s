@@ -2,9 +2,8 @@
 // says (GetFloatStatus; see code_0212f884.s). Denormal operands are normalised first; underflow, overflow, inexact and
 // invalid (zero times infinity, signalling NaNs) set their flags or call the trap handlers with event codes ending in
 // 0x93. The operands stay saved on the stack for the invalid-operation trap.
-// Not compiled code: it counts leading zeros with clz and tests bits with tst, neither of which the 1.2 compiler
-// builds, and saves the argument registers and ip around its calls in the middle of the body, where 1.2 saves registers
-// only in the prologue and never ip (docs/compiler.md).
+// Hand-written asm: it counts leading zeros with clz, tests bits with tst, and saves the argument registers and ip
+// around its calls in the middle of the body.
 //
 // The constants after the code are read only by the second half, which is its own function so that they are marked
 // as data (starts at the return-infinity block).

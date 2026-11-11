@@ -1012,7 +1012,7 @@ typedef struct WiFiRaceSync {
 extern WiFiRaceSync *gWiFiRaceSync;
 // Per-run state of the race scene, one record behind gRace (0x48 bytes, allocated by InitRace on the scene heap and
 // never cleared at the end of the scene): frame counters (mUpdateFrames and three phases derived from it), toon-table
-// cycle, fog/fade switch, kind flags derived from gRaceSetup->mUnk_00c (also live in the demo and credits kinds 3 to
+// cycle, fog/fade switch, kind flags derived from gRaceSetup.mUnk_00c (also live in the demo and credits kinds 3 to
 // 6), a light vector. Not the race setup (gRaceSetup), not the karts.
 typedef struct Race {
     // 1 once the race has started, else 0: StartRace sets it when UpdateRaceStartSequence reaches its frame 180, and
@@ -1141,7 +1141,7 @@ typedef struct Camera {
     /* 0e4 */ s32 mLookAtLowering;
     /* 0e8 */ s32 mFollowDistanceScale;
     /* 0ec */ s32 mUnk_0ec;
-    // 0x1000, or -0x1000 in mode 4 with flag 0x20 of gRaceSetup->mUnk_044.
+    // 0x1000, or -0x1000 in mode 4 with flag 0x20 of gRaceSetup.mUnk_044.
     /* 0f0 */ s32 mFollowDirectionSign;
     /* 0f4 */ Vec3 mShakeLookAtOffsetGoal;
     /* 100 */ Vec3 mShakePosOffsetGoal;
@@ -1298,7 +1298,7 @@ typedef struct KartModels {
     // Kart.mKartModelsEntry points into it.
     /* 000 */ struct KartModelsEntry *mKartModelsEntries;
     /* 004 */ u16 *mCourseColors;
-    // Number of elements of mKartModelsEntries, copied from gRaceSetup->mKartCount; the loop bound over the
+    // Number of elements of mKartModelsEntries, copied from gRaceSetup.mKartCount; the loop bound over the
     // entries.
     /* 008 */ u16 mKartCount;
     /* 00a */ u8 mUnk_00a[2];
@@ -1714,8 +1714,8 @@ extern struct EntryKartCounters *gEntryKartCounters;
 // gFirstChainCamera, and its entry advances together with the first one's. Its view is the one used on odd frames.
 extern Camera *gSecondChainCamera;
 // The Camera (mKind 2) that starts at CourseMap.mFirstChainStartEntry and follows mNextIndex through its entries; the
-// only chain camera when gRaceSetup->mUnk_00c is 4. Created by CreateFirstChainCamera or CreateChainCameraPair. With
-// two chain cameras its view is the one used on even frames of gRace->mUpdateFrames.
+// only chain camera when gRaceSetup.mUnk_00c is 4. Created by CreateFirstChainCamera or CreateChainCameraPair. With
+// two chain cameras its view is the one used on even frames of gRace.mUpdateFrames.
 extern Camera *gFirstChainCamera;
 extern void *data_usa_0217aa68;
 extern s32 gFollowHeight;

@@ -17,7 +17,7 @@ typedef struct WiFiLogin {
     // DWCi_CloseLogin.
     /* 04 */ s32 mState;
     // Game id 0x4d6 (DWC_InitFriendsMatch's fourth parameter): given to GpInitialize, which stores it as
-    // GpiConnection.mProductId (code_0218f848.c:31) and writes it after '\productid\' (code_02190ff8.c:261).
+    // GpiConnection.mProductId and writes it after '\productid\'.
     /* 08 */ u32 mProductId;
     /* 0c */ u32 mUnk_0c;
     /* 10 */ u32 mUnk_10;
@@ -31,9 +31,8 @@ typedef struct WiFiLogin {
     // Http (0x1a60 bytes; declared void *) of the running request: made by DWCi_RemoteLogin, freed when the reply
     // or an error ends the request and by DWCi_ShutdownLogin.
     /* 28 */ void *mHttp;
-    // u64 tick reading (OS_GetTick) taken when the HTTP request started (code_0219c3e4.c:243);
-    // DWCi_RemoteLoginProcess reports error 2 when (ticks << 6) / 0x82ea, the milliseconds since then, exceeds 10000
-    // (:268).
+    // u64 tick reading (OS_GetTick) taken when the HTTP request started;
+    // DWCi_RemoteLoginProcess reports error 2 when (ticks << 6) / 0x82ea, the milliseconds since then, exceeds 10000.
     /* 2c */ u64 mRequestStartTime;
     // TRUE from DWCi_GPConnect until the GP connect callback or an error; DWCi_LoginProcess times the connect
     // out while it is TRUE.
@@ -42,12 +41,12 @@ typedef struct WiFiLogin {
     /* 38 */ u64 mConnectStartTime;
     /* 40 */ DWCAccFriendData mUnk_40;
     // First string of the HTTP reply (0x100 buffer): given to the GP connect as its first credential, which
-    // GpiWriteLogin writes after '\authtoken\' (code_02190ff8.c:233-234); also passed to StartBuddySync (stats login).
-    // The reply's second string (mUnk_14c) is the password substitute the library hashes (code_02190ff8.c:206-211), not
-    // the library's '\challenge\' (a random string the library makes, :204, :229-230).
+    // GpiWriteLogin writes after '\authtoken\'; also passed to StartBuddySync (stats login).
+    // The reply's second string (mUnk_14c) is the password substitute the library hashes, not
+    // the library's '\challenge\' (a random string the library makes).
     /* 4c */ char mAuthToken[0x100];
     // Second string of the HTTP reply (0x100 buffer), the second GP connect credential: GpiStartConnect copies it to
-    // q->mUnk_1c2 and GpiWriteLogin hashes it where it would hash the password (code_02190ff8.c:206-211). Not the
+    // q.mUnk_1c2 and GpiWriteLogin hashes it where it would hash the password. Not the
     // library's \challenge\ value.
     /* 14c */ char mUnk_14c[0x100];
     /* 24c */ char mUnk_24c[9];

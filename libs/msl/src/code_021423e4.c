@@ -71,9 +71,7 @@ s32 SwiCloseFile(void) {
 // clang-format off
 // Makes supervisor call 0x123456 with r0 = 3 and r1 = a; SwiWriteBytes calls it once per byte of a buffer, with the
 // byte's address.
-// Not compiled code: the 1.2 compiler never builds swi (its code generator has no use of that instruction), and it
-// saves lr alone with a single store and returns by loading pc, where 1.2 pads every frame to 8 bytes and returns
-// through `bx lr` (docs/compiler.md; frame layout in the compiler).
+// Hand-written asm: swi, and it saves lr alone with a single store and returns by loading pc.
 asm void SwiWriteByte(const void *bytePtr) {
     str lr, [sp, #-4]!
     mov r1, r0
@@ -84,7 +82,7 @@ asm void SwiWriteByte(const void *bytePtr) {
 
 // Makes supervisor call 0x123456 with r0 = 7 and r1 = 0 and returns its r0; SwiReadBytes stores the low byte of each
 // result into a buffer.
-// Not compiled code: swi, and the same one-word frame and return as SwiWriteByte.
+// Hand-written asm: swi, and the same one-word frame and return as SwiWriteByte.
 asm u32 SwiReadByte(void) {
     str lr, [sp, #-4]!
     mov r1, #0
@@ -94,8 +92,7 @@ asm u32 SwiReadByte(void) {
 }
 
 // Makes supervisor call 0x123456 with r0 = 24 and r1 = 0, then returns.
-// Not compiled code: swi, and it returns with `mov pc, lr`, where 1.2 with -interworking returns through `bx lr`
-// (docs/compiler.md).
+// Hand-written asm: swi, and it returns with `mov pc, lr`.
 asm void SwiCall24(void) {
     mov r1, #0
     mov r0, #24

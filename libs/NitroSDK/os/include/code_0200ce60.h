@@ -19,7 +19,7 @@ s32 OS_TryLockCartridge(u16 lockID);
 // Releases the cartridge lock word when lockID holds it, else returns -2. Gives the cartridge bus back to the ARM7,
 // clears the owner id and the lock word with IRQ and FIQ disabled, returns 0.
 s32 OS_UnlockCartridge(u16 lockID);
-// One try on a lock word: swaps lockID into lockp->mLockFlag with interrupts disabled (IRQ and FIQ when disableFiq is
+// One try on a lock word: swaps lockID into lockp.mLockFlag with interrupts disabled (IRQ and FIQ when disableFiq is
 // set). When the swap finds it free, runs ctrlFuncp and stores lockID as the owner. Returns the old lock flag.
 s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq);
 // Releases a lock word when lockID owns it, else returns -2. Clears the owner, runs ctrlFuncp, then clears the lock

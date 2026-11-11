@@ -56,7 +56,7 @@ typedef struct SceneCallbacks {
     /* 00 */ void (*mInit)();
     // One per-frame step, called every pass of the update loops and of the fade-out loop (then with
     // a == NULL), with the scene numbers and mSceneFrames. A second per-frame slot (0x0c) runs
-    // after it. Scenes write their next scene into a->mNextScene here; the Menu scene does not
+    // after it. Scenes write their next scene into a.mNextScene here; the Menu scene does not
     // (RunScene ends it).
     /* 04 */ void (*mUpdate)();
     // Called once after the loops. Calls the scene's undo functions and clears the scene's globals;
@@ -88,14 +88,14 @@ typedef struct SceneRunState {
     /* 0c4 */ OSThreadQueue mThreadQueue;
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
-    // Passes of RunScene's update loop and fade-out loop since they began (RunScene zeroes it at
-    // :192 and :376); not counted while RunSceneIsDataSharingIncomplete is true (mode 5 with a flag, or the
+    // Passes of RunScene's update loop and fade-out loop since they began (RunScene zeroes it at the start of each);
+    // not counted while RunSceneIsDataSharingIncomplete is true (mode 5 with a flag, or the
     // gConnectionWork flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
     // thresholds 0x5a ...).
     /* 0e4 */ s32 mSceneFrames;
     /* 0e8 */ s32 mPassCount;
     // Copy of the running scene's SceneCallbacks, written once by RunScene; slots 0x10 / 0x14 and
-    // the fade lengths are read from it (code_0204984c.c:125, :132, :431-438).
+    // the fade lengths are read from it.
     /* 0ec */ SceneCallbacks mSceneCallbacks;
     /* 10c */ s32 mRunStep;
     /* 110 */ BOOL mLcdOff;

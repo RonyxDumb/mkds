@@ -27,7 +27,6 @@ typedef struct KeyLookup {
     /* 0 */ const char *mKey;
 } KeyLookup;
 
-// Declared here until the code that defines it is decompiled.
 
 double SbServerGetDouble(SbServer *server, const char *key, double defaultValue);
 s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue);
@@ -62,7 +61,6 @@ typedef struct UnalignedWord {
 
 typedef struct SbServerList SbServerList;
 
-// Declared here until the code that defines it is decompiled.
 
 void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName,
                       const char *queryFromKey, u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance);

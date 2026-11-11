@@ -877,10 +877,7 @@ void StartItemInUseObjectAndCountDown(ItemInUse *itemInUse, ItemObject *object) 
     StartItemInUseObject(itemInUse, object);
 }
 
-// Entry 1 of gItemInUseStartTable. (the same one-line form above the other start, advance and remove entries:
-// StartItemInUseOneWithOrientation :886 entry 2, StartItemInUseCircle :1233 entry 4, AdvanceItemInUseOne :946 entry 1,
-// AdvanceItemInUseOneWithOrientation :983 entry 2,  :1056 entry 3, AdvanceItemInUseCircle :1250 entry 4,  :1162 entry
-// 3, RemoveItemInUseCircle :1306 entry 4)
+// Entry 1 of gItemInUseStartTable.
 void StartItemInUseOne(ItemInUse *itemInUse) {
     ItemInUse *inUseAlias;
     ItemObject *object;

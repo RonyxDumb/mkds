@@ -168,7 +168,7 @@ typedef struct RaceProgressKart {
     /* 40 */ s32 mCheckpointProgress;
     // ((mLap - 1) << 12 + mLapProgress) scaled by 1/laps, fixed point; the rank sort uses it after mLap.
     /* 44 */ s32 mRaceProgress;
-    // Position within the lap, fixed point, scaled by 1/(gCourseMap->mLapProgressBaseMax + 1).
+    // Position within the lap, fixed point, scaled by 1/(gCourseMap.mLapProgressBaseMax + 1).
     /* 48 */ s32 mLapProgress;
     // One bit per checkpoint index over 16 words: set when the checkpoint was already tested in this update's search,
     // tested to skip it, cleared for all words before each update.
@@ -283,7 +283,7 @@ typedef struct RaceProgress {
     // (unless mUnk_2f is 6) and in mode 2 when mUnk_18 is 1.
     /* 4ec */ BOOL mTimeCountsDown;
     /* 4f0 */ s32 mEntryRaceEnded;
-    // In frames; 0 = none, clock cap 0x57e40. Compared with the frame clock; mode 2 value is mSettings->mUnk_02 * 0x3c.
+    // In frames; 0 = none, clock cap 0x57e40. Compared with the frame clock; mode 2 value is mSettings.mUnk_02 * 0x3c.
     /* 4f4 */ u32 mTimeLimitFrameCount;
     /* 4f8 */ u8 mStartPlacementOffset;
     /* 4f9 */ u8 mUnk_4f9;
