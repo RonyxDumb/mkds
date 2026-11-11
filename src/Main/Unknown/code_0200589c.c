@@ -78,64 +78,65 @@ BOOL StoreReceivedChunk(WBTPacketBitmap *a, s32 b, const u8 *c) {
 }
 
 // Fills the shared record and calls the transfer's callback once per request id (code 13 always).
-void WBTi_NotifySystemCallback(BlockTransfer *a, s32 b, s32 c, u32 d) {
-    BlockTransferEntry *v2;
-    WBTCommand *v1;
-    v1 = &a->mCallbackRecord;
-    v2 = &a->mEntries[c];
-    if (b == 13 || v2->mRequestId != v2->mLastCallbackId) {
-        v1->mCommand = 12;
-        v1->mPeerBmp = 1 << c;
-        v2->mLastCallbackId = v2->mRequestId;
-        v1->mPeerCmdCounter = v2->mRequestId;
-        v1->mResult = d;
-        switch (b) {
+void WBTi_NotifySystemCallback(BlockTransfer *transfer, s32 event, s32 entryIndex, u32 result) {
+    BlockTransferEntry *entry;
+    WBTCommand *callbackRecord;
+    callbackRecord = &transfer->mCallbackRecord;
+    entry = &transfer->mEntries[entryIndex];
+    if (event == 13 || entry->mRequestId != entry->mLastCallbackId) {
+        callbackRecord->mCommand = 12;
+        callbackRecord->mPeerBmp = 1 << entryIndex;
+        entry->mLastCallbackId = entry->mRequestId;
+        callbackRecord->mPeerCmdCounter = entry->mRequestId;
+        callbackRecord->mResult = result;
+        switch (event) {
             case 8:
-                v1->mUnk_14.w.mUnk_14 = v2->mBlockId;
+                callbackRecord->mData.mBlockDone.mBlockId = entry->mBlockId;
                 break;
             case 2:
-                v1->mUnk_14.h.mUnk_14 = v2->mBlockCount;
-                v1->mUnk_14.h.mUnk_16 = v2->mPacketSendChunkSize;
-                v1->mUnk_14.h.mUnk_18 = v2->mPacketReceiveChunkSize;
+                callbackRecord->mData.mSync.mNumOfList = entry->mBlockCount;
+                callbackRecord->mData.mSync.mPeerPacketSize = entry->mPacketSendChunkSize;
+                callbackRecord->mData.mSync.mMyPacketSize = entry->mPacketReceiveChunkSize;
                 break;
             case 10:
-                if (v2->mByteCount > 9) {
-                    v1->mUnk_14.b.mUnk_1d = 0;
+                if (entry->mByteCount > 9) {
+                    callbackRecord->mData.mUserData.mSize = 0;
                 } else {
-                    v1->mUnk_14.b.mUnk_1d = v2->mByteCount;
-                    MI_CpuCopy8(v2->mPayload, &v1->mUnk_14.w.mUnk_14, v1->mUnk_14.b.mUnk_1d);
+                    callbackRecord->mData.mUserData.mSize = entry->mByteCount;
+                    MI_CpuCopy8(entry->mPayload, callbackRecord->mData.mUserData.mData,
+                                callbackRecord->mData.mUserData.mSize);
                 }
                 break;
             case 12:
             case 14:
                 break;
         }
-        v1->mEvent = b;
-        if (v1->mCallback != NULL) {
-            v1->mCallback(v1);
+        callbackRecord->mEvent = event;
+        if (callbackRecord->mCallback != NULL) {
+            callbackRecord->mCallback(callbackRecord);
         }
     }
 }
 
-// A reply from index c: clears its bit in the current request, calls the request's callback and ends the request when
+// A reply from an entry: clears its bit in the current request, calls the request's callback and ends the request when
 // no index is left.
-void WBTi_NotifyCompletionCallback(BlockTransfer *a, s32 b, s32 c) {
-    u16 v1;
-    u8 v4;
-    BlockTransferEntry *v2;
-    v2 = &a->mEntries[c];
-    v1 = 1 << c;
-    a->mCurrentRequest.mPeerBmp = v1;
-    v4 = v2->mRequestId;
-    if (a->mCurrentRequest.mMyCmdCounter == v4) {
-        a->mCurrentRequest.mPeerCmdCounter = v4;
-        if ((a->mCurrentRequest.mTargetBmp & v1) != 0) {
-            a->mCurrentRequest.mTargetBmp &= ~v1;
-            switch (b) {
+void WBTi_NotifyCompletionCallback(BlockTransfer *transfer, s32 event, s32 entryIndex) {
+    u16 entryBit;
+    u8 requestId;
+    BlockTransferEntry *entry;
+    entry = &transfer->mEntries[entryIndex];
+    entryBit = 1 << entryIndex;
+    transfer->mCurrentRequest.mPeerBmp = entryBit;
+    requestId = entry->mRequestId;
+    if (transfer->mCurrentRequest.mMyCmdCounter == requestId) {
+        transfer->mCurrentRequest.mPeerCmdCounter = requestId;
+        if ((transfer->mCurrentRequest.mTargetBmp & entryBit) != 0) {
+            transfer->mCurrentRequest.mTargetBmp &= ~entryBit;
+            switch (event) {
                 case 3:
-                    a->mCurrentRequest.mUnk_14.h.mUnk_14 = v2->mBlockCount;
-                    a->mCurrentRequest.mUnk_14.h.mUnk_16 = v2->mPacketSendChunkSize;
-                    a->mCurrentRequest.mUnk_14.h.mUnk_18 = v2->mPacketReceiveChunkSize;
+                    transfer->mCurrentRequest.mData.mSync.mNumOfList = entry->mBlockCount;
+                    transfer->mCurrentRequest.mData.mSync.mPeerPacketSize = entry->mPacketSendChunkSize;
+                    transfer->mCurrentRequest.mData.mSync.mMyPacketSize = entry->mPacketReceiveChunkSize;
                     break;
                 case 0:
                 case 1:
@@ -150,13 +151,13 @@ void WBTi_NotifyCompletionCallback(BlockTransfer *a, s32 b, s32 c) {
                 case 11:
                     break;
             }
-            a->mCurrentRequest.mEvent = b;
-            if (a->mCurrentRequest.mCallback != NULL) {
-                a->mCurrentRequest.mCallback(&a->mCurrentRequest);
+            transfer->mCurrentRequest.mEvent = event;
+            if (transfer->mCurrentRequest.mCallback != NULL) {
+                transfer->mCurrentRequest.mCallback(&transfer->mCurrentRequest);
             }
         }
-        if (a->mCurrentRequest.mTargetBmp == 0) {
-            a->mCurrentRequest.mCommand = 0;
+        if (transfer->mCurrentRequest.mTargetBmp == 0) {
+            transfer->mCurrentRequest.mCommand = 0;
         }
     }
 }
@@ -286,11 +287,11 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                             return v1;
                         case 9:
                             if (a->mCurrentRequest.mCommand == 4) {
-                                if (a->mCurrentRequest.mUnk_14.w.mUnk_14 == v5->mBlockId) {
+                                if (a->mCurrentRequest.mData.mGet.mBlockId == v5->mBlockId) {
                                     WBTi_NotifyCompletionCallback(a, 5, b);
                                 }
                             } else if (a->mCurrentRequest.mCommand == 6) {
-                                if (a->mCurrentRequest.mUnk_14.w.mUnk_14 == v5->mBlockId) {
+                                if (a->mCurrentRequest.mData.mGet.mBlockId == v5->mBlockId) {
                                     WBTi_NotifyCompletionCallback(a, 7, b);
                                 }
                             }
@@ -319,7 +320,7 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                         case 7:
                             v5->mPayload = (u8 *) c;
                             if (a->mCurrentRequest.mCommand == 4 || a->mCurrentRequest.mCommand == 6) {
-                                if (v5->mBlockId == a->mCurrentRequest.mUnk_14.w.mUnk_14) {
+                                if (v5->mBlockId == a->mCurrentRequest.mData.mGet.mBlockId) {
                                     if ((a->mCurrentRequest.mTargetBmp & (u16) (1 << b)) != 0) {
                                         if (IsChunkReceived(v6, v5->mChunkIndex) == FALSE) {
                                             if (StoreReceivedChunk(v6, v5->mChunkIndex, v5->mPayload) == TRUE) {
@@ -398,50 +399,52 @@ s32 ReplyToBytesPacket(BlockTransfer *a, s32 b, u8 *c, s32 d) {
     return v1;
 }
 
-s32 ReplyToBlockDataRequest(BlockTransfer *a, s32 b, u8 *c, s32 d) {
-    s32 v1;
-    u32 v2;
-    s32 v3;
-    u32 v4;
-    WBTBlockInfoList *v5;
-    WBTCommand *v6;
-    BlockTransferEntry *v7;
-    v1 = 0;
-    v6 = &a->mCallbackRecord;
-    v7 = &a->mEntries[b];
-    if (v7->mUnk_00 == 2) {
+s32 ReplyToBlockDataRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize) {
+    s32 packetSize;
+    u32 indexMask;
+    s32 chunkIndex;
+    u32 chunkAddress;
+    WBTBlockInfoList *block;
+    WBTCommand *callbackRecord;
+    BlockTransferEntry *entry;
+    packetSize = 0;
+    callbackRecord = &transfer->mCallbackRecord;
+    entry = &transfer->mEntries[entryIndex];
+    if (entry->mUnk_00 == 2) {
         if (WBT_GetOwnAid() == 0) {
-            v2 = 0xfffe;
+            indexMask = 0xfffe;
         } else {
-            v2 = 1;
+            indexMask = 1;
         }
-        if (v7->mPacketKind == 4) {
-            v5 = FindBlockById(v7->mBlockId);
-            if (v5 != NULL) {
-                v3 = PickSendChunkIndex(v7->mBlockId, v7->mChunkIndex);
-                if (v3 != -1) {
-                    if (v5->mBlockType == 0) {
-                        v4 = WBTi_GetPacketBuffer(v7->mBlockId, v3);
-                        v1 =
-                            WriteBlockDataPacket(c, v2, v7->mRequestId, v7->mBlockId, v3, v4, WBT_GetOwnPacketLength());
-                    } else if (v5->mBlockType == 1) {
-                        v6->mUnk_14.w.mUnk_14 = v7->mBlockId;
-                        v6->mUnk_14.w.mUnk_18 = v3;
-                        v6->mUnk_14.b.mUnk_20 = WBT_GetOwnPacketLength();
-                        v6->mUnk_14.w.mUnk_1c[0] = 0;
-                        WBTi_NotifySystemCallback(a, 13, b, 0);
-                        if (v6->mUnk_14.w.mUnk_1c[0] != 0) {
-                            v1 = WriteBlockDataPacket(c, v2, v7->mRequestId, v6->mUnk_14.w.mUnk_14,
-                                                      v6->mUnk_14.w.mUnk_18, v6->mUnk_14.w.mUnk_1c[0],
-                                                      v6->mUnk_14.b.mUnk_20);
+        if (entry->mPacketKind == 4) {
+            block = FindBlockById(entry->mBlockId);
+            if (block != NULL) {
+                chunkIndex = PickSendChunkIndex(entry->mBlockId, entry->mChunkIndex);
+                if (chunkIndex != -1) {
+                    if (block->mBlockType == 0) {
+                        chunkAddress = WBTi_GetPacketBuffer(entry->mBlockId, chunkIndex);
+                        packetSize = WriteBlockDataPacket(buffer, indexMask, entry->mRequestId, entry->mBlockId,
+                                                          chunkIndex, chunkAddress, WBT_GetOwnPacketLength());
+                    } else if (block->mBlockType == 1) {
+                        callbackRecord->mData.mPrepareSendData.mBlockId = entry->mBlockId;
+                        callbackRecord->mData.mPrepareSendData.mBlockSeqNo = chunkIndex;
+                        callbackRecord->mData.mPrepareSendData.mOwnPacketSize = WBT_GetOwnPacketLength();
+                        callbackRecord->mData.mPrepareSendData.mDataPtr = 0;
+                        WBTi_NotifySystemCallback(transfer, 13, entryIndex, 0);
+                        if (callbackRecord->mData.mPrepareSendData.mDataPtr != 0) {
+                            packetSize = WriteBlockDataPacket(buffer, indexMask, entry->mRequestId,
+                                                              callbackRecord->mData.mPrepareSendData.mBlockId,
+                                                              callbackRecord->mData.mPrepareSendData.mBlockSeqNo,
+                                                              callbackRecord->mData.mPrepareSendData.mDataPtr,
+                                                              callbackRecord->mData.mPrepareSendData.mOwnPacketSize);
                         }
                     }
                 }
             }
-            v7->mUnk_00 = 1;
+            entry->mUnk_00 = 1;
         }
     }
-    return v1;
+    return packetSize;
 }
 
 // Sends nothing while the chunk address is 0.
@@ -495,125 +498,136 @@ s32 ReplyToBlockNodeRequestAlways(BlockTransfer *a, s32 b, u8 *c, s32 d) {
 }
 
 // Writes the packet of the running request again on every call.
-s32 WBTi_CheckRequest(BlockTransfer *a, u8 *b, s32 c) {
-    s32 v1;
-    s32 i;
+s32 WBTi_CheckRequest(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) {
+    s32 packetSize;
+    s32 entryIndex;
     u32 v2;
-    WBTPacketBitmap *v3;
-    s32 v4;
-    u16 v5;
-    v1 = 0;
-    switch (a->mCurrentRequest.mCommand) {
+    WBTPacketBitmap *receiveBitmap;
+    s32 missingChunkIndex;
+    u16 targetBitmap;
+    packetSize = 0;
+    switch (transfer->mCurrentRequest.mCommand) {
         case 2:
             v2 = WBT_GetOwnPacketLength();
-            return WriteBlockCountRequestPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter, v2,
-                                                WBT_GetPeerPacketLength());
+            return WriteBlockCountRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
+                                                transfer->mCurrentRequest.mMyCmdCounter, v2, WBT_GetPeerPacketLength());
         case 4:
         case 6:
-            for (i = 0, v3 = &a->mEntries[0].mReceive; i < 16; i++) {
+            for (entryIndex = 0, receiveBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
                 v2 = 1;
-                v2 = v2 << i;
-                if ((a->mCurrentRequest.mTargetBmp & (u16) v2) != 0) {
-                    v4 = WBTi_FindBitmapIndex(v3);
-                    if (v4 == -1) {
-                        v1 = WriteNoMissingChunkPacket(b, v2, a->mCurrentRequest.mMyCmdCounter,
-                                                       a->mCurrentRequest.mUnk_14.w.mUnk_14);
+                v2 = v2 << entryIndex;
+                if ((transfer->mCurrentRequest.mTargetBmp & (u16) v2) != 0) {
+                    missingChunkIndex = WBTi_FindBitmapIndex(receiveBitmap);
+                    if (missingChunkIndex == -1) {
+                        packetSize = WriteNoMissingChunkPacket(buffer, v2, transfer->mCurrentRequest.mMyCmdCounter,
+                                                               transfer->mCurrentRequest.mData.mGet.mBlockId);
                     } else {
-                        v5 = a->mCurrentRequest.mTargetBmp;
-                        if (a->mCurrentRequest.mCommand == 4) {
-                            v1 = WriteBlockDataRequestPacket(b, v5, a->mCurrentRequest.mMyCmdCounter,
-                                                             a->mCurrentRequest.mUnk_14.w.mUnk_14, v4);
+                        targetBitmap = transfer->mCurrentRequest.mTargetBmp;
+                        if (transfer->mCurrentRequest.mCommand == 4) {
+                            packetSize = WriteBlockDataRequestPacket(
+                                buffer, targetBitmap, transfer->mCurrentRequest.mMyCmdCounter,
+                                transfer->mCurrentRequest.mData.mGet.mBlockId, missingChunkIndex);
                         } else {
-                            v1 = WriteBlockNodeRequestPacket(b, v5, a->mCurrentRequest.mMyCmdCounter,
-                                                             a->mCurrentRequest.mUnk_14.w.mUnk_14, v4);
+                            packetSize = WriteBlockNodeRequestPacket(
+                                buffer, targetBitmap, transfer->mCurrentRequest.mMyCmdCounter,
+                                transfer->mCurrentRequest.mData.mGet.mBlockId, missingChunkIndex);
                         }
                     }
-                    if (v1 != 0) {
-                        return v1;
+                    if (packetSize != 0) {
+                        return packetSize;
                     }
                 }
-                v3 = OFFSET_PTR(WBTPacketBitmap, v3, 0x68);
+                receiveBitmap = OFFSET_PTR(WBTPacketBitmap, receiveBitmap, 0x68);
             }
-            return v1;
+            return packetSize;
         case 10:
-            v1 = WriteBytesPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter,
-                                  &a->mCurrentRequest.mUnk_14.w.mUnk_14, a->mCurrentRequest.mUnk_14.b.mUnk_1d);
+            packetSize = WriteBytesPacket(
+                buffer, transfer->mCurrentRequest.mTargetBmp, transfer->mCurrentRequest.mMyCmdCounter,
+                &transfer->mCurrentRequest.mData.mUserDataWord, transfer->mCurrentRequest.mData.mUserData.mSize);
             break;
     }
-    return v1;
+    return packetSize;
 }
 
 // Starts the waiting request when none is running and writes its first packet.
-s32 WBTi_SwitchNextCommand(BlockTransfer *a, u8 *b, s32 c) {
-    s32 v1;
+s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) {
+    s32 packetSize;
     u32 v2;
-    s32 i;
-    WBTCommand *v3;
-    WBTPacketBitmap *v4;
-    WBTPacketBitmap *v5;
-    v1 = 0;
-    v3 = &a->mNextRequest;
-    if (a->mCurrentRequest.mCommand != 0) {
+    s32 entryIndex;
+    WBTCommand *nextRequest;
+    WBTPacketBitmap *nodeBitmap;
+    WBTPacketBitmap *dataBitmap;
+    packetSize = 0;
+    nextRequest = &transfer->mNextRequest;
+    if (transfer->mCurrentRequest.mCommand != 0) {
         return 0;
     }
-    if (v3->mCommand == 0) {
+    if (nextRequest->mCommand == 0) {
         return 0;
     }
     AdvanceRequestId();
     v2 = GetRequestId();
-    switch (v3->mCommand) {
+    switch (nextRequest->mCommand) {
         case 2:
-            MIi_CpuCopy32(v3, a, 0x9c);
-            a->mCurrentRequest.mMyCmdCounter = v2;
+            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            transfer->mCurrentRequest.mMyCmdCounter = v2;
             v2 = WBT_GetOwnPacketLength();
-            v1 = WriteBlockCountRequestPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter, v2,
-                                              WBT_GetPeerPacketLength());
+            packetSize =
+                WriteBlockCountRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
+                                             transfer->mCurrentRequest.mMyCmdCounter, v2, WBT_GetPeerPacketLength());
             break;
         case 6:
-            MIi_CpuCopy32(v3, a, 0x9c);
-            a->mCurrentRequest.mMyCmdCounter = v2;
-            for (i = 0, v4 = &a->mEntries[0].mReceive; i < 16; i++) {
-                if (((a->mCurrentRequest.mTargetBmp >> i) & 1) != 0) {
-                    WBTi_InitBitmap(v4, a->mCurrentRequest.mUnk_14.w.mUnk_18, v4->mInlineChunkBitmap,
-                                    a->mCurrentRequest.mUnk_14.w.mUnk_1c[i]);
+            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            transfer->mCurrentRequest.mMyCmdCounter = v2;
+            for (entryIndex = 0, nodeBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
+                if (((transfer->mCurrentRequest.mTargetBmp >> entryIndex) & 1) != 0) {
+                    WBTi_InitBitmap(nodeBitmap, transfer->mCurrentRequest.mData.mGet.mRecvDataSize,
+                                    nodeBitmap->mInlineChunkBitmap,
+                                    transfer->mCurrentRequest.mData.mGet.mRecvBuf[entryIndex]);
                 }
-                v4 = OFFSET_PTR(WBTPacketBitmap, v4, 0x68);
+                nodeBitmap = OFFSET_PTR(WBTPacketBitmap, nodeBitmap, 0x68);
             }
-            if (v3->mCommand == 4) {
-                v1 = WriteBlockDataRequestPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter,
-                                                 a->mCurrentRequest.mUnk_14.w.mUnk_14, 0);
+            if (nextRequest->mCommand == 4) {
+                packetSize = WriteBlockDataRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
+                                                         transfer->mCurrentRequest.mMyCmdCounter,
+                                                         transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
             } else {
-                v1 = WriteBlockNodeRequestPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter,
-                                                 a->mCurrentRequest.mUnk_14.w.mUnk_14, 0);
+                packetSize = WriteBlockNodeRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
+                                                         transfer->mCurrentRequest.mMyCmdCounter,
+                                                         transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
             }
             break;
         case 4:
-            MIi_CpuCopy32(v3, a, 0x9c);
-            a->mCurrentRequest.mMyCmdCounter = v2;
-            for (i = 0, v5 = &a->mEntries[0].mReceive; i < 16; i++) {
-                if (((a->mCurrentRequest.mTargetBmp >> i) & 1) != 0) {
-                    WBTi_InitBitmap(v5, a->mCurrentRequest.mUnk_14.w.mUnk_18, a->mCurrentRequest.mChunkBitmaps[i],
-                                    a->mCurrentRequest.mUnk_14.w.mUnk_1c[i]);
+            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            transfer->mCurrentRequest.mMyCmdCounter = v2;
+            for (entryIndex = 0, dataBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
+                if (((transfer->mCurrentRequest.mTargetBmp >> entryIndex) & 1) != 0) {
+                    WBTi_InitBitmap(dataBitmap, transfer->mCurrentRequest.mData.mGet.mRecvDataSize,
+                                    transfer->mCurrentRequest.mData.mGet.mPktBmp[entryIndex],
+                                    transfer->mCurrentRequest.mData.mGet.mRecvBuf[entryIndex]);
                 }
-                v5 = OFFSET_PTR(WBTPacketBitmap, v5, 0x68);
+                dataBitmap = OFFSET_PTR(WBTPacketBitmap, dataBitmap, 0x68);
             }
-            if (v3->mCommand == 4) {
-                v1 = WriteBlockDataRequestPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter,
-                                                 a->mCurrentRequest.mUnk_14.w.mUnk_14, 0);
+            if (nextRequest->mCommand == 4) {
+                packetSize = WriteBlockDataRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
+                                                         transfer->mCurrentRequest.mMyCmdCounter,
+                                                         transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
             } else {
-                v1 = WriteBlockNodeRequestPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter,
-                                                 a->mCurrentRequest.mUnk_14.w.mUnk_14, 0);
+                packetSize = WriteBlockNodeRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
+                                                         transfer->mCurrentRequest.mMyCmdCounter,
+                                                         transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
             }
             break;
         case 10:
-            MIi_CpuCopy32(v3, a, 0x9c);
-            a->mCurrentRequest.mMyCmdCounter = v2;
-            v1 = WriteBytesPacket(b, a->mCurrentRequest.mTargetBmp, a->mCurrentRequest.mMyCmdCounter,
-                                  &a->mCurrentRequest.mUnk_14.w.mUnk_14, a->mCurrentRequest.mUnk_14.b.mUnk_1d);
+            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            transfer->mCurrentRequest.mMyCmdCounter = v2;
+            packetSize = WriteBytesPacket(
+                buffer, transfer->mCurrentRequest.mTargetBmp, transfer->mCurrentRequest.mMyCmdCounter,
+                &transfer->mCurrentRequest.mData.mUserDataWord, transfer->mCurrentRequest.mData.mUserData.mSize);
             break;
     }
-    v3->mCommand = 0;
-    return v1;
+    nextRequest->mCommand = 0;
+    return packetSize;
 }
 
 #pragma thumb off

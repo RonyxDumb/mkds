@@ -1995,7 +1995,7 @@ StartSendWordRequest kind:function(thumb,size=0x38) addr:0x0204ead0
 CopySingleChildName kind:function(thumb,size=0xb0) addr:0x0204eb08
 TryGetScanGhostInfo kind:function(thumb,size=0x70) addr:0x0204ebb8
 SetScanGhostInfo kind:function(thumb,size=0x78) addr:0x0204ec28
-StopBlockTransferStep kind:function(thumb,size=0x40) addr:0x0204eca0
+EndWbtStep kind:function(thumb,size=0x40) addr:0x0204eca0
 SetSelectedScanEntry kind:function(thumb,size=0x24) addr:0x0204ece0
 PacketPortCallback kind:function(thumb,size=0x80) addr:0x0204ed04
 QueuePacketToPort kind:function(thumb,size=0xac) addr:0x0204ed84
@@ -2005,7 +2005,7 @@ RemoveGhostDataBlocks kind:function(thumb,size=0x48) addr:0x0204ee64
 AddGhostDataBlockWrapper kind:function(thumb,size=0x8) addr:0x0204eeac
 AddGhostDataBlock kind:function(thumb,size=0x68) addr:0x0204eeb4
 StartMPWithBuffers kind:function(thumb,size=0x6c) addr:0x0204ef1c
-SetOwnIndexFromConnection kind:function(thumb,size=0x44) addr:0x0204ef88
+SetWbtOwnAidFromConnection kind:function(thumb,size=0x44) addr:0x0204ef88
 BlockDataRequestCallback kind:function(thumb,size=0x3c) addr:0x0204efcc
 StartBlockDataRequest kind:function(thumb,size=0x78) addr:0x0204f008
 BlockNodeRequestCallback kind:function(thumb,size=0x38) addr:0x0204f080
@@ -11771,7 +11771,7 @@ gViewRotatedMatrix kind:bss addr:0x0217b840
 gAttractorUpdateList kind:bss addr:0x0217b844
 gAttractorStrengths kind:bss addr:0x0217b848
 gAttractorPositions kind:bss addr:0x0217b84c
-data_0217b870 kind:bss addr:0x0217b850
+gJgProbeStep kind:bss addr:0x0217b850
 gJgAlpha kind:bss addr:0x0217b854
 gJgAngle kind:bss addr:0x0217b858
 gJgHighestLap kind:bss addr:0x0217b85c
@@ -11789,7 +11789,7 @@ data_0217b8a8 kind:bss addr:0x0217b888
 data_0217b8ac kind:bss addr:0x0217b88c
 gJgLapAndReverseEnabled kind:bss addr:0x0217b890
 data_0217b8b4 kind:bss addr:0x0217b894
-data_0217b8b8 kind:bss addr:0x0217b898
+gJgShiftSpeedX kind:bss addr:0x0217b898
 data_0217b8bc kind:bss addr:0x0217b89c
 data_0217b8c0 kind:bss addr:0x0217b8a0
 data_0217b8c4 kind:bss addr:0x0217b8a4

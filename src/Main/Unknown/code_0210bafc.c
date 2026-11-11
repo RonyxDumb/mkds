@@ -44,7 +44,7 @@ void SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries) {
     gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex] = entries;
 }
 
-void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, Unk0216c860 *entries) {
+void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, CourseSurfaceSoundEntry *entries) {
     gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex] = entries;
 }
 

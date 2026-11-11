@@ -8,7 +8,7 @@ void RemoveGhostDataBlocks(void);
 void AddGhostDataBlockWrapper(void *data, u32 size);
 void AddGhostDataBlock(void *data, u32 size);
 void StartMPWithBuffers(void);
-void SetOwnIndexFromConnection(void);
+void SetWbtOwnAidFromConnection(void);
 void BlockDataRequestCallback(WBTCommand *record);
 void StartBlockDataRequest(void);
 void BlockNodeRequestCallback(WBTCommand *record);

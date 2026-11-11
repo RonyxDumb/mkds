@@ -116,8 +116,8 @@ void InitJg(void) {
     gJgVelocity.x = 0;
     gJgVelocity.y = 0;
     gJgVelocity.z = 0;
-    data_0217b870 = 0;
-    data_0217b8b8 = 0;
+    gJgProbeStep = 0;
+    gJgShiftSpeedX = 0;
     gJgShiftX = 0;
     data_0217b8cc = 0;
     data_0217b8ec = 0;

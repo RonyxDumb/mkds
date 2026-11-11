@@ -527,202 +527,202 @@ void InitSceneSounds(s32 e) {
                     SetSeqVariableEnabled(1, 1);
                     break;
                 case COURSE_ID_MANSION:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[0].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[0].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[0].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[0].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[0].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[0].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
                     break;
                 case COURSE_ID_PINBALL:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[1].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[1].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[1].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[1].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[1].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[1].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
                     break;
                 case COURSE_ID_RIDGE:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[2].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[2].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[2].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[2].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[2].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[2].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
                     break;
                 case COURSE_ID_SNOW:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[3].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[3].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[3].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[3].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[3].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[3].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
                     break;
                 case COURSE_ID_CLOCK:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[4].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[4].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[4].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[4].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[4].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[4].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
                     break;
                 case COURSE_ID_AIRSHIP:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[5].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[5].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[5].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[5].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[5].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[5].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
                     break;
                 case COURSE_ID_STADIUM:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[6].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[6].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[6].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[6].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[6].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[6].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
                     break;
                 case COURSE_ID_GARDEN:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[7].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[7].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[7].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[7].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[7].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[7].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
                     break;
                 case COURSE_ID_KOOPA:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[8].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[8].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[8].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[8].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[8].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[8].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
                     break;
                 case COURSE_ID_OLD_BABY_GC:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[9].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[9].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[9].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[9].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[9].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[9].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
                     break;
                 case COURSE_ID_OLD_KINOKO_GC:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[10].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[10].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[10].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[10].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[10].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[10].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
                     break;
                 case COURSE_ID_OLD_HYUDORO_64:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[11].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[11].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[11].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[11].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[11].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[11].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
                     break;
                 case COURSE_ID_MINI_STAGE4:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[12].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[12].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[12].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[12].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[12].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[12].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
                     break;
                 case COURSE_ID_OLD_LUIGI_AGB:
                     SetSurfaceSoundIds(data_0216c7e0.mUnk_10, data_0216c7e0.mUnk_14, &data_0216c7e0);
                     break;
                 case COURSE_ID_MR_STAGE3:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[13].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[13].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[13].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[13].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[13].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[13].mUnk_04,
+                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
                     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                         InitKingTeresaSoundState(1);

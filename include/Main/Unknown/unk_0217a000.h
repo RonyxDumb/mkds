@@ -493,12 +493,6 @@ typedef struct RandomState {
     /* 14 */ s32 mIncrementHigh;
 } RandomState;
 
-// What member 0x1da0 of ConnectionWork points to.
-typedef struct BlockInfo {
-    /* 00 */ s32 mBlockId;
-    /* 04 */ s32 mSize;
-} BlockInfo;
-
 // Members 0x1658 to 0x169f of ConnectionWork as one object.
 typedef struct MultiBootStateView {
     /* 00 */ void *mUnk_00;
@@ -685,7 +679,7 @@ typedef struct ConnectionWork {
             /* 1d5e */ u16 mBlockCount;
             /* 1d60 */ u32 *mCurrentBlockBuffer;
             /* 1d64 */ u8 mUnk_1d64[0x3c];
-            /* 1da0 */ BlockInfo *mBlockInfos[16];
+            /* 1da0 */ WBTBlockInfo *mBlockInfos[16];
             /* 1de0 */ void *mChunkBitmaps[16];
             /* 1e20 */ void *mMPSendBuffer;
             /* 1e24 */ void *mMPReceiveBuffer;

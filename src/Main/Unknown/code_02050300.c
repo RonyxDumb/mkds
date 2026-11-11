@@ -245,7 +245,7 @@ void End(void) {
         return;
     }
     if ((flags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
-        StopBlockTransferStep();
+        EndWbtStep();
         return;
     }
     connection->mStep = 2;
@@ -263,7 +263,7 @@ void End(void) {
         return;
     }
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
-        StopBlockTransferStep();
+        EndWbtStep();
         return;
     }
     SetStepAndRequestPending(2);

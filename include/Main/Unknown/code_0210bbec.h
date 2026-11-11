@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk0216c860 Unk0216c860;
+typedef struct CourseSurfaceSoundEntry CourseSurfaceSoundEntry;
 
-void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, Unk0216c860 *entries);
+void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, CourseSurfaceSoundEntry *entries);
 void SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries);

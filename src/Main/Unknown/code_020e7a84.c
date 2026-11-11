@@ -452,8 +452,8 @@ void UpdateJgPosition(void) {
         gJgVelocity.x = 0;
         gJgVelocity.y = 0;
         gJgVelocity.z = 0;
-        data_0217b870 = 0;
-        data_0217b8b8 = 0;
+        gJgProbeStep = 0;
+        gJgShiftSpeedX = 0;
         gJgShiftX = 0;
         data_0217b8cc = 0;
         data_0217b8ec = 0;
@@ -534,12 +534,12 @@ void UpdateJgPosition(void) {
             VEC_Add(&gJgCollisionCenter, &t, &gJgCollisionCenter);
         }
         if (data_0217b900 == 0) {
-            data_0217b870++;
-            if (data_0217b870 > 0xc) {
-                data_0217b870 = 0;
+            gJgProbeStep++;
+            if (gJgProbeStep > 0xc) {
+                gJgProbeStep = 0;
             }
-            gJgProbeCenter.x = gJgPos.x + data_0217b870 * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.x, 0x5000);
-            gJgProbeCenter.z = gJgPos.z + data_0217b870 * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.z, 0x5000);
+            gJgProbeCenter.x = gJgPos.x + gJgProbeStep * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.x, 0x5000);
+            gJgProbeCenter.z = gJgPos.z + gJgProbeStep * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.z, 0x5000);
             gJgProbeCenter.y = gJgPos.y;
             if (CollideSphereWithCourse(&gJgProbeCenter, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL,
                                         NULL, NULL) != 0) {
@@ -548,19 +548,19 @@ void UpdateJgPosition(void) {
                     w = -w;
                 }
                 if (Vec3DotUnrounded(&v, &gJgMatrix.mRows[0]) > 0) {
-                    data_0217b8b8 = ((s64) w << 11) >> 12;
+                    gJgShiftSpeedX = ((s64) w << 11) >> 12;
                 } else {
-                    data_0217b8b8 = -(s32) (((s64) w << 11) >> 12);
+                    gJgShiftSpeedX = -(s32) (((s64) w << 11) >> 12);
                 }
                 data_0217b908 += 0xc;
-                data_0217b870 = 0xc;
+                gJgProbeStep = 0xc;
             }
-            w = data_0217b8b8 - MUL_FIXED12_NO_ROUND(gJgShiftX, 0x29);
-            data_0217b8b8 = w;
+            w = gJgShiftSpeedX - MUL_FIXED12_NO_ROUND(gJgShiftX, 0x29);
+            gJgShiftSpeedX = w;
             if (gJgShiftX * (s64) w < 0) {
-                data_0217b8b8 = w - MUL_FIXED12_NO_ROUND(w, 0x19a);
+                gJgShiftSpeedX = w - MUL_FIXED12_NO_ROUND(w, 0x19a);
             }
-            gJgShiftX += data_0217b8b8;
+            gJgShiftX += gJgShiftSpeedX;
             if (data_0217b8bc == 0) {
                 data_0217b8cc += 0xcd;
                 data_0217b8ec += data_0217b8cc;
@@ -705,10 +705,10 @@ void EnterJgState1(void) {
     gJgKartMove.y = 0;
     gJgKartMove.z = 0;
     gJgVelocity.x = 0;
-    data_0217b870 = 0;
+    gJgProbeStep = 0;
     gJgVelocity.y = 0;
     gJgVelocity.z = 0;
-    data_0217b8b8 = 0;
+    gJgShiftSpeedX = 0;
     gJgShiftX = 0;
     data_0217b8cc = 0;
     gJgEasedPos = gJgPos;
@@ -868,8 +868,8 @@ void EnterJgState4(void) {
     gJgKartMove.y = 0;
     gJgKartMove.z = 0;
     gJgVelocity.x = 0;
-    data_0217b870 = 0;
-    data_0217b8b8 = 0;
+    gJgProbeStep = 0;
+    gJgShiftSpeedX = 0;
     gJgVelocity.y = 0;
     gJgVelocity.z = 0;
     gJgShiftX = 0;
@@ -990,8 +990,8 @@ void EnterJgState6(void) {
     gJgVelocity.x = 0;
     gJgVelocity.y = 0;
     gJgVelocity.z = 0;
-    data_0217b870 = 0;
-    data_0217b8b8 = 0;
+    gJgProbeStep = 0;
+    gJgShiftSpeedX = 0;
     gJgShiftX = 0;
     data_0217b8cc = 0;
     data_0217b8ec = 0;

@@ -265,7 +265,7 @@ s32 AdvanceConnectionEnd(void) {
         case 43:
         case 44:
         case 46:
-            StopBlockTransferStep();
+            EndWbtStep();
             break;
         case 45:
             EndMP();
@@ -298,7 +298,7 @@ s32 AdvanceConnectionEndStopOnError(void) {
             case 0x2b:
             case 0x2c:
             case 0x2e:
-                StopBlockTransferStep();
+                EndWbtStep();
                 break;
             case 0x1c:
             case 0x1d:

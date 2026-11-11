@@ -77,7 +77,7 @@ void SetBlockListHead(WBTBlockInfoList *head) {
 WBTBlockInfoList *FindBlockById(u32 blockId) {
     WBTBlockInfoList *node;
     for (node = GetBlockListHead(); node != NULL; node = node->mNext) {
-        if (node->mId == blockId) {
+        if (node->mDataInfo.mId == blockId) {
             return node;
         }
     }
@@ -123,7 +123,7 @@ BOOL WBT_GetCurrentDownloadProgress(u32 blockId, s32 entryIndex, s32 *receivedCh
     WBTPacketBitmap *receive;
     transfer = GetBlockTransfer();
     receive = &transfer->mEntries[entryIndex].mReceive;
-    if (transfer->mCurrentRequest.mCommand == 4 && transfer->mCurrentRequest.mUnk_14.w.mUnk_14 == blockId) {
+    if (transfer->mCurrentRequest.mCommand == 4 && transfer->mCurrentRequest.mData.mGet.mBlockId == blockId) {
         *chunkCountOut = receive->mTotal;
         *receivedChunkCountOut = receive->mCount;
         return TRUE;
@@ -160,7 +160,7 @@ int WBT_NumOfRegisteredBlock(void) {
 
 #pragma thumb on
 
-s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 f) {
+s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 permissionBmp) {
     WBTBlockInfoList *lastNode;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
@@ -178,13 +178,13 @@ s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 
         node->mBlockType = 0;
     }
     node->mNext = NULL;
-    node->mId = blockId;
-    node->mBlockSize = size;
-    node->mPermissionBmp = f;
+    node->mDataInfo.mId = blockId;
+    node->mDataInfo.mBlockSize = size;
+    node->mPermissionBmp = permissionBmp;
     if (info != NULL) {
-        MI_CpuCopy8(info, node->mUserId, 0x20);
+        MI_CpuCopy8(info, node->mDataInfo.mUserId, 0x20);
     } else {
-        MI_CpuFill8(node->mUserId, 0, 0x20);
+        MI_CpuFill8(node->mDataInfo.mUserId, 0, 0x20);
     }
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
@@ -200,13 +200,13 @@ WBTBlockInfoList *WBT_UnregisterBlock(u32 blockId) {
         OS_RestoreInterrupts(savedInterrupts);
         return NULL;
     }
-    if (v1->mId == blockId) {
+    if (v1->mDataInfo.mId == blockId) {
         SetBlockListHead(v1->mNext);
         OS_RestoreInterrupts(savedInterrupts);
         return v1;
     }
     for (v2 = v1->mNext; v2 != NULL; v1 = v2, v2 = v2->mNext) {
-        if (v2->mId == blockId) {
+        if (v2->mDataInfo.mId == blockId) {
             v1->mNext = v2->mNext;
             OS_RestoreInterrupts(savedInterrupts);
             return v2;
@@ -229,9 +229,9 @@ u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, 
     request.mCommand = 6;
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
-    request.mUnk_14.w.mUnk_14 = blockIdOrPosition;
-    request.mUnk_14.w.mUnk_18 = 0x28;
-    MIi_CpuCopy32(buffers, &request.mUnk_14.w.mUnk_1c, 0x40);
+    request.mData.mGet.mBlockId = blockIdOrPosition;
+    request.mData.mGet.mRecvDataSize = 0x28;
+    MIi_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
     return TrySetNextRequest(&request);
 }
 
@@ -241,10 +241,10 @@ u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize,
     request.mCommand = 4;
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
-    request.mUnk_14.w.mUnk_14 = blockId;
-    request.mUnk_14.w.mUnk_18 = blockSize;
-    MIi_CpuCopy32(buffers, &request.mUnk_14.w.mUnk_1c, 0x40);
-    MIi_CpuCopy32(chunkBitmaps, &request.mChunkBitmaps, 0x40);
+    request.mData.mGet.mBlockId = blockId;
+    request.mData.mGet.mRecvDataSize = blockSize;
+    MIi_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
+    MIi_CpuCopy32(chunkBitmaps, request.mData.mGet.mPktBmp, 0x40);
     return TrySetNextRequest(&request);
 }
 
@@ -258,8 +258,8 @@ u32 WBT_PutUserData(u16 indexMask, const void *bytes, s32 byteCount, void (*call
     requestPointer = &request;
     requestPointer->mTargetBmp = indexMask;
     requestPointer->mCallback = callback;
-    MI_CpuCopy8(bytes, &requestPointer->mUnk_14.w.mUnk_14, byteCount);
-    requestPointer->mUnk_14.b.mUnk_1d = byteCount;
+    MI_CpuCopy8(bytes, requestPointer->mData.mUserData.mData, byteCount);
+    requestPointer->mData.mUserData.mSize = byteCount;
     return TrySetNextRequest(&request);
 }
 

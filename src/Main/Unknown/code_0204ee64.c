@@ -27,7 +27,7 @@ void StartBlockCountRequest(void) {
 void BlockCountRequestCallback(WBTCommand *record) {
     if (record->mCommand == 2) {
         if (record->mEvent == 3) {
-            gConnectionWork->mBlockCount = record->mUnk_14.h.mUnk_14;
+            gConnectionWork->mBlockCount = record->mData.mSync.mNumOfList;
             gConnectionWork->mRequestPending = 0;
         } else {
             SetRequestErrorCode(8);
@@ -65,8 +65,8 @@ void StartBlockDataRequest(void) {
     gConnectionWork->mStep = 0x2c;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mCurrentBlockBuffer = gConnectionWork->mBlockEntries[gConnectionWork->mBlockIndex].mBuffer;
-    if (WBT_GetBlock(1, gConnectionWork->mBlockInfos[0]->mBlockId, &gConnectionWork->mCurrentBlockBuffer,
-                     gConnectionWork->mBlockInfos[0]->mSize, gConnectionWork->mChunkBitmaps,
+    if (WBT_GetBlock(1, gConnectionWork->mBlockInfos[0]->mId, &gConnectionWork->mCurrentBlockBuffer,
+                     gConnectionWork->mBlockInfos[0]->mBlockSize, gConnectionWork->mChunkBitmaps,
                      BlockDataRequestCallback) == 0) {
         gConnectionWork->mStep = savedValue;
         gConnectionWork->mRequestPending = 0;
@@ -85,7 +85,7 @@ void BlockDataRequestCallback(WBTCommand *record) {
     }
 }
 
-void SetOwnIndexFromConnection(void) {
+void SetWbtOwnAidFromConnection(void) {
     s32 v = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
     if (v == 2) {
         if (gConnectionWork->mOwnIndex == 0xffff) {

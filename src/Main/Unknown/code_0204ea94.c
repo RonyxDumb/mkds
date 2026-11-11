@@ -9,7 +9,7 @@
 
 #pragma thumb on
 
-void StopBlockTransferStep(void) {
+void EndWbtStep(void) {
     gConnectionWork->mStep = 0x2d;
     gConnectionWork->mRequestPending = 1;
     WBT_End();

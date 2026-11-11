@@ -345,7 +345,7 @@ void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-// Moves node c to the head of list b when it is in list a; does nothing otherwise.
+// Moves the node to the head of the target list when it is in the source list; does nothing otherwise.
 void MoveRomArchiveNodeToList(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node) {
     u32 savedInterrupts;
     RomArchiveFileNode *current;
@@ -524,7 +524,7 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
 
 void RomArchiveParentCallback(WBTCommand *record) {
     s32 fromIndex;
-    Unk0204c320_14 *payload;
+    WBTCommandData *payload;
     s32 v7;
     u32 fileLength;
     RomArchiveParentView *view;
@@ -533,9 +533,9 @@ void RomArchiveParentCallback(WBTCommand *record) {
     RomArchiveFileNode *activeNode;
     RomArchiveFileNode *foundNode;
     u32 v5;
-    Unk0204c320_14 *q;
-    s32 j;
-    s32 k;
+    WBTCommandData *q;
+    s32 bufferIndex;
+    s32 newBufferIndex;
     RomArchiveFileNode *node;
     s32 v8;
     s32 v9;
@@ -558,12 +558,12 @@ void RomArchiveParentCallback(WBTCommand *record) {
             break;
         case 10:
             view = &data_usa_021762e0;
-            payload = &record->mUnk_14;
+            payload = &record->mData;
             view->mEntries[fromIndex] = payload->mUnk_0e;
-            switch (record->mUnk_14.mUnk_m.mKind) {
+            switch (record->mData.mUnk_m.mKind) {
                 case 0:
-                    fileLength = record->mUnk_14.mUnk_m.mUnk_00_8;
-                    v5 = (record->mUnk_14.mUnk_m.mPacketSizeHigh << 8) | payload->mUnk_m.mPacketSizeLow;
+                    fileLength = record->mData.mUnk_m.mUnk_00_8;
+                    v5 = (record->mData.mUnk_m.mPacketSizeHigh << 8) | payload->mUnk_m.mPacketSizeLow;
                     v7 = payload->mUnk_m.mUnk_04;
                     if (view->mUnk_46e0 != FALSE || v5 != gRomArchiveTransfer.mParentPacketSize) {
                         view->mUnk_46e0 = TRUE;
@@ -609,7 +609,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                     view->mUnk_46cc = view->mUnk_46cc | (1 << fromIndex);
                     blockId = payload->mUnk_m.mUnk_04;
                     for (activeNode = view->mActiveHead; activeNode != NULL; activeNode = activeNode->mNext) {
-                        if (activeNode->mState == 2 && activeNode->mBlockNode.mId == blockId) {
+                        if (activeNode->mState == 2 && activeNode->mBlockNode.mDataInfo.mId == blockId) {
                             break;
                         }
                     }
@@ -628,18 +628,18 @@ void RomArchiveParentCallback(WBTCommand *record) {
             }
             return;
         case 13:
-            q = &record->mUnk_14;
-            v5 = q->mUnk_w;
+            q = &record->mData;
+            v5 = q->mPrepareSendData.mBlockId;
             q->mUnk_0e.mUnk_08 = 0;
             for (node = data_02179ec0.mUnk_b04; node != NULL; node = node->mNext) {
-                if (node->mState == 2 && node->mBlockNode.mId == v5) {
+                if (node->mState == 2 && node->mBlockNode.mDataInfo.mId == v5) {
                     break;
                 }
             }
             if (node == NULL) {
                 return;
             }
-            v8 = q->b.mUnk_20;
+            v8 = q->mPrepareSendData.mOwnPacketSize;
             v9 = node->mUnk_098;
             v10 = q->mUnk_0e.mBlockId;
             if (node->mUnk_09c != 2) {
@@ -670,8 +670,8 @@ void RomArchiveParentCallback(WBTCommand *record) {
                 return;
             }
             v11 = v8 * v10;
-            for (j = 0; j < 2; j++) {
-                v14 = v11 - node->mBufferOffsets[j];
+            for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
+                v14 = v11 - node->mBufferOffsets[bufferIndex];
                 if (v14 < 0) {
                     continue;
                 }
@@ -679,21 +679,21 @@ void RomArchiveParentCallback(WBTCommand *record) {
                     break;
                 }
             }
-            if (j < 2) {
+            if (bufferIndex < 2) {
                 return;
             }
-            k = node->mUnk_0a0;
+            newBufferIndex = node->mUnk_0a0;
             do {
-                k++;
-                if (k >= 2) {
-                    k = 0;
+                newBufferIndex++;
+                if (newBufferIndex >= 2) {
+                    newBufferIndex = 0;
                 }
-            } while (k == v7);
-            node->mUnk_0a0 = k;
-            node->mUnk_09c = k;
-            node->mBufferOffsets[k] = v11 & -0x200;
+            } while (newBufferIndex == v7);
+            node->mUnk_0a0 = newBufferIndex;
+            node->mUnk_09c = newBufferIndex;
+            node->mBufferOffsets[newBufferIndex] = v11 & -0x200;
             FS_SeekFile(&node->mFile, v11 & -0x200, 0);
-            FS_ReadFileAsync(&node->mFile, node->mBuffers[k], 0x400);
+            FS_ReadFileAsync(&node->mFile, node->mBuffers[newBufferIndex], 0x400);
             break;
     }
 }
@@ -720,8 +720,8 @@ void RomArchiveChildCallback(WBTCommand *record) {
             if (record->mTargetBmp != 0) {
                 return;
             }
-            gRomArchiveTransfer.mParentPacketSize = record->mUnk_14.h.mUnk_16 + 0xe;
-            gRomArchiveTransfer.mChildPacketSize = record->mUnk_14.h.mUnk_18 + 0xe;
+            gRomArchiveTransfer.mParentPacketSize = record->mData.mSync.mPeerPacketSize + 0xe;
+            gRomArchiveTransfer.mChildPacketSize = record->mData.mSync.mMyPacketSize + 0xe;
             if (gRomArchiveTransfer.mArchiveBlock == NULL) {
                 WBT_GetBlockInfo(1, 0, childView, RomArchiveChildCallback);
                 return;
@@ -811,7 +811,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             if (record->mEvent != 0xa) {
                 return;
             }
-            received = &record->mUnk_14.mUnk_m;
+            received = &record->mData.mUnk_m;
             switch (received->mKind) {
                 case 1:
                     if (received->mUnk_00_8 == 0) {

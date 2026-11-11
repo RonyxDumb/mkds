@@ -7,7 +7,7 @@
 void ParentBlockTransferCallback(WBTCommand *record) {
     s32 callbackCode = record->mEvent;
     if (callbackCode == 10) {
-        SetZeroWordReceived(&record->mUnk_14.w.mUnk_14, record->mUnk_14.b.mUnk_1d);
+        SetZeroWordReceived(&record->mData.mUserDataWord, record->mData.mUserData.mSize);
         return;
     }
     switch (gConnectionWork->mParentTransferStep) {

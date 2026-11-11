@@ -6,11 +6,16 @@
 typedef struct WBTCommand WBTCommand;
 typedef struct BlockTransfer BlockTransfer;
 
-// List node; the next node is at offset 0x28.
-typedef struct WBTBlockInfoList {
+// Id, size and user id of a registered block; 0x28 bytes.
+typedef struct WBTBlockInfo {
     /* 00 */ u32 mId;
     /* 04 */ s32 mBlockSize;
     /* 08 */ u8 mUserId[0x20];
+} WBTBlockInfo;
+
+// List node.
+typedef struct WBTBlockInfoList {
+    /* 00 */ WBTBlockInfo mDataInfo;
     /* 28 */ struct WBTBlockInfoList *mNext;
     /* 2c */ u8 *mDataPtr;
     /* 30 */ u16 mPermissionBmp;
@@ -31,7 +36,7 @@ u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize,
 u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, void (*callback)(WBTCommand *));
 u32 WBT_RequestSync(u16 indexMask, void (*callback)(WBTCommand *));
 WBTBlockInfoList *WBT_UnregisterBlock(u32 blockId);
-s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 f);
+s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 permissionBmp);
 int WBT_NumOfRegisteredBlock(void);
 u32 WBT_SetPacketSize(s32 sendSize, s32 receiveSize);
 BOOL WBT_GetCurrentDownloadProgress(u32 blockId, s32 entryIndex, s32 *receivedChunkCountOut, s32 *chunkCountOut);

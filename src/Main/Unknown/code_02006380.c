@@ -231,23 +231,24 @@ s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
 // Picks the chunk to send next: skips the last two indexes sent for this block; -1 for an unknown id.
 s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
     WBTBlockInfoList *node;
-    s32 i;
+    s32 skipCount;
     node = GetBlockListHead();
     if (blockId < 1000) {
         return chunkIndex;
     }
     for (; node != NULL; node = node->mNext) {
-        if (node->mId == blockId) {
+        if (node->mDataInfo.mId == blockId) {
             if (blockId == gLastSentBlockId) {
-                i = 0;
+                skipCount = 0;
                 while (chunkIndex == gLastSentChunkIndex || chunkIndex == gPrevSentChunkIndex) {
                     chunkIndex++;
-                    if (chunkIndex >
-                        (node->mBlockSize + (s32) WBT_GetOwnPacketLength() - 1) / (s32) WBT_GetOwnPacketLength() - 1) {
+                    if (chunkIndex > (node->mDataInfo.mBlockSize + (s32) WBT_GetOwnPacketLength() - 1) /
+                                             (s32) WBT_GetOwnPacketLength() -
+                                         1) {
                         chunkIndex = 0;
                     }
-                    i++;
-                    if (i > 2) {
+                    skipCount++;
+                    if (skipCount > 2) {
                         break;
                     }
                 }
@@ -264,21 +265,21 @@ s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
 // Address of one chunk; ids under 1000 count positions in the block list, higher ids are block ids.
 u32 WBTi_GetPacketBuffer(u32 blockIdOrPosition, u32 chunkIndex) {
     WBTBlockInfoList *v1;
-    u32 i;
+    u32 blockPosition;
     v1 = GetBlockListHead();
     if (blockIdOrPosition < 1000) {
-        for (i = 0;; i++, v1 = v1->mNext) {
+        for (blockPosition = 0;; blockPosition++, v1 = v1->mNext) {
             if (v1 == NULL) {
                 break;
             }
-            if (i == blockIdOrPosition) {
+            if (blockPosition == blockIdOrPosition) {
                 return (u32) v1 + chunkIndex * WBT_GetOwnPacketLength();
             }
         }
         return 0;
     }
     for (; v1 != NULL; v1 = v1->mNext) {
-        if (v1->mId == blockIdOrPosition) {
+        if (v1->mDataInfo.mId == blockIdOrPosition) {
             v1 = (WBTBlockInfoList *) v1->mDataPtr;
             return (u32) v1 + chunkIndex * WBT_GetOwnPacketLength();
         }
