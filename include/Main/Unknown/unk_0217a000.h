@@ -128,7 +128,7 @@ typedef struct MissionRecord {
     };
 } MissionRecord;
 
-// What member 0x10 of Unk0217aa08 points to: bytes from 0x04, read in rows of nine (the count is not shown by the
+// What member 0x10 of BackupBuffers points to: bytes from 0x04, read in rows of nine (the count is not shown by the
 // code).
 typedef struct MissionRecordBlock {
     /* 00 */ u8 mUnk_00[4];
@@ -177,13 +177,13 @@ typedef struct GhostListEntry {
     /* 030 */ u8 mEmblem[0x200];
 } GhostListEntry;
 
-// The 0xe00 bytes behind member 0x14 of Unk0217aa08.
+// The 0xe00 bytes behind member 0x14 of BackupBuffers.
 typedef struct GhostRecord {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mKeyRecordingBuffer[0xdd0];
 } GhostRecord;
 
-// The 0x1000 bytes behind members 0x18 and 0x1c of Unk0217aa08.
+// The 0x1000 bytes behind members 0x18 and 0x1c of BackupBuffers.
 typedef struct SlotGhostRecord {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mEmblem[0x200];
@@ -225,7 +225,7 @@ typedef struct BuddyRecordBlock {
     /* 874 */ DWCAccFriendData mFriendData[60];
 } BuddyRecordBlock;
 
-// 0xb00 bytes behind member 0x24 of Unk0217aa08: a byte at 0x04 and five 0x200-byte rows from 0x08.
+// 0xb00 bytes behind member 0x24 of BackupBuffers: a byte at 0x04 and five 0x200-byte rows from 0x08.
 typedef struct EmblemBlockData {
     /* 000 */ u8 mUnk_000[4];
     /* 004 */ u8 mFilledBits;
@@ -234,7 +234,7 @@ typedef struct EmblemBlockData {
     /* a08 */ u8 mUnk_a08[0xf8];
 } EmblemBlockData;
 
-typedef struct Unk0217aa08 {
+typedef struct BackupBuffers {
     /* 00 */ BackupFirstBlock *mFirstBlock;
     /* 04 */ EmblemRecord *mEmblemRecord;
     /* 08 */ GrandPrixRecordBlock *mGrandPrixRecordBlock;
@@ -262,7 +262,7 @@ typedef struct Unk0217aa08 {
             s32 mUnk_44_0 : 1;
         };
     };
-} Unk0217aa08;
+} BackupBuffers;
 
 // Object behind member 0x15c4 of ConnectionWork.
 typedef struct SharingSendRecord {
@@ -744,7 +744,7 @@ static inline u16 GetParticipantIndexByPos(u16 index) {
 static inline PlayerRecord *GetPlayerRecord(u16 index) {
     return &gConnectionWork->mPlayerRecords[index];
 }
-extern Unk0217aa08 *data_0217aa08;
+extern BackupBuffers *gBackupBuffers;
 // Object behind gThreadFunctionQueue; the OSThread at 0x2c is passed to OS_CreateThread and OS_WakeupThreadDirect.
 typedef struct ThreadFunctionQueue {
     /* 00 */ void (*mFunctions[10])(void);
@@ -766,7 +766,7 @@ typedef struct OverlayLoaderEntry {
 
 struct NNSiFndHeapHead;
 
-// Object behind data_0217aa10; UpdateWiFiSession reads the word at 0. The objects at 0x2c and 0x58 are passed to
+// Object behind gOverlayLoader; UpdateWiFiSession reads the word at 0. The objects at 0x2c and 0x58 are passed to
 // FS_StartOverlay and FS_InitFile, the pointer at 0xa4 to NNS_FndDestroyExpHeap.
 typedef struct OverlayLoader {
     /* 00 */ s32 mCurrentOverlay;
@@ -780,7 +780,7 @@ typedef struct OverlayLoader {
     /* ac */ u32 mHighestEnd;
 } OverlayLoader;
 
-extern OverlayLoader *data_0217aa10;
+extern OverlayLoader *gOverlayLoader;
 
 #define WIFI_RACE_SYNC_PARTICIPANT_COUNT 4
 // Probe replies are collected until a peer has this many samples.

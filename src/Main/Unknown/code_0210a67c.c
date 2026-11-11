@@ -394,7 +394,7 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
         } while (playingSound != NULL);
     }
     modeAllowsSound = TRUE;
-    if (data_0217d084.mMode != 2 && data_0217d084.mMode != 3) {
+    if (gSoundModeHolder.mMode != 2 && gSoundModeHolder.mMode != 3) {
         modeAllowsSound = FALSE;
     }
     if (modeAllowsSound == FALSE) {

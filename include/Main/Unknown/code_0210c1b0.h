@@ -6,9 +6,8 @@
 
 void ExpireWhileRequestedSounds(SoundSource *source);
 u32 SetPlayingSoundsParams(SoundSource *source);
-// StartSound for any kind: starts soundId of seqArcNo at volume on the source and returns its PlayingSound; pitch is
-// stored in the mPitch member of the entry. Returns NULL when the mUnk_10 member of data_0217d084 is 0 or the source
-// is not enabled. Unlike StartSound it does not test data_0217c780.
+// StartSound for any kind: starts soundId of seqArcNo at volume on the source and returns its PlayingSound, or NULL
+// when the source is not enabled. pitch is stored in the entry.
 PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 volume, s16 pitch);
 // StartSoundWhileRequested for any kind: starts soundId of seqArcNo on the source, or refreshes it when it was already
 // started this way, and returns its PlayingSound.
@@ -23,5 +22,5 @@ void StopAllSoundsAndReleaseSoundSource(SoundSource *source);
 void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps);
 // Undoes InitSoundSource: stops the sounds started because they were requested, without a fade, unlinks all other
 // sounds from the source without stopping them, and takes the source out of the update lists and of the list of all
-// sound sources (data_0217d028).
+// sound sources (gSoundSources).
 void ReleaseSoundSource(SoundSource *source);

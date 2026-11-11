@@ -33,14 +33,14 @@ u16 GetPadInputSlot(void) {
 }
 
 BOOL IsInputOpenDuringRace(void) {
-    return (data_02175624->mFlags & INPUT_STATE_OPEN_DURING_RACE) != 0;
+    return (gInputState->mFlags & INPUT_STATE_OPEN_DURING_RACE) != 0;
 }
 
 void SetReadRaceKeys(u32 enable) {
     if (GetCurrentSceneNumber() == 2 && enable != 0) {
-        data_02175624->mFlags |= INPUT_STATE_READ_RACE_KEYS;
+        gInputState->mFlags |= INPUT_STATE_READ_RACE_KEYS;
     } else {
-        data_02175624->mFlags &= ~INPUT_STATE_READ_RACE_KEYS;
+        gInputState->mFlags &= ~INPUT_STATE_READ_RACE_KEYS;
     }
 }
 
@@ -69,8 +69,8 @@ void ResetInputSlotsFromParticipants(void) {
             }
         }
     }
-    data_02175624->mParticipantPosition = 0;
-    data_02175624->mUnk_0c = FALSE;
+    gInputState->mParticipantPosition = 0;
+    gInputState->mUnk_0c = FALSE;
 }
 
 void ResetInputSlotsFromRaceSetup(void) {
@@ -97,8 +97,8 @@ void ResetInputSlotsFromRaceSetup(void) {
     }
     gInputSlots[8].mSourceKind = 5;
     gInputSlots[9].mSourceKind = 6;
-    data_02175624->mParticipantPosition = 0;
-    data_02175624->mUnk_0c = FALSE;
+    gInputState->mParticipantPosition = 0;
+    gInputState->mUnk_0c = FALSE;
     inputSlot = gInputSlots;
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(inputSlot);

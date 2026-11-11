@@ -339,7 +339,7 @@ void UploadRaceHud(void) {
     }
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
         if (gRaceHud->mKartRemoved[i] != 0 && gRaceHud->mRemovedSoundPlayed[i] == 0) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x52);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x52);
             gRaceHud->mRemovedSoundPlayed[i] = 1;
         }
     }

@@ -731,9 +731,9 @@ void UpdateRaceLapNumber(void) {
             if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
                 seqIndex = 0x1c7;
             }
-            if (data_0217c780 & 1) {
+            if (gRaceSoundKind & 1) {
                 seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                if (data_0217d084.mSeqStartEnabled != 0) {
+                if (gSoundModeHolder.mSeqStartEnabled != 0) {
                     if (*seqPlayerHandle != NULL) {
                         NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
                     }

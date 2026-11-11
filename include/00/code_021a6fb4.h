@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/code_021a6fa8.h"
 
-typedef struct Unk021b49b8 Unk021b49b8;
+typedef struct SOCLSocketParam SOCLSocketParam;
 
 struct Unk021a7064;
 
@@ -35,5 +35,5 @@ s32 func_ov000_021a70b0(void);
 s32 func_ov000_021a70ec(s32 e);
 u8 *func_ov000_021a7154(u8 *b, Unk021a7154 *c, Unk021a72a4 *d);
 u8 *func_ov000_021a71a4(u8 *a, SizedBuffer *b, s32 c);
-u8 *func_ov000_021a71c0(Unk021a6fa8 *d, Unk021b49b8 *e);
+u8 *func_ov000_021a71c0(Unk021a6fa8 *d, SOCLSocketParam *e);
 int func_ov000_021a72a4(Unk021a72a4 *a);

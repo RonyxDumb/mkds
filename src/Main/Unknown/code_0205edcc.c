@@ -4,10 +4,10 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void WriteBackupBuddyRecords(void) {
-    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+    WriteBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
 }
 
 void WriteBuddyRecordsAndFirstBlock(void) {
-    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+    WriteBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
     StartWriteBackupFirstBlock();
 }

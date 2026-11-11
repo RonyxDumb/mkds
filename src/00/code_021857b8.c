@@ -42,7 +42,7 @@ void func_ov000_0218583c(void) {
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
         GX_SetGraphicsMode(1, 0, 1);
         if (gMenuShared->mUnk_6c != FALSE) {
-            p = data_0217aa08->mFirstBlock;
+            p = gBackupBuffers->mFirstBlock;
             a = p->mTotals[5];
             b = gWiFiSession->mKartCountCopy - 1;
             if (b > 0) {

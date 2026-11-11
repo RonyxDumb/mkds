@@ -333,7 +333,7 @@ u32 func_ov000_0218cef4(const s8 *a, u32 b) {
     u32 h = 0;
     while ((c = *a) != 0) {
         if (c >= 0 && c < 0x80) {
-            c = data_0215d184[c];
+            c = gLowerCaseMap[c];
         }
         h *= 0x9ccf9319;
         h += c;
@@ -1696,7 +1696,7 @@ s32 SbServerGetInt(SbServer *e, const char *v1, s32 d) {
         return func_ov000_0218af9c(e);
     }
     a = SbServerGetValue(e, v1, NULL);
-    if (a == NULL || (c = *a, !((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 8)))) {
+    if (a == NULL || (c = *a, !((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8)))) {
         return d;
     }
     return StrtolBase10(a);
@@ -1905,7 +1905,7 @@ u32 func_ov000_0218afd4(const s8 *v1, u32 v2) {
     c = *v1;
     while (c != 0) {
         if (c >= 0 && c < 0x80) {
-            c = data_0215d184[c];
+            c = gLowerCaseMap[c];
         }
         a *= 0x9ccf9319;
         a += c;

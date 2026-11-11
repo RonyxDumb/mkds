@@ -80,7 +80,7 @@ void InitDispCap(void *heap) {
     gDispCap->mBlendMin = 0;
     gDispCap->mBlendFactor = 0x1000;
     gDispCap->mMode = 0;
-    if (data_02175614.mState == BANK_SHARE_ACTIVE) {
+    if (gWvrState.mState == BANK_SHARE_ACTIVE) {
         gDispCap->mMode = 0;
     }
 }
@@ -122,7 +122,7 @@ static inline s32 DispCapIsConnectionActiveNotEndingWithError(void) {
 
 void SetDispCapMode(s32 mode) {
     gDispCap->mMode = mode;
-    if (data_02175614.mState == BANK_SHARE_ACTIVE) {
+    if (gWvrState.mState == BANK_SHARE_ACTIVE) {
         gDispCap->mMode = 0;
     }
 }

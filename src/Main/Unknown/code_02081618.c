@@ -189,7 +189,7 @@ void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
     if (gKartBoostCameraEffect != NULL) {
         gKartBoostCameraEffect->mUnk_24.mUnk_00_0 = 1;
     }
-    effect = StartEffect(gKartBoostCameraEffectIds[effectIdIndex], &data_02155a14);
+    effect = StartEffect(gKartBoostCameraEffectIds[effectIdIndex], &gKartEffectVec3Zero);
     effect->mUnk_98 = 0;
     effect->mUnk_94 = kart;
     effect->mUnk_90 = AdvanceKartBoostCameraEffect;
@@ -274,7 +274,7 @@ BOOL StartKartCurrentEffect(KartEffectIdSet *effectIdSet, s32 velocityFactorInde
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
     }
-    effect = StartEffect(effectIdSet->mEffectIds[0], &data_02155a14);
+    effect = StartEffect(effectIdSet->mEffectIds[0], &gKartEffectVec3Zero);
     kartEffects->mCurrentEffect = effect;
     kartEffects->mCurrentEffectId = effectIdSet->mEffectIds[0];
     effect->mUnk_94 = kart;
@@ -304,7 +304,7 @@ s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorI
             }
             kartEffects->mEffectIds[i] = effectIdSet->mEffectIds[i];
             do {
-                effect = StartEffect(kartEffects->mEffectIds[i], &data_02155a14);
+                effect = StartEffect(kartEffects->mEffectIds[i], &gKartEffectVec3Zero);
                 gKartEffects[kart->mIndex].mEffectPairs[i].mUnk_00_a[j] = effect;
                 effect->mUnk_94 = kart;
                 effect->mUnk_98_24 = j;
@@ -337,7 +337,7 @@ s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityF
             }
             kartEffects->mEffectIds[i] = effectIdSet->mEffectIds[i];
             do {
-                effect = StartEffect(kartEffects->mEffectIds[i], &data_02155a14);
+                effect = StartEffect(kartEffects->mEffectIds[i], &gKartEffectVec3Zero);
                 gKartEffects[kart->mIndex].mEffectPairs[i].mUnk_00_a[j] = effect;
                 effect->mUnk_94 = kart;
                 effect->mUnk_98_24 = j;
@@ -361,7 +361,7 @@ BOOL StartKartWaterEffects(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex
         return FALSE;
     }
     for (i = 0; i < 2; i++) {
-        effect = StartEffect(effectIdSet->mEffectIds[0], &data_02155a14);
+        effect = StartEffect(effectIdSet->mEffectIds[0], &gKartEffectVec3Zero);
         gKartEffects[kart->mIndex].mUnk_20_a[i] = effect;
         effect->mUnk_94 = kart;
         effect->mUnk_98_24 = i;
@@ -717,7 +717,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
             if (pair->mFirst < 0) {
                 break;
             }
-            effect = StartRaceFogOffEffect(effectKind->mEffectId, &data_02155a14);
+            effect = StartRaceFogOffEffect(effectKind->mEffectId, &gKartEffectVec3Zero);
             startedCount++;
             effect->mUnk_90 = effectKind->mAdvance;
             effect->mUnk_98_0 = pair->mFirst;
@@ -794,24 +794,24 @@ void InitCourseCameraEffects(void) {
             Unk0201ca6c *effect;
 
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                effect = StartEffect(0x24, &data_02155a14);
+                effect = StartEffect(0x24, &gKartEffectVec3Zero);
                 gFirstCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldLuigiAgbFirstChaseEffect;
-                effect = StartEffect(0x27, &data_02155a14);
+                effect = StartEffect(0x27, &gKartEffectVec3Zero);
                 gSecondCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldLuigiAgbSecondChaseEffect;
             } else if (GetRaceUseChainCameras() != 0) {
-                effect = StartEffect(0x3d, &data_02155a14);
+                effect = StartEffect(0x3d, &gKartEffectVec3Zero);
                 gFirstCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
-                effect = StartEffect(0x3f, &data_02155a14);
+                effect = StartEffect(0x3f, &gKartEffectVec3Zero);
                 gSecondCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             } else {
-                effect = StartEffect(0x3c, &data_02155a14);
+                effect = StartEffect(0x3c, &gKartEffectVec3Zero);
                 gFirstCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
-                effect = StartEffect(0x3f, &data_02155a14);
+                effect = StartEffect(0x3f, &gKartEffectVec3Zero);
                 gSecondCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             }
@@ -821,18 +821,18 @@ void InitCourseCameraEffects(void) {
             Unk0201ca6c *effect;
 
             if (GetRaceUseChainCameras() != 0) {
-                effect = StartEffect(0x3e, &data_02155a14);
+                effect = StartEffect(0x3e, &gKartEffectVec3Zero);
                 gFirstCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldFrappe64FirstCurrentCameraEffect;
             } else if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                effect = StartEffect(0x29, &data_02155a14);
+                effect = StartEffect(0x29, &gKartEffectVec3Zero);
                 gFirstCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldFrappe64FirstChaseEffect;
-                effect = StartEffect(0x25, &data_02155a14);
+                effect = StartEffect(0x25, &gKartEffectVec3Zero);
                 gSecondCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldFrappe64SecondChaseEffect;
             } else {
-                effect = StartEffect(0x29, &data_02155a14);
+                effect = StartEffect(0x29, &gKartEffectVec3Zero);
                 gFirstCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldFrappe64FirstCurrentCameraEffect;
             }
@@ -1057,7 +1057,7 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(Unk0201ca6c *effect, s32 a) {
     }
     currentCamera = GetCurrentCamera();
     forwardFlat = currentCamera->mForward;
-    extraOffset = data_02155a14;
+    extraOffset = gKartEffectVec3Zero;
     if (GetEntryRaceEnded() != 0) {
         FX_Atan2Idx(currentCamera->mHalfFovPairFirst, currentCamera->mHalfFovPairSecond);
         VEC_Subtract(&currentCamera->mPos, &currentCamera->mPrevPos, &extraOffset);
@@ -1087,7 +1087,7 @@ void SwitchCourseCameraEffectsToCurrentCamera(void) {
         case COURSE_ID_OLD_LUIGI_AGB:
             if (gFirstCourseCameraEffect != NULL) {
                 DeleteEffect(gFirstCourseCameraEffect);
-                effect = StartEffect(0x3c, &data_02155a14);
+                effect = StartEffect(0x3c, &gKartEffectVec3Zero);
                 gFirstCourseCameraEffect = effect;
                 effect->mUnk_90 = AdvanceOldLuigiAgbFirstCurrentCameraEffect;
             }
@@ -1095,7 +1095,7 @@ void SwitchCourseCameraEffectsToCurrentCamera(void) {
                 return;
             }
             DeleteEffect(gSecondCourseCameraEffect);
-            effect = StartEffect(0x3f, &data_02155a14);
+            effect = StartEffect(0x3f, &gKartEffectVec3Zero);
             gSecondCourseCameraEffect = effect;
             effect->mUnk_90 = AdvanceOldLuigiAgbSecondCurrentCameraEffect;
             break;
@@ -1345,7 +1345,7 @@ void StartKartKillerEffect(s32 kartIndex) {
     if (kartEffects->mKillerEffect != NULL) {
         DeleteEffect(kartEffects->mKillerEffect);
     }
-    kartEffects->mKillerEffect = StartEffect(0x63, &data_02155a14);
+    kartEffects->mKillerEffect = StartEffect(0x63, &gKartEffectVec3Zero);
 }
 
 // Moves the Killer effect to point b and gives it the kart's velocity.

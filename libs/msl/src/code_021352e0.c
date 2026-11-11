@@ -70,7 +70,7 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
         }
         c = *++s;
     } else {
-        while ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 8)) {
+        while ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8)) {
             v.mMinLength = v.mMinLength * 10 + (c - '0');
             c = *++s;
         }
@@ -91,7 +91,7 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
             }
             c = *++s;
         } else {
-            while ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 8)) {
+            while ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8)) {
                 v.mUnk_0c = v.mUnk_0c * 10 + (c - '0');
                 c = *++s;
             }
@@ -629,14 +629,14 @@ char *FormatDouble(double v, char *buf, FormatSpec f) {
             c = a;
             if (v < 0.0) {
                 p = buf - 5;
-                if ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 0x200)) {
+                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
                     strcpy(p, gFormatMinusInfUpper);
                 } else {
                     strcpy(p, gFormatMinusInfLower);
                 }
             } else {
                 p = buf - 4;
-                if ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 0x200)) {
+                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
                     strcpy(p, gFormatInfUpper);
                 } else {
                     strcpy(p, gFormatInfLower);
@@ -647,14 +647,14 @@ char *FormatDouble(double v, char *buf, FormatSpec f) {
             c = a;
             if (d.mNegative) {
                 p = buf - 5;
-                if ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 0x200)) {
+                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
                     strcpy(p, gFormatMinusNanUpper);
                 } else {
                     strcpy(p, gFormatMinusNanLower);
                 }
             } else {
                 p = buf - 4;
-                if ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 0x200)) {
+                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
                     strcpy(p, gFormatNanUpper);
                 } else {
                     strcpy(p, gFormatNanLower);

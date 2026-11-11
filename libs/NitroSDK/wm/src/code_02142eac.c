@@ -11,7 +11,7 @@
 
 // Starts DCF reception into recvBuf (command 17). Needs state 8 and DCF not running; recvBufSize must be at least 0x10.
 s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     work = WMi_GetSystemWork();
@@ -41,7 +41,7 @@ s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {
 // Sends sendDataSize bytes (at most 0x5e4) of sendData to the station destAdr (command 18). Needs state 11 and DCF
 // running.
 s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData, u16 sendDataSize) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
     u32 address[2];
 
@@ -69,7 +69,7 @@ s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData,
 
 // Ends DCF (command 19). Needs state 11 and DCF running.
 s32 WM_EndDCF(Unk021425e8Func callback) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     work = WMi_GetSystemWork();
@@ -94,7 +94,7 @@ s32 WM_EndDCF(Unk021425e8Func callback) {
 s32 WM_StartMPEx(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize, void *sendBuf, u16 sendBufSize, u16 mpFreq,
                  u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode,
                  BOOL ignoreFatalError) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
     s32 sendSize;
 
@@ -204,7 +204,7 @@ s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendD
 
 // Ends the MP protocol (command 16). Needs state 9 or 10 and MP running.
 s32 WM_EndMP(Unk021425e8Func callback) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     work = WMi_GetSystemWork();
@@ -226,7 +226,7 @@ s32 WM_EndMP(Unk021425e8Func callback) {
 
 // Enables the wireless hardware (command 3). Needs state 0.
 s32 WM_Enable(Unk021425e8Func callback) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     result = WMi_CheckStateEx(1, 0);
@@ -292,7 +292,7 @@ s32 WM_PowerOff(Unk021425e8Func callback) {
 
 // Sets up the system buffer with WM_Init, then starts the wireless hardware (command 0).
 s32 WM_Initialize(void *wmSysBuf, Unk021425e8Func callback, u16 dmaNo) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     result = WM_Init(wmSysBuf, dmaNo);
@@ -560,7 +560,7 @@ s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL pow
 
 // Disconnects the station aid (command 13): a child from a parent, or the parent itself when aid is 0 on a child.
 s32 WM_Disconnect(Unk021425e8Func callback, u32 aid) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     work = WMi_GetSystemWork();
@@ -589,7 +589,7 @@ s32 WM_Disconnect(Unk021425e8Func callback, u32 aid) {
 
 // Disconnects the children in aidBitmap (command 13). Needs state 7 or 9; returns 7 when none of them is connected.
 s32 WM_DisconnectChildren(Unk021425e8Func callback, u32 aidBitmap) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     work = WMi_GetSystemWork();
@@ -625,12 +625,12 @@ s32 WM_SetIndCallback(Unk021425e8Func callback) {
     return 0;
 }
 
-// Sets the callback and argument for data received on port (stored in Unk02142aa8.mPortCallbacks and
-// Unk02142aa8.mPortCallbackArgs).
+// Sets the callback and argument for data received on port (stored in WMArm9Buf.mPortCallbacks and
+// WMArm9Buf.mPortCallbackArgs).
 s32 WM_SetPortCallback(u16 port, UnkFunc *callback, void *arg) {
     u32 enabled;
     s32 result;
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
 
     enabled = OS_DisableInterrupts();
     result = WMi_CheckInitialized();
@@ -647,7 +647,7 @@ s32 WM_SetPortCallback(u16 port, UnkFunc *callback, void *arg) {
 
 // Copies the status area into statusBuf.
 s32 WM_ReadStatus(void *statusBuf) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 result;
 
     work = WMi_GetSystemWork();
@@ -665,7 +665,7 @@ s32 WM_ReadStatus(void *statusBuf) {
 
 // Returns the send buffer size WM_StartMPEx needs, or 0 when the state does not allow it.
 s32 WM_GetMPSendBufferSize(void) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
 
     work = WMi_GetSystemWork();
     if (WMi_CheckStateEx(2, 7, 8) != 0) {
@@ -681,7 +681,7 @@ s32 WM_GetMPSendBufferSize(void) {
 
 // Returns the receive buffer size WM_StartMPEx needs, or 0 when the state does not allow it.
 s32 WM_GetMPReceiveBufferSize(void) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     s32 isHost;
     u16 maxRecvSize;
 
@@ -710,7 +710,7 @@ s32 WM_GetMPReceiveBufferSize(void) {
 
 // Returns the record of station aid in the MP receive data header, or NULL when there is none.
 void *WM_ReadMPData(const Unk021432ac *header, u16 aid) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     u32 records[16];
     s32 i;
 
@@ -750,7 +750,7 @@ u16 WM_GetAllowedChannel(void) {
 
 // Returns the signal strength of the link, 0 when there is no link.
 u16 WM_GetLinkLevel(void) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
 
     work = WMi_GetSystemWork();
     if (WMi_CheckInitialized() != 0) {

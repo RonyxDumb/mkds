@@ -80,15 +80,15 @@ typedef struct InputSlot {
 
 extern InputSlot data_0217562c[];
 
-extern InputSlot data_02175680[];
+extern InputSlot gInputNoPairCounts[];
 
-extern InputSlot data_0217567c[];
+extern InputSlot gInputPrevHasPairs[];
 
-extern InputSlot data_02175674[];
+extern InputSlot gInputHasPairs[];
 
-extern InputSlot data_02175672[];
+extern InputSlot gInputPairYs[];
 
-extern InputSlot data_02175670[];
+extern InputSlot gInputPairXs[];
 
 extern InputSlot gInputSlots[];
 

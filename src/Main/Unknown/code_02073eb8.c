@@ -63,7 +63,7 @@ void ApplyCameraFrustum(Camera *camera, s32 useSecondFar) {
     }
     G3i_FrustumW_(camera->mFrustumTop, camera->mFrustumBottom, camera->mFrustumLeft, camera->mFrustumRight,
                   camera->mNear, farPlane, 0x1000, 0, &data_usa_02170284);
-    data_0217029c.mFlag &= ~0x50;
+    NNS_G3dGlb.mFlag &= ~0x50;
 }
 
 void ApplyCameraLookAt(Camera *camera) {
@@ -74,7 +74,7 @@ void ApplyCameraLookAt(Camera *camera) {
     data_021704dc[1] = camera->mUp;
     data_021704dc[2] = *viewLookAt;
     G3i_LookAt_(viewPos, &camera->mUp, viewLookAt, 0, &data_usa_021702c8);
-    data_0217029c.mFlag &= ~0xe8;
+    NNS_G3dGlb.mFlag &= ~0xe8;
 }
 
 // Chase camera only: sets up the camera, then puts it behind the selected Kart.

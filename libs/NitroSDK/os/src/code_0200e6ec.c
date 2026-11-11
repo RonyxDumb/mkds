@@ -27,7 +27,7 @@ void OS_LockMutex(OSMutex *mutex) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = data_0216ff5c.mCurrentThread;
+    current = OSi_ThreadInfo.mCurrentThread;
     while (1) {
         if (mutex->mHolder == 0) {
             mutex->mHolder = current;
@@ -52,7 +52,7 @@ void OS_UnlockMutex(OSMutex *mutex) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = data_0216ff5c.mCurrentThread;
+    current = OSi_ThreadInfo.mCurrentThread;
     if (mutex->mHolder == current) {
         mutex->mLockCount = mutex->mLockCount - 1;
         if (mutex->mLockCount == 0) {
@@ -87,7 +87,7 @@ BOOL OS_TryLockMutex(OSMutex *mutex) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = data_0216ff5c.mCurrentThread;
+    current = OSi_ThreadInfo.mCurrentThread;
     if (mutex->mHolder == 0) {
         mutex->mHolder = current;
         mutex->mLockCount = mutex->mLockCount + 1;

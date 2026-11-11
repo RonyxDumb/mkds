@@ -34,7 +34,7 @@ typedef struct Unk021a8e18 {
 #include "00/unk_021b5000.h"
 #include "00/unk_021b4000.h"
 
-extern Unk021b49b8 data_0216e204;
+extern SOCLSocketParam SOCLSocketParamUDP;
 extern const char data_ov000_021b49e8[];
 extern u32 data_ov000_021b600c;
 extern u32 *data_ov000_021b6018[2];

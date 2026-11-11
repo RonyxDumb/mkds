@@ -3,7 +3,7 @@
 
 #include "code_0214177c.h"
 
-// Compares the byte strings a and b, mapping each byte below 0x80 through data_0215d184 first: -1 or 1 at the first
+// Compares the byte strings a and b, mapping each byte below 0x80 through gLowerCaseMap first: -1 or 1 at the first
 // difference, 0 when both end together.
 int StrcmpMapped(const char *a, const char *b) {
     int x;
@@ -12,9 +12,9 @@ int StrcmpMapped(const char *a, const char *b) {
 
     for (;;) {
         x = *a++;
-        c1 = (x < 0 || x >= 0x80) ? x : data_0215d184[x];
+        c1 = (x < 0 || x >= 0x80) ? x : gLowerCaseMap[x];
         x = *b++;
-        c2 = (x < 0 || x >= 0x80) ? x : data_0215d184[x];
+        c2 = (x < 0 || x >= 0x80) ? x : gLowerCaseMap[x];
         if (c1 < c2) {
             return -1;
         }

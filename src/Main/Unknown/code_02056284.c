@@ -6,9 +6,9 @@
 
 SlotGhostRecord *LoadGhostRecordFile(const char *path) {
     int result;
-    result = ReadWholeFile(path, data_0217aa08->mSlotGhostRecords[1], (0x00001000u));
+    result = ReadWholeFile(path, gBackupBuffers->mSlotGhostRecords[1], (0x00001000u));
     if (result != 0) {
-        return data_0217aa08->mSlotGhostRecords[1];
+        return gBackupBuffers->mSlotGhostRecords[1];
     }
     return NULL;
 }

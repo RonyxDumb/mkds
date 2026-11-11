@@ -153,27 +153,27 @@ void AdvanceWiFiTopMenuState3(void) {
     BOOL v6;
     s32 v7;
 
-    if (data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) {
+    if (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) {
         v3 = TRUE;
     }
-    if (v3 == FALSE && data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0) {
+    if (v3 == FALSE && gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0) {
         v1 = TRUE;
     }
     if (v1 != FALSE) {
-        v2 = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, data_02175670[i].mPressedBits,
-                                     data_02175672[i].mPressedBits);
+        v2 = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, gInputPairXs[i].mPressedBits,
+                                     gInputPairYs[i].mPressedBits);
     }
     v5 = gInputSlots[i].mPressedBits & PAD_KEY_B;
     if ((u16) v5 == 0) {
         v7 = v6 = FALSE;
-        if (data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) {
+        if (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) {
             v7 = 1;
         }
-        if (v7 == 0 && data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0) {
+        if (v7 == 0 && gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0) {
             v6 = TRUE;
         }
-        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[i].mPressedBits,
-                                                                           data_02175672[i].mPressedBits) == FALSE) {
+        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[i].mPressedBits,
+                                                                           gInputPairYs[i].mPressedBits) == FALSE) {
             goto next;
         }
     }
@@ -337,7 +337,7 @@ void AdvanceWiFiTopMenuState8(void) {
     BOOL b;
     u32 v;
     if (IsTxtSystemState2AfterState1() != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
         if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {

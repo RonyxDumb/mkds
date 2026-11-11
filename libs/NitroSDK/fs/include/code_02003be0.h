@@ -44,4 +44,4 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos);
 // First FSArchive of the list FS_RegisterArchiveName builds through mNext/mPrev (FS_FindArchive searches it).
 extern FSArchive *data_0216f340;
 // Set by FS_RegisterArchiveName, FS_ReleaseArchiveName and FS_ChangeDir; read by FSi_FindPath.
-extern Unk02003024U data_0216f344;
+extern Unk02003024U current_dir_pos;

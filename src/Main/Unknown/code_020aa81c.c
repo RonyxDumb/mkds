@@ -96,17 +96,17 @@ s32 KeyboardKeyCallback(u32 keyValue, s32 newPress) {
     switch ((s32) keyValue) {
         case 6:
             if (GetKeyboardChosenKeyValue() != 6) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1e7);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1e7);
             } else {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1ed);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1ed);
                 result = 3;
             }
             break;
         case 7:
             if (GetKeyboardChosenKeyValue() != 7) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1e8);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1e8);
             } else {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1ed);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1ed);
                 result = 3;
             }
             break;
@@ -114,7 +114,7 @@ s32 KeyboardKeyCallback(u32 keyValue, s32 newPress) {
             convertedChar = ConvertCharPair1(gKeyboardTextEntry->mText[lastCharIndex]);
             currentChar = gKeyboardTextEntry->mText[lastCharIndex];
             if (currentChar == convertedChar) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1ed);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1ed);
                 result = 3;
             }
             break;
@@ -122,7 +122,7 @@ s32 KeyboardKeyCallback(u32 keyValue, s32 newPress) {
             convertedChar = ConvertCharPair2(gKeyboardTextEntry->mText[lastCharIndex]);
             currentChar = gKeyboardTextEntry->mText[lastCharIndex];
             if (currentChar == convertedChar) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1ed);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1ed);
                 result = 3;
             }
             break;
@@ -130,28 +130,28 @@ s32 KeyboardKeyCallback(u32 keyValue, s32 newPress) {
             convertedChar = ConvertCharPair3(gKeyboardTextEntry->mText[lastCharIndex]);
             currentChar = gKeyboardTextEntry->mText[lastCharIndex];
             if (currentChar == convertedChar) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1ed);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1ed);
                 result = 3;
             }
             break;
         case 4:
         case 5:
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1eb);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1eb);
             break;
         case 0x20:
         case 0x3000:
             if (newPress != 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ea);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ea);
             }
             break;
         case 8:
             if (newPress != 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, result, 0x1e9);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, result, 0x1e9);
             }
             break;
         default:
             if (newPress != 0 && keyValue >= 0x20) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1e6);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1e6);
             }
             break;
     }
@@ -268,7 +268,7 @@ void AdvanceKeyboardTextEntry(void) {
                 keyboardTextEntry->mTextIndex--;
             }
             gKeyboardTextEntry->mText[gKeyboardTextEntry->mTextIndex] = 0;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1e3);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1e3);
         }
     } else if (GetKeyboardKeyValue() >= 0x20) {
         gKeyboardTextEntry->mTextIndexCopy = gKeyboardTextEntry->mTextIndex;
@@ -281,34 +281,34 @@ void AdvanceKeyboardTextEntry(void) {
                 if (gKeyboardTextEntry->mTextIndex < gKeyboardTextEntry->mTextLimit - 1) {
                     gKeyboardTextEntry->mTextIndex++;
                 }
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1e2);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1e2);
             }
         }
     } else if (GetKeyboardKeyValue() == 0x10) {
         convertedChar = ConvertCharPair1(gKeyboardTextEntry->mText[lastCharIndex]);
         if (convertedChar != gKeyboardTextEntry->mText[lastCharIndex]) {
             gKeyboardTextEntry->mText[lastCharIndex] = convertedChar;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ec);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ec);
         }
     } else if (GetKeyboardKeyValue() == 0x11) {
         convertedChar = ConvertCharPair2(gKeyboardTextEntry->mText[lastCharIndex]);
         if (convertedChar != gKeyboardTextEntry->mText[lastCharIndex]) {
             gKeyboardTextEntry->mText[lastCharIndex] = convertedChar;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ec);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ec);
         }
     } else if (GetKeyboardKeyValue() == 0x12) {
         convertedChar = ConvertCharPair3(gKeyboardTextEntry->mText[lastCharIndex]);
         if (convertedChar != gKeyboardTextEntry->mText[lastCharIndex]) {
             gKeyboardTextEntry->mText[lastCharIndex] = convertedChar;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ec);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ec);
         }
     } else if (GetKeyboardKeyValue() == 0x13) {
         convertedChar = CycleCharTables(gKeyboardTextEntry->mText[lastCharIndex]);
         if (convertedChar != gKeyboardTextEntry->mText[lastCharIndex]) {
             gKeyboardTextEntry->mText[lastCharIndex] = convertedChar;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ec);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ec);
         } else {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ed);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ed);
         }
     }
     GetKeyboardKeyValue();
@@ -1156,7 +1156,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
     }
     startRect = keyboardKeys->mCursorRect;
     if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= 0xff &&
-        startRect->mKeyId != data_0217b2b8[1] && startRect->mKeyId != data_0217b2b8[0] &&
+        startRect->mKeyId != gKeyboardLayoutKeyIds[1] && startRect->mKeyId != gKeyboardLayoutKeyIds[0] &&
         startRect != keyboardKeys->mTouchStartRect && startRect != keyboardKeys->mKeyDownRect) {
         ringRect = startRect;
         do {
@@ -1168,7 +1168,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
     }
     startRect = keyboardKeys->mKeyDownRect;
     if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= 0xff &&
-        startRect->mKeyId != data_0217b2b8[1] && startRect->mKeyId != data_0217b2b8[0]) {
+        startRect->mKeyId != gKeyboardLayoutKeyIds[1] && startRect->mKeyId != gKeyboardLayoutKeyIds[0]) {
         ringRect = startRect;
         do {
             AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
@@ -1179,7 +1179,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
     }
     startRect = keyboardKeys->mTouchStartRect;
     if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= 0xff &&
-        startRect->mKeyId != data_0217b2b8[1] && startRect->mKeyId != data_0217b2b8[0] &&
+        startRect->mKeyId != gKeyboardLayoutKeyIds[1] && startRect->mKeyId != gKeyboardLayoutKeyIds[0] &&
         startRect != keyboardKeys->mKeyDownRect) {
         if (keyboardKeys->mTouchRect != NULL && startRect->mKeyId == keyboardKeys->mTouchRect->mKeyId) {
             ringRect = startRect;
@@ -1251,7 +1251,7 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
                 if ((GetKeyboardKeysPressedOrRepeated() & keyMask) != 0) {
                     fn = gKeyboardKeys.mCurrentLayout->mCallback;
                     if (fn == AsciiLayoutCallback) {
-                        h = data_0217b2b8[1];
+                        h = gKeyboardLayoutKeyIds[1];
                         if (h == 0) {
                             gKeyboardKeys.mKeyId = 4;
                         } else if (h == 4) {
@@ -1307,11 +1307,11 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
         if (gKeyboardKeys.mKeyValue >= 0x20) {
             fn = gKeyboardKeys.mCurrentLayout->mCallback;
             if (fn == AsciiLayoutCallback) {
-                if (data_0217b2b8[1] == 4) {
-                    data_0217b2b8[1] = 0;
+                if (gKeyboardLayoutKeyIds[1] == 4) {
+                    gKeyboardLayoutKeyIds[1] = 0;
                 }
             } else if (fn == HiraganaKatakanaLayoutCallback) {
-                data_0217b2b8[1] = 0;
+                gKeyboardLayoutKeyIds[1] = 0;
             }
         }
         if (gKeyboardKeys.mKeyId != 0 && gKeyboardKeys.mCurrentLayout->mCallback != NULL) {

@@ -10,7 +10,7 @@ void ReadSlotGhostRecords(void) {
     GhostListEntry *records;
     GhostRecordHead *record;
 
-    records = data_0217aa08->mReadDestination;
+    records = gBackupBuffers->mReadDestination;
     for (i = 0; i < 10; i++) {
         record = &records[i].mHead;
         if (IsSlotGhostBitSet(i) != 0) {
@@ -26,11 +26,11 @@ void ReadSlotGhostRecords(void) {
         }
     }
     ClearBackupBusy();
-    data_0217aa08->mReadDestination = NULL;
+    gBackupBuffers->mReadDestination = NULL;
 }
 
 void StartReadSlotGhostRecords(void *records) {
-    data_0217aa08->mReadDestination = records;
+    gBackupBuffers->mReadDestination = records;
     SetBackupBusy();
     QueueThreadFunction(ReadSlotGhostRecords);
     gThreadFunctionQueue->mRunRequested = 1;

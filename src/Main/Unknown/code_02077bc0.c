@@ -1312,8 +1312,8 @@ void InitKartModelMenuWithParamFiles(void *heap) {
     for (i = 0; i < 2; i = (u16) (i + 1)) {
         InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[i]);
     }
-    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mEmblemOff == 0) {
-        gKartModelMenu->mEmblemData = data_0217aa08->mEmblemRecord->mEmblemData;
+    if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
+        gKartModelMenu->mEmblemData = gBackupBuffers->mEmblemRecord->mEmblemData;
         gKartModelMenu->mEmblemPalette = GetEmblemSBNclr()->mData;
     }
     SetHeapGroupId(9);
@@ -1485,8 +1485,8 @@ void SetFrustumProjection(s32 mirrored) {
         left = unmirroredRight;
     }
     NNS_G3dGeBufferOP_N(0x15, NULL, 0);
-    G3i_FrustumW_(top, bottom, left, right, 0x200, 0x64000, 0x1000, 0, &data_0217029c.mProjMtx);
-    data_0217029c.mFlag &= ~0x50;
+    G3i_FrustumW_(top, bottom, left, right, 0x200, 0x64000, 0x1000, 0, &NNS_G3dGlb.mProjMtx);
+    NNS_G3dGlb.mFlag &= ~0x50;
     NNS_G3dGlbFlushP();
 }
 
@@ -1514,8 +1514,8 @@ void SetupLightFrustumAndLookAt(s32 param_1, s32 yOffset) {
     data_021704dc[0] = data_usa_021656fc;
     data_021704dc[1] = camUp;
     data_021704dc[2] = target;
-    G3i_LookAt_(&data_usa_021656fc, &camUp, &target, 0, &data_0217029c.mCameraMtx);
-    data_0217029c.mFlag &= ~0xe8;
+    G3i_LookAt_(&data_usa_021656fc, &camUp, &target, 0, &NNS_G3dGlb.mCameraMtx);
+    NNS_G3dGlb.mFlag &= ~0xe8;
     NNS_G3dGlbFlushP();
 }
 
@@ -1531,7 +1531,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     s32 scaleValue;
     u16 i;
 
-    data_0217029c.mPrmViewPort = 0xbfff0000;
+    NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
     translation.x = data_usa_021656f0.x;
     translation.y = data_usa_021656f0.y;
     translation.z = data_usa_021656f0.z;
@@ -1552,14 +1552,14 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     }
     NNS_G3dGlbSetBaseScale(&scale);
     NNS_G3dGlbSetBaseTrans(&translation);
-    MI_Copy36B(&tiltMatrix, &data_0217029c.mPrmBaseRot);
-    data_0217029c.mFlag &= ~0xa4;
+    MI_Copy36B(&tiltMatrix, &NNS_G3dGlb.mPrmBaseRot);
+    NNS_G3dGlb.mFlag &= ~0xa4;
     NNS_G3dGlbFlushP();
     if (gKartModelMenu->mSelectModel != NULL) {
         NNS_G3dDraw(&gKartModelMenu->mSelectModel->mRenderObj);
     }
-    MI_Copy36B(&rotationMatrix, &data_0217029c.mPrmBaseRot);
-    data_0217029c.mFlag &= ~0xa4;
+    MI_Copy36B(&rotationMatrix, &NNS_G3dGlb.mPrmBaseRot);
+    NNS_G3dGlb.mFlag &= ~0xa4;
     NNS_G3dGlbSetBaseTrans(&translation);
     NNS_G3dGlbFlushP();
     if (slot->mCharacterIndex != -1 && slot->mKartIndex != -1) {
@@ -1706,7 +1706,7 @@ void AdvanceKartModelMenuInput(void) {
                     RequestKartModelMenuCharacter(characterIndex);
                     RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
                     d = 1;
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, a, 0x1fd);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, a, 0x1fd);
                 }
             } while (d == 0);
             gKartModelMenu->mKartListPos++;
@@ -1724,7 +1724,7 @@ void AdvanceKartModelMenuInput(void) {
                     RequestKartModelMenuCharacter(characterIndex);
                     RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
                     d = 1;
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, a, 0x1fe);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, a, 0x1fe);
                 }
             } while (d == 0);
             gKartModelMenu->mKartListPos--;

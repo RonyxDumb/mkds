@@ -615,7 +615,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
     if (gDisplaySettings->mBankForLCDC != 0) {
         GX_SetBankForLCDC(gDisplaySettings->mBankForLCDC);
     }
-    data_02175614.mState;
+    gWvrState.mState;
     GX_SetGraphicsMode(settings->mDispMode, settings->mMainBgMode, settings->mBg0As);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | (settings->mMainDisplayMask << 8);
     GXS_SetGraphicsMode(settings->mSubBgMode);

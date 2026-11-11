@@ -19,24 +19,24 @@ void CombineParticipantBits(void) {
                 entry = &gConnectionWork->mPlayerRecords[i];
                 bitsByte = &entry->mBits[j];
                 if (i == 0) {
-                    data_0217aa08->mParticipantAndBits[j] = *bitsByte;
-                    data_0217aa08->mParticipantOrBits[j] = *bitsByte;
+                    gBackupBuffers->mParticipantAndBits[j] = *bitsByte;
+                    gBackupBuffers->mParticipantOrBits[j] = *bitsByte;
                 } else {
-                    data_0217aa08->mParticipantAndBits[j] &= *bitsByte;
-                    data_0217aa08->mParticipantOrBits[j] |= *bitsByte;
+                    gBackupBuffers->mParticipantAndBits[j] &= *bitsByte;
+                    gBackupBuffers->mParticipantOrBits[j] |= *bitsByte;
                 }
             }
             entry = &gConnectionWork->mPlayerRecords[i];
             value = GetKartAppearLimitFromBits(entry->mBits);
             if (i == 0) {
-                data_0217aa08->mParticipantMaxValue = value;
-                data_0217aa08->mParticipantMinValue = value;
+                gBackupBuffers->mParticipantMaxValue = value;
+                gBackupBuffers->mParticipantMinValue = value;
             } else {
-                if (value > data_0217aa08->mParticipantMaxValue) {
-                    data_0217aa08->mParticipantMaxValue = value;
+                if (value > gBackupBuffers->mParticipantMaxValue) {
+                    gBackupBuffers->mParticipantMaxValue = value;
                 }
-                if (value < data_0217aa08->mParticipantMinValue) {
-                    data_0217aa08->mParticipantMinValue = value;
+                if (value < gBackupBuffers->mParticipantMinValue) {
+                    gBackupBuffers->mParticipantMinValue = value;
                 }
             }
         }
@@ -47,10 +47,10 @@ void ClearParticipantBits(void) {
     u8 i;
 
     for (i = 0; i < 4; i++) {
-        data_0217aa08->mParticipantAndBits[i] = 0;
-        data_0217aa08->mParticipantOrBits[i] = 0;
+        gBackupBuffers->mParticipantAndBits[i] = 0;
+        gBackupBuffers->mParticipantOrBits[i] = 0;
     }
-    data_0217aa08->mParticipantMaxValue = 0;
-    data_0217aa08->mParticipantMinValue = 0;
+    gBackupBuffers->mParticipantMaxValue = 0;
+    gBackupBuffers->mParticipantMinValue = 0;
 }
 #pragma thumb off

@@ -4,6 +4,6 @@
 
 #pragma thumb on
 void WriteBackupFirstBlockWrapper(void) {
-    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
+    WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
 }
 #pragma thumb off

@@ -382,7 +382,7 @@ void AdvanceTxtSystemState0(void) {
         }
         if (gTxtSystem->mAnimVisible[0] == 0 && gTxtSystem->mAnimVisible[1] == 0) {
             if (gTxtSystem->mOpenSoundId != -1) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) gTxtSystem->mOpenSoundId);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) gTxtSystem->mOpenSoundId);
             }
         }
     }
@@ -420,11 +420,11 @@ static inline s32 TxtSystemIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
     BOOL recentlyLost = FALSE;
 
-    if (data_02175674[inputSlotIndex].mPressedBits == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+    if (gInputHasPairs[inputSlotIndex].mPressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 &&
-        data_02175674[inputSlotIndex].mPressedBits != 0) {
+    if (recentlyLost == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 &&
+        gInputHasPairs[inputSlotIndex].mPressedBits != 0) {
         result = TRUE;
     }
     return result;
@@ -449,9 +449,9 @@ void AdvanceTxtSystemState2(void) {
             inputSlotIndex = GetPadInputSlot();
             break;
     }
-    touchX = data_02175670[inputSlotIndex].mPressedBits;
+    touchX = gInputPairXs[inputSlotIndex].mPressedBits;
     txtSystem = gTxtSystem;
-    offsetTouchY = txtSystem->mBgOffset[1] + data_02175672[inputSlotIndex].mPressedBits;
+    offsetTouchY = txtSystem->mBgOffset[1] + gInputPairYs[inputSlotIndex].mPressedBits;
     if (offsetTouchY < 0) {
         offsetTouchY = 0xff;
     }
@@ -503,11 +503,11 @@ void AdvanceTxtSystemState2(void) {
     gTxtSystem->mNextState = 3;
     if (gTxtSystem->mExtraCanvasCount == 2 && gTxtSystem->mSelectedIndex == 1) {
         if (gTxtSystem->mSecondInputSoundId != -1) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) gTxtSystem->mSecondInputSoundId);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) gTxtSystem->mSecondInputSoundId);
         }
     } else {
         if (gTxtSystem->mInputSoundId != -1) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) gTxtSystem->mInputSoundId);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) gTxtSystem->mInputSoundId);
         }
     }
     gTxtSystem->mInputAccepted = 1;

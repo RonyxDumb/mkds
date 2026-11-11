@@ -3,7 +3,7 @@
 #include "code_0212df7c.h"
 
 u32 ScrollListStartSeqArc(u32 index, u32 archiveNo) {
-    return NNS_SndArcPlayerStartSeqArc(&data_0217d068, archiveNo, index);
+    return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, archiveNo, index);
 }
 
 u32 ScrollListStartSeqArcWrapper(u32 index) {

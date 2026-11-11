@@ -97,7 +97,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                         switch (variant) {
                             case 0:
                                 for (r7 = 0; r7 < 10; r7++) {
-                                    tagTextChar = ((u16 *) data_0217aa08->mFirstBlock->mPlayerName)[r7];
+                                    tagTextChar = ((u16 *) gBackupBuffers->mFirstBlock->mPlayerName)[r7];
                                     if (tagTextChar == 0) {
                                         r7 = 10;
                                     } else {
@@ -118,7 +118,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 break;
                             case 1:
                                 playerNameCharCount = CopyTextWithinWidth(
-                                    (u16 *) data_0217aa08->mFirstBlock->mPlayerName, playerNameChars);
+                                    (u16 *) gBackupBuffers->mFirstBlock->mPlayerName, playerNameChars);
                                 for (playerNameIndex = 0; playerNameIndex < playerNameCharCount; playerNameIndex++) {
                                     *writePointer++ = playerNameChars[playerNameIndex];
                                     if (fixedAdvance == -1 ||

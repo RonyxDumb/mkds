@@ -84,10 +84,10 @@ void LocateAndQueueOptionEmbremSelect(void) {
 }
 
 BOOL func_ov001_0219de38(void) {
-    if (data_0217aa08->mFirstBlock->mEmblemOff == 0) {
+    if (gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
         return FALSE;
     }
-    if (data_0217aa08->mFirstBlock->mEmblemOff != 0) {
+    if (gBackupBuffers->mFirstBlock->mEmblemOff != 0) {
         return TRUE;
     }
     return TRUE;
@@ -175,9 +175,9 @@ void AdvanceOptionEmbremSelectState3(void) {
             RequestSelectReturnState3WithSound(0);
         }
         if (gOptionEmbremSelect->mUnk_0c == 0) {
-            data_0217aa08->mFirstBlock->mEmblemOff = 0;
+            gBackupBuffers->mFirstBlock->mEmblemOff = 0;
         } else {
-            data_0217aa08->mFirstBlock->mEmblemOff = 1;
+            gBackupBuffers->mFirstBlock->mEmblemOff = 1;
         }
         WriteBackupFirstBlockWrapper();
     } else {
@@ -295,7 +295,7 @@ void AdvanceOptionEmbremSelectState6(void) {
     s32 value;
 
     if (GetTxtSystemDone() != 0) {
-        if (data_0217aa08->mBusy == 0) {
+        if (gBackupBuffers->mBusy == 0) {
             if (gBackupAccess->mBackupEnabled != 0) {
                 value = gBackupAccess->mCommandRunning;
             } else {

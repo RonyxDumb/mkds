@@ -343,7 +343,7 @@ void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, UnkFunc *callback, u32 ca
     } else if (isAsync != 0) {
         CARDi_SetTask(CARDi_ReadRomSyncCore);
     } else {
-        p->mCurTh = data_0216ff5c.mCurrentThread;
+        p->mCurTh = OSi_ThreadInfo.mCurrentThread;
         CARDi_ReadRomSyncCore(p);
     }
 }
@@ -471,7 +471,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, voi
         CARDi_SetTask(CARDi_RequestStreamCommandCore);
         return 1;
     }
-    gAccessState.mCurTh = data_0216ff5c.mCurrentThread;
+    gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
     CARDi_RequestStreamCommandCore(p);
     return p->mCmd->mResult == 0;
 }
@@ -498,7 +498,7 @@ int CARD_IdentifyBackup(s32 type) {
     p->mCallbackArg = 0;
     OS_RestoreInterrupts(enabled);
     CARDi_IdentifyBackupCore(type);
-    gAccessState.mCurTh = data_0216ff5c.mCurrentThread;
+    gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
     CARDi_Request(p, 2, 1);
     p->mCmd->mSrc = 0;
     p->mCmd->mDst = (u32) p->mBackupCachePageBuf;

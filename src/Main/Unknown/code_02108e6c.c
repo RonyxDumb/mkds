@@ -25,26 +25,26 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
 
     if (count == countLimit) {
         if (gMissionRunLimitSeqNo[0] != 0xff) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, gMissionRunLimitSeqNo[0]);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, gMissionRunLimitSeqNo[0]);
         }
         if (gMissionRunLimitSeqNo[0] == 0x1d7) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1de);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1de);
             return;
         }
         c = gRaceSetup->mMissionMapObjectKind0;
         if (c == 0x65 || c == 0xc9) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xd4);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xd4);
         }
     } else {
         c = gMissionRunCountSeqNo[0];
         if (c == 0xff) {
             return;
         }
-        if (!(data_0217c780 & 1)) {
+        if (!(gRaceSoundKind & 1)) {
             return;
         }
-        playingSound = TakeSoundHandleEntry(&data_0217c7c4);
-        if (data_0217d084.mSeqStartEnabled == 0) {
+        playingSound = TakeSoundHandleEntry(&gSoundHandlePool);
+        if (gSoundModeHolder.mSeqStartEnabled == 0) {
             return;
         }
         if (playingSound->mSeqPlayer != NULL) {
@@ -68,7 +68,7 @@ void SetPlayerVolumeTarget(u32 index, u32 value) {
 }
 
 SoundHandlePool *GetSoundHandlePool(u32 index) {
-    return &(&data_0217c7c4)[index];
+    return &(&gSoundHandlePool)[index];
 }
 
 void SetSoundOutputEffect(s32 type) {

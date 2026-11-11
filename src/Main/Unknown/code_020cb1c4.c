@@ -7,7 +7,7 @@
 #include "code_0212df7c.h"
 
 u32 MenuStartSeqArc(u32 seqIndex, u32 seqArcNo) {
-    return NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, seqIndex);
+    return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, seqIndex);
 }
 
 u32 StartMenuSound(u32 seqIndex) {

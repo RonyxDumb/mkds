@@ -13,21 +13,21 @@ int raise(int a) {
         return -1;
     }
     if (OS_TryLockMutex((OSMutex *) data_0217eadc[7]) == 0) {
-        data_0217ea94[7] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[7] = 1;
-    } else if (data_0217ea94[7] == data_0216ff5c.mListHead->mId) {
-        data_0217eab8[7]++;
+        gLockOwnerThreadIds[7] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[7] = 1;
+    } else if (gLockOwnerThreadIds[7] == OSi_ThreadInfo.mListHead->mId) {
+        gLockHoldCounts[7]++;
     } else {
         OS_LockMutex((OSMutex *) data_0217eadc[7]);
-        data_0217ea94[7] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[7] = 1;
+        gLockOwnerThreadIds[7] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[7] = 1;
     }
     f = gRaiseHandlers[a - 1];
     if (f != (Unk02139e20Func) 1) {
         gRaiseHandlers[a - 1] = 0;
     }
-    data_0217eab8[7]--;
-    if (data_0217eab8[7] == 0) {
+    gLockHoldCounts[7]--;
+    if (gLockHoldCounts[7] == 0) {
         OS_UnlockMutex((OSMutex *) data_0217eadc[7]);
     }
     if (f == (Unk02139e20Func) 1 || (f == 0 && a == 1)) {

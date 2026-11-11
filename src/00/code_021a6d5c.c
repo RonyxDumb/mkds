@@ -53,7 +53,7 @@ s32 func_ov000_021a918c(s32 v1, s32 v2, s32 v3) {
     if (v2 == 1) {
         return func_ov000_021a73d8(&data_ov000_021b49b8);
     }
-    return func_ov000_021a73d8(&data_0216e204);
+    return func_ov000_021a73d8(&SOCLSocketParamUDP);
 }
 
 s32 func_ov000_021a916c(s32 v1, const void *v2) {
@@ -1622,7 +1622,7 @@ s32 func_ov000_021a740c(Unk021a7064 *param_1) {
     return 0;
 }
 
-s32 func_ov000_021a73d8(Unk021b49b8 *a) {
+s32 func_ov000_021a73d8(SOCLSocketParam *a) {
     Unk021a6fa8 *v1;
     Unk021a7064 *v2;
     v1 = func_ov000_021a732c(a);
@@ -1662,7 +1662,7 @@ s32 func_ov000_021a7378(Unk021a7064 *param_1) {
     return 0;
 }
 
-Unk021a6fa8 *func_ov000_021a732c(Unk021b49b8 *param_1) {
+Unk021a6fa8 *func_ov000_021a732c(SOCLSocketParam *param_1) {
     s32 a;
     u32 b;
     Unk021a6fa8 *c;
@@ -1679,7 +1679,7 @@ Unk021a6fa8 *func_ov000_021a732c(Unk021b49b8 *param_1) {
     return c;
 }
 
-s32 func_ov000_021a72c4(Unk021b49b8 *param_1) {
+s32 func_ov000_021a72c4(SOCLSocketParam *param_1) {
     s32 a = 0x80;
 
     if (param_1->mUnk_02 != 0) {
@@ -1706,7 +1706,7 @@ int func_ov000_021a72a4(Unk021a72a4 *a) {
     return v1 + v2;
 }
 
-u8 *func_ov000_021a71c0(Unk021a6fa8 *d, Unk021b49b8 *e) {
+u8 *func_ov000_021a71c0(Unk021a6fa8 *d, SOCLSocketParam *e) {
     u8 *a;
     Unk021a71c0 *b;
     Unk021a722a *c;

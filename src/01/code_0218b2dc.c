@@ -137,7 +137,7 @@ void func_ov001_0218b72c(Unk02188950 *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_KURIBO, 0x32, mapObject);
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xf, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = data_0217cc6c[15];
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsSecond[15];
 }
 
 void func_ov001_0218b6f8(Unk02188950 *mapObject, void *kart) {

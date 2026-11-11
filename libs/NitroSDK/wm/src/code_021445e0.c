@@ -103,7 +103,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
 
 // Ends data sharing and removes the port callback; returns 3 when dsInfo is not running data sharing.
 int WM_EndDataSharing(WMDataSharingInfo *dsInfo) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     UnkFunc *registered;
     int result;
 
@@ -250,7 +250,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
 // Send result callback of the data sharing sends: records the sequence number on success and the retry or error state
 // otherwise.
 void WmDataSharingSetDataCallback(Unk02144920 *callback) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     Unk02142988 *status;
     WMDataSharingInfo *share;
     UnkFunc *registered;

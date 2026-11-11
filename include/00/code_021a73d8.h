@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk021b49b8 Unk021b49b8;
+typedef struct SOCLSocketParam SOCLSocketParam;
 
-s32 func_ov000_021a73d8(Unk021b49b8 *a);
+s32 func_ov000_021a73d8(SOCLSocketParam *a);

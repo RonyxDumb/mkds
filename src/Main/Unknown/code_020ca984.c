@@ -20,7 +20,7 @@ u16 EmblemChoisesGetNewBits(u32 slotIndex, u32 mask) {
 }
 
 u32 EmblemChoisesStartSeqArc(u32 seqIndex, u32 seqArcNo) {
-    return NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, seqIndex);
+    return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, seqIndex);
 }
 
 u32 StartEmblemChoisesSound(u32 seqIndex) {

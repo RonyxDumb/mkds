@@ -7,15 +7,15 @@
 typedef struct GxCommandBuffer GxCommandBuffer;
 typedef struct NNSGfdFrmPlttVramManager NNSGfdFrmPlttVramManager;
 
-extern u32 data_02173274;
+extern u32 gSplRandomState;
 
 extern BOOL NNS_G3dFlagUseFastDma;
 
 extern NNSGfdFrmPlttVramManager data_02173214;
-extern NNS_GfdLnkTexVramManager data_02173234;
+extern NNS_GfdLnkTexVramManager gTexVramManager;
 extern NNSiGfdLnkVramBlock *data_02173238;
 extern NNSiGfdLnkVramBlock *data_0217323c;
-extern NNS_GfdLnkPlttVramManager data_02173250;
+extern NNS_GfdLnkPlttVramManager gPlttVramManager;
 extern NNSiGfdLnkVramBlock *data_02173254;
 
 extern vu16 data_02173278;
@@ -29,7 +29,7 @@ extern MICAutoParam *data_02173290;
 extern s32 data_02173294;
 extern s32 data_02173298;
 extern s32 data_0217329c;
-extern u8 data_021732a0[4];
+extern u8 gMicIntervalHistogram[4];
 extern s32 data_021732a4;
 extern s32 data_021732a8;
 

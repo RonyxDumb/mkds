@@ -92,9 +92,9 @@ void UpdateRaceClock(void) {
             switch (gRaceSetup->mMode) {
                 case MODE_MISSION_RUN:
                     FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, 1);
-                    g = data_0217d084.mMode == 2 || data_0217d084.mMode == 3;
+                    g = gSoundModeHolder.mMode == 2 || gSoundModeHolder.mMode == 3;
                     if (g) {
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4a);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4a);
                     }
                     break;
                 case MODE_BATTLE:

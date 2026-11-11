@@ -34,7 +34,7 @@ extern u32 gKartBoostCameraEffectIds[];
 extern s32 gKartSideOffsetsX[];
 extern Vec3 gKartSideDirectionVectors[];
 extern void (*gKartSurfaceEffectFunctions[])(struct Kart *p);
-extern Vec3 data_02155a14;
+extern Vec3 gKartEffectVec3Zero;
 extern Vec3 gOtherCameraDistanceLimitsSquared;
 extern Vec3 gVec3UnitY;
 extern Vec3 data_02155ebc;

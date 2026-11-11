@@ -76,7 +76,7 @@ void AdvancePeerKartMotion(Kart *kart) {
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
     AdvanceParticipantKartRecords(kart);
     if (kart->mForwardSpeed > 0x3000) {
-        recordState->mPosOffset = data_02154f94;
+        recordState->mPosOffset = gKartVec3Zero;
     }
     ResetKartTurnAndRadius(kart);
     UpdateKartSpeedLimitGoal(kart);
@@ -187,7 +187,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     }
     recordState->mSmoothedHeadingAngle =
         recordState->mSmoothedHeadingAngle + MUL_FIXED12_NO_ROUND(headingDifference, 0x19a);
-    QuaternionFromAxisAngle(&data_02154f7c, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
+    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
     QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
     if ((kart->mUnk_44 & 2) != 0) {
         if (kart->mHopSpeed > 0) {

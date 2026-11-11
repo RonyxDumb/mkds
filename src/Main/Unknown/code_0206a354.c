@@ -400,7 +400,7 @@ void StartKartState4(Kart *kart, const Vec3 *a, s32 b) {
     kart->mRotationAnglePerFrame = data_usa_021654d4;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
-    v = data_02154f7c;
+    v = gKartVec3UnitY;
     Vec3CrossUnrounded(&v, a, &kart->mRotationAxis);
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -510,7 +510,7 @@ s32 StartKartState5(Kart *kart, const Vec3 *a, s32 b) {
     kart->mRotationAnglePerFrame = data_usa_021654e0;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
-    w = data_02154f7c;
+    w = gKartVec3UnitY;
     Vec3CrossUnrounded(&w, &v, &kart->mRotationAxis);
     if (!(kart->mUnk_7c & 0x400)) {
         x = ((s64) v.x << 14) >> 12;

@@ -5,7 +5,7 @@
 #pragma thumb on
 
 void SetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
-    PackGrandPrixRecord(&data_0217aa08->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
+    PackGrandPrixRecord(&gBackupBuffers->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
 }
 
 #pragma thumb off

@@ -24,7 +24,7 @@ s32 ChoisesSIsBackupCommandRunning(void) {
 }
 
 s32 ChoisesSIsBackupBusy(void) {
-    if (data_0217aa08->mBusy != 0) {
+    if (gBackupBuffers->mBusy != 0) {
         return 1;
     }
     return ChoisesSIsBackupCommandRunning();

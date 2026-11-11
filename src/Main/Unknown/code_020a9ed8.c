@@ -407,8 +407,8 @@ void SetupKeyboardLayout(KeyboardRect *a, Ncgr *b, void (*c)(KeyboardKeys *), s3
 }
 
 void SetupKeyboardLayoutHiragana(KeyboardRect *a, Ncgr *b, u32 c) {
-    data_0217b2b8[0] = 4;
-    data_0217b2b8[1] = 0;
+    gKeyboardLayoutKeyIds[0] = 4;
+    gKeyboardLayoutKeyIds[1] = 0;
     SetupKeyboardLayout(a, b, HiraganaKatakanaLayoutCallback, 9, c, gKbdmapHiragana);
 }
 
@@ -418,32 +418,32 @@ void SetupKeyboardLayoutHiragana(KeyboardRect *a, Ncgr *b, u32 c) {
 
 void SetupKeyboardLayoutAscii(KeyboardRect *a, struct Ncgr *b, u32 c) {
     u16 *v1;
-    v1 = (u16 *) &data_0217b2b8;
-    *(u16 *) &data_0217b2b8 = 0;
+    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+    *(u16 *) &gKeyboardLayoutKeyIds = 0;
     v1[1] = 0;
     SetupKeyboardLayout(a, b, AsciiLayoutCallback, 6, c, gKbdmapAscii);
 }
 
 void SetupKeyboardLayoutOther1(KeyboardRect *a, struct Ncgr *b, u32 c) {
     u16 *v1;
-    v1 = (u16 *) &data_0217b2b8;
-    *(u16 *) &data_0217b2b8 = 0;
+    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+    *(u16 *) &gKeyboardLayoutKeyIds = 0;
     v1[1] = 0;
     SetupKeyboardLayout(a, b, NULL, 4, c, gKbdmapOther1);
 }
 
 void SetupKeyboardLayoutOther2(KeyboardRect *a, struct Ncgr *b, u32 c) {
     u16 *v1;
-    v1 = (u16 *) &data_0217b2b8;
-    *(u16 *) &data_0217b2b8 = 0;
+    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+    *(u16 *) &gKeyboardLayoutKeyIds = 0;
     v1[1] = 0;
     SetupKeyboardLayout(a, b, NULL, 4, c, gKbdmapOther2);
 }
 
 void SetupKeyboardLayoutOther3(KeyboardRect *a, struct Ncgr *b, u32 c) {
     u16 *v1;
-    v1 = (u16 *) &data_0217b2b8;
-    *(u16 *) &data_0217b2b8 = 0;
+    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+    *(u16 *) &gKeyboardLayoutKeyIds = 0;
     v1[1] = 0;
     SetupKeyboardLayout(a, b, NULL, 4, c, gKbdmapOther3);
 }

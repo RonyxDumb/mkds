@@ -135,7 +135,7 @@ typedef struct CupMark {
     /* 0c */ struct LayoutEntryTable *mBncl;
 } CupMark;
 
-// Object at data_0217d070 (0x14 bytes); InitScenePlayers fills it. data_0217d07c names its member 0x0c.
+// Object at gScenePlayers (0x14 bytes); InitScenePlayers fills it. gScenePlayersSeqPlayer names its member 0x0c.
 typedef struct ScenePlayers {
     /* 00 */ s32 mProgress;
     /* 04 */ SceneSoundState *mSceneSoundState;
@@ -147,7 +147,7 @@ typedef struct ScenePlayers {
     /* 10 */ NNSSndSeqPlayer *mSecondSeqPlayer;
 } ScenePlayers;
 
-// Object at data_0217d084 (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
+// Object at gSoundModeHolder (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
 typedef struct SoundModeHolder {
     /* 00 */ ScenePlayers *mScenePlayers;
     /* 04 */ u32 mMode;
@@ -720,7 +720,7 @@ typedef struct SoundParams SoundParams;
 extern s32 (*data_0217d014)(SoundParams *);
 extern u32 (*data_0217d018)(SoundParams *);
 extern s32 (*data_0217d01c)(SoundParams *);
-extern NNSFndList data_0217d028;
+extern NNSFndList gSoundSources;
 extern u32 gFileSndArcOpen;
 extern s32 gEmblemSoundValue;
 extern s32 gKingTeresaState;
@@ -762,7 +762,7 @@ extern NNSSndStrmChannel data_0217dd28[];
 extern s32 data_0217ddac;
 extern OSMessageQueue data_0217ddb0;
 extern EffectInfo data_0217de24[8];
-extern struct NNSSndArc *data_0217dec4;
+extern struct NNSSndArc *sCurrent;
 extern s32 gKingTeresaStateFrames;
 extern s32 gUseKingTeresaSeqVolume;
 extern s32 gKingTeresaStateLastFrame;
@@ -785,10 +785,10 @@ extern PaletteBlend *gPaletteBlend;
 extern struct NNSSndStrmThread *data_0217df04;
 extern NNSFndList data_0217df08;
 extern NNSSndHeap *gCurrentSndHeap;
-extern ScenePlayers data_0217d070;
-// The member at 0x0c of data_0217d070, addressed through a pool word of its own.
-extern NNSSndSeqPlayer *data_0217d07c;
-extern SoundModeHolder data_0217d084;
+extern ScenePlayers gScenePlayers;
+// The member at 0x0c of gScenePlayers.
+extern NNSSndSeqPlayer *gScenePlayersSeqPlayer;
+extern SoundModeHolder gSoundModeHolder;
 extern struct NNSSndArc gFileSndArc;
 extern SeqRowState gSeqRowState;
 extern RecordVS *gRecordVS;
@@ -801,7 +801,7 @@ extern u32 gSeqVariableEnabled[];
 extern u32 data_0217d010[];
 extern u32 data_0217d024[];
 extern SoundHandlePool data_0217d034;
-extern NNSFndList data_0217d048[];
+extern NNSFndList gSoundSourceUpdateLists[];
 extern NNSFndList data_0217d054;
 extern u32 data_0217d020;
 extern void *data_0217d06c;

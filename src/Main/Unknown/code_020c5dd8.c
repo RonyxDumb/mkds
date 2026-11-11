@@ -443,7 +443,7 @@ void StoreRaceNewRecordTaGhost(void) {
     BOOL hasSetupTime;
     s32 waiting;
 
-    if (data_0217aa08->mBusy == 0) {
+    if (gBackupBuffers->mBusy == 0) {
         waiting = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
     } else {
         waiting = 1;
@@ -484,7 +484,7 @@ void StoreRaceNewRecordTaGhost(void) {
 void AdvanceRaceNewRecordTaAfterSave(void) {
     s32 waiting;
 
-    if (data_0217aa08->mBusy == 0) {
+    if (gBackupBuffers->mBusy == 0) {
         waiting = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
     } else {
         waiting = 1;

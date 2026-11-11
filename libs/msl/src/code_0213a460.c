@@ -34,7 +34,7 @@ u32 ScanInt32(int a, int b, Unk02138618Func f, ScanStringSource *p, int *q, int 
     while (n <= b && c != -1 && !(st & 0x60)) {
         switch (st) {
             case 1:
-                if ((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x100) {
+                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x100) {
                     c = f(p, 0, 0);
                     k++;
                 } else {
@@ -79,7 +79,7 @@ u32 ScanInt32(int a, int b, Unk02138618Func f, ScanStringSource *p, int *q, int 
                 if (lim == 0) {
                     lim = 0xffffffffU / a;
                 }
-                if ((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8) {
+                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8) {
                     c -= '0';
                     if (c >= a) {
                         st = st == 0x10 ? 0x20 : 0x40;
@@ -87,12 +87,12 @@ u32 ScanInt32(int a, int b, Unk02138618Func f, ScanStringSource *p, int *q, int 
                         break;
                     }
                 } else {
-                    if (!(((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x1) &&
-                          ((c < 0 || c >= 0x80) ? c : data_0215d204[c]) - 0x37 < a)) {
+                    if (!(((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x1) &&
+                          ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) - 0x37 < a)) {
                         st = st == 0x10 ? 0x20 : 0x40;
                         break;
                     }
-                    c = (c < 0 || c >= 0x80) ? c : data_0215d204[c];
+                    c = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
                     c -= 0x37;
                 }
                 if (acc > lim) {
@@ -145,7 +145,7 @@ u64 ScanInt64(int a, int b, Unk02138618Func f, void *p, int *q, int *r, int *s) 
     while (n <= b && c != -1 && !(st & 0x60)) {
         switch (st) {
             case 1:
-                if ((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x100) {
+                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x100) {
                     c = f(p, 0, 0);
                     k++;
                 } else {
@@ -190,7 +190,7 @@ u64 ScanInt64(int a, int b, Unk02138618Func f, void *p, int *q, int *r, int *s) 
                 if (lim == 0) {
                     lim = 0xffffffffffffffffULL / a;
                 }
-                if ((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8) {
+                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8) {
                     c -= '0';
                     if (c >= a) {
                         st = st == 0x10 ? 0x20 : 0x40;
@@ -198,12 +198,12 @@ u64 ScanInt64(int a, int b, Unk02138618Func f, void *p, int *q, int *r, int *s) 
                         break;
                     }
                 } else {
-                    if (!(((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x1) &&
-                          ((c < 0 || c >= 0x80) ? c : data_0215d204[c]) - 0x37 < a)) {
+                    if (!(((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x1) &&
+                          ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) - 0x37 < a)) {
                         st = st == 0x10 ? 0x20 : 0x40;
                         break;
                     }
-                    c = (c < 0 || c >= 0x80) ? c : data_0215d204[c];
+                    c = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
                     c -= 0x37;
                 }
                 if (acc > lim) {
@@ -319,11 +319,11 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
     while (n <= a && c != -1 && !(s & 0x1800)) {
         switch (s) {
             case 1:
-                if ((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x100) {
+                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x100) {
                     c = f(p, 0, 0);
                     w++;
                 } else {
-                    switch ((c < 0 || c >= 0x80) ? c : data_0215d204[c]) {
+                    switch ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) {
                         case '-':
                             m = 1;
                     /* fall through */
@@ -354,7 +354,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 char *tp;
 
                 tp = t + 1;
-                while (i < 8 && *tp == ((c < 0 || c >= 0x80) ? c : data_0215d204[c])) {
+                while (i < 8 && *tp == ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c])) {
                     tp++;
                     i++;
                     n++;
@@ -380,7 +380,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 char *tp;
 
                 tp = t + 1;
-                while (i < 4 && *tp == ((c < 0 || c >= 0x80) ? c : data_0215d204[c])) {
+                while (i < 4 && *tp == ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c])) {
                     tp++;
                     i++;
                     n++;
@@ -388,8 +388,8 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 }
                 if (i == 3 || i == 4) {
                     if (i == 4) {
-                        while (j < 32 && (((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8) ||
-                                          ((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x1) || c == '.')) {
+                        while (j < 32 && (((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8) ||
+                                          ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x1) || c == '.')) {
                             buf[j++] = c;
                             n++;
                             c = f(p, 0, 0);
@@ -417,14 +417,14 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                     s = 0x10;
                     n++;
                     c = f(p, 0, 0);
-                } else if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                } else if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                     s = 0x1000;
                 } else if (c == '0') {
                     int t;
 
                     n++;
                     c = t = f(p, 0, 0);
-                    if (((t < 0 || t >= 0x80) ? t : data_0215d204[t]) == 'X') {
+                    if (((t < 0 || t >= 0x80) ? t : gUpperCaseMap[t]) == 'X') {
                         s = 0x8000;
                         h = 1;
                     } else {
@@ -443,7 +443,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 }
                 break;
             case 8:
-                if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                     if (c == '.') {
                         s = 0x20;
                         n++;
@@ -462,14 +462,14 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 }
                 break;
             case 0x10:
-                if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                     s = 0x1000;
                 } else {
                     s = 0x20;
                 }
                 break;
             case 0x20:
-                if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                     s = 0x40;
                 } else {
                     if (rec.mDigitCount < 20) {
@@ -483,7 +483,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 }
                 break;
             case 0x40:
-                if (((c < 0 || c >= 0x80) ? c : data_0215d204[c]) == 'E') {
+                if (((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) == 'E') {
                     s = 0x80;
                     n++;
                     c = f(p, 0, 0);
@@ -503,7 +503,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 s = 0x100;
                 break;
             case 0x100:
-                if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                     s = 0x1000;
                 } else if (c == '0') {
                     s = 0x200;
@@ -522,7 +522,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 }
                 break;
             case 0x400:
-                if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                     s = 0x800;
                 } else {
                     e = e * 10 + (c - '0');
@@ -561,7 +561,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                         }
                         break;
                     case 4:
-                        if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x400)) {
+                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x400)) {
                             if (c == '.') {
                                 h = 8;
                                 n++;
@@ -576,7 +576,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
 
                             hd++;
                             v = hp[hk / 2];
-                            t = (c < 0 || c >= 0x80) ? c : data_0215d204[c];
+                            t = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
                             d = t >= 'A' ? t - 0x37 : t - '0';
                             if (hk % 2) {
                                 v |= d;
@@ -592,7 +592,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                         }
                         break;
                     case 8:
-                        if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x400)) {
+                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x400)) {
                             h = 0x10;
                         } else if (hd < lim) {
                             u8 v;
@@ -600,7 +600,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                             int t;
 
                             v = hp[hk / 2];
-                            t = (c < 0 || c >= 0x80) ? c : data_0215d204[c];
+                            t = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
                             d = t >= 'A' ? t - 0x37 : t - '0';
                             if (hk % 2) {
                                 v |= d;
@@ -616,7 +616,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                         }
                         break;
                     case 0x10:
-                        if (((c < 0 || c >= 0x80) ? c : data_0215d204[c]) == 'P') {
+                        if (((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) == 'P') {
                             h = 0x20;
                             n++;
                             c = f(p, 0, 0);
@@ -636,7 +636,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                         c = f(p, 0, 0);
                         break;
                     case 0x40:
-                        if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                             s = 0x1000;
                         } else if (c == '0') {
                             h = 0x80;
@@ -655,7 +655,7 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                         }
                         break;
                     case 0x100:
-                        if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x8)) {
+                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
                             s = 0x800;
                         } else {
                             he = he * 10 + (c - '0');

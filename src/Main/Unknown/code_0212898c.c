@@ -164,7 +164,7 @@ void SetKeyboardTextFromPlayerName(void) {
     u16 text[12];
     text[0] = 0;
     MIi_CpuClear16(text[0], &text[1], 0x16);
-    MIi_CpuCopy16(data_0217aa08->mFirstBlock->mPlayerName, &text[1], 0x14);
+    MIi_CpuCopy16(gBackupBuffers->mFirstBlock->mPlayerName, &text[1], 0x14);
     SetKeyboardText(&text[1]);
 }
 
@@ -471,16 +471,16 @@ void AdvanceKeyboardState2(void) {
     result = FALSE;
     touchedRectIndex = -1;
     g = FALSE;
-    c = data_02175674[inputSlotIndex].mPressedBits;
-    if (c == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+    c = gInputHasPairs[inputSlotIndex].mPressedBits;
+    if (c == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
         g = TRUE;
     }
-    if (g == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && c != 0) {
+    if (g == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && c != 0) {
         result = TRUE;
     }
     if (result != FALSE) {
-        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[0], data_02175670[inputSlotIndex].mPressedBits,
-                                                   data_02175672[inputSlotIndex].mPressedBits);
+        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[0], gInputPairXs[inputSlotIndex].mPressedBits,
+                                                   gInputPairYs[inputSlotIndex].mPressedBits);
     }
     keyboard = gKeyboard;
     textRecord = &keyboard->mRecords[keyboard->mKind];
@@ -496,9 +496,9 @@ void AdvanceKeyboardState2(void) {
             RequestTxtSystemClose();
             MoveKeyboardCursorToValueWrapper(1);
             gKeyboard->mTextEntryEnabled = FALSE;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
         } else {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
     } else if (touchedRectIndex == 0 || (GetKeyboardCursorValueWrapper() == 2 &&
                                          (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
@@ -507,7 +507,7 @@ void AdvanceKeyboardState2(void) {
         RequestTxtSystemClose();
         MoveKeyboardCursorToValueWrapper(2);
         gKeyboard->mTextEntryEnabled = FALSE;
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xe);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
     }
 }
 
@@ -562,7 +562,7 @@ void AdvanceKeyboardState4(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
     if (IsTxtSystemState2AfterState1() != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
     keyboard = gKeyboard;
     if (keyboard->mStateFrames >= 0x78) {
@@ -651,16 +651,16 @@ void AdvanceKeyboardState7(void) {
     f = FALSE;
     touchedRectIndex = -1;
     g = FALSE;
-    c = data_02175674[inputSlotIndex].mPressedBits;
-    if (c == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+    c = gInputHasPairs[inputSlotIndex].mPressedBits;
+    if (c == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
         g = TRUE;
     }
-    if (g == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && c != 0) {
+    if (g == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && c != 0) {
         f = TRUE;
     }
     if (f != FALSE) {
-        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[1], data_02175670[inputSlotIndex].mPressedBits,
-                                                   data_02175672[inputSlotIndex].mPressedBits);
+        touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[1], gInputPairXs[inputSlotIndex].mPressedBits,
+                                                   gInputPairYs[inputSlotIndex].mPressedBits);
     }
     keyboard = gKeyboard;
     textRecord = &keyboard->mRecords[keyboard->mKind];
@@ -676,9 +676,9 @@ void AdvanceKeyboardState7(void) {
             RequestTxtSystemClose();
             MoveKeyboardCursorToValueWrapper(1);
             gKeyboard->mTextEntryEnabled = FALSE;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
         } else {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
     } else if (touchedRectIndex == 6 || (GetKeyboardCursorValueWrapper() == 2 &&
                                          (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
@@ -689,9 +689,9 @@ void AdvanceKeyboardState7(void) {
             RequestTxtSystemClose();
             MoveKeyboardCursorToValueWrapper(2);
             gKeyboard->mTextEntryEnabled = FALSE;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xe);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
         } else {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
     } else if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_Y) != 0) {
         if (gStartupWork->mRegion == 0) {
@@ -700,7 +700,7 @@ void AdvanceKeyboardState7(void) {
             gKeyboard->mLayout = gKeyboardNextLayoutOtherRegion[gKeyboard->mLayout];
         }
         SelectKeyboardLayout(gKeyboard->mLayout);
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1e5);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1e5);
     } else {
         keyboard = gKeyboard;
         previousLayout = keyboard->mLayout;
@@ -734,9 +734,9 @@ void AdvanceKeyboardState7(void) {
         }
         if (f != FALSE) {
             if (previousLayout != gKeyboard->mLayout) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1e5);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1e5);
             } else {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ed);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ed);
             }
         }
     }
@@ -843,9 +843,9 @@ void AdvanceKeyboardState10(void) {
                 SetupTxtSystemSubTextEx(message, 0, 1, 1, 0, 1);
                 gKeyboard->mNextState = 0xb;
             } else {
-                data_0217aa08->mFirstBlock->mHasPlayerName = 1;
-                MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
-                MI_CpuCopy8(&keyboard->mRecords[1], data_0217aa08->mFirstBlock->mPlayerName, 0x14);
+                gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
+                MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
+                MI_CpuCopy8(&keyboard->mRecords[1], gBackupBuffers->mFirstBlock->mPlayerName, 0x14);
                 WriteBackupFirstBlockWrapper();
                 SetTxtSystemOpenSoundId(0x21);
                 message = GetBmgEntry(gKeyboard->mCommonMessages, 0x10);
@@ -874,13 +874,13 @@ void AdvanceKeyboardState11(void) {
     s32 backupBusy;
     void *buttonText;
     if (IsTxtSystemState2AfterState1() != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x22);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x22);
     }
     gKeyboard->mStateFrames++;
     if (IsTxtSystemState2NoCloseRequest() != 0) {
         keyboard = gKeyboard;
         if (keyboard->mStateFrames > 0x5a) {
-            backupBusy = (data_0217aa08->mBusy == 0)
+            backupBusy = (gBackupBuffers->mBusy == 0)
                              ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
                              : 1;
             if (backupBusy == 0) {
@@ -905,8 +905,9 @@ void AdvanceKeyboardState12(void) {
         RequestTxtSystemClose();
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        backupBusy =
-            (data_0217aa08->mBusy == 0) ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1;
+        backupBusy = (gBackupBuffers->mBusy == 0)
+                         ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
+                         : 1;
         if (backupBusy == 0) {
             SetTxtSystemOpenSoundId(0x23);
             mode = gKeyboard->mRecords[2].mMode;

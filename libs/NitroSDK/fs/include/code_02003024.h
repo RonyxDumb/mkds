@@ -20,7 +20,7 @@ typedef struct FSFileID {
 } FSFileID;
 
 // 12 bytes at 0x20 and at 0x30 of FSFile (assigned as a whole by FSi_SeekDirCommand, FSi_FindPath and
-// FS_ChangeDir; data_0216f344). Different functions use the region with different types: an FSArchive pointer
+// FS_ChangeDir; current_dir_pos). Different functions use the region with different types: an FSArchive pointer
 // (FSi_SeekDirDirect, FSi_ReadDirCommand, FSi_FindPath), an Unk02003670 pointer (FSi_FindPathCommand,
 // FSi_GetPathCommand), three words (FSi_OpenFileFastCommand, FS_OpenFileDirect), an FSFileID (FSi_FindPathCommand,
 // FS_OpenFileFast), a u8 pointer with two lengths (FSi_GetPathCommand) and a pointer with two signed words

@@ -49,7 +49,7 @@ void WriteChangedWiFiBuddies(void) {
     CopyWiFiBuddiesToRecordBlock(&gWiFiSession->mBuddies[0]);
     RefreshNotYetBuddyFlags();
     WriteBackupBuddyRecords();
-    while (data_0217aa08->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1) {
+    while (gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1) {
     }
     gWiFiSession->mBuddiesChanged = FALSE;
 }
@@ -112,7 +112,7 @@ void SetupWiFiSessionLogin(void) {
     MI_CpuFill8(&gWiFiSession->mUserData, 0, 0x350);
     MI_CpuFill8(&gWiFiSession->mConnection, 0, 0xe24);
     if (CheckUserDataValidConsole() != 0) {
-        MI_CpuCopy8(&data_0217aa08->mFirstBlock->mUserData, &gWiFiSession->mUserData, 0x40);
+        MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mUserData, &gWiFiSession->mUserData, 0x40);
     } else {
         DWC_CreateUserData(&gWiFiSession->mUserData, 0x414d434a);
     }
@@ -161,8 +161,8 @@ u32 UpdateWiFiSessionLogin(void) {
             AdvanceWiFiSessionLoginStep1();
             break;
         case 3:
-            if (data_0217aa08->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
-                                          : 1) {
+            if (gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
+                                           : 1) {
                 break;
             }
             DWC_ReportUserData(&gWiFiSession->mUserData);
@@ -190,7 +190,7 @@ void WiFiSessionLoginCallback(s32 result) {
     if (result == 0) {
         if (DWCi_Acc_IsDirty(&gWiFiSession->mUserData) != 0) {
             DWCi_Acc_ClearDirty(&gWiFiSession->mUserData);
-            MI_CpuCopy8(&gWiFiSession->mUserData, &data_0217aa08->mFirstBlock->mUserData, 0x40);
+            MI_CpuCopy8(&gWiFiSession->mUserData, &gBackupBuffers->mFirstBlock->mUserData, 0x40);
             WriteBackupFirstBlockWrapper();
         }
         gWiFiSession->mLogin.mStep = 3;
@@ -226,7 +226,7 @@ void WiFiSessionEntryMergedCallback(u32 mergedIndex, u32 keptIndex) {
     CopyWiFiBuddiesToRecordBlock(&gWiFiSession->mBuddies[0]);
     RefreshNotYetBuddyFlags();
     WriteBackupBuddyRecords();
-    while (data_0217aa08->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1) {
+    while (gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1) {
     }
 }
 

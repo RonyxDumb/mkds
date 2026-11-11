@@ -51,11 +51,11 @@ void AdvanceSelectRaceRuleState6(void) {
         RequestSelectRaceRuleState7();
         switch (GetSelectChoisesIndex()) {
             case 0:
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
                 break;
             case -1:
             case 1:
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x10);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x10);
                 break;
         }
     }

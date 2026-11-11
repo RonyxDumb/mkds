@@ -49,7 +49,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     s32 t;
     BOOL e;
 
-    secondNormal = data_02154f7c;
+    secondNormal = gKartVec3UnitY;
     b1 = (kart->mUnk_44 & 0x100000) ? 1 : 0;
     b2 = (kart->mUnk_48 & 0x200000) ? 1 : 0;
     *groundNormal = kart->mGroundNormal;
@@ -100,7 +100,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 }
                 kart->mUnk_44 |= 0x200;
             } else {
-                kart->mCollisionPushVelocity = data_02154f94;
+                kart->mCollisionPushVelocity = gKartVec3Zero;
                 kart->mUnk_44 &= ~0x200;
             }
         } else {
@@ -177,7 +177,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                         }
                         kart->mUnk_44 |= 0x200;
                     } else {
-                        kart->mCollisionPushVelocity = data_02154f94;
+                        kart->mCollisionPushVelocity = gKartVec3Zero;
                         kart->mUnk_44 &= ~0x200;
                     }
                 }

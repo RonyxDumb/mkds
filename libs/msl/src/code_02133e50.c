@@ -28,19 +28,19 @@ void exit(int a) {
 
 void ExitTail(int a) {
     if (OS_TryLockMutex((OSMutex *) data_0217eadc[0]) == 0) {
-        data_0217ea94[0] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[0] = 1;
-    } else if (data_0217ea94[0] == data_0216ff5c.mListHead->mId) {
-        data_0217eab8[0]++;
+        gLockOwnerThreadIds[0] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[0] = 1;
+    } else if (gLockOwnerThreadIds[0] == OSi_ThreadInfo.mListHead->mId) {
+        gLockHoldCounts[0]++;
     } else {
         OS_LockMutex((OSMutex *) data_0217eadc[0]);
-        data_0217ea94[0] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[0] = 1;
+        gLockOwnerThreadIds[0] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[0] = 1;
     }
     while (gExitFunctionCount > 0) {
         gExitFunctions[--gExitFunctionCount]();
     }
-    if (--data_0217eab8[0] == 0) {
+    if (--gLockHoldCounts[0] == 0) {
         OS_UnlockMutex((OSMutex *) data_0217eadc[0]);
     }
     if (data_0217e984 != 0) {

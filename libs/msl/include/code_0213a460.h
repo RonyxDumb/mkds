@@ -12,9 +12,9 @@ typedef struct ScanStringSource {
 typedef int (*Unk02138618Func)(void *a, int b, int c);
 
 // u16 per byte value 0x00-0x7f; FormatParseSpec tests bit 3. Also read by ScanParseSpec.
-extern const u16 data_0215d284[];
+extern const u16 gCharClassFlags[];
 // 0x80 entries, indexed by byte values 0x00-0x7f by ScanDouble.
-extern const u8 data_0215d204[];
+extern const u8 gUpperCaseMap[];
 // Read by ScanDouble.
 extern const double data_0216eca0;
 // Used by three functions of this file, by PowBody (which stores 33 there) and by overlay 0.

@@ -9,7 +9,8 @@ void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord) 
     int cupCourseIndex;
     cupCourseIndex = FindCupCourseIndex(courseId);
     if (cupCourseIndex != -1) {
-        PackCourseTimeRecord(&data_0217aa08->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex], timeRecord);
+        PackCourseTimeRecord(&gBackupBuffers->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex],
+                             timeRecord);
     }
 }
 

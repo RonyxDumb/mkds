@@ -380,7 +380,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
 
 static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
     BOOL result = FALSE;
-    if (data_02175674[inputSlot].mPressedBits == 0 && data_02175680[inputSlot].mPressedBits < 5) {
+    if (gInputHasPairs[inputSlot].mPressedBits == 0 && gInputNoPairCounts[inputSlot].mPressedBits < 5) {
         result = TRUE;
     }
     return result;
@@ -388,8 +388,8 @@ static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
 
 static inline s32 SelectCharacterIsPairNewUnlessLost(u16 inputSlot) {
     BOOL result = FALSE;
-    if (SelectCharacterIsPairRecentlyLost(inputSlot) == 0 && data_0217567c[inputSlot].mPressedBits == 0 &&
-        data_02175674[inputSlot].mPressedBits != 0) {
+    if (SelectCharacterIsPairRecentlyLost(inputSlot) == 0 && gInputPrevHasPairs[inputSlot].mPressedBits == 0 &&
+        gInputHasPairs[inputSlot].mPressedBits != 0) {
         result = TRUE;
     }
     return result;
@@ -465,8 +465,8 @@ int AdvanceSelectCharacter(void) {
         case 3:
             previousTableIndex = selectCharacter->mTableIndex;
             if (SelectCharacterIsPairNewUnlessLost(inputSlot) != 0) {
-                pointX = data_02175670[inputSlot].mPressedBits;
-                pointY = data_02175672[inputSlot].mPressedBits;
+                pointX = gInputPairXs[inputSlot].mPressedBits;
+                pointY = gInputPairYs[inputSlot].mPressedBits;
                 rectEntryId = RectTableFindContaining(sParts->mRects, pointX, pointY);
                 if (rectEntryId >= 0) {
                     for (tableIndex = 0; tableIndex < gSelectCharacter->mTableRowCount; tableIndex++) {

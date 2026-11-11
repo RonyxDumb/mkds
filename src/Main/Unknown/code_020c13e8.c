@@ -68,7 +68,7 @@ void StartRaceGoalS(void) {
     if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
         if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0) {
             if (framesSinceEntryEnd >= 0xb4) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x46);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x46);
             }
         }
     }
@@ -142,10 +142,10 @@ void CountUpRaceGoalSNumbers(void) {
             gRaceGoalS->mUpdateFrames = 0;
             gRaceGoalS->mUpdateFrames = 0;
             if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x29);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x29);
             }
         } else {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x29);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x29);
         }
     }
     inputSlot = UNK_02175628_INDEX_8;
@@ -221,28 +221,28 @@ void HideRaceGoalSRows(void) {
             if (frame % 5 == 0) {
                 switch (hiddenRows) {
                     case 0:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x32);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x32);
                         break;
                     case 1:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x33);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x33);
                         break;
                     case 2:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x34);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x34);
                         break;
                     case 3:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x35);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x35);
                         break;
                     case 4:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x36);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x36);
                         break;
                     case 5:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x37);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x37);
                         break;
                     case 6:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x38);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x38);
                         break;
                     case 7:
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x39);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x39);
                         break;
                 }
                 gRaceGoalS->mRowVisible[gRaceGoalS->mHiddenRowCount++] = 0;
@@ -280,28 +280,28 @@ void ShowRaceGoalSRows(void) {
             gRaceGoalS->mRowVisible[gRaceGoalS->mHiddenRowCount] = 1;
             switch (gRaceGoalS->mHiddenRowCount) {
                 case 0:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x2a);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x2a);
                     break;
                 case 1:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x2b);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x2b);
                     break;
                 case 2:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x2c);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x2c);
                     break;
                 case 3:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x2d);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x2d);
                     break;
                 case 4:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x2e);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x2e);
                     break;
                 case 5:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x2f);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x2f);
                     break;
                 case 6:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x30);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x30);
                     break;
                 case 7:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x31);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x31);
                     break;
             }
         }

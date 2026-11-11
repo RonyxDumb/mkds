@@ -29,7 +29,7 @@ void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSou
     source->mUpdateListIndex = 3;
     ClearThreeWords((u32 *) source->mUnk_1c);
     ClearThreeWords((u32 *) source);
-    TryAppendListObject(&data_0217d028, source);
+    TryAppendListObject(&gSoundSources, source);
 }
 
 void UnlinkSoundSourceSounds(SoundSource *source) {
@@ -40,7 +40,7 @@ void UnlinkSoundSourceSounds(SoundSource *source) {
         RemoveListObject(&source->mPlayingSounds, (u8 *) sound);
     }
     if (source->mUpdateListIndex != 3) {
-        RemoveListObject(&data_0217d048[source->mUpdateListIndex], (u8 *) source);
+        RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], (u8 *) source);
         source->mUpdateListIndex = 3;
     }
 }
@@ -71,11 +71,11 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
     }
     if (source->mUpdateListIndex != updateListIndex) {
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], (u8 *) source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], (u8 *) source);
             source->mUpdateListIndex = 3;
         }
         if (updateListIndex != 3) {
-            TryAppendListObject(&data_0217d048[updateListIndex], source);
+            TryAppendListObject(&gSoundSourceUpdateLists[updateListIndex], source);
             source->mUpdateListIndex = updateListIndex;
         }
     }
@@ -85,7 +85,7 @@ void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void
     PlayingSound *sound;
     NNSFndList *sourceList;
 
-    if (data_0217d084.mSoundsEnabled == 0) {
+    if (gSoundModeHolder.mSoundsEnabled == 0) {
         return;
     }
     sound = TakeSoundHandleEntry(&data_0217d034);
@@ -101,7 +101,7 @@ void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void
 
 u32 StartOrUpdateSndHandleSoundInMode2(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
                                        void *request) {
-    if (data_0217d084.mSoundsEnabled == 0) {
+    if (gSoundModeHolder.mSoundsEnabled == 0) {
         return seqArcNo;
     }
     return StartOrUpdateSndHandleSound(seqArcNo, soundId, positionSource, handle, request);
@@ -118,10 +118,10 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
 
     startsNewSound = 0;
     runThisCall = startsNewSound;
-    if (data_0217d084.mMode == 4) {
+    if (gSoundModeHolder.mMode == 4) {
         return startsNewSound;
     }
-    if (data_0217d084.mMode == 0) {
+    if (gSoundModeHolder.mMode == 0) {
         return startsNewSound;
     }
     if (*handle == NULL) {

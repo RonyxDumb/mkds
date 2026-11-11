@@ -1054,7 +1054,7 @@ void RemoveDroppedParticipants(void) {
         return;
     }
     sessionState = gWiFiSession->mStateMachine.mState;
-    firstBlock = data_0217aa08->mFirstBlock;
+    firstBlock = gBackupBuffers->mFirstBlock;
     firstBlockCount = firstBlock->mTotals[5];
     if (sessionState != 0) {
         s8 otherKartCount = gWiFiSession->mKartCountCopy - 1;

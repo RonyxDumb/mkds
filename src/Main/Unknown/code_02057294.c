@@ -4,24 +4,24 @@
 
 #pragma thumb on
 void ClearEmblemRecord(void) {
-    MI_CpuFill8(data_0217aa08->mEmblemRecord, 0u, 0x300u);
+    MI_CpuFill8(gBackupBuffers->mEmblemRecord, 0u, 0x300u);
 }
 #pragma thumb off
 
 #pragma thumb on
 void ClearGrandPrixRecordBlock(void) {
-    MI_CpuFill8(data_0217aa08->mGrandPrixRecordBlock, 0u, 0x400u);
+    MI_CpuFill8(gBackupBuffers->mGrandPrixRecordBlock, 0u, 0x400u);
 }
 #pragma thumb off
 
 #pragma thumb on
 void ClearCourseTimeRecordBlock(void) {
-    MI_CpuFill8(data_0217aa08->mCourseTimeRecordBlock, 0u, 0x1600u);
+    MI_CpuFill8(gBackupBuffers->mCourseTimeRecordBlock, 0u, 0x1600u);
 }
 #pragma thumb off
 
 #pragma thumb on
 void ClearMissionRecordBlock(void) {
-    MI_CpuFill8(data_0217aa08->mMissionRecordBlock, 0u, 0x100u);
+    MI_CpuFill8(gBackupBuffers->mMissionRecordBlock, 0u, 0x100u);
 }
 #pragma thumb off

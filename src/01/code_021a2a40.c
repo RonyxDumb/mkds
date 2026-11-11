@@ -278,12 +278,12 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                         gEmblem->mUnk_1080 = a - 0x1b;
                         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f1);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
                     } else {
                         gEmblem->mUnk_1080 = a - 0x1b;
                         func_ov001_021a5df0((gEmblem->mEmblemSLld), a);
                         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f0);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f0);
                     }
                     if (func_ov001_021a639c() == 1) {
                         func_ov001_021a5ab0(gEmblem->mEmblemSLld, func_ov001_021a637c() + 0xe);
@@ -307,7 +307,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
                     func_ov001_021a63a8(0);
                     func_ov001_021a6388(a - 0xe);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x11:
@@ -316,28 +316,28 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
                     func_ov001_021a63a8(1);
                     func_ov001_021a6388(a - 0x11);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x14:
                     func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
                     func_ov001_021a63a8(2);
                     func_ov001_021a6388(0);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x15:
                     func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
                     func_ov001_021a63a8(3);
                     func_ov001_021a6388(0);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mUnk_1094 = 3;
                     return;
                 case 0x16:
                     if (gEmblem->mUnk_108c == NULL) {
                         gEmblem->mUnk_108c = func_ov001_021a4a10;
                         func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f3);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f3);
                         gEmblem->mUnk_10b0 = TRUE;
                     }
                     gEmblem->mUnk_1094 = 3;
@@ -345,9 +345,9 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0x17:
                     if (IsEmblemGridChanged()) {
                         if (IsEmblemGridSwapped()) {
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1fb);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fb);
                         } else {
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1fc);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fc);
                         }
                         SwapEmblemGridCells();
                         func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
@@ -361,7 +361,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     if (gEmblem->mUnk_108c == NULL) {
                         gEmblem->mUnk_108c = func_ov001_021a4878;
                         func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xc);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
                         gEmblem->mUnk_10b0 = TRUE;
                         gEmblem->mUnk_10ac = FALSE;
                     }
@@ -371,7 +371,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     if (gEmblem->mUnk_108c == NULL) {
                         gEmblem->mUnk_108c = func_ov001_021a4b28;
                         func_ov001_021a5c28((gEmblem->mEmblemSLld), a);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
                         gEmblem->mUnk_10b0 = TRUE;
                     }
                     gEmblem->mUnk_1094 = 3;
@@ -384,7 +384,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     if (gEmblem->mUnk_108c == NULL) {
                         gEmblem->mUnk_108c = func_ov001_021a4914;
                         func_ov001_021a5a40((gEmblem->mEmblemTemplateSLld), 1);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xe);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
                         gEmblem->mUnk_10b0 = TRUE;
                     }
                     gEmblem->mUnk_1094 = 3;
@@ -430,7 +430,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                         gEmblem->mUnk_108c = func_ov001_021a4914;
                         func_ov001_021a5d00((gEmblem->mEmblemTemplateSLld), a);
                         gEmblem->mUnk_1084 = a - 3;
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f6);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
                     }
                     gEmblem->mUnk_1094 = 3;
                     return;
@@ -441,7 +441,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 if (gEmblem->mUnk_108c == NULL) {
                     gEmblem->mUnk_108c = func_ov001_021a4844;
                     func_ov001_021a5d00((gEmblem->mEmblemCameraSLld), a);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xc);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
                     gEmblem->mUnk_10ac = TRUE;
                 }
                 gEmblem->mUnk_1094 = 3;
@@ -542,7 +542,7 @@ void func_ov001_021a30e0(void) {
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
                     func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
                     gEmblem->mUnk_1094 = 1;
                     switch (func_ov001_021a639c()) {
@@ -561,7 +561,7 @@ void func_ov001_021a30e0(void) {
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
                     func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 8), NULL);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 }
                 break;
             case 1:
@@ -576,11 +576,11 @@ void func_ov001_021a30e0(void) {
                     func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
                     func_ov001_02185018(entry8, -5);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz > 0) {
                     gEmblem->mUnk_1094 = 3;
                     func_ov001_02185018(entry8, -5);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (func_ov001_02192a14(1)) {
                     if (data_ov001_021a6fe8[gEmblem->mUnk_107c] != 0x17 || IsEmblemGridChanged()) {
                         func_ov001_021a41c8(data_ov001_021a6fe8[gEmblem->mUnk_107c], 0);
@@ -624,14 +624,14 @@ void func_ov001_021a30e0(void) {
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
                     func_ov001_02185018(entry9, -5);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
                     gEmblem->mUnk_1094 = 3;
                     SetLldEntryScale(entry9, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
                     func_ov001_02185018(entry9, -5);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (func_ov001_02192a14(1)) {
                     func_ov001_021a41c8(data_ov001_021a7058[gEmblem->mUnk_1080], 0);
                 } else {
@@ -694,15 +694,15 @@ void func_ov001_021a30e0(void) {
                                 dy)) {
             if (func_ov001_021a639c() == 3) {
                 gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f4);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
             } else if (func_ov001_021a639c() == 2) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f5);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f5);
             }
         } else if (func_ov001_02192a04(0x400)) {
             flag = TRUE;
             if (func_ov001_021a6278()) {
                 gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f4);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
             }
         }
         if (GetEmblemInputDown() && !GetEmblemInputPrevDown() &&
@@ -858,7 +858,7 @@ void func_ov001_021a2e0c(void) {
         entry_d = GetLldEntry(gEmblem->mEmblemSLld, 10);
         SetLldEntryPos(entry_d, GetLldEntryX(entry_c), GetLldEntryY(entry_c));
         func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f1);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
     }
     sel = gEmblem->mUnk_1084;
     gEmblem->mUnk_1084 = data_ov001_021a73ac[v + 1][sel];
@@ -1007,7 +1007,7 @@ void func_ov001_021a2a40(void) {
             break;
         case 11:
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
-            if (data_0217aa08->mBusy == 0) {
+            if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {
                     t = gBackupAccess->mCommandRunning;
                 } else {

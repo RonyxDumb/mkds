@@ -65,7 +65,7 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
     }
     gSelectGame->mResult = 1;
     gSelectGame->mState = 5;
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 void SetSelectGameRowCellsVisible(s32 visible) {
@@ -340,7 +340,7 @@ s32 AdvanceSelectGame(void) {
             }
             if (d < 0 && previousSelectedIndex != gSelectGame->mSelectedIndex) {
                 SetSelectGameSelectedRowVisible(1);
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
             break;
         case 7:

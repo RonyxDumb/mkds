@@ -39,5 +39,5 @@ extern u32 gThreadIdCount;
 extern void (*data_0216ff50)(OSThread *, OSThread *);
 extern OSThread **data_0216ff54;
 extern u32 data_0216ff58;
-extern ThreadSystem data_0216ff5c;
+extern ThreadSystem OSi_ThreadInfo;
 extern OSThread data_0216ff6c;

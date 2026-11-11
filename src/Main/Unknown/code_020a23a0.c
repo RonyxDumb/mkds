@@ -48,11 +48,11 @@ void SetupTrophy(void) {
     x = MUL_FIXED12_NO_ROUND(FX_Div(data_0215d6b4[0x54], data_0215d6b4[0x55]), 0x19a);
     y = MUL_FIXED12_NO_ROUND(-x, 0x1555);
     if (gRaceSetup->mMirrorMode != 0) {
-        G3i_FrustumW_(x, -x, -y, y, 0x19a, 0x1388000, 0x200, 0, &data_0217029c.mProjMtx);
-        data_0217029c.mFlag &= ~0x50;
+        G3i_FrustumW_(x, -x, -y, y, 0x19a, 0x1388000, 0x200, 0, &NNS_G3dGlb.mProjMtx);
+        NNS_G3dGlb.mFlag &= ~0x50;
     } else {
-        G3i_FrustumW_(x, -x, y, -y, 0x19a, 0x1388000, 0x200, 0, &data_0217029c.mProjMtx);
-        data_0217029c.mFlag &= ~0x50;
+        G3i_FrustumW_(x, -x, y, -y, 0x19a, 0x1388000, 0x200, 0, &NNS_G3dGlb.mProjMtx);
+        NNS_G3dGlb.mFlag &= ~0x50;
     }
     {
         Vec3 v3;
@@ -64,10 +64,10 @@ void SetupTrophy(void) {
         data_021704dc[0] = v3;
         data_021704dc[1] = v2;
         data_021704dc[2] = v1;
-        G3i_LookAt_(&v3, &v2, &v1, 0, &data_0217029c.mCameraMtx);
-        data_0217029c.mFlag &= ~0xe8;
+        G3i_LookAt_(&v3, &v2, &v1, 0, &NNS_G3dGlb.mCameraMtx);
+        NNS_G3dGlb.mFlag &= ~0xe8;
         SetG3xSwapBits(gDisplaySettings, 1, 1);
-        data_0217029c.mPrmViewPort = 0xbfff0000;
+        NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
         NNS_G3dGlbFlushP();
         if (gTrophy->mRankIndex >= 3) {
             return;

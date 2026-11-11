@@ -5,7 +5,7 @@
 #pragma thumb on
 
 u32 GetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
-    UnpackGrandPrixRecord(&data_0217aa08->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
+    UnpackGrandPrixRecord(&gBackupBuffers->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
     return 1;
 }
 

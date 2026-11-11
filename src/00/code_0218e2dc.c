@@ -74,7 +74,7 @@ s8 *func_ov000_0218e850(s8 *a) {
     if (c != 0) {
         do {
             if (c >= 0 && c < 0x80) {
-                c = data_0215d184[c];
+                c = gLowerCaseMap[c];
             }
             *a = c;
             a++;

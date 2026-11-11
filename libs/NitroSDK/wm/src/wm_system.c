@@ -13,17 +13,17 @@
 #include "code_0214d5b8.h"
 
 u16 data_0217eed0;
-struct Unk02142aa8 *data_0217eed4;
+struct WMArm9Buf *wm9buf;
 OSMessageQueue data_0217eed8;
 void *data_0217eef8[10];
 
-// Sets up the system buffer for the DMA channel dmaNo and clears Unk02142aa8.mScanOnlyFlag.
+// Sets up the system buffer for the DMA channel dmaNo and clears WMArm9Buf.mScanOnlyFlag.
 s32 WM_Init(void *wmSysBuf, u16 dmaNo) {
     s32 result;
 
     result = WmInitCore(wmSysBuf, dmaNo, 0xf00);
     if (result == 0) {
-        data_0217eed4->mScanOnlyFlag = 0;
+        wm9buf->mScanOnlyFlag = 0;
     }
     return result;
 }
@@ -58,13 +58,13 @@ s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize) {
     }
     DC_InvalidateRange(wmSysBuf, bufSize);
     MI_DmaFill32(dmaNo, wmSysBuf, 0, bufSize);
-    data_0217eed4 = wmSysBuf;
-    data_0217eed4->mWM7 = (u8 *) wmSysBuf + 0x200;
-    data_0217eed4->mStatusArea = OFFSET_PTR(Unk02142988, data_0217eed4->mWM7, 0x300);
-    data_0217eed4->mRequestArea = OFFSET_PTR(u16, data_0217eed4->mStatusArea, 0x800);
-    data_0217eed4->mMessageArea = OFFSET_PTR(Unk021425e8, data_0217eed4->mRequestArea, 0x100);
+    wm9buf = wmSysBuf;
+    wm9buf->mWM7 = (u8 *) wmSysBuf + 0x200;
+    wm9buf->mStatusArea = OFFSET_PTR(Unk02142988, wm9buf->mWM7, 0x300);
+    wm9buf->mRequestArea = OFFSET_PTR(u16, wm9buf->mStatusArea, 0x800);
+    wm9buf->mMessageArea = OFFSET_PTR(Unk021425e8, wm9buf->mRequestArea, 0x100);
     WmClearFifoRecvFlag();
-    data_0217eed4->mDmaNo = dmaNo;
+    wm9buf->mDmaNo = dmaNo;
     for (port = 0; port < 16; port++) {
         WM_SetPortCallback(port, 0, 0);
     }
@@ -91,14 +91,14 @@ s32 WM_Finish(void) {
     }
     WmClearFifoRecvFlag();
     PXI_SetFifoRecvCallback(0xa, 0);
-    data_0217eed4 = 0;
+    wm9buf = 0;
     data_0217eed0 = 0;
     return 0;
 }
 
 // Stores callback as the handler of the command id.
 void WMi_SetCallbackTable(u32 id, Unk021425e8Func callback) {
-    data_0217eed4->mCommandCallbacks[id] = callback;
+    wm9buf->mCommandCallbacks[id] = callback;
 }
 
 // Sends command id with paramNum words to the other processor through a free message of the ring; with no words the
@@ -118,9 +118,9 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
         return 8;
     }
     if (paramNum == 0) {
-        DC_StoreRange(data_0217eed4->mRequestArea, 0x100);
+        DC_StoreRange(wm9buf->mRequestArea, 0x100);
         DC_InvalidateRange(buffer, 0x100);
-        MI_DmaCopy32(data_0217eed4->mDmaNo, data_0217eed4->mRequestArea, buffer, 0x100);
+        MI_DmaCopy32(wm9buf->mDmaNo, wm9buf->mRequestArea, buffer, 0x100);
     }
     *(u16 *) buffer = id;
     args = (u32 *) (((u32) &paramNum & ~3) + 4);
@@ -138,8 +138,8 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
 }
 
 // Returns the system buffer.
-Unk02142aa8 *WMi_GetSystemWork(void) {
-    return data_0217eed4;
+WMArm9Buf *WMi_GetSystemWork(void) {
+    return wm9buf;
 }
 
 // Returns 0 once the library is set up, otherwise 3.
@@ -158,8 +158,8 @@ s32 WMi_CheckIdle(void) {
     if (result != 0) {
         return result;
     }
-    DC_InvalidateRange(data_0217eed4->mStatusArea, 2);
-    if (data_0217eed4->mStatusArea->mState <= 1) {
+    DC_InvalidateRange(wm9buf->mStatusArea, 2);
+    if (wm9buf->mStatusArea->mState <= 1) {
         return 3;
     }
     return 0;
@@ -175,8 +175,8 @@ s32 WMi_CheckStateEx(s32 paramNum, ...) {
     if (result != 0) {
         return result;
     }
-    DC_InvalidateRange(data_0217eed4->mStatusArea, 2);
-    current = data_0217eed4->mStatusArea->mState;
+    DC_InvalidateRange(wm9buf->mStatusArea, 2);
+    current = wm9buf->mStatusArea->mState;
     args = (u32 *) (((u32) &paramNum & ~3) + 4);
     result = 3;
     while (paramNum != 0) {
@@ -206,11 +206,11 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
     if (err != 0) {
         return;
     }
-    DC_InvalidateRange(data_0217eed4->mMessageArea, 0x100);
-    if (data_0217eed4->mScanOnlyFlag == 0) {
-        DC_InvalidateRange(data_0217eed4->mStatusArea, 0x800);
+    DC_InvalidateRange(wm9buf->mMessageArea, 0x100);
+    if (wm9buf->mScanOnlyFlag == 0) {
+        DC_InvalidateRange(wm9buf->mStatusArea, 0x800);
     }
-    if (callback != data_0217eed4->mMessageArea) {
+    if (callback != wm9buf->mMessageArea) {
         DC_InvalidateRange(callback, 0x100);
     }
     if (callback->mCommand >= 0x2a) {
@@ -218,15 +218,15 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
             if (callback->mResultCode == 0x13) {
                 OS_Terminate();
             }
-            handler = data_0217eed4->mIndicationCallback;
+            handler = wm9buf->mIndicationCallback;
             if (handler != 0) {
                 handler(callback);
             }
         } else if (callback->mCommand == 0x82) {
-            if (data_0217eed4->mPortCallbacks[callback->mUnk_06] != 0) {
-                callback->mUnk_1c = data_0217eed4->mPortCallbackArgs[callback->mUnk_06];
-                DC_InvalidateRange(callback->mUnk_08, data_0217eed4->mStatusArea->mMpRecvBufSize);
-                data_0217eed4->mPortCallbacks[callback->mUnk_06](callback);
+            if (wm9buf->mPortCallbacks[callback->mUnk_06] != 0) {
+                callback->mUnk_1c = wm9buf->mPortCallbackArgs[callback->mUnk_06];
+                DC_InvalidateRange(callback->mUnk_08, wm9buf->mStatusArea->mMpRecvBufSize);
+                wm9buf->mPortCallbacks[callback->mUnk_06](callback);
             }
         } else if (callback->mCommand == 0x81) {
             callback->mCommand = 0xf;
@@ -239,12 +239,12 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
         if (callback->mCommand == 0xe) {
             if ((u16) (callback->mUnk_04 + 0xfff5) <= 1) {
                 if (callback->mResultCode == 0) {
-                    DC_InvalidateRange(callback->mUnk_08, data_0217eed4->mStatusArea->mMpRecvBufSize);
+                    DC_InvalidateRange(callback->mUnk_08, wm9buf->mStatusArea->mMpRecvBufSize);
                 }
             }
         }
         if (callback->mCommand == 2 && callback->mResultCode == 0) {
-            handler = data_0217eed4->mCommandCallbacks[callback->mCommand];
+            handler = wm9buf->mCommandCallbacks[callback->mCommand];
             WM_Finish();
             if (handler == 0) {
                 return;
@@ -252,7 +252,7 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
             handler(callback);
             return;
         }
-        handler = data_0217eed4->mCommandCallbacks[callback->mCommand];
+        handler = wm9buf->mCommandCallbacks[callback->mCommand];
         if (handler != 0) {
             handler(callback);
             if (data_0217eed0 == 0) {
@@ -275,35 +275,35 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
                 peerAddress = (u8 *) callback + 0xa;
             }
             if (stateCode == 7 || stateCode == 9) {
-                data_0217ef20.mCommand = 0x82;
-                data_0217ef20.mResultCode = 0;
-                data_0217ef20.mUnk_04 = stateCode;
-                data_0217ef20.mUnk_08 = 0;
-                data_0217ef20.mUnk_0c = 0;
-                data_0217ef20.mUnk_10 = 0;
-                data_0217ef20.mUnk_12 = memberIndex;
-                data_0217ef20.mUnk_20 = ownIndex;
-                data_0217ef20.mUnk_1a = 0xffff;
-                MI_CpuCopy8(peerAddress, data_0217ef20.mUnk_14, 6);
+                gPortCallbackEvent.mCommand = 0x82;
+                gPortCallbackEvent.mResultCode = 0;
+                gPortCallbackEvent.mUnk_04 = stateCode;
+                gPortCallbackEvent.mUnk_08 = 0;
+                gPortCallbackEvent.mUnk_0c = 0;
+                gPortCallbackEvent.mUnk_10 = 0;
+                gPortCallbackEvent.mUnk_12 = memberIndex;
+                gPortCallbackEvent.mUnk_20 = ownIndex;
+                gPortCallbackEvent.mUnk_1a = 0xffff;
+                MI_CpuCopy8(peerAddress, gPortCallbackEvent.mUnk_14, 6);
                 if (peerName != 0) {
-                    MIi_CpuCopy16(peerName, data_0217ef20.mUnk_24, 0x18);
+                    MIi_CpuCopy16(peerName, gPortCallbackEvent.mUnk_24, 0x18);
                 } else {
                     zero = 0;
-                    MIi_CpuClear16(zero, data_0217ef20.mUnk_24, 0x18);
+                    MIi_CpuClear16(zero, gPortCallbackEvent.mUnk_24, 0x18);
                 }
                 for (port = 0; port < 16; port++) {
-                    data_0217ef20.mUnk_06 = port;
-                    if (data_0217eed4->mPortCallbacks[port] != 0) {
-                        data_0217ef20.mUnk_1c = data_0217eed4->mPortCallbackArgs[port];
-                        data_0217eed4->mPortCallbacks[port](&data_0217ef20);
+                    gPortCallbackEvent.mUnk_06 = port;
+                    if (wm9buf->mPortCallbacks[port] != 0) {
+                        gPortCallbackEvent.mUnk_1c = wm9buf->mPortCallbackArgs[port];
+                        wm9buf->mPortCallbacks[port](&gPortCallbackEvent);
                     }
                 }
             }
         }
     }
-    DC_InvalidateRange(data_0217eed4->mMessageArea, 0x100);
+    DC_InvalidateRange(wm9buf->mMessageArea, 0x100);
     WmClearFifoRecvFlag();
-    if (callback == data_0217eed4->mMessageArea) {
+    if (callback == wm9buf->mMessageArea) {
         return;
     }
     callback->mCommand |= 0x8000;
@@ -322,5 +322,5 @@ Unk02142988 *WMi_GetStatusAddress(void) {
     if (WMi_CheckInitialized() != 0) {
         return 0;
     }
-    return data_0217eed4->mStatusArea;
+    return wm9buf->mStatusArea;
 }

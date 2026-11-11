@@ -71,7 +71,7 @@
 void func_ov001_02192890(Unk02188950 *a) {
     a->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource((SoundSource *) a->mUnk_000.mSound, 0xc, &a->mUnk_000.mPos);
-    a->mUnk_000.mFarDistanceSquared = data_0217cbec[0x14];
+    a->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x14];
 }
 
 void func_ov001_02192878(Unk02188950 *a) {

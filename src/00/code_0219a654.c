@@ -537,7 +537,7 @@ BOOL Gt2ParseAddress(const char *a, u32 *b, u16 *c) {
                     if (h < 0 || h >= 0x80) {
                         g = 0;
                     } else {
-                        g = data_0215d284[h] & 8;
+                        g = gCharClassFlags[h] & 8;
                     }
                     if (g == 0) {
                         return FALSE;

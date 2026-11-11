@@ -11,11 +11,11 @@ struct MapObjectKindDescriptor;
 // Row of the table searched by FindMapObjectKindDrawList0 and FindMapObjectKindUpdateList.
 typedef struct MapObjectKindRow {
     /* 00 */ u32 mKind;
-    /* 04 */ struct MapObjectKindDescriptor *mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 04 */ struct MapObjectKindDescriptor *mDescriptor;
+    /* 08 */ void *mInitData;
 } MapObjectKindRow;
 
-extern MapObjectKindRow data_0216b288[];
+extern MapObjectKindRow gMapObjectKindRows[];
 
 // Kind numbers (the mKind member of MapObjectKindRow) of rows whose class the tree names: the Init function in the
 // row's descriptor (CreateCream and CreateBerry, the model loaders, for the last two rows) carries the class name; for

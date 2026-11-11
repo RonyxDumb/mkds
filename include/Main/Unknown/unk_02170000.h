@@ -7,7 +7,7 @@
 
 typedef struct NNSG3dGlb NNSG3dGlb;
 
-extern OSThread data_0217002c;
+extern OSThread OSi_IdleThread;
 extern u32 data_021701b4;
 // Gate of arena index 2. Zero in this game: the only store writes 0.
 extern u32 gArena2Enabled;
@@ -30,7 +30,7 @@ extern u32 data_0217026c;
 extern u32 data_02170270;
 extern u32 data_02170274[2];
 
-extern NNSG3dGlb data_0217029c;
+extern NNSG3dGlb NNS_G3dGlb;
 extern NNSG3dRS *NNS_G3dRS;
 // The three vectors passed to G3i_LookAt_, written together before each call.
 extern Vec3 data_021704dc[3];

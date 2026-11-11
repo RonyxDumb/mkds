@@ -8,23 +8,23 @@
 #pragma thumb on
 
 void InitBackupBuffers(void *heap) {
-    data_0217aa08 = HeapAlloc(heap, 0x48);
-    data_0217aa08->mFirstBlock = HeapAllocAligned(heap, 0x100, 0x20);
-    data_0217aa08->mEmblemRecord = HeapAllocAligned(heap, 0x300, 0x20);
-    data_0217aa08->mGrandPrixRecordBlock = HeapAllocAligned(heap, 0x400, 0x20);
-    data_0217aa08->mCourseTimeRecordBlock = HeapAllocAligned(heap, 0x1600, 0x20);
-    data_0217aa08->mMissionRecordBlock = HeapAllocAligned(heap, 0x100, 0x20);
-    data_0217aa08->mCourseGhostRecord = HeapAllocAligned(heap, 0xe00, 0x20);
-    data_0217aa08->mSlotGhostRecords[0] = HeapAllocAligned(heap, 0x1000, 0x20);
-    data_0217aa08->mSlotGhostRecords[1] = HeapAllocAligned(heap, 0x1000, 0x20);
-    data_0217aa08->mBuddyRecordBlock = HeapAllocAligned(heap, 0xc00, 0x20);
-    data_0217aa08->mEmblemBlockData = HeapAllocAligned(heap, 0xb00, 0x20);
-    data_0217aa08->mReadDestination = NULL;
+    gBackupBuffers = HeapAlloc(heap, 0x48);
+    gBackupBuffers->mFirstBlock = HeapAllocAligned(heap, 0x100, 0x20);
+    gBackupBuffers->mEmblemRecord = HeapAllocAligned(heap, 0x300, 0x20);
+    gBackupBuffers->mGrandPrixRecordBlock = HeapAllocAligned(heap, 0x400, 0x20);
+    gBackupBuffers->mCourseTimeRecordBlock = HeapAllocAligned(heap, 0x1600, 0x20);
+    gBackupBuffers->mMissionRecordBlock = HeapAllocAligned(heap, 0x100, 0x20);
+    gBackupBuffers->mCourseGhostRecord = HeapAllocAligned(heap, 0xe00, 0x20);
+    gBackupBuffers->mSlotGhostRecords[0] = HeapAllocAligned(heap, 0x1000, 0x20);
+    gBackupBuffers->mSlotGhostRecords[1] = HeapAllocAligned(heap, 0x1000, 0x20);
+    gBackupBuffers->mBuddyRecordBlock = HeapAllocAligned(heap, 0xc00, 0x20);
+    gBackupBuffers->mEmblemBlockData = HeapAllocAligned(heap, 0xb00, 0x20);
+    gBackupBuffers->mReadDestination = NULL;
     ResetBackupFirstBlockAndRecords(1);
-    data_0217aa08->mFailedBlockBits = 0;
-    data_0217aa08->mReadStatus = 0;
-    data_0217aa08->mUnk_44 &= ~1;
-    data_0217aa08->mBusy = 0;
+    gBackupBuffers->mFailedBlockBits = 0;
+    gBackupBuffers->mReadStatus = 0;
+    gBackupBuffers->mUnk_44 &= ~1;
+    gBackupBuffers->mBusy = 0;
 }
 
 #pragma thumb off

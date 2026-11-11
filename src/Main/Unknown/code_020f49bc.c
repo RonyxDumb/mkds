@@ -298,9 +298,9 @@ void FallingBounceItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal
 void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
     NNSSndSeqPlayer **seqPlayer;
 
-    if (data_0217c780 & 1) {
+    if (gRaceSoundKind & 1) {
         seqPlayer = TakeSoundHandleEntry(GetSoundHandlePool(0));
-        if (data_0217d084.mSeqStartEnabled != 0) {
+        if (gSoundModeHolder.mSeqStartEnabled != 0) {
             if (*seqPlayer != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayer, 0);
             }

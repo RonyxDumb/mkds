@@ -106,7 +106,7 @@ typedef struct WMBssDesc {
 
 // System work area set up by WmInitCore. The callback tables are indexed by the command number of the message that
 // WmReceiveFifo takes.
-typedef struct Unk02142aa8 {
+typedef struct WMArm9Buf {
     /* 000 */ void *mWM7;
     /* 004 */ struct Unk02142988 *mStatusArea;
     /* 008 */ u32 mUnk_008;
@@ -120,7 +120,7 @@ typedef struct Unk02142aa8 {
     /* 0c0 */ Unk021425e8Func mIndicationCallback;
     /* 0c4 */ UnkFunc *mPortCallbacks[16];
     /* 104 */ void *mPortCallbackArgs[16];
-} Unk02142aa8;
+} WMArm9Buf;
 
 // Wireless status area written by the other processor; WM_ReadStatus copies 0x7bc bytes of it.
 typedef struct Unk02142988 {

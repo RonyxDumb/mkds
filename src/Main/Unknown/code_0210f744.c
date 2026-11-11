@@ -95,9 +95,9 @@ void UpdateSeqQueue(void) {
             } else {
                 seqIndex = (u16) (pairSide + pairNo * 2);
             }
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, seqIndex);
-            if (data_0217d068 != NULL) {
-                SetSndHandleTrackVolume(&data_0217d068, 0x3c);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, seqIndex);
+            if (gSharedSeqHandle != NULL) {
+                SetSndHandleTrackVolume(&gSharedSeqHandle, 0x3c);
             }
             gSeqQueue.mPairNo[queue->mReadIndex] = 13;
             gSeqQueuePairSides[queue->mReadIndex] = 2;
@@ -142,11 +142,11 @@ void StartSeqPair(s32 pairNo, s32 pairSide) {
     } else {
         seqIndex = pairSide + pairNo * 2;
     }
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, mode, seqIndex);
-    if (data_0217d068 != NULL) {
-        SetSndHandleTrackVolume(&data_0217d068, 100);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, mode, seqIndex);
+    if (gSharedSeqHandle != NULL) {
+        SetSndHandleTrackVolume(&gSharedSeqHandle, 100);
     }
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
 }
 
 void StartCursorMoveSound(void) {
@@ -369,10 +369,10 @@ void StopSndHandleSeq(NNSSndSeqPlayer **handle, u32 fadeSteps) {
 }
 
 void StartSeqOnHandleIfEnabled(u32 soundId, NNSSndSeqPlayer **handle) {
-    if ((data_0217c780 & 1) == 0) {
+    if ((gRaceSoundKind & 1) == 0) {
         return;
     }
-    if (data_0217d084.mSeqStartEnabled == 0) {
+    if (gSoundModeHolder.mSeqStartEnabled == 0) {
         return;
     }
     if (*handle != NULL) {
@@ -550,14 +550,14 @@ SeqPlayerControl *FadeSeqVolumeToZeroAfterKartRemoval(void) {
 
 void StartKartRemovalSeqEffect(void) {
     NNSSndSeqPlayer **handle;
-    handle = &data_0217d07c;
+    handle = &gScenePlayersSeqPlayer;
     gSeqPlayerControl.mVolumeOverride = 2;
     NNS_SndPlayerSetTrackMuteEx(handle, 1, 1);
-    NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0xd9);
+    NNS_SndPlayerSetTempoRatio(&gScenePlayersSeqPlayer, 0xd9);
 }
 
 void UpdateSceneSeqPlayerControl(void) {
-    UpdateSeqPlayerControl(&gSeqPlayerControl, &data_0217d07c);
+    UpdateSeqPlayerControl(&gSeqPlayerControl, &gScenePlayersSeqPlayer);
 }
 
 u32 IsTeresaSoundFlagSet(void) {

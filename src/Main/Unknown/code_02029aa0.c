@@ -113,7 +113,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     LoadCellFileSet(mainFileSet, gResultsGpMNcgrName, gResultsGpMNcerName, gResultsGpMONclrName, gResultsGpMBnclName,
                     gResultsGpMBnllName, NULL, FindSceneFile);
     SetupCellFileSet(0, heap, mainFileSet);
-    MIi_CpuCopy16(&data_0217aa08->mFirstBlock->mPlayerName, playerName, 0x14);
+    MIi_CpuCopy16(&gBackupBuffers->mFirstBlock->mPlayerName, playerName, 0x14);
     playerName[10] = 0;
     InitLabelCanvas(heap, 0, mainFileSet->mLabelLayout, 0x82, 0xd, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout,
                     mainFileSet->mCellTable, mainObjSize);
@@ -214,7 +214,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
             break;
     }
     if (i >= 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) i);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) i);
     }
     if (TrySetGrandPrixRecord()) {
         WaitThreadFunctionsDone();
@@ -258,14 +258,14 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                     u16 z;
                     y = FALSE;
                     x = FALSE;
-                    z = data_02175674[inputSlotIndex].mPressedBits;
+                    z = gInputHasPairs[inputSlotIndex].mPressedBits;
                     if (z == 0) {
-                        if (data_02175680[inputSlotIndex].mPressedBits < 5) {
+                        if (gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
                             x = TRUE;
                         }
                     }
                     if (x == FALSE) {
-                        if (data_0217567c[inputSlotIndex].mPressedBits == 0) {
+                        if (gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0) {
                             if (z != 0) {
                                 y = TRUE;
                             }
@@ -338,7 +338,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                             }
                             break;
                     }
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                     gResultsGp->mState = 2;
                 }
             }

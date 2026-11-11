@@ -126,7 +126,7 @@ static inline s32 GhostGetSlotIsBackupCommandRunning(void) {
 }
 
 static inline s32 GhostGetSlotIsBackupBusy(void) {
-    if (data_0217aa08->mBusy == 0) {
+    if (gBackupBuffers->mBusy == 0) {
         return GhostGetSlotIsBackupCommandRunning();
     }
     return 1;
@@ -296,16 +296,16 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     AdvanceInterpolation(&gTimeAttackGhostGetSlot->mInterpolation);
     pairIsNew = FALSE;
     pairRecentlyGone = FALSE;
-    hasPair = data_02175674[slotIndex].mPressedBits;
-    if (hasPair == 0 && data_02175680[slotIndex].mPressedBits < 5) {
+    hasPair = gInputHasPairs[slotIndex].mPressedBits;
+    if (hasPair == 0 && gInputNoPairCounts[slotIndex].mPressedBits < 5) {
         pairRecentlyGone = TRUE;
     }
-    if (pairRecentlyGone == FALSE && data_0217567c[slotIndex].mPressedBits == 0 && hasPair != 0) {
+    if (pairRecentlyGone == FALSE && gInputPrevHasPairs[slotIndex].mPressedBits == 0 && hasPair != 0) {
         pairIsNew = TRUE;
     }
     if (pairIsNew != FALSE) {
-        touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[slotIndex].mPressedBits,
-                                                                            data_02175672[slotIndex].mPressedBits);
+        touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[slotIndex].mPressedBits,
+                                                                            gInputPairYs[slotIndex].mPressedBits);
     }
     object = gTimeAttackGhostGetSlot;
     switch (object->mState) {
@@ -327,7 +327,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
                 PrintSelectedGhostRecord();
             }
             if (IsScrollListPickStarted() != 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
             }
             if (IsScrollListPickFinished() != 0) {
                 SetupGhostNameSubTextTwoButtons();
@@ -346,7 +346,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
         case 2:
             if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
                 NNS_SndArcSetCurrent(&gFileSndArc);
             }
             if (GetTxtSystemDone() != 0) {
@@ -490,7 +490,7 @@ void MoveSelectedGhostUp(s32 wrap) {
         } while (index != object->mInfoFileSets.mSelectedIndex);
     }
     if (found != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
     }
 }
 
@@ -530,7 +530,7 @@ void MoveSelectedGhostDown(s32 wrap) {
         } while (index != object->mInfoFileSets.mSelectedIndex);
     }
     if (found != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
     }
 }
 

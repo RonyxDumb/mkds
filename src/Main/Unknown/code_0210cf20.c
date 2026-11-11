@@ -38,9 +38,9 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
         sounds->mVolume = 0x7f;
         sounds++;
     }
-    NNS_FndInitList(&data_0217d028, 0);
+    NNS_FndInitList(&gSoundSources, 0);
     for (i = 0; i < 2; i++) {
-        NNS_FndInitList(&data_0217d048[i], 0x1c);
+        NNS_FndInitList(&gSoundSourceUpdateLists[i], 0x1c);
     }
     data_0217d010[0] = 0;
     data_0217d024[0] = 0;
@@ -58,17 +58,17 @@ void UpdateSoundSources(void) {
     NNSFndList *secondUpdateList;
     SoundSource *source;
 
-    if (data_0217d084.mSoundsEnabled == 0) {
+    if (gSoundModeHolder.mSoundsEnabled == 0) {
         return;
     }
     if (data_0217d020 != 0) {
-        for (source = data_0217d028.mHead; source != NULL; source = NNS_FndGetNextListObject(&data_0217d028, source)) {
+        for (source = gSoundSources.mHead; source != NULL; source = NNS_FndGetNextListObject(&gSoundSources, source)) {
             ExpireWhileRequestedSounds(source);
         }
         data_0217d020 = 0;
     }
     IncrementSoundHandleAges(&data_0217d034);
-    updateLists = data_0217d048;
+    updateLists = gSoundSourceUpdateLists;
     for (source = updateLists->mHead; source != NULL; source = updateLists->mHead) {
         SetPlayingSoundsParams(source);
         if (source->mUpdateListIndex != 3) {
@@ -80,7 +80,7 @@ void UpdateSoundSources(void) {
     source = secondUpdateList->mHead;
     countThisPass = data_0217d024[0];
     if (source != NULL) {
-        updateLists = data_0217d048;
+        updateLists = gSoundSourceUpdateLists;
         do {
             if ((countThisPass++ & 3) == data_0217d010[0]) {
                 SetPlayingSoundsParams(source);
@@ -111,7 +111,7 @@ void StopSoundsOnAllSources(u32 fadeSteps) {
     SoundSource *source;
     PlayingSound *sound;
 
-    source = data_0217d028.mHead;
+    source = gSoundSources.mHead;
     if (source == NULL) {
         return;
     }
@@ -128,10 +128,10 @@ void StopSoundsOnAllSources(u32 fadeSteps) {
             } while (sound != NULL);
         }
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = 3;
         }
-        source = NNS_FndGetNextListObject(&data_0217d028, source);
+        source = NNS_FndGetNextListObject(&gSoundSources, source);
     } while (source != NULL);
 }
 
@@ -162,8 +162,8 @@ void StopAllPlayingSounds(u32 fadeSteps) {
 }
 
 void ReleaseAllSoundSources(void) {
-    while (data_0217d028.mHead != NULL) {
-        StopAllSoundsAndReleaseSoundSource(data_0217d028.mHead);
+    while (gSoundSources.mHead != NULL) {
+        StopAllSoundsAndReleaseSoundSource(gSoundSources.mHead);
     }
 }
 
@@ -236,5 +236,5 @@ void InitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     source->mUpdateListIndex = 3;
     ClearThreeWords(source->mUnk_1c);
     ClearThreeWords((u32 *) source);
-    TryAppendListObject(&data_0217d028, source);
+    TryAppendListObject(&gSoundSources, source);
 }

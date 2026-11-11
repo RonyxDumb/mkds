@@ -471,7 +471,7 @@ u16 GetDownBits(u32 slotIndex, u32 mask) {
 }
 
 u32 StartRaceSceneSound(u32 index) {
-    return NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0u, index);
+    return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0u, index);
 }
 
 u32 RaceSceneSlotHasPairOrLost(u32 slotIndex) {

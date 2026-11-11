@@ -36,18 +36,18 @@ int printf(const char *fmt, ...) {
         return -1;
     }
     if (OS_TryLockMutex((OSMutex *) data_0217eadc[3]) == 0) {
-        data_0217ea94[3] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[3] = 1;
-    } else if (data_0217ea94[3] == data_0216ff5c.mListHead->mId) {
-        data_0217eab8[3]++;
+        gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[3] = 1;
+    } else if (gLockOwnerThreadIds[3] == OSi_ThreadInfo.mListHead->mId) {
+        gLockHoldCounts[3]++;
     } else {
         OS_LockMutex((OSMutex *) data_0217eadc[3]);
-        data_0217ea94[3] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[3] = 1;
+        gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[3] = 1;
     }
     r = FormatWithPutFunc(FormatPutFwrite, &data_0216eb7c[1], fmt, (char *) (((int) &fmt & ~3) + 4));
-    data_0217eab8[3]--;
-    if (data_0217eab8[3] == 0) {
+    gLockHoldCounts[3]--;
+    if (gLockHoldCounts[3] == 0) {
         OS_UnlockMutex((OSMutex *) data_0217eadc[3]);
     }
     return r;
@@ -344,22 +344,22 @@ u32 fwrite(const char *a, u32 b, u32 c, FILE *d) {
     }
     p = (OSMutex *) data_0217eadc[i];
     if (OS_TryLockMutex(p) == 0) {
-        data_0217ea94[i] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[i] = 1;
+        gLockOwnerThreadIds[i] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[i] = 1;
     } else {
         u32 v;
 
-        v = data_0217ea94[i];
-        if (v == data_0216ff5c.mListHead->mId) {
-            data_0217eab8[i]++;
+        v = gLockOwnerThreadIds[i];
+        if (v == OSi_ThreadInfo.mListHead->mId) {
+            gLockHoldCounts[i]++;
         } else {
             OS_LockMutex(p);
-            data_0217ea94[i] = data_0216ff5c.mListHead->mId;
-            data_0217eab8[i] = 1;
+            gLockOwnerThreadIds[i] = OSi_ThreadInfo.mListHead->mId;
+            gLockHoldCounts[i] = 1;
         }
     }
     r = FwriteBody(a, b, c, d);
-    if (--data_0217eab8[i] == 0) {
+    if (--gLockHoldCounts[i] == 0) {
         OS_UnlockMutex(p);
     }
     return r;

@@ -166,9 +166,9 @@ void UpdateRaceItemSlot(void) {
                 if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
                     endSeqNo = 0x1c6;
                 }
-                if ((data_0217c780 & 1) != 0) {
+                if ((gRaceSoundKind & 1) != 0) {
                     entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                    if (data_0217d084.mSeqStartEnabled != 0) {
+                    if (gSoundModeHolder.mSeqStartEnabled != 0) {
                         if (*entryHandle != NULL) {
                             NNS_SndPlayerStopSeq(entryHandle, 0);
                         }
@@ -185,9 +185,9 @@ void UpdateRaceItemSlot(void) {
                 if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
                     endSeqNo = 0x1c5;
                 }
-                if ((data_0217c780 & 1) != 0) {
+                if ((gRaceSoundKind & 1) != 0) {
                     entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                    if (data_0217d084.mSeqStartEnabled != 0) {
+                    if (gSoundModeHolder.mSeqStartEnabled != 0) {
                         if (*entryHandle != NULL) {
                             NNS_SndPlayerStopSeq(entryHandle, 0);
                         }
@@ -208,8 +208,8 @@ void UpdateRaceItemSlot(void) {
         if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
             startSeqNo = 0x1c4;
         }
-        if ((data_0217c780 & 1) != 0) {
-            if (data_0217d084.mSeqStartEnabled != 0) {
+        if ((gRaceSoundKind & 1) != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*sndHandle != NULL) {
                     NNS_SndPlayerStopSeq(sndHandle, 0);
                 }

@@ -270,12 +270,12 @@ void UpdateMemberRowsFromScanSlots(void) {
                     }
                     if (isNewEntry != FALSE) {
                         NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
                         NNS_SndArcSetCurrent(&gFileSndArc);
                     }
                 } else if (oldHasText != 0 && gMultiSelectMemberGroup->mUnk_58[i].mHasText == 0) {
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                     NNS_SndArcSetCurrent(&gFileSndArc);
                 }
                 changed |= oldHasText != gMultiSelectMemberGroup->mUnk_58[i].mHasText ? 1 : 0;
@@ -412,17 +412,17 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     gMultiSelectMemberGroup->mState2Frames = 0;
                     RefreshMultiSelectMemberGroup(0);
                     if (gMultiSelectMemberGroup->mSelectedIndex == 4) {
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4e);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
                     } else {
                         if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 2) {
                             gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_SCANNING;
                         }
                         NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
                         NNS_SndArcSetCurrent(&gFileSndArc);
                     }
                 } else {
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4f);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4f);
                 }
             } else if ((u16) (v & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (sceneNumbers != NULL) {
@@ -436,16 +436,16 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     gMultiSelectMemberGroup->mSelectedIndex = 4;
                 }
                 RefreshMultiSelectMemberGroup(1);
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex++;
                 if (gMultiSelectMemberGroup->mSelectedIndex > 4) {
                     gMultiSelectMemberGroup->mSelectedIndex = 0;
                 }
                 RefreshMultiSelectMemberGroup(1);
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             } else if (rectIndex == 0xc) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4e);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
                 RefreshMultiSelectMemberGroup(gMultiSelectMemberGroup->mSelectedIndex != 4 ? 1 : 0);
                 gMultiSelectMemberGroup->mState2Frames = 0;
                 gMultiSelectMemberGroup->mState = 2;
@@ -458,7 +458,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                         if (gMultiSelectMemberGroup->mUnk_58[i].mHasText != 0 &&
                             gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 < 7) {
                             NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
                             NNS_SndArcSetCurrent(&gFileSndArc);
                             gMultiSelectMemberGroup->mSelectedIndex = i;
                             RefreshMultiSelectMemberGroup(selectionChanged);
@@ -466,7 +466,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                             gMultiSelectMemberGroup->mState = 2;
                             gMultiSelectMemberGroup->mUnk_88 = TRUE;
                         } else {
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4f);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4f);
                         }
                     }
                 }

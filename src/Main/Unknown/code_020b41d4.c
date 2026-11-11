@@ -4,7 +4,7 @@
 #pragma thumb on
 
 u32 IsArchiveSlotLoaded(u32 slotIndex) {
-    return (data_021759c8->mSlots[slotIndex].mLoaded);
+    return (gArchiveSlots->mSlots[slotIndex].mLoaded);
 }
 
 #pragma thumb off

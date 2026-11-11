@@ -5,4 +5,4 @@
 
 // Passed by address to NNS_SndArcPlayerStartSeqArc, SetSndHandleTrackVolume and NNS_SndHandleInit; UpdateSeqQueue tests
 // it for null.
-extern NNSSndSeqPlayer *data_0217d068;
+extern NNSSndSeqPlayer *gSharedSeqHandle;

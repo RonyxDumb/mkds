@@ -171,31 +171,30 @@ void AdvanceRecordVSState4(void) {
     AdvanceRecordVSIndexChange();
     g = TRUE;
     f = FALSE;
-    touchSlot = &data_02175674[inputSlotIndex];
-    x = data_02175674[inputSlotIndex].mPressedBits;
-    if (x == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+    touchSlot = &gInputHasPairs[inputSlotIndex];
+    x = gInputHasPairs[inputSlotIndex].mPressedBits;
+    if (x == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
         f = TRUE;
     }
     if (f == FALSE && x == 0) {
         g = FALSE;
     }
     if (g != FALSE) {
-        downRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, data_02175670[inputSlotIndex].mPressedBits,
-                                                data_02175672[inputSlotIndex].mPressedBits);
+        downRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPressedBits,
+                                                gInputPairYs[inputSlotIndex].mPressedBits);
     }
     g = FALSE;
     f = FALSE;
     x = touchSlot->mPressedBits;
-    if (x == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+    if (x == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
         f = TRUE;
     }
-    if (f == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && x != 0) {
+    if (f == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && x != 0) {
         g = TRUE;
     }
     if (g != FALSE) {
-        pressedRectIndex =
-            RectTableFindContaining(gRecordVS->mRecordVSSBnbl, data_02175670[inputSlotIndex].mPressedBits,
-                                    data_02175672[inputSlotIndex].mPressedBits);
+        pressedRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPressedBits,
+                                                   gInputPairYs[inputSlotIndex].mPressedBits);
     }
     if (downRectIndex != 10) {
         gRecordVS->mPageDecrementRepeat = FALSE;
@@ -208,15 +207,15 @@ void AdvanceRecordVSState4(void) {
         g = FALSE;
         f = FALSE;
         x = touchSlot->mPressedBits;
-        if (x == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+        if (x == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
             f = TRUE;
         }
-        if (f == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && x != 0) {
+        if (f == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && x != 0) {
             g = TRUE;
         }
         if (g == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputSlotIndex].mPressedBits,
-                                                            data_02175672[inputSlotIndex].mPressedBits) == FALSE) {
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputSlotIndex].mPressedBits,
+                                                            gInputPairYs[inputSlotIndex].mPressedBits) == FALSE) {
             goto l1;
         }
     }
@@ -246,7 +245,7 @@ l1:
         gRecordVS->mOffsetTimers[0] = 6;
         gRecordVS->mPageDecrementRepeat = TRUE;
         RequestRecordVSState5();
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
     if ((downRectIndex == 11 && gRecordVS->mPageIncrementRepeat != FALSE) ||
@@ -262,7 +261,7 @@ l1:
         gRecordVS->mOffsetTimers[1] = 6;
         gRecordVS->mPageIncrementRepeat = TRUE;
         RequestRecordVSState5();
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
     if ((u32) (pressedRectIndex - 5) <= 4) {
@@ -284,7 +283,7 @@ l1:
             return;
         }
         gRecordVS->mIndex = rowIndex;
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         return;
     }
     if (pressedRectIndex == 12 || (u16) (keySlot->mPressedBits & PAD_KEY_X) != 0) {

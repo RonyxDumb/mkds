@@ -22,7 +22,7 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     u32 hadBit8;
 
     v = 0;
-    if (data_0217d084.mSoundsEnabled == 0) {
+    if (gSoundModeHolder.mSoundsEnabled == 0) {
         return;
     }
     if ((source->mSourceFlags & 1) == 0) {
@@ -102,11 +102,11 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     }
     if (source->mUpdateListIndex != v) {
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = 3;
         }
         if (v != 3) {
-            TryAppendListObject(&data_0217d048[v], source);
+            TryAppendListObject(&gSoundSourceUpdateLists[v], source);
             source->mUpdateListIndex = v;
         }
     }
@@ -178,7 +178,7 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     u32 matches;
 
     sound = NULL;
-    if (data_0217d084.mSoundsEnabled == 0) {
+    if (gSoundModeHolder.mSoundsEnabled == 0) {
         return sound;
     }
     if ((source->mSourceFlags & 1) == 0) {
@@ -225,10 +225,10 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     TryAppendListObject(&source->mPlayingSounds, sound);
     if (source->mUpdateListIndex != 0) {
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = 3;
         }
-        TryAppendListObject(data_0217d048, source);
+        TryAppendListObject(gSoundSourceUpdateLists, source);
         source->mUpdateListIndex = 0;
     }
     return sound;
@@ -241,7 +241,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     u32 matches;
 
     sound = NULL;
-    if (data_0217d084.mSoundsEnabled == 0) {
+    if (gSoundModeHolder.mSoundsEnabled == 0) {
         return sound;
     }
     if ((source->mSourceFlags & 1) == 0) {
@@ -302,10 +302,10 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     TryAppendListObject(&source->mPlayingSounds, sound);
     if (source->mUpdateListIndex != 0) {
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = 3;
         }
-        TryAppendListObject(data_0217d048, source);
+        TryAppendListObject(gSoundSourceUpdateLists, source);
         source->mUpdateListIndex = 0;
     }
     return sound;
@@ -319,7 +319,7 @@ void StopSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps) 
     PlayingSound *sound;
     u32 matches;
 
-    if (data_0217d084.mSoundsEnabled == 0) {
+    if (gSoundModeHolder.mSoundsEnabled == 0) {
         return;
     }
     sound = source->mPlayingSounds.mHead;
@@ -358,11 +358,11 @@ void StopPlayingSound(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
     }
     if (source->mUpdateListIndex != updateListIndex) {
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = 3;
         }
         if (updateListIndex != 3) {
-            TryAppendListObject(&data_0217d048[updateListIndex], source);
+            TryAppendListObject(&gSoundSourceUpdateLists[updateListIndex], source);
             source->mUpdateListIndex = updateListIndex;
         }
     }
@@ -379,7 +379,7 @@ void StopAllSoundsAndReleaseSoundSource(SoundSource *source) {
         RemoveListObject(&source->mPlayingSounds, sound);
     }
     if (source->mUpdateListIndex != 3) {
-        RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+        RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
         source->mUpdateListIndex = 3;
     }
     ReleaseSoundSource(source);
@@ -424,11 +424,11 @@ void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps) {
     }
     if (source->mUpdateListIndex != v) {
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = 3;
         }
         if (v != 3) {
-            TryAppendListObject(&data_0217d048[v], source);
+            TryAppendListObject(&gSoundSourceUpdateLists[v], source);
             source->mUpdateListIndex = v;
         }
     }
@@ -442,9 +442,9 @@ void ReleaseSoundSource(SoundSource *source) {
         RemoveListObject(&source->mPlayingSounds, sound);
     }
     if (source->mUpdateListIndex != 3) {
-        RemoveListObject(&data_0217d048[source->mUpdateListIndex], source);
+        RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
         source->mUpdateListIndex = 3;
     }
-    RemoveListObject(&data_0217d028, source);
+    RemoveListObject(&gSoundSources, source);
     source->mRegistered = 0;
 }

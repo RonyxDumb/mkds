@@ -218,7 +218,7 @@ void ReadRecordEmblem(u16 listIndex, EmblemData *emblem, void *tiles) {
     u8 busy;
 
     SetupEmblemBlock(gRecordList->mEmblemBlock, gRecordList->mEntries[listIndex].mRecordIndex);
-    busy = data_0217aa08->mBusy;
+    busy = gBackupBuffers->mBusy;
     do {
     } while (busy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1);
     if (!CopyEmblemFromBlock(gRecordList->mEmblemBlock, gRecordList->mEntries[listIndex].mRecordIndex, emblem) ||
@@ -234,7 +234,7 @@ void EraseRecord(u16 listIndex) {
     u8 busy;
 
     RemoveBuddyRecord(gRecordList->mEntries[listIndex].mRecordIndex);
-    busy = data_0217aa08->mBusy;
+    busy = gBackupBuffers->mBusy;
     do {
     } while (busy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1);
     BuildRecordList();
@@ -510,7 +510,7 @@ void IncrementRecordVSIndex(void) {
         nextIndex = 0;
     }
     if (gRecordVS->mIndex != nextIndex) {
-        NNS_SndArcPlayerStartSeqArc((const void *) (((u32) ((u8 *) &data_0217d068))), 0, 0);
+        NNS_SndArcPlayerStartSeqArc((const void *) (((u32) ((u8 *) &gSharedSeqHandle))), 0, 0);
     }
     gRecordVS->mIndex = nextIndex;
 }
@@ -531,7 +531,7 @@ void DecrementRecordVSIndex(void) {
         }
     }
     if (gRecordVS->mIndex != previousIndex) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
     }
     gRecordVS->mIndex = previousIndex;
 }
@@ -575,10 +575,10 @@ void ToggleRecordVSRowFlag(s32 row) {
     listIndex += row;
     if (IsRecordFlagged(listIndex)) {
         ClearRecordFlag(listIndex);
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x25);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x25);
     } else {
         SetRecordFlag(listIndex);
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x24);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x24);
     }
 }
 
@@ -764,7 +764,7 @@ void RequestRecordVSState9(void) {
     gRecordVS->mNextState = 9;
     gRecordVS->mStateFrames = 0;
     gRecordVS->mRecordVSSTable[25].mVisible = 1;
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
 }
 
 void RequestRecordVSState10(void) {

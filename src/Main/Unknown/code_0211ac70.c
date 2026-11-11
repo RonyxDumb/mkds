@@ -297,7 +297,7 @@ void MoveSelectRaceRuleRowNext(void) {
         }
     }
     if (a != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
     }
 }
 
@@ -335,7 +335,7 @@ void MoveSelectRaceRuleRowPrevious(void) {
         }
     }
     if (a != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
     }
 }
 
@@ -468,7 +468,7 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
     if (IsPlayerTeamPlayerCountNotOne(entryIndex) == 0) {
         ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
         if (entryIndex == gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
         return;
     }
@@ -498,7 +498,7 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
                 gSelectRaceRule->mCountTeamChangeTimers[1][1] = 6;
                 break;
         }
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
     }
 }
 
@@ -721,7 +721,7 @@ void MoveSelectRaceRuleValueNext(s32 playSound) {
     }
     gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][1] = 6;
     if (playSound != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 1);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
     }
 }
 
@@ -776,7 +776,7 @@ void MoveSelectRaceRuleValuePrevious(s32 playSound) {
     }
     gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][0] = 6;
     if (playSound != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 1);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
     }
 }
 
@@ -799,7 +799,7 @@ void IncrementSelectRaceRuleCourseCount(void) {
                 break;
         }
         if (changed != FALSE) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
         }
     }
 }
@@ -823,7 +823,7 @@ void DecrementSelectRaceRuleCourseCount(void) {
                 break;
         }
         if (changed != FALSE) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
         }
     }
 }
@@ -1350,7 +1350,7 @@ void RequestSelectRaceRuleState4(void) {
     if (gBootInfo->mUnk_00 != 2) {
         StopPaletteBlend();
     }
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
     WriteSelectRaceRuleToRaceSetupCopy();
 }
 
@@ -1757,19 +1757,19 @@ void AdvanceSelectRaceRuleState3(void) {
     AdvanceSelectRaceRuleChangeObjects();
     newPair = FALSE;
     noPairForFewCalls = FALSE;
-    p = &data_02175674[inputIndex];
-    hasPair = data_02175674[inputIndex].mPressedBits;
-    if (hasPair == 0 && data_02175680[inputIndex].mPressedBits < 5) {
+    p = &gInputHasPairs[inputIndex];
+    hasPair = gInputHasPairs[inputIndex].mPressedBits;
+    if (hasPair == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
         noPairForFewCalls = TRUE;
     }
-    if (noPairForFewCalls == FALSE && data_0217567c[inputIndex].mPressedBits == 0 && hasPair != 0) {
+    if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && hasPair != 0) {
         newPair = TRUE;
     }
     if (newPair != FALSE) {
-        r = &data_02175672[inputIndex];
-        q = &data_02175670[inputIndex];
-        hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, data_02175670[inputIndex].mPressedBits,
-                                               data_02175672[inputIndex].mPressedBits);
+        r = &gInputPairYs[inputIndex];
+        q = &gInputPairXs[inputIndex];
+        hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, gInputPairXs[inputIndex].mPressedBits,
+                                               gInputPairYs[inputIndex].mPressedBits);
         if (hitRectIndex != 0x13) {
             hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, q->mPressedBits,
                                                    r->mPressedBits - gSelectRaceRule->mOffsetY);
@@ -1783,15 +1783,15 @@ void AdvanceSelectRaceRuleState3(void) {
         newPair = FALSE;
         noPairForFewCalls = FALSE;
         hasPair = p->mPressedBits;
-        if (hasPair == 0 && data_02175680[inputIndex].mPressedBits < 5) {
+        if (hasPair == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
             noPairForFewCalls = TRUE;
         }
-        if (noPairForFewCalls == FALSE && data_0217567c[inputIndex].mPressedBits == 0 && hasPair != 0) {
+        if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && hasPair != 0) {
             newPair = TRUE;
         }
         if (newPair == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputIndex].mPressedBits,
-                                                            data_02175672[inputIndex].mPressedBits) == 0) {
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPressedBits,
+                                                            gInputPairYs[inputIndex].mPressedBits) == 0) {
             goto chain;
         }
     }
@@ -1832,7 +1832,7 @@ chain:
         if (GetSelectRaceRuleHumanCount() != 8 || row != 1) {
             gSelectRaceRule->mRow = row;
             gSelectRaceRule->mOnButton = 0;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else if ((u16) (r->mPressedBits & PAD_KEY_A) != 0) {
         if (gSelectRaceRule->mOnButton != 0) {

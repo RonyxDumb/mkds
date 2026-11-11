@@ -312,9 +312,9 @@ void AdvanceOptionTopMenuState8(void) {
     s32 flag;
 
     if (IsTxtSystemState2AfterState1() != 0) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x22);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x22);
     }
-    if (data_0217aa08->mBusy == 0) {
+    if (gBackupBuffers->mBusy == 0) {
         if (gBackupAccess->mBackupEnabled != 0) {
             flag = gBackupAccess->mCommandRunning;
         } else {

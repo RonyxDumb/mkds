@@ -164,7 +164,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
         x = data_usa_02154d4c[kart->mIndex][0];
         forwardOffset = data_usa_02154d50[kart->mIndex][0];
-        Vec3CrossUnrounded(&data_02154f7c, &respawnForward, &sideDirection);
+        Vec3CrossUnrounded(&gKartVec3UnitY, &respawnForward, &sideDirection);
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, x), &sideDirection, &respawnPos, &respawnPos);
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
         if (respawnAngles.x != 0 && forwardOffset != 0) {
@@ -251,7 +251,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
         recordState->mSmoothedPos = kart->mPos;
         recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
         recordState->mSmoothedRotation = kart->mUnk_110_q;
-        recordState->mPosOffset = data_02154f94;
+        recordState->mPosOffset = gKartVec3Zero;
         recordState->mPosOffsetIndex = 0;
     }
     if (forward != NULL) {
@@ -359,7 +359,7 @@ void ResetKartToStartPlacement(Kart *kart) {
     }
     GetCourseMapKartStartPlacement(&startPos, &startAngles, kart->mIndex);
     kart->mHeadingAngle = (u32) (startAngles.y * 0xb6) >> 12;
-    QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
+    QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mUnk_e0_m);
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
     GetKartForward(kart, &forward);
     ResetKartAndSetPos(kart, &startPos, &forward, NULL);
@@ -377,7 +377,7 @@ void ResetKartToStartPlacement(Kart *kart) {
     }
     kart->mUnk_7c |= 0x80;
     kart->mUnk_7c &= ~0x60;
-    kart->mScale = data_02154f94;
+    kart->mScale = gKartVec3Zero;
 }
 
 void InitKartPhysicalParams(Kart *kart) {
@@ -424,7 +424,7 @@ void ResetKartMotionVectorsAndFactors(Kart *kart) {
     kart->mAheadSpeedLimitFactor = 0x1000;
     kart->mSpeedLimitFactor = 0x1000;
     kart->mSpeedLimitHitFactor = 0x1000;
-    zeroVector = data_02154f94;
+    zeroVector = gKartVec3Zero;
     kart->mUnk_25c = zeroVector;
     kart->mAttractorPullDirection = zeroVector;
     kart->mAttractorPullSpeed = 0;
@@ -449,7 +449,7 @@ void ResetKart(Kart *kart) {
     kart->mUnk_44 = 0;
     kart->mUnk_48 = 0;
     kart->mUnk_4c = 0;
-    zeroVector = data_02154f94;
+    zeroVector = gKartVec3Zero;
     kart->mDrawMatrixPos = zeroVector;
     kart->mPrevPos = kart->mDrawMatrixPos;
     kart->mPos = kart->mPrevPos;
@@ -492,7 +492,7 @@ void ResetKart(Kart *kart) {
     kart->mStateEndTimer = 0;
     kart->mMiniTurboTimer = 0;
     kart->mTurnedForwardEaseFactor = 0x1000;
-    kart->mGroundNormal = data_02154f7c;
+    kart->mGroundNormal = gKartVec3UnitY;
     kart->mCourseContactNormal = zeroVector;
     kart->mUnk_25c = zeroVector;
     kart->mAttractorPullDirection = zeroVector;
@@ -630,7 +630,7 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     recordState->mUnk_28 = 0;
     recordState->mAppliedFlags = 0;
     recordState->mEventToggleFlags = recordState->mAppliedFlags;
-    zeroVector = data_02154f94;
+    zeroVector = gKartVec3Zero;
     recordState->mUnk_34 = zeroVector;
     recordState->mRecordBits = 0;
     recordState->mRecordKartBits = 0;
@@ -659,7 +659,7 @@ void ResetParticipantKartRecordPos(Kart *kart) {
     recordState->mSmoothedPos = kart->mPos;
     recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
     recordState->mSmoothedRotation = kart->mUnk_110_q;
-    recordState->mPosOffset = data_02154f94;
+    recordState->mPosOffset = gKartVec3Zero;
     recordState->mPosOffsetIndex = 0;
 }
 
@@ -1126,10 +1126,10 @@ void ResetKartMotionState(Kart *kart, s32 b) {
                 playingSound->mFlags |= 0x10;
             }
             sndHandleSlot = GetSndHandleSlot(7);
-            if (!(data_0217c780 & 1)) {
+            if (!(gRaceSoundKind & 1)) {
                 return;
             }
-            if (data_0217d084.mSeqStartEnabled == 0) {
+            if (gSoundModeHolder.mSeqStartEnabled == 0) {
                 return;
             }
             if (sndHandleSlot[0] != NULL) {
@@ -1221,7 +1221,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     MtxFx33 rotationMatrix;
     Vec3 axis;
 
-    placementAngles = data_02154f94;
+    placementAngles = gKartVec3Zero;
     placementIndex = *gCourseMap->mKeyedPlacementIndexByKey;
     placementPos.x = gCourseMap->mKeyedPlacements[placementIndex].mPos.x;
     placementPos.y = gCourseMap->mKeyedPlacements[placementIndex].mPos.y;
@@ -1303,7 +1303,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     }
 
     gInputSlots[kart->mEntryIndex].mBitMask = 0xe04;
-    Vec3CrossUnrounded(&data_02154f7c, &placementForward, &side);
+    Vec3CrossUnrounded(&gKartVec3UnitY, &placementForward, &side);
     VEC_Subtract(&kart->mPos, &placementPos, &toKart);
     toKart.y = 0;
     VEC_MultAdd(Vec3DotUnrounded(&side, &toKart), &side, &placementPos, &placementPos);
@@ -1331,7 +1331,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d) >> 12;
         axis = data_02165524;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
-        Vec3CrossUnrounded(&data_02154f7c, &kart->mTurnedForward, &sideVector);
+        Vec3CrossUnrounded(&gKartVec3UnitY, &kart->mTurnedForward, &sideVector);
         Vec3CrossUnrounded(&kart->mTurnedForward, &sideVector, &groundNormal);
         if (kart->mAirTiltAngle > -5000) {
             kart->mAirTiltAngle -= 300;
@@ -1400,9 +1400,9 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetupCameraBehindKart();
-        if (data_0217c780 & 1) {
+        if (gRaceSoundKind & 1) {
             sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (sndHandle[0] != NULL) {
                     NNS_SndPlayerStopSeq(sndHandle, 0);
                 }
@@ -1434,7 +1434,7 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     if (kart->mVelocityLength < 0x1000) {
         return;
     }
-    if (Vec3DotUnrounded(&kart->mUnk_12c, &data_02154f7c) <= 0) {
+    if (Vec3DotUnrounded(&kart->mUnk_12c, &gKartVec3UnitY) <= 0) {
         return;
     }
     kart->mAirTiltAngle = kart->mAirTiltAngle + kart->mAirTiltAngleOffset;
@@ -1443,8 +1443,8 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     MTX_RotY43_(&headingMatrix, FX_SinIdx(headingAngle), FX_CosIdx(headingAngle));
     MTX_MultVec43(&data_02154f88, &headingMatrix, &tiltAxis);
     MTX_RotAxis43(&tiltMatrix, &tiltAxis, FX_SinIdx(airTiltAngle), FX_CosIdx(airTiltAngle));
-    MTX_MultVec43(&data_02154f7c, &tiltMatrix, &tiltedUp);
-    TryQuaternionFromVectors(quaternion, &data_02154f7c, &tiltedUp);
+    MTX_MultVec43(&gKartVec3UnitY, &tiltMatrix, &tiltedUp);
+    TryQuaternionFromVectors(quaternion, &gKartVec3UnitY, &tiltedUp);
     if (kart->mUnk_48 & 0x80000000) {
         quaternion->x = -quaternion->x;
         quaternion->y = -quaternion->y;
@@ -1476,7 +1476,7 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
         } else {
             UpdateCollisionHitLink(c, b, kart->mCollisionHitLink, &kart->mPos, NULL);
         }
-        kart->mVelocity = data_02154f94;
+        kart->mVelocity = gKartVec3Zero;
         kart->mVelocityLength = 0;
         kart->mUnk_44 |= 0x1000;
         return TRUE;

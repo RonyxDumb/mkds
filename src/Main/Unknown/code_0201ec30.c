@@ -16,7 +16,7 @@ s32 data_021732a4;
 MICAutoParam *data_02173290;
 s32 data_02173294;
 s32 data_02173298;
-u8 data_021732a0[4];
+u8 gMicIntervalHistogram[4];
 s32 data_0217329c;
 
 s32 GetMicSampleAmplitude(s32 a) {
@@ -34,7 +34,7 @@ void InitMicSampleAnalysis(MICAutoParam *a) {
     data_02173288 = 0;
     data_02173298 = 0;
     for (i = 0; i < 4; i++) {
-        data_021732a0[i] = 0;
+        gMicIntervalHistogram[i] = 0;
     }
 }
 
@@ -153,7 +153,7 @@ u8 UpdateMicSampleAnalysis(void) {
         }
     }
     for (j = 0; j < 4; j++) {
-        data_021732a0[j] = 0;
+        gMicIntervalHistogram[j] = 0;
     }
     for (i = pos; i < len; i++) {
         if (data_02173290->mType != 0) {
@@ -180,11 +180,11 @@ u8 UpdateMicSampleAnalysis(void) {
                     for (j = 0; j < 4; j++) {
                         if (j == 4) {
                             if (d > j * 25) {
-                                data_021732a0[j]++;
+                                gMicIntervalHistogram[j]++;
                                 j = 4;
                             }
                         } else if (d > j * 25 && d <= (j + 1) * 25) {
-                            data_021732a0[j]++;
+                            gMicIntervalHistogram[j]++;
                             j = 4;
                         }
                     }
@@ -214,11 +214,11 @@ u8 UpdateMicSampleAnalysis(void) {
                 for (k = 0; k < 4; k++) {
                     if (k == 4) {
                         if (d > k * 25) {
-                            data_021732a0[k]++;
+                            gMicIntervalHistogram[k]++;
                             k = 4;
                         }
                     } else if (d > k * 25 && d <= (k + 1) * 25) {
-                        data_021732a0[k]++;
+                        gMicIntervalHistogram[k]++;
                         k = 4;
                     }
                 }
@@ -230,7 +230,7 @@ u8 UpdateMicSampleAnalysis(void) {
     cnt2 = cnt2 * q / 10;
     m = (cnt << 3) * q / 10;
     for (i = 0; i < 4; i++) {
-        data_021732a0[i] = data_021732a0[i] * q / 10;
+        gMicIntervalHistogram[i] = gMicIntervalHistogram[i] * q / 10;
     }
     data_0217328c = maxv;
     data_0217329c = m;
@@ -249,152 +249,174 @@ u8 UpdateMicSampleAnalysis(void) {
         switch (data_02161ad8) {
             case 2:
                 if (m >= 100 && m < 200) {
-                    if (maxv >= 70 && data_021732a0[0] <= 9 && data_021732a0[0] >= 5 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 3 && data_021732a0[2] <= 7 && data_021732a0[2] >= 1 &&
-                        data_021732a0[3] <= 7 && data_021732a0[3] >= 1 && maxd <= 600 && maxd >= 80) {
+                    if (maxv >= 70 && gMicIntervalHistogram[0] <= 9 && gMicIntervalHistogram[0] >= 5 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 3 &&
+                        gMicIntervalHistogram[2] <= 7 && gMicIntervalHistogram[2] >= 1 &&
+                        gMicIntervalHistogram[3] <= 7 && gMicIntervalHistogram[3] >= 1 && maxd <= 600 && maxd >= 80) {
                         ok = 1;
                     }
                 } else if (m >= 200 && m < 300) {
-                    if (maxv >= 90 && data_021732a0[0] <= 32 && data_021732a0[0] >= 14 && data_021732a0[1] <= 6 &&
-                        data_021732a0[1] >= 2 && data_021732a0[2] <= 5 && data_021732a0[2] >= 1 &&
-                        data_021732a0[3] <= 4 && maxd <= 500 && maxd >= 79) {
+                    if (maxv >= 90 && gMicIntervalHistogram[0] <= 32 && gMicIntervalHistogram[0] >= 14 &&
+                        gMicIntervalHistogram[1] <= 6 && gMicIntervalHistogram[1] >= 2 &&
+                        gMicIntervalHistogram[2] <= 5 && gMicIntervalHistogram[2] >= 1 &&
+                        gMicIntervalHistogram[3] <= 4 && maxd <= 500 && maxd >= 79) {
                         ok = 1;
                     }
                 } else if (m >= 300 && m < 400) {
-                    if (maxv >= 100 && data_021732a0[0] <= 40 && data_021732a0[0] >= 24 && data_021732a0[1] <= 19 &&
-                        data_021732a0[1] >= 2 && data_021732a0[2] <= 4 && data_021732a0[2] >= 1 &&
-                        data_021732a0[3] <= 2 && maxd <= 400 && maxd >= 65) {
+                    if (maxv >= 100 && gMicIntervalHistogram[0] <= 40 && gMicIntervalHistogram[0] >= 24 &&
+                        gMicIntervalHistogram[1] <= 19 && gMicIntervalHistogram[1] >= 2 &&
+                        gMicIntervalHistogram[2] <= 4 && gMicIntervalHistogram[2] >= 1 &&
+                        gMicIntervalHistogram[3] <= 2 && maxd <= 400 && maxd >= 65) {
                         ok = 1;
                     }
                 } else if (m >= 400 && m < 500) {
-                    if (maxv == 127 && data_021732a0[0] <= 89 && data_021732a0[0] >= 31 && data_021732a0[1] <= 18 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 4 && data_021732a0[3] <= 1 && maxd <= 400 &&
-                        maxd >= 35 && cnt2 >= 7) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 89 && gMicIntervalHistogram[0] >= 31 &&
+                        gMicIntervalHistogram[1] <= 18 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 4 && gMicIntervalHistogram[3] <= 1 && maxd <= 400 && maxd >= 35 &&
+                        cnt2 >= 7) {
                         ok = 1;
                     }
                 } else if (m >= 500 && m < 600) {
-                    if (maxv == 127 && data_021732a0[0] <= 109 && data_021732a0[0] >= 41 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 1 && data_021732a0[3] <= 1 && maxd <= 400 &&
-                        maxd >= 30 && cnt2 >= 5) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 109 && gMicIntervalHistogram[0] >= 41 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 1 && gMicIntervalHistogram[3] <= 1 && maxd <= 400 && maxd >= 30 &&
+                        cnt2 >= 5) {
                         ok = 1;
                     }
                 } else if (m >= 600 && m < 700) {
-                    if (maxv == 127 && data_021732a0[0] <= 130 && data_021732a0[0] >= 66 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] == 0 && data_021732a0[3] == 0 && maxd <= 400 &&
-                        maxd >= 30 && cnt2 >= 6) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 130 && gMicIntervalHistogram[0] >= 66 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] == 0 && gMicIntervalHistogram[3] == 0 && maxd <= 400 && maxd >= 30 &&
+                        cnt2 >= 6) {
                         ok = 1;
                     }
                 } else if (m >= 700 && m < 800) {
-                    if (maxv == 127 && data_021732a0[0] <= 142 && data_021732a0[0] >= 66 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] == 0 && data_021732a0[3] == 0 && maxd <= 200 &&
-                        maxd >= 15 && cnt2 >= 7) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 142 && gMicIntervalHistogram[0] >= 66 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] == 0 && gMicIntervalHistogram[3] == 0 && maxd <= 200 && maxd >= 15 &&
+                        cnt2 >= 7) {
                         ok = 1;
                     }
                 } else if (m >= 800 && m < 900) {
-                    if (maxv == 127 && data_021732a0[0] <= 150 && data_021732a0[0] >= 76 && data_021732a0[1] <= 9 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] == 0 && data_021732a0[3] == 0 && maxd <= 100 &&
-                        maxd >= 15 && cnt2 >= 7) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 150 && gMicIntervalHistogram[0] >= 76 &&
+                        gMicIntervalHistogram[1] <= 9 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] == 0 && gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 15 &&
+                        cnt2 >= 7) {
                         ok = 1;
                     }
                 } else if (m >= 900 && m < 1100) {
-                    if (maxv == 127 && data_021732a0[0] <= 160 && data_021732a0[0] >= 90 && data_021732a0[1] <= 7 &&
-                        data_021732a0[2] == 0 && data_021732a0[3] == 0 && maxd <= 100 && maxd >= 15 && cnt2 >= 8) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 160 && gMicIntervalHistogram[0] >= 90 &&
+                        gMicIntervalHistogram[1] <= 7 && gMicIntervalHistogram[2] == 0 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 15 && cnt2 >= 8) {
                         ok = 1;
                     }
                 } else if (m >= 1100 && m < 1300) {
-                    if (maxv == 127 && data_021732a0[0] < 170 && data_021732a0[0] >= 120 && data_021732a0[1] <= 4 &&
-                        data_021732a0[2] < 2 && data_021732a0[3] == 0 && maxd <= 100 && maxd >= 13 && cnt2 >= 9) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] < 170 && gMicIntervalHistogram[0] >= 120 &&
+                        gMicIntervalHistogram[1] <= 4 && gMicIntervalHistogram[2] < 2 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 13 && cnt2 >= 9) {
                         ok = 1;
                     }
                 } else if (m >= 1300 && m < 1500) {
-                    if (maxv == 127 && data_021732a0[0] <= 190 && data_021732a0[0] >= 150 && data_021732a0[1] <= 2 &&
-                        data_021732a0[2] == 0 && data_021732a0[3] == 0 && maxd <= 100 && maxd >= 13 && cnt2 >= 15) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 190 && gMicIntervalHistogram[0] >= 150 &&
+                        gMicIntervalHistogram[1] <= 2 && gMicIntervalHistogram[2] == 0 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 13 && cnt2 >= 15) {
                         ok = 1;
                     }
                 } else if (m >= 1500 && m < 1883) {
-                    if (maxv == 127 && data_021732a0[0] >= 180 && data_021732a0[1] <= 2 && data_021732a0[2] == 0 &&
-                        data_021732a0[3] == 0 && maxd <= 100 && maxd >= 9 && cnt2 >= 28) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] >= 180 && gMicIntervalHistogram[1] <= 2 &&
+                        gMicIntervalHistogram[2] == 0 && gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 9 &&
+                        cnt2 >= 28) {
                         ok = 1;
                     }
                 } else {
-                    if (maxv == 127 && data_021732a0[1] == 0 && data_021732a0[2] == 0 && data_021732a0[3] == 0 &&
-                        maxd <= 100 && maxd >= 5 && cnt2 >= 28) {
+                    if (maxv == 127 && gMicIntervalHistogram[1] == 0 && gMicIntervalHistogram[2] == 0 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 5 && cnt2 >= 28) {
                         ok = 1;
                     }
                 }
                 break;
             case 1:
                 if (m >= 100 && m < 200) {
-                    if (maxv >= 70 && data_021732a0[0] <= 9 && data_021732a0[0] >= 1 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 7 && data_021732a0[3] <= 7 && maxd <= 600 &&
-                        maxd >= 80) {
+                    if (maxv >= 70 && gMicIntervalHistogram[0] <= 9 && gMicIntervalHistogram[0] >= 1 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 7 && gMicIntervalHistogram[3] <= 7 && maxd <= 600 && maxd >= 80) {
                         ok = 1;
                     }
                 } else if (m >= 200 && m < 300) {
-                    if (maxv >= 90 && data_021732a0[0] <= 32 && data_021732a0[0] >= 9 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 2 && data_021732a0[2] <= 6 && data_021732a0[2] >= 1 &&
-                        data_021732a0[3] <= 4 && maxd <= 500 && maxd >= 79) {
+                    if (maxv >= 90 && gMicIntervalHistogram[0] <= 32 && gMicIntervalHistogram[0] >= 9 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 2 &&
+                        gMicIntervalHistogram[2] <= 6 && gMicIntervalHistogram[2] >= 1 &&
+                        gMicIntervalHistogram[3] <= 4 && maxd <= 500 && maxd >= 79) {
                         ok = 1;
                     }
                 } else if (m >= 300 && m < 400) {
-                    if (maxv >= 100 && data_021732a0[0] <= 40 && data_021732a0[0] >= 20 && data_021732a0[1] <= 19 &&
-                        data_021732a0[1] >= 2 && data_021732a0[2] <= 5 && data_021732a0[2] >= 1 &&
-                        data_021732a0[3] <= 3 && maxd <= 400 && maxd >= 61) {
+                    if (maxv >= 100 && gMicIntervalHistogram[0] <= 40 && gMicIntervalHistogram[0] >= 20 &&
+                        gMicIntervalHistogram[1] <= 19 && gMicIntervalHistogram[1] >= 2 &&
+                        gMicIntervalHistogram[2] <= 5 && gMicIntervalHistogram[2] >= 1 &&
+                        gMicIntervalHistogram[3] <= 3 && maxd <= 400 && maxd >= 61) {
                         ok = 1;
                     }
                 } else if (m >= 400 && m < 500) {
-                    if (maxv >= 115 && data_021732a0[0] <= 89 && data_021732a0[0] >= 22 && data_021732a0[1] <= 18 &&
-                        data_021732a0[1] >= 6 && data_021732a0[2] <= 4 && data_021732a0[3] <= 3 && maxd <= 400 &&
-                        maxd >= 35) {
+                    if (maxv >= 115 && gMicIntervalHistogram[0] <= 89 && gMicIntervalHistogram[0] >= 22 &&
+                        gMicIntervalHistogram[1] <= 18 && gMicIntervalHistogram[1] >= 6 &&
+                        gMicIntervalHistogram[2] <= 4 && gMicIntervalHistogram[3] <= 3 && maxd <= 400 && maxd >= 35) {
                         ok = 1;
                     }
                 } else if (m >= 500 && m < 600) {
-                    if (maxv == 127 && data_021732a0[0] <= 109 && data_021732a0[0] >= 41 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 4 && data_021732a0[3] <= 1 && maxd <= 400 &&
-                        maxd >= 30 && cnt2 >= 1) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 109 && gMicIntervalHistogram[0] >= 41 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 4 && gMicIntervalHistogram[3] <= 1 && maxd <= 400 && maxd >= 30 &&
+                        cnt2 >= 1) {
                         ok = 1;
                     }
                 } else if (m >= 600 && m < 700) {
-                    if (maxv == 127 && data_021732a0[0] <= 130 && data_021732a0[0] >= 61 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 3 && data_021732a0[3] == 0 && maxd <= 400 &&
-                        maxd >= 30 && cnt2 >= 6) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 130 && gMicIntervalHistogram[0] >= 61 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 3 && gMicIntervalHistogram[3] == 0 && maxd <= 400 && maxd >= 30 &&
+                        cnt2 >= 6) {
                         ok = 1;
                     }
                 } else if (m >= 700 && m < 800) {
-                    if (maxv == 127 && data_021732a0[0] <= 142 && data_021732a0[0] >= 66 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 200 &&
-                        maxd >= 15 && cnt2 >= 7) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 142 && gMicIntervalHistogram[0] >= 66 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 1 && gMicIntervalHistogram[3] == 0 && maxd <= 200 && maxd >= 15 &&
+                        cnt2 >= 7) {
                         ok = 1;
                     }
                 } else if (m >= 800 && m < 900) {
-                    if (maxv == 127 && data_021732a0[0] <= 150 && data_021732a0[0] >= 76 && data_021732a0[1] <= 9 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 125 &&
-                        maxd >= 15 && cnt2 >= 7) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 150 && gMicIntervalHistogram[0] >= 76 &&
+                        gMicIntervalHistogram[1] <= 9 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 1 && gMicIntervalHistogram[3] == 0 && maxd <= 125 && maxd >= 15 &&
+                        cnt2 >= 7) {
                         ok = 1;
                     }
                 } else if (m >= 900 && m < 1100) {
-                    if (maxv == 127 && data_021732a0[0] <= 160 && data_021732a0[0] >= 90 && data_021732a0[1] <= 7 &&
-                        data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 115 && maxd >= 20 && cnt2 >= 8) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 160 && gMicIntervalHistogram[0] >= 90 &&
+                        gMicIntervalHistogram[1] <= 7 && gMicIntervalHistogram[2] <= 1 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 115 && maxd >= 20 && cnt2 >= 8) {
                         ok = 1;
                     }
                 } else if (m >= 1100 && m < 1300) {
-                    if (maxv == 127 && data_021732a0[0] < 170 && data_021732a0[0] >= 120 && data_021732a0[1] <= 4 &&
-                        data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 9) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] < 170 && gMicIntervalHistogram[0] >= 120 &&
+                        gMicIntervalHistogram[1] <= 4 && gMicIntervalHistogram[2] <= 1 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 9) {
                         ok = 1;
                     }
                 } else if (m >= 1300 && m < 1500) {
-                    if (maxv == 127 && data_021732a0[0] <= 190 && data_021732a0[0] >= 150 && data_021732a0[1] <= 2 &&
-                        data_021732a0[2] == 0 && data_021732a0[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 15) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 190 && gMicIntervalHistogram[0] >= 150 &&
+                        gMicIntervalHistogram[1] <= 2 && gMicIntervalHistogram[2] == 0 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 15) {
                         ok = 1;
                     }
                 } else if (m >= 1500 && m < 1883) {
-                    if (maxv == 127 && data_021732a0[0] >= 180 && data_021732a0[1] <= 2 && data_021732a0[2] == 0 &&
-                        data_021732a0[3] == 0 && maxd <= 100 && maxd >= 28 && cnt2 >= 28) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] >= 180 && gMicIntervalHistogram[1] <= 2 &&
+                        gMicIntervalHistogram[2] == 0 && gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 28 &&
+                        cnt2 >= 28) {
                         ok = 1;
                     }
                 } else {
-                    if (maxv == 127 && data_021732a0[1] == 0 && data_021732a0[2] == 0 && data_021732a0[3] == 0 &&
-                        maxd <= 100 && maxd >= 29 && cnt2 >= 28) {
+                    if (maxv == 127 && gMicIntervalHistogram[1] == 0 && gMicIntervalHistogram[2] == 0 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 29 && cnt2 >= 28) {
                         ok = 1;
                     }
                 }
@@ -402,76 +424,84 @@ u8 UpdateMicSampleAnalysis(void) {
             case 0:
                 lim = 1;
                 if (m >= 100 && m < 200) {
-                    if (maxv >= 30 && data_021732a0[0] <= 13 && data_021732a0[0] >= 1 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 7 && data_021732a0[3] <= 7 && maxd <= 600 &&
-                        maxd >= 80) {
+                    if (maxv >= 30 && gMicIntervalHistogram[0] <= 13 && gMicIntervalHistogram[0] >= 1 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 7 && gMicIntervalHistogram[3] <= 7 && maxd <= 600 && maxd >= 80) {
                         ok = 1;
                     }
                 } else if (m >= 200 && m < 300) {
-                    if (maxv >= 40 && data_021732a0[0] <= 20 && data_021732a0[0] >= 6 && data_021732a0[1] <= 17 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 6 && data_021732a0[3] <= 4 && maxd <= 500 &&
-                        maxd >= 79) {
+                    if (maxv >= 40 && gMicIntervalHistogram[0] <= 20 && gMicIntervalHistogram[0] >= 6 &&
+                        gMicIntervalHistogram[1] <= 17 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 6 && gMicIntervalHistogram[3] <= 4 && maxd <= 500 && maxd >= 79) {
                         ok = 1;
                     }
                 } else if (m >= 300 && m < 400) {
-                    if (maxv >= 50 && data_021732a0[0] <= 40 && data_021732a0[0] >= 20 && data_021732a0[1] <= 19 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 5 && data_021732a0[3] <= 3 && maxd <= 400 &&
-                        maxd >= 61) {
+                    if (maxv >= 50 && gMicIntervalHistogram[0] <= 40 && gMicIntervalHistogram[0] >= 20 &&
+                        gMicIntervalHistogram[1] <= 19 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 5 && gMicIntervalHistogram[3] <= 3 && maxd <= 400 && maxd >= 61) {
                         ok = 1;
                     }
                 } else if (m >= 400 && m < 500) {
-                    if (maxv >= 80 && data_021732a0[0] <= 89 && data_021732a0[0] >= 22 && data_021732a0[1] <= 18 &&
-                        data_021732a0[1] >= 6 && data_021732a0[2] <= 4 && data_021732a0[3] <= 3 && maxd <= 400 &&
-                        maxd >= 35) {
+                    if (maxv >= 80 && gMicIntervalHistogram[0] <= 89 && gMicIntervalHistogram[0] >= 22 &&
+                        gMicIntervalHistogram[1] <= 18 && gMicIntervalHistogram[1] >= 6 &&
+                        gMicIntervalHistogram[2] <= 4 && gMicIntervalHistogram[3] <= 3 && maxd <= 400 && maxd >= 35) {
                         ok = 1;
                     }
                 } else if (m >= 500 && m < 600) {
-                    if (maxv == 100 && data_021732a0[0] <= 109 && data_021732a0[0] >= 41 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 4 && data_021732a0[3] <= 1 && maxd <= 400 &&
-                        maxd >= 30 && cnt2 >= 1) {
+                    if (maxv == 100 && gMicIntervalHistogram[0] <= 109 && gMicIntervalHistogram[0] >= 41 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 4 && gMicIntervalHistogram[3] <= 1 && maxd <= 400 && maxd >= 30 &&
+                        cnt2 >= 1) {
                         ok = 1;
                     }
                 } else if (m >= 600 && m < 700) {
-                    if (maxv == 127 && data_021732a0[0] <= 130 && data_021732a0[0] >= 61 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 3 && data_021732a0[3] == 0 && maxd <= 400 &&
-                        maxd >= 30 && cnt2 >= 6) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 130 && gMicIntervalHistogram[0] >= 61 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 3 && gMicIntervalHistogram[3] == 0 && maxd <= 400 && maxd >= 30 &&
+                        cnt2 >= 6) {
                         ok = 1;
                     }
                 } else if (m >= 700 && m < 800) {
-                    if (maxv == 127 && data_021732a0[0] <= 142 && data_021732a0[0] >= 66 && data_021732a0[1] <= 14 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 200 &&
-                        maxd >= 15 && cnt2 >= 7) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 142 && gMicIntervalHistogram[0] >= 66 &&
+                        gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 1 && gMicIntervalHistogram[3] == 0 && maxd <= 200 && maxd >= 15 &&
+                        cnt2 >= 7) {
                         ok = 1;
                     }
                 } else if (m >= 800 && m < 900) {
-                    if (maxv == 127 && data_021732a0[0] <= 150 && data_021732a0[0] >= 76 && data_021732a0[1] <= 9 &&
-                        data_021732a0[1] >= 1 && data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 125 &&
-                        maxd >= 15 && cnt2 >= 7) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 150 && gMicIntervalHistogram[0] >= 76 &&
+                        gMicIntervalHistogram[1] <= 9 && gMicIntervalHistogram[1] >= 1 &&
+                        gMicIntervalHistogram[2] <= 1 && gMicIntervalHistogram[3] == 0 && maxd <= 125 && maxd >= 15 &&
+                        cnt2 >= 7) {
                         ok = 1;
                     }
                 } else if (m >= 900 && m < 1100) {
-                    if (maxv == 127 && data_021732a0[0] <= 160 && data_021732a0[0] >= 90 && data_021732a0[1] <= 7 &&
-                        data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 115 && maxd >= 20 && cnt2 >= 8) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 160 && gMicIntervalHistogram[0] >= 90 &&
+                        gMicIntervalHistogram[1] <= 7 && gMicIntervalHistogram[2] <= 1 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 115 && maxd >= 20 && cnt2 >= 8) {
                         ok = 1;
                     }
                 } else if (m >= 1100 && m < 1300) {
-                    if (maxv == 127 && data_021732a0[0] < 170 && data_021732a0[0] >= 120 && data_021732a0[1] <= 4 &&
-                        data_021732a0[2] <= 1 && data_021732a0[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 9) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] < 170 && gMicIntervalHistogram[0] >= 120 &&
+                        gMicIntervalHistogram[1] <= 4 && gMicIntervalHistogram[2] <= 1 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 9) {
                         ok = 1;
                     }
                 } else if (m >= 1300 && m < 1500) {
-                    if (maxv == 127 && data_021732a0[0] <= 190 && data_021732a0[0] >= 150 && data_021732a0[1] <= 2 &&
-                        data_021732a0[2] == 0 && data_021732a0[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 15) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] <= 190 && gMicIntervalHistogram[0] >= 150 &&
+                        gMicIntervalHistogram[1] <= 2 && gMicIntervalHistogram[2] == 0 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 32 && cnt2 >= 15) {
                         ok = 1;
                     }
                 } else if (m >= 1500 && m < 1883) {
-                    if (maxv == 127 && data_021732a0[0] >= 180 && data_021732a0[1] <= 2 && data_021732a0[2] == 0 &&
-                        data_021732a0[3] == 0 && maxd <= 100 && maxd >= 28 && cnt2 >= 28) {
+                    if (maxv == 127 && gMicIntervalHistogram[0] >= 180 && gMicIntervalHistogram[1] <= 2 &&
+                        gMicIntervalHistogram[2] == 0 && gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 28 &&
+                        cnt2 >= 28) {
                         ok = 1;
                     }
                 } else {
-                    if (maxv == 127 && data_021732a0[1] == 0 && data_021732a0[2] == 0 && data_021732a0[3] == 0 &&
-                        maxd <= 100 && maxd >= 29 && cnt2 >= 28) {
+                    if (maxv == 127 && gMicIntervalHistogram[1] == 0 && gMicIntervalHistogram[2] == 0 &&
+                        gMicIntervalHistogram[3] == 0 && maxd <= 100 && maxd >= 29 && cnt2 >= 28) {
                         ok = 1;
                     }
                 }

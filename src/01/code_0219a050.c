@@ -150,7 +150,7 @@ void RequestRecordTopMenuState4(void) {
 void RequestRecordTopMenuState5(void) {
     gRecordTopMenu->mNextState = 5;
     gRecordTopMenu->mStateFrames = 0;
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 // Requests state 6 for the next update.
@@ -174,7 +174,7 @@ void RequestRecordTopMenuState8(void) {
 void RequestRecordTopMenuState9(void) {
     gRecordTopMenu->mNextState = 9;
     gRecordTopMenu->mStateFrames = 0;
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
 }
 
 void RequestRecordTopMenuState10(void) {
@@ -194,7 +194,7 @@ void IncrementRecordTopMenuIndex(void) {
     if (gRecordTopMenu->mIndex >= 3) {
         gRecordTopMenu->mIndex = 0;
     }
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
 }
 
 void DecrementRecordTopMenuIndex(void) {
@@ -202,7 +202,7 @@ void DecrementRecordTopMenuIndex(void) {
     if (gRecordTopMenu->mIndex < 0) {
         gRecordTopMenu->mIndex = 2;
     }
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
 }
 
 void func_ov001_0219ac98(void) {
@@ -297,7 +297,7 @@ void InitRecordTopMenu(void *heap) {
             GetBmgEntry(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[i]),
             gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
-    pp = &data_0217aa08->mFirstBlock;
+    pp = &gBackupBuffers->mFirstBlock;
     scores[1][0] = (*pp)->mTotals[0];
     scores[2][0] = (*pp)->mTotals[1];
     scores[1][1] = (*pp)->mTotals[2];

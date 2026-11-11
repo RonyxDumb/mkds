@@ -71,9 +71,9 @@ void UpdateRaceTimeDigits(void) {
         if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus != RACE_PROGRESS_KART_STATUS_BATTLE_LOSER) {
             SetStemSet(2);
         }
-        if ((data_0217c780 & 1) != 0) {
+        if ((gRaceSoundKind & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -89,9 +89,9 @@ void UpdateRaceTimeDigits(void) {
     }
     if (minute == 0 && ((second == 4 && millisecond == 0) || second < 4) &&
         gRaceTimeDigits->mLastSecondsReached[1] == 0) {
-        if ((data_0217c780 & 1) != 0) {
+        if ((gRaceSoundKind & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -107,9 +107,9 @@ void UpdateRaceTimeDigits(void) {
     }
     if (minute == 0 && ((second == 3 && millisecond == 0) || second < 3) &&
         gRaceTimeDigits->mLastSecondsReached[2] == 0) {
-        if ((data_0217c780 & 1) != 0) {
+        if ((gRaceSoundKind & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -125,9 +125,9 @@ void UpdateRaceTimeDigits(void) {
     }
     if (minute == 0 && ((second == 2 && millisecond == 0) || second < 2) &&
         gRaceTimeDigits->mLastSecondsReached[3] == 0) {
-        if ((data_0217c780 & 1) != 0) {
+        if ((gRaceSoundKind & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -143,9 +143,9 @@ void UpdateRaceTimeDigits(void) {
     }
     if (minute == 0 && ((second == 1 && millisecond == 0) || second < 1) &&
         gRaceTimeDigits->mLastSecondsReached[4] == 0) {
-        if ((data_0217c780 & 1) != 0) {
+        if ((gRaceSoundKind & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }

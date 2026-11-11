@@ -151,11 +151,11 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         reg_G3X_GXFIFO = 0;
         while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
-        if (data_0217029c.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & 1) {
             MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
             MTX_Concat44(&clipMtx, &invWV, &clipMtx);
-        } else if (data_0217029c.mFlag & 2) {
-            MTX_Copy43To44_(&data_0217029c.mCameraMtx, &camMtx);
+        } else if (NNS_G3dGlb.mFlag & 2) {
+            MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
         pos->x = clipMtx.mUnk_00[3].x;
@@ -164,13 +164,13 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         scale->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
         scale->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
         scale->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
-        if (data_0217029c.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & 1) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(data_021618e0, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
             MIi_CpuSend32(data_021618e8, &reg_G3X_GXFIFO, 0x3c);
-        } else if (data_0217029c.mFlag & 2) {
+        } else if (NNS_G3dGlb.mFlag & 2) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(data_021618e0, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
@@ -243,11 +243,11 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
         reg_G3X_GXFIFO = 0;
         while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
-        if (data_0217029c.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & 1) {
             MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
             MTX_Concat44(&clipMtx, &invWV, &clipMtx);
-        } else if (data_0217029c.mFlag & 2) {
-            MTX_Copy43To44_(&data_0217029c.mCameraMtx, &camMtx);
+        } else if (NNS_G3dGlb.mFlag & 2) {
+            MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
         pos->x = clipMtx.mUnk_00[3].x;
@@ -265,13 +265,13 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
             axes[1].z = -axes[2].y;
             axes[1].y = axes[2].z;
         }
-        if (data_0217029c.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & 1) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(data_02161928, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
             MIi_CpuSend32(data_02161930, &reg_G3X_GXFIFO, 0x3c);
-        } else if (data_0217029c.mFlag & 2) {
+        } else if (NNS_G3dGlb.mFlag & 2) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(data_02161928, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
@@ -482,12 +482,12 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
             NNS_G3dGetCurrentMtx(0, &nrm);
             texMode2 = 3;
             NNS_G3dGeBufferOP_N(0x10, &texMode2, 1);
-            if (data_0217029c.mFlag & 1) {
-                NNS_G3dGeBufferOP_N(0x1a, &data_0217029c.mCameraMtx, 9);
-                NNS_G3dGeBufferOP_N(0x1a, &data_0217029c.mPrmBaseRot, 9);
+            if (NNS_G3dGlb.mFlag & 1) {
+                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
+                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mPrmBaseRot, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
-            } else if (data_0217029c.mFlag & 2) {
-                NNS_G3dGeBufferOP_N(0x1a, &data_0217029c.mCameraMtx, 9);
+            } else if (NNS_G3dGlb.mFlag & 2) {
+                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
             } else {
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
@@ -564,11 +564,11 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
             timing = 0;
         }
         if (timing == 0) {
-            if (data_0217029c.mFlag & 1) {
-                NNS_G3dGeBufferOP_N(0x1c, &data_0217029c.mPrmBaseTrans, 3);
-                NNS_G3dGeBufferOP_N(0x1a, &data_0217029c.mPrmBaseRot, 9);
+            if (NNS_G3dGlb.mFlag & 1) {
+                NNS_G3dGeBufferOP_N(0x1c, &NNS_G3dGlb.mPrmBaseTrans, 3);
+                NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mPrmBaseRot, 9);
                 NNS_G3dGeBufferOP_N(0x19, &curMatrix, 0xc);
-            } else if (data_0217029c.mFlag & 2) {
+            } else if (NNS_G3dGlb.mFlag & 2) {
                 NNS_G3dGeBufferOP_N(0x19, &curMatrix, 0xc);
             } else {
                 NNS_G3dGeBufferOP_N(0x19, NNS_G3dGlbGetInvV(), 0xc);
@@ -723,129 +723,129 @@ BOOL NNSi_G3dAnmBlendVis(NNSG3dVisAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
 
 // Sets the global state to its defaults: command words, identity matrices, lights, colors, viewport and base transform.
 void NNS_G3dGlbInit(void) {
-    data_0217029c.mCmd0 = 0x17101610;
-    data_0217029c.mMtxModeProj = 0;
-    data_0217029c.mMtxModePosVec = 2;
-    data_0217029c.mCmd1 = 0x32323232;
-    data_0217029c.mCmd2 = 0x60293130;
-    data_0217029c.mCmd3 = 0x33333333;
-    data_0217029c.mCmd4 = 0x2a1b19;
-    MTX_Identity43_(&data_0217029c.mCameraMtx);
-    MTX_Identity44_(&data_0217029c.mProjMtx);
-    data_0217029c.mLightVec[0] = 0x2d8b62d8;
-    data_0217029c.mLightVec[1] = 0x40000200;
-    data_0217029c.mLightVec[2] = 0x800001ff;
-    data_0217029c.mLightVec[3] = 0xc0080000;
-    data_0217029c.mPrmMatColor0 = 0x4210c210;
-    data_0217029c.mPrmMatColor1 = 0x4210c210;
-    data_0217029c.mPrmPolygonAttr = 0x1f008f;
-    data_0217029c.mPrmViewPort = 0xbfff0000;
-    data_0217029c.mLightColor[0] = 0x7fff;
-    data_0217029c.mLightColor[1] = 0x4000001f;
-    data_0217029c.mLightColor[2] = 0x800003e0;
-    data_0217029c.mLightColor[3] = 0xc0007c00;
-    data_0217029c.mPrmBaseTrans.x = 0;
-    data_0217029c.mPrmBaseTrans.y = 0;
-    data_0217029c.mPrmBaseTrans.z = 0;
-    MTX_Identity33_(&data_0217029c.mPrmBaseRot);
-    data_0217029c.mPrmBaseScale.x = 0x1000;
-    data_0217029c.mPrmBaseScale.y = 0x1000;
-    data_0217029c.mPrmBaseScale.z = 0x1000;
-    data_0217029c.mPrmTexImageParam = 0;
-    data_0217029c.mFlag = 0;
-    data_0217029c.mCamPos.z = 0;
-    data_0217029c.mCamPos.y = 0;
-    data_0217029c.mCamPos.x = 0;
-    data_0217029c.mCamUp.z = 0;
-    data_0217029c.mCamUp.x = 0;
-    data_0217029c.mCamUp.y = 0x1000;
-    data_0217029c.mCamTarget.y = 0;
-    data_0217029c.mCamTarget.x = 0;
-    data_0217029c.mCamTarget.z = -0x1000;
+    NNS_G3dGlb.mCmd0 = 0x17101610;
+    NNS_G3dGlb.mMtxModeProj = 0;
+    NNS_G3dGlb.mMtxModePosVec = 2;
+    NNS_G3dGlb.mCmd1 = 0x32323232;
+    NNS_G3dGlb.mCmd2 = 0x60293130;
+    NNS_G3dGlb.mCmd3 = 0x33333333;
+    NNS_G3dGlb.mCmd4 = 0x2a1b19;
+    MTX_Identity43_(&NNS_G3dGlb.mCameraMtx);
+    MTX_Identity44_(&NNS_G3dGlb.mProjMtx);
+    NNS_G3dGlb.mLightVec[0] = 0x2d8b62d8;
+    NNS_G3dGlb.mLightVec[1] = 0x40000200;
+    NNS_G3dGlb.mLightVec[2] = 0x800001ff;
+    NNS_G3dGlb.mLightVec[3] = 0xc0080000;
+    NNS_G3dGlb.mPrmMatColor0 = 0x4210c210;
+    NNS_G3dGlb.mPrmMatColor1 = 0x4210c210;
+    NNS_G3dGlb.mPrmPolygonAttr = 0x1f008f;
+    NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
+    NNS_G3dGlb.mLightColor[0] = 0x7fff;
+    NNS_G3dGlb.mLightColor[1] = 0x4000001f;
+    NNS_G3dGlb.mLightColor[2] = 0x800003e0;
+    NNS_G3dGlb.mLightColor[3] = 0xc0007c00;
+    NNS_G3dGlb.mPrmBaseTrans.x = 0;
+    NNS_G3dGlb.mPrmBaseTrans.y = 0;
+    NNS_G3dGlb.mPrmBaseTrans.z = 0;
+    MTX_Identity33_(&NNS_G3dGlb.mPrmBaseRot);
+    NNS_G3dGlb.mPrmBaseScale.x = 0x1000;
+    NNS_G3dGlb.mPrmBaseScale.y = 0x1000;
+    NNS_G3dGlb.mPrmBaseScale.z = 0x1000;
+    NNS_G3dGlb.mPrmTexImageParam = 0;
+    NNS_G3dGlb.mFlag = 0;
+    NNS_G3dGlb.mCamPos.z = 0;
+    NNS_G3dGlb.mCamPos.y = 0;
+    NNS_G3dGlb.mCamPos.x = 0;
+    NNS_G3dGlb.mCamUp.z = 0;
+    NNS_G3dGlb.mCamUp.x = 0;
+    NNS_G3dGlb.mCamUp.y = 0x1000;
+    NNS_G3dGlb.mCamTarget.y = 0;
+    NNS_G3dGlb.mCamTarget.x = 0;
+    NNS_G3dGlb.mCamTarget.z = -0x1000;
 }
 
 // Sends the matrices, lights, colors, viewport and base transform to the geometry engine as one block.
 void NNS_G3dGlbFlushP(void) {
-    u32 *p = (u32 *) &data_0217029c;
+    u32 *p = (u32 *) &NNS_G3dGlb;
     u32 c = *p++;
 
     NNS_G3dGeBufferOP_N(c, p, 0x3e);
-    data_0217029c.mFlag &= ~1;
-    data_0217029c.mFlag &= ~2;
+    NNS_G3dGlb.mFlag &= ~1;
+    NNS_G3dGlb.mFlag &= ~2;
 }
 
 // Sets the base translation and drops the cached matrices that depend on it.
 void NNS_G3dGlbSetBaseTrans(const Vec3 *trans) {
-    data_0217029c.mPrmBaseTrans = *trans;
-    data_0217029c.mFlag &= ~0xa4;
+    NNS_G3dGlb.mPrmBaseTrans = *trans;
+    NNS_G3dGlb.mFlag &= ~0xa4;
 }
 
 // Sets the base scale and drops the cached matrices that depend on it.
 void NNS_G3dGlbSetBaseScale(const Vec3 *scale) {
-    data_0217029c.mPrmBaseScale = *scale;
-    data_0217029c.mFlag &= ~0xa4;
+    NNS_G3dGlb.mPrmBaseScale = *scale;
+    NNS_G3dGlb.mFlag &= ~0xa4;
 }
 
 // Sets the direction of a light.
 void NNS_G3dGlbLightVector(u32 lightId, s32 x, s32 y, s32 z) {
-    data_0217029c.mLightVec[lightId] =
+    NNS_G3dGlb.mLightVec[lightId] =
         ((x >> 3) & 0x3ff) | (((y >> 3) & 0x3ff) << 10) | (((z >> 3) & 0x3ff) << 20) | (lightId << 30);
 }
 
 // Sets the color of a light.
 void NNS_G3dGlbLightColor(u32 lightId, u32 rgb) {
-    data_0217029c.mLightColor[lightId] = rgb | (lightId << 30);
+    NNS_G3dGlb.mLightColor[lightId] = rgb | (lightId << 30);
 }
 
 // Sets the diffuse and ambient colors.
 void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 vtxColor) {
-    data_0217029c.mPrmMatColor0 = diffuse | (ambient << 16) | ((vtxColor != 0) << 15);
+    NNS_G3dGlb.mPrmMatColor0 = diffuse | (ambient << 16) | ((vtxColor != 0) << 15);
 }
 
 // Sets the specular and emission colors.
 void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 shininess) {
-    data_0217029c.mPrmMatColor1 = specular | (emission << 16) | ((shininess != 0) << 15);
+    NNS_G3dGlb.mPrmMatColor1 = specular | (emission << 16) | ((shininess != 0) << 15);
 }
 
 // Sets the polygon attributes.
 void NNS_G3dGlbPolygonAttr(u32 light, u32 polyMode, u32 cullMode, u32 polygonId, u32 alpha, u32 extra) {
-    data_0217029c.mPrmPolygonAttr =
+    NNS_G3dGlb.mPrmPolygonAttr =
         (extra | (light | (polyMode << 4) | (cullMode << 6))) | (polygonId << 24) | (alpha << 16);
 }
 
 // Returns the inverse of the camera matrix, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetInvV(void) {
-    if (!(data_0217029c.mFlag & 0x8)) {
-        MTX_Inverse43(&data_0217029c.mCameraMtx, &data_0217029c.mInvCameraMtx);
-        data_0217029c.mFlag |= 0x8;
+    if (!(NNS_G3dGlb.mFlag & 0x8)) {
+        MTX_Inverse43(&NNS_G3dGlb.mCameraMtx, &NNS_G3dGlb.mInvCameraMtx);
+        NNS_G3dGlb.mFlag |= 0x8;
     }
-    return &data_0217029c.mInvCameraMtx;
+    return &NNS_G3dGlb.mInvCameraMtx;
 }
 
 // Computes the camera matrix with the base transform applied, and its inverse.
 void calcSrtCameraMtx_(void) {
-    MTX_Concat43((MtxFx43 *) &data_0217029c.mPrmBaseRot, &data_0217029c.mCameraMtx, &data_0217029c.mSrtCameraMtx);
-    MTX_ScaleApply43(&data_0217029c.mSrtCameraMtx, &data_0217029c.mSrtCameraMtx, data_0217029c.mPrmBaseScale.x,
-                     data_0217029c.mPrmBaseScale.y, data_0217029c.mPrmBaseScale.z);
-    MTX_Inverse43(&data_0217029c.mSrtCameraMtx, &data_0217029c.mInvSrtCameraMtx);
+    MTX_Concat43((MtxFx43 *) &NNS_G3dGlb.mPrmBaseRot, &NNS_G3dGlb.mCameraMtx, &NNS_G3dGlb.mSrtCameraMtx);
+    MTX_ScaleApply43(&NNS_G3dGlb.mSrtCameraMtx, &NNS_G3dGlb.mSrtCameraMtx, NNS_G3dGlb.mPrmBaseScale.x,
+                     NNS_G3dGlb.mPrmBaseScale.y, NNS_G3dGlb.mPrmBaseScale.z);
+    MTX_Inverse43(&NNS_G3dGlb.mSrtCameraMtx, &NNS_G3dGlb.mInvSrtCameraMtx);
 }
 
 // Returns the camera matrix with the base transform applied, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetWV(void) {
-    if (!(data_0217029c.mFlag & 0x80)) {
+    if (!(NNS_G3dGlb.mFlag & 0x80)) {
         calcSrtCameraMtx_();
-        data_0217029c.mFlag |= 0x80;
+        NNS_G3dGlb.mFlag |= 0x80;
     }
-    return &data_0217029c.mSrtCameraMtx;
+    return &NNS_G3dGlb.mSrtCameraMtx;
 }
 
 // Returns the inverse of the camera matrix with the base transform applied, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetInvWV(void) {
-    if (!(data_0217029c.mFlag & 0x80)) {
+    if (!(NNS_G3dGlb.mFlag & 0x80)) {
         calcSrtCameraMtx_();
-        data_0217029c.mFlag |= 0x80;
+        NNS_G3dGlb.mFlag |= 0x80;
     }
-    return &data_0217029c.mInvSrtCameraMtx;
+    return &NNS_G3dGlb.mInvSrtCameraMtx;
 }
 
 // Returns the size of an animation object for the animation and the model.

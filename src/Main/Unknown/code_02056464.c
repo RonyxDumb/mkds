@@ -17,7 +17,7 @@
 void ReadSlotGhostRecord(u32 slotIndex) {
     SlotGhostRecord *ghostRecord;
 
-    ghostRecord = data_0217aa08->mSlotGhostRecords[0];
+    ghostRecord = gBackupBuffers->mSlotGhostRecords[0];
     if (IsSlotGhostBitSet(slotIndex) == 0) {
         ghostRecord->mHead.mFilled = 0;
     } else {
@@ -59,10 +59,10 @@ s32 GetGhostLapTimeByIndex(s32 ghostRecordIndex, s32 lapNumber, MinuteSecondMill
     result = 0;
     switch (ghostRecordIndex) {
         case 0:
-            result = GetGhostLapTime(&data_0217aa08->mCourseGhostRecord->mHead, lapNumber, lapTime);
+            result = GetGhostLapTime(&gBackupBuffers->mCourseGhostRecord->mHead, lapNumber, lapTime);
             break;
         case 1:
-            result = GetGhostLapTime(&data_0217aa08->mSlotGhostRecords[0]->mHead, lapNumber, lapTime);
+            result = GetGhostLapTime(&gBackupBuffers->mSlotGhostRecords[0]->mHead, lapNumber, lapTime);
             break;
         case 2:
             break;
@@ -76,10 +76,10 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
     result = 0;
     switch (ghostRecordIndex) {
         case 0:
-            result = GetGhostFinishTime(&data_0217aa08->mCourseGhostRecord->mHead, finishTime);
+            result = GetGhostFinishTime(&gBackupBuffers->mCourseGhostRecord->mHead, finishTime);
             break;
         case 1:
-            result = GetGhostFinishTime(&data_0217aa08->mSlotGhostRecords[0]->mHead, finishTime);
+            result = GetGhostFinishTime(&gBackupBuffers->mSlotGhostRecords[0]->mHead, finishTime);
             break;
         case 2:
             break;
@@ -88,23 +88,23 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
 }
 
 void FillPlayerRecord(PlayerRecord *a) {
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, a->mName, 0x14);
-    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mEmblemOff == 0) {
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, a->mName, 0x14);
+    if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
         a->mHasEmblem = 1;
-        MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, a->mEmblem, 0x200);
+        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, a->mEmblem, 0x200);
     } else {
         a->mHasEmblem = 0;
         MI_CpuFill8(a->mEmblem, 0, 0x200);
     }
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mFlags, a->mBits, 4);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, a->mBits, 4);
     a->mRegion = gStartupWork->mRegion;
     a->mLanguageIndex = gStartupWork->mLanguageIndex;
-    a->mElo = data_0217aa08->mFirstBlock->mElo;
+    a->mElo = gBackupBuffers->mFirstBlock->mElo;
     a->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
     if (gBootInfo->mUnk_00 == 2) {
         MI_CpuFill8(&a->mFriendData, 0, 0xc);
     } else {
-        DWC_CreateExchangeToken(&data_0217aa08->mFirstBlock->mUserData, &a->mFriendData);
+        DWC_CreateExchangeToken(&gBackupBuffers->mFirstBlock->mUserData, &a->mFriendData);
     }
 }
 

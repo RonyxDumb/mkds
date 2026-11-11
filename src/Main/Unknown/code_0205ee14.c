@@ -132,7 +132,7 @@ BOOL IsKartAppearWithinParticipantLimit(KartAppear *kartAppear, u32 characterInd
     u8 appearValue;
 
     if (BuddyRecordIsConnectionActive() != FALSE) {
-        limit = data_0217aa08->mParticipantMinValue;
+        limit = gBackupBuffers->mParticipantMinValue;
     } else {
         limit = GetKartAppearLimit();
     }
@@ -147,14 +147,14 @@ s32 IsBitSetInAllParticipants(s32 bitIndex) {
     if (BuddyRecordIsConnectionActive() == FALSE) {
         return IsBackupFlagSet(bitIndex);
     }
-    return IsBitSetInBytes(bitIndex, data_0217aa08->mParticipantAndBits);
+    return IsBitSetInBytes(bitIndex, gBackupBuffers->mParticipantAndBits);
 }
 
 s32 IsBitSetInAnyParticipant(s32 bitIndex) {
     if (BuddyRecordIsConnectionActive() == FALSE) {
         return IsBackupFlagSet(bitIndex);
     }
-    return IsBitSetInBytes(bitIndex, data_0217aa08->mParticipantOrBits);
+    return IsBitSetInBytes(bitIndex, gBackupBuffers->mParticipantOrBits);
 }
 
 void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKind) {
@@ -243,7 +243,7 @@ void AddVSBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (gRaceProgress->mRaceDone == 0) {
@@ -254,8 +254,8 @@ void AddVSBuddyRecordResults(void) {
     if (gRaceSetup->mUseTeams != 0) {
         teamIndex = GetCurrentEntry(gRaceSetup->mEntryIndex)->mPlayer.mTeamIndex;
     }
-    firstTotal = data_0217aa08->mFirstBlock->mTotals[0];
-    secondTotal = data_0217aa08->mFirstBlock->mTotals[1];
+    firstTotal = gBackupBuffers->mFirstBlock->mTotals[0];
+    secondTotal = gBackupBuffers->mFirstBlock->mTotals[1];
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         if (entryIndex == gRaceSetup->mEntryIndex) {
             continue;
@@ -305,8 +305,8 @@ void AddVSBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        data_0217aa08->mFirstBlock->mTotals[0] = firstTotal;
-        data_0217aa08->mFirstBlock->mTotals[1] = secondTotal;
+        gBackupBuffers->mFirstBlock->mTotals[0] = firstTotal;
+        gBackupBuffers->mFirstBlock->mTotals[1] = secondTotal;
         WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
@@ -329,15 +329,15 @@ void AddBattleBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
         return;
     }
     GetClockDateOrDefault(date);
-    firstTotal = data_0217aa08->mFirstBlock->mTotals[2];
-    secondTotal = data_0217aa08->mFirstBlock->mTotals[3];
+    firstTotal = gBackupBuffers->mFirstBlock->mTotals[2];
+    secondTotal = gBackupBuffers->mFirstBlock->mTotals[3];
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         if (entryIndex == gRaceSetup->mEntryIndex) {
             continue;
@@ -374,8 +374,8 @@ void AddBattleBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        data_0217aa08->mFirstBlock->mTotals[2] = firstTotal;
-        data_0217aa08->mFirstBlock->mTotals[3] = secondTotal;
+        gBackupBuffers->mFirstBlock->mTotals[2] = firstTotal;
+        gBackupBuffers->mFirstBlock->mTotals[3] = secondTotal;
         WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
@@ -398,7 +398,7 @@ void AddShineBattleBuddyRecordResults(void) {
     if (gRaceSetup->mEntryIndex == -1) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     if (IsWinnerDecidedAndEndReached() == 0) {
@@ -406,8 +406,8 @@ void AddShineBattleBuddyRecordResults(void) {
     }
     GetClockDateOrDefault(date);
     GetKartRank((u16) gRaceSetup->mEntryIndex);
-    firstTotal = data_0217aa08->mFirstBlock->mTotals[2];
-    secondTotal = data_0217aa08->mFirstBlock->mTotals[3];
+    firstTotal = gBackupBuffers->mFirstBlock->mTotals[2];
+    secondTotal = gBackupBuffers->mFirstBlock->mTotals[3];
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         if (entryIndex == gRaceSetup->mEntryIndex) {
             continue;
@@ -444,8 +444,8 @@ void AddShineBattleBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        data_0217aa08->mFirstBlock->mTotals[2] = firstTotal;
-        data_0217aa08->mFirstBlock->mTotals[3] = secondTotal;
+        gBackupBuffers->mFirstBlock->mTotals[2] = firstTotal;
+        gBackupBuffers->mFirstBlock->mTotals[3] = secondTotal;
         WriteBuddyRecordsAndFirstBlock();
     } else {
         WriteBackupBuddyRecords();
@@ -477,8 +477,8 @@ void AddWiFiRaceBuddyRecordResults(void) {
     s8 otherKartCount;
     s32 date[3];
 
-    firstTotal = data_0217aa08->mFirstBlock->mTotals[4];
-    secondTotal = data_0217aa08->mFirstBlock->mTotals[5];
+    firstTotal = gBackupBuffers->mFirstBlock->mTotals[4];
+    secondTotal = gBackupBuffers->mFirstBlock->mTotals[5];
     UpdateParticipantElos();
     if (gRaceSetup->mCourseNumber <= 3) {
         return;
@@ -486,7 +486,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
     if (gRaceProgress->mRaceDone == 0) {
         return;
     }
-    if (gRaceProgress->mKarts[(u16) gRaceSetup->mEntryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
+    if (GetRaceProgressKart(gRaceSetup->mEntryIndex)->mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
         return;
     }
     GetClockDateOrDefault(date);
@@ -530,9 +530,9 @@ void AddWiFiRaceBuddyRecordResults(void) {
             }
         }
     }
-    data_0217aa08->mFirstBlock->mElo = GetPlayerRecordElo(GetOwnParticipantIndex());
-    data_0217aa08->mFirstBlock->mTotals[4] = firstTotal;
-    data_0217aa08->mFirstBlock->mTotals[5] = secondTotal;
+    gBackupBuffers->mFirstBlock->mElo = GetPlayerRecordElo(GetOwnParticipantIndex());
+    gBackupBuffers->mFirstBlock->mTotals[4] = firstTotal;
+    gBackupBuffers->mFirstBlock->mTotals[5] = secondTotal;
     WriteBuddyRecordsAndFirstBlock();
 }
 
@@ -563,12 +563,12 @@ void SetRaceResultRecords(void) {
 }
 
 void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord) {
-    MI_CpuCopy8(buddyRecord, &data_0217aa08->mBuddyRecordBlock->mRecords[recordIndex], 0x24);
+    MI_CpuCopy8(buddyRecord, &gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], 0x24);
 }
 
 u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut) {
     if (buddyRecordOut != NULL) {
-        MI_CpuCopy8(&data_0217aa08->mBuddyRecordBlock->mRecords[recordIndex], buddyRecordOut, 0x24);
+        MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], buddyRecordOut, 0x24);
     }
-    return data_0217aa08->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0;
+    return gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0;
 }

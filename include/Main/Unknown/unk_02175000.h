@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_02105ec0.h" // SoundSetPlayer
 
 // Object behind gStartupWork (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
-// data_0217aa08.
+// gBackupBuffers.
 typedef struct StartupWork {
     /* 00 */ s32 mRegion;
     /* 04 */ s32 mLanguageIndex;
@@ -149,7 +149,7 @@ typedef struct DisplaySettings {
 
 // Objects whose layout isn't known yet.
 extern DisplaySettings *gDisplaySettings;
-extern InputSlot data_021755dc;
+extern InputSlot gKeysInputSlot;
 // Set from the start of a race; recording and playback slots read keys only while set.
 #define INPUT_STATE_READ_RACE_KEYS 2
 // Set while the pause menu is open during a race; the input slots stop updating.
@@ -165,8 +165,8 @@ typedef struct InputState {
     /* 0c */ BOOL mUnk_0c;
 } InputState;
 
-extern InputState *data_02175624;
-// Entries of 0x0c bytes from 0x9b0 of Unk021759c8.
+extern InputState *gInputState;
+// Entries of 0x0c bytes from 0x9b0 of ArchiveSlots.
 typedef struct ArchiveBuffer {
     /* 00 */ void *mHeap;
     /* 04 */ void *mData;
@@ -181,14 +181,14 @@ typedef struct ArchiveBuffer {
     };
 } ArchiveBuffer;
 
-// 0x70-byte entries from the start of Unk021759c8; mLoaded is nonzero while its archive is loaded.
+// 0x70-byte entries from the start of ArchiveSlots; mLoaded is nonzero while its archive is loaded.
 typedef struct ArchiveSlot {
     /* 00 */ Unk020182c0 mArchive;
     /* 68 */ s32 mLoaded;
     /* 6c */ void *mData;
 } ArchiveSlot;
 
-// The 0xa0 bytes at 0x8c8 of Unk021759c8.
+// The 0xa0 bytes at 0x8c8 of ArchiveSlots.
 typedef struct ArchiveLoadRequest {
     /* 00 */ u8 mPath[0x80];
     /* 80 */ u32 *mSourceData;
@@ -201,7 +201,7 @@ typedef struct ArchiveLoadRequest {
     /* 9c */ s32 mUnk_9c;
 } ArchiveLoadRequest;
 
-typedef struct Unk021759c8 {
+typedef struct ArchiveSlots {
     /* 000 */ ArchiveSlot mSlots[20];
     /* 8c0 */ u32 mFileTableSize;
     /* 8c4 */ void *mFileTable;
@@ -213,9 +213,9 @@ typedef struct Unk021759c8 {
     /* a78 */ NNSiFndHeapHead *mUnk_a78;
     /* a7c */ NNSiFndHeapHead *mCourseBufferHeap;
     /* a80 */ NNSiFndHeapHead *mUnk_a80;
-} Unk021759c8;
+} ArchiveSlots;
 
-extern Unk021759c8 *data_021759c8;
+extern ArchiveSlots *gArchiveSlots;
 extern SceneRunState *gSceneRunState;
 extern StartupWork *gStartupWork;
 
@@ -229,9 +229,9 @@ typedef struct FileReadThread {
 } FileReadThread;
 
 extern FileReadThread gFileReadThread;
-extern vu16 data_021758e8[];
-extern vu16 data_02175928[];
-// Object at data_02175614: a word and a function pointer.
+extern vu16 gEmblemInputSlotWords[];
+extern vu16 gInputSlot8PairWords[];
+// Object at gWvrState: a word and a function pointer.
 // Values of WvrState.mState (3 is also tested and never named here).
 #define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
 #define BANK_SHARE_INACTIVE 1 // initial value; after WVR_TerminateAsync finished
@@ -241,7 +241,7 @@ typedef struct WvrState {
     /* 04 */ s32 (*mCallback)();
 } WvrState;
 
-extern WvrState data_02175614;
+extern WvrState gWvrState;
 
 // Eight halfwords at data_usa_021755e4: two groups of four.
 typedef struct Unk021755e4 {

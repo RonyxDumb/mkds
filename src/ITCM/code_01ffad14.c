@@ -111,7 +111,7 @@ void AdvanceKartQuaternionFromVector(Kart *p, Vec3 *a) {
     Vec4 *q = &p->mUnk_100_q;
     s32 r;
 
-    r = TryQuaternionFromVectors(&v, &data_02154f7c, a);
+    r = TryQuaternionFromVectors(&v, &gKartVec3UnitY, a);
     TryQuaternionFromVectors(&w, &p->mGroundNormal, a);
     QuaternionMultiply(&w, q, q);
     if (r != 0) {

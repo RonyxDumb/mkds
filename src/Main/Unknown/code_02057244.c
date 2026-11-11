@@ -4,6 +4,6 @@
 
 #pragma thumb on
 void ClearBuddyRecordBlock(void) {
-    MI_CpuFill8(data_0217aa08->mBuddyRecordBlock, 0u, 0xc00u);
+    MI_CpuFill8(gBackupBuffers->mBuddyRecordBlock, 0u, 0xc00u);
 }
 #pragma thumb off

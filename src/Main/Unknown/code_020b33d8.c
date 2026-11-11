@@ -94,9 +94,9 @@ void UpdateRaceStartSequenceSounds(void) {
         return;
     }
     if (frames == 0 || frames == 60 || frames == 120) {
-        if (data_0217c780 & 1) {
+        if (gRaceSoundKind & 1) {
             seqPlayer = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
@@ -108,9 +108,9 @@ void UpdateRaceStartSequenceSounds(void) {
         }
     }
     if (frames == 175) {
-        if (data_0217c780 & 1) {
+        if (gRaceSoundKind & 1) {
             seqPlayer = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }

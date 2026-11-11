@@ -462,7 +462,7 @@ void InitPosStrips(void *heap) {
     }
     pointCount = gPosStripPointsPerStrip * stripCount;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        heap = data_0217aa10->mExpHeap;
+        heap = gOverlayLoader->mExpHeap;
     }
     gPosStrips = HeapAlloc(heap, 0x38);
     strips = HeapAlloc(heap, stripCount * 0x30);

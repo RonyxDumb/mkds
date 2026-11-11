@@ -166,7 +166,7 @@ void RequestRecordVSEraseState7(void) {
     gRecordVSErase->mNextState = 7;
     gRecordVSErase->mStateFrames = 0;
     RequestSelectReturnState4();
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 void RequestRecordVSEraseState8(void) {
@@ -430,16 +430,17 @@ void AdvanceRecordVSEraseState4(void) {
     AdvanceRecordVSEraseOffsetTimers();
     AdvanceRecordVSEraseIndexChange();
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
-    n = (data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) || data_02175674[i].mPressedBits != 0;
+    n = (gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) ||
+        gInputHasPairs[i].mPressedBits != 0;
     if (n) {
-        downRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
-                                                data_02175672[i].mPressedBits);
+        downRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputPairXs[i].mPressedBits,
+                                                gInputPairYs[i].mPressedBits);
     }
-    n = !(data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) &&
-        (data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0);
+    n = !(gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) &&
+        (gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0);
     if (n) {
-        pressedRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
-                                                   data_02175672[i].mPressedBits);
+        pressedRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputPairXs[i].mPressedBits,
+                                                   gInputPairYs[i].mPressedBits);
     }
     if (downRectIndex != 5) {
         gRecordVSErase->mPageDecrementRepeat = FALSE;
@@ -448,10 +449,10 @@ void AdvanceRecordVSEraseState4(void) {
         gRecordVSErase->mPageIncrementRepeat = FALSE;
     }
     if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) != 0 ||
-        ((n = !(data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) &&
-              (data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0)) &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[i].mPressedBits,
-                                                         data_02175672[i].mPressedBits) != FALSE)) {
+        ((n = !(gInputHasPairs[i].mPressedBits == 0 && gInputNoPairCounts[i].mPressedBits < 5) &&
+              (gInputPrevHasPairs[i].mPressedBits == 0 && gInputHasPairs[i].mPressedBits != 0)) &&
+         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[i].mPressedBits, gInputPairYs[i].mPressedBits) !=
+             FALSE)) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
@@ -473,7 +474,7 @@ void AdvanceRecordVSEraseState4(void) {
         gRecordVSErase->mOffsetTimers[0] = 6;
         gRecordVSErase->mPageDecrementRepeat = TRUE;
         RequestRecordVSEraseState5();
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
     if ((downRectIndex == 6 && gRecordVSErase->mPageIncrementRepeat != FALSE) ||
@@ -489,7 +490,7 @@ void AdvanceRecordVSEraseState4(void) {
         gRecordVSErase->mOffsetTimers[1] = 6;
         gRecordVSErase->mPageIncrementRepeat = TRUE;
         RequestRecordVSEraseState5();
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
     if (pressedRectIndex <= 4) {
@@ -502,13 +503,13 @@ void AdvanceRecordVSEraseState4(void) {
                 return;
             }
             if (IsRecordVSEraseIndexChangeRunning() == 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
             }
             return;
         }
         if (IsRecordVSEraseRowFilled(i) != 0) {
             gRecordVSErase->mIndex = i;
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else {
         if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_A) != 0) {
@@ -519,7 +520,7 @@ void AdvanceRecordVSEraseState4(void) {
                 return;
             }
             if (IsRecordVSEraseIndexChangeRunning() == 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
             }
             return;
         }

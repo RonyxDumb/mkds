@@ -604,8 +604,8 @@ void StartParentCallback(Unk021425e8 *event) {
                 AddChild(event->mUnk_10, &event->mUnk_0a[0], (PlayerRecord *) event->mUnk_14);
                 break;
             case 0:
-                MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0], 0x14);
-                MI_CpuCopy8(&data_0217aa08->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits, 4);
+                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0], 0x14);
+                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits, 4);
                 v = 0;
                 role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
                 switch (role) {

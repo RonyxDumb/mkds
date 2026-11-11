@@ -23,23 +23,23 @@
 void InitArchiveSlots(void *heap) {
     s32 index;
 
-    data_021759c8 = HeapAlloc(heap, 0xa84);
-    data_021759c8->mLoadRequest.mReadBuffer = HeapAllocAligned(heap, 0x400, 0x20);
+    gArchiveSlots = HeapAlloc(heap, 0xa84);
+    gArchiveSlots->mLoadRequest.mReadBuffer = HeapAllocAligned(heap, 0x400, 0x20);
     for (index = 0; index < 20; index++) {
-        data_021759c8->mSlots[index].mLoaded = 0;
+        gArchiveSlots->mSlots[index].mLoaded = 0;
     }
     if (gBootInfo->mUnk_00 != 2) {
-        data_021759c8->mFileTableSize = FS_TryLoadTable(0, 0);
-        data_021759c8->mFileTable = HeapAlloc(heap, data_021759c8->mFileTableSize);
-        FS_TryLoadTable((u32) data_021759c8->mFileTable, data_021759c8->mFileTableSize);
+        gArchiveSlots->mFileTableSize = FS_TryLoadTable(0, 0);
+        gArchiveSlots->mFileTable = HeapAlloc(heap, gArchiveSlots->mFileTableSize);
+        FS_TryLoadTable((u32) gArchiveSlots->mFileTable, gArchiveSlots->mFileTableSize);
     }
     for (index = 0; index < 16; index++) {
         ResetArchiveBuffer(index);
     }
-    data_021759c8->mCourseId = NULL;
-    data_021759c8->mUnk_a78 = NULL;
-    data_021759c8->mCourseBufferHeap = NULL;
-    FS_InitFile(&data_021759c8->mFile);
+    gArchiveSlots->mCourseId = NULL;
+    gArchiveSlots->mUnk_a78 = NULL;
+    gArchiveSlots->mCourseBufferHeap = NULL;
+    FS_InitFile(&gArchiveSlots->mFile);
 }
 
 int ReadWholeFile(const char *path, void *buffer, u32 maxSize) {
@@ -86,7 +86,7 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
     u32 size;
     void *data;
 
-    file = &data_021759c8->mFile;
+    file = &gArchiveSlots->mFile;
     if (((file->mStat & 1) ? 1 : 0) != 0) {
         return 0;
     }

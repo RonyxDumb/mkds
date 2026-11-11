@@ -39,8 +39,8 @@ void InitSoundSystem(void *heapMemory, u32 heapSize, const u8 *filePath) {
         gFileSndArcOpen = 1;
         NNS_SndArcPlayerSetup(gCurrentSndHeap);
     }
-    NNS_SndHandleInit(&data_0217d068);
-    SetupSoundMode(&data_0217d084, &data_0217d070, 0);
+    NNS_SndHandleInit(&gSharedSeqHandle);
+    SetupSoundMode(&gSoundModeHolder, &gScenePlayers, 0);
 }
 
 void SoundHeapAllocNop(void *memory, u32 size, void *data1, u32 data2) {}
@@ -65,15 +65,15 @@ void StartSeqAtVolume(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
 }
 
 void UpdateSndMain(void) {
-    if (data_0217d070.mProgress != 0) {
-        UpdateScenePlayersNop(&data_0217d070);
+    if (gScenePlayers.mProgress != 0) {
+        UpdateScenePlayersNop(&gScenePlayers);
     }
     NNS_SndMain();
 }
 
 void InitScenePlayers(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 sceneSoundRowIndex,
                       ScenePlayersSeqInfo seqInfo) {
-    SetupSoundMode(&data_0217d084, scenePlayers, 0);
+    SetupSoundMode(&gSoundModeHolder, scenePlayers, 0);
     *(ScenePlayersSeqInfo *) &scenePlayers->mUnk_09 = seqInfo;
     scenePlayers->mSceneSoundState = sceneSoundState;
     scenePlayers->mSoundRowIndex = sceneSoundRowIndex;

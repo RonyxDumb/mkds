@@ -65,7 +65,7 @@ void MultiSelectNSStartOnMemorySeqArc(u32 index) {
 }
 
 void MultiSelectNSStartSeqArc(u32 index, u32 seqArcNo) {
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, seqArcNo, index);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, index);
 }
 
 void MultiSelectNSStartSeqArcWrapper(u32 index) {

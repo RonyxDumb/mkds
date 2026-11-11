@@ -4,7 +4,7 @@
 #include "code_0213ee6c.h" // DigitRecord
 
 // Byte table indexed by bytes below 0x80; read by StrcmpMapped.
-extern const u8 data_0215d184[];
+extern const u8 gLowerCaseMap[];
 
 void DigitsPowerOfTwo(DigitRecord *out, int n);
 void DigitsFromString(DigitRecord *out, const char *s, int n);

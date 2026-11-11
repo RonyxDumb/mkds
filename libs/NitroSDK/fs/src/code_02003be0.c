@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_0214d000.h"
 
 FSArchive *data_0216f340;
-Unk02003024U data_0216f344;
+Unk02003024U current_dir_pos;
 
 // Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
 u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
@@ -19,13 +19,13 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
     s32 loaded;
 
     if (path[0] == '/' || path[0] == '\\') {
-        pos.h.mUnk_00 = data_0216f344.h.mUnk_00;
+        pos.h.mUnk_00 = current_dir_pos.h.mUnk_00;
         pos.h.mUnk_04 = 0;
         pos.h.mUnk_08 = 0;
         pos.h.mUnk_06 = 0;
         path++;
     } else {
-        pos = data_0216f344;
+        pos = current_dir_pos;
         for (i = 0; i <= 3; i++) {
             if (path[i] == 0 || path[i] == '/' || path[i] == '\\') {
                 break;
@@ -241,7 +241,7 @@ u32 FS_ChangeDir(const u8 *path) {
     if (FSi_FindPath(&searchFile, path, 0, &dirPos) == 0) {
         return 0;
     }
-    data_0216f344 = dirPos;
+    current_dir_pos = dirPos;
     return 1;
 }
 
@@ -485,10 +485,10 @@ u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     if (FS_FindArchive(name, nameLen) == 0) {
         if (data_0216f340 == 0) {
             data_0216f340 = archive;
-            data_0216f344.h.mUnk_00 = archive;
-            data_0216f344.h.mUnk_08 = 0;
-            data_0216f344.h.mUnk_06 = 0;
-            data_0216f344.h.mUnk_04 = 0;
+            current_dir_pos.h.mUnk_00 = archive;
+            current_dir_pos.h.mUnk_08 = 0;
+            current_dir_pos.h.mUnk_06 = 0;
+            current_dir_pos.h.mUnk_04 = 0;
         } else {
             tail = data_0216f340;
             while (tail->mNext != 0) {
@@ -523,11 +523,11 @@ void FS_ReleaseArchiveName(FSArchive *archive) {
     archive->mPrev = 0;
     archive->mNext = archive->mPrev;
     archive->mFlag &= ~1;
-    if (data_0216f344.h.mUnk_00 == archive) {
-        data_0216f344.h.mUnk_08 = 0;
-        data_0216f344.h.mUnk_06 = 0;
-        data_0216f344.h.mUnk_00 = data_0216f340;
-        data_0216f344.h.mUnk_04 = 0;
+    if (current_dir_pos.h.mUnk_00 == archive) {
+        current_dir_pos.h.mUnk_08 = 0;
+        current_dir_pos.h.mUnk_06 = 0;
+        current_dir_pos.h.mUnk_00 = data_0216f340;
+        current_dir_pos.h.mUnk_04 = 0;
     }
     OS_RestoreInterrupts(enabled);
 }

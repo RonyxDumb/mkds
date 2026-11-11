@@ -54,11 +54,11 @@ static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) 
 
     result = FALSE;
     recentlyLost = FALSE;
-    hasPair = data_02175674[inputIndex].mPressedBits;
-    if (hasPair == 0 && data_02175680[inputIndex].mPressedBits < 5) {
+    hasPair = gInputHasPairs[inputIndex].mPressedBits;
+    if (hasPair == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && data_0217567c[inputIndex].mPressedBits == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && hasPair != 0) {
         result = TRUE;
     }
     return result;
@@ -74,13 +74,13 @@ void AdvanceSelectCupCourseState3(void) {
     AdvanceSelectCupCourseIndexChange();
     if (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0) {
         touchedRectIndex =
-            RectTableFindContaining(gSelectCupCourse->mSelectCupMBnbl, data_02175670[inputIndex].mPressedBits,
-                                    data_02175672[inputIndex].mPressedBits + 0x20);
+            RectTableFindContaining(gSelectCupCourse->mSelectCupMBnbl, gInputPairXs[inputIndex].mPressedBits,
+                                    gInputPairYs[inputIndex].mPressedBits + 0x20);
     }
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
         (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0 &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputIndex].mPressedBits,
-                                                         data_02175672[inputIndex].mPressedBits) != FALSE)) {
+         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPressedBits,
+                                                         gInputPairYs[inputIndex].mPressedBits) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
             if (gBootInfo->mUnk_00 == 2) {
                 SetSelectReturnSoundId(-1);
@@ -117,7 +117,7 @@ void AdvanceSelectCupCourseState3(void) {
             gSelectCupCourse->mIndex = 3;
         }
         if (gBootInfo->mUnk_00 != 2) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
         return;
     }
@@ -127,7 +127,7 @@ void AdvanceSelectCupCourseState3(void) {
             gSelectCupCourse->mIndex = 0;
         }
         if (gBootInfo->mUnk_00 != 2) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     }
 }
@@ -186,11 +186,11 @@ void AdvanceSelectCupCourseState6(void) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
                 case 0:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
                     break;
                 case -1:
                 case 1:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x10);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x10);
                     break;
             }
         }

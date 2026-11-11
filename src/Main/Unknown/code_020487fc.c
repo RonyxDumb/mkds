@@ -174,7 +174,7 @@ static inline BOOL RunSceneIsWiFiSessionStateZero(void) {
 }
 
 static inline s32 RunSceneIsBackupBusy(void) {
-    if (!data_0217aa08->mBusy) {
+    if (!gBackupBuffers->mBusy) {
         return RunSceneIsBackupCommandRunning();
     }
     return 1;

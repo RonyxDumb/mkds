@@ -140,7 +140,7 @@ void CollideKartWithMapObjects(Kart *kart) {
             foundIndex = foundCount - 1;
             kart->mUnk_44 |= 0x40000;
             if (foundIndex >= 0) {
-                z = data_02154f94;
+                z = gKartVec3Zero;
                 do {
                     s = 0;
                     touchedBefore = FALSE;

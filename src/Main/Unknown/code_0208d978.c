@@ -108,7 +108,7 @@ void InitModelEffects(void *heap) {
     ModelEffectKind *secondKind;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        heap = data_0217aa10->mExpHeap;
+        heap = gOverlayLoader->mExpHeap;
     }
     gModelEffects = HeapAlloc(heap, 0x60);
     NNS_FndInitList(&gModelEffects->mActiveList, 0);

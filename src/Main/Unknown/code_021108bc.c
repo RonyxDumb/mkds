@@ -25,7 +25,7 @@ void UpdateRaceEndSeq(void) {
     if (gRaceEndSeqStarted == 0) {
         return;
     }
-    if (data_0217d070.mSeqPlayer != NULL) {
+    if (gScenePlayers.mSeqPlayer != NULL) {
         return;
     }
     resultKind = GetRaceEndResultKind();
@@ -49,7 +49,7 @@ void UpdateRaceEndSeq(void) {
             seqId = seqRow[4];
             break;
     }
-    StartScenePlayersSeqNo(&data_0217d070, seqId, NULL);
+    StartScenePlayersSeqNo(&gScenePlayers, seqId, NULL);
     gRaceEndNextSeqPending = 0;
     gRaceEndSeqStarted = 0;
     gRaceEndSeqCallCount = 0;
@@ -153,7 +153,7 @@ void StartRaceEndSeq(s32 unused) {
     if (c != RACE_KIND_REPLAY && c != RACE_KIND_NORMAL) {
         return;
     }
-    if (data_0217d084.mMode != 2) {
+    if (gSoundModeHolder.mMode != 2) {
         return;
     }
     EndRaceSounds();
@@ -171,7 +171,7 @@ void StartRaceEndSeq(s32 unused) {
             c = seqRow[2];
             break;
     }
-    StartScenePlayersSeqNo(&data_0217d070, c, NULL);
+    StartScenePlayersSeqNo(&gScenePlayers, c, NULL);
     gRaceEndSeqStarted = 1;
     gRaceEndNextSeqPending = 1;
     switch (gRaceSetup->mCourseId) {
@@ -213,7 +213,7 @@ void StartRaceEndSeq(s32 unused) {
         return;
     }
     StopSndHandleSlots7To11();
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) seqId);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) seqId);
 }
 
 s32 GetLastLapCourseSoundId(void) {

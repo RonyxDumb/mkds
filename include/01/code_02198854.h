@@ -52,7 +52,7 @@ typedef struct OptionSelectMenu {
     /* 8c */ void *mCommonMessages;
 } OptionSelectMenu;
 
-// Object behind data_0217aa08; the byte at 0x31 of the object at its first member holds flags.
+// Object behind gBackupBuffers; the byte at 0x31 of the object at its first member holds flags.
 extern u8 data_ov001_021a6a20[];
 extern u8 data_ov001_021a6a24[];
 extern u8 gOptionSelectMenuValueCounts[];

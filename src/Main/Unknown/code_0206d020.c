@@ -239,7 +239,7 @@ void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirec
         *sharedDirection = sidewaysDirection;
     } else if (sharedDirection->x != 0 || sharedDirection->y != 0 || sharedDirection->z != 0) {
         if (VEC_DotProduct(&sidewaysDirection, sharedDirection) > 0x19a) {
-            sidewaysDirection = data_02154f94;
+            sidewaysDirection = gKartVec3Zero;
         }
     }
     pushVector.x = MUL_FIXED12_NO_ROUND(sidewaysDirection.x, v2);

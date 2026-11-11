@@ -7,7 +7,7 @@
 
 // Writes the course time record block now and only starts the write of the first block.
 void WriteCourseTimeRecordsAndFirstBlock(void) {
-    WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
+    WriteBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
     StartWriteBackupFirstBlock();
 }
 

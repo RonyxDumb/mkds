@@ -117,7 +117,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             stateAgain->mSmoothedPos = kart->mPos;
             stateAgain->mSmoothedDrawPos = stateAgain->mSmoothedPos;
             stateAgain->mSmoothedRotation = kart->mUnk_110_q;
-            stateAgain->mPosOffset = data_02154f94;
+            stateAgain->mPosOffset = gKartVec3Zero;
             stateAgain->mPosOffsetIndex = 0;
         }
     }
@@ -159,7 +159,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         kart->mPrevPos = kart->mPos;
         kart->mDrawMatrixPos = kart->mPrevPos;
         state->mSmoothedPos = kart->mDrawMatrixPos;
-        kart->mUnk_25c = data_02154f94;
+        kart->mUnk_25c = gKartVec3Zero;
         ComputeKartPointAlongUp(&kart->mCollisionCenter, &newPos, 0x400, kart);
         SetKartPrevCollisionCenter(kart);
         state->mPosOffsetIndex++;
@@ -177,7 +177,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 if (i < 3 && i < stepCount / 2) {
                     AdvanceKartTurnHeading(kart, ApplyKartTurnInput(kart, 0));
                 }
-                QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
+                QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mUnk_e0_m);
                 QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
                 Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
                 stateAgain = kart->mParticipantRecordData;
@@ -212,7 +212,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                     0xa429) {
                     kart->mUnk_44 |= 0x2000;
                 } else {
-                    kart->mHitVelocity = data_02154f94;
+                    kart->mHitVelocity = gKartVec3Zero;
                     kart->mUnk_44 &= ~0x2000;
                 }
             }

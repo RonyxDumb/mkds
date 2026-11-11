@@ -189,7 +189,7 @@ void AdvancePickedCourseRows(void) {
                     gWiFiVSCourseSelect->mShownCourseIds[i] = pickedCourseId;
                     SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[i], 0);
                     if (gWiFiVSCourseSelect->mEntryIndex != i) {
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x208);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x208);
                     }
                 }
                 break;
@@ -221,9 +221,9 @@ void AdvanceWiFiVSCourseSelectTimer(void) {
                 seconds = (gWiFiVSCourseSelect->mTimer + 0x3c) / 0x3c;
                 fileSet->mCellTable[15].mVisible = seconds >= 10 ? 1 : 0;
                 if (gWiFiVSCourseSelect->mTimer == 0) {
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x51);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
                 } else if ((gWiFiVSCourseSelect->mTimer + 0x3c) % 0x3c == 0 && seconds <= 4) {
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x50);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
                 }
             }
             cellLayout = fileSet->mCellLayout;
@@ -396,7 +396,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case 1:
             if (IsScrollListPickStarted() != 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x208);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x208);
             }
             if (IsScrollListPickFinished() == 0 && gWiFiVSCourseSelect->mTimer != 0) {
                 break;
@@ -424,7 +424,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
                 StartFadeToFadedPositiveOneScreen(0x3c, 1);
                 gWiFiVSCourseSelect->mState = 4;
                 gWiFiVSCourseSelect->mStateFrames = 0;
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x209);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x209);
             }
             break;
         case 4:

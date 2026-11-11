@@ -177,7 +177,7 @@ void func_ov001_0218a034(Unk02188950 *mapObject) {
     CreateParkedMapObjects(0xc9, 0xa, mapObject);
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource((SoundSource *) mapObject->mUnk_000.mSound, 0xc, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = data_0217cbec[0x50 / 4];
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x50 / 4];
 }
 
 void func_ov001_0218a028(Unk0201ca6c *emitter) {

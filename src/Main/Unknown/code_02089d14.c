@@ -242,7 +242,7 @@ void DrawStemSets(void) {
     Nsbmd *nsbmd;
 
     MTX_Identity43_(&identityMatrix);
-    data_0217029c.mCameraMtx = identityMatrix;
+    NNS_G3dGlb.mCameraMtx = identityMatrix;
     if (gRaceSetup->mRaceKind != RACE_KIND_NORMAL) {
         return;
     }
@@ -259,11 +259,11 @@ void DrawStemSets(void) {
         MTX_Identity33_(&baseTransform.mAxes);
         for (nsbmdIndex = 0; nsbmdIndex < gStemSets->mSets[8]->mNsbmdCount; nsbmdIndex++) {
             nsbmd = &gStemSets->mSets[8]->mNsbmds[nsbmdIndex];
-            G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0, &data_0217029c.mProjMtx);
-            data_0217029c.mFlag &= ~0x50;
+            G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0, &NNS_G3dGlb.mProjMtx);
+            NNS_G3dGlb.mFlag &= ~0x50;
             NNS_G3dGlbSetBaseScale(&baseScale);
-            MI_Copy36B(&baseTransform, &data_0217029c.mPrmBaseRot);
-            data_0217029c.mFlag &= ~0xa4;
+            MI_Copy36B(&baseTransform, &NNS_G3dGlb.mPrmBaseRot);
+            NNS_G3dGlb.mFlag &= ~0xa4;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mRows[3]);
             NNS_G3dGlbFlushP();
             NNS_G3dDraw(&nsbmd->mRenderObj);

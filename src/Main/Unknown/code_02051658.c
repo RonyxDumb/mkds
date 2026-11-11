@@ -357,7 +357,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
     u8 userData[0x18];
 
     MI_CpuFill8(userData, 0, 0x18);
-    MI_CpuCopy8(&data_0217aa08->mFirstBlock->mPlayerName, userData, 0x14);
+    MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, userData, 0x14);
     if (parentBssDesc != NULL) {
         *gConnectionWork->mParentBssDesc = *parentBssDesc;
     }

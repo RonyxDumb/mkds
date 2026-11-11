@@ -25,119 +25,119 @@ void ReadBackupFirstBlockAndRecords(void) {
     u16 failedBlockBits;
 
     failedBlockBits = 0;
-    data_0217aa08->mReadStatus = 0;
-    ReadBackupFirstBlock(data_0217aa08->mFirstBlock);
+    gBackupBuffers->mReadStatus = 0;
+    ReadBackupFirstBlock(gBackupBuffers->mFirstBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
         if (gBackupAccess->mErrorCode == 4) {
-            data_0217aa08->mFailedBlockBits = 0xffff;
-            data_0217aa08->mReadStatus = 4;
+            gBackupBuffers->mFailedBlockBits = 0xffff;
+            gBackupBuffers->mReadStatus = 4;
             ClearBackupBusy();
             return;
         }
         failedBlockBits |= 1;
     }
-    ReadBackupEmblemRecord(data_0217aa08->mEmblemRecord);
+    ReadBackupEmblemRecord(gBackupBuffers->mEmblemRecord);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
         failedBlockBits |= 2;
     }
-    ReadBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
+    ReadBackupGrandPrixRecordBlock(gBackupBuffers->mGrandPrixRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
         failedBlockBits |= 4;
     }
-    ReadBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
+    ReadBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
         failedBlockBits |= 8;
     }
-    ReadBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
+    ReadBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
         failedBlockBits |= 0x10;
     }
-    ReadBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+    ReadBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
         failedBlockBits |= 0x20;
     }
-    if (data_0217aa08->mReadStatus == 0) {
+    if (gBackupBuffers->mReadStatus == 0) {
         if (failedBlockBits != 0) {
-            data_0217aa08->mReadStatus = 3;
+            gBackupBuffers->mReadStatus = 3;
         } else {
-            data_0217aa08->mReadStatus = 0;
+            gBackupBuffers->mReadStatus = 0;
         }
     }
-    data_0217aa08->mFailedBlockBits = failedBlockBits;
+    gBackupBuffers->mFailedBlockBits = failedBlockBits;
     ClearBackupBusy();
 }
 
 void StartReadBackupFirstBlockAndRecords(void) {
-    data_0217aa08->mUnk_44_0 = 1;
-    data_0217aa08->mUnk_3c = 0;
-    data_0217aa08->mFailedBlockBits = 0;
+    gBackupBuffers->mUnk_44_0 = 1;
+    gBackupBuffers->mUnk_3c = 0;
+    gBackupBuffers->mFailedBlockBits = 0;
     SetBackupBusy();
     QueueThreadFunction(ReadBackupFirstBlockAndRecords);
     gThreadFunctionQueue->mRunRequested = 1;
 }
 
 void ResetFailedBackupBlocks(void) {
-    if (data_0217aa08->mFailedBlockBits & 2) {
+    if (gBackupBuffers->mFailedBlockBits & 2) {
         ClearEmblemRecord();
-        WriteBackupEmblemRecord(data_0217aa08->mEmblemRecord);
+        WriteBackupEmblemRecord(gBackupBuffers->mEmblemRecord);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 4) {
+    if (gBackupBuffers->mFailedBlockBits & 4) {
         ClearGrandPrixRecordBlock();
-        WriteBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
+        WriteBackupGrandPrixRecordBlock(gBackupBuffers->mGrandPrixRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 8) {
+    if (gBackupBuffers->mFailedBlockBits & 8) {
         ClearCourseTimeRecordBlock();
-        WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
+        WriteBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 0x10) {
+    if (gBackupBuffers->mFailedBlockBits & 0x10) {
         ClearMissionRecordBlock();
-        WriteBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
+        WriteBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 0x20) {
+    if (gBackupBuffers->mFailedBlockBits & 0x20) {
         ClearBuddyRecordBlock();
-        WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+        WriteBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 1) {
+    if (gBackupBuffers->mFailedBlockBits & 1) {
         ResetBackupFirstBlock(gBootInfo->mUnk_00 == 2);
-        WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
+        WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    data_0217aa08->mFailedBlockBits = 0;
+    gBackupBuffers->mFailedBlockBits = 0;
     ClearBackupBusy();
 }
 
@@ -150,7 +150,7 @@ void StartResetFailedBackupBlocks(void) {
 void SetBackupFlag(s32 flagIndex) {
     u8 *flagBytes;
 
-    flagBytes = data_0217aa08->mFirstBlock->mFlags;
+    flagBytes = gBackupBuffers->mFirstBlock->mFlags;
     flagBytes[flagIndex >> 3] |= 1 << (flagIndex & 7);
 }
 
@@ -165,7 +165,7 @@ BOOL IsBitSetInBytes(s32 bitIndex, u8 *bytes) {
 }
 
 BOOL IsBackupFlagSet(u32 flagIndex) {
-    return IsBitSetInBytes(flagIndex, data_0217aa08->mFirstBlock->mFlags);
+    return IsBitSetInBytes(flagIndex, gBackupBuffers->mFirstBlock->mFlags);
 }
 
 u8 GetKartAppearLimitFromBits(u8 *bytes) {
@@ -183,22 +183,22 @@ u8 GetKartAppearLimitFromBits(u8 *bytes) {
 }
 
 u8 GetKartAppearLimit(void) {
-    return GetKartAppearLimitFromBits(data_0217aa08->mFirstBlock->mFlags);
+    return GetKartAppearLimitFromBits(gBackupBuffers->mFirstBlock->mFlags);
 }
 
 void RaiseKartAppearLimit(u32 value) {
     u8 *flagBytes;
 
     if (value > 3) {
-        flagBytes = data_0217aa08->mFirstBlock->mFlags;
+        flagBytes = gBackupBuffers->mFirstBlock->mFlags;
         flagBytes[2] |= 8;
     }
     if (value > 2) {
-        flagBytes = data_0217aa08->mFirstBlock->mFlags;
+        flagBytes = gBackupBuffers->mFirstBlock->mFlags;
         flagBytes[2] |= 4;
     }
     if (value > 1) {
-        flagBytes = data_0217aa08->mFirstBlock->mFlags;
+        flagBytes = gBackupBuffers->mFirstBlock->mFlags;
         flagBytes[2] |= 2;
     }
 }

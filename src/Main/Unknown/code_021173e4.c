@@ -403,7 +403,7 @@ void RequestSelectCupGridState4(void) {
     gSelectCupGrid->mNextState = 4;
     gSelectCupGrid->mStateFrames = 0;
     if (gBootInfo->mUnk_00 != 2) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
     }
 }
 
@@ -659,18 +659,18 @@ void AdvanceSelectCupGridState3(void) {
     AdvanceSelectCupGridShownCourse();
     b = 0;
     a = 0;
-    p = &data_02175674[inputIndex];
-    x = data_02175674[inputIndex].mPressedBits;
-    if (x == 0 && data_02175680[inputIndex].mPressedBits < 5) {
+    p = &gInputHasPairs[inputIndex];
+    x = gInputHasPairs[inputIndex].mPressedBits;
+    if (x == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
         a = 1;
     }
-    if (a == 0 && data_0217567c[inputIndex].mPressedBits == 0 && x != 0) {
+    if (a == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && x != 0) {
         b = 1;
     }
     if (b != 0) {
         touchedRectIndex =
-            RectTableFindContaining(gSelectCupGrid->mSelectCupSBnbl, data_02175670[inputIndex].mPressedBits,
-                                    data_02175672[inputIndex].mPressedBits);
+            RectTableFindContaining(gSelectCupGrid->mSelectCupSBnbl, gInputPairXs[inputIndex].mPressedBits,
+                                    gInputPairYs[inputIndex].mPressedBits);
     }
     inputSlot = &gInputSlots[inputIndex];
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0) {
@@ -679,17 +679,17 @@ void AdvanceSelectCupGridState3(void) {
     b = 0;
     a = 0;
     x = p->mPressedBits;
-    if (x == 0 && data_02175680[inputIndex].mPressedBits < 5) {
+    if (x == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
         a = 1;
     }
-    if (a == 0 && data_0217567c[inputIndex].mPressedBits == 0 && x != 0) {
+    if (a == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && x != 0) {
         b = 1;
     }
     if (b == 0) {
         goto L2;
     }
-    if (IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputIndex].mPressedBits,
-                                                        data_02175672[inputIndex].mPressedBits) == FALSE) {
+    if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPressedBits,
+                                                        gInputPairYs[inputIndex].mPressedBits) == FALSE) {
         goto L2;
     }
 L1:
@@ -733,7 +733,7 @@ L2:
         touchedCupIndex = gSelectCupGridRectCupIndices[touchedRectIndex];
         if (gSelectCupGrid->mCupsEnabled[touchedCupIndex] == 0) {
             if (gBootInfo->mUnk_00 != 2) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x16);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
             }
             return;
         }
@@ -758,7 +758,7 @@ L2:
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
                 if (gBootInfo->mUnk_00 != 2) {
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
         }
@@ -771,7 +771,7 @@ L2:
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
                 if (gBootInfo->mUnk_00 != 2) {
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
         }
@@ -784,7 +784,7 @@ L2:
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
                 if (gBootInfo->mUnk_00 != 2) {
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
         }
@@ -797,7 +797,7 @@ L2:
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
                 if (gBootInfo->mUnk_00 != 2) {
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
         }
@@ -899,7 +899,7 @@ void AdvanceSelectCupGridState9(void) {
                 case 0:
                     break;
                 case 1:
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xf);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xf);
                     break;
             }
         }

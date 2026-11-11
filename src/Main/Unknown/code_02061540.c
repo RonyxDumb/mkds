@@ -9,7 +9,7 @@ void ReadCourseGhostRecords(void) {
     GhostRecordHead *records;
     GhostRecordHead *record;
 
-    records = data_0217aa08->mReadDestination;
+    records = gBackupBuffers->mReadDestination;
     for (i = 0; i < 0x20; i++) {
         record = records + i;
         if (IsCourseGhostBitSet(i) != 0) {
@@ -24,12 +24,12 @@ void ReadCourseGhostRecords(void) {
             record->mFilled = 0;
         }
     }
-    data_0217aa08->mReadDestination = NULL;
+    gBackupBuffers->mReadDestination = NULL;
     ClearBackupBusy();
 }
 
 void StartReadCourseGhostRecords(void *records) {
-    data_0217aa08->mReadDestination = records;
+    gBackupBuffers->mReadDestination = records;
     SetBackupBusy();
     QueueThreadFunction(ReadCourseGhostRecords);
     gThreadFunctionQueue->mRunRequested = 1;

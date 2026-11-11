@@ -40,18 +40,19 @@ void UnpackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *un
 }
 
 void SetMissionRecord(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord) {
-    PackMissionRecord(&data_0217aa08->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1], unpackedMissionRecord);
+    PackMissionRecord(&gBackupBuffers->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1],
+                      unpackedMissionRecord);
 }
 
 s32 GetMissionRecord(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord) {
-    UnpackMissionRecord(&data_0217aa08->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1],
+    UnpackMissionRecord(&gBackupBuffers->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1],
                         unpackedMissionRecord);
     return 1;
 }
 
 void SetEmblemRecordAndWriteBackup(void *emblemData) {
-    MI_CpuCopy8(emblemData, data_0217aa08->mEmblemRecord->mEmblemData, 0x200);
-    data_0217aa08->mEmblemRecord->mFilled = 1;
+    MI_CpuCopy8(emblemData, gBackupBuffers->mEmblemRecord->mEmblemData, 0x200);
+    gBackupBuffers->mEmblemRecord->mFilled = 1;
     WriteBackupEmblem();
 }
 
@@ -69,7 +70,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
 
     cupCourseIndex = FindCupCourseIndex();
     playerIndex = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-    ghostRecord = data_0217aa08->mCourseGhostRecord;
+    ghostRecord = gBackupBuffers->mCourseGhostRecord;
     if (cupCourseIndex == -1) {
         return;
     }
@@ -93,7 +94,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     ghostRecord->mHead.mMinute = kartTime.mMinute;
     ghostRecord->mHead.mSecond = kartTime.mSecond;
     ghostRecord->mHead.mMillisecond = kartTime.mMillisecond;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, ghostRecord->mHead.mName, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, ghostRecord->mHead.mName, 0x14);
     MI_CpuCopy8(gInputSlots[playerIndex].mUnk_28.mBuffer, ghostRecord->mKeyRecordingBuffer, 0xdcc);
     MI_CpuFill8(lapBytes, 0, 0xf);
     for (lapNumber = 1; lapNumber <= GetLapCount(); lapNumber++) {
@@ -111,7 +112,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     courseIndexByte = cupCourseIndex;
     WriteBackupCourseGhost(courseIndexByte, ghostRecord);
     if (IsCourseGhostBitSet(courseIndexByte) == 0) {
-        SetBitArrayBit(courseIndexByte, data_0217aa08->mFirstBlock->mCourseGhostBits, 4);
+        SetBitArrayBit(courseIndexByte, gBackupBuffers->mFirstBlock->mCourseGhostBits, 4);
         StartWriteBackupFirstBlock();
     }
 }
@@ -123,7 +124,7 @@ void ReadCourseGhostRecord(u32 courseId) {
 
     noGhost = FALSE;
     cupCourseIndex = FindCupCourseIndex(courseId);
-    ghostRecord = data_0217aa08->mCourseGhostRecord;
+    ghostRecord = gBackupBuffers->mCourseGhostRecord;
     if (cupCourseIndex == -1) {
         noGhost = TRUE;
     } else if (IsCourseGhostBitSet(cupCourseIndex) == 0) {

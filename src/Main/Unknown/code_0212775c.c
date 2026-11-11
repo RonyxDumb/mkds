@@ -256,7 +256,7 @@ void RequestSelectReturnState3WithSound(s32 requestState4) {
     }
     soundId = gSelectReturn->mSoundId;
     if (soundId != -1) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) soundId);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) soundId);
     }
 }
 
@@ -600,12 +600,12 @@ static inline BOOL SelectChoisesIsPointInByteRect(u16 pointX, u16 pointY, u8 min
 static inline s32 SelectChoisesIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
     BOOL recentlyLost = FALSE;
-    u16 hasPair = data_02175674[inputSlotIndex].mPressedBits;
+    u16 hasPair = gInputHasPairs[inputSlotIndex].mPressedBits;
 
-    if (hasPair == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+    if (hasPair == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && hasPair != 0) {
         result = TRUE;
     }
     return result;
@@ -619,8 +619,8 @@ void AdvanceSelectChoisesState1(void) {
     u16 keys;
 
     inputSlotIndex = UNK_02175628_INDEX_8;
-    touchX = data_02175670[inputSlotIndex].mPressedBits;
-    touchY = data_02175672[inputSlotIndex].mPressedBits;
+    touchX = gInputPairXs[inputSlotIndex].mPressedBits;
+    touchY = gInputPairYs[inputSlotIndex].mPressedBits;
     if (gSelectChoises->mState0Requested != 0) {
         gSelectChoises->mNextState = 0;
         gSelectChoises->mState0Requested = 0;

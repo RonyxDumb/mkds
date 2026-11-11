@@ -332,9 +332,9 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             shownTimer = (gResultsBattle->mTimer + 0x3c) / 0x3c;
             mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell].mVisible = shownTimer >= 10 ? 1 : 0;
             if (gResultsBattle->mTimer == 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x51);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
             } else if ((gResultsBattle->mTimer + 0x3c) % 0x3c == 0 && shownTimer <= 4) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x50);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
             }
         } else {
             shownTimer = 0;
@@ -377,7 +377,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             switch (gResultsBattle->mMode) {
                 case 0:
                     if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0) {
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         if (sceneNumbers != NULL) {
                             sceneNumbers->mNextScene = 1;
                         }
@@ -390,7 +390,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
                         StartResultsBattleChoices();
                         gResultsBattle->mState = 4;
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                     }
                     break;
                 case 3:
@@ -400,7 +400,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     } else if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0 ||
                                IsResultsBattleTimerBelow300() != 0) {
                         StartResultsBattleChoices();
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         gResultsBattle->mState = 4;
                     }
                     break;

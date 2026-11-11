@@ -210,7 +210,7 @@ void UpdateRaceEnd(void) {
                     }
                     break;
             }
-            if ((data_0217d084.mMode - 2) <= 1 && gRaceSetup->mMode != MODE_BATTLE) {
+            if ((gSoundModeHolder.mMode - 2) <= 1 && gRaceSetup->mMode != MODE_BATTLE) {
                 raceSetup = gRaceSetup;
                 playsRaceEndSound = TRUE;
                 if (raceSetup->mRaceKind == RACE_KIND_DEMO) {
@@ -232,13 +232,13 @@ void UpdateRaceEnd(void) {
                 }
                 if (playsRaceEndSound != FALSE) {
                     if (IsRaceNewRecordTaFinishRecord() != 0 || IsRaceNewRecordTaBestLapRecord() != 0) {
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x44);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x44);
                     } else {
                         followedKartStatus = gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus;
                         if (followedKartStatus == RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL) {
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x43);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x43);
                         } else {
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x42);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x42);
                         }
                     }
                 }

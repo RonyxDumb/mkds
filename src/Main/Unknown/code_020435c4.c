@@ -40,9 +40,9 @@
 
 static inline void ReadPadKeysAndUpdateTouchMic(void) {
     if ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15) {
-        data_02175624->mPadKeys = 0;
+        gInputState->mPadKeys = 0;
     } else {
-        data_02175624->mPadKeys = ((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff;
+        gInputState->mPadKeys = ((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff;
     }
     UpdateTouchMicInput();
 }
@@ -66,8 +66,8 @@ static inline void ResetInputSlotsAndRepeat(void) {
     }
     gInputSlots[8].mSourceKind = 5;
     gInputSlots[9].mSourceKind = 6;
-    data_02175624->mParticipantPosition = 0;
-    data_02175624->mUnk_0c = FALSE;
+    gInputState->mParticipantPosition = 0;
+    gInputState->mUnk_0c = FALSE;
     slot = gInputSlots;
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(slot);
@@ -132,33 +132,33 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
 }
 
 void ReadCourseGhostRecordAndWait(u32 courseId) {
-    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
-    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+        gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
 }
 
 void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex) {
-    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
-    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
-    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+        gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
     ReadSlotGhostRecord(slotIndex);
     WaitThreadFunctionsDone();
@@ -166,7 +166,7 @@ void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
+        gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
     }
 }
 
@@ -177,19 +177,19 @@ void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
     char path[0x80];
 
     ghostRecord = NULL;
-    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
-    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
-    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+        gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
     if (TryFormatGhostPath(courseId, path, 0x80) != FALSE) {
         ghostRecord = LoadGhostRecordFile(path);
@@ -202,16 +202,16 @@ void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
 }
 
 void SelectGhostReadCourseRecordAndWait(u32 courseId) {
-    data_0217aa08->mSlotGhostRecords[0]->mHead.mFilled = 0;
-    data_0217aa08->mSlotGhostRecords[1]->mHead.mFilled = 0;
-    data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
+    gBackupBuffers->mSlotGhostRecords[1]->mHead.mFilled = 0;
+    gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     ReadCourseGhostRecord(courseId);
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != 0) {
-        data_0217aa08->mCourseGhostRecord->mHead.mFilled = 0;
+        gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
 }
 
@@ -243,7 +243,7 @@ void InitInputSlotsAndTouchMic(void *heap) {
     for (; i < 10; i++) {
         ClearKeyRecordingBufferPointer(&gInputSlots[i].mUnk_28);
     }
-    data_02175624 = HeapAlloc(heap, 0x10);
+    gInputState = HeapAlloc(heap, 0x10);
     ResetInputSlotsAndRepeat();
     ReadPadKeysAndUpdateTouchMic();
     ReadPadKeysAndUpdateTouchMic();
@@ -275,8 +275,8 @@ void StartInputSlots(void) {
         SetInputSlotRepeat(slot, 0xff3, 0x1e, 0xa);
         slot++;
     }
-    data_02175624->mPadKeys = 0;
-    data_02175624->mFlags = 0;
+    gInputState->mPadKeys = 0;
+    gInputState->mFlags = 0;
 }
 
 void StopTouchAutoSamplingWrapper(void) {
@@ -295,7 +295,7 @@ void ClearInputSlots(void) {
 }
 
 void SetNoKeysAndUpdateInputSlots(void) {
-    data_02175624->mFlags |= INPUT_STATE_NO_KEYS;
+    gInputState->mFlags |= INPUT_STATE_NO_KEYS;
     UpdateInputSlots();
 }
 
@@ -305,9 +305,9 @@ void ReleaseTouchMicInputWrapper(void) {
 
 void SetLeftRightKeysSwapped(u32 mirrorMode) {
     if (mirrorMode != 0) {
-        data_02175624->mFlags |= 4;
+        gInputState->mFlags |= 4;
     } else {
-        data_02175624->mFlags &= ~4;
+        gInputState->mFlags &= ~4;
     }
 }
 
@@ -316,7 +316,7 @@ void UpdatePadKeysAndTouchMic(void) {
 }
 
 u32 GetPadKeys(void) {
-    return (data_02175624->mPadKeys);
+    return (gInputState->mPadKeys);
 }
 
 static inline s32 InputSlotsIsConnectionActive(ConnectionWork *connectionWork) {
@@ -345,27 +345,27 @@ void UpdateInputSlots(void) {
     s32 sourceKind;
     u16 flags;
 
-    padKeys = data_02175624->mPadKeys;
+    padKeys = gInputState->mPadKeys;
     packedTouchPoint = GetPackedTouchPoint();
     padOrParticipantKeys = padKeys;
     padOrParticipantTouchPoint = packedTouchPoint;
     micOverThreshold = gTouchMicInput->mMicOverThreshold;
     if (InputSlotsIsConnectionActive(gConnectionWork) != 0) {
-        padOrParticipantKeys = GetParticipantPadKeys(GetParticipantIndex(data_02175624->mParticipantPosition));
+        padOrParticipantKeys = GetParticipantPadKeys(GetParticipantIndex(gInputState->mParticipantPosition));
         padOrParticipantTouchPoint =
-            gConnectionWork->mUnk_15bc_view.mReceivedRecords[GetParticipantIndex(data_02175624->mParticipantPosition)]
+            gConnectionWork->mUnk_15bc_view.mReceivedRecords[GetParticipantIndex(gInputState->mParticipantPosition)]
                 .mTouchPoint;
-        GetParticipantIndex(data_02175624->mParticipantPosition);
+        GetParticipantIndex(gInputState->mParticipantPosition);
     }
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         slotKeys = 0;
         touchPoint = 0xffff;
         micValue = slotKeys;
-        f = (data_02175624->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
+        f = (gInputState->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
         skipUpdate = FALSE;
-        canReadKeys = (GetCurrentSceneNumber() != 2 || (data_02175624->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
+        canReadKeys = (GetCurrentSceneNumber() != 2 || (gInputState->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
         inputSlot = &gInputSlots[slotIndex];
-        flags = data_02175624->mFlags;
+        flags = gInputState->mFlags;
         if (!(flags & INPUT_STATE_NO_KEYS)) {
             sourceKind = inputSlot->mSourceKind;
             if (f == 0) {
@@ -424,7 +424,7 @@ void UpdateInputSlots(void) {
                     if (f == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = GetParticipantPadKeys(GetParticipantIndex(slotIndex));
-                            if (data_02175624->mFlags & 4) {
+                            if (gInputState->mFlags & 4) {
                                 t = slotKeys & 0xffcf;
                                 if (slotKeys & PAD_KEY_LEFT) {
                                     t |= PAD_KEY_RIGHT;
@@ -472,12 +472,12 @@ void RequestBits(s32 slotIndex, u32 bits) {
 
 void SetInputOpenDuringRace(u32 openDuringRace) {
     if (openDuringRace != 0) {
-        data_02175624->mFlags |= INPUT_STATE_OPEN_DURING_RACE;
+        gInputState->mFlags |= INPUT_STATE_OPEN_DURING_RACE;
         return;
     }
-    data_02175624->mFlags &= ~INPUT_STATE_OPEN_DURING_RACE;
+    gInputState->mFlags &= ~INPUT_STATE_OPEN_DURING_RACE;
 }
 
 u32 GetVolatileHalfwordIndex39(void) {
-    return data_02175928[0x27];
+    return gInputSlot8PairWords[0x27];
 }

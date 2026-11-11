@@ -92,9 +92,9 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         }
         kart->mRespawnSlot = respawnSlot;
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mCourseId == COURSE_ID_RAINBOW &&
-            (data_0217c780 & 1)) {
+            (gRaceSoundKind & 1)) {
             soundHandleEntry = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mSeqStartEnabled != 0) {
+            if (gSoundModeHolder.mSeqStartEnabled != 0) {
                 if (soundHandleEntry[0] != NULL) {
                     NNS_SndPlayerStopSeq(soundHandleEntry, 0);
                 }
@@ -395,7 +395,7 @@ void AdvanceKartPointMotion(Kart *kart, u32 collisionFlags, Vec3 *targetPointMot
         if ((s64) kart->mPointMotion.x * kart->mPointMotion.x + (s64) kart->mPointMotion.y * kart->mPointMotion.y +
                 (s64) kart->mPointMotion.z * kart->mPointMotion.z <
             0xa429) {
-            kart->mPointMotion = data_02154f94;
+            kart->mPointMotion = gKartVec3Zero;
         }
     }
 }
@@ -466,7 +466,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
     kart->mPrevHitVelocity.z = kart->mPrevHitVelocity.z - MUL_FIXED12_NO_ROUND(contactNormal->z, g);
     kart->mSpeedLimitHitFactor = k;
     if (Vec3DotUnrounded(&kart->mPointMotion, contactNormal) < -0x800) {
-        kart->mPointMotion = data_02154f94;
+        kart->mPointMotion = gKartVec3Zero;
     }
     if (wasTouching == 0) {
         forwardDot = Vec3DotUnrounded(&kart->mUnk_138, contactNormal);

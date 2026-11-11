@@ -119,7 +119,7 @@ int WM_SetLifeTime(Unk021425e8Func callback, u32 tableNumber, u32 camLifeTime, u
 
 // Measures the radio use of a channel (command 30). Needs state 2.
 int WM_MeasureChannel(Unk021425e8Func callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime) {
-    Unk02142aa8 *work;
+    WMArm9Buf *work;
     u16 *request;
     int result;
 

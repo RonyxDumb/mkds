@@ -5,7 +5,7 @@
 #pragma thumb on
 
 void WriteBackupMissionRecords(void) {
-    WriteBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
+    WriteBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
 }
 
 #pragma thumb off

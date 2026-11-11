@@ -113,7 +113,7 @@ void InitOptionSelectMenu(void *a) {
         }
     }
     SetOptionSoundRowFromSave();
-    if (data_0217aa08->mFirstBlock->mLocateFriendOff == 0) {
+    if (gBackupBuffers->mFirstBlock->mLocateFriendOff == 0) {
         gOptionSelectMenu->mRowValues[1] = 0;
     } else {
         gOptionSelectMenu->mRowValues[1] = 1;
@@ -192,19 +192,19 @@ void ApplyOptionSelectMenuSound(void) {
 void SetSoundModeFromOptionRow(void) {
     switch (gOptionSelectMenu->mRowValues[0]) {
         case SOUND_MODE_STEREO:
-            data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_STEREO;
+            gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_STEREO;
             break;
         case SOUND_MODE_SURROUND:
-            data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
+            gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
             break;
         case SOUND_MODE_HEADPHONES:
-            data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_HEADPHONES;
+            gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_HEADPHONES;
             break;
     }
 }
 
 void SetOptionSoundRowFromSave(void) {
-    switch (data_0217aa08->mFirstBlock->mSoundMode) {
+    switch (gBackupBuffers->mFirstBlock->mSoundMode) {
         case SOUND_MODE_STEREO:
             gOptionSelectMenu->mRowValues[0] = SOUND_MODE_STEREO;
             break;
@@ -303,9 +303,9 @@ void AdvanceOptionSelectMenuState2(void) {
     if (((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == 2) || r5 == 2) {
         SetSoundModeFromOptionRow();
         if (gOptionSelectMenu->mRowValues[1] == 0) {
-            data_0217aa08->mFirstBlock->mUnk_31 &= ~0x10;
+            gBackupBuffers->mFirstBlock->mUnk_31 &= ~0x10;
         } else {
-            data_0217aa08->mFirstBlock->mUnk_31 |= 0x10;
+            gBackupBuffers->mFirstBlock->mUnk_31 |= 0x10;
         }
         WriteBackupFirstBlockWrapper();
         if (gOptionSelectMenu->mIndex == 2) {
@@ -448,7 +448,7 @@ void AdvanceOptionSelectMenuState5(void) {
     s32 r;
 
     if (GetTxtSystemDone() != 0) {
-        if (data_0217aa08->mBusy == 0) {
+        if (gBackupBuffers->mBusy == 0) {
             if (gBackupAccess->mBackupEnabled != 0) {
                 r = gBackupAccess->mCommandRunning;
             } else {

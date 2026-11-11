@@ -217,7 +217,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         0xa429) {
         kart->mUnk_44 |= 0x2000;
     } else {
-        kart->mHitVelocity = data_02154f94;
+        kart->mHitVelocity = gKartVec3Zero;
         kart->mUnk_44 &= ~0x2000;
     }
     FindCollisionSlotsOverlappingSlot(kart->mCollisionSlot, 0xe800);

@@ -28,7 +28,7 @@ BOOL GetCourseTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) 
     cupCourseIndex = FindCupCourseIndex(courseId);
     found = TRUE;
     if (cupCourseIndex != -1) {
-        UnpackCourseTimeRecord(&data_0217aa08->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex],
+        UnpackCourseTimeRecord(&gBackupBuffers->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex],
                                timeRecord);
     } else {
         found = FALSE;

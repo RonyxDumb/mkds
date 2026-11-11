@@ -476,7 +476,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mRemovedChildMask = 0;
     gConnectionWork->mStatusFlags = 0;
     gConnectionWork->mChildren.mNameSendIndex = 0;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, 0x14);
     gConnectionWork->mChildren.mGameInfo->mUnk_0e.mLanguageIndex = gStartupWork->mLanguageIndex;
     gConnectionWork->mChildren.mGameInfo->mUnk_0e.mChildCount = 0;
     for (j = 0; j < 4; j++) {

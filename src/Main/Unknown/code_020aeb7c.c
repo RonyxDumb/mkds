@@ -84,7 +84,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -103,11 +103,11 @@ void UpdateRaceHudSubScreen(void) {
                     switch (gRaceHud->mSubScreenState) {
                         case 0:
                             gRaceHud->mSubScreenState = 1;
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                             break;
                         case 1:
                             gRaceHud->mSubScreenState = 0;
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                             break;
                     }
                 } else {
@@ -139,7 +139,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -159,26 +159,26 @@ void UpdateRaceHudSubScreen(void) {
                         switch (gRaceHud->mSubScreenState) {
                             case 0:
                                 gRaceHud->mSubScreenState = 1;
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                                 break;
                             case 1:
                                 gRaceHud->mSubScreenState = 0;
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
                         }
                     } else {
                         switch (gRaceHud->mSubScreenState) {
                             case 0:
                                 gRaceHud->mSubScreenState = 1;
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                                 break;
                             case 1:
                                 gRaceHud->mSubScreenState = 2;
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
                             case 2:
                                 gRaceHud->mSubScreenState = 0;
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
                         }
                     }
@@ -215,7 +215,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -234,11 +234,11 @@ void UpdateRaceHudSubScreen(void) {
                     switch (gRaceHud->mSubScreenState) {
                         case 0:
                             gRaceHud->mSubScreenState = 1;
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                             break;
                         case 1:
                             gRaceHud->mSubScreenState = 0;
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                             break;
                     }
                 } else {
@@ -285,7 +285,7 @@ void UpdateRaceHudSubScreen(void) {
                         if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                             e = FALSE;
                             if (IsChoisesSOpen() == 0) {
-                                if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
+                                if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
                                     e = TRUE;
                                 }
                             } else {
@@ -304,11 +304,11 @@ void UpdateRaceHudSubScreen(void) {
                         switch (gRaceHud->mSubScreenState) {
                             case 0:
                                 gRaceHud->mSubScreenState = 3;
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                                 break;
                             case 3:
                                 gRaceHud->mSubScreenState = 0;
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
                         }
                     } else {
@@ -332,7 +332,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         e = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (data_02175680[GetPadInputSlot()].mPressedBits == 5) {
+                            if (gInputNoPairCounts[GetPadInputSlot()].mPressedBits == 5) {
                                 e = TRUE;
                             }
                         } else {
@@ -351,11 +351,11 @@ void UpdateRaceHudSubScreen(void) {
                     switch (gRaceHud->mSubScreenState) {
                         case 0:
                             gRaceHud->mSubScreenState = 1;
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                             break;
                         case 1:
                             gRaceHud->mSubScreenState = 0;
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                             break;
                     }
                 } else {
@@ -388,7 +388,7 @@ void UpdateRaceHudSubScreen(void) {
                 }
             }
             if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) != 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x19);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x19);
             }
             gRaceHud->mSubScreenEnabled = FALSE;
             break;

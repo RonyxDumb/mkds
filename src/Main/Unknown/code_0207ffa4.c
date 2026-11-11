@@ -41,7 +41,7 @@ void StartKartAheadEffectIfSelectedEntry(Kart *kart) {
     if (gKartAheadEffects[kart->mIndex] != NULL) {
         return;
     }
-    gKartAheadEffects[kart->mIndex] = StartEffect(0x80, &data_02155a14);
+    gKartAheadEffects[kart->mIndex] = StartEffect(0x80, &gKartEffectVec3Zero);
     effect = gKartAheadEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
     effect->mUnk_94 = 0;
@@ -74,7 +74,7 @@ void StartKartNearRankEffect(Kart *kart) {
     if (gKartNearRankEffects[kart->mIndex] != NULL) {
         return;
     }
-    gKartNearRankEffects[kart->mIndex] = StartEffect(0x7f, &data_02155a14);
+    gKartNearRankEffects[kart->mIndex] = StartEffect(0x7f, &gKartEffectVec3Zero);
     effect = gKartNearRankEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
     effect->mUnk_94 = (void *) 1;

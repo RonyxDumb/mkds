@@ -59,7 +59,7 @@ static inline void func_0203d568_b_inline(void) {
 
 static inline s32 func_0203d568_c_inline(void) {
     s32 r;
-    if (data_0217aa08->mBusy == 0) {
+    if (gBackupBuffers->mBusy == 0) {
         r = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
     } else {
         r = 1;

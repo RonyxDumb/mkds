@@ -7,9 +7,9 @@
 #include "Main/Unknown/unk_02173000.h"
 
 void NNS_GfdInitLnkPlttVramManager(u32 szByte, void *pManagementWork, u32 szByteManagementWork, int useAsDefault) {
-    data_02173250.mSzByte = szByte;
-    data_02173250.mWorkHead = pManagementWork;
-    data_02173250.mSzByteManagementWork = szByteManagementWork;
+    gPlttVramManager.mSzByte = szByte;
+    gPlttVramManager.mWorkHead = pManagementWork;
+    gPlttVramManager.mSzByteManagementWork = szByteManagementWork;
     NNS_GfdResetLnkPlttVramState();
     if (useAsDefault != 0) {
         data_021619f4 = (u32(*)(s32, s32, s32)) NNS_GfdAllocLnkPlttVram;
@@ -31,13 +31,13 @@ u32 NNS_GfdAllocLnkPlttVram(u32 szByte, s32 b4Pltt, u32 opt) {
         return 0;
     }
     if (b4Pltt != 0) {
-        result = NNSi_GfdAllocLnkVramAligned(&data_02173250.mMgr, &data_02173254, &addr, size, 8);
+        result = NNSi_GfdAllocLnkVramAligned(&gPlttVramManager.mMgr, &data_02173254, &addr, size, 8);
         if (addr + size > 0x10000) {
-            NNSi_GfdFreeLnkVram(&data_02173250.mMgr, &data_02173254, addr, size);
+            NNSi_GfdFreeLnkVram(&gPlttVramManager.mMgr, &data_02173254, addr, size);
             return 0;
         }
     } else {
-        result = NNSi_GfdAllocLnkVramAligned(&data_02173250.mMgr, &data_02173254, &addr, size, 0x10);
+        result = NNSi_GfdAllocLnkVramAligned(&gPlttVramManager.mMgr, &data_02173254, &addr, size, 0x10);
     }
     if (result != 0) {
         return ((size >> 3) << 16) | ((addr >> 3) & 0xffff);
@@ -46,13 +46,13 @@ u32 NNS_GfdAllocLnkPlttVram(u32 szByte, s32 b4Pltt, u32 opt) {
 }
 
 s32 NNS_GfdFreeLnkPlttVram(u32 plttKey) {
-    return NNSi_GfdFreeLnkVram(&data_02173250.mMgr, &data_02173254, (plttKey & 0xffff) << 3,
+    return NNSi_GfdFreeLnkVram(&gPlttVramManager.mMgr, &data_02173254, (plttKey & 0xffff) << 3,
                                ((plttKey & -0x10000) >> 0x10) << 3) == 0;
 }
 
 void NNS_GfdResetLnkPlttVramState(void) {
-    data_02173250.mBlockList =
-        NNSi_GfdInitLnkVramBlockPool(data_02173250.mWorkHead, data_02173250.mSzByteManagementWork >> 4);
-    NNSi_GfdInitLnkVramMan(&data_02173250.mMgr);
-    NNSi_GfdAddNewFreeBlock(&data_02173250.mMgr, &data_02173254, 0, data_02173250.mSzByte);
+    gPlttVramManager.mBlockList =
+        NNSi_GfdInitLnkVramBlockPool(gPlttVramManager.mWorkHead, gPlttVramManager.mSzByteManagementWork >> 4);
+    NNSi_GfdInitLnkVramMan(&gPlttVramManager.mMgr);
+    NNSi_GfdAddNewFreeBlock(&gPlttVramManager.mMgr, &data_02173254, 0, gPlttVramManager.mSzByte);
 }

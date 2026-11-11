@@ -175,13 +175,13 @@ void UpdateRaceGoalM(void) {
                         case 4:
                             break;
                         case 5:
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1b);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1b);
                             break;
                         case 6:
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1c);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1c);
                             break;
                         case 7:
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1d);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1d);
                             break;
                     }
                 } else if (frame > 0x1e) {
@@ -359,7 +359,7 @@ void UpdateRaceLinkLevel(void) {
         gRaceLinkLevel->mPrevFriendOn = gRaceLinkLevel->mFriendOn;
         gRaceLinkLevel->mFriendOn = IsLocateFriendOnWithBuddyStatus4();
         if (gRaceLinkLevel->mFriendOn != 0 && gRaceLinkLevel->mPrevFriendOn == 0) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x26);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x26);
         }
         if (gRaceLinkLevel->mFriendOn != 0) {
             gRaceLinkLevel->mFriendOnFrames++;
@@ -397,7 +397,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
                 levelCell = GetRaceGoalMNcerEntry(gRaceLinkLevel->mLinkLevel + 0x3c);
             }
         }
-        if (gRaceSetup->mMode == MODE_WIFI && gRaceLinkLevel->mFriendOn != 0 && gRaceLinkLevel->mFriendOnFrames < 0x69) {
+        if (gRaceSetup->mMode == MODE_WIFI && gRaceLinkLevel->mFriendOn != 0 &&
+            gRaceLinkLevel->mFriendOnFrames < 0x69) {
             if (IsRaceHudGoalMUploaded() != 0) {
                 extraCell = GetRaceGoalMNcerEntry(0x42);
             } else {

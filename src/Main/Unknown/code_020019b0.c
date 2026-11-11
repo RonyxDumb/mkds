@@ -89,7 +89,7 @@ void ApplySavedSoundMode(void) {
     s32 soundMode;
     outputEffect = 0;
     gLogoScene = NULL;
-    soundMode = data_0217aa08->mFirstBlock->mSoundMode;
+    soundMode = gBackupBuffers->mFirstBlock->mSoundMode;
     switch (soundMode) {
         case SOUND_MODE_STEREO:
             break;

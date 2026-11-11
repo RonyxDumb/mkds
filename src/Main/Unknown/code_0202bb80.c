@@ -272,7 +272,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 gPlayerEntryList->mPlayerCount = 1;
                 gPlayerEntryList->mEntryIndex = 0;
                 gPlayerEntryList->mShowAllEntries = 1;
-                MIi_CpuCopy16(data_0217aa08->mFirstBlock->mPlayerName,
+                MIi_CpuCopy16(gBackupBuffers->mFirstBlock->mPlayerName,
                               gPlayerEntryList->mEntries[gPlayerEntryList->mEntryIndex].mName, 0x14);
                 SetExtraEntryNames();
                 break;
@@ -419,9 +419,9 @@ void AdvancePlayerEntryList(void) {
             b = a + 0x3c;
             c = b / 0x3c;
             if (a == 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x51);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
             } else if (b % 0x3c == 0 && c <= 4) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x50);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
             }
         } else {
             c = 0;
@@ -519,7 +519,7 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
                         if (gPlayerEntryList->mEmptySlotSoundPlayed[i] == 0) {
                             gPlayerEntryList->mEmptySlotSoundPlayed[i] = 1;
-                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x52);
+                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x52);
                         }
                     } else {
                         e = GetWiFiSessionCharacterIndex((u8) GetIndexOfPackedIndex(i));

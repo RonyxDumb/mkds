@@ -91,7 +91,7 @@ static inline s32 SceneIsBackupCommandRunning(void) {
 }
 
 static inline s32 SceneIsBackupBusy(void) {
-    if (!data_0217aa08->mBusy) {
+    if (!gBackupBuffers->mBusy) {
         return SceneIsBackupCommandRunning();
     }
     return 1;

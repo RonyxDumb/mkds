@@ -169,9 +169,9 @@ void EnterItemBombState2(ItemBomb *bomb) {
         effectScale[2] = 0xccd;
     }
     StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe4);
-    if (data_0217c780 & 1) {
+    if (gRaceSoundKind & 1) {
         seqPlayerPointer = TakeSoundHandleEntry(GetSoundHandlePool(0));
-        if (data_0217d084.mSeqStartEnabled != 0) {
+        if (gSoundModeHolder.mSeqStartEnabled != 0) {
             if (seqPlayerPointer[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
             }

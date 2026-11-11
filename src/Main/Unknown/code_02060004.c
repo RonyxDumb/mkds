@@ -30,7 +30,7 @@ static inline s32 TryGetFilledTimeRecord(s32 courseId, s32 recordIndex, TimeReco
 }
 
 void CopyWiFiBuddiesToRecordBlock(DWCAccFriendData *buddies) {
-    MI_CpuCopy8(buddies, data_0217aa08->mBuddyRecordBlock->mFriendData, 0x2d0);
+    MI_CpuCopy8(buddies, gBackupBuffers->mBuddyRecordBlock->mFriendData, 0x2d0);
 }
 
 void RefreshNotYetBuddyFlags(void) {
@@ -40,7 +40,7 @@ void RefreshNotYetBuddyFlags(void) {
     for (recordIndex = 0; recordIndex < 60; recordIndex++) {
         GetBuddyRecord(recordIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 &&
-            DWC_IsBuddyFriendData(&data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex]) != 0) {
+            DWC_IsBuddyFriendData(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]) != 0) {
             buddyRecord.mNotYetBuddy = 0;
             SetBuddyRecord(recordIndex, &buddyRecord);
         }
@@ -173,9 +173,9 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
     buddyRecord.mFilled = 0;
     SetBuddyRecord(recordIndex, &buddyRecord);
     if (gWiFiSession->mStateMachine.mState != 0) {
-        RemoveBuddyEntry(&data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex]);
+        RemoveBuddyEntry(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]);
     } else {
-        MI_CpuFill8(&data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex], 0, 0xc);
+        MI_CpuFill8(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex], 0, 0xc);
     }
     WriteBackupBuddyRecords();
     return wasFilled;
@@ -231,7 +231,7 @@ BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut) {
 
     found = FALSE;
     GetBuddyRecord(recordIndex, &buddyRecord);
-    friendData = &data_0217aa08->mBuddyRecordBlock->mFriendData[recordIndex];
+    friendData = &gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex];
     if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 && IsFriendDataTypeNonZero(friendData) != 0) {
         hasFriendKey = TRUE;
     } else {

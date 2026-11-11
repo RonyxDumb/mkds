@@ -68,7 +68,7 @@ void StartBalloonSound(void *position, s32 distanceSquared) {
     *request = gBalloonSoundStartParams;
     request->mUnk_04 = position;
     request->mUnk_0c = distanceSquared;
-    if (data_0217c780 & 1) {
+    if (gRaceSoundKind & 1) {
         StartSoundOnPoolEntry(0, request->mUnk_00, request->mUnk_04, request);
     }
 }

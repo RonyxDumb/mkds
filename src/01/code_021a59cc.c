@@ -480,10 +480,10 @@ void func_ov001_021a59cc(void *obj, s32 index) {
     if (GetLldEntryFrameIndex(b) >= 0) {
         func_ov001_021850a4(a, (s32(*)(LldEntry *)) func_ov001_021a5d18);
         func_ov001_02185018(b, -5);
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 505);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 505);
     } else {
         func_ov001_021850a4(a, (s32(*)(LldEntry *)) func_ov001_021a5d18);
         func_ov001_02185018(b, 0);
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 506);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 506);
     }
 }

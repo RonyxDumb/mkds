@@ -283,7 +283,7 @@ void IncrementRecordVSEraseIndex(void) {
         nextIndex = 0;
     }
     if (gRecordVSErase->mIndex != nextIndex) {
-        NNS_SndArcPlayerStartSeqArc((const void *) (((u32) ((u8 *) &data_0217d068))), 0, 0);
+        NNS_SndArcPlayerStartSeqArc((const void *) (((u32) ((u8 *) &gSharedSeqHandle))), 0, 0);
     }
     gRecordVSErase->mIndex = nextIndex;
 }
@@ -304,7 +304,7 @@ void DecrementRecordVSEraseIndex(void) {
         }
     }
     if (gRecordVSErase->mIndex != previousIndex) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
     }
     gRecordVSErase->mIndex = previousIndex;
 }

@@ -378,7 +378,7 @@ void StartKartRaceEnd(Kart *kart) {
             framesSinceEntryEnd = 0;
             if (TryGetRaceUpdateFramesSinceEntryEnd((u32 *) &framesSinceEntryEnd) != 0 &&
                 (u32) framesSinceEntryEnd > 0xb4) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x45);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x45);
             }
         }
     }
@@ -387,7 +387,7 @@ void StartKartRaceEnd(Kart *kart) {
         return;
     }
     g = 1;
-    if (data_0217d084.mMode != 2 && data_0217d084.mMode != 3) {
+    if (gSoundModeHolder.mMode != 2 && gSoundModeHolder.mMode != 3) {
         g = 0;
     }
     if (g == 0) {

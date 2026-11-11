@@ -45,7 +45,7 @@ void InitEffects(void *defaultHeap) {
         raceSetup = gRaceSetup;
         if (raceSetup->mMode == MODE_MISSION_RUN) {
             gGetSPLManagerFunction = GetSPLManagerForEffectId;
-            effectHeap = data_0217aa10->mExpHeap;
+            effectHeap = gOverlayLoader->mExpHeap;
             maxParticles = 0x96;
         }
         if (raceSetup->mCourseId == COURSE_ID_AWARD) {

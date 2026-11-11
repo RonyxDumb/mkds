@@ -149,7 +149,7 @@ void RequestSelectCupCourseState4(void) {
     gSelectCupCourse->mNextState = 4;
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mUnk_00 != 2) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
     }
 }
 

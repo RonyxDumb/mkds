@@ -736,7 +736,7 @@ void NNS_SndArcInit(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL s
     }
     arc->mFileOpen = 1;
     if (NNS_SndArcSetup(arc, heap, symbolLoadFlag) != 0) {
-        data_0217dec4 = arc;
+        sCurrent = arc;
     }
 }
 
@@ -804,18 +804,18 @@ void NNS_SndArcInitOnMemory(NNSSndArc *arc, void *data) {
         file->mMem = file->mOffset == 0 ? 0 : (u8 *) data + file->mOffset;
     }
     arc->mFileOpen = 0;
-    data_0217dec4 = arc;
+    sCurrent = arc;
 }
 
 NNSSndArc *NNS_SndArcSetCurrent(NNSSndArc *arc) {
-    NNSSndArc *oldArc = data_0217dec4;
+    NNSSndArc *oldArc = sCurrent;
 
-    data_0217dec4 = arc;
+    sCurrent = arc;
     return oldArc;
 }
 
 NNSSndArc *NNS_SndArcGetCurrent(void) {
-    return data_0217dec4;
+    return sCurrent;
 }
 
 NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index) {
@@ -839,7 +839,7 @@ NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index) {
 }
 
 NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(s32 seqNo) {
-    NNSSndArc *arc = data_0217dec4;
+    NNSSndArc *arc = sCurrent;
     NNSSndArcOffsetTable *table;
     u32 offset;
     u8 *base;
@@ -861,7 +861,7 @@ NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(s32 seqNo) {
 }
 
 NNSSndArcSeqArcInfo *NNS_SndArcGetSeqArcInfo(s32 seqArcNo) {
-    NNSSndArc *arc = data_0217dec4;
+    NNSSndArc *arc = sCurrent;
     NNSSndArcOffsetTable *table;
     u32 offset;
     u8 *base;
@@ -883,7 +883,7 @@ NNSSndArcSeqArcInfo *NNS_SndArcGetSeqArcInfo(s32 seqArcNo) {
 }
 
 NNSSndArcBankInfo *NNS_SndArcGetBankInfo(s32 bankNo) {
-    NNSSndArc *arc = data_0217dec4;
+    NNSSndArc *arc = sCurrent;
     NNSSndArcOffsetTable *table;
     u32 offset;
     u8 *base;
@@ -905,7 +905,7 @@ NNSSndArcBankInfo *NNS_SndArcGetBankInfo(s32 bankNo) {
 }
 
 NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(s32 waveArcNo) {
-    NNSSndArc *arc = data_0217dec4;
+    NNSSndArc *arc = sCurrent;
     NNSSndArcOffsetTable *table;
     u32 offset;
     u8 *base;
@@ -927,7 +927,7 @@ NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(s32 waveArcNo) {
 }
 
 NNSSndArcPlayerInfo *NNS_SndArcGetPlayerInfo(s32 playerNo) {
-    NNSSndArc *arc = data_0217dec4;
+    NNSSndArc *arc = sCurrent;
     NNSSndArcOffsetTable *table;
     u32 offset;
     u8 *base;
@@ -949,7 +949,7 @@ NNSSndArcPlayerInfo *NNS_SndArcGetPlayerInfo(s32 playerNo) {
 }
 
 NNSSndArcGroupInfo *NNS_SndArcGetGroupInfo(s32 groupNo) {
-    NNSSndArc *arc = data_0217dec4;
+    NNSSndArc *arc = sCurrent;
     NNSSndArcOffsetTable *table;
     u32 offset;
     u8 *base;
@@ -971,7 +971,7 @@ NNSSndArcGroupInfo *NNS_SndArcGetGroupInfo(s32 groupNo) {
 }
 
 u32 NNS_SndArcGetFileSize(u32 fileId) {
-    NNSSndArcFat *fat = data_0217dec4->mFat;
+    NNSSndArcFat *fat = sCurrent->mFat;
 
     if (fileId >= fat->mCount) {
         return 0;
@@ -981,7 +981,7 @@ u32 NNS_SndArcGetFileSize(u32 fileId) {
 
 // Returns the number of bytes read, or -1.
 s32 NNS_SndArcReadFile(u32 fileId, void *buffer, u32 size, u32 offset) {
-    NNSSndArc *arc = data_0217dec4;
+    NNSSndArc *arc = sCurrent;
     NNSSndArcFat *fat;
     NNSSndArcFileInfo *file;
     u32 left;
@@ -1002,7 +1002,7 @@ s32 NNS_SndArcReadFile(u32 fileId, void *buffer, u32 size, u32 offset) {
 }
 
 void *NNS_SndArcGetFileAddress(u32 fileId) {
-    NNSSndArcFat *fat = data_0217dec4->mFat;
+    NNSSndArcFat *fat = sCurrent->mFat;
 
     if (fileId >= fat->mCount) {
         return 0;
@@ -1011,7 +1011,7 @@ void *NNS_SndArcGetFileAddress(u32 fileId) {
 }
 
 void NNS_SndArcSetFileAddress(u32 fileId, void *address) {
-    data_0217dec4->mFat->mFiles[fileId].mMem = address;
+    sCurrent->mFat->mFiles[fileId].mMem = address;
 }
 
 void InfoDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {

@@ -652,7 +652,7 @@ u32 func_ov000_021923b4(GpConnection *p, s32 a, const s8 *b) {
 
             d = *b;
             if (d >= 0 && d < 0x80) {
-                d = data_0215d204[d];
+                d = gUpperCaseMap[d];
             }
             if ((s8) d == 0x4d) {
                 __memcpy(c, data_ov000_021b3050, 2);

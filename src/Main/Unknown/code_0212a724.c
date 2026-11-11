@@ -7,7 +7,7 @@
 
 BOOL IsLocateFriendOnWithBuddyStatus4(void) {
     BOOL result = FALSE;
-    if (!data_0217aa08->mFirstBlock->mLocateFriendOff) {
+    if (!gBackupBuffers->mFirstBlock->mLocateFriendOff) {
         if (HasWiFiBuddyStatus4() != FALSE) {
             result = TRUE;
         }

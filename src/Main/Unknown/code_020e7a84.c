@@ -127,7 +127,7 @@ void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 
     pathPoint.z = 0;
     VEC_Add(&pathPoint, offset, &pathPoint);
     shifted = pathPoint;
-    shifted.x += data_0217b88c;
+    shifted.x += gJgShiftX;
     MTX_MultVec43(&shifted, &gJgMatrix, &gJgTargetPos);
 }
 
@@ -181,7 +181,7 @@ void UpdateJg(void) {
         gJgKartPos.y -= gJgKart->mHopHeight;
         ComputeJgMatrixAndInverse();
         targetOffset = gJgKind3Offset;
-        targetOffset.x += data_0217b88c;
+        targetOffset.x += gJgShiftX;
         MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
         gJgKind = 3;
         if (GetEntryRaceEnded() == 0) {
@@ -205,7 +205,7 @@ void UpdateJg(void) {
             gJgKartPos.y -= gJgKart->mHopHeight;
             ComputeJgMatrixAndInverse();
             targetOffset = gJgLapOffset;
-            targetOffset.x += data_0217b88c;
+            targetOffset.x += gJgShiftX;
             MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
             if (gJgHighestLap == gJgFinalLap) {
                 gJgKind = 1;
@@ -390,7 +390,7 @@ void ComputeJgMatrixAndInverse(void) {
     Vec3 *turnedForward;
 
     gJgPreviousInverseMatrix = gJgInverseMatrix;
-    VEC_Subtract(&gJgKartPos, &gJgMatrix.mRows[3], &data_0217b9b4);
+    VEC_Subtract(&gJgKartPos, &gJgMatrix.mRows[3], &gJgKartMove);
     gJgMatrix.mRows[3] = gJgKartPos;
     gJgMatrix.mRows[3].y = gJgMatrix.mRows[3].y + (gJgKart->mVelocity.y - gJgKart->mHopSpeed);
     gJgMatrix.mRows[1] = data_02159494;
@@ -441,20 +441,20 @@ void UpdateJgPosition(void) {
     s32 deltaX;
 
     if (gJgStateMachine.mState == 4 || gJgVisible == 0) {
-        data_0217b90c = gJgTargetPos;
-        data_0217b918 = data_0217b90c;
-        data_0217b93c = data_0217b918;
-        data_0217b99c = data_0217b93c;
+        gJgProbeCenter = gJgTargetPos;
+        data_0217b918 = gJgProbeCenter;
+        gJgCollisionCenter = data_0217b918;
+        data_0217b99c = gJgCollisionCenter;
         gJgPos = data_0217b99c;
-        data_0217b9b4.x = 0;
-        data_0217b9b4.y = 0;
-        data_0217b9b4.z = 0;
+        gJgKartMove.x = 0;
+        gJgKartMove.y = 0;
+        gJgKartMove.z = 0;
         gJgVelocity.x = 0;
         gJgVelocity.y = 0;
         gJgVelocity.z = 0;
         data_0217b870 = 0;
         data_0217b8b8 = 0;
-        data_0217b88c = 0;
+        gJgShiftX = 0;
         data_0217b8cc = 0;
         data_0217b8ec = 0;
         gJgEasedPos = gJgPos;
@@ -481,7 +481,7 @@ void UpdateJgPosition(void) {
         } else {
             previousPos = &data_0217b918;
         }
-        data_0217b918 = data_0217b93c;
+        data_0217b918 = gJgCollisionCenter;
         if (data_0217b8f8 != 0) {
             halfOffset = -gJgOffsetX >> 1;
             t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].x, halfOffset);
@@ -493,27 +493,27 @@ void UpdateJgPosition(void) {
             t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].y, halfOffset);
             t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[0].z, halfOffset);
         }
-        VEC_Add(&gJgPos, &t, &data_0217b93c);
+        VEC_Add(&gJgPos, &t, &gJgCollisionCenter);
         halfOffset = -gJgOffsetY >> 1;
         t.x = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[1].x, halfOffset);
         t.y = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[1].y, halfOffset);
         t.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[1].z, halfOffset);
-        VEC_Add(&data_0217b93c, &t, &data_0217b93c);
+        VEC_Add(&gJgCollisionCenter, &t, &gJgCollisionCenter);
         data_0217b8fc = 0;
         if (data_0217b900 == 0) {
             if (data_0217b8bc != 0 || data_0217b8f0 != 0) {
-                FindCollisionSlotsAroundPos(&data_0217b93c, 0x12000, 0x2000);
+                FindCollisionSlotsAroundPos(&gJgCollisionCenter, 0x12000, 0x2000);
                 for (i = 0; i < gFoundCollisionSlotCount; i++) {
                     MapObject *foundObject = gFoundCollisionSlotObjects[i];
 
                     if ((foundObject->mFlags & 0x40) == 0 &&
-                        IsSphereHittingMapObject(&data_0217b93c, 0x12000, foundObject, &t) != FALSE) {
+                        IsSphereHittingMapObject(&gJgCollisionCenter, 0x12000, foundObject, &t) != FALSE) {
                         UpdateJgPosition_inline(&pushMin, &t, &pushMin);
                         UpdateJgPosition_inline_2(&pushMax, &t, &pushMax);
                         pushed = TRUE;
                     }
                 }
-                if (CollideSphereWithCourse(&data_0217b93c, previousPos, 0, 0x12000, 4, -1, &t, NULL, NULL,
+                if (CollideSphereWithCourse(&gJgCollisionCenter, previousPos, 0, 0x12000, 4, -1, &t, NULL, NULL,
                                             &data_0217b8fc, NULL, NULL, NULL, NULL) != 0) {
                     UpdateJgPosition_inline(&pushMin, &t, &pushMin);
                     UpdateJgPosition_inline_2(&pushMax, &t, &pushMax);
@@ -531,17 +531,17 @@ void UpdateJgPosition(void) {
                 t.y = 0;
             }
             VEC_Add(&gJgPos, &t, &gJgPos);
-            VEC_Add(&data_0217b93c, &t, &data_0217b93c);
+            VEC_Add(&gJgCollisionCenter, &t, &gJgCollisionCenter);
         }
         if (data_0217b900 == 0) {
             data_0217b870++;
             if (data_0217b870 > 0xc) {
                 data_0217b870 = 0;
             }
-            data_0217b90c.x = gJgPos.x + data_0217b870 * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.x, 0x5000);
-            data_0217b90c.z = gJgPos.z + data_0217b870 * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.z, 0x5000);
-            data_0217b90c.y = gJgPos.y;
-            if (CollideSphereWithCourse(&data_0217b90c, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL,
+            gJgProbeCenter.x = gJgPos.x + data_0217b870 * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.x, 0x5000);
+            gJgProbeCenter.z = gJgPos.z + data_0217b870 * MUL_FIXED12_NO_ROUND(gJgKart->mVelocity.z, 0x5000);
+            gJgProbeCenter.y = gJgPos.y;
+            if (CollideSphereWithCourse(&gJgProbeCenter, NULL, 0, 0x18e66, 0x10, -1, NULL, NULL, &v, NULL, NULL, NULL,
                                         NULL, NULL) != 0) {
                 w = gJgKart->mForwardSpeed;
                 if (w <= 0) {
@@ -555,12 +555,12 @@ void UpdateJgPosition(void) {
                 data_0217b908 += 0xc;
                 data_0217b870 = 0xc;
             }
-            w = data_0217b8b8 - MUL_FIXED12_NO_ROUND(data_0217b88c, 0x29);
+            w = data_0217b8b8 - MUL_FIXED12_NO_ROUND(gJgShiftX, 0x29);
             data_0217b8b8 = w;
-            if (data_0217b88c * (s64) w < 0) {
+            if (gJgShiftX * (s64) w < 0) {
                 data_0217b8b8 = w - MUL_FIXED12_NO_ROUND(w, 0x19a);
             }
-            data_0217b88c += data_0217b8b8;
+            gJgShiftX += data_0217b8b8;
             if (data_0217b8bc == 0) {
                 data_0217b8cc += 0xcd;
                 data_0217b8ec += data_0217b8cc;
@@ -599,8 +599,8 @@ void UpdateJgPosition(void) {
             gJgVelocity.x = MUL_FIXED12_NO_ROUND(data_0217b908, u.x);
             gJgVelocity.z +=
                 MUL_FIXED12_NO_ROUND(data_021593bc.z, u.z) - MUL_FIXED12_NO_ROUND(data_021593b0.z, gJgVelocity.z);
-            v.x = Vec3DotUnrounded(&data_0217b9b4, &gJgMatrix.mRows[0]);
-            v.z = Vec3DotUnrounded(&data_0217b9b4, &gJgMatrixAxis2);
+            v.x = Vec3DotUnrounded(&gJgKartMove, &gJgMatrix.mRows[0]);
+            v.z = Vec3DotUnrounded(&gJgKartMove, &gJgMatrixAxis2);
             gJgVelocity.x -= v.x;
             gJgVelocity.z -= v.z;
             if (data_0217b8f0 != 0 || data_0217b8bc != 0) {
@@ -696,20 +696,20 @@ void EnterJgState1(void) {
                      MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, data_0215f4b4[1]);
     gJgTargetPos.y = gJgKind2Offset.y;
     MTX_MultVec43(&gJgTargetPos, &gJgMatrix, &gJgTargetPos);
-    data_0217b90c = gJgTargetPos;
-    data_0217b918 = data_0217b90c;
-    data_0217b93c = data_0217b918;
-    data_0217b99c = data_0217b93c;
+    gJgProbeCenter = gJgTargetPos;
+    data_0217b918 = gJgProbeCenter;
+    gJgCollisionCenter = data_0217b918;
+    data_0217b99c = gJgCollisionCenter;
     gJgPos = data_0217b99c;
-    data_0217b9b4.x = 0;
-    data_0217b9b4.y = 0;
-    data_0217b9b4.z = 0;
+    gJgKartMove.x = 0;
+    gJgKartMove.y = 0;
+    gJgKartMove.z = 0;
     gJgVelocity.x = 0;
     data_0217b870 = 0;
     gJgVelocity.y = 0;
     gJgVelocity.z = 0;
     data_0217b8b8 = 0;
-    data_0217b88c = 0;
+    gJgShiftX = 0;
     data_0217b8cc = 0;
     gJgEasedPos = gJgPos;
     data_0217b8ec = 0;
@@ -792,7 +792,7 @@ void EnterJgState2(void) {
     }
     data_0217b8b4 = 0;
     targetOffset = gJgLapOffset;
-    targetOffset.x += data_0217b88c;
+    targetOffset.x += gJgShiftX;
     MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
 }
 
@@ -800,7 +800,7 @@ void UpdateJgState2(void) {
     Vec3 targetOffset;
 
     targetOffset = gJgLapOffset;
-    targetOffset.x += data_0217b88c;
+    targetOffset.x += gJgShiftX;
     MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
     if (++data_0217b8b4 > gJgState2FrameCount || (gJgKart->mUnk_48 & KART_48_RESPAWN_WAIT) != 0) {
         SetStateMachineState(&gJgStateMachine, 5);
@@ -859,20 +859,20 @@ void EnterJgState4(void) {
     } else {
         MTX_MultVec43(&gJgKind4Offset, &gJgMatrix, &gJgTargetPos);
     }
-    data_0217b90c = gJgTargetPos;
-    data_0217b918 = data_0217b90c;
-    data_0217b93c = data_0217b918;
-    data_0217b99c = data_0217b93c;
+    gJgProbeCenter = gJgTargetPos;
+    data_0217b918 = gJgProbeCenter;
+    gJgCollisionCenter = data_0217b918;
+    data_0217b99c = gJgCollisionCenter;
     gJgPos = data_0217b99c;
-    data_0217b9b4.x = 0;
-    data_0217b9b4.y = 0;
-    data_0217b9b4.z = 0;
+    gJgKartMove.x = 0;
+    gJgKartMove.y = 0;
+    gJgKartMove.z = 0;
     gJgVelocity.x = 0;
     data_0217b870 = 0;
     data_0217b8b8 = 0;
     gJgVelocity.y = 0;
     gJgVelocity.z = 0;
-    data_0217b88c = 0;
+    gJgShiftX = 0;
     data_0217b8cc = 0;
     data_0217b8ec = 0;
     gJgEasedPos = gJgPos;
@@ -881,10 +881,10 @@ void EnterJgState4(void) {
     data_0217b894 = 0;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(4), 1);
     seqPlayer = GetSndHandleSlot(4);
-    if ((data_0217c780 & 1) == 0) {
+    if ((gRaceSoundKind & 1) == 0) {
         return;
     }
-    if (data_0217d084.mSeqStartEnabled == 0) {
+    if (gSoundModeHolder.mSeqStartEnabled == 0) {
         return;
     }
     if (*seqPlayer != NULL) {
@@ -977,22 +977,22 @@ void EnterJgState6(void) {
         step += 0x19a;
     }
     gJgTargetPos.y += heightOffset;
-    data_0217b90c = gJgTargetPos;
-    data_0217b918 = data_0217b90c;
-    data_0217b93c = data_0217b918;
+    gJgProbeCenter = gJgTargetPos;
+    data_0217b918 = gJgProbeCenter;
+    gJgCollisionCenter = data_0217b918;
     data_0217b898 = heightOffset;
-    data_0217b99c = data_0217b93c;
+    data_0217b99c = gJgCollisionCenter;
     data_0217b8d0 = step;
     gJgPos = data_0217b99c;
-    data_0217b9b4.x = 0;
-    data_0217b9b4.y = 0;
-    data_0217b9b4.z = 0;
+    gJgKartMove.x = 0;
+    gJgKartMove.y = 0;
+    gJgKartMove.z = 0;
     gJgVelocity.x = 0;
     gJgVelocity.y = 0;
     gJgVelocity.z = 0;
     data_0217b870 = 0;
     data_0217b8b8 = 0;
-    data_0217b88c = 0;
+    gJgShiftX = 0;
     data_0217b8cc = 0;
     data_0217b8ec = 0;
     gJgEasedPos = gJgPos;

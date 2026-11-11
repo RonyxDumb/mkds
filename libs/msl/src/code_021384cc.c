@@ -29,12 +29,12 @@ const char *ScanParseSpec(const char *a, ScanSpec *b) {
         s.mStar = 1;
         c = *++p;
     }
-    if ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 8)) {
+    if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8)) {
         s.mMaxLength = 0;
         do {
             s.mMaxLength = s.mMaxLength * 10 + (c - '0');
             c = *++p;
-        } while ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 8));
+        } while ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8));
         if (s.mMaxLength == 0) {
             s.mSpecChar = 0xff;
             *b = s;
@@ -173,7 +173,7 @@ const char *ScanParseSpec(const char *a, ScanSpec *b) {
 }
 
 static inline int IsScanSkippedChar(int c) {
-    return (c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 0x100);
+    return (c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x100);
 }
 
 int ScanWithSourceFunc(Unk02138618Func fn, ScanStringSource *a, const char *s, char *v) {

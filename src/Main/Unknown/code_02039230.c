@@ -7,47 +7,47 @@
 #include "registers.h"
 
 void StartupResetKeysInputSlot(void) {
-    data_021755dc.mPressedBits = 0;
-    data_021755dc.mBits = 0;
-    data_021755dc.mClearedBits = 0;
-    data_021755dc.mRepeatBits = 0;
-    data_021755dc.mRepeatState = 0;
-    data_021755dc.mRepeatCallCount = 0;
-    data_021755dc.mRepeatMask = 0;
-    data_021755dc.mRepeatDelayLimit = 0x14;
-    data_021755dc.mRepeatIntervalLimit = 8;
-    data_021755dc.mHoldLong = 0;
-    data_021755dc.mUnk_14 = 0;
-    data_021755dc.mHoldStartTick = 0;
-    data_021755dc.mUnk_20 = 0;
-    data_021755dc.mUnk_24 = 0;
+    gKeysInputSlot.mPressedBits = 0;
+    gKeysInputSlot.mBits = 0;
+    gKeysInputSlot.mClearedBits = 0;
+    gKeysInputSlot.mRepeatBits = 0;
+    gKeysInputSlot.mRepeatState = 0;
+    gKeysInputSlot.mRepeatCallCount = 0;
+    gKeysInputSlot.mRepeatMask = 0;
+    gKeysInputSlot.mRepeatDelayLimit = 0x14;
+    gKeysInputSlot.mRepeatIntervalLimit = 8;
+    gKeysInputSlot.mHoldLong = 0;
+    gKeysInputSlot.mUnk_14 = 0;
+    gKeysInputSlot.mHoldStartTick = 0;
+    gKeysInputSlot.mUnk_20 = 0;
+    gKeysInputSlot.mUnk_24 = 0;
 }
 
 void ResetKeysInputSlot(void) {
-    data_021755dc.mPressedBits = 0;
-    data_021755dc.mBits = 0;
-    data_021755dc.mClearedBits = 0;
-    data_021755dc.mRepeatBits = 0;
-    data_021755dc.mRepeatState = 0;
-    data_021755dc.mRepeatCallCount = 0;
-    data_021755dc.mRepeatMask = 0;
-    data_021755dc.mRepeatDelayLimit = 0x14;
-    data_021755dc.mRepeatIntervalLimit = 8;
-    data_021755dc.mHoldLong = 0;
-    data_021755dc.mUnk_14 = 0;
-    data_021755dc.mHoldStartTick = 0;
-    data_021755dc.mUnk_20 = 0;
-    data_021755dc.mUnk_24 = 0;
+    gKeysInputSlot.mPressedBits = 0;
+    gKeysInputSlot.mBits = 0;
+    gKeysInputSlot.mClearedBits = 0;
+    gKeysInputSlot.mRepeatBits = 0;
+    gKeysInputSlot.mRepeatState = 0;
+    gKeysInputSlot.mRepeatCallCount = 0;
+    gKeysInputSlot.mRepeatMask = 0;
+    gKeysInputSlot.mRepeatDelayLimit = 0x14;
+    gKeysInputSlot.mRepeatIntervalLimit = 8;
+    gKeysInputSlot.mHoldLong = 0;
+    gKeysInputSlot.mUnk_14 = 0;
+    gKeysInputSlot.mHoldStartTick = 0;
+    gKeysInputSlot.mUnk_20 = 0;
+    gKeysInputSlot.mUnk_24 = 0;
 }
 
 void ReadKeysIntoInputSlot(void) {
     u32 keys;
-    if (data_021755dc.mUnk_24 != 0) {
+    if (gKeysInputSlot.mUnk_24 != 0) {
         keys = ReadKeyBitsFromStream();
     } else {
         keys = (u16) (((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff);
     }
-    UpdateInputSlot(keys, &data_021755dc);
+    UpdateInputSlot(keys, &gKeysInputSlot);
 }
 
 void SeekKeyStream(u32 count, u32 origin) {

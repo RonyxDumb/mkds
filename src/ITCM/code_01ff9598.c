@@ -113,9 +113,9 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
             }
             kart->mRespawnSlot = respawnSlot;
             if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW && (data_0217c780 & 1)) {
+                if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW && (gRaceSoundKind & 1)) {
                     soundHandleEntry = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                    if (data_0217d084.mSeqStartEnabled != 0) {
+                    if (gSoundModeHolder.mSeqStartEnabled != 0) {
                         if (*(u32 *) soundHandleEntry != 0) {
                             NNS_SndPlayerStopSeq(soundHandleEntry, 0);
                         }
@@ -194,7 +194,7 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
         AdvanceKartQuaternionFromVector(p, a);
     }
     QuaternionBlend(&p->mUnk_f0_q, &p->mUnk_100_q, &p->mUnk_f0_q, p->mQuaternionBlendFactor);
-    QuaternionFromAxisAngle(&data_02154f7c, (u16) (p->mHeadingAngle + p->mHeadingAngleOffset), &p->mUnk_e0_m);
+    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (p->mHeadingAngle + p->mHeadingAngleOffset), &p->mUnk_e0_m);
     QuaternionMultiply(&p->mUnk_f0_q, &p->mUnk_e0_m, &p->mUnk_110_q);
     if (p->mUnk_44 & 2) {
         if (p->mHopSpeed > 0) {

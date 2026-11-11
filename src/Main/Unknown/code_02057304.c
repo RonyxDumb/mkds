@@ -33,35 +33,35 @@ void ClearBitArrayBit(s32 bitIndex, u8 *bytes, s32 c) {
 }
 
 BOOL IsCourseGhostBitSet(u8 bitIndex) {
-    return IsBitArrayBitSet(bitIndex, data_0217aa08->mFirstBlock->mCourseGhostBits, 4);
+    return IsBitArrayBitSet(bitIndex, gBackupBuffers->mFirstBlock->mCourseGhostBits, 4);
 }
 
 void ClearCourseGhostBit(s32 bitIndex) {
-    ClearBitArrayBit(bitIndex, data_0217aa08->mFirstBlock->mCourseGhostBits, 4);
+    ClearBitArrayBit(bitIndex, gBackupBuffers->mFirstBlock->mCourseGhostBits, 4);
 }
 
 BOOL IsSlotGhostBitSet(u32 bitIndex) {
-    return IsBitArrayBitSet(bitIndex, data_0217aa08->mFirstBlock->mSlotGhostBits, 2);
+    return IsBitArrayBitSet(bitIndex, gBackupBuffers->mFirstBlock->mSlotGhostBits, 2);
 }
 
 void ResetBackupFirstBlock(s32 copyOwnerName) {
     u16 ownerCharCount;
     u8 *ownerText;
 
-    MI_CpuFill8(data_0217aa08->mFirstBlock, 0, 0x100);
+    MI_CpuFill8(gBackupBuffers->mFirstBlock, 0, 0x100);
     if (copyOwnerName != 0) {
         ownerCharCount = gStartupWork->mOwnerCharCount;
         ownerText = gStartupWork->mOwnerText;
-        data_0217aa08->mFirstBlock->mHasPlayerName = 1;
-        MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
-        MI_CpuCopy8(ownerText, data_0217aa08->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
+        gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
+        MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
+        MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
     }
-    data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
-    data_0217aa08->mFirstBlock->mEmblemOff = 0;
-    data_0217aa08->mFirstBlock->mLocateFriendOff = 0;
-    data_0217aa08->mFirstBlock->mElo = 0x1388;
+    gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
+    gBackupBuffers->mFirstBlock->mEmblemOff = 0;
+    gBackupBuffers->mFirstBlock->mLocateFriendOff = 0;
+    gBackupBuffers->mFirstBlock->mElo = 0x1388;
     SetSecretMessageFlagsWrapper();
-    DWC_CreateUserData(&data_0217aa08->mFirstBlock->mUserData, 0x414d434a);
+    DWC_CreateUserData(&gBackupBuffers->mFirstBlock->mUserData, 0x414d434a);
 }
 
 #pragma thumb off

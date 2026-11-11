@@ -79,7 +79,7 @@ void InitEmblem(void) {
     InitEmblemChoises();
     ResetOamLists(&gEmblem->mUnk_0000, &gEmblem->mUnk_0404);
     func_ov001_021a6238(0x40, 0x10, 0x20, 0x80, 0x10);
-    p = data_0217aa08->mEmblemRecord;
+    p = gBackupBuffers->mEmblemRecord;
     if (p->mFilled) {
         MI_CpuCopy8(p->mEmblemData, gEmblem->mUnk_087c, 0x200);
         SplitBytesIntoNibbleTiles(gEmblem->mUnk_087c, gEmblem->mUnk_0c7c, GetEmblemGridSide());

@@ -12,7 +12,7 @@ void UncompressLZ8AndStoreRange(const void *source, void *destination, u32 size)
 
 void ResetArchiveBuffer(int bufferIndex) {
     ArchiveBuffer *buffer;
-    buffer = &data_021759c8->mBuffers[bufferIndex];
+    buffer = &gArchiveSlots->mBuffers[bufferIndex];
     buffer->mHeap = NULL;
     buffer->mUnk_08 = buffer->mUnk_08 & (0xe0000000u);
     buffer->mUnk_08 = buffer->mUnk_08 | (0x20000000u);

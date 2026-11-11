@@ -25,13 +25,13 @@ void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 
 }
 
 void StartSoundFromParams(SoundStartParams *request) {
-    if (data_0217c780 & 1) {
+    if (gRaceSoundKind & 1) {
         StartSoundOnPoolEntry(0, request->mSoundId, request->mPositionSource, request);
     }
 }
 
 void StartSndHandleSound(SoundStartParams *request, NNSSndSeqPlayer **handle) {
-    if (data_0217c780 & 1) {
+    if (gRaceSoundKind & 1) {
         StartOrUpdateSndHandleSoundInMode2(0, request->mSoundId, request->mPositionSource, handle, request);
     }
 }

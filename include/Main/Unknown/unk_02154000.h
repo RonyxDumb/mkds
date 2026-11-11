@@ -26,7 +26,7 @@ extern u8 gDWCUtilityLanguageTable[];
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames
 // (data_usa_021541a8).
 extern u32 gSceneFuncs[];
-extern const Vec3 data_02154f94;
+extern const Vec3 gKartVec3Zero;
 extern const s16 data_usa_02154a48[];
 extern const s32 gKartOffsetCycleX[8];
 extern const s32 gKartOffsetCycleY[8];
@@ -37,7 +37,7 @@ extern const s32 gKartModelScaleYKind1Table[15];
 extern const s32 gKartModelOffsetYKind1Table[15];
 extern const s32 gKartModelScaleXKind2Table[15];
 extern const s32 gKartModelScaleZKind2Table[15];
-extern const Vec3 data_02154f7c;
+extern const Vec3 gKartVec3UnitY;
 extern const Vec3 data_02154f88;
 extern u32 gCupCourseIdTable[][4];
 extern u32 data_usa_021545d8[];

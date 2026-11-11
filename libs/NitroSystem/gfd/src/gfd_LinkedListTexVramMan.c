@@ -13,10 +13,10 @@ int NNS_GfdGetLnkTexVramManagerWorkSize(int numMemBlk) {
 
 void NNS_GfdInitLnkTexVramManager(u32 szByte, u32 szByteFor4x4, void *pManagementWork, u32 szByteManagementWork,
                                   int useAsDefault) {
-    data_02173234.mSzByte = szByte;
-    data_02173234.mSzByteFor4x4 = szByteFor4x4;
-    data_02173234.mWorkHead = pManagementWork;
-    data_02173234.mSzByteManagementWork = szByteManagementWork;
+    gTexVramManager.mSzByte = szByte;
+    gTexVramManager.mSzByteFor4x4 = szByteFor4x4;
+    gTexVramManager.mWorkHead = pManagementWork;
+    gTexVramManager.mSzByteManagementWork = szByteManagementWork;
     NNS_GfdResetLnkTexVramState();
     if (useAsDefault != 0) {
         data_021619ec = (u32(*)(s32, s32, s32)) NNS_GfdAllocLnkTexVram;
@@ -40,7 +40,7 @@ u32 NNS_GfdAllocLnkTexVram(u32 szByte, s32 is4x4comp, u32 opt) {
     if (is4x4comp != 0) {
         result = NNSi_GfdAllocLnkVram(&data_02173238, &data_0217323c, &addr, size);
     } else {
-        result = NNSi_GfdAllocLnkVram(&data_02173234.mMgrNrm, &data_0217323c, &addr, size);
+        result = NNSi_GfdAllocLnkVram(&gTexVramManager.mMgrNrm, &data_0217323c, &addr, size);
     }
     if (result == 0) {
         return 0;
@@ -61,7 +61,7 @@ s32 NNS_GfdFreeLnkTexVram(u32 texKey) {
         if (is4x4 != 0) {
             result = NNSi_GfdFreeLnkVram(&data_02173238, &data_0217323c, addr, size);
         } else {
-            result = NNSi_GfdFreeLnkVram(&data_02173234.mMgrNrm, &data_0217323c, addr, size);
+            result = NNSi_GfdFreeLnkVram(&gTexVramManager.mMgrNrm, &data_0217323c, addr, size);
         }
         if (result != 0) {
             return 0;
@@ -83,8 +83,8 @@ void NNS_GfdResetLnkTexVramState(void) {
     u32 bank2NrmAddr;
     u32 bank2Nrm;
 
-    rest4x4 = data_02173234.mSzByteFor4x4;
-    restNrm = data_02173234.mSzByte;
+    rest4x4 = gTexVramManager.mSzByteFor4x4;
+    restNrm = gTexVramManager.mSzByte;
     indexSize = rest4x4 >> 1;
     restNrm = restNrm - (rest4x4 + indexSize);
     bank = t;
@@ -116,16 +116,16 @@ void NNS_GfdResetLnkTexVramState(void) {
         }
         bank++;
     }
-    NNSi_GfdInitLnkVramMan(&data_02173234.mMgrNrm);
+    NNSi_GfdInitLnkVramMan(&gTexVramManager.mMgrNrm);
     NNSi_GfdInitLnkVramMan(&data_02173238);
-    data_02173234.mBlockList =
-        NNSi_GfdInitLnkVramBlockPool(data_02173234.mWorkHead, data_02173234.mSzByteManagementWork >> 4);
+    gTexVramManager.mBlockList =
+        NNSi_GfdInitLnkVramBlockPool(gTexVramManager.mWorkHead, gTexVramManager.mSzByteManagementWork >> 4);
     if (t[0].mSz4x4 != 0) {
         NNSi_GfdAddNewFreeBlock(&data_02173238, &data_0217323c, 0, t[0].mSz4x4);
     }
     bank0NrmAddr = t[0].mSz4x4;
     if (t[0].mSzNrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&data_02173234.mMgrNrm, &data_0217323c, bank0NrmAddr, t[0].mSzNrm);
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, bank0NrmAddr, t[0].mSzNrm);
     }
     if (t[2].mSz4x4 != 0) {
         NNSi_GfdAddNewFreeBlock(&data_02173238, &data_0217323c, 0x40000, t[2].mSz4x4);
@@ -133,12 +133,12 @@ void NNS_GfdResetLnkTexVramState(void) {
     bank2Nrm = t[2].mSzNrm;
     bank2NrmAddr = t[2].mSz4x4 + 0x40000;
     if (bank2Nrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&data_02173234.mMgrNrm, &data_0217323c, bank2NrmAddr, bank2Nrm);
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, bank2NrmAddr, bank2Nrm);
     }
     if (t[3].mSzNrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&data_02173234.mMgrNrm, &data_0217323c, 0x60000, t[3].mSzNrm);
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, 0x60000, t[3].mSzNrm);
     }
     if (t[1].mSzNrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&data_02173234.mMgrNrm, &data_0217323c, indexSize + 0x20000, t[1].mSzNrm);
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &data_0217323c, indexSize + 0x20000, t[1].mSzNrm);
     }
 }

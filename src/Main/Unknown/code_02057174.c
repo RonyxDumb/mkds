@@ -22,27 +22,27 @@ void ResetBackupFirstBlockAndRecords(u32 copyOwnerName) {
 }
 
 void WriteBackupFirstBlockAndRecords(void) {
-    WriteBackupEmblemRecord(data_0217aa08->mEmblemRecord);
+    WriteBackupEmblemRecord(gBackupBuffers->mEmblemRecord);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
+    WriteBackupGrandPrixRecordBlock(gBackupBuffers->mGrandPrixRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
+    WriteBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
+    WriteBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+    WriteBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
+    WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }

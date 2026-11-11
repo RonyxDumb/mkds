@@ -222,7 +222,7 @@ void CollideKartWithKarts(Kart *p) {
                 q->mUnk_4c |= 0x100000;
             }
             if (c == FALSE) {
-                u = data_02154f94;
+                u = gKartVec3Zero;
                 ApplyKartPush(q, p, &n, 1, &u);
                 n.x = -n.x;
                 n.y = -n.y;

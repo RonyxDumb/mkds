@@ -101,7 +101,7 @@ void func_ov001_021982e8(void) {
             RequestSelectReturnState4();
             break;
     }
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 // Requests state 5: stores mNextState = 5 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
@@ -300,7 +300,7 @@ next:
                 gTimeAttackTopMenu->mIndex = 2;
             }
             func_ov001_0219829c(gTimeAttackTopMenu->mIndex);
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
             func_ov001_02198264(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex++;
@@ -308,7 +308,7 @@ next:
                 gTimeAttackTopMenu->mIndex = 0;
             }
             func_ov001_0219829c(gTimeAttackTopMenu->mIndex);
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     }
 }

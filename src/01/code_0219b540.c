@@ -139,7 +139,7 @@ void RequestSelectGhostState3(void) {
     gSelectGhost->mNextState = 3;
     gSelectGhost->mStateFrames = 0;
     StopPaletteBlend();
-    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 void RequestSelectGhostState4(void) {
@@ -266,7 +266,7 @@ void func_ov001_0219c058(void) {
     }
     gSelectGhost->mOffsetTimers[1] = 6;
     if (ok != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 1);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
     }
 }
@@ -283,7 +283,7 @@ void func_ov001_0219bff4(void) {
     }
     gSelectGhost->mOffsetTimers[0] = 6;
     if (ok != FALSE) {
-        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 1);
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
     }
 }

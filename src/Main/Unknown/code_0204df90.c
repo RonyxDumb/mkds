@@ -158,7 +158,7 @@ void StartMultiBootParent(void) {
     user.mUnk_01 = 10;
     user.mUnk_00_0 = gStartupWork->mUnk_40;
     user.mUnk_00_4 = 8;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
     gConnectionWork->mParentTgid = ComputeParentTgid(1);
     if (MB_Init(gConnectionWork->mMultiBootWork, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mParentTgid, 2) != 0) {
         SetRequestErrorCode(5);
@@ -182,7 +182,7 @@ void SetupScanConnect(void) {
     userInfo.mUnk_00_0 = gStartupWork->mUnk_40;
     userInfo.mUnk_01 = 10;
     userInfo.mUnk_00_4 = 9;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, userInfo.mUnk_02, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mUnk_02, 0x14);
     gConnectionWork->mScanEntryIndex = -1;
     InitScanConnectWork(gConnectionWork->mMultiBootWork, &userInfo);
     SetScanConnectStateCallback(ScanConnectStateCallback);

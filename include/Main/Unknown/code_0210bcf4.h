@@ -5,12 +5,7 @@
 #include "code_0212d214.h"
 
 // Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.mUnk_94 embed it as
-// their first member. It holds the list of the sounds started on it, the pointer to the position the distance to the
-// camera is measured to, and the number of its volume curve. A sound is started on it only while bit 0 of its mUnk_34
-// member is set; InitSoundSource clears that bit. data_0217d048 is addressed in rows of twelve bytes;
-// RefreshSoundSourceUpdateList and UnlinkSoundSourceSounds address the container of one of those rows. Kart and the
-// gItemPools elements (ItemObject) start with it: StartSoundWhileRequested and StartSound pass either one to
-// StartSoundWhileRequestedEx and StartSoundEx. InitSoundSource writes the byte at 0x3c and the word at 0x40.
+// their first member. A sound is started on it only while bit 0 of its mUnk_34 member is set.
 typedef struct SoundSource {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;

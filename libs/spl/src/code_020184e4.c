@@ -20,15 +20,15 @@
 #include "code_021471bc.h"
 
 void SPLRandom_VecFx32(Vec3 *vec) {
-    vec->x = (s32) (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 8;
-    vec->y = (s32) (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 8;
-    vec->z = (s32) (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 8;
+    vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
+    vec->y = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
+    vec->z = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
     VEC_Normalize(vec, vec);
 }
 
 void SPLRandom_VecFx32_XY(Vec3 *vec) {
-    vec->x = (s32) (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 8;
-    vec->y = (s32) (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 8;
+    vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
+    vec->y = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
     vec->z = 0;
     VEC_Normalize(vec, vec);
 }
@@ -103,13 +103,13 @@ void SPLBehavior_ApplyRandom(const Unk0201e2cc *rng, Unk0201e3c8 *ptcl, Vec3 *ac
     if (ptcl->mUnk_26 % rng->mUnk_06 != 0) {
         return;
     }
-    acc->x = acc->x + ((rng->mUnk_00 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+    acc->x = acc->x + ((rng->mUnk_00 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
                         (rng->mUnk_00 << 8)) >>
                        8);
-    acc->y = acc->y + ((rng->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+    acc->y = acc->y + ((rng->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
                         (rng->mUnk_02 << 8)) >>
                        8);
-    acc->z = acc->z + ((rng->mUnk_04 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+    acc->z = acc->z + ((rng->mUnk_04 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
                         (rng->mUnk_04 << 8)) >>
                        8);
 }
@@ -287,9 +287,9 @@ void SPLAnim_Alpha(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
         a = alphaAnim->mUnk_00_10 + ((lifeRate - 0xff) * (alphaAnim->mUnk_00_10 - alphaAnim->mUnk_00_5)) / (0xff - hi);
     }
     ptcl->mUnk_2e_5 =
-        (a *
-         (0xff -
-          ((alphaAnim->mUnk_02_0 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 8))) >>
+        (a * (0xff -
+              ((alphaAnim->mUnk_02_0 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >>
+               8))) >>
         8;
 }
 
@@ -463,17 +463,17 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     SPLRandom_VecFx32(&n0->mUnk_08);
                     n0->mUnk_08.x = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_08.x, emtr->mUnk_5c),
-                        ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        ((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                 0x100000) >>
                          8));
                     n0->mUnk_08.y = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_08.y, emtr->mUnk_5c),
-                        ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        ((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                 0x100000) >>
                          8));
                     n0->mUnk_08.z = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_08.z, emtr->mUnk_5c),
-                        ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        ((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                 0x100000) >>
                          8));
                     break;
@@ -482,12 +482,12 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     SPLRandom_VecFx32_XY(&v5);
                     v5.x = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(v5.x, emtr->mUnk_5c),
-                        ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        ((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                 0x100000) >>
                          8));
                     v5.y = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(v5.y, emtr->mUnk_5c),
-                        ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        ((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                 0x100000) >>
                          8));
                     SPLUtil_TiltCoordinates(&n0->mUnk_08, &v5, emtr);
@@ -522,19 +522,19 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     }
                     n0->mUnk_08.x = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_08.x, emtr->mUnk_5c),
-                        (((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        (((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                  0x100000) >>
                           9) +
                          0x800));
                     n0->mUnk_08.y = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_08.y, emtr->mUnk_5c),
-                        (((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        (((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                  0x100000) >>
                           9) +
                          0x800));
                     n0->mUnk_08.z = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_08.z, emtr->mUnk_5c),
-                        (((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        (((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                  0x100000) >>
                           9) +
                          0x800));
@@ -544,9 +544,10 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     SPLRandom_VecFx32_XY(&n0->mUnk_14);
                     v6.x = MUL_FIXED12_ROUNDED(n0->mUnk_14.x, emtr->mUnk_5c);
                     v6.y = MUL_FIXED12_ROUNDED(n0->mUnk_14.y, emtr->mUnk_5c);
-                    v6.z = (emtr->mUnk_60 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                            emtr->mUnk_60 * 0x100) >>
-                           8;
+                    v6.z =
+                        (emtr->mUnk_60 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                         emtr->mUnk_60 * 0x100) >>
+                        8;
                     SPLUtil_TiltCoordinates(&n0->mUnk_08, &v6, emtr);
                     break;
                 }
@@ -554,28 +555,29 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     SPLRandom_VecFx32_XY(&n0->mUnk_14);
                     v7.x = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_14.x, emtr->mUnk_5c),
-                        ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        ((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                 0x100000) >>
                          8));
                     v7.y = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(n0->mUnk_14.y, emtr->mUnk_5c),
-                        ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
+                        ((s32) (((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                 0x100000) >>
                          8));
-                    v7.z = (emtr->mUnk_60 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                            emtr->mUnk_60 * 0x100) >>
-                           8;
+                    v7.z =
+                        (emtr->mUnk_60 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                         emtr->mUnk_60 * 0x100) >>
+                        8;
                     SPLUtil_TiltCoordinates(&n0->mUnk_08, &v7, emtr);
                     break;
                 }
             }
 
             s1 = ((d->mUnk_42 + 0xff -
-                   ((d->mUnk_42 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
+                   ((d->mUnk_42 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
                   emtr->mUnk_64) >>
                  8;
             s2 = ((d->mUnk_42 + 0xff -
-                   ((d->mUnk_42 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
+                   ((d->mUnk_42 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
                   emtr->mUnk_68) >>
                  8;
 
@@ -600,7 +602,7 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
 
             n0->mUnk_30 =
                 ((d->mUnk_40 + 0xff -
-                  ((d->mUnk_40 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
+                  ((d->mUnk_40 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
                  emtr->mUnk_6c) >>
                 8;
             n0->mUnk_34 = 0x1000;
@@ -608,7 +610,7 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
             if (d->mUnk_00.mUnk_00_9 && c->mUnk_08->mUnk_08_0) {
                 Unk0201ca6c_20_08 *q;
                 u32 r;
-                r = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 20;
+                r = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 20;
                 q = c->mUnk_08;
                 ch[0] = q->mUnk_00;
                 ch[1] = d->mUnk_22;
@@ -622,14 +624,14 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
             n0->mUnk_2e_5 = 0x1f;
 
             if (d->mUnk_00.mUnk_00_13) {
-                n0->mUnk_20 = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173);
+                n0->mUnk_20 = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173);
             } else {
                 n0->mUnk_20 = emtr->mUnk_56;
             }
 
             if (d->mUnk_00.mUnk_00_12) {
                 n0->mUnk_22 =
-                    ((d->mUnk_36 - d->mUnk_34) * ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 20) +
+                    ((d->mUnk_36 - d->mUnk_34) * ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 20) +
                      (d->mUnk_34 << 12)) >>
                     12;
             } else {
@@ -638,7 +640,7 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
 
             n0->mUnk_24 =
                 (((0xff -
-                   ((d->mUnk_41 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 8)) *
+                   ((d->mUnk_41 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 8)) *
                   emtr->mUnk_70) >>
                  8) +
                 1;
@@ -647,7 +649,7 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
             if (d->mUnk_00.mUnk_00_11 && c->mUnk_10->mUnk_08_16) {
                 Unk0201ca6c_20_10 *q;
                 u32 r;
-                r = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 20;
+                r = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 20;
                 q = c->mUnk_10;
                 n0->mUnk_2c = q->mUnk_00[r % q->mUnk_08_0];
             } else if (d->mUnk_00.mUnk_00_11 && !c->mUnk_10->mUnk_08_16) {
@@ -660,7 +662,7 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
             n0->mUnk_2a = 0xffff / n0->mUnk_24;
             n0->mUnk_2d = 0;
             if (d->mUnk_00.mUnk_00_20) {
-                n0->mUnk_2d = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24;
+                n0->mUnk_2d = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24;
             }
         } while (++i < n);
     }
@@ -702,15 +704,15 @@ void SPLEmitter_EmitChildren(Unk0201e3c8 *ptcl, Unk0201ca6c *emtr, Unk0201e494 *
             d = &n->mUnk_38;
             n->mUnk_08 = ptcl->mUnk_08;
             n->mUnk_14.x = GetScaledParticleX(k0, ptcl) +
-                           ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                           ((e->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
                              (e->mUnk_02 << 8)) >>
                             8);
             n->mUnk_14.y = GetScaledParticleY(k0, ptcl) +
-                           ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                           ((e->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
                              (e->mUnk_02 << 8)) >>
                             8);
             n->mUnk_14.z = GetScaledParticleZ(k0, ptcl) +
-                           ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                           ((e->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
                              (e->mUnk_02 << 8)) >>
                             8);
             *d = ptcl->mUnk_38;

@@ -5,13 +5,13 @@
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
-// 0x08-byte entries behind data_0216c860.
+// 0x08-byte entries behind gCourseSurfaceSoundEntries.
 typedef struct Unk0216c860 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
 } Unk0216c860;
 
-extern Unk0216c860 data_0216c860[];
+extern Unk0216c860 gCourseSurfaceSoundEntries[];
 
 // Object behind data_0216c7e0.
 typedef struct Unk0216c7e0 {
@@ -53,7 +53,7 @@ typedef struct PlayerVolumeFade {
 
 extern PlayerVolumeFade gPlayerVolumeFade;
 
-// View of data_0217c7c4; IncrementSoundHandleAges takes it.
+// View of gSoundHandlePool; IncrementSoundHandleAges takes it.
 typedef struct SoundHandlePool {
     /* 00 */ s32 mCount;
     /* 04 */ s32 mNextIndex;
@@ -62,7 +62,7 @@ typedef struct SoundHandlePool {
     /* 10 */ s32 mEntrySize;
 } SoundHandlePool;
 
-extern SoundHandlePool data_0217c7c4;
+extern SoundHandlePool gSoundHandlePool;
 
 // The first eight bytes of each element of the table a SoundHandlePool describes: a handle at 0 and a word at 4.
 typedef struct SoundHandleEntry {

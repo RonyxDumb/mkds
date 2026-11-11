@@ -43,12 +43,12 @@ void AdvanceEmblemInput(void) {
     gEmblemInput->mPrevPressed = gEmblemInput->mPressed;
     gEmblemInput->mPrevDown = gEmblemInput->mDown;
     gEmblemInput->mPrevReleased = gEmblemInput->mReleased;
-    if (gEmblemInput->mDown == 0 && data_02175928[0x14] != 0 && data_02175928[0x15] != 0) {
+    if (gEmblemInput->mDown == 0 && gInputSlot8PairWords[0x14] != 0 && gInputSlot8PairWords[0x15] != 0) {
         gEmblemInput->mPressed = 1;
     } else {
         gEmblemInput->mPressed = 0;
     }
-    if (gEmblemInput->mDown != 0 && data_02175928[0x14] == 0 && data_02175928[0x15] == 0) {
+    if (gEmblemInput->mDown != 0 && gInputSlot8PairWords[0x14] == 0 && gInputSlot8PairWords[0x15] == 0) {
         gEmblemInput->mReleased = 1;
     } else {
         gEmblemInput->mReleased = 0;
@@ -63,9 +63,9 @@ void AdvanceEmblemInput(void) {
     if (f0 == 0 && v == 0) {
         f1 = FALSE;
     }
-    if (f1 != FALSE && (v = data_02175928[0x14]) != 0 && data_02175928[0x15] != 0) {
+    if (f1 != FALSE && (v = gInputSlot8PairWords[0x14]) != 0 && gInputSlot8PairWords[0x15] != 0) {
         gEmblemInput->mX = v;
-        gEmblemInput->mY = data_02175928[0x15];
+        gEmblemInput->mY = gInputSlot8PairWords[0x15];
         gEmblemInput->mDown = 1;
     } else {
         gEmblemInput->mDown = 0;
@@ -82,7 +82,7 @@ void AdvanceEmblemInput(void) {
     } else {
         gEmblemInput->mStillCallCount = 0;
     }
-    t = data_021758e8[0x11] & 0x20;
+    t = gEmblemInputSlotWords[0x11] & 0x20;
     if (t == 0) {
         n = 0;
     } else {
@@ -92,7 +92,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit5HeldCount = n;
-    t = data_021758e8[0x11] & 0x10;
+    t = gEmblemInputSlotWords[0x11] & 0x10;
     if (t == 0) {
         n = 0;
     } else {
@@ -102,7 +102,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit4HeldCount = n;
-    t = data_021758e8[0x11] & 0x40;
+    t = gEmblemInputSlotWords[0x11] & 0x40;
     if (t == 0) {
         n = 0;
     } else {
@@ -112,7 +112,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit6HeldCount = n;
-    t = data_021758e8[0x11] & 0x80;
+    t = gEmblemInputSlotWords[0x11] & 0x80;
     if (t == 0) {
         n = 0;
     } else {
@@ -122,7 +122,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit7HeldCount = n;
-    t = data_021758e8[0x11] & 0x1;
+    t = gEmblemInputSlotWords[0x11] & 0x1;
     if (t == 0) {
         n = 0;
     } else {
@@ -132,7 +132,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit0HeldCount = n;
-    t = data_021758e8[0x11] & 0x2;
+    t = gEmblemInputSlotWords[0x11] & 0x2;
     if (t == 0) {
         n = 0;
     } else {
@@ -142,7 +142,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit1HeldCount = n;
-    t = data_021758e8[0x11] & 0x400;
+    t = gEmblemInputSlotWords[0x11] & 0x400;
     if (t == 0) {
         n = 0;
     } else {
@@ -152,7 +152,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit10HeldCount = n;
-    t = data_021758e8[0x11] & 0x800;
+    t = gEmblemInputSlotWords[0x11] & 0x800;
     if (t == 0) {
         n = 0;
     } else {
@@ -162,7 +162,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit11HeldCount = n;
-    t = data_021758e8[0x11] & 0x200;
+    t = gEmblemInputSlotWords[0x11] & 0x200;
     if (t == 0) {
         n = 0;
     } else {
@@ -172,7 +172,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit9HeldCount = n;
-    t = data_021758e8[0x11] & 0x100;
+    t = gEmblemInputSlotWords[0x11] & 0x100;
     if (t == 0) {
         n = 0;
     } else {
@@ -213,11 +213,11 @@ u32 GetEmblemInputPrevDown(void) {
 }
 
 u16 func_ov001_02192a14(u16 a) {
-    return data_021758e8[0x10] & a;
+    return gEmblemInputSlotWords[0x10] & a;
 }
 
 u16 func_ov001_02192a04(u16 a) {
-    return data_021758e8[0x11] & a;
+    return gEmblemInputSlotWords[0x11] & a;
 }
 
 BOOL IsEmblemInputRepeat(int a) {

@@ -17,7 +17,7 @@ void StartKartSpinSideEffects(s32 kartIndex) {
     }
     effectIndex = 0;
     do {
-        effect = StartEffect(0x58, &data_02155a14);
+        effect = StartEffect(0x58, &gKartEffectVec3Zero);
         effect->mUnk_94 = kart;
         effect->mUnk_98_24 = effectIndex;
         effectIndex = effectIndex + 1;
@@ -44,7 +44,7 @@ void StartKartSpinFollowEffect(u32 kartIndex) {
     if (kartEffects->mSpinFollowEffect != NULL) {
         DeleteEffect(kartEffects->mSpinFollowEffect);
     }
-    kartEffects->mSpinFollowEffect = StartEffect(0x5e, &data_02155a14);
+    kartEffects->mSpinFollowEffect = StartEffect(0x5e, &gKartEffectVec3Zero);
     effect = kartEffects->mSpinFollowEffect;
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 0x78;

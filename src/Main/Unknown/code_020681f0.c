@@ -128,7 +128,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         kart->mPos.x = 0x1000000;
         kart->mPos.y = 0xff000000;
         kart->mPos.z = 0x1000000;
-        kart->mScale = data_02154f94;
+        kart->mScale = gKartVec3Zero;
     } else {
         scaleIndex = 0x18 - c;
         kart->mScaleFactor.x = gKartScaleFactorXTable[scaleIndex];
@@ -299,7 +299,7 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
     if ((kart->mUnk_7c & KART_7C_REMOVED) != 0) {
         GetCourseMapKartStartPlacement(&startPos, &startAngles, kart->mIndex);
         kart->mHeadingAngle = (u32) (startAngles.y * 0xb6) >> 12;
-        QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
+        QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mUnk_e0_m);
         Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
         GetKartForward(kart, &forward);
         ResetKartAndSetPos(kart, &startPos, &forward, NULL);
@@ -315,7 +315,7 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
         }
         kart->mUnk_7c = kart->mUnk_7c | 0x80;
         kart->mUnk_7c = kart->mUnk_7c & ~0x60;
-        kart->mScale = data_02154f94;
+        kart->mScale = gKartVec3Zero;
     }
     bitsPointer = &kart->mUnk_7c;
     kart->mUnk_7c = kart->mUnk_7c & ~0x80;

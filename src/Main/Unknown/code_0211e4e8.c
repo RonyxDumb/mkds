@@ -122,10 +122,10 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
         gSelectCupM->mSubTable[data_0215cefc[i]].mVisible = 0;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mMainTable[data_0215cf04[i]].mVisible = 0;
-        gSelectCupM->mMainTable[c + data_0215cf0c[i]].mVisible = 1;
-        gSelectCupM->mSubTable[data_0215cf04[i]].mVisible = 0;
-        gSelectCupM->mSubTable[d + data_0215cf0c[i]].mVisible = 1;
+        gSelectCupM->mMainTable[gSelectCupMCourseCells[i]].mVisible = 0;
+        gSelectCupM->mMainTable[c + gSelectCupMCourseLabels[i]].mVisible = 1;
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[i]].mVisible = 0;
+        gSelectCupM->mSubTable[d + gSelectCupMCourseLabels[i]].mVisible = 1;
     }
     gSelectCupM->mMainTable[20].mVisible = 0;
     gSelectCupM->mMainTable[19].mVisible = 1;
@@ -136,26 +136,26 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     n = FALSE;
     for (j = 0; j < 4; j++) {
         PrintLabelLayoutTextNoFixedAdvance(
-            n, data_0215cf0c[j], gSelectCupM->mMainBnll,
+            n, gSelectCupMCourseLabels[j], gSelectCupM->mMainBnll,
             GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
             gSelectCupM->mMainBncl, gSelectCupM->mMainTable);
         PrintLabelLayoutTextNoFixedAdvance(
-            1, data_0215cf0c[j], gSelectCupM->mSubBnll,
+            1, gSelectCupMCourseLabels[j], gSelectCupM->mSubBnll,
             GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
             gSelectCupM->mSubBncl, gSelectCupM->mSubTable);
     }
-    a = data_0215cf04[0];
+    a = gSelectCupMCourseCells[0];
     gSelectCupM->mMainTable[a].mVisible = 1;
-    j = data_0215cf0c[0];
+    j = gSelectCupMCourseLabels[0];
     SetLabelPaletteIndex(j, 0xe, gSelectCupM->mMainBnll, gSelectCupM->mMainTable, gSelectCupM->mMainBncl);
     gSelectCupM->mSubTable[a].mVisible = 1;
     SetLabelPaletteIndex(j, 0xe, gSelectCupM->mSubBnll, gSelectCupM->mSubTable, gSelectCupM->mSubBncl);
     for (m = 1; m < 4; m++) {
-        gSelectCupM->mMainTable[data_0215cf04[m]].mVisible = 0;
-        SetLabelPaletteIndex(data_0215cf0c[m], 0xf, gSelectCupM->mMainBnll, gSelectCupM->mMainTable,
+        gSelectCupM->mMainTable[gSelectCupMCourseCells[m]].mVisible = 0;
+        SetLabelPaletteIndex(gSelectCupMCourseLabels[m], 0xf, gSelectCupM->mMainBnll, gSelectCupM->mMainTable,
                              gSelectCupM->mMainBncl);
-        gSelectCupM->mSubTable[data_0215cf04[m]].mVisible = 0;
-        SetLabelPaletteIndex(data_0215cf0c[m], 0xf, gSelectCupM->mSubBnll, gSelectCupM->mSubTable,
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[m]].mVisible = 0;
+        SetLabelPaletteIndex(gSelectCupMCourseLabels[m], 0xf, gSelectCupM->mSubBnll, gSelectCupM->mSubTable,
                              gSelectCupM->mSubBncl);
     }
     TrySetCupPictureIndexAndQueueLoads(data_0215cf8c[data_0215cf2c[GetCupIndex()]][0]);
@@ -184,8 +184,8 @@ void StartSelectCupMState0(void) {
         gSelectCupM->mMainTable[data_0215cf1c[i]].mOffsetY = 0;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mMainTable[data_0215cf04[i]].mOffsetY = 0;
-        gSelectCupM->mMainTable[c + data_0215cf0c[i]].mOffsetY = 0;
+        gSelectCupM->mMainTable[gSelectCupMCourseCells[i]].mOffsetY = 0;
+        gSelectCupM->mMainTable[c + gSelectCupMCourseLabels[i]].mOffsetY = 0;
     }
     gSelectCupM->mBg3Offset = ~0xbf;
     gSelectCupM->mSubTable[20].mOffsetY = ~0xbf;
@@ -197,8 +197,8 @@ void StartSelectCupMState0(void) {
         gSelectCupM->mSubTable[data_0215cf1c[i]].mOffsetY = ~0xbf;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mSubTable[data_0215cf04[i]].mOffsetY = ~0xbf;
-        gSelectCupM->mSubTable[d + data_0215cf0c[i]].mOffsetY = ~0xbf;
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[i]].mOffsetY = ~0xbf;
+        gSelectCupM->mSubTable[d + gSelectCupMCourseLabels[i]].mOffsetY = ~0xbf;
     }
 }
 
@@ -224,8 +224,8 @@ void StartSelectCupMState1(void) {
         gSelectCupM->mMainTable[data_0215cf1c[i]].mOffsetY = 0xc0;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mMainTable[data_0215cf04[i]].mOffsetY = 0xc0;
-        gSelectCupM->mMainTable[c + data_0215cf0c[i]].mOffsetY = 0xc0;
+        gSelectCupM->mMainTable[gSelectCupMCourseCells[i]].mOffsetY = 0xc0;
+        gSelectCupM->mMainTable[c + gSelectCupMCourseLabels[i]].mOffsetY = 0xc0;
     }
     gSelectCupM->mBg3Offset = ~0x1f;
     gSelectCupM->mSubTable[20].mOffsetY = ~0x1f;
@@ -237,8 +237,8 @@ void StartSelectCupMState1(void) {
         gSelectCupM->mSubTable[data_0215cf1c[i]].mOffsetY = ~0x1f;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mSubTable[data_0215cf04[i]].mOffsetY = ~0x1f;
-        gSelectCupM->mSubTable[d + data_0215cf0c[i]].mOffsetY = ~0x1f;
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[i]].mOffsetY = ~0x1f;
+        gSelectCupM->mSubTable[d + gSelectCupMCourseLabels[i]].mOffsetY = ~0x1f;
     }
 }
 
@@ -270,15 +270,15 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
         m = 0x8000;
         for (i = 0; i < 4; i++) {
-            m -= InitLabelCanvas(gSelectCupM->mHeap, data_0215cf0c[i], gSelectCupM->mMainBnll, data_0215cef4[i],
-                                 data_0215cf14[i], data_0215cf04[i], gSelectCupM->mMainNcer, gSelectCupM->mMainBncl,
-                                 gSelectCupM->mMainTable, m);
+            m -= InitLabelCanvas(gSelectCupM->mHeap, gSelectCupMCourseLabels[i], gSelectCupM->mMainBnll,
+                                 data_0215cef4[i], data_0215cf14[i], gSelectCupMCourseCells[i], gSelectCupM->mMainNcer,
+                                 gSelectCupM->mMainBncl, gSelectCupM->mMainTable, m);
         }
         i = GX_GetSizeOfSubOBJ();
         for (m = 0; m < 4; m++) {
-            i -= InitLabelCanvas(gSelectCupM->mHeap, data_0215cf0c[m], gSelectCupM->mSubBnll, data_0215cef4[m],
-                                 data_0215cf14[m], data_0215cf04[m], gSelectCupM->mSubNcer, gSelectCupM->mSubBncl,
-                                 gSelectCupM->mSubTable, i);
+            i -= InitLabelCanvas(gSelectCupM->mHeap, gSelectCupMCourseLabels[m], gSelectCupM->mSubBnll,
+                                 data_0215cef4[m], data_0215cf14[m], gSelectCupMCourseCells[m], gSelectCupM->mSubNcer,
+                                 gSelectCupM->mSubBncl, gSelectCupM->mSubTable, i);
         }
         CreateSelectCupNameM(gSelectCupM->mHeap);
     } else {
@@ -328,8 +328,8 @@ void AdvanceSelectCupMState0(void) {
         gSelectCupM->mMainTable[data_0215cf1c[i]].mOffsetY = a;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mMainTable[data_0215cf04[i]].mOffsetY = a;
-        gSelectCupM->mMainTable[c + data_0215cf0c[i]].mOffsetY = a;
+        gSelectCupM->mMainTable[gSelectCupMCourseCells[i]].mOffsetY = a;
+        gSelectCupM->mMainTable[c + gSelectCupMCourseLabels[i]].mOffsetY = a;
     }
     d = gSelectCupM->mSubBncl->mCount;
     gSelectCupM->mBg3Offset = b;
@@ -342,8 +342,8 @@ void AdvanceSelectCupMState0(void) {
         gSelectCupM->mSubTable[data_0215cf1c[i]].mOffsetY = b;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mSubTable[data_0215cf04[i]].mOffsetY = b;
-        gSelectCupM->mSubTable[d + data_0215cf0c[i]].mOffsetY = b;
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[i]].mOffsetY = b;
+        gSelectCupM->mSubTable[d + gSelectCupMCourseLabels[i]].mOffsetY = b;
     }
 }
 
@@ -371,8 +371,8 @@ void AdvanceSelectCupMState1(void) {
         gSelectCupM->mMainTable[data_0215cf1c[i]].mOffsetY = a;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mMainTable[data_0215cf04[i]].mOffsetY = a;
-        gSelectCupM->mMainTable[c + data_0215cf0c[i]].mOffsetY = a;
+        gSelectCupM->mMainTable[gSelectCupMCourseCells[i]].mOffsetY = a;
+        gSelectCupM->mMainTable[c + gSelectCupMCourseLabels[i]].mOffsetY = a;
     }
     d = gSelectCupM->mSubBncl->mCount;
     gSelectCupM->mBg3Offset = b;
@@ -385,8 +385,8 @@ void AdvanceSelectCupMState1(void) {
         gSelectCupM->mSubTable[data_0215cf1c[i]].mOffsetY = b;
     }
     for (i = 0; i < 4; i++) {
-        gSelectCupM->mSubTable[data_0215cf04[i]].mOffsetY = b;
-        gSelectCupM->mSubTable[d + data_0215cf0c[i]].mOffsetY = b;
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[i]].mOffsetY = b;
+        gSelectCupM->mSubTable[d + gSelectCupMCourseLabels[i]].mOffsetY = b;
     }
 }
 

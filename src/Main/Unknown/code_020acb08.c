@@ -8,7 +8,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 u32 HasPlayerName(void) {
-    return data_0217aa08->mFirstBlock->mHasPlayerName != 0;
+    return gBackupBuffers->mFirstBlock->mHasPlayerName != 0;
 }
 
 #pragma optimize_for_size on

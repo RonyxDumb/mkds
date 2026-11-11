@@ -316,11 +316,11 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     }
     matFlags = *OFFSET_PTR(u16, matData, 0x1e);
     x = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
-    result->mUnk_04 = (data_0217029c.mPrmMatColor0 & ~x) | (*OFFSET_PTR(u32, matData, 4) & x);
+    result->mUnk_04 = (NNS_G3dGlb.mPrmMatColor0 & ~x) | (*OFFSET_PTR(u32, matData, 4) & x);
     y = ((u32 *) matColorMask_)[(*OFFSET_PTR(u16, matData, 0x1e) >> 9) & 7];
-    result->mUnk_08 = (data_0217029c.mPrmMatColor1 & ~y) | (*OFFSET_PTR(u32, matData, 8) & y);
+    result->mUnk_08 = (NNS_G3dGlb.mPrmMatColor1 & ~y) | (*OFFSET_PTR(u32, matData, 8) & y);
     x = *OFFSET_PTR(u32, matData, 0x10);
-    result->mUnk_0c = (data_0217029c.mPrmPolygonAttr & ~x) | (*OFFSET_PTR(u32, matData, 0xc) & x);
+    result->mUnk_0c = (NNS_G3dGlb.mPrmPolygonAttr & ~x) | (*OFFSET_PTR(u32, matData, 0xc) & x);
     result->mUnk_10 = *OFFSET_PTR(u32, matData, 0x14);
     result->mUnk_14 = *OFFSET_PTR(u16, matData, 0x1c);
     matFlags = *OFFSET_PTR(u16, matData, 0x1e);
@@ -662,11 +662,11 @@ L_01ff8070:
     ldr ip, =data_027e0000
     str r3, [ip, #0x0]
     str r3, [ip, #0x4]
-    ldr ip, =data_0216ff5c
+    ldr ip, =OSi_ThreadInfo
     mov r1, #0x1
     strh r1, [ip, #0x0]
 L_01ff80a8:
-    ldr ip, =data_0216ff5c
+    ldr ip, =OSi_ThreadInfo
     ldrh r1, [ip, #0x0]
     cmp r1, #0x0
     ldreq pc, [sp], #0x4

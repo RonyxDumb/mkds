@@ -435,7 +435,7 @@ found:
     gStandings->mWinnerTeamId = teamId;
     if (gRaceSetup->mMode == MODE_BATTLE) {
         if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
-            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4a);
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4a);
         }
         gStandings->mEndTimer = 0x5a;
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -521,9 +521,9 @@ u16 AdvanceShineBattleTimeLimit(void) {
             }
         }
     }
-    if (data_0217c780 & 1) {
+    if (gRaceSoundKind & 1) {
         seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-        if (data_0217d084.mSeqStartEnabled != 0) {
+        if (gSoundModeHolder.mSeqStartEnabled != 0) {
             if (seqPlayerHandle[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
             }

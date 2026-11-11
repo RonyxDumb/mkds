@@ -72,7 +72,7 @@ static inline s32 GhostGetScanIsBackupCommandRunning(void) {
 }
 
 static inline s32 GhostGetScanIsBackupBusy(void) {
-    if (data_0217aa08->mBusy == 0) {
+    if (gBackupBuffers->mBusy == 0) {
         return GhostGetScanIsBackupCommandRunning();
     }
     return 1;
@@ -129,7 +129,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 case 1:
                     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0xf));
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 9);
                     NNS_SndArcSetCurrent(&gFileSndArc);
                     gTimeAttackGhostGetScan->mState = 5;
                     break;
@@ -174,7 +174,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                                     RefreshScanSelectedGhostInfo();
                                 }
                                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
+                                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
                                 NNS_SndArcSetCurrent(&gFileSndArc);
                             }
                         } else {
@@ -186,16 +186,16 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     UpdateScanSelectedIndex();
                     pairIsNew = FALSE;
                     pairRecentlyGone = FALSE;
-                    hasPair = data_02175674[slotIndex].mPressedBits;
-                    if (hasPair == 0 && data_02175680[slotIndex].mPressedBits < 5) {
+                    hasPair = gInputHasPairs[slotIndex].mPressedBits;
+                    if (hasPair == 0 && gInputNoPairCounts[slotIndex].mPressedBits < 5) {
                         pairRecentlyGone = TRUE;
                     }
-                    if (pairRecentlyGone == FALSE && data_0217567c[slotIndex].mPressedBits == 0 && hasPair != 0) {
+                    if (pairRecentlyGone == FALSE && gInputPrevHasPairs[slotIndex].mPressedBits == 0 && hasPair != 0) {
                         pairIsNew = TRUE;
                     }
                     if (pairIsNew != FALSE) {
-                        pairX = data_02175670[slotIndex].mPressedBits;
-                        pairY = data_02175672[slotIndex].mPressedBits;
+                        pairX = gInputPairXs[slotIndex].mPressedBits;
+                        pairY = gInputPairYs[slotIndex].mPressedBits;
                         touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
                         rectIndex = RectTableFindContaining(subCellFileSet->mRects, pairX, pairY);
                     }
@@ -204,7 +204,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                         SetScanSelectedEntryHighlight(
                             gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex != rectIndex ? 1 : 0);
                         gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex = rectIndex;
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         RequestSelectReturnState4();
                         gTimeAttackGhostGetScan->mGhostPicked = TRUE;
                         gTimeAttackGhostGetScan->mStateFrames = 0;
@@ -213,7 +213,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                                gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex >= 0) {
                         SetupGhostSubTextTwoButtons();
                         SetScanSelectedEntryHighlight(0);
-                        NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         RequestSelectReturnState4();
                         gTimeAttackGhostGetScan->mGhostPicked = TRUE;
                         gTimeAttackGhostGetScan->mStateFrames = 0;
@@ -326,7 +326,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 GetSlotGhostBuffer()->mHead.mFilled = 1;
                 WriteSlotGhostRecord((u8) gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
                 NNS_SndArcSetCurrent(&gFileSndArc);
                 gTimeAttackGhostGetScan->mState = 11;
             }
@@ -334,7 +334,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
         case 9:
             if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
                 NNS_SndArcSetCurrent(&gFileSndArc);
             }
             if (GetTxtSystemDone() != 0) {
@@ -372,7 +372,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
         case 15:
             if (IsTxtSystemState2AfterState1() != 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
                 gTimeAttackGhostGetScan->mStateFrames = 0;

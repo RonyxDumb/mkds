@@ -421,7 +421,7 @@ typedef struct KeyboardKeyRepeat {
     /* 0a */ u16 mRepeatKeys;
 } KeyboardKeyRepeat;
 
-// Object at gKeyboardKeys, 0x54 bytes. data_0217b280, data_0217b294, data_0217b2ac and data_0217b2b8 are the
+// Object at gKeyboardKeys, 0x54 bytes. data_0217b280, data_0217b294, data_0217b2ac and gKeyboardLayoutKeyIds are the
 // addresses of its members at 0x08, 0x1c, 0x34 and 0x40.
 typedef struct KeyboardKeys {
     /* 00 */ KeyboardRect mButton0Rect;
@@ -446,7 +446,7 @@ typedef struct KeyboardKeys {
 extern KeyboardKeys gKeyboardKeys;
 extern KeyboardKeyRepeat gKeyboardKeyRepeat;
 extern u8 data_0217b280[];
-extern u16 data_0217b2b8[2];
+extern u16 gKeyboardLayoutKeyIds[2];
 extern KeyboardLayout data_0217b294;
 extern RepeatCounter data_0217b2ac;
 // Object at gKeyboardInput, 0x28 bytes (AdvanceKeyboardInput updates it, ClearKeyboardInput clears it).
@@ -1065,7 +1065,7 @@ extern u16 gJgKartIndex;
 extern u16 data_0217b870;
 extern u16 gJgHighestLap;
 extern s32 data_0217b8b8;
-extern s32 data_0217b88c;
+extern s32 gJgShiftX;
 extern s32 data_0217b8cc;
 extern s32 data_0217b8ec;
 extern s32 data_0217b8f0;
@@ -1075,13 +1075,13 @@ extern s32 data_0217b8f8;
 extern s32 gJgLapAndReverseEnabled;
 extern u16 *data_0217b8c0;
 extern Vec3 gJgTargetPos;
-extern Vec3 data_0217b90c;
+extern Vec3 gJgProbeCenter;
 extern Vec3 data_0217b918;
-extern Vec3 data_0217b93c;
+extern Vec3 gJgCollisionCenter;
 extern Vec3 data_0217b99c;
 extern Vec3 gJgPos;
 extern Vec3 gJgEasedPos;
-extern Vec3 data_0217b9b4;
+extern Vec3 gJgKartMove;
 extern Vec3 gJgVelocity;
 extern Vec3 gJgPoints[];
 extern s16 *data_0217b8a4;

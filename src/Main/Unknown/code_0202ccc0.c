@@ -394,7 +394,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 }
                 if (IsScrollListPickStarted() != 0) {
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
                     NNS_SndArcSetCurrent(&gFileSndArc);
                 }
                 if (IsScrollListPickFinished() != 0) {
@@ -452,7 +452,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 RequestSelectReturnState4();
                 StopTimeAttackGhostSendSeq();
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 9);
                 NNS_SndArcSetCurrent(&gFileSndArc);
                 SetupGhostSendSubTextWithName(0xb, 0);
                 gTimeAttackGhostSend->mState = 7;
@@ -463,7 +463,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             switch (i) {
                 case 1:
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xa);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xa);
                     NNS_SndArcSetCurrent(&gFileSndArc);
                     gTimeAttackGhostSend->mState = 0xa;
                     break;
@@ -474,7 +474,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             break;
         case 8:
             if (IsTxtSystemState2AfterState1() != 0) {
-                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
                 gTimeAttackGhostSend->mState = 9;

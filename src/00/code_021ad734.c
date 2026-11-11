@@ -43,7 +43,7 @@ void func_ov000_021b04f8(u32 a) {
     data_ov000_021b638c = 0;
     if (b != 0) {
         MI_CpuFill8(data_ov000_021b6434, 0, 0x60);
-        c = data_0216ff5c.mListHead;
+        c = OSi_ThreadInfo.mListHead;
         if (c != NULL) {
             do {
                 d = c->mUnk_a4[0];
@@ -368,7 +368,7 @@ u8 *func_ov000_021afdcc(u32 *a) {
     u8 *d;
 
     while (data_ov000_021b63cc == data_ov000_021b6394) {
-        data_ov000_021b63c0 = data_0216ff5c.mCurrentThread;
+        data_ov000_021b63c0 = OSi_ThreadInfo.mCurrentThread;
         OS_SleepThread(NULL);
         data_ov000_021b63c0 = NULL;
     }
@@ -614,7 +614,7 @@ void func_ov000_021af7e4(u8 *a, u32 b, Unk021a998c *c) {
     g = c->mSendBuffer;
     d = g + 0x22;
     *OFFSET_PTR(u16, g, 0x22) = 8;
-    *OFFSET_PTR(u16, d, 4) = (u32) data_0216ff5c.mCurrentThread;
+    *OFFSET_PTR(u16, d, 4) = (u32) OSi_ThreadInfo.mCurrentThread;
     *OFFSET_PTR(u16, d, 2) = 0;
     h = data_ov000_021b636c;
     c->mUnk_0a = h;
@@ -662,7 +662,7 @@ void func_ov000_021af550(u8 *a, u32 b, Unk021a998c *c, u32 d, u16 e) {
     if (c->mState == 0) {
         return;
     }
-    if (data_0216ff5c.mCurrentThread == &data_ov000_021b661c) {
+    if (OSi_ThreadInfo.mCurrentThread == &data_ov000_021b661c) {
         f = data_ov000_021b641a;
     } else {
         f = c->mSendBuffer + 0x22;
@@ -803,7 +803,7 @@ void func_ov000_021af2a0(Unk021ae3f0 *c, Unk021af1e4 *d, u32 e) {
     OSThread *a;
     Unk021a998c *b;
 
-    for (a = data_0216ff5c.mListHead; a != NULL; a = a->mNext) {
+    for (a = OSi_ThreadInfo.mListHead; a != NULL; a = a->mNext) {
         b = a->mUnk_a4[0];
         if (b == NULL || b->mThread == NULL || b->mState != 0xb || (u16) (u32) b->mThread != d->mUnk_04) {
             continue;
@@ -862,7 +862,7 @@ Unk021a998c *func_ov000_021af15c(const Unk021ae3f0 *c, const Unk021ae87c *d) {
     Unk021a998c *b;
     OSThread *a;
 
-    for (a = data_0216ff5c.mListHead; a != NULL; a = a->mNext) {
+    for (a = OSi_ThreadInfo.mListHead; a != NULL; a = a->mNext) {
         b = a->mUnk_a4[0];
         if (b == NULL || b->mThread == NULL || b->mState != 1 ||
             b->mUnk_0a != (u16) ((d->mUnk_02 >> 8) | (d->mUnk_02 << 8))) {
@@ -912,7 +912,7 @@ Unk021a998c *func_ov000_021af090(const Unk021ae3f0 *c, const Unk021ae87c *d) {
     Unk021a998c *b;
     OSThread *a;
 
-    a = data_0216ff5c.mListHead;
+    a = OSi_ThreadInfo.mListHead;
     while (a != NULL) {
         b = a->mUnk_a4[0];
         if (b != NULL && b->mThread != NULL && func_ov000_021af0dc(c, d, b) != 0) {
@@ -966,7 +966,7 @@ u32 func_ov000_021af010(u32 b) {
 }
 
 void func_ov000_021aefc0(Unk021a998c *a, u32 b, u16 c) {
-    if (func_ov000_021af010(a->mUnk_1c) != 0 || data_0216ff5c.mCurrentThread != &data_ov000_021b661c) {
+    if (func_ov000_021af010(a->mUnk_1c) != 0 || OSi_ThreadInfo.mCurrentThread != &data_ov000_021b661c) {
         func_ov000_021af550(NULL, 0, a, b, c);
     } else {
         func_ov000_021afc5c(func_ov000_021b00e0(a->mUnk_1c));
@@ -1283,7 +1283,7 @@ void func_ov000_021ae724(Unk021ae3f0 *a, Unk021ae724 *b, u32 c) {
     if (b->mUnk_06 != 0 && func_ov000_021b0138(b, c, (const Unk021b0138 *) a, 0x11) != FALSE) {
         return;
     }
-    for (t = data_0216ff5c.mListHead; t != NULL; t = t->mNext) {
+    for (t = OSi_ThreadInfo.mListHead; t != NULL; t = t->mNext) {
         s = t->mUnk_a4[0];
         if (s == NULL || s->mThread == NULL || s->mState != 0xa ||
             s->mUnk_0a != (u16) ((b->mUnk_02 >> 8) | (b->mUnk_02 << 8))) {
@@ -1502,7 +1502,7 @@ u16 func_ov000_021ae340(void) {
         if (data_ov000_021b6374 < 0x400 || data_ov000_021b6374 >= 0x1388) {
             data_ov000_021b6374 = 0x400;
         }
-        for (t = data_0216ff5c.mListHead; t != NULL; t = t->mNext) {
+        for (t = OSi_ThreadInfo.mListHead; t != NULL; t = t->mNext) {
             s = t->mUnk_a4[0];
             if (s != NULL && s->mThread != NULL && s->mUnk_0a == data_ov000_021b6374) {
                 v1 = 1;
@@ -1521,19 +1521,19 @@ u32 func_ov000_021ae314(void) {
 void func_ov000_021ae304(void *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
-    value1 = (u32) &data_0216ff5c;
+    value1 = (u32) &OSi_ThreadInfo;
     value1 = *(const u32 *) ((value1) + 4u);
     value1 = (value1) + 164u;
     *(u32 *) ((value1) + 0u) = value0;
 }
 
 void func_ov000_021ae2f4(void) {
-    data_0216ff5c.mCurrentThread->mUnk_a4[0] = NULL;
+    OSi_ThreadInfo.mCurrentThread->mUnk_a4[0] = NULL;
 }
 
 void func_ov000_021ae2d8(void) {
     Unk021a998c *v1;
-    v1 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (v1 != NULL) {
         v1->mState = 10;
         v1->mReceiveBufferLength = 0;
@@ -1543,7 +1543,7 @@ void func_ov000_021ae2d8(void) {
 void func_ov000_021ae290(int a, u16 b, int c) {
     u16 v1;
     Unk021a998c *v2;
-    v2 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    v2 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (v2 != NULL) {
         if (c == 0x7f000001) {
             c = *(s32 *) &data_ov000_021b63b4;
@@ -1563,9 +1563,9 @@ void func_ov000_021ae290(int a, u16 b, int c) {
 
 void func_ov000_021ae270(void) {
     Unk021a998c *v1;
-    v1 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (v1 != NULL) {
-        v1->mThread = data_0216ff5c.mCurrentThread;
+        v1->mThread = OSi_ThreadInfo.mCurrentThread;
         v1->mState = 0;
         v1->mReceiveBufferLength = 0;
         v1->mUnk_60 = 0;
@@ -1575,14 +1575,14 @@ void func_ov000_021ae270(void) {
 
 void func_ov000_021ae258(void) {
     Unk021a998c *v1;
-    v1 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (v1 != NULL) {
         v1->mThread = NULL;
     }
 }
 
 void func_ov000_021ae244(OSThread *thread) {
-    thread->mUnk_a4[0] = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    thread->mUnk_a4[0] = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
 }
 
 void func_ov000_021ae228(Unk021a998c *a) {
@@ -1596,7 +1596,7 @@ void func_ov000_021ae228(Unk021a998c *a) {
 
 void func_ov000_021ae214(Unk021a78a4Func a) {
     u8 *v1;
-    v1 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (v1 != NULL) {
         *(Unk021a78a4Func *) (v1 + 0x38) = a;
     }
@@ -1605,7 +1605,7 @@ void func_ov000_021ae214(Unk021a78a4Func a) {
 void func_ov000_021ae1e4(void) {
     Unk021a998c *a;
 
-    a = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    a = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (a != NULL) {
         if (a->mUseHttps != 0) {
             RunSetupAfterReadingKind1RecordUntilDone(a);
@@ -1645,7 +1645,7 @@ u32 func_ov000_021ae16c(Unk021a998c *b) {
 u32 func_ov000_021ae134(void) {
     Unk021a998c *a;
 
-    a = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    a = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (a != NULL) {
         if (a->mUseHttps != 0) {
             return func_ov000_021a943c(a);
@@ -1657,7 +1657,7 @@ u32 func_ov000_021ae134(void) {
 
 u32 func_ov000_021ae100(u16 *a, u32 *b) {
     Unk021a998c *v1;
-    v1 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if ((v1 != NULL) && ((v1->mState == 4 || (v1->mState == '\n')))) {
         if (a != NULL) {
             *a = v1->mUnk_18;
@@ -1685,7 +1685,7 @@ void func_ov000_021ae0c4(Unk021a998c *a) {
 void func_ov000_021ae094(void) {
     Unk021a998c *s;
 
-    s = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         if (s->mUseHttps != 0) {
             func_ov000_021a9228(s);
@@ -1699,7 +1699,7 @@ void func_ov000_021ae048(void) {
     Unk021a998c *s;
     s32 t;
 
-    s = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         t = OS_GetTick() >> 16;
         while (data_ov000_021b6388() != 0 && s->mState != 0 && (s32) (OS_GetTick() >> 16) - t < 0x27) {
@@ -1739,7 +1739,7 @@ u8 *func_ov000_021adfc8(u32 *a, Unk021a998c *b) {
 u8 *func_ov000_021adf78(u32 *a) {
     Unk021a998c *s;
 
-    s = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         if ((u8) (s->mState + 0xf6) <= 1) {
             return func_ov000_021ae01c(a, s);
@@ -1779,7 +1779,7 @@ void func_ov000_021adf30(u32 a, Unk021a998c *b) {
 void func_ov000_021adf00(u32 a) {
     Unk021a998c *s;
 
-    s = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         if (s->mUseHttps != 0) {
             SkipHttpsReceivedBytes(a, s);
@@ -1904,7 +1904,7 @@ s32 func_ov000_021adc64(const u8 *a, s32 b, const u8 *c, s32 d) {
     u8 t;
     s32 r;
 
-    s = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         t = s->mState;
         if (t == 0xa) {
@@ -1939,7 +1939,7 @@ s32 func_ov000_021adbf4(const u8 *a, s32 b) {
     Unk021a998c *s;
     s32 r;
 
-    s = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         if (s->mUnk_60 != 0) {
             r = func_ov000_021adc64(s->mUnk_5c, s->mUnk_60, a, b);
@@ -1961,7 +1961,7 @@ s32 func_ov000_021adbac(void) {
     Unk021a998c *s;
     s32 r;
 
-    s = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    s = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if (s != NULL) {
         if (s->mUseHttps != 0) {
             r = ReadHttpsRecordIfBufferedAndGetUnreadByteCount(s);
@@ -1978,7 +1978,7 @@ s32 func_ov000_021adbac(void) {
 
 void func_ov000_021adb80(void) {
     Unk021a998c *v1;
-    v1 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
     if ((v1 != NULL) && (v1->mUnk_60 != 0)) {
         func_ov000_021adc64((v1->mUnk_5c), v1->mUnk_60, NULL, 0);
         v1->mUnk_60 = 0;
@@ -2087,7 +2087,7 @@ void func_ov000_021ad898(void) {
             }
             h++;
         }
-        f = data_0216ff5c.mListHead;
+        f = OSi_ThreadInfo.mListHead;
         if (f != NULL) {
             do {
                 g = f->mUnk_a4[0];

@@ -655,9 +655,9 @@ BOOL StartKartRemoval(Kart *kart, s32 fromRaceProgress) {
         }
         if (gRaceSetup->mMode == MODE_BATTLE && fromRaceProgress == 0) {
             StartSound(&kart->mSoundSource, 0xd3, 0x7f, 0);
-            if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON && (data_0217c780 & 1)) {
+            if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON && (gRaceSoundKind & 1)) {
                 seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                if (data_0217d084.mSeqStartEnabled != 0) {
+                if (gSoundModeHolder.mSeqStartEnabled != 0) {
                     if (seqPlayerHandle[0] != NULL) {
                         NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
                     }
