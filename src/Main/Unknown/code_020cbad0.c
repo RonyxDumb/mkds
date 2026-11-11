@@ -265,7 +265,7 @@ void InitMenu(void) {
 #pragma thumb off
 
 u16 *MenuMB_GetMultiBootParam(void) {
-    return &gBootInfo->mUnk_00;
+    return &gBootInfo->mBootType;
 }
 
 BOOL MenuMB_IsMultiBootChild(void) {

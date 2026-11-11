@@ -789,7 +789,7 @@ void MB_DisconnectChild(u32 childIndex) {
         slot = childIndex - 1;
         mbc->mChildversion[slot] = 0;
         MI_CpuFill8(mbc->mChildggid + slot, 0, 4);
-        MI_CpuFill8(OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, slot * 0x16), 0, 0x16);
+        MI_CpuFill8(OFFSET_PTR(MBUserInfo, mbc->mChildUser, slot * 0x16), 0, 0x16);
         MBi_ClearParentPieceBuffer(childIndex);
         value = 0;
         mbc->mReq2child[slot] = value;

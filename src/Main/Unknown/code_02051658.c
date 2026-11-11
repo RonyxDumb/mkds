@@ -364,7 +364,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
     }
     if (customUserData == NULL) {
         userData[0x14] = 0;
-        if (gBootInfo->mUnk_00 == 2) {
+        if (gBootInfo->mBootType == 2) {
             userData[0x14] = userData[0x14] | 1;
         }
     } else {
@@ -412,7 +412,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                     gConnectionWork->mRequestPending = 0;
                     break;
                 case 9:
-                    if (gBootInfo->mUnk_00 == 2) {
+                    if (gBootInfo->mBootType == 2) {
                         shouldReset = TRUE;
                     } else if (gConnectionWork->mDisconnectedCallback != 0) {
                         gConnectionWork->mDisconnectedCallback();

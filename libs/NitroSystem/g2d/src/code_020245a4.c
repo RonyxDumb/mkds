@@ -125,13 +125,13 @@ u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation 
 void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file) {
     NNSG2dBinaryBlockHeader *block;
     s32 blockIndex;
-    Unk020245a4_08 *blockData;
+    FontBlockData *blockData;
 
     block = OFFSET_PTR(NNSG2dBinaryBlockHeader, file, file->mHeaderSize);
     for (blockIndex = 0; blockIndex < file->mDataBlocks; blockIndex++) {
         switch (block->mKind) {
             case 0x46494e46:
-                blockData = (Unk020245a4_08 *) (block + 1);
+                blockData = (FontBlockData *) (block + 1);
                 blockData->mUnk_04[1] += (u32) file;
                 if (blockData->mUnk_04[2] != 0) {
                     blockData->mUnk_04[2] += (u32) file;
@@ -141,13 +141,13 @@ void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file) {
                 }
                 break;
             case 0x43574448:
-                blockData = (Unk020245a4_08 *) (block + 1);
+                blockData = (FontBlockData *) (block + 1);
                 if (blockData->mUnk_04[0] != 0) {
                     blockData->mUnk_04[0] += (u32) file;
                 }
                 break;
             case 0x434d4150:
-                blockData = (Unk020245a4_08 *) (block + 1);
+                blockData = (FontBlockData *) (block + 1);
                 if (blockData->mUnk_04[1] != 0) {
                     blockData->mUnk_04[1] += (u32) file;
                 }

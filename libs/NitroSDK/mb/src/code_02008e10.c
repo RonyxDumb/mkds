@@ -14,10 +14,10 @@ s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback) {
     for (; entryIndex < 0x10; entryIndex++) {
         u32 entryBit = 1 << entryIndex;
         usedMask = entryTable->mUsedMask;
-        if ((usedMask & entryBit) != 0 && entry->mUnk_4b8 == gReceivedGameInfo->mUnk_00 &&
+        if ((usedMask & entryBit) != 0 && entry->mUnk_4b8 == gReceivedGameInfo->mGgid &&
             entry->mBssid[0] == scanBlock[4] && entry->mBssid[1] == scanBlock[5] && entry->mBssid[2] == scanBlock[6] &&
             entry->mBssid[3] == scanBlock[7] && entry->mBssid[4] == scanBlock[8] && entry->mBssid[5] == scanBlock[9] &&
-            gReceivedGameInfo->mUnk_04_2 == entryTable->mEntries[entryIndex].mUnk_4b5) {
+            gReceivedGameInfo->mFileNo == entryTable->mEntries[entryIndex].mUnk_4b5) {
             if ((entryTable->mValidGameInfoFlag & entryBit) == 0) {
                 MBi_LockScanTarget(entryIndex);
             }
@@ -31,7 +31,7 @@ s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback) {
         u32 entryBit = 1 << entryIndex;
         if ((usedMask & entryBit) == 0) {
             MIi_CpuCopy16(scanBlock, entryTable->mEntries[entryIndex].mScanBuffer, 0xc0);
-            mbrsp->mEntries[entryIndex].mUnk_4b3 = gReceivedGameInfo->mUnk_05;
+            mbrsp->mEntries[entryIndex].mUnk_4b3 = gReceivedGameInfo->mSeqNoFixed;
             mbrsp->mUsedMask |= (u16) entryBit;
             MBi_LockScanTarget(entryIndex);
             return entryIndex;
@@ -132,11 +132,11 @@ void MBi_AnalyzeBeacon(u8 *scanBlock, u32 entryIndex, u32 value) {
     }
     entry->mLastSequence = gReceivedGameInfo->mSequence;
     entry->mTimer = 0x1771;
-    entry->mUnk_4b8 = gReceivedGameInfo->mUnk_00;
-    entry->mUnk_4b5 = gReceivedGameInfo->mUnk_04_2;
+    entry->mUnk_4b8 = gReceivedGameInfo->mGgid;
+    entry->mUnk_4b5 = gReceivedGameInfo->mFileNo;
     entry->mUnk_58c = value;
     MBi_SetSSIDToBssDesc((u16 *) entry->mScanBuffer, entry->mUnk_4b8);
-    if (gReceivedGameInfo->mUnk_04 == 2) {
+    if (gReceivedGameInfo->mDataAttr == 2) {
         MBi_RecvVolatBeacon(entryIndex);
     } else {
         MBi_RecvFixedBeacon(entryIndex);

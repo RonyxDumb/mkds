@@ -68,7 +68,7 @@ BOOL IsMissionRunBoxKind(u32 kind) {
 
 #pragma thumb on
 
-void InitMissionRunBoxMapObject(Unk020ff97c *object) {
+void InitMissionRunBoxMapObject(MissionRunBox *object) {
     object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;

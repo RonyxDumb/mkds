@@ -283,7 +283,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
             StopSceneSoundSetSeq();
         }
     }
-    if ((exitValue != 0 || GetNextSceneNumber() == 0) && gBootInfo->mUnk_00 == 2) {
+    if ((exitValue != 0 || GetNextSceneNumber() == 0) && gBootInfo->mBootType == 2) {
         RunMessageScreenOfKind(0);
     }
     if (gStartupWork->mConnectionKind == 4) {

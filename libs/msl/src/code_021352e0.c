@@ -407,7 +407,7 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
     u8 conv;
     u8 alt;
     u8 signKind;
-    Unk02140c28 digitOptions;
+    DigitOptions digitOptions;
     FormatSpec exponentSpec;
     DigitRecord digits;
     char *cursor;
@@ -593,7 +593,7 @@ void FormatRoundDigitChars(DigitRecord *record, int keepCount) {
 }
 
 char *FormatDouble(double value, char *buf, FormatSpec spec) {
-    Unk02140c28 digitOptions;
+    DigitOptions digitOptions;
     DigitRecord record;
     u8 conv;
     int precision;

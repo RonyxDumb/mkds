@@ -66,7 +66,7 @@ void LoadPlayerEntryListFiles(void) {
     Unk02021dc8 *cells;
     Nscr *screenMap;
 
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         LoadNcgrData(&chars, FindSceneFile(gSelectMenuEtcDownloadMBNcgrName));
         LoadNcgrData2(&chars, FindSceneFile(gSelectMenuEtcDownloadMNcgrName));
         LoadNcerData(&cells, FindSceneFile(gSelectMenuEtcDownloadMNcerName));

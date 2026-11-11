@@ -428,7 +428,7 @@ void SetSelectCharacterRowCellsVisible(s32 visible) {
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible = visible;
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible =
@@ -445,7 +445,7 @@ void SetSelectCharacterBracketsResting(void) {
     CellFileSet *sParts;
     SelectCharacterRowCellIndices *tableRow;
 
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         sParts = &gSelectCharacter->mSParts;
         sParts->mCellTable[24].mVisible = 0;
         sParts->mCellTable[25].mVisible = 1;
@@ -461,7 +461,7 @@ void SetSelectCharacterBracketsResting(void) {
 void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY) {
     SelectCharacter *selectCharacter;
 
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUsePlayerEntryList == FALSE) {
             selectCharacter->mGpMParts.mCellTable[0].mOffsetY = firstOffsetY;
@@ -473,7 +473,7 @@ void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY) {
 void SetSelectCharacterNameOffsetX(s16 offsetX) {
     SelectCharacter *selectCharacter;
 
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUsePlayerEntryList == FALSE) {
             selectCharacter->mGpMParts.mCellTable[1].mOffsetX = offsetX;

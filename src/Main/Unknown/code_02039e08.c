@@ -194,7 +194,7 @@ u32 RunRaceScene(SceneNumbers *sceneNumbers) {
         callbacks.mFadeToClearFrameCount = 0x3c;
         callbacks.mFadeToFadedFrameCount = 0x78;
     }
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         LoadSndBanksForCharacters(1);
     }
     RunScene(sceneNumbers, &callbacks);
@@ -229,12 +229,12 @@ u32 RunMenuScene(SceneNumbers *sceneNumbers) {
 u32 CreateFrmHeapsAndAllocSoundBuffer(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer,
                                       void **outFirstFrontHeap, void **outSecondFrontHeap, void **outThirdFrontHeap) {
     u32 soundBufferSize;
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         *outBackHeap = CreateFrmHeapFromBack(heap, 0x19000);
     } else {
         *outBackHeap = CreateFrmHeapFromBack(heap, 0x1b800);
     }
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         *outFirstFrontHeap = NULL;
         *outSecondFrontHeap = NULL;
         *outThirdFrontHeap = NULL;
@@ -243,7 +243,7 @@ u32 CreateFrmHeapsAndAllocSoundBuffer(NNSiFndHeapHead *heap, void **outBackHeap,
         *outSecondFrontHeap = CreateFrmHeapFromFront(heap, 0x4b000);
         *outThirdFrontHeap = CreateFrmHeapFromFront(heap, 0x1b800);
     }
-    soundBufferSize = GetSndInitBufferSize(gBootInfo->mUnk_00 == 2 ? 2 : 0);
+    soundBufferSize = GetSndInitBufferSize(gBootInfo->mBootType == 2 ? 2 : 0);
     *outSoundBuffer = HeapAlloc(heap, soundBufferSize);
     NNS_FndGetTotalFreeSizeForExpHeap(heap);
     return soundBufferSize;

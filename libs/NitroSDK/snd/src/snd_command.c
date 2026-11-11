@@ -23,7 +23,7 @@ SNDCommand data_021735a0[256];
 
 // Stores handler and arg in the alarm table entry for alarmNo and returns the id byte of that entry after raising it.
 u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
-    Unk02021734 *info;
+    AlarmCallbackInfo *info;
 
     info = &data_02174da0[alarmNo];
     info->mFunc = handler;
@@ -34,7 +34,7 @@ u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
 
 // Calls the handler of the alarm in the low byte of alarmNo when the id byte in the next byte is still the entry's id.
 void SNDi_CallAlarmHandler(int alarmNo) {
-    Unk02021734 *info;
+    AlarmCallbackInfo *info;
 
     info = &data_02174da0[alarmNo & 0xff];
     if (((alarmNo >> 8) & 0xff) != info->mId) {

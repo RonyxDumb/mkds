@@ -45,12 +45,12 @@ void InitAfterStartup(void) {
     InitArchiveSlots(backHeap);
     InitStartupWork(backHeap);
     InitConnection(backHeap);
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         InitWiFiSession(backHeap);
     }
     CreateRaceSetupObjects(backHeap);
     InitBackupBuffers(backHeap);
-    InitSound(soundBuffer, soundBufferSize, gBootInfo->mUnk_00 != 2);
+    InitSound(soundBuffer, soundBufferSize, gBootInfo->mBootType != 2);
     SetSoundOutputEffect(1);
     if (OS_IsRunOnEmulator() == 0) {
         RTC_Init();
@@ -63,7 +63,7 @@ void InitAfterStartup(void) {
     InitCompressedArchiveAndMBChild(backHeap);
     InitMessageScreen(backHeap);
     InitAfterStartupNop();
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         InitArchiveBuffers(firstFrontHeap, secondFrontHeap, thirdFrontHeap);
     }
     ResetRaceSetup();

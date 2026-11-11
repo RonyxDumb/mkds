@@ -114,10 +114,10 @@ void SPLBehavior_ApplyRandom(const Unk0201e2cc *rng, Unk0201e3c8 *ptcl, Vec3 *ac
                        8);
 }
 
-void SPLBehavior_ApplyMagnet(const Unk0201e248 *magnet, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
-    acc->x = acc->x + ((magnet->mUnk_0c * (magnet->mUnk_00.x - ptcl->mUnk_08.x - ptcl->mUnk_14.x)) >> 12);
-    acc->y = acc->y + ((magnet->mUnk_0c * (magnet->mUnk_00.y - ptcl->mUnk_08.y - ptcl->mUnk_14.y)) >> 12);
-    acc->z = acc->z + ((magnet->mUnk_0c * (magnet->mUnk_00.z - ptcl->mUnk_08.z - ptcl->mUnk_14.z)) >> 12);
+void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
+    acc->x = acc->x + ((magnet->mFactor * (magnet->mPoint.x - ptcl->mUnk_08.x - ptcl->mUnk_14.x)) >> 12);
+    acc->y = acc->y + ((magnet->mFactor * (magnet->mPoint.y - ptcl->mUnk_08.y - ptcl->mUnk_14.y)) >> 12);
+    acc->z = acc->z + ((magnet->mFactor * (magnet->mPoint.z - ptcl->mUnk_08.z - ptcl->mUnk_14.z)) >> 12);
 }
 
 void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
@@ -175,10 +175,10 @@ void SPLBehavior_ApplyCollisionPlane(const Unk0201e054 *plane, Unk0201e3c8 *ptcl
     }
 }
 
-void SPLBehavior_ApplyConvergence(const Unk0201e248 *conv, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
-    ptcl->mUnk_08.x = ptcl->mUnk_08.x + MUL_FIXED12_ROUNDED(conv->mUnk_0c, conv->mUnk_00.x - ptcl->mUnk_08.x);
-    ptcl->mUnk_08.y = ptcl->mUnk_08.y + MUL_FIXED12_ROUNDED(conv->mUnk_0c, conv->mUnk_00.y - ptcl->mUnk_08.y);
-    ptcl->mUnk_08.z = ptcl->mUnk_08.z + MUL_FIXED12_ROUNDED(conv->mUnk_0c, conv->mUnk_00.z - ptcl->mUnk_08.z);
+void SPLBehavior_ApplyConvergence(const ParticleBehaviorPoint *conv, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
+    ptcl->mUnk_08.x = ptcl->mUnk_08.x + MUL_FIXED12_ROUNDED(conv->mFactor, conv->mPoint.x - ptcl->mUnk_08.x);
+    ptcl->mUnk_08.y = ptcl->mUnk_08.y + MUL_FIXED12_ROUNDED(conv->mFactor, conv->mPoint.y - ptcl->mUnk_08.y);
+    ptcl->mUnk_08.z = ptcl->mUnk_08.z + MUL_FIXED12_ROUNDED(conv->mFactor, conv->mPoint.z - ptcl->mUnk_08.z);
 }
 
 void SPLAnim_Scale(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
@@ -2071,7 +2071,7 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
     Unk0201ca6c_20_00_00 flags;
     Unk0201ca6c_20_18 *behaviorEntry;
     ParticleTexture *texture;
-    Unk020184e4_2c_00 *textureHeader;
+    ParticleTextureHeader *textureHeader;
 
     off = 0x20;
     mgr->mResCount = data->mUnk_08;
@@ -2161,30 +2161,30 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
     MI_CpuFill8(mgr->mTextures, 0, mgr->mTexCount * 0x14);
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
-        textureHeader = OFFSET_PTR(Unk020184e4_2c_00, data, off);
+        textureHeader = OFFSET_PTR(ParticleTextureHeader, data, off);
         texture->mHeader = textureHeader;
-        texture->mWidth = 1 << (textureHeader->mUnk_04.mUnk_00_4 + 3);
-        texture->mHeight = 1 << (textureHeader->mUnk_04.mUnk_00_8 + 3);
-        texture->mParam = textureHeader->mUnk_04;
-        off += textureHeader->mUnk_1c;
+        texture->mWidth = 1 << (textureHeader->mImageParam.mUnk_00_4 + 3);
+        texture->mHeight = 1 << (textureHeader->mImageParam.mUnk_00_8 + 3);
+        texture->mParam = textureHeader->mImageParam;
+        off += textureHeader->mBlockSize;
     }
 }
 
 s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 isSpecial)) {
     s32 index;
     ParticleTexture *texture;
-    Unk020184e4_2c_00 *textureHeader;
+    ParticleTextureHeader *textureHeader;
     u32 vramAddr;
 
     GX_BeginLoadTex();
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
         textureHeader = texture->mHeader;
-        if (textureHeader->mUnk_04.mUnk_00_17) {
-            texture->mTextureVramAddr = mgr->mTextures[textureHeader->mUnk_04.mUnk_00_18].mTextureVramAddr;
+        if (textureHeader->mImageParam.mUnk_00_17) {
+            texture->mTextureVramAddr = mgr->mTextures[textureHeader->mImageParam.mUnk_00_18].mTextureVramAddr;
         } else {
-            vramAddr = vramAlloc(textureHeader->mUnk_08, textureHeader->mUnk_04.mUnk_00_0 == 5 ? 1 : 0);
-            GX_LoadTex((u8 *) texture->mHeader + 0x20, vramAddr, textureHeader->mUnk_08);
+            vramAddr = vramAlloc(textureHeader->mTextureSize, textureHeader->mImageParam.mUnk_00_0 == 5 ? 1 : 0);
+            GX_LoadTex((u8 *) texture->mHeader + 0x20, vramAddr, textureHeader->mTextureSize);
             texture->mTextureVramAddr = vramAddr;
         }
     }
@@ -2195,7 +2195,7 @@ s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
 s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 isSpecial)) {
     s32 index;
     ParticleTexture *texture;
-    Unk020184e4_2c_00 *textureHeader;
+    ParticleTextureHeader *textureHeader;
     u32 vramAddr;
 
     GX_BeginLoadTexPltt();
@@ -2203,9 +2203,10 @@ s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
         texture = mgr->mTextures + index;
         textureHeader = texture->mHeader;
         vramAddr = 0;
-        if (textureHeader->mUnk_10 != 0) {
-            vramAddr = vramAlloc(textureHeader->mUnk_10, textureHeader->mUnk_04.mUnk_00_0 == 2 ? 1 : 0);
-            GX_LoadTexPltt((u8 *) texture->mHeader + textureHeader->mUnk_0c, vramAddr, textureHeader->mUnk_10);
+        if (textureHeader->mPaletteSize != 0) {
+            vramAddr = vramAlloc(textureHeader->mPaletteSize, textureHeader->mImageParam.mUnk_00_0 == 2 ? 1 : 0);
+            GX_LoadTexPltt((u8 *) texture->mHeader + textureHeader->mPaletteOffset, vramAddr,
+                           textureHeader->mPaletteSize);
         }
         texture->mPaletteVramAddr = vramAddr;
     }

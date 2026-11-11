@@ -47,34 +47,34 @@ typedef struct MbBeaconRecvStatus {
     /* 10 */ MBGameInfoRecvList mEntries[16];
 } MbBeaconRecvStatus;
 
-// Element of the array at 0x10 in Unk0216fc1c.
-typedef struct Unk0216fc1c_10 {
-    /* 00 */ u8 mUnk_00 : 4;
-    /* 00 */ u8 mUnk_00_4 : 4;
+// Element of the array at 0x10 in MbBeacon.
+typedef struct MBUserInfo {
+    /* 00 */ u8 mFavoriteColor : 4;
+    /* 00 */ u8 mPlayerNo : 4;
     /* 01 */ u8 mUnk_01[0x15];
-} Unk0216fc1c_10;
+} MBUserInfo;
 
 // Object behind gReceivedGameInfo.
-typedef struct Unk0216fc1c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04 : 2;
-    /* 04 */ u8 mUnk_04_2 : 6;
-    /* 05 */ u8 mUnk_05;
-    /* 06 */ u8 mUnk_06;
+typedef struct MbBeacon {
+    /* 00 */ u32 mGgid;
+    /* 04 */ u8 mDataAttr : 2;
+    /* 04 */ u8 mFileNo : 6;
+    /* 05 */ u8 mSeqNoFixed;
+    /* 06 */ u8 mSeqNoVolat;
     /* 07 */ u8 mSequence;
     /* 08 */ u8 mChecksum[2];
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
-    /* 10 */ Unk0216fc1c_10 mUnk_10[4];
-    /* 68 */ u8 mUnk_68[8];
-} Unk0216fc1c;
+    /* 10 */ MBUserInfo mMember[4];
+    /* 68 */ u8 mUserVolatData[8];
+} MbBeacon;
 
 typedef void (*EntryCallbackFunc)(u32 a, void *b, u32 c);
 
 extern MbBeaconRecvStatus *mbrsp;
-extern Unk0216fc1c *gReceivedGameInfo;
+extern MbBeacon *gReceivedGameInfo;
 extern void (*gClearBssidCallback)(void);
 extern void (*gSetBssidCallback)(const u8 *);
 

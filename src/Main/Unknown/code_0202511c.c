@@ -147,7 +147,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
     BOOL overridden;
     BOOL matched;
     SoundRow courseRow;
-    Unk021759c0_28 *mission;
+    MissionSettings *mission;
 
     rowIndex = 0x36;
     rowWritten = FALSE;
@@ -256,7 +256,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
             rowIndex = 0x33;
             break;
         case 6:
-            if (gBootInfo->mUnk_00 == 2) {
+            if (gBootInfo->mBootType == 2) {
                 rowIndex = 0x33;
             } else {
                 rowIndex = 0x2e;

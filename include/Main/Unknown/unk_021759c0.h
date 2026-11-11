@@ -173,7 +173,7 @@ typedef struct RaceSetupHeader {
 } RaceSetupHeader;
 
 // The 0x10 bytes at 0x28 of the object behind gRaceSetup (the same bytes as its mUnk_028 to mUnk_37).
-typedef struct Unk021759c0_28 {
+typedef struct MissionSettings {
     /* 00 */ u16 mMissionTimeLimitFrameCount;
     /* 02 */ u16 mTimeScoreFrameCount;
     /* 04 */ s16 mTimeScoreWeight;
@@ -182,7 +182,7 @@ typedef struct Unk021759c0_28 {
     /* 08 */ u8 mUnk_08[6];
     /* 0e */ u8 mMissionCameraTableIndex;
     /* 0f */ u8 mMissionRunCountLimit;
-} Unk021759c0_28;
+} MissionSettings;
 
 #define CPU_DIFFICULTY_HARD 3
 #define CPU_DIFFICULTY_NORMAL 2
@@ -204,7 +204,7 @@ typedef struct RaceSetup {
     /* 020 */ s32 mCourseListMode;
     /* 024 */ u8 mUnk_024[0x4];
     union {
-        Unk021759c0_28 mUnk_28_view;
+        MissionSettings mUnk_28_view;
         struct {
             /* 028 */ u16 mMissionTimeLimitFrameCount;
             /* 02a */ u16 mTimeScoreFrameCount;

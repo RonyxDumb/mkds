@@ -400,7 +400,7 @@ s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot) {
         }
         return AdvanceNonMultiBootSetup(isParent);
     }
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         return AdvanceMultiBootSetup(isParent);
     }
     return AdvanceNonMultiBootSetup(isParent);
@@ -410,7 +410,7 @@ s32 AdvanceConnectByMultiBoot(u16 entryIndex) {
     if (gConnectionWork->mOperationFlags & CONNECTION_OPERATION_SCANNING) {
         gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
     }
-    if (gBootInfo->mUnk_00 == 2 || IsScanSlotMultiBoot(entryIndex) != 0) {
+    if (gBootInfo->mBootType == 2 || IsScanSlotMultiBoot(entryIndex) != 0) {
         return AdvanceScanConnect(entryIndex);
     }
     return AdvanceNonMultiBootConnect(entryIndex);

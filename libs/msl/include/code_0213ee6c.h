@@ -14,10 +14,10 @@ typedef struct DigitRecord {
 } DigitRecord;
 
 // First argument of DoubleToDigitChars (reads mDigitCount).
-typedef struct Unk02140c28 {
+typedef struct DigitOptions {
     /* 00 */ u8 mUnk_00;
     /* 02 */ s16 mDigitCount;
-} Unk02140c28;
+} DigitOptions;
 
 // Read as a float by DigitCharsToDouble.
 extern float data_0216ec98;
@@ -40,7 +40,7 @@ double frexp(double value, int *exponentOut);
 double ldexp(double value, int exponentDelta);
 double pow(double base, double power);
 double DigitCharsToDouble(const DigitRecord *record);
-void DoubleToDigitChars(Unk02140c28 *options, double value, DigitRecord *record);
+void DoubleToDigitChars(DigitOptions *options, double value, DigitRecord *record);
 void DoubleToDigits(DigitRecord *out, double a);
 void DigitsSubtract(DigitRecord *result, const DigitRecord *minuend, const DigitRecord *subtrahend);
 int DigitsLess(const DigitRecord *left, const DigitRecord *right);

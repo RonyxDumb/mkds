@@ -13,10 +13,10 @@ typedef struct NNSiG2dBitReader {
 
 // Body of a part of an NNSG2dBinaryFileHeader, which starts 8 bytes after the part: words from 04 are offsets from the
 // start of the NNSG2dBinaryFileHeader, relocated by NNSi_G2dUnpackNFT.
-typedef struct Unk020245a4_08 {
+typedef struct FontBlockData {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u32 mUnk_04[4];
-} Unk020245a4_08;
+} FontBlockData;
 
 void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file);
 u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation **fontOut);

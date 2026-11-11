@@ -156,21 +156,21 @@ u32 TrySetMissionRecord(void) {
 }
 
 void InitWLMenuRequestMPState16(void *heap) {
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState16ForNextRace();
 }
 
 void InitWLMenuRequestMPState18(void *heap) {
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState18();
 }
 
 void InitWLMenuRequestMPState21(void *heap) {
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState21();
@@ -180,7 +180,7 @@ void InitWLMenuResetRaceSetup(void *heap) {
     void *bannerFile = NULL;
     s32 connectionKind;
     u32 kindIsOneOrTwo;
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         InitBlockEntries(heap, 1);
     } else {
         bannerFile = FindSceneFile(data_usa_0216478c);

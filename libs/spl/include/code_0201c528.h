@@ -274,10 +274,10 @@ struct Unk0201ca6c {
 };
 
 // Read by SPLBehavior_ApplyMagnet and SPLBehavior_ApplyConvergence.
-typedef struct Unk0201e248 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ s16 mUnk_0c;
-} Unk0201e248;
+typedef struct ParticleBehaviorPoint {
+    /* 00 */ Vec3 mPoint;
+    /* 0c */ s16 mFactor;
+} ParticleBehaviorPoint;
 
 // Read by SPLBehavior_ApplyRandom.
 typedef struct Unk0201e2cc {
@@ -314,10 +314,10 @@ void SPLAnim_Texture(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
 void SPLAnim_Alpha(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
 void SPLAnim_Color(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
 void SPLAnim_Scale(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
-void SPLBehavior_ApplyConvergence(const Unk0201e248 *conv, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
+void SPLBehavior_ApplyConvergence(const ParticleBehaviorPoint *conv, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplyCollisionPlane(const Unk0201e054 *plane, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
-void SPLBehavior_ApplyMagnet(const Unk0201e248 *magnet, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
+void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplyRandom(const Unk0201e2cc *rng, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 Unk0201e3c8 *SPLList_Erase(ParticleList *list, Unk0201e3c8 *node);

@@ -10,7 +10,7 @@ typedef s32 (*FS_ARCHIVE_READ_FUNC)(FSArchive *archive, void *dst, u32 src, u32 
 typedef s32 (*FS_ARCHIVE_WRITE_FUNC)(FSArchive *archive, const void *src, u32 dst, u32 len);
 typedef s32 (*FS_ARCHIVE_PROC_FUNC)(FSFile *file, u32 command);
 
-struct Unk02003670;
+struct FSDirEntry;
 
 // An archive and a file number in it, as stored by FS_GetOverlayFileID and FSi_FindPathCommand and read by
 // FS_OpenFileFast.
@@ -21,7 +21,7 @@ typedef struct FSFileID {
 
 // 12 bytes at 0x20 and at 0x30 of FSFile (assigned as a whole by FSi_SeekDirCommand, FSi_FindPath and
 // FS_ChangeDir; current_dir_pos). Different functions use the region with different types: an FSArchive pointer
-// (FSi_SeekDirDirect, FSi_ReadDirCommand, FSi_FindPath), an Unk02003670 pointer (FSi_FindPathCommand,
+// (FSi_SeekDirDirect, FSi_ReadDirCommand, FSi_FindPath), an FSDirEntry pointer (FSi_FindPathCommand,
 // FSi_GetPathCommand), three words (FSi_OpenFileFastCommand, FS_OpenFileDirect), an FSFileID (FSi_FindPathCommand,
 // FS_OpenFileFast), a u8 pointer with two lengths (FSi_GetPathCommand) and a pointer with two signed words
 // (FS_SeekFile, FSi_ReadFileCore, FSi_ReadFileCommand).
@@ -42,7 +42,7 @@ typedef union Unk02003024U {
         /* 08 */ u32 mUnk_08;
     } h;
     struct {
-        /* 00 */ struct Unk02003670 *mUnk_00;
+        /* 00 */ struct FSDirEntry *mUnk_00;
         /* 04 */ u32 mUnk_04;
         /* 08 */ u32 mUnk_08;
     } e;
@@ -122,10 +122,10 @@ typedef struct Unk02003234 {
 } Unk02003234;
 
 // FSi_ReadTable passes mUnk_04 to FSArchive.mTable of mUnk_00 and adds the count to it.
-typedef struct Unk02003ad8 {
-    /* 00 */ FSArchive *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-} Unk02003ad8;
+typedef struct FSiSyncReadParam {
+    /* 00 */ FSArchive *mArc;
+    /* 04 */ u32 mPos;
+} FSiSyncReadParam;
 
 // Eight bytes read by FSi_SeekDirCommand.
 typedef struct Unk0200399c {
@@ -136,12 +136,12 @@ typedef struct Unk0200399c {
 
 // Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a Unk02003024U, then a flag, a length
 // and the bytes.
-typedef struct Unk02003670 {
+typedef struct FSDirEntry {
     /* 00 */ Unk02003024U mUnk_00;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u8 mUnk_14[0x80];
-} Unk02003670;
+    /* 0c */ u32 mIsDirectory;
+    /* 10 */ u32 mNameLength;
+    /* 14 */ u8 mName[0x80];
+} FSDirEntry;
 
 s32 FSi_OpenFileFastCommand(FSFile *file);
 s32 FSi_GetPathCommand(FSFile *file);
@@ -151,5 +151,5 @@ s32 FSi_SeekDirCommand(FSFile *dir);
 s32 FSi_WriteFileCommand(FSFile *file);
 s32 FSi_ReadFileCommand(FSFile *file);
 s32 FSi_SeekDirDirect(FSFile *dir, u32 id);
-void FSi_ReadTable(Unk02003ad8 *param, void *dst, u32 len);
+void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len);
 s32 FSi_StrNICmp(const u8 *str1, const u8 *str2, u32 len);

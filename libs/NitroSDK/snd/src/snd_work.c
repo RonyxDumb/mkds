@@ -58,7 +58,7 @@ void SND_AlarmInit(void) {
 
 // Raises the id byte of alarm table entry alarmNo and returns it.
 u32 SNDi_IncAlarmId(u32 alarmNo) {
-    Unk02021734 *info;
+    AlarmCallbackInfo *info;
     u32 id;
 
     info = &data_02174da0[alarmNo];

@@ -36,7 +36,7 @@
 
 void ResetConnection(void) {
     ScanParam *scanParams;
-    Unk021438f0 *scanExParams;
+    ScanExParam *scanExParams;
     BlockTransferView *blocks;
     BlockEntry *blockEntry;
     s32 index;
@@ -58,14 +58,14 @@ void ResetConnection(void) {
         scanParams->mBssid[index] = 0xff;
     }
     scanExParams = gConnectionWork->mScanExParams;
-    scanExParams->mUnk_00 = gConnectionWork->mScanExBuffer;
-    scanExParams->mUnk_04 = 0x400;
-    scanExParams->mUnk_06 = 0;
-    scanExParams->mUnk_08 = 0;
-    scanExParams->mUnk_10 = 1;
-    scanExParams->mUnk_12 = 0;
+    scanExParams->mScanBuf = gConnectionWork->mScanExBuffer;
+    scanExParams->mScanBufSize = 0x400;
+    scanExParams->mChannelList = 0;
+    scanExParams->mMaxChannelTime = 0;
+    scanExParams->mScanType = 1;
+    scanExParams->mSsidLength = 0;
     for (index = 0; index < 6; index++) {
-        scanExParams->mUnk_0a[index] = 0xff;
+        scanExParams->mBssid[index] = 0xff;
     }
     ResetConnectionData();
     blocks = &gConnectionWork->mUnk_16a0_view;
@@ -277,7 +277,7 @@ void StopConnection(void) {
         if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             allowed = TRUE;
             role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-            if (role != 1 && gBootInfo->mUnk_00 != 2) {
+            if (role != 1 && gBootInfo->mBootType != 2) {
                 allowed = FALSE;
             }
             if (allowed != FALSE) {
@@ -467,7 +467,7 @@ void StartRomArchiveTransfer(void) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
         role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mUnk_00 != 2) {
+        if (role != 1 && gBootInfo->mBootType != 2) {
             flag = FALSE;
         }
         if (flag != FALSE) {
@@ -504,7 +504,7 @@ void StartRomArchiveSend(void) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
         role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mUnk_00 != 2) {
+        if (role != 1 && gBootInfo->mBootType != 2) {
             allowed = FALSE;
         }
         if (allowed != FALSE) {
@@ -530,7 +530,7 @@ void StopRomArchiveTransfer(void) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
         role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mUnk_00 != 2) {
+        if (role != 1 && gBootInfo->mBootType != 2) {
             flag = FALSE;
         }
         if (flag != FALSE) {

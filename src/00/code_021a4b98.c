@@ -315,7 +315,7 @@ s32 func_ov000_021a60a4(const void *a, const u8 *b, u32 c) {
             return 1;
         case 3:
             func_ov000_021a5948(a, b, c);
-            DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mUnk_00, data_ov000_021b5f50->mUnk_2288.mUnk_04);
+            DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mScanBuf, data_ov000_021b5f50->mUnk_2288.mScanBufSize);
             data_ov000_021b5f50->mUnk_2284++;
             r = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->mUnk_2288);
             switch (r) {
@@ -646,32 +646,32 @@ void func_ov000_021a5948(const void *a, const u8 *b, u32 c) {
     s32 i;
 
     func_ov000_021a5b3c(c);
-    data_ov000_021b5f50->mUnk_2288.mUnk_00 = data_ov000_021b5f50->mUnk_1500;
-    data_ov000_021b5f50->mUnk_2288.mUnk_04 = 0x400;
-    data_ov000_021b5f50->mUnk_2288.mUnk_06 = (1 << func_ov000_021a58dc(0)) >> 1;
+    data_ov000_021b5f50->mUnk_2288.mScanBuf = data_ov000_021b5f50->mUnk_1500;
+    data_ov000_021b5f50->mUnk_2288.mScanBufSize = 0x400;
+    data_ov000_021b5f50->mUnk_2288.mChannelList = (1 << func_ov000_021a58dc(0)) >> 1;
     v = data_ov000_021b5f50->mUnk_2268;
     if (v == 0) {
         v = WM_GetDispersionScanPeriod();
     }
-    data_ov000_021b5f50->mUnk_2288.mUnk_08 = v;
-    data_ov000_021b5f50->mUnk_2288.mUnk_10 = (data_ov000_021b5f50->mUnk_2264 & 0x300000) != 0x300000;
+    data_ov000_021b5f50->mUnk_2288.mMaxChannelTime = v;
+    data_ov000_021b5f50->mUnk_2288.mScanType = (data_ov000_021b5f50->mUnk_2264 & 0x300000) != 0x300000;
     if (a == NULL) {
-        MI_CpuCopy8(WCM_Bssid_Any, data_ov000_021b5f50->mUnk_2288.mUnk_0a, 6);
+        MI_CpuCopy8(WCM_Bssid_Any, data_ov000_021b5f50->mUnk_2288.mBssid, 6);
     } else {
-        MI_CpuCopy8(a, data_ov000_021b5f50->mUnk_2288.mUnk_0a, 6);
+        MI_CpuCopy8(a, data_ov000_021b5f50->mUnk_2288.mBssid, 6);
     }
     if (b == NULL || b == WCM_Essid_Any) {
-        MI_CpuCopy8(WCM_Essid_Any, data_ov000_021b5f50->mUnk_2288.mUnk_14, 0x20);
-        data_ov000_021b5f50->mUnk_2288.mUnk_12 = 0;
+        MI_CpuCopy8(WCM_Essid_Any, data_ov000_021b5f50->mUnk_2288.mSsid, 0x20);
+        data_ov000_021b5f50->mUnk_2288.mSsidLength = 0;
     } else {
-        MI_CpuCopy8(b, data_ov000_021b5f50->mUnk_2288.mUnk_14, 0x20);
+        MI_CpuCopy8(b, data_ov000_021b5f50->mUnk_2288.mSsid, 0x20);
         for (i = 0; i < 0x20; i++) {
             if (*b == 0) {
                 break;
             }
             b++;
         }
-        data_ov000_021b5f50->mUnk_2288.mUnk_12 = i;
+        data_ov000_021b5f50->mUnk_2288.mSsidLength = i;
     }
     data_ov000_021b5f50->mUnk_2284 = 0;
 }
@@ -898,8 +898,8 @@ void func_ov000_021a52b0(Unk021a5088 *v1) {
                 case 6:
                     data_ov000_021b5f50->mUnk_2280 = 7;
                     if (v1->mUnk_08 == 5) {
-                        DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mUnk_00,
-                                           data_ov000_021b5f50->mUnk_2288.mUnk_04);
+                        DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mScanBuf,
+                                           data_ov000_021b5f50->mUnk_2288.mScanBufSize);
                         for (b = 0; b < v1->mUnk_0e; b++) {
                             func_ov000_021a671c((Unk021a5e84 *) v1->mUnk_10[b], v1->mUnk_50[b]);
                             func_ov000_021a586c(7, 0, v1->mUnk_10[b], (u32) v1, 0x70b);
@@ -915,9 +915,10 @@ void func_ov000_021a52b0(Unk021a5088 *v1) {
                             }
                         }
                     }
-                    data_ov000_021b5f50->mUnk_2288.mUnk_06 =
+                    data_ov000_021b5f50->mUnk_2288.mChannelList =
                         (1 << func_ov000_021a58dc(32 - func_ov000_021a4bbc(v1->mUnk_0a))) >> 1;
-                    DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mUnk_00, data_ov000_021b5f50->mUnk_2288.mUnk_04);
+                    DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mScanBuf,
+                                       data_ov000_021b5f50->mUnk_2288.mScanBufSize);
                     data_ov000_021b5f50->mUnk_2284++;
                     a = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->mUnk_2288);
                     break;

@@ -12,9 +12,9 @@
 #include "Main/Unknown/code_020e0680.h" // CollisionMapObject
 
 // Object of InitMissionRunBoxMapObject: 0x144 bytes.
-typedef struct Unk020ff97c {
+typedef struct MissionRunBox {
     /* 000 */ CollisionMapObject mCollisionMapObject;
-} Unk020ff97c;
+} MissionRunBox;
 
 // Object of item kind 7, element of gItemPools[7].
 typedef struct ItemFBox {
@@ -33,7 +33,7 @@ void StartItemFBox(ItemFBox *fbox);
 void ResetItemFBox(ItemFBox *fbox);
 void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out);
 void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out);
-void InitMissionRunBoxMapObject(Unk020ff97c *object);
+void InitMissionRunBoxMapObject(MissionRunBox *object);
 BOOL IsMissionRunBoxKind(u32 kind);
 MapObjectKindData *CreateMissionRunBoxKindData(void);
 void InitDram(Dram *dram, struct CourseMapRow *courseRow);

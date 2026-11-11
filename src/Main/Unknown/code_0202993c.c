@@ -7,7 +7,7 @@
 
 #pragma optimize_for_size on
 u16 *RaceSetupCopyMB_GetMultiBootParam(void) {
-    return &gBootInfo->mUnk_00;
+    return &gBootInfo->mBootType;
 }
 
 u32 RaceSetupCopyMB_IsMultiBootChild(void) {

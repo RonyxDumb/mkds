@@ -39,7 +39,7 @@ static inline PlayerRecord *GetPlayerRecordByEntryIndex(ConnectionWork *connecti
 }
 
 static inline BOOL IsBootInfoFirstWordTwo(void) {
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         return TRUE;
     }
     return FALSE;

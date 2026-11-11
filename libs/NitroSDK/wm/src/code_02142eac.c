@@ -462,7 +462,7 @@ s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
 }
 
 // Starts a scan with a scan type and SSID (command 38). Needs state 2, 3 or 5.
-s32 WM_StartScanEx(Unk021425e8Func callback, Unk021438f0 *param) {
+s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
     Unk021438f0_0c *request;
     s32 result;
     u16 scanType;
@@ -474,36 +474,36 @@ s32 WM_StartScanEx(Unk021425e8Func callback, Unk021438f0 *param) {
     if (param == 0) {
         return 6;
     }
-    if (param->mUnk_00 == 0) {
+    if (param->mScanBuf == 0) {
         return 6;
     }
-    if (param->mUnk_04 > 0x400) {
+    if (param->mScanBufSize > 0x400) {
         return 6;
     }
-    if (param->mUnk_12 > 0x20) {
+    if (param->mSsidLength > 0x20) {
         return 6;
     }
-    scanType = param->mUnk_10;
+    scanType = param->mScanType;
     if (scanType != 0 && scanType != 1 && scanType != 2 && scanType != 3) {
         return 6;
     }
     if ((u16) (scanType + 0xfffe) <= 1) {
-        if (param->mUnk_34 > 0x20) {
+        if (param->mSsidMatchLength > 0x20) {
             return 6;
         }
     }
     WMi_SetCallbackTable(0x26, callback);
     request = (Unk021438f0_0c *) WMi_GetSystemWork()->mRequestArea;
     request->mApiid = 0x26;
-    request->mChannelList = param->mUnk_06;
-    request->mScanBuf = param->mUnk_00;
-    request->mScanBufSize = param->mUnk_04;
-    request->mMaxChannelTime = param->mUnk_08;
-    MI_CpuCopy8(param->mUnk_0a, request->mBssid, 6);
-    request->mScanType = param->mUnk_10;
-    request->mSsidMatchLength = param->mUnk_34;
-    request->mSsidLength = param->mUnk_12;
-    MI_CpuCopy8(param->mUnk_14, request->mSsid, 0x20);
+    request->mChannelList = param->mChannelList;
+    request->mScanBuf = param->mScanBuf;
+    request->mScanBufSize = param->mScanBufSize;
+    request->mMaxChannelTime = param->mMaxChannelTime;
+    MI_CpuCopy8(param->mBssid, request->mBssid, 6);
+    request->mScanType = param->mScanType;
+    request->mSsidMatchLength = param->mSsidMatchLength;
+    request->mSsidLength = param->mSsidLength;
+    MI_CpuCopy8(param->mSsid, request->mSsid, 0x20);
     result = WMi_SendCommand(0x26, 0);
     if (result == 0) {
         return 2;

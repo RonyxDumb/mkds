@@ -26,7 +26,7 @@ typedef struct MB_CommPWork {
     /* 131c */ u32 mStartMpBusy;
     /* 1320 */ u32 mIsStartedEx;
     /* 1324 */ u8 mUnk_1324[0x1340 - 0x1324];
-    /* 1340 */ Unk0216fc1c_10 mChildUser[15];
+    /* 1340 */ MBUserInfo mChildUser[15];
     /* 148a */ u16 mChildversion[15];
     /* 14a8 */ u32 mChildggid[15];
     /* 14e4 */ void (*mCallback)(u32, u32, void *);

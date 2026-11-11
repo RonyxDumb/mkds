@@ -232,17 +232,17 @@ typedef struct Unk021437d8 {
 } Unk021437d8;
 
 // Scan parameters of WM_StartScanEx.
-typedef struct Unk021438f0 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u8 mUnk_0a[6];
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u8 mUnk_14[0x20];
-    /* 34 */ u16 mUnk_34;
-} Unk021438f0;
+typedef struct ScanExParam {
+    /* 00 */ void *mScanBuf;
+    /* 04 */ u16 mScanBufSize;
+    /* 06 */ u16 mChannelList;
+    /* 08 */ u16 mMaxChannelTime;
+    /* 0a */ u8 mBssid[6];
+    /* 10 */ u16 mScanType;
+    /* 12 */ u16 mSsidLength;
+    /* 14 */ u8 mSsid[0x20];
+    /* 34 */ u16 mSsidMatchLength;
+} ScanExParam;
 
 // Request WM_StartScanEx writes into the request area.
 typedef struct Unk021438f0_0c {
@@ -316,7 +316,7 @@ s32 WMi_StartParentEx(Unk021425e8Func callback, BOOL powerSave);
 s32 WM_StartParent(Unk021425e8Func callback);
 s32 WM_EndParent(Unk021425e8Func callback);
 s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param);
-s32 WM_StartScanEx(Unk021425e8Func callback, Unk021438f0 *param);
+s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param);
 s32 WM_EndScan(Unk021425e8Func callback);
 s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode);
 s32 WM_Disconnect(Unk021425e8Func callback, u32 aid);

@@ -120,7 +120,7 @@ void CreateRainStar(void *mapObjectList) {
     SetMapObjectModelPolygonId(gRainStar, 0x3f);
 }
 
-void DrawRainStar(void *mapObjectList, Unk0209f1c8 *rainStar) {
+void DrawRainStar(void *mapObjectList, RainStar *rainStar) {
     u32 commandParam;
     MtxFx33 rotationMatrix;
 
@@ -140,7 +140,7 @@ void DrawRainStar(void *mapObjectList, Unk0209f1c8 *rainStar) {
     DrawMapObjectModel(mapObjectList, gRainStar, rainStar);
 }
 
-void UpdateRainStar(void *mapObjectList, Unk0209f1c8 *rainStar) {
+void UpdateRainStar(void *mapObjectList, RainStar *rainStar) {
     u16 frameCount;
 
     frameCount = GetMapObjectModelNsbtaFrameCount(gRainStar);

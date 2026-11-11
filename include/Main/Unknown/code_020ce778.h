@@ -5,5 +5,5 @@
 
 BOOL VsSelectCupMB_IsMultiBootChildWrapper(void);
 BOOL VsSelectCupMB_IsMultiBootChild(void);
-Unk027ffc40 *VsSelectCupMB_GetMultiBootParam(void);
+BootInfo *VsSelectCupMB_GetMultiBootParam(void);
 void UpdateVsSelectCupCourse(void);

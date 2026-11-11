@@ -451,7 +451,7 @@ void FormatWideRoundDigitChars(DigitRecord *record, int keepCount) {
 }
 
 u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec) {
-    Unk02140c28 digitOptions;
+    DigitOptions digitOptions;
     DigitRecord record;
     char buf[0x200];
     int precision;

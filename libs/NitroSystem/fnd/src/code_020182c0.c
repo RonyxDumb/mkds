@@ -3,39 +3,39 @@
 #include "code_02003be0.h"
 #include "code_02139f70.h"
 
-u32 ArchiveHeaderMatches(Unk02018344 *header) {
-    if (header->mUnk_00 != 0x4352414e) {
+u32 ArchiveHeaderMatches(NNSiFndArchiveHeader *header) {
+    if (header->mSignature != 0x4352414e) {
         return 0;
     }
-    if (header->mUnk_04 != 0xfffe) {
+    if (header->mByteOrder != 0xfffe) {
         return 0;
     }
-    return header->mUnk_06 == 0x100 ? 1 : 0;
+    return header->mVersion == 0x100 ? 1 : 0;
 }
 
-u32 ArchiveLoadFromMemory(Unk020182c0 *archive, const u8 *name, Unk02018344 *header) {
-    u8 *fntBlock;
+u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchiveHeader *header) {
     u8 *fatBlock;
+    u8 *fntBlock;
     u8 *imageBlock;
     s32 blockIndex;
     u8 *block;
     s32 blockCount;
 
-    fntBlock = 0;
     fatBlock = 0;
+    fntBlock = 0;
     imageBlock = 0;
     if (ArchiveHeaderMatches(header) == 0) {
         return 0;
     }
-    block = (u8 *) header + header->mUnk_0c;
-    blockCount = header->mUnk_0e;
+    block = (u8 *) header + header->mHeaderSize;
+    blockCount = header->mDataBlocks;
     for (blockIndex = 0; blockIndex < blockCount; blockIndex++) {
         switch (*(u32 *) block) {
             case 0x46415442:
-                fntBlock = block;
+                fatBlock = block;
                 break;
             case 0x464e5442:
-                fatBlock = block;
+                fntBlock = block;
                 break;
             case 0x46494d47:
                 imageBlock = block;
@@ -43,19 +43,19 @@ u32 ArchiveLoadFromMemory(Unk020182c0 *archive, const u8 *name, Unk02018344 *hea
         }
         block += *OFFSET_PTR(u32, block, 4);
     }
-    FS_InitArchive(&archive->mUnk_00);
-    archive->mUnk_5c = header;
-    archive->mUnk_60 = fntBlock;
+    FS_InitArchive(&archive->mFsArchive);
+    archive->mArcBinary = header;
+    archive->mFatData = fatBlock;
     imageBlock = (u8 *) imageBlock + 8;
-    archive->mUnk_64 = imageBlock;
-    if (FS_RegisterArchiveName(&archive->mUnk_00, name, strlen((const char *) name)) == 0) {
+    archive->mFileImage = imageBlock;
+    if (FS_RegisterArchiveName(&archive->mFsArchive, name, strlen((const char *) name)) == 0) {
         return 0;
     }
-    if (FS_LoadArchive(&archive->mUnk_00, imageBlock, fntBlock + 0xc - imageBlock, *(u32 *) (fntBlock + 4) - 0xc,
-                       fatBlock + 8 - imageBlock, *(u32 *) (fatBlock + 4) - 8, 0, 0) != 0) {
+    if (FS_LoadArchive(&archive->mFsArchive, imageBlock, fatBlock + 0xc - imageBlock, *(u32 *) (fatBlock + 4) - 0xc,
+                       fntBlock + 8 - imageBlock, *(u32 *) (fntBlock + 4) - 8, 0, 0) != 0) {
         return 1;
     }
-    FS_ReleaseArchiveName(&archive->mUnk_00);
+    FS_ReleaseArchiveName(&archive->mFsArchive);
     return 0;
 }
 
@@ -74,7 +74,7 @@ void *ArchiveFileGetAddress(const u8 *path) {
     address = NULL;
     FS_InitFile(&file);
     if (FS_OpenFile(&file, path) != 0) {
-        address = ((Unk020182c0 *) file.mArc)->mUnk_64 + file.mProp.w.mUnk_04;
+        address = ((NNSFndArchive *) file.mArc)->mFileImage + file.mProp.w.mUnk_04;
         FS_CloseFile(&file);
     }
     return address;

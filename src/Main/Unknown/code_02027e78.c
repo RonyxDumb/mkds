@@ -21,7 +21,7 @@ u32 SelectKartGetConnectionKind(void) {
 }
 
 u16 *SelectKartMB_GetMultiBootParam(void) {
-    return &gBootInfo->mUnk_00;
+    return &gBootInfo->mBootType;
 }
 
 u32 SelectKartMB_IsMultiBootChild(void) {

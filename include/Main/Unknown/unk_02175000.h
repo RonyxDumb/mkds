@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02036c5c.h"
-#include "code_020182c0.h" // Unk020182c0
+#include "code_020182c0.h" // NNSFndArchive
 #include "Main/Unknown/unk_02175628.h" // InputSlot
 #include "frameheap.h" // NNSiFndHeapHead
 #include "os_thread.h"
@@ -183,7 +183,7 @@ typedef struct ArchiveBuffer {
 
 // 0x70-byte entries from the start of ArchiveSlots; mLoaded is nonzero while its archive is loaded.
 typedef struct ArchiveSlot {
-    /* 00 */ Unk020182c0 mArchive;
+    /* 00 */ NNSFndArchive mArchive;
     /* 68 */ s32 mLoaded;
     /* 6c */ void *mData;
 } ArchiveSlot;

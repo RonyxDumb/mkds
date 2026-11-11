@@ -41,7 +41,8 @@ typedef struct MapObjectKindData {
 // Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
 // 0x94 of every object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the
 // StateMachine at 0x80 to InitStateMachine. From 0xa0 on, the objects of InitAttractorMapObject (AttractorMapObject),
-// InitDram (Dram), InitMissionRunBoxMapObject (Unk020ff97c) and InitItemBox (ItemBox) use the bytes in different ways.
+// InitDram (Dram), InitMissionRunBoxMapObject (MissionRunBox) and InitItemBox (ItemBox) use the bytes in different
+// ways.
 typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;

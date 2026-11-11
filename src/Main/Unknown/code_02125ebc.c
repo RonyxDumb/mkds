@@ -177,7 +177,7 @@ s32 LoadTxtSystem(s32 subCharOffset) {
     Ncgr *secondChars;
     Nclr *palette;
 
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         LocateNcgr(&firstChars, FindSceneFile(gTxtSystemB00NcgrName));
         LocateNscr(&gTxtSystem->mBgNscrs[0], FindSceneFile(gTxtSystemBg00NscrName));
         LocateNclr(&palette, FindSceneFile(gTxtSystemB00NclrName));
@@ -202,7 +202,7 @@ s32 LoadTxtSystem(s32 subCharOffset) {
         DC_FlushRange(firstChars->mData, firstChars->mDataSize);
         GXS_LoadBG0Char(firstChars->mData, subCharOffset, firstChars->mDataSize);
     }
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         if (gTxtSystem->mUseCanvas1 != 0) {
             gTxtSystem->mCanvasFileCharIndex[1] = 0;
         }

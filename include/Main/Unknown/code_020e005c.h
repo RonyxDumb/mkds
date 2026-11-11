@@ -35,12 +35,9 @@ typedef struct GroupFollower {
 } GroupFollower;
 
 // Shape that the collision routines test a map object against.
-typedef enum {
-    COLLISION_SHAPE_BOX,
-    COLLISION_SHAPE_CYLINDER
-} CollisionShape;
+typedef enum { COLLISION_SHAPE_BOX, COLLISION_SHAPE_CYLINDER } CollisionShape;
 
-// Collision-body block at 0xa0 of CollisionMapObject, Bridge, Rotary and Unk020ff97c. Names carry the offset in the
+// Collision-body block at 0xa0 of CollisionMapObject, Bridge, Rotary and MissionRunBox. Names carry the offset in the
 // object.
 typedef struct CollisionData {
     /* 00 */ MtxFx33 mPrevMatrix;

@@ -82,7 +82,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
             }
             break;
         case 2:
-            if (gBootInfo->mUnk_00 == 2) {
+            if (gBootInfo->mBootType == 2) {
                 QueueThreadFunction(callback);
                 gThreadFunctionQueue->mRunRequested = 1;
             }
@@ -122,7 +122,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     }
     ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
     if (ownIndex == 0xffff && MPStatesGetConnectionMode() == 2) {
-        if (gBootInfo->mUnk_00 == 2) {
+        if (gBootInfo->mBootType == 2) {
             SetRequestErrorCode(0);
             return 3;
         }
@@ -171,7 +171,7 @@ void EnterMPState22(void) {
 
     randomState = (u32) OS_GetTick() << 8;
     randomState = (u32) randomState & ~(u32) (randomState >> 32);
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         randomState = randomState * 0x5d588b656c078965ull + 0x269ec3;
         gConnectionWork->mMPStateMachine.mDelayTimer = (u16) (((randomState >> 32) * 0xb4) >> 32) + 0x78;
     } else {

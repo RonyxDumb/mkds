@@ -14,7 +14,7 @@ struct UsbScan {
     /* 0f00 */ u8 mUnk_0f00[0x400];
     /* 1300 */ UsbScanEntry mUnk_1300[16];
     /* 1370 */ void (*mUnk_1370)(u32);
-    /* 1374 */ Unk021438f0 mUnk_1374;
+    /* 1374 */ ScanExParam mUnk_1374;
     /* 13ac */ u8 mUnk_13ac[0xc];
     /* 13b8 */ Unk02142988 mUnk_13b8;
     /* 1b74 */ u32 mUnk_1b74;

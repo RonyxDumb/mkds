@@ -278,8 +278,8 @@ u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size) {
 void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo) {
     u32 csAttribute;
     u32 ksAttribute;
-    Unk027ffc40 *bootInfo = gBootInfo;
-    MI_CpuCopy8(bootInfo->mUnk_00 == 2 ? bootInfo->mUnk_02 : NULL, bssDesc, 0x3c);
+    BootInfo *bootInfo = gBootInfo;
+    MI_CpuCopy8(bootInfo->mBootType == 2 ? bootInfo->mUnk_02 : NULL, bssDesc, 0x3c);
     bssDesc->mGameInfoLength = 0x10;
     bssDesc->mGameInfo.mGgid = bssDesc->mSsidHalfwords[0] | (bssDesc->mSsidHalfwords[1] << 16);
     bssDesc->mGameInfo.mTgid = bssDesc->mSsidHalfwords[2];

@@ -37,8 +37,8 @@ BOOL InitApScan(void) {
     } while (gApScan->mUnk_168c.mState != 2);
     apScan = gApScan;
     apScan->mUnk_1648 = gApScanParamTemplate;
-    apScan->mUnk_1648.mUnk_00.mUnk_00 = apScan->mUnk_0f00;
-    gApScan->mUnk_1648.mUnk_00.mUnk_08 = WM_GetDispersionScanPeriod();
+    apScan->mUnk_1648.mUnk_00.mScanBuf = apScan->mUnk_0f00;
+    gApScan->mUnk_1648.mUnk_00.mMaxChannelTime = WM_GetDispersionScanPeriod();
     if (StartApScan() != 0) {
         return 1;
     }

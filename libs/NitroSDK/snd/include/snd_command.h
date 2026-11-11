@@ -15,11 +15,11 @@ typedef struct SNDCommand {
 typedef void (*SNDAlarmHandler)(void *);
 
 // 12 bytes; SNDi_SetAlarmHandler sets mFunc and mArg and adds 1 to mId, SNDi_CallAlarmHandler calls mFunc with mArg.
-typedef struct Unk02021734 {
+typedef struct AlarmCallbackInfo {
     /* 00 */ SNDAlarmHandler mFunc;
     /* 04 */ void *mArg;
     /* 08 */ u8 mId;
-} Unk02021734;
+} AlarmCallbackInfo;
 
 extern SNDCommand *data_021732c8;
 extern u32 data_021732cc;
@@ -33,7 +33,7 @@ extern u32 data_021732e8;
 extern SNDCommand *data_021732ec[13];
 extern SNDSharedWork data_02173320;
 extern SNDCommand data_021735a0[256];
-extern Unk02021734 data_02174da0[8];
+extern AlarmCallbackInfo data_02174da0[8];
 
 u32 IsCommandAvailable(void);
 SNDCommand *AllocCommand(void);

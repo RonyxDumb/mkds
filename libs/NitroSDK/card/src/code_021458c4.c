@@ -674,7 +674,7 @@ void CARDi_InitCommon(void) {
     common->mCmd = &gRequestBlock;
     MemFillWordsByBlock_inline(&gRequestBlock, 0x40);
     DC_FlushRange(&gRequestBlock, 0x40);
-    if (SYSTEM_WORK->mWmBootBuf.mUnk_00 != 2) {
+    if (SYSTEM_WORK->mWmBootBuf.mBootType != 2) {
         MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, HW_CARD_ROM_HEADER, 0x160);
     }
     common->mLockQueue.mTail = 0;
@@ -685,7 +685,7 @@ void CARDi_InitCommon(void) {
     OS_CreateThread(&common->mThread, CARDi_TaskThread, 0, (u8 *) &gRomBaseOffset, 0x400, common->mPriority);
     OS_WakeupThreadDirect(&common->mThread);
     PXI_SetFifoRecvCallback(11, CARDi_OnFifoRecv);
-    if (SYSTEM_WORK->mWmBootBuf.mUnk_00 != 2) {
+    if (SYSTEM_WORK->mWmBootBuf.mBootType != 2) {
         CARD_Enable(1);
     }
 }

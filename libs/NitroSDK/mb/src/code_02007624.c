@@ -231,8 +231,8 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 mbc->mChildggid[arrayIndex] = payloadCopy.mUnk_00;
                 mbc->mChildversion[index] = payloadCopy.mUnk_1a;
                 index *= 0x16;
-                MI_CpuCopy8(payloadCopy.mUnk_04, OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, index), 0x16);
-                OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, index)->mUnk_00_4 = child;
+                MI_CpuCopy8(payloadCopy.mUnk_04, OFFSET_PTR(MBUserInfo, mbc->mChildUser, index), 0x16);
+                OFFSET_PTR(MBUserInfo, mbc->mChildUser, index)->mPlayerNo = child;
                 MBi_CommChangeParentState(child, 0xa, payloadCopy.mUnk_04);
             }
             if (childValue == 10) {

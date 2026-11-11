@@ -138,7 +138,7 @@ void ReleaseWLMenuScene(void) {
 #pragma thumb off
 
 u16 *WLMenuMB_GetMultiBootParam(void) {
-    return &gBootInfo->mUnk_00;
+    return &gBootInfo->mBootType;
 }
 
 u32 WLMenuMB_IsMultiBootChild(void) {

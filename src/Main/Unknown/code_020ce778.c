@@ -17,12 +17,12 @@ void UpdateVsSelectCupCourse(void) {
 }
 #pragma thumb off
 
-Unk027ffc40 *VsSelectCupMB_GetMultiBootParam(void) {
+BootInfo *VsSelectCupMB_GetMultiBootParam(void) {
     return gBootInfo;
 }
 
 BOOL VsSelectCupMB_IsMultiBootChild(void) {
-    return VsSelectCupMB_GetMultiBootParam()->mUnk_00 == 2 ? 1 : 0;
+    return VsSelectCupMB_GetMultiBootParam()->mBootType == 2 ? 1 : 0;
 }
 
 BOOL VsSelectCupMB_IsMultiBootChildWrapper(void) {

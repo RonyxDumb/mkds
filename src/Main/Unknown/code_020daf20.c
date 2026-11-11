@@ -61,8 +61,8 @@ MapObjectKindData *CreateDossunKindData(void) {
     return kindData;
 }
 
-Unk020dbed0 *CreateDossunDrawList(void) {
-    Unk020dbed0 *drawList;
+DossunDrawList *CreateDossunDrawList(void) {
+    DossunDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gDossunDrawList = drawList;
     *drawList = data_02158260;
@@ -426,8 +426,8 @@ MapObjectKindData *CreateKuriboKindData(void) {
     return kindData;
 }
 
-Unk020db20c *CreateKuriboDrawList(void) {
-    Unk020db20c *drawList;
+KuriboDrawList *CreateKuriboDrawList(void) {
+    KuriboDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gKuriboDrawList = drawList;
     *drawList = data_0215818c;

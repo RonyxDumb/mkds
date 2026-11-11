@@ -215,7 +215,7 @@ static inline u32 IsMultiBootSetupStartedModeOneOrChild(void) {
 }
 
 BOOL ConnectionMB_IsMultiBootChild(void) {
-    return gBootInfo->mUnk_00 == 2;
+    return gBootInfo->mBootType == 2;
 }
 
 void SetStepAndRequestPending(s32 step) {
@@ -325,7 +325,7 @@ static inline void SetGroupSendMaskIfMultiBootMode1(u8 groupSendMask) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         isAllowed = 1;
         if (DisconnectGetConnectionMode() != 1) {
-            if (gBootInfo->mUnk_00 != 2) {
+            if (gBootInfo->mBootType != 2) {
                 isAllowed = 0;
             }
         }

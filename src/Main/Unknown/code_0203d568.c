@@ -127,7 +127,7 @@ static inline void FinishKartIfMissionRun(s32 kartIndex) {
 void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     BOOL flag;
     BOOL missionTestPassed;
-    Unk021759c0_28 *missionSettings;
+    MissionSettings *missionSettings;
     EntryKartCounters *entryKartCounters;
 
     if (kart->mLap < 0x7fffffff) {

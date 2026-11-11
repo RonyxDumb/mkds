@@ -150,7 +150,7 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
             }
             break;
         case 2:
-            if (gBootInfo->mUnk_00 == 2) {
+            if (gBootInfo->mBootType == 2) {
                 switch (archiveKind) {
                     case 0:
                         RequestMainAndMenuDLArchives();
@@ -300,7 +300,7 @@ void LoadCourseSoundSetCallback(void) {
     u32 loaded;
 
     loaded = LoadCourseSoundSet((u32) gConnectionWork->mMode, (u32) gConnectionWork->mCourseId);
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         LoadSndBanksForCharacters(0);
     }
     if (loaded == 0) {

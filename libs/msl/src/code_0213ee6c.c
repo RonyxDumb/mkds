@@ -7,8 +7,7 @@
 #include "code_0214177c.h"
 #include "Main/Unknown/code_02130000.h"
 
-// 1 when left and right have the same mUnk_02 and the same digits (missing digits count as 0), or both have mUnk_05[0]
-// == 0.
+// 1 when left and right are equal.
 int DigitsEqual(const DigitRecord *left, const DigitRecord *right) {
     int digitIndex;
     int commonCount;
@@ -47,7 +46,7 @@ int DigitsEqual(const DigitRecord *left, const DigitRecord *right) {
     return 0;
 }
 
-// 1 when left is less than right: compares mUnk_05[0] == 0 first, then mUnk_02, then the digits from mUnk_05[0] on.
+// 1 when left is less than right.
 int DigitsLess(const DigitRecord *left, const DigitRecord *right) {
     int digitIndex;
     int commonCount;
@@ -92,8 +91,7 @@ int DigitsLess(const DigitRecord *left, const DigitRecord *right) {
     return left->mExponent < right->mExponent;
 }
 
-// Copies minuend to result; if subtrahend->mUnk_05[0] is not 0, subtracts its digits from the result, shifted by
-// mUnk_02, and then drops leading and trailing zero digits.
+// Copies minuend to result and subtracts subtrahend from it.
 void DigitsSubtract(DigitRecord *result, const DigitRecord *minuend, const DigitRecord *subtrahend) {
     int digitCount;
     int length;
@@ -217,9 +215,7 @@ done:
     result->mDigitCount = subEnd - resultDigits + 1;
 }
 
-// Fills out from the double value: mUnk_00 is the sign bit. A zero value gives one digit 0; an all-ones exponent gives
-// one digit, 0x4e when the mantissa bits are not all 0, else 0x49. Otherwise the digits come from DigitsFromU64 and
-// DigitsPowerOfTwo, combined by DigitsMultiply.
+// Fills out with the decimal digits of value.
 void DoubleToDigits(DigitRecord *out, double value) {
     int binaryExponent;
     double classifyCopy1;
@@ -309,10 +305,8 @@ void DoubleToDigits(DigitRecord *out, double value) {
     out->mNegative = sign;
 }
 
-// Calls DoubleToDigits on record, then raises mUnk_04 to the count (options->mUnk_02, at most 32) by appending 0
-// entries to mUnk_05, lowers record->mUnk_02 by mUnk_04 - 1 and adds 0x30 to every entry. Does nothing more when
-// mUnk_05[0] is above 9.
-void DoubleToDigitChars(Unk02140c28 *options, double value, DigitRecord *record) {
+// Calls DoubleToDigits on record, then pads it to the requested digit count and turns the digits into characters.
+void DoubleToDigitChars(DigitOptions *options, double value, DigitRecord *record) {
     int digitCount;
     int digitIndex;
 
@@ -512,8 +506,7 @@ double pow(double base, double power) {
     return PowBody(base, power);
 }
 
-// Classifies the exponent field of value: 1 and 2 when it is all ones (1 with mantissa bits set, 2 without), 3 and 5
-// when it is zero (3 with a zero mantissa, 5 otherwise), 4 otherwise.
+// Classifies the exponent field of value as 1 to 5.
 static inline int __fpclassifyd(double value) {
     int exponentBits = *((int *) &value + 1) & 0x7ff00000;
 
@@ -532,8 +525,7 @@ static inline int __fpclassifyd(double value) {
     return 4;
 }
 
-// Adds exponentDelta to the exponent field of value, scaling with multiplications by constants when it leaves the
-// normal range.
+// Adds exponentDelta to the exponent field of value.
 double ldexp(double value, int exponentDelta) {
     int highWord;
     int lowWord;
@@ -578,8 +570,7 @@ double ldexp(double value, int exponentDelta) {
     return value * 5.551115123125783e-17;
 }
 
-// Splits value into a fraction with an exponent field of 0x3fe and the exponent count stored to *exponentOut (0 and
-// value unchanged when value is zero or has an all-ones exponent field).
+// Splits value into a fraction and the exponent count stored to *exponentOut.
 double frexp(double value, int *exponentOut) {
     int absHigh;
     int highWord;

@@ -25,18 +25,18 @@ typedef struct Unk02023374 {
 } Unk02023374;
 
 // Argument of LetterChar, built on the stack by DrawGlyph1D and DrawGlyphLine.
-typedef struct Unk02023d84 {
-    /* 00 */ u32 *mUnk_00;
-    /* 04 */ u8 *mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-} Unk02023d84;
+typedef struct LetterCharInfo {
+    /* 00 */ u32 *mDst;
+    /* 04 */ u8 *mSrc;
+    /* 08 */ s32 mOfsX;
+    /* 0c */ s32 mOfsY;
+    /* 10 */ s32 mWidth;
+    /* 14 */ s32 mHeight;
+    /* 18 */ s32 mDsrc;
+    /* 1c */ s32 mSrcBpp;
+    /* 20 */ s32 mDstBpp;
+    /* 24 */ u32 mCl;
+} LetterCharInfo;
 
 void InitCharCanvas(Unk02023374 *a, void *b, s32 c, s32 d, u32 e,
                     void (*f)(Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *),
@@ -46,7 +46,7 @@ void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaW
 void ClearContinuous(Unk02023374 *pCanvas, u32 cl);
 void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
 void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
-void LetterChar(Unk02023d84 *pInfo);
+void LetterChar(LetterCharInfo *pInfo);
 void ClearChar(u8 *pChar, s32 startX, s32 startY, s32 width, s32 height, u32 cl8, s32 bpp);
 u32 OBJSizeToShape(const u8 *pSize);
 void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, u32 cl, u32 flags,

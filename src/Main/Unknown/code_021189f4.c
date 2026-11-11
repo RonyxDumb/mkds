@@ -82,7 +82,7 @@ void AdvanceSelectCupCourseState3(void) {
          IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputIndex].mPair.mPairX,
                                                          gInputSlots[inputIndex].mPair.mPairY) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
-            if (gBootInfo->mUnk_00 == 2) {
+            if (gBootInfo->mBootType == 2) {
                 SetSelectReturnSoundId(-1);
             } else {
                 SetSelectReturnSoundId(0xe);
@@ -116,7 +116,7 @@ void AdvanceSelectCupCourseState3(void) {
         if (gSelectCupCourse->mIndex < 0) {
             gSelectCupCourse->mIndex = 3;
         }
-        if (gBootInfo->mUnk_00 != 2) {
+        if (gBootInfo->mBootType != 2) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
         return;
@@ -126,7 +126,7 @@ void AdvanceSelectCupCourseState3(void) {
         if (gSelectCupCourse->mIndex >= 4) {
             gSelectCupCourse->mIndex = 0;
         }
-        if (gBootInfo->mUnk_00 != 2) {
+        if (gBootInfo->mBootType != 2) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     }
@@ -182,7 +182,7 @@ void AdvanceSelectCupCourseState6(void) {
 
     if (GetSelectChoisesDone() != 0) {
         RequestSelectCupCourseState7();
-        if (gBootInfo->mUnk_00 == 2) {
+        if (gBootInfo->mBootType == 2) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
                 case 0:
@@ -229,7 +229,7 @@ void AdvanceSelectCupCourseState7(void) {
                             SetCourseIdFromSelectCupCourse();
                             gSelectCupCourse->mResult = 1;
                             RequestSelectCupCourseState8();
-                            if (gBootInfo->mUnk_00 == 2) {
+                            if (gBootInfo->mBootType == 2) {
                                 SlideOutSelectRaceRuleWait();
                             }
                             break;
@@ -251,7 +251,7 @@ void AdvanceSelectCupCourseState8(void) {
     s32 cellIndex;
 
     gSelectCupCourse->mStateFrames++;
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         return;
     }
     if (gSelectCupCourse->mMode == 0) {
@@ -339,7 +339,7 @@ s32 AdvanceSelectCupCourse(void) {
             break;
     }
     AdvanceSelectCupCourseHighlight();
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         if (gSelectCupCourse->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
@@ -381,7 +381,7 @@ void LoadSelectCupGridData(void) {
     Nscr *selectCupMScreenMap = NULL;
     Nclr *selectCupMBPalette = NULL;
 
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         LoadNcgrData(&selectCupMBChars, FindSceneFile(gSelectCupGridMBNcgrName));
         LoadNclrData(&selectCupMBPalette, FindSceneFile(gSelectCupGridMBNclrName));
         LoadNscrData(&selectCupMScreenMap, FindSceneFile(gSelectCupGridMNscrName));
@@ -407,7 +407,7 @@ void LocateAndQueueSelectCupGrid(void) {
     Nclr *selectCupMBPalette = NULL;
     u16 *paletteData;
 
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(gSelectCupGridSBnblName);
         return;
     }

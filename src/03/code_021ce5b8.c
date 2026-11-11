@@ -32,12 +32,12 @@ BOOL InitUsbScan(void (*callback)(u32)) {
         } while (gUsbScan->mUnk_13b8.mState != 2);
         scan = gUsbScan;
         *(Bytes68 *) &scan->mUnk_1374 = gUsbScanParamTemplate;
-        scan->mUnk_1374.mUnk_00 = scan->mUnk_0f00;
-        gUsbScan->mUnk_1374.mUnk_08 = WM_GetDispersionScanPeriod();
+        scan->mUnk_1374.mScanBuf = scan->mUnk_0f00;
+        gUsbScan->mUnk_1374.mMaxChannelTime = WM_GetDispersionScanPeriod();
         OS_GetOwnerInfo(&ownerInfo);
-        MI_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mUnk_1374.mUnk_14[0], 8);
-        gUsbScan->mUnk_1374.mUnk_14[9] = 1;
-        MI_CpuCopy8(ownerInfo.mUnk_04, &gUsbScan->mUnk_1374.mUnk_14[0xc], ownerInfo.mUnk_18 * 2);
+        MI_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mUnk_1374.mSsid[0], 8);
+        gUsbScan->mUnk_1374.mSsid[9] = 1;
+        MI_CpuCopy8(ownerInfo.mUnk_04, &gUsbScan->mUnk_1374.mSsid[0xc], ownerInfo.mUnk_18 * 2);
         if (StartUsbScan() != 0) {
             gUsbScan->mUnk_1b7c = AddTask(0, AdvanceUsbScanReport, NULL, 0x78);
             return 1;

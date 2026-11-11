@@ -38,17 +38,17 @@ typedef struct SoundRow {
 } SoundRow;
 
 // 4-byte entries of the tables at data_021534bc, data_021534dc, data_02153500 and data_02153528.
-typedef struct Unk021534bc {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-} Unk021534bc;
+typedef struct SelectCharacterRowPosition {
+    /* 00 */ s16 mEntryX;
+    /* 02 */ s16 mEntryY;
+} SelectCharacterRowPosition;
 
 extern LabelMessageRow gMemberGroupLabelMessageRows[];
 extern SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[];
-extern Unk021534bc data_021534bc[];
-extern Unk021534bc data_021534dc[];
-extern Unk021534bc data_02153500[];
-extern Unk021534bc data_02153528[];
+extern SelectCharacterRowPosition data_021534bc[];
+extern SelectCharacterRowPosition data_021534dc[];
+extern SelectCharacterRowPosition data_02153500[];
+extern SelectCharacterRowPosition data_02153528[];
 extern SelectCharacterRow data_021535b4[];
 extern MemberRowCellIndices gMemberRowCellIndices[];
 extern u16 gMemberRowRectIndices[][3];
@@ -88,7 +88,7 @@ extern Unk021537f4 data_usa_021537f4[];
 extern s16 data_usa_02153834[];
 extern u16 data_021530b8[4][4];
 extern u16 data_021530d0[4][4];
-extern Unk02022aa8_f *data_021530e8[];
+extern SplitCharFunc *data_021530e8[];
 extern u32 data_02153118[][4];
 extern u8 data_usa_021530f8[4][4][2];
 

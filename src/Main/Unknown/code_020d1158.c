@@ -25,7 +25,7 @@ void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer) {
 }
 
 u16 *CupPictureMB_GetMultiBootParam(void) {
-    return &gBootInfo->mUnk_00;
+    return &gBootInfo->mBootType;
 }
 
 u32 CupPictureMB_IsMultiBootChild(void) {

@@ -93,7 +93,7 @@ extern void (*sSendVolatCallback)(u32 a);
 extern GameInfoList mbss;
 extern GameInfoBlock gGameInfoBlock;
 extern WMBssDesc data_0216fce0;
-extern Unk0216fc1c data_0216fd30[1];
+extern MbBeacon data_0216fd30[1];
 
 u32 MBi_CheckMBParent(WMBssDesc *scanBlock);
 u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scanBlock);

@@ -125,7 +125,7 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     RaceProgress *raceProgress = gRaceProgress;
     RaceProgressScoreTerms *savedScoreTerms = &raceProgress->mScoreTerms;
     s32 score;
-    Unk021759c0_28 *missionSettings;
+    MissionSettings *missionSettings;
 
     if ((raceProgress->mKarts[kartIndex].mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) == 0) {
         return 0;

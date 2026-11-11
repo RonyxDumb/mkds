@@ -249,7 +249,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
 
 // Send result callback of the data sharing sends: records the sequence number on success and the retry or error state
 // otherwise.
-void WmDataSharingSetDataCallback(Unk02144920 *callback) {
+void WmDataSharingSetDataCallback(PortCallbackMessage *callback) {
     WMArm9Buf *work;
     Unk02142988 *status;
     WMDataSharingInfo *share;
@@ -277,7 +277,7 @@ void WmDataSharingSetDataCallback(Unk02144920 *callback) {
         if (ownIndex != 0) {
             return;
         }
-        share->mSeqNum[share->mSendIndex] = callback->mUnk_1a >> 1;
+        share->mSeqNum[share->mSendIndex] = callback->mSeqNo >> 1;
         share->mSendIndex = (share->mSendIndex + 1) & 3;
         return;
     }
@@ -293,7 +293,7 @@ void WmDataSharingSetDataCallback(Unk02144920 *callback) {
 
 // Port callback of a parent: sends the next data set when the previous send finished (7), a child's data arrived (0x15)
 // or a child dropped out (9).
-void WmDataSharingReceiveCallback_Parent(Unk02144920 *callback) {
+void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
     WMDataSharingInfo *share;
     u32 enabled;
     enum { K0 } bit;
@@ -339,7 +339,7 @@ void WmDataSharingReceiveCallback_Parent(Unk02144920 *callback) {
 }
 
 // Port callback of a child: stores the data set the parent sent (0x15) as the next one to read.
-void WmDataSharingReceiveCallback_Child(Unk02144920 *callback) {
+void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback) {
     Unk02142988 *status;
     WMDataSharingInfo *share;
     u32 size;
@@ -379,7 +379,7 @@ void WmDataSharingReceiveCallback_Child(Unk02144920 *callback) {
             return;
         }
         MIi_CpuCopy16(data, &share->mDs[share->mWriteIndex], size);
-        share->mSeqNum[share->mWriteIndex] = callback->mUnk_1a >> 1;
+        share->mSeqNum[share->mWriteIndex] = callback->mSeqNo >> 1;
         share->mWriteIndex = (share->mWriteIndex + 1) & 3;
     } else {
         share->mStatus = 5;

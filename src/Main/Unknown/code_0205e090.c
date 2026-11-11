@@ -64,7 +64,7 @@ void InitRunScenesKind(void) {
     heap = GetHeap(GetCurrentHeapCall());
     switch (gRunScenesState->mKind) {
         case 0:
-            if (gBootInfo->mUnk_00 == 2) {
+            if (gBootInfo->mBootType == 2) {
                 sndHeapsKind = 2;
             } else {
                 sndHeapsKind = 0;

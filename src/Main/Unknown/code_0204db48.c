@@ -98,7 +98,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
         case 1:
             connectionWork->mStepWaitFrames = 0;
         case 2:
-            if (gBootInfo->mUnk_00 == 2) {
+            if (gBootInfo->mBootType == 2) {
                 ReadMultiBootParentBssDesc();
             } else {
                 StartConnect(NULL, NULL, NULL, ConnectFailedCallback, NULL);

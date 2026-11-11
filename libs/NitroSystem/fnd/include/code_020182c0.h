@@ -5,24 +5,24 @@
 
 // Record whose first fields ArchiveHeaderMatches checks; mUnk_0c is the offset of the first of mUnk_0e blocks that
 // ArchiveLoadFromMemory walks, each starting with a word and its own size.
-typedef struct Unk02018344 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+typedef struct NNSiFndArchiveHeader {
+    /* 00 */ u32 mSignature;
+    /* 04 */ u16 mByteOrder;
+    /* 06 */ u16 mVersion;
     /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-} Unk02018344;
+    /* 0c */ u16 mHeaderSize;
+    /* 0e */ u16 mDataBlocks;
+} NNSiFndArchiveHeader;
 
 // FSArchive followed by the three words ArchiveLoadFromMemory sets.
-typedef struct Unk020182c0 {
-    /* 00 */ FSArchive mUnk_00;
-    /* 5c */ Unk02018344 *mUnk_5c;
-    /* 60 */ u8 *mUnk_60;
-    /* 64 */ u8 *mUnk_64;
-} Unk020182c0;
+typedef struct NNSFndArchive {
+    /* 00 */ FSArchive mFsArchive;
+    /* 5c */ NNSiFndArchiveHeader *mArcBinary;
+    /* 60 */ u8 *mFatData;
+    /* 64 */ u8 *mFileImage;
+} NNSFndArchive;
 
 void *ArchiveFileGetAddress(const u8 *path);
 u32 ArchiveUnload(FSArchive *archive);
-u32 ArchiveLoadFromMemory(Unk020182c0 *archive, const u8 *name, Unk02018344 *header);
-u32 ArchiveHeaderMatches(Unk02018344 *header);
+u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchiveHeader *header);
+u32 ArchiveHeaderMatches(NNSiFndArchiveHeader *header);

@@ -8,11 +8,11 @@ extern Vec3 data_02158088;
 extern struct Quaternion data_02158140;
 extern struct Quaternion data_02158150;
 extern MapObjectList data_02158164;
-extern struct Unk020db20c data_0215818c;
+extern struct KuriboDrawList data_0215818c;
 extern MapObjectKindData data_021581b8;
 extern Vec3 data_021581f8;
 extern MapObjectList data_02158238;
-extern struct Unk020dbed0 data_02158260;
+extern struct DossunDrawList data_02158260;
 extern MapObjectKindData data_0215828c;
 // Object of 0x2c bytes made by CreateWanwanChainDrawList and the other factories that copy a template from 0x02158xxx.
 typedef struct MapObjectDrawList {

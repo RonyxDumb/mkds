@@ -68,7 +68,7 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
     if (ParticipantGetWorkConnectionMode(connectionWork) != 2) {
         return FALSE;
     }
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         return FALSE;
     }
     if (connectionWork->mScanSlots[entryIndex].mInUse != 0) {
@@ -88,7 +88,7 @@ BOOL IsScanSlotMultiBoot(u16 entryIndex) {
     entryValid = FALSE;
     if (ParticipantGetConnectionMode() != 2) {
         entryValid = FALSE;
-    } else if (gBootInfo->mUnk_00 == 2) {
+    } else if (gBootInfo->mBootType == 2) {
         entryValid = FALSE;
     } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
         entryValid = TRUE;
@@ -109,7 +109,7 @@ s32 GetScanSlotChildCount(u16 entryIndex) {
     entryValid = FALSE;
     if (ParticipantGetConnectionMode() != 2) {
         entryValid = FALSE;
-    } else if (gBootInfo->mUnk_00 == 2) {
+    } else if (gBootInfo->mBootType == 2) {
         entryValid = FALSE;
     } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
         entryValid = TRUE;
@@ -245,7 +245,7 @@ void SetGroupSendMaskAsParent(u8 sendMask) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
         if (ParticipantGetConnectionMode() != 1) {
-            if (gBootInfo->mUnk_00 != 2) {
+            if (gBootInfo->mBootType != 2) {
                 allowed = FALSE;
             }
         }

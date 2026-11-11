@@ -40,7 +40,7 @@
 s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     u32 subDisplayBits;
     gSelectReturn = HeapAlloc(heap, 0x828);
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         InitSelectReturnDisplay();
         subCharOffset = LoadSelectReturn(subCharOffset);
         gSelectReturn->mDisplayBitOn = TRUE;
@@ -114,7 +114,7 @@ void SetSelectReturnPaletteBits(s32 paletteKind) {
         gSelectReturn->mScreenMapCopy[tileIndex] &= ~0xf000;
         gSelectReturn->mScreenMapCopy[tileIndex] |= paletteBits;
     }
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         NNS_GfdRegisterNewVramTransferTask(0x1a, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260], 0x200);
     }
 }
@@ -342,7 +342,7 @@ void ClearSelectReturnDisplayBitOn(void) {
 
 #pragma thumb on
 void SetSelectReturnDisplayBitOn(void) {
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         gSelectReturn->mDisplayBitOn = TRUE;
     }
 }
@@ -369,7 +369,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     TextCanvas *textCanvas;
     u32 subDisplayBits;
     gSelectChoises = HeapAlloc(heap, 0x8b4);
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         InitSelectChoisesDisplay();
         subCharOffset = LoadSelectChoises(subCharOffset);
         gSelectChoises->mDisplayBitOn = 1;
@@ -547,7 +547,7 @@ void RefreshAndQueueSelectChoises(void) {
     gSelectChoises->mToggleOn = 1;
     RefreshSelectChoisesPaletteBits();
     RefreshSelectChoisesNscrCopy();
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
@@ -561,7 +561,7 @@ void RefreshSelectChoisesPaletteNoIndex(void) {
     gSelectChoises->mIndex = savedIndex;
     gSelectChoises->mToggleFrames = 0;
     gSelectChoises->mToggleOn = 1;
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
@@ -582,7 +582,7 @@ void AdvanceSelectChoisesState0(void) {
             for (choiceIndex = 0; choiceIndex < 2; choiceIndex++) {
                 for (partIndex = 0; partIndex < 2; partIndex++) {
                     tileOffset = (partIndex + choiceIndex * 2) * 32 + 5;
-                    if (gBootInfo->mUnk_00 != 2) {
+                    if (gBootInfo->mBootType != 2) {
                         NNS_GfdRegisterNewVramTransferTask(
                             0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
                             gSelectChoises->mCharBuffers[choiceIndex] + ((partIndex * 32 + 5) << 5), 0x360);
@@ -734,7 +734,7 @@ void AdvanceSelectChoises(void) {
             gSelectChoises->mToggleOn = gSelectChoises->mToggleOn == 0;
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();
-            if (gBootInfo->mUnk_00 != 2) {
+            if (gBootInfo->mBootType != 2) {
                 NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
             }
         }

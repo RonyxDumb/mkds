@@ -238,7 +238,7 @@ void RunMessageScreenThread(void *unused) {
         }
         OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
         StopAllSeqPlayers();
-        if (gBootInfo->mUnk_00 == 2) {
+        if (gBootInfo->mBootType == 2) {
             BootInfoStartMessageScreenSeq();
         } else {
             StartMessageScreenSeq();
@@ -303,7 +303,7 @@ void RunMessageScreen(void) {
     if (gDisplaySettings != NULL) {
         hasDisplaySettings = TRUE;
     }
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
     }
     ResetKeysInputSlot();
@@ -312,11 +312,11 @@ void RunMessageScreen(void) {
     if (SceneIsWiFiSessionHeapCreated()) {
         sessionHeapCreated = TRUE;
     }
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
     }
     StopAllSeqPlayers();
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         BootInfoStartMessageScreenSeq();
     } else {
         StartMessageScreenSeq();
@@ -376,7 +376,7 @@ void RunMessageScreenOfKind(s32 kind) {
     hasDisplaySettings = gDisplaySettings != NULL;
     switch (kind) {
         case 0:
-            if (gBootInfo->mUnk_00 != 2) {
+            if (gBootInfo->mBootType != 2) {
                 inputEnabled = TRUE;
             }
             break;
@@ -472,7 +472,7 @@ u32 IsDataSharingIncomplete(void) {
 }
 
 BOOL ShouldGoSleepMode(void) {
-    if (gBootInfo->mUnk_00 == 2 || SceneIsConnectionActive() ||
+    if (gBootInfo->mBootType == 2 || SceneIsConnectionActive() ||
         (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0) || GetCurrentSceneNumber() == 13 ||
         GetCurrentSceneNumber() == 6) {
@@ -484,7 +484,7 @@ BOOL ShouldGoSleepMode(void) {
 u32 IsVolatileHalfwordIndex39Ignored(void) {
     s32 unused;
 
-    if (gBootInfo->mUnk_00 == 2 || SceneIsConnectionActive() || GetCurrentSceneNumber() == 6 ||
+    if (gBootInfo->mBootType == 2 || SceneIsConnectionActive() || GetCurrentSceneNumber() == 6 ||
         GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLogin() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0)) {
         return 1;

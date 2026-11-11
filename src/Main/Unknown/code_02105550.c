@@ -469,7 +469,7 @@ void InitSceneSounds(s32 unused) {
     SoundRow buf;
     ScenePlayersSeqInfo scenePlayersSeqInfo;
 
-    if (gBootInfo->mUnk_00 == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
     ClearSurfaceSoundIds();
@@ -731,7 +731,7 @@ void InitSceneSounds(s32 unused) {
             }
             SelectCourseSoundTable(value);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                Unk021759c0_28 *setupView = &gRaceSetup->mUnk_28_view;
+                MissionSettings *setupView = &gRaceSetup->mUnk_28_view;
                 switch (gRaceSetup->mMissionKind) {
                     case 1:
                         gMissionRunCountSeqNo[0] = 0x1d7;
@@ -772,7 +772,7 @@ void InitSceneSounds(s32 unused) {
             }
             { break; }
         case 1:
-            if (gBootInfo->mUnk_00 != 2) {
+            if (gBootInfo->mBootType != 2) {
                 savedHeap = gCurrentSndHeap;
                 if (gLoadedSoundBanks.mLoadMarker == 0xff00 || gLoadedSoundBanks.mBankMask != 0xffff) {
                     NNS_SndHeapClear(gSndHeap);
@@ -818,16 +818,16 @@ void InitSceneSounds(s32 unused) {
     InitKartSoundQueue();
     ResetSoundRequestQueues();
     ResetSeqPlayerControl();
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         LoadSceneSoundSet(buf, 0);
     }
     if (currentSceneNumber != 1) {
         return;
     }
-    if (gBootInfo->mUnk_00 != 2) {
+    if (gBootInfo->mBootType != 2) {
         NNS_SndArcLoadBank(2, gCurrentSndHeap);
     }
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         return;
     }
     data_0217c798[0] = NNS_SndHeapSaveState(gCurrentSndHeap);
@@ -866,7 +866,7 @@ void StartSceneSounds(void) {
     NNSSndSeqPlayer **seqHandle;
     s32 playerId2;
 
-    if (gBootInfo->mUnk_00 == 2) {
+    if (gBootInfo->mBootType == 2) {
         if (GetCurrentSceneNumber() == 6) {
             return;
         }
@@ -1458,7 +1458,7 @@ void UpdateSceneSoundState(void) {
             NNS_SndPlayerStopSeq(&gScenePlayersSeqPlayer, 0x1b);
         }
     } else if (GetCurrentSceneNumber() == 1 || GetCurrentSceneNumber() == 0xc) {
-        if (gBootInfo->mUnk_00 != 2) {
+        if (gBootInfo->mBootType != 2) {
             UpdateSeqQueue();
         }
     } else if (GetCurrentSceneNumber() == 3) {
@@ -1476,7 +1476,7 @@ void StopSceneSounds(void) {
     s32 poolIndex;
     u8 *playerCursor;
 
-    if (gBootInfo->mUnk_00 == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
@@ -1503,7 +1503,7 @@ void StopSceneSoundsAtOnce(void) {
     u8 *playerCursor;
     SoundHandlePool *playerTable;
 
-    if (gBootInfo->mUnk_00 == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == 2 && GetCurrentSceneNumber() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
