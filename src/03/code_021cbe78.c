@@ -17,7 +17,7 @@ void UpdateConnectMessageFadeIn(void) {
     s32 secondaryPairSecond;
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         GetSecondaryMenuPair(NULL, &secondaryPairSecond);
-        CreateMessageBox(messageIds.mUnk_00[secondaryPairSecond], 1, 1, -1, 0);
+        CreateMessageBox(messageIds.mMessageIndices[secondaryPairSecond], 1, 1, -1, 0);
         SetUpdateFunction(UpdateConnectMessage);
     }
 }

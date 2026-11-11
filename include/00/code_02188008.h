@@ -9,7 +9,7 @@
 typedef struct DWCNetcheckParam {
     /* 00 */ void *(*mAlloc)();
     /* 04 */ void (*mFree)();
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 mBmworkarea;
 } DWCNetcheckParam;
 
 // Element of the table at 0x300 of an Unk02188408.

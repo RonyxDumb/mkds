@@ -7,7 +7,7 @@ typedef struct Gt2Socket Gt2Socket;
 
 typedef struct Unk0219887c {
     /* 00 */ u8 mUnk_00[0x40];
-    /* 40 */ u8 *mUnk_40;
+    /* 40 */ u8 *mData;
 } Unk0219887c;
 
 u8 *gt2GetConnectionData(Unk0219887c *object);

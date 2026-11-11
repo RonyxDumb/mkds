@@ -21,7 +21,7 @@ typedef struct ConnectReply {
 } ConnectReply;
 
 typedef struct NewProfileReply {
-    /* 0 */ s32 mUnk_00;
+    /* 0 */ s32 mResult;
     /* 4 */ u8 mUnk_04[4];
 } NewProfileReply;
 
@@ -33,7 +33,7 @@ typedef struct ProfileSearchReply {
 } ProfileSearchReply;
 
 typedef struct RegisterNickReply {
-    /* 0 */ s32 mUnk_00;
+    /* 0 */ s32 mResult;
 } RegisterNickReply;
 
 // Three words printed by GpiPeerSendXfer.

@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct PreAuthPMRespformatText {
-    /* 00 */ s8 mUnk_00[0x24];
+    /* 00 */ s8 mText[0x24];
 } PreAuthPMRespformatText;
 
 // 0x1d bytes written into the buffer of GenerateAuthA when the two strings are too long.

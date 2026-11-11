@@ -36,8 +36,8 @@ s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
     len = sprintf((char *) replyBuf, gChallengeHashFormat, len, gcd_secret_key);
     MD5Digest((const char *) replyBuf, len, md5Text);
     gEnc = gEnc3;
-    xcode_buf(replyFormat.mUnk_00, 0x2b);
-    len = sprintf((char *) replyBuf, (const char *) replyFormat.mUnk_00, gcd_gamename, md5Text, gameport);
+    xcode_buf(replyFormat.mText, 0x2b);
+    len = sprintf((char *) replyBuf, (const char *) replyFormat.mText, gcd_gamename, md5Text, gameport);
     if (DoSend(replyBuf, len) <= 0) {
         closesocket(gSock);
         return 3;
@@ -218,9 +218,9 @@ void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 
     if (sentBytes <= 0) {
         GstatsClose();
         gEnc = gEnc3;
-        xcode_buf(errorBytes.mUnk_00, 0xf);
+        xcode_buf(errorBytes.mText, 0xf);
         if (callback != NULL) {
-            callback(ownId, 0, 0, errorBytes.mUnk_00, instance);
+            callback(ownId, 0, 0, errorBytes.mText, instance);
         }
     } else {
         AddRequestCallback(0, ownId, 0, 0, 0, callback, instance);
@@ -235,14 +235,14 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u
     s8 *packetData;
     s32 totalLength;
     gEnc = gEnc3;
-    xcode_buf(replyFormat.mUnk_00, 0x3e);
+    xcode_buf(replyFormat.mText, 0x3e);
     if (type == 0 || type == 2) {
         if (callback != NULL) {
             callback(ownId, profileId, type, index, 0, 0, instance);
         }
         return;
     }
-    headLen = sprintf((char *) packetBuf, (const char *) replyFormat.mUnk_00, profileId, type, index, kvset, ownId, len);
+    headLen = sprintf((char *) packetBuf, (const char *) replyFormat.mText, profileId, type, index, kvset, ownId, len);
     totalLength = headLen + len;
     if (totalLength < 0x1e0) {
         memcpy(packetBuf + headLen, data, len);
@@ -462,8 +462,8 @@ void ClosePendingCallbacks(void) {
         for (index = DarrayGetCount(gServerReqs) - 1; index >= 0; index--) {
             errorBytes = gConnErrorClosePending;
             gEnc = gEnc3;
-            xcode_buf((s8 *) errorBytes.mUnk_00, 0xf);
-            CallReqCallback(index, 0, 0, errorBytes.mUnk_00, 0);
+            xcode_buf((s8 *) errorBytes.mText, 0xf);
+            CallReqCallback(index, 0, 0, errorBytes.mText, 0);
         }
         DarrayDelete(gServerReqs);
         gServerReqs = NULL;

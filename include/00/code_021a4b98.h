@@ -28,7 +28,7 @@ typedef struct WCMApListHeader {
     /* 00 */ u32 mCount;
     /* 04 */ WCMApList *mHead;
     /* 08 */ WCMApList *mTail;
-    /* 0c */ WCMApList mUnk_0c[1];
+    /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
 // 0x2300 bytes; the word gWcmWork points to it.

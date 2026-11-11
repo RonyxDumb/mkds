@@ -73,7 +73,7 @@ extern u8 gMatchingMaskedParticipantIndices[0x20];
 typedef struct DWCMatchOptSCBlock {
     /* 00 */ u8 mValid;
     /* 01 */ u8 mLock;
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 mPad;
 } DWCMatchOptSCBlock;
 
 extern DWCMatchOptSCBlock gOptSCBlock;

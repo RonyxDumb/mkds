@@ -101,7 +101,7 @@ typedef struct Unk0219887c Unk0219887c;
 typedef struct DWCConnectionInfo {
     /* 00 */ u8 mIndex;
     /* 01 */ u8 mAid;
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 mReserve;
     /* 04 */ u32 mParam;
 } DWCConnectionInfo;
 

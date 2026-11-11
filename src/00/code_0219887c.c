@@ -23,12 +23,12 @@ void gt2SetConnectionData(Unk0219887c *connection, void *data) {
     if (connection == NULL) {
         AssertionFailed(gGt2MainConnectionAssert, gGt2MainFileName, NULL, 0x19c);
     }
-    connection->mUnk_40 = data;
+    connection->mData = data;
 }
 
 u8 *gt2GetConnectionData(Unk0219887c *object) {
     if (object == NULL) {
         AssertionFailed(gGt2MainConnectionAssert, gGt2MainFileName, NULL, 0x1a3);
     }
-    return object->mUnk_40;
+    return object->mData;
 }

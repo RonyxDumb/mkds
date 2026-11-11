@@ -78,11 +78,11 @@ BOOL RegisterMultiBootFile(Unk021cf8ac *gameRegistry) {
     u32 registered;
 
     registered = 0;
-    if (gameRegistry->mUnk_00 == NULL) {
+    if (gameRegistry->mRomFilePathp == NULL) {
         segmentFile = NULL;
     } else {
         FS_InitFile(&openedFile);
-        if (FS_OpenFile(&openedFile, gameRegistry->mUnk_00) == 0) {
+        if (FS_OpenFile(&openedFile, gameRegistry->mRomFilePathp) == 0) {
             return registered;
         }
         segmentFile = &openedFile;

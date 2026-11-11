@@ -23,7 +23,7 @@ typedef struct ServerReq {
 } ServerReq;
 
 typedef struct ConnErrorBytes {
-    /* 00 */ u8 mUnk_00[0x10];
+    /* 00 */ u8 mText[0x10];
 } ConnErrorBytes;
 
 // Entry of the list at gServerReqs; only the words read here.
@@ -45,11 +45,11 @@ typedef struct Unk02197020 {
 } Unk02197020;
 
 typedef struct SetPersistRespformatText {
-    /* 00 */ s8 mUnk_00[0x3f];
+    /* 00 */ s8 mText[0x3f];
 } SetPersistRespformatText;
 
 typedef struct ConnErrorText {
-    /* 00 */ s8 mUnk_00[0x10];
+    /* 00 */ s8 mText[0x10];
 } ConnErrorText;
 
 typedef struct KeyspecText {
@@ -57,7 +57,7 @@ typedef struct KeyspecText {
 } KeyspecText;
 
 typedef struct ChallengeRespformatText {
-    /* 00 */ s8 mUnk_00[0x2c];
+    /* 00 */ s8 mText[0x2c];
 } ChallengeRespformatText;
 
 extern s32 gSock;

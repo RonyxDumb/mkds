@@ -19,7 +19,7 @@ typedef struct Bytes23 {
 
 // Six bytes moved as one value.
 typedef struct Bytes6 {
-    /* 0 */ u8 mUnk_00[6];
+    /* 0 */ u8 mBytes[6];
 } Bytes6;
 
 // Twenty-two bytes moved as one value.
@@ -34,12 +34,12 @@ typedef struct Unk021d7654 {
 
 // Four bytes moved as one value.
 typedef struct WayPaletteRows {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ u8 mRowIndices[4];
 } WayPaletteRows;
 
 // Three words moved as one value.
 typedef struct ConnectMessageIds {
-    /* 00 */ u32 mUnk_00[3];
+    /* 00 */ u32 mMessageIndices[3];
 } ConnectMessageIds;
 
 // Objects whose layout isn't known yet.

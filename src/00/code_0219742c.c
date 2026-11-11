@@ -210,8 +210,8 @@ void PreAuthenticatePlayerPartner(s32 localId, s32 profileId, s32 challengeRespo
     s8 data[0x100];
     s32 len;
     gEnc = gEnc3;
-    xcode_buf(replyFormat.mUnk_00, 0x23);
-    len = sprintf((char *) data, (const char *) replyFormat.mUnk_00, profileId, challengeResponse, localId);
+    xcode_buf(replyFormat.mText, 0x23);
+    len = sprintf((char *) data, (const char *) replyFormat.mText, profileId, challengeResponse, localId);
     SendPlayerAuthRequest(data, len, localId, callback, instance);
 }
 

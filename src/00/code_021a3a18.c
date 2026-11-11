@@ -663,7 +663,7 @@ void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len) {
     u8 *cookieBytes;
     if (len >= 10) {
         for (index = 0; index < 6; index++) {
-            if (magicRef.mUnk_00[index] != buf[index]) {
+            if (magicRef.mBytes[index] != buf[index]) {
                 natNegPacket = FALSE;
                 break;
             }

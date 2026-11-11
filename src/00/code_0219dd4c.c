@@ -97,7 +97,7 @@ void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void
     DWCi_ClearGameMatchKeys();
     gOptSCBlock.mValid = 0;
     gOptSCBlock.mLock = 0;
-    gOptSCBlock.mUnk_02 = 0;
+    gOptSCBlock.mPad = 0;
     DWCi_ResetMatchParam(0);
 }
 
@@ -411,7 +411,7 @@ u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *d
     }
     v = 0;
     MIi_CpuClear32(v, &originAddr, 8);
-    originAddr.mUnk_01 = 2;
+    originAddr.mFamily = 2;
     originAddr.mAddress = address;
     originAddr.mPort = ((port >> 8) & 0xff) | ((port << 8) & 0xff00);
     firstByte = data[0];
@@ -484,7 +484,7 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, Unk0219887c *connection, u32 add
     gWiFiMatching->mLastParticipantPos++;
     connectionInfo->mIndex = index;
     connectionInfo->mAid = gWiFiMatching->mParticipantIndices[gWiFiMatching->mLastParticipantPos - 1];
-    connectionInfo->mUnk_02 = 0;
+    connectionInfo->mReserve = 0;
     connectionInfo->mParam = 0;
     gt2SetConnectionData(connection, connectionInfo);
     DWCi_PostProcessConnection(2);
@@ -551,7 +551,7 @@ void DWCi_GT2ConnectedCallback(Unk0219887c *connection, s32 result) {
     *connHandleSlot = connection;
     gWiFiMatching->mLastParticipantPos++;
     connInfoRec->mIndex = index;
-    connInfoRec->mUnk_02 = 0;
+    connInfoRec->mReserve = 0;
     connInfoRec->mParam = 0;
     connInfoRec->mAid = gWiFiMatching->mParticipantIndices[gWiFiMatching->mLastParticipantPos];
     gt2SetConnectionData(connection, connInfoRec);
@@ -1214,7 +1214,7 @@ u32 DWCi_SendSBMsgCommand(u32 command, u32 address, u32 port, u32 *values, u32 v
         valueCount = 0;
     }
     *(MatchingSignatureText *) &header = *(MatchingSignatureText *) gMatchingSignature;
-    header.mUnk_04 = 3;
+    header.mVersion = 3;
     header.mCommand = command;
     header.mValuesSize = valueCount * 4;
     header.mPort = gWiFiMatching->mOwnPort;
@@ -3253,7 +3253,7 @@ void DWCi_QR2ClientMsgCallback(const void *data, u32 len) {
             if (strncmp(header.mSignature, gMatchingSignature, 4) != 0) {
                 break;
             }
-            if (header.mUnk_04 != 3) {
+            if (header.mVersion != 3) {
                 break;
             }
             MI_CpuCopy8(data + 0x14, body, header.mValuesSize);

@@ -6,7 +6,7 @@
 typedef struct DWCInetControl DWCInetControl;
 
 typedef struct NatnegMagic {
-    /* 0 */ u8 mUnk_00[6];
+    /* 0 */ u8 mBytes[6];
 } NatnegMagic;
 
 typedef struct QueryBuffer QueryBuffer;

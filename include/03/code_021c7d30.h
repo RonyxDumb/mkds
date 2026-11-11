@@ -7,7 +7,7 @@ typedef struct Rect Rect;
 
 // Table of bytes PlaceJb3ListSelectionPair reads.
 typedef struct Jb3ListSelectionRectIndices {
-    /* 00 */ u8 mUnk_00[0xe];
+    /* 00 */ u8 mRectIndices[0xe];
 } Jb3ListSelectionRectIndices;
 
 extern u8 gJb3ListPaletteRows[];

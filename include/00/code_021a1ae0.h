@@ -34,7 +34,7 @@
 // Address and byte-swapped port built by DWCi_GT2UnrecognizedMessageCallback and handed on with the data.
 typedef struct UnmatchedDataAddress {
     /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
+    /* 01 */ u8 mFamily;
     /* 02 */ u16 mPort;
     /* 04 */ u32 mAddress;
 } UnmatchedDataAddress;

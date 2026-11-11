@@ -96,8 +96,8 @@ void MoveWaySelection(int direction) {
 
 void RequestWayPaletteRowCopy(void) {
     WayPaletteRows paletteRows = gWayPaletteRows;
-    RequestBgPaletteRowCopy(gYbBgStep21Ncl, paletteRows.mUnk_00[gWaySelectedIndex],
-                            paletteRows.mUnk_00[gWaySelectedIndex]);
+    RequestBgPaletteRowCopy(gYbBgStep21Ncl, paletteRows.mRowIndices[gWaySelectedIndex],
+                            paletteRows.mRowIndices[gWaySelectedIndex]);
 }
 
 void CreateAp(void) {

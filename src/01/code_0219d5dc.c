@@ -449,5 +449,5 @@ void WriteOptionEmbremSelectRegisters(void) {
 void RegisterOptionEmbremSelectCallbacks(void) {
     OptionStateCallbackTable local = gOptionEmbremSelectCallbacks;
 
-    SetOptionStateCallbacks(local.mUnk_00);
+    SetOptionStateCallbacks(local.mCallbacks);
 }

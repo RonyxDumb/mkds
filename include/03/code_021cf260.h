@@ -34,7 +34,7 @@ typedef struct MultiBootParentHeader {
 
 // Object with the path pointer at 0x00 that RegisterMultiBootFile takes.
 typedef struct Unk021cf8ac {
-    /* 00 */ const u8 *mUnk_00;
+    /* 00 */ const u8 *mRomFilePathp;
 } Unk021cf8ac;
 
 void *GetMultiBootChildRecord(u32 index);

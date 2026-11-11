@@ -46,7 +46,7 @@ void LoadJb2MenuFilesAndSetBgCnt(void) {
     LoadFileToVram(gJbBgStep1NcgName2, GX_LoadBG2Char);
     LoadFileToVram(gJbBgStep1NclName2, GX_LoadBGPltt);
     LoadFileToVram(gJb2MenuNscName, GX_LoadBG2Scr);
-    gYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage(ybBgStep11NclName.mUnk_00), NULL, 4);
+    gYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage(ybBgStep11NclName.mText), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
@@ -176,6 +176,6 @@ void RequestJb2MenuPaletteRowCopy(void) {
     Jb2MenuPaletteRows paletteRows;
     u8 tableByte;
     paletteRows = gJb2MenuPaletteRows;
-    tableByte = paletteRows.mUnk_00[gJb2MenuSelectedIndex];
+    tableByte = paletteRows.mRowIndices[gJb2MenuSelectedIndex];
     RequestBgPaletteRowCopy(gYbBgStep11Ncl, tableByte, tableByte);
 }

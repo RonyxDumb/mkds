@@ -980,7 +980,7 @@ void PlaceJb3ListSelectionPair(void) {
     Rect selectionRect;
     s32 rectIndex;
     selectionRectIndices = gJb3ListSelectionRectIndices;
-    rectIndex = selectionRectIndices.mUnk_00[gJb3ListSelectedId];
+    rectIndex = selectionRectIndices.mRectIndices[gJb3ListSelectedId];
     if (rectIndex >= 3) {
         PlaceSelectionPair(3, gJb3ListSelectionRects[rectIndex].mX, gJb3ListSelectionRects[rectIndex].mUnk_04,
                            gJb3ListSelectionRects[rectIndex].mY);

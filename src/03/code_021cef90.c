@@ -79,7 +79,7 @@ void CreateMessageBox(u32 messageIndex, s32 kind, s32 adjustBrightness, u32 colu
                        GetLanguageTextFlags(), messageText);
     ArrangeObjTextCanvasRange(gMessageBox->mTextCanvas, 0x100, 0, gMessageBox->mText, 0);
     WriteWinInOutBits(0, 0, 0x1f, 0);
-    WriteWinInOutBits(0, 1, 0x1f, windowExtraBitFlags.mUnk_00[gMessageBox->mKind]);
+    WriteWinInOutBits(0, 1, 0x1f, windowExtraBitFlags.mBytes[gMessageBox->mKind]);
     WriteWinInOutBits(0, 3, 0x1f, 1);
     WriteWinRect(0, 1, gMessageBoxWindowRect);
     PlaceMessageBox(0xc0);

@@ -70,8 +70,8 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     ybBgOption1NclName = gYbBgOption1NclName;
     LoadFileToVram(gJbBgOptionNcgName, GX_LoadBG2Char);
     LoadFileToVram(gJb5OptMenuNscName, GX_LoadBG2Scr);
-    gYbBgOption1Ncl = LoadFile(BuildFilePathWithLanguage(ybBgOption1NclName.mUnk_00), NULL, 4);
-    palette = LoadFile(BuildFilePathWithLanguage(ybBgOptionNclName.mUnk_00), NULL, 4);
+    gYbBgOption1Ncl = LoadFile(BuildFilePathWithLanguage(ybBgOption1NclName.mText), NULL, 4);
+    palette = LoadFile(BuildFilePathWithLanguage(ybBgOptionNclName.mText), NULL, 4);
     DWCi_BM_GetWiFiInfo(&wifiInfo);
     if (wifiInfo.mAttestedUserId == 0) {
         copyFrom = palette + 0xc0;

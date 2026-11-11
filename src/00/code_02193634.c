@@ -79,7 +79,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(newProfileArg, 0, 8);
-                newProfileArg->mUnk_00 = operation->mResult;
+                newProfileArg->mResult = operation->mResult;
                 result = GpiQueueCallback(connection, callback, newProfileArg, operation, 0);
                 if (result != 0) {
                     return result;
@@ -119,7 +119,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(uniquenickArg, 0, 4);
-                uniquenickArg->mUnk_00 = operation->mResult;
+                uniquenickArg->mResult = operation->mResult;
                 result = GpiQueueCallback(connection, callback, uniquenickArg, operation, 0);
                 if (result != 0) {
                     return result;

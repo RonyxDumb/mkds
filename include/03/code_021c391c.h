@@ -6,11 +6,11 @@ typedef struct OamEntry OamEntry;
 typedef struct Rect Rect;
 
 typedef struct YbBgOptionNclName {
-    /* 00 */ u8 mUnk_00[0x16];
+    /* 00 */ u8 mText[0x16];
 } YbBgOptionNclName;
 
 typedef struct YbBgOption1NclName {
-    /* 00 */ u8 mUnk_00[0x17];
+    /* 00 */ u8 mText[0x17];
 } YbBgOption1NclName;
 
 extern u8 gOptMenuPaletteRows[];

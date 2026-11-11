@@ -4,7 +4,7 @@
 
 // Four callbacks handed over as one block.
 typedef struct OptionStateCallbackTable {
-    /* 00 */ UnkFunc *mUnk_00[4];
+    /* 00 */ UnkFunc *mCallbacks[4];
 } OptionStateCallbackTable;
 
 #include "01/code_02192000.h"

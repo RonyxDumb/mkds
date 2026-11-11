@@ -6,11 +6,11 @@
 typedef struct Rect Rect;
 
 typedef struct Jb2MenuPaletteRows {
-    /* 0 */ u8 mUnk_00[2];
+    /* 0 */ u8 mRowIndices[2];
 } Jb2MenuPaletteRows;
 
 typedef struct YbBgStep11NclName {
-    /* 00 */ u8 mUnk_00[0x16];
+    /* 00 */ u8 mText[0x16];
 } YbBgStep11NclName;
 
 extern Rect gJb2MenuRects[];

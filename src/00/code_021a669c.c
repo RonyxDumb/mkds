@@ -126,7 +126,7 @@ WCMApList *WcmAllocApList(void) {
         capacity = (work->mNbdBuffer - 0xc) / 0xd0;
         if (capacity != 0 && capacity > aplistHeader->mCount) {
             for (index = 0; index < capacity; index++) {
-                apNode = &aplistHeader->mUnk_0c[(u32) index];
+                apNode = &aplistHeader->mBlocks[(u32) index];
                 if (apNode->mState == 0) {
                     break;
                 }

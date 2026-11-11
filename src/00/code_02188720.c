@@ -259,7 +259,7 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     netCheckParam = gNetCheck;
     netCheckParam->mAlloc = config->mAlloc;
     netCheckParam->mFree = config->mFree;
-    netCheckParam->mUnk_08 = 0;
+    netCheckParam->mBmworkarea = 0;
     work->mUnk_d0c_0 = config->mConnectType;
     work->mSkipNetCheck = config->mSkipNetCheck;
     ReadNvramFirstThreeEntries(work);
