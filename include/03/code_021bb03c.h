@@ -32,7 +32,7 @@ typedef struct Bytes16 {
 // Eight bytes passed by address.
 typedef struct SocketAddress {
     /* 0 */ u8 mLength;
-    /* 1 */ u8 mUnk_01;
+    /* 1 */ u8 mFamily;
     /* 2 */ u16 mPort;
     /* 4 */ u32 mAddress;
 } SocketAddress;

@@ -299,7 +299,7 @@ u32 GpSetCallback(GpConnection *connection, s32 func, void (*callback)(void *con
         return 2;
     }
     gpState->mCallbacks[func].mCallback = callback;
-    gpState->mCallbacks[func].mUnk_04 = param;
+    gpState->mCallbacks[func].mParam = param;
     return 0;
 }
 

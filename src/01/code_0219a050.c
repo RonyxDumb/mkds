@@ -57,7 +57,7 @@ void LocateAndQueueRecordTopMenu(void) {
     LocateNcgr(&recordTopMenuMBNcgr, FindSceneFile(gRecordTopMenuMBNcgrName));
     LocateNclr(&recordTopMenuMBNclr, FindSceneFile(gRecordTopMenuMBNclrName));
     LocateNscr(&recordTopMenuMNscr, FindSceneFile(gRecordTopMenuMNscrName));
-    gRecordTopMenu->mUnk_28 = HeapAlloc(gRecordTopMenu->mHeap, 0x800);
+    gRecordTopMenu->mSecondScreenMapBuffer = HeapAlloc(gRecordTopMenu->mHeap, 0x800);
     gRecordTopMenu->mRecordTopMenuMBncl = FindSceneFile(gRecordTopMenuMBnclName);
     gRecordTopMenu->mRecordTopMenuMBnll = FindSceneFile(gRecordTopMenuMBnllName);
     LocateNcgr2(&recordTopMenuMNcgr, FindSceneFile(gRecordTopMenuMNcgrName));
@@ -72,7 +72,7 @@ void LocateAndQueueRecordTopMenu(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, recordTopMenuMBNcgr->mData, recordTopMenuMBNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(15, 0, recordTopMenuMBNclr->mData, 0x60);
     NNS_GfdRegisterNewVramTransferTask(8, 0, recordTopMenuMNscr->mData, recordTopMenuMNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->mUnk_28, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->mSecondScreenMapBuffer, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, recordTopMenuMNcgr->mData, recordTopMenuMNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(14, 0, recordTopMenuMONclr->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, paletteData + 0xe0, 0x40);
@@ -447,7 +447,7 @@ void AdvanceRecordTopMenuState4(void) {
     }
     SetSelectReturnSoundId(15);
     RequestRecordTopMenuState6();
-    gRecordTopMenu->mUnk_44 = 5;
+    gRecordTopMenu->mRecordScreen = 5;
     RequestSelectReturnState3WithSound(1);
     return;
 skip:
@@ -498,7 +498,7 @@ void AdvanceRecordTopMenuState5(void) {
             RequestRecordTopMenuState7();
             return;
         }
-        gRecordTopMenu->mUnk_44 = gRecordTopMenuRowRecordScreens[gRecordTopMenu->mIndex];
+        gRecordTopMenu->mRecordScreen = gRecordTopMenuRowRecordScreens[gRecordTopMenu->mIndex];
         RequestRecordTopMenuState6();
     }
 }
@@ -511,7 +511,7 @@ void AdvanceRecordTopMenuState6(void) {
     u16 *labelRow;
     s32 mainLayoutCount;
 
-    if (GetRecordNextScene() == -1 && gRecordTopMenu->mUnk_44 == 5) {
+    if (GetRecordNextScene() == -1 && gRecordTopMenu->mRecordScreen == 5) {
         SetRecordNextScene(0);
     }
     gRecordTopMenu->mStateFrames++;
@@ -538,7 +538,7 @@ void AdvanceRecordTopMenuState6(void) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10 && GetRecordNextScene() == -1) {
-        RequestRecordScreen(gRecordTopMenu->mUnk_44);
+        RequestRecordScreen(gRecordTopMenu->mRecordScreen);
     }
 }
 

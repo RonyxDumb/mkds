@@ -5,15 +5,15 @@
 
 typedef struct StopSignObject {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 04 */ s32 mPosX;
+    /* 08 */ s32 mPosY;
+    /* 0c */ s32 mPosZ;
     /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ u8 mUnk_1c[0xc];
-    /* 28 */ u8 mUnk_28[0x24];
-    /* 4c */ s32 mUnk_4c;
-    /* 50 */ s32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
+    /* 1c */ u8 mScale[0xc];
+    /* 28 */ u8 mMatrixAxes[0x24];
+    /* 4c */ s32 mMatrixPosX;
+    /* 50 */ s32 mMatrixPosY;
+    /* 54 */ s32 mMatrixPosZ;
 } StopSignObject;
 
 #include "01/code_021928c8.h"

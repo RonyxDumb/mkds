@@ -839,7 +839,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
         arg->mUnk_000 = 0;
         arg->mUnk_004 = profile;
         queuedCallback.mCallback = (void (*)(void *, void *, u32)) callback;
-        queuedCallback.mUnk_04 = param;
+        queuedCallback.mParam = param;
         result = GpiCreateOperation(connection, 2, 0, (s32 *) &pendingOp, 1, callback, param);
         if (result != 0) {
             return result;

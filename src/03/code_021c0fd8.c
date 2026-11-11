@@ -65,7 +65,7 @@ void CreateEditAddrKeyboard(void) {
             DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[i], textArgs.mTextRect[0], textArgs.mTextRect[1],
                                textArgs.mTextRect[2], textArgs.mTextRect[3], 2, 0x480, textArgs.mText);
         }
-        gEditAddrKeyboard->mUnk_48[i] = CreateOamRange(0, textArgs.mEntryCount, 0);
+        gEditAddrKeyboard->mRowTextRanges[i] = CreateOamRange(0, textArgs.mEntryCount, 0);
     }
     gEditAddrKeyboard->mCursor = CreateOamRangeFromNceImage(0, 0x44, 1);
     SetOamRangeEffect(gEditAddrKeyboard->mCursor, -1, 0x200, 0);
@@ -420,7 +420,7 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     }
     if (row < 4) {
         ArrangeObjTextCanvasRange(gEditAddrKeyboard->mRowTexts[row], gEditAddrKeyboardDigitKeyPositions[row * 3][0],
-                                  yPos, gEditAddrKeyboard->mUnk_48[row], 2);
+                                  yPos, gEditAddrKeyboard->mRowTextRanges[row], 2);
     }
     for (i = 0; i < extraKeyCounts[(u32) row]; i++) {
         key = gEditAddrKeyboard->mExtraKeys[i];
@@ -480,15 +480,15 @@ void MoveEditAddrKeyboardCursor(u32 direction) {
     gEditAddrKeyboard->mCursorKeyIndex = (gEditAddrKeyboardCursorMoves + previousKeyIndex * 4)[direction];
     nextKeyIndex = gEditAddrKeyboard->mCursorKeyIndex;
     if (nextKeyIndex == 0xd && (direction == 1 || direction == 3)) {
-        gEditAddrKeyboard->mUnk_64 = previousKeyIndex;
+        gEditAddrKeyboard->mPreviousKeyIndex = previousKeyIndex;
     } else if (nextKeyIndex == -1) {
-        if (gEditAddrKeyboard->mUnk_64 == 1 || gEditAddrKeyboard->mUnk_64 == 10) {
+        if (gEditAddrKeyboard->mPreviousKeyIndex == 1 || gEditAddrKeyboard->mPreviousKeyIndex == 10) {
             gEditAddrKeyboard->mCursorKeyIndex = 10;
         } else {
             gEditAddrKeyboard->mCursorKeyIndex = 11;
         }
     } else if (nextKeyIndex == -2) {
-        if (gEditAddrKeyboard->mUnk_64 == 1 || gEditAddrKeyboard->mUnk_64 == 10) {
+        if (gEditAddrKeyboard->mPreviousKeyIndex == 1 || gEditAddrKeyboard->mPreviousKeyIndex == 10) {
             gEditAddrKeyboard->mCursorKeyIndex = 1;
         } else {
             gEditAddrKeyboard->mCursorKeyIndex = 2;
@@ -558,7 +558,7 @@ void ReleaseEditAddrKeyboard(u32 task) {
     RequestTaskRemoval(0, task);
     index = 0;
     do {
-        DeleteOamRange(gEditAddrKeyboard->mUnk_48[index]);
+        DeleteOamRange(gEditAddrKeyboard->mRowTextRanges[index]);
         DeleteObjTextCanvas(gEditAddrKeyboard->mRowTexts[index]);
         index = index + 1;
     } while (index < 4);

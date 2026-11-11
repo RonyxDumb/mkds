@@ -834,7 +834,7 @@ void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 p
 s32 SendPacket(void *packet, s32 length, u32 target, s32 descriptor) {
     SocketAddress address;
     FillBytes(&address, 0, 8);
-    address.mUnk_01 = 2;
+    address.mFamily = 2;
     address.mPort = PacketSwapBytes16(0x5790);
     address.mAddress = SwapBytes32(gRequestState.mDestinationAddress);
     if (target == 0xff || gRequestState.mAddressApplied == 0) {

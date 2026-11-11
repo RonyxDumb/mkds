@@ -103,10 +103,10 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     }
     NNS_G2dCharCanvasInitForBG(canvas, canvas->mChars, areaWidth, areaHeight, 4);
     font = (u8 *) gTextCanvases->mFonts + fontIndex * 12;
-    canvas->mUnk_20.mCharCanvas = canvas;
-    canvas->mUnk_20.mFont = font;
-    canvas->mUnk_20.mCharSpacing = 1;
-    canvas->mUnk_20.mLineSpacing = 1;
+    canvas->mTextCanvas.mCharCanvas = canvas;
+    canvas->mTextCanvas.mFont = font;
+    canvas->mTextCanvas.mCharSpacing = 1;
+    canvas->mTextCanvas.mLineSpacing = 1;
     if (screen == 1) {
         screenBase = G2S_GetBG0ScrPtr();
     } else {
@@ -197,11 +197,11 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
 
 void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32 height, u32 color, u32 flags,
                         void *text) {
-    NNSi_G2dTextCanvasDrawTextRect(&canvas->mUnk_20, xPos, yPos, width, height, color, flags, text);
+    NNSi_G2dTextCanvasDrawTextRect(&canvas->mTextCanvas, xPos, yPos, width, height, color, flags, text);
 }
 
 void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color) {
-    canvas->mUnk_00.mPClear(&canvas->mUnk_00, color);
+    canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, color);
 }
 
 void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 f) {

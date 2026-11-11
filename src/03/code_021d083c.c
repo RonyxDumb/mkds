@@ -30,13 +30,13 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *pa
     gChildWaitSessionView->mPrevState = 1;
     gChildWaitSessionView->mEndWaitFrames = 0;
     ClearChildWaitSharedEntries();
-    gChildWaitSessionView->mRomFilePathp = params->mUnk_00;
-    gChildWaitSessionView->mGameNamep = params->mUnk_04;
-    gChildWaitSessionView->mGameIntroductionp = params->mUnk_08;
-    gChildWaitSessionView->mIconCharPathp = params->mUnk_0c;
-    gChildWaitSessionView->mIconPalettePathp = params->mUnk_10;
-    gChildWaitSessionView->mGgid = params->mUnk_14;
-    gChildWaitSessionView->mHandshakeByte = params->mUnk_18;
+    gChildWaitSessionView->mRomFilePathp = params->mRomFilePathp;
+    gChildWaitSessionView->mGameNamep = params->mGameNamep;
+    gChildWaitSessionView->mGameIntroductionp = params->mGameIntroductionp;
+    gChildWaitSessionView->mIconCharPathp = params->mIconCharPathp;
+    gChildWaitSessionView->mIconPalettePathp = params->mIconPalettePathp;
+    gChildWaitSessionView->mGgid = params->mGgid;
+    gChildWaitSessionView->mHandshakeByte = params->mHandshakeByte;
     gChildWaitSessionView->mMaxPlayerNum = 2;
     OS_GetTick();
     ReadNvramEntries(gChildWaitSessionView->mUnk_64c);
@@ -424,12 +424,12 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
     u16 aid;
 
     if (gChildWaitSessionView->mHandshakeDone == 1) {
-        gChildWaitSessionView->mSendEntry->mUnk_00 = code;
+        gChildWaitSessionView->mSendEntry->mCode = code;
         gChildWaitSessionView->mSendEntry->mUnk_02 = value;
         MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mUnk_04, 0x40);
     } else {
         gChildWaitSessionView->mStallCount = gChildWaitSessionView->mStallCount + 1;
-        gChildWaitSessionView->mSendEntry->mUnk_00 = 0xbc;
+        gChildWaitSessionView->mSendEntry->mCode = 0xbc;
         gChildWaitSessionView->mSendEntry->mUnk_04[0] = gChildWaitSessionView->mHandshakeByte;
     }
     if (GetWhState() == 5) {
@@ -469,7 +469,7 @@ void ReadChildWaitReply(void) {
             entry = GetChildWaitSharedEntry(session, entryIndex);
             if (entryIndex == 1) {
                 if (session->mHandshakeDone == 1) {
-                    if (entry->mUnk_00 != 0x10) {
+                    if (entry->mCode != 0x10) {
                         return;
                     }
                     session->mReplyCount = session->mReplyCount + 1;
@@ -481,7 +481,7 @@ void ReadChildWaitReply(void) {
                     }
                 } else {
                     session->mUnk_202 = 0xbc;
-                    if (entry->mUnk_00 == 0xbd) {
+                    if (entry->mCode == 0xbd) {
                         gChildWaitSessionView->mHandshakeDone = 1;
                         gChildWaitSessionView->mBlockNumber = 0;
                         gChildWaitSessionView->mReplyCount = 0;
@@ -493,5 +493,5 @@ void ReadChildWaitReply(void) {
 }
 
 u16 GetChildWaitReplyCode(void) {
-    return gChildWaitSessionView->mSharedEntries[1].mUnk_00;
+    return gChildWaitSessionView->mSharedEntries[1].mCode;
 }

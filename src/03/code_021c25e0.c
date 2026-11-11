@@ -19,12 +19,12 @@ void CreateChildWaitSession(u32 callback) {
     ChildWaitParams params;
     gChildWaitSession = AllocExpHeapBlock(0x1e2a4, 0x20);
     gChildWaitSession->mCallback = (void (*)(s32)) callback;
-    gChildWaitSession->mUnk_1e2a0 = 0;
+    gChildWaitSession->mEventPending = 0;
     gChildWaitSession->mStopRequested = 0;
     params = gChildWaitParams;
-    params.mUnk_04 = GetMessageEntry(gMessages, 0xf);
-    params.mUnk_08 = GetMessageEntry(gMessages, 0x10);
-    params.mUnk_18 = GetLanguageIndex() + 0x31;
+    params.mGameNamep = GetMessageEntry(gMessages, 0xf);
+    params.mGameIntroductionp = GetMessageEntry(gMessages, 0x10);
+    params.mHandshakeByte = GetLanguageIndex() + 0x31;
     InitChildWaitSession((ChildWaitSessionView *) gChildWaitSession, (ChildWaitParamsView *) &params);
     if (StartChildWaitSession() == 0) {
         OS_Terminate();
@@ -77,7 +77,7 @@ void AdvanceChildWaitSession(u32 task) {
     ChildWaitSession *object;
     AdvanceChildWaitState();
     object = gChildWaitSession;
-    if (object->mUnk_1e2a0 != 0 && object->mStopRequested == 0) {
+    if (object->mEventPending != 0 && object->mStopRequested == 0) {
         if (object->mCallback == NULL) {
             return;
         }
@@ -99,7 +99,7 @@ void AdvanceChildWaitSession(u32 task) {
             if (gChildWaitSession->mCallback != NULL) {
                 gChildWaitSession->mCallback(0);
             } else {
-                gChildWaitSession->mUnk_1e2a0 = 1;
+                gChildWaitSession->mEventPending = 1;
             }
             break;
         case 13:
@@ -109,7 +109,7 @@ void AdvanceChildWaitSession(u32 task) {
             if (gChildWaitSession->mCallback != NULL) {
                 gChildWaitSession->mCallback(1);
             } else {
-                gChildWaitSession->mUnk_1e2a0 = 1;
+                gChildWaitSession->mEventPending = 1;
             }
             break;
         case 20:
@@ -120,7 +120,7 @@ void AdvanceChildWaitSession(u32 task) {
             if (gChildWaitSession->mCallback != NULL) {
                 gChildWaitSession->mCallback(3);
             } else {
-                gChildWaitSession->mUnk_1e2a0 = 1;
+                gChildWaitSession->mEventPending = 1;
             }
             break;
         case 26:
@@ -131,7 +131,7 @@ void AdvanceChildWaitSession(u32 task) {
             if (gChildWaitSession->mCallback != NULL) {
                 gChildWaitSession->mCallback(4);
             } else {
-                gChildWaitSession->mUnk_1e2a0 = 1;
+                gChildWaitSession->mEventPending = 1;
             }
             break;
         case 12:
@@ -141,7 +141,7 @@ void AdvanceChildWaitSession(u32 task) {
             if (gChildWaitSession->mCallback != NULL) {
                 gChildWaitSession->mCallback(2);
             } else {
-                gChildWaitSession->mUnk_1e2a0 = 1;
+                gChildWaitSession->mEventPending = 1;
             }
             break;
         case 34:

@@ -5,13 +5,13 @@
 typedef struct ChildWaitSessionView ChildWaitSessionView;
 
 typedef struct ChildWaitParamsView {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u8 mUnk_18;
+    /* 00 */ u32 mRomFilePathp;
+    /* 04 */ u32 mGameNamep;
+    /* 08 */ u32 mGameIntroductionp;
+    /* 0c */ u32 mIconCharPathp;
+    /* 10 */ u32 mIconPalettePathp;
+    /* 14 */ u32 mGgid;
+    /* 18 */ u8 mHandshakeByte;
 } ChildWaitParamsView;
 
 #include "code_02142eac.h"

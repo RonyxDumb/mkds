@@ -20,10 +20,10 @@ typedef struct Unk021ccf30_10 {
 
 typedef struct WMStartScanExCallback {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 mErrcode;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
+    /* 08 */ u16 mState;
     /* 0a */ u16 mUnk_0a;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mBssDescCount;

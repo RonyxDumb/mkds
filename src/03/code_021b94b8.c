@@ -553,7 +553,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         return -1;
     }
     FillBytes(&bindAddress, 0, 8);
-    bindAddress.mUnk_01 = 2;
+    bindAddress.mFamily = 2;
     bindAddress.mAddress = SwapBytes32(0xc0a80b65);
     bindAddress.mPort = PacketSwapBytes16(0x5790);
     if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
@@ -669,7 +669,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     return -1;
                 }
                 FillBytes(&bindAddress, 0, 8);
-                bindAddress.mUnk_01 = 2;
+                bindAddress.mFamily = 2;
                 bindAddress.mAddress = SwapBytes32(addr);
                 bindAddress.mPort = PacketSwapBytes16(0x5790);
                 if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
@@ -809,7 +809,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     return -1;
                 }
                 FillBytes(&bindAddress, 0, 8);
-                bindAddress.mUnk_01 = 2;
+                bindAddress.mFamily = 2;
                 bindAddress.mAddress = SwapBytes32(addr);
                 bindAddress.mPort = PacketSwapBytes16(0x5790);
                 if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {

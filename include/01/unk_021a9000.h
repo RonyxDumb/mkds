@@ -230,15 +230,15 @@ typedef struct TimeAttackTopMenu {
     /* 08 */ void *mTimeAttackTopMenuSBnbl;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 0c */ LayoutTableEntry *mTimeAttackTopMenuSTable;
-    /* 10 */ void *mUnk_10;
+    /* 10 */ void *mSecondScreenMapBuffer;
     /* 14 */ void *mHeap;
     /* 18 */ s32 mState;
     /* 1c */ s32 mNextState;
     /* 20 */ s32 mStateFrames; /* counted only in states 0, 1, 4, 5; zeroed by the next-state setter */
     /* 24 */ s32 mBg0Offset;
     /* 28 */ s32 mIndex;
-    /* 2c */ void *mUnk_2c;
-    /* 30 */ s32 mUnk_30;
+    /* 2c */ void *mMainOamList;
+    /* 30 */ s32 mSubOamList;
     /* 34 */ s32 mResult;
 } TimeAttackTopMenu;
 

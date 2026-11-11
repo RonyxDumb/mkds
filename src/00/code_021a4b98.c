@@ -888,7 +888,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
     u32 scanCount;
 
     result = 0x14;
-    switch (callback->mUnk_02) {
+    switch (callback->mErrcode) {
         case 0:
             if (gWcmWork->mPhase == 5) {
                 WcmSetPhase(6);
@@ -897,7 +897,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
             switch (gWcmWork->mPhase) {
                 case 6:
                     gWcmWork->mNotifyId = 7;
-                    if (callback->mUnk_08 == 5) {
+                    if (callback->mState == 5) {
                         DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
                         for (index = 0; index < callback->mBssDescCount; index++) {
                             WCMi_EntryApList((WMBssDesc *) callback->mBssDesc[index], callback->mLinkLevel[index]);
@@ -976,9 +976,9 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
     u16 authId;
     s32 result;
 
-    switch (callback->mUnk_02) {
+    switch (callback->mErrcode) {
         case 0:
-            switch (callback->mUnk_08) {
+            switch (callback->mState) {
                 case 8:
                 case 9:
                     switch (gWcmWork->mPhase - 8) {
@@ -1027,7 +1027,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     break;
                 default:
                     WcmSetPhase(0xb);
-                    WcmNotify(7, gWcmWork->mBssDesc, callback->mUnk_08, 0x7ee);
+                    WcmNotify(7, gWcmWork->mBssDesc, callback->mState, 0x7ee);
                     return;
             }
             break;

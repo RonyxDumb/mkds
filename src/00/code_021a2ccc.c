@@ -84,14 +84,14 @@ void DWCi_RecvCallback(Unk0219887c *connection, void *message, s32 size, u32 rel
 }
 
 void DWCi_PingCallback(Unk0219887c *connection, u32 latency) {
-    if (gWiFiMessageLayer->mUnk_60c != NULL) {
-        gWiFiMessageLayer->mUnk_60c(latency, DWCi_GetConnectionAID(connection));
+    if (gWiFiMessageLayer->mPingCallback != NULL) {
+        gWiFiMessageLayer->mPingCallback(latency, DWCi_GetConnectionAID(connection));
     }
 }
 
 // One step per frame in connection state 6 (returns at once when the layer is NULL): for each participant (except the
 // own index) continues the chunked send and, when the elapsed time since the last receive exceeds the peer's limit,
-// calls the timeout callback func (mUnk_608; no writer in src).
+// calls the timeout callback func (mReceiveTimeoutCallback; no writer in src).
 void DWCi_TransportProcess(void) {
     u8 *aids;
     s32 aidCount;
@@ -129,11 +129,11 @@ void DWCi_TransportProcess(void) {
             }
             if (DWC_IsValidAID(aid) != 0) {
                 peer = DWCs_GetTransConnection(aid);
-                if (gWiFiMessageLayer->mUnk_608 != NULL && peer->mReceiveTimeoutTime != 0) {
+                if (gWiFiMessageLayer->mReceiveTimeoutCallback != NULL && peer->mReceiveTimeoutTime != 0) {
                     now = OS_GetTick();
                     if ((u32) _ll_udiv((now - peer->mPreviousReceiveTick) << 6, 0x82ea) >
                         peer->mReceiveTimeoutTime) {
-                        gWiFiMessageLayer->mUnk_608(aid);
+                        gWiFiMessageLayer->mReceiveTimeoutCallback(aid);
                         peer->mPreviousReceiveTick = now;
                     }
                 }
@@ -216,7 +216,7 @@ void DWCs_HandleUnreliableMessage(Unk0219887c *connection, const void *message, 
         if (gWiFiMessageLayer->mReceiveCallback != NULL) {
             gWiFiMessageLayer->mReceiveCallback(aid, peer->mReceiveBuffer, size);
         }
-        if ((gWiFiMessageLayer->mUnk_608 != NULL) && (peer->mReceiveTimeoutTime != 0)) {
+        if ((gWiFiMessageLayer->mReceiveTimeoutCallback != NULL) && (peer->mReceiveTimeoutTime != 0)) {
             v3 = OS_GetTick();
             peer->mPreviousReceiveTick = v3;
         }
@@ -271,7 +271,7 @@ void DWCs_RecvDataBody(int aid, void *message, s32 size) {
             gWiFiMessageLayer->mReceiveCallback(aid, connection->mReceiveBuffer, expected);
         }
     }
-    if (gWiFiMessageLayer->mUnk_608 != NULL && connection->mReceiveTimeoutTime != 0) {
+    if (gWiFiMessageLayer->mReceiveTimeoutCallback != NULL && connection->mReceiveTimeoutTime != 0) {
         connection->mPreviousReceiveTick = OS_GetTick();
     }
 }

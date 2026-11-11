@@ -52,7 +52,7 @@ void LocateAndQueueTimeAttackTopMenu(void) {
     LocateNcgr(&mbNcgr, FindSceneFile(gTimeAttackTopMenuMBNcgrName));
     LocateNclr(&mbNclr, FindSceneFile(gTimeAttackTopMenuMBNclrName));
     LocateNscr(&mNscr, FindSceneFile(gTimeAttackTopMenuMNscrName));
-    gTimeAttackTopMenu->mUnk_10 = HeapAlloc(gTimeAttackTopMenu->mHeap, 0x800);
+    gTimeAttackTopMenu->mSecondScreenMapBuffer = HeapAlloc(gTimeAttackTopMenu->mHeap, 0x800);
     gTimeAttackTopMenu->mTimeAttackTopMenuSBncl = FindSceneFile(gTimeAttackTopMenuSBnclName);
     gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl = FindSceneFile(gTimeAttackTopMenuSBnblName);
     LocateNcgr2(&sNcgr, FindSceneFile(gTimeAttackTopMenuSNcgrName));
@@ -61,7 +61,7 @@ void LocateAndQueueTimeAttackTopMenu(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, mbNcgr->mData, mbNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, mbNclr->mData, 0x20);
     NNS_GfdRegisterNewVramTransferTask(8, 0, &mNscr->mData, mNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gTimeAttackTopMenu->mUnk_10, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gTimeAttackTopMenu->mSecondScreenMapBuffer, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, sNcgr->mData, sNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, soNclr->mData, soNclr->mDataSize);
 }
@@ -132,8 +132,8 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, s32 subOam) {
     gTimeAttackTopMenu = HeapAlloc(heap, 0x38);
     gTimeAttackTopMenu->mHeap = heap;
     gTimeAttackTopMenu->mState = 0;
-    gTimeAttackTopMenu->mUnk_2c = mainOam;
-    gTimeAttackTopMenu->mUnk_30 = subOam;
+    gTimeAttackTopMenu->mMainOamList = mainOam;
+    gTimeAttackTopMenu->mSubOamList = subOam;
     gTimeAttackTopMenu->mResult = 0;
     RequestTimeAttackTopMenuState0();
     if (GetPreviousMenuScreenNumber() == 0x1f) {
@@ -150,7 +150,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, s32 subOam) {
         SetCellOamModeXlu(gTimeAttackTopMenuXluCellIndices[i], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
                           gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
     }
-    ResetOamLists(gTimeAttackTopMenu->mUnk_2c, (void *) gTimeAttackTopMenu->mUnk_30);
+    ResetOamLists(gTimeAttackTopMenu->mMainOamList, (void *) gTimeAttackTopMenu->mSubOamList);
     InitLayoutTable(gTimeAttackTopMenu->mHeap, gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, NULL,
                     &gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
     for (i = 0; i < 3; i++) {
@@ -388,7 +388,7 @@ s32 AdvanceTimeAttackTopMenu(void) {
             break;
     }
     DrawLayoutTable(gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer, NULL,
-                    (void *) gTimeAttackTopMenu->mUnk_30, gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
+                    (void *) gTimeAttackTopMenu->mSubOamList, gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
     if (gTimeAttackTopMenu->mState == 5 && gTimeAttackTopMenu->mStateFrames >= 10) {
         return gTimeAttackTopMenu->mResult;
     }

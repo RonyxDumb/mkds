@@ -38,7 +38,7 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
     p.mGpiConnection->mUnk_420 = 0;
     for (i = 0; i < 6; i++) {
         p.mGpiConnection->mCallbacks[i].mCallback = NULL;
-        p.mGpiConnection->mCallbacks[i].mUnk_04 = 0;
+        p.mGpiConnection->mCallbacks[i].mParam = 0;
     }
     p.mGpiConnection->mDebugBuffer = NULL;
     gpiDebug(&p, gGpiInitializeDebugText);

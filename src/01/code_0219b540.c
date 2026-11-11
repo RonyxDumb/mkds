@@ -76,7 +76,7 @@ void LocateAndQueueSelectGhost(void) {
     LocateNcgr(&selectGhostSBNcgr, FindSceneFile(gSelectGhostSBNcgrName));
     LocateNscr(&selectGhostSNscr, FindSceneFile(gSelectGhostSNscrName));
     LocateNclr(&selectGhostSBNclr, FindSceneFile(gSelectGhostSBNclrName));
-    gSelectGhost->mUnk_40 = HeapAlloc(gSelectGhost->mHeap, 0x800);
+    gSelectGhost->mSecondScreenMapBuffer = HeapAlloc(gSelectGhost->mHeap, 0x800);
     gSelectGhost->mSelectCupCourseTaMBncl = FindSceneFile(gSelectCupCourseTaMBnclName);
     gSelectGhost->mSelectCupCourseTaMBnll = FindSceneFile(gSelectCupCourseTaMBnllName);
     LocateNcer(&gSelectGhost->mSelectCupCourseMNcer, FindSceneFile(gSelectCupCourseMNcerName));
@@ -93,7 +93,7 @@ void LocateAndQueueSelectGhost(void) {
     NNS_GfdRegisterNewVramTransferTask(0x17, 0, selectGhostSBNcgr->mData, selectGhostSBNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0, selectGhostSBNclr->mData, 0x20);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, selectGhostSNscr->mData, selectGhostSNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mUnk_40, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mSecondScreenMapBuffer, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectGhostSONcgr->mData, selectGhostSONcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData,
                                        gSelectGhost->mSelectGhostSONclr->mDataSize);
@@ -347,8 +347,8 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
     gSelectGhost->mHeap = heap;
     gSelectGhost->mState = 0;
     gSelectGhost->mIndex = 0;
-    gSelectGhost->mUnk_64 = mainOam;
-    gSelectGhost->mUnk_68 = subOam;
+    gSelectGhost->mMainOamList = mainOam;
+    gSelectGhost->mSubOamList = subOam;
     gSelectGhost->mResult = 0;
     LocateAndQueueSelectGhost();
     CreateCommonKartIcon(gSelectGhost->mHeap);
@@ -662,10 +662,10 @@ int AdvanceSelectGhost(void) {
     AdvancePaletteBlend();
     UpdateSelectGhostCellVisibility();
     DrawLayoutTable(gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseMNcer,
-                    gSelectGhost->mSelectCupCourseTaMBnll, (void *) gSelectGhost->mUnk_64,
+                    gSelectGhost->mSelectCupCourseTaMBnll, (void *) gSelectGhost->mMainOamList,
                     gSelectGhost->mSelectCupCourseTaMTable);
     DrawLayoutTable(gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBnll,
-                    (void *) gSelectGhost->mUnk_68, gSelectGhost->mSelectGhostSTable);
+                    (void *) gSelectGhost->mSubOamList, gSelectGhost->mSelectGhostSTable);
     if (gSelectGhost->mState == 7) {
         switch (gSelectGhost->mResult) {
             case 1:

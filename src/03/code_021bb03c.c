@@ -540,7 +540,7 @@ s32 SendBytesToAllOnesAddress(s32 descriptor, const void *data, u32 size) {
     SocketAddress address;
     u8 unused[4];
     address.mLength = 8;
-    address.mUnk_01 = 2;
+    address.mFamily = 2;
     address.mAddress = -1;
     address.mPort = 0x1e6;
     SOC_U32to4U8(SOCL_GetHostID(), unused);
@@ -1047,7 +1047,7 @@ s32 RunExchange(void) {
                 }
                 __clear(&bindAddress, 8);
                 bindAddress.mLength = 8;
-                bindAddress.mUnk_01 = 2;
+                bindAddress.mFamily = 2;
                 bindAddress.mPort = 0x1e6;
                 bindAddress.mAddress = 0;
                 result = SOC_Bind(descriptor, &bindAddress);

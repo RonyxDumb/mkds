@@ -160,7 +160,7 @@ extern MultiBootParent *gMultiBootParent;
 extern u16 *gMultiBootMaskPointers[];
 extern UnkFunc *gWhPrintFunction;
 typedef struct ChildWaitSharedEntry {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mCode;
     /* 02 */ u16 mUnk_02;
     /* 04 */ u8 mUnk_04[0x40];
 } ChildWaitSharedEntry;

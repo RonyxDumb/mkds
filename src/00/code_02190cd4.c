@@ -101,7 +101,7 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
     if (data->mArg == NULL) {
         AssertionFailed(gDataArgAssertText, gGpiCallbackFileName, NULL, 0x6f);
     }
-    data->mCallback.mCallback(a, data->mArg, data->mCallback.mUnk_04);
+    data->mCallback.mCallback(a, data->mArg, data->mCallback.mParam);
     if (data->mType == 2) {
         c = data->mArg;
         DWCi_GsFree(c->mUnk_08);

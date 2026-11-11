@@ -443,13 +443,13 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     v = e.mUnk_08;
                     c1 = operation->mCallback;
                     if (c1.mCallback != NULL) {
-                        c1.mCallback(connection, &e, c1.mUnk_04);
+                        c1.mCallback(connection, &e, c1.mParam);
                     }
                     if (v == 0x600 && e.mUnk_08 == 0x600) {
                         result = gpiProfileSearch(
                             connection, data->mNick, data->mUniquenick, data->mEmail, data->mFirstname, data->mLastname,
                             data->mIcquin, e.mUnk_04 + data->mSkip, operation->mBlocking,
-                            (u32) operation->mCallback.mCallback, operation->mCallback.mUnk_04);
+                            (u32) operation->mCallback.mCallback, operation->mCallback.mParam);
                         if (result != 0) {
                             return result;
                         }

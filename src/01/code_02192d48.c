@@ -37,11 +37,11 @@ void LoadStopSign(MapObjectList *mapObjectList) {
 void DrawStopSign(void *mapObjectList, StopSignObject *mapObject) {
     s32 commandValue = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &commandValue, 1);
-    mapObject->mUnk_4c = mapObject->mUnk_04 >> 4;
-    mapObject->mUnk_50 = mapObject->mUnk_08 >> 4;
-    mapObject->mUnk_54 = mapObject->mUnk_0c >> 4;
-    NNS_G3dGeBufferOP_N(0x19, mapObject->mUnk_28, 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, mapObject->mUnk_1c, 3);
+    mapObject->mMatrixPosX = mapObject->mPosX >> 4;
+    mapObject->mMatrixPosY = mapObject->mPosY >> 4;
+    mapObject->mMatrixPosZ = mapObject->mPosZ >> 4;
+    NNS_G3dGeBufferOP_N(0x19, mapObject->mMatrixAxes, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, mapObject->mScale, 3);
     DrawMapObjectModel(mapObjectList, gStopSign, mapObject);
 }
 

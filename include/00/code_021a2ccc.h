@@ -47,8 +47,8 @@ typedef struct WiFiMessageLayer {
     /* 600 */ void (*mSendCallback)(s32 a, u32 b);
     // Called with (index, buffer, size) when a received message is complete.
     /* 604 */ void (*mReceiveCallback)(u32 a, u8 *b, s32 c);
-    /* 608 */ void (*mUnk_608)(u32 a);
-    /* 60c */ void (*mUnk_60c)(u32 a, u32 b);
+    /* 608 */ void (*mReceiveTimeoutCallback)(u32 a);
+    /* 60c */ void (*mPingCallback)(u32 a, u32 b);
     // u16 0x5b9 (1465), set by DWCi_InitTransport: the most the layer hands the socket in one call. A message is cut
     // into chunks of at most this size; a size equal to it is
     // allowed, the last chunk is shorter and a single-packet send above it is refused.

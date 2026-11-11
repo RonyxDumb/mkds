@@ -16,14 +16,14 @@ typedef struct RecordTopMenu {
     /* 0x1c */ LayoutTableEntry *mRecordTopMenuSTable;
     /* 0x20 */ void *mUnk_20;
     /* 0x24 */ struct Bmg *mRecordMessages;
-    /* 0x28 */ void *mUnk_28;
+    /* 0x28 */ void *mSecondScreenMapBuffer;
     /* 0x2c */ void *mHeap;
     /* 0x30 */ s32 mState;
     /* 0x34 */ s32 mNextState;
     /* 0x38 */ s32 mStateFrames; /* counted only in states 1, 2, 5, 6, 7, 11 */
     /* 0x3c */ s32 mBg0Offset;
     /* 0x40 */ s32 mIndex;
-    /* 0x44 */ s32 mUnk_44;
+    /* 0x44 */ s32 mRecordScreen;
 } RecordTopMenu;
 
 #include "01/unk_021a6000.h"
