@@ -351,7 +351,7 @@ u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
     result = gpiSendAuthBuddyRequest(connection, profileEntry);
     if (result == 0) {
         profileEntry->mRequestCount--;
-        if (gpState->mUnk_100 == 0 && profileEntry->mRequestCount <= 0) {
+        if (gpState->mInfoCaching == 0 && profileEntry->mRequestCount <= 0) {
             DWCi_GsFree(profileEntry->mAuthSig);
             profileEntry->mAuthSig = NULL;
             if (GpiIsProfileEmpty(profileEntry) != 0) {

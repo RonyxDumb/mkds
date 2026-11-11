@@ -24,9 +24,9 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
     memset(p.mGpiConnection, 0, 0x490);
     p.mGpiConnection->mErrorMessage[0] = 0;
     p.mGpiConnection->mErrorNumber = 0;
-    p.mGpiConnection->mUnk_100 = 1;
-    p.mGpiConnection->mUnk_104 = FALSE;
-    p.mGpiConnection->mUnk_108 = 0;
+    p.mGpiConnection->mInfoCaching = 1;
+    p.mGpiConnection->mInfoCachingBuddyOnly = FALSE;
+    p.mGpiConnection->mSimulation = 0;
     p.mGpiConnection->mFirewall = FALSE;
     p.mGpiConnection->mProductId = b;
     p.mGpiConnection->mNamespaceId = c;
@@ -40,7 +40,7 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
         p.mGpiConnection->mCallbacks[i].mCallback = NULL;
         p.mGpiConnection->mCallbacks[i].mUnk_04 = 0;
     }
-    p.mGpiConnection->mUnk_460 = NULL;
+    p.mGpiConnection->mDebugBuffer = NULL;
     gpiDebug(&p, gGpiInitializeDebugText);
     r = GpiResetConnection(&p);
     if (r != 0) {

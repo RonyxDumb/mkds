@@ -255,11 +255,11 @@ s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http) {
     gAuth = authBlock;
     MI_CpuFill8(authBlock, 0, 0x13e0);
     gAuth->mHttp = http;
-    MI_CpuFill8(&gAuth->mUnk_008, 0, 0x1c4);
-    gAuth->mUnk_008 = -1;
-    gAuth->mUnk_1cc = *createParams;
-    gAuth->mUnk_1cc.mIngamesn[0x14] = 0;
-    gAuth->mUnk_1cc.mGsbrcd[0xb] = 0;
+    MI_CpuFill8(&gAuth->mReturncode, 0, 0x1c4);
+    gAuth->mReturncode = -1;
+    gAuth->mCreateParams = *createParams;
+    gAuth->mCreateParams.mIngamesn[0x14] = 0;
+    gAuth->mCreateParams.mGsbrcd[0xb] = 0;
     DWCauthhttpparam.mAlloc = createParams->mAlloc;
     DWCauthhttpparam.mFree = createParams->mFree;
     gAuth->mError = DWCi_Auth_Start(1);
@@ -298,7 +298,7 @@ void DWC_Auth_Destroy(void) {
         if (gAuth->mHttp != NULL) {
             ReleaseHttp(gAuth->mHttp);
         }
-        gAuth->mUnk_1cc.mFree(gAuthFreeName, gAuth, 0);
+        gAuth->mCreateParams.mFree(gAuthFreeName, gAuth, 0);
         gAuth = NULL;
     }
 }
@@ -325,7 +325,7 @@ void DWC_Auth_GetResult(s32 *result) {
     if (gAuth == NULL) {
         MI_CpuFill8(result, 0, 0x1c4);
     }
-    MI_CpuCopy8(&gAuth->mUnk_008, result, 0x1c4);
+    MI_CpuCopy8(&gAuth->mReturncode, result, 0x1c4);
     returnCode = *result;
     if (returnCode >= 0) {
         if (returnCode < 0x4e20 || returnCode >= 0x7530) {
@@ -346,8 +346,8 @@ s32 DWCi_Auth_Start(s32 getWiFiInfoFromFlash) {
     if (getWiFiInfoFromFlash == 1) {
         DWCi_BM_GetWiFiInfo(&gAuthWiFiInfo);
     }
-    gAuth->mError = DWCi_Auth_Prepare_FirstPost(gAuth->mHttp, gAuth->mUnk_1cc.mGsbrcd, gAuth->mUnk_1cc.mIngamesn,
-                                                gAuth->mHttpLabelvalue, 0x20, 0);
+    gAuth->mError = DWCi_Auth_Prepare_FirstPost(gAuth->mHttp, gAuth->mCreateParams.mGsbrcd,
+                                                gAuth->mCreateParams.mIngamesn, gAuth->mHttpLabelvalue, 0x20, 0);
     if (gAuth->mError != 0) {
         return 4;
     }
@@ -374,7 +374,7 @@ void DWCi_Auth_Thread(void *authAddress) {
             OS_JoinThread(&auth->mHttp->mThread);
         }
         if (gAuth->mHttp->mResult != 8) {
-            gAuth->mUnk_008 = -0x4e84;
+            gAuth->mReturncode = -0x4e84;
             if (gAuth->mHttp->mResult == 7) {
                 DWCi_Auth_SetError(0x13);
                 return;
@@ -398,7 +398,7 @@ void DWCi_Auth_Thread(void *authAddress) {
                 case 0xf:
                     if (retryCount >= 2) {
                         DWCi_Auth_SetError(0xf);
-                        gAuth->mUnk_008 = -gAuth->mUnk_008;
+                        gAuth->mReturncode = -gAuth->mReturncode;
                         return;
                     }
                     retryCount++;
@@ -406,7 +406,7 @@ void DWCi_Auth_Thread(void *authAddress) {
                     break;
                 default:
                     if (retryCount >= 2) {
-                        gAuth->mUnk_008 = -gAuth->mUnk_008;
+                        gAuth->mReturncode = -gAuth->mReturncode;
                         DWCi_Auth_SetError(parseResult);
                         return;
                     }
@@ -420,7 +420,7 @@ void DWCi_Auth_Thread(void *authAddress) {
         while (elapsedMillis < 5000) {
             OS_LockMutex(&gAuth->mMutex);
             if (gAuth->mAbort == TRUE) {
-                gAuth->mUnk_008 = -0x4e84;
+                gAuth->mReturncode = -0x4e84;
                 OS_UnlockMutex(&gAuth->mMutex);
                 DWCi_Auth_SetError(0x13);
                 return;
@@ -433,7 +433,7 @@ void DWCi_Auth_Thread(void *authAddress) {
         OS_LockMutex(&gAuth->mMutex);
         gAuth->mError = DWCi_Auth_Start(getWiFiInfoFromFlash);
         if (gAuth->mError != 0) {
-            gAuth->mUnk_008 = -0x4e84;
+            gAuth->mReturncode = -0x4e84;
             OS_UnlockMutex(&gAuth->mMutex);
             return;
         }
@@ -446,52 +446,52 @@ s32 ParseAuthHttpResult(void) {
     const char *bmworkName;
     void *bmworkBlock;
     if (DWC_Http_ParseResult(gAuth->mHttpLabelvalue, 0x20, 0, gAuth->mHttp->mReceiveBuffer.mStart) != TRUE) {
-        gAuth->mUnk_008 = 0x4e84;
+        gAuth->mReturncode = 0x4e84;
         return 0xd;
     }
     if (DWCi_Auth_FillResult() != 0) {
         return 0xd;
     }
     auth = gAuth;
-    if (auth->mUnk_008 < 0x4e84) {
-        if (auth->mUnk_008 == 0x4e22) {
+    if (auth->mReturncode < 0x4e84) {
+        if (auth->mReturncode == 0x4e22) {
             bmworkName = gBmworkName;
-            bmworkBlock = auth->mUnk_1cc.mAlloc(bmworkName, 0x71f);
+            bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, 0x71f);
             if (bmworkBlock == NULL) {
-                gAuth->mUnk_008 = 0x4e84;
+                gAuth->mReturncode = 0x4e84;
                 return 2;
             }
             if (DWCi_AUTH_UpDateWiFiID(&gAuthWiFiInfo, (u8 *) (((u32) bmworkBlock + 0x1f) & ~0x1f)) != 1) {
-                gAuth->mUnk_1cc.mFree(bmworkName, bmworkBlock, 0);
-                gAuth->mUnk_008 = 0x4e84;
+                gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
+                gAuth->mReturncode = 0x4e84;
                 return 0xe;
             }
-            gAuth->mUnk_1cc.mFree(bmworkName, bmworkBlock, 0);
+            gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
         }
         return 0x14;
     }
-    switch (auth->mUnk_008) {
+    switch (auth->mReturncode) {
         case 0x4e88:
             if (DWCi_AUTH_RemakeWiFiID(&gAuthWiFiInfo) == 0) {
-                gAuth->mUnk_008 = 0x4e88;
+                gAuth->mReturncode = 0x4e88;
                 return 0xe;
             }
-            gAuth->mUnk_008 = 0x4e88;
+            gAuth->mReturncode = 0x4e88;
             return 0xf;
         case 0x4e8c:
             bmworkName = gBmworkName;
-            bmworkBlock = auth->mUnk_1cc.mAlloc(bmworkName, 0x71f);
+            bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, 0x71f);
             if (bmworkBlock == NULL) {
-                gAuth->mUnk_008 = 0x4e8c;
+                gAuth->mReturncode = 0x4e8c;
                 return 2;
             }
             if (WriteNewWiFiInfoToNvram(((u32) bmworkBlock + 0x1f) & ~0x1f) != 1) {
-                gAuth->mUnk_1cc.mFree(bmworkName, bmworkBlock, 0);
-                gAuth->mUnk_008 = 0x4e8c;
+                gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
+                gAuth->mReturncode = 0x4e8c;
                 return 0xe;
             }
-            gAuth->mUnk_1cc.mFree(bmworkName, bmworkBlock, 0);
-            gAuth->mUnk_008 = 0x4e8c;
+            gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
+            gAuth->mReturncode = 0x4e8c;
             return 0x10;
     }
     return 0x11;
@@ -504,25 +504,25 @@ s32 DWCi_Auth_FillResult(void) {
     endPointer = NULL;
     returnCode = StrtolBase10(DWC_Http_GetResult(gAuth->mHttpLabelvalue, 0x20, gHttpresultPairName2));
     if (gLibErrorCode == 0x22) {
-        gAuth->mUnk_008 = 0x4e85;
+        gAuth->mReturncode = 0x4e85;
         return 0xb;
     }
     if (returnCode != 200) {
-        gAuth->mUnk_008 = returnCode + 0x59d8;
+        gAuth->mReturncode = returnCode + 0x59d8;
         return 0x11;
     }
     auth = gAuth;
     if (DWC_Http_GetBase64DecodedResult(auth->mHttpLabelvalue, 0x20, gReturncdPairName, auth->mRetcode, 4) <= 0) {
-        gAuth->mUnk_008 = 0x4e85;
+        gAuth->mReturncode = 0x4e85;
         return 0xd;
     }
     returnCode = strtol(gAuth->mRetcode, &endPointer, 10);
     auth = gAuth;
     if (endPointer != auth->mRetcode + strlen(auth->mRetcode)) {
-        auth->mUnk_008 = 0x4e85;
+        auth->mReturncode = 0x4e85;
         return 0xb;
     }
-    auth->mUnk_008 = returnCode + 0x4e20;
+    auth->mReturncode = returnCode + 0x4e20;
     if (returnCode < 100) {
         gAuth->mToken[0] = 0;
         gAuth->mLocator[0] = 0;

@@ -11,11 +11,11 @@ typedef s32 (*Unk021a7064Func)(struct SOCLiCommandPacket *param_1);
 
 // Entry of the queue behind SOCLiCommandPacketQueue.
 typedef struct SOCLiCommandPacket {
-    /* 00 */ Unk021a7064Func mUnk_00;
-    /* 04 */ SOCLSocket *mUnk_04;
-    /* 08 */ OSMessageQueue *mUnk_08;
-    /* 0c */ s8 mUnk_0c;
-    /* 0d */ s8 mUnk_0d;
+    /* 00 */ Unk021a7064Func mHandler;
+    /* 04 */ SOCLSocket *mSocket;
+    /* 08 */ OSMessageQueue *mResponse;
+    /* 0c */ s8 mFlagMode;
+    /* 0d */ s8 mFlagBlock;
     /* 0e */ u8 mUnk_0e[2];
     /* 10 */ u16 mUnk_10;
     /* 12 */ u16 mUnk_12;

@@ -95,7 +95,7 @@ typedef struct AuthCreateParams {
 typedef struct DWCAuth {
     /* 000 */ u32 mUnk_000;
     /* 004 */ s32 mError;
-    /* 008 */ s32 mUnk_008;
+    /* 008 */ s32 mReturncode;
     /* 00c */ char mRetcode[4];
     /* 010 */ char mDatetime[0xf];
     /* 01f */ char mLocator[0x33];
@@ -103,7 +103,7 @@ typedef struct DWCAuth {
     /* 17f */ char mChallenge[9];
     /* 188 */ char mCookie[0x41];
     /* 1c9 */ u8 pad_1c9[3];
-    /* 1cc */ AuthCreateParams mUnk_1cc;
+    /* 1cc */ AuthCreateParams mCreateParams;
     /* 1f8 */ DWCHttpLabelValue mHttpLabelvalue[0x20];
     /* 2f8 */ Http *mHttp;
     /* 2fc */ OSThread mThread;

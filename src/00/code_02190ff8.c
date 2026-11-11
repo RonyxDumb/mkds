@@ -221,7 +221,7 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     sprintf(buffer, gChallengeResponseFormat, data->mUnk_0a1, gSpacePadding, loginName, data->mUnk_080, data,
             data->mUnk_0a1);
     MD5Digest(buffer, strlen(buffer), response);
-    if (gpState->mUnk_100 != 0) {
+    if (gpState->mInfoCaching != 0) {
         gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, (void **) &profileRec);
         if (profileRec != NULL) {
             gpState->mUserId = profileRec->mUnk_04;
@@ -456,7 +456,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if (gpState->mUnk_100 != 0) {
+            if (gpState->mInfoCaching != 0) {
                 GpiProfile *n = GpiFindOrAddProfile(connection, gpState->mProfileId);
                 n->mProfileId = gpState->mProfileId;
                 n->mUserId = gpState->mUserId;
@@ -512,7 +512,7 @@ u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile) {
     GpiConnection *gpState;
 
     gpState = connection->mGpiConnection;
-    if (profile->mBuddyStatus != NULL && gpState->mUnk_104 == FALSE) {
+    if (profile->mBuddyStatus != NULL && gpState->mInfoCachingBuddyOnly == FALSE) {
         DWCi_GsFree(profile->mBuddyStatus->mUnk_08);
         profile->mBuddyStatus->mUnk_08 = NULL;
         DWCi_GsFree(profile->mBuddyStatus->mUnk_0c);
@@ -525,7 +525,7 @@ u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile) {
     DWCi_GsFree(profile->mPeerSig);
     profile->mPeerSig = NULL;
     profile->mRequestCount = 0;
-    if (profile->mCache == 0 || (gpState->mUnk_104 == TRUE && profile->mBuddyStatus == NULL)) {
+    if (profile->mCache == 0 || (gpState->mInfoCachingBuddyOnly == TRUE && profile->mBuddyStatus == NULL)) {
         GpiRemoveProfile(connection, profile);
         return 0;
     }

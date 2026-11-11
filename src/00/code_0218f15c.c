@@ -282,7 +282,7 @@ u32 GpUpdate(GpConnection *connection) {
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     return GpiUpdateConnection(connection, 0);
@@ -319,7 +319,7 @@ u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *part
         GpiSetErrorMessage(connection, gNoCallbackErrorString);
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         Unk0218f15cArg arg = {0};
         callback(connection, &arg, param);
         return 0;

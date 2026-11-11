@@ -291,7 +291,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;
         }
-        saveFlag = gpState->mUnk_100;
+        saveFlag = gpState->mInfoCaching;
         peerConn = gpState->mPeerList;
         while (peerConn != NULL) {
             if (peerConn->mProfileId == profileid && peerConn->mState == 0x65) {
@@ -303,7 +303,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             }
             peerConn = peerConn->mNext;
         }
-        if (profileRec == NULL && gpState->mUnk_100 != 0) {
+        if (profileRec == NULL && gpState->mInfoCaching != 0) {
             profileRec = GpiFindOrAddProfile(connection, profileid);
         }
         if (saveFlag != 0) {
@@ -311,7 +311,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             profileRec->mPeerSig = NULL;
             profileRec->mPeerSig = goastrdup(buffer);
         }
-        if (gpState->mUnk_100 != 0) {
+        if (gpState->mInfoCaching != 0) {
             gpiSetInfoCache(connection, profileRec, &infoRecord);
         }
         callback = operation->mCallback;
@@ -825,7 +825,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
     if (checkCache == 1) {
         reuseCached = TRUE;
     }
-    if (gpState->mUnk_100 == 0) {
+    if (gpState->mInfoCaching == 0) {
         reuseCached = FALSE;
     }
     if (callback != 0 && reuseCached != FALSE && GpiFindProfile(connection, profile, &profileEntry) != 0 &&
@@ -871,7 +871,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
 }
 
 u32 gpiSetInfoCache(GpConnection *connection, GpiProfile *profile, GPIInfoCache *cache) {
-    if (connection->mGpiConnection->mUnk_100 == 0) {
+    if (connection->mGpiConnection->mInfoCaching == 0) {
         return 1;
     }
     gpiFreeInfoCache(profile);

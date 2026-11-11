@@ -18,9 +18,9 @@ typedef struct GPIProfileList {
 // GpiAppendBufferString and GpiAppendBufferNumber, reads 0x198 and decrements 0x430.
 typedef struct GpiConnection {
     /* 000 */ char mErrorMessage[0x100];
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ BOOL mUnk_104;
-    /* 108 */ u32 mUnk_108;
+    /* 100 */ s32 mInfoCaching;
+    /* 104 */ BOOL mInfoCachingBuddyOnly;
+    /* 108 */ u32 mSimulation;
     /* 10c */ BOOL mFirewall;
     /* 110 */ char mNick[0x1f];
     /* 12f */ s8 mUniquenick[0x15];
@@ -63,7 +63,7 @@ typedef struct GpiConnection {
     /* 454 */ s32 mUpdateuiBufferCapacity;
     /* 458 */ s32 mUpdateuiBufferLength;
     /* 45c */ s32 mUnk_45c;
-    /* 460 */ void *mUnk_460;
+    /* 460 */ void *mDebugBuffer;
     /* 464 */ u8 mUnk_464[8];
     /* 46c */ s32 mProductId;
     /* 470 */ s32 mNamespaceId;

@@ -30,20 +30,20 @@ typedef struct WCMCpsifWork {
 } WCMCpsifWork;
 
 typedef struct SOCLConfig {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ s32 mUseDhcp;
+    /* 04 */ u32 mMyIp;
+    /* 08 */ u32 mNetMask;
+    /* 0c */ u32 mGatewayIp;
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
-    /* 18 */ void *(*mUnk_18)(u32 param_1);
-    /* 1c */ void (*mUnk_1c)(void *param_1);
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
+    /* 18 */ void *(*mAlloc)(u32 param_1);
+    /* 1c */ void (*mFree)(void *param_1);
+    /* 20 */ s32 mCmdPacketMax;
+    /* 24 */ s32 mLanBufLen;
+    /* 28 */ void *mLanBuf;
+    /* 2c */ s32 mCpsThreadPriority;
+    /* 30 */ s32 mMtu;
+    /* 34 */ s32 mRwin;
 } SOCLConfig;
 
 typedef struct CPSConfig {

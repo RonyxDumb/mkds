@@ -6,8 +6,8 @@ void gpiDestroy(GpConnection *connection) {
     GpiConnection *gpState;
     gpState = connection->mGpiConnection;
     GpiCloseConnection(connection, 1);
-    DWCi_GsFree(gpState->mUnk_460);
-    gpState->mUnk_460 = NULL;
+    DWCi_GsFree(gpState->mDebugBuffer);
+    gpState->mDebugBuffer = NULL;
     HashtableDelete(gpState->mProfileList.mTable);
     DWCi_GsFree(gpState);
     connection->mGpiConnection = NULL;

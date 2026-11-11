@@ -29,7 +29,7 @@
 #include "00/code_02194bb8.h"
 
 void GpDisconnect(GpConnection *connection) {
-    if (connection != NULL && connection->mGpiConnection != NULL && connection->mGpiConnection->mUnk_108 == 0) {
+    if (connection != NULL && connection->mGpiConnection != NULL && connection->mGpiConnection->mSimulation == 0) {
         GpiCloseConnection(connection, 1);
         GpiResetConnection(connection);
     }
@@ -45,7 +45,7 @@ u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
         GpiSetErrorMessage(connection, gNoCallbackErrorString);
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         Unk0218f0a8Arg arg = {0};
         arg.mUnk_08 = 0x601;
         callback(connection, &arg, param);
@@ -64,7 +64,7 @@ u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blockin
         GpiSetErrorMessage(connection, gNoCallbackErrorString);
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         Unk0218eff8Arg arg = {0};
         callback(connection, &arg, param);
         return 0;
@@ -81,7 +81,7 @@ u32 GpSetInfosA(GpConnection *connection, s32 info, const s8 *value) {
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == 4) {
@@ -98,7 +98,7 @@ u32 GpWriteAddbuddy(GpConnection *connection, u32 profile, const char *reason) {
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == 4) {
@@ -135,7 +135,7 @@ u32 GpAuthBuddyRequest(GpConnection *connection, u32 profile) {
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == 4) {
@@ -153,7 +153,7 @@ u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
     if ((connection == NULL) || (gpState = connection->mGpiConnection, gpState == NULL)) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == 4) {
@@ -165,7 +165,7 @@ u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
         return 0;
     }
     profileEntry->mRequestCount = profileEntry->mRequestCount + -1;
-    if ((gpState->mUnk_100 == 0) && (profileEntry->mRequestCount <= 0)) {
+    if ((gpState->mInfoCaching == 0) && (profileEntry->mRequestCount <= 0)) {
         DWCi_GsFree(profileEntry->mAuthSig);
         profileEntry->mAuthSig = NULL;
         canFree = GpiIsProfileEmpty(profileEntry);
@@ -182,7 +182,7 @@ s32 GpGetBuddyCount(GpConnection *object, s32 *output) {
         return 2;
     }
     state = object->mGpiConnection;
-    if (state->mUnk_108 != 0) {
+    if (state->mSimulation != 0) {
         *output = 0;
         return 0;
     }
@@ -199,7 +199,7 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         memset(status, 0, 0x210);
         return 0;
     }
@@ -246,7 +246,7 @@ u32 GpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index) {
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         *index = 0;
         return 0;
     }
@@ -264,7 +264,7 @@ u32 GpIsBuddy(GpConnection *connection, u32 profile) {
     if ((connection == NULL) || (connection->mGpiConnection == NULL)) {
         return 0;
     }
-    if (connection->mGpiConnection->mUnk_108 != 0) {
+    if (connection->mGpiConnection->mSimulation != 0) {
         return 0;
     }
     found = GpiFindProfile(connection, profile, pProfile);
@@ -280,7 +280,7 @@ u32 GpDeleteBuddy(GpConnection *connection, u32 profile) {
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == 4) {
@@ -302,7 +302,7 @@ u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, 
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == 4) {
@@ -361,7 +361,7 @@ u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message)
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (gpState->mUnk_108 != 0) {
+    if (gpState->mSimulation != 0) {
         return 0;
     }
     if (gpState->mConnectState == 4) {

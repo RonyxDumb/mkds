@@ -273,29 +273,29 @@ void FreeFunc_SOCL(int memory) {
 
 s32 SOC_Startup(void *configPointer) {
     Unk021a8c94 *socConfig = configPointer;
-    soclConfig.mUnk_00 = socConfig->mUnk_0c == 1 ? 1 : 0;
-    soclConfig.mUnk_04 = ((socConfig->mUnk_10[0] << 24) & 0xff000000) |
-                         (((socConfig->mUnk_10[0] << 8) & 0xff0000) |
-                          (((socConfig->mUnk_10[0] >> 24) & 0xff) | ((socConfig->mUnk_10[0] >> 8) & 0xff00)));
-    soclConfig.mUnk_08 = ((socConfig->mUnk_10[1] << 24) & 0xff000000) |
-                         (((socConfig->mUnk_10[1] << 8) & 0xff0000) |
-                          (((socConfig->mUnk_10[1] >> 24) & 0xff) | ((socConfig->mUnk_10[1] >> 8) & 0xff00)));
-    soclConfig.mUnk_0c = ((socConfig->mUnk_10[2] << 24) & 0xff000000) |
-                         (((socConfig->mUnk_10[2] << 8) & 0xff0000) |
-                          (((socConfig->mUnk_10[2] >> 24) & 0xff) | ((socConfig->mUnk_10[2] >> 8) & 0xff00)));
+    soclConfig.mUseDhcp = socConfig->mUnk_0c == 1 ? 1 : 0;
+    soclConfig.mMyIp = ((socConfig->mUnk_10[0] << 24) & 0xff000000) |
+                       (((socConfig->mUnk_10[0] << 8) & 0xff0000) |
+                        (((socConfig->mUnk_10[0] >> 24) & 0xff) | ((socConfig->mUnk_10[0] >> 8) & 0xff00)));
+    soclConfig.mNetMask = ((socConfig->mUnk_10[1] << 24) & 0xff000000) |
+                          (((socConfig->mUnk_10[1] << 8) & 0xff0000) |
+                           (((socConfig->mUnk_10[1] >> 24) & 0xff) | ((socConfig->mUnk_10[1] >> 8) & 0xff00)));
+    soclConfig.mGatewayIp = ((socConfig->mUnk_10[2] << 24) & 0xff000000) |
+                            (((socConfig->mUnk_10[2] << 8) & 0xff0000) |
+                             (((socConfig->mUnk_10[2] >> 24) & 0xff) | ((socConfig->mUnk_10[2] >> 8) & 0xff00)));
     soclConfig.mUnk_10 = ((socConfig->mUnk_10[3] << 24) & 0xff000000) |
                          (((socConfig->mUnk_10[3] << 8) & 0xff0000) |
                           (((socConfig->mUnk_10[3] >> 24) & 0xff) | ((socConfig->mUnk_10[3] >> 8) & 0xff00)));
     soclConfig.mUnk_14 = ((socConfig->mUnk_10[4] << 24) & 0xff000000) |
                          (((socConfig->mUnk_10[4] << 8) & 0xff0000) |
                           (((socConfig->mUnk_10[4] >> 24) & 0xff) | ((socConfig->mUnk_10[4] >> 8) & 0xff00)));
-    soclConfig.mUnk_18 = AllocFunc_SOCL;
-    soclConfig.mUnk_1c = (void (*)(void *)) FreeFunc_SOCL;
+    soclConfig.mAlloc = AllocFunc_SOCL;
+    soclConfig.mFree = (void (*)(void *)) FreeFunc_SOCL;
     AllocFunc_SOC = socConfig->mUnk_04;
     *(void **) FreeFunc_SOC = socConfig->mUnk_08;
-    soclConfig.mUnk_20 = 0x40;
-    soclConfig.mUnk_30 = socConfig->mUnk_2c;
-    soclConfig.mUnk_34 = socConfig->mUnk_30;
+    soclConfig.mCmdPacketMax = 0x40;
+    soclConfig.mMtu = socConfig->mUnk_2c;
+    soclConfig.mRwin = socConfig->mUnk_30;
     return SOCL_Startup(&soclConfig);
 }
 
@@ -516,7 +516,7 @@ s32 SOCL_Resolve(const char *hostname) {
     if (hostname == NULL) {
         return 0;
     }
-    memory = SOCLiConfigPtr->mUnk_18(0x1154);
+    memory = SOCLiConfigPtr->mAlloc(0x1154);
     if (memory == NULL) {
         return 0;
     }
@@ -528,7 +528,7 @@ s32 SOCL_Resolve(const char *hostname) {
     CPS_SocRegister(&soc);
     resolvedAddr = CPS_Resolve(hostname);
     CPS_SocUnRegister();
-    SOCLiConfigPtr->mUnk_1c(memory);
+    SOCLiConfigPtr->mFree(memory);
     return resolvedAddr;
 }
 
@@ -585,8 +585,8 @@ s32 SOCL_Cleanup(void) {
     if (result >= 0) {
         CPS_Cleanup();
         CPS_SetScavengerCallback(NULL);
-        if (SOCLiConfigPtr->mUnk_28 == NULL) {
-            SOCLiConfigPtr->mUnk_1c(SOCLiCPSConfig.mLanBuf);
+        if (SOCLiConfigPtr->mLanBuf == NULL) {
+            SOCLiConfigPtr->mFree(SOCLiCPSConfig.mLanBuf);
         }
         SOCLiConfigPtr = NULL;
     }
@@ -696,12 +696,12 @@ s32 SOCL_Close(s32 socketHandle) {
         SOCLi_SendCommandPacket(&sockObj->mSendBlock->mUnk_00, NULL);
     }
     cmdPacket = SOCLi_CreateCommandPacket(SOCLi_CloseCallBack, sockObj, 1);
-    cmdPacket->mUnk_0d = 0;
+    cmdPacket->mFlagBlock = 0;
     return SOCLi_ExecCommandPacketInCtrlPipe(sockObj, cmdPacket);
 }
 
 s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
-    SOCLSocket *sockObj = command->mUnk_04;
+    SOCLSocket *sockObj = command->mSocket;
     void *block;
     u32 interruptState;
     if (SOCL_SocketIsTCP(sockObj) != 0) {
@@ -739,7 +739,7 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
             datagram = socket->mReceiveBlock->mUdpDataOut;
             while (datagram != NULL) {
                 nextDatagram = datagram->mUnk_00;
-                SOCLiConfigPtr->mUnk_1c(datagram);
+                SOCLiConfigPtr->mFree(datagram);
                 datagram = nextDatagram;
             }
             socket->mReceiveBlock->mUdpDataSize = 0;
@@ -753,7 +753,7 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
         interruptState = OS_DisableInterrupts();
         SOCLi_SocketUnregister(socket);
         SOCLi_SocketUnregisterTrash(socket);
-        SOCLiConfigPtr->mUnk_1c(socket);
+        SOCLiConfigPtr->mFree(socket);
         OS_RestoreInterrupts(interruptState);
     }
 }
@@ -768,8 +768,8 @@ void SOCLi_FreeCommandPipe(SOCLiSocketCommandPipe *pipe) {
         if (OS_ReceiveMessage(&pipe->mUnk_00, (void **) &cmdPacket, 0) != 0) {
             do {
                 if (cmdPacket != NULL) {
-                    if (cmdPacket->mUnk_08 != NULL) {
-                        OS_SendMessage(cmdPacket->mUnk_08, (void *) -11, 0);
+                    if (cmdPacket->mResponse != NULL) {
+                        OS_SendMessage(cmdPacket->mResponse, (void *) -11, 0);
                     }
                     SOCLi_FreeCommandPacket(cmdPacket);
                 }
@@ -817,7 +817,7 @@ s32 SOCL_Shutdown(s32 socketHandle) {
 }
 
 s32 SOCLi_ShutdownCallBack(SOCLiCommandPacket *command) {
-    if (SOCL_SocketIsTCP(command->mUnk_04) != 0) {
+    if (SOCL_SocketIsTCP(command->mSocket) != 0) {
         CPS_TcpShutdown();
     }
     return 0;
@@ -1296,7 +1296,7 @@ s32 SOCLi_ConsumeBuffer(SOCLSocket *socket) {
 }
 
 s32 SOCLi_ConsumeCallBack(SOCLiCommandPacket *command) {
-    return SOCLi_ConsumeCPSBuffer(command->mUnk_04);
+    return SOCLi_ConsumeCPSBuffer(command->mSocket);
 }
 
 s32 SOCLi_ConsumeCPSBuffer(SOCLSocket *socket) {
@@ -1348,7 +1348,7 @@ s32 SOCLi_ReadUdpBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
             if (datagram->mUnk_00 == NULL) {
                 inPipe->mUdpDataIn = NULL;
             }
-            SOCLiConfigPtr->mUnk_1c(datagram);
+            SOCLiConfigPtr->mFree(datagram);
             inPipe->mUdpDataSize -= result;
         }
     }
@@ -1360,7 +1360,7 @@ s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket) {
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
     u32 interruptState = OS_DisableInterrupts();
     if (inPipe->mUdpDataSizeMax >= inPipe->mUdpDataSize + length) {
-        SOCLiSocketUdpData *datagram = SOCLiConfigPtr->mUnk_18(length + 0xc);
+        SOCLiSocketUdpData *datagram = SOCLiConfigPtr->mAlloc(length + 0xc);
         if (datagram != NULL) {
             inPipe->mUdpDataSize += length;
             datagram->mUnk_00 = NULL;
@@ -1477,13 +1477,13 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     SOCLiSocketRecvCommandPipe *inPipe;
     s32 connectResult;
 
-    sockObj = packet->mUnk_04;
+    sockObj = packet->mSocket;
     connectResult = 0;
     inPipe = sockObj->mReceiveBlock;
     OS_LockMutex(&inPipe->mCommandPipe.mUnk_e0);
     CPS_SocBind(packet->mUnk_10, packet->mUnk_12, (s32) packet->mUnk_14);
     inPipe->mConsumed = 0;
-    if (packet->mUnk_0c == 0 || packet->mUnk_0c == 4) {
+    if (packet->mFlagMode == 0 || packet->mFlagMode == 4) {
         connectResult = CPS_TcpConnect();
     }
     OS_UnlockMutex(&inPipe->mCommandPipe.mUnk_e0);
@@ -1614,7 +1614,7 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     u32 ownAddr;
     u32 peerAddr;
 
-    sockObj = packet->mUnk_04;
+    sockObj = packet->mSocket;
     inPipe = sockObj->mReceiveBlock;
     OS_LockMutex(&inPipe->mCommandPipe.mUnk_e0);
     CPS_SocBind(packet->mUnk_10, 0, 0);
@@ -1644,7 +1644,7 @@ s32 SOCLi_CreateSocketCallBack(SOCLiCommandPacket *command) {
     SOCLSocket *sockObj;
     SOCLiSocketCommandPipe *outPipe;
 
-    sockObj = command->mUnk_04;
+    sockObj = command->mSocket;
     CPS_SocRegister(sockObj);
     outPipe = &sockObj->mSendBlock->mUnk_00;
     switch (sockObj->mFlagMode) {
@@ -1675,7 +1675,7 @@ SOCLSocket *SOCLi_StartupSocket(SOCLSocketParam *param) {
 
     size = SOCLi_GetSizeSocket(param);
     interruptState = OS_DisableInterrupts();
-    sockObj = SOCLiConfigPtr->mUnk_18(size);
+    sockObj = SOCLiConfigPtr->mAlloc(size);
     if (sockObj != NULL) {
         MI_CpuFill8(sockObj, 0, size);
         SOCLi_InitSocket(sockObj, param);
@@ -1777,7 +1777,7 @@ s32 SOCLi_StartupCommandPacketQueue(s32 count) {
 
     queueBytes = (count * 4 + 3) & ~3;
     packetBytes = (count * 0x2c + 3) & ~3;
-    messages = SOCLiConfigPtr->mUnk_18(packetBytes + queueBytes);
+    messages = SOCLiConfigPtr->mAlloc(packetBytes + queueBytes);
     if (messages == NULL) {
         return -1;
     }
@@ -1798,7 +1798,7 @@ s32 SOCLi_CleanupCommandPacketQueue(void) {
     if (SOCLiCommandPacketQueue.mCount < SOCLiCommandPacketQueue.mCapacity) {
         return -1;
     }
-    SOCLiConfigPtr->mUnk_1c(SOCLiCommandPackets);
+    SOCLiConfigPtr->mFree(SOCLiCommandPackets);
     SOCLiCommandPackets = NULL;
     return 0;
 }
@@ -1818,10 +1818,10 @@ SOCLiCommandPacket *SOCLi_CreateCommandPacket(Unk021a7064Func handler, SOCLSocke
 
     packet = SOCLi_AllocCommandPacket(flag);
     if (packet != NULL) {
-        packet->mUnk_00 = handler;
-        packet->mUnk_04 = socket;
-        packet->mUnk_0d = flag;
-        packet->mUnk_0c = socket->mFlagMode;
+        packet->mHandler = handler;
+        packet->mSocket = socket;
+        packet->mFlagBlock = flag;
+        packet->mFlagMode = socket->mFlagMode;
     }
     return packet;
 }
@@ -1835,7 +1835,7 @@ void SOCLi_FreeCommandPacket(SOCLiCommandPacket *packet) {
 s32 SOCLi_SendCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet) {
     s32 result;
 
-    result = OS_SendMessage(&pipe->mUnk_00, packet, packet != NULL ? packet->mUnk_0d : 1);
+    result = OS_SendMessage(&pipe->mUnk_00, packet, packet != NULL ? packet->mFlagBlock : 1);
     if (result == 0) {
         SOCLi_FreeCommandPacket(packet);
     }
@@ -1850,12 +1850,12 @@ s32 SOCLi_ExecCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *pa
     void *response;
     OSMessageQueue replyQueue;
 
-    if (packet->mUnk_0d == 0) {
-        packet->mUnk_08 = NULL;
+    if (packet->mFlagBlock == 0) {
+        packet->mResponse = NULL;
         result = SOCLi_SendCommandPacket(pipe, packet);
     } else {
         OS_InitMessageQueue(&replyQueue, &response, 1);
-        packet->mUnk_08 = &replyQueue;
+        packet->mResponse = &replyQueue;
         SOCLi_SendCommandPacket(pipe, packet);
         OS_ReceiveMessage(&replyQueue, (void **) &result, 1);
     }
@@ -1888,15 +1888,15 @@ void SOCLi_CommandPacketHandler(void *queueArgument) {
         if (packet == NULL) {
             return;
         }
-        result = packet->mUnk_00(packet);
+        result = packet->mHandler(packet);
         interruptState = OS_DisableInterrupts();
         OS_DisableScheduler();
         OS_ReceiveMessage(queue, NULL, 0);
-        if (packet->mUnk_04 != NULL) {
-            packet->mUnk_04->mEntryResult = result;
+        if (packet->mSocket != NULL) {
+            packet->mSocket->mEntryResult = result;
         }
-        if (packet->mUnk_08 != NULL) {
-            OS_SendMessage(packet->mUnk_08, (void *) result, 0);
+        if (packet->mResponse != NULL) {
+            OS_SendMessage(packet->mResponse, (void *) result, 0);
         }
         SOCLi_FreeCommandPacket(packet);
         OS_EnableScheduler();
@@ -1918,7 +1918,7 @@ s32 SOCL_Startup(SOCLConfig *config) {
 s32 SOCLi_StartupSOCL(void) {
     s32 result;
 
-    result = SOCLi_StartupCommandPacketQueue(SOCLiConfigPtr->mUnk_20);
+    result = SOCLi_StartupCommandPacketQueue(SOCLiConfigPtr->mCmdPacketMax);
     if (result >= 0) {
         SOCLiUDPSendSocket = (SOCLSocket *) SOCL_CreateSocket(&SOCLSocketParamUDPSend);
     }
@@ -1932,27 +1932,27 @@ void SOCLi_StartupCPS(void) {
     s32 rwin;
 
     MI_CpuFill8(cfgBlock, 0, 0x30);
-    cfgBlock->mAlloc = config->mUnk_18;
-    cfgBlock->mFree = config->mUnk_1c;
+    cfgBlock->mAlloc = config->mAlloc;
+    cfgBlock->mFree = config->mFree;
     cfgBlock->mLinkIsOn = SOCL_LinkIsOn;
     cfgBlock->mRandomSeedLow = 0;
     cfgBlock->mRandomSeedHigh = 0;
     cfgBlock->mYieldWait = *(u32 *) SOCLiYieldWait;
-    if (config->mUnk_24 != 0) {
-        cfgBlock->mLanBufLen = config->mUnk_24;
+    if (config->mLanBufLen != 0) {
+        cfgBlock->mLanBufLen = config->mLanBufLen;
     } else {
         cfgBlock->mLanBufLen = 0x4000;
     }
-    if (config->mUnk_28 != NULL) {
-        cfgBlock->mLanBuf = config->mUnk_28;
+    if (config->mLanBuf != NULL) {
+        cfgBlock->mLanBuf = config->mLanBuf;
     } else {
-        cfgBlock->mLanBuf = SOCLiConfigPtr->mUnk_18(cfgBlock->mLanBufLen);
+        cfgBlock->mLanBuf = SOCLiConfigPtr->mAlloc(cfgBlock->mLanBufLen);
     }
-    c = config->mUnk_30;
+    c = config->mMtu;
     if (c == 0) {
         c = 0x240;
     }
-    rwin = config->mUnk_34;
+    rwin = config->mRwin;
     if (rwin == 0) {
         rwin = 0x10c0;
     }
@@ -1960,7 +1960,7 @@ void SOCLi_StartupCPS(void) {
     SOCLSocketParamTCP.mUnk_02 = rwin;
     SOCLSocketParamTCP.mUnk_04 = rwin / 2;
     CPSMyIp = 0;
-    if (config->mUnk_00 != 0) {
+    if (config->mUseDhcp != 0) {
         SOCLiDhcpState = 1;
         cfgBlock->mMode = 0;
         cfgBlock->mDhcpCallback = SOCLi_DhcpTimeout;
@@ -1970,7 +1970,7 @@ void SOCLi_StartupCPS(void) {
         cfgBlock->mMode = 1;
         cfgBlock->mDhcpCallback = SOCLi_SetMyIP;
     }
-    c = config->mUnk_2c;
+    c = config->mCpsThreadPriority;
     if (c == 0) {
         c = 0xb;
     }
@@ -1983,9 +1983,9 @@ void SOCLi_StartupCPS(void) {
 void SOCLi_SetMyIP(void) {
     SOCLConfig *config = SOCLiConfigPtr;
 
-    CPSMyIp = config->mUnk_04;
-    CPSNetMask = config->mUnk_08;
-    CPSGatewayIp = config->mUnk_0c;
+    CPSMyIp = config->mMyIp;
+    CPSNetMask = config->mNetMask;
+    CPSGatewayIp = config->mGatewayIp;
     CPSDnsIp[0] = config->mUnk_10;
     CPSDnsIp[1] = config->mUnk_14;
     SOCLiDhcpState |= 2;
