@@ -77,7 +77,7 @@ s32 IsRaceEndConditionMet(void) {
             }
             break;
         case 5:
-            participantKart = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
+            participantKart = gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()];
             if (participantKart < 0) {
                 endConditionMet = FALSE;
             } else {

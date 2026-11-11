@@ -48,8 +48,8 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
             OS_SNPrintf(pidText, 12, gUnsignedFormat, gWiFiMatching->mOwnProfileId);
             if (ReportMatchingConnectResult(
                     gt2Connect(*gWiFiMatching->mConnectionSocket, NULL,
-                               Gt2FormatAddress(gWiFiMatching->mParticipantConnectAddresses[index],
-                                                gWiFiMatching->mParticipantConnectPorts[index], 0),
+                               gt2AddressToString(gWiFiMatching->mParticipantConnectAddresses[index],
+                                                  gWiFiMatching->mParticipantConnectPorts[index], 0),
                                pidText, -1, 0x1388, gWiFiMatching->mConnectionCallbacks, 0)) != 0) {
                 return;
             }
@@ -111,7 +111,7 @@ u32 DWCi_ProcessNNFailure(void) {
         gWiFiMatching->mUnk_174[1]++;
     }
     if (gWiFiMatching->mMode == 3 || gWiFiMatching->mUnk_174[1] >= 5) {
-        ReportMatchingError(6, -0x15194);
+        DWCi_StopMatching(6, -0x15194);
         return 0;
     }
     return 1;

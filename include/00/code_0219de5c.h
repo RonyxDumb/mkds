@@ -6,6 +6,6 @@
 
 u32 DWCi_QR2AddErrorCallback(u32 error);
 s32 DWCi_QR2CountCallback(void);
-void AddMatchingKeyIds(s32 keytype, MatchingKeyIds *keyIds, void *userdata);
+void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata);
 void DWCi_QR2TeamKeyCallback(void);
 void DWCi_QR2PlayerKeyCallback(void);

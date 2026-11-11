@@ -66,8 +66,8 @@ s32 DWCs_GetRequiredHeaderSize(s32 type) {
     }
 }
 
-// Per login (called by InitWiFiConnection): stores gWiFiMessageLayer, zeroes the struct and sets mSendChunkSize.
-void InitWiFiMessageLayer(WiFiMessageLayer *state) {
+// Per login (called by DWC_InitFriendsMatch): stores gWiFiMessageLayer, zeroes the struct and sets mSendChunkSize.
+void DWCi_InitTransport(WiFiMessageLayer *state) {
     gWiFiMessageLayer = state;
     MI_CpuFill8(state, 0, sizeof(WiFiMessageLayer));
     gWiFiMessageLayer->mSendChunkSize = 0x5b9;
@@ -92,49 +92,49 @@ void DWCi_PingCallback(Unk0219887c *connection, u32 latency) {
 // One step per frame in connection state 6 (returns at once when the layer is NULL): for each participant (except the
 // own index) continues the chunked send and, when the elapsed time since the last receive exceeds the peer's limit,
 // calls the timeout callback func (mUnk_608; no writer in src).
-void UpdateWiFiMessageLayer(void) {
-    u8 *aidArray;
-    s32 playerCount;
+void DWCi_TransportProcess(void) {
+    u8 *aids;
+    s32 aidCount;
     s32 i;
     u8 aid;
-    WiFiPeerMessage *messageSlot;
-    s32 remainBytes;
-    s32 sendSize;
-    u64 nowTicks;
+    WiFiPeerMessage *peer;
+    s32 remaining;
+    s32 chunk;
+    u64 now;
     if (gWiFiMessageLayer != NULL) {
-        playerCount = DWC_GetAIDList(&aidArray);
-        for (i = 0; i < playerCount; i++) {
-            aid = aidArray[i];
-            if (aid != GetOwnParticipantIndex() && DWCs_GetSendState(aid) == 1) {
-                messageSlot = DWCs_GetTransConnection(aid);
-                remainBytes = messageSlot->mSendSize - messageSlot->mSentSize;
-                sendSize = gWiFiMessageLayer->mSendChunkSize;
-                if (remainBytes <= sendSize) {
-                    sendSize = remainBytes;
+        aidCount = DWC_GetAIDList(&aids);
+        for (i = 0; i < aidCount; i++) {
+            aid = aids[i];
+            if (aid != DWC_GetMyAID() && DWCs_GetSendState(aid) == 1) {
+                peer = DWCs_GetTransConnection(aid);
+                remaining = peer->mSendSize - peer->mSentSize;
+                chunk = gWiFiMessageLayer->mSendChunkSize;
+                if (remaining <= chunk) {
+                    chunk = remaining;
                 }
-                if (DWCs_GetOutgoingBufferFreeSize(aid) < sendSize) {
+                if (DWCs_GetOutgoingBufferFreeSize(aid) < chunk) {
                     continue;
                 }
-                DWCs_Send(aid, (messageSlot->mSendBuffer + messageSlot->mSentSize), sendSize, 1);
-                messageSlot->mSentSize += sendSize;
-                if (messageSlot->mSentSize == messageSlot->mSendSize) {
+                DWCs_Send(aid, (peer->mSendBuffer + peer->mSentSize), chunk, 1);
+                peer->mSentSize += chunk;
+                if (peer->mSentSize == peer->mSendSize) {
                     if (gWiFiMessageLayer->mSendCallback != NULL) {
-                        gWiFiMessageLayer->mSendCallback(messageSlot->mSendSize, aid);
+                        gWiFiMessageLayer->mSendCallback(peer->mSendSize, aid);
                     }
-                    messageSlot->mUnk_1c = 0;
-                    messageSlot->mSendBuffer = NULL;
-                    messageSlot->mSentSize = 0;
-                    messageSlot->mSendSize = 0;
+                    peer->mUnk_1c = 0;
+                    peer->mSendBuffer = NULL;
+                    peer->mSentSize = 0;
+                    peer->mSendSize = 0;
                 }
             }
             if (DWC_IsValidAID(aid) != 0) {
-                messageSlot = DWCs_GetTransConnection(aid);
-                if (gWiFiMessageLayer->mUnk_608 != NULL && messageSlot->mUnk_2c != 0) {
-                    nowTicks = OS_GetTick();
-                    if ((u32) _ll_udiv((nowTicks - messageSlot->mUnk_24) << 6, 0x82ea) >
-                        messageSlot->mUnk_2c) {
+                peer = DWCs_GetTransConnection(aid);
+                if (gWiFiMessageLayer->mUnk_608 != NULL && peer->mUnk_2c != 0) {
+                    now = OS_GetTick();
+                    if ((u32) _ll_udiv((now - peer->mUnk_24) << 6, 0x82ea) >
+                        peer->mUnk_2c) {
                         gWiFiMessageLayer->mUnk_608(aid);
-                        messageSlot->mUnk_24 = nowTicks;
+                        peer->mUnk_24 = now;
                     }
                 }
             }
@@ -283,7 +283,7 @@ void DWCs_RecvSystemDataBody(u32 aid, void *message, s32 size) {
         case 2:
         case 3:
         case 4:
-            ReceiveMatchingPeerMessage(aid, peer->mMessageKind, message);
+            DWCi_ProcessMatchSynPacket(aid, peer->mMessageKind, message);
             break;
     }
 }

@@ -75,9 +75,9 @@ s32 DWC_GetNumFriend(void *friendList, s32 friendListLength) {
 
 // Deletes the GP buddy of the entry (if GP lists it) and zeroes the 12-byte entry; the argument is the save data's
 // entry, not the sync's list.
-void RemoveBuddyEntry(void *friendData) {
+void DWC_DeleteBuddyFriendData(void *friendData) {
     s32 profileId;
-    if (gWiFiBuddySync != NULL && IsWiFiLoginDone() != 0 && DWCi_GetUserData() != NULL) {
+    if (gWiFiBuddySync != NULL && DWCi_CheckLogin() != 0 && DWCi_GetUserData() != NULL) {
         profileId = DWC_GetGsProfileId(DWCi_GetUserData(), friendData);
         if (profileId != 0 && profileId != -1 && GpIsBuddy(gWiFiBuddySync->mGpConnection, profileId) != 0) {
             GpDeleteBuddy(gWiFiBuddySync->mGpConnection, profileId);

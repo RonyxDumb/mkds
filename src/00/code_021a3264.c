@@ -103,41 +103,41 @@ BOOL DWCi_IsSendableReliable(u32 aid, s32 type) {
 // Starts a send of kind a (1 = data) to peer b: refuses (FALSE) while an error is pending or DWCi_IsSendableReliable
 // says no (peer not usable, kind 1 to a non-participant, already sending, or less send room than the header needs);
 // marks the peer sending, stores the buffer and size, writes the 8-byte header and the first chunk (when the socket has
-// no room for the chunk it returns TRUE after the header); UpdateWiFiMessageLayer sends the later chunks; calls
+// no room for the chunk it returns TRUE after the header); DWCi_TransportProcess sends the later chunks; calls
 // mSendCallback when the whole message went out at once (kind 1 only).
-BOOL StartPeerMessageSend(u16 type, u32 aid, u8 *buffer, s32 size) {
-    WiFiPeerMessage *messageSlot = DWCs_GetTransConnection(aid);
+BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size) {
+    WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
     DWCTransportHeader header;
-    s32 sendSize;
+    s32 chunk;
     if (DWCi_IsError() != 0) {
         return FALSE;
     }
     if (DWCi_IsSendableReliable(aid, type) == FALSE) {
         return FALSE;
     }
-    messageSlot->mUnk_1c = 1;
-    messageSlot->mSendBuffer = buffer;
-    messageSlot->mSentSize = 0;
-    messageSlot->mSendSize = size;
+    peer->mUnk_1c = 1;
+    peer->mSendBuffer = buffer;
+    peer->mSentSize = 0;
+    peer->mSendSize = size;
     DWCs_EncodeHeader(&header, type, size);
     DWCs_Send(aid, &header, 8, 1);
-    sendSize = gWiFiMessageLayer->mSendChunkSize;
-    if (size <= sendSize) {
-        sendSize = size;
+    chunk = gWiFiMessageLayer->mSendChunkSize;
+    if (size <= chunk) {
+        chunk = size;
     }
-    if (sendSize > DWCs_GetOutgoingBufferFreeSize(aid)) {
+    if (chunk > DWCs_GetOutgoingBufferFreeSize(aid)) {
         return TRUE;
     }
-    DWCs_Send(aid, buffer, sendSize, 1);
-    messageSlot->mSentSize += sendSize;
-    if (messageSlot->mSentSize == messageSlot->mSendSize) {
+    DWCs_Send(aid, buffer, chunk, 1);
+    peer->mSentSize += chunk;
+    if (peer->mSentSize == peer->mSendSize) {
         if (gWiFiMessageLayer->mSendCallback != NULL && type == 1) {
-            gWiFiMessageLayer->mSendCallback(messageSlot->mSendSize, aid);
+            gWiFiMessageLayer->mSendCallback(peer->mSendSize, aid);
         }
-        messageSlot->mUnk_1c = 0;
-        messageSlot->mSendBuffer = NULL;
-        messageSlot->mSentSize = 0;
-        messageSlot->mSendSize = 0;
+        peer->mUnk_1c = 0;
+        peer->mSendBuffer = NULL;
+        peer->mSentSize = 0;
+        peer->mSendSize = 0;
     }
     return TRUE;
 }
@@ -161,7 +161,7 @@ BOOL DWC_SendUnreliable(u32 aid, void *buffer, s32 size) {
 
 // Gives peer a the buffer b of capacity c to receive into and sets mReceiveState to 1 with both received counters 0;
 // refuses (FALSE) while a body is being received into the old buffer (state 2).
-BOOL SetPeerReceiveBuffer(u32 aid, void *recvBuffer, s32 size) {
+BOOL DWC_SetRecvBuffer(u32 aid, void *recvBuffer, s32 size) {
     WiFiPeerMessage *connection = DWCs_GetTransConnection(aid);
     if (DWCs_GetRecvState(aid) == 2) {
         return FALSE;

@@ -11,9 +11,9 @@ typedef struct MATHRandContext32 {
 
 extern MATHRandContext32 gRandContext32;
 
-BOOL SetPeerReceiveBuffer(u32 aid, void *recvBuffer, s32 size);
+BOOL DWC_SetRecvBuffer(u32 aid, void *recvBuffer, s32 size);
 BOOL DWC_SendUnreliable(u32 aid, void *buffer, s32 size);
-BOOL StartPeerMessageSend(u16 type, u32 aid, u8 *buffer, s32 size);
+BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size);
 BOOL DWCi_IsSendableReliable(u32 aid, s32 type);
 u32 DWCi_GetMathRand32(u32 max);
 u64 MatchingGetTickMilliseconds(void);

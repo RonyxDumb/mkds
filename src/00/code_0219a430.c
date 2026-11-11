@@ -32,7 +32,7 @@ void gti2ConnectionFree(Gt2Connection **element) {
     gti2ConnectionCleanup(*element);
 }
 
-Gt2Connection *FindConnection(Gt2Socket *socket, u32 address, u32 port) {
+Gt2Connection *gti2SocketFindConnection(Gt2Socket *socket, u32 address, u32 port) {
     Gt2Connection key;
     Gt2Connection *keyPointer;
     void *found;
@@ -46,8 +46,8 @@ Gt2Connection *FindConnection(Gt2Socket *socket, u32 address, u32 port) {
     return NULL;
 }
 
-u32 CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
-                 u32 errorCallback) {
+u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
+                     u32 errorCallback) {
     Gt2Socket *newSocket;
     u16 netPort;
     Unk0219a430Addr socketAddress;
@@ -61,7 +61,7 @@ u32 CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBu
     if (outgoingBufferSize == 0) {
         outgoingBufferSize = 0x10000;
     }
-    if (Gt2ParseAddress(localAddress, &address, &netPort) == FALSE) {
+    if (gt2StringToAddress(localAddress, &address, &netPort) == FALSE) {
         return 4;
     }
     newSocket = DWCi_GsMalloc(0x44);

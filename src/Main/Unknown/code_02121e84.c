@@ -92,7 +92,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
         return;
     }
     gWiFiSession->mSinceCallbackFrames[fromIndex] = 0;
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     if (IsWiFiSessionMessageMatching(message, fromIndex, size, ownIndex) == FALSE) {
         return;
     }
@@ -105,7 +105,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             break;
         case 1:
             gWiFiSession->mReceivedMask |= 1 << fromIndex;
-            SetPeerReceiveBuffer(fromIndex, &gWiFiSession->mReceiveBuffers[fromIndex], 0x44);
+            DWC_SetRecvBuffer(fromIndex, &gWiFiSession->mReceiveBuffers[fromIndex], 0x44);
             break;
         case 2:
             if (gWiFiSession->mStep == 1) {
@@ -193,17 +193,17 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
 }
 
 void SetWiFiSessionOwnCharacterIndex(s32 characterIndex) {
-    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mCharacterIndex = characterIndex;
+    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mCharacterIndex = characterIndex;
 }
 
 void SetWiFiSessionOwnCharacterIndexNone(void) {
-    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mCharacterIndex = -1;
+    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mCharacterIndex = -1;
 }
 
 void SetWiFiSessionOwnKartIndex(s32 kartIndex) {
-    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mKartIndex = kartIndex;
+    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mKartIndex = kartIndex;
 }
 
 void SetWiFiSessionOwnPickedCourseId(s32 pickedCourseId) {
-    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mPickedCourseId = pickedCourseId;
+    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mPickedCourseId = pickedCourseId;
 }

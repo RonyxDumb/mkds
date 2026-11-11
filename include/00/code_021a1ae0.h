@@ -31,7 +31,7 @@
 #include "00/code_021a3a18.h"
 #include "00/code_0218e2dc.h"
 
-// Address and byte-swapped port built by WiFiUnmatchedDataCallback and handed on with the data.
+// Address and byte-swapped port built by DWCi_GT2UnrecognizedMessageCallback and handed on with the data.
 typedef struct UnmatchedDataAddress {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mUnk_01;
@@ -39,18 +39,18 @@ typedef struct UnmatchedDataAddress {
     /* 04 */ u32 mAddress;
 } UnmatchedDataAddress;
 
-void ParseMatchingGpMessage(GpConnection *gpConnection, u32 profileId, const char *message);
-void WiFiGt2ResultCallback(Unk0219887c *connection, s32 result);
-void WiFiIncomingConnectionCallback(u32 socket, Unk0219887c *connection, u32 address, u32 port, s32 latency,
+void DWCi_MatchGPRecvBuddyMsgCallback(GpConnection *gpConnection, u32 profileId, const char *message);
+void DWCi_GT2ConnectedCallback(Unk0219887c *connection, s32 result);
+void DWCi_GT2ConnectAttemptCallback(u32 socket, Unk0219887c *connection, u32 address, u32 port, s32 latency,
                                     char *message);
-u32 WiFiUnmatchedDataCallback(u32 socket, u32 address, u16 port, u8 *data, u32 size);
-void UpdateMatching(s32 param_1);
-void StartMatchingWithBuddies(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
-                              void *matchedCallback, u32 matchedParam, u32 evalCallback, u32 evalParam);
-void StartMatchingWithFilter(u32 numEntry, const void *addFilter, u32 matchedCallback, u32 matchedParam,
-                             u32 evalCallback, u32 evalParam);
+u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *data, u32 size);
+void DWCi_MatchProcess(s32 param_1);
+void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
+                                void *matchedCallback, u32 matchedParam, u32 evalCallback, u32 evalParam);
+void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, u32 matchedCallback, u32 matchedParam,
+                                u32 evalCallback, u32 evalParam);
 u32 DWCi_QR2Startup(u32 profileId);
-void InitMatching(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void **connectionSocket,
-                  void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
+void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void **connectionSocket,
+                    void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
 
 #include "00/code_021a3760.h"

@@ -22,7 +22,7 @@ void InitWiFiSelectCharacterState(void *heap) {
     InitWiFiSelectCharacterNop();
     if (GetWiFiPrevState() != 5) {
         PackWiFiSessionIndicesWrapper();
-        SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(GetOwnParticipantIndex()));
+        SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(DWC_GetMyAID()));
         SetSessionKartCount(gWiFiSession->mKartCount);
     }
     firstOamList = GetWiFiMenuMainOamList();

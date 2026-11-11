@@ -147,7 +147,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
             gResultsBattle->mState = 0;
             break;
         case 3:
-            gResultsBattle->mOwnEntryIndex = GetPackedIndex(GetOwnParticipantIndex());
+            gResultsBattle->mOwnEntryIndex = GetPackedIndex(DWC_GetMyAID());
             gResultsBattle->mKartCount = gWiFiSession->mKartCount;
             gResultsBattle->mUseTimer = TRUE;
             gResultsBattle->mTimer = 0x384;

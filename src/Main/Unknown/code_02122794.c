@@ -25,7 +25,7 @@ void RemoveWiFiSessionKarts(void) {
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
         bit = 1 << participantIndex;
         if ((gWiFiSession->mKartMask & bit) != 0 && (gWiFiSession->mKartRemoveMask & bit) != 0) {
-            if (participantIndex == GetOwnParticipantIndex()) {
+            if (participantIndex == DWC_GetMyAID()) {
                 gWiFiSession->mConnectionLost = 1;
                 DWC_RegisterMatchingStatus();
                 DWC_CloseAllConnectionsHard();
@@ -50,14 +50,13 @@ void UpdateWiFiSessionKartTimeouts(void) {
     u8 ownIndex;
     if (gWiFiSession->mStep > 2 && gWiFiSession->mStep < 9) {
         if (gWiFiSession->mStep == 3) {
-            ownIndex = GetOwnParticipantIndex();
+            ownIndex = DWC_GetMyAID();
             if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice != 1) {
                 return;
             }
         }
         for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-            if (participantIndex != GetOwnParticipantIndex() &&
-                (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+            if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
                 if (gWiFiSession->mSinceCallbackFrames[participantIndex] > 300) {
                     gWiFiSession->mKartRemoveMask |= 1 << participantIndex;
                 }
@@ -65,7 +64,7 @@ void UpdateWiFiSessionKartTimeouts(void) {
         }
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if (participantIndex != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+        if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
             gWiFiSession->mSinceCallbackFrames[participantIndex]++;
         }
     }

@@ -10,11 +10,11 @@ void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCa
                     void *updateParam, void (*statusCallback)(s32, u8, void *, void *), void *statusParam,
                     void (*deleteCallback)(s32, s32, void *), void *deleteParam);
 
-u32 AddBuddy(u32 profileId);
+u32 DWCi_GPSendBuddyRequest(u32 profileId);
 s32 DWCi_RefreshFriendListAll(DWCAccFriendData *friendList, s32 friendListLength, s32 profileId);
 BOOL DWCi_RefreshFriendListForth(DWCAccFriendData *friendList, s32 index, s32 profileId);
 void DWCi_DeleteFriendFromList(DWCAccFriendData *friendData, s32 deleteIndex, s32 otherIndex);
-void FinishBuddySync(void);
+void DWCi_EndUpdateServers(void);
 void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength);
 void CloseStatsAndResetBuddySync(void);
 int DWCi_GPProcess(void);
@@ -22,13 +22,13 @@ void DWCi_ShutdownFriend(void);
 void DWCi_CallBuddyFriendCallback(s32 index);
 u32 DWCi_SetGPStatus(s32 status, void *statusString, void *locationString);
 void DWCi_InitGPProcessCount(void);
-u32 FindBuddyEntryIndex(u32 profileId);
-int GetBuddyEntryProfileId(int index);
+u32 DWCi_GetFriendListIndex(u32 profileId);
+int DWCi_GetProfileIDFromList(int index);
 s32 DWCi_GetFriendListLen(void);
-void WiFiGpBuddyStatusCallback(struct GpConnection *connection, s32 *arg);
+void DWCi_GPRecvBuddyStatusCallback(struct GpConnection *connection, s32 *arg);
 u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, u32 *arg, u32 param);
-void WiFiGpBuddyRequestCallback(GpConnection *connection, u32 *arg);
-void ReportBuddySyncError(s32 error, s32 errorCode);
-void UpdateBuddySync(void);
-void InitBuddySync(WiFiBuddySync *buddySync, struct GpConnection *gpConnection, char *playerName,
-                   DWCAccFriendData *friendList, s32 friendListLength);
+void DWCi_GPRecvBuddyRequestCallback(GpConnection *connection, u32 *arg);
+void DWCi_StopFriendProcess(s32 error, s32 errorCode);
+void DWCi_FriendProcess(void);
+void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GpConnection *gpConnection, char *playerName,
+                     DWCAccFriendData *friendList, s32 friendListLength);

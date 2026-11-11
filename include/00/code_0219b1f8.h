@@ -9,7 +9,7 @@ typedef struct GpConnection GpConnection;
 
 NatTraversalEntry *FindNegotiatorForCookie(u32 cookie);
 void DWCi_GT2SocketErrorCallback(u32 *socket);
-void WiFiGt2ElapsedTimeCallback(Unk0219887c *connection, u32 latency);
+void DWCi_GT2PingCallback(Unk0219887c *connection, u32 latency);
 void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason);
-void WiFiGt2DataCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable);
-void WiFiGpMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param);
+void DWCi_GT2ReceivedCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable);
+void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param);

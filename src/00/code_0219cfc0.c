@@ -15,7 +15,7 @@
 u32 DWCi_GetFriendBuddyStatus(void *friendData, GpBuddyStatus *status) {
     s32 profileId;
     s32 buddyIndex = 0;
-    if (gWiFiBuddySync == NULL || IsWiFiLoginDone() == 0) {
+    if (gWiFiBuddySync == NULL || DWCi_CheckLogin() == 0) {
         return 0;
     }
     profileId = DWC_GetGsProfileId(DWCi_GetUserData(), friendData);
@@ -31,7 +31,7 @@ u32 DWCi_GetFriendBuddyStatus(void *friendData, GpBuddyStatus *status) {
     return 1;
 }
 
-// Maps a GP result 1 to 4 to (kind, code - 0x11558) and calls ReportBuddySyncError; returns the result, 0 passes
+// Maps a GP result 1 to 4 to (kind, code - 0x11558) and calls DWCi_StopFriendProcess; returns the result, 0 passes
 // through.
 int ReportBuddySyncGpResult(int result) {
     s32 errorKind;
@@ -57,44 +57,44 @@ int ReportBuddySyncGpResult(int result) {
             errorCode = -20;
             break;
     }
-    ReportBuddySyncError(errorKind, errorCode - 0x11558);
+    DWCi_StopFriendProcess(errorKind, errorCode - 0x11558);
     return result;
 }
 
-// Maps a GstatsConnect result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls ReportBuddySyncError;
+// Maps a GstatsConnect result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls DWCi_StopFriendProcess;
 // returns the result.
-int ReportBuddySyncStatsResult(int error) {
+int DWCi_HandlePersError(int error) {
     s32 errorKind;
-    s32 detailCode;
+    s32 detail;
     if (error == 0) {
         return 0;
     }
     switch (error) {
         case 1:
             errorKind = 6;
-            detailCode = -50;
+            detail = -50;
             break;
         case 2:
             errorKind = 6;
-            detailCode = -30;
+            detail = -30;
             break;
         case 3:
             errorKind = 6;
-            detailCode = -20;
+            detail = -20;
             break;
         case 5:
             errorKind = 6;
-            detailCode = -40;
+            detail = -40;
             break;
         case 7:
             errorKind = 6;
-            detailCode = -70;
+            detail = -70;
             break;
         default:
             errorKind = 11;
-            detailCode = -9;
+            detail = -9;
             break;
     }
-    ReportBuddySyncError(errorKind, detailCode - 0x11940);
+    DWCi_StopFriendProcess(errorKind, detail - 0x11940);
     return error;
 }

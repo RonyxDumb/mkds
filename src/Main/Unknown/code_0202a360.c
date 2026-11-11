@@ -51,7 +51,7 @@ u32 GetResultSceneSeqKind(void) {
             ownEntryIndex = GetParticipantPosByIndex(ownIndex)->mEntryIndex;
             break;
         case 3:
-            ownEntryIndex = (u16) GetPackedIndex(GetOwnParticipantIndex());
+            ownEntryIndex = (u16) GetPackedIndex(DWC_GetMyAID());
             break;
     }
     if (gRaceSetup->mUseTeams != 0) {

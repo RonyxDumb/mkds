@@ -36,7 +36,7 @@ void WiFiRaceSyncReceiveCallback(u32 fromIndex, void *message, u32 size) {
     if (gWiFiSession->mRaceSyncEnabled == FALSE) {
         return;
     }
-    if (DoesMessageHeaderMatch(message, size, fromIndex, GetOwnParticipantIndex()) != FALSE) {
+    if (DoesMessageHeaderMatch(message, size, fromIndex, DWC_GetMyAID()) != FALSE) {
         return;
     }
     ReceiveWiFiRaceSyncPacket(fromIndex, message, size, 0);
@@ -63,7 +63,7 @@ void RequestWiFiSessionLogin(void) {
 }
 
 void ReleaseWiFiConnectionWrapper(void) {
-    ReleaseWiFiConnection();
+    DWC_ShutdownFriendsMatch();
 }
 
 BOOL UpdateWiFiSessionRelease(void) {
@@ -96,7 +96,7 @@ s32 GetWiFiSessionLoginResult(void) {
 void ReleaseWiFiSession(void) {
     StateMachine *stateMachine;
 
-    ReleaseWiFiConnection();
+    DWC_ShutdownFriendsMatch();
     DWC_CleanupInet();
     ResetWiFiSession();
     stateMachine = &gWiFiSession->mStateMachine;
@@ -127,8 +127,8 @@ void SetupWiFiSessionLogin(void) {
         } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c));
     }
     session = gWiFiSession;
-    InitWiFiConnection(&session->mConnection, &session->mUserData, 0x4d6, "mariokartds", "yeJ3x8", 0, 0,
-                       &session->mBuddies[0], 0x3c);
+    DWC_InitFriendsMatch(&session->mConnection, &session->mUserData, 0x4d6, "mariokartds", "yeJ3x8", 0, 0,
+                         &session->mBuddies[0], 0x3c);
     gWiFiSession->mErrorKind = 0;
     gWiFiSession->mErrorCode = 0;
     gWiFiSession->mLogin.mStep = 1;
@@ -141,12 +141,12 @@ void AdvanceWiFiSessionLoginStep1(void) {
     }
     switch (DWC_GetInetStatus()) {
         case 4:
-            StartWiFiLogin(0, 0, WiFiSessionLoginCallback, 0);
+            DWC_LoginAsync(0, 0, WiFiSessionLoginCallback, 0);
             gWiFiSession->mLogin.mStep = 2;
             break;
         case 7:
             gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
-            ReleaseWiFiConnection();
+            DWC_ShutdownFriendsMatch();
             DWC_CleanupInet();
             gWiFiSession->mLogin.mStep = 7;
             break;
@@ -166,15 +166,15 @@ u32 UpdateWiFiSessionLogin(void) {
                 break;
             }
             DWC_ReportUserData(&gWiFiSession->mUserData);
-            if (StartWiFiBuddySync(NULL, WiFiSessionBuddySyncCallback, NULL, SetBuddyStatus, NULL,
-                                   WiFiSessionEntryMergedCallback, NULL) == 0) {
+            if (DWC_UpdateServersAsync(NULL, WiFiSessionBuddySyncCallback, NULL, SetBuddyStatus, NULL,
+                                       WiFiSessionEntryMergedCallback, NULL) == 0) {
                 gWiFiSession->mLogin.mStep = 7;
             }
-            SetBuddyChangedCallback((void *) BuddyChangedCallback, NULL);
+            DWC_SetBuddyFriendCallback((void *) BuddyChangedCallback, NULL);
             gWiFiSession->mLogin.mStep = 4;
             break;
         case 6:
-            ReleaseWiFiConnection();
+            DWC_ShutdownFriendsMatch();
             DWC_CleanupInet();
             gWiFiSession->mLogin.mStep = 7;
             break;
@@ -215,7 +215,7 @@ void WiFiSessionBuddySyncCallback(s32 result, s32 changed) {
         }
         gWiFiSession->mLogin.mStep = 5;
     } else {
-        ReleaseWiFiConnection();
+        DWC_ShutdownFriendsMatch();
         DWC_CleanupInet();
         gWiFiSession->mLogin.mStep = 7;
     }

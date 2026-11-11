@@ -117,7 +117,7 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
     s32 wasHandled;
     BOOL hasMagic;
     s32 i;
-    connection = FindConnection(socket, address, port);
+    connection = gti2SocketFindConnection(socket, address, port);
     if (socket->mReceiveDumpCallback != NULL) {
         if (gti2DumpCallback(socket, connection, address, port, 0, (s32) message, len, 0) == 0) {
             return 0;
@@ -197,7 +197,7 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
 u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     Gt2Connection *connection;
     int v2;
-    connection = FindConnection(socket, address, port);
+    connection = gti2SocketFindConnection(socket, address, port);
     if (socket->mReceiveDumpCallback != NULL) {
         v2 = gti2DumpCallback(socket, connection, address, port, 1, 0, 0, 0);
         if (v2 == 0) {

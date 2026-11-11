@@ -27,7 +27,7 @@
 // GP callback slot 3 (message). The first branch hands the text to DWCi_GPRecvBuddyAuthCallback (the "I have authorized
 // ..." sentence); the second takes GPCM-prefixed text with a MAT tag and forwards it to the matching code only in state
 // 5 or matching mode 2 and 3.
-void WiFiGpMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param) {
+void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param) {
     char *message;
     char versionText[12] = {0};
     u32 versionLength;
@@ -47,7 +47,7 @@ void WiFiGpMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 
                         if (wiFiConnection->mState == 5 || wiFiConnection->mMatching.mMode == 2 ||
                             wiFiConnection->mMatching.mMode == 3) {
                             message += strlen(gDwcGpCommandMatchString);
-                            ParseMatchingGpMessage(connection, arg->mProfile, message);
+                            DWCi_MatchGPRecvBuddyMsgCallback(connection, arg->mProfile, message);
                         }
                     }
                 }
@@ -56,9 +56,9 @@ void WiFiGpMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 
     }
 }
 
-// Slot 1 of the Gt2ConnectionCallbacks record (the library's Gt2CallDataCallback, code_02197e58.c:152): the body
+// Slot 1 of the Gt2ConnectionCallbacks record (the library's Gt2CallDataCallback): the body
 // only forwards (connection, data, size, flag) to DWCi_RecvCallback, the receive side of the message layer.
-void WiFiGt2DataCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable) {
+void DWCi_GT2ReceivedCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable) {
     DWCi_RecvCallback(connection, message, length, reliable);
 }
 
@@ -76,7 +76,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
 
     profileId = 0;
     hostSide = FALSE;
-    if (IsMatchingPointerNull() != 0) {
+    if (DWCi_IsShutdownMatch() != 0) {
         return;
     }
     switch (reason) {
@@ -146,7 +146,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         } else {
             reason = 0;
         }
-        friendListIndex = FindBuddyEntryIndex(profileId);
+        friendListIndex = DWCi_GetFriendListIndex(profileId);
         closedCallbackArg = &wiFiConnection->mUnk_80;
         gWiFiConnection->mUnk_7c(kind, reason, hostSide, aid, friendListIndex, *closedCallbackArg);
     }
@@ -154,14 +154,14 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             NNFreeNegotiateList();
             DWCi_ClearQR2Key();
-            SetWiFiConnectionState(3);
+            DWCi_SetState(3);
         }
     }
 }
 
-// Slot 3 of the record (Gt2CallElapsedTimeCallback, code_02197e58.c:196): the body only forwards (connection,
+// Slot 3 of the record (Gt2CallElapsedTimeCallback): the body only forwards (connection,
 // elapsed time) to DWCi_PingCallback, which calls the layer's mUnk_60c with the time and the peer index.
-void WiFiGt2ElapsedTimeCallback(Unk0219887c *connection, u32 latency) {
+void DWCi_GT2PingCallback(Unk0219887c *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }
 

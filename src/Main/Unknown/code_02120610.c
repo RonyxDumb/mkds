@@ -21,12 +21,12 @@
 
 // Own answer on the battle results screen: nonzero is CONTINUE (stored 1), zero is QUIT (stored 2).
 void SetWiFiSessionOwnContinueChoice(u32 wantsContinue) {
-    gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mContinueChoice = wantsContinue != 0 ? 1 : 2;
+    gWiFiSession->mIndexMessages[DWC_GetMyAID()].mContinueChoice = wantsContinue != 0 ? 1 : 2;
 }
 
 s32 GetWiFiSessionCourseId(void) {
     if (GetRaceSetupCopy()->mCourseId == 0) {
-        return gWiFiSession->mIndexMessages[GetOwnParticipantIndex()].mPickedCourseId;
+        return gWiFiSession->mIndexMessages[DWC_GetMyAID()].mPickedCourseId;
     }
     return GetRaceSetupCopy()->mCourseId;
 }
@@ -137,7 +137,7 @@ void WriteWiFiSessionToRaceSetupCopy(void) {
 
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
         if (gWiFiSession->mKartMask & (1 << participantIndex)) {
-            if (participantIndex == GetOwnParticipantIndex()) {
+            if (participantIndex == DWC_GetMyAID()) {
                 s8 entryIndex;
 
                 entryIndex = gWiFiSession->mPackedIndices[participantIndex];
@@ -251,7 +251,7 @@ u8 PickNextToIndex(void) {
     }
     for (participantIndex = gWiFiSession->mPickStartIndex; participantIndex < gWiFiSession->mStartKartCount;
          participantIndex++) {
-        if (participantIndex != GetOwnParticipantIndex()) {
+        if (participantIndex != DWC_GetMyAID()) {
             if (gWiFiSession->mKartMask & (1 << participantIndex)) {
                 break;
             }
@@ -259,7 +259,7 @@ u8 PickNextToIndex(void) {
     }
     if (gWiFiSession->mPickStartIndex >= gWiFiSession->mStartKartCount) {
         for (participantIndex = 0; participantIndex < gWiFiSession->mPickStartIndex; participantIndex++) {
-            if (participantIndex != GetOwnParticipantIndex()) {
+            if (participantIndex != DWC_GetMyAID()) {
                 if (gWiFiSession->mKartMask & (1 << participantIndex)) {
                     break;
                 }
@@ -285,7 +285,7 @@ BOOL AreAllStepMessagesReceived(void) {
     u8 kartMask;
 
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if (participantIndex != GetOwnParticipantIndex()) {
+        if (participantIndex != DWC_GetMyAID()) {
             if (gWiFiSession->mKartMask & (1 << participantIndex)) {
                 checkedCount++;
                 if ((gWiFiSession->mReceivedMask & (1 << participantIndex)) == 0) {
@@ -319,16 +319,14 @@ void EndWiFiSessionOnPicksMismatch(u32 index) {
     u8 ownIndex;
 
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if ((ownIndex = GetOwnParticipantIndex(),
-             gWiFiSession->mIndexMessages[ownIndex].mKartIndices[participantIndex]) !=
+        if ((ownIndex = DWC_GetMyAID(), gWiFiSession->mIndexMessages[ownIndex].mKartIndices[participantIndex]) !=
                 gWiFiSession->mReceiveBuffers[index].mKartIndices[participantIndex] ||
-            (ownIndex = GetOwnParticipantIndex(),
-             gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[participantIndex]) !=
+            (ownIndex = DWC_GetMyAID(), gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[participantIndex]) !=
                 gWiFiSession->mReceiveBuffers[index].mCharacterIndices[participantIndex]) {
             differs = 1;
         }
     }
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     if (gWiFiSession->mReceiveBuffers[index].mTalliedCourseId !=
         gWiFiSession->mIndexMessages[ownIndex].mTalliedCourseId) {
         differs = 1;
@@ -450,19 +448,19 @@ void RegisterKartKeysAndStart(void) {
     }
     switch (gWiFiSession->mKeys[1].mValue) {
         case 3:
-            StartWiFiMatchingWithFilter(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
-                                        ComputeRegionEval, 0);
+            DWC_ConnectToAnybodyAsync(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+                                      ComputeRegionEval, 0);
             break;
         case 4:
-            StartWiFiMatchingWithFilter(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
-                                        ComputeRegionEloEval, 0);
+            DWC_ConnectToAnybodyAsync(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+                                      ComputeRegionEloEval, 0);
             break;
         case 0:
-            StartWiFiMatchingWithBuddies(NULL, 0, gWiFiSession->mUnk_194c, 1, KartKeysStartCallback, NULL, 0, 0);
+            DWC_ConnectToFriendsAsync(NULL, 0, gWiFiSession->mUnk_194c, 1, KartKeysStartCallback, NULL, 0, 0);
             break;
         case 1:
-            StartWiFiMatchingWithFilter(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
-                                        ComputeEloEval, 0);
+            DWC_ConnectToAnybodyAsync(gWiFiSession->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+                                      ComputeEloEval, 0);
             break;
     }
     gWiFiSession->mStartStatus = 1;
@@ -581,7 +579,7 @@ void KartKeysStartCallback(u32 result, s32 flag) {
             participantIndex++;
         }
         MI_CpuFill8(session->mPlayerRecords, 0, 0x910);
-        FillPlayerRecord(&gWiFiSession->mPlayerRecords[GetOwnParticipantIndex()].mPlayer);
+        FillPlayerRecord(&gWiFiSession->mPlayerRecords[DWC_GetMyAID()].mPlayer);
         SetupWiFiSession(0);
         gWiFiSession->mStartStatus = 3;
     } else {

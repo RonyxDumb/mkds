@@ -169,7 +169,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
     }
     for (playerIndex = 0; playerIndex < 4; playerIndex++) {
         buddyIndexOfPlayer[playerIndex] = -1;
-        if (playerIndex != GetOwnParticipantIndex()) {
+        if (playerIndex != DWC_GetMyAID()) {
             playerRecordData = GetWiFiSessionPlayerRecordData(playerIndex & 0xff);
             if (playerRecordData != NULL) {
                 buddyIndex = SetBuddyRecordFromPlayer(playerRecordData, 0);

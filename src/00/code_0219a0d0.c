@@ -30,9 +30,9 @@ typedef struct Unk0219a110Addr {
     /* 4 */ u32 mUnk_04;
 } Unk0219a110Addr;
 
-u32 CreateConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 address, u32 port) {
+u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 address, u32 port) {
     Gt2Connection *newConnection = NULL;
-    if (FindConnection(socket, address, port) != NULL) {
+    if (gti2SocketFindConnection(socket, address, port) != NULL) {
         return 5;
     }
     newConnection = gti2CreateConnectionObject();
@@ -56,7 +56,7 @@ u32 CreateConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 addre
                         newConnection->mReceiveFilters = DarrayCreate(4, 2, NULL);
                         if (newConnection->mReceiveFilters != NULL) {
                             HashtableSet(socket->mConnections, &newConnection);
-                            *connectionOut = FindConnection(socket, address, port);
+                            *connectionOut = gti2SocketFindConnection(socket, address, port);
                             if (*connectionOut != NULL) {
                                 return 0;
                             }
@@ -131,8 +131,8 @@ u32 gti2SocketSend(u32 *socketPointer, u32 address, int port, u32 message, u32 l
                 return 0;
             }
         } else if (socket->mSentCallback != NULL) {
-            if (gti2DumpCallback(socket, FindConnection(socket, address, port), address, port, 0, message, length, 1) ==
-                0) {
+            if (gti2DumpCallback(socket, gti2SocketFindConnection(socket, address, port), address, port, 0, message,
+                                 length, 1) == 0) {
                 return 0;
             }
         }

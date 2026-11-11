@@ -16,7 +16,7 @@ s32 PackOwnKartProgress(void) {
     s32 value;
     s32 lapBits;
 
-    kartIndex = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
+    kartIndex = gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()];
     kartStartRank = GetKartStartRank(kartIndex);
     progress = GetKartFinishTimeMs(kartIndex) & WIFI_RACE_SYNC_PROGRESS_TIME_MASK;
     if (IsKartEnded(kartIndex) != 0 &&

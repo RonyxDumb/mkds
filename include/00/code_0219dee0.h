@@ -4,5 +4,5 @@
 
 typedef struct QueryBuffer QueryBuffer;
 
-void WriteMatchingKeyValue(s32 keyId, QueryBuffer *buffer, void *userdata);
-BOOL FilterAndEvalMatchingServerList(s32 sort);
+void DWCi_QR2ServerKeyCallback(s32 keyId, QueryBuffer *buffer, void *userdata);
+BOOL DWCi_EvaluateServers(s32 sort);

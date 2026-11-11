@@ -484,7 +484,7 @@ void NNProcessData(u8 *data, s32 length, void *fromAddress) {
     }
 }
 
-u32 Gt2FormatAddress(u32 ipAddress, u32 port, char *buffer) {
+u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
     SOCInAddr inAddress;
     char *addressString;
 
@@ -508,10 +508,10 @@ u32 Gt2FormatAddress(u32 ipAddress, u32 port, char *buffer) {
     return (u32) addressString;
 }
 
-BOOL Gt2ParseAddress(const char *string, u32 *ipOut, u16 *portOut) {
-    char addrHostBuf[0x100];
-    const char *portDelim;
-    const char *scanPtr;
+BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
+    char hostCopy[0x100];
+    const char *portSeparator;
+    const char *portCursor;
     s32 g;
     s32 character;
     u32 sourceIp;
@@ -522,24 +522,24 @@ BOOL Gt2ParseAddress(const char *string, u32 *ipOut, u16 *portOut) {
         sourceIp = 0;
         sourcePort = 0;
     } else {
-        portDelim = strchr(string, 0x3a);
-        if (portDelim == NULL) {
+        portSeparator = strchr(string, 0x3a);
+        if (portSeparator == NULL) {
             sourcePort = 0;
         } else {
-            if (portDelim == string) {
+            if (portSeparator == string) {
                 string = NULL;
                 sourceIp = 0;
             } else {
-                g = portDelim - string;
+                g = portSeparator - string;
                 if (g >= 0x100) {
                     AssertionFailed(data_ov000_021b3fcc, data_ov000_021b3fec, NULL, 0x81);
                 }
-                memcpy(addrHostBuf, string, g);
-                addrHostBuf[g] = 0;
-                string = addrHostBuf;
+                memcpy(hostCopy, string, g);
+                hostCopy[g] = 0;
+                string = hostCopy;
             }
-            scanPtr = portDelim + 1;
-            character = *(s8 *) (portDelim + 1);
+            portCursor = portSeparator + 1;
+            character = *(s8 *) (portSeparator + 1);
             if (character != 0) {
                 do {
                     if (character < 0 || character >= 0x80) {
@@ -550,11 +550,11 @@ BOOL Gt2ParseAddress(const char *string, u32 *ipOut, u16 *portOut) {
                     if (g == 0) {
                         return FALSE;
                     }
-                    scanPtr++;
-                    character = *(s8 *) scanPtr;
+                    portCursor++;
+                    character = *(s8 *) portCursor;
                 } while (character != 0);
             }
-            g = StrtolBase10(portDelim + 1);
+            g = StrtolBase10(portSeparator + 1);
             if (g < 0 || g > 0xffff) {
                 return FALSE;
             }

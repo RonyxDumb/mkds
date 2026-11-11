@@ -13,11 +13,11 @@ typedef Unk0218eff8Arg Unk0219c400;
 
 #include "00/code_0219c000.h"
 
-u32 IsWiFiLoginDone(void);
+u32 DWCi_CheckLogin(void);
 void DWCi_GPGetInfoCallback(GpConnection *connection, Unk0219c400 *arg, u32 param);
-void UpdateWiFiLoginRequest(void);
-void StartWiFiLoginRequest(void (*callback)(), void *param);
-void StartWiFiLoginGpConnect(char *authToken, char *partnerChallenge, void (*callback)(), s32 nextState);
-void WiFiLoginRequestCallback(char *authToken, char *partnerChallenge);
-void WiFiLoginGpConnectCallback(GpConnection *connection, ConnectReply *arg, u32 param);
+void DWCi_RemoteLoginProcess(void);
+void DWCi_RemoteLogin(void (*callback)(), void *param);
+void DWCi_GPConnect(char *authToken, char *partnerChallenge, void (*callback)(), s32 targetState);
+void DWCi_RemoteAuthCallback(char *authToken, char *partnerChallenge);
+void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 param);
 s32 ReportWiFiLoginGpResult(s32 result);

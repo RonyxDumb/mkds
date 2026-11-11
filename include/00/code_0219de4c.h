@@ -20,7 +20,7 @@ typedef struct WiFiMatching {
     /* 00f */ u8 mUnk_0f;
     /* 010 */ struct QueryRecord *mUnk_10;
     /* 014 */ u8 mUnk_14;
-    // 0 filter search, 1 buddy list (set by SetupMatching); the code also tests 2 and 3, which nothing sets.
+    // 0 filter search, 1 buddy list (set by DWCi_SetMatchCommonParam); the code also tests 2 and 3, which nothing sets.
     /* 015 */ volatile u8 mMode;
     /* 016 */ u8 mUnk_16;
     /* 017 */ u8 mMresvPresent;
@@ -45,7 +45,7 @@ typedef struct WiFiMatching {
     /* 184 */ u64 mIncomingWaitStartTime;
     /* 18c */ u8 mUnk_18c[8];
     /* 194 */ u32 mUnk_194;
-    // Switched on by UpdateMatching when its parameter is 1; 0 means no search is running.
+    // Switched on by DWCi_MatchProcess when its parameter is 1; 0 means no search is running.
     /* 198 */ s32 mState;
     /* 19c */ u8 mUnk_19c;
     /* 19d */ u8 mBuddyEntryIndexPos;
@@ -98,8 +98,8 @@ typedef struct WiFiMatching {
     /* 43c */ u32 mLastCommandProfileId;
     /* 440 */ u32 mLastCommandValueCount;
     /* 444 */ u64 mLastCommandTime;
-    // Set by SetupMatching; called with (error kind or 0, 0 or 1, ..., mResultCallbackArg), among others by
-    // ReportMatchingError.
+    // Set by DWCi_SetMatchCommonParam; called with (error kind or 0, 0 or 1, ..., mResultCallbackArg), among others by
+    // DWCi_StopMatching.
     /* 44c */ UnkFunc *mResultCallback;
     /* 450 */ u32 mResultCallbackArg;
     /* 454 */ void (*mUnk_454)(u32 a, u32 b);
@@ -108,7 +108,7 @@ typedef struct WiFiMatching {
     /* 460 */ u32 mEvalCallbackArg;
 } WiFiMatching;
 
-// Points at WiFiConnection.mMatching: set by InitMatching, set to NULL by ReleaseMatching.
+// Points at WiFiConnection.mMatching: set by DWCi_MatchInit, set to NULL by DWCi_ShutdownMatch.
 extern WiFiMatching *gWiFiMatching;
 
-void SetMatchingOwnAddress(void *address, u16 port);
+void DWCi_QR2PublicAddrCallback(void *address, u16 port);

@@ -530,7 +530,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
             }
         }
     }
-    gBackupBuffers->mFirstBlock->mElo = GetPlayerRecordElo(GetOwnParticipantIndex());
+    gBackupBuffers->mFirstBlock->mElo = GetPlayerRecordElo(DWC_GetMyAID());
     gBackupBuffers->mFirstBlock->mTotals[4] = firstTotal;
     gBackupBuffers->mFirstBlock->mTotals[5] = secondTotal;
     WriteBuddyRecordsAndFirstBlock();

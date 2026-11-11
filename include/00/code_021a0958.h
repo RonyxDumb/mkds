@@ -10,7 +10,7 @@ typedef struct MatchingSignatureText {
     /* 0 */ char mText[5];
 } MatchingSignatureText;
 
-// The 0x14-byte header SendMatchingCommandToAddress sends in front of the values.
+// The 0x14-byte header DWCi_SendSBMsgCommand sends in front of the values.
 typedef struct MatchingSendHeader {
     /* 00 */ char mSignature[4];
     /* 04 */ u32 mUnk_04;
@@ -29,12 +29,12 @@ typedef struct DWCNNInfo {
     /* 08 */ u32 mCookie;
 } DWCNNInfo;
 
-s32 CopyNthSlashField(char *out, const char *text, s32 index);
-s32 SendMatchingCommandToProfile(struct GpConnection *gpConnection, u32 command, u32 profileId, const char *text);
-u32 SendMatchingCommandToAddress(u32 command, u32 address, u32 port, u32 *values, u32 valueCount);
-u32 SendMatchingCommand(u32 command, u32 profileId, u32 address, u32 port, void *values, s32 valueCount);
+s32 DWCi_GetGPBuddyAdditionalMsg(char *out, const char *text, s32 index);
+s32 DWCi_SendGPBuddyMsgCommand(struct GpConnection *gpConnection, u32 command, u32 profileId, const char *text);
+u32 DWCi_SendSBMsgCommand(u32 command, u32 address, u32 port, u32 *values, u32 valueCount);
+u32 DWCi_SendMatchCommand(u32 command, u32 profileId, u32 address, u32 port, void *values, s32 valueCount);
 u32 DWCi_DoNatNegotiationAsync(DWCNNInfo *nnInfo);
 u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server);
-s32 BuildMatchingFilter(char *buffer, s32 profileId, s32 numEntry, s32 mode);
-u32 StartMatchingServerList(u32 profileId);
-void StopMatching(void);
+s32 DWCi_GetDefaultMatchFilter(char *buffer, s32 profileId, s32 numEntry, s32 mode);
+u32 DWCi_SBUpdateAsync(u32 profileId);
+void DWCi_CloseMatching(void);

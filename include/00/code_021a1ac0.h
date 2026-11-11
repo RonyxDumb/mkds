@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ResetMatchingResend(void);
+void DWCi_StopResendingMatchCommand(void);

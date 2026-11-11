@@ -16,14 +16,14 @@ typedef struct WiFiPeerMessage {
     /* 0c */ s32 mSentSize;
     // Bytes of the current message received so far (reset when a header arrives, += packet size).
     /* 10 */ s32 mReceivedSize;
-    // Total size of the message being sent (the size argument of StartPeerMessageSend); 0 when no send is running.
+    // Total size of the message being sent (the size argument of DWCi_SendReliable); 0 when no send is running.
     /* 14 */ s32 mSendSize;
-    // Total size of the message being received, from the header (code_021a2ccc.c:239); 0 after the message is complete.
+    // Total size of the message being received, from the header; 0 after the message is complete.
     /* 18 */ s32 mReceiveSize;
     /* 1c */ u8 mUnk_1c;
     // Receive state, switched on once per received packet in DWCs_HandleReliableMessage (through
     // the getter DWCs_GetRecvState): 0 initial (only a control header, kind 2 to 4, is accepted); 1 expecting a header
-    // (SetPeerReceiveBuffer, end of a message); 2 header of a data message (kind 1) accepted, body packets are copied
+    // (DWC_SetRecvBuffer, end of a message); 2 header of a data message (kind 1) accepted, body packets are copied
     // into the buffer; 3 control header (kind 2 to 4) taken, the next packet is the control body (state restored from
     // mUnk_1e); 4 data header refused (no buffer or too small): the next packet is dropped and the state returns to 1.
     // Not a per-frame switch.
@@ -31,16 +31,16 @@ typedef struct WiFiPeerMessage {
     /* 1e */ u8 mUnk_1e;
     /* 1f */ u8 pad_1f[3];
     // Kind from the header of the current message: 1 for a data message, 2 to 4 for the messages
-    // ReceiveMatchingPeerMessage takes.
+    // DWCi_ProcessMatchSynPacket takes.
     /* 22 */ u16 mMessageKind;
     /* 24 */ u64 mUnk_24;
     /* 2c */ u32 mUnk_2c;
 } WiFiPeerMessage;
 
 // Message framing on top of the Gt2 socket, embedded in WiFiConnection at 0x7a0 (0x614 bytes = sizeof, zeroed by
-// InitWiFiMessageLayer), reached through gWiFiMessageLayer: one WiFiPeerMessage per peer index (32), an 8-byte header
+// DWCi_InitTransport), reached through gWiFiMessageLayer: one WiFiPeerMessage per peer index (32), an 8-byte header
 // (size, kind, 2 more bytes) before each message, bodies cut into chunks of at most mSendChunkSize that
-// UpdateWiFiMessageLayer continues every frame in connection state 6; completed messages go to mReceiveCallback.
+// DWCi_TransportProcess continues every frame in connection state 6; completed messages go to mReceiveCallback.
 typedef struct WiFiMessageLayer {
     /* 000 */ WiFiPeerMessage mPeers[32];
     // Called after a send was queued or finished, with (size, index).
@@ -49,9 +49,9 @@ typedef struct WiFiMessageLayer {
     /* 604 */ void (*mReceiveCallback)(u32 a, u8 *b, s32 c);
     /* 608 */ void (*mUnk_608)(u32 a);
     /* 60c */ void (*mUnk_60c)(u32 a, u32 b);
-    // u16 0x5b9 (1465), set by InitWiFiMessageLayer: the most the layer hands the socket in one call. A message is cut
-    // into chunks of at most this size (code_021a3264.c:124, code_021a2ccc.c:114; a size equal to it is
-    // allowed, the last chunk is shorter) and a single-packet send above it is refused (code_021a3264.c:152).
+    // u16 0x5b9 (1465), set by DWCi_InitTransport: the most the layer hands the socket in one call. A message is cut
+    // into chunks of at most this size; a size equal to it is
+    // allowed, the last chunk is shorter and a single-packet send above it is refused.
     /* 610 */ u16 mSendChunkSize;
     /* 612 */ u8 pad_612[2];
 } WiFiMessageLayer;
@@ -63,8 +63,8 @@ typedef struct DWCTransportHeader {
     /* 06 */ u8 mMagicStrings[2];
 } DWCTransportHeader;
 
-// Points at WiFiConnection.mMessageLayer: set by InitWiFiMessageLayer, set to NULL by DWCi_ShutdownTransport
-// (ReleaseWiFiConnection).
+// Points at WiFiConnection.mMessageLayer: set by DWCi_InitTransport, set to NULL by DWCi_ShutdownTransport
+// (DWC_ShutdownFriendsMatch).
 extern WiFiMessageLayer *gWiFiMessageLayer;
 
 BOOL DWC_RegisterMatchingStatus(void);
@@ -80,10 +80,10 @@ u8 DWCs_GetSendState(int aid);
 WiFiPeerMessage *DWCs_GetTransConnection(int aid);
 void DWCi_ShutdownTransport(void);
 void DWCi_ClearTransConnection(int aid);
-void UpdateWiFiMessageLayer(void);
+void DWCi_TransportProcess(void);
 void DWCi_PingCallback(Unk0219887c *connection, u32 latency);
 void DWCi_RecvCallback(Unk0219887c *connection, void *message, s32 size, u32 reliable);
-void InitWiFiMessageLayer(WiFiMessageLayer *state);
+void DWCi_InitTransport(WiFiMessageLayer *state);
 s32 DWCs_GetRequiredHeaderSize(s32 type);
 u16 DWCs_DecodeHeader(const void *message);
 void DWCs_EncodeHeader(DWCTransportHeader *header, u16 type, u32 size);

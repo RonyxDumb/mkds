@@ -8,7 +8,7 @@
 #include "code_02134398.h"
 
 int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
-    int result = CreateConnection(socket, connection, address, port);
+    int result = gti2NewSocketConnection(socket, connection, address, port);
     if (result != 0) {
         return result;
     }
@@ -18,7 +18,7 @@ int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int addr
 }
 
 int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
-    int result = CreateConnection(socket, connection, address, port);
+    int result = gti2NewSocketConnection(socket, connection, address, port);
     if (result != 0) {
         return result;
     }

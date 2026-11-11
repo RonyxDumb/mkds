@@ -666,7 +666,7 @@ Expression shapes:
   read it inside the first loop and spell the second read as a different expression, `*(u16 *) d`, so the two are not
   merged (hand-picked; func_02009098).
 - A pointer re-read placed after `i++` in the latch: no `p = global` in the body; read the global directly
-  (ReceiveMatchingPeerMessage).
+  (DWCi_ProcessMatchSynPacket).
 - A global pointer kept across the loop header into the body where the original reloads it each pass: no pointer or byte
   local inside the loop; write `global->member` at every use (condition and indices) and assign the local after the loop
   (Thumb; PlaceMessageBox, like AdvanceMessageBoxInput).
@@ -829,7 +829,7 @@ Expression shapes:
 - A `u16` argument converted right after its value's `if`, before the next test: assign it to a `u16` local at that
   point and pass the local (Thumb; WcmWmcbReset).
 - `lsl/lsr #16` before a call whose callee passes that register on untouched: widen the parameter to `u32` and write
-  `(u16)` at the callers that need the narrowing (FilterAndEvalMatchingServerList).
+  `(u16)` at the callers that need the narrowing (DWCi_EvaluateServers).
 - `(u8) i` converted again at a second identical call, where ours reuses it in a callee-saved register: `(s32) (u8) i`
   on exactly one of the two calls (hand-picked; the only spelling that matched; func_0202b100).
 - Stack `u16` arguments reloaded after a call while ours keeps one temporary across it: type the register parameters
@@ -901,7 +901,7 @@ Expression shapes:
   its own local with an initializer, `u16 v[4] = {0};`; a `{0}` on the whole struct gives word stores
   (func_ov003_021c0d2c).
 - A struct cleared through `add rN, sp, #off` with the address reused for the next call: `u32 *p = (u32 *) &g; p[0] = 0;
-  p[1] = 0;` (CreateSocket).
+  p[1] = 0;` (gti2CreateSocket).
 - A zero vector built through `add rN, sp` then `ldmia` from the same address, using the 0 from another register: `{
   Vec3 z = {0, 0, 0}; m = z; }` blocks (func_020d2c2c, like func_020d41e0).
 - Spill slots in the wrong order: the declaration order of the spilled locals sets it (func_021243ac).

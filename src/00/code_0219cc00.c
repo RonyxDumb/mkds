@@ -48,7 +48,7 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
             for (matchSlot = 0; matchSlot < arg->mUnk_04; matchSlot++) {
                 ReportBuddySyncGpResult(GpGetBuddyIndex(connection, arg->mUnk_0c[matchSlot].mUnk_00, &buddyIndex));
                 if (buddyIndex == ~k) {
-                    AddBuddy(arg->mUnk_0c[matchSlot].mUnk_00);
+                    DWCi_GPSendBuddyRequest(arg->mUnk_0c[matchSlot].mUnk_00);
                 } else {
                     InitFriendDataFromGsProfileId(&gWiFiBuddySync->mBuddies[friendIdx], arg->mUnk_0c[0].mUnk_00);
                     DWCi_SetBuddyFriendData(&gWiFiBuddySync->mBuddies[friendIdx]);
@@ -102,7 +102,7 @@ void DWCi_GPGetInfoCallback_RecvBuddyRequest(GpConnection *connection, Unk0219c4
         }
     }
     if (approve != FALSE) {
-        AddBuddy(arg->mUnk_04);
+        DWCi_GPSendBuddyRequest(arg->mUnk_04);
     } else {
         GpDenyBuddyRequest(gpConnection, arg->mUnk_04);
     }
@@ -142,9 +142,9 @@ void DWCi_GPGetInfoCallback_RecvAuthMessage(GpConnection *connection, Unk0219c40
 
 void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated) {
     char keyValues[0x40];
-    RemovePendingStatsRequest();
+    DWCi_SubPersCallbackLevel();
     if (authenticated == 0 || localId != 0) {
-        ReportBuddySyncError(6, -72200);
+        DWCi_StopFriendProcess(6, -72200);
         return;
     }
     gWiFiBuddySync->mUnk_24 = profileId;
@@ -153,6 +153,6 @@ void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated) {
 }
 
 void DWCi_SetPersistDataValuesAsync(u32 profileId, u32 type, u32 valueString, u32 param) {
-    AddPendingStatsRequest();
+    DWCi_AddPersCallbackLevel();
     SetPersistDataValuesA(0, profileId, type, 0, valueString, (u32) &BuddySyncStatsSaveCallback, param);
 }

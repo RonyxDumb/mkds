@@ -4,4 +4,4 @@
 
 extern u8 gMatchingKeys[][12];
 
-u8 FindFreeMatchingKeyId(void);
+u8 DWCi_GetNewMatchKey(void);

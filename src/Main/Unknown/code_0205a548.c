@@ -51,7 +51,7 @@ void StartOwnSlotResultSync(s32 itemIndex) {
     SlotResultSyncState *view;
     s32 syncFrames;
 
-    view = &gWiFiRaceSync->mEntries[GetOwnParticipantIndex()].mSlotResultSyncState;
+    view = &gWiFiRaceSync->mEntries[DWC_GetMyAID()].mSlotResultSyncState;
     view->mSendCount = 0;
     syncFrames = gWiFiRaceSync->mSyncFrames;
     view->mState = SLOT_RESULT_SYNC_STATE_SENDING;

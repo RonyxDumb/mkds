@@ -41,7 +41,7 @@ void UpdateRaceClock(void) {
             hasTimeLimit = TRUE;
         }
         if (gRaceSetup->mMode == MODE_WIFI && elapsedFrames > 0x4650) {
-            ownKartIndex = gParticipantKartMap->mKartOfParticipant[GetOwnParticipantIndex()];
+            ownKartIndex = gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()];
             if (ownKartIndex >= 0) {
                 flag = FALSE;
                 switch (gRaceProgress->mKarts[(u8) ownKartIndex].mStatus) {
@@ -195,7 +195,7 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *progr
                 if (*progressOut >= -2 && *progressOut <= 0x1002) {
                     if ((gCourseMap->mCheckpoints[checkpointIndex].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
                         if (gRaceSetup->mMode == MODE_WIFI) {
-                            *progressOut = 0x1000 - (GetOwnParticipantIndex() + 1) * 0x190;
+                            *progressOut = 0x1000 - (DWC_GetMyAID() + 1) * 0x190;
                         } else {
                             *progressOut =
                                 0x1000 - ((u32) (raceProgressKart->mRankIndexRequestBits << 28) >> 28) * 0x190;

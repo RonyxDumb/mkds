@@ -23,7 +23,7 @@ u32 DWC_IsValidCancelMatching(void) {
     if (DWCi_IsError() != 0) {
         return 0;
     }
-    if (gWiFiMatching == NULL || GetWiFiConnectionState() != 5 || gWiFiMatching->mStopPending != 0) {
+    if (gWiFiMatching == NULL || DWC_GetState() != 5 || gWiFiMatching->mStopPending != 0) {
         return 0;
     }
     return 1;
@@ -40,7 +40,7 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
             return keyId;
         }
     }
-    keyId = FindFreeMatchingKeyId();
+    keyId = DWCi_GetNewMatchKey();
     if (keyId == 0) {
         return 0;
     }
@@ -53,7 +53,7 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
     }
     *(void **) &gMatchingKeyString[index * 12] = DWC_Alloc(4, strlen(keyString) + 1);
     if (*(void **) &gMatchingKeyString[index * 12] == NULL) {
-        ReportMatchingError(0xb, 0xfffec77f);
+        DWCi_StopMatching(0xb, 0xfffec77f);
         return 0;
     }
     strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);
@@ -73,7 +73,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
             return keyId;
         }
     }
-    keyId = FindFreeMatchingKeyId();
+    keyId = DWCi_GetNewMatchKey();
     if (keyId == 0) {
         return 0;
     }
@@ -86,7 +86,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
     }
     *(void **) &gMatchingKeyString[index * 12] = DWC_Alloc(4, strlen(keyString) + 1);
     if (*(void **) &gMatchingKeyString[index * 12] == NULL) {
-        ReportMatchingError(0xb, 0xfffec77f);
+        DWCi_StopMatching(0xb, 0xfffec77f);
         return 0;
     }
     strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);

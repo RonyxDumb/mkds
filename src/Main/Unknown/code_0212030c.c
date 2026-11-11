@@ -121,7 +121,7 @@ void UpdateWiFiSession(void) {
     if (gOverlayLoader->mCurrentOverlay != 0) {
         return;
     }
-    UpdateWiFiConnection();
+    DWC_ProcessFriendsMatch();
     if (DWC_GetLastError(NULL) != 0) {
         gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
         DWC_ClearError();

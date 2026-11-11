@@ -31,8 +31,8 @@ void SetupWiFiSession(u32 mode) {
             MI_CpuFill8(gWiFiSession->mIndexMessages, 0, 0x110);
             MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, 0x110);
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-                if (participantIndex != GetOwnParticipantIndex()) {
-                    SetPeerReceiveBuffer(participantIndex, &gWiFiSession->mPlayerRecords[participantIndex], 0x244);
+                if (participantIndex != DWC_GetMyAID()) {
+                    DWC_SetRecvBuffer(participantIndex, &gWiFiSession->mPlayerRecords[participantIndex], 0x244);
                     GetRaceSetupCopy()->mEntries[participantIndex].mPlayerKind = 3;
                 } else {
                     gWiFiSession->mPlayerRecords[participantIndex].mFirstTotal =
@@ -55,11 +55,11 @@ void SetupWiFiSession(u32 mode) {
             gWiFiSession->mSendRecordMask = 0;
             gWiFiSession->mReceivedMask = 0;
             DWC_SetUserRecvCallback(ReceiveWiFiSessionMessage);
-            ownIndex = GetOwnParticipantIndex();
+            ownIndex = DWC_GetMyAID();
             gWiFiSession->mPlayerRecords[ownIndex].mSeed = OS_GetTick();
             PackWiFiSessionIndices();
             gWiFiSession->mStep = 0;
-            SetRaceSetupCopyEntryIndex((u8) gWiFiSession->mPackedIndices[GetOwnParticipantIndex()]);
+            SetRaceSetupCopyEntryIndex((u8) gWiFiSession->mPackedIndices[DWC_GetMyAID()]);
             SetSessionKartCount(gWiFiSession->mStartKartCount);
             break;
         case 1:
@@ -70,14 +70,13 @@ void SetupWiFiSession(u32 mode) {
                     gWiFiSession->mKartCount++;
                 }
             }
-            SetRaceSetupCopyEntryIndex((u8) gWiFiSession->mPackedIndices[GetOwnParticipantIndex()]);
+            SetRaceSetupCopyEntryIndex((u8) gWiFiSession->mPackedIndices[DWC_GetMyAID()]);
             SetSessionKartCount(gWiFiSession->mKartCount);
             break;
         case 2:
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-                if (participantIndex != GetOwnParticipantIndex() &&
-                    (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
-                    SetPeerReceiveBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex], 0x44);
+                if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                    DWC_SetRecvBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex], 0x44);
                 }
                 GetRaceSetupCopy()->mCourseId = 0;
                 gWiFiSession->mIndexMessages[participantIndex].mPickedCourseId = 0;
@@ -95,14 +94,13 @@ void SetupWiFiSession(u32 mode) {
                     gWiFiSession->mKartCount++;
                 }
             }
-            SetRaceSetupCopyEntryIndex((u8) gWiFiSession->mPackedIndices[GetOwnParticipantIndex()]);
+            SetRaceSetupCopyEntryIndex((u8) gWiFiSession->mPackedIndices[DWC_GetMyAID()]);
             SetSessionKartCount(gWiFiSession->mKartCount);
             break;
         case 3:
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-                if (participantIndex != GetOwnParticipantIndex() &&
-                    (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
-                    SetPeerReceiveBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex], 0x44);
+                if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                    DWC_SetRecvBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex], 0x44);
                 }
                 gWiFiSession->mStepFrames = 0;
                 gWiFiSession->mSendRecordMask = 0;
@@ -173,15 +171,15 @@ s32 UpdateWiFiSessionStep(void) {
             UpdateWiFiSessionStepTimeout(0x1c20);
             toIndex = PickNextToIndex();
             if (toIndex < gWiFiSession->mStartKartCount) {
-                fromIndex = GetOwnParticipantIndex();
-                ownIndex = GetOwnParticipantIndex();
+                fromIndex = DWC_GetMyAID();
+                ownIndex = DWC_GetMyAID();
                 ownRecord = &gWiFiSession->mIndexMessages[ownIndex];
                 ownRecord->mKind = 4;
                 ownRecord->mSize = 0x44;
                 ownRecord->mFromIndex = fromIndex;
                 ownRecord->mToIndex = toIndex;
                 ownRecord->mKartMask = gWiFiSession->mKartMask;
-                DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[GetOwnParticipantIndex()], 0x44);
+                DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[DWC_GetMyAID()], 0x44);
             }
             if (AreAllStepMessagesReceived() != FALSE) {
                 gWiFiSession->mSendRecordMask = 0;
@@ -195,18 +193,18 @@ s32 UpdateWiFiSessionStep(void) {
             UpdateWiFiSessionStepTimeout(0x1c20);
             toIndex = PickNextToIndex();
             if (toIndex < gWiFiSession->mStartKartCount) {
-                fromIndex = GetOwnParticipantIndex();
-                ownIndex = GetOwnParticipantIndex();
+                fromIndex = DWC_GetMyAID();
+                ownIndex = DWC_GetMyAID();
                 ownRecord = &gWiFiSession->mIndexMessages[ownIndex];
                 ownRecord->mKind = 5;
                 ownRecord->mSize = 0x44;
                 ownRecord->mFromIndex = fromIndex;
                 ownRecord->mToIndex = toIndex;
                 ownRecord->mKartMask = gWiFiSession->mKartMask;
-                DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[GetOwnParticipantIndex()], 0x44);
+                DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[DWC_GetMyAID()], 0x44);
             }
             if (AreAllStepMessagesReceived() != FALSE) {
-                ownIndex = GetOwnParticipantIndex();
+                ownIndex = DWC_GetMyAID();
                 if (gWiFiSession->mIndexMessages[ownIndex].mPickedCourseId != 0) {
                     gWiFiSession->mSendRecordMask = 0;
                     gWiFiSession->mReceivedMask = 0;
@@ -246,19 +244,19 @@ void AdvanceWiFiSessionStep0(void) {
     if (toIndex < gWiFiSession->mStartKartCount) {
         toBit = 1 << toIndex;
         if ((gWiFiSession->mSendRecordMask & toBit) != 0) {
-            fromIndex = GetOwnParticipantIndex();
-            ownIndex = GetOwnParticipantIndex();
+            fromIndex = DWC_GetMyAID();
+            ownIndex = DWC_GetMyAID();
             ownPlayerRecord = &gWiFiSession->mPlayerRecords[ownIndex];
             ownPlayerRecord->mKind = 1;
             ownPlayerRecord->mSize = 0x244;
             ownPlayerRecord->mFromIndex = fromIndex;
             ownPlayerRecord->mToIndex = toIndex;
             ownPlayerRecord->mKartMask = gWiFiSession->mKartMask;
-            ownIndex = GetOwnParticipantIndex();
+            ownIndex = DWC_GetMyAID();
             DWC_SendUnreliable(toIndex, &gWiFiSession->mPlayerRecords[ownIndex], 0x244);
             gWiFiSession->mSendRecordMask &= ~toBit;
         } else if ((gWiFiSession->mReceivedMask & toBit) == 0) {
-            header.mFromIndex = GetOwnParticipantIndex();
+            header.mFromIndex = DWC_GetMyAID();
             header.mSize = 0xc;
             header.mToIndex = toIndex;
             header.mKind = 0;
@@ -291,19 +289,19 @@ void AdvanceWiFiSessionStep1(void) {
     if (toIndex < gWiFiSession->mStartKartCount) {
         toBit = 1 << toIndex;
         if ((gWiFiSession->mSendRecordMask & toBit) != 0) {
-            fromIndex = GetOwnParticipantIndex();
-            ownIndex = GetOwnParticipantIndex();
+            fromIndex = DWC_GetMyAID();
+            ownIndex = DWC_GetMyAID();
             ownPlayerRecord = &gWiFiSession->mPlayerRecords[ownIndex];
             ownPlayerRecord->mKind = 1;
             ownPlayerRecord->mSize = 0x244;
             ownPlayerRecord->mFromIndex = fromIndex;
             ownPlayerRecord->mToIndex = toIndex;
             ownPlayerRecord->mKartMask = gWiFiSession->mKartMask;
-            ownIndex = GetOwnParticipantIndex();
+            ownIndex = DWC_GetMyAID();
             DWC_SendUnreliable(toIndex, &gWiFiSession->mPlayerRecords[ownIndex], 0x244);
             gWiFiSession->mSendRecordMask &= ~toBit;
         } else {
-            header.mFromIndex = GetOwnParticipantIndex();
+            header.mFromIndex = DWC_GetMyAID();
             header.mSize = 0xc;
             header.mToIndex = toIndex;
             header.mKind = 2;
@@ -336,7 +334,7 @@ void AdvanceWiFiSessionStep3(void) {
     u8 ownIndex;
     WiFiSessionMessage *ownRecord;
     UpdateWiFiSessionStepTimeout(0x1c20);
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice == 2) {
         DWC_RegisterMatchingStatus();
         DWC_CloseAllConnectionsHard();
@@ -345,20 +343,20 @@ void AdvanceWiFiSessionStep3(void) {
     }
     toIndex = PickNextToIndex();
     if (toIndex < gWiFiSession->mStartKartCount) {
-        fromIndex = GetOwnParticipantIndex();
-        ownIndex = GetOwnParticipantIndex();
+        fromIndex = DWC_GetMyAID();
+        ownIndex = DWC_GetMyAID();
         ownRecord = &gWiFiSession->mIndexMessages[ownIndex];
         ownRecord->mKind = 8;
         ownRecord->mSize = 0x44;
         ownRecord->mFromIndex = fromIndex;
         ownRecord->mToIndex = toIndex;
         ownRecord->mKartMask = gWiFiSession->mKartMask;
-        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[GetOwnParticipantIndex()], 0x44);
+        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[DWC_GetMyAID()], 0x44);
     }
     if (AreAllStepMessagesReceived() == FALSE) {
         return;
     }
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice == 0) {
         return;
     }
@@ -377,15 +375,15 @@ void AdvanceWiFiSessionStep4(void) {
     UpdateWiFiSessionStepTimeout(0x1c20);
     toIndex = PickNextToIndex();
     if (toIndex < gWiFiSession->mStartKartCount) {
-        fromIndex = GetOwnParticipantIndex();
-        ownIndex = GetOwnParticipantIndex();
+        fromIndex = DWC_GetMyAID();
+        ownIndex = DWC_GetMyAID();
         ownRecord = &gWiFiSession->mIndexMessages[ownIndex];
         ownRecord->mKind = 9;
         ownRecord->mSize = 0x44;
         ownRecord->mFromIndex = fromIndex;
         ownRecord->mToIndex = toIndex;
         ownRecord->mKartMask = gWiFiSession->mKartMask;
-        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[GetOwnParticipantIndex()], 0x44);
+        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[DWC_GetMyAID()], 0x44);
     }
     if (AreAllStepMessagesReceived() == FALSE) {
         return;
@@ -402,7 +400,7 @@ void AdvanceWiFiSessionStep4(void) {
     gWiFiSession->mReceivedMask = 0;
     gWiFiSession->mStep = 5;
     gWiFiSession->mStepFrames = 0;
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     SetRaceSetupCopyEntryIndex((u8) gWiFiSession->mPackedIndices[ownIndex]);
     SetSessionKartCount(gWiFiSession->mKartCount);
 }
@@ -415,24 +413,24 @@ void AdvanceWiFiSessionStep5(void) {
     UpdateWiFiSessionStepTimeout(0x1c20);
     toIndex = PickNextToIndex();
     if (toIndex < gWiFiSession->mStartKartCount) {
-        fromIndex = GetOwnParticipantIndex();
-        ownIndex = GetOwnParticipantIndex();
+        fromIndex = DWC_GetMyAID();
+        ownIndex = DWC_GetMyAID();
         ownRecord = &gWiFiSession->mIndexMessages[ownIndex];
         ownRecord->mKind = 3;
         ownRecord->mSize = 0x44;
         ownRecord->mFromIndex = fromIndex;
         ownRecord->mToIndex = toIndex;
         ownRecord->mKartMask = gWiFiSession->mKartMask;
-        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[GetOwnParticipantIndex()], 0x44);
+        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[DWC_GetMyAID()], 0x44);
     }
     if (AreAllStepMessagesReceived() == FALSE) {
         return;
     }
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     if (gWiFiSession->mIndexMessages[ownIndex].mCharacterIndex == -1) {
         return;
     }
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     if (gWiFiSession->mIndexMessages[ownIndex].mKartIndex == -1) {
         return;
     }
@@ -451,15 +449,15 @@ void AdvanceWiFiSessionStep8(void) {
     UpdateWiFiSessionStepTimeout(0x1c20);
     toIndex = PickNextToIndex();
     if (toIndex < gWiFiSession->mStartKartCount) {
-        fromIndex = GetOwnParticipantIndex();
-        ownIndex = GetOwnParticipantIndex();
+        fromIndex = DWC_GetMyAID();
+        ownIndex = DWC_GetMyAID();
         ownRecord = &gWiFiSession->mIndexMessages[ownIndex];
         ownRecord->mKind = 6;
         ownRecord->mSize = 0x44;
         ownRecord->mFromIndex = fromIndex;
         ownRecord->mToIndex = toIndex;
         ownRecord->mKartMask = gWiFiSession->mKartMask;
-        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[GetOwnParticipantIndex()], 0x44);
+        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[DWC_GetMyAID()], 0x44);
     }
     if (AreAllStepMessagesReceived() == FALSE) {
         return;
@@ -469,14 +467,14 @@ void AdvanceWiFiSessionStep8(void) {
     CombineKartRemoveMask();
     TallyPickedCourse();
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        ownIndex = GetOwnParticipantIndex();
+        ownIndex = DWC_GetMyAID();
         gWiFiSession->mIndexMessages[ownIndex].mKartIndices[participantIndex] =
             gWiFiSession->mIndexMessages[participantIndex].mKartIndex;
-        ownIndex = GetOwnParticipantIndex();
+        ownIndex = DWC_GetMyAID();
         gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[participantIndex] =
             gWiFiSession->mIndexMessages[participantIndex].mCharacterIndex;
     }
-    ownIndex = GetOwnParticipantIndex();
+    ownIndex = DWC_GetMyAID();
     gWiFiSession->mIndexMessages[ownIndex].mTalliedCourseId = GetRaceSetupCopy()->mCourseId;
     gWiFiSession->mStep = 9;
     gWiFiSession->mStepFrames = 0;
@@ -490,22 +488,22 @@ void AdvanceWiFiSessionStep9(void) {
     WiFiSessionMessage *ownRecord;
     toIndex = PickNextToIndex();
     if (toIndex < gWiFiSession->mStartKartCount) {
-        fromIndex = GetOwnParticipantIndex();
-        ownIndex = GetOwnParticipantIndex();
+        fromIndex = DWC_GetMyAID();
+        ownIndex = DWC_GetMyAID();
         ownRecord = &gWiFiSession->mIndexMessages[ownIndex];
         ownRecord->mKind = 7;
         ownRecord->mSize = 0x44;
         ownRecord->mFromIndex = fromIndex;
         ownRecord->mToIndex = toIndex;
         ownRecord->mKartMask = gWiFiSession->mKartMask;
-        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[GetOwnParticipantIndex()], 0x44);
+        DWC_SendUnreliable(toIndex, &gWiFiSession->mIndexMessages[DWC_GetMyAID()], 0x44);
     }
     if (UpdateWiFiSessionStepTimeout(0x78) == FALSE) {
         return;
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if (participantIndex != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
-            if (SetPeerReceiveBuffer(participantIndex, gWiFiSession->mUnk_001c[participantIndex], 0x80) == FALSE) {
+        if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+            if (DWC_SetRecvBuffer(participantIndex, gWiFiSession->mUnk_001c[participantIndex], 0x80) == FALSE) {
                 return;
             }
         }

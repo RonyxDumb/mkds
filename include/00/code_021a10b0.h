@@ -2,15 +2,15 @@
 
 #include "types.h"
 
-void SetupMatching(u8 matchType, u8 numEntry, UnkFunc *matchedCallback, u32 matchedParam);
-void ResetMatching(s32 level);
-u32 IsMatchingPointerNull(void);
+void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, UnkFunc *matchedCallback, u32 matchedParam);
+void DWCi_ResetMatchParam(s32 level);
+u32 DWCi_IsShutdownMatch(void);
 u32 DWCi_GPSetServerStatus(void);
-u32 GetMatchingMaskedParticipantIndices(void **aidList);
-u32 GetMatchingParticipantIndices(void **output);
-void RefreshMatchingLastMaskedParticipantPos(void);
-u8 GetMatchingLastMaskedParticipantPos(void);
-u8 GetMatchingLastParticipantPos(void);
-u32 RemoveMatchingParticipant(s32 position, s32 count);
-u32 RemoveMatchingParticipantByProfileId(int profileId, int count);
+u32 DWCi_GetValidAIDList(void **aidList);
+u32 DWCi_GetAllAIDList(void **output);
+void DWCi_SetNumValidConnection(void);
+u8 DWCi_GetNumValidConnection(void);
+u8 DWCi_GetNumAllConnection(void);
+u32 DWCi_DeleteHostByIndex(s32 position, s32 count);
+u32 DWCi_DeleteHostByProfileID(int profileId, int count);
 void DWCi_ProcessMatchSCClosing(u32 clientPid);

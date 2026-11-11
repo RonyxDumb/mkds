@@ -31,7 +31,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
     u32 portValue;
     int l;
     int startResult;
-    if (Gt2ParseAddress((const char *) remoteAddress, &ipAddress, &netPort) == FALSE || ipAddress == 0 ||
+    if (gt2StringToAddress((const char *) remoteAddress, &ipAddress, &netPort) == FALSE || ipAddress == 0 ||
         (portValue = netPort) == 0) {
         return 4;
     }

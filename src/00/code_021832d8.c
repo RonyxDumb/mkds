@@ -362,7 +362,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         }
         gWiFiVSMatching->mOtherCount = gWiFiSession->mKartCount - 1;
         for (j = 0; j < gWiFiSession->mKartCount; j++) {
-            if (j != GetOwnParticipantIndex()) {
+            if (j != DWC_GetMyAID()) {
                 gWiFiVSMatching->mOtherIndices[otherSlot] = j;
                 gWiFiVSMatching->mUnk_24[otherSlot] = 1;
                 otherSlot++;

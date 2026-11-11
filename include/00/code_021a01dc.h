@@ -15,11 +15,11 @@
 #include "00/code_0219f000.h"
 #include "00/code_021a0000.h"
 
-// Address and byte-swapped port of a peer, built by ReceiveMatchingCommand for DWCi_NNCompletedCallback.
+// Address and byte-swapped port of a peer, built by DWCi_ProcessRecvMatchCommand for DWCi_NNCompletedCallback.
 typedef struct PeerAddress {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mPort;
     /* 04 */ u32 mAddress;
 } PeerAddress;
 
-s32 ReceiveMatchingCommand(s32 command, u32 profileId, u32 c, u16 d, u32 *values, s32 valueCount);
+s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 c, u16 d, u32 *values, s32 valueCount);
