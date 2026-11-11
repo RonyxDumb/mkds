@@ -711,8 +711,8 @@ void WcmNotifyEx(s16 notify, u32 result, void *para0, u32 para1, u32 para2) {
     WCMNotice noticeRec;
 
     if (gWcmWork->mNotify != NULL) {
-        noticeRec.mUnk_00 = notify;
-        noticeRec.mUnk_02 = result;
+        noticeRec.mNotify = notify;
+        noticeRec.mResult = result;
         noticeRec.mUnk_04 = para0;
         noticeRec.mUnk_08 = para1;
         noticeRec.mUnk_0c = para2;

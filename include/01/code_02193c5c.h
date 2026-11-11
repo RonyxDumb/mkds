@@ -16,10 +16,10 @@ typedef struct OptionTopMenu {
     /* option state passed to RequestOptionState (1, 2 or 4); no initial store, set by the input handler (state 3,
        also state 9), not set for entry 2 (dialog path); also tested inside the screen */
     /* 10 */ s32 mNextOptionState;
-    /* 14 */ BOOL mUnk_14;
+    /* 14 */ BOOL mHighlightVisible;
     /* stored to reg_G2_BG0OFS without negation (the other mBg0Offset members are stored negated) */
     /* 18 */ s32 mBg0Offset;
-    /* 1c */ void *mUnk_1c;
+    /* 1c */ void *mHeap;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 20 */ LayoutTableEntry *mOptionTopMenuSTable;
     /* 24 */ struct Unk02021dc8 *mOptionTopMenuSNcer;

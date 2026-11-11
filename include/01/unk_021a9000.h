@@ -33,8 +33,8 @@ typedef struct OptionHensyuMenu {
     /* option state passed to RequestOptionState (0, 3, 5 or 6); no initial store, set by the input handler (state
        3); also tested inside the screen */
     /* 10 */ s32 mNextOptionState;
-    /* 14 */ BOOL mUnk_14;
-    /* 18 */ void *mUnk_18;
+    /* 14 */ BOOL mHighlightVisible;
+    /* 18 */ void *mHeap;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 1c */ LayoutTableEntry *mOptionHensyuMenuSTable;
     /* 20 */ struct Unk02021dc8 *mOptionHensyuMenuSNcer;

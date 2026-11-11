@@ -20,8 +20,8 @@ void DWCi_AC_CallBackWCM(Unk02188d78 *notice) {
     Unk02188408 *work;
 
     work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
-    if (notice->mUnk_00 == 5) {
-        if (notice->mUnk_02 != 0) {
+    if (notice->mNotify == 5) {
+        if (notice->mResult != 0) {
             switch (notice->mUnk_08) {
                 case 0xd:
                     work->mUnk_d14 = 1;
@@ -37,7 +37,7 @@ void DWCi_AC_CallBackWCM(Unk02188d78 *notice) {
                     break;
             }
         }
-    } else if (notice->mUnk_00 == 7) {
+    } else if (notice->mNotify == 7) {
         DWCi_AC_GetBeacon(notice->mUnk_04);
     }
 }

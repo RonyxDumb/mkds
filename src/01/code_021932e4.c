@@ -28,7 +28,7 @@ void InitOptionTopMenu(void *heap) {
     s32 j;
 
     gOptionTopMenu = HeapAlloc(heap, 0x40);
-    gOptionTopMenu->mUnk_1c = heap;
+    gOptionTopMenu->mHeap = heap;
     gOptionTopMenu->mState = 0;
     gOptionTopMenu->mNextState = 0;
     switch (GetOptionPrevState()) {
@@ -41,7 +41,7 @@ void InitOptionTopMenu(void *heap) {
             break;
     }
     gOptionTopMenu->mStateFrames = 0;
-    gOptionTopMenu->mUnk_14 = TRUE;
+    gOptionTopMenu->mHighlightVisible = TRUE;
     gOptionTopMenu->mOptionMessages = FindSceneFile(gOptionBmgName);
     gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives(gOptionTopMenuCommonBmgName);
     if (GetOptionPrevState() == 1) {
@@ -207,7 +207,7 @@ void AdvanceOptionTopMenuState3(void) {
                 break;
         }
         if (gOptionTopMenu->mIndex == previousIndex) {
-            gOptionTopMenu->mUnk_14 = FALSE;
+            gOptionTopMenu->mHighlightVisible = FALSE;
         }
         StartSoundOncePerFrame(5);
     } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
@@ -234,7 +234,7 @@ void AdvanceOptionTopMenuState4(void) {
             RequestSelectReturnState4();
         }
     } else if (gOptionTopMenu->mStateFrames >= 5) {
-        gOptionTopMenu->mUnk_14 = TRUE;
+        gOptionTopMenu->mHighlightVisible = TRUE;
     }
 }
 
@@ -353,7 +353,7 @@ void UpdateOptionTopMenuHighlight(void) {
     BOOL zero = FALSE;
 
     for (i = 0; i < 3; i++) {
-        if (i == gOptionTopMenu->mIndex && gOptionTopMenu->mUnk_14 != FALSE) {
+        if (i == gOptionTopMenu->mIndex && gOptionTopMenu->mHighlightVisible != FALSE) {
             gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuSTableIndices[i]].mVisible = 1;
             SetCellPaletteIndex(gOptionTopMenuCellIndices[i], 14, gOptionTopMenu->mOptionTopMenuSNcer,
                                 gOptionTopMenu->mOptionTopMenuSBncl);

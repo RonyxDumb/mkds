@@ -23,7 +23,7 @@ void InitOptionHensyuMenu(void *heap) {
     s32 j;
     void *optionFirstBuffer;
     gOptionHensyuMenu = HeapAlloc(heap, 0x34);
-    gOptionHensyuMenu->mUnk_18 = heap;
+    gOptionHensyuMenu->mHeap = heap;
     gOptionHensyuMenu->mState = 0;
     gOptionHensyuMenu->mNextState = 0;
     switch (GetOptionPrevState()) {
@@ -37,7 +37,7 @@ void InitOptionHensyuMenu(void *heap) {
             break;
     }
     gOptionHensyuMenu->mStateFrames = 0;
-    gOptionHensyuMenu->mUnk_14 = TRUE;
+    gOptionHensyuMenu->mHighlightVisible = TRUE;
     LocateAndQueueOptionHensyuMenu();
     for (i = 0; i < 2; i++) {
         SetCellOamModeXlu(gOptionHensyuMenuXluCellIndices[i], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
@@ -199,7 +199,7 @@ void AdvanceOptionHensyuMenuState3(void) {
                 break;
         }
         if (gOptionHensyuMenu->mIndex == previousIndex) {
-            gOptionHensyuMenu->mUnk_14 = FALSE;
+            gOptionHensyuMenu->mHighlightVisible = FALSE;
         }
         StartSoundOncePerFrame(5);
         return;
@@ -228,7 +228,7 @@ void AdvanceOptionHensyuMenuState4(void) {
             RequestSelectReturnState4();
         }
     } else if (gOptionHensyuMenu->mStateFrames >= 5) {
-        gOptionHensyuMenu->mUnk_14 = TRUE;
+        gOptionHensyuMenu->mHighlightVisible = TRUE;
     }
 }
 
@@ -273,7 +273,7 @@ void AdvanceOptionHensyuMenuState5(void) {
 void UpdateOptionHensyuMenuHighlight(void) {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (i == gOptionHensyuMenu->mIndex && gOptionHensyuMenu->mUnk_14 != FALSE) {
+        if (i == gOptionHensyuMenu->mIndex && gOptionHensyuMenu->mHighlightVisible != FALSE) {
             gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuSTableIndices[i]].mVisible = 1;
             SetCellPaletteIndex(gOptionHensyuMenuCellIndices[i], 0xe, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
                                 gOptionHensyuMenu->mOptionHensyuMenuSBncl);

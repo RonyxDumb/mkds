@@ -1222,12 +1222,12 @@ s32 SOCLi_ExecReadCommand(SOCLSocket *socket, u32 buffer, u32 length, u32 remote
 
 s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
     SOCLiCommandRead *command = (SOCLiCommandRead *) packet;
-    SOCLSocket *sockObj = command->mUnk_04;
+    SOCLSocket *sockObj = command->mSocket;
     SOCLiSocketRecvCommandPipe *inPipe = sockObj->mReceiveBlock;
-    u8 *buffer = command->mUnk_10;
-    u32 length = command->mUnk_14;
-    u16 *remotePort = command->mUnk_18;
-    u32 *peerAddr = command->mUnk_1c;
+    u8 *buffer = command->mBuffer;
+    u32 length = command->mBufferLen;
+    u16 *remotePort = command->mRemotePort;
+    u32 *peerAddr = command->mRemoteIp;
     s32 h = inPipe->mConsumed;
     const u8 *gotData;
     s32 cpsLength;
@@ -1708,8 +1708,8 @@ s32 SOCLi_GetSizeSocket(SOCLSocketParam *param) {
 int SOCLi_GetSizeCommandPipe(SOCLSocketCommandPipeParam *param) {
     int queueSize;
     int stackSize;
-    queueSize = SOCLi_RoundUp4(param->mUnk_03 << 2);
-    stackSize = SOCLi_RoundUp4(param->mUnk_00);
+    queueSize = SOCLi_RoundUp4(param->mQueueMax << 2);
+    stackSize = SOCLi_RoundUp4(param->mStackSize);
     return queueSize + stackSize;
 }
 
@@ -1763,9 +1763,9 @@ u8 *SOCLi_InitCommandPipe(u8 *messages, SOCLiSocketCommandPipe *pipe, SOCLSocket
     u8 *stackBottom;
 
     stackBottom = messages + SOCLi_GetSizeCommandPipe(param);
-    OS_InitMessageQueue(&pipe->mQueue, (void **) messages, param->mUnk_03);
+    OS_InitMessageQueue(&pipe->mQueue, (void **) messages, param->mQueueMax);
     OS_InitMutex(&pipe->mInUse);
-    OS_CreateThread(&pipe->mThread, SOCLi_CommandPacketHandler, pipe, stackBottom, param->mUnk_00, param->mUnk_02);
+    OS_CreateThread(&pipe->mThread, SOCLi_CommandPacketHandler, pipe, stackBottom, param->mStackSize, param->mPriority);
     OS_WakeupThreadDirect(&pipe->mThread);
     return stackBottom;
 }

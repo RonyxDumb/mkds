@@ -15,10 +15,10 @@ typedef struct ProfileMatch {
 
 // 0x128-byte array element GpiUpdateSearch fills.
 typedef struct PlayerMatch {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ char mUnk_004[0x20];
-    /* 024 */ s32 mUnk_024;
-    /* 028 */ char mUnk_028[0x100];
+    /* 000 */ s32 mProfile;
+    /* 004 */ char mNick[0x20];
+    /* 024 */ s32 mStatus;
+    /* 028 */ char mStatusString[0x100];
 } PlayerMatch;
 
 // 0x10-byte local of GpiUpdateSearch passed to GpiCallback.mCallback.

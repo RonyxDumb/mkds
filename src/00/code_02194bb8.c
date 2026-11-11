@@ -588,8 +588,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 i = u4->mNumMatches - 1;
                                 t4 = &q4[i];
                                 memset(t4, 0, 0x128);
-                                t4->mUnk_024 = 1;
-                                q4[i].mUnk_000 = StrtolBase10(value);
+                                t4->mStatus = 1;
+                                q4[i].mProfile = StrtolBase10(value);
                                 f = FALSE;
                                 do {
                                     g = n;
@@ -599,12 +599,12 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                         return result;
                                     }
                                     if (strcmp(key, gStatusResultKey) == 0) {
-                                        GpiCopyString(t4->mUnk_028, value, 0x100);
+                                        GpiCopyString(t4->mStatusString, value, 0x100);
                                     } else if (strcmp(key, gNickResultKey) == 0) {
-                                        GpiCopyString(t4->mUnk_004, value, 0x1f);
+                                        GpiCopyString(t4->mNick, value, 0x1f);
                                     }
                                     if (strcmp(key, gStatuscodeKey) == 0) {
-                                        t4->mUnk_024 = StrtolBase10(value);
+                                        t4->mStatus = StrtolBase10(value);
                                     } else if (strcmp(key, gPsrKey) == 0 || strcmp(key, gPsrdoneKey) == 0) {
                                         f = TRUE;
                                         n = g;

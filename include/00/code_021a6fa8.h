@@ -12,9 +12,9 @@ struct SOCLiSocketUdpData;
 
 // Four bytes read by SOCLi_GetSizeCommandPipe: a size, a count and a byte.
 typedef struct SOCLSocketCommandPipeParam {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
+    /* 00 */ u16 mStackSize;
+    /* 02 */ u8 mPriority;
+    /* 03 */ u8 mQueueMax;
 } SOCLSocketCommandPipeParam;
 
 // Start address and size of a part of an SOCLSocket or of its blocks, set by SOCLi_InitSocketBuffer.

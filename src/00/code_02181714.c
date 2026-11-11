@@ -59,7 +59,7 @@ void InitWiFiTopMenu(void *heap) {
             break;
     }
     gWiFiTopMenu->mStateFrames = 0;
-    gWiFiTopMenu->mUnk_18 = TRUE;
+    gWiFiTopMenu->mHighlightVisible = TRUE;
     gWiFiTopMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     LocateAndQueueWiFiTopMenu();
@@ -205,7 +205,7 @@ next:
             }
         }
         if (gWiFiTopMenu->mIndex == previousIndex) {
-            gWiFiTopMenu->mUnk_18 = FALSE;
+            gWiFiTopMenu->mHighlightVisible = FALSE;
         }
         gWiFiTopMenu->mNextState = 4;
         switch (gWiFiTopMenu->mIndex) {
@@ -258,7 +258,7 @@ void AdvanceWiFiTopMenuState4(void) {
         }
         gWiFiTopMenu->mStateFrames = 0;
     } else if (gWiFiTopMenu->mStateFrames >= 5) {
-        gWiFiTopMenu->mUnk_18 = TRUE;
+        gWiFiTopMenu->mHighlightVisible = TRUE;
     }
 }
 
@@ -372,7 +372,7 @@ void UpdateWiFiTopMenuHighlight(void) {
     const u8 *tableIndexPointer = gWiFiTopMenuSTableIndices;
     const u8 *cellIndexPointer = gWiFiTopMenuCellIndices;
     for (; i < 3; i++) {
-        if (i == gWiFiTopMenu->mIndex && gWiFiTopMenu->mUnk_18 != FALSE) {
+        if (i == gWiFiTopMenu->mIndex && gWiFiTopMenu->mHighlightVisible != FALSE) {
             gWiFiTopMenu->mWiFiTopMenuTable[*tableIndexPointer].mVisible = 1;
             SetCellPaletteIndex(*cellIndexPointer, 0xe, gWiFiTopMenu->mWiFiTopMenuSNcer,
                                 gWiFiTopMenu->mWiFiTopMenuBncl);

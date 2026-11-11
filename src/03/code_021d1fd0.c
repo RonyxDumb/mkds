@@ -59,7 +59,7 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
 
     canvas->mAreaWidth = areaWidth;
     canvas->mAreaHeight = areaHeight;
-    canvas->mUnk_30 = CreateObjCharRange(screen, areaWidth * areaHeight, fromFront, &charName);
+    canvas->mCharRange = CreateObjCharRange(screen, areaWidth * areaHeight, fromFront, &charName);
     canvas->mCharName = charName;
     *entryCount = NNSi_G2dCalcRequiredOBJ(areaWidth, areaHeight);
     if (screen == 1) {
@@ -69,7 +69,7 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
     }
     charBase += charName << 7;
     NNS_G2dCharCanvasInitForOBJ1D(canvas, (void *) charBase, areaWidth, areaHeight, 4);
-    canvas->mUnk_18(canvas, 0);
+    canvas->mPClear(canvas, 0);
     font = &gTextCanvases->mFonts[fontIndex];
     canvas->mUnk_20 = canvas;
     canvas->mUnk_24 = font;

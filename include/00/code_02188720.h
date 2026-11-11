@@ -24,8 +24,8 @@ typedef struct DWCACConfig {
 
 // Argument of DWCi_AC_CallBackWCM.
 typedef struct Unk02188d78 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
+    /* 00 */ s16 mNotify;
+    /* 02 */ s16 mResult;
     /* 04 */ Unk02188408Entry0xc0 *mUnk_04;
     /* 08 */ s32 mUnk_08;
 } Unk02188d78;
