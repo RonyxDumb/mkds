@@ -223,7 +223,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
             if (GpiFindOperation(connection, &pendingOp, 1) != FALSE) {
                 pendingOp->mUnk_1c = 4;
             } else {
-                AssertionFailed(data_ov000_021b2628, gGpiFileName, NULL, 0x1db);
+                AssertionFailed(gGpiFalseAssertText, gGpiFileName, NULL, 0x1db);
             }
         }
     }

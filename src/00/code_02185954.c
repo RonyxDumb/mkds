@@ -88,19 +88,19 @@ BOOL DWCi_Http_SetHostinfo(Http *http, const char *url) {
     if (strlen(url) != strlen(http->mUnk_028)) {
         return FALSE;
     }
-    found = strstr(http->mUnk_028, data_ov000_021b1268);
+    found = strstr(http->mUnk_028, gHttpUrlPrefix);
     if (found != NULL) {
         http->mHost = http->mUnk_028 + 7;
         http->mUseHttps = FALSE;
     } else {
-        found = strstr(http->mUnk_028, data_ov000_021b1270);
+        found = strstr(http->mUnk_028, gHttpsUrlPrefix);
         if (found == NULL) {
             return FALSE;
         }
         http->mHost = found + 8;
         http->mUseHttps = TRUE;
     }
-    found = strstr(http->mHost, data_ov000_021b127c);
+    found = strstr(http->mHost, gUrlPathSeparator);
     if (found == NULL) {
         http->mPath = NULL;
     } else {
@@ -137,7 +137,7 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
         return FALSE;
     }
     bodyEnd = headerEnd + 4 + strlen(headerEnd + 4);
-    delimiter = (s8 *) strstr(reply, data_ov000_021b1238);
+    delimiter = (s8 *) strstr(reply, gHttpStatusSeparator);
     if (delimiter == NULL) {
         return FALSE;
     }
@@ -146,7 +146,7 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     if (DWCi_Http_AddResult(&results, gHttpresultPairName, statusText) != TRUE) {
         return FALSE;
     }
-    if (noParseBody == 1 || strncmp((const char *) statusText, data_ov000_021b1248, 3) != 0) {
+    if (noParseBody == 1 || strncmp((const char *) statusText, gHttpOkStatusText, 3) != 0) {
         if (DWCi_Http_AddResult(&results, gHttpbodyPairName, headerEnd + 4) != TRUE) {
             return FALSE;
         }
@@ -158,7 +158,7 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     }
     h = delimiter + 2;
     while (h[0] != 0xd && h[1] != 0xa) {
-        delimiter = (s8 *) strstr((const char *) h, data_ov000_021b125c);
+        delimiter = (s8 *) strstr((const char *) h, gHeaderValueSeparator);
         if (delimiter == NULL) {
             break;
         }
@@ -177,13 +177,13 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     j = headerEnd + 4;
     if (j < bodyEnd) {
         do {
-            delimiter = (s8 *) strstr(j, data_ov000_021b1260);
+            delimiter = (s8 *) strstr(j, gPairValueSeparator);
             if (delimiter == NULL) {
                 break;
             }
             delimiter[0] = 0;
             h = delimiter + 1;
-            delimiter = (s8 *) strstr((const char *) h, data_ov000_021b1264);
+            delimiter = (s8 *) strstr((const char *) h, gPairSeparator);
             if (delimiter == NULL) {
                 delimiter = (s8 *) strstr((const char *) h, gHttpLineEndMarker);
             }
@@ -592,8 +592,8 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     if (ownerInfo.mLanguage > 6) {
         ownerInfo.mLanguage = 1;
     }
-    OS_SNPrintf(postData.mBirthday, 5, data_ov000_021b1068, ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
-    OS_SNPrintf(deviceTimeText, 0xd, data_ov000_021b1074, date.mYear, date.mMonth, date.mDay, time.mHour, time.mMinute,
+    OS_SNPrintf(postData.mBirthday, 5, gBirthFormat, ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
+    OS_SNPrintf(deviceTimeText, 0xd, gDevtimeFormat, date.mYear, date.mMonth, date.mDay, time.mHour, time.mMinute,
                 time.mSecond);
     MI_CpuCopy8(ownerInfo.mNickName, deviceName, 0x14);
     deviceName[0x14] = 0;
@@ -623,17 +623,17 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
         OS_SNPrintf(userIdText, 0xe, gUserIdFormat, gAuthWiFiInfo.mNotAttestedId);
     }
     DWCi_Http_AddResult(&results, gUseridPairName, userIdText);
-    OS_SNPrintf(postData.mPassword, 4, data_ov000_021b10e0, gAuthWiFiInfo.mPass);
+    OS_SNPrintf(postData.mPassword, 4, gPasswdFormat, gAuthWiFiInfo.mPass);
     DWCi_Http_AddResult(&results, gPasswdPairName, postData.mPassword);
-    OS_SNPrintf(bssidText, 0xd, data_ov000_021b10f0, postData.mBssid[0], postData.mBssid[1], postData.mBssid[2],
+    OS_SNPrintf(bssidText, 0xd, gBssidFormat, postData.mBssid[0], postData.mBssid[1], postData.mBssid[2],
                 postData.mBssid[3], postData.mBssid[4], postData.mBssid[5]);
-    OS_SNPrintf(apInfoText, 0xd, data_ov000_021b110c, 0);
+    OS_SNPrintf(apInfoText, 0xd, gApinfoFormat, 0);
     DWCi_AC_GetPostalCode(apInfoBytes, &apInfoText[3]);
     DWCi_Http_AddResult(&results, gGamecdPairName, postData.mGameCode);
     DWCi_Http_AddResult(&results, gMakercdPairName, postData.mMakerCode);
     DWCi_Http_AddResult(&results, gUnitcdPairName, gUnitcdPairValue);
     DWCi_Http_AddResult(&results, gMacadrPairName, macAddressText);
-    DWCi_Http_AddResult(&results, gLangPairName, data_ov000_021b1004[ownerInfo.mLanguage]);
+    DWCi_Http_AddResult(&results, gLangPairName, gLangPairValues[ownerInfo.mLanguage]);
     DWCi_Http_AddResult(&results, gBirthPairName, postData.mBirthday);
     DWCi_Http_AddResult(&results, gDevtimePairName, deviceTimeText);
     DWCi_Http_AddResult(&results, gBssidPairName, bssidText);

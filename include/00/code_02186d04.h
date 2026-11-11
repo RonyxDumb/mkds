@@ -5,12 +5,12 @@
 
 #include "00/code_02185954.h"
 
-extern char data_ov000_021b1204[];
+extern char gCaInfoTable[];
 extern char gContentLengthHeaderText[];
-extern char data_ov000_021b135c[];
-extern char data_ov000_021b1368[];
-extern const char data_ov000_021b1370[];
-extern char data_ov000_021b1374[];
+extern char gConnectionHeaderName[];
+extern char gConnectionCloseValue[];
+extern const char gContentLengthFormat[];
+extern char gContentLengthHeaderName[];
 extern u32 DWChttpignoreca;
 
 void ReleaseHttp(Http *a);

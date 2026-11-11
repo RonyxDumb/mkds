@@ -17,9 +17,9 @@ BOOL DWCi_Http_WriteBasicHeader(Http *a) {
     s32 e;
     s32 f;
     if (a->mUnk_04.mUnk_04 == 0) {
-        c = data_ov000_021b12ac;
+        c = gHttpPostRequestFormat;
     } else {
-        c = data_ov000_021b1300;
+        c = gHttpGetRequestFormat;
     }
     d = strlen(a->mHost);
     e = strlen(c);
@@ -67,9 +67,9 @@ BOOL DWC_Http_Add_PostBase64Item(Http *a, const char *b, const void *c, s32 d) {
     s32 i;
     s32 j;
     if (a->mPairCount == 0) {
-        f = data_ov000_021b1294;
+        f = gPostFirstPairFormat;
     } else {
-        f = data_ov000_021b1298;
+        f = gPostNextPairFormat;
     }
     a->mPairCount = a->mPairCount + 1;
     g = DWC_Auth_Base64Encode(c, d, NULL, 0);
@@ -105,7 +105,7 @@ BOOL DWC_Http_Add_Body(Http *a, const char *b) {
         }
         e = c->mEnd - c->mCursor;
     }
-    f = OS_SNPrintf(c->mCursor, e, data_ov000_021b1290, b);
+    f = OS_SNPrintf(c->mCursor, e, gStringFormat, b);
     if (f != d) {
         return TRUE;
     }

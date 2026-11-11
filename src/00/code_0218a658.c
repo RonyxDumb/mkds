@@ -5,7 +5,7 @@
 
 BOOL DWCi_AC_CheckNintendoUsbAP(const u8 *ssid) {
     int compare;
-    compare = memcmp(ssid, data_ov000_021b2168, 8);
+    compare = memcmp(ssid, gNintendoUsbApSsid, 8);
     if (compare == 0) {
         return 1;
     }

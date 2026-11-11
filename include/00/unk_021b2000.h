@@ -4,7 +4,7 @@
 
 // Objects whose layout isn't known yet.
 extern u8 data_ov000_021b20d0[];
-extern u8 data_ov000_021b2168[];
+extern u8 gNintendoUsbApSsid[];
 extern u8 gShopSsidPrefix[];
 extern char gKeyListEntryFormat[];
 extern char gInBufferLengthAssertText[];
@@ -24,19 +24,19 @@ extern char gAvailableHostFormat[];
 extern char gDarrayFnAssertText[];
 extern char gDarrayFileName[];
 extern char gArrayIndexAssertText[];
-extern char data_ov000_021b2308[];
+extern char gComparatorAssertText[];
 extern char gArrayAssertText[];
 extern char gHashtableFnAssertText[];
 extern char gHashtableFileName[];
-extern char data_ov000_021b2314[];
-extern char data_ov000_021b233c[];
+extern char gArrayInsertIndexAssertText[];
+extern char gDarrayElemSizeAssertText[];
 extern char gArrayListAssertText[];
 extern char gTableAssertText[];
-extern char data_ov000_021b236c[];
-extern char data_ov000_021b2374[];
-extern char data_ov000_021b237c[];
-extern char data_ov000_021b2388[];
-extern char data_ov000_021b2394[];
+extern char gHashFnAssertText[];
+extern char gCompFnAssertText[];
+extern char gHashtableElemSizeAssertText[];
+extern char gNBucketsAssertText[];
+extern char gTableBucketsAssertText[];
 extern char gHexByteFormat[];
 extern u8 gLocalhostName[];
 extern u8 gConnectionDisconnectedErrorString[];

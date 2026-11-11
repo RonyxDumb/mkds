@@ -40,7 +40,7 @@ typedef struct DWCAuthResult {
 
 #include "os_thread.h"
 
-extern char *data_ov000_021b1384;
+extern char *gConnTestUrl;
 extern char gUrlPairName[];
 extern char gDataPairName[];
 extern char gWaitPairName[];

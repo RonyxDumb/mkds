@@ -61,7 +61,7 @@ void DWCi_Netcheck_Thread(void) {
     dataText = NULL;
     waitText = NULL;
     for (;;) {
-        gHttpParam.mUnk_00 = data_ov000_021b1384;
+        gHttpParam.mUnk_00 = gConnTestUrl;
         gHttpParam.mUnk_04 = TRUE;
         gHttpParam.mUnk_08 = NULL;
         gHttpParam.mUnk_0c = 0x1000;
@@ -513,13 +513,13 @@ s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {
 u32 DWC_Http_FinishHeader(Http *http) {
     char contentLengthText[8];
     u32 contentLength;
-    if (DWC_Http_Add_HeaderItem(http, data_ov000_021b135c, data_ov000_021b1368) != FALSE) {
+    if (DWC_Http_Add_HeaderItem(http, gConnectionHeaderName, gConnectionCloseValue) != FALSE) {
         return 1;
     }
     contentLength = strlen(strstr(http->mSendBuffer.mStart, gHttpHeaderEndMarker) + 4);
     if (contentLength != 0) {
-        OS_SNPrintf(contentLengthText, 7, data_ov000_021b1370, contentLength);
-        if (DWC_Http_Add_HeaderItem(http, data_ov000_021b1374, contentLengthText) != FALSE) {
+        OS_SNPrintf(contentLengthText, 7, gContentLengthFormat, contentLength);
+        if (DWC_Http_Add_HeaderItem(http, gContentLengthHeaderName, contentLengthText) != FALSE) {
             return 1;
         }
     }
@@ -612,7 +612,7 @@ void DWCi_Http_Thread(void *argument) {
         sslInfo->mUnk_7e4 = DWCi_Http_CPSCallback;
         sslInfo->mUnk_7d4 = http->mHost;
         socketBuffers->mUnk_0c = sslInfo;
-        SetAuthorityTable((u32) data_ov000_021b1204, 0xb);
+        SetAuthorityTable((u32) gCaInfoTable, 0xb);
         CPS_SetSsl(1);
         port = 0x1bb;
     } else {

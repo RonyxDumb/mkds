@@ -37,7 +37,7 @@ void *DarrayCreate(s32 elemSize, s32 c, void (*d)(void *)) {
         AssertionFailed(gArrayAssertText, gDarrayFileName, NULL, 0x52);
     }
     if (elemSize == 0) {
-        AssertionFailed(data_ov000_021b233c, gDarrayFileName, NULL, 0x53);
+        AssertionFailed(gDarrayElemSizeAssertText, gDarrayFileName, NULL, 0x53);
     }
     if (c == 0) {
         c = 8;
@@ -105,7 +105,7 @@ void DarrayInsert(void *param_1, void *param_2, s32 n) {
     Darray *array = param_1;
     s32 b;
     if (n < 0 || n > array->mCount) {
-        AssertionFailed(data_ov000_021b2314, gDarrayFileName, NULL, 0xa7);
+        AssertionFailed(gArrayInsertIndexAssertText, gDarrayFileName, NULL, 0xa7);
     }
     if (array->mCount == array->mCapacity) {
         DarrayGrow(array);
@@ -123,7 +123,7 @@ void DarrayInsertSorted(Darray *array, void *b, UnkCompare *comparator) {
     u32 v2;
     s32 v3[2];
     if (comparator == NULL) {
-        AssertionFailed(data_ov000_021b2308, gDarrayFileName, NULL, 0xb7);
+        AssertionFailed(gComparatorAssertText, gDarrayFileName, NULL, 0xb7);
     }
     v1 = DarraySearchSorted(b, array->mList, array->mCount, array->mElemSize, comparator, v3);
     v2 = _s32_div_f(v1 - array->mList, array->mElemSize);

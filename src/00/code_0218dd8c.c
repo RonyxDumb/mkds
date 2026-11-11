@@ -16,16 +16,16 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 e, s32 (*hashFn)(void
     Hashtable *table;
     s32 b;
     if (hashFn == NULL) {
-        AssertionFailed(data_ov000_021b236c, gHashtableFileName, NULL, 0x38);
+        AssertionFailed(gHashFnAssertText, gHashtableFileName, NULL, 0x38);
     }
     if (compFn == NULL) {
-        AssertionFailed(data_ov000_021b2374, gHashtableFileName, NULL, 0x39);
+        AssertionFailed(gCompFnAssertText, gHashtableFileName, NULL, 0x39);
     }
     if (elemSize == 0) {
-        AssertionFailed(data_ov000_021b237c, gHashtableFileName, NULL, 0x3a);
+        AssertionFailed(gHashtableElemSizeAssertText, gHashtableFileName, NULL, 0x3a);
     }
     if (nBuckets == 0) {
-        AssertionFailed(data_ov000_021b2388, gHashtableFileName, NULL, 0x3b);
+        AssertionFailed(gNBucketsAssertText, gHashtableFileName, NULL, 0x3b);
     }
     table = DWCi_GsMalloc(0x14);
     if (table == NULL) {
@@ -33,7 +33,7 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 e, s32 (*hashFn)(void
     }
     table->mBuckets = DWCi_GsMalloc(nBuckets * 4);
     if (table->mBuckets == NULL) {
-        AssertionFailed(data_ov000_021b2394, gHashtableFileName, NULL, 0x41);
+        AssertionFailed(gTableBucketsAssertText, gHashtableFileName, NULL, 0x41);
     }
     for (b = 0; b < nBuckets; b++) {
         table->mBuckets[b] = DarrayCreate(elemSize, e, h);

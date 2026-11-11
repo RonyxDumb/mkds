@@ -16,7 +16,7 @@ void DecodeSsid(const u8 *ssid, u8 *decoded) {
     u8 *entry;
     DecodeBase64(ssid, decoded, 32, 24);
     for (j = 0; j < 24; j++) {
-        decoded[j] ^= data_ov000_021b20f4[j];
+        decoded[j] ^= gSsidDecodeFirstXorKey[j];
     }
     for (i = 0; i < 24; i++) {
         k = (u8) i;
@@ -33,7 +33,7 @@ void DecodeSsid(const u8 *ssid, u8 *decoded) {
         }
     }
     for (m = 0; m < 24; m++) {
-        decoded[m] ^= data_ov000_021b20e8[m];
+        decoded[m] ^= gSsidDecodeSecondXorKey[m];
     }
 }
 
@@ -64,7 +64,7 @@ void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
         wepKey[j + 3] ^= name[j + 13];
     }
     for (k = 0; k < 13; k++) {
-        wepKey[k] ^= data_ov000_021b20ec[k];
+        wepKey[k] ^= gUsbWepFirstXorKey[k];
     }
     MI_CpuCopy8(wepKey, copy, 13);
     l = 0;
@@ -76,7 +76,7 @@ void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
         target++;
     }
     for (m = 0; m < 13; m++) {
-        wepKey[m] ^= data_ov000_021b20f0[m];
+        wepKey[m] ^= gUsbWepSecondXorKey[m];
     }
     for (n = 0; n < 13; n++) {
         u8 v = wepKey[n];
