@@ -462,7 +462,7 @@ void InitSceneRunState(void *heap) {
 u32 IsDataSharingIncomplete(void) {
     u32 result = 0;
 
-    if (gRaceSetup->mMode == 5 && func_0204984c_inline5()) {
+    if (gRaceSetup->mMode == MODE_WIFI && func_0204984c_inline5()) {
         result = 1;
     }
     if (func_0204984c_inline4()) {

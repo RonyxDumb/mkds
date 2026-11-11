@@ -19,9 +19,9 @@ void AddLapTimes(const MinuteSecondMillisecondTime *a, const MinuteSecondMillise
                  MinuteSecondMillisecondTime *c);
 // d is a sub-frame correction.
 void ComputeRaceTime(u8 *a, u8 *b, u16 *c, s32 d, u32 e);
-s16 FindKartCheckpointBackward(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
-s16 FindKartCheckpointForward(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
-BOOL TryGetKartCheckpointProgress(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e);
+s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
+s16 FindKartCheckpointForward(RaceProgressKart *raceProgressKart, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
+BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *b, Vec3 *c, u16 d, u16 e);
 s32 ComputeProgressBetweenCheckpoints(const Vec3 *a, u16 b, u16 c);
 BOOL IsPointBetweenCheckpointLines(const Vec3 *a, const CourseMapCheckpoint *b, const CourseMapCheckpoint *c);
 void UpdateRaceClock(void);

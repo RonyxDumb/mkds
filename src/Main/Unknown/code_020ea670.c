@@ -181,7 +181,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
         func_ov001_0218175c(woodbox->mMapObject.mKind);
     }
     woodbox->mMapObject.mFlags |= data_021594d8;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
     raceRandom = GetRaceRandom();
@@ -423,8 +423,8 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     Quaternion rotation;
     s32 length;
 
-    if (CollideSphereWithCourse(&woodbox->mMapObject.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL,
-                                NULL, NULL, NULL, NULL) == 0) {
+    if (CollideSphereWithCourse(&woodbox->mMapObject.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL,
+                                NULL, NULL, NULL, NULL, NULL) == 0) {
         woodbox->mGroundUp = data_0216c3d8;
     }
     woodbox->mMapObject.mPos.y = woodbox->mMapObject.mPos.y + woodbox->mMapObject.mExtent.x;

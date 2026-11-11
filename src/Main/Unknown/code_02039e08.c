@@ -151,7 +151,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
         }
     }
     if (c != 0) {
-        if (raceSetup->mMode != 5 || IsFrameSpanningVBlank() == 0) {
+        if (raceSetup->mMode != MODE_WIFI || IsFrameSpanningVBlank() == 0) {
             DrawRace();
         }
     }
@@ -182,7 +182,7 @@ void PostSleepRaceScene(void) {
 u32 RunRaceScene(SceneNumbers *sceneNumbers) {
     SceneCallbacks callbacks = gRaceSceneCallbacks;
     SetCurrentRaceFromNext();
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         callbacks.mSkipWhenSpanned = 1;
     }
     if (gRaceSetup->mRaceKind != RACE_KIND_AWARD) {

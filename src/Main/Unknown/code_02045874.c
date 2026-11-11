@@ -75,7 +75,7 @@ void AssignCpuNumbers(void) {
         case MODE_GRAND_PRIX:
         case MODE_TIME_ATTACK:
         case MODE_MISSION_RUN:
-        case 5:
+        case MODE_WIFI:
             f = TRUE;
             break;
     }
@@ -273,7 +273,7 @@ void AssignCpuNumbersAndSetupFirstCourse(void) {
         case MODE_BATTLE:
             BuildCourseList(0);
             break;
-        case 5:
+        case MODE_WIFI:
             humanIndex = 0xff;
             ResetCupRecords();
             gRaceSetup->mNextHeader.mCourseNumber = 1;
@@ -334,8 +334,8 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
                 break;
             }
         }
-        SetNextRaceEntry(i, gRaceSetup->mCurrentEntries[(u16) j].mCharacterIndex,
-                         gRaceSetup->mCurrentEntries[(u16) j].mKartIndex, PLAYER_KIND_CPU, -1, 3);
+        SetNextRaceEntry(i, GetCurrentEntry(j)->mCharacterIndex, GetCurrentEntry(j)->mKartIndex, PLAYER_KIND_CPU, -1,
+                         3);
     }
     for (; i < 8; i++) {
         SetNextRaceEntry(i, i, i * 3, PLAYER_KIND_NONE, -1, 3);

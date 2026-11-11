@@ -156,7 +156,7 @@ void InitKartResources(Kart *kart) {
     }
     kart->mSecondCollisionSlot = -1;
     kart->mCollisionSlot = kart->mSecondCollisionSlot;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         collisionPos = &kart->mPointAlongUp;
     } else {
         collisionPos = &kart->mCollisionCenter;
@@ -172,7 +172,7 @@ void InitKartResources(Kart *kart) {
     kart->mCollisionStepFrames = 0x64;
     kart->mRadius = kart->mPhysicalParam->mRadius;
     InitKartSoundParams(kart);
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         kart->mParticipantRecordData = HeapAlloc(heap, 0xb8);
         InitParticipantKartRecordState(kart, heap);
     }

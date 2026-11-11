@@ -347,7 +347,7 @@ void UpdateRace(void) {
     UpdateRaceProgress();
     UpdateKartSoundDistancesSquared();
     UpdateKartNameTags();
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         if (gRace->mUpdateFramesUnlimited == FALSE) {
             if (gRace->mUpdateFramesLimitReached == FALSE) {
                 gRace->mUpdateFrames++;

@@ -322,7 +322,7 @@ void InitMapObjects(void) {
     MapObjectList *kindLists[3];
     MapObjectList *list;
     MapObjectList **listArray;
-    MapObjects *q;
+    MapObjects *mapObjects;
     heap = GetHeap(GetCurrentHeapCall());
     SetRaceRandomPointers();
     data_0217b4cc = GetMapObjectFirstPolygonId();
@@ -337,7 +337,7 @@ void InitMapObjects(void) {
     gMapObjects->mUnk_130 = FALSE;
     gMapObjects->mUnk_178 = FALSE;
     v = 0;
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_WIFI) {
         v = 1;
     }
     gMapObjects->mRunUpdateLists = v;
@@ -362,7 +362,7 @@ void InitMapObjects(void) {
     } while (gMapObjectKindCount < 0x85);
     gGrpconfTbl = FindMainRaceOrMainEffectFile("MapObj/grpconf.tbl");
     v = 1;
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK && gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_TIME_ATTACK && gRaceSetup->mMode != MODE_WIFI) {
         v = 0;
     }
     data_0217b4e0 = v;

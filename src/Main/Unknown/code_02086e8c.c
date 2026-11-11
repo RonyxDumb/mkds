@@ -94,7 +94,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
         entryIndex = gRaceSetup->mEntryIndex;
         isEntryIndexHumanGhostOrPeer = FALSE;
         if (entryIndex != -1) {
-            playerKind = gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mKind;
+            playerKind = GetCurrentEntry(entryIndex)->mPlayer.mKind;
             if (playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                 isEntryIndexHumanGhostOrPeer = TRUE;
             }
@@ -236,7 +236,7 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry) {
 }
 
 u16 GetKartPaletteColor(int kartIndex) {
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         return data_02155a2c[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mRegion];
     }
     if (gRaceSetup->mUseTeams != 0) {

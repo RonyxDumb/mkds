@@ -105,7 +105,7 @@ void StartShineBattle(MapObjectList *mapObjectList) {
     for (i = 0; i < n; i++) {
         if (i == gRaceSetup->mEntryIndex) {
             f = FALSE;
-            v = gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind;
+            v = GetCurrentEntry(i)->mPlayer.mKind;
             if ((u32) v <= 3) {
                 if ((1 << v) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                     f = TRUE;

@@ -69,7 +69,7 @@ void UpdateRaceStartSequence(void) {
         }
         return;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         if ((gWiFiRaceSync->mFlags & 2) == 0) {
             return;
         }

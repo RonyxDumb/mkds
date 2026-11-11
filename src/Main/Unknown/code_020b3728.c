@@ -201,7 +201,7 @@ void UpdateRaceEnd(void) {
                     SetStemSet(3);
                     break;
                 case MODE_VS:
-                case 5:
+                case MODE_WIFI:
                     if (raceSetup->mRuleKind != 1) {
                         if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus ==
                             RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
@@ -261,7 +261,7 @@ void UpdateRaceEnd(void) {
                     break;
                 case MODE_GRAND_PRIX:
                 case MODE_TIME_ATTACK:
-                case 5:
+                case MODE_WIFI:
                     break;
             }
         }
@@ -285,7 +285,7 @@ void UpdateRaceEnd(void) {
         case MODE_TIME_ATTACK:
         case MODE_BATTLE:
         case MODE_VS:
-        case 5:
+        case MODE_WIFI:
             break;
     }
     gRaceEnd->mStemSetRequested = FALSE;

@@ -292,16 +292,15 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 } else {
                     i = 0;
                 }
-                gPlayerEntryList->mEntryIndex = gConnectionWork->mParticipantPosByIndex[(u16) i].mEntryIndex;
+                gPlayerEntryList->mEntryIndex = GetParticipantPosByIndex(i)->mEntryIndex;
                 for (j = 0; j < (n = gPlayerEntryList->mPlayerCount); j++) {
                     GetRaceSetupCopy()->mEntries[j].mPlayerKind = PLAYER_KIND_HUMAN;
                     clearValue = 0;
                     MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[j].mName, 0x16);
-                    func_0202c0d4_inline(
-                        gConnectionWork->mParticipantIndexByPos[(u16) j] == 0xffff
-                            ? (void *) 0
-                            : &gConnectionWork->mPlayerRecords[gConnectionWork->mParticipantIndexByPos[(u16) j]],
-                        gPlayerEntryList->mEntries[j].mName, 0x14);
+                    func_0202c0d4_inline(GetParticipantIndexByPos(j) == 0xffff
+                                             ? (void *) 0
+                                             : &gConnectionWork->mPlayerRecords[GetParticipantIndexByPos(j)],
+                                         gPlayerEntryList->mEntries[j].mName, 0x14);
                 }
                 for (; n < 8; n++) {
                     SetEntryTargetSlot(n, 0);
@@ -408,7 +407,7 @@ void AdvancePlayerEntryList(void) {
     s32 c;
     s32 d;
     s32 e;
-    s32 f;
+    s32 wiFiSessionKartIndex;
     BOOL g;
     if (AreBrightnessFadesClear() == 0) {
         return;
@@ -462,10 +461,8 @@ void AdvancePlayerEntryList(void) {
 
                 for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
                     if (gConnectionWork->mState == 8 &&
-                        (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mParticipantIndexByPos[(u16) i])) !=
-                            0) {
-                        c = gConnectionWork->mSharingReceiveRecords[gConnectionWork->mParticipantIndexByPos[(u16) i]]
-                                .mUnk_00[5];
+                        (gConnectionWork->mParticipantMask & (1 << GetParticipantIndexByPos(i))) != 0) {
+                        c = gConnectionWork->mSharingReceiveRecords[GetParticipantIndexByPos(i)].mUnk_00[5];
                     } else {
                         c = 0;
                     }
@@ -526,13 +523,13 @@ void AdvancePlayerEntryList(void) {
                         }
                     } else {
                         e = GetWiFiSessionCharacterIndex((u8) GetIndexOfPackedIndex(i));
-                        f = GetWiFiSessionKartIndex((u8) GetIndexOfPackedIndex(i));
+                        wiFiSessionKartIndex = GetWiFiSessionKartIndex((u8) GetIndexOfPackedIndex(i));
                         if (e == -1) {
                             d = 0;
                         } else {
                             d = 1;
                         }
-                        if (f == -1) {
+                        if (wiFiSessionKartIndex == -1) {
                             g = FALSE;
                         } else {
                             g = TRUE;

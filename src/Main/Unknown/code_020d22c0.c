@@ -37,7 +37,7 @@ void UnparkMapObject(MapObject *mapObject) {
 }
 
 void SetRaceRandomPointers(void) {
-    gMapObjectRandom = gRaceSetup->mMode == 5 ? &gRaceProgress->mFixedSeedRandom : &gRaceProgress->mRandom;
+    gMapObjectRandom = gRaceSetup->mMode == MODE_WIFI ? &gRaceProgress->mFixedSeedRandom : &gRaceProgress->mRandom;
     gRaceRandom = &gRaceProgress->mRandom;
 }
 

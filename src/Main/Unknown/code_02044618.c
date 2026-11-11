@@ -235,7 +235,7 @@ void RefreshListedCpuEntryIndices(void) {
         gRaceSetup->mListedCpuEntryIndices[entryIndex] = -1;
     }
     for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex++) {
-        if ((gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
+        if ((GetCurrentEntry(entryIndex)->mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
             SetListedCpuEntryIndex(gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot, entryIndex);
             listedCount++;
         }
@@ -318,7 +318,7 @@ BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex) {
 void SetCurrentRaceFromNext(void) {
     s16 entryIndex;
     GhostRecord *ghostRecord;
-    ConnectionWork *q;
+    ConnectionWork *connectionWork;
     u16 n;
     u16 entryCount;
     u8 i;
@@ -331,7 +331,7 @@ void SetCurrentRaceFromNext(void) {
         case MODE_VS:
             entryCount = 8;
             break;
-        case 5:
+        case MODE_WIFI:
             entryCount = 4;
             break;
         case MODE_TIME_ATTACK:
@@ -393,13 +393,16 @@ void SetCurrentRaceFromNext(void) {
                     break;
                 }
             }
-            q = gConnectionWork;
+            connectionWork = gConnectionWork;
             f = FALSE;
-            if ((q == NULL ? 0 : q->mConnectionMode) != 0 && q->mState != 13) {
+            if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
                 f = TRUE;
             }
             if (f != FALSE) {
-                entryIndex = q->mParticipantPosByIndex[(u16) (q->mConnectionMode == 2 ? q->mOwnIndex : 0)].mEntryIndex;
+                entryIndex = connectionWork
+                                 ->mParticipantPosByIndex[(
+                                     u16) (connectionWork->mConnectionMode == 2 ? connectionWork->mOwnIndex : 0)]
+                                 .mEntryIndex;
             }
             gRaceSetup->mNextHeader.mEntryIndex = entryIndex;
             gRaceSetup->mNextHeader.mFollowedKartIndex = entryIndex;

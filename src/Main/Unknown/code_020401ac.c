@@ -27,8 +27,8 @@ s64 ComputeDotOfPairsRoundedS64(const UnkPair020b502c *first, const UnkPair020b5
 
 static inline s32 func_02040bc0_inline(s8 entryIndex) {
     BOOL f = FALSE;
-    if (gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mKind <= 3 &&
-        ((1 << gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+    if (GetCurrentEntry(entryIndex)->mPlayer.mKind <= 3 &&
+        ((1 << GetCurrentEntry(entryIndex)->mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
         f = TRUE;
     }
     return f;
@@ -48,7 +48,7 @@ BOOL IsEntryRaceEnded(void) {
     switch (gRaceSetup->mMode) {
         case MODE_MISSION_RUN:
             ended = FALSE;
-            switch (gRaceProgress->mKarts[(u16) entryIndex].mStatus) {
+            switch (GetRaceProgressKart(entryIndex)->mStatus) {
                 case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
@@ -68,7 +68,7 @@ BOOL IsEntryRaceEnded(void) {
             return result;
         default:
             ended = FALSE;
-            switch (gRaceProgress->mKarts[(u16) entryIndex].mStatus) {
+            switch (GetRaceProgressKart(entryIndex)->mStatus) {
                 case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
                 case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                 case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
@@ -319,7 +319,7 @@ void InitRaceProgress(void) {
                 case MODE_MISSION_RUN:
                     seed = 0x158b76f;
                     break;
-                case 5:
+                case MODE_WIFI:
                     seed = 0x5b12f73;
                     break;
                 default:

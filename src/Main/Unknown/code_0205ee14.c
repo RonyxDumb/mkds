@@ -252,7 +252,7 @@ void AddVSBuddyRecordResults(void) {
     GetClockDateOrDefault(date);
     ownRank = GetKartRank((u16) gRaceSetup->mEntryIndex);
     if (gRaceSetup->mUseTeams != 0) {
-        teamIndex = gRaceSetup->mCurrentEntries[(u16) gRaceSetup->mEntryIndex].mPlayer.mTeamIndex;
+        teamIndex = GetCurrentEntry(gRaceSetup->mEntryIndex)->mPlayer.mTeamIndex;
     }
     firstTotal = data_0217aa08->mFirstBlock->mTotals[0];
     secondTotal = data_0217aa08->mFirstBlock->mTotals[1];

@@ -89,7 +89,7 @@ s32 GetRaceEndResultKind(void) {
     raceSetup = gRaceSetup;
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
-        case 5:
+        case MODE_WIFI:
             switch (gSeqRowState.mFinishResult) {
                 case 0:
                     if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {

@@ -115,7 +115,7 @@ void InitSunObjects(MapObjectList *mapObjectList) {
     for (i = 0; i < mapObjectList->mMapObjectCount && (sun = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
             sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mUnk_28;
-        } else if (gRaceSetup->mMode == 5) {
+        } else if (gRaceSetup->mMode == MODE_WIFI) {
             sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mUnk_2a;
         }
     }

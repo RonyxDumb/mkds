@@ -6,7 +6,7 @@ BOOL IsRaceGoalSRuleCourseCountReached(void) {
     u32 courseCountReached = gRaceGoalS->mCourseCountReached;
     RaceSetup *setup = gRaceSetup;
 
-    if (setup->mMode == MODE_VS || setup->mMode == 5 || setup->mMode == MODE_BATTLE) {
+    if (setup->mMode == MODE_VS || setup->mMode == MODE_WIFI || setup->mMode == MODE_BATTLE) {
         if (setup->mRuleKind != 0) {
             return courseCountReached;
         }

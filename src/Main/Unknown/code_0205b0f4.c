@@ -113,7 +113,7 @@ void InitWiFiRaceSync(void *heap) {
     u8 participant;
     WiFiRaceSync *sync;
 
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
     gWiFiRaceSync = HeapAlloc(heap, 0x760);

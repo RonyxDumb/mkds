@@ -144,7 +144,7 @@ void InitRaceNcerNclrNcgrTables(void) {
             LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNclr,
                          FindSceneFileWrapper("race_goal_mr_m_o.NCLR"));
             break;
-        case 5:
+        case MODE_WIFI:
             break;
     }
 
@@ -167,7 +167,7 @@ void InitRaceNcerNclrNcgrTables(void) {
             LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNcgr,
                           FindSceneFileWrapper("race_goal_mr_m_o.NCGR"));
             break;
-        case 5:
+        case MODE_WIFI:
             break;
     }
 

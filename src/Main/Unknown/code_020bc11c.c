@@ -176,7 +176,7 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
     switch (gRaceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case MODE_VS:
-        case 5:
+        case MODE_WIFI:
             DrawRaceRankListNonBattleRows(oamBuffer);
             break;
         case MODE_BATTLE:
@@ -359,7 +359,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
             markerIndex = 3;
         } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mTeamIndex == 1) {
+        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
@@ -425,7 +425,7 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
             markerIndex = 3;
         } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mTeamIndex == 1) {
+        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
@@ -565,7 +565,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
             markerIndex = 3;
         } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mTeamIndex == 1) {
+        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
@@ -674,7 +674,7 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
             markerIndex = 3;
         } else if ((u16) kartIndex == GetFollowedKartOrEntryIndex()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mTeamIndex == 1) {
+        } else if (gRaceSetup->mUseTeams != 0 && GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;

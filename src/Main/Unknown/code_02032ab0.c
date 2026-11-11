@@ -98,7 +98,7 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     u16 i;
     u16 entryIndex;
     u16 entryName[11];
-    SceneTextInitParams v;
+    SceneTextInitParams sceneTextInitParams;
     s32 orderUsed[8];
 
     gResultsBattle = HeapAlloc(heap, 0x154);
@@ -117,18 +117,18 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
     InitDisplayFromSettings(displaySettings);
-    v.mUseTxtSystem = 0;
-    v.mTxtSystemFont = NULL;
-    v.mUseCanvas1 = 0;
-    v.mUseCanvas2 = 0;
-    v.mUseCanvas3 = 0;
-    v.mUseSelectChoises = 1;
-    v.mSelectChoisesFont = GetFontByIndex(2);
-    v.mUseSelectReturn = 0;
-    v.mUseBackScreen = 0;
-    v.mBackScreenKind = 0;
+    sceneTextInitParams.mUseTxtSystem = 0;
+    sceneTextInitParams.mTxtSystemFont = NULL;
+    sceneTextInitParams.mUseCanvas1 = 0;
+    sceneTextInitParams.mUseCanvas2 = 0;
+    sceneTextInitParams.mUseCanvas3 = 0;
+    sceneTextInitParams.mUseSelectChoises = 1;
+    sceneTextInitParams.mSelectChoisesFont = GetFontByIndex(2);
+    sceneTextInitParams.mUseSelectReturn = 0;
+    sceneTextInitParams.mUseBackScreen = 0;
+    sceneTextInitParams.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &v);
+    InitSceneText(heap, &sceneTextInitParams);
     InitFrmVramManagers();
     gResultsBattle->mCommonMessages = FindFileInLoadedArchives(data_0216416c);
     switch (gResultsBattle->mMode) {
@@ -277,14 +277,14 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     }
     switch (gResultsBattle->mFileSetKind) {
         case 3:
-            if (gRaceSetup->mCurrentEntries[(u16) gResultsBattle->mOwnEntryIndex].mPlayer.mTeamIndex == 0) {
+            if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 0) {
                 k = 0;
             } else {
                 k = 7;
             }
             break;
         case 4:
-            if (gRaceSetup->mCurrentEntries[(u16) gResultsBattle->mOwnEntryIndex].mPlayer.mTeamIndex == 1) {
+            if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 1) {
                 k = 0;
             } else {
                 k = 7;

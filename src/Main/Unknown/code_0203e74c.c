@@ -320,7 +320,7 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
     if (finished != 0) {
         raceProgressKart->mFinishTimeMs =
             (finishTime->mMinute * 0x3c + finishTime->mSecond) * 1000 + finishTime->mMillisecond;
-    } else if (gRaceSetup->mMode != 5) {
+    } else if (gRaceSetup->mMode != MODE_WIFI) {
         raceProgressKart->mFinishTimeMs = 0x5b8d80;
     }
     mode = gRaceSetup->mMode;
@@ -398,7 +398,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
         case MODE_MISSION_RUN:
             FinishRemainingMissionRunKarts();
             return;
-        case 5:
+        case MODE_WIFI:
             FinishRemainingWiFiRaceKarts();
             return;
         default:

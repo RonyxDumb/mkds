@@ -981,7 +981,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
     if (itemInfoIndex == 0x13) {
         goto done;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         itemInfo = &gItemInfos[itemInfoIndex];
         objectCount = itemInfo->mObjectCount;
         dataSize = objectCount * GetItemDataSize(itemInfo->mObjectKind, 0);
@@ -994,7 +994,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
         }
     }
 done:
-    *itemInfoIndexPointer = gRaceSetup->mMode == 5 ? 4 : 2;
+    *itemInfoIndexPointer = gRaceSetup->mMode == MODE_WIFI ? 4 : 2;
     return TRUE;
 }
 
@@ -1035,7 +1035,7 @@ void UpdateItems(void) {
     enum { K0 } poolIndex;
     u16 kartIndex;
 
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         AddQueuedItemData();
         ProcessDelayedItemData();
     }
@@ -1293,7 +1293,7 @@ void InitItems(void) {
         CreateItemPool(&gItemPools[kind], kind, &objectIdCounter);
     }
     CreateItemModels();
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         InitItemDataQueueLinks();
         InitItemDataDelayedLinks();
     }

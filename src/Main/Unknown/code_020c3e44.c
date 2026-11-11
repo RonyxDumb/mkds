@@ -147,7 +147,7 @@ void UpdateRaceGoalM(void) {
             }
             break;
         case MODE_VS:
-        case 5:
+        case MODE_WIFI:
             gRaceGoalM->mRankIndex = GetKartRank(GetFollowedKartOrEntryIndex()) - 1;
             for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
                 if (GetKartRank(i) == 1) {
@@ -214,7 +214,7 @@ void DrawRaceGoalM(RaceHudOamBuffer *oamBuffer) {
             DrawRaceGoalMGrandPrix(oamBuffer);
             break;
         case MODE_VS:
-        case 5:
+        case MODE_WIFI:
             offsetY = InterpolateS16(1, 0x40, 0, gRaceGoalM->mUpdateFrames, 0x14);
             cell = GetRaceGoalMNcerEntry(gRaceGoalM->mRankIndex);
             position[0] = 0x18000;
@@ -354,7 +354,7 @@ void UpdateRaceLinkLevel(void) {
     if (gStartupWork->mConnectionKind == 0) {
         return;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         gRaceLinkLevel->mUnk_04 = GetWiFiLinkLevel();
         gRaceLinkLevel->mUnk_0c = gRaceLinkLevel->mUnk_10;
         gRaceLinkLevel->mUnk_10 = IsLocateFriendOnWithBuddyStatus4();
@@ -385,19 +385,19 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
     }
     if (gStartupWork->mConnectionKind != 0) {
         if (IsRaceHudGoalMUploaded() == 0) {
-            if (gRaceSetup->mMode == 5) {
+            if (gRaceSetup->mMode == MODE_WIFI) {
                 levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mUnk_04 + 0x28);
             } else {
                 levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mUnk_00 + 0x28);
             }
         } else {
-            if (gRaceSetup->mMode == 5) {
+            if (gRaceSetup->mMode == MODE_WIFI) {
                 levelCell = GetRaceGoalMNcerEntry(gRaceLinkLevel->mUnk_04 + 0x3c);
             } else {
                 levelCell = GetRaceGoalMNcerEntry(gRaceLinkLevel->mUnk_00 + 0x3c);
             }
         }
-        if (gRaceSetup->mMode == 5 && gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_08 < 0x69) {
+        if (gRaceSetup->mMode == MODE_WIFI && gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_08 < 0x69) {
             if (IsRaceHudGoalMUploaded() != 0) {
                 extraCell = GetRaceGoalMNcerEntry(0x42);
             } else {

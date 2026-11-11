@@ -218,7 +218,7 @@ MapObjectKindData *CreateTeresaSpawnerKindData(void) {
     s32 mode;
 
     mode = gRaceSetup->mMode;
-    if (mode == MODE_VS || mode == 5) {
+    if (mode == MODE_VS || mode == MODE_WIFI) {
         if (GetCurrentCameraKind() == 0) {
             return 0;
         }

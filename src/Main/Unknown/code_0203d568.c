@@ -430,7 +430,7 @@ void UpdateRaceProgressKarts(void) {
                     case MODE_MISSION_RUN:
                         FinishRemainingMissionRunKarts();
                         break;
-                    case 5:
+                    case MODE_WIFI:
                         FinishRemainingWiFiRaceKarts();
                         break;
                     default:

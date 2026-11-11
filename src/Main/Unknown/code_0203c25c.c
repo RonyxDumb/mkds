@@ -30,7 +30,7 @@ u16 LookupRankPoints(u8 a) {
                 r = k + 8 - gRaceSetup->mKartCount;
                 break;
             }
-            case 5:
+            case MODE_WIFI:
                 r = 9 - gRaceSetup->mKartCount;
                 break;
         }
@@ -39,9 +39,9 @@ u16 LookupRankPoints(u8 a) {
     return r;
 }
 
-void RemoveRaceProgressKart(u16 a) {
+void RemoveRaceProgressKart(u16 kartIndex) {
     u32 o;
-    RaceProgressKart *p = &gRaceProgress->mKarts[a];
+    RaceProgressKart *p = &gRaceProgress->mKarts[kartIndex];
     BOOL f = FALSE;
     switch (p->mStatus) {
         case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
@@ -58,7 +58,7 @@ void RemoveRaceProgressKart(u16 a) {
         p->mRank = gRaceSetup->mKartCount - gRaceProgress->mHeader.mRemovedCount;
         for (i = 0; i < gRaceSetup->mKartCount; i++) {
             RaceProgressKart *q = &gRaceProgress->mKarts[i];
-            if (i != a) {
+            if (i != kartIndex) {
                 u32 m = q->mRank;
                 if (m > o && m <= v) {
                     q->mRank--;
@@ -68,11 +68,11 @@ void RemoveRaceProgressKart(u16 a) {
         gRaceProgress->mHeader.mRemovedCount++;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        EliminateKartAndCheckWinner(a);
+        EliminateKartAndCheckWinner(kartIndex);
     }
     p->mStatus = RACE_PROGRESS_KART_STATUS_REMOVED;
-    StartKartRemovalFromProgress(GetKart(a));
-    SetRaceHudKartRemoved(a, 1);
+    StartKartRemovalFromProgress(GetKart(kartIndex));
+    SetRaceHudKartRemoved(kartIndex, 1);
     if (IsRaceEndConditionMet() != 0) {
         switch (gRaceSetup->mMode) {
             case MODE_TIME_ATTACK:
@@ -83,7 +83,7 @@ void RemoveRaceProgressKart(u16 a) {
             case MODE_MISSION_RUN:
                 FinishRemainingMissionRunKarts();
                 break;
-            case 5:
+            case MODE_WIFI:
                 FinishRemainingWiFiRaceKarts();
                 break;
             default:

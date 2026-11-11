@@ -85,7 +85,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
             if (kart->mFramesSinceRemovalOrReset >= 0xb9) {
                 *bitsPointer = *bitsPointer | 0x80000;
                 CallKartSlot6AndToggleFlag(kart);
-                collisionCenter = gRaceSetup->mMode == 5 ? &kart->mPointAlongUp : &kart->mCollisionCenter;
+                collisionCenter = gRaceSetup->mMode == MODE_WIFI ? &kart->mPointAlongUp : &kart->mCollisionCenter;
                 if (kart->mCollisionSlot == -1) {
                     kart->mCollisionSlot =
                         CreateCollisionSlot(collisionCenter, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
@@ -303,7 +303,7 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
         Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
         GetKartForward(kart, &forward);
         ResetKartAndSetPos(kart, &startPos, &forward, NULL);
-        collisionCenter = gRaceSetup->mMode == 5 ? &kart->mPointAlongUp : &kart->mCollisionCenter;
+        collisionCenter = gRaceSetup->mMode == MODE_WIFI ? &kart->mPointAlongUp : &kart->mCollisionCenter;
         if (kart->mCollisionSlot == -1) {
             kart->mCollisionSlot =
                 CreateCollisionSlot(collisionCenter, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);

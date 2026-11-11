@@ -10,5 +10,5 @@ BOOL IsKartOnLastLap(u16 a);
 // below it up by one and counts it as removed (RaceProgress.mUnk_000[0].mRemovedCount); sets its status to 4; in Battle
 // also calls EliminateKartAndCheckWinner; calls StartKartRemovalFromProgress for the kart and SetRaceHudKartRemoved(a,
 // 1); then runs the end handler of the mode when IsRaceEndConditionMet holds.
-void RemoveRaceProgressKart(u16 a);
+void RemoveRaceProgressKart(u16 kartIndex);
 u16 LookupRankPoints(u8 a);

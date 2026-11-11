@@ -590,7 +590,7 @@ s32 LoadCourseMapCheckpointRoutesData(void *section, ...) {
     }
     gCourseMap->mCheckpointRoutes = section;
     for (i = 0; i < gCourseMap->mCheckpointRouteCount; i++) {
-        if (gCourseMap->mCheckpointRoutes[(u16) i].mFirstEntry == 0) {
+        if (GetCheckpointRoute(i)->mFirstEntry == 0) {
             routes = gCourseMap->mCheckpointRoutes;
             lastRoute = &routes[(u16) (s8) routes[(u16) i].mPreviousRoutes[0]];
             firstEntry = routes[(u16) (s8) routes[(u16) i].mPreviousRoutes[0]].mFirstEntry;
@@ -801,7 +801,7 @@ void CreateCourseMap(void *heap) {
                 header = FindCourseFile(path);
             }
             break;
-        case 5:
+        case MODE_WIFI:
             header = FindCourseFile("/Net/net_course_map.nkm");
             if (header == NULL) {
                 header = FindCourseFile("/course_map.nkm");

@@ -753,7 +753,7 @@ void InitStandings(void) {
         kartStanding->mHitByKartIndex = i;
         kartStanding->mRankIndex = i;
         if (i < gRaceSetup->mKartCount) {
-            switch (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex) {
+            switch (GetCurrentEntry(i)->mPlayer.mTeamIndex) {
                 case 0:
                     kartStanding->mTeamId = 1;
                     break;

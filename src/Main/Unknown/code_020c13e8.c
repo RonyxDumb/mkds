@@ -65,7 +65,7 @@ void StartRaceGoalS(void) {
         }
     }
     SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, gRaceSetup->mKartCount);
-    if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
         if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0) {
             if (framesSinceEntryEnd >= 0xb4) {
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x46);

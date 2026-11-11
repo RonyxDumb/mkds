@@ -56,7 +56,7 @@ void CreatePooledMapObjects(void) {
         case MODE_MISSION_RUN:
             gPooledMapObjectCount = 0x20;
             break;
-        case 5:
+        case MODE_WIFI:
             gPooledMapObjectCount = 6;
             break;
         default:
@@ -175,7 +175,8 @@ void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *kart) {
 void ResetBouncingItemBox(BouncingItemBox *box) {
     box->mScaleRatio = 0x666;
     ResetPooledMapObject(box->mPooledMapObject);
-    box->mKartIsEntry = (u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00) == gRaceSetup->mEntryIndex;
+    box->mKartIsEntry =
+        (u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00) == gRaceSetup->mEntryIndex;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 2;
     }
@@ -188,7 +189,8 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, -28877),
-                    &itemInUse->mKartOrientation.mRows[1], &box->mBouncingItemObject.mItemObject.mPos, &box->mMapObjectPos);
+                    &itemInUse->mKartOrientation.mRows[1], &box->mBouncingItemObject.mItemObject.mPos,
+                    &box->mMapObjectPos);
         scaleRatio = box->mScaleRatio;
         scale.x = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.x, scaleRatio);
         scale.y = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.y, scaleRatio);
@@ -196,7 +198,8 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
         SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &scale);
     } else {
         box->mMapObjectPos = box->mBouncingItemObject.mItemObject.mPos;
-        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &box->mBouncingItemObject.mItemObject.mScale);
+        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha,
+                                   &box->mBouncingItemObject.mItemObject.mScale);
     }
     AdvancePooledMapObject(mapObject);
 }
@@ -249,7 +252,8 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
             if (framesLeft < 0xa) {
                 FreeItemObjectCollisionSlot(&box->mBouncingItemObject.mItemObject);
                 if (framesLeft == 0) {
-                    ReleaseItemPoolObject(&gItemPools[box->mBouncingItemObject.mItemObject.mKind], &box->mBouncingItemObject.mItemObject);
+                    ReleaseItemPoolObject(&gItemPools[box->mBouncingItemObject.mItemObject.mKind],
+                                          &box->mBouncingItemObject.mItemObject);
                     return;
                 }
             }
@@ -264,7 +268,8 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
         } else {
             AdvanceBouncingItem(&box->mBouncingItemObject, 0x2e1, 0xf85, 0, &buf);
         }
-        if ((box->mBouncingItemObject.mItemObject.mFlags & 8) != 0 && (box->mBouncingItemObject.mItemObject.mFlags & 3) == 0) {
+        if ((box->mBouncingItemObject.mItemObject.mFlags & 8) != 0 &&
+            (box->mBouncingItemObject.mItemObject.mFlags & 3) == 0) {
             if (box->mThrownForward != 0) {
                 box->mBouncingItemObject.mItemObject.mVelocity.y <<= 1;
             }
@@ -286,7 +291,8 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
         SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &scale);
     } else {
         box->mMapObjectPos = box->mBouncingItemObject.mItemObject.mPos;
-        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &box->mBouncingItemObject.mItemObject.mScale);
+        SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha,
+                                   &box->mBouncingItemObject.mItemObject.mScale);
     }
     AdvancePooledMapObject(mapObject);
 }

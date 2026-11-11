@@ -130,8 +130,8 @@ void PrintMultiSelectConnectionNames(void) {
     for (i = 1, labelMessageRow = data_usa_02153d88; i < 8; labelMessageRow++, i++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (&gConnectionWork->mPlayerRecords[(u16) i] != NULL) {
-            MIi_CpuCopy16(&gConnectionWork->mPlayerRecords[(u16) i], &nameBuffer[1], 0x14);
+        if (GetPlayerRecord(i) != NULL) {
+            MIi_CpuCopy16(GetPlayerRecord(i), &nameBuffer[1], 0x14);
             if (nameBuffer[1] != 0) {
                 PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                                    &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);

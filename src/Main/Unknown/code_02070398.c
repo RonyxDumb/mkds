@@ -363,7 +363,7 @@ void ResetKartToStartPlacement(Kart *kart) {
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
     GetKartForward(kart, &forward);
     ResetKartAndSetPos(kart, &startPos, &forward, NULL);
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         collisionPos = &kart->mPointAlongUp;
     } else {
         collisionPos = &kart->mCollisionCenter;
@@ -667,14 +667,14 @@ void InitKartFlags(Kart *kart) {
     kart->mUnk_7c = 0;
     if (kart->mIndex == gRaceSetup->mEntryIndex) {
         kart->mUnk_7c |= KART_7C_INDEX_IS_SELECTED_ENTRY;
-        if (gRaceSetup->mMode == 5) {
+        if (gRaceSetup->mMode == MODE_WIFI) {
             kart->mUnk_7c |= 0x200;
             if (GetEntryRaceEnded() != 0) {
                 kart->mUnk_7c &= ~0x200;
                 kart->mUnk_7c |= 0x400;
             }
         }
-    } else if (gRaceSetup->mMode == 5) {
+    } else if (gRaceSetup->mMode == MODE_WIFI) {
         kart->mUnk_7c |= 0x400;
     }
     if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {

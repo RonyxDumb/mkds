@@ -92,7 +92,7 @@ void AddKartItemUseFlags(KartItems *kartItems) {
     BOOL heldItemNotInUseKindOneOrTwo;
     s32 heldItemIndex;
     kartItems->mFlags &= ~0xff;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
         if (heldItemIndex == 0x13 || kartItems->mItemInUse.mObjectKind != 0xf) {
             heldItemNotInUseKindOneOrTwo = FALSE;
@@ -114,7 +114,7 @@ after:
         return;
     }
     kartItems->mFlags &= ~KART_ITEMS_IN_USE_ADVANCED;
-    if (gRaceSetup->mMode != 5 && (kartItems->mFlags & 0x1000)) {
+    if (gRaceSetup->mMode != MODE_WIFI && (kartItems->mFlags & 0x1000)) {
         return;
     }
     if (TryAddKartItemFlags(kartItems) == FALSE) {

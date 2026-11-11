@@ -79,7 +79,7 @@ void InitRaceMNumberPair(void) {
     pair = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gRaceMNumberPair = pair;
     pair->mCourseNumber = gRaceSetup->mCourseNumber;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         gRaceMNumberPair->mCourseCount = 4;
     } else if (gRaceSetup->mMode == MODE_VS && gRaceSetup->mRuleKind == 2) {
         gRaceMNumberPair->mCourseCount = gRaceSetup->mCourseCount;

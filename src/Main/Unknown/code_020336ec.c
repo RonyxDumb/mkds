@@ -37,7 +37,7 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
     }
     orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
     if (gRaceSetup->mUseTeams != 0) {
-        if (gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mTeamIndex == 1) {
+        if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 1) {
             isTeamIndex1 = TRUE;
         } else {
             isTeamIndex1 = FALSE;
@@ -134,7 +134,7 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
     } else {
         iconCellFileSet = &gResultsBattle->mCellFileSets[3];
     }
-    characterIndex = gRaceSetup->mCurrentEntries[(u16) entryIndex].mCharacterIndex;
+    characterIndex = GetCurrentEntry(entryIndex)->mCharacterIndex;
     QueueCellCharsAndFirstPalette(characterIndex, iconCellFileSet->mCells, iconCellFileSet->mChars,
                                   iconCellFileSet->mPalette, iconCellFileSet->mCellLayout, cellFileSetIndex, cellIndex,
                                   cellFileSet->mCells, cellFileSet->mCellLayout);
@@ -320,7 +320,7 @@ void SetupResultsBattleTeamIcons(void *heap) {
         }
     }
     for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
-        if (teamIndex == gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mTeamIndex) {
+        if (teamIndex == GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex) {
             QueueResultsBattleCharacterIcon(0, entryIndex, iconCellBase + placedCount, iconSetSelector);
             placedCount++;
         }

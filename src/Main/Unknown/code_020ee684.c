@@ -509,7 +509,7 @@ void UpdateItemPool(ItemPool *pool) {
             OrderItemPoolObjectsForRelease(objects, frameMod8, orderEndIndex, 7);
         }
     }
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_WIFI) {
         for (i = 0; i < activeCount; i++) {
             if (UpdateItemObject(pool, objects[i], 0) != 0) {
                 activeCount = pool->mActiveCount, i--;
@@ -652,7 +652,7 @@ void StopRunningKartItemSlot(KartItems *kartItems) {
     if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
         return;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
     if (kartItems->mSlotState == 0) {
@@ -668,7 +668,7 @@ void ReleaseKartItems(KartItems *kartItems) {
     if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
         ReleaseHeldItem(&kartItems->mHeldItem, 0);
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
     if (kartItems->mSlotState != 0) {
@@ -677,7 +677,7 @@ void ReleaseKartItems(KartItems *kartItems) {
     if (kartItems->mActiveItem != 0x13) {
         kartItems->mActiveItem = 0x13;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
     if (kartItems->mItemInUse.mObjectKind == 0xf) {
@@ -689,7 +689,7 @@ void ReleaseKartItems(KartItems *kartItems) {
 void StartKartItemObjectCountdowns(KartItems *kartItems) {
     BOOL isMode5;
 
-    isMode5 = gRaceSetup->mMode == 5;
+    isMode5 = gRaceSetup->mMode == MODE_WIFI;
     if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
         return;
     }
@@ -724,7 +724,7 @@ void StartKartItemInUseOneCountdown(KartItems *kartItems) {
     if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
         return;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
     if (kartItems->mItemInUse.mObjectKind == 0xf) {

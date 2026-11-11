@@ -220,7 +220,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     isPeer = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_PEER;
     kart->mKartModelsEntry = GetKartModelsEntry(kart->mIndex);
     InitCourseColorBlend(&kart->mKartModelsEntry->mCourseColorBlend, 1);
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         for (i = 0; i < 9; i++) {
             if (i == 3) {
                 kart->mSlotFunctions[i] = isPeer != 0 ? AdvancePeerKartMotionSlot : AdvanceLocalKartMotionSlot;
@@ -263,7 +263,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     } else {
         kart->mSlotFunctions[2] = SetKartSoundDistanceSquared;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         if (isPeer != 0) {
             kart->mPosSource = &kart->mParticipantRecordData->mSmoothedDrawPos;
             kart->mRotationSource = &kart->mParticipantRecordData->mSmoothedRotation;

@@ -83,7 +83,7 @@ void ComputeItemKindObjectCounts(void) {
         gItemKinds[i].mObjectBudget = gItemKinds[i].mObjectBudget + a[i];
         gItemKinds[i].mObjectCount = gItemKinds[i].mObjectBudget;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         for (i = 0; i < 0xe; i++) {
             gItemKinds[i].mObjectCount = gItemKinds[i].mObjectCount + 3;
         }

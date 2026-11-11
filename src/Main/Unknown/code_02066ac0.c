@@ -373,7 +373,7 @@ void StartKartRaceEnd(Kart *kart) {
             StartEntryCameraKind6Entry();
             SwitchCourseCameraEffectsToCurrentCamera();
         }
-    } else if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == 5) {
+    } else if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
         if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
             framesSinceEntryEnd = 0;
             if (TryGetRaceUpdateFramesSinceEntryEnd((u32 *) &framesSinceEntryEnd) != 0 &&

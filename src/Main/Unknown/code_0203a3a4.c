@@ -165,7 +165,7 @@ void InitRaceScene(void) {
     SetLeftRightKeysSwapped(mirrorMode);
     SetHeapGroupId(9);
     if (gRaceSetup->mMode != MODE_BATTLE) {
-        if (gRaceSetup->mMode == 5) {
+        if (gRaceSetup->mMode == MODE_WIFI) {
             sessionHeapCreated = FALSE;
             session = gWiFiSession;
             if (session != NULL) {
@@ -194,7 +194,7 @@ void ReleaseRaceScene(void) {
     WiFiSession *session;
     s32 flagIndex;
     BOOL sessionHeapCreated;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         sessionHeapCreated = FALSE;
         session = gWiFiSession;
         if (session != NULL) {
@@ -305,19 +305,19 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
             nextScene = 2;
             break;
         case 9:
-            if (gRaceSetup->mMode != 5) {
+            if (gRaceSetup->mMode != MODE_WIFI) {
                 u32 t;
                 u32 f;
-                ConnectionWork *q;
+                ConnectionWork *connectionWork;
                 f = 0;
-                q = gConnectionWork;
-                if (q == NULL) {
+                connectionWork = gConnectionWork;
+                if (connectionWork == NULL) {
                     t = 0;
                 } else {
-                    t = q->mConnectionMode;
+                    t = connectionWork->mConnectionMode;
                 }
                 if (t != 0) {
-                    if (q->mState != 0xd) {
+                    if (connectionWork->mState != 0xd) {
                         f = 1;
                     }
                 }
@@ -376,7 +376,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         }
                     }
                     break;
-                case 5:
+                case MODE_WIFI:
                     if (CopyCourseIdAndAdvanceCourseNumber() != FALSE) {
                         nextScene = 0xc;
                         gMenuShared->mUnk_1c = 3;

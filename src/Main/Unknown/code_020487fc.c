@@ -82,7 +82,7 @@ static inline s32 func_020487fc_inline5(void) {
 
 static inline s32 func_020487fc_inline6(void) {
     BOOL r = FALSE;
-    if (gRaceSetup->mMode == 5 && func_020487fc_inline5()) {
+    if (gRaceSetup->mMode == MODE_WIFI && func_020487fc_inline5()) {
         r = TRUE;
     }
     if (func_020487fc_inline4()) {

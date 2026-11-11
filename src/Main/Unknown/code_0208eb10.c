@@ -448,7 +448,7 @@ void InitPosStrips(void *heap) {
     gPosStripFirstPolygonId = 0xe;
     gPosStripDrawEnabled = 1;
     stripCount = 1;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         stripCount += 3;
     } else if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
         gPosStripHeightDecreasePerFrame = 0;

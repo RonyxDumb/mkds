@@ -971,7 +971,7 @@ void InitKartBalloons(KartBalloonsObject *kartBalloonsObject) {
             if (kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_2c != 0) {
                 kartBalloons->mBalloonNsbtpFrameIndex = kartBalloonsObject->mMapObject.mCourseMapRow->mUnk_2c;
             } else {
-                switch (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex) {
+                switch (GetCurrentEntry(i)->mPlayer.mTeamIndex) {
                     case 0:
                         kartBalloons->mBalloonNsbtpFrameIndex = 1;
                         break;

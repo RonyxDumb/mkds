@@ -108,7 +108,7 @@ void UpdateRaceGoalSOffset(void) {
             break;
         case 2:
             gRaceGoalS->mOffset = 0;
-            if (gRaceSetup->mMode == 5 && IsChoisesSPickLocked() != 0) {
+            if (gRaceSetup->mMode == MODE_WIFI && IsChoisesSPickLocked() != 0) {
                 gRaceGoalS->mOffsetState = 3;
                 gRaceGoalS->mOffsetStateFrames = 0;
                 return;
@@ -126,7 +126,7 @@ void UpdateRaceGoalSOffset(void) {
                 gRaceGoalS->mOffset = InterpolateS16(1, 0, -0x20, frame, 0x14);
             } else {
                 gRaceGoalS->mOffset = -0x20;
-                if (gRaceSetup->mMode == 5 && IsChoisesSPickLocked() != 0) {
+                if (gRaceSetup->mMode == MODE_WIFI && IsChoisesSPickLocked() != 0) {
                     gRaceGoalS->mOffsetState = 7;
                     gRaceGoalS->mOffsetStateFrames = 0;
                 } else {
@@ -146,7 +146,7 @@ void UpdateRaceGoalSOffset(void) {
             break;
         case 5:
             gRaceGoalS->mOffset = 0;
-            if (gRaceSetup->mMode != 5) {
+            if (gRaceSetup->mMode != MODE_WIFI) {
                 return;
             }
             if (IsChoisesSPickLocked() == 0) {
@@ -219,7 +219,7 @@ void InitRaceGoalS(void) {
                     : 0;
             l = GetKartPreviousWinCount(j);
             sortKeys[j] = l * 16 + k * 8;
-            if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == 5) {
+            if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
                 sortKeys[j] = sortKeys[j] + (8 - GetKartStartRank(j));
             } else {
                 sortKeys[j] += 8 - j;
@@ -396,7 +396,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                                           NULL, cell1aOr1bPosition, 0, 1);
             }
             if (gRaceSetup->mUseTeams != 0) {
-                cellIndex = gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mTeamIndex == 0 ? 0x1f : 0x20;
+                cellIndex = GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 0 ? 0x1f : 0x20;
                 cell = GetRaceGoalSNcerEntry(cellIndex);
                 teamPosition[0] = (offsetX + 0xec) << 12;
                 teamPosition[1] = rowYs[i] << 12;

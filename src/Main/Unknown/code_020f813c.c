@@ -236,7 +236,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
         case 1:
             slot->mSlotFrames++;
             mode = gRaceSetup->mMode;
-            if (mode == 5 && slot->mResultPending != FALSE) {
+            if (mode == MODE_WIFI && slot->mResultPending != FALSE) {
                 b = kartItems->mKartIndex & 0xff;
                 if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[b]) == 0) {
                     b = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[b]);
@@ -256,7 +256,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
                 return FALSE;
             }
             if (slot->mSlotFrames > 0x3c &&
-                (((kartItems->mFlags & 0x241) == 0x241 && mode != 5 && slot->mIsShortSpin == FALSE) ||
+                (((kartItems->mFlags & 0x241) == 0x241 && mode != MODE_WIFI && slot->mIsShortSpin == FALSE) ||
                  slot->mSlotFrames > slot->mSlotFrameCount)) {
                 slot->mSlotFrames = 0;
                 slot->mSlotState = 2;

@@ -76,7 +76,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mPosPointer = &item->mPos;
     item->mCollisionSlotIndex = -1;
     item->mCollisionHitLink->mObject = NULL;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         item->mFlags |= 0x8000000;
     }
     item->mOwnerKartIndexAndFlags |= gItemObjectOwnerExcludedBit;

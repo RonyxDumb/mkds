@@ -10,7 +10,7 @@ s32 GetCharacterKartIndexByMode(s32 characterIndex) {
         case 0:
         case 1:
         case 3:
-        case 5:
+        case MODE_WIFI:
             kartIndex = gCharacterKartIndexTable[characterIndex];
             break;
         case 2:

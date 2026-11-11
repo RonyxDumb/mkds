@@ -47,8 +47,7 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
     itemInUse->mBehindDistance = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mUnk_08, kart->mScale.z);
     itemInUse->mKartHopHeight = kart->mHopHeight;
-    itemInUse->mMovingForward =
-        Vec3DotUnrounded(&itemInUse->mKartOrientation.mRows[2], &itemInUse->mKartVelocity) > 0;
+    itemInUse->mMovingForward = Vec3DotUnrounded(&itemInUse->mKartOrientation.mRows[2], &itemInUse->mKartVelocity) > 0;
     VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
     scale.x = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.x, kart->mScaleBase.x);
     scale.y = MUL_FIXED12_NO_ROUND(kart->mScaleFactor.y, kart->mScaleBase.y);
@@ -80,7 +79,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
 
     itemInfoIndex = heldItem->mItemInfoIndex;
     useKind = gItemInfos[itemInfoIndex].mUseKind;
-    isMode5 = gRaceSetup->mMode == 5;
+    isMode5 = gRaceSetup->mMode == MODE_WIFI;
     if (heldItem->mUsesTimer != 0) {
         if (heldItem->mTimer > heldItem->mUseTimerLimit) {
             return;
@@ -472,8 +471,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
                     (s64) object->mTransformMtx.mRows[0].y * object->mTransformMtx.mRows[0].y +
                     (s64) object->mTransformMtx.mRows[0].z * object->mTransformMtx.mRows[0].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&object->mTransformMtx.mRows[0],
-                                                   &object->mTransformMtx.mRows[0]);
+                Vec3NormalizeAndGetLengthUnchecked(&object->mTransformMtx.mRows[0], &object->mTransformMtx.mRows[0]);
             }
             Vec3CrossUnrounded(&object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0],
                                &object->mTransformMtx.mRows[1]);

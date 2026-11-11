@@ -117,7 +117,7 @@ void InitModelEffects(void *heap) {
     }
     firstKind = gModelEffectKinds;
     secondKind = &data_021661b8;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         firstKind->mObjectCount = 6;
         secondKind->mObjectCount = 4;
     } else {

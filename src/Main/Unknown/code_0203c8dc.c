@@ -30,7 +30,7 @@ void GetRaceClockTime(u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
 }
 
 u32 GetKartRank(u32 kartIndex) {
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         return gWiFiRaceSync->mEntries[gParticipantKartMap->mParticipantOfKart[kartIndex & 0xff]].mRank;
     }
     return gRaceProgress->mKarts[kartIndex].mRank;
