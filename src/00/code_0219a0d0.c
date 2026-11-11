@@ -43,17 +43,18 @@ u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
         e->mSocket = a;
         e->mCreateTime = GetElapsedMilliseconds();
         e->mLastSendTime = e->mCreateTime;
-        e->mUnk_64 = 0;
-        e->mUnk_66 = 0;
-        if (InitBuffer(&e->mUnk_44, a->mUnk_3c) != 0 && InitBuffer(&e->mSendBuffer, a->mSendBufferSize) != 0) {
-            e->mUnk_5c = DarrayCreate(0x10, 0x40, NULL);
-            if (e->mUnk_5c != NULL) {
-                e->mUnk_60 = DarrayCreate(0x10, 0x40, NULL);
-                if (e->mUnk_60 != NULL) {
-                    e->mUnk_98 = DarrayCreate(4, 2, NULL);
-                    if (e->mUnk_98 != NULL) {
-                        e->mUnk_9c = DarrayCreate(4, 2, NULL);
-                        if (e->mUnk_9c != NULL) {
+        e->mSerialNumber = 0;
+        e->mExpectedSerialNumber = 0;
+        if (InitBuffer(&e->mIncomingBuffer, a->mIncomingBufferSize) != 0 &&
+            InitBuffer(&e->mSendBuffer, a->mSendBufferSize) != 0) {
+            e->mIncomingBufferMessages = DarrayCreate(0x10, 0x40, NULL);
+            if (e->mIncomingBufferMessages != NULL) {
+                e->mOutgoingBufferMessages = DarrayCreate(0x10, 0x40, NULL);
+                if (e->mOutgoingBufferMessages != NULL) {
+                    e->mSendFilters = DarrayCreate(4, 2, NULL);
+                    if (e->mSendFilters != NULL) {
+                        e->mReceiveFilters = DarrayCreate(4, 2, NULL);
+                        if (e->mReceiveFilters != NULL) {
                             HashtableSet(a->mConnections, &e);
                             *b = FindConnection(a, c, d);
                             if (*b != NULL) {
@@ -66,19 +67,19 @@ u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
         }
     }
     if (e != NULL) {
-        func_ov000_021a3668(e->mUnk_44.mData);
+        func_ov000_021a3668(e->mIncomingBuffer.mData);
         func_ov000_021a3668(e->mSendBuffer.mData);
-        if (e->mUnk_5c != NULL) {
-            DarrayDelete(e->mUnk_5c);
+        if (e->mIncomingBufferMessages != NULL) {
+            DarrayDelete(e->mIncomingBufferMessages);
         }
-        if (e->mUnk_60 != NULL) {
-            DarrayDelete(e->mUnk_60);
+        if (e->mOutgoingBufferMessages != NULL) {
+            DarrayDelete(e->mOutgoingBufferMessages);
         }
-        if (e->mUnk_98 != NULL) {
-            DarrayDelete(e->mUnk_98);
+        if (e->mSendFilters != NULL) {
+            DarrayDelete(e->mSendFilters);
         }
-        if (e->mUnk_9c != NULL) {
-            DarrayDelete(e->mUnk_9c);
+        if (e->mReceiveFilters != NULL) {
+            DarrayDelete(e->mReceiveFilters);
         }
         func_ov000_021a3668(e);
     }
@@ -88,8 +89,8 @@ u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
 void func_ov000_0219a220(Gt2Connection *a) {
     s32 b;
     s32 c;
-    if (a->mUnk_14 == FALSE && a->mUnk_24 == 0) {
-        if (a->mUnk_0c == 7) {
+    if (a->mFreeAtAcceptReject == FALSE && a->mCallbackLevel == 0) {
+        if (a->mState == 7) {
             b = DarrayGetCount(a->mSocket->mConnectionsToFree);
             for (c = 0; c < b; c++) {
                 if (a == *(Gt2Connection **) DarrayGetElement(a->mSocket->mConnectionsToFree, c)) {
@@ -119,7 +120,7 @@ u32 func_ov000_0219a110(u32 *c, u32 d, int f, u32 g, u32 h) {
         if (sendto(a->mDescriptor, (void *) g, h, 0, &b, 8) == -1) {
             e = GOAGetLastError(a->mDescriptor);
             if (e == -15) {
-                if (func_ov000_0219922c(a, d, f) == 0) {
+                if (gti2HandleConnectionReset(a, d, f) == 0) {
                     return 0;
                 }
             } else if (e == -42 || e == -6) {
@@ -129,7 +130,7 @@ u32 func_ov000_0219a110(u32 *c, u32 d, int f, u32 g, u32 h) {
                 return 0;
             }
         } else if (a->mSentCallback != NULL) {
-            if (func_ov000_02197f28(a, FindConnection(a, d, f), d, f, 0, g, h, 1) == 0) {
+            if (gti2DumpCallback(a, FindConnection(a, d, f), d, f, 0, g, h, 1) == 0) {
                 return 0;
             }
         }
@@ -140,10 +141,10 @@ u32 func_ov000_0219a110(u32 *c, u32 d, int f, u32 g, u32 h) {
 u32 func_ov000_0219a0d0(Gt2Connection **a, u32 *b) {
     Gt2Connection *c = *a;
     u32 d = *b;
-    if (c->mUnk_0c != 7 && func_ov000_02198584(c, d) == 0) {
+    if (c->mState != 7 && gti2ConnectionThink(c, d) == 0) {
         return 0;
     }
-    if (c->mUnk_0c == 7 && c->mUnk_14 == FALSE && c->mUnk_24 == 0) {
+    if (c->mState == 7 && c->mFreeAtAcceptReject == FALSE && c->mCallbackLevel == 0) {
         func_ov000_0219a220(c);
     }
     return 1;

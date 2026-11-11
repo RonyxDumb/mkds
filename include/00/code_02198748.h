@@ -3,8 +3,8 @@
 #include "00/code_02197e58.h"
 #include "types.h"
 
-void func_ov000_02198748(Gt2Connection *a, void *b, u32 c, ...);
-BOOL func_ov000_02198778(Gt2Connection *a, Gt2ConnectionCallbacks *b);
-BOOL func_ov000_021987c8(Gt2Connection *a, void *b, int c, Gt2ConnectionCallbacks *d);
-int func_ov000_0219883c(void *a, Gt2Connection **b, int c, u32 d);
-int func_ov000_0219885c(void *a, Gt2Connection **b, int c, u32 d);
+void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...);
+BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks);
+BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int len, Gt2ConnectionCallbacks *callbacks);
+int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int address, u32 port);
+int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int address, u32 port);

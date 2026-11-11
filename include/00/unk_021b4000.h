@@ -157,7 +157,7 @@ extern u8 gGsiAvailableCheckAddressIp[];
 extern u8 gGsiAvailableCheckPacket[];
 extern u8 gGsiAvailableCheckPacketGamename[];
 extern char gGsiAcGamename[];
-extern u8 data_ov000_021b4e50[];
+extern u8 gInternalInit[];
 extern u8 data_ov000_021b400c[];
 extern u8 gEmptyString[];
 extern char gFmeKey[];

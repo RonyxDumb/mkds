@@ -94,7 +94,7 @@ void func_ov000_0219b27c(Unk0219887c *a, u32 b) {
             break;
     }
     if (c == 0) {
-        g = func_ov000_0219887c(a);
+        g = gt2GetConnectionData(a);
         if (g == NULL) {
             return;
         }

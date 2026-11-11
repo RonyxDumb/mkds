@@ -4,13 +4,14 @@
 
 typedef struct Gt2Connection Gt2Connection;
 
-typedef struct Unk0219981cEntry {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u16 mUnk_0c;
-} Unk0219981cEntry;
+typedef struct GTI2IncomingBufferMessage {
+    /* 00 */ s32 mStart;
+    /* 04 */ s32 mLen;
+    /* 08 */ s32 mType;
+    /* 0c */ u16 mSerialNumber;
+} GTI2IncomingBufferMessage;
 
-u32 func_ov000_0219981c(Gt2Connection *a);
-void func_ov000_02199878(Gt2Connection *a, Unk0219981cEntry *b, s32 c);
-u32 func_ov000_021998d8(Gt2Connection *a, s32 b, u32 c, const u8 *d, s32 e, s32 *f);
+u32 gti2DeliverHoldMessages(Gt2Connection *connection);
+void gti2RemoveHoldMessage(Gt2Connection *connection, GTI2IncomingBufferMessage *message, s32 index);
+u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNumber, const u8 *message, s32 len,
+                              s32 *overflow);

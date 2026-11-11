@@ -171,7 +171,7 @@ u8 func_ov000_021a2fb4(int a) {
 void func_ov000_021a2f98(u32 a, void *b, u32 c, u32 d) {
     void *v1;
     v1 = func_ov000_0219b9d4(a);
-    func_ov000_02198914(v1, b, c, d);
+    gt2Send(v1, b, c, d);
 }
 
 void func_ov000_021a2eec(Unk0219887c *a, void *b, s32 c) {
@@ -288,7 +288,7 @@ void func_ov000_021a2d38(u32 a, void *b, s32 c) {
 }
 
 s32 func_ov000_021a2d18(u32 a) {
-    s32 n = func_ov000_021988dc(func_ov000_0219b9d4(a)) - 0x207;
+    s32 n = gt2GetOutgoingBufferFreeSpace(func_ov000_0219b9d4(a)) - 0x207;
     if (n <= 0) {
         n = 0;
     }

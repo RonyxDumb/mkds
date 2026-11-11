@@ -20,448 +20,452 @@
 #include "00/code_0219742c.h"
 #include "00/code_021a6d5c.h"
 
-s32 func_ov000_0219735c(const s8 *a, u32 b) {
-    char f[0x21];
-    Unk021b3bdc c = data_ov000_021b3bdc;
-    const s8 *d;
-    s32 e;
-    s8 g[0x80];
-    data_ov000_021b3b40[0] = 0x63;
-    d = func_ov000_021970fc(a, data_ov000_021b3b40);
-    if (d == NULL) {
-        closesocket(data_ov000_021b3b2c);
+s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
+    char md5Text[0x21];
+    ChallengeRespformatText replyFormat = gChallengeRespformat;
+    const s8 *challengeText;
+    s32 len;
+    s8 replyBuf[0x80];
+    gChallengeStr[0] = 0x63;
+    challengeText = value_for_key(indata, gChallengeStr);
+    if (challengeText == NULL) {
+        closesocket(gSock);
         return 5;
     }
-    e = func_ov000_021971c8(d, strlen((const char *) d));
-    e = sprintf((char *) g, data_ov000_021b3e0c, e, data_ov000_021b4f84);
-    MD5Digest((const char *) g, e, f);
-    data_ov000_021b3b30 = data_ov000_021b3b98;
-    func_ov000_021971ec(c.mUnk_00, 0x2b);
-    e = sprintf((char *) g, (const char *) c.mUnk_00, data_ov000_021b4e84, f, b);
-    if (func_ov000_02197220(g, e) <= 0) {
-        closesocket(data_ov000_021b3b2c);
+    len = g_crc32(challengeText, strlen((const char *) challengeText));
+    len = sprintf((char *) replyBuf, gChallengeHashFormat, len, gcd_secret_key);
+    MD5Digest((const char *) replyBuf, len, md5Text);
+    gEnc = gEnc3;
+    xcode_buf(replyFormat.mUnk_00, 0x2b);
+    len = sprintf((char *) replyBuf, (const char *) replyFormat.mUnk_00, gcd_gamename, md5Text, gameport);
+    if (DoSend(replyBuf, len) <= 0) {
+        closesocket(gSock);
         return 3;
     }
     return 0;
 }
 
-s32 func_ov000_021972b4(void) {
-    s8 a[0x80];
-    s32 b = recv(data_ov000_021b3b2c, a, 0x80, 0);
-    const s8 *c;
-    s32 d;
-    if (b == -1) {
-        d = GOAGetLastError(data_ov000_021b3b2c);
-        if (d != -6 && d != -0x4c && d != -0x1a) {
-            closesocket(data_ov000_021b3b2c);
+s32 RecvSessionKey(void) {
+    s8 replyBuf[0x80];
+    s32 len = recv(gSock, replyBuf, 0x80, 0);
+    const s8 *sessionText;
+    s32 sockErrCode;
+    if (len == -1) {
+        sockErrCode = GOAGetLastError(gSock);
+        if (sockErrCode != -6 && sockErrCode != -0x4c && sockErrCode != -0x1a) {
+            closesocket(gSock);
             return 3;
         }
     }
-    a[b] = 0;
-    data_ov000_021b3b30 = data_ov000_021b3b88;
-    func_ov000_021971ec(a, b);
-    data_ov000_021b3b38[0] = 0x73;
-    c = func_ov000_021970fc(a, data_ov000_021b3b38);
-    if (c == NULL) {
-        closesocket(data_ov000_021b3b2c);
+    replyBuf[len] = 0;
+    gEnc = gEnc1;
+    xcode_buf(replyBuf, len);
+    gSessKeyStr[0] = 0x73;
+    sessionText = value_for_key(replyBuf, gSessKeyStr);
+    if (sessionText == NULL) {
+        closesocket(gSock);
         return 5;
     }
-    data_ov000_021b4e4c = StrtolBase10((const char *) c);
+    gConnId = StrtolBase10((const char *) sessionText);
     return 0;
 }
 
-s32 func_ov000_02197220(s8 *a, s32 b) {
-    s32 c = 0;
-    s32 d;
-    data_ov000_021b3b30 = data_ov000_021b3b88;
-    func_ov000_021971ec(a, b);
-    strcpy((char *) (a + b), data_ov000_021b3b4c);
-    if (b + 7 > 0) {
+s32 DoSend(s8 *data, s32 len) {
+    s32 sentTotal = 0;
+    s32 ret;
+    gEnc = gEnc1;
+    xcode_buf(data, len);
+    strcpy((char *) (data + len), gFinalStr);
+    if (len + 7 > 0) {
         do {
-            d = send(data_ov000_021b3b2c, a + c, b + 7 - c, 0);
-            if (d == -1) {
-                d = GOAGetLastError(data_ov000_021b3b2c);
-                if (d != -6 && d != -0x4c && d != -0x1a) {
-                    return d;
+            ret = send(gSock, data + sentTotal, len + 7 - sentTotal, 0);
+            if (ret == -1) {
+                ret = GOAGetLastError(gSock);
+                if (ret != -6 && ret != -0x4c && ret != -0x1a) {
+                    return ret;
                 }
-            } else if (d == 0) {
+            } else if (ret == 0) {
                 return -1;
             } else {
-                c += d;
+                sentTotal += ret;
             }
-        } while (c < b + 7);
+        } while (sentTotal < len + 7);
     }
-    return c;
+    return sentTotal;
 }
 
-void func_ov000_021971ec(s8 *a, s32 b) {
-    s32 d;
-    s8 *c = (s8 *) data_ov000_021b3b30;
-    d = 0;
-    if (b > 0) {
+void xcode_buf(s8 *buf, s32 len) {
+    s32 index;
+    s8 *pos = (s8 *) gEnc;
+    index = 0;
+    if (len > 0) {
         do {
-            a[d] ^= *c++;
-            if (*c == 0) {
-                c = (s8 *) data_ov000_021b3b30;
+            buf[index] ^= *pos++;
+            if (*pos == 0) {
+                pos = (s8 *) gEnc;
             }
-            d++;
-        } while (d < b);
+            index++;
+        } while (index < len);
     }
 }
 
-int func_ov000_021971c8(const s8 *a, int b) {
-    int v1;
-    int v2;
-    v2 = 0;
-    v1 = 0;
-    if (0 < b) {
+int g_crc32(const s8 *text, int len) {
+    int index;
+    int hashValue;
+    hashValue = 0;
+    index = 0;
+    if (0 < len) {
         do {
-            v2 = (0x9ccf9319u) * v2 + a[v1];
-            v1 = v1 + 1;
-        } while (v1 < b);
+            hashValue = (0x9ccf9319u) * hashValue + text[index];
+            index = index + 1;
+        } while (index < len);
     }
-    return v2;
+    return hashValue;
 }
 
-void func_ov000_02197190(u32 a, s8 *b) {
-    s8 *c = b;
-    sprintf((char *) b, data_ov000_021b3e04, a);
-    while (*c != 0) {
-        *c = *c + 0x11 + (c - b);
-        c++;
+void create_challenge(u32 challenge, s8 *chstr) {
+    s8 *pos = chstr;
+    sprintf((char *) chstr, gCreateChallengeFormat, challenge);
+    while (*pos != 0) {
+        *pos = *pos + 0x11 + (pos - chstr);
+        pos++;
     }
 }
 
-const s8 *func_ov000_021970fc(const s8 *v1, const char *v2) {
-    Unk021b3c88 a = data_ov000_021b3c88;
-    const s8 *b;
-    s8 *c;
-    s8 *e;
-    data_ov000_021b4e70 ^= 1;
-    strcat((char *) a.mUnk_00, v2);
-    strcat((char *) a.mUnk_00, data_ov000_021b3e00);
-    b = (const s8 *) strstr((const char *) v1, (const char *) a.mUnk_00);
-    if (b == NULL) {
+const s8 *value_for_key(const s8 *text, const char *key) {
+    KeyspecText searchPattern = gValueForKeyKeyspec;
+    const s8 *pos;
+    s8 *valuePos;
+    s8 *valueSlot;
+    gValueIndex ^= 1;
+    strcat((char *) searchPattern.mUnk_00, key);
+    strcat((char *) searchPattern.mUnk_00, gKeyspecDelimiter);
+    pos = (const s8 *) strstr((const char *) text, (const char *) searchPattern.mUnk_00);
+    if (pos == NULL) {
         return NULL;
     }
-    b += strlen((const char *) a.mUnk_00);
-    e = data_ov000_021b5084 + (data_ov000_021b4e70 << 8);
-    c = e;
-    while (*b != 0 && *b != '\\') {
-        *c++ = *b++;
+    pos += strlen((const char *) searchPattern.mUnk_00);
+    valueSlot = gValueForKeyValues + (gValueIndex << 8);
+    valuePos = valueSlot;
+    while (*pos != 0 && *pos != '\\') {
+        *valuePos++ = *pos++;
     }
-    *c = 0;
-    return e;
+    *valuePos = 0;
+    return valueSlot;
 }
 
-const s8 *func_ov000_021970e4(const s8 *text, const char *v1) {
-    const s8 *result = func_ov000_021970fc(text, v1);
+const s8 *value_for_key_safe(const s8 *text, const char *key) {
+    const s8 *result = value_for_key(text, key);
     if (result == NULL) {
-        result = data_ov000_021b3de4;
+        result = gEmptyValue;
     }
     return result;
 }
 
-BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, SOCHostEnt **d) {
-    SOCHostEnt *f = NULL;
-    u16 e = b;
-    c[0] = 0;
-    c[1] = 0;
-    c[2] = 0;
-    c[3] = 0;
-    c[4] = 0;
-    c[5] = 0;
-    c[6] = 0;
-    c[7] = 0;
-    c[1] = 2;
-    *OFFSET_PTR(u16, c, 2) = ((e >> 8) & 0xff) | ((e << 8) & 0xff00);
-    if (a == NULL) {
-        *OFFSET_PTR(u32, c, 4) = 0;
+BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **savehent) {
+    SOCHostEnt *hent = NULL;
+    u16 shortPort = port;
+    saddr[0] = 0;
+    saddr[1] = 0;
+    saddr[2] = 0;
+    saddr[3] = 0;
+    saddr[4] = 0;
+    saddr[5] = 0;
+    saddr[6] = 0;
+    saddr[7] = 0;
+    saddr[1] = 2;
+    *OFFSET_PTR(u16, saddr, 2) = ((shortPort >> 8) & 0xff) | ((shortPort << 8) & 0xff00);
+    if (host == NULL) {
+        *OFFSET_PTR(u32, saddr, 4) = 0;
     } else {
-        *OFFSET_PTR(u32, c, 4) = inet_addr((u32) a);
+        *OFFSET_PTR(u32, saddr, 4) = inet_addr((u32) host);
     }
-    if (*OFFSET_PTR(u32, c, 4) == -1) {
-        f = func_ov000_021a8f84((const char *) a);
-        if (f == NULL) {
+    if (*OFFSET_PTR(u32, saddr, 4) == -1) {
+        hent = func_ov000_021a8f84((const char *) host);
+        if (hent == NULL) {
             return FALSE;
         }
-        *OFFSET_PTR(u32, c, 4) = **f->mUnk_0c;
+        *OFFSET_PTR(u32, saddr, 4) = **hent->mUnk_0c;
     }
-    if (d != NULL) {
-        *d = f;
+    if (savehent != NULL) {
+        *savehent = hent;
     }
     return TRUE;
 }
 
-void func_ov000_02197020(s32 a, s32 b, s32 c, s32 d, s32 e, UnkFunc *f, s32 g) {
-    Unk02197020 h;
-    h.mUnk_18 = f;
-    h.mUnk_14 = g;
-    h.mUnk_04 = b;
-    h.mUnk_00 = a;
-    h.mUnk_08 = c;
-    h.mUnk_0c = d;
-    h.mUnk_10 = e;
-    if (data_ov000_021b4e5c == NULL) {
-        data_ov000_021b4e5c = DarrayCreate(0x1c, 2, NULL);
+void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, UnkFunc *callback,
+                        s32 instance) {
+    Unk02197020 req;
+    req.mUnk_18 = callback;
+    req.mUnk_14 = instance;
+    req.mUnk_04 = ownId;
+    req.mUnk_00 = reqType;
+    req.mUnk_08 = profileId;
+    req.mUnk_0c = dataKind;
+    req.mUnk_10 = dataIndex;
+    if (gServerReqs == NULL) {
+        gServerReqs = DarrayCreate(0x1c, 2, NULL);
     }
-    DarrayAppend(data_ov000_021b4e5c, &h);
+    DarrayAppend(gServerReqs, &req);
 }
 
-void func_ov000_02196f8c(s8 *a, s32 b, s32 c, UnkFunc *d, s32 e) {
-    s32 g = 0;
-    Unk021b3b68 f = data_ov000_021b3b68;
-    if (data_ov000_021b3b2c != -1) {
-        g = func_ov000_02197220(a, b);
+void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 instance) {
+    s32 sentBytes = 0;
+    ConnErrorText errorBytes = gConnErrorSendAuth;
+    if (gSock != -1) {
+        sentBytes = DoSend(data, len);
     }
-    if (g <= 0) {
+    if (sentBytes <= 0) {
         GstatsClose();
-        data_ov000_021b3b30 = data_ov000_021b3b98;
-        func_ov000_021971ec(f.mUnk_00, 0xf);
-        if (d != NULL) {
-            d(c, 0, 0, f.mUnk_00, e);
+        gEnc = gEnc3;
+        xcode_buf(errorBytes.mUnk_00, 0xf);
+        if (callback != NULL) {
+            callback(ownId, 0, 0, errorBytes.mUnk_00, instance);
         }
     } else {
-        func_ov000_02197020(0, c, 0, 0, 0, d, e);
+        AddRequestCallback(0, ownId, 0, 0, 0, callback, instance);
     }
 }
 
-void func_ov000_02196e50(s32 a, s32 b, s32 c, s32 d, const u8 *e, s32 f, UnkFunc *g, s32 h, s32 i) {
-    Unk021b3c08 j = data_ov000_021b3c08;
-    s8 k[0x200];
-    s32 m;
-    s8 *n;
-    s32 l;
-    data_ov000_021b3b30 = data_ov000_021b3b98;
-    func_ov000_021971ec(j.mUnk_00, 0x3e);
-    if (c == 0 || c == 2) {
-        if (g != NULL) {
-            g(a, b, c, d, 0, 0, h);
+void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u8 *data, s32 len, UnkFunc *callback,
+                          s32 instance, s32 kvset) {
+    SetPersistRespformatText replyFormat = gSetPersistRespformat;
+    s8 packetBuf[0x200];
+    s32 headLen;
+    s8 *packetData;
+    s32 totalLength;
+    gEnc = gEnc3;
+    xcode_buf(replyFormat.mUnk_00, 0x3e);
+    if (type == 0 || type == 2) {
+        if (callback != NULL) {
+            callback(ownId, profileId, type, index, 0, 0, instance);
         }
         return;
     }
-    m = sprintf((char *) k, (const char *) j.mUnk_00, b, c, d, i, a, f);
-    l = m + f;
-    if (l < 0x1e0) {
-        memcpy(k + m, e, f);
-        n = k;
+    headLen = sprintf((char *) packetBuf, (const char *) replyFormat.mUnk_00, profileId, type, index, kvset, ownId, len);
+    totalLength = headLen + len;
+    if (totalLength < 0x1e0) {
+        memcpy(packetBuf + headLen, data, len);
+        packetData = packetBuf;
     } else {
-        n = func_ov000_021a3690(l + 0x100);
-        memcpy(n, k, m);
-        memcpy(n + m, e, f);
+        packetData = func_ov000_021a3690(totalLength + 0x100);
+        memcpy(packetData, packetBuf, headLen);
+        memcpy(packetData + headLen, data, len);
     }
-    if (data_ov000_021b3b2c != -1) {
-        m = func_ov000_02197220(n, l);
+    if (gSock != -1) {
+        headLen = DoSend(packetData, totalLength);
     }
-    if (m <= 0) {
+    if (headLen <= 0) {
         GstatsClose();
-        if (g != NULL) {
-            g(a, b, c, d, 0, 0, h);
+        if (callback != NULL) {
+            callback(ownId, profileId, type, index, 0, 0, instance);
         }
     } else {
-        func_ov000_02197020(2, a, b, c, d, g, h);
+        AddRequestCallback(2, ownId, profileId, type, index, callback, instance);
     }
-    if (n != k) {
-        func_ov000_021a3668(n);
+    if (packetData != packetBuf) {
+        func_ov000_021a3668(packetData);
     }
 }
 
-u32 func_ov000_02196e48(u32 arg0) {
-    u32 value0 = arg0;
+u32 SocketReadable(u32 socket) {
+    u32 value0 = socket;
     u32 value3;
     value3 = (u32) &CanReceiveOnSocket;
     value0 = CanReceiveOnSocket(value0);
     return value0;
 }
 
-const s8 *func_ov000_02196df0(const s8 *a, s32 b) {
-    const s8 *c = a;
-    s32 d = b - 6;
-    if (d > 0) {
+const s8 *FindFinal(const s8 *buff, s32 len) {
+    const s8 *pos = buff;
+    s32 limit = len - 6;
+    if (limit > 0) {
         do {
-            if (c[0] == '\\' && c[1] == 'f' && c[2] == 'i' && c[3] == 'n' && c[4] == 'a' && c[5] == 'l' &&
-                c[6] == '\\') {
-                return c;
+            if (pos[0] == '\\' && pos[1] == 'f' && pos[2] == 'i' && pos[3] == 'n' && pos[4] == 'a' && pos[5] == 'l' &&
+                pos[6] == '\\') {
+                return pos;
             }
-            c++;
-        } while (c - a < d);
+            pos++;
+        } while (pos - buff < limit);
     }
     return NULL;
 }
 
-s32 func_ov000_02196d84(s32 a, s32 b, s32 c) {
-    s32 d;
-    Unk02196d84 *e;
-    if (data_ov000_021b4e5c == NULL) {
+s32 FindRequest(s32 reqType, s32 ownId, s32 profileId) {
+    s32 index;
+    Unk02196d84 *req;
+    if (gServerReqs == NULL) {
         return -1;
     }
-    d = 0;
-    if (DarrayGetCount((u32 *) data_ov000_021b4e5c) > 0) {
+    index = 0;
+    if (DarrayGetCount((u32 *) gServerReqs) > 0) {
         do {
-            e = DarrayGetElement(data_ov000_021b4e5c, d);
-            if (e->mUnk_00 == a && e->mUnk_04 == b && e->mUnk_08 == c) {
-                return d;
+            req = DarrayGetElement(gServerReqs, index);
+            if (req->mUnk_00 == reqType && req->mUnk_04 == ownId && req->mUnk_08 == profileId) {
+                return index;
             }
-            d++;
-        } while (d < DarrayGetCount((u32 *) data_ov000_021b4e5c));
+            index++;
+        } while (index < DarrayGetCount((u32 *) gServerReqs));
     }
     return -1;
 }
 
-void func_ov000_02196d0c(u8 *f, s32 g) {
-    s32 a = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) f, data_ov000_021b3df0));
-    s32 b = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) f, data_ov000_021b3dc4));
-    const s8 *c = func_ov000_021970e4((const s8 *) f, data_ov000_021b3df8);
-    s32 d = func_ov000_02196d84(0, b, 0);
-    if (d != -1) {
-        Unk02196d84 *e = DarrayGetElement(data_ov000_021b4e5c, d);
-        e->mUnk_08 = a;
-        func_ov000_021969d8(d, a > 0 ? 1 : 0, 0, (const u8 *) c, 0);
+void ProcessPlayerAuth(u8 *buf, s32 len) {
+    s32 pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gPauthrKey));
+    s32 lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gLidKey));
+    const s8 *failText = value_for_key_safe((const s8 *) buf, gErrmsgKey);
+    s32 requestPos = FindRequest(0, lid, 0);
+    if (requestPos != -1) {
+        Unk02196d84 *req = DarrayGetElement(gServerReqs, requestPos);
+        req->mUnk_08 = pid;
+        CallReqCallback(requestPos, pid > 0 ? 1 : 0, 0, (const u8 *) failText, 0);
     }
 }
 
-void func_ov000_02196ca4(u8 *c, s32 d) {
-    s32 a;
-    s32 b;
-    s32 t;
-    Unk021969d8Entry *p;
+void ProcessGetPid(u8 *buf, s32 len) {
+    s32 pid;
+    s32 lid;
+    s32 requestPos;
+    ServerReq *req;
 
-    a = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) c, data_ov000_021b3de8));
-    b = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) c, data_ov000_021b3dc4));
-    t = func_ov000_02196d84(3, b, 0);
-    if (t != -1) {
-        p = DarrayGetElement(data_ov000_021b4e5c, t);
-        p->mUnk_08 = a;
-        func_ov000_021969d8(t, (a > 0) ? 1 : 0, 0, NULL, 0);
+    pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gGetpidrKey));
+    lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gLidKey));
+    requestPos = FindRequest(3, lid, 0);
+    if (requestPos != -1) {
+        req = DarrayGetElement(gServerReqs, requestPos);
+        req->mProfileId = pid;
+        CallReqCallback(requestPos, (pid > 0) ? 1 : 0, 0, NULL, 0);
     }
 }
 
-void func_ov000_02196c00(u8 *f, s32 g) {
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
-    s32 t;
-    s32 e;
-    u8 *q;
-    const u8 *s;
+void ProcessGetData(u8 *buf, s32 len) {
+    s32 okFlag;
+    s32 lid;
+    s32 pid;
+    s32 revisionStamp;
+    s32 requestPos;
+    s32 length;
+    u8 *marker;
+    const u8 *data;
 
-    a = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) f, data_ov000_021b3dcc));
-    b = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) f, data_ov000_021b3dc4));
-    c = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) f, data_ov000_021b3dc0));
-    d = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) f, data_ov000_021b3dc8));
-    t = func_ov000_02196d84(1, b, c);
-    if (t != -1) {
-        e = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) f, data_ov000_021b3dd4));
-        q = (u8 *) strstr((const char *) f, data_ov000_021b3ddc);
-        if (q == NULL) {
-            e = 0;
-            s = (const u8 *) data_ov000_021b3de4;
+    okFlag = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gGetpdrKey));
+    lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gLidKey));
+    pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gStatsPidKey));
+    revisionStamp = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gModKey));
+    requestPos = FindRequest(1, lid, pid);
+    if (requestPos != -1) {
+        length = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gLengthKey));
+        marker = (u8 *) strstr((const char *) buf, gDataMarker);
+        if (marker == NULL) {
+            length = 0;
+            data = (const u8 *) gEmptyValue;
         } else {
-            s = q + 6;
+            data = marker + 6;
         }
-        func_ov000_021969d8(t, a, d, s, e);
+        CallReqCallback(requestPos, okFlag, revisionStamp, data, length);
     }
 }
 
-void func_ov000_02196b90(u8 *e, s32 f) {
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
-    s32 t;
+void ProcessSetData(u8 *buf, s32 len) {
+    s32 okFlag;
+    s32 pid;
+    s32 lid;
+    s32 revisionStamp;
+    s32 requestPos;
 
-    a = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) e, data_ov000_021b3db8));
-    b = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) e, data_ov000_021b3dc0));
-    c = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) e, data_ov000_021b3dc4));
-    d = StrtolBase10((const char *) func_ov000_021970e4((const s8 *) e, data_ov000_021b3dc8));
-    t = func_ov000_02196d84(2, c, b);
-    if (t != -1) {
-        func_ov000_021969d8(t, a, d, NULL, 0);
+    okFlag = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gSetpdrKey));
+    pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gStatsPidKey));
+    lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gLidKey));
+    revisionStamp = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, gModKey));
+    requestPos = FindRequest(2, lid, pid);
+    if (requestPos != -1) {
+        CallReqCallback(requestPos, okFlag, revisionStamp, NULL, 0);
     }
 }
 
-void func_ov000_02196ae0(u8 *a, s32 b) {
-    a[b] = 0;
-    if (strncmp((const char *) a, data_ov000_021b3d88, 8) == 0) {
-        func_ov000_02196d0c(a, b);
+void ProcessStatement(u8 *buff, s32 len) {
+    buff[len] = 0;
+    if (strncmp((const char *) buff, gPauthrStatement, 8) == 0) {
+        ProcessPlayerAuth(buff, len);
         return;
     }
-    if (strncmp((const char *) a, data_ov000_021b3d94, 9) == 0) {
-        func_ov000_02196ca4(a, b);
+    if (strncmp((const char *) buff, gGetpidrStatement, 9) == 0) {
+        ProcessGetPid(buff, len);
         return;
     }
-    if (strncmp((const char *) a, data_ov000_021b3d94, 9) == 0) {
-        func_ov000_02196ca4(a, b);
+    if (strncmp((const char *) buff, gGetpidrStatement, 9) == 0) {
+        ProcessGetPid(buff, len);
         return;
     }
-    if (strncmp((const char *) a, data_ov000_021b3da0, 8) == 0) {
-        func_ov000_02196c00(a, b);
+    if (strncmp((const char *) buff, gGetpdrStatement, 8) == 0) {
+        ProcessGetData(buff, len);
         return;
     }
-    if (strncmp((const char *) a, data_ov000_021b3dac, 8) == 0) {
-        func_ov000_02196b90(a, b);
+    if (strncmp((const char *) buff, gSetpdrStatement, 8) == 0) {
+        ProcessSetData(buff, len);
     }
 }
 
-s32 func_ov000_02196a84(u8 *a, s32 b) {
-    u8 *p;
-    s32 c;
-    s32 n;
+s32 ProcessInBuffer(u8 *buff, s32 len) {
+    u8 *pos;
+    s32 oldLen;
+    s32 statementLen;
 
-    c = b;
-    p = (u8 *) func_ov000_02196df0((const s8 *) a, b);
-    while (b > 0 && p != NULL) {
-        data_ov000_021b3b30 = data_ov000_021b3b88;
-        n = p - a;
-        func_ov000_021971ec((s8 *) a, n);
-        func_ov000_02196ae0(a, n);
-        b = b - (n + 7);
-        a = p + 7;
-        if (b > 0) {
-            p = (u8 *) func_ov000_02196df0((const s8 *) a, b);
+    oldLen = len;
+    pos = (u8 *) FindFinal((const s8 *) buff, len);
+    while (len > 0 && pos != NULL) {
+        gEnc = gEnc1;
+        statementLen = pos - buff;
+        xcode_buf((s8 *) buff, statementLen);
+        ProcessStatement(buff, statementLen);
+        len = len - (statementLen + 7);
+        buff = pos + 7;
+        if (len > 0) {
+            pos = (u8 *) FindFinal((const s8 *) buff, len);
         }
     }
-    return c - b;
+    return oldLen - len;
 }
 
-void func_ov000_021969d8(s32 a, s32 b, s32 c, const u8 *d, s32 e) {
-    Unk021969d8Entry *p;
+void CallReqCallback(s32 requestPos, s32 success, s32 modified, const u8 *data, s32 length) {
+    ServerReq *req;
 
-    if (a >= 0 && a < DarrayGetCount(data_ov000_021b4e5c)) {
-        p = DarrayGetElement(data_ov000_021b4e5c, a);
-        if (p->mUnk_18.mUnk_00 != NULL) {
-            switch (p->mUnk_00) {
+    if (requestPos >= 0 && requestPos < DarrayGetCount(gServerReqs)) {
+        req = DarrayGetElement(gServerReqs, requestPos);
+        if (req->mCallback.mAuthCallback != NULL) {
+            switch (req->mReqType) {
                 case 0:
-                    p->mUnk_18.mUnk_00(p->mUnk_04, p->mUnk_08, b, d, p->mUnk_14);
+                    req->mCallback.mAuthCallback(req->mLocalId, req->mProfileId, success, data, req->mInstance);
                     break;
                 case 1:
-                    p->mUnk_18.mUnk_01(p->mUnk_04, p->mUnk_08, p->mUnk_0c, p->mUnk_10, b, c, d, e, p->mUnk_14);
+                    req->mCallback.mDataCallback(req->mLocalId, req->mProfileId, req->mPdType, req->mPdIndex, success,
+                                                 modified, data, length, req->mInstance);
                     break;
                 case 2:
-                    p->mUnk_18.mUnk_02(p->mUnk_04, p->mUnk_08, p->mUnk_0c, p->mUnk_10, b, c, p->mUnk_14);
+                    req->mCallback.mSaveCallback(req->mLocalId, req->mProfileId, req->mPdType, req->mPdIndex, success,
+                                                 modified, req->mInstance);
                     break;
                 case 3:
-                    p->mUnk_18.mUnk_03(p->mUnk_04, p->mUnk_08, b, p->mUnk_14);
+                    req->mCallback.mProfileCallback(req->mLocalId, req->mProfileId, success, req->mInstance);
                     break;
             }
         }
-        DarrayRemove(data_ov000_021b4e5c, a);
+        DarrayRemove(gServerReqs, requestPos);
     }
 }
 
-void func_ov000_02196960(void) {
-    s32 i;
-    Unk02196960Key k;
+void ClosePendingCallbacks(void) {
+    s32 index;
+    ConnErrorBytes errorBytes;
 
-    if (data_ov000_021b4e5c != NULL) {
-        for (i = DarrayGetCount(data_ov000_021b4e5c) - 1; i >= 0; i--) {
-            k = data_ov000_021b3b78;
-            data_ov000_021b3b30 = data_ov000_021b3b98;
-            func_ov000_021971ec((s8 *) k.mUnk_00, 0xf);
-            func_ov000_021969d8(i, 0, 0, k.mUnk_00, 0);
+    if (gServerReqs != NULL) {
+        for (index = DarrayGetCount(gServerReqs) - 1; index >= 0; index--) {
+            errorBytes = gConnErrorClosePending;
+            gEnc = gEnc3;
+            xcode_buf((s8 *) errorBytes.mUnk_00, 0xf);
+            CallReqCallback(index, 0, 0, errorBytes.mUnk_00, 0);
         }
-        DarrayDelete(data_ov000_021b4e5c);
-        data_ov000_021b4e5c = NULL;
+        DarrayDelete(gServerReqs);
+        gServerReqs = NULL;
     }
 }

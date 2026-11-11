@@ -7,15 +7,15 @@
 #include "code_021384cc.h"
 #include "code_02139f70.h"
 
-void AppendBufferBytes(Gt2Buffer *buffer, const u8 *b, int len) {
-    if (b != NULL && len != 0) {
+void AppendBufferBytes(Gt2Buffer *buffer, const u8 *data, int len) {
+    if (data != NULL && len != 0) {
         if (len == -1) {
-            len = strlen((const char *) b);
+            len = strlen((const char *) data);
         }
         if (buffer->mLength + len > buffer->mSize) {
-            AssertionFailed(data_ov000_021b3eec, data_ov000_021b3ebc, NULL, 0x40);
+            AssertionFailed(gGt2BufferWriteDataAssert, gGt2BufferFileName, NULL, 0x40);
         }
-        memcpy(buffer->mData + buffer->mLength, b, len);
+        memcpy(buffer->mData + buffer->mLength, data, len);
         buffer->mLength = buffer->mLength + len;
     }
 }
@@ -25,89 +25,89 @@ void RemoveBufferBytes(Gt2Buffer *buffer, int start, int shortenBy) {
         start = buffer->mLength - shortenBy;
     }
     if (start > buffer->mLength) {
-        AssertionFailed(data_ov000_021b3ea4, data_ov000_021b3ebc, NULL, 0x4f);
+        AssertionFailed(gGt2BufferShortenStartAssert, gGt2BufferFileName, NULL, 0x4f);
     }
     if (shortenBy > buffer->mLength - start) {
-        AssertionFailed(data_ov000_021b3ec8, data_ov000_021b3ebc, NULL, 0x50);
+        AssertionFailed(gGt2BufferShortenLengthAssert, gGt2BufferFileName, NULL, 0x50);
     }
     memmove(buffer->mData + start, buffer->mData + start + shortenBy, buffer->mLength - start - shortenBy);
     buffer->mLength = buffer->mLength - shortenBy;
 }
 
-BOOL func_ov000_02197ca0(const s8 *a) {
+BOOL gti2VerifyChallenge(const s8 *buffer) {
     s32 b[8];
     u32 h;
     u32 g;
-    s32 e;
-    s32 f;
-    u32 c;
+    s32 runningXor;
+    s32 index;
+    u32 firstByte;
     u32 d;
-    e = 0;
-    f = 1;
-    c = (u8) a[0];
-    b[0] = c;
-    b[0] &= f;
-    b[2] = e;
-    b[1] = f;
-    b[4] = e;
-    b[3] = f;
-    b[6] = f;
-    b[5] = f;
-    b[7] = f;
+    runningXor = 0;
+    index = 1;
+    firstByte = (u8) buffer[0];
+    b[0] = firstByte;
+    b[0] &= index;
+    b[2] = runningXor;
+    b[1] = index;
+    b[4] = runningXor;
+    b[3] = index;
+    b[6] = index;
+    b[5] = index;
+    b[7] = index;
     do {
-        d = (u8) a[f - 1];
-        if (d < c) {
+        d = (u8) buffer[index - 1];
+        if (d < firstByte) {
             g = b[1];
         } else {
             g = b[2];
         }
-        if (c < 0x4f) {
+        if (firstByte < 0x4f) {
             h = b[3];
         } else {
             h = b[4];
         }
-        e ^= (f ^ d) & b[5];
+        runningXor ^= (index ^ d) & b[5];
         d = b[0];
-        d ^= e;
+        d ^= runningXor;
         d ^= h;
-        e = d;
-        e ^= g;
-        if ((e != 0 && ((u8) a[f] & b[6]) == 0) || (e == 0 && ((u8) a[f] & b[7]) == 1)) {
+        runningXor = d;
+        runningXor ^= g;
+        if ((runningXor != 0 && ((u8) buffer[index] & b[6]) == 0) || (runningXor == 0 && ((u8) buffer[index] & b[7]) == 1)) {
             return FALSE;
         }
-        f++;
-    } while (f < 0x20);
+        index++;
+    } while (index < 0x20);
     return TRUE;
 }
 
-s8 *func_ov000_02197be0(s8 *buffer) {
+s8 *gti2GetChallenge(s8 *buffer) {
     s32 b[9];
-    u32 c;
+    u32 previousByte;
     u32 h;
     u32 d;
-    s32 f;
-    s32 e;
+    s32 index;
+    s32 parityFlag;
     u32 g;
-    u8 *i;
+    u8 *current;
     if (buffer == NULL) {
-        AssertionFailed(data_ov000_021b3e90, data_ov000_021b3e98, NULL, 0x2b);
+        AssertionFailed(gGt2AuthChallengeAssert, gGt2AuthFileName, NULL, 0x2b);
     }
     srand(GetElapsedMilliseconds());
     buffer[0] = (s32) rand() % 0x5d + 0x21;
-    e = 0;
-    f = 1;
-    b[1] = e;
-    b[0] = f;
-    b[3] = e;
-    b[2] = f;
-    b[5] = f;
-    b[4] = f;
-    b[6] = f;
-    b[7] = f;
+    parityFlag = 0;
+    index = 1;
+    b[1] = parityFlag;
+    b[0] = index;
+    b[3] = parityFlag;
+    b[2] = index;
+    b[5] = index;
+    b[4] = index;
+    b[6] = index;
+    b[7] = index;
     do {
-        c = (u8) buffer[f - 1];
+        previousByte = (u8) buffer[index - 1];
         d = (u8) buffer[0];
-        if (c < d) {
+        if (previousByte < d) {
             g = b[0];
         } else {
             g = b[1];
@@ -118,49 +118,52 @@ s8 *func_ov000_02197be0(s8 *buffer) {
             h = b[3];
         }
         d &= b[5];
-        b[8] = f;
-        b[8] ^= c;
+        b[8] = index;
+        b[8] ^= previousByte;
         b[8] &= b[4];
-        e ^= b[8];
-        d ^= e;
+        parityFlag ^= b[8];
+        d ^= parityFlag;
         d ^= h;
-        e = d;
-        e ^= g;
-        i = (u8 *) &buffer[f];
-        buffer[f] = (s32) rand() % 0x5d + 0x21;
-        if ((e != 0 && (*i & b[6]) == 0) || (e == 0 && (*i & b[7]) == 1)) {
-            (*i)++;
+        parityFlag = d;
+        parityFlag ^= g;
+        current = (u8 *) &buffer[index];
+        buffer[index] = (s32) rand() % 0x5d + 0x21;
+        if ((parityFlag != 0 && (*current & b[6]) == 0) || (parityFlag == 0 && (*current & b[7]) == 1)) {
+            (*current)++;
         }
-        f++;
-    } while (f < 0x20);
+        index++;
+    } while (index < 0x20);
     return buffer;
 }
 
-s8 *func_ov000_02197b34(s8 *a, const s8 *b) {
-    s32 d;
-    s32 c;
-    s32 e;
-    s32 f;
-    s32 g;
-    s32 i;
-    c = strlen((const char *) data_ov000_021b3e6c);
-    d = func_ov000_02197ca0(b);
-    e = 0;
-    f = 0;
+s8 *gti2GetResponse(s8 *buffer, const s8 *challenge) {
+    s32 valid;
+    s32 secretLen;
+    s32 index;
+    s32 scaledIndex;
+    s32 prevByte;
+    s32 challengeIndex;
+    secretLen = strlen((const char *) gGt2ChallengeKey);
+    valid = gti2VerifyChallenge(challenge);
+    index = 0;
+    scaledIndex = 0;
     do {
-        if (d == 0 || e == 0 || e == 0xd) {
-            a[e] = (s32) rand() % 0x5d + 0x21;
+        if (valid == 0 || index == 0 || index == 0xd) {
+            buffer[index] = (s32) rand() % 0x5d + 0x21;
         } else {
-            if (e == 1 || e == 0xe) {
-                g = b[e];
+            if (index == 1 || index == 0xe) {
+                prevByte = challenge[index];
             } else {
-                g = b[e - 1];
+                prevByte = challenge[index - 1];
             }
-            i = (data_ov000_021b3e6c[(e + (u8) b[e]) % c] + e * (u8) b[e]) % 0x20;
-            a[e] = (s32) Abs((u8) b[i] ^ data_ov000_021b3e6c[(g * f) % c]) % 0x5d + 0x21;
+            challengeIndex =
+                (gGt2ChallengeKey[(index + (u8) challenge[index]) % secretLen] + index * (u8) challenge[index]) % 0x20;
+            buffer[index] =
+                (s32) Abs((u8) challenge[challengeIndex] ^ gGt2ChallengeKey[(prevByte * scaledIndex) % secretLen]) % 0x5d +
+                0x21;
         }
-        f += 0x4647;
-        e++;
-    } while (e < 0x20);
-    return a;
+        scaledIndex += 0x4647;
+        index++;
+    } while (index < 0x20);
+    return buffer;
 }

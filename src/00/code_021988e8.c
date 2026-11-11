@@ -15,78 +15,81 @@
 #include "00/code_02198a8c.h"
 #include "00/code_0219a654.h"
 
-int func_ov000_02198a7c(Gt2Connection *a, Gt2ConnectionCallbacks *b) {
-    return func_ov000_02198778(a, b);
+int gt2Accept(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks) {
+    return gti2AcceptConnection(connection, callbacks);
 }
 
-void func_ov000_02198a74(Gt2Connection *a, void *b, u32 c) {
-    func_ov000_02198748(a, b, c);
+void gt2Reject(Gt2Connection *connection, void *message, u32 len) {
+    gti2RejectConnection(connection, message, len);
 }
 
-int func_ov000_02198968(void *a, Gt2Connection **b, u32 c, void *d, int e, u32 f, Gt2ConnectionCallbacks *g, int h) {
-    Gt2Connection *m;
-    u32 i;
-    u16 j;
-    u32 k;
+int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void *message, int len, u32 timeout,
+               Gt2ConnectionCallbacks *callbacks, int blocking) {
+    Gt2Connection *pendingConn;
+    u32 ipAddress;
+    u16 netPort;
+    u32 portValue;
     int l;
-    int n;
-    if (Gt2ParseAddress((const char *) c, &i, &j) == FALSE || i == 0 || (k = j) == 0) {
+    int startResult;
+    if (Gt2ParseAddress((const char *) remoteAddress, &ipAddress, &netPort) == FALSE || ipAddress == 0 ||
+        (portValue = netPort) == 0) {
         return 4;
     }
-    if (((((i << 24) & 0xff000000) | (((i << 8) & 0xff0000) | (((i >> 24) & 0xff) | ((i >> 8) & 0xff00)))) &
+    if (((((ipAddress << 24) & 0xff000000) |
+          (((ipAddress << 8) & 0xff0000) | (((ipAddress >> 24) & 0xff) | ((ipAddress >> 8) & 0xff00)))) &
          0xe0000000) == 0xe0000000) {
         return 4;
     }
-    l = func_ov000_0219885c(a, &m, i, k);
+    l = gti2NewOutgoingConnection(socket, &pendingConn, ipAddress, portValue);
     if (l != 0) {
         return l;
     }
-    m->mTimeSinceCreateLimit = f;
-    n = func_ov000_021987c8(m, d, e, g);
-    if (n != 0) {
-        func_ov000_0219a220(m);
-        return n;
+    pendingConn->mTimeSinceCreateLimit = timeout;
+    startResult = gti2StartConnectionAttempt(pendingConn, message, len, callbacks);
+    if (startResult != 0) {
+        func_ov000_0219a220(pendingConn);
+        return startResult;
     }
-    if (h == 0) {
-        if (b != NULL) {
-            *b = m;
+    if (blocking == 0) {
+        if (connection != NULL) {
+            *connection = pendingConn;
         }
         return 0;
     }
-    m->mUnk_24++;
+    pendingConn->mCallbackLevel++;
     do {
-        func_ov000_02198a8c(a);
-        l = m->mUnk_0c >= 5 ? 1 : 0;
+        gt2Think(socket);
+        l = pendingConn->mState >= 5 ? 1 : 0;
         if (l == 0) {
             msleep(1);
         }
     } while (l == 0);
-    m->mUnk_24--;
-    if (m->mUnk_0c == 5) {
-        *b = m;
+    pendingConn->mCallbackLevel--;
+    if (pendingConn->mState == 5) {
+        *connection = pendingConn;
     }
-    return m->mResult;
+    return pendingConn->mResult;
 }
 
-void func_ov000_02198914(Gt2Connection *a, u8 *b, int c, int d) {
-    if (a->mUnk_0c == 5) {
-        func_ov000_0219a61c((const char **) &b, &c);
-        if (DarrayGetCount((u32 *) a->mUnk_98) != 0) {
-            func_ov000_02198098(a, 0, (s32) b, (void *) c, d);
+void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
+    if (connection->mState == 5) {
+        func_ov000_0219a61c((const char **) &message, &len);
+        if (DarrayGetCount((u32 *) connection->mSendFilters) != 0) {
+            gti2SendFilterCallback(connection, 0, (s32) message, (void *) len, reliable);
             return;
         }
-        func_ov000_02198ad8(a, b, c, d);
+        gti2Send(connection, message, len, reliable);
     }
 }
 
-void func_ov000_02198908(Gt2Connection *a) {
-    func_ov000_02198548(a, 1);
+void gt2CloseConnectionHard(Gt2Connection *connection) {
+    gti2CloseConnection(connection, 1);
 }
 
-void func_ov000_021988fc(Gt2Connection **a) {
-    func_ov000_02198908(*a);
+void gti2CloseAllConnectionsHardMap(Gt2Connection **elem) {
+    gt2CloseConnectionHard(*elem);
 }
 
-void func_ov000_021988e8(Gt2Socket *a) {
-    HashtableForEach(a->mConnections, (void (*)(void *, void *)) func_ov000_021988fc, NULL);
+void gt2CloseAllConnectionsHard(Gt2Socket *socket) {
+    HashtableForEach(socket->mConnections, (void (*)(void *, void *)) gti2CloseAllConnectionsHardMap, NULL);
 }

@@ -45,11 +45,10 @@ void func_ov000_0219db18(s32 a, s32 b, PeerAddress *c, void *d) {
             }
             gWiFiMatching->mConnectRetryCount = 0;
             OS_SNPrintf(i, 12, gUnsignedFormat, gWiFiMatching->mOwnProfileId);
-            if (ReportMatchingConnectResult(
-                    func_ov000_02198968(*gWiFiMatching->mConnectionSocket, NULL,
-                                        Gt2FormatAddress(gWiFiMatching->mParticipantConnectAddresses[e],
-                                                         gWiFiMatching->mParticipantConnectPorts[e], 0),
-                                        i, -1, 0x1388, gWiFiMatching->mConnectionCallbacks, 0)) != 0) {
+            if (ReportMatchingConnectResult(gt2Connect(*gWiFiMatching->mConnectionSocket, NULL,
+                                                       Gt2FormatAddress(gWiFiMatching->mParticipantConnectAddresses[e],
+                                                                        gWiFiMatching->mParticipantConnectPorts[e], 0),
+                                                       i, -1, 0x1388, gWiFiMatching->mConnectionCallbacks, 0)) != 0) {
                 return;
             }
             return;

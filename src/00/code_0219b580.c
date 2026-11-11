@@ -80,8 +80,8 @@ void InitWiFiConnection(void *a, void *b, s32 c, const char *d, const char *e, s
     gWiFiConnection->mUnk_2d = 0;
     gWiFiConnection->mUnk_2e = 0;
     gWiFiConnection->mProfileId = 0;
-    gWiFiConnection->mGameName = data_ov000_021b4e84;
-    gWiFiConnection->mUnk_58 = data_ov000_021b4f84;
+    gWiFiConnection->mGameName = gcd_gamename;
+    gWiFiConnection->mUnk_58 = gcd_secret_key;
     gWiFiConnection->mLoginCallback = NULL;
     gWiFiConnection->mLoginCallbackArg = 0;
     gWiFiConnection->mBuddySyncCallback = NULL;
@@ -97,22 +97,22 @@ void InitWiFiConnection(void *a, void *b, s32 c, const char *d, const char *e, s
                   WiFiLoginCallback, NULL);
     InitBuddySync(&gWiFiConnection->mBuddySync, &gWiFiConnection->mGpConnection, gWiFiConnection->mUnk_34, h, i);
     InitMatching(&gWiFiConnection->mMatching, &gWiFiConnection->mGpConnection, &gWiFiConnection->mSocket,
-                 &gWiFiConnection->mResultCallback, data_ov000_021b4e84, data_ov000_021b4f84, h, i);
+                 &gWiFiConnection->mResultCallback, gcd_gamename, gcd_secret_key, h, i);
     InitWiFiMessageLayer(&gWiFiConnection->mMessageLayer);
     if (strlen(d) < 0x100) {
         n = strlen(d);
     } else {
         n = 0xff;
     }
-    MI_CpuCopy8(d, data_ov000_021b4e84, n);
-    data_ov000_021b4e84[n] = 0;
+    MI_CpuCopy8(d, gcd_gamename, n);
+    gcd_gamename[n] = 0;
     if (strlen(e) < 0x100) {
         m = strlen(e);
     } else {
         m = 0xff;
     }
-    MI_CpuCopy8(e, data_ov000_021b4f84, m);
-    data_ov000_021b4f84[m] = 0;
+    MI_CpuCopy8(e, gcd_secret_key, m);
+    gcd_secret_key[m] = 0;
 }
 
 // Undo of InitWiFiConnection: frees the matching list, closes stats and GP, closes the socket and clears
@@ -144,7 +144,7 @@ void ReleaseWiFiConnection(void) {
         ReleaseMatching();
         func_ov000_021a2fec();
         if (gWiFiConnection->mSocket != NULL) {
-            func_ov000_02198ab0(gWiFiConnection->mSocket);
+            gt2CloseSocket(gWiFiConnection->mSocket);
             gWiFiConnection->mSocket = NULL;
         }
         gWiFiConnection = NULL;
@@ -361,7 +361,7 @@ s32 func_ov000_0219bbfc(void) {
         return 1;
     }
     p->mUnk_2d = 1;
-    func_ov000_021988e8(gWiFiConnection->mSocket);
+    gt2CloseAllConnectionsHard(gWiFiConnection->mSocket);
     gWiFiConnection->mUnk_2d = 0;
     return 0;
 }
@@ -376,7 +376,7 @@ s32 func_ov000_0219bbac(s32 a) {
     if (p == NULL) {
         return -2;
     }
-    func_ov000_02198908(p);
+    gt2CloseConnectionHard(p);
     return 0;
 }
 
@@ -435,12 +435,12 @@ s32 func_ov000_0219ba20(void) {
     }
     v = (u16) (func_ov000_021a3448(0x4000) + 0xc000);
     p = gWiFiConnection;
-    r = func_ov000_02198ac4((Gt2Socket **) gWiFiConnection, (const char *) Gt2FormatAddress(0, v, 0),
-                            p->mSendBufferSize, p->mReceiveBufferSize, (u32) func_ov000_0219b240);
+    r = gt2CreateSocket((Gt2Socket **) gWiFiConnection, (const char *) Gt2FormatAddress(0, v, 0), p->mSendBufferSize,
+                        p->mReceiveBufferSize, (u32) func_ov000_0219b240);
     if (ReportWiFiSocketResult(r) != 0) {
         return r;
     }
-    func_ov000_02198a84(gWiFiConnection->mSocket, WiFiIncomingConnectionCallback);
+    gt2Listen(gWiFiConnection->mSocket, WiFiIncomingConnectionCallback);
     SetUnmatchedDataCallback(gWiFiConnection->mSocket, (UnkWordFunc *) WiFiUnmatchedDataCallback);
     return r;
 }
@@ -454,7 +454,7 @@ void *func_ov000_0219b9d4(u32 a) {
     i = 0;
     p = data_ov000_021b54d0;
     for (; i < 32; p++, i++) {
-        if (*p != NULL && a == func_ov000_0219887c(*p)[1]) {
+        if (*p != NULL && a == gt2GetConnectionData(*p)[1]) {
             return data_ov000_021b54d0[i];
         }
     }
@@ -462,11 +462,11 @@ void *func_ov000_0219b9d4(u32 a) {
 }
 
 u8 func_ov000_0219b9c4(Unk0219887c *object) {
-    return func_ov000_0219887c(object)[1];
+    return gt2GetConnectionData(object)[1];
 }
 
 u32 func_ov000_0219b9b4(Unk0219887c *object) {
-    return func_ov000_0219887c(object)[0];
+    return gt2GetConnectionData(object)[0];
 }
 
 s32 func_ov000_0219b998(void) {
@@ -512,7 +512,7 @@ BOOL func_ov000_0219b8bc(u32 a) {
     s32 b;
 
     for (b = 0; b < 0x20; b++) {
-        if (data_ov000_021b54d0[b] != NULL && a == func_ov000_0219887c(data_ov000_021b54d0[b])[1]) {
+        if (data_ov000_021b54d0[b] != NULL && a == gt2GetConnectionData(data_ov000_021b54d0[b])[1]) {
             return TRUE;
         }
     }

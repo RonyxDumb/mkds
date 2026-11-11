@@ -3,12 +3,12 @@
 #include "types.h"
 #include "00/code_02197e58.h"
 
-u32 func_ov000_02198d04(Gt2Connection *param_1);
-u32 func_ov000_02198d50(Gt2Connection *param_1);
-u32 func_ov000_02198d9c(Gt2Connection *param_1, const void *param_2, int param_3);
-u32 func_ov000_02198df8(Gt2Connection *param_1);
-u32 func_ov000_02198e44(Gt2Connection *param_1, const u8 *param_2, const u8 *param_3, int param_4);
-u32 func_ov000_02198eb0(Gt2Connection *param_1, const u8 *param_2, const u8 *param_3);
-u32 func_ov000_02198f24(Gt2Connection *param_1, const void *param_2);
-u32 func_ov000_02198f80(Gt2Connection *param_1, const u8 *param_2, int param_3);
-u32 func_ov000_02198fdc(Gt2Connection *param_1);
+u32 gti2SendKeepAlive(Gt2Connection *connection);
+u32 gti2SendClose(Gt2Connection *connection);
+u32 gti2SendReject(Gt2Connection *connection, const void *message, int len);
+u32 gti2SendAccept(Gt2Connection *connection);
+u32 gti2SendClientResponse(Gt2Connection *connection, const u8 *response, const u8 *message, int len);
+u32 gti2SendServerChallenge(Gt2Connection *connection, const u8 *response, const u8 *challenge);
+u32 gti2SendClientChallenge(Gt2Connection *connection, const void *challenge);
+u32 gti2SendAppReliable(Gt2Connection *connection, const u8 *message, int len);
+u32 gti2EndReliableMessage(Gt2Connection *connection);

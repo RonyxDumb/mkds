@@ -3,10 +3,11 @@
 #include "types.h"
 #include "00/code_02197e58.h"
 
-void func_ov000_021988e8(Gt2Socket *a);
-void func_ov000_021988fc(Gt2Connection **a);
-void func_ov000_02198908(Gt2Connection *a);
-void func_ov000_02198914(Gt2Connection *a, u8 *b, int c, int d);
-int func_ov000_02198968(void *a, Gt2Connection **b, u32 c, void *d, int e, u32 f, Gt2ConnectionCallbacks *g, int h);
-void func_ov000_02198a74(Gt2Connection *a, void *b, u32 c);
-int func_ov000_02198a7c(Gt2Connection *a, Gt2ConnectionCallbacks *b);
+void gt2CloseAllConnectionsHard(Gt2Socket *socket);
+void gti2CloseAllConnectionsHardMap(Gt2Connection **elem);
+void gt2CloseConnectionHard(Gt2Connection *connection);
+void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable);
+int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void *message, int len, u32 timeout,
+               Gt2ConnectionCallbacks *callbacks, int blocking);
+void gt2Reject(Gt2Connection *connection, void *message, u32 len);
+int gt2Accept(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks);

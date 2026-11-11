@@ -61,12 +61,12 @@ typedef struct WiFiConnection {
     // 0x20-byte text given to StartWiFiBuddySync (the only caller passes NULL, so it is always empty); handed to
     // InitBuddySync, used as the add-buddy reason text and, when not empty, in the stats request '\dwc_name\%s'.
     /* 34 */ char mUnk_34[0x20];
-    // Points at the 0x100-byte game name buffer data_ov000_021b4e84 (InitWiFiConnection's fourth argument,
+    // Points at the 0x100-byte game name buffer gcd_gamename (InitWiFiConnection's fourth argument,
     // "mariokartds"). Its one read is StartWiFiLogin passing it to GSIStartAvailableCheckA, which copies it to
     // gGsiAcGamename, the buffer GpiWriteLogin appends after '\gamename\'; the matching
     // object's mGameName is the same buffer and the stats host name starts with it (code_0219742c.c:49).
     /* 54 */ char *mGameName;
-    // Points at the 0x100-byte buffer data_ov000_021b4f84 (InitWiFiConnection's fifth argument): mixed into the stats
+    // Points at the 0x100-byte buffer gcd_secret_key (InitWiFiConnection's fifth argument): mixed into the stats
     // login hash ('%d%s', code_02196960.c:36), given to the matching object as mUnk_2e0. Never read through this
     // member.
     /* 58 */ char *mUnk_58;

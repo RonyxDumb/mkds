@@ -7,69 +7,69 @@
 #include "string.h"
 #include "code_02134398.h"
 
-int func_ov000_0219885c(void *a, Gt2Connection **b, int c, u32 d) {
-    int r = CreateConnection(a, b, c, d);
-    if (r != 0) {
-        return r;
+int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
+    int result = CreateConnection(socket, connection, address, port);
+    if (result != 0) {
+        return result;
     }
-    (*b)->mUnk_0c = 0;
-    (*b)->mUnk_10 = TRUE;
+    (*connection)->mState = 0;
+    (*connection)->mInitiated = TRUE;
     return 0;
 }
 
-int func_ov000_0219883c(void *a, Gt2Connection **b, int c, u32 d) {
-    int r = CreateConnection(a, b, c, d);
-    if (r != 0) {
-        return r;
+int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
+    int result = CreateConnection(socket, connection, address, port);
+    if (result != 0) {
+        return result;
     }
-    (*b)->mUnk_0c = 2;
-    (*b)->mUnk_10 = FALSE;
+    (*connection)->mState = 2;
+    (*connection)->mInitiated = FALSE;
     return 0;
 }
 
-BOOL func_ov000_021987c8(Gt2Connection *a, void *b, int c, Gt2ConnectionCallbacks *d) {
-    s8 e[0x24];
-    func_ov000_0219a61c((const char **) &b, &c);
-    if (c > 0) {
-        a->mUnk_38.mData = func_ov000_021a3690(c);
-        if (a->mUnk_38.mData == NULL) {
+BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int len, Gt2ConnectionCallbacks *callbacks) {
+    s8 challengeBytes[0x24];
+    func_ov000_0219a61c((const char **) &message, &len);
+    if (len > 0) {
+        connection->mUnk_38.mData = func_ov000_021a3690(len);
+        if (connection->mUnk_38.mData == NULL) {
             return TRUE;
         }
-        memcpy(a->mUnk_38.mData, b, c);
-        a->mUnk_38.mSize = c;
+        memcpy(connection->mUnk_38.mData, message, len);
+        connection->mUnk_38.mSize = len;
     }
-    if (d != NULL) {
-        a->mCallbacks = *d;
+    if (callbacks != NULL) {
+        connection->mCallbacks = *callbacks;
     }
-    func_ov000_02197be0(e);
-    func_ov000_02197b34((s8 *) a->mUnk_68, e);
-    func_ov000_02198f24(a, e);
-    a->mUnk_0c = 0;
+    gti2GetChallenge(challengeBytes);
+    gti2GetResponse((s8 *) connection->mResponse, challengeBytes);
+    gti2SendClientChallenge(connection, challengeBytes);
+    connection->mState = 0;
     return FALSE;
 }
 
-BOOL func_ov000_02198778(Gt2Connection *a, Gt2ConnectionCallbacks *b) {
-    if (a->mUnk_14 != FALSE) {
-        a->mUnk_14 = FALSE;
+BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks) {
+    if (connection->mFreeAtAcceptReject != FALSE) {
+        connection->mFreeAtAcceptReject = FALSE;
         return FALSE;
     }
-    a->mUnk_14 = FALSE;
-    if (a->mUnk_0c != 4) {
+    connection->mFreeAtAcceptReject = FALSE;
+    if (connection->mState != 4) {
         return FALSE;
     }
-    func_ov000_02198df8(a);
-    a->mUnk_0c = 5;
-    if (b != NULL) {
-        a->mCallbacks = *b;
+    gti2SendAccept(connection);
+    connection->mState = 5;
+    if (callbacks != NULL) {
+        connection->mCallbacks = *callbacks;
     }
     return TRUE;
 }
 
-void func_ov000_02198748(Gt2Connection *a, void *b, u32 c, ...) {
-    a->mUnk_14 = FALSE;
-    if (a->mUnk_0c == 4) {
-        func_ov000_0219a61c((const char **) &b, (s32 *) &c);
-        func_ov000_02198d9c(a, b, c);
-        a->mUnk_0c = 6;
+void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...) {
+    connection->mFreeAtAcceptReject = FALSE;
+    if (connection->mState == 4) {
+        func_ov000_0219a61c((const char **) &message, (s32 *) &len);
+        gti2SendReject(connection, message, len);
+        connection->mState = 6;
     }
 }

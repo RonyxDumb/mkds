@@ -29,7 +29,7 @@ typedef struct Unk0219a430Addr {
 } Unk0219a430Addr;
 
 void func_ov000_0219a5dc(Gt2Connection **a) {
-    func_ov000_021984b4(*a);
+    gti2ConnectionCleanup(*a);
 }
 
 Gt2Connection *FindConnection(Gt2Socket *a, u32 b, u32 c) {
@@ -69,9 +69,9 @@ u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
     }
     memset(f, 0, 0x44);
     f->mDescriptor = -1;
-    f->mUnk_3c = d;
+    f->mIncomingBufferSize = d;
     f->mSendBufferSize = c;
-    f->mUnk_24 = (void (*)(Gt2Socket *)) e;
+    f->mSocketErrorCallback = (void (*)(Gt2Socket *)) e;
     f->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & func_ov000_0219a604,
                                       (s32(*)(void *, void *)) & func_ov000_0219a5e8, NULL);
     if (f->mConnections == NULL) {

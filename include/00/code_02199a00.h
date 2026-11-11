@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 func_ov000_02199a00(const void *arg0, const void *arg1);
+s32 gti2IncomingBufferMessageCompare(const void *elem1, const void *elem2);

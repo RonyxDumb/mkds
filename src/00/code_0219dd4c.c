@@ -236,7 +236,7 @@ void UpdateMatching(s32 param_1) {
             func_ov000_021a49a0(gWiFiMatching->mUnk_10);
         }
         if (gWiFiMatching->mConnectionSocket != NULL) {
-            func_ov000_02198a8c(*gWiFiMatching->mConnectionSocket);
+            gt2Think(*gWiFiMatching->mConnectionSocket);
         }
         return;
     }
@@ -380,7 +380,7 @@ void UpdateMatching(s32 param_1) {
     }
     func_ov000_0219aaec();
     if (gWiFiMatching->mConnectionSocket != NULL) {
-        func_ov000_02198a8c(*gWiFiMatching->mConnectionSocket);
+        gt2Think(*gWiFiMatching->mConnectionSocket);
     }
     if (gWiFiMatching->mState == 18) {
         if (func_ov000_021a350c() - gWiFiMatching->mUnk_1e0 > 3000) {
@@ -437,12 +437,12 @@ void WiFiIncomingConnectionCallback(u32 param_1, Unk0219887c *connection, u32 ad
     s32 t;
     p = gWiFiMatching;
     if (p == NULL || p->mState != 7 || p->mStopPending != 0) {
-        func_ov000_02198a74((Gt2Connection *) connection, gInitStateString, -1);
+        gt2Reject((Gt2Connection *) connection, gInitStateString, -1);
         return;
     }
     i = func_ov000_0219b998();
     if (i == -1) {
-        func_ov000_02198a74((Gt2Connection *) connection, gServerFullString, -1);
+        gt2Reject((Gt2Connection *) connection, gServerFullString, -1);
         ReportMatchingError(6, -87100);
         return;
     }
@@ -454,12 +454,12 @@ void WiFiIncomingConnectionCallback(u32 param_1, Unk0219887c *connection, u32 ad
             gWiFiMatching->mParticipantConnectAddresses[j] = address;
             gWiFiMatching->mParticipantConnectPorts[gWiFiMatching->mLastParticipantPos] = port;
         } else {
-            func_ov000_02198a74((Gt2Connection *) connection, gUnexpectedConnectAttemptString, -1);
+            gt2Reject((Gt2Connection *) connection, gUnexpectedConnectAttemptString, -1);
             return;
         }
     }
     gWiFiMatching->mIncomingWaitStartTime = 0;
-    if (func_ov000_02198a7c((Gt2Connection *) connection, gWiFiMatching->mConnectionCallbacks) == 0) {
+    if (gt2Accept((Gt2Connection *) connection, gWiFiMatching->mConnectionCallbacks) == 0) {
         ReportMatchingError(6, -80410);
         return;
     }
@@ -480,7 +480,7 @@ void WiFiIncomingConnectionCallback(u32 param_1, Unk0219887c *connection, u32 ad
     e->mUnk_01 = gWiFiMatching->mParticipantIndices[gWiFiMatching->mLastParticipantPos - 1];
     e->mUnk_02 = 0;
     e->mUnk_04 = 0;
-    func_ov000_021988a4(connection, e);
+    gt2SetConnectionData(connection, e);
     func_ov000_0219f544(2);
 }
 
@@ -513,7 +513,7 @@ void WiFiGt2ResultCallback(Unk0219887c *param_1, s32 param_2) {
             }
             OS_SNPrintf(v1, 12, gUnsignedFormat, p->mOwnProfileId);
             p = gWiFiMatching;
-            if (ReportMatchingConnectResult(func_ov000_02198968(
+            if (ReportMatchingConnectResult(gt2Connect(
                     *gWiFiMatching->mConnectionSocket, NULL,
                     Gt2FormatAddress(
                         p->mParticipantConnectAddresses[p->mUnk_14],
@@ -545,7 +545,7 @@ void WiFiGt2ResultCallback(Unk0219887c *param_1, s32 param_2) {
     e->mUnk_02 = 0;
     e->mUnk_04 = 0;
     e->mUnk_01 = gWiFiMatching->mParticipantIndices[gWiFiMatching->mLastParticipantPos];
-    func_ov000_021988a4(param_1, e);
+    gt2SetConnectionData(param_1, e);
     if (gWiFiMatching->mState == 12) {
         func_ov000_0219f544(0);
         return;
@@ -684,7 +684,7 @@ u32 func_ov000_021a17bc(s32 a, s32 b, s32 c) {
     if (p->mLastParticipantPos != 0) {
         if (p->mUnk_1a0 == 0) {
             p->mUnk_1a0 = 3;
-            func_ov000_021988e8(*gWiFiMatching->mConnectionSocket);
+            gt2CloseAllConnectionsHard(*gWiFiMatching->mConnectionSocket);
         }
     } else if (p->mMode == 3) {
         ReportMatchingError(6, -80430);
@@ -1409,7 +1409,7 @@ s32 ReceiveMatchingCommand(s32 command, u32 profileId, u32 c, u16 d, u32 *values
                 break;
             }
             if (o->mMode == 2 && o->mLastParticipantPos == 1 && o->mParticipantProfileIds[1] == profileId) {
-                func_ov000_021988e8(*o->mConnectionSocket);
+                gt2CloseAllConnectionsHard(*o->mConnectionSocket);
             }
             if (func_ov000_0219f9bc(profileId) == 0) {
                 return 0;
@@ -1505,7 +1505,7 @@ s32 ReceiveMatchingCommand(s32 command, u32 profileId, u32 c, u16 d, u32 *values
             }
             p = gWiFiMatching;
             if (p->mLastParticipantPos != 0) {
-                func_ov000_021988e8(*p->mConnectionSocket);
+                gt2CloseAllConnectionsHard(*p->mConnectionSocket);
                 break;
             }
             if (func_ov000_0219f184() == 0) {
@@ -1936,7 +1936,7 @@ u32 SendMatchingListAndCloseConnections(void) {
     gWiFiMatching->mMresvPresent = 0;
     gWiFiMatching->mMresvProfileId = 0;
     gWiFiMatching->mUnk_1a0 = 1;
-    func_ov000_021988e8(*gWiFiMatching->mConnectionSocket);
+    gt2CloseAllConnectionsHard(*gWiFiMatching->mConnectionSocket);
     gWiFiMatching->mUnk_1a0 = 0;
     return 0;
 }
@@ -2129,7 +2129,7 @@ void func_ov000_0219f3cc(void) {
         p->mStopPending = 1;
         p = gWiFiMatching;
         if (p->mLastParticipantPos != 0) {
-            func_ov000_021988e8(*p->mConnectionSocket);
+            gt2CloseAllConnectionsHard(*p->mConnectionSocket);
         } else {
             if (ReportMatchingSendResult(func_ov000_0219fb14(p->mParticipantProfileIds[0])) != 0) {
                 return;
@@ -2156,7 +2156,7 @@ void func_ov000_0219f3cc(void) {
     p = gWiFiMatching;
     if (p->mLastParticipantPos != 0) {
         p->mStopPending = 1;
-        func_ov000_021988e8(*gWiFiMatching->mConnectionSocket);
+        gt2CloseAllConnectionsHard(*gWiFiMatching->mConnectionSocket);
     }
     func_ov000_0219f344();
 }
@@ -2277,7 +2277,7 @@ u32 func_ov000_0219f124(u32 a) {
     r = func_ov000_0219b8fc(a, gWiFiMatching->mLastParticipantPos + 1);
     if (r != NULL) {
         gWiFiMatching->mUnk_1a0 = 2;
-        func_ov000_02198908(*r);
+        gt2CloseConnectionHard(*r);
         gWiFiMatching->mUnk_1a0 = 0;
         return 1;
     }
@@ -2287,7 +2287,7 @@ u32 func_ov000_0219f124(u32 a) {
 
 void CloseAllMatchingConnections(void) {
     gWiFiMatching->mUnk_1a0 = 2;
-    func_ov000_021988e8(*gWiFiMatching->mConnectionSocket);
+    gt2CloseAllConnectionsHard(*gWiFiMatching->mConnectionSocket);
     gWiFiMatching->mUnk_1a0 = 0;
 }
 

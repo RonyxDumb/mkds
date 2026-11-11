@@ -83,7 +83,7 @@ typedef struct WiFiMatching {
     /* 2d8 */ u32 mParticipantMask;
     // The game name buffer WiFiConnection.mGameName points to, given to the server list.
     /* 2dc */ const char *mGameName;
-    // The key string data_ov000_021b4f84, given after the game name when the server list is created.
+    // The key string gcd_secret_key, given after the game name when the server list is created.
     /* 2e0 */ const char *mUnk_2e0;
     /* 2e4 */ u8 *mBuddies;
     /* 2e8 */ u32 mBuddyEntryCount;

@@ -19,87 +19,89 @@
 #include "code_021382a8.h"
 #include "Main/Unknown/code_02133000.h"
 
-u32 func_ov000_021998d8(Gt2Connection *a, s32 b, u32 c, const u8 *d, s32 e, s32 *f) {
-    Unk0219981cEntry g;
-    s32 h;
-    s32 i;
-    Unk0219981cEntry *j;
-    h = DarrayGetCount(a->mUnk_5c);
-    for (i = 0; i < h; i++) {
-        j = DarrayGetElement(a->mUnk_5c, i);
-        if (j->mUnk_0c == c) {
-            *f = 0;
+u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNumber, const u8 *message, s32 len,
+                              s32 *overflow) {
+    GTI2IncomingBufferMessage newEntry;
+    s32 num;
+    s32 index;
+    GTI2IncomingBufferMessage *heldMessage;
+    num = DarrayGetCount(connection->mIncomingBufferMessages);
+    for (index = 0; index < num; index++) {
+        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, index);
+        if (heldMessage->mSerialNumber == serialNumber) {
+            *overflow = 0;
             return 1;
         }
-        if (func_ov000_0219a014(j->mUnk_0c, c) > 0) {
+        if (func_ov000_0219a014(heldMessage->mSerialNumber, serialNumber) > 0) {
             break;
         }
     }
-    if (GetBufferUnusedSize(&a->mUnk_44) < e) {
-        *f = 1;
+    if (GetBufferUnusedSize(&connection->mIncomingBuffer) < len) {
+        *overflow = 1;
         return 1;
     }
-    g.mUnk_00 = a->mUnk_44.mLength;
-    g.mUnk_04 = e;
-    g.mUnk_08 = b;
-    g.mUnk_0c = c;
-    DarrayInsertSorted(a->mUnk_5c, &g, func_ov000_02199a00);
-    if (h + 1 != DarrayGetCount(a->mUnk_5c)) {
-        *f = 1;
+    newEntry.mStart = connection->mIncomingBuffer.mLength;
+    newEntry.mLen = len;
+    newEntry.mType = type;
+    newEntry.mSerialNumber = serialNumber;
+    DarrayInsertSorted(connection->mIncomingBufferMessages, &newEntry, gti2IncomingBufferMessageCompare);
+    if (num + 1 != DarrayGetCount(connection->mIncomingBufferMessages)) {
+        *overflow = 1;
         return 1;
     }
-    AppendBufferBytes(&a->mUnk_44, d, e);
-    if (h == 0) {
-        if (func_ov000_02198ba8(a, a->mUnk_66, c - 1) == FALSE) {
+    AppendBufferBytes(&connection->mIncomingBuffer, message, len);
+    if (num == 0) {
+        if (gti2SendNack(connection, connection->mExpectedSerialNumber, serialNumber - 1) == FALSE) {
             return 0;
         }
     } else {
-        j = DarrayGetElement(a->mUnk_5c, h);
-        if (j->mUnk_0c == c) {
-            j = DarrayGetElement(a->mUnk_5c, h - 1);
-            if ((u16) func_ov000_0219a014(c, j->mUnk_0c) > 1) {
-                if (func_ov000_02198ba8(a, j->mUnk_0c + 1, c - 1) == FALSE) {
+        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, num);
+        if (heldMessage->mSerialNumber == serialNumber) {
+            heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, num - 1);
+            if ((u16) func_ov000_0219a014(serialNumber, heldMessage->mSerialNumber) > 1) {
+                if (gti2SendNack(connection, heldMessage->mSerialNumber + 1, serialNumber - 1) == FALSE) {
                     return 0;
                 }
             }
         }
     }
-    *f = 0;
+    *overflow = 0;
     return 1;
 }
 
-void func_ov000_02199878(Gt2Connection *a, Unk0219981cEntry *b, s32 c) {
+void gti2RemoveHoldMessage(Gt2Connection *connection, GTI2IncomingBufferMessage *message, s32 index) {
     s32 d = 0;
-    s32 e = b->mUnk_00;
-    s32 f = b->mUnk_04;
-    s32 g;
+    s32 removedStart = message->mStart;
+    s32 removedLen = message->mLen;
+    s32 num;
     s32 i;
-    Unk0219981cEntry *h;
-    DarrayRemove(a->mUnk_5c, c);
-    g = DarrayGetCount(a->mUnk_5c);
-    for (i = 0; i < g; i++) {
-        h = DarrayGetElement(a->mUnk_5c, i);
-        if (h->mUnk_00 > e) {
-            h->mUnk_00 -= f;
-            if (d <= h->mUnk_00 + h->mUnk_04) {
-                d = h->mUnk_00 + h->mUnk_04;
+    GTI2IncomingBufferMessage *heldMessage;
+    DarrayRemove(connection->mIncomingBufferMessages, index);
+    num = DarrayGetCount(connection->mIncomingBufferMessages);
+    for (i = 0; i < num; i++) {
+        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, i);
+        if (heldMessage->mStart > removedStart) {
+            heldMessage->mStart -= removedLen;
+            if (d <= heldMessage->mStart + heldMessage->mLen) {
+                d = heldMessage->mStart + heldMessage->mLen;
             }
         }
     }
-    RemoveBufferBytes(&a->mUnk_44, e, f);
+    RemoveBufferBytes(&connection->mIncomingBuffer, removedStart, removedLen);
 }
 
-u32 func_ov000_0219981c(Gt2Connection *a) {
-    s32 b;
-    Unk0219981cEntry *c;
+u32 gti2DeliverHoldMessages(Gt2Connection *connection) {
+    s32 index;
+    GTI2IncomingBufferMessage *message;
 top:
-    for (b = DarrayGetCount(a->mUnk_5c) - 1; b >= 0; b--) {
-        c = DarrayGetElement(a->mUnk_5c, b);
-        if (c->mUnk_0c == a->mUnk_66) {
-            if (func_ov000_02199a0c(a, c->mUnk_08, a->mUnk_44.mData + c->mUnk_00, c->mUnk_04) == 0) {
+    for (index = DarrayGetCount(connection->mIncomingBufferMessages) - 1; index >= 0; index--) {
+        message = DarrayGetElement(connection->mIncomingBufferMessages, index);
+        if (message->mSerialNumber == connection->mExpectedSerialNumber) {
+            if (gti2DeliverReliableMessage(connection, message->mType,
+                                           connection->mIncomingBuffer.mData + message->mStart, message->mLen) == 0) {
                 return 0;
             }
-            func_ov000_02199878(a, c, b);
+            gti2RemoveHoldMessage(connection, message, index);
             goto top;
         }
     }

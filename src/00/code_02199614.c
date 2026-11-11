@@ -19,79 +19,80 @@
 #include "00/code_0219a028.h"
 #include "00/code_02199ad8.h"
 
-u32 func_ov000_021996fc(Gt2Connection *a, u32 b, const u8 *c, s32 d) {
-    u32 e;
-    s32 g;
-    u32 f;
-    if (d < 7) {
-        if (func_ov000_02199fa4(a) != 0) {
+u32 gti2HandleReliableMessage(Gt2Connection *connection, u32 type, const u8 *message, s32 len) {
+    u32 serialNumber;
+    s32 bufferFull;
+    u32 expectedSerialNumber;
+    if (len < 7) {
+        if (func_ov000_02199fa4(connection) != 0) {
             return 1;
         }
         return 0;
     }
-    e = func_ov000_0219a028(c, 3);
-    f = func_ov000_0219a028(c, 5);
-    if (func_ov000_02199ec8(a, f) == 0) {
+    serialNumber = func_ov000_0219a028(message, 3);
+    expectedSerialNumber = func_ov000_0219a028(message, 5);
+    if (func_ov000_02199ec8(connection, expectedSerialNumber) == 0) {
         return 0;
     }
-    if (e == a->mUnk_66) {
-        func_ov000_021997f8(a);
-        if (func_ov000_02199a0c(a, b, c + 7, d - 7) == 0) {
+    if (serialNumber == connection->mExpectedSerialNumber) {
+        gti2SetPendingAck(connection);
+        if (gti2DeliverReliableMessage(connection, type, message + 7, len - 7) == 0) {
             return 0;
         }
-        if (func_ov000_0219981c(a) != 0) {
+        if (gti2DeliverHoldMessages(connection) != 0) {
             return 1;
         }
         return 0;
     }
-    if (func_ov000_0219a014(e, a->mUnk_66) < 0) {
-        func_ov000_021997f8(a);
+    if (func_ov000_0219a014(serialNumber, connection->mExpectedSerialNumber) < 0) {
+        gti2SetPendingAck(connection);
         return 1;
     }
-    if (func_ov000_021998d8(a, b, e, c + 7, d - 7, &g) == 0) {
+    if (gti2BufferIncomingMessage(connection, type, serialNumber, message + 7, len - 7, &bufferFull) == 0) {
         return 0;
     }
-    if (g != 0 && func_ov000_02199f80(a) == 0) {
+    if (bufferFull != 0 && func_ov000_02199f80(connection) == 0) {
         return 0;
     }
     return 1;
 }
 
-u32 func_ov000_021996b8(Gt2Connection *a, const u8 *b, s32 c) {
-    if (c != 2) {
-        if (func_ov000_02199fa4(a) != 0) {
+u32 gti2HandleAck(Gt2Connection *connection, const u8 *message, s32 len) {
+    if (len != 2) {
+        if (func_ov000_02199fa4(connection) != 0) {
             return 1;
         }
         return 0;
     }
-    if (func_ov000_02199ec8(a, func_ov000_0219a028(b, 0)) != 0) {
+    if (func_ov000_02199ec8(connection, func_ov000_0219a028(message, 0)) != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_ov000_02199614(Gt2Connection *a, const u8 *b, s32 c) {
-    u32 d;
-    u32 e;
-    s32 f;
-    s32 i;
-    Unk021990f8Entry *g;
-    d = func_ov000_0219a028(b, 0);
-    if (c == 2) {
-        e = d;
-    } else if (c == 4) {
-        e = func_ov000_0219a028(b, 2);
+u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len) {
+    u32 firstNumber;
+    u32 lastNumber;
+    s32 num;
+    s32 index;
+    GTI2OutgoingBufferMessage *sentEntry;
+    firstNumber = func_ov000_0219a028(message, 0);
+    if (len == 2) {
+        lastNumber = firstNumber;
+    } else if (len == 4) {
+        lastNumber = func_ov000_0219a028(message, 2);
     } else {
-        if (func_ov000_02199fa4(a) != 0) {
+        if (func_ov000_02199fa4(connection) != 0) {
             return 1;
         }
         return 0;
     }
-    f = DarrayGetCount(a->mUnk_60);
-    for (i = 0; i < f; i++) {
-        g = DarrayGetElement(a->mUnk_60, i);
-        if (func_ov000_0219a014(g->mUnk_08, d) >= 0 && func_ov000_0219a014(g->mUnk_08, e) <= 0) {
-            if (func_ov000_02198af4(a, (Unk02198af4 *) g) == FALSE) {
+    num = DarrayGetCount(connection->mOutgoingBufferMessages);
+    for (index = 0; index < num; index++) {
+        sentEntry = DarrayGetElement(connection->mOutgoingBufferMessages, index);
+        if (func_ov000_0219a014(sentEntry->mSerialNumber, firstNumber) >= 0 &&
+            func_ov000_0219a014(sentEntry->mSerialNumber, lastNumber) <= 0) {
+            if (gti2ResendMessage(connection, (Unk02198af4 *) sentEntry) == FALSE) {
                 return 0;
             }
         }

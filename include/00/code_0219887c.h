@@ -10,9 +10,9 @@ typedef struct Unk0219887c {
     /* 40 */ u8 *mUnk_40;
 } Unk0219887c;
 
-u8 *func_ov000_0219887c(Unk0219887c *object);
-void func_ov000_021988a4(Unk0219887c *connection, void *b);
-void SetUnmatchedDataCallback(Gt2Socket *a, UnkWordFunc *b);
-u32 GetSocketDescriptor(u32 *a);
-int func_ov000_021988dc(Gt2Connection *a);
-u16 GetSocketPort(Gt2Socket *a);
+u8 *gt2GetConnectionData(Unk0219887c *object);
+void gt2SetConnectionData(Unk0219887c *connection, void *data);
+void SetUnmatchedDataCallback(Gt2Socket *socket, UnkWordFunc *callback);
+u32 GetSocketDescriptor(u32 *socket);
+int gt2GetOutgoingBufferFreeSpace(Gt2Connection *connection);
+u16 GetSocketPort(Gt2Socket *socket);

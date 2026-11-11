@@ -2,40 +2,40 @@
 #include "00/code_02199ad8.h"
 #include "00/code_02197e58.h"
 
-u32 func_ov000_02199a0c(Gt2Connection *a, int b, const u8 *c, u32 d) {
-    int v1;
-    a->mUnk_66 = a->mUnk_66 + 1;
-    if (b == 0) {
-        v1 = func_ov000_02199dd0(a, c, d);
-        if (v1 == 0) {
+u32 gti2DeliverReliableMessage(Gt2Connection *connection, int type, const u8 *message, u32 len) {
+    int result;
+    connection->mExpectedSerialNumber = connection->mExpectedSerialNumber + 1;
+    if (type == 0) {
+        result = func_ov000_02199dd0(connection, message, len);
+        if (result == 0) {
             return 0;
         }
-    } else if (b == 1) {
-        v1 = func_ov000_02199d4c(a, c, d);
-        if (v1 == 0) {
+    } else if (type == 1) {
+        result = func_ov000_02199d4c(connection, message, len);
+        if (result == 0) {
             return 0;
         }
-    } else if (b == 2) {
-        v1 = func_ov000_02199c98(a, c, d);
-        if (v1 == 0) {
+    } else if (type == 2) {
+        result = func_ov000_02199c98(connection, message, len);
+        if (result == 0) {
             return 0;
         }
-    } else if (b == 3) {
-        v1 = func_ov000_02199bb4(a, c, d);
-        if (v1 == 0) {
+    } else if (type == 3) {
+        result = func_ov000_02199bb4(connection, message, len);
+        if (result == 0) {
             return 0;
         }
-    } else if (b == 4) {
-        v1 = func_ov000_02199b70(a);
-        if (v1 == 0) {
+    } else if (type == 4) {
+        result = func_ov000_02199b70(connection);
+        if (result == 0) {
             return 0;
         }
-    } else if (b == 5) {
-        v1 = func_ov000_02199b14(a, c, d);
-        if (v1 == 0) {
+    } else if (type == 5) {
+        result = func_ov000_02199b14(connection, message, len);
+        if (result == 0) {
             return 0;
         }
-    } else if ((b == 6) && (v1 = func_ov000_02199ad8(a), v1 == 0)) {
+    } else if ((type == 6) && (result = func_ov000_02199ad8(connection), result == 0)) {
         return 0;
     }
     return 1;

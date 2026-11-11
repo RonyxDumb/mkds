@@ -2,39 +2,39 @@
 
 #include "types.h"
 
-typedef struct Unk021b3bb8 {
+typedef struct PreAuthPMRespformatText {
     /* 00 */ s8 mUnk_00[0x24];
-} Unk021b3bb8;
+} PreAuthPMRespformatText;
 
-// 0x1d bytes written into the buffer of func_ov000_02197a9c when the two strings are too long.
-typedef struct Unk021b3e44 {
+// 0x1d bytes written into the buffer of GenerateAuthA when the two strings are too long.
+typedef struct CdKeyTooLongText {
     /* 00 */ s8 mUnk_00[0x1d];
-} Unk021b3e44;
+} CdKeyTooLongText;
 
-extern const Unk021b3bb8 data_ov000_021b3bb8;
-extern const char data_ov000_021b3c48[];
-extern const char data_ov000_021b3e14[];
-extern const char data_ov000_021b3e34[];
-extern const char data_ov000_021b3e40[];
-extern const Unk021b3e44 data_ov000_021b3e44;
-extern const char data_ov000_021b3e64[];
-extern u32 data_ov000_021b4e48;
-extern s32 data_ov000_021b4e54;
-extern s8 *data_ov000_021b4e58;
-extern s32 data_ov000_021b4e60;
-extern u32 data_ov000_021b4e64;
-extern s32 data_ov000_021b4e68;
-extern s8 *data_ov000_021b4e6c;
-extern s32 data_ov000_021b4e74;
-extern s8 data_ov000_021b4e78[];
+extern const PreAuthPMRespformatText gPreAuthPMRespformat;
+extern const char gStatsServerHostname[];
+extern const char gInitStatsThinkAssert[];
+extern const char gGstatsFileName[];
+extern const char gHostnameDot[];
+extern const CdKeyTooLongText gCdKeyTooLongText;
+extern const char gGenerateAuthFormat[];
+extern u32 gInitStart;
+extern s32 gRcvLen;
+extern s8 *gRcvBuffer;
+extern s32 gStatsInitState;
+extern u32 gSessKey;
+extern s32 gGamePort;
+extern s8 *gStatsGame;
+extern s32 gRcvMax;
+extern s8 gChallenge[];
 
-void func_ov000_0219742c(void);
-BOOL func_ov000_0219746c(void);
-void func_ov000_02197558(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-void func_ov000_02197594(s32 a, s32 b, s32 c, UnkFunc *d, s32 e);
-s8 *func_ov000_021975f4(s8 *a);
+void InternalInit(void);
+BOOL PersistThink(void);
+void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, u32 valueString, u32 callback, u32 instance);
+void PreAuthenticatePlayerPartner(s32 localId, s32 profileId, s32 challengeResponse, UnkFunc *callback, s32 instance);
+s8 *GetChallenge(s8 *game);
 void GstatsClose(void);
-s32 GstatsConnect(s32 a);
+s32 GstatsConnect(s32 gameport);
 s32 GstatsUpdateConnect(void);
-s32 GstatsStartConnect(s32 a, s32 b);
-s8 *func_ov000_02197a9c(const char *a, const char *b, s8 *c);
+s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout);
+s8 *GenerateAuthA(const char *challenge, const char *password, s8 *response);

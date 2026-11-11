@@ -5,24 +5,24 @@
 typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;
 
-typedef struct Unk021990f8Entry {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u16 mUnk_08;
+typedef struct GTI2OutgoingBufferMessage {
+    /* 00 */ s32 mStart;
+    /* 04 */ s32 mLen;
+    /* 08 */ u16 mSerialNumber;
     /* 0a */ u8 mUnk_0a[2];
-    /* 0c */ u32 mUnk_0c;
-} Unk021990f8Entry;
+    /* 0c */ u32 mLastSend;
+} GTI2OutgoingBufferMessage;
 
 typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;
 
-extern const u8 data_ov000_021b3fa8[];
+extern const u8 gPingTimeId[];
 
-BOOL func_ov000_0219903c(Gt2Connection *a, u32 b, int c, int *d);
-u32 func_ov000_021990f8(Gt2Connection *a, u16 b, s32 c);
-u32 func_ov000_0219914c(Gt2Socket *a);
-u32 func_ov000_0219922c(Gt2Socket *a, u32 b, u32 c);
-u32 func_ov000_021992d4(Gt2Socket *a, u8 *b, s32 c, u32 d, u32 e);
-u32 func_ov000_021994c4(Gt2Connection *a, u32 b, u8 *c, s32 d);
-u32 func_ov000_02199554(Gt2Connection *a);
-u32 func_ov000_0219958c(Gt2Connection *a, u8 *b, s32 c);
+BOOL gti2BeginReliableMessage(Gt2Connection *connection, u32 type, int len, int *overflow);
+u32 gti2StoreOutgoingReliableMessageInfo(Gt2Connection *connection, u16 serialNumber, s32 len);
+u32 gti2ReceiveMessages(Gt2Socket *socket);
+u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port);
+u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 port);
+u32 gti2HandleUnreliableMessage(Gt2Connection *connection, u32 type, u8 *message, s32 len);
+u32 gti2HandleClosed(Gt2Connection *connection);
+u32 gti2HandlePong(Gt2Connection *connection, u8 *message, s32 len);

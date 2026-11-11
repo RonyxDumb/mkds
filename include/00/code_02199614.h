@@ -4,6 +4,6 @@
 
 typedef struct Gt2Connection Gt2Connection;
 
-u32 func_ov000_02199614(Gt2Connection *a, const u8 *b, s32 c);
-u32 func_ov000_021996b8(Gt2Connection *a, const u8 *b, s32 c);
-u32 func_ov000_021996fc(Gt2Connection *a, u32 b, const u8 *c, s32 d);
+u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len);
+u32 gti2HandleAck(Gt2Connection *connection, const u8 *message, s32 len);
+u32 gti2HandleReliableMessage(Gt2Connection *connection, u32 type, const u8 *message, s32 len);

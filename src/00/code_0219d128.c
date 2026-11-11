@@ -81,7 +81,7 @@ void UpdateBuddySync(void) {
     if (func_ov000_0219c39c() != 0) {
         return;
     }
-    if (GetPendingStatsRequestCount() != 0 && func_ov000_0219746c() == FALSE) {
+    if (GetPendingStatsRequestCount() != 0 && PersistThink() == FALSE) {
         ReportBuddySyncError(6, -0x1194a);
         return;
     }
@@ -134,8 +134,8 @@ void StartBuddySync(s32 a, const char *b, void (*c)(s32, u8, void *), void *d, v
                 return;
             }
         }
-        func_ov000_02197a9c((const char *) func_ov000_021975f4(NULL), b, l);
-        func_ov000_02197594(0, a, (s32) l, func_ov000_0219cc30, 0);
+        GenerateAuthA((const char *) GetChallenge(NULL), b, l);
+        PreAuthenticatePlayerPartner(0, a, (s32) l, func_ov000_0219cc30, 0);
         AddPendingStatsRequest();
     } else {
         gWiFiBuddySync->mCompletedParts++;

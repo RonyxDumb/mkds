@@ -49,133 +49,133 @@
 
 enum { K0, K1 };
 
-u32 func_ov000_0219958c(Gt2Connection *a, u8 *b, s32 c) {
-    s32 d;
-    u8 *t;
-    u8 *p;
-    if (a->mCallbacks.mElapsedTimeCallback == NULL) {
+u32 gti2HandlePong(Gt2Connection *connection, u8 *message, s32 len) {
+    s32 pingSentTime;
+    u8 *startTimeBytes;
+    u8 *timeData;
+    if (connection->mCallbacks.mElapsedTimeCallback == NULL) {
         return 1;
     }
-    if (c != 8) {
+    if (len != 8) {
         return 1;
     }
-    if (memcmp(b, data_ov000_021b3fa8, 4) != 0) {
+    if (memcmp(message, gPingTimeId, 4) != 0) {
         return 1;
     }
-    t = (u8 *) &d;
-    p = b + 4;
-    t[0] = p[0];
-    t[1] = p[1];
-    t[2] = p[2];
-    t[3] = p[3];
-    if (Gt2CallElapsedTimeCallback(a, GetElapsedMilliseconds() - d) != FALSE) {
+    startTimeBytes = (u8 *) &pingSentTime;
+    timeData = message + 4;
+    startTimeBytes[0] = timeData[0];
+    startTimeBytes[1] = timeData[1];
+    startTimeBytes[2] = timeData[2];
+    startTimeBytes[3] = timeData[3];
+    if (Gt2CallElapsedTimeCallback(connection, GetElapsedMilliseconds() - pingSentTime) != FALSE) {
         return 1;
     }
     return 0;
 }
 
-u32 func_ov000_02199554(Gt2Connection *a) {
-    if (a->mUnk_0c == 7) {
+u32 gti2HandleClosed(Gt2Connection *connection) {
+    if (connection->mState == 7) {
         return 1;
     }
-    if (func_ov000_02199fb0(a, 2, a->mUnk_0c == 6 ? K0 : K1) == 0) {
+    if (func_ov000_02199fb0(connection, 2, connection->mState == 6 ? K0 : K1) == 0) {
         return 0;
     }
     return 1;
 }
 
-u32 func_ov000_021994c4(Gt2Connection *a, u32 b, u8 *c, s32 d) {
-    u8 *e = c + 3;
-    s32 f = d - 3;
-    if (b == 0x64) {
-        if (func_ov000_021996b8(a, e, f) == 0) {
+u32 gti2HandleUnreliableMessage(Gt2Connection *connection, u32 type, u8 *message, s32 len) {
+    u8 *payloadStart = message + 3;
+    s32 payloadLen = len - 3;
+    if (type == 0x64) {
+        if (gti2HandleAck(connection, payloadStart, payloadLen) == 0) {
             return 0;
         }
-    } else if (b == 0x65) {
-        if (func_ov000_02199614(a, e, f) == 0) {
+    } else if (type == 0x65) {
+        if (gti2HandleNack(connection, payloadStart, payloadLen) == 0) {
             return 0;
         }
-    } else if (b == 0x66) {
-        if (func_ov000_0219960c(a, (u32) c, d) == 0) {
+    } else if (type == 0x66) {
+        if (gti2HandlePing(connection, (u32) message, len) == 0) {
             return 0;
         }
-    } else if (b == 0x67) {
-        if (func_ov000_0219958c(a, e, f) == 0) {
+    } else if (type == 0x67) {
+        if (gti2HandlePong(connection, payloadStart, payloadLen) == 0) {
             return 0;
         }
-    } else if (b == 0x68) {
-        if (func_ov000_02199554(a) == 0) {
+    } else if (type == 0x68) {
+        if (gti2HandleClosed(connection) == 0) {
             return 0;
         }
     }
     return 1;
 }
 
-u32 func_ov000_021992d4(Gt2Socket *a, u8 *b, s32 c, u32 d, u32 e) {
-    Gt2Connection *f;
+u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 port) {
+    Gt2Connection *connection;
     Gt2Connection *k;
-    s32 g;
-    BOOL h;
+    s32 wasHandled;
+    BOOL hasMagic;
     s32 i;
-    f = FindConnection(a, d, e);
-    if (a->mUnk_2c != NULL) {
-        if (func_ov000_02197f28(a, f, d, e, 0, (s32) b, c, 0) == 0) {
+    connection = FindConnection(socket, address, port);
+    if (socket->mReceiveDumpCallback != NULL) {
+        if (gti2DumpCallback(socket, connection, address, port, 0, (s32) message, len, 0) == 0) {
             return 0;
         }
     }
-    if (c > 2 && memcmp(b, data_ov000_021b3fa4, 2) == 0) {
-        h = TRUE;
+    if (len > 2 && memcmp(message, gGti2MagicString, 2) == 0) {
+        hasMagic = TRUE;
     } else {
-        h = FALSE;
+        hasMagic = FALSE;
     }
-    if (f == NULL) {
-        if (CallUnmatchedDataCallback(a, d, e, b, c, &g) == FALSE) {
+    if (connection == NULL) {
+        if (CallUnmatchedDataCallback(socket, address, port, message, len, &wasHandled) == FALSE) {
             return 0;
         }
-        if (g != 0) {
+        if (wasHandled != 0) {
             return 1;
         }
-        if (h == FALSE || b[2] != 1) {
-            if (h == FALSE || b[2] != 0x68) {
-                if (func_ov000_02198b50(a, d, e) == FALSE) {
+        if (hasMagic == FALSE || message[2] != 1) {
+            if (hasMagic == FALSE || message[2] != 0x68) {
+                if (gti2SendClosedOnSocket(socket, address, port) == FALSE) {
                     return 0;
                 }
             }
             return 1;
         } else {
-            if (a->mIncomingConnectionCallback == NULL) {
+            if (socket->mIncomingConnectionCallback == NULL) {
                 return 1;
             }
-            i = func_ov000_0219883c(a, &f, d, e);
+            i = gti2NewIncomingConnection(socket, &connection, address, port);
             if (i != 0) {
-                if (i != 5 && func_ov000_02198b50(a, d, e) == FALSE) {
+                if (i != 5 && gti2SendClosedOnSocket(socket, address, port) == FALSE) {
                     return 0;
                 }
                 return 1;
             }
         }
     }
-    k = f;
-    if (k->mUnk_0c == 7) {
-        if (h == FALSE || b[2] != 0x68) {
-            if (func_ov000_02198b8c(k) == 0) {
+    k = connection;
+    if (k->mState == 7) {
+        if (hasMagic == FALSE || message[2] != 0x68) {
+            if (gti2SendClosed(k) == 0) {
                 return 0;
             }
         }
         return 1;
     }
-    if (h != FALSE && c >= 4 && memcmp(b + 2, data_ov000_021b3fa4, 2) == 0) {
-        b += 2;
-        c -= 2;
-        h = FALSE;
+    if (hasMagic != FALSE && len >= 4 && memcmp(message + 2, gGti2MagicString, 2) == 0) {
+        message += 2;
+        len -= 2;
+        hasMagic = FALSE;
     }
-    if (h == FALSE) {
-        if (func_ov000_02199e50(k, b, c) != 0) {
+    if (hasMagic == FALSE) {
+        if (func_ov000_02199e50(k, message, len) != 0) {
             return 1;
         }
         return 0;
     }
-    i = b[2];
+    i = message[2];
     if (i < 0) {
         if (func_ov000_02199fa4(k) != 0) {
             return 1;
@@ -183,41 +183,41 @@ u32 func_ov000_021992d4(Gt2Socket *a, u8 *b, s32 c, u32 d, u32 e) {
         return 0;
     }
     if (i < 8) {
-        if (func_ov000_021996fc(k, i, b, c) != 0) {
+        if (gti2HandleReliableMessage(k, i, message, len) != 0) {
             return 1;
         }
         return 0;
     }
-    if (func_ov000_021994c4(k, i, b, c) != 0) {
+    if (gti2HandleUnreliableMessage(k, i, message, len) != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_ov000_0219922c(Gt2Socket *a, u32 b, u32 c) {
-    Gt2Connection *v1;
+u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
+    Gt2Connection *connection;
     int v2;
-    v1 = FindConnection(a, b, c);
-    if (a->mUnk_2c != NULL) {
-        v2 = func_ov000_02197f28(a, v1, b, c, 1, 0, 0, 0);
+    connection = FindConnection(socket, address, port);
+    if (socket->mReceiveDumpCallback != NULL) {
+        v2 = gti2DumpCallback(socket, connection, address, port, 1, 0, 0, 0);
         if (v2 == 0) {
             return 0;
         }
     }
-    if (v1 == NULL) {
+    if (connection == NULL) {
         return 1;
     }
-    if (v1->mUnk_0c == 0) {
-        if ((v1->mTimeSinceCreateLimit == 0) ||
-            (v2 = GetElapsedMilliseconds(), (v2 - v1->mCreateTime) < v1->mTimeSinceCreateLimit)) {
+    if (connection->mState == 0) {
+        if ((connection->mTimeSinceCreateLimit == 0) ||
+            (v2 = GetElapsedMilliseconds(), (v2 - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
             return 1;
         }
-        v2 = func_ov000_02199fb0(v1, 6, 1);
+        v2 = func_ov000_02199fb0(connection, 6, 1);
         if (v2 == 0) {
             return 0;
         }
     } else {
-        v2 = func_ov000_02199fb0(v1, 2, 1);
+        v2 = func_ov000_02199fb0(connection, 2, 1);
         if (v2 == 0) {
             return 0;
         }
@@ -232,29 +232,30 @@ typedef struct Unk0219914cHeader {
     /* 4 */ u32 mUnk_04;
 } Unk0219914cHeader;
 
-u32 func_ov000_0219914c(Gt2Socket *a) {
-    Unk0219914cHeader h;
-    u8 v1[0x5dc];
-    s32 n;
-    s32 r;
-    u32 e;
-    while (CanReceiveOnSocket(a->mDescriptor) != 0) {
-        n = 8;
-        r = recvfrom(a->mDescriptor, v1, 0x5dc, 0, (u8 *) &h, &n);
-        if (r == -1) {
-            e = GOAGetLastError(a->mDescriptor);
-            if (e == -15) {
-                if (func_ov000_0219922c(a, h.mUnk_04,
-                                        (u16) (((h.mUnk_02 >> 8) & 0xff) | ((h.mUnk_02 << 8) & 0xff00))) == 0) {
+u32 gti2ReceiveMessages(Gt2Socket *socket) {
+    Unk0219914cHeader address;
+    u8 buffer[0x5dc];
+    s32 senderAddrLen;
+    s32 receivedLen;
+    u32 error;
+    while (CanReceiveOnSocket(socket->mDescriptor) != 0) {
+        senderAddrLen = 8;
+        receivedLen = recvfrom(socket->mDescriptor, buffer, 0x5dc, 0, (u8 *) &address, &senderAddrLen);
+        if (receivedLen == -1) {
+            error = GOAGetLastError(socket->mDescriptor);
+            if (error == -15) {
+                if (gti2HandleConnectionReset(
+                        socket, address.mUnk_04,
+                        (u16) (((address.mUnk_02 >> 8) & 0xff) | ((address.mUnk_02 << 8) & 0xff00))) == 0) {
                     return 0;
                 }
-            } else if (e != -35) {
-                func_ov000_0219a044(a);
+            } else if (error != -35) {
+                func_ov000_0219a044(socket);
                 return 0;
             }
         } else {
-            if (func_ov000_021992d4(a, v1, r, h.mUnk_04,
-                                    (u16) (((h.mUnk_02 >> 8) & 0xff) | ((h.mUnk_02 << 8) & 0xff00))) == 0) {
+            if (gti2HandleMessage(socket, buffer, receivedLen, address.mUnk_04,
+                                  (u16) (((address.mUnk_02 >> 8) & 0xff) | ((address.mUnk_02 << 8) & 0xff00))) == 0) {
                 return 0;
             }
         }
@@ -262,40 +263,40 @@ u32 func_ov000_0219914c(Gt2Socket *a) {
     return 1;
 }
 
-u32 func_ov000_021990f8(Gt2Connection *a, u16 b, s32 c) {
-    Unk021990f8Entry d = {0, 0, 0, {0, 0}, 0};
-    s32 e;
-    d.mUnk_00 = a->mSendBuffer.mLength;
-    d.mUnk_04 = c;
-    d.mUnk_08 = b;
-    d.mUnk_0c = GetElapsedMilliseconds();
-    e = DarrayGetCount(a->mUnk_60);
-    DarrayAppend(a->mUnk_60, &d);
-    if (e + 1 == DarrayGetCount(a->mUnk_60)) {
+u32 gti2StoreOutgoingReliableMessageInfo(Gt2Connection *connection, u16 serialNumber, s32 len) {
+    GTI2OutgoingBufferMessage newEntry = {0, 0, 0, {0, 0}, 0};
+    s32 num;
+    newEntry.mStart = connection->mSendBuffer.mLength;
+    newEntry.mLen = len;
+    newEntry.mSerialNumber = serialNumber;
+    newEntry.mLastSend = GetElapsedMilliseconds();
+    num = DarrayGetCount(connection->mOutgoingBufferMessages);
+    DarrayAppend(connection->mOutgoingBufferMessages, &newEntry);
+    if (num + 1 == DarrayGetCount(connection->mOutgoingBufferMessages)) {
         return 1;
     }
     return 0;
 }
 
-BOOL func_ov000_0219903c(Gt2Connection *a, u32 b, int c, int *d) {
-    if (GetBufferUnusedSize(&a->mSendBuffer) < c) {
-        if (func_ov000_02199f80(a) == 0) {
+BOOL gti2BeginReliableMessage(Gt2Connection *connection, u32 type, int len, int *overflow) {
+    if (GetBufferUnusedSize(&connection->mSendBuffer) < len) {
+        if (func_ov000_02199f80(connection) == 0) {
             return FALSE;
         }
-        *d = 1;
+        *overflow = 1;
         return TRUE;
     }
-    if (func_ov000_021990f8(a, a->mUnk_64, c) == 0) {
-        if (func_ov000_02199f80(a) == 0) {
+    if (gti2StoreOutgoingReliableMessageInfo(connection, connection->mSerialNumber, len) == 0) {
+        if (func_ov000_02199f80(connection) == 0) {
             return FALSE;
         }
-        *d = 1;
+        *overflow = 1;
         return TRUE;
     }
-    AppendBufferBytes(&a->mSendBuffer, data_ov000_021b3fa4, 2);
-    AppendBufferByte(&a->mSendBuffer, b);
-    AppendBufferU16(&a->mSendBuffer, a->mUnk_64++);
-    AppendBufferU16(&a->mSendBuffer, a->mUnk_66);
-    *d = 0;
+    AppendBufferBytes(&connection->mSendBuffer, gGti2MagicString, 2);
+    AppendBufferByte(&connection->mSendBuffer, type);
+    AppendBufferU16(&connection->mSendBuffer, connection->mSerialNumber++);
+    AppendBufferU16(&connection->mSendBuffer, connection->mExpectedSerialNumber);
+    *overflow = 0;
     return TRUE;
 }

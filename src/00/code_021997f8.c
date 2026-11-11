@@ -2,11 +2,11 @@
 #include "00/code_0218e2dc.h"
 #include "00/code_02197e58.h"
 
-void func_ov000_021997f8(Gt2Connection *a) {
-    u32 v1;
-    if (a->mUnk_90 == 0) {
-        a->mUnk_90 = 1;
-        v1 = GetElapsedMilliseconds();
-        a->mUnk_94 = v1;
+void gti2SetPendingAck(Gt2Connection *connection) {
+    u32 now;
+    if (connection->mPendingAck == 0) {
+        connection->mPendingAck = 1;
+        now = GetElapsedMilliseconds();
+        connection->mPendingAckTime = now;
     }
 }

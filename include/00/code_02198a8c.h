@@ -3,14 +3,15 @@
 #include "types.h"
 #include "00/code_02197e58.h"
 
-void func_ov000_02198a8c(Gt2Socket *a);
-void func_ov000_02198ab0(Gt2Socket *a);
-u32 func_ov000_02198ac4(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e);
-int func_ov000_02198ad8(Gt2Connection *a, u8 *b, int c, int d);
-BOOL func_ov000_02198af4(Gt2Connection *a, Unk02198af4 *b);
-BOOL func_ov000_02198b50(Gt2Socket *a, u32 b, int c);
-int func_ov000_02198b8c(Gt2Connection *a);
-u32 func_ov000_02198b9c(u32 arg0, u32 arg1, u32 arg2);
-BOOL func_ov000_02198ba8(Gt2Connection *a, u16 b, u16 c);
-BOOL func_ov000_02198c08(Gt2Connection *a);
-BOOL func_ov000_02198c58(Gt2Connection *a, u8 *b, int c);
+void gt2Think(Gt2Socket *socket);
+void gt2CloseSocket(Gt2Socket *socket);
+u32 gt2CreateSocket(Gt2Socket **socket, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
+                    u32 callback);
+int gti2Send(Gt2Connection *connection, u8 *message, int len, int reliable);
+BOOL gti2ResendMessage(Gt2Connection *connection, Unk02198af4 *message);
+BOOL gti2SendClosedOnSocket(Gt2Socket *socket, u32 address, int port);
+int gti2SendClosed(Gt2Connection *connection);
+u32 gti2SendPong(u32 connection, u32 message, u32 len);
+BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber);
+BOOL gti2SendAck(Gt2Connection *connection);
+BOOL gti2SendAppUnreliable(Gt2Connection *connection, u8 *message, int len);

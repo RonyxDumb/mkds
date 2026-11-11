@@ -4,4 +4,4 @@
 
 typedef struct Gt2Connection Gt2Connection;
 
-void func_ov000_021997f8(Gt2Connection *a);
+void gti2SetPendingAck(Gt2Connection *connection);

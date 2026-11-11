@@ -3,32 +3,32 @@
 #include "00/unk_021b3000.h"
 #include "code_02134398.h"
 
-u16 GetSocketPort(Gt2Socket *a) {
-    return a->mPort;
+u16 GetSocketPort(Gt2Socket *socket) {
+    return socket->mPort;
 }
 
-int func_ov000_021988dc(Gt2Connection *a) {
-    return a->mSendBuffer.mSize - a->mSendBuffer.mLength;
+int gt2GetOutgoingBufferFreeSpace(Gt2Connection *connection) {
+    return connection->mSendBuffer.mSize - connection->mSendBuffer.mLength;
 }
 
-u32 GetSocketDescriptor(u32 *a) {
-    return *a;
+u32 GetSocketDescriptor(u32 *socket) {
+    return *socket;
 }
 
-void SetUnmatchedDataCallback(Gt2Socket *a, UnkWordFunc *b) {
-    a->mUnmatchedDataCallback = b;
+void SetUnmatchedDataCallback(Gt2Socket *socket, UnkWordFunc *callback) {
+    socket->mUnmatchedDataCallback = callback;
 }
 
-void func_ov000_021988a4(Unk0219887c *connection, void *b) {
+void gt2SetConnectionData(Unk0219887c *connection, void *data) {
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x19c);
+        AssertionFailed(gGt2MainConnectionAssert, gGt2MainFileName, NULL, 0x19c);
     }
-    connection->mUnk_40 = b;
+    connection->mUnk_40 = data;
 }
 
-u8 *func_ov000_0219887c(Unk0219887c *object) {
+u8 *gt2GetConnectionData(Unk0219887c *object) {
     if (object == NULL) {
-        AssertionFailed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x1a3);
+        AssertionFailed(gGt2MainConnectionAssert, gGt2MainFileName, NULL, 0x1a3);
     }
     return object->mUnk_40;
 }

@@ -4,4 +4,4 @@
 
 typedef struct Gt2Connection Gt2Connection;
 
-u32 func_ov000_0219960c(Gt2Connection *arg0, u32 arg1, u32 arg2);
+u32 gti2HandlePing(Gt2Connection *connection, u32 message, u32 len);
