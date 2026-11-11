@@ -21,7 +21,7 @@ s8 *func_ov000_02197a9c(const char *a, const char *b, s8 *c) {
         return c;
     }
     sprintf(e, data_ov000_021b3e64, b, a);
-    func_ov000_0218e0fc(e, strlen(e), (char *) c);
+    MD5Digest(e, strlen(e), (char *) c);
     return c;
 }
 
@@ -39,13 +39,13 @@ s32 GstatsStartConnect(s32 a, s32 b) {
     if (*(u32 *) &data_ov000_021b4e50 == 0) {
         func_ov000_0219742c();
     }
-    func_ov000_0218e8b8();
-    data_ov000_021b4e64 = func_ov000_0218e8c4();
+    SocketStartUp();
+    data_ov000_021b4e64 = GetElapsedMilliseconds();
     if (data_ov000_021b3b2c != -1) {
         GstatsClose();
     }
     data_ov000_021b4e54 = 0;
-    if (func_ov000_0218e374((u32) data_ov000_021b3c48) == -1) {
+    if (inet_addr((u32) data_ov000_021b3c48) == -1) {
         strcpy((char *) d, data_ov000_021b4e84);
         strcat((char *) d, data_ov000_021b3e40);
         strcat((char *) d, data_ov000_021b3c48);
@@ -55,17 +55,17 @@ s32 GstatsStartConnect(s32 a, s32 b) {
     if (func_ov000_02197064(d, 0x74e0, c, NULL) == FALSE) {
         return 2;
     }
-    data_ov000_021b3b2c = func_ov000_0218e554(2, 1, 0);
+    data_ov000_021b3b2c = OpenNetSocket(2, 1, 0);
     if (data_ov000_021b3b2c == -1) {
         return 1;
     }
-    func_ov000_0218e80c(data_ov000_021b3b2c, 0);
-    e = func_ov000_0218e4b4(data_ov000_021b3b2c, c, 8);
+    SetSockBlocking(data_ov000_021b3b2c, 0);
+    e = connect(data_ov000_021b3b2c, c, 8);
     if (e == -1) {
-        e = func_ov000_0218e368(data_ov000_021b3b2c);
+        e = GOAGetLastError(data_ov000_021b3b2c);
         if (e != -6 && e != -0x4c && e != -0x1a) {
             data_ov000_021b4e60 = 1;
-            func_ov000_0218e53c(data_ov000_021b3b2c);
+            closesocket(data_ov000_021b3b2c);
             return 3;
         }
     }
@@ -75,7 +75,7 @@ s32 GstatsStartConnect(s32 a, s32 b) {
     }
     data_ov000_021b4e74 = 0x40;
     data_ov000_021b4e54 = 0;
-    data_ov000_021b4e48 = func_ov000_0218e8c4();
+    data_ov000_021b4e48 = GetElapsedMilliseconds();
     data_ov000_021b4e60 = 2;
     return 6;
 }
@@ -90,14 +90,14 @@ s32 GstatsUpdateConnect(void) {
         case 2:
             a[0] = 0;
             a[1] = 0;
-            b = func_ov000_0218e68c(data_ov000_021b3b2c, NULL, &a[0], &a[1]);
+            b = GSISocketSelect(data_ov000_021b3b2c, NULL, &a[0], &a[1]);
             if (b == -1 || (b == 1 && a[1] == 1)) {
                 data_ov000_021b4e60 = 1;
                 GstatsClose();
                 return 3;
             }
             if (b == 0) {
-                if (func_ov000_0218e8c4() - data_ov000_021b4e48 > data_ov000_021b3b34) {
+                if (GetElapsedMilliseconds() - data_ov000_021b4e48 > data_ov000_021b3b34) {
                     data_ov000_021b4e60 = 1;
                     GstatsClose();
                     return 7;
@@ -109,16 +109,16 @@ s32 GstatsUpdateConnect(void) {
             }
             data_ov000_021b4e60 = 3;
         case 3:
-            if (func_ov000_0218e668(data_ov000_021b3b2c) == 0) {
-                if (func_ov000_0218e8c4() - data_ov000_021b4e48 > data_ov000_021b3b34) {
+            if (CanReceiveOnSocket(data_ov000_021b3b2c) == 0) {
+                if (GetElapsedMilliseconds() - data_ov000_021b4e48 > data_ov000_021b3b34) {
                     data_ov000_021b4e60 = 1;
                     GstatsClose();
                     return 7;
                 }
                 return 6;
             }
-            b = func_ov000_0218e460(data_ov000_021b3b2c, data_ov000_021b4e58 + data_ov000_021b4e54,
-                                    data_ov000_021b4e74 - data_ov000_021b4e54, 0);
+            b = recv(data_ov000_021b3b2c, data_ov000_021b4e58 + data_ov000_021b4e54,
+                     data_ov000_021b4e74 - data_ov000_021b4e54, 0);
             if (b == -1) {
                 data_ov000_021b4e60 = 1;
                 GstatsClose();
@@ -144,8 +144,8 @@ s32 GstatsUpdateConnect(void) {
             data_ov000_021b4e54 = 0;
             memset(data_ov000_021b4e58, 0, data_ov000_021b4e74);
         case 4:
-            if (func_ov000_0218e668(data_ov000_021b3b2c) == 0) {
-                if (func_ov000_0218e8c4() - data_ov000_021b4e48 > data_ov000_021b3b34) {
+            if (CanReceiveOnSocket(data_ov000_021b3b2c) == 0) {
+                if (GetElapsedMilliseconds() - data_ov000_021b4e48 > data_ov000_021b3b34) {
                     data_ov000_021b4e60 = 1;
                     GstatsClose();
                     return 7;
@@ -174,7 +174,7 @@ s32 GstatsConnect(s32 a) {
     if (b == 6) {
         do {
             b = GstatsUpdateConnect();
-            func_ov000_0218e8bc(5);
+            msleep(5);
         } while (b == 6);
     }
     return b;
@@ -182,8 +182,8 @@ s32 GstatsConnect(s32 a) {
 
 void GstatsClose(void) {
     if (data_ov000_021b3b2c != -1) {
-        func_ov000_0218e524(data_ov000_021b3b2c, 2);
-        func_ov000_0218e53c(data_ov000_021b3b2c);
+        shutdown(data_ov000_021b3b2c, 2);
+        closesocket(data_ov000_021b3b2c);
     }
     data_ov000_021b3b2c = -1;
     func_ov000_02196960();
@@ -242,8 +242,8 @@ BOOL func_ov000_0219746c(void) {
                     return FALSE;
                 }
             }
-            a = func_ov000_0218e460(data_ov000_021b3b2c, data_ov000_021b4e58 + data_ov000_021b4e54,
-                                    data_ov000_021b4e74 - data_ov000_021b4e54, 0);
+            a = recv(data_ov000_021b3b2c, data_ov000_021b4e58 + data_ov000_021b4e54,
+                     data_ov000_021b4e74 - data_ov000_021b4e54, 0);
             if (a <= 0) {
                 GstatsClose();
                 return FALSE;

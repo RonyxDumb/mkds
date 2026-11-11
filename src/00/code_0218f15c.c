@@ -43,283 +43,288 @@
 #include "00/unk_021b4000.h"
 #include "code_021384cc.h"
 
-u32 GpiResetConnection(GpConnection *a) {
-    GpiConnection *o;
-    GpiOperation **n;
-    o = a->mGpiConnection;
-    o->mNick[0] = 0;
-    o->mUniquenick[0] = 0;
-    o->mEmail[0] = 0;
-    o->mConnectSocket = -1;
-    o->mConnectState = 0;
-    o->mInputBufferLength = 0;
-    o->mUnk_1e8 = 0;
-    o->mInputBufferCapacity = 0;
-    func_ov000_021a3668(o->mInputBuffer);
-    o->mInputBuffer = NULL;
-    o->mInputBuffer = NULL;
-    o->mCommandBufferCapacity = 0;
-    func_ov000_021a3668(o->mCommandBuffer);
-    o->mCommandBuffer = NULL;
-    o->mCommandBuffer = NULL;
-    o->mOutputBuffer.mLength = 0;
-    o->mOutputBuffer.mPos = 0;
-    o->mOutputBuffer.mCapacity = 0;
-    func_ov000_021a3668(o->mOutputBuffer.mBuffer);
-    o->mOutputBuffer.mBuffer = NULL;
-    o->mOutputBuffer.mBuffer = NULL;
-    o->mUpdateproBufferLength = 0;
-    o->mUnk_44c = 0;
-    o->mUpdateproBufferCapacity = 0;
-    func_ov000_021a3668(o->mUpdateproBuffer);
-    o->mUpdateproBuffer = NULL;
-    o->mUpdateproBuffer = NULL;
-    o->mUpdateuiBufferLength = 0;
-    o->mUnk_45c = 0;
-    o->mUpdateuiBufferCapacity = 0;
-    func_ov000_021a3668(o->mUpdateuiBuffer);
-    o->mUpdateuiBuffer = NULL;
-    o->mUpdateuiBuffer = NULL;
-    o->mListenSocket = -1;
-    o->mNextOperationId = 2;
-    n = &o->mOperationList;
-    while (*n != NULL) {
-        GpiRemoveOperation(a, *n);
+u32 GpiResetConnection(GpConnection *connection) {
+    GpiConnection *gpState;
+    GpiOperation **operationLink;
+    gpState = connection->mGpiConnection;
+    gpState->mNick[0] = 0;
+    gpState->mUniquenick[0] = 0;
+    gpState->mEmail[0] = 0;
+    gpState->mConnectSocket = -1;
+    gpState->mConnectState = 0;
+    gpState->mInputBufferLength = 0;
+    gpState->mUnk_1e8 = 0;
+    gpState->mInputBufferCapacity = 0;
+    func_ov000_021a3668(gpState->mInputBuffer);
+    gpState->mInputBuffer = NULL;
+    gpState->mInputBuffer = NULL;
+    gpState->mCommandBufferCapacity = 0;
+    func_ov000_021a3668(gpState->mCommandBuffer);
+    gpState->mCommandBuffer = NULL;
+    gpState->mCommandBuffer = NULL;
+    gpState->mOutputBuffer.mLength = 0;
+    gpState->mOutputBuffer.mPos = 0;
+    gpState->mOutputBuffer.mCapacity = 0;
+    func_ov000_021a3668(gpState->mOutputBuffer.mBuffer);
+    gpState->mOutputBuffer.mBuffer = NULL;
+    gpState->mOutputBuffer.mBuffer = NULL;
+    gpState->mUpdateproBufferLength = 0;
+    gpState->mUnk_44c = 0;
+    gpState->mUpdateproBufferCapacity = 0;
+    func_ov000_021a3668(gpState->mUpdateproBuffer);
+    gpState->mUpdateproBuffer = NULL;
+    gpState->mUpdateproBuffer = NULL;
+    gpState->mUpdateuiBufferLength = 0;
+    gpState->mUnk_45c = 0;
+    gpState->mUpdateuiBufferCapacity = 0;
+    func_ov000_021a3668(gpState->mUpdateuiBuffer);
+    gpState->mUpdateuiBuffer = NULL;
+    gpState->mUpdateuiBuffer = NULL;
+    gpState->mListenSocket = -1;
+    gpState->mNextOperationId = 2;
+    operationLink = &gpState->mOperationList;
+    while (*operationLink != NULL) {
+        GpiRemoveOperation(connection, *operationLink);
     }
-    o->mOperationList = NULL;
-    o->mBuddyCount = 0;
-    GpiForEachProfileWhileNonZero(a, func_ov000_0218f7f8, NULL);
-    o->mUserId = 0;
-    o->mProfileId = 0;
-    o->mSesskey = 0;
-    o->mSearchCount = 0;
-    o->mFatal = FALSE;
-    o->mPeerList = NULL;
-    o->mStatus = -1;
-    o->mStatusString[0] = 0;
-    o->mLocationString[0] = 0;
+    gpState->mOperationList = NULL;
+    gpState->mBuddyCount = 0;
+    GpiForEachProfileWhileNonZero(connection, gpiResetProfile, NULL);
+    gpState->mUserId = 0;
+    gpState->mProfileId = 0;
+    gpState->mSesskey = 0;
+    gpState->mSearchCount = 0;
+    gpState->mFatal = FALSE;
+    gpState->mPeerList = NULL;
+    gpState->mStatus = -1;
+    gpState->mStatusString[0] = 0;
+    gpState->mLocationString[0] = 0;
     return 0;
 }
 
-u32 func_ov000_0218f408(GpConnection *a) {
-    GpiConnection *o;
-    GpiOperation *n;
-    u32 r;
-    s32 m;
-    char *p;
-    char *q;
-    s32 v1;
-    u32 v2;
-    s32 t;
-    v2 = 0;
-    o = a->mGpiConnection;
+u32 gpiProcessConnectionManager(GpConnection *connection) {
+    GpiConnection *gpState;
+    GpiOperation *pendingOp;
+    u32 result;
+    s32 operationId;
+    char *found;
+    char *buffer;
+    s32 len;
+    u32 socketGone;
+    s32 growth;
+    socketGone = 0;
+    gpState = connection->mGpiConnection;
     do {
-        GpiWriteUpdateBuffers(a, &o->mOutputBuffer);
-        r = GpiSendBuffer(a, o->mConnectSocket, &o->mOutputBuffer, &v2, 1, data_ov000_021b262c);
-        if (r != 0) {
-            return r;
+        GpiWriteUpdateBuffers(connection, &gpState->mOutputBuffer);
+        result = GpiSendBuffer(connection, gpState->mConnectSocket, &gpState->mOutputBuffer, &socketGone, 1,
+                               gCmBufferName);
+        if (result != 0) {
+            return result;
         }
-        r = GpiReceiveBuffer(a, o->mConnectSocket, (GpiBuffer *) &o->mInputBuffer, &v1, &v2, data_ov000_021b262c);
-        if (r != 0) {
-            if (r == 3) {
-                GpiSetError(a, 5, data_ov000_021b2630);
-                GpiQueueErrorCallback(a, 3, 1);
+        result = GpiReceiveBuffer(connection, gpState->mConnectSocket, (GpiBuffer *) &gpState->mInputBuffer,
+                                  &len, &socketGone, gCmBufferName);
+        if (result != 0) {
+            if (result == 3) {
+                GpiSetError(connection, 5, gServerReadErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            return r;
+            return result;
         }
-        p = strstr(o->mInputBuffer, data_ov000_021b265c);
-        while (p != NULL) {
-            *p = 0;
-            func_ov000_0219690c(a, data_ov000_021b2664, o->mInputBuffer);
-            v1 = p - o->mInputBuffer;
-            if (v1 > o->mCommandBufferCapacity) {
-                t = v1;
-                if (t < 0x800) {
-                    t = 0x800;
+        found = strstr(gpState->mInputBuffer, data_ov000_021b265c);
+        while (found != NULL) {
+            *found = 0;
+            gpiDebug(connection, gCmdFormat, gpState->mInputBuffer);
+            len = found - gpState->mInputBuffer;
+            if (len > gpState->mCommandBufferCapacity) {
+                growth = len;
+                if (growth < 0x800) {
+                    growth = 0x800;
                 }
-                o->mCommandBufferCapacity = o->mCommandBufferCapacity + t;
-                q = func_ov000_021a3678(o->mCommandBuffer, o->mCommandBufferCapacity + 1);
-                if (q == NULL) {
-                    GpiSetErrorMessage(a, data_ov000_021b2670);
+                gpState->mCommandBufferCapacity = gpState->mCommandBufferCapacity + growth;
+                buffer = func_ov000_021a3678(gpState->mCommandBuffer, gpState->mCommandBufferCapacity + 1);
+                if (buffer == NULL) {
+                    GpiSetErrorMessage(connection, gOutOfMemoryErrorString);
                     return 1;
                 }
-                o->mCommandBuffer = q;
+                gpState->mCommandBuffer = buffer;
             }
-            memcpy(o->mCommandBuffer, o->mInputBuffer, v1 + 1);
-            o->mInputBufferLength = o->mInputBufferLength - (p + 7 - o->mInputBuffer);
-            memmove(o->mInputBuffer, p + 7, o->mInputBufferLength + 1);
-            q = o->mCommandBuffer;
-            p = strstr(q, data_ov000_021b2680);
-            if (p != NULL) {
-                m = StrtolBase10(p + 4);
-                if (GpiFindOperation(a, &n, m) == FALSE) {
-                    func_ov000_0219690c(a, data_ov000_021b2688, m);
+            memcpy(gpState->mCommandBuffer, gpState->mInputBuffer, len + 1);
+            gpState->mInputBufferLength = gpState->mInputBufferLength - (found + 7 - gpState->mInputBuffer);
+            memmove(gpState->mInputBuffer, found + 7, gpState->mInputBufferLength + 1);
+            buffer = gpState->mCommandBuffer;
+            found = strstr(buffer, gIdKey);
+            if (found != NULL) {
+                operationId = StrtolBase10(found + 4);
+                if (GpiFindOperation(connection, &pendingOp, operationId) == FALSE) {
+                    gpiDebug(connection, gNoMatchingOperationFormat, operationId);
                 } else {
-                    r = GpiProcessOperation(a, n, o->mCommandBuffer);
-                    if (r != 0) {
-                        return r;
+                    result = GpiProcessOperation(connection, pendingOp, gpState->mCommandBuffer);
+                    if (result != 0) {
+                        return result;
                     }
                 }
             } else {
-                if (GpiReadError(a, q, 1) != FALSE) {
+                if (GpiReadError(connection, buffer, 1) != FALSE) {
                     return 4;
                 }
-                q = o->mCommandBuffer;
-                if (strncmp(q, data_ov000_021b26b0, 4) == 0) {
-                    r = func_ov000_0218fca8(a, q);
-                    if (r != 0) {
-                        return r;
+                buffer = gpState->mCommandBuffer;
+                if (strncmp(buffer, gBmKey, 4) == 0) {
+                    result = gpiProcessRecvBuddyMessage(connection, buffer);
+                    if (result != 0) {
+                        return result;
                     }
-                } else if (strncmp(q, data_ov000_021b26b8, 10) != 0) {
-                    func_ov000_0219690c(a, data_ov000_021b26c0);
+                } else if (strncmp(buffer, gKaKey, 10) != 0) {
+                    gpiDebug(connection, gUnsolicitedMessageString);
                 }
             }
-            p = strstr(o->mInputBuffer, data_ov000_021b265c);
+            found = strstr(gpState->mInputBuffer, data_ov000_021b265c);
         }
-        if (v2 != 0) {
-            o->mConnectState = 4;
-            GpiSetError(a, 7, data_ov000_021b26f0);
-            GpiQueueErrorCallback(a, 3, 1);
+        if (socketGone != 0) {
+            gpState->mConnectState = 4;
+            GpiSetError(connection, 7, gServerClosedErrorString);
+            GpiQueueErrorCallback(connection, 3, 1);
             return 0;
         }
-        r = func_ov000_021937c0(a);
-        if (r != 0) {
-            func_ov000_0218e8bc(10);
+        result = gpiOperationsAreBlocking(connection);
+        if (result != 0) {
+            msleep(10);
         }
-    } while (r != 0);
+    } while (result != 0);
     return 0;
 }
 
-int GpiUpdateConnection(void *a, int b) {
-    GpConnection *p;
-    GpiConnection *o;
-    GpiOperation *n;
-    GpiOperation *m;
-    u32 r;
-    u32 x;
-    BOOL t;
-    p = a;
-    o = p->mGpiConnection;
-    r = 0;
-    if ((u32) o->mConnectState > 4) {
-        AssertionFailed(data_ov000_021b2528, data_ov000_021b2620, NULL, 0x1b5);
+int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
+    GpConnection *connection;
+    GpiConnection *gpState;
+    GpiOperation *pendingOp;
+    GpiOperation *doomedOp;
+    u32 result;
+    u32 callbackResult;
+    BOOL loop;
+    connection = connectionArgument;
+    gpState = connection->mGpiConnection;
+    result = 0;
+    if ((u32) gpState->mConnectState > 4) {
+        AssertionFailed(gConnectStateAssertion, gGpiFileName, NULL, 0x1b5);
     }
-    if (o->mConnectState == 1) {
+    if (gpState->mConnectState == 1) {
         do {
-            r = func_ov000_02191200(p);
-            if (r == 0 && b != 0 && o->mConnectState == 1) {
-                t = TRUE;
+            result = gpiCheckConnect(connection);
+            if (result == 0 && blockingOperationID != 0 && gpState->mConnectState == 1) {
+                loop = TRUE;
             } else {
-                t = FALSE;
+                loop = FALSE;
             }
-            if (t != FALSE) {
-                func_ov000_0218e8bc(10);
+            if (loop != FALSE) {
+                msleep(10);
             }
-        } while (t != FALSE);
-        if (r != 0) {
-            if (GpiFindOperation(p, &n, 1) != FALSE) {
-                n->mUnk_1c = 4;
+        } while (loop != FALSE);
+        if (result != 0) {
+            if (GpiFindOperation(connection, &pendingOp, 1) != FALSE) {
+                pendingOp->mUnk_1c = 4;
             } else {
-                AssertionFailed(data_ov000_021b2628, data_ov000_021b2620, NULL, 0x1db);
+                AssertionFailed(data_ov000_021b2628, gGpiFileName, NULL, 0x1db);
             }
         }
     }
-    if ((u32) (o->mConnectState - 2) <= 1) {
-        if (r == 0) {
-            r = func_ov000_0218f408(p);
+    if ((u32) (gpState->mConnectState - 2) <= 1) {
+        if (result == 0) {
+            result = gpiProcessConnectionManager(connection);
         }
-        if (r == 0) {
-            r = GpiUpdatePeers(p);
+        if (result == 0) {
+            result = GpiUpdatePeers(connection);
         }
     }
-    if (r == 0) {
-        r = GpiUpdateSearches(p);
+    if (result == 0) {
+        result = GpiUpdateSearches(connection);
     }
-    n = o->mOperationList;
-    if (n != NULL) {
+    pendingOp = gpState->mOperationList;
+    if (pendingOp != NULL) {
         do {
-            if (n->mUnk_1c != 0) {
-                GpiQueueOperationCallback(p, n);
-                m = n;
-                n = n->mNext;
-                GpiRemoveOperation(p, m);
+            if (pendingOp->mUnk_1c != 0) {
+                GpiQueueOperationCallback(connection, pendingOp);
+                doomedOp = pendingOp;
+                pendingOp = pendingOp->mNext;
+                GpiRemoveOperation(connection, doomedOp);
             } else {
-                n = n->mNext;
+                pendingOp = pendingOp->mNext;
             }
-        } while (n != NULL);
+        } while (pendingOp != NULL);
     }
-    x = GpiCallQueuedCallbacks(p, b);
-    if (x == 0) {
-        if (o->mFatal != FALSE) {
-            GpiCloseConnection(p, 0);
+    callbackResult = GpiCallQueuedCallbacks(connection, blockingOperationID);
+    if (callbackResult == 0) {
+        if (gpState->mFatal != FALSE) {
+            GpiCloseConnection(connection, 0);
         }
-        x = r;
+        callbackResult = result;
     }
-    return x;
+    return callbackResult;
 }
 
-u32 GpInitialize(GpConnection *a, s32 b, s32 c) {
+u32 GpInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
     if (gGsiAcResult != 1) {
         return 2;
     }
-    if (a == NULL) {
+    if (connection == NULL) {
         return 2;
     }
-    return GpiInitialize(a, b, c);
+    return GpiInitialize(connection, productID, namespaceID);
 }
 
-void func_ov000_0218f2a0(GpConnection *a) {
-    if (a != NULL && a->mGpiConnection != NULL) {
-        func_ov000_0218f808(a);
+void GpDestroy(GpConnection *connection) {
+    if (connection != NULL && connection->mGpiConnection != NULL) {
+        gpiDestroy(connection);
     }
 }
 
-u32 GpUpdate(GpConnection *a) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpUpdate(GpConnection *connection) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    return GpiUpdateConnection(a, 0);
+    return GpiUpdateConnection(connection, 0);
 }
 
-u32 func_ov000_0218f21c(GpConnection *a, s32 b, void (*c)(void *a, void *b, u32 c), u32 d) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpSetCallback(GpConnection *connection, s32 func, void (*callback)(void *connection, void *func, u32 callback),
+                  u32 param) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (b < 0 || b >= 6) {
-        GpiSetErrorMessage(a, data_ov000_021b2518);
+    if (func < 0 || func >= 6) {
+        GpiSetErrorMessage(connection, gInvalidFuncErrorString);
         return 2;
     }
-    o->mCallbacks[b].mCallback = c;
-    o->mCallbacks[b].mUnk_04 = d;
+    gpState->mCallbacks[func].mCallback = callback;
+    gpState->mCallbacks[func].mUnk_04 = param;
     return 0;
 }
 
-u32 func_ov000_0218f15c(GpConnection *a, s8 *b, s8 *c, s32 d, s32 e, Unk0218f15cCb f, u32 g) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *partnerchallenge, s32 firewall,
+                               s32 blocking, Unk0218f15cCb callback, u32 param) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (b == NULL || *b == 0) {
+    if (authtoken == NULL || *authtoken == 0) {
         return 2;
     }
-    if (c == NULL || *c == 0) {
+    if (partnerchallenge == NULL || *partnerchallenge == 0) {
         return 2;
     }
-    if (f == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b242c);
+    if (callback == NULL) {
+        GpiSetErrorMessage(connection, gNoCallbackErrorString);
         return 2;
     }
-    if (o->mUnk_108 != 0) {
-        Unk0218f15cArg h = {0};
-        f(a, &h, g);
+    if (gpState->mUnk_108 != 0) {
+        Unk0218f15cArg arg = {0};
+        callback(connection, &arg, param);
         return 0;
     }
-    return GpiStartConnect(a, data_ov000_021b2514, data_ov000_021b2514, data_ov000_021b2514, data_ov000_021b2514, b, c,
-                           NULL, d, 0, e, (s32) f, g);
+    return GpiStartConnect(connection, data_ov000_021b2514, data_ov000_021b2514, data_ov000_021b2514,
+                           data_ov000_021b2514, authtoken, partnerchallenge, NULL, firewall, 0, blocking,
+                           (s32) callback, param);
 }

@@ -27,10 +27,10 @@
 #include "00/code_02190000.h"
 #include "00/code_021965a0.h"
 
-u32 GpiIsValidDate(int a, int b, int c);
-s32 GpiProcessOperation(GpConnection *c, GpiOperation *d, const char *e);
-BOOL func_ov000_021937c0(GpConnection *object);
+u32 GpiIsValidDate(int day, int month, int year);
+s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const char *input);
+BOOL gpiOperationsAreBlocking(GpConnection *object);
 BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key);
-void GpiRemoveOperation(GpConnection *param_1, GpiOperation *param_2);
-void GpiDeleteOperation(GpConnection *param_1, GpiOperation *param_2);
+void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation);
+void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation);
 s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation);

@@ -5,7 +5,7 @@
 
 // Object behind GpiOperation.mUnk_04: GpiCreateSearch clears and fills it, GpiOpenSearchSocket sets the
 // word at 0x04 and gives it the buffer at 0x08 of 0x0c bytes.
-typedef struct Unk02196240 {
+typedef struct GPISearchData {
     /* 000 */ s32 mKind;
     /* 004 */ s32 mSocket;
     /* 008 */ void *mInputBuffer;
@@ -28,11 +28,11 @@ typedef struct Unk02196240 {
     /* 138 */ s32 mUnk_138;
     /* 13c */ s32 mUnk_13c;
     /* 140 */ s32 mUnk_140;
-} Unk02196240;
+} GPISearchData;
 
 typedef struct GpiOperation {
     /* 00 */ u32 mType;
-    /* 04 */ Unk02196240 *mUnk_04;
+    /* 04 */ GPISearchData *mUnk_04;
     /* 08 */ u32 mUnk_08;
     /* 0c */ GpiCallback mUnk_0c;
     /* 14 */ s32 mUnk_14;

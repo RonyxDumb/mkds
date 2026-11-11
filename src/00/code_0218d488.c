@@ -13,139 +13,140 @@
 
 #pragma opt_propagation off
 
-BOOL func_ov000_0218d7bc(const char *a, u32 b, Unk0218ce14 *c) {
-    Unk021a8f84 *e;
-    c->mUnk_01 = 2;
-    c->mUnk_02 = (((u16) b >> 8) & 0xff) | (((u16) b << 8) & 0xff00);
-    c->mUnk_04 = func_ov000_0218e374((u32) a);
-    if (c->mUnk_04 == -1) {
-        e = func_ov000_021a8f84(a);
-        if (e == NULL) {
+BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
+    SOCHostEnt *resolvedHost;
+    address->mUnk_01 = 2;
+    address->mUnk_02 = (((u16) port >> 8) & 0xff) | (((u16) port << 8) & 0xff00);
+    address->mUnk_04 = inet_addr((u32) hostname);
+    if (address->mUnk_04 == -1) {
+        resolvedHost = func_ov000_021a8f84(hostname);
+        if (resolvedHost == NULL) {
             return FALSE;
         }
-        c->mUnk_04 = **e->mUnk_0c;
+        address->mUnk_04 = **resolvedHost->mUnk_0c;
     }
     return TRUE;
 }
 
-void func_ov000_0218d788(void) {
-    func_ov000_0218e3e4(data_ov000_021b4dac.mUnk_00, data_ov000_021b4db8, data_ov000_021b4dac.mUnk_4c, 0,
-                        data_ov000_021b4db0, 8);
-    data_ov000_021b4dac.mUnk_50 = func_ov000_0218e8c4();
+void AvailableSendPacket(void) {
+    sendto(gGsiAvailableCheck.mUnk_00, gGsiAvailableCheckPacket, gGsiAvailableCheck.mUnk_4c, 0,
+           gGsiAvailableCheckAddress, 8);
+    gGsiAvailableCheck.mUnk_50 = GetElapsedMilliseconds();
 }
 
-void func_ov000_0218d6e4(const char *a) {
-    char v1[0x40];
-    s8 c;
-    strcpy(data_ov000_021b4d6c, a);
-    data_ov000_021b4dac.mUnk_00 = -1;
-    func_ov000_0218e8b8();
-    c = data_ov000_021b4d2c[0];
-    if (c == 0) {
-        sprintf(v1, data_ov000_021b22b4, a);
+void GSIStartAvailableCheckA(const char *gamename) {
+    char hostBuffer[0x40];
+    s8 customHost;
+    strcpy(gGsiAcGamename, gamename);
+    gGsiAvailableCheck.mUnk_00 = -1;
+    SocketStartUp();
+    customHost = gGsiAcHostname[0];
+    if (customHost == 0) {
+        sprintf(hostBuffer, gAvailableHostFormat, gamename);
     }
-    if (func_ov000_0218d7bc(c != 0 ? data_ov000_021b4d2c : v1, 0x6cfc, (Unk0218ce14 *) data_ov000_021b4db0) != FALSE) {
-        data_ov000_021b4dac.mUnk_00 = func_ov000_0218e554(2, 2, 0);
-        if (data_ov000_021b4dac.mUnk_00 != -1) {
-            u32 n;
-            data_ov000_021b4dac.mUnk_0c = 9;
-            n = strlen(a);
-            memcpy(data_ov000_021b4dbd, a, n + 1);
-            data_ov000_021b4dac.mUnk_4c = n + 6;
-            func_ov000_0218d788();
-            data_ov000_021b4dac.mUnk_54 = 0;
+    if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, 0x6cfc,
+                       (SOCSockAddrIn *) gGsiAvailableCheckAddress) != FALSE) {
+        gGsiAvailableCheck.mUnk_00 = OpenNetSocket(2, 2, 0);
+        if (gGsiAvailableCheck.mUnk_00 != -1) {
+            u32 len;
+            gGsiAvailableCheck.mUnk_0c = 9;
+            len = strlen(gamename);
+            memcpy(gGsiAvailableCheckPacketGamename, gamename, len + 1);
+            gGsiAvailableCheck.mUnk_4c = len + 6;
+            AvailableSendPacket();
+            gGsiAvailableCheck.mUnk_54 = 0;
         }
     }
 }
 
-BOOL func_ov000_0218d644(const s8 *a, s32 b, u8 *c, u32 *d) {
-    u32 v;
-    if (b < 7) {
+BOOL HandlePacket(const s8 *packet, s32 len, u8 *address, u32 *disabledservices) {
+    u32 serviceMask;
+    if (len < 7) {
         return TRUE;
     }
-    if (memcmp(c + 4, data_ov000_021b4db4, 4) != 0) {
+    if (memcmp(address + 4, gGsiAvailableCheckAddressIp, 4) != 0) {
         return TRUE;
     }
-    if (*OFFSET_PTR(u16, c, 2) != data_ov000_021b4dac.mUnk_06) {
+    if (*OFFSET_PTR(u16, address, 2) != gGsiAvailableCheck.mUnk_06) {
         return TRUE;
     }
-    if (memcmp((const u8 *) a, data_ov000_021b22b0, 3) != 0) {
+    if (memcmp((const u8 *) packet, gAvailablePacketHeader, 3) != 0) {
         return TRUE;
     }
-    v = (a[3] << 24) & 0xff000000;
-    v |= (a[4] << 16) & 0xff0000;
-    v |= (a[5] << 8) & 0xff00;
-    v |= a[6] & 0xff;
-    *d = v;
+    serviceMask = (packet[3] << 24) & 0xff000000;
+    serviceMask |= (packet[4] << 16) & 0xff0000;
+    serviceMask |= (packet[5] << 8) & 0xff00;
+    serviceMask |= packet[6] & 0xff;
+    *disabledservices = serviceMask;
     return FALSE;
 }
 
-s32 func_ov000_0218d574(void) {
-    Unk0218ce14 v1;
-    s32 v2;
-    u32 v3;
-    s8 v4[0x40];
-    v2 = 8;
-    if (data_ov000_021b4dac.mUnk_00 == -1) {
+s32 GSIAvailableCheckThink(void) {
+    SOCSockAddrIn address;
+    s32 len;
+    u32 disabledMask;
+    s8 packet[0x40];
+    len = 8;
+    if (gGsiAvailableCheck.mUnk_00 == -1) {
         gGsiAcResult = 1;
         return 1;
     }
-    if (func_ov000_0218e668(data_ov000_021b4dac.mUnk_00) != 0 &&
-        func_ov000_0218d644(v4, func_ov000_0218e438(data_ov000_021b4dac.mUnk_00, v4, 0x40, 0, (u8 *) &v1, &v2),
-                            (u8 *) &v1, &v3) == FALSE) {
-        func_ov000_0218e53c(data_ov000_021b4dac.mUnk_00);
-        if ((v3 & 1) != 0) {
+    if (CanReceiveOnSocket(gGsiAvailableCheck.mUnk_00) != 0 &&
+        HandlePacket(packet, recvfrom(gGsiAvailableCheck.mUnk_00, packet, 0x40, 0, (u8 *) &address, &len),
+                     (u8 *) &address, &disabledMask) == FALSE) {
+        closesocket(gGsiAvailableCheck.mUnk_00);
+        if ((disabledMask & 1) != 0) {
             gGsiAcResult = 2;
-        } else if ((v3 & 2) != 0) {
+        } else if ((disabledMask & 2) != 0) {
             gGsiAcResult = 3;
         } else {
             gGsiAcResult = 1;
         }
         return gGsiAcResult;
     }
-    if (func_ov000_0218e8c4() > data_ov000_021b4dac.mUnk_50 + 0x7d0) {
-        if (data_ov000_021b4dac.mUnk_54 == 1) {
-            func_ov000_0218e53c(data_ov000_021b4dac.mUnk_00);
+    if (GetElapsedMilliseconds() > gGsiAvailableCheck.mUnk_50 + 0x7d0) {
+        if (gGsiAvailableCheck.mUnk_54 == 1) {
+            closesocket(gGsiAvailableCheck.mUnk_00);
             gGsiAcResult = 1;
             return 1;
         }
-        func_ov000_0218d788();
-        data_ov000_021b4dac.mUnk_54 = data_ov000_021b4dac.mUnk_54 + 1;
+        AvailableSendPacket();
+        gGsiAvailableCheck.mUnk_54 = gGsiAvailableCheck.mUnk_54 + 1;
     }
     return 0;
 }
 
-s32 func_ov000_0218d528(u32 *a, u32 *b) {
-    u32 e;
-    u32 f;
-    s32 x;
-    s32 r;
-    e = *a;
-    f = *b;
-    x = SbServerGetInt((SbServer *) e, gSortServerList->mSortKey, 0);
-    r = x - SbServerGetInt((SbServer *) f, gSortServerList->mSortKey, 0);
+s32 IntKeyCompare(u32 *entry1, u32 *entry2) {
+    u32 firstServer;
+    u32 server2;
+    s32 firstValue;
+    s32 diff;
+    firstServer = *entry1;
+    server2 = *entry2;
+    firstValue = SbServerGetInt((SbServer *) firstServer, gSortServerList->mSortKey, 0);
+    diff = firstValue - SbServerGetInt((SbServer *) server2, gSortServerList->mSortKey, 0);
     if (gSortServerList->mSortAscending == 0) {
-        r = -r;
+        diff = -diff;
     }
-    return r;
+    return diff;
 }
 
-s32 func_ov000_0218d488(u32 *a, u32 *b) {
-    u32 e;
-    u32 f;
-    double x;
-    double y;
-    double d;
-    e = *a;
-    f = *b;
-    x = SbServerGetDouble((SbServer *) e, gSortServerList->mSortKey, 0);
-    y = SbServerGetDouble((SbServer *) f, gSortServerList->mSortKey, 0);
-    d = x - y;
+s32 FloatKeyCompare(u32 *entry1, u32 *entry2) {
+    u32 firstServer;
+    u32 server2;
+    double firstValue;
+    double secondValue;
+    double difference;
+    firstServer = *entry1;
+    server2 = *entry2;
+    firstValue = SbServerGetDouble((SbServer *) firstServer, gSortServerList->mSortKey, 0);
+    secondValue = SbServerGetDouble((SbServer *) server2, gSortServerList->mSortKey, 0);
+    difference = firstValue - secondValue;
     if (gSortServerList->mSortAscending == 0) {
-        d = 0 - d;
+        difference = 0 - difference;
     }
-    if ((float) d > 0) {
+    if ((float) difference > 0) {
         return 1;
     }
-    return -((float) d < 0);
+    return -((float) difference < 0);
 }

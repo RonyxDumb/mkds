@@ -53,7 +53,7 @@ u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
     u32 h;
     s32 j;
     u32 *p;
-    func_ov000_0218e8b8();
+    SocketStartUp();
     if (d == 0) {
         d = 0x10000;
     }
@@ -84,7 +84,7 @@ u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
         func_ov000_021a3668(f);
         return 1;
     }
-    f->mDescriptor = func_ov000_0218e554(2, 2, 0);
+    f->mDescriptor = OpenNetSocket(2, 2, 0);
     if (f->mDescriptor == -1) {
         HashtableDelete(f->mConnections);
         DarrayDelete(f->mConnectionsToFree);
@@ -97,15 +97,15 @@ u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
     g.mUnk_01 = 2;
     g.mUnk_04 = h;
     g.mUnk_02 = ((i >> 8) & 0xff) | ((i << 8) & 0xff00);
-    if (func_ov000_0218e4e4(f->mDescriptor, &g, 8) == -1) {
-        func_ov000_0218e53c(f->mDescriptor);
+    if (bind(f->mDescriptor, &g, 8) == -1) {
+        closesocket(f->mDescriptor);
         HashtableDelete(f->mConnections);
         DarrayDelete(f->mConnectionsToFree);
         func_ov000_021a3668(f);
         return 3;
     }
     j = 8;
-    func_ov000_0218e394(f->mDescriptor, &g, (u32 *) &j);
+    getsockname(f->mDescriptor, &g, (u32 *) &j);
     f->mAddress = g.mUnk_04;
     f->mPort = ((g.mUnk_02 >> 8) & 0xff) | ((g.mUnk_02 << 8) & 0xff00);
     *a = f;

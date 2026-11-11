@@ -9,10 +9,10 @@ struct GpConnection;
 struct GpConnection;
 
 // List at 0x428 of GpiConnection: the object and the number of entries added to it.
-typedef struct Unk0218f960_428 {
+typedef struct GPIProfileList {
     /* 00 */ struct Hashtable *mTable;
     /* 04 */ s32 mUnk_04;
-} Unk0218f960_428;
+} GPIProfileList;
 
 // Object behind GpConnection.mGpiConnection: GpiWriteDelbuddyAndRemoveBuddy passes the address of 0x1f4 to
 // GpiAppendBufferString and GpiAppendBufferNumber, reads 0x198 and decrements 0x430.
@@ -50,7 +50,7 @@ typedef struct GpiConnection {
     /* 41c */ BOOL mFatal;
     /* 420 */ s32 mUnk_420;
     /* 424 */ GpiOperation *mOperationList;
-    /* 428 */ Unk0218f960_428 mProfileList;
+    /* 428 */ GPIProfileList mProfileList;
     /* 430 */ s32 mBuddyCount;
     /* 434 */ GpiPeer *mPeerList;
     /* 438 */ GpiQueuedCallback *mCallbackQueueHead;
@@ -82,43 +82,43 @@ typedef struct Unk0218fa98 {
 
 typedef struct GpConnection GpConnection;
 
-// Object func_ov000_0218fca8 allocates with 0xc bytes and passes to GpiQueueCallback.
-typedef struct Unk0218fca8 {
+// Object gpiProcessRecvBuddyMessage allocates with 0xc bytes and passes to GpiQueueCallback.
+typedef struct BuddyMessageData {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
     /* 08 */ void *mUnk_08;
-} Unk0218fca8;
+} BuddyMessageData;
 
-// Object func_ov000_0218fca8 allocates with 0x40c bytes and passes to GpiQueueCallback.
-typedef struct Unk0218fca8_40c {
+// Object gpiProcessRecvBuddyMessage allocates with 0x40c bytes and passes to GpiQueueCallback.
+typedef struct BuddyRequestData {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ char mUnk_008[0x404];
-} Unk0218fca8_40c;
+} BuddyRequestData;
 
-// Object func_ov000_0218fca8 allocates with 0x108 bytes and passes to GpiQueueCallback.
-typedef struct Unk0218fca8_108 {
+// Object gpiProcessRecvBuddyMessage allocates with 0x108 bytes and passes to GpiQueueCallback.
+typedef struct GameInviteData {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ char mUnk_008[0x100];
-} Unk0218fca8_108;
+} GameInviteData;
 
-extern char data_ov000_021b27d8[];
-extern char data_ov000_021b2808[];
-extern char data_ov000_021b280c[];
+extern char gUnexpectedDataErrorString[];
+extern char gFKey[];
+extern char gDateKey[];
 extern u8 data_ov000_021b2814[];
-extern char data_ov000_021b2824[];
-extern char data_ov000_021b2830[];
-extern char data_ov000_021b2834[];
-extern char data_ov000_021b283c[];
-extern char data_ov000_021b2844[];
-extern char data_ov000_021b284c[];
-extern char data_ov000_021b2850[];
+extern char gSignedKey[];
+extern char gPipeSKey[];
+extern char gPipeSsKey[];
+extern char gPipeLsKey[];
+extern char gPipeIpKey[];
+extern char gPipePKey[];
+extern char gPipeLKey[];
 extern char data_ov000_021b2854[];
 
-u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *p, u32 b);
+u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile);
 s32 GpiDecrementBuddyIndexAbove(void *unused, Unk0218fa98 *object, s32 minimum);
-u32 func_ov000_0218faac(GpConnection *a, u32 b);
-u32 func_ov000_0218fb3c(GpConnection *a, s32 b, s32 c, const char *d);
-u32 func_ov000_0218fbe0(GpConnection *a, s32 b, s32 c, const char *d);
-s32 func_ov000_0218fca8(GpConnection *a, char *b);
+u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile);
+u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);
+u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);
+s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input);

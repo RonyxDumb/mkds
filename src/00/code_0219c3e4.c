@@ -152,7 +152,7 @@ s32 ReportWiFiLoginGpResult(s32 a) {
 
 // Callback of the GP connect, given by StartWiFiLoginGpConnect: clears mConnectPending; on success in mState 2 checks
 // the saved record's profile id, then (func_ov000_0219ba20, func_ov000_021a2768 with the profile id) sets mState 5 and
-// reports success through mResultCallback (id mismatch: error 6); in mState 3 calls func_ov000_0218eff8 with the
+// reports success through mResultCallback (id mismatch: error 6); in mState 3 calls GpGetInfo with the
 // profile id and func_ov000_0219c400 as its callback; a GP error goes to ReportWiFiLoginGpResult.
 void WiFiLoginGpConnectCallback(GpConnection *a, Unk0219c400 *b, u32 c) {
     gWiFiLogin->mConnectPending = FALSE;
@@ -169,7 +169,7 @@ void WiFiLoginGpConnectCallback(GpConnection *a, Unk0219c400 *b, u32 c) {
                 }
             }
         } else if (gWiFiLogin->mState == 3) {
-            if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
+            if (ReportWiFiLoginGpResult(GpGetInfo(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
                 return;
             }
         }
@@ -186,9 +186,9 @@ void WiFiLoginRequestCallback(char *a, char *b) {
 }
 
 // Copies the token and the second string, sets mConnectStartTime and mConnectPending, starts the GP connect
-// (func_ov000_0218f15c) with callback c, reporting a failed start through ReportWiFiLoginGpResult, and only when it
-// started sets mState to d (2 from WiFiLoginRequestCallback, 3 from UpdateWiFiLoginRequest); UpdateWiFiLogin then pumps
-// GpUpdate and times the connect out.
+// (GpConnectPreAuthenticatedA) with callback c, reporting a failed start through ReportWiFiLoginGpResult, and only when
+// it started sets mState to d (2 from WiFiLoginRequestCallback, 3 from UpdateWiFiLoginRequest); UpdateWiFiLogin then
+// pumps GpUpdate and times the connect out.
 void StartWiFiLoginGpConnect(char *a, char *b, void (*c)(), s32 d) {
     WiFiLogin *v1;
     u32 v2;
@@ -201,7 +201,8 @@ void StartWiFiLoginGpConnect(char *a, char *b, void (*c)(), s32 d) {
     v4->mConnectStartTime = v3;
     v4->mConnectPending = TRUE;
     v1 = gWiFiLogin;
-    v2 = ReportWiFiLoginGpResult(func_ov000_0218f15c(v1->mGpConnection, v1->mAuthToken, v1->mUnk_14c, 1, 0, c, 0));
+    v2 = ReportWiFiLoginGpResult(
+        GpConnectPreAuthenticatedA(v1->mGpConnection, v1->mAuthToken, v1->mUnk_14c, 1, 0, c, 0));
     if (v2 == 0) {
         gWiFiLogin->mState = d;
     }
@@ -293,9 +294,9 @@ void func_ov000_0219c400(GpConnection *a, Unk0219c400 *b, u32 f) {
     if (p->mState == 3) {
         if (b->mUnk_8e[0] == 0) {
             DWCi_Acc_LoginIdToUserName(&p->mUnk_20->mPseudo, p->mUnk_0c, c);
-            if (ReportWiFiLoginGpResult(func_ov000_0218efa8(a, 0x705, (const s8 *) c)) == 0) {
+            if (ReportWiFiLoginGpResult(GpSetInfosA(a, 0x705, (const s8 *) c)) == 0) {
                 gWiFiLogin->mState = 4;
-                if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
+                if (ReportWiFiLoginGpResult(GpGetInfo(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
                     return;
                 }
             }
@@ -312,7 +313,7 @@ void func_ov000_0219c400(GpConnection *a, Unk0219c400 *b, u32 f) {
             GpDisconnect(a);
             data_ov000_021b5660(gWiFiLogin->mAuthToken, gWiFiLogin->mUnk_14c, data_ov000_021b5658);
         } else {
-            if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
+            if (ReportWiFiLoginGpResult(GpGetInfo(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
                 return;
             }
         }

@@ -11,35 +11,35 @@
 #include "code_02139f70.h"
 #include "code_0213a460.h"
 
-void GpiCopyString(char *dest, const char *src, s32 c) {
+void GpiCopyString(char *dest, const char *src, s32 len) {
     if (dest == NULL) {
         AssertionFailed(data_ov000_021b3b10, data_ov000_021b3a1c, NULL, 0x2f);
     }
     if (src == NULL) {
         AssertionFailed(data_ov000_021b3b20, data_ov000_021b3a1c, NULL, 0x30);
     }
-    strncpy(dest, src, c);
-    *(dest + c + -1) = 0;
+    strncpy(dest, src, len);
+    *(dest + len + -1) = 0;
 }
 
-void func_ov000_0219690c(GpConnection *a, const char *b, ...) {}
+void gpiDebug(GpConnection *connection, const char *fmt, ...) {}
 
-BOOL GpiReadError(GpConnection *a, const char *b, s32 c) {
-    GpiConnection *r;
-    BOOL t;
-    char d[0x10];
+BOOL GpiReadError(GpConnection *connection, const char *input, s32 callErrorCallback) {
+    GpiConnection *gpState;
+    BOOL isFatalErr;
+    char buffer[0x10];
 
-    r = a->mGpiConnection;
-    if (strncmp(b, data_ov000_021b3aec, 7) == 0) {
-        if (GpiGetValue(b, data_ov000_021b3af4, d, 0x10) != FALSE) {
-            r->mErrorNumber = StrtolBase10(d);
+    gpState = connection->mGpiConnection;
+    if (strncmp(input, data_ov000_021b3aec, 7) == 0) {
+        if (GpiGetValue(input, data_ov000_021b3af4, buffer, 0x10) != FALSE) {
+            gpState->mErrorNumber = StrtolBase10(buffer);
         }
-        if (GpiGetValue(b, data_ov000_021b3afc, r->mErrorMessage, 0x100) == FALSE) {
-            r->mErrorMessage[0] = 0;
+        if (GpiGetValue(input, data_ov000_021b3afc, gpState->mErrorMessage, 0x100) == FALSE) {
+            gpState->mErrorMessage[0] = 0;
         }
-        if (c != 0) {
-            t = (strstr(b, data_ov000_021b3b08) != NULL);
-            GpiQueueErrorCallback(a, 4, (t != FALSE) ? 1 : 0);
+        if (callErrorCallback != 0) {
+            isFatalErr = (strstr(input, data_ov000_021b3b08) != NULL);
+            GpiQueueErrorCallback(connection, 4, (isFatalErr != FALSE) ? 1 : 0);
         }
         return TRUE;
     }
@@ -47,11 +47,11 @@ BOOL GpiReadError(GpConnection *a, const char *b, s32 c) {
 }
 
 BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
-    const char *p;
-    const char *q;
-    s32 i;
-    s8 f;
-    s8 g;
+    const char *keyStart;
+    const char *start;
+    s32 index;
+    s8 stopChar;
+    s8 character;
 
     if (command == NULL) {
         AssertionFailed(data_ov000_021b3ad4, data_ov000_021b3a1c, NULL, 0x10d);
@@ -65,52 +65,52 @@ BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
     if (len <= 0) {
         AssertionFailed(data_ov000_021b3ae4, data_ov000_021b3a1c, NULL, 0x110);
     }
-    f = *key;
-    p = strstr(command, key);
-    if (p == NULL) {
+    stopChar = *key;
+    keyStart = strstr(command, key);
+    if (keyStart == NULL) {
         return FALSE;
     }
-    q = p + strlen(key);
-    for (i = 0; i < len - 1 && (g = q[i]) != 0 && g != f; i++) {
-        value[i] = g;
+    start = keyStart + strlen(key);
+    for (index = 0; index < len - 1 && (character = start[index]) != 0 && character != stopChar; index++) {
+        value[index] = character;
     }
-    value[i] = 0;
+    value[index] = 0;
     return TRUE;
 }
 
-u32 GpiCheckConnectComplete(GpConnection *a, u32 b, u32 *c) {
-    int v1;
-    int v2;
-    int v3[2];
-    v2 = 0;
-    v3[0] = 0;
-    v1 = func_ov000_0218e68c((u32) b, NULL, (u32 *) (&v2), (u32 *) v3);
-    if (v1 == -1) {
-        func_ov000_0219690c(a, data_ov000_021b3a58);
-        GpiSetError(a, 5, data_ov000_021b3a6c);
-        GpiQueueErrorCallback(a, 3, 1);
+u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state) {
+    int readyNum;
+    int canWrite;
+    int errFlags[2];
+    canWrite = 0;
+    errFlags[0] = 0;
+    readyNum = GSISocketSelect((u32) sock, NULL, (u32 *) (&canWrite), (u32 *) errFlags);
+    if (readyNum == -1) {
+        gpiDebug(connection, data_ov000_021b3a58);
+        GpiSetError(connection, 5, data_ov000_021b3a6c);
+        GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    if (0 < v1) {
-        if (v3[0] != 0) {
-            func_ov000_0219690c(a, data_ov000_021b3aa4);
-            *c = 4;
+    if (0 < readyNum) {
+        if (errFlags[0] != 0) {
+            gpiDebug(connection, data_ov000_021b3aa4);
+            *state = 4;
             return 0;
         }
-        if (v2 != 0) {
-            func_ov000_0219690c(a, data_ov000_021b3abc);
-            *c = 3;
+        if (canWrite != 0) {
+            gpiDebug(connection, data_ov000_021b3abc);
+            *state = 3;
             return 0;
         }
     }
-    *c = 0;
+    *state = 0;
     return 0;
 }
 
-s32 GpiReadKeyValue(GpConnection *a, s8 *buffer, s32 *c, s8 *key, s8 *value) {
-    s8 *p;
-    s8 f;
-    s32 i;
+s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, s8 *key, s8 *value) {
+    s8 *start;
+    s8 character;
+    s32 length;
 
     if (buffer == NULL) {
         AssertionFailed(data_ov000_021b3a0c, data_ov000_021b3a1c, NULL, 0x199);
@@ -121,47 +121,47 @@ s32 GpiReadKeyValue(GpConnection *a, s8 *buffer, s32 *c, s8 *key, s8 *value) {
     if (value == NULL) {
         AssertionFailed(data_ov000_021b3a38, data_ov000_021b3a1c, NULL, 0x19b);
     }
-    p = buffer + *c;
-    if (*p != 0x5c) {
-        GpiSetError(a, 1, data_ov000_021b3a48);
-        GpiQueueErrorCallback(a, 3, 1);
+    start = buffer + *index;
+    if (*start != 0x5c) {
+        GpiSetError(connection, 1, data_ov000_021b3a48);
+        GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    i = 0;
-    buffer = p + 2;
-    f = p[1];
-    if (f != 0x5c) {
+    length = 0;
+    buffer = start + 2;
+    character = start[1];
+    if (character != 0x5c) {
         do {
-            if (f == 0) {
-                GpiSetError(a, 1, data_ov000_021b3a48);
-                GpiQueueErrorCallback(a, 3, 1);
+            if (character == 0) {
+                GpiSetError(connection, 1, data_ov000_021b3a48);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if (i == 0x1ff) {
-                GpiSetError(a, 1, data_ov000_021b3a48);
-                GpiQueueErrorCallback(a, 3, 1);
+            if (length == 0x1ff) {
+                GpiSetError(connection, 1, data_ov000_021b3a48);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            *key = f;
+            *key = character;
             key++;
-            i++;
-            f = *buffer;
+            length++;
+            character = *buffer;
             buffer++;
-        } while (f != 0x5c);
+        } while (character != 0x5c);
     }
     *key = 0;
-    i = 0;
-    while ((f = *buffer++) != 0x5c && f != 0) {
-        if (i == 0x1ff) {
-            GpiSetError(a, 1, data_ov000_021b3a48);
-            GpiQueueErrorCallback(a, 3, 1);
+    length = 0;
+    while ((character = *buffer++) != 0x5c && character != 0) {
+        if (length == 0x1ff) {
+            GpiSetError(connection, 1, data_ov000_021b3a48);
+            GpiQueueErrorCallback(connection, 3, 1);
             return 3;
         }
-        *value = f;
+        *value = character;
         value++;
-        i++;
+        length++;
     }
     *value = 0;
-    *c = *c + ((buffer - p) - 1);
+    *index = *index + ((buffer - start) - 1);
     return 0;
 }

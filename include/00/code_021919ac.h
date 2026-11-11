@@ -30,7 +30,7 @@
 #include "00/code_0219488c.h"
 
 // Object of 0x308 bytes that GpiStartConnect allocates and fills.
-typedef struct Unk021919ac_q {
+typedef struct GPIConnectData {
     /* 000 */ char mUnk_000[0x80];
     /* 080 */ char mUnk_080[0x21];
     /* 0a1 */ char mUnk_0a1[0x21];
@@ -39,9 +39,9 @@ typedef struct Unk021919ac_q {
     /* 2c2 */ char mUnk_2c2[0x41];
     /* 303 */ u8 mUnk_303;
     /* 304 */ s32 mUnk_304;
-} Unk021919ac_q;
+} GPIConnectData;
 
-// Object of 0xf0 bytes that func_ov000_0219218c copies.
+// Object of 0xf0 bytes that gpiSetInfoCache copies.
 typedef struct Unk021919ac_f0 {
     /* 00 */ void *mUnk_00[6];
     /* 18 */ u8 mUnk_18[0xb0];
@@ -61,14 +61,14 @@ typedef struct Unk021919ac_node {
     /* 1c */ u32 mUnk_1c;
 } Unk021919ac_node;
 
-// Object of 0x204 bytes that func_ov000_0219222c allocates.
+// Object of 0x204 bytes that gpiGetInfo allocates.
 typedef struct Unk021919ac_m {
     /* 000 */ u32 mUnk_000;
     /* 004 */ u32 mUnk_004;
     /* 008 */ u8 mUnk_008[0x1fc];
 } Unk021919ac_m;
 
-// Two words that func_ov000_0219488c returns through its last argument.
+// Two words that gpiFindProfileByUser returns through its last argument.
 typedef struct Unk021919ac_h {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -86,8 +86,9 @@ typedef union Unk021919ac_sa {
 } Unk021919ac_sa;
 
 
-void func_ov000_021920d8(s8 *p, s32 n);
-u32 GpiWriteLogin(GpConnection *p, Unk021919ac_q *q);
-u32 GpiStartConnect(GpConnection *p, const char *a, const char *b, const char *c, const char *d, const s8 *e,
-                    const s8 *f, const char *g, s32 h, s32 i, s32 j, s32 k, s32 l);
-u32 GpiOpenSockets(GpConnection *p, Unk021919ac_node *n);
+void randomString(s8 *buffer, s32 numChars);
+u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data);
+u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniquenick, const char *email,
+                    const char *password, const s8 *authtoken, const s8 *partnerchallenge, const char *cdkey,
+                    s32 firewall, s32 newuser, s32 blocking, s32 callback, s32 param);
+u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation);

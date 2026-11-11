@@ -35,13 +35,13 @@
 #include "00/code_021a3668.h"
 
 s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation) {
-    GpiConnection *a = connection->mGpiConnection;
-    GpiCallback b;
-    Unk02193954_0 *c;
-    Unk02193954_1 *d;
-    Unk02193954_3 *e;
-    Unk02193954_4 *f;
-    s32 g;
+    GpiConnection *gpState = connection->mGpiConnection;
+    GpiCallback callback;
+    ConnectReply *arg;
+    NewProfileReply *newProfileArg;
+    ProfileSearchReply *searchArg;
+    RegisterNickReply *uniquenickArg;
+    s32 result;
 
     if (connection == NULL) {
         AssertionFailed(data_ov000_021b32f0, data_ov000_021b32b0, NULL, 0x22);
@@ -52,77 +52,77 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     if (operation == NULL) {
         AssertionFailed(data_ov000_021b3318, data_ov000_021b32b0, NULL, 0x24);
     }
-    b = operation->mUnk_0c;
-    if (b.mCallback != NULL) {
+    callback = operation->mUnk_0c;
+    if (callback.mCallback != NULL) {
         switch (operation->mType) {
             case 0:
-                c = func_ov000_021a3690(0x20);
-                if (c == NULL) {
+                arg = func_ov000_021a3690(0x20);
+                if (arg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
                 }
-                memset(c, 0, 0x20);
-                c->mUnk_00 = operation->mUnk_1c;
-                if (a->mErrorNumber == 0x201) {
-                    c->mUnk_04 = a->mProfileId;
-                    a->mProfileId = 0;
+                memset(arg, 0, 0x20);
+                arg->mUnk_00 = operation->mUnk_1c;
+                if (gpState->mErrorNumber == 0x201) {
+                    arg->mUnk_04 = gpState->mProfileId;
+                    gpState->mProfileId = 0;
                 }
-                g = GpiQueueCallback(connection, b, c, operation, 0);
-                if (g != 0) {
-                    return g;
+                result = GpiQueueCallback(connection, callback, arg, operation, 0);
+                if (result != 0) {
+                    return result;
                 }
                 break;
             case 1:
-                d = func_ov000_021a3690(8);
-                if (d == NULL) {
+                newProfileArg = func_ov000_021a3690(8);
+                if (newProfileArg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
                 }
-                memset(d, 0, 8);
-                d->mUnk_00 = operation->mUnk_1c;
-                g = GpiQueueCallback(connection, b, d, operation, 0);
-                if (g != 0) {
-                    return g;
+                memset(newProfileArg, 0, 8);
+                newProfileArg->mUnk_00 = operation->mUnk_1c;
+                result = GpiQueueCallback(connection, callback, newProfileArg, operation, 0);
+                if (result != 0) {
+                    return result;
                 }
                 break;
             case 2:
-                c = func_ov000_021a3690(0x204);
-                if (c == NULL) {
+                arg = func_ov000_021a3690(0x204);
+                if (arg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
                 }
-                memset(c, 0, 0x204);
-                c->mUnk_00 = operation->mUnk_1c;
-                g = GpiQueueCallback(connection, b, c, operation, 0);
-                if (g != 0) {
-                    return g;
+                memset(arg, 0, 0x204);
+                arg->mUnk_00 = operation->mUnk_1c;
+                result = GpiQueueCallback(connection, callback, arg, operation, 0);
+                if (result != 0) {
+                    return result;
                 }
                 break;
             case 3:
-                e = func_ov000_021a3690(0x10);
-                if (e == NULL) {
+                searchArg = func_ov000_021a3690(0x10);
+                if (searchArg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
                 }
-                memset(e, 0, 0x10);
-                e->mUnk_00 = operation->mUnk_1c;
-                e->mUnk_0c = 0;
-                g = GpiQueueCallback(connection, b, e, operation, 0);
-                if (g != 0) {
-                    return g;
+                memset(searchArg, 0, 0x10);
+                searchArg->mUnk_00 = operation->mUnk_1c;
+                searchArg->mUnk_0c = 0;
+                result = GpiQueueCallback(connection, callback, searchArg, operation, 0);
+                if (result != 0) {
+                    return result;
                 }
                 break;
             case 4:
-                f = func_ov000_021a3690(4);
-                if (f == NULL) {
+                uniquenickArg = func_ov000_021a3690(4);
+                if (uniquenickArg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
                 }
-                memset(f, 0, 4);
-                f->mUnk_00 = operation->mUnk_1c;
-                g = GpiQueueCallback(connection, b, f, operation, 0);
-                if (g != 0) {
-                    return g;
+                memset(uniquenickArg, 0, 4);
+                uniquenickArg->mUnk_00 = operation->mUnk_1c;
+                result = GpiQueueCallback(connection, callback, uniquenickArg, operation, 0);
+                if (result != 0) {
+                    return result;
                 }
                 break;
             default:
@@ -133,75 +133,75 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     return 0;
 }
 
-u32 GpiCreateOperation(GpConnection *param_1, int param_2, int param_3, int *param_4, int param_5, int param_6,
-                       int param_7) {
-    GpiConnection *a = param_1->mGpiConnection;
-    GpiOperation *b = func_ov000_021a3690(0x24);
+u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operationOut, int blocking, int callback,
+                       int param) {
+    GpiConnection *gpState = connection->mGpiConnection;
+    GpiOperation *pendingOp = func_ov000_021a3690(0x24);
 
-    if (b == NULL) {
-        GpiSetErrorMessage(param_1, data_ov000_021b32e0);
+    if (pendingOp == NULL) {
+        GpiSetErrorMessage(connection, data_ov000_021b32e0);
         return 1;
     }
-    b->mType = param_2;
-    b->mUnk_04 = (void *) param_3;
-    b->mUnk_08 = param_5;
-    b->mUnk_14 = 0;
-    if (param_2 == 0) {
-        b->mId = 1;
+    pendingOp->mType = type;
+    pendingOp->mUnk_04 = (void *) data;
+    pendingOp->mUnk_08 = blocking;
+    pendingOp->mUnk_14 = 0;
+    if (type == 0) {
+        pendingOp->mId = 1;
     } else {
-        b->mId = a->mNextOperationId++;
-        if (a->mNextOperationId < 2) {
-            a->mNextOperationId = 2;
+        pendingOp->mId = gpState->mNextOperationId++;
+        if (gpState->mNextOperationId < 2) {
+            gpState->mNextOperationId = 2;
         }
     }
-    b->mUnk_1c = 0;
-    b->mUnk_0c.mCallback = (void (*)(void *, void *, u32)) param_6;
-    b->mUnk_0c.mUnk_04 = param_7;
-    b->mNext = a->mOperationList;
-    a->mOperationList = b;
-    *param_4 = (s32) b;
+    pendingOp->mUnk_1c = 0;
+    pendingOp->mUnk_0c.mCallback = (void (*)(void *, void *, u32)) callback;
+    pendingOp->mUnk_0c.mUnk_04 = param;
+    pendingOp->mNext = gpState->mOperationList;
+    gpState->mOperationList = pendingOp;
+    *operationOut = (s32) pendingOp;
     return 0;
 }
 
-void GpiDeleteOperation(GpConnection *param_1, GpiOperation *param_2) {
-    GpiConnection *a = param_1->mGpiConnection;
-    Unk02193858 *b;
+void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
+    GpiConnection *gpState = connection->mGpiConnection;
+    Unk02193858 *searchData;
 
-    if (param_2->mType == 3) {
-        b = (Unk02193858 *) param_2->mUnk_04;
-        a->mSearchCount--;
-        if (a->mSearchCount < 0) {
+    if (operation->mType == 3) {
+        searchData = (Unk02193858 *) operation->mUnk_04;
+        gpState->mSearchCount--;
+        if (gpState->mSearchCount < 0) {
             AssertionFailed(data_ov000_021b32c0, data_ov000_021b32b0, NULL, 0xb6);
         }
-        func_ov000_0218e524(b->mUnk_04, 2);
-        func_ov000_0218e53c(b->mUnk_04);
-        func_ov000_021a3668(b->mUnk_18);
-        b->mUnk_18 = NULL;
-        func_ov000_021a3668(b->mUnk_08);
-        b->mUnk_08 = NULL;
+        shutdown(searchData->mUnk_04, 2);
+        closesocket(searchData->mUnk_04);
+        func_ov000_021a3668(searchData->mUnk_18);
+        searchData->mUnk_18 = NULL;
+        func_ov000_021a3668(searchData->mUnk_08);
+        searchData->mUnk_08 = NULL;
     }
-    func_ov000_021a3668(param_2->mUnk_04);
-    param_2->mUnk_04 = NULL;
-    func_ov000_021a3668(param_2);
+    func_ov000_021a3668(operation->mUnk_04);
+    operation->mUnk_04 = NULL;
+    func_ov000_021a3668(operation);
 }
 
-void GpiRemoveOperation(GpConnection *param_1, GpiOperation *param_2) {
-    GpiConnection *a = param_1->mGpiConnection;
-    GpiOperation *b = a->mOperationList;
-    GpiOperation *c = NULL;
+void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation) {
+    GpiConnection *gpState = connection->mGpiConnection;
+    GpiOperation *current = gpState->mOperationList;
+    GpiOperation *previous = NULL;
 
-    while (b != NULL) {
-        if (b == param_2) {
-            if (c == NULL) {
-                a->mOperationList = b->mNext;
+    while (current != NULL) {
+        if (current == operation) {
+            if (previous == NULL) {
+                gpState->mOperationList = current->mNext;
             } else {
-                c->mNext = param_2->mNext;
+                previous->mNext = operation->mNext;
             }
-            GpiDeleteOperation(param_1, param_2);
+            GpiDeleteOperation(connection, operation);
             return;
         }
-        c = b;
-        b = b->mNext;
+        previous = current;
+        current = current->mNext;
     }
 }
 
@@ -222,7 +222,7 @@ BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
     return FALSE;
 }
 
-BOOL func_ov000_021937c0(GpConnection *object) {
+BOOL gpiOperationsAreBlocking(GpConnection *object) {
     GpiOperation *node = object->mGpiConnection->mOperationList;
     while (node != NULL) {
         if (node->mUnk_08 != 0 && node->mType != 3) {
@@ -233,44 +233,44 @@ BOOL func_ov000_021937c0(GpConnection *object) {
     return FALSE;
 }
 
-s32 GpiProcessOperation(GpConnection *c, GpiOperation *d, const char *e) {
-    s32 a = 0;
-    u32 b = d->mType;
+s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const char *input) {
+    s32 result = 0;
+    u32 type = operation->mType;
 
-    switch (b) {
+    switch (type) {
         case 0:
-            a = GpiProcessConnectOperation(c, d, e);
+            result = GpiProcessConnectOperation(connection, operation, input);
             break;
         case 1:
-            a = func_ov000_02194a0c(c, d, e);
+            result = gpiProcessNewProfile(connection, operation, input);
             break;
         case 2:
-            a = GpiProcessInfoOperation(c, d, e);
+            result = GpiProcessInfoOperation(connection, operation, input);
             break;
         case 4:
-            a = func_ov000_021964e4(c, d, e);
+            result = gpiProcessRegisterUniqueNick(connection, operation, input);
             break;
         default:
-            func_ov000_0219690c(c, data_ov000_021b3264, b);
+            gpiDebug(connection, data_ov000_021b3264, type);
             AssertionFailed(data_ov000_021b32ac, data_ov000_021b32b0, NULL, 0x146);
             break;
     }
-    if (a != 0) {
-        d->mUnk_1c = a;
+    if (result != 0) {
+        operation->mUnk_1c = result;
     }
-    return a;
+    return result;
 }
 
-u32 GpiIsValidDate(int a, int b, int c) {
-    if (a == 0 && b == 0 && c == 0) {
+u32 GpiIsValidDate(int day, int month, int year) {
+    if (day == 0 && month == 0 && year == 0) {
         return 1;
     }
-    if (a < 0 || b < 0 || c < 0) {
+    if (day < 0 || month < 0 || year < 0) {
         return 0;
     }
-    switch (b) {
+    switch (month) {
         case 0:
-            if (a != 0) {
+            if (day != 0) {
                 return 0;
             }
             break;
@@ -281,7 +281,7 @@ u32 GpiIsValidDate(int a, int b, int c) {
         case 8:
         case 10:
         case 12:
-            if (a > 0x1f) {
+            if (day > 0x1f) {
                 return 0;
             }
             break;
@@ -289,33 +289,33 @@ u32 GpiIsValidDate(int a, int b, int c) {
         case 6:
         case 9:
         case 11:
-            if (a > 0x1e) {
+            if (day > 0x1e) {
                 return 0;
             }
             break;
         case 2:
-            if ((c % 4 == 0 && c % 100 != 0) || c % 400 == 0) {
-                if (a > 0x1d) {
+            if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+                if (day > 0x1d) {
                     return 0;
                 }
-            } else if (a > 0x1c) {
+            } else if (day > 0x1c) {
                 return 0;
             }
             break;
         default:
             return 0;
     }
-    if (c < 0x76c) {
+    if (year < 0x76c) {
         return 0;
     }
-    if (c > 0x81f) {
+    if (year > 0x81f) {
         return 0;
     }
-    if (c == 0x81f) {
-        if (b > 6) {
+    if (year == 0x81f) {
+        if (month > 6) {
             return 0;
         }
-        if (b == 6 && a > 6) {
+        if (month == 6 && day > 6) {
             return 0;
         }
     }

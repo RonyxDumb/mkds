@@ -5,6 +5,7 @@
 #include "00/code_021a3690.h"
 #include "00/code_0218dd8c.h"
 
-void *func_ov000_0218e0e0(u32 a, u32 b, void *c, void *d, void *e) {
-    return HashtableCreate(a, b, 4, (s32(*)(void *, s32))(c), (s32(*)(void *, void *))(d), (void (*)(void *))(e));
+void *TableNew(u32 elemSize, u32 nBuckets, void *hashFn, void *compFn, void *freeFn) {
+    return HashtableCreate(elemSize, nBuckets, 4, (s32(*)(void *, s32))(hashFn), (s32(*)(void *, void *))(compFn),
+                           (void (*)(void *))(freeFn));
 }

@@ -6,6 +6,6 @@ typedef struct GpConnection GpConnection;
 typedef struct GpiProfile GpiProfile;
 typedef struct GpiBuffer GpiBuffer;
 
-u32 func_ov000_02190548(GpConnection *a, GpiProfile *b);
-u32 func_ov000_021905d4(GpConnection *a, GpiBuffer *b);
-u32 func_ov000_02190618(GpConnection *a, GpiBuffer *b, s32 *c, s32 *d, s32 *e);
+u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile);
+u32 gpiClipBufferToPosition(GpConnection *connection, GpiBuffer *buffer);
+u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen);

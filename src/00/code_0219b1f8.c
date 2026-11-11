@@ -164,7 +164,7 @@ void WiFiGt2ElapsedTimeCallback(Unk0219887c *a, u32 b) {
 }
 
 void func_ov000_0219b240(u32 *a) {
-    data_ov000_021b54cc = func_ov000_0218e368(GetSocketDescriptor(a));
+    data_ov000_021b54cc = GOAGetLastError(GetSocketDescriptor(a));
     func_ov000_0219c384(0xb, -0x17aeb);
     gWiFiConnection->mSocket = NULL;
 }

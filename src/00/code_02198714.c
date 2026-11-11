@@ -9,7 +9,7 @@ u32 SendConnectionBytes(Gt2Connection *a, u8 *b, u32 c) {
     if (v1 == 0) {
         return 0;
     }
-    v2 = func_ov000_0218e8c4();
+    v2 = GetElapsedMilliseconds();
     a->mLastSendTime = v2;
     return 1;
 }

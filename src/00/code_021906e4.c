@@ -110,9 +110,9 @@ u32 GpiSendBytes(GpConnection *a, s32 b, const void *c, s32 d, s32 *e, s32 *f, c
     s32 h;
     u32 i;
 
-    h = func_ov000_0218e420(b, c, d, 0);
+    h = send(b, c, d, 0);
     if (h == -1) {
-        i = func_ov000_0218e368(b);
+        i = GOAGetLastError(b);
         if (i != -6 && i != -0x1a && i != -0x4c) {
             if (g[0] == 0x50 && g[1] == 0x52) {
                 return 3;
@@ -124,7 +124,7 @@ u32 GpiSendBytes(GpConnection *a, s32 b, const void *c, s32 d, s32 *e, s32 *f, c
         *f = 0;
         *e = 0;
     } else if (h == 0) {
-        func_ov000_0219690c(a, data_ov000_021b29f4, g);
+        gpiDebug(a, data_ov000_021b29f4, g);
         *f = 0;
         *e = 1;
     } else {
@@ -232,16 +232,16 @@ u32 GpiReceiveBuffer(GpConnection *a, s32 sock, GpiBuffer *inputBuffer, s32 *byt
                 return 1;
             }
         }
-        l = func_ov000_0218e460(sock, g + h, i - h, 0);
+        l = recv(sock, g + h, i - h, 0);
         if (l == -1) {
-            n = func_ov000_0218e368(sock);
+            n = GOAGetLastError(sock);
             if (n != -6 && n != -0x1a && n != -0x4c) {
                 GpiSetErrorMessage(a, data_ov000_021b293c);
                 return 3;
             }
         } else if (l == 0) {
             k = TRUE;
-            func_ov000_0219690c(a, data_ov000_021b2968, f);
+            gpiDebug(a, data_ov000_021b2968, f);
         } else {
             h += l;
             j += l;
@@ -249,7 +249,7 @@ u32 GpiReceiveBuffer(GpConnection *a, s32 sock, GpiBuffer *inputBuffer, s32 *byt
         g[h] = 0;
     } while (l != -1 && k == FALSE && j < 0x20000);
     if (j != 0) {
-        func_ov000_0219690c(a, data_ov000_021b298c, f, j);
+        gpiDebug(a, data_ov000_021b298c, f, j);
     }
     inputBuffer->mBuffer = g;
     inputBuffer->mLength = h;

@@ -4,29 +4,29 @@
 #include "00/code_0218f960.h"
 
 // 0xac-byte array element GpiUpdateSearch fills.
-typedef struct Unk02194cac_ac {
+typedef struct ProfileMatch {
     /* 00 */ s32 mUnk_00;
     /* 04 */ char mUnk_04[0x1f];
     /* 23 */ char mUnk_23[0x15];
     /* 38 */ char mUnk_38[0x1f];
     /* 57 */ char mUnk_57[0x1f];
     /* 76 */ char mUnk_76[0x36];
-} Unk02194cac_ac;
+} ProfileMatch;
 
 // 0x128-byte array element GpiUpdateSearch fills.
-typedef struct Unk02194cac_128 {
+typedef struct PlayerMatch {
     /* 000 */ s32 mUnk_000;
     /* 004 */ char mUnk_004[0x20];
     /* 024 */ s32 mUnk_024;
     /* 028 */ char mUnk_028[0x100];
-} Unk02194cac_128;
+} PlayerMatch;
 
 // 0x10-byte local of GpiUpdateSearch passed to GpiCallback.mCallback.
 typedef struct Unk02194cac_10 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
-    /* 0c */ Unk02194cac_ac *mUnk_0c;
+    /* 0c */ ProfileMatch *mUnk_0c;
 } Unk02194cac_10;
 
 // Objects GpiUpdateSearch allocates and passes to GpiQueueCallback.
@@ -35,38 +35,38 @@ typedef struct Unk02194cac_08 {
     /* 04 */ s32 mUnk_04;
 } Unk02194cac_08;
 
-typedef struct Unk02194cac_0c {
+typedef struct ReverseBuddiesReply {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ Unk02194cac_ac *mUnk_08;
-} Unk02194cac_0c;
+    /* 08 */ ProfileMatch *mUnk_08;
+} ReverseBuddiesReply;
 
-typedef struct Unk02194cac_0c2 {
+typedef struct SuggestNickReply {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
     /* 08 */ char **mUnk_08;
-} Unk02194cac_0c2;
+} SuggestNickReply;
 
-typedef struct Unk02194cac_102 {
+typedef struct FindPlayersReply {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
-    /* 0c */ Unk02194cac_128 *mUnk_0c;
-} Unk02194cac_102;
+    /* 0c */ PlayerMatch *mUnk_0c;
+} FindPlayersReply;
 
-typedef struct Unk02194cac_3c {
+typedef struct EmailCheckReply {
     /* 00 */ s32 mUnk_00;
     /* 04 */ char mUnk_04[0x34];
     /* 38 */ BOOL mUnk_38;
-} Unk02194cac_3c;
+} EmailCheckReply;
 
-typedef struct Unk02194cac_44 {
+typedef struct UserNicksReply {
     /* 00 */ s32 mUnk_00;
     /* 04 */ char mUnk_04[0x34];
     /* 38 */ s32 mUnk_38;
     /* 3c */ char **mUnk_3c;
     /* 40 */ char **mUnk_40;
-} Unk02194cac_44;
+} UserNicksReply;
 
 extern char data_ov000_021b35b8[];
 extern u8 data_ov000_021b35f8[];
@@ -136,10 +136,12 @@ extern char data_ov000_021b396c[];
 extern char data_ov000_021b3994[];
 extern char data_ov000_021b399c[];
 
-BOOL GpiUpdateSearches(GpConnection *a);
-s32 GpiUpdateSearch(GpConnection *a, GpiOperation *b);
-int func_ov000_021960a4(GpConnection *a, s8 *b, s8 *c, s8 *d, s8 *e, s8 *f, int g, int h, u32 l, u32 m, u32 n);
-int GpiStartSearchOperation(GpConnection *a, u32 b, u32 c, u32 d, u32 e);
-BOOL GpiCreateSearch(GpConnection *a, Unk02196240 **b, u32 c);
-s32 GpiOpenSearchSocket(GpConnection *a, GpiOperation *b);
-void func_ov000_02196434(GpConnection *a, GpiPeer *b, s32 c, const char *d, s32 e, s32 f);
+BOOL GpiUpdateSearches(GpConnection *connection);
+s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation);
+int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
+                         int icquin, int skip, u32 blocking, u32 callback, u32 param);
+int GpiStartSearchOperation(GpConnection *connection, u32 data, u32 blocking, u32 callback, u32 param);
+BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 kind);
+s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation);
+void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type, const char *headers, s32 buffer,
+                              s32 len);

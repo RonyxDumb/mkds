@@ -160,7 +160,7 @@ void ReportBuddySyncError(s32 a, s32 b) {
 // dropped locally (no message is sent).
 void WiFiGpBuddyRequestCallback(GpConnection *a, u32 *b) {
     if (gWiFiBuddySync->mBuddies != NULL) {
-        func_ov000_0218eff8(a, *b, 0, 0, (Unk0218eff8Cb) func_ov000_0219cd74, 0);
+        GpGetInfo(a, *b, 0, 0, (Unk0218eff8Cb) func_ov000_0219cd74, 0);
     }
 }
 
@@ -168,7 +168,7 @@ u32 func_ov000_0219d6c4(GpConnection *a, u32 *b, u32 c) {
     int v1;
     v1 = strcmp((const char *) (b[2]), data_ov000_021b4078);
     if (v1 == 0) {
-        func_ov000_0218eff8(a, *b, 0, 0, (Unk0218eff8Cb) func_ov000_0219cc94, 0);
+        GpGetInfo(a, *b, 0, 0, (Unk0218eff8Cb) func_ov000_0219cc94, 0);
         return 1;
     }
     return 0;
@@ -301,7 +301,7 @@ void func_ov000_0219d2e8(DWCAccFriendData *a, s32 b) {
                 }
             }
             if (i == b) {
-                ReportBuddySyncGpResult(func_ov000_0218eb44(gWiFiBuddySync->mGpConnection, f.mUnk_000));
+                ReportBuddySyncGpResult(GpDeleteBuddy(gWiFiBuddySync->mGpConnection, f.mUnk_000));
                 c--;
                 d--;
             }
@@ -320,8 +320,8 @@ void func_ov000_0219d2e8(DWCAccFriendData *a, s32 b) {
             }
         } else if (DWC_GetGsProfileId(func_ov000_0219c9c4(), &a[gWiFiBuddySync->mSyncIndex]) == -1) {
             DWC_LoginIdToUserName(func_ov000_0219c9c4(), &a[gWiFiBuddySync->mSyncIndex], e);
-            func_ov000_0218f0a8(gWiFiBuddySync->mGpConnection, NULL, NULL, NULL, NULL, (s8 *) e, 0, 0,
-                                (Unk0218f0a8Cb) func_ov000_0219ce48, gWiFiBuddySync->mSyncIndex);
+            GpProfileSearchA(gWiFiBuddySync->mGpConnection, NULL, NULL, NULL, NULL, (s8 *) e, 0, 0,
+                             (Unk0218f0a8Cb) func_ov000_0219ce48, gWiFiBuddySync->mSyncIndex);
             gWiFiBuddySync->mUnk_1e = 2;
             return;
         }

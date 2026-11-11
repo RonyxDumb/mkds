@@ -63,12 +63,12 @@ typedef struct UnalignedWord {
 typedef struct SbServerList SbServerList;
 
 // Object ServerListConnect builds.
-typedef struct Unk0218ce14 {
+typedef struct SOCSockAddrIn {
     /* 0 */ u8 mUnk_00;
     /* 1 */ u8 mUnk_01;
     /* 2 */ u16 mUnk_02;
     /* 4 */ u32 mUnk_04;
-} Unk0218ce14;
+} SOCSockAddrIn;
 
 // Declared here until the code that defines it is decompiled.
 
@@ -82,7 +82,7 @@ unsigned int ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u
 #include "00/unk_021b4000.h"
 #include "00/code_0218a9bc.h"
 
-// Object of 0x638 bytes ServerBrowserNewA allocates. SBEngineCleanup passes 0x20 to func_ov000_0218e53c and
+// Object of 0x638 bytes ServerBrowserNewA allocates. SBEngineCleanup passes 0x20 to closesocket and
 // the addresses of 0x14 and 0x08 to FIFOClear.
 typedef struct MatchingServerList {
     /* 000 */ SBQueryEngine mEngine;

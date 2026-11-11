@@ -3,10 +3,10 @@
 #include "types.h"
 #include "00/code_021919ac.h"
 
-u32 func_ov000_0219218c(GpConnection *p, Unk021919ac_node *n, Unk021919ac_f0 *a);
-u32 func_ov000_0219222c(GpConnection *p, u32 a, s32 b, u32 c, u32 d, u32 e);
-u32 func_ov000_02192330(GpConnection *p, u32 a, u32 b);
-u32 func_ov000_021923b4(GpConnection *p, s32 a, const s8 *b);
-u32 func_ov000_0219296c(GpConnection *p, s32 a, s32 b);
-u32 func_ov000_02192cfc(GpConnection *p, const char *a, const char *b);
-u32 func_ov000_02192d30(GpConnection *p, const char *a, const char *b);
+u32 gpiSetInfoCache(GpConnection *connection, Unk021919ac_node *profile, Unk021919ac_f0 *cache);
+u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, u32 callback, u32 param);
+u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid);
+u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value);
+u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value);
+u32 gpiSendUserInfo(GpConnection *connection, const char *info, const char *value);
+u32 gpiSendLocalInfo(GpConnection *connection, const char *info, const char *value);

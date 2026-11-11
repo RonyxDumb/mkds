@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-void func_ov000_0218e0fc(const char *c, s32 d, char *e);
-void func_ov000_0218e130(const u8 *c, char *d);
-void func_ov000_0218e15c(const void *h, void *l, s32 m, s32 n);
-void func_ov000_0218e220(const s8 *c, u8 *d, s32 e);
-s32 func_ov000_0218e284(s32 b, s32 c);
+void MD5Digest(const char *input, s32 len, char *output);
+void MD5Print(const u8 *digest, char *output);
+void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType);
+void TripToQuart(const s8 *trip, u8 *quart, s32 inlen);
+s32 Util_RandInt(s32 low, s32 high);

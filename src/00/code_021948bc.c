@@ -1,14 +1,14 @@
 #include "00/code_021948bc.h"
 #include "code_02139f70.h"
 
-u32 func_ov000_021948bc(u32 a, int b, Unk0219488cArg *c) {
-    int v1;
-    u32 *v2;
-    v2 = *(u32 **) (b + 0xc);
-    if (((v2 != NULL) && (v1 = strcmp(c->mUnk_00, (const char *) (*v2)), v1 == 0)) &&
-        (v1 = strcmp(c->mUnk_04, (const char *) (v2[2])), v1 == 0)) {
-        *c->mUnk_08 = (void *) b;
-        c->mUnk_0c = TRUE;
+u32 gpiCheckProfileForUser(u32 connection, int profile, GPIFindProfileByUserData *data) {
+    int difference;
+    u32 *cache;
+    cache = *(u32 **) (profile + 0xc);
+    if (((cache != NULL) && (difference = strcmp(data->mUnk_00, (const char *) (*cache)), difference == 0)) &&
+        (difference = strcmp(data->mUnk_04, (const char *) (cache[2])), difference == 0)) {
+        *data->mUnk_08 = (void *) profile;
+        data->mUnk_0c = TRUE;
         return 0;
     }
     return 1;

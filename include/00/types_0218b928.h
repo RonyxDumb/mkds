@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Address block filled in by func_ov000_0218e438.
+// Address block filled in by recvfrom.
 typedef struct Unk0218b8f4 {
     /* 0 */ u8 mUnk_00;
     /* 1 */ u8 mUnk_01;

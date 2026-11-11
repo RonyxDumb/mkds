@@ -82,10 +82,10 @@ void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortF
     s32 (*comparator)(u32 *, u32 *);
     switch (compareKind) {
         case 0:
-            comparator = func_ov000_0218d528;
+            comparator = IntKeyCompare;
             break;
         case 1:
-            comparator = func_ov000_0218d488;
+            comparator = FloatKeyCompare;
             break;
         case 2:
             comparator = StrCaseKeyCompare;
@@ -228,7 +228,7 @@ void *SBRefStr(SbServerList *serverList, const char *text) {
         entry[1] = entry[1] + 1;
         return (void *) entry[0];
     }
-    refString[0] = (s32) func_ov000_0218e880(text);
+    refString[0] = (s32) goastrdup(text);
     refString[1] = 1;
     HashtableSet(SBRefStrHash(serverList), refString);
     return (void *) refString[0];
@@ -305,8 +305,8 @@ void SbServerListInit(SbServerList *slist, const char *targetName, const char *s
         slist->mFromGameVersion = queryFromVersion;
         SBSetLastListErrorPtr(slist, data_ov000_021b2260);
         slist->mLanAdapterOverride = 0;
-        srand(func_ov000_0218e8c4());
-        func_ov000_0218e8b8();
+        srand(GetElapsedMilliseconds());
+        SocketStartUp();
     }
 }
 
@@ -345,10 +345,10 @@ u32 StringHash(const s8 *text, u32 modulus) {
 }
 
 s32 ServerListConnect(SbServerList *serverList) {
-    Unk0218ce14 masterAddress;
+    SOCSockAddrIn masterAddress;
     char masterHost[0x80];
     u32 masterNumber;
-    Unk021a8f84 *hostEntry;
+    SOCHostEnt *hostEntry;
     masterNumber = StringHash((s8 *) serverList->mQueryForGameName, 0x14);
     if (gSBOverrideMasterServer != NULL) {
         strcpy(masterHost, gSBOverrideMasterServer);
@@ -357,7 +357,7 @@ s32 ServerListConnect(SbServerList *serverList) {
     }
     masterAddress.mUnk_01 = 2;
     masterAddress.mUnk_02 = 0xee70;
-    masterAddress.mUnk_04 = func_ov000_0218e374((u32) masterHost);
+    masterAddress.mUnk_04 = inet_addr((u32) masterHost);
     if (masterAddress.mUnk_04 == -1) {
         hostEntry = func_ov000_021a8f84(masterHost);
         if (hostEntry == NULL) {
@@ -366,13 +366,13 @@ s32 ServerListConnect(SbServerList *serverList) {
         func_ov000_0218ce14_inline((UnalignedWord *) &masterAddress.mUnk_04, (UnalignedWord *) hostEntry->mUnk_0c[0]);
     }
     if (serverList->mSocket == -1) {
-        serverList->mSocket = func_ov000_0218e554(2, 1, 0);
+        serverList->mSocket = OpenNetSocket(2, 1, 0);
         if (serverList->mSocket == -1) {
             return 1;
         }
     }
-    if (func_ov000_0218e4b4(serverList->mSocket, &masterAddress, 8) != 0) {
-        func_ov000_0218e53c(serverList->mSocket);
+    if (connect(serverList->mSocket, &masterAddress, 8) != 0) {
+        closesocket(serverList->mSocket);
         serverList->mSocket = -1;
         return 3;
     }
@@ -457,7 +457,7 @@ s32 SendWithRetry(SbServerList *serverList, void *data, s32 length) {
     s32 error;
     do {
         retriesLeft--;
-        sentLength = func_ov000_0218e420(serverList->mSocket, data, length, 0);
+        sentLength = send(serverList->mSocket, data, length, 0);
         if (sentLength > 0) {
             break;
         }
@@ -530,7 +530,7 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
     }
     networkLength = (((u16) requestLength >> 8) & 0xff) | (((u16) requestLength << 8) & 0xff00);
     __memcpy(request, &networkLength, 2);
-    if (func_ov000_0218e420(serverList->mSocket, request, requestLength, 0) <= 0) {
+    if (send(serverList->mSocket, request, requestLength, 0) <= 0) {
         SBServerListDisconnect(serverList);
         return 3;
     }
@@ -572,7 +572,7 @@ void SBServerListDisconnect(SbServerList *serverList) {
     serverList->mInBuffer = NULL;
     serverList->mInBufferLength = 0;
     if (serverList->mSocket != -1) {
-        func_ov000_0218e53c(serverList->mSocket);
+        closesocket(serverList->mSocket);
     }
     serverList->mSocket = -1;
     serverList->mState = 1;
@@ -1287,7 +1287,7 @@ s32 ProcessAdHocData(SbServerList *slist) {
                 error = ProcessPushServer(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
             case 3:
-                if (func_ov000_0218e420(slist->mSocket, slist->mInBuffer, messageLength, 0) <= 0) {
+                if (send(slist->mSocket, slist->mInBuffer, messageLength, 0) <= 0) {
                     return 3;
                 }
                 break;
@@ -1322,11 +1322,11 @@ s32 ProcessIncomingData(SbServerList *serverList) {
     s32 oldLength;
     s32 received;
     s32 error;
-    if (func_ov000_0218e668(serverList->mSocket) == 0) {
+    if (CanReceiveOnSocket(serverList->mSocket) == 0) {
         return 0;
     }
     oldLength = serverList->mInBufferLength;
-    received = func_ov000_0218e460(serverList->mSocket, serverList->mInBuffer + oldLength, 0x1000 - oldLength, 0);
+    received = recv(serverList->mSocket, serverList->mInBuffer + oldLength, 0x1000 - oldLength, 0);
     if ((u32) (received + 1) <= 1) {
         ErrorDisconnect(serverList);
         return 3;
@@ -1381,7 +1381,7 @@ s32 SBSendMessageToServer(SbServerList *serverList, u32 publicIp, u16 port, u8 *
     if (error != 0) {
         return error;
     }
-    if (func_ov000_0218e420(serverList->mSocket, data, dataLength, 0) < 0) {
+    if (send(serverList->mSocket, data, dataLength, 0) < 0) {
         return 3;
     }
     return 0;
@@ -1414,8 +1414,8 @@ s32 ProcessLanData(SbServerList *serverList) {
     u8 datagram[0x5e0];
     void *lanServer;
     senderLength = 8;
-    while (func_ov000_0218e668(serverList->mSocket) != 0) {
-        if (func_ov000_0218e438(serverList->mSocket, datagram, 0x5db, 0, (u8 *) &sender, &senderLength) != -1) {
+    while (CanReceiveOnSocket(serverList->mSocket) != 0) {
+        if (recvfrom(serverList->mSocket, datagram, 0x5db, 0, (u8 *) &sender, &senderLength) != -1) {
             if (SBServerListFindServerByIP(serverList, sender.mUnk_04, sender.mUnk_02) == -1) {
                 lanServer = SBAllocServer(serverList, sender.mUnk_04, sender.mUnk_02);
                 if (SBIsNullServer(lanServer) != 0) {
@@ -1426,8 +1426,8 @@ s32 ProcessLanData(SbServerList *serverList) {
             }
         }
     }
-    if (func_ov000_0218e8c4() - serverList->mLanStartTime > 0x7d0) {
-        func_ov000_0218e53c(serverList->mSocket);
+    if (GetElapsedMilliseconds() - serverList->mLanStartTime > 0x7d0) {
+        closesocket(serverList->mSocket);
         serverList->mSocket = -1;
         serverList->mState = 1;
         serverList->mCallback(serverList, 3, gSBNullServer, serverList->mInstance);
@@ -1573,7 +1573,7 @@ s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async,
         listLength = 10;
         while (matchingServerList->mList.mState == 3 ||
                (matchingServerList->mEngine.mQueryList.mCount > 0 && error == 0)) {
-            func_ov000_0218e8bc(listLength);
+            msleep(listLength);
             error = ServerBrowserThink(matchingServerList);
         }
     }
@@ -1592,13 +1592,13 @@ u32 ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u32 async,
 
 s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u8 *data,
                                       s32 dataLength) {
-    u32 publicIp = func_ov000_0218e374(ipText);
+    u32 publicIp = inet_addr(ipText);
     return SBSendMessageToServer(&matchingServerList->mList, publicIp, ((port >> 8) & 0xff) | ((port << 8) & 0xff00),
                                  data, dataLength);
 }
 
 s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u32 cookie) {
-    u32 publicIp = func_ov000_0218e374(ipText);
+    u32 publicIp = inet_addr(ipText);
     return SBSendNatNegotiateCookieToServer(&matchingServerList->mList, publicIp,
                                             ((port >> 8) & 0xff) | ((port << 8) & 0xff00), cookie);
 }

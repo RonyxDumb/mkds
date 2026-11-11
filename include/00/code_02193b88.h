@@ -13,26 +13,26 @@ typedef struct Unk02193858 {
 } Unk02193858;
 
 // Buffers made by GpiQueueOperationCallback, one for each request type; the first word is taken from the request.
-typedef struct Unk02193954_0 {
+typedef struct ConnectReply {
     /* 00 */ s32 mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u8 mUnk_08[0x18];
-} Unk02193954_0;
+} ConnectReply;
 
-typedef struct Unk02193954_1 {
+typedef struct NewProfileReply {
     /* 0 */ s32 mUnk_00;
     /* 4 */ u8 mUnk_04[4];
-} Unk02193954_1;
+} NewProfileReply;
 
-typedef struct Unk02193954_3 {
+typedef struct ProfileSearchReply {
     /* 0 */ s32 mUnk_00;
     /* 4 */ u8 mUnk_04[8];
     /* c */ u32 mUnk_0c;
-} Unk02193954_3;
+} ProfileSearchReply;
 
-typedef struct Unk02193954_4 {
+typedef struct RegisterNickReply {
     /* 0 */ s32 mUnk_00;
-} Unk02193954_4;
+} RegisterNickReply;
 
 // Three words printed by GpiPeerSendXfer.
 typedef struct GpiTransferId {
@@ -42,13 +42,13 @@ typedef struct GpiTransferId {
 } GpiTransferId;
 
 // Output buffer description built by GpiPeerQueueMessage.
-typedef struct Unk02193c74 {
+typedef struct GPIMessage {
     /* 00 */ GpiBuffer mBuffer;
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
-} Unk02193c74;
+} GPIMessage;
 
-// Address passed to func_ov000_0218e4b4 by GpiPeerConnect.
+// Address passed to connect by GpiPeerConnect.
 typedef struct Unk02193d64 {
     /* 0 */ u8 mUnk_00;
     /* 1 */ u8 mUnk_01;
@@ -56,8 +56,8 @@ typedef struct Unk02193d64 {
     /* 4 */ u32 mUnk_04;
 } Unk02193d64;
 
-u32 GpiCreateOperation(GpConnection *param_1, int param_2, int param_3, int *param_4, int param_5, int param_6,
-                       int param_7);
+u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operationOut, int blocking, int callback,
+                       int param);
 
 #include "00/code_021965a0.h"
 #include "00/code_02196594.h"
@@ -71,7 +71,7 @@ typedef struct Unk0219405c {
     /* 14 */ u32 mUnk_14;
 } Unk0219405c;
 
-// Message handed to GpiQueueCallback by func_ov000_021941c4.
+// Message handed to GpiQueueCallback by gpiProcessPeerConnected.
 typedef struct Unk021941c4Msg {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -100,20 +100,20 @@ extern char data_ov000_021b3500[];
 extern u8 data_ov000_021b3508[];
 extern u8 data_ov000_021b352c[];
 
-s32 GpiPeerSendLenMsg(GpConnection *param_1, GpiPeer *peer, const char *param_3, s32 param_4);
-u32 GpiPeerSendXfer(GpConnection *param_1, GpiPeer *param_2, u32 param_3, GpiTransferId *transferID);
-s32 GpiPeerQueueMessage(GpConnection *param_1, GpiPeer *peer, u32 param_3, const char *message);
-s32 GpiPeerConnect(GpConnection *param_1, GpiPeer *param_2);
-int func_ov000_02193e70(GpConnection *a, GpiPeer *b);
-GpiPeer *GpiPeerCreate(GpConnection *c, u32 d, u32 e);
-void func_ov000_02193f18(void **a);
-GpiPeer *func_ov000_02193f2c(GpConnection *object, u32 key);
-s32 GpiUpdatePeers(GpConnection *e);
-void func_ov000_02193ff4(s32 a);
-void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *f, GpiPeer *g);
-void GpiPeerDelete(GpConnection *a, GpiPeer *b);
-s32 GpiPeerUpdate(GpConnection *b, GpiPeer *c);
-s32 func_ov000_021941c4(GpConnection *param_1, GpiPeer *param_2);
-s32 func_ov000_02194370(GpConnection *a, GpiPeer *b);
+s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *message, s32 len);
+u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransferId *transferID);
+s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const char *message);
+s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer);
+int gpiPeerGetSig(GpConnection *connection, GpiPeer *peer);
+GpiPeer *GpiPeerCreate(GpConnection *connection, u32 profileid, u32 initiate);
+void gpiFreeMessage(void **bufferPointer);
+GpiPeer *gpiGetConnectedPeer(GpConnection *object, u32 key);
+s32 GpiUpdatePeers(GpConnection *connection);
+void gpiSetPeerSocketSizes(s32 sock);
+void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer);
+void GpiPeerDelete(GpConnection *connection, GpiPeer *peer);
+s32 GpiPeerUpdate(GpConnection *connection, GpiPeer *peer);
+s32 gpiProcessPeerConnected(GpConnection *param_1, GpiPeer *param_2);
+s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer);
 s32 GpiPeerUpdateWaiting(GpConnection *param_1, GpiPeer *param_2);
-s32 func_ov000_02194590(GpConnection *param_1, GpiPeer *param_2);
+s32 gpiProcessPeerInitiatingConnection(GpConnection *param_1, GpiPeer *param_2);

@@ -55,7 +55,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
             server->mStateFlags |= 0x43;
         }
         server->mStateFlags &= 0xf3;
-        server->mPing = func_ov000_0218e8c4() - server->mPing;
+        server->mPing = GetElapsedMilliseconds() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
         engine->mListCallback(engine, 0, server, engine->mInstance);
     }
@@ -76,7 +76,7 @@ void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
             server->mStateFlags |= 0x42;
         }
         server->mStateFlags &= 0xf3;
-        server->mPing = func_ov000_0218e8c4() - server->mPing;
+        server->mPing = GetElapsedMilliseconds() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
         engine->mListCallback(engine, 0, server, engine->mInstance);
     }

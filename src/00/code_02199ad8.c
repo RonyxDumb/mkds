@@ -180,7 +180,7 @@ u32 func_ov000_02199bb4(Gt2Connection *a, const u8 *c, int d) {
         return 1;
     }
     a->mUnk_0c = 4;
-    if (CallIncomingConnectionCallback(a->mSocket, a, a->mAddress, a->mPort, func_ov000_0218e8c4() - a->mUnk_8c,
+    if (CallIncomingConnectionCallback(a->mSocket, a, a->mAddress, a->mPort, GetElapsedMilliseconds() - a->mUnk_8c,
                                        c + 0x20, d - 0x20) != FALSE) {
         return 1;
     }

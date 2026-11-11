@@ -131,12 +131,12 @@ void ReleaseWiFiConnection(void) {
         func_ov000_0219b110();
         GstatsClose();
         if (gWiFiConnection->mGpConnection.mGpiConnection != NULL) {
-            func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 0, NULL, 0);
-            func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 3, NULL, 0);
-            func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 1, NULL, 0);
-            func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 2, NULL, 0);
+            GpSetCallback(&gWiFiConnection->mGpConnection, 0, NULL, 0);
+            GpSetCallback(&gWiFiConnection->mGpConnection, 3, NULL, 0);
+            GpSetCallback(&gWiFiConnection->mGpConnection, 1, NULL, 0);
+            GpSetCallback(&gWiFiConnection->mGpConnection, 2, NULL, 0);
             GpUpdate(&gWiFiConnection->mGpConnection);
-            func_ov000_0218f2a0(&gWiFiConnection->mGpConnection);
+            GpDestroy(&gWiFiConnection->mGpConnection);
             gWiFiConnection->mGpConnection.mGpiConnection = NULL;
         }
         ReleaseWiFiLogin();
@@ -180,30 +180,30 @@ void UpdateWiFiConnection(void) {
     }
     switch (gWiFiConnection->mState) {
         case 1:
-            switch (func_ov000_0218d574()) {
+            switch (GSIAvailableCheckThink()) {
                 case 1:
                     if (ReportWiFiGpResult(GpInitialize(&gWiFiConnection->mGpConnection,
                                                         gWiFiConnection->mLogin.mProductId, 0)) != 0) {
                         return;
                     }
-                    if (ReportWiFiGpResult(func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 0,
-                                                               (void (*)(void *, void *, u32)) WiFiGpErrorCallback,
-                                                               0)) != 0) {
+                    if (ReportWiFiGpResult(GpSetCallback(&gWiFiConnection->mGpConnection, 0,
+                                                         (void (*)(void *, void *, u32)) WiFiGpErrorCallback, 0)) !=
+                        0) {
                         return;
                     }
-                    if (ReportWiFiGpResult(func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 3,
-                                                               (void (*)(void *, void *, u32)) WiFiGpMessageCallback,
-                                                               0)) != 0) {
+                    if (ReportWiFiGpResult(GpSetCallback(&gWiFiConnection->mGpConnection, 3,
+                                                         (void (*)(void *, void *, u32)) WiFiGpMessageCallback, 0)) !=
+                        0) {
                         return;
                     }
-                    if (ReportWiFiGpResult(
-                            func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 1,
-                                                (void (*)(void *, void *, u32)) WiFiGpBuddyRequestCallback, 0)) != 0) {
+                    if (ReportWiFiGpResult(GpSetCallback(&gWiFiConnection->mGpConnection, 1,
+                                                         (void (*)(void *, void *, u32)) WiFiGpBuddyRequestCallback,
+                                                         0)) != 0) {
                         return;
                     }
-                    if (ReportWiFiGpResult(
-                            func_ov000_0218f21c(&gWiFiConnection->mGpConnection, 2,
-                                                (void (*)(void *, void *, u32)) WiFiGpBuddyStatusCallback, 0)) != 0) {
+                    if (ReportWiFiGpResult(GpSetCallback(&gWiFiConnection->mGpConnection, 2,
+                                                         (void (*)(void *, void *, u32)) WiFiGpBuddyStatusCallback,
+                                                         0)) != 0) {
                         return;
                     }
                     SetWiFiConnectionState(2);
@@ -261,7 +261,7 @@ void StartWiFiLogin(u32 a, u32 b, void (*c)(s32 a), u32 d) {
                 return;
             }
             SetWiFiConnectionState(1);
-            func_ov000_0218d6e4(gWiFiConnection->mGameName);
+            GSIStartAvailableCheckA(gWiFiConnection->mGameName);
         }
     }
 }

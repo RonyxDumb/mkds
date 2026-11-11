@@ -7,6 +7,6 @@ Unk02194828 *GpiFindProfileByBuddyIndex(GpConnection *a, u32 b) {
 
     s.mKey = b;
     s.mEntry = NULL;
-    GpiForEachProfileWhileNonZero(a, func_ov000_02194828, &s);
+    GpiForEachProfileWhileNonZero(a, gpiCheckForBuddy, &s);
     return s.mEntry;
 }

@@ -2,14 +2,13 @@
 
 #include "types.h"
 
-typedef struct Unk0218ce14 Unk0218ce14;
+typedef struct SOCSockAddrIn SOCSockAddrIn;
 
-// Declared here until the code that defines it is decompiled.
 
-s32 func_ov000_0218d488(u32 *a, u32 *b);
-s32 func_ov000_0218d528(u32 *a, u32 *b);
-s32 func_ov000_0218d574(void);
-BOOL func_ov000_0218d644(const s8 *a, s32 b, u8 *c, u32 *d);
-void func_ov000_0218d6e4(const char *a);
-void func_ov000_0218d788(void);
-BOOL func_ov000_0218d7bc(const char *a, u32 b, Unk0218ce14 *c);
+s32 FloatKeyCompare(u32 *entry1, u32 *entry2);
+s32 IntKeyCompare(u32 *entry1, u32 *entry2);
+s32 GSIAvailableCheckThink(void);
+BOOL HandlePacket(const s8 *packet, s32 len, u8 *address, u32 *disabledservices);
+void GSIStartAvailableCheckA(const char *gamename);
+void AvailableSendPacket(void);
+BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address);

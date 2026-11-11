@@ -18,133 +18,133 @@
 #include "00/code_021a3668.h"
 #include "00/code_02190cd4.h"
 
-void GpiReleaseProfile(GpiProfile *a) {
-    if (a->mBuddyStatus != NULL) {
-        func_ov000_021a3668(a->mBuddyStatus->mUnk_08);
-        a->mBuddyStatus->mUnk_08 = NULL;
-        func_ov000_021a3668(a->mBuddyStatus->mUnk_0c);
-        a->mBuddyStatus->mUnk_0c = NULL;
-        func_ov000_021a3668(a->mBuddyStatus);
-        a->mBuddyStatus = NULL;
+void GpiReleaseProfile(GpiProfile *profile) {
+    if (profile->mBuddyStatus != NULL) {
+        func_ov000_021a3668(profile->mBuddyStatus->mUnk_08);
+        profile->mBuddyStatus->mUnk_08 = NULL;
+        func_ov000_021a3668(profile->mBuddyStatus->mUnk_0c);
+        profile->mBuddyStatus->mUnk_0c = NULL;
+        func_ov000_021a3668(profile->mBuddyStatus);
+        profile->mBuddyStatus = NULL;
     }
-    func_ov000_0219210c((Unk021919ac_node *) a);
-    func_ov000_021a3668(a->mUnk_10);
-    a->mUnk_10 = NULL;
-    func_ov000_021a3668(a->mUnk_18);
-    a->mUnk_18 = NULL;
+    gpiFreeInfoCache((Unk021919ac_node *) profile);
+    func_ov000_021a3668(profile->mUnk_10);
+    profile->mUnk_10 = NULL;
+    func_ov000_021a3668(profile->mUnk_18);
+    profile->mUnk_18 = NULL;
 }
 
-BOOL GpiInitProfileList(GpConnection *a) {
-    GpiConnection *r;
+BOOL GpiInitProfileList(GpConnection *connection) {
+    GpiConnection *gpState;
 
-    r = a->mGpiConnection;
-    r->mBuddyCount = 0;
-    r->mProfileList.mUnk_04 = 0;
-    r->mProfileList.mTable = func_ov000_0218e0e0(0x1c, 4, GpiHashProfile, GpiCompareProfiles, GpiReleaseProfile);
-    if (r->mProfileList.mTable != NULL) {
+    gpState = connection->mGpiConnection;
+    gpState->mBuddyCount = 0;
+    gpState->mProfileList.mUnk_04 = 0;
+    gpState->mProfileList.mTable = TableNew(0x1c, 4, GpiHashProfile, GpiCompareProfiles, GpiReleaseProfile);
+    if (gpState->mProfileList.mTable != NULL) {
         return TRUE;
     }
     return FALSE;
 }
 
-s32 func_ov000_02194a0c(GpConnection *a, GpiOperation *b, const char *c) {
-    GpiCallback p;
-    u32 *m;
-    s32 v;
-    s32 t;
-    char d[0x10];
+s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, const char *input) {
+    GpiCallback callback;
+    u32 *arg;
+    s32 profileNumber;
+    s32 result;
+    char intValue[0x10];
 
-    if (GpiReadError(a, c, 1) != FALSE) {
+    if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
     }
-    if (strncmp(c, data_ov000_021b3564, 5) != 0) {
-        GpiSetError(a, 1, data_ov000_021b356c);
-        GpiQueueErrorCallback(a, 3, 1);
+    if (strncmp(input, data_ov000_021b3564, 5) != 0) {
+        GpiSetError(connection, 1, data_ov000_021b356c);
+        GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    if (GpiGetValue(c, data_ov000_021b359c, d, 0x10) == FALSE) {
-        GpiSetError(a, 1, data_ov000_021b356c);
-        GpiQueueErrorCallback(a, 3, 1);
+    if (GpiGetValue(input, data_ov000_021b359c, intValue, 0x10) == FALSE) {
+        GpiSetError(connection, 1, data_ov000_021b356c);
+        GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    v = StrtolBase10(d);
-    p = b->mUnk_0c;
-    if (p.mCallback != NULL) {
-        m = func_ov000_021a3690(8);
-        if (m == NULL) {
-            GpiSetErrorMessage(a, data_ov000_021b35a8);
+    profileNumber = StrtolBase10(intValue);
+    callback = operation->mUnk_0c;
+    if (callback.mCallback != NULL) {
+        arg = func_ov000_021a3690(8);
+        if (arg == NULL) {
+            GpiSetErrorMessage(connection, data_ov000_021b35a8);
             return 1;
         }
-        m[1] = v;
-        m[0] = 0;
-        t = GpiQueueCallback(a, p, m, b, 0);
-        if (t != 0) {
-            return t;
+        arg[1] = profileNumber;
+        arg[0] = 0;
+        result = GpiQueueCallback(connection, callback, arg, operation, 0);
+        if (result != 0) {
+            return result;
         }
     }
-    GpiRemoveOperation(a, b);
+    GpiRemoveOperation(connection, operation);
     return 0;
 }
 
-GpiProfile *GpiFindOrAddProfile(GpConnection *a, s32 id) {
-    Unk0218f960_428 *c;
-    GpiProfile *e;
+GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
+    GPIProfileList *profileStore;
+    GpiProfile *profileEntry;
 
-    c = &a->mGpiConnection->mProfileList;
+    profileStore = &connection->mGpiConnection->mProfileList;
     if (id <= 0) {
         AssertionFailed(data_ov000_021b354c, data_ov000_021b3554, NULL, 0x2b5);
     }
     if (id <= 0) {
         return NULL;
     }
-    if (GpiFindProfile(a, id, &e) != 0) {
-        return e;
+    if (GpiFindProfile(connection, id, &profileEntry) != 0) {
+        return profileEntry;
     }
     {
-        GpiProfile s = {0};
+        GpiProfile newProfile = {0};
 
-        s.mProfileId = id;
-        s.mUserId = 0;
-        s.mUnk_0c = 0;
-        s.mUnk_10 = NULL;
-        s.mUnk_18 = NULL;
-        s.mUnk_14 = 0;
-        HashtableSet(c->mTable, &s);
+        newProfile.mProfileId = id;
+        newProfile.mUserId = 0;
+        newProfile.mUnk_0c = 0;
+        newProfile.mUnk_10 = NULL;
+        newProfile.mUnk_18 = NULL;
+        newProfile.mUnk_14 = 0;
+        HashtableSet(profileStore->mTable, &newProfile);
     }
-    c->mUnk_04 = c->mUnk_04 + 1;
-    if (GpiFindProfile(a, id, &e) != 0) {
-        return e;
+    profileStore->mUnk_04 = profileStore->mUnk_04 + 1;
+    if (GpiFindProfile(connection, id, &profileEntry) != 0) {
+        return profileEntry;
     }
     return NULL;
 }
 
-u32 GpiFindProfile(GpConnection *a, u32 b, GpiProfile **c) {
-    GpiConnection *r;
-    GpiProfile d;
-    GpiProfile *e;
+u32 GpiFindProfile(GpConnection *connection, u32 profileid, GpiProfile **profile) {
+    GpiConnection *gpState;
+    GpiProfile lookup;
+    GpiProfile *foundProfile;
 
-    r = a->mGpiConnection;
-    d.mProfileId = b;
-    e = HashtableFind(r->mProfileList.mTable, &d);
-    if (c != NULL) {
-        *c = e;
+    gpState = connection->mGpiConnection;
+    lookup.mProfileId = profileid;
+    foundProfile = HashtableFind(gpState->mProfileList.mTable, &lookup);
+    if (profile != NULL) {
+        *profile = foundProfile;
     }
-    if (e != NULL) {
+    if (foundProfile != NULL) {
         return 1;
     }
     return 0;
 }
 
-void GpiRemoveProfileById(GpConnection *a, u32 b) {
-    GpiConnection *r;
-    GpiProfile *e;
+void GpiRemoveProfileById(GpConnection *connection, u32 profileid) {
+    GpiConnection *gpState;
+    GpiProfile *pProfile;
 
-    r = a->mGpiConnection;
-    if (GpiFindProfile(a, b, &e) != 0) {
-        HashtableRemove(r->mProfileList.mTable, e);
+    gpState = connection->mGpiConnection;
+    if (GpiFindProfile(connection, profileid, &pProfile) != 0) {
+        HashtableRemove(gpState->mProfileList.mTable, pProfile);
     }
 }
 
-void GpiRemoveProfile(GpConnection *a, GpiProfile *b) {
-    HashtableRemove(a->mGpiConnection->mProfileList.mTable, b);
+void GpiRemoveProfile(GpConnection *connection, GpiProfile *profile) {
+    HashtableRemove(connection->mGpiConnection->mProfileList.mTable, profile);
 }

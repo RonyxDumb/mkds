@@ -3,15 +3,15 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern char data_ov000_021b3004[];
-extern char data_ov000_021b3010[];
-extern char data_ov000_021b301c[];
-extern u8 data_ov000_021b3028[];
-extern char data_ov000_021b3040[];
+extern char gLastnameKey[];
+extern char gHomepageKey[];
+extern char gZipcodeKey[];
+extern u8 gInvalidCountrycodeErrorString[];
+extern char gCountrycodeKey[];
 extern char data_ov000_021b3050[];
 extern char data_ov000_021b3054[];
 extern char data_ov000_021b3058[];
-extern char data_ov000_021b305c[];
+extern char gSexKey[];
 extern char data_ov000_021b3064[];
 extern char data_ov000_021b3070[];
 extern char data_ov000_021b3084[];
@@ -34,8 +34,8 @@ extern char data_ov000_021b3140[];
 extern char data_ov000_021b3150[];
 extern char data_ov000_021b3160[];
 extern char data_ov000_021b3174[];
-extern u8 data_ov000_021b3184[];
-extern u8 data_ov000_021b319c[];
+extern u8 gUpdateproKey[];
+extern u8 gUpdateuiKey[];
 extern char data_ov000_021b31f8[];
 extern char data_ov000_021b323c[];
 extern u8 data_ov000_021b3254[];
@@ -66,7 +66,7 @@ extern char data_ov000_021b3f8c[];
 extern char data_ov000_021b3f98[];
 extern char data_ov000_021b3fb0[];
 extern char data_ov000_021b3fb8[];
-extern char data_ov000_021b31b0[];
+extern char gPiKey[];
 extern char data_ov000_021b31b8[];
 extern char data_ov000_021b31e8[];
 extern char data_ov000_021b3204[];

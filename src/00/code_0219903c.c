@@ -68,7 +68,7 @@ u32 func_ov000_0219958c(Gt2Connection *a, u8 *b, s32 c) {
     t[1] = p[1];
     t[2] = p[2];
     t[3] = p[3];
-    if (Gt2CallElapsedTimeCallback(a, func_ov000_0218e8c4() - d) != FALSE) {
+    if (Gt2CallElapsedTimeCallback(a, GetElapsedMilliseconds() - d) != FALSE) {
         return 1;
     }
     return 0;
@@ -209,7 +209,7 @@ u32 func_ov000_0219922c(Gt2Socket *a, u32 b, u32 c) {
     }
     if (v1->mUnk_0c == 0) {
         if ((v1->mTimeSinceCreateLimit == 0) ||
-            (v2 = func_ov000_0218e8c4(), (v2 - v1->mCreateTime) < v1->mTimeSinceCreateLimit)) {
+            (v2 = GetElapsedMilliseconds(), (v2 - v1->mCreateTime) < v1->mTimeSinceCreateLimit)) {
             return 1;
         }
         v2 = func_ov000_02199fb0(v1, 6, 1);
@@ -238,11 +238,11 @@ u32 func_ov000_0219914c(Gt2Socket *a) {
     s32 n;
     s32 r;
     u32 e;
-    while (func_ov000_0218e668(a->mDescriptor) != 0) {
+    while (CanReceiveOnSocket(a->mDescriptor) != 0) {
         n = 8;
-        r = func_ov000_0218e438(a->mDescriptor, v1, 0x5dc, 0, (u8 *) &h, &n);
+        r = recvfrom(a->mDescriptor, v1, 0x5dc, 0, (u8 *) &h, &n);
         if (r == -1) {
-            e = func_ov000_0218e368(a->mDescriptor);
+            e = GOAGetLastError(a->mDescriptor);
             if (e == -15) {
                 if (func_ov000_0219922c(a, h.mUnk_04,
                                         (u16) (((h.mUnk_02 >> 8) & 0xff) | ((h.mUnk_02 << 8) & 0xff00))) == 0) {
@@ -268,7 +268,7 @@ u32 func_ov000_021990f8(Gt2Connection *a, u16 b, s32 c) {
     d.mUnk_00 = a->mSendBuffer.mLength;
     d.mUnk_04 = c;
     d.mUnk_08 = b;
-    d.mUnk_0c = func_ov000_0218e8c4();
+    d.mUnk_0c = GetElapsedMilliseconds();
     e = DarrayGetCount(a->mUnk_60);
     DarrayAppend(a->mUnk_60, &d);
     if (e + 1 == DarrayGetCount(a->mUnk_60)) {

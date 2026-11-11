@@ -16,68 +16,68 @@
 #include "00/unk_021b23b0.h"
 #include "code_0213a460.h"
 
-u32 func_ov000_02190618(GpConnection *a, GpiBuffer *b, s32 *c, s32 *d, s32 *e) {
-    char f[0x10];
-    u8 *p;
-    s32 n;
-    s32 m;
-    *c = 0;
-    if (b->mLength < 5) {
+u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen) {
+    char intText[0x10];
+    u8 *str;
+    s32 bodyLength;
+    s32 len;
+    *message = 0;
+    if (inputBuffer->mLength < 5) {
         return 0;
     }
-    p = (u8 *) strchr((const char *) b->mBuffer, 10);
-    if (p != NULL) {
-        if (strncmp((const char *) (p - 5), data_ov000_021b287c, 5) != 0) {
+    str = (u8 *) strchr((const char *) inputBuffer->mBuffer, 10);
+    if (str != NULL) {
+        if (strncmp((const char *) (str - 5), data_ov000_021b287c, 5) != 0) {
             return 3;
         }
-        *p = 0;
-        if (GpiGetValue((const char *) b->mBuffer, data_ov000_021b2884, f, 0x10) == FALSE) {
+        *str = 0;
+        if (GpiGetValue((const char *) inputBuffer->mBuffer, gMKey, intText, 0x10) == FALSE) {
             return 3;
         }
-        *d = StrtolBase10(f);
-        if (GpiGetValue((const char *) b->mBuffer, data_ov000_021b2888, f, 0x10) == FALSE) {
+        *type = StrtolBase10(intText);
+        if (GpiGetValue((const char *) inputBuffer->mBuffer, gLenKey, intText, 0x10) == FALSE) {
             return 3;
         }
-        n = StrtolBase10(f);
-        m = n + 1;
-        if (b->mLength > m + (p - b->mBuffer)) {
-            if (*(s8 *) (p + m) != 0) {
+        bodyLength = StrtolBase10(intText);
+        len = bodyLength + 1;
+        if (inputBuffer->mLength > len + (str - inputBuffer->mBuffer)) {
+            if (*(s8 *) (str + len) != 0) {
                 return 3;
             }
-            *c = (s32) (p + 1);
-            *e = n;
-            b->mPos = m + (p - b->mBuffer) + 1;
+            *message = (s32) (str + 1);
+            *plen = bodyLength;
+            inputBuffer->mPos = len + (str - inputBuffer->mBuffer) + 1;
         } else {
-            *p = 10;
+            *str = 10;
         }
     }
     return 0;
 }
 
-u32 func_ov000_021905d4(GpConnection *a, GpiBuffer *b) {
-    s32 n;
-    if (b == NULL || b->mBuffer == NULL || (n = b->mPos) == 0) {
+u32 gpiClipBufferToPosition(GpConnection *connection, GpiBuffer *buffer) {
+    s32 position;
+    if (buffer == NULL || buffer->mBuffer == NULL || (position = buffer->mPos) == 0) {
         return 0;
     }
-    b->mLength = b->mLength - n;
-    if (b->mLength != 0) {
-        memmove(b->mBuffer, b->mBuffer + b->mPos, b->mLength);
+    buffer->mLength = buffer->mLength - position;
+    if (buffer->mLength != 0) {
+        memmove(buffer->mBuffer, buffer->mBuffer + buffer->mPos, buffer->mLength);
     }
-    b->mBuffer[b->mLength] = 0;
-    b->mPos = 0;
+    buffer->mBuffer[buffer->mLength] = 0;
+    buffer->mPos = 0;
     return 0;
 }
 
-u32 func_ov000_02190548(GpConnection *a, GpiProfile *b) {
-    GpiConnection *o;
-    o = a->mGpiConnection;
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2858);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b275c);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, o->mSesskey);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2864);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, b->mProfileId);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2874);
-    GpiAppendBufferString(a, &o->mOutputBuffer, b->mUnk_10);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2778);
+u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile) {
+    GpiConnection *gpState;
+    gpState = connection->mGpiConnection;
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gAuthaddKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b275c);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gFromprofileidKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profile->mProfileId);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gSigKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, profile->mUnk_10);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2778);
     return 0;
 }

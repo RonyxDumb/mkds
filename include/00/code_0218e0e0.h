@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *func_ov000_0218e0e0(u32 a, u32 b, void *c, void *d, void *e);
+void *TableNew(u32 elemSize, u32 nBuckets, void *hashFn, void *compFn, void *freeFn);

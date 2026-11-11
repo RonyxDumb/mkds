@@ -41,7 +41,7 @@ u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
         e->mAddress = c;
         e->mPort = d;
         e->mSocket = a;
-        e->mCreateTime = func_ov000_0218e8c4();
+        e->mCreateTime = GetElapsedMilliseconds();
         e->mLastSendTime = e->mCreateTime;
         e->mUnk_64 = 0;
         e->mUnk_66 = 0;
@@ -107,7 +107,7 @@ u32 func_ov000_0219a110(u32 *c, u32 d, int f, u32 g, u32 h) {
     Gt2Socket *a = (Gt2Socket *) c;
     s32 e;
     func_ov000_0219a61c((const char **) &g, (s32 *) &h);
-    if (func_ov000_0218e644(a->mDescriptor) == 0) {
+    if (CanSendOnSocket(a->mDescriptor) == 0) {
         return 1;
     }
     {
@@ -116,8 +116,8 @@ u32 func_ov000_0219a110(u32 *c, u32 d, int f, u32 g, u32 h) {
         p->mUnk_01 = 2;
         p->mUnk_04 = d;
         p->mUnk_02 = ((f >> 8) & 0xff) | ((f << 8) & 0xff00);
-        if (func_ov000_0218e3e4(a->mDescriptor, (void *) g, h, 0, &b, 8) == -1) {
-            e = func_ov000_0218e368(a->mDescriptor);
+        if (sendto(a->mDescriptor, (void *) g, h, 0, &b, 8) == -1) {
+            e = GOAGetLastError(a->mDescriptor);
             if (e == -15) {
                 if (func_ov000_0219922c(a, d, f) == 0) {
                     return 0;

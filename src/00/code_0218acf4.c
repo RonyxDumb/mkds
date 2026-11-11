@@ -11,7 +11,7 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
     s32 queryLength;
     s32 i;
     FIFOAddRear(&engine->mQueryList, server);
-    server->mPing = func_ov000_0218e8c4();
+    server->mPing = GetElapsedMilliseconds();
     address.mUnk_01 = 2;
     if ((server->mStateFlags & 0x20) == 0) {
         if (engine->mQueryVersion == 1) {
@@ -47,7 +47,7 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
             address.mUnk_04 = server->mPublicIp;
             address.mUnk_02 = server->mPublicPort;
         }
-        func_ov000_0218e3e4(engine->mQuerySock, query, queryLength, 0, &address, 8);
+        sendto(engine->mQuerySock, query, queryLength, 0, &address, 8);
     }
 }
 
@@ -56,14 +56,14 @@ void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion,
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return;
     }
-    func_ov000_0218e8b8();
+    SocketStartUp();
     engine->mQueryVersion = queryVersion;
     engine->mMaxUpdates = updateLimit;
     engine->mNumServerKeys = 0;
     engine->mListCallback = callback;
     engine->mInstance = instance;
     engine->mMyPublicIp = 0;
-    engine->mQuerySock = func_ov000_0218e554(2, 2, 0);
+    engine->mQuerySock = OpenNetSocket(2, 2, 0);
     FIFOClear(&engine->mPendingList);
     FIFOClear(&engine->mQueryList);
 }

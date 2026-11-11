@@ -80,7 +80,7 @@ void RemoveBuddyEntry(void *a) {
     if (gWiFiBuddySync != NULL && IsWiFiLoginDone() != 0 && func_ov000_0219c9c4() != NULL) {
         b = DWC_GetGsProfileId(func_ov000_0219c9c4(), a);
         if (b != 0 && b != -1 && GpIsBuddy(gWiFiBuddySync->mGpConnection, b) != 0) {
-            func_ov000_0218eb44(gWiFiBuddySync->mGpConnection, b);
+            GpDeleteBuddy(gWiFiBuddySync->mGpConnection, b);
         }
     }
     MI_CpuFill8(a, 0, 12);

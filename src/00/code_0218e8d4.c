@@ -28,147 +28,149 @@
 #include "00/unk_021b3000.h"
 #include "00/code_02194bb8.h"
 
-void GpDisconnect(GpConnection *a) {
-    if (a != NULL && a->mGpiConnection != NULL && a->mGpiConnection->mUnk_108 == 0) {
-        GpiCloseConnection(a, 1);
-        GpiResetConnection(a);
+void GpDisconnect(GpConnection *connection) {
+    if (connection != NULL && connection->mGpiConnection != NULL && connection->mGpiConnection->mUnk_108 == 0) {
+        GpiCloseConnection(connection, 1);
+        GpiResetConnection(connection);
     }
 }
 
-u32 func_ov000_0218f0a8(GpConnection *a, s8 *b, s8 *c, s8 *d, s8 *e, s8 *f, s32 g, u32 h, Unk0218f0a8Cb i, u32 j) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
+                     s32 icquin, u32 blocking, Unk0218f0a8Cb callback, u32 param) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (i == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b242c);
+    if (callback == NULL) {
+        GpiSetErrorMessage(connection, gNoCallbackErrorString);
         return 2;
     }
-    if (o->mUnk_108 != 0) {
-        Unk0218f0a8Arg k = {0};
-        k.mUnk_08 = 0x601;
-        i(a, &k, j);
+    if (gpState->mUnk_108 != 0) {
+        Unk0218f0a8Arg arg = {0};
+        arg.mUnk_08 = 0x601;
+        callback(connection, &arg, param);
         return 0;
     }
-    return func_ov000_021960a4(a, b, c, d, e, f, g, 0, h, (u32) i, j);
+    return gpiProfileSearch(connection, nick, uniquenick, email, firstname, lastname, icquin, 0, blocking,
+                                (u32) callback, param);
 }
 
-u32 func_ov000_0218eff8(GpConnection *a, u32 b, s32 c, u32 d, Unk0218eff8Cb e, u32 f) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL || b == 0) {
+u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, Unk0218eff8Cb callback, u32 param) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL || profile == 0) {
         return 2;
     }
-    if (e == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b242c);
+    if (callback == NULL) {
+        GpiSetErrorMessage(connection, gNoCallbackErrorString);
         return 2;
     }
-    if (o->mUnk_108 != 0) {
-        Unk0218eff8Arg g = {0};
-        e(a, &g, f);
+    if (gpState->mUnk_108 != 0) {
+        Unk0218eff8Arg arg = {0};
+        callback(connection, &arg, param);
         return 0;
     }
-    if (o->mConnectState == 4) {
-        GpiSetErrorMessage(a, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    return func_ov000_0219222c(a, b, c, d, (u32) e, f);
+    return gpiGetInfo(connection, profile, checkCache, blocking, (u32) callback, param);
 }
 
-u32 func_ov000_0218efa8(GpConnection *a, s32 b, const s8 *c) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpSetInfosA(GpConnection *connection, s32 info, const s8 *value) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    if (o->mConnectState == 4) {
-        GpiSetErrorMessage(a, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    return func_ov000_021923b4(a, b, c);
+    return gpiSetInfos(connection, info, value);
 }
 
-u32 GpWriteAddbuddy(GpConnection *a, u32 b, const char *c) {
-    GpiConnection *o;
-    char e[0x401];
-    s8 *g;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpWriteAddbuddy(GpConnection *connection, u32 profile, const char *reason) {
+    GpiConnection *gpState;
+    char reasonCopy[0x401];
+    s8 *cursor;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    if (o->mConnectState == 4) {
-        GpiSetErrorMessage(a, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    if (c == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b24dc);
+    if (reason == NULL) {
+        GpiSetErrorMessage(connection, gInvalidReasonErrorString);
         return 2;
     }
-    GpiCopyString(e, c, 0x401);
-    if (*(s8 *) e != 0) {
-        g = (s8 *) e;
+    GpiCopyString(reasonCopy, reason, 0x401);
+    if (*(s8 *) reasonCopy != 0) {
+        cursor = (s8 *) reasonCopy;
         do {
-            if (*g == 0x5c) {
-                *g = 0x2f;
+            if (*cursor == 0x5c) {
+                *cursor = 0x2f;
             }
-            g++;
-        } while (*g != 0);
+            cursor++;
+        } while (*cursor != 0);
     }
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b24ec);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2418);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, o->mSesskey);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b24f8);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, b);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2508);
-    GpiAppendBufferString(a, &o->mOutputBuffer, e);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2424);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gAddbuddyKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gSesskeyKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gNewprofileidKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profile);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gReasonKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, reasonCopy);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gFinalKey);
     return 0;
 }
 
-u32 func_ov000_0218ee1c(GpConnection *a, u32 b) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpAuthBuddyRequest(GpConnection *connection, u32 profile) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    if (o->mConnectState == 4) {
-        GpiSetErrorMessage(a, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    return func_ov000_0218faac(a, b);
+    return gpiAuthBuddyRequest(connection, profile);
 }
 
-u32 func_ov000_0218ed74(GpConnection *b, int c) {
-    int v1;
-    int v2;
-    GpiConnection *a;
-    GpiProfile *v3;
-    if ((b == NULL) || (a = b->mGpiConnection, a == NULL)) {
+u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
+    int found;
+    int canFree;
+    GpiConnection *gpState;
+    GpiProfile *profileEntry;
+    if ((connection == NULL) || (gpState = connection->mGpiConnection, gpState == NULL)) {
         return 2;
     }
-    if (a->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    if (a->mConnectState == 4) {
-        GpiSetErrorMessage(b, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    v1 = GpiFindProfile(b, c, &v3);
-    if (v1 == 0) {
+    found = GpiFindProfile(connection, profile, &profileEntry);
+    if (found == 0) {
         return 0;
     }
-    v3->mUnk_14 = v3->mUnk_14 + -1;
-    if ((a->mUnk_100 == 0) && (v3->mUnk_14 <= 0)) {
-        func_ov000_021a3668(v3->mUnk_10);
-        v3->mUnk_10 = NULL;
-        v2 = GpiIsProfileEmpty(v3);
-        if (v2 != 0) {
-            GpiRemoveProfile(b, v3);
+    profileEntry->mUnk_14 = profileEntry->mUnk_14 + -1;
+    if ((gpState->mUnk_100 == 0) && (profileEntry->mUnk_14 <= 0)) {
+        func_ov000_021a3668(profileEntry->mUnk_10);
+        profileEntry->mUnk_10 = NULL;
+        canFree = GpiIsProfileEmpty(profileEntry);
+        if (canFree != 0) {
+            GpiRemoveProfile(connection, profileEntry);
         }
     }
     return 0;
@@ -188,186 +190,187 @@ s32 GpGetBuddyCount(GpConnection *object, s32 *output) {
     return 0;
 }
 
-u32 GpGetBuddyStatus(GpConnection *a, s32 b, GpBuddyStatus *c) {
-    GpiConnection *o;
-    GpiProfile *e;
-    GpiBuddyStatus *n;
-    void *v;
-    s32 m;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status) {
+    GpiConnection *gpState;
+    GpiProfile *profileRec;
+    GpiBuddyStatus *buddyInfo;
+    void *string;
+    s32 num;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
-        memset(c, 0, 0x210);
+    if (gpState->mUnk_108 != 0) {
+        memset(status, 0, 0x210);
         return 0;
     }
-    if (c == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b24a8);
+    if (status == NULL) {
+        GpiSetErrorMessage(connection, gInvalidStatusErrorString);
         return 2;
     }
-    m = o->mBuddyCount;
-    if (b < 0 || b >= m) {
-        GpiSetErrorMessage(a, data_ov000_021b24b8);
+    num = gpState->mBuddyCount;
+    if (index < 0 || index >= num) {
+        GpiSetErrorMessage(connection, gInvalidIndexErrorString);
         return 2;
     }
-    e = (GpiProfile *) GpiFindProfileByBuddyIndex(a, b);
-    if (e == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b24b8);
+    profileRec = (GpiProfile *) GpiFindProfileByBuddyIndex(connection, index);
+    if (profileRec == NULL) {
+        GpiSetErrorMessage(connection, gInvalidIndexErrorString);
         return 2;
     }
-    n = e->mBuddyStatus;
-    if (n == NULL) {
-        AssertionFailed(data_ov000_021b24c8, data_ov000_021b24d4, NULL, 0x5cf);
+    buddyInfo = profileRec->mBuddyStatus;
+    if (buddyInfo == NULL) {
+        AssertionFailed(gBuddyStatusAssertion, gGpFileName, NULL, 0x5cf);
     }
-    c->mUnk_000 = e->mProfileId;
-    c->mUnk_004 = n->mUnk_04;
-    v = n->mUnk_08;
-    if (v != NULL) {
-        GpiCopyString(c->mUnk_008, v, 0x100);
+    status->mUnk_000 = profileRec->mProfileId;
+    status->mUnk_004 = buddyInfo->mUnk_04;
+    string = buddyInfo->mUnk_08;
+    if (string != NULL) {
+        GpiCopyString(status->mUnk_008, string, 0x100);
     } else {
-        *(u8 *) v = 0;
+        *(u8 *) string = 0;
     }
-    v = n->mUnk_0c;
-    if (v != NULL) {
-        GpiCopyString(c->mUnk_108, v, 0x100);
+    string = buddyInfo->mUnk_0c;
+    if (string != NULL) {
+        GpiCopyString(status->mUnk_108, string, 0x100);
     } else {
-        *(u8 *) v = 0;
+        *(u8 *) string = 0;
     }
-    c->mUnk_208 = n->mUnk_10;
-    c->mUnk_20c = n->mUnk_14;
+    status->mUnk_208 = buddyInfo->mUnk_10;
+    status->mUnk_20c = buddyInfo->mUnk_14;
     return 0;
 }
 
-u32 GpGetBuddyIndex(GpConnection *a, u32 b, s32 *c) {
-    GpiConnection *o;
-    GpiProfile *e;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index) {
+    GpiConnection *gpState;
+    GpiProfile *profileEntry;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
-        *c = 0;
+    if (gpState->mUnk_108 != 0) {
+        *index = 0;
         return 0;
     }
-    if (GpiFindProfile(a, b, &e) != 0 && e->mBuddyStatus != NULL) {
-        *c = e->mBuddyStatus->mIndex;
+    if (GpiFindProfile(connection, profile, &profileEntry) != 0 && profileEntry->mBuddyStatus != NULL) {
+        *index = profileEntry->mBuddyStatus->mIndex;
     } else {
-        *c = -1;
+        *index = -1;
     }
     return 0;
 }
 
-u32 GpIsBuddy(GpConnection *a, u32 b) {
-    int v1;
-    GpiProfile *v2[1];
-    if ((a == NULL) || (a->mGpiConnection == NULL)) {
+u32 GpIsBuddy(GpConnection *connection, u32 profile) {
+    int found;
+    GpiProfile *pProfile[1];
+    if ((connection == NULL) || (connection->mGpiConnection == NULL)) {
         return 0;
     }
-    if (a->mGpiConnection->mUnk_108 != 0) {
+    if (connection->mGpiConnection->mUnk_108 != 0) {
         return 0;
     }
-    v1 = GpiFindProfile(a, b, v2);
-    if ((v1 != 0) && (v2[0]->mBuddyStatus != NULL)) {
+    found = GpiFindProfile(connection, profile, pProfile);
+    if ((found != 0) && (pProfile[0]->mBuddyStatus != NULL)) {
         return 1;
     }
     return 0;
 }
 
-u32 func_ov000_0218eb44(GpConnection *a, u32 b) {
-    GpiConnection *o;
-    u32 r;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpDeleteBuddy(GpConnection *connection, u32 profile) {
+    GpiConnection *gpState;
+    u32 result;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    if (o->mConnectState == 4) {
-        GpiSetErrorMessage(a, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    r = GpiWriteDelbuddyAndRemoveBuddy(a, b);
-    if (r == 0) {
+    result = GpiWriteDelbuddyAndRemoveBuddy(connection, profile);
+    if (result == 0) {
         return 0;
     }
-    return r;
+    return result;
 }
 
-u32 GpSetStatus(GpConnection *a, s32 b, const char *c, const char *d) {
-    GpiConnection *o;
-    char e[0x100];
-    char f[0x100];
-    s8 *g;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, const char *locationString) {
+    GpiConnection *gpState;
+    char statusCopy[0x100];
+    char locationCopy[0x100];
+    s8 *cursor;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    if (o->mConnectState == 4) {
-        GpiSetErrorMessage(a, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    if (c == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b2450);
+    if (statusString == NULL) {
+        GpiSetErrorMessage(connection, gInvalidStatusStringErrorString);
         return 2;
     }
-    if (d == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b2468);
+    if (locationString == NULL) {
+        GpiSetErrorMessage(connection, gInvalidLocationStringErrorString);
         return 2;
     }
-    GpiCopyString(e, c, 0x100);
-    if (*(s8 *) e != 0) {
-        g = (s8 *) e;
+    GpiCopyString(statusCopy, statusString, 0x100);
+    if (*(s8 *) statusCopy != 0) {
+        cursor = (s8 *) statusCopy;
         do {
-            if (*g == 0x5c) {
-                *g = 0x2f;
+            if (*cursor == 0x5c) {
+                *cursor = 0x2f;
             }
-            g++;
-        } while (*g != 0);
+            cursor++;
+        } while (*cursor != 0);
     }
-    GpiCopyString(f, d, 0x100);
-    if (*(s8 *) f != 0) {
-        g = (s8 *) f;
+    GpiCopyString(locationCopy, locationString, 0x100);
+    if (*(s8 *) locationCopy != 0) {
+        cursor = (s8 *) locationCopy;
         do {
-            if (*g == 0x5c) {
-                *g = 0x2f;
+            if (*cursor == 0x5c) {
+                *cursor = 0x2f;
             }
-            g++;
-        } while (*g != 0);
+            cursor++;
+        } while (*cursor != 0);
     }
-    if (b == o->mStatus && strcmp(e, o->mStatusString) == 0 && strcmp(f, o->mLocationString) == 0) {
+    if (status == gpState->mStatus && strcmp(statusCopy, gpState->mStatusString) == 0 &&
+        strcmp(locationCopy, gpState->mLocationString) == 0) {
         return 0;
     }
-    o->mStatus = b;
-    GpiCopyString(o->mStatusString, e, 0x100);
-    GpiCopyString(o->mLocationString, f, 0x100);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2480);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, b);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2418);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, o->mSesskey);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b248c);
-    GpiAppendBufferString(a, &o->mOutputBuffer, e);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b249c);
-    GpiAppendBufferString(a, &o->mOutputBuffer, f);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2424);
+    gpState->mStatus = status;
+    GpiCopyString(gpState->mStatusString, statusCopy, 0x100);
+    GpiCopyString(gpState->mLocationString, locationCopy, 0x100);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gStatusKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, status);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gSesskeyKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gStatstringKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, statusCopy);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gLocstringKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, locationCopy);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gFinalKey);
     return 0;
 }
 
-u32 GpSendMessage(GpConnection *a, s32 b, const char *c) {
-    GpiConnection *o;
-    if (a == NULL || (o = a->mGpiConnection) == NULL) {
+u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message) {
+    GpiConnection *gpState;
+    if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (gpState->mUnk_108 != 0) {
         return 0;
     }
-    if (o->mConnectState == 4) {
-        GpiSetErrorMessage(a, data_ov000_021b23e8);
+    if (gpState->mConnectState == 4) {
+        GpiSetErrorMessage(connection, gConnectionDisconnectedErrorString);
         return 2;
     }
-    if (c == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b243c);
+    if (message == NULL) {
+        GpiSetErrorMessage(connection, gInvalidMessageErrorString);
         return 2;
     }
-    return func_ov000_0218fb3c(a, b, 1, c);
+    return gpiSendBuddyMessage(connection, profileRec, 1, message);
 }

@@ -35,330 +35,331 @@
 
 #pragma opt_propagation off
 
-u32 func_ov000_0218e8c4(void) {
-    u64 t;
+u32 GetElapsedMilliseconds(void) {
+    u64 ticks;
     if (OS_IsTickAvailable() != 1) {
-        AssertionFailed(data_ov000_021b23b0, data_ov000_021b23d0, NULL, 0x109);
+        AssertionFailed(gTickAvailableAssertion, gNonportFileName, NULL, 0x109);
     }
-    t = OS_GetTick();
-    return (t << 6) / 0x82ea;
+    ticks = OS_GetTick();
+    return (ticks << 6) / 0x82ea;
 }
 
-void func_ov000_0218e8bc(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value3;
-    OS_Sleep(value0);
+void msleep(u32 msec) {
+    u32 sleepMsec = msec;
+    u32 unusedValue;
+    OS_Sleep(sleepMsec);
 }
 
-void func_ov000_0218e8b8(void) {}
+void SocketStartUp(void) {}
 
-void func_ov000_0218e8b4(void) {}
+void SocketShutDown(void) {}
 
-void *func_ov000_0218e880(const char *a) {
-    void *b;
-    if (a == NULL) {
+void *goastrdup(const char *src) {
+    void *res;
+    if (src == NULL) {
         return NULL;
     }
-    b = func_ov000_021a3690(strlen(a) + 1);
-    if (b != NULL) {
-        strcpy(b, a);
+    res = func_ov000_021a3690(strlen(src) + 1);
+    if (res != NULL) {
+        strcpy(res, src);
     }
-    return b;
+    return res;
 }
 
-s8 *func_ov000_0218e850(s8 *a) {
-    s32 c;
-    s8 *b;
-    b = a;
-    c = *a;
-    if (c != 0) {
+s8 *_strlwr(s8 *string) {
+    s32 character;
+    s8 *startPtr;
+    startPtr = string;
+    character = *string;
+    if (character != 0) {
         do {
-            if (c >= 0 && c < 0x80) {
-                c = gLowerCaseMap[c];
+            if (character >= 0 && character < 0x80) {
+                character = gLowerCaseMap[character];
             }
-            *a = c;
-            a++;
-            c = *a;
-        } while (c != 0);
+            *string = character;
+            string++;
+            character = *string;
+        } while (character != 0);
     }
-    return b;
+    return startPtr;
 }
 
-BOOL func_ov000_0218e80c(s32 a, s32 b) {
-    s32 c;
-    c = func_ov000_021a8dd8((Unk021a6fa8 *) a, 3, 0);
-    if (b != 0) {
-        c = c & ~4;
+BOOL SetSockBlocking(s32 sock, s32 isblocking) {
+    s32 flags;
+    flags = func_ov000_021a8dd8((Unk021a6fa8 *) sock, 3, 0);
+    if (isblocking != 0) {
+        flags = flags & ~4;
     } else {
-        c = c | 4;
+        flags = flags | 4;
     }
-    return func_ov000_021a8dd8((Unk021a6fa8 *) a, 4, c) == 0;
+    return func_ov000_021a8dd8((Unk021a6fa8 *) sock, 4, flags) == 0;
 }
 
-s32 func_ov000_0218e7dc(s32 a, u32 b) {
-    return func_ov000_0218e3b8(a, 0xffff, 0x1002, &b, 4) != -1 ? 1 : 0;
+s32 SetReceiveBufferSize(s32 sock, u32 size) {
+    return setsockopt(sock, 0xffff, 0x1002, &size, 4) != -1 ? 1 : 0;
 }
 
-s32 func_ov000_0218e7ac(s32 a, u32 b) {
-    return func_ov000_0218e3b8(a, 0xffff, 0x1001, &b, 4) != -1 ? 1 : 0;
+s32 SetSendBufferSize(s32 sock, u32 size) {
+    return setsockopt(sock, 0xffff, 0x1001, &size, 4) != -1 ? 1 : 0;
 }
 
-s32 func_ov000_0218e77c(s32 d) {
-    s32 a;
-    s32 b = 4;
-    s32 c = func_ov000_0218e3c4(d, 0xffff, 0x1002, &a, &b);
-    return c != -1 ? a : -1;
+s32 GetReceiveBufferSize(s32 sock) {
+    s32 size;
+    s32 len = 4;
+    s32 rcode = getsockopt(sock, 0xffff, 0x1002, &size, &len);
+    return rcode != -1 ? size : -1;
 }
 
-s32 func_ov000_0218e74c(s32 d) {
-    s32 a;
-    s32 b = 4;
-    s32 c = func_ov000_0218e3c4(d, 0xffff, 0x1001, &a, &b);
-    return c != -1 ? a : -1;
+s32 GetSendBufferSize(s32 sock) {
+    s32 size;
+    s32 len = 4;
+    s32 rcode = getsockopt(sock, 0xffff, 0x1001, &size, &len);
+    return rcode != -1 ? size : -1;
 }
 
-s32 func_ov000_0218e68c(s32 c, u32 *d, u32 *e, u32 *f) {
-    Unk0218e68c a;
-    s32 b;
-    a.mUnk_00 = c;
-    a.mUnk_04 = 0;
-    if (d != NULL) {
-        a.mUnk_04 |= 1;
+s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *theExceptFlag) {
+    SOCPollFD pollEntry;
+    s32 pollResult;
+    pollEntry.mUnk_00 = theSocket;
+    pollEntry.mUnk_04 = 0;
+    if (theReadFlag != NULL) {
+        pollEntry.mUnk_04 |= 1;
     }
-    if (e != NULL) {
-        a.mUnk_04 |= 8;
+    if (theWriteFlag != NULL) {
+        pollEntry.mUnk_04 |= 8;
     }
-    a.mUnk_06 = 0;
-    b = func_ov000_021a8b20(&a, 1, 0);
-    if (b < 0) {
+    pollEntry.mUnk_06 = 0;
+    pollResult = func_ov000_021a8b20(&pollEntry, 1, 0);
+    if (pollResult < 0) {
         return -1;
     }
-    if (d != NULL) {
-        if (b > 0 && (a.mUnk_06 & 0x41) != 0) {
-            *d = 1;
+    if (theReadFlag != NULL) {
+        if (pollResult > 0 && (pollEntry.mUnk_06 & 0x41) != 0) {
+            *theReadFlag = 1;
         } else {
-            *d = 0;
+            *theReadFlag = 0;
         }
     }
-    if (e != NULL) {
-        if (b > 0 && (a.mUnk_06 & 8) != 0) {
-            *e = 1;
+    if (theWriteFlag != NULL) {
+        if (pollResult > 0 && (pollEntry.mUnk_06 & 8) != 0) {
+            *theWriteFlag = 1;
         } else {
-            *e = 0;
+            *theWriteFlag = 0;
         }
     }
-    if (f != NULL) {
-        if (b > 0 && (a.mUnk_06 & 0x20) != 0) {
-            *f = 1;
+    if (theExceptFlag != NULL) {
+        if (pollResult > 0 && (pollEntry.mUnk_06 & 0x20) != 0) {
+            *theExceptFlag = 1;
         } else {
-            *f = 0;
+            *theExceptFlag = 0;
         }
     }
-    return b;
+    return pollResult;
 }
 
-u32 func_ov000_0218e668(u32 a) {
-    int v1;
-    u32 v2[1];
-    v2[0] = 0;
-    v1 = func_ov000_0218e68c((u32) a, (v2), NULL, NULL);
-    if (v1 == 1) {
-        return v2[0];
+u32 CanReceiveOnSocket(u32 sock) {
+    int selectResult;
+    u32 readFlag[1];
+    readFlag[0] = 0;
+    selectResult = GSISocketSelect((u32) sock, (readFlag), NULL, NULL);
+    if (selectResult == 1) {
+        return readFlag[0];
     }
     return 0;
 }
 
-u32 func_ov000_0218e644(u32 a) {
-    int v1;
-    u32 v2[1];
-    v2[0] = 0;
-    v1 = func_ov000_0218e68c((u32) a, NULL, (v2), NULL);
-    if (v1 == 1) {
-        return v2[0];
+u32 CanSendOnSocket(u32 sock) {
+    int selectResult;
+    u32 writeFlag[1];
+    writeFlag[0] = 0;
+    selectResult = GSISocketSelect((u32) sock, NULL, (writeFlag), NULL);
+    if (selectResult == 1) {
+        return writeFlag[0];
     }
     return 0;
 }
 
-Unk021a8f84 *func_ov000_0218e5e4(void) {
-    data_ov000_021b4e0c.mUnk_00 = data_ov000_021b23dc;
-    data_ov000_021b4e0c.mUnk_04 = data_ov000_021b4e04;
-    data_ov000_021b4e0c.mUnk_08 = 2;
-    data_ov000_021b4e0c.mUnk_0a = 0;
-    data_ov000_021b4e0c.mUnk_0c = data_ov000_021b4e30;
-    data_ov000_021b4e1c = 0;
-    func_ov000_021a8bb0(func_ov000_021a8830(), (u8 *) &data_ov000_021b4e1c);
-    if (data_ov000_021b4e1c == 0) {
+SOCHostEnt *getlocalhost(void) {
+    gLocalhost.mUnk_00 = gLocalhostName;
+    gLocalhost.mUnk_04 = gAliases;
+    gLocalhost.mUnk_08 = 2;
+    gLocalhost.mUnk_0a = 0;
+    gLocalhost.mUnk_0c = gIpPtrs;
+    gIps = 0;
+    func_ov000_021a8bb0(func_ov000_021a8830(), (u8 *) &gIps);
+    if (gIps == 0) {
         return NULL;
     }
-    data_ov000_021b4e30[0] = &data_ov000_021b4e1c;
-    data_ov000_021b4e0c.mUnk_0a = 4;
-    data_ov000_021b4e30[1] = NULL;
-    return &data_ov000_021b4e0c;
+    gIpPtrs[0] = &gIps;
+    gLocalhost.mUnk_0a = 4;
+    gIpPtrs[1] = NULL;
+    return &gLocalhost;
 }
 
-BOOL func_ov000_0218e57c(u32 *e) {
-    u32 a = *e;
-    u32 b = ((a << 24) & 0xff000000) | (((a << 8) & 0xff0000) | (((a >> 24) & 0xff) | ((a >> 8) & 0xff00)));
-    s32 c = (b >> 24) & 0xff;
-    s32 d = (b >> 16) & 0xff;
-    if (c == 10) {
+BOOL IsPrivateIP(u32 *addr) {
+    u32 rawAddress = *addr;
+    u32 hostAddress = ((rawAddress << 24) & 0xff000000) |
+                      (((rawAddress << 8) & 0xff0000) | (((rawAddress >> 24) & 0xff) | ((rawAddress >> 8) & 0xff00)));
+    s32 firstByte = (hostAddress >> 24) & 0xff;
+    s32 secondByte = (hostAddress >> 16) & 0xff;
+    if (firstByte == 10) {
         return TRUE;
     }
-    if (c == 172 && d >= 16 && d <= 31) {
+    if (firstByte == 172 && secondByte >= 16 && secondByte <= 31) {
         return TRUE;
     }
-    if (c == 192 && d == 168) {
+    if (firstByte == 192 && secondByte == 168) {
         return TRUE;
     }
     return FALSE;
 }
 
-s32 func_ov000_0218e56c(s32 result, s32 fallback) {
+s32 CheckRcode(s32 result, s32 fallback) {
     if (result < 0) {
-        data_ov000_021b4e08 = result;
+        gGsiNitroErrno = result;
         result = fallback;
     }
     return result;
 }
 
-s32 func_ov000_0218e554(s32 domain, s32 type, s32 protocol) {
-    return func_ov000_0218e56c(func_ov000_021a918c(domain, type, protocol), -1);
+s32 OpenNetSocket(s32 domain, s32 type, s32 protocol) {
+    return CheckRcode(func_ov000_021a918c(domain, type, protocol), -1);
 }
 
-s32 func_ov000_0218e53c(s32 descriptor) {
-    return func_ov000_0218e56c(func_ov000_021a9008(descriptor), -1);
+s32 closesocket(s32 descriptor) {
+    return CheckRcode(func_ov000_021a9008(descriptor), -1);
 }
 
-s32 func_ov000_0218e524(s32 descriptor, s32 a) {
-    return func_ov000_0218e56c(func_ov000_021a9010(descriptor), -1);
+s32 shutdown(s32 descriptor, s32 how) {
+    return CheckRcode(func_ov000_021a9010(descriptor), -1);
 }
 
-s32 func_ov000_0218e4e4(s32 c, void *d, s32 e) {
-    Unk0218e3c4 *a = d;
-    Unk0218e3c4 b;
-    if (*(u16 *) a->mUnk_02 == 0) {
+s32 bind(s32 sock, void *addr, s32 len) {
+    SOCSockAddr *addrRecord = addr;
+    SOCSockAddr boundAddr;
+    if (*(u16 *) addrRecord->mUnk_02 == 0) {
         return 0;
     }
-    b = *a;
-    b.mUnk_00 = e;
-    return func_ov000_0218e56c(func_ov000_021a916c(c, &b), -1);
+    boundAddr = *addrRecord;
+    boundAddr.mUnk_00 = len;
+    return CheckRcode(func_ov000_021a916c(sock, &boundAddr), -1);
 }
 
-s32 func_ov000_0218e4b4(s32 b, void *c, s32 d) {
-    Unk0218e3c4 a = *(Unk0218e3c4 *) c;
-    a.mUnk_00 = d;
-    return func_ov000_0218e56c(func_ov000_021a911c((Unk021a6fa8 *) b, (Unk021a8e18 *) &a), -1);
+s32 connect(s32 sock, void *addr, s32 len) {
+    SOCSockAddr target = *(SOCSockAddr *) addr;
+    target.mUnk_00 = len;
+    return CheckRcode(func_ov000_021a911c((Unk021a6fa8 *) sock, (Unk021a8e18 *) &target), -1);
 }
 
-s32 func_ov000_0218e49c(s32 descriptor) {
-    return func_ov000_0218e56c(func_ov000_021a8e70(descriptor), -1);
+s32 listen(s32 descriptor) {
+    return CheckRcode(func_ov000_021a8e70(descriptor), -1);
 }
 
-s32 func_ov000_0218e478(s32 param_1, void *param_2, s32 *param_3) {
-    u8 *a = param_2;
-    s32 *b = param_3;
-    s32 c = *b;
-    s32 d;
-    *a = c;
-    d = func_ov000_021a8e18((Unk021a6fa8 *) param_1, (Unk021a8e18 *) a, c);
-    *b = *a;
-    return func_ov000_0218e56c(d, -1);
+s32 AcceptConnection(s32 sock, void *addr, s32 *len) {
+    u8 *addrBytes = addr;
+    s32 *lenPointer = len;
+    s32 inputLen = *lenPointer;
+    s32 rcode;
+    *addrBytes = inputLen;
+    rcode = func_ov000_021a8e18((Unk021a6fa8 *) sock, (Unk021a8e18 *) addrBytes, inputLen);
+    *lenPointer = *addrBytes;
+    return CheckRcode(rcode, -1);
 }
 
-s32 func_ov000_0218e460(s32 param_1, void *param_2, s32 param_3, s32 param_4) {
-    return func_ov000_0218e56c(func_ov000_021a9104(param_1, param_2, param_3, param_4), -1);
+s32 recv(s32 sock, void *buf, s32 len, s32 flags) {
+    return CheckRcode(func_ov000_021a9104(sock, buf, len, flags), -1);
 }
 
-s32 func_ov000_0218e438(s32 param_1, void *param_2, s32 param_3, s32 param_4, void *param_5, s32 *param_6) {
-    u8 *a = param_5;
-    s32 *b = param_6;
-    s32 c;
-    *a = *b;
-    c = func_ov000_021a90a0(param_1, param_2, param_3, param_4, a);
-    *b = *a;
-    return func_ov000_0218e56c(c, -1);
+s32 recvfrom(s32 sock, void *buf, s32 len, s32 flags, void *addr, s32 *fromlen) {
+    u8 *addrBytes = addr;
+    s32 *fromlenPointer = fromlen;
+    s32 recvResult;
+    *addrBytes = *fromlenPointer;
+    recvResult = func_ov000_021a90a0(sock, buf, len, flags, addrBytes);
+    *fromlenPointer = *addrBytes;
+    return CheckRcode(recvResult, -1);
 }
 
-s32 func_ov000_0218e420(s32 param_1, void *param_2, s32 param_3, s32 param_4) {
-    return func_ov000_0218e56c(func_ov000_021a9088(param_1, param_2, param_3, param_4), -1);
+s32 send(s32 sock, void *buf, s32 len, s32 flags) {
+    return CheckRcode(func_ov000_021a9088(sock, buf, len, flags), -1);
 }
 
-s32 func_ov000_0218e3e4(s32 param_1, void *param_2, s32 param_3, s32 param_4, void *param_5, s32 param_6) {
-    Unk0218e3c4 b;
-    __memcpy(&b, param_5, sizeof(b));
-    b.mUnk_00 = param_6;
-    return func_ov000_0218e56c(func_ov000_021a9018(param_1, param_2, param_3, param_4, &b), -1);
+s32 sendto(s32 sock, void *buf, s32 len, s32 flags, void *addr, s32 tolen) {
+    SOCSockAddr destAddr;
+    __memcpy(&destAddr, addr, sizeof(destAddr));
+    destAddr.mUnk_00 = tolen;
+    return CheckRcode(func_ov000_021a9018(sock, buf, len, flags, &destAddr), -1);
 }
 
-s32 func_ov000_0218e3c4(s32 param_1, s32 param_2, s32 param_3, void *param_4, s32 *param_5) {
-    MI_CpuFill8(param_4, 0, *param_5);
-    return func_ov000_0218e56c(0, -1);
+s32 getsockopt(s32 sock, s32 level, s32 optname, void *optval, s32 *optlen) {
+    MI_CpuFill8(optval, 0, *optlen);
+    return CheckRcode(0, -1);
 }
 
-u32 func_ov000_0218e3b8(s32 a, s32 b, s32 c, void *d, s32 e) {
-    u32 value0;
-    u32 value1;
-    u32 value3;
-    value0 = 0u;
-    value1 = ~(value0);
-    value3 = (u32) &func_ov000_0218e56c;
-    value0 = func_ov000_0218e56c(value0, value1);
-    return value0;
+u32 setsockopt(s32 sock, s32 level, s32 optname, void *optval, s32 optlen) {
+    u32 optResult;
+    u32 errCode;
+    u32 unusedValue;
+    optResult = 0u;
+    errCode = ~(optResult);
+    unusedValue = (u32) &CheckRcode;
+    optResult = CheckRcode(optResult, errCode);
+    return optResult;
 }
 
-s32 func_ov000_0218e394(u32 p0, void *p1, u32 *p2) {
-    u32 v2 = (u32) p1;
-    u32 v3 = (u32) p2;
-    u32 v4 = (*(u32 *) ((v3) + (0)));
-    u32 v6;
-    u32 v7;
-    u32 v10;
-    u32 v11;
-    *(u8 *) ((v2) + (0)) = v4;
-    v6 = func_ov000_021a8f0c(p0, p1);
-    v7 = (*(u8 *) ((v2) + (0)));
-    *(u32 *) ((v3) + (0)) = v7;
-    v10 = ~(0x0u);
-    v11 = func_ov000_0218e56c(v6, v10);
-    return v11;
+s32 getsockname(u32 sock, void *addr, u32 *len) {
+    u32 addrBase = (u32) addr;
+    u32 lenBase = (u32) len;
+    u32 lenValue = (*(u32 *) ((lenBase) + (0)));
+    u32 nameResult;
+    u32 addrLen;
+    u32 errCode;
+    u32 result;
+    *(u8 *) ((addrBase) + (0)) = lenValue;
+    nameResult = func_ov000_021a8f0c(sock, addr);
+    addrLen = (*(u8 *) ((addrBase) + (0)));
+    *(u32 *) ((lenBase) + (0)) = addrLen;
+    errCode = ~(0x0u);
+    result = CheckRcode(nameResult, errCode);
+    return result;
 }
 
-u32 func_ov000_0218e374(u32 a) {
-    int v1;
-    u32 v2[1];
-    v1 = func_ov000_021a8c1c(a, v2);
-    if (v1 == 0) {
+u32 inet_addr(u32 name) {
+    int parseResult;
+    u32 addr[1];
+    parseResult = func_ov000_021a8c1c(name, addr);
+    if (parseResult == 0) {
         return 0xffffffff;
     }
-    return v2[0];
+    return addr[0];
 }
 
-u32 func_ov000_0218e368(s32 a) {
-    return *(u32 *) &data_ov000_021b4e08;
+u32 GOAGetLastError(s32 sock) {
+    return *(u32 *) &gGsiNitroErrno;
 }
 
-u32 func_ov000_0218e320(u32 *param_1) {
-    u32 a;
+u32 GetUnixTime(u32 *timer) {
+    u32 seconds;
     if (OS_IsTickAvailable() != 1) {
-        AssertionFailed(data_ov000_021b23b0, data_ov000_021b23d0, NULL, 0x667);
+        AssertionFailed(gTickAvailableAssertion, gNonportFileName, NULL, 0x667);
     }
-    a = (OS_GetTick() << 6) / 0x1ff6210;
-    if (param_1 != NULL) {
-        *param_1 = a;
+    seconds = (OS_GetTick() << 6) / 0x1ff6210;
+    if (timer != NULL) {
+        *timer = seconds;
     }
-    return a;
+    return seconds;
 }
 
-u32 func_ov000_0218e2dc(u32 param_1) {
-    u32 a = (param_1 & 0xffff) * 0x41a7;
-    u32 b = (param_1 >> 16) * 0x41a7;
-    u32 c = a + ((b & 0x7fff) << 16);
-    if (c > 0x7fffffff) {
-        c = (c & 0x7fffffff) + 1;
+u32 nextlongrand(u32 seed) {
+    u32 lowProduct = (seed & 0xffff) * 0x41a7;
+    u32 highProduct = (seed >> 16) * 0x41a7;
+    u32 next = lowProduct + ((highProduct & 0x7fff) << 16);
+    if (next > 0x7fffffff) {
+        next = (next & 0x7fffffff) + 1;
     }
-    c += b >> 15;
-    if (c > 0x7fffffff) {
-        c = (c & 0x7fffffff) + 1;
+    next += highProduct >> 15;
+    if (next > 0x7fffffff) {
+        next = (next & 0x7fffffff) + 1;
     }
-    return c;
+    return next;
 }

@@ -41,14 +41,14 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
         p.mGpiConnection->mCallbacks[i].mUnk_04 = 0;
     }
     p.mGpiConnection->mUnk_460 = NULL;
-    func_ov000_0219690c(&p, data_ov000_021b2718);
+    gpiDebug(&p, data_ov000_021b2718);
     r = GpiResetConnection(&p);
     if (r != 0) {
-        func_ov000_0218f808(&p);
+        gpiDestroy(&p);
         return r;
     }
-    func_ov000_0218e8b8();
-    srand(func_ov000_0218e8c4());
+    SocketStartUp();
+    srand(GetElapsedMilliseconds());
     a->mGpiConnection = p.mGpiConnection;
     return 0;
 }

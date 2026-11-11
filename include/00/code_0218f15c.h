@@ -4,18 +4,20 @@
 
 typedef struct GpConnection GpConnection;
 
-// Zeroed by func_ov000_0218f15c and passed to the callback.
+// Zeroed by GpConnectPreAuthenticatedA and passed to the callback.
 typedef struct Unk0218f15cArg {
     /* 00 */ u32 mUnk_00[8];
 } Unk0218f15cArg;
 
 typedef void (*Unk0218f15cCb)(GpConnection *a, Unk0218f15cArg *b, u32 c);
 
-u32 func_ov000_0218f15c(GpConnection *a, s8 *b, s8 *c, s32 d, s32 e, Unk0218f15cCb f, u32 g);
-u32 func_ov000_0218f21c(GpConnection *a, s32 b, void (*c)(void *a, void *b, u32 c), u32 d);
-u32 GpUpdate(GpConnection *a);
-void func_ov000_0218f2a0(GpConnection *a);
-u32 GpInitialize(GpConnection *a, s32 b, s32 c);
-int GpiUpdateConnection(void *a, int b);
-u32 func_ov000_0218f408(GpConnection *a);
-u32 GpiResetConnection(GpConnection *a);
+u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *partnerchallenge, s32 firewall,
+                               s32 blocking, Unk0218f15cCb callback, u32 param);
+u32 GpSetCallback(GpConnection *connection, s32 func, void (*callback)(void *connection, void *func, u32 callback),
+                  u32 param);
+u32 GpUpdate(GpConnection *connection);
+void GpDestroy(GpConnection *connection);
+u32 GpInitialize(GpConnection *connection, s32 productID, s32 namespaceID);
+int GpiUpdateConnection(void *connectionArgument, int blockingOperationID);
+u32 gpiProcessConnectionManager(GpConnection *connection);
+u32 GpiResetConnection(GpConnection *connection);

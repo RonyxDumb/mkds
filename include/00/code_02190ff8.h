@@ -21,5 +21,5 @@
 #include "00/code_021a3000.h"
 #include "00/code_021906e4.h"
 
-void GpiCloseConnection(GpConnection *a, s32 b);
-u32 func_ov000_02191180(GpConnection *a, GpiProfile *b);
+void GpiCloseConnection(GpConnection *connection, s32 tellServer);
+u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile);

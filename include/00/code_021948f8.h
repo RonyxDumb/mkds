@@ -19,10 +19,10 @@ extern char data_ov000_021b356c[];
 extern char data_ov000_021b359c[];
 extern u8 data_ov000_021b35a8[];
 
-void GpiRemoveProfile(GpConnection *a, GpiProfile *b);
-void GpiRemoveProfileById(GpConnection *a, u32 b);
-u32 GpiFindProfile(GpConnection *a, u32 b, GpiProfile **c);
-GpiProfile *GpiFindOrAddProfile(GpConnection *a, s32 id);
-s32 func_ov000_02194a0c(GpConnection *a, GpiOperation *b, const char *c);
-BOOL GpiInitProfileList(GpConnection *a);
-void GpiReleaseProfile(GpiProfile *a);
+void GpiRemoveProfile(GpConnection *connection, GpiProfile *profile);
+void GpiRemoveProfileById(GpConnection *connection, u32 profileid);
+u32 GpiFindProfile(GpConnection *connection, u32 profileid, GpiProfile **profile);
+GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id);
+s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, const char *input);
+BOOL GpiInitProfileList(GpConnection *connection);
+void GpiReleaseProfile(GpiProfile *profile);

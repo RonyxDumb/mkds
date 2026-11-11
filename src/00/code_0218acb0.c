@@ -17,7 +17,7 @@ void SBEngineHaltUpdates(MatchingServerList *matchingServerList) {
 }
 
 void SBEngineCleanup(MatchingServerList *matchingServerList) {
-    func_ov000_0218e53c(matchingServerList->mEngine.mQuerySock);
+    closesocket(matchingServerList->mEngine.mQuerySock);
     matchingServerList->mEngine.mQuerySock = 0xffffffff;
     FIFOClear(&matchingServerList->mEngine.mPendingList);
     FIFOClear(&matchingServerList->mEngine.mQueryList);

@@ -2,16 +2,16 @@
 #include "00/code_02194840.h"
 #include "00/code_021948bc.h"
 
-s32 func_ov000_0219488c(GpConnection *a, const char *b, const char *c, void **d) {
-    Unk0219488cArg e;
+s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char *email, void **profile) {
+    GPIFindProfileByUserData data;
 
-    e.mUnk_00 = b;
-    e.mUnk_04 = c;
-    e.mUnk_08 = d;
-    e.mUnk_0c = FALSE;
-    GpiForEachProfileWhileNonZero(a, func_ov000_021948bc, &e);
-    if (e.mUnk_0c == FALSE) {
-        *d = NULL;
+    data.mUnk_00 = nick;
+    data.mUnk_04 = email;
+    data.mUnk_08 = profile;
+    data.mUnk_0c = FALSE;
+    GpiForEachProfileWhileNonZero(connection, gpiCheckProfileForUser, &data);
+    if (data.mUnk_0c == FALSE) {
+        *profile = NULL;
     }
     return 0;
 }

@@ -4,6 +4,6 @@
 #include "00/code_02190000.h"
 #include "00/code_0218f960.h"
 
-int func_ov000_02191200(GpConnection *a);
-u32 GpiProcessConnectOperation(GpConnection *a, GpiOperation *b, const char *c);
-u32 GpiWriteNewuser(GpConnection *a, Unk02191284Data *b);
+int gpiCheckConnect(GpConnection *connection);
+u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation, const char *input);
+u32 GpiWriteNewuser(GpConnection *connection, Unk02191284Data *data);

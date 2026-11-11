@@ -92,7 +92,7 @@ s8 *func_ov000_02197be0(s8 *buffer) {
     if (buffer == NULL) {
         AssertionFailed(data_ov000_021b3e90, data_ov000_021b3e98, NULL, 0x2b);
     }
-    srand(func_ov000_0218e8c4());
+    srand(GetElapsedMilliseconds());
     buffer[0] = (s32) rand() % 0x5d + 0x21;
     e = 0;
     f = 1;

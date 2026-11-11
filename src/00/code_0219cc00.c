@@ -87,7 +87,7 @@ void func_ov000_0219cd74(GpConnection *a, Unk0219c400 *b, u32 c) {
         if (GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 1) {
             DWC_LoginIdToUserName(func_ov000_0219c9c4(), &gWiFiBuddySync->mBuddies[i], s);
             if (strcmp(s, (const char *) b->mUnk_8e) == 0) {
-                func_ov000_0218ee1c(h, b->mUnk_04);
+                GpAuthBuddyRequest(h, b->mUnk_04);
                 InitFriendDataFromGsProfileId(&gWiFiBuddySync->mBuddies[i], b->mUnk_04);
                 f = TRUE;
             }
@@ -95,7 +95,7 @@ void func_ov000_0219cd74(GpConnection *a, Unk0219c400 *b, u32 c) {
                    GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 2) {
             t = b->mUnk_04;
             if (t == DWC_GetGsProfileId(func_ov000_0219c9c4(), &gWiFiBuddySync->mBuddies[i])) {
-                func_ov000_0218ee1c(h, t);
+                GpAuthBuddyRequest(h, t);
                 f = TRUE;
             }
         }
@@ -103,7 +103,7 @@ void func_ov000_0219cd74(GpConnection *a, Unk0219c400 *b, u32 c) {
     if (f != FALSE) {
         AddBuddy(b->mUnk_04);
     } else {
-        func_ov000_0218ed74(h, b->mUnk_04);
+        GpDenyBuddyRequest(h, b->mUnk_04);
     }
 }
 

@@ -8,100 +8,100 @@
 #include "code_02134398.h"
 #include "code_02150228.h"
 
-s32 func_ov000_0218e284(s32 b, s32 c) {
-    s32 a = c - b;
-    s32 r;
-    if (a == 0) {
-        return b;
+s32 Util_RandInt(s32 low, s32 high) {
+    s32 range = high - low;
+    s32 num;
+    if (range == 0) {
+        return low;
     }
-    r = func_ov000_0218e2c0() % a;
-    return r + b;
+    num = longrand() % range;
+    return num + low;
 }
 
-void func_ov000_0218e220(const s8 *c, u8 *d, s32 e) {
-    u8 a[3];
-    s32 b = 0;
-    for (; b < e; b++) {
-        a[b] = c[b];
+void TripToQuart(const s8 *trip, u8 *quart, s32 inlen) {
+    u8 paddedTriple[3];
+    s32 index = 0;
+    for (; index < inlen; index++) {
+        paddedTriple[index] = trip[index];
     }
-    for (; b < 3; b++) {
-        a[b] = 0;
+    for (; index < 3; index++) {
+        paddedTriple[index] = 0;
     }
-    d[0] = a[0] >> 2;
-    d[1] = ((a[0] & 3) << 4) | (a[1] >> 4);
-    d[2] = ((a[1] & 0xf) << 2) | (a[2] >> 6);
-    d[3] = a[2] & 0x3f;
+    quart[0] = paddedTriple[0] >> 2;
+    quart[1] = ((paddedTriple[0] & 3) << 4) | (paddedTriple[1] >> 4);
+    quart[2] = ((paddedTriple[1] & 0xf) << 2) | (paddedTriple[2] >> 6);
+    quart[3] = paddedTriple[2] & 0x3f;
 }
 
-void func_ov000_0218e15c(const void *h, void *l, s32 m, s32 n) {
-    const s8 *a = h;
-    s8 *b = l;
-    s8 *g = b;
-    const s8 *c;
-    s32 d = m;
-    s8 *e;
-    s8 f;
-    switch (n) {
+void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType) {
+    const s8 *inputCursor = input;
+    s8 *outputCursor = output;
+    s8 *outputStart = outputCursor;
+    const s8 *alphabet;
+    s32 inputLeft = inlen;
+    s8 *padStart;
+    s8 value;
+    switch (encodingType) {
         case 1:
-            c = data_ov000_021b07b0;
+            alphabet = gAlternateEncoding;
             break;
         case 2:
-            c = data_ov000_021b07b4;
+            alphabet = gUrlSafeEncodeing;
             break;
         default:
-            c = data_ov000_021b07b8;
+            alphabet = gDefaultEncoding;
             break;
     }
-    while (d > 0) {
-        func_ov000_0218e220(a, (u8 *) b, m >= 3 ? 3 : m);
-        b += 4;
-        a += 3;
-        d -= 3;
+    while (inputLeft > 0) {
+        TripToQuart(inputCursor, (u8 *) outputCursor, inlen >= 3 ? 3 : inlen);
+        outputCursor += 4;
+        inputCursor += 3;
+        inputLeft -= 3;
     }
-    e = b;
-    if (m % 3 == 1) {
-        e = b - 2;
-    } else if (m % 3 == 2) {
-        e = b - 1;
+    padStart = outputCursor;
+    if (inlen % 3 == 1) {
+        padStart = outputCursor - 2;
+    } else if (inlen % 3 == 2) {
+        padStart = outputCursor - 1;
     }
-    *b = 0;
-    while (b > g) {
-        b--;
-        if (b >= e) {
-            *b = c[2];
+    *outputCursor = 0;
+    while (outputCursor > outputStart) {
+        outputCursor--;
+        if (outputCursor >= padStart) {
+            *outputCursor = alphabet[2];
         } else {
-            f = *b;
-            if (f <= 25) {
-                *b = f + 65;
-            } else if (f <= 51) {
-                *b = f + 71;
-            } else if (f <= 61) {
-                *b = f - 4;
-            } else if (f == 62) {
-                *b = c[0];
-            } else if (f == 63) {
-                *b = c[1];
+            value = *outputCursor;
+            if (value <= 25) {
+                *outputCursor = value + 65;
+            } else if (value <= 51) {
+                *outputCursor = value + 71;
+            } else if (value <= 61) {
+                *outputCursor = value - 4;
+            } else if (value == 62) {
+                *outputCursor = alphabet[0];
+            } else if (value == 63) {
+                *outputCursor = alphabet[1];
             }
         }
     }
 }
 
-void func_ov000_0218e130(const u8 *c, char *d) {
-    u32 a;
-    s32 b;
-    a = 0;
-    b = 0;
-    for (; a < 16; a++) {
-        sprintf(d + b, data_ov000_021b23a4, c[a]);
-        b += 2;
+void MD5Print(const u8 *digest, char *output) {
+    u32 count;
+    s32 offset;
+    count = 0;
+    offset = 0;
+    for (; count < 16; count++) {
+        sprintf(output + offset, gHexByteFormat, digest[count]);
+        offset += 2;
     }
 }
 
-void func_ov000_0218e0fc(const char *c, s32 d, char *e) {
-    u8 a[16];
-    DGTHash1Context b;
-    func_ov000_021acef0(&b);
-    func_ov000_021acee8(&b, (const u8 *) c, d);
-    func_ov000_021acee0(a, &b);
-    func_ov000_0218e130(a, e);
+void MD5Digest(const char *input, s32 len, char *output) {
+    u8 hashBytes[16];
+    DGTHash1Context context;
+    func_ov000_021acef0(&context);
+    func_ov000_021acee8(&context, (const u8 *) input, len);
+    func_ov000_021acee0(hashBytes, &context);
+    MD5Print(hashBytes, output);
 }

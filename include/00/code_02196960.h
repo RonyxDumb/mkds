@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk021a8f84 Unk021a8f84;
+typedef struct SOCHostEnt SOCHostEnt;
 
 // Entry of the list behind data_ov000_021b4e5c; the function at 0x18 takes the arguments of the entry's type.
 typedef union Unk021969d8Func {
@@ -104,7 +104,7 @@ u32 func_ov000_02196e48(u32 arg0);
 void func_ov000_02196e50(s32 a, s32 b, s32 c, s32 d, const u8 *e, s32 f, UnkFunc *g, s32 h, s32 i);
 void func_ov000_02196f8c(s8 *a, s32 b, s32 c, UnkFunc *d, s32 e);
 void func_ov000_02197020(s32 a, s32 b, s32 c, s32 d, s32 e, UnkFunc *f, s32 g);
-BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, Unk021a8f84 **d);
+BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, SOCHostEnt **d);
 const s8 *func_ov000_021970e4(const s8 *text, const char *key);
 const s8 *func_ov000_021970fc(const s8 *text, const char *key);
 void func_ov000_02197190(u32 a, s8 *b);

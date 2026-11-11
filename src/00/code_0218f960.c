@@ -35,330 +35,332 @@
 #include "00/code_021a3668.h"
 #include "00/unk_021b23b0.h"
 
-s32 func_ov000_0218fca8(GpConnection *a, char *b) {
-    char c[0x1000];
-    char d[0x100];
-    char e[0x10];
-    GpiCallback s1;
-    GpiCallback s2;
-    GpiCallback s3;
-    GpiCallback s4;
-    s32 z;
-    s32 y;
-    s32 k;
-    s32 n;
-    s32 r;
-    u16 h;
-    char *q;
-    u8 *w;
-    enum { K0 } i;
-    GpiConnection *o;
-    Unk0218fca8 *p1;
-    Unk0218fca8_40c *p2;
-    Unk0218fca8_108 *p3;
-    GpiProfile *p;
-    GpiBuddyStatus *t;
+s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
+    char buffer[0x1000];
+    char replyValue[0x100];
+    char intText[0x10];
+    GpiCallback messageCallback;
+    GpiCallback inviteCallback;
+    GpiCallback statusCallback;
+    GpiCallback requestCallback;
+    s32 date;
+    s32 profileNumber;
+    s32 type;
+    s32 productNumber;
+    s32 result;
+    u16 netPort;
+    char *str;
+    u8 *cursor;
+    enum { K0 } remaining;
+    GpiConnection *gpState;
+    BuddyMessageData *messageArg;
+    BuddyRequestData *requestArg;
+    GameInviteData *inviteArg;
+    GpiProfile *profileRec;
+    GpiBuddyStatus *buddyInfo;
 
-    o = a->mGpiConnection;
-    if (GpiGetValue(b, data_ov000_021b27c4, c, 0x1000) == FALSE) {
-        GpiSetError(a, 1, data_ov000_021b27d8);
-        GpiQueueErrorCallback(a, 3, 1);
+    gpState = connection->mGpiConnection;
+    if (GpiGetValue(input, data_ov000_021b27c4, buffer, 0x1000) == FALSE) {
+        GpiSetError(connection, 1, gUnexpectedDataErrorString);
+        GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    k = StrtolBase10(c);
-    if (GpiGetValue(b, data_ov000_021b2808, c, 0x1000) == FALSE) {
-        GpiSetError(a, 1, data_ov000_021b27d8);
-        GpiQueueErrorCallback(a, 3, 1);
+    type = StrtolBase10(buffer);
+    if (GpiGetValue(input, gFKey, buffer, 0x1000) == FALSE) {
+        GpiSetError(connection, 1, gUnexpectedDataErrorString);
+        GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    y = StrtolBase10(c);
-    if (GpiGetValue(b, data_ov000_021b280c, c, 0x1000) != FALSE) {
-        z = StrtolBase10(c);
+    profileNumber = StrtolBase10(buffer);
+    if (GpiGetValue(input, gDateKey, buffer, 0x1000) != FALSE) {
+        date = StrtolBase10(buffer);
     } else {
-        z = func_ov000_0218e320(NULL);
+        date = GetUnixTime(NULL);
     }
-    switch (k) {
+    switch (type) {
         case 1:
-            s1 = o->mCallbacks[3];
-            if (s1.mCallback == NULL) {
+            messageCallback = gpState->mCallbacks[3];
+            if (messageCallback.mCallback == NULL) {
                 break;
             }
-            p1 = func_ov000_021a3690(0xc);
-            if (p1 == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            messageArg = func_ov000_021a3690(0xc);
+            if (messageArg == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            if (GpiGetValue(b, data_ov000_021b27d0, c, 0x1000) == FALSE) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            p1->mUnk_08 = func_ov000_021a3690(strlen(c) + 1);
-            if (p1->mUnk_08 == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            messageArg->mUnk_08 = func_ov000_021a3690(strlen(buffer) + 1);
+            if (messageArg->mUnk_08 == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            strcpy(p1->mUnk_08, c);
-            p1->mUnk_00 = y;
-            p1->mUnk_04 = z;
-            r = GpiQueueCallback(a, s1, p1, NULL, 2);
-            if (r != 0) {
-                return r;
+            strcpy(messageArg->mUnk_08, buffer);
+            messageArg->mUnk_00 = profileNumber;
+            messageArg->mUnk_04 = date;
+            result = GpiQueueCallback(connection, messageCallback, messageArg, NULL, 2);
+            if (result != 0) {
+                return result;
             }
             break;
         case 2:
-            p = GpiFindOrAddProfile(a, y);
-            if (p == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            profileRec = GpiFindOrAddProfile(connection, profileNumber);
+            if (profileRec == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            if (GpiGetValue(b, data_ov000_021b27d0, c, 0x1000) == FALSE) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            q = strstr(c, data_ov000_021b2824);
-            if (q == NULL) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            str = strstr(buffer, gSignedKey);
+            if (str == NULL) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            *q = 0;
-            if (strlen(q + 8) != 0x20) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            *str = 0;
+            if (strlen(str + 8) != 0x20) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            func_ov000_021a3668(p->mUnk_10);
-            p->mUnk_10 = NULL;
-            q += 8;
-            p->mUnk_10 = func_ov000_0218e880(q);
-            p->mUnk_14++;
-            s4 = o->mCallbacks[1];
-            if (s4.mCallback == NULL) {
+            func_ov000_021a3668(profileRec->mUnk_10);
+            profileRec->mUnk_10 = NULL;
+            str += 8;
+            profileRec->mUnk_10 = goastrdup(str);
+            profileRec->mUnk_14++;
+            requestCallback = gpState->mCallbacks[1];
+            if (requestCallback.mCallback == NULL) {
                 break;
             }
-            p2 = func_ov000_021a3690(0x40c);
-            if (p2 == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            requestArg = func_ov000_021a3690(0x40c);
+            if (requestArg == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            GpiCopyString(p2->mUnk_008, c, 0x401);
-            p2->mUnk_000 = y;
-            p2->mUnk_004 = z;
-            r = GpiQueueCallback(a, s4, p2, NULL, 6);
-            if (r != 0) {
-                return r;
+            GpiCopyString(requestArg->mUnk_008, buffer, 0x401);
+            requestArg->mUnk_000 = profileNumber;
+            requestArg->mUnk_004 = date;
+            result = GpiQueueCallback(connection, requestCallback, requestArg, NULL, 6);
+            if (result != 0) {
+                return result;
             }
             break;
         case 100:
-            p = GpiFindOrAddProfile(a, y);
-            if (p == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            profileRec = GpiFindOrAddProfile(connection, profileNumber);
+            if (profileRec == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            if (p->mBuddyStatus == NULL) {
-                p->mBuddyStatus = func_ov000_021a3690(0x18);
-                if (p->mBuddyStatus == NULL) {
-                    GpiSetErrorMessage(a, data_ov000_021b2814);
+            if (profileRec->mBuddyStatus == NULL) {
+                profileRec->mBuddyStatus = func_ov000_021a3690(0x18);
+                if (profileRec->mBuddyStatus == NULL) {
+                    GpiSetErrorMessage(connection, data_ov000_021b2814);
                     return 1;
                 }
-                w = (u8 *) p->mBuddyStatus;
-                i = 0x18;
+                cursor = (u8 *) profileRec->mBuddyStatus;
+                remaining = 0x18;
                 do {
-                    *w++ = 0;
-                } while (--i != 0);
-                p->mBuddyStatus->mIndex = o->mBuddyCount++;
+                    *cursor++ = 0;
+                } while (--remaining != 0);
+                profileRec->mBuddyStatus->mIndex = gpState->mBuddyCount++;
             }
-            t = p->mBuddyStatus;
-            if (GpiGetValue(b, data_ov000_021b27d0, c, 0x1000) == FALSE) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            buddyInfo = profileRec->mBuddyStatus;
+            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if (GpiGetValue(c, data_ov000_021b2830, e, 0x10) == FALSE) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            if (GpiGetValue(buffer, gPipeSKey, intText, 0x10) == FALSE) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            t->mUnk_04 = StrtolBase10(e);
-            func_ov000_021a3668(t->mUnk_08);
-            t->mUnk_08 = NULL;
-            if (GpiGetValue(c, data_ov000_021b2834, d, 0x100) == FALSE) {
-                d[0] = 0;
+            buddyInfo->mUnk_04 = StrtolBase10(intText);
+            func_ov000_021a3668(buddyInfo->mUnk_08);
+            buddyInfo->mUnk_08 = NULL;
+            if (GpiGetValue(buffer, gPipeSsKey, replyValue, 0x100) == FALSE) {
+                replyValue[0] = 0;
             }
-            t->mUnk_08 = func_ov000_0218e880(d);
-            if (t->mUnk_08 == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            buddyInfo->mUnk_08 = goastrdup(replyValue);
+            if (buddyInfo->mUnk_08 == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            func_ov000_021a3668(t->mUnk_0c);
-            t->mUnk_0c = NULL;
-            if (GpiGetValue(c, data_ov000_021b283c, d, 0x100) == FALSE) {
-                d[0] = 0;
+            func_ov000_021a3668(buddyInfo->mUnk_0c);
+            buddyInfo->mUnk_0c = NULL;
+            if (GpiGetValue(buffer, gPipeLsKey, replyValue, 0x100) == FALSE) {
+                replyValue[0] = 0;
             }
-            t->mUnk_0c = func_ov000_0218e880(d);
-            if (t->mUnk_0c == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            buddyInfo->mUnk_0c = goastrdup(replyValue);
+            if (buddyInfo->mUnk_0c == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            if (GpiGetValue(c, data_ov000_021b2844, e, 0x10) == FALSE) {
-                t->mUnk_10 = 0;
+            if (GpiGetValue(buffer, gPipeIpKey, intText, 0x10) == FALSE) {
+                buddyInfo->mUnk_10 = 0;
             } else {
-                t->mUnk_10 = (((u32) StrtolBase10(e) >> 24) & 0xff) | (((u32) StrtolBase10(e) >> 8) & 0xff00) |
-                             ((StrtolBase10(e) << 8) & 0xff0000) | ((StrtolBase10(e) << 24) & 0xff000000);
+                buddyInfo->mUnk_10 =
+                    (((u32) StrtolBase10(intText) >> 24) & 0xff) | (((u32) StrtolBase10(intText) >> 8) & 0xff00) |
+                    ((StrtolBase10(intText) << 8) & 0xff0000) | ((StrtolBase10(intText) << 24) & 0xff000000);
             }
-            if (GpiGetValue(c, data_ov000_021b284c, e, 0x10) == FALSE) {
-                t->mUnk_14 = 0;
+            if (GpiGetValue(buffer, gPipePKey, intText, 0x10) == FALSE) {
+                buddyInfo->mUnk_14 = 0;
             } else {
-                h = StrtolBase10(e);
-                t->mUnk_14 = (u16) (((h >> 8) & 0xff) | ((h << 8) & 0xff00));
+                netPort = StrtolBase10(intText);
+                buddyInfo->mUnk_14 = (u16) (((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00));
             }
-            s3 = o->mCallbacks[2];
-            if (s3.mCallback == NULL) {
+            statusCallback = gpState->mCallbacks[2];
+            if (statusCallback.mCallback == NULL) {
                 break;
             }
-            p1 = func_ov000_021a3690(0xc);
-            if (p1 == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            messageArg = func_ov000_021a3690(0xc);
+            if (messageArg == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            p1->mUnk_00 = y;
-            p1->mUnk_08 = (void *) t->mIndex;
-            p1->mUnk_04 = z;
-            r = GpiQueueCallback(a, s3, p1, NULL, 5);
-            if (r != 0) {
-                return r;
+            messageArg->mUnk_00 = profileNumber;
+            messageArg->mUnk_08 = (void *) buddyInfo->mIndex;
+            messageArg->mUnk_04 = date;
+            result = GpiQueueCallback(connection, statusCallback, messageArg, NULL, 5);
+            if (result != 0) {
+                return result;
             }
             break;
         case 101:
-            if (GpiGetValue(b, data_ov000_021b27d0, c, 0x1000) == FALSE) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            q = strstr(c, data_ov000_021b284c);
-            if (q == NULL) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            str = strstr(buffer, gPipePKey);
+            if (str == NULL) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if ((s8) q[3] == 0) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            if ((s8) str[3] == 0) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            n = StrtolBase10(q + 3);
-            q = strstr(c, data_ov000_021b2850);
-            if (q != NULL) {
-                GpiCopyString(d, (q + 3), 0x100);
+            productNumber = StrtolBase10(str + 3);
+            str = strstr(buffer, gPipeLKey);
+            if (str != NULL) {
+                GpiCopyString(replyValue, (str + 3), 0x100);
             } else {
-                d[0] = 0;
+                replyValue[0] = 0;
             }
-            s2 = o->mCallbacks[4];
-            if (s2.mCallback == NULL) {
+            inviteCallback = gpState->mCallbacks[4];
+            if (inviteCallback.mCallback == NULL) {
                 break;
             }
-            p3 = func_ov000_021a3690(0x108);
-            if (p3 == NULL) {
-                GpiSetErrorMessage(a, data_ov000_021b2814);
+            inviteArg = func_ov000_021a3690(0x108);
+            if (inviteArg == NULL) {
+                GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            p3->mUnk_000 = y;
-            p3->mUnk_004 = n;
-            strcpy(p3->mUnk_008, d);
-            r = GpiQueueCallback(a, s2, p3, NULL, 0);
-            if (r != 0) {
-                return r;
+            inviteArg->mUnk_000 = profileNumber;
+            inviteArg->mUnk_004 = productNumber;
+            strcpy(inviteArg->mUnk_008, replyValue);
+            result = GpiQueueCallback(connection, inviteCallback, inviteArg, NULL, 0);
+            if (result != 0) {
+                return result;
             }
             break;
         case 102:
-            if (GpiGetValue(b, data_ov000_021b27d0, c, 0x1000) == FALSE) {
-                GpiSetError(a, 1, data_ov000_021b27d8);
-                GpiQueueErrorCallback(a, 3, 1);
+            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            func_ov000_0218fb3c(a, y, 0x67, data_ov000_021b2854);
+            gpiSendBuddyMessage(connection, profileNumber, 0x67, data_ov000_021b2854);
             break;
     }
     return 0;
 }
 
-u32 func_ov000_0218fbe0(GpConnection *a, s32 b, s32 c, const char *d) {
-    GpiConnection *o;
-    char e[0xdad];
-    o = a->mGpiConnection;
-    GpiCopyString(e, d, 0xdad);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b27c4);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, c);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b275c);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, o->mSesskey);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b27cc);
-    GpiAppendBufferNumber(a, &o->mOutputBuffer, b);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b27d0);
-    GpiAppendBufferString(a, &o->mOutputBuffer, e);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2778);
+u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message) {
+    GpiConnection *gpState;
+    char buffer[0xdad];
+    gpState = connection->mGpiConnection;
+    GpiCopyString(buffer, message, 0xdad);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b27c4);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, type);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b275c);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gTKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profileid);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gMsgKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, buffer);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2778);
     return 0;
 }
 
-u32 func_ov000_0218fb3c(GpConnection *a, s32 b, s32 c, const char *d) {
-    GpiProfile *e;
-    GpiPeer *n;
-    u32 r;
-    n = func_ov000_02193f2c(a, b);
-    if (n == NULL) {
-        if (GpiFindProfile(a, b, &e) == 0 || e->mBuddyStatus == NULL || e->mBuddyStatus->mUnk_14 == 0) {
-            return func_ov000_0218fbe0(a, b, c, d);
+u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message) {
+    GpiProfile *profileRec;
+    GpiPeer *peerConn;
+    u32 result;
+    peerConn = gpiGetConnectedPeer(connection, profileid);
+    if (peerConn == NULL) {
+        if (GpiFindProfile(connection, profileid, &profileRec) == 0 || profileRec->mBuddyStatus == NULL ||
+            profileRec->mBuddyStatus->mUnk_14 == 0) {
+            return gpiSendServerBuddyMessage(connection, profileid, type, message);
         }
-        n = GpiPeerCreate(a, b, 1);
-        if (n == NULL) {
+        peerConn = GpiPeerCreate(connection, profileid, 1);
+        if (peerConn == NULL) {
             return 1;
         }
-        if (e->mUnk_18 == NULL) {
-            r = func_ov000_02193e70(a, n);
-            if (r != 0) {
-                return r;
+        if (profileRec->mUnk_18 == NULL) {
+            result = gpiPeerGetSig(connection, peerConn);
+            if (result != 0) {
+                return result;
             }
         } else {
-            r = GpiPeerConnect(a, n);
-            if (r != 0) {
-                return r;
+            result = GpiPeerConnect(connection, peerConn);
+            if (result != 0) {
+                return result;
             }
         }
     }
-    r = GpiPeerQueueMessage(a, n, c, d);
-    if (r == 0) {
+    result = GpiPeerQueueMessage(connection, peerConn, type, message);
+    if (result == 0) {
         return 0;
     }
-    return r;
+    return result;
 }
 
-u32 func_ov000_0218faac(GpConnection *a, u32 b) {
-    GpiConnection *o;
-    GpiProfile *e;
-    u32 r;
-    o = a->mGpiConnection;
-    if (GpiFindProfile(a, b, &e) == 0) {
-        GpiSetErrorMessage(a, data_ov000_021b273c);
+u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
+    GpiConnection *gpState;
+    GpiProfile *profileEntry;
+    u32 result;
+    gpState = connection->mGpiConnection;
+    if (GpiFindProfile(connection, profile, &profileEntry) == 0) {
+        GpiSetErrorMessage(connection, gInvalidProfileErrorString);
         return 2;
     }
-    if (e->mUnk_10 == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b273c);
+    if (profileEntry->mUnk_10 == NULL) {
+        GpiSetErrorMessage(connection, gInvalidProfileErrorString);
         return 2;
     }
-    r = func_ov000_02190548(a, e);
-    if (r == 0) {
-        e->mUnk_14--;
-        if (o->mUnk_100 == 0 && e->mUnk_14 <= 0) {
-            func_ov000_021a3668(e->mUnk_10);
-            e->mUnk_10 = NULL;
-            if (GpiIsProfileEmpty(e) != 0) {
-                GpiRemoveProfile(a, e);
+    result = gpiSendAuthBuddyRequest(connection, profileEntry);
+    if (result == 0) {
+        profileEntry->mUnk_14--;
+        if (gpState->mUnk_100 == 0 && profileEntry->mUnk_14 <= 0) {
+            func_ov000_021a3668(profileEntry->mUnk_10);
+            profileEntry->mUnk_10 = NULL;
+            if (GpiIsProfileEmpty(profileEntry) != 0) {
+                GpiRemoveProfile(connection, profileEntry);
             }
         }
         return 0;
     }
-    return r;
+    return result;
 }
 
 s32 GpiDecrementBuddyIndexAbove(void *unused, Unk0218fa98 *object, s32 minimum) {
@@ -368,41 +370,41 @@ s32 GpiDecrementBuddyIndexAbove(void *unused, Unk0218fa98 *object, s32 minimum) 
     return 1;
 }
 
-u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *p, u32 b) {
-    GpiConnection *o;
-    GpiProfile *e;
-    s32 n;
+u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile) {
+    GpiConnection *gpState;
+    GpiProfile *profileEntry;
+    s32 buddyIndex;
 
-    o = p->mGpiConnection;
-    if (GpiFindProfile(p, b, &e) == 0) {
-        GpiSetErrorMessage(p, data_ov000_021b273c);
+    gpState = connection->mGpiConnection;
+    if (GpiFindProfile(connection, profile, &profileEntry) == 0) {
+        GpiSetErrorMessage(connection, gInvalidProfileErrorString);
         return 2;
     }
-    GpiAppendBufferString(p, &o->mOutputBuffer, data_ov000_021b2750);
-    GpiAppendBufferString(p, &o->mOutputBuffer, data_ov000_021b275c);
-    GpiAppendBufferNumber(p, &o->mOutputBuffer, o->mSesskey);
-    GpiAppendBufferString(p, &o->mOutputBuffer, data_ov000_021b2768);
-    GpiAppendBufferNumber(p, &o->mOutputBuffer, e->mProfileId);
-    GpiAppendBufferString(p, &o->mOutputBuffer, data_ov000_021b2778);
-    if (e->mBuddyStatus != NULL) {
-        n = e->mBuddyStatus->mIndex;
-        if (n < 0) {
-            AssertionFailed(data_ov000_021b2780, data_ov000_021b278c, NULL, 0x1fd);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gDelbuddyKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b275c);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gDelprofileidKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profileEntry->mProfileId);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2778);
+    if (profileEntry->mBuddyStatus != NULL) {
+        buddyIndex = profileEntry->mBuddyStatus->mIndex;
+        if (buddyIndex < 0) {
+            AssertionFailed(gIndexNotNegativeAssertion, gGpiBuddyFileName, NULL, 0x1fd);
         }
-        func_ov000_021a3668(e->mBuddyStatus->mUnk_08);
-        e->mBuddyStatus->mUnk_08 = NULL;
-        func_ov000_021a3668(e->mBuddyStatus->mUnk_0c);
-        e->mBuddyStatus->mUnk_0c = NULL;
-        func_ov000_021a3668(e->mBuddyStatus);
-        e->mBuddyStatus = NULL;
-        if (GpiIsProfileEmpty(e) != 0) {
-            GpiRemoveProfile(p, e);
+        func_ov000_021a3668(profileEntry->mBuddyStatus->mUnk_08);
+        profileEntry->mBuddyStatus->mUnk_08 = NULL;
+        func_ov000_021a3668(profileEntry->mBuddyStatus->mUnk_0c);
+        profileEntry->mBuddyStatus->mUnk_0c = NULL;
+        func_ov000_021a3668(profileEntry->mBuddyStatus);
+        profileEntry->mBuddyStatus = NULL;
+        if (GpiIsProfileEmpty(profileEntry) != 0) {
+            GpiRemoveProfile(connection, profileEntry);
         }
-        o->mBuddyCount--;
-        if (o->mBuddyCount < 0) {
-            AssertionFailed(data_ov000_021b2798, data_ov000_021b278c, NULL, 0x204);
+        gpState->mBuddyCount--;
+        if (gpState->mBuddyCount < 0) {
+            AssertionFailed(gNumBuddiesAssertion, gGpiBuddyFileName, NULL, 0x204);
         }
-        GpiForEachProfileWhileNonZero(p, GpiDecrementBuddyIndexAbove, (void *) n);
+        GpiForEachProfileWhileNonZero(connection, GpiDecrementBuddyIndexAbove, (void *) buddyIndex);
     }
     return 0;
 }

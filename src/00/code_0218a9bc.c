@@ -18,8 +18,8 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
     } else {
         recvSocket = engine->mQuerySock;
     }
-    while (func_ov000_0218e668(recvSocket) != 0) {
-        length = func_ov000_0218e438(recvSocket, data, 0x7ff, 0, &address, &addressLength);
+    while (CanReceiveOnSocket(recvSocket) != 0) {
+        length = recvfrom(recvSocket, data, 0x7ff, 0, &address, &addressLength);
         if (length == -1) {
             break;
         }
@@ -49,7 +49,7 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
 void TimeoutOldQueries(SBQueryEngine *engine) {
     u32 currentTime;
     SbServer *server;
-    currentTime = func_ov000_0218e8c4();
+    currentTime = GetElapsedMilliseconds();
     server = engine->mQueryList.mFirst;
     while (server != NULL) {
         if (currentTime <= server->mPing + 0x9c4) {

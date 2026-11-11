@@ -58,7 +58,7 @@ int func_ov000_02198968(void *a, Gt2Connection **b, u32 c, void *d, int e, u32 f
         func_ov000_02198a8c(a);
         l = m->mUnk_0c >= 5 ? 1 : 0;
         if (l == 0) {
-            func_ov000_0218e8bc(1);
+            msleep(1);
         }
     } while (l == 0);
     m->mUnk_24--;

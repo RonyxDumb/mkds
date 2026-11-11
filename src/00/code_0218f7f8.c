@@ -1,13 +1,13 @@
 #include "00/code_0218f7f8.h"
 
-u32 func_ov000_0218f7f8(u32 arg0, u32 arg1) {
-    u32 value0;
-    u32 value1 = arg1;
-    value0 = 0u;
-    *(u32 *) ((value1) + 8u) = value0;
-    *(u32 *) ((value1) + 16u) = value0;
-    *(u32 *) ((value1) + 20u) = value0;
-    *(u32 *) ((value1) + 24u) = value0;
-    value0 = 1u;
-    return value0;
+u32 gpiResetProfile(u32 connection, u32 profile) {
+    u32 result;
+    u32 profileAddress = profile;
+    result = 0u;
+    *(u32 *) ((profileAddress) + 8u) = result;
+    *(u32 *) ((profileAddress) + 16u) = result;
+    *(u32 *) ((profileAddress) + 20u) = result;
+    *(u32 *) ((profileAddress) + 24u) = result;
+    result = 1u;
+    return result;
 }

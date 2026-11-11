@@ -58,17 +58,17 @@ void func_ov000_0219b0b0(u32 a, u32 b, u16 c, void *d, s32 e) {
     f.mUnk_01 = 2;
     f.mUnk_02 = c >> 8 & 0xff | c << 8 & 0xff00;
     f.mUnk_04 = b;
-    func_ov000_0218e3e4(a, d, e, 0, &f, 8);
+    sendto(a, d, e, 0, &f, 8);
 }
 
 u32 func_ov000_0219b05c(void) {
     s32 a;
     u32 *c;
-    Unk021a8f84 *d;
+    SOCHostEnt *d;
     s32 e;
 
     a = 0;
-    d = func_ov000_0218e5e4();
+    d = getlocalhost();
     if (d == NULL) {
         return a;
     }
@@ -80,7 +80,7 @@ u32 func_ov000_0219b05c(void) {
         }
         if (*c != 0x0100007f) {
             a = *c;
-            if (func_ov000_0218e57c(c) != FALSE) {
+            if (IsPrivateIP(c) != FALSE) {
                 return a;
             }
         }
@@ -107,7 +107,7 @@ u16 func_ov000_0219b038(u32 a) {
     u16 e;
 
     c = 8;
-    d = func_ov000_0218e394(a, &b, &c);
+    d = getsockname(a, &b, &c);
     e = 0;
     if (d != -1) {
         e = b.mUnk_02;
@@ -144,8 +144,8 @@ void func_ov000_0219aeb0(Unk0219b1d4 *a) {
     b.mUnk_12 = c;
     b.mUnk_13 = 0;
     b.mUnk_14 = 0;
-    strcpy(b.mUnk_15, data_ov000_021b4d6c);
-    d = strlen(data_ov000_021b4d6c) + 0x16;
+    strcpy(b.mUnk_15, gGsiAcGamename);
+    d = strlen(gGsiAcGamename) + 0x16;
     if (g->mUnk_0e != 0 && a->mUnk_14[0] == 0) {
         g->mUnk_0c = 0;
         func_ov000_0219b0b0(a->mUnk_04, data_ov000_021b52c0, 0x6cfd, g, d);
@@ -167,7 +167,7 @@ void func_ov000_0219aeb0(Unk0219b1d4 *a) {
         g->mUnk_0c = 2;
         func_ov000_0219b0b0(a->mDescriptor, data_ov000_021b52bc, 0x6cfd, g, d);
     }
-    a->mUnk_28 = func_ov000_0218e8c4() + 500;
+    a->mUnk_28 = GetElapsedMilliseconds() + 500;
     a->mUnk_24 = 30;
 }
 
@@ -190,7 +190,7 @@ void func_ov000_0219ade4(Unk0219b1d4 *a) {
         d = a->mDescriptor;
     }
     func_ov000_0219b0b0(d, a->mUnk_2c, a->mUnk_30, &b, 0x14);
-    a->mUnk_28 = func_ov000_0218e8c4() + 700;
+    a->mUnk_28 = GetElapsedMilliseconds() + 700;
     a->mUnk_24 = 12;
     if (a->mUnk_32 != 0) {
         a->mUnk_33 = 1;
@@ -199,9 +199,9 @@ void func_ov000_0219ade4(Unk0219b1d4 *a) {
 
 u32 func_ov000_0219adb4(const char *a) {
     u32 b;
-    Unk021a8f84 *c;
+    SOCHostEnt *c;
 
-    b = func_ov000_0218e374((u32) a);
+    b = inet_addr((u32) a);
     if (b == -1) {
         c = func_ov000_021a8f84(a);
         if (c == NULL) {
@@ -216,7 +216,7 @@ u32 func_ov000_0219ad88(char *a, const char *b) {
     char c[0x80];
 
     if (a == NULL) {
-        snprintf(c, 0x80, data_ov000_021b404c, data_ov000_021b4d6c, b);
+        snprintf(c, 0x80, data_ov000_021b404c, gGsiAcGamename, b);
         a = c;
     }
     return func_ov000_0219adb4(a);
@@ -255,7 +255,7 @@ s32 func_ov000_0219ac7c(u32 a, u32 b, u32 c, void (*d)(s32 a, void *b), void (*e
     g->mUnk_34 = d;
     g->mUnk_38 = e;
     g->mUnk_3c = f;
-    g->mDescriptor = func_ov000_0218e554(2, 2, 0);
+    g->mDescriptor = OpenNetSocket(2, 2, 0);
     g->mUnk_20 = 0;
     g->mUnk_32 = 0;
     g->mUnk_33 = 0;
@@ -276,7 +276,7 @@ void func_ov000_0219ac50(u32 a) {
     b = func_ov000_0219b1f8(a);
     if (b != NULL) {
         if (b->mDescriptor != -1) {
-            func_ov000_0218e53c(b->mDescriptor);
+            closesocket(b->mDescriptor);
         }
         b->mDescriptor = -1;
         b->mUnk_10 = 4;
@@ -296,10 +296,10 @@ void func_ov000_0219ab24(Unk0219b1d4 *a) {
     }
     if (a->mDescriptor != -1) {
         do {
-            if (func_ov000_0218e668(a->mDescriptor) == 0) {
+            if (CanReceiveOnSocket(a->mDescriptor) == 0) {
                 break;
             }
-            f = func_ov000_0218e438(a->mDescriptor, data_ov000_021b52c8, 0x200, 0, (u8 *) &c, &d);
+            f = recvfrom(a->mDescriptor, data_ov000_021b52c8, 0x200, 0, (u8 *) &c, &d);
             if (f == -1) {
                 break;
             }
@@ -310,7 +310,7 @@ void func_ov000_0219ab24(Unk0219b1d4 *a) {
         } while (a->mDescriptor != -1);
     }
     if (a->mUnk_10 == 0 || a->mUnk_10 == 2) {
-        if (func_ov000_0218e8c4() > a->mUnk_28) {
+        if (GetElapsedMilliseconds() > a->mUnk_28) {
             if (a->mUnk_20 > a->mUnk_24) {
                 a->mUnk_38(2, -1, NULL, a->mUnk_3c);
                 func_ov000_0219ac50(a->mUnk_08);
@@ -325,7 +325,7 @@ void func_ov000_0219ab24(Unk0219b1d4 *a) {
         }
     }
     if (a->mUnk_10 == 3) {
-        if (func_ov000_0218e8c4() > a->mUnk_28) {
+        if (GetElapsedMilliseconds() > a->mUnk_28) {
             if (a->mUnk_04 == -1) {
                 h.mUnk_01 = 2;
                 h.mUnk_02 = a->mUnk_30 >> 8 & 0xff | a->mUnk_30 << 8 & 0xff00;
@@ -337,7 +337,7 @@ void func_ov000_0219ab24(Unk0219b1d4 *a) {
         }
     }
     if (a->mUnk_10 == 1) {
-        if (func_ov000_0218e8c4() > a->mUnk_28) {
+        if (GetElapsedMilliseconds() > a->mUnk_28) {
             a->mUnk_38(1, -1, NULL, a->mUnk_3c);
             func_ov000_0219ac50(a->mUnk_08);
         }
@@ -408,7 +408,7 @@ void func_ov000_0219a958(Unk0219b1d4 *a, Unk0219ade4 *b, Unk021a4654 *c) {
                 func_ov000_0219ade4(a);
             }
             a->mUnk_10 = 3;
-            a->mUnk_28 = func_ov000_0218e8c4() + 5000;
+            a->mUnk_28 = GetElapsedMilliseconds() + 5000;
             if (a->mUnk_04 != -1) {
                 a->mUnk_38(0, a->mUnk_04, c, a->mUnk_3c);
             }
@@ -429,7 +429,7 @@ void func_ov000_0219a8bc(Unk0219b1d4 *a, Unk0219aa64 *b, Unk021a4654 *c) {
                 if (a->mUnk_10 == 0 && a->mUnk_14[1] != 0 && a->mUnk_14[2] != 0 &&
                     (a->mUnk_04 == -1 || a->mUnk_14[0] != 0)) {
                     a->mUnk_10 = 1;
-                    a->mUnk_28 = func_ov000_0218e8c4() + 10000;
+                    a->mUnk_28 = GetElapsedMilliseconds() + 10000;
                     a->mUnk_34(a->mUnk_10, a->mUnk_3c);
                 }
             }
@@ -508,7 +508,7 @@ BOOL Gt2ParseAddress(const char *a, u32 *b, u16 *c) {
     s32 h;
     u32 i;
     u32 j;
-    Unk021a8f84 *k;
+    SOCHostEnt *k;
 
     if (a == NULL || *(s8 *) a == 0) {
         i = 0;
@@ -553,7 +553,7 @@ BOOL Gt2ParseAddress(const char *a, u32 *b, u16 *c) {
             j = (u16) g;
         }
         if (a != NULL) {
-            i = func_ov000_0218e374((u32) a);
+            i = inet_addr((u32) a);
             if (i == -1) {
                 k = func_ov000_021a8f84(a);
                 if (k == NULL) {

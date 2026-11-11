@@ -38,7 +38,7 @@ extern SOCLSocketParam SOCLSocketParamUDP;
 extern const char data_ov000_021b49e8[];
 extern u32 data_ov000_021b600c;
 extern u32 *data_ov000_021b6018[2];
-extern Unk021a8f84 data_ov000_021b6020;
+extern SOCHostEnt data_ov000_021b6020;
 extern char data_ov000_021b6030[16];
 extern Unk021b5f94 data_ov000_021b6040;
 extern s8 data_ov000_021b6078[0x104];

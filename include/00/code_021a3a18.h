@@ -47,7 +47,7 @@ typedef struct Unk021a3eb0 {
 typedef struct Unk021a471c Unk021a471c;
 typedef struct Unk021a4a08 Unk021a4a08;
 
-typedef struct Unk021a8f84 Unk021a8f84;
+typedef struct SOCHostEnt SOCHostEnt;
 
 // Output buffer the string writers append to: bytes at mUnk_000, used length at mUnk_800.
 typedef struct Unk021a471c {
@@ -142,7 +142,7 @@ void func_ov000_021a44a0(u8 *a, s32 b, u8 *c, s32 d);
 void func_ov000_021a4578(const u8 *a, s32 b, u8 *c);
 unsigned char func_ov000_021a4610(u32 a);
 void func_ov000_021a4648(u8 *a, u8 *b);
-BOOL func_ov000_021a4654(const char *a, u32 b, Unk021a4654 *c, Unk021a8f84 **d);
+BOOL func_ov000_021a4654(const char *a, u32 b, Unk021a4654 *c, SOCHostEnt **d);
 void func_ov000_021a46d4(void);
 void func_ov000_021a471c(Unk021a471c *a, const char *b);
 void func_ov000_021a4760(Unk021a471c *a, s32 b);

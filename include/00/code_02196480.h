@@ -22,5 +22,5 @@ extern char data_ov000_021b39c4[];
 extern char data_ov000_021b39cc[];
 extern u8 data_ov000_021b39fc[];
 
-s32 func_ov000_02196480(GpConnection *a, s32 *b, GpiPeer *c, s32 d, const char *e);
-s32 func_ov000_021964e4(GpConnection *a, GpiOperation *b, const char *c);
+s32 gpiSendTransferReply(GpConnection *connection, s32 *transferID, GpiPeer *peer, s32 result, const char *msg);
+s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operation, const char *input);

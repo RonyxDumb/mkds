@@ -941,7 +941,7 @@ Expression shapes:
   stores (DrawKart).
 
 - Thumb: a byte copy that forms the destination address before the source, with the value always in r0, is
-  `__memcpy(dst, src, n)` with a constant n (func_ov000_021923b4). A struct store whose nearby address is loaded early
+  `__memcpy(dst, src, n)` with a constant n (gpiSetInfos). A struct store whose nearby address is loaded early
   can be `__memcpy(dst, src, sizeof(T))`; use it only at the store that needs it (SetupTrophy).
 - The same block written out twice can split a value in two: use one static inline helper taking the value
   (ComputeRaceHudSubScreenPosition).

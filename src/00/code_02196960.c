@@ -29,17 +29,17 @@ s32 func_ov000_0219735c(const s8 *a, u32 b) {
     data_ov000_021b3b40[0] = 0x63;
     d = func_ov000_021970fc(a, data_ov000_021b3b40);
     if (d == NULL) {
-        func_ov000_0218e53c(data_ov000_021b3b2c);
+        closesocket(data_ov000_021b3b2c);
         return 5;
     }
     e = func_ov000_021971c8(d, strlen((const char *) d));
     e = sprintf((char *) g, data_ov000_021b3e0c, e, data_ov000_021b4f84);
-    func_ov000_0218e0fc((const char *) g, e, f);
+    MD5Digest((const char *) g, e, f);
     data_ov000_021b3b30 = data_ov000_021b3b98;
     func_ov000_021971ec(c.mUnk_00, 0x2b);
     e = sprintf((char *) g, (const char *) c.mUnk_00, data_ov000_021b4e84, f, b);
     if (func_ov000_02197220(g, e) <= 0) {
-        func_ov000_0218e53c(data_ov000_021b3b2c);
+        closesocket(data_ov000_021b3b2c);
         return 3;
     }
     return 0;
@@ -47,13 +47,13 @@ s32 func_ov000_0219735c(const s8 *a, u32 b) {
 
 s32 func_ov000_021972b4(void) {
     s8 a[0x80];
-    s32 b = func_ov000_0218e460(data_ov000_021b3b2c, a, 0x80, 0);
+    s32 b = recv(data_ov000_021b3b2c, a, 0x80, 0);
     const s8 *c;
     s32 d;
     if (b == -1) {
-        d = func_ov000_0218e368(data_ov000_021b3b2c);
+        d = GOAGetLastError(data_ov000_021b3b2c);
         if (d != -6 && d != -0x4c && d != -0x1a) {
-            func_ov000_0218e53c(data_ov000_021b3b2c);
+            closesocket(data_ov000_021b3b2c);
             return 3;
         }
     }
@@ -63,7 +63,7 @@ s32 func_ov000_021972b4(void) {
     data_ov000_021b3b38[0] = 0x73;
     c = func_ov000_021970fc(a, data_ov000_021b3b38);
     if (c == NULL) {
-        func_ov000_0218e53c(data_ov000_021b3b2c);
+        closesocket(data_ov000_021b3b2c);
         return 5;
     }
     data_ov000_021b4e4c = StrtolBase10((const char *) c);
@@ -78,9 +78,9 @@ s32 func_ov000_02197220(s8 *a, s32 b) {
     strcpy((char *) (a + b), data_ov000_021b3b4c);
     if (b + 7 > 0) {
         do {
-            d = func_ov000_0218e420(data_ov000_021b3b2c, a + c, b + 7 - c, 0);
+            d = send(data_ov000_021b3b2c, a + c, b + 7 - c, 0);
             if (d == -1) {
-                d = func_ov000_0218e368(data_ov000_021b3b2c);
+                d = GOAGetLastError(data_ov000_021b3b2c);
                 if (d != -6 && d != -0x4c && d != -0x1a) {
                     return d;
                 }
@@ -162,8 +162,8 @@ const s8 *func_ov000_021970e4(const s8 *text, const char *v1) {
     return result;
 }
 
-BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, Unk021a8f84 **d) {
-    Unk021a8f84 *f = NULL;
+BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, SOCHostEnt **d) {
+    SOCHostEnt *f = NULL;
     u16 e = b;
     c[0] = 0;
     c[1] = 0;
@@ -178,7 +178,7 @@ BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, Unk021a8f84 **d) {
     if (a == NULL) {
         *OFFSET_PTR(u32, c, 4) = 0;
     } else {
-        *OFFSET_PTR(u32, c, 4) = func_ov000_0218e374((u32) a);
+        *OFFSET_PTR(u32, c, 4) = inet_addr((u32) a);
     }
     if (*OFFSET_PTR(u32, c, 4) == -1) {
         f = func_ov000_021a8f84((const char *) a);
@@ -269,8 +269,8 @@ void func_ov000_02196e50(s32 a, s32 b, s32 c, s32 d, const u8 *e, s32 f, UnkFunc
 u32 func_ov000_02196e48(u32 arg0) {
     u32 value0 = arg0;
     u32 value3;
-    value3 = (u32) &func_ov000_0218e668;
-    value0 = func_ov000_0218e668(value0);
+    value3 = (u32) &CanReceiveOnSocket;
+    value0 = CanReceiveOnSocket(value0);
     return value0;
 }
 

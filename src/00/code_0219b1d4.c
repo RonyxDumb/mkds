@@ -3,7 +3,7 @@
 
 void func_ov000_0219b1d4(Unk0219b1d4 *object) {
     if (object->mDescriptor != -1) {
-        func_ov000_0218e53c(object->mDescriptor);
+        closesocket(object->mDescriptor);
     }
     object->mDescriptor = -1;
     object->mUnk_10 = 4;

@@ -12,4 +12,4 @@ typedef struct GpiProfileSearch {
     /* 04 */ Unk02194828 *mEntry;
 } GpiProfileSearch;
 
-BOOL func_ov000_02194828(void *unused, Unk02194828 *entry, GpiProfileSearch *search);
+BOOL gpiCheckForBuddy(void *unused, Unk02194828 *entry, GpiProfileSearch *search);

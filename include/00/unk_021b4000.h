@@ -136,10 +136,10 @@ typedef struct SbServerList {
 extern SbServerList *gSortServerList;
 extern s32 gGsiAcResult;
 extern const char *gSBOverrideMasterServer;
-extern char data_ov000_021b4d2c[];
+extern char gGsiAcHostname[];
 
-// Object behind data_ov000_021b4dac.
-typedef struct Unk021b4dac {
+// Object behind gGsiAvailableCheck.
+typedef struct GsiAvailableCheck {
     /* 00 */ s32 mUnk_00;
     /* 04 */ u8 mUnk_04[2];
     /* 06 */ u16 mUnk_06;
@@ -149,14 +149,14 @@ typedef struct Unk021b4dac {
     /* 4c */ s32 mUnk_4c;
     /* 50 */ u32 mUnk_50;
     /* 54 */ s32 mUnk_54;
-} Unk021b4dac;
+} GsiAvailableCheck;
 
-extern Unk021b4dac data_ov000_021b4dac;
-extern u8 data_ov000_021b4db0[];
-extern u8 data_ov000_021b4db4[];
-extern u8 data_ov000_021b4db8[];
-extern u8 data_ov000_021b4dbd[];
-extern char data_ov000_021b4d6c[];
+extern GsiAvailableCheck gGsiAvailableCheck;
+extern u8 gGsiAvailableCheckAddress[];
+extern u8 gGsiAvailableCheckAddressIp[];
+extern u8 gGsiAvailableCheckPacket[];
+extern u8 gGsiAvailableCheckPacketGamename[];
+extern char gGsiAcGamename[];
 extern u8 data_ov000_021b4e50[];
 extern u8 data_ov000_021b400c[];
 extern u8 gEmptyString[];

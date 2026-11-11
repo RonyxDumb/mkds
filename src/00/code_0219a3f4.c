@@ -10,11 +10,11 @@ void DeleteSocket(Gt2Socket *a) {
         a->mDeletePending = TRUE;
         return;
     }
-    func_ov000_0218e53c(a->mDescriptor);
+    closesocket(a->mDescriptor);
     HashtableDelete(a->mConnections);
     DarrayDelete(a->mConnectionsToFree);
     func_ov000_021a3668(a);
-    func_ov000_0218e8b4();
+    SocketShutDown();
 }
 
 void SetIncomingConnectionCallback(Gt2Socket *a, void *b) {

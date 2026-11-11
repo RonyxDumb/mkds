@@ -117,7 +117,7 @@ s32 func_ov000_021a9008(s32 descriptor) {
     return func_ov000_021a8604(descriptor);
 }
 
-Unk021a8f84 *func_ov000_021a8f84(const char *a) {
+SOCHostEnt *func_ov000_021a8f84(const char *a) {
     u32 b = func_ov000_021a88e4(a);
     if (b == 0) {
         return NULL;

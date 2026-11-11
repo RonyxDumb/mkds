@@ -30,55 +30,55 @@
 #include "00/unk_021b4000.h"
 #include "00/code_02190cd4.h"
 
-s32 func_ov000_021964e4(GpConnection *a, GpiOperation *b, const char *c) {
-    GpiCallback p;
-    u32 *m;
-    s32 t;
+s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operation, const char *input) {
+    GpiCallback callback;
+    u32 *arg;
+    s32 result;
 
-    if (GpiReadError(a, c, 1) != FALSE) {
+    if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
     }
-    if (strncmp(c, data_ov000_021b39c4, 4) != 0) {
-        GpiSetError(a, 1, data_ov000_021b39cc);
-        GpiQueueErrorCallback(a, 3, 1);
+    if (strncmp(input, data_ov000_021b39c4, 4) != 0) {
+        GpiSetError(connection, 1, data_ov000_021b39cc);
+        GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    p = b->mUnk_0c;
-    if (p.mCallback != NULL) {
-        m = func_ov000_021a3690(4);
-        if (m == NULL) {
-            GpiSetErrorMessage(a, data_ov000_021b39fc);
+    callback = operation->mUnk_0c;
+    if (callback.mCallback != NULL) {
+        arg = func_ov000_021a3690(4);
+        if (arg == NULL) {
+            GpiSetErrorMessage(connection, data_ov000_021b39fc);
             return 1;
         }
-        m[0] = 0;
-        t = GpiQueueCallback(a, p, m, b, 0);
-        if (t != 0) {
-            return t;
+        arg[0] = 0;
+        result = GpiQueueCallback(connection, callback, arg, operation, 0);
+        if (result != 0) {
+            return result;
         }
     }
-    GpiRemoveOperation(a, b);
+    GpiRemoveOperation(connection, operation);
     return 0;
 }
 
-s32 func_ov000_02196480(GpConnection *a, s32 *b, GpiPeer *c, s32 d, const char *e) {
-    char f[0x24];
-    s32 t;
+s32 gpiSendTransferReply(GpConnection *connection, s32 *transferID, GpiPeer *peer, s32 result, const char *msg) {
+    char buffer[0x24];
+    s32 stepResult;
 
-    if (e == NULL) {
-        e = data_ov000_021b39a8;
+    if (msg == NULL) {
+        msg = data_ov000_021b39a8;
     }
-    t = GpiPeerSendXfer(a, c, 0xc9, (GpiTransferId *) b);
-    if (t != 0) {
-        return t;
+    stepResult = GpiPeerSendXfer(connection, peer, 0xc9, (GpiTransferId *) transferID);
+    if (stepResult != 0) {
+        return stepResult;
     }
-    sprintf(f, data_ov000_021b39ac, 1, d);
-    t = GpiPeerSendString(a, (Unk02190988 *) c, f);
-    if (t != 0) {
-        return t;
+    sprintf(buffer, data_ov000_021b39ac, 1, result);
+    stepResult = GpiPeerSendString(connection, (Unk02190988 *) peer, buffer);
+    if (stepResult != 0) {
+        return stepResult;
     }
-    t = GpiPeerSendLenMsg(a, c, e, -1);
-    if (t != 0) {
-        return t;
+    stepResult = GpiPeerSendLenMsg(connection, peer, msg, -1);
+    if (stepResult != 0) {
+        return stepResult;
     }
     return 0;
 }

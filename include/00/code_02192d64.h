@@ -4,7 +4,7 @@
 
 // Values read from the text, as built by GpiProcessInfoOperation on its stack. The pointers at 0x00 to 0x14 point to
 // buffers of its own; 0x1c, 0x27 and 0x34 are arrays inside.
-typedef struct Unk02192e04 {
+typedef struct GPIInfoCache {
     /* 00 */ char *mUnk_00[6];
     /* 18 */ s32 mUnk_18;
     /* 1c */ char mUnk_1c[0xb];
@@ -20,10 +20,10 @@ typedef struct Unk02192e04 {
     /* c4 */ s32 mUnk_c4;
     /* c8 */ char *mUnk_c8;
     /* cc */ s32 mUnk_cc[9];
-} Unk02192e04;
+} GPIInfoCache;
 
-// Copy of Unk02192e04 made by func_ov000_0219338c, 0x204 bytes.
-typedef struct Unk0219338c {
+// Copy of GPIInfoCache made by gpiInfoCacheToArg, 0x204 bytes.
+typedef struct GetInfoReply {
     /* 000 */ u32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ char mUnk_008[0x1f];
@@ -56,12 +56,12 @@ typedef struct Unk0219338c {
     /* 1f8 */ s32 mUnk_1f8;
     /* 1fc */ s32 mUnk_1fc;
     /* 200 */ s32 mUnk_200;
-} Unk0219338c;
+} GetInfoReply;
 
 #include "00/code_021906e4.h"
 #include "00/code_0218f960.h"
 
-u32 GpiWriteUpdateBuffers(GpConnection *a, GpiBuffer *b);
-s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t);
-void func_ov000_0219338c(Unk02192e04 *a, Unk0219338c *b);
-u32 GpiUnpackDate(u32 *a, s32 b, u32 *c, u32 *d, u32 *e);
+u32 GpiWriteUpdateBuffers(GpConnection *connection, GpiBuffer *buffer);
+s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, const char *input);
+void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg);
+u32 GpiUnpackDate(u32 *connection, s32 date, u32 *day, u32 *month, u32 *year);
