@@ -36,22 +36,22 @@
 #pragma optimize_for_size on
 
 #pragma thumb on
-void InitSelectKart(void *a, s32 b, void *c, void *d) {
-    void *h;
-    CellFileSet *p;
-    CellFileSet e;
-    CellFileSet f;
-    SelectKart *g;
-    s32 i;
-    s32 m;
-    s32 n;
-    u32 v;
-    void *w;
-    h = CreateFrmHeapFromMaxFree(a);
-    gSelectKart = HeapAlloc(h, 0x118);
+void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
+    void *heap;
+    CellFileSet *cellFileSet;
+    CellFileSet titleFileSet;
+    CellFileSet nameFileSet;
+    SelectKart *selectKart;
+    s32 index;
+    s32 listKind;
+    s32 value;
+    u32 entryListUsed;
+    void *text;
+    heap = CreateFrmHeapFromMaxFree(parentHeap);
+    gSelectKart = HeapAlloc(heap, 0x118);
     SelectKartMI_CpuClearFast(gSelectKart, 0x118);
-    gSelectKart->mHeap = h;
-    gSelectKart->mMode = b;
+    gSelectKart->mHeap = heap;
+    gSelectKart->mMode = mode;
     gSelectKart->mTouchRect = -1;
     switch (GetRaceSetupCopy()->mEntryTransition) {
         case 1:
@@ -70,27 +70,27 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     SetupInterpolation(&gSelectKart->mInterpolations[1], 0, 10, -0x40, 0);
     SetupInterpolation(&gSelectKart->mInterpolations[3], 0, 10, 0x40, 0);
     SetupInterpolation(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
-    gSelectKart->mMainOam = c;
-    gSelectKart->mSubOam = d;
+    gSelectKart->mMainOam = mainOam;
+    gSelectKart->mSubOam = subOam;
     if (gSelectKart->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
-        v = 1;
+        entryListUsed = 1;
     } else {
-        v = 0;
+        entryListUsed = 0;
     }
-    gSelectKart->mEntryListUsed = v;
+    gSelectKart->mEntryListUsed = entryListUsed;
     if (gSelectKart->mEntryListUsed != FALSE) {
         switch (gSelectKart->mMode) {
             case 0:
-                m = 0;
+                listKind = 0;
                 break;
             case 1:
-                m = 1;
+                listKind = 1;
                 break;
             case 2:
-                m = 2;
+                listKind = 2;
                 break;
         }
-        SetupPlayerEntryList(m, PLAYER_ENTRY_LIST_KART);
+        SetupPlayerEntryList(listKind, PLAYER_ENTRY_LIST_KART);
     }
     switch (gSelectKart->mMode) {
         case 0:
@@ -107,10 +107,10 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         gSelectKart->mKartSelectMessages = FindFileInLoadedArchives(gKartSelectBmgName);
         gSelectKart->mKartAppear = CreateKartAppear(gSelectKart->mHeap);
     }
-    g = gSelectKart;
-    g->mCharacterIndex = GetRaceSetupCopy()->mEntries[g->mEntryIndex].mCharacterIndex;
-    g = gSelectKart;
-    g->mKartIndex = GetRaceSetupCopy()->mEntries[g->mEntryIndex].mKartIndex;
+    selectKart = gSelectKart;
+    selectKart->mCharacterIndex = GetRaceSetupCopy()->mEntries[selectKart->mEntryIndex].mCharacterIndex;
+    selectKart = gSelectKart;
+    selectKart->mKartIndex = GetRaceSetupCopy()->mEntries[selectKart->mEntryIndex].mKartIndex;
     if (gSelectKart->mCharacterIndex == -1) {
         gSelectKart->mCharacterIndex = 0;
     }
@@ -121,22 +121,23 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 0;
     gSelectKart->mKartTableIndex = FindKartTableIndex(gSelectKart->mKartIndex);
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        g = gSelectKart;
-        if (g->mEntryListUsed == FALSE) {
-            p = &g->mSelectCharacterGpMParts;
-            LocateCellFileSet(p, gSelectCharacterGpMNcgrName2, gSelectCharacterGpMNcerName2,
+        selectKart = gSelectKart;
+        if (selectKart->mEntryListUsed == FALSE) {
+            cellFileSet = &selectKart->mSelectCharacterGpMParts;
+            LocateCellFileSet(cellFileSet, gSelectCharacterGpMNcgrName2, gSelectCharacterGpMNcerName2,
                               gSelectCharacterGpMONclrName2, gSelectCharacterGpMBnclName2, NULL, NULL,
                               FindFileInLoadedArchives);
-            SetupCellFileSet(0, gSelectKart->mHeap, p);
-            LocateCellFileSet(&e, gSelectCharacterGpTitleMNcgrName2, gSelectCharacterGpTitleMNcerName2, NULL,
+            SetupCellFileSet(0, gSelectKart->mHeap, cellFileSet);
+            LocateCellFileSet(&titleFileSet, gSelectCharacterGpTitleMNcgrName2, gSelectCharacterGpTitleMNcerName2, NULL,
                               gSelectCharacterGpTitleMBnclName2, NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(1, e.mCells, e.mChars, e.mCellLayout, 0, 0, p->mCells, p->mCellLayout);
-            LocateCellFileSet(&f, gSelectCharacterGpNameMNcgrName2, gSelectCharacterGpNameMNcerName2, NULL,
+            QueueCellChars(1, titleFileSet.mCells, titleFileSet.mChars, titleFileSet.mCellLayout, 0, 0,
+                           cellFileSet->mCells, cellFileSet->mCellLayout);
+            LocateCellFileSet(&nameFileSet, gSelectCharacterGpNameMNcgrName2, gSelectCharacterGpNameMNcerName2, NULL,
                               gSelectCharacterGpNameMBnclName2, NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], f.mCells, f.mChars, f.mCellLayout, 0, 2,
-                           p->mCells, p->mCellLayout);
-            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], f.mCells, f.mChars, f.mCellLayout, 0, 1,
-                           p->mCells, p->mCellLayout);
+            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
+                           nameFileSet.mCellLayout, 0, 2, cellFileSet->mCells, cellFileSet->mCellLayout);
+            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
+                           nameFileSet.mCellLayout, 0, 1, cellFileSet->mCells, cellFileSet->mCellLayout);
         }
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
@@ -144,27 +145,29 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
                                        gSelectKartSBNclrName, gSelectKartSNscrName, 3, FindFileInLoadedArchives);
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        n = GX_GetSizeOfSubOBJ();
-        p = &gSelectKart->mSelectKartSParts;
-        LocateCellFileSet(p, gSelectKartSNcgrName, gSelectKartSNcerName, gSelectKartSONclrName, gSelectKartSBnclName,
-                          gSelectKartSBnllName, gSelectKartSBnblName, FindFileInLoadedArchives);
-        SetupCellFileSet(1, gSelectKart->mHeap, p);
-        for (i = 0; i < 9; i++) {
-            n -= SetupLabelCanvas(1, gSelectKart->mHeap, p, &data_usa_021537f4[i], n);
+        value = GX_GetSizeOfSubOBJ();
+        cellFileSet = &gSelectKart->mSelectKartSParts;
+        LocateCellFileSet(cellFileSet, gSelectKartSNcgrName, gSelectKartSNcerName, gSelectKartSONclrName,
+                          gSelectKartSBnclName, gSelectKartSBnllName, gSelectKartSBnblName, FindFileInLoadedArchives);
+        SetupCellFileSet(1, gSelectKart->mHeap, cellFileSet);
+        for (index = 0; index < 9; index++) {
+            value -= SetupLabelCanvas(1, gSelectKart->mHeap, cellFileSet, &data_usa_021537f4[index], value);
         }
-        for (i = 0; i < 6; i++) {
-            w = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[i].mUnk_08);
-            n = data_usa_021537f4[i].mUnk_00;
-            PrintLabelLayoutTextNoFixedAdvance(1, n, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
-            SetLabelPriority(n, 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
+        for (index = 0; index < 6; index++) {
+            text = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[index].mUnk_08);
+            value = data_usa_021537f4[index].mUnk_00;
+            PrintLabelLayoutTextNoFixedAdvance(1, value, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
+                                               cellFileSet->mCellTable);
+            SetLabelPriority(value, 1, cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
         }
-        w = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_usa_021537f4[6].mUnk_08);
-        i = data_usa_02153834[4];
-        PrintLabelLayoutTextNoFixedAdvance(1, i, p->mLabelLayout, w, p->mCellLayout, p->mCellTable);
-        SetLabelPaletteIndex(i, 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
-        InitPaletteBlend(gSelectKart->mHeap, p->mPalette, 1);
-        p->mCellTable[2].mVisible = 0;
-        p->mCellTable[3].mVisible = p->mCellTable[2].mVisible;
+        text = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_usa_021537f4[6].mUnk_08);
+        index = data_usa_02153834[4];
+        PrintLabelLayoutTextNoFixedAdvance(1, index, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
+                                           cellFileSet->mCellTable);
+        SetLabelPaletteIndex(index, 1, cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
+        InitPaletteBlend(gSelectKart->mHeap, cellFileSet->mPalette, 1);
+        cellFileSet->mCellTable[2].mVisible = 0;
+        cellFileSet->mCellTable[3].mVisible = cellFileSet->mCellTable[2].mVisible;
     } else {
         InitSelectRaceRuleWait(gSelectKart->mHeap, gSelectKart->mSubOam);
         SlideInSelectRaceRuleWait();
@@ -181,6 +184,6 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     if (gSelectKart->mMode == 0) {
         ClearNonParticipantKartIndices();
     }
-    FrmHeapShrinkInParent(h);
+    FrmHeapShrinkInParent(heap);
 }
 #pragma thumb off

@@ -32,18 +32,18 @@ typedef struct Unk0209af98 {
 typedef struct Crab Crab;
 typedef struct Kart Kart;
 
-void CreateCrabAndCrabHand(void *a);
+void CreateCrabAndCrabHand(void *mapObjectList);
 
 void *CreateCrabUpdateList(void);
 void *CreateCrabDrawList(void);
 void CreateCrabKindData(void);
-void UpdateCrab(void *a, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
-s32 CrabFX_MulInline(s32 a, s32 b);
+void UpdateCrab(void *mapObjectList, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
+s32 CrabFX_MulInline(s32 value, s32 factor);
 s16 CrabFX_SinIdx(s32 angle);
 void InitCrabObjects(Unk0209af98 *mapObjectList);
-void DrawCrab(void *a, Crab *crab);
+void DrawCrab(void *mapObjectList, Crab *crab);
 unsigned int CrabSetupDrawReturnArgument(unsigned int value);
-u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d);
-u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *c, u8 *d);
+u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *hitFlag, u8 *passedValue);
+u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *hitFlag, u8 *passedValue);
 void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity);
 void InitCrab(Crab *crab); /* starts the path follower (InitGroupFollower) */

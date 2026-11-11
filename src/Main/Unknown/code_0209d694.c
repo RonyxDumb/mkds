@@ -32,13 +32,13 @@ void InitSunFireball(MapObject *mapObject) {
     CreateMapObjectSoundSourceFalloff2(mapObject);
 }
 
-u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *c, u8 *d) {
-    u8 x;
-    u32 v;
+u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag, u8 *passedValue) {
+    u8 hitFlagValue;
+    u32 passedOnValue;
 
-    x = *c;
-    v = *d;
-    if (x == 1 && sunFireball->mState <= 1) {
+    hitFlagValue = *hitFlag;
+    passedOnValue = *passedValue;
+    if (hitFlagValue == 1 && sunFireball->mState <= 1) {
         sunFireball->mMapObject.mFlags |= data_usa_021565d8;
         sunFireball->mMapObject.mFlags |= data_usa_021565dc;
         sunFireball->mState = 2;
@@ -55,16 +55,16 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *c, u8 *d
         }
         StartSoundIfKartStarOrKiller(&sunFireball->mMapObject, kart);
     }
-    return v;
+    return passedOnValue;
 }
 
-u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemObject, u8 *c, u8 *d) {
-    u8 x;
-    u32 v;
+u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemObject, u8 *hitFlag, u8 *passedValue) {
+    u8 hitFlagValue;
+    u32 passedOnValue;
 
-    x = *c;
-    v = *d;
-    if (x == 1 && sunFireball->mState <= 1) {
+    hitFlagValue = *hitFlag;
+    passedOnValue = *passedValue;
+    if (hitFlagValue == 1 && sunFireball->mState <= 1) {
         sunFireball->mMapObject.mFlags |= data_usa_021565d8;
         sunFireball->mMapObject.mFlags |= data_usa_021565dc;
         sunFireball->mState = 2;
@@ -77,7 +77,7 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
         sunFireball->mUnk_bc->mUnk_80 = 5;
         sunFireball->mUnk_c0->mUnk_80 = 5;
     }
-    return v;
+    return passedOnValue;
 }
 
 u32 SunFireballInitReturnArgument(u32 value) {
@@ -89,12 +89,12 @@ static inline u32 SunFireballNextRandomU32(RandomState64 *randomState64) {
     return randomState64->mValue >> 32;
 }
 
-void UpdateSunFireball(void *a, SunFireball *sunFireball) {
-    Vec3 v;
+void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
+    Vec3 pushOut;
     SoundStartParams soundRequest;
-    u32 f;
-    s32 t;
-    s32 k;
+    u32 collisionFlags;
+    s32 stepValue;
+    s32 tableIndex;
     s32 randomValue;
 
     switch (sunFireball->mState) {
@@ -110,27 +110,28 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
             break;
         case 1:
             if (sunFireball->mTimer-- != 0) {
-                t = sunFireball->mMapObject.mPosStep.y - 0x19a;
-                if (t <= -0x8000) {
-                    t = -0x8000;
+                stepValue = sunFireball->mMapObject.mPosStep.y - 0x19a;
+                if (stepValue <= -0x8000) {
+                    stepValue = -0x8000;
                 }
-                sunFireball->mMapObject.mPosStep.y = t;
+                sunFireball->mMapObject.mPosStep.y = stepValue;
                 VEC_Add(&sunFireball->mMapObject.mPos, &sunFireball->mMapObject.mPosStep,
                         &sunFireball->mMapObject.mPos);
                 if (sunFireball->mTimer > 0x78 && sunFireball->mMapObject.mPosStep.y < 0) {
                     if (CollideSphereWithCourse(&sunFireball->mMapObject.mPos, NULL, 0,
-                                                sunFireball->mMapObject.mExtent.x, 8, -2, &v, NULL, NULL, &f, NULL,
-                                                NULL, NULL, NULL) != 0 &&
-                        (f & 0x3f77ef) != 0) {
-                        VEC_Add(&sunFireball->mMapObject.mPos, &v, &sunFireball->mMapObject.mPos);
-                        t = sunFireball->mMapObject.mPos.x - sunFireball->mStartPos.x;
-                        k = sunFireball->mMapObject.mPos.z - sunFireball->mStartPos.z;
-                        if ((s64) t * t + (s64) k * k < 0x2710000000LL) {
+                                                sunFireball->mMapObject.mExtent.x, 8, -2, &pushOut, NULL, NULL,
+                                                &collisionFlags, NULL, NULL, NULL, NULL) != 0 &&
+                        (collisionFlags & 0x3f77ef) != 0) {
+                        VEC_Add(&sunFireball->mMapObject.mPos, &pushOut, &sunFireball->mMapObject.mPos);
+                        stepValue = sunFireball->mMapObject.mPos.x - sunFireball->mStartPos.x;
+                        tableIndex = sunFireball->mMapObject.mPos.z - sunFireball->mStartPos.z;
+                        if ((s64) stepValue * stepValue + (s64) tableIndex * tableIndex < 0x2710000000LL) {
                             randomValue =
                                 (u16) (((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * 0x10000) >> 32);
-                            k = (randomValue >> 4) * 2;
-                            sunFireball->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(FX_SinCosTable_[k], 0x1800);
-                            sunFireball->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(FX_SinCosTable_[k + 1], 0x1800);
+                            sunFireball->mMapObject.mPosStep.x =
+                                MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE(randomValue), 0x1800);
+                            sunFireball->mMapObject.mPosStep.z =
+                                MUL_FIXED12_NO_ROUND(COS_OF_ANGLE(randomValue), 0x1800);
                         } else {
                             sunFireball->mMapObject.mPosStep.x = -sunFireball->mMapObject.mPosStep.x;
                             sunFireball->mMapObject.mPosStep.z = -sunFireball->mMapObject.mPosStep.z;
@@ -155,11 +156,11 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
             }
             break;
         case 2:
-            t = sunFireball->mMapObject.mPosStep.y - 0xcd;
-            if (t <= -0x2000) {
-                t = -0x2000;
+            stepValue = sunFireball->mMapObject.mPosStep.y - 0xcd;
+            if (stepValue <= -0x2000) {
+                stepValue = -0x2000;
             }
-            sunFireball->mMapObject.mPosStep.y = t;
+            sunFireball->mMapObject.mPosStep.y = stepValue;
             sunFireball->mMapObject.mPos.y = sunFireball->mMapObject.mPos.y + sunFireball->mMapObject.mPosStep.y;
             if (sunFireball->mMapObject.mPosStep.y < 0) {
                 sunFireball->mMoveAngle = ((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * 0x10000) >> 32;
@@ -168,11 +169,11 @@ void UpdateSunFireball(void *a, SunFireball *sunFireball) {
             break;
         case 3:
             if (sunFireball->mTimer-- != 0) {
-                t = sunFireball->mMapObject.mPosStep.y - 0xcd;
-                if (t <= -0x2000) {
-                    t = -0x2000;
+                stepValue = sunFireball->mMapObject.mPosStep.y - 0xcd;
+                if (stepValue <= -0x2000) {
+                    stepValue = -0x2000;
                 }
-                sunFireball->mMapObject.mPosStep.y = t;
+                sunFireball->mMapObject.mPosStep.y = stepValue;
                 sunFireball->mMoveAngle += 0xe39;
                 sunFireball->mMapObject.mPos.x =
                     sunFireball->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(FX_SinIdx(sunFireball->mMoveAngle), 0x2000);

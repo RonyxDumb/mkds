@@ -3,5 +3,5 @@
 #include "types.h"
 #include "os_thread.h"
 
-BOOL OS_SaveContext(OSThread *t);
-void OS_LoadContext(OSThread *t);
+BOOL OS_SaveContext(OSThread *thread);
+void OS_LoadContext(OSThread *thread);

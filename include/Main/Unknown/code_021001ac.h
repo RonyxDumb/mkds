@@ -12,7 +12,7 @@ typedef struct Unk0215a190 {
 
 extern Unk0215a190 gItemTeresaItemOffsets[];
 
-void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model);
+void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model);
 void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value);
 void InitItemTeresaFromData(ItemTeresa *teresa);
 void CopyItemTeresaData(void *cursor, ItemTeresa *teresa, void *toData);

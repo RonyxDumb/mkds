@@ -40,16 +40,16 @@ u8 data_020c214c_pad[12];
 void WriteRaceGoalSRowTiles(s32 row, s32 style) {
     UnkPair020b502c spans[8] = {{2, 5}, {5, 8}, {8, 10}, {10, 13}, {13, 16}, {15, 18}, {18, 21}, {21, 23}};
     UnkPair020b502c fullSpan = {0, 0x1f};
-    s32 m;
+    s32 nscrIndex;
     s32 copyIndex;
     u32 spanStart;
     u32 spanLength;
     u32 fullStart;
     u32 fullLength;
 
-    m = row % 2;
-    copyIndex = m != 0 ? 1 : 0;
-    m = m != 0 ? 2 : 1;
+    nscrIndex = row % 2;
+    copyIndex = nscrIndex != 0 ? 1 : 0;
+    nscrIndex = nscrIndex != 0 ? 2 : 1;
     switch (style) {
         case 0:
             spanStart = spans[row].mFirst;
@@ -57,8 +57,8 @@ void WriteRaceGoalSRowTiles(s32 row, s32 style) {
             fullStart = fullSpan.mFirst;
             fullLength = fullSpan.mSecond - fullStart + 1;
             CopyScreenMapBlock(gRaceGoalS->mRaceGoalSSpaceNscrCopies[copyIndex], fullStart, spanStart, fullLength,
-                               spanLength, gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart);
-            SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart, fullLength,
+                               spanLength, gRaceGoalS->mRaceGoalSNscrs[nscrIndex]->mData, fullStart, spanStart);
+            SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[nscrIndex]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 9);
             break;
         case 1:
@@ -67,16 +67,16 @@ void WriteRaceGoalSRowTiles(s32 row, s32 style) {
             fullStart = fullSpan.mFirst;
             fullLength = fullSpan.mSecond - fullStart + 1;
             CopyScreenMapBlock(gRaceGoalS->mRaceGoalSSpaceNscrCopies[copyIndex], fullStart, spanStart, fullLength,
-                               spanLength, gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart);
-            SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullStart, spanStart, fullLength,
+                               spanLength, gRaceGoalS->mRaceGoalSNscrs[nscrIndex]->mData, fullStart, spanStart);
+            SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[nscrIndex]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 8);
             break;
         case 2:
             spanStart = spans[row].mFirst;
             spanLength = spans[row].mSecond - spanStart + 1;
             fullLength = fullSpan.mSecond - fullSpan.mFirst + 1;
-            SetScreenMapBlockLowBits(gRaceGoalS->mRaceGoalSNscrs[m]->mData, fullSpan.mFirst, spanStart, fullLength,
-                                     spanLength, 0);
+            SetScreenMapBlockLowBits(gRaceGoalS->mRaceGoalSNscrs[nscrIndex]->mData, fullSpan.mFirst, spanStart,
+                                     fullLength, spanLength, 0);
             break;
     }
 }
@@ -191,19 +191,19 @@ void UpdateRaceGoalSOffset(void) {
 
 void InitRaceGoalS(void) {
     s32 sortKeys[8];
-    u16 i;
-    u32 j;
-    u32 g;
-    s32 k;
-    s32 l;
+    u16 rowIndex;
+    u32 kartIndex;
+    u32 sortIndex;
+    s32 firstValue;
+    s32 secondValue;
     s32 playerKind;
 
     gRaceGoalS = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x20e4);
-    for (i = 0; i < 8; i++) {
-        gRaceGoalS->mRowVisible[i] = 1;
-        gRaceGoalS->mShownNumbers[i] = 0;
-        gRaceGoalS->mRowKartIndex[i] = 0;
-        gRaceGoalS->mRankComparison[i] = 1;
+    for (rowIndex = 0; rowIndex < 8; rowIndex++) {
+        gRaceGoalS->mRowVisible[rowIndex] = 1;
+        gRaceGoalS->mShownNumbers[rowIndex] = 0;
+        gRaceGoalS->mRowKartIndex[rowIndex] = 0;
+        gRaceGoalS->mRankComparison[rowIndex] = 1;
     }
     gRaceGoalS->mRunning = 0;
     gRaceGoalS->mHiddenRowCount = 0;
@@ -211,37 +211,39 @@ void InitRaceGoalS(void) {
     gRaceGoalS->mUpdateFrames = 0;
     gRaceGoalS->mCourseCountReached = 0;
     gRaceGoalS->mOffsetX = -0x100;
-    for (j = 0; j < gRaceSetup->mKartCount; j = (u16) (j + 1)) {
+    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
         if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
-            playerKind = gRaceSetup->mCurrentEntries[j].mPlayer.mKind;
-            k = playerKind == PLAYER_KIND_HUMAN || playerKind == PLAYER_KIND_GHOST || playerKind == PLAYER_KIND_PEER
+            playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
+            firstValue =
+                playerKind == PLAYER_KIND_HUMAN || playerKind == PLAYER_KIND_GHOST || playerKind == PLAYER_KIND_PEER
                     ? 1
                     : 0;
-            l = GetKartPreviousWinCount(j);
-            sortKeys[j] = l * 16 + k * 8;
+            secondValue = GetKartPreviousWinCount(kartIndex);
+            sortKeys[kartIndex] = secondValue * 16 + firstValue * 8;
             if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
-                sortKeys[j] = sortKeys[j] + (8 - GetKartStartRank(j));
+                sortKeys[kartIndex] = sortKeys[kartIndex] + (8 - GetKartStartRank(kartIndex));
             } else {
-                sortKeys[j] += 8 - j;
+                sortKeys[kartIndex] += 8 - kartIndex;
             }
-            gRaceGoalS->mShownNumbers[j] = GetKartPreviousWinCount(j);
+            gRaceGoalS->mShownNumbers[kartIndex] = GetKartPreviousWinCount(kartIndex);
         } else {
-            playerKind = gRaceSetup->mCurrentEntries[j].mPlayer.mKind;
-            l = playerKind == PLAYER_KIND_HUMAN || playerKind == PLAYER_KIND_GHOST || playerKind == PLAYER_KIND_PEER
+            playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
+            secondValue =
+                playerKind == PLAYER_KIND_HUMAN || playerKind == PLAYER_KIND_GHOST || playerKind == PLAYER_KIND_PEER
                     ? 1
                     : 0;
-            k = GetKartPreviousTotalPoints(j);
-            sortKeys[j] = k * 16 + l * 8 + 8 - GetKartStartRank(j);
-            gRaceGoalS->mShownNumbers[j] = GetKartPreviousTotalPoints(j);
+            firstValue = GetKartPreviousTotalPoints(kartIndex);
+            sortKeys[kartIndex] = firstValue * 16 + secondValue * 8 + 8 - GetKartStartRank(kartIndex);
+            gRaceGoalS->mShownNumbers[kartIndex] = GetKartPreviousTotalPoints(kartIndex);
         }
     }
-    for (g = 0; g < gRaceSetup->mKartCount; g = (u16) (g + 1)) {
-        gRaceGoalS->mRowKartIndex[g] = g;
-        sortKeys[g] *= -1;
+    for (sortIndex = 0; sortIndex < gRaceSetup->mKartCount; sortIndex = (u16) (sortIndex + 1)) {
+        gRaceGoalS->mRowKartIndex[sortIndex] = sortIndex;
+        sortKeys[sortIndex] *= -1;
     }
     SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, gRaceSetup->mKartCount);
-    for (j = 0; j < gRaceSetup->mKartCount; j = (u16) (j + 1)) {
-        gRaceGoalS->mPreviousRowKartIndex[j] = gRaceGoalS->mRowKartIndex[j];
+    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
+        gRaceGoalS->mPreviousRowKartIndex[kartIndex] = gRaceGoalS->mRowKartIndex[kartIndex];
     }
     gRaceGoalS->mOffsetState = 0;
     gRaceGoalS->mOffsetStateFrames = 0;
@@ -254,9 +256,9 @@ void InitRaceGoalS(void) {
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[3], FindSceneFileWrapper("race_goal_s_team_bg.NSCR"));
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[4], FindSceneFileWrapper("race_goal_s_teamB.NSCR"));
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[5], FindSceneFileWrapper("race_goal_s_teamR.NSCR"));
-    for (i = 0; i < 0x800; i++) {
-        gRaceGoalS->mRaceGoalSSpaceNscrCopies[0][i] = gRaceGoalS->mRaceGoalSNscrs[1]->mData[i];
-        gRaceGoalS->mRaceGoalSSpaceNscrCopies[1][i] = gRaceGoalS->mRaceGoalSNscrs[2]->mData[i];
+    for (rowIndex = 0; rowIndex < 0x800; rowIndex++) {
+        gRaceGoalS->mRaceGoalSSpaceNscrCopies[0][rowIndex] = gRaceGoalS->mRaceGoalSNscrs[1]->mData[rowIndex];
+        gRaceGoalS->mRaceGoalSSpaceNscrCopies[1][rowIndex] = gRaceGoalS->mRaceGoalSNscrs[2]->mData[rowIndex];
     }
 }
 
@@ -271,7 +273,7 @@ void UpdateRaceGoalS(void) {
 
 void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
     s32 ones;
-    u16 i;
+    u16 rowIndex;
     s32 kartIndex;
     s32 number;
     s32 hundreds;
@@ -346,8 +348,8 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             }
             break;
     }
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        kartIndex = gRaceGoalS->mRowKartIndex[i];
+    for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+        kartIndex = gRaceGoalS->mRowKartIndex[rowIndex];
         number = gRaceGoalS->mShownNumbers[kartIndex];
         hundreds = number / 100;
         tens = (number - hundreds * 100) / 10;
@@ -357,18 +359,18 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             tens = ones;
             hundreds = ones;
         }
-        if (gRaceGoalS->mRowVisible[i] == 0) {
-            WriteRaceGoalSRowTiles(i, 2);
+        if (gRaceGoalS->mRowVisible[rowIndex] == 0) {
+            WriteRaceGoalSRowTiles(rowIndex, 2);
         } else if (kartIndex == GetFollowedKartOrEntryIndex()) {
-            WriteRaceGoalSRowTiles(i, 0);
+            WriteRaceGoalSRowTiles(rowIndex, 0);
         } else {
-            WriteRaceGoalSRowTiles(i, 1);
+            WriteRaceGoalSRowTiles(rowIndex, 1);
         }
-        if (gRaceGoalS->mRowVisible[i] != 0) {
+        if (gRaceGoalS->mRowVisible[rowIndex] != 0) {
             if (hundreds != 0) {
                 cell = GetRaceGoalSNcerEntry(hundreds + 0x10);
                 hundredsPosition[0] = (offsetX + 0xba) << 12;
-                hundredsPosition[1] = rowYs[i] << 12;
+                hundredsPosition[1] = rowYs[rowIndex] << 12;
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, hundredsPosition, 0, 1);
@@ -376,21 +378,21 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             if (hundreds != 0 || tens != 0) {
                 cell = GetRaceGoalSNcerEntry(tens + 0x10);
                 tensPosition[0] = (offsetX + 0xc3) << 12;
-                tensPosition[1] = rowYs[i] << 12;
+                tensPosition[1] = rowYs[rowIndex] << 12;
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, tensPosition, 0, 1);
             }
             cell = GetRaceGoalSNcerEntry(ones + 0x10);
             onesPosition[0] = (offsetX + 0xcc) << 12;
-            onesPosition[1] = rowYs[i] << 12;
+            onesPosition[1] = rowYs[rowIndex] << 12;
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, onesPosition, 0, 1);
             if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE)) {
                 cellIndex = IsPointsLabelPlural(number) != FALSE ? 0x1a : 0x1b;
                 cell = GetRaceGoalSNcerEntry(cellIndex);
                 cell1aOr1bPosition[0] = (offsetX + 0xd1) << 12;
-                cell1aOr1bPosition[1] = rowYs[i] << 12;
+                cell1aOr1bPosition[1] = rowYs[rowIndex] << 12;
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, cell1aOr1bPosition, 0, 1);
@@ -399,7 +401,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                 cellIndex = GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 0 ? 0x1f : 0x20;
                 cell = GetRaceGoalSNcerEntry(cellIndex);
                 teamPosition[0] = (offsetX + 0xec) << 12;
-                teamPosition[1] = rowYs[i] << 12;
+                teamPosition[1] = rowYs[rowIndex] << 12;
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, teamPosition, 0, 1);
@@ -409,25 +411,25 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                     gRaceGoalS->mUpdate == FinishRaceGoalS) {
                     cell = GetRaceGoalSNcerEntry(gRaceGoalS->mRankComparison[kartIndex] + 0x1c);
                     rankChangePosition[0] = (offsetX + 0xc) << 12;
-                    rankChangePosition[1] = rowYs[i] << 12;
+                    rankChangePosition[1] = rowYs[rowIndex] << 12;
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                               cell, NULL, rankChangePosition, 0, 1);
                 }
             }
-            cell = GetRaceGoalSNcerEntry(i + 8);
+            cell = GetRaceGoalSNcerEntry(rowIndex + 8);
             placePosition[0] = (offsetX + 0x1d) << 12;
-            placePosition[1] = rowYs[i] << 12;
+            placePosition[1] = rowYs[rowIndex] << 12;
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, placePosition, 0, 1);
             cell = GetRaceGoalSNcerEntry(kartIndex);
             kartPosition[0] = (offsetX + 0x2e) << 12;
-            kartPosition[1] = rowYs[i] << 12;
+            kartPosition[1] = rowYs[rowIndex] << 12;
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, kartPosition, 0, 1);
             cell = GetRaceGoalSNcerEntry(kartIndex + 0x23);
             kartExtraPosition[0] = (offsetX + 0x3b) << 12;
-            kartExtraPosition[1] = rowYs[i] << 12;
+            kartExtraPosition[1] = rowYs[rowIndex] << 12;
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       kartExtraPosition, 0, 1);
@@ -435,7 +437,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
     }
 }
 
-void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 x, s32 y) {
+void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 positionX, s32 positionY) {
     s32 kartPosition[2];
     s32 kartExtraPosition[2];
     s32 teamPosition[2];
@@ -454,13 +456,13 @@ void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 x, s3
     tens = number / 10 % 10;
     ones = number % 10;
     cell = GetRaceGoalTeamSNcerEntry(kartIndex);
-    kartPosition[0] = (x + 0xc) << 12;
-    kartPosition[1] = y << 12;
+    kartPosition[0] = (positionX + 0xc) << 12;
+    kartPosition[1] = positionY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, kartPosition, 0, 1);
     cell = GetRaceGoalTeamSNcerEntry(kartIndex + 0x20);
-    kartExtraPosition[0] = (x + 0x16) << 12;
-    kartExtraPosition[1] = y << 12;
+    kartExtraPosition[0] = (positionX + 0x16) << 12;
+    kartExtraPosition[1] = positionY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, kartExtraPosition, 0, 1);
     if (kartIndex == GetFollowedKartOrEntryIndex()) {
@@ -469,8 +471,8 @@ void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 x, s3
         cellIndex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex == 0 ? 0x1c : 0x1d;
     }
     cell = GetRaceGoalTeamSNcerEntry(cellIndex);
-    teamPosition[0] = x << 12;
-    teamPosition[1] = y << 12;
+    teamPosition[0] = positionX << 12;
+    teamPosition[1] = positionY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, teamPosition, 0, 1);
     if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -483,26 +485,26 @@ void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 x, s3
     }
     if (hundreds != 0) {
         cell = GetRaceGoalTeamSNcerEntry(hundreds + 8);
-        hundredsPosition[0] = (x + 0x57) << 12;
-        hundredsPosition[1] = y << 12;
+        hundredsPosition[0] = (positionX + 0x57) << 12;
+        hundredsPosition[1] = positionY << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, hundredsPosition, 0, 1);
     }
     if (hundreds != 0 || tens != 0) {
         cell = GetRaceGoalTeamSNcerEntry(tens + 8);
-        tensPosition[0] = (x + 0x60) << 12;
-        tensPosition[1] = y << 12;
+        tensPosition[0] = (positionX + 0x60) << 12;
+        tensPosition[1] = positionY << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, tensPosition, 0, 1);
     }
     cell = GetRaceGoalTeamSNcerEntry(ones + 8);
-    onesPosition[0] = (x + 0x69) << 12;
-    onesPosition[1] = y << 12;
+    onesPosition[0] = (positionX + 0x69) << 12;
+    onesPosition[1] = positionY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, onesPosition, 0, 1);
 }
 
-void DrawRaceGoalSTeamNumber(RaceHudOamBuffer *oamBuffer, s32 number, s32 x, s32 y) {
+void DrawRaceGoalSTeamNumber(RaceHudOamBuffer *oamBuffer, s32 number, s32 positionX, s32 positionY) {
     s32 thousandsPosition[2];
     s32 hundredsPosition[2];
     s32 tensPosition[2];
@@ -519,28 +521,28 @@ void DrawRaceGoalSTeamNumber(RaceHudOamBuffer *oamBuffer, s32 number, s32 x, s32
     ones = number % 10;
     if (thousands != 0) {
         cell = GetRaceGoalTeamSNcerEntry(thousands + 0x12);
-        thousandsPosition[0] = x << 12;
-        thousandsPosition[1] = y << 12;
+        thousandsPosition[0] = positionX << 12;
+        thousandsPosition[1] = positionY << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, thousandsPosition, 0, 1);
     }
     if (thousands != 0 || hundreds != 0) {
         cell = GetRaceGoalTeamSNcerEntry(hundreds + 0x12);
-        hundredsPosition[0] = (x + 0xf) << 12;
-        hundredsPosition[1] = y << 12;
+        hundredsPosition[0] = (positionX + 0xf) << 12;
+        hundredsPosition[1] = positionY << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, hundredsPosition, 0, 1);
     }
     if (thousands != 0 || hundreds != 0 || tens != 0) {
         cell = GetRaceGoalTeamSNcerEntry(tens + 0x12);
-        tensPosition[0] = (x + 0x1e) << 12;
-        tensPosition[1] = y << 12;
+        tensPosition[0] = (positionX + 0x1e) << 12;
+        tensPosition[1] = positionY << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, tensPosition, 0, 1);
     }
     cell = GetRaceGoalTeamSNcerEntry(ones + 0x12);
-    onesPosition[0] = (x + 0x2d) << 12;
-    onesPosition[1] = y << 12;
+    onesPosition[0] = (positionX + 0x2d) << 12;
+    onesPosition[1] = positionY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, onesPosition, 0, 1);
 }
@@ -551,33 +553,33 @@ void DrawRaceGoalSTeams(RaceHudOamBuffer *oamBuffer) {
     s32 numberX[2] = {0x43, 0xc2};
     s32 offsetX;
     s32 teamIndex;
-    u16 i;
+    u16 index;
     BOOL showWinCount;
     s32 number;
     CourseTeamResults *courseRecords;
 
     offsetX = gRaceGoalS->mOffsetX;
-    for (i = 0; i < 2; i++) {
-        rowCounts[i] = 0;
+    for (index = 0; index < 2; index++) {
+        rowCounts[index] = 0;
     }
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        teamIndex = gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex;
-        DrawRaceGoalSTeamKart(oamBuffer, i, teamX[teamIndex] + (teamIndex == 0 ? -offsetX : offsetX),
+    for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
+        teamIndex = gRaceSetup->mCurrentEntries[index].mPlayer.mTeamIndex;
+        DrawRaceGoalSTeamKart(oamBuffer, index, teamX[teamIndex] + (teamIndex == 0 ? -offsetX : offsetX),
                               rowCounts[teamIndex] * 0x17 + 0x11);
         rowCounts[teamIndex]++;
     }
-    for (i = 0; i < 2; i++) {
+    for (index = 0; index < 2; index++) {
         showWinCount = TRUE;
         if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE)) {
             showWinCount = FALSE;
         }
         if (showWinCount != FALSE) {
             courseRecords = &gCupRecords->mTeamResults[GetCourseIndexInCup()];
-            number = courseRecords->mTeams[i].mWinCount;
+            number = courseRecords->mTeams[index].mWinCount;
         } else {
             courseRecords = &gCupRecords->mTeamResults[GetCourseIndexInCup()];
-            number = courseRecords->mTeams[i].mTotalPoints;
+            number = courseRecords->mTeams[index].mTotalPoints;
         }
-        DrawRaceGoalSTeamNumber(oamBuffer, number, numberX[i] + (i == 0 ? -offsetX : offsetX), 0xb6);
+        DrawRaceGoalSTeamNumber(oamBuffer, number, numberX[index] + (index == 0 ? -offsetX : offsetX), 0xb6);
     }
 }

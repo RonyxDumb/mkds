@@ -69,72 +69,72 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
 }
 
 void SetSelectGameRowCellsVisible(s32 visible) {
-    s32 i;
+    s32 rowIndex;
     CellFileSet *subFileSet;
 
     if (gBootInfo->mUnk_00 != 2) {
         subFileSet = &gSelectGame->mCellFileSets[1];
-        for (i = 0; i < gSelectGame->mTableCount; i++) {
-            subFileSet->mCellTable[gSelectGame->mTable[i].mCellIndex].mVisible = visible;
+        for (rowIndex = 0; rowIndex < gSelectGame->mTableCount; rowIndex++) {
+            subFileSet->mCellTable[gSelectGame->mTable[rowIndex].mCellIndex].mVisible = visible;
         }
     }
 }
 
 void SetSelectGameRowOffsetX(void) {
-    s32 i;
+    s32 rowIndex;
     CellFileSet *subFileSet;
 
     subFileSet = &gSelectGame->mCellFileSets[1];
-    for (i = 0; i < gSelectGame->mTableCount; i++) {
-        subFileSet->mCellTable[gSelectGame->mTable[i].mSelectedCellIndex].mOffsetX = gSelectGame->mSubOffsetX;
+    for (rowIndex = 0; rowIndex < gSelectGame->mTableCount; rowIndex++) {
+        subFileSet->mCellTable[gSelectGame->mTable[rowIndex].mSelectedCellIndex].mOffsetX = gSelectGame->mSubOffsetX;
     }
 }
 
 void SetSelectGameCellTableOffsets(void) {
     CellFileSet *subFileSet;
-    s32 i;
+    s32 cellIndex;
     s32 mainCellCount;
-    s32 m;
+    s32 count;
     SelectGame *selectGame;
 
     if (gBootInfo->mUnk_00 != 2) {
         selectGame = gSelectGame;
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mCount;
-        m = selectGame->mCellFileSets[0].mLabelLayout->mCount;
-        for (i = 0; i < m; i++) {
-            selectGame->mCellFileSets[0].mCellTable[i + mainCellCount].mOffsetY = gSelectGame->mMainOffsetY;
+        count = selectGame->mCellFileSets[0].mLabelLayout->mCount;
+        for (cellIndex = 0; cellIndex < count; cellIndex++) {
+            selectGame->mCellFileSets[0].mCellTable[cellIndex + mainCellCount].mOffsetY = gSelectGame->mMainOffsetY;
         }
     }
     subFileSet = &gSelectGame->mCellFileSets[1];
-    m = subFileSet->mCellLayout->mCount;
-    for (i = 0; i < m; i++) {
-        subFileSet->mCellTable[i].mOffsetX = gSelectGame->mSubOffsetX;
+    count = subFileSet->mCellLayout->mCount;
+    for (cellIndex = 0; cellIndex < count; cellIndex++) {
+        subFileSet->mCellTable[cellIndex].mOffsetX = gSelectGame->mSubOffsetX;
     }
 }
 
 void SetSelectGameSelectedRowVisible(s32 showSelected) {
     BOOL visible;
-    s32 i;
+    s32 rowIndex;
     CellFileSet *subFileSet;
 
     subFileSet = &gSelectGame->mCellFileSets[1];
-    for (i = 0; i < gSelectGame->mTableCount; i++) {
-        if (i == gSelectGame->mSelectedIndex && showSelected != 0) {
+    for (rowIndex = 0; rowIndex < gSelectGame->mTableCount; rowIndex++) {
+        if (rowIndex == gSelectGame->mSelectedIndex && showSelected != 0) {
             visible = TRUE;
         } else {
             visible = FALSE;
         }
-        subFileSet->mCellTable[gSelectGame->mTable[i].mSelectedCellIndex].mVisible = visible;
+        subFileSet->mCellTable[gSelectGame->mTable[rowIndex].mSelectedCellIndex].mVisible = visible;
     }
 }
 
 void SetSelectGameSubCellsVisible(s32 visible) {
-    s32 i;
+    s32 cellIndex;
     CellFileSet *subFileSet;
 
     subFileSet = &gSelectGame->mCellFileSets[1];
-    for (i = 0; i < subFileSet->mCellLayout->mCount; i++) {
-        subFileSet->mCellTable[i].mVisible = visible;
+    for (cellIndex = 0; cellIndex < subFileSet->mCellLayout->mCount; cellIndex++) {
+        subFileSet->mCellTable[cellIndex].mVisible = visible;
     }
 }
 
@@ -144,10 +144,10 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     CellFileSet *subFileSet;
     u8 screenMapFileSet[0x28];
     u32 mainObjSizeLeft;
-    s32 i;
+    s32 labelIndex;
     s32 mainCellCount;
     s32 mainLabelCount;
-    s32 j;
+    s32 hiddenLabelIndex;
     s32 hiddenLabelStart;
     s32 hiddenLabelCount;
     LabelMessageRow *canvasRow;
@@ -190,7 +190,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         SetupCellFileSet(0, gSelectGame->mHeap, selectGame->mCellFileSets);
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mCount;
         mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mCount;
-        i = 0;
+        labelIndex = 0;
         if (mainLabelCount > 0) {
             canvasRow = gSelectGameLabelMessageRows;
             printRow = canvasRow;
@@ -203,8 +203,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
                                                    selectGame->mCellFileSets[0].mCellTable);
                 canvasRow++;
                 printRow++;
-                i++;
-            } while (i < mainLabelCount);
+                labelIndex++;
+            } while (labelIndex < mainLabelCount);
         }
         if (gSelectGame->mMode == 0) {
             hiddenLabelStart = 4;
@@ -213,8 +213,9 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             hiddenLabelStart = 0;
             hiddenLabelCount = 4;
         }
-        for (j = hiddenLabelStart; j < hiddenLabelStart + hiddenLabelCount; j++) {
-            selectGame->mCellFileSets[0].mCellTable[j + mainCellCount].mVisible = 0;
+        for (hiddenLabelIndex = hiddenLabelStart; hiddenLabelIndex < hiddenLabelStart + hiddenLabelCount;
+             hiddenLabelIndex++) {
+            selectGame->mCellFileSets[0].mCellTable[hiddenLabelIndex + mainCellCount].mVisible = 0;
         }
     }
     subFileSet = &gSelectGame->mCellFileSets[1];
@@ -238,23 +239,23 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
 }
 
 s32 AdvanceSelectGame(void) {
-    s32 a;
+    s32 value;
     InputSlotIndex slotIndex;
     SelectGame *selectGame;
     CellFileSet *subFileSet;
     s32 previousSelectedIndex;
     s32 touchInReturnRect;
-    s32 d;
+    s32 touchValue;
     BOOL pairIsNew;
     BOOL pairRecentlyGone;
     s32 pairY;
-    s32 h;
+    s32 unusedValue;
     u32 hasPair;
-    s32 i;
+    s32 rowIndex;
     const void *firstChoiceText;
     const void *secondChoiceText;
 
-    a = 0;
+    value = 0;
     slotIndex = UNK_02175628_INDEX_8;
     selectGame = gSelectGame;
     subFileSet = &selectGame->mCellFileSets[1];
@@ -264,19 +265,19 @@ s32 AdvanceSelectGame(void) {
             SetSelectGameSelectedRowVisible(1);
             gSelectGame->mStateFrames = gSelectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = InterpolateS16(1, 0xee, a, gSelectGame->mStateFrames, 10);
-                gSelectGame->mMainOffsetY = InterpolateS16(1, -0xc0, a, gSelectGame->mStateFrames, 10);
+                gSelectGame->mSubOffsetX = InterpolateS16(1, 0xee, value, gSelectGame->mStateFrames, 10);
+                gSelectGame->mMainOffsetY = InterpolateS16(1, -0xc0, value, gSelectGame->mStateFrames, 10);
             } else {
-                gSelectGame->mStateFrames = a;
-                gSelectGame->mSubOffsetX = a;
-                gSelectGame->mMainOffsetY = a;
+                gSelectGame->mStateFrames = value;
+                gSelectGame->mSubOffsetX = value;
+                gSelectGame->mMainOffsetY = value;
                 gSelectGame->mState = 4;
             }
             SetSelectGameCellTableOffsets();
             break;
         case 4:
             previousSelectedIndex = selectGame->mSelectedIndex;
-            d = ~a;
+            touchValue = ~value;
             touchInReturnRect = 0;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
@@ -288,19 +289,19 @@ s32 AdvanceSelectGame(void) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                d = gInputSlots[slotIndex].mPair.mPairX;
+                touchValue = gInputSlots[slotIndex].mPair.mPairX;
                 pairY = gInputSlots[slotIndex].mPair.mPairY;
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(d, pairY);
-                d = RectTableFindContaining(subFileSet->mRects, d, pairY);
+                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(touchValue, pairY);
+                touchValue = RectTableFindContaining(subFileSet->mRects, touchValue, pairY);
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
                 SetSelectGameSelectedRowVisible(0);
                 WriteSelectGameRowToRaceSetupCopy();
-            } else if (d >= 0) {
-                for (i = 0; i < gSelectGame->mTableCount; i++) {
-                    if (d == gSelectGame->mTable[i].mRectEntryId) {
-                        SetSelectGameSelectedRowVisible(gSelectGame->mSelectedIndex != i ? 1 : 0);
-                        gSelectGame->mSelectedIndex = i;
+            } else if (touchValue >= 0) {
+                for (rowIndex = 0; rowIndex < gSelectGame->mTableCount; rowIndex++) {
+                    if (touchValue == gSelectGame->mTable[rowIndex].mRectEntryId) {
+                        SetSelectGameSelectedRowVisible(gSelectGame->mSelectedIndex != rowIndex ? 1 : 0);
+                        gSelectGame->mSelectedIndex = rowIndex;
                         WriteSelectGameRowToRaceSetupCopy();
                         break;
                     }
@@ -338,14 +339,14 @@ s32 AdvanceSelectGame(void) {
                     gSelectGame->mSelectedIndex = gSelectGame->mSelectedIndex + 1;
                 }
             }
-            if (d < 0 && previousSelectedIndex != gSelectGame->mSelectedIndex) {
+            if (touchValue < 0 && previousSelectedIndex != gSelectGame->mSelectedIndex) {
                 SetSelectGameSelectedRowVisible(1);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
             break;
         case 7:
             if (GetSelectChoisesDone() != 0) {
-                if (GetSelectChoisesIndex() == 0 || GetSelectChoisesIndex() == ~a) {
+                if (GetSelectChoisesIndex() == 0 || GetSelectChoisesIndex() == ~value) {
                     gSelectGame->mState = 4;
                 } else {
                     gConnectionWork->mFlags |= CONNECTION_FLAG_ENDING;
@@ -358,14 +359,14 @@ s32 AdvanceSelectGame(void) {
             break;
         case 8:
             if (AdvanceConnectionEndStopOnError() == 1) {
-                a = gSelectGame->mResult;
+                value = gSelectGame->mResult;
                 gSelectGame->mState = 11;
             }
             break;
         case 5:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames >= 5) {
-                gSelectGame->mStateFrames = a;
+                gSelectGame->mStateFrames = value;
                 gSelectGame->mState = 6;
                 SetSelectGameSelectedRowVisible(1);
             }
@@ -375,7 +376,7 @@ s32 AdvanceSelectGame(void) {
             if (gSelectGame->mStateFrames < 10) {
                 gSelectGame->mSubOffsetX = GetSelectedPressOffset(gSelectGame->mStateFrames);
             } else {
-                gSelectGame->mStateFrames = a;
+                gSelectGame->mStateFrames = value;
                 gSelectGame->mState = 9;
                 if (gSelectGame->mMode != 0) {
                     RequestSelectReturnState4();
@@ -386,17 +387,17 @@ s32 AdvanceSelectGame(void) {
         case 9:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = InterpolateS16(1, a, 0xee, gSelectGame->mStateFrames, 10);
-                gSelectGame->mMainOffsetY = InterpolateS16(1, a, -0xc0, gSelectGame->mStateFrames, 10);
+                gSelectGame->mSubOffsetX = InterpolateS16(1, value, 0xee, gSelectGame->mStateFrames, 10);
+                gSelectGame->mMainOffsetY = InterpolateS16(1, value, -0xc0, gSelectGame->mStateFrames, 10);
             } else {
-                gSelectGame->mSubOffsetX = a;
-                gSelectGame->mMainOffsetY = a;
+                gSelectGame->mSubOffsetX = value;
+                gSelectGame->mMainOffsetY = value;
                 gSelectGame->mState = 10;
             }
             SetSelectGameCellTableOffsets();
             break;
         case 10:
-            a = selectGame->mResult;
+            value = selectGame->mResult;
             break;
     }
     if (gSelectGame->mState != 10) {
@@ -408,7 +409,7 @@ s32 AdvanceSelectGame(void) {
         DrawLayoutTable(subFileSet->mCellLayout, subFileSet->mCells, subFileSet->mLabelLayout, gSelectGame->mSubOam,
                         subFileSet->mCellTable);
     }
-    return a;
+    return value;
 }
 
 void ReleaseSelectGame(void) {

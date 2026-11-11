@@ -274,50 +274,51 @@ u32 OS_GetConsoleType(void) {
 // (it is when OS_TryLockCartridge returns 0). The result has bit 24 set when two words at fixed addresses are
 // 0x544e494e and 0x4f444e45, else bit 25.
 u32 OSi_GetDeviceType(void) {
-    u32 a;
-    s32 d;
-    u16 h;
-    s32 v;
-    u32 s;
+    u32 deviceType;
+    s32 isDone;
+    u16 cartLockId;
+    s32 lockResult;
+    u32 savedInterrupts;
 
-    d = 0;
-    h = OS_GetLockID();
-    a = 0;
+    isDone = 0;
+    cartLockId = OS_GetLockID();
+    deviceType = 0;
     do {
-        v = -1;
-        s = OS_DisableInterrupts();
-        if ((OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40) != 0 || (v = OS_TryLockCartridge(h)) == 0) {
+        lockResult = -1;
+        savedInterrupts = OS_DisableInterrupts();
+        if ((OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40) != 0 ||
+            (lockResult = OS_TryLockCartridge(cartLockId)) == 0) {
             if (*(u32 *) 0x8000000 == 0x544e494e && *(u32 *) 0x8000004 == 0x4f444e45) {
-                a = 0x1000000;
+                deviceType = 0x1000000;
             } else {
-                a = 0x2000000;
+                deviceType = 0x2000000;
             }
-            if (v == 0) {
-                OS_UnlockCartridge(h);
-                d = 1;
+            if (lockResult == 0) {
+                OS_UnlockCartridge(cartLockId);
+                isDone = 1;
             }
         }
-        OS_RestoreInterrupts(s);
-    } while (d == 0);
-    return a;
+        OS_RestoreInterrupts(savedInterrupts);
+    } while (isDone == 0);
+    return deviceType;
 }
 
 // 1 when a halfword is 1; which of two fixed addresses it is read from depends on whether another halfword is 0.
 u32 OSi_IsRunOnDebugger(void) {
-    u16 *p;
+    u16 *address;
 
     if (*HW_CHECK_DEBUGGER_SW == 0) {
-        p = HW_UNK_027FF814_BUF;
+        address = HW_UNK_027FF814_BUF;
     } else {
-        p = HW_UNK_027FFC14_BUF;
+        address = HW_UNK_027FFC14_BUF;
     }
-    return *p == 1;
+    return *address == 1;
 }
 
 // clang-format off
 // Calls CP_SaveContext with the address of mUnk_48, stores the status register and the registers (r0 = 1 saved) into
 // the words from 0, the banked sp of mode 0xd3 at 0x44 and the address of the return point at 0x3c, and returns 0.
-asm BOOL OS_SaveContext(OSThread *t) {
+asm BOOL OS_SaveContext(OSThread *thread) {
     stmdb sp!, {r0, lr}
     add r0, r0, #0x48
     ldr r1, =CP_SaveContext
@@ -340,7 +341,7 @@ asm BOOL OS_SaveContext(OSThread *t) {
 
 // Calls CPi_RestoreContext with the address of mUnk_48, then switches to mode 0xd3 and restores the registers and the
 // status word saved by OS_SaveContext.
-asm void OS_LoadContext(OSThread *t) {
+asm void OS_LoadContext(OSThread *thread) {
     stmdb sp!, {r0, lr}
     add r0, r0, #0x48
     ldr r1, =CPi_RestoreContext

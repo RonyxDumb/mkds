@@ -91,29 +91,29 @@ s32 GetWiFiSessionContinueResult(void) {
 // Counts the course picks of the indices in mKartMask and stores the most picked in the race setup's mCourseId; ties
 // are settled with the object's own LCG (mRandom).
 void TallyPickedCourse(void) {
-    u8 i;
+    u8 participantIndex;
     u8 highestCount = 0;
     u8 tiedCount = 0;
     u32 tiedCourses[4] = {0, 0, 0, 0};
     u8 pickCounts[0x37] = {0};
-    u8 j;
+    u8 courseIndex;
     WiFiSession *session;
     RandomState64 *randomState;
     u32 tieIndex;
     u32 talliedCourseId;
 
     session = gWiFiSession;
-    for (i = 0; i < session->mStartKartCount; i++) {
-        if (session->mKartMask & (1 << i)) {
-            pickCounts[session->mIndexMessages[i].mPickedCourseId]++;
-            if (highestCount < pickCounts[session->mIndexMessages[i].mPickedCourseId]) {
-                highestCount = pickCounts[session->mIndexMessages[i].mPickedCourseId];
+    for (participantIndex = 0; participantIndex < session->mStartKartCount; participantIndex++) {
+        if (session->mKartMask & (1 << participantIndex)) {
+            pickCounts[session->mIndexMessages[participantIndex].mPickedCourseId]++;
+            if (highestCount < pickCounts[session->mIndexMessages[participantIndex].mPickedCourseId]) {
+                highestCount = pickCounts[session->mIndexMessages[participantIndex].mPickedCourseId];
             }
         }
     }
-    for (j = 0; j < 0x37; j++) {
-        if (highestCount == pickCounts[j]) {
-            tiedCourses[tiedCount++] = j;
+    for (courseIndex = 0; courseIndex < 0x37; courseIndex++) {
+        if (highestCount == pickCounts[courseIndex]) {
+            tiedCourses[tiedCount++] = courseIndex;
         }
     }
     randomState = &session->mRandom;
@@ -133,19 +133,19 @@ void TallyPickedCourse(void) {
 
 void WriteWiFiSessionToRaceSetupCopy(void) {
     BOOL ownKind = FALSE;
-    u8 i;
+    u8 participantIndex;
 
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if (gWiFiSession->mKartMask & (1 << i)) {
-            if (i == GetOwnParticipantIndex()) {
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        if (gWiFiSession->mKartMask & (1 << participantIndex)) {
+            if (participantIndex == GetOwnParticipantIndex()) {
                 s8 entryIndex;
 
-                entryIndex = gWiFiSession->mPackedIndices[i];
+                entryIndex = gWiFiSession->mPackedIndices[participantIndex];
                 GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = ownKind;
             } else {
                 s8 entryIndex;
 
-                entryIndex = gWiFiSession->mPackedIndices[i];
+                entryIndex = gWiFiSession->mPackedIndices[participantIndex];
                 GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = PLAYER_KIND_PEER;
             }
             {
@@ -153,17 +153,18 @@ void WriteWiFiSessionToRaceSetupCopy(void) {
                 s8 entryIndex;
 
                 wiFiSession = gWiFiSession;
-                entryIndex = wiFiSession->mPackedIndices[i];
+                entryIndex = wiFiSession->mPackedIndices[participantIndex];
                 GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex =
-                    wiFiSession->mIndexMessages[i].mCharacterIndex;
+                    wiFiSession->mIndexMessages[participantIndex].mCharacterIndex;
             }
             {
                 WiFiSession *wiFiSession;
                 s8 entryIndex;
 
                 wiFiSession = gWiFiSession;
-                entryIndex = wiFiSession->mPackedIndices[i];
-                GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = wiFiSession->mIndexMessages[i].mKartIndex;
+                entryIndex = wiFiSession->mPackedIndices[participantIndex];
+                GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex =
+                    wiFiSession->mIndexMessages[participantIndex].mKartIndex;
             }
         }
     }
@@ -240,7 +241,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
 
 // Index the next message goes to; mStartKartCount means none (the two calls after a pick, or no index left).
 u8 PickNextToIndex(void) {
-    u8 i;
+    u8 participantIndex;
     u8 callCount;
 
     callCount = gWiFiSession->mCallsSincePick;
@@ -248,45 +249,46 @@ u8 PickNextToIndex(void) {
         gWiFiSession->mCallsSincePick = callCount + 1;
         return gWiFiSession->mStartKartCount;
     }
-    for (i = gWiFiSession->mPickStartIndex; i < gWiFiSession->mStartKartCount; i++) {
-        if (i != GetOwnParticipantIndex()) {
-            if (gWiFiSession->mKartMask & (1 << i)) {
+    for (participantIndex = gWiFiSession->mPickStartIndex; participantIndex < gWiFiSession->mStartKartCount;
+         participantIndex++) {
+        if (participantIndex != GetOwnParticipantIndex()) {
+            if (gWiFiSession->mKartMask & (1 << participantIndex)) {
                 break;
             }
         }
     }
     if (gWiFiSession->mPickStartIndex >= gWiFiSession->mStartKartCount) {
-        for (i = 0; i < gWiFiSession->mPickStartIndex; i++) {
-            if (i != GetOwnParticipantIndex()) {
-                if (gWiFiSession->mKartMask & (1 << i)) {
+        for (participantIndex = 0; participantIndex < gWiFiSession->mPickStartIndex; participantIndex++) {
+            if (participantIndex != GetOwnParticipantIndex()) {
+                if (gWiFiSession->mKartMask & (1 << participantIndex)) {
                     break;
                 }
             }
         }
-        if (i >= gWiFiSession->mPickStartIndex) {
+        if (participantIndex >= gWiFiSession->mPickStartIndex) {
             return gWiFiSession->mStartKartCount;
         }
     }
-    gWiFiSession->mPickStartIndex = i + 1;
+    gWiFiSession->mPickStartIndex = participantIndex + 1;
     gWiFiSession->mCallsSincePick = 0;
-    return i;
+    return participantIndex;
 }
 
 // TRUE once every other counted index has sent the message of this step; with no other index left it ends the run.
 BOOL AreAllStepMessagesReceived(void) {
-    u8 i;
+    u8 participantIndex;
     u8 receivedCount = 0;
     u8 checkedCount = 0;
     u8 startKartCount;
-    u8 j;
+    u8 secondParticipantIndex;
     u8 rosterCount;
     u8 kartMask;
 
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if (i != GetOwnParticipantIndex()) {
-            if (gWiFiSession->mKartMask & (1 << i)) {
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        if (participantIndex != GetOwnParticipantIndex()) {
+            if (gWiFiSession->mKartMask & (1 << participantIndex)) {
                 checkedCount++;
-                if ((gWiFiSession->mReceivedMask & (1 << i)) == 0) {
+                if ((gWiFiSession->mReceivedMask & (1 << participantIndex)) == 0) {
                     break;
                 }
                 receivedCount++;
@@ -303,8 +305,8 @@ BOOL AreAllStepMessagesReceived(void) {
     rosterCount = 0;
     startKartCount = gWiFiSession->mStartKartCount;
     kartMask = gWiFiSession->mKartMask;
-    for (j = 0; j < startKartCount; j++) {
-        if (kartMask & (1 << j)) {
+    for (secondParticipantIndex = 0; secondParticipantIndex < startKartCount; secondParticipantIndex++) {
+        if (kartMask & (1 << secondParticipantIndex)) {
             rosterCount++;
         }
     }
@@ -312,15 +314,17 @@ BOOL AreAllStepMessagesReceived(void) {
 }
 
 void EndWiFiSessionOnPicksMismatch(u32 index) {
-    u8 i;
+    u8 participantIndex;
     u8 differs = 0;
     u8 ownIndex;
 
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if ((ownIndex = GetOwnParticipantIndex(), gWiFiSession->mIndexMessages[ownIndex].mKartIndices[i]) !=
-                gWiFiSession->mReceiveBuffers[index].mKartIndices[i] ||
-            (ownIndex = GetOwnParticipantIndex(), gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[i]) !=
-                gWiFiSession->mReceiveBuffers[index].mCharacterIndices[i]) {
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        if ((ownIndex = GetOwnParticipantIndex(),
+             gWiFiSession->mIndexMessages[ownIndex].mKartIndices[participantIndex]) !=
+                gWiFiSession->mReceiveBuffers[index].mKartIndices[participantIndex] ||
+            (ownIndex = GetOwnParticipantIndex(),
+             gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[participantIndex]) !=
+                gWiFiSession->mReceiveBuffers[index].mCharacterIndices[participantIndex]) {
             differs = 1;
         }
     }
@@ -482,27 +486,27 @@ BOOL IsKartKeysStartStatus3(void) {
 s32 ComputeEloEval(u32 serverIndex) {
     s32 kartType;
     s32 kartRegion;
-    s32 z;
+    s32 value;
     WiFiSession *session;
 
     kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
     kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
-    z = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
-    if (kartType == 5 || kartRegion == 3 || z < 0) {
+    value = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
+    if (kartType == 5 || kartRegion == 3 || value < 0) {
         return 0;
     }
     session = gWiFiSession;
-    if (session->mPlayerRecords[0].mPlayer.mElo > z) {
-        z = session->mPlayerRecords[0].mPlayer.mElo - z;
+    if (session->mPlayerRecords[0].mPlayer.mElo > value) {
+        value = session->mPlayerRecords[0].mPlayer.mElo - value;
     } else {
-        z = z - session->mPlayerRecords[0].mPlayer.mElo;
+        value = value - session->mPlayerRecords[0].mPlayer.mElo;
     }
-    if (z < 0x3e8) {
+    if (value < 0x3e8) {
         if (kartType == 1) {
-            return 0x7d0 - z;
+            return 0x7d0 - value;
         }
         if (kartType == 4) {
-            return 0x3e8 - z;
+            return 0x3e8 - value;
         }
     }
     return 0;
@@ -528,13 +532,13 @@ BOOL ComputeRegionEval(u32 serverIndex) {
 s32 ComputeRegionEloEval(u32 serverIndex) {
     s32 kartType;
     s32 kartRegion;
-    s32 z;
+    s32 value;
     WiFiSession *session;
 
     kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
     kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
-    z = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
-    if (kartType == 5 || kartRegion == 3 || z < 0) {
+    value = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
+    if (kartType == 5 || kartRegion == 3 || value < 0) {
         return 0;
     }
     if (kartType == 4) {
@@ -542,16 +546,16 @@ s32 ComputeRegionEloEval(u32 serverIndex) {
     }
     if (kartType == 1) {
         session = gWiFiSession;
-        if (session->mPlayerRecords[0].mPlayer.mElo > z) {
-            z = session->mPlayerRecords[0].mPlayer.mElo - z;
+        if (session->mPlayerRecords[0].mPlayer.mElo > value) {
+            value = session->mPlayerRecords[0].mPlayer.mElo - value;
         } else {
-            z = z - session->mPlayerRecords[0].mPlayer.mElo;
+            value = value - session->mPlayerRecords[0].mPlayer.mElo;
         }
-        if (z < 0x3e8) {
+        if (value < 0x3e8) {
             if (kartRegion != session->mPlayerRecords[0].mPlayer.mRegion) {
-                return 0x7d0 - z;
+                return 0x7d0 - value;
             }
-            return 0x3e8 - z;
+            return 0x3e8 - value;
         }
     }
     return 0;
@@ -559,7 +563,7 @@ s32 ComputeRegionEloEval(u32 serverIndex) {
 
 void KartKeysStartCallback(u32 result, s32 flag) {
     WiFiSession *session;
-    u8 i;
+    u8 participantIndex;
 
     if (result == 0) {
         if (flag != 0) {
@@ -570,11 +574,11 @@ void KartKeysStartCallback(u32 result, s32 flag) {
         gWiFiSession->mKartCount = func_ov000_0219bb68();
         gWiFiSession->mStartKartCount = gWiFiSession->mKartCount;
         session = gWiFiSession;
-        i = 0;
-        while (i < session->mStartKartCount) {
-            session->mKartMask |= 1 << i;
+        participantIndex = 0;
+        while (participantIndex < session->mStartKartCount) {
+            session->mKartMask |= 1 << participantIndex;
             session = gWiFiSession;
-            i++;
+            participantIndex++;
         }
         MI_CpuFill8(session->mPlayerRecords, 0, 0x910);
         FillPlayerRecord(&gWiFiSession->mPlayerRecords[GetOwnParticipantIndex()].mPlayer);

@@ -34,10 +34,10 @@ extern char gRainStarNsbtaName[];
 
 void *CreateRainStarUpdateList(void);
 void *CreateRainStarDrawList(void);
-void UpdateRainStar(void *a, Unk0209f1c8 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawRainStar(void *a, Unk0209f1c8 *b);
-void CreateRainStar(void *a);
+void UpdateRainStar(void *mapObjectList, Unk0209f1c8 *rainStar); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void DrawRainStar(void *mapObjectList, Unk0209f1c8 *rainStar);
+void CreateRainStar(void *mapObjectList);
 void *CreateChandelierUpdateList(void);
 void *CreateChandelierDrawList(void);
-void UpdateChandelier(void *a, Unk0209f338 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitChandelierObjects(Unk0209f514 *a);
+void UpdateChandelier(void *mapObjectList, Unk0209f338 *chandelier); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void InitChandelierObjects(Unk0209f514 *objectList);

@@ -220,100 +220,100 @@ u32 NNS_G3dMdlGetMdlFogEnableFlag(NNSG3dResMdl *mdl, u32 matId) {
 
 // Sets the diffuse color of every material.
 void NNS_G3dMdlSetMdlDiffAll(NNSG3dResMdl *mdl, u32 color) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlDiff(mdl, i, color);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlDiff(mdl, matIndex, color);
     }
 }
 
 // Sets the ambient color of every material.
 void NNS_G3dMdlSetMdlAmbAll(NNSG3dResMdl *mdl, u32 color) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlAmb(mdl, i, color);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlAmb(mdl, matIndex, color);
     }
 }
 
 // Sets the specular color of every material.
 void NNS_G3dMdlSetMdlSpecAll(NNSG3dResMdl *mdl, u32 color) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlSpec(mdl, i, color);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlSpec(mdl, matIndex, color);
     }
 }
 
 // Sets the emission color of every material.
 void NNS_G3dMdlSetMdlEmiAll(NNSG3dResMdl *mdl, u32 color) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlEmi(mdl, i, color);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlEmi(mdl, matIndex, color);
     }
 }
 
 // Sets the light enable mask of every material.
 void NNS_G3dMdlSetMdlLightEnableFlagAll(NNSG3dResMdl *mdl, u32 light) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlLightEnableFlag(mdl, i, light);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlLightEnableFlag(mdl, matIndex, light);
     }
 }
 
 // Sets the polygon mode of every material.
 void NNS_G3dMdlSetMdlPolygonModeAll(NNSG3dResMdl *mdl, u32 polyMode) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlPolygonMode(mdl, i, polyMode);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlPolygonMode(mdl, matIndex, polyMode);
     }
 }
 
 // Sets the cull mode of every material.
 void NNS_G3dMdlSetMdlCullModeAll(NNSG3dResMdl *mdl, u32 cullMode) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlCullMode(mdl, i, cullMode);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlCullMode(mdl, matIndex, cullMode);
     }
 }
 
 // Sets the polygon ID of every material.
 void NNS_G3dMdlSetMdlPolygonIDAll(NNSG3dResMdl *mdl, u32 polygonId) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlPolygonID(mdl, i, polygonId);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlPolygonID(mdl, matIndex, polygonId);
     }
 }
 
 // Sets the alpha of every material.
 void NNS_G3dMdlSetMdlAlphaAll(NNSG3dResMdl *mdl, u32 alpha) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlAlpha(mdl, i, alpha);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlAlpha(mdl, matIndex, alpha);
     }
 }
 
 // Sets the fog flag of every material.
 void NNS_G3dMdlSetMdlFogEnableFlagAll(NNSG3dResMdl *mdl, u32 flag) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlFogEnableFlag(mdl, i, flag);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlFogEnableFlag(mdl, matIndex, flag);
     }
 }
 
 // Sets the translucent depth update flag of every material.
 void NNS_G3dMdlSetMdlXLDepthUpdateAll(NNSG3dResMdl *mdl, u32 flag) {
-    u32 i;
+    u32 matIndex;
 
-    for (i = 0; i < mdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlXLDepthUpdate(mdl, i, flag);
+    for (matIndex = 0; matIndex < mdl->mInfo.mNumMat; matIndex++) {
+        NNS_G3dMdlSetMdlXLDepthUpdate(mdl, matIndex, flag);
     }
 }
 

@@ -7,4 +7,4 @@
 #include "code_02142eac.h"
 
 int MBi_SendMP(void *data, u32 size, u32 childMask);
-s32 MBi_SetMPData(Unk021425e8Func callback, void *data, s32 dataSize, u16 d, u16 e);
+s32 MBi_SetMPData(Unk021425e8Func callback, void *data, s32 dataSize, u16 unusedValue, u16 childMask);

@@ -81,19 +81,19 @@ s32 LoadSelectReturn(s32 subCharOffset) {
     Ncgr *ncgr;
     Nscr *nscr;
     Nclr *nclr;
-    s32 i;
-    s32 j;
-    s32 k;
+    s32 rowIndex;
+    s32 columnIndex;
+    s32 unusedValue;
     LocateNcgr(&ncgr, FindFileInLoadedArchives("select_return_s_b_00.ncgr"));
     LocateNscr(&nscr, FindFileInLoadedArchives("select_return_s_bg_00.nscr"));
     LocateNclr(&nclr, FindFileInLoadedArchives("select_return_s_b_00.nclr"));
     subCharOffset -= ncgr->mDataSize;
     DC_FlushRange(ncgr->mData, ncgr->mDataSize);
     GXS_LoadBG2Char(ncgr->mData, subCharOffset, ncgr->mDataSize);
-    for (i = 0; i < 0x20; i++) {
-        for (j = 0; j < 0x20; j++) {
-            *(gSelectReturn->mScreenMapCopy + i * 0x20 + j) =
-                (subCharOffset >> 5) + *((u16 *) nscr->mData + i * 0x20 + j);
+    for (rowIndex = 0; rowIndex < 0x20; rowIndex++) {
+        for (columnIndex = 0; columnIndex < 0x20; columnIndex++) {
+            *(gSelectReturn->mScreenMapCopy + rowIndex * 0x20 + columnIndex) =
+                (subCharOffset >> 5) + *((u16 *) nscr->mData + rowIndex * 0x20 + columnIndex);
         }
     }
     DC_FlushRange(gSelectReturn->mScreenMapCopy, nscr->mDataSize);
@@ -104,15 +104,15 @@ s32 LoadSelectReturn(s32 subCharOffset) {
 }
 
 void SetSelectReturnPaletteBits(s32 paletteKind) {
-    s32 i;
+    s32 tileIndex;
     u16 paletteBits;
     paletteBits = 0xc000;
     if (paletteKind == 0) {
         paletteBits = 0xd000;
     }
-    for (i = 0x260; i < 0x360; i++) {
-        gSelectReturn->mScreenMapCopy[i] &= ~0xf000;
-        gSelectReturn->mScreenMapCopy[i] |= paletteBits;
+    for (tileIndex = 0x260; tileIndex < 0x360; tileIndex++) {
+        gSelectReturn->mScreenMapCopy[tileIndex] &= ~0xf000;
+        gSelectReturn->mScreenMapCopy[tileIndex] |= paletteBits;
     }
     if (gBootInfo->mUnk_00 != 2) {
         NNS_GfdRegisterNewVramTransferTask(0x1a, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260], 0x200);
@@ -363,7 +363,7 @@ void ClearSelectChoisesUseCharBuffers(void) {
 
 #pragma thumb on
 s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
-    s32 i;
+    s32 canvasIndex;
     s32 charSpacing;
     Unk02023374 *charCanvas;
     TextCanvas *textCanvas;
@@ -379,14 +379,15 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         subDisplayBits &= ~1;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
     }
-    for (i = 0; i < 2; i++) {
-        gSelectChoises->mCharBuffers[i] = HeapAlloc(heap, 0x800);
-        NNS_G2dCharCanvasInitForBG(&gSelectChoises->mCharCanvases[i], gSelectChoises->mCharBuffers[i], 0x20, 2, 4);
-        charCanvas = &gSelectChoises->mCharCanvases[i];
+    for (canvasIndex = 0; canvasIndex < 2; canvasIndex++) {
+        gSelectChoises->mCharBuffers[canvasIndex] = HeapAlloc(heap, 0x800);
+        NNS_G2dCharCanvasInitForBG(&gSelectChoises->mCharCanvases[canvasIndex],
+                                   gSelectChoises->mCharBuffers[canvasIndex], 0x20, 2, 4);
+        charCanvas = &gSelectChoises->mCharCanvases[canvasIndex];
         charCanvas->mUnk_18(charCanvas, 0);
         charSpacing = IsLanguageJa();
-        textCanvas = &gSelectChoises->mTextCanvases[i];
-        textCanvas->mCharCanvas = &gSelectChoises->mCharCanvases[i];
+        textCanvas = &gSelectChoises->mTextCanvases[canvasIndex];
+        textCanvas->mCharCanvas = &gSelectChoises->mCharCanvases[canvasIndex];
         textCanvas->mFont = font;
         textCanvas->mCharSpacing = charSpacing;
         textCanvas->mLineSpacing = 0;
@@ -442,8 +443,8 @@ s32 LoadSelectChoises(s32 subCharOffset) {
     Nscr *screenMap;
     Nclr *palette;
     s32 firstTileIndex;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 columnIndex;
     s32 tileColumn;
     s32 tileRowOffset;
     ByteRect *tileRect;
@@ -456,9 +457,10 @@ s32 LoadSelectChoises(s32 subCharOffset) {
     gSelectChoises->mFirstTileIndex = firstTileIndex;
     DC_FlushRange(chars->mData, chars->mDataSize);
     GXS_LoadBG0Char(chars->mData, subCharOffset, chars->mDataSize);
-    for (i = 0; i < 32; i++) {
-        for (j = 0; j < 32; j++) {
-            *(gSelectChoises->mNscrCopy + i * 32 + j) = firstTileIndex + *((u16 *) screenMap->mData + i * 32 + j);
+    for (rowIndex = 0; rowIndex < 32; rowIndex++) {
+        for (columnIndex = 0; columnIndex < 32; columnIndex++) {
+            *(gSelectChoises->mNscrCopy + rowIndex * 32 + columnIndex) =
+                firstTileIndex + *((u16 *) screenMap->mData + rowIndex * 32 + columnIndex);
         }
     }
     DC_FlushRange(gSelectChoises->mNscrCopy, screenMap->mDataSize);
@@ -475,7 +477,7 @@ s32 LoadSelectChoises(s32 subCharOffset) {
 
 void RefreshSelectChoisesNscrCopy(void) {
     s32 column;
-    s32 i;
+    s32 choiceIndex;
     s32 row;
     BOOL useToggleOnTiles;
     ByteRect *tileRect;
@@ -485,14 +487,14 @@ void RefreshSelectChoisesNscrCopy(void) {
     s32 lastRow;
     s32 screenMapIndex;
 
-    i = 0;
+    choiceIndex = 0;
     origin = gSelectChoisesNscrOrigins;
     tileRect = &gSelectChoisesTileRect;
     lastColumn = tileRect->mMaxX - tileRect->mMinX;
     lastRow = tileRect->mMaxY - tileRect->mMinY;
-    for (; i < 2; i++) {
+    for (; choiceIndex < 2; choiceIndex++) {
         useToggleOnTiles = FALSE;
-        if (i == gSelectChoises->mIndex && gSelectChoises->mToggleOn != 0) {
+        if (choiceIndex == gSelectChoises->mIndex && gSelectChoises->mToggleOn != 0) {
             useToggleOnTiles = TRUE;
         }
         for (row = 0; row <= lastRow; row++) {
@@ -516,20 +518,21 @@ void RefreshSelectChoisesNscrCopy(void) {
 }
 
 void RefreshSelectChoisesPaletteBits(void) {
-    s32 i;
+    s32 choiceIndex;
     s32 row;
     s32 column;
     s32 topNibble;
     s32 entry;
 
-    for (i = 0; i < 2; i++) {
+    for (choiceIndex = 0; choiceIndex < 2; choiceIndex++) {
         topNibble = 0xe;
-        if (gSelectChoises->mIndex != i) {
+        if (gSelectChoises->mIndex != choiceIndex) {
             topNibble = 0xf;
         }
-        for (row = gSelectChoisesPaletteRects[i].mMinY; row <= gSelectChoisesPaletteRects[i].mMaxY; row++) {
-            for (column = gSelectChoisesPaletteRects[i].mMinX; column <= gSelectChoisesPaletteRects[i].mMaxX;
-                 column++) {
+        for (row = gSelectChoisesPaletteRects[choiceIndex].mMinY; row <= gSelectChoisesPaletteRects[choiceIndex].mMaxY;
+             row++) {
+            for (column = gSelectChoisesPaletteRects[choiceIndex].mMinX;
+                 column <= gSelectChoisesPaletteRects[choiceIndex].mMaxX; column++) {
                 entry = gSelectChoises->mNscrCopy[row * 32 + column];
                 entry &= 0xffff0fff;
                 entry += topNibble << 12;
@@ -564,25 +567,25 @@ void RefreshSelectChoisesPaletteNoIndex(void) {
 }
 
 void AdvanceSelectChoisesState0(void) {
-    s32 i;
-    s32 j;
+    s32 choiceIndex;
+    s32 partIndex;
     s32 tileOffset;
 
     if (gSelectChoises->mState1Requested != 0) {
         RefreshAndQueueSelectChoises();
         gSelectChoises->mNextState = 1;
-        i = 0;
-        gSelectChoises->mState1Requested = i;
-        gSelectChoises->mState2Frames = i;
-        gSelectChoises->mIndexNone = i;
+        choiceIndex = 0;
+        gSelectChoises->mState1Requested = choiceIndex;
+        gSelectChoises->mState2Frames = choiceIndex;
+        gSelectChoises->mIndexNone = choiceIndex;
         if (gSelectChoises->mUseCharBuffers != 0) {
-            for (i = 0; i < 2; i++) {
-                for (j = 0; j < 2; j++) {
-                    tileOffset = (j + i * 2) * 32 + 5;
+            for (choiceIndex = 0; choiceIndex < 2; choiceIndex++) {
+                for (partIndex = 0; partIndex < 2; partIndex++) {
+                    tileOffset = (partIndex + choiceIndex * 2) * 32 + 5;
                     if (gBootInfo->mUnk_00 != 2) {
-                        NNS_GfdRegisterNewVramTransferTask(0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
-                                                           gSelectChoises->mCharBuffers[i] + ((j * 32 + 5) << 5),
-                                                           0x360);
+                        NNS_GfdRegisterNewVramTransferTask(
+                            0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
+                            gSelectChoises->mCharBuffers[choiceIndex] + ((partIndex * 32 + 5) << 5), 0x360);
                     }
                 }
             }

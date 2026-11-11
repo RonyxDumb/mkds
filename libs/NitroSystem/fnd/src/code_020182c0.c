@@ -3,79 +3,79 @@
 #include "code_02003be0.h"
 #include "code_02139f70.h"
 
-u32 ArchiveHeaderMatches(Unk02018344 *a) {
-    if (a->mUnk_00 != 0x4352414e) {
+u32 ArchiveHeaderMatches(Unk02018344 *header) {
+    if (header->mUnk_00 != 0x4352414e) {
         return 0;
     }
-    if (a->mUnk_04 != 0xfffe) {
+    if (header->mUnk_04 != 0xfffe) {
         return 0;
     }
-    return a->mUnk_06 == 0x100 ? 1 : 0;
+    return header->mUnk_06 == 0x100 ? 1 : 0;
 }
 
-u32 ArchiveLoadFromMemory(Unk020182c0 *a, const u8 *b, Unk02018344 *c) {
-    u8 *p6;
-    u8 *p5;
-    u8 *p4;
-    s32 i;
-    u8 *p;
-    s32 n;
+u32 ArchiveLoadFromMemory(Unk020182c0 *archive, const u8 *name, Unk02018344 *header) {
+    u8 *fntBlock;
+    u8 *fatBlock;
+    u8 *imageBlock;
+    s32 blockIndex;
+    u8 *block;
+    s32 blockCount;
 
-    p6 = 0;
-    p5 = 0;
-    p4 = 0;
-    if (ArchiveHeaderMatches(c) == 0) {
+    fntBlock = 0;
+    fatBlock = 0;
+    imageBlock = 0;
+    if (ArchiveHeaderMatches(header) == 0) {
         return 0;
     }
-    p = (u8 *) c + c->mUnk_0c;
-    n = c->mUnk_0e;
-    for (i = 0; i < n; i++) {
-        switch (*(u32 *) p) {
+    block = (u8 *) header + header->mUnk_0c;
+    blockCount = header->mUnk_0e;
+    for (blockIndex = 0; blockIndex < blockCount; blockIndex++) {
+        switch (*(u32 *) block) {
             case 0x46415442:
-                p6 = p;
+                fntBlock = block;
                 break;
             case 0x464e5442:
-                p5 = p;
+                fatBlock = block;
                 break;
             case 0x46494d47:
-                p4 = p;
+                imageBlock = block;
                 break;
         }
-        p += *OFFSET_PTR(u32, p, 4);
+        block += *OFFSET_PTR(u32, block, 4);
     }
-    FS_InitArchive(&a->mUnk_00);
-    a->mUnk_5c = c;
-    a->mUnk_60 = p6;
-    p4 = (u8 *) p4 + 8;
-    a->mUnk_64 = p4;
-    if (FS_RegisterArchiveName(&a->mUnk_00, b, strlen((const char *) b)) == 0) {
+    FS_InitArchive(&archive->mUnk_00);
+    archive->mUnk_5c = header;
+    archive->mUnk_60 = fntBlock;
+    imageBlock = (u8 *) imageBlock + 8;
+    archive->mUnk_64 = imageBlock;
+    if (FS_RegisterArchiveName(&archive->mUnk_00, name, strlen((const char *) name)) == 0) {
         return 0;
     }
-    if (FS_LoadArchive(&a->mUnk_00, p4, p6 + 0xc - p4, *(u32 *) (p6 + 4) - 0xc, p5 + 8 - p4, *(u32 *) (p5 + 4) - 8, 0,
-                       0) != 0) {
+    if (FS_LoadArchive(&archive->mUnk_00, imageBlock, fntBlock + 0xc - imageBlock, *(u32 *) (fntBlock + 4) - 0xc,
+                       fatBlock + 8 - imageBlock, *(u32 *) (fatBlock + 4) - 8, 0, 0) != 0) {
         return 1;
     }
-    FS_ReleaseArchiveName(&a->mUnk_00);
+    FS_ReleaseArchiveName(&archive->mUnk_00);
     return 0;
 }
 
-u32 ArchiveUnload(FSArchive *a) {
-    if (FS_UnloadArchive(a) == 0) {
+u32 ArchiveUnload(FSArchive *archive) {
+    if (FS_UnloadArchive(archive) == 0) {
         return 0;
     }
-    FS_ReleaseArchiveName(a);
+    FS_ReleaseArchiveName(archive);
     return 1;
 }
 
-void *ArchiveFileGetAddress(const u8 *a) {
-    FSFile s;
-    void *r;
+void *ArchiveFileGetAddress(const u8 *path) {
+    FSFile file;
+    void *address;
 
-    r = NULL;
-    FS_InitFile(&s);
-    if (FS_OpenFile(&s, a) != 0) {
-        r = ((Unk020182c0 *) s.mArc)->mUnk_64 + s.mProp.w.mUnk_04;
-        FS_CloseFile(&s);
+    address = NULL;
+    FS_InitFile(&file);
+    if (FS_OpenFile(&file, path) != 0) {
+        address = ((Unk020182c0 *) file.mArc)->mUnk_64 + file.mProp.w.mUnk_04;
+        FS_CloseFile(&file);
     }
-    return r;
+    return address;
 }

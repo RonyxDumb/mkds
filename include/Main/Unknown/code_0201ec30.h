@@ -4,8 +4,8 @@
 #include "mic.h" // MICAutoParam
 
 u8 UpdateMicSampleAnalysis(void);
-void SetMicSampleAnalysisMode(u32 arg0);
+void SetMicSampleAnalysisMode(u32 mode);
 void StopMicSampleAnalysis(void);
 void StartMicSampleAnalysis(void);
-void InitMicSampleAnalysis(MICAutoParam *a);
-s32 GetMicSampleAmplitude(s32 a);
+void InitMicSampleAnalysis(MICAutoParam *autoParam);
+s32 GetMicSampleAmplitude(s32 sample);

@@ -16,7 +16,7 @@
 void AdvanceKartBoost(s32 *acceleration, Kart *kart) {
     int secondArgument;
     u32 flags;
-    KartItemEffectState *q;
+    KartItemEffectState *itemEffectState;
     u16 diffColor;
     u16 emiColor;
     u16 ambColor;
@@ -51,11 +51,11 @@ void AdvanceKartBoost(s32 *acceleration, Kart *kart) {
     if (!(flags & 0x8000000)) {
         return;
     }
-    q = &kart->mItemEffectData;
-    if (q->mGessoFrames > 400) {
+    itemEffectState = &kart->mItemEffectData;
+    if (itemEffectState->mGessoFrames > 400) {
         return;
     }
-    q->mGessoFrames = 400;
+    itemEffectState->mGessoFrames = 400;
     kart->mUnk_4c |= 0x20000;
     diffColor = GetKartCourseDiffColor();
     emiColor = GetKartCourseEmiColor();
@@ -140,7 +140,7 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
 void AdvanceKartDrift(Kart *kart) {
     u32 bits44 = kart->mUnk_44;
     BOOL hasB = (bits44 & 2) != 0;
-    u32 g;
+    u32 value;
     KartTurnEffects *turnEffects;
     int distanceSquared;
     enum { K0 } entryIndex;
@@ -157,11 +157,11 @@ void AdvanceKartDrift(Kart *kart) {
             if (kart->mTurnDirection != 0) {
                 goto recheck;
             }
-            g = kart->mUnk_48;
-            if (g & KART_48_TURN_RIGHT) {
+            value = kart->mUnk_48;
+            if (value & KART_48_TURN_RIGHT) {
                 kart->mTurnDirection = 1;
                 kart->mUnk_44 |= 1;
-            } else if (g & KART_48_TURN_LEFT) {
+            } else if (value & KART_48_TURN_LEFT) {
                 kart->mTurnDirection = -1;
                 kart->mUnk_44 |= 1;
             }
@@ -172,19 +172,19 @@ void AdvanceKartDrift(Kart *kart) {
 recheck:
     if (kart->mUnk_44 & 2) {
         if (kart->mTurnDirection == 0) {
-            g = kart->mUnk_48;
-            if (g & KART_48_TURN_RIGHT) {
+            value = kart->mUnk_48;
+            if (value & KART_48_TURN_RIGHT) {
                 kart->mTurnDirection = 1;
-            } else if (g & KART_48_TURN_LEFT) {
+            } else if (value & KART_48_TURN_LEFT) {
                 kart->mTurnDirection = -1;
             }
         }
     }
     bits44 = kart->mUnk_44;
-    g = kart->mTurnDirection;
+    value = kart->mTurnDirection;
     if (!(bits44 & KART_44_DRIFTING) && (bits44 & KART_44_ON_GROUND)) {
         if ((bits44 & 3) &&
-            kart->mVelocityLength > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd) && g != 0 &&
+            kart->mVelocityLength > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd) && value != 0 &&
             (u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_R)) {
             kart->mUnk_44 |= KART_44_DRIFTING;
             kart->mDriftCharge = 1;
@@ -240,24 +240,26 @@ recheck:
         int dot;
         int ang;
         int len;
-        Vec3 v;
-        Vec3 w;
-        Vec3 *q = &kart->mUnk_138;
+        Vec3 projectedForward;
+        Vec3 crossVector;
+        Vec3 *forward = &kart->mUnk_138;
 
-        dot = VEC_DotProduct(&kart->mHopStartUp, q);
-        v.x = kart->mUnk_138.x - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.x, dot);
-        v.y = q->y - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.y, dot);
-        v.z = q->z - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.z, dot);
-        if (LENGTH_SQUARED(v) >= 16 ? Vec3NormalizeAndGetLengthUnchecked(&v, &v) : 0) {
-            Vec3CrossUnrounded(&kart->mHopStartForward, &v, &w);
-            len = VEC_Mag(&w);
-            ang = FX_Atan2(len, Vec3DotUnrounded(&kart->mHopStartForward, &v));
+        dot = VEC_DotProduct(&kart->mHopStartUp, forward);
+        projectedForward.x = kart->mUnk_138.x - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.x, dot);
+        projectedForward.y = forward->y - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.y, dot);
+        projectedForward.z = forward->z - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.z, dot);
+        if (LENGTH_SQUARED(projectedForward) >= 16
+                ? Vec3NormalizeAndGetLengthUnchecked(&projectedForward, &projectedForward)
+                : 0) {
+            Vec3CrossUnrounded(&kart->mHopStartForward, &projectedForward, &crossVector);
+            len = VEC_Mag(&crossVector);
+            ang = FX_Atan2(len, Vec3DotUnrounded(&kart->mHopStartForward, &projectedForward));
             turn = (s16) (((s64) ang * 0x28be60db9391LL + 0x80000000LL) >> 44);
         }
         if (kart->mForwardSpeed < 0) {
-            g = -g;
+            value = -value;
         }
-        kart->mTurnAngle += (s16) (turn * g);
+        kart->mTurnAngle += (s16) (turn * value);
         if (kart->mTurnAngle > 0x2af8) {
             kart->mTurnAngle = 0x2af8;
         } else if (kart->mTurnAngle < -0x2af8) {
@@ -368,7 +370,7 @@ void SetEffectVelocityFromKart(Unk0201ca6c *emitter, Kart *kart) {
 BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int flag) {
     if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
         int fourEffectIds[4] = {0x77, 0x76, 0x78, 0x79};
-        u16 i = 0;
+        u16 effectIndex = 0;
         u32 effectCount = 1;
         int *effectIds = data_02154f10;
         Vec3 contactPoint;
@@ -379,8 +381,8 @@ BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int 
         }
         VEC_MultAdd(-kart->mRadius, overlapDirection, &kart->mPos, &contactPoint);
         VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, 0x8000), &kart->mUnk_12c, &contactPoint, &contactPoint);
-        for (; i < effectCount; i++) {
-            StartEffectWithCallback(effectIds[i], &contactPoint, kart, SetEffectVelocityFromKart);
+        for (; effectIndex < effectCount; effectIndex++) {
+            StartEffectWithCallback(effectIds[effectIndex], &contactPoint, kart, SetEffectVelocityFromKart);
         }
         return TRUE;
     }
@@ -494,7 +496,7 @@ void StartKartState(Kart *kart, KartState mode) {
 BOOL TryStartKartState(Kart *kart, KartState newState) {
     BOOL ok;
     BOOL res;
-    BOOL t;
+    BOOL flag;
     int currentState;
     u32 bits4c = kart->mUnk_4c;
 
@@ -513,12 +515,12 @@ BOOL TryStartKartState(Kart *kart, KartState newState) {
                 res = TRUE;
                 if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
                     currentState = kart->mState;
-                    t = FALSE;
+                    flag = FALSE;
                     if (currentState != KART_STATE_NORMAL && currentState != KART_STATE_1 &&
                         currentState != KART_STATE_SPIN) {
-                        t = TRUE;
+                        flag = TRUE;
                     }
-                    if (t == FALSE) {
+                    if (flag == FALSE) {
                         res = FALSE;
                     }
                 }
@@ -528,12 +530,12 @@ BOOL TryStartKartState(Kart *kart, KartState newState) {
                 res = TRUE;
                 if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
                     currentState = kart->mState;
-                    t = FALSE;
+                    flag = FALSE;
                     if (currentState != KART_STATE_NORMAL && currentState != KART_STATE_1 &&
                         currentState != KART_STATE_SPIN) {
-                        t = TRUE;
+                        flag = TRUE;
                     }
-                    if (t == FALSE) {
+                    if (flag == FALSE) {
                         res = FALSE;
                     }
                 }
@@ -549,17 +551,17 @@ BOOL TryStartKartState(Kart *kart, KartState newState) {
 }
 
 // Starts a spin, or adds a turn to the spin already running.
-BOOL TrySpinKart(Kart *kart, int rotationCount, int b) {
+BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound) {
     int currentState = kart->mState;
-    BOOL x;
+    BOOL notSpinning;
     BOOL ok;
     BOOL res;
-    BOOL t;
-    int v;
+    BOOL flag;
+    int state;
     u32 bits4c;
 
-    x = currentState != KART_STATE_1 && currentState != KART_STATE_SPIN;
-    if (x == FALSE) {
+    notSpinning = currentState != KART_STATE_1 && currentState != KART_STATE_SPIN;
+    if (notSpinning == FALSE) {
         if (kart->mYRotationCount * 0xffff - kart->mYRotationAngleSum > 0xffff || (kart->mUnk_7c & 0x200)) {
             return FALSE;
         }
@@ -576,12 +578,12 @@ BOOL TrySpinKart(Kart *kart, int rotationCount, int b) {
     } else {
         res = TRUE;
         if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
-            v = kart->mState;
-            t = FALSE;
-            if (v != KART_STATE_NORMAL && currentState != KART_STATE_1 && currentState != KART_STATE_SPIN) {
-                t = TRUE;
+            state = kart->mState;
+            flag = FALSE;
+            if (state != KART_STATE_NORMAL && currentState != KART_STATE_1 && currentState != KART_STATE_SPIN) {
+                flag = TRUE;
             }
-            if (t == FALSE) {
+            if (flag == FALSE) {
                 res = FALSE;
             }
         }
@@ -590,9 +592,9 @@ BOOL TrySpinKart(Kart *kart, int rotationCount, int b) {
     if (!ok) {
         return FALSE;
     }
-    if (x) {
-        StartKartState2(kart, rotationCount, b);
-        if (b == 0) {
+    if (notSpinning) {
+        StartKartState2(kart, rotationCount, skipSound);
+        if (skipSound == 0) {
             if (rotationCount == 1) {
                 if (kart->mUnk_7c & 0x200) {
                     kart->mParticipantRecordData->mEventToggleFlags ^= 0x4;

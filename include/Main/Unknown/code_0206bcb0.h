@@ -609,7 +609,7 @@ extern SoundRequestQueue gThunderShrinkSoundRequestQueue;
 void RequestKartSound(void *kart, int arg);
 void KartStartSoundFullVolume(void *soundSource, int arg);
 #include "Main/Unknown/code_021035ac.h"
-BOOL TrySpinKart(Kart *kart, int rotationCount, int b);
+BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound);
 BOOL TryStartKartState(Kart *kart, KartState newState);
 void AdvanceKartDrift(Kart *kart);
 void GetKartForward(const Kart *p, Vec3 *out);

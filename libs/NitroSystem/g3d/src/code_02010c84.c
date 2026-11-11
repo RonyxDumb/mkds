@@ -114,22 +114,22 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
     MtxFx44 invWV;
     MtxFx44 camMtx;
     u32 timing;
-    u32 n = 2;
+    u32 commandSize = 2;
     Vec3 *pos = &data_0216190c;
-    Vec3 *scale = &data_02161918;
+    Vec3 *scaleVec = &data_02161918;
 
     if (state->mFlag & 0x200) {
         if (mode == 0x40 || mode == 0x60) {
-            n++;
+            commandSize++;
         }
         if (mode == 0x20 || mode == 0x60) {
-            n++;
+            commandSize++;
         }
-        state->mC += n;
+        state->mC += commandSize;
         return;
     }
     if (mode == 0x40 || mode == 0x60) {
-        n++;
+        commandSize++;
         if (!(state->mFlag & 0x100)) {
             if (mode == 0x40) {
                 restoreIdx = state->mC[2];
@@ -161,9 +161,9 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         pos->x = clipMtx.mUnk_00[3].x;
         pos->y = clipMtx.mUnk_00[3].y;
         pos->z = clipMtx.mUnk_00[3].z;
-        scale->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
-        scale->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
-        scale->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
+        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
+        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
+        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
         if (NNS_G3dGlb.mFlag & 1) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(data_021618e0, &reg_G3X_GXFIFO, 8);
@@ -188,13 +188,13 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         timing = 0;
     }
     if (mode == 0x20 || mode == 0x60) {
-        n++;
+        commandSize++;
         if (timing == 0 && !(state->mFlag & 0x100)) {
             storeIdx = state->mC[2];
             NNS_G3dGeBufferOP_N(0x13, &storeIdx, 1);
         }
     }
-    state->mC += n;
+    state->mC += commandSize;
 }
 
 // SBC command for a billboard node that turns about the Y axis only.
@@ -205,23 +205,23 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
     MtxFx44 invWV;
     MtxFx44 camMtx;
     u32 timing;
-    u32 n = 2;
+    u32 commandSize = 2;
     Vec3 *pos = &data_02161954;
-    Vec3 *scale = &data_02161960;
+    Vec3 *scaleVec = &data_02161960;
     Vec3 *axes = data_02161930;
 
     if (state->mFlag & 0x200) {
         if (mode == 0x40 || mode == 0x60) {
-            n++;
+            commandSize++;
         }
         if (mode == 0x20 || mode == 0x60) {
-            n++;
+            commandSize++;
         }
-        state->mC += n;
+        state->mC += commandSize;
         return;
     }
     if (mode == 0x40 || mode == 0x60) {
-        n++;
+        commandSize++;
         if (!(state->mFlag & 0x100)) {
             if (mode == 0x40) {
                 restoreIdx = state->mC[2];
@@ -253,9 +253,9 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
         pos->x = clipMtx.mUnk_00[3].x;
         pos->y = clipMtx.mUnk_00[3].y;
         pos->z = clipMtx.mUnk_00[3].z;
-        scale->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
-        scale->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
-        scale->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
+        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
+        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
+        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
         if (clipMtx.mUnk_00[1].y != 0 || clipMtx.mUnk_00[1].z != 0) {
             VEC_Normalize((Vec3 *) &clipMtx.mUnk_00[1], &axes[1]);
             axes[2].y = -axes[1].z;
@@ -289,13 +289,13 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
         timing = 0;
     }
     if (mode == 0x20 || mode == 0x60) {
-        n++;
+        commandSize++;
         if (timing == 0 && !(state->mFlag & 0x100)) {
             storeIdx = state->mC[2];
             NNS_G3dGeBufferOP_N(0x13, &storeIdx, 1);
         }
     }
-    state->mC += n;
+    state->mC += commandSize;
 }
 
 // SBC command that blends several joint matrices by weight into one node matrix.
@@ -304,8 +304,8 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
     u32 count;
     u32 cached;
     s64 weight;
-    u8 *p;
-    u32 i;
+    u8 *commandBytes;
+    u32 entryIndex;
     NNSG3dResMdl *resMdl;
     s32 *clip;
     s32 *vec;
@@ -319,24 +319,24 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
     count = state->mC[2];
     invMtx = (u8 *) resMdl + resMdl->mOfsEvpMtx;
     weight = 0;
-    p = state->mC + 3;
+    commandBytes = state->mC + 3;
     MemFillWordsByBlock_inline(&sum, sizeof(sum));
     NNS_G3dGeFlushBuffer();
     reg_G3_MTX_MODE = 0;
     reg_G3_MTX_STORE = 1;
     reg_G3_MTX_IDENTITY = 0;
     reg_G3_MTX_MODE = 2;
-    for (i = 0; i < count; i++) {
-        jntIdx = p[1];
+    for (entryIndex = 0; entryIndex < count; entryIndex++) {
+        jntIdx = commandBytes[1];
         cached = ((s32 *) state->mIsEvpCached)[jntIdx >> 5] & (1 << (jntIdx & 0x1f));
         clip = data_02171904[jntIdx];
         if (!cached) {
             state->mIsEvpCached[jntIdx >> 5] |= 1 << (jntIdx & 0x1f);
-            reg_G3_MTX_RESTORE = p[0];
+            reg_G3_MTX_RESTORE = commandBytes[0];
             reg_G3_MTX_MODE = 1;
             G3_MultMtx43(invMtx + jntIdx * 0x54);
         }
-        if (i != 0) {
+        if (entryIndex != 0) {
             sum.nrm.mRows[0].x += (weight * vec[0]) >> 12;
             sum.nrm.mRows[0].y += (weight * vec[1]) >> 12;
             sum.nrm.mRows[0].z += (weight * vec[2]) >> 12;
@@ -354,7 +354,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
             G3_MultMtx33(invMtx + jntIdx * 0x54 + 0x30);
         }
         vec = data_02171944[jntIdx];
-        weight = p[2] << 4;
+        weight = commandBytes[2] << 4;
         sum.pos.mRows[0].x += (weight * clip[0]) >> 12;
         sum.pos.mRows[0].y += (weight * clip[1]) >> 12;
         sum.pos.mRows[0].z += (weight * clip[2]) >> 12;
@@ -367,7 +367,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
         sum.pos.mRows[3].x += (weight * clip[12]) >> 12;
         sum.pos.mRows[3].y += (weight * clip[13]) >> 12;
         sum.pos.mRows[3].z += (weight * clip[14]) >> 12;
-        p += 3;
+        commandBytes += 3;
         if (!cached) {
             while (G3X_GetVectorMtx(vec) != 0) {
             }
@@ -394,7 +394,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
 
 // SBC command that sends a display list.
 void NNSi_G3dFuncSbc_CALLDL(NNSG3dRS *state) {
-    u8 *p;
+    u8 *commandBytes;
     u32 timing;
 
     if (state->mCbVecFunc[10] != 0) {
@@ -403,9 +403,10 @@ void NNSi_G3dFuncSbc_CALLDL(NNSG3dRS *state) {
         timing = 0;
     }
     if (!(state->mFlag & 0x100)) {
-        p = state->mC;
-        NNS_G3dGeSendDL(p + (p[1] | (p[2] << 8) | (p[3] << 16) | (p[4] << 24)),
-                        p[5] | (p[6] << 8) | (p[7] << 16) | (p[8] << 24));
+        commandBytes = state->mC;
+        NNS_G3dGeSendDL(commandBytes + (commandBytes[1] | (commandBytes[2] << 8) | (commandBytes[3] << 16) |
+                                        (commandBytes[4] << 24)),
+                        commandBytes[5] | (commandBytes[6] << 8) | (commandBytes[7] << 16) | (commandBytes[8] << 24));
     }
     if (timing == 3) {
         state->mFlag &= ~0x40;
@@ -514,8 +515,8 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
     u16 flag;
     s32 width;
     s32 height;
-    s32 x;
-    s32 y;
+    s32 transX;
+    s32 transY;
 
     if (!(state->mFlag & 0x200) && (state->mFlag & 1)) {
         NNS_G3dGetCurrentMtx(&curMatrix, 0);
@@ -583,9 +584,9 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
             reg_G3_MTX_POP = 1;
             reg_G3_MTX_MODE = 3;
             NNS_G3dGeBufferOP_N(0x16, &texMtx, 0x10);
-            x = texMtx.mUnk_00[3].x >> 4;
-            y = texMtx.mUnk_00[3].y >> 4;
-            texCoord = (u16) (s16) (x >> 8) | ((u16) (s16) (y >> 8) << 16);
+            transX = texMtx.mUnk_00[3].x >> 4;
+            transY = texMtx.mUnk_00[3].y >> 4;
+            texCoord = (u16) (s16) (transX >> 8) | ((u16) (s16) (transY >> 8) << 16);
             NNS_G3dGeBufferOP_N(0x22, &texCoord, 1);
         }
         vecMode = 2;
@@ -627,8 +628,8 @@ void blendScaleVec_(Vec3 *dest, const Vec3 *src, s32 weight, u32 srcIsOne) {
 
 // Blends the joint animations of every animation object of the list for one node.
 BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 nodeId) {
-    NNSG3dJntAnmResult r;
-    NNSG3dAnmObj *p;
+    NNSG3dJntAnmResult animResult;
+    NNSG3dAnmObj *currentAnmObj;
     s32 count;
     s32 totalWeight;
     NNSG3dAnmObj *last;
@@ -645,15 +646,15 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
     }
     totalWeight = 0;
     count = 0;
-    p = anmObj;
+    currentAnmObj = anmObj;
     do {
-        if ((p->mMapData[nodeId] & 0x300) == 0x100) {
-            last = p;
-            totalWeight += p->mRatio;
+        if ((currentAnmObj->mMapData[nodeId] & 0x300) == 0x100) {
+            last = currentAnmObj;
+            totalWeight += currentAnmObj->mRatio;
             count++;
         }
-        p = p->mNext;
-    } while (p != 0);
+        currentAnmObj = currentAnmObj->mNext;
+    } while (currentAnmObj != 0);
     if (totalWeight == 0) {
         return 0;
     }
@@ -666,32 +667,32 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
     do {
         mapValue = anmObj->mMapData[nodeId];
         if ((mapValue & 0x300) == 0x100 && anmObj->mRatio > 0) {
-            anmObj->mFuncAnm(&r, anmObj, mapValue & 0xff);
+            anmObj->mFuncAnm(&animResult, anmObj, mapValue & 0xff);
             if (totalWeight == 0x1000) {
                 weight = anmObj->mRatio;
             } else {
                 weight = FX_Div(anmObj->mRatio, totalWeight);
             }
-            blendScaleVec_(&result->mScale, &r.mScale, weight, r.mFlag & 1);
-            blendScaleVec_(&result->mScaleEx0, &r.mScaleEx0, weight, r.mFlag & 8);
-            blendScaleVec_(&result->mScaleEx1, &r.mScaleEx1, weight, r.mFlag & 0x10);
-            if (!(r.mFlag & 4)) {
-                result->mTrans.x += MUL_FIXED12_NO_ROUND(weight, r.mTrans.x);
-                result->mTrans.y += MUL_FIXED12_NO_ROUND(weight, r.mTrans.y);
-                result->mTrans.z += MUL_FIXED12_NO_ROUND(weight, r.mTrans.z);
+            blendScaleVec_(&result->mScale, &animResult.mScale, weight, animResult.mFlag & 1);
+            blendScaleVec_(&result->mScaleEx0, &animResult.mScaleEx0, weight, animResult.mFlag & 8);
+            blendScaleVec_(&result->mScaleEx1, &animResult.mScaleEx1, weight, animResult.mFlag & 0x10);
+            if (!(animResult.mFlag & 4)) {
+                result->mTrans.x += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.x);
+                result->mTrans.y += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.y);
+                result->mTrans.z += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.z);
             }
-            if (!(r.mFlag & 2)) {
-                result->mRot.mRows[0].x += (weight * r.mRot.mRows[0].x) >> 12;
-                result->mRot.mRows[0].y += (weight * r.mRot.mRows[0].y) >> 12;
-                result->mRot.mRows[0].z += (weight * r.mRot.mRows[0].z) >> 12;
-                result->mRot.mRows[1].x += (weight * r.mRot.mRows[1].x) >> 12;
-                result->mRot.mRows[1].y += (weight * r.mRot.mRows[1].y) >> 12;
-                result->mRot.mRows[1].z += (weight * r.mRot.mRows[1].z) >> 12;
+            if (!(animResult.mFlag & 2)) {
+                result->mRot.mRows[0].x += (weight * animResult.mRot.mRows[0].x) >> 12;
+                result->mRot.mRows[0].y += (weight * animResult.mRot.mRows[0].y) >> 12;
+                result->mRot.mRows[0].z += (weight * animResult.mRot.mRows[0].z) >> 12;
+                result->mRot.mRows[1].x += (weight * animResult.mRot.mRows[1].x) >> 12;
+                result->mRot.mRows[1].y += (weight * animResult.mRot.mRows[1].y) >> 12;
+                result->mRot.mRows[1].z += (weight * animResult.mRot.mRows[1].z) >> 12;
             } else {
                 result->mRot.mRows[0].x += weight;
                 result->mRot.mRows[1].y += weight;
             }
-            result->mFlag &= r.mFlag;
+            result->mFlag &= animResult.mFlag;
         }
         anmObj = anmObj->mNext;
     } while (anmObj != 0);
@@ -704,7 +705,7 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
 
 // Combines the visibility animations of every animation object of the list for one node.
 BOOL NNSi_G3dAnmBlendVis(NNSG3dVisAnmResult *result, NNSG3dAnmObj *anmObj, u32 nodeId) {
-    NNSG3dVisAnmResult tmp;
+    NNSG3dVisAnmResult visResult;
     BOOL ret = FALSE;
 
     result->mIsVisible = 0;
@@ -712,8 +713,8 @@ BOOL NNSi_G3dAnmBlendVis(NNSG3dVisAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
         u32 mapValue = anmObj->mMapData[nodeId];
 
         if (mapValue & 0x100) {
-            anmObj->mFuncAnm(&tmp, anmObj, mapValue & 0xff);
-            result->mIsVisible |= tmp.mIsVisible;
+            anmObj->mFuncAnm(&visResult, anmObj, mapValue & 0xff);
+            result->mIsVisible |= visResult.mIsVisible;
             ret = TRUE;
         }
         anmObj = anmObj->mNext;
@@ -766,10 +767,10 @@ void NNS_G3dGlbInit(void) {
 
 // Sends the matrices, lights, colors, viewport and base transform to the geometry engine as one block.
 void NNS_G3dGlbFlushP(void) {
-    u32 *p = (u32 *) &NNS_G3dGlb;
-    u32 c = *p++;
+    u32 *words = (u32 *) &NNS_G3dGlb;
+    u32 command = *words++;
 
-    NNS_G3dGeBufferOP_N(c, p, 0x3e);
+    NNS_G3dGeBufferOP_N(command, words, 0x3e);
     NNS_G3dGlb.mFlag &= ~1;
     NNS_G3dGlb.mFlag &= ~2;
 }
@@ -864,7 +865,7 @@ u32 NNS_G3dAnmObjCalcSizeRequired(const NNSG3dResAnmHeader *anm, const NNSG3dRes
 // Starts an animation object for the animation and selects the init function of its format.
 void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *resMdl, void *resTex) {
     const NNSG3dResAnmHeader *animHeader;
-    u32 i;
+    u32 funcIndex;
 
     anmObj->mFrame = 0;
     anmObj->mResAnm = resAnm;
@@ -873,10 +874,10 @@ void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *r
     anmObj->mRatio = 0x1000;
     anmObj->mResTex = resTex;
     animHeader = resAnm;
-    for (i = 0; i < data_021617d0; i++) {
-        if (animHeader->mCategory0 == data_021617f4[i].mCategory0 &&
-            animHeader->mCategory1 == data_021617f4[i].mCategory1) {
-            data_021617f4[i].mFunc(anmObj, resAnm, resMdl);
+    for (funcIndex = 0; funcIndex < data_021617d0; funcIndex++) {
+        if (animHeader->mCategory0 == data_021617f4[funcIndex].mCategory0 &&
+            animHeader->mCategory1 == data_021617f4[funcIndex].mCategory1) {
+            data_021617f4[funcIndex].mFunc(anmObj, resAnm, resMdl);
             return;
         }
     }

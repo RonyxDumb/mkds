@@ -64,22 +64,22 @@ u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 by
 // Moves the scan to the next allowed channel; returns 0 when no channel is allowed.
 u32 changeScanChannel(Unk02143a78 *scanParams) {
     u16 candidate;
-    u16 i;
+    u16 channelIndex;
     u16 currentChannel;
     u32 allowedMask;
     allowedMask = WM_GetAllowedChannel();
     if (allowedMask == 0) {
         return 0;
     }
-    i = 0;
+    channelIndex = 0;
     currentChannel = scanParams->mUnk_04;
     candidate = currentChannel;
-    for (; i < 16;) {
+    for (; channelIndex < 16;) {
         if ((allowedMask & (1 << (candidate - 1))) != 0 && currentChannel != candidate) {
             scanParams->mUnk_04 = candidate;
             break;
         }
-        i++;
+        channelIndex++;
         candidate = candidate == 16 ? 1 : candidate + 1;
     }
     return 1;
@@ -87,24 +87,24 @@ u32 changeScanChannel(Unk02143a78 *scanParams) {
 
 u32 MBi_IsSendEnabled(void) {
     u32 result;
-    u32 v2;
-    u32 v3;
+    u32 secondCheck;
+    u32 firstCheck;
     MBiParam *work;
     result = 0;
-    v2 = 0;
-    v3 = 0;
+    secondCheck = 0;
+    firstCheck = 0;
     work = gWirelessWork;
     if (work->mMPStarted == 1) {
         if (work->mDataQueued == 0) {
-            v3 = 1;
+            firstCheck = 1;
         }
     }
-    if (v3 != 0) {
+    if (firstCheck != 0) {
         if (work->mResetting == 0) {
-            v2 = 1;
+            secondCheck = 1;
         }
     }
-    if (v2 != 0) {
+    if (secondCheck != 0) {
         if (work->mConnectedAids != 0) {
             result = 1;
         }
@@ -131,9 +131,9 @@ void MBi_OnInitializeDone(void) {
 // Handles the results of the parent start-up steps, then child connects, disconnects and sent data.
 void MBi_ParentCallback(Unk021425e8 *result) {
     u32 nonZeroCount;
-    u32 i;
+    u32 childIndex;
     MB_CommPWork *parentWork;
-    u32 x;
+    u32 flag;
     switch (result->mCommand) {
         case 0:
             if (result->mResultCode != 0) {
@@ -178,14 +178,14 @@ void MBi_ParentCallback(Unk021425e8 *result) {
                     gWirelessWork->mCallback(0, result);
                     if (gWirelessWork->mMPStarted == 0 && mbc->mStartMpBusy == 0) {
                         mbc->mStartMpBusy = 1;
-                        x = 1;
+                        flag = 1;
                         if (gWirelessWork->mUnk_52c != 0) {
-                            x = 0;
+                            flag = 0;
                         }
                         MBi_CheckWmErrcode(0xe,
                                            WM_StartMPEx(MBi_ParentCallback, gWirelessWork->mReceiveBuffer,
                                                         gWirelessWork->mReceiveBufferSize, gWirelessWork->mSendBuffer,
-                                                        gWirelessWork->mSendBufferSize, x, 0, 0, 0, 1, 1));
+                                                        gWirelessWork->mSendBufferSize, flag, 0, 0, 0, 1, 1));
                         return;
                     }
                     if (MBi_IsSendEnabled() == 0) {
@@ -225,8 +225,8 @@ void MBi_ParentCallback(Unk021425e8 *result) {
             parentWork = mbc;
             if (parentWork->mUseWvrFlag != 0) {
                 nonZeroCount = 0;
-                for (i = 0; i < 15; i++) {
-                    if (parentWork->mPCommState[i] != 0) {
+                for (childIndex = 0; childIndex < 15; childIndex++) {
+                    if (parentWork->mPCommState[childIndex] != 0) {
                         nonZeroCount++;
                         if (nonZeroCount >= 2) {
                             break;
@@ -319,9 +319,9 @@ void MBi_ChildPortCallback(Unk021425e8 *result) {
 // Child side (scan, connect, MP data); mMode is only ever 1, so this does not run in this build.
 void MBi_ChildCallback(Unk021425e8 *result) {
     ScanEntry *entry;
-    u8 c;
+    u8 firstByte;
     MBiParam *work;
-    s32 i;
+    s32 entryIndex;
     s32 entryCount;
     ScanEntry *entries;
     work = gWirelessWork;
@@ -367,35 +367,36 @@ void MBi_ChildCallback(Unk021425e8 *result) {
                     return;
                 case 5:
                     entries = work->mScanEntries;
-                    i = 0;
+                    entryIndex = 0;
                     entryCount = work->mScanEntryCount;
                     if (entryCount > 0) {
                         entry = entries;
-                        c = result->mUnk_0a[0];
+                        firstByte = result->mUnk_0a[0];
                         do {
-                            if (c == entry->mMessage.mUnk_0a[0] && result->mUnk_0a[1] == entry->mMessage.mUnk_0a[1] &&
+                            if (firstByte == entry->mMessage.mUnk_0a[0] &&
+                                result->mUnk_0a[1] == entry->mMessage.mUnk_0a[1] &&
                                 result->mUnk_0a[2] == entry->mMessage.mUnk_0a[2] &&
                                 result->mUnk_0a[3] == entry->mMessage.mUnk_0a[3] &&
                                 result->mUnk_0a[4] == entry->mMessage.mUnk_0a[4] &&
                                 result->mUnk_0a[5] == entry->mMessage.mUnk_0a[5]) {
-                                entries[i].mMessage.mUnk_36 = result->mUnk_36;
-                                entries[i].mMessage.mUnk_38 = result->mUnk_38;
-                                DC_InvalidateRange(&work->mScanEntries[i], 0xc0);
-                                MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, &work->mScanEntries[i], 0xc0);
-                                work->mLastScanEntry = i;
+                                entries[entryIndex].mMessage.mUnk_36 = result->mUnk_36;
+                                entries[entryIndex].mMessage.mUnk_38 = result->mUnk_38;
+                                DC_InvalidateRange(&work->mScanEntries[entryIndex], 0xc0);
+                                MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, &work->mScanEntries[entryIndex], 0xc0);
+                                work->mLastScanEntry = entryIndex;
                                 goto done;
                             }
                             entry++;
-                            i++;
-                        } while (i < entryCount);
+                            entryIndex++;
+                        } while (entryIndex < entryCount);
                     }
-                    if (i < 16) {
-                        work->mScanEntryCount = i + 1;
-                        MIi_CpuCopy16(result, &entries[i].mMessage, 0xb8);
-                        entry = &work->mScanEntries[i];
+                    if (entryIndex < 16) {
+                        work->mScanEntryCount = entryIndex + 1;
+                        MIi_CpuCopy16(result, &entries[entryIndex].mMessage, 0xb8);
+                        entry = &work->mScanEntries[entryIndex];
                         DC_InvalidateRange(entry, 0xc0);
                         MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, entry, 0xc0);
-                        work->mLastScanEntry = i;
+                        work->mLastScanEntry = entryIndex;
                     }
                 done:
                     work->mCallback(4, result);
@@ -536,24 +537,24 @@ void MBi_ChildCallback(Unk021425e8 *result) {
 u32 MBi_GetBeaconPeriodDispersion(void) {
     u8 macAddress[6];
     u32 byteSum;
-    s32 i;
+    s32 byteIndex;
     OS_GetMacAddress(macAddress);
-    i = 0;
+    byteIndex = 0;
     byteSum = 0;
-    for (; i < 6; i++) {
-        byteSum += macAddress[i];
+    for (; byteIndex < 6; byteIndex++) {
+        byteSum += macAddress[byteIndex];
     }
     return (byteSum + SYSTEM_WORK->mVblankCount) * 7 % 0x14;
 }
 
-s32 MB_Init(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo) {
+s32 MB_Init(void *buffer, Unk02009ff4 *user, u32 ggid, u32 tgid, u32 dmaNo) {
     MBiParam *wirelessWork;
     MB_CommPWork *parentWork;
     u32 savedInterrupts;
     vu16 clearValue16;
     vu32 clearValue32;
-    s32 i;
-    u16 *w;
+    s32 index;
+    u16 *cursor;
     if (mbc != NULL && mbc->mIsMbInitialized != 0) {
         return 2;
     }
@@ -570,22 +571,22 @@ s32 MB_Init(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo) {
     MIi_CpuClear32(clearValue32, wirelessWork, 0x1e00);
     clearValue16 = 0;
     MIi_CpuClear16(clearValue16, parentWork, 0x1340);
-    w = wirelessWork->mUnk_530;
-    for (i = 0; i < b->mUnk_01; i++) {
-        *w = b->mUnk_02[i];
-        w++;
+    cursor = wirelessWork->mUnk_530;
+    for (index = 0; index < user->mUnk_01; index++) {
+        *cursor = user->mUnk_02[index];
+        cursor++;
     }
-    w = wirelessWork->mUnk_538;
-    for (i = 0; i < 16; i++) {
+    cursor = wirelessWork->mUnk_538;
+    for (index = 0; index < 16; index++) {
         if (*data_usa_021617a0 == 0) {
             break;
         }
-        *w = *data_usa_021617a0++;
-        w++;
+        *cursor = *data_usa_021617a0++;
+        cursor++;
     }
-    MI_CpuCopy8(b, &parentWork->mUser, 0x16);
-    if (b->mUnk_01 < 10) {
-        parentWork->mUser.mUnk_02[b->mUnk_01] = 0;
+    MI_CpuCopy8(user, &parentWork->mUser, 0x16);
+    if (user->mUnk_01 < 10) {
+        parentWork->mUser.mUnk_02[user->mUnk_01] = 0;
     }
     wirelessWork->mSendDataSize = 0x100;
     wirelessWork->mReceiveDataSize = 8;
@@ -672,24 +673,24 @@ s32 MBi_StartCommon(void) {
 s32 MBi_StartParentCore(u16 channel) {
     u32 savedInterrupts;
     vu16 clearValues[2];
-    s32 v4;
-    s32 i;
+    s32 value;
+    s32 childIndex;
     MB_CommPWork *parentWork;
     MBiParam *wirelessWork;
     savedInterrupts = OS_DisableInterrupts();
     gWirelessWork->mChannel = channel;
     parentWork = mbc;
     gWMSysBuf = (void *) (((u32) parentWork + 0x7d1f) & ~0x1f);
-    v4 = (s32) parentWork->mCallback;
+    value = (s32) parentWork->mCallback;
     clearValues[0] = 0;
     MIi_CpuClear16(clearValues[0], parentWork->mChildUser, 0x69c0);
-    MB_CommSetParentStateCallback((UnkFunc *) v4);
+    MB_CommSetParentStateCallback((UnkFunc *) value);
     mbc->mBlockSizeMax = gWirelessWork->mSendDataSize - 6;
     MBi_SetChildMPMaxSize(gWirelessWork->mReceiveDataSize);
     MBi_SetParentPieceBuffer(&mbc->mReqDataBuf);
-    for (i = 0; i < 15; i++) {
-        mbc->mPCommState[i] = 0;
-        mbc->mChildEntryIndex[i] = -1;
+    for (childIndex = 0; childIndex < 15; childIndex++) {
+        mbc->mPCommState[childIndex] = 0;
+        mbc->mChildEntryIndex[childIndex] = -1;
     }
     mbc->mEntryCount = 0;
     clearValues[1] = 0;
@@ -705,10 +706,10 @@ s32 MBi_StartParentCore(u16 channel) {
     wirelessWork = gWirelessWork;
     wirelessWork->mReceiveBufferSize = (((wirelessWork->mUnk_036 + 0xe) * 0xf + 0x29) & ~0x1f) << 1;
     MB_InitSendGameInfoStatus();
-    v4 = MBi_StartCommon();
+    value = MBi_StartCommon();
     OS_RestoreInterrupts(savedInterrupts);
     mbc->mUseWvrFlag = PXI_IsCallbackReady(0xf, 1);
-    return v4;
+    return value;
 }
 
 s32 MB_StartParentFromIdle(u16 channel) {
@@ -780,7 +781,7 @@ void MB_EndToIdle(void) {
 
 void MB_DisconnectChild(u32 childIndex) {
     u32 slot;
-    u32 v2;
+    u32 value;
     s32 entryIndex;
     u32 childBit;
     WM_Disconnect(MBi_ParentCallback, childIndex);
@@ -790,16 +791,16 @@ void MB_DisconnectChild(u32 childIndex) {
         MI_CpuFill8(mbc->mChildggid + slot, 0, 4);
         MI_CpuFill8(OFFSET_PTR(Unk0216fc1c_10, mbc->mChildUser, slot * 0x16), 0, 0x16);
         MBi_ClearParentPieceBuffer(childIndex);
-        v2 = 0;
-        mbc->mReq2child[slot] = v2;
+        value = 0;
+        mbc->mReq2child[slot] = value;
         entryIndex = mbc->mChildEntryIndex[slot];
-        v2 = ~v2;
-        if (entryIndex != v2) {
+        value = ~value;
+        if (entryIndex != value) {
             childBit = 1 << childIndex;
             entryIndex = (u8) entryIndex;
             OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4)->mGameinfoChildBmp &= ~childBit;
             OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4)->mGameinfoChangedBmp |= childBit;
-            mbc->mChildEntryIndex[childIndex - 1] = v2;
+            mbc->mChildEntryIndex[childIndex - 1] = value;
             OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4)->mPollbmp &= ~childBit;
         }
         if ((mbc->mChildEntryBmp & (1 << childIndex)) != 0) {
@@ -814,24 +815,24 @@ void MB_DisconnectChild(u32 childIndex) {
 
 #pragma thumb on
 void MBi_SetMaxScanTime(u32 maxChannelTime) {
-    u32 value0 = maxChannelTime;
-    u32 value1;
-    gScanParams.mUnk_06 = value0;
+    u32 maxChannelTimeCopy = maxChannelTime;
+    u32 unusedValue;
+    gScanParams.mUnk_06 = maxChannelTimeCopy;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-s32 MBi_SetMPData(Unk021425e8Func callback, void *data, s32 dataSize, u16 d, u16 e) {
+s32 MBi_SetMPData(Unk021425e8Func callback, void *data, s32 dataSize, u16 unusedValue, u16 childMask) {
     s32 result;
-    result = WM_SetMPDataToPortEx((UnkFunc *) callback, NULL, data, dataSize, e, 1, 3);
+    result = WM_SetMPDataToPortEx((UnkFunc *) callback, NULL, data, dataSize, childMask, 1, 3);
     MBi_CheckWmErrcode(0xf, result);
     return result;
 }
 
 int MBi_SendMP(void *data, u32 size, u32 childMask) {
     MBiParam *work;
-    u32 v2;
+    u32 value;
     s32 result;
     u16 sizeHalfword;
     u16 childMaskHalfword;
@@ -844,11 +845,11 @@ int MBi_SendMP(void *data, u32 size, u32 childMask) {
     switch (work->mMode) {
         case 1:
             if (work->mUnk_52c == 0) {
-                v2 = 0x3e8;
+                value = 0x3e8;
             } else {
-                v2 = 0;
+                value = 0;
             }
-            result = MBi_SetMPData(work->mCommandCallback, data, sizeHalfword, v2, childMaskHalfword);
+            result = MBi_SetMPData(work->mCommandCallback, data, sizeHalfword, value, childMaskHalfword);
             if (result == 2) {
                 gWirelessWork->mDataQueued = 1;
             }

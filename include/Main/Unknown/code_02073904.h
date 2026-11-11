@@ -16,4 +16,4 @@ extern s32 data_usa_021656bc;
 extern s32 data_usa_021656c8;
 extern s32 data_usa_021656cc[];
 
-void UpdateCameraShake(Unk02073904 *p);
+void UpdateCameraShake(Unk02073904 *camera);

@@ -2,16 +2,16 @@
 
 #include "types.h"
 
-char *BuildTeamEmblemNsbtxPath(s32 a);
-char *BuildEmblemNsbtxPath(u16 a);
+char *BuildTeamEmblemNsbtxPath(s32 teamIndex);
+char *BuildEmblemNsbtxPath(u16 characterIndex);
 s8 *BuildPFaceanimNsbtpPath(void);
-char *BuildCharacterDirPath(s32 a);
-const char *LookupCharacterPOrEName(s32 a, s32 b);
-char *BuildKartShadowNsbmdPath(u16 a);
-char *BuildTireNsbtxPath(u16 a, const char *name);
-char *BuildTireNsbmdPath(u16 a, const char *name);
-char *BuildKartNsbtxPath(u16 a);
-char *BuildKartNsbmdPath(u16 a);
-char *BuildCharacterNsbtxPath(u16 a, s32 b);
-char *BuildCharacterNsbmdPath(u16 a, s32 b);
+char *BuildCharacterDirPath(s32 characterIndex);
+const char *LookupCharacterPOrEName(s32 characterIndex, s32 usePNames);
+char *BuildKartShadowNsbmdPath(u16 kartIndex);
+char *BuildTireNsbtxPath(u16 unusedValue, const char *name);
+char *BuildTireNsbmdPath(u16 unusedValue, const char *name);
+char *BuildKartNsbtxPath(u16 kartIndex);
+char *BuildKartNsbmdPath(u16 kartIndex);
+char *BuildCharacterNsbtxPath(u16 characterIndex, s32 usePNames);
+char *BuildCharacterNsbmdPath(u16 characterIndex, s32 usePNames);
 void SetKartModelPathPrefix(int value);

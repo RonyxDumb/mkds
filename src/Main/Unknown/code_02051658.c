@@ -28,7 +28,7 @@ void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
     ScanStateView *scanState;
     Unk02143a78 *scanParams;
     u16 channel;
-    s32 i;
+    s32 index;
     u16 allowedChannels;
 
     connection = gConnectionWork;
@@ -62,8 +62,8 @@ void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
         }
         scanParams->mUnk_04 = channel;
         scanState->mChannel = channel;
-        for (i = 0; i < 6; i++) {
-            scanParams->mUnk_08[i] = 0xff;
+        for (index = 0; index < 6; index++) {
+            scanParams->mUnk_08[index] = 0xff;
         }
     } else {
         scanParams->mUnk_08[0] = scanState->mTargetAddress[0];
@@ -118,22 +118,22 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         MI_CpuCopy8(gameInfo, slot->mName, 0x14);
         SetScanGhostInfo(entryIndex, gameInfo);
     } else {
-        s32 m0;
-        u8 m1;
+        s32 gameChildCount;
+        u8 gameLanguageIndex;
 
         if (gConnectionWork->mUnk_1d00 == 2) {
             return;
         }
-        m1 = gameInfo->mUnk_0e.mLanguageIndex;
-        m0 = gameInfo->mUnk_0e.mChildCount;
+        gameLanguageIndex = gameInfo->mUnk_0e.mLanguageIndex;
+        gameChildCount = gameInfo->mUnk_0e.mChildCount;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
         slot->mKey = *key;
         slot->mInUse = 1;
         slot->mAge = 0;
-        if (m0 >= 0) {
-            slot->mChildCount = m0;
+        if (gameChildCount >= 0) {
+            slot->mChildCount = gameChildCount;
         }
-        slot->mLanguageIndex = m1;
+        slot->mLanguageIndex = gameLanguageIndex;
         slot->mMultiBoot = 0;
         slot->mHasGhost = isGhost;
         MI_CpuCopy8(gameInfo, slot->mName, 0x14);
@@ -141,25 +141,25 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
 }
 
 void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo) {
-    Unk0217aa00_24_50_0e_36 *x;
-    s32 i;
+    Unk0217aa00_24_50_0e_36 *nameInfo;
+    s32 slotIndex;
     s32 oldestAge;
     ScanStateView *scanState;
     ScanSlot *chosenSlot;
-    ScanSlot *g;
+    ScanSlot *slotCursor;
     ConnectionWork *connection;
     BOOL found;
     ScanSlot *slot;
-    Unk0217aa00_24_50_0e *u;
+    Unk0217aa00_24_50_0e *gameInfoPart;
     UserGameInfo *userGameInfo;
-    s8 v;
+    s8 childCount;
 
     connection = gConnectionWork;
     chosenSlot = NULL;
-    g = connection->mScanSlots;
+    slotCursor = connection->mScanSlots;
     oldestAge = 0;
     found = FALSE;
-    for (i = 0, slot = g; i < 4; i++, slot++) {
+    for (slotIndex = 0, slot = slotCursor; slotIndex < 4; slotIndex++, slot++) {
         if (slot->mInUse != 0 && key->mUnk_00[0] == slot->mKey.mUnk_00[0] && key->mUnk_00[1] == slot->mKey.mUnk_00[1] &&
             key->mUnk_00[2] == slot->mKey.mUnk_00[2] && key->mUnk_00[3] == slot->mKey.mUnk_00[3] &&
             key->mUnk_00[4] == slot->mKey.mUnk_00[4] && key->mUnk_00[5] == slot->mKey.mUnk_00[5]) {
@@ -169,7 +169,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
         }
     }
     if (chosenSlot == NULL) {
-        for (i = 0, slot = g; i < 4; i++, slot++) {
+        for (slotIndex = 0, slot = slotCursor; slotIndex < 4; slotIndex++, slot++) {
             if (slot->mInUse == 0) {
                 chosenSlot = slot;
                 break;
@@ -177,14 +177,14 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
         }
     }
     if (chosenSlot == NULL) {
-        for (i = 0; i < 4; i++) {
-            if (g->mAge < 5) {
-                if (g->mAge > oldestAge) {
-                    oldestAge = g->mAge;
-                    chosenSlot = g;
+        for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+            if (slotCursor->mAge < 5) {
+                if (slotCursor->mAge > oldestAge) {
+                    oldestAge = slotCursor->mAge;
+                    chosenSlot = slotCursor;
                 }
             }
-            g++;
+            slotCursor++;
         }
     }
     if (chosenSlot == NULL) {
@@ -194,20 +194,20 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
         if (connection->mUnk_1d00 != 2) {
             userGameInfo = &scanBuffer->mGameInfo.mUserGameInfo;
             if (userGameInfo->mUnk_07 == 5) {
-                u = (void *) &userGameInfo->mUnk_0e;
-                x = &u->mUnk_36;
-                v = -(found != FALSE);
+                gameInfoPart = (void *) &userGameInfo->mUnk_0e;
+                nameInfo = &gameInfoPart->mUnk_36;
+                childCount = -(found != FALSE);
                 MI_CpuCopy8(scanBuffer, chosenSlot, 0xc0);
                 chosenSlot->mKey = *key;
                 chosenSlot->mInUse = 1;
                 chosenSlot->mAge = 0;
-                if (v >= 0) {
-                    chosenSlot->mChildCount = v;
+                if (childCount >= 0) {
+                    chosenSlot->mChildCount = childCount;
                 }
                 chosenSlot->mLanguageIndex = 0;
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
-                MI_CpuCopy8(x->mUnk_02, chosenSlot->mName, 0x14);
+                MI_CpuCopy8(nameInfo->mUnk_02, chosenSlot->mName, 0x14);
                 gConnectionWork->mUnk_0438 = 0;
             } else if (userGameInfo->mUnk_07 == 9) {
                 if (chosenSlot->mInUse != 0) {
@@ -222,11 +222,11 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
             }
         }
     } else if (scanBuffer->mGameInfo.mUserGameInfoLength == 0x1c) {
-        FillScanSlot(chosenSlot, scanBuffer, key, gameInfo, i);
+        FillScanSlot(chosenSlot, scanBuffer, key, gameInfo, slotIndex);
     }
     scanState = &gConnectionWork->mUnk_00ac_view;
     scanState->mSlotCount = 0;
-    for (i = 0, slot = scanState->mSlots; i < 4; i++, slot++) {
+    for (slotIndex = 0, slot = scanState->mSlots; slotIndex < 4; slotIndex++, slot++) {
         if (slot->mInUse != 0) {
             scanState->mSlotCount += 1;
         }
@@ -236,12 +236,12 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
 void StartScanCallback(Unk021425e8 *event) {
     WMBssDesc scanBuffer;
     ScanMacAddress key;
-    s32 i;
+    s32 slotIndex;
     ConnectionWork *connection;
-    s32 j;
+    s32 countedIndex;
     ScanSlot *countedSlot;
     ScanStateView *scanState;
-    u16 v;
+    u16 value;
     BOOL accepted;
     ScanSlot *slot;
 
@@ -255,10 +255,10 @@ void StartScanCallback(Unk021425e8 *event) {
                 MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, 0xc0);
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gConnectionWork->mState == 0xd) {
-                    v = event->mUnk_12;
+                    value = event->mUnk_12;
                     if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
                         gConnectionWork->mUnk_1ed0 = 1;
-                        gConnectionWork->mUnk_1ed4 = v;
+                        gConnectionWork->mUnk_1ed4 = value;
                         gConnectionWork->mUnk_1ed6 = 0;
                     } else if (scanBuffer.mGameInfoLength >= 8 && scanBuffer.mGameInfo.mGgid == 0x25 &&
                                (scanBuffer.mGameInfo.mAttribute & 1) != 0) {
@@ -267,7 +267,7 @@ void StartScanCallback(Unk021425e8 *event) {
                         } else {
                             gConnectionWork->mUnk_1ed8 = 3;
                         }
-                        gConnectionWork->mUnk_1edc = v;
+                        gConnectionWork->mUnk_1edc = value;
                         gConnectionWork->mUnk_1ede = 0;
                     }
                 } else {
@@ -308,14 +308,15 @@ void StartScanCallback(Unk021425e8 *event) {
         }
         connection = gConnectionWork;
         if ((connection->mOperationFlags & CONNECTION_OPERATION_SCANNING) != 0 && connection->mState != 0xd) {
-            for (i = 0, slot = connection->mScanSlots; i < 4; i++, slot++) {
+            for (slotIndex = 0, slot = connection->mScanSlots; slotIndex < 4; slotIndex++, slot++) {
                 if (slot->mInUse != 0) {
                     slot->mAge += 1;
                     if (slot->mAge > 0xc8) {
                         slot->mInUse = 0;
                         scanState = &gConnectionWork->mUnk_00ac_view;
                         scanState->mSlotCount = 0;
-                        for (j = 0, countedSlot = scanState->mSlots; j < 4; j++, countedSlot++) {
+                        for (countedIndex = 0, countedSlot = scanState->mSlots; countedIndex < 4;
+                             countedIndex++, countedSlot++) {
                             if (countedSlot->mInUse != 0) {
                                 scanState->mSlotCount += 1;
                             }
@@ -382,7 +383,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
 
 void StartConnectCallback(Unk021425e8 *event) {
     BOOL shouldReset;
-    u16 v;
+    u16 seed;
     RandomState64 *randomState;
 
     shouldReset = FALSE;
@@ -392,17 +393,17 @@ void StartConnectCallback(Unk021425e8 *event) {
                 case 7:
                     gConnectionWork->mOwnIndex = event->mUnk_08_2;
                     gConnectionWork->mExpectedRecordMask = shouldReset;
-                    v = shouldReset;
+                    seed = shouldReset;
                     switch (ScanGetConnectionMode()) {
                         case 1:
-                            v = gConnectionWork->mParentParameter->mUnk_0c;
+                            seed = gConnectionWork->mParentParameter->mUnk_0c;
                             break;
                         case 2:
-                            v = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
+                            seed = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
                             break;
                     }
                     randomState = &gConnectionWork->mRandomState;
-                    randomState->mValue = (u32) (v * 3 | v << 16);
+                    randomState->mValue = (u32) (seed * 3 | seed << 16);
                     randomState->mMultiplier = 0x5d588b656c078965;
                     randomState->mIncrement = 0x269ec3;
                     if (gConnectionWork->mConnectedCallback != 0) {
@@ -569,8 +570,8 @@ void StartDataSharing(void) {
 
 void SetGameInfo(void) {
     ChildList *children;
-    BOOL r;
-    u8 f;
+    BOOL isState8Or9;
+    u8 unusedValue;
 
     if (ScanGetConnectionMode() != 1) {
         return;
@@ -579,12 +580,12 @@ void SetGameInfo(void) {
     gConnectionWork->mRequestPending = 1;
     children = &gConnectionWork->mChildren;
     children->mGameInfo->mUnk_0e.mChildCount = children->mChildCount;
-    r = TRUE;
+    isState8Or9 = TRUE;
     if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
-        r = FALSE;
+        isState8Or9 = FALSE;
     }
     if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, 0x1c, 0x25, gConnectionWork->mParentParameter->mUnk_0c,
-                       r == FALSE) != 2) {
+                       isState8Or9 == FALSE) != 2) {
         gConnectionWork->mRequestPending = 0;
     }
 }

@@ -92,30 +92,30 @@ static inline s32 IsItemTeresaTargetKart_inline(KartItems *kartItems, RaceSetup 
                                                 u16 kartIndex) {
     KartItems *entry;
     Kart *kart;
-    BOOL v2;
-    s32 l;
+    BOOL isTarget;
+    s32 flag;
 
-    l = 1;
-    v2 = TRUE;
+    flag = 1;
+    isTarget = TRUE;
     entry = &kartItems[kartIndex];
     kart = entry->mKart;
     if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
-        v2 = FALSE;
+        isTarget = FALSE;
     }
-    if (v2 == FALSE && (kart->mUnk_4c & 0x10000800) == 0) {
-        l = 0;
+    if (isTarget == FALSE && (kart->mUnk_4c & 0x10000800) == 0) {
+        flag = 0;
     }
-    if (l | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
-        v2 = FALSE;
+    if (flag | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
+        isTarget = FALSE;
     } else if (teamIndex != -1 && teamIndex == raceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
-        v2 = FALSE;
+        isTarget = FALSE;
     } else {
-        v2 = FALSE;
+        isTarget = FALSE;
         if (entry->mHeldItem.mItemInfoIndex != 0x13 && entry->mHeldItem.mObjectStartFramesLeft == 0) {
-            v2 = entry->mHeldItem.mItemInfoIndex != 0x10;
+            isTarget = entry->mHeldItem.mItemInfoIndex != 0x10;
         }
     }
-    return v2;
+    return isTarget;
 }
 
 void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
@@ -224,8 +224,8 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
     s32 kartIndex;
     KartItems *entry;
     Kart *kart;
-    s32 l;
-    s32 n;
+    s32 isTarget;
+    s32 flag;
     u8 *row;
 
     raceProgress = gRaceProgress;
@@ -248,24 +248,24 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
         if (kartIndex < kartCount && kartIndex != skippedKartIndex) {
             entry = &kartItems[kartIndex];
             kart = entry->mKart;
-            n = l = 1;
+            flag = isTarget = 1;
             if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
-                n = 0;
+                flag = 0;
             }
-            if (n == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
-                l = 0;
+            if (flag == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
+                isTarget = 0;
             }
-            if (l | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
-                l = 0;
+            if (isTarget | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
+                isTarget = 0;
             } else if (teamIndex != -1 && teamIndex == raceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
-                l = 0;
+                isTarget = 0;
             } else {
-                l = 0;
+                isTarget = 0;
                 if (entry->mHeldItem.mItemInfoIndex != 0x13 && entry->mHeldItem.mObjectStartFramesLeft == 0) {
-                    l = entry->mHeldItem.mItemInfoIndex != 0x10;
+                    isTarget = entry->mHeldItem.mItemInfoIndex != 0x10;
                 }
             }
-            if (l != 0) {
+            if (isTarget != 0) {
                 teresa->mPickedKartIndex = kartIndex;
                 return;
             }
@@ -318,8 +318,8 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     Camera *camera;
     Vec3 *cameraSide;
     s32 delta[3];
-    s32 k;
-    BOOL m;
+    s32 flag;
+    BOOL isTarget;
     s32 easeFactor;
     s32 maxOffsetChange;
     s32 sideDistance;
@@ -328,14 +328,14 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     kart = teresa->mKart;
     camera = GetCurrentCamera();
     position = &teresa->mItemObject.mPos;
-    k = m = TRUE;
+    flag = isTarget = TRUE;
     if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
-        k = 0;
+        flag = 0;
     }
-    if (k == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
-        m = FALSE;
+    if (flag == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
+        isTarget = FALSE;
     }
-    if (m != FALSE) {
+    if (isTarget != FALSE) {
         if (teresa->mFollowEnded == FALSE && (teresa->mItemObject.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
             teresa->mFollowEnded = TRUE;
             AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, teresa->mStateMachine.mState & 0xff);
@@ -407,7 +407,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
 
 void AdvanceItemTeresaPath(ItemTeresa *teresa) {
     Vec3 targetOffset;
-    Vec3 s;
+    Vec3 pathPoint;
     Vec3 *viewAxis0;
 
     if (teresa->mPointIndex >= 0xb) {
@@ -421,21 +421,21 @@ void AdvanceItemTeresaPath(ItemTeresa *teresa) {
             }
         } while (PushSegmentPoint(&teresa->mPathSegmentPoints, &gItemTeresaPathPoints[teresa->mPointIndex]) != 0);
     }
-    GetSegmentProgressPoint(&teresa->mPathSegmentPoints, &s);
-    SetSegmentProgressRate(&teresa->mPathSegmentPoints.mSegmentProgress, s.y);
+    GetSegmentProgressPoint(&teresa->mPathSegmentPoints, &pathPoint);
+    SetSegmentProgressRate(&teresa->mPathSegmentPoints.mSegmentProgress, pathPoint.y);
     if (teresa->mItemObject.mPosPointer == &teresa->mItemObject.mDrawPos) {
-        targetOffset = (Vec3){s.x};
+        targetOffset = (Vec3){pathPoint.x};
     } else {
-        s32 f = s.x;
+        s32 axisScale = pathPoint.x;
 
         viewAxis0 = GetViewTransposeMatrixAxis0();
-        targetOffset.x = MUL_FIXED12_NO_ROUND(viewAxis0->x, f);
-        targetOffset.y = MUL_FIXED12_NO_ROUND(viewAxis0->y, f);
-        targetOffset.z = MUL_FIXED12_NO_ROUND(viewAxis0->z, f);
+        targetOffset.x = MUL_FIXED12_NO_ROUND(viewAxis0->x, axisScale);
+        targetOffset.y = MUL_FIXED12_NO_ROUND(viewAxis0->y, axisScale);
+        targetOffset.z = MUL_FIXED12_NO_ROUND(viewAxis0->z, axisScale);
     }
-    targetOffset.y += s.z;
-    VEC_Subtract(&targetOffset, &teresa->mOffset, &s);
-    VEC_MultAdd(0x4f6, &s, &teresa->mOffset, &teresa->mOffset);
+    targetOffset.y += pathPoint.z;
+    VEC_Subtract(&targetOffset, &teresa->mOffset, &pathPoint);
+    VEC_MultAdd(0x4f6, &pathPoint, &teresa->mOffset, &teresa->mOffset);
 }
 
 BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 nextState) {
@@ -623,11 +623,11 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     KartItems *pickedKartItems;
     Kart *kart;
     HeldItem *heldItem;
-    s32 a;
-    s32 b;
+    s32 flag;
+    s32 isTarget;
     enum { K0 } itemInfoIndex;
 
-    pickedKartItems = &gKartItems[(u16) teresa->mPickedKartIndex];
+    pickedKartItems = GetKartItems(teresa->mPickedKartIndex);
     kart = pickedKartItems->mKart;
     heldItem = &pickedKartItems->mHeldItem;
     if (heldItem->mItemInfoIndex == 0x13 || heldItem->mObjectStartFramesLeft != 0) {
@@ -639,14 +639,14 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     if (teresa->mFollowEnded != FALSE) {
         return 0xf;
     }
-    a = b = 1;
+    flag = isTarget = 1;
     if (kart->mState < KART_STATE_PUSH_FLIP && (kart->mUnk_7c & 0x400020) == 0) {
-        a = 0;
+        flag = 0;
     }
-    if (a == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
-        b = 0;
+    if (flag == 0 && (kart->mUnk_4c & 0x10000800) == 0) {
+        isTarget = 0;
     }
-    if (b | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
+    if (isTarget | ((kart->mUnk_4c & 0x40) ? 1 : 0)) {
         return 0xf;
     }
     if (teresa->mItemObject.mFlags & 0x8000000) {
@@ -1078,10 +1078,10 @@ void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value) {
     }
 }
 
-void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
-    s32 a;
+void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model) {
+    s32 commandParam;
     s32 itemModelAlpha;
-    s32 b;
+    s32 secondCommandParam;
     s32 polygonId;
     u16 drawAlpha;
     s32 scale[3];
@@ -1095,8 +1095,8 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
     if (teresa->mItemObject.mAlpha <= 0) {
         return;
     }
-    a = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &a, 1);
+    commandParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(teresa->mItemObject.mPosPointer), 0xc);
     scaleZ = teresa->mItemObject.mScale.z;
     scaleY = teresa->mItemObject.mScale.y;
@@ -1134,8 +1134,8 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
             DrawNsbmdModelWithMaxAlpha(itemModel, &teresa->mItemObject.mPos, 1, 0x1f);
             index++;
         }
-        b = 1;
-        NNS_G3dGeBufferOP_N(0x12, &b, 1);
+        secondCommandParam = 1;
+        NNS_G3dGeBufferOP_N(0x12, &secondCommandParam, 1);
         if (itemModelAlpha != 0x1f) {
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x1f0000;
             itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | 0x1f0000;

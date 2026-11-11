@@ -81,12 +81,12 @@ void SetupMultiSelectMemberSubTextButton(void) {
 }
 
 s32 CountMultiSelectChildren(void) {
-    s32 i;
+    s32 participantIndex;
     s32 childCount;
 
     childCount = 0;
-    for (i = 1; i < 8; i++) {
-        if (TryGetPlayerName(i, NULL) != 0) {
+    for (participantIndex = 1; participantIndex < 8; participantIndex++) {
+        if (TryGetPlayerName(participantIndex, NULL) != 0) {
             childCount++;
         }
     }
@@ -97,23 +97,24 @@ void PrintMultiSelectMemberNames(void) {
     CellFileSet *subFileSet;
     LabelMessageRow *labelMessageRow;
     u16 nameBuffer[12];
-    s32 i;
+    s32 participantIndex;
 
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
-    for (i = 1, labelMessageRow = data_usa_02153d88; i < 8; labelMessageRow++, i++) {
+    for (participantIndex = 1, labelMessageRow = data_usa_02153d88; participantIndex < 8;
+         labelMessageRow++, participantIndex++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (TryGetPlayerName(i, &nameBuffer[1]) != 0) {
+        if (TryGetPlayerName(participantIndex, &nameBuffer[1]) != 0) {
             nameBuffer[11] = 0;
             PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                                &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
-            if (gMultiSelectMember->mRows[i].mState != 2) {
-                gMultiSelectMember->mRows[i].mState = 1;
+            if (gMultiSelectMember->mRows[participantIndex].mState != 2) {
+                gMultiSelectMember->mRows[participantIndex].mState = 1;
             }
         } else {
             ClearAndQueueLabelLayoutText(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                          subFileSet->mCellLayout, subFileSet->mCellTable);
-            gMultiSelectMember->mRows[i].mState = 0;
+            gMultiSelectMember->mRows[participantIndex].mState = 0;
         }
     }
 }
@@ -123,24 +124,25 @@ void PrintMultiSelectConnectionNames(void) {
     LabelMessageRow *labelMessageRow;
     u16 nameBuffer[12];
     s32 childCount;
-    s32 i;
+    s32 participantIndex;
 
     childCount = 0;
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
-    for (i = 1, labelMessageRow = data_usa_02153d88; i < 8; labelMessageRow++, i++) {
+    for (participantIndex = 1, labelMessageRow = data_usa_02153d88; participantIndex < 8;
+         labelMessageRow++, participantIndex++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (GetPlayerRecord(i) != NULL) {
-            MIi_CpuCopy16(GetPlayerRecord(i), &nameBuffer[1], 0x14);
+        if (GetPlayerRecord(participantIndex) != NULL) {
+            MIi_CpuCopy16(GetPlayerRecord(participantIndex), &nameBuffer[1], 0x14);
             if (nameBuffer[1] != 0) {
                 PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                                    &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
-                gMultiSelectMember->mRows[i].mState = 2;
+                gMultiSelectMember->mRows[participantIndex].mState = 2;
                 childCount++;
             } else {
                 ClearAndQueueLabelLayoutText(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                              subFileSet->mCellLayout, subFileSet->mCellTable);
-                gMultiSelectMember->mRows[i].mState = 0;
+                gMultiSelectMember->mRows[participantIndex].mState = 0;
             }
         }
     }
@@ -154,11 +156,11 @@ void UpdateMultiSelectMemberCells(void) {
     s32 mainLabelCount;
     s32 mainCellCount;
     s32 subLabelCount;
-    s32 n3;
-    s32 i;
+    s32 subCellCount;
+    s32 cellIndex;
     s16 interpolatedValue;
     BOOL visible;
-    s32 d;
+    s32 value;
     MultiSelectMemberRow *row;
 
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
@@ -166,7 +168,7 @@ void UpdateMultiSelectMemberCells(void) {
     mainLabelCount = mainFileSet->mLabelLayout->mCount;
     mainCellCount = mainFileSet->mCellLayout->mCount;
     subLabelCount = subFileSet->mLabelLayout->mCount;
-    n3 = subFileSet->mCellLayout->mCount;
+    subCellCount = subFileSet->mCellLayout->mCount;
     AdvanceInterpolation(&gMultiSelectMember->mInterpolations[0]);
     mainFileSet->mCellTable[2].mOffsetY = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[0]);
     mainFileSet->mCellTable[1].mOffsetY = mainFileSet->mCellTable[2].mOffsetY;
@@ -180,23 +182,23 @@ void UpdateMultiSelectMemberCells(void) {
         gMultiSelectMember->mCycleFrames = 0;
     }
     if (gMultiSelectMemberCycleCells[gMultiSelectMember->mCycleIndex][0] == 0) {
-        d = 1;
+        value = 1;
     } else {
-        d = 0;
+        value = 0;
     }
-    mainFileSet->mCellTable[0].mVisible = d;
+    mainFileSet->mCellTable[0].mVisible = value;
     if (gMultiSelectMemberCycleCells[gMultiSelectMember->mCycleIndex][0] == 1) {
-        d = 1;
+        value = 1;
     } else {
-        d = 0;
+        value = 0;
     }
-    mainFileSet->mCellTable[1].mVisible = d;
+    mainFileSet->mCellTable[1].mVisible = value;
     if (gMultiSelectMemberCycleCells[gMultiSelectMember->mCycleIndex][0] == 2) {
-        d = 1;
+        value = 1;
     } else {
-        d = 0;
+        value = 0;
     }
-    mainFileSet->mCellTable[2].mVisible = d;
+    mainFileSet->mCellTable[2].mVisible = value;
     AdvanceInterpolation(&gMultiSelectMember->mInterpolations[1]);
     interpolatedValue = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[1]);
     mainFileSet->mCellTable[0xb].mOffsetY = interpolatedValue;
@@ -208,15 +210,15 @@ void UpdateMultiSelectMemberCells(void) {
     mainFileSet->mCellTable[5].mOffsetY = mainFileSet->mCellTable[6].mOffsetY;
     mainFileSet->mCellTable[4].mOffsetY = mainFileSet->mCellTable[5].mOffsetY;
     mainFileSet->mCellTable[3].mOffsetY = mainFileSet->mCellTable[4].mOffsetY;
-    for (i = 0; i < mainLabelCount; i++) {
-        mainFileSet->mCellTable[i + mainCellCount].mOffsetY = interpolatedValue;
+    for (cellIndex = 0; cellIndex < mainLabelCount; cellIndex++) {
+        mainFileSet->mCellTable[cellIndex + mainCellCount].mOffsetY = interpolatedValue;
     }
     AdvanceInterpolation(&gMultiSelectMember->mInterpolations[2]);
     interpolatedValue = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[2]);
-    i = 0;
-    d = n3 + subLabelCount;
-    for (; i < d; i++) {
-        subFileSet->mCellTable[i].mOffsetY = interpolatedValue;
+    cellIndex = 0;
+    value = subCellCount + subLabelCount;
+    for (; cellIndex < value; cellIndex++) {
+        subFileSet->mCellTable[cellIndex].mOffsetY = interpolatedValue;
     }
     if (gMultiSelectMember->mChildCount > 0) {
         SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[3], 0);
@@ -225,13 +227,13 @@ void UpdateMultiSelectMemberCells(void) {
     }
     AdvanceInterpolation(&gMultiSelectMember->mInterpolations[3]);
     interpolatedValue = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[3]);
-    n3 = n3 + 8;
-    subFileSet->mCellTable[n3].mOffsetY = interpolatedValue;
-    subFileSet->mCellTable[0x11].mOffsetY = subFileSet->mCellTable[n3].mOffsetY;
+    subCellCount = subCellCount + 8;
+    subFileSet->mCellTable[subCellCount].mOffsetY = interpolatedValue;
+    subFileSet->mCellTable[0x11].mOffsetY = subFileSet->mCellTable[subCellCount].mOffsetY;
     subFileSet->mCellTable[0x10].mOffsetY = subFileSet->mCellTable[0x11].mOffsetY;
     if (gMultiSelectMember->mUnk_84 == 0) {
-        for (i = 0; i < 8; i++) {
-            row = &gMultiSelectMember->mRows[i];
+        for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+            row = &gMultiSelectMember->mRows[cellIndex];
             switch (row->mState) {
                 case 0:
                     subFileSet->mCellTable[row->mSecondCellIndex].mVisible = 0;
@@ -270,18 +272,18 @@ void UpdateMultiSelectMemberCells(void) {
 }
 
 void SetMultiSelectChildCountCellsVisible(void) {
-    s32 i;
+    s32 countIndex;
     CellFileSet *mainFileSet;
     BOOL visible;
 
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
-    for (i = 0; i < 8; i++) {
-        if (i == gMultiSelectMember->mChildCount) {
+    for (countIndex = 0; countIndex < 8; countIndex++) {
+        if (countIndex == gMultiSelectMember->mChildCount) {
             visible = TRUE;
         } else {
             visible = FALSE;
         }
-        mainFileSet->mCellTable[gMultiSelectMemberCountCellIndices[i]].mVisible = visible;
+        mainFileSet->mCellTable[gMultiSelectMemberCountCellIndices[countIndex]].mVisible = visible;
     }
 }
 
@@ -456,7 +458,7 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     CellFileSet *mainFileSet;
     CellFileSet *subFileSet;
     u32 mainObjSizeLeft;
-    s32 i;
+    s32 index;
     u32 subObjSizeLeft;
     void *heap;
     volatile u32 clearValue;
@@ -479,10 +481,10 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
                       gMultiSelectMemberMONclrName2, gMultiSelectMemberMBnclName, gMultiSelectMemberMBnllName, NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gMultiSelectMember->mHeap, mainFileSet);
-    i = 0;
+    index = 0;
     canvasRow = data_usa_02153d64;
     printRow = canvasRow;
-    for (; i < 2; i++) {
+    for (; index < 2; index++) {
         mainObjSizeLeft -= SetupLabelCanvas(0, gMultiSelectMember->mHeap, mainFileSet, canvasRow, mainObjSizeLeft);
         PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, mainFileSet->mLabelLayout,
                                            GetBmgEntry(gMultiSelectMember->mBannerMessages, printRow->mMessageIndex),
@@ -499,9 +501,9 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
                       gMultiSelectMemberRegisterSONclrName2, gMultiSelectMemberSRegisterBnclName,
                       gMultiSelectMemberSRegisterBnllName, gMultiSelectMemberSRegisterBnblName, FindSceneFile);
     SetupCellFileSet(1, gMultiSelectMember->mHeap, subFileSet);
-    for (i = 0; i < 9; i++) {
+    for (index = 0; index < 9; index++) {
         subObjSizeLeft -=
-            SetupLabelCanvas(1, gMultiSelectMember->mHeap, subFileSet, &data_usa_02153d7c[i], subObjSizeLeft);
+            SetupLabelCanvas(1, gMultiSelectMember->mHeap, subFileSet, &data_usa_02153d7c[index], subObjSizeLeft);
     }
     SetupInterpolation(&gMultiSelectMember->mInterpolations[3], 3, 10, 0x40, 0);
     InitPaletteBlend(gMultiSelectMember->mHeap, subFileSet->mPalette, 3);
@@ -510,9 +512,9 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gMultiSelectMember->mInterpolations[1], 0, 10, 0x40, 0);
     SetupInterpolation(&gMultiSelectMember->mInterpolations[2], 0, 10, -0xc0, 0);
     gMultiSelectMember->mRows[0].mState = 2;
-    for (i = 0; i < 8; i++) {
-        gMultiSelectMember->mRows[i].mFirstCellIndex = i * 2;
-        gMultiSelectMember->mRows[i].mSecondCellIndex = i * 2 + 1;
+    for (index = 0; index < 8; index++) {
+        gMultiSelectMember->mRows[index].mFirstCellIndex = index * 2;
+        gMultiSelectMember->mRows[index].mSecondCellIndex = index * 2 + 1;
     }
     SetTxtSystemBgOffsetRequested(0x20, 0);
 }
@@ -543,11 +545,11 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     CellFileSet *mainFileSet;
     CellFileSet *subFileSet;
     u16 nameBuffer[12];
-    s32 n0;
+    s32 count;
     s32 mainCellCount;
     s32 subLabelCount;
     s32 subCellCount;
-    s32 i;
+    s32 index;
     void *bannerMessage;
 
     InitMultiSelectMember(parentHeap, mainOam, subOam);
@@ -573,11 +575,11 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
         SetupTxtSystemMainTextEx(bannerMessage, 0, 0, 1, 0, 0, 0);
     }
     if (gMultiSelectMember->mUnk_84 != 0) {
-        n0 = mainFileSet->mLabelLayout->mCount;
+        count = mainFileSet->mLabelLayout->mCount;
         mainCellCount = mainFileSet->mCellLayout->mCount;
         subLabelCount = subFileSet->mLabelLayout->mCount;
         subCellCount = subFileSet->mCellLayout->mCount;
-        i = 0;
+        index = 0;
         mainFileSet->mCellTable[0xb].mVisible = 0;
         mainFileSet->mCellTable[0xa].mVisible = mainFileSet->mCellTable[0xb].mVisible;
         mainFileSet->mCellTable[9].mVisible = mainFileSet->mCellTable[0xa].mVisible;
@@ -587,18 +589,18 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
         mainFileSet->mCellTable[5].mVisible = mainFileSet->mCellTable[6].mVisible;
         mainFileSet->mCellTable[4].mVisible = mainFileSet->mCellTable[5].mVisible;
         mainFileSet->mCellTable[3].mVisible = mainFileSet->mCellTable[4].mVisible;
-        for (i = 0; i < 8; i++) {
-            subFileSet->mCellTable[gMultiSelectMember->mRows[i].mSecondCellIndex].mVisible = 0;
-            subFileSet->mCellTable[gMultiSelectMember->mRows[i].mFirstCellIndex].mVisible =
-                subFileSet->mCellTable[gMultiSelectMember->mRows[i].mSecondCellIndex].mVisible;
+        for (index = 0; index < 8; index++) {
+            subFileSet->mCellTable[gMultiSelectMember->mRows[index].mSecondCellIndex].mVisible = 0;
+            subFileSet->mCellTable[gMultiSelectMember->mRows[index].mFirstCellIndex].mVisible =
+                subFileSet->mCellTable[gMultiSelectMember->mRows[index].mSecondCellIndex].mVisible;
         }
-        for (i = 0; i < n0; i++) {
-            mainFileSet->mCellTable[i + mainCellCount].mVisible = 0;
+        for (index = 0; index < count; index++) {
+            mainFileSet->mCellTable[index + mainCellCount].mVisible = 0;
         }
-        i = 0;
-        n0 = subCellCount + subLabelCount;
-        for (; i < n0; i++) {
-            subFileSet->mCellTable[i].mVisible = 0;
+        index = 0;
+        count = subCellCount + subLabelCount;
+        for (; index < count; index++) {
+            subFileSet->mCellTable[index].mVisible = 0;
         }
     }
     SetSelectReturnSoundId(-1);
@@ -651,7 +653,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
     u32 pairIsNew;
     u32 pairRecentlyGone;
     u32 hasPair;
-    s32 x;
+    s32 value;
     s32 pairY;
 
     result = -1;
@@ -665,20 +667,20 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
     if (gMultiSelectMember->mState != 0 && gMultiSelectMember->mState != 3 && gMultiSelectMember->mState != 4 &&
         gMultiSelectMember->mState != 5 && gMultiSelectMember->mState != 6) {
         if (gConnectionWork == NULL) {
-            x = 0;
+            value = 0;
         } else {
-            x = gConnectionWork->mConnectionMode;
+            value = gConnectionWork->mConnectionMode;
         }
-        if (x == 1) {
+        if (value == 1) {
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-                x = gConnectionWork->mWaitToSendCount;
+                value = gConnectionWork->mWaitToSendCount;
             } else {
-                x = gConnectionWork->mChildren.mChildCount;
+                value = gConnectionWork->mChildren.mChildCount;
             }
         } else {
-            x = 0;
+            value = 0;
         }
-        gMultiSelectMember->mChildCount = x;
+        gMultiSelectMember->mChildCount = value;
         if (gMultiSelectMember->mChildCount != previousChildCount) {
             PrintMultiSelectMemberNames();
             if (gMultiSelectMember->mChildCount > previousChildCount) {
@@ -723,10 +725,10 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                 pairIsNew = 1;
             }
             if (pairIsNew != 0) {
-                x = gInputSlots[slotIndex].mPair.mPairX;
+                value = gInputSlots[slotIndex].mPair.mPairX;
                 pairY = gInputSlots[slotIndex].mPair.mPairY;
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(x, pairY);
-                rectIndex = RectTableFindContaining(subFileSet->mRects, x, pairY);
+                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(value, pairY);
+                rectIndex = RectTableFindContaining(subFileSet->mRects, value, pairY);
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || rectIndex == 0) {
                 if (gMultiSelectMember->mChildCount > 0 && gMultiSelectMember->mInterpolations[3].mState == 1) {
@@ -806,7 +808,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
     s32 previousChildCount;
     u16 slotIndex;
     u16 nameBuffer[12];
-    BOOL x;
+    BOOL flag;
     u32 pairIsNew;
     u32 pairRecentlyGone;
     u32 hasPair;
@@ -886,13 +888,13 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                     case 9:
                     case 10:
                     case 11:
-                        x = TRUE;
+                        flag = TRUE;
                         break;
                     default:
-                        x = FALSE;
+                        flag = FALSE;
                         break;
                 }
-                if (x != FALSE) {
+                if (flag != FALSE) {
                     RequestSelectReturnState4();
                     SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);

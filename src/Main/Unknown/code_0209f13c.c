@@ -16,32 +16,33 @@
 #include "code_02146cbc.h"
 #include "code_02147cd8.h"
 
-void InitChandelierObjects(Unk0209f514 *a) {
-    s32 i;
-    Unk0209f338 *o;
-    RandomState64 *r;
+void InitChandelierObjects(Unk0209f514 *objectList) {
+    s32 objectIndex;
+    Unk0209f338 *chandelier;
+    RandomState64 *random;
 
-    if (a == NULL) {
+    if (objectList == NULL) {
         return;
     }
-    for (i = 0; i < a->mUnk_04 && (o = a->mUnk_00[i]) != NULL; i++) {
-        r = &gRaceProgress->mLocalRandom;
-        r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
-        o->mTimer = (u16) (((u64) (u32) (r->mValue >> 32) * 0x3c) >> 32) + 0x3c;
+    for (objectIndex = 0; objectIndex < objectList->mUnk_04 && (chandelier = objectList->mUnk_00[objectIndex]) != NULL;
+         objectIndex++) {
+        random = &gRaceProgress->mLocalRandom;
+        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        chandelier->mTimer = (u16) (((u64) (u32) (random->mValue >> 32) * 0x3c) >> 32) + 0x3c;
     }
 }
 
-void UpdateChandelier(void *a, Unk0209f338 *b) {
-    SoundStartParams s1;
-    SoundStartParams s2;
-    SoundStartParams s3;
-    s32 t;
-    s32 n;
+void UpdateChandelier(void *mapObjectList, Unk0209f338 *chandelier) {
+    SoundStartParams firstSoundParams;
+    SoundStartParams secondSoundParams;
+    SoundStartParams thirdSoundParams;
+    s32 falloffIndex;
+    s32 nextFrameIndex;
 
-    switch (b->mState) {
+    switch (chandelier->mState) {
         case 0:
-            if (b->mTimer-- <= 0) {
-                b->mState = 1;
+            if (chandelier->mTimer-- <= 0) {
+                chandelier->mState = 1;
             }
             return;
         case 1:
@@ -49,59 +50,59 @@ void UpdateChandelier(void *a, Unk0209f338 *b) {
         default:
             return;
     }
-    if (b->mFrameIndex == 0 || b->mFrameIndex == 0x7d) {
-        if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                t = 2;
-            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                t = 3;
+    if (chandelier->mFrameIndex == 0 || chandelier->mFrameIndex == 0x7d) {
+        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
+                falloffIndex = 2;
+            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
+                falloffIndex = 3;
             } else {
-                t = 4;
+                falloffIndex = 4;
             }
-            s1.mSoundId = 0x11a;
-            s1.mPositionSource = &b->mMapObject.mPos;
-            s1.mFalloffIndex = t;
-            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
-            StartSoundFromParams(&s1);
+            firstSoundParams.mSoundId = 0x11a;
+            firstSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
+            firstSoundParams.mFalloffIndex = falloffIndex;
+            firstSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&chandelier->mMapObject.mPos);
+            StartSoundFromParams(&firstSoundParams);
         }
-    } else if (b->mFrameIndex == 0x46 || b->mFrameIndex == 0xaf) {
-        if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                t = 2;
-            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                t = 3;
+    } else if (chandelier->mFrameIndex == 0x46 || chandelier->mFrameIndex == 0xaf) {
+        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
+                falloffIndex = 2;
+            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
+                falloffIndex = 3;
             } else {
-                t = 4;
+                falloffIndex = 4;
             }
-            s2.mSoundId = 0x11b;
-            s2.mPositionSource = &b->mMapObject.mPos;
-            s2.mFalloffIndex = t;
-            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
-            StartSoundFromParams(&s2);
+            secondSoundParams.mSoundId = 0x11b;
+            secondSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
+            secondSoundParams.mFalloffIndex = falloffIndex;
+            secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&chandelier->mMapObject.mPos);
+            StartSoundFromParams(&secondSoundParams);
         }
-    } else if (b->mFrameIndex == 0xfa) {
-        if ((b->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                t = 2;
-            } else if (b->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                t = 3;
+    } else if (chandelier->mFrameIndex == 0xfa) {
+        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
+                falloffIndex = 2;
+            } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
+                falloffIndex = 3;
             } else {
-                t = 4;
+                falloffIndex = 4;
             }
-            s3.mSoundId = 0x119;
-            s3.mPositionSource = &b->mMapObject.mPos;
-            s3.mFalloffIndex = t;
-            s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mMapObject.mPos);
-            StartSoundFromParams(&s3);
+            thirdSoundParams.mSoundId = 0x119;
+            thirdSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
+            thirdSoundParams.mFalloffIndex = falloffIndex;
+            thirdSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&chandelier->mMapObject.mPos);
+            StartSoundFromParams(&thirdSoundParams);
         }
     }
-    n = b->mFrameIndex + 1;
-    if (n >= GetMapObjectModelNsbcaFrameCount(gChandelier)) {
-        n = 0;
+    nextFrameIndex = chandelier->mFrameIndex + 1;
+    if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gChandelier)) {
+        nextFrameIndex = 0;
     }
-    b->mFrameIndex = n;
-    if (b->mFrameIndex == 0) {
-        b->mState = 0;
+    chandelier->mFrameIndex = nextFrameIndex;
+    if (chandelier->mFrameIndex == 0) {
+        chandelier->mState = 0;
     }
 }
 
@@ -113,42 +114,41 @@ void *CreateChandelierUpdateList(void) {
     return CreateMapObjectUpdateList(InitChandelierObjects, UpdateChandelier, NULL);
 }
 
-void CreateRainStar(void *a) {
-    CreateMapObjectModelNsbtaAnimation(gRainStar = CreateMapObjectModelAnimated(a, gRainStarNsbmdName),
+void CreateRainStar(void *mapObjectList) {
+    CreateMapObjectModelNsbtaAnimation(gRainStar = CreateMapObjectModelAnimated(mapObjectList, gRainStarNsbmdName),
                                        gRainStarNsbtaName);
     SetMapObjectModelPolygonId(gRainStar, 0x3f);
 }
 
-void DrawRainStar(void *a, Unk0209f1c8 *b) {
-    u32 l;
-    MtxFx33 m;
-    s32 i;
+void DrawRainStar(void *mapObjectList, Unk0209f1c8 *rainStar) {
+    u32 commandParam;
+    MtxFx33 rotationMatrix;
 
-    l = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &l, 1);
-    b->mMapObject.mMatrix.mRows[3].x = b->mMapObject.mPos.x >> 4;
-    b->mMapObject.mMatrix.mRows[3].y = b->mMapObject.mPos.y >> 4;
-    b->mMapObject.mMatrix.mRows[3].z = b->mMapObject.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &b->mMapObject.mMatrix, 0xc);
-    if (b->mMapObject.mAngle != 0) {
-        i = b->mMapObject.mAngle >> 4;
-        MTX_RotY33_(&m, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
-        NNS_G3dGeBufferOP_N(0x1a, &m, 9);
+    commandParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandParam, 1);
+    rainStar->mMapObject.mMatrix.mRows[3].x = rainStar->mMapObject.mPos.x >> 4;
+    rainStar->mMapObject.mMatrix.mRows[3].y = rainStar->mMapObject.mPos.y >> 4;
+    rainStar->mMapObject.mMatrix.mRows[3].z = rainStar->mMapObject.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &rainStar->mMapObject.mMatrix, 0xc);
+    if (rainStar->mMapObject.mAngle != 0) {
+        MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(rainStar->mMapObject.mAngle),
+                    COS_OF_ANGLE(rainStar->mMapObject.mAngle));
+        NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtaFrameIndex(gRainStar, b->mFrameIndex);
-    DrawMapObjectModel(a, gRainStar, b);
+    NNS_G3dGeBufferOP_N(0x1b, &rainStar->mMapObject.mScale, 3);
+    SetMapObjectModelNsbtaFrameIndex(gRainStar, rainStar->mFrameIndex);
+    DrawMapObjectModel(mapObjectList, gRainStar, rainStar);
 }
 
-void UpdateRainStar(void *a, Unk0209f1c8 *b) {
-    u16 n;
+void UpdateRainStar(void *mapObjectList, Unk0209f1c8 *rainStar) {
+    u16 frameCount;
 
-    n = GetMapObjectModelNsbtaFrameCount(gRainStar);
-    b->mFrameIndex += 1;
-    if (b->mFrameIndex >= n) {
-        b->mFrameIndex = 0;
+    frameCount = GetMapObjectModelNsbtaFrameCount(gRainStar);
+    rainStar->mFrameIndex += 1;
+    if (rainStar->mFrameIndex >= frameCount) {
+        rainStar->mFrameIndex = 0;
     }
-    b->mMapObject.mAngle += 0x111;
+    rainStar->mMapObject.mAngle += 0x111;
 }
 
 void *CreateRainStarDrawList(void) {

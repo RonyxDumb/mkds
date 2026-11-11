@@ -60,14 +60,14 @@ void UpdateEmblemSound(void) {
 }
 
 void ResetSeqQueue(void) {
-    s32 i;
-    i = 0;
-    gSeqQueue.mNextStartTimer = i;
-    gSeqQueue.mWriteIndex = i;
-    gSeqQueue.mReadIndex = i;
-    for (i = 0; i < 14; i++) {
-        gSeqQueue.mPairNo[i] = 13;
-        gSeqQueue.mPairSide[i] = 2;
+    s32 entryIndex;
+    entryIndex = 0;
+    gSeqQueue.mNextStartTimer = entryIndex;
+    gSeqQueue.mWriteIndex = entryIndex;
+    gSeqQueue.mReadIndex = entryIndex;
+    for (entryIndex = 0; entryIndex < 14; entryIndex++) {
+        gSeqQueue.mPairNo[entryIndex] = 13;
+        gSeqQueue.mPairSide[entryIndex] = 2;
     }
 }
 
@@ -176,18 +176,18 @@ s32 StepValueTowardTarget(PlayerVolumeFade *volumeFade, s32 target) {
 }
 
 void InitSoundRequestQueues(void) {
-    s32 i;
+    s32 queueIndex;
     SoundRequestQueue *queue;
-    for (i = 0, queue = gSoundRequestQueues; i < 7; i++, queue++) {
+    for (queueIndex = 0, queue = gSoundRequestQueues; queueIndex < 7; queueIndex++, queue++) {
         s32 capacities[7] = {1, 3, 2, 1, 3, 2, 3};
-        InitSoundRequestQueue(queue, capacities[i], gCurrentSndHeap);
+        InitSoundRequestQueue(queue, capacities[queueIndex], gCurrentSndHeap);
     }
 }
 
 void ResetSoundRequestQueues(void) {
-    s32 i;
+    s32 queueIndex;
     SoundRequestQueue *queue;
-    for (i = 0, queue = gSoundRequestQueues; i < 7; i++, queue++) {
+    for (queueIndex = 0, queue = gSoundRequestQueues; queueIndex < 7; queueIndex++, queue++) {
         ResetSoundRequestQueue(queue);
     }
 }
@@ -201,9 +201,9 @@ u16 GetLapProgressSoundId(int index) {
 }
 
 void SetLapProgressSoundGaps(u32 divisor) {
-    s32 i;
-    for (i = 0; i < 2; i++) {
-        gLapProgressSoundGaps[i] = FX_Div(gLapProgressSoundGapDividends[i], divisor);
+    s32 gapIndex;
+    for (gapIndex = 0; gapIndex < 2; gapIndex++) {
+        gLapProgressSoundGaps[gapIndex] = FX_Div(gLapProgressSoundGapDividends[gapIndex], divisor);
     }
 }
 
@@ -261,7 +261,7 @@ BOOL IsKingTeresaState0Or2Or5(void) {
 // Sets the volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume and sets the seq volume when it
 // changed.
 static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 playerVolume, s32 pitch, s32 targetVolume) {
-    s32 m;
+    s32 limitedVolume;
     s32 volume;
     s32 steppedVolume;
     s32 nextVolume;
@@ -287,14 +287,14 @@ static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 player
         gVolumeFade.mVolume = nextVolume;
     }
     gReachedSeqVolume = volume;
-    m = gSceneSeqVolume;
-    if (volume <= m) {
+    limitedVolume = gSceneSeqVolume;
+    if (volume <= limitedVolume) {
         if (volume < 0) {
             volume = 0;
         }
-        m = volume;
+        limitedVolume = volume;
     }
-    gReachedSeqVolume = m;
+    gReachedSeqVolume = limitedVolume;
     if (steppedVolume != -1) {
         NNS_SndPlayerSetVolume(handle, steppedVolume);
     }
@@ -302,17 +302,17 @@ static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 player
 
 void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle) {
     s32 targetVolume;
-    s32 c;
-    c = gKingTeresaState;
+    s32 value;
+    value = gKingTeresaState;
     targetVolume = gSceneSeqVolume;
-    switch (c) {
+    switch (value) {
         case 0:
-            c = MUL_FIXED12_ROUNDED(gKingTeresaSeqVolumeFactor, 0x29000 - GetMissionRunMapObjectAlphaLimit()) >> 12;
+            value = MUL_FIXED12_ROUNDED(gKingTeresaSeqVolumeFactor, 0x29000 - GetMissionRunMapObjectAlphaLimit()) >> 12;
             targetVolume = 0;
-            if (c >= 0) {
+            if (value >= 0) {
                 targetVolume = gSceneSeqVolume;
-                if (c <= targetVolume) {
-                    targetVolume = c;
+                if (value <= targetVolume) {
+                    targetVolume = value;
                 }
             }
             break;
@@ -387,7 +387,7 @@ void StartSeqOnHandleIfEnabled(u32 soundId, NNSSndSeqPlayer **handle) {
 // Sets the volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume and sets the seq volume when it
 // changed.
 static inline void StepSeqPlayerVolumeFade(NNSSndSeqPlayer **handle, s32 playerVolume, s32 pitch, s32 targetVolume) {
-    s32 m;
+    s32 limitedVolume;
     s32 volume;
     s32 steppedVolume;
     s32 nextVolume;
@@ -413,14 +413,14 @@ static inline void StepSeqPlayerVolumeFade(NNSSndSeqPlayer **handle, s32 playerV
         gVolumeFade.mVolume = nextVolume;
     }
     gReachedSeqVolume = volume;
-    m = gSceneSeqVolume;
-    if (volume <= m) {
+    limitedVolume = gSceneSeqVolume;
+    if (volume <= limitedVolume) {
         if (volume < 0) {
             volume = 0;
         }
-        m = volume;
+        limitedVolume = volume;
     }
-    gReachedSeqVolume = m;
+    gReachedSeqVolume = limitedVolume;
     if (steppedVolume != -1) {
         NNS_SndPlayerSetVolume(handle, steppedVolume);
     }
@@ -430,26 +430,26 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     u32 slotVolume;
     s32 targetVolume;
     s32 pitch;
-    s32 l;
+    s32 value;
     s32 slotSeqIndex;
     s32 minKartDistanceSquared;
     s32 scaledDistance;
     s64 scaledDistanceWide;
-    s32 z;
+    s32 volume;
     NNSSndSeqPlayer **slotHandle;
     pitch = 0;
     slotVolume = pitch;
-    l = 0x7f;
+    value = 0x7f;
     slotSeqIndex = -1;
     if (control->mVolumeOverride > 0) {
         switch (control->mVolumeOverride) {
             case 1:
-                l = pitch;
+                value = pitch;
                 break;
             case 2:
                 break;
         }
-        StepSeqPlayerVolumeFade(handle, 0x7f, 0, l);
+        StepSeqPlayerVolumeFade(handle, 0x7f, 0, value);
         return;
     }
     if (gUseKingTeresaSeqVolume != 0) {
@@ -460,23 +460,23 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
         (TryGetMinKartDistanceSquared(&minKartDistanceSquared) != FALSE && minKartDistanceSquared < 0x8d04) ? 1 : 0;
     if ((control->mFlags >> 2) & 1) {
         targetVolume = 0;
-        l = 0x1e;
+        value = 0x1e;
         slotSeqIndex = 0xff;
         slotVolume = 0x7f;
     } else if (control->mKartNear != 0) {
         scaledDistance = (minKartDistanceSquared - 2500) << 12;
         scaledDistanceWide = scaledDistance;
-        z = MUL_FIXED12_ROUNDED(gKartNearPlayerVolumeFactor, scaledDistance) >> 12;
-        z += 0x1e;
-        if (z < 0) {
-            z = 0;
-        } else if (z > 0x7f) {
-            z = 0x7f;
+        volume = MUL_FIXED12_ROUNDED(gKartNearPlayerVolumeFactor, scaledDistance) >> 12;
+        volume += 0x1e;
+        if (volume < 0) {
+            volume = 0;
+        } else if (volume > 0x7f) {
+            volume = 0x7f;
         }
-        l = z & 0xff;
-        z = (s32) ((gKartNearSeqVolumeFactor * scaledDistanceWide + 0x800) >> 12) >> 12;
-        slotVolume = (0x9d - l) & 0xff;
-        targetVolume = z + 0x14;
+        value = volume & 0xff;
+        volume = (s32) ((gKartNearSeqVolumeFactor * scaledDistanceWide + 0x800) >> 12) >> 12;
+        slotVolume = (0x9d - value) & 0xff;
+        targetVolume = volume + 0x14;
         slotSeqIndex = 0xfe;
         if (targetVolume < 0) {
             targetVolume = 0;
@@ -502,14 +502,14 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
             targetVolume = gSceneSeqVolume - 10;
         }
     }
-    StepSeqPlayerVolumeFade(handle, l, pitch, targetVolume);
+    StepSeqPlayerVolumeFade(handle, value, pitch, targetVolume);
     slotHandle = GetSndHandleSlot(5);
     if (slotSeqIndex != -1 && slotVolume != 0) {
-        l = IsSndHandleSet(slotHandle);
-        if (l != 0 && IsSndHandleSeq(slotHandle, 0, slotSeqIndex) == 0) {
+        value = IsSndHandleSet(slotHandle);
+        if (value != 0 && IsSndHandleSeq(slotHandle, 0, slotSeqIndex) == 0) {
             StopSndHandleSeq(slotHandle, 0);
             StartSeqOnHandleIfEnabled(slotSeqIndex & 0xff, slotHandle);
-        } else if (l == 0) {
+        } else if (value == 0) {
             StartSeqOnHandleIfEnabled(slotSeqIndex & 0xff, slotHandle);
         }
         if (IsSndHandleSet(slotHandle) == 0) {
@@ -627,28 +627,28 @@ void RequestThunderShrinkSound(Kart *kart) {
 }
 
 void InitSoundSetPlayerWithVariables(SoundSetPlayer *player, s32 seqId, s32 firstBankId) {
-    u8 i;
-    s32 j;
+    u8 variableIndex;
+    s32 enabledIndex;
     ReleaseLoadedSoundSet();
     if (seqId == 4) {
         firstBankId = 0x23;
     }
     InitSoundSetPlayer(player, seqId, firstBankId, 0xff, GetLoadedSoundSet());
-    for (i = 0; i < 2; i++) {
-        gSeqVariableReadings[i].mValue = -1;
-        gSeqVariableReadings[i].mPrevValue = -1;
-        gSeqVariableReadings[i].mSinceChangeFrames = -1;
-        gSeqVariableReadings[i].mVariableNo[0] = i;
+    for (variableIndex = 0; variableIndex < 2; variableIndex++) {
+        gSeqVariableReadings[variableIndex].mValue = -1;
+        gSeqVariableReadings[variableIndex].mPrevValue = -1;
+        gSeqVariableReadings[variableIndex].mSinceChangeFrames = -1;
+        gSeqVariableReadings[variableIndex].mVariableNo[0] = variableIndex;
     }
     gSeqVariableEnabled[0] = 1;
-    for (j = 0; j < 2; j++) {
-        if (gSeqVariableEnabled[j] == 1) {
+    for (enabledIndex = 0; enabledIndex < 2; enabledIndex++) {
+        if (gSeqVariableEnabled[enabledIndex] == 1) {
             break;
         }
     }
     gSeqVariableEnabled[1] = 1;
-    for (j = 0; j < 2; j++) {
-        if (gSeqVariableEnabled[j] == 1) {
+    for (enabledIndex = 0; enabledIndex < 2; enabledIndex++) {
+        if (gSeqVariableEnabled[enabledIndex] == 1) {
             gAnySeqVariableEnabled = 1;
             return;
         }
@@ -657,10 +657,10 @@ void InitSoundSetPlayerWithVariables(SoundSetPlayer *player, s32 seqId, s32 firs
 }
 
 void SetSeqVariableEnabled(u32 slot, u32 enabled) {
-    s32 i;
+    s32 variableIndex;
     gSeqVariableEnabled[slot] = enabled;
-    for (i = 0; i < 2; i++) {
-        if (gSeqVariableEnabled[i] == 1) {
+    for (variableIndex = 0; variableIndex < 2; variableIndex++) {
+        if (gSeqVariableEnabled[variableIndex] == 1) {
             gAnySeqVariableEnabled = 1;
             return;
         }
@@ -673,24 +673,24 @@ u32 IsAnySeqVariableEnabled(void) {
 }
 
 void ResetSeqVariableReadings(void) {
-    u8 i;
+    u8 variableIndex;
 
-    for (i = 0; i < 2; i++) {
-        gSeqVariableReadings[i].mValue = -1;
-        gSeqVariableReadings[i].mPrevValue = -1;
-        gSeqVariableReadings[i].mSinceChangeFrames = -1;
-        gSeqVariableReadings[i].mVariableNo[0] = i;
+    for (variableIndex = 0; variableIndex < 2; variableIndex++) {
+        gSeqVariableReadings[variableIndex].mValue = -1;
+        gSeqVariableReadings[variableIndex].mPrevValue = -1;
+        gSeqVariableReadings[variableIndex].mSinceChangeFrames = -1;
+        gSeqVariableReadings[variableIndex].mVariableNo[0] = variableIndex;
     }
 }
 
 // Reads each enabled slot's sequence variable and counts the updates since it last changed.
 void UpdateSeqVariableReadings(NNSSndSeqPlayer **handle) {
     SeqVariableReading *reading;
-    s32 i;
+    s32 variableIndex;
 
-    for (i = 0; i < 2; i++) {
-        reading = &gSeqVariableReadings[i];
-        if (gSeqVariableEnabled[i] == 0) {
+    for (variableIndex = 0; variableIndex < 2; variableIndex++) {
+        reading = &gSeqVariableReadings[variableIndex];
+        if (gSeqVariableEnabled[variableIndex] == 0) {
             continue;
         }
         if (NNS_SndPlayerReadVariable(handle, reading->mVariableNo[0], (s16 *) reading) == 0) {

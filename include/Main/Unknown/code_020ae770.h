@@ -9,5 +9,5 @@ typedef struct TimeDigits {
     /* 00 */ s32 mDigits[7];
 } TimeDigits;
 
-void SortIndicesByKey(s32 *a, s32 *b, s32 c);
-void SplitTimeDigits(s32 a, s32 b, s32 c, TimeDigits *d);
+void SortIndicesByKey(s32 *indices, s32 *keys, s32 count);
+void SplitTimeDigits(s32 minute, s32 second, s32 millisecond, TimeDigits *timeDigits);

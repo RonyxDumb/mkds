@@ -43,36 +43,36 @@ static inline u32 CrabNextRandomBelow(RandomState64 *random, u32 limit) {
 }
 
 void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity) {
-    Vec3 v;
+    Vec3 sideDirection;
     RandomState64 *mapObjectRandom;
-    s32 x;
-    s32 z;
+    s32 valueX;
+    s32 valueZ;
 
     if (sourcePosition != NULL && sourceDirection != NULL) {
-        VEC_Subtract(&crab->mMapObject.mPos, sourcePosition, &v);
-        z = sourceDirection->z;
-        x = sourceDirection->x;
-        if ((s64) v.z * x - (s64) v.x * z < 0) {
-            v.z = -x;
-            v.x = z;
-            v.y = 0;
+        VEC_Subtract(&crab->mMapObject.mPos, sourcePosition, &sideDirection);
+        valueZ = sourceDirection->z;
+        valueX = sourceDirection->x;
+        if ((s64) sideDirection.z * valueX - (s64) sideDirection.x * valueZ < 0) {
+            sideDirection.z = -valueX;
+            sideDirection.x = valueZ;
+            sideDirection.y = 0;
             crab->mRotateZAnglePerFrame = 0x71c;
         } else {
-            v.z = x;
-            v.x = -z;
-            v.y = 0;
+            sideDirection.z = valueX;
+            sideDirection.x = -valueZ;
+            sideDirection.y = 0;
             crab->mRotateZAnglePerFrame = 0xf8e4;
         }
-        crab->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(v.x, 0x1800);
-        crab->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(v.y, 0x1800);
-        crab->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(v.z, 0x1800);
+        crab->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(sideDirection.x, 0x1800);
+        crab->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(sideDirection.y, 0x1800);
+        crab->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(sideDirection.z, 0x1800);
     } else {
         mapObjectRandom = GetMapObjectRandom();
-        z = (u16) CrabNextRandomBelow(mapObjectRandom, 0x10000);
-        x = FX_CosIdx((u16) z);
-        x = MUL_FIXED12_NO_ROUND(x, 0x1800);
-        crab->mMapObject.mPosStep.x = x;
-        crab->mMapObject.mPosStep.z = x;
+        valueZ = (u16) CrabNextRandomBelow(mapObjectRandom, 0x10000);
+        valueX = FX_CosIdx((u16) valueZ);
+        valueX = MUL_FIXED12_NO_ROUND(valueX, 0x1800);
+        crab->mMapObject.mPosStep.x = valueX;
+        crab->mMapObject.mPosStep.z = valueX;
         mapObjectRandom = GetMapObjectRandom();
         if ((u16) CrabNextRandomBelow(mapObjectRandom, 2) != 0) {
             crab->mRotateZAnglePerFrame = 0x71c;
@@ -90,24 +90,24 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
     crab->mMapObject.mFlags |= data_usa_0215659c;
 }
 
-u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *c, u8 *d) {
+u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *hitFlag, u8 *passedValue) {
     u32 result;
 
-    result = *d;
-    if (*c == 1) {
+    result = *passedValue;
+    if (*hitFlag == 1) {
         StartCrabLaunch(crab, &kart->mPos, &kart->mEasedTurnedForward, &kart->mVelocity);
         StartSoundIfKartStarOrKiller(&crab->mMapObject, kart);
     }
     return result;
 }
 
-u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d) {
+u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *hitFlag, u8 *passedValue) {
     Vec3 direction;
     Kart *entryKart;
     u32 result;
 
-    result = *d;
-    if (*c == 1) {
+    result = *passedValue;
+    if (*hitFlag == 1) {
         if (itemObject != NULL) {
             if ((s64) itemObject->mVelocity.x * itemObject->mVelocity.x +
                     (s64) itemObject->mVelocity.y * itemObject->mVelocity.y +
@@ -127,9 +127,9 @@ u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d) {
     return result;
 }
 
-void CreateCrabAndCrabHand(void *a) {
-    gCrab = CreateMapObjectModelNsbmdNsbtp(a, "crab.nsbmd", "crab.nsbtp");
-    gCrabHand = CreateMapObjectModelNsbmdNsbtp(a, "crab_hand.nsbmd", "crab_hand.nsbtp");
+void CreateCrabAndCrabHand(void *mapObjectList) {
+    gCrab = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "crab.nsbmd", "crab.nsbtp");
+    gCrabHand = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "crab_hand.nsbmd", "crab_hand.nsbtp");
     SetMapObjectModelPolygonId(gCrab, 0x3f);
     SetMapObjectModelPolygonId(gCrabHand, 0x3f);
 }
@@ -138,13 +138,13 @@ u32 CrabSetupDrawReturnArgument(u32 value) {
     return value;
 }
 
-void DrawCrab(void *a, Crab *crab) {
-    s32 w;
+void DrawCrab(void *mapObjectList, Crab *crab) {
+    s32 commandParam;
     MtxFx33 crabRotation;
     MtxFx33 handRotation;
 
-    w = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    commandParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandParam, 1);
     BuildYAxisMatrix(&crab->mMapObject.mMatrix.mRows[1]);
     NNS_G3dGeBufferOP_N(0x19, SetYAxisMatrixPos(&crab->mMapObject.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
@@ -153,24 +153,26 @@ void DrawCrab(void *a, Crab *crab) {
     }
     NNS_G3dGeBufferOP_N(0x1b, &crab->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
-    QueueMapObjectModelMaterial(a, gCrab);
-    DrawMapObjectModel(a, gCrab, crab);
+    QueueMapObjectModelMaterial(mapObjectList, gCrab);
+    DrawMapObjectModel(mapObjectList, gCrab, crab);
     MTX_RotZ33_(&handRotation, FX_SinIdx((u16) crab->mHandWobble.mValue), FX_CosIdx((u16) crab->mHandWobble.mValue));
     NNS_G3dGeBufferOP_N(0x1a, &handRotation, 9);
     SetMapObjectModelNsbtpFrameIndex(gCrabHand, crab->mHandNsbtpFrameIndexFixed12 >> 12);
-    QueueMapObjectModelMaterial(a, gCrabHand);
-    DrawMapObjectModel(a, gCrabHand, crab);
+    QueueMapObjectModelMaterial(mapObjectList, gCrabHand);
+    DrawMapObjectModel(mapObjectList, gCrabHand, crab);
 }
 
 void InitCrabObjects(Unk0209af98 *mapObjectList) {
-    s32 i;
+    s32 objectIndex;
     Crab *crab;
     RandomState64 *mapObjectRandom;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (crab = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (objectIndex = 0;
+         objectIndex < mapObjectList->mMapObjectCount && (crab = mapObjectList->mMapObjects[objectIndex]) != NULL;
+         objectIndex++) {
         crab->mHandWobble.mAngle = 0;
         crab->mHandWobble.mMid = 0;
         crab->mHandWobble.mAmplitude = 0x1c7;
@@ -188,8 +190,8 @@ s16 CrabFX_SinIdx(s32 angle) {
     return FX_SinIdx(angle);
 }
 
-s32 CrabFX_MulInline(s32 a, s32 b) {
-    return MUL_FIXED12_ROUNDED(a, b);
+s32 CrabFX_MulInline(s32 value, s32 factor) {
+    return MUL_FIXED12_ROUNDED(value, factor);
 }
 
 static inline void AdvanceCrabWobble(TeresaWobble *wobble) {
@@ -227,8 +229,8 @@ static inline void AdvanceCrabWobble(TeresaWobble *wobble) {
     }
 }
 
-void UpdateCrab(void *a, Crab *crab) {
-    Vec3 v;
+void UpdateCrab(void *mapObjectList, Crab *crab) {
+    Vec3 upVector;
     RandomState64 *mapObjectRandom;
 
     switch (crab->mState) {
@@ -273,12 +275,12 @@ void UpdateCrab(void *a, Crab *crab) {
             }
             AdvanceCrabWobble(&crab->mHandWobble);
             GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mMapObject.mPos);
-            v = *GetGroupFollowerSegmentUp(&crab->mFollower);
-            VEC_Subtract(&v, &crab->mMapObject.mMatrix.mRows[1], &v);
-            v.x = MUL_FIXED12_NO_ROUND(v.x, 0x800);
-            v.y = MUL_FIXED12_NO_ROUND(v.y, 0x800);
-            v.z = MUL_FIXED12_NO_ROUND(v.z, 0x800);
-            VEC_Add(&crab->mMapObject.mMatrix.mRows[1], &v, &crab->mMapObject.mMatrix.mRows[1]);
+            upVector = *GetGroupFollowerSegmentUp(&crab->mFollower);
+            VEC_Subtract(&upVector, &crab->mMapObject.mMatrix.mRows[1], &upVector);
+            upVector.x = MUL_FIXED12_NO_ROUND(upVector.x, 0x800);
+            upVector.y = MUL_FIXED12_NO_ROUND(upVector.y, 0x800);
+            upVector.z = MUL_FIXED12_NO_ROUND(upVector.z, 0x800);
+            VEC_Add(&crab->mMapObject.mMatrix.mRows[1], &upVector, &crab->mMapObject.mMatrix.mRows[1]);
             if ((s64) crab->mMapObject.mMatrix.mRows[1].x * crab->mMapObject.mMatrix.mRows[1].x +
                     (s64) crab->mMapObject.mMatrix.mRows[1].y * crab->mMapObject.mMatrix.mRows[1].y +
                     (s64) crab->mMapObject.mMatrix.mRows[1].z * crab->mMapObject.mMatrix.mRows[1].z >=

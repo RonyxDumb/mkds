@@ -25,7 +25,7 @@ void ResetRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, stru
 u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
 void InitKartAiTables(void);
 void AdvanceStaffRollKartAi(struct KartAi *kartAi);
-void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 a);
+void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue);
 void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi);
 void ResetAwardMissionRunKartAi(struct KartAi *kartAi, struct RacePointLink *pointLink);
-void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 a);
+void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue);

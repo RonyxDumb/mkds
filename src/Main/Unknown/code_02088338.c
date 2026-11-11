@@ -13,74 +13,77 @@ void SetKartModelPathPrefix(int value) {
     }
 }
 
-char *BuildCharacterNsbmdPath(u16 a, s32 b) {
+char *BuildCharacterNsbmdPath(u16 characterIndex, s32 usePNames) {
     const char *ext = "nsbmd";
     const char *name;
-    if (b != 0) {
-        name = gCharacterPNames[a].mName;
+    if (usePNames != 0) {
+        name = gCharacterPNames[characterIndex].mName;
     } else {
-        name = gCharacterENames[a].mName;
+        name = gCharacterENames[characterIndex].mName;
     }
-    snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName, gCharacterSubDirNames[a]);
+    snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName,
+             gCharacterSubDirNames[characterIndex]);
     snprintf(gKartModelPathBuffer, 0x100, "%s%s.%s", gKartModelPathBuffer, name, ext);
     return gKartModelPathBuffer;
 }
 
-char *BuildCharacterNsbtxPath(u16 a, s32 b) {
+char *BuildCharacterNsbtxPath(u16 characterIndex, s32 usePNames) {
     const char *ext = "nsbtx";
     const char *name;
-    if (b != 0) {
-        name = gCharacterPNames[a].mName;
+    if (usePNames != 0) {
+        name = gCharacterPNames[characterIndex].mName;
     } else {
-        name = gCharacterENames[a].mName;
+        name = gCharacterENames[characterIndex].mName;
     }
-    snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName, gCharacterSubDirNames[a]);
+    snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName,
+             gCharacterSubDirNames[characterIndex]);
     snprintf(gKartModelPathBuffer, 0x100, "%s%s.%s", gKartModelPathBuffer, name, ext);
     return gKartModelPathBuffer;
 }
 
-char *BuildKartNsbmdPath(u16 a) {
+char *BuildKartNsbmdPath(u16 kartIndex) {
     const char *ext = "nsbmd";
     snprintf(gKartModelPathBuffer, 0x100, "%s%s%skart_%s.%s", gKartModelPathPrefix, gKartDirName,
-             a % 3 == 0 ? "mario/" : gCharacterSubDirNames[a / 3], gKartNames[a].mUnk_00, ext);
+             kartIndex % 3 == 0 ? "mario/" : gCharacterSubDirNames[kartIndex / 3], gKartNames[kartIndex].mUnk_00, ext);
     return gKartModelPathBuffer;
 }
 
-char *BuildKartNsbtxPath(u16 a) {
+char *BuildKartNsbtxPath(u16 kartIndex) {
     const char *ext = "nsbtx";
     snprintf(gKartModelPathBuffer, 0x100, "%s%s%skart_%s.%s", gKartModelPathPrefix, gKartDirName,
-             a % 3 == 0 ? "mario/" : gCharacterSubDirNames[a / 3], gKartNames[a].mUnk_00, ext);
+             kartIndex % 3 == 0 ? "mario/" : gCharacterSubDirNames[kartIndex / 3], gKartNames[kartIndex].mUnk_00, ext);
     return gKartModelPathBuffer;
 }
 
-char *BuildTireNsbmdPath(u16 a, const char *name) {
+char *BuildTireNsbmdPath(u16 unusedValue, const char *name) {
     const char *ext = "nsbmd";
     snprintf(gKartModelPathBuffer, 0x100, "%s%stire/%s.%s", gKartModelPathPrefix, gKartDirName, name, ext);
     return gKartModelPathBuffer;
 }
 
-char *BuildTireNsbtxPath(u16 a, const char *name) {
+char *BuildTireNsbtxPath(u16 unusedValue, const char *name) {
     const char *ext = "nsbtx";
     snprintf(gKartModelPathBuffer, 0x100, "%s%stire/%s.%s", gKartModelPathPrefix, gKartDirName, name, ext);
     return gKartModelPathBuffer;
 }
 
-char *BuildKartShadowNsbmdPath(u16 a) {
+char *BuildKartShadowNsbmdPath(u16 kartIndex) {
     snprintf(gKartModelPathBuffer, 0x100, "%s%sshadow/sh_%s.nsbmd", gKartModelPathPrefix, gKartDirName,
-             gKartShadowNames[a].mUnk_00);
+             gKartShadowNames[kartIndex].mUnk_00);
     return gKartModelPathBuffer;
 }
 
-const char *LookupCharacterPOrEName(s32 a, s32 b) {
-    if (b != 0) {
-        return gCharacterPNames[a].mName;
+const char *LookupCharacterPOrEName(s32 characterIndex, s32 usePNames) {
+    if (usePNames != 0) {
+        return gCharacterPNames[characterIndex].mName;
     } else {
-        return gCharacterENames[a].mName;
+        return gCharacterENames[characterIndex].mName;
     }
 }
 
-char *BuildCharacterDirPath(s32 a) {
-    snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName, gCharacterSubDirNames[a]);
+char *BuildCharacterDirPath(s32 characterIndex) {
+    snprintf(gKartModelPathBuffer, 0x100, "%s%s%s", gKartModelPathPrefix, gCharacterDirName,
+             gCharacterSubDirNames[characterIndex]);
     return gKartModelPathBuffer;
 }
 
@@ -90,12 +93,14 @@ s8 *BuildPFaceanimNsbtpPath(void) {
     return (s8 *) &gKartModelPathBuffer;
 }
 
-char *BuildEmblemNsbtxPath(u16 a) {
-    snprintf(gKartModelPathBuffer, 0x100, gEmblemNsbtxFormat, gKartModelPathPrefix, gCharacterEmblemNames[a].mName);
+char *BuildEmblemNsbtxPath(u16 characterIndex) {
+    snprintf(gKartModelPathBuffer, 0x100, gEmblemNsbtxFormat, gKartModelPathPrefix,
+             gCharacterEmblemNames[characterIndex].mName);
     return gKartModelPathBuffer;
 }
 
-char *BuildTeamEmblemNsbtxPath(s32 a) {
-    snprintf(gKartModelPathBuffer, 0x100, gTeamEmblemNsbtxFormat, gKartModelPathPrefix, gTeamEmblemNames[a == 0]);
+char *BuildTeamEmblemNsbtxPath(s32 teamIndex) {
+    snprintf(gKartModelPathBuffer, 0x100, gTeamEmblemNsbtxFormat, gKartModelPathPrefix,
+             gTeamEmblemNames[teamIndex == 0]);
     return gKartModelPathBuffer;
 }

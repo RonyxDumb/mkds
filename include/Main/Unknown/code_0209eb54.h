@@ -16,11 +16,12 @@ typedef struct Picture {
 } Picture;
 
 /* kind 0xd objects are MapObject-sized (0xa0) */
-void DrawPuddle(void *a, MapObject *b);
-void SetupDrawPuddle(void *a);
-void CreatePuddle(void *a);
+void DrawPuddle(void *mapObjectList, MapObject *mapObject);
+void SetupDrawPuddle(void *mapObjectList);
+void CreatePuddle(void *mapObjectList);
 void *CreatePictureUpdateList(void);
 void *CreatePictureDrawList(void);
-void UpdatePicture(void *a, Picture *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawPicture(void *a, Picture *b);
-void CreatePicture1AndPicture2(void *a);
+void UpdatePicture(void *mapObjectList,
+                   Picture *picture); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void DrawPicture(void *mapObjectList, Picture *picture);
+void CreatePicture1AndPicture2(void *mapObjectList);

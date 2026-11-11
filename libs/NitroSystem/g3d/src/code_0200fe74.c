@@ -15,7 +15,7 @@ u16 gVramBankLockIds[9];
 void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data, NNSG3dResTex *tex,
                           NNSG3dResDictTexData *texData) {
     u32 keyOffset;
-    u32 i;
+    u32 matIndex;
     u8 *matIndices;
     u32 width;
     u32 height;
@@ -27,10 +27,10 @@ void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data,
     } else {
         keyOffset = tex->mTex4x4Info.mVramKey & 0xffff;
     }
-    for (i = 0; i < data->mNumIdx; i++) {
+    for (matIndex = 0; matIndex < data->mNumIdx; matIndex++) {
         NNSG3dResDictEntryHeader *table;
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
-        matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[i]));
+        matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[matIndex]));
         matEntry->mTexImageParam |= texData->mTexImageParam + keyOffset;
         width = texData->mExtraParam & 0x7ff;
         height = (texData->mExtraParam >> 11) & 0x7ff;
@@ -44,14 +44,14 @@ void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data,
 // Resets the texture offset and size ratio of each material in the list.
 void releaseMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data) {
     u8 *matIndices;
-    u32 i;
+    u32 matIndex;
     NNSG3dResMatData *matEntry;
 
     matIndices = (u8 *) mat + data->mOffset;
-    for (i = 0; i < data->mNumIdx; i++) {
+    for (matIndex = 0; matIndex < data->mNumIdx; matIndex++) {
         NNSG3dResDictEntryHeader *table;
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
-        matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[i]));
+        matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[matIndex]));
         matEntry->mTexImageParam &= 0xc00f0000;
         matEntry->mMagW = 0x1000;
         matEntry->mMagH = matEntry->mMagW;
@@ -64,7 +64,7 @@ int NNS_G3dBindMdlTex(NNSG3dResMdl *mdl, NNSG3dResTex *tex) {
     NNSG3dResMat *materials;
     NNSG3dResDict *list;
     int result;
-    u32 i;
+    u32 entryIndex;
     void *texEntry;
     NNSG3dResDictEntryHeader *table;
     NNSG3dResDictTexToMatIdxData *binding;
@@ -72,12 +72,12 @@ int NNS_G3dBindMdlTex(NNSG3dResMdl *mdl, NNSG3dResTex *tex) {
     materials = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     list = OFFSET_PTR(NNSG3dResDict, materials, materials->mOfsDictTexToMatList);
     result = 1;
-    for (i = 0; i < list->mNumEntry; i++) {
+    for (entryIndex = 0; entryIndex < list->mNumEntry; entryIndex++) {
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, list, list->mOfsEntry);
-        texEntry = NNS_G3dGetResDataByName(&tex->mDict, DICT_ENTRY_NAME(table, i));
+        texEntry = NNS_G3dGetResDataByName(&tex->mDict, DICT_ENTRY_NAME(table, entryIndex));
         if (texEntry != 0) {
             table = OFFSET_PTR(NNSG3dResDictEntryHeader, list, list->mOfsEntry);
-            binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, i);
+            binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, entryIndex);
             if ((binding->mFlag & 1) == 0) {
                 bindMdlTex_Internal_(materials, binding, tex, texEntry);
             }
@@ -112,13 +112,13 @@ void NNS_G3dReleaseMdlTex(NNSG3dResMdl *mdl) {
     NNSG3dResDict *list;
     NNSG3dResDictEntryHeader *table;
     NNSG3dResDictTexToMatIdxData *binding;
-    u32 i;
+    u32 entryIndex;
 
     materials = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     list = OFFSET_PTR(NNSG3dResDict, materials, materials->mOfsDictTexToMatList);
-    for (i = 0; i < list->mNumEntry; i++) {
+    for (entryIndex = 0; entryIndex < list->mNumEntry; entryIndex++) {
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, list, list->mOfsEntry);
-        binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, i);
+        binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, entryIndex);
         if ((binding->mFlag & 1) != 0) {
             releaseMdlTex_Internal_(materials, binding);
         }
@@ -144,7 +144,7 @@ void bindMdlPltt_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data
     u8 *matIndices;
     u32 base;
     u32 keyOffset;
-    u32 i;
+    u32 matIndex;
     NNSG3dResDictEntryHeader *table;
     NNSG3dResMatData *matEntry;
 
@@ -155,9 +155,9 @@ void bindMdlPltt_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data
         base = (base << 15) >> 16;
         keyOffset = (keyOffset << 15) >> 16;
     }
-    for (i = 0; i < data->mNumIdx; i++) {
+    for (matIndex = 0; matIndex < data->mNumIdx; matIndex++) {
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
-        matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[i]));
+        matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[matIndex]));
         matEntry->mTexPlttBase = keyOffset + base;
     }
     data->mFlag |= 1;
@@ -168,21 +168,21 @@ u32 NNS_G3dBindMdlPltt(NNSG3dResMdl *mdl, NNSG3dResTex *tex) {
     NNSG3dResMat *materials;
     NNSG3dResDict *list;
     NNSG3dResDictEntryHeader *table;
-    u32 i;
+    u32 entryIndex;
     u32 result;
     void *plttEntry;
     NNSG3dResDictTexToMatIdxData *binding;
 
     materials = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     result = 1;
-    i = 0;
+    entryIndex = 0;
     list = OFFSET_PTR(NNSG3dResDict, materials, materials->mOfsDictPlttToMatList);
-    for (; i < list->mNumEntry; i++) {
+    for (; entryIndex < list->mNumEntry; entryIndex++) {
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, list, list->mOfsEntry);
-        plttEntry = NNS_G3dGetResDataByName((u8 *) tex + tex->mPlttInfo.mOfsDict, DICT_ENTRY_NAME(table, i));
+        plttEntry = NNS_G3dGetResDataByName((u8 *) tex + tex->mPlttInfo.mOfsDict, DICT_ENTRY_NAME(table, entryIndex));
         if (plttEntry != 0) {
             table = OFFSET_PTR(NNSG3dResDictEntryHeader, list, list->mOfsEntry);
-            binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, i);
+            binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, entryIndex);
             if ((binding->mFlag & 1) == 0) {
                 bindMdlPltt_Internal_(materials, binding, tex, plttEntry);
             }
@@ -217,13 +217,13 @@ void NNS_G3dReleaseMdlPltt(NNSG3dResMdl *mdl) {
     NNSG3dResDict *list;
     NNSG3dResDictEntryHeader *table;
     NNSG3dResDictTexToMatIdxData *binding;
-    u32 i;
+    u32 entryIndex;
 
     materials = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     list = OFFSET_PTR(NNSG3dResDict, materials, materials->mOfsDictPlttToMatList);
-    for (i = 0; i < list->mNumEntry; i++) {
+    for (entryIndex = 0; entryIndex < list->mNumEntry; entryIndex++) {
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, list, list->mOfsEntry);
-        binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, i);
+        binding = DICT_ENTRY(NNSG3dResDictTexToMatIdxData, table, entryIndex);
         if ((binding->mFlag & 1) != 0) {
             binding->mFlag &= ~1;
         }
@@ -245,39 +245,39 @@ u32 NNS_G3dReleaseMdlPlttEx(NNSG3dResMdl *mdl, const u32 *name) {
 
 // Returns 0 when a name is missing.
 u32 NNS_G3dBindMdlSet(NNSG3dResMdlSet *mdlSet, NNSG3dResTex *tex) {
-    u32 i;
+    u32 modelIndex;
     u32 result;
     NNSG3dResDictEntryHeader *table;
     NNSG3dResMdl *model;
 
     result = 1;
-    i = 0;
-    if (i < mdlSet->mDict.mNumEntry) {
+    modelIndex = 0;
+    if (modelIndex < mdlSet->mDict.mNumEntry) {
         do {
             table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
-            model = OFFSET_PTR(NNSG3dResMdl, mdlSet, *DICT_ENTRY(u32, table, i));
+            model = OFFSET_PTR(NNSG3dResMdl, mdlSet, *DICT_ENTRY(u32, table, modelIndex));
             result &= NNS_G3dBindMdlTex(model, tex);
             result &= NNS_G3dBindMdlPltt(model, tex);
-            i++;
-        } while (i < mdlSet->mDict.mNumEntry);
+            modelIndex++;
+        } while (modelIndex < mdlSet->mDict.mNumEntry);
     }
     return result;
 }
 
 void NNS_G3dReleaseMdlSet(NNSG3dResMdlSet *mdlSet) {
-    u32 i;
+    u32 modelIndex;
     NNSG3dResDictEntryHeader *table;
     NNSG3dResMdl *model;
 
-    i = 0;
-    if (i < mdlSet->mDict.mNumEntry) {
+    modelIndex = 0;
+    if (modelIndex < mdlSet->mDict.mNumEntry) {
         do {
             table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
-            model = OFFSET_PTR(NNSG3dResMdl, mdlSet, *DICT_ENTRY(u32, table, i));
+            model = OFFSET_PTR(NNSG3dResMdl, mdlSet, *DICT_ENTRY(u32, table, modelIndex));
             NNS_G3dReleaseMdlTex(model);
             NNS_G3dReleaseMdlPltt(model);
-            i++;
-        } while (i < mdlSet->mDict.mNumEntry);
+            modelIndex++;
+        } while (modelIndex < mdlSet->mDict.mNumEntry);
     }
 }
 
@@ -306,11 +306,11 @@ void OS_GetLowEntropyData(Unk0201000c *buffer) {
 
 // Sets the locked-bank mask and the nine bank lock ids to 0.
 void OSi_InitVramExclusive(void) {
-    s32 i;
+    s32 bankIndex;
 
     gVramBankLockedMask = 0;
-    for (i = 0; i < 9; i++) {
-        gVramBankLockIds[i] = 0;
+    for (bankIndex = 0; bankIndex < 9; bankIndex++) {
+        gVramBankLockIds[bankIndex] = 0;
     }
 }
 

@@ -17,117 +17,119 @@ void AdvanceKartOffsetCycleIndex(Kart *kart) {
     kart->mOffsetCycleAmount.z = gKartOffsetCycleZ[kart->mOffsetCycleIndex];
 }
 
-s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
-    BOOL v1;
-    s32 a = p->mForwardSpeed;
-    s32 c;
-    s32 g;
-    s32 b;
-    u32 f = p->mUnk_48;
+s32 LimitKartForwardSpeedAndGetScaled(Kart *kart) {
+    BOOL isNegative;
+    s32 speed = kart->mForwardSpeed;
+    s32 value;
+    s32 limit;
+    s32 pullSpeed;
+    u32 flags = kart->mUnk_48;
 
-    v1 = a < 0;
+    isNegative = speed < 0;
 
-    a = a > 0 ? a : -a;
-    b = p->mAttractorPullSpeed;
-    c = p->mSpeedLimit - b;
-    if ((f & 4) && (p->mUnk_44 & KART_44_REVERSING)) {
-        if (c > 0x3000) {
-            c = 0x3000;
+    speed = speed > 0 ? speed : -speed;
+    pullSpeed = kart->mAttractorPullSpeed;
+    value = kart->mSpeedLimit - pullSpeed;
+    if ((flags & 4) && (kart->mUnk_44 & KART_44_REVERSING)) {
+        if (value > 0x3000) {
+            value = 0x3000;
         }
     }
-    g = p->mMapObjectVectorLength +
-        (b + MUL_FIXED12_NO_ROUND(c, MUL_FIXED12_NO_ROUND(p->mSpeedLimitHitFactor, p->mShrinkFactor)));
-    if (a > g) {
-        p->mForwardSpeed = g;
+    limit = kart->mMapObjectVectorLength +
+            (pullSpeed +
+             MUL_FIXED12_NO_ROUND(value, MUL_FIXED12_NO_ROUND(kart->mSpeedLimitHitFactor, kart->mShrinkFactor)));
+    if (speed > limit) {
+        kart->mForwardSpeed = limit;
     } else {
-        if (a <= MUL_FIXED12_NO_ROUND(0x19a, p->mSpeedLimitHitFactor) && !(p->mUnk_44 & 0x80000) && !(f & 6)) {
-            p->mForwardSpeed = 0;
+        if (speed <= MUL_FIXED12_NO_ROUND(0x19a, kart->mSpeedLimitHitFactor) && !(kart->mUnk_44 & 0x80000) &&
+            !(flags & 6)) {
+            kart->mForwardSpeed = 0;
         } else {
-            p->mForwardSpeed = a;
+            kart->mForwardSpeed = speed;
         }
     }
-    if (v1) {
-        p->mForwardSpeed *= -1;
+    if (isNegative) {
+        kart->mForwardSpeed *= -1;
     }
-    g = p->mMapObjectVectorForwardDot;
-    if (g != 0) {
-        if (g > 0) {
-            a = p->mForwardSpeed;
-            if (a < 0) {
-                p->mForwardSpeed = a + g;
-                if (p->mForwardSpeed > p->mMapObjectVectorForwardDot) {
-                    p->mForwardSpeed = p->mMapObjectVectorForwardDot;
+    limit = kart->mMapObjectVectorForwardDot;
+    if (limit != 0) {
+        if (limit > 0) {
+            speed = kart->mForwardSpeed;
+            if (speed < 0) {
+                kart->mForwardSpeed = speed + limit;
+                if (kart->mForwardSpeed > kart->mMapObjectVectorForwardDot) {
+                    kart->mForwardSpeed = kart->mMapObjectVectorForwardDot;
                 }
             } else {
-                a = a > 0 ? a : -a;
-                c = g > 0 ? g : -g;
-                if (c > a) {
-                    p->mForwardSpeed = g;
+                speed = speed > 0 ? speed : -speed;
+                value = limit > 0 ? limit : -limit;
+                if (value > speed) {
+                    kart->mForwardSpeed = limit;
                 }
             }
         } else {
-            a = p->mForwardSpeed;
-            if (a > 0) {
-                p->mForwardSpeed = a + g;
-                if (p->mForwardSpeed < p->mMapObjectVectorForwardDot) {
-                    p->mForwardSpeed = p->mMapObjectVectorForwardDot;
+            speed = kart->mForwardSpeed;
+            if (speed > 0) {
+                kart->mForwardSpeed = speed + limit;
+                if (kart->mForwardSpeed < kart->mMapObjectVectorForwardDot) {
+                    kart->mForwardSpeed = kart->mMapObjectVectorForwardDot;
                 }
             } else {
-                a = a > 0 ? a : -a;
-                c = g > 0 ? g : -g;
-                if (c > a) {
-                    p->mForwardSpeed = g;
+                speed = speed > 0 ? speed : -speed;
+                value = limit > 0 ? limit : -limit;
+                if (value > speed) {
+                    kart->mForwardSpeed = limit;
                 }
             }
         }
     }
-    return MUL_FIXED12_ROUNDED(p->mForwardSpeed, 0x1000 - (p->mAttractorPullSpeed >> 3));
+    return MUL_FIXED12_ROUNDED(kart->mForwardSpeed, 0x1000 - (kart->mAttractorPullSpeed >> 3));
 }
 
-void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a) {
-    s32 r;
+void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *kart, s32 scale) {
+    s32 length;
 
-    p->mVelocity.x = MUL_FIXED12_NO_ROUND(p->mVelocity.x, a);
-    r = 0;
-    p->mVelocity.y = MUL_FIXED12_NO_ROUND(p->mVelocity.y, a);
-    p->mVelocity.z = MUL_FIXED12_NO_ROUND(p->mVelocity.z, a);
-    if ((s64) p->mVelocity.x * p->mVelocity.x + (s64) p->mVelocity.y * p->mVelocity.y +
-            (s64) p->mVelocity.z * p->mVelocity.z >=
+    kart->mVelocity.x = MUL_FIXED12_NO_ROUND(kart->mVelocity.x, scale);
+    length = 0;
+    kart->mVelocity.y = MUL_FIXED12_NO_ROUND(kart->mVelocity.y, scale);
+    kart->mVelocity.z = MUL_FIXED12_NO_ROUND(kart->mVelocity.z, scale);
+    if ((s64) kart->mVelocity.x * kart->mVelocity.x + (s64) kart->mVelocity.y * kart->mVelocity.y +
+            (s64) kart->mVelocity.z * kart->mVelocity.z >=
         0x10) {
-        r = Vec3NormalizeAndGetLengthUnchecked(&p->mVelocity, &p->mVelocityDirection);
+        length = Vec3NormalizeAndGetLengthUnchecked(&kart->mVelocity, &kart->mVelocityDirection);
     }
-    p->mVelocityLength = r;
-    if (p->mVelocityLength > 0xd000) {
-        p->mVelocityLength = 0xd000;
-        p->mVelocity.x = MUL_FIXED12_NO_ROUND(p->mVelocityDirection.x, 0xd000);
-        p->mVelocity.y = MUL_FIXED12_NO_ROUND(p->mVelocityDirection.y, 0xd000);
-        p->mVelocity.z = MUL_FIXED12_NO_ROUND(p->mVelocityDirection.z, 0xd000);
+    kart->mVelocityLength = length;
+    if (kart->mVelocityLength > 0xd000) {
+        kart->mVelocityLength = 0xd000;
+        kart->mVelocity.x = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.x, 0xd000);
+        kart->mVelocity.y = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.y, 0xd000);
+        kart->mVelocity.z = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.z, 0xd000);
     }
 }
 
-void AdvanceKartQuaternionFromVector(Kart *p, Vec3 *a) {
-    Vec4 v;
-    Vec4 w;
-    Vec4 *q = &p->mUnk_100_q;
-    s32 r;
+void AdvanceKartQuaternionFromVector(Kart *kart, Vec3 *target) {
+    Vec4 fromUpQuaternion;
+    Vec4 fromGroundQuaternion;
+    Vec4 *kartQuaternion = &kart->mUnk_100_q;
+    s32 succeeded;
 
-    r = TryQuaternionFromVectors(&v, &gKartVec3UnitY, a);
-    TryQuaternionFromVectors(&w, &p->mGroundNormal, a);
-    QuaternionMultiply(&w, q, q);
-    if (r != 0) {
-        if ((v.w < 0 && q->w > 0) || (v.w > 0 && q->w < 0)) {
-            q->x = -v.x;
-            q->y = 0;
-            q->z = -v.z;
-            q->w = -v.w;
-            p->mUnk_48 = p->mUnk_48 | 0x80000000;
+    succeeded = TryQuaternionFromVectors(&fromUpQuaternion, &gKartVec3UnitY, target);
+    TryQuaternionFromVectors(&fromGroundQuaternion, &kart->mGroundNormal, target);
+    QuaternionMultiply(&fromGroundQuaternion, kartQuaternion, kartQuaternion);
+    if (succeeded != 0) {
+        if ((fromUpQuaternion.w < 0 && kartQuaternion->w > 0) || (fromUpQuaternion.w > 0 && kartQuaternion->w < 0)) {
+            kartQuaternion->x = -fromUpQuaternion.x;
+            kartQuaternion->y = 0;
+            kartQuaternion->z = -fromUpQuaternion.z;
+            kartQuaternion->w = -fromUpQuaternion.w;
+            kart->mUnk_48 = kart->mUnk_48 | 0x80000000;
         } else {
-            q->x = v.x;
-            q->y = 0;
-            q->z = v.z;
-            q->w = v.w;
-            p->mUnk_48 = p->mUnk_48 & ~0x80000000;
+            kartQuaternion->x = fromUpQuaternion.x;
+            kartQuaternion->y = 0;
+            kartQuaternion->z = fromUpQuaternion.z;
+            kartQuaternion->w = fromUpQuaternion.w;
+            kart->mUnk_48 = kart->mUnk_48 & ~0x80000000;
         }
     }
-    QuaternionNormalize(q, q);
+    QuaternionNormalize(kartQuaternion, kartQuaternion);
 }

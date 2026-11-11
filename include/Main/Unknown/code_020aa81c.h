@@ -26,7 +26,7 @@ void SetKeyboardKeyCallback(s32 (*arg0)(u32, s32));
 void SetKeyboardCursorCallback(u16 (*arg0)(s32, u16));
 void SetKeyboardGlyphColor(u32 color);
 void SetKeyboardScreenMapTopBits(u32 topBits);
-void SetupKeyboardInputMasks(u16 a, u16 b, u16 c);
+void SetupKeyboardInputMasks(u16 firstMask, u16 secondMask, u16 thirdMask);
 s32 GetKeyboardValueForKeyId(u32 keyId);
 s32 GetKeyboardRectValue(KeyboardRect *keyboardRect);
 KeyboardRect *FindKeyboardRectByValue(u16 value);
@@ -43,4 +43,4 @@ void InitKeyboardTextEntry(s32 screenMapWidth, s32 screenMapHeight, s32 textCapa
 u16 KeyboardCursorCallback(s32 rectValue, u16 keys);
 s32 KeyboardKeyCallback(u32 keyValue, s32 newPress);
 s32 GetKeyboardLastCharIndex(void);
-void SplitBytesIntoNibbles(u8 *src, u8 *dst, s32 n);
+void SplitBytesIntoNibbles(u8 *src, u8 *dst, s32 size);

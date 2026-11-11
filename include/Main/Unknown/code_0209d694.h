@@ -33,4 +33,4 @@ typedef struct SunFireball {
 void StartSunFireball(Vec3 *startPos, Vec3 *direction);
 void CreateSunFireballUpdateList(void);
 void CreateSunFireballKindData(void);
-void UpdateSunFireball(void *a, SunFireball *sunFireball);
+void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball);
