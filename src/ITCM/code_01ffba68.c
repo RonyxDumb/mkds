@@ -617,13 +617,13 @@ void AdvanceKartForwardSpeedAndAngles(Kart *kart) {
 
     notDrifting = (kart->mUnk_44 & KART_44_DRIFTING) == 0;
     if (notDrifting) {
-        acceleration = kart->mPhysicalParam->mUnk_14;
-        endAcceleration = kart->mPhysicalParam->mUnk_18;
-        endRatio = kart->mPhysicalParam->mUnk_1c;
+        acceleration = kart->mPhysicalParam->mAcceleration;
+        endAcceleration = kart->mPhysicalParam->mEndAcceleration;
+        endRatio = kart->mPhysicalParam->mEndRatio;
     } else {
-        acceleration = kart->mPhysicalParam->mUnk_20;
-        endAcceleration = kart->mPhysicalParam->mUnk_24;
-        endRatio = kart->mPhysicalParam->mUnk_28;
+        acceleration = kart->mPhysicalParam->mDriftAcceleration;
+        endAcceleration = kart->mPhysicalParam->mDriftEndAcceleration;
+        endRatio = kart->mPhysicalParam->mDriftEndRatio;
     }
     baseAcceleration = acceleration;
     flags = kart->mUnk_48;
@@ -687,12 +687,12 @@ void AdvanceKartForwardSpeedAndAngles(Kart *kart) {
         return;
     }
     if (kart->mTurnAngle > 0) {
-        kart->mTurnAngle = kart->mTurnAngle - kart->mPhysicalParam->mUnk_34;
+        kart->mTurnAngle = kart->mTurnAngle - kart->mPhysicalParam->mTurnAngleStep;
         if (kart->mTurnAngle < 0) {
             kart->mTurnAngle = 0;
         }
     } else if (kart->mTurnAngle < 0) {
-        kart->mTurnAngle = kart->mTurnAngle + kart->mPhysicalParam->mUnk_34;
+        kart->mTurnAngle = kart->mTurnAngle + kart->mPhysicalParam->mTurnAngleStep;
         if (kart->mTurnAngle > 0) {
             kart->mTurnAngle = 0;
         }

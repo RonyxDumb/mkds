@@ -37,7 +37,7 @@ void InitArchiveSlots(void *heap) {
         ResetArchiveBuffer(index);
     }
     gArchiveSlots->mCourseId = NULL;
-    gArchiveSlots->mUnk_a78 = NULL;
+    gArchiveSlots->mFirstHeap = NULL;
     gArchiveSlots->mCourseBufferHeap = NULL;
     FS_InitFile(&gArchiveSlots->mFile);
 }

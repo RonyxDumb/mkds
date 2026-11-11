@@ -45,7 +45,7 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     itemInUse->mKartDrawMatrixPos = kart->mDrawMatrixPos;
     itemInUse->mKartVelocity = kart->mVelocity;
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
-    itemInUse->mBehindDistance = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mUnk_08, kart->mScale.z);
+    itemInUse->mBehindDistance = MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mBehindDistance, kart->mScale.z);
     itemInUse->mKartHopHeight = kart->mHopHeight;
     itemInUse->mMovingForward = Vec3DotUnrounded(&itemInUse->mKartOrientation.mRows[2], &itemInUse->mKartVelocity) > 0;
     VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);

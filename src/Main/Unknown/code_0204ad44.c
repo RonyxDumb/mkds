@@ -59,7 +59,7 @@ void FillStartupWork(void) {
     MI_CpuFill8(gStartupWork->mOwnerText, 0, 0x14);
     gStartupWork->mOwnerCharCount = ownerInfo.mNickNameLength;
     MI_CpuCopy8(ownerInfo.mNickName, gStartupWork->mOwnerText, gStartupWork->mOwnerCharCount << 1);
-    gStartupWork->mUnk_40 = ownerInfo.mFavoriteColor;
+    gStartupWork->mFavoriteColor = ownerInfo.mFavoriteColor;
     gStartupWork->mRegion = 1;
     switch (ownerInfo.mLanguage) {
         case 1:

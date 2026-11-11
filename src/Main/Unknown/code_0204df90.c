@@ -156,7 +156,7 @@ void StartMultiBootParent(void) {
     gConnectionWork->mRequestPending = 1;
     ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
     user.mNameLength = 10;
-    user.mFavoriteColor = gStartupWork->mUnk_40;
+    user.mFavoriteColor = gStartupWork->mFavoriteColor;
     user.mPlayerNo = 8;
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mName, 0x14);
     gConnectionWork->mParentTgid = ComputeParentTgid(1);
@@ -179,7 +179,7 @@ void SetupScanConnect(void) {
     MBUserInfo userInfo;
     gConnectionWork->mStep = 0x1c;
     gConnectionWork->mRequestPending = 1;
-    userInfo.mFavoriteColor = gStartupWork->mUnk_40;
+    userInfo.mFavoriteColor = gStartupWork->mFavoriteColor;
     userInfo.mNameLength = 10;
     userInfo.mPlayerNo = 9;
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mName, 0x14);
@@ -223,7 +223,7 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     if (gConnectionWork->mStep == 0x1e) {
         for (index = 0; index < 16; index++) {
             if (MB_FakeGetParentBssDesc(index, &scanBlock) != 0) {
-                u8 *tableBytes = gConnectionWork->mScanSlots[0].mKey.mUnk_00;
+                u8 *tableBytes = gConnectionWork->mScanSlots[0].mKey.mBytes;
                 u8 *entryBytes = tableBytes + entryIndex * 0xe0;
                 if (scanBlock.mBssid[0] == tableBytes[entryIndex * 0xe0] && scanBlock.mBssid[1] == entryBytes[1] &&
                     scanBlock.mBssid[2] == entryBytes[2] && scanBlock.mBssid[3] == entryBytes[3] &&

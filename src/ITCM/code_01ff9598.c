@@ -239,7 +239,7 @@ void RefreshKartSurface(Kart *kart) {
     } else {
         easeIndex = surfaceGroup;
     }
-    kart->mTurnedForwardEaseFactor = kart->mPhysicalParam->mUnk_38[easeIndex];
+    kart->mTurnedForwardEaseFactor = kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[easeIndex];
     if (kart->mUnk_48 & 0x40000000) {
         if (kart->mUnk_44 & KART_44_ON_GROUND) {
             if (surfaceGroup != 0xb) {

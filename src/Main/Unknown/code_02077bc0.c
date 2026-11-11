@@ -147,9 +147,9 @@ void InitKarts(u32 kartCount) {
     gMinKartDistanceSquared = -1;
     entryKartCounters->mRaceStartBoosted = 0;
     entryKartCounters->mMiniTurboCount = 0;
-    entryKartCounters->mUnk_08 = 0;
-    entryKartCounters->mUnk_0c = 0;
-    entryKartCounters->mUnk_10 = 0;
+    entryKartCounters->mItemHitCount = 0;
+    entryKartCounters->mSurfaceCount = 0;
+    entryKartCounters->mCourseContactCount = 0;
     entryKartCounters->mMapObjectHitCount = 0;
     entryKartCounters->mRespawnCount = 0;
     data_usa_021658bc = gRaceSetup->mMode == MODE_BATTLE ? 1 : 2;
@@ -294,7 +294,7 @@ void SetKartSpeedLimitReciprocal(u32 speedLimitReciprocal) {
 
 void IncrementEntryKartItemHitCount(s32 kartIndex) {
     if (kartIndex == gRaceSetup->mEntryIndex) {
-        gEntryKartCounters->mUnk_08++;
+        gEntryKartCounters->mItemHitCount++;
     }
 }
 
@@ -306,7 +306,7 @@ void IncrementEntryKartSurfaceCount(Kart *kart) {
         return;
     }
     if (!(kart->mUnk_48 & 0x20000000)) {
-        gEntryKartCounters->mUnk_0c++;
+        gEntryKartCounters->mSurfaceCount++;
     }
 }
 

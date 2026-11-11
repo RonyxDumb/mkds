@@ -30,7 +30,7 @@ typedef struct StartupWork {
     /* 28 */ s16 mUnk_28;
     /* 2a */ u8 mOwnerText[0x14];
     /* 3e */ u16 mOwnerCharCount;
-    /* 40 */ u8 mUnk_40;
+    /* 40 */ u8 mFavoriteColor;
     /* 41 */ u8 mUnk_41[0x3];
     /* 44 */ s32 mPickedValue;
     /* 48 */ u32 mFirstBackLightOn;
@@ -209,10 +209,10 @@ typedef struct ArchiveSlots {
     /* 968 */ FSFile mFile;
     /* 9b0 */ ArchiveBuffer mBuffers[16];
     /* a70 */ void *mCourseId;
-    /* a74 */ void *mUnk_a74;
-    /* a78 */ NNSiFndHeapHead *mUnk_a78;
+    /* a74 */ void *mRaceKind;
+    /* a78 */ NNSiFndHeapHead *mFirstHeap;
     /* a7c */ NNSiFndHeapHead *mCourseBufferHeap;
-    /* a80 */ NNSiFndHeapHead *mUnk_a80;
+    /* a80 */ NNSiFndHeapHead *mLastHeap;
 } ArchiveSlots;
 
 extern ArchiveSlots *gArchiveSlots;
@@ -294,7 +294,7 @@ typedef struct RomArchiveParentView {
     /* 46cc */ s32 mUnk_46cc;
     /* 46d0 */ s32 mGroupSendMask;
     /* 46d4 */ BOOL mMessageSendPending;
-    /* 46d8 */ s32 mUnk_46d8;
+    /* 46d8 */ s32 mActiveMask;
     /* 46dc */ s32 mUnk_46dc;
     /* 46e0 */ BOOL mUnk_46e0;
     /* 46e4 */ s32 mUnk_46e4;

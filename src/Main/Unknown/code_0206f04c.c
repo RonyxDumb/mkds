@@ -547,7 +547,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
             }
         }
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && kart->mVelocityLength > 0x3000 && value == 2) {
-            GetEntryKartCounters()->mUnk_10++;
+            GetEntryKartCounters()->mCourseContactCount++;
         }
         kart->mTurnAngle = 0;
     } else if (surfaceVariant == 4) {

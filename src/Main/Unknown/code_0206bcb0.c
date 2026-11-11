@@ -68,9 +68,9 @@ void EndKartDrift(Kart *kart) {
         kart->mUnk_44 |= 0x8000;
     }
     if (kart->mDriftCharge == 4) {
-        StartKartBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mUnk_0e);
+        StartKartBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mMiniTurboFrames);
         kart->mUnk_48 |= KART_48_MINI_TURBO;
-        kart->mMiniTurboTimer = kart->mPhysicalParam->mUnk_0e;
+        kart->mMiniTurboTimer = kart->mPhysicalParam->mMiniTurboFrames;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             GetEntryKartCounters()->mMiniTurboCount++;
             if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -214,9 +214,9 @@ recheck:
                 kart->mUnk_44 |= 0x8000;
             }
             if (kart->mDriftCharge == 4) {
-                StartKartBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mUnk_0e);
+                StartKartBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mMiniTurboFrames);
                 kart->mUnk_48 |= KART_48_MINI_TURBO;
-                kart->mMiniTurboTimer = kart->mPhysicalParam->mUnk_0e;
+                kart->mMiniTurboTimer = kart->mPhysicalParam->mMiniTurboFrames;
                 if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                     GetEntryKartCounters()->mMiniTurboCount++;
                     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {

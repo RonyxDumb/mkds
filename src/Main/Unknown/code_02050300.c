@@ -299,12 +299,12 @@ void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry) {
     children->mEntries[aid - 1].mAid = aid;
     children->mChildCount += 1;
     children->mChildMask |= 1 << aid;
-    children->mEntries[0].mUnk_00[0] = bytes[0];
-    children->mEntries[0].mUnk_00[1] = bytes[1];
-    children->mEntries[0].mUnk_00[2] = bytes[2];
-    children->mEntries[0].mUnk_00[3] = bytes[3];
-    children->mEntries[0].mUnk_00[4] = bytes[4];
-    children->mEntries[0].mUnk_00[5] = bytes[5];
+    children->mEntries[0].mBytes[0] = bytes[0];
+    children->mEntries[0].mBytes[1] = bytes[1];
+    children->mEntries[0].mBytes[2] = bytes[2];
+    children->mEntries[0].mBytes[3] = bytes[3];
+    children->mEntries[0].mBytes[4] = bytes[4];
+    children->mEntries[0].mBytes[5] = bytes[5];
     MI_CpuCopy8(playerEntry, &gConnectionWork->mPlayerRecords[aid], 0x14);
     gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     if ((playerEntry->mEmblem[0] & 1) != 0) {

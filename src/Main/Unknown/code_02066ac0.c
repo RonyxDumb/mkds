@@ -315,9 +315,12 @@ void StartKartRaceEnd(Kart *kart) {
                         if ((kart->mUnk_7c & 2) != 0) {
                             for (index = 0; index < 12; index++) {
                                 if (index != 0) {
-                                    kart->mPhysicalParam->mUnk_38[index] = kart->mPhysicalParam->mUnk_38[index] << 2;
-                                    if (kart->mPhysicalParam->mUnk_38[index] > kart->mPhysicalParam->mUnk_38[0]) {
-                                        kart->mPhysicalParam->mUnk_38[index] = kart->mPhysicalParam->mUnk_38[0];
+                                    kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[index] =
+                                        kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[index] << 2;
+                                    if (kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[index] >
+                                        kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[0]) {
+                                        kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[index] =
+                                            kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[0];
                                     }
                                 }
                             }

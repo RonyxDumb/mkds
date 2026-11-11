@@ -666,9 +666,9 @@ void InitArchiveBuffers(NNSiFndHeapHead *firstHeap, NNSiFndHeapHead *courseBuffe
     InitArchiveBuffer(courseBufferHeap, 7, 200, 0, 1);
     InitArchiveBuffer(firstHeap, 8, 0x46, 1, 0);
     InitArchiveBuffer(firstHeap, 0xd, 0x1e, 0, 0);
-    gArchiveSlots->mUnk_a78 = firstHeap;
+    gArchiveSlots->mFirstHeap = firstHeap;
     gArchiveSlots->mCourseBufferHeap = courseBufferHeap;
-    gArchiveSlots->mUnk_a80 = lastHeap;
+    gArchiveSlots->mLastHeap = lastHeap;
 }
 
 void InitArchiveBuffersOnOverlayHeap(void) {
@@ -702,7 +702,7 @@ void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
 
 void RequestMainAndMenuDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
     RequestArchiveLoad(gKartModelMainAArchivePath, 0xb);
     RequestArchiveLoad(gKartModelMainBArchivePath, 0xc);
     RequestArchiveLoad(gMenuDLArchivePath2, 0);
@@ -715,7 +715,7 @@ void RequestMainAndMenuDLArchives(void) {
 
 void RequestMenuDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
     RequestArchiveLoad(gMenuDLArchivePath, 0);
     RequestArchiveLoadWithLanguage(gMenuDLArchivePrefix, 1);
 }
@@ -727,7 +727,7 @@ void RequestMenuDLArchives(void) {
 void RequestRaceArchives(void *courseId, void *kind) {
     char path[128];
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
     RequestArchiveLoad(gRaceArchivePath, 2);
     RequestArchiveLoadWithLanguage(gRaceArchivePrefix, 3);
     if (kind == (void *) 3) {
@@ -737,7 +737,7 @@ void RequestRaceArchives(void *courseId, void *kind) {
         RequestArchiveLoad(gRaceMgArchivePath, 4);
         RequestArchiveLoadWithLanguage(gRaceMgArchivePrefix, 5);
     }
-    gArchiveSlots->mUnk_a74 = kind;
+    gArchiveSlots->mRaceKind = kind;
     NNS_FndFreeToFrmHeap(gArchiveSlots->mCourseBufferHeap, 3);
     BuildCourseArchivePath(path, (s32) courseId, 0);
     RequestArchiveLoad(path, 6);
@@ -752,7 +752,7 @@ void RequestRaceArchives(void *courseId, void *kind) {
 
 void RequestResultDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArchiveSlots->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
     RequestArchiveLoad(gResultDLArchivePath, 0xe);
     RequestArchiveLoadWithLanguage(gResultDLArchivePrefix, 0xf);
 }

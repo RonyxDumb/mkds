@@ -108,10 +108,10 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
         scoreTerms->mRaceStartBoostScore = 0;
     }
     scoreTerms->mMiniTurboScore = rankTimeGpFile->mMiniTurboPoints * entryKartCounters->mMiniTurboCount;
-    scoreTerms->mItemHitScore = rankTimeGpFile->mItemHitPoints * entryKartCounters->mUnk_08;
+    scoreTerms->mItemHitScore = rankTimeGpFile->mItemHitPoints * entryKartCounters->mItemHitCount;
     scoreTerms->mSurfaceScore =
-        -((u32) (entryKartCounters->mUnk_0c * FX_Inv(rankTimeGpFile->mSurfaceDivisor << 12)) >> 12);
-    scoreTerms->mCourseContactScore = entryKartCounters->mUnk_10 * -rankTimeGpFile->mCourseContactPoints;
+        -((u32) (entryKartCounters->mSurfaceCount * FX_Inv(rankTimeGpFile->mSurfaceDivisor << 12)) >> 12);
+    scoreTerms->mCourseContactScore = entryKartCounters->mCourseContactCount * -rankTimeGpFile->mCourseContactPoints;
     scoreTerms->mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -rankTimeGpFile->mMapObjectHitPoints;
     scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mRespawnPoints;
 }
@@ -147,9 +147,9 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
             scoreTerms.mFirstPlaceScore = 0;
             scoreTerms.mRaceStartBoostScore = 0;
             scoreTerms.mMiniTurboScore = 0;
-            scoreTerms.mItemHitScore = entryKartCounters->mUnk_08 * -5;
+            scoreTerms.mItemHitScore = entryKartCounters->mItemHitCount * -5;
             scoreTerms.mSurfaceScore = 0;
-            scoreTerms.mCourseContactScore = entryKartCounters->mUnk_10 * -5;
+            scoreTerms.mCourseContactScore = entryKartCounters->mCourseContactCount * -5;
             scoreTerms.mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -10;
             scoreTerms.mRespawnScore = entryKartCounters->mRespawnCount * -20;
             break;

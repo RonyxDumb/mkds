@@ -223,10 +223,10 @@ void SendRomArchiveMessage(void) {
     if (view->mMessageSendPending != FALSE) {
         return;
     }
-    view->mUnk_46cc = view->mUnk_46cc & view->mUnk_46d8;
-    view->mGroupSendMask = view->mGroupSendMask & view->mUnk_46d8;
-    view->mUnk_46dc = view->mUnk_46dc & view->mUnk_46d8;
-    view->mUnk_46e8 = view->mUnk_46e8 & view->mUnk_46d8;
+    view->mUnk_46cc = view->mUnk_46cc & view->mActiveMask;
+    view->mGroupSendMask = view->mGroupSendMask & view->mActiveMask;
+    view->mUnk_46dc = view->mUnk_46dc & view->mActiveMask;
+    view->mUnk_46e8 = view->mUnk_46e8 & view->mActiveMask;
     if (view->mUnk_46e0 != FALSE && view->mUnk_46e4 == 0) {
         value = view->mUnk_46ec;
         childPacketSize = gRomArchiveTransfer.mChildPacketSize;
@@ -506,14 +506,14 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
             if (transfer->mIsParent == 0) {
                 return;
             }
-            view->mUnk_46d8 = view->mUnk_46d8 & ~(1 << message->mFromIndex);
+            view->mActiveMask = view->mActiveMask & ~(1 << message->mFromIndex);
             return;
         case 21:
             data = message->mData;
             dataLength = message->mDataLength;
             if (transfer->mIsParent != 0) {
                 fromIndex = message->mFromIndex;
-                view->mUnk_46d8 = view->mUnk_46d8 | (1 << fromIndex);
+                view->mActiveMask = view->mActiveMask | (1 << fromIndex);
                 WBT_MpParentRecvHook(data, dataLength, fromIndex);
             } else {
                 WBT_MpChildRecvHook(data, dataLength);
@@ -901,7 +901,7 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
     view->mActiveHead = NULL;
     view->mPendingHead = NULL;
     transfer->mParentPacketSize = parentPacketSize;
-    view->mUnk_46d8 = 1;
+    view->mActiveMask = 1;
     view->mUnk_46dc = 0;
     view->mUnk_46e0 = FALSE;
     view->mUnk_46e8 = 0;

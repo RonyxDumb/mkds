@@ -160,9 +160,9 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     oldestAge = 0;
     found = FALSE;
     for (slotIndex = 0, slot = slotCursor; slotIndex < 4; slotIndex++, slot++) {
-        if (slot->mInUse != 0 && key->mUnk_00[0] == slot->mKey.mUnk_00[0] && key->mUnk_00[1] == slot->mKey.mUnk_00[1] &&
-            key->mUnk_00[2] == slot->mKey.mUnk_00[2] && key->mUnk_00[3] == slot->mKey.mUnk_00[3] &&
-            key->mUnk_00[4] == slot->mKey.mUnk_00[4] && key->mUnk_00[5] == slot->mKey.mUnk_00[5]) {
+        if (slot->mInUse != 0 && key->mBytes[0] == slot->mKey.mBytes[0] && key->mBytes[1] == slot->mKey.mBytes[1] &&
+            key->mBytes[2] == slot->mKey.mBytes[2] && key->mBytes[3] == slot->mKey.mBytes[3] &&
+            key->mBytes[4] == slot->mKey.mBytes[4] && key->mBytes[5] == slot->mKey.mBytes[5]) {
             chosenSlot = slot;
             found = TRUE;
             break;
@@ -285,12 +285,12 @@ void StartScanCallback(Unk021425e8 *event) {
                             gConnectionWork->mScanResultCallback(event, &scanBuffer);
                         } else if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_SCANNING) != 0) {
                             if ((scanBuffer.mGameInfo.mTgid & 0x8000) != 0) {
-                                key.mUnk_00[0] = event->mUnk_0a[0];
-                                key.mUnk_00[1] = event->mUnk_0a[1];
-                                key.mUnk_00[2] = event->mUnk_0a[2];
-                                key.mUnk_00[3] = event->mUnk_0a[3];
-                                key.mUnk_00[4] = event->mUnk_0a[4];
-                                key.mUnk_00[5] = event->mUnk_0a[5];
+                                key.mBytes[0] = event->mUnk_0a[0];
+                                key.mBytes[1] = event->mUnk_0a[1];
+                                key.mBytes[2] = event->mUnk_0a[2];
+                                key.mBytes[3] = event->mUnk_0a[3];
+                                key.mBytes[4] = event->mUnk_0a[4];
+                                key.mBytes[5] = event->mUnk_0a[5];
                                 FindOrAddScanSlot(&scanBuffer, &key, &scanBuffer.mGameInfo.mUserGameInfo);
                                 *gConnectionWork->mParentBssDesc = scanBuffer;
                             }

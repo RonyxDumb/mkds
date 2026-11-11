@@ -145,9 +145,12 @@ void InitKartResources(Kart *kart) {
             if (kart->mUnk_7c & 2) {
                 for (entryIndex = 0; entryIndex < 12; entryIndex++) {
                     if (entryIndex != 0) {
-                        kart->mPhysicalParam->mUnk_38[entryIndex] = kart->mPhysicalParam->mUnk_38[entryIndex] << 2;
-                        if (kart->mPhysicalParam->mUnk_38[entryIndex] > kart->mPhysicalParam->mUnk_38[0]) {
-                            kart->mPhysicalParam->mUnk_38[entryIndex] = kart->mPhysicalParam->mUnk_38[0];
+                        kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[entryIndex] =
+                            kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[entryIndex] << 2;
+                        if (kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[entryIndex] >
+                            kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[0]) {
+                            kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[entryIndex] =
+                                kart->mPhysicalParam->mSurfaceTurnedForwardEaseFactors[0];
                         }
                     }
                 }

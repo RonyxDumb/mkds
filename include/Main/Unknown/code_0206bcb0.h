@@ -32,38 +32,37 @@ typedef struct KartPhysicalParam {
     // Base radius (0x8000 = 8.0 in 12-bit fixed).
     /* 0 */ s32 mRadius;
     /* 4 */ s32 mUnk_04;
-    /* 8 */ s32 mUnk_08;
+    /* 8 */ s32 mBehindDistance;
     // s16, read only by the kart-kart push (the ratio of the two karts' values); the file column grows with the kart
     // size.
     /* c */ s16 mWeight;
-    /* e */ s16 mUnk_0e;
+    /* e */ s16 mMiniTurboFrames;
     // Top speed before the factors, scaled by the engine class at creation (x0xb33 / x0xd9a); reached: the length is
     // cut to the limit.
     /* 10 */ s32 mBaseSpeedLimit;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
+    /* 14 */ s32 mAcceleration;
+    /* 18 */ s32 mEndAcceleration;
+    /* 1c */ s32 mEndRatio;
+    /* 20 */ s32 mDriftAcceleration;
+    /* 24 */ s32 mDriftEndAcceleration;
+    /* 28 */ s32 mDriftEndRatio;
+    /* 2c */ s32 mForwardSpeedFactor;
     /* 30 */ s16 mUnk_30;
     /* 32 */ s16 mUnk_32;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38[12];
+    /* 34 */ s32 mTurnAngleStep;
+    /* 38 */ s32 mSurfaceTurnedForwardEaseFactors[12];
     // 12 factors out of 0x1000, indexed by the surface group; entry 4 is also the floor of the below-the-level path.
     /* 68 */ s32 mSurfaceSpeedLimitFactors[12];
 } KartPhysicalParam;
 
 // Event counters of the selected entry's Kart (seven words; the one at 0 is a flag set to 1). Every writer tests that
-// the Kart is the selected entry. Read by the rank score of the grand prix and the goal tests of mission run. What each
-// counter counts is not named.
+// the Kart is the selected entry. Read by the rank score of the grand prix and the goal tests of mission run.
 typedef struct EntryKartCounters {
     /* 0 */ s32 mRaceStartBoosted;
     /* 4 */ s32 mMiniTurboCount;
-    /* 8 */ s32 mUnk_08;
-    /* c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 8 */ s32 mItemHitCount;
+    /* c */ s32 mSurfaceCount;
+    /* 10 */ s32 mCourseContactCount;
     /* 14 */ s32 mMapObjectHitCount;
     /* 18 */ s32 mRespawnCount;
 } EntryKartCounters;

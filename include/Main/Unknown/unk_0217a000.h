@@ -282,7 +282,7 @@ typedef struct SharingSendRecord {
 
 // 8-byte entries from 0x44 of ConnectionWork.
 typedef struct ChildEntry {
-    /* 00 */ u8 mUnk_00[6];
+    /* 00 */ u8 mBytes[6];
     /* 06 */ u16 mAid;
 } ChildEntry;
 
@@ -394,7 +394,7 @@ typedef struct PlayerRecord {
 
 // Six bytes, compared and assigned as one object.
 typedef struct ScanMacAddress {
-    /* 00 */ u8 mUnk_00[6];
+    /* 00 */ u8 mBytes[6];
 } ScanMacAddress;
 
 // 0xe0-byte entries from 0xac of ConnectionWork.

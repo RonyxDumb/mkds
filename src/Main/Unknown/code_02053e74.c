@@ -462,7 +462,7 @@ void ResetConnectionData(void) {
 
     for (childIndex = 0; childIndex < 7; childIndex++) {
         gConnectionWork->mChildren.mEntries[childIndex].mAid = 0xffff;
-        bytes = gConnectionWork->mChildren.mEntries[childIndex].mUnk_00;
+        bytes = gConnectionWork->mChildren.mEntries[childIndex].mBytes;
         for (innerIndex = 0; innerIndex < 6; innerIndex++) {
             bytes[innerIndex] = 0;
         }
@@ -482,7 +482,7 @@ void ResetConnectionData(void) {
     for (innerIndex = 0; innerIndex < 4; innerIndex++) {
         gConnectionWork->mScanSlots[innerIndex].mInUse = 0;
         gConnectionWork->mScanSlots[innerIndex].mAge = 0;
-        bytes = gConnectionWork->mScanSlots[innerIndex].mKey.mUnk_00;
+        bytes = gConnectionWork->mScanSlots[innerIndex].mKey.mBytes;
         for (byteIndex = 0; byteIndex < 6; byteIndex++) {
             bytes[byteIndex] = 0;
         }

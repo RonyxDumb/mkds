@@ -4,7 +4,7 @@
 
 void ScaleKartForwardSpeed(Kart *kart) {
     if ((kart->mUnk_44 & 0x400) || kart->mState != KART_STATE_NORMAL) {
-        kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, kart->mPhysicalParam->mUnk_2c);
+        kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, kart->mPhysicalParam->mForwardSpeedFactor);
     }
     if (!(kart->mUnk_48 & 0x2000)) {
         return;
