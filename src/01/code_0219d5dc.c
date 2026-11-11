@@ -251,8 +251,8 @@ void AdvanceOptionEmbremSelectState5(void) {
     s32 j;
     s32 value;
 
-    if (func_ov001_02192e84() == -1 && gOptionEmbremSelect->mNextOptionState == 6) {
-        func_ov001_02192e78(3);
+    if (GetOptionNextScene() == -1 && gOptionEmbremSelect->mNextOptionState == 6) {
+        RequestOptionNextScene(3);
     }
     gOptionEmbremSelect->mStateFrames++;
     value = InterpolateS16(1, 0, 250, gOptionEmbremSelect->mStateFrames, 10);
@@ -268,7 +268,7 @@ void AdvanceOptionEmbremSelectState5(void) {
     if (gOptionEmbremSelect->mStateFrames >= 10) {
         if (gOptionEmbremSelect->mStateFrames >= 10 &&
             (IsSelectReturnState2NoState3Or4Request() != 0 || IsSelectReturnState0NoState1Request() != 0)) {
-            if (func_ov001_02192e84() == -1) {
+            if (GetOptionNextScene() == -1) {
                 OptionEmbremSelect *obj = gOptionEmbremSelect;
                 s32 arg;
                 void *first;

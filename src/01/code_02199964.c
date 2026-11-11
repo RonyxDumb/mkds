@@ -233,11 +233,11 @@ void AdvanceOptionHensyuMenuState5(void) {
     s32 i;
     s32 j;
     s32 v;
-    if (func_ov001_02192e84() == -1) {
+    if (GetOptionNextScene() == -1) {
         if (gOptionHensyuMenu->mNextOptionState == 5) {
-            func_ov001_02192e78(0xe);
+            RequestOptionNextScene(0xe);
         } else if (gOptionHensyuMenu->mNextOptionState == 6) {
-            func_ov001_02192e78(3);
+            RequestOptionNextScene(3);
         }
     }
     gOptionHensyuMenu->mStateFrames++;
@@ -258,7 +258,7 @@ void AdvanceOptionHensyuMenuState5(void) {
     if (gOptionHensyuMenu->mStateFrames >= 10) {
         if (gOptionHensyuMenu->mNextOptionState == 0 || gOptionHensyuMenu->mNextOptionState == 3 ||
             IsSelectReturnState0NoState1Request() != 0) {
-            if (func_ov001_02192e84() == -1) {
+            if (GetOptionNextScene() == -1) {
                 RequestOptionState(gOptionHensyuMenu->mNextOptionState);
             }
         }

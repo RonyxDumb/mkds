@@ -41,12 +41,12 @@ void InitOptionScene(s16 *a) {
 }
 
 void ReleaseOptionScene(void) {
-    func_ov001_02192f8c();
+    ReleaseOptionStates();
     gOptionBuffers = NULL;
 }
 
 void func_ov001_0219e9a4(void) {
-    func_ov001_02192ec4();
+    WriteOptionStatesRegisters();
     UploadOamLists(gOptionBuffers, gOptionBuffers + 0x404);
 }
 
@@ -54,8 +54,8 @@ void UpdateOptionScene(s16 *a) {
     ClearOamListCounts(gOptionBuffers, gOptionBuffers + 0x404);
     AdvanceOptionStates();
     HideUnusedOams(gOptionBuffers, gOptionBuffers + 0x404);
-    if (a != NULL && func_ov001_02192e84() != -1) {
-        a[2] = func_ov001_02192e84();
+    if (a != NULL && GetOptionNextScene() != -1) {
+        a[2] = GetOptionNextScene();
     }
 }
 

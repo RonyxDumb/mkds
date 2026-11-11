@@ -68,1310 +68,1332 @@
 #include "Main/Unknown/code_02061654.h"
 #include "code_02147cd8.h"
 
-void func_ov001_02192890(Unk02188950 *a) {
-    a->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource((SoundSource *) a->mUnk_000.mSound, 0xc, &a->mUnk_000.mPos);
-    a->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x14];
+void InitIwanteSoundSource(Unk02188950 *mapObject) {
+    mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource((SoundSource *) mapObject->mUnk_000.mSound, 0xc, &mapObject->mUnk_000.mPos);
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x14];
 }
 
-void func_ov001_02192878(Unk02188950 *a) {
-    a->mUnk_2d8 = 2;
-    SetKartCollisionCallback(a, func_ov001_02192878);
+void IwanteKartResponse2Callback(Unk02188950 *mapObject) {
+    mapObject->mUnk_2d8 = 2;
+    SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
 }
 
-void func_ov001_021927c0(Unk02188950 *a) {
-    if (a->mTimer > 0) {
-        a->mUnk_2d8 = 2;
-        SetKartCollisionCallback(a, func_ov001_021927c0);
+void IwanteKartHitCallback(Unk02188950 *mapObject) {
+    if (mapObject->mTimer > 0) {
+        mapObject->mUnk_2d8 = 2;
+        SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
         return;
     }
-    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, FX_SinCosTable_[(u16) a->mMoveAngle >> 4 << 1]);
-    a->mUnk_000.mPosStep.y = 0;
-    a->mUnk_000.mPosStep.z =
-        MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_144, FX_SinCosTable_[((u16) a->mMoveAngle >> 4 << 1) + 1]);
-    a->mUnk_2d8 = 0xd;
-    SetKartCollisionCallback(a, func_ov001_021927c0);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    mapObject->mUnk_000.mPosStep.x =
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_144, SIN_OF_ANGLE((u16) mapObject->mMoveAngle));
+    mapObject->mUnk_000.mPosStep.y = 0;
+    mapObject->mUnk_000.mPosStep.z =
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_144, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
+    mapObject->mUnk_2d8 = 0xd;
+    SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
+    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
-void func_ov001_02192794(Unk02188950 *a) {
-    a->mUnk_2d8 = 0xb;
-    SetKartCollisionCallback(a, func_ov001_02192878);
-    a->mUnk_000.mDistanceSquaredAndFlags = a->mUnk_000.mDistanceSquaredAndFlags | (*(u32 *) &data_ov001_021a65d4);
+void IwanteKartResponse11Callback(Unk02188950 *mapObject) {
+    mapObject->mUnk_2d8 = 0xb;
+    SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
+    mapObject->mUnk_000.mDistanceSquaredAndFlags =
+        mapObject->mUnk_000.mDistanceSquaredAndFlags | (*(u32 *) &data_ov001_021a65d4);
 }
 
-void func_ov001_02192694(void) {
+void SetIwanteHandsApproachPoint(void) {
     Vec3 pos;
-    Unk02188950 *obj;
-    MissionRunPrm *a0;
-    Kart *other;
-    int idx;
-    u16 ang;
+    Unk02188950 *mapObject;
+    MissionRunPrm *prm;
+    Kart *kart;
+    u16 angle;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        obj = GetMissionRunMapObject(
+        mapObject = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
     } else {
-        obj = NULL;
+        mapObject = NULL;
     }
-    other = GetKart((u16) gRaceSetup->mEntryIndex);
-    if (obj->mUnk_0a8 == 4) {
-        a0 = obj->mPrm;
-        ang = FX_Atan2Idx(other->mPos.z - obj->mUnk_000.mPos.z, other->mPos.x - obj->mUnk_000.mPos.x) - a0->mUnk_26c;
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if (mapObject->mUnk_0a8 == 4) {
+        prm = mapObject->mPrm;
+        angle = FX_Atan2Idx(kart->mPos.z - mapObject->mUnk_000.mPos.z, kart->mPos.x - mapObject->mUnk_000.mPos.x) -
+                prm->mUnk_26c;
     } else {
-        a0 = obj->mPrm;
-        ang = a0->mUnk_26c + FX_Atan2Idx(other->mPos.z - obj->mUnk_000.mPos.z, other->mPos.x - obj->mUnk_000.mPos.x);
+        prm = mapObject->mPrm;
+        angle = prm->mUnk_26c +
+                FX_Atan2Idx(kart->mPos.z - mapObject->mUnk_000.mPos.z, kart->mPos.x - mapObject->mUnk_000.mPos.x);
     }
-    idx = (ang >> 4) * 2;
-    pos.x = obj->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(a0->mUnk_270, FX_SinCosTable_[idx + 1]);
-    pos.y = obj->mUnk_000.mPos.y;
-    pos.z = obj->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(obj->mPrm->mUnk_270, FX_SinCosTable_[idx]);
-    SetAnglePointAndMoveAnglePoint(obj, &pos);
+    pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(prm->mUnk_270, COS_OF_ANGLE(angle));
+    pos.y = mapObject->mUnk_000.mPos.y;
+    pos.z = mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_270, SIN_OF_ANGLE(angle));
+    SetAnglePointAndMoveAnglePoint(mapObject, &pos);
 }
 
-void func_ov001_021924cc(void) {
-    Vec3 b;
-    Vec3 c;
-    Vec3 a;
-    Unk02188950 *objB;
-    Unk02188950 *obj;
-    Unk02188950 *objC;
+void SetIwanteHandsPoints(void) {
+    Vec3 firstMovePoint;
+    Vec3 secondMovePoint;
+    Vec3 anglePoint;
+    Unk02188950 *angleObject;
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        objB = GetMissionRunMapObject(
+        angleObject = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2));
     } else {
-        objB = NULL;
+        angleObject = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        obj =
+        firstHand =
             GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0));
     } else {
-        obj = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        objC = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        objC = NULL;
+        secondHand = NULL;
     }
-    a.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, FX_SinIdx((u16) objB->mAngle)));
-    a.y = objB->mUnk_000.mPos.y;
-    a.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_274, FX_CosIdx((u16) objB->mAngle)));
-    b.x = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_CosIdx((u16) objB->mAngle)));
-    b.y = objB->mUnk_000.mPos.y;
-    b.z = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_SinIdx((u16) objB->mAngle)));
-    c.x = (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_CosIdx((u16) objB->mAngle)));
-    c.y = objB->mUnk_000.mPos.y;
-    c.z = -(s32) (MUL_FIXED12_NO_ROUND(objB->mPrm->mUnk_278, FX_SinIdx((u16) objB->mAngle)));
-    SetAnglePoint(obj, &a);
-    SetAnglePoint(objC, &a);
-    SetMoveAnglePoint(obj, &b);
-    SetMoveAnglePoint(objC, &c);
+    anglePoint.x = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mUnk_274, FX_SinIdx((u16) angleObject->mAngle)));
+    anglePoint.y = angleObject->mUnk_000.mPos.y;
+    anglePoint.z = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mUnk_274, FX_CosIdx((u16) angleObject->mAngle)));
+    firstMovePoint.x = -(s32) (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mUnk_278, FX_CosIdx((u16) angleObject->mAngle)));
+    firstMovePoint.y = angleObject->mUnk_000.mPos.y;
+    firstMovePoint.z = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mUnk_278, FX_SinIdx((u16) angleObject->mAngle)));
+    secondMovePoint.x = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mUnk_278, FX_CosIdx((u16) angleObject->mAngle)));
+    secondMovePoint.y = angleObject->mUnk_000.mPos.y;
+    secondMovePoint.z =
+        -(s32) (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mUnk_278, FX_SinIdx((u16) angleObject->mAngle)));
+    SetAnglePoint(firstHand, &anglePoint);
+    SetAnglePoint(secondHand, &anglePoint);
+    SetMoveAnglePoint(firstHand, &firstMovePoint);
+    SetMoveAnglePoint(secondHand, &secondMovePoint);
 }
 
-void func_ov001_0219246c(Unk02188950 *a) {
-    a->mUnk_0a8 = 0;
-    SetItemCollisionCallback(a, (UnkFunc *) &func_ov001_0218fee0);
-    SetCollisionBoxOffsetAndExtent(a, 0, 0, 0, 0, 0, 0);
-    SetShadowOffsetAndScale(a, 0x0002a000u, 0, 0x00007000u, 0x00026000u, 0x00001000u, 0x00022000u);
+void SetIwanteNoneCollision(Unk02188950 *mapObject) {
+    mapObject->mUnk_0a8 = 0;
+    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetCollisionBoxOffsetAndExtent(mapObject, 0, 0, 0, 0, 0, 0);
+    SetShadowOffsetAndScale(mapObject, 0x0002a000u, 0, 0x00007000u, 0x00026000u, 0x00001000u, 0x00022000u);
 }
 
-void func_ov001_021923e0(Unk02188950 *a) {
-    a->mUnk_0a8 = 1;
-    SetItemCollisionCallback(a, (UnkFunc *) &func_ov001_0218fd20);
-    SetCollisionBoxOffsetAndExtentTarget(a, 0xffffc000u, 0x0001e000u, 0xffff5000u, 0x00002000u, 0x00024000u,
+void SetIwanteNoChainCameraWalkA(Unk02188950 *mapObject) {
+    mapObject->mUnk_0a8 = 1;
+    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemHitCallback);
+    SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x0001e000u, 0xffff5000u, 0x00002000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00002000u);
-    SetShadowOffsetAndScaleTarget(a, 0xffff8000u, 0, 0xffffa000u, 0x00002000u, 0x00020000u, 0x00001000u, 0x00014000u,
-                                  0x00002000u);
+    SetShadowOffsetAndScaleTarget(mapObject, 0xffff8000u, 0, 0xffffa000u, 0x00002000u, 0x00020000u, 0x00001000u,
+                                  0x00014000u, 0x00002000u);
 }
 
-void func_ov001_02192358(Unk02188950 *a) {
-    a->mUnk_0a8 = 1;
-    SetItemCollisionCallback(a, (UnkFunc *) &func_ov001_0218fd20);
-    SetCollisionBoxOffsetAndExtentTarget(a, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00001000u, 0x00024000u,
+void SetIwanteWalkACollision(Unk02188950 *mapObject) {
+    mapObject->mUnk_0a8 = 1;
+    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemHitCallback);
+    SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00001000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00001000u);
-    SetShadowOffsetAndScaleTarget(a, 0xffff8000u, 0, 0xffffa000u, 0x00000800u, 0x00020000u, 0x00001000u, 0x00014000u,
-                                  0x00001000u);
+    SetShadowOffsetAndScaleTarget(mapObject, 0xffff8000u, 0, 0xffffa000u, 0x00000800u, 0x00020000u, 0x00001000u,
+                                  0x00014000u, 0x00001000u);
 }
 
-void func_ov001_021922e0(Unk02188950 *a) {
-    a->mUnk_0a8 = 2;
-    SetItemCollisionCallback(a, (UnkFunc *) &func_ov001_0218fee0);
-    SetCollisionBoxOffsetAndExtentTarget(a, 0x00015000u, 0x00028000u, 0x0001c000u, 0x00001000u, 0x00013000u,
+void SetIwanteWalkBCollision(Unk02188950 *mapObject) {
+    mapObject->mUnk_0a8 = 2;
+    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetCollisionBoxOffsetAndExtentTarget(mapObject, 0x00015000u, 0x00028000u, 0x0001c000u, 0x00001000u, 0x00013000u,
                                          0x00028000u, 0x00028000u, 0x00001000u);
-    SetShadowOffsetAndScaleTarget(a, 0x00012000u, 0, 0x0001c000u, 0x00001000u, 0x00011000u, 0x00001000u, 0x00024000u,
-                                  0x00001000u);
+    SetShadowOffsetAndScaleTarget(mapObject, 0x00012000u, 0, 0x0001c000u, 0x00001000u, 0x00011000u, 0x00001000u,
+                                  0x00024000u, 0x00001000u);
 }
 
-void func_ov001_0219226c(Unk02188950 *a) {
-    a->mUnk_0a8 = 3;
-    SetItemCollisionCallback(a, (UnkFunc *) &func_ov001_0218fee0);
-    SetCollisionBoxOffsetAndExtentTarget(a, 0, 0x00028000u, 0xfffd1000u, 0x00002000u, 0x0001b99au, 0x00028000u,
+void SetIwanteHitReactionCollision(Unk02188950 *mapObject) {
+    mapObject->mUnk_0a8 = 3;
+    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetCollisionBoxOffsetAndExtentTarget(mapObject, 0, 0x00028000u, 0xfffd1000u, 0x00002000u, 0x0001b99au, 0x00028000u,
                                          0x0002f000u, 0x00002000u);
-    SetShadowOffsetAndScaleTarget(a, 0, 0, 0xfffd1000u, 0x00002000u, 0x0001b99au, 0x00001000u, 0x0002f000u,
+    SetShadowOffsetAndScaleTarget(mapObject, 0, 0, 0xfffd1000u, 0x00002000u, 0x0001b99au, 0x00001000u, 0x0002f000u,
                                   0x00002000u);
 }
 
-void func_ov001_021921e4(Unk02188950 *a) {
-    a->mUnk_0a8 = 1;
-    SetItemCollisionCallback(a, (UnkFunc *) &func_ov001_0218fee0);
-    SetCollisionBoxOffsetAndExtentTarget(a, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00002000u, 0x00024000u,
+void SetIwanteWalkAHitCollision(Unk02188950 *mapObject) {
+    mapObject->mUnk_0a8 = 1;
+    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00002000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00001000u);
-    SetShadowOffsetAndScaleTarget(a, 0xffff8000u, 0, 0xffffa000u, 0x00001000u, 0x00020000u, 0x00001000u, 0x00014000u,
-                                  0x00001000u);
+    SetShadowOffsetAndScaleTarget(mapObject, 0xffff8000u, 0, 0xffffa000u, 0x00001000u, 0x00020000u, 0x00001000u,
+                                  0x00014000u, 0x00001000u);
 }
 
-void func_ov001_02192174(Unk02188950 *a) {
-    Vec3 pos = {0, 0, 0};
+void StartIwanteHandWalk(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
 
-    StartMapObjectState(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_27c, a->mPrm->mUnk_280);
-    SetVelocity(a, &pos);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
+    StartMapObjectState(mapObject, 1, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_27c, mapObject->mPrm->mUnk_280);
+    SetVelocity(mapObject, &velocity);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
 }
 
-void func_ov001_021920dc(Unk02188950 *a) {
-    StartMapObjectState(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_254, a->mPrm->mUnk_258);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42d, 0);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42e, 0);
+void StartIwanteHandWalkWithEffects(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_254, mapObject->mPrm->mUnk_258);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
 }
 
-void func_ov001_02192080(Unk02188950 *a) {
-    StartMapObjectState(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_28c, a->mPrm->mUnk_290);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
+void StartIwanteHandWalkBWalk(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_28c, mapObject->mPrm->mUnk_290);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
 }
 
-void func_ov001_02191fe8(Unk02188950 *a) {
-    StartMapObjectState(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_294, a->mPrm->mUnk_298);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42d, 0);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42e, 0);
+void StartIwanteHandWalkAWalk(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_294, mapObject->mPrm->mUnk_298);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
 }
 
-void func_ov001_02191f70(Unk02188950 *a) {
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_2ac, a->mPrm->mUnk_2b0, func_ov001_02192080);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
-    func_ov001_021922e0(a);
-    StartMapObjectSound(&a->mUnk_000, 0x215);
+void StartIwanteHandChangeToWalkBWalk(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_2ac, mapObject->mPrm->mUnk_2b0,
+                                  StartIwanteHandWalkBWalk);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
+    SetIwanteWalkBCollision(mapObject);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x215);
 }
 
-void func_ov001_02191ecc(Unk02188950 *a) {
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_2b4, a->mPrm->mUnk_2b8, func_ov001_02191fe8);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
-    func_ov001_02192358(a);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x2000, 0x42d, 0);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x2000, 0x42e, 0);
+void StartIwanteHandChangeToWalkAWalk(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_2b4, mapObject->mPrm->mUnk_2b8,
+                                  StartIwanteHandWalkAWalk);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
+    SetIwanteWalkACollision(mapObject);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x2000, 0x42d, 0);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x2000, 0x42e, 0);
 }
 
-void func_ov001_02191e90(Unk02188950 *a) {
-    StartMapObjectState(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_28c, a->mPrm->mUnk_290);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
+void StartIwanteHandWalkBHold(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_28c, mapObject->mPrm->mUnk_290);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
 }
 
-void func_ov001_02191e1c(Unk02188950 *a) {
-    StartMapObjectState(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_294, a->mPrm->mUnk_298);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00000400u, 0x0000042du, 0);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00000400u, 0x0000042eu, 0);
+void StartIwanteHandWalkAHold(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_294, mapObject->mPrm->mUnk_298);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00000400u, 0x0000042du, 0);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00000400u, 0x0000042eu, 0);
 }
 
-void func_ov001_02191de0(Unk02188950 *a) {
-    Vec3 v = {0, 0, 0};
-    StopMapObjectState(a);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    SetVelocity(a, &v);
-    a->mGravityEnabled = TRUE;
+void StopIwanteHandOnCourseHit(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
+    StopMapObjectState(mapObject);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    SetVelocity(mapObject, &velocity);
+    mapObject->mGravityEnabled = TRUE;
 }
 
-u32 func_ov001_02191dc8(Unk02188950 *a) {
-    StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x0000021du);
+u32 AdvanceIwanteHandVerticalSound(Unk02188950 *mapObject) {
+    StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x0000021du);
     return 0;
 }
 
-void func_ov001_02191cf4(Unk02188950 *a) {
-    Vec3 v = {0, 0, 0};
-    v.y = -a->mPrm->mUnk_2a4;
-    StartMapObjectState(a, 3, (s32(*)(Unk02188950 *)) func_ov001_02191dc8);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_29c, a->mPrm->mUnk_2a0);
-    SetVelocity(a, &v);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42d, 0);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42e, 0);
-    SetCourseCollisionCallback(a, func_ov001_02191de0);
-    a->mGravityEnabled = FALSE;
+void StartIwanteHandMoveVerticalBack(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
+    velocity.y = -mapObject->mPrm->mUnk_2a4;
+    StartMapObjectState(mapObject, 3, (s32(*)(Unk02188950 *)) AdvanceIwanteHandVerticalSound);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_29c, mapObject->mPrm->mUnk_2a0);
+    SetVelocity(mapObject, &velocity);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
+    SetCourseCollisionCallback(mapObject, StopIwanteHandOnCourseHit);
+    mapObject->mGravityEnabled = FALSE;
 }
 
-void func_ov001_02191c14(Unk02188950 *a) {
-    Vec3 v = {0, 0, 0};
-    v.y = a->mPrm->mUnk_2a4;
-    StartMapObjectState(a, 3, (s32(*)(Unk02188950 *)) func_ov001_02191dc8);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_29c, a->mPrm->mUnk_2a0);
-    SetVelocity(a, &v);
-    TurnAndMoveToPointSameRate(a, a->mPrm->mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_2a8, func_ov001_02191cf4);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42d, 0);
-    StartEffectAtOffset(a, 0, 0x44cd, 0x400, 0x42e, 0);
-    a->mGravityEnabled = FALSE;
+void StartIwanteHandMoveVertical(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
+    velocity.y = mapObject->mPrm->mUnk_2a4;
+    StartMapObjectState(mapObject, 3, (s32(*)(Unk02188950 *)) AdvanceIwanteHandVerticalSound);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_29c, mapObject->mPrm->mUnk_2a0);
+    SetVelocity(mapObject, &velocity);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mUnk_2c8, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_2cc, 0x270f000);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_2a8, StartIwanteHandMoveVerticalBack);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
+    StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
+    mapObject->mGravityEnabled = FALSE;
 }
 
-void func_ov001_02191bc0(Unk02188950 *a) {
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_2ac, a->mPrm->mUnk_2b0, (UnkFunc *) &func_ov001_02191e90);
-    SetSpeedAndClearTarget(a, 0);
-    StopTurningMoveFollowsAngle(a);
-    func_ov001_021922e0(a);
-    StartMapObjectSound(&a->mUnk_000, 0x00000215u);
+void StartIwanteHandChangeToWalkB(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_2ac, mapObject->mPrm->mUnk_2b0,
+                                  (UnkFunc *) &StartIwanteHandWalkBHold);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetIwanteWalkBCollision(mapObject);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x00000215u);
 }
 
-void func_ov001_02191b40(Unk02188950 *a) {
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_2b4, a->mPrm->mUnk_2b8, (UnkFunc *) &func_ov001_02191e1c);
-    SetSpeedAndClearTarget(a, 0);
-    StopTurningMoveFollowsAngle(a);
-    func_ov001_02192358(a);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00002000u, 0x0000042du, 0);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00002000u, 0x0000042eu, 0);
+void StartIwanteHandChangeToWalkA(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_2b4, mapObject->mPrm->mUnk_2b8,
+                                  (UnkFunc *) &StartIwanteHandWalkAHold);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetIwanteWalkACollision(mapObject);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00002000u, 0x0000042du, 0);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00002000u, 0x0000042eu, 0);
 }
 
-void func_ov001_02191adc(Unk02188950 *a) {
-    Vec3 v = {0, 0, 0};
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_1c0, a->mPrm->mUnk_1c4);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    SetVelocity(a, &v);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_1c8, NULL);
+void StartIwanteHandLand(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1c0, mapObject->mPrm->mUnk_1c4);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    SetVelocity(mapObject, &velocity);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1c8, NULL);
 }
 
-void func_ov001_02191a3c(Unk02188950 *a) {
-    Vec3 v = {0, 0, 0};
-    v.y = a->mPrm->mUnk_1bc;
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_1a4, a->mPrm->mUnk_1a8);
-    SetVelocity(a, &v);
-    StopTurningMoveFromPoint(a, a->mPrm->mUnk_1b4, a->mPrm->mUnk_1b8);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_1ac, a->mPrm->mUnk_1b0);
-    SetCourseCollisionCallback(a, func_ov001_02191adc);
-    a->mGravityEnabled = TRUE;
+void StartIwanteHandFall(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
+    velocity.y = mapObject->mPrm->mUnk_1bc;
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1a4, mapObject->mPrm->mUnk_1a8);
+    SetVelocity(mapObject, &velocity);
+    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mUnk_1b4, mapObject->mPrm->mUnk_1b8);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1ac, mapObject->mPrm->mUnk_1b0);
+    SetCourseCollisionCallback(mapObject, StartIwanteHandLand);
+    mapObject->mGravityEnabled = TRUE;
 }
 
-void func_ov001_02191980(Unk02188950 *a) {
-    Vec3 v = {0, 0, 0};
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_184, a->mPrm->mUnk_188);
-    StopTurningMoveFromPoint(a, a->mPrm->mUnk_194, a->mPrm->mUnk_198);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_18c, a->mPrm->mUnk_190);
-    SetVelocity(a, &v);
-    SetPointInRangeCallback(a, a->mPrm->mUnk_19c, 0, &a->mMoveAnglePoint, func_ov001_02191a3c);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_0ec, func_ov001_02191a3c);
-    a->mGravityEnabled = FALSE;
+void StartIwanteHandReachMovePoint(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_184, mapObject->mPrm->mUnk_188);
+    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mUnk_194, mapObject->mPrm->mUnk_198);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_18c, mapObject->mPrm->mUnk_190);
+    SetVelocity(mapObject, &velocity);
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_19c, 0, &mapObject->mMoveAnglePoint, StartIwanteHandFall);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_0ec, StartIwanteHandFall);
+    mapObject->mGravityEnabled = FALSE;
 }
 
-void func_ov001_021918c8(Unk02188950 *a) {
-    Vec3 v = {0, 0, 0};
-    v.y = a->mPrm->mUnk_17c;
-    func_ov001_021924cc();
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_164, a->mPrm->mUnk_168);
-    SetVelocity(a, &v);
-    StopTurningMoveFromPoint(a, a->mPrm->mUnk_174, a->mPrm->mUnk_178);
-    SetAnglePointAndMoveAnglePoint(a, &a->mMoveAnglePoint);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_16c, a->mPrm->mUnk_170);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_180, func_ov001_02191980);
+void StartIwanteHandMoveToPoints(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
+    velocity.y = mapObject->mPrm->mUnk_17c;
+    SetIwanteHandsPoints();
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_168);
+    SetVelocity(mapObject, &velocity);
+    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mUnk_174, mapObject->mPrm->mUnk_178);
+    SetAnglePointAndMoveAnglePoint(mapObject, &mapObject->mMoveAnglePoint);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_16c, mapObject->mPrm->mUnk_170);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_180, StartIwanteHandReachMovePoint);
 }
 
-int func_ov001_02191888(Unk02188950 *a) {
-    if (a->mSpeed > 0) {
-        StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x219);
+int AdvanceIwanteHandSidewaysStop(Unk02188950 *mapObject) {
+    if (mapObject->mSpeed > 0) {
+        StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x219);
     } else {
-        ReleaseEffects(a);
-        SetKartCollisionCallback(a, func_ov001_02192878);
-        a->mUnk_158 = NULL;
+        ReleaseEffects(mapObject);
+        SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
+        mapObject->mUnk_158 = NULL;
     }
     return 0;
 }
 
-s32 func_ov001_02191870(Unk02188950 *a) {
-    StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x219);
+s32 AdvanceIwanteHandSidewaysSound(Unk02188950 *mapObject) {
+    StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x219);
     return 0;
 }
 
-void func_ov001_021917d0(Unk02188950 *a) {
+void StartIwanteHandSidewaysStop(Unk02188950 *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(a, 3, (s32(*)(Unk02188950 *)) func_ov001_02191888);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_148, a->mPrm->mUnk_14c);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_150, a->mPrm->mUnk_154);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_160, func_ov001_021918c8);
-    StartEffectAtOffset(a, 0x1000, 0, 0x2000, 0x433, 0);
+    StartMapObjectState(mapObject, 3, (s32(*)(Unk02188950 *)) AdvanceIwanteHandSidewaysStop);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_148, mapObject->mPrm->mUnk_14c);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_150, mapObject->mPrm->mUnk_154);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_160, StartIwanteHandMoveToPoints);
+    StartEffectAtOffset(mapObject, 0x1000, 0, 0x2000, 0x433, 0);
 }
 
-void func_ov001_021916e0(Unk02188950 *a) {
+void StartIwanteHandMoveSideways(Unk02188950 *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    Vec3 local = {0, 0, 0};
+    Vec3 zeroVector = {0, 0, 0};
 
-    if ((a->mUnk_000.mFlags & 0x400) == 0) {
-        a->mMoveAngle = a->mAngle + 0x4000;
+    if ((mapObject->mUnk_000.mFlags & 0x400) == 0) {
+        mapObject->mMoveAngle = mapObject->mAngle + 0x4000;
     } else {
-        a->mMoveAngle = a->mAngle - 0x4000;
+        mapObject->mMoveAngle = mapObject->mAngle - 0x4000;
     }
-    StartMapObjectState(a, 3, (s32(*)(Unk02188950 *)) func_ov001_02191870);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_128, a->mPrm->mUnk_12c);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_130, a->mPrm->mUnk_134);
-    StopMoveAngleTurning(a);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_140, func_ov001_021917d0);
-    SetKartCollisionCallback(a, func_ov001_021927c0);
-    StartEffectAtOffset(a, 0x1000, 0, 0x2000, 0x433, 0);
+    StartMapObjectState(mapObject, 3, (s32(*)(Unk02188950 *)) AdvanceIwanteHandSidewaysSound);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_128, mapObject->mPrm->mUnk_12c);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_130, mapObject->mPrm->mUnk_134);
+    StopMoveAngleTurning(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_140, StartIwanteHandSidewaysStop);
+    SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
+    StartEffectAtOffset(mapObject, 0x1000, 0, 0x2000, 0x433, 0);
 }
 
-void func_ov001_02191618(Unk02188950 *a) {
-    Vec3 local = {0, 0, 0};
+void StartIwanteHandLandBeforeSideways(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
 
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_118, a->mPrm->mUnk_11c);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_120, func_ov001_021916e0);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    SetVelocity(a, &local);
-    SetKartCollisionCallback(a, func_ov001_02192878);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-    StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x414, 0);
-    StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x415, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x218);
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_118, mapObject->mPrm->mUnk_11c);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_120, StartIwanteHandMoveSideways);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    SetVelocity(mapObject, &velocity);
+    SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
+    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x414, 0);
+    StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x415, 0);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x218);
 }
 
-void func_ov001_02191550(Unk02188950 *a) {
-    Vec3 local = {0, 0, 0};
+void StartIwanteHandLandOnKart(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
 
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_10c, a->mPrm->mUnk_110);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_114, func_ov001_021918c8);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    SetVelocity(a, &local);
-    SetKartCollisionCallback(a, func_ov001_02192878);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-    StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x414, 0);
-    StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x415, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x218);
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_10c, mapObject->mPrm->mUnk_110);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_114, StartIwanteHandMoveToPoints);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    SetVelocity(mapObject, &velocity);
+    SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
+    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x414, 0);
+    StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x415, 0);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x218);
 }
 
-void func_ov001_02191488(Unk02188950 *a) {
-    Vec3 local = {0, 0, 0};
+void StartIwanteHandFallOnKart(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
 
-    local.y = a->mPrm->mUnk_108;
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_0f0, a->mPrm->mUnk_0f4);
-    SetVelocity(a, &local);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0f8, a->mPrm->mUnk_0fc);
+    velocity.y = mapObject->mPrm->mUnk_108;
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0f0, mapObject->mPrm->mUnk_0f4);
+    SetVelocity(mapObject, &velocity);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0f8, mapObject->mPrm->mUnk_0fc);
     if (GetAbsoluteCounter(
             gRaceSetup->mMode == MODE_MISSION_RUN
                 ? GetMissionRunMapObject(
                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0) >= 1) {
-        SetCourseCollisionCallback(a, func_ov001_02191618);
+        SetCourseCollisionCallback(mapObject, StartIwanteHandLandBeforeSideways);
     } else {
-        SetCourseCollisionCallback(a, func_ov001_02191550);
+        SetCourseCollisionCallback(mapObject, StartIwanteHandLandOnKart);
     }
-    a->mGravityEnabled = TRUE;
-    SetKartCollisionCallback(a, func_ov001_02192794);
+    mapObject->mGravityEnabled = TRUE;
+    SetKartCollisionCallback(mapObject, IwanteKartResponse11Callback);
 }
 
-s32 func_ov001_02191470(Unk02188950 *a) {
-    StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x21c);
+s32 AdvanceIwanteHandKartSound(Unk02188950 *mapObject) {
+    StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x21c);
     return 0;
 }
 
-void func_ov001_021913b8(Unk02188950 *a) {
+void StartIwanteHandMoveToKart(Unk02188950 *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    Vec3 local = {0, 0, 0};
+    Vec3 velocity = {0, 0, 0};
 
-    IncrementEntryIndex(a);
-    StartMapObjectState(a, 3, (s32(*)(Unk02188950 *)) func_ov001_02191470);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_0d0, a->mPrm->mUnk_0d4);
-    SetVelocity(a, &local);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0d8, a->mPrm->mUnk_0dc);
-    SetPointInRangeCallback(a, a->mPrm->mUnk_0e8, 0, &kart->mPos, func_ov001_02191488);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_0ec, func_ov001_02191488);
-    a->mGravityEnabled = FALSE;
+    IncrementEntryIndex(mapObject);
+    StartMapObjectState(mapObject, 3, (s32(*)(Unk02188950 *)) AdvanceIwanteHandKartSound);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0d0, mapObject->mPrm->mUnk_0d4);
+    SetVelocity(mapObject, &velocity);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0d8, mapObject->mPrm->mUnk_0dc);
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0e8, 0, &kart->mPos, StartIwanteHandFallOnKart);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_0ec, StartIwanteHandFallOnKart);
+    mapObject->mGravityEnabled = FALSE;
 }
 
-void func_ov001_02191318(Unk02188950 *a) {
+void StartIwanteHandTurnToKart(Unk02188950 *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    Vec3 local = {0, 0, 0};
+    Vec3 velocity = {0, 0, 0};
 
-    local.y = a->mPrm->mUnk_0a4;
-    StartMapObjectState(a, 3, (s32(*)(Unk02188950 *)) func_ov001_02191470);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_08c, a->mPrm->mUnk_090);
-    SetVelocity(a, &local);
-    StopTurningMoveFollowsAngle(a);
-    SetAnglePointAndMoveAnglePoint(a, &kart->mPos);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_094, a->mPrm->mUnk_098);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_0a8, func_ov001_021913b8);
+    velocity.y = mapObject->mPrm->mUnk_0a4;
+    StartMapObjectState(mapObject, 3, (s32(*)(Unk02188950 *)) AdvanceIwanteHandKartSound);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_08c, mapObject->mPrm->mUnk_090);
+    SetVelocity(mapObject, &velocity);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_094, mapObject->mPrm->mUnk_098);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_0a8, StartIwanteHandMoveToKart);
 }
 
-void func_ov001_02191258(Unk02188950 *a) {
-    Vec3 local = {0, 0, 0};
+void StartIwanteHandLandOnKartAndStop(Unk02188950 *mapObject) {
+    Vec3 velocity = {0, 0, 0};
 
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_210, a->mPrm->mUnk_214);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_218, NULL);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    SetVelocity(a, &local);
-    SetKartCollisionCallback(a, func_ov001_02192878);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-    StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x414, 0);
-    StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x415, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x218);
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_210, mapObject->mPrm->mUnk_214);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_218, NULL);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    SetVelocity(mapObject, &velocity);
+    SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
+    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x414, 0);
+    StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x415, 0);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x218);
 }
 
-void func_ov001_021911a8(Unk02188950 *a) {
+void StartIwanteHandDirectFallOnKart(Unk02188950 *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    Vec3 local = {0, 0, 0};
+    Vec3 velocity = {0, 0, 0};
 
-    local.y = a->mPrm->mUnk_1e4;
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_1cc, a->mPrm->mUnk_1d0);
-    SetVelocity(a, &local);
-    StopTurningMoveFollowsAngle(a);
-    SetAnglePointAndMoveAnglePoint(a, &kart->mPos);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_1d4, a->mPrm->mUnk_1d8);
-    SetCourseCollisionCallback(a, func_ov001_02191258);
-    SetKartCollisionCallback(a, func_ov001_02192794);
+    velocity.y = mapObject->mPrm->mUnk_1e4;
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1cc, mapObject->mPrm->mUnk_1d0);
+    SetVelocity(mapObject, &velocity);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1d4, mapObject->mPrm->mUnk_1d8);
+    SetCourseCollisionCallback(mapObject, StartIwanteHandLandOnKartAndStop);
+    SetKartCollisionCallback(mapObject, IwanteKartResponse11Callback);
 }
 
-void func_ov001_0219116c(Unk02188950 *a) {
-    StartMapObjectState(a, 7, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_234, a->mPrm->mUnk_238, (UnkFunc *) &func_ov001_021918c8);
-    func_ov001_021922e0(a);
+void StartIwanteHandHitThirdAnimation(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 7, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_234, mapObject->mPrm->mUnk_238,
+                                  (UnkFunc *) &StartIwanteHandMoveToPoints);
+    SetIwanteWalkBCollision(mapObject);
 }
 
-void func_ov001_02191130(Unk02188950 *a) {
-    StartMapObjectState(a, 7, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_22c, a->mPrm->mUnk_230, (UnkFunc *) &func_ov001_0219116c);
-    func_ov001_021921e4(a);
+void StartIwanteHandHitSecondAnimation(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 7, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_22c, mapObject->mPrm->mUnk_230,
+                                  (UnkFunc *) &StartIwanteHandHitThirdAnimation);
+    SetIwanteWalkAHitCollision(mapObject);
 }
 
-s32 func_ov001_021910fc(Unk02188950 *a) {
-    if ((a->mCollisionBits & 0x001e34ef) != 0) {
-        StartMapObjectSound(&a->mUnk_000, 0x218);
-        a->mUnk_158 = NULL;
-    }
-    return 0;
-}
-
-s32 func_ov001_021910d4(Unk02188950 *a) {
-    if (a->mCollisionBits & 0x1e34ef) {
-        a->mUnk_158 = (s32(*)(Unk02188950 *)) func_ov001_021910fc;
+s32 AdvanceIwanteHandHitCollisionSound(Unk02188950 *mapObject) {
+    if ((mapObject->mCollisionBits & 0x001e34ef) != 0) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x218);
+        mapObject->mUnk_158 = NULL;
     }
     return 0;
 }
 
-void func_ov001_02191064(Unk02188950 *a) {
-    StartMapObjectState(a, 7, &func_ov001_021910d4);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_21c, a->mPrm->mUnk_220, func_ov001_02191130);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    a->mGravityEnabled = TRUE;
-    func_ov001_0219226c(a);
-    SetKartCollisionCallback(a, func_ov001_02192878);
-    StartMapObjectSound(&a->mUnk_000, 0x00000216u);
+s32 AdvanceIwanteHandHitCollision(Unk02188950 *mapObject) {
+    if (mapObject->mCollisionBits & 0x1e34ef) {
+        mapObject->mUnk_158 = (s32(*)(Unk02188950 *)) AdvanceIwanteHandHitCollisionSound;
+    }
+    return 0;
 }
 
-void func_ov001_02191034(Unk02188950 *a) {
-    StartMapObjectState(a, 7, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_24c, a->mPrm->mUnk_250);
+void StartIwanteHandHitReaction(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 7, &AdvanceIwanteHandHitCollision);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_21c, mapObject->mPrm->mUnk_220,
+                                  StartIwanteHandHitSecondAnimation);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    mapObject->mGravityEnabled = TRUE;
+    SetIwanteHitReactionCollision(mapObject);
+    SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x00000216u);
 }
 
-void func_ov001_02190fc4(Unk02188950 *a) {
-    StartMapObjectState(a, 7, &func_ov001_021910d4);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_23c, a->mPrm->mUnk_240, (UnkFunc *) &func_ov001_02191034);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    a->mGravityEnabled = TRUE;
-    func_ov001_0219226c(a);
-    SetKartCollisionCallback(a, func_ov001_02192878);
-    StartMapObjectSound(&a->mUnk_000, 0x00000216u);
+void StartIwanteHandHitHold(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 7, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_24c, mapObject->mPrm->mUnk_250);
 }
 
-void func_ov001_02190ee0(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    ReleaseEffects(a);
-    StartEffectAtOffset(a, 0, 0x1000, 0xffffdccd, 0x3ef, 0);
-    StartEffectAtOffset(a, 0, 0x1000, 0xffffdccd, 0x3ee, 0);
-    StartEffectAtOffset(a, 0, 0x1000, 0xffffdccd, 0x3f0, 0);
-    StartEffectAtOffset(a, 0, 0x1000, 0xffffdccd, 0x3f1, 0);
-    StartEffectAtOffset(a, 0, 0x1000, 0xffffdccd, 0x3f2, 0);
+void StartIwanteHandHitReactionHold(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 7, &AdvanceIwanteHandHitCollision);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_23c, mapObject->mPrm->mUnk_240,
+                                  (UnkFunc *) &StartIwanteHandHitHold);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    mapObject->mGravityEnabled = TRUE;
+    SetIwanteHitReactionCollision(mapObject);
+    SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x00000216u);
+}
+
+void HideIwanteAtEndReached(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    ReleaseEffects(mapObject);
+    StartEffectAtOffset(mapObject, 0, 0x1000, 0xffffdccd, 0x3ef, 0);
+    StartEffectAtOffset(mapObject, 0, 0x1000, 0xffffdccd, 0x3ee, 0);
+    StartEffectAtOffset(mapObject, 0, 0x1000, 0xffffdccd, 0x3f0, 0);
+    StartEffectAtOffset(mapObject, 0, 0x1000, 0xffffdccd, 0x3f1, 0);
+    StartEffectAtOffset(mapObject, 0, 0x1000, 0xffffdccd, 0x3f2, 0);
     {
-        SoundStartParams local = data_ov001_021a7de8;
+        SoundStartParams soundParams = gIwanteEndSoundParams;
 
-        local.mPositionSource = &a->mUnk_000.mPos;
-        local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);
-        StartSndHandleSoundUnchecked(&local, GetSecondSndHandleSlot());
+        soundParams.mPositionSource = &mapObject->mUnk_000.mPos;
+        soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
+        StartSndHandleSoundUnchecked(&soundParams, GetSecondSndHandleSlot());
     }
-    a->mUnk_000.mFlags |= data_ov001_021a65c8;
-    a->mUnk_000.mFlags |= data_ov001_021a65cc;
-    a->mUnk_000.mFlags |= data_ov001_021a65d0;
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65c8;
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65cc;
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65d0;
 }
 
-void func_ov001_02190eb0(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);
-    StartStateFrameCountCallback(a, 0x3c, &func_ov001_02190ee0);
+void StartIwanteHideAtEndReached(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    StartStateFrameCountCallback(mapObject, 0x3c, &HideIwanteAtEndReached);
 }
 
-void func_ov001_02190df8(Unk02188950 *a) {
-    if (a->mUnk_0a8 == 1) {
-        StartMapObjectState(a, 8, NULL);
-        StartAnimationNoEndCallback(a, a->mPrm->mUnk_078, a->mPrm->mUnk_07c);
-        StopTurningMoveFollowsAngle(a);
-        SetSpeedAndClearTarget(a, 0);
+void StartIwanteKartEliminatedHold(Unk02188950 *mapObject) {
+    if (mapObject->mUnk_0a8 == 1) {
+        StartMapObjectState(mapObject, 8, NULL);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);
+        StopTurningMoveFollowsAngle(mapObject);
+        SetSpeedAndClearTarget(mapObject, 0);
         return;
     }
-    StartMapObjectState(a, 3, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_2b4, a->mPrm->mUnk_2b8, (UnkFunc *) &func_ov001_02190df8);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
-    func_ov001_02192358(a);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00002000u, 0x0000042du, 0);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00002000u, 0x0000042eu, 0);
+    StartMapObjectState(mapObject, 3, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_2b4, mapObject->mPrm->mUnk_2b8,
+                                  (UnkFunc *) &StartIwanteKartEliminatedHold);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    SetIwanteWalkACollision(mapObject);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00002000u, 0x0000042du, 0);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00002000u, 0x0000042eu, 0);
 }
 
-void func_ov001_02190df0(void) {
+void IwanteStandingsEndCallback(void) {
     ResetMissionRunMapObjects();
 }
 
-s32 func_ov001_02190d78(Unk02188950 *a) {
-    Unk02188950 *v1;
-    Unk02188950 *v2;
+s32 AdvanceIwanteHandsStopAfterPoints(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    v1 = gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
-             : 0;
-    v2 = gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
-             : 0;
-    if (IsStateNumberBelow(v1, 3) != 0 && IsStateNumberBelow(v2, 3) != 0) {
-        StopMapObjectState(a);
+    firstHand = gRaceSetup->mMode == MODE_MISSION_RUN
+                    ? GetMissionRunMapObject(
+                          (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                    : 0;
+    secondHand = gRaceSetup->mMode == MODE_MISSION_RUN
+                     ? GetMissionRunMapObject(
+                           (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                     : 0;
+    if (IsStateNumberBelow(firstHand, 3) != 0 && IsStateNumberBelow(secondHand, 3) != 0) {
+        StopMapObjectState(mapObject);
     }
     return 0;
 }
 
-s32 func_ov001_02190d00(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+s32 AdvanceIwanteHandsRestartWhenIdle(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
-             : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
-             : 0);
-    if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
-        func_ov001_02190c08(c);
+    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                     ? GetMissionRunMapObject(
+                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                     : 0);
+    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                      ? GetMissionRunMapObject(
+                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                      : 0);
+    if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
+        StartIwanteHandsFallOrMoveToPoints(mapObject);
     }
     return 0;
 }
 
-void func_ov001_02190c08(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+void StartIwanteHandsFallOrMoveToPoints(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    if (func_ov001_0218820c(c)) {
-        StartMapObjectState(c, 3, func_ov001_02190d00);
-        StopTurningMoveFollowsAngle(c);
-        a = (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject(
-                       (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
-                 : 0);
-        b = (gRaceSetup->mMode == MODE_MISSION_RUN
+    if (func_ov001_0218820c(mapObject)) {
+        StartMapObjectState(mapObject, 3, AdvanceIwanteHandsRestartWhenIdle);
+        StopTurningMoveFollowsAngle(mapObject);
+        firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                         ? GetMissionRunMapObject(
+                               (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                         : 0);
+        secondHand =
+            (gRaceSetup->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
                        (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                  : 0);
-        func_ov001_021911a8(a);
-        func_ov001_021911a8(b);
+        StartIwanteHandDirectFallOnKart(firstHand);
+        StartIwanteHandDirectFallOnKart(secondHand);
     } else {
-        StartMapObjectState(c, 3, func_ov001_02190d78);
-        StopTurningMoveFollowsAngle(c);
-        a = (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject(
-                       (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
-                 : 0);
-        b = (gRaceSetup->mMode == MODE_MISSION_RUN
+        StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterPoints);
+        StopTurningMoveFollowsAngle(mapObject);
+        firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                         ? GetMissionRunMapObject(
+                               (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                         : 0);
+        secondHand =
+            (gRaceSetup->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
                        (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                  : 0);
-        func_ov001_021918c8(a);
-        func_ov001_021918c8(b);
+        StartIwanteHandMoveToPoints(firstHand);
+        StartIwanteHandMoveToPoints(secondHand);
     }
 }
 
-s32 func_ov001_02190b58(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+s32 AdvanceIwanteHandsStartFromPrm(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
-             : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
-             : 0);
-    SetAnglePointAndMoveAnglePoint(c, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
-    func_ov001_021924cc();
-    if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
-        func_ov001_02188218(c, ((u16) c->mPrm->mUnk_1ec));
-        func_ov001_02190c08(c);
+    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                     ? GetMissionRunMapObject(
+                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                     : 0);
+    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                      ? GetMissionRunMapObject(
+                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                      : 0);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetIwanteHandsPoints();
+    if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
+        func_ov001_02188218(mapObject, ((u16) mapObject->mPrm->mUnk_1ec));
+        StartIwanteHandsFallOrMoveToPoints(mapObject);
     }
     return 0;
 }
 
-void func_ov001_02190acc(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+void StartIwanteHandsChangeToWalkB(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(c, 3, func_ov001_02190b58);
-    StopTurningMoveFollowsAngle(c);
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
-             : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
-             : 0);
-    func_ov001_02191bc0(a);
-    func_ov001_02191bc0(b);
+    StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStartFromPrm);
+    StopTurningMoveFollowsAngle(mapObject);
+    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                     ? GetMissionRunMapObject(
+                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                     : 0);
+    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                      ? GetMissionRunMapObject(
+                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                      : 0);
+    StartIwanteHandChangeToWalkB(firstHand);
+    StartIwanteHandChangeToWalkB(secondHand);
 }
 
-s32 func_ov001_02190a20(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+s32 AdvanceIwanteHandsRepeatVertical(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
-             : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject(
-                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
-             : 0);
-    SetAnglePointAndMoveAnglePoint(c, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
-    func_ov001_021924cc();
-    if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
-        c->mUnk_0a8 = c->mUnk_0a8 == 4 ? 5 : 4;
-        func_ov001_02190948(c);
+    firstHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                     ? GetMissionRunMapObject(
+                           (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
+                     : 0);
+    secondHand = (gRaceSetup->mMode == MODE_MISSION_RUN
+                      ? GetMissionRunMapObject(
+                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
+                      : 0);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetIwanteHandsPoints();
+    if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
+        mapObject->mUnk_0a8 = mapObject->mUnk_0a8 == 4 ? 5 : 4;
+        StartIwanteHandsMoveVertical(mapObject);
     }
     return 0;
 }
 
-void func_ov001_02190948(Unk02188950 *c) {
+void StartIwanteHandsMoveVertical(Unk02188950 *mapObject) {
     Kart *kart;
-    Unk02188950 *a;
-    Unk02188950 *b;
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    if (func_ov001_0218820c(c)) {
+    if (func_ov001_0218820c(mapObject)) {
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
-        StartMapObjectState(c, 3, func_ov001_02190a20);
-        TurnToPointMoveFollowsAngle(c, c->mPrm->mUnk_2c4, 0x270f000);
-        SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
+        StartMapObjectState(mapObject, 3, AdvanceIwanteHandsRepeatVertical);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_2c4, 0x270f000);
+        SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            a = GetMissionRunMapObject(
+            firstHand = GetMissionRunMapObject(
                 (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
         } else {
-            a = NULL;
+            firstHand = NULL;
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            b = GetMissionRunMapObject(
+            secondHand = GetMissionRunMapObject(
                 (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
         } else {
-            b = NULL;
+            secondHand = NULL;
         }
-        if (c->mUnk_0a8 == 4) {
-            func_ov001_02191c14(a);
-            func_ov001_021920dc(b);
+        if (mapObject->mUnk_0a8 == 4) {
+            StartIwanteHandMoveVertical(firstHand);
+            StartIwanteHandWalkWithEffects(secondHand);
         } else {
-            func_ov001_021920dc(a);
-            func_ov001_02191c14(b);
+            StartIwanteHandWalkWithEffects(firstHand);
+            StartIwanteHandMoveVertical(secondHand);
         }
     } else {
-        func_ov001_02190acc(c);
+        StartIwanteHandsChangeToWalkB(mapObject);
     }
 }
 
-int func_ov001_021908a8(Unk02188950 *c) {
+int AdvanceIwanteHandsStartMoveVertical(Unk02188950 *mapObject) {
     Kart *kart;
-    Unk02188950 *a;
-    Unk02188950 *b;
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
-    func_ov001_021924cc();
-    if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
-        func_ov001_02188218(c, 4);
-        func_ov001_02190948(c);
+    SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+    SetIwanteHandsPoints();
+    if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
+        func_ov001_02188218(mapObject, 4);
+        StartIwanteHandsMoveVertical(mapObject);
     }
     return 0;
 }
 
-void func_ov001_0219081c(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+void StartIwanteHandsChangeToWalkA(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(c, 3, func_ov001_021908a8);
-    StopTurningMoveFollowsAngle(c);
+    StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStartMoveVertical);
+    StopTurningMoveFollowsAngle(mapObject);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    func_ov001_02191b40(a);
-    func_ov001_02191b40(b);
+    StartIwanteHandChangeToWalkA(firstHand);
+    StartIwanteHandChangeToWalkA(secondHand);
 }
 
-int func_ov001_0219079c(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+int AdvanceIwanteHandsApproachUntilIdle(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    func_ov001_02192694();
-    func_ov001_021924cc();
-    if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
-        StopMapObjectState(c);
+    SetIwanteHandsApproachPoint();
+    SetIwanteHandsPoints();
+    if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
+        StopMapObjectState(mapObject);
     }
     return 0;
 }
 
-int func_ov001_02190688(Unk02188950 *c) {
+int AdvanceIwanteHandsToggleState(Unk02188950 *mapObject) {
     Kart *kart;
-    Unk02188950 *a;
-    Unk02188950 *b;
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    if (c->mUnk_0a8 == 4) {
-        if (IsStateNumberBelow(a, 3)) {
-            c->mUnk_0a8 = 5;
-            StartMapObjectState(c, 3, func_ov001_0219079c);
-            TurnToPointMoveFollowsAngle(c, c->mPrm->mUnk_2c4, 0x270f000);
-            SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
-            func_ov001_02191ecc(a);
-            func_ov001_02191f70(b);
+    if (mapObject->mUnk_0a8 == 4) {
+        if (IsStateNumberBelow(firstHand, 3)) {
+            mapObject->mUnk_0a8 = 5;
+            StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachUntilIdle);
+            TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_2c4, 0x270f000);
+            SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+            StartIwanteHandChangeToWalkAWalk(firstHand);
+            StartIwanteHandChangeToWalkBWalk(secondHand);
         }
-    } else if (IsStateNumberBelow(b, 3)) {
-        c->mUnk_0a8 = 4;
-        StartMapObjectState(c, 3, func_ov001_0219079c);
-        TurnToPointMoveFollowsAngle(c, c->mPrm->mUnk_2c4, 0x270f000);
-        SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
-        func_ov001_02191f70(a);
-        func_ov001_02191ecc(b);
+    } else if (IsStateNumberBelow(secondHand, 3)) {
+        mapObject->mUnk_0a8 = 4;
+        StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachUntilIdle);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_2c4, 0x270f000);
+        SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+        StartIwanteHandChangeToWalkBWalk(firstHand);
+        StartIwanteHandChangeToWalkAWalk(secondHand);
     }
     return 0;
 }
 
-void func_ov001_021905f8(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+void StartIwanteHandsTurnToKart(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    StartMapObjectState(c, 3, func_ov001_02190688);
-    StopTurningMoveFollowsAngle(c);
+    StartMapObjectState(mapObject, 3, AdvanceIwanteHandsToggleState);
+    StopTurningMoveFollowsAngle(mapObject);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    if (c->mUnk_0a8 == 4) {
-        func_ov001_02191318(a);
-        func_ov001_02191e1c(b);
+    if (mapObject->mUnk_0a8 == 4) {
+        StartIwanteHandTurnToKart(firstHand);
+        StartIwanteHandWalkAHold(secondHand);
     } else {
-        func_ov001_02191e1c(a);
-        func_ov001_02191318(b);
+        StartIwanteHandWalkAHold(firstHand);
+        StartIwanteHandTurnToKart(secondHand);
     }
 }
 
-int func_ov001_0219052c(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+int AdvanceIwanteHandsApproachKart(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    func_ov001_02192694();
-    func_ov001_021924cc();
-    if (IsPointInRange(c, &c->mAnglePoint, 0, c->mPrm->mUnk_2bc) &&
-        IsPointInRange(a, &a->mMoveAnglePoint, c->mPrm->mUnk_2c0, 0) &&
-        IsPointInRange(b, &b->mMoveAnglePoint, c->mPrm->mUnk_2c0, 0)) {
-        func_ov001_021905f8(c);
+    SetIwanteHandsApproachPoint();
+    SetIwanteHandsPoints();
+    if (IsPointInRange(mapObject, &mapObject->mAnglePoint, 0, mapObject->mPrm->mUnk_2bc) &&
+        IsPointInRange(firstHand, &firstHand->mMoveAnglePoint, mapObject->mPrm->mUnk_2c0, 0) &&
+        IsPointInRange(secondHand, &secondHand->mMoveAnglePoint, mapObject->mPrm->mUnk_2c0, 0)) {
+        StartIwanteHandsTurnToKart(mapObject);
     }
     return 0;
 }
 
-void func_ov001_02190468(Unk02188950 *c) {
+void StartIwanteHandsApproachKart(Unk02188950 *mapObject) {
     Kart *kart;
-    Unk02188950 *a;
-    Unk02188950 *b;
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(c, 3, func_ov001_0219052c);
-    TurnToPointMoveFollowsAngle(c, c->mPrm->mUnk_2c4, 0x270f000);
-    SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
+    StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachKart);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_2c4, 0x270f000);
+    SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    if (c->mUnk_0a8 == 4) {
-        func_ov001_02192174(a);
-        func_ov001_021920dc(b);
+    if (mapObject->mUnk_0a8 == 4) {
+        StartIwanteHandWalk(firstHand);
+        StartIwanteHandWalkWithEffects(secondHand);
     } else {
-        func_ov001_021920dc(a);
-        func_ov001_02192174(b);
+        StartIwanteHandWalkWithEffects(firstHand);
+        StartIwanteHandWalk(secondHand);
     }
 }
 
-int func_ov001_021903e0(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+int AdvanceIwanteHandsStopAfterToggle(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     GetKart((u16) gRaceSetup->mEntryIndex);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
-        StopMapObjectState(c);
+    if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
+        StopMapObjectState(mapObject);
     }
     return 0;
 }
 
-void func_ov001_02190328(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+void StartIwanteHandsToggleState(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(c, 3, func_ov001_021903e0);
-    StopTurningMoveFollowsAngle(c);
-    c->mUnk_0a8 = (c->mUnk_0a8 == 5) ? 4 : 5;
+    StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterToggle);
+    StopTurningMoveFollowsAngle(mapObject);
+    mapObject->mUnk_0a8 = (mapObject->mUnk_0a8 == 5) ? 4 : 5;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    if (c->mUnk_0a8 == 4) {
-        func_ov001_02191bc0(a);
-        func_ov001_02191e1c(b);
+    if (mapObject->mUnk_0a8 == 4) {
+        StartIwanteHandChangeToWalkB(firstHand);
+        StartIwanteHandWalkAHold(secondHand);
     } else {
-        func_ov001_02191e1c(a);
-        func_ov001_02191bc0(b);
+        StartIwanteHandWalkAHold(firstHand);
+        StartIwanteHandChangeToWalkB(secondHand);
     }
 }
 
-void func_ov001_02190270(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+void StartIwanteHandsToggleStateHold(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(c, 3, func_ov001_021903e0);
-    StopTurningMoveFollowsAngle(c);
-    c->mUnk_0a8 = (c->mUnk_0a8 == 5) ? 4 : 5;
+    StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterToggle);
+    StopTurningMoveFollowsAngle(mapObject);
+    mapObject->mUnk_0a8 = (mapObject->mUnk_0a8 == 5) ? 4 : 5;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    if (c->mUnk_0a8 == 4) {
-        func_ov001_02191e90(a);
-        func_ov001_02191b40(b);
+    if (mapObject->mUnk_0a8 == 4) {
+        StartIwanteHandWalkBHold(firstHand);
+        StartIwanteHandChangeToWalkA(secondHand);
     } else {
-        func_ov001_02191b40(a);
-        func_ov001_02191e90(b);
+        StartIwanteHandChangeToWalkA(firstHand);
+        StartIwanteHandWalkBHold(secondHand);
     }
 }
 
-void func_ov001_02190248(Unk02188950 *a) {
-    func_ov001_02188218(a, ((u16) a->mPrm->mUnk_1ec));
-    func_ov001_02190c08(a);
+void StartIwanteHandsFromPrm(Unk02188950 *mapObject) {
+    func_ov001_02188218(mapObject, ((u16) mapObject->mPrm->mUnk_1ec));
+    StartIwanteHandsFallOrMoveToPoints(mapObject);
 }
 
-int func_ov001_02190168(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+int AdvanceIwanteHandsNextByHitCount(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
-    if (IsStateNumberBelow(a, 3) && IsStateNumberBelow(b, 3)) {
+    if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
         if (GetAbsoluteCounter(
                 ((gRaceSetup->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
                             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                       : 0))) == 1) {
-            func_ov001_02190270(c);
+            StartIwanteHandsToggleStateHold(mapObject);
         } else if (GetAbsoluteCounter(
                        ((gRaceSetup->mMode == MODE_MISSION_RUN
                              ? GetMissionRunMapObject((
                                    u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) +
                                          2))
                              : 0))) == 2) {
-            func_ov001_02190248(c);
+            StartIwanteHandsFromPrm(mapObject);
         } else {
-            StopMapObjectState(c);
+            StopMapObjectState(mapObject);
         }
     }
     return 0;
 }
 
-void func_ov001_021900ac(Unk02188950 *c) {
-    Unk02188950 *a;
-    Unk02188950 *b;
+void StartIwanteHandsHitReaction(Unk02188950 *mapObject) {
+    Unk02188950 *firstHand;
+    Unk02188950 *secondHand;
 
-    StartMapObjectState(c, 3, func_ov001_02190168);
-    StopTurningMoveFollowsAngle(c);
+    StartMapObjectState(mapObject, 3, AdvanceIwanteHandsNextByHitCount);
+    StopTurningMoveFollowsAngle(mapObject);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject(
+        firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
     } else {
-        a = NULL;
+        firstHand = NULL;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject(
+        secondHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1));
     } else {
-        b = NULL;
+        secondHand = NULL;
     }
     if (GetAbsoluteCounter(
             ((gRaceSetup->mMode == MODE_MISSION_RUN
                   ? GetMissionRunMapObject(
                         (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                   : 0))) >= 2) {
-        func_ov001_02190fc4(a);
-        func_ov001_02190fc4(b);
+        StartIwanteHandHitReactionHold(firstHand);
+        StartIwanteHandHitReactionHold(secondHand);
     } else {
-        func_ov001_02191064(a);
-        func_ov001_02191064(b);
+        StartIwanteHandHitReaction(firstHand);
+        StartIwanteHandHitReaction(secondHand);
     }
 }
 
-u32 func_ov001_02190090(Unk02188950 *a) {
-    int v1;
-    v1 = IsRaceStarted();
-    if (v1 == 1) {
-        func_ov001_02190328(a);
+u32 AdvanceIwanteHandsWaitForRaceStart(Unk02188950 *mapObject) {
+    int raceStarted;
+    raceStarted = IsRaceStarted();
+    if (raceStarted == 1) {
+        StartIwanteHandsToggleState(mapObject);
     }
     return 0;
 }
 
-void func_ov001_02190080(Unk02188950 *a) {
-    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *)) func_ov001_02190090);
+void StartIwanteHandsWaitForRaceStart(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *)) AdvanceIwanteHandsWaitForRaceStart);
 }
 
-void func_ov001_0219006c(Unk02188950 *a) {
-    func_ov001_021900ac(a);
-    func_ov001_02188260(a);
+void ApplyIwanteHandsHit(Unk02188950 *mapObject) {
+    StartIwanteHandsHitReaction(mapObject);
+    func_ov001_02188260(mapObject);
 }
 
-void func_ov001_02190030(Unk02188950 *a) {
-    StartEffectAtRowHeight(a, 0x00002ccdu, 0, 0, 0x00000411u, 0);
-    StartEffectAtRowHeight(a, 0x00002ccdu, 0, 0, 0x00000412u, 0);
+void StartIwanteCourseHitEffects(Unk02188950 *mapObject) {
+    StartEffectAtRowHeight(mapObject, 0x00002ccdu, 0, 0, 0x00000411u, 0);
+    StartEffectAtRowHeight(mapObject, 0x00002ccdu, 0, 0, 0x00000412u, 0);
 }
 
-void func_ov001_0218ffd4(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00000400u, 0x0000042du, 0);
-    StartEffectAtOffset(a, 0, 0x000044cdu, 0x00000400u, 0x0000042eu, 0);
+void StartIwanteNoChainCameraEffects(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00000400u, 0x0000042du, 0);
+    StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00000400u, 0x0000042eu, 0);
 }
 
-void func_ov001_0218ff98(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, (UnkFunc *) &func_ov001_0218ffd4);
-    func_ov001_021923e0(a);
-    StartMapObjectSound(&a->mUnk_000, 0x0000021bu);
+void StartIwanteNoChainCameraAnimation(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
+                                  (UnkFunc *) &StartIwanteNoChainCameraEffects);
+    SetIwanteNoChainCameraWalkA(mapObject);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x0000021bu);
 }
 
-void func_ov001_0218ff64(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218ff98);
+void StartIwanteNoChainCameraWait(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartIwanteNoChainCameraAnimation);
 }
 
-void func_ov001_0218ff34(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_040, a->mPrm->mUnk_044);
-    SetCourseCollisionCallback(a, func_ov001_02190030);
+void StartIwanteChainCameraCourseWait(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
+    SetCourseCollisionCallback(mapObject, StartIwanteCourseHitEffects);
 }
 
-void func_ov001_0218fef8(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
-    DisableMissionRunMapObjectGravity(a);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, &func_ov001_0218ff34);
+void StartIwanteChainCameraHold(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
+    DisableMissionRunMapObjectGravity(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartIwanteChainCameraCourseWait);
 }
 
-void func_ov001_0218fee0(Unk02188950 *a) {
-    a->mUnk_2e0 = 2;
-    SetItemCollisionCallback(a, (UnkFunc *) func_ov001_0218fee0);
+void IwanteItemResponse2Callback(Unk02188950 *mapObject) {
+    mapObject->mUnk_2e0 = 2;
+    SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
 }
 
-void func_ov001_0218fd20(Unk02188950 *a, Unk0218fd20 *b) {
+// Item hit on a hand: knocks both hands back and counts one hit on the third object.
+void IwanteItemHitCallback(Unk02188950 *mapObject, Unk0218fd20 *itemObject) {
     int diff;
     int limit;
-    Vec3 vec;
+    Vec3 velocity;
 
-    diff = (u16) (FX_Atan2Idx(b->mUnk_50.x - a->mUnk_000.mPos.x, b->mUnk_50.z - a->mUnk_000.mPos.z) - a->mAngle);
+    diff = (u16) (FX_Atan2Idx(itemObject->mUnk_50.x - mapObject->mUnk_000.mPos.x,
+                              itemObject->mUnk_50.z - mapObject->mUnk_000.mPos.z) -
+                  mapObject->mAngle);
     if (diff > 0x8000) {
         diff -= 0x10000;
     }
-    limit = a->mPrm->mUnk_088;
-    if (diff <= limit && diff >= -limit && IsStateNumberBelow(a, 7)) {
-        vec.x = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, FX_SinIdx((u16) a->mAngle)));
-        vec.y = a->mPrm->mUnk_228;
-        vec.z = (MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_224, FX_CosIdx((u16) a->mAngle)));
+    limit = mapObject->mPrm->mUnk_088;
+    if (diff <= limit && diff >= -limit && IsStateNumberBelow(mapObject, 7)) {
+        velocity.x = (MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mUnk_224, FX_SinIdx((u16) mapObject->mAngle)));
+        velocity.y = mapObject->mPrm->mUnk_228;
+        velocity.z = (MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mUnk_224, FX_CosIdx((u16) mapObject->mAngle)));
         SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject(
                                (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
                          : 0),
-                    &vec);
+                    &velocity);
         SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject((
                                u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 1))
                          : 0),
-                    &vec);
-        StartEffect(0x3eb, &b->mUnk_50);
-        StartEffect(0x3ec, &b->mUnk_50);
-        StartEffect(0x3ed, &b->mUnk_50);
-        a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65c4;
-        func_ov001_0219006c(
+                    &velocity);
+        StartEffect(0x3eb, &itemObject->mUnk_50);
+        StartEffect(0x3ec, &itemObject->mUnk_50);
+        StartEffect(0x3ed, &itemObject->mUnk_50);
+        mapObject->mUnk_000.mDistanceSquaredAndFlags |= gMapObjectItemHitReportFlag;
+        ApplyIwanteHandsHit(
             gRaceSetup->mMode == MODE_MISSION_RUN
                 ? GetMissionRunMapObject(
                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0);
-        SetItemCollisionCallback(a, (UnkFunc *) func_ov001_0218fee0);
-        a->mUnk_2e0 = 2;
+        SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
+        mapObject->mUnk_2e0 = 2;
     } else {
-        a->mUnk_2e0 = 2;
-        SetItemCollisionCallback(a, (UnkFunc *) func_ov001_0218fd20);
+        mapObject->mUnk_2e0 = 2;
+        SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemHitCallback);
     }
 }
 
-void func_ov001_0218fcc4(MapObjectList *a) {
+// IwanteHands: the model-less third Mission Run object (index MissionRunGetCurrentKartCount() + 2) that steers both
+// stone hands.
+void InitIwanteHandsObjects(MapObjectList *mapObjectList) {
     int i;
     Unk02188950 *obj;
     int zero;
 
-    if (a != NULL) {
+    if (mapObjectList != NULL) {
         zero = 0;
-        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
             InitMissionRunMapObject((void *) zero, obj, (const char *) zero, (const char *) zero, data_ov001_021a7eb0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
-            func_ov001_02190080(obj);
+            StartIwanteHandsWaitForRaceStart(obj);
         }
     }
 }
 
-void func_ov001_0218fc4c(u32 a, Unk02188950 *b) {
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == 0 && IsStateNumberBelow(b, 1)) {
+void UpdateIwanteHands(u32 mapObjectList, Unk02188950 *mapObject) {
+    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == 0 && IsStateNumberBelow(mapObject, 1)) {
         if (GetAbsoluteCounter(
                 (gRaceSetup->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                      : 0)) < 2) {
-            func_ov001_02190468(b);
+            StartIwanteHandsApproachKart(mapObject);
         } else {
-            func_ov001_0219081c(b);
+            StartIwanteHandsChangeToWalkA(mapObject);
         }
     }
-    AdvanceMissionRunMapObject(a, b);
+    AdvanceMissionRunMapObject(mapObjectList, mapObject);
 }
 
-void InitIwanteObjects(MapObjectList *a) {
+// With chain cameras the hands start moved in y by a prm value and held; otherwise they wait before moving.
+void InitIwanteObjects(MapObjectList *mapObjectList) {
     int i;
     Unk02188950 *obj;
 
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
             if (GetRaceUseChainCameras()) {
                 obj->mUnk_000.mPos.y += obj->mPrm->mUnk_080;
-                func_ov001_0218fef8(obj);
+                StartIwanteChainCameraHold(obj);
             } else {
-                func_ov001_0218ff64(obj);
+                StartIwanteNoChainCameraWait(obj);
             }
-            func_ov001_0219246c(obj);
-            SetKartCollisionCallback(obj, func_ov001_02192878);
+            SetIwanteNoneCollision(obj);
+            SetKartCollisionCallback(obj, IwanteKartResponse2Callback);
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_02190df0);
+    SetStandingsEndCallback((void (*)(void)) IwanteStandingsEndCallback);
 }
 
-void UpdateIwante(u32 a, Unk02188950 *b) {
-    s32 value;
+void UpdateIwante(u32 mapObjectList, Unk02188950 *mapObject) {
+    s32 frameIndex;
 
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecidedAndEndReached() : 0) && IsStateNumberBelow(b, 3)) {
+    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecidedAndEndReached() : 0) &&
+        IsStateNumberBelow(mapObject, 3)) {
         if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
-            func_ov001_02190df8(b);
+            StartIwanteKartEliminatedHold(mapObject);
         } else {
-            func_ov001_02190eb0(b);
+            StartIwanteHideAtEndReached(mapObject);
         }
     }
-    if (b->mUnk_0a8 == 1) {
-        value = b->mUnk_134 + 1;
-        if (value >= GetMapObjectModelNsbtpFrameCount(b->mNsbmd) - 1) {
-            value = GetMapObjectModelNsbtpFrameCount(b->mNsbmd) - 1;
+    if (mapObject->mUnk_0a8 == 1) {
+        frameIndex = mapObject->mUnk_134 + 1;
+        if (frameIndex >= GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1) {
+            frameIndex = GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1;
         }
-        b->mUnk_134 = value;
+        mapObject->mUnk_134 = frameIndex;
     } else {
-        value = b->mUnk_134 - 1;
-        if (value <= 0) {
-            value = 0;
+        frameIndex = mapObject->mUnk_134 - 1;
+        if (frameIndex <= 0) {
+            frameIndex = 0;
         }
-        b->mUnk_134 = value;
+        mapObject->mUnk_134 = frameIndex;
     }
-    SetMapObjectModelNsbtpFrameIndex(b->mNsbmd, b->mUnk_134);
-    AdvanceMissionRunMapObject(a, b);
+    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, mapObject->mUnk_134);
+    AdvanceMissionRunMapObject(mapObjectList, mapObject);
 }
 
 // Iwante: the two stone hands of Mission Run.
-void InitIwante(MapObjectList *a) {
+void InitIwante(MapObjectList *mapObjectList) {
     int i;
     Unk02188950 *obj;
 
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
-            InitMissionRunMapObject(a, obj, gIwanteLNsbmdName, gIwanteLNsbcaName, gIwanteLPrmName);
-            LoadMissionRunMapObjectShadow(a, obj, gShIwanteNsbmdName);
+            InitMissionRunMapObject(mapObjectList, obj, gIwanteLNsbmdName, gIwanteLNsbcaName, gIwanteLPrmName);
+            LoadMissionRunMapObjectShadow(mapObjectList, obj, gShIwanteNsbmdName);
             LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, gIwanteLNsbtpName);
             obj->mCollisionShape = 1;
             if (i == 0) {
-                obj->mUnk_000.mFlags |= data_ov001_021a65c0;
+                obj->mUnk_000.mFlags |= gMapObjectMirrorFlag;
             } else if (i == 1) {
                 obj->mUnk_000.mFlags &= 0xfffffbff;
             }
@@ -1379,28 +1401,29 @@ void InitIwante(MapObjectList *a) {
     }
 }
 
-void func_ov001_0218fa58(void *a, Unk02188950 *b) {
-    DrawMissionRunMapObject(a, b);
-    DrawMissionRunMapObjectShadow(a, b, 0);
+void DrawIwante(void *mapObjectList, Unk02188950 *mapObject) {
+    DrawMissionRunMapObject(mapObjectList, mapObject);
+    DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }
 
-void func_ov001_0218fa20(void) {
-    u32 v4 = 0x21au;
-    u32 v6 = 0x216u;
-    void *v8 = &CollideKartWithMissionRunMapObject;
-    void *v9 = &CollideItemWithMissionRunMapObject;
-    void *v10 = &ComputeSphereHitOnMissionRunMapObject;
-    void *v12 = func_ov001_0219b510(v8, v9, v10, 0x2u, 0x1u, v4, v6);
+void CreateIwanteKindData(void) {
+    u32 soundId = 0x21au;
+    u32 collideItemSoundId = 0x216u;
+    void *kartCollision = &CollideKartWithMissionRunMapObject;
+    void *itemCollision = &CollideItemWithMissionRunMapObject;
+    void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
+    void *kindData =
+        func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, soundId, collideItemSoundId);
 }
 
-void *func_ov001_0218fa04(void) {
-    return CreateMapObjectDrawList1(InitIwante, func_ov001_0218fa58, ToggleShadowScale);
+void *CreateIwanteDrawList(void) {
+    return CreateMapObjectDrawList1(InitIwante, DrawIwante, ToggleShadowScale);
 }
 
-void *func_ov001_0218f9ec(void) {
+void *CreateIwanteUpdateList(void) {
     return CreateMapObjectUpdateList(InitIwanteObjects, UpdateIwante, NULL);
 }
 
-void *func_ov001_0218f9d4(void) {
-    return CreateMapObjectUpdateList(func_ov001_0218fcc4, func_ov001_0218fc4c, NULL);
+void *CreateIwanteHandsUpdateList(void) {
+    return CreateMapObjectUpdateList(InitIwanteHandsObjects, UpdateIwanteHands, NULL);
 }

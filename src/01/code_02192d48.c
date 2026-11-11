@@ -19,36 +19,37 @@
 
 MapObjectModel *gStopSign;
 
-void InitStopSign(Unk02188950 *a) {
-    MtxFx33 m;
-    RefreshMapObjectMatrixFromHitNormal(&a->mUnk_000);
-    a->mUnk_000.mAngle = (a->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
-    MTX_RotY33_(&m, FX_SinIdx(a->mUnk_000.mAngle), FX_CosIdx(a->mUnk_000.mAngle));
-    MTX_Concat33(&m, &a->mUnk_000.mMatrix.mAxes, &a->mUnk_000.mMatrix.mAxes);
+void InitStopSign(Unk02188950 *mapObject) {
+    MtxFx33 rotationMatrix;
+    RefreshMapObjectMatrixFromHitNormal(&mapObject->mUnk_000);
+    mapObject->mUnk_000.mAngle =
+        (mapObject->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
+    MTX_RotY33_(&rotationMatrix, FX_SinIdx(mapObject->mUnk_000.mAngle), FX_CosIdx(mapObject->mUnk_000.mAngle));
+    MTX_Concat33(&rotationMatrix, &mapObject->mUnk_000.mMatrix.mAxes, &mapObject->mUnk_000.mMatrix.mAxes);
 }
 
-void LoadStopSign(Unk0219b478 *a) {
-    gStopSign = LoadMapObjectModelAnimated(a, "StopSign.nsbmd");
+void LoadStopSign(Unk0219b478 *mapObjectList) {
+    gStopSign = LoadMapObjectModelAnimated(mapObjectList, "StopSign.nsbmd");
     SetMapObjectModelPolygonId(gStopSign, 0x3f);
     SetMapObjectModelLightEnableFlag(gStopSign, 2);
     SetNsbmdEmiAll(gStopSign->mAnimatedModel, 0x294a);
 }
 
-void DrawStopSign(void *a, StopSignObject *b) {
-    s32 v = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &v, 1);
-    b->mUnk_4c = b->mUnk_04 >> 4;
-    b->mUnk_50 = b->mUnk_08 >> 4;
-    b->mUnk_54 = b->mUnk_0c >> 4;
-    NNS_G3dGeBufferOP_N(0x19, b->mUnk_28, 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, b->mUnk_1c, 3);
-    DrawMapObjectModel(a, gStopSign, b);
+void DrawStopSign(void *mapObjectList, StopSignObject *mapObject) {
+    s32 commandValue = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandValue, 1);
+    mapObject->mUnk_4c = mapObject->mUnk_04 >> 4;
+    mapObject->mUnk_50 = mapObject->mUnk_08 >> 4;
+    mapObject->mUnk_54 = mapObject->mUnk_0c >> 4;
+    NNS_G3dGeBufferOP_N(0x19, mapObject->mUnk_28, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, mapObject->mUnk_1c, 3);
+    DrawMapObjectModel(mapObjectList, gStopSign, mapObject);
 }
 
-void func_ov001_02192d60(void) {
+void CreateStopSignKindData(void) {
     CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
 }
 
-void *func_ov001_02192d48(void) {
+void *CreateStopSignDrawList(void) {
     return CreateMapObjectDrawList1(LoadStopSign, DrawStopSign, NULL);
 }

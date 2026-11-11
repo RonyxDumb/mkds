@@ -4,7 +4,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// Object behind StopTurningMoveFollowsAngle and the per-state functions around func_ov001_021900ac.
+// Object behind StopTurningMoveFollowsAngle and the per-state functions around StartIwanteHandsHitReaction.
 typedef struct MissionRunPrm {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mScale;

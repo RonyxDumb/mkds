@@ -240,8 +240,8 @@ void AdvanceOptionTopMenuState5(void) {
     s32 i;
     s32 j;
 
-    if (func_ov001_02192e84() == -1 && gOptionTopMenu->mNextOptionState == 4) {
-        func_ov001_02192e78(0);
+    if (GetOptionNextScene() == -1 && gOptionTopMenu->mNextOptionState == 4) {
+        RequestOptionNextScene(0);
     }
     gOptionTopMenu->mStateFrames++;
     if (gOptionTopMenu->mStateFrames <= 10) {
@@ -262,7 +262,7 @@ void AdvanceOptionTopMenuState5(void) {
         gOptionTopMenu->mBg0Offset = InterpolateS16(1, 0, 50, gOptionTopMenu->mStateFrames, 10);
     }
     if (gOptionTopMenu->mStateFrames >= 10 &&
-        (gOptionTopMenu->mIndex != 2 || IsSelectReturnState0NoState1Request() != 0) && func_ov001_02192e84() == -1) {
+        (gOptionTopMenu->mIndex != 2 || IsSelectReturnState0NoState1Request() != 0) && GetOptionNextScene() == -1) {
         if (gOptionTopMenu->mIndex == 2) {
             gOptionTopMenu->mNextState = 6;
             gOptionTopMenu->mStateFrames = 0;
@@ -333,9 +333,9 @@ void AdvanceOptionTopMenuState8(void) {
 
 void AdvanceOptionTopMenuState9(void) {
     int v1;
-    v1 = func_ov001_02192e84();
+    v1 = GetOptionNextScene();
     if ((v1 == -1) && (gOptionTopMenu->mNextOptionState == 4)) {
-        func_ov001_02192e78(0);
+        RequestOptionNextScene(0);
     }
     v1 = GetTxtSystemDone();
     if (v1 != 0) {

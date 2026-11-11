@@ -16,7 +16,7 @@ typedef struct OptionStateCallbacks {
     /* 00 */ void (*mInit)(void *);
     /* 04 */ UnkFunc *mRelease;
     /* 08 */ UnkFunc *mAdvance;
-    /* 0c */ UnkFunc *mUnk_0c;
+    /* 0c */ UnkFunc *mPostUpdate;
 } OptionStateCallbacks;
 
 extern const OptionStateCallbacks gOptionTopMenuCallbacks;
@@ -51,10 +51,10 @@ typedef struct OptionStates {
     /* 08 */ s32 mState;
     /* 0c */ s32 mNextState;
     /* 10 */ s32 mPrevState;
-    /* 14 */ s16 mUnk_14;
+    /* 14 */ s16 mNextScene;
     /* 16 */ u8 mUnk_16[2];
     /* 18 */ OptionStateCallbacks mCallbacks;
-    /* 28 */ void *mUnk_28;
+    /* 28 */ void *mSceneDisplaySettings;
 } OptionStates;
 
 typedef struct MissionRunData {

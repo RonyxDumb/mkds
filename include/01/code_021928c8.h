@@ -29,9 +29,9 @@ typedef struct EmblemInput {
 
 #include "01/code_0218f9d4.h"
 
-BOOL IsEmblemInputRepeat(int a);
-u16 func_ov001_02192a04(u16 a);
-u16 func_ov001_02192a14(u16 a);
+BOOL IsEmblemInputRepeat(int mask);
+u16 GetEmblemInputBits(u16 mask);
+u16 GetEmblemInputNewBits(u16 mask);
 u32 GetEmblemInputPrevDown(void);
 u32 GetEmblemInputPrevY(void);
 u32 GetEmblemInputPrevX(void);
