@@ -56,7 +56,7 @@ void func_ov003_021cb3d8(void) {
                     break;
                 case 1:
                     SetPrimaryMenuPair(2, 1);
-                    SetUpdateFunction(func_ov003_021c54dc);
+                    SetUpdateFunction(SetupValueRecords);
                     break;
                 case 2:
                     SetPrimaryMenuPair(2, 1);

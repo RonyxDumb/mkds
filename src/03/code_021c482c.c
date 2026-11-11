@@ -29,158 +29,158 @@
 #include "03/unk_021d5000.h"
 #include "03/code_021bf410.h"
 
-void func_ov003_021c4aa4(void) {
-    func_ov003_021c4a40();
+void SetupChildWaitMessage(void) {
+    LoadChildWaitMessageFileAndSetBgCnt();
     PrintMessage(0x62);
-    data_ov003_021da1c8[0] = ShowSubScreenMessage(0x8d, -1, 0);
-    SetUpdateFunction(func_ov003_021c49f8);
+    gChildWaitMessageSubScreenShown[0] = ShowSubScreenMessage(0x8d, -1, 0);
+    SetUpdateFunction(StartChildWaitMessageFadeIn);
 }
 
-void func_ov003_021c4a40(void) {
-    void *v2 = &data_ov003_021d7194;
-    void *v3 = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(v2, v3);
-    u32 v5 = 0x4001008u;
-    u32 v6 = (*(u16 *) ((v5) + (0)));
-    u32 v8 = ((v6) & ~(0x3u));
-    u32 v9 = ((v8) | (0x3u));
-    u32 v11;
-    u32 v12;
-    u32 v13;
-    u32 v14;
-    u32 v16;
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v26;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    *(u16 *) ((v5) + (0)) = v9;
-    v11 = 0x400100au;
-    v12 = (*(u16 *) ((v11) + (0)));
-    v13 = ((v12) & ~(0x3u));
-    v14 = ((v13) | (0x3u));
-    *(u16 *) ((v11) + (0)) = v14;
-    v16 = 0x4000008u;
-    v17 = (*(u16 *) ((v16) + (0)));
-    v18 = ((v17) & ~(0x3u));
-    v19 = ((v18) | (0x3u));
-    *(u16 *) ((v16) + (0)) = v19;
-    v21 = 0x400000au;
-    v22 = (*(u16 *) ((v21) + (0)));
-    v23 = ((v22) & ~(0x3u));
-    v24 = ((v23) | (0x3u));
-    *(u16 *) ((v21) + (0)) = v24;
-    v26 = 0x400000cu;
-    v27 = (*(u16 *) ((v26) + (0)));
-    v28 = ((v27) & ~(0x3u));
-    v29 = ((v28) | (0x3u));
-    *(u16 *) ((v26) + (0)) = v29;
+void LoadChildWaitMessageFileAndSetBgCnt(void) {
+    void *nscName = &data_ov003_021d7194;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg0CntAddr;
+    u32 g2Bg0CntOld;
+    u32 g2Bg0CntCleared;
+    u32 g2Bg0CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg0CntAddr = 0x4000008u;
+    g2Bg0CntOld = (*(u16 *) ((g2Bg0CntAddr) + (0)));
+    g2Bg0CntCleared = ((g2Bg0CntOld) & ~(0x3u));
+    g2Bg0CntNew = ((g2Bg0CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg0CntAddr) + (0)) = g2Bg0CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021c49f8(void) {
+void StartChildWaitMessageFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    if ((*(u8 *) &data_ov003_021da1c8) != 0) {
+    if ((*(u8 *) &gChildWaitMessageSubScreenShown) != 0) {
         StartBlendBrightnessFade(2, 1, 1, 8);
         CombineDispcntBits(1, 1);
     }
-    SetUpdateFunction(func_ov003_021c49c8);
+    SetUpdateFunction(UpdateChildWaitMessageFadeIn);
 }
 
-void func_ov003_021c49c8(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateChildWaitMessageFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         CreateSlideButtonsForMenuPair(3);
-        SetUpdateFunction(func_ov003_021c499c);
+        SetUpdateFunction(UpdateChildWaitMessageButtonsIn);
     }
 }
 
-void func_ov003_021c499c(void) {
+void UpdateChildWaitMessageButtonsIn(void) {
     if (GetButtonResult() != -2 && IsChildWaitSessionReleased() != 0) {
         EnableButtonTouch();
-        SetUpdateFunction(func_ov003_021c4984);
+        SetUpdateFunction(UpdateChildWaitMessage);
     }
 }
 
-void func_ov003_021c4984(void) {
-    func_ov003_021c4958();
-    func_ov003_021c4954();
-    func_ov003_021c4914();
+void UpdateChildWaitMessage(void) {
+    UpdateChildWaitMessageInput();
+    UpdateChildWaitMessageNop();
+    UpdateChildWaitMessageResult();
 }
 
-void func_ov003_021c4958(void) {
-    int v1;
-    v1 = AreKeysPressed(1);
-    if (v1 != 0) {
+void UpdateChildWaitMessageInput(void) {
+    int allKeysPressed;
+    allKeysPressed = AreKeysPressed(1);
+    if (allKeysPressed != 0) {
         SetButtonResultIfNone((u8) 1);
     }
-    v1 = AreKeysPressed(2);
-    if (v1 != 0) {
+    allKeysPressed = AreKeysPressed(2);
+    if (allKeysPressed != 0) {
         SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021c4954(void) {}
+void UpdateChildWaitMessageNop(void) {}
 
-void func_ov003_021c4914(void) {
+void UpdateChildWaitMessageResult(void) {
     switch (GetButtonResult()) {
         case 1:
-            data_ov003_021da1cc = 1;
+            gChildWaitMessageShowNext = 1;
             StartSoundSeq(6);
             break;
         case 0:
-            data_ov003_021da1cc = 0;
+            gChildWaitMessageShowNext = 0;
             StartSoundSeq(7);
             break;
         default:
             return;
     }
-    SetUpdateFunction(func_ov003_021c48f4);
+    SetUpdateFunction(StartChildWaitMessageClose);
 }
 
-void func_ov003_021c48f4(void) {
+void StartChildWaitMessageClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c48ac);
+    SetUpdateFunction(UpdateChildWaitMessageFadeOut);
 }
 
-void func_ov003_021c48ac(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateChildWaitMessageFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartSlideButtonsOut();
-        if (data_ov003_021da1cc == 0) {
+        if (gChildWaitMessageShowNext == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021c482c);
+        SetUpdateFunction(UpdateChildWaitMessageRelease);
     }
 }
 
-void func_ov003_021c482c(void) {
+void UpdateChildWaitMessageRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
         (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
-        if (data_ov003_021da1cc == 0) {
+        if (gChildWaitMessageShowNext == 0) {
             HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da1cc == 0) {
+        if (gChildWaitMessageShowNext == 0) {
             SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(SetupOptMenu);
             return;
         }
         SetPrimaryMenuPair(0, 1);
-        SetUpdateFunction(func_ov003_021c5098);
+        SetUpdateFunction(SetupChildWait);
     }
 }

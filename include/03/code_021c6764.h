@@ -20,24 +20,24 @@ typedef struct Edit {
 } Edit;
 
 extern u8 gEditLineY[];
-extern u16 data_ov003_021d63e4[];
+extern u16 gEditCharSize[];
 extern u8 gEditColumnX[];
-extern u8 data_ov003_021d7278[];
+extern u8 gEditSubScreenMessages[];
 
-BOOL func_ov003_021c6764(void);
-void func_ov003_021c6854(void);
-void func_ov003_021c68c8(void);
-void func_ov003_021c6914(void);
+BOOL IsEditTextValid(void);
+void UpdateEditMessageClose(void);
+void UpdateEditMessageResult(void);
+void PlaceEditTextCursor(void);
 void PrintEditText(void);
-void func_ov003_021c6a18(void);
-void func_ov003_021c6acc(void);
-void func_ov003_021c6b58(void);
-void func_ov003_021c6b80(void);
-void func_ov003_021c6b9c(void);
+void UpdateEditRelease(void);
+void UpdateEditKeyboardOut(void);
+void UpdateEditFadeOut(void);
+void StartEditClose(void);
+void UpdateEditNop(void);
 void UpdateEditInput(void);
 void UpdateEdit(void);
-void func_ov003_021c6cf0(void);
-void func_ov003_021c6d0c(void);
-void func_ov003_021c6d68(void);
+void UpdateEditKeyboardIn(void);
+void UpdateEditFadeIn(void);
+void StartEditFadeIn(void);
 void LoadEditFilesAndSetBgCnt(void);
 void CreateEdit(void);

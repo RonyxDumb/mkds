@@ -30,105 +30,105 @@
 #include "code_0214cfe4.h"
 
 void SetupJb5Move(void) {
-    u8 *a;
-    void *b;
-    u16 c[12];
-    a = GetChildUserBuffer();
-    b = InitBgTextCanvas(0, 0);
-    data_ov003_021da1d4 = 0;
-    data_ov003_021da1d0 = 0;
+    u8 *childUserBuffer;
+    void *canvas;
+    u16 childUserText[12];
+    childUserBuffer = GetChildUserBuffer();
+    canvas = InitBgTextCanvas(0, 0);
+    gJb5MoveShowNext = 0;
+    gJb5MoveChildWaitEvent = 0;
     LoadJb5MoveFileAndSetBgCnt();
-    c[0] = 0;
-    MIi_CpuClear16(c[0], &c[1], 0x16);
-    MIi_CpuCopy16(a + 2, &c[1], a[1] * 2);
-    DrawCanvasTextRect(b, data_ov003_021d6380.mUnk_00, data_ov003_021d6380.mUnk_02,
-                       data_ov003_021d6380.mUnk_04 - data_ov003_021d6380.mUnk_00,
-                       data_ov003_021d6380.mUnk_06 - data_ov003_021d6380.mUnk_02, 2, 0x480, &c[1]);
-    RequestBgTextCanvasUpload(b);
-    SetChildWaitCallback(func_ov003_021c4ad4);
-    SetUpdateFunction(func_ov003_021c4cb0);
+    childUserText[0] = 0;
+    MIi_CpuClear16(childUserText[0], &childUserText[1], 0x16);
+    MIi_CpuCopy16(childUserBuffer + 2, &childUserText[1], childUserBuffer[1] * 2);
+    DrawCanvasTextRect(canvas, gJb5MoveTextRect.mUnk_00, gJb5MoveTextRect.mUnk_02,
+                       gJb5MoveTextRect.mUnk_04 - gJb5MoveTextRect.mUnk_00,
+                       gJb5MoveTextRect.mUnk_06 - gJb5MoveTextRect.mUnk_02, 2, 0x480, &childUserText[1]);
+    RequestBgTextCanvasUpload(canvas);
+    SetChildWaitCallback(Jb5MoveChildWaitCallback);
+    SetUpdateFunction(StartJb5MoveFadeIn);
 }
 
 void LoadJb5MoveFileAndSetBgCnt(void) {
-    void *v2 = &gJb5MoveNscName;
-    void *v3 = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(v2, v3);
-    u32 v5 = 0x4001008u;
-    u32 v6 = (*(u16 *) ((v5) + (0)));
-    u32 v8 = ((v6) & ~(0x3u));
-    u32 v9 = ((v8) | (0x3u));
-    u32 v11;
-    u32 v12;
-    u32 v13;
-    u32 v14;
-    u32 v16;
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v26;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    *(u16 *) ((v5) + (0)) = v9;
-    v11 = 0x400100au;
-    v12 = (*(u16 *) ((v11) + (0)));
-    v13 = ((v12) & ~(0x3u));
-    v14 = ((v13) | (0x3u));
-    *(u16 *) ((v11) + (0)) = v14;
-    v16 = 0x4000008u;
-    v17 = (*(u16 *) ((v16) + (0)));
-    v18 = ((v17) & ~(0x3u));
-    v19 = ((v18) | (0x3u));
-    *(u16 *) ((v16) + (0)) = v19;
-    v21 = 0x400000au;
-    v22 = (*(u16 *) ((v21) + (0)));
-    v23 = ((v22) & ~(0x3u));
-    v24 = ((v23) | (0x3u));
-    *(u16 *) ((v21) + (0)) = v24;
-    v26 = 0x400000cu;
-    v27 = (*(u16 *) ((v26) + (0)));
-    v28 = ((v27) & ~(0x3u));
-    v29 = ((v28) | (0x3u));
-    *(u16 *) ((v26) + (0)) = v29;
+    void *jb5MoveNscName = &gJb5MoveNscName;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 loadFileResult = LoadFileToVram(jb5MoveNscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg0CntAddr;
+    u32 g2Bg0CntOld;
+    u32 g2Bg0CntCleared;
+    u32 g2Bg0CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg0CntAddr = 0x4000008u;
+    g2Bg0CntOld = (*(u16 *) ((g2Bg0CntAddr) + (0)));
+    g2Bg0CntCleared = ((g2Bg0CntOld) & ~(0x3u));
+    g2Bg0CntNew = ((g2Bg0CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg0CntAddr) + (0)) = g2Bg0CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021c4cb0(void) {
+void StartJb5MoveFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c4c84);
+    SetUpdateFunction(UpdateJb5MoveFadeIn);
 }
 
-void func_ov003_021c4c84(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if (v1 == 0) {
+void UpdateJb5MoveFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
+    if (fadeSlotBusy == 0) {
         func_ov003_021cefc0(0x5f, 4, 0, 0xffffffff, 0);
-        SetUpdateFunction(func_ov003_021c4c64);
+        SetUpdateFunction(UpdateJb5MoveMessageIn);
     }
 }
 
-void func_ov003_021c4c64(void) {
-    int v1;
-    v1 = func_ov003_021cef80();
-    if (v1 != -2) {
-        SetUpdateFunction(func_ov003_021c4c0c);
+void UpdateJb5MoveMessageIn(void) {
+    int messageAnswer;
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer != -2) {
+        SetUpdateFunction(UpdateJb5MoveMessage);
     }
 }
 
-void func_ov003_021c4c0c(void) {
-    func_ov003_021c4c08();
-    func_ov003_021c4c04();
+void UpdateJb5MoveMessage(void) {
+    UpdateJb5MoveMessageInputNop();
+    UpdateJb5MoveMessageNop();
     switch (func_ov003_021cef80()) {
         case 0:
-            data_ov003_021da1d4 = 0;
+            gJb5MoveShowNext = 0;
             StartSoundSeq(7);
             break;
         case 1:
-            data_ov003_021da1d4 = 1;
+            gJb5MoveShowNext = 1;
             StartSoundSeq(0xe);
             break;
         default:
@@ -136,51 +136,52 @@ void func_ov003_021c4c0c(void) {
     }
     SetChildWaitCallback(NULL);
     func_ov003_021cef90();
-    SetUpdateFunction(func_ov003_021c4bc4);
+    SetUpdateFunction(UpdateJb5MoveMessageClose);
 }
 
-void func_ov003_021c4c08(void) {}
+void UpdateJb5MoveMessageInputNop(void) {}
 
-void func_ov003_021c4c04(void) {}
+void UpdateJb5MoveMessageNop(void) {}
 
-void func_ov003_021c4bc4(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
-        if ((*(u8 *) &data_ov003_021da1d4) == 0) {
+void UpdateJb5MoveMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
+        if ((*(u8 *) &gJb5MoveShowNext) == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021c4b78);
+        SetUpdateFunction(UpdateJb5MoveFadeOut);
     }
 }
 
-void func_ov003_021c4b78(void) {
+void UpdateJb5MoveFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
-        if (data_ov003_021da1d0 == 0 && data_ov003_021da1d4 == 1) {
+        if (gJb5MoveChildWaitEvent == 0 && gJb5MoveShowNext == 1) {
             ConfirmChildWaitUser();
         } else {
             StartChildWaitStop();
         }
-        SetUpdateFunction(func_ov003_021c4ae0);
+        SetUpdateFunction(UpdateJb5MoveRelease);
     }
 }
 
-void func_ov003_021c4ae0(void) {
-    int v1;
-    if (((data_ov003_021da1d0 == 0) && (data_ov003_021da1d4 != 0)) || (v1 = IsChildWaitSessionReleased(), v1 != 0)) {
+void UpdateJb5MoveRelease(void) {
+    int childWaitReleased;
+    if (((gJb5MoveChildWaitEvent == 0) && (gJb5MoveShowNext != 0)) ||
+        (childWaitReleased = IsChildWaitSessionReleased(), childWaitReleased != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da1d4 == 0) {
+        if (gJb5MoveShowNext == 0) {
             HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         SetPrimaryMenuPair(0, 1);
-        if (data_ov003_021da1d0 != 0) {
-            SetUpdateFunction(func_ov003_021c4aa4);
+        if (gJb5MoveChildWaitEvent != 0) {
+            SetUpdateFunction(SetupChildWaitMessage);
             return;
         }
-        if (data_ov003_021da1d4 == 0) {
+        if (gJb5MoveShowNext == 0) {
             ClearDispcntBits(1, 1);
             SetUpdateFunction(SetupOptMenu);
             return;
@@ -189,6 +190,6 @@ void func_ov003_021c4ae0(void) {
     }
 }
 
-void func_ov003_021c4ad4(void) {
-    data_ov003_021da1d0 = 1;
+void Jb5MoveChildWaitCallback(void) {
+    gJb5MoveChildWaitEvent = 1;
 }

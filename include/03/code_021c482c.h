@@ -2,15 +2,15 @@
 
 #include "types.h"
 
-void func_ov003_021c482c(void);
-void func_ov003_021c48ac(void);
-void func_ov003_021c48f4(void);
-void func_ov003_021c4914(void);
-void func_ov003_021c4954(void);
-void func_ov003_021c4958(void);
-void func_ov003_021c4984(void);
-void func_ov003_021c499c(void);
-void func_ov003_021c49c8(void);
-void func_ov003_021c49f8(void);
-void func_ov003_021c4a40(void);
-void func_ov003_021c4aa4(void);
+void UpdateChildWaitMessageRelease(void);
+void UpdateChildWaitMessageFadeOut(void);
+void StartChildWaitMessageClose(void);
+void UpdateChildWaitMessageResult(void);
+void UpdateChildWaitMessageNop(void);
+void UpdateChildWaitMessageInput(void);
+void UpdateChildWaitMessage(void);
+void UpdateChildWaitMessageButtonsIn(void);
+void UpdateChildWaitMessageFadeIn(void);
+void StartChildWaitMessageFadeIn(void);
+void LoadChildWaitMessageFileAndSetBgCnt(void);
+void SetupChildWaitMessage(void);

@@ -85,7 +85,7 @@ void func_ov003_021ccc90(void) {
     u16 a[2];
     s32 b;
     s32 c;
-    if (IsTouchDownInRect(&data_ov003_021d67e8) != 0) {
+    if (IsTouchDownInRect(&gTouchScreenRect) != 0) {
         GetTouchPoint(a);
         if (a[0] >= data_ov003_021da268->mX - 0x1e) {
             b = data_ov003_021da268->mUnk_18 + (a[1] - data_ov003_021da268->mUnk_14[1]);

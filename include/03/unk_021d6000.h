@@ -92,7 +92,7 @@ extern u16 gEditAddrKeyboardCursorX[];
 extern u16 gEditAddrKeyboardCursorY[];
 extern s8 gEditAddrKeyboardCursorMoves[];
 extern u8 gNintendoDsItemBytes[];
-extern Rect data_ov003_021d67e8;
+extern Rect gTouchScreenRect;
 extern u16 *data_ov003_021d6be8[3];
 extern u8 gEditAddrKeyboardRow4KeyCounts[];
 extern u8 gEditAddrKeyboardDigitKeyCounts[];

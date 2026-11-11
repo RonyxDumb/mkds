@@ -190,7 +190,7 @@ void AdvanceEditAddrKeyboardTouchPressed(void) {
     int j;
     int i;
     u16 *p;
-    if (IsTouchPressedInRect(&data_ov003_021d67e8) == 0) {
+    if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
         return;
     }
     gEditAddrKeyboard->mPressedKeyIndex = -1;
@@ -236,7 +236,7 @@ void AdvanceEditAddrKeyboardTouchReleased(void) {
     int i;
     u16 *p;
     gEditAddrKeyboard->mInput = 0;
-    if (IsTouchReleasedInRect(&data_ov003_021d67e8) == 0) {
+    if (IsTouchReleasedInRect(&gTouchScreenRect) == 0) {
         return;
     }
     for (i = 0, p = gEditAddrKeyboardDigitKeyPositions[0]; i < 10; p += 2, i++) {
@@ -283,7 +283,7 @@ void AdvanceEditAddrKeyboardTouchDown(void) {
     int j;
     int i;
     u16 *p;
-    if (IsTouchDownInRect(&data_ov003_021d67e8) == 0) {
+    if (IsTouchDownInRect(&gTouchScreenRect) == 0) {
         goto label_1;
     }
     for (i = 0, p = gEditAddrKeyboardDigitKeyPositions[0]; i < 10; p += 2, i++) {

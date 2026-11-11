@@ -2,25 +2,25 @@
 
 #include "types.h"
 
-extern u8 data_ov003_021d71d0[];
-extern u8 data_ov003_021d71e8[];
-extern u8 data_ov003_021d7200[];
-extern u16 data_ov003_021da1e0;
-extern u32 data_ov003_021da1e4;
+extern u8 gJbBgStep3NcgName[];
+extern u8 gYbBgStep3NclName[];
+extern u8 gXb4MultiNscName[];
+extern u16 gValueRecordsFrames;
+extern u32 gValueRecordsRequestTask;
 
-void func_ov003_021c50f8(void);
-void func_ov003_021c5120(void);
-void func_ov003_021c515c(void);
-void func_ov003_021c5178(void);
-void func_ov003_021c51a0(void);
-void func_ov003_021c51bc(void);
-void func_ov003_021c5258(void);
-void func_ov003_021c52a0(void);
-void func_ov003_021c52d0(void);
-void func_ov003_021c52f0(void);
-void func_ov003_021c52f4(void);
-void func_ov003_021c5324(void);
-void func_ov003_021c53ec(void);
-void func_ov003_021c541c(void);
-void func_ov003_021c5458(void);
-void func_ov003_021c54dc(void);
+void StartValueRecordsCloseWithoutNext(void);
+void UpdateValueRecordsFrames(void);
+void UpdateValueRecordsMessageClose(void);
+void UpdateValueRecordsMessageResult(void);
+void UpdateValueRecordsDuringRequest(void);
+void UpdateValueRecordsRelease(void);
+void UpdateValueRecordsFadeOut(void);
+void StartValueRecordsClose(void);
+void UpdateValueRecordsResult(void);
+void UpdateValueRecordsNop(void);
+void UpdateValueRecordsInput(void);
+void UpdateValueRecords(void);
+void UpdateValueRecordsFadeIn(void);
+void StartValueRecordsFadeIn(void);
+void LoadValueRecordsFilesAndSetBgCnt(void);
+void SetupValueRecords(void);

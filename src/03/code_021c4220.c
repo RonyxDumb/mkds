@@ -52,7 +52,7 @@ void UpdateOptMenuMessageNextRelease(void) {
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
         SetPrimaryMenuPair(0, 1);
-        SetUpdateFunction(func_ov003_021c5098);
+        SetUpdateFunction(SetupChildWait);
     }
 }
 

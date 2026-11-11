@@ -42,9 +42,9 @@
 #include "code_0212df7c.h"
 #include "registers.h"
 
-void func_ov003_021c54dc(void) {
-    data_ov003_021da1e0 = 0;
-    func_ov003_021c5458();
+void SetupValueRecords(void) {
+    gValueRecordsFrames = 0;
+    LoadValueRecordsFilesAndSetBgCnt();
     LoadHlSetScr();
     ShowSubScreenMessage(0x82, -1, 0);
     CreateObjectsForMenuPair(2);
@@ -52,13 +52,13 @@ void func_ov003_021c54dc(void) {
     CreateAnimatedIcon(0);
     InitValueRecordsRequest();
     StartSoundSeq(0xb);
-    SetUpdateFunction(func_ov003_021c541c);
+    SetUpdateFunction(StartValueRecordsFadeIn);
 }
 
-void func_ov003_021c5458(void) {
-    LoadFileToVram(data_ov003_021d71d0, GX_LoadBG2Char);
-    LoadFileToVram(data_ov003_021d71e8, GX_LoadBGPltt);
-    LoadFileToVram(data_ov003_021d7200, GX_LoadBG2Scr);
+void LoadValueRecordsFilesAndSetBgCnt(void) {
+    LoadFileToVram(gJbBgStep3NcgName, GX_LoadBG2Char);
+    LoadFileToVram(gYbBgStep3NclName, GX_LoadBGPltt);
+    LoadFileToVram(gXb4MultiNscName, GX_LoadBG2Scr);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;
@@ -66,163 +66,163 @@ void func_ov003_021c5458(void) {
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 3;
 }
 
-void func_ov003_021c541c(void) {
+void StartValueRecordsFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c53ec);
+    SetUpdateFunction(UpdateValueRecordsFadeIn);
 }
 
-void func_ov003_021c53ec(void) {
+void UpdateValueRecordsFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         CreateSlideButtonsForMenuPair(1);
-        SetUpdateFunction(func_ov003_021c53b4);
+        SetUpdateFunction(UpdateValueRecordsButtonsIn);
     }
 }
 
-void func_ov003_021c53b4(void) {
+void UpdateValueRecordsButtonsIn(void) {
     if (GetButtonResult() != -2) {
-        data_ov003_021da1e4 = AddTask(1, func_ov003_021c51a0, NULL, 0x78);
-        SetUpdateFunction(func_ov003_021c5324);
+        gValueRecordsRequestTask = AddTask(1, UpdateValueRecordsDuringRequest, NULL, 0x78);
+        SetUpdateFunction(UpdateValueRecords);
     }
 }
 
-void func_ov003_021c5324(void) {
-    int a;
-    func_ov003_021c52f4();
-    func_ov003_021c52f0();
-    func_ov003_021c52d0();
-    a = RunValueRecordsRequestForStatus();
-    switch (a) {
+void UpdateValueRecords(void) {
+    int requestStatus;
+    UpdateValueRecordsInput();
+    UpdateValueRecordsNop();
+    UpdateValueRecordsResult();
+    requestStatus = RunValueRecordsRequestForStatus();
+    switch (requestStatus) {
         case 0:
             break;
         case 1:
-            data_ov003_021da1dc = 1;
-            RemoveTaskEntryWrapper(1, data_ov003_021da1e4);
-            data_ov003_021da1e4 = 0;
-            SetUpdateFunction(func_ov003_021c5120);
+            gValueRecordsShowNext = 1;
+            RemoveTaskEntryWrapper(1, gValueRecordsRequestTask);
+            gValueRecordsRequestTask = 0;
+            SetUpdateFunction(UpdateValueRecordsFrames);
             break;
         case 2:
             StopSoundSeq();
             func_ov003_021cefc0(0x40, 1, 1, -1, 0);
             StartSoundSeq(9);
             DisableButtonTouch();
-            RemoveTaskEntryWrapper(1, data_ov003_021da1e4);
-            data_ov003_021da1e4 = 0;
-            SetUpdateFunction(func_ov003_021c5178);
+            RemoveTaskEntryWrapper(1, gValueRecordsRequestTask);
+            gValueRecordsRequestTask = 0;
+            SetUpdateFunction(UpdateValueRecordsMessageResult);
             break;
     }
 }
 
-void func_ov003_021c52f4(void) {
+void UpdateValueRecordsInput(void) {
     int v1;
     v1 = AreKeysDown(2);
     if (v1 != 0) {
         SetButtonResultIfNone((u8) 0);
         return;
     }
-    v1 = func_ov003_021c5528();
+    v1 = ValueRecordsPAD_DetectFold();
     if (v1 != 0) {
         SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021c52f0(void) {}
+void UpdateValueRecordsNop(void) {}
 
-void func_ov003_021c52d0(void) {
-    int v1;
-    v1 = GetButtonResult();
-    if (v1 == 0) {
+void UpdateValueRecordsResult(void) {
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult == 0) {
         DisableButtonTouch();
-        SetUpdateFunction(func_ov003_021c50f8);
+        SetUpdateFunction(StartValueRecordsCloseWithoutNext);
     }
 }
 
-void func_ov003_021c52a0(void) {
+void StartValueRecordsClose(void) {
     DisableButtonTouch();
-    if (data_ov003_021da1e4 != 0) {
-        RemoveTaskEntryWrapper(1, data_ov003_021da1e4);
+    if (gValueRecordsRequestTask != 0) {
+        RemoveTaskEntryWrapper(1, gValueRecordsRequestTask);
     }
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c5258);
+    SetUpdateFunction(UpdateValueRecordsFadeOut);
 }
 
-void func_ov003_021c5258(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateValueRecordsFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartSlideButtonsOut();
-        if (data_ov003_021da1dc == 0) {
+        if (gValueRecordsShowNext == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021c51bc);
+        SetUpdateFunction(UpdateValueRecordsRelease);
     }
 }
 
-void func_ov003_021c51bc(void) {
+void UpdateValueRecordsRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((data_ov003_021da1dc != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
+    if ((v1 == 0) && (((gValueRecordsShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
                        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
-        ReleaseValueRecordsRequest((data_ov003_021da1dc != 0));
+        ReleaseValueRecordsRequest((gValueRecordsShowNext != 0));
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
-        if (data_ov003_021da1dc == 0) {
+        if (gValueRecordsShowNext == 0) {
             HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da1dc == 0) {
+        if (gValueRecordsShowNext == 0) {
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupWay);
             return;
         }
         SetPrimaryMenuPair(0, 0);
-        SetUpdateFunction(func_ov003_021c56a4);
+        SetUpdateFunction(SetupValueRecordsNext);
     }
 }
 
-void func_ov003_021c51a0(void) {
+void UpdateValueRecordsDuringRequest(void) {
     UpdateKeyTouchInput();
     RunTasksAndRemoveRequested(0);
-    func_ov003_021c52f4();
-    func_ov003_021c52d0();
+    UpdateValueRecordsInput();
+    UpdateValueRecordsResult();
 }
 
-void func_ov003_021c5178(void) {
-    int v1;
-    v1 = func_ov003_021cef80();
-    if (v1 == 0) {
+void UpdateValueRecordsMessageResult(void) {
+    int messageAnswer;
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
-        SetUpdateFunction(func_ov003_021c515c);
+        SetUpdateFunction(UpdateValueRecordsMessageClose);
     }
 }
 
-void func_ov003_021c515c(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
-        SetUpdateFunction(func_ov003_021c52a0);
+void UpdateValueRecordsMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
+        SetUpdateFunction(StartValueRecordsClose);
     }
 }
 
-void func_ov003_021c5120(void) {
-    func_ov003_021c52f4();
-    func_ov003_021c52f0();
-    func_ov003_021c52d0();
-    data_ov003_021da1e0 = data_ov003_021da1e0 + 1;
-    if (data_ov003_021da1e0 >= 0x438) {
+void UpdateValueRecordsFrames(void) {
+    UpdateValueRecordsInput();
+    UpdateValueRecordsNop();
+    UpdateValueRecordsResult();
+    gValueRecordsFrames = gValueRecordsFrames + 1;
+    if (gValueRecordsFrames >= 0x438) {
         StopSoundSeq();
-        SetUpdateFunction(func_ov003_021c52a0);
+        SetUpdateFunction(StartValueRecordsClose);
     }
 }
 
-void func_ov003_021c50f8(void) {
+void StartValueRecordsCloseWithoutNext(void) {
     StopSoundSeq();
     StartSoundSeq(7);
-    *(u8 *) &data_ov003_021da1dc = 0;
-    SetUpdateFunction(func_ov003_021c52a0);
+    *(u8 *) &gValueRecordsShowNext = 0;
+    SetUpdateFunction(StartValueRecordsClose);
 }

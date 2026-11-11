@@ -834,7 +834,7 @@ u32 GetJb3ListHitId(void) {
     s32 d;
     s32 e;
     Rect *f;
-    if (IsTouchPressedInRect(&data_ov003_021d67e8) == 0) {
+    if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
         return 0xe;
     }
     c = FX_DivS32(gJb3ListScrollY, 0x1d);

@@ -34,7 +34,7 @@ void UpdateLinkMessageRelease(void) {
         ClearDispcntBits(0, 0x15);
         SetPrimaryMenuPair(0, 1);
         if ((*(u8 *) &gLinkMessageResult) == 0) {
-            SetUpdateFunction(func_ov003_021c4aa4);
+            SetUpdateFunction(SetupChildWaitMessage);
             return;
         }
         if ((*(u8 *) &gLinkMessageResult) == 2) {

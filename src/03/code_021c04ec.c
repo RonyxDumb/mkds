@@ -186,7 +186,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
     Rect keyRect;
     s32 i;
     s32 j;
-    if (IsTouchPressedInRect(&data_ov003_021d67e8) == 0) {
+    if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
         return;
     }
     i = 0;
@@ -232,7 +232,7 @@ void AdvanceEditKeyboardTouchReleased(void) {
     u16(*extraKeyOrigins)[2];
     s32 extraKeyIndex;
     gEditKeyboard->mInput = 0;
-    if (IsTouchReleasedInRect(&data_ov003_021d67e8) == 0) {
+    if (IsTouchReleasedInRect(&gTouchScreenRect) == 0) {
         return;
     }
     for (i = 0; i < 0x2f; i++) {
@@ -322,7 +322,7 @@ void AdvanceEditKeyboardTouchDown(void) {
     s32 i;
     s32 extraKeyIndex;
 
-    if (IsTouchDownInRect(&data_ov003_021d67e8) == 0) {
+    if (IsTouchDownInRect(&gTouchScreenRect) == 0) {
         goto fail;
     }
     for (i = 0; i < 0x2f; i++) {
