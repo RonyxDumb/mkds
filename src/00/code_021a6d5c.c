@@ -126,11 +126,11 @@ SOCHostEnt *SOC_GetHostByName(const char *hostname) {
         return NULL;
     }
     STD_CopyLStringZeroFill((char *) entName, hostname, 0x101);
-    hostent.mUnk_00 = (u8 *) entName;
-    hostent.mUnk_04 = NULL;
-    hostent.mUnk_08 = 2;
-    hostent.mUnk_0a = 4;
-    hostent.mUnk_0c = hostAddrList;
+    hostent.mName = (u8 *) entName;
+    hostent.mAliases = NULL;
+    hostent.mAddrType = 2;
+    hostent.mLength = 4;
+    hostent.mAddrList = hostAddrList;
     hostAddrList[0] = &hostip;
     hostAddrList[1] = NULL;
     hostip = ((hostAddress << 24) & 0xff000000) |
@@ -706,7 +706,7 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
     void *block;
     u32 interruptState;
     if (SOCL_SocketIsTCP(sockObj) != 0) {
-        OS_JoinThread(&sockObj->mSendBlock->mCommandPipe.mUnk_20);
+        OS_JoinThread(&sockObj->mSendBlock->mCommandPipe.mThread);
         CPS_TcpShutdown();
         CPS_TcpClose();
         CPS_SocRelease();
@@ -763,10 +763,10 @@ void SOCLi_FreeCommandPipe(SOCLiSocketCommandPipe *pipe) {
     SOCLiCommandPacket *cmdPacket;
     u32 interruptState;
     if (pipe != NULL) {
-        OS_JoinThread(&pipe->mUnk_20);
+        OS_JoinThread(&pipe->mThread);
         interruptState = OS_DisableInterrupts();
         OS_DisableScheduler();
-        if (OS_ReceiveMessage(&pipe->mUnk_00, (void **) &cmdPacket, 0) != 0) {
+        if (OS_ReceiveMessage(&pipe->mQueue, (void **) &cmdPacket, 0) != 0) {
             do {
                 if (cmdPacket != NULL) {
                     if (cmdPacket->mResponse != NULL) {
@@ -774,7 +774,7 @@ void SOCLi_FreeCommandPipe(SOCLiSocketCommandPipe *pipe) {
                     }
                     SOCLi_FreeCommandPacket(cmdPacket);
                 }
-            } while (OS_ReceiveMessage(&pipe->mUnk_00, (void **) &cmdPacket, 0) != 0);
+            } while (OS_ReceiveMessage(&pipe->mQueue, (void **) &cmdPacket, 0) != 0);
         }
         OS_EnableScheduler();
         OS_RestoreInterrupts(interruptState);
@@ -844,16 +844,16 @@ s32 SOCL_WriteTo(u32 socketHandle, void *buffer, u32 length, u16 remotePort, u32
     }
     outPipe = sockObj->mSendBlock;
     if ((flags & 4) != 0 || sockObj->mFlagBlock == 0) {
-        if (OS_TryLockMutex(&outPipe->mCommandPipe.mUnk_e0) == 0) {
+        if (OS_TryLockMutex(&outPipe->mCommandPipe.mInUse) == 0) {
             return -6;
         }
         isBlocking = FALSE;
     } else {
-        OS_LockMutex(&outPipe->mCommandPipe.mUnk_e0);
+        OS_LockMutex(&outPipe->mCommandPipe.mInUse);
         isBlocking = TRUE;
     }
     result = SOCLi_WriteBuffer(sockObj, buffer, length, remotePort, (u16 *) peerAddr, isBlocking);
-    OS_UnlockMutex(&outPipe->mCommandPipe.mUnk_e0);
+    OS_UnlockMutex(&outPipe->mCommandPipe.mInUse);
     return result;
 }
 
@@ -1085,14 +1085,14 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
     }
     inPipe = sockObj->mReceiveBlock;
     if (i == 0) {
-        if (OS_TryLockMutex(&inPipe->mCommandPipe.mUnk_e0) == 0) {
+        if (OS_TryLockMutex(&inPipe->mCommandPipe.mInUse) == 0) {
             return -6;
         }
     } else {
-        OS_LockMutex(&inPipe->mCommandPipe.mUnk_e0);
+        OS_LockMutex(&inPipe->mCommandPipe.mInUse);
     }
     i = SOCLi_ReadAndConsumeBuffer(sockObj, buffer, length, (u16 *) remotePort, peerAddr, i, flags);
-    OS_UnlockMutex(&inPipe->mCommandPipe.mUnk_e0);
+    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
     return i;
 }
 
@@ -1184,7 +1184,7 @@ s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
 
 u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u16 *remotePortOut, u32 *remoteIpOut) {
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
-    SOCLSocket *cpsSocket = inPipe->mCommandPipe.mUnk_20.mUnk_a4[0];
+    SOCLSocket *cpsSocket = inPipe->mCommandPipe.mThread.mUnk_a4[0];
     s32 used = inPipe->mConsumed;
     s32 available = cpsSocket->mReceiveBufferLength - used;
     if (available >= 0) {
@@ -1481,13 +1481,13 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     sockObj = packet->mSocket;
     connectResult = 0;
     inPipe = sockObj->mReceiveBlock;
-    OS_LockMutex(&inPipe->mCommandPipe.mUnk_e0);
+    OS_LockMutex(&inPipe->mCommandPipe.mInUse);
     CPS_SocBind(packet->mUnk_10, packet->mUnk_12, (s32) packet->mUnk_14);
     inPipe->mConsumed = 0;
     if (packet->mFlagMode == 0 || packet->mFlagMode == 4) {
         connectResult = CPS_TcpConnect();
     }
-    OS_UnlockMutex(&inPipe->mCommandPipe.mUnk_e0);
+    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
     if (connectResult != 0) {
         sockObj->mStatusFlags |= 0x40;
         return -76;
@@ -1617,7 +1617,7 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
 
     sockObj = packet->mSocket;
     inPipe = sockObj->mReceiveBlock;
-    OS_LockMutex(&inPipe->mCommandPipe.mUnk_e0);
+    OS_LockMutex(&inPipe->mCommandPipe.mInUse);
     CPS_SocBind(packet->mUnk_10, 0, 0);
     CPS_TcpListen();
     inPipe->mConsumed = 0;
@@ -1625,7 +1625,7 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     *packet->mUnk_14 = remotePort;
     *packet->mUnk_18 = peerAddr;
     sockObj->mStatusFlags |= 4;
-    OS_UnlockMutex(&inPipe->mCommandPipe.mUnk_e0);
+    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
     return 0;
 }
 
@@ -1651,7 +1651,7 @@ s32 SOCLi_CreateSocketCallBack(SOCLiCommandPacket *command) {
     switch (sockObj->mFlagMode) {
         case 0:
         case 4:
-            CPS_SocDup(&outPipe->mUnk_20);
+            CPS_SocDup(&outPipe->mThread);
             CPS_SocUse();
             break;
         case 1:
@@ -1763,10 +1763,10 @@ u8 *SOCLi_InitCommandPipe(u8 *messages, SOCLiSocketCommandPipe *pipe, SOCLSocket
     u8 *stackBottom;
 
     stackBottom = messages + SOCLi_GetSizeCommandPipe(param);
-    OS_InitMessageQueue(&pipe->mUnk_00, (void **) messages, param->mUnk_03);
-    OS_InitMutex(&pipe->mUnk_e0);
-    OS_CreateThread(&pipe->mUnk_20, SOCLi_CommandPacketHandler, pipe, stackBottom, param->mUnk_00, param->mUnk_02);
-    OS_WakeupThreadDirect(&pipe->mUnk_20);
+    OS_InitMessageQueue(&pipe->mQueue, (void **) messages, param->mUnk_03);
+    OS_InitMutex(&pipe->mInUse);
+    OS_CreateThread(&pipe->mThread, SOCLi_CommandPacketHandler, pipe, stackBottom, param->mUnk_00, param->mUnk_02);
+    OS_WakeupThreadDirect(&pipe->mThread);
     return stackBottom;
 }
 
@@ -1836,7 +1836,7 @@ void SOCLi_FreeCommandPacket(SOCLiCommandPacket *packet) {
 s32 SOCLi_SendCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet) {
     s32 result;
 
-    result = OS_SendMessage(&pipe->mUnk_00, packet, packet != NULL ? packet->mFlagBlock : 1);
+    result = OS_SendMessage(&pipe->mQueue, packet, packet != NULL ? packet->mFlagBlock : 1);
     if (result == 0) {
         SOCLi_FreeCommandPacket(packet);
     }

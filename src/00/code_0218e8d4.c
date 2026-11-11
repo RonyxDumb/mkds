@@ -221,22 +221,22 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
     if (buddyInfo == NULL) {
         AssertionFailed(gBuddyStatusAssertion, gGpFileName, NULL, 0x5cf);
     }
-    status->mUnk_000 = profileRec->mProfileId;
-    status->mUnk_004 = buddyInfo->mStatus;
+    status->mProfileId = profileRec->mProfileId;
+    status->mStatus = buddyInfo->mStatus;
     string = buddyInfo->mStatusString;
     if (string != NULL) {
-        GpiCopyString(status->mUnk_008, string, 0x100);
+        GpiCopyString(status->mStatusString, string, 0x100);
     } else {
         *(u8 *) string = 0;
     }
     string = buddyInfo->mLocationString;
     if (string != NULL) {
-        GpiCopyString(status->mUnk_108, string, 0x100);
+        GpiCopyString(status->mLocationString, string, 0x100);
     } else {
         *(u8 *) string = 0;
     }
-    status->mUnk_208 = buddyInfo->mIp;
-    status->mUnk_20c = buddyInfo->mPort;
+    status->mIp = buddyInfo->mIp;
+    status->mPort = buddyInfo->mPort;
     return 0;
 }
 

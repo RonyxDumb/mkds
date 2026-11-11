@@ -74,12 +74,12 @@ u8 MakeUserList(ACWORK *work) {
     list = work->mSearchList;
     for (i = 0; i < 3; info++, i++) {
         if (work->mConnectType == 0 || work->mConnectType == i + 1) {
-            if (info->mUnk_e7 != 0xff) {
+            if (info->mSetType != 0xff) {
                 for (j = 0; j < 0x20; j++) {
-                    if (info->mUnk_40[j] == 0) {
+                    if (info->mSsid[j] == 0) {
                         break;
                     }
-                    list->mSsid[j] = info->mUnk_40[j];
+                    list->mSsid[j] = info->mSsid[j];
                 }
                 if (j != 0) {
                     list->mSsidLength = j;
@@ -92,12 +92,12 @@ u8 MakeUserList(ACWORK *work) {
                     num++;
                     list++;
                 }
-                if (info->mUnk_e7 == 1) {
+                if (info->mSetType == 1) {
                     for (j = 0; j < 0x20; j++) {
-                        if (info->mUnk_60[j] == 0) {
+                        if (info->mSecondSsid[j] == 0) {
                             break;
                         }
-                        list->mSsid[j] = info->mUnk_60[j];
+                        list->mSsid[j] = info->mSecondSsid[j];
                     }
                     if (j != 0) {
                         list->mSsidLength = j;

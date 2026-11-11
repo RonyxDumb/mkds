@@ -9,12 +9,12 @@ u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, 
 
 // Output of GpGetBuddyStatus: a copy of the entry's fields, two 0x100-byte strings included.
 typedef struct GpBuddyStatus {
-    /* 000 */ u32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ char mUnk_008[0x100];
-    /* 108 */ char mUnk_108[0x100];
-    /* 208 */ u32 mUnk_208;
-    /* 20c */ s32 mUnk_20c;
+    /* 000 */ u32 mProfileId;
+    /* 004 */ s32 mStatus;
+    /* 008 */ char mStatusString[0x100];
+    /* 108 */ char mLocationString[0x100];
+    /* 208 */ u32 mIp;
+    /* 20c */ s32 mPort;
 } GpBuddyStatus;
 
 // Element of the array behind Unk0218eff8Arg.mUnk_0c, 0xac bytes.

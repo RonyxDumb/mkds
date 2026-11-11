@@ -23,7 +23,7 @@ BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
         if (resolvedHost == NULL) {
             return FALSE;
         }
-        address->mAddr = **resolvedHost->mUnk_0c;
+        address->mAddr = **resolvedHost->mAddrList;
     }
     return TRUE;
 }

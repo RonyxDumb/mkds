@@ -32,10 +32,10 @@ void CheckSetDNS(ACWORK *work) {
 
     if (work->mConnectApType < 6) {
         info = &work->mUserInfo[DWCi_ConvConnectAPType(work->mConnectApType)];
-        dnsSum = info->mUnk_c8[3] + (info->mUnk_c8[2] + (info->mUnk_c8[0] + info->mUnk_c8[1]));
-        if (info->mUnk_c0[0] == 0 && dnsSum != 0) {
-            dns1 = ConvAddress(info->mUnk_c8);
-            dns2 = ConvAddress(info->mUnk_cc);
+        dnsSum = info->mDns1[3] + (info->mDns1[2] + (info->mDns1[0] + info->mDns1[1]));
+        if (info->mIp[0] == 0 && dnsSum != 0) {
+            dns1 = ConvAddress(info->mDns1);
+            dns2 = ConvAddress(info->mDns2);
             SOC_SetResolver(&dns1, &dns2);
         }
     }

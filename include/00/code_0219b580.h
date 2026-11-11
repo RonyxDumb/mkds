@@ -26,7 +26,7 @@ typedef struct WiFiConnection {
     // Slot 1 of the record at mResultCallback: data received from a peer, forwarded to the net layer
     // (DWCi_RecvCallback).
     /* 08 */ void (*mDataCallback)();
-    /* 0c */ s32 (*mUnk_0c)();
+    /* 0c */ s32 (*mClosedCallback)();
     // Slot 3 of the record at mResultCallback: forwards (connection, elapsed time) to the net layer's mUnk_60c
     // callback (DWCi_PingCallback). Slot 2 (mUnk_0c) is the connection-closed
     // handler DWCi_GT2ClosedCallback.
@@ -53,14 +53,14 @@ typedef struct WiFiConnection {
     // 1 only while DWC_CloseAllConnectionsHard closes every peer connection of the socket (state 5 or 6, other
     // participants present); read by DWCi_GT2ClosedCallback to tell this close from a
     // peer leaving. The matching object's own close-all does not set it.
-    /* 2d */ u8 mUnk_2d;
+    /* 2d */ u8 mOwnCloseFlag;
     /* 2e */ u16 mUnk_2e;
     // The GP profile id of the logged-in player; set by DWCi_LoginCallback and compared with the participant ids of the
     // matching object.
     /* 30 */ u32 mProfileId;
     // 0x20-byte text given to DWC_UpdateServersAsync (the only caller passes NULL, so it is always empty); handed to
     // DWCi_FriendInit, used as the add-buddy reason text and, when not empty, in the stats request '\dwc_name\%s'.
-    /* 34 */ char mUnk_34[0x20];
+    /* 34 */ char mPlayerName[0x20];
     // Points at the 0x100-byte game name buffer gcd_gamename (DWC_InitFriendsMatch's fourth argument,
     // "mariokartds"). Its one read is DWC_LoginAsync passing it to GSIStartAvailableCheckA, which copies it to
     // gGsiAcGamename, the buffer GpiWriteLogin appends after '\gamename\'; the matching
@@ -83,10 +83,10 @@ typedef struct WiFiConnection {
     // never set).
     /* 6c */ void (*mMatchingCallback)(u32 a, u32 b, void *c);
     /* 70 */ void *mMatchingCallbackArg;
-    /* 74 */ void (*mUnk_74)(u32 a, u32 b, u32 c, u32 d, u32 e, void *f);
-    /* 78 */ void *mUnk_78;
-    /* 7c */ void (*mUnk_7c)(s32 a, s32 b, s32 c, u32 d, u32 e, void *f);
-    /* 80 */ void *mUnk_80;
+    /* 74 */ void (*mMatchedSCCallback)(u32 a, u32 b, u32 c, u32 d, u32 e, void *f);
+    /* 78 */ void *mMatchedSCCallbackArg;
+    /* 7c */ void (*mConnectionClosedCallback)(s32 a, s32 b, s32 c, u32 d, u32 e, void *f);
+    /* 80 */ void *mConnectionClosedCallbackArg;
     // Login object (WiFiLogin): holds the GP connection pointer, the login state
     // (mUnk_04), the two credential strings given to the connect call (mUnk_4c, mUnk_14c) and the saved profile
     // record; stepped in state 2; its result callback is DWCi_LoginCallback.

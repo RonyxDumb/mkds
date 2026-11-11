@@ -70,7 +70,7 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     gWiFiConnection->mSocket = NULL;
     gWiFiConnection->mResultCallback = DWCi_GT2ConnectedCallback;
     gWiFiConnection->mDataCallback = DWCi_GT2ReceivedCallback;
-    gWiFiConnection->mUnk_0c = (s32(*)()) DWCi_GT2ClosedCallback;
+    gWiFiConnection->mClosedCallback = (s32(*)()) DWCi_GT2ClosedCallback;
     gWiFiConnection->mElapsedTimeCallback = DWCi_GT2PingCallback;
     gWiFiConnection->mSendBufferSize = sendBufferSize == 0 ? 0x2000 : sendBufferSize;
     gWiFiConnection->mReceiveBufferSize = receiveBufferSize == 0 ? 0x2000 : receiveBufferSize;
@@ -79,7 +79,7 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     gWiFiConnection->mState = 0;
     gWiFiConnection->mPrevState = 0;
     gWiFiConnection->mOwnIndex = 0;
-    gWiFiConnection->mUnk_2d = 0;
+    gWiFiConnection->mOwnCloseFlag = 0;
     gWiFiConnection->mUnk_2e = 0;
     gWiFiConnection->mProfileId = 0;
     gWiFiConnection->mGameName = gcd_gamename;
@@ -90,15 +90,15 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     gWiFiConnection->mBuddySyncCallbackArg = NULL;
     gWiFiConnection->mMatchingCallback = NULL;
     gWiFiConnection->mMatchingCallbackArg = NULL;
-    gWiFiConnection->mUnk_74 = NULL;
-    gWiFiConnection->mUnk_78 = NULL;
-    gWiFiConnection->mUnk_7c = NULL;
-    gWiFiConnection->mUnk_80 = NULL;
+    gWiFiConnection->mMatchedSCCallback = NULL;
+    gWiFiConnection->mMatchedSCCallbackArg = NULL;
+    gWiFiConnection->mConnectionClosedCallback = NULL;
+    gWiFiConnection->mConnectionClosedCallbackArg = NULL;
     DWCi_ClearGT2ConnectionList();
     InitWiFiLogin(&gWiFiConnection->mLogin, userData, &gWiFiConnection->mGpConnection, titleNumber,
                   ((DWCAccUserData *) userData)->mGamecode, DWCi_LoginCallback, NULL);
-    DWCi_FriendInit(&gWiFiConnection->mBuddySync, &gWiFiConnection->mGpConnection, gWiFiConnection->mUnk_34, friendList,
-                    friendListLength);
+    DWCi_FriendInit(&gWiFiConnection->mBuddySync, &gWiFiConnection->mGpConnection, gWiFiConnection->mPlayerName,
+                    friendList, friendListLength);
     DWCi_MatchInit(&gWiFiConnection->mMatching, &gWiFiConnection->mGpConnection, &gWiFiConnection->mSocket,
                    &gWiFiConnection->mResultCallback, gcd_gamename, gcd_secret_key, friendList, friendListLength);
     DWCi_InitTransport(&gWiFiConnection->mMessageLayer);
@@ -288,9 +288,9 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
         } else {
             playerNameLength = 0x1f;
         }
-        MI_CpuCopy8(playerName, wiFiConnection->mUnk_34, playerNameLength);
+        MI_CpuCopy8(playerName, wiFiConnection->mPlayerName, playerNameLength);
     }
-    gWiFiConnection->mUnk_34[playerNameLength] = 0;
+    gWiFiConnection->mPlayerName[playerNameLength] = 0;
     gWiFiConnection->mBuddySyncCallback = updateCallback;
     gWiFiConnection->mBuddySyncCallbackArg = updateParam;
     DWCi_SetState(4);
@@ -371,9 +371,9 @@ s32 DWC_CloseAllConnectionsHard(void) {
         DWCi_SetState(3);
         return 1;
     }
-    wiFiConnection->mUnk_2d = 1;
+    wiFiConnection->mOwnCloseFlag = 1;
     gt2CloseAllConnectionsHard(gWiFiConnection->mSocket);
-    gWiFiConnection->mUnk_2d = 0;
+    gWiFiConnection->mOwnCloseFlag = 0;
     return 0;
 }
 
@@ -707,7 +707,7 @@ void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 ind
     wiFiConnection = gWiFiConnection;
     if (wiFiConnection->mMatching.mMode == 2 || wiFiConnection->mMatching.mMode == 3) {
         wiFiConnection = gWiFiConnection;
-        wiFiConnection->mUnk_74(error, cancel, self, isServer, index, wiFiConnection->mUnk_78);
+        wiFiConnection->mMatchedSCCallback(error, cancel, self, isServer, index, wiFiConnection->mMatchedSCCallbackArg);
     } else {
         wiFiConnection->mMatchingCallback(error, cancel, wiFiConnection->mMatchingCallbackArg);
     }

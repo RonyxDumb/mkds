@@ -34,10 +34,10 @@ void CPSi_md5_block(CPSMd5Ctx *context, const u8 *block) {
     u32 stateD;
     u32 tableIndex;
     s32 groupIndex;
-    stateA = context->mUnk_00;
-    stateB = context->mUnk_04;
-    stateC = context->mUnk_08;
-    stateD = context->mUnk_0c;
+    stateA = context->mStateA;
+    stateB = context->mStateB;
+    stateC = context->mStateC;
+    stateD = context->mStateD;
     Md5BlockCopyBytes(words, block, 0x40);
     tableIndex = 0;
     for (groupIndex = 0; groupIndex < 4; groupIndex++) {
@@ -98,49 +98,49 @@ void CPSi_md5_block(CPSMd5Ctx *context, const u8 *block) {
         stateB = stateC + ((stateB << 21) | (stateB >> 11));
         tableIndex += 4;
     }
-    context->mUnk_00 += stateA;
-    context->mUnk_04 += stateB;
-    context->mUnk_08 += stateC;
-    context->mUnk_0c += stateD;
+    context->mStateA += stateA;
+    context->mStateB += stateB;
+    context->mStateC += stateC;
+    context->mStateD += stateD;
 }
 
 void CPSi_md5_init(CPSMd5Ctx *context) {
     MI_CpuFill8(context, 0, 0x58);
-    context->mUnk_00 = (0x67452301u);
-    context->mUnk_04 = (0xefcdab89u);
-    context->mUnk_08 = (0x98badcfeu);
-    context->mUnk_0c = (0x10325476u);
+    context->mStateA = (0x67452301u);
+    context->mStateB = (0xefcdab89u);
+    context->mStateC = (0x98badcfeu);
+    context->mStateD = (0x10325476u);
 }
 
 void CPSi_md5_calc(void *rawContext, const u8 *input, u32 inputLength) {
     CPSMd5Ctx *context = rawContext;
     u32 bufferIndex;
     u32 inputOffset;
-    bufferIndex = (context->mUnk_10 >> 3) & 0x3f;
-    context->mUnk_10 += inputLength << 3;
-    if (context->mUnk_10 < (inputLength << 3)) {
-        context->mUnk_14++;
+    bufferIndex = (context->mBitCountLow >> 3) & 0x3f;
+    context->mBitCountLow += inputLength << 3;
+    if (context->mBitCountLow < (inputLength << 3)) {
+        context->mBitCountHigh++;
     }
-    context->mUnk_14 += inputLength >> 29;
+    context->mBitCountHigh += inputLength >> 29;
     inputOffset = 64 - bufferIndex;
     if (inputLength >= inputOffset) {
-        MI_CpuCopy8(input, &context->mUnk_18[bufferIndex], inputOffset);
+        MI_CpuCopy8(input, &context->mBuffer[bufferIndex], inputOffset);
         bufferIndex = 0;
-        CPSi_md5_block(context, context->mUnk_18);
+        CPSi_md5_block(context, context->mBuffer);
         for (; inputOffset + 63 < inputLength; inputOffset += 64) {
             CPSi_md5_block(context, input + inputOffset);
         }
     } else {
         inputOffset = 0;
     }
-    MI_CpuCopy8(input + inputOffset, &context->mUnk_18[bufferIndex], inputLength - inputOffset);
+    MI_CpuCopy8(input + inputOffset, &context->mBuffer[bufferIndex], inputLength - inputOffset);
 }
 
 void CPSi_md5_result(CPSMd5Ctx *context, u8 *digest) {
     int bufferIndex;
     int paddingLength;
-    Md5ResultCopyBytes((u32) digest, (u32) &context->mUnk_10, 8);
-    bufferIndex = context->mUnk_10 >> 3 & 0x3f;
+    Md5ResultCopyBytes((u32) digest, (u32) &context->mBitCountLow, 8);
+    bufferIndex = context->mBitCountLow >> 3 & 0x3f;
     if (bufferIndex < 0x38) {
         paddingLength = 0x38 - bufferIndex;
     } else {

@@ -128,11 +128,11 @@ typedef struct SelectEngine {
     /* 30 */ s32 mBg0Offset;
     /* 34 */ s32 mIndex;
     /* 38 */ BOOL mUnk_38;
-    /* 3c */ s32 mUnk_3c;
-    /* 40 */ s16 mUnk_40;
+    /* 3c */ s32 mIndexChangeFramesRemaining;
+    /* 40 */ s16 mLastChangeIndex;
     /* 42 */ u8 mUnk_42[0x2];
-    /* 44 */ void *mUnk_44;
-    /* 48 */ void *mUnk_48;
+    /* 44 */ void *mMainOamList;
+    /* 48 */ void *mSubOamList;
     /* 4c */ s32 mResult;
 } SelectEngine;
 

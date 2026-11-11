@@ -14,20 +14,19 @@ typedef struct WCMWepDesc {
 // One of the 0x100-byte entries at the start of ACWORK.
 typedef struct DWCMemPage {
     /* 00 */ u8 pad_00[0x40];
-    /* 40 */ u8 mUnk_40[0x20];
-    /* 60 */ u8 mUnk_60[0x20];
-    /* 80 */ u8 mUnk_80[0x40];
-    /* c0 */ u8 mUnk_c0[4];
-    /* c4 */ u8 mUnk_c4[4];
-    /* c8 */ u8 mUnk_c8[4];
-    /* cc */ u8 mUnk_cc[4];
-    /* d0 */ u8 mUnk_d0;
-    /* d1 */ u8 mUnk_d1[0x14];
+    /* 40 */ u8 mSsid[0x20];
+    /* 60 */ u8 mSecondSsid[0x20];
+    /* 80 */ u8 mWepKeys[0x40];
+    /* c0 */ u8 mIp[4];
+    /* c4 */ u8 mGateway[4];
+    /* c8 */ u8 mDns1[4];
+    /* cc */ u8 mDns2[4];
+    /* d0 */ u8 mNetmaskCidr;
+    /* d1 */ u8 mWep2[0x14];
     /* e5 */ u8 pad_e5;
-    /* e6 */ u8 mUnk_e6 : 2;
-    /* e7 */ u8 mUnk_e7;
+    /* e6 */ u8 mWepMode : 2;
+    /* e7 */ u8 mSetType;
     /* e8 */ u8 pad_e8[0x18];
 } DWCMemPage;
-
 
 u32 FillApWepKey(struct ACWORK *object, u32 type, WCMWepDesc *out);

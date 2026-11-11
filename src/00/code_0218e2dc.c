@@ -180,18 +180,18 @@ u32 CanSendOnSocket(u32 sock) {
 }
 
 SOCHostEnt *getlocalhost(void) {
-    gLocalhost.mUnk_00 = gLocalhostName;
-    gLocalhost.mUnk_04 = gAliases;
-    gLocalhost.mUnk_08 = 2;
-    gLocalhost.mUnk_0a = 0;
-    gLocalhost.mUnk_0c = gIpPtrs;
+    gLocalhost.mName = gLocalhostName;
+    gLocalhost.mAliases = gAliases;
+    gLocalhost.mAddrType = 2;
+    gLocalhost.mLength = 0;
+    gLocalhost.mAddrList = gIpPtrs;
     gIps = 0;
     SOC_U32to4U8(SOCL_GetHostID(), (u8 *) &gIps);
     if (gIps == 0) {
         return NULL;
     }
     gIpPtrs[0] = &gIps;
-    gLocalhost.mUnk_0a = 4;
+    gLocalhost.mLength = 4;
     gIpPtrs[1] = NULL;
     return &gLocalhost;
 }

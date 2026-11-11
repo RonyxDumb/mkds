@@ -1814,12 +1814,12 @@ u32 DWCi_SendResvCommandToFriend(s32 delay, s32 init) {
         if (gpStatus != 0) {
             continue;
         }
-        if (status.mUnk_004 != 4) {
+        if (status.mStatus != 4) {
             continue;
         }
-        verLen = DWC_GetCommonValueString(gVerKey, verText, status.mUnk_008, 0x2f);
-        entryTextLength = DWC_GetCommonValueString(gFmeKey, g + 2, status.mUnk_008, 0x2f);
-        peerTextLength = DWC_GetCommonValueString(gMdfKey, g, status.mUnk_008, 0x2f);
+        verLen = DWC_GetCommonValueString(gVerKey, verText, status.mStatusString, 0x2f);
+        entryTextLength = DWC_GetCommonValueString(gFmeKey, g + 2, status.mStatusString, 0x2f);
+        peerTextLength = DWC_GetCommonValueString(gMdfKey, g, status.mStatusString, 0x2f);
         if (verLen > 0 && entryTextLength > 0 && peerTextLength > 0) {
             if (strtoul(verText, NULL, 10) == 3) {
                 if (gWiFiMatching->mNumEntry == strtoul(g + 2, NULL, 10)) {

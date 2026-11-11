@@ -25,10 +25,10 @@ typedef struct SizedBuffer {
 
 // Shared start of the two blocks SOCLi_InitSocket sets up behind an SOCLSocket.
 typedef struct SOCLiSocketCommandPipe {
-    /* 00 */ OSMessageQueue mUnk_00;
-    /* 20 */ OSThread mUnk_20;
+    /* 00 */ OSMessageQueue mQueue;
+    /* 20 */ OSThread mThread;
     /* d8 */ u8 mUnk_d8[8];
-    /* e0 */ OSMutex mUnk_e0;
+    /* e0 */ OSMutex mInUse;
 } SOCLiSocketCommandPipe;
 
 typedef struct SOCLiSocketRecvCommandPipe {

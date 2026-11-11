@@ -14,8 +14,8 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
         case 1:
             userInfo++;
         case 0:
-            wepKey->mUnk_00 = userInfo->mUnk_e6;
-            MI_CpuCopy8(userInfo->mUnk_80, wepKey->mUnk_02, 0x50);
+            wepKey->mUnk_00 = userInfo->mWepMode;
+            MI_CpuCopy8(userInfo->mWepKeys, wepKey->mUnk_02, 0x50);
             break;
         case 5:
             userInfo++;
@@ -23,7 +23,7 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
             userInfo++;
         case 3:
             wepKey->mUnk_00 = 1;
-            MI_CpuCopy8(userInfo->mUnk_d1, wepKey->mUnk_02, 0x14);
+            MI_CpuCopy8(userInfo->mWep2, wepKey->mUnk_02, 0x14);
             wepKey->mUnk_02[0x14] = 0;
             break;
         case 6:

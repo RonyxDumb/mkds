@@ -13,13 +13,13 @@ void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *work, SOCConfig *config)
     config->mFree = hold->mFree;
     if (work->mConnectApType < 6) {
         info = &work->mUserInfo[DWCi_ConvConnectAPType(work->mConnectApType)];
-        if (info->mUnk_c0[0] != 0) {
+        if (info->mIp[0] != 0) {
             config->mFlag = 0;
-            config->mAddr = ConvAddress(info->mUnk_c0);
-            config->mNetmask = ConvNetMask(info->mUnk_d0);
-            config->mRouter = ConvAddress(info->mUnk_c4);
-            config->mDns1 = ConvAddress(info->mUnk_c8);
-            config->mDns2 = ConvAddress(info->mUnk_cc);
+            config->mAddr = ConvAddress(info->mIp);
+            config->mNetmask = ConvNetMask(info->mNetmaskCidr);
+            config->mRouter = ConvAddress(info->mGateway);
+            config->mDns1 = ConvAddress(info->mDns1);
+            config->mDns2 = ConvAddress(info->mDns2);
         } else {
             config->mFlag = 1;
             config->mAddr = 0;

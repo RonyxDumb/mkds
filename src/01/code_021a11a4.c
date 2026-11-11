@@ -165,7 +165,7 @@ void SetEngineFromSelectEngine(void) {
 }
 
 u32 IsSelectEngineIndexChangeRunning(void) {
-    if (gSelectEngine->mUnk_3c != 0) {
+    if (gSelectEngine->mIndexChangeFramesRemaining != 0) {
         return 1;
     }
     return 0;
@@ -176,11 +176,11 @@ void AdvanceSelectEngineIndexChange(void) {
     s16 offsetY;
 
     if (IsSelectEngineIndexChangeRunning() != 0) {
-        if (gSelectEngine->mUnk_3c == 7) {
-            gSelectEngine->mUnk_40 = gSelectEngine->mIndex;
+        if (gSelectEngine->mIndexChangeFramesRemaining == 7) {
+            gSelectEngine->mLastChangeIndex = gSelectEngine->mIndex;
             RefreshSelectEngineMCells();
         } else {
-            offsetY = LookupIndexChangeOffset(7 - gSelectEngine->mUnk_3c, 0);
+            offsetY = LookupIndexChangeOffset(7 - gSelectEngine->mIndexChangeFramesRemaining, 0);
             for (slotIndex = 0; slotIndex < 6; slotIndex++) {
                 gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = offsetY;
             }
@@ -188,9 +188,9 @@ void AdvanceSelectEngineIndexChange(void) {
                 gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = offsetY;
             }
         }
-        gSelectEngine->mUnk_3c -= 1;
-    } else if (gSelectEngine->mIndex != gSelectEngine->mUnk_40) {
-        gSelectEngine->mUnk_3c = 7;
+        gSelectEngine->mIndexChangeFramesRemaining -= 1;
+    } else if (gSelectEngine->mIndex != gSelectEngine->mLastChangeIndex) {
+        gSelectEngine->mIndexChangeFramesRemaining = 7;
     }
 }
 
@@ -292,19 +292,19 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     gSelectEngine = selectEngine;
     selectEngine->mHeap = heap;
     gSelectEngine->mState = 0;
-    gSelectEngine->mUnk_3c = 0;
+    gSelectEngine->mIndexChangeFramesRemaining = 0;
     gSelectEngine->mUnk_38 = TRUE;
-    gSelectEngine->mUnk_44 = mainOamList;
-    gSelectEngine->mUnk_48 = subOamList;
+    gSelectEngine->mMainOamList = mainOamList;
+    gSelectEngine->mSubOamList = subOamList;
     gSelectEngine->mResult = 0;
     if (GetMirrorMode() != 0) {
         gSelectEngine->mIndex = 3;
     } else {
         gSelectEngine->mIndex = gSelectEngineIndicesByEngineIndex[GetEngineIndex()];
     }
-    gSelectEngine->mUnk_40 = gSelectEngine->mIndex;
+    gSelectEngine->mLastChangeIndex = gSelectEngine->mIndex;
     LocateAndQueueSelectEngine();
-    ResetOamLists(gSelectEngine->mUnk_44, gSelectEngine->mUnk_48);
+    ResetOamLists(gSelectEngine->mMainOamList, gSelectEngine->mSubOamList);
     InitLayoutTable(gSelectEngine->mHeap, gSelectEngine->mSelectEngineMBncl, NULL, &gSelectEngine->mSelectEngineMTable);
     InitLayoutTable(gSelectEngine->mHeap, gSelectEngine->mSelectEngineAOrBSBncl, NULL,
                     &gSelectEngine->mSelectEngineAOrBSTable);
@@ -601,10 +601,10 @@ int AdvanceSelectEngine(void) {
             break;
     }
     UpdateSelectEngineIndexCells();
-    DrawLayoutTable(gSelectEngine->mSelectEngineMBncl, gSelectEngine->mSelectEngineMNcer, NULL, gSelectEngine->mUnk_44,
-                    gSelectEngine->mSelectEngineMTable);
+    DrawLayoutTable(gSelectEngine->mSelectEngineMBncl, gSelectEngine->mSelectEngineMNcer, NULL,
+                    gSelectEngine->mMainOamList, gSelectEngine->mSelectEngineMTable);
     DrawLayoutTable(gSelectEngine->mSelectEngineAOrBSBncl, gSelectEngine->mSelectEngineSNcer, NULL,
-                    gSelectEngine->mUnk_48, gSelectEngine->mSelectEngineAOrBSTable);
+                    gSelectEngine->mSubOamList, gSelectEngine->mSelectEngineAOrBSTable);
     if (gSelectEngine->mState == 6 && gSelectEngine->mStateFrames >= 10) {
         return gSelectEngine->mResult;
     }

@@ -19,11 +19,11 @@ typedef struct SOCSockAddrIn {
 
 // Object SOC_GetHostByName returns; mUnk_0c points at a table of pointers to a word.
 typedef struct SOCHostEnt {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ u8 *mUnk_04;
-    /* 08 */ s16 mUnk_08;
-    /* 0a */ s16 mUnk_0a;
-    /* 0c */ u32 **mUnk_0c;
+    /* 00 */ u8 *mName;
+    /* 04 */ u8 *mAliases;
+    /* 08 */ s16 mAddrType;
+    /* 0a */ s16 mLength;
+    /* 0c */ u32 **mAddrList;
 } SOCHostEnt;
 
 // 8 bytes: descriptor, requested events and returned events.

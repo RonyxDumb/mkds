@@ -104,7 +104,7 @@ u32 GpiOpenSockets(GpConnection *connection, Unk021919ac_node *operation) {
     }
     __builtin__clear(&address, sizeof(address));
     address.f.mUnk_01 = 2;
-    address.f.mUnk_04 = **resolvedHost->mUnk_0c;
+    address.f.mUnk_04 = **resolvedHost->mAddrList;
     if (address.f.mUnk_04 == 0) {
         AssertionFailed(gAddressNotZeroAssertion, gGpiConnectFileName, NULL, 0x90);
     }

@@ -18,16 +18,16 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
     char valueText[4];
     GpBuddyStatus status;
     if (DWCi_GetFriendBuddyStatus(friendData, &status) != 0) {
-        if (status.mUnk_004 == 6) {
+        if (status.mStatus == 6) {
             if (maxEntry != NULL) {
-                if (DWC_GetCommonValueString(gDwcGpSstrKeyMatchScMax, valueText, status.mUnk_008, 0x2f) > 0) {
+                if (DWC_GetCommonValueString(gDwcGpSstrKeyMatchScMax, valueText, status.mStatusString, 0x2f) > 0) {
                     *maxEntry = strtoul(valueText, NULL, 10);
                 } else {
                     *maxEntry = 0;
                 }
             }
             if (numEntry != NULL) {
-                if (DWC_GetCommonValueString(gDwcGpSstrKeyMatchScNum, valueText, status.mUnk_008, 0x2f) > 0) {
+                if (DWC_GetCommonValueString(gDwcGpSstrKeyMatchScNum, valueText, status.mStatusString, 0x2f) > 0) {
                     *numEntry = strtoul(valueText, NULL, 10);
                 } else {
                     *numEntry = 0;
@@ -42,9 +42,9 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
             }
         }
         if (statusString != NULL) {
-            strcpy(statusString, status.mUnk_108);
+            strcpy(statusString, status.mLocationString);
         }
-        return status.mUnk_004;
+        return status.mStatus;
     }
     if (maxEntry != NULL) {
         *maxEntry = 0;

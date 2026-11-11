@@ -84,7 +84,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         Unk021962d4Addr address = {0};
 
         address.mUnk_01 = 2;
-        address.mUnk_04 = resolvedHost->mUnk_0c[0][0];
+        address.mUnk_04 = resolvedHost->mAddrList[0][0];
         if (address.mUnk_04 == 0) {
             AssertionFailed(data_ov000_021b394c, gGpiSearchFileName, NULL, 0x59);
         }

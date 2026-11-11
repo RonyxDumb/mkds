@@ -112,7 +112,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         gWiFiConnection->mMatching.mLastParticipantPos--;
         gWiFiConnection->mMatching.mNNCompletedCount--;
     }
-    if (gWiFiConnection->mUnk_2d == 0 && gWiFiConnection->mState == 6 && inMask == 0) {
+    if (gWiFiConnection->mOwnCloseFlag == 0 && gWiFiConnection->mState == 6 && inMask == 0) {
         if (gWiFiConnection->mMatching.mMode == 2 && kind == 0) {
             DWCi_GPSetServerStatus();
             DWCi_ProcessMatchSCClosing(profileId);
@@ -127,7 +127,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         return;
     }
     if (gWiFiConnection->mMatching.mMode == 2) {
-        if (gWiFiConnection->mUnk_2d == 0) {
+        if (gWiFiConnection->mOwnCloseFlag == 0) {
             DWCi_GPSetServerStatus();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
@@ -140,17 +140,18 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         qr2_send_statechanged(gWiFiConnection->mMatching.mQr2);
     }
     wiFiConnection = gWiFiConnection;
-    if (wiFiConnection->mUnk_7c != NULL && inMask != 0) {
+    if (wiFiConnection->mConnectionClosedCallback != NULL && inMask != 0) {
         if (reason == 0) {
             reason = 1;
         } else {
             reason = 0;
         }
         friendListIndex = DWCi_GetFriendListIndex(profileId);
-        closedCallbackArg = &wiFiConnection->mUnk_80;
-        gWiFiConnection->mUnk_7c(kind, reason, hostSide, aid, friendListIndex, *closedCallbackArg);
+        closedCallbackArg = &wiFiConnection->mConnectionClosedCallbackArg;
+        gWiFiConnection->mConnectionClosedCallback(kind, reason, hostSide, aid, friendListIndex,
+                                                   *closedCallbackArg);
     }
-    if (gWiFiConnection->mUnk_2d != 0 || gWiFiConnection->mMatching.mMode != 2) {
+    if (gWiFiConnection->mOwnCloseFlag != 0 || gWiFiConnection->mMatching.mMode != 2) {
         if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             NNFreeNegotiateList();
             DWCi_ClearQR2Key();

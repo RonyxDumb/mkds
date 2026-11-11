@@ -365,7 +365,7 @@ s32 ServerListConnect(SbServerList *serverList) {
         if (hostEntry == NULL) {
             return 2;
         }
-        CopyUnalignedWord((UnalignedWord *) &masterAddress.mAddr, (UnalignedWord *) hostEntry->mUnk_0c[0]);
+        CopyUnalignedWord((UnalignedWord *) &masterAddress.mAddr, (UnalignedWord *) hostEntry->mAddrList[0]);
     }
     if (serverList->mSocket == -1) {
         serverList->mSocket = OpenNetSocket(2, 1, 0);

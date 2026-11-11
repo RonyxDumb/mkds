@@ -74,7 +74,7 @@ u32 GetLocalIP(void) {
     }
     offset = 0;
     while (1) {
-        addressPointer = *OFFSET_PTR(u32 *, host->mUnk_0c, offset);
+        addressPointer = *OFFSET_PTR(u32 *, host->mAddrList, offset);
         if (addressPointer == NULL) {
             break;
         }
@@ -209,7 +209,7 @@ u32 NameToIp(const char *name) {
         if (host == NULL) {
             return 0;
         }
-        address = **host->mUnk_0c;
+        address = **host->mAddrList;
     }
     return address;
 }
@@ -569,7 +569,7 @@ BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
                 if (hostEntry == NULL) {
                     return FALSE;
                 }
-                sourceIp = **hostEntry->mUnk_0c;
+                sourceIp = **hostEntry->mAddrList;
             }
         }
     }

@@ -248,7 +248,7 @@ void enum_local_ips(void) {
         gNumLocalIps = 0;
         ownAddressList = (LocalIpAddressBytes *) gLocalIpList;
         for (; gNumLocalIps < 5; gNumLocalIps++) {
-            hostAddress = (LocalIpAddressBytes *) localHost->mUnk_0c[gNumLocalIps];
+            hostAddress = (LocalIpAddressBytes *) localHost->mAddrList[gNumLocalIps];
             if (hostAddress == NULL) {
                 break;
             }
@@ -274,7 +274,7 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, S
             if (hent == NULL) {
                 return FALSE;
             }
-            saddr->mAddr = **hent->mUnk_0c;
+            saddr->mAddr = **hent->mAddrList;
         }
     }
     if (savehent != NULL) {

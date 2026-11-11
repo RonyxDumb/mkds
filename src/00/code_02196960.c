@@ -185,7 +185,7 @@ BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **s
         if (hent == NULL) {
             return FALSE;
         }
-        *OFFSET_PTR(u32, saddr, 4) = **hent->mUnk_0c;
+        *OFFSET_PTR(u32, saddr, 4) = **hent->mAddrList;
     }
     if (savehent != NULL) {
         *savehent = hent;

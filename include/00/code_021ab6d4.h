@@ -3,13 +3,13 @@
 #include "types.h"
 
 typedef struct CPSMd5Ctx {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u8 mUnk_18[0x40];
+    /* 00 */ u32 mStateA;
+    /* 04 */ u32 mStateB;
+    /* 08 */ u32 mStateC;
+    /* 0c */ u32 mStateD;
+    /* 10 */ u32 mBitCountLow;
+    /* 14 */ u32 mBitCountHigh;
+    /* 18 */ u8 mBuffer[0x40];
 } CPSMd5Ctx;
 
 typedef struct CPSMd5Ctx CPSMd5Ctx;
