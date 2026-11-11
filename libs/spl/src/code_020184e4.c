@@ -99,18 +99,18 @@ void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, Unk0201e3c8 *ptcl, Vec3 *a
     acc->z = acc->z + gravity->z;
 }
 
-void SPLBehavior_ApplyRandom(const Unk0201e2cc *rng, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
-    if (ptcl->mUnk_26 % rng->mUnk_06 != 0) {
+void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
+    if (ptcl->mUnk_26 % rng->mInterval != 0) {
         return;
     }
-    acc->x = acc->x + ((rng->mUnk_00 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mUnk_00 << 8)) >>
+    acc->x = acc->x + ((rng->mRangeX * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (rng->mRangeX << 8)) >>
                        8);
-    acc->y = acc->y + ((rng->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mUnk_02 << 8)) >>
+    acc->y = acc->y + ((rng->mRangeY * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (rng->mRangeY << 8)) >>
                        8);
-    acc->z = acc->z + ((rng->mUnk_04 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mUnk_04 << 8)) >>
+    acc->z = acc->z + ((rng->mRangeZ * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (rng->mRangeZ << 8)) >>
                        8);
 }
 
@@ -120,32 +120,33 @@ void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, Unk0201e3c8 *p
     acc->z = acc->z + ((magnet->mFactor * (magnet->mPoint.z - ptcl->mUnk_08.z - ptcl->mUnk_14.z)) >> 12);
 }
 
-void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
+void SPLBehavior_ApplySpin(const ParticleBehaviorSpin *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
     MtxFx33 buf;
 
-    switch (spin->mUnk_02) {
+    switch (spin->mAxis) {
         case 0:
-            MTX_RotX33_(&buf, FX_SinIdx(spin->mUnk_00), FX_CosIdx(spin->mUnk_00));
+            MTX_RotX33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
         case 1:
-            MTX_RotY33_(&buf, FX_SinIdx(spin->mUnk_00), FX_CosIdx(spin->mUnk_00));
+            MTX_RotY33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
         case 2:
-            MTX_RotZ33_(&buf, FX_SinIdx(spin->mUnk_00), FX_CosIdx(spin->mUnk_00));
+            MTX_RotZ33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
     }
     MTX_MultVec33(&ptcl->mUnk_08, &buf, &ptcl->mUnk_08);
 }
 
-void SPLBehavior_ApplyCollisionPlane(const Unk0201e054 *plane, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
+void SPLBehavior_ApplyCollisionPlane(const ParticleBehaviorCollisionPlane *plane, Unk0201e3c8 *ptcl, Vec3 *acc,
+                                     Unk0201ca6c *emtr) {
     s32 lim;
     s32 particleY;
 
-    lim = plane->mUnk_00;
+    lim = plane->mPlaneY;
     if (emtr->mUnk_74 != 0x80000000) {
         lim = emtr->mUnk_74;
     }
-    switch (plane->mUnk_06_0) {
+    switch (plane->mMode) {
         case 0:
             particleY = ptcl->mUnk_38.y;
             if (particleY < lim) {
@@ -166,10 +167,10 @@ void SPLBehavior_ApplyCollisionPlane(const Unk0201e054 *plane, Unk0201e3c8 *ptcl
             particleY = ptcl->mUnk_38.y;
             if (particleY < lim && particleY + ptcl->mUnk_08.y > lim) {
                 ptcl->mUnk_08.y = lim - particleY;
-                ptcl->mUnk_14.y = -MUL_FIXED12_ROUNDED(ptcl->mUnk_14.y, plane->mUnk_04);
+                ptcl->mUnk_14.y = -MUL_FIXED12_ROUNDED(ptcl->mUnk_14.y, plane->mBounceFactor);
             } else if (particleY >= lim && particleY + ptcl->mUnk_08.y < lim) {
                 ptcl->mUnk_08.y = lim - particleY;
-                ptcl->mUnk_14.y = -MUL_FIXED12_ROUNDED(ptcl->mUnk_14.y, plane->mUnk_04);
+                ptcl->mUnk_14.y = -MUL_FIXED12_ROUNDED(ptcl->mUnk_14.y, plane->mBounceFactor);
             }
             break;
     }
@@ -1757,8 +1758,8 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
     s32 dragFactor;
     s32 childAge;
     u8 animTime[2];
-    Unk020192e0_28 tbl[4];
-    Unk020192e0_28 tbl2[4];
+    ParticleAnimEntry tbl[4];
+    ParticleAnimEntry tbl2[4];
     Vec3 accel;
 
     resource = emtr->mUnk_20;
@@ -1781,20 +1782,20 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
     }
 
     if (flags.mUnk_00_8) {
-        tbl[animCount].mUnk_00 = SPLAnim_Scale;
-        tbl[animCount++].mUnk_04 = resource->mUnk_04->mUnk_08_0;
+        tbl[animCount].mAnimate = SPLAnim_Scale;
+        tbl[animCount++].mTimeIndex = resource->mUnk_04->mUnk_08_0;
     }
     if (flags.mUnk_00_9 && !resource->mUnk_08->mUnk_08_0) {
-        tbl[animCount].mUnk_00 = SPLAnim_Color;
-        tbl[animCount++].mUnk_04 = resource->mUnk_08->mUnk_08_1;
+        tbl[animCount].mAnimate = SPLAnim_Color;
+        tbl[animCount++].mTimeIndex = resource->mUnk_08->mUnk_08_1;
     }
     if (flags.mUnk_00_10) {
-        tbl[animCount].mUnk_00 = SPLAnim_Alpha;
-        tbl[animCount++].mUnk_04 = resource->mUnk_0c->mUnk_02_8;
+        tbl[animCount].mAnimate = SPLAnim_Alpha;
+        tbl[animCount++].mTimeIndex = resource->mUnk_0c->mUnk_02_8;
     }
     if (flags.mUnk_00_11 && !resource->mUnk_10->mUnk_08_16) {
-        tbl[animCount].mUnk_00 = SPLAnim_Texture;
-        tbl[animCount++].mUnk_04 = resource->mUnk_10->mUnk_08_17;
+        tbl[animCount].mAnimate = SPLAnim_Texture;
+        tbl[animCount++].mTimeIndex = resource->mUnk_10->mUnk_08_17;
     }
 
     for (particle = emtr->mUnk_08.mFront; particle; particle = next) {
@@ -1802,7 +1803,7 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
         animTime[0] = (particle->mUnk_2a * particle->mUnk_26) >> 8;
         animTime[1] = particle->mUnk_2d + ((particle->mUnk_28 * particle->mUnk_26) >> 8);
         for (index = 0; index < animCount; index++) {
-            tbl[index].mUnk_00(particle, resource, animTime[tbl[index].mUnk_04]);
+            tbl[index].mAnimate(particle, resource, animTime[tbl[index].mTimeIndex]);
         }
         accel.x = accel.y = accel.z = 0;
         if (flags.mUnk_00_15) {
@@ -1846,12 +1847,12 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
     if (flags.mUnk_00_16) {
         animCount = 0;
         if (childAnim->mUnk_00_1) {
-            tbl2[animCount].mUnk_00 = SPLAnim_ChildScale;
-            tbl2[animCount++].mUnk_04 = 0;
+            tbl2[animCount].mAnimate = SPLAnim_ChildScale;
+            tbl2[animCount++].mTimeIndex = 0;
         }
         if (childAnim->mUnk_00_2) {
-            tbl2[animCount].mUnk_00 = SPLAnim_ChildAlpha;
-            tbl2[animCount++].mUnk_04 = 0;
+            tbl2[animCount].mAnimate = SPLAnim_ChildAlpha;
+            tbl2[animCount++].mTimeIndex = 0;
         }
         if (!childAnim->mUnk_00_0) {
             cnt = 0;
@@ -1860,7 +1861,7 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
             next = particle->mUnk_00;
             animTime[0] = (particle->mUnk_26 << 8) / particle->mUnk_24;
             for (index = 0; index < animCount; index++) {
-                tbl2[index].mUnk_00(particle, resource, animTime[0]);
+                tbl2[index].mAnimate(particle, resource, animTime[0]);
             }
             accel.x = accel.y = accel.z = 0;
             if (childAnim->mUnk_00_5) {
@@ -2064,7 +2065,7 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     return mgr;
 }
 
-void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
+void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data) {
     s32 index;
     s32 off;
     Unk0201ca6c_20 *resource;
@@ -2074,8 +2075,8 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
     ParticleTextureHeader *textureHeader;
 
     off = 0x20;
-    mgr->mResCount = data->mUnk_08;
-    mgr->mTexCount = data->mUnk_0a;
+    mgr->mResCount = data->mResCount;
+    mgr->mTexCount = data->mTexCount;
     mgr->mResources = mgr->mAlloc(mgr->mResCount << 5);
     MI_CpuFill8(mgr->mResources, 0, mgr->mResCount << 5);
     for (index = 0; index < mgr->mResCount; index++) {

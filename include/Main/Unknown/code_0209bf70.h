@@ -67,19 +67,6 @@ extern const char gSunLODNsbmdName[];
 
 void CreateBound(void *mapObjectList);
 
-// Declared here until the code that defines it is decompiled.
-
-// The Sun object as DrawSun takes it: mState at 0xdc and mNsbcaFrameIndex at 0xb2.
-typedef struct Unk0209d3fc {
-    /* 00 */ MapObject mMapObject;
-    /* a0 */ u8 mUnk_a0[0xc];
-    /* ac */ u32 mUnk_ac;
-    /* b0 */ u16 mUnk_b0;
-    /* b2 */ u16 mNsbcaFrameIndex;
-    /* b4 */ u8 mUnk_b4[0x28];
-    /* dc */ u32 mState;
-} Unk0209d3fc;
-
 extern u32 data_usa_021565d0;
 extern u16 data_usa_021565d4;
 extern const char data_usa_02167328[];
@@ -114,4 +101,4 @@ void CreateSunUpdateList(void);
 void CreateSunDrawList(void);
 void UpdateSun(MapObjectList *mapObjectList, Sun *sun); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitSunObjects(MapObjectList *mapObjectList);
-void DrawSun(void *mapObjectList, Unk0209d3fc *sun);
+void DrawSun(void *mapObjectList, Sun *sun);

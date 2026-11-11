@@ -113,7 +113,7 @@ void AdvanceStadiumEmitters(void) {
 
 void CreateAwardEmitters(void) {
     AwardEmitterEffectIds secondEffectIds = data_usa_02166108;
-    Unk021660f8 firstEffectIds = data_usa_021660f8;
+    AwardFirstEffectIds firstEffectIds = data_usa_021660f8;
     s32 baseX = data_usa_02155fc0.x;
     s32 baseY = data_usa_02155fc0.y;
     s32 baseZ = data_usa_02155fc0.z;
@@ -126,7 +126,7 @@ void CreateAwardEmitters(void) {
         s32 effectIndex;
         Vec3 position;
         Unk0201ca6c *emitter;
-        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, firstEffectIds.mUnk_00[emitterIndex]);
+        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, firstEffectIds.mEffectIds[emitterIndex]);
         position.x = emitX;
         position.y = emitY;
         position.z = emitZ;

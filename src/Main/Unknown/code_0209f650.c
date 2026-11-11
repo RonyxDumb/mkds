@@ -206,7 +206,7 @@ void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
     DrawMapObjectModel(mapObjectList, gTownMonte, townMonte);
 }
 
-void InitTownMonteObjects(Unk0209f800 *mapObjectList) {
+void InitTownMonteObjects(MapObjectList *mapObjectList) {
     TownMonte *townMonte;
     RandomState64 *mapObjectRandom;
     s32 mapObjectIndex;
@@ -217,8 +217,8 @@ void InitTownMonteObjects(Unk0209f800 *mapObjectList) {
     if (mapObjectList == NULL) {
         return;
     }
-    for (mapObjectIndex = 0;
-         mapObjectIndex < mapObjectList->mUnk_04 && (townMonte = mapObjectList->mUnk_00[mapObjectIndex]) != NULL;
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (townMonte = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
         townMonte->mUnk_a4 = 0;
         townMonte->mUnk_a8 = 0;

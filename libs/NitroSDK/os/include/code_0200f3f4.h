@@ -6,10 +6,10 @@
 #define HW_EXCP_VECTOR_MAIN ((u32 *) 0x027ffd9c)
 
 // Object at a fixed address in OS_InitException, which sets its word at 0xfdc.
-typedef struct Unk0200f4f0 {
+typedef struct DtcmTail {
     /* 000 */ u8 mUnk_000[0xfdc];
-    /* fdc */ UnkFunc *mUnk_fdc;
-} Unk0200f4f0;
+    /* fdc */ UnkFunc *mExceptionHandler;
+} DtcmTail;
 
 void OSi_SetExContext(u32 exinfo);
 void OSi_DisplayExContext(void);

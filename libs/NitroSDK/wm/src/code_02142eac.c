@@ -426,7 +426,7 @@ s32 WM_EndParent(Unk021425e8Func callback) {
 
 // Starts a scan (command 10). Needs state 2, 3 or 5; the channel must be 1 to 14.
 s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
-    Unk02143a78_0c *request;
+    StartScanRequest *request;
     s32 result;
 
     result = WMi_CheckStateEx(3, 2, 3, 5);
@@ -443,7 +443,7 @@ s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
         return 6;
     }
     WMi_SetCallbackTable(0xa, callback);
-    request = (Unk02143a78_0c *) WMi_GetSystemWork()->mRequestArea;
+    request = (StartScanRequest *) WMi_GetSystemWork()->mRequestArea;
     request->mApiid = 0xa;
     request->mChannel = param->mChannel;
     request->mScanBuf = param->mScanBuf;
@@ -463,7 +463,7 @@ s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
 
 // Starts a scan with a scan type and SSID (command 38). Needs state 2, 3 or 5.
 s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
-    Unk021438f0_0c *request;
+    StartScanExRequest *request;
     s32 result;
     u16 scanType;
 
@@ -493,7 +493,7 @@ s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
         }
     }
     WMi_SetCallbackTable(0x26, callback);
-    request = (Unk021438f0_0c *) WMi_GetSystemWork()->mRequestArea;
+    request = (StartScanExRequest *) WMi_GetSystemWork()->mRequestArea;
     request->mApiid = 0x26;
     request->mChannelList = param->mChannelList;
     request->mScanBuf = param->mScanBuf;
@@ -529,7 +529,7 @@ s32 WM_EndScan(Unk021425e8Func callback) {
 
 // Connects to the parent described by pInfo (command 12). Needs state 2.
 s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode) {
-    Unk021437d8 *request;
+    StartConnectExRequest *request;
     s32 result;
 
     result = WMi_CheckStateEx(1, 2);
@@ -541,7 +541,7 @@ s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL pow
     }
     DC_StoreRange(pInfo, pInfo[0] * 2);
     WMi_SetCallbackTable(0xc, callback);
-    request = (Unk021437d8 *) WMi_GetSystemWork()->mRequestArea;
+    request = (StartConnectExRequest *) WMi_GetSystemWork()->mRequestArea;
     request->mApiid = 0xc;
     request->mPInfo = pInfo;
     if (ssid != 0) {

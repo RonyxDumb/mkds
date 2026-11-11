@@ -251,7 +251,7 @@ extern MapObjectModel *gSmanTop;
 
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
 typedef struct TimedQuad {
-    /* 00 */ u16 mTimer;
+    /* 00 */ s16 mTimer;
     /* 02 */ s16 mAlpha;
     /* 04 */ u16 mColor;
     /* 06 */ u8 mUnk_06[2];

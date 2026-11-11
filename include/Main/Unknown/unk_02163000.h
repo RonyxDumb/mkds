@@ -3,11 +3,11 @@
 #include "types.h"
 
 // The two words at data_021634a8.
-typedef struct Unk021634a8 {
-    /* 00 */ u32 mUnk_00[2];
-} Unk021634a8;
+typedef struct LabelPaletteIndices {
+    /* 00 */ u32 mPaletteIndices[2];
+} LabelPaletteIndices;
 
-extern Unk021634a8 data_021634a8;
+extern LabelPaletteIndices data_021634a8;
 
 // Objects whose layout isn't known yet.
 extern const char data_02163018[];

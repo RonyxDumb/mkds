@@ -16,7 +16,7 @@
 #include "code_02146cbc.h"
 #include "code_02147cd8.h"
 
-void InitChandelierObjects(Unk0209f514 *objectList) {
+void InitChandelierObjects(MapObjectList *objectList) {
     s32 objectIndex;
     Chandelier *chandelier;
     RandomState64 *random;
@@ -24,7 +24,8 @@ void InitChandelierObjects(Unk0209f514 *objectList) {
     if (objectList == NULL) {
         return;
     }
-    for (objectIndex = 0; objectIndex < objectList->mUnk_04 && (chandelier = objectList->mUnk_00[objectIndex]) != NULL;
+    for (objectIndex = 0;
+         objectIndex < objectList->mMapObjectCount && (chandelier = objectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
         random = &gRaceProgress->mLocalRandom;
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;

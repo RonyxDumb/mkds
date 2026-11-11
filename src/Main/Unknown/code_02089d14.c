@@ -301,15 +301,15 @@ void SetStemSet(s32 setIndex) {
     }
 }
 
-void StartTimedQuad(Unk02089ecc *timedQuad) {
+void StartTimedQuad(TimedQuad *timedQuad) {
     timedQuad->mTimer = 0xau;
-    timedQuad->mUnk_02 = 0xcu;
+    timedQuad->mAlpha = 0xcu;
     timedQuad->mColor = 0x7fffu;
     timedQuad->mEnabled = 0x1u;
 }
 
-void UpdateTimedQuad(Unk02089e68 *timedQuad) {
-    timedQuad->mUnk_02 = MUL_FIXED12_ROUNDED((s32) timedQuad->mTimer << 12, 0x1333) >> 12;
+void UpdateTimedQuad(TimedQuad *timedQuad) {
+    timedQuad->mAlpha = MUL_FIXED12_ROUNDED((s32) timedQuad->mTimer << 12, 0x1333) >> 12;
     timedQuad->mTimer = timedQuad->mTimer - 1;
     if (timedQuad->mTimer <= 0) {
         timedQuad->mEnabled = 0;

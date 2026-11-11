@@ -27,6 +27,7 @@
 #include "code_02146d78.h"
 #include "code_02148538.h"
 #include "registers.h"
+#include "code_0201c528.h"
 
 #pragma thumb on
 
@@ -565,7 +566,7 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
     DrawShadowWithMaxAlpha(gRockShadow, &gRockDrawList->mShadowMatrix, &rock->mMapObject.mScale, alpha);
 }
 
-void CopyEmitterParams(Unk020d6538_a *emitter, EmitterParams *params) {
+void CopyEmitterParams(Unk0201ca6c *emitter, EmitterParams *params) {
     emitter->mUnk_5c = params->mUnk_00;
     emitter->mUnk_64 = params->mUnk_04;
     emitter->mUnk_68 = params->mUnk_06;

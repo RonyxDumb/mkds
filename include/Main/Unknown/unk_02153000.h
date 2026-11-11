@@ -94,15 +94,15 @@ extern u8 data_usa_021530f8[4][4][2];
 
 extern u16 gMultiSelectNSRowCellIndices[][3];
 
-typedef struct Unk02153d2c {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ s32 mUnk_08;
-} Unk02153d2c;
+typedef struct MultiSelectNSLabelMessageRow {
+    /* 00 */ s16 mLabelIndex;
+    /* 02 */ u16 mWidth;
+    /* 04 */ u16 mHeight;
+    /* 06 */ s16 mEntryIndex;
+    /* 08 */ s32 mMessageIndex;
+} MultiSelectNSLabelMessageRow;
 
-extern Unk02153d2c gMultiSelectNSLabelMessageRows[];
+extern MultiSelectNSLabelMessageRow gMultiSelectNSLabelMessageRows[];
 extern s16 gTimeAttackGhostGetScanMLabelTextRows[][4];
 extern s16 gTimeAttackGhostGetSlotMLabelTextRows[][4];
 

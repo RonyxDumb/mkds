@@ -391,8 +391,8 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
     }
 }
 
-void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, Unk01ff9940_B *scaleValues, Unk01ff9940_C *command,
-                               u32 srtFlags) {
+void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValues *scaleValues,
+                               JointScaleCommand *command, u32 srtFlags) {
     u8 optionFlags = command->mOptionFlags;
     u32 nodeIndex;
 

@@ -50,13 +50,13 @@ extern const CharacterName gCharacterPNames[];
 extern const CharacterName gCharacterENames[];
 
 // 8-byte entries; BuildKartShadowNsbmdPath and BuildKartNsbtxPath read the string pointer at 0x00.
-typedef struct Unk02155d88 {
-    /* 00 */ const char *mUnk_00;
+typedef struct KartName {
+    /* 00 */ const char *mName;
     /* 04 */ u8 mUnk_04[4];
-} Unk02155d88;
+} KartName;
 
-extern const Unk02155d88 gKartNames[];
-extern const Unk02155d88 gKartShadowNames[];
+extern const KartName gKartNames[];
+extern const KartName gKartShadowNames[];
 
 // 12-byte entry: four bytes and two string pointers.
 typedef struct StemSetParams {

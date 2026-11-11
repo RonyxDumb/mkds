@@ -23,12 +23,6 @@ typedef struct RainStar {
     /* a8 */ s32 mState;
 } RainStar;
 
-// Array of object pointers: pointer to the array and the number of entries (InitChandelierObjects).
-typedef struct Unk0209f514 {
-    /* 00 */ Chandelier **mUnk_00;
-    /* 04 */ u16 mUnk_04;
-} Unk0209f514;
-
 extern char gRainStarNsbmdName[];
 extern char gRainStarNsbtaName[];
 
@@ -42,4 +36,4 @@ void *CreateChandelierUpdateList(void);
 void *CreateChandelierDrawList(void);
 void UpdateChandelier(void *mapObjectList,
                       Chandelier *chandelier); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitChandelierObjects(Unk0209f514 *objectList);
+void InitChandelierObjects(MapObjectList *objectList);

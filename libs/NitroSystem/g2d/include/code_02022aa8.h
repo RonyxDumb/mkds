@@ -19,10 +19,10 @@ typedef struct NNSG2dFontWidth {
 } NNSG2dFontWidth;
 
 // Halfword number, then pairs of halfwords.
-typedef struct Unk02022dd8_s {
+typedef struct FontCodeMapInfo {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ Unk02021a5c mUnk_02[1];
-} Unk02022dd8_s;
+    /* 02 */ Unk02021a5c mScanEntries[1];
+} FontCodeMapInfo;
 
 // Entry of the chain at 0x10 of an NNSG2dFontInformation: a range of mUnk_00..mUnk_02 and a kind (0: base number in
 // mUnk_0c, 1: halfwords from 0x0c, 2: mUnk_0c pairs from 0x0e).
@@ -32,7 +32,7 @@ typedef struct FontCodeMap {
     /* 04 */ u16 mMappingMethod;
     /* 06 */ u16 mReserved;
     /* 08 */ struct FontCodeMap *mPNext;
-    /* 0c */ Unk02022dd8_s mMapInfo;
+    /* 0c */ FontCodeMapInfo mMapInfo;
 } FontCodeMap;
 
 // Object behind NNSG2dFontInformation.mUnk_08: a byte at 0x01, a halfword at 0x02 and bytes from 0x08

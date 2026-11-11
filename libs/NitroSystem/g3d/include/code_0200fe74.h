@@ -10,7 +10,7 @@ u32 OsCountZeroBits(u32 bitmap);
 #define HW_BUTTON_XY_BUF ((vu16 *) 0x27fffa8)
 
 // Filled by OS_GetLowEntropyData.
-typedef struct Unk0201000c {
+typedef struct LowEntropyData {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
@@ -19,7 +19,7 @@ typedef struct Unk0201000c {
     /* 14 */ u32 mUnk_14;
     /* 18 */ u32 mUnk_18;
     /* 1c */ u32 mUnk_1c;
-} Unk0201000c;
+} LowEntropyData;
 
 typedef struct NNSG3dResMdlSet {
     /* 00 */ NNSG3dResDataBlockHeader mHeader;
@@ -45,7 +45,7 @@ void OSi_UnlockVram(u32 bank, u16 lockId);
 u32 OSi_TryLockVram(u32 bank, u16 lockId);
 // Sets the locked-bank mask and the nine bank lock ids to 0. Called once by the start-up function.
 void OSi_InitVramExclusive(void);
-void OS_GetLowEntropyData(Unk0201000c *buffer);
+void OS_GetLowEntropyData(LowEntropyData *buffer);
 void NNS_G3dReleaseMdlSet(NNSG3dResMdlSet *mdlSet);
 u32 NNS_G3dBindMdlSet(NNSG3dResMdlSet *mdlSet, NNSG3dResTex *tex);
 u32 NNS_G3dReleaseMdlPlttEx(NNSG3dResMdl *mdl, const u32 *name);

@@ -7,19 +7,19 @@
 typedef struct FSFile FSFile;
 
 // Entry of 0x28 bytes; the table of pointers at the start of the object at 0x440 of gRomArchiveTransfer points to them.
-typedef struct Unk0204bfac_28 {
+typedef struct RomArchiveNodeBuffer {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mBlockSize;
     /* 08 */ u8 mUnk_08[0x20];
-} Unk0204bfac_28;
+} RomArchiveNodeBuffer;
 
 // The object at 0x440 of gRomArchiveTransfer as StartRomArchiveChild and RomArchiveChildCallback use it: three tables
 // of 16 words, then the entries.
 typedef struct RomArchiveChildView {
-    /* 000 */ Unk0204bfac_28 *mNodeBuffers[16];
+    /* 000 */ RomArchiveNodeBuffer *mNodeBuffers[16];
     /* 040 */ u32 mBlockBuffers[16];
     /* 080 */ void *mChunkBitmaps[16];
-    /* 0c0 */ Unk0204bfac_28 mUnk_0c0[16];
+    /* 0c0 */ RomArchiveNodeBuffer mUnk_0c0[16];
     /* 340 */ u8 mUnk_340[0x7bc];
     /* afc */ void *mChunkBitmapBuffer;
     /* b00 */ u32 mPositionOffset;

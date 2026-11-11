@@ -40,7 +40,7 @@ void CreateCrabKindData(void);
 void UpdateCrab(void *mapObjectList, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
 s32 CrabFX_MulInline(s32 value, s32 factor);
 s16 CrabFX_SinIdx(s32 angle);
-void InitCrabObjects(Unk0209af98 *mapObjectList);
+void InitCrabObjects(MapObjectList *mapObjectList);
 void DrawCrab(void *mapObjectList, Crab *crab);
 unsigned int CrabSetupDrawReturnArgument(unsigned int value);
 u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *hitFlag, u8 *passedValue);

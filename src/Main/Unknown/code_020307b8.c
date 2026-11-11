@@ -92,7 +92,7 @@ void MultiSelectNSMI_CpuClearFast(void *destination, u32 size) {
 void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     void *heap;
     MultiSelectNS *multiSelectNS;
-    Unk02153d2c *labelMessageRow;
+    MultiSelectNSLabelMessageRow *labelMessageRow;
     s32 labelRowIndex;
     u32 subObjSizeLeft;
     s32 labelIndex;
@@ -116,13 +116,13 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     InitLayoutTable(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
     for (labelRowIndex = 0; labelRowIndex < 2; labelRowIndex++) {
         labelMessageRow = &gMultiSelectNSLabelMessageRows[labelRowIndex];
-        labelIndex = labelMessageRow->mUnk_00;
+        labelIndex = labelMessageRow->mLabelIndex;
         subObjSizeLeft -=
-            InitLabelCanvas(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mUnk_02,
-                            labelMessageRow->mUnk_04, labelMessageRow->mUnk_06, multiSelectNS->mNcer,
+            InitLabelCanvas(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mWidth,
+                            labelMessageRow->mHeight, labelMessageRow->mEntryIndex, multiSelectNS->mNcer,
                             multiSelectNS->mBncl, multiSelectNS->mCellTable, subObjSizeLeft);
         PrintLabelLayoutTextNoFixedAdvance(1, labelIndex, multiSelectNS->mBnll,
-                                           GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mUnk_08),
+                                           GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mMessageIndex),
                                            multiSelectNS->mBncl, multiSelectNS->mCellTable);
     }
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, multiSelectNS->mNcgr->mData, multiSelectNS->mNcgr->mDataSize);

@@ -221,15 +221,15 @@ typedef struct WMMpRecvData {
 } WMMpRecvData;
 
 // Request WM_StartConnectEx writes into the request area.
-typedef struct Unk021437d8 {
+typedef struct StartConnectExRequest {
     /* 00 */ u16 mApiid;
-    /* 02 */ u8 mUnk_02[2];
+    /* 02 */ u8 mReserved[2];
     /* 04 */ u16 *mPInfo;
     /* 08 */ u8 mSsid[0x18];
     /* 20 */ u32 mPowerSave;
-    /* 24 */ u8 mUnk_24[2];
+    /* 24 */ u8 mReserved2[2];
     /* 26 */ u16 mAuthMode;
-} Unk021437d8;
+} StartConnectExRequest;
 
 // Scan parameters of WM_StartScanEx.
 typedef struct ScanExParam {
@@ -245,7 +245,7 @@ typedef struct ScanExParam {
 } ScanExParam;
 
 // Request WM_StartScanEx writes into the request area.
-typedef struct Unk021438f0_0c {
+typedef struct StartScanExRequest {
     /* 00 */ u16 mApiid;
     /* 02 */ u16 mChannelList;
     /* 04 */ void *mScanBuf;
@@ -256,7 +256,7 @@ typedef struct Unk021438f0_0c {
     /* 14 */ u16 mSsidLength;
     /* 16 */ u8 mSsid[0x20];
     /* 36 */ u16 mSsidMatchLength;
-} Unk021438f0_0c;
+} StartScanExRequest;
 
 // Scan parameters of WM_StartScan.
 typedef struct ScanParam {
@@ -267,13 +267,13 @@ typedef struct ScanParam {
 } ScanParam;
 
 // Request WM_StartScan writes into the request area.
-typedef struct Unk02143a78_0c {
+typedef struct StartScanRequest {
     /* 00 */ u16 mApiid;
     /* 02 */ u16 mChannel;
     /* 04 */ void *mScanBuf;
     /* 08 */ u16 mMaxChannelTime;
     /* 0a */ u8 mBssid[6];
-} Unk02143a78_0c;
+} StartScanRequest;
 
 // Parent parameters of WM_SetParentParameter.
 typedef struct ParentParameter {

@@ -2,15 +2,11 @@
 
 #include "types.h"
 
-// Argument of AdvanceTimeAttackGhostSend: a halfword is set at 4.
-typedef struct Unk0202cdf4 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
-} Unk0202cdf4;
+typedef struct SceneNumbers SceneNumbers;
 
 void WriteTimeAttackGhostSendRegisters(void);
 void ReleaseTimeAttackGhostSend(void);
-s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg);
+s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg);
 void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam);
 void SetGhostSendCellsOffsetY(void);
 void StartReadSelectedGhost(void);

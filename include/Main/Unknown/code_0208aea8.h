@@ -12,9 +12,9 @@ typedef struct StadiumEmitters {
 } StadiumEmitters;
 
 // Two halfwords at data_usa_021660f8.
-typedef struct Unk021660f8 {
-    s16 mUnk_00[2];
-} Unk021660f8;
+typedef struct AwardFirstEffectIds {
+    s16 mEffectIds[2];
+} AwardFirstEffectIds;
 
 // Twenty-four halfwords at data_usa_02166108.
 typedef struct AwardEmitterEffectIds {
@@ -28,7 +28,7 @@ extern Unk0217b050Func *gGetSPLManagerFunction;
 extern StadiumEmitters *data_0217b048;
 extern char data_usa_021660c8[];
 extern char data_usa_021660e0[];
-extern Unk021660f8 data_usa_021660f8;
+extern AwardFirstEffectIds data_usa_021660f8;
 extern AwardEmitterEffectIds data_usa_02166108;
 extern s32 data_usa_02155f48[];
 extern Vec3 data_usa_02155f78[];

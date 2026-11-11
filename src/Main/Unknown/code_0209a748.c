@@ -162,7 +162,7 @@ void DrawCrab(void *mapObjectList, Crab *crab) {
     DrawMapObjectModel(mapObjectList, gCrabHand, crab);
 }
 
-void InitCrabObjects(Unk0209af98 *mapObjectList) {
+void InitCrabObjects(MapObjectList *mapObjectList) {
     s32 objectIndex;
     Crab *crab;
     RandomState64 *mapObjectRandom;

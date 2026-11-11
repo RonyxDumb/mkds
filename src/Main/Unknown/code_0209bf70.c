@@ -68,7 +68,7 @@ u32 SunSetupDrawReturnArgument(u32 value) {
     return value;
 }
 
-void DrawSun(void *mapObjectList, Unk0209d3fc *sun) {
+void DrawSun(void *mapObjectList, Sun *sun) {
     s32 gxParam;
     s32 radius;
     s32 angleIndex;
@@ -78,8 +78,8 @@ void DrawSun(void *mapObjectList, Unk0209d3fc *sun) {
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sun->mMapObject.mPos), 0xc);
     if (sun->mState == 3 || sun->mState == 4) {
-        radius = MUL_FIXED12_NO_ROUND(FX_CosIdx((u16) sun->mUnk_ac), -0x14000) + 0x14000;
-        angleIndex = (sun->mUnk_b0 >> 4) * 2;
+        radius = MUL_FIXED12_NO_ROUND(FX_CosIdx((u16) sun->mUnk_0ac), -0x14000) + 0x14000;
+        angleIndex = (sun->mUnk_0b0 >> 4) * 2;
         translation.x = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[angleIndex + 1]) >> 4;
         translation.y = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[angleIndex]) >> 4;
         translation.z = 0;

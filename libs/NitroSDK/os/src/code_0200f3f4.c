@@ -12,7 +12,7 @@ u8 OSi_ExContext[0x80];
 
 void OS_InitException(void) {
     u32 handler;
-    Unk0200f4f0 *block;
+    DtcmTail *block;
 
     handler = *HW_EXCP_VECTOR_MAIN;
     if (handler >= 0x2600000 && handler < 0x2800000) {
@@ -20,10 +20,10 @@ void OS_InitException(void) {
     } else {
         OSi_DebuggerHandler = 0;
     }
-    block = (Unk0200f4f0 *) 0x027e3000;
+    block = (DtcmTail *) 0x027e3000;
     if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
         *HW_EXCP_VECTOR_MAIN = (u32) OSi_ExceptionHandler;
-        block->mUnk_fdc = OSi_ExceptionHandler;
+        block->mExceptionHandler = OSi_ExceptionHandler;
     }
     OSi_UserExceptionHandler = 0;
 }

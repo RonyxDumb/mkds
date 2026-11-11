@@ -751,7 +751,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             RequestRomArchiveBytes(gRomArchiveTransfer.mPendingFile);
             return;
         case 6:
-            blockSize = childView->mNodeBuffers[fromIndex]->mUnk_04;
+            blockSize = childView->mNodeBuffers[fromIndex]->mBlockSize;
             gRomArchiveTransfer.mArchiveBlockSize = blockSize;
             savedInterrupts = OS_DisableInterrupts();
             buffer = gRomArchiveTransfer.mAllocFunc(gRomArchiveTransfer.mAllocFuncArg, blockSize, NULL);

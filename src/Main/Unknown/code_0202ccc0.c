@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0202ccc0.h"
+#include "Main/Unknown/code_020487fc.h" // SceneNumbers
 #include "Main/Unknown/code_0202578c.h"
 #include "Main/Unknown/code_02025ebc.h"
 #include "Main/Unknown/code_0202e4b0.h"
@@ -326,7 +327,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     FrmHeapShrinkInParent(gTimeAttackGhostSend->mHeap);
 }
 
-s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
+s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
     u16 slotIndex;
     s32 isTouched;
     s32 returnRequested;
@@ -357,7 +358,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mUnk_04 = 1;
+                    advanceArg->mNextScene = 1;
                 }
                 gTimeAttackGhostSend->mState = 0xe;
             }
@@ -407,7 +408,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                     if (keyB != 0 || returnTouched != 0) {
                         gMenuShared->mMenuEntryKind = 5;
                         if (advanceArg != NULL) {
-                            advanceArg->mUnk_04 = 1;
+                            advanceArg->mNextScene = 1;
                         }
                         gTimeAttackGhostSend->mState = 0xe;
                         RequestSelectReturnState3WithSound(0);
@@ -486,7 +487,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mUnk_04 = 1;
+                    advanceArg->mNextScene = 1;
                 }
                 gTimeAttackGhostSend->mState = 0xe;
             }
@@ -509,7 +510,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mUnk_04 = 1;
+                    advanceArg->mNextScene = 1;
                 }
                 gTimeAttackGhostSend->mState = 0xe;
             }

@@ -283,7 +283,7 @@ void NNS_G3dReleaseMdlSet(NNSG3dResMdlSet *mdlSet) {
 
 // Fills the eight words of buffer with values that change from run to run: the tick counter, the vertical counter,
 // the console's stored user data, the clock, the microphone, the touch panel and the buttons.
-void OS_GetLowEntropyData(Unk0201000c *buffer) {
+void OS_GetLowEntropyData(LowEntropyData *buffer) {
     u16 vcount;
     u8 *work;
     u8 *userInfo;

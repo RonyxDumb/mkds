@@ -23,12 +23,12 @@ typedef struct CourseSoundSlot {
 
 // Object data_0217d1cc: sixteen bytes; UpdateCourseSound and StartCourseSoundAtVolume read one byte of the row that the
 // first word of the gCourseSoundSlots element selects.
-typedef struct Unk0217d1cc {
+typedef struct CourseSoundVolumesView {
     /* 00 */ u8 mVolumes[0x10];
-} Unk0217d1cc;
+} CourseSoundVolumesView;
 
 extern CourseSoundSlot gCourseSoundSlots[];
-extern Unk0217d1cc data_0217d1cc[];
+extern CourseSoundVolumesView data_0217d1cc[];
 extern u32 gCourseSoundTableIndex;
 extern CourseSoundTableRow gCourseSoundTable[5];
 

@@ -44,14 +44,14 @@ char *BuildCharacterNsbtxPath(u16 characterIndex, s32 usePNames) {
 char *BuildKartNsbmdPath(u16 kartIndex) {
     const char *ext = "nsbmd";
     snprintf(gKartModelPathBuffer, 0x100, "%s%s%skart_%s.%s", gKartModelPathPrefix, gKartDirName,
-             kartIndex % 3 == 0 ? "mario/" : gCharacterSubDirNames[kartIndex / 3], gKartNames[kartIndex].mUnk_00, ext);
+             kartIndex % 3 == 0 ? "mario/" : gCharacterSubDirNames[kartIndex / 3], gKartNames[kartIndex].mName, ext);
     return gKartModelPathBuffer;
 }
 
 char *BuildKartNsbtxPath(u16 kartIndex) {
     const char *ext = "nsbtx";
     snprintf(gKartModelPathBuffer, 0x100, "%s%s%skart_%s.%s", gKartModelPathPrefix, gKartDirName,
-             kartIndex % 3 == 0 ? "mario/" : gCharacterSubDirNames[kartIndex / 3], gKartNames[kartIndex].mUnk_00, ext);
+             kartIndex % 3 == 0 ? "mario/" : gCharacterSubDirNames[kartIndex / 3], gKartNames[kartIndex].mName, ext);
     return gKartModelPathBuffer;
 }
 
@@ -69,7 +69,7 @@ char *BuildTireNsbtxPath(u16 unusedValue, const char *name) {
 
 char *BuildKartShadowNsbmdPath(u16 kartIndex) {
     snprintf(gKartModelPathBuffer, 0x100, "%s%sshadow/sh_%s.nsbmd", gKartModelPathPrefix, gKartDirName,
-             gKartShadowNames[kartIndex].mUnk_00);
+             gKartShadowNames[kartIndex].mName);
     return gKartModelPathBuffer;
 }
 

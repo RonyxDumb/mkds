@@ -109,9 +109,9 @@ void SND_GetFirstInstDataPos(SNDInstPos *pos) {
 // Copies the instrument entry at pos into inst and moves pos on; returns 0 when there are no more.
 u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos) {
     u32 entry;
-    Unk02021a60 *simple;
-    Unk02021aa8 *drumSet;
-    Unk02021b24 *keySplit;
+    InstSimple *simple;
+    InstDrumSet *drumSet;
+    InstKeySplit *keySplit;
 
     while (pos->mPrgNo < bank->mUnk_38) {
         entry = bank->mUnk_3c[pos->mPrgNo];
@@ -122,27 +122,27 @@ u32 SND_GetNextInstData(Unk02021968 *bank, SNDInstData *inst, SNDInstPos *pos) {
             case 3:
             case 4:
             case 5:
-                simple = OFFSET_PTR(Unk02021a60, bank, (entry >> 8));
-                inst->mWave = simple->mUnk_00;
+                simple = OFFSET_PTR(InstSimple, bank, (entry >> 8));
+                inst->mWave = simple->mWave;
                 inst->mUnk_06 = simple->mUnk_04;
                 inst->mUnk_0a = simple->mUnk_08;
                 pos->mPrgNo++;
                 return 1;
             case 0x10:
-                drumSet = OFFSET_PTR(Unk02021aa8, bank, (entry >> 8));
-                while (pos->mIndex < drumSet->mUnk_01 - drumSet->mUnk_00 + 1) {
-                    *inst = drumSet->mUnk_02[pos->mIndex];
+                drumSet = OFFSET_PTR(InstDrumSet, bank, (entry >> 8));
+                while (pos->mIndex < drumSet->mMax - drumSet->mMin + 1) {
+                    *inst = drumSet->mInstOffset[pos->mIndex];
                     pos->mIndex++;
                     return 1;
                 }
                 break;
             case 0x11:
-                keySplit = OFFSET_PTR(Unk02021b24, bank, (entry >> 8));
+                keySplit = OFFSET_PTR(InstKeySplit, bank, (entry >> 8));
                 while (pos->mIndex < 8) {
-                    if (keySplit->mUnk_00[pos->mIndex] == 0) {
+                    if (keySplit->mKey[pos->mIndex] == 0) {
                         break;
                     }
-                    *inst = keySplit->mUnk_08[pos->mIndex];
+                    *inst = keySplit->mInstOffset[pos->mIndex];
                     pos->mIndex++;
                     return 1;
                 }

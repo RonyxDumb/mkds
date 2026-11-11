@@ -280,26 +280,26 @@ typedef struct ParticleBehaviorPoint {
 } ParticleBehaviorPoint;
 
 // Read by SPLBehavior_ApplyRandom.
-typedef struct Unk0201e2cc {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk0201e2cc;
+typedef struct ParticleBehaviorRandom {
+    /* 00 */ s16 mRangeX;
+    /* 02 */ s16 mRangeY;
+    /* 04 */ s16 mRangeZ;
+    /* 06 */ u16 mInterval;
+} ParticleBehaviorRandom;
 
 // Read by SPLBehavior_ApplyCollisionPlane.
-typedef struct Unk0201e054 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ u16 mUnk_06_0 : 2;
+typedef struct ParticleBehaviorCollisionPlane {
+    /* 00 */ s32 mPlaneY;
+    /* 04 */ s16 mBounceFactor;
+    /* 06 */ u16 mMode : 2;
     /* 06 */ u16 mUnk_06_2 : 14;
-} Unk0201e054;
+} ParticleBehaviorCollisionPlane;
 
 // Read by SPLBehavior_ApplySpin.
-typedef struct Unk0201e170 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-} Unk0201e170;
+typedef struct ParticleBehaviorSpin {
+    /* 00 */ u16 mAngle;
+    /* 02 */ u16 mAxis;
+} ParticleBehaviorSpin;
 
 void SPLUtil_RotateXYZ(s32 sinValue, s32 cosValue, MtxFx43 *mtx);
 void SPLUtil_DrawXZPlane(u32 texCoordU, u32 texCoordV, s32 centerX, s32 centerZ);
@@ -315,10 +315,11 @@ void SPLAnim_Alpha(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
 void SPLAnim_Color(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
 void SPLAnim_Scale(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
 void SPLBehavior_ApplyConvergence(const ParticleBehaviorPoint *conv, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
-void SPLBehavior_ApplyCollisionPlane(const Unk0201e054 *plane, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
-void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
+void SPLBehavior_ApplyCollisionPlane(const ParticleBehaviorCollisionPlane *plane, Unk0201e3c8 *ptcl, Vec3 *acc,
+                                     Unk0201ca6c *emtr);
+void SPLBehavior_ApplySpin(const ParticleBehaviorSpin *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
-void SPLBehavior_ApplyRandom(const Unk0201e2cc *rng, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
+void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 Unk0201e3c8 *SPLList_Erase(ParticleList *list, Unk0201e3c8 *node);
 Unk0201e3c8 *SPLList_PopFront(ParticleList *list);

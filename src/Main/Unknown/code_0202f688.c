@@ -105,7 +105,7 @@ void SetMemberGroupCellTableOffsetY(void) {
 
 void RefreshMultiSelectMemberGroup(s32 showSelected) {
     CellFileSet *cellFileSet;
-    Unk021634a8 valueTable;
+    LabelPaletteIndices valueTable;
     s32 rowIndex;
     s32 cellIndex;
     s32 entryOffset;
@@ -163,8 +163,8 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
             cellFileSet->mCellTable[(rowCellIndices->mCellIndices + 4)[cellIndex]].mVisible &= isMatch;
             cellFileSet->mCellTable[(rowCellIndices->mCellIndices + 16)[cellIndex]].mVisible &= isMatch;
         }
-        SetLabelPaletteIndex(rowCellIndices->mLabelIndex, valueTable.mUnk_00[rowSelected], cellFileSet->mLabelLayout,
-                             cellFileSet->mCellTable, cellFileSet->mCellLayout);
+        SetLabelPaletteIndex(rowCellIndices->mLabelIndex, valueTable.mPaletteIndices[rowSelected],
+                             cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
         entryOffset += 0xc;
         rowCellIndices = OFFSET_PTR(MemberRowCellIndices, rowCellIndices, 0x32);
         rowIndex++;
@@ -181,7 +181,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
         rowNotSelected = 0;
     }
     cellFileSet->mCellTable[88].mVisible = rowNotSelected;
-    SetLabelPaletteIndex(4, valueTable.mUnk_00[rowSelected], cellFileSet->mLabelLayout, cellFileSet->mCellTable,
+    SetLabelPaletteIndex(4, valueTable.mPaletteIndices[rowSelected], cellFileSet->mLabelLayout, cellFileSet->mCellTable,
                          cellFileSet->mCellLayout);
 }
 

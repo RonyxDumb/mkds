@@ -583,7 +583,7 @@ void DWCi_Http_Thread(void *argument) {
     s8 *lengthEnd;
     s8 savedByte;
     s32 n;
-    Unk0201000c entropyData;
+    LowEntropyData entropyData;
     char *s;
     const char *contentLengthText;
 
