@@ -110,7 +110,7 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     if (framesFromMoveStart == 0 && gOrthoQuadUseCreamEffect == 0 && quad == gOrthoQuads) {
         sndHandle = GetSndHandleSlot(6);
         NNS_SndPlayerStopSeq(sndHandle, 1);
-        if ((data_0217c780 & 1) != 0 && data_0217d084.mUnk_0c != 0) {
+        if ((data_0217c780 & 1) != 0 && data_0217d084.mSeqStartEnabled != 0) {
             if (*sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(sndHandle, 0);
             }
@@ -215,7 +215,7 @@ void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad) {
         return;
     }
     sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-    if (data_0217d084.mUnk_0c == 0) {
+    if (data_0217d084.mSeqStartEnabled == 0) {
         return;
     }
     if (*sndHandle != NULL) {

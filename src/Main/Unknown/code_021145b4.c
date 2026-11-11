@@ -235,8 +235,8 @@ void InitRecordVSErase(void *heap) {
     gRecordVSErase->mShownIndex = gRecordVSErase->mIndex;
     gRecordVSErase->mTransientDrawn = 0;
     gRecordVSErase->mErased = 0;
-    gRecordVSErase->mUnk_98 = FALSE;
-    gRecordVSErase->mUnk_9c = FALSE;
+    gRecordVSErase->mPageDecrementRepeat = FALSE;
+    gRecordVSErase->mPageIncrementRepeat = FALSE;
     for (i = 0; i < 2; i++) {
         gRecordVSErase->mOffsetTimers[i] = 0;
     }
@@ -419,33 +419,33 @@ void AdvanceRecordVSEraseState3(void) {
 
 void AdvanceRecordVSEraseState4(void) {
     s32 firstRecordIndex;
-    s32 v;
-    u32 w;
+    s32 downRectIndex;
+    u32 pressedRectIndex;
     InputSlotIndex i;
     BOOL n;
 
-    v = -1;
-    w = v;
+    downRectIndex = -1;
+    pressedRectIndex = downRectIndex;
     i = UNK_02175628_INDEX_8;
     AdvanceRecordVSEraseOffsetTimers();
     AdvanceRecordVSEraseIndexChange();
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     n = (data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) || data_02175674[i].mPressedBits != 0;
     if (n) {
-        v = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
-                                    data_02175672[i].mPressedBits);
+        downRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
+                                                data_02175672[i].mPressedBits);
     }
     n = !(data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) &&
         (data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0);
     if (n) {
-        w = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
-                                    data_02175672[i].mPressedBits);
+        pressedRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
+                                                   data_02175672[i].mPressedBits);
     }
-    if (v != 5) {
-        gRecordVSErase->mUnk_98 = FALSE;
+    if (downRectIndex != 5) {
+        gRecordVSErase->mPageDecrementRepeat = FALSE;
     }
-    if (v != 6) {
-        gRecordVSErase->mUnk_9c = FALSE;
+    if (downRectIndex != 6) {
+        gRecordVSErase->mPageIncrementRepeat = FALSE;
     }
     if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) != 0 ||
         ((n = !(data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) &&
@@ -460,7 +460,8 @@ void AdvanceRecordVSEraseState4(void) {
         RequestSelectReturnState3WithSound(0);
         return;
     }
-    if ((v == 5 && gRecordVSErase->mUnk_98 != FALSE) || (w == 5 && gRecordVSErase->mUnk_98 == FALSE) ||
+    if ((downRectIndex == 5 && gRecordVSErase->mPageDecrementRepeat != FALSE) ||
+        (pressedRectIndex == 5 && gRecordVSErase->mPageDecrementRepeat == FALSE) ||
         (u16) (gInputSlots[i].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
@@ -470,12 +471,13 @@ void AdvanceRecordVSEraseState4(void) {
         }
         gRecordVSErase->mPageDecrement = 1;
         gRecordVSErase->mOffsetTimers[0] = 6;
-        gRecordVSErase->mUnk_98 = TRUE;
+        gRecordVSErase->mPageDecrementRepeat = TRUE;
         RequestRecordVSEraseState5();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
         return;
     }
-    if ((v == 6 && gRecordVSErase->mUnk_9c != FALSE) || (w == 6 && gRecordVSErase->mUnk_9c == FALSE) ||
+    if ((downRectIndex == 6 && gRecordVSErase->mPageIncrementRepeat != FALSE) ||
+        (pressedRectIndex == 6 && gRecordVSErase->mPageIncrementRepeat == FALSE) ||
         (u16) (gInputSlots[i].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
@@ -485,13 +487,13 @@ void AdvanceRecordVSEraseState4(void) {
         }
         gRecordVSErase->mPageDecrement = 0;
         gRecordVSErase->mOffsetTimers[1] = 6;
-        gRecordVSErase->mUnk_9c = TRUE;
+        gRecordVSErase->mPageIncrementRepeat = TRUE;
         RequestRecordVSEraseState5();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
         return;
     }
-    if (w <= 4) {
-        i = data_0215c4d0[w];
+    if (pressedRectIndex <= 4) {
+        i = data_0215c4d0[pressedRectIndex];
         if (i == gRecordVSErase->mIndex) {
             if (IsRecordFlagged(firstRecordIndex + i) == 0) {
                 if (IsRecordVSEraseIndexChangeRunning() == 0) {

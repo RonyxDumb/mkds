@@ -252,7 +252,7 @@ void UpdateFireball2(void *a, Fireball2 *b) {
             if ((b->mEntryKartAxisDistance < 0 && d > 0) || (b->mEntryKartAxisDistance > 0 && d < 0)) {
                 StopSndHandleSlots7To11();
                 h = GetSndHandleSlot(7);
-                if ((data_0217c780 & 1) && data_0217d084.mUnk_0c != 0) {
+                if ((data_0217c780 & 1) && data_0217d084.mSeqStartEnabled != 0) {
                     if (h[0] != NULL) {
                         NNS_SndPlayerStopSeq(h, 0);
                     }

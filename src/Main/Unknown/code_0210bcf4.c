@@ -85,7 +85,7 @@ void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void
     PlayingSound *sound;
     NNSFndList *sourceList;
 
-    if (data_0217d084.mUnk_10 == 0) {
+    if (data_0217d084.mSoundsEnabled == 0) {
         return;
     }
     sound = TakeSoundHandleEntry(&data_0217d034);
@@ -101,7 +101,7 @@ void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void
 
 u32 StartOrUpdateSndHandleSoundInMode2(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
                                        void *request) {
-    if (data_0217d084.mUnk_10 == 0) {
+    if (data_0217d084.mSoundsEnabled == 0) {
         return seqArcNo;
     }
     return StartOrUpdateSndHandleSound(seqArcNo, soundId, positionSource, handle, request);

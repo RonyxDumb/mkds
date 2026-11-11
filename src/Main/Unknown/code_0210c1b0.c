@@ -22,7 +22,7 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     u32 hadBit8;
 
     v = 0;
-    if (data_0217d084.mUnk_10 == 0) {
+    if (data_0217d084.mSoundsEnabled == 0) {
         return;
     }
     if ((source->mSourceFlags & 1) == 0) {
@@ -178,7 +178,7 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     u32 matches;
 
     sound = NULL;
-    if (data_0217d084.mUnk_10 == 0) {
+    if (data_0217d084.mSoundsEnabled == 0) {
         return sound;
     }
     if ((source->mSourceFlags & 1) == 0) {
@@ -241,7 +241,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     u32 matches;
 
     sound = NULL;
-    if (data_0217d084.mUnk_10 == 0) {
+    if (data_0217d084.mSoundsEnabled == 0) {
         return sound;
     }
     if ((source->mSourceFlags & 1) == 0) {
@@ -319,7 +319,7 @@ void StopSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 fadeSteps) 
     PlayingSound *sound;
     u32 matches;
 
-    if (data_0217d084.mUnk_10 == 0) {
+    if (data_0217d084.mSoundsEnabled == 0) {
         return;
     }
     sound = source->mPlayingSounds.mHead;

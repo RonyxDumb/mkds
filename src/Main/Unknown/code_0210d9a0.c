@@ -17,11 +17,11 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                 StopAllPlayingSounds(0);
                 NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0);
                 NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSeqPlayer, 0);
-                if (modeHolder->mUnk_18 != NULL) {
-                    NNS_SndPlayerStopSeq(modeHolder->mUnk_18, 0);
+                if (modeHolder->mKartStarSeqPlayer != NULL) {
+                    NNS_SndPlayerStopSeq(modeHolder->mKartStarSeqPlayer, 0);
                 }
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->mSoundsEnabled = 0;
+                modeHolder->mSeqStartEnabled = 0;
             }
             break;
         case 1:
@@ -32,12 +32,12 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                     fadeSteps = GetSoundFadeSteps();
                     NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSeqPlayer, 0x7f, fadeSteps);
                     NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0x7f, fadeSteps);
-                    if (modeHolder->mUnk_18 != NULL) {
-                        NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0x7f, fadeSteps);
+                    if (modeHolder->mKartStarSeqPlayer != NULL) {
+                        NNS_SndPlayerMoveVolume(modeHolder->mKartStarSeqPlayer, 0x7f, fadeSteps);
                     }
                 }
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 1;
+                modeHolder->mSoundsEnabled = 0;
+                modeHolder->mSeqStartEnabled = 1;
             }
             break;
         case 2:
@@ -48,19 +48,19 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                     fadeStepsNow = GetSoundFadeSteps();
                     NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSeqPlayer, 0x7f, fadeStepsNow);
                     NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0x7f, fadeStepsNow);
-                    if (modeHolder->mUnk_18 != NULL) {
-                        NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0x7f, fadeStepsNow);
+                    if (modeHolder->mKartStarSeqPlayer != NULL) {
+                        NNS_SndPlayerMoveVolume(modeHolder->mKartStarSeqPlayer, 0x7f, fadeStepsNow);
                     }
                     StartPlayingSoundsFade(0x7f, fadeSteps);
                 }
-                modeHolder->mUnk_10 = 1;
-                modeHolder->mUnk_0c = 1;
+                modeHolder->mSoundsEnabled = 1;
+                modeHolder->mSeqStartEnabled = 1;
             }
             break;
         case 3:
             if (modeHolder->mMode != 3) {
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->mSoundsEnabled = 0;
+                modeHolder->mSeqStartEnabled = 0;
                 StopSoundsOnAllSources(5);
                 StopAllPlayingSounds(5);
                 NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSecondSeqPlayer, 5);
@@ -68,14 +68,14 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
             break;
         case 4:
             if (modeHolder->mMode != 4) {
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->mSoundsEnabled = 0;
+                modeHolder->mSeqStartEnabled = 0;
                 StopSoundsOnAllSources(fadeSteps);
                 StopAllPlayingSounds(fadeSteps);
                 NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSecondSeqPlayer, fadeSteps);
                 NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSeqPlayer, fadeSteps);
-                if (modeHolder->mUnk_18 != NULL) {
-                    NNS_SndPlayerStopSeq(modeHolder->mUnk_18, fadeSteps);
+                if (modeHolder->mKartStarSeqPlayer != NULL) {
+                    NNS_SndPlayerStopSeq(modeHolder->mKartStarSeqPlayer, fadeSteps);
                 }
             }
             break;
@@ -83,11 +83,11 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
             if (modeHolder->mMode != 5) {
                 NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSeqPlayer, 0, fadeSteps);
                 NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0, fadeSteps);
-                if (modeHolder->mUnk_18 != NULL) {
-                    NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0, fadeSteps);
+                if (modeHolder->mKartStarSeqPlayer != NULL) {
+                    NNS_SndPlayerMoveVolume(modeHolder->mKartStarSeqPlayer, 0, fadeSteps);
                 }
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->mSoundsEnabled = 0;
+                modeHolder->mSeqStartEnabled = 0;
                 StartPlayingSoundsFade(0, fadeSteps);
                 modeHolder->mSavedMode = modeHolder->mMode;
             }

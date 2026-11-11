@@ -1129,7 +1129,7 @@ void ResetKartMotionState(Kart *kart, s32 b) {
             if (!(data_0217c780 & 1)) {
                 return;
             }
-            if (data_0217d084.mUnk_0c == 0) {
+            if (data_0217d084.mSeqStartEnabled == 0) {
                 return;
             }
             if (sndHandleSlot[0] != NULL) {
@@ -1402,7 +1402,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
         SetupCameraBehindKart();
         if (data_0217c780 & 1) {
             sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            if (data_0217d084.mSeqStartEnabled != 0) {
                 if (sndHandle[0] != NULL) {
                     NNS_SndPlayerStopSeq(sndHandle, 0);
                 }

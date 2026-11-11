@@ -156,8 +156,9 @@ void EnterItemBombState2(ItemBomb *bomb) {
     bomb->mBouncingItemObject.mItemObject.mFlags |= 0x800000;
     bomb->mBouncingItemObject.mItemObject.mUnk_100 = 0;
     bomb->mBouncingItemObject.mItemObject.mScale = gItemBombState2StartScale;
-    bomb->mModelEffect = StartModelEffect(0, &bomb->mBouncingItemObject.mItemObject.mPos,
-                                          IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
+    bomb->mModelEffect =
+        StartModelEffect(0, &bomb->mBouncingItemObject.mItemObject.mPos,
+                         IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
         s32 *effectScale;
@@ -170,7 +171,7 @@ void EnterItemBombState2(ItemBomb *bomb) {
     StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe4);
     if (data_0217c780 & 1) {
         seqPlayerPointer = TakeSoundHandleEntry(GetSoundHandlePool(0));
-        if (data_0217d084.mUnk_0c != 0) {
+        if (data_0217d084.mSeqStartEnabled != 0) {
             if (seqPlayerPointer[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
             }
@@ -187,7 +188,8 @@ void UpdateItemBombState2(ItemBomb *bomb) {
     s32 stateFrames;
 
     stateFrames = bomb->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombState2ScaleLimit, gItemBombState2ScaleStep) != 0) {
+    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombState2ScaleLimit,
+                            gItemBombState2ScaleStep) != 0) {
         RefreshItemObjectScaleExact(&bomb->mBouncingItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -201,7 +203,8 @@ void UpdateItemBombState2(ItemBomb *bomb) {
     if (stateFrames <= 0x55) {
         return;
     }
-    ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind, &bomb->mBouncingItemObject.mItemObject);
+    ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
+                          &bomb->mBouncingItemObject.mItemObject);
 }
 
 void AdvanceItemBombNearestKart(ItemBomb *bomb) {
@@ -282,19 +285,22 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
     AdvanceStateMachine(&bomb->mStateMachine);
     if (pooledMapObject->mMapObject.mFlags & 0x100) {
         bomb->mPooledMapObject = NULL;
-        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind, &bomb->mBouncingItemObject.mItemObject);
+        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
+                              &bomb->mBouncingItemObject.mItemObject);
         return;
     }
     if ((bombAlias->mBouncingItemObject.mItemObject.mFlags & 0x8000) == 0) {
         pooledMapObject->mMapObject.mPos = bombAlias->mBouncingItemObject.mItemObject.mPos;
-        pooledMapObject->mMapObject.mPos.y += bomb->mMapObjectOffsetY - bombAlias->mBouncingItemObject.mItemObject.mCourseRadius;
+        pooledMapObject->mMapObject.mPos.y +=
+            bomb->mMapObjectOffsetY - bombAlias->mBouncingItemObject.mItemObject.mCourseRadius;
     }
     if (bomb->mTimer <= 0) {
         if ((bombAlias->mBouncingItemObject.mItemObject.mFlags & 0x8000) == 0) {
             return;
         }
         bomb->mPooledMapObject = NULL;
-        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind, &bomb->mBouncingItemObject.mItemObject);
+        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
+                              &bomb->mBouncingItemObject.mItemObject);
         return;
     }
     bomb->mTimer--;
@@ -309,7 +315,8 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
         mapObjectToPark->mMapObject.mFlags &= ~1;
         ParkMapObject(&mapObjectToPark->mMapObject);
         bomb->mPooledMapObject = NULL;
-        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind, &bomb->mBouncingItemObject.mItemObject);
+        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
+                              &bomb->mBouncingItemObject.mItemObject);
     }
 }
 
@@ -567,9 +574,11 @@ void ReleaseItemBomb(void **bombSlot) {
         pooledMapObject->mMapObject.mFlags &= ~1;
         ParkMapObject(&pooledMapObject->mMapObject);
         bomb->mPooledMapObject = NULL;
-        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind, &bomb->mBouncingItemObject.mItemObject);
+        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
+                              &bomb->mBouncingItemObject.mItemObject);
     } else {
-        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind, &bomb->mBouncingItemObject.mItemObject);
+        ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
+                              &bomb->mBouncingItemObject.mItemObject);
     }
     *bombSlot = NULL;
 }

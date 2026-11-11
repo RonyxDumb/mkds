@@ -71,7 +71,7 @@ typedef struct Wait {
     /* 14 */ struct LayoutEntryTable *mDestinationBncl;
     /* 18 */ u32 mDestinationBnclIndex;
     /* 1c */ u16 mPaletteIndex;
-    /* 20 */ s32 mUnk_20;
+    /* 20 */ s32 mQueueSelector;
     /* 24 */ u16 mFrameIndex;
     /* 28 */ s32 mFrameIndexFrames;
 } Wait;
@@ -96,7 +96,7 @@ typedef struct RecordVSErase {
     /* 40 */ s32 mTransientDrawn;
     /* 44 */ struct Bmg *mCommonMessages;
     /* 48 */ struct Bmg *mRecordMessages;
-    /* 4c */ void *mUnk_4c;
+    /* 4c */ void *mSecondScreenMapBuffer;
     /* 50 */ void *mHeap;
     /* 54 */ s32 mState;
     /* 58 */ s32 mNextState;
@@ -116,8 +116,8 @@ typedef struct RecordVSErase {
     /* 88 */ struct EmblemData *mEmblem;
     /* 8c */ void *mEmblemConverted;
     /* 90 */ s32 mOffsetTimers[2];
-    /* 98 */ BOOL mUnk_98;
-    /* 9c */ BOOL mUnk_9c;
+    /* 98 */ BOOL mPageDecrementRepeat;
+    /* 9c */ BOOL mPageIncrementRepeat;
     /* a0 */ s32 mNextScreen;
 } RecordVSErase;
 
@@ -152,10 +152,10 @@ typedef struct SoundModeHolder {
     /* 00 */ ScenePlayers *mScenePlayers;
     /* 04 */ u32 mMode;
     /* 08 */ u32 mSavedMode;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
+    /* 0c */ u32 mSeqStartEnabled;
+    /* 10 */ u32 mSoundsEnabled;
     /* 14 */ u32 mUnk_14;
-    /* 18 */ NNSSndSeqPlayer **mUnk_18;
+    /* 18 */ NNSSndSeqPlayer **mKartStarSeqPlayer;
 } SoundModeHolder;
 
 // Object at gSeqRowState (0x10 bytes); mUnk_08 points to a row of six words.
@@ -237,7 +237,7 @@ typedef struct SelectCupGrid {
     /* 14 */ LayoutEntryTable *mSelectCupSBnbl;
     /* 18 */ LayoutTableEntry *mSelectCupMTable;
     /* 1c */ LayoutTableEntry *mSelectCupSTable;
-    /* 20 */ void *mUnk_20;
+    /* 20 */ void *mSecondScreenMapBuffer;
     /* 24 */ struct Bmg *mCommonMessages;
     /* 28 */ struct Bmg *mMenuMessages;
     /* 2c */ void *mHeap;
@@ -252,7 +252,7 @@ typedef struct SelectCupGrid {
     // GetSelectCupGridCupEnabled; a disabled cup shows its other cells, plays the error sound when touched and is
     // skipped by the direction keys.
     /* 48 */ s32 mCupsEnabled[8];
-    /* 68 */ BOOL mUnk_68;
+    /* 68 */ BOOL mHighlightShown;
     // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupGridIndexChange sets 7 when mIndex differs from
     // mShownIndex, rebuilds the cells at 7 and moves them while it runs; IsSelectCupGridIndexChangeRunning tells
     // whether it is non-zero.
@@ -292,7 +292,7 @@ typedef struct SelectCupCourse {
     // *(vu16
     // *) 0x027ffc40 != 2
     /* 20 */ LayoutTableEntry *mSelectCupMTable;
-    /* 24 */ void *mUnk_24;
+    /* 24 */ void *mSecondScreenMapBuffer;
     /* 28 */ struct Bmg *mCommonMessages;
     /* 2c */ void *mGhostMessages;
     /* 30 */ void *mHeap;
@@ -341,7 +341,7 @@ typedef struct SelectRaceRule {
     // Messages of rule.bmg.
     /* 1c */ struct Bmg *mRuleMessages;
     /* 20 */ struct Nscr *mNscr; /* multi_simple_s (mMode == 3) or s_menu, two files */
-    /* 24 */ void *mUnk_24;
+    /* 24 */ void *mSecondScreenMapBuffer;
     /* 28 */ void *mHeap;
     /* 2c */ s32 mMode;
     /* 30 */ s32 mState;
@@ -449,7 +449,7 @@ typedef struct SelectCupM {
     /* 14 */ struct LayoutEntryTable *mSubBnll;
     /* 18 */ LayoutTableEntry *mMainTable;
     /* 1c */ LayoutTableEntry *mSubTable;
-    /* 20 */ void *mUnk_20;
+    /* 20 */ void *mSecondScreenMapBuffer;
     /* 24 */ struct Bmg *mCommonMessages;
     /* 28 */ void *mHeap;
     /* 2c */ s32 mState;
@@ -459,8 +459,8 @@ typedef struct SelectCupM {
     /* 3c */ s32 mBg0Offset;
     /* 40 */ s32 mBg3Offset;
     /* 44 */ u8 mUnk_44[0x04];
-    /* 48 */ void *mUnk_48;
-    /* 4c */ void *mUnk_4c;
+    /* 48 */ void *mMainOam;
+    /* 4c */ void *mSubOam;
     /* 50 */ s32 mUnk_50;
 } SelectCupM;
 
@@ -490,10 +490,10 @@ typedef struct SceneText {
 
 // Objects of 0x10 bytes passed first to DrawTextInRectNoFixedAdvance; member 0x00 points to one Unk02023374.
 typedef struct Unk0217d3f0_2178 {
-    /* 00 */ Unk02023374 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ Unk02023374 *mCharCanvas;
+    /* 04 */ u32 mFont;
+    /* 08 */ u32 mCharSpacing;
+    /* 0c */ u32 mLineSpacing;
 } Unk0217d3f0_2178;
 
 // Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
@@ -529,7 +529,7 @@ typedef struct TxtSystem {
     /* 2088 */ u32 mBlendEv1[2];
     /* 2090 */ u32 mBlendEv2[2];
     /* 2098 */ Unk02023374 mCharCanvases[7];
-    /* 2178 */ Unk0217d3f0_2178 mUnk_2178[7];
+    /* 2178 */ Unk0217d3f0_2178 mTextCanvases[7];
     /* 21e8 */ void *mCharBuffers[7];
     /* 2204 */ u32 mCanvasInUse[7];
     /* 2220 */ u32 mCanvasFileCharIndex[7];

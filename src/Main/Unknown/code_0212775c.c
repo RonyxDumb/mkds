@@ -386,10 +386,10 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         charCanvas->mUnk_18(charCanvas, 0);
         charSpacing = IsLanguageJa();
         textCanvas = &gSelectChoises->mTextCanvases[i];
-        textCanvas->mUnk_00 = &gSelectChoises->mCharCanvases[i];
-        textCanvas->mUnk_04 = (u32) font;
-        textCanvas->mUnk_08 = charSpacing;
-        textCanvas->mUnk_0c = 0;
+        textCanvas->mCharCanvas = &gSelectChoises->mCharCanvases[i];
+        textCanvas->mFont = (u32) font;
+        textCanvas->mCharSpacing = charSpacing;
+        textCanvas->mLineSpacing = 0;
     }
     ClearSelectChoisesUseCharBuffers();
     gSelectChoises->mEnabled = 1;

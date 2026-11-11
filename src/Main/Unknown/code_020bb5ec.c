@@ -73,7 +73,7 @@ void UpdateRaceTimeDigits(void) {
         }
         if ((data_0217c780 & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            if (data_0217d084.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -91,7 +91,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[1] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            if (data_0217d084.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -109,7 +109,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[2] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            if (data_0217d084.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -127,7 +127,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[3] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            if (data_0217d084.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -145,7 +145,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[4] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            if (data_0217d084.mSeqStartEnabled != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }

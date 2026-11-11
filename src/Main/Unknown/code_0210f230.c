@@ -99,7 +99,7 @@ void ApplyCourseSoundTableEntry(s32 a) {
         if ((data_0217c780 & 1) == 0) {
             return;
         }
-        if (data_0217d084.mUnk_0c == 0) {
+        if (data_0217d084.mSeqStartEnabled == 0) {
             return;
         }
         if (*handle != NULL) {
@@ -141,7 +141,7 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
     }
     if (ok != 0) {
         if ((data_0217c780 & 1) != 0) {
-            if (data_0217d084.mUnk_0c != 0) {
+            if (data_0217d084.mSeqStartEnabled != 0) {
                 if (*handle != NULL) {
                     NNS_SndPlayerStopSeq(handle, 0);
                 }
@@ -180,7 +180,7 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     if (ok != 0) {
         if (*handle == NULL) {
             if ((data_0217c780 & 1) != 0) {
-                if (data_0217d084.mUnk_0c != 0) {
+                if (data_0217d084.mSeqStartEnabled != 0) {
                     if (*handle != NULL) {
                         NNS_SndPlayerStopSeq(handle, 0);
                     }

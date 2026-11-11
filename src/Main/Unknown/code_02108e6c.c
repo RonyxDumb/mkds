@@ -44,7 +44,7 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
             return;
         }
         playingSound = TakeSoundHandleEntry(&data_0217c7c4);
-        if (data_0217d084.mUnk_0c == 0) {
+        if (data_0217d084.mSeqStartEnabled == 0) {
             return;
         }
         if (playingSound->mSeqPlayer != NULL) {

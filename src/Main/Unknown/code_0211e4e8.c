@@ -66,7 +66,7 @@ void LocateAndQueueSelectCupM(void) {
     LocateNcgr(&h, FindSceneFile(gSelectCupMBNcgrName3));
     LocateNclr(&j, FindSceneFile(gSelectCupMBNclrName3));
     LocateNscr(&i, FindSceneFile(gSelectCupMNscrName3));
-    gSelectCupM->mUnk_20 = HeapAlloc(gSelectCupM->mHeap, 0x800);
+    gSelectCupM->mSecondScreenMapBuffer = HeapAlloc(gSelectCupM->mHeap, 0x800);
     gSelectCupM->mMainBncl = FindSceneFile(gSelectCupMBnclName3);
     gSelectCupM->mMainBnll = FindSceneFile(gSelectCupMBnllName3);
     LocateNcgr2(&a, FindSceneFile(gSelectCupMNcgrName3));
@@ -82,13 +82,13 @@ void LocateAndQueueSelectCupM(void) {
         NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x140);
         NNS_GfdRegisterNewVramTransferTask(8, 0, f->mData, f->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupM->mUnk_20, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupM->mSecondScreenMapBuffer, 0x800);
     }
     if (!(GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd)) {
         NNS_GfdRegisterNewVramTransferTask(0x17, 0, h->mData, h->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(0x1f, 0, j->mData, 0x140);
         NNS_GfdRegisterNewVramTransferTask(0x1b, 0, i->mData, i->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupM->mUnk_20, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupM->mSecondScreenMapBuffer, 0x800);
     }
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
@@ -242,8 +242,8 @@ void StartSelectCupMState1(void) {
     }
 }
 
-void InitSelectCupM(void *a, void *b, void *c) {
-    void *p;
+void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
+    void *heap;
     s32 i;
     s32 m;
 
@@ -251,12 +251,12 @@ void InitSelectCupM(void *a, void *b, void *c) {
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8300;
-    p = CreateFrmHeapFromMaxFree(a);
-    gSelectCupM = HeapAlloc(p, 0x54);
-    gSelectCupM->mHeap = p;
+    heap = CreateFrmHeapFromMaxFree(parentHeap);
+    gSelectCupM = HeapAlloc(heap, 0x54);
+    gSelectCupM->mHeap = heap;
     gSelectCupM->mCupPicturePending = FALSE;
-    gSelectCupM->mUnk_48 = b;
-    gSelectCupM->mUnk_4c = c;
+    gSelectCupM->mMainOam = mainOamList;
+    gSelectCupM->mSubOam = subOamList;
     gSelectCupM->mUnk_50 = 0;
     if (GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd) {
         gSelectCupM->mState = 1;
@@ -282,7 +282,7 @@ void InitSelectCupM(void *a, void *b, void *c) {
         }
         CreateSelectCupNameM(gSelectCupM->mHeap);
     } else {
-        InitSelectRaceRuleWait(gSelectCupM->mHeap, gSelectCupM->mUnk_4c);
+        InitSelectRaceRuleWait(gSelectCupM->mHeap, gSelectCupM->mSubOam);
         PlaceSelectRaceRuleWait();
     }
     InitSelectCupMCellsAndRequestCupPicture();
@@ -392,10 +392,10 @@ void AdvanceSelectCupMState1(void) {
 
 s32 AdvanceSelectCupM(void) {
     s32 i;
-    u16 *p;
-    s32 n;
-    s32 a;
-    s32 b;
+    u16 *cupPictureScreenMap;
+    s32 screenMapIndex;
+    s32 transferKind;
+    s32 transferSize;
 
     gSelectCupM->mState = gSelectCupM->mNextState;
     switch (gSelectCupM->mState) {
@@ -408,27 +408,29 @@ s32 AdvanceSelectCupM(void) {
     }
     if (gBootInfo->mUnk_00 != 2) {
         if (gSelectCupM->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
-            p = GetCupPictureNscrData();
+            cupPictureScreenMap = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);
             NNS_GfdRegisterNewVramTransferTask(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
-            a = 8;
-            b = 0x14;
+            transferKind = 8;
+            transferSize = 0x14;
             for (i = 0; i < 0xb; i++) {
-                n = ((i + 8) << 5) + 0x16;
-                NNS_GfdRegisterNewVramTransferTask(a, n << 1, p + n, b);
+                screenMapIndex = ((i + 8) << 5) + 0x16;
+                NNS_GfdRegisterNewVramTransferTask(transferKind, screenMapIndex << 1,
+                                                   cupPictureScreenMap + screenMapIndex, transferSize);
             }
             NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
             NNS_GfdRegisterNewVramTransferTask(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
-            a = 0x1b;
+            transferKind = 0x1b;
             for (i = 0; i < 0xb; i++) {
-                n = ((i + 8) << 5) + 0x16;
-                NNS_GfdRegisterNewVramTransferTask(a, n << 1, p + n, b);
+                screenMapIndex = ((i + 8) << 5) + 0x16;
+                NNS_GfdRegisterNewVramTransferTask(transferKind, screenMapIndex << 1,
+                                                   cupPictureScreenMap + screenMapIndex, transferSize);
             }
             gSelectCupM->mCupPicturePending = FALSE;
         }
-        DrawLayoutTable(gSelectCupM->mMainBncl, gSelectCupM->mMainNcer, gSelectCupM->mMainBnll, gSelectCupM->mUnk_48,
+        DrawLayoutTable(gSelectCupM->mMainBncl, gSelectCupM->mMainNcer, gSelectCupM->mMainBnll, gSelectCupM->mMainOam,
                         gSelectCupM->mMainTable);
-        DrawLayoutTable(gSelectCupM->mSubBncl, gSelectCupM->mSubNcer, gSelectCupM->mSubBnll, gSelectCupM->mUnk_4c,
+        DrawLayoutTable(gSelectCupM->mSubBncl, gSelectCupM->mSubNcer, gSelectCupM->mSubBnll, gSelectCupM->mSubOam,
                         gSelectCupM->mSubTable);
     } else {
         AdvanceSelectRaceRuleWait();

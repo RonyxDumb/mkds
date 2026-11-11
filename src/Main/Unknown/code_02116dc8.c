@@ -26,7 +26,7 @@ void LoadWaitData(void) {
 
 void CreateWait(void *heap, Unk02021dc8 *destinationNcer, LayoutEntryTable *destinationBncl, u32 destinationBnclIndex,
                 u16 paletteIndex, u32 f) {
-    Wait *v1;
+    Wait *wait;
     Wait *newWait;
     void *sceneFile;
     newWait = HeapAlloc(heap, 0x2c);
@@ -43,7 +43,7 @@ void CreateWait(void *heap, Unk02021dc8 *destinationNcer, LayoutEntryTable *dest
     gWait->mDestinationBncl = destinationBncl;
     gWait->mDestinationBnclIndex = destinationBnclIndex;
     gWait->mPaletteIndex = paletteIndex;
-    gWait->mUnk_20 = f;
+    gWait->mQueueSelector = f;
     gWait->mFrameIndex = 2;
     gWait->mFrameIndexFrames = 3;
 }

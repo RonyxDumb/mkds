@@ -12,8 +12,8 @@
 const u16 gWaitBnclIndices[4] = {0, 1, 2, 0};
 
 void AdvanceWait(void) {
-    u16 *q;
-    Wait *p;
+    u16 *paletteData;
+    Wait *wait;
 
     gWait->mFrameIndexFrames++;
     if (gWait->mFrameIndexFrames >= 4) {
@@ -22,16 +22,17 @@ void AdvanceWait(void) {
             gWait->mFrameIndex = 0;
         }
         gWait->mFrameIndexFrames = 0;
-        QueueCellChars(gWaitBnclIndices[gWait->mFrameIndex], gWait->mNcer, gWait->mNcgr, gWait->mBncl, gWait->mUnk_20,
-                       gWait->mDestinationBnclIndex, gWait->mDestinationNcer, gWait->mDestinationBncl);
-        p = gWait;
-        q = p->mNclr->mData;
-        switch (p->mUnk_20) {
+        QueueCellChars(gWaitBnclIndices[gWait->mFrameIndex], gWait->mNcer, gWait->mNcgr, gWait->mBncl,
+                       gWait->mQueueSelector, gWait->mDestinationBnclIndex, gWait->mDestinationNcer,
+                       gWait->mDestinationBncl);
+        wait = gWait;
+        paletteData = wait->mNclr->mData;
+        switch (wait->mQueueSelector) {
             case 0:
-                NNS_GfdRegisterNewVramTransferTask(0xe, p->mPaletteIndex << 5, q + 0xe0, 0x20);
+                NNS_GfdRegisterNewVramTransferTask(0xe, wait->mPaletteIndex << 5, paletteData + 0xe0, 0x20);
                 break;
             case 1:
-                NNS_GfdRegisterNewVramTransferTask(0x1e, p->mPaletteIndex << 5, q + 0xe0, 0x20);
+                NNS_GfdRegisterNewVramTransferTask(0x1e, wait->mPaletteIndex << 5, paletteData + 0xe0, 0x20);
                 break;
         }
     }

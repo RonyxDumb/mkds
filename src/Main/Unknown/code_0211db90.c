@@ -75,7 +75,7 @@ void LocateAndQueueSelectRaceRule(void) {
     sceneFile = FindSceneFile(data_0216dbd8);
     LocateNclr(&bgPalette, sceneFile);
     sceneFile = HeapAlloc(gSelectRaceRule->mHeap, (0x00000800u));
-    gSelectRaceRule->mUnk_24 = sceneFile;
+    gSelectRaceRule->mSecondScreenMapBuffer = sceneFile;
     sceneFile = FindSceneFile(data_0216dbf8);
     LocateNcgr2(&cellChars, sceneFile);
     sceneFile = FindSceneFile(data_0216dc04);
@@ -84,7 +84,7 @@ void LocateAndQueueSelectRaceRule(void) {
     LocateNclr(&gSelectRaceRule->mNclr, sceneFile);
     NNS_GfdRegisterNewVramTransferTask(0x14, 0, bgChars->mData, bgChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gSelectRaceRule->mNscr->mData, gSelectRaceRule->mNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gSelectRaceRule->mUnk_24, (0x00000800u));
+    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gSelectRaceRule->mSecondScreenMapBuffer, (0x00000800u));
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0, bgPalette->mData, 0x80);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, cellChars->mData, cellChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectRaceRule->mNclr->mData, gSelectRaceRule->mNclr->mDataSize);

@@ -719,7 +719,7 @@ void EnterItemKouraWState7(ItemKouraW *item) {
     StartItemObjectSoundIfNear(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0xdf);
     if (data_0217c780 & 1) {
         sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-        if (data_0217d084.mUnk_0c != 0) {
+        if (data_0217d084.mSeqStartEnabled != 0) {
             if (*sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(sndHandle, 0);
             }

@@ -133,7 +133,7 @@ void UpdateSelectCupGridCupCells(void) {
                 gSelectCupGrid->mSelectCupSTable[cellIndices[3]].mVisible = 1;
                 gSelectCupGrid->mSelectCupSTable[cellIndices[5]].mVisible = 1;
             } else {
-                if (gSelectCupGrid->mIndex == i && gSelectCupGrid->mUnk_68 != FALSE) {
+                if (gSelectCupGrid->mIndex == i && gSelectCupGrid->mHighlightShown != FALSE) {
                     gSelectCupGrid->mSelectCupSTable[cellIndices[2]].mVisible = 1;
                 } else {
                     gSelectCupGrid->mSelectCupSTable[cellIndices[1]].mVisible = 1;
@@ -493,7 +493,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     gSelectCupGrid->mHeap = heap;
     gSelectCupGrid->mState = 0;
     gSelectCupGrid->mIndex = gSelectCupGridIndicesByCup[GetCupIndex()];
-    gSelectCupGrid->mUnk_68 = TRUE;
+    gSelectCupGrid->mHighlightShown = TRUE;
     gSelectCupGrid->mIndexChangeTimer = 0;
     gSelectCupGrid->mMode = mode;
     gSelectCupGrid->mShownIndex = gSelectCupGrid->mIndex;
@@ -738,7 +738,7 @@ L2:
             return;
         }
         if (gSelectCupGrid->mIndex == touchedCupIndex) {
-            gSelectCupGrid->mUnk_68 = FALSE;
+            gSelectCupGrid->mHighlightShown = FALSE;
         }
         gSelectCupGrid->mIndex = touchedCupIndex;
         RequestSelectCupGridState4();
@@ -746,7 +746,7 @@ L2:
     }
     if ((u16) (inputSlot->mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectCupGridState4();
-        gSelectCupGrid->mUnk_68 = FALSE;
+        gSelectCupGrid->mHighlightShown = FALSE;
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
@@ -808,7 +808,7 @@ void AdvanceSelectCupGridState4(void) {
     AdvanceSelectCupGridIndexChange();
     AdvanceSelectCupGridShownCourse();
     if (gSelectCupGrid->mStateFrames == 5) {
-        gSelectCupGrid->mUnk_68 = TRUE;
+        gSelectCupGrid->mHighlightShown = TRUE;
     }
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gSelectCupGrid->mStateFrames >= 10 && IsSelectCupGridIndexChangeRunning() == 0) {

@@ -884,7 +884,7 @@ void EnterJgState4(void) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (data_0217d084.mUnk_0c == 0) {
+    if (data_0217d084.mSeqStartEnabled == 0) {
         return;
     }
     if (*seqPlayer != NULL) {

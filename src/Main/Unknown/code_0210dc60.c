@@ -6,5 +6,5 @@ void SetupSoundMode(SoundModeHolder *modeHolder, ScenePlayers *scenePlayers, u32
     modeHolder->mUnk_14 = p2;
     modeHolder->mScenePlayers = scenePlayers;
     modeHolder->mSavedMode = 0;
-    modeHolder->mUnk_18 = NULL;
+    modeHolder->mKartStarSeqPlayer = NULL;
 }

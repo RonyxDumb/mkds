@@ -769,7 +769,7 @@ void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo seqInfo, Sc
     sceneSoundState->mRankSeqFrames = -1;
     sceneSoundState->mVolumesLowered = 0;
     InitScenePlayers(&data_0217d070, sceneSoundState, sceneSoundRowIndex, seqInfo);
-    data_0217d084.mUnk_18 = &gSceneSoundState.mKartStarSeq;
+    data_0217d084.mKartStarSeqPlayer = &gSceneSoundState.mKartStarSeq;
     SetSoundMode(&data_0217d084, 0);
 }
 
@@ -840,7 +840,7 @@ void StartSceneSounds(void) {
             NNS_SndPlayerStopSeq(&data_0217c854, 0);
             seqHandle = &data_0217c854;
             if ((data_0217c780 & 1) != 0) {
-                if (data_0217d084.mUnk_0c != 0) {
+                if (data_0217d084.mSeqStartEnabled != 0) {
                     if (*seqHandle != NULL) {
                         NNS_SndPlayerStopSeq(seqHandle, 0);
                     }
@@ -923,7 +923,7 @@ void StartRaceSounds(void) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (data_0217d084.mUnk_0c == 0) {
+    if (data_0217d084.mSeqStartEnabled == 0) {
         return;
     }
     if (*handle != NULL) {
@@ -1037,7 +1037,7 @@ void AdvanceSceneSoundLap(void) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (data_0217d084.mUnk_0c == 0) {
+    if (data_0217d084.mSeqStartEnabled == 0) {
         return;
     }
     if (*seqHandle != NULL) {
@@ -1114,7 +1114,7 @@ void SetSceneSoundRank(u32 rankIndex) {
                 NNS_SndPlayerStopSeq(&data_0217c854, 0);
                 seqHandle = &data_0217c854;
                 if (data_0217c780 & 1) {
-                    if (data_0217d084.mUnk_0c != 0) {
+                    if (data_0217d084.mSeqStartEnabled != 0) {
                         if (*seqHandle != NULL) {
                             NNS_SndPlayerStopSeq(seqHandle, 0);
                         }
@@ -1318,7 +1318,7 @@ void UpdateCourseSeqAtSceneFrames(void) {
     if ((data_0217c780 & 2) == 0) {
         return;
     }
-    if (data_0217d084.mUnk_0c == 0) {
+    if (data_0217d084.mSeqStartEnabled == 0) {
         return;
     }
     if (*seqHandle != NULL) {

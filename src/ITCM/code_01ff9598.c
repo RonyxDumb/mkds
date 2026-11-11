@@ -115,7 +115,7 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
             if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                 if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW && (data_0217c780 & 1)) {
                     soundHandleEntry = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                    if (data_0217d084.mUnk_0c != 0) {
+                    if (data_0217d084.mSeqStartEnabled != 0) {
                         if (*(u32 *) soundHandleEntry != 0) {
                             NNS_SndPlayerStopSeq(soundHandleEntry, 0);
                         }

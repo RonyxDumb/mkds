@@ -523,7 +523,7 @@ u16 AdvanceShineBattleTimeLimit(void) {
     }
     if (data_0217c780 & 1) {
         seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-        if (data_0217d084.mUnk_0c != 0) {
+        if (data_0217d084.mSeqStartEnabled != 0) {
             if (seqPlayerHandle[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
             }

@@ -121,7 +121,7 @@ void UpdateBouncingItemBoxTimers(void) {
             gBouncingItemBoxTimerRunning[kartIndex] = 0;
             if (kartIndex == gRaceSetup->mEntryIndex && (data_0217c780 & 1)) {
                 sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                if (data_0217d084.mUnk_0c != 0) {
+                if (data_0217d084.mSeqStartEnabled != 0) {
                     if (sndHandle[0] != NULL) {
                         NNS_SndPlayerStopSeq(sndHandle, 0);
                     }

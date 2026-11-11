@@ -58,7 +58,7 @@ void UpdateSoundSources(void) {
     NNSFndList *secondUpdateList;
     SoundSource *source;
 
-    if (data_0217d084.mUnk_10 == 0) {
+    if (data_0217d084.mSoundsEnabled == 0) {
         return;
     }
     if (data_0217d020 != 0) {

@@ -279,7 +279,7 @@ void LocateAndQueueSelectCupCourse(void) {
     LocateNcgr(&fixedChars, FindSceneFile(data_0216d874));
     LocateNclr(&fixedPalette, FindSceneFile(data_0216d854));
     LocateNscr(&fixedScreenMap, FindSceneFile(data_0216d858));
-    gSelectCupCourse->mUnk_24 = HeapAlloc(gSelectCupCourse->mHeap, 0x800);
+    gSelectCupCourse->mSecondScreenMapBuffer = HeapAlloc(gSelectCupCourse->mHeap, 0x800);
     if (gSelectCupCourse->mMode == 0) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(data_0216d880);
         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(data_0216d89c);
@@ -300,12 +300,12 @@ void LocateAndQueueSelectCupCourse(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, modeChars->mData, modeChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, modePalette->mData, 0x140);
     NNS_GfdRegisterNewVramTransferTask(8, 0, modeScreenMap->mData, modeScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupCourse->mUnk_24, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupCourse->mSecondScreenMapBuffer, 0x800);
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
         NNS_GfdRegisterNewVramTransferTask(0x17, 0, fixedChars->mData, fixedChars->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(0x1f, 0, fixedPalette->mData, 0x140);
         NNS_GfdRegisterNewVramTransferTask(0x1b, 0, fixedScreenMap->mData, fixedScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupCourse->mUnk_24, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupCourse->mSecondScreenMapBuffer, 0x800);
     }
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, courseCellChars->mData, courseCellChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, courseCellPalette->mData, 0x1a0);

@@ -68,10 +68,10 @@ void ClearTxtSystemCanvasInUse(void) {
 }
 
 static inline void InitTxtSystemTextCanvas(Unk0217d3f0_2178 *textCanvas, Unk02023374 *charCanvas, u32 font) {
-    textCanvas->mUnk_00 = charCanvas;
-    textCanvas->mUnk_04 = font;
-    textCanvas->mUnk_08 = 1;
-    textCanvas->mUnk_0c = 1;
+    textCanvas->mCharCanvas = charCanvas;
+    textCanvas->mFont = font;
+    textCanvas->mCharSpacing = 1;
+    textCanvas->mLineSpacing = 1;
 }
 
 s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
@@ -102,7 +102,7 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
                                        gTxtSystemCanvasSizes[i][0], gTxtSystemCanvasSizes[i][1], 4);
             charCanvas = &gTxtSystem->mCharCanvases[i];
             charCanvas->mUnk_18(charCanvas, 0);
-            InitTxtSystemTextCanvas(&gTxtSystem->mUnk_2178[i], &gTxtSystem->mCharCanvases[i], args->mFont);
+            InitTxtSystemTextCanvas(&gTxtSystem->mTextCanvases[i], &gTxtSystem->mCharCanvases[i], args->mFont);
         }
     }
     ClearTxtSystemCanvasInUse();
@@ -653,7 +653,7 @@ void SetupTxtSystemMainTextEx(void *text, s32 mainBlendPlanes, s32 subBlendPlane
 
     charCanvas = &gTxtSystem->mCharCanvases[0];
     charCanvas->mUnk_18(charCanvas, 0xf);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
+    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
                                  gTxtSystemCanvasSizes[0][1] << 3, 1, 0x480, 1, text);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[0] = 1;
@@ -674,7 +674,7 @@ void SetupTxtSystemMainTextShort(void *text, u32 mainBlendPlanes, u32 subBlendPl
 
     charCanvas = &gTxtSystem->mCharCanvases[1];
     charCanvas->mUnk_18(charCanvas, 0xf);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mUnk_2178[1], 0, 0, gTxtSystemCanvasSizes[1][0] << 3,
+    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[1], 0, 0, gTxtSystemCanvasSizes[1][0] << 3,
                                  gTxtSystemCanvasSizes[1][1] << 3, 1, 0x480, 1, text);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[1] = 1;
@@ -709,9 +709,9 @@ void SetupTxtSystemMainTextButtonEx(void *text, void *buttonText, u32 mainBlendP
     charCanvas->mUnk_18(charCanvas, 0xf);
     charCanvas = &gTxtSystem->mCharCanvases[4];
     charCanvas->mUnk_18(charCanvas, 0xe);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
+    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
                                  gTxtSystemCanvasSizes[0][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mUnk_2178[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3,
+    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3,
                          gTxtSystemCanvasSizes[4][1] << 3, 2, 0x480, 1, buttonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[0] = 1;
@@ -743,11 +743,11 @@ void SetupTxtSystemMainTextTwoButtonsEx(void *text, void *buttonText, void *seco
     charCanvas->mUnk_18(charCanvas, 0xe);
     charCanvas = &gTxtSystem->mCharCanvases[6];
     charCanvas->mUnk_18(charCanvas, 0xd);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
+    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3,
                                  gTxtSystemCanvasSizes[0][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mUnk_2178[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3,
+    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3,
                          gTxtSystemCanvasSizes[5][1] << 3, 2, 0x480, 1, buttonText);
-    DrawButtonTextInRect(&gTxtSystem->mUnk_2178[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3,
+    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3,
                          gTxtSystemCanvasSizes[6][1] << 3, 2, 0x480, 1, secondButtonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[0] = 1;
@@ -783,7 +783,7 @@ void SetupTxtSystemSubTextEx(void *text, u32 mainBlendPlanes, u32 subBlendPlanes
 
     charCanvas = &gTxtSystem->mCharCanvases[2];
     charCanvas->mUnk_18(charCanvas, 0xf);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
+    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
                                  gTxtSystemCanvasSizes[2][1] << 3, 1, 0x480, 1, text);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[2] = 1;
@@ -819,9 +819,9 @@ void SetupTxtSystemSubTextButtonEx(void *text, void *buttonText, u32 mainBlendPl
     charCanvas->mUnk_18(charCanvas, 0xf);
     charCanvas = &gTxtSystem->mCharCanvases[4];
     charCanvas->mUnk_18(charCanvas, 0xe);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
+    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
                                  gTxtSystemCanvasSizes[2][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mUnk_2178[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3,
+    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3,
                          gTxtSystemCanvasSizes[4][1] << 3, 2, 0x480, 1, buttonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[2] = 1;
@@ -852,11 +852,11 @@ void SetupTxtSystemSubTextTwoButtonsEx(void *text, void *buttonText, void *secon
     charCanvas->mUnk_18(charCanvas, 0xe);
     charCanvas = &gTxtSystem->mCharCanvases[6];
     charCanvas->mUnk_18(charCanvas, 0xd);
-    DrawTextInRectNoFixedAdvance(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
+    DrawTextInRectNoFixedAdvance(&gTxtSystem->mTextCanvases[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3,
                                  gTxtSystemCanvasSizes[2][1] << 3, 1, 0x480, 1, text);
-    DrawButtonTextInRect(&gTxtSystem->mUnk_2178[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3,
+    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3,
                          gTxtSystemCanvasSizes[5][1] << 3, 2, 0x480, 1, buttonText);
-    DrawButtonTextInRect(&gTxtSystem->mUnk_2178[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3,
+    DrawButtonTextInRect(&gTxtSystem->mTextCanvases[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3,
                          gTxtSystemCanvasSizes[6][1] << 3, 2, 0x480, 1, secondButtonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[2] = 1;
