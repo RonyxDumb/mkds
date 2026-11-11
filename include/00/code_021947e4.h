@@ -6,11 +6,11 @@
 // object to DWCi_GsFree.
 typedef struct GpiBuddyStatus {
     /* 00 */ s32 mIndex;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 04 */ s32 mStatus;
+    /* 08 */ void *mStatusString;
+    /* 0c */ void *mLocationString;
+    /* 10 */ u32 mIp;
+    /* 14 */ s32 mPort;
 } GpiBuddyStatus;
 
 // Object behind the pointer whose address GpiWriteDelbuddyAndRemoveBuddy passes to GpiFindProfile; GpiIsProfileEmpty

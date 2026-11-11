@@ -22,11 +22,11 @@ typedef struct Unk02188ee0 {
 // Entries of 0x24 bytes at 0x300 of ACWORK.
 typedef struct ACSL {
     /* 00 */ u8 mUnk_00_lo : 4;
-    /* 00 */ u8 mUnk_00_hi : 4;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u8 mUnk_04[0x20];
+    /* 00 */ u8 mDuplicateMatch : 4;
+    /* 01 */ u8 mApType;
+    /* 02 */ u8 mChannel;
+    /* 03 */ u8 mSsidLength;
+    /* 04 */ u8 mSsid[0x20];
 } ACSL;
 
 // Entries of 4 bytes at 0x444 of ACWORK.

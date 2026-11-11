@@ -137,12 +137,12 @@ void DWCi_AC_SearchReStart(u32 phase) {
             break;
         case 4:
             work->mTimeOut = OS_GetTick();
-            ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04,
-                      work->mSearchList[work->mSearchListNo].mUnk_02, 0x300000);
+            ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
+                      work->mSearchList[work->mSearchListNo].mChannel, 0x300000);
             break;
         case 5:
             work->mTimeOut = OS_GetTick();
-            ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04, work->mSearchChannel, 0x300000);
+            ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);
             break;
     }
 }
@@ -185,8 +185,8 @@ u32 SearchDifferChannel(ACWORK *work) {
             return NextSearchCheck(work, 4);
         }
         work->mTimeOut = OS_GetTick();
-        ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04,
-                  work->mSearchList[work->mSearchListNo].mUnk_02, 0x300000);
+        ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
+                  work->mSearchList[work->mSearchListNo].mChannel, 0x300000);
     }
     return 4;
 }
@@ -206,7 +206,7 @@ u32 SearchStealth(ACWORK *work) {
             return NextSearchCheck(work, 5);
         }
         work->mTimeOut = OS_GetTick();
-        ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mUnk_04, work->mSearchChannel, 0x300000);
+        ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);
     }
     return 5;
 }

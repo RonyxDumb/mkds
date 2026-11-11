@@ -23,9 +23,9 @@ u8 MakeAroundList(ACWORK *work) {
     num = MakeUserList(work);
     list += num;
     if (work->mConnectType == 0 || work->mConnectType == 6) {
-        MI_CpuCopy8(gFreespotSsid, list->mUnk_04, 8);
-        list->mUnk_03 = 8;
-        list->mUnk_01 = 8;
+        MI_CpuCopy8(gFreespotSsid, list->mSsid, 8);
+        list->mSsidLength = 8;
+        list->mApType = 8;
         num++;
     }
     return num;
@@ -39,23 +39,23 @@ u8 MakeStealthList(ACWORK *work) {
     num = MakeUserList(work);
     list += num;
     if (work->mConnectType == 0 || work->mConnectType == 4) {
-        MI_CpuCopy8(data_ov000_021b20d0, list->mUnk_04, 8);
-        list->mUnk_03 = 8;
-        list->mUnk_01 = 6;
+        MI_CpuCopy8(data_ov000_021b20d0, list->mSsid, 8);
+        list->mSsidLength = 8;
+        list->mApType = 6;
         num++;
         list++;
     }
     if (work->mConnectType == 0 || work->mConnectType == 7) {
-        MI_CpuCopy8(gWayportSsid, list->mUnk_04, 8);
-        list->mUnk_03 = 8;
-        list->mUnk_01 = 9;
+        MI_CpuCopy8(gWayportSsid, list->mSsid, 8);
+        list->mSsidLength = 8;
+        list->mApType = 9;
         num++;
         list++;
     }
     if (work->mConnectType == 0 || work->mConnectType == 8) {
-        MI_CpuCopy8(gNintendoWfcSsid, list->mUnk_04, 0xb);
-        list->mUnk_03 = 0xb;
-        list->mUnk_01 = 10;
+        MI_CpuCopy8(gNintendoWfcSsid, list->mSsid, 0xb);
+        list->mSsidLength = 0xb;
+        list->mApType = 10;
         num++;
     }
     return num;
@@ -79,11 +79,11 @@ u8 MakeUserList(ACWORK *work) {
                     if (info->mUnk_40[j] == 0) {
                         break;
                     }
-                    list->mUnk_04[j] = info->mUnk_40[j];
+                    list->mSsid[j] = info->mUnk_40[j];
                 }
                 if (j != 0) {
-                    list->mUnk_03 = j;
-                    list->mUnk_01 = i;
+                    list->mSsidLength = j;
+                    list->mApType = i;
                     hasName = TRUE;
                 } else {
                     hasName = FALSE;
@@ -97,11 +97,11 @@ u8 MakeUserList(ACWORK *work) {
                         if (info->mUnk_60[j] == 0) {
                             break;
                         }
-                        list->mUnk_04[j] = info->mUnk_60[j];
+                        list->mSsid[j] = info->mUnk_60[j];
                     }
                     if (j != 0) {
-                        list->mUnk_03 = j;
-                        list->mUnk_01 = i + 3;
+                        list->mSsidLength = j;
+                        list->mApType = i + 3;
                         hasName = TRUE;
                     } else {
                         hasName = FALSE;
@@ -132,10 +132,10 @@ u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, Unk0
                 if (bssDescs->mUnk_0c[j] == 0) {
                     break;
                 }
-                searchList->mUnk_04[j] = bssDescs->mUnk_0c[j];
+                searchList->mSsid[j] = bssDescs->mUnk_0c[j];
             }
-            searchList->mUnk_03 = j;
-            searchList->mUnk_02 = bssDescs->mUnk_36 - 1;
+            searchList->mSsidLength = j;
+            searchList->mChannel = bssDescs->mUnk_36 - 1;
             searchList++;
             num++;
         }

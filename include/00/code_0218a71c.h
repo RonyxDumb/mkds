@@ -4,7 +4,7 @@
 
 typedef struct GOACryptState {
     /* 000 */ u8 mCards[256];
-    /* 100 */ u8 mUnk_100[5];
+    /* 100 */ u8 mRegisterBytes[5];
 } GOACryptState;
 
 u8 GOADecryptByte(GOACryptState *state, u8 byte);

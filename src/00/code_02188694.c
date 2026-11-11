@@ -14,9 +14,9 @@ void *DWCi_AC_Alloc(u8 name, u32 size) {
     ACHOLD *hold;
     void *block;
     hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
-    if ((hold->mUnk_08 & name) == 0) {
-        hold->mUnk_08 = hold->mUnk_08 | name;
-        block = hold->mUnk_00(name, size);
+    if ((hold->mAllocState & name) == 0) {
+        hold->mAllocState = hold->mAllocState | name;
+        block = hold->mAlloc(name, size);
         return block;
     }
     return NULL;
@@ -24,8 +24,8 @@ void *DWCi_AC_Alloc(u8 name, u32 size) {
 
 void DWCi_AC_Free(u8 name, void *ptr, u32 size) {
     ACHOLD *hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
-    if ((hold->mUnk_08 & name) != 0) {
-        hold->mUnk_08 = hold->mUnk_08 & ~name;
-        hold->mUnk_04(name, (u32) ptr, size);
+    if ((hold->mAllocState & name) != 0) {
+        hold->mAllocState = hold->mAllocState & ~name;
+        hold->mFree(name, (u32) ptr, size);
     }
 }

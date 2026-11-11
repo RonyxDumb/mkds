@@ -154,13 +154,13 @@ u8 GetConnectType(ACWORK *work) {
             }
         }
         for (i = 0; i < work->mSearchListNum; i++) {
-            if (bssDesc->mUnk_0a == work->mSearchList[i].mUnk_03 &&
-                strncmp((const char *) bssDesc->mUnk_0c, (const char *) work->mSearchList[i].mUnk_04,
-                        bssDesc->mUnk_0a) == 0) {
+            if (bssDesc->mUnk_0a == work->mSearchList[i].mSsidLength &&
+                strncmp((const char *) bssDesc->mUnk_0c, (const char *) work->mSearchList[i].mSsid, bssDesc->mUnk_0a) ==
+                    0) {
                 if (matchCount == 0) {
-                    apType = work->mSearchList[i].mUnk_01;
+                    apType = work->mSearchList[i].mApType;
                 } else {
-                    work->mSearchList[i].mUnk_00_hi = 1;
+                    work->mSearchList[i].mDuplicateMatch = 1;
                     work->mDuplicateFlag = 1;
                 }
                 matchCount++;
@@ -170,10 +170,10 @@ u8 GetConnectType(ACWORK *work) {
         i = apType;
         matchCount = apType;
         for (; i < work->mSearchListNum; i++) {
-            if (work->mSearchList[i].mUnk_00_hi == 1) {
+            if (work->mSearchList[i].mDuplicateMatch == 1) {
                 if (matchCount == 0) {
-                    work->mSearchList[i].mUnk_00_hi = 0;
-                    apType = work->mSearchList[i].mUnk_01;
+                    work->mSearchList[i].mDuplicateMatch = 0;
+                    apType = work->mSearchList[i].mApType;
                 }
                 matchCount++;
             }

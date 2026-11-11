@@ -103,7 +103,7 @@ void RequestWayPaletteRowCopy(void) {
 void CreateAp(void) {
     Ap *apObject = AllocZeroedExpHeapBlock(0x20, 4);
     gAp = apObject;
-    apObject->mUnk_1d = 0;
+    apObject->mCloseKind = 0;
     LoadApFilesAndSetBgCnt();
     LoadHlScr(1);
     ShowSubScreenMessage(0x7b, -1, 0);
@@ -135,12 +135,13 @@ void CreateApEntryObjects(void) {
         if (entryStatus == 0xff) {
             entryStatus = 3;
         } else {
-            gAp->mUnk_10[i] = CreateOamRangeFromNceImage(0, 0x11, 1);
-            SetOamRangePosition(gAp->mUnk_10[i], -1, gApObjectPositions[i + 3].mX, gApObjectPositions[i + 3].mY);
-            SetOamRangePriority(gAp->mUnk_10[i], -1, 3);
+            gAp->mResetButtonObjects[i] = CreateOamRangeFromNceImage(0, 0x11, 1);
+            SetOamRangePosition(gAp->mResetButtonObjects[i], -1, gApObjectPositions[i + 3].mX,
+                                gApObjectPositions[i + 3].mY);
+            SetOamRangePriority(gAp->mResetButtonObjects[i], -1, 3);
         }
-        gAp->mUnk_04[i] = CreateOamRangeFromNceImage(0, gApEntryImageIndices[entryStatus], 1);
-        SetOamRangePosition(gAp->mUnk_04[i], -1, gApObjectPositions[i].mX, gApObjectPositions[i].mY);
-        SetOamRangePriority(gAp->mUnk_04[i], -1, 3);
+        gAp->mEntryIconObjects[i] = CreateOamRangeFromNceImage(0, gApEntryImageIndices[entryStatus], 1);
+        SetOamRangePosition(gAp->mEntryIconObjects[i], -1, gApObjectPositions[i].mX, gApObjectPositions[i].mY);
+        SetOamRangePriority(gAp->mEntryIconObjects[i], -1, 3);
     }
 }

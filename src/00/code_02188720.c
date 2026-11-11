@@ -240,11 +240,11 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     gAcHold = config->mUnk_00(1, 0x18);
     func_0214d018_inline(gAcHold, 0x18);
     hold = gAcHold;
-    hold->mUnk_00 = config->mUnk_00;
-    hold->mUnk_04 = config->mUnk_04;
-    hold->mUnk_09 = 1;
-    hold->mUnk_16 = 1;
-    hold->mUnk_08 = 1;
+    hold->mAlloc = config->mUnk_00;
+    hold->mFree = config->mUnk_04;
+    hold->mPhase = 1;
+    hold->mEndSequence = 1;
+    hold->mAllocState = 1;
     gAcWork = DWCi_AC_Alloc(0x10, 0xd18);
     gWcmBuffer = DWCi_AC_Alloc(2, 0x2300);
     gSocConfig = DWCi_AC_Alloc(4, 0x58);

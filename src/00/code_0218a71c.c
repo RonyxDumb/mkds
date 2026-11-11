@@ -30,11 +30,11 @@ u8 keyrand(GOACryptState *state, u32 limit, const u8 *keyBytes, u32 keyBytesLen,
 void GOAHashInit(GOACryptState *state) {
     s32 i;
     u32 card;
-    state->mUnk_100[0] = 1;
-    state->mUnk_100[1] = 3;
-    state->mUnk_100[2] = 5;
-    state->mUnk_100[3] = 7;
-    state->mUnk_100[4] = 11;
+    state->mRegisterBytes[0] = 1;
+    state->mRegisterBytes[1] = 3;
+    state->mRegisterBytes[2] = 5;
+    state->mRegisterBytes[3] = 7;
+    state->mRegisterBytes[4] = 11;
     i = 0;
     card = 255;
     for (; i < 256; i++, card--) {
@@ -63,11 +63,11 @@ void GOACryptInit(GOACryptState *state, const u8 *key, u32 keyBytesLen) {
         state->mCards[countdown] = state->mCards[swapPos];
         state->mCards[swapPos] = heldValue;
     }
-    state->mUnk_100[0] = state->mCards[1];
-    state->mUnk_100[1] = state->mCards[3];
-    state->mUnk_100[2] = state->mCards[5];
-    state->mUnk_100[3] = state->mCards[7];
-    state->mUnk_100[4] = state->mCards[runningSum];
+    state->mRegisterBytes[0] = state->mCards[1];
+    state->mRegisterBytes[1] = state->mCards[3];
+    state->mRegisterBytes[2] = state->mCards[5];
+    state->mRegisterBytes[3] = state->mCards[7];
+    state->mRegisterBytes[4] = state->mCards[runningSum];
     runningSum = 0;
     keyReadPos = 0;
 }
@@ -77,22 +77,22 @@ u8 GOADecryptByte(GOACryptState *state, u8 byte) {
     u8 heldValue;
     u8 frontByte;
     u32 partial;
-    rotor = state->mUnk_100[0];
-    state->mUnk_100[0] = rotor + 1;
-    state->mUnk_100[1] = state->mUnk_100[1] + state->mCards[rotor];
-    frontByte = state->mUnk_100[4];
+    rotor = state->mRegisterBytes[0];
+    state->mRegisterBytes[0] = rotor + 1;
+    state->mRegisterBytes[1] = state->mRegisterBytes[1] + state->mCards[rotor];
+    frontByte = state->mRegisterBytes[4];
     heldValue = state->mCards[frontByte];
-    state->mCards[frontByte] = state->mCards[state->mUnk_100[1]];
-    state->mCards[state->mUnk_100[1]] = state->mCards[state->mUnk_100[3]];
-    state->mCards[state->mUnk_100[3]] = state->mCards[state->mUnk_100[0]];
-    state->mCards[state->mUnk_100[0]] = heldValue;
-    state->mUnk_100[2] = state->mUnk_100[2] + state->mCards[heldValue];
-    partial = byte ^ state->mCards[(state->mCards[state->mUnk_100[2]] + state->mCards[state->mUnk_100[0]]) & 0xff];
-    state->mUnk_100[3] =
-        partial ^
-        state->mCards[state->mCards[(state->mCards[state->mUnk_100[1]] +
-                                     (state->mCards[state->mUnk_100[3]] + state->mCards[state->mUnk_100[4]])) &
-                                    0xff]];
-    state->mUnk_100[4] = byte;
-    return state->mUnk_100[3];
+    state->mCards[frontByte] = state->mCards[state->mRegisterBytes[1]];
+    state->mCards[state->mRegisterBytes[1]] = state->mCards[state->mRegisterBytes[3]];
+    state->mCards[state->mRegisterBytes[3]] = state->mCards[state->mRegisterBytes[0]];
+    state->mCards[state->mRegisterBytes[0]] = heldValue;
+    state->mRegisterBytes[2] = state->mRegisterBytes[2] + state->mCards[heldValue];
+    partial = byte ^
+              state->mCards[(state->mCards[state->mRegisterBytes[2]] + state->mCards[state->mRegisterBytes[0]]) & 0xff];
+    state->mRegisterBytes[3] = partial ^ state->mCards[state->mCards[(state->mCards[state->mRegisterBytes[1]] +
+                                                                      (state->mCards[state->mRegisterBytes[3]] +
+                                                                       state->mCards[state->mRegisterBytes[4]])) &
+                                                                     0xff]];
+    state->mRegisterBytes[4] = byte;
+    return state->mRegisterBytes[3];
 }

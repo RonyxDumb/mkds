@@ -19,14 +19,14 @@ typedef struct WiFiLogin {
     // Game id 0x4d6 (DWC_InitFriendsMatch's fourth parameter): given to GpInitialize, which stores it as
     // GpiConnection.mProductId and writes it after '\productid\'.
     /* 08 */ u32 mProductId;
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ u32 mGamecode;
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
     // Set by InitWiFiLogin (DWCi_LoginCallback). Called with (error kind, 0, arg) by DWCi_StopLogin and with (0,
     // profile id, arg) when state 2 succeeds.
     /* 18 */ void (*mResultCallback)();
     /* 1c */ void *mResultCallbackArg;
-    /* 20 */ DWCAccUserData *mUnk_20;
+    /* 20 */ DWCAccUserData *mUserData;
     /* 24 */ u8 pad_24[4];
     // Http (0x1a60 bytes; declared void *) of the running request: made by DWCi_RemoteLogin, freed when the reply
     // or an error ends the request and by DWCi_ShutdownLogin.
@@ -39,7 +39,7 @@ typedef struct WiFiLogin {
     /* 34 */ BOOL mConnectPending;
     // OS_GetTick reading when the GP connect started; (ticks << 6) / 0x82ea is ms, limit 60000 ms (DWCi_LoginProcess).
     /* 38 */ u64 mConnectStartTime;
-    /* 40 */ DWCAccFriendData mUnk_40;
+    /* 40 */ DWCAccFriendData mTempLoginId;
     // First string of the HTTP reply (0x100 buffer): given to the GP connect as its first credential, which
     // GpiWriteLogin writes after '\authtoken\'; also passed to StartBuddySync (stats login).
     // The reply's second string (mUnk_14c) is the password substitute the library hashes, not
@@ -48,9 +48,9 @@ typedef struct WiFiLogin {
     // Second string of the HTTP reply (0x100 buffer), the second GP connect credential: GpiStartConnect copies it to
     // q.mUnk_1c2 and GpiWriteLogin hashes it where it would hash the password. Not the
     // library's \challenge\ value.
-    /* 14c */ char mUnk_14c[0x100];
-    /* 24c */ char mUnk_24c[9];
-    /* 255 */ char mUnk_255[0xf];
+    /* 14c */ char mPartnerChallenge[0x100];
+    /* 24c */ char mUsername[9];
+    /* 255 */ char mGsbrcd[0xf];
 } WiFiLogin;
 
 // Points at WiFiConnection.mLogin: set by InitWiFiLogin (once per login), set to 0 by DWCi_ShutdownLogin.

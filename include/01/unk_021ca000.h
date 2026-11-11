@@ -49,14 +49,14 @@ typedef struct MissionRunLVsel {
     /* 1c */ s32 mState;
     /* 20 */ s32 mNextState;
     /* 24 */ s32 mStateFrames; /* counted only in states 1, 4, 5; zeroed by the next-state setter */
-    /* 28 */ s32 mUnk_28[7];
+    /* 28 */ s32 mHighlightTimers[7];
     /* 44 */ s32 mBg0Offset;
-    /* 48 */ s16 mUnk_48;
-    /* 4a */ s16 mUnk_4a;
+    /* 48 */ s16 mSlideOffsetX;
+    /* 4a */ s16 mReachedLevel;
     /* 4c */ s16 mIndex; /* level number - 1 */
     /* 4e */ u8 mUnk_4e[0x2];
-    /* 50 */ void *mUnk_50;
-    /* 54 */ void *mUnk_54;
+    /* 50 */ void *mMainOam;
+    /* 54 */ void *mSubOam;
     /* 58 */ s32 mResult; /* 1 = level chosen, 2 = Back; also read by ReleaseMissionRunLVsel for the sound */
 } MissionRunLVsel;
 

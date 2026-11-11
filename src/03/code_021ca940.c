@@ -132,7 +132,7 @@ void UpdateApResult(void) {
             switch (GetMode()) {
                 case 0:
                     StartSoundSeq(7);
-                    gAp->mUnk_1d = 2;
+                    gAp->mCloseKind = 2;
                     break;
                 case 1:
                     DisableButtonTouch();
@@ -141,7 +141,7 @@ void UpdateApResult(void) {
             }
             break;
         case 1:
-            gAp->mUnk_1d = 1;
+            gAp->mCloseKind = 1;
             selectedIndex = gApSelectedIndex[0];
             if (selectedIndex >= 4) {
                 entryIndex = selectedIndex - 4;
@@ -170,7 +170,7 @@ void UpdateApResult(void) {
 }
 
 void StartApClose(void) {
-    if (gAp->mUnk_1d == 2) {
+    if (gAp->mCloseKind == 2) {
         StartMenuPairObjectsSlideOut();
     }
     DisableButtonTouch();
@@ -180,7 +180,7 @@ void StartApClose(void) {
 
 void UpdateApFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
-        if (gAp->mUnk_1d == 1) {
+        if (gAp->mCloseKind == 1) {
             if (gApSelectedIndex[0] == 3 || GetApWorkCopy()->mEntry.mSetType != 0xff) {
                 StartSlideButtonsOut();
             }
@@ -196,13 +196,13 @@ void UpdateApRelease(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
         IsMenuPairObjectsNotSlidingOut() != 0 && IsSlideButtonsNotSlidingOut() != 0) {
         for (i = 0; i < 3; i++) {
-            if (gAp->mUnk_04[i] != NULL) {
-                DeleteOamRange(gAp->mUnk_04[i]);
+            if (gAp->mEntryIconObjects[i] != NULL) {
+                DeleteOamRange(gAp->mEntryIconObjects[i]);
             }
         }
         for (i = 0; i < 3; i++) {
-            if (gAp->mUnk_10[i] != NULL) {
-                DeleteOamRange(gAp->mUnk_10[i]);
+            if (gAp->mResetButtonObjects[i] != NULL) {
+                DeleteOamRange(gAp->mResetButtonObjects[i]);
             }
         }
         ReleaseSelectionObjectSlots();
@@ -211,7 +211,7 @@ void UpdateApRelease(void) {
         LoadFileToVram(gYbObjMainNclName5, GX_LoadOBJPltt);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
-        if (gAp->mUnk_1d == 2) {
+        if (gAp->mCloseKind == 2) {
             SetPrimaryMenuPair(0, 0);
             SetUpdateFunction(SetupJb2Menu);
         } else {
@@ -253,7 +253,7 @@ void MoveApSelection(int direction) {
     u32 moved = 1;
     switch (gApSelectedIndex[0]) {
         case 0:
-            gAp->mUnk_1c = 0;
+            gAp->mRememberedEntryIndex = 0;
             if (direction == 0) {
                 gApSelectedIndex[0] = 2;
             } else if (direction == 2) {
@@ -265,7 +265,7 @@ void MoveApSelection(int direction) {
             }
             break;
         case 1:
-            gAp->mUnk_1c = 1;
+            gAp->mRememberedEntryIndex = 1;
             if (direction == 0) {
                 gApSelectedIndex[0] = 0;
             } else if (direction == 2) {
@@ -277,7 +277,7 @@ void MoveApSelection(int direction) {
             }
             break;
         case 2:
-            gAp->mUnk_1c = 2;
+            gAp->mRememberedEntryIndex = 2;
             if (direction == 0) {
                 gApSelectedIndex[0] = 1;
             } else if (direction == 2) {
@@ -289,7 +289,7 @@ void MoveApSelection(int direction) {
             }
             break;
         case 3: {
-            u8 rememberedIndex = gAp->mUnk_1c;
+            u8 rememberedIndex = gAp->mRememberedEntryIndex;
             s32 d = rememberedIndex + 4;
             if (direction == 1) {
                 gApSelectedIndex[0] = d;
@@ -301,7 +301,7 @@ void MoveApSelection(int direction) {
             break;
         }
         case 4:
-            gAp->mUnk_1c = 0;
+            gAp->mRememberedEntryIndex = 0;
             if (direction == 0) {
                 gApSelectedIndex[0] = 6;
             } else if (direction == 2) {
@@ -313,7 +313,7 @@ void MoveApSelection(int direction) {
             }
             break;
         case 5:
-            gAp->mUnk_1c = 1;
+            gAp->mRememberedEntryIndex = 1;
             if (direction == 0) {
                 gApSelectedIndex[0] = 4;
             } else if (direction == 2) {
@@ -325,7 +325,7 @@ void MoveApSelection(int direction) {
             }
             break;
         case 6:
-            gAp->mUnk_1c = 2;
+            gAp->mRememberedEntryIndex = 2;
             if (direction == 0) {
                 gApSelectedIndex[0] = 5;
             } else if (direction == 2) {
@@ -345,10 +345,10 @@ void MoveApSelection(int direction) {
 
 void SetApSelectedButtonImage(void) {
     s32 entryIndex = gApSelectedIndex[0] - 4;
-    CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mUnk_10[entryIndex], 0));
-    SetOamRangePosition(gAp->mUnk_10[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
+    CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mResetButtonObjects[entryIndex], 0));
+    SetOamRangePosition(gAp->mResetButtonObjects[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
                         gApObjectPositions[entryIndex + 3].mY);
-    SetOamRangePriority(gAp->mUnk_10[entryIndex], -1, 3);
+    SetOamRangePriority(gAp->mResetButtonObjects[entryIndex], -1, 3);
 }
 
 void UpdateApMessageResult(void) {
@@ -357,19 +357,20 @@ void UpdateApMessageResult(void) {
         case 1:
             StartSoundSeq(0xe);
             ResetApEntry(entryIndex);
-            CopyNceImageToOamEntries(0, gApEntryImageIndices[3], GetOamRangeEntry(gAp->mUnk_04[entryIndex], 0));
-            SetOamRangePosition(gAp->mUnk_04[entryIndex], -1, gApObjectPositions[entryIndex].mX,
+            CopyNceImageToOamEntries(0, gApEntryImageIndices[3],
+                                     GetOamRangeEntry(gAp->mEntryIconObjects[entryIndex], 0));
+            SetOamRangePosition(gAp->mEntryIconObjects[entryIndex], -1, gApObjectPositions[entryIndex].mX,
                                 gApObjectPositions[entryIndex].mY);
-            SetOamRangePriority(gAp->mUnk_04[entryIndex], -1, 3);
-            DeleteOamRange(gAp->mUnk_10[entryIndex]);
-            gAp->mUnk_10[entryIndex] = NULL;
+            SetOamRangePriority(gAp->mEntryIconObjects[entryIndex], -1, 3);
+            DeleteOamRange(gAp->mResetButtonObjects[entryIndex]);
+            gAp->mResetButtonObjects[entryIndex] = NULL;
             break;
         case 0:
             StartSoundSeq(7);
-            CopyNceImageToOamEntries(0, 0x11, GetOamRangeEntry(gAp->mUnk_10[entryIndex], 0));
-            SetOamRangePosition(gAp->mUnk_10[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
+            CopyNceImageToOamEntries(0, 0x11, GetOamRangeEntry(gAp->mResetButtonObjects[entryIndex], 0));
+            SetOamRangePosition(gAp->mResetButtonObjects[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
                                 gApObjectPositions[entryIndex + 3].mY);
-            SetOamRangePriority(gAp->mUnk_10[entryIndex], -1, 3);
+            SetOamRangePriority(gAp->mResetButtonObjects[entryIndex], -1, 3);
             break;
         default:
             return;
@@ -401,7 +402,8 @@ void RequestApSelectionPalette(void) {
             if (statusIndex > 2) {
                 statusIndex = 3;
             }
-            SetOamRangeMode(gAp->mUnk_04[*(u8 *) &gApSelectedIndex], -1, 0, iconPalettes.mUnk_00[statusIndex]);
+            SetOamRangeMode(gAp->mEntryIconObjects[*(u8 *) &gApSelectedIndex], -1, 0,
+                            iconPalettes.mUnk_00[statusIndex]);
         }
     }
 }

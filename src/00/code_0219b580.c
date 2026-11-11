@@ -294,7 +294,7 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
     gWiFiConnection->mBuddySyncCallback = updateCallback;
     gWiFiConnection->mBuddySyncCallbackArg = updateParam;
     DWCi_SetState(4);
-    StartBuddySync((s32) gWiFiConnection->mLogin.mAuthToken, gWiFiConnection->mLogin.mUnk_14c,
+    StartBuddySync((s32) gWiFiConnection->mLogin.mAuthToken, gWiFiConnection->mLogin.mPartnerChallenge,
                    (void (*)(s32, u8, void *)) DWCi_UpdateServersCallback, NULL,
                    (void (*)(s32, u8, void *, void *)) statusCallback, statusParam,
                    (void (*)(s32, s32, void *)) deleteCallback, deleteParam);

@@ -222,21 +222,21 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
         AssertionFailed(gBuddyStatusAssertion, gGpFileName, NULL, 0x5cf);
     }
     status->mUnk_000 = profileRec->mProfileId;
-    status->mUnk_004 = buddyInfo->mUnk_04;
-    string = buddyInfo->mUnk_08;
+    status->mUnk_004 = buddyInfo->mStatus;
+    string = buddyInfo->mStatusString;
     if (string != NULL) {
         GpiCopyString(status->mUnk_008, string, 0x100);
     } else {
         *(u8 *) string = 0;
     }
-    string = buddyInfo->mUnk_0c;
+    string = buddyInfo->mLocationString;
     if (string != NULL) {
         GpiCopyString(status->mUnk_108, string, 0x100);
     } else {
         *(u8 *) string = 0;
     }
-    status->mUnk_208 = buddyInfo->mUnk_10;
-    status->mUnk_20c = buddyInfo->mUnk_14;
+    status->mUnk_208 = buddyInfo->mIp;
+    status->mUnk_20c = buddyInfo->mPort;
     return 0;
 }
 

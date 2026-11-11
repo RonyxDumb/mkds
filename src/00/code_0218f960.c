@@ -181,39 +181,39 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            buddyInfo->mUnk_04 = StrtolBase10(intText);
-            DWCi_GsFree(buddyInfo->mUnk_08);
-            buddyInfo->mUnk_08 = NULL;
+            buddyInfo->mStatus = StrtolBase10(intText);
+            DWCi_GsFree(buddyInfo->mStatusString);
+            buddyInfo->mStatusString = NULL;
             if (GpiGetValue(buffer, gPipeSsKey, replyValue, 0x100) == FALSE) {
                 replyValue[0] = 0;
             }
-            buddyInfo->mUnk_08 = goastrdup(replyValue);
-            if (buddyInfo->mUnk_08 == NULL) {
+            buddyInfo->mStatusString = goastrdup(replyValue);
+            if (buddyInfo->mStatusString == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            DWCi_GsFree(buddyInfo->mUnk_0c);
-            buddyInfo->mUnk_0c = NULL;
+            DWCi_GsFree(buddyInfo->mLocationString);
+            buddyInfo->mLocationString = NULL;
             if (GpiGetValue(buffer, gPipeLsKey, replyValue, 0x100) == FALSE) {
                 replyValue[0] = 0;
             }
-            buddyInfo->mUnk_0c = goastrdup(replyValue);
-            if (buddyInfo->mUnk_0c == NULL) {
+            buddyInfo->mLocationString = goastrdup(replyValue);
+            if (buddyInfo->mLocationString == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
             if (GpiGetValue(buffer, gPipeIpKey, intText, 0x10) == FALSE) {
-                buddyInfo->mUnk_10 = 0;
+                buddyInfo->mIp = 0;
             } else {
-                buddyInfo->mUnk_10 =
+                buddyInfo->mIp =
                     (((u32) StrtolBase10(intText) >> 24) & 0xff) | (((u32) StrtolBase10(intText) >> 8) & 0xff00) |
                     ((StrtolBase10(intText) << 8) & 0xff0000) | ((StrtolBase10(intText) << 24) & 0xff000000);
             }
             if (GpiGetValue(buffer, gPipePKey, intText, 0x10) == FALSE) {
-                buddyInfo->mUnk_14 = 0;
+                buddyInfo->mPort = 0;
             } else {
                 netPort = StrtolBase10(intText);
-                buddyInfo->mUnk_14 = (u16) (((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00));
+                buddyInfo->mPort = (u16) (((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00));
             }
             statusCallback = gpState->mCallbacks[2];
             if (statusCallback.mCallback == NULL) {
@@ -309,7 +309,7 @@ u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const
     peerConn = gpiGetConnectedPeer(connection, profileid);
     if (peerConn == NULL) {
         if (GpiFindProfile(connection, profileid, &profileRec) == 0 || profileRec->mBuddyStatus == NULL ||
-            profileRec->mBuddyStatus->mUnk_14 == 0) {
+            profileRec->mBuddyStatus->mPort == 0) {
             return gpiSendServerBuddyMessage(connection, profileid, type, message);
         }
         peerConn = GpiPeerCreate(connection, profileid, 1);
@@ -391,10 +391,10 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile) {
         if (buddyIndex < 0) {
             AssertionFailed(gIndexNotNegativeAssertion, gGpiBuddyFileName, NULL, 0x1fd);
         }
-        DWCi_GsFree(profileEntry->mBuddyStatus->mUnk_08);
-        profileEntry->mBuddyStatus->mUnk_08 = NULL;
-        DWCi_GsFree(profileEntry->mBuddyStatus->mUnk_0c);
-        profileEntry->mBuddyStatus->mUnk_0c = NULL;
+        DWCi_GsFree(profileEntry->mBuddyStatus->mStatusString);
+        profileEntry->mBuddyStatus->mStatusString = NULL;
+        DWCi_GsFree(profileEntry->mBuddyStatus->mLocationString);
+        profileEntry->mBuddyStatus->mLocationString = NULL;
         DWCi_GsFree(profileEntry->mBuddyStatus);
         profileEntry->mBuddyStatus = NULL;
         if (GpiIsProfileEmpty(profileEntry) != 0) {

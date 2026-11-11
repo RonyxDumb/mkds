@@ -23,7 +23,7 @@ void CreateApStore(void) {
     ApStore *store;
     store = AllocExpHeapBlock(0x6f8, 0x20);
     gApStore = store;
-    Crc16InitTable(&store->mUnk_400.mCrcTable, 0xa001);
+    Crc16InitTable(&store->mWorkCopy.mCrcTable, 0xa001);
     ReadNvramEntries(gApStore);
 }
 
@@ -32,35 +32,35 @@ void ReleaseApStore(void) {
 }
 
 ApWorkCopy *GetApWorkCopy(void) {
-    return &gApStore->mUnk_400;
+    return &gApStore->mWorkCopy;
 }
 
 void SetApWorkIpNone(u32 ipNone) {
-    gApStore->mUnk_400.mIpNone = ipNone;
+    gApStore->mWorkCopy.mIpNone = ipNone;
 }
 
 void SetApWorkDnsNone(u32 dnsNone) {
-    gApStore->mUnk_400.mDnsNone = dnsNone;
+    gApStore->mWorkCopy.mDnsNone = dnsNone;
 }
 
 void StoreApWorkSsid(const u8 *ssid) {
-    MI_CpuCopy8(ssid, gApStore->mUnk_400.mEntry.mSsid, 0x20);
-    gApStore->mUnk_400.mEntry.mSetType = 0;
+    MI_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsid, 0x20);
+    gApStore->mWorkCopy.mEntry.mSetType = 0;
 }
 
 void StoreApWorkWepKey(const u8 *text) {
     s32 i;
     s32 textLength;
     u8 *keyCursor;
-    MI_CpuFill8(gApStore->mUnk_400.mEntry.mWepKeys[0], 0, 0x10);
+    MI_CpuFill8(gApStore->mWorkCopy.mEntry.mWepKeys[0], 0, 0x10);
     textLength = GetStringLengthWithLimit(text, 0x20);
     switch (textLength) {
         case 0:
         case 10:
         case 26:
         case 32:
-            gApStore->mUnk_400.mEntry.mWepNotation = 0;
-            keyCursor = gApStore->mUnk_400.mEntry.mWepKeys[0];
+            gApStore->mWorkCopy.mEntry.mWepNotation = 0;
+            keyCursor = gApStore->mWorkCopy.mEntry.mWepKeys[0];
             i = 0;
             for (; i < textLength;) {
                 *keyCursor = (ParseHexDigit(text[i]) << 4) + ParseHexDigit(text[i + 1]);
@@ -69,54 +69,54 @@ void StoreApWorkWepKey(const u8 *text) {
             }
             break;
         default:
-            gApStore->mUnk_400.mEntry.mWepNotation = 1;
-            MI_CpuCopy8(text, gApStore->mUnk_400.mEntry.mWepKeys[0], 0x10);
+            gApStore->mWorkCopy.mEntry.mWepNotation = 1;
+            MI_CpuCopy8(text, gApStore->mWorkCopy.mEntry.mWepKeys[0], 0x10);
             break;
     }
     switch (textLength) {
         case 0:
-            gApStore->mUnk_400.mEntry.mWepMode = 0;
+            gApStore->mWorkCopy.mEntry.mWepMode = 0;
             break;
         case 5:
         case 10:
-            gApStore->mUnk_400.mEntry.mWepMode = 1;
+            gApStore->mWorkCopy.mEntry.mWepMode = 1;
             break;
         case 13:
         case 26:
-            gApStore->mUnk_400.mEntry.mWepMode = 2;
+            gApStore->mWorkCopy.mEntry.mWepMode = 2;
             break;
         default:
-            gApStore->mUnk_400.mEntry.mWepMode = 3;
+            gApStore->mWorkCopy.mEntry.mWepMode = 3;
             break;
     }
 }
 
 void StoreApWorkIpText(const char *input) {
-    ParseAddressText(input, gApStore->mUnk_400.mEntry.mIp);
+    ParseAddressText(input, gApStore->mWorkCopy.mEntry.mIp);
 }
 
 void StoreApWorkNetmaskText(const char *input) {
-    ParseAddressText(input, gApStore->mUnk_400.mNetmask);
+    ParseAddressText(input, gApStore->mWorkCopy.mNetmask);
 }
 
 void StoreApWorkGatewayText(const char *input) {
-    ParseAddressText(input, gApStore->mUnk_400.mEntry.mGateway);
+    ParseAddressText(input, gApStore->mWorkCopy.mEntry.mGateway);
 }
 
 void StoreApWorkDnsFirstText(const char *input) {
-    ParseAddressText(input, gApStore->mUnk_400.mEntry.mDns);
+    ParseAddressText(input, gApStore->mWorkCopy.mEntry.mDns);
 }
 
 void StoreApWorkDnsSecondText(const char *input) {
-    ParseAddressText(input, &gApStore->mUnk_400.mEntry.mDns[4]);
+    ParseAddressText(input, &gApStore->mWorkCopy.mEntry.mDns[4]);
 }
 
 void CopyApWorkSsid(void *output) {
-    MI_CpuCopy8(gApStore->mUnk_400.mEntry.mSsid, output, 0x20);
+    MI_CpuCopy8(gApStore->mWorkCopy.mEntry.mSsid, output, 0x20);
 }
 
 void FormatApWorkIpText(char *output) {
-    u8 *addressBytes = gApStore->mUnk_400.mEntry.mIp;
+    u8 *addressBytes = gApStore->mWorkCopy.mEntry.mIp;
     u32 thirdByte = (addressBytes[2]);
     u32 fourthByte = (addressBytes[3]);
     const char *format = gAddressTextFormat;
@@ -126,7 +126,7 @@ void FormatApWorkIpText(char *output) {
 }
 
 void FormatApWorkNetmaskText(char *output) {
-    u8 *addressBytes = gApStore->mUnk_400.mNetmask;
+    u8 *addressBytes = gApStore->mWorkCopy.mNetmask;
     u32 thirdByte = (addressBytes[2]);
     u32 fourthByte = (addressBytes[3]);
     const char *format = gAddressTextFormat;
@@ -136,7 +136,7 @@ void FormatApWorkNetmaskText(char *output) {
 }
 
 void FormatApWorkGatewayText(char *output) {
-    u8 *addressBytes = gApStore->mUnk_400.mEntry.mGateway;
+    u8 *addressBytes = gApStore->mWorkCopy.mEntry.mGateway;
     u32 thirdByte = (addressBytes[2]);
     u32 fourthByte = (addressBytes[3]);
     const char *format = gAddressTextFormat;
@@ -146,7 +146,7 @@ void FormatApWorkGatewayText(char *output) {
 }
 
 void FormatApWorkDnsFirstText(char *output) {
-    u8 *addressBytes = gApStore->mUnk_400.mEntry.mDns;
+    u8 *addressBytes = gApStore->mWorkCopy.mEntry.mDns;
     u32 thirdByte = (addressBytes[2]);
     u32 fourthByte = (addressBytes[3]);
     const char *format = gAddressTextFormat;
@@ -156,7 +156,7 @@ void FormatApWorkDnsFirstText(char *output) {
 }
 
 void FormatApWorkDnsSecondText(char *output) {
-    u8 *addressBytes = &gApStore->mUnk_400.mEntry.mDns[4];
+    u8 *addressBytes = &gApStore->mWorkCopy.mEntry.mDns[4];
     u32 thirdByte = (addressBytes[2]);
     u32 fourthByte = (addressBytes[3]);
     const char *format = gAddressTextFormat;
@@ -172,23 +172,23 @@ u8 GetApEntrySetType(int entryIndex) {
 void CopyApEntryToWorkCopy(s32 entryIndex) {
     ApStore *store = gApStore;
     ApEntry *entry = &store->mUnk_000[entryIndex].mUnk_00;
-    store->mUnk_400.mEntry = *entry;
-    store->mUnk_400.mEntryIndex = entryIndex;
+    store->mWorkCopy.mEntry = *entry;
+    store->mWorkCopy.mEntryIndex = entryIndex;
     if (memcmp(entry->mIp, gSettingNone, 4) != 0) {
-        gApStore->mUnk_400.mIpNone = 0;
+        gApStore->mWorkCopy.mIpNone = 0;
     } else {
-        gApStore->mUnk_400.mIpNone = 1;
+        gApStore->mWorkCopy.mIpNone = 1;
     }
     if (memcmp(entry->mDns, gSettingNone, 4) != 0 || memcmp(entry->mDns + 4, gSettingNone, 4) != 0) {
-        gApStore->mUnk_400.mDnsNone = 0;
+        gApStore->mWorkCopy.mDnsNone = 0;
     } else {
-        gApStore->mUnk_400.mDnsNone = 1;
+        gApStore->mWorkCopy.mDnsNone = 1;
     }
-    DWCi_BACKUPlConvMaskAddr(entry->mNetmaskCidr, gApStore->mUnk_400.mNetmask);
+    DWCi_BACKUPlConvMaskAddr(entry->mNetmaskCidr, gApStore->mWorkCopy.mNetmask);
 }
 
 void WriteApWorkCopy(void) {
-    ApWorkCopy *workCopy = &gApStore->mUnk_400;
+    ApWorkCopy *workCopy = &gApStore->mWorkCopy;
     ApEntry *entry = &gApStore->mUnk_000[workCopy->mEntryIndex].mUnk_00;
     *entry = workCopy->mEntry;
     if (workCopy->mIpNone != 0) {
@@ -214,7 +214,7 @@ void WriteApWorkFromExchangeResult(const Unk021cd5e0_arg *exchangeResult) {
     s32 i;
     u8 *sourceKey;
     u8 *destinationKey;
-    workCopy = &gApStore->mUnk_400;
+    workCopy = &gApStore->mWorkCopy;
     MI_CpuFill8(workCopy, 0, 0xef);
     MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsid, 0x20);
     switch (exchangeResult->mUnk_20) {
@@ -421,7 +421,7 @@ void WriteApEntryToNvram(s32 entryIndex) {
     for (i = 0; i < 4; i++) {
         if (entryFlags[i] != 0) {
             gApStore->mUnk_000[i].mUnk_fe =
-                Crc16(&gApStore->mUnk_400.mCrcTable, gApStore->mUnk_000[i].mUnk_00.mUnk_00, 0xfe);
+                Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mUnk_000[i].mUnk_00.mUnk_00, 0xfe);
         }
     }
     workBuffer = AllocExpHeapBlock(0x100, 0x20);

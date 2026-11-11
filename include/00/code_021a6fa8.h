@@ -45,14 +45,14 @@ typedef struct SOCLiSocketRecvCommandPipe {
 } SOCLiSocketRecvCommandPipe;
 
 typedef struct SOCLiSocketSendCommandPipe {
-    /* 000 */ SOCLiSocketCommandPipe mUnk_00;
-    /* 0f8 */ SizedBuffer mUnk_f8;
-    /* 100 */ u16 mUnk_100;
-    /* 102 */ u16 mUnk_102;
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ s32 mUnk_108;
-    /* 10c */ struct SOCLSocket *mUnk_10c;
-    /* 110 */ u8 mUnk_110[4];
+    /* 000 */ SOCLiSocketCommandPipe mCommandPipe;
+    /* 0f8 */ SizedBuffer mBufferArea;
+    /* 100 */ u16 mBufferIn;
+    /* 102 */ u16 mBufferOut;
+    /* 104 */ s32 mBufferWaitingHead;
+    /* 108 */ s32 mBufferWaitingTail;
+    /* 10c */ struct SOCLSocket *mExeSocket;
+    /* 110 */ u8 mCommandMessages[4];
 } SOCLiSocketSendCommandPipe;
 
 typedef struct SOCLSocket {

@@ -20,10 +20,10 @@
 
 void GpiReleaseProfile(GpiProfile *profile) {
     if (profile->mBuddyStatus != NULL) {
-        DWCi_GsFree(profile->mBuddyStatus->mUnk_08);
-        profile->mBuddyStatus->mUnk_08 = NULL;
-        DWCi_GsFree(profile->mBuddyStatus->mUnk_0c);
-        profile->mBuddyStatus->mUnk_0c = NULL;
+        DWCi_GsFree(profile->mBuddyStatus->mStatusString);
+        profile->mBuddyStatus->mStatusString = NULL;
+        DWCi_GsFree(profile->mBuddyStatus->mLocationString);
+        profile->mBuddyStatus->mLocationString = NULL;
         DWCi_GsFree(profile->mBuddyStatus);
         profile->mBuddyStatus = NULL;
     }

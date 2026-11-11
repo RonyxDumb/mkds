@@ -4,17 +4,17 @@
 
 // Object behind gAcHold.
 typedef struct ACHOLD {
-    /* 00 */ void *(*mUnk_00)();
-    /* 04 */ void (*mUnk_04)();
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
+    /* 00 */ void *(*mAlloc)();
+    /* 04 */ void (*mFree)();
+    /* 08 */ u8 mAllocState;
+    /* 09 */ u8 mPhase;
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ u32 mError;
     /* 10 */ u8 pad_10[4];
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
-    /* 16 */ u8 mUnk_16;
+    /* 14 */ u8 mEndState;
+    /* 15 */ u8 mEndType;
+    /* 16 */ u8 mEndSequence;
     /* 17 */ u8 mUnk_17;
 } ACHOLD;
 

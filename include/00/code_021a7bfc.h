@@ -9,20 +9,20 @@ typedef struct SOCLSocket SOCLSocket;
 // An SOCLiCommandPacket entry as SOCLi_MemCpy and the functions after it see it.
 typedef struct SOCLiCommandWrite {
     /* 00 */ Unk021a7064Func mUnk_00;
-    /* 04 */ SOCLSocket *mUnk_04;
+    /* 04 */ SOCLSocket *mSocket;
     /* 08 */ OSMessageQueue *mUnk_08;
     /* 0c */ s8 mUnk_0c;
     /* 0d */ s8 mUnk_0d;
     /* 0e */ u8 mUnk_0e[2];
-    /* 10 */ u8 *mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 *mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ u16 mUnk_20;
+    /* 10 */ u8 *mBuffer1;
+    /* 14 */ s32 mBuffer1Len;
+    /* 18 */ u8 *mBuffer2;
+    /* 1c */ s32 mBuffer2Len;
+    /* 20 */ u16 mWriteBufferAfter;
     /* 22 */ u8 mUnk_22[2];
-    /* 24 */ u16 mUnk_24;
-    /* 26 */ u16 mUnk_26;
-    /* 28 */ u16 *mUnk_28;
+    /* 24 */ u16 mLocalPort;
+    /* 26 */ u16 mRemotePort;
+    /* 28 */ u16 *mRemoteIp;
 } SOCLiCommandWrite;
 
 u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u16 *remotePortOut, u32 *remoteIpOut);

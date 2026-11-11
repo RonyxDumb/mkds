@@ -508,8 +508,8 @@ s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
     addressWords[0] = 0;
     addressWords[1] = 0;
     address.mUnk_01 = 2;
-    address.mUnk_04 = profileRec->mBuddyStatus->mUnk_10;
-    address.mUnk_02 = profileRec->mBuddyStatus->mUnk_14;
+    address.mUnk_04 = profileRec->mBuddyStatus->mIp;
+    address.mUnk_02 = profileRec->mBuddyStatus->mPort;
     openResult = connect(peer->mSocket, &address, 8);
     if (openResult == -1) {
         openResult = GOAGetLastError(peer->mSocket);

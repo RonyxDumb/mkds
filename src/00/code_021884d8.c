@@ -8,29 +8,29 @@ void DWCi_AC_FreeAll(void) {
     void *buffer;
 
     hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
-    if ((hold->mUnk_08 & 0x10) != 0) {
+    if ((hold->mAllocState & 0x10) != 0) {
         buffer = (void *) DWCi_AC_GetMemPtr(0x10);
-        hold->mUnk_08 &= ~0x10;
-        hold->mUnk_04(0x10, buffer, 0xd18);
+        hold->mAllocState &= ~0x10;
+        hold->mFree(0x10, buffer, 0xd18);
     }
-    if ((hold->mUnk_08 & 8) != 0) {
+    if ((hold->mAllocState & 8) != 0) {
         buffer = (void *) DWCi_AC_GetMemPtr(8);
-        hold->mUnk_08 &= ~8;
-        hold->mUnk_04(8, buffer, 0xc);
+        hold->mAllocState &= ~8;
+        hold->mFree(8, buffer, 0xc);
     }
-    if ((hold->mUnk_08 & 4) != 0) {
+    if ((hold->mAllocState & 4) != 0) {
         buffer = (void *) DWCi_AC_GetMemPtr(4);
-        hold->mUnk_08 &= ~4;
-        hold->mUnk_04(4, buffer, 0x58);
+        hold->mAllocState &= ~4;
+        hold->mFree(4, buffer, 0x58);
     }
-    if ((hold->mUnk_08 & 2) != 0) {
+    if ((hold->mAllocState & 2) != 0) {
         buffer = (void *) DWCi_AC_GetMemPtr(2);
-        hold->mUnk_08 &= ~2;
-        hold->mUnk_04(2, buffer, 0x2300);
+        hold->mAllocState &= ~2;
+        hold->mFree(2, buffer, 0x2300);
     }
-    if ((hold->mUnk_08 & 1) != 0) {
-        hold->mUnk_08 &= ~1;
-        hold->mUnk_04(1, hold, 0x18);
+    if ((hold->mAllocState & 1) != 0) {
+        hold->mAllocState &= ~1;
+        hold->mFree(1, hold, 0x18);
     }
 }
 
@@ -59,13 +59,13 @@ void DWCi_AC_SetPhase(u8 phase) {
 
     hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
     work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
-    hold->mUnk_09 = phase;
+    hold->mPhase = phase;
     if (phase < 0x10) {
-        if (phase > hold->mUnk_16) {
-            hold->mUnk_16 = phase;
+        if (phase > hold->mEndSequence) {
+            hold->mEndSequence = phase;
             if (phase > 7) {
-                hold->mUnk_15 = DWCi_ConvConnectAPType(work->mUnk_d0d);
-                hold->mUnk_14 = work->mUnk_444[work->mUnk_d13].mUnk_00;
+                hold->mEndType = DWCi_ConvConnectAPType(work->mUnk_d0d);
+                hold->mEndState = work->mUnk_444[work->mUnk_d13].mUnk_00;
             }
         }
     }
@@ -73,7 +73,7 @@ void DWCi_AC_SetPhase(u8 phase) {
 
 u8 DWCi_AC_GetPhase(void) {
     u32 phase;
-    phase = gAcHold->mUnk_09;
+    phase = gAcHold->mPhase;
     return phase;
 }
 
@@ -92,7 +92,7 @@ void DWCi_AC_SetError(u32 error) {
 
 u32 DWCi_AC_GetError(void) {
     u32 error;
-    error = gAcHold->mUnk_0c;
+    error = gAcHold->mError;
     return error;
 }
 

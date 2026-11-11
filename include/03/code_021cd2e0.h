@@ -37,7 +37,7 @@ typedef struct ApStore {
         u8 mUnk_f0[0xe];
         u16 mUnk_fe;
     } mUnk_000[4];
-    /* 400 */ ApWorkCopy mUnk_400;
+    /* 400 */ ApWorkCopy mWorkCopy;
 } ApStore;
 
 // Argument of WriteApWorkFromExchangeResult.

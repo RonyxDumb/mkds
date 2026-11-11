@@ -5,10 +5,10 @@
 
 typedef struct Ap {
     /* 00 */ void *mYbBgStep11Ncl;
-    /* 04 */ OamRange *mUnk_04[3];
-    /* 10 */ OamRange *mUnk_10[3];
-    /* 1c */ u8 mUnk_1c;
-    /* 1d */ u8 mUnk_1d;
+    /* 04 */ OamRange *mEntryIconObjects[3];
+    /* 10 */ OamRange *mResetButtonObjects[3];
+    /* 1c */ u8 mRememberedEntryIndex;
+    /* 1d */ u8 mCloseKind;
 } Ap;
 
 void RequestApSelectionPalette(void);
