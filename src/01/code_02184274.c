@@ -3,7 +3,7 @@
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_020d3c94.h"
 
-s32 UpdateDonketuWaterJumpSplash(Unk02188950 *donketu) {
+s32 UpdateDonketuWaterJumpSplash(MissionRunMapObject *donketu) {
     if (donketu->mUnk_000.mPos.y >= -GetHeightAboveWaterOrEfct(0)) {
         StartModelEffectAtWaterHeight(donketu, 4, 0);
         StartMapObjectSound(&donketu->mUnk_000, 0x241);

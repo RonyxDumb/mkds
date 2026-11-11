@@ -7,7 +7,7 @@
 #include "Main/Unknown/unk_0217e000.h"
 
 int raise(int signalNumber) {
-    Unk02139e20Func handler;
+    RaiseHandlerFunc handler;
 
     if (signalNumber < 1 || signalNumber > 7) {
         return -1;
@@ -23,14 +23,14 @@ int raise(int signalNumber) {
         gLockHoldCounts[7] = 1;
     }
     handler = gRaiseHandlers[signalNumber - 1];
-    if (handler != (Unk02139e20Func) 1) {
+    if (handler != (RaiseHandlerFunc) 1) {
         gRaiseHandlers[signalNumber - 1] = 0;
     }
     gLockHoldCounts[7]--;
     if (gLockHoldCounts[7] == 0) {
         OS_UnlockMutex((OSMutex *) data_0217eadc[7]);
     }
-    if (handler == (Unk02139e20Func) 1 || (handler == 0 && signalNumber == 1)) {
+    if (handler == (RaiseHandlerFunc) 1 || (handler == 0 && signalNumber == 1)) {
         return 0;
     }
     if (handler == 0) {

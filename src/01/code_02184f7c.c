@@ -215,10 +215,10 @@ void SetLldEntryBounds(LldEntry *entry, s32 left, s32 top, s32 right, s32 bottom
     entry->mBoundsBottom = bottom << 12;
 }
 
-void StartDonketuStepSoundFirst(Unk02188950 *mapObject) {
+void StartDonketuStepSoundFirst(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x210);
 }
 
-void StartDonketuStepSoundSecond(Unk02188950 *mapObject) {
+void StartDonketuStepSoundSecond(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x210);
 }

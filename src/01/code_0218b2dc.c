@@ -52,8 +52,8 @@ Unk021a7b64 gKurikingKindDescriptor = {
     0, 0,     CreateKurikingUpdateList, {0, 0, 0, 0, 0},
 };
 
-void StartKurikingEndEffects(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartKurikingEndEffects(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartEffect(0x418, &mapObject->mUnk_000.mPos);
     StartEffect(0x417, &mapObject->mUnk_000.mPos);
     StartEffect(0x416, &mapObject->mUnk_000.mPos);
@@ -69,8 +69,8 @@ void StartKurikingEndEffects(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mFlags |= gKurikingDisabledFlag;
 }
 
-void StartKurikingKartNotEliminatedState(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartKurikingKartNotEliminatedState(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
     StartStateFrameCountCallback(mapObject, 0x3c, &StartKurikingEndEffects);
 }
@@ -79,7 +79,7 @@ void KurikingStandingsEndCallback(void) {
     ResetMissionRunMapObjects();
 }
 
-s32 KurikingStopStateWhenRaceStarted(Unk02188950 *mapObject) {
+s32 KurikingStopStateWhenRaceStarted(MissionRunMapObject *mapObject) {
     int raceStarted;
     raceStarted = IsRaceStarted();
     if (raceStarted == 1) {
@@ -88,7 +88,7 @@ s32 KurikingStopStateWhenRaceStarted(Unk02188950 *mapObject) {
     return 0;
 }
 
-s32 UpdateKurikingStartupEffects(Unk02188950 *mapObject) {
+s32 UpdateKurikingStartupEffects(MissionRunMapObject *mapObject) {
     int nsbcaFrameIndex;
     nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
     if (nsbcaFrameIndex == 0x4d) {
@@ -106,49 +106,49 @@ s32 UpdateKurikingStartupEffects(Unk02188950 *mapObject) {
     return 0;
 }
 
-void StartKurikingWaitForRaceStart(Unk02188950 *mapObject) {
+void StartKurikingWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, KurikingStopStateWhenRaceStarted);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void StartKurikingStartupSecond(Unk02188950 *mapObject) {
+void StartKurikingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateKurikingStartupEffects);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
                                   &StartKurikingWaitForRaceStart);
 }
 
-void StartKurikingStartupFirst(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartKurikingStartupFirst(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartKurikingStartupSecond);
 }
 
-void StartKurikingChainStartupSecond(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartKurikingChainStartupSecond(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
 }
 
-void StartKurikingChainStartupFirst(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartKurikingChainStartupFirst(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartKurikingChainStartupSecond);
 }
 
-void InitKurikingMapObject(Unk02188950 *mapObject) {
+void InitKurikingMapObject(MissionRunMapObject *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_KURIBO, 0x32, mapObject);
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xf, &mapObject->mUnk_000.mPos);
     mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[15].mFarDistanceSquared;
 }
 
-void KurikingKartHitSoundCallback(Unk02188950 *mapObject, void *kart) {
+void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, void *kart) {
     SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {
         StartSoundFullVolumeWrapper(kart, 0x224);
     }
 }
 
-void KurikingKartHitCallback(Unk02188950 *mapObject, void *kart) {
+void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart) {
     mapObject->mUnk_000.mPosStep.x =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_SinIdx((u16) mapObject->mMoveAngle));
     mapObject->mUnk_000.mPosStep.y = 0;
@@ -164,7 +164,7 @@ void KurikingKartHitCallback(Unk02188950 *mapObject, void *kart) {
 
 void InitKurikingObjects(MapObjectList *mapObjectList) {
     s32 i;
-    Unk02188950 *obj;
+    MissionRunMapObject *obj;
 
     if (mapObjectList != NULL) {
         for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
@@ -179,7 +179,7 @@ void InitKurikingObjects(MapObjectList *mapObjectList) {
     SetStandingsEndCallback((void (*)(void)) KurikingStandingsEndCallback);
 }
 
-void UpdateKuriking(u32 unused, Unk02188950 *mapObject) {
+void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
     s32 var;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
@@ -243,7 +243,7 @@ void UpdateKuriking(u32 unused, Unk02188950 *mapObject) {
 
 void InitKuriking(MapObjectList *mapObjectList) {
     s32 i;
-    Unk02188950 *obj;
+    MissionRunMapObject *obj;
 
     if (mapObjectList != NULL) {
         for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
@@ -261,7 +261,7 @@ void InitKuriking(MapObjectList *mapObjectList) {
     }
 }
 
-void DrawKuriking(void *mapObjectList, Unk02188950 *mapObject) {
+void DrawKuriking(void *mapObjectList, MissionRunMapObject *mapObject) {
     DrawMissionRunMapObject(mapObjectList, mapObject);
     DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }

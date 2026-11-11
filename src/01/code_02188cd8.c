@@ -4,19 +4,19 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020a3000.h"
 
-void SetPointInRangePoint(Unk02188950 *mapObject, Vec3 *point) {
+void SetPointInRangePoint(MissionRunMapObject *mapObject, Vec3 *point) {
     if (point != NULL) {
         mapObject->mPoint = *point;
     }
 }
 
-void StartAnimationNoEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 frameStep) {
+void StartAnimationNoEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep) {
     StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 0);
     mapObject->mAnimationEndCallback = NULL;
 }
 
-void StartAnimationWithEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 frameStep,
-                                   void (*endCallback)(Unk02188950 *)) {
+void StartAnimationWithEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep,
+                                   void (*endCallback)(MissionRunMapObject *)) {
     StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 1);
     if (endCallback == NULL) {
         endCallback = StopMapObjectState;
@@ -24,23 +24,23 @@ void StartAnimationWithEndCallback(Unk02188950 *mapObject, s32 animationEntry, s
     mapObject->mAnimationEndCallback = endCallback;
 }
 
-void SetAlphaLimitTargetAndPerCall(Unk02188950 *mapObject, s32 alphaLimitTarget, s32 alphaLimitPerCall) {
+void SetAlphaLimitTargetAndPerCall(MissionRunMapObject *mapObject, s32 alphaLimitTarget, s32 alphaLimitPerCall) {
     mapObject->mAlphaLimitTarget = alphaLimitTarget;
     mapObject->mAlphaLimitPerCall = alphaLimitPerCall;
 }
 
-void SetScaleTargetAndPerCall(Unk02188950 *mapObject, s32 scaleTarget, s32 scalePerCall) {
+void SetScaleTargetAndPerCall(MissionRunMapObject *mapObject, s32 scaleTarget, s32 scalePerCall) {
     mapObject->mScaleTarget = scaleTarget;
     mapObject->mScalePerCall = scalePerCall;
 }
 
-void SetSpeedAndClearTarget(Unk02188950 *mapObject, s32 speed) {
+void SetSpeedAndClearTarget(MissionRunMapObject *mapObject, s32 speed) {
     mapObject->mSpeed = speed;
     mapObject->mSpeedTarget = 0;
     mapObject->mSpeedPerCall = 0;
 }
 
-void SetSpeedTargetAndPerCall(Unk02188950 *mapObject, s32 speedTarget, s32 speedPerCall) {
+void SetSpeedTargetAndPerCall(MissionRunMapObject *mapObject, s32 speedTarget, s32 speedPerCall) {
     mapObject->mSpeedTarget = speedTarget;
     mapObject->mSpeedPerCall = speedPerCall;
 }

@@ -4,15 +4,15 @@
 #include "Main/Unknown/code_020fd83c.h"
 #include "Main/Unknown/code_020fd7f0.h"
 
-void SetKartCollisionCallback(Unk02188950 *mapObject, UnkFunc *kartCollisionCallback) {
+void SetKartCollisionCallback(MissionRunMapObject *mapObject, UnkFunc *kartCollisionCallback) {
     mapObject->mKartCollisionCallback = kartCollisionCallback;
 }
 
-void SetItemCollisionCallback(Unk02188950 *mapObject, UnkFunc *itemCollisionCallback) {
+void SetItemCollisionCallback(MissionRunMapObject *mapObject, UnkFunc *itemCollisionCallback) {
     mapObject->mItemCollisionCallback = itemCollisionCallback;
 }
 
-BOOL IsPointInRange(Unk02188950 *mapObject, Vec3 *point, s32 radius, s32 halfAngle) {
+BOOL IsPointInRange(MissionRunMapObject *mapObject, Vec3 *point, s32 radius, s32 halfAngle) {
     if ((radius != 0 || halfAngle != 0) && (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, point, radius) != 0) &&
         (halfAngle == 0 || IsDirectionToPointWithinAngle(mapObject, mapObject->mMoveAngle, point, halfAngle) != 0)) {
         return TRUE;
@@ -20,7 +20,7 @@ BOOL IsPointInRange(Unk02188950 *mapObject, Vec3 *point, s32 radius, s32 halfAng
     return FALSE;
 }
 
-ItemBomb *FindItemBombInRange(Unk02188950 *mapObject, u32 radius, u32 halfAngle) {
+ItemBomb *FindItemBombInRange(MissionRunMapObject *mapObject, u32 radius, u32 halfAngle) {
     int bombCount;
     ItemBomb *bomb;
     int inRange;

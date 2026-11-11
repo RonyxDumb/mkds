@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_020fd83c.h"
 #include "Main/Unknown/code_02147000.h"
 
-void ThrowOrReleaseStoredItemBomb(Unk02188950 *mapObject, Vec3 *velocity, s32 timer) {
+void ThrowOrReleaseStoredItemBomb(MissionRunMapObject *mapObject, Vec3 *velocity, s32 timer) {
     Vec3 zeroVelocity;
     s32 *zeroWords;
 

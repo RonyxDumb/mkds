@@ -47,7 +47,7 @@
 #include "Main/Unknown/code_0210b708.h"
 #include "Main/Unknown/code_0210b000.h"
 
-void StartBombKingNotEliminatedEffects(Unk02188950 *mapObject) {
+void StartBombKingNotEliminatedEffects(MissionRunMapObject *mapObject) {
     SoundStartParams soundRequest;
 
     StartMapObjectState(mapObject, 8, NULL);
@@ -66,7 +66,7 @@ void StartBombKingNotEliminatedEffects(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mFlags |= gBombKingDisabledFlag;
 }
 
-void StartBombKingKartNotEliminatedState(Unk02188950 *mapObject) {
+void StartBombKingKartNotEliminatedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
     StartStateFrameCountCallback(mapObject, 0x3c, &StartBombKingNotEliminatedEffects);
@@ -76,7 +76,7 @@ void BombKingStandingsEndCallback(void) {
     ResetMissionRunMapObjects();
 }
 
-s32 StopStateWhenRaceStarted(Unk02188950 *mapObject) {
+s32 StopStateWhenRaceStarted(MissionRunMapObject *mapObject) {
     int raceStarted;
     raceStarted = IsRaceStarted();
     if (raceStarted == 1) {
@@ -85,32 +85,32 @@ s32 StopStateWhenRaceStarted(Unk02188950 *mapObject) {
     return 0;
 }
 
-void StartBombKingWaitForRaceStart(Unk02188950 *mapObject) {
+void StartBombKingWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, StopStateWhenRaceStarted);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void StartBombKingStartupSecond(Unk02188950 *mapObject) {
+void StartBombKingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
                                   (UnkFunc *) &StartBombKingWaitForRaceStart);
     SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mUnk_148), ThrowItemBombsInRing);
 }
 
-void StartBombKingStartupFirst(Unk02188950 *mapObject) {
+void StartBombKingStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartBombKingStartupSecond);
     StartMapObjectSound(&mapObject->mUnk_000, 0x00000235u);
 }
 
-void StartBombKingChainStartupSecond(Unk02188950 *mapObject) {
+void StartBombKingChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
     SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, StartBombKingEffectAndSound);
 }
 
-void StartBombKingChainStartupFirst(Unk02188950 *mapObject) {
+void StartBombKingChainStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartBombKingChainStartupSecond);
@@ -118,7 +118,7 @@ void StartBombKingChainStartupFirst(Unk02188950 *mapObject) {
 
 void InitBombKingObjects(MapObjectList *list) {
     int i;
-    Unk02188950 *mapObject;
+    MissionRunMapObject *mapObject;
 
     if (list != NULL) {
         for (i = 0; i < list->mMapObjectCount && (mapObject = list->mMapObjects[i]) != NULL; i++) {
@@ -136,7 +136,7 @@ void InitBombKingObjects(MapObjectList *list) {
     SetStandingsEndCallback((void (*)(void)) BombKingStandingsEndCallback);
 }
 
-void UpdateBombKing(u32 unused, Unk02188950 *mapObject) {
+void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject) {
     int active;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -173,7 +173,7 @@ void UpdateBombKing(u32 unused, Unk02188950 *mapObject) {
     AdvanceMissionRunMapObject(unused, mapObject);
 }
 
-void InitBombKingMapObject(Unk02188950 *mapObject) {
+void InitBombKingMapObject(MissionRunMapObject *mapObject) {
     CreateParkedMapObjects(0xc9, 0xa, mapObject);
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource((SoundSource *) mapObject->mUnk_000.mSound, 0xc, &mapObject->mUnk_000.mPos);
@@ -184,7 +184,7 @@ void SetBombKingEffectScale(Unk0201ca6c *emitter) {
     emitter->mUnk_6c = 0x2000;
 }
 
-void BombKingItemBounceCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
+void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
     if (itemObject->mKind == 9) {
         if (IsItemBombState2(itemObject) == FALSE) {
             StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, SetBombKingEffectScale);
@@ -194,7 +194,7 @@ void BombKingItemBounceCallback(Unk02188950 *mapObject, ItemObject *itemObject) 
     SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemBounceCallback);
 }
 
-void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
+void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
     Vec3 velocity;
     s64 scale;
 
@@ -220,7 +220,7 @@ void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
     }
 }
 void InitBombKing(MapObjectList *list) {
-    Unk02188950 *mapObject;
+    MissionRunMapObject *mapObject;
     MissionRunPrm *prm;
     int i;
 
@@ -239,7 +239,7 @@ void InitBombKing(MapObjectList *list) {
     }
 }
 
-void DrawBombKing(void *mapObjectList, Unk02188950 *mapObject) {
+void DrawBombKing(void *mapObjectList, MissionRunMapObject *mapObject) {
     DrawMissionRunMapObject(mapObjectList, mapObject);
     DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }

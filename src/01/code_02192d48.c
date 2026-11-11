@@ -19,7 +19,7 @@
 
 MapObjectModel *gStopSign;
 
-void InitStopSign(Unk02188950 *mapObject) {
+void InitStopSign(MissionRunMapObject *mapObject) {
     MtxFx33 rotationMatrix;
     RefreshMapObjectMatrixFromHitNormal(&mapObject->mUnk_000);
     mapObject->mUnk_000.mAngle = DEG_TO_ANGLE(mapObject->mUnk_000.mCourseMapRow->mRotationDegrees.y);

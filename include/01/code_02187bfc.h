@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void ThrowOrReleaseStoredItemBomb(Unk02188950 *mapObject, Vec3 *velocity, s32 timer);
+void ThrowOrReleaseStoredItemBomb(MissionRunMapObject *mapObject, Vec3 *velocity, s32 timer);

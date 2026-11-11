@@ -15,8 +15,8 @@
 
 void ResetMissionRunMapObjects(void) {
     u16 i;
-    Unk02188950 *obj;
-    Unk02188950 *tableObj;
+    MissionRunMapObject *obj;
+    MissionRunMapObject *tableObj;
     MapObjectList *table;
 
     if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0)) {

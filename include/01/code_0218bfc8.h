@@ -8,4 +8,4 @@
 #include "01/code_0218c000.h"
 #include "01/code_0218c5fc.h"
 
-void StartKurikingTurnToEntryState(Unk02188950 *mapObject);
+void StartKurikingTurnToEntryState(MissionRunMapObject *mapObject);

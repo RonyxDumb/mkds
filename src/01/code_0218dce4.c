@@ -12,12 +12,12 @@
 #include "01/unk_021a7000.h"
 #include "Main/Unknown/code_0209bef0.h"
 
-void HanachanItemHitCallback(Unk02188950 *mapObject) {
+void HanachanItemHitCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2e0 = 0;
     SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
 }
 
-void HanachanFirstSoundCallback(Unk02188950 *mapObject) {
+void HanachanFirstSoundCallback(MissionRunMapObject *mapObject) {
     if (GetAbsoluteCounter(mapObject) >= 2) {
         StartMapObjectSound(&mapObject->mUnk_000, 0x248);
     } else if (GetAbsoluteCounter(mapObject) >= 1) {
@@ -27,7 +27,7 @@ void HanachanFirstSoundCallback(Unk02188950 *mapObject) {
     }
 }
 
-void HanachanSecondSoundCallback(Unk02188950 *mapObject) {
+void HanachanSecondSoundCallback(MissionRunMapObject *mapObject) {
     if (GetAbsoluteCounter(mapObject) >= 2) {
         StartMapObjectSound(&mapObject->mUnk_000, 0x248);
     } else if (GetAbsoluteCounter(mapObject) >= 1) {
@@ -37,6 +37,6 @@ void HanachanSecondSoundCallback(Unk02188950 *mapObject) {
     }
 }
 
-void SetHanachanSoundCallbacks(Unk02188950 *mapObject) {
+void SetHanachanSoundCallbacks(MissionRunMapObject *mapObject) {
     SetTwoAnimationFrameCallbacks(mapObject, 0xc, HanachanFirstSoundCallback, 0x20, HanachanSecondSoundCallback);
 }

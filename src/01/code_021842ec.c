@@ -1,7 +1,7 @@
 #include "01/code_021842ec.h"
 #include "01/unk_021a6000.h"
 
-void StartDonketuWaterLandState(Unk02188950 *donketu) {
+void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 7, NULL);
     StartAnimationWithEndCallback(donketu, donketu->mPrm->mUnk_23c, donketu->mPrm->mUnk_240, NULL);
     StopTurningMoveFollowsAngle(donketu);

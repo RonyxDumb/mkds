@@ -22,8 +22,8 @@ typedef struct AwardEmitterEffectIds {
 } AwardEmitterEffectIds;
 
 // Function stored at gGetSPLManagerFunction: writes a word to the first argument and returns the object.
-typedef SPLManager *Unk0217b050Func(s32 *a, s32 b);
-extern Unk0217b050Func *gGetSPLManagerFunction;
+typedef SPLManager *GetSPLManagerFunc(s32 *a, s32 b);
+extern GetSPLManagerFunc *gGetSPLManagerFunction;
 
 extern StadiumEmitters *data_0217b048;
 extern char data_usa_021660c8[];

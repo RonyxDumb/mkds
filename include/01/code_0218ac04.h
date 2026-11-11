@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void StartBombKingJumpState(Unk02188950 *mapObject);
-void StartBombKingJumpToEntryState(Unk02188950 *mapObject);
+void StartBombKingJumpState(MissionRunMapObject *mapObject);
+void StartBombKingJumpToEntryState(MissionRunMapObject *mapObject);

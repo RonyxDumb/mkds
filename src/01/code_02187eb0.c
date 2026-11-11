@@ -22,7 +22,7 @@
 #include "Main/Unknown/code_020fd000.h"
 #include "Main/Unknown/code_02042044.h"
 
-Kart *GetEntryKartInRange(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
+Kart *GetEntryKartInRange(MissionRunMapObject *mapObject, s32 radius, s32 halfAngle) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -33,7 +33,7 @@ Kart *GetEntryKartInRange(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
     return NULL;
 }
 
-Kart *GetEntryKartInAngleRange(Unk02188950 *mapObject, s32 angleOffset, s32 radius, s32 halfAngle) {
+Kart *GetEntryKartInAngleRange(MissionRunMapObject *mapObject, s32 angleOffset, s32 radius, s32 halfAngle) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -48,7 +48,7 @@ Kart *GetEntryKartInAngleRange(Unk02188950 *mapObject, s32 angleOffset, s32 radi
     return NULL;
 }
 
-Kart *GetEntryKartFacingObject(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
+Kart *GetEntryKartFacingObject(MissionRunMapObject *mapObject, s32 radius, s32 halfAngle) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -63,28 +63,28 @@ Kart *GetEntryKartFacingObject(Unk02188950 *mapObject, s32 radius, s32 halfAngle
     return NULL;
 }
 
-CourseMapGroupEntry *GetCurrentGroupEntry(Unk02188950 *mapObject) {
+CourseMapGroupEntry *GetCurrentGroupEntry(MissionRunMapObject *mapObject) {
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
         return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex);
     }
     return NULL;
 }
 
-s32 GetCurrentGroupEntryValue(Unk02188950 *mapObject) {
+s32 GetCurrentGroupEntryValue(MissionRunMapObject *mapObject) {
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
         return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_0e;
     }
     return 0;
 }
 
-s32 GetCurrentGroupEntryPercent(Unk02188950 *mapObject) {
+s32 GetCurrentGroupEntryPercent(MissionRunMapObject *mapObject) {
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
         return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_10;
     }
     return 0;
 }
 
-CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject) {
+CourseMapGroupEntry *GetNextGroupEntry(MissionRunMapObject *mapObject) {
     CourseMap *courseMap = gCourseMap;
     s32 nextEntryIndex;
 
@@ -98,7 +98,7 @@ CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject) {
     return NULL;
 }
 
-void DecrementEntryIndexSkipZero(Unk02188950 *mapObject) {
+void DecrementEntryIndexSkipZero(MissionRunMapObject *mapObject) {
     CourseMap *courseMap;
     CourseMapEntryGroup *entryGroup;
     s32 groupIndex;

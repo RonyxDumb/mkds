@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void ShowKingTeresaWithEffects(Unk02188950 *mapObject);
-void KingTeresaKartCollisionCallback(Unk02188950 *mapObject);
-u16 IsIwanteWalkB(Unk02188950 *mapObject);
+void ShowKingTeresaWithEffects(MissionRunMapObject *mapObject);
+void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject);
+u16 IsIwanteWalkB(MissionRunMapObject *mapObject);

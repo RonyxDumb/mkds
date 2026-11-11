@@ -3,7 +3,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020a3000.h"
 
-BOOL DecrementCounterToNegativeLimit(Unk02188950 *mapObject) {
+BOOL DecrementCounterToNegativeLimit(MissionRunMapObject *mapObject) {
     s32 limit;
 
     mapObject->mUnk_0ac--;

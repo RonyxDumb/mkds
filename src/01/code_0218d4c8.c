@@ -5,7 +5,7 @@
 #include "01/code_0218d520.h"
 #include "01/code_0218dce4.h"
 
-void StartHanachanMoveState(Unk02188950 *mapObject) {
+void StartHanachanMoveState(MissionRunMapObject *mapObject) {
     u32 entryPercent;
     StartMapObjectState(mapObject, 1, &UpdateHanachanMoveState);
     SetStoppedCallback(mapObject, 0);

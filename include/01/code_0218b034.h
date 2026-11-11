@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void ThrowItemBombsInRing(Unk02188950 *mapObject);
-void ThrowStoredItemBomb(Unk02188950 *mapObject);
+void ThrowItemBombsInRing(MissionRunMapObject *mapObject);
+void ThrowStoredItemBomb(MissionRunMapObject *mapObject);

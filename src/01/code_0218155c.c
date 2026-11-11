@@ -48,7 +48,7 @@
 
 MissionRunData *gMissionRunData;
 
-void AddMissionRunMapObject(Unk02188950 *mapObject) {
+void AddMissionRunMapObject(MissionRunMapObject *mapObject) {
     u8 kartCount;
     u16 entryIndex;
 
@@ -59,7 +59,7 @@ void AddMissionRunMapObject(Unk02188950 *mapObject) {
     gMissionRunData->mMapObjectCount++;
 }
 
-Unk02188950 *GetMissionRunMapObject(int entryIndex) {
+MissionRunMapObject *GetMissionRunMapObject(int entryIndex) {
     return gMissionRunData->mMapObjects[entryIndex - gRaceSetup->mKartCount];
 }
 

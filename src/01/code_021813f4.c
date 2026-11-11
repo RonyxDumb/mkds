@@ -31,7 +31,7 @@
 RaceHudSubScreenCells *gRaceHudSubScreenCoinCells;
 
 s32 GetMissionRunMapObjectAlphaLimit(void) {
-    Unk02188950 *mapObject;
+    MissionRunMapObject *mapObject;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         mapObject = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);

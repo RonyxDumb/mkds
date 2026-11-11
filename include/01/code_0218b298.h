@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void BombKingSecondSoundCallback(Unk02188950 *mapObject);
-void BombKingFirstSoundCallback(Unk02188950 *mapObject);
-void BombKingJumpKartCollisionCallback(Unk02188950 *mapObject);
-u16 GetAbsoluteCounterWrapper(Unk02188950 *mapObject);
+void BombKingSecondSoundCallback(MissionRunMapObject *mapObject);
+void BombKingFirstSoundCallback(MissionRunMapObject *mapObject);
+void BombKingJumpKartCollisionCallback(MissionRunMapObject *mapObject);
+u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject);

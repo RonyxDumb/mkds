@@ -32,7 +32,7 @@
 #include "Main/Unknown/code_020d275c.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void DonketuKartCollisionCallback(Unk02188950 *donketu, Kart *kart) {
+void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;
 
     if ((GetKart(kart->mIndex)->mUnk_48 & KART_48_BOOST) && kart->mBoostTimer > 0) {
@@ -118,7 +118,7 @@ void DonketuKartCollisionCallback(Unk02188950 *donketu, Kart *kart) {
     donketu->mUnk_2d8 = 13;
 }
 
-void DonketuChaseKartCollisionCallback(Unk02188950 *donketu, Kart *kart) {
+void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     Vec3 velocityWhenBoosted;
     Vec3 effectPosition;
     Vec3 velocityWhenNotBoosted;

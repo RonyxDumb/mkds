@@ -13,7 +13,7 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void DonketuKartCollisionCallback(Unk02188950 *donketu, Kart *kart) {
+void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;
 
     if ((GetKart(kart->mIndex)->mUnk_48 & KART_48_BOOST) && kart->mBoostTimer > 0) {

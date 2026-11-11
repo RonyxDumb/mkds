@@ -4,13 +4,13 @@
 #include "01/code_02189da4.h"
 #include "01/code_0218a568.h"
 
-void StartBombKingStoppedState(Unk02188950 *mapObject) {
+void StartBombKingStoppedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_174, mapObject->mPrm->mUnk_178, NULL);
     SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
 }
 
-void StartBombKingBounceState(Unk02188950 *mapObject) {
+void StartBombKingBounceState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &SwitchToBounceEffectsOnCollision);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_168);
     SetStoppedCallback(mapObject, &StartBombKingStoppedState);
@@ -19,13 +19,13 @@ void StartBombKingBounceState(Unk02188950 *mapObject) {
     SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemBounceCallback);
 }
 
-void StartBombKingStoppedStateAfterHits(Unk02188950 *mapObject) {
+void StartBombKingStoppedStateAfterHits(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074, NULL);
     SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
 }
 
-void StartBombKingBounceStateAfterHits(Unk02188950 *mapObject) {
+void StartBombKingBounceStateAfterHits(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &SwitchToBounceEffectsOnCollision);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_168);
     SetStoppedCallback(mapObject, &StartBombKingStoppedStateAfterHits);

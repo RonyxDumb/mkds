@@ -2,7 +2,7 @@
 #include "01/code_02184390.h"
 #include "01/code_02188158.h"
 
-s32 UpdateDonketuFall(Unk02188950 *donketu) {
+s32 UpdateDonketuFall(MissionRunMapObject *donketu) {
     if (donketu->mVelocity.y < 0) {
         SetKartCollisionCallback(donketu, DonketuFallKartCollisionCallback);
         donketu->mUnk_150 = 7;

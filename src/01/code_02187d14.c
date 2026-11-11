@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_020fd000.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void IncrementEntryGroupIndex(Unk02188950 *mapObject, s32 groupSpan) {
+void IncrementEntryGroupIndex(MissionRunMapObject *mapObject, s32 groupSpan) {
     s32 firstGroupIndex;
     s32 nextGroupIndex;
 
@@ -61,7 +61,7 @@ void StoreNodePositionAndPlaceItemBomb(NNSG3dRS *renderState) {
     MtxFx43 currentMatrix;
     MtxFx43 inverseViewMatrix;
     Vec3 bombPosition;
-    Unk02188950 *mapObject;
+    MissionRunMapObject *mapObject;
     Camera *currentCamera;
 
     mapObject = renderState->mRenderObj->mPtrUser;

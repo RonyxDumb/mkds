@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020e6000.h"
 
-void StartDonketuRepeatJumpAfterHitState(Unk02188950 *mapObject) {
+void StartDonketuRepeatJumpAfterHitState(MissionRunMapObject *mapObject) {
     if (GetRepeatsRemaining(mapObject) != 0) {
         Vec3 velocity = {0, 0, 0};
 
@@ -24,13 +24,13 @@ void StartDonketuRepeatJumpAfterHitState(Unk02188950 *mapObject) {
     }
 }
 
-void StartDonketuRepeatJumpsAfterHit(Unk02188950 *mapObject) {
+void StartDonketuRepeatJumpsAfterHit(MissionRunMapObject *mapObject) {
     SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mUnk_1f8);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpAfterHitState(mapObject);
 }
 
-void StartDonketuRepeatJumpState(Unk02188950 *mapObject) {
+void StartDonketuRepeatJumpState(MissionRunMapObject *mapObject) {
     if (GetRepeatsRemaining(mapObject) != 0) {
         Vec3 velocity = {0, 0, 0};
 
@@ -44,7 +44,7 @@ void StartDonketuRepeatJumpState(Unk02188950 *mapObject) {
     }
 }
 
-void StartDonketuRepeatJumps(Unk02188950 *mapObject) {
+void StartDonketuRepeatJumps(MissionRunMapObject *mapObject) {
     SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mUnk_128);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpState(mapObject);

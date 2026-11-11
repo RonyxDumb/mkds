@@ -8,7 +8,7 @@
 #include "01/unk_021a7000.h"
 #include "Main/Unknown/code_020fd000.h"
 
-void StartBombKingItemHitState(Unk02188950 *mapObject) {
+void StartBombKingItemHitState(MissionRunMapObject *mapObject) {
     if (GetAbsoluteCounter(mapObject) >= 2) {
         StartBombKingBounceStateAfterHits(mapObject);
     } else {

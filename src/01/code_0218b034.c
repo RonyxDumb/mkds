@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_020fd264.h"
 #include "code_02147cd8.h"
 
-void ThrowStoredItemBomb(Unk02188950 *mapObject) {
+void ThrowStoredItemBomb(MissionRunMapObject *mapObject) {
     Vec3 velocity;
 
     if (IsItemBombStored(mapObject)) {
@@ -22,7 +22,7 @@ void ThrowStoredItemBomb(Unk02188950 *mapObject) {
     }
 }
 
-void ThrowItemBombsInRing(Unk02188950 *mapObject) {
+void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
     RandomState64 *rng;
     s32 angle;
     s32 i;

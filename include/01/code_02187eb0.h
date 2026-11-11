@@ -2,15 +2,15 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct Kart Kart;
 typedef struct CourseMapGroupEntry CourseMapGroupEntry;
 
-void DecrementEntryIndexSkipZero(Unk02188950 *mapObject);
-CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject);
-s32 GetCurrentGroupEntryPercent(Unk02188950 *mapObject);
-s32 GetCurrentGroupEntryValue(Unk02188950 *mapObject);
-CourseMapGroupEntry *GetCurrentGroupEntry(Unk02188950 *mapObject);
-Kart *GetEntryKartFacingObject(Unk02188950 *mapObject, s32 radius, s32 halfAngle);
-Kart *GetEntryKartInAngleRange(Unk02188950 *mapObject, s32 angleOffset, s32 radius, s32 halfAngle);
-Kart *GetEntryKartInRange(Unk02188950 *mapObject, s32 radius, s32 halfAngle);
+void DecrementEntryIndexSkipZero(MissionRunMapObject *mapObject);
+CourseMapGroupEntry *GetNextGroupEntry(MissionRunMapObject *mapObject);
+s32 GetCurrentGroupEntryPercent(MissionRunMapObject *mapObject);
+s32 GetCurrentGroupEntryValue(MissionRunMapObject *mapObject);
+CourseMapGroupEntry *GetCurrentGroupEntry(MissionRunMapObject *mapObject);
+Kart *GetEntryKartFacingObject(MissionRunMapObject *mapObject, s32 radius, s32 halfAngle);
+Kart *GetEntryKartInAngleRange(MissionRunMapObject *mapObject, s32 angleOffset, s32 radius, s32 halfAngle);
+Kart *GetEntryKartInRange(MissionRunMapObject *mapObject, s32 radius, s32 halfAngle);

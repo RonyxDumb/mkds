@@ -45,5 +45,5 @@ Vec3 *GetMissionRunKartPos(void);
 void AddMissionRunCount(void);
 u16 GetMissionRunMapObjectLastIndex(void);
 u8 MissionRunGetCurrentKartCount(void);
-Unk02188950 *GetMissionRunMapObject(int entryIndex);
-void AddMissionRunMapObject(Unk02188950 *mapObject);
+MissionRunMapObject *GetMissionRunMapObject(int entryIndex);
+void AddMissionRunMapObject(MissionRunMapObject *mapObject);

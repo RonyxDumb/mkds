@@ -15,7 +15,7 @@
 #include "01/unk_021a7000.h"
 #include "Main/Unknown/code_020fd000.h"
 
-void StartBombKingJumpToEntryState(Unk02188950 *mapObject) {
+void StartBombKingJumpToEntryState(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     IncrementEntryIndex(mapObject);
@@ -29,7 +29,7 @@ void StartBombKingJumpToEntryState(Unk02188950 *mapObject) {
     mapObject->mGravityEnabled = FALSE;
 }
 
-void StartBombKingJumpState(Unk02188950 *mapObject) {
+void StartBombKingJumpState(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mUnk_1b8;

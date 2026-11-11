@@ -192,7 +192,7 @@ typedef struct MissionRunMapObjectEffect {
 } MissionRunMapObjectEffect;
 
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
-typedef struct Unk02188950 {
+typedef struct MissionRunMapObject {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ MissionRunPrm *mPrm;
     /* 0a4 */ struct Unk0218dabc *mUnk_0a4;
@@ -211,8 +211,8 @@ typedef struct Unk02188950 {
     /* 14c */ s32 mEntryIndex;
     /* 150 */ s32 mUnk_150;
     /* 154 */ s32 mUnk_154;
-    /* 158 */ s32 (*mUnk_158)(struct Unk02188950 *);
-    /* 15c */ s32 (*mUnk_15c)(struct Unk02188950 *);
+    /* 158 */ s32 (*mUnk_158)(struct MissionRunMapObject *);
+    /* 15c */ s32 (*mUnk_15c)(struct MissionRunMapObject *);
     /* 160 */ s32 mScaleTarget;
     /* 164 */ s32 mScalePerCall;
     /* 168 */ s32 mAlphaLimit;
@@ -240,9 +240,9 @@ typedef struct Unk02188950 {
     /* 1d8 */ s32 mAnimationFrameCallbackFrameIndex;
     /* 1dc */ UnkFunc *mAnimationFrameCallback;
     /* 1e0 */ s32 mUnk_1e0;
-    /* 1e4 */ void (*mUnk_1e4)(struct Unk02188950 *);
+    /* 1e4 */ void (*mUnk_1e4)(struct MissionRunMapObject *);
     /* 1e8 */ s32 mUnk_1e8;
-    /* 1ec */ void (*mUnk_1ec)(struct Unk02188950 *);
+    /* 1ec */ void (*mUnk_1ec)(struct MissionRunMapObject *);
     /* 1f0 */ s32 mStateFrameCount;
     /* 1f4 */ UnkFunc *mStateFrameCountCallback;
     /* 1f8 */ s32 mPointRadius;
@@ -300,24 +300,25 @@ typedef struct Unk02188950 {
     /* 300 */ void *mItemBomb;
     /* 304 */ struct MapObjectModel *mNsbmd;
     /* 308 */ struct MapObjectModel *mShadowNsbmd;
-} Unk02188950;
+} MissionRunMapObject;
 
-void SetVelocity(Unk02188950 *mapObject, Vec3 *velocity);
-void SetAnglePoint(Unk02188950 *mapObject, Vec3 *point);
-void SetMoveAnglePoint(Unk02188950 *mapObject, Vec3 *point);
-void SetAnglePointAndMoveAnglePoint(Unk02188950 *mapObject, Vec3 *point);
-void StopMoveAngleTurning(Unk02188950 *mapObject);
-void TurnAndMoveToPointOwnRates(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+void SetVelocity(MissionRunMapObject *mapObject, Vec3 *velocity);
+void SetAnglePoint(MissionRunMapObject *mapObject, Vec3 *point);
+void SetMoveAnglePoint(MissionRunMapObject *mapObject, Vec3 *point);
+void SetAnglePointAndMoveAnglePoint(MissionRunMapObject *mapObject, Vec3 *point);
+void StopMoveAngleTurning(MissionRunMapObject *mapObject);
+void TurnAndMoveToPointOwnRates(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
                                 s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
-void SpinTowardPointMoveToPoint(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+void SpinTowardPointMoveToPoint(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
                                 s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
-void SpinAngleStopMoveAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
-void TurnToPointMoveSideways(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+void SpinAngleStopMoveAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
+void TurnToPointMoveSideways(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
                              s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement, s32 moveAngleOffset);
-void TurnSidewaysMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+void TurnSidewaysMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
                                   s32 angleOffset);
-void StopTurningMoveFromPoint(Unk02188950 *mapObject, s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement);
-void TurnFromPointMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
-void TurnAndMoveToPointSameRate(Unk02188950 *mapObject, s32 perCallTarget, s32 perCallIncrement);
-void TurnToPointMoveFollowsAngle(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
-void StopTurningMoveFollowsAngle(Unk02188950 *mapObject);
+void StopTurningMoveFromPoint(MissionRunMapObject *mapObject, s32 moveAnglePerCallTarget,
+                              s32 moveAnglePerCallIncrement);
+void TurnFromPointMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
+void TurnAndMoveToPointSameRate(MissionRunMapObject *mapObject, s32 perCallTarget, s32 perCallIncrement);
+void TurnToPointMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement);
+void StopTurningMoveFollowsAngle(MissionRunMapObject *mapObject);

@@ -8,12 +8,12 @@ typedef struct WordPair {
     /* 04 */ u32 mHigh;
 } WordPair;
 
-typedef WordPair (*Unk02134008Func)(WordPair a, WordPair b, u32 c);
+typedef WordPair (*FloatTrapHandlerFunc)(WordPair a, WordPair b, u32 c);
 
 // Returned by GetFloatTrapTable; FloatTrapDispatch calls one of the function pointers at 0x04-0x14.
 typedef struct FloatTrapTable {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ Unk02134008Func mHandlers[5];
+    /* 04 */ FloatTrapHandlerFunc mHandlers[5];
 } FloatTrapTable;
 
 u32 FloatTrapPairPairToWord(u32 firstLow, u32 firstHigh, u32 secondLow, u32 secondHigh, u32 statusFlags);

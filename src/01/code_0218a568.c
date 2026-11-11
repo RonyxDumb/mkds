@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_020fd000.h"
 #include "Main/Unknown/code_020fd264.h"
 
-void StartBombKingJumpWaitState(Unk02188950 *mapObject) {
+void StartBombKingJumpWaitState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
     StopTurningMoveFollowsAngle(mapObject);
@@ -30,7 +30,7 @@ void StartBombKingJumpWaitState(Unk02188950 *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x238);
 }
 
-void StartBombKingJumpCycle(Unk02188950 *mapObject) {
+void StartBombKingJumpCycle(MissionRunMapObject *mapObject) {
     IncrementEntryIndex(mapObject);
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_17c, mapObject->mPrm->mUnk_180);
@@ -41,7 +41,7 @@ void StartBombKingJumpCycle(Unk02188950 *mapObject) {
     SetBombKingSoundCallbacks(mapObject);
 }
 
-void StartBombKingThrowBombsState(Unk02188950 *mapObject) {
+void StartBombKingThrowBombsState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_140, mapObject->mPrm->mUnk_144, NULL);
     StopTurningMoveFollowsAngle(mapObject);
@@ -49,7 +49,7 @@ void StartBombKingThrowBombsState(Unk02188950 *mapObject) {
     SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, ThrowItemBombsInRing);
 }
 
-void StoreNewItemBombAndStartThrow(Unk02188950 *mapObject) {
+void StoreNewItemBombAndStartThrow(MissionRunMapObject *mapObject) {
     void *bomb;
 
     if (IsItemBombStored(mapObject) == 0) {
@@ -67,7 +67,7 @@ void StoreNewItemBombAndStartThrow(Unk02188950 *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x23c);
 }
 
-void StartBombKingChaseState(Unk02188950 *mapObject) {
+void StartBombKingChaseState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
     kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_0c0, mapObject->mPrm->mUnk_0c4);
@@ -86,7 +86,7 @@ void StartBombKingChaseState(Unk02188950 *mapObject) {
     }
 }
 
-void StartItemBombThrow(Unk02188950 *mapObject) {
+void StartItemBombThrow(MissionRunMapObject *mapObject) {
     if (IsItemBombStored(mapObject) != 0) {
         StartMapObjectState(mapObject, 3, NULL);
         StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8, 0);
@@ -96,7 +96,7 @@ void StartItemBombThrow(Unk02188950 *mapObject) {
     }
 }
 
-void StartBombKingStoreFoundItemBombState(Unk02188950 *mapObject) {
+void StartBombKingStoreFoundItemBombState(MissionRunMapObject *mapObject) {
     ItemBomb *bomb;
     Kart *kart;
 
@@ -122,7 +122,7 @@ void StartBombKingStoreFoundItemBombState(Unk02188950 *mapObject) {
     }
 }
 
-void StartBombKingWalkToBombState(Unk02188950 *mapObject) {
+void StartBombKingWalkToBombState(MissionRunMapObject *mapObject) {
     ItemBomb *bomb;
 
     bomb = FindItemBombInRange(mapObject, mapObject->mPrm->mUnk_114, mapObject->mPrm->mUnk_118);
@@ -139,7 +139,7 @@ void StartBombKingWalkToBombState(Unk02188950 *mapObject) {
     }
 }
 
-void StartBombKingRandomState(Unk02188950 *mapObject) {
+void StartBombKingRandomState(MissionRunMapObject *mapObject) {
     u32 randomLimit;
     RandomState64 *rng;
     u32 randomValue;
@@ -170,7 +170,7 @@ void StartBombKingRandomState(Unk02188950 *mapObject) {
     }
 }
 
-void StartBombKingWalkState(Unk02188950 *mapObject) {
+void StartBombKingWalkState(MissionRunMapObject *mapObject) {
     MissionRunPrm *prm;
 
     IncrementEntryIndex(mapObject);
@@ -186,7 +186,7 @@ void StartBombKingWalkState(Unk02188950 *mapObject) {
     SetBombKingSoundCallbacks(mapObject);
 }
 
-int StartBombKingBounceEffects(Unk02188950 *mapObject) {
+int StartBombKingBounceEffects(MissionRunMapObject *mapObject) {
     if ((mapObject->mCollisionBits & 0x1e34ef) != 0) {
         if (mapObject->mVelocity.y > 0x3333) {
             ReleaseEffects(mapObject);
@@ -200,7 +200,7 @@ int StartBombKingBounceEffects(Unk02188950 *mapObject) {
     return 0;
 }
 
-int SwitchToBounceEffectsOnCollision(Unk02188950 *mapObject) {
+int SwitchToBounceEffectsOnCollision(MissionRunMapObject *mapObject) {
     if ((mapObject->mCollisionBits & 0x1e34ef) != 0) {
         mapObject->mUnk_158 = StartBombKingBounceEffects;
     }

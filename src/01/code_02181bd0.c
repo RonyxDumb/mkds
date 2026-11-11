@@ -116,7 +116,7 @@ void StartCoinBossTransfer(void) {
     s32 angle;
     s32 speed;
     u8 kartCount;
-    Unk02188950 *targetObject;
+    MissionRunMapObject *targetObject;
     SoundStartParams soundArg;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);

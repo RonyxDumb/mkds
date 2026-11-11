@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void SetRepeatsRemaining(Unk02188950 *mapObject, s32 repeatsRemaining);
-unsigned short GetAbsoluteCounter(Unk02188950 *mapObject);
+void SetRepeatsRemaining(MissionRunMapObject *mapObject, s32 repeatsRemaining);
+unsigned short GetAbsoluteCounter(MissionRunMapObject *mapObject);

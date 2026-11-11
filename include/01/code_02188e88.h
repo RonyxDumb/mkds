@@ -14,10 +14,10 @@
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 
-void StopMapObjectState(Unk02188950 *mapObject);
-void ClearAndRunCallback(Unk02188950 *mapObject, void (**callbackSlot)());
-BOOL IsDirectionToPointWithinAngle(Unk02188950 *mapObject, s32 angle, Vec3 *point, s32 halfAngle);
-BOOL IsWithinXzDistanceOfPoint(Unk02188950 *mapObject, Vec3 *point, s32 radius);
+void StopMapObjectState(MissionRunMapObject *mapObject);
+void ClearAndRunCallback(MissionRunMapObject *mapObject, void (**callbackSlot)());
+BOOL IsDirectionToPointWithinAngle(MissionRunMapObject *mapObject, s32 angle, Vec3 *point, s32 halfAngle);
+BOOL IsWithinXzDistanceOfPoint(MissionRunMapObject *mapObject, Vec3 *point, s32 radius);
 void DrawRaceHudSubScreenKingTeresaCells(void *oamBuffer);
 void UpdateRaceHudSubScreenKingTeresaCells(void);
 void ClearRaceHudSubScreenKingTeresaCells(void);

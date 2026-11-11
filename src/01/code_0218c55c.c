@@ -3,7 +3,7 @@
 #include "01/code_02188cd8.h"
 #include "Main/Unknown/code_02042044.h"
 
-u32 UpdateKurikingFaceKartState(Unk02188950 *mapObject) {
+u32 UpdateKurikingFaceKartState(MissionRunMapObject *mapObject) {
     CourseMapGroupEntry *currentGroupEntry;
     currentGroupEntry = GetCurrentGroupEntry(mapObject);
     SetMoveAnglePoint(mapObject, &currentGroupEntry->mPos);

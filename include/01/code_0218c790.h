@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-u32 GetMapObjectNsbtpFrameIndex(Unk02188950 *mapObject);
+u32 GetMapObjectNsbtpFrameIndex(MissionRunMapObject *mapObject);

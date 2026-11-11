@@ -17,4 +17,4 @@ extern MtxFx43 gJgMatrix;
 void StoreNodePositionAndPlaceItemBomb(NNSG3dRS *renderState);
 void *StartItemBombWithParkedKuribo(void);
 void *StartItemBombWithParkedItemBox(u16 forcedRow);
-void IncrementEntryGroupIndex(Unk02188950 *mapObject, s32 groupSpan);
+void IncrementEntryGroupIndex(MissionRunMapObject *mapObject, s32 groupSpan);

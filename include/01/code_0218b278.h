@@ -4,4 +4,4 @@
 #include "01/code_02188e24.h"
 #include "01/code_0218b000.h"
 
-void SetBombKingSoundCallbacks(Unk02188950 *mapObject);
+void SetBombKingSoundCallbacks(MissionRunMapObject *mapObject);

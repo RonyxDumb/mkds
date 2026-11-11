@@ -2,7 +2,7 @@
 #include "01/code_02188950.h"
 #include "code_02133048.h"
 
-void SetKurikingCollisionAndShadow(Unk02188950 *mapObject) {
+void SetKurikingCollisionAndShadow(MissionRunMapObject *mapObject) {
     s32 *shadowScaleTarget;
     MissionRunPrm *prm;
     prm = mapObject->mPrm;
@@ -16,7 +16,7 @@ void SetKurikingCollisionAndShadow(Unk02188950 *mapObject) {
     mapObject->mShadowScaleZ = *shadowScaleTarget;
 }
 
-void SetDoubledCollisionAndShadowTargets(Unk02188950 *mapObject) {
+void SetDoubledCollisionAndShadowTargets(MissionRunMapObject *mapObject) {
     u32 offsetPerCall;
     u32 extentPerCall;
     int extentXZ;
@@ -34,7 +34,7 @@ void SetDoubledCollisionAndShadowTargets(Unk02188950 *mapObject) {
     mapObject->mShadowScaleTargetZ = 0x00018000u;
 }
 
-void SetTripledCollisionAndShadowTargets(Unk02188950 *mapObject) {
+void SetTripledCollisionAndShadowTargets(MissionRunMapObject *mapObject) {
     u32 offsetPerCall;
     u32 extentPerCall;
     int extentXZ;

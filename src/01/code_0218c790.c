@@ -13,6 +13,6 @@
 #include "Main/Unknown/code_02110000.h"
 #include "Main/Unknown/code_0209bef0.h"
 
-u32 GetMapObjectNsbtpFrameIndex(Unk02188950 *mapObject) {
+u32 GetMapObjectNsbtpFrameIndex(MissionRunMapObject *mapObject) {
     return GetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd);
 }

@@ -8,7 +8,7 @@
 typedef struct Unk021a7b64 {
     /* 00 */ s32 mObjectCount;
     /* 04 */ s32 mObjectSize;
-    /* 08 */ void (*mInitObject)(Unk02188950 *);
+    /* 08 */ void (*mInitObject)(MissionRunMapObject *);
     /* 0c */ void (*mCreateKindData)(void);
     /* 10 */ void *(*mUnk_10)(void);
     /* 14 */ s32 mUnk_14;
@@ -50,15 +50,15 @@ typedef struct Unk021a7b64 {
 #include "Main/Unknown/code_020a2300.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void StartKurikingChaseKartState(Unk02188950 *mapObject);
-void GrowKuriking(Unk02188950 *mapObject);
-void StartKurikingGrowState(Unk02188950 *mapObject);
-int UpdateKurikingGrowSound(Unk02188950 *mapObject);
-void StartKurikingTurnToRowState(Unk02188950 *mapObject);
-void StartKurikingJumpAnimationState(Unk02188950 *mapObject);
-void StartKurikingJumpState(Unk02188950 *mapObject);
-void StartKurikingJumpLandState(Unk02188950 *mapObject);
-void StartKurikingFaceKartState(Unk02188950 *mapObject);
-void StartKurikingThrowBombsState(Unk02188950 *mapObject);
+void StartKurikingChaseKartState(MissionRunMapObject *mapObject);
+void GrowKuriking(MissionRunMapObject *mapObject);
+void StartKurikingGrowState(MissionRunMapObject *mapObject);
+int UpdateKurikingGrowSound(MissionRunMapObject *mapObject);
+void StartKurikingTurnToRowState(MissionRunMapObject *mapObject);
+void StartKurikingJumpAnimationState(MissionRunMapObject *mapObject);
+void StartKurikingJumpState(MissionRunMapObject *mapObject);
+void StartKurikingJumpLandState(MissionRunMapObject *mapObject);
+void StartKurikingFaceKartState(MissionRunMapObject *mapObject);
+void StartKurikingThrowBombsState(MissionRunMapObject *mapObject);
 
 #include "01/code_0219b540.h"

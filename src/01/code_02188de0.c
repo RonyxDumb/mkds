@@ -3,7 +3,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020a3000.h"
 
-void SetPointInRangeCallback(Unk02188950 *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
+void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
                              UnkFunc *callback) {
     UnkFunc *storedCallback;
 

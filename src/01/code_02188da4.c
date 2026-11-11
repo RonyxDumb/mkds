@@ -1,21 +1,21 @@
 #include "01/code_02188da4.h"
 #include "01/code_02188e88.h"
 
-void SetStoppedCallback(Unk02188950 *mapObject, UnkFunc *callback) {
+void SetStoppedCallback(MissionRunMapObject *mapObject, UnkFunc *callback) {
     if (callback == NULL) {
         callback = (UnkFunc *) StopMapObjectState;
     }
     mapObject->mStoppedCallback = callback;
 }
 
-void SetCourseCollisionCallback(Unk02188950 *mapObject, void (*callback)(Unk02188950 *)) {
+void SetCourseCollisionCallback(MissionRunMapObject *mapObject, void (*callback)(MissionRunMapObject *)) {
     if (callback == NULL) {
         callback = (UnkFunc *) StopMapObjectState;
     }
     mapObject->mCourseCollisionCallback = callback;
 }
 
-void SetUnusedCallback(Unk02188950 *mapObject, UnkFunc *callback) {
+void SetUnusedCallback(MissionRunMapObject *mapObject, UnkFunc *callback) {
     if (callback == NULL) {
         callback = (UnkFunc *) StopMapObjectState;
     }

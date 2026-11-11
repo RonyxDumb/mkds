@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void ReleaseAndSetItemBomb(Unk02188950 *mapObject, void *itemBomb);
-void SetNodePositionSourceAndBombOffset(Unk02188950 *mapObject, s32 matchValue, const Vec3 *offset);
+void ReleaseAndSetItemBomb(MissionRunMapObject *mapObject, void *itemBomb);
+void SetNodePositionSourceAndBombOffset(MissionRunMapObject *mapObject, s32 matchValue, const Vec3 *offset);

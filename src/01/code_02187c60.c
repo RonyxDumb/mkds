@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_020fd264.h"
 #include "Main/Unknown/code_02147000.h"
 
-void SetNodePositionSourceAndBombOffset(Unk02188950 *mapObject, s32 matchValue, const Vec3 *offset) {
+void SetNodePositionSourceAndBombOffset(MissionRunMapObject *mapObject, s32 matchValue, const Vec3 *offset) {
     mapObject->mUnk_2e4 = matchValue;
     mapObject->mUnk_2f4 = *offset;
     mapObject->mNsbmd->mAnimatedModel->mRenderObj.mPtrUser = mapObject;
@@ -20,7 +20,7 @@ void SetNodePositionSourceAndBombOffset(Unk02188950 *mapObject, s32 matchValue, 
                                 3);
 }
 
-void ReleaseAndSetItemBomb(Unk02188950 *mapObject, void *itemBomb) {
+void ReleaseAndSetItemBomb(MissionRunMapObject *mapObject, void *itemBomb) {
     if (mapObject->mItemBomb != NULL) {
         ReleaseItemBomb(&mapObject->mItemBomb);
     }

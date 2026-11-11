@@ -9,4 +9,4 @@
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020d3000.h"
 
-s32 UpdateDonketuWaterJumpSplash(Unk02188950 *donketu);
+s32 UpdateDonketuWaterJumpSplash(MissionRunMapObject *donketu);

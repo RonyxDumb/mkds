@@ -7,7 +7,7 @@
 #include "01/code_0218c584.h"
 #include "01/code_0219b1c4.h"
 
-void StartKurikingTurnToEntryState(Unk02188950 *mapObject) {
+void StartKurikingTurnToEntryState(MissionRunMapObject *mapObject) {
     CourseMapGroupEntry *currentGroupEntry;
     MissionRunPrm *prm;
     StartMapObjectState(mapObject, 2, &UpdateKurikingTurnToEntryState);

@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-BOOL DecrementCounterToNegativeLimit(Unk02188950 *mapObject);
+BOOL DecrementCounterToNegativeLimit(MissionRunMapObject *mapObject);

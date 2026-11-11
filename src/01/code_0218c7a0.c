@@ -64,10 +64,10 @@
 #include "01/code_0218d374.h"
 #include "code_02147cd8.h"
 
-void StartHanachanKartNotEliminatedState(Unk02188950 *mapObject) {
+void StartHanachanKartNotEliminatedState(MissionRunMapObject *mapObject) {
     int i;
     MapObjectList *list;
-    Unk02188950 *follower;
+    MissionRunMapObject *follower;
     SoundStartParams soundRequest;
 
     StartMapObjectState(mapObject, 8, NULL);
@@ -89,7 +89,7 @@ void StartHanachanKartNotEliminatedState(Unk02188950 *mapObject) {
 
 void HanachanStandingsEndCallback(void) {
     MapObjectList *list;
-    Unk02188950 *follower;
+    MissionRunMapObject *follower;
     int i;
 
     ResetMissionRunMapObjects();
@@ -102,7 +102,7 @@ void HanachanStandingsEndCallback(void) {
     }
 }
 
-s32 UpdateHanachanWaitForRaceStart(Unk02188950 *mapObject) {
+s32 UpdateHanachanWaitForRaceStart(MissionRunMapObject *mapObject) {
     int raceStarted;
     raceStarted = IsRaceStarted();
     if (raceStarted == 1) {
@@ -111,35 +111,35 @@ s32 UpdateHanachanWaitForRaceStart(Unk02188950 *mapObject) {
     return 0;
 }
 
-void StartHanachanWaitForRaceStart(Unk02188950 *mapObject) {
+void StartHanachanWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateHanachanWaitForRaceStart);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void StartHanachanStartupSecond(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartHanachanStartupSecond(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
                                   &StartHanachanWaitForRaceStart);
 }
 
-void StartHanachanStartupFirst(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartHanachanStartupFirst(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanStartupSecond);
 }
 
-void StartHanachanChainStartupSecond(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartHanachanChainStartupSecond(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
 }
 
-void StartHanachanChainStartupFirst(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartHanachanChainStartupFirst(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartHanachanChainStartupSecond);
 }
 
-s32 UpdateFollowerWaitForRaceStart(Unk02188950 *mapObject) {
+s32 UpdateFollowerWaitForRaceStart(MissionRunMapObject *mapObject) {
     int raceStarted;
     raceStarted = IsRaceStarted();
     if (raceStarted == 1) {
@@ -148,7 +148,7 @@ s32 UpdateFollowerWaitForRaceStart(Unk02188950 *mapObject) {
     return 0;
 }
 
-s32 UpdateFollowerStartupEffects(Unk02188950 *mapObject) {
+s32 UpdateFollowerStartupEffects(MissionRunMapObject *mapObject) {
     int nsbcaFrameIndex;
     nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
     if (nsbcaFrameIndex == 0x33) {
@@ -164,35 +164,35 @@ s32 UpdateFollowerStartupEffects(Unk02188950 *mapObject) {
     return 0;
 }
 
-void StartFollowerWaitForRaceStart(Unk02188950 *mapObject) {
+void StartFollowerWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateFollowerWaitForRaceStart);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void StartHanachanFollowerStartupSecond(Unk02188950 *mapObject) {
+void StartHanachanFollowerStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateFollowerStartupEffects);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
                                   &StartFollowerWaitForRaceStart);
 }
 
-void StartHanachanFollowerStartupFirst(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartHanachanFollowerStartupFirst(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanFollowerStartupSecond);
 }
 
-void StartFollowerChainStartupSecond(Unk02188950 *mapObject) {
+void StartFollowerChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
 }
 
-void StartFollowerChainStartupFirst(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+void StartFollowerChainStartupFirst(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartFollowerChainStartupSecond);
 }
 
-void StartHanachanFollowerWaitAnimState(Unk02188950 *mapObject) {
+void StartHanachanFollowerWaitAnimState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanFollowerStartupSecond);
@@ -200,7 +200,7 @@ void StartHanachanFollowerWaitAnimState(Unk02188950 *mapObject) {
 
 void InitHanachanObjects(MapObjectList *mapObjectList) {
     int i;
-    Unk02188950 *mapObject;
+    MissionRunMapObject *mapObject;
 
     if (mapObjectList != NULL) {
         for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
@@ -215,7 +215,7 @@ void InitHanachanObjects(MapObjectList *mapObjectList) {
     SetStandingsEndCallback((void (*)(void)) HanachanStandingsEndCallback);
 }
 
-void UpdateHanachan(u32 unused, Unk02188950 *mapObject) {
+void UpdateHanachan(u32 unused, MissionRunMapObject *mapObject) {
     int result;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -250,7 +250,7 @@ void UpdateHanachan(u32 unused, Unk02188950 *mapObject) {
 
 void InitHanachanFollowerObjects(MapObjectList *mapObjectList) {
     int i;
-    Unk02188950 *mapObject;
+    MissionRunMapObject *mapObject;
 
     if (mapObjectList != NULL) {
         for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
@@ -265,7 +265,7 @@ void InitHanachanFollowerObjects(MapObjectList *mapObjectList) {
     }
 }
 
-void UpdateHanachanFollower(u32 unused, Unk02188950 *mapObject) {
+void UpdateHanachanFollower(u32 unused, MissionRunMapObject *mapObject) {
     int collisionResult;
     PlaceHanachanFollowerBehindXz(mapObject);
     TurnHanachanFollowerToPrevious(mapObject);
@@ -278,16 +278,16 @@ void UpdateHanachanFollower(u32 unused, Unk02188950 *mapObject) {
     AdvanceMissionRunMapObject(unused, mapObject);
 }
 
-void InitHanachanMapObject(Unk02188950 *mapObject) {
-    Unk02188950 *firstFollower;
-    Unk02188950 *secondFollower;
-    Unk02188950 *thirdFollower;
-    Unk02188950 *fourthFollower;
+void InitHanachanMapObject(MissionRunMapObject *mapObject) {
+    MissionRunMapObject *firstFollower;
+    MissionRunMapObject *secondFollower;
+    MissionRunMapObject *thirdFollower;
+    MissionRunMapObject *fourthFollower;
 
-    firstFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
-    secondFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
-    thirdFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
-    fourthFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    firstFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    secondFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    thirdFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    fourthFollower = (MissionRunMapObject *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
     firstFollower->mUnk_0a4 = (struct Unk0218dabc *) mapObject;
     secondFollower->mUnk_0a4 = (struct Unk0218dabc *) firstFollower;
     thirdFollower->mUnk_0a4 = (struct Unk0218dabc *) secondFollower;
@@ -297,13 +297,13 @@ void InitHanachanMapObject(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }
 
-void InitHanachanFollowerMapObject(Unk02188950 *mapObject) {
+void InitHanachanFollowerMapObject(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xd, &mapObject->mUnk_000.mPos);
     mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }
 
-void HanachanKartHitCallback(Unk02188950 *mapObject, MissionRunPrm *kart) {
+void HanachanKartHitCallback(MissionRunMapObject *mapObject, MissionRunPrm *kart) {
     s32 moveAngle;
     s32 diff;
 
@@ -346,7 +346,7 @@ void HanachanKartHitCallback(Unk02188950 *mapObject, MissionRunPrm *kart) {
 }
 
 void InitHanachan(MapObjectList *mapObjectList) {
-    Unk02188950 *obj;
+    MissionRunMapObject *obj;
     s32 i;
 
     if (mapObjectList != NULL) {
@@ -370,8 +370,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     void *firstNsbca;
     void *secondNsbca;
     void *firstNsbtp;
-    Unk02188950 *obj;
-    Unk02188950 *sourceObject;
+    MissionRunMapObject *obj;
+    MissionRunMapObject *sourceObject;
 
     firstNsbca = LoadMissionRunFile(gHanachan1NsbcaName);
     secondNsbca = LoadMissionRunFile(gHanachan2NsbcaName);
@@ -444,7 +444,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     SetItemCollisionCallback(obj, HanachanItemHitCallback);
 }
 
-void DrawHanachan(void *mapObjectList, Unk02188950 *mapObject) {
+void DrawHanachan(void *mapObjectList, MissionRunMapObject *mapObject) {
     DrawMissionRunMapObject(mapObjectList, mapObject);
     DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }

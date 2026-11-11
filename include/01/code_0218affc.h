@@ -4,4 +4,4 @@
 #include "01/code_02185ef4.h"
 #include "Main/Unknown/code_020d2000.h"
 
-void StartBombKingEffectAndSound(Unk02188950 *mapObject);
+void StartBombKingEffectAndSound(MissionRunMapObject *mapObject);

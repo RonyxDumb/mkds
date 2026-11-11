@@ -9,7 +9,7 @@
 
 WordPair FloatTrapDispatch(WordPair firstPair, WordPair secondPair, u32 statusFlags) {
     FloatTrapTable *floatTrapTable;
-    Unk02134008Func fn;
+    FloatTrapHandlerFunc fn;
 
     floatTrapTable = GetFloatTrapTable();
     if ((statusFlags & 0xc00000) == 0) {

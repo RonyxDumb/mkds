@@ -7,19 +7,19 @@
 #include "Main/Unknown/code_0209bef0.h"
 #include "Main/Unknown/code_020d275c.h"
 
-u16 GetAbsoluteCounterWrapper(Unk02188950 *mapObject) {
+u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject) {
     return GetAbsoluteCounter(mapObject);
 }
 
-void BombKingJumpKartCollisionCallback(Unk02188950 *mapObject) {
+void BombKingJumpKartCollisionCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2d8 = 0xb;
     mapObject->mUnk_000.mDistanceSquaredAndFlags |= gBombKingSkipKindSoundFlag;
 }
 
-void BombKingFirstSoundCallback(Unk02188950 *mapObject) {
+void BombKingFirstSoundCallback(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x237);
 }
 
-void BombKingSecondSoundCallback(Unk02188950 *mapObject) {
+void BombKingSecondSoundCallback(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x237);
 }

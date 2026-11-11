@@ -8,4 +8,4 @@
 #include "Main/Unknown/code_02073000.h"
 #include "Main/Unknown/code_020d2000.h"
 
-void StartDonketuWaterLandState(Unk02188950 *donketu);
+void StartDonketuWaterLandState(MissionRunMapObject *donketu);

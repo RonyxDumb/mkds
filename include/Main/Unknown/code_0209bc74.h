@@ -20,7 +20,7 @@ typedef struct MapObjectModel {
     // made this way may attach none (NsKiller1, Berry, Cream).
     /* 10 */ Nsbmd *mAnimatedModel;
     // The 0x74 shadow model object (the type the kart, killer item and jg shadows use) built from an .nsbmd shadow file
-    // by CreateMapObjectModelShadow; Unk02188950.mShadowNsbmd points at a bundle that holds one.
+    // by CreateMapObjectModelShadow; MissionRunMapObject.mShadowNsbmd points at a bundle that holds one.
     /* 14 */ ShadowModel *mShadowModel;
     // The .nsbmd file as FindCourseMapObjFile returned it (pointer into the archive), used by the animation creators;
     // 0 unless the Animated creator ran (overlay 1: the file LoadMissionRunFile read).

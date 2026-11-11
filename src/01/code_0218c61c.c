@@ -9,10 +9,10 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_02110000.h"
 
-void KurikingFirstSoundCallback(Unk02188950 *mapObject) {
+void KurikingFirstSoundCallback(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x223);
 }
 
-void KurikingSecondSoundCallback(Unk02188950 *mapObject) {
+void KurikingSecondSoundCallback(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x223);
 }

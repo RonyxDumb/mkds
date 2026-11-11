@@ -5,4 +5,4 @@
 #include "01/code_02188000.h"
 #include "01/code_02188950.h"
 
-u32 UpdateKurikingFaceKartState(Unk02188950 *mapObject);
+u32 UpdateKurikingFaceKartState(MissionRunMapObject *mapObject);

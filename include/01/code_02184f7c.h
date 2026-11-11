@@ -3,7 +3,7 @@
 #include "types.h"
 #include "01/code_021a5140.h"
 #include "01/code_021a59cc.h"
-#include "01/code_02188950.h" // Unk02188950
+#include "01/code_02188950.h" // MissionRunMapObject
 
 // Data that CreateLld gets for the name it is given.
 typedef struct LldRecord {
@@ -30,8 +30,8 @@ typedef struct OamBuffer_000 {
     /* 1e */ s16 mUnk_1e;
 } OamBuffer_000;
 
-void StartDonketuStepSoundSecond(Unk02188950 *mapObject);
-void StartDonketuStepSoundFirst(Unk02188950 *mapObject);
+void StartDonketuStepSoundSecond(MissionRunMapObject *mapObject);
+void StartDonketuStepSoundFirst(MissionRunMapObject *mapObject);
 void SetLldEntryBounds(LldEntry *entry, s32 left, s32 top, s32 right, s32 bottom);
 s32 GetLldEntryScale(LldEntry *entry);
 void SetLldEntryScale(LldEntry *entry, s32 scale);

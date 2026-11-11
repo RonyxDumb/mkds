@@ -8,6 +8,6 @@
 #include "Main/Unknown/code_020fd000.h"
 #include "Main/Unknown/code_02147000.h"
 
-u16 GetRepeatsRemaining(Unk02188950 *mapObject) {
+u16 GetRepeatsRemaining(MissionRunMapObject *mapObject) {
     return mapObject->mUnk_0b4;
 }

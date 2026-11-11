@@ -6,4 +6,4 @@
 #include "01/code_02188da4.h"
 #include "01/code_0218d000.h"
 
-void StartHanachanMoveState(Unk02188950 *mapObject);
+void StartHanachanMoveState(MissionRunMapObject *mapObject);

@@ -34,7 +34,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_02147cd8.h"
 
-void StartKurikingKartInRangeState(Unk02188950 *mapObject) {
+void StartKurikingKartInRangeState(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
 
     StartMapObjectState(mapObject, 2, UpdateKurikingKartInRangeState);
@@ -47,7 +47,7 @@ void StartKurikingKartInRangeState(Unk02188950 *mapObject) {
     SetKurikingSoundCallbacks(mapObject);
 }
 
-void SetKurikingWalkByCounter(Unk02188950 *mapObject) {
+void SetKurikingWalkByCounter(MissionRunMapObject *mapObject) {
     if (GetAbsoluteCounter(mapObject) == 0) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0a4, mapObject->mPrm->mUnk_0a8);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0ac, mapObject->mPrm->mUnk_0b0);
@@ -63,7 +63,7 @@ void SetKurikingWalkByCounter(Unk02188950 *mapObject) {
     SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0b4, 0, &GetCurrentGroupEntry(mapObject)->mPos, NULL);
 }
 
-void StartKurikingWalkState(Unk02188950 *mapObject) {
+void StartKurikingWalkState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, UpdateKurikingWalkState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_098, mapObject->mPrm->mUnk_09c);
     StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_0a0, mapObject->mPrm->mUnk_09c, 0);
@@ -71,7 +71,7 @@ void StartKurikingWalkState(Unk02188950 *mapObject) {
     SetKurikingSoundCallbacks(mapObject);
 }
 
-void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
+void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     MissionRunPrm *prm;
     RandomState64 *random;
     u32 firstRange;

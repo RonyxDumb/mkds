@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void StartBombKingItemHitState(Unk02188950 *mapObject);
+void StartBombKingItemHitState(MissionRunMapObject *mapObject);

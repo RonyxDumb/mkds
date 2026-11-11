@@ -112,7 +112,7 @@ void ThrowItemKinokoFromPosition(void *kinoko, Vec3 *position, Vec3 *velocity, s
     }
 }
 
-void ReleaseEffects(Unk02188950 *mapObject) {
+void ReleaseEffects(MissionRunMapObject *mapObject) {
     s32 effectIndex;
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
@@ -124,7 +124,7 @@ void ReleaseEffects(Unk02188950 *mapObject) {
 }
 
 // Writes a point for one entry of the object's table; the entry's type (1-5) picks how, others write nothing.
-void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *position) {
+void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3 *position) {
     Camera *camera;
     s32 scaledX;
     s32 scaledY;
@@ -208,8 +208,8 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
     }
 }
 
-void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32 offsetY, s32 offsetZ, u32 effectId,
-                       s32 timer) {
+void StartEffectInSlot(MissionRunMapObject *mapObject, s32 effectIndex, s32 offsetX, s32 offsetY, s32 offsetZ,
+                       u32 effectId, s32 timer) {
     Vec3 position;
 
     mapObject->mEffects[effectIndex].mTimer = timer;
@@ -228,7 +228,8 @@ void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32
     }
 }
 
-void StartEffectAtOffset(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId, u32 timer) {
+void StartEffectAtOffset(MissionRunMapObject *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId,
+                         u32 timer) {
     int effectIndex;
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
@@ -240,7 +241,8 @@ void StartEffectAtOffset(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u32 o
     }
 }
 
-void StartEffectAtScaledOffset(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId, u32 timer) {
+void StartEffectAtScaledOffset(MissionRunMapObject *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId,
+                               u32 timer) {
     int effectIndex;
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
@@ -252,7 +254,8 @@ void StartEffectAtScaledOffset(Unk02188950 *mapObject, u32 offsetX, u32 offsetY,
     }
 }
 
-void StartEffectAtRowHeight(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId, u32 timer) {
+void StartEffectAtRowHeight(MissionRunMapObject *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId,
+                            u32 timer) {
     int effectIndex;
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
@@ -264,7 +267,8 @@ void StartEffectAtRowHeight(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u3
     }
 }
 
-void StartEffectAtWaterHeight(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId, u32 timer) {
+void StartEffectAtWaterHeight(MissionRunMapObject *mapObject, u32 offsetX, u32 offsetY, u32 offsetZ, u32 effectId,
+                              u32 timer) {
     int effectIndex;
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
@@ -276,7 +280,7 @@ void StartEffectAtWaterHeight(Unk02188950 *mapObject, u32 offsetX, u32 offsetY, 
     }
 }
 
-void StartModelEffectAtWaterHeight(Unk02188950 *mapObject, u32 modelEffectKind, int timer) {
+void StartModelEffectAtWaterHeight(MissionRunMapObject *mapObject, u32 modelEffectKind, int timer) {
     int effectIndex;
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
@@ -299,8 +303,8 @@ void SetEffectDirection(Unk0201ca6c *emitter, const Vec3s16 *direction) {
     emitter->mUnk_50 = *direction;
 }
 
-void StartEffectWithRotatedDirection(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, int emitterParamX,
-                                     int emitterParamY, int emitterParamZ, int effectId, u32 timer) {
+void StartEffectWithRotatedDirection(MissionRunMapObject *mapObject, int offsetX, int offsetY, int offsetZ,
+                                     int emitterParamX, int emitterParamY, int emitterParamZ, int effectId, u32 timer) {
     int effectIndex;
     Vec3 position;
     Vec3s16 emitterParams;
@@ -328,7 +332,7 @@ void StartEffectWithRotatedDirection(Unk02188950 *mapObject, int offsetX, int of
     }
 }
 
-void StartMapObjectState(Unk02188950 *mapObject, int stateNumber, s32 (*nextFunc)(Unk02188950 *)) {
+void StartMapObjectState(MissionRunMapObject *mapObject, int stateNumber, s32 (*nextFunc)(MissionRunMapObject *)) {
     mapObject->mUnk_158 = NULL;
     mapObject->mUnk_15c = nextFunc;
     mapObject->mUnk_150 = stateNumber;
@@ -354,26 +358,26 @@ void StartMapObjectState(Unk02188950 *mapObject, int stateNumber, s32 (*nextFunc
     }
 }
 
-void DisableMissionRunMapObjectGravity(Unk02188950 *mapObject) {
+void DisableMissionRunMapObjectGravity(MissionRunMapObject *mapObject) {
     mapObject->mGravityEnabled = FALSE;
 }
 
-u32 IsStateNumberBelow(Unk02188950 *mapObject, int stateNumberLimit) {
+u32 IsStateNumberBelow(MissionRunMapObject *mapObject, int stateNumberLimit) {
     if (mapObject->mUnk_150 < stateNumberLimit) {
         return 1;
     }
     return 0;
 }
 
-BOOL IsNotRisingWithBelowZeroBit(Unk02188950 *mapObject) {
+BOOL IsNotRisingWithBelowZeroBit(MissionRunMapObject *mapObject) {
     if ((mapObject->mCollisionBits & 0x800) != 0 && mapObject->mVelocity.y <= 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const char *nsbmdName, const char *nsbcaName,
-                             const char *prmName) {
+void InitMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject, const char *nsbmdName,
+                             const char *nsbcaName, const char *prmName) {
     if (mapObjectList != NULL && nsbmdName != NULL) {
         mapObject->mNsbmd = LoadMapObjectModelAnimated(mapObjectList, nsbmdName);
         if (nsbcaName != NULL) {
@@ -397,7 +401,7 @@ void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const 
     mapObject->mEntryGroupIndex = mapObject->mUnk_000.mCourseMapRow->mGroupIndex;
 }
 
-void LoadMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, const char *shadowNsbmdName) {
+void LoadMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *mapObject, const char *shadowNsbmdName) {
     if (mapObjectList != NULL && shadowNsbmdName != NULL) {
         mapObject->mShadowNsbmd = LoadMapObjectModelShadow(mapObjectList, shadowNsbmdName);
         SetMapObjectModelPolygonId(mapObject->mShadowNsbmd, 0x3f);
@@ -483,7 +487,7 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
     return angle + turn;
 }
 
-void AdvanceMissionRunMapObject(u32 unused, Unk02188950 *mapObject) {
+void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     Vec3 probePosition;
     Vec3 pushOut;
     Vec3 v50;
@@ -823,7 +827,7 @@ void AdvanceMissionRunMapObject(u32 unused, Unk02188950 *mapObject) {
     }
 }
 
-void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
+void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject) {
     s32 materialIndex;
     s32 alphaLimit;
     NNSG3dResMdl *resMdl;
@@ -872,7 +876,7 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
     }
 }
 
-void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, s32 invertDepth) {
+void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *mapObject, s32 invertDepth) {
     s32 depth;
     s32 value;
     Vec3 shadowPosition;
@@ -939,7 +943,7 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
     }
 }
 
-s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
+s32 ComputeSphereHitOnMissionRunMapObject(MissionRunMapObject *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
                                           Vec3 *overlapOffset) {
     s32 diffX;
     s32 diffY;
@@ -970,7 +974,7 @@ s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCe
     }
 }
 
-s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *firstResponsePointer,
+s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kart, u8 *firstResponsePointer,
                                        u8 *responsePointer) {
     Vec3 awayDirection;
     s64 pushStrength;
@@ -1008,7 +1012,7 @@ s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *f
     return mapObject->mUnk_2d8;
 }
 
-s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
+s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
                                        u8 *responsePointer) {
     Vec3 awayDirection;
     UnkFunc *collisionCallback;

@@ -23,7 +23,7 @@
 #include "01/code_0218e000.h"
 #include "01/unk_021a7000.h"
 
-void StartHanachanMoveStateByBalloons(Unk02188950 *mapObject) {
+void StartHanachanMoveStateByBalloons(MissionRunMapObject *mapObject) {
     s32 speedPercent;
     s32 scaleFactor;
     s32 entryPercent;
@@ -48,10 +48,10 @@ void StartHanachanMoveStateByBalloons(Unk02188950 *mapObject) {
     SetHanachanSoundCallbacks(mapObject);
 }
 
-void StartHanachanKartEliminatedState(Unk02188950 *mapObject) {
+void StartHanachanKartEliminatedState(MissionRunMapObject *mapObject) {
     int i;
     MapObjectList *list;
-    Unk02188950 *follower;
+    MissionRunMapObject *follower;
 
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);

@@ -78,7 +78,7 @@ typedef struct MissionRunData {
     /* 40 */ u16 mKartHeadingAngle;
     /* 42 */ u16 mPrevKartHeadingAngle;
     /* 44 */ s32 mMapObjectCount;
-    /* 48 */ struct Unk02188950 *mMapObjects[8];
+    /* 48 */ struct MissionRunMapObject *mMapObjects[8];
 } MissionRunData;
 
 // A square grid of mSide by mSide cells.

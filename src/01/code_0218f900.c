@@ -9,16 +9,16 @@
 #include "01/code_0218f000.h"
 #include "Main/Unknown/code_0209bef0.h"
 
-u16 IsIwanteWalkB(Unk02188950 *mapObject) {
+u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
     return mapObject->mUnk_0a8 == 2;
 }
 
-void KingTeresaKartCollisionCallback(Unk02188950 *mapObject) {
+void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2d8 = 0;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
 }
 
-void ShowKingTeresaWithEffects(Unk02188950 *mapObject) {
+void ShowKingTeresaWithEffects(MissionRunMapObject *mapObject) {
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
     SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1ac, mapObject->mPrm->mUnk_1b0);
     SetSpeedAndClearTarget(mapObject, 0);

@@ -103,7 +103,7 @@ void DrawRaceHudSubScreenKingTeresaCells(void *oamBuffer) {
 
 #pragma thumb on
 
-BOOL IsWithinXzDistanceOfPoint(Unk02188950 *mapObject, Vec3 *point, s32 radius) {
+BOOL IsWithinXzDistanceOfPoint(MissionRunMapObject *mapObject, Vec3 *point, s32 radius) {
     Vec3 unusedOffset;
     s32 dx;
     s32 dz;
@@ -132,7 +132,7 @@ BOOL IsWithinXzDistanceOfPoint(Unk02188950 *mapObject, Vec3 *point, s32 radius) 
     return 0;
 }
 
-BOOL IsDirectionToPointWithinAngle(Unk02188950 *mapObject, s32 angle, Vec3 *point, s32 halfAngle) {
+BOOL IsDirectionToPointWithinAngle(MissionRunMapObject *mapObject, s32 angle, Vec3 *point, s32 halfAngle) {
     s32 angleDifference;
 
     if (point != NULL) {
@@ -149,7 +149,7 @@ BOOL IsDirectionToPointWithinAngle(Unk02188950 *mapObject, s32 angle, Vec3 *poin
     return 0;
 }
 
-void ClearAndRunCallback(Unk02188950 *mapObject, void (**callbackSlot)()) {
+void ClearAndRunCallback(MissionRunMapObject *mapObject, void (**callbackSlot)()) {
     void (*callback)() = *callbackSlot;
 
     *callbackSlot = NULL;
@@ -158,6 +158,6 @@ void ClearAndRunCallback(Unk02188950 *mapObject, void (**callbackSlot)()) {
     }
 }
 
-void StopMapObjectState(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 0, (s32(*)(Unk02188950 *))(0));
+void StopMapObjectState(MissionRunMapObject *mapObject) {
+    StartMapObjectState(mapObject, 0, (s32(*)(MissionRunMapObject *))(0));
 }

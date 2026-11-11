@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void StartDonketuWaterJumpState(Unk02188950 *donketu) {
+void StartDonketuWaterJumpState(MissionRunMapObject *donketu) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = donketu->mPrm->mUnk_238;
@@ -32,7 +32,7 @@ void StartDonketuWaterJumpState(Unk02188950 *donketu) {
     donketu->mUnk_000.mFlags |= data_ov001_021a6578;
 }
 
-void StartDonketuWaterWalkState(Unk02188950 *donketu) {
+void StartDonketuWaterWalkState(MissionRunMapObject *donketu) {
     u32 targetAndPerCall;
     StartMapObjectState(donketu, 8, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_210, donketu->mPrm->mUnk_214);
@@ -44,7 +44,7 @@ void StartDonketuWaterWalkState(Unk02188950 *donketu) {
     StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_220, &StartDonketuWaterJumpState);
 }
 
-void StartDonketuWaterSinkState(Unk02188950 *donketu) {
+void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     Vec3 velocity;
     s32 scale;
 
@@ -73,7 +73,7 @@ void StartDonketuWaterSinkState(Unk02188950 *donketu) {
     donketu->mUnk_000.mFlags |= data_ov001_021a6578;
 }
 
-void StartDonketuKartNotEliminatedState(Unk02188950 *donketu) {
+void StartDonketuKartNotEliminatedState(MissionRunMapObject *donketu) {
     Vec3 velocity = {0, 0, 0};
 
     StartMapObjectState(donketu, 8, NULL);
@@ -99,36 +99,36 @@ void StartDonketuKartNotEliminatedState(Unk02188950 *donketu) {
     donketu->mUnk_000.mFlags |= data_ov001_021a6578;
 }
 
-void StartDonketuJumpLandState(Unk02188950 *donketu) {
+void StartDonketuJumpLandState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 5, NULL);
     StartAnimationWithEndCallback(donketu, donketu->mPrm->mUnk_160, donketu->mPrm->mUnk_164, NULL);
     SetSpeedAndClearTarget(donketu, 0);
 }
 
-u32 UpdateDonketuJumpSound(Unk02188950 *donketu) {
+u32 UpdateDonketuJumpSound(MissionRunMapObject *donketu) {
     StartMapObjectSoundWhileRequested(&donketu->mUnk_000, 0x00000243u);
     return 0;
 }
 
-void StartDonketuJumpState(Unk02188950 *donketu) {
+void StartDonketuJumpState(MissionRunMapObject *donketu) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = donketu->mPrm->mUnk_154;
-    StartMapObjectState(donketu, 5, (s32(*)(Unk02188950 *)) UpdateDonketuJumpSound);
+    StartMapObjectState(donketu, 5, (s32(*)(MissionRunMapObject *)) UpdateDonketuJumpSound);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_14c, donketu->mPrm->mUnk_150);
     SpinAngleStopMoveAngle(donketu, donketu->mPrm->mUnk_158, donketu->mPrm->mUnk_158);
     SetVelocity(donketu, &velocity);
     SetCourseCollisionCallback(donketu, StartDonketuJumpLandState);
 }
 
-void StartDonketuJumpWaitState(Unk02188950 *donketu) {
+void StartDonketuJumpWaitState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 5, NULL);
     StartAnimationWithEndCallback(donketu, donketu->mPrm->mUnk_12c, donketu->mPrm->mUnk_130, NULL);
     StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_134, &StartDonketuJumpState);
     SetSpeedAndClearTarget(donketu, 0);
 }
 
-s32 UpdateDonketuChaseStop(Unk02188950 *donketu) {
+s32 UpdateDonketuChaseStop(MissionRunMapObject *donketu) {
     SetAnglePointAndMoveAnglePoint(donketu, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
     if (donketu->mSpeed < donketu->mPrm->mUnk_108) {
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
@@ -137,7 +137,7 @@ s32 UpdateDonketuChaseStop(Unk02188950 *donketu) {
     return 0;
 }
 
-void StartDonketuChaseStopState(Unk02188950 *donketu) {
+void StartDonketuChaseStopState(MissionRunMapObject *donketu) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -155,7 +155,7 @@ void StartDonketuChaseStopState(Unk02188950 *donketu) {
     SetDonketuStepEffectCallbacks((u16 *) donketu);
 }
 
-void StartDonketuChaseRunState(Unk02188950 *donketu) {
+void StartDonketuChaseRunState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 2, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_0f4, donketu->mPrm->mUnk_0f8);
     StopTurningMoveFollowsAngle(donketu);
@@ -165,7 +165,7 @@ void StartDonketuChaseRunState(Unk02188950 *donketu) {
     SetDonketuStepEffectCallbacks((u16 *) donketu);
 }
 
-void StartDonketuChaseWaitState(Unk02188950 *donketu) {
+void StartDonketuChaseWaitState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 2, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_0e8, donketu->mPrm->mUnk_0ec);
     StopTurningMoveFollowsAngle(donketu);
@@ -173,7 +173,7 @@ void StartDonketuChaseWaitState(Unk02188950 *donketu) {
     SetDonketuStepSoundCallbacks(donketu);
 }
 
-void StartDonketuChaseRunAtStart(Unk02188950 *donketu) {
+void StartDonketuChaseRunAtStart(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 2, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_080, donketu->mPrm->mUnk_084);
     StopTurningMoveFollowsAngle(donketu);
@@ -183,7 +183,7 @@ void StartDonketuChaseRunAtStart(Unk02188950 *donketu) {
     SetDonketuStepEffectCallbacks((u16 *) donketu);
 }
 
-void StartDonketuChaseKartState(Unk02188950 *donketu) {
+void StartDonketuChaseKartState(MissionRunMapObject *donketu) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -201,7 +201,7 @@ void StartDonketuChaseKartState(Unk02188950 *donketu) {
     SetDonketuStepSoundCallbacks(donketu);
 }
 
-void StartDonketuWalkToCourseMapRow(Unk02188950 *donketu) {
+void StartDonketuWalkToCourseMapRow(MissionRunMapObject *donketu) {
     if (IsPointInRange(donketu, (Vec3 *) donketu->mUnk_000.mCourseMapRow, (donketu->mPrm->mUnk_180 + 0x28), 0)) {
         StartMapObjectState(donketu, 3, NULL);
         StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_168, donketu->mPrm->mUnk_16c);
@@ -222,7 +222,7 @@ void StartDonketuWalkToCourseMapRow(Unk02188950 *donketu) {
     SetDonketuStepSoundCallbacks(donketu);
 }
 
-void StartDonketuWalkState(Unk02188950 *donketu) {
+void StartDonketuWalkState(MissionRunMapObject *donketu) {
     MissionRunPrm *prm;
 
     prm = donketu->mPrm;
@@ -246,12 +246,12 @@ void StartDonketuWalkState(Unk02188950 *donketu) {
     SetDonketuStepSoundCallbacks(donketu);
 }
 
-void StartDonketuWaterFallState(Unk02188950 *donketu) {
+void StartDonketuWaterFallState(MissionRunMapObject *donketu) {
     StartDonketuWaterSinkState(donketu);
     IncrementHitCountAndCheckLimit(donketu);
 }
 
-void StartDonketuKartEliminatedState(Unk02188950 *donketu) {
+void StartDonketuKartEliminatedState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_078, donketu->mPrm->mUnk_07c);
     StopTurningMoveFollowsAngle(donketu);
@@ -262,7 +262,7 @@ void DonketuStandingsEndCallback(void) {
     ResetMissionRunMapObjects();
 }
 
-int UpdateDonketuWaitForRaceStart(Unk02188950 *donketu) {
+int UpdateDonketuWaitForRaceStart(MissionRunMapObject *donketu) {
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
         if (GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 2 ||
             GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 3) {
@@ -279,7 +279,7 @@ int UpdateDonketuWaitForRaceStart(Unk02188950 *donketu) {
     return 0;
 }
 
-int UpdateDonketuStartupEffects(Unk02188950 *donketu) {
+int UpdateDonketuStartupEffects(MissionRunMapObject *donketu) {
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
         if (GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 2) {
             ReleaseEffects(donketu);
@@ -298,7 +298,7 @@ int UpdateDonketuStartupEffects(Unk02188950 *donketu) {
     return 0;
 }
 
-s32 UpdateDonketuKingIceEffects(Unk02188950 *donketu) {
+s32 UpdateDonketuKingIceEffects(MissionRunMapObject *donketu) {
     int nsbcaFrameIndex;
     if ((donketu->mUnk_000.mKind == 0x000001f6u) &&
         (nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd), nsbcaFrameIndex == 2)) {
@@ -311,12 +311,12 @@ s32 UpdateDonketuKingIceEffects(Unk02188950 *donketu) {
     return 0;
 }
 
-void StartDonketuWaitForRaceStart(Unk02188950 *donketu) {
+void StartDonketuWaitForRaceStart(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, &UpdateDonketuWaitForRaceStart);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_064, donketu->mPrm->mUnk_068);
 }
 
-void StartDonketuStartupSecond(Unk02188950 *donketu) {
+void StartDonketuStartupSecond(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, &UpdateDonketuStartupEffects);
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
         StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_058, donketu->mPrm->mUnk_05c);
@@ -327,18 +327,18 @@ void StartDonketuStartupSecond(Unk02188950 *donketu) {
                                   &StartDonketuWaitForRaceStart);
 }
 
-void StartDonketuStartupFirst(Unk02188950 *donketu) {
+void StartDonketuStartupFirst(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, UpdateDonketuKingIceEffects);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_04c, donketu->mPrm->mUnk_050);
     StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_054, &StartDonketuStartupSecond);
 }
 
-void StartDonketuChainStartupSecond(Unk02188950 *donketu) {
+void StartDonketuChainStartupSecond(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, UpdateDonketuKingIceEffects);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_040, donketu->mPrm->mUnk_044);
 }
 
-void StartDonketuChainStartupFirst(Unk02188950 *donketu) {
+void StartDonketuChainStartupFirst(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, UpdateDonketuKingIceEffects);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_034, donketu->mPrm->mUnk_038);
     StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_03c, &StartDonketuChainStartupSecond);
@@ -346,7 +346,7 @@ void StartDonketuChainStartupFirst(Unk02188950 *donketu) {
 
 void InitDonketuObjects(MapObjectList *list) {
     s32 objectIndex;
-    Unk02188950 *donketu;
+    MissionRunMapObject *donketu;
 
     if (list != NULL) {
         for (objectIndex = 0; objectIndex < list->mMapObjectCount && (donketu = list->mMapObjects[objectIndex]) != NULL;
@@ -365,7 +365,7 @@ void InitDonketuObjects(MapObjectList *list) {
     SetStandingsEndCallback((void (*)(void)) DonketuStandingsEndCallback);
 }
 
-void UpdateDonketu(u32 mapObjectList, Unk02188950 *donketu) {
+void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
     MissionRunPrm *prm;
     Kart *kart;
 
@@ -417,14 +417,14 @@ void UpdateDonketu(u32 mapObjectList, Unk02188950 *donketu) {
     AdvanceMissionRunMapObject(mapObjectList, donketu);
 }
 
-void InitDonketuSoundSource(Unk02188950 *donketu) {
+void InitDonketuSoundSource(MissionRunMapObject *donketu) {
     donketu->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource((SoundSource *) donketu->mUnk_000.mSound, 0xc, &donketu->mUnk_000.mPos);
     donketu->mUnk_000.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
 void InitBossDonketu(MapObjectList *list) {
-    Unk02188950 *donketu;
+    MissionRunMapObject *donketu;
     s32 objectIndex;
 
     if (list != NULL) {
@@ -444,7 +444,7 @@ void InitBossDonketu(MapObjectList *list) {
 }
 
 void InitKingIceDonketu(MapObjectList *list) {
-    Unk02188950 *donketu;
+    MissionRunMapObject *donketu;
     s32 objectIndex;
 
     if (list != NULL) {
@@ -463,7 +463,7 @@ void InitKingIceDonketu(MapObjectList *list) {
     }
 }
 
-void DrawDonketu(void *mapObjectList, Unk02188950 *donketu) {
+void DrawDonketu(void *mapObjectList, MissionRunMapObject *donketu) {
     DrawMissionRunMapObject(mapObjectList, donketu);
     DrawMissionRunMapObjectShadow(mapObjectList, donketu, 0);
 }

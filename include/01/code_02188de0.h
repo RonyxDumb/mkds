@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void SetPointInRangeCallback(Unk02188950 *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
+void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
                              UnkFunc *callback);

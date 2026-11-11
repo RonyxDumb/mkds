@@ -63,7 +63,7 @@ void UpdateRaceHudSubScreenIwanteCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenIwanteCells->mCells[cellCount].mDrawPos,
                                                 var, 1, 1)) {
-                if (IsIwanteWalkB((Unk02188950 *) object)) {
+                if (IsIwanteWalkB((MissionRunMapObject *) object)) {
                     entryIndex = (object->mFlags & 0x400) ? 0xc8 : 0xc6;
                 } else {
                     entryIndex = (object->mFlags & 0x400) ? 0xc7 : 0xc5;
@@ -111,7 +111,7 @@ void UpdateRaceHudSubScreenKurikingCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenKurikingCells->mCells[cellCount].mDrawPos,
                                                 var, 1, 1)) {
-                row = GetAbsoluteCounterWrapper((Unk02188950 *) object);
+                row = GetAbsoluteCounterWrapper((MissionRunMapObject *) object);
                 racePalette = GetRaceNclrNcgr(6)->mNclr->mData;
                 nclr = NULL;
                 LocateNclr((&nclr), (FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR")));
@@ -327,7 +327,7 @@ void UpdateRaceHudSubScreenHanachanCells(void) {
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenHanachanCells->mCells[cellCount].mDrawPos, unk,
                                             1, 1)) {
             gRaceHudSubScreenHanachanCells->mCells[cellCount].mCell =
-                GetRaceSNcerEntry(GetMapObjectNsbtpFrameIndex((Unk02188950 *) object) >= 2 ? 0xc6 : 0xc5);
+                GetRaceSNcerEntry(GetMapObjectNsbtpFrameIndex((MissionRunMapObject *) object) >= 2 ? 0xc6 : 0xc5);
             gRaceHudSubScreenHanachanCells->mCells[cellCount].mPriority =
                 IsPositionOutsideBox(position) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
             gRaceHudSubScreenHanachanCells->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;

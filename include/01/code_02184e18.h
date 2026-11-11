@@ -8,8 +8,8 @@
 #include "Main/Unknown/code_020d2000.h"
 
 void SetDonketuStepEffectCallbacks(u16 *mapObject);
-void SetDonketuStepSoundCallbacks(Unk02188950 *mapObject);
-void StartKingIceDonketuStepEffectSecond(Unk02188950 *mapObject);
-void StartKingIceDonketuStepEffectFirst(Unk02188950 *mapObject);
-void StartBossDonketuStepEffectSecond(Unk02188950 *mapObject);
-void StartBossDonketuStepEffectFirst(Unk02188950 *mapObject);
+void SetDonketuStepSoundCallbacks(MissionRunMapObject *mapObject);
+void StartKingIceDonketuStepEffectSecond(MissionRunMapObject *mapObject);
+void StartKingIceDonketuStepEffectFirst(MissionRunMapObject *mapObject);
+void StartBossDonketuStepEffectSecond(MissionRunMapObject *mapObject);
+void StartBossDonketuStepEffectFirst(MissionRunMapObject *mapObject);

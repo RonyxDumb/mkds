@@ -1,7 +1,7 @@
 #include "01/code_02188484.h"
 #include "01/code_02188950.h"
 
-void SetShadowOffsetYAndScale(Unk02188950 *mapObject, s32 offsetY, s32 scaleXZ) {
+void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 scaleXZ) {
     if (offsetY == 0) {
         mapObject->mUnk_27c = 1;
     } else {
@@ -17,7 +17,7 @@ void SetShadowOffsetYAndScale(Unk02188950 *mapObject, s32 offsetY, s32 scaleXZ) 
     mapObject->mShadowScalePerCall = 0;
 }
 
-void SetShadowOffsetYAndScaleTarget(Unk02188950 *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
+void SetShadowOffsetYAndScaleTarget(MissionRunMapObject *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
                                     u32 scalePerCall) {
     if (offsetY == 0) {
         mapObject->mUnk_27c = 1;
@@ -34,7 +34,7 @@ void SetShadowOffsetYAndScaleTarget(Unk02188950 *mapObject, int offsetY, u32 off
     mapObject->mShadowScalePerCall = scalePerCall;
 }
 
-void SetCollisionOffsetAndExtent(Unk02188950 *mapObject, s32 offsetY, s32 extentXZ, s32 extentY) {
+void SetCollisionOffsetAndExtent(MissionRunMapObject *mapObject, s32 offsetY, s32 extentXZ, s32 extentY) {
     if (extentY == 0) {
         mapObject->mCollisionShape = 0;
     } else {
@@ -53,7 +53,7 @@ void SetCollisionOffsetAndExtent(Unk02188950 *mapObject, s32 offsetY, s32 extent
     mapObject->mPosWithOffset.z = mapObject->mUnk_000.mPos.z + mapObject->mOffset.z;
 }
 
-void SetCollisionOffsetAndExtentTarget(Unk02188950 *mapObject, u32 offsetY, u32 offsetPerCall, u32 extentXZ,
+void SetCollisionOffsetAndExtentTarget(MissionRunMapObject *mapObject, u32 offsetY, u32 offsetPerCall, u32 extentXZ,
                                        int extentY, u32 extentPerCall) {
     if (extentY == 0) {
         mapObject->mCollisionShape = 0;
@@ -70,7 +70,7 @@ void SetCollisionOffsetAndExtentTarget(Unk02188950 *mapObject, u32 offsetY, u32 
     mapObject->mCollisionExtentPerCall = extentPerCall;
 }
 
-void SetShadowOffsetAndScale(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX, u32 f,
+void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX, u32 f,
                              u32 scaleZ) {
     int *v1;
     int *v2;
@@ -100,8 +100,8 @@ void SetShadowOffsetAndScale(Unk02188950 *mapObject, int offsetX, u32 offsetY, u
     mapObject->mShadowScalePerCall = 0;
 }
 
-void SetShadowOffsetAndScaleTarget(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 offsetPerCall,
-                                   u32 scaleX, u32 g, u32 scaleZ, u32 scalePerCall) {
+void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
+                                   u32 offsetPerCall, u32 scaleX, u32 g, u32 scaleZ, u32 scalePerCall) {
     mapObject->mUnk_27c = 0;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
@@ -116,7 +116,7 @@ void SetShadowOffsetAndScaleTarget(Unk02188950 *mapObject, int offsetX, u32 offs
     mapObject->mShadowScalePerCall = scalePerCall;
 }
 
-void SetCollisionBoxOffsetAndExtent(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, u32 extentX,
+void SetCollisionBoxOffsetAndExtent(MissionRunMapObject *mapObject, int offsetX, int offsetY, int offsetZ, u32 extentX,
                                     u32 extentY, u32 extentZ) {
     int *v1;
     int *v2;
@@ -155,7 +155,7 @@ void SetCollisionBoxOffsetAndExtent(Unk02188950 *mapObject, int offsetX, int off
     mapObject->mPosWithOffset.z = mapObject->mUnk_000.mPos.z + *v3;
 }
 
-void SetCollisionBoxOffsetAndExtentTarget(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
+void SetCollisionBoxOffsetAndExtentTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
                                           u32 offsetPerCall, u32 extentX, u32 extentY, u32 extentZ, u32 extentPerCall) {
     mapObject->mCollisionShape = 1;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {

@@ -13,7 +13,7 @@
 #include "Main/Unknown/code_020fd264.h"
 #include "code_02147cd8.h"
 
-void ThrowItemBombsInRingAndCenter(Unk02188950 *mapObject) {
+void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
     RandomState64 *rng;
     s32 angle;
     s32 i;
@@ -41,7 +41,7 @@ void ThrowItemBombsInRingAndCenter(Unk02188950 *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
 }
 
-void StartBombKingJumpLandState(Unk02188950 *mapObject) {
+void StartBombKingJumpLandState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_200, mapObject->mPrm->mUnk_204, NULL);
     StopTurningMoveFollowsAngle(mapObject);
@@ -53,7 +53,7 @@ void StartBombKingJumpLandState(Unk02188950 *mapObject) {
     SetKartCollisionCallback(mapObject, NULL);
 }
 
-void StartBombKingJumpFallState(Unk02188950 *mapObject) {
+void StartBombKingJumpFallState(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mUnk_1fc;

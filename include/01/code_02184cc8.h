@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void StartDonketuRepeatJumps(Unk02188950 *mapObject);
-void StartDonketuRepeatJumpState(Unk02188950 *mapObject);
-void StartDonketuRepeatJumpsAfterHit(Unk02188950 *mapObject);
-void StartDonketuRepeatJumpAfterHitState(Unk02188950 *mapObject);
+void StartDonketuRepeatJumps(MissionRunMapObject *mapObject);
+void StartDonketuRepeatJumpState(MissionRunMapObject *mapObject);
+void StartDonketuRepeatJumpsAfterHit(MissionRunMapObject *mapObject);
+void StartDonketuRepeatJumpAfterHitState(MissionRunMapObject *mapObject);

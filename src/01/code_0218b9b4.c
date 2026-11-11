@@ -35,11 +35,11 @@
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020f9c6c.h"
 
-void StartKurikingThrowBombsState(Unk02188950 *mapObject) {
+void StartKurikingThrowBombsState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(mapObject, 2, (s32(*)(Unk02188950 *)) UpdateKurikingFaceKartState);
+    StartMapObjectState(mapObject, 2, (s32(*)(MissionRunMapObject *)) UpdateKurikingFaceKartState);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_184, mapObject->mPrm->mUnk_188,
                                   StartKurikingTurnToEntryState);
     StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_18c, mapObject->mPrm->mUnk_188, 0);
@@ -51,11 +51,11 @@ void StartKurikingThrowBombsState(Unk02188950 *mapObject) {
     SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_190, ThrowBombsAndKinoko);
 }
 
-void StartKurikingFaceKartState(Unk02188950 *mapObject) {
+void StartKurikingFaceKartState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(mapObject, 2, (s32(*)(Unk02188950 *)) UpdateKurikingFaceKartState);
+    StartMapObjectState(mapObject, 2, (s32(*)(MissionRunMapObject *)) UpdateKurikingFaceKartState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_134, mapObject->mPrm->mUnk_138);
     StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_13c, mapObject->mPrm->mUnk_138, 0);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_140, mapObject->mPrm->mUnk_144);
@@ -68,7 +68,7 @@ void StartKurikingFaceKartState(Unk02188950 *mapObject) {
     SetKurikingSoundCallbacks(mapObject);
 }
 
-void StartKurikingJumpLandState(Unk02188950 *mapObject) {
+void StartKurikingJumpLandState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_1f8, mapObject->mPrm->mUnk_1fc, NULL);
     StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_200, mapObject->mPrm->mUnk_1fc, 0);
@@ -77,7 +77,7 @@ void StartKurikingJumpLandState(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mFlags &= ~0x20;
 }
 
-void StartKurikingJumpState(Unk02188950 *mapObject) {
+void StartKurikingJumpState(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     velocity.y = mapObject->mPrm->mUnk_1f4;
@@ -92,7 +92,7 @@ void StartKurikingJumpState(Unk02188950 *mapObject) {
     mapObject->mUnk_000.mFlags |= gKurikingJumpFlag;
 }
 
-void StartKurikingJumpAnimationState(Unk02188950 *mapObject) {
+void StartKurikingJumpAnimationState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_1d4, mapObject->mPrm->mUnk_1d8,
                                   StartKurikingJumpState);
@@ -101,7 +101,7 @@ void StartKurikingJumpAnimationState(Unk02188950 *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
 }
 
-void StartKurikingTurnToRowState(Unk02188950 *mapObject) {
+void StartKurikingTurnToRowState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1b4, mapObject->mPrm->mUnk_1b8);
     StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_1bc, mapObject->mPrm->mUnk_1b8, 0);
@@ -112,7 +112,7 @@ void StartKurikingTurnToRowState(Unk02188950 *mapObject) {
     SetKurikingSoundCallbacks(mapObject);
 }
 
-int UpdateKurikingGrowSound(Unk02188950 *mapObject) {
+int UpdateKurikingGrowSound(MissionRunMapObject *mapObject) {
     if (GetAbsoluteCounter(mapObject) == 1) {
         StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x220);
     } else if (GetAbsoluteCounter(mapObject) == 2) {
@@ -121,7 +121,7 @@ int UpdateKurikingGrowSound(Unk02188950 *mapObject) {
     return 0;
 }
 
-void StartKurikingGrowState(Unk02188950 *mapObject) {
+void StartKurikingGrowState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateKurikingGrowSound);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0dc, mapObject->mPrm->mUnk_0e0);
     StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_0e4, mapObject->mPrm->mUnk_0e0, 0);
@@ -142,12 +142,12 @@ void StartKurikingGrowState(Unk02188950 *mapObject) {
     }
 }
 
-void GrowKuriking(Unk02188950 *mapObject) {
+void GrowKuriking(MissionRunMapObject *mapObject) {
     StartKurikingGrowState(mapObject);
     DecrementCounterToNegativeLimit(mapObject);
 }
 
-void StartKurikingChaseKartState(Unk02188950 *mapObject) {
+void StartKurikingChaseKartState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);

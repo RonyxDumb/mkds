@@ -31,7 +31,7 @@
 #include "Main/Unknown/code_021000d0.h"
 #include "code_02147cd8.h"
 
-void PlaceHanachanFollowerBehindXz(Unk02188950 *mapObject) {
+void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject) {
     Unk0218dabc *previousObject = mapObject->mUnk_0a4;
     int distance;
     u16 oppositeAngle = (previousObject->mUnk_184 + 0x8000);
@@ -55,7 +55,7 @@ void PlaceHanachanFollowerBehindXz(Unk02188950 *mapObject) {
         mapObject->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
-void TurnHanachanFollowerToPrevious(Unk02188950 *mapObject) {
+void TurnHanachanFollowerToPrevious(MissionRunMapObject *mapObject) {
     int diff;
     int step;
     int limit;
@@ -76,7 +76,7 @@ void TurnHanachanFollowerToPrevious(Unk02188950 *mapObject) {
     }
 }
 
-void PlaceHanachanFollowerBehind(Unk02188950 *mapObject) {
+void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject) {
     Unk0218dabc *previousObject = mapObject->mUnk_0a4;
     int distance;
     u16 oppositeAngle = (previousObject->mUnk_184 + 0x8000);
@@ -101,12 +101,12 @@ void PlaceHanachanFollowerBehind(Unk02188950 *mapObject) {
         mapObject->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
-void CopyHanachanFollowerPreviousAngle(Unk02188950 *mapObject) {
+void CopyHanachanFollowerPreviousAngle(MissionRunMapObject *mapObject) {
     mapObject->mAngle = mapObject->mUnk_0a4->mUnk_184;
     mapObject->mMoveAngle = mapObject->mAngle;
 }
 
-void AdvanceHanachanCounter(Unk02188950 *mapObject) {
+void AdvanceHanachanCounter(MissionRunMapObject *mapObject) {
     ReleaseEffects(mapObject);
     StartEffectAtOffset(mapObject, 0, mapObject->mOffset.y >> 4, 0, 0x427, 0xf);
     StartEffectAtOffset(mapObject, 0, mapObject->mOffset.y >> 4, 0, 0x426, 0xf);
@@ -120,10 +120,10 @@ void AdvanceHanachanCounter(Unk02188950 *mapObject) {
     SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
 }
 
-void AdvanceHanachanCounterForAll(Unk02188950 *mapObject) {
+void AdvanceHanachanCounterForAll(MissionRunMapObject *mapObject) {
     MapObjectList *list;
     int i;
-    Unk02188950 *follower;
+    MissionRunMapObject *follower;
 
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
@@ -134,7 +134,7 @@ void AdvanceHanachanCounterForAll(Unk02188950 *mapObject) {
     AdvanceHanachanCounter(mapObject);
 }
 
-void StartHanachanFollowerMoveState(Unk02188950 *mapObject) {
+void StartHanachanFollowerMoveState(MissionRunMapObject *mapObject) {
     s32 frameOffset;
     float frameIndexValue;
     ModelAnimation *modelAnimation;
@@ -152,7 +152,7 @@ void StartHanachanFollowerMoveState(Unk02188950 *mapObject) {
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
 }
 
-void StartHanachanAnimationScaled(Unk02188950 *mapObject, int speedPercent) {
+void StartHanachanAnimationScaled(MissionRunMapObject *mapObject, int speedPercent) {
     MapObjectList *list;
     int i;
 
@@ -165,10 +165,10 @@ void StartHanachanAnimationScaled(Unk02188950 *mapObject, int speedPercent) {
     }
 }
 
-void SetHanachanFollowersTurnTiming(Unk02188950 *mapObject, int speedPercent) {
+void SetHanachanFollowersTurnTiming(MissionRunMapObject *mapObject, int speedPercent) {
     MapObjectList *list;
     int i;
-    Unk02188950 *follower;
+    MissionRunMapObject *follower;
 
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
@@ -179,7 +179,7 @@ void SetHanachanFollowersTurnTiming(Unk02188950 *mapObject, int speedPercent) {
     }
 }
 
-void SetHanachanSpeedAndTurnToNextEntry(Unk02188950 *mapObject, int speedPercent) {
+void SetHanachanSpeedAndTurnToNextEntry(MissionRunMapObject *mapObject, int speedPercent) {
     MissionRunPrm *prm;
 
     prm = mapObject->mPrm;
@@ -189,12 +189,12 @@ void SetHanachanSpeedAndTurnToNextEntry(Unk02188950 *mapObject, int speedPercent
     SetAnglePointAndMoveAnglePoint(mapObject, &GetNextGroupEntry(mapObject)->mPos);
 }
 
-void StartHanachanMoveAnimation(Unk02188950 *mapObject) {
+void StartHanachanMoveAnimation(MissionRunMapObject *mapObject) {
     mapObject->mUnk_150 = 1;
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088, mapObject->mPrm->mUnk_08c);
 }
 
-int UpdateHanachanMoveState(Unk02188950 *mapObject) {
+int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
     int speedPercent;
     s32 entryPercent;
     s32 *v;

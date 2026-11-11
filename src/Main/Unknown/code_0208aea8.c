@@ -42,7 +42,7 @@ void AdvanceStadiumEmitters(void) {
     s32 nextIndex;
     s32 emitterIndex;
     s32 randomDraw;
-    Unk0217b050Func *getManager;
+    GetSPLManagerFunc *getManager;
     Camera *camera;
 
     data_0217b048->mEmitterTimer--;

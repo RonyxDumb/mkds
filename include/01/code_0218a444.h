@@ -8,7 +8,7 @@
 #include "01/code_02189000.h"
 #include "01/code_0218a000.h"
 
-void StartBombKingBounceStateAfterHits(Unk02188950 *mapObject);
-void StartBombKingStoppedStateAfterHits(Unk02188950 *mapObject);
-void StartBombKingBounceState(Unk02188950 *mapObject);
-void StartBombKingStoppedState(Unk02188950 *mapObject);
+void StartBombKingBounceStateAfterHits(MissionRunMapObject *mapObject);
+void StartBombKingStoppedStateAfterHits(MissionRunMapObject *mapObject);
+void StartBombKingBounceState(MissionRunMapObject *mapObject);
+void StartBombKingStoppedState(MissionRunMapObject *mapObject);

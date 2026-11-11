@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void ThrowBombsAndKinoko(Unk02188950 *mapObject);
-void StartKurikingWalkState(Unk02188950 *mapObject);
-void SetKurikingWalkByCounter(Unk02188950 *mapObject);
-void StartKurikingKartInRangeState(Unk02188950 *mapObject);
+void ThrowBombsAndKinoko(MissionRunMapObject *mapObject);
+void StartKurikingWalkState(MissionRunMapObject *mapObject);
+void SetKurikingWalkByCounter(MissionRunMapObject *mapObject);
+void StartKurikingKartInRangeState(MissionRunMapObject *mapObject);

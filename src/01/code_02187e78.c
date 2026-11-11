@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 
-void IncrementEntryIndex(Unk02188950 *mapObject) {
+void IncrementEntryIndex(MissionRunMapObject *mapObject) {
     int nextEntryIndex;
 
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {

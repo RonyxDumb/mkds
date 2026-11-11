@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-typedef struct Unk02188950 Unk02188950;
+typedef struct MissionRunMapObject MissionRunMapObject;
 
-void StartBombKingJumpFallState(Unk02188950 *mapObject);
-void StartBombKingJumpLandState(Unk02188950 *mapObject);
-void ThrowItemBombsInRingAndCenter(Unk02188950 *mapObject);
+void StartBombKingJumpFallState(MissionRunMapObject *mapObject);
+void StartBombKingJumpLandState(MissionRunMapObject *mapObject);
+void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject);
