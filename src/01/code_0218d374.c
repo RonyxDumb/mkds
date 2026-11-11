@@ -23,45 +23,45 @@
 #include "01/code_0218e000.h"
 #include "01/unk_021a7000.h"
 
-void func_ov001_0218d3ec(Unk02188950 *a) {
-    s32 x;
-    s32 y;
-    s32 t;
+void StartHanachanMoveStateByBalloons(Unk02188950 *mapObject) {
+    s32 speedPercent;
+    s32 scaleFactor;
+    s32 entryPercent;
 
     if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
-        y = 0x1000 - a->mPrm->mUnk_0ac;
-        t = func_ov001_02187f38(a);
-        x = MUL_FIXED12_NO_ROUND(t, y);
+        scaleFactor = 0x1000 - mapObject->mPrm->mUnk_0ac;
+        entryPercent = func_ov001_02187f38(mapObject);
+        speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, scaleFactor);
     } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
-        y = 0x1000 - a->mPrm->mUnk_0a8;
-        t = func_ov001_02187f38(a);
-        x = MUL_FIXED12_NO_ROUND(t, y);
+        scaleFactor = 0x1000 - mapObject->mPrm->mUnk_0a8;
+        entryPercent = func_ov001_02187f38(mapObject);
+        speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, scaleFactor);
     } else {
-        x = func_ov001_02187f38(a);
+        speedPercent = func_ov001_02187f38(mapObject);
     }
-    StartMapObjectState(a, 1, func_ov001_0218d520);
-    SetStoppedCallback(a, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
-    func_ov001_0218d824(a, x);
-    func_ov001_0218d87c(a, x);
-    func_ov001_0218d8f4(a, x);
-    func_ov001_0218dce4(a);
+    StartMapObjectState(mapObject, 1, UpdateHanachanMoveState);
+    SetStoppedCallback(mapObject, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088, mapObject->mPrm->mUnk_08c);
+    SetHanachanSpeedAndTurnToNextEntry(mapObject, speedPercent);
+    SetHanachanFollowersTurnTiming(mapObject, speedPercent);
+    StartHanachanAnimationScaled(mapObject, speedPercent);
+    SetHanachanSoundCallbacks(mapObject);
 }
 
-void func_ov001_0218d374(Unk02188950 *a) {
+void StartHanachanKartEliminatedState(Unk02188950 *mapObject) {
     int i;
     MapObjectList *list;
-    Unk02188950 *p;
+    Unk02188950 *follower;
 
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_078, a->mPrm->mUnk_07c);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
-            StartMapObjectState(p, 1, NULL);
-            StartAnimationNoEndCallback(p, p->mPrm->mUnk_078, p->mPrm->mUnk_07c);
+        for (i = 0; i < list->mMapObjectCount && (follower = list->mMapObjects[i]) != NULL; i++) {
+            StartMapObjectState(follower, 1, NULL);
+            StartAnimationNoEndCallback(follower, follower->mPrm->mUnk_078, follower->mPrm->mUnk_07c);
         }
     }
 }

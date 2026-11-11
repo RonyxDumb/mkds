@@ -64,411 +64,417 @@
 #include "01/code_0218d374.h"
 #include "code_02147cd8.h"
 
-void func_ov001_0218d2c4(Unk02188950 *a) {
+void StartHanachanKartNotEliminatedState(Unk02188950 *mapObject) {
     int i;
     MapObjectList *list;
-    Unk02188950 *p;
-    SoundStartParams local;
+    Unk02188950 *follower;
+    SoundStartParams soundRequest;
 
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);
-    SetMapObjectModelNsbtpFrameIndex(a->mNsbmd, 0);
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, 0);
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
-            StartMapObjectState(p, 1, NULL);
-            StartAnimationNoEndCallback(p, p->mPrm->mUnk_070, p->mPrm->mUnk_074);
-            SetMapObjectModelNsbtpFrameIndex((p->mNsbmd), 0);
+        for (i = 0; i < list->mMapObjectCount && (follower = list->mMapObjects[i]) != NULL; i++) {
+            StartMapObjectState(follower, 1, NULL);
+            StartAnimationNoEndCallback(follower, follower->mPrm->mUnk_070, follower->mPrm->mUnk_074);
+            SetMapObjectModelNsbtpFrameIndex((follower->mNsbmd), 0);
         }
     }
-    local = data_ov001_021a7c08;
-    local.mPositionSource = &a->mUnk_000.mPos;
-    local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);
-    StartSndHandleSoundUnchecked(&local, GetSecondSndHandleSlot());
+    soundRequest = gHanachanEndSoundParams;
+    soundRequest.mPositionSource = &mapObject->mUnk_000.mPos;
+    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
+    StartSndHandleSoundUnchecked(&soundRequest, GetSecondSndHandleSlot());
 }
 
-void func_ov001_0218d280(void) {
+void HanachanStandingsEndCallback(void) {
     MapObjectList *list;
-    Unk02188950 *p;
+    Unk02188950 *follower;
     int i;
 
     ResetMissionRunMapObjects();
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (p = list->mMapObjects[i]) != NULL; i++) {
-            func_ov001_0218dadc(p);
-            func_ov001_0218dabc(p);
+        for (i = 0; i < list->mMapObjectCount && (follower = list->mMapObjects[i]) != NULL; i++) {
+            PlaceHanachanFollowerBehind(follower);
+            CopyHanachanFollowerPreviousAngle(follower);
         }
     }
 }
 
-s32 func_ov001_0218d264(Unk02188950 *a) {
-    int v1;
-    v1 = IsRaceStarted();
-    if (v1 == 1) {
-        func_ov001_0218d4c8(a);
+s32 UpdateHanachanWaitForRaceStart(Unk02188950 *mapObject) {
+    int raceStarted;
+    raceStarted = IsRaceStarted();
+    if (raceStarted == 1) {
+        StartHanachanMoveState(mapObject);
     }
     return 0;
 }
 
-void func_ov001_0218d23c(Unk02188950 *a) {
-    StartMapObjectState(a, 8, func_ov001_0218d264);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
+void StartHanachanWaitForRaceStart(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, UpdateHanachanWaitForRaceStart);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void func_ov001_0218d214(Unk02188950 *a) {
-    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, &func_ov001_0218d23c);
+void StartHanachanStartupSecond(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
+                                  &StartHanachanWaitForRaceStart);
 }
 
-void func_ov001_0218d1e0(Unk02188950 *a) {
-    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d214);
+void StartHanachanStartupFirst(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanStartupSecond);
 }
 
-void func_ov001_0218d1bc(Unk02188950 *a) {
-    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_040, a->mPrm->mUnk_044);
+void StartHanachanChainStartupSecond(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
 }
 
-void func_ov001_0218d188(Unk02188950 *a) {
-    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, &func_ov001_0218d1bc);
+void StartHanachanChainStartupFirst(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartHanachanChainStartupSecond);
 }
 
-s32 func_ov001_0218d16c(Unk02188950 *a) {
-    int v1;
-    v1 = IsRaceStarted();
-    if (v1 == 1) {
-        func_ov001_0218d950(a);
+s32 UpdateFollowerWaitForRaceStart(Unk02188950 *mapObject) {
+    int raceStarted;
+    raceStarted = IsRaceStarted();
+    if (raceStarted == 1) {
+        StartHanachanFollowerMoveState(mapObject);
     }
     return 0;
 }
 
-s32 func_ov001_0218d0fc(Unk02188950 *a) {
-    int v1;
-    v1 = GetMapObjectModelNsbcaFrameIndex(a->mNsbmd);
-    if (v1 == 0x33) {
-        ReleaseEffects(a);
-        StartEffectAtOffset(a, (0xfffff666u), 0, (0x00000400u), (0x00000434u), 0);
+s32 UpdateFollowerStartupEffects(Unk02188950 *mapObject) {
+    int nsbcaFrameIndex;
+    nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
+    if (nsbcaFrameIndex == 0x33) {
+        ReleaseEffects(mapObject);
+        StartEffectAtOffset(mapObject, (0xfffff666u), 0, (0x00000400u), (0x00000434u), 0);
     } else {
-        v1 = GetMapObjectModelNsbcaFrameIndex(a->mNsbmd);
-        if (v1 == 0x66) {
-            ReleaseEffects(a);
-            StartEffectAtOffset(a, (0x0000099au), 0, (0x00000400u), (0x00000434u), 0);
+        nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
+        if (nsbcaFrameIndex == 0x66) {
+            ReleaseEffects(mapObject);
+            StartEffectAtOffset(mapObject, (0x0000099au), 0, (0x00000400u), (0x00000434u), 0);
         }
     }
     return 0;
 }
 
-void func_ov001_0218d0d4(Unk02188950 *a) {
-    StartMapObjectState(a, 8, func_ov001_0218d16c);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
+void StartFollowerWaitForRaceStart(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, UpdateFollowerWaitForRaceStart);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void func_ov001_0218d0a8(Unk02188950 *a) {
-    StartMapObjectState(a, 8, func_ov001_0218d0fc);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, &func_ov001_0218d0d4);
+void StartHanachanFollowerStartupSecond(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, UpdateFollowerStartupEffects);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
+                                  &StartFollowerWaitForRaceStart);
 }
 
-void func_ov001_0218d074(Unk02188950 *a) {
-    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d0a8);
+void StartHanachanFollowerStartupFirst(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanFollowerStartupSecond);
 }
 
-void func_ov001_0218d050(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_040, a->mPrm->mUnk_044);
+void StartFollowerChainStartupSecond(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
 }
 
-void func_ov001_0218d01c(Unk02188950 *a) {
-    StartMapObjectState(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, &func_ov001_0218d050);
+void StartFollowerChainStartupFirst(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartFollowerChainStartupSecond);
 }
 
-void func_ov001_0218cfe8(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d0a8);
+void StartHanachanFollowerWaitAnimState(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanFollowerStartupSecond);
 }
 
-void InitHanachanObjects(MapObjectList *a) {
+void InitHanachanObjects(MapObjectList *mapObjectList) {
     int i;
-    Unk02188950 *p;
+    Unk02188950 *mapObject;
 
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
-            p->mUnk_2c4 = TRUE;
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+            mapObject->mUnk_2c4 = TRUE;
             if (GetRaceUseChainCameras() != 0) {
-                func_ov001_0218d188(p);
+                StartHanachanChainStartupFirst(mapObject);
             } else {
-                func_ov001_0218d1e0(p);
+                StartHanachanStartupFirst(mapObject);
             }
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_0218d280);
+    SetStandingsEndCallback((void (*)(void)) HanachanStandingsEndCallback);
 }
 
-void UpdateHanachan(u32 a, Unk02188950 *b) {
-    int r;
+void UpdateHanachan(u32 unused, Unk02188950 *mapObject) {
+    int result;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        r = IsWinnerDecided();
+        result = IsWinnerDecided();
     } else {
-        r = 0;
+        result = 0;
     }
-    if (r != 0) {
-        if (IsStateNumberBelow(b, 1) != 0) {
+    if (result != 0) {
+        if (IsStateNumberBelow(mapObject, 1) != 0) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                r = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
+                result = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
             } else {
-                r = 0;
+                result = 0;
             }
-            if (r != 0) {
-                func_ov001_0218d374(b);
+            if (result != 0) {
+                StartHanachanKartEliminatedState(mapObject);
             } else {
-                func_ov001_0218d2c4(b);
+                StartHanachanKartNotEliminatedState(mapObject);
             }
         }
     } else {
-        if (IsStateNumberBelow(b, 1) != 0) {
-            func_ov001_0218d3ec(b);
+        if (IsStateNumberBelow(mapObject, 1) != 0) {
+            StartHanachanMoveStateByBalloons(mapObject);
         }
     }
-    if (CollideSphereWithMapObjects(&b->mPosWithOffset, &b->mUnk_000.mPosStep, b->mPrm->mUnk_100,
-                                    b->mUnk_000.mCollisionSlotIndex, 9, NULL) == 2) {
-        StartMapObjectSound(&b->mUnk_000, 0x253);
+    if (CollideSphereWithMapObjects(&mapObject->mPosWithOffset, &mapObject->mUnk_000.mPosStep,
+                                    mapObject->mPrm->mUnk_100, mapObject->mUnk_000.mCollisionSlotIndex, 9, NULL) == 2) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x253);
     }
-    AdvanceMissionRunMapObject(a, b);
+    AdvanceMissionRunMapObject(unused, mapObject);
 }
 
-void func_ov001_0218ce90(MapObjectList *a) {
+void InitHanachanFollowerObjects(MapObjectList *mapObjectList) {
     int i;
-    Unk02188950 *p;
+    Unk02188950 *mapObject;
 
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
             if (GetRaceUseChainCameras() != 0) {
-                func_ov001_0218d01c(p);
+                StartFollowerChainStartupFirst(mapObject);
             } else if (i == 0) {
-                func_ov001_0218d074(p);
+                StartHanachanFollowerStartupFirst(mapObject);
             } else {
-                func_ov001_0218cfe8(p);
+                StartHanachanFollowerWaitAnimState(mapObject);
             }
         }
     }
 }
 
-void func_ov001_0218ce30(u32 a, Unk02188950 *b) {
-    int v1;
-    func_ov001_0218dc20(b);
-    func_ov001_0218dba8(b);
-    v1 = CollideSphereWithMapObjects(&b->mPosWithOffset, &b->mUnk_000.mPosStep, b->mPrm->mUnk_100,
-                                     b->mUnk_000.mCollisionSlotIndex, 9, NULL);
-    if (v1 == 2) {
-        StartMapObjectSound(&b->mUnk_000, 0x253);
+void UpdateHanachanFollower(u32 unused, Unk02188950 *mapObject) {
+    int collisionResult;
+    PlaceHanachanFollowerBehindXz(mapObject);
+    TurnHanachanFollowerToPrevious(mapObject);
+    collisionResult =
+        CollideSphereWithMapObjects(&mapObject->mPosWithOffset, &mapObject->mUnk_000.mPosStep,
+                                    mapObject->mPrm->mUnk_100, mapObject->mUnk_000.mCollisionSlotIndex, 9, NULL);
+    if (collisionResult == 2) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x253);
     }
-    AdvanceMissionRunMapObject(a, b);
+    AdvanceMissionRunMapObject(unused, mapObject);
 }
 
-void func_ov001_0218cdb8(Unk02188950 *e) {
-    Unk02188950 *a;
-    Unk02188950 *b;
-    Unk02188950 *c;
-    Unk02188950 *d;
+void InitHanachanMapObject(Unk02188950 *mapObject) {
+    Unk02188950 *firstFollower;
+    Unk02188950 *secondFollower;
+    Unk02188950 *thirdFollower;
+    Unk02188950 *fourthFollower;
 
-    a = (Unk02188950 *) CreateMapObjectFromObject(&e->mUnk_000, 0x1fe);
-    b = (Unk02188950 *) CreateMapObjectFromObject(&e->mUnk_000, 0x1fe);
-    c = (Unk02188950 *) CreateMapObjectFromObject(&e->mUnk_000, 0x1fe);
-    d = (Unk02188950 *) CreateMapObjectFromObject(&e->mUnk_000, 0x1fe);
-    a->mUnk_0a4 = (struct Unk0218dabc *) e;
-    b->mUnk_0a4 = (struct Unk0218dabc *) a;
-    c->mUnk_0a4 = (struct Unk0218dabc *) b;
-    d->mUnk_0a4 = (struct Unk0218dabc *) c;
-    e->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource(&e->mUnk_000.mSound->mSoundSource, 0xd, &e->mUnk_000.mPos);
-    e->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x1d];
+    firstFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    secondFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    thirdFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    fourthFollower = (Unk02188950 *) CreateMapObjectFromObject(&mapObject->mUnk_000, 0x1fe);
+    firstFollower->mUnk_0a4 = (struct Unk0218dabc *) mapObject;
+    secondFollower->mUnk_0a4 = (struct Unk0218dabc *) firstFollower;
+    thirdFollower->mUnk_0a4 = (struct Unk0218dabc *) secondFollower;
+    fourthFollower->mUnk_0a4 = (struct Unk0218dabc *) thirdFollower;
+    mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xd, &mapObject->mUnk_000.mPos);
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x1d];
 }
 
-void func_ov001_0218cd80(Unk02188950 *a) {
-    a->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource(&a->mUnk_000.mSound->mSoundSource, 0xd, &a->mUnk_000.mPos);
-    a->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x1d];
+void InitHanachanFollowerMapObject(Unk02188950 *mapObject) {
+    mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xd, &mapObject->mUnk_000.mPos);
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsFirst[0x1d];
 }
 
-void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b) {
-    s32 r4;
+void HanachanKartHitCallback(Unk02188950 *mapObject, MissionRunPrm *kart) {
+    s32 moveAngle;
     s32 diff;
 
-    if (b->mUnk_29c == 1) {
-        if (a->mTimer > 0) {
-            a->mUnk_2d8 = 0xc;
+    if (kart->mUnk_29c == 1) {
+        if (mapObject->mTimer > 0) {
+            mapObject->mUnk_2d8 = 0xc;
         } else {
-            r4 = a->mMoveAngle;
-            diff = (u16) (FX_Atan2Idx(b->mUnk_080 - a->mUnk_000.mPos.x, b->mUnk_088 - a->mUnk_000.mPos.z) - r4);
+            moveAngle = mapObject->mMoveAngle;
+            diff = (u16) (FX_Atan2Idx(kart->mUnk_080 - mapObject->mUnk_000.mPos.x,
+                                      kart->mUnk_088 - mapObject->mUnk_000.mPos.z) -
+                          moveAngle);
             if (diff > 0x8000) {
                 diff -= 0x10000;
             }
             if (diff > 0) {
-                a->mUnk_000.mPosStep.x =
-                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) r4 + 0x4000) >> 4) * 2]);
-                a->mUnk_000.mPosStep.y = 0;
-                a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]);
+                mapObject->mUnk_000.mPosStep.x =
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_0fc, SIN_OF_ANGLE((u16) moveAngle + 0x4000));
+                mapObject->mUnk_000.mPosStep.y = 0;
+                mapObject->mUnk_000.mPosStep.z =
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_0fc, COS_OF_ANGLE((u16) mapObject->mMoveAngle + 0x4000));
             } else {
-                a->mUnk_000.mPosStep.x =
-                    MUL_FIXED12_NO_ROUND(a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) r4 - 0x4000) >> 4) * 2]);
-                a->mUnk_000.mPosStep.y = 0;
-                a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    a->mPrm->mUnk_0fc, FX_SinCosTable_[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]);
+                mapObject->mUnk_000.mPosStep.x =
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_0fc, SIN_OF_ANGLE((u16) moveAngle - 0x4000));
+                mapObject->mUnk_000.mPosStep.y = 0;
+                mapObject->mUnk_000.mPosStep.z =
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_0fc, COS_OF_ANGLE((u16) mapObject->mMoveAngle - 0x4000));
             }
-            a->mUnk_2d8 = 0xc;
-            StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-            a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
-            StartSoundFullVolumeWrapper(b, 0x252);
+            mapObject->mUnk_2d8 = 0xc;
+            StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+            mapObject->mUnk_000.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;
+            StartSoundFullVolumeWrapper(kart, 0x252);
         }
     } else {
-        a->mUnk_2d8 = 0xa;
-        StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-        a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
-        StartSoundFullVolumeWrapper(b, 0x251);
+        mapObject->mUnk_2d8 = 0xa;
+        StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+        mapObject->mUnk_000.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;
+        StartSoundFullVolumeWrapper(kart, 0x251);
     }
-    SetKartCollisionCallback(a, func_ov001_0218cbdc);
+    SetKartCollisionCallback(mapObject, HanachanKartHitCallback);
 }
 
-void InitHanachan(MapObjectList *a) {
+void InitHanachan(MapObjectList *mapObjectList) {
     Unk02188950 *obj;
     s32 i;
 
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
-            InitMissionRunMapObject(a, obj, data_ov001_021a7d0c, data_ov001_021a7d1c, data_ov001_021a7d2c);
-            LoadMissionRunMapObjectShadow(a, obj, data_ov001_021a7d3c);
-            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, data_ov001_021a7d4c);
+            InitMissionRunMapObject(mapObjectList, obj, gHanachanNsbmdName, gHanachanNsbcaName, gHanachanPrmName);
+            LoadMissionRunMapObjectShadow(mapObjectList, obj, gHanachanShadowNsbmdName);
+            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, gHanachanNsbtpName);
             SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_008, obj->mPrm->mUnk_00c, obj->mPrm->mUnk_00c);
             SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
-            SetKartCollisionCallback(obj, func_ov001_0218cbdc);
-            SetItemCollisionCallback(obj, func_ov001_0218dd9c);
+            SetKartCollisionCallback(obj, HanachanKartHitCallback);
+            SetItemCollisionCallback(obj, HanachanItemHitCallback);
             obj->mUnk_0a8 = obj->mPrm->mUnk_12c;
         }
     }
 }
 
-void func_ov001_0218c87c(MapObjectList *d) {
-    void *a;
-    void *b;
-    void *c;
+void InitHanachanFollower(MapObjectList *mapObjectList) {
+    void *firstNsbca;
+    void *secondNsbca;
+    void *firstNsbtp;
     Unk02188950 *obj;
-    Unk02188950 *src;
+    Unk02188950 *sourceObject;
 
-    a = LoadMissionRunFile(data_ov001_021a7c80);
-    b = LoadMissionRunFile(data_ov001_021a7c94);
-    c = LoadMissionRunFile(data_ov001_021a7ca8);
+    firstNsbca = LoadMissionRunFile(gHanachan1NsbcaName);
+    secondNsbca = LoadMissionRunFile(gHanachan2NsbcaName);
+    firstNsbtp = LoadMissionRunFile(gHanachan1NsbtpName);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        src = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
+        sourceObject =
+            GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
     } else {
-        src = NULL;
+        sourceObject = NULL;
     }
 
-    obj = d->mMapObjects[0];
-    obj->mPrm = src->mPrm;
-    obj->mShadowNsbmd = src->mShadowNsbmd;
+    obj = mapObjectList->mMapObjects[0];
+    obj->mPrm = sourceObject->mPrm;
+    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(d, obj, data_ov001_021a7cbc, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, a);
-    func_ov001_0219b25c(obj->mNsbmd, c);
+    InitMissionRunMapObject(mapObjectList, obj, gHanachan1NsbmdName, NULL, NULL);
+    func_ov001_0219b28c(obj->mNsbmd, firstNsbca);
+    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 1;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0dc, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0dc, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
-    SetKartCollisionCallback(obj, func_ov001_0218cbdc);
-    SetItemCollisionCallback(obj, func_ov001_0218dd9c);
+    SetKartCollisionCallback(obj, HanachanKartHitCallback);
+    SetItemCollisionCallback(obj, HanachanItemHitCallback);
 
-    obj = d->mMapObjects[1];
-    obj->mPrm = src->mPrm;
-    obj->mShadowNsbmd = src->mShadowNsbmd;
+    obj = mapObjectList->mMapObjects[1];
+    obj->mPrm = sourceObject->mPrm;
+    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(d, obj, data_ov001_021a7cd0, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, b);
-    func_ov001_0219b25c(obj->mNsbmd, c);
+    InitMissionRunMapObject(mapObjectList, obj, gHanachan2NsbmdName, NULL, NULL);
+    func_ov001_0219b28c(obj->mNsbmd, secondNsbca);
+    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 2;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0e4, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0e4, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
-    SetKartCollisionCallback(obj, func_ov001_0218cbdc);
-    SetItemCollisionCallback(obj, func_ov001_0218dd9c);
+    SetKartCollisionCallback(obj, HanachanKartHitCallback);
+    SetItemCollisionCallback(obj, HanachanItemHitCallback);
 
-    obj = d->mMapObjects[2];
-    obj->mPrm = src->mPrm;
-    obj->mShadowNsbmd = src->mShadowNsbmd;
+    obj = mapObjectList->mMapObjects[2];
+    obj->mPrm = sourceObject->mPrm;
+    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(d, obj, data_ov001_021a7ce4, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, a);
-    func_ov001_0219b25c(obj->mNsbmd, c);
+    InitMissionRunMapObject(mapObjectList, obj, gHanachan3NsbmdName, NULL, NULL);
+    func_ov001_0219b28c(obj->mNsbmd, firstNsbca);
+    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 3;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0ec, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0ec, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
-    SetKartCollisionCallback(obj, func_ov001_0218cbdc);
-    SetItemCollisionCallback(obj, func_ov001_0218dd9c);
+    SetKartCollisionCallback(obj, HanachanKartHitCallback);
+    SetItemCollisionCallback(obj, HanachanItemHitCallback);
 
-    obj = d->mMapObjects[3];
-    obj->mPrm = src->mPrm;
-    obj->mShadowNsbmd = src->mShadowNsbmd;
+    obj = mapObjectList->mMapObjects[3];
+    obj->mPrm = sourceObject->mPrm;
+    obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(d, obj, data_ov001_021a7cf8, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, b);
-    func_ov001_0219b25c(obj->mNsbmd, c);
+    InitMissionRunMapObject(mapObjectList, obj, gHanachan4NsbmdName, NULL, NULL);
+    func_ov001_0219b28c(obj->mNsbmd, secondNsbca);
+    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 4;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0f4, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0f4, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
-    SetKartCollisionCallback(obj, func_ov001_0218cbdc);
-    SetItemCollisionCallback(obj, func_ov001_0218dd9c);
+    SetKartCollisionCallback(obj, HanachanKartHitCallback);
+    SetItemCollisionCallback(obj, HanachanItemHitCallback);
 }
 
-void func_ov001_0218c85c(void *a, Unk02188950 *b) {
-    DrawMissionRunMapObject(a, b);
-    DrawMissionRunMapObjectShadow(a, b, 0);
+void DrawHanachan(void *mapObjectList, Unk02188950 *mapObject) {
+    DrawMissionRunMapObject(mapObjectList, mapObject);
+    DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }
 
-void func_ov001_0218c830(void) {
-    void *v7 = &CollideKartWithMissionRunMapObject;
-    void *v8 = &CollideItemWithMissionRunMapObject;
-    void *v9 = &ComputeSphereHitOnMissionRunMapObject;
-    void *v11 = func_ov001_0219b510(v7, v8, v9, 0x2u, 0x1u, 0x0u, 0x0u);
+void CreateHanachanKindData(void) {
+    void *kartCollision = &CollideKartWithMissionRunMapObject;
+    void *itemCollision = &CollideItemWithMissionRunMapObject;
+    void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
+    void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
-void *func_ov001_0218c818(void) {
-    return CreateMapObjectDrawList1(InitHanachan, func_ov001_0218c85c, NULL);
+void *CreateHanachanDrawList(void) {
+    return CreateMapObjectDrawList1(InitHanachan, DrawHanachan, NULL);
 }
 
-void *func_ov001_0218c800(void) {
+void *CreateHanachanUpdateList(void) {
     return CreateMapObjectUpdateList(InitHanachanObjects, UpdateHanachan, NULL);
 }
 
-void func_ov001_0218c7d4(void) {
-    void *v7 = &CollideKartWithMissionRunMapObject;
-    void *v8 = &CollideItemWithMissionRunMapObject;
-    void *v9 = &ComputeSphereHitOnMissionRunMapObject;
-    void *v11 = func_ov001_0219b510(v7, v8, v9, 0x2u, 0x1u, 0x0u, 0x0u);
+void CreateHanachanFollowerKindData(void) {
+    void *kartCollision = &CollideKartWithMissionRunMapObject;
+    void *itemCollision = &CollideItemWithMissionRunMapObject;
+    void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
+    void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
-void *func_ov001_0218c7b8(void) {
-    return CreateMapObjectDrawList1(func_ov001_0218c87c, func_ov001_0218c85c, ToggleShadowScale);
+void *CreateHanachanFollowerDrawList(void) {
+    return CreateMapObjectDrawList1(InitHanachanFollower, DrawHanachan, ToggleShadowScale);
 }
 
-void *func_ov001_0218c7a0(void) {
-    return CreateMapObjectUpdateList(func_ov001_0218ce90, func_ov001_0218ce30, NULL);
+void *CreateHanachanFollowerUpdateList(void) {
+    return CreateMapObjectUpdateList(InitHanachanFollowerObjects, UpdateHanachanFollower, NULL);
 }

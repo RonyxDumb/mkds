@@ -34,20 +34,20 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_02147cd8.h"
 
-void func_ov001_0218c490(Unk02188950 *mapObject) {
+void StartKurikingKartInRangeState(Unk02188950 *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
 
-    StartMapObjectState(mapObject, 2, func_ov001_0218c5d4);
+    StartMapObjectState(mapObject, 2, UpdateKurikingKartInRangeState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
     func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_10c, mapObject->mPrm->mUnk_108, 0);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_110, mapObject->mPrm->mUnk_114);
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_118, mapObject->mPrm->mUnk_11c);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_12c, NULL);
-    func_ov001_0218c5fc(mapObject);
+    SetKurikingSoundCallbacks(mapObject);
 }
 
-void func_ov001_0218c3ac(Unk02188950 *mapObject) {
+void SetKurikingWalkByCounter(Unk02188950 *mapObject) {
     if (GetAbsoluteCounter(mapObject) == 0) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0a4, mapObject->mPrm->mUnk_0a8);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0ac, mapObject->mPrm->mUnk_0b0);
@@ -63,12 +63,12 @@ void func_ov001_0218c3ac(Unk02188950 *mapObject) {
     SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0b4, 0, &GetCurrentGroupEntry(mapObject)->mPos, NULL);
 }
 
-void func_ov001_0218c354(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 1, func_ov001_0218c5ac);
+void StartKurikingWalkState(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, UpdateKurikingWalkState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_098, mapObject->mPrm->mUnk_09c);
     func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_0a0, mapObject->mPrm->mUnk_09c, 0);
-    func_ov001_0218c3ac(mapObject);
-    func_ov001_0218c5fc(mapObject);
+    SetKurikingWalkByCounter(mapObject);
+    SetKurikingSoundCallbacks(mapObject);
 }
 
 void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
@@ -82,7 +82,7 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
     u32 secondScaledDraw;
     u16 firstResult;
     u16 secondResult;
-    s32 sel;
+    s32 kinokoIndex;
     s32 angle;
     s32 radius;
     s32 i;
@@ -130,9 +130,9 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
             }
             secondResult = secondScaledDraw;
         }
-        sel = secondResult;
+        kinokoIndex = secondResult;
     } else {
-        sel = -1;
+        kinokoIndex = -1;
     }
     radius = mapObject->mPrm->mUnk_198;
     for (i = 0; i < mapObject->mUnk_138; i++) {
@@ -145,7 +145,7 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
         vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_SinIdx((u16) angle));
         vel.y = mapObject->mPrm->mUnk_19c;
         vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_CosIdx((u16) angle));
-        if (i == sel) {
+        if (i == kinokoIndex) {
             ThrowItemKinokoFromPosition(StartItemKinokoOrZero(), &pos, &vel, mapObject->mPrm->mUnk_1ac);
         } else {
             ThrowItemBombFromPosition(StartItemBombWithParkedKuribo(), &pos, &vel, mapObject->mPrm->mUnk_1b0);

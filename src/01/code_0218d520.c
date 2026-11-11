@@ -31,231 +31,234 @@
 #include "Main/Unknown/code_021000d0.h"
 #include "code_02147cd8.h"
 
-void func_ov001_0218dc20(Unk02188950 *a) {
-    Unk0218dabc *r7 = a->mUnk_0a4;
-    int r5;
-    u16 ang = (r7->mUnk_184 + 0x8000);
-    int idx;
+void PlaceHanachanFollowerBehindXz(Unk02188950 *mapObject) {
+    Unk0218dabc *previousObject = mapObject->mUnk_0a4;
+    int distance;
+    u16 oppositeAngle = (previousObject->mUnk_184 + 0x8000);
 
-    switch (a->mUnk_0a8) {
+    switch (mapObject->mUnk_0a8) {
         case 1:
-            r5 = a->mPrm->mUnk_0c0;
+            distance = mapObject->mPrm->mUnk_0c0;
             break;
         case 2:
-            r5 = a->mPrm->mUnk_0c4;
+            distance = mapObject->mPrm->mUnk_0c4;
             break;
         case 3:
-            r5 = a->mPrm->mUnk_0c8;
+            distance = mapObject->mPrm->mUnk_0c8;
             break;
         case 4:
-            r5 = a->mPrm->mUnk_0cc;
+            distance = mapObject->mPrm->mUnk_0cc;
             break;
     }
-    idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx]);
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx + 1]);
+    mapObject->mUnk_000.mPos.x = previousObject->mUnk_004 + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
+    mapObject->mUnk_000.mPos.z =
+        mapObject->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
-void func_ov001_0218dba8(Unk02188950 *a) {
+void TurnHanachanFollowerToPrevious(Unk02188950 *mapObject) {
     int diff;
     int step;
     int limit;
-    s32 cur;
+    s32 currentAngle;
 
-    a->mUnk_13c = a->mUnk_13c - 1;
-    if (a->mUnk_13c <= 0) {
-        a->mUnk_13c = 0;
-        cur = a->mAngle;
-        diff = (u16) (a->mUnk_0a4->mUnk_184 - cur);
+    mapObject->mUnk_13c = mapObject->mUnk_13c - 1;
+    if (mapObject->mUnk_13c <= 0) {
+        mapObject->mUnk_13c = 0;
+        currentAngle = mapObject->mAngle;
+        diff = (u16) (mapObject->mUnk_0a4->mUnk_184 - currentAngle);
         if (diff > 0x8000) {
             diff -= 0x10000;
         }
-        limit = a->mAnglePerCall;
+        limit = mapObject->mAnglePerCall;
         step = diff < -limit ? -limit : (diff > limit ? limit : diff);
-        a->mAngle = (u16) (cur + step);
-        a->mMoveAngle = a->mAngle;
+        mapObject->mAngle = (u16) (currentAngle + step);
+        mapObject->mMoveAngle = mapObject->mAngle;
     }
 }
 
-void func_ov001_0218dadc(Unk02188950 *a) {
-    Unk0218dabc *r7 = a->mUnk_0a4;
-    int r5;
-    u16 ang = (r7->mUnk_184 + 0x8000);
-    int idx;
+void PlaceHanachanFollowerBehind(Unk02188950 *mapObject) {
+    Unk0218dabc *previousObject = mapObject->mUnk_0a4;
+    int distance;
+    u16 oppositeAngle = (previousObject->mUnk_184 + 0x8000);
 
-    switch (a->mUnk_0a8) {
+    switch (mapObject->mUnk_0a8) {
         case 1:
-            r5 = a->mPrm->mUnk_0c0;
+            distance = mapObject->mPrm->mUnk_0c0;
             break;
         case 2:
-            r5 = a->mPrm->mUnk_0c4;
+            distance = mapObject->mPrm->mUnk_0c4;
             break;
         case 3:
-            r5 = a->mPrm->mUnk_0c8;
+            distance = mapObject->mPrm->mUnk_0c8;
             break;
         case 4:
-            r5 = a->mPrm->mUnk_0cc;
+            distance = mapObject->mPrm->mUnk_0cc;
             break;
     }
-    idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx]);
-    a->mUnk_000.mPos.y = a->mUnk_0a4->mUnk_008;
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(r5, FX_SinCosTable_[idx + 1]);
+    mapObject->mUnk_000.mPos.x = previousObject->mUnk_004 + MUL_FIXED12_NO_ROUND(distance, SIN_OF_ANGLE(oppositeAngle));
+    mapObject->mUnk_000.mPos.y = mapObject->mUnk_0a4->mUnk_008;
+    mapObject->mUnk_000.mPos.z =
+        mapObject->mUnk_0a4->mUnk_00c + MUL_FIXED12_NO_ROUND(distance, COS_OF_ANGLE(oppositeAngle));
 }
 
-void func_ov001_0218dabc(Unk02188950 *a) {
-    a->mAngle = a->mUnk_0a4->mUnk_184;
-    a->mMoveAngle = a->mAngle;
+void CopyHanachanFollowerPreviousAngle(Unk02188950 *mapObject) {
+    mapObject->mAngle = mapObject->mUnk_0a4->mUnk_184;
+    mapObject->mMoveAngle = mapObject->mAngle;
 }
 
-void func_ov001_0218da1c(Unk02188950 *a) {
-    ReleaseEffects(a);
-    StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x427, 0xf);
-    StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x426, 0xf);
-    StartMapObjectSound(&a->mUnk_000, 0x24d);
-    DecrementCounterToNegativeLimit(a);
-    if (GetAbsoluteCounter(a) == 2) {
-        StartMapObjectSound(&a->mUnk_000, 0x24c);
-    } else if (GetAbsoluteCounter(a) >= 3) {
-        a->mUnk_0ac = 0;
+void AdvanceHanachanCounter(Unk02188950 *mapObject) {
+    ReleaseEffects(mapObject);
+    StartEffectAtOffset(mapObject, 0, mapObject->mOffset.y >> 4, 0, 0x427, 0xf);
+    StartEffectAtOffset(mapObject, 0, mapObject->mOffset.y >> 4, 0, 0x426, 0xf);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x24d);
+    DecrementCounterToNegativeLimit(mapObject);
+    if (GetAbsoluteCounter(mapObject) == 2) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x24c);
+    } else if (GetAbsoluteCounter(mapObject) >= 3) {
+        mapObject->mUnk_0ac = 0;
     }
-    SetMapObjectModelNsbtpFrameIndex(a->mNsbmd, GetAbsoluteCounter(a));
+    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
 }
 
-void func_ov001_0218d9cc(Unk02188950 *a) {
+void AdvanceHanachanCounterForAll(Unk02188950 *mapObject) {
     MapObjectList *list;
     int i;
-    Unk02188950 *q;
+    Unk02188950 *follower;
 
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (q = list->mMapObjects[i]) != NULL; i++) {
-            StartStateFrameCountCallback(q, (q->mUnk_0a8 * 15), (UnkFunc *) func_ov001_0218da1c);
+        for (i = 0; i < list->mMapObjectCount && (follower = list->mMapObjects[i]) != NULL; i++) {
+            StartStateFrameCountCallback(follower, (follower->mUnk_0a8 * 15), (UnkFunc *) AdvanceHanachanCounter);
         }
     }
-    func_ov001_0218da1c(a);
+    AdvanceHanachanCounter(mapObject);
 }
 
-void func_ov001_0218d950(Unk02188950 *a) {
-    s32 prod;
-    float f;
-    ModelAnimation *s;
+void StartHanachanFollowerMoveState(Unk02188950 *mapObject) {
+    s32 frameOffset;
+    float frameIndexValue;
+    ModelAnimation *modelAnimation;
 
-    StartMapObjectState(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
-    prod = a->mPrm->mUnk_0d0 * a->mUnk_0a8;
-    if (prod > 0) {
-        f = 0.5f + (prod << 12);
+    StartMapObjectState(mapObject, 1, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088, mapObject->mPrm->mUnk_08c);
+    frameOffset = mapObject->mPrm->mUnk_0d0 * mapObject->mUnk_0a8;
+    if (frameOffset > 0) {
+        frameIndexValue = 0.5f + (frameOffset << 12);
     } else {
-        f = (prod << 12) - 0.5f;
+        frameIndexValue = (frameOffset << 12) - 0.5f;
     }
-    s = a->mNsbmd->mAnimations[0];
-    s->mHead.mFrameIndex = f;
-    s->mAnmObjs[s->mCurrentIndex]->mFrame = s->mHead.mFrameIndex;
+    modelAnimation = mapObject->mNsbmd->mAnimations[0];
+    modelAnimation->mHead.mFrameIndex = frameIndexValue;
+    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
 }
 
-void func_ov001_0218d8f4(Unk02188950 *a, int b) {
+void StartHanachanAnimationScaled(Unk02188950 *mapObject, int speedPercent) {
     MapObjectList *list;
     int i;
 
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mMapObjectCount && list->mMapObjects[i] != NULL; i++) {
-            StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, (a->mPrm->mUnk_08c * b / 100));
+            StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088,
+                                        (mapObject->mPrm->mUnk_08c * speedPercent / 100));
         }
     }
 }
 
-void func_ov001_0218d87c(Unk02188950 *a, int b) {
+void SetHanachanFollowersTurnTiming(Unk02188950 *mapObject, int speedPercent) {
     MapObjectList *list;
     int i;
-    Unk02188950 *q;
+    Unk02188950 *follower;
 
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (q = list->mMapObjects[i]) != NULL; i++) {
-            q->mUnk_13c = q->mPrm->mUnk_0d8 * q->mUnk_0a8 * 100 / b;
-            q->mAnglePerCall = a->mPrm->mUnk_0d4 * b / 100;
+        for (i = 0; i < list->mMapObjectCount && (follower = list->mMapObjects[i]) != NULL; i++) {
+            follower->mUnk_13c = follower->mPrm->mUnk_0d8 * follower->mUnk_0a8 * 100 / speedPercent;
+            follower->mAnglePerCall = mapObject->mPrm->mUnk_0d4 * speedPercent / 100;
         }
     }
 }
 
-void func_ov001_0218d824(Unk02188950 *b, int c) {
-    MissionRunPrm *a;
+void SetHanachanSpeedAndTurnToNextEntry(Unk02188950 *mapObject, int speedPercent) {
+    MissionRunPrm *prm;
 
-    a = b->mPrm;
-    SetSpeedTargetAndPerCall(b, (a->mUnk_090 * c / 100), a->mUnk_094);
-    a = b->mPrm;
-    TurnToPointMoveFollowsAngle(b, a->mUnk_098 * c / 100, a->mUnk_09c);
-    SetAnglePointAndMoveAnglePoint(b, &GetNextGroupEntry(b)->mPos);
+    prm = mapObject->mPrm;
+    SetSpeedTargetAndPerCall(mapObject, (prm->mUnk_090 * speedPercent / 100), prm->mUnk_094);
+    prm = mapObject->mPrm;
+    TurnToPointMoveFollowsAngle(mapObject, prm->mUnk_098 * speedPercent / 100, prm->mUnk_09c);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetNextGroupEntry(mapObject)->mPos);
 }
 
-void func_ov001_0218d800(Unk02188950 *a) {
-    a->mUnk_150 = 1;
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
+void StartHanachanMoveAnimation(Unk02188950 *mapObject) {
+    mapObject->mUnk_150 = 1;
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088, mapObject->mPrm->mUnk_08c);
 }
 
-int func_ov001_0218d520(Unk02188950 *a) {
-    int r4;
-    s32 t;
+int UpdateHanachanMoveState(Unk02188950 *mapObject) {
+    int speedPercent;
+    s32 entryPercent;
     s32 *v;
 
-    if (IsPointInRange(a, &GetCurrentGroupEntry(a)->mPos, a->mPrm->mUnk_0a0, 0)) {
+    if (IsPointInRange(mapObject, &GetCurrentGroupEntry(mapObject)->mPos, mapObject->mPrm->mUnk_0a0, 0)) {
         if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
-            r4 = 0x1000 - a->mPrm->mUnk_0ac;
-            t = func_ov001_02187f38(a);
-            r4 = MUL_FIXED12_NO_ROUND(t, r4);
+            speedPercent = 0x1000 - mapObject->mPrm->mUnk_0ac;
+            entryPercent = func_ov001_02187f38(mapObject);
+            speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, speedPercent);
         } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
-            r4 = 0x1000 - a->mPrm->mUnk_0a8;
-            t = func_ov001_02187f38(a);
-            r4 = MUL_FIXED12_NO_ROUND(t, r4);
+            speedPercent = 0x1000 - mapObject->mPrm->mUnk_0a8;
+            entryPercent = func_ov001_02187f38(mapObject);
+            speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, speedPercent);
         } else {
-            r4 = func_ov001_02187f38(a);
+            speedPercent = func_ov001_02187f38(mapObject);
         }
-        if (GetCurrentGroupEntryValue(a) >= 1) {
-            func_ov001_0218d9cc(a);
+        if (GetCurrentGroupEntryValue(mapObject) >= 1) {
+            AdvanceHanachanCounterForAll(mapObject);
         }
-        if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE && a->mUnk_0a8 == 0 &&
-            IsStateNumberBelow(a, 3) != 0) {
-            if (GetEntryKartInAngleRange(a, a->mPrm->mUnk_120, a->mPrm->mUnk_124, a->mPrm->mUnk_128)) {
-                a->mUnk_0a8 = a->mPrm->mUnk_12c;
-                a->mUnk_150 = 3;
-                StartAnimationWithEndCallback(a, a->mPrm->mUnk_118, a->mPrm->mUnk_11c, (UnkFunc *) func_ov001_0218d800);
-                r4 -= a->mPrm->mUnk_130;
-                StartMapObjectSound(&a->mUnk_000, 0x24b);
-            } else if (GetEntryKartInAngleRange(a, a->mPrm->mUnk_10c, a->mPrm->mUnk_110, a->mPrm->mUnk_114)) {
-                a->mUnk_0a8 = a->mPrm->mUnk_12c;
-                a->mUnk_150 = 3;
-                StartAnimationWithEndCallback(a, a->mPrm->mUnk_104, a->mPrm->mUnk_108, (UnkFunc *) func_ov001_0218d800);
-                r4 -= a->mPrm->mUnk_130;
-                StartMapObjectSound(&a->mUnk_000, 0x24b);
+        if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE && mapObject->mUnk_0a8 == 0 &&
+            IsStateNumberBelow(mapObject, 3) != 0) {
+            if (GetEntryKartInAngleRange(mapObject, mapObject->mPrm->mUnk_120, mapObject->mPrm->mUnk_124,
+                                         mapObject->mPrm->mUnk_128)) {
+                mapObject->mUnk_0a8 = mapObject->mPrm->mUnk_12c;
+                mapObject->mUnk_150 = 3;
+                StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_118, mapObject->mPrm->mUnk_11c,
+                                              (UnkFunc *) StartHanachanMoveAnimation);
+                speedPercent -= mapObject->mPrm->mUnk_130;
+                StartMapObjectSound(&mapObject->mUnk_000, 0x24b);
+            } else if (GetEntryKartInAngleRange(mapObject, mapObject->mPrm->mUnk_10c, mapObject->mPrm->mUnk_110,
+                                                mapObject->mPrm->mUnk_114)) {
+                mapObject->mUnk_0a8 = mapObject->mPrm->mUnk_12c;
+                mapObject->mUnk_150 = 3;
+                StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108,
+                                              (UnkFunc *) StartHanachanMoveAnimation);
+                speedPercent -= mapObject->mPrm->mUnk_130;
+                StartMapObjectSound(&mapObject->mUnk_000, 0x24b);
             }
         }
-        func_ov001_0218d824(a, r4);
-        func_ov001_0218d87c(a, r4);
-        IncrementEntryIndex(a);
-        if (a->mEntryIndex == 0) {
-            IncrementEntryGroupIndex(a, 4);
+        SetHanachanSpeedAndTurnToNextEntry(mapObject, speedPercent);
+        SetHanachanFollowersTurnTiming(mapObject, speedPercent);
+        IncrementEntryIndex(mapObject);
+        if (mapObject->mEntryIndex == 0) {
+            IncrementEntryGroupIndex(mapObject, 4);
         }
     }
-    if (a->mUnk_0a8 > 0) {
-        a->mUnk_0a8 = a->mUnk_0a8 - 1;
+    if (mapObject->mUnk_0a8 > 0) {
+        mapObject->mUnk_0a8 = mapObject->mUnk_0a8 - 1;
     }
-    if (IsStateNumberBelow(a, 5)) {
-        if (GetAbsoluteCounter(a) == 2) {
-            a->mUnk_140 = a->mUnk_140 + 1 >= 6 ? 0 : a->mUnk_140 + 1;
-            if (a->mUnk_140 == 0) {
-                StartEffectAtOffset(a, 0, 0, 0, 0x3f9, 0x1c);
+    if (IsStateNumberBelow(mapObject, 5)) {
+        if (GetAbsoluteCounter(mapObject) == 2) {
+            mapObject->mUnk_140 = mapObject->mUnk_140 + 1 >= 6 ? 0 : mapObject->mUnk_140 + 1;
+            if (mapObject->mUnk_140 == 0) {
+                StartEffectAtOffset(mapObject, 0, 0, 0, 0x3f9, 0x1c);
             }
-            a->mUnk_144 = a->mUnk_144 + 1 >= 0x12 ? 0 : a->mUnk_144 + 1;
-            if (a->mUnk_144 == 0) {
-                StartMapObjectSound(&a->mUnk_000, 0x24f);
+            mapObject->mUnk_144 = mapObject->mUnk_144 + 1 >= 0x12 ? 0 : mapObject->mUnk_144 + 1;
+            if (mapObject->mUnk_144 == 0) {
+                StartMapObjectSound(&mapObject->mUnk_000, 0x24f);
             }
-        } else if (GetAbsoluteCounter(a) == 1) {
-            a->mUnk_140 = a->mUnk_140 + 1 >= 0x12 ? 0 : a->mUnk_140 + 1;
-            if (a->mUnk_140 == 0) {
-                StartEffectAtOffset(a, 0, 0, 0, 0x3f8, 0x1c);
-                StartMapObjectSound(&a->mUnk_000, 0x24e);
+        } else if (GetAbsoluteCounter(mapObject) == 1) {
+            mapObject->mUnk_140 = mapObject->mUnk_140 + 1 >= 0x12 ? 0 : mapObject->mUnk_140 + 1;
+            if (mapObject->mUnk_140 == 0) {
+                StartEffectAtOffset(mapObject, 0, 0, 0, 0x3f8, 0x1c);
+                StartMapObjectSound(&mapObject->mUnk_000, 0x24e);
             }
         }
     }

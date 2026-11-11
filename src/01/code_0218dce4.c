@@ -12,31 +12,31 @@
 #include "01/unk_021a7000.h"
 #include "Main/Unknown/code_0209bef0.h"
 
-void func_ov001_0218dd9c(Unk02188950 *a) {
-    a->mUnk_2e0 = 0;
-    SetItemCollisionCallback(a, func_ov001_0218dd9c);
+void HanachanItemHitCallback(Unk02188950 *mapObject) {
+    mapObject->mUnk_2e0 = 0;
+    SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
 }
 
-void func_ov001_0218dd50(Unk02188950 *a) {
-    if (GetAbsoluteCounter(a) >= 2) {
-        StartMapObjectSound(&a->mUnk_000, 0x248);
-    } else if (GetAbsoluteCounter(a) >= 1) {
-        StartMapObjectSound(&a->mUnk_000, 0x249);
+void HanachanFirstSoundCallback(Unk02188950 *mapObject) {
+    if (GetAbsoluteCounter(mapObject) >= 2) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x248);
+    } else if (GetAbsoluteCounter(mapObject) >= 1) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x249);
     } else {
-        StartMapObjectSound(&a->mUnk_000, 0x24a);
+        StartMapObjectSound(&mapObject->mUnk_000, 0x24a);
     }
 }
 
-void func_ov001_0218dd04(Unk02188950 *a) {
-    if (GetAbsoluteCounter(a) >= 2) {
-        StartMapObjectSound(&a->mUnk_000, 0x248);
-    } else if (GetAbsoluteCounter(a) >= 1) {
-        StartMapObjectSound(&a->mUnk_000, 0x249);
+void HanachanSecondSoundCallback(Unk02188950 *mapObject) {
+    if (GetAbsoluteCounter(mapObject) >= 2) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x248);
+    } else if (GetAbsoluteCounter(mapObject) >= 1) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x249);
     } else {
-        StartMapObjectSound(&a->mUnk_000, 0x24a);
+        StartMapObjectSound(&mapObject->mUnk_000, 0x24a);
     }
 }
 
-void func_ov001_0218dce4(Unk02188950 *a) {
-    SetTwoAnimationFrameCallbacks(a, 0xc, func_ov001_0218dd50, 0x20, func_ov001_0218dd04);
+void SetHanachanSoundCallbacks(Unk02188950 *mapObject) {
+    SetTwoAnimationFrameCallbacks(mapObject, 0xc, HanachanFirstSoundCallback, 0x20, HanachanSecondSoundCallback);
 }

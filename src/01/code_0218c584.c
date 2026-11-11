@@ -10,19 +10,19 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_02110000.h"
 
-s32 func_ov001_0218c5d4(Unk02188950 *mapObject) {
+s32 UpdateKurikingKartInRangeState(Unk02188950 *mapObject) {
     SetAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     SetPointInRangePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     return 0;
 }
 
-s32 func_ov001_0218c5ac(Unk02188950 *mapObject) {
+s32 UpdateKurikingWalkState(Unk02188950 *mapObject) {
     SetAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     SetPointInRangePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     return 0;
 }
 
-s32 func_ov001_0218c584(Unk02188950 *mapObject) {
+s32 UpdateKurikingTurnToEntryState(Unk02188950 *mapObject) {
     SetMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     SetPointInRangePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     return 0;

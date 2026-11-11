@@ -7,27 +7,27 @@ typedef struct Unk02188950 Unk02188950;
 typedef struct Unk021a7b64 Unk021a7b64;
 typedef struct MapObjectList MapObjectList;
 
-extern Unk021a7b64 data_ov001_021a7b64;
+extern Unk021a7b64 gKurikingKindDescriptor;
 
-void *func_ov001_0218b2dc(void);
-void *func_ov001_0218b2f4(void);
-void func_ov001_0218b310(void);
+void *CreateKurikingUpdateList(void);
+void *CreateKurikingDrawList(void);
+void CreateKurikingKindData(void);
 void DrawKuriking(
     void *mapObjectList,
     Unk02188950 *mapObject); /* only calls the two draw helpers shared with five other ov001 draw callbacks */
 void InitKuriking(MapObjectList *mapObjectList);
-void UpdateKuriking(u32 a, Unk02188950 *mapObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateKuriking(u32 unused, Unk02188950 *mapObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitKurikingObjects(MapObjectList *mapObjectList);
-void func_ov001_0218b640(Unk02188950 *mapObject, void *kart);
-void func_ov001_0218b6f8(Unk02188950 *mapObject, void *kart);
-void func_ov001_0218b72c(Unk02188950 *mapObject);
-void func_ov001_0218b770(Unk02188950 *mapObject);
-void func_ov001_0218b7a4(Unk02188950 *mapObject);
-void func_ov001_0218b7c8(Unk02188950 *mapObject);
-void func_ov001_0218b7fc(Unk02188950 *mapObject);
-void func_ov001_0218b828(Unk02188950 *mapObject);
-s32 func_ov001_0218b850(Unk02188950 *mapObject);
-s32 func_ov001_0218b8d4(Unk02188950 *mapObject);
-void func_ov001_0218b8f0(void);
-void func_ov001_0218b8f8(Unk02188950 *mapObject);
-void func_ov001_0218b928(Unk02188950 *mapObject);
+void KurikingKartHitCallback(Unk02188950 *mapObject, void *kart);
+void KurikingKartHitSoundCallback(Unk02188950 *mapObject, void *kart);
+void InitKurikingMapObject(Unk02188950 *mapObject);
+void StartKurikingChainStartupFirst(Unk02188950 *mapObject);
+void StartKurikingChainStartupSecond(Unk02188950 *mapObject);
+void StartKurikingStartupFirst(Unk02188950 *mapObject);
+void StartKurikingStartupSecond(Unk02188950 *mapObject);
+void StartKurikingWaitForRaceStart(Unk02188950 *mapObject);
+s32 UpdateKurikingStartupEffects(Unk02188950 *mapObject);
+s32 KurikingStopStateWhenRaceStarted(Unk02188950 *mapObject);
+void KurikingStandingsEndCallback(void);
+void StartKurikingKartNotEliminatedState(Unk02188950 *mapObject);
+void StartKurikingEndEffects(Unk02188950 *mapObject);

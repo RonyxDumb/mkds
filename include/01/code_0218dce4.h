@@ -4,7 +4,7 @@
 
 typedef struct Unk02188950 Unk02188950;
 
-void func_ov001_0218dce4(Unk02188950 *a);
-void func_ov001_0218dd04(Unk02188950 *a);
-void func_ov001_0218dd50(Unk02188950 *a);
-void func_ov001_0218dd9c(Unk02188950 *a);
+void SetHanachanSoundCallbacks(Unk02188950 *mapObject);
+void HanachanSecondSoundCallback(Unk02188950 *mapObject);
+void HanachanFirstSoundCallback(Unk02188950 *mapObject);
+void HanachanItemHitCallback(Unk02188950 *mapObject);

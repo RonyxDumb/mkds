@@ -14,17 +14,17 @@ typedef struct Unk0218dabc {
     /* 184 */ s32 mUnk_184;
 } Unk0218dabc;
 
-int func_ov001_0218d520(Unk02188950 *a);
-void func_ov001_0218d800(Unk02188950 *a);
-void func_ov001_0218d824(Unk02188950 *b, int c);
-void func_ov001_0218d87c(Unk02188950 *a, int b);
-void func_ov001_0218d8f4(Unk02188950 *a, int b);
-void func_ov001_0218d950(Unk02188950 *a);
-void func_ov001_0218d9cc(Unk02188950 *a);
-void func_ov001_0218da1c(Unk02188950 *a);
-void func_ov001_0218dabc(Unk02188950 *a);
-void func_ov001_0218dadc(Unk02188950 *a);
-void func_ov001_0218dba8(Unk02188950 *a);
-void func_ov001_0218dc20(Unk02188950 *a);
+int UpdateHanachanMoveState(Unk02188950 *mapObject);
+void StartHanachanMoveAnimation(Unk02188950 *mapObject);
+void SetHanachanSpeedAndTurnToNextEntry(Unk02188950 *mapObject, int speedPercent);
+void SetHanachanFollowersTurnTiming(Unk02188950 *mapObject, int speedPercent);
+void StartHanachanAnimationScaled(Unk02188950 *mapObject, int speedPercent);
+void StartHanachanFollowerMoveState(Unk02188950 *mapObject);
+void AdvanceHanachanCounterForAll(Unk02188950 *mapObject);
+void AdvanceHanachanCounter(Unk02188950 *mapObject);
+void CopyHanachanFollowerPreviousAngle(Unk02188950 *mapObject);
+void PlaceHanachanFollowerBehind(Unk02188950 *mapObject);
+void TurnHanachanFollowerToPrevious(Unk02188950 *mapObject);
+void PlaceHanachanFollowerBehindXz(Unk02188950 *mapObject);
 
 #include "01/code_0219b540.h"

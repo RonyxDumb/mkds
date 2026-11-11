@@ -50,15 +50,15 @@ typedef struct Unk021a7b64 {
 #include "Main/Unknown/code_020a2300.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void func_ov001_0218b9b4(Unk02188950 *mapObject);
-void func_ov001_0218ba34(Unk02188950 *mapObject);
-void func_ov001_0218ba48(Unk02188950 *mapObject);
-int func_ov001_0218bb74(Unk02188950 *mapObject);
-void func_ov001_0218bbac(Unk02188950 *mapObject);
-void func_ov001_0218bc60(Unk02188950 *mapObject);
-void func_ov001_0218bcc4(Unk02188950 *mapObject);
-void func_ov001_0218bd80(Unk02188950 *mapObject);
-void func_ov001_0218bde8(Unk02188950 *mapObject);
-void func_ov001_0218bee4(Unk02188950 *mapObject);
+void StartKurikingChaseKartState(Unk02188950 *mapObject);
+void GrowKuriking(Unk02188950 *mapObject);
+void StartKurikingGrowState(Unk02188950 *mapObject);
+int UpdateKurikingGrowSound(Unk02188950 *mapObject);
+void StartKurikingTurnToRowState(Unk02188950 *mapObject);
+void StartKurikingJumpAnimationState(Unk02188950 *mapObject);
+void StartKurikingJumpState(Unk02188950 *mapObject);
+void StartKurikingJumpLandState(Unk02188950 *mapObject);
+void StartKurikingFaceKartState(Unk02188950 *mapObject);
+void StartKurikingThrowBombsState(Unk02188950 *mapObject);
 
 #include "01/code_0219b540.h"

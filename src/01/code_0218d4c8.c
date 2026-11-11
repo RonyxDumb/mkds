@@ -5,14 +5,14 @@
 #include "01/code_0218d520.h"
 #include "01/code_0218dce4.h"
 
-void func_ov001_0218d4c8(Unk02188950 *a) {
-    u32 v1;
-    StartMapObjectState(a, 1, &func_ov001_0218d520);
-    SetStoppedCallback(a, 0);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
-    v1 = func_ov001_02187f38(a);
-    func_ov001_0218d824(a, v1);
-    v1 = func_ov001_02187f38(a);
-    func_ov001_0218d87c(a, v1);
-    func_ov001_0218dce4(a);
+void StartHanachanMoveState(Unk02188950 *mapObject) {
+    u32 entryPercent;
+    StartMapObjectState(mapObject, 1, &UpdateHanachanMoveState);
+    SetStoppedCallback(mapObject, 0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088, mapObject->mPrm->mUnk_08c);
+    entryPercent = func_ov001_02187f38(mapObject);
+    SetHanachanSpeedAndTurnToNextEntry(mapObject, entryPercent);
+    entryPercent = func_ov001_02187f38(mapObject);
+    SetHanachanFollowersTurnTiming(mapObject, entryPercent);
+    SetHanachanSoundCallbacks(mapObject);
 }

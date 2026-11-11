@@ -47,11 +47,12 @@
 #include "Main/Unknown/code_021000d0.h"
 #include "code_02147cd8.h"
 
-Unk021a7b64 data_ov001_021a7b64 = {
-    0, 0x30c, func_ov001_0218b72c, func_ov001_0218b310, func_ov001_0218b2f4, 0, 0, func_ov001_0218b2dc, {0, 0, 0, 0, 0},
+Unk021a7b64 gKurikingKindDescriptor = {
+    0, 0x30c, InitKurikingMapObject,    CreateKurikingKindData, CreateKurikingDrawList,
+    0, 0,     CreateKurikingUpdateList, {0, 0, 0, 0, 0},
 };
 
-void func_ov001_0218b928(Unk02188950 *mapObject) {
+void StartKurikingEndEffects(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
     StartEffect(0x418, &mapObject->mUnk_000.mPos);
     StartEffect(0x417, &mapObject->mUnk_000.mPos);
@@ -63,22 +64,22 @@ void func_ov001_0218b928(Unk02188950 *mapObject) {
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(soundRequest.mPositionSource);
         StartSndHandleSoundUnchecked(&soundRequest, GetSecondSndHandleSlot());
     }
-    mapObject->mUnk_000.mFlags |= data_ov001_021a659c;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65a0;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65a4;
+    mapObject->mUnk_000.mFlags |= gKurikingSkipViewTestFlag;
+    mapObject->mUnk_000.mFlags |= gKurikingSkipListCallbackFlag;
+    mapObject->mUnk_000.mFlags |= gKurikingDisabledFlag;
 }
 
-void func_ov001_0218b8f8(Unk02188950 *mapObject) {
+void StartKurikingKartNotEliminatedState(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
-    StartStateFrameCountCallback(mapObject, 0x3c, &func_ov001_0218b928);
+    StartStateFrameCountCallback(mapObject, 0x3c, &StartKurikingEndEffects);
 }
 
-void func_ov001_0218b8f0(void) {
+void KurikingStandingsEndCallback(void) {
     ResetMissionRunMapObjects();
 }
 
-s32 func_ov001_0218b8d4(Unk02188950 *mapObject) {
+s32 KurikingStopStateWhenRaceStarted(Unk02188950 *mapObject) {
     int raceStarted;
     raceStarted = IsRaceStarted();
     if (raceStarted == 1) {
@@ -87,7 +88,7 @@ s32 func_ov001_0218b8d4(Unk02188950 *mapObject) {
     return 0;
 }
 
-s32 func_ov001_0218b850(Unk02188950 *mapObject) {
+s32 UpdateKurikingStartupEffects(Unk02188950 *mapObject) {
     int nsbcaFrameIndex;
     nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
     if (nsbcaFrameIndex == 0x4d) {
@@ -105,49 +106,49 @@ s32 func_ov001_0218b850(Unk02188950 *mapObject) {
     return 0;
 }
 
-void func_ov001_0218b828(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, func_ov001_0218b8d4);
+void StartKurikingWaitForRaceStart(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, KurikingStopStateWhenRaceStarted);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
 }
 
-void func_ov001_0218b7fc(Unk02188950 *mapObject) {
-    StartMapObjectState(mapObject, 8, func_ov001_0218b850);
+void StartKurikingStartupSecond(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, UpdateKurikingStartupEffects);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
-                                  &func_ov001_0218b828);
+                                  &StartKurikingWaitForRaceStart);
 }
 
-void func_ov001_0218b7c8(Unk02188950 *mapObject) {
+void StartKurikingStartupFirst(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &func_ov001_0218b7fc);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartKurikingStartupSecond);
 }
 
-void func_ov001_0218b7a4(Unk02188950 *mapObject) {
+void StartKurikingChainStartupSecond(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
 }
 
-void func_ov001_0218b770(Unk02188950 *mapObject) {
+void StartKurikingChainStartupFirst(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(Unk02188950 *))(0));
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &func_ov001_0218b7a4);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartKurikingChainStartupSecond);
 }
 
-void func_ov001_0218b72c(Unk02188950 *mapObject) {
+void InitKurikingMapObject(Unk02188950 *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_KURIBO, 0x32, mapObject);
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xf, &mapObject->mUnk_000.mPos);
     mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsSecond[15];
 }
 
-void func_ov001_0218b6f8(Unk02188950 *mapObject, void *kart) {
-    SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);
+void KurikingKartHitSoundCallback(Unk02188950 *mapObject, void *kart) {
+    SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {
         StartSoundFullVolumeWrapper(kart, 0x224);
     }
 }
 
-void func_ov001_0218b640(Unk02188950 *mapObject, void *kart) {
+void KurikingKartHitCallback(Unk02188950 *mapObject, void *kart) {
     mapObject->mUnk_000.mPosStep.x =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_SinIdx((u16) mapObject->mMoveAngle));
     mapObject->mUnk_000.mPosStep.y = 0;
@@ -155,7 +156,7 @@ void func_ov001_0218b640(Unk02188950 *mapObject, void *kart) {
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_CosIdx((u16) mapObject->mMoveAngle));
     mapObject->mUnk_2d8 = 0xd;
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-    SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);
+    SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {
         StartSoundFullVolumeWrapper(kart, 0x224);
     }
@@ -169,24 +170,24 @@ void InitKurikingObjects(MapObjectList *mapObjectList) {
         for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
             func_ov001_0219b1c4(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mUnk_050, 0);
             if (GetRaceUseChainCameras()) {
-                func_ov001_0218b770(obj);
+                StartKurikingChainStartupFirst(obj);
             } else {
-                func_ov001_0218b7c8(obj);
+                StartKurikingStartupFirst(obj);
             }
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_0218b8f0);
+    SetStandingsEndCallback((void (*)(void)) KurikingStandingsEndCallback);
 }
 
-void UpdateKuriking(u32 a, Unk02188950 *mapObject) {
+void UpdateKuriking(u32 unused, Unk02188950 *mapObject) {
     s32 var;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
         if (IsStateNumberBelow(mapObject, 1)) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
-                func_ov001_0218b9b4(mapObject);
+                StartKurikingChaseKartState(mapObject);
             } else {
-                func_ov001_0218b8f8(mapObject);
+                StartKurikingKartNotEliminatedState(mapObject);
             }
         }
     } else {
@@ -194,18 +195,18 @@ void UpdateKuriking(u32 a, Unk02188950 *mapObject) {
             var = GetCurrentGroupEntryValue(mapObject);
             if (var >= 200) {
                 if (IsStateNumberBelow(mapObject, 8)) {
-                    func_ov001_0218ba34(mapObject);
-                    SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);
+                    GrowKuriking(mapObject);
+                    SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
                 }
             } else if (var >= 100) {
                 if (IsStateNumberBelow(mapObject, 7)) {
-                    func_ov001_0218bbac(mapObject);
-                    SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);
+                    StartKurikingTurnToRowState(mapObject);
+                    SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
                 }
             } else if (var >= 1) {
                 if (IsStateNumberBelow(mapObject, 1)) {
-                    func_ov001_0218bde8(mapObject);
-                    SetKartCollisionCallback(mapObject, func_ov001_0218b6f8);
+                    StartKurikingFaceKartState(mapObject);
+                    SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
                 }
             }
             IncrementEntryIndex(mapObject);
@@ -215,17 +216,17 @@ void UpdateKuriking(u32 a, Unk02188950 *mapObject) {
         }
         if (IsStateNumberBelow(mapObject, 2)) {
             if (GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_124, mapObject->mPrm->mUnk_128)) {
-                func_ov001_0218c490(mapObject);
-                SetKartCollisionCallback(mapObject, func_ov001_0218b640);
+                StartKurikingKartInRangeState(mapObject);
+                SetKartCollisionCallback(mapObject, KurikingKartHitCallback);
             }
         }
         if (IsStateNumberBelow(mapObject, 1)) {
-            func_ov001_0218c354(mapObject);
-            SetKartCollisionCallback(mapObject, func_ov001_0218b640);
+            StartKurikingWalkState(mapObject);
+            SetKartCollisionCallback(mapObject, KurikingKartHitCallback);
         }
         mapObject->mUnk_2b8 = 1;
     }
-    AdvanceMissionRunMapObject(a, mapObject);
+    AdvanceMissionRunMapObject(unused, mapObject);
     func_ov001_0219b1fc(mapObject->mNsbmd);
     var = mapObject->mUnk_134 + 1;
     if (var >= GetAbsoluteCounter(mapObject) * 30) {
@@ -255,7 +256,7 @@ void InitKuriking(MapObjectList *mapObjectList) {
             LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, "kuriking.nsbtp");
             LoadMapObjectModelNsbmaAnimation(obj->mNsbmd, "kuriking.nsbma");
             SetKurikingCollisionAndShadow(obj);
-            SetKartCollisionCallback(obj, func_ov001_0218b6f8);
+            SetKartCollisionCallback(obj, KurikingKartHitSoundCallback);
         }
     }
 }
@@ -265,17 +266,17 @@ void DrawKuriking(void *mapObjectList, Unk02188950 *mapObject) {
     DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }
 
-void func_ov001_0218b310(void) {
+void CreateKurikingKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
     void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
-void *func_ov001_0218b2f4(void) {
+void *CreateKurikingDrawList(void) {
     return CreateMapObjectDrawList1(InitKuriking, DrawKuriking, ToggleShadowScale);
 }
 
-void *func_ov001_0218b2dc(void) {
+void *CreateKurikingUpdateList(void) {
     return CreateMapObjectUpdateList(InitKurikingObjects, UpdateKuriking, NULL);
 }
