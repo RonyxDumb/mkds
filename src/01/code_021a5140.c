@@ -77,15 +77,15 @@ void InitEmblem(void) {
     CreateEmblemInput();
     InitKartModelMenuWithKartList(GetHeap(GetCurrentHeapCall()));
     InitEmblemChoises();
-    ResetOamLists(&gEmblem->mUnk_0000, &gEmblem->mUnk_0404);
+    ResetOamLists(&gEmblem->mMainOam, &gEmblem->mSubOam);
     CreateEmblemCursorAndGrid(0x40, 0x10, 0x20, 0x80, 0x10);
     p = gBackupBuffers->mEmblemRecord;
     if (p->mFilled) {
-        MI_CpuCopy8(p->mEmblemData, gEmblem->mUnk_087c, 0x200);
-        SplitBytesIntoNibbleTiles(gEmblem->mUnk_087c, gEmblem->mUnk_0c7c, GetEmblemGridSide());
-        SetEmblemGridCells(gEmblem->mUnk_0c7c);
+        MI_CpuCopy8(p->mEmblemData, gEmblem->mRecordBytes, 0x200);
+        SplitBytesIntoNibbleTiles(gEmblem->mRecordBytes, gEmblem->mCellNibbles, GetEmblemGridSide());
+        SetEmblemGridCells(gEmblem->mCellNibbles);
         SwapEmblemGridCells();
-        SetEmblemGridCells(gEmblem->mUnk_0c7c);
+        SetEmblemGridCells(gEmblem->mCellNibbles);
         ResetEmblemGridChanges();
     }
     SetEmblemCursorCellShift(2);
@@ -130,7 +130,7 @@ void InitEmblem(void) {
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 25), -32, -20, 32, 20);
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 26), -32, -20, 32, 20);
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemTemplateSLld, 1), -52, -15, 52, 15);
-    gEmblem->mUnk_10ac = TRUE;
-    gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->mKartListSkipped = TRUE;
+    gEmblem->mTransitionRunning = FALSE;
     gEmblem->mUnk_10bc = 6;
 }

@@ -19,7 +19,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
     u8 *templateBytes;
     u16 templateCellValues[16];
 
-    switch (gEmblem->mUnk_1090) {
+    switch (gEmblem->mState) {
         case 0:
             switch (entryIndex) {
                 case 0x1b:
@@ -40,20 +40,20 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
-                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
-                        SetEmblemCursorCellValue(gEmblem->mUnk_1080 + 1);
+                        gEmblem->mColorCursorIndex = entryIndex - 0x1b;
+                        SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
                     } else {
-                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
+                        gEmblem->mColorCursorIndex = entryIndex - 0x1b;
                         StartEmblemColorCursorShrinkAndGrow((gEmblem->mEmblemSLld), entryIndex);
-                        SetEmblemCursorCellValue(gEmblem->mUnk_1080 + 1);
+                        SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f0);
                     }
                     if (GetEmblemCursorMode() == 1) {
                         StartEmblemModeButtonPress(gEmblem->mEmblemSLld, GetEmblemCursorSizeIndex() + 0xe);
                         SetEmblemCursorMode(0);
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x2a:
                     if (isTouch) {
@@ -61,7 +61,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     }
                     StartEmblemButtonBounceAndToggle((gEmblem->mEmblemSLld), entryIndex);
                     if (isTouch) {
-                        gEmblem->mUnk_1094 = 3;
+                        gEmblem->mCursorTargetState = 3;
                         return;
                     }
                     break;
@@ -72,7 +72,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     SetEmblemCursorMode(0);
                     SetEmblemCursorSizeIndex(entryIndex - 0xe);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x11:
                 case 0x12:
@@ -81,30 +81,30 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     SetEmblemCursorMode(1);
                     SetEmblemCursorSizeIndex(entryIndex - 0x11);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x14:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(2);
                     SetEmblemCursorSizeIndex(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x15:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(3);
                     SetEmblemCursorSizeIndex(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x16:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemTemplateSlideIn;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideIn;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f3);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->mTransitionRunning = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x17:
                     if (IsEmblemGridChanged()) {
@@ -117,41 +117,41 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
                     }
                     if (isTouch) {
-                        gEmblem->mUnk_1094 = 3;
+                        gEmblem->mCursorTargetState = 3;
                         return;
                     }
                     break;
                 case 0x19:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemFadeOutToCamera;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToCamera;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
-                        gEmblem->mUnk_10b0 = TRUE;
-                        gEmblem->mUnk_10ac = FALSE;
+                        gEmblem->mTransitionRunning = TRUE;
+                        gEmblem->mKartListSkipped = FALSE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x1a:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemChoises;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemChoises;
                         StartEmblemButtonBounce((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->mTransitionRunning = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
             }
             break;
         case 1:
             switch (entryIndex) {
                 case 0:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonHold((gEmblem->mEmblemTemplateSLld), 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->mTransitionRunning = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 3:
                 case 4:
@@ -182,34 +182,34 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                 case 0x1d:
                 case 0x1e:
                 case 0x1f:
-                    if (gEmblem->mUnk_108c == NULL) {
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
                         templateByteSize = (s32) (GetEmblemGridSide() * GetEmblemGridSide()) / 2;
                         templateBytes =
                             (u8 *) gEmblem->mEmblemTemplateBNcgr->mData + (entryIndex - 3) * templateByteSize;
                         templateCellValues[0] = 0;
                         templateCellValues[1] = (GetEmblemCursorCellValue() == 1) ? 2 : 1;
                         templateCellValues[2] = GetEmblemCursorCellValue();
-                        SplitBytesIntoNibbles(templateBytes, gEmblem->mUnk_0c7c, GetEmblemGridSide());
-                        SetEmblemGridCellsFromTable((gEmblem->mUnk_0c7c), (templateCellValues));
+                        SplitBytesIntoNibbles(templateBytes, gEmblem->mCellNibbles, GetEmblemGridSide());
+                        SetEmblemGridCellsFromTable((gEmblem->mCellNibbles), (templateCellValues));
                         ClearEmblemGridCopied();
-                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
+                        gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemTemplateSLld), entryIndex);
-                        gEmblem->mUnk_1084 = entryIndex - 3;
+                        gEmblem->mTemplateCursorIndex = entryIndex - 3;
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
             }
             break;
         case 4:
             if (entryIndex == 1) {
-                if (gEmblem->mUnk_108c == NULL) {
-                    gEmblem->mUnk_108c = StartEmblemFadeOutToGrid;
+                if (gEmblem->mPendingTransitionFunc == NULL) {
+                    gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToGrid;
                     StartEmblemButtonBounceThenWait((gEmblem->mEmblemCameraSLld), entryIndex);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
-                    gEmblem->mUnk_10ac = TRUE;
+                    gEmblem->mKartListSkipped = TRUE;
                 }
-                gEmblem->mUnk_1094 = 3;
+                gEmblem->mCursorTargetState = 3;
             }
             break;
     }

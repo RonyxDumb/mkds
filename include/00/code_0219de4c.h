@@ -18,13 +18,13 @@ typedef struct WiFiMatching {
     // modes 2 and 3.
     /* 00e */ u8 mLastMaskedParticipantPos;
     /* 00f */ u8 mUnk_0f;
-    /* 010 */ struct QueryRecord *mUnk_10;
-    /* 014 */ u8 mUnk_14;
+    /* 010 */ struct QueryRecord *mQr2;
+    /* 014 */ u8 mNNCompletedCount;
     // 0 filter search, 1 buddy list (set by DWCi_SetMatchCommonParam); the code also tests 2 and 3, which nothing sets.
     /* 015 */ volatile u8 mMode;
-    /* 016 */ u8 mUnk_16;
+    /* 016 */ u8 mNumEntry;
     /* 017 */ u8 mMresvPresent;
-    /* 018 */ u8 mUnk_18;
+    /* 018 */ u8 mQr2ShutdownPending;
     /* 019 */ u8 mUnk_19;
     /* 01a */ u16 mOwnPort;
     /* 01c */ void *mOwnAddress;
@@ -33,46 +33,46 @@ typedef struct WiFiMatching {
     /* 024 */ u32 mParticipantCommandAddresses[32];
     /* 0a4 */ u16 mParticipantCommandPorts[32];
     /* 0e4 */ struct MatchingServerList *mServerList;
-    /* 0e8 */ u32 mUnk_e8;
-    /* 0ec */ u64 mUnk_ec;
+    /* 0e8 */ u32 mServerUpdateWaitKind;
+    /* 0ec */ u64 mServerUpdateWaitStartTick;
     // GP profile id of each participant by position; the connection finds its own position by comparing
     // WiFiConnection.mProfileId.
     /* 0f4 */ u32 mParticipantProfileIds[32];
-    /* 174 */ u8 mUnk_174[2];
-    /* 176 */ u16 mUnk_176;
-    /* 178 */ u32 mUnk_178;
-    /* 17c */ u64 mUnk_17c;
+    /* 174 */ u8 mNatnegCounts[2];
+    /* 176 */ u16 mCookieRandom;
+    /* 178 */ u32 mLastNatnegCookie;
+    /* 17c */ u64 mNNFailedTime;
     /* 184 */ u64 mIncomingWaitStartTime;
-    /* 18c */ u8 mUnk_18c[8];
-    /* 194 */ u32 mUnk_194;
+    /* 18c */ u8 mNNInfo[8];
+    /* 194 */ u32 mNNCookie;
     // Switched on by DWCi_MatchProcess when its parameter is 1; 0 means no search is running.
     /* 198 */ s32 mState;
-    /* 19c */ u8 mUnk_19c;
+    /* 19c */ u8 mPostProcessPos;
     /* 19d */ u8 mBuddyEntryIndexPos;
-    /* 19e */ u8 mUnk_19e;
-    /* 19f */ u8 mUnk_19f;
-    /* 1a0 */ u8 mUnk_1a0;
+    /* 19e */ u8 mDistantFriend;
+    /* 19f */ u8 mPriorResvDelayCount;
+    /* 1a0 */ u8 mCloseKind;
     /* 1a1 */ u8 mStopPending;
-    /* 1a2 */ u8 mUnk_1a2;
-    /* 1a3 */ u8 mUnk_1a3[2];
+    /* 1a2 */ u8 mResvRetryCount;
+    /* 1a3 */ u8 mSynResendCounts[2];
     /* 1a5 */ u8 mUnk_1a5;
-    /* 1a6 */ u16 mUnk_1a6;
-    /* 1a8 */ u16 mUnk_1a8;
-    /* 1aa */ u16 mUnk_1aa;
-    /* 1ac */ u32 mUnk_1ac;
-    /* 1b0 */ u32 mUnk_1b0;
-    /* 1b4 */ u64 mUnk_1b4;
-    /* 1bc */ u32 mUnk_1bc;
-    /* 1c0 */ u64 mUnk_1c0;
-    /* 1c8 */ u32 mUnk_1c8;
-    /* 1cc */ u32 mUnk_1cc;
+    /* 1a6 */ u16 mSynLatency;
+    /* 1a8 */ u16 mCancelSynLatency;
+    /* 1aa */ u16 mServerPort;
+    /* 1ac */ u32 mServerAddress;
+    /* 1b0 */ u32 mResvDelayPending;
+    /* 1b4 */ u64 mResvDelayStartTick;
+    /* 1bc */ u32 mResvTimeoutMs;
+    /* 1c0 */ u64 mResvTimeoutStartTick;
+    /* 1c8 */ u32 mSynReplyMask;
+    /* 1cc */ u32 mCancelSynReplyMask;
     /* 1d0 */ u64 mLastPeerMessageSendTime;
-    /* 1d8 */ u64 mUnk_1d8;
-    /* 1e0 */ u64 mUnk_1e0;
+    /* 1d8 */ u64 mLastCancelSynSendTime;
+    /* 1e0 */ u64 mResumeWaitStartTime;
     /* 1e8 */ u32 mOwnProfileId;
     /* 1ec */ u32 mReplyProfileId;
-    /* 1f0 */ u32 mUnk_1f0;
-    /* 1f4 */ u32 mUnk_1f4;
+    /* 1f0 */ u32 mPriorProfileId;
+    /* 1f4 */ u32 mEventProfileId;
     // Address each participant is connected to; mParticipantConnectPorts holds the matching ports.
     /* 1f8 */ u32 mParticipantConnectAddresses[32];
     /* 278 */ u16 mParticipantConnectPorts[32];
@@ -84,7 +84,7 @@ typedef struct WiFiMatching {
     // The game name buffer WiFiConnection.mGameName points to, given to the server list.
     /* 2dc */ const char *mGameName;
     // The key string gcd_secret_key, given after the game name when the server list is created.
-    /* 2e0 */ const char *mUnk_2e0;
+    /* 2e0 */ const char *mSecretKey;
     /* 2e4 */ u8 *mBuddies;
     /* 2e8 */ u32 mBuddyEntryCount;
     /* 2ec */ u8 mBuddyEntryIndices[0x40];
@@ -102,8 +102,8 @@ typedef struct WiFiMatching {
     // DWCi_StopMatching.
     /* 44c */ UnkFunc *mResultCallback;
     /* 450 */ u32 mResultCallbackArg;
-    /* 454 */ void (*mUnk_454)(u32 a, u32 b);
-    /* 458 */ u32 mUnk_458;
+    /* 454 */ void (*mNewParticipantCallback)(u32 a, u32 b);
+    /* 458 */ u32 mNewParticipantCallbackArg;
     /* 45c */ u32 mEvalCallback;
     /* 460 */ u32 mEvalCallbackArg;
 } WiFiMatching;

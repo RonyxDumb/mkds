@@ -122,11 +122,11 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
 // gWiFiConnection. Called on failure, leave and logout paths.
 void DWC_ShutdownFriendsMatch(void) {
     if (gWiFiConnection != NULL) {
-        if (gWiFiConnection->mMatching.mUnk_10 != NULL) {
-            qr2_shutdown(gWiFiConnection->mMatching.mUnk_10);
-            gWiFiConnection->mMatching.mUnk_10 = NULL;
+        if (gWiFiConnection->mMatching.mQr2 != NULL) {
+            qr2_shutdown(gWiFiConnection->mMatching.mQr2);
+            gWiFiConnection->mMatching.mQr2 = NULL;
         }
-        gWiFiConnection->mMatching.mUnk_18 = 0;
+        gWiFiConnection->mMatching.mQr2ShutdownPending = 0;
         if (gWiFiConnection->mMatching.mServerList != NULL) {
             ServerBrowserFree(gWiFiConnection->mMatching.mServerList);
             gWiFiConnection->mMatching.mServerList = NULL;
@@ -242,12 +242,12 @@ void DWC_ProcessFriendsMatch(void) {
             }
             break;
     }
-    if (gWiFiConnection->mMatching.mUnk_18 == 1) {
-        if (gWiFiConnection->mMatching.mUnk_10 != NULL) {
-            qr2_shutdown(gWiFiConnection->mMatching.mUnk_10);
-            gWiFiConnection->mMatching.mUnk_10 = NULL;
+    if (gWiFiConnection->mMatching.mQr2ShutdownPending == 1) {
+        if (gWiFiConnection->mMatching.mQr2 != NULL) {
+            qr2_shutdown(gWiFiConnection->mMatching.mQr2);
+            gWiFiConnection->mMatching.mQr2 = NULL;
         }
-        gWiFiConnection->mMatching.mUnk_18 = 0;
+        gWiFiConnection->mMatching.mQr2ShutdownPending = 0;
     }
 }
 

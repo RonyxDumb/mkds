@@ -26,8 +26,8 @@ typedef struct Lld {
 
 // Object behind gEmblem, allocated by InitEmblem.
 typedef struct Emblem {
-    /* 0000 */ OamBuffer mUnk_0000;
-    /* 0404 */ OamBuffer mUnk_0404;
+    /* 0000 */ OamBuffer mMainOam;
+    /* 0404 */ OamBuffer mSubOam;
     /* 0808 */ Nclr *mEmblemMONclr;
     /* 080c */ Nclr *mEmblemMBNclr;
     /* 0810 */ Ncgr *mEmblemMONcgr;
@@ -57,25 +57,25 @@ typedef struct Emblem {
     /* 0870 */ struct Unk02021dc8 *mEmblemCameraSNcer;
     /* 0874 */ struct AnimBank *mEmblemCameraSNanr;
     /* 0878 */ struct Lld *mEmblemCameraSLld;
-    /* 087c */ u8 mUnk_087c[0x200];
-    /* 0a7c */ u8 mUnk_0a7c[0x200];
-    /* 0c7c */ u8 mUnk_0c7c[0x400];
-    /* 107c */ s32 mUnk_107c;
-    /* 1080 */ s32 mUnk_1080;
-    /* 1084 */ s32 mUnk_1084;
-    /* 1088 */ s32 mUnk_1088;
-    /* 108c */ UnkFunc *mUnk_108c;
-    /* 1090 */ s32 mUnk_1090;
-    /* 1094 */ s32 mUnk_1094;
-    /* 1098 */ s32 mUnk_1098;
-    /* 109c */ s32 mUnk_109c;
-    /* 10a0 */ s32 mUnk_10a0;
-    /* 10a4 */ s32 mUnk_10a4;
-    /* 10a8 */ s32 mUnk_10a8;
-    /* 10ac */ BOOL mUnk_10ac;
-    /* 10b0 */ BOOL mUnk_10b0;
-    /* 10b4 */ s32 mUnk_10b4;
-    /* 10b8 */ BOOL mUnk_10b8;
+    /* 087c */ u8 mRecordBytes[0x200];
+    /* 0a7c */ u8 mGridCharBytes[0x200];
+    /* 0c7c */ u8 mCellNibbles[0x400];
+    /* 107c */ s32 mButtonCursorIndex;
+    /* 1080 */ s32 mColorCursorIndex;
+    /* 1084 */ s32 mTemplateCursorIndex;
+    /* 1088 */ s32 mCursorSizeIndex;
+    /* 108c */ UnkFunc *mPendingTransitionFunc;
+    /* 1090 */ s32 mState;
+    /* 1094 */ s32 mCursorTargetState;
+    /* 1098 */ s32 mDisplayState;
+    /* 109c */ s32 mFadeLevel;
+    /* 10a0 */ s32 mTemplateSlideOffset;
+    /* 10a4 */ s32 mTemplateSlideSpeed;
+    /* 10a8 */ s32 mBgScrollPosition;
+    /* 10ac */ BOOL mKartListSkipped;
+    /* 10b0 */ BOOL mTransitionRunning;
+    /* 10b4 */ s32 mUploadFrames;
+    /* 10b8 */ BOOL mSoundPending;
     /* 10bc */ s32 mUnk_10bc;
 } Emblem;
 

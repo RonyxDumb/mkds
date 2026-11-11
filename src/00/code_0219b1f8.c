@@ -110,7 +110,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         profileId = DWCi_DeleteAID(aid);
         stGt2ConnectionList[connectionInfo[0]] = NULL;
         gWiFiConnection->mMatching.mLastParticipantPos--;
-        gWiFiConnection->mMatching.mUnk_14--;
+        gWiFiConnection->mMatching.mNNCompletedCount--;
     }
     if (gWiFiConnection->mUnk_2d == 0 && gWiFiConnection->mState == 6 && inMask == 0) {
         if (gWiFiConnection->mMatching.mMode == 2 && kind == 0) {
@@ -136,8 +136,8 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
     }
     if (gWiFiConnection->mMatching.mMode == 0 || gWiFiConnection->mMatching.mMode == 1) {
-        gWiFiConnection->mMatching.mUnk_16 = gWiFiConnection->mMatching.mUnk_14;
-        qr2_send_statechanged(gWiFiConnection->mMatching.mUnk_10);
+        gWiFiConnection->mMatching.mNumEntry = gWiFiConnection->mMatching.mNNCompletedCount;
+        qr2_send_statechanged(gWiFiConnection->mMatching.mQr2);
     }
     wiFiConnection = gWiFiConnection;
     if (wiFiConnection->mUnk_7c != NULL && inMask != 0) {

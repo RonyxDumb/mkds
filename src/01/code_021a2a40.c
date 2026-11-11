@@ -62,8 +62,8 @@ void UploadEmblemMainScreen(void) {
     GX_LoadBGPltt(gEmblem->mEmblemMBNclr->mData, 0, gEmblem->mEmblemMBNclr->mDataSize);
     DC_FlushRange(gEmblem->mEmblemMBNcgr->mData, gEmblem->mEmblemMBNcgr->mDataSize);
     GX_LoadBG1Char((gEmblem->mEmblemMBNcgr->mData), 0, gEmblem->mEmblemMBNcgr->mDataSize);
-    DC_FlushRange(gEmblem->mUnk_0a7c, 0x200);
-    GX_LoadBG2Char(gEmblem->mUnk_0a7c, 0, 0x200);
+    DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
+    GX_LoadBG2Char(gEmblem->mGridCharBytes, 0, 0x200);
     DC_FlushRange(gEmblem->mEmblemMNscr->mData, gEmblem->mEmblemMNscr->mDataSize);
     GX_LoadBG1Scr(gEmblem->mEmblemMNscr->mData, 0, gEmblem->mEmblemMNscr->mDataSize);
     DC_FlushRange(gEmblem->mEmblemMBgNscr->mData, gEmblem->mEmblemMBgNscr->mDataSize);
@@ -137,8 +137,8 @@ void UploadEmblemCameraSubScreen(void) {
 void StartEmblemChoises(void) {
     RequestEmblemChoisesGraphicsUpload();
     SetEmblemChoisesShownAndReset(1);
-    gEmblem->mUnk_1090 = 10;
-    gEmblem->mUnk_1098 = 14;
+    gEmblem->mState = 10;
+    gEmblem->mDisplayState = 14;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -3);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -3);
@@ -146,19 +146,19 @@ void StartEmblemChoises(void) {
 
 void StopEmblemChoises(void) {
     SetEmblemChoisesShownAndReset(0);
-    gEmblem->mUnk_1090 = 0;
-    gEmblem->mUnk_1098 = 15;
-    gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->mState = 0;
+    gEmblem->mDisplayState = 15;
+    gEmblem->mTransitionRunning = FALSE;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
 void StartEmblemTemplateSlideIn(void) {
-    gEmblem->mUnk_1090 = 2;
-    gEmblem->mUnk_1098 = 2;
-    gEmblem->mUnk_10a0 = 0;
-    gEmblem->mUnk_10a4 = 32;
+    gEmblem->mState = 2;
+    gEmblem->mDisplayState = 2;
+    gEmblem->mTemplateSlideOffset = 0;
+    gEmblem->mTemplateSlideSpeed = 32;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemTemplateSLld, 1), 0);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -3);
@@ -166,87 +166,87 @@ void StartEmblemTemplateSlideIn(void) {
 }
 
 void AdvanceEmblemTemplateSlideIn(void) {
-    gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
-    gEmblem->mUnk_10a4 -= 2;
-    if (gEmblem->mUnk_10a0 >= 0xc0) {
-        gEmblem->mUnk_10a0 = 0xc0;
-        gEmblem->mUnk_1090 = 1;
-        gEmblem->mUnk_1098 = 3;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->mTemplateSlideOffset += gEmblem->mTemplateSlideSpeed;
+    gEmblem->mTemplateSlideSpeed -= 2;
+    if (gEmblem->mTemplateSlideOffset >= 0xc0) {
+        gEmblem->mTemplateSlideOffset = 0xc0;
+        gEmblem->mState = 1;
+        gEmblem->mDisplayState = 3;
+        gEmblem->mTransitionRunning = FALSE;
     }
-    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
+    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mTemplateSlideOffset - 0xc0;
 }
 
 void StartEmblemTemplateSlideOut(void) {
-    gEmblem->mUnk_1090 = 3;
-    gEmblem->mUnk_1098 = 6;
-    gEmblem->mUnk_10a0 = 0xc0;
-    gEmblem->mUnk_10a4 = -0x20;
+    gEmblem->mState = 3;
+    gEmblem->mDisplayState = 6;
+    gEmblem->mTemplateSlideOffset = 0xc0;
+    gEmblem->mTemplateSlideSpeed = -0x20;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
 void AdvanceEmblemTemplateSlideOut(void) {
-    gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
-    gEmblem->mUnk_10a4 += 2;
-    if (gEmblem->mUnk_10a0 <= 0) {
-        gEmblem->mUnk_10a0 = 0;
-        gEmblem->mUnk_1090 = 0;
-        gEmblem->mUnk_1098 = 7;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->mTemplateSlideOffset += gEmblem->mTemplateSlideSpeed;
+    gEmblem->mTemplateSlideSpeed += 2;
+    if (gEmblem->mTemplateSlideOffset <= 0) {
+        gEmblem->mTemplateSlideOffset = 0;
+        gEmblem->mState = 0;
+        gEmblem->mDisplayState = 7;
+        gEmblem->mTransitionRunning = FALSE;
     }
-    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
+    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mTemplateSlideOffset - 0xc0;
 }
 
 void StartEmblemFadeOutToCamera(void) {
-    gEmblem->mUnk_1090 = 5;
-    gEmblem->mUnk_1098 = 13;
-    gEmblem->mUnk_109c = 0;
+    gEmblem->mState = 5;
+    gEmblem->mDisplayState = 13;
+    gEmblem->mFadeLevel = 0;
 }
 
 void StartEmblemFadeOutToGrid(void) {
-    gEmblem->mUnk_1090 = 7;
-    gEmblem->mUnk_1098 = 10;
-    gEmblem->mUnk_109c = 0;
+    gEmblem->mState = 7;
+    gEmblem->mDisplayState = 10;
+    gEmblem->mFadeLevel = 0;
     SetKartModelMenuInputSeqs(2, 0);
 }
 
 void AdvanceEmblemFadeOutToCamera(void) {
-    gEmblem->mUnk_109c += 2;
-    if (gEmblem->mUnk_109c > 16) {
-        gEmblem->mUnk_109c = 16;
-        gEmblem->mUnk_1090 = 6;
-        gEmblem->mUnk_1098 = 9;
+    gEmblem->mFadeLevel += 2;
+    if (gEmblem->mFadeLevel > 16) {
+        gEmblem->mFadeLevel = 16;
+        gEmblem->mState = 6;
+        gEmblem->mDisplayState = 9;
     }
 }
 
 void AdvanceEmblemFadeInAtCamera(void) {
-    gEmblem->mUnk_109c -= 2;
-    if (gEmblem->mUnk_109c < 0) {
-        gEmblem->mUnk_109c = 0;
-        gEmblem->mUnk_1090 = 4;
-        gEmblem->mUnk_1098 = 11;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->mFadeLevel -= 2;
+    if (gEmblem->mFadeLevel < 0) {
+        gEmblem->mFadeLevel = 0;
+        gEmblem->mState = 4;
+        gEmblem->mDisplayState = 11;
+        gEmblem->mTransitionRunning = FALSE;
     }
 }
 
 void AdvanceEmblemFadeOutToGrid(void) {
-    gEmblem->mUnk_109c += 2;
-    if (gEmblem->mUnk_109c > 16) {
-        gEmblem->mUnk_109c = 16;
-        gEmblem->mUnk_1090 = 8;
-        gEmblem->mUnk_1098 = 12;
+    gEmblem->mFadeLevel += 2;
+    if (gEmblem->mFadeLevel > 16) {
+        gEmblem->mFadeLevel = 16;
+        gEmblem->mState = 8;
+        gEmblem->mDisplayState = 12;
     }
 }
 
 void AdvanceEmblemFadeInAtGrid(void) {
-    gEmblem->mUnk_109c -= 2;
-    if (gEmblem->mUnk_109c < 0) {
-        gEmblem->mUnk_109c = 0;
-        gEmblem->mUnk_1090 = 0;
-        gEmblem->mUnk_1098 = 8;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->mFadeLevel -= 2;
+    if (gEmblem->mFadeLevel < 0) {
+        gEmblem->mFadeLevel = 0;
+        gEmblem->mState = 0;
+        gEmblem->mDisplayState = 8;
+        gEmblem->mTransitionRunning = FALSE;
     }
 }
 
@@ -255,7 +255,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
     u8 *templateBytes;
     u16 templateCellValues[16];
 
-    switch (gEmblem->mUnk_1090) {
+    switch (gEmblem->mState) {
         case 0:
             switch (entryIndex) {
                 case 0x1b:
@@ -276,20 +276,20 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
-                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
-                        SetEmblemCursorCellValue(gEmblem->mUnk_1080 + 1);
+                        gEmblem->mColorCursorIndex = entryIndex - 0x1b;
+                        SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
                     } else {
-                        gEmblem->mUnk_1080 = entryIndex - 0x1b;
+                        gEmblem->mColorCursorIndex = entryIndex - 0x1b;
                         StartEmblemColorCursorShrinkAndGrow((gEmblem->mEmblemSLld), entryIndex);
-                        SetEmblemCursorCellValue(gEmblem->mUnk_1080 + 1);
+                        SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f0);
                     }
                     if (GetEmblemCursorMode() == 1) {
                         StartEmblemModeButtonPress(gEmblem->mEmblemSLld, GetEmblemCursorSizeIndex() + 0xe);
                         SetEmblemCursorMode(0);
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x2a:
                     if (isTouch) {
@@ -297,7 +297,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     }
                     StartEmblemButtonBounceAndToggle((gEmblem->mEmblemSLld), entryIndex);
                     if (isTouch) {
-                        gEmblem->mUnk_1094 = 3;
+                        gEmblem->mCursorTargetState = 3;
                         return;
                     }
                     break;
@@ -308,7 +308,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     SetEmblemCursorMode(0);
                     SetEmblemCursorSizeIndex(entryIndex - 0xe);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x11:
                 case 0x12:
@@ -317,30 +317,30 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     SetEmblemCursorMode(1);
                     SetEmblemCursorSizeIndex(entryIndex - 0x11);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x14:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(2);
                     SetEmblemCursorSizeIndex(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x15:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(3);
                     SetEmblemCursorSizeIndex(0);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x16:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemTemplateSlideIn;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideIn;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f3);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->mTransitionRunning = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x17:
                     if (IsEmblemGridChanged()) {
@@ -353,41 +353,41 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
                     }
                     if (isTouch) {
-                        gEmblem->mUnk_1094 = 3;
+                        gEmblem->mCursorTargetState = 3;
                         return;
                     }
                     break;
                 case 0x19:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemFadeOutToCamera;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToCamera;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
-                        gEmblem->mUnk_10b0 = TRUE;
-                        gEmblem->mUnk_10ac = FALSE;
+                        gEmblem->mTransitionRunning = TRUE;
+                        gEmblem->mKartListSkipped = FALSE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 0x1a:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemChoises;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemChoises;
                         StartEmblemButtonBounce((gEmblem->mEmblemSLld), entryIndex);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->mTransitionRunning = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
             }
             break;
         case 1:
             switch (entryIndex) {
                 case 0:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
+                        gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonHold((gEmblem->mEmblemTemplateSLld), 1);
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->mTransitionRunning = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
                 case 3:
                 case 4:
@@ -418,34 +418,34 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                 case 0x1d:
                 case 0x1e:
                 case 0x1f:
-                    if (gEmblem->mUnk_108c == NULL) {
+                    if (gEmblem->mPendingTransitionFunc == NULL) {
                         templateByteSize = (s32) (GetEmblemGridSide() * GetEmblemGridSide()) / 2;
                         templateBytes =
                             (u8 *) gEmblem->mEmblemTemplateBNcgr->mData + (entryIndex - 3) * templateByteSize;
                         templateCellValues[0] = 0;
                         templateCellValues[1] = (GetEmblemCursorCellValue() == 1) ? 2 : 1;
                         templateCellValues[2] = GetEmblemCursorCellValue();
-                        SplitBytesIntoNibbles(templateBytes, gEmblem->mUnk_0c7c, GetEmblemGridSide());
-                        SetEmblemGridCellsFromTable((gEmblem->mUnk_0c7c), (templateCellValues));
+                        SplitBytesIntoNibbles(templateBytes, gEmblem->mCellNibbles, GetEmblemGridSide());
+                        SetEmblemGridCellsFromTable((gEmblem->mCellNibbles), (templateCellValues));
                         ClearEmblemGridCopied();
-                        gEmblem->mUnk_108c = StartEmblemTemplateSlideOut;
+                        gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemTemplateSLld), entryIndex);
-                        gEmblem->mUnk_1084 = entryIndex - 3;
+                        gEmblem->mTemplateCursorIndex = entryIndex - 3;
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     return;
             }
             break;
         case 4:
             if (entryIndex == 1) {
-                if (gEmblem->mUnk_108c == NULL) {
-                    gEmblem->mUnk_108c = StartEmblemFadeOutToGrid;
+                if (gEmblem->mPendingTransitionFunc == NULL) {
+                    gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToGrid;
                     StartEmblemButtonBounceThenWait((gEmblem->mEmblemCameraSLld), entryIndex);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
-                    gEmblem->mUnk_10ac = TRUE;
+                    gEmblem->mKartListSkipped = TRUE;
                 }
-                gEmblem->mUnk_1094 = 3;
+                gEmblem->mCursorTargetState = 3;
             }
             break;
     }
@@ -518,9 +518,9 @@ void AdvanceEmblemGridScreen(void) {
         ActivateEmblemEntry(0x2a, 0);
     } else {
         buttonCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 8);
-        GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mUnk_107c]);
+        GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex]);
         colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 9);
-        GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
+        GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mColorCursorIndex]);
         dx = 0;
         dy = 0;
         dz = 0;
@@ -531,35 +531,35 @@ void AdvanceEmblemGridScreen(void) {
         dz += GetNewOrRepeatBits(8, PAD_KEY_L) ? -1 : 0;
         dz += GetNewOrRepeatBits(8, PAD_KEY_R) ? 1 : 0;
 
-        switch (gEmblem->mUnk_1094) {
+        switch (gEmblem->mCursorTargetState) {
             case 0:
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), 0);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
                 if (dz > 0) {
-                    gEmblem->mUnk_1094 = 2;
-                    gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+                    gEmblem->mCursorTargetState = 2;
+                    gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0x1000);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
-                    gEmblem->mUnk_1094 = 1;
+                    gEmblem->mCursorTargetState = 1;
                     switch (GetEmblemCursorMode()) {
                         case 0:
-                            gEmblem->mUnk_107c =
+                            gEmblem->mButtonCursorIndex =
                                 GetEmblemCursorSizeIndex() + gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 1:
-                            gEmblem->mUnk_107c =
+                            gEmblem->mButtonCursorIndex =
                                 GetEmblemCursorSizeIndex() + gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 2:
-                            gEmblem->mUnk_107c = gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
+                            gEmblem->mButtonCursorIndex = gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 3:
-                            gEmblem->mUnk_107c = gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
+                            gEmblem->mButtonCursorIndex = gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
@@ -572,8 +572,8 @@ void AdvanceEmblemGridScreen(void) {
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), -5);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
                 if (dz < 0) {
-                    gEmblem->mUnk_1094 = 2;
-                    gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+                    gEmblem->mCursorTargetState = 2;
+                    gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0x1000);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
@@ -581,21 +581,23 @@ void AdvanceEmblemGridScreen(void) {
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz > 0) {
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    if (gEmblemButtonLldEntries[gEmblem->mUnk_107c] != 0x17 || IsEmblemGridChanged()) {
-                        ActivateEmblemEntry(gEmblemButtonLldEntries[gEmblem->mUnk_107c], 0);
+                    if (gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex] != 0x17 || IsEmblemGridChanged()) {
+                        ActivateEmblemEntry(gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex], 0);
                     }
                 } else {
-                    previousCursor = gEmblem->mUnk_107c;
-                    gEmblem->mUnk_107c = gEmblemButtonCursorVerticalMoves[dy + 1][previousCursor];
-                    gEmblem->mUnk_107c = gEmblemButtonCursorHorizontalMoves[dx + 1][gEmblem->mUnk_107c];
-                    targetEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mUnk_107c]);
+                    previousCursor = gEmblem->mButtonCursorIndex;
+                    gEmblem->mButtonCursorIndex = gEmblemButtonCursorVerticalMoves[dy + 1][previousCursor];
+                    gEmblem->mButtonCursorIndex =
+                        gEmblemButtonCursorHorizontalMoves[dx + 1][gEmblem->mButtonCursorIndex];
+                    targetEntry =
+                        GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex]);
                     ApplyLldEntryFrameCommand(buttonCursorEntry, 0);
                     SetLldEntryPos(buttonCursorEntry, GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
-                    if (gEmblem->mUnk_107c != previousCursor) {
+                    if (gEmblem->mButtonCursorIndex != previousCursor) {
                         StartSoundOncePerFrame(0x1ef);
                     }
                 }
@@ -606,50 +608,50 @@ void AdvanceEmblemGridScreen(void) {
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), -5);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), 0);
                 if (dz > 0) {
-                    gEmblem->mUnk_1094 = 1;
+                    gEmblem->mCursorTargetState = 1;
                     switch (GetEmblemCursorMode()) {
                         case 0:
-                            gEmblem->mUnk_107c =
+                            gEmblem->mButtonCursorIndex =
                                 GetEmblemCursorSizeIndex() + gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 1:
-                            gEmblem->mUnk_107c =
+                            gEmblem->mButtonCursorIndex =
                                 GetEmblemCursorSizeIndex() + gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 2:
-                            gEmblem->mUnk_107c = gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
+                            gEmblem->mButtonCursorIndex = gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 3:
-                            gEmblem->mUnk_107c = gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
+                            gEmblem->mButtonCursorIndex = gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 8), NULL);
                     SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
-                    gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+                    gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->mCursorTargetState = 3;
                     SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
-                    gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+                    gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
-                    ActivateEmblemEntry(gEmblemColorLldEntries[gEmblem->mUnk_1080], 0);
+                    ActivateEmblemEntry(gEmblemColorLldEntries[gEmblem->mColorCursorIndex], 0);
                 } else {
-                    previousCursor = gEmblem->mUnk_1080;
-                    gEmblem->mUnk_1080 = gEmblemColorCursorVerticalMoves[dy + 1][previousCursor];
-                    gEmblem->mUnk_1080 = gEmblemColorCursorHorizontalMoves[dx + 1][gEmblem->mUnk_1080];
-                    GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
-                    if (gEmblem->mUnk_1080 < 0xf) {
+                    previousCursor = gEmblem->mColorCursorIndex;
+                    gEmblem->mColorCursorIndex = gEmblemColorCursorVerticalMoves[dy + 1][previousCursor];
+                    gEmblem->mColorCursorIndex = gEmblemColorCursorHorizontalMoves[dx + 1][gEmblem->mColorCursorIndex];
+                    GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mColorCursorIndex]);
+                    if (gEmblem->mColorCursorIndex < 0xf) {
                         ApplyLldEntryFrameCommand(colorCursorEntry, 0);
                     } else {
                         ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     }
-                    if (gEmblem->mUnk_1080 != previousCursor) {
+                    if (gEmblem->mColorCursorIndex != previousCursor) {
                         StartSoundOncePerFrame(0x1ef);
                     }
                 }
@@ -662,7 +664,7 @@ void AdvanceEmblemGridScreen(void) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), 0);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
-        gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+        gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
         if (GetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9)) == 0x1000) {
             SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
             SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
@@ -670,12 +672,12 @@ void AdvanceEmblemGridScreen(void) {
         if (GetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8)) == 0x1000) {
             SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0);
         }
-        gEmblem->mUnk_1094 = 0;
-    } else if (gEmblem->mUnk_1094 == 3) {
+        gEmblem->mCursorTargetState = 0;
+    } else if (gEmblem->mCursorTargetState == 3) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), 0);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
-        gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+        gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
         if (GetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9)) == 0x1000) {
             SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
             SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
@@ -684,11 +686,11 @@ void AdvanceEmblemGridScreen(void) {
             SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0);
         }
         if (!GetEmblemInputDown() && !GetEmblemInputBits(1) && !GetEmblemInputBits(2)) {
-            gEmblem->mUnk_1094 = 0;
+            gEmblem->mCursorTargetState = 0;
         }
     }
 
-    if (gEmblem->mUnk_1094 == 0) {
+    if (gEmblem->mCursorTargetState == 0) {
         dx = 0;
         dy = 0;
         dx += IsEmblemInputRepeat(0x20) ? -1 : 0;
@@ -698,7 +700,7 @@ void AdvanceEmblemGridScreen(void) {
         if (AdvanceEmblemCursor(GetEmblemInputDown(), GetEmblemInputX(), GetEmblemInputY(), GetEmblemInputBits(1), dx,
                                 dy)) {
             if (GetEmblemCursorMode() == 3) {
-                gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+                gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
             } else if (GetEmblemCursorMode() == 2) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f5);
@@ -706,24 +708,24 @@ void AdvanceEmblemGridScreen(void) {
         } else if (GetEmblemInputBits(0x400)) {
             flag = TRUE;
             if (SetEmblemCursorCellValueFromGrid()) {
-                gEmblem->mUnk_1080 = GetEmblemCursorCellValue() - 1;
+                gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
             }
         }
         if (GetEmblemInputDown() && !GetEmblemInputPrevDown() &&
             IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY())) {
-            gEmblem->mUnk_10b8 = TRUE;
+            gEmblem->mSoundPending = TRUE;
         } else if (GetEmblemInputDown() &&
                    (IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY()) ||
                     IsEmblemPointInGrid(GetEmblemInputPrevX(), GetEmblemInputPrevY())) &&
                    (GetEmblemCursorPointX() != GetEmblemCursorPrevPointX() ||
                     GetEmblemCursorPointY() != GetEmblemCursorPrevPointY())) {
-            gEmblem->mUnk_10b8 = TRUE;
+            gEmblem->mSoundPending = TRUE;
         } else if (GetEmblemInputNewBits(1)) {
-            gEmblem->mUnk_10b8 = TRUE;
+            gEmblem->mSoundPending = TRUE;
         } else if (GetEmblemInputBits(1) && (GetEmblemCursorPointX() != GetEmblemCursorPrevPointX() ||
                                              GetEmblemCursorPointY() != GetEmblemCursorPrevPointY())) {
-            gEmblem->mUnk_10b8 = TRUE;
+            gEmblem->mSoundPending = TRUE;
         }
     } else {
         AdvanceEmblemCursor(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
@@ -734,15 +736,16 @@ void AdvanceEmblemGridScreen(void) {
     SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 2), GetEmblemCursorPointX(), GetEmblemCursorPointY());
     SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 3), GetEmblemCursorPointX(), GetEmblemCursorPointY());
 
-    if (gEmblem->mUnk_1094 == 0 && GetEmblemInputDown() && IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY())) {
+    if (gEmblem->mCursorTargetState == 0 && GetEmblemInputDown() &&
+        IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY())) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0), -5);
-        gEmblem->mUnk_1088 = -1;
-    } else if (gEmblem->mUnk_1094 == 0 && GetEmblemInputDown() &&
+        gEmblem->mCursorSizeIndex = -1;
+    } else if (gEmblem->mCursorTargetState == 0 && GetEmblemInputDown() &&
                GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, 0)) == -5) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0), -5);
-        gEmblem->mUnk_1088 = -1;
+        gEmblem->mCursorSizeIndex = -1;
     } else {
-        gEmblem->mUnk_1088 = GetEmblemCursorSizeIndex();
+        gEmblem->mCursorSizeIndex = GetEmblemCursorSizeIndex();
         if (flag) {
             ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0), 3);
         } else {
@@ -763,7 +766,7 @@ void AdvanceEmblemGridScreen(void) {
         }
     }
 
-    switch (gEmblem->mUnk_1088) {
+    switch (gEmblem->mCursorSizeIndex) {
         case 0:
             ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -4);
             ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -5);
@@ -781,11 +784,11 @@ void AdvanceEmblemGridScreen(void) {
             break;
     }
 
-    targetEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mUnk_1080]);
+    targetEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mColorCursorIndex]);
     SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 9), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
     SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 10), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
 
-    if (gEmblem->mUnk_1080 < 0xf) {
+    if (gEmblem->mColorCursorIndex < 0xf) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 4), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 5), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 6), -5);
@@ -829,7 +832,7 @@ void AdvanceEmblemTemplateScreen(void) {
         }
     }
     if (GetEmblemInputNewBits(1) != 0) {
-        ActivateEmblemEntry(gEmblemTemplateLldEntries[gEmblem->mUnk_1084], 0);
+        ActivateEmblemEntry(gEmblemTemplateLldEntries[gEmblem->mTemplateCursorIndex], 0);
         return;
     }
     if (GetEmblemInputNewBits(2) != 0) {
@@ -845,35 +848,36 @@ void AdvanceEmblemTemplateScreen(void) {
     verticalStep += (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) ? 1 : 0;
     colorStep += (GetNewOrRepeatBits(8, PAD_KEY_L) != 0) ? -1 : 0;
     colorStep += (GetNewOrRepeatBits(8, PAD_KEY_R) != 0) ? 1 : 0;
-    gEmblem->mUnk_1080 = colorStep + (GetEmblemCursorCellValue() - 1);
-    t = gEmblem->mUnk_1080;
+    gEmblem->mColorCursorIndex = colorStep + (GetEmblemCursorCellValue() - 1);
+    t = gEmblem->mColorCursorIndex;
     if (t < 0) {
         t = 0xe;
     }
-    gEmblem->mUnk_1080 = t;
-    u = gEmblem->mUnk_1080;
+    gEmblem->mColorCursorIndex = t;
+    u = gEmblem->mColorCursorIndex;
     if (u > 0xe) {
         u = 0;
     }
-    gEmblem->mUnk_1080 = u;
-    sel = gEmblem->mUnk_1080;
+    gEmblem->mColorCursorIndex = u;
+    sel = gEmblem->mColorCursorIndex;
     if (sel != GetEmblemCursorCellValue() - 1) {
         colorEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemTemplateScreenColorEntries[sel]);
         colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 9);
         SetLldEntryPos(colorCursorEntry, GetLldEntryX(colorEntry), GetLldEntryY(colorEntry));
         colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 10);
         SetLldEntryPos(colorCursorEntry, GetLldEntryX(colorEntry), GetLldEntryY(colorEntry));
-        SetEmblemCursorCellValue(gEmblem->mUnk_1080 + 1);
+        SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
     }
-    sel = gEmblem->mUnk_1084;
-    gEmblem->mUnk_1084 = gEmblemTemplateCursorVerticalMoves[verticalStep + 1][sel];
-    gEmblem->mUnk_1084 = gEmblemTemplateCursorHorizontalMoves[horizontalStep + 1][gEmblem->mUnk_1084];
+    sel = gEmblem->mTemplateCursorIndex;
+    gEmblem->mTemplateCursorIndex = gEmblemTemplateCursorVerticalMoves[verticalStep + 1][sel];
+    gEmblem->mTemplateCursorIndex =
+        gEmblemTemplateCursorHorizontalMoves[horizontalStep + 1][gEmblem->mTemplateCursorIndex];
     templateCursorEntry = GetLldEntry(gEmblem->mEmblemTemplateSLld, 2);
-    templateEntry = GetLldEntry(gEmblem->mEmblemTemplateSLld, gEmblemTemplateLldEntries[gEmblem->mUnk_1084]);
+    templateEntry = GetLldEntry(gEmblem->mEmblemTemplateSLld, gEmblemTemplateLldEntries[gEmblem->mTemplateCursorIndex]);
     ApplyLldEntryFrameCommand(templateCursorEntry, 0);
     SetLldEntryPos(templateCursorEntry, GetLldEntryX(templateEntry), GetLldEntryY(templateEntry));
-    if (gEmblem->mUnk_1084 != sel) {
+    if (gEmblem->mTemplateCursorIndex != sel) {
         StartSoundOncePerFrame(0x1ef);
     }
     {
@@ -882,7 +886,7 @@ void AdvanceEmblemTemplateScreen(void) {
 
         for (templateIndex = 0; templateIndex < 0x1d; templateIndex++) {
             entryAtIndex = GetLldEntry(gEmblem->mEmblemTemplateSLld, gEmblemTemplateLldEntries[templateIndex]);
-            ApplyLldEntryFrameCommand(entryAtIndex, templateIndex == gEmblem->mUnk_1084 ? 1 : 0);
+            ApplyLldEntryFrameCommand(entryAtIndex, templateIndex == gEmblem->mTemplateCursorIndex ? 1 : 0);
         }
     }
 }
@@ -919,15 +923,15 @@ void AdvanceEmblemChoisesScreen(void) {
             break;
         case 1:
             SetEmblemChoisesShownAndReset(0);
-            JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mUnk_087c, GetEmblemGridSide());
-            SetEmblemRecordAndWriteBackup(gEmblem->mUnk_087c);
-            gEmblem->mUnk_1090 = 0xb;
-            gEmblem->mUnk_1098 = 1;
+            JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mRecordBytes, GetEmblemGridSide());
+            SetEmblemRecordAndWriteBackup(gEmblem->mRecordBytes);
+            gEmblem->mState = 0xb;
+            gEmblem->mDisplayState = 1;
             break;
         case 2:
             SetEmblemChoisesShownAndReset(0);
-            gEmblem->mUnk_1090 = 0xb;
-            gEmblem->mUnk_1098 = 1;
+            gEmblem->mState = 0xb;
+            gEmblem->mDisplayState = 1;
             break;
     }
     UpdateEmblemChoises();
@@ -938,81 +942,81 @@ void AdvanceEmblem(void) {
     s32 t;
 
     AdvanceEmblemInput();
-    gEmblem->mUnk_10a8 += 0x4cd;
-    t = gEmblem->mUnk_10a8;
+    gEmblem->mBgScrollPosition += 0x4cd;
+    t = gEmblem->mBgScrollPosition;
     if (t >= 0x100000) {
         t -= 0x100000;
     }
-    gEmblem->mUnk_10a8 = t;
-    ClearOamListCounts(gEmblem, &gEmblem->mUnk_0404);
-    AdvanceLld(gEmblem->mEmblemMLld, &gEmblem->mUnk_0000);
-    switch (gEmblem->mUnk_1090) {
+    gEmblem->mBgScrollPosition = t;
+    ClearOamListCounts(gEmblem, &gEmblem->mSubOam);
+    AdvanceLld(gEmblem->mEmblemMLld, &gEmblem->mMainOam);
+    switch (gEmblem->mState) {
         case 0:
-            if (gEmblem->mUnk_10b0 == FALSE) {
+            if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemGridScreen();
             }
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
         case 1:
-            if (gEmblem->mUnk_10b0 == FALSE) {
+            if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemTemplateScreen();
             }
-            AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mUnk_0404);
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mSubOam);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
         case 2:
             AdvanceEmblemTemplateSlideIn();
-            AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mUnk_0404);
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mSubOam);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
         case 3:
             AdvanceEmblemTemplateSlideOut();
-            AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mUnk_0404);
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mSubOam);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
         case 4:
-            if (gEmblem->mUnk_10ac == FALSE) {
+            if (gEmblem->mKartListSkipped == FALSE) {
                 AdvanceEmblemKartList();
             }
-            if (gEmblem->mUnk_10b0 == FALSE) {
+            if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemCameraScreen();
             }
-            AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mSubOam);
             break;
         case 5:
-            if (gEmblem->mUnk_10ac == FALSE) {
+            if (gEmblem->mKartListSkipped == FALSE) {
                 AdvanceEmblemKartList();
             }
             AdvanceEmblemFadeOutToCamera();
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
         case 6:
-            if (gEmblem->mUnk_10ac == FALSE) {
+            if (gEmblem->mKartListSkipped == FALSE) {
                 AdvanceEmblemKartList();
             }
             AdvanceEmblemFadeInAtCamera();
-            AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mSubOam);
             break;
         case 7:
-            if (gEmblem->mUnk_10b0 == FALSE) {
+            if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemGridScreen();
             }
             AdvanceEmblemFadeOutToGrid();
-            AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mSubOam);
             break;
         case 8:
-            if (gEmblem->mUnk_10b0 == FALSE) {
+            if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemGridScreen();
             }
             AdvanceEmblemFadeInAtGrid();
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
         case 10:
             AdvanceEmblemChoisesScreen();
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
         case 11:
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {
                     t = gBackupAccess->mCommandRunning;
@@ -1023,16 +1027,16 @@ void AdvanceEmblem(void) {
                 t = 1;
             }
             if (t == 0) {
-                gEmblem->mUnk_1090 = 0xc;
+                gEmblem->mState = 0xc;
             }
             break;
         case 12:
-            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
+            AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
     }
-    HideUnusedOams(gEmblem, &gEmblem->mUnk_0404);
+    HideUnusedOams(gEmblem, &gEmblem->mSubOam);
     AdvanceShownSlotAndQueueEmblem();
     DrawKartModelMenuUnmirrored();
-    JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mUnk_087c, GetEmblemGridSide());
-    JoinNibblesIntoBytes(GetEmblemGridCells(), gEmblem->mUnk_0a7c, GetEmblemGridSide());
+    JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mRecordBytes, GetEmblemGridSide());
+    JoinNibblesIntoBytes(GetEmblemGridCells(), gEmblem->mGridCharBytes, GetEmblemGridSide());
 }

@@ -317,9 +317,9 @@ BOOL AdvanceEmblemColorCursorGrow(LldEntry *entry) {
         return FALSE;
     }
     SetLldEntryScale(entry, 0x1000);
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->mPendingTransitionFunc != NULL) {
+        gEmblem->mPendingTransitionFunc();
+        gEmblem->mPendingTransitionFunc = NULL;
     }
     return TRUE;
 }
@@ -357,9 +357,9 @@ BOOL AdvanceEmblemButtonBounceThenWait(LldEntry *entry) {
         return FALSE;
     }
     if (entry->mUnk_10 == 11) {
-        if (gEmblem->mUnk_108c != NULL) {
-            gEmblem->mUnk_108c();
-            gEmblem->mUnk_108c = NULL;
+        if (gEmblem->mPendingTransitionFunc != NULL) {
+            gEmblem->mPendingTransitionFunc();
+            gEmblem->mPendingTransitionFunc = NULL;
         }
         return FALSE;
     }
@@ -395,9 +395,9 @@ BOOL AdvanceEmblemButtonBounce(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->mPendingTransitionFunc != NULL) {
+        gEmblem->mPendingTransitionFunc();
+        gEmblem->mPendingTransitionFunc = NULL;
     }
     ApplyLldEntryFrameCommand(entry, 0);
     return TRUE;
@@ -428,9 +428,9 @@ BOOL AdvanceEmblemModeButtonPress(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->mPendingTransitionFunc != NULL) {
+        gEmblem->mPendingTransitionFunc();
+        gEmblem->mPendingTransitionFunc = NULL;
     }
     return TRUE;
 }
@@ -464,9 +464,9 @@ BOOL AdvanceEmblemButtonHold(LldEntry *entry) {
         ApplyLldEntryFrameCommand(entry, 1);
         return FALSE;
     }
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->mPendingTransitionFunc != NULL) {
+        gEmblem->mPendingTransitionFunc();
+        gEmblem->mPendingTransitionFunc = NULL;
     }
     return TRUE;
 }

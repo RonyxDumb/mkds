@@ -16,7 +16,7 @@ void InitEmblemAndAdvanceKartList(void) {
 
 BOOL AdvanceEmblemAndCheckDone(void) {
     AdvanceEmblem();
-    if (gEmblem->mUnk_1090 == 0xc) {
+    if (gEmblem->mState == 0xc) {
         return TRUE;
     }
     return FALSE;
@@ -31,5 +31,5 @@ u16 *GetEmblemSBPalette(void) {
 }
 
 u8 *GetEmblemRecordBytes(void) {
-    return gEmblem->mUnk_087c;
+    return gEmblem->mRecordBytes;
 }

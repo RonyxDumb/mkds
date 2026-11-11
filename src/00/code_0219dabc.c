@@ -30,15 +30,15 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
     }
     if (result == 0) {
         ((Unk0219db18 *) userdata)->mUnk_08 = 0;
-        gWiFiMatching->mUnk_14++;
-        index = gWiFiMatching->mUnk_14;
+        gWiFiMatching->mNNCompletedCount++;
+        index = gWiFiMatching->mNNCompletedCount;
         if (((Unk0219db18 *) userdata)->mUnk_00 != 0) {
             gWiFiMatching->mParticipantConnectAddresses[index] = remoteaddr->mAddress;
             gWiFiMatching->mParticipantConnectPorts[index] =
                 (remoteaddr->mPort >> 8) & 0xff | (remoteaddr->mPort << 8) & 0xff00;
-            gWiFiMatching->mUnk_174[0] = 0;
-            gWiFiMatching->mUnk_178 = 0;
-            gWiFiMatching->mUnk_17c = 0;
+            gWiFiMatching->mNatnegCounts[0] = 0;
+            gWiFiMatching->mLastNatnegCookie = 0;
+            gWiFiMatching->mNNFailedTime = 0;
             if (gWiFiMatching->mState == 0xb) {
                 gWiFiMatching->mState = 0xc;
             } else {
@@ -88,13 +88,13 @@ void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteadd
         }
         return;
     }
-    gWiFiMatching->mUnk_17c = MatchingGetTickMilliseconds();
-    if (outcome == 1 || (outcome == 2 && gWiFiMatching->mUnk_174[0] >= 1)) {
+    gWiFiMatching->mNNFailedTime = MatchingGetTickMilliseconds();
+    if (outcome == 1 || (outcome == 2 && gWiFiMatching->mNatnegCounts[0] >= 1)) {
         ((Unk0219db18 *) userdata)->mUnk_08 = 0;
         if (DWCi_ProcessNNFailure() != 0) {
-            gWiFiMatching->mUnk_174[0] = 0;
-            gWiFiMatching->mUnk_178 = 0;
-            gWiFiMatching->mUnk_17c = 0;
+            gWiFiMatching->mNatnegCounts[0] = 0;
+            gWiFiMatching->mLastNatnegCookie = 0;
+            gWiFiMatching->mNNFailedTime = 0;
             if (DWCi_CancelPreConnectedServerProcess(
                     gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos + 1]) != 0) {
                 return;
@@ -108,9 +108,9 @@ u32 DWCi_ProcessNNFailure(void) {
         return 1;
     }
     if (gWiFiMatching->mMode != 3) {
-        gWiFiMatching->mUnk_174[1]++;
+        gWiFiMatching->mNatnegCounts[1]++;
     }
-    if (gWiFiMatching->mMode == 3 || gWiFiMatching->mUnk_174[1] >= 5) {
+    if (gWiFiMatching->mMode == 3 || gWiFiMatching->mNatnegCounts[1] >= 5) {
         DWCi_StopMatching(6, -0x15194);
         return 0;
     }
