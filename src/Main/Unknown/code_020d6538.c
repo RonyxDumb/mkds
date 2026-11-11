@@ -45,21 +45,21 @@ void InitSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength
 }
 
 BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength, Vec3 **points) {
-    s32 v;
+    s32 value;
     segmentProgress->mProgress = segmentProgress->mProgress - 0x1000000;
     segmentProgress->mProgress =
         MUL_FIXED12_NO_ROUND(segmentProgress->mProgress, segmentProgress->mSegment.mProgressLength);
     BuildSegment(&segmentProgress->mSegment, useStraightLength, 0, points[0], points[1], points[2], points[3]);
-    v = segmentProgress->mSegment.mInverseProgressLength;
-    if (v != 0) {
-        segmentProgress->mProgress = ((s64) segmentProgress->mProgress * (s64) v) >> 24;
+    value = segmentProgress->mSegment.mInverseProgressLength;
+    if (value != 0) {
+        segmentProgress->mProgress = ((s64) segmentProgress->mProgress * (s64) value) >> 24;
     }
-    if (v != 0) {
-        v = MUL_FIXED12_NO_ROUND(segmentProgress->mRate, v);
+    if (value != 0) {
+        value = MUL_FIXED12_NO_ROUND(segmentProgress->mRate, value);
     } else {
-        v = 0x1000000;
+        value = 0x1000000;
     }
-    segmentProgress->mProgressStep = v;
+    segmentProgress->mProgressStep = value;
     if (segmentProgress->mProgress >= 0x1000000) {
         return TRUE;
     }
@@ -285,9 +285,9 @@ s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result) {
     s32 root;
     s64 quotient;
     s64 factor;
-    s32 x = vector->x;
-    s32 z = vector->z;
-    lengthSquared = (s64) x * x + (s64) z * z;
+    s32 vectorX = vector->x;
+    s32 vectorZ = vector->z;
+    lengthSquared = (s64) vectorX * vectorX + (s64) vectorZ * vectorZ;
     if (lengthSquared < 16) {
         return 0;
     }

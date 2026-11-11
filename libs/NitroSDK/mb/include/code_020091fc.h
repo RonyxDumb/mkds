@@ -96,7 +96,7 @@ extern WMBssDesc data_0216fce0;
 extern Unk0216fc1c data_0216fd30[1];
 
 u32 MBi_CheckMBParent(WMBssDesc *scanBlock);
-u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, WMBssDesc *scanBlock);
+u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scanBlock);
 void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr);
 void MBi_InitSendVolatBeacon(void);
 void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr);
@@ -107,7 +107,7 @@ void MBi_ClearSendStatus(void);
 void MB_InitSendGameInfoStatus(void);
 void MB_AddGameInfo(GameInfoEntry *newEntry);
 u32 mystrlen(const u16 *string);
-void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 d);
+void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 value);
 u32 MBi_ReadIconInfo(const u8 *path, u8 *buffer, u32 isLarge);
 void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *record);
 

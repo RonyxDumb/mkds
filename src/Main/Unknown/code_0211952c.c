@@ -80,7 +80,7 @@ void AdvanceSelectCupCourseIndexChange(void) {
 void RequestSelectCupCourseState0(void) {
     s16 subOffsetY;
     s32 taOrVsCellCount;
-    s32 i;
+    s32 cellIndex;
     s32 selectCupMCellCount;
 
     gSelectCupCourse->mNextState = 0;
@@ -114,12 +114,12 @@ void RequestSelectCupCourseState0(void) {
         gSelectCupCourse->mSelectCupMTable[2].mOffsetY = subOffsetY;
         gSelectCupCourse->mSelectCupMTable[1].mOffsetY = subOffsetY;
         gSelectCupCourse->mSelectCupMTable[0].mOffsetY = subOffsetY;
-        for (i = 0; i < 8; i++) {
-            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mOffsetY = subOffsetY;
+        for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[cellIndex]].mOffsetY = subOffsetY;
         }
-        for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mOffsetY = subOffsetY;
-            gSelectCupCourse->mSelectCupMTable[selectCupMCellCount + gSelectCupCourseLabelIndices[i]].mOffsetY =
+        for (cellIndex = 0; cellIndex < 4; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[cellIndex]].mOffsetY = subOffsetY;
+            gSelectCupCourse->mSelectCupMTable[selectCupMCellCount + gSelectCupCourseLabelIndices[cellIndex]].mOffsetY =
                 subOffsetY;
         }
     }
@@ -231,7 +231,7 @@ void RequestSelectCupCourseState8(void) {
 void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode) {
     void *heap;
     s32 remainingSize;
-    s32 i;
+    s32 labelIndex;
     u32 remainingSubSize;
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
@@ -283,12 +283,12 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
                         gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
         remainingSubSize = GX_GetSizeOfSubOBJ();
-        for (i = 0; i < 4; i++) {
-            remainingSubSize -= InitLabelCanvas(gSelectCupCourse->mHeap, gSelectCupCourseLabelIndices[i],
-                                                gSelectCupCourse->mSelectCupMBnll, gSelectCupCourseLabelWidths[i],
-                                                gSelectCupCourseLabelHeights[i], gSelectCupCourseLabelCells[i],
-                                                gSelectCupCourse->mSelectCupMNcer, gSelectCupCourse->mSelectCupMBncl,
-                                                gSelectCupCourse->mSelectCupMTable, remainingSubSize);
+        for (labelIndex = 0; labelIndex < 4; labelIndex++) {
+            remainingSubSize -= InitLabelCanvas(
+                gSelectCupCourse->mHeap, gSelectCupCourseLabelIndices[labelIndex], gSelectCupCourse->mSelectCupMBnll,
+                gSelectCupCourseLabelWidths[labelIndex], gSelectCupCourseLabelHeights[labelIndex],
+                gSelectCupCourseLabelCells[labelIndex], gSelectCupCourse->mSelectCupMNcer,
+                gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMTable, remainingSubSize);
         }
         CreateSelectCupNameM(gSelectCupCourse->mHeap);
         CreateCommonCupMark(gSelectCupCourse->mHeap);
@@ -327,9 +327,9 @@ void ReleaseSelectCupCourse(void) {
 #pragma thumb on
 
 void AdvanceSelectCupCourseState0(void) {
-    int v1;
-    v1 = AreBrightnessFadesClear();
-    if (v1 != 0) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
         RequestSelectCupCourseState1();
     }
 }
@@ -340,7 +340,7 @@ void AdvanceSelectCupCourseState0(void) {
 void AdvanceSelectCupCourseState1(void) {
     s16 offsetY;
     s32 taOrVsCellCount;
-    s32 i;
+    s32 cellIndex;
 
     gSelectCupCourse->mStateFrames++;
     if (gBootInfo->mUnk_00 != 2) {
@@ -370,13 +370,13 @@ void AdvanceSelectCupCourseState1(void) {
             gSelectCupCourse->mSelectCupMTable[2].mOffsetY = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[1].mOffsetY = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[0].mOffsetY = offsetY - 0x20;
-            for (i = 0; i < 8; i++) {
-                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mOffsetY = offsetY - 0x20;
+            for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[cellIndex]].mOffsetY = offsetY - 0x20;
             }
             offsetY -= 0x20;
-            for (i = 0; i < 4; i++) {
-                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mOffsetY = offsetY;
-                gSelectCupCourse->mSelectCupMTable[taOrVsCellCount + gSelectCupCourseLabelIndices[i]].mOffsetY =
+            for (cellIndex = 0; cellIndex < 4; cellIndex++) {
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[cellIndex]].mOffsetY = offsetY;
+                gSelectCupCourse->mSelectCupMTable[taOrVsCellCount + gSelectCupCourseLabelIndices[cellIndex]].mOffsetY =
                     offsetY;
             }
         }
@@ -390,9 +390,9 @@ void AdvanceSelectCupCourseState1(void) {
 #pragma thumb on
 
 void AdvanceSelectCupCourseState2(void) {
-    int v1;
-    v1 = IsSelectReturnState2NoState3Or4Request();
-    if (v1 != 0) {
+    int returnRequested;
+    returnRequested = IsSelectReturnState2NoState3Or4Request();
+    if (returnRequested != 0) {
         RequestSelectCupCourseState3();
     }
 }

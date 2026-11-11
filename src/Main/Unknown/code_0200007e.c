@@ -49,7 +49,7 @@ asm void LZ77UnCompReadNormalWrite8bit(void) {
 
 // BIOS call 0xd.
 // Not compiled code: C has no way to make a BIOS call (swi).
-asm u32 Sqrt(u32 a) {
+asm u32 Sqrt(u32 value) {
     swi 0xd
     bx lr
 }
@@ -77,14 +77,14 @@ asm void BitUnPack(void) {
 
 // BIOS call 0x3.
 // Not compiled code: C has no way to make a BIOS call (swi).
-asm void WaitByLoop(s32 n) {
+asm void WaitByLoop(s32 loopCount) {
     swi 0x3
     bx lr
 }
 
 // BIOS call 0x9 (division), then returns the remainder (r1).
 // Not compiled code: C has no way to make a BIOS call (swi).
-asm s32 Mod(s32 a, s32 b) {
+asm s32 Mod(s32 dividend, s32 divisor) {
     swi 0x9
     add r0, r1, #0x0
     bx lr
@@ -99,7 +99,7 @@ asm s32 IsDebugger(void) {
 
 // BIOS call 0x9.
 // Not compiled code: C has no way to make a BIOS call (swi).
-asm s32 Div(s32 a, s32 b) {
+asm s32 Div(s32 dividend, s32 divisor) {
     swi 0x9
     bx lr
 }

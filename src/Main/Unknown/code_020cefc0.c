@@ -30,32 +30,33 @@ void ClearRaceHudSubScreenBombKouraWCells(void) {
 }
 
 void UpdateRaceHudSubScreenBombKouraWCells(void) {
-    s32 i;
+    s32 objectIndex;
     s32 cellCount;
-    s32 v;
+    s32 scale;
     s32 activeCount;
     s32 bombStateFrames;
-    s32 y;
+    s32 bombValue;
     ItemPool *pool;
     ItemObject **objects;
     ItemObject *bomb;
     Vec3 *bombPosition;
     s32 kouraStateFrames;
-    s32 y2;
+    s32 kouraValue;
     ItemObject *kouraW;
     Vec3 *kouraPosition;
 
     cellCount = 0;
-    v = GetRaceHudSubScreenScale();
+    scale = GetRaceHudSubScreenScale();
     pool = &gItemPools[9];
     activeCount = pool->mActiveCount;
     objects = pool->mObjects;
-    for (i = 0; i < activeCount; i++) {
-        bomb = objects[i];
+    for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
+        bomb = objects[objectIndex];
         if (IsItemBombState2(bomb) != FALSE) {
-            bombPosition = GetItemBombState2Info((ItemBomb *) bomb, &bombStateFrames, &y);
-            if (ComputeRaceHudSubScreenPosition(
-                    bombPosition, &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
+            bombPosition = GetItemBombState2Info((ItemBomb *) bomb, &bombStateFrames, &bombValue);
+            if (ComputeRaceHudSubScreenPosition(bombPosition,
+                                                &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
+                                                1) != FALSE) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x63);
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority = IsPositionOutsideBox(bombPosition) != 0
                                                                                     ? RACE_HUD_PRIORITY_OUTSIDE_BOX
@@ -64,9 +65,9 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = bombStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = bombStateFrames >= 0x16 ? 1 : 0;
                 if (bombStateFrames >= 0x16) {
-                    y = InterpolateS16(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
+                    bombValue = InterpolateS16(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = y;
+                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = bombValue;
                 cellCount++;
             }
         }
@@ -74,12 +75,13 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
     pool = &gItemPools[5];
     activeCount = pool->mActiveCount;
     objects = pool->mObjects;
-    for (i = 0; i < activeCount; i++) {
-        kouraW = objects[i];
+    for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
+        kouraW = objects[objectIndex];
         if (IsItemKouraWState7((ItemKouraW *) kouraW) != FALSE) {
-            kouraPosition = GetItemKouraWState7Info((ItemKouraW *) kouraW, &kouraStateFrames, &y2);
-            if (ComputeRaceHudSubScreenPosition(
-                    kouraPosition, &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
+            kouraPosition = GetItemKouraWState7Info((ItemKouraW *) kouraW, &kouraStateFrames, &kouraValue);
+            if (ComputeRaceHudSubScreenPosition(kouraPosition,
+                                                &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
+                                                1) != FALSE) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x64);
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority = IsPositionOutsideBox(kouraPosition) != 0
                                                                                     ? RACE_HUD_PRIORITY_OUTSIDE_BOX
@@ -88,9 +90,9 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = kouraStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = kouraStateFrames >= 0x16 ? 1 : 0;
                 if (kouraStateFrames >= 0x16) {
-                    y2 = InterpolateS16(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
+                    kouraValue = InterpolateS16(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = y2;
+                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mFirst = kouraValue;
                 cellCount++;
             }
         }

@@ -6,23 +6,23 @@
 
 #pragma thumb on
 // While still unset, also fills the list's words 0x18 to 0x20.
-void AddMapObjectToUpdateList(MapObjectList *p, MapObject *q) {
-    u16 n;
-    MapObjectKindData *t;
+void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject) {
+    u16 mapObjectIndex;
+    MapObjectKindData *kindData;
 
-    n = p->mMapObjectCount;
-    p->mMapObjectCount = n + 1;
-    p->mMapObjects[n] = q;
-    if (p->mUnk_18 == 3) {
-        t = q->mKindData;
-        p->mUnk_18 = t->mUnk_20;
+    mapObjectIndex = mapObjectList->mMapObjectCount;
+    mapObjectList->mMapObjectCount = mapObjectIndex + 1;
+    mapObjectList->mMapObjects[mapObjectIndex] = mapObject;
+    if (mapObjectList->mUnk_18 == 3) {
+        kindData = mapObject->mKindData;
+        mapObjectList->mUnk_18 = kindData->mUnk_20;
     }
-    if (p->mUnk_1c == NULL) {
-        t = q->mKindData;
-        p->mUnk_1c = t->mCollideItemObjectCallback;
+    if (mapObjectList->mUnk_1c == NULL) {
+        kindData = mapObject->mKindData;
+        mapObjectList->mUnk_1c = kindData->mCollideItemObjectCallback;
     }
-    if (p->mUnk_20 == 3) {
-        p->mUnk_20 = GetItemObjectFirstResponse(6, q);
+    if (mapObjectList->mUnk_20 == 3) {
+        mapObjectList->mUnk_20 = GetItemObjectFirstResponse(6, mapObject);
     }
 }
 #pragma thumb off

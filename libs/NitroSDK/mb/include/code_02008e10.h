@@ -9,4 +9,4 @@ void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value);
 void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback);
 s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback);
 
-void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 p1);
+void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 value);

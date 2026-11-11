@@ -11,21 +11,21 @@
 
 #pragma thumb on
 
-void SetBitArrayBit(s32 bitIndex, u8 *bytes, s32 c) {
+void SetBitArrayBit(s32 bitIndex, u8 *bytes, s32 unused) {
     u8 *bitArrayByte;
 
     bitArrayByte = GetBitArrayByte(bitIndex, bytes);
     *bitArrayByte |= 1 << (u8) (bitIndex % 8);
 }
 
-BOOL IsBitArrayBitSet(s32 bitIndex, u8 *bytes, s32 c) {
+BOOL IsBitArrayBitSet(s32 bitIndex, u8 *bytes, s32 unused) {
     u8 *bitArrayByte;
 
     bitArrayByte = GetBitArrayByte(bitIndex, bytes);
     return (*bitArrayByte & (1 << (u8) (bitIndex % 8))) != 0 ? 1 : 0;
 }
 
-void ClearBitArrayBit(s32 bitIndex, u8 *bytes, s32 c) {
+void ClearBitArrayBit(s32 bitIndex, u8 *bytes, s32 unused) {
     u8 *bitArrayByte;
 
     bitArrayByte = GetBitArrayByte(bitIndex, bytes);

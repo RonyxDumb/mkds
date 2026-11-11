@@ -5,4 +5,4 @@
 typedef struct MapObject MapObject;
 typedef struct MapObjectList MapObjectList;
 
-void AddMapObjectToUpdateList(MapObjectList *p, MapObject *q);
+void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject);

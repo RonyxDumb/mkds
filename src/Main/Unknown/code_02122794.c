@@ -17,15 +17,15 @@ void ResetWiFiConnectionLost(void) {
 // Drops the indices set in mKartRemoveMask from the roster; ends the run (step 11) if the own index is removed or one
 // kart or none remains.
 void RemoveWiFiSessionKarts(void) {
-    u8 i;
+    u8 participantIndex;
     u32 bit;
     if (gWiFiSession->mStep == 11 || gWiFiSession->mStep == 12) {
         return;
     }
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        bit = 1 << i;
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        bit = 1 << participantIndex;
         if ((gWiFiSession->mKartMask & bit) != 0 && (gWiFiSession->mKartRemoveMask & bit) != 0) {
-            if (i == GetOwnParticipantIndex()) {
+            if (participantIndex == GetOwnParticipantIndex()) {
                 gWiFiSession->mConnectionLost = 1;
                 func_ov000_021a2ccc();
                 func_ov000_0219bbfc();
@@ -46,7 +46,7 @@ void RemoveWiFiSessionKarts(void) {
 }
 
 void UpdateWiFiSessionKartTimeouts(void) {
-    u8 i;
+    u8 participantIndex;
     u8 ownIndex;
     if (gWiFiSession->mStep > 2 && gWiFiSession->mStep < 9) {
         if (gWiFiSession->mStep == 3) {
@@ -55,17 +55,18 @@ void UpdateWiFiSessionKartTimeouts(void) {
                 return;
             }
         }
-        for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-            if (i != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << i)) != 0) {
-                if (gWiFiSession->mSinceCallbackFrames[i] > 300) {
-                    gWiFiSession->mKartRemoveMask |= 1 << i;
+        for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+            if (participantIndex != GetOwnParticipantIndex() &&
+                (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                if (gWiFiSession->mSinceCallbackFrames[participantIndex] > 300) {
+                    gWiFiSession->mKartRemoveMask |= 1 << participantIndex;
                 }
             }
         }
     }
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if (i != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << i)) != 0) {
-            gWiFiSession->mSinceCallbackFrames[i]++;
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        if (participantIndex != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+            gWiFiSession->mSinceCallbackFrames[participantIndex]++;
         }
     }
 }
@@ -75,16 +76,16 @@ u32 GetKartMaskBit(u32 index) {
 }
 
 u32 GetKartMaskBitOfPackedIndex(u8 packedIndex) {
-    s8 i;
-    for (i = 0; i < 4; i++) {
-        if (packedIndex == gWiFiSession->mPackedIndices[i]) {
+    s8 slotIndex;
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        if (packedIndex == gWiFiSession->mPackedIndices[slotIndex]) {
             goto found;
         }
     }
-    i = -1;
+    slotIndex = -1;
 found:
-    if (i == -1) {
+    if (slotIndex == -1) {
         return 0;
     }
-    return gWiFiSession->mKartMask & (1 << (u8) i);
+    return gWiFiSession->mKartMask & (1 << (u8) slotIndex);
 }

@@ -24,7 +24,7 @@ typedef struct NNSGfdVramTransferTaskQueue {
 
 extern void (*const data_02152c54[36])(const void *a, u32 b, u32 c);
 
-void DoTransfer_(NNSGfdVramTransferTask *p);
+void DoTransfer_(NNSGfdVramTransferTask *task);
 void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer2dObjOamSub(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer2dBGExtPlttSub(const void *pSrc, u32 offset, u32 szByte);
@@ -61,6 +61,6 @@ void DoTransfer3dClearImageDepth(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer3dClearImageColor(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer3dTexPltt(const void *pSrc, u32 offset, u32 szByte);
 void DoTransfer3dTex(const void *pSrc, u32 offset, u32 szByte);
-s32 IsVramTransferTaskQueueEmpty_(NNSGfdVramTransferTaskQueue *p);
-s32 IsVramTransferTaskQueueFull_(NNSGfdVramTransferTaskQueue *p);
-u16 GetNextIndex_(NNSGfdVramTransferTaskQueue *p, u32 v);
+s32 IsVramTransferTaskQueueEmpty_(NNSGfdVramTransferTaskQueue *queue);
+s32 IsVramTransferTaskQueueFull_(NNSGfdVramTransferTaskQueue *queue);
+u16 GetNextIndex_(NNSGfdVramTransferTaskQueue *queue, u32 index);

@@ -21,15 +21,15 @@
 #pragma opt_loop_invariants off
 
 void ReadGhostFileRecords(void) {
-    u8 i;
+    u8 ghostIndex;
     GhostListEntry *records;
     char path[0x80];
 
-    i = 0;
+    ghostIndex = 0;
     records = gBackupBuffers->mReadDestination;
-    for (; i < 0x20; i++) {
-        FormatGhostFilePath(i, path, 0x80);
-        ReadFileBytes(path, &records[i], 0x230);
+    for (; ghostIndex < 0x20; ghostIndex++) {
+        FormatGhostFilePath(ghostIndex, path, 0x80);
+        ReadFileBytes(path, &records[ghostIndex], 0x230);
     }
     ClearBackupBusy();
     gBackupBuffers->mReadDestination = NULL;
@@ -90,7 +90,7 @@ s32 CheckFriendKeyString(const void *keyString) {
     BuddyRecord buddyRecord;
     u64 friendKey;
     s32 foundIndex;
-    u8 i;
+    u8 buddyIndex;
     DWCAccFriendData *friendDataList;
 
     friendKey = DWC_StringToFriendKey(keyString);
@@ -103,14 +103,14 @@ s32 CheckFriendKeyString(const void *keyString) {
     InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
     friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
-    for (i = 0; i < 60; i++) {
+    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
         DWCAccFriendData *entry;
 
-        GetBuddyRecord(i, &buddyRecord);
+        GetBuddyRecord(buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
-            entry = friendDataList + i;
+            entry = friendDataList + buddyIndex;
             if (IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, &friendData) != 0) {
-                foundIndex = (s8) i;
+                foundIndex = (s8) buddyIndex;
                 break;
             }
         }
@@ -124,19 +124,19 @@ s32 CheckFriendKeyString(const void *keyString) {
 s32 FindBuddyIndexByFriendData(const void *friendData) {
     BuddyRecord buddyRecord;
     s32 foundIndex;
-    u8 i;
+    u8 buddyIndex;
     DWCAccFriendData *friendDataList;
 
     friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
-    for (i = 0; i < 60; i++) {
+    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
         DWCAccFriendData *entry;
 
-        GetBuddyRecord(i, &buddyRecord);
+        GetBuddyRecord(buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
-            entry = friendDataList + i;
+            entry = friendDataList + buddyIndex;
             if (IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
-                foundIndex = (s8) i;
+                foundIndex = (s8) buddyIndex;
                 break;
             }
         }
@@ -145,7 +145,7 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
 }
 
 s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccFriendData *friendData, s32 notYetBuddy,
-                           s32 e, s32 allowAdd) {
+                           s32 hasEmblem, s32 allowAdd) {
     DateBytes oldestDate;
     DateBytes recordDate;
     BuddyRecord buddyRecord;
@@ -153,7 +153,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     s32 slotIndex;
     BOOL found;
     s32 oldestIndex;
-    s32 i;
+    s32 buddyIndex;
     DWCAccFriendData *entry;
     u8 year;
     u8 month;
@@ -167,11 +167,11 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     month = today[1];
     day = today[2];
     entry = friendDataList;
-    for (i = 0; i < 60; i = (s8) (i + 1), entry++) {
-        GetBuddyRecord((u8) i, &buddyRecord);
+    for (buddyIndex = 0; buddyIndex < 60; buddyIndex = (s8) (buddyIndex + 1), entry++) {
+        GetBuddyRecord((u8) buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && IsFriendDataTypeNonZeroWrapper(friendData) != 0 &&
             IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
-            slotIndex = i;
+            slotIndex = buddyIndex;
             found = TRUE;
             break;
         }
@@ -183,10 +183,10 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         return -1;
     }
     if (slotIndex == -1) {
-        for (i = 0; i < 60; i = (s8) (i + 1)) {
-            GetBuddyRecord((u8) i, &buddyRecord);
+        for (buddyIndex = 0; buddyIndex < 60; buddyIndex = (s8) (buddyIndex + 1)) {
+            GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             if (buddyRecord.mFilled == 0) {
-                slotIndex = i;
+                slotIndex = buddyIndex;
                 break;
             }
         }
@@ -196,15 +196,15 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         oldestDate.mYear = 100;
         oldestDate.mMonth = 12;
         oldestDate.mDay = 31;
-        for (i = 0; i < 60; i = (s8) (i + 1)) {
-            GetBuddyRecord((u8) i, &buddyRecord);
+        for (buddyIndex = 0; buddyIndex < 60; buddyIndex = (s8) (buddyIndex + 1)) {
+            GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             recordDate.mYear = buddyRecord.mYear;
             recordDate.mMonth = buddyRecord.mMonth;
             recordDate.mDay = buddyRecord.mDay;
             if (buddyRecord.mFilled == 1 && buddyRecord.mFlagged == 0 &&
                 IsDateEarlier(&recordDate, &oldestDate) != FALSE) {
                 oldestDate = recordDate;
-                oldestIndex = i;
+                oldestIndex = buddyIndex;
             }
         }
         if (oldestIndex != -1) {
@@ -229,7 +229,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         buddyRecord.mNotYetBuddy = 0;
     }
     MI_CpuCopy8(name, buddyRecord.mName, 0x14);
-    buddyRecord.mHasEmblem = e != 0;
+    buddyRecord.mHasEmblem = hasEmblem != 0;
     buddyRecord.mFilled = 1;
     SetBuddyRecord(slot, &buddyRecord);
     return slotIndex;

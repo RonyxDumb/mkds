@@ -53,7 +53,7 @@
 
 void AdvanceKartRemovalShrink(Kart *kart) {
     u32 kartBits;
-    s32 c;
+    s32 value;
     BOOL winnerDecidedAndEndReached;
     vu32 *bitsPointer;
     u32 currentBits;
@@ -70,8 +70,8 @@ void AdvanceKartRemovalShrink(Kart *kart) {
             return;
         }
     }
-    c = kart->mFramesSinceRemovalOrReset;
-    if (c >= 0x19 || (kartBits & KART_7C_ENTRY_IS_GHOST) != 0) {
+    value = kart->mFramesSinceRemovalOrReset;
+    if (value >= 0x19 || (kartBits & KART_7C_ENTRY_IS_GHOST) != 0) {
         winnerDecidedAndEndReached = FALSE;
         if (gRaceSetup->mMode == MODE_BATTLE) {
             if (IsWinnerDecidedAndEndReached() != 0) {
@@ -91,9 +91,9 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                         CreateCollisionSlot(collisionCenter, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
                 }
                 if (kart->mSecondCollisionSlot == -1) {
-                    c = kart->mPhysicalParam->mRadius;
+                    value = kart->mPhysicalParam->mRadius;
                     kart->mSecondCollisionSlot =
-                        CreateCollisionSlot(&kart->mSecondCollisionCenter, (s64) c << 15 >> 12, 0x800, kart);
+                        CreateCollisionSlot(&kart->mSecondCollisionCenter, (s64) value << 15 >> 12, 0x800, kart);
                 }
                 bitsPointerAgain = &kart->mUnk_7c;
                 kart->mUnk_7c = kart->mUnk_7c & 0xdfffff9f;
@@ -114,10 +114,10 @@ void AdvanceKartRemovalShrink(Kart *kart) {
                 return;
             }
             if ((currentBits & 1) != 0) {
-                c = kart->mFramesSinceRemovalOrReset;
-                if (c == 0x70) {
+                value = kart->mFramesSinceRemovalOrReset;
+                if (value == 0x70) {
                     SetDispCapFadeFlag();
-                } else if (c == 0x73) {
+                } else if (value == 0x73) {
                     StartDispCapFadeToFaded(0x3c);
                     FadeSeqVolumeToZeroAfterKartRemoval();
                 }
@@ -130,7 +130,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         kart->mPos.z = 0x1000000;
         kart->mScale = gKartVec3Zero;
     } else {
-        scaleIndex = 0x18 - c;
+        scaleIndex = 0x18 - value;
         kart->mScaleFactor.x = gKartScaleFactorXTable[scaleIndex];
         kart->mScaleFactor.y = gKartScaleFactorYTable[scaleIndex];
         kart->mScaleFactor.z = gKartScaleFactorZTable[scaleIndex];
@@ -150,53 +150,53 @@ void StartBattleKartRemoval(Kart *kart) {
     StartKartRemoval(kart, 0);
 }
 
-void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c) {
+void SetKartCharacterAnimation(Kart *kart, s32 animationIndex, s32 useBlend) {
     u32 kartBits;
     u32 currentBits;
     KartModelsEntry *modelsEntry;
     BOOL faceFrame;
     BOOL changeAnimation;
-    CharacterAnimationState *f;
+    CharacterAnimationState *animationState;
     s32 currentAnimation;
 
     kartBits = kart->mUnk_7c;
     if ((kartBits & KART_7C_MODELS_ENTRY_008_SET) != 0) {
         modelsEntry = kart->mKartModelsEntry;
         faceFrame = FALSE;
-        f = &modelsEntry->mAnimationState;
+        animationState = &modelsEntry->mAnimationState;
         currentAnimation = modelsEntry->mCharacterAnimation->mCurrentIndex;
         changeAnimation = TRUE;
-        if (f->mNextAnimationPending != 0) {
+        if (animationState->mNextAnimationPending != 0) {
             if (currentAnimation != 0) {
                 SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) currentAnimation, 1);
             }
-            f->mNextAnimationPending = 0;
+            animationState->mNextAnimationPending = 0;
         }
-        if (b == 1) {
-            b = 1;
+        if (animationIndex == 1) {
+            animationIndex = 1;
             faceFrame = TRUE;
         } else {
             currentBits = kart->mUnk_7c;
             if ((currentBits & 0x10000) != 0) {
-                if (currentAnimation == b) {
+                if (currentAnimation == animationIndex) {
                     changeAnimation = FALSE;
                 }
-                b = 2;
+                animationIndex = 2;
             } else if ((currentBits & 0x20000) != 0) {
-                if (currentAnimation == b) {
+                if (currentAnimation == animationIndex) {
                     changeAnimation = FALSE;
                 }
-                b = 3;
+                animationIndex = 3;
                 faceFrame = TRUE;
             }
         }
         if (changeAnimation != FALSE) {
-            SetCharacterAnimation(kart->mKartModelsEntry, b, c);
+            SetCharacterAnimation(kart->mKartModelsEntry, animationIndex, useBlend);
         }
         SetCharacterFaceFrameIndex(kart->mKartModelsEntry, faceFrame);
     } else {
         faceFrame = FALSE;
-        if (b == 1 || (kartBits & 0x20000) != 0) {
+        if (animationIndex == 1 || (kartBits & 0x20000) != 0) {
             faceFrame = TRUE;
         }
         SetCharacterFaceFrameIndex(kart->mKartModelsEntry, faceFrame);

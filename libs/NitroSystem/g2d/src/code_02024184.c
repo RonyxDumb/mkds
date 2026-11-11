@@ -3,7 +3,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_02153000.h"
 
-void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 x, s32 y, u32 cl, u16 *str, u16 **pPos) {
+void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u16 *str, u16 **pPos) {
     s32 hSpace;
     Unk02022aa8 *font;
     u16 *pos;
@@ -20,8 +20,8 @@ void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 x, s32 y, u32 cl, u16 *s
             if (code == 10) {
                 break;
             }
-            x += NNS_G2dCharCanvasDrawChar(pTxn->mCharCanvas, font, x, y, cl, code);
-            x += hSpace;
+            drawX += NNS_G2dCharCanvasDrawChar(pTxn->mCharCanvas, font, drawX, drawY, cl, code);
+            drawX += hSpace;
             code = readChar(&pos);
         } while (code != 0);
     }
@@ -30,7 +30,8 @@ void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 x, s32 y, u32 cl, u16 *s
     }
 }
 
-void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 x, s32 y, s32 areaWidth, u32 cl, u32 flags, u16 *txt) {
+void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, u32 cl, u32 flags,
+                                     u16 *txt) {
     s32 lineHeight;
     s32 lineWidth;
     s32 lineX;
@@ -48,47 +49,48 @@ void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 x, s32 y, s32 areaWid
     alignCenter = flags & 0x400;
     halfWidth = (areaWidth + 1) / 2;
     do {
-        lineX = x;
+        lineX = drawX;
         if (alignRight != 0) {
             lineWidth = NNSi_G2dFontGetStringWidth(pTxn->mFont, pTxn->mCharSpacing, (u8 *) pos, 0);
-            lineX = x + (areaWidth - lineWidth);
+            lineX = drawX + (areaWidth - lineWidth);
         } else if (alignCenter != 0) {
             lineWidth = NNSi_G2dFontGetStringWidth(pTxn->mFont, pTxn->mCharSpacing, (u8 *) pos, 0);
-            lineX = x + (halfWidth - (lineWidth + 1) / 2);
+            lineX = drawX + (halfWidth - (lineWidth + 1) / 2);
         }
-        NNSi_G2dTextCanvasDrawString(pTxn, lineX, y, cl, pos, &pos);
-        y += lineHeight;
+        NNSi_G2dTextCanvasDrawString(pTxn, lineX, drawY, cl, pos, &pos);
+        drawY += lineHeight;
     } while (pos != 0);
 }
 
-u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 x, s32 y, u32 cl, u32 flags, void *txt) {
+u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt) {
     Unk02022b10 rect;
 
     NNSi_G2dFontGetTextRect(&rect, pTxn->mFont, pTxn->mCharSpacing, pTxn->mLineSpacing, txt);
     if (flags & 0x10) {
-        x -= (rect.mUnk_00 + 1) / 2;
+        drawX -= (rect.mUnk_00 + 1) / 2;
     } else if (flags & 0x20) {
-        x -= rect.mUnk_00;
+        drawX -= rect.mUnk_00;
     }
     if (flags & 2) {
-        y -= (rect.mUnk_04 + 1) / 2;
+        drawY -= (rect.mUnk_04 + 1) / 2;
     } else if (flags & 4) {
-        y -= rect.mUnk_04;
+        drawY -= rect.mUnk_04;
     }
-    NNSi_G2dTextCanvasDrawTextAlign(pTxn, x, y, rect.mUnk_00, cl, flags, txt);
+    NNSi_G2dTextCanvasDrawTextAlign(pTxn, drawX, drawY, rect.mUnk_00, cl, flags, txt);
 }
 
-void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 x, s32 y, s32 w, s32 h, s32 cl, u32 flags, u16 *txt) {
+void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, s32 areaHeight, s32 cl,
+                                    u32 flags, u16 *txt) {
     s32 textHeight;
 
     if (flags & 0x100) {
         textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
-        y += h - textHeight;
+        drawY += areaHeight - textHeight;
     } else if (flags & 0x80) {
         textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
-        y += (h + 1) / 2 - (textHeight + 1) / 2;
+        drawY += (areaHeight + 1) / 2 - (textHeight + 1) / 2;
     }
-    NNSi_G2dTextCanvasDrawTextAlign(pTxn, x, y, w, cl, flags, txt);
+    NNSi_G2dTextCanvasDrawTextAlign(pTxn, drawX, drawY, areaWidth, cl, flags, txt);
 }
 
 // clang-format off

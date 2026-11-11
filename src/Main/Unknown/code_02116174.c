@@ -98,49 +98,53 @@ BOOL IsRecordVSEraseRowFilled(int row) {
 #pragma thumb on
 
 void UpdateRecordVSEraseRows(void) {
-    s32 i;
+    s32 rowIndex;
     s32 eraseCellCount;
     s32 firstRecordIndex;
 
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
-    for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mVisible = 0;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mVisible = 0;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mVisible = 0;
     }
-    for (i = 0; i < 5; i++) {
-        if (IsRecordVSEraseRowFilled((s16) i)) {
-            if (gRecordVSErase->mIndex == i) {
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        if (IsRecordVSEraseRowFilled((s16) rowIndex)) {
+            if (gRecordVSErase->mIndex == rowIndex) {
                 if (IsRecordFlagged(firstRecordIndex)) {
-                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mVisible = 1;
-                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
-                                         gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[rowIndex], 0xe,
+                                         gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
+                                         gRecordVSErase->mRecordVSSEraseBncl);
                 } else {
-                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mVisible = 1;
-                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
-                                         gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[rowIndex], 0xe,
+                                         gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
+                                         gRecordVSErase->mRecordVSSEraseBncl);
                 }
             } else {
                 if (IsRecordFlagged(firstRecordIndex)) {
-                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mVisible = 1;
-                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
-                                         gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[rowIndex], 0xe,
+                                         gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
+                                         gRecordVSErase->mRecordVSSEraseBncl);
                 } else {
-                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mVisible = 1;
-                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[i], 0xf, gRecordVSErase->mRecordVSSEraseBnll,
-                                         gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
+                    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mVisible = 1;
+                    SetLabelPaletteIndex(gRecordVSEraseRowLabelIndices[rowIndex], 0xf,
+                                         gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
+                                         gRecordVSErase->mRecordVSSEraseBncl);
                 }
             }
-            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mVisible =
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mVisible =
                 IsRecordFlagged(firstRecordIndex) ? 0 : 1;
-            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mVisible =
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mVisible =
                 IsRecordFlagged(firstRecordIndex);
-            gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mVisible = 1;
+            gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mVisible = 1;
         }
         firstRecordIndex++;
     }
@@ -148,8 +152,8 @@ void UpdateRecordVSEraseRows(void) {
 
 void PrintRecordVSEraseShownRecord(void) {
     s32 firstRecordIndex;
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 columnIndex;
     BOOL queueSelector;
     u16 text[0x10];
     u32 counts[3][3] = {0};
@@ -177,10 +181,10 @@ void PrintRecordVSEraseShownRecord(void) {
             counts[2][0] = GetRecordMatchKind0SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
             counts[2][1] = GetRecordMatchKind1SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
             counts[2][2] = GetRecordMatchKind2SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
-            for (i = 1; i < 3; i++) {
-                for (j = 0; j < 3; j++) {
-                    if (counts[i][j] > 0x270f) {
-                        counts[i][j] = 0x270f;
+            for (index = 1; index < 3; index++) {
+                for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+                    if (counts[index][columnIndex] > 0x270f) {
+                        counts[index][columnIndex] = 0x270f;
                     }
                 }
             }
@@ -218,10 +222,10 @@ void PrintRecordVSEraseShownRecord(void) {
                                                gRecordVSErase->mRecordVSMTransientBncl,
                                                gRecordVSErase->mRecordVSMTransientTable);
             queueSelector = FALSE;
-            for (i = 0; i < 12; i++) {
-                FormatAsciiNumber(friendKeyText[i] - 0x30, text);
+            for (index = 0; index < 12; index++) {
+                FormatAsciiNumber(friendKeyText[index] - 0x30, text);
                 PrintLabelLayoutTextNoFixedAdvance(
-                    queueSelector, gRecordVSEraseFriendKeyLabelIndices[i], gRecordVSErase->mRecordVSMTransientBnll,
+                    queueSelector, gRecordVSEraseFriendKeyLabelIndices[index], gRecordVSErase->mRecordVSMTransientBnll,
                     text, gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
             }
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
@@ -235,16 +239,16 @@ void PrintRecordVSEraseShownRecord(void) {
 
 void RefreshRecordVSErasePage(void) {
     s32 firstRecordIndex;
-    s32 i;
+    s32 rowIndex;
     u8 nameText[0x20];
 
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
-    for (i = 0; i < 5; i++) {
-        if (GetRecordCount() > firstRecordIndex + i) {
-            CopyRecordText(firstRecordIndex + i, nameText, 0x20);
-            PrintLabelLayoutTextNoFixedAdvance(1, gRecordVSEraseRowLabelIndices[i], gRecordVSErase->mRecordVSSEraseBnll,
-                                               nameText, gRecordVSErase->mRecordVSSEraseBncl,
-                                               gRecordVSErase->mRecordVSSEraseTable);
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        if (GetRecordCount() > firstRecordIndex + rowIndex) {
+            CopyRecordText(firstRecordIndex + rowIndex, nameText, 0x20);
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gRecordVSEraseRowLabelIndices[rowIndex], gRecordVSErase->mRecordVSSEraseBnll, nameText,
+                gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseTable);
         }
     }
     if (GetRecordCount() <= firstRecordIndex + gRecordVSErase->mIndex) {

@@ -184,8 +184,8 @@ MapObjectKindData *CreateWaterEfctKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     {
-        MapObjectKindData v = {0};
-        *kindData = v;
+        MapObjectKindData emptyKindData = {0};
+        *kindData = emptyKindData;
     }
     return kindData;
 }
@@ -194,9 +194,10 @@ MapObjectKindData *CreateWaterEfctKindData(void) {
 
 // Called once by each Create...Water with 15 constants; sets 28 members of gWater (heights, step sizes, radii, hold
 // counts, flags) and resets the matrix mUnk_140, nothing else.
-void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadius, s32 e, u16 modelCAngleOffset,
-                     u16 g, u16 framesPerCycle, u16 highHoldFrameCount, u16 lowHoldFrameCount, u16 drawModelAFirst,
-                     u16 modelAAlpha, u16 modelCMaterialAlpha, u16 n, s32 o) {
+void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadius, s32 unk4cValue,
+                     u16 modelCAngleOffset, u16 unk52Value, u16 framesPerCycle, u16 highHoldFrameCount,
+                     u16 lowHoldFrameCount, u16 drawModelAFirst, u16 modelAAlpha, u16 modelCMaterialAlpha,
+                     u16 unk5cValue, s32 unk170Value) {
     gWater->mMidHeight = (highHeight + lowHeight) >> 1;
     gWater->mHeight = gWater->mMidHeight;
     gWater->mModelCY = gWater->mHeight;
@@ -205,7 +206,7 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
     gWater->mUnk_3a = 0;
     gWater->mCircleAngle = 0;
     gWater->mModelCAngleOffset = modelCAngleOffset;
-    gWater->mUnk_52 = g;
+    gWater->mUnk_52 = unk52Value;
     gWater->mHeightAnglePerFrame = 0x10000 / framesPerCycle;
     gWater->mCircleAnglePerFrame = (u32) gWater->mHeightAnglePerFrame >> 2;
     gWater->mState = 0;
@@ -218,13 +219,13 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
     gWater->mModelAZ = gWater->mCenterZ;
     gWater->mModelARadius = modelARadius;
     gWater->mModelCRadius = modelCRadius;
-    gWater->mUnk_4c = e;
+    gWater->mUnk_4c = unk4cValue;
     gWater->mDrawModelAFirst = drawModelAFirst;
     gWater->mModelAAlpha = modelAAlpha;
     gWater->mModelCMaterialAlpha = modelCMaterialAlpha;
-    gWater->mUnk_5c = n;
+    gWater->mUnk_5c = unk5cValue;
     MTX_Identity43_(&gWater->mDrawMatrix);
-    gWater->mUnk_170 = o;
+    gWater->mUnk_170 = unk170Value;
 }
 
 void CreateMiniStage3Water(void) {
@@ -329,12 +330,12 @@ void CreateWaterEfct(MapObject *mapObject) {
 
 void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3) {
     s32 remaining = 0x1000000 - fraction;
-    s32 v = MUL_FIXED24_NO_ROUND(remaining, remaining);
-    *weight0 = MUL_FIXED24_NO_ROUND(remaining, v);
+    s32 square = MUL_FIXED24_NO_ROUND(remaining, remaining);
+    *weight0 = MUL_FIXED24_NO_ROUND(remaining, square);
     *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
     *weight2 = ((s64) *weight1 * fraction) >> 24;
-    v = MUL_FIXED24_NO_ROUND(fraction, fraction);
-    *weight3 = MUL_FIXED24_NO_ROUND(fraction, v);
+    square = MUL_FIXED24_NO_ROUND(fraction, fraction);
+    *weight3 = MUL_FIXED24_NO_ROUND(fraction, square);
     *weight1 = ((s64) *weight1 * remaining) >> 24;
 }
 

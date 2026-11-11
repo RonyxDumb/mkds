@@ -248,7 +248,7 @@ void AdvanceSelectCupCourseState8(void) {
     BOOL movesTaOrVsCells;
     s16 offsetY;
     s32 cellCount;
-    s32 i;
+    s32 cellIndex;
 
     gSelectCupCourse->mStateFrames++;
     if (gBootInfo->mUnk_00 == 2) {
@@ -293,19 +293,19 @@ void AdvanceSelectCupCourseState8(void) {
         gSelectCupCourse->mSelectCupMTable[2].mOffsetY = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[1].mOffsetY = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0].mOffsetY = offsetY - 0x20;
-        for (i = 0; i < 8; i++) {
-            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mOffsetY = offsetY - 0x20;
+        for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[cellIndex]].mOffsetY = offsetY - 0x20;
         }
         offsetY -= 0x20;
-        for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mOffsetY = offsetY;
-            gSelectCupCourse->mSelectCupMTable[cellCount + gSelectCupCourseLabelIndices[i]].mOffsetY = offsetY;
+        for (cellIndex = 0; cellIndex < 4; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[cellIndex]].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupMTable[cellCount + gSelectCupCourseLabelIndices[cellIndex]].mOffsetY = offsetY;
         }
     }
 }
 
 s32 AdvanceSelectCupCourse(void) {
-    s32 i;
+    s32 rowIndex;
     u16 *screenMap;
 
     gSelectCupCourse->mState = gSelectCupCourse->mNextState;
@@ -344,9 +344,9 @@ s32 AdvanceSelectCupCourse(void) {
             screenMap = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
             NNS_GfdRegisterNewVramTransferTask(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
-            for (i = 0; i < 11; i++) {
-                NNS_GfdRegisterNewVramTransferTask(0x1b, ((i + 8) * 0x20 + 0x16) * 2,
-                                                   screenMap + ((i + 8) * 0x20 + 0x16), 0x14);
+            for (rowIndex = 0; rowIndex < 11; rowIndex++) {
+                NNS_GfdRegisterNewVramTransferTask(0x1b, ((rowIndex + 8) * 0x20 + 0x16) * 2,
+                                                   screenMap + ((rowIndex + 8) * 0x20 + 0x16), 0x14);
             }
             gSelectCupCourse->mCupPicturePending = FALSE;
         }
@@ -441,7 +441,7 @@ void LocateAndQueueSelectCupGrid(void) {
 
 u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
     u32 enabled;
-    s32 i;
+    s32 flagIndex;
 
     enabled = 0;
     switch (gSelectCupGrid->mMode) {
@@ -474,11 +474,11 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     break;
                 default:
                     enabled = 0;
-                    for (i = 0; i < 4; i++) {
-                        if (i == 3) {
+                    for (flagIndex = 0; flagIndex < 4; flagIndex++) {
+                        if (flagIndex == 3) {
                             enabled |= IsBackupFlagSet(gSelectCupGridMirrorFlagIndices[cupIndex]);
                         } else {
-                            enabled |= IsBackupFlagSet(gSelectCupGridEngineFlagIndices[cupIndex][i]);
+                            enabled |= IsBackupFlagSet(gSelectCupGridEngineFlagIndices[cupIndex][flagIndex]);
                         }
                     }
                     break;

@@ -135,9 +135,10 @@ void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void));
 void UpdateWater(Water *water);
 void DrawWater(Water *water, struct MtxFx43 *unused);
 MapObjectKindData *CreateWaterEfctKindData(void);
-void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadius, s32 e, u16 modelCAngleOffset,
-                     u16 g, u16 framesPerCycle, u16 highHoldFrameCount, u16 lowHoldFrameCount, u16 drawModelAFirst,
-                     u16 modelAAlpha, u16 modelCMaterialAlpha, u16 n, s32 o);
+void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadius, s32 unk4cValue,
+                     u16 modelCAngleOffset, u16 unk52Value, u16 framesPerCycle, u16 highHoldFrameCount,
+                     u16 lowHoldFrameCount, u16 drawModelAFirst, u16 modelAAlpha, u16 modelCMaterialAlpha,
+                     u16 unk5cValue, s32 unk170Value);
 void CreateMiniStage3Water(void);
 void CreateBeachWater(void);
 void CreateTownWater(void);

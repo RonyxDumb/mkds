@@ -27,25 +27,25 @@ void ReleasePlayerEntryList(void) {
 
 void WritePlayerEntryListRegisters(void) {
     u32 displayBits = 0x19;
-    BOOL b;
+    BOOL bg0As;
     s16 interpolatedValue;
 
     interpolatedValue = GetInterpolatedValue(&gPlayerEntryList->mInterpolations[2]);
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
-        b = FALSE;
+        bg0As = FALSE;
         displayBits |= 2;
         reg_G2_BG0OFS = interpolatedValue & 0x1ff;
         reg_G2_BG1OFS = -interpolatedValue & 0x1ff;
         reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
     } else {
-        b = TRUE;
+        bg0As = TRUE;
     }
     if (gPlayerEntryList->mMode == 2) {
         displayBits |= 2;
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (displayBits << 8);
-    GX_SetGraphicsMode(1, 0, b);
+    GX_SetGraphicsMode(1, 0, bg0As);
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x6000;
         reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f) | 0x1d) | 0x20;
@@ -122,7 +122,7 @@ u32 IsEveryPlayerKartStored(void) {
 #pragma thumb on
 
 void StartPlayerEntryListKind(s32 kind) {
-    s32 i;
+    s32 entryIndex;
 
     SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
     SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 2);
@@ -130,9 +130,9 @@ void StartPlayerEntryListKind(s32 kind) {
     switch (kind) {
         case 0:
         case 1:
-            for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
-                    SetEntryTargetSlot(i, 1);
+            for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+                if (entryIndex < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
+                    SetEntryTargetSlot(entryIndex, 1);
                 }
             }
             break;
@@ -140,8 +140,8 @@ void StartPlayerEntryListKind(s32 kind) {
             SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[1], 2);
             break;
         case 3:
-            for (i = 0; i < 8; i++) {
-                SetEntryTargetOuterSlot(i);
+            for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+                SetEntryTargetOuterSlot(entryIndex);
             }
             gPlayerEntryList->mMoveInnerPending = TRUE;
             break;
@@ -149,27 +149,27 @@ void StartPlayerEntryListKind(s32 kind) {
 }
 
 void SetPlayerEntryListUseTeams(s32 useTeams) {
-    s32 i;
+    s32 entryIndex;
     s32 slot;
 
     if (gPlayerEntryList->mUseTeams != useTeams) {
         if (useTeams != 0) {
-            for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
-                    if (gPlayerEntryList->mEntries[i].mTeamIndex == 0) {
+            for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+                if (entryIndex < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
+                    if (gPlayerEntryList->mEntries[entryIndex].mTeamIndex == 0) {
                         slot = 1;
-                    } else if (gPlayerEntryList->mEntries[i].mTeamIndex == 1) {
+                    } else if (gPlayerEntryList->mEntries[entryIndex].mTeamIndex == 1) {
                         slot = 2;
                     }
-                    SetEntryTargetSlot(i, slot);
+                    SetEntryTargetSlot(entryIndex, slot);
                 }
             }
             SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 0);
             SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
         } else {
-            for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
-                    SetEntryTargetSlot(i, 1);
+            for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+                if (entryIndex < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
+                    SetEntryTargetSlot(entryIndex, 1);
                 }
             }
             SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 2);
@@ -201,13 +201,13 @@ void SetEntryTeamIndex(int entryIndex, int teamIndex) {
 #pragma thumb on
 
 void SetPlayerEntryListShowAllEntries(s32 showAll) {
-    s32 i;
+    s32 entryIndex;
     s32 slot;
     if (gPlayerEntryList->mShowAllEntries != showAll) {
         if (showAll != 0) {
-            for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
+            for (entryIndex = gPlayerEntryList->mPlayerCount; entryIndex < 8; entryIndex++) {
                 if (gPlayerEntryList->mUseTeams != 0) {
-                    if (gPlayerEntryList->mEntries[i].mTeamIndex == 1) {
+                    if (gPlayerEntryList->mEntries[entryIndex].mTeamIndex == 1) {
                         slot = 3;
                     } else {
                         slot = 0;
@@ -215,12 +215,12 @@ void SetPlayerEntryListShowAllEntries(s32 showAll) {
                 } else {
                     slot = 0;
                 }
-                SetEntrySlot(i, slot);
-                SetEntryTargetInnerSlot(i);
+                SetEntrySlot(entryIndex, slot);
+                SetEntryTargetInnerSlot(entryIndex);
             }
         } else {
-            for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
-                SetEntryTargetOuterSlot(i);
+            for (entryIndex = gPlayerEntryList->mPlayerCount; entryIndex < 8; entryIndex++) {
+                SetEntryTargetOuterSlot(entryIndex);
             }
         }
     }

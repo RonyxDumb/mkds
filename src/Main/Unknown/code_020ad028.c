@@ -8,69 +8,69 @@
 #pragma thumb on
 
 void SetupTitleTable(void) {
-    LayoutTableEntry *p;
-    u32 w;
-    s32 i;
+    LayoutTableEntry *titleTable;
+    u32 layoutCount;
+    s32 cellIndex;
 
-    p = gTitleScene->mTitleTable;
-    w = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
-    for (i = 0; i <= 9; i++) {
-        p[i].mVisible = 1;
+    titleTable = gTitleScene->mTitleTable;
+    layoutCount = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
+    for (cellIndex = 0; cellIndex <= 9; cellIndex++) {
+        titleTable[cellIndex].mVisible = 1;
     }
-    for (i = 10; i <= 14; i++) {
-        p[i].mVisible = 0;
+    for (cellIndex = 10; cellIndex <= 14; cellIndex++) {
+        titleTable[cellIndex].mVisible = 0;
     }
-    for (i = 0; i <= 1; i++) {
-        p[w + i].mVisible = 1;
+    for (cellIndex = 0; cellIndex <= 1; cellIndex++) {
+        titleTable[layoutCount + cellIndex].mVisible = 1;
     }
-    SetLabelPaletteIndex(0, 15, gTitleScene->mTitleSBnll, p, gTitleScene->mTitleSBncl);
-    SetLabelPaletteIndex(1, 15, gTitleScene->mTitleSBnll, p, gTitleScene->mTitleSBncl);
+    SetLabelPaletteIndex(0, 15, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
+    SetLabelPaletteIndex(1, 15, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
     switch (gTitleScene->mSelectedIndex) {
         case 0:
             if (gTitleScene->mState == 4) {
-                p[0].mOffsetX = gTitleScene->mSelectedOffset;
-                p[5].mOffsetX = gTitleScene->mSelectedOffset;
-                p[10].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[0].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[5].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[10].mOffsetX = gTitleScene->mSelectedOffset;
             }
             if (gTitleScene->mState != 4 || gTitleScene->mStartedOnSelected == FALSE || GetTitleStateFrames() >= 5) {
-                p[5].mVisible = 0;
-                p[10].mVisible = 1;
+                titleTable[5].mVisible = 0;
+                titleTable[10].mVisible = 1;
             }
             break;
         case 1:
             if (gTitleScene->mState == 4) {
-                p[1].mOffsetX = gTitleScene->mSelectedOffset;
-                p[6].mOffsetX = gTitleScene->mSelectedOffset;
-                p[11].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[1].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[6].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[11].mOffsetX = gTitleScene->mSelectedOffset;
             }
             if (gTitleScene->mState != 4 || gTitleScene->mStartedOnSelected == FALSE || GetTitleStateFrames() >= 5) {
-                p[6].mVisible = 0;
-                p[11].mVisible = 1;
+                titleTable[6].mVisible = 0;
+                titleTable[11].mVisible = 1;
             }
             break;
         case 2:
             if (gTitleScene->mState == 4) {
-                p[2].mOffsetX = gTitleScene->mSelectedOffset;
-                p[7].mOffsetX = gTitleScene->mSelectedOffset;
-                p[12].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[2].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[7].mOffsetX = gTitleScene->mSelectedOffset;
+                titleTable[12].mOffsetX = gTitleScene->mSelectedOffset;
             }
             if (gTitleScene->mState != 4 || gTitleScene->mStartedOnSelected == FALSE || GetTitleStateFrames() >= 5) {
-                p[7].mVisible = 0;
-                p[12].mVisible = 1;
+                titleTable[7].mVisible = 0;
+                titleTable[12].mVisible = 1;
             }
             break;
         case 3:
             if (gTitleScene->mState != 4 || gTitleScene->mStartedOnSelected == FALSE || GetTitleStateFrames() >= 5) {
-                p[8].mVisible = 0;
-                p[13].mVisible = 1;
-                SetLabelPaletteIndex(0, 14, gTitleScene->mTitleSBnll, p, gTitleScene->mTitleSBncl);
+                titleTable[8].mVisible = 0;
+                titleTable[13].mVisible = 1;
+                SetLabelPaletteIndex(0, 14, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
             }
             break;
         case 4:
             if (gTitleScene->mState != 4 || gTitleScene->mStartedOnSelected == FALSE || GetTitleStateFrames() >= 5) {
-                p[9].mVisible = 0;
-                p[14].mVisible = 1;
-                SetLabelPaletteIndex(1, 14, gTitleScene->mTitleSBnll, p, gTitleScene->mTitleSBncl);
+                titleTable[9].mVisible = 0;
+                titleTable[14].mVisible = 1;
+                SetLabelPaletteIndex(1, 14, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
             }
             break;
     }

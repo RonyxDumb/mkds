@@ -23,15 +23,15 @@ void MBi_SetScanLockFunc(void (*setCallback)(const u8 *), void (*clearCallback)(
 #pragma thumb on
 
 void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *record) {
-    u32 v1;
-    u32 v2;
+    u32 value;
+    u32 iconPaletteMissing;
     volatile u16 clearValue;
     clearValue = 0;
     MIi_CpuClear16(clearValue, entry, 0x4c0);
     entry->mUnk_4b2 = 0;
-    v1 = MBi_ReadIconInfo(params->mIconCharPathp, (u8 *) entry, 1) == 0;
-    v2 = MBi_ReadIconInfo(params->mIconPalettePathp, (u8 *) entry, 0) == 0;
-    if ((v1 | v2) != 0) {
+    value = MBi_ReadIconInfo(params->mIconCharPathp, (u8 *) entry, 1) == 0;
+    iconPaletteMissing = MBi_ReadIconInfo(params->mIconPalettePathp, (u8 *) entry, 0) == 0;
+    if ((value | iconPaletteMissing) != 0) {
         entry->mUnk_4b2 = 1;
         MemFillWordsByBlock_inline(entry, 0x220);
     }
@@ -40,8 +40,8 @@ void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *re
         MIi_CpuCopy16(record, entry->mUnk_220, 0x16);
     }
     entry->mUnk_236 = params->mMaxPlayerNum;
-    v1 = mystrlen(params->mGameNamep) * 2;
-    MIi_CpuCopy16(params->mGameNamep, entry->mUnk_238, (u16) v1);
+    value = mystrlen(params->mGameNamep) * 2;
+    MIi_CpuCopy16(params->mGameNamep, entry->mUnk_238, (u16) value);
     MIi_CpuCopy16(params->mGameIntroductionp, entry->mUnk_298, 0xc0);
     entry->mUnk_358 = 1;
     entry->mUnk_35a = 1;
@@ -76,19 +76,19 @@ u32 MBi_ReadIconInfo(const u8 *path, u8 *buffer, u32 isLarge) {
     return 1;
 }
 
-void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 d) {
-    u8 v1;
-    s32 i;
-    v1 = 1;
+void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 recordMask, u32 value) {
+    u8 count;
+    s32 recordIndex;
+    count = 1;
     MIi_CpuCopy16(records, entry->mUnk_35e, 0x14a);
-    for (i = 0; i < 15; i++) {
-        if ((recordMask & (2 << i)) != 0) {
-            v1++;
+    for (recordIndex = 0; recordIndex < 15; recordIndex++) {
+        if ((recordMask & (2 << recordIndex)) != 0) {
+            count++;
         }
     }
-    entry->mUnk_358 = v1;
+    entry->mUnk_358 = count;
     entry->mUnk_35a = recordMask | 1;
-    entry->mUnk_35c = d;
+    entry->mUnk_35c = value;
     entry->mUnk_4b4++;
 }
 
@@ -242,7 +242,7 @@ void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
     u32 pendingMask;
     u32 recordBit;
     u8 *destination;
-    s32 i;
+    s32 index;
     s32 sourceOffset;
     u32 recordCount;
     volatile u16 clearValue;
@@ -262,18 +262,18 @@ void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
     if (sSendVolatCallbackTimming == 0 && sSendVolatCallback != NULL) {
         sSendVolatCallback(entry->mUnk_4b8);
     }
-    for (i = 0; i < 8; i++) {
-        gGameInfoBlock.mUnk_68[i] = mbss.mCurrent->mUnk_4a8[i];
+    for (index = 0; index < 8; index++) {
+        gGameInfoBlock.mUnk_68[index] = mbss.mCurrent->mUnk_4a8[index];
     }
     clearValue = 0;
     MIi_CpuClear16(clearValue, gGameInfoBlock.mUnk_10, 0x58);
     recordCount = 0;
     pendingMask = (u16) (mbss.mCurrent->mUnk_4b0 ^ mbss.mCurrent->mUnk_35a);
-    i = 0;
+    index = 0;
     destination = gGameInfoBlock.mUnk_10;
     sourceOffset = 0;
-    for (; i < 15; i++) {
-        recordBit = 2 << i;
+    for (; index < 15; index++) {
+        recordBit = 2 << index;
         if ((pendingMask & recordBit) != 0) {
             MIi_CpuCopy16(mbss.mCurrent->mUnk_35e + sourceOffset, destination, 0x16);
             mbss.mCurrent->mUnk_4b0 |= recordBit;
@@ -305,7 +305,7 @@ void MB_InitRecvGameInfoStatus(void) {
     mbrsp->mScanCountUnit = 1;
 }
 
-u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, WMBssDesc *scanBlock) {
+u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scanBlock) {
     s32 entryIndex;
     if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
@@ -320,7 +320,7 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, WMBssDesc *scanBloc
     if (entryIndex < 0) {
         return 0;
     }
-    MBi_AnalyzeBeacon((u8 *) scanBlock, entryIndex, b);
+    MBi_AnalyzeBeacon((u8 *) scanBlock, entryIndex, value);
     MBi_CheckCompleteGameInfoFlagments(entryIndex, callback);
     return 1;
 }
@@ -336,10 +336,10 @@ u32 MBi_CheckMBParent(WMBssDesc *scanBlock) {
 
 #pragma thumb on
 
-void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 p1) {
+void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 value) {
     scanBlock[5] = 0x20u;
-    scanBlock[6] = p1;
-    scanBlock[7] = ((((p1) & (0xffff0000u))) >> 16);
+    scanBlock[6] = value;
+    scanBlock[7] = ((((value) & (0xffff0000u))) >> 16);
     scanBlock[8] = (scanBlock[0x24]);
 }
 

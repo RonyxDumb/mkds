@@ -13,24 +13,24 @@
 void FillShuffledIndices(void) {
     s32 remaining[8];
     s32 remainingCount;
-    s32 i;
+    s32 index;
     s32 pickIndex;
-    s32 k;
+    s32 shiftIndex;
     RandomState64 *random;
 
     remainingCount = 8;
     if (gMenuShared->mIndicesShuffled == 0) {
         if (ShuffledIndicesGetConnectionKind() == 1 || ShuffledIndicesGetConnectionKind() == 2) {
             random = ShuffledIndicesGetConnectionWorkRandomState();
-            for (i = 0; i < 8; i++) {
-                remaining[i] = i;
+            for (index = 0; index < 8; index++) {
+                remaining[index] = index;
             }
-            for (i = 0; i < 8; i++) {
+            for (index = 0; index < 8; index++) {
                 pickIndex = (NextRandomU16(random) >> 8) % remainingCount;
-                gMenuShared->mShuffledIndices[i] = remaining[pickIndex];
+                gMenuShared->mShuffledIndices[index] = remaining[pickIndex];
                 remainingCount--;
-                for (k = pickIndex; k < remainingCount; k++) {
-                    remaining[k] = remaining[k + 1];
+                for (shiftIndex = pickIndex; shiftIndex < remainingCount; shiftIndex++) {
+                    remaining[shiftIndex] = remaining[shiftIndex + 1];
                 }
             }
             gMenuShared->mIndicesShuffled = 1;
@@ -39,12 +39,12 @@ void FillShuffledIndices(void) {
 }
 
 void ClearShuffledIndices(void) {
-    s32 i;
+    s32 index;
     BOOL clearValue;
 
     clearValue = FALSE;
-    for (i = 0; i < 8; i++) {
-        gMenuShared->mShuffledIndices[i] = clearValue;
+    for (index = 0; index < 8; index++) {
+        gMenuShared->mShuffledIndices[index] = clearValue;
     }
     gMenuShared->mIndicesShuffled = clearValue;
 }

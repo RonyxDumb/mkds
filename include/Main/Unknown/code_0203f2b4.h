@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-BOOL IsRaceProgressKartRemoved(u32 a);
-BOOL IsKartNonCpu(u32 a);
+BOOL IsRaceProgressKartRemoved(u32 kartIndex);
+BOOL IsKartNonCpu(u32 kartIndex);

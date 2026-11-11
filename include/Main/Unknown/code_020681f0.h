@@ -21,6 +21,6 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner);
 void FinishKartAtMissionRunEnd(Kart *kart);
 void QueueKartOwnSoundIndex(Kart *kart);
 void StartKartHitReaction(Kart *kart);
-void SetKartCharacterAnimation(Kart *kart, s32 b, s32 c);
+void SetKartCharacterAnimation(Kart *kart, s32 animationIndex, s32 useBlend);
 void StartBattleKartRemoval(Kart *kart);
 void AdvanceKartRemovalShrink(Kart *kart);

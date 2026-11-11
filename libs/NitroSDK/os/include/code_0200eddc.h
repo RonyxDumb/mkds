@@ -26,16 +26,16 @@ void DC_StoreAll(void);
 // For every set and way: drains the write buffer (c7,c10,4), then writes back and invalidates the line (c7,c14,2).
 void DC_FlushAll(void);
 // Invalidates the data cache lines of the range at p, length n, without writing back (c7,c6,1, 32-byte lines).
-void DC_InvalidateRange(void *p, u32 n);
+void DC_InvalidateRange(void *address, u32 size);
 // Writes back the data cache lines of the range at p, length n, without invalidating (c7,c10,1).
-void DC_StoreRange(const void *p, u32 n);
+void DC_StoreRange(const void *address, u32 size);
 // For each line of the range at p, length n: drains the write buffer (c7,c10,4), then writes back and invalidates it
 // (c7,c14,1).
-void DC_FlushRange(const void *p, int n);
+void DC_FlushRange(const void *address, int size);
 // Drains the write buffer (c7,c10,4).
 void DC_WaitWriteBufferEmpty(void);
 // Invalidates the instruction cache lines of the range at p, length n (c7,c5,1).
-void IC_InvalidateRange(void *p, u32 n);
+void IC_InvalidateRange(void *address, u32 size);
 // Starts up the OS: arenas, PXI, locks, interrupts, exceptions, memory, threads, reset, cartridge, card and power
 // management.
 void OS_Init(void);

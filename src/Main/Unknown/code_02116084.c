@@ -12,32 +12,32 @@
 const u16 data_0215c4ac[2] = {0x1e, 0x1f};
 
 void AdvanceRecordVSEraseOffsetTimers(void) {
-    s32 v;
-    BOOL a;
-    BOOL b;
-    s32 i;
+    s32 firstRecordIndex;
+    BOOL hiddenA;
+    BOOL hiddenB;
+    s32 timerIndex;
 
-    v = GetRecordVSEraseFirstRecordIndex();
+    firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[0]].mOffsetX =
         -LookupFrameOffset(6 - gRecordVSErase->mOffsetTimers[0]);
     gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[1]].mOffsetX =
         LookupFrameOffset(6 - gRecordVSErase->mOffsetTimers[1]);
-    a = FALSE;
-    b = FALSE;
-    for (i = 0; i < 2; i++) {
-        if (gRecordVSErase->mOffsetTimers[i] > 0) {
-            gRecordVSErase->mOffsetTimers[i]--;
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[i]].mVisible = a;
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[i]].mVisible = 1;
+    hiddenA = FALSE;
+    hiddenB = FALSE;
+    for (timerIndex = 0; timerIndex < 2; timerIndex++) {
+        if (gRecordVSErase->mOffsetTimers[timerIndex] > 0) {
+            gRecordVSErase->mOffsetTimers[timerIndex]--;
+            gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[timerIndex]].mVisible = hiddenA;
+            gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[timerIndex]].mVisible = 1;
         } else {
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[i]].mVisible = 1;
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[i]].mVisible = b;
+            gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[timerIndex]].mVisible = 1;
+            gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[timerIndex]].mVisible = hiddenB;
         }
     }
-    if (v == 0) {
+    if (firstRecordIndex == 0) {
         gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[0]].mVisible = 0;
     }
-    if (v + 5 >= GetRecordCount()) {
+    if (firstRecordIndex + 5 >= GetRecordCount()) {
         gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[1]].mVisible = 0;
     }
 }

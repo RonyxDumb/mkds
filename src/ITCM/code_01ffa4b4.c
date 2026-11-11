@@ -40,18 +40,18 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     Vec3 normal;
     Vec3 pushVector;
     Vec3 landingPushVector;
-    s32 b1;
-    s32 b2;
-    u32 m;
+    s32 bit100000WasSet;
+    s32 bit200000WasSet;
+    u32 collisionMask;
     s32 lowestOffsetLength;
     s32 pushStrength;
-    s32 d;
-    s32 t;
-    BOOL e;
+    s32 dot;
+    s32 value;
+    BOOL rotationExceeded;
 
     secondNormal = gKartVec3UnitY;
-    b1 = (kart->mUnk_44 & 0x100000) ? 1 : 0;
-    b2 = (kart->mUnk_48 & 0x200000) ? 1 : 0;
+    bit100000WasSet = (kart->mUnk_44 & 0x100000) ? 1 : 0;
+    bit200000WasSet = (kart->mUnk_48 & 0x200000) ? 1 : 0;
     *groundNormal = kart->mGroundNormal;
     if (StartKartRespawnWaitIfBelowZero(kart) != FALSE) {
         return;
@@ -59,7 +59,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     if (CollideSphereWithCourse(&kart->mCollisionCenter, &kart->mPrevCollisionCenter, &kart->mTurnedForward,
                                 kart->mRadius, 1, kart->mCollisionSlot, &pushOut, &normal, &secondNormal,
                                 &collisionFlags, &lowestOffset, &pointMotion, &headingDelta, &hitObjects) != 0) {
-        m = collisionFlags & 0x1e34ef;
+        collisionMask = collisionFlags & 0x1e34ef;
         VEC_Add(&kart->mPos, &pushOut, &kart->mPos);
         AdvanceCourseColorBlend(&kart->mKartModelsEntry->mCourseColorBlend, (collisionFlags & 0x3c000000) >> 26,
                                 kart->mVelocityLength);
@@ -67,15 +67,15 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         AdvanceKartPointMotion(kart, collisionFlags, &pointMotion, headingDelta);
         if (collisionFlags & 0x200300) {
             ApplyKartCourseContact(kart, collisionFlags, &secondNormal);
-            if (m != 0) {
-                d = VEC_DotProduct(&normal, &kart->mHitVelocity);
-                kart->mHitVelocity.x -= MUL_FIXED12_NO_ROUND(normal.x, d);
-                kart->mHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, d);
-                kart->mHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, d);
-                d = VEC_DotProduct(&normal, &kart->mPrevHitVelocity);
-                kart->mPrevHitVelocity.x -= MUL_FIXED12_NO_ROUND(normal.x, d);
-                kart->mPrevHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, d);
-                kart->mPrevHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, d);
+            if (collisionMask != 0) {
+                dot = VEC_DotProduct(&normal, &kart->mHitVelocity);
+                kart->mHitVelocity.x -= MUL_FIXED12_NO_ROUND(normal.x, dot);
+                kart->mHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, dot);
+                kart->mHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, dot);
+                dot = VEC_DotProduct(&normal, &kart->mPrevHitVelocity);
+                kart->mPrevHitVelocity.x -= MUL_FIXED12_NO_ROUND(normal.x, dot);
+                kart->mPrevHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, dot);
+                kart->mPrevHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, dot);
             }
             kart->mCourseHitTimer = 3;
             if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(kart, collisionFlags, &lowestOffset) != 0 ||
@@ -111,7 +111,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         }
         if (collisionFlags & 0x8c10) {
             if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && (collisionFlags & 0x10)) {
-                if (b2 == 0) {
+                if (bit200000WasSet == 0) {
                     ApplyCourseSoundTableEntry((u16) ((PickCollisionHitValue(0x10) & 0xe0) >> 5));
                 }
                 kart->mUnk_48 |= 0x200000;
@@ -133,7 +133,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 CallKartAiRequestLink(kart->mAi);
             }
         }
-        if (m != 0) {
+        if (collisionMask != 0) {
             *groundNormal = normal;
             if (LENGTH_SQUARED(*groundNormal) >= 0x10) {
                 kart->mUnk_48 &= ~0x10000000;
@@ -195,11 +195,11 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         ApplyKartWaterDepth(kart);
     }
     if ((kart->mUnk_4c & 0x40000000) && kart->mState == KART_STATE_NORMAL) {
-        ApplyKartAttractorPull(kart, groundNormal, b1);
+        ApplyKartAttractorPull(kart, groundNormal, bit100000WasSet);
     }
     kart->mAttractorPullSpeed = MUL_FIXED12_NO_ROUND(kart->mAttractorPullSpeed, 0xf33);
-    t = kart->mAttractorPullSpeed;
-    if ((t > 0 ? t : -t) < 0x29) {
+    value = kart->mAttractorPullSpeed;
+    if ((value > 0 ? value : -value) < 0x29) {
         kart->mAttractorPullSpeed = 0;
     }
     UpdateKartAirborne(kart);
@@ -207,16 +207,16 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         return;
     }
     kart->mYRotationAngleSum += kart->mYRotationAnglePerFrame;
-    e = FALSE;
-    t = kart->mYRotationAngleSum;
-    if ((t > 0 ? t : -t) > kart->mYRotationCount * 0xffff) {
+    rotationExceeded = FALSE;
+    value = kart->mYRotationAngleSum;
+    if ((value > 0 ? value : -value) > kart->mYRotationCount * 0xffff) {
         kart->mYRotationAngle = 0;
-        e = TRUE;
+        rotationExceeded = TRUE;
     } else {
         kart->mYRotationAngle += kart->mYRotationAnglePerFrame;
     }
     kart->mUnk_4c |= 2;
-    if (e == FALSE) {
+    if (rotationExceeded == FALSE) {
         return;
     }
     kart->mYRotationAngle = 0;

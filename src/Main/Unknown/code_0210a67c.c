@@ -35,21 +35,21 @@
 #include "code_02147cd8.h"
 
 u32 InitSoundPitchSwing(void) {
-    u32 value0;
+    u32 value;
     u32 divisor;
     u32 zero;
     divisor = 0xafc8000u;
-    value0 = 0x384000u;
-    value0 = FX_Div(value0, divisor);
+    value = 0x384000u;
+    value = FX_Div(value, divisor);
     divisor = 0xafc8000u;
-    gKartPitchPerWaterDepth = value0;
-    value0 = 0x1c2000u;
-    value0 = FX_Div(value0, divisor);
+    gKartPitchPerWaterDepth = value;
+    value = 0x1c2000u;
+    value = FX_Div(value, divisor);
     zero = 0u;
-    gKouraPitchPerWaterDepth = value0;
+    gKouraPitchPerWaterDepth = value;
     gSoundPitchSwing = zero;
     gSoundPitchSwingAngle = zero;
-    return value0;
+    return value;
 }
 
 void UpdateSoundPitchSwing(void) {
@@ -306,14 +306,14 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
 }
 
 void InitKartSoundQueue(void) {
-    s32 i;
+    s32 slotIndex;
     KartSoundQueue *queue = &gKartSoundQueue;
 
     queue->mCount = 0;
     queue->mDisabled = FALSE;
-    for (i = 0; i < 8; i++) {
-        queue->mKarts[i] = NULL;
-        queue->mFramesSinceStart[i] = 0;
+    for (slotIndex = 0; slotIndex < 8; slotIndex++) {
+        queue->mKarts[slotIndex] = NULL;
+        queue->mFramesSinceStart[slotIndex] = 0;
     }
     queue->mVolume = 0x5f;
     queue->mDelayFrames = -1;
@@ -321,7 +321,7 @@ void InitKartSoundQueue(void) {
 
 void UpdateKartSoundQueue(void) {
     KartSoundQueue *queue = &gKartSoundQueue;
-    s32 i;
+    s32 slotIndex;
 
     if (queue->mDisabled != FALSE) {
         return;
@@ -333,15 +333,15 @@ void UpdateKartSoundQueue(void) {
         }
         return;
     }
-    for (i = 0; i < 8; i++) {
-        if (queue->mKarts[i] == NULL) {
+    for (slotIndex = 0; slotIndex < 8; slotIndex++) {
+        if (queue->mKarts[slotIndex] == NULL) {
             continue;
         }
-        if (queue->mFramesSinceStart[i] == 0) {
-            if (i != 0 && queue->mFramesSinceStart[i - 1] < 0x14) {
+        if (queue->mFramesSinceStart[slotIndex] == 0) {
+            if (slotIndex != 0 && queue->mFramesSinceStart[slotIndex - 1] < 0x14) {
                 continue;
             }
-            if (i != 0 && queue->mFramesSinceStart[i - 1] == 0x14) {
+            if (slotIndex != 0 && queue->mFramesSinceStart[slotIndex - 1] == 0x14) {
                 queue->mVolume -= 0xf;
             } else {
                 queue->mVolume = 0x5f;
@@ -349,10 +349,10 @@ void UpdateKartSoundQueue(void) {
             if (queue->mVolume < 0x1e) {
                 queue->mVolume = 0x1e;
             }
-            StartQueuedKartSound(queue->mKarts[i], queue->mSoundIndices[i], 0, queue->mVolume);
-            queue->mFramesSinceStart[i]++;
+            StartQueuedKartSound(queue->mKarts[slotIndex], queue->mSoundIndices[slotIndex], 0, queue->mVolume);
+            queue->mFramesSinceStart[slotIndex]++;
         } else {
-            queue->mFramesSinceStart[i]++;
+            queue->mFramesSinceStart[slotIndex]++;
         }
     }
 }
@@ -452,27 +452,27 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 player
     u32 soundId;
     s32 playerNo;
     NNSSndSeqParam *seqParam;
-    u32 g;
+    u32 value;
 
     seqArcNo = playingSound->mSeqArcNo;
     soundId = playingSound->mSoundId;
     playerNo = -1;
     if (kart->mIndex == gRaceSetup->mEntryIndex) {
         seqParam = NNS_SndArcGetSeqArcParam(seqArcNo, soundId);
-        g = seqParam->mPlayerNo;
-        if (g == 2) {
+        value = seqParam->mPlayerNo;
+        if (value == 2) {
             playerNo = 4;
-        } else if (g == 3) {
+        } else if (value == 3) {
             playerNo = 5;
-        } else if (g == 6) {
+        } else if (value == 6) {
             if (IsTeresaSoundFlagSet() != 0 || IsKartNear() != 0) {
                 playerNo = 7;
             }
         }
     }
     if ((playingSound->mFlags & 0x20) && (playingSound->mFlags & 0x40)) {
-        g = GetKartVariant(kart->mIndex) + 0x2d;
-        NNS_SndArcPlayerStartSeqArcEx(&playingSound->mSeqPlayer, playerNo, g, playerPrio, seqArcNo, soundId);
+        value = GetKartVariant(kart->mIndex) + 0x2d;
+        NNS_SndArcPlayerStartSeqArcEx(&playingSound->mSeqPlayer, playerNo, value, playerPrio, seqArcNo, soundId);
         if (playingSound == NULL) {
             return;
         }
@@ -526,7 +526,7 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
 }
 
 void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
-    Vec3 *o;
+    Vec3 *vector;
     u32 volume;
     s32 pitchOffset;
     s16 depthPitch;
@@ -536,11 +536,11 @@ void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
     pitchOffset = 0;
     volume = playingSound->mVolume;
     if (kartArg->mUnk_44 == 0) {
-        o = (Vec3 *) &kartArg->mUnk_168.y;
+        vector = (Vec3 *) &kartArg->mUnk_168.y;
     } else {
-        o = (Vec3 *) &kartArg->mCourseContactNormal.z;
+        vector = (Vec3 *) &kartArg->mCourseContactNormal.z;
     }
-    pitchOffset += o->z;
+    pitchOffset += vector->z;
     heightAboveWater = GetHeightAboveWaterOrEfct(kartArg->mTurnedForward.y);
     if (heightAboveWater < 0) {
         depth = -heightAboveWater;

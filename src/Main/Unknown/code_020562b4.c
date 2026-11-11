@@ -6,29 +6,29 @@
 #pragma thumb on
 
 void CombineParticipantBits(void) {
-    u8 i;
-    u8 j;
+    u8 participantIndex;
+    u8 byteIndex;
     u8 value;
     u8 *bitsByte;
     PlayerRecord *entry;
 
     ClearParticipantBits();
-    for (i = 0; i < 8; i++) {
-        if ((gConnectionWork->mParticipantMask & (1 << i)) != 0) {
-            for (j = 0; j < 4; j++) {
-                entry = &gConnectionWork->mPlayerRecords[i];
-                bitsByte = &entry->mBits[j];
-                if (i == 0) {
-                    gBackupBuffers->mParticipantAndBits[j] = *bitsByte;
-                    gBackupBuffers->mParticipantOrBits[j] = *bitsByte;
+    for (participantIndex = 0; participantIndex < 8; participantIndex++) {
+        if ((gConnectionWork->mParticipantMask & (1 << participantIndex)) != 0) {
+            for (byteIndex = 0; byteIndex < 4; byteIndex++) {
+                entry = &gConnectionWork->mPlayerRecords[participantIndex];
+                bitsByte = &entry->mBits[byteIndex];
+                if (participantIndex == 0) {
+                    gBackupBuffers->mParticipantAndBits[byteIndex] = *bitsByte;
+                    gBackupBuffers->mParticipantOrBits[byteIndex] = *bitsByte;
                 } else {
-                    gBackupBuffers->mParticipantAndBits[j] &= *bitsByte;
-                    gBackupBuffers->mParticipantOrBits[j] |= *bitsByte;
+                    gBackupBuffers->mParticipantAndBits[byteIndex] &= *bitsByte;
+                    gBackupBuffers->mParticipantOrBits[byteIndex] |= *bitsByte;
                 }
             }
-            entry = &gConnectionWork->mPlayerRecords[i];
+            entry = &gConnectionWork->mPlayerRecords[participantIndex];
             value = GetKartAppearLimitFromBits(entry->mBits);
-            if (i == 0) {
+            if (participantIndex == 0) {
                 gBackupBuffers->mParticipantMaxValue = value;
                 gBackupBuffers->mParticipantMinValue = value;
             } else {
@@ -44,11 +44,11 @@ void CombineParticipantBits(void) {
 }
 
 void ClearParticipantBits(void) {
-    u8 i;
+    u8 byteIndex;
 
-    for (i = 0; i < 4; i++) {
-        gBackupBuffers->mParticipantAndBits[i] = 0;
-        gBackupBuffers->mParticipantOrBits[i] = 0;
+    for (byteIndex = 0; byteIndex < 4; byteIndex++) {
+        gBackupBuffers->mParticipantAndBits[byteIndex] = 0;
+        gBackupBuffers->mParticipantOrBits[byteIndex] = 0;
     }
     gBackupBuffers->mParticipantMaxValue = 0;
     gBackupBuffers->mParticipantMinValue = 0;

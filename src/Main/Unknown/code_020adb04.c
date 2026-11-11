@@ -18,7 +18,7 @@ void GetFontGlyphOfChar(NNSG2dGlyph *glyph, Unk02022aa8 *font, u32 code) {
 #pragma thumb on
 
 s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
-    s32 i;
+    s32 charIndex;
     s32 widthSum;
     s32 charWidth;
     NNSG2dGlyph glyph;
@@ -27,17 +27,17 @@ s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
     widthSum = 0;
     font = GetFontByIndex(0);
     FillHalfwords(destination, 0, 0x14);
-    for (i = 0; i < 10; i++) {
-        if (source[i] == 0) {
-            return i;
+    for (charIndex = 0; charIndex < 10; charIndex++) {
+        if (source[charIndex] == 0) {
+            return charIndex;
         }
-        GetFontGlyphOfChar(&glyph, font, source[i]);
+        GetFontGlyphOfChar(&glyph, font, source[charIndex]);
         charWidth = glyph.mPWidths->mCharWidth;
         if (widthSum + charWidth > 0x30) {
-            return i;
+            return charIndex;
         }
         widthSum += charWidth + 1;
-        destination[i] = source[i];
+        destination[charIndex] = source[charIndex];
     }
     return 10;
 }
@@ -130,11 +130,11 @@ BOOL AreOtherMissionRecordsFilled5To7(void) {
 }
 
 void InitTitleStateHandlers(void) {
-    s32 i;
+    s32 handlerIndex;
 
-    for (i = 0; i < 7; i++) {
-        gTitleScene->mStateHandlers[i].mWriteRegisters = gTitleStateHandlers[i].mWriteRegisters;
-        gTitleScene->mStateHandlers[i].mUpdate = gTitleStateHandlers[i].mUpdate;
+    for (handlerIndex = 0; handlerIndex < 7; handlerIndex++) {
+        gTitleScene->mStateHandlers[handlerIndex].mWriteRegisters = gTitleStateHandlers[handlerIndex].mWriteRegisters;
+        gTitleScene->mStateHandlers[handlerIndex].mUpdate = gTitleStateHandlers[handlerIndex].mUpdate;
     }
 }
 

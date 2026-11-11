@@ -22,7 +22,7 @@
 
 #pragma thumb on
 void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
-    s32 i;
+    s32 colorIndex;
     s32 color;
     gPaletteBlend = HeapAlloc(heap, 0x90);
     gPaletteBlend->mCycleFrames = 0;
@@ -30,17 +30,17 @@ void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
     gPaletteBlend->mPaletteIndex = paletteIndex;
     gPaletteBlend->mFirstBlend = TRUE;
     MI_CpuCopy8(nclr->mData + paletteIndex * 0x10, gPaletteBlend->mPalette, 0x20);
-    for (i = 0; i < 4; i++) {
-        color = gPaletteBlend->mFromColors[i];
-        gPaletteBlend->mBlendFrom[i].mBits0To4 = color & 0x1f;
-        gPaletteBlend->mBlendFrom[i].mBits5To9 = (color & 0x3e0) >> 5;
-        gPaletteBlend->mBlendFrom[i].mBits10To14 = (color & 0x7c00) >> 10;
+    for (colorIndex = 0; colorIndex < 4; colorIndex++) {
+        color = gPaletteBlend->mFromColors[colorIndex];
+        gPaletteBlend->mBlendFrom[colorIndex].mBits0To4 = color & 0x1f;
+        gPaletteBlend->mBlendFrom[colorIndex].mBits5To9 = (color & 0x3e0) >> 5;
+        gPaletteBlend->mBlendFrom[colorIndex].mBits10To14 = (color & 0x7c00) >> 10;
     }
-    for (i = 0; i < 4; i++) {
-        color = gPaletteBlend->mToColors[i];
-        gPaletteBlend->mBlendTo[i].mBits0To4 = color & 0x1f;
-        gPaletteBlend->mBlendTo[i].mBits5To9 = (color & 0x3e0) >> 5;
-        gPaletteBlend->mBlendTo[i].mBits10To14 = (color & 0x7c00) >> 10;
+    for (colorIndex = 0; colorIndex < 4; colorIndex++) {
+        color = gPaletteBlend->mToColors[colorIndex];
+        gPaletteBlend->mBlendTo[colorIndex].mBits0To4 = color & 0x1f;
+        gPaletteBlend->mBlendTo[colorIndex].mBits5To9 = (color & 0x3e0) >> 5;
+        gPaletteBlend->mBlendTo[colorIndex].mBits10To14 = (color & 0x7c00) >> 10;
     }
 }
 #pragma thumb off
@@ -53,21 +53,22 @@ void ClearPaletteBlendPointer(void) {
 
 #pragma thumb on
 void BlendPaletteColors(s32 weight) {
-    s32 i;
+    s32 colorIndex;
     PaletteBlend *paletteBlend;
-    for (i = 0; i < 4; i++) {
+    for (colorIndex = 0; colorIndex < 4; colorIndex++) {
         paletteBlend = gPaletteBlend;
-        (&paletteBlend->mPalette[1])[i] = ((((0x1000 - weight) * paletteBlend->mBlendFrom[i].mBits10To14 +
-                                             weight * paletteBlend->mBlendTo[i].mBits10To14) >>
-                                            12)
-                                           << 10) |
-                                          ((((0x1000 - weight) * paletteBlend->mBlendFrom[i].mBits0To4 +
-                                             weight * paletteBlend->mBlendTo[i].mBits0To4) >>
-                                            12) |
-                                           ((((0x1000 - weight) * paletteBlend->mBlendFrom[i].mBits5To9 +
-                                              weight * paletteBlend->mBlendTo[i].mBits5To9) >>
-                                             12)
-                                            << 5));
+        (&paletteBlend->mPalette[1])[colorIndex] =
+            ((((0x1000 - weight) * paletteBlend->mBlendFrom[colorIndex].mBits10To14 +
+               weight * paletteBlend->mBlendTo[colorIndex].mBits10To14) >>
+              12)
+             << 10) |
+            ((((0x1000 - weight) * paletteBlend->mBlendFrom[colorIndex].mBits0To4 +
+               weight * paletteBlend->mBlendTo[colorIndex].mBits0To4) >>
+              12) |
+             ((((0x1000 - weight) * paletteBlend->mBlendFrom[colorIndex].mBits5To9 +
+                weight * paletteBlend->mBlendTo[colorIndex].mBits5To9) >>
+               12)
+              << 5));
     }
     if (gPaletteBlend->mFirstBlend == FALSE) {
         NNS_GfdRegisterNewVramTransferTask(0x1e, gPaletteBlend->mPaletteIndex << 5, gPaletteBlend->mPalette, 0x20);
@@ -109,7 +110,7 @@ void StartPaletteBlend(void) {
 #pragma thumb off
 
 void InitStaffRollText(void *heap) {
-    s32 i;
+    s32 screenEntryIndex;
     s32 charSpacing;
     Nclr *nclr;
     StaffRollText *staffRollText;
@@ -131,8 +132,8 @@ void InitStaffRollText(void *heap) {
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x1000;
     MemFillWordsByBlock_inline((void *) G2S_GetBG0CharPtr(), 0x8000);
-    for (i = 0; i < 0x400; i++) {
-        ((u16 *) G2S_GetBG0ScrPtr())[i] = i | 0xf000;
+    for (screenEntryIndex = 0; screenEntryIndex < 0x400; screenEntryIndex++) {
+        ((u16 *) G2S_GetBG0ScrPtr())[screenEntryIndex] = screenEntryIndex | 0xf000;
     }
     LoadNclrData(&nclr, FindSceneFile(gEndingStaffRollB00NclrName));
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0x1e0, nclr->mData + 0xf0, 0x20);
@@ -155,7 +156,7 @@ void ClearStaffRollTextPointer(void) {
 
 void AdvanceStaffRollTextState1(void) {
     s32 tagSize;
-    s32 c;
+    s32 value;
     s32 charCount;
     u8 *textPosition;
     StaffRollText *staffRollText;
@@ -194,10 +195,10 @@ void AdvanceStaffRollTextState1(void) {
         tag = (StaffRollTag *) textPosition;
         character = tag->mCharacter;
         if (character == 0x1a) {
-            c = tag->mKind;
+            value = tag->mKind;
             tagSize = tag->mSize;
             variant = tag->mVariant;
-            if (c == 1) {
+            if (value == 1) {
                 argument = 0;
                 if (variant != 0x63) {
                     argument = tag->mArgument;
@@ -253,12 +254,12 @@ void AdvanceStaffRollTextState1(void) {
     } while (lineDone == FALSE);
     MI_CpuFill8(gStaffRollText->mCharBuffer, 0, 0x800);
     color = gStaffRollText->mTextColor;
-    c = 0;
+    value = 0;
     if (color == 3) {
-        c = 2;
+        value = 2;
     }
-    NNSi_G2dTextCanvasDrawTextRect(&gStaffRollText->mTextCanvas, 8, c, 0xf0, 0x10, color, gStaffRollText->mAlignFlags,
-                                   lineText);
+    NNSi_G2dTextCanvasDrawTextRect(&gStaffRollText->mTextCanvas, 8, value, 0xf0, 0x10, color,
+                                   gStaffRollText->mAlignFlags, lineText);
     staffRollText = gStaffRollText;
     bgPositionY = (((staffRollText->mScrollYFixed >> 12) % 256) + 0xc0) >> 3;
     bgPositionY = bgPositionY << 3;

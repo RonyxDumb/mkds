@@ -86,79 +86,79 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
 void ProcessBlock(DGTHash1Context *ctx) {
     const u32 *word;
     const u32 *order;
-    s32 i;
-    u32 a;
-    u32 b;
-    u32 c;
-    u32 d;
+    s32 roundIndex;
+    u32 hashA;
+    u32 hashB;
+    u32 hashC;
+    u32 hashD;
     u32 sum;
     u32 *block;
     const u32 *constant;
 
     block = (u32 *) ctx->mBuffer8;
-    a = ctx->mState[0];
-    b = ctx->mState[1];
-    c = ctx->mState[2];
-    d = ctx->mState[3];
+    hashA = ctx->mState[0];
+    hashB = ctx->mState[1];
+    hashC = ctx->mState[2];
+    hashD = ctx->mState[3];
     constant = data_0216f16c;
-    for (i = 0, word = block; i < 4; i++) {
+    for (roundIndex = 0, word = block; roundIndex < 4; roundIndex++) {
         sum = *constant++;
-        sum += *word++ + (a + ((b & c) | (~b & d)));
-        a = b + ((sum << 7) | (sum >> 25));
+        sum += *word++ + (hashA + ((hashB & hashC) | (~hashB & hashD)));
+        hashA = hashB + ((sum << 7) | (sum >> 25));
         sum = *constant++;
-        sum += *word++ + (d + ((a & b) | (~a & c)));
-        d = a + ((sum << 12) | (sum >> 20));
+        sum += *word++ + (hashD + ((hashA & hashB) | (~hashA & hashC)));
+        hashD = hashA + ((sum << 12) | (sum >> 20));
         sum = *constant++;
-        sum += *word++ + (c + ((d & a) | (~d & b)));
-        c = d + ((sum << 17) | (sum >> 15));
+        sum += *word++ + (hashC + ((hashD & hashA) | (~hashD & hashB)));
+        hashC = hashD + ((sum << 17) | (sum >> 15));
         sum = *constant++;
-        sum += *word++ + (b + ((c & d) | (~c & a)));
-        b = c + ((sum << 22) | (sum >> 10));
+        sum += *word++ + (hashB + ((hashC & hashD) | (~hashC & hashA)));
+        hashB = hashC + ((sum << 22) | (sum >> 10));
     }
-    for (i = 0, order = data_0216f0ac; i < 4; i++) {
+    for (roundIndex = 0, order = data_0216f0ac; roundIndex < 4; roundIndex++) {
         sum = *constant++;
-        sum += block[*order++] + (a + ((b & d) | (c & ~d)));
-        a = b + ((sum << 5) | (sum >> 27));
+        sum += block[*order++] + (hashA + ((hashB & hashD) | (hashC & ~hashD)));
+        hashA = hashB + ((sum << 5) | (sum >> 27));
         sum = *constant++;
-        sum += block[*order++] + (d + ((a & c) | (b & ~c)));
-        d = a + ((sum << 9) | (sum >> 23));
+        sum += block[*order++] + (hashD + ((hashA & hashC) | (hashB & ~hashC)));
+        hashD = hashA + ((sum << 9) | (sum >> 23));
         sum = *constant++;
-        sum += block[*order++] + (c + ((d & b) | (a & ~b)));
-        c = d + ((sum << 14) | (sum >> 18));
+        sum += block[*order++] + (hashC + ((hashD & hashB) | (hashA & ~hashB)));
+        hashC = hashD + ((sum << 14) | (sum >> 18));
         sum = *constant++;
-        sum += block[*order++] + (b + ((c & a) | (d & ~a)));
-        b = c + ((sum << 20) | (sum >> 12));
+        sum += block[*order++] + (hashB + ((hashC & hashA) | (hashD & ~hashA)));
+        hashB = hashC + ((sum << 20) | (sum >> 12));
     }
-    for (i = 0; i < 4; i++) {
+    for (roundIndex = 0; roundIndex < 4; roundIndex++) {
         sum = *constant++;
-        sum += block[*order++] + (a + (b ^ c ^ d));
-        a = b + ((sum << 4) | (sum >> 28));
+        sum += block[*order++] + (hashA + (hashB ^ hashC ^ hashD));
+        hashA = hashB + ((sum << 4) | (sum >> 28));
         sum = *constant++;
-        sum += block[*order++] + (d + (a ^ b ^ c));
-        d = a + ((sum << 11) | (sum >> 21));
+        sum += block[*order++] + (hashD + (hashA ^ hashB ^ hashC));
+        hashD = hashA + ((sum << 11) | (sum >> 21));
         sum = *constant++;
-        sum += block[*order++] + (c + (d ^ a ^ b));
-        c = d + ((sum << 16) | (sum >> 16));
+        sum += block[*order++] + (hashC + (hashD ^ hashA ^ hashB));
+        hashC = hashD + ((sum << 16) | (sum >> 16));
         sum = *constant++;
-        sum += block[*order++] + (b + (c ^ d ^ a));
-        b = c + ((sum << 23) | (sum >> 9));
+        sum += block[*order++] + (hashB + (hashC ^ hashD ^ hashA));
+        hashB = hashC + ((sum << 23) | (sum >> 9));
     }
-    for (i = 0; i < 4; i++) {
+    for (roundIndex = 0; roundIndex < 4; roundIndex++) {
         sum = *constant++;
-        sum += block[*order++] + (a + (c ^ (b | ~d)));
-        a = b + ((sum << 6) | (sum >> 26));
+        sum += block[*order++] + (hashA + (hashC ^ (hashB | ~hashD)));
+        hashA = hashB + ((sum << 6) | (sum >> 26));
         sum = *constant++;
-        sum += block[*order++] + (d + (b ^ (a | ~c)));
-        d = a + ((sum << 10) | (sum >> 22));
+        sum += block[*order++] + (hashD + (hashB ^ (hashA | ~hashC)));
+        hashD = hashA + ((sum << 10) | (sum >> 22));
         sum = *constant++;
-        sum += block[*order++] + (c + (a ^ (d | ~b)));
-        c = d + ((sum << 15) | (sum >> 17));
+        sum += block[*order++] + (hashC + (hashA ^ (hashD | ~hashB)));
+        hashC = hashD + ((sum << 15) | (sum >> 17));
         sum = *constant++;
-        sum += block[*order++] + (b + (d ^ (c | ~a)));
-        b = c + ((sum << 21) | (sum >> 11));
+        sum += block[*order++] + (hashB + (hashD ^ (hashC | ~hashA)));
+        hashB = hashC + ((sum << 21) | (sum >> 11));
     }
-    ctx->mState[0] += a;
-    ctx->mState[1] += b;
-    ctx->mState[2] += c;
-    ctx->mState[3] += d;
+    ctx->mState[0] += hashA;
+    ctx->mState[1] += hashB;
+    ctx->mState[2] += hashC;
+    ctx->mState[3] += hashD;
 }

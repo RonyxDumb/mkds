@@ -130,11 +130,11 @@ void SetupRaceDisplay(void *heap) {
 }
 
 void InitRaceScene(void) {
-    void *p;
+    void *heap;
     s32 mirrorMode;
     WiFiSession *session;
     BOOL sessionHeapCreated;
-    p = GetHeap(GetCurrentHeapCall());
+    heap = GetHeap(GetCurrentHeapCall());
     CreateOverlayExpHeap();
     if (gRaceSetup->mRaceKind == RACE_KIND_START_GP || gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
         StopWvrAndWait();
@@ -144,8 +144,8 @@ void InitRaceScene(void) {
     }
     Init3dEngine();
     SetHeapGroupId(7);
-    InitDispCap(p);
-    SetupRaceDisplay(p);
+    InitDispCap(heap);
+    SetupRaceDisplay(heap);
     ResetInputSlotsFromRaceSetup();
     SetHeapGroupId(9);
     InitRace();
@@ -174,11 +174,11 @@ void InitRaceScene(void) {
                 }
             }
             if (sessionHeapCreated != FALSE) {
-                StateMachine *p;
+                StateMachine *stateMachine;
                 session->mRaceSyncEnabled = TRUE;
-                p = &gWiFiSession->mStateMachine;
-                p->mNextState = 5;
-                p->mNextStateRequested = 1;
+                stateMachine = &gWiFiSession->mStateMachine;
+                stateMachine->mNextState = 5;
+                stateMachine->mNextStateRequested = 1;
             }
         }
     } else {
@@ -306,22 +306,22 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
             break;
         case 9:
             if (gRaceSetup->mMode != MODE_WIFI) {
-                u32 t;
-                u32 f;
+                u32 connectionMode;
+                u32 connectionActive;
                 ConnectionWork *connectionWork;
-                f = 0;
+                connectionActive = 0;
                 connectionWork = gConnectionWork;
                 if (connectionWork == NULL) {
-                    t = 0;
+                    connectionMode = 0;
                 } else {
-                    t = connectionWork->mConnectionMode;
+                    connectionMode = connectionWork->mConnectionMode;
                 }
-                if (t != 0) {
+                if (connectionMode != 0) {
                     if (connectionWork->mState != 0xd) {
-                        f = 1;
+                        connectionActive = 1;
                     }
                 }
-                if (f != 0) {
+                if (connectionActive != 0) {
                     if (gStartupWork->mMultiSimple != 0) {
                         nextScene = 6;
                         gMenuShared->mWLMenuKind = 3;

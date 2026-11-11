@@ -284,12 +284,12 @@ void StartKartRaceEnd(Kart *kart) {
     RaceSetup *raceSetup;
     CourseMap *courseMap;
     KartEntryPlayer *player;
-    u32 c;
-    s32 d;
-    u16 i;
+    u32 value;
+    s32 soundOffset;
+    u16 index;
     s32 framesSinceEntryEnd;
     KartItemEffectState *effectState;
-    u32 g;
+    u32 flag;
 
     if ((kart->mUnk_7c & 0x1000) != 0) {
         return;
@@ -299,25 +299,25 @@ void StartKartRaceEnd(Kart *kart) {
         courseMap = gCourseMap;
         if ((courseMap->mRaceRouteCount != 0 || courseMap->mBattleRouteCount != 0) && IsKartEnded(kart->mIndex) != 0) {
             raceSetup = gRaceSetup;
-            i = kart->mIndex;
-            player = &raceSetup->mCurrentEntries[i].mPlayer;
-            c = 0;
+            index = kart->mIndex;
+            player = &raceSetup->mCurrentEntries[index].mPlayer;
+            value = 0;
             if (player->mKind <= 3 && ((1 << player->mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
-                c = 1;
+                value = 1;
             }
-            if (c != 0) {
-                c = kart->mUnk_7c;
-                if ((c & 6) == 0 && (c & 8) == 0) {
+            if (value != 0) {
+                value = kart->mUnk_7c;
+                if ((value & 6) == 0 && (value & 8) == 0) {
                     data_02175664[kart->mEntryIndex].mSourceKind = 3;
                     if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                         CallKartAiSetup(kart->mAi, kart->mIndex);
                         kart->mUnk_7c = kart->mUnk_7c | 2;
                         if ((kart->mUnk_7c & 2) != 0) {
-                            for (i = 0; i < 12; i++) {
-                                if (i != 0) {
-                                    kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[i] << 2;
-                                    if (kart->mPhysicalParam->mUnk_38[i] > kart->mPhysicalParam->mUnk_38[0]) {
-                                        kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[0];
+                            for (index = 0; index < 12; index++) {
+                                if (index != 0) {
+                                    kart->mPhysicalParam->mUnk_38[index] = kart->mPhysicalParam->mUnk_38[index] << 2;
+                                    if (kart->mPhysicalParam->mUnk_38[index] > kart->mPhysicalParam->mUnk_38[0]) {
+                                        kart->mPhysicalParam->mUnk_38[index] = kart->mPhysicalParam->mUnk_38[0];
                                     }
                                 }
                             }
@@ -367,7 +367,7 @@ void StartKartRaceEnd(Kart *kart) {
         if (raceSetup->mMode != MODE_GRAND_PRIX && raceSetup->mMode != MODE_TIME_ATTACK &&
             ((raceSetup->mRuleKind == 1 &&
               gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) ||
-             ((i = raceSetup->mKartCount) > 1 && (c = GetKartRank(kart->mIndex), c == i)))) {
+             ((index = raceSetup->mKartCount) > 1 && (value = GetKartRank(kart->mIndex), value == index)))) {
             DisableEntryCameraUpdate();
         } else {
             StartEntryCameraKind6Entry();
@@ -386,34 +386,34 @@ void StartKartRaceEnd(Kart *kart) {
     if (raceSetup->mMode == MODE_BATTLE) {
         return;
     }
-    g = 1;
+    flag = 1;
     if (gSoundModeHolder.mMode != 2 && gSoundModeHolder.mMode != 3) {
-        g = 0;
+        flag = 0;
     }
-    if (g == 0) {
+    if (flag == 0) {
         return;
     }
     if (kart->mIndex == raceSetup->mEntryIndex) {
-        c = GetRaceEndResultKind();
-        switch (c) {
+        value = GetRaceEndResultKind();
+        switch (value) {
             case 0:
-                d = 9;
+                soundOffset = 9;
                 break;
             case 1:
-                d = 0xa;
+                soundOffset = 0xa;
                 break;
             case 2:
-                d = 0xb;
+                soundOffset = 0xb;
                 break;
         }
-        StartKartSeqArcSoundWithVolume(kart->mSoundIndex, d, 0x6e, 7, -1);
+        StartKartSeqArcSoundWithVolume(kart->mSoundIndex, soundOffset, 0x6e, 7, -1);
         return;
     }
-    d = GetKartSeqArcSoundOffsetByRank(GetKartRank(kart->mIndex));
+    soundOffset = GetKartSeqArcSoundOffsetByRank(GetKartRank(kart->mIndex));
     if ((kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) != 0) {
         return;
     }
-    StartKartSeqArcSound(kart, kart->mSoundIndex, d);
+    StartKartSeqArcSound(kart, kart->mSoundIndex, soundOffset);
 }
 
 void AdvanceKartWobble(Kart *kart) {

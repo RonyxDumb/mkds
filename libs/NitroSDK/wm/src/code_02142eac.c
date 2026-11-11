@@ -712,7 +712,7 @@ s32 WM_GetMPReceiveBufferSize(void) {
 void *WM_ReadMPData(const Unk021432ac *header, u16 aid) {
     WMArm9Buf *work;
     u32 records[16];
-    s32 i;
+    s32 recordIndex;
 
     work = WMi_GetSystemWork();
     if (WMi_CheckInitialized() != 0) {
@@ -729,14 +729,14 @@ void *WM_ReadMPData(const Unk021432ac *header, u16 aid) {
         return 0;
     }
     records[0] = (u32) header->mUnk_0a;
-    i = 0;
+    recordIndex = 0;
     do {
-        if (aid == *(u16 *) (records[i] + 4)) {
-            return (void *) records[i];
+        if (aid == *(u16 *) (records[recordIndex] + 4)) {
+            return (void *) records[recordIndex];
         }
-        i++;
-        records[i] = header->mUnk_06 + records[i - 1];
-    } while (i < header->mUnk_04);
+        recordIndex++;
+        records[recordIndex] = header->mUnk_06 + records[recordIndex - 1];
+    } while (recordIndex < header->mUnk_04);
     return 0;
 }
 
@@ -775,12 +775,12 @@ u16 WM_GetLinkLevel(void) {
 // Returns a beacon period from 200 that depends on the MAC address and the system work value at 0x027ffc3c.
 u16 WM_GetDispersionBeaconPeriod(void) {
     u8 address[6];
-    s32 i;
+    s32 index;
     u16 sum;
 
     OS_GetMacAddress(address);
-    for (i = 0, sum = 0; i < 6; i++) {
-        sum = sum + address[i];
+    for (index = 0, sum = 0; index < 6; index++) {
+        sum = sum + address[index];
     }
     sum = sum + SYSTEM_WORK->mVblankCount;
     sum = sum * 7;
@@ -790,12 +790,12 @@ u16 WM_GetDispersionBeaconPeriod(void) {
 // Returns a scan period from 30 that depends on the MAC address and the system work value at 0x027ffc3c.
 u16 WM_GetDispersionScanPeriod(void) {
     u8 address[6];
-    s32 i;
+    s32 index;
     u16 sum;
 
     OS_GetMacAddress(address);
-    for (i = 0, sum = 0; i < 6; i++) {
-        sum = sum + address[i];
+    for (index = 0, sum = 0; index < 6; index++) {
+        sum = sum + address[index];
     }
     sum = sum + SYSTEM_WORK->mVblankCount;
     sum = sum * 13;
@@ -806,7 +806,7 @@ u16 WM_GetDispersionScanPeriod(void) {
 WMOtherElements WM_GetOtherElements(const u16 *bssDesc) {
     WMOtherElements elements;
     const u8 *body;
-    s32 i;
+    s32 elementIndex;
     u8 bodyLength;
     u8 total;
     u8 size;
@@ -825,11 +825,11 @@ WMOtherElements WM_GetOtherElements(const u16 *bssDesc) {
     body = (const u8 *) bssDesc + 0x40;
     bodyLength = bssDesc[0] * 2 - 0x40;
     total = 0;
-    for (i = 0; i < elements.mUnk_00; i++) {
-        elements.mUnk_04[i].mUnk_00 = body[0];
-        elements.mUnk_04[i].mUnk_01 = body[1];
-        elements.mUnk_04[i].mUnk_04 = body + 2;
-        size = elements.mUnk_04[i].mUnk_01 + 2;
+    for (elementIndex = 0; elementIndex < elements.mUnk_00; elementIndex++) {
+        elements.mUnk_04[elementIndex].mUnk_00 = body[0];
+        elements.mUnk_04[elementIndex].mUnk_01 = body[1];
+        elements.mUnk_04[elementIndex].mUnk_04 = body + 2;
+        size = elements.mUnk_04[elementIndex].mUnk_01 + 2;
         total = total + size;
         if (total > bodyLength) {
             elements.mUnk_00 = 0;

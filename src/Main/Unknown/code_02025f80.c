@@ -123,12 +123,13 @@ u32 IsSelectCharacterModeAndTimerZero(void) {
 
 void SetSelectCharacterAngleAndScale(void) {
     CellFileSet *sParts = &gSelectCharacter->mSParts;
-    s32 i;
+    s32 cellIndex;
     s32 elementCount;
     if (gBootInfo->mUnk_00 != 2) {
         elementCount = sParts->mCellLayout->mCount;
-        for (i = 0; i < elementCount; i++) {
-            SetLayoutEntryAngleAndScale(&sParts->mCellTable[i], gSelectCharacter->mAngle, gSelectCharacter->mScale);
+        for (cellIndex = 0; cellIndex < elementCount; cellIndex++) {
+            SetLayoutEntryAngleAndScale(&sParts->mCellTable[cellIndex], gSelectCharacter->mAngle,
+                                        gSelectCharacter->mScale);
         }
     }
 }
@@ -142,12 +143,12 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     SelectCharacter *selectCharacter;
     CellFileSet *sParts;
     Unk021534bc *positions;
-    s32 i;
+    s32 rowIndex;
     s32 tableIndex;
     s32 modeValue;
-    BOOL f;
+    BOOL usePlayerEntryList;
     CellFileSet titleParts;
-    CellFileSet w;
+    CellFileSet cellFileSet;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gSelectCharacter = HeapAlloc(heap, 0x12c);
@@ -181,11 +182,11 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     gSelectCharacter->mMainOam = mainOam;
     gSelectCharacter->mSubOam = subOam;
     if (gSelectCharacter->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
-        f = TRUE;
+        usePlayerEntryList = TRUE;
     } else {
-        f = FALSE;
+        usePlayerEntryList = FALSE;
     }
-    gSelectCharacter->mUsePlayerEntryList = f;
+    gSelectCharacter->mUsePlayerEntryList = usePlayerEntryList;
     if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
         switch (gSelectCharacter->mMode) {
             case 0:
@@ -240,17 +241,17 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
                           gSelectCharacterSBnclName, NULL, gSelectCharacterSBnblName, FindFileInLoadedArchives);
         SetupCellFileSet(1, gSelectCharacter->mHeap, sParts);
         sParts->mCellTable[24].mVisible = 0;
-        for (i = 0; i < 12; i++) {
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mUseMatrix = 1;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mUseMatrix =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mUseMatrix;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_00].mUseMatrix =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mUseMatrix;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mDoubleAffine = 0;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mDoubleAffine =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mDoubleAffine;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_00].mDoubleAffine =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mDoubleAffine;
+        for (rowIndex = 0; rowIndex < 12; rowIndex++) {
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mUseMatrix = 1;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mUseMatrix =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mUseMatrix;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mUseMatrix =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mUseMatrix;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mDoubleAffine = 0;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mDoubleAffine =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mDoubleAffine;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mDoubleAffine =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mDoubleAffine;
         }
         sParts->mCellTable[25].mUseMatrix = 1;
         sParts->mCellTable[24].mUseMatrix = sParts->mCellTable[25].mUseMatrix;
@@ -261,31 +262,31 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         SlideInSelectRaceRuleWait();
     }
     gSelectCharacter->mTableRowCount = 8;
-    for (i = 0; i < 8; i++) {
-        gSelectCharacter->mRows[i] = data_021535b4[i];
+    for (rowIndex = 0; rowIndex < 8; rowIndex++) {
+        gSelectCharacter->mRows[rowIndex] = data_021535b4[rowIndex];
     }
     if (IsBackupFlagSet(0x15) != 0) {
-        gSelectCharacter->mRows[i] = data_021535b4[8];
-        i++;
+        gSelectCharacter->mRows[rowIndex] = data_021535b4[8];
+        rowIndex++;
         gSelectCharacter->mTableRowCount++;
     }
     if (IsBackupFlagSet(0x14) != 0) {
-        gSelectCharacter->mRows[i] = data_021535b4[9];
-        i++;
+        gSelectCharacter->mRows[rowIndex] = data_021535b4[9];
+        rowIndex++;
         gSelectCharacter->mTableRowCount++;
     }
     if (IsBackupFlagSet(0x16) != 0) {
-        gSelectCharacter->mRows[i] = data_021535b4[10];
-        i++;
+        gSelectCharacter->mRows[rowIndex] = data_021535b4[10];
+        rowIndex++;
         gSelectCharacter->mTableRowCount++;
     }
     if (IsBackupFlagSet(0x17) != 0) {
-        gSelectCharacter->mRows[i] = data_021535b4[11];
-        i++;
+        gSelectCharacter->mRows[rowIndex] = data_021535b4[11];
+        rowIndex++;
         gSelectCharacter->mTableRowCount++;
     }
-    for (; i < 12; i++) {
-        gSelectCharacter->mRows[i].mCharacterIndex = -1;
+    for (; rowIndex < 12; rowIndex++) {
+        gSelectCharacter->mRows[rowIndex].mCharacterIndex = -1;
     }
     for (tableIndex = 0; tableIndex < gSelectCharacter->mTableRowCount; tableIndex++) {
         if (gSelectCharacter->mRows[tableIndex].mCharacterIndex ==
@@ -305,11 +306,12 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 0;
     if (gBootInfo->mUnk_00 != 2) {
         sParts = &gSelectCharacter->mSParts;
-        SetPlayerCharacterCellFileSet(0, &w);
-        for (i = 0; i < gSelectCharacter->mTableRowCount; i++) {
-            QueueCellCharsAndCopyPalettes(gSelectCharacter->mRows[i].mCharacterIndex, w.mCells, w.mChars, w.mPalette,
-                                          w.mCellLayout, 1, gSelectCharacterRowCellIndices[i].mCharacterCellIndex,
-                                          sParts->mCells, sParts->mCellLayout);
+        SetPlayerCharacterCellFileSet(0, &cellFileSet);
+        for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
+            QueueCellCharsAndCopyPalettes(gSelectCharacter->mRows[rowIndex].mCharacterIndex, cellFileSet.mCells,
+                                          cellFileSet.mChars, cellFileSet.mPalette, cellFileSet.mCellLayout, 1,
+                                          gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex, sParts->mCells,
+                                          sParts->mCellLayout);
         }
     }
     if (gBootInfo->mUnk_00 != 2) {
@@ -337,21 +339,23 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
                 break;
         }
         if (positions != NULL) {
-            for (i = 0; i < gSelectCharacter->mTableRowCount; i++) {
-                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[i].mUnk_00, positions[i].mUnk_00,
-                                     positions[i].mUnk_02, sParts->mCellLayout);
-                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[i].mCharacterCellIndex, positions[i].mUnk_00,
-                                     positions[i].mUnk_02, sParts->mCellLayout);
-                RectTableSetEntryXY(gSelectCharacterRowCellIndices[i].mRectEntryId, positions[i].mUnk_00,
-                                    positions[i].mUnk_02, sParts->mRects);
-                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[i].mUnk_04, (s16) (positions[i].mUnk_00 + 3),
-                                     (s16) (positions[i].mUnk_02 + 3), sParts->mCellLayout);
+            for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
+                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mUnk_00, positions[rowIndex].mUnk_00,
+                                     positions[rowIndex].mUnk_02, sParts->mCellLayout);
+                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex,
+                                     positions[rowIndex].mUnk_00, positions[rowIndex].mUnk_02, sParts->mCellLayout);
+                RectTableSetEntryXY(gSelectCharacterRowCellIndices[rowIndex].mRectEntryId, positions[rowIndex].mUnk_00,
+                                    positions[rowIndex].mUnk_02, sParts->mRects);
+                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mUnk_04,
+                                     (s16) (positions[rowIndex].mUnk_00 + 3), (s16) (positions[rowIndex].mUnk_02 + 3),
+                                     sParts->mCellLayout);
             }
-            for (; i < 12; i++) {
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_00].mVisible = 0;
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mCharacterCellIndex].mVisible = 0;
-                sParts->mCellTable[gSelectCharacterRowCellIndices[i].mUnk_04].mVisible = 0;
-                RectTableSetEntryXY(gSelectCharacterRowCellIndices[i].mRectEntryId, 0x400, 0x400, sParts->mRects);
+            for (; rowIndex < 12; rowIndex++) {
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mVisible = 0;
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible = 0;
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible = 0;
+                RectTableSetEntryXY(gSelectCharacterRowCellIndices[rowIndex].mRectEntryId, 0x400, 0x400,
+                                    sParts->mRects);
             }
         }
         MoveSelectCharacterBracketsToRow();

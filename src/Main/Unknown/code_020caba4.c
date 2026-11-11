@@ -29,28 +29,28 @@ s32 MoveEmblemChoisesIndexByTouch(void) {
     BOOL touched;
     s32 choisesCount;
     BOOL zeroStep;
-    s32 i;
-    s32 j;
+    s32 rectIndex;
+    s32 choiceIndex;
     PairRect choiceRects[6];
 
     touched = FALSE;
     if (gEmblemChoises->mShown != 0) {
         MoveEmblemChoisesIndex(touched);
         choisesCount = gEmblemChoises->mChoisesCount;
-        for (i = 0; i < choisesCount; i++) {
+        for (rectIndex = 0; rectIndex < choisesCount; rectIndex++) {
             s32 minY;
 
-            minY = (12 - choisesCount * 2 + i * 4) * 8 + 6;
-            choiceRects[i].mMinX = 8;
-            choiceRects[i].mMaxX = 0xf8;
-            choiceRects[i].mMinY = minY;
-            choiceRects[i].mMaxY = minY + 0x16;
+            minY = (12 - choisesCount * 2 + rectIndex * 4) * 8 + 6;
+            choiceRects[rectIndex].mMinX = 8;
+            choiceRects[rectIndex].mMaxX = 0xf8;
+            choiceRects[rectIndex].mMinY = minY;
+            choiceRects[rectIndex].mMaxY = minY + 0x16;
         }
         zeroStep = FALSE;
-        for (j = 0; j < choisesCount; j++) {
-            if (IsNewPairInRect(GetEmblemChoisesInputSlot(), choiceRects[j])) {
-                if (gEmblemChoises->mChoisesIndex != j) {
-                    gEmblemChoises->mChoisesIndex = j;
+        for (choiceIndex = 0; choiceIndex < choisesCount; choiceIndex++) {
+            if (IsNewPairInRect(GetEmblemChoisesInputSlot(), choiceRects[choiceIndex])) {
+                if (gEmblemChoises->mChoisesIndex != choiceIndex) {
+                    gEmblemChoises->mChoisesIndex = choiceIndex;
                     MoveEmblemChoisesIndex(zeroStep);
                 } else {
                     gEmblemChoises->mPickStartedOnSelected = TRUE;
@@ -90,13 +90,13 @@ void WriteEmblemChoisesChoiceTiles(u16 *mapData, s32 column, s32 row) {
 void WriteEmblemChoisesTiles(void) {
     s32 choisesCount;
     u16 *mapData;
-    s32 i;
+    s32 choiceIndex;
 
     choisesCount = gEmblemChoises->mChoisesCount;
     mapData = gEmblemChoises->mChoisesS3Nscr->mData;
     if (mapData != NULL) {
-        for (i = 0; i < choisesCount; i++) {
-            WriteEmblemChoisesChoiceTiles(mapData, 2, 13 - choisesCount * 2 + i * 4);
+        for (choiceIndex = 0; choiceIndex < choisesCount; choiceIndex++) {
+            WriteEmblemChoisesChoiceTiles(mapData, 2, 13 - choisesCount * 2 + choiceIndex * 4);
         }
         SetScreenMapBlockTopBits(mapData, 0, 0, 0x20, 0x18, 0xf);
     }

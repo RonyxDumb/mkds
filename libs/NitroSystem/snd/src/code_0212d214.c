@@ -33,7 +33,7 @@ Unk02021968 data_0217dec8;
 BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
     s32 playerNo;
     NNSSndArcPlayerInfo *playerInfo;
-    s32 i;
+    s32 seqIndex;
 
     NNS_SndArcGetCurrent();
     for (playerNo = 0; playerNo < 32; playerNo++) {
@@ -46,7 +46,7 @@ BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
         if (playerInfo->mHeapSize == 0 || heap == 0) {
             continue;
         }
-        for (i = 0; i < playerInfo->mSeqMax; i++) {
+        for (seqIndex = 0; seqIndex < playerInfo->mSeqMax; seqIndex++) {
             if (NNS_SndPlayerCreateHeap(playerNo, heap, playerInfo->mHeapSize) == 0) {
                 return 0;
             }
@@ -191,7 +191,7 @@ BOOL NNS_SndArcLoadBankEx(s32 bankNo, u32 loadFlag, NNSSndHeap *heap) {
 
 NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
     NNSSndArcGroupInfo *info;
-    u32 i;
+    u32 itemIndex;
     NNSSndArcGroupItem *item;
     NNSSndArcLoadResult result;
 
@@ -199,8 +199,8 @@ NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
     if (info == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_GROUP_NO;
     }
-    for (i = 0; i < info->mCount; i++) {
-        item = &info->mItem[i];
+    for (itemIndex = 0; itemIndex < info->mCount; itemIndex++) {
+        item = &info->mItem[itemIndex];
         switch (item->mType) {
             case 0:
                 result = NNSi_SndArcLoadSeq(item->mIndex, item->mLoadFlag, heap, 1, 0);
@@ -288,7 +288,7 @@ NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *he
     NNSSndArcWaveArcInfo *waveArcInfo;
     Unk02021968 *waveArc;
     Unk02021968 *bank;
-    s32 i;
+    s32 waveArcIndex;
     u32 loadWave;
     NNSSndArcLoadResult result;
 
@@ -305,23 +305,23 @@ NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *he
         bank = NNS_SndArcGetFileAddress(bankInfo->mFileId);
     }
     loadWave = loadFlag & 4;
-    for (i = 0; i < 4; i++) {
-        if (bankInfo->mWaveArcNo[i] != 0xffff) {
-            waveArcInfo = NNS_SndArcGetWaveArcInfo(bankInfo->mWaveArcNo[i]);
+    for (waveArcIndex = 0; waveArcIndex < 4; waveArcIndex++) {
+        if (bankInfo->mWaveArcNo[waveArcIndex] != 0xffff) {
+            waveArcInfo = NNS_SndArcGetWaveArcInfo(bankInfo->mWaveArcNo[waveArcIndex]);
             if (waveArcInfo == 0) {
                 return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
             }
-            result = NNSi_SndArcLoadWaveArc(bankInfo->mWaveArcNo[i], loadFlag, heap, bSetAddr, &waveArc);
+            result = NNSi_SndArcLoadWaveArc(bankInfo->mWaveArcNo[waveArcIndex], loadFlag, heap, bSetAddr, &waveArc);
             if (result != NNS_SND_ARC_LOAD_SUCESS) {
                 return result;
             }
             if ((waveArcInfo->mFlags & 1) && loadWave) {
-                if (LoadSingleWaves(waveArc, bank, i, waveArcInfo->mFileId, heap) == 0) {
+                if (LoadSingleWaves(waveArc, bank, waveArcIndex, waveArcInfo->mFileId, heap) == 0) {
                     return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE;
                 }
             }
             if (bank != 0 && waveArc != 0) {
-                SND_AssignWaveArc(bank, i, waveArc);
+                SND_AssignWaveArc(bank, waveArcIndex, waveArc);
             }
         }
     }
@@ -791,15 +791,15 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
 
 // Points the blocks and files into an archive already in memory.
 void NNS_SndArcInitOnMemory(NNSSndArc *arc, void *data) {
-    u32 i;
+    u32 fileIndex;
 
     MIi_CpuCopy32(data, &arc->mHeader, 0x30);
     arc->mInfo = arc->mHeader.mInfoOffset == 0 ? 0 : OFFSET_PTR(NNSSndArcInfo, data, arc->mHeader.mInfoOffset);
     arc->mFat = arc->mHeader.mFatOffset == 0 ? 0 : OFFSET_PTR(NNSSndArcFat, data, arc->mHeader.mFatOffset);
     arc->mSymbol =
         arc->mHeader.mSymbolDataOffset == 0 ? 0 : OFFSET_PTR(NNSSndArcSymbol, data, arc->mHeader.mSymbolDataOffset);
-    for (i = 0; i < arc->mFat->mCount; i++) {
-        NNSSndArcFileInfo *file = &arc->mFat->mFiles[i];
+    for (fileIndex = 0; fileIndex < arc->mFat->mCount; fileIndex++) {
+        NNSSndArcFileInfo *file = &arc->mFat->mFiles[fileIndex];
 
         file->mMem = file->mOffset == 0 ? 0 : (u8 *) data + file->mOffset;
     }

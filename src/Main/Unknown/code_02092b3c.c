@@ -20,14 +20,14 @@
 #include "Main/Unknown/code_021000d0.h"
 
 void InitBasabasaBurst(u32 mapObject) {
-    u32 value0 = mapObject;
+    u32 value = mapObject;
     u32 parkedCount;
     u32 sourceMapObject;
-    u32 value12;
-    sourceMapObject = value0;
-    value0 = MAP_OBJECT_KIND_BASABASA;
+    u32 unused;
+    sourceMapObject = value;
+    value = MAP_OBJECT_KIND_BASABASA;
     parkedCount = 8u;
-    CreateParkedMapObjects(value0, parkedCount, (void *) sourceMapObject);
+    CreateParkedMapObjects(value, parkedCount, (void *) sourceMapObject);
 }
 
 static inline u32 BasabasaBurstMapObjectRandomBelow(u32 limit) {
@@ -47,13 +47,15 @@ static inline u16 BasabasaBurstMapObjectRandomBelowU16(u32 limit) {
 }
 
 void InitBasabasaBurstObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 objectIndex;
     BasabasaBurst *burstObject;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (burstObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (objectIndex = 0; objectIndex < mapObjectList->mMapObjectCount &&
+                          (burstObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
+         objectIndex++) {
         if (burstObject->mMapObject.mFlags & 0x800) {
             burstObject->mTimer = (u16) (BasabasaBurstMapObjectRandomBelowU16(25) + 200);
         }
@@ -70,21 +72,21 @@ static inline s64 BasabasaBurstXzDistanceSquared(const Vec3 *firstPos, const Vec
 }
 
 static inline BOOL BasabasaBurstIsKartNearInAngle(BasabasaBurst *burst, s32 burstAngle) {
-    s32 i;
+    s32 kartIndex;
     BOOL isHumanGhostOrPeer;
     s32 angleDifference;
     Kart *kart;
 
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
+    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
         isHumanGhostOrPeer = FALSE;
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind <= 3 &&
-            ((1 << gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= 3 &&
+            ((1 << gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isHumanGhostOrPeer = TRUE;
         }
-        if (isHumanGhostOrPeer == FALSE && i != gRaceSetup->mEntryIndex) {
+        if (isHumanGhostOrPeer == FALSE && kartIndex != gRaceSetup->mEntryIndex) {
             continue;
         }
-        kart = GetKart((u16) i);
+        kart = GetKart((u16) kartIndex);
         if (BasabasaBurstXzDistanceSquared(&kart->mPos, &burst->mMapObject.mPos) >= 0x15f900000000LL) {
             continue;
         }
@@ -119,7 +121,7 @@ s16 BasabasaBurstFX_CosIdx(s32 angle) {
 }
 
 void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
-    s32 i;
+    s32 spawnIndex;
     s32 horizontalSpeed;
     u16 angle;
     s32 nextCycleFrames;
@@ -150,7 +152,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
             return;
     }
     if (burstObject->mCycleFrames == 0x14) {
-        for (i = 0; i < 2; i++) {
+        for (spawnIndex = 0; spawnIndex < 2; spawnIndex++) {
             BasabasaBurstSetRandomPos(&basabasaPos, burstObject->mMapObject.mPos.x,
                                       burstObject->mMapObject.mPos.y + 0x23000, burstObject->mMapObject.mPos.z);
             angle = burstObject->mMapObject.mAngle;
@@ -159,10 +161,10 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
             basabasaVelocity.x = BasabasaBurstMulFixed12NoRound(horizontalSpeed, BasabasaBurstFX_SinIdx(angle));
             basabasaVelocity.y = NextRandomBelow(GetMapObjectRandom(), 0x400) - 0xa00;
             basabasaVelocity.z = BasabasaBurstMulFixed12NoRound(horizontalSpeed, BasabasaBurstFX_CosIdx(angle));
-            if (i == 0 && burstObject->mBurstCount == 0) {
-                StartBasabasa(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 1, i == 0 ? 2 : 0);
+            if (spawnIndex == 0 && burstObject->mBurstCount == 0) {
+                StartBasabasa(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 1, spawnIndex == 0 ? 2 : 0);
             } else {
-                StartBasabasa(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 0, i == 0 ? 2 : 0);
+                StartBasabasa(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 0, spawnIndex == 0 ? 2 : 0);
             }
         }
         burstObject->mBurstCount += 1;

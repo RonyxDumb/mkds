@@ -13,25 +13,28 @@
 
 #pragma thumb on
 void SetNextGrandPrixEntries(void) {
-    u8 i;
-    s32 a;
-    s32 b;
+    u8 entryIndex;
+    s32 firstPick;
+    s32 secondPick;
     u32 characterIndex;
     u32 kartIndex;
 
-    a = NextRandomBelowByConnectionKind(7) + 1;
-    b = NextRandomBelowByConnectionKind(6) + 1;
-    if (a <= b) {
-        b++;
+    firstPick = NextRandomBelowByConnectionKind(7) + 1;
+    secondPick = NextRandomBelowByConnectionKind(6) + 1;
+    if (firstPick <= secondPick) {
+        secondPick++;
     }
     SetGivenCharacterAndKart(gMenuScene->mCharacterKartPicks, 0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex,
                              GetRaceSetupCopy()->mEntries[0].mKartIndex);
     PickRandomCharactersAndKarts(gMenuScene->mCharacterKartPicks);
     SetNextRaceEntry(0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex, GetRaceSetupCopy()->mEntries[0].mKartIndex, 0,
                      -1, 3);
-    for (i = 1; i < 8; i++) {
-        GetEntryCharacterAndKart(gMenuScene->mCharacterKartPicks, i, &characterIndex, &kartIndex);
-        SetNextRaceEntry(i, characterIndex, kartIndex, 1, -1, i == a ? 0 : i == b ? 1 : 3);
+    for (entryIndex = 1; entryIndex < 8; entryIndex++) {
+        GetEntryCharacterAndKart(gMenuScene->mCharacterKartPicks, entryIndex, &characterIndex, &kartIndex);
+        SetNextRaceEntry(entryIndex, characterIndex, kartIndex, 1, -1,
+                         entryIndex == firstPick    ? 0
+                         : entryIndex == secondPick ? 1
+                                                    : 3);
     }
 }
 #pragma thumb off

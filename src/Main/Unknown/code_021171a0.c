@@ -69,13 +69,13 @@ void LoadCommonKartIconData(void) {
 #pragma thumb on
 
 void CreateKartIcon(void *heap) {
-    int i;
+    int nclrIndex;
 
     gKartIcon = HeapAlloc(heap, 0x18);
     LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gKartIconNcgrName));
     LocateNcer(&gKartIcon->mNcer, FindSceneFile(gKartIconNcerName));
-    for (i = 0; i < 3; i++) {
-        LocateNclr(&gKartIcon->mNclrs[i], FindSceneFile(gKartIconNclrNames[i]));
+    for (nclrIndex = 0; nclrIndex < 3; nclrIndex++) {
+        LocateNclr(&gKartIcon->mNclrs[nclrIndex], FindSceneFile(gKartIconNclrNames[nclrIndex]));
     }
     gKartIcon->mBncl = FindSceneFile(gKartIconBnclName);
 }
@@ -85,13 +85,13 @@ void CreateKartIcon(void *heap) {
 #pragma thumb on
 
 void CreateCommonKartIcon(void *heap) {
-    s32 i;
+    s32 nclrIndex;
 
     gKartIcon = HeapAlloc(heap, 0x18);
     LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gCommonKartIconNcgrName));
     LocateNcer(&gKartIcon->mNcer, FindSceneFile(gCommonKartIconNcerName));
-    for (i = 0; i < 3; i++) {
-        LocateNclr(&gKartIcon->mNclrs[i], FindSceneFile(gCommonKartIconNclrNames[i]));
+    for (nclrIndex = 0; nclrIndex < 3; nclrIndex++) {
+        LocateNclr(&gKartIcon->mNclrs[nclrIndex], FindSceneFile(gCommonKartIconNclrNames[nclrIndex]));
     }
     gKartIcon->mBncl = FindSceneFile(gCommonKartIconBnclName);
 }
@@ -107,11 +107,11 @@ void ClearKartIconPointer(void) {
 #pragma thumb on
 
 void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, LayoutEntryTable *destinationBncl,
-                   u32 destinationBnclIndex, u16 paletteIndex, s32 f) {
+                   u32 destinationBnclIndex, u16 paletteIndex, s32 queueSelector) {
     int queueKind;
 
     queueKind = 0x12;
-    switch (f) {
+    switch (queueSelector) {
         case 0:
             queueKind = 0xe;
             break;
@@ -119,8 +119,8 @@ void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, LayoutEntryTable
             queueKind = 0x1e;
             break;
     }
-    QueueCellChars(gKartIconRows[iconIndex].mBnclIndex, gKartIcon->mNcer, gKartIcon->mNcgr, gKartIcon->mBncl, f,
-                   destinationBnclIndex, destinationNcer, destinationBncl);
+    QueueCellChars(gKartIconRows[iconIndex].mBnclIndex, gKartIcon->mNcer, gKartIcon->mNcgr, gKartIcon->mBncl,
+                   queueSelector, destinationBnclIndex, destinationNcer, destinationBncl);
     NNS_GfdRegisterNewVramTransferTask(
         queueKind, paletteIndex * 32,
         gKartIcon->mNclrs[gKartIconRows[iconIndex].mNclrIndex]->mData + gKartIconRows[iconIndex].mNclrStart * 16, 0x20);
