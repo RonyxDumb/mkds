@@ -84,7 +84,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     if (gResultsGp->mCupRankIndex < 0) {
         gResultsGp->mCupRankIndex = 0;
     }
-    gResultsGp->mUnk_44 = gMenuShared->mUnk_80;
+    gResultsGp->mUnk_44 = gMenuShared->mGrade;
     Init3dEngine();
     displaySettings = CreateDisplaySettings(heap, data_021547f0);
     SetBg1Record(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);

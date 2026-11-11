@@ -89,7 +89,7 @@ void InitWiFiVSSetting(void *heap) {
             for (i = 0; i < 3; i++) {
                 messageColumn = 0;
                 if (i == 1) {
-                    gWiFiVSSetting->mSettingIndex = gWiFiVSSettingIndexByKartType[gMenuShared->mUnk_54];
+                    gWiFiVSSetting->mSettingIndex = gWiFiVSSettingIndexByKartType[gMenuShared->mWiFiVSSettingKartType];
                     if (gWiFiVSSetting->mSettingIndex == 0 && !HasBuddyRecords()) {
                         gWiFiVSSetting->mSettingIndex = 2;
                     }
@@ -303,7 +303,7 @@ next:
         }
         gWiFiVSSetting->mPendingWiFiState = 3;
         gWiFiVSSetting->mRow = 2;
-        gMenuShared->mUnk_54 = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
+        gMenuShared->mWiFiVSSettingKartType = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
         if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEY_R) != 0) {
             SetWiFiVSSettingFlag(1);
         }
@@ -316,10 +316,10 @@ next:
         }
         gWiFiVSSetting->mPendingWiFiState = 14;
         gWiFiVSSetting->mRow = 0;
-        gMenuShared->mUnk_50 = 0;
+        gMenuShared->mWiFiScene8StartKind = 0;
         RequestTxtSystemClose();
         StartSoundOncePerFrame(5);
-        gMenuShared->mUnk_54 = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
+        gMenuShared->mWiFiVSSettingKartType = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
         WriteChangedWiFiBuddies();
     } else if (hitIndex == 1) {
         gWiFiVSSetting->mRow = 1;

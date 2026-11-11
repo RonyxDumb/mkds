@@ -262,10 +262,10 @@ void AdvanceWiFiVSMatchingState0(void) {
             gWiFiVSMatching->mNextState = 1;
             gWiFiVSMatching->mStateFrames = 0;
             if (GetWiFiVSSettingFlag() != 0) {
-                RequestWiFiSessionMatching(gMenuShared->mUnk_54, 0, 0);
+                RequestWiFiSessionMatching(gMenuShared->mWiFiVSSettingKartType, 0, 0);
                 gWiFiVSMatching->mCheckTimeLimit = FALSE;
             } else {
-                RequestWiFiSessionMatching(gMenuShared->mUnk_54, 1, 0);
+                RequestWiFiSessionMatching(gMenuShared->mWiFiVSSettingKartType, 1, 0);
                 gWiFiVSMatching->mCheckTimeLimit = TRUE;
             }
             StartWiFiSessionMatchingSeq();

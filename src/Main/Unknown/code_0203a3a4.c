@@ -338,7 +338,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 }
             } else {
                 nextScene = 0xc;
-                gMenuShared->mUnk_1c = 0;
+                gMenuShared->mWiFiMenuStartKind = 0;
             }
             break;
         case 1:
@@ -379,10 +379,10 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 case MODE_WIFI:
                     if (CopyCourseIdAndAdvanceCourseNumber() != FALSE) {
                         nextScene = 0xc;
-                        gMenuShared->mUnk_1c = 3;
+                        gMenuShared->mWiFiMenuStartKind = 3;
                     } else {
                         nextScene = 0xa;
-                        gMenuShared->mUnk_1c = 2;
+                        gMenuShared->mWiFiMenuStartKind = 2;
                     }
                     break;
                 case MODE_BATTLE:

@@ -447,7 +447,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 break;
                             case 1:
                                 SetWiFiSessionOwnContinueChoice(0);
-                                gMenuShared->mUnk_1c = 1;
+                                gMenuShared->mWiFiMenuStartKind = 1;
                                 if (sceneNumbers != NULL) {
                                     sceneNumbers->mNextScene = 0xc;
                                 }
@@ -466,10 +466,10 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             if (GetWiFiSessionContinueResult() != 0) {
                 switch (GetWiFiSessionContinueResult()) {
                     case 1:
-                        gMenuShared->mUnk_1c = 2;
+                        gMenuShared->mWiFiMenuStartKind = 2;
                         break;
                     case 2:
-                        gMenuShared->mUnk_1c = 1;
+                        gMenuShared->mWiFiMenuStartKind = 1;
                         break;
                 }
                 if (sceneNumbers != NULL) {

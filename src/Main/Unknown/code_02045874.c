@@ -308,7 +308,7 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     KartCourseResult *courseResult;
     entryIndex = gRaceSetup->mEntryIndex;
     gMenuShared->mCupRankIndex = GetKartCupRank((u16) entryIndex) - 1;
-    gMenuShared->mUnk_80 = ComputeGrandPrixRecordValue();
+    gMenuShared->mGrade = ComputeGrandPrixRecordValue();
     gMenuShared->mCharacterIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mCharacterIndex;
     gMenuShared->mCupIndex = gRaceSetup->mCupIndex;
     gMenuShared->mEngineIndex = gRaceSetup->mEngineIndex;
@@ -342,8 +342,8 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     }
     for (index = 0; index < 8; index++) {
         rankIndex = GetKartCupRank(index) - 1;
-        gMenuShared->mUnk_cc[rankIndex] = gRaceSetup->mCurrentEntries[index].mKartIndex;
-        gMenuShared->mUnk_ac[rankIndex] = gRaceSetup->mCurrentEntries[index].mCharacterIndex;
+        gMenuShared->mCupRankKartIndices[rankIndex] = gRaceSetup->mCurrentEntries[index].mKartIndex;
+        gMenuShared->mCupRankCharacterIndices[rankIndex] = gRaceSetup->mCurrentEntries[index].mCharacterIndex;
     }
     gRaceSetup->mNextHeader.mFollowedKartIndex = GetKartCupRank((u16) gRaceSetup->mEntryIndex) - 1;
     return TRUE;
@@ -390,8 +390,8 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
                 characterIndex = index;
                 kartIndex = index * 3;
             } else {
-                characterIndex = gMenuShared->mUnk_ac[index];
-                kartIndex = gMenuShared->mUnk_cc[index];
+                characterIndex = gMenuShared->mCupRankCharacterIndices[index];
+                kartIndex = gMenuShared->mCupRankKartIndices[index];
             }
         } else {
             characterIndex = index;

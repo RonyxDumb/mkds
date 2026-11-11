@@ -61,7 +61,7 @@ void FillGrandPrixRecord(TimeRecord *record) {
     record->mUnk_1b = 0;
     record->mCupRank = gCupRankTable[gMenuShared->mCupRankIndex];
     record->mTotalPoints = gMenuShared->mTotalPoints;
-    record->mGrade = gMenuShared->mUnk_80;
+    record->mGrade = gMenuShared->mGrade;
     record->mFilled = 1;
 }
 

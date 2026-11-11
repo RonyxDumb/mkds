@@ -57,72 +57,72 @@ u32 GpiUnpackDate(u32 *connection, s32 date, u32 *day, u32 *month, u32 *year) {
 
 void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg) {
     if (cache->mUnk_00[0] != NULL) {
-        GpiCopyString(arg->mUnk_008, cache->mUnk_00[0], 0x1f);
+        GpiCopyString(arg->mNick, cache->mUnk_00[0], 0x1f);
     } else {
-        arg->mUnk_008[0] = 0;
+        arg->mNick[0] = 0;
     }
     if (cache->mUnk_00[1] != NULL) {
-        GpiCopyString(arg->mUnk_027, cache->mUnk_00[1], 0x15);
+        GpiCopyString(arg->mUniquenick, cache->mUnk_00[1], 0x15);
     } else {
-        arg->mUnk_027[0] = 0;
+        arg->mUniquenick[0] = 0;
     }
     if (cache->mUnk_00[2] != NULL) {
-        GpiCopyString(arg->mUnk_03c, cache->mUnk_00[2], 0x33);
+        GpiCopyString(arg->mEmail, cache->mUnk_00[2], 0x33);
     } else {
-        arg->mUnk_03c[0] = 0;
+        arg->mEmail[0] = 0;
     }
     if (cache->mUnk_00[3] != NULL) {
-        GpiCopyString(arg->mUnk_06f, cache->mUnk_00[3], 0x1f);
+        GpiCopyString(arg->mFirstname, cache->mUnk_00[3], 0x1f);
     } else {
-        arg->mUnk_06f[0] = 0;
+        arg->mFirstname[0] = 0;
     }
     if (cache->mUnk_00[4] != NULL) {
-        GpiCopyString(arg->mUnk_08e, cache->mUnk_00[4], 0x1f);
+        GpiCopyString(arg->mLastname, cache->mUnk_00[4], 0x1f);
     } else {
-        arg->mUnk_08e[0] = 0;
+        arg->mLastname[0] = 0;
     }
     if (cache->mUnk_00[5] != NULL) {
-        GpiCopyString(arg->mUnk_0ad, cache->mUnk_00[5], 0x4c);
+        GpiCopyString(arg->mHomepage, cache->mUnk_00[5], 0x4c);
     } else {
-        arg->mUnk_0ad[0] = 0;
+        arg->mHomepage[0] = 0;
     }
-    arg->mUnk_0fc = cache->mIcquin;
-    GpiCopyString(arg->mUnk_100, cache->mZipcode, 0xb);
-    GpiCopyString(arg->mUnk_10b, cache->mCountrycode, 3);
-    arg->mUnk_110 = cache->mLongitude;
-    arg->mUnk_114 = cache->mLatitude;
+    arg->mIcquin = cache->mIcquin;
+    GpiCopyString(arg->mZipcode, cache->mZipcode, 0xb);
+    GpiCopyString(arg->mCountrycode, cache->mCountrycode, 3);
+    arg->mLongitude = cache->mLongitude;
+    arg->mLatitude = cache->mLatitude;
     if (cache->mPlace != NULL) {
-        GpiCopyString(arg->mUnk_118, cache->mPlace, 0x80);
+        GpiCopyString(arg->mPlace, cache->mPlace, 0x80);
     } else {
-        arg->mUnk_118[0] = 0;
+        arg->mPlace[0] = 0;
     }
-    arg->mUnk_198 = cache->mBirthday;
-    arg->mUnk_19c = cache->mBirthmonth;
-    arg->mUnk_1a0 = cache->mBirthyear;
-    arg->mUnk_1a4 = cache->mSex;
-    arg->mUnk_1a8 = cache->mPmask;
+    arg->mBirthday = cache->mBirthday;
+    arg->mBirthmonth = cache->mBirthmonth;
+    arg->mBirthyear = cache->mBirthyear;
+    arg->mSex = cache->mSex;
+    arg->mPmask = cache->mPmask;
     if (cache->mAimName != NULL) {
-        GpiCopyString(arg->mUnk_1ac, cache->mAimName, 0x33);
+        GpiCopyString(arg->mAimName, cache->mAimName, 0x33);
     } else {
-        arg->mUnk_1ac[0] = 0;
+        arg->mAimName[0] = 0;
     }
-    arg->mUnk_0fc = cache->mIcquin;
-    arg->mUnk_110 = cache->mLongitude;
-    arg->mUnk_114 = cache->mLatitude;
-    arg->mUnk_198 = cache->mBirthday;
-    arg->mUnk_19c = cache->mBirthmonth;
-    arg->mUnk_1a0 = cache->mBirthyear;
-    arg->mUnk_1a4 = cache->mSex;
-    arg->mUnk_1a8 = cache->mPmask;
-    arg->mUnk_1e0 = cache->mUnk_cc[0];
-    arg->mUnk_1e4 = cache->mUnk_cc[1];
-    arg->mUnk_1e8 = cache->mUnk_cc[2];
-    arg->mUnk_1ec = cache->mUnk_cc[3];
-    arg->mUnk_1f0 = cache->mUnk_cc[4];
-    arg->mUnk_1f4 = cache->mUnk_cc[5];
-    arg->mUnk_1f8 = cache->mUnk_cc[6];
-    arg->mUnk_1fc = cache->mUnk_cc[7];
-    arg->mUnk_200 = cache->mUnk_cc[8];
+    arg->mIcquin = cache->mIcquin;
+    arg->mLongitude = cache->mLongitude;
+    arg->mLatitude = cache->mLatitude;
+    arg->mBirthday = cache->mBirthday;
+    arg->mBirthmonth = cache->mBirthmonth;
+    arg->mBirthyear = cache->mBirthyear;
+    arg->mSex = cache->mSex;
+    arg->mPmask = cache->mPmask;
+    arg->mPic = cache->mUnk_cc[0];
+    arg->mOccupationid = cache->mUnk_cc[1];
+    arg->mIndustryid = cache->mUnk_cc[2];
+    arg->mIncomeid = cache->mUnk_cc[3];
+    arg->mMarriedid = cache->mUnk_cc[4];
+    arg->mChildcount = cache->mUnk_cc[5];
+    arg->mInterests1 = cache->mUnk_cc[6];
+    arg->mOwnership1 = cache->mUnk_cc[7];
+    arg->mConntypeid = cache->mUnk_cc[8];
 }
 
 s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, const char *input) {
@@ -322,8 +322,8 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
                 return 1;
             }
             gpiInfoCacheToArg(&infoRecord, arg);
-            arg->mUnk_000 = 0;
-            arg->mUnk_004 = profileid;
+            arg->mResult = 0;
+            arg->mProfile = profileid;
             result = GpiQueueCallback(connection, callback, arg, operation, 0);
             if (result != 0) {
                 return result;

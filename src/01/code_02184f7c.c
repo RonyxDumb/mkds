@@ -53,14 +53,14 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
                                                    : (rec[entryIndex].mUnk_04 << 12) - 0.5f;
         entry->mScale = 0x1000;
         entry->mShown = rec[entryIndex].mUnk_06 != 0;
-        NNS_G2dInitCellAnimation(&entry->mUnk_2c, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mUnk_00),
+        NNS_G2dInitCellAnimation(&entry->mCellAnim, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mUnk_00),
                                  cells);
         if (rec[entryIndex].mUnk_06 > 1) {
-            entry->mUnk_2c.mActive = TRUE;
+            entry->mCellAnim.mActive = TRUE;
         } else {
-            entry->mUnk_2c.mActive = FALSE;
+            entry->mCellAnim.mActive = FALSE;
         }
-        cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mPCurrentCell;
+        cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
         if ((cell->mUnk_02 >> 11) & 1) {
             box = cell->mUnk_08;
             entry->mBoundsLeft = box[2] << 12;
@@ -84,7 +84,7 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
 
     for (entryIndex = 0; entryIndex < lld->mEntryCount; entryIndex++) {
         entry = &lld->mEntries[entryIndex];
-        cellAnim = &entry->mUnk_2c;
+        cellAnim = &entry->mCellAnim;
         if (entry->mCallback != NULL) {
             if (entry->mCallback(entry) != 0) {
                 entry->mCallback = NULL;
@@ -106,14 +106,14 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_1e = mtx.mUnk_00[3] >> 4;
                     mtx.mUnk_00[0] = entry->mScale;
                     mtx.mUnk_00[3] = entry->mScale;
-                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mPCurrentCell;
+                    cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
                     scaledPos[0] = screenX << 12;
                     scaledPos[1] = screenY << 12;
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
                         (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
                         (NNSG2dCellDataWithBR *) cell, &mtx, scaledPos, idx, 1);
                 } else {
-                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mPCurrentCell;
+                    cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
                     unscaledPos[0] = screenX << 12;
                     unscaledPos[1] = screenY << 12;
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
@@ -123,8 +123,8 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
             }
         }
         if (cellAnim->mActive != FALSE) {
-            NNS_G2dSetCellAnimationSpeed(&entry->mUnk_2c, 0x1000);
-            NNS_G2dTickCellAnimation(&entry->mUnk_2c, 0x1000);
+            NNS_G2dSetCellAnimationSpeed(&entry->mCellAnim, 0x1000);
+            NNS_G2dTickCellAnimation(&entry->mCellAnim, 0x1000);
         }
     }
 }
@@ -154,22 +154,22 @@ s32 FindLldEntryAtPoint(Lld *lld, s32 startIndex, s32 pointX, s32 pointY) {
 
 void SetLldEntryCallback(LldEntry *entry, s32 (*callback)(LldEntry *)) {
     entry->mCallback = callback;
-    entry->mUnk_10 = 0;
+    entry->mCallbackCallCount = 0;
     entry->mUnk_14 = 0;
 }
 
 void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
-    Unk02022030 *cellAnim = &entry->mUnk_2c;
+    Unk02022030 *cellAnim = &entry->mCellAnim;
 
     if (frameOrCommand == -1) {
         cellAnim->mOverriddenPlayMode = 2;
-        entry->mUnk_2c.mActive = TRUE;
+        entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -2) {
         NNS_G2dResetAnimCtrlState(cellAnim);
         cellAnim->mOverriddenPlayMode = 1;
-        entry->mUnk_2c.mActive = TRUE;
+        entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -3) {
-        entry->mUnk_2c.mActive = FALSE;
+        entry->mCellAnim.mActive = FALSE;
     } else if (frameOrCommand == -4) {
         entry->mShown = TRUE;
     } else if (frameOrCommand == -5) {
@@ -182,7 +182,7 @@ void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
 
 s32 GetLldEntryFrameIndex(LldEntry *entry) {
     if (entry->mShown != FALSE) {
-        return NNS_G2dGetAnimCtrlCurrentFrame(&entry->mUnk_2c);
+        return NNS_G2dGetAnimCtrlCurrentFrame(&entry->mCellAnim);
     }
     return -5;
 }

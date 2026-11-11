@@ -41,7 +41,7 @@ void AdvanceWiFiConnectionLostState0(void) {
         reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
         GX_SetGraphicsMode(1, 0, 1);
-        if (gMenuShared->mUnk_6c != FALSE) {
+        if (gMenuShared->mOtherKartCountAdded != FALSE) {
             firstBlock = gBackupBuffers->mFirstBlock;
             total = firstBlock->mTotals[5];
             otherKartCount = gWiFiSession->mKartCountCopy - 1;
@@ -67,7 +67,7 @@ void AdvanceWiFiConnectionLostState1(void) {
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
         RequestWiFiState(2);
-        gMenuShared->mUnk_1c = 1;
+        gMenuShared->mWiFiMenuStartKind = 1;
     }
 }
 

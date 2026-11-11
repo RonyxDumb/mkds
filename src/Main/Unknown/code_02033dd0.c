@@ -172,7 +172,7 @@ void FillResultsBattleEntries(void) {
         }
     } else if (gRaceSetup->mMode == MODE_BATTLE) {
         for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
-            gResultsBattle->mEntries[kartIndex].mOrderIndex = gMenuShared->mUnk_ec[kartIndex];
+            gResultsBattle->mEntries[kartIndex].mOrderIndex = gMenuShared->mOrderIndices[kartIndex];
         }
     } else {
         for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {

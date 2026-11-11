@@ -82,7 +82,7 @@ void RefreshRaceGoalSRows(void) {
                 if (kartIndex == gRaceGoalS->mRowKartIndex[rowIndex]) {
                     newRowIndex = rowIndex;
                     SetKartCupRank(kartIndex, (rowIndex + 1) & 0xff);
-                    gMenuShared->mUnk_ec[kartIndex] = rowIndex;
+                    gMenuShared->mOrderIndices[kartIndex] = rowIndex;
                     break;
                 }
             }

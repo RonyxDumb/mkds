@@ -280,11 +280,11 @@ s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
 }
 
 BOOL AdvanceEmblemColorCursorShrink(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->mCallbackCallCount <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->mCallbackCallCount++;
+    if (entry->mCallbackCallCount <= 5) {
         ApplyLldEntryFrameCommand(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -293,7 +293,7 @@ BOOL AdvanceEmblemColorCursorShrink(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->mCallbackCallCount <= 10) {
         SetLldEntryScale(entry, 0);
         return FALSE;
     }
@@ -301,14 +301,14 @@ BOOL AdvanceEmblemColorCursorShrink(LldEntry *entry) {
 }
 
 BOOL AdvanceEmblemColorCursorGrow(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->mCallbackCallCount <= 0) {
         SetLldEntryScale(entry, 0);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->mCallbackCallCount++;
+    if (entry->mCallbackCallCount <= 5) {
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->mCallbackCallCount <= 10) {
         ApplyLldEntryFrameCommand(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -336,11 +336,11 @@ void StartEmblemColorCursorShrinkAndGrow(void *lld, s32 index) {
 }
 
 BOOL AdvanceEmblemButtonBounceThenWait(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->mCallbackCallCount <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->mCallbackCallCount++;
+    if (entry->mCallbackCallCount <= 5) {
         ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -348,7 +348,7 @@ BOOL AdvanceEmblemButtonBounceThenWait(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->mCallbackCallCount <= 10) {
         ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -356,14 +356,14 @@ BOOL AdvanceEmblemButtonBounceThenWait(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 == 11) {
+    if (entry->mCallbackCallCount == 11) {
         if (gEmblem->mPendingTransitionFunc != NULL) {
             gEmblem->mPendingTransitionFunc();
             gEmblem->mPendingTransitionFunc = NULL;
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 20) {
+    if (entry->mCallbackCallCount <= 20) {
         return FALSE;
     }
     ApplyLldEntryFrameCommand(entry, 0);
@@ -375,11 +375,11 @@ void StartEmblemButtonBounceThenWait(void *lld, s32 index) {
 }
 
 BOOL AdvanceEmblemButtonBounce(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->mCallbackCallCount <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->mCallbackCallCount++;
+    if (entry->mCallbackCallCount <= 5) {
         ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -387,7 +387,7 @@ BOOL AdvanceEmblemButtonBounce(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->mCallbackCallCount <= 10) {
         ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -408,11 +408,11 @@ void StartEmblemButtonBounce(void *lld, s32 index) {
 }
 
 BOOL AdvanceEmblemModeButtonPress(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->mCallbackCallCount <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->mCallbackCallCount++;
+    if (entry->mCallbackCallCount <= 5) {
         ApplyLldEntryFrameCommand(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -420,7 +420,7 @@ BOOL AdvanceEmblemModeButtonPress(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->mCallbackCallCount <= 10) {
         ApplyLldEntryFrameCommand(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -456,11 +456,11 @@ void StartEmblemModeButtonPress(void *lld, s32 index) {
 }
 
 BOOL AdvanceEmblemButtonHold(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->mCallbackCallCount <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 10) {
+    entry->mCallbackCallCount++;
+    if (entry->mCallbackCallCount <= 10) {
         ApplyLldEntryFrameCommand(entry, 1);
         return FALSE;
     }

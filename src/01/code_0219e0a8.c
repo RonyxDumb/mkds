@@ -150,7 +150,7 @@ void LoadAndQueueEndingSceneData(void) {
             gEndingScene->mEndingThanksBnll = FindSceneFile("ending_thanks_01.bnll");
             break;
     }
-    if (gMenuShared->mUnk_70 != 0) {
+    if (gMenuShared->mStaffRollEndedEarly != 0) {
         QueueEndingSceneIndex1Data();
     } else {
         QueueEndingSceneNcgrNscrNclr(0);
@@ -161,9 +161,9 @@ void LoadAndQueueEndingSceneData(void) {
 
 void AdvanceEndingSceneState0(void) {
     if (AreBrightnessFadesClear() != 0) {
-        if (gMenuShared->mUnk_70 != 0) {
+        if (gMenuShared->mStaffRollEndedEarly != 0) {
             gEndingScene->mNextState = 5;
-            gMenuShared->mUnk_70 = 0;
+            gMenuShared->mStaffRollEndedEarly = 0;
             return;
         }
         gEndingScene->mNextState = 1;
@@ -298,11 +298,11 @@ void WriteEndingSceneRegisters(void) {
 }
 
 void SetStaffRollEndedEarly(void) {
-    gMenuShared->mUnk_70 = 1;
+    gMenuShared->mStaffRollEndedEarly = 1;
 }
 
 s32 GetStaffRollEndedEarly(void) {
-    return gMenuShared->mUnk_70;
+    return gMenuShared->mStaffRollEndedEarly;
 }
 
 int GetEndingSceneNextScene(void) {

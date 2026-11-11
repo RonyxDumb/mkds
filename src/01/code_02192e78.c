@@ -108,7 +108,7 @@ void InitOptionStates(void *heap, s16 a) {
             break;
         case 3:
             gOptionStates->mPrevState = 6;
-            if (gMenuShared->mUnk_18 == FALSE) {
+            if (gMenuShared->mOptionReturnsToEmbremSelect == FALSE) {
                 gOptionStates->mState = 2;
                 RegisterOptionHensyuMenuCallbacks();
             } else {

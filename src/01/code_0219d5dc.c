@@ -190,7 +190,7 @@ void AdvanceOptionEmbremSelectState3(void) {
             gOptionEmbremSelect->mNextState = 4;
             gOptionEmbremSelect->mNextOptionState = 6;
             gOptionEmbremSelect->mSelectedRow = 0;
-            gMenuShared->mUnk_18 = TRUE;
+            gMenuShared->mOptionReturnsToEmbremSelect = TRUE;
             StartSoundOncePerFrame(5);
         } else if (touchedRect == 1) {
             gOptionEmbremSelect->mSelectedRow = 1;

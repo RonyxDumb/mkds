@@ -12,10 +12,10 @@ void ClearMenuShared(void) {
     gMenuShared->mGhostSceneInitialCallbacksIndex = 0;
     gMenuShared->mUnfilledNotEliminated = 0;
     gMenuShared->mLVselIndex6Requested = 0;
-    gMenuShared->mUnk_1c = 0;
-    gMenuShared->mUnk_54 = 0;
-    gMenuShared->mUnk_58 = FALSE;
-    gMenuShared->mUnk_70 = 0;
+    gMenuShared->mWiFiMenuStartKind = 0;
+    gMenuShared->mWiFiVSSettingKartType = 0;
+    gMenuShared->mWiFiTopMenuRequested = FALSE;
+    gMenuShared->mStaffRollEndedEarly = 0;
 }
 
 #pragma thumb off

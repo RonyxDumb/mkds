@@ -29,14 +29,14 @@ typedef struct LldEntry {
     /* 04 */ s32 mPosX;
     /* 08 */ s32 mPosY;
     /* 0c */ BOOL mShown;
-    /* 10 */ s32 mUnk_10;
+    /* 10 */ s32 mCallbackCallCount;
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mScale;
     /* 1c */ s32 mBoundsLeft;
     /* 20 */ s32 mBoundsRight;
     /* 24 */ s32 mBoundsTop;
     /* 28 */ s32 mBoundsBottom;
-    /* 2c */ Unk02022030 mUnk_2c;
+    /* 2c */ Unk02022030 mCellAnim;
     /* 80 */ struct Lld *mLld;
     /* 84 */ s32 (*mCallback)(struct LldEntry *);
 } LldEntry;

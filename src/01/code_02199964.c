@@ -194,7 +194,7 @@ void AdvanceOptionHensyuMenuState3(void) {
                     optionHensyuMenu->mNextOptionState = 3;
                 } else {
                     optionHensyuMenu->mNextOptionState = 6;
-                    gMenuShared->mUnk_18 = FALSE;
+                    gMenuShared->mOptionReturnsToEmbremSelect = FALSE;
                 }
                 break;
         }

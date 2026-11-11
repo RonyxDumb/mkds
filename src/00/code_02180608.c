@@ -115,9 +115,9 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
     gWiFiStates->mStateHeap = CreateExpHeapFromMaxFree(heap);
     ClearWiFiStateCallbacks();
     gWiFiStates->mNextScene = -1;
-    if (gMenuShared->mUnk_58 != FALSE) {
+    if (gMenuShared->mWiFiTopMenuRequested != FALSE) {
         sceneNumber = 0;
-        gMenuShared->mUnk_58 = FALSE;
+        gMenuShared->mWiFiTopMenuRequested = FALSE;
     }
     switch (sceneNumber) {
         case 0:
@@ -125,7 +125,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
             gWiFiStates->mState = 1;
             RegisterWiFiTopMenuCallbacks();
             ResetWiFiSessionToOff();
-            gMenuShared->mUnk_1c = 0;
+            gMenuShared->mWiFiMenuStartKind = 0;
             break;
         case 12:
             gWiFiStates->mPrevState = 13;
@@ -134,7 +134,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
             break;
         case 2:
         case 10:
-            switch (gMenuShared->mUnk_1c) {
+            switch (gMenuShared->mWiFiMenuStartKind) {
                 case 0:
                     gWiFiStates->mState = 1;
                     RegisterWiFiTopMenuCallbacks();
@@ -165,7 +165,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
             RegisterWiFiAikotobaCallbacks();
             break;
         case 8:
-            switch (gMenuShared->mUnk_50) {
+            switch (gMenuShared->mWiFiScene8StartKind) {
                 case 0:
                     gWiFiStates->mPrevState = 14;
                     gWiFiStates->mState = 2;

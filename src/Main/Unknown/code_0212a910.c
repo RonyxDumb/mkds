@@ -73,10 +73,10 @@ s32 UpdateMessageScreen(void) {
         messageScreen = gMessageScreen;
         if (messageScreen->mInputEnabled != 0) {
             if ((u32) (messageScreen->mKind - 4) <= 1) {
-                gMenuShared->mUnk_58 = TRUE;
+                gMenuShared->mWiFiTopMenuRequested = TRUE;
                 gMessageScreen->mResult = 1;
             } else if (messageScreen->mKind == 6) {
-                gMenuShared->mUnk_1c = 1;
+                gMenuShared->mWiFiMenuStartKind = 1;
                 gMessageScreen->mResult = 1;
                 ClearWiFiDisconnectStatus();
             } else {

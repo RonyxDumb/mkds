@@ -24,38 +24,38 @@ typedef struct GPIInfoCache {
 
 // Copy of GPIInfoCache made by gpiInfoCacheToArg, 0x204 bytes.
 typedef struct GetInfoReply {
-    /* 000 */ u32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ char mUnk_008[0x1f];
-    /* 027 */ char mUnk_027[0x15];
-    /* 03c */ char mUnk_03c[0x33];
-    /* 06f */ char mUnk_06f[0x1f];
-    /* 08e */ char mUnk_08e[0x1f];
-    /* 0ad */ char mUnk_0ad[0x4c];
+    /* 000 */ u32 mResult;
+    /* 004 */ s32 mProfile;
+    /* 008 */ char mNick[0x1f];
+    /* 027 */ char mUniquenick[0x15];
+    /* 03c */ char mEmail[0x33];
+    /* 06f */ char mFirstname[0x1f];
+    /* 08e */ char mLastname[0x1f];
+    /* 0ad */ char mHomepage[0x4c];
     /* 0f9 */ u8 mUnk_0f9[3];
-    /* 0fc */ s32 mUnk_0fc;
-    /* 100 */ char mUnk_100[0xb];
-    /* 10b */ char mUnk_10b[3];
+    /* 0fc */ s32 mIcquin;
+    /* 100 */ char mZipcode[0xb];
+    /* 10b */ char mCountrycode[3];
     /* 10e */ u8 mUnk_10e[2];
-    /* 110 */ float mUnk_110;
-    /* 114 */ float mUnk_114;
-    /* 118 */ char mUnk_118[0x80];
-    /* 198 */ u32 mUnk_198;
-    /* 19c */ u32 mUnk_19c;
-    /* 1a0 */ u32 mUnk_1a0;
-    /* 1a4 */ s32 mUnk_1a4;
-    /* 1a8 */ s32 mUnk_1a8;
-    /* 1ac */ char mUnk_1ac[0x33];
+    /* 110 */ float mLongitude;
+    /* 114 */ float mLatitude;
+    /* 118 */ char mPlace[0x80];
+    /* 198 */ u32 mBirthday;
+    /* 19c */ u32 mBirthmonth;
+    /* 1a0 */ u32 mBirthyear;
+    /* 1a4 */ s32 mSex;
+    /* 1a8 */ s32 mPmask;
+    /* 1ac */ char mAimName[0x33];
     /* 1df */ u8 mUnk_1df;
-    /* 1e0 */ s32 mUnk_1e0;
-    /* 1e4 */ s32 mUnk_1e4;
-    /* 1e8 */ s32 mUnk_1e8;
-    /* 1ec */ s32 mUnk_1ec;
-    /* 1f0 */ s32 mUnk_1f0;
-    /* 1f4 */ s32 mUnk_1f4;
-    /* 1f8 */ s32 mUnk_1f8;
-    /* 1fc */ s32 mUnk_1fc;
-    /* 200 */ s32 mUnk_200;
+    /* 1e0 */ s32 mPic;
+    /* 1e4 */ s32 mOccupationid;
+    /* 1e8 */ s32 mIndustryid;
+    /* 1ec */ s32 mIncomeid;
+    /* 1f0 */ s32 mMarriedid;
+    /* 1f4 */ s32 mChildcount;
+    /* 1f8 */ s32 mInterests1;
+    /* 1fc */ s32 mOwnership1;
+    /* 200 */ s32 mConntypeid;
 } GetInfoReply;
 
 #include "00/code_021906e4.h"
