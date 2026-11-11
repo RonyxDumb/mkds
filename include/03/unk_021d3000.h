@@ -3,14 +3,14 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern u32 data_ov003_021d3694[];
-extern u32 data_ov003_021d36bc[];
-extern u32 data_ov003_021d3abc[];
-extern u32 data_ov003_021d3ebc[];
-extern u32 data_ov003_021d42bc[];
-extern u32 data_ov003_021d46bc[];
-extern u32 data_ov003_021d4abc[];
-extern u32 data_ov003_021d4ebc[];
-extern u32 data_ov003_021d52bc[];
-extern u32 data_ov003_021d56bc[];
-extern u32 data_ov003_021d5abc[];
+extern u32 gKeyRoundConstants[];
+extern u32 gReversedTableByte1[];
+extern u32 gReversedTableByte0[];
+extern u32 gReversedSubstitutionTable[];
+extern u32 gTransformTableByte3[];
+extern u32 gTransformTableByte2[];
+extern u32 gTransformTableByte1[];
+extern u32 gTransformTableByte0[];
+extern u32 gSubstitutionTable[];
+extern u32 gReversedTableByte3[];
+extern u32 gReversedTableByte2[];

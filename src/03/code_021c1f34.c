@@ -12,7 +12,7 @@
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 
-void func_ov003_021c1fc8(void) {
+void InitValueRecordsRequest(void) {
     Unk021c1fc8 requestItem;
     ValueRecordsRequest *request;
     gValueRecordsRequest = AllocZeroedExpHeapBlock(0x26c, 4);
@@ -31,13 +31,13 @@ void func_ov003_021c1fc8(void) {
     gValueRecordsRequest->mSendAttemptDelayMs = -1;
     gValueRecordsRequest->mReceiveTimeoutMs = -1;
     OS_GetMacAddress(gValueRecordsRequest->mMacAddress);
-    if (func_ov003_021ba61c((void *(*) (u32)) func_ov003_021c1f28, func_ov003_021c1f20) != 0) {
+    if (InitEssidWiFi((void *(*) (u32)) EssidAllocExpHeapBlockWrapper, EssidFreeExpHeapBlockWrapper) != 0) {
         OS_Terminate();
     }
 }
 
-void func_ov003_021c1f84(int succeeded) {
-    func_ov003_021ba560();
+void ReleaseValueRecordsRequest(int succeeded) {
+    ReleaseEssidWiFi();
     if (((succeeded != 0) && (gValueRecordsRequest->mResultCode == 0)) &&
         ((*(u8 *) &gValueRecordsRequestSucceeded) == 1)) {
         func_ov003_021cd4e8((s32) &gValueRecordsRequest->mUnk_117);
@@ -45,9 +45,9 @@ void func_ov003_021c1f84(int succeeded) {
     FreeExpHeapBlockAndClearPointer(&gValueRecordsRequest);
 }
 
-u32 func_ov003_021c1f34(void) {
+u32 RunValueRecordsRequestForStatus(void) {
     u8 resultCode;
-    if (func_ov003_021ba05c(gValueRecordsRequest) == 0) {
+    if (RunValueRecordsRequest(gValueRecordsRequest) == 0) {
         gValueRecordsRequestSucceeded[0] = 1;
         return 1;
     }

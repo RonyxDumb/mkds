@@ -9,25 +9,25 @@
 
 typedef s32 Unk021ba818Func();
 
-extern u8 *data_ov003_021d8b80;
-extern u32 data_ov003_021d8b84;
-extern Unk021a5a78 *data_ov003_021d8b88;
-extern u32 data_ov003_021d8b8c;
-extern const u8 *data_ov003_021d8b90;
-extern const u8 *data_ov003_021d8b94;
-extern s32 data_ov003_021d8b98;
-extern Unk021ba818Func *data_ov003_021d8b9c;
-extern Unk021a5e84 *data_ov003_021d8ba0;
-extern Unk02188de4 *data_ov003_021d8ba4;
-extern u8 data_ov003_021d8ba8[6];
-extern u8 data_ov003_021d8bb0[0x20];
+extern u8 *gEssidWcmWork;
+extern u32 gEssidSearchOption;
+extern WCMConfig *gEssidWcmConfig;
+extern u32 gEssidConnectOption;
+extern const u8 *gEssidSearchAddress;
+extern const u8 *gEssidSearchEssid;
+extern s32 gEssidWcmState;
+extern Unk021ba818Func *gEssidEventCallback;
+extern Unk021a5e84 *gEssidConnectRecord;
+extern Unk02188de4 *gEssidConnectBlock;
+extern u8 gEssidSearchAddressBytes[6];
+extern u8 gEssidSearchEssidBytes[0x20];
 
-BOOL func_ov003_021ba818(Unk021ba818Func *callback, u8 *buffer, s32 size);
-BOOL func_ov003_021ba910(RawEntry *record, MelcoBlock *melcoBlock, u32 flags);
-BOOL func_ov003_021ba9c0(void);
-BOOL func_ov003_021baa28(void);
-BOOL func_ov003_021baa68(void);
-BOOL func_ov003_021baaac(const u8 *addressBytes, const u8 *essidBytes, s32 essidLength, u32 d);
-s32 func_ov003_021babc0(RawEntry *records, s32 maxCount);
-BOOL func_ov003_021bac0c(void);
-void func_ov003_021bac90(s16 *event);
+BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size);
+BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags);
+BOOL CleanupEssidWcm(void);
+BOOL DisconnectEssid(void);
+BOOL EndEssidSearch(void);
+BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLength, u32 option);
+s32 CopyEssidScanRecords(RawEntry *records, s32 maxCount);
+BOOL StartEssidReturnToIdle(void);
+void EssidWcmNotifyCallback(s16 *event);

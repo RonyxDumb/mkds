@@ -124,10 +124,10 @@ void func_ov003_021c97c0(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
-        func_ov003_021c2120(2, 1);
+        SetPrimaryMenuPair(2, 1);
         SetUpdateFunction(CreateAp);
     }
 }

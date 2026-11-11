@@ -110,11 +110,11 @@ void AdvanceEditKeyboardSlideInRow0(TaskEntry *task) {
     s32 y;
     func_ov003_021c0ab0_inline(gEditKeyboard->mKeys[0], (u32 *) &xPos, (u32 *) &y);
     y -= 12;
-    if (y > data_ov003_021d5fb0[0][1]) {
+    if (y > gEditKeyboardKeyPositions[0][1]) {
         SetEditKeyboardRowY(gEditKeyboard->mPage, 0, y);
         return;
     }
-    SetEditKeyboardRowY(gEditKeyboard->mPage, 0, data_ov003_021d5fb0[0][1]);
+    SetEditKeyboardRowY(gEditKeyboard->mPage, 0, gEditKeyboardKeyPositions[0][1]);
     SetEditKeyboardRowY(gEditKeyboard->mPage, 1, 0xc0);
     SetTaskCallback(task, AdvanceEditKeyboardSlideInRow1);
 }
@@ -124,11 +124,11 @@ void AdvanceEditKeyboardSlideInRow1(TaskEntry *task) {
     s32 y;
     func_ov003_021c0ab0_inline(gEditKeyboard->mKeys[12], (u32 *) &xPos, (u32 *) &y);
     y -= 12;
-    if (y > data_ov003_021d5fb0[12][1]) {
+    if (y > gEditKeyboardKeyPositions[12][1]) {
         SetEditKeyboardRowY(gEditKeyboard->mPage, 1, y);
         return;
     }
-    SetEditKeyboardRowY(gEditKeyboard->mPage, 1, data_ov003_021d5fb0[12][1]);
+    SetEditKeyboardRowY(gEditKeyboard->mPage, 1, gEditKeyboardKeyPositions[12][1]);
     SetEditKeyboardRowY(gEditKeyboard->mPage, 2, 0xc0);
     SetTaskCallback(task, AdvanceEditKeyboardSlideInRow2);
 }
@@ -166,11 +166,11 @@ void AdvanceEditKeyboardSlideInRow4(TaskEntry *task) {
     s32 y;
     GetOamRangeEntryPosition(gEditKeyboard->mRow4Keys[0], 0, &x, &y);
     y -= 12;
-    if (y > data_ov003_021d5f88[0][1]) {
+    if (y > gEditKeyboardRow4KeyPositions[0][1]) {
         SetEditKeyboardRowY(gEditKeyboard->mPage, 4, y);
         return;
     }
-    SetEditKeyboardRowY(gEditKeyboard->mPage, 4, data_ov003_021d5f88[0][1]);
+    SetEditKeyboardRowY(gEditKeyboard->mPage, 4, gEditKeyboardRow4KeyPositions[0][1]);
     PlaceEditKeyboardCursor();
     SetTaskCallback(task, AdvanceEditKeyboardInput);
 }
@@ -179,7 +179,7 @@ void AdvanceEditKeyboardInput(void) {
     AdvanceEditKeyboardTouchPressed();
     AdvanceEditKeyboardTouchReleased();
     AdvanceEditKeyboardTouchDown();
-    func_ov003_021c0318();
+    UpdateEditKeyboardPad();
 }
 
 void AdvanceEditKeyboardTouchPressed(void) {
@@ -192,7 +192,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
     i = 0;
     gEditKeyboard->mPressedKeyIndex = -1;
     for (; i < 0x2f; i++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5fb0[i], data_ov003_021d5f7c[0], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[i], data_ov003_021d5f7c[0], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             if (gEditKeyboard->mAddCharEnabled == 0) {
                 StartSoundSeq(9);
@@ -204,7 +204,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
         }
     }
     for (j = 0; j < 4; j++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5f90[j], data_ov003_021d5fa0[j], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardExtraKeyPositions[j], data_ov003_021d5fa0[j], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             if ((j == 3 && gEditKeyboard->mRemoveCharEnabled == 0) || (j == 2 && gEditKeyboard->mAddCharEnabled == 0)) {
                 StartSoundSeq(9);
@@ -216,7 +216,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
         }
     }
     for (i = 0; i < 2; i++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5f88[i], data_ov003_021d5f78[0], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[i], data_ov003_021d5f78[0], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             StartSoundSeq(0);
             gEditKeyboard->mPressedKeyIndex = i + 0x33;
@@ -236,12 +236,12 @@ void AdvanceEditKeyboardTouchReleased(void) {
         return;
     }
     for (i = 0; i < 0x2f; i++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5fb0[i], data_ov003_021d5f7c[0], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[i], data_ov003_021d5f7c[0], &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
             if (gEditKeyboard->mPressedKeyIndex != i) {
                 return;
             }
-            gEditKeyboard->mInput = data_ov003_021d6bdc[gEditKeyboard->mPage][i];
+            gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][i];
             if (gEditKeyboard->mPage == 1) {
                 ChangeEditKeyboardPage(0);
             }
@@ -259,7 +259,7 @@ void AdvanceEditKeyboardTouchReleased(void) {
             if (gEditKeyboard->mPressedKeyIndex != extraKeyIndex + 0x2f) {
                 return;
             }
-            gEditKeyboard->mInput = data_ov003_021d5f80[extraKeyIndex];
+            gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[extraKeyIndex];
             if (gEditKeyboard->mPage == 1) {
                 ChangeEditKeyboardPage(0);
             }
@@ -269,18 +269,18 @@ void AdvanceEditKeyboardTouchReleased(void) {
         }
     }
     for (i = 0; i < 2; i++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5f88[i], data_ov003_021d5f78[0], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[i], data_ov003_021d5f78[0], &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
             if (gEditKeyboard->mPressedKeyIndex != i + 0x33) {
                 return;
             }
-            gEditKeyboard->mInput = data_ov003_021d5f6c[i];
+            gEditKeyboard->mInput = gEditKeyboardRow4Inputs[i];
             gEditKeyboard->mCursorKeyIndex = i + 0x33;
             PlaceEditKeyboardCursor();
             return;
         }
     }
-    ComputeRectFromOriginAndSize(data_ov003_021d5f90[0], data_ov003_021d5fa0[0], &keyRect);
+    ComputeRectFromOriginAndSize(gEditKeyboardExtraKeyPositions[0], data_ov003_021d5fa0[0], &keyRect);
     if (IsTouchReleasedInRect(&keyRect) != 0) {
         if (gEditKeyboard->mPressedKeyIndex != 0x2f) {
             return;
@@ -326,7 +326,7 @@ void AdvanceEditKeyboardTouchDown(void) {
         goto fail;
     }
     for (i = 0; i < 0x2f; i++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5fb0[i], data_ov003_021d5f7c[0], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[i], data_ov003_021d5f7c[0], &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
             if (gEditKeyboard->mPressedKeyIndex != i) {
                 goto fail;
@@ -336,7 +336,8 @@ void AdvanceEditKeyboardTouchDown(void) {
         }
     }
     for (extraKeyIndex = 2; extraKeyIndex < 4; extraKeyIndex++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5f90[extraKeyIndex], data_ov003_021d5fa0[extraKeyIndex], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardExtraKeyPositions[extraKeyIndex], data_ov003_021d5fa0[extraKeyIndex],
+                                     &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
             if (gEditKeyboard->mPressedKeyIndex != extraKeyIndex + 0x2f) {
                 goto fail;
@@ -359,7 +360,7 @@ void AdvanceEditKeyboardTouchDown(void) {
         }
     }
     for (i = 0; i < 2; i++) {
-        ComputeRectFromOriginAndSize(data_ov003_021d5f88[i], data_ov003_021d5f78[0], &keyRect);
+        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[i], data_ov003_021d5f78[0], &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
             if (gEditKeyboard->mPressedKeyIndex != i + 0x33) {
                 goto fail;

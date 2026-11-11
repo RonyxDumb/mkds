@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov003_021c2aa0(void);
+void SelectFirstScreenByMode(void);

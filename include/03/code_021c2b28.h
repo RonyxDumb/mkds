@@ -17,4 +17,4 @@ extern u8 gYbObjMainNclName[];
 extern u8 gJtTopNscName[];
 extern u8 gJtStep1NscName[];
 
-void func_ov003_021c2b28(void);
+void LoadMainFilesAndSetBgCnt(void);

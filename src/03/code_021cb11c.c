@@ -38,32 +38,33 @@
 #include "registers.h"
 
 void func_ov003_021cb3d8(void) {
-    if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021bf2f0() != 0) {
+    if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
+        IsSlideButtonsNotSlidingOut() != 0) {
         ReleaseSelectionObjectSlots();
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         DeleteLoadedFile(gYbBgStep21Ncl);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
         if (data_ov003_021da240[0] == 0) {
-            func_ov003_021c2120(2, 0);
+            SetPrimaryMenuPair(2, 0);
             SetUpdateFunction(CreateAp);
         } else {
             switch (gWaySelectedIndex) {
                 case 0:
-                    func_ov003_021c2120(2, 1);
+                    SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(func_ov003_021ca8e8);
                     break;
                 case 1:
-                    func_ov003_021c2120(2, 1);
+                    SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(func_ov003_021c54dc);
                     break;
                 case 2:
-                    func_ov003_021c2120(2, 1);
+                    SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(func_ov003_021ca504);
                     break;
                 case 3:
-                    func_ov003_021c2120(2, 0);
-                    func_ov003_021c20f8(0, 0);
+                    SetPrimaryMenuPair(2, 0);
+                    SetSecondaryMenuPair(0, 0);
                     SetJb3ListMode(1);
                     SetUpdateFunction(CreateJb3List);
                     break;
@@ -74,7 +75,7 @@ void func_ov003_021cb3d8(void) {
 
 void MoveWaySelection(int param_1) {
     s32 a = gWaySelectedIndex;
-    s32 b = gWayMoveTargets[func_ov003_021c20a8(1)][a][param_1];
+    s32 b = gWayMoveTargets[HasModeFlag(1)][a][param_1];
     if (b == -1) {
         return;
     }
@@ -87,10 +88,10 @@ void MoveWaySelection(int param_1) {
         gWaySelectedIndex = b;
     }
     StartSoundSeq(8);
-    PlaceSelectionCorners(data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_00,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_04,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_02,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_06);
+    PlaceSelectionCorners(data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
 }
 
 void func_ov003_021cb2e0(void) {
@@ -104,8 +105,8 @@ void CreateAp(void) {
     a->mUnk_1d = 0;
     LoadApFilesAndSetBgCnt();
     LoadHlScr(1);
-    func_ov003_021bf43c(0x7b, -1, 0);
-    func_ov003_021bf5ec(0);
+    ShowSubScreenMessage(0x7b, -1, 0);
+    CreateObjectsForMenuPair(0);
     func_ov003_021cb11c();
     func_ov003_021caca8();
     SetUpdateFunction(func_ov003_021cb0e0);

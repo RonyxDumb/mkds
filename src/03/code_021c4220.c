@@ -48,10 +48,10 @@ void UpdateOptMenuMessageNextFadeOut(void) {
 void UpdateOptMenuMessageNextRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (v1 = func_ov003_021bf2f0(), v1 != 0)) {
+    if ((v1 == 0) && (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(func_ov003_021c5098);
     }
 }

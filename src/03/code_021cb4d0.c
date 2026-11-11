@@ -45,12 +45,12 @@ void SetupWay(void) {
     }
     LoadWayFilesAndSetBgCnt();
     LoadHlSetScr();
-    func_ov003_021bf43c(0x7e, data_ov003_021d6578[GetLanguageIndex()], a->mUnk_f4 + 1);
-    func_ov003_021bf5ec(1);
-    PlaceSelectionCorners(data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_00,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_04,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_02,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_06);
+    ShowSubScreenMessage(0x7e, data_ov003_021d6578[GetLanguageIndex()], a->mUnk_f4 + 1);
+    CreateObjectsForMenuPair(1);
+    PlaceSelectionCorners(data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
     SetUpdateFunction(func_ov003_021cb71c);
 }
 
@@ -78,7 +78,7 @@ void func_ov003_021cb6ec(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
-        func_ov003_021bf5c8(0);
+        CreateSlideButtonsForMenuPair(0);
         SetUpdateFunction(func_ov003_021cb6c8);
     }
 }
@@ -99,13 +99,13 @@ void UpdateWay(void) {
 void UpdateWayInput(void) {
     u32 i;
     for (i = 0; i < 4; i++) {
-        if (IsTouchPressedInRect(&gWayRects[func_ov003_021c20a8(1)][i]) != 0) {
+        if (IsTouchPressedInRect(&gWayRects[HasModeFlag(1)][i]) != 0) {
             SetButtonResultIfNone(1);
             gWaySelectedIndex = i;
-            PlaceSelectionCorners(data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_00,
-                                  data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_04,
-                                  data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_02,
-                                  data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_06);
+            PlaceSelectionCorners(data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+                                  data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                                  data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                                  data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
             return;
         }
     }

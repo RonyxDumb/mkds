@@ -72,11 +72,11 @@ void CreateJb3List(void) {
     func_ov003_021c94c8();
     LoadJb3ListFilesAndSetBgCnt();
     if (gJb3ListMode == 0) {
-        func_ov003_021bf43c(0x7c, data_ov003_021d6434[GetLanguageIndex()], b->mUnk_f4 + 1);
+        ShowSubScreenMessage(0x7c, data_ov003_021d6434[GetLanguageIndex()], b->mUnk_f4 + 1);
     } else {
-        func_ov003_021bf43c(0x97, -1, 0);
+        ShowSubScreenMessage(0x97, -1, 0);
     }
-    func_ov003_021bf5ec(1);
+    CreateObjectsForMenuPair(1);
     LoadHlListScr();
     func_ov003_021ccea4(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
     gJb3List->mUnk_14 = InitBgTextCanvas(0, 1);
@@ -129,7 +129,7 @@ void LoadJb3ListFilesAndSetBgCnt(void) {
 void func_ov003_021c94c8(void) {
     int v1[1];
     func_ov003_021cdb6c();
-    func_ov003_021c20dc(NULL, v1);
+    GetSecondaryMenuPair(NULL, v1);
     if (v1[0] == 0) {
         gJb3ListScrollY = 0;
         gJb3ListSelectedId = 0;
@@ -448,7 +448,7 @@ void func_ov003_021c8c14(void) {
     ReleaseBgTextCanvasOfScreen(0);
     ReleaseSelectionObjectSlots();
     if (gJb3List->mUnk_40 != 0xc) {
-        func_ov003_021bf410();
+        HideSubScreenMessage();
     }
     func_ov003_021cca10();
     DeleteLoadedFile(gJb3List->mJb3ListBackNsc);
@@ -465,8 +465,8 @@ void func_ov003_021c8c14(void) {
     switch (v) {
         case 0:
         case 1:
-            func_ov003_021c20f8(v, 0);
-            func_ov003_021c2120(2, 0);
+            SetSecondaryMenuPair(v, 0);
+            SetPrimaryMenuPair(2, 0);
             SetUpdateFunction(CreateEdit);
             break;
         case 4:
@@ -478,8 +478,8 @@ void func_ov003_021c8c14(void) {
             if (v >= 9) {
                 i -= 2;
             }
-            func_ov003_021c2120(2, 0);
-            func_ov003_021c20f8(i, 0);
+            SetPrimaryMenuPair(2, 0);
+            SetSecondaryMenuPair(i, 0);
             SetUpdateFunction(CreateEditAddr);
             break;
         case 11:
@@ -494,21 +494,21 @@ void func_ov003_021c8c14(void) {
             if (r->mUnk_f6 != 0) {
                 MI_CpuFill8(r->mUnk_00.mUnk_c8, 0, 8);
             }
-            func_ov003_021c2120(2, 0);
-            func_ov003_021c20f8(0, 0);
+            SetPrimaryMenuPair(2, 0);
+            SetSecondaryMenuPair(0, 0);
             SetUpdateFunction(func_ov003_021cbb98);
             break;
         case 12:
-            func_ov003_021c2120(0, 0);
+            SetPrimaryMenuPair(0, 0);
             SetUpdateFunction(func_ov003_021c9944);
             break;
         case 13:
             if (gJb3ListMode == 0) {
-                func_ov003_021c2120(2, 1);
+                SetPrimaryMenuPair(2, 1);
                 SetUpdateFunction(CreateAp);
             } else {
                 func_ov003_021cd790((func_ov003_021cdb6c())->mUnk_f4);
-                func_ov003_021c2120(0, 1);
+                SetPrimaryMenuPair(0, 1);
                 SetUpdateFunction(SetupWay);
             }
             break;

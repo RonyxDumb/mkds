@@ -31,7 +31,7 @@ void SetupYb5Multi(void) {
     gYb5MultiShowNext = 0;
     LoadYb5MultiFileAndSetBgCnt();
     LoadHlScr(18);
-    func_ov003_021bf43c(140, -1, 0);
+    ShowSubScreenMessage(140, -1, 0);
     PrintMessage(85);
     SetUpdateFunction(StartYb5MultiFadeIn);
 }
@@ -95,7 +95,7 @@ void UpdateYb5MultiFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
-        func_ov003_021bf5c8(3);
+        CreateSlideButtonsForMenuPair(3);
         SetUpdateFunction(UpdateYb5MultiButtonsIn);
     }
 }
@@ -165,19 +165,19 @@ void UpdateYb5MultiRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if ((v1 == 0) && (((gYb5MultiShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = func_ov003_021bf2f0(), v1 != 0)))) {
+                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
         ReleaseBgTextCanvasOfScreen(0);
         if (gYb5MultiShowNext == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (gYb5MultiShowNext == 0) {
-            func_ov003_021c2120(0, 1);
+            SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(SetupOptMenu);
             return;
         }
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupYb5MultiNext);
     }
 }

@@ -15,7 +15,7 @@ void UpdateOptMenuMessageNextFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
-        func_ov003_021bf5c8(4);
+        CreateSlideButtonsForMenuPair(4);
         SetUpdateFunction(UpdateOptMenuMessageNextButtonsIn);
     }
 }

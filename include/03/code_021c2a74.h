@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov003_021c2a74(void);
+void StartMainFadeOut(void);

@@ -21,7 +21,7 @@ s32 func_ov000_021a5c24(void);
 s32 func_ov000_021a5e84(Unk021a5e84 *a, Unk02188de4 *b, u32 c);
 s32 func_ov000_021a60a4(const void *a, const u8 *b, u32 c);
 s32 func_ov000_021a61c4(const void *a, const u8 *b, u32 c);
-s32 func_ov000_021a629c(Unk021a5a78 *a, void (*b)(Unk021a586c *));
+s32 func_ov000_021a629c(WCMConfig *a, void (*b)(Unk021a586c *));
 BOOL func_ov000_021a6428(void);
 s32 func_ov000_021a6470(Unk021b5f50 *a, u32 b);
 void func_ov000_021a6558(Unk021b5f50_2270_0c *a);

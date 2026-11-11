@@ -32,7 +32,7 @@
 void SetupJb2Menu(void) {
     LoadJb2MenuFilesAndSetBgCnt();
     LoadHlScr(0);
-    func_ov003_021bf43c(0x7a, -1, 0);
+    ShowSubScreenMessage(0x7a, -1, 0);
     func_ov003_021cdcf0(4);
     PlaceSelectionCorners(
         gJb2MenuSelectionLeft[gJb2MenuSelectedIndex * 4], gJb2MenuSelectionRight[gJb2MenuSelectedIndex * 4],
@@ -65,7 +65,7 @@ void UpdateJb2MenuFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
-        func_ov003_021bf5c8(0);
+        CreateSlideButtonsForMenuPair(0);
         SetUpdateFunction(UpdateJb2MenuButtonsIn);
     }
 }
@@ -116,7 +116,7 @@ void UpdateJb2MenuResult(void) {
     switch (GetButtonResult()) {
         case 0:
             StartSoundSeq(7);
-            SetUpdateFunction(func_ov003_021c2a74);
+            SetUpdateFunction(StartMainFadeOut);
             break;
         case 1:
             StartSoundSeq(6);
@@ -145,17 +145,17 @@ void UpdateJb2MenuFadeOut(void) {
 void UpdateJb2MenuRelease(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         ReleaseSelectionObjectSlots();
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         DeleteLoadedFile(gYbBgStep11Ncl);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
         switch (gJb2MenuSelectedIndex) {
             case 0:
-                func_ov003_021c2120(1, 0);
+                SetPrimaryMenuPair(1, 0);
                 SetUpdateFunction(CreateAp);
                 break;
             case 1:
-                func_ov003_021c2120(0, 0);
+                SetPrimaryMenuPair(0, 0);
                 SetUpdateFunction(SetupOptMenu);
                 break;
         }

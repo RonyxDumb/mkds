@@ -45,7 +45,7 @@ void SetupOptMenu(void) {
     LoadOptMenuFilesAndSetBgCnt();
     LoadHlScr(0x10);
     func_ov003_021cdcf0(3);
-    func_ov003_021bf43c(0x88, -1, 0);
+    ShowSubScreenMessage(0x88, -1, 0);
     gOptMenuOamEntry = CreateOamEntryFromNceImage(0, 0x5b);
     oamEntry = gOptMenuOamEntry;
     oamEntry->mUnk_00 = ((gOptMenuOamEntryPosition[0] & 0x1ff) << 16) |
@@ -101,7 +101,7 @@ void UpdateOptMenuFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
-        func_ov003_021bf5c8(0);
+        CreateSlideButtonsForMenuPair(0);
         SetUpdateFunction(UpdateOptMenuButtonsIn);
     }
 }
@@ -187,28 +187,29 @@ void UpdateOptMenuFadeOut(void) {
 }
 
 void UpdateOptMenuRelease(void) {
-    if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021bf2f0() != 0) {
+    if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
+        IsSlideButtonsNotSlidingOut() != 0) {
         DeleteOamEntry((u32 *) gOptMenuOamEntry);
         ReleaseSelectionObjectSlots();
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         DeleteLoadedFile(gYbBgOption1Ncl);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
         if (gOptMenuEntryChosen[0] == 0) {
-            func_ov003_021c2120(0, 0);
+            SetPrimaryMenuPair(0, 0);
             SetUpdateFunction(SetupJb2Menu);
         } else {
             switch (gOptMenuSelectedIndex) {
                 case 0:
-                    func_ov003_021c2120(0, 1);
+                    SetPrimaryMenuPair(0, 1);
                     SetUpdateFunction(SetupJb5Info);
                     break;
                 case 1:
-                    func_ov003_021c2120(0, 1);
+                    SetPrimaryMenuPair(0, 1);
                     SetUpdateFunction(SetupYb5Multi);
                     break;
                 case 2:
-                    func_ov003_021c2120(0, 1);
+                    SetPrimaryMenuPair(0, 1);
                     SetUpdateFunction(SetupOptMenuMessage);
                     break;
             }

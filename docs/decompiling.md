@@ -541,7 +541,7 @@ Expression shapes:
   ...; ... p[5] = ...;` with no offset or base locals (Thumb; func_ov003_021cf378).
 - An add with the loaded `s16` element first: `x = a[i]; x += p[i].m;` (HeadphoneProc).
 - A call's later argument computed before the call in an earlier argument: pass through a static inline wrapper taking
-  all the arguments (func_ov003_021c25e0).
+  all the arguments (AdvanceChildWaitSession).
 - Index scaled (`lsl #2`) before the base pointer is reloaded: compute the entry address inside the statement that uses
   the index, and set the pointer local after it (MBi_CommParentSendBlock).
 - A field load after an abs branch, with the `-K` constant load filling its delay and taking r0 across the multiply:
@@ -736,7 +736,7 @@ Expression shapes:
   (AdvanceScanConnect).
 - A compare tree where the original has a jump table, or a table over a different range: add empty case labels. The
   compiler groups sorted case values into a table while (count / value span) is at least 0.4; pick the labels to hit
-  that (func_ov003_021c25e0, MPLinkCallback).
+  that (AdvanceChildWaitSession, MPLinkCallback).
 - Signed `bgt`/`blt` on a switch where ours has `bhi`/`bcc`: the switch operand is signed, an `s32` parameter or an
   `(s32)` cast (MPLinkCallback).
 - An inner switch value loaded before its guard, with case results set in the same register and stored once after the

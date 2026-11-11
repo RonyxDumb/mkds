@@ -41,13 +41,13 @@ void SetupUsb(void) {
     data_ov003_021da258 = 0;
     LoadUsbFilesAndSetBgCnt();
     LoadHlScr(8);
-    func_ov003_021bf5ec(2);
+    CreateObjectsForMenuPair(2);
     OS_GetOwnerInfo(&b);
     a[0] = 0;
     MIi_CpuClear16(a[0], &a[1], 0x16);
     MIi_CpuCopy16(b.mUnk_04, &a[1], b.mUnk_18 * 2);
     PrintMessageAndText((u32) &a[1], 0x6d);
-    func_ov003_021beef8(0);
+    CreateAnimatedIcon(0);
     func_ov003_021ce920(func_ov003_021cc4ec);
     StartSoundSeq(0xb);
     SetUpdateFunction(func_ov003_021cc790);
@@ -116,7 +116,7 @@ void func_ov003_021cc76c(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if (v1 == 0) {
-        func_ov003_021bf5c8(2);
+        CreateSlideButtonsForMenuPair(2);
         SetUpdateFunction(func_ov003_021cc748);
     }
 }
@@ -178,23 +178,23 @@ void func_ov003_021cc658(void) {
 
 void func_ov003_021cc5a8(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0 && (data_ov003_021da258 != 2 || IsBlendBrightnessFadeSlotBusy(1) == 0) &&
-        func_ov003_021bf2f0() != 0) {
+        IsSlideButtonsNotSlidingOut() != 0) {
         func_ov003_021ce848();
-        func_ov003_021beecc();
+        ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da258 == 2 || data_ov003_021da258 == 3) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da258 == 2) {
-            func_ov003_021c2120(2, 1);
+            SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(CreateAp);
         } else if (data_ov003_021da258 == 3) {
-            func_ov003_021c2120(2, 1);
+            SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupXb3Multi);
         } else {
-            func_ov003_021c2120(0, 0);
+            SetPrimaryMenuPair(0, 0);
             SetUpdateFunction(func_ov003_021cc110);
         }
     }

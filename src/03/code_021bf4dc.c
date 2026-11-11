@@ -20,16 +20,16 @@
 u8 *BuildFilePathWithLanguage(const u8 *path) {
     u32 language;
 
-    strncpy((char *) data_ov003_021da110, (const char *) path, 0x3f);
+    strncpy((char *) gLanguagePathBuffer, (const char *) path, 0x3f);
     if (path[5] == 0x78) {
-        return data_ov003_021da110;
+        return gLanguagePathBuffer;
     }
     language = GetLanguageIndex();
     if (path[5] == 0x79 && language != 0) {
-        return data_ov003_021da110;
+        return gLanguagePathBuffer;
     }
-    data_ov003_021da110[5] = data_ov003_021d5f04[language];
-    return data_ov003_021da110;
+    gLanguagePathBuffer[5] = gLanguagePathLetters[language];
+    return gLanguagePathBuffer;
 }
 
 u32 LoadFileToVram(void *path, void *loader) {
@@ -42,22 +42,22 @@ u32 LoadFileToVram(void *path, void *loader) {
     DeleteLoadedFile(data);
 }
 
-void func_ov003_021bf5ec(u32 a) {
-    int v1[2];
-    func_ov003_021c2104(v1, NULL);
-    if (v1[0] == 1) {
+void CreateObjectsForMenuPair(u32 a) {
+    int firstValue[2];
+    GetPrimaryMenuPair(firstValue, NULL);
+    if (firstValue[0] == 1) {
         func_ov003_021ce408(a);
         return;
     }
-    if (v1[0] == 2) {
+    if (firstValue[0] == 2) {
         func_ov003_021ce024(a);
     }
 }
 
-void func_ov003_021bf5c8(u32 variant) {
-    int v1[2];
-    func_ov003_021c2104(NULL, v1);
-    if (v1[0] == 1) {
+void CreateSlideButtonsForMenuPair(u32 variant) {
+    int secondValue[2];
+    GetPrimaryMenuPair(NULL, secondValue);
+    if (secondValue[0] == 1) {
         CreateSlideButtons(variant);
     }
 }
@@ -68,8 +68,8 @@ void PrintMessage(u32 messageIndex) {
 
     canvas = InitBgTextCanvas(0, 0);
     message = GetMessageEntry(gMessages, messageIndex);
-    DrawCanvasTextRect(canvas, data_ov003_021d5f0c[0], data_ov003_021d5f0c[1], data_ov003_021d5f0c[2],
-                       data_ov003_021d5f0c[3], 2, GetLanguageTextFlags(), message);
+    DrawCanvasTextRect(canvas, gPrintMessageRect[0], gPrintMessageRect[1], gPrintMessageRect[2], gPrintMessageRect[3],
+                       2, GetLanguageTextFlags(), message);
     RequestBgTextCanvasUpload(canvas);
 }
 
@@ -79,10 +79,10 @@ void PrintMessageAndText(u32 text, u32 messageIndex) {
 
     canvas = InitBgTextCanvas(0, 0);
     message = GetMessageEntry(gMessages, messageIndex);
-    DrawCanvasTextRect(canvas, data_ov003_021d5f14[0], data_ov003_021d5f14[1], data_ov003_021d5f14[2],
-                       data_ov003_021d5f14[3], 2, GetLanguageTextFlags(), message);
-    DrawCanvasText((u32) canvas, data_ov003_021d5f34[GetLanguageIndex() * 2],
-                   data_ov003_021d5f36[GetLanguageIndex() * 2], 2, 0x209, text);
+    DrawCanvasTextRect(canvas, gPrintMessageAndTextRect[0], gPrintMessageAndTextRect[1], gPrintMessageAndTextRect[2],
+                       gPrintMessageAndTextRect[3], 2, GetLanguageTextFlags(), message);
+    DrawCanvasText((u32) canvas, gPrintMessageTextXPositions[GetLanguageIndex() * 2],
+                   gPrintMessageTextYPositions[GetLanguageIndex() * 2], 2, 0x209, text);
     RequestBgTextCanvasUpload(canvas);
 }
 
@@ -91,7 +91,7 @@ u32 GetLanguageTextFlags(void) {
     u32 value1;
     value0 = GetLanguageIndex();
     value1 = (value0 << 2);
-    value0 = (u32) &data_ov003_021d5f1c;
+    value0 = (u32) &gLanguageTextFlags;
     value0 = *(const u32 *) ((value0) + (value1));
     return value0;
 }

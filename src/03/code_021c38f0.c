@@ -14,7 +14,7 @@
 void SetupJb5Info(void) {
     LoadJb5InfoFileAndSetBgCnt();
     LoadHlScr(0x11);
-    func_ov003_021bf43c(0x89, -1, 0);
+    ShowSubScreenMessage(0x89, -1, 0);
     PrintJb5Info();
     SetUpdateFunction(StartJb5InfoFadeIn);
 }

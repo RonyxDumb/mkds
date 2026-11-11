@@ -15,69 +15,69 @@
 #include "03/code_021bf410.h"
 #include "code_0200fc8c.h"
 
-void func_ov003_021c2840(u32 callback) {
-    Unk021d6e24 b;
-    data_ov003_021da194 = AllocExpHeapBlock(0x1e2a4, 0x20);
-    data_ov003_021da194->mCallback = (void (*)(s32)) callback;
-    data_ov003_021da194->mUnk_1e2a0 = 0;
-    data_ov003_021da194->mUnk_1e2a1 = 0;
-    b = data_ov003_021d6e24;
-    b.mUnk_04 = GetMessageEntry(gMessages, 0xf);
-    b.mUnk_08 = GetMessageEntry(gMessages, 0x10);
-    b.mUnk_18 = GetLanguageIndex() + 0x31;
-    func_ov003_021d1358((Unk021da2ac *) data_ov003_021da194, (Unk021d1358 *) &b);
+void CreateChildWaitSession(u32 callback) {
+    ChildWaitParams params;
+    gChildWaitSession = AllocExpHeapBlock(0x1e2a4, 0x20);
+    gChildWaitSession->mCallback = (void (*)(s32)) callback;
+    gChildWaitSession->mUnk_1e2a0 = 0;
+    gChildWaitSession->mStopRequested = 0;
+    params = gChildWaitParams;
+    params.mUnk_04 = GetMessageEntry(gMessages, 0xf);
+    params.mUnk_08 = GetMessageEntry(gMessages, 0x10);
+    params.mUnk_18 = GetLanguageIndex() + 0x31;
+    func_ov003_021d1358((Unk021da2ac *) gChildWaitSession, (Unk021d1358 *) &params);
     if (func_ov003_021d11d4() == 0) {
         OS_Terminate();
     }
-    data_ov003_021da194->mStepTask = AddTask(0, func_ov003_021c25e0, NULL, 0x78);
+    gChildWaitSession->mStepTask = AddTask(0, AdvanceChildWaitSession, NULL, 0x78);
 }
 
-void func_ov003_021c2824(void) {
-    AddTask(0, &func_ov003_021c27f8, NULL, 0x78);
+void StartChildWaitStop(void) {
+    AddTask(0, &AdvanceChildWaitStop, NULL, 0x78);
 }
 
-void func_ov003_021c27f8(u32 task) {
+void AdvanceChildWaitStop(u32 task) {
     int result;
     result = func_ov003_021d1290();
     if (result != 0) {
-        data_ov003_021da194->mUnk_1e2a1 = 1;
+        gChildWaitSession->mStopRequested = 1;
         RequestTaskRemoval(0, task);
     }
 }
 
-BOOL func_ov003_021c27e4(void) {
-    if (data_ov003_021da194 == NULL) {
+BOOL IsChildWaitSessionReleased(void) {
+    if (gChildWaitSession == NULL) {
         return 1;
     }
     return 0;
 }
 
-void func_ov003_021c27d0(void *callback) {
-    data_ov003_021da194->mCallback = (void (*)(s32)) callback;
+void SetChildWaitCallback(void *callback) {
+    gChildWaitSession->mCallback = (void (*)(s32)) callback;
 }
 
-u32 func_ov003_021c27c8(void) {
+u32 ConfirmChildWaitUser(void) {
     u32 result;
-    u32 value3;
-    value3 = (u32) &func_ov003_021d11a0;
+    u32 functionAddress;
+    functionAddress = (u32) &func_ov003_021d11a0;
     result = func_ov003_021d11a0();
     return result;
 }
 
-u8 *func_ov003_021c27b4(void) {
-    return data_ov003_021da194->mUnk_1e280;
+u8 *GetChildUserBuffer(void) {
+    return gChildWaitSession->mChildUser;
 }
 
 static inline void func_ov003_021c25e0_inline(const void *source, void *destination, s32 size) {
     MIi_CpuCopy16(source, destination, size);
 }
 
-void func_ov003_021c25e0(u32 task) {
+void AdvanceChildWaitSession(u32 task) {
     u8 stateInfo[2];
-    Unk021da194 *object;
+    ChildWaitSession *object;
     func_ov003_021d0ee0();
-    object = data_ov003_021da194;
-    if (object->mUnk_1e2a0 != 0 && object->mUnk_1e2a1 == 0) {
+    object = gChildWaitSession;
+    if (object->mUnk_1e2a0 != 0 && object->mStopRequested == 0) {
         if (object->mCallback == NULL) {
             return;
         }
@@ -95,21 +95,21 @@ void func_ov003_021c25e0(u32 task) {
             if (stateInfo[1] == 0) {
                 break;
             }
-            func_ov003_021c25e0_inline(func_ov003_021d0e90(), data_ov003_021da194->mUnk_1e280, 0x16);
-            if (data_ov003_021da194->mCallback != NULL) {
-                data_ov003_021da194->mCallback(0);
+            func_ov003_021c25e0_inline(func_ov003_021d0e90(), gChildWaitSession->mChildUser, 0x16);
+            if (gChildWaitSession->mCallback != NULL) {
+                gChildWaitSession->mCallback(0);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                gChildWaitSession->mUnk_1e2a0 = 1;
             }
             break;
         case 13:
             if (stateInfo[1] == 0) {
                 break;
             }
-            if (data_ov003_021da194->mCallback != NULL) {
-                data_ov003_021da194->mCallback(1);
+            if (gChildWaitSession->mCallback != NULL) {
+                gChildWaitSession->mCallback(1);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                gChildWaitSession->mUnk_1e2a0 = 1;
             }
             break;
         case 20:
@@ -117,10 +117,10 @@ void func_ov003_021c25e0(u32 task) {
             if (stateInfo[1] == 0) {
                 break;
             }
-            if (data_ov003_021da194->mCallback != NULL) {
-                data_ov003_021da194->mCallback(3);
+            if (gChildWaitSession->mCallback != NULL) {
+                gChildWaitSession->mCallback(3);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                gChildWaitSession->mUnk_1e2a0 = 1;
             }
             break;
         case 26:
@@ -128,25 +128,25 @@ void func_ov003_021c25e0(u32 task) {
             if (stateInfo[1] == 0) {
                 break;
             }
-            if (data_ov003_021da194->mCallback != NULL) {
-                data_ov003_021da194->mCallback(4);
+            if (gChildWaitSession->mCallback != NULL) {
+                gChildWaitSession->mCallback(4);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                gChildWaitSession->mUnk_1e2a0 = 1;
             }
             break;
         case 12:
             if (stateInfo[1] == 0) {
                 break;
             }
-            if (data_ov003_021da194->mCallback != NULL) {
-                data_ov003_021da194->mCallback(2);
+            if (gChildWaitSession->mCallback != NULL) {
+                gChildWaitSession->mCallback(2);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                gChildWaitSession->mUnk_1e2a0 = 1;
             }
             break;
         case 34:
             RequestTaskRemoval(0, task);
-            FreeExpHeapBlockAndClearPointer(&data_ov003_021da194);
+            FreeExpHeapBlockAndClearPointer(&gChildWaitSession);
             break;
     }
 }

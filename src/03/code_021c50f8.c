@@ -46,11 +46,11 @@ void func_ov003_021c54dc(void) {
     data_ov003_021da1e0 = 0;
     func_ov003_021c5458();
     LoadHlSetScr();
-    func_ov003_021bf43c(0x82, -1, 0);
-    func_ov003_021bf5ec(2);
+    ShowSubScreenMessage(0x82, -1, 0);
+    CreateObjectsForMenuPair(2);
     PrintMessage(0x67);
-    func_ov003_021beef8(0);
-    func_ov003_021c1fc8();
+    CreateAnimatedIcon(0);
+    InitValueRecordsRequest();
     StartSoundSeq(0xb);
     SetUpdateFunction(func_ov003_021c541c);
 }
@@ -76,7 +76,7 @@ void func_ov003_021c541c(void) {
 
 void func_ov003_021c53ec(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
-        func_ov003_021bf5c8(1);
+        CreateSlideButtonsForMenuPair(1);
         SetUpdateFunction(func_ov003_021c53b4);
     }
 }
@@ -93,7 +93,7 @@ void func_ov003_021c5324(void) {
     func_ov003_021c52f4();
     func_ov003_021c52f0();
     func_ov003_021c52d0();
-    a = func_ov003_021c1f34();
+    a = RunValueRecordsRequestForStatus();
     switch (a) {
         case 0:
             break;
@@ -165,21 +165,21 @@ void func_ov003_021c51bc(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if ((v1 == 0) && (((data_ov003_021da1dc != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = func_ov003_021bf2f0(), v1 != 0)))) {
-        func_ov003_021c1f84((data_ov003_021da1dc != 0));
-        func_ov003_021beecc();
+                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
+        ReleaseValueRecordsRequest((data_ov003_021da1dc != 0));
+        ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da1dc == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da1dc == 0) {
-            func_ov003_021c2120(2, 1);
+            SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupWay);
             return;
         }
-        func_ov003_021c2120(0, 0);
+        SetPrimaryMenuPair(0, 0);
         SetUpdateFunction(func_ov003_021c56a4);
     }
 }

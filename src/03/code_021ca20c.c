@@ -42,10 +42,10 @@ void func_ov003_021ca504(void) {
     data_ov003_021da224 = 0;
     func_ov003_021ca480();
     LoadHlSetScr();
-    func_ov003_021bf43c(0x83, -1, 0);
-    func_ov003_021bf5ec(2);
+    ShowSubScreenMessage(0x83, -1, 0);
+    CreateObjectsForMenuPair(2);
     PrintMessage(0x69);
-    func_ov003_021beef8(0);
+    CreateAnimatedIcon(0);
     StartSoundSeq(0xb);
     SetUpdateFunction(func_ov003_021ca444);
 }
@@ -114,7 +114,7 @@ void func_ov003_021ca444(void) {
 void func_ov003_021ca410(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         StartExchangeWithStatusRecord();
-        func_ov003_021bf5c8(1);
+        CreateSlideButtonsForMenuPair(1);
         SetUpdateFunction(func_ov003_021ca3ec);
     }
 }
@@ -186,27 +186,27 @@ void func_ov003_021ca270(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if ((v1 == 0) && (((data_ov003_021da224 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = func_ov003_021bf2f0(), v1 != 0)))) {
-        func_ov003_021beecc();
+                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
+        ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da224 == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da224 == 0) {
             StopExchangeWithStatusRecord();
-            func_ov003_021c2120(2, 1);
+            SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupWay);
             return;
         }
-        func_ov003_021c2120(0, 0);
+        SetPrimaryMenuPair(0, 0);
         SetUpdateFunction(func_ov003_021c9c5c);
     }
 }
 
 void func_ov003_021ca20c(void) {
-    switch (func_ov003_021c2938()) {
+    switch (GetExchangeOutcome()) {
         case 1:
             data_ov003_021da224 = 1;
             SetUpdateFunction(func_ov003_021ca350);

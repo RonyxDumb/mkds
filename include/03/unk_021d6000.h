@@ -17,9 +17,9 @@ typedef struct Unk021d64f0 {
 } Unk021d64f0;
 
 // Four bytes moved as one value.
-typedef struct Unk021d6974 {
+typedef struct Bytes4 {
     /* 0 */ u8 mUnk_00[4];
-} Unk021d6974;
+} Bytes4;
 
 // 0x44 bytes moved as one value.
 typedef struct Unk021d66d0 {
@@ -64,14 +64,14 @@ extern u16 data_ov003_021d6798[][2];
 extern u16 data_ov003_021d67b0[][2][2];
 extern u32 gThreadStackSize;
 extern s32 gTimeoutAtMs;
-extern s32 data_ov003_021d68bc;
-extern u8 *data_ov003_021d68ac;
-extern u32 data_ov003_021d68b0;
+extern s32 gStartEntryCount;
+extern u8 *gKind2ItemBuffer;
+extern u32 gFormatAddressesFlag;
 extern char gSixAsterisksString[];
 extern Bytes7 gKind2Item3Bytes;
-extern Unk021d6974 data_ov003_021d6974;
-extern u8 data_ov003_021d691c[];
-extern u8 data_ov003_021d697c[];
+extern Bytes4 gWarpString;
+extern u8 gExchangeSocketConfig[];
+extern u8 gJtNullNscName[];
 extern u8 data_ov003_021d67f0[];
 extern u8 data_ov003_021d6214[];
 extern u8 data_ov003_021d6218[];

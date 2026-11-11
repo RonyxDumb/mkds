@@ -20,7 +20,7 @@
 #include "os_thread.h"
 #include "code_0200fc8c.h"
 
-void func_ov003_021c2a28(void) {
+void ReleaseMainAndQuit(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         FreeNceFile(1);
         FreeNceFile(0);
@@ -29,13 +29,13 @@ void func_ov003_021c2a28(void) {
         ReleaseMessages(gMessages);
         FreeMessagesPool();
         func_ov003_021cdb80();
-        func_ov003_021c209c();
+        SetQuitFlag();
     }
 }
 
 void StartExchangeWithStatusRecord(void) {
     gExchangeStatusRecord = AllocZeroedExpHeapBlock(0xc, -4);
-    if (StartExchange(0xf, 0x40, StoreExchangeStatus, func_ov003_021c28f8, func_ov003_021c28f0, 0x800) != 1) {
+    if (StartExchange(0xf, 0x40, StoreExchangeStatus, AllocExpHeapBlockWrapper, FreeExpHeapBlockWrapper, 0x800) != 1) {
         OS_Terminate();
     }
     OS_Sleep(0xa);
@@ -48,7 +48,7 @@ void StopExchangeWithStatusRecord(void) {
     FreeExpHeapBlockAndClearPointer(&gExchangeStatusRecord);
 }
 
-u32 func_ov003_021c2938(void) {
+u32 GetExchangeOutcome(void) {
     ExchangeResult exchangeResult;
     switch (gExchangeStatusRecord->mStatus) {
         case 0:
@@ -73,7 +73,7 @@ u32 func_ov003_021c2938(void) {
     }
 }
 
-void func_ov003_021c2918(void) {
+void StoreExchangeResultForAp(void) {
     ExchangeResult exchangeResult;
     if (CopyExchangeResult(&exchangeResult) != 1) {
         OS_Terminate();

@@ -30,11 +30,11 @@
 #include "03/code_021c209c.h"
 
 void func_ov003_021c5098(void) {
-    func_ov003_021c2840((u32) &func_ov003_021c4dd4);
+    CreateChildWaitSession((u32) &func_ov003_021c4dd4);
     *(u8 *) &data_ov003_021da1d8 = 0;
     func_ov003_021c5034();
     PrintMessage(0x5e);
-    func_ov003_021beef8(0);
+    CreateAnimatedIcon(0);
     StartSoundSeq(0xb);
     SetUpdateFunction(func_ov003_021c500c);
 }
@@ -96,7 +96,7 @@ void func_ov003_021c4fe8(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if (v1 == 0) {
-        func_ov003_021bf5c8(1);
+        CreateSlideButtonsForMenuPair(1);
         SetUpdateFunction(func_ov003_021c4fc8);
     }
 }
@@ -140,7 +140,7 @@ void func_ov003_021c4f54(void) {
 
 void func_ov003_021c4f24(void) {
     if (data_ov003_021da1d8 == 0) {
-        func_ov003_021c2824();
+        StartChildWaitStop();
     }
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
@@ -150,7 +150,7 @@ void func_ov003_021c4f24(void) {
 void func_ov003_021c4ecc(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && ((data_ov003_021da1d8 != 0 || (v1 = func_ov003_021c27e4(), v1 != 0)))) {
+    if ((v1 == 0) && ((data_ov003_021da1d8 != 0 || (v1 = IsChildWaitSessionReleased(), v1 != 0)))) {
         StartSlideButtonsOut();
         if (data_ov003_021da1d8 == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
@@ -164,26 +164,26 @@ void func_ov003_021c4e14(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if (((v1 == 0) && (((data_ov003_021da1d8 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                        (v1 = func_ov003_021bf2f0(), v1 != 0)))) &&
-        ((data_ov003_021da1d8 != 0 || (v1 = func_ov003_021c27e4(), v1 != 0)))) {
-        func_ov003_021beecc();
+                        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) &&
+        ((data_ov003_021da1d8 != 0 || (v1 = IsChildWaitSessionReleased(), v1 != 0)))) {
+        ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da1d8 == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da1d8 == 0) {
-            func_ov003_021c2120(0, 1);
+            SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(SetupOptMenu);
             return;
         }
         if (data_ov003_021da1d8 == 2) {
-            func_ov003_021c2120(0, 1);
+            SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(func_ov003_021c4aa4);
             return;
         }
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupJb5Move);
     }
 }
@@ -197,6 +197,6 @@ void func_ov003_021c4dd4(int a) {
         data_ov003_021da1d8 = 2;
         StartSoundSeq(0x12);
     }
-    func_ov003_021c27d0(NULL);
+    SetChildWaitCallback(NULL);
     SetUpdateFunction(func_ov003_021c4f24);
 }

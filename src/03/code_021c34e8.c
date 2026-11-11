@@ -52,12 +52,13 @@ void UpdateJb5InfoFadeOut(void) {
 void UpdateJb5InfoRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) && (v1 = func_ov003_021bf2f0(), v1 != 0)) {
+    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
+        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupOptMenu);
     }
 }
@@ -126,7 +127,7 @@ void UpdateYb5MultiNextFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
     if (fadeSlotBusy == 0) {
-        func_ov003_021bf5c8(5);
+        CreateSlideButtonsForMenuPair(5);
         SetUpdateFunction(UpdateYb5MultiNextButtonsIn);
     }
 }

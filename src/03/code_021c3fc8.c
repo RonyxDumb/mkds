@@ -59,7 +59,7 @@ void UpdateLinkMessageNextPowerOff(void) {
 void SetupLinkMessage(void) {
     LoadLinkMessageFileAndSetBgCnt();
     PrintMessage(0x60);
-    func_ov003_021beef8(0);
+    CreateAnimatedIcon(0);
     CreateLinkLevel(1);
     StartSoundSeq(0xb);
     SetUpdateFunction(StartLinkMessageFadeIn);

@@ -55,7 +55,7 @@ u8 func_ov000_02189f00(void) {
         s.mUnk_08 = 0;
         s.mUnk_0c = 0;
         func_ov000_0218973c(0);
-        r = func_ov000_021a629c((Unk021a5a78 *) &s, (void (*)(Unk021a586c *)) func_ov000_02188d78);
+        r = func_ov000_021a629c((WCMConfig *) &s, (void (*)(Unk021a586c *)) func_ov000_02188d78);
         if (r == 1 || r >= 4) {
             func_ov000_02188508(1);
             return 0x11;
@@ -133,16 +133,16 @@ void func_ov000_02189d2c(u32 a) {
     switch (a) {
         case 3:
             v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->mUnk_d11, 0x200000);
+            func_ov000_02189868(WCM_Bssid_Any, WCM_Essid_Any, v1->mUnk_d11, 0x200000);
             break;
         case 4:
             v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04,
-                                v1->mUnk_300[v1->mUnk_d0f].mUnk_02, 0x300000);
+            func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_300[v1->mUnk_d0f].mUnk_02,
+                                0x300000);
             break;
         case 5:
             v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
+            func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
             break;
     }
 }
@@ -151,7 +151,7 @@ u32 func_ov000_02189cdc(Unk02188ec0 *v1) {
     v1->mUnk_cb0 = OS_GetTick();
     v1->mUnk_d11 = 0;
     v1->mUnk_cb0 = OS_GetTick();
-    func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->mUnk_d11, 0x200000);
+    func_ov000_02189868(WCM_Bssid_Any, WCM_Essid_Any, v1->mUnk_d11, 0x200000);
     return 3;
 }
 
@@ -162,7 +162,7 @@ u32 func_ov000_02189c50(Unk02188ec0 *v1) {
             return func_ov000_02189998(v1, 3);
         }
         v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->mUnk_d11, 0x200000);
+        func_ov000_02189868(WCM_Bssid_Any, WCM_Essid_Any, v1->mUnk_d11, 0x200000);
     }
     return 3;
 }
@@ -184,7 +184,7 @@ u32 func_ov000_02189b28(Unk02188ec0 *v1) {
             return func_ov000_02189998(v1, 4);
         }
         v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_300[v1->mUnk_d0f].mUnk_02,
+        func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_300[v1->mUnk_d0f].mUnk_02,
                             0x300000);
     }
     return 4;
@@ -204,7 +204,7 @@ u32 func_ov000_02189a28(Unk02188ec0 *v1) {
             return func_ov000_02189998(v1, 5);
         }
         v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
+        func_ov000_02189868(WCM_Bssid_Any, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
     }
     return 5;
 }

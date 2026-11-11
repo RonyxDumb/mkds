@@ -34,7 +34,7 @@ void PrintJb4Error(void) {
     u16 f;
     u16 g;
     u16 h[8];
-    func_ov003_021c20dc(NULL, &b);
+    GetSecondaryMenuPair(NULL, &b);
     a = *(s32 *) gJb4ErrorCode;
     if (a >= -0x4e83) {
         c = 0x0;
@@ -136,7 +136,7 @@ void func_ov003_021c79b4(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
-        func_ov003_021bf5c8(4);
+        CreateSlideButtonsForMenuPair(4);
         SetUpdateFunction(func_ov003_021c7990);
     }
 }
@@ -194,19 +194,20 @@ void func_ov003_021c7850(void) {
     int v1;
     int v2[1];
     v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) && (v1 = func_ov003_021bf2f0(), v1 != 0)) {
+    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
+        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        func_ov003_021c20dc(NULL, v2);
+        GetSecondaryMenuPair(NULL, v2);
         if (v2[0] != 0) {
-            func_ov003_021c2120(2, 1);
+            SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(CreateAp);
             return;
         }
-        func_ov003_021c2120(2, 0);
-        func_ov003_021c20f8(0, 0);
+        SetPrimaryMenuPair(2, 0);
+        SetSecondaryMenuPair(0, 0);
         SetJb3ListMode(0);
         SetUpdateFunction(CreateJb3List);
     }

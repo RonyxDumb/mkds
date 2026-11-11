@@ -37,7 +37,7 @@ void func_ov003_021c9c5c(void) {
     func_ov003_021c9bf8();
     LoadHlSetScr();
     PrintMessage(0x6a);
-    func_ov003_021beef8(1);
+    CreateAnimatedIcon(1);
     SetUpdateFunction(func_ov003_021c9bd0);
 }
 
@@ -98,7 +98,7 @@ void func_ov003_021c9bac(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if (v1 == 0) {
-        func_ov003_021bf5c8(1);
+        CreateSlideButtonsForMenuPair(1);
         SetUpdateFunction(func_ov003_021c9b88);
     }
 }
@@ -170,27 +170,27 @@ void func_ov003_021c9a0c(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if ((v1 == 0) && (((data_ov003_021da218 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = func_ov003_021bf2f0(), v1 != 0)))) {
-        func_ov003_021beecc();
+                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
+        ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da218 == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da218 == 0) {
             StopExchangeWithStatusRecord();
-            func_ov003_021c2120(2, 1);
+            SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupWay);
             return;
         }
-        func_ov003_021c2120(0, 0);
+        SetPrimaryMenuPair(0, 0);
         SetUpdateFunction(func_ov003_021c9fd4);
     }
 }
 
 void func_ov003_021c99a8(void) {
-    switch (func_ov003_021c2938()) {
+    switch (GetExchangeOutcome()) {
         case 2:
             data_ov003_021da218 = 1;
             SetUpdateFunction(func_ov003_021c9aec);

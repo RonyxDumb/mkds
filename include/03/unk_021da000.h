@@ -40,8 +40,8 @@ typedef struct Jb3List {
 // Objects whose layout isn't known yet.
 typedef struct Unk021da280 Unk021da280;
 typedef struct Unk021cf260 Unk021cf260;
-extern SlideButtons *data_ov003_021da108;
-extern u8 data_ov003_021da10c;
+extern SlideButtons *gSlideButtons;
+extern u8 gSubScreenMessageShown;
 extern OamRange **gSelectionObjects;
 // Object behind gLinkLevel.
 typedef struct LinkLevel {
@@ -80,8 +80,8 @@ extern u8 gValueRecordsRequestSucceeded[];
 struct ValueRecordsRequest;
 extern struct ValueRecordsRequest *gValueRecordsRequest;
 extern u8 gLanguageIndex[];
-extern u8 data_ov003_021da170[];
-extern void *data_ov003_021da174;
+extern u8 gQuitFlag[];
+extern void *gHeapMemoryBlock;
 extern u8 gYb5MultiShowNext;
 extern u8 gOptMenuEntryChosen[];
 extern u8 gLinkMessageResult[];

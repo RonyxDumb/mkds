@@ -55,7 +55,7 @@ void func_ov003_021cb0b0(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
-        func_ov003_021bf5c8(0);
+        CreateSlideButtonsForMenuPair(0);
         SetUpdateFunction(func_ov003_021cb084);
     }
 }
@@ -136,7 +136,7 @@ void func_ov003_021caeb8(void) {
                     break;
                 case 1:
                     DisableButtonTouch();
-                    SetUpdateFunction(func_ov003_021c2a74);
+                    SetUpdateFunction(StartMainFadeOut);
                     return;
             }
             break;
@@ -194,7 +194,7 @@ void func_ov003_021cae28(void) {
 void func_ov003_021cacfc(void) {
     u32 i;
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021cdd28() != 0 &&
-        func_ov003_021bf2f0() != 0) {
+        IsSlideButtonsNotSlidingOut() != 0) {
         for (i = 0; i < 3; i++) {
             if (gAp->mUnk_04[i] != NULL) {
                 DeleteOamRange(gAp->mUnk_04[i]);
@@ -206,30 +206,30 @@ void func_ov003_021cacfc(void) {
             }
         }
         ReleaseSelectionObjectSlots();
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         DeleteLoadedFile(gAp->mYbBgStep11Ncl);
         LoadFileToVram(gYbObjMainNclName5, GX_LoadOBJPltt);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
         if (gAp->mUnk_1d == 2) {
-            func_ov003_021c2120(0, 0);
+            SetPrimaryMenuPair(0, 0);
             SetUpdateFunction(SetupJb2Menu);
         } else {
             switch (gApSelectedIndex[0]) {
                 case 0:
                 case 1:
                 case 2:
-                    func_ov003_021c2120(2, 0);
+                    SetPrimaryMenuPair(2, 0);
                     if (func_ov003_021cdb6c()->mUnk_00.mUnk_e7 == 0xff) {
                         SetUpdateFunction(SetupWay);
                     } else {
-                        func_ov003_021c20f8(0, 0);
+                        SetSecondaryMenuPair(0, 0);
                         SetJb3ListMode(0);
                         SetUpdateFunction(CreateJb3List);
                     }
                     break;
                 case 3:
-                    func_ov003_021c2120(2, 1);
+                    SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(SetupXb3Multi);
                     break;
             }
@@ -386,8 +386,8 @@ void func_ov003_021ca9c8(void) {
 }
 
 void func_ov003_021ca940(void) {
-    Unk021d6974 a;
-    Unk021d6974 b;
+    Bytes4 a;
+    Bytes4 b;
     int c;
     a = data_ov003_021d75c0;
     b = data_ov003_021d75c4;

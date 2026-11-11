@@ -49,7 +49,7 @@ void CreateEditAddr(void) {
     b[3] = data_ov003_021d7300[3];
     b[4] = data_ov003_021d7300[4];
     gEditAddr = AllocZeroedExpHeapBlock(0x18, 4);
-    func_ov003_021c20dc(&c, NULL);
+    GetSecondaryMenuPair(&c, NULL);
     a.mUnk_00[c](gEditAddr->mText);
     d = gEditAddr;
     if (memcmp(d->mText, data_ov003_021d73ac, 3) != 0) {
@@ -60,8 +60,8 @@ void CreateEditAddr(void) {
     }
     LoadEditAddrFilesAndSetBgCnt();
     LoadHlScr(c + 0xb);
-    func_ov003_021bf43c(b[c], -1, 0);
-    func_ov003_021bf5ec(2);
+    ShowSubScreenMessage(b[c], -1, 0);
+    CreateObjectsForMenuPair(2);
     gEditAddr->mUnk_00 = InitBgTextCanvas(0, 0);
     gEditAddr->mUnk_04 = CreateOamEntryFromNceImage(0, 0x3f);
     gEditAddr->mUnk_04->mUnk_04 = (gEditAddr->mUnk_04->mUnk_04 & 0xfffff3ff) | 0xc00;
@@ -333,18 +333,18 @@ void func_ov003_021c72a4(void) {
 
 void func_ov003_021c722c(void) {
     int v1[1];
-    func_ov003_021bf410();
+    HideSubScreenMessage();
     DeleteOamEntry((u32 *) (u32) (gEditAddr->mUnk_04));
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&gYbObjMainNclName3, &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x15);
-    func_ov003_021c20dc(v1, NULL);
+    GetSecondaryMenuPair(v1, NULL);
     if (3 <= v1[0]) {
         v1[0] = v1[0] + 1;
     }
-    func_ov003_021c2120(2, 1);
-    func_ov003_021c20f8(0, v1[0] + 3);
+    SetPrimaryMenuPair(2, 1);
+    SetSecondaryMenuPair(0, v1[0] + 3);
     SetUpdateFunction(CreateJb3List);
     FreeExpHeapBlockAndClearPointer(&gEditAddr);
 }
@@ -418,7 +418,7 @@ void func_ov003_021c70a4(void) {
             SetUpdateFunction(func_ov003_021c7614);
             return;
         }
-        func_ov003_021c20dc(&b, NULL);
+        GetSecondaryMenuPair(&b, NULL);
         a.mUnk_00[b](gEditAddr->mText);
         SetUpdateFunction(func_ov003_021c722c);
     }
@@ -493,7 +493,7 @@ BOOL func_ov003_021c6f64(void) {
     } while (c < 4);
     k += 8;
     func_ov003_021cd2e0((char *) k, b);
-    func_ov003_021c20dc(&f, NULL);
+    GetSecondaryMenuPair(&f, NULL);
     if (f == 1) {
         g = FALSE;
         h = 0;

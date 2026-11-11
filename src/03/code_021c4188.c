@@ -15,7 +15,7 @@ void UpdateLinkMessageNextFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
     if (fadeSlotBusy == 0) {
-        func_ov003_021bf5c8(5);
+        CreateSlideButtonsForMenuPair(5);
         SetUpdateFunction(UpdateLinkMessageNextButtonsIn);
     }
 }

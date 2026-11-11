@@ -11,8 +11,8 @@ typedef struct ExchangeStatus {
 extern ExchangeStatus *gExchangeStatusRecord;
 
 void StoreExchangeStatus(const ExchangeStatus *status);
-void func_ov003_021c2918(void);
-u32 func_ov003_021c2938(void);
+void StoreExchangeResultForAp(void);
+u32 GetExchangeOutcome(void);
 void StopExchangeWithStatusRecord(void);
 void StartExchangeWithStatusRecord(void);
-void func_ov003_021c2a28(void);
+void ReleaseMainAndQuit(void);

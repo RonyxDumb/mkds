@@ -37,16 +37,16 @@ void func_ov003_021cbb98(void) {
     s32 a;
     data_ov003_021da248 = 0;
     func_ov003_021cbb14();
-    func_ov003_021c20dc(NULL, &a);
+    GetSecondaryMenuPair(NULL, &a);
     if (a == 0) {
-        func_ov003_021bf43c(0x7d, -1, 0);
+        ShowSubScreenMessage(0x7d, -1, 0);
     }
-    func_ov003_021bf5ec(2);
+    CreateObjectsForMenuPair(2);
     if (a == 0) {
         LoadHlSetScr();
     }
     PrintMessage(0x76);
-    func_ov003_021beef8(0);
+    CreateAnimatedIcon(0);
     func_ov003_021cbaa0();
     CreateLinkLevel(0);
     StartSoundSeq(0xc);
@@ -111,7 +111,7 @@ void func_ov003_021cbaa0(void) {
     Unk02188868 b;
     Unk021cd5e0_400 *c = func_ov003_021cdb6c();
     MIi_CpuCopy32(data_ov003_021d6620, &b, 0xc);
-    func_ov003_021c20dc(NULL, &a);
+    GetSecondaryMenuPair(NULL, &a);
     if (a == 2) {
         b.mUnk_0a = 4;
     } else {
@@ -130,7 +130,7 @@ void func_ov003_021cba54(void) {
     int v1[1];
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    func_ov003_021c20dc(NULL, v1);
+    GetSecondaryMenuPair(NULL, v1);
     if (v1[0] == 0) {
         StartBlendBrightnessFade(2, 1, 1, 8);
         CombineDispcntBits(1, 1);
@@ -174,14 +174,14 @@ void func_ov003_021cb948(void) {
     if (func_ov000_02188720() != 0) {
         MI_CpuCopy8(GetPackedWiFiInfo(), a->mUnk_000[0].mUnk_f0, 0xe);
         MI_CpuCopy8(GetPackedWiFiInfo(), a->mUnk_000[1].mUnk_f0, 0xe);
-        func_ov003_021beecc();
+        ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da248 == 0) {
-            func_ov003_021c2120(0, 1);
+            SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(SetupJb4Error);
         } else {
-            func_ov003_021c2120(0, 1);
+            SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(func_ov003_021cbdbc);
         }
     }

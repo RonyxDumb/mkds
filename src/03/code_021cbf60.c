@@ -16,9 +16,9 @@
 void func_ov003_021cbf60(void) {
     s32 a;
     func_ov003_021cd27c();
-    func_ov003_021c20dc(NULL, &a);
+    GetSecondaryMenuPair(NULL, &a);
     func_ov003_021cbf0c();
-    func_ov003_021bf43c(0x7d, -1, 0);
+    ShowSubScreenMessage(0x7d, -1, 0);
     if (a != 2) {
         LoadHlSetScr();
     }

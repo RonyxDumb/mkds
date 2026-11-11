@@ -27,12 +27,12 @@ void StartLinkMessageFadeOut(void) {
 void UpdateLinkMessageRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (v1 = func_ov003_021c27e4(), v1 != 0)) {
+    if ((v1 == 0) && (v1 = IsChildWaitSessionReleased(), v1 != 0)) {
         ReleaseLinkLevel();
-        func_ov003_021beecc();
+        ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         if ((*(u8 *) &gLinkMessageResult) == 0) {
             SetUpdateFunction(func_ov003_021c4aa4);
             return;
@@ -60,7 +60,7 @@ void LinkMessageResultCallback(int a) {
         StopSoundSeq();
         StartSoundSeq(0x12);
     }
-    func_ov003_021c27d0(NULL);
-    func_ov003_021c2824();
+    SetChildWaitCallback(NULL);
+    StartChildWaitStop();
     SetUpdateFunction(StartLinkMessageFadeOut);
 }

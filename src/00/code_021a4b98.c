@@ -163,7 +163,7 @@ BOOL func_ov000_021a6428(void) {
     return FALSE;
 }
 
-s32 func_ov000_021a629c(Unk021a5a78 *a, void (*b)(Unk021a586c *)) {
+s32 func_ov000_021a629c(WCMConfig *a, void (*b)(Unk021a586c *)) {
     u32 v1;
     s32 r;
     Unk021b5f50 *g;
@@ -617,7 +617,7 @@ Unk021b5f50 *func_ov000_021a5b30(void) {
     return data_ov000_021b5f50;
 }
 
-void func_ov000_021a5a78(Unk021a5a78 *a, void (*b)(Unk021a586c *)) {
+void func_ov000_021a5a78(WCMConfig *a, void (*b)(Unk021a586c *)) {
     u8 *p;
 
     if (a == NULL) {
@@ -626,17 +626,17 @@ void func_ov000_021a5a78(Unk021a5a78 *a, void (*b)(Unk021a586c *)) {
         data_ov000_021b5f50->mUnk_2274 = 0;
         data_ov000_021b5f50->mUnk_2278 = 0;
     } else {
-        data_ov000_021b5f50->mUnk_226c = a->mUnk_00 & 3;
-        p = a->mUnk_04;
-        if ((((4 - ((u32) p & 3)) & 3) + 0xc) > a->mUnk_08) {
+        data_ov000_021b5f50->mUnk_226c = a->mDmaNo & 3;
+        p = a->mPbdBuffer;
+        if ((((4 - ((u32) p & 3)) & 3) + 0xc) > a->mNbdBuffer) {
             data_ov000_021b5f50->mUnk_2270 = NULL;
             data_ov000_021b5f50->mUnk_2274 = 0;
         } else {
             data_ov000_021b5f50->mUnk_2270 = (Unk021b5f50_2270 *) (((u32) p + 3) & ~3);
-            data_ov000_021b5f50->mUnk_2274 = a->mUnk_08 - ((4 - ((u32) a->mUnk_04 & 3)) & 3);
+            data_ov000_021b5f50->mUnk_2274 = a->mNbdBuffer - ((4 - ((u32) a->mPbdBuffer & 3)) & 3);
             MI_CpuFill8(data_ov000_021b5f50->mUnk_2270, 0, data_ov000_021b5f50->mUnk_2274);
         }
-        data_ov000_021b5f50->mUnk_2278 = a->mUnk_0c;
+        data_ov000_021b5f50->mUnk_2278 = a->mNbdMode;
     }
     data_ov000_021b5f50->mUnk_227c = b;
 }
@@ -656,12 +656,12 @@ void func_ov000_021a5948(const void *a, const u8 *b, u32 c) {
     data_ov000_021b5f50->mUnk_2288.mUnk_08 = v;
     data_ov000_021b5f50->mUnk_2288.mUnk_10 = (data_ov000_021b5f50->mUnk_2264 & 0x300000) != 0x300000;
     if (a == NULL) {
-        MI_CpuCopy8(data_ov000_021b07bc, data_ov000_021b5f50->mUnk_2288.mUnk_0a, 6);
+        MI_CpuCopy8(WCM_Bssid_Any, data_ov000_021b5f50->mUnk_2288.mUnk_0a, 6);
     } else {
         MI_CpuCopy8(a, data_ov000_021b5f50->mUnk_2288.mUnk_0a, 6);
     }
-    if (b == NULL || b == data_ov000_021b07c4) {
-        MI_CpuCopy8(data_ov000_021b07c4, data_ov000_021b5f50->mUnk_2288.mUnk_14, 0x20);
+    if (b == NULL || b == WCM_Essid_Any) {
+        MI_CpuCopy8(WCM_Essid_Any, data_ov000_021b5f50->mUnk_2288.mUnk_14, 0x20);
         data_ov000_021b5f50->mUnk_2288.mUnk_12 = 0;
     } else {
         MI_CpuCopy8(b, data_ov000_021b5f50->mUnk_2288.mUnk_14, 0x20);

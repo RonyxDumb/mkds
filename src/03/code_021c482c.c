@@ -32,7 +32,7 @@
 void func_ov003_021c4aa4(void) {
     func_ov003_021c4a40();
     PrintMessage(0x62);
-    data_ov003_021da1c8[0] = func_ov003_021bf43c(0x8d, -1, 0);
+    data_ov003_021da1c8[0] = ShowSubScreenMessage(0x8d, -1, 0);
     SetUpdateFunction(func_ov003_021c49f8);
 }
 
@@ -97,13 +97,13 @@ void func_ov003_021c49c8(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
-        func_ov003_021bf5c8(3);
+        CreateSlideButtonsForMenuPair(3);
         SetUpdateFunction(func_ov003_021c499c);
     }
 }
 
 void func_ov003_021c499c(void) {
-    if (GetButtonResult() != -2 && func_ov003_021c27e4() != 0) {
+    if (GetButtonResult() != -2 && IsChildWaitSessionReleased() != 0) {
         EnableButtonTouch();
         SetUpdateFunction(func_ov003_021c4984);
     }
@@ -167,19 +167,20 @@ void func_ov003_021c48ac(void) {
 void func_ov003_021c482c(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) && (v1 = func_ov003_021bf2f0(), v1 != 0)) {
+    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
+        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da1cc == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da1cc == 0) {
-            func_ov003_021c2120(0, 1);
+            SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(SetupOptMenu);
             return;
         }
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(func_ov003_021c5098);
     }
 }

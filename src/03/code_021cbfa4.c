@@ -107,11 +107,11 @@ void func_ov003_021cbfcc(void) {
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
         ReleaseBgTextCanvasOfScreen(0);
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        func_ov003_021c2120(0, 0);
-        func_ov003_021c20f8(0, 2);
+        SetPrimaryMenuPair(0, 0);
+        SetSecondaryMenuPair(0, 2);
         SetUpdateFunction(func_ov003_021cbf60);
     }
 }

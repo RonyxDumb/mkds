@@ -17,13 +17,13 @@
 #include "03/code_021bf8c0.h"
 #include "registers.h"
 
-void func_ov003_021c2b28(void) {
+void LoadMainFilesAndSetBgCnt(void) {
     func_ov003_021cdb90();
     InitMessagesPool();
     InitSelectionObjects();
     InitHlScr();
-    func_ov003_021bf4d0();
-    if (GetLanguageIndex() == 1 && func_ov003_021c20a8(2) != 0) {
+    ClearSubScreenMessageShown();
+    if (GetLanguageIndex() == 1 && HasModeFlag(2) != 0) {
         gMessages = LoadMessages(gUsaBmgName);
     } else {
         gMessages = LoadMessages(gLanguageBmgNames[GetLanguageIndex()]);
@@ -51,5 +51,5 @@ void func_ov003_021c2b28(void) {
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
     CombineDispcntBits(1, 2);
     CombineDispcntBits(0, 2);
-    SetUpdateFunction(func_ov003_021c2afc);
+    SetUpdateFunction(StartMainFadeIn);
 }

@@ -55,7 +55,7 @@
 void CreateApList(void) {
     s32 a;
     gApList = AllocZeroedExpHeapBlock(0x5c, 4);
-    func_ov003_021c20dc(&a, NULL);
+    GetSecondaryMenuPair(&a, NULL);
     if (a == 0) {
         gApListSelectedRow = 0;
         *(u16 *) &gApListScrollY = 0;
@@ -63,8 +63,8 @@ void CreateApList(void) {
     gApList->mEntryCount = func_ov003_021cd0d0((s32 *) gApList);
     LoadApListFilesAndSetBgCnt();
     LoadHlSetScr();
-    func_ov003_021bf43c(0x80, -1, 0);
-    func_ov003_021bf5ec(2);
+    ShowSubScreenMessage(0x80, -1, 0);
+    CreateObjectsForMenuPair(2);
     func_ov003_021c6508();
     func_ov003_021c6400();
     gApList->mUnk_0c = InitBgTextCanvas(0, 0);
@@ -152,7 +152,7 @@ void func_ov003_021c6394(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
-        func_ov003_021bf5c8(0);
+        CreateSlideButtonsForMenuPair(0);
         SetUpdateFunction(func_ov003_021c6370);
     }
 }
@@ -391,7 +391,7 @@ void func_ov003_021c5cdc(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) != 0) {
         return;
     }
-    if (func_ov003_021bf2f0() == 0) {
+    if (IsSlideButtonsNotSlidingOut() == 0) {
         return;
     }
     RemoveTaskEntryWrapper(1, gApList->mBgOffsetTask);
@@ -406,7 +406,7 @@ void func_ov003_021c5cdc(void) {
     ReleaseBgTextCanvas(gApList->mUnk_0c);
     func_ov003_021cce78();
     ReleaseSelectionObjectSlots();
-    func_ov003_021bf410();
+    HideSubScreenMessage();
     func_ov003_021cca10();
     DeleteLoadedFile(gApList->mXb4ApListBackNsc);
     DeleteLoadedFile(gApList->mYbBgStep31Ncl);
@@ -418,22 +418,22 @@ void func_ov003_021c5cdc(void) {
     if (s->mUnk_54 == 0) {
         func_ov003_021cd27c();
         func_ov003_021cd790(func_ov003_021cdb6c()->mUnk_f4);
-        func_ov003_021c2120(2, 0);
+        SetPrimaryMenuPair(2, 0);
         SetUpdateFunction(SetupWay);
     } else if (gApListSelectedRow == 4) {
         func_ov003_021cd27c();
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(func_ov003_021ca8e8);
     } else {
         func_ov003_021cdb14(s->mEntries + s->mEntryIndex * 0x2a);
-        func_ov003_021c2120(0, 0);
+        SetPrimaryMenuPair(0, 0);
         if ((gApList->mEntries + gApList->mEntryIndex * 0x2a)[0x28] != 0) {
-            func_ov003_021c2120(0, 1);
-            func_ov003_021c20f8(1, 1);
+            SetPrimaryMenuPair(0, 1);
+            SetSecondaryMenuPair(1, 1);
             SetUpdateFunction(CreateEdit);
         } else {
-            func_ov003_021c2120(0, 1);
-            func_ov003_021c20f8(0, 1);
+            SetPrimaryMenuPair(0, 1);
+            SetSecondaryMenuPair(0, 1);
             SetUpdateFunction(func_ov003_021cbf60);
         }
     }

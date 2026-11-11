@@ -30,8 +30,8 @@ void SetupXb3Multi(void) {
     data_ov003_021da254 = 0;
     LoadXb3MultiFilesAndSetBgCnt();
     LoadHlScr(8);
-    func_ov003_021bf43c(0x85, -1, 0);
-    func_ov003_021bf5ec(1);
+    ShowSubScreenMessage(0x85, -1, 0);
+    CreateObjectsForMenuPair(1);
     PrintMessage(0x6c);
     SetUpdateFunction(func_ov003_021cc310);
 }
@@ -101,7 +101,7 @@ void func_ov003_021cc2e0(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
-        func_ov003_021bf5c8(6);
+        CreateSlideButtonsForMenuPair(6);
         SetUpdateFunction(func_ov003_021cc2bc);
     }
 }
@@ -171,19 +171,19 @@ void func_ov003_021cc144(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if ((v1 == 0) && (((data_ov003_021da254 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = func_ov003_021bf2f0(), v1 != 0)))) {
+                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
         ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da254 == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da254 == 0) {
-            func_ov003_021c2120(2, 1);
+            SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(CreateAp);
             return;
         }
-        func_ov003_021c2120(2, 1);
+        SetPrimaryMenuPair(2, 1);
         SetUpdateFunction(SetupUsb);
     }
 }

@@ -32,16 +32,16 @@
 #include "code_021519d4.h"
 #include "03/code_021d28e0.h"
 
-s32 func_ov003_021c2494(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) {
-    data_ov003_021da174 = memoryBlock;
-    if (func_ov003_021c2440(languageIndex, modeAndFlags) == 0) {
+s32 RunMainLoop(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) {
+    gHeapMemoryBlock = memoryBlock;
+    if (InitLanguageAndMode(languageIndex, modeAndFlags) == 0) {
         return -1;
     }
-    data_ov003_021da170[0] = 0;
-    func_ov003_021c2398();
-    func_ov003_021c2188();
+    gQuitFlag[0] = 0;
+    InitApplication();
+    InitGraphics();
     CreateSoundData();
-    SetUpdateFunction(func_ov003_021c2b28);
+    SetUpdateFunction(LoadMainFilesAndSetBgCnt);
     do {
         UpdateKeyTouchInput();
         gUpdateFunction();
@@ -49,14 +49,14 @@ s32 func_ov003_021c2494(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) 
         UpdateLcdPower();
         func_ov003_021d3278();
         VBlankIntrWait();
-    } while (data_ov003_021da170[0] == 0);
-    func_ov003_021c2138();
+    } while (gQuitFlag[0] == 0);
+    ReleaseApplication();
     return 0;
 }
 
-BOOL func_ov003_021c2440(s32 languageIndex, u32 modeAndFlags) {
+BOOL InitLanguageAndMode(s32 languageIndex, u32 modeAndFlags) {
     gLanguageIndex[0] = languageIndex;
-    *(u32 *) &data_ov003_021da178 = modeAndFlags;
+    *(u32 *) &gModeAndFlags = modeAndFlags;
     if (languageIndex < 0 || languageIndex > 5) {
         return 0;
     }
@@ -66,13 +66,13 @@ BOOL func_ov003_021c2440(s32 languageIndex, u32 modeAndFlags) {
     if (languageIndex != 0 && ((modeAndFlags >> 4) & 1) != 0) {
         return 0;
     }
-    if (languageIndex == 0 && ((*(u32 *) &data_ov003_021da178 >> 4) & 1) == 0) {
+    if (languageIndex == 0 && ((*(u32 *) &gModeAndFlags >> 4) & 1) == 0) {
         return 0;
     }
     return 1;
 }
 
-void func_ov003_021c2398(void) {
+void InitApplication(void) {
     u8 *work;
     u16 imeValue = reg_OS_IME;
     reg_OS_IME = 0;
@@ -92,7 +92,7 @@ void func_ov003_021c2398(void) {
     GX_DispOff();
     reg_GXS_DB_DISPCNT &= 0xfffeffff;
     SaveBankSettingsAndClearVram();
-    CreateExpHeapOverBuffer(data_ov003_021da174);
+    CreateExpHeapOverBuffer(gHeapMemoryBlock);
     func_ov003_021d2dfc();
     InitTasks();
     InitDwcArchive();
@@ -103,7 +103,7 @@ void func_ov003_021c2398(void) {
     FreeExpHeapBlockAndClearPointer(&work);
 }
 
-void func_ov003_021c2188(void) {
+void InitGraphics(void) {
     volatile u32 *p;
     volatile u16 *powerControl;
     GX_VBlankIntr(0);
@@ -158,7 +158,7 @@ void func_ov003_021c2188(void) {
     GX_VBlankIntr(1);
 }
 
-void func_ov003_021c2138(void) {
+void ReleaseApplication(void) {
     GX_DispOff();
     *((u32 *) 0x04001000u) = *((u32 *) 0x04001000u) & (0xfffeffffu);
     func_ov003_021d326c();
@@ -179,37 +179,37 @@ void SetUpdateFunction(void (*callback)(void)) {
     gUpdateFunction = callback;
 }
 
-void func_ov003_021c2120(u32 first, u32 second) {
+void SetPrimaryMenuPair(u32 first, u32 second) {
     u32 *values;
-    values = (u32 *) &data_ov003_021da180;
-    *(u32 *) &data_ov003_021da180 = first;
+    values = (u32 *) &gMenuPairs;
+    *(u32 *) &gMenuPairs = first;
     values[1] = second;
 }
 
-void func_ov003_021c2104(s32 *first, s32 *second) {
+void GetPrimaryMenuPair(s32 *first, s32 *second) {
     if (first != NULL) {
-        *first = data_ov003_021da180[0];
+        *first = gMenuPairs[0];
     }
     if (second != NULL) {
-        *second = data_ov003_021da180[1];
+        *second = gMenuPairs[1];
     }
 }
 
-void func_ov003_021c20f8(u32 third, u32 fourth) {
+void SetSecondaryMenuPair(u32 third, u32 fourth) {
     u32 thirdValue = third;
     u32 fourthValue = fourth;
     u32 valuesAddress;
-    valuesAddress = (u32) &data_ov003_021da180;
+    valuesAddress = (u32) &gMenuPairs;
     *(u32 *) ((valuesAddress) + 8u) = thirdValue;
     *(u32 *) ((valuesAddress) + 12u) = fourthValue;
 }
 
-void func_ov003_021c20dc(s32 *first, s32 *second) {
+void GetSecondaryMenuPair(s32 *first, s32 *second) {
     if (first != NULL) {
-        *first = data_ov003_021da180[2];
+        *first = gMenuPairs[2];
     }
     if (second != NULL) {
-        *second = data_ov003_021da180[3];
+        *second = gMenuPairs[3];
     }
 }
 
@@ -218,16 +218,16 @@ u8 GetLanguageIndex(void) {
 }
 
 u32 GetMode(void) {
-    return data_ov003_021da178.mMode;
+    return gModeAndFlags.mMode;
 }
 
-BOOL func_ov003_021c20a8(u32 mask) {
-    if (((*(u32 *) &data_ov003_021da178) >> 4 & mask) != 0) {
+BOOL HasModeFlag(u32 mask) {
+    if (((*(u32 *) &gModeAndFlags) >> 4 & mask) != 0) {
         return 1;
     }
     return 0;
 }
 
-void func_ov003_021c209c(void) {
-    *(u8 *) &data_ov003_021da170 = 1;
+void SetQuitFlag(void) {
+    *(u8 *) &gQuitFlag = 1;
 }

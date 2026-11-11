@@ -28,8 +28,8 @@
 #include "00/unk_021b6000.h"
 #include "00/code_021a6d5c.h"
 
-u32 func_ov003_021be604(void) {
-    return data_ov003_021d8bfc;
+u32 GetExchangeWcmState(void) {
+    return gExchangeWcmState;
 }
 
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size) {
@@ -104,7 +104,7 @@ void EnqueueEvent(u32 value) {
     EnqueueEventEx(value, 0);
 }
 
-s32 func_ov003_021be418(u32 entryCount) {
+s32 InitExchangeWiFi(u32 entryCount) {
     u32 waiting = 1;
     s32 result;
     u32 event;
@@ -127,7 +127,7 @@ s32 func_ov003_021be418(u32 entryCount) {
     bufferSize = entriesSize + 0x2490;
     bufferEnd = alignedBuffer + bufferSize;
     gRawEntries = (RawEntry *) ((bufferEnd + alignMask) & ~0x1f);
-    if (func_ov003_021be610(EnqueueEventEx, (void *) alignedBuffer, bufferSize) == 0) {
+    if (InitExchangeWcm(EnqueueEventEx, (void *) alignedBuffer, bufferSize) == 0) {
         return -2;
     }
     do {
@@ -146,11 +146,11 @@ s32 func_ov003_021be418(u32 entryCount) {
     return result;
 }
 
-u32 func_ov003_021be3b8(void) {
+u32 ReleaseExchangeWiFi(void) {
     u32 waiting = 1;
     u32 event;
 
-    if (func_ov003_021be7b8() != 0) {
+    if (CleanupExchangeWcm() != 0) {
         do {
             OS_Sleep(10);
             while ((event = DequeueEvent()) != 0) {
@@ -175,24 +175,24 @@ u32 func_ov003_021be3b8(void) {
     return 1;
 }
 
-s32 func_ov003_021be264(void) {
+s32 ConnectExchangeAndStartSockets(void) {
     OSAlarm alarm;
     RawEntry *entry;
     s32 waiting = 1;
     s32 result = -2;
-    BOOL c;
+    BOOL notWaiting;
     s32 event;
 
     entry = gRawEntries + gSelectedEntryIndex;
     if (entry == NULL) {
         return 0;
     }
-    if (func_ov003_021be708(entry, NULL, 0x30000) == 0) {
+    if (ConnectExchangeToEntry(entry, NULL, 0x30000) == 0) {
         return -2;
     }
     OS_CreateAlarm(&alarm);
     OS_SetAlarm(&alarm, 0x3fec42, (void (*)(void *)) EnqueueEvent, (void *) 0x12);
-    c = FALSE;
+    notWaiting = FALSE;
     do {
         if (GetTickMilliseconds() >= gTimeoutAtMs) {
             result = -3;
@@ -206,14 +206,14 @@ s32 func_ov003_021be264(void) {
         while ((event = DequeueEvent()) != 0) {
             switch (event) {
                 case 12:
-                    waiting = c;
+                    waiting = notWaiting;
                     result = 1;
                     break;
                 case 13:
                     if (gStopRequested != 0) {
-                        waiting = c;
+                        waiting = notWaiting;
                         result = -8;
-                    } else if (func_ov003_021be708(entry, NULL, 0x30000) == 0) {
+                    } else if (ConnectExchangeToEntry(entry, NULL, 0x30000) == 0) {
                         return result;
                     }
                     break;
@@ -223,7 +223,7 @@ s32 func_ov003_021be264(void) {
                 case 19:
                     break;
                 default:
-                    waiting = c;
+                    waiting = notWaiting;
                     break;
             }
         }
@@ -232,22 +232,22 @@ s32 func_ov003_021be264(void) {
     while (DequeueEvent() != 0) {
     }
     if (result > 0) {
-        data_ov003_021d8bf0 = 1;
-        if (func_ov000_021a8c94(data_ov003_021d691c) < 0) {
+        gExchangeConnected = 1;
+        if (func_ov000_021a8c94(gExchangeSocketConfig) < 0) {
             result = -2;
         } else {
-            data_ov003_021d8bf4 = 1;
+            gSocketsStarted = 1;
         }
     }
     return result;
 }
 
-void func_ov003_021be1fc(void) {
+void DisconnectExchangeAndStopSockets(void) {
     BOOL waiting;
     u32 event;
     waiting = TRUE;
-    if (data_ov003_021d8bf0 != 0) {
-        if (func_ov003_021be820() != 0) {
+    if (gExchangeConnected != 0) {
+        if (DisconnectExchange() != 0) {
             do {
                 OS_Sleep(10);
                 while ((event = DequeueEvent()) != 0) {
@@ -265,10 +265,10 @@ void func_ov003_021be1fc(void) {
                 }
             } while (waiting != FALSE);
         }
-        data_ov003_021d8bf0 = 0;
+        gExchangeConnected = 0;
     }
-    if (data_ov003_021d8bf4 != 0) {
-        data_ov003_021d8bf4 = 0;
+    if (gSocketsStarted != 0) {
+        gSocketsStarted = 0;
         func_ov000_021a8c8c();
     }
 }
@@ -401,7 +401,7 @@ s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
         if (GetTickMilliseconds() >= gTimeoutAtMs) {
             break;
         }
-        if (func_ov003_021be860(NULL, NULL, 0, 0x30bffe) == 0) {
+        if (StartExchangeSearch(NULL, NULL, 0, 0x30bffe) == 0) {
             a = -2;
             goto end;
         }
@@ -420,7 +420,7 @@ s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
                         waiting = FALSE;
                         break;
                     case 5:
-                        collected = func_ov003_021be96c((u8 *) gRawEntries, gEntryCountMax);
+                        collected = CopyExchangeScanRecords((u8 *) gRawEntries, gEntryCountMax);
                         if (collected > a) {
                             a = collected;
                             OS_CancelAlarm(&alarm);
@@ -547,7 +547,7 @@ s32 SendBytesToAllOnesAddress(s32 descriptor, const void *data, u32 size) {
     return SendBytesToAddress(descriptor, &address, unused, data, size);
 }
 
-s32 func_ov003_021bdccc(s32 descriptor, const void *unused, const void *data, u32 size) {
+s32 SendBytesToAllOnesAddressWrapper(s32 descriptor, const void *unused, const void *data, u32 size) {
     return SendBytesToAllOnesAddress(descriptor, data, size);
 }
 
@@ -606,7 +606,7 @@ s32 BuildExchangePacket(u8 *packet, u32 kind, u8 *body, u32 length, const void *
     body[7] = 0;
     *(u16 *) body = SwapBytes16_inline(length - 8);
     if (key != NULL) {
-        func_ov003_021bccd0(packet + 6, body, length, key, 0x10);
+        TransformBodyWithKey(packet + 6, body, length, key, 0x10);
         length += 8;
     } else {
         memcpy(packet + 6, body, length);
@@ -664,9 +664,9 @@ typedef struct Kind2Values {
 } Kind2Values;
 
 BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, s32 *item5Flag) {
-    u32 value1;
-    u32 value2;
-    s32 value5;
+    u32 item1Value;
+    u32 item2Value;
+    s32 item5Value;
     u32 kind;
     s32 length;
     u32 type;
@@ -675,9 +675,9 @@ BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, s32 *item5Flag) {
     u8 *end;
     u8 *item;
     payload = ReadExchangePacketAndCheckSum(packet, &kind, &length);
-    value1 = 0;
-    value2 = 0;
-    value5 = 0;
+    item1Value = 0;
+    item2Value = 0;
+    item5Value = 0;
     if (payload == NULL) {
         return FALSE;
     }
@@ -691,22 +691,22 @@ BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, s32 *item5Flag) {
         do {
             switch (type) {
                 case 1:
-                    value1 = SwapBytes16_inline(*(u16 *) item);
+                    item1Value = SwapBytes16_inline(*(u16 *) item);
                     break;
                 case 2:
-                    value2 = SwapBytes16_inline(*(u16 *) item);
+                    item2Value = SwapBytes16_inline(*(u16 *) item);
                     break;
                 case 5:
-                    value5 = SwapBytes16_inline(*(u16 *) item);
+                    item5Value = SwapBytes16_inline(*(u16 *) item);
                     break;
             }
             item = ReadNextItem(&payload, end, &type, &itemLength);
         } while (item != NULL);
     }
-    if (value1 != 1 || value2 != 1) {
+    if (item1Value != 1 || item2Value != 1) {
         return FALSE;
     }
-    if (value5 >= 1) {
+    if (item5Value >= 1) {
         *item5Flag = 1;
     } else {
         *item5Flag = 0;
@@ -726,7 +726,7 @@ s32 ReadExchangePacketPayloadOfKind(const u8 *packet, u32 kind, u8 *output, cons
         return 0;
     }
     if (key != NULL) {
-        func_ov003_021bcadc(output, payload, length, key, 0x10);
+        TransformBodyReversedWithKey(output, payload, length, key, 0x10);
         length -= 8;
     } else {
         memcpy(output, payload, length);
@@ -739,7 +739,7 @@ s32 BuildExchangePacketKind2(u8 *packet) {
     u8 *cursor;
     values.mHalfword = 0x100;
     values.mSevenBytes = gKind2Item3Bytes;
-    cursor = AppendItem(data_ov003_021d68ac, 1, &values, 2);
+    cursor = AppendItem(gKind2ItemBuffer, 1, &values, 2);
     cursor = AppendItem(cursor, 2, &values, 2);
     if (gKind1Item5Flag != 0) {
         cursor = AppendItem(cursor, 5, &values, 2);
@@ -748,7 +748,7 @@ s32 BuildExchangePacketKind2(u8 *packet) {
     if (gKind1Item5Flag != 0) {
         cursor = AppendItem(cursor, 4, &gMacAddress, 6);
     }
-    return BuildExchangePacket(packet, 2, gBodyBuffer, cursor - data_ov003_021d68ac + 8, NULL);
+    return BuildExchangePacket(packet, 2, gBodyBuffer, cursor - gKind2ItemBuffer + 8, NULL);
 }
 
 u32 GetMacAddress(void *address) {
@@ -763,7 +763,7 @@ s32 StoreMacAddressAndBuildKey(u8 *key, void *unused) {
     u8 ownAddress[6];
     u8 ownText[0x20];
     u8 peerText[0x20];
-    __memcpy(key + 0xc, &data_ov003_021d6974, sizeof(Unk021d6974));
+    __memcpy(key + 0xc, &gWarpString, sizeof(Bytes4));
     __memcpy(peerAddress, &gSelectedEntryAddress, sizeof(MacAddress));
     peerAddress[0] &= 0xfd;
     GetMacAddress(ownAddress);
@@ -775,7 +775,7 @@ s32 StoreMacAddressAndBuildKey(u8 *key, void *unused) {
         __memcpy(key, peerAddress, sizeof(MacAddress));
         __memcpy(key + 6, ownAddress, sizeof(MacAddress));
     }
-    if (data_ov003_021d68b0 != 0) {
+    if (gFormatAddressesFlag != 0) {
         FormatMacAddress(ownText, (const s8 *) ownAddress);
         FormatMacAddress(peerText, (const s8 *) peerAddress);
     }
@@ -1031,7 +1031,7 @@ s32 RunExchange(void) {
                 }
                 break;
             case 2:
-                result = func_ov003_021be264();
+                result = ConnectExchangeAndStartSockets();
                 if (result != 1) {
                     done = TRUE;
                 } else {
@@ -1078,7 +1078,7 @@ s32 RunExchange(void) {
                 break;
             case 5:
                 gPacketLength = BuildExchangePacketKind2(gPacketBuffer);
-                func_ov003_021bdccc(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
+                SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                 stamp = GetTickMilliseconds();
                 gExchangeState = 6;
                 break;
@@ -1109,7 +1109,7 @@ s32 RunExchange(void) {
             case 7:
                 gBodyLength = BuildSingleItemBody(gBodyBuffer, 0x102, gSecondKeyHashedPart, 8);
                 gPacketLength = BuildExchangePacket(gPacketBuffer, 4, gBodyBuffer, gBodyLength, gFirstKey);
-                func_ov003_021bdccc(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
+                SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                 stamp = GetTickMilliseconds();
                 __clear(gKind5Words, 0x254);
                 gExchangeState = 8;
@@ -1144,12 +1144,12 @@ s32 RunExchange(void) {
                 gBodyLength = BuildSingleItemBody(gBodyBuffer, 0x301, &gReceivedTextNonEmpty, 1);
                 gPacketLength =
                     BuildExchangePacket(gPacketBuffer, 6, gBodyBuffer, gBodyLength, &gSecondKeyReceivedPart);
-                if (func_ov003_021be604() != 7) {
+                if (GetExchangeWcmState() != 7) {
                     stamp = GetTickMilliseconds() + 1000;
                     retryCount = 10;
                     gExchangeState = 10;
                 } else {
-                    func_ov003_021bdccc(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
+                    SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                     stamp = GetTickMilliseconds();
                     gExchangeState = 10;
                 }
@@ -1181,7 +1181,7 @@ void RunExchangeThread(void) {
 
     result = RunExchange();
     gExchangeResultCode = result;
-    func_ov003_021be1fc();
+    DisconnectExchangeAndStopSockets();
     if (result == 1) {
         gExchangeStatus = 6;
     } else {
@@ -1195,7 +1195,7 @@ typedef struct Unk021bccd0_block {
     /* 0 */ u8 mUnk_00[8];
 } Unk021bccd0_block;
 
-BOOL func_ov003_021bccd0(u8 *output, u8 *input, u32 inputLength, u8 *key, int keyLength) {
+BOOL TransformBodyWithKey(u8 *output, u8 *input, u32 inputLength, u8 *key, int keyLength) {
     u8 workBuffer[16];
     u64 counterBytes;
     u32 keyWords[80];
@@ -1230,7 +1230,7 @@ BOOL func_ov003_021bccd0(u8 *output, u8 *input, u32 inputLength, u8 *key, int ke
         for (blockIndex = 1; blockIndex <= blockCount; blockIndex++) {
             cursor = output + (u32) blockIndex * 8;
             *(Unk021bccd0_block *) (workBuffer + 8) = *(Unk021bccd0_block *) cursor;
-            func_ov003_021bc1c4(keyWords, lastGroup, workBuffer, workBuffer);
+            TransformBlock(keyWords, lastGroup, workBuffer, workBuffer);
             counter = (s64) blockCount * (s32) pass + (s32) blockIndex;
             counterBytes = (((counter & 0x00000000000000ffULL) << 56) | ((counter & 0x000000000000ff00ULL) << 40) |
                             ((counter & 0x0000000000ff0000ULL) << 24) | ((counter & 0x00000000ff000000ULL) << 8) |
@@ -1244,7 +1244,7 @@ BOOL func_ov003_021bccd0(u8 *output, u8 *input, u32 inputLength, u8 *key, int ke
     return TRUE;
 }
 
-BOOL func_ov003_021bcadc(u8 *output, u8 *input, u32 inputLength, u8 *key, int keyLength) {
+BOOL TransformBodyReversedWithKey(u8 *output, u8 *input, u32 inputLength, u8 *key, int keyLength) {
     u8 workBuffer[16];
     u64 counterBytes;
     u32 keyWords[80];
@@ -1287,19 +1287,19 @@ BOOL func_ov003_021bcadc(u8 *output, u8 *input, u32 inputLength, u8 *key, int ke
             XorEightBytes(workBuffer, (u8 *) &counterBytes, workBuffer);
             cursor = output + (blockIndex - 1) * 8;
             {
-                u8 *r = cursor;
+                u8 *source = cursor;
                 copyCursor = workBuffer + 8;
                 bytesLeft = 8;
                 do {
-                    *copyCursor++ = *r++;
+                    *copyCursor++ = *source++;
                 } while (--bytesLeft != 0);
             }
-            func_ov003_021bbd9c(keyWords, lastGroup, workBuffer, workBuffer);
+            TransformBlockReversed(keyWords, lastGroup, workBuffer, workBuffer);
             {
-                u8 *r = workBuffer + 8;
+                u8 *source = workBuffer + 8;
                 bytesLeft = 8;
                 do {
-                    *cursor++ = *r++;
+                    *cursor++ = *source++;
                 } while (--bytesLeft != 0);
             }
         }
@@ -1333,10 +1333,10 @@ int ExpandKey(u32 *words, u8 *key, int keyBits) {
     if (keyBits == 128) {
         for (;;) {
             lastWord = words[3];
-            words[4] = words[0] ^ (data_ov003_021d52bc[(lastWord >> 16) & 0xff] & 0xff000000) ^
-                       (data_ov003_021d52bc[(lastWord >> 8) & 0xff] & 0x00ff0000) ^
-                       (data_ov003_021d52bc[lastWord & 0xff] & 0x0000ff00) ^
-                       (data_ov003_021d52bc[lastWord >> 24] & 0x000000ff) ^ data_ov003_021d3694[i];
+            words[4] = words[0] ^ (gSubstitutionTable[(lastWord >> 16) & 0xff] & 0xff000000) ^
+                       (gSubstitutionTable[(lastWord >> 8) & 0xff] & 0x00ff0000) ^
+                       (gSubstitutionTable[lastWord & 0xff] & 0x0000ff00) ^
+                       (gSubstitutionTable[lastWord >> 24] & 0x000000ff) ^ gKeyRoundConstants[i];
             words[5] = words[1] ^ words[4];
             words[6] = words[2] ^ words[5];
             words[7] = words[3] ^ words[6];
@@ -1351,10 +1351,10 @@ int ExpandKey(u32 *words, u8 *key, int keyBits) {
     if (keyBits == 192) {
         for (;;) {
             lastWord = words[5];
-            words[6] = words[0] ^ (data_ov003_021d52bc[(lastWord >> 16) & 0xff] & 0xff000000) ^
-                       (data_ov003_021d52bc[(lastWord >> 8) & 0xff] & 0x00ff0000) ^
-                       (data_ov003_021d52bc[lastWord & 0xff] & 0x0000ff00) ^
-                       (data_ov003_021d52bc[lastWord >> 24] & 0x000000ff) ^ data_ov003_021d3694[i];
+            words[6] = words[0] ^ (gSubstitutionTable[(lastWord >> 16) & 0xff] & 0xff000000) ^
+                       (gSubstitutionTable[(lastWord >> 8) & 0xff] & 0x00ff0000) ^
+                       (gSubstitutionTable[lastWord & 0xff] & 0x0000ff00) ^
+                       (gSubstitutionTable[lastWord >> 24] & 0x000000ff) ^ gKeyRoundConstants[i];
             words[7] = words[1] ^ words[6];
             words[8] = words[2] ^ words[7];
             words[9] = words[3] ^ words[8];
@@ -1371,10 +1371,10 @@ int ExpandKey(u32 *words, u8 *key, int keyBits) {
     if (keyBits == 256) {
         for (;;) {
             lastWord = words[7];
-            words[8] = words[0] ^ (data_ov003_021d52bc[(lastWord >> 16) & 0xff] & 0xff000000) ^
-                       (data_ov003_021d52bc[(lastWord >> 8) & 0xff] & 0x00ff0000) ^
-                       (data_ov003_021d52bc[lastWord & 0xff] & 0x0000ff00) ^
-                       (data_ov003_021d52bc[lastWord >> 24] & 0x000000ff) ^ data_ov003_021d3694[i];
+            words[8] = words[0] ^ (gSubstitutionTable[(lastWord >> 16) & 0xff] & 0xff000000) ^
+                       (gSubstitutionTable[(lastWord >> 8) & 0xff] & 0x00ff0000) ^
+                       (gSubstitutionTable[lastWord & 0xff] & 0x0000ff00) ^
+                       (gSubstitutionTable[lastWord >> 24] & 0x000000ff) ^ gKeyRoundConstants[i];
             words[9] = words[1] ^ words[8];
             words[10] = words[2] ^ words[9];
             words[11] = words[3] ^ words[10];
@@ -1382,10 +1382,10 @@ int ExpandKey(u32 *words, u8 *key, int keyBits) {
                 return 14;
             }
             lastWord = words[11];
-            words[12] = words[4] ^ (data_ov003_021d52bc[lastWord >> 24] & 0xff000000) ^
-                        (data_ov003_021d52bc[(lastWord >> 16) & 0xff] & 0x00ff0000) ^
-                        (data_ov003_021d52bc[(lastWord >> 8) & 0xff] & 0x0000ff00) ^
-                        (data_ov003_021d52bc[lastWord & 0xff] & 0x000000ff);
+            words[12] = words[4] ^ (gSubstitutionTable[lastWord >> 24] & 0xff000000) ^
+                        (gSubstitutionTable[(lastWord >> 16) & 0xff] & 0x00ff0000) ^
+                        (gSubstitutionTable[(lastWord >> 8) & 0xff] & 0x0000ff00) ^
+                        (gSubstitutionTable[lastWord & 0xff] & 0x000000ff);
             words[13] = words[5] ^ words[12];
             words[14] = words[6] ^ words[13];
             words[15] = words[7] ^ words[14];
@@ -1417,27 +1417,27 @@ int ExpandKeyReversedWithTables(u32 *words, u8 *key, int keyBits) {
     }
     for (i = 1; i < lastGroup; i++) {
         words += 4;
-        words[0] = data_ov003_021d56bc[data_ov003_021d52bc[words[0] >> 24] & 0xff] ^
-                   data_ov003_021d5abc[data_ov003_021d52bc[(words[0] >> 16) & 0xff] & 0xff] ^
-                   data_ov003_021d36bc[data_ov003_021d52bc[(words[0] >> 8) & 0xff] & 0xff] ^
-                   data_ov003_021d3abc[data_ov003_021d52bc[words[0] & 0xff] & 0xff];
-        words[1] = data_ov003_021d56bc[data_ov003_021d52bc[words[1] >> 24] & 0xff] ^
-                   data_ov003_021d5abc[data_ov003_021d52bc[(words[1] >> 16) & 0xff] & 0xff] ^
-                   data_ov003_021d36bc[data_ov003_021d52bc[(words[1] >> 8) & 0xff] & 0xff] ^
-                   data_ov003_021d3abc[data_ov003_021d52bc[words[1] & 0xff] & 0xff];
-        words[2] = data_ov003_021d56bc[data_ov003_021d52bc[words[2] >> 24] & 0xff] ^
-                   data_ov003_021d5abc[data_ov003_021d52bc[(words[2] >> 16) & 0xff] & 0xff] ^
-                   data_ov003_021d36bc[data_ov003_021d52bc[(words[2] >> 8) & 0xff] & 0xff] ^
-                   data_ov003_021d3abc[data_ov003_021d52bc[words[2] & 0xff] & 0xff];
-        words[3] = data_ov003_021d56bc[data_ov003_021d52bc[words[3] >> 24] & 0xff] ^
-                   data_ov003_021d5abc[data_ov003_021d52bc[(words[3] >> 16) & 0xff] & 0xff] ^
-                   data_ov003_021d36bc[data_ov003_021d52bc[(words[3] >> 8) & 0xff] & 0xff] ^
-                   data_ov003_021d3abc[data_ov003_021d52bc[words[3] & 0xff] & 0xff];
+        words[0] = gReversedTableByte3[gSubstitutionTable[words[0] >> 24] & 0xff] ^
+                   gReversedTableByte2[gSubstitutionTable[(words[0] >> 16) & 0xff] & 0xff] ^
+                   gReversedTableByte1[gSubstitutionTable[(words[0] >> 8) & 0xff] & 0xff] ^
+                   gReversedTableByte0[gSubstitutionTable[words[0] & 0xff] & 0xff];
+        words[1] = gReversedTableByte3[gSubstitutionTable[words[1] >> 24] & 0xff] ^
+                   gReversedTableByte2[gSubstitutionTable[(words[1] >> 16) & 0xff] & 0xff] ^
+                   gReversedTableByte1[gSubstitutionTable[(words[1] >> 8) & 0xff] & 0xff] ^
+                   gReversedTableByte0[gSubstitutionTable[words[1] & 0xff] & 0xff];
+        words[2] = gReversedTableByte3[gSubstitutionTable[words[2] >> 24] & 0xff] ^
+                   gReversedTableByte2[gSubstitutionTable[(words[2] >> 16) & 0xff] & 0xff] ^
+                   gReversedTableByte1[gSubstitutionTable[(words[2] >> 8) & 0xff] & 0xff] ^
+                   gReversedTableByte0[gSubstitutionTable[words[2] & 0xff] & 0xff];
+        words[3] = gReversedTableByte3[gSubstitutionTable[words[3] >> 24] & 0xff] ^
+                   gReversedTableByte2[gSubstitutionTable[(words[3] >> 16) & 0xff] & 0xff] ^
+                   gReversedTableByte1[gSubstitutionTable[(words[3] >> 8) & 0xff] & 0xff] ^
+                   gReversedTableByte0[gSubstitutionTable[words[3] & 0xff] & 0xff];
     }
     return lastGroup;
 }
 
-void func_ov003_021bc1c4(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
+void TransformBlock(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
     u32 s0, s1, s2, s3, t0, t1, t2, t3;
     int passesLeft;
 
@@ -1447,50 +1447,50 @@ void func_ov003_021bc1c4(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
     s3 = ((input[12] << 24) ^ (input[13] << 16) ^ (input[14] << 8) ^ input[15]) ^ keyWords[3];
     passesLeft = lastGroup >> 1;
     for (;;) {
-        t0 = data_ov003_021d42bc[s0 >> 24] ^ data_ov003_021d46bc[(s1 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(s2 >> 8) & 0xff] ^ data_ov003_021d4ebc[s3 & 0xff] ^ keyWords[4];
-        t1 = data_ov003_021d42bc[s1 >> 24] ^ data_ov003_021d46bc[(s2 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(s3 >> 8) & 0xff] ^ data_ov003_021d4ebc[s0 & 0xff] ^ keyWords[5];
-        t2 = data_ov003_021d42bc[s2 >> 24] ^ data_ov003_021d46bc[(s3 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(s0 >> 8) & 0xff] ^ data_ov003_021d4ebc[s1 & 0xff] ^ keyWords[6];
-        t3 = data_ov003_021d42bc[s3 >> 24] ^ data_ov003_021d46bc[(s0 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(s1 >> 8) & 0xff] ^ data_ov003_021d4ebc[s2 & 0xff] ^ keyWords[7];
+        t0 = gTransformTableByte3[s0 >> 24] ^ gTransformTableByte2[(s1 >> 16) & 0xff] ^
+             gTransformTableByte1[(s2 >> 8) & 0xff] ^ gTransformTableByte0[s3 & 0xff] ^ keyWords[4];
+        t1 = gTransformTableByte3[s1 >> 24] ^ gTransformTableByte2[(s2 >> 16) & 0xff] ^
+             gTransformTableByte1[(s3 >> 8) & 0xff] ^ gTransformTableByte0[s0 & 0xff] ^ keyWords[5];
+        t2 = gTransformTableByte3[s2 >> 24] ^ gTransformTableByte2[(s3 >> 16) & 0xff] ^
+             gTransformTableByte1[(s0 >> 8) & 0xff] ^ gTransformTableByte0[s1 & 0xff] ^ keyWords[6];
+        t3 = gTransformTableByte3[s3 >> 24] ^ gTransformTableByte2[(s0 >> 16) & 0xff] ^
+             gTransformTableByte1[(s1 >> 8) & 0xff] ^ gTransformTableByte0[s2 & 0xff] ^ keyWords[7];
         keyWords += 8;
         if (--passesLeft == 0) {
             break;
         }
-        s0 = data_ov003_021d42bc[t0 >> 24] ^ data_ov003_021d46bc[(t1 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(t2 >> 8) & 0xff] ^ data_ov003_021d4ebc[t3 & 0xff] ^ keyWords[0];
-        s1 = data_ov003_021d42bc[t1 >> 24] ^ data_ov003_021d46bc[(t2 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(t3 >> 8) & 0xff] ^ data_ov003_021d4ebc[t0 & 0xff] ^ keyWords[1];
-        s2 = data_ov003_021d42bc[t2 >> 24] ^ data_ov003_021d46bc[(t3 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(t0 >> 8) & 0xff] ^ data_ov003_021d4ebc[t1 & 0xff] ^ keyWords[2];
-        s3 = data_ov003_021d42bc[t3 >> 24] ^ data_ov003_021d46bc[(t0 >> 16) & 0xff] ^
-             data_ov003_021d4abc[(t1 >> 8) & 0xff] ^ data_ov003_021d4ebc[t2 & 0xff] ^ keyWords[3];
+        s0 = gTransformTableByte3[t0 >> 24] ^ gTransformTableByte2[(t1 >> 16) & 0xff] ^
+             gTransformTableByte1[(t2 >> 8) & 0xff] ^ gTransformTableByte0[t3 & 0xff] ^ keyWords[0];
+        s1 = gTransformTableByte3[t1 >> 24] ^ gTransformTableByte2[(t2 >> 16) & 0xff] ^
+             gTransformTableByte1[(t3 >> 8) & 0xff] ^ gTransformTableByte0[t0 & 0xff] ^ keyWords[1];
+        s2 = gTransformTableByte3[t2 >> 24] ^ gTransformTableByte2[(t3 >> 16) & 0xff] ^
+             gTransformTableByte1[(t0 >> 8) & 0xff] ^ gTransformTableByte0[t1 & 0xff] ^ keyWords[2];
+        s3 = gTransformTableByte3[t3 >> 24] ^ gTransformTableByte2[(t0 >> 16) & 0xff] ^
+             gTransformTableByte1[(t1 >> 8) & 0xff] ^ gTransformTableByte0[t2 & 0xff] ^ keyWords[3];
     }
-    s0 = (data_ov003_021d52bc[t0 >> 24] & 0xff000000) ^ (data_ov003_021d52bc[(t1 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d52bc[(t2 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d52bc[t3 & 0xff] & 0x000000ff) ^
+    s0 = (gSubstitutionTable[t0 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t1 >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(t2 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t3 & 0xff] & 0x000000ff) ^
          keyWords[0];
     output[0] = s0 >> 24;
     output[1] = s0 >> 16;
     output[2] = s0 >> 8;
     output[3] = s0;
-    s1 = (data_ov003_021d52bc[t1 >> 24] & 0xff000000) ^ (data_ov003_021d52bc[(t2 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d52bc[(t3 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d52bc[t0 & 0xff] & 0x000000ff) ^
+    s1 = (gSubstitutionTable[t1 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t2 >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(t3 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t0 & 0xff] & 0x000000ff) ^
          keyWords[1];
     output[4] = s1 >> 24;
     output[5] = s1 >> 16;
     output[6] = s1 >> 8;
     output[7] = s1;
-    s2 = (data_ov003_021d52bc[t2 >> 24] & 0xff000000) ^ (data_ov003_021d52bc[(t3 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d52bc[(t0 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d52bc[t1 & 0xff] & 0x000000ff) ^
+    s2 = (gSubstitutionTable[t2 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t3 >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(t0 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t1 & 0xff] & 0x000000ff) ^
          keyWords[2];
     output[8] = s2 >> 24;
     output[9] = s2 >> 16;
     output[10] = s2 >> 8;
     output[11] = s2;
-    s3 = (data_ov003_021d52bc[t3 >> 24] & 0xff000000) ^ (data_ov003_021d52bc[(t0 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d52bc[(t1 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d52bc[t2 & 0xff] & 0x000000ff) ^
+    s3 = (gSubstitutionTable[t3 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t0 >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(t1 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t2 & 0xff] & 0x000000ff) ^
          keyWords[3];
     output[12] = s3 >> 24;
     output[13] = s3 >> 16;
@@ -1498,7 +1498,7 @@ void func_ov003_021bc1c4(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
     output[15] = s3;
 }
 
-void func_ov003_021bbd9c(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
+void TransformBlockReversed(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
     u32 s0, s1, s2, s3, t0, t1, t2, t3;
     int passesLeft;
 
@@ -1508,51 +1508,55 @@ void func_ov003_021bbd9c(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
     s3 = ((input[12] << 24) ^ (input[13] << 16) ^ (input[14] << 8) ^ input[15]) ^ keyWords[3];
     passesLeft = lastGroup >> 1;
     for (;;) {
-        t0 = data_ov003_021d56bc[s0 >> 24] ^ data_ov003_021d5abc[(s3 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(s2 >> 8) & 0xff] ^ data_ov003_021d3abc[s1 & 0xff] ^ keyWords[4];
-        t1 = data_ov003_021d56bc[s1 >> 24] ^ data_ov003_021d5abc[(s0 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(s3 >> 8) & 0xff] ^ data_ov003_021d3abc[s2 & 0xff] ^ keyWords[5];
-        t2 = data_ov003_021d56bc[s2 >> 24] ^ data_ov003_021d5abc[(s1 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(s0 >> 8) & 0xff] ^ data_ov003_021d3abc[s3 & 0xff] ^ keyWords[6];
-        t3 = data_ov003_021d56bc[s3 >> 24] ^ data_ov003_021d5abc[(s2 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(s1 >> 8) & 0xff] ^ data_ov003_021d3abc[s0 & 0xff] ^ keyWords[7];
+        t0 = gReversedTableByte3[s0 >> 24] ^ gReversedTableByte2[(s3 >> 16) & 0xff] ^
+             gReversedTableByte1[(s2 >> 8) & 0xff] ^ gReversedTableByte0[s1 & 0xff] ^ keyWords[4];
+        t1 = gReversedTableByte3[s1 >> 24] ^ gReversedTableByte2[(s0 >> 16) & 0xff] ^
+             gReversedTableByte1[(s3 >> 8) & 0xff] ^ gReversedTableByte0[s2 & 0xff] ^ keyWords[5];
+        t2 = gReversedTableByte3[s2 >> 24] ^ gReversedTableByte2[(s1 >> 16) & 0xff] ^
+             gReversedTableByte1[(s0 >> 8) & 0xff] ^ gReversedTableByte0[s3 & 0xff] ^ keyWords[6];
+        t3 = gReversedTableByte3[s3 >> 24] ^ gReversedTableByte2[(s2 >> 16) & 0xff] ^
+             gReversedTableByte1[(s1 >> 8) & 0xff] ^ gReversedTableByte0[s0 & 0xff] ^ keyWords[7];
         keyWords += 8;
         if (--passesLeft == 0) {
             break;
         }
-        s0 = data_ov003_021d56bc[t0 >> 24] ^ data_ov003_021d5abc[(t3 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(t2 >> 8) & 0xff] ^ data_ov003_021d3abc[t1 & 0xff] ^ keyWords[0];
-        s1 = data_ov003_021d56bc[t1 >> 24] ^ data_ov003_021d5abc[(t0 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(t3 >> 8) & 0xff] ^ data_ov003_021d3abc[t2 & 0xff] ^ keyWords[1];
-        s2 = data_ov003_021d56bc[t2 >> 24] ^ data_ov003_021d5abc[(t1 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(t0 >> 8) & 0xff] ^ data_ov003_021d3abc[t3 & 0xff] ^ keyWords[2];
-        s3 = data_ov003_021d56bc[t3 >> 24] ^ data_ov003_021d5abc[(t2 >> 16) & 0xff] ^
-             data_ov003_021d36bc[(t1 >> 8) & 0xff] ^ data_ov003_021d3abc[t0 & 0xff] ^ keyWords[3];
+        s0 = gReversedTableByte3[t0 >> 24] ^ gReversedTableByte2[(t3 >> 16) & 0xff] ^
+             gReversedTableByte1[(t2 >> 8) & 0xff] ^ gReversedTableByte0[t1 & 0xff] ^ keyWords[0];
+        s1 = gReversedTableByte3[t1 >> 24] ^ gReversedTableByte2[(t0 >> 16) & 0xff] ^
+             gReversedTableByte1[(t3 >> 8) & 0xff] ^ gReversedTableByte0[t2 & 0xff] ^ keyWords[1];
+        s2 = gReversedTableByte3[t2 >> 24] ^ gReversedTableByte2[(t1 >> 16) & 0xff] ^
+             gReversedTableByte1[(t0 >> 8) & 0xff] ^ gReversedTableByte0[t3 & 0xff] ^ keyWords[2];
+        s3 = gReversedTableByte3[t3 >> 24] ^ gReversedTableByte2[(t2 >> 16) & 0xff] ^
+             gReversedTableByte1[(t1 >> 8) & 0xff] ^ gReversedTableByte0[t0 & 0xff] ^ keyWords[3];
     }
-    s0 = (data_ov003_021d3ebc[t0 >> 24] & 0xff000000) ^ (data_ov003_021d3ebc[(t3 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d3ebc[(t2 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d3ebc[t1 & 0xff] & 0x000000ff) ^
-         keyWords[0];
+    s0 = (gReversedSubstitutionTable[t0 >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(t3 >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(t2 >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[t1 & 0xff] & 0x000000ff) ^ keyWords[0];
     output[0] = s0 >> 24;
     output[1] = s0 >> 16;
     output[2] = s0 >> 8;
     output[3] = s0;
-    s1 = (data_ov003_021d3ebc[t1 >> 24] & 0xff000000) ^ (data_ov003_021d3ebc[(t0 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d3ebc[(t3 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d3ebc[t2 & 0xff] & 0x000000ff) ^
-         keyWords[1];
+    s1 = (gReversedSubstitutionTable[t1 >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(t0 >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(t3 >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[t2 & 0xff] & 0x000000ff) ^ keyWords[1];
     output[4] = s1 >> 24;
     output[5] = s1 >> 16;
     output[6] = s1 >> 8;
     output[7] = s1;
-    s2 = (data_ov003_021d3ebc[t2 >> 24] & 0xff000000) ^ (data_ov003_021d3ebc[(t1 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d3ebc[(t0 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d3ebc[t3 & 0xff] & 0x000000ff) ^
-         keyWords[2];
+    s2 = (gReversedSubstitutionTable[t2 >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(t1 >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(t0 >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[t3 & 0xff] & 0x000000ff) ^ keyWords[2];
     output[8] = s2 >> 24;
     output[9] = s2 >> 16;
     output[10] = s2 >> 8;
     output[11] = s2;
-    s3 = (data_ov003_021d3ebc[t3 >> 24] & 0xff000000) ^ (data_ov003_021d3ebc[(t2 >> 16) & 0xff] & 0x00ff0000) ^
-         (data_ov003_021d3ebc[(t1 >> 8) & 0xff] & 0x0000ff00) ^ (data_ov003_021d3ebc[t0 & 0xff] & 0x000000ff) ^
-         keyWords[3];
+    s3 = (gReversedSubstitutionTable[t3 >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(t2 >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(t1 >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[t0 & 0xff] & 0x000000ff) ^ keyWords[3];
     output[12] = s3 >> 24;
     output[13] = s3 >> 16;
     output[14] = s3 >> 8;
@@ -1919,14 +1923,14 @@ s32 StartExchange(u32 priority, s32 count, UnkFunc *callback, UnkWordFunc *alloc
     if (gExchangeStatus >= 1 && gExchangeStatus <= 5) {
         return -10;
     }
-    data_ov003_021d68bc = count;
+    gStartEntryCount = count;
     gExchangeStatus = 7;
     gStatusCallback = callback;
     gAllocFunction = allocFunction;
     gFreeFunction = freeFunction;
     gThreadStackSize = stackSize;
-    result = func_ov003_021be418(count);
-    data_ov003_021d8c44 = 1;
+    result = InitExchangeWiFi(count);
+    gExchangeWiFiInitCalled = 1;
     if (result < 0) {
         gExchangeResultCode = result;
         return result;
@@ -1977,9 +1981,9 @@ s32 StopExchange(void) {
             CallStatusCallback();
         }
     }
-    if (data_ov003_021d8c44 > 0) {
-        s32 result = func_ov003_021be3b8();
-        data_ov003_021d8c44 = 0;
+    if (gExchangeWiFiInitCalled > 0) {
+        s32 result = ReleaseExchangeWiFi();
+        gExchangeWiFiInitCalled = 0;
         return result;
     }
     return -10;

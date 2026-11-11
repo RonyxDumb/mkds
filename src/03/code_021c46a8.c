@@ -77,7 +77,7 @@ void StartTimedMessageFadeIn(void) {
 }
 
 void UpdateTimedMessageFadeIn(void) {
-    if (IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021c27e4() != 0) {
+    if (IsBlendBrightnessFadeSlotBusy(0) == 0 && IsChildWaitSessionReleased() != 0) {
         SetUpdateFunction(UpdateTimedMessage);
     }
 }
@@ -100,10 +100,10 @@ void UpdateTimedMessageRelease(void) {
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         ReleaseBgTextCanvasOfScreen(0);
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupOptMenu);
     }
 }

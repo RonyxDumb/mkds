@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk021d6974 Unk021d6974;
+typedef struct Bytes4 Bytes4;
 
 // Bytes moved as one value.
 typedef struct Unk021d73e0 {
@@ -53,8 +53,8 @@ extern u8 gJbBgStep21NcgName[];
 extern u8 gJb3ListNscName[];
 extern u16 gDotSeparatedBytesFormat[];
 extern u8 gYbObjMainNclName4[];
-extern Unk021d6974 data_ov003_021d75c0;
-extern Unk021d6974 data_ov003_021d75c4;
+extern Bytes4 data_ov003_021d75c0;
+extern Bytes4 data_ov003_021d75c4;
 extern u8 gYb5MultiNscName[];
 extern u8 gYb5MultiNscName2[];
 extern u8 gJb5InfoNscName[];
@@ -131,4 +131,4 @@ extern u8 data_ov003_021d7b70[];
 extern u8 data_ov003_021d7b9c[];
 extern u8 data_ov003_021d7bc8[];
 extern u8 data_ov003_021d7bd0[];
-extern u8 data_ov003_021d7f6c[];
+extern u8 gCrcTable[];

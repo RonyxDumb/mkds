@@ -7,7 +7,7 @@ typedef struct Unk021c1fc8_02 {
     /* 000 */ u16 mUnk_00[0x82];
 } Unk021c1fc8_02;
 
-// Stack object of func_ov003_021c1fc8.
+// Stack object of InitValueRecordsRequest.
 typedef struct Unk021c1fc8 {
     /* 000 */ u16 mUnk_00;
     /* 002 */ u8 mItemType;
@@ -16,6 +16,6 @@ typedef struct Unk021c1fc8 {
     /* 006 */ u8 mItemBytes[0x100];
 } Unk021c1fc8;
 
-u32 func_ov003_021c1f34(void);
-void func_ov003_021c1f84(int succeeded);
-void func_ov003_021c1fc8(void);
+u32 RunValueRecordsRequestForStatus(void);
+void ReleaseValueRecordsRequest(int succeeded);
+void InitValueRecordsRequest(void);

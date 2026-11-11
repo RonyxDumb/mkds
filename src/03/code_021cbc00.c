@@ -58,7 +58,7 @@ void func_ov003_021cbde4(void) {
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if (v1 == 0) {
         ClearDispcntBits(0, 0x14);
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(func_ov003_021cbb98);
     }
 }
@@ -129,7 +129,7 @@ void func_ov003_021cbd08(void) {}
 
 void func_ov003_021cbcc8(void) {
     int v1[1];
-    func_ov003_021c20dc(NULL, v1);
+    GetSecondaryMenuPair(NULL, v1);
     if (v1[0] != 0) {
         func_ov003_021ce0c4();
     }
@@ -144,13 +144,13 @@ void func_ov003_021cbc50(void) {
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) && (v1 = func_ov003_021cdd28(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
-        func_ov003_021bf410();
+        HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        func_ov003_021c2120(2, 1);
-        func_ov003_021c20dc(NULL, v2);
+        SetPrimaryMenuPair(2, 1);
+        GetSecondaryMenuPair(NULL, v2);
         if (v2[0] == 0) {
-            func_ov003_021c20f8(0, 0);
+            SetSecondaryMenuPair(0, 0);
             SetUpdateFunction(CreateJb3List);
             return;
         }
@@ -162,13 +162,13 @@ void func_ov003_021cbc00(void) {
     s32 a;
     data_ov003_021da24c[0]++;
     if (data_ov003_021da24c[0] >= 0xb4) {
-        func_ov003_021c20dc(NULL, &a);
+        GetSecondaryMenuPair(NULL, &a);
         switch (GetMode()) {
             case 0:
                 break;
             case 1:
                 if (a != 0) {
-                    SetUpdateFunction(func_ov003_021c2a74);
+                    SetUpdateFunction(StartMainFadeOut);
                     return;
                 }
                 break;

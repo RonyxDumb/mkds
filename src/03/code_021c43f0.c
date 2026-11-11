@@ -30,7 +30,7 @@ void SetupOptMenuMessage(void) {
     gOptMenuMessageShowNext = 0;
     LoadOptMenuMessageFileAndSetBgCnt();
     LoadHlScr(19);
-    func_ov003_021bf43c(141, -1, 0);
+    ShowSubScreenMessage(141, -1, 0);
     PrintMessage(93);
     SetUpdateFunction(StartOptMenuMessageFadeIn);
 }
@@ -94,7 +94,7 @@ void UpdateOptMenuMessageFadeIn(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
     if (fadeSlotBusy == 0) {
-        func_ov003_021bf5c8(3);
+        CreateSlideButtonsForMenuPair(3);
         SetUpdateFunction(UpdateOptMenuMessageButtonsIn);
     }
 }
@@ -164,19 +164,19 @@ void UpdateOptMenuMessageRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
     if ((v1 == 0) && (((gOptMenuMessageShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = func_ov003_021bf2f0(), v1 != 0)))) {
+                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
         ReleaseBgTextCanvasOfScreen(0);
         if (gOptMenuMessageShowNext == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
         if (gOptMenuMessageShowNext == 0) {
-            func_ov003_021c2120(0, 1);
+            SetPrimaryMenuPair(0, 1);
             SetUpdateFunction(SetupOptMenu);
             return;
         }
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupOptMenuMessageNext);
     }
 }

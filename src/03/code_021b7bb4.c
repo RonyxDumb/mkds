@@ -151,7 +151,7 @@ void FillPacketTags(s32 count, PacketTag *tags, const u8 *tagBytes) {
     for (i = 0; i < count; i++) {
         CopyBytes(tags, tagBytes, 6);
         tags->mSequence = NextRandomValue();
-        tags->mSequence = func_ov003_021b7c94(tags->mSequence);
+        tags->mSequence = PacketSwapBytes16(tags->mSequence);
         tags++;
     }
 }
@@ -164,7 +164,7 @@ s32 ReportStateChange(s32 state) {
     }
     if (gReportedState != state) {
         gReportedState = state;
-        return func_ov003_021ba18c(state);
+        return CallStateChangeCallback(state);
     }
     return result;
 }
@@ -221,9 +221,9 @@ s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
     }
     if (payload->mUnk_00 == 7) {
         valuePointer = &payload->mUnk_04;
-        if (func_ov003_021b7c5c(payload->mUnk_04) == -2) {
+        if (PacketSwapBytes32(payload->mUnk_04) == -2) {
             SetErrorCode(0x14);
-        } else if (func_ov003_021b7c5c(*valuePointer) == -3) {
+        } else if (PacketSwapBytes32(*valuePointer) == -3) {
             SetErrorCode(0x15);
         } else {
             SetErrorCode(0x18);
@@ -268,9 +268,9 @@ s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         return mode;
     }
     if (payload->mUnk_00 == 7) {
-        if (func_ov003_021b7c5c(payload->mUnk_04) == -2) {
+        if (PacketSwapBytes32(payload->mUnk_04) == -2) {
             SetErrorCode(0x14);
-        } else if (func_ov003_021b7c5c(payload->mUnk_04) == -3) {
+        } else if (PacketSwapBytes32(payload->mUnk_04) == -3) {
             SetErrorCode(0x15);
         } else {
             SetErrorCode(0x18);
@@ -314,14 +314,14 @@ s32 AdvanceStepForKind3010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         (*attempts)++;
         return mode;
     }
-    if (func_ov003_021b7c5c(payload->mUnk_04) == 0) {
+    if (PacketSwapBytes32(payload->mUnk_04) == 0) {
         return 0x64;
     }
-    if (func_ov003_021b7c5c(payload->mUnk_04) == -2) {
+    if (PacketSwapBytes32(payload->mUnk_04) == -2) {
         SetErrorCode(0x14);
         return -1;
     }
-    if (func_ov003_021b7c5c(payload->mUnk_04) == -3) {
+    if (PacketSwapBytes32(payload->mUnk_04) == -3) {
         SetErrorCode(0x15);
         return -1;
     }
@@ -354,22 +354,22 @@ s32 CheckPacketAndXorPayload(Packet *packet) {
         return 0;
     }
     length = SwapBytes16(payload->mLength);
-    copy = func_ov003_021ba178(length);
+    copy = CallEssidAllocFunction(length);
     if (copy == NULL) {
         SetErrorCode(2);
         return 100;
     }
     if (XorBytesWithKeyStreamAndCheckCrc(payload->mBytes, copy, length, packet->mPayloadCrc, payload->mKeyPrefix,
                                          gSavedTagBytes, 8) < 0) {
-        func_ov003_021ba164(copy);
+        CallEssidFreeFunction(copy);
         if (GetErrorCode() == 2) {
             return 100;
         }
         return 200;
     }
     CopyBytes(payload, copy, length);
-    packet->mPayloadLength = func_ov003_021b7c94(length);
-    func_ov003_021ba164(copy);
+    packet->mPayloadLength = PacketSwapBytes16(length);
+    CallEssidFreeFunction(copy);
     return 0;
 }
 
@@ -441,10 +441,10 @@ s32 ParseItemChain(PacketItem *firstItem, u8 *slots) {
                 }
                 break;
             case 5:
-                gRequestState.mDestinationAddress = func_ov003_021b7c5c(ReadLittleEndianValue(item->mValue, length));
+                gRequestState.mDestinationAddress = PacketSwapBytes32(ReadLittleEndianValue(item->mValue, length));
                 break;
             case 6:
-                gRequestState.mAddressMask = func_ov003_021b7c5c(ReadLittleEndianValue(item->mValue, length));
+                gRequestState.mAddressMask = PacketSwapBytes32(ReadLittleEndianValue(item->mValue, length));
                 break;
             default:
                 return -1;
@@ -694,7 +694,7 @@ s32 SendPacketKind1000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     fields.mFlags = 0;
     packetBuffer = gRequestPacketBuffer;
     FillBytes(packetBuffer, 0, 0x5dc);
-    container = func_ov003_021ba178(0x210);
+    container = CallEssidAllocFunction(0x210);
     if (container == NULL) {
         SetErrorCode(2);
         return -1;
@@ -707,19 +707,19 @@ s32 SendPacketKind1000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     if (fields.mPayloadLength < 0) {
         SetErrorCode(3);
         if (container != NULL) {
-            func_ov003_021ba164(container);
+            CallEssidFreeFunction(container);
         }
         return -1;
     }
     container->mUnk_00 = 0;
-    container->mLength = func_ov003_021b7c94(fields.mPayloadLength);
+    container->mLength = PacketSwapBytes16(fields.mPayloadLength);
     fields.mPayloadLength += 4;
     FillPayloadRecord(0, payloadRecord, container, &fields.mPayloadLength, &fields.mFlags, &fields.mPayloadCrc);
     fields.mFlags |= 0x10;
     if (XorAndSwapBytesWithKey(fields.mTag, 8, gMelcoString, 6) != 0) {
         SetErrorCode(2);
         if (container != NULL) {
-            func_ov003_021ba164(container);
+            CallEssidFreeFunction(container);
         }
         return -1;
     }
@@ -727,7 +727,7 @@ s32 SendPacketKind1000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     fields.mPayloadLength += 0x18;
     SendPacket(packetBuffer, fields.mPayloadLength, 0xff, descriptor);
     if (container != NULL) {
-        func_ov003_021ba164(container);
+        CallEssidFreeFunction(container);
     }
     return 0;
 }
@@ -747,7 +747,7 @@ s32 SendPacketKind2000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     FillBytes(packetBuffer, 0, 0x5dc);
     item.mUnk_00 = 2;
     item.mUnk_01 = 0;
-    item.mUnk_02 = func_ov003_021b7c94(4);
+    item.mUnk_02 = PacketSwapBytes16(4);
     item.mUnk_04 = gRequestState.mWantedRecordMask;
     item.mUnk_04 = SwapBytes32(item.mUnk_04);
     payloadLength = 8;
@@ -787,18 +787,18 @@ s16 BuildTwoItemChain(void *buffer) {
     firstItem->mUnk_01 = 1;
     firstLength = gRequestState.mItemLength;
     CopyBytes(firstItem->mValue, gRequestState.mItemBytes, firstLength);
-    firstItem->mLength = func_ov003_021b7c94(firstLength);
+    firstItem->mLength = PacketSwapBytes16(firstLength);
     firstLength += 6;
     firstSize = (firstLength + 1) / 2 * 2;
-    firstItem->mNextOffset = func_ov003_021b7c94(firstSize);
+    firstItem->mNextOffset = PacketSwapBytes16(firstSize);
     totalSize += firstSize;
     secondItem = OFFSET_PTR(OutgoingPacketItem, firstItem, firstSize);
     ((u8 *) firstItem)[firstSize] = 0x60;
     secondItem->mUnk_01 = 0;
-    secondItem->mNextOffset = func_ov003_021b7c94(0);
+    secondItem->mNextOffset = PacketSwapBytes16(0);
     value = SwapBytes32(0xe);
     CopyBytes(secondItem->mValue, &value, 4);
-    secondItem->mLength = func_ov003_021b7c94(4);
+    secondItem->mLength = PacketSwapBytes16(4);
     totalSize += 0xa;
     return totalSize;
 }
@@ -809,7 +809,7 @@ void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, 
         *flags = 1;
         XorBytesWithRandomKeyStreamAndComputeCrc(source, record->mBytes, *length, crc, record->mKeyPrefix,
                                                  gSavedTagBytes, 8);
-        record->mLength = func_ov003_021b7c94(*length);
+        record->mLength = PacketSwapBytes16(*length);
         *length += 4;
     } else {
         CopyBytes(record, source, *length);
@@ -818,13 +818,13 @@ void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, 
 
 void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 f, const u8 *tagBytes) {
     PacketHeader *header = buffer;
-    header->mUnk_00 = func_ov003_021b7c94(1);
+    header->mUnk_00 = PacketSwapBytes16(1);
     header->mUnk_02 = 0;
     header->mUnk_04 = 0;
-    header->mKind = func_ov003_021b7c94(kind);
+    header->mKind = PacketSwapBytes16(kind);
     header->mUnk_08 = 0;
-    header->mPayloadLength = func_ov003_021b7c94(payloadLength);
-    header->mFlags = func_ov003_021b7c94(flags);
+    header->mPayloadLength = PacketSwapBytes16(payloadLength);
+    header->mFlags = PacketSwapBytes16(flags);
     header->mPayloadCrc = payloadCrc;
     header->mUnk_0f = f;
     CopyBytes(header->mTag, tagBytes, 8);
@@ -834,12 +834,12 @@ s32 SendPacket(void *packet, s32 length, u32 target, s32 descriptor) {
     SocketAddress address;
     FillBytes(&address, 0, 8);
     address.mUnk_01 = 2;
-    address.mPort = func_ov003_021b7c94(0x5790);
+    address.mPort = PacketSwapBytes16(0x5790);
     address.mAddress = SwapBytes32(gRequestState.mDestinationAddress);
     if (target == 0xff || gRequestState.mAddressApplied == 0) {
         address.mAddress = -1;
     }
-    return func_ov003_021b7d04(descriptor, packet, length, 0, &address, 8);
+    return SendToSocket(descriptor, packet, length, 0, &address, 8);
 }
 
 s32 XorBytesWithRandomKeyStreamAndComputeCrc(const u8 *src, u8 *dst, s32 length, s8 *crc, u8 *keyPrefix,
@@ -847,7 +847,7 @@ s32 XorBytesWithRandomKeyStreamAndComputeCrc(const u8 *src, u8 *dst, s32 length,
     u16 random;
     KeyStreamState state;
     *crc = ComputeCrcLowByte(src, length);
-    state.mTable = func_ov003_021ba178(length);
+    state.mTable = CallEssidAllocFunction(length);
     if (state.mTable == NULL) {
         return -1;
     }
@@ -857,7 +857,7 @@ s32 XorBytesWithRandomKeyStreamAndComputeCrc(const u8 *src, u8 *dst, s32 length,
     CopyBytes(gKeyStreamKeyTail, keyTail, keyTailLength);
     InitKeyStream(&state, gKeyStreamKeyPrefix, keyTailLength + 2, length);
     XorWithKeyStream(&state, dst, src, length);
-    func_ov003_021ba164(state.mTable);
+    CallEssidFreeFunction(state.mTable);
     return 0;
 }
 
@@ -865,7 +865,7 @@ s32 XorBytesWithKeyStreamAndCheckCrc(const u8 *src, u8 *dst, s32 length, u32 exp
                                      const u8 *keyTail, s32 keyTailLength) {
     KeyStreamState state;
     u8 crc;
-    state.mTable = func_ov003_021ba178(length);
+    state.mTable = CallEssidAllocFunction(length);
     if (state.mTable == NULL) {
         SetErrorCode(2);
         return -1;
@@ -877,10 +877,10 @@ s32 XorBytesWithKeyStreamAndCheckCrc(const u8 *src, u8 *dst, s32 length, u32 exp
     crc = ComputeCrcLowByte(dst, length);
     if (crc != expectedCrc) {
         SetErrorCode(0x12);
-        func_ov003_021ba164(state.mTable);
+        CallEssidFreeFunction(state.mTable);
         return -1;
     }
-    func_ov003_021ba164(state.mTable);
+    CallEssidFreeFunction(state.mTable);
     return 0;
 }
 
@@ -944,7 +944,7 @@ u32 NextKeyStreamByte(KeyStreamState *state) {
 }
 
 u8 ComputeCrcLowByte(const u8 *bytes, s32 count) {
-    return ComputeCrc(~0, bytes, count, 0, (u32 *) data_ov003_021d7f6c) ^ ~0;
+    return ComputeCrc(~0, bytes, count, 0, (u32 *) gCrcTable) ^ ~0;
 }
 
 u32 ComputeCrc(u32 crc, const u8 *bytes, s32 count, s32 tableBuilt, u32 *table) {
@@ -958,7 +958,7 @@ u32 ComputeCrc(u32 crc, const u8 *bytes, s32 count, s32 tableBuilt, u32 *table) 
     return crc;
 }
 
-void InitCrcTable(s32 a, u32 *table) {
+void InitCrcTable(s32 unused, u32 *table) {
     u32 value;
     s32 i;
     s32 j;
@@ -980,13 +980,13 @@ s32 XorAndSwapBytesWithKey(u8 *buffer, s32 size, const s8 *key, s32 keyLength) {
     s8 *keyHalf;
     u8 *scratch;
     s32 i;
-    keyHalf = func_ov003_021ba178(size / 2);
+    keyHalf = CallEssidAllocFunction(size / 2);
     if (keyHalf == NULL) {
         return -1;
     }
-    scratch = func_ov003_021ba178(size);
+    scratch = CallEssidAllocFunction(size);
     if (scratch == NULL) {
-        func_ov003_021ba164(keyHalf);
+        CallEssidFreeFunction(keyHalf);
         return -1;
     }
     for (i = 0; i < 2; i++) {
@@ -994,8 +994,8 @@ s32 XorAndSwapBytesWithKey(u8 *buffer, s32 size, const s8 *key, s32 keyLength) {
         XorSecondHalf(keyHalf, buffer, size);
         SwapBufferHalves(buffer, size, scratch);
     }
-    func_ov003_021ba164(keyHalf);
-    func_ov003_021ba164(scratch);
+    CallEssidFreeFunction(keyHalf);
+    CallEssidFreeFunction(scratch);
     return 0;
 }
 
@@ -1028,24 +1028,24 @@ void SwapBufferHalves(u8 *buffer, u32 size, u8 *scratch) {
     CopyBytes(buffer, scratch, size);
 }
 
-u32 func_ov003_021b7e70(u32 a, int size) {
+u32 AllocSocketMemory(u32 name, int size) {
     u32 memory;
     if (0 < size) {
-        memory = (*(UnkWordFunc *) (*(u32 *) &data_ov003_021d8a0c))(size);
+        memory = (*(UnkWordFunc *) (*(u32 *) &gEssidAllocFunction))(size);
         return memory;
     }
     return 0;
 }
 
-void func_ov003_021b7e58(u32 a, u32 pointer) {
-    (*(UnkFunc *) (*(u32 *) &data_ov003_021d8a18))(pointer);
+void FreeSocketMemory(u32 name, u32 pointer) {
+    (*(UnkFunc *) (*(u32 *) &gEssidFreeFunction))(pointer);
 }
 
-s32 func_ov003_021b7df4(u32 address, u32 mask, u32 c) {
-    data_ov003_021d6810.mUnk_10[0] = SwapBytes32(address);
-    data_ov003_021d6810.mUnk_10[1] = SwapBytes32(mask);
-    data_ov003_021d6810.mUnk_10[2] = SwapBytes32(c);
-    if (func_ov000_021a8c94(&data_ov003_021d6810) < 0) {
+s32 StartSocketsWithAddress(u32 address, u32 mask, u32 router) {
+    gEssidSocketConfig.mUnk_10[0] = SwapBytes32(address);
+    gEssidSocketConfig.mUnk_10[1] = SwapBytes32(mask);
+    gEssidSocketConfig.mUnk_10[2] = SwapBytes32(router);
+    if (func_ov000_021a8c94(&gEssidSocketConfig) < 0) {
         return -1;
     }
     while (data_ov000_021b63b4 == 0) {
@@ -1054,11 +1054,11 @@ s32 func_ov003_021b7df4(u32 address, u32 mask, u32 c) {
     return 0;
 }
 
-s32 func_ov003_021b7dc8(void) {
+s32 StopSocketsAndDisconnectEssid(void) {
     if (func_ov000_021a8c8c() < 0) {
         return -1;
     }
-    return -(func_ov003_021ba524() != 0);
+    return -(DisconnectEssidAndWait() != 0);
 }
 
 s32 CompareBytes(const u8 *left, const u8 *right, s32 count) {
@@ -1084,13 +1084,13 @@ void FillBytes(void *destination, s32 fillValue, u32 size) {
     MI_CpuFill8(destinationCopy, byteValue, sizeCopy);
 }
 
-s32 func_ov003_021b7d68(s32 descriptor, void *buffer, s32 length, s32 v4, SocketAddress *address, s32 *addressLength) {
+s32 RecvFromSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAddress *address, s32 *addressLength) {
     address->mLength = *addressLength;
-    return func_ov000_021a90a0(descriptor, buffer, length, v4, address);
+    return func_ov000_021a90a0(descriptor, buffer, length, flags, address);
 }
 
-s32 func_ov003_021b7d1c(s32 v1, Unk021b7ba0 *set, void *v3, void *v4, WaitTimeout *timeout) {
-    Unk021b7ba0 setCopy;
+s32 PollSocketWithTimeout(s32 v1, PollEntry *set, void *v3, void *v4, WaitTimeout *timeout) {
+    PollEntry setCopy;
     s64 ticks;
     ticks = 0;
     setCopy = *set;
@@ -1099,25 +1099,25 @@ s32 func_ov003_021b7d1c(s32 v1, Unk021b7ba0 *set, void *v3, void *v4, WaitTimeou
     return func_ov000_021a8b20(&setCopy, 1, ticks);
 }
 
-s32 func_ov003_021b7d04(s32 descriptor, void *buffer, s32 length, s32 d, SocketAddress *address, u32 addressLength) {
+s32 SendToSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAddress *address, u32 addressLength) {
     address->mLength = addressLength;
-    return func_ov000_021a9018(descriptor, buffer, length, d, address);
+    return func_ov000_021a9018(descriptor, buffer, length, flags, address);
 }
 
-s32 func_ov003_021b7d00(s32 id, s32 arg1, s32 arg2, void *value, s32 length) {
+s32 SocketReturnArgument(s32 id, s32 arg1, s32 arg2, void *value, s32 length) {
     return id;
 }
 
-s32 func_ov003_021b7cf8(s32 domain, s32 type, s32 protocol) {
+s32 OpenSocket(s32 domain, s32 type, s32 protocol) {
     return func_ov000_021a918c(domain, type, protocol);
 }
 
-s32 func_ov003_021b7cec(s32 descriptor, SocketAddress *address, u32 addressLength) {
+s32 BindSocket(s32 descriptor, SocketAddress *address, u32 addressLength) {
     address->mLength = addressLength;
     return func_ov000_021a916c(descriptor, address);
 }
 
-s32 func_ov003_021b7ce4(s32 descriptor) {
+s32 CloseSocket(s32 descriptor) {
     return func_ov000_021a9008(descriptor);
 }
 
@@ -1146,11 +1146,11 @@ u32 SwapBytes32(u32 input) {
     return value0;
 }
 
-u16 func_ov003_021b7c94(u16 value) {
+u16 PacketSwapBytes16(u16 value) {
     return ((value >> 8) & 0xff) | ((value << 8) & 0xff00);
 }
 
-u32 func_ov003_021b7c5c(u32 input) {
+u32 PacketSwapBytes32(u32 input) {
     u32 value0 = input;
     u32 value1;
     u32 value2;

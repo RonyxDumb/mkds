@@ -46,7 +46,7 @@ void CreateEdit(void) {
     a[0] = data_ov003_021d7278[0];
     a[1] = data_ov003_021d7278[1];
     gEdit = AllocZeroedExpHeapBlock(0x2c, 4);
-    func_ov003_021c20dc(&b, &c);
+    GetSecondaryMenuPair(&b, &c);
     if (b == 0) {
         func_ov003_021cd948((u8 *) gEdit + 8);
         gEdit->mCharCount = GetStringLengthWithLimit((u8 *) gEdit + 8, 0x20);
@@ -54,11 +54,11 @@ void CreateEdit(void) {
     LoadEditFilesAndSetBgCnt();
     LoadHlScr(b + 9);
     if (c == 1) {
-        func_ov003_021bf43c(0x81, -1, 0);
+        ShowSubScreenMessage(0x81, -1, 0);
     } else {
-        func_ov003_021bf43c(a[b], -1, 0);
+        ShowSubScreenMessage(a[b], -1, 0);
     }
-    func_ov003_021bf5ec(2);
+    CreateObjectsForMenuPair(2);
     gEdit->mUnk_00 = InitBgTextCanvas(0, 0);
     gEdit->mUnk_04 = CreateOamEntryFromNceImage(0, 0x3e);
     gEdit->mUnk_04->mUnk_04 = (gEdit->mUnk_04->mUnk_04 & 0xfffff3ff) | 0xc00;
@@ -242,7 +242,7 @@ void func_ov003_021c6acc(void) {
             func_ov003_021cefc0(0x2f, 3, 1, -1, 0);
             SetUpdateFunction(func_ov003_021c673c);
         } else {
-            func_ov003_021c20dc(NULL, &b);
+            GetSecondaryMenuPair(NULL, &b);
             func_ov003_021cefc0(a[b], 2, 1, -1, 0);
             SetUpdateFunction(func_ov003_021c68c8);
         }
@@ -252,24 +252,24 @@ void func_ov003_021c6acc(void) {
 void func_ov003_021c6a18(void) {
     s32 v1;
     int v2[1];
-    func_ov003_021bf410();
+    HideSubScreenMessage();
     DeleteOamEntry((u32 *) (u32) gEdit->mUnk_04);
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&gYbObjMainNclName2, &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x15);
-    func_ov003_021c20dc(&v1, v2);
+    GetSecondaryMenuPair(&v1, v2);
     if (v2[0] == 0) {
-        func_ov003_021c2120(2, 1);
-        func_ov003_021c20f8(0, v1);
+        SetPrimaryMenuPair(2, 1);
+        SetSecondaryMenuPair(0, v1);
         SetUpdateFunction(CreateJb3List);
     } else if (gEdit->mUnk_2a == 0) {
-        func_ov003_021c2120(0, 1);
-        func_ov003_021c20f8(1, 0);
+        SetPrimaryMenuPair(0, 1);
+        SetSecondaryMenuPair(1, 0);
         SetUpdateFunction(CreateApList);
     } else {
-        func_ov003_021c2120(0, 0);
-        func_ov003_021c20f8(0, 1);
+        SetPrimaryMenuPair(0, 0);
+        SetSecondaryMenuPair(0, 1);
         SetUpdateFunction(func_ov003_021cbf60);
     }
     FreeExpHeapBlockAndClearPointer(&gEdit);
@@ -349,7 +349,7 @@ void func_ov003_021c6854(void) {
             SetUpdateFunction(func_ov003_021c6d0c);
             return;
         }
-        func_ov003_021c20dc(&b, NULL);
+        GetSecondaryMenuPair(&b, NULL);
         a[b](gEdit->mText);
         SetUpdateFunction(func_ov003_021c6a18);
     }
@@ -360,11 +360,11 @@ BOOL func_ov003_021c6764(void) {
     s32 b;
     int v1;
     int i;
-    func_ov003_021c20dc(&a, &b);
+    GetSecondaryMenuPair(&a, &b);
     if (b == 1) {
-        func_ov003_021bf43c(0x81, -1, 0);
+        ShowSubScreenMessage(0x81, -1, 0);
     }
-    func_ov003_021c20dc(&a, &b);
+    GetSecondaryMenuPair(&a, &b);
     if (a == 0) {
         if (gEdit->mText[0] != 0) {
             return TRUE;

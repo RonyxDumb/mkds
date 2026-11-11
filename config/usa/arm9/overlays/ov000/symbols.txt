@@ -1484,8 +1484,8 @@ data_ov000_021b07a0 kind:data(any) addr:0x021b076c
 data_ov000_021b07b0 kind:data(any) addr:0x021b077c
 data_ov000_021b07b4 kind:data(any) addr:0x021b0780
 data_ov000_021b07b8 kind:data(any) addr:0x021b0784
-data_ov000_021b07bc kind:data(any) addr:0x021b0788
-data_ov000_021b07c4 kind:data(any) addr:0x021b0790
+WCM_Bssid_Any kind:data(any) addr:0x021b0788
+WCM_Essid_Any kind:data(any) addr:0x021b0790
 OV000_DATA_START kind:data(any) addr:0x021b07c0
 @7 kind:data(any) addr:0x021b07e0 local
 @3567 kind:data(any) addr:0x021b07f0 local

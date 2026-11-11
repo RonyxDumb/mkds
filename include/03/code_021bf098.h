@@ -23,7 +23,7 @@ void AdvanceSlideButtonsIn(TaskEntry *task);
 void SetSlideButtonsY(s32 yPosition);
 void DisableButtonTouch(void);
 void EnableButtonTouch(void);
-BOOL func_ov003_021bf2f0(void);
+BOOL IsSlideButtonsNotSlidingOut(void);
 void SetButtonResult(s8 result);
 void SetButtonResultIfNone(s32 result);
 int GetButtonResult(void);

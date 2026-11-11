@@ -9,7 +9,7 @@
 
 void UpdateLinkMessageFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
-        func_ov003_021c27d0(LinkMessageResultCallback);
+        SetChildWaitCallback(LinkMessageResultCallback);
         SetUpdateFunction(UpdateLinkMessage);
     }
 }

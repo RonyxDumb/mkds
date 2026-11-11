@@ -33,7 +33,7 @@ void SetupJb5Move(void) {
     u8 *a;
     void *b;
     u16 c[12];
-    a = func_ov003_021c27b4();
+    a = GetChildUserBuffer();
     b = InitBgTextCanvas(0, 0);
     data_ov003_021da1d4 = 0;
     data_ov003_021da1d0 = 0;
@@ -45,7 +45,7 @@ void SetupJb5Move(void) {
                        data_ov003_021d6380.mUnk_04 - data_ov003_021d6380.mUnk_00,
                        data_ov003_021d6380.mUnk_06 - data_ov003_021d6380.mUnk_02, 2, 0x480, &c[1]);
     RequestBgTextCanvasUpload(b);
-    func_ov003_021c27d0(func_ov003_021c4ad4);
+    SetChildWaitCallback(func_ov003_021c4ad4);
     SetUpdateFunction(func_ov003_021c4cb0);
 }
 
@@ -134,7 +134,7 @@ void func_ov003_021c4c0c(void) {
         default:
             return;
     }
-    func_ov003_021c27d0(NULL);
+    SetChildWaitCallback(NULL);
     func_ov003_021cef90();
     SetUpdateFunction(func_ov003_021c4bc4);
 }
@@ -158,9 +158,9 @@ void func_ov003_021c4bc4(void) {
 void func_ov003_021c4b78(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         if (data_ov003_021da1d0 == 0 && data_ov003_021da1d4 == 1) {
-            func_ov003_021c27c8();
+            ConfirmChildWaitUser();
         } else {
-            func_ov003_021c2824();
+            StartChildWaitStop();
         }
         SetUpdateFunction(func_ov003_021c4ae0);
     }
@@ -168,14 +168,14 @@ void func_ov003_021c4b78(void) {
 
 void func_ov003_021c4ae0(void) {
     int v1;
-    if (((data_ov003_021da1d0 == 0) && (data_ov003_021da1d4 != 0)) || (v1 = func_ov003_021c27e4(), v1 != 0)) {
+    if (((data_ov003_021da1d0 == 0) && (data_ov003_021da1d4 != 0)) || (v1 = IsChildWaitSessionReleased(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
         if (data_ov003_021da1d4 == 0) {
-            func_ov003_021bf410();
+            HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
-        func_ov003_021c2120(0, 1);
+        SetPrimaryMenuPair(0, 1);
         if (data_ov003_021da1d0 != 0) {
             SetUpdateFunction(func_ov003_021c4aa4);
             return;
