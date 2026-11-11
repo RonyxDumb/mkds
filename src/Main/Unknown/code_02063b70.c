@@ -44,32 +44,31 @@ static inline void ShiftVec3RightByFour(Vec3 *destination, const Vec3 *source) {
 }
 
 void DrawKart(Kart *kart) {
-    u32 b;
-    u32 c;
-    u32 d;
+    u32 hasKartFlag;
+    u32 kartFlags;
+    u32 kartStatus;
     KartModelsEntry *modelsEntry;
-    KartTireTranslations *f;
+    KartTireTranslations *tireTranslations;
     s32 killerItemShown;
-    s32 h;
+    s32 tireScale;
     MtxFx33 spinMatrix;
-    MtxFx33 k;
+    MtxFx33 rotationMatrix;
     Vec3 translation;
-    s32 pairIndex;
 
-    c = kart->mUnk_4c;
-    b = (c & 0x10) != 0;
-    d = kart->mUnk_7c;
+    kartFlags = kart->mUnk_4c;
+    hasKartFlag = (kartFlags & 0x10) != 0;
+    kartStatus = kart->mUnk_7c;
     modelsEntry = kart->mKartModelsEntry;
-    if ((d & 0x1008040) != 0 || (c & (0x10000000 | KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) != 0) {
+    if ((kartStatus & 0x1008040) != 0 || (kartFlags & (0x10000000 | KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) != 0) {
         killerItemShown = 0;
-        if ((d & 0x1008040) == 0 && (c & (KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) == 0) {
+        if ((kartStatus & 0x1008040) == 0 && (kartFlags & (KART_4C_OUT_OF_VIEW | KART_4C_BLINK_HIDDEN)) == 0) {
             killerItemShown = DrawKartKillerItem(kart);
         }
         SetKartKillerEffectShown(kart->mIndex, killerItemShown);
         kart->mVisible = 0;
         return;
     }
-    if ((d & 0x404004) != 0) {
+    if ((kartStatus & 0x404004) != 0) {
         kart->mVisible = ~kart->mVisible;
         if (kart->mVisible == 0) {
             return;
@@ -78,7 +77,7 @@ void DrawKart(Kart *kart) {
         kart->mVisible = 0xffff;
     }
     SendGxCommandOneValue(0x14, 0x1e);
-    if (b != 0) {
+    if (hasKartFlag != 0) {
         ShiftVec3RightByFour(&kart->mUnk_144, kart->mPosSource);
         NNS_G3dGeBufferOP_N(0x19, &kart->mUnk_120, 0xc);
         NNS_G3dGeBufferOP_N(0x1b, &kart->mScale, 3);
@@ -90,7 +89,7 @@ void DrawKart(Kart *kart) {
     NNS_G3dGeBufferOP_N(0x1b, &kart->mScale, 3);
     SendGxCommandOneValue(0x13, 0x1d);
     SendGxCommandThreeValues(0x1b, kart->mModelScaleX, kart->mModelScaleY, kart->mModelScaleZ);
-    if (b == 0) {
+    if (hasKartFlag == 0) {
         DrawShadowWithoutMatrix(modelsEntry->mShadowModel);
     }
     SendLight01Color(&modelsEntry->mCourseColorBlend.mColor);
@@ -100,30 +99,29 @@ void DrawKart(Kart *kart) {
         SendGxCommandThreeValues(0x1b, kart->mOffsetCycleAmount.x, kart->mOffsetCycleAmount.y, 0x1000);
         DrawNsbmd(modelsEntry->mModels[1]);
         if (modelsEntry->mModels[2] != NULL) {
-            f = kart->mKartModelsEntry->mTireTranslations;
-            h = kart->mKartModelsEntry->mKartOffsetData->mFirstTiresScale;
+            tireTranslations = kart->mKartModelsEntry->mTireTranslations;
+            tireScale = kart->mKartModelsEntry->mKartOffsetData->mFirstTiresScale;
             SendGxCommandOneValue(0x14, 0x1c);
-            NNS_G3dGeBufferOP_N(0x1c, &f->mThirdTireX, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &tireTranslations->mThirdTireX, 3);
             MTX_RotX33_(&spinMatrix, SIN_OF_ANGLE(kart->mTireSpinAngle), COS_OF_ANGLE(kart->mTireSpinAngle));
             NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
-            if (f->mThirdTireX != 0) {
-                SendGxCommandThreeValues(0x1c, f->mFourthTireX, 0, 0);
+            if (tireTranslations->mThirdTireX != 0) {
+                SendGxCommandThreeValues(0x1c, tireTranslations->mFourthTireX, 0, 0);
                 DrawNsbmd(modelsEntry->mModels[2]);
             }
             SendGxCommandOneValue(0x14, 0x1c);
-            NNS_G3dGeBufferOP_N(0x1c, f, 3);
-            SendGxCommandThreeValues(0x1b, h, h, h);
+            NNS_G3dGeBufferOP_N(0x1c, tireTranslations, 3);
+            SendGxCommandThreeValues(0x1b, tireScale, tireScale, tireScale);
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-            pairIndex = (kart->mTireTurnAngle >> 4) * 2;
-            MTX_RotY33_(&k, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
-            NNS_G3dGeBufferOP_N(0x1a, &k, 9);
+            MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(kart->mTireTurnAngle), COS_OF_ANGLE(kart->mTireTurnAngle));
+            NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
             NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
             DrawNsbmd(modelsEntry->mModels[2]);
-            if (f->mFirstTireX != 0) {
+            if (tireTranslations->mFirstTireX != 0) {
                 SendGxCommandOneValue(0x12, 1);
-                SendGxCommandThreeValues(0x1c, f->mSecondTireX, 0, 0);
-                NNS_G3dGeBufferOP_N(0x1a, &k, 9);
+                SendGxCommandThreeValues(0x1c, tireTranslations->mSecondTireX, 0, 0);
+                NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
                 DrawNsbmd(modelsEntry->mModels[2]);
             }
@@ -144,8 +142,8 @@ BOOL DrawKartKillerItem(Kart *kart) {
     ModelAnimation *killerItemNsbca;
     BOOL drawn;
     s32 frame;
-    s32 f;
-    s32 t;
+    s32 commandValue;
+    s32 offsetScale;
     s32 radiusFactor;
     Vec3 position;
     Vec3 scale;
@@ -154,9 +152,9 @@ BOOL DrawKartKillerItem(Kart *kart) {
     modelsEntry = kart->mKartModelsEntry;
     drawn = modelsEntry->mKartModelHidden == 0;
     if (drawn != FALSE) {
-        t = kart->mRadius + 0x5000;
+        offsetScale = kart->mRadius + 0x5000;
         matrix = *kart->mDrawMatrix;
-        VEC_MultAdd(t, &kart->mUnk_12c, kart->mPosSource, &position);
+        VEC_MultAdd(offsetScale, &kart->mUnk_12c, kart->mPosSource, &position);
         matrix.mRows[3].x = position.x >> 4;
         matrix.mRows[3].y = position.y >> 4;
         matrix.mRows[3].z = position.z >> 4;
@@ -164,8 +162,8 @@ BOOL DrawKartKillerItem(Kart *kart) {
         scale.x = MUL_FIXED12_NO_ROUND(kart->mScale.x, radiusFactor);
         scale.y = MUL_FIXED12_NO_ROUND(kart->mScale.y, radiusFactor);
         scale.z = MUL_FIXED12_NO_ROUND(kart->mScale.z, radiusFactor);
-        f = 0x1e;
-        NNS_G3dGeBufferOP_N(0x14, &f, 1);
+        commandValue = 0x1e;
+        NNS_G3dGeBufferOP_N(0x14, &commandValue, 1);
         NNS_G3dGeBufferOP_N(0x19, &matrix, 0xc);
         NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         SendLight01Color(&modelsEntry->mCourseColorBlend.mColor);

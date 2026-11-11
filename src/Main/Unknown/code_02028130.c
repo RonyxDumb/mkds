@@ -59,21 +59,21 @@ u16 SelectKartGetNewBits(u32 slotIndex, u32 mask) {
 #pragma thumb on
 
 int AdvanceSelectKart(void) {
-    SelectKart *d;
-    CellFileSet *p;
-    s32 e;
-    s32 r;
-    s32 t;
-    s32 x;
-    CellFileSet *q;
-    u32 v;
-    d = gSelectKart;
-    e = d->mKartIndex;
-    x = 0;
-    r = 0;
-    q = &d->mSelectCharacterGpMParts;
-    p = &d->mSelectKartSParts;
-    t = GetPadInputSlot();
+    SelectKart *selectKart;
+    CellFileSet *selectKartParts;
+    s32 oldKartIndex;
+    s32 result;
+    s32 padInputSlot;
+    s32 isReturnTouched;
+    CellFileSet *characterParts;
+    u32 value;
+    selectKart = gSelectKart;
+    oldKartIndex = selectKart->mKartIndex;
+    isReturnTouched = 0;
+    result = 0;
+    characterParts = &selectKart->mSelectCharacterGpMParts;
+    selectKartParts = &selectKart->mSelectKartSParts;
+    padInputSlot = GetPadInputSlot();
     AdvanceInterpolation(&gSelectKart->mInterpolations[0]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[1]);
     AdvanceInterpolation(&gSelectKart->mInterpolations[2]);
@@ -88,41 +88,42 @@ int AdvanceSelectKart(void) {
     } else {
         gSelectKart->mTouchRect = -1;
     }
-    d = gSelectKart;
-    switch (d->mState) {
+    selectKart = gSelectKart;
+    switch (selectKart->mState) {
         case 0:
-            if (d->mInterpolations[4].mState == 1) {
-                d->mStateFrames = 0;
+            if (selectKart->mInterpolations[4].mState == 1) {
+                selectKart->mStateFrames = 0;
                 if (SelectKartMB_IsMultiBootChildWrapper() != 0) {
-                    v = 1;
+                    value = 1;
                 } else {
-                    v = 2;
+                    value = 2;
                 }
-                gSelectKart->mState = v;
+                gSelectKart->mState = value;
             }
             SetSelectKartSPartsOffsetY();
             break;
         case 1:
-            SetDataSharingSendByteInState8(d->mKartIndex | 0x80);
+            SetDataSharingSendByteInState8(selectKart->mKartIndex | 0x80);
             gSelectKart->mResult = 1;
             gSelectKart->mState = 5;
             break;
         case 2:
-            if (SelectKartIsSlotPairNew(t) != 0) {
-                x = IsSelectReturnState2NoState3Or4RequestAndInRect(SelectKartGetSlotPairX(t),
-                                                                    SelectKartGetSlotPairY(t));
+            if (SelectKartIsSlotPairNew(padInputSlot) != 0) {
+                isReturnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(SelectKartGetSlotPairX(padInputSlot),
+                                                                                  SelectKartGetSlotPairY(padInputSlot));
             }
-            if (SelectKartGetNewBits(t, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 ||
+            if (SelectKartGetNewBits(padInputSlot, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 ||
                 IsSelectKartModeAndTimerZero() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
                 gSelectKart->mState = 4;
-                p->mCellTable[18].mVisible = 0;
-                SetLabelPaletteIndex(data_usa_02153834[4], 0, p->mLabelLayout, p->mCellTable, p->mCellLayout);
+                selectKartParts->mCellTable[18].mVisible = 0;
+                SetLabelPaletteIndex(data_usa_02153834[4], 0, selectKartParts->mLabelLayout,
+                                     selectKartParts->mCellTable, selectKartParts->mCellLayout);
                 StartSeqPair(GetCharacterSeqPairNo(gSelectKart->mCharacterIndex), 1);
                 SetKartModelMenuSpinStopped(1);
                 StopPaletteBlend();
-            } else if (SelectKartGetNewBits(t, PAD_KEY_B) != 0 || x != 0) {
+            } else if (SelectKartGetNewBits(padInputSlot, PAD_KEY_B) != 0 || isReturnTouched != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 2;
                 StartSelectKartEntryListKindIfUsed(0);
@@ -131,23 +132,23 @@ int AdvanceSelectKart(void) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
                 gSelectKart->mState = 7;
                 if (gSelectKart->mMode != 0) {
-                    v = 1;
+                    value = 1;
                 } else {
-                    v = 0;
+                    value = 0;
                 }
-                RequestSelectReturnState3WithSound(v);
-            } else if (GetNewOrRepeatBits(t, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
+                RequestSelectReturnState3WithSound(value);
+            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
                 gSelectKart->mSlidingCellIndex = 3;
-                p->mCellTable[1].mVisible = 0;
-                p->mCellTable[3].mVisible = 1;
-            } else if (GetNewOrRepeatBits(t, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
+                selectKartParts->mCellTable[1].mVisible = 0;
+                selectKartParts->mCellTable[3].mVisible = 1;
+            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
                 gSelectKart->mSlidingCellIndex = 2;
-                p->mCellTable[0].mVisible = 0;
-                p->mCellTable[2].mVisible = 1;
+                selectKartParts->mCellTable[0].mVisible = 0;
+                selectKartParts->mCellTable[2].mVisible = 1;
             }
-            if (e != gSelectKart->mKartIndex) {
+            if (oldKartIndex != gSelectKart->mKartIndex) {
                 StartCursorMoveSound();
                 PrintSelectKartMessage();
                 RefreshKartMenuParamElements();
@@ -156,30 +157,30 @@ int AdvanceSelectKart(void) {
             }
             break;
         case 3:
-            d->mStateFrames = d->mStateFrames + 1;
+            selectKart->mStateFrames = selectKart->mStateFrames + 1;
             if (gSelectKart->mStateFrames > 6) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 2;
-                p->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = 0;
-                p->mCellTable[1].mVisible = 1;
-                p->mCellTable[0].mVisible = 1;
-                p->mCellTable[3].mVisible = 0;
-                p->mCellTable[2].mVisible = 0;
+                selectKartParts->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = 0;
+                selectKartParts->mCellTable[1].mVisible = 1;
+                selectKartParts->mCellTable[0].mVisible = 1;
+                selectKartParts->mCellTable[3].mVisible = 0;
+                selectKartParts->mCellTable[2].mVisible = 0;
             } else {
-                v = LookupFrameOffset(gSelectKart->mStateFrames);
+                value = LookupFrameOffset(gSelectKart->mStateFrames);
                 if (gSelectKart->mSlidingCellIndex == 2) {
-                    v = -v;
+                    value = -value;
                 }
-                p->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = v;
+                selectKartParts->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = value;
             }
             break;
         case 4:
-            d->mStateFrames = d->mStateFrames + 1;
-            d = gSelectKart;
-            if (d->mStateFrames >= 5) {
-                switch (d->mMode) {
+            selectKart->mStateFrames = selectKart->mStateFrames + 1;
+            selectKart = gSelectKart;
+            if (selectKart->mStateFrames >= 5) {
+                switch (selectKart->mMode) {
                     case 0:
-                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = d->mKartIndex;
+                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = selectKart->mKartIndex;
                         GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 1;
                         FillRandomKartIndices();
                         gSelectKart->mState = 6;
@@ -196,19 +197,20 @@ int AdvanceSelectKart(void) {
                         break;
                 }
                 gSelectKart->mStateFrames = 0;
-                p->mCellTable[18].mVisible = 1;
-                SetLabelPaletteIndex(data_usa_02153834[4], 1, p->mLabelLayout, p->mCellTable, p->mCellLayout);
+                selectKartParts->mCellTable[18].mVisible = 1;
+                SetLabelPaletteIndex(data_usa_02153834[4], 1, selectKartParts->mLabelLayout,
+                                     selectKartParts->mCellTable, selectKartParts->mCellLayout);
             }
             break;
         case 5:
-            if (d->mMode == 1 && IsEveryPlayerKartStored() != 0 ||
+            if (selectKart->mMode == 1 && IsEveryPlayerKartStored() != 0 ||
                 gSelectKart->mMode == 2 && IsWiFiSessionStep7Reached() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 6;
             }
             break;
         case 6:
-            d->mStateFrames = d->mStateFrames + 1;
+            selectKart->mStateFrames = selectKart->mStateFrames + 1;
             if (gSelectKart->mStateFrames > 0x3c) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[0], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], 2);
@@ -231,14 +233,14 @@ int AdvanceSelectKart(void) {
             }
             break;
         case 7:
-            if (d->mInterpolations[4].mState == 3) {
-                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = d->mResult == 1;
+            if (selectKart->mInterpolations[4].mState == 3) {
+                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = selectKart->mResult == 1;
                 gSelectKart->mState = 8;
             }
             SetSelectKartSPartsOffsetY();
             break;
         case 8:
-            r = d->mResult;
+            result = selectKart->mResult;
             break;
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
@@ -247,21 +249,23 @@ int AdvanceSelectKart(void) {
         AdvanceKartModelMenu(GetRaceSetupCopy()->mMirrorMode);
         DrawKartModelMenu();
     }
-    d = gSelectKart;
-    if (d->mEntryListUsed != FALSE) {
+    selectKart = gSelectKart;
+    if (selectKart->mEntryListUsed != FALSE) {
         AdvancePlayerEntryList();
     } else {
-        DrawLayoutTable(q->mCellLayout, q->mCells, NULL, d->mMainOam, q->mCellTable);
+        DrawLayoutTable(characterParts->mCellLayout, characterParts->mCells, NULL, selectKart->mMainOam,
+                        characterParts->mCellTable);
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        d = gSelectKart;
-        if (d->mState != 8) {
-            DrawLayoutTable(p->mCellLayout, p->mCells, p->mLabelLayout, d->mSubOam, p->mCellTable);
+        selectKart = gSelectKart;
+        if (selectKart->mState != 8) {
+            DrawLayoutTable(selectKartParts->mCellLayout, selectKartParts->mCells, selectKartParts->mLabelLayout,
+                            selectKart->mSubOam, selectKartParts->mCellTable);
         }
     } else {
         AdvanceSelectRaceRuleWait();
     }
-    switch (r) {
+    switch (result) {
         case 1:
             GetRaceSetupCopy()->mEntryTransition = 0;
             break;
@@ -269,5 +273,5 @@ int AdvanceSelectKart(void) {
             GetRaceSetupCopy()->mEntryTransition = 2;
             break;
     }
-    return r;
+    return result;
 }

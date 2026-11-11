@@ -36,7 +36,7 @@ unsigned int IsFadeFogActive(void);
 void SetFadeFogHoldFramesToLimit(void);
 void ClearFadeFogHoldFrames(void);
 void StartFadeFog(void);
-void BuildFadeFog(s32 fadeLevel, s32 b);
+void BuildFadeFog(s32 fadeLevel, s32 flag);
 void InitRaceFog(void);
 // Returns Race.mUpdateFramesMod2; changes nothing.
 unsigned int GetRaceUpdateFramesMod2(void);

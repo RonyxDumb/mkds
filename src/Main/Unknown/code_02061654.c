@@ -112,8 +112,8 @@ u32 IsRaceAwardOrStaffRoll(void) {
 void InitRace(void) {
     void *heap;
     u16 texBankMask;
-    s16 i;
-    u16 j;
+    s16 index;
+    u16 stripIndex;
 
     heap = GetHeap(GetCurrentHeapCall());
     SetKartModelPathPrefix(0);
@@ -189,26 +189,26 @@ void InitRace(void) {
     *(u16 *) 0x05000000 = 0xff00;
     reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT & 0xffffcffd;
     G3X_SetToonTable(data_0217aadc);
-    for (i = 0; i < 8; i++) {
-        data_0217aadc[i] = data_02154970[i];
-        data_0217aadc[i + 16] = data_02154980[i];
+    for (index = 0; index < 8; index++) {
+        data_0217aadc[index] = data_02154970[index];
+        data_0217aadc[index + 16] = data_02154980[index];
     }
-    for (i = 0; i < 8; i++) {
-        data_0217aadc[i + 8] = data_0217aadc[i];
-        data_0217aadc[i + 24] = data_0217aadc[i + 16];
+    for (index = 0; index < 8; index++) {
+        data_0217aadc[index + 8] = data_0217aadc[index];
+        data_0217aadc[index + 24] = data_0217aadc[index + 16];
     }
     InitRaceFog();
     SetKoopaCourseLight2();
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        for (j = 0; j < 3; j++) {
-            StartAwardKartPosStrip(j);
+        for (stripIndex = 0; stripIndex < 3; stripIndex++) {
+            StartAwardKartPosStrip(stripIndex);
         }
     }
 }
 
 void InitRaceFields(void) {
     Vec3 lightVector;
-    s32 m;
+    s32 unusedValue;
 
     gRace->mUpdateFrames = 0;
     gRace->mDrawFrames = 0;
@@ -417,9 +417,9 @@ void SetRaceLightVector(const Vec3 *lightVector) {
 
 void DrawRaceWorld(void) {
     Vec3 lightVector;
-    Vec3 a;
-    Vec3 b;
-    u32 v;
+    Vec3 cameraUp;
+    Vec3 cameraForward;
+    u32 commandValue;
     Camera *currentCamera;
 
     ApplyCameraFrustum(gCurrentCamera, 1);
@@ -427,13 +427,13 @@ void DrawRaceWorld(void) {
     currentCamera = gCurrentCamera;
     NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);
     NNS_G3dGlbLightColor(0, 0x7fff);
-    a.x = currentCamera->mViewMatrix.mRows[0].y;
-    a.y = currentCamera->mViewMatrix.mRows[1].y;
-    a.z = currentCamera->mViewMatrix.mRows[2].y;
-    b.x = -currentCamera->mViewMatrix.mRows[0].z;
-    b.y = -currentCamera->mViewMatrix.mRows[1].z;
-    b.z = -currentCamera->mViewMatrix.mRows[2].z;
-    VEC_Subtract(&b, &a, &lightVector);
+    cameraUp.x = currentCamera->mViewMatrix.mRows[0].y;
+    cameraUp.y = currentCamera->mViewMatrix.mRows[1].y;
+    cameraUp.z = currentCamera->mViewMatrix.mRows[2].y;
+    cameraForward.x = -currentCamera->mViewMatrix.mRows[0].z;
+    cameraForward.y = -currentCamera->mViewMatrix.mRows[1].z;
+    cameraForward.z = -currentCamera->mViewMatrix.mRows[2].z;
+    VEC_Subtract(&cameraForward, &cameraUp, &lightVector);
     if ((s64) lightVector.x * lightVector.x + (s64) lightVector.y * lightVector.y +
             (s64) lightVector.z * lightVector.z >=
         16) {
@@ -443,8 +443,8 @@ void DrawRaceWorld(void) {
     NNS_G3dGlbLightColor(1, 0x7fff);
     NNS_G3dGlbFlushP();
     NNS_G3dGeBufferOP_N(23, gCurrentViewMatrix, 12);
-    v = 30;
-    NNS_G3dGeBufferOP_N(19, &v, 1);
+    commandValue = 30;
+    NNS_G3dGeBufferOP_N(19, &commandValue, 1);
     DrawCourseModelV();
     ApplyCameraFrustum(gCurrentCamera, 0);
     NNS_G3dGlbFlushP();
@@ -510,7 +510,7 @@ u32 GetRaceUpdateFramesMod2(void) {
 // Also writes FOG_COLOR, FOG_OFFSET and FOG_TABLE directly and resets the fade state.
 void InitRaceFog(void) {
     u32 fogCurve[32];
-    u16 i;
+    u16 index;
     u8 fogTableMode;
 
     BuildFadeFog(72, 1);
@@ -523,33 +523,33 @@ void InitRaceFog(void) {
     if (gCourseMap->mSettings->mFogEnabled != 0) {
         fogTableMode = gCourseMap->mSettings->mFogTableMode;
         if (fogTableMode == 0) {
-            for (i = 0; i < 8; i++) {
-                gCourseFogTable[i] =
-                    ((i * 4) << 2) | ((i * 16 + 4) << 8) | ((i * 16 + 8) << 16) | ((i * 16 + 12) << 24);
+            for (index = 0; index < 8; index++) {
+                gCourseFogTable[index] =
+                    ((index * 4) << 2) | ((index * 16 + 4) << 8) | ((index * 16 + 8) << 16) | ((index * 16 + 12) << 24);
             }
         } else if (fogTableMode == 1) {
-            for (i = 0; i < 32; i++) {
-                fogCurve[i] = ((i + 1) * (i + 1)) / 8;
-                if (fogCurve[i] > 127) {
-                    fogCurve[i] = 127;
+            for (index = 0; index < 32; index++) {
+                fogCurve[index] = ((index + 1) * (index + 1)) / 8;
+                if (fogCurve[index] > 127) {
+                    fogCurve[index] = 127;
                 }
             }
             fogCurve[0] = 0;
-            for (i = 0; i < 8; i++) {
-                gCourseFogTable[i] = fogCurve[i * 4] | (fogCurve[i * 4 + 1] << 8) | (fogCurve[i * 4 + 2] << 16) |
-                                     (fogCurve[i * 4 + 3] << 24);
+            for (index = 0; index < 8; index++) {
+                gCourseFogTable[index] = fogCurve[index * 4] | (fogCurve[index * 4 + 1] << 8) |
+                                         (fogCurve[index * 4 + 2] << 16) | (fogCurve[index * 4 + 3] << 24);
             }
         } else if (fogTableMode == 2) {
-            for (i = 0; i < 32; i++) {
-                fogCurve[i] = 128 - ((32 - (i + 1)) * (32 - (i + 1))) / 8;
-                if (fogCurve[i] > 127) {
-                    fogCurve[i] = 127;
+            for (index = 0; index < 32; index++) {
+                fogCurve[index] = 128 - ((32 - (index + 1)) * (32 - (index + 1))) / 8;
+                if (fogCurve[index] > 127) {
+                    fogCurve[index] = 127;
                 }
             }
             fogCurve[0] = 0;
-            for (i = 0; i < 8; i++) {
-                gCourseFogTable[i] = fogCurve[i * 4] | (fogCurve[i * 4 + 1] << 8) | (fogCurve[i * 4 + 2] << 16) |
-                                     (fogCurve[i * 4 + 3] << 24);
+            for (index = 0; index < 8; index++) {
+                gCourseFogTable[index] = fogCurve[index * 4] | (fogCurve[index * 4 + 1] << 8) |
+                                         (fogCurve[index * 4 + 2] << 16) | (fogCurve[index * 4 + 3] << 24);
             }
         }
         data_0217aa38 = gCourseMap->mSettings->mColorAndFogAlpha & 0x7fff;
@@ -569,15 +569,15 @@ void InitRaceFog(void) {
     }
 }
 
-void BuildFadeFog(s32 fadeLevel, s32 b) {
+void BuildFadeFog(s32 fadeLevel, s32 flag) {
     s32 fadeWeight;
     s32 courseWeight;
     u32 byteIndex;
     u32 tableEntry;
-    u16 i;
+    u16 index;
     s32 fogByte;
 
-    if (gCourseMap->mSettings->mFogEnabled != 0 && b == 0) {
+    if (gCourseMap->mSettings->mFogEnabled != 0 && flag == 0) {
         fadeWeight = MUL_FIXED12_ROUNDED(57, fadeLevel << 12);
         data_0217aa78 = fadeWeight;
         courseWeight = 4096 - fadeWeight;
@@ -589,8 +589,8 @@ void BuildFadeFog(s32 fadeLevel, s32 b) {
         data_0217aa68 =
             MUL_FIXED12_ROUNDED(courseWeight, data_0217aa50) + MUL_FIXED12_ROUNDED(fadeWeight, data_0217aa60);
         gFadeFogOffset = MUL_FIXED12_ROUNDED(courseWeight, gCourseFogOffset);
-        for (i = 0; i < 8; i++) {
-            tableEntry = gCourseFogTable[i];
+        for (index = 0; index < 8; index++) {
+            tableEntry = gCourseFogTable[index];
             data_0217aa8c[0] = tableEntry & 0xff;
             data_0217aa8c[1] = (tableEntry & 0xff00) >> 8;
             data_0217aa8c[2] = (tableEntry & 0xff0000) >> 16;
@@ -599,13 +599,13 @@ void BuildFadeFog(s32 fadeLevel, s32 b) {
                 fogByte = data_0217aa8c[byteIndex];
                 data_0217aa8c[byteIndex] = MUL_FIXED12_ROUNDED(fogByte, (s32) courseWeight) + data_0217aa44;
             }
-            gFadeFogTable[i] =
+            gFadeFogTable[index] =
                 data_0217aa8c[0] | (data_0217aa8c[1] << 8) | (data_0217aa8c[2] << 16) | (data_0217aa8c[3] << 24);
         }
         data_0217aa58 = tableEntry;
     } else {
-        for (i = 0; i < 8; i++) {
-            gFadeFogTable[i] = fadeLevel | (fadeLevel << 8) | (fadeLevel << 16) | (fadeLevel << 24);
+        for (index = 0; index < 8; index++) {
+            gFadeFogTable[index] = fadeLevel | (fadeLevel << 8) | (fadeLevel << 16) | (fadeLevel << 24);
         }
     }
 }
@@ -628,15 +628,15 @@ void StartFadeFog(void) {
 }
 
 void ClearFadeFogHoldFrames(void) {
-    u32 value1;
-    value1 = 0u;
-    gFadeFogHoldFrames = value1;
+    u32 frames;
+    frames = 0u;
+    gFadeFogHoldFrames = frames;
 }
 
 void SetFadeFogHoldFramesToLimit(void) {
-    u32 value1;
-    value1 = 0x48u;
-    gFadeFogHoldFrames = value1;
+    u32 frames;
+    frames = 0x48u;
+    gFadeFogHoldFrames = frames;
 }
 
 u32 IsFadeFogActive(void) {
@@ -658,18 +658,18 @@ Camera *GetCurrentCamera(void) {
 
 Race *SetRaceUpdateFramesUnlimited(void) {
     Race *race;
-    u32 value1;
-    value1 = 1u;
+    u32 isUnlimited;
+    isUnlimited = 1u;
     race = gRace;
-    race->mUpdateFramesUnlimited = value1;
+    race->mUpdateFramesUnlimited = isUnlimited;
     return race;
 }
 
 u32 SetRaceUpdateFramesAtEntryEnd(void) {
-    u32 value0;
-    value0 = gRace->mUpdateFrames;
-    gRace->mUpdateFramesAtEntryEnd = value0;
-    return value0;
+    u32 frames;
+    frames = gRace->mUpdateFrames;
+    gRace->mUpdateFramesAtEntryEnd = frames;
+    return frames;
 }
 
 s32 TryGetRaceUpdateFramesSinceEntryEnd(u32 *framesOut) {

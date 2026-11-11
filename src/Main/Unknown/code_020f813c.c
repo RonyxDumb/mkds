@@ -35,15 +35,15 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     RandomState64 *random;
     u16 *row;
     s32 variant;
-    s32 i;
+    s32 poolIndex;
     u16 acc;
-    s32 j;
-    s32 x;
+    s32 itemIndex;
+    s32 value;
     s32 sel;
-    s32 t;
+    s32 usedObjectCost;
     u16 roll;
     s32 objectKind;
-    enum { K0 } u;
+    enum { K0 } spinItem;
 
     sel = 0x13;
     if (forcedRowHandle != 0) {
@@ -57,45 +57,46 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     }
     row = table->mRows[rankOrRow];
     acc = 0;
-    t = 0;
+    usedObjectCost = 0;
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
-        for (i = 0; i < 0xe; i++) {
-            t += (u16) (gItemKinds[(s32) i].mObjectCapCost *
-                        (gItemPools[(s32) i].mReservedCount - gItemPools[(s32) i].mRestingCount));
+        for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
+            usedObjectCost +=
+                (u16) (gItemKinds[(s32) poolIndex].mObjectCapCost *
+                       (gItemPools[(s32) poolIndex].mReservedCount - gItemPools[(s32) poolIndex].mRestingCount));
         }
     }
-    for (j = 0; j < itemCount; j++) {
-        objectKind = gItemInfos[(s32) j].mObjectKind;
-        if (!((j == 8 && gThunderBlockTimer > 0) || (j == 7 && gKouraWBlockTimer > 0) ||
-              (j == 0xf && gGessoBlockTimer > 0))) {
+    for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
+        objectKind = GetItemInfo(itemIndex)->mObjectKind;
+        if (!((itemIndex == 8 && gThunderBlockTimer > 0) || (itemIndex == 7 && gKouraWBlockTimer > 0) ||
+              (itemIndex == 0xf && gGessoBlockTimer > 0))) {
             if (gItemPools[objectKind].mLimit - gItemPools[objectKind].mReservedCount > 0 &&
-                gItemInfos[(s32) j].mEnabled != FALSE) {
-                x = gItemKinds[objectKind].mObjectCapCost * gItemInfos[(s32) j].mObjectCount;
-                if (x == 0 || x + t <= 0x28) {
-                    if (j >= 9 && variant != 0) {
+                GetItemInfo(itemIndex)->mEnabled != FALSE) {
+                value = gItemKinds[objectKind].mObjectCapCost * GetItemInfo(itemIndex)->mObjectCount;
+                if (value == 0 || value + usedObjectCost <= 0x28) {
+                    if (itemIndex >= 9 && variant != 0) {
                         if (variant == 1) {
-                            acc = acc + (row[j] >> 2);
+                            acc = acc + (row[itemIndex] >> 2);
                         } else {
-                            acc = 3 * row[j] + acc;
+                            acc = 3 * row[itemIndex] + acc;
                         }
                     } else {
-                        acc = acc + row[j];
+                        acc = acc + row[itemIndex];
                     }
                 }
             }
         }
-        gItemWeightSums[j] = acc;
+        gItemWeightSums[itemIndex] = acc;
     }
     random = &gRaceProgress->mRandom;
     if (acc == 0) {
-        x = 0;
+        value = 0;
     } else {
-        x = ItemSlotNextRandomBelow(random, acc);
+        value = ItemSlotNextRandomBelow(random, acc);
     }
-    roll = x;
-    for (j = 0; j < itemCount; j++) {
-        if (roll < gItemWeightSums[j]) {
-            sel = j;
+    roll = value;
+    for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
+        if (roll < gItemWeightSums[itemIndex]) {
+            sel = itemIndex;
             break;
         }
     }
@@ -105,9 +106,9 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     if (isEntryKart != 0) {
         if (forcedRowHandle != 0) {
             gItemSlotSpinItemCount = 0;
-            for (u = 0; u < itemCount; u++) {
-                if (u == sel || row[u] != 0) {
-                    gItemSlotSpinItems[gItemSlotSpinItemCount++] = u;
+            for (spinItem = 0; spinItem < itemCount; spinItem++) {
+                if (spinItem == sel || row[spinItem] != 0) {
+                    gItemSlotSpinItems[gItemSlotSpinItemCount++] = spinItem;
                 }
             }
         } else {
@@ -230,24 +231,24 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
     ItemPool *pool;
     enum { K0 } objectKind;
     s32 mode;
-    u32 b;
+    u32 value;
 
     switch (slot->mSlotState) {
         case 1:
             slot->mSlotFrames++;
             mode = gRaceSetup->mMode;
             if (mode == MODE_WIFI && slot->mResultPending != FALSE) {
-                b = kartItems->mKartIndex & 0xff;
-                if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[b]) == 0) {
-                    b = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[b]);
-                    if (IsItemInfoObjectCountFree(b) != FALSE) {
-                        TryReleaseItemObjectsForItemInfo(b);
+                value = kartItems->mKartIndex & 0xff;
+                if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[value]) == 0) {
+                    value = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[value]);
+                    if (IsItemInfoObjectCountFree(value) != FALSE) {
+                        TryReleaseItemObjectsForItemInfo(value);
                     }
-                    itemInfo = &gItemInfos[b];
+                    itemInfo = &gItemInfos[value];
                     objectKind = itemInfo->mObjectKind;
                     pool = &gItemPools[objectKind];
                     pool->mReservedCount += itemInfo->mObjectCount;
-                    slot->mSlotResult = b;
+                    slot->mSlotResult = value;
                     slot->mResultPending = FALSE;
                     slot->mSlotFrameCount += slot->mSlotFrames - 0x6f;
                 } else if (slot->mSlotFrames > 0x6e) {
@@ -421,8 +422,8 @@ void SetActiveItem(KartItems *kartItems, u32 itemIndex) {
 u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
     s32 rowCount;
     s32 columnCount;
-    s32 i;
-    s32 j;
+    s32 columnIndex;
+    s32 rowIndex;
     u16(*tab)[0x12];
 
     rowCount = *data++;
@@ -430,11 +431,11 @@ u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
     table->mRowCount = rowCount;
     table->mRows = HeapAlloc(GetHeap(GetCurrentHeapCall()), (rowCount + 1) * 0x24);
     tab = table->mRows;
-    for (i = 0; i < columnCount; i++) {
-        for (j = 0; j < rowCount; j++) {
-            tab[j][i] = *data++;
+    for (columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+        for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            tab[rowIndex][columnIndex] = *data++;
         }
-        tab[j][i] = 0xffff;
+        tab[rowIndex][columnIndex] = 0xffff;
     }
     return data;
 }

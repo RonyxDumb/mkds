@@ -70,9 +70,9 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     MinuteSecondMillisecondTime recordTime;
     s16 text[10];
     CellFileSet *fileSet;
-    s32 i;
-    s32 j;
-    s32 k;
+    s32 listIndex;
+    s32 value;
+    s32 flagValue;
     fileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     if (action == 1) {
         PrintLabelLayoutTextNoFixedAdvance(
@@ -83,27 +83,28 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
         WriteMinuteSecondMillisecondText(text, recordTime.mMinute, recordTime.mSecond, recordTime.mMillisecond);
         PrintLabelLayoutTextFixedDigits(1, slot + 7, fileSet->mLabelLayout, text, fileSet->mCellLayout,
                                         fileSet->mCellTable, 7);
-        j = IsSlotGhostIndex(row) == 0;
-        fileSet->mCellTable[slot].mVisible = j;
-        k = j == 0;
-        fileSet->mCellTable[slot + 7].mVisible = k;
+        value = IsSlotGhostIndex(row) == 0;
+        fileSet->mCellTable[slot].mVisible = value;
+        flagValue = value == 0;
+        fileSet->mCellTable[slot + 7].mVisible = flagValue;
     } else if (action == 0) {
-        for (i = 0; i < 7; i++) {
-            j = i + 7;
-            if (i == selectedSlot) {
-                k = 0xe;
+        for (listIndex = 0; listIndex < 7; listIndex++) {
+            value = listIndex + 7;
+            if (listIndex == selectedSlot) {
+                flagValue = 0xe;
             } else {
-                k = 0xf;
+                flagValue = 0xf;
             }
-            SetLabelPaletteIndex(i, k, fileSet->mLabelLayout, fileSet->mCellTable, fileSet->mCellLayout);
-            SetLabelPaletteIndex(j, k, fileSet->mLabelLayout, fileSet->mCellTable, fileSet->mCellLayout);
+            SetLabelPaletteIndex(listIndex, flagValue, fileSet->mLabelLayout, fileSet->mCellTable,
+                                 fileSet->mCellLayout);
+            SetLabelPaletteIndex(value, flagValue, fileSet->mLabelLayout, fileSet->mCellTable, fileSet->mCellLayout);
         }
     } else if (action == 2) {
         if (row >= 0 && row < (s32) GetGhostCount()) {
-            j = IsSlotGhostIndex(row) == 0;
-            fileSet->mCellTable[slot].mVisible = j;
-            k = j == 0;
-            fileSet->mCellTable[slot + 7].mVisible = k;
+            value = IsSlotGhostIndex(row) == 0;
+            fileSet->mCellTable[slot].mVisible = value;
+            flagValue = value == 0;
+            fileSet->mCellTable[slot + 7].mVisible = flagValue;
         }
     }
 }
@@ -220,18 +221,18 @@ void SetGhostSendCellsOffsetY(void) {
     CellFileSet *subFileSet;
     s32 mainEntryCount;
     s32 subEntryCount;
-    s32 i;
+    s32 cellIndex;
     s16 subOffsetY;
     mainFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[0];
     subFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     mainEntryCount = mainFileSet->mCellLayout->mCount + mainFileSet->mLabelLayout->mCount;
     subEntryCount = subFileSet->mCellLayout->mCount + subFileSet->mLabelLayout->mCount;
     subOffsetY = GetInterpolatedValue(&gTimeAttackGhostSend->mInterpolation);
-    for (i = 0; i < mainEntryCount; i++) {
-        mainFileSet->mCellTable[i].mOffsetY = -subOffsetY;
+    for (cellIndex = 0; cellIndex < mainEntryCount; cellIndex++) {
+        mainFileSet->mCellTable[cellIndex].mOffsetY = -subOffsetY;
     }
-    for (i = 0; i < subEntryCount; i++) {
-        subFileSet->mCellTable[i].mOffsetY = subOffsetY;
+    for (cellIndex = 0; cellIndex < subEntryCount; cellIndex++) {
+        subFileSet->mCellTable[cellIndex].mOffsetY = subOffsetY;
     }
 }
 
@@ -327,27 +328,27 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
 
 s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
     u16 slotIndex;
-    s32 b;
-    s32 a;
+    s32 isTouched;
+    s32 returnRequested;
     s32 returnTouched;
     s32 hasPair;
     u16 keyB;
-    BackupAccess *d;
+    BackupAccess *backupAccess;
     CellFileSet *fileSets;
-    s32 i;
+    s32 value;
     slotIndex = GetPadInputSlot();
     returnTouched = 0;
     AdvanceInterpolation(&gTimeAttackGhostSend->mInterpolation);
-    b = returnTouched;
-    a = b;
+    isTouched = returnTouched;
+    returnRequested = isTouched;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
     if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
-        a = 1;
+        returnRequested = 1;
     }
-    if (a == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
-        b = 1;
+    if (returnRequested == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        isTouched = 1;
     }
-    if (b != 0) {
+    if (isTouched != 0) {
         returnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
                                                                         gInputSlots[slotIndex].mPair.mPairY);
     }
@@ -387,9 +388,9 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
         case 3:
             if (IsTxtSystemState2NoCloseRequest() != 0) {
                 AdvanceScrollList();
-                i = GetScrollListSelectedRow();
-                if (gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex != i) {
-                    gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex = i;
+                value = GetScrollListSelectedRow();
+                if (gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex != value) {
+                    gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex = value;
                     PrintSelectedGhostSendRecord();
                 }
                 if (IsScrollListPickStarted() != 0) {
@@ -415,13 +416,13 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 4:
-            d = gBackupAccess;
-            if (d->mBackupEnabled != 0) {
-                i = d->mCommandRunning;
+            backupAccess = gBackupAccess;
+            if (backupAccess->mBackupEnabled != 0) {
+                value = backupAccess->mCommandRunning;
             } else {
-                i = 0;
+                value = 0;
             }
-            if (i == 0 && d->mErrorCode == 0) {
+            if (value == 0 && backupAccess->mErrorCode == 0) {
                 if (IsSlotGhostIndex(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex) == 0) {
                     CopyCourseGhostToSlotGhost(GetCourseGhostBuffer(), GetSlotGhostBuffer());
                 }
@@ -429,8 +430,8 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 5:
-            i = AdvanceConnectionSetup(1, GetSlotGhostBuffer());
-            switch (i) {
+            value = AdvanceConnectionSetup(1, GetSlotGhostBuffer());
+            switch (value) {
                 case 1:
                     ResetPendingFiles();
                     AddGhostDataBlockWrapper(GetSlotGhostBuffer(), 0x1000);
@@ -459,8 +460,8 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 7:
-            i = GetZeroWordResult();
-            switch (i) {
+            value = GetZeroWordResult();
+            switch (value) {
                 case 1:
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xa);
@@ -515,10 +516,10 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             break;
     }
     UpdateConnectionSendTimer();
-    for (i = 0; i < 2; i++) {
+    for (value = 0; value < 2; value++) {
         fileSets = gTimeAttackGhostSend->mInfoFileSets.mCellFileSets;
-        DrawLayoutTable(fileSets[i].mCellLayout, fileSets[i].mCells, fileSets[i].mLabelLayout,
-                        gTimeAttackGhostSend->mOamLists[i], fileSets[i].mCellTable);
+        DrawLayoutTable(fileSets[value].mCellLayout, fileSets[value].mCells, fileSets[value].mLabelLayout,
+                        gTimeAttackGhostSend->mOamLists[value], fileSets[value].mCellTable);
     }
     return -1;
 }

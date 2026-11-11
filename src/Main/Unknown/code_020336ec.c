@@ -25,15 +25,15 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
     CellFileSet *subCellFileSet;
     s32 orderIndex;
     BOOL isTeamIndex1;
-    BOOL c;
-    BOOL d;
+    BOOL cellVisible;
+    BOOL isOwnEntry;
     BOOL isOwnNotTeam1;
 
     subCellFileSet = &gResultsBattle->mCellFileSets[1];
     if (gResultsBattle->mOwnEntryIndex == entryIndex) {
-        d = TRUE;
+        isOwnEntry = TRUE;
     } else {
-        d = FALSE;
+        isOwnEntry = FALSE;
     }
     orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
     if (gRaceSetup->mUseTeams != 0) {
@@ -44,42 +44,42 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
         }
         isOwnNotTeam1 = FALSE;
         if (isTeamIndex1 == FALSE) {
-            c = TRUE;
+            cellVisible = TRUE;
         } else {
-            c = FALSE;
+            cellVisible = FALSE;
         }
-        if (c != FALSE && d != FALSE) {
+        if (cellVisible != FALSE && isOwnEntry != FALSE) {
             isOwnNotTeam1 = TRUE;
         }
         subCellFileSet->mCellTable[orderIndex + 0x10].mVisible = isOwnNotTeam1;
-        if (c != FALSE && d == FALSE) {
-            c = TRUE;
+        if (cellVisible != FALSE && isOwnEntry == FALSE) {
+            cellVisible = TRUE;
         } else {
-            c = FALSE;
+            cellVisible = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = c;
-        if (isTeamIndex1 != FALSE && d != FALSE) {
-            c = TRUE;
+        subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = cellVisible;
+        if (isTeamIndex1 != FALSE && isOwnEntry != FALSE) {
+            cellVisible = TRUE;
         } else {
-            c = FALSE;
+            cellVisible = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = c;
-        if (isTeamIndex1 != FALSE && d == FALSE) {
-            d = TRUE;
+        subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = cellVisible;
+        if (isTeamIndex1 != FALSE && isOwnEntry == FALSE) {
+            isOwnEntry = TRUE;
         } else {
-            d = FALSE;
+            isOwnEntry = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = d;
+        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = isOwnEntry;
         subCellFileSet->mCellTable[orderIndex + 8].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex].mVisible = subCellFileSet->mCellTable[orderIndex + 8].mVisible;
     } else {
-        subCellFileSet->mCellTable[orderIndex].mVisible = d;
-        if (d == FALSE) {
-            d = TRUE;
+        subCellFileSet->mCellTable[orderIndex].mVisible = isOwnEntry;
+        if (isOwnEntry == FALSE) {
+            isOwnEntry = TRUE;
         } else {
-            d = FALSE;
+            isOwnEntry = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 8].mVisible = d;
+        subCellFileSet->mCellTable[orderIndex + 8].mVisible = isOwnEntry;
         subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = subCellFileSet->mCellTable[orderIndex + 0x28].mVisible;
         subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = subCellFileSet->mCellTable[orderIndex + 0x20].mVisible;
@@ -89,17 +89,17 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
 
 void PrintResultsBattleScoreAndShowRank(s32 entryIndex) {
     CellFileSet *subCellFileSet;
-    s32 r;
+    s32 orderIndex;
     s32 score;
     s32 length;
     u16 scoreText[4];
 
     subCellFileSet = &gResultsBattle->mCellFileSets[1];
-    r = gResultsBattle->mEntries[entryIndex].mOrderIndex;
+    orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
     score = gResultsBattle->mEntries[entryIndex].mScore;
     if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0 && gRaceSetup->mRuleKind == 1) {
-        subCellFileSet->mCellTable[r + 0x38].mVisible = 0;
-        subCellFileSet->mCellTable[r + 0x48].mVisible = 0;
+        subCellFileSet->mCellTable[orderIndex + 0x38].mVisible = 0;
+        subCellFileSet->mCellTable[orderIndex + 0x48].mVisible = 0;
         return;
     }
     length = 0;
@@ -112,11 +112,12 @@ void PrintResultsBattleScoreAndShowRank(s32 entryIndex) {
     }
     scoreText[length++] = 0x30 + score % 10;
     scoreText[length] = 0;
-    PrintLabelLayoutTextFixedDigits(1, r + 8, subCellFileSet->mLabelLayout, scoreText, subCellFileSet->mCellLayout,
-                                    subCellFileSet->mCellTable, 6);
-    r += 0x38;
-    subCellFileSet->mCellTable[r].mVisible = 1;
-    CopyCellLayoutEntryCellIndex(r, gResultsBattle->mEntries[entryIndex].mRank + 0x40, subCellFileSet->mCellLayout);
+    PrintLabelLayoutTextFixedDigits(1, orderIndex + 8, subCellFileSet->mLabelLayout, scoreText,
+                                    subCellFileSet->mCellLayout, subCellFileSet->mCellTable, 6);
+    orderIndex += 0x38;
+    subCellFileSet->mCellTable[orderIndex].mVisible = 1;
+    CopyCellLayoutEntryCellIndex(orderIndex, gResultsBattle->mEntries[entryIndex].mRank + 0x40,
+                                 subCellFileSet->mCellLayout);
 }
 
 void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 iconSetSelector) {
@@ -184,7 +185,7 @@ void SetupResultsBattleOwnEntry(void *heap) {
 
 void SetupResultsBattleRankZeroNames(void *heap) {
     CellFileSet *mainCellFileSet;
-    s32 n;
+    s32 rowIndex;
     s32 labelIndex;
     s32 entryIndex;
     s32 cellCount;
@@ -196,7 +197,7 @@ void SetupResultsBattleRankZeroNames(void *heap) {
 
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
-    n = 0;
+    rowIndex = 0;
     cellCount = mainCellFileSet->mCellLayout->mCount;
     gResultsBattle->mTimerDigitCellBase = 8;
     gResultsBattle->mTimerTensCell = 0x12;
@@ -205,7 +206,7 @@ void SetupResultsBattleRankZeroNames(void *heap) {
     if (labelCount > 0) {
         labelEntry = gResultsBattleRankZeroLabelTextRows;
         do {
-            remainingObjSize -= SetupLabelCanvas(n, heap, mainCellFileSet, labelEntry, remainingObjSize);
+            remainingObjSize -= SetupLabelCanvas(rowIndex, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
             labelIndex++;
         } while (labelIndex < mainCellFileSet->mLabelLayout->mCount);
@@ -217,16 +218,16 @@ void SetupResultsBattleRankZeroNames(void *heap) {
         if (gResultsBattle->mEntries[entryIndex].mRank == 0) {
             ResultsBattleEntryMI_CpuClear16(entryName, 0x16);
             CopyKartEntryName((u16) entryIndex, entryName, 1);
-            n++;
-            PrintLabelLayoutTextNoFixedAdvance(0, n, mainCellFileSet->mLabelLayout, entryName,
+            rowIndex++;
+            PrintLabelLayoutTextNoFixedAdvance(0, rowIndex, mainCellFileSet->mLabelLayout, entryName,
                                                mainCellFileSet->mCellLayout, mainCellFileSet->mCellTable);
         }
     }
-    while (n < 7) {
-        n = n + 1;
-        mainCellFileSet->mCellTable[n].mVisible = 0;
-        n = (u32) n;
-        cell = &mainCellFileSet->mCellTable[n + cellCount];
+    while (rowIndex < 7) {
+        rowIndex = rowIndex + 1;
+        mainCellFileSet->mCellTable[rowIndex].mVisible = 0;
+        rowIndex = (u32) rowIndex;
+        cell = &mainCellFileSet->mCellTable[rowIndex + cellCount];
         cell->mVisible = 0;
     }
 }
@@ -236,7 +237,7 @@ void SetupResultsBattleKartIcons(void *heap) {
     s32 count;
     s32 iconCellBase;
     BOOL iconSetSelector;
-    s32 i;
+    s32 index;
 
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
     count = gResultsBattle->mIconKartCount;
@@ -248,17 +249,17 @@ void SetupResultsBattleKartIcons(void *heap) {
     }
     gResultsBattle->mTimerDigitCellBase = 0x46;
     gResultsBattle->mTimerTensCell = 0x50;
-    for (i = 0; i < 0x46; i++) {
-        mainCellFileSet->mCellTable[i].mVisible = 0;
+    for (index = 0; index < 0x46; index++) {
+        mainCellFileSet->mCellTable[index].mVisible = 0;
     }
-    for (i = gResultsBattleKartFirstCellIndices[gResultsBattle->mIconKartCount - 2];
-         i <
+    for (index = gResultsBattleKartFirstCellIndices[gResultsBattle->mIconKartCount - 2];
+         index <
          gResultsBattleKartFirstCellIndices[gResultsBattle->mIconKartCount - 2] + gResultsBattle->mIconKartCount * 2;
-         i++) {
-        mainCellFileSet->mCellTable[i].mVisible = 1;
+         index++) {
+        mainCellFileSet->mCellTable[index].mVisible = 1;
     }
-    for (i = 0; i < gResultsBattle->mIconKartCount; i++) {
-        QueueResultsBattleCharacterIcon(0, i, iconCellBase + i, iconSetSelector);
+    for (index = 0; index < gResultsBattle->mIconKartCount; index++) {
+        QueueResultsBattleCharacterIcon(0, index, iconCellBase + index, iconSetSelector);
     }
 }
 
@@ -270,10 +271,10 @@ void SetupResultsBattleTeamIcons(void *heap) {
     s32 iconCellBase;
     s32 sourceCellIndex;
     s32 placedCount;
-    s32 i;
+    s32 hiddenCellIndex;
     BOOL iconSetSelector;
-    s32 j;
-    s32 k;
+    s32 shownCellIndex;
+    s32 iconCellIndex;
     s32 entryIndex;
 
     results = gResultsBattle;
@@ -298,25 +299,25 @@ void SetupResultsBattleTeamIcons(void *heap) {
     }
     results->mTimerDigitCellBase = 0x3a;
     gResultsBattle->mTimerTensCell = 0x44;
-    for (i = 0; i < 0x38; i++) {
-        mainCellFileSet->mCellTable[i].mVisible = 0;
+    for (hiddenCellIndex = 0; hiddenCellIndex < 0x38; hiddenCellIndex++) {
+        mainCellFileSet->mCellTable[hiddenCellIndex].mVisible = 0;
     }
-    j = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
-    j = (u32) j;
-    if (j <
+    shownCellIndex = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
+    shownCellIndex = (u32) shownCellIndex;
+    if (shownCellIndex <
         gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] + gResultsBattle->mIconKartCount * 2) {
         do {
-            mainCellFileSet->mCellTable[j].mVisible = 1;
-            j++;
-        } while (j < gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] +
-                         gResultsBattle->mIconKartCount * 2);
+            mainCellFileSet->mCellTable[shownCellIndex].mVisible = 1;
+            shownCellIndex++;
+        } while (shownCellIndex < gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] +
+                                      gResultsBattle->mIconKartCount * 2);
     }
     if (gResultsBattle->mFileSetKind == 3) {
-        for (k = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
-             k <
+        for (iconCellIndex = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
+             iconCellIndex <
              gResultsBattle->mIconKartCount + gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
-             k++) {
-            CopyCellLayoutEntryCellIndex(k, sourceCellIndex, mainCellFileSet->mCellLayout);
+             iconCellIndex++) {
+            CopyCellLayoutEntryCellIndex(iconCellIndex, sourceCellIndex, mainCellFileSet->mCellLayout);
         }
     }
     for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {

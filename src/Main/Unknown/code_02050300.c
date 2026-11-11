@@ -119,7 +119,7 @@ void EndParentCallback(Unk021425e8 *event) {
 
 void Disconnect(void) {
     s32 result;
-    s32 i;
+    s32 childIndex;
     ChildList *children;
     ChildEntry *child;
 
@@ -127,9 +127,10 @@ void Disconnect(void) {
     children = &gConnectionWork->mChildren;
     switch (DisconnectGetConnectionMode()) {
         case 1:
-            for (i = 0, child = children->mEntries; i < children->mChildCount; i++, child++) {
+            for (childIndex = 0, child = children->mEntries; childIndex < children->mChildCount;
+                 childIndex++, child++) {
                 if (child->mAid != 0xffff) {
-                    gConnectionWork->mChildren.mDisconnectingIndex = i;
+                    gConnectionWork->mChildren.mDisconnectingIndex = childIndex;
                     gConnectionWork->mStep = 0x14;
                     gConnectionWork->mRequestPending = 1;
                     result = WM_Disconnect(DisconnectCallback, child->mAid);
@@ -217,8 +218,8 @@ BOOL ConnectionMB_IsMultiBootChild(void) {
     return gBootInfo->mUnk_00 == 2;
 }
 
-void SetStepAndRequestPending(s32 a) {
-    gConnectionWork->mStep = a;
+void SetStepAndRequestPending(s32 step) {
+    gConnectionWork->mStep = step;
     gConnectionWork->mRequestPending = 1;
 }
 
@@ -288,7 +289,7 @@ void SetRequestErrorCode(s32 errorCode) {
     gConnectionWork->mRequestPending = 0;
 }
 
-void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry) {
+void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry) {
     ChildList *children;
 
     children = &gConnectionWork->mChildren;
@@ -298,12 +299,12 @@ void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry) {
     children->mEntries[aid - 1].mAid = aid;
     children->mChildCount += 1;
     children->mChildMask |= 1 << aid;
-    children->mEntries[0].mUnk_00[0] = b[0];
-    children->mEntries[0].mUnk_00[1] = b[1];
-    children->mEntries[0].mUnk_00[2] = b[2];
-    children->mEntries[0].mUnk_00[3] = b[3];
-    children->mEntries[0].mUnk_00[4] = b[4];
-    children->mEntries[0].mUnk_00[5] = b[5];
+    children->mEntries[0].mUnk_00[0] = bytes[0];
+    children->mEntries[0].mUnk_00[1] = bytes[1];
+    children->mEntries[0].mUnk_00[2] = bytes[2];
+    children->mEntries[0].mUnk_00[3] = bytes[3];
+    children->mEntries[0].mUnk_00[4] = bytes[4];
+    children->mEntries[0].mUnk_00[5] = bytes[5];
     MI_CpuCopy8(playerEntry, &gConnectionWork->mPlayerRecords[aid], 0x14);
     gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     if ((playerEntry->mEmblem[0] & 1) != 0) {
@@ -318,21 +319,21 @@ static inline void MPDataRequestMPState(u16 nextState) {
 }
 
 static inline void SetGroupSendMaskIfMultiBootMode1(u8 groupSendMask) {
-    u32 r = 0;
-    u32 b;
+    u32 shouldSend = 0;
+    u32 isAllowed;
 
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-        b = 1;
+        isAllowed = 1;
         if (DisconnectGetConnectionMode() != 1) {
             if (gBootInfo->mUnk_00 != 2) {
-                b = 0;
+                isAllowed = 0;
             }
         }
-        if (b != 0) {
-            r = 1;
+        if (isAllowed != 0) {
+            shouldSend = 1;
         }
     }
-    if (r == 0) {
+    if (shouldSend == 0) {
         return;
     }
     if (DisconnectGetConnectionMode() != 1) {
@@ -342,19 +343,19 @@ static inline void SetGroupSendMaskIfMultiBootMode1(u8 groupSendMask) {
 }
 
 static inline void RemoveChildrenInMask(u16 removeMask) {
-    u16 i;
-    u32 f;
+    u16 childIndex;
+    u32 isInState9;
 
-    for (i = 0; i < 8; i++) {
-        if ((removeMask & (1 << i)) != 0) {
-            f = gConnectionWork->mState == 9 ? 1 : 0;
+    for (childIndex = 0; childIndex < 8; childIndex++) {
+        if ((removeMask & (1 << childIndex)) != 0) {
+            isInState9 = gConnectionWork->mState == 9 ? 1 : 0;
             if (DisconnectGetConnectionMode() == 1) {
-                gConnectionWork->mChildren.mChildMask &= ~(1 << i);
-                if (f != 0) {
-                    gConnectionWork->mRemovedChildMask |= 1 << i;
+                gConnectionWork->mChildren.mChildMask &= ~(1 << childIndex);
+                if (isInState9 != 0) {
+                    gConnectionWork->mRemovedChildMask |= 1 << childIndex;
                 }
             }
-            gConnectionWork->mGroupSendMask &= ~(1 << i);
+            gConnectionWork->mGroupSendMask &= ~(1 << childIndex);
         }
     }
     if (DisconnectGetConnectionMode() != 1) {

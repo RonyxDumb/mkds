@@ -60,10 +60,10 @@
 #pragma thumb on
 
 void ClearTxtSystemCanvasInUse(void) {
-    s32 i;
+    s32 canvasIndex;
 
-    for (i = 0; i < 7; i++) {
-        gTxtSystem->mCanvasInUse[i] = 0;
+    for (canvasIndex = 0; canvasIndex < 7; canvasIndex++) {
+        gTxtSystem->mCanvasInUse[canvasIndex] = 0;
     }
 }
 
@@ -76,7 +76,7 @@ static inline void InitTxtSystemTextCanvas(TextCanvas *textCanvas, Unk02023374 *
 
 s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
     s32 subCharOffset;
-    s32 i;
+    s32 index;
     Unk02023374 *charCanvas;
 
     subCharOffset = args->mSubCharOffset;
@@ -93,16 +93,16 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
     gTxtSystem->mEnabled = 1;
     InitTxtSystemDisplay();
     subCharOffset = LoadTxtSystem(subCharOffset);
-    for (i = 0; i < 7; i++) {
-        if (!((i == 1 && gTxtSystem->mUseCanvas1 == 0) || (i == 2 && gTxtSystem->mUseCanvas2 == 0) ||
-              (i == 3 && gTxtSystem->mUseCanvas3 == 0))) {
-            gTxtSystem->mCharBuffers[i] =
-                HeapAlloc(heap, (gTxtSystemCanvasSizes[i][0] * gTxtSystemCanvasSizes[i][1]) << 5);
-            NNS_G2dCharCanvasInitForBG(&gTxtSystem->mCharCanvases[i], gTxtSystem->mCharBuffers[i],
-                                       gTxtSystemCanvasSizes[i][0], gTxtSystemCanvasSizes[i][1], 4);
-            charCanvas = &gTxtSystem->mCharCanvases[i];
+    for (index = 0; index < 7; index++) {
+        if (!((index == 1 && gTxtSystem->mUseCanvas1 == 0) || (index == 2 && gTxtSystem->mUseCanvas2 == 0) ||
+              (index == 3 && gTxtSystem->mUseCanvas3 == 0))) {
+            gTxtSystem->mCharBuffers[index] =
+                HeapAlloc(heap, (gTxtSystemCanvasSizes[index][0] * gTxtSystemCanvasSizes[index][1]) << 5);
+            NNS_G2dCharCanvasInitForBG(&gTxtSystem->mCharCanvases[index], gTxtSystem->mCharBuffers[index],
+                                       gTxtSystemCanvasSizes[index][0], gTxtSystemCanvasSizes[index][1], 4);
+            charCanvas = &gTxtSystem->mCharCanvases[index];
             charCanvas->mUnk_18(charCanvas, 0);
-            InitTxtSystemTextCanvas(&gTxtSystem->mTextCanvases[i], &gTxtSystem->mCharCanvases[i], args->mFont);
+            InitTxtSystemTextCanvas(&gTxtSystem->mTextCanvases[index], &gTxtSystem->mCharCanvases[index], args->mFont);
         }
     }
     ClearTxtSystemCanvasInUse();
@@ -127,17 +127,17 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
     gTxtSystem->mInputSoundId = 5;
     gTxtSystem->mSecondInputSoundId = 0x10;
     gTxtSystem->mOpenSoundId = 0x23;
-    for (i = 0; i < 2; i++) {
-        gTxtSystem->mBgOffset[i] = -192;
-        gTxtSystem->mBgOffsetAtOpen[i] = 0;
-        gTxtSystem->mBgOffsetRequested[i] = 0;
+    for (index = 0; index < 2; index++) {
+        gTxtSystem->mBgOffset[index] = -192;
+        gTxtSystem->mBgOffsetAtOpen[index] = 0;
+        gTxtSystem->mBgOffsetRequested[index] = 0;
     }
     gTxtSystem->mBlendPlanes[0] = 0x19;
     gTxtSystem->mBlendPlanes[1] = 0x1a;
     gTxtSystem->mBrightness = 0;
-    for (i = 0; i < 2; i++) {
-        gTxtSystem->mBlendEv1[i] = 6;
-        gTxtSystem->mBlendEv2[i] = 10;
+    for (index = 0; index < 2; index++) {
+        gTxtSystem->mBlendEv1[index] = 6;
+        gTxtSystem->mBlendEv2[index] = 10;
     }
     gTxtSystem->mMode = 0;
     return subCharOffset;
@@ -232,23 +232,23 @@ s32 LoadTxtSystem(s32 subCharOffset) {
 
 void RefreshTxtSystemAnim(void) {
     s32 row;
-    s32 i;
+    s32 screenIndex;
     s32 column;
     s32 rectIndex;
     u16 *screenBuffer;
 
     rectIndex = gTxtSystem->mAnimFrameIndex + 4;
-    for (i = 0; i < 2; i++) {
-        if (gTxtSystem->mAnimVisible[i] != 0) {
+    for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+        if (gTxtSystem->mAnimVisible[screenIndex] != 0) {
             screenBuffer = gTxtSystem->mMainScreenBuffer;
-            if (i == 1) {
+            if (screenIndex == 1) {
                 screenBuffer = gTxtSystem->mSubScreenBuffer;
             }
             for (row = gTxtSystemNscrRects[rectIndex].mMinY; row <= gTxtSystemNscrRects[rectIndex].mMaxY; row++) {
                 for (column = gTxtSystemNscrRects[rectIndex].mMinX; column <= gTxtSystemNscrRects[rectIndex].mMaxX;
                      column++) {
                     *(screenBuffer + row * 32 + column) =
-                        gTxtSystem->mB01CharIndex[i] +
+                        gTxtSystem->mB01CharIndex[screenIndex] +
                         *((u16 *) gTxtSystem->mBgNscrs[rectIndex]->mData + row * 32 + column);
                 }
             }
@@ -258,7 +258,7 @@ void RefreshTxtSystemAnim(void) {
 
 void RefreshTxtSystemScreenBuffers(u32 *drawFlags) {
     u8 rectIndices[9] = {0, 1, 0, 1, 2, 3, 0, 0, 0};
-    s32 i;
+    s32 index;
     s32 row;
     s32 column;
     s32 rectIndex;
@@ -266,21 +266,21 @@ void RefreshTxtSystemScreenBuffers(u32 *drawFlags) {
 
     MemFillWordsByBlock_inline(gTxtSystem->mMainScreenBuffer, 0x1000);
     FillScreenBuffer(&gTxtSystem->mSubScreenBuffer, gTxtSystem->mCanvasFileCharIndex[4]);
-    for (i = 0; i < 9; i++) {
+    for (index = 0; index < 9; index++) {
         if (*drawFlags != 0) {
-            if ((u32) (i - 7) <= 1) {
+            if ((u32) (index - 7) <= 1) {
                 RefreshTxtSystemAnim();
-            } else if (i != 6) {
-                rectIndex = rectIndices[i];
+            } else if (index != 6) {
+                rectIndex = rectIndices[index];
                 screenBuffer = gTxtSystem->mSubScreenBuffer;
-                if ((u32) i <= 1) {
+                if ((u32) index <= 1) {
                     screenBuffer = gTxtSystem->mMainScreenBuffer;
                 }
                 for (row = gTxtSystemNscrRects[rectIndex].mMinY; row <= gTxtSystemNscrRects[rectIndex].mMaxY; row++) {
                     for (column = gTxtSystemNscrRects[rectIndex].mMinX; column <= gTxtSystemNscrRects[rectIndex].mMaxX;
                          column++) {
                         *(screenBuffer + row * 32 + column) =
-                            gTxtSystem->mCanvasFileCharIndex[i] +
+                            gTxtSystem->mCanvasFileCharIndex[index] +
                             *((u16 *) gTxtSystem->mBgNscrs[rectIndex]->mData + row * 32 + column);
                     }
                 }
@@ -332,25 +332,25 @@ void ResetTxtSystemButtonColors(void) {
 // State 0: serves an open request by building the screens and queueing them.
 void AdvanceTxtSystemState0(void) {
     u32 drawFlags[9];
-    s32 i;
+    s32 index;
     s32 bufferSize;
     s32 queueCommand;
 
     if (gTxtSystem->mOpenRequested != 0) {
-        for (i = 0; i < 9; i++) {
-            if (i <= 6) {
-                if (gTxtSystem->mCanvasInUse[i] != 0) {
-                    drawFlags[i] = 1;
+        for (index = 0; index < 9; index++) {
+            if (index <= 6) {
+                if (gTxtSystem->mCanvasInUse[index] != 0) {
+                    drawFlags[index] = 1;
                 } else {
-                    drawFlags[i] = 0;
+                    drawFlags[index] = 0;
                 }
             } else {
-                if ((&gTxtSystem->mNextState)[i] != 0) {
-                    (&gTxtSystem->mNextState)[i] = 0;
-                    *(&gTxtSystem->mState + i - 1) = 1;
-                    drawFlags[i] = 1;
+                if ((&gTxtSystem->mNextState)[index] != 0) {
+                    (&gTxtSystem->mNextState)[index] = 0;
+                    *(&gTxtSystem->mState + index - 1) = 1;
+                    drawFlags[index] = 1;
                 } else {
-                    drawFlags[i] = 0;
+                    drawFlags[index] = 0;
                 }
             }
         }
@@ -359,22 +359,22 @@ void AdvanceTxtSystemState0(void) {
         NNS_GfdRegisterNewVramTransferTask(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
         gTxtSystem->mNextState = 1;
         gTxtSystem->mStateFrames = 0;
-        for (i = 0; i < 2; i++) {
-            gTxtSystem->mBgOffsetAtOpen[i] = gTxtSystem->mBgOffsetRequested[i];
+        for (index = 0; index < 2; index++) {
+            gTxtSystem->mBgOffsetAtOpen[index] = gTxtSystem->mBgOffsetRequested[index];
         }
-        for (i = 0; i < 2; i++) {
-            gTxtSystem->mBlendPlanesEnabled[i] = gTxtSystem->mBlendPlanesRequested[i];
+        for (index = 0; index < 2; index++) {
+            gTxtSystem->mBlendPlanesEnabled[index] = gTxtSystem->mBlendPlanesRequested[index];
         }
-        for (i = 0; i < 7; i++) {
-            if (gTxtSystem->mCanvasInUse[i] != 0) {
-                bufferSize = (gTxtSystemCanvasSizes[i][0] * gTxtSystemCanvasSizes[i][1]) << 5;
+        for (index = 0; index < 7; index++) {
+            if (gTxtSystem->mCanvasInUse[index] != 0) {
+                bufferSize = (gTxtSystemCanvasSizes[index][0] * gTxtSystemCanvasSizes[index][1]) << 5;
                 queueCommand = 0x14;
-                if ((u32) i <= 1) {
+                if ((u32) index <= 1) {
                     queueCommand = 6;
                 }
                 NNS_GfdRegisterNewVramTransferTask(
-                    queueCommand, (gTxtSystem->mCanvasFileCharIndex[i] + gTxtSystemCanvasCharOffsets[i]) << 5,
-                    gTxtSystem->mCharBuffers[i], bufferSize);
+                    queueCommand, (gTxtSystem->mCanvasFileCharIndex[index] + gTxtSystemCanvasCharOffsets[index]) << 5,
+                    gTxtSystem->mCharBuffers[index], bufferSize);
             }
         }
         if (gTxtSystem->mExtraCanvasCount > 0) {
@@ -391,12 +391,13 @@ void AdvanceTxtSystemState0(void) {
 // State 1: slides the box in over 15 steps.
 void AdvanceTxtSystemState1(void) {
     TxtSystem *txtSystem;
-    s32 i;
+    s32 screenIndex;
 
     gTxtSystem->mStateFrames++;
-    for (i = 0; i < 2; i++) {
-        gTxtSystem->mBgOffset[i] = InterpolateS16(1, gTxtSystemBgOffsets[gTxtSystem->mOpenFromIndex],
-                                                  -gTxtSystem->mBgOffsetAtOpen[i], gTxtSystem->mStateFrames, 0xf);
+    for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+        gTxtSystem->mBgOffset[screenIndex] =
+            InterpolateS16(1, gTxtSystemBgOffsets[gTxtSystem->mOpenFromIndex],
+                           -gTxtSystem->mBgOffsetAtOpen[screenIndex], gTxtSystem->mStateFrames, 0xf);
     }
     txtSystem = gTxtSystem;
     txtSystem->mBrightness = (txtSystem->mStateFrames * -10) / 15;
@@ -544,19 +545,19 @@ void AdvanceTxtSystemState3(void) {
 // State 4: slides the box out over 15 steps.
 void AdvanceTxtSystemState4(void) {
     TxtSystem *txtSystem;
-    s32 i;
+    s32 screenIndex;
 
     gTxtSystem->mStateFrames++;
-    for (i = 0; i < 2; i++) {
-        gTxtSystem->mBgOffset[i] =
-            InterpolateS16(1, -gTxtSystem->mBgOffsetAtOpen[i], gTxtSystemBgOffsets[gTxtSystem->mCloseToIndex],
+    for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+        gTxtSystem->mBgOffset[screenIndex] =
+            InterpolateS16(1, -gTxtSystem->mBgOffsetAtOpen[screenIndex], gTxtSystemBgOffsets[gTxtSystem->mCloseToIndex],
                            gTxtSystem->mStateFrames, 0xf);
     }
     txtSystem = gTxtSystem;
     txtSystem->mBrightness = -10 - (txtSystem->mStateFrames * -10) / 15;
     if (gTxtSystem->mStateFrames >= 15) {
-        for (i = 0; i < 2; i++) {
-            gTxtSystem->mBgOffset[i] = -192;
+        for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+            gTxtSystem->mBgOffset[screenIndex] = -192;
         }
         gTxtSystem->mNextState = 0;
         ResetTxtSystemButtonColors();
@@ -962,15 +963,15 @@ void SetTxtSystemBgOffsetRequested(int mainOffset, int subOffset) {
 
 #pragma thumb on
 void SetTxtSystemSoundId(int soundIndex, u32 soundId) {
-    u32 value0 = soundIndex;
+    u32 offset = soundIndex;
     u32 soundIdCopy = soundId;
-    u32 value2;
-    value2 = (u32) &gTxtSystem;
-    value2 = *(const u32 *) ((value2) + 0u);
-    value0 = (value0 << 2);
-    value2 = (value2) + (value0);
-    value0 = 0x2250u;
-    *(u32 *) ((value2) + (value0)) = soundIdCopy;
+    u32 address;
+    address = (u32) &gTxtSystem;
+    address = *(const u32 *) ((address) + 0u);
+    offset = (offset << 2);
+    address = (address) + (offset);
+    offset = 0x2250u;
+    *(u32 *) ((address) + (offset)) = soundIdCopy;
 }
 #pragma thumb off
 

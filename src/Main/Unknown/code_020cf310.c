@@ -20,56 +20,59 @@
 u8 data_020cfca4_pad[24];
 
 void CopyRaceHudSubScreenBgColors(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 columnIndex;
 
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
-            for (i = 0; i < 9; i++) {
-                for (j = 0; j < 3; j++) {
-                    gRaceHudSubScreenBgColors->mColors.mFrameColors[i][j] = ((u16 *) 0x05000400)[i * 16 + j + 0x40];
+            for (rowIndex = 0; rowIndex < 9; rowIndex++) {
+                for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+                    gRaceHudSubScreenBgColors->mColors.mFrameColors[rowIndex][columnIndex] =
+                        ((u16 *) 0x05000400)[rowIndex * 16 + columnIndex + 0x40];
                 }
             }
             break;
         case COURSE_ID_CLOCK: {
             s32 rowOffsets[5] = {0, 5, 10, 16, 21};
 
-            for (i = 0; i < 5; i++) {
-                for (j = 0; j < 4; j++) {
-                    gRaceHudSubScreenBgColors->mColors.mGearColors[i][j] =
-                        ((u16 *) 0x05000400)[rowOffsets[i] + j + 0x80];
+            for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+                for (columnIndex = 0; columnIndex < 4; columnIndex++) {
+                    gRaceHudSubScreenBgColors->mColors.mGearColors[rowIndex][columnIndex] =
+                        ((u16 *) 0x05000400)[rowOffsets[rowIndex] + columnIndex + 0x80];
                 }
             }
             break;
         }
         case COURSE_ID_TOWN:
-            for (i = 0; i < 20; i++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[i] = ((u16 *) 0x05000400)[0x78 + i];
+            for (rowIndex = 0; rowIndex < 20; rowIndex++) {
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = ((u16 *) 0x05000400)[0x78 + rowIndex];
             }
             gRaceHudSubScreenBgColors->mColors.mUnk_00[20] = ((u16 *) 0x05000400)[0];
             break;
         case COURSE_ID_BEACH:
-            for (i = 0; i < 3; i++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[i] = ((u16 *) 0x05000400)[0x46 + i];
+            for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = ((u16 *) 0x05000400)[0x46 + rowIndex];
             }
             break;
         case COURSE_ID_KOOPA:
-            for (i = 0; i < 6; i++) {
-                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[i] = ((u16 *) 0x05000400)[0x54 + i];
+            for (rowIndex = 0; rowIndex < 6; rowIndex++) {
+                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[rowIndex] =
+                    ((u16 *) 0x05000400)[0x54 + rowIndex];
             }
-            for (i = 0; i < 2; i++) {
-                for (j = 0; j < 3; j++) {
-                    gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[i][j] =
-                        ((u16 *) 0x05000400)[i * 3 + j + 0x5a];
+            for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+                for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+                    gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[rowIndex][columnIndex] =
+                        ((u16 *) 0x05000400)[rowIndex * 3 + columnIndex + 0x5a];
                 }
             }
-            for (i = 0; i < 2; i++) {
-                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[i] = ((u16 *) 0x05000400)[i];
+            for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[rowIndex] =
+                    ((u16 *) 0x05000400)[rowIndex];
             }
             break;
         case COURSE_ID_MINI_STAGE3:
-            for (i = 0; i < 5; i++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[i] = ((u16 *) 0x05000400)[0xfb + i];
+            for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = ((u16 *) 0x05000400)[0xfb + rowIndex];
             }
             break;
     }
@@ -77,20 +80,20 @@ void CopyRaceHudSubScreenBgColors(void) {
 }
 
 void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 colorIndex;
     s32 shift;
-    s32 n;
-    s32 k;
-    s32 v;
+    s32 limit;
+    s32 offset;
+    s32 value;
     u32 waterAngle;
     float threshold;
 
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
-            v = GetCourseModelNsbtpFrame();
-            for (i = 0; i < 3; i++) {
-                palette[i + 0x40] = gRaceHudSubScreenBgColors->mColors.mFrameColors[v / 10][i];
+            value = GetCourseModelNsbtpFrame();
+            for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+                palette[rowIndex + 0x40] = gRaceHudSubScreenBgColors->mColors.mFrameColors[value / 10][rowIndex];
             }
             DC_FlushRange(&palette[0x40], 6);
             GXS_BeginLoadBGExtPltt();
@@ -109,16 +112,16 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             kindDrawList = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_ROTARY_GEAR);
             if (kindDrawList != NULL) {
                 objects = RaceHudSubScreenGetMapObjects(kindDrawList);
-                for (i = 0; i < 5; i++) {
-                    angle = objects[i]->mAngle;
-                    if (i == 4) {
+                for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+                    angle = objects[rowIndex]->mAngle;
+                    if (rowIndex == 4) {
                         shift = (angle * 0xb4) >> 16;
                     } else {
                         shift = (angle * 0x48) >> 16;
                     }
-                    for (j = 0; j < 4; j++) {
-                        palette[rowOffsets[i] + j + 0x80] =
-                            gRaceHudSubScreenBgColors->mColors.mGearColors[i][(j + shift) % 4];
+                    for (colorIndex = 0; colorIndex < 4; colorIndex++) {
+                        palette[rowOffsets[rowIndex] + colorIndex + 0x80] =
+                            gRaceHudSubScreenBgColors->mColors.mGearColors[rowIndex][(colorIndex + shift) % 4];
                     }
                 }
             }
@@ -140,23 +143,23 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                                         {20, 20, 20, 20, 20, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17}};
             u8 *colorIndexCursor;
 
-            v = GetFirstBridgeAnimationFrame();
-            if (v < 0x13) {
-                j = 0;
-            } else if (v < 0x2c) {
-                j = 1;
-            } else if (v < 0x38) {
-                j = 2;
-            } else if (v < 0x43) {
-                j = 3;
-            } else if (v < 0x4c) {
-                j = 4;
+            value = GetFirstBridgeAnimationFrame();
+            if (value < 0x13) {
+                colorIndex = 0;
+            } else if (value < 0x2c) {
+                colorIndex = 1;
+            } else if (value < 0x38) {
+                colorIndex = 2;
+            } else if (value < 0x43) {
+                colorIndex = 3;
+            } else if (value < 0x4c) {
+                colorIndex = 4;
             } else {
-                j = 5;
+                colorIndex = 5;
             }
-            colorIndexCursor = colorIndexRows[j];
-            for (i = 0; i < 20; i++) {
-                palette[i + 0x78] = gRaceHudSubScreenBgColors->mColors.mUnk_00[*colorIndexCursor];
+            colorIndexCursor = colorIndexRows[colorIndex];
+            for (rowIndex = 0; rowIndex < 20; rowIndex++) {
+                palette[rowIndex + 0x78] = gRaceHudSubScreenBgColors->mColors.mUnk_00[*colorIndexCursor];
                 colorIndexCursor++;
             }
             DC_FlushRange(&palette[0x78], 0x28);
@@ -170,22 +173,22 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
         }
         case COURSE_ID_BEACH:
             if (IsWaterPresent() != FALSE) {
-                n = GetWaterHeightFactor();
-                for (k = 7; k > 0; k--) {
-                    threshold = (7 - k) * 0.286f + -0.858f;
-                    v = threshold > 0.0f ? threshold * 4096.0f + 0.5f : threshold * 4096.0f - 0.5f;
-                    if (n < v) {
+                limit = GetWaterHeightFactor();
+                for (offset = 7; offset > 0; offset--) {
+                    threshold = (7 - offset) * 0.286f + -0.858f;
+                    value = threshold > 0.0f ? threshold * 4096.0f + 0.5f : threshold * 4096.0f - 0.5f;
+                    if (limit < value) {
                         break;
                     }
                 }
-                for (j = 0; j < k; j++) {
-                    palette[j + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
+                for (colorIndex = 0; colorIndex < offset; colorIndex++) {
+                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
                 }
-                for (j = k; j == k; j++) {
-                    palette[j + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
+                for (colorIndex = offset; colorIndex == offset; colorIndex++) {
+                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
                 }
-                for (j = k + 1; j < 8; j++) {
-                    palette[j + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
+                for (colorIndex = offset + 1; colorIndex < 8; colorIndex++) {
+                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
                 }
             }
             DC_FlushRange(&palette[0x50], 0x10);
@@ -204,39 +207,40 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             kindDrawList = FindMapObjectKindDrawList0(0xd0);
             if (kindDrawList != NULL) {
                 objects = RaceHudSubScreenGetMapObjects(kindDrawList);
-                v = (objects[1]->mAngle * 0x48) >> 16;
-                for (i = 0; i < 6; i++) {
-                    palette[i + 0x54] =
-                        gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[(i + 0x48 - v) % 6];
+                value = (objects[1]->mAngle * 0x48) >> 16;
+                for (rowIndex = 0; rowIndex < 6; rowIndex++) {
+                    palette[rowIndex + 0x54] = gRaceHudSubScreenBgColors->mColors.mKoopaColors
+                                                   .mSecondObjectColors[(rowIndex + 0x48 - value) % 6];
                 }
-                k = (objects[0]->mAngle << 5) >> 16;
-                for (i = 0; i < 2; i++) {
-                    for (j = 0; j < 3; j++) {
-                        palette[j + i * 3 + 0x5a] =
-                            gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[i][(j + 0x20 - k) % 3];
+                offset = (objects[0]->mAngle << 5) >> 16;
+                for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+                    for (colorIndex = 0; colorIndex < 3; colorIndex++) {
+                        palette[colorIndex + rowIndex * 3 + 0x5a] =
+                            gRaceHudSubScreenBgColors->mColors.mKoopaColors
+                                .mFirstObjectColors[rowIndex][(colorIndex + 0x20 - offset) % 3];
                     }
                 }
             }
             kindDrawList = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_KOOPA_BLOCK);
             if (kindDrawList != NULL) {
                 blocks = RaceHudSubScreenGetMapObjects(kindDrawList);
-                for (i = 0; i < 4; i++) {
-                    v = GetKoopaBlockProgress(blocks[i]);
-                    if (i % 2 != 0) {
-                        n = (v << 3) >> 12;
+                for (rowIndex = 0; rowIndex < 4; rowIndex++) {
+                    value = GetKoopaBlockProgress(blocks[rowIndex]);
+                    if (rowIndex % 2 != 0) {
+                        limit = (value << 3) >> 12;
                     } else {
-                        n = 8 - ((v << 3) >> 12);
+                        limit = 8 - ((value << 3) >> 12);
                     }
-                    for (j = 0; j < n; j++) {
-                        palette[i * 16 + j + 0x60] =
+                    for (colorIndex = 0; colorIndex < limit; colorIndex++) {
+                        palette[rowIndex * 16 + colorIndex + 0x60] =
                             gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[0];
                     }
-                    for (j = n; j < n + 8; j++) {
-                        palette[i * 16 + j + 0x60] =
+                    for (colorIndex = limit; colorIndex < limit + 8; colorIndex++) {
+                        palette[rowIndex * 16 + colorIndex + 0x60] =
                             gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[1];
                     }
-                    for (j = n + 8; j < 16; j++) {
-                        palette[i * 16 + j + 0x60] =
+                    for (colorIndex = limit + 8; colorIndex < 16; colorIndex++) {
+                        palette[rowIndex * 16 + colorIndex + 0x60] =
                             gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[0];
                     }
                 }
@@ -252,35 +256,35 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
         }
         case COURSE_ID_MINI_STAGE3:
             if (IsWaterPresent() != FALSE) {
-                n = GetWaterHeightFactor();
+                limit = GetWaterHeightFactor();
                 waterAngle = GetWaterHeightAngle();
-                for (k = 0; k < 0x13; k++) {
-                    threshold = k * 0.105f + -0.945f;
-                    v = threshold > 0.0f ? threshold * 4096.0f + 0.5f : threshold * 4096.0f - 0.5f;
-                    if (n < v) {
+                for (offset = 0; offset < 0x13; offset++) {
+                    threshold = offset * 0.105f + -0.945f;
+                    value = threshold > 0.0f ? threshold * 4096.0f + 0.5f : threshold * 4096.0f - 0.5f;
+                    if (limit < value) {
                         break;
                     }
                 }
-                k += 2;
-                for (j = 0; j < k - 2; j++) {
-                    palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
+                offset += 2;
+                for (colorIndex = 0; colorIndex < offset - 2; colorIndex++) {
+                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
                 }
-                for (j = k - 4; j < k - 2; j++) {
-                    if (j >= 0) {
-                        palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
+                for (colorIndex = offset - 4; colorIndex < offset - 2; colorIndex++) {
+                    if (colorIndex >= 0) {
+                        palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
                     }
                 }
-                for (j = k - 2; j <= k; j++) {
-                    palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
+                for (colorIndex = offset - 2; colorIndex <= offset; colorIndex++) {
+                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
                 }
                 if (waterAngle >= 0x4000 && waterAngle < 0xc000) {
-                    for (j = k + 1; j <= k + 2 && j < 0x15; j++) {
-                        palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[3];
+                    for (colorIndex = offset + 1; colorIndex <= offset + 2 && colorIndex < 0x15; colorIndex++) {
+                        palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[3];
                     }
-                    k += 2;
+                    offset += 2;
                 }
-                for (j = k + 1; j < 0x15; j++) {
-                    palette[j + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[4];
+                for (colorIndex = offset + 1; colorIndex < 0x15; colorIndex++) {
+                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[4];
                 }
             }
             DC_FlushRange(&palette[0xe0], 0x2c);

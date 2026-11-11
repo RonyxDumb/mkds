@@ -49,9 +49,9 @@ void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3d
 
 // Gets VRAM for the texture, 4x4 texture and palette blocks and loads them; 0 if loaded already or a block fails.
 u32 UploadResTexture(NNSG3dResTex *texture) {
-    u32 v1;
-    u32 v0;
-    u32 v2;
+    u32 tex4x4Value;
+    u32 texValue;
+    u32 plttValue;
     u32 result = 1;
     u32 texOk = 1;
     u32 tex4x4Ok = 1;
@@ -61,41 +61,41 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
         (texture->mPlttInfo.mFlag & 1) != 0) {
         result = 0;
     } else {
-        v0 = NNS_G3dTexGetRequiredSize(texture);
-        v1 = NNS_G3dTex4x4GetRequiredSize(texture);
-        v2 = NNS_G3dPlttGetRequiredSize(texture);
-        if (v0 != 0) {
-            v0 = data_021619ec(v0, 0, 0);
-            if (v0 == 0) {
+        texValue = NNS_G3dTexGetRequiredSize(texture);
+        tex4x4Value = NNS_G3dTex4x4GetRequiredSize(texture);
+        plttValue = NNS_G3dPlttGetRequiredSize(texture);
+        if (texValue != 0) {
+            texValue = data_021619ec(texValue, 0, 0);
+            if (texValue == 0) {
                 texOk = 0;
             }
         } else {
-            v0 = 0;
+            texValue = 0;
         }
-        if (v1 != 0) {
-            v1 = data_021619ec(v1, 1, 0);
-            if (v1 == 0) {
+        if (tex4x4Value != 0) {
+            tex4x4Value = data_021619ec(tex4x4Value, 1, 0);
+            if (tex4x4Value == 0) {
                 tex4x4Ok = 0;
             }
         } else {
-            v1 = 0;
+            tex4x4Value = 0;
         }
-        if (v2 != 0) {
-            v2 = data_021619f4(v2, texture->mTex4x4Info.mFlag & 0x8000, 0);
-            if (v2 == 0) {
+        if (plttValue != 0) {
+            plttValue = data_021619f4(plttValue, texture->mTex4x4Info.mFlag & 0x8000, 0);
+            if (plttValue == 0) {
                 plttOk = 0;
             }
         } else {
-            v2 = 0;
+            plttValue = 0;
         }
         if (texOk == 0 || tex4x4Ok == 0 || plttOk == 0) {
-            data_021619f8(v2);
-            data_021619f0(v1);
-            data_021619f0(v0);
+            data_021619f8(plttValue);
+            data_021619f0(tex4x4Value);
+            data_021619f0(texValue);
             return 0;
         }
-        NNS_G3dTexSetTexKey(texture, v0, v1);
-        NNS_G3dPlttSetPlttKey(texture, v2);
+        NNS_G3dTexSetTexKey(texture, texValue, tex4x4Value);
+        NNS_G3dPlttSetPlttKey(texture, plttValue);
         NNS_G3dTexLoad(texture, 1);
         NNS_G3dPlttLoad(texture, 1);
     }
@@ -104,7 +104,7 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
 
 // With c non-zero and scene number 2 it swaps cull modes 1 and 2 when byte 0x57 of the game record is set.
 void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
-    u32 i;
+    u32 materialIndex;
     NNSG3dResMdl *objResMdl;
 
     if (allowCullSwap != 0 && GetCurrentSceneNumber() == 2) {
@@ -120,33 +120,33 @@ void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
     NNS_G3dRenderObjInit(&nsbmd->mRenderObj, resMdl);
     if (nsbmd->mCullModesSwapped != 0) {
         objResMdl = nsbmd->mResMdl;
-        for (i = 0; i < objResMdl->mInfo.mNumMat; i++) {
-            if (NNS_G3dMdlGetMdlCullMode(objResMdl, i) == 1) {
-                NNS_G3dMdlSetMdlCullMode(objResMdl, i, 2);
-            } else if (NNS_G3dMdlGetMdlCullMode(objResMdl, i) == 2) {
-                NNS_G3dMdlSetMdlCullMode(objResMdl, i, 1);
+        for (materialIndex = 0; materialIndex < objResMdl->mInfo.mNumMat; materialIndex++) {
+            if (NNS_G3dMdlGetMdlCullMode(objResMdl, materialIndex) == 1) {
+                NNS_G3dMdlSetMdlCullMode(objResMdl, materialIndex, 2);
+            } else if (NNS_G3dMdlGetMdlCullMode(objResMdl, materialIndex) == 2) {
+                NNS_G3dMdlSetMdlCullMode(objResMdl, materialIndex, 1);
             }
         }
     }
 }
 
 void SetNsbmdCullModeMirrored(Nsbmd *nsbmd) {
-    u32 i;
+    u32 materialIndex;
     NNSG3dResMdl *resMdl;
 
     resMdl = nsbmd->mResMdl;
-    for (i = 0; i < resMdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlCullMode(resMdl, i, 1);
+    for (materialIndex = 0; materialIndex < resMdl->mInfo.mNumMat; materialIndex++) {
+        NNS_G3dMdlSetMdlCullMode(resMdl, materialIndex, 1);
     }
 }
 
 void SetNsbmdCullModeUnmirrored(Nsbmd *nsbmd) {
-    u32 i;
+    u32 materialIndex;
     NNSG3dResMdl *resMdl;
 
     resMdl = nsbmd->mResMdl;
-    for (i = 0; i < resMdl->mInfo.mNumMat; i++) {
-        NNS_G3dMdlSetMdlCullMode(resMdl, i, 2);
+    for (materialIndex = 0; materialIndex < resMdl->mInfo.mNumMat; materialIndex++) {
+        NNS_G3dMdlSetMdlCullMode(resMdl, materialIndex, 2);
     }
 }
 
@@ -329,12 +329,12 @@ void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale) {
     NNS_G3dGeBufferOP_N(20, &commandParam, 1);
     NNS_G3dGeBufferOP_N(25, matrix, 12);
     if (scale != NULL) {
-        u32 z = scale[2];
-        u32 y = scale[1];
-        u32 x = scale[0];
-        scaleCopy[0] = x;
-        scaleCopy[1] = y;
-        scaleCopy[2] = z;
+        u32 scaleZ = scale[2];
+        u32 scaleY = scale[1];
+        u32 scaleX = scale[0];
+        scaleCopy[0] = scaleX;
+        scaleCopy[1] = scaleY;
+        scaleCopy[2] = scaleZ;
         NNS_G3dGeBufferOP_N(27, &scaleCopy, 3);
     }
     gNsbmdDrawFunctions[object->mDrawKind](object);
@@ -386,24 +386,24 @@ void ReleaseAllResFiles(void) {
 
 void InitKartEffectTables(void *heap) {
     u32 kartCount;
-    u16 i;
-    u16 j;
+    u16 kartIndex;
+    u16 effectIndex;
 
     kartCount = gRaceSetup->mKartCount;
     gKartEffectIdSetIndex = HeapAlloc(heap, kartCount * 2);
     gKartStarEffects = HeapAlloc(heap, kartCount * 12);
     gKartAheadEffects = HeapAlloc(heap, kartCount * 4);
     gKartNearRankEffects = HeapAlloc(heap, kartCount * 4);
-    for (i = 0; i < kartCount; i++) {
-        for (j = 0; j < 3; j++) {
-            gKartStarEffects[i].mEffects[j] = NULL;
+    for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+        for (effectIndex = 0; effectIndex < 3; effectIndex++) {
+            gKartStarEffects[kartIndex].mEffects[effectIndex] = NULL;
         }
-        gKartAheadEffects[i] = NULL;
-        gKartNearRankEffects[i] = NULL;
-        if (i == gRaceSetup->mEntryIndex) {
-            gKartEffectIdSetIndex[i] = 0;
+        gKartAheadEffects[kartIndex] = NULL;
+        gKartNearRankEffects[kartIndex] = NULL;
+        if (kartIndex == gRaceSetup->mEntryIndex) {
+            gKartEffectIdSetIndex[kartIndex] = 0;
         } else {
-            gKartEffectIdSetIndex[i] = 1;
+            gKartEffectIdSetIndex[kartIndex] = 1;
         }
     }
     gKartEffectColor = 0x7fff;

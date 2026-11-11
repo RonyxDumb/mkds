@@ -63,14 +63,14 @@ void StartRaceRankListItemInUse(s32 kartIndex, s32 itemId, s32 objectCount) {
 }
 
 void InitRaceRankList(void) {
-    u8 i;
+    u8 kartIndex;
 
     gRaceRankList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x15c);
-    for (i = 0; i < (s32) gRaceSetup->mKartCount; i++) {
-        gRaceRankList->mRanks[i] = 1;
-        gRaceRankList->mPrevRanks[i] = gRaceRankList->mRanks[i];
-        gRaceRankList->mKartsByRank[i] = 0;
-        gRaceRankList->mBalloonOrShineCounts[i] = 0;
+    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+        gRaceRankList->mRanks[kartIndex] = 1;
+        gRaceRankList->mPrevRanks[kartIndex] = gRaceRankList->mRanks[kartIndex];
+        gRaceRankList->mKartsByRank[kartIndex] = 0;
+        gRaceRankList->mBalloonOrShineCounts[kartIndex] = 0;
     }
     gRaceRankList->mSlideX = 0;
     gRaceRankList->mOamMatrixIndex = 0;
@@ -95,7 +95,7 @@ void UpdateRaceRankList(void) {
     s32 rankKeys[8];
     s32 moveFrames;
     s32 middleFrames;
-    u8 i;
+    u8 kartIndex;
     KartItems *kartItems;
 
     moveFrames = gRaceRankList->mMoveFrames;
@@ -114,21 +114,21 @@ void UpdateRaceRankList(void) {
         return;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        for (i = 0; i < (s32) gRaceSetup->mKartCount; i++) {
-            gRaceRankList->mBalloonOrShineCounts[i] = GetBalloonOrShineCount(i);
+        for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+            gRaceRankList->mBalloonOrShineCounts[kartIndex] = GetBalloonOrShineCount(kartIndex);
         }
     }
-    for (i = 0; i < (s32) gRaceSetup->mKartCount; i++) {
-        kartItems = &gKartItems[i];
-        gRaceRankList->mShownItems[i] =
+    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+        kartItems = &gKartItems[kartIndex];
+        gRaceRankList->mShownItems[kartIndex] =
             kartItems->mHeldItem.mItemInfoIndex == 0x13 ? kartItems->mActiveItem : kartItems->mHeldItem.mItemInfoIndex;
         if (gRaceRankList->mMoveFrames % 0x1c == 0) {
-            gRaceRankList->mPrevRanks[i] = gRaceRankList->mRanks[i];
-            gRaceRankList->mRanks[i] = GetKartRank(i);
+            gRaceRankList->mPrevRanks[kartIndex] = gRaceRankList->mRanks[kartIndex];
+            gRaceRankList->mRanks[kartIndex] = GetKartRank(kartIndex);
         }
-        fromPosition = slotPositions[gRaceRankList->mPrevRanks[i]];
-        toPosition = slotPositions[gRaceRankList->mRanks[i]];
-        if (gRaceRankList->mPrevRanks[i] > gRaceRankList->mRanks[i]) {
+        fromPosition = slotPositions[gRaceRankList->mPrevRanks[kartIndex]];
+        toPosition = slotPositions[gRaceRankList->mRanks[kartIndex]];
+        if (gRaceRankList->mPrevRanks[kartIndex] > gRaceRankList->mRanks[kartIndex]) {
             if (moveFrames < 10) {
                 position.mX = fromPosition.mX + (moveFrames * 16) / 10;
                 position.mY = fromPosition.mY;
@@ -144,22 +144,22 @@ void UpdateRaceRankList(void) {
             position.mX = fromPosition.mX + moveFrames * (toPosition.mX - fromPosition.mX) / 0x1c;
             position.mY = fromPosition.mY + moveFrames * (toPosition.mY - fromPosition.mY) / 0x1c;
         }
-        gRaceRankList->mRowPositions[i] = position;
+        gRaceRankList->mRowPositions[kartIndex] = position;
     }
-    for (i = 0; i < (s32) gRaceSetup->mKartCount; i++) {
-        gRaceRankList->mKartsByRank[i] = i;
-        rankKeys[i] = gRaceRankList->mRanks[i];
+    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+        gRaceRankList->mKartsByRank[kartIndex] = kartIndex;
+        rankKeys[kartIndex] = gRaceRankList->mRanks[kartIndex];
     }
     SortIndicesByKey(gRaceRankList->mKartsByRank, rankKeys, gRaceSetup->mKartCount);
     gRaceRankList->mMoveFrames++;
     if (gRaceRankList->mMoveFrames >= 0x1c) {
         gRaceRankList->mMoveFrames = 0;
     }
-    for (i = 0; i < (s32) gRaceSetup->mKartCount; i++) {
-        if (gRaceRankList->mItemsInUse[i].mInUseFrames != 0) {
-            gRaceRankList->mItemsInUse[i].mInUseFrames++;
-            if (gRaceRankList->mItemsInUse[i].mInUseFrames > 0x24) {
-                gRaceRankList->mItemsInUse[i].mInUseFrames = 0;
+    for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
+        if (gRaceRankList->mItemsInUse[kartIndex].mInUseFrames != 0) {
+            gRaceRankList->mItemsInUse[kartIndex].mInUseFrames++;
+            if (gRaceRankList->mItemsInUse[kartIndex].mInUseFrames > 0x24) {
+                gRaceRankList->mItemsInUse[kartIndex].mInUseFrames = 0;
             }
         }
     }
@@ -248,7 +248,7 @@ u32 GetRaceRankListSNcerIndex(u16 kartIndex) {
 
 void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
     s32 slotPositions[8][2] = {{8, 0xf}, {8, 0x26}, {8, 0x3d}, {8, 0x54}, {8, 0x6b}, {8, 0x82}, {8, 0x99}, {8, 0xb0}};
-    u16 i;
+    u16 kartIndex;
     s32 slideX;
     s32 rankSlot;
     s32 markerIndex;
@@ -258,8 +258,8 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
     Unk020224e0_c *cell;
 
     slideX = gRaceRankList->mSlideX;
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        rankSlot = gRaceRankList->mPrevRanks[i] - 1;
+    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+        rankSlot = gRaceRankList->mPrevRanks[kartIndex] - 1;
         cell = GetRaceSNcerEntry(rankSlot + 0x35);
         rankDrawPosition[0] = (slotPositions[rankSlot][0] - slideX - 1) << 12;
         slotY = slotPositions[rankSlot][1];
@@ -267,17 +267,17 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, rankDrawPosition, 0, 1);
         markerIndex = 0;
-        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated(i) != FALSE) {
+        if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated(kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved(i) != 0 || IsKartRemovedWrapper(i) != 0)) {
+                   (GetRaceHudKartRemoved(kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
             markerIndex = 3;
-        } else if (i == GetFollowedKartOrEntryIndex()) {
+        } else if (kartIndex == GetFollowedKartOrEntryIndex()) {
             markerIndex = 0;
-        } else if (gRaceSetup->mUseTeams != 0 && gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex == 1) {
+        } else if (gRaceSetup->mUseTeams != 0 && gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex == 1) {
             markerIndex = 2;
         } else {
             markerIndex = 1;
@@ -291,7 +291,7 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
 }
 
 void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
-    u16 i;
+    u16 rankIndex;
     s32 kartIndex;
     RaceRankListPos position;
     s32 itemCellIndex;
@@ -305,8 +305,8 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     Unk020224e0_c *cell;
 
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        kartIndex = gRaceRankList->mKartsByRank[i];
+    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+        kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX;
@@ -373,7 +373,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
 }
 
 void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
-    u16 i;
+    u16 rankIndex;
     s32 kartIndex;
     RaceRankListPos position;
     s32 itemCellIndex;
@@ -385,8 +385,8 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     Unk020224e0_c *cell;
 
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        kartIndex = gRaceRankList->mKartsByRank[i];
+    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+        kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX;
@@ -438,24 +438,24 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
     }
 }
 
-void DrawRaceRankListNonBattleRows(RaceHudOamBuffer *a) {
+void DrawRaceRankListNonBattleRows(RaceHudOamBuffer *oamBuffer) {
     switch (GetRaceHudSubScreenState()) {
         case 0:
-            DrawRaceRankListRankCells(a);
-            DrawRaceRankListState0Rows(a);
+            DrawRaceRankListRankCells(oamBuffer);
+            DrawRaceRankListState0Rows(oamBuffer);
             break;
         case 1:
         case 2:
         case 3:
-            DrawRaceRankListRankCells(a);
-            DrawRaceRankListState1To3Rows(a);
+            DrawRaceRankListRankCells(oamBuffer);
+            DrawRaceRankListState1To3Rows(oamBuffer);
             break;
     }
 }
 
 void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
     s32 secondKartCellBase;
-    u16 i;
+    u16 rankIndex;
     u16 matrixIndex;
     RaceRankListPos position;
     MtxFx22 *matrix;
@@ -473,8 +473,8 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     Unk020224e0_c *cell;
 
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        kartIndex = gRaceRankList->mKartsByRank[i];
+    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+        kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX + 0x13;
@@ -579,7 +579,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
 }
 
 void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
-    u16 i;
+    u16 rankIndex;
     u16 matrixIndex;
     RaceRankListPos position;
     MtxFx22 *matrix;
@@ -596,8 +596,8 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
     s32 markerIndex;
     Unk020224e0_c *cell;
 
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        kartIndex = gRaceRankList->mKartsByRank[i];
+    for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
+        kartIndex = gRaceRankList->mKartsByRank[rankIndex];
         position = gRaceRankList->mRowPositions[kartIndex];
         itemCellIndex = GetRaceRankListSNcerIndex(kartIndex);
         position.mX -= gRaceRankList->mSlideX + 0x13;
@@ -911,7 +911,7 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
 }
 
 void InitRaceTimeDigits(void) {
-    s32 i;
+    s32 digitIndex;
 
     gRaceTimeDigits = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
     gRaceTimeDigits->mTime.mDigits[0] = 0;
@@ -932,7 +932,7 @@ void InitRaceTimeDigits(void) {
             gRaceTimeDigits->mUseLastSecondsSound = TRUE;
         }
     }
-    for (i = 0; i < 6; i++) {
-        gRaceTimeDigits->mLastSecondsReached[i] = 0;
+    for (digitIndex = 0; digitIndex < 6; digitIndex++) {
+        gRaceTimeDigits->mLastSecondsReached[digitIndex] = 0;
     }
 }

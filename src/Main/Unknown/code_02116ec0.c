@@ -16,11 +16,11 @@
 #pragma thumb on
 
 void CreatePicksHolder(void *heap) {
-    u32 v1;
-    v1 = ((u32) HeapAlloc(heap, 4));
-    *(u32 *) &gPicksHolder = v1;
-    v1 = (u32) CreateCharacterKartPicks(heap);
-    *(u32 *) (*(u32 *) &gPicksHolder) = v1;
+    u32 value;
+    value = ((u32) HeapAlloc(heap, 4));
+    *(u32 *) &gPicksHolder = value;
+    value = (u32) CreateCharacterKartPicks(heap);
+    *(u32 *) (*(u32 *) &gPicksHolder) = value;
 }
 
 #pragma thumb off
@@ -33,115 +33,115 @@ void ClearPicksHolderPointer(void) {
 
 // Resets the picks and clears the character index of every entry from the participant count up.
 void ClearNonParticipantCharacterIndices(void) {
-    int n;
+    int participantCount;
     BOOL isEightOrNine;
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(gPicksHolder->mPicks);
     if (gStartupWork->mConnectionKind == 0) {
-        n = 1;
+        participantCount = 1;
     } else {
         isEightOrNine = TRUE;
         if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
     zeroValue = 0;
     noIndex = ~0;
-    for (; n < 8; n++) {
-        SetCharacterIndex(n, noIndex);
-        SetKartStored(n, zeroValue);
+    for (; participantCount < 8; participantCount++) {
+        SetCharacterIndex(participantCount, noIndex);
+        SetKartStored(participantCount, zeroValue);
     }
 }
 
 // Resets the picks, copies the characters in and clears the kart index of entries from the participant count up.
 void ClearNonParticipantKartIndices(void) {
-    int i;
-    int n;
+    int entryIndex;
+    int participantCount;
     BOOL isEightOrNine;
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(gPicksHolder->mPicks);
     if (gStartupWork->mConnectionKind == 0) {
-        n = 1;
+        participantCount = 1;
     } else {
         isEightOrNine = TRUE;
         if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
-    for (i = 0; i < 8; i++) {
-        SetGivenCharacter(gPicksHolder->mPicks, (u8) i, GetCharacterIndex(i));
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        SetGivenCharacter(gPicksHolder->mPicks, (u8) entryIndex, GetCharacterIndex(entryIndex));
     }
     zeroValue = 0;
     noIndex = ~0;
-    for (; n < 8; n++) {
-        SetKartIndex(n, noIndex);
-        SetKartStored(n, zeroValue);
+    for (; participantCount < 8; participantCount++) {
+        SetKartIndex(participantCount, noIndex);
+        SetKartStored(participantCount, zeroValue);
     }
 }
 
 void FillRandomCharacterIndices(void) {
-    int i;
-    int n;
+    int participantIndex;
+    int participantCount;
     BOOL isEightOrNine;
     u32 pickedIndex;
 
     pickedIndex = ~0;
     if (gStartupWork->mConnectionKind == 0) {
-        n = 1;
+        participantCount = 1;
     } else {
         isEightOrNine = TRUE;
         if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
-    for (i = 0; i < n; i++) {
-        SetGivenCharacter(gPicksHolder->mPicks, (u8) i, GetCharacterIndex(i));
+    for (participantIndex = 0; participantIndex < participantCount; participantIndex++) {
+        SetGivenCharacter(gPicksHolder->mPicks, (u8) participantIndex, GetCharacterIndex(participantIndex));
     }
     PickRandomCharacters(gPicksHolder->mPicks);
-    for (; n < 8; n++) {
-        GetEntryCharacterAndKart(gPicksHolder->mPicks, n, &pickedIndex, NULL);
-        SetCharacterIndex(n, pickedIndex);
+    for (; participantCount < 8; participantCount++) {
+        GetEntryCharacterAndKart(gPicksHolder->mPicks, participantCount, &pickedIndex, NULL);
+        SetCharacterIndex(participantCount, pickedIndex);
     }
 }
 
 void FillRandomKartIndices(void) {
-    int i;
-    int n;
+    int participantIndex;
+    int participantCount;
     BOOL isEightOrNine;
     u32 pickedIndex;
 
     pickedIndex = ~0;
     if (gStartupWork->mConnectionKind == 0) {
-        n = 1;
+        participantCount = 1;
     } else {
         isEightOrNine = TRUE;
         if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
     }
-    for (i = 0; i < n; i++) {
-        SetGivenKart(gPicksHolder->mPicks, (u8) i, GetKartIndex(i));
+    for (participantIndex = 0; participantIndex < participantCount; participantIndex++) {
+        SetGivenKart(gPicksHolder->mPicks, (u8) participantIndex, GetKartIndex(participantIndex));
     }
     PickRandomKarts(gPicksHolder->mPicks);
-    for (; n < 8; n++) {
-        GetEntryCharacterAndKart(gPicksHolder->mPicks, n, NULL, &pickedIndex);
-        SetKartIndex(n, pickedIndex);
-        SetKartStored(n, 1);
+    for (; participantCount < 8; participantCount++) {
+        GetEntryCharacterAndKart(gPicksHolder->mPicks, participantCount, NULL, &pickedIndex);
+        SetKartIndex(participantCount, pickedIndex);
+        SetKartStored(participantCount, 1);
     }
 }
 
 void SetKartIndicesFromCharacters(void) {
-    int i;
+    int entryIndex;
 
-    for (i = 0; i < 8; i++) {
-        SetKartIndex(i, gCharacterKartIndices[GetCharacterIndex(i)]);
-        SetKartStored(i, 1);
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        SetKartIndex(entryIndex, gCharacterKartIndices[GetCharacterIndex(entryIndex)]);
+        SetKartStored(entryIndex, 1);
     }
 }
 

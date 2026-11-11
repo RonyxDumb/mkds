@@ -70,8 +70,8 @@ void DisableAllBanks(void) {
 }
 
 // Stores the state; for states 0 and 1 calls the stored callback with 0 or 1.
-void WvrCallback(u32 state, s32 b) {
-    if (b != 0) {
+void WvrCallback(u32 state, s32 errorCode) {
+    if (errorCode != 0) {
         OS_Terminate();
     }
     gWvrState.mState = state;
@@ -113,14 +113,14 @@ void StopWvrAndWait(void) {
     }
 }
 
-s32 Vec3NormalizeAndGetLengthUnchecked(const Vec3 *v, Vec3 *dst) {
+s32 Vec3NormalizeAndGetLengthUnchecked(const Vec3 *vec, Vec3 *dst) {
     s64 lengthSquared;
     s32 sqrtResult;
     s64 divResult;
     s64 scale;
-    lengthSquared = (s64) v->x * v->x;
-    lengthSquared += (s64) v->y * v->y;
-    lengthSquared += (s64) v->z * v->z;
+    lengthSquared = (s64) vec->x * vec->x;
+    lengthSquared += (s64) vec->y * vec->y;
+    lengthSquared += (s64) vec->z * vec->z;
     reg_CP_DIVCNT = 2;
     reg_CP_DIV_NUMER = 0x1000000000000LL << 8;
     reg_CP_DIV_DENOM = lengthSquared;
@@ -133,26 +133,26 @@ s32 Vec3NormalizeAndGetLengthUnchecked(const Vec3 *v, Vec3 *dst) {
     }
     divResult = reg_CP_DIV_RESULT;
     scale = divResult * sqrtResult;
-    dst->x = (scale * v->x + 0x100000000000LL) >> 45;
-    dst->y = (scale * v->y + 0x100000000000LL) >> 45;
-    dst->z = (scale * v->z + 0x100000000000LL) >> 45;
+    dst->x = (scale * vec->x + 0x100000000000LL) >> 45;
+    dst->y = (scale * vec->y + 0x100000000000LL) >> 45;
+    dst->z = (scale * vec->z + 0x100000000000LL) >> 45;
     return (sqrtResult + 1) >> 1;
 }
 
-s32 Vec3DotUnrounded(const Vec3 *a, const Vec3 *b) {
-    return ((s64) a->x * b->x + (s64) a->y * b->y + (s64) a->z * b->z) >> 12;
+s32 Vec3DotUnrounded(const Vec3 *lhs, const Vec3 *rhs) {
+    return DOT3_FIXED12(lhs->x, rhs->x, lhs->y, rhs->y, lhs->z, rhs->z);
 }
 
-void Vec3CrossUnrounded(const Vec3 *a, const Vec3 *b, Vec3 *axb) {
-    s64 x;
-    s64 y;
-    s64 z;
-    x = (s64) a->y * b->z - (s64) a->z * b->y;
-    y = (s64) a->z * b->x - (s64) a->x * b->z;
-    z = (s64) a->x * b->y - (s64) a->y * b->x;
-    axb->x = x >> 12;
-    axb->y = y >> 12;
-    axb->z = z >> 12;
+void Vec3CrossUnrounded(const Vec3 *lhs, const Vec3 *rhs, Vec3 *axb) {
+    s64 crossX;
+    s64 crossY;
+    s64 crossZ;
+    crossX = (s64) lhs->y * rhs->z - (s64) lhs->z * rhs->y;
+    crossY = (s64) lhs->z * rhs->x - (s64) lhs->x * rhs->z;
+    crossZ = (s64) lhs->x * rhs->y - (s64) lhs->y * rhs->x;
+    axb->x = crossX >> 12;
+    axb->y = crossY >> 12;
+    axb->z = crossZ >> 12;
 }
 
 void InitUnreadHalfwordGroups(void) {

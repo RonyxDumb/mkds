@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void qsort(u8 *a, u32 n, u32 size, int (*f)(void *, void *));
+void qsort(u8 *siblingPtr, u32 count, u32 size, int (*f)(void *, void *));

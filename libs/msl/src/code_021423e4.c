@@ -25,41 +25,41 @@ void __call_static_initializers(void) {
 }
 
 void RunListNodeCallbacks(void) {
-    Unk02005210 *n;
+    Unk02005210 *node;
 
-    n = data_0217eeb0;
-    if (n == 0) {
+    node = data_0217eeb0;
+    if (node == 0) {
         return;
     }
     do {
-        data_0217eeb0 = n->mUnk_00;
-        ((void (*)(void *, s32)) n->mUnk_04)(n->mUnk_08, -1);
-        n = data_0217eeb0;
-    } while (n != 0);
+        data_0217eeb0 = node->mUnk_00;
+        ((void (*)(void *, s32)) node->mUnk_04)(node->mUnk_08, -1);
+        node = data_0217eeb0;
+    } while (node != 0);
 }
 
-s32 SwiReadBytes(s32 a, u8 *b, u32 *c) {
-    u32 i;
-    u32 n;
+s32 SwiReadBytes(s32 unusedArg1, u8 *buffer, u32 *countPtr) {
+    u32 index;
+    u32 capacity;
 
-    n = *c;
-    for (i = 0; i < n; i++) {
-        b[i] = SwiReadByte();
-        if (b[i] == 13 || b[i] == 10) {
-            *c = i + 1;
+    capacity = *countPtr;
+    for (index = 0; index < capacity; index++) {
+        buffer[index] = SwiReadByte();
+        if (buffer[index] == 13 || buffer[index] == 10) {
+            *countPtr = index + 1;
             break;
         }
     }
     return 0;
 }
 
-s32 SwiWriteBytes(s32 a, const u8 *b, const u32 *c) {
-    u32 i;
-    u32 n;
+s32 SwiWriteBytes(s32 unusedArg1, const u8 *buffer, const u32 *countPtr) {
+    u32 index;
+    u32 count;
 
-    n = *c;
-    for (i = 0; i < n; i++) {
-        SwiWriteByte(b + i);
+    count = *countPtr;
+    for (index = 0; index < count; index++) {
+        SwiWriteByte(buffer + index);
     }
     return 0;
 }
@@ -74,7 +74,7 @@ s32 SwiCloseFile(void) {
 // Not compiled code: the 1.2 compiler never builds swi (its code generator has no use of that instruction), and it
 // saves lr alone with a single store and returns by loading pc, where 1.2 pads every frame to 8 bytes and returns
 // through `bx lr` (docs/compiler.md; frame layout in the compiler).
-asm void SwiWriteByte(const void *a) {
+asm void SwiWriteByte(const void *bytePtr) {
     str lr, [sp, #-4]!
     mov r1, r0
     mov r0, #3

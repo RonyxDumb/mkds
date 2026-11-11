@@ -118,37 +118,37 @@ void UpdateMPState3(void) {
 #pragma thumb on
 
 void UpdateMPState1(void) {
-    BOOL r;
-    BOOL a;
-    BOOL b;
-    s32 v;
+    BOOL shouldRequestState;
+    BOOL isModeAllowed;
+    BOOL isMultiBootSetup;
+    s32 connectionMode;
     ConnectionWork *connectionWork;
 
-    r = TRUE;
-    b = FALSE;
+    shouldRequestState = TRUE;
+    isMultiBootSetup = FALSE;
     connectionWork = gConnectionWork;
     if (connectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) {
-        a = TRUE;
+        isModeAllowed = TRUE;
         if (connectionWork == NULL) {
-            v = 0;
+            connectionMode = 0;
         } else {
-            v = connectionWork->mConnectionMode;
+            connectionMode = connectionWork->mConnectionMode;
         }
-        if (v != 1 && gBootInfo->mUnk_00 != 2) {
-            a = FALSE;
+        if (connectionMode != 1 && gBootInfo->mUnk_00 != 2) {
+            isModeAllowed = FALSE;
         }
-        if (a != FALSE) {
-            b = TRUE;
+        if (isModeAllowed != FALSE) {
+            isMultiBootSetup = TRUE;
         }
     }
-    if (b != FALSE) {
+    if (isMultiBootSetup != FALSE) {
         if (GetRomArchiveState() == 2) {
             SetGroupSendMaskAsParent(gConnectionWork->mGroupSendMask);
         } else {
-            r = FALSE;
+            shouldRequestState = FALSE;
         }
     }
-    if (r != FALSE) {
+    if (shouldRequestState != FALSE) {
         MPStatesRequestMPState(2);
     }
 }
@@ -278,17 +278,17 @@ BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBit
 }
 
 BOOL GetEntryChunk(u8 *entry, s32 chunkIndex, s32 chunkSize, u8 **outChunk, u16 *outSize) {
-    s32 n;
+    s32 remaining;
 
     chunkIndex = chunkIndex * chunkSize;
-    n = 0x22c - chunkIndex;
-    if (n <= 0) {
+    remaining = 0x22c - chunkIndex;
+    if (remaining <= 0) {
         return FALSE;
     }
-    if (n > chunkSize) {
-        n = chunkSize;
+    if (remaining > chunkSize) {
+        remaining = chunkSize;
     }
-    *outSize = n;
+    *outSize = remaining;
     *outChunk = entry + chunkIndex;
     return TRUE;
 }
@@ -301,7 +301,7 @@ void UpdateMPState8(void) {
     u8 chunkIndex;
     u8 *chunkData;
     u16 chunkSize;
-    u16 v;
+    u16 value;
 
     if (MPStatesGetConnectionMode() == 1) {
         work = gConnectionWork;
@@ -313,23 +313,23 @@ void UpdateMPState8(void) {
             }
         } else {
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-                v = 0x708;
+                value = 0x708;
             } else {
-                v = 0x258;
+                value = 0x258;
             }
             gConnectionWork->mMPStateMachine.mEntryWaitFrames++;
-            if (gConnectionWork->mMPStateMachine.mEntryWaitFrames > v) {
+            if (gConnectionWork->mMPStateMachine.mEntryWaitFrames > value) {
                 gConnectionWork->mChildren.mExpectedRecordMask = gConnectionWork->mChildren.mChildMask;
             }
         }
     } else {
         if ((gConnectionWork->mMPStateMachine.mChunkSendFlags & 1) != 0) {
             chunkIndex = gConnectionWork->mEntryChunkIndex;
-            v = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
-            if (GetEntryChunk((u8 *) &gConnectionWork->mPlayerRecords[v], chunkIndex, 0x20, &chunkData, &chunkSize) !=
-                FALSE) {
-                v = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
-                QueueMPChunk(chunkIndex, chunkData, chunkSize, v, 1);
+            value = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+            if (GetEntryChunk((u8 *) &gConnectionWork->mPlayerRecords[value], chunkIndex, 0x20, &chunkData,
+                              &chunkSize) != FALSE) {
+                value = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+                QueueMPChunk(chunkIndex, chunkData, chunkSize, value, 1);
                 gConnectionWork->mEntryChunkIndex = chunkIndex + 1;
             } else {
                 gConnectionWork->mEntryChunkIndex = 0;
@@ -423,17 +423,17 @@ void EnterMPState11(void) {
 }
 
 void UpdateMPState11(void) {
-    u8 a;
-    u8 b;
-    u32 c;
+    u8 playerIndex;
+    u8 receivedMask;
+    u32 receivedBit;
 
     switch (MPStatesGetConnectionMode()) {
         case 1:
-            a = gConnectionWork->mPlayerSendIndex;
-            b = gConnectionWork->mRecordReceivedMask;
-            c = b & (1 << a);
-            if (c != 0) {
-                if (QueueMPDataPlayerName(a, b) != FALSE) {
+            playerIndex = gConnectionWork->mPlayerSendIndex;
+            receivedMask = gConnectionWork->mRecordReceivedMask;
+            receivedBit = receivedMask & (1 << playerIndex);
+            if (receivedBit != 0) {
+                if (QueueMPDataPlayerName(playerIndex, receivedMask) != FALSE) {
                     gConnectionWork->mPlayerSendIndex++;
                 }
             } else {
@@ -444,9 +444,9 @@ void UpdateMPState11(void) {
             }
             break;
         case 2:
-            a = gConnectionWork->mRecordReceivedMask;
-            b = gConnectionWork->mNamesStoredMask;
-            if (a == (a & b)) {
+            playerIndex = gConnectionWork->mRecordReceivedMask;
+            receivedMask = gConnectionWork->mNamesStoredMask;
+            if (playerIndex == (playerIndex & receivedMask)) {
                 MPStatesRequestMPState(6);
             }
             break;
@@ -458,13 +458,13 @@ void UpdateMPState11(void) {
 #pragma thumb on
 
 void EnterMPState12(void) {
-    int v1;
+    int connectionMode;
     if (gConnectionWork == NULL) {
-        v1 = 0;
+        connectionMode = 0;
     } else {
-        v1 = gConnectionWork->mConnectionMode;
+        connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (v1 == 1) {
+    if (connectionMode == 1) {
         SetMPFrequency(1);
     }
 }

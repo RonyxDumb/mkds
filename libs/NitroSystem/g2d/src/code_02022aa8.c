@@ -12,7 +12,7 @@ void NNS_G2dMapScrToCharText(u16 *scnBase, s32 areaWidth, s32 areaHeight, s32 ar
                              s32 charNo, u32 cplt) {
     s32 endCol;
     s32 endRow;
-    s32 x;
+    s32 column;
     u16 *screenRow;
     u32 cpltBits;
     s32 rowIdx;
@@ -32,13 +32,13 @@ void NNS_G2dMapScrToCharText(u16 *scnBase, s32 areaWidth, s32 areaHeight, s32 ar
         } else {
             rowIdx = areaTop + 0x20;
         }
-        x = areaLeft;
+        column = areaLeft;
         screenRow = scnBase + rowIdx * 32;
-        for (; x < endCol; x++) {
-            if (x < 0x20) {
-                colIdx = x;
+        for (; column < endCol; column++) {
+            if (column < 0x20) {
+                colIdx = column;
             } else {
-                colIdx = x + 0x3e0;
+                colIdx = column + 0x3e0;
             }
             screenRow[colIdx] = cpltBits | charNo;
             charNo++;
@@ -47,15 +47,15 @@ void NNS_G2dMapScrToCharText(u16 *scnBase, s32 areaWidth, s32 areaHeight, s32 ar
 }
 
 void NNS_G2dMapScrToChar256x16Pltt(u16 *areaBase, s32 areaWidth, s32 areaHeight, s32 scnWidth, s32 charNo, u32 cplt) {
-    s32 x;
-    s32 y;
+    s32 columnIndex;
+    s32 rowIndex;
     u16 *screenRow;
     u32 cpltBits;
 
     cpltBits = (u16) (cplt << 12);
-    for (y = 0; y < areaHeight; y++) {
+    for (rowIndex = 0; rowIndex < areaHeight; rowIndex++) {
         screenRow = areaBase;
-        for (x = 0; x < areaWidth; x++) {
+        for (columnIndex = 0; columnIndex < areaWidth; columnIndex++) {
             *screenRow++ = cpltBits | charNo++;
         }
         areaBase += scnWidth;
@@ -84,13 +84,14 @@ u32 NNSi_G2dCalcRequiredOBJ(u32 areaWidth, u32 areaHeight) {
     return (widthRest + widthFour) * (heightRest + heightFour) + total;
 }
 
-static inline u32 clz_inline(u32 x) {
-    u32 r;
-    asm { clz r, x }
-    return r;
+static inline u32 clz_inline(u32 value) {
+    u32 leadingZeros;
+    asm { clz leadingZeros, value }
+    return leadingZeros;
 }
 
-s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 x, s32 y, s32 color, s32 charName, s32 vramMode) {
+s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s32 originY, s32 color, s32 charName,
+                        s32 vramMode) {
     Unk02022eb0 *pObj;
     u8 *sizeEntry;
     s32 heightLog;
@@ -140,9 +141,9 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 x, s32 y, 
     numY = areaHeight >> heightShift;
     charNameStep = (nameUnit << widthShift << heightShift) >> vramMode;
     for (oy = 0; oy < numY; oy++) {
-        objY = y + (oy << heightShift) * 8;
+        objY = originY + (oy << heightShift) * 8;
         for (colIdx = 0; colIdx < numX; colIdx++) {
-            objX = (x + (colIdx << widthShift) * 8) & 0x1ff;
+            objX = (originX + (colIdx << widthShift) * 8) & 0x1ff;
             pObj->mUnk_00 = (pObj->mUnk_00 & 0xfe00ff00) | (objY & 0xff) | (objX << 16);
             pObj->mUnk_00 = (pObj->mUnk_00 & 0x3fff3fff) | shape;
             pObj->mUnk_04 = (pObj->mUnk_04 & -0x400) | charName;
@@ -154,22 +155,24 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 x, s32 y, 
     objCount += numX * numY;
     if (alignedWidth < areaWidth) {
         remainder = areaWidth - alignedWidth;
-        subX = x + alignedWidth * 8;
-        rest = NNS_G2dArrangeOBJ1D(pObj, remainder, alignedHeight, subX, y, color, charName, vramMode);
+        subX = originX + alignedWidth * 8;
+        rest = NNS_G2dArrangeOBJ1D(pObj, remainder, alignedHeight, subX, originY, color, charName, vramMode);
         pObj += rest;
         charName += (nameUnit * remainder * alignedHeight) >> vramMode;
         objCount += rest;
     }
     if (alignedHeight < areaHeight) {
         remainder = areaHeight - alignedHeight;
-        rest = NNS_G2dArrangeOBJ1D(pObj, alignedWidth, remainder, x, y + alignedHeight * 8, color, charName, vramMode);
+        rest = NNS_G2dArrangeOBJ1D(pObj, alignedWidth, remainder, originX, originY + alignedHeight * 8, color, charName,
+                                   vramMode);
         pObj += rest;
         charName += (nameUnit * alignedWidth * remainder) >> vramMode;
         objCount += rest;
     }
     if (alignedWidth < areaWidth && alignedHeight < areaHeight) {
-        objCount += NNS_G2dArrangeOBJ1D(pObj, areaWidth - alignedWidth, areaHeight - alignedHeight,
-                                        x + alignedWidth * 8, y + alignedHeight * 8, color, charName, vramMode);
+        objCount +=
+            NNS_G2dArrangeOBJ1D(pObj, areaWidth - alignedWidth, areaHeight - alignedHeight, originX + alignedWidth * 8,
+                                originY + alignedHeight * 8, color, charName, vramMode);
     }
     return objCount;
 }
@@ -294,7 +297,7 @@ s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPo
 
 s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt) {
     u8 *pos = txt;
-    Unk02022b10 z = {0, 0};
+    Unk02022b10 unusedState = {0, 0};
     s32 lines;
     Unk02022aa8_f *readChar;
     u16 code;

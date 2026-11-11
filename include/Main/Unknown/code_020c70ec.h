@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_020c5e30.h"
 
 void UpdateRaceHudSubScreenItemBoxCells(void);
-void DrawRaceHudSubScreenItemBoxCells(RaceHudOamBuffer *a);
+void DrawRaceHudSubScreenItemBoxCells(RaceHudOamBuffer *oamBuffer);
 void RefreshRaceNewRecordTaRecordFlags(void);
 s32 IsRaceNewRecordTaFinishRecord(void);
 BOOL IsRaceNewRecordTaFinishRecordFirst(void);

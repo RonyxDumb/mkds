@@ -53,7 +53,7 @@ BOOL IsRaceNewRecordTaRunning(void) {
 }
 
 void InitRaceNewRecordTa(void) {
-    s32 i;
+    s32 recordIndex;
 
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
         return;
@@ -66,8 +66,8 @@ void InitRaceNewRecordTa(void) {
     gRaceNewRecordTa->mBestLapIsRecord = 0;
     gRaceNewRecordTa->mBestLapNumber = 0;
     gRaceNewRecordTa->mSaving = 0;
-    for (i = 0; i < 6; i++) {
-        GetCourseTimeRecord(gRaceSetup->mCourseId, i, &gRaceNewRecordTa->mRecords[i]);
+    for (recordIndex = 0; recordIndex < 6; recordIndex++) {
+        GetCourseTimeRecord(gRaceSetup->mCourseId, recordIndex, &gRaceNewRecordTa->mRecords[recordIndex]);
     }
     gRaceNewRecordTa->mSaving = 0;
     gRaceNewRecordTa->mRunning = 0;
@@ -92,7 +92,7 @@ void UpdateRaceNewRecordTa(void) {
     }
 }
 
-void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 x, s32 y, TimeRecord *record) {
+void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, TimeRecord *record) {
     s32 digit0Position[2];
     s32 digit1Position[2];
     s32 firstSeparatorPosition[2];
@@ -114,63 +114,63 @@ void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 x, s32 y, TimeReco
     }
     if (digits.mDigits[0] != 0) {
         cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[0] + 0xe);
-        digit0Position[0] = (x + cellOffsets[0]) << 12;
-        digit0Position[1] = y << 12;
+        digit0Position[0] = (baseX + cellOffsets[0]) << 12;
+        digit0Position[1] = baseY << 12;
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit0Position, 0, 1);
     }
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[1] + 0xe);
-    digit1Position[0] = (x + cellOffsets[1]) << 12;
-    digit1Position[1] = y << 12;
+    digit1Position[0] = (baseX + cellOffsets[1]) << 12;
+    digit1Position[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit1Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(0x18);
-    firstSeparatorPosition[0] = (x + cellOffsets[2]) << 12;
-    firstSeparatorPosition[1] = y << 12;
+    firstSeparatorPosition[0] = (baseX + cellOffsets[2]) << 12;
+    firstSeparatorPosition[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstSeparatorPosition, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[2] + 0xe);
-    digit2Position[0] = (x + cellOffsets[3]) << 12;
-    digit2Position[1] = y << 12;
+    digit2Position[0] = (baseX + cellOffsets[3]) << 12;
+    digit2Position[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit2Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[3] + 0xe);
-    digit3Position[0] = (x + cellOffsets[4]) << 12;
-    digit3Position[1] = y << 12;
+    digit3Position[0] = (baseX + cellOffsets[4]) << 12;
+    digit3Position[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit3Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(0x18);
-    secondSeparatorPosition[0] = (x + cellOffsets[5]) << 12;
-    secondSeparatorPosition[1] = y << 12;
+    secondSeparatorPosition[0] = (baseX + cellOffsets[5]) << 12;
+    secondSeparatorPosition[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondSeparatorPosition, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[4] + 0xe);
-    digit4Position[0] = (x + cellOffsets[6]) << 12;
-    digit4Position[1] = y << 12;
+    digit4Position[0] = (baseX + cellOffsets[6]) << 12;
+    digit4Position[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit4Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[5] + 0xe);
-    digit5Position[0] = (x + cellOffsets[7]) << 12;
-    digit5Position[1] = y << 12;
+    digit5Position[0] = (baseX + cellOffsets[7]) << 12;
+    digit5Position[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit5Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[6] + 0xe);
-    digit6Position[0] = (x + cellOffsets[8]) << 12;
-    digit6Position[1] = y << 12;
+    digit6Position[0] = (baseX + cellOffsets[8]) << 12;
+    digit6Position[1] = baseY << 12;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit6Position, 0, 1);
 }
 
-void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 b, s32 x, s32 y) {
+void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s32 baseY) {
     s32 firstCellPosition[2];
     s32 secondCellPosition[2];
     TimeRecord record;
@@ -183,30 +183,30 @@ void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 b, s32 x, s32 y) {
     newRecordTa = gRaceNewRecordTa;
     cycleFrames = newRecordTa->mCycleFrames;
     isNewRecord = FALSE;
-    record = newRecordTa->mRecords[b];
-    if (b == 5) {
+    record = newRecordTa->mRecords[index];
+    if (index == 5) {
         if ((newRecordTa != NULL ? newRecordTa->mBestLapIsRecord : 0) != 0) {
-            b = 0;
+            index = 0;
             isNewRecord = TRUE;
         } else {
-            b = 6;
+            index = 6;
         }
-    } else if (newRecordTa->mFinishTimeIsRecord == 0 || b < newRecordTa->mFinishRecordIndex) {
-        b++;
-    } else if (b == newRecordTa->mFinishRecordIndex) {
-        b = 0;
+    } else if (newRecordTa->mFinishTimeIsRecord == 0 || index < newRecordTa->mFinishRecordIndex) {
+        index++;
+    } else if (index == newRecordTa->mFinishRecordIndex) {
+        index = 0;
         isNewRecord = TRUE;
     }
     if (record.mFilled != 0) {
-        cell = GetRaceNewRecordTaSNcerEntry(b + 7);
-        firstCellPosition[0] = (x + 0x32) << 12;
-        firstCellPosition[1] = y << 12;
+        cell = GetRaceNewRecordTaSNcerEntry(index + 7);
+        firstCellPosition[0] = (baseX + 0x32) << 12;
+        firstCellPosition[1] = baseY << 12;
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstCellPosition, 0, 1);
-        cell = GetRaceNewRecordTaSNcerEntry(b + 0x1a);
-        secondCellPosition[0] = (x + 0x3d) << 12;
-        secondCellPosition[1] = y << 12;
+        cell = GetRaceNewRecordTaSNcerEntry(index + 0x1a);
+        secondCellPosition[0] = (baseX + 0x3d) << 12;
+        secondCellPosition[1] = baseY << 12;
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondCellPosition, 0, 1);
@@ -214,15 +214,15 @@ void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 b, s32 x, s32 y) {
     if (isNewRecord != FALSE && cycleFrames >= 0x10) {
         return;
     }
-    DrawRaceNewRecordTaTime(oamBuffer, x + 0xab, y, &record);
+    DrawRaceNewRecordTaTime(oamBuffer, baseX + 0xab, baseY, &record);
 }
 
 void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
     s32 headerPosition[2];
     s32 rowPosition[2];
     s32 lastRowPosition[2];
-    s32 e3[2];
-    u16 i;
+    s32 unusedPosition[2];
+    u16 rowIndex;
     s32 oamIndex;
     s32 rowY;
     void *cell;
@@ -233,15 +233,15 @@ void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, headerPosition, 0, 1);
-    for (i = 0; i < 5; i++) {
-        cell = GetRaceNewRecordTaSNcerEntry(i + 1);
-        rowY = i * 0x18 + 0x28;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        cell = GetRaceNewRecordTaSNcerEntry(rowIndex + 1);
+        rowY = rowIndex * 0x18 + 0x28;
         rowPosition[0] = gRaceNewRecordTa->mOffsetX << 12;
-        rowPosition[1] = (i * 0x18 + 0x28) << 12;
+        rowPosition[1] = (rowIndex * 0x18 + 0x28) << 12;
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, rowPosition, 0, 1);
-        DrawRaceNewRecordTaRow(oamBuffer, i, gRaceNewRecordTa->mOffsetX, rowY);
+        DrawRaceNewRecordTaRow(oamBuffer, rowIndex, gRaceNewRecordTa->mOffsetX, rowY);
     }
     cell = GetRaceNewRecordTaSNcerEntry(6);
     lastRowPosition[0] = gRaceNewRecordTa->mOffsetX << 12;
@@ -249,7 +249,7 @@ void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, lastRowPosition, 0, 1);
-    DrawRaceNewRecordTaRow(oamBuffer, i, gRaceNewRecordTa->mOffsetX + 1, 0xb4);
+    DrawRaceNewRecordTaRow(oamBuffer, rowIndex, gRaceNewRecordTa->mOffsetX + 1, 0xb4);
 }
 
 BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
@@ -257,7 +257,7 @@ BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
     u8 second;
     u16 millisecond;
     s32 recordIndex;
-    s32 j;
+    s32 shiftIndex;
     TimeRecord *record;
     s32 totalMilliseconds;
     TimeRecord *slot;
@@ -281,9 +281,9 @@ BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
     return FALSE;
 found:
     if (store != 0) {
-        for (j = 4; j > recordIndex; j--) {
-            gRaceNewRecordTa->mRecords[j] = gRaceNewRecordTa->mRecords[j - 1];
-            SetCourseTimeRecord(gRaceSetup->mCourseId, j, &gRaceNewRecordTa->mRecords[j]);
+        for (shiftIndex = 4; shiftIndex > recordIndex; shiftIndex--) {
+            gRaceNewRecordTa->mRecords[shiftIndex] = gRaceNewRecordTa->mRecords[shiftIndex - 1];
+            SetCourseTimeRecord(gRaceSetup->mCourseId, shiftIndex, &gRaceNewRecordTa->mRecords[shiftIndex]);
         }
         copiedMillisecond = millisecond;
         copiedSecond = second;
@@ -353,12 +353,12 @@ void StartRaceNewRecordTa(void) {
     u8 bestLapMinute;
     u8 bestLapSecond;
     u16 bestLapMillisecond;
-    BOOL r;
+    BOOL storeGhost;
     BOOL hasSetupTime;
     s32 totalMilliseconds;
-    s32 j;
-    s32 n;
-    s32 g;
+    s32 recordIndex;
+    s32 unusedCount;
+    s32 unusedValue;
     TimeRecord *record;
     TimeRecord *records;
 
@@ -377,7 +377,7 @@ void StartRaceNewRecordTa(void) {
             gRaceNewRecordTa->mUpdate = StoreRaceNewRecordTaGhost;
             gRaceNewRecordTa->mUpdateFrames = 0;
         } else {
-            r = FALSE;
+            storeGhost = FALSE;
             if (IsRaceKeyRecordingNotFull() != 0) {
                 if (gRaceSetup->mMode == MODE_TIME_ATTACK && gRaceSetup->mFirstGhostRecordFilled == 1) {
                     MI_CpuCopy8(&gRaceSetup->mFirstGhostRecordMillisecond, &setupTime, 4);
@@ -389,13 +389,13 @@ void StartRaceNewRecordTa(void) {
                     GetKartFinishTime((u16) gRaceSetup->mEntryIndex, &finishTime.mMinute, &finishTime.mSecond,
                                       &finishTime.mMillisecond);
                     if (IsTimeLessThan(&finishTime, &setupTime) != FALSE) {
-                        r = TRUE;
+                        storeGhost = TRUE;
                     }
                 } else {
-                    r = TRUE;
+                    storeGhost = TRUE;
                 }
             }
-            if (r != FALSE) {
+            if (storeGhost != FALSE) {
                 gRaceNewRecordTa->mSaving = 1;
                 FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
                 gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
@@ -409,27 +409,27 @@ void StartRaceNewRecordTa(void) {
         GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
         records = gRaceNewRecordTa->mRecords;
         totalMilliseconds = second * 1000 + minute * 60000 + millisecond;
-        for (j = 4; j >= 0; j--) {
-            record = &records[j];
+        for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
+            record = &records[recordIndex];
             if (record->mFilled != 0 &&
                 totalMilliseconds == record->mMillisecond + (record->mSecond * 1000 + record->mMinute * 60000)) {
-                j = 1;
+                recordIndex = 1;
                 goto found;
             }
         }
-        j = 0;
+        recordIndex = 0;
     found:
-        gRaceNewRecordTa->mFinishTimeIsRecord = j;
+        gRaceNewRecordTa->mFinishTimeIsRecord = recordIndex;
         record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
         gRaceNewRecordTa->mBestLapNumber =
             GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestLapMinute, &bestLapSecond, &bestLapMillisecond);
         if (bestLapMinute == record->mMinute && bestLapSecond == record->mSecond &&
             bestLapMillisecond == record->mMillisecond) {
-            r = TRUE;
+            storeGhost = TRUE;
         } else {
-            r = FALSE;
+            storeGhost = FALSE;
         }
-        gRaceNewRecordTa->mBestLapIsRecord = r;
+        gRaceNewRecordTa->mBestLapIsRecord = storeGhost;
         gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
         gRaceNewRecordTa->mUpdateFrames = 0;
     }

@@ -43,7 +43,7 @@ s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidt
 void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 colorZeroIsTwo);
-void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 d);
+void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 unusedArg4);
 DisplaySettings *CreateSceneDisplaySettings(void *heap);
 DisplaySettings *CreateWiFiStatesDisplaySettings(void *heap);
 s32 CountDecimalDigits(u32 number);

@@ -78,7 +78,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     EmblemBlockData *blockData;
     s32 firstBuddyIndex;
     s32 endBuddyIndex;
-    u16 k;
+    u16 copyPlayerIndex;
     s32 ownIndex;
     BOOL blockCreated = FALSE;
     s32 buddyIndex;
@@ -127,13 +127,13 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
             }
             firstBuddyIndex = blockIndex * 5;
             endBuddyIndex = (blockIndex + 1) * 5;
-            for (k = 0; k < 8; k++) {
-                buddyIndex = buddyIndexOfPlayer[k];
+            for (copyPlayerIndex = 0; copyPlayerIndex < 8; copyPlayerIndex++) {
+                buddyIndex = buddyIndexOfPlayer[copyPlayerIndex];
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
                     blockData->mFilledBits |= 1 << slotIndex;
-                    MI_CpuCopy8((u8 *) &gConnectionWork->mPlayerRecords[k] + 0x14, blockData->mEmblems[slotIndex],
-                                0x200);
+                    MI_CpuCopy8((u8 *) &gConnectionWork->mPlayerRecords[copyPlayerIndex] + 0x14,
+                                blockData->mEmblems[slotIndex], 0x200);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);
@@ -161,7 +161,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
     s32 firstBuddyIndex;
     s32 endBuddyIndex;
     u8 slotIndex;
-    u16 k;
+    u16 copyPlayerIndex;
     u8 *filledBits;
     s32 buddyIndex;
     for (blockIndex = 0; blockIndex < 12; blockIndex++) {
@@ -201,13 +201,13 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
             firstBuddyIndex = blockIndex * 5;
             endBuddyIndex = (blockIndex + 1) * 5;
             filledBits = (u8 *) blockData + 4;
-            for (k = 0; k < 4; k++) {
-                buddyIndex = buddyIndexOfPlayer[k];
+            for (copyPlayerIndex = 0; copyPlayerIndex < 4; copyPlayerIndex++) {
+                buddyIndex = buddyIndexOfPlayer[copyPlayerIndex];
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
                     *filledBits = *filledBits | (1 << slotIndex);
-                    MI_CpuCopy8((u8 *) GetWiFiSessionPlayerRecordData(k & 0xff) + 0x14, blockData->mEmblems[slotIndex],
-                                0x200);
+                    MI_CpuCopy8((u8 *) GetWiFiSessionPlayerRecordData(copyPlayerIndex & 0xff) + 0x14,
+                                blockData->mEmblems[slotIndex], 0x200);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);
@@ -229,11 +229,11 @@ static inline s32 EmblemGetConnectionMode(void) {
 void StartCopyOtherEmblems(s32 useConnection) {
     void (*copyFunction)(void);
     BOOL connectionReady;
-    s32 d;
+    s32 connectionMode;
     if (useConnection != 0) {
         connectionReady = FALSE;
-        d = EmblemGetConnectionMode();
-        if (d != 0) {
+        connectionMode = EmblemGetConnectionMode();
+        if (connectionMode != 0) {
             if (gConnectionWork->mState != 13) {
                 connectionReady = TRUE;
             }
@@ -243,13 +243,13 @@ void StartCopyOtherEmblems(s32 useConnection) {
         }
         copyFunction = CopyOtherPlayerEmblemsToBlocks;
     } else {
-        d = 0;
+        connectionMode = 0;
         if (gWiFiSession != NULL) {
             if (gWiFiSession->mHeapCreated != FALSE) {
-                d = 1;
+                connectionMode = 1;
             }
         }
-        if (d == 0) {
+        if (connectionMode == 0) {
             return;
         }
         copyFunction = CopyWiFiOtherEmblemsToBlocks;
@@ -311,21 +311,21 @@ static inline s32 EmblemFX_MulInline(s32 multiplicand, s32 multiplier) {
 
 void CreateShapeMapObjectCountList(void *heap) {
     u16 shapeCount;
-    u16 i;
+    u16 countIndex;
     u16 entryIndex;
     u16 shapeIndex;
     u16 entryCount;
     CourseMapShape *courseMapShape;
     ShapeMapObjectCount *entry;
-    s32 u;
-    s32 v;
-    s32 w;
-    s32 y;
+    s32 extentX;
+    s32 extentY;
+    s32 squaredSum;
+    s32 extentZ;
     shapeCount = gCourseMap->mShapeCount;
     entryCount = 0;
     gShapeMapObjectCountList = HeapAlloc(heap, 8);
-    for (i = 0; i < shapeCount; i++) {
-        if (GetCourseMapShape(i)->mKind == COURSE_MAP_SHAPE_KIND_5) {
+    for (countIndex = 0; countIndex < shapeCount; countIndex++) {
+        if (GetCourseMapShape(countIndex)->mKind == COURSE_MAP_SHAPE_KIND_5) {
             entryCount = entryCount + 1;
         }
     }
@@ -339,21 +339,21 @@ void CreateShapeMapObjectCountList(void *heap) {
         if (courseMapShape->mKind == COURSE_MAP_SHAPE_KIND_5) {
             entry = &gShapeMapObjectCountList->mEntries[entryIndex];
             entry->mShapeIndex = shapeIndex;
-            u = 0;
+            extentX = 0;
             switch (courseMapShape->mShapeKind) {
                 case 0:
-                    u = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.x);
-                    v = EmblemFX_MulInline(GetFixed12Of100(), courseMapShape->mScale.y) >> 1;
-                    y = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.z);
-                    w = EmblemFX_MulInline(u, u) + EmblemFX_MulInline(v, v);
-                    y = EmblemFX_MulInline(y, y);
-                    u = FX_Sqrt(y + w);
+                    extentX = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.x);
+                    extentY = EmblemFX_MulInline(GetFixed12Of100(), courseMapShape->mScale.y) >> 1;
+                    extentZ = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.z);
+                    squaredSum = EmblemFX_MulInline(extentX, extentX) + EmblemFX_MulInline(extentY, extentY);
+                    extentZ = EmblemFX_MulInline(extentZ, extentZ);
+                    extentX = FX_Sqrt(extentZ + squaredSum);
                     break;
                 case 1:
-                    u = EmblemFX_MulInline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
+                    extentX = EmblemFX_MulInline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
                     break;
             }
-            entry->mRadius = u;
+            entry->mRadius = extentX;
             entry->mMapObjectCount = 0;
             entry->mIncreaseCount = 0;
             entryIndex = entryIndex + 1;

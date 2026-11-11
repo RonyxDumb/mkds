@@ -19,39 +19,41 @@
 #include "Main/Unknown/code_0203c5f8.h"
 
 void UpdateRaceHudSubScreenItemBoxCells(void) {
-    s32 i;
-    s32 k;
-    s32 n;
-    s32 c;
-    MapObject *p;
-    Vec3 *v;
+    s32 objectIndex;
+    s32 cellIndex;
+    s32 cellCount;
+    s32 subScreenScale;
+    MapObject *mapObject;
+    Vec3 *position;
 
-    n = 0;
-    c = GetRaceHudSubScreenScale();
-    k = 0;
-    for (i = 0; i < gRaceHudSubScreenItemBoxCells->mObjectCount; i++) {
+    cellCount = 0;
+    subScreenScale = GetRaceHudSubScreenScale();
+    cellIndex = 0;
+    for (objectIndex = 0; objectIndex < gRaceHudSubScreenItemBoxCells->mObjectCount; objectIndex++) {
         if (data_0217b3f8 == 0 ||
-            IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mUnk_0c[i]) != FALSE) {
-            p = gRaceHudSubScreenItemBoxCells->mObjects[i];
-            if ((p->mFlags & 1) == 0) {
-                v = &p->mPos;
-                if (ComputeRaceHudSubScreenPosition(v, &gRaceHudSubScreenItemBoxCells->mCells[k].mDrawPos, c, 0, 0) !=
-                    FALSE) {
-                    gRaceHudSubScreenItemBoxCells->mCells[k].mCell = GetRaceSNcerEntry(0x4e);
-                    gRaceHudSubScreenItemBoxCells->mCells[k].mPriority =
-                        IsPositionOutsideBox(v) != 0 ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
-                    gRaceHudSubScreenItemBoxCells->mCells[k].mUnk_0e = p->mFlags & 0x20;
-                    n++;
-                    k++;
+            IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mUnk_0c[objectIndex]) != FALSE) {
+            mapObject = gRaceHudSubScreenItemBoxCells->mObjects[objectIndex];
+            if ((mapObject->mFlags & 1) == 0) {
+                position = &mapObject->mPos;
+                if (ComputeRaceHudSubScreenPosition(position,
+                                                    &gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mDrawPos,
+                                                    subScreenScale, 0, 0) != FALSE) {
+                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mCell = GetRaceSNcerEntry(0x4e);
+                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mPriority = IsPositionOutsideBox(position) != 0
+                                                                                     ? RACE_HUD_PRIORITY_OUTSIDE_BOX
+                                                                                     : RACE_HUD_PRIORITY_INSIDE_BOX;
+                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mUnk_0e = mapObject->mFlags & 0x20;
+                    cellCount++;
+                    cellIndex++;
                 }
             }
         }
     }
-    gRaceHudSubScreenItemBoxCells->mCellCount = n;
+    gRaceHudSubScreenItemBoxCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenItemBoxCells(RaceHudOamBuffer *a) {
-    DrawRaceHudSubScreenCells(a, gRaceHudSubScreenItemBoxCells, 0);
+void DrawRaceHudSubScreenItemBoxCells(RaceHudOamBuffer *oamBuffer) {
+    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenItemBoxCells, 0);
 }
 
 void RefreshRaceNewRecordTaRecordFlags(void) {
@@ -61,7 +63,7 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     u8 bestMinute;
     u8 bestSecond;
     u16 bestMillisecond;
-    s32 j;
+    s32 recordIndex;
     s32 finishMs;
     TimeRecord *record;
     TimeRecord *records;
@@ -80,17 +82,17 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
     records = gRaceNewRecordTa->mRecords;
     finishMs = second * 1000 + minute * 60000 + millisecond;
-    for (j = 4; j >= 0; j--) {
-        record = &records[j];
+    for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
+        record = &records[recordIndex];
         if (record->mFilled != 0 &&
             finishMs == record->mMillisecond + (record->mSecond * 1000 + record->mMinute * 60000)) {
-            j = 1;
+            recordIndex = 1;
             goto found;
         }
     }
-    j = 0;
+    recordIndex = 0;
 found:
-    gRaceNewRecordTa->mFinishTimeIsRecord = j;
+    gRaceNewRecordTa->mFinishTimeIsRecord = recordIndex;
     record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
     gRaceNewRecordTa->mBestLapNumber =
         GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestMinute, &bestSecond, &bestMillisecond);

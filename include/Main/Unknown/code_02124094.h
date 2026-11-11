@@ -102,7 +102,7 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
                                    LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
                                    Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout);
 s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s32 width, s32 height, s32 entryIndex,
-                    Unk02021dc8 *cells, LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 j);
+                    Unk02021dc8 *cells, LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 charOffset);
 void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,
                           LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 fixedDigitsOnly, s8 fixedAdvance);
 void PrintLabelLayoutTextNoFixedAdvance(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,

@@ -100,14 +100,14 @@ typedef struct BlockTransfer {
 
 s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize);
 s32 WBTi_CheckRequest(BlockTransfer *transfer, u8 *buffer, s32 bufferSize);
-s32 ReplyToBlockNodeRequestAlways(BlockTransfer *a, s32 b, u8 *c, s32 d);
-s32 ReplyToBlockNodeRequest(BlockTransfer *a, s32 b, u8 *c, s32 d);
+s32 ReplyToBlockNodeRequestAlways(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize);
+s32 ReplyToBlockNodeRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize);
 s32 ReplyToBlockDataRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize);
-s32 ReplyToBytesPacket(BlockTransfer *a, s32 b, u8 *c, s32 d);
-s32 ReplyToNoMissingChunk(BlockTransfer *a, s32 b, u8 *c, s32 d);
-s32 ReplyToBlockCountRequest(BlockTransfer *a, s32 b, u8 *c, s32 d);
-u32 WBT_CallPacketRecvHook(BlockTransfer *a, s32 b, const u8 *c, s32 d);
+s32 ReplyToBytesPacket(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize);
+s32 ReplyToNoMissingChunk(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize);
+s32 ReplyToBlockCountRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 bufferSize);
+u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cursor, s32 packetSize);
 void WBTi_NotifyCompletionCallback(BlockTransfer *transfer, s32 event, s32 entryIndex);
 void WBTi_NotifySystemCallback(BlockTransfer *transfer, s32 event, s32 entryIndex, u32 result);
-BOOL StoreReceivedChunk(WBTPacketBitmap *a, s32 b, const u8 *c);
-s32 WBTi_FindBitmapIndex(WBTPacketBitmap *a);
+BOOL StoreReceivedChunk(WBTPacketBitmap *bitmap, s32 chunkIndex, const u8 *chunkData);
+s32 WBTi_FindBitmapIndex(WBTPacketBitmap *bitmap);

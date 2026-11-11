@@ -34,9 +34,9 @@
 #include "code_021471bc.h"
 
 void SetupTrophy(void) {
-    s32 x;
-    s32 y;
-    s32 v;
+    s32 frustumTop;
+    s32 frustumRight;
+    s32 angle;
     Trophy *trophy;
     TeresaWobble *wobble;
 
@@ -45,26 +45,28 @@ void SetupTrophy(void) {
     NNS_G3dGlbLightVector(1, gTrophy->mLight1X, gTrophy->mLight1Y, gTrophy->mLight1Z);
     NNS_G3dGlbLightColor(0, 0x7fff);
     NNS_G3dGlbLightColor(1, 0x7fff);
-    x = MUL_FIXED12_NO_ROUND(FX_Div(data_0215d6b4[0x54], data_0215d6b4[0x55]), 0x19a);
-    y = MUL_FIXED12_NO_ROUND(-x, 0x1555);
+    frustumTop = MUL_FIXED12_NO_ROUND(FX_Div(data_0215d6b4[0x54], data_0215d6b4[0x55]), 0x19a);
+    frustumRight = MUL_FIXED12_NO_ROUND(-frustumTop, 0x1555);
     if (gRaceSetup->mMirrorMode != 0) {
-        G3i_FrustumW_(x, -x, -y, y, 0x19a, 0x1388000, 0x200, 0, &NNS_G3dGlb.mProjMtx);
+        G3i_FrustumW_(frustumTop, -frustumTop, -frustumRight, frustumRight, 0x19a, 0x1388000, 0x200, 0,
+                      &NNS_G3dGlb.mProjMtx);
         NNS_G3dGlb.mFlag &= ~0x50;
     } else {
-        G3i_FrustumW_(x, -x, y, -y, 0x19a, 0x1388000, 0x200, 0, &NNS_G3dGlb.mProjMtx);
+        G3i_FrustumW_(frustumTop, -frustumTop, frustumRight, -frustumRight, 0x19a, 0x1388000, 0x200, 0,
+                      &NNS_G3dGlb.mProjMtx);
         NNS_G3dGlb.mFlag &= ~0x50;
     }
     {
-        Vec3 v3;
-        Vec3 v2;
-        Vec3 v1 = {0, 0, 0};
+        Vec3 cameraPos;
+        Vec3 cameraTarget;
+        Vec3 cameraUp = {0, 0, 0};
 
-        v2 = data_021676d0;
-        v3 = data_021676c4;
-        data_021704dc[0] = v3;
-        data_021704dc[1] = v2;
-        data_021704dc[2] = v1;
-        G3i_LookAt_(&v3, &v2, &v1, 0, &NNS_G3dGlb.mCameraMtx);
+        cameraTarget = data_021676d0;
+        cameraPos = data_021676c4;
+        data_021704dc[0] = cameraPos;
+        data_021704dc[1] = cameraTarget;
+        data_021704dc[2] = cameraUp;
+        G3i_LookAt_(&cameraPos, &cameraTarget, &cameraUp, 0, &NNS_G3dGlb.mCameraMtx);
         NNS_G3dGlb.mFlag &= ~0xe8;
         SetG3xSwapBits(gDisplaySettings, 1, 1);
         NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
@@ -73,9 +75,9 @@ void SetupTrophy(void) {
             return;
         }
         gTrophy->mRotateYAngle = -GetSceneFadeToClearFrameCount() * 0x6d;
-        v = -GetSceneFadeToClearFrameCount() * 0x36;
+        angle = -GetSceneFadeToClearFrameCount() * 0x36;
         trophy = gTrophy;
-        trophy->mRotateZWobble.mAngle = v;
+        trophy->mRotateZWobble.mAngle = angle;
         wobble = &trophy->mRotateZWobble;
         wobble->mMid = 0;
         wobble->mAmplitude = 0xaab;
@@ -107,8 +109,8 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
     void *modelFile;
     void *animationFile;
     void *heap;
-    float f;
-    s32 x;
+    float frameIndex;
+    s32 storedRankIndex;
     ModelAnimation *modelAnimation;
 
     gTrophy = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x124);
@@ -138,34 +140,34 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
         InitModelAnimation(2, &gTrophy->mModelAnimation, &gTrophy->mModel, 1, heap, modelFile);
         InitModelAnimationEntries(&gTrophy->mModelAnimation, animationFile, GetHeap(GetCurrentHeapCall()));
         SetModelAnimation(&gTrophy->mModelAnimation, 0);
-        x = gTrophy->mRankIndex;
-        if (x != 0) {
-            f = 0.5f + (x << 12);
+        storedRankIndex = gTrophy->mRankIndex;
+        if (storedRankIndex != 0) {
+            frameIndex = 0.5f + (storedRankIndex << 12);
         } else {
-            f = (x << 12) - 0.5f;
+            frameIndex = (storedRankIndex << 12) - 0.5f;
         }
         modelAnimation = &gTrophy->mModelAnimation;
-        modelAnimation->mHead.mFrameIndex = f;
+        modelAnimation->mHead.mFrameIndex = frameIndex;
         modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mFrame = modelAnimation->mHead.mFrameIndex;
         InitEffects(GetHeap(GetCurrentHeapCall()));
         if (rankIndex == 0) {
-            Vec3 w0 = {0, 0, 0};
+            Vec3 effectPos0 = {0, 0, 0};
 
-            gTrophy->mEffect0 = StartEffect(0, &w0);
+            gTrophy->mEffect0 = StartEffect(0, &effectPos0);
             {
-                Vec3 w1 = {0, 0, 0};
+                Vec3 effectPos1 = {0, 0, 0};
 
-                gTrophy->mEffect4 = StartEffect(4, &w1);
+                gTrophy->mEffect4 = StartEffect(4, &effectPos1);
                 {
-                    Vec3 w2 = {0, 0, 0};
+                    Vec3 effectPos2 = {0, 0, 0};
 
-                    gTrophy->mEffect5 = StartEffect(5, &w2);
+                    gTrophy->mEffect5 = StartEffect(5, &effectPos2);
                 }
             }
         } else if (rankIndex == 1) {
-            Vec3 w3 = {0, 0, 0};
+            Vec3 effectPos3 = {0, 0, 0};
 
-            gTrophy->mEffect0 = StartEffect(0, &w3);
+            gTrophy->mEffect0 = StartEffect(0, &effectPos3);
         }
     }
     SetupTrophy();
@@ -175,14 +177,14 @@ s16 TrophyFX_SinIdx(s32 angle) {
     return FX_SinIdx(angle);
 }
 
-s32 TrophyFX_MulInline(s32 a, s32 b) {
-    return MUL_FIXED12_ROUNDED(a, b);
+s32 TrophyFX_MulInline(s32 lhs, s32 rhs) {
+    return MUL_FIXED12_ROUNDED(lhs, rhs);
 }
 
 void AdvanceTrophy(void) {
     Trophy *trophy;
     TeresaWobble *wobble;
-    s32 v;
+    s32 value;
 
     if (gTrophy->mRankIndex >= 3) {
         return;
@@ -197,30 +199,30 @@ void AdvanceTrophy(void) {
                           wobble->mValue;
     wobble->mValue += wobble->mValueDelta;
     if (wobble->mAmplitude > 0) {
-        v = wobble->mAmplitude + wobble->mAmplitudePerFrame;
-        if (v <= 0) {
-            v = 0;
+        value = wobble->mAmplitude + wobble->mAmplitudePerFrame;
+        if (value <= 0) {
+            value = 0;
         }
-        wobble->mAmplitude = v;
+        wobble->mAmplitude = value;
     } else if (wobble->mAmplitude < 0) {
-        v = wobble->mAmplitude + wobble->mAmplitudePerFrame;
-        if (v >= 0) {
-            v = 0;
+        value = wobble->mAmplitude + wobble->mAmplitudePerFrame;
+        if (value >= 0) {
+            value = 0;
         }
-        wobble->mAmplitude = v;
+        wobble->mAmplitude = value;
     }
     if (wobble->mAnglePerFrame > 0) {
-        v = wobble->mAnglePerFrame + wobble->mUnk_1c;
-        if (v <= 0) {
-            v = 0;
+        value = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        if (value <= 0) {
+            value = 0;
         }
-        wobble->mAnglePerFrame = v;
+        wobble->mAnglePerFrame = value;
     } else if (wobble->mAnglePerFrame < 0) {
-        v = wobble->mAnglePerFrame + wobble->mUnk_1c;
-        if (v >= 0) {
-            v = 0;
+        value = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        if (value >= 0) {
+            value = 0;
         }
-        wobble->mAnglePerFrame = v;
+        wobble->mAnglePerFrame = value;
     }
 }
 
@@ -230,7 +232,7 @@ void DrawTrophy(void) {
     MtxFx33 rotateZMatrix;
     s32 scale[3];
     s32 translation[3];
-    s32 v3[3];
+    s32 zeroTranslation[3];
     u16 rotateZAngle;
 
     if (gTrophy->mRankIndex >= 3) {
@@ -254,10 +256,10 @@ void DrawTrophy(void) {
     NNS_G3dGeBufferOP_N(0x1a, &rotateXMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1a, &rotateYMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
-    v3[0] = 0;
-    v3[1] = 0;
-    v3[2] = 0;
-    NNS_G3dGeBufferOP_N(0x1c, v3, 3);
+    zeroTranslation[0] = 0;
+    zeroTranslation[1] = 0;
+    zeroTranslation[2] = 0;
+    NNS_G3dGeBufferOP_N(0x1c, zeroTranslation, 3);
     DrawNsbmd(&gTrophy->mModel);
     NNS_G3dGeFlushBuffer();
 }

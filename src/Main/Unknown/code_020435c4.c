@@ -104,7 +104,7 @@ void ReplaceEntryWithCpu(u32 entryIndex) {
 }
 
 void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32 tableColumn) {
-    u8 i;
+    u8 entryIndex;
 
     gRaceSetup->mNextHeader.mMissionFileRow = *missionFileRow;
     gRaceSetup->mNextHeader.mMissionTableRow = tableRow;
@@ -126,8 +126,8 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
         SetNextRaceEntry(1, -1, -1, PLAYER_KIND_NONE, -1, 3);
         gRaceSetup->mNextHeader.mCpuDifficulty = 0;
     }
-    for (i = 2; i < 8; i++) {
-        SetNextRaceEntry(i, -1, -1, PLAYER_KIND_NONE, -1, 3);
+    for (entryIndex = 2; entryIndex < 8; entryIndex++) {
+        SetNextRaceEntry(entryIndex, -1, -1, PLAYER_KIND_NONE, -1, 3);
     }
 }
 
@@ -216,32 +216,32 @@ void SelectGhostReadCourseRecordAndWait(u32 courseId) {
 }
 
 void LoadSndBanksForCharacters(u32 useCurrentEntries) {
-    u16 i;
+    u16 entryIndex;
     RaceSetup *raceSetup;
     u32 bankMask;
 
     bankMask = 0;
-    i = 0;
-    for (; i < (u32) (raceSetup = GetRaceSetup())->mKartCount; i++) {
+    entryIndex = 0;
+    for (; entryIndex < (u32) (raceSetup = GetRaceSetup())->mKartCount; entryIndex++) {
         if (useCurrentEntries != 0) {
-            bankMask |= data_021540ec[raceSetup->mCurrentEntries[i].mCharacterIndex];
+            bankMask |= data_021540ec[raceSetup->mCurrentEntries[entryIndex].mCharacterIndex];
         } else {
-            bankMask |= data_021540ec[raceSetup->mNextEntries[i].mCharacterIndex];
+            bankMask |= data_021540ec[raceSetup->mNextEntries[entryIndex].mCharacterIndex];
         }
     }
     LoadSndBanksAndWaveArcsIfChanged(bankMask);
 }
 
 void InitInputSlotsAndTouchMic(void *heap) {
-    s32 i;
+    s32 slotIndex;
 
     InitTouchPanelAndSetCalibration();
     InitTouchMicInput(heap);
-    for (i = 0; i <= 1; i++) {
-        InitKeyRecordingBuffer(&gInputSlots[i].mUnk_28, heap);
+    for (slotIndex = 0; slotIndex <= 1; slotIndex++) {
+        InitKeyRecordingBuffer(&gInputSlots[slotIndex].mUnk_28, heap);
     }
-    for (; i < 10; i++) {
-        ClearKeyRecordingBufferPointer(&gInputSlots[i].mUnk_28);
+    for (; slotIndex < 10; slotIndex++) {
+        ClearKeyRecordingBufferPointer(&gInputSlots[slotIndex].mUnk_28);
     }
     gInputState = HeapAlloc(heap, 0x10);
     ResetInputSlotsAndRepeat();
@@ -254,13 +254,13 @@ void ResetInputSlots(void) {
 }
 
 void StartInputSlots(void) {
-    s32 i;
-    s32 j;
+    s32 resetIndex;
+    s32 clearIndex;
     InputSlot *inputSlot;
     InputSlot *slot;
 
     inputSlot = gInputSlots;
-    for (i = 0; i < 10; i++) {
+    for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(inputSlot);
         inputSlot->mRequestedBits = 0;
         SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
@@ -269,7 +269,7 @@ void StartInputSlots(void) {
     StartTouchAutoSampling();
     UpdateInputSlots();
     slot = gInputSlots;
-    for (j = 0; j < 10; j++) {
+    for (clearIndex = 0; clearIndex < 10; clearIndex++) {
         slot->mHoldLong = 0;
         slot->mUnk_14 = 0;
         SetInputSlotRepeat(slot, 0xff3, 0x1e, 0xa);
@@ -284,11 +284,11 @@ void StopTouchAutoSamplingWrapper(void) {
 }
 
 void ClearInputSlots(void) {
-    s32 i;
+    s32 slotIndex;
     InputSlot *inputSlot;
 
     inputSlot = gInputSlots;
-    for (i = 0; i < 10; i++) {
+    for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         ClearInputSlotBitsAndRepeat(inputSlot);
         inputSlot++;
     }
@@ -335,13 +335,13 @@ void UpdateInputSlots(void) {
     u16 padKeys;
     s32 micOverThreshold;
     u16 slotKeys;
-    u16 t;
+    u16 keys;
     s32 touchPoint;
     InputSlot *inputSlot;
     s32 micValue;
     BOOL skipUpdate;
     s32 canReadKeys;
-    s32 f;
+    s32 isBlocked;
     s32 sourceKind;
     u16 flags;
 
@@ -361,19 +361,19 @@ void UpdateInputSlots(void) {
         slotKeys = 0;
         touchPoint = 0xffff;
         micValue = slotKeys;
-        f = (gInputState->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
+        isBlocked = (gInputState->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
         skipUpdate = FALSE;
         canReadKeys = (GetCurrentSceneNumber() != 2 || (gInputState->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
         inputSlot = &gInputSlots[slotIndex];
         flags = gInputState->mFlags;
         if (!(flags & INPUT_STATE_NO_KEYS)) {
             sourceKind = inputSlot->mSourceKind;
-            if (f == 0) {
-                f = inputSlot->mUnk_44;
+            if (isBlocked == 0) {
+                isBlocked = inputSlot->mUnk_44;
             }
             switch (sourceKind) {
                 case 1:
-                    if (f == 0) {
+                    if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = ReadKeysFromKeyRecording(&inputSlot->mUnk_28);
                         }
@@ -384,7 +384,7 @@ void UpdateInputSlots(void) {
                     micValue = 0;
                     break;
                 case 2:
-                    if (f == 0) {
+                    if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = padKeys;
                             if (flags & 4) {
@@ -406,7 +406,7 @@ void UpdateInputSlots(void) {
                     break;
                 case 3:
                 case 7:
-                    if (f != 0) {
+                    if (isBlocked != 0) {
                         skipUpdate = TRUE;
                     } else {
                         micValue = 0;
@@ -421,18 +421,18 @@ void UpdateInputSlots(void) {
                     micValue = 0;
                     break;
                 case 4:
-                    if (f == 0) {
+                    if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = GetParticipantPadKeys(GetParticipantIndex(slotIndex));
                             if (gInputState->mFlags & 4) {
-                                t = slotKeys & 0xffcf;
+                                keys = slotKeys & 0xffcf;
                                 if (slotKeys & PAD_KEY_LEFT) {
-                                    t |= PAD_KEY_RIGHT;
+                                    keys |= PAD_KEY_RIGHT;
                                 }
                                 if (slotKeys & PAD_KEY_RIGHT) {
-                                    t |= PAD_KEY_LEFT;
+                                    keys |= PAD_KEY_LEFT;
                                 }
-                                slotKeys = t;
+                                slotKeys = keys;
                             }
                         }
                     } else {
@@ -455,9 +455,9 @@ void UpdateInputSlots(void) {
                     break;
             }
         }
-        t = slotKeys & inputSlot->mBitMask;
+        keys = slotKeys & inputSlot->mBitMask;
         if (skipUpdate == FALSE) {
-            UpdateInputSlot(t, inputSlot);
+            UpdateInputSlot(keys, inputSlot);
         }
         UpdateInputSlotPair(&inputSlot->mPair, touchPoint, micValue);
     }

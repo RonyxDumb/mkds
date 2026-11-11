@@ -24,8 +24,8 @@ void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *
                              Vec3 *kartPos, Vec3 *kartForward);
 void AdvanceRaceKartAi(KartAi *kartAi);
 void ResetRaceKartAiAtPointLink(KartAi *kartAi);
-void ResetKartAi(KartAi *kartAi, s32 a);
-void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 a);
+void ResetKartAi(KartAi *kartAi, s32 value);
+void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 useDefaultTable);
 void SetupKartAiGlobals(void);
 void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor);
 s32 GetPointLinkSpeedRatio(PointLinkCursor *pointLinkCursor);

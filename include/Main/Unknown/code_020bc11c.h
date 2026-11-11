@@ -17,7 +17,7 @@ void ClearRaceLapNumberPointer(void);
 void InitRaceLapNumber(void);
 void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer);
 void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer);
-void DrawRaceRankListNonBattleRows(RaceHudOamBuffer *a);
+void DrawRaceRankListNonBattleRows(RaceHudOamBuffer *oamBuffer);
 void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer);
 void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer);
 void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer);

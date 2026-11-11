@@ -37,17 +37,17 @@ void SetPushedMotionFromKart(PushedObject *object, Kart *other) {
 
     VEC_Subtract(&object->mMapObject.mPos, &other->mPos, &offset);
     if ((s64) offset.z * other->mVelocity.x - (s64) offset.x * other->mVelocity.z < 0) {
-        s32 x = other->mTurnedForward.x;
-        s32 z = other->mTurnedForward.z;
-        offset.z = -x;
-        offset.x = z;
+        s32 forwardX = other->mTurnedForward.x;
+        s32 forwardZ = other->mTurnedForward.z;
+        offset.z = -forwardX;
+        offset.x = forwardZ;
         offset.y = 0;
         object->mMotion.mAngleIncreasing = 1;
     } else {
-        s32 x = other->mTurnedForward.x;
-        s32 z = -other->mTurnedForward.z;
-        offset.z = x;
-        offset.x = z;
+        s32 forwardX = other->mTurnedForward.x;
+        s32 forwardZ = -other->mTurnedForward.z;
+        offset.z = forwardX;
+        offset.x = forwardZ;
         offset.y = 0;
         object->mMotion.mAngleIncreasing = 0;
     }
@@ -73,10 +73,10 @@ void SetPushedMotionFromItemObject(PushedObject *object, const ItemObject *other
         if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {
             out = gVec3UnitX;
         } else {
-            s32 x = out.x;
-            s32 z = out.z;
-            out.z = -x;
-            out.x = z;
+            s32 directionX = out.x;
+            s32 directionZ = out.z;
+            out.z = -directionX;
+            out.x = directionZ;
             out.y = 0;
         }
         object->mMotion.mAngleIncreasing = 1;
@@ -84,10 +84,10 @@ void SetPushedMotionFromItemObject(PushedObject *object, const ItemObject *other
         if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {
             out = data_02159588;
         } else {
-            s32 x = out.x;
-            s32 z = -out.z;
-            out.z = x;
-            out.x = z;
+            s32 directionX = out.x;
+            s32 directionZ = -out.z;
+            out.z = directionX;
+            out.x = directionZ;
             out.y = 0;
         }
         object->mMotion.mAngleIncreasing = 0;

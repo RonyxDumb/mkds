@@ -49,11 +49,11 @@ BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffe
 void MPDataPortCallback(Unk021425e8 *event);
 void ProcessMPData(u32 aid, MPMessage *message);
 void RemoveChild(u32 aid);
-void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry);
+void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry);
 void SetRequestErrorCode(s32 errorCode);
 void EndCallback(Unk021425e8 *event);
 void End(void);
-void SetStepAndRequestPending(s32 a);
+void SetStepAndRequestPending(s32 step);
 BOOL ConnectionMB_IsMultiBootChild(void);
 s32 GetConnectionMode(void);
 BOOL IsMultiBootSetupStarted(void);

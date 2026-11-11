@@ -137,34 +137,35 @@ s32 FindBackupXorIndex(u32 value, u32 expected) {
 }
 
 void XorBackupWordsAtTickIndex(u32 *cursor, u32 byteCount) {
-    u16 i;
-    u16 j;
-    u16 k;
-    u16 l;
+    u16 firstIndex;
+    u16 secondIndex;
+    u16 thirdIndex;
+    u16 fourthIndex;
     u32 *end;
     u32 tableSum;
-    j = 0;
-    l = 0;
-    k = 0;
-    i = (OS_GetTick() >> 16) % 0x1d;
-    tableSum = data_usa_02154694[i] + (data_usa_02154648[0] + (data_usa_021545d8[0] + data_usa_02154604[0]));
-    i = FindBackupXorIndex(tableSum ^ *cursor, *cursor);
+    secondIndex = 0;
+    fourthIndex = 0;
+    thirdIndex = 0;
+    firstIndex = (OS_GetTick() >> 16) % 0x1d;
+    tableSum = data_usa_02154694[firstIndex] + (data_usa_02154648[0] + (data_usa_021545d8[0] + data_usa_02154604[0]));
+    firstIndex = FindBackupXorIndex(tableSum ^ *cursor, *cursor);
     end = OFFSET_PTR(u32, cursor, byteCount);
     do {
-        *cursor ^= data_usa_02154694[i] + (data_usa_02154648[j] + (data_usa_021545d8[k] + data_usa_02154604[l]));
+        *cursor ^= data_usa_02154694[firstIndex] +
+                   (data_usa_02154648[secondIndex] + (data_usa_021545d8[thirdIndex] + data_usa_02154604[fourthIndex]));
         cursor++;
-        k++;
-        if (k >= 0xb) {
-            k = 0;
-            l++;
-            if (l >= 0x11) {
-                l = 0;
-                j++;
-                if (j >= 0x13) {
-                    j = 0;
-                    i++;
-                    if (i >= 0x1d) {
-                        i = 0;
+        thirdIndex++;
+        if (thirdIndex >= 0xb) {
+            thirdIndex = 0;
+            fourthIndex++;
+            if (fourthIndex >= 0x11) {
+                fourthIndex = 0;
+                secondIndex++;
+                if (secondIndex >= 0x13) {
+                    secondIndex = 0;
+                    firstIndex++;
+                    if (firstIndex >= 0x1d) {
+                        firstIndex = 0;
                     }
                 }
             }
@@ -173,36 +174,37 @@ void XorBackupWordsAtTickIndex(u32 *cursor, u32 byteCount) {
 }
 
 BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirstWord) {
-    u16 i;
-    u16 j;
-    u16 k;
-    u16 l;
+    u16 firstIndex;
+    u16 secondIndex;
+    u16 thirdIndex;
+    u16 fourthIndex;
     s32 foundIndex;
     u32 *end;
-    j = 0;
-    l = 0;
-    k = 0;
+    secondIndex = 0;
+    fourthIndex = 0;
+    thirdIndex = 0;
     foundIndex = FindBackupXorIndex(*cursor, expectedFirstWord);
     if (foundIndex == -1) {
         return 0;
     }
-    i = foundIndex;
+    firstIndex = foundIndex;
     end = OFFSET_PTR(u32, cursor, byteCount);
     do {
-        *cursor ^= data_usa_02154694[i] + (data_usa_02154648[j] + (data_usa_021545d8[k] + data_usa_02154604[l]));
+        *cursor ^= data_usa_02154694[firstIndex] +
+                   (data_usa_02154648[secondIndex] + (data_usa_021545d8[thirdIndex] + data_usa_02154604[fourthIndex]));
         cursor++;
-        k++;
-        if (k >= 0xb) {
-            k = 0;
-            l++;
-            if (l >= 0x11) {
-                l = 0;
-                j++;
-                if (j >= 0x13) {
-                    j = 0;
-                    i++;
-                    if (i >= 0x1d) {
-                        i = 0;
+        thirdIndex++;
+        if (thirdIndex >= 0xb) {
+            thirdIndex = 0;
+            fourthIndex++;
+            if (fourthIndex >= 0x11) {
+                fourthIndex = 0;
+                secondIndex++;
+                if (secondIndex >= 0x13) {
+                    secondIndex = 0;
+                    firstIndex++;
+                    if (firstIndex >= 0x1d) {
+                        firstIndex = 0;
                     }
                 }
             }

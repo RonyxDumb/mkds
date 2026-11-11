@@ -155,30 +155,30 @@ void SetupKartAiGlobals(void) {
     }
 }
 
-void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 a) {
-    s32 v;
+void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 useDefaultTable) {
+    s32 value;
     RandomState64 *kartAiRandom;
 
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
     kartAi->mUnk_06 = kartAi->mIndex % 4;
-    if (a != 0) {
-        v = 0;
+    if (useDefaultTable != 0) {
+        value = 0;
     } else {
-        v = GetKartAiTableIndex(kartAi->mIndex);
+        value = GetKartAiTableIndex(kartAi->mIndex);
     }
-    kartAi->mDriftStartRandomLimit = data_usa_0217ae38[v];
-    kartAi->mDriftChargeRandomLimit = gKartAiDriftChargeRandomLimits[v];
+    kartAi->mDriftStartRandomLimit = data_usa_0217ae38[value];
+    kartAi->mDriftChargeRandomLimit = gKartAiDriftChargeRandomLimits[value];
     kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
     InitRacePointLinkCursor(&kartAi->mPointLinkCursor, kartAi->mIndex);
     ResetKartAi(kartAi, 0);
     kartAiRandom = GetKartAiRandom();
     kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
-    v = (s16) (u16) (kartAiRandom->mValue >> 52);
-    kartAi->mHeadingSwingSign = v > 0x800 ? 1 : -1;
+    value = (s16) (u16) (kartAiRandom->mValue >> 52);
+    kartAi->mHeadingSwingSign = value > 0x800 ? 1 : -1;
 }
 
-void ResetKartAi(KartAi *kartAi, s32 a) {
+void ResetKartAi(KartAi *kartAi, s32 value) {
     kartAi->mLinkPosWithSideOffset = *kartAi->mPointLinkCursor.mLink->mPoint;
     kartAi->mSideOffset = data_usa_021557d0;
     kartAi->mSideOffsetFrames = 0;
@@ -189,7 +189,7 @@ void ResetKartAi(KartAi *kartAi, s32 a) {
     kartAi->mContactStageFrameLimit = 0;
     kartAi->mUnk_80 = 0;
     kartAi->mUnk_7c = 0;
-    kartAi->mUnk_84 = a;
+    kartAi->mUnk_84 = value;
     kartAi->mContactStage = 0;
     kartAi->mContactTimer = 0;
     kartAi->mTargetKart = NULL;
@@ -341,7 +341,7 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
 }
 
 void PickKartAiTargetKart(KartAi *kartAi) {
-    u32 a;
+    u32 value;
     BOOL foundAhead;
     s32 behindKartIndex;
     s32 aheadKartIndex;
@@ -350,21 +350,21 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     kartAi->mTargetKart = NULL;
     kartAi->mTargetAhead = 0;
     ownKartIndex = kartAi->mIndex;
-    a = ownKartIndex;
-    if (a != GetRaceUpdateFramesMod8()) {
+    value = ownKartIndex;
+    if (value != GetRaceUpdateFramesMod8()) {
         return;
     }
     if (gRaceSetup->mCpuDifficulty != CPU_DIFFICULTY_HARD) {
         return;
     }
-    a = GetKartRank(a);
-    if (a <= 1) {
+    value = GetKartRank(value);
+    if (value <= 1) {
         return;
     }
-    aheadKartIndex = gRaceProgress->mKartAtRank[(u8) (a - 1) - 1];
+    aheadKartIndex = GetKartAtRank(value - 1);
     foundAhead = FALSE;
     if (aheadKartIndex >= 0) {
-        aheadKartIndex = gRaceProgress->mKartAtRank[(u8) (a - 1) - 1];
+        aheadKartIndex = GetKartAtRank(value - 1);
         if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) aheadKartIndex) != 0) {
             kartAi->mTargetKart = GetKart(aheadKartIndex);
             foundAhead = TRUE;
@@ -374,14 +374,14 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     if (foundAhead != FALSE) {
         return;
     }
-    if (a >= gRaceSetup->mKartCount) {
+    if (value >= gRaceSetup->mKartCount) {
         return;
     }
-    behindKartIndex = gRaceProgress->mKartAtRank[(u8) (a + 1) - 1];
+    behindKartIndex = GetKartAtRank(value + 1);
     if (behindKartIndex < 0) {
         return;
     }
-    behindKartIndex = gRaceProgress->mKartAtRank[(u8) (a + 1) - 1];
+    behindKartIndex = GetKartAtRank(value + 1);
     if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) behindKartIndex) != 0) {
         kartAi->mTargetKart = GetKart(behindKartIndex);
     }
@@ -479,11 +479,11 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
     Vec3 offsetOnUpPlane;
     Vec3 turnCross;
     Kart *kart;
-    Kart *q2;
+    Kart *aiKart;
     Vec3 *kartForward;
     Vec3 *planeNormal;
-    s32 n;
-    s32 m;
+    s32 dotProduct;
+    s32 angle;
     BOOL chargeRollPassed;
 
     GetPointLinkFirstValue(&kartAi->mPointLinkCursor);
@@ -510,20 +510,20 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         planeNormal = &kart->mUnk_12c;
         kartForward = &kart->mUnk_138;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &flatOffsetToLink);
-        n = VEC_DotProduct(planeNormal, &flatOffsetToLink);
-        flatOffsetToLink.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, n);
-        flatOffsetToLink.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, n);
-        flatOffsetToLink.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, n);
+        dotProduct = VEC_DotProduct(planeNormal, &flatOffsetToLink);
+        flatOffsetToLink.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, dotProduct);
+        flatOffsetToLink.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, dotProduct);
+        flatOffsetToLink.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, dotProduct);
         Vec3CrossUnrounded(kartForward, &flatOffsetToLink, &turnCross);
-        m = VEC_Mag(&turnCross);
-        m = FX_Atan2(m, Vec3DotUnrounded(kartForward, &flatOffsetToLink));
-        m = ((s64) m * 0x394bb834c8LL + 0x80000000LL) >> 32;
-        n = Vec3DotUnrounded(&turnCross, planeNormal);
-        if (n < 0) {
-            n = -1;
-            m = m * n;
+        angle = VEC_Mag(&turnCross);
+        angle = FX_Atan2(angle, Vec3DotUnrounded(kartForward, &flatOffsetToLink));
+        angle = ((s64) angle * 0x394bb834c8LL + 0x80000000LL) >> 32;
+        dotProduct = Vec3DotUnrounded(&turnCross, planeNormal);
+        if (dotProduct < 0) {
+            dotProduct = -1;
+            angle = angle * dotProduct;
         }
-        kartAi->mTurnAngleDegrees = GetAbsoluteValue(m);
+        kartAi->mTurnAngleDegrees = GetAbsoluteValue(angle);
         kartAi->mDriftState = 0;
         kartAi->mTurnSide = 0;
         kartAi->mDriftFrames = 0;
@@ -534,20 +534,20 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         }
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &offsetToLink);
         kartAi->mDriftState = 4;
-        q2 = kartAi->mKart;
-        GetKartUp(q2, &kartUp);
-        n = VEC_DotProduct(&kartUp, &offsetToLink);
-        offsetOnUpPlane.x = offsetToLink.x - MUL_FIXED12_NO_ROUND(kartUp.x, n);
-        offsetOnUpPlane.y = offsetToLink.y - MUL_FIXED12_NO_ROUND(kartUp.y, n);
-        offsetOnUpPlane.z = offsetToLink.z - MUL_FIXED12_NO_ROUND(kartUp.z, n);
-        Vec3CrossUnrounded(&q2->mUnk_138, &offsetOnUpPlane, &sideCross);
-        m = Vec3DotUnrounded(&kartUp, &sideCross);
-        if (m > 0) {
-            m = 1;
+        aiKart = kartAi->mKart;
+        GetKartUp(aiKart, &kartUp);
+        dotProduct = VEC_DotProduct(&kartUp, &offsetToLink);
+        offsetOnUpPlane.x = offsetToLink.x - MUL_FIXED12_NO_ROUND(kartUp.x, dotProduct);
+        offsetOnUpPlane.y = offsetToLink.y - MUL_FIXED12_NO_ROUND(kartUp.y, dotProduct);
+        offsetOnUpPlane.z = offsetToLink.z - MUL_FIXED12_NO_ROUND(kartUp.z, dotProduct);
+        Vec3CrossUnrounded(&aiKart->mUnk_138, &offsetOnUpPlane, &sideCross);
+        angle = Vec3DotUnrounded(&kartUp, &sideCross);
+        if (angle > 0) {
+            angle = 1;
         } else {
-            m = -1;
+            angle = -1;
         }
-        if (m > 0) {
+        if (angle > 0) {
             kartAi->mTurnSide = 1;
         } else {
             kartAi->mTurnSide = 2;
@@ -583,8 +583,8 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
     kartAi->mSideOffset = data_usa_021557d0;
     kartAi->mSideOffsetRatio = 0;
     if (!(kart->mUnk_44 & 0xc00c0)) {
-        n = kart->mVelocityLength;
-        if (n > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd)) {
+        dotProduct = kart->mVelocityLength;
+        if (dotProduct > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd)) {
             return;
         }
     }
@@ -597,23 +597,23 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
 s32 ComputeAngleToPositionDegrees(Vec3 *targetPos, Vec3 *originPos, Vec3 *planeNormal, Vec3 *forward) {
     Vec3 flatOffset;
     Vec3 crossProduct;
-    s32 n;
+    s32 dotProduct;
     s32 crossLength;
     s32 angleDegrees;
 
     VEC_Subtract(targetPos, originPos, &flatOffset);
-    n = VEC_DotProduct(planeNormal, &flatOffset);
-    flatOffset.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, n);
-    flatOffset.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, n);
-    flatOffset.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, n);
+    dotProduct = VEC_DotProduct(planeNormal, &flatOffset);
+    flatOffset.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, dotProduct);
+    flatOffset.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, dotProduct);
+    flatOffset.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, dotProduct);
     Vec3CrossUnrounded(forward, &flatOffset, &crossProduct);
     crossLength = VEC_Mag(&crossProduct);
     angleDegrees = FX_Atan2(crossLength, Vec3DotUnrounded(forward, &flatOffset));
     angleDegrees = ((s64) angleDegrees * 0x394bb834c8LL + 0x80000000LL) >> 32;
-    n = Vec3DotUnrounded(&crossProduct, planeNormal);
-    if (n < 0) {
-        n = -1;
-        angleDegrees = angleDegrees * n;
+    dotProduct = Vec3DotUnrounded(&crossProduct, planeNormal);
+    if (dotProduct < 0) {
+        dotProduct = -1;
+        angleDegrees = angleDegrees * dotProduct;
     }
     return angleDegrees;
 }
@@ -655,13 +655,13 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
 
 void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     Vec3 linkPos;
-    Vec3 g;
+    Vec3 upVector;
     Vec3 linkPosCopy;
     Vec3 sideAxis;
     Vec3 kartOffset;
     Vec3 unitYCopy;
     Vec3 unitY;
-    s32 s;
+    s32 scale;
 
     linkPos = *kartAi->mPointLinkCursor.mLink->mPoint;
     linkPosCopy = *kartAi->mPointLinkCursor.mLink->mPoint;
@@ -669,20 +669,20 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     unitYCopy = *(Vec3 *) &data_usa_021557c4;
     Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &unitYCopy, &sideAxis);
     VEC_Subtract(&kartAi->mKart->mPos, &linkPosCopy, &kartOffset);
-    s = Vec3DotUnrounded(&kartOffset, &sideAxis);
-    kartAi->mSideOffsetRatio = FX_Div(s, kartAi->mPointLinkCursor.mLink->mRadius + 0x1000);
+    scale = Vec3DotUnrounded(&kartOffset, &sideAxis);
+    kartAi->mSideOffsetRatio = FX_Div(scale, kartAi->mPointLinkCursor.mLink->mRadius + 0x1000);
     if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > 0x1000) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = 0x1000;
         }
         kartAi->mSideOffsetRatio = -0x1000;
     }
-    g = unitY;
-    Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &g, &kartAi->mSideOffset);
-    s = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mPointLinkCursor.mLink->mRadius);
-    kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, s);
-    kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, s);
-    kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, s);
+    upVector = unitY;
+    Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &upVector, &kartAi->mSideOffset);
+    scale = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mPointLinkCursor.mLink->mRadius);
+    kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, scale);
+    kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, scale);
+    kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, scale);
     VEC_Add(&linkPos, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
 }
 

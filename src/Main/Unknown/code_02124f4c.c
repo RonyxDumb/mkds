@@ -66,7 +66,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
     Unk02022aa8 *font;
     u16 charCode;
     s32 variant;
-    s32 r7;
+    s32 value;
     u32 glyphIndex;
     u16 tagTextChar;
     NNSG2dCharWidths *charWidths;
@@ -96,10 +96,10 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                     case 1:
                         switch (variant) {
                             case 0:
-                                for (r7 = 0; r7 < 10; r7++) {
-                                    tagTextChar = ((u16 *) gBackupBuffers->mFirstBlock->mPlayerName)[r7];
+                                for (value = 0; value < 10; value++) {
+                                    tagTextChar = ((u16 *) gBackupBuffers->mFirstBlock->mPlayerName)[value];
                                     if (tagTextChar == 0) {
-                                        r7 = 10;
+                                        value = 10;
                                     } else {
                                         *writePointer++ = tagTextChar;
                                         if (fixedAdvance == -1 ||
@@ -134,10 +134,10 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                     }
                                 }
                             case 10:
-                                for (r7 = 0; r7 < 10; r7++) {
-                                    tagTextChar = ((u16 *) gStartupWork->mOwnerText)[r7];
+                                for (value = 0; value < 10; value++) {
+                                    tagTextChar = ((u16 *) gStartupWork->mOwnerText)[value];
                                     if (tagTextChar == 0) {
-                                        r7 = 10;
+                                        value = 10;
                                     } else {
                                         *writePointer++ = tagTextChar;
                                         if (fixedAdvance == -1 ||
@@ -193,9 +193,9 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                     lineIndex++;
                     *lineWidthPointer = 0;
                 } else {
-                    r7 = charSpacing;
+                    value = charSpacing;
                     if (*(u16 *) readPointer == 0 || *(u16 *) readPointer == 0xa) {
-                        r7 = 0;
+                        value = 0;
                     }
                     if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !IsDigitOrDash(charCode))) {
                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
@@ -203,9 +203,9 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                             glyphIndex = font->mUnk_00->mUnk_02;
                         }
                         charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
-                        *lineWidthPointer += charWidths->mCharWidth + r7;
+                        *lineWidthPointer += charWidths->mCharWidth + value;
                     } else {
-                        *lineWidthPointer += fixedAdvance + r7;
+                        *lineWidthPointer += fixedAdvance + value;
                     }
                 }
             }
@@ -237,8 +237,8 @@ s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidt
 void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 colorZeroIsTwo) {
-    s32 x;
-    s32 y;
+    s32 cursorX;
+    s32 cursorY;
     s32 lineAdvance;
     s32 charSpacing;
     Unk02022aa8 *font;
@@ -253,22 +253,22 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
     u32 glyphIndex;
     u8 *readPointer;
 
-    x = left;
-    y = top;
+    cursorX = left;
+    cursorY = top;
     charSpacing = textCanvas->mCharSpacing;
     font = textCanvas->mFont;
     lineAdvance = textCanvas->mLineSpacing + font->mUnk_00->mUnk_01;
     readPointer = text;
-    x += GetTextLineOffset(alignFlags, lineAlign, width, textWidth, *lineWidths);
-    if (x < 0) {
+    cursorX += GetTextLineOffset(alignFlags, lineAlign, width, textWidth, *lineWidths);
+    if (cursorX < 0) {
         return;
     }
     if (alignFlags & 0x80) {
-        y += (height - textHeight) >> 1;
+        cursorY += (height - textHeight) >> 1;
     } else if (alignFlags & 0x100) {
-        y += height - textHeight;
+        cursorY += height - textHeight;
     }
-    if (y < 0) {
+    if (cursorY < 0) {
         return;
     }
     charCode = font->mUnk_04(&readPointer);
@@ -296,37 +296,39 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             }
             readPointer = readPointer + tagSize - 2;
         } else if (charCode == 0xa) {
-            y += lineAdvance;
+            cursorY += lineAdvance;
             lineWidths++;
-            if (y >= bottom) {
+            if (cursorY >= bottom) {
                 return;
             }
-            x = left + GetTextLineOffset(alignFlags, lineAlign, width, textWidth, *lineWidths);
-            if (x < 0) {
+            cursorX = left + GetTextLineOffset(alignFlags, lineAlign, width, textWidth, *lineWidths);
+            if (cursorX < 0) {
                 return;
             }
         } else {
             if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !IsDigitOrDash(charCode))) {
-                x += NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color, charCode);
+                cursorX += NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, cursorX, cursorY,
+                                                     color, charCode);
             } else {
                 glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
                 if (glyphIndex == 0xffff) {
                     glyphIndex = font->mUnk_00->mUnk_02;
                 }
                 charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
-                x += (fixedAdvance - charWidths->mCharWidth) >> 1;
-                NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, x, y, color, charCode);
-                x += fixedAdvance - ((fixedAdvance - charWidths->mCharWidth) >> 1);
+                cursorX += (fixedAdvance - charWidths->mCharWidth) >> 1;
+                NNS_G2dCharCanvasDrawChar(textCanvas->mCharCanvas, textCanvas->mFont, cursorX, cursorY, color,
+                                          charCode);
+                cursorX += fixedAdvance - ((fixedAdvance - charWidths->mCharWidth) >> 1);
             }
-            if (x > right) {
+            if (cursorX > right) {
                 return;
             }
-            x += charSpacing;
+            cursorX += charSpacing;
         }
     } while ((charCode = font->mUnk_04(&readPointer)) != 0);
 }
 
-void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 d) {
+void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 unusedArg4) {
     s32 length;
     s32 tagSize;
     u16 *writePointer;
@@ -390,11 +392,11 @@ DisplaySettings *CreateWiFiStatesDisplaySettings(void *heap) {
 }
 
 s32 CountDecimalDigits(u32 number) {
-    s32 i;
+    s32 digitIndex;
     s32 digitCount;
 
     digitCount = 1;
-    for (i = 0; i < 10; i++) {
+    for (digitIndex = 0; digitIndex < 10; digitIndex++) {
         number = number / 10;
         if (number == 0) {
             break;
@@ -406,10 +408,10 @@ s32 CountDecimalDigits(u32 number) {
 
 s32 FormatAsciiNumber(u32 number, u16 *buffer) {
     s32 digitCount;
-    s32 i;
+    s32 digitIndex;
     digitCount = CountDecimalDigits(number);
-    for (i = 0; i < digitCount; i++) {
-        *(buffer + digitCount - i - 1) = (u16) (number % 10) + 0x30;
+    for (digitIndex = 0; digitIndex < digitCount; digitIndex++) {
+        *(buffer + digitCount - digitIndex - 1) = (u16) (number % 10) + 0x30;
         number = number / 10;
     }
     buffer[digitCount] = 0;
@@ -418,10 +420,10 @@ s32 FormatAsciiNumber(u32 number, u16 *buffer) {
 
 s32 FormatFullWidthNumber(u32 number, u16 *buffer) {
     s32 digitCount;
-    s32 i;
+    s32 digitIndex;
     digitCount = CountDecimalDigits(number);
-    for (i = 0; i < digitCount; i++) {
-        *(buffer + digitCount - i - 1) = (u16) (number % 10) + 0xff10;
+    for (digitIndex = 0; digitIndex < digitCount; digitIndex++) {
+        *(buffer + digitCount - digitIndex - 1) = (u16) (number % 10) + 0xff10;
         number = number / 10;
     }
     buffer[digitCount] = 0;

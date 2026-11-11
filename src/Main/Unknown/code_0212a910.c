@@ -145,7 +145,7 @@ void *GetMessageScreenText(void) {
 }
 
 void PrintMessageScreenText(void) {
-    s32 i;
+    s32 mapIndex;
     ClearMessageScreenChars();
     if (gBootInfo->mUnk_00 == 2) {
         gMessageScreen->mTextCanvas.mFont = &GetDownloadScreenFiles()->mMBChildFont;
@@ -154,11 +154,11 @@ void PrintMessageScreenText(void) {
     }
     NNSi_G2dTextCanvasDrawText(&gMessageScreen->mTextCanvas, 0x80, 0x14, 0xe, 0x412, gMessageScreen->mText);
     ClearMessageScreenMap();
-    for (i = 0; i < 0x300; i++) {
-        if (i >= 0x120 && i < 0x1c0) {
-            gMessageScreen->mScreenMap[i] = (i - 0x120) | 0xf000;
+    for (mapIndex = 0; mapIndex < 0x300; mapIndex++) {
+        if (mapIndex >= 0x120 && mapIndex < 0x1c0) {
+            gMessageScreen->mScreenMap[mapIndex] = (mapIndex - 0x120) | 0xf000;
         } else {
-            gMessageScreen->mScreenMap[i] = 0xf09f;
+            gMessageScreen->mScreenMap[mapIndex] = 0xf09f;
         }
     }
     *(vu16 *) 0x50001fc = 0xffff;
@@ -217,15 +217,15 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
 }
 
 void InitLinkLevelIcons(void *heap, void *oamList) {
-    s32 i;
+    s32 index;
     LinkLevelIcons *linkLevelIcons;
     LinkLevelIconOam *oam;
     gLinkLevelIcons = HeapAlloc(heap, 0x11c);
     gLinkLevelIcons->mOamList = oamList;
     MI_CpuFill8(gLinkLevelIcons->mZeroChars, 0, 0x20);
     gLinkLevelIcons->mCycleFrames = 0;
-    for (i = 0; i < 5; i++) {
-        gLinkLevelIcons->mIconEnabled[i] = 0;
+    for (index = 0; index < 5; index++) {
+        gLinkLevelIcons->mIconEnabled[index] = 0;
     }
     switch (GetCurrentSceneNumber()) {
         case 1:
@@ -255,16 +255,16 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
             }
             break;
     }
-    for (i = 0; i < 2; i++) {
-        gLinkLevelIcons->mIconKind[i] = -1;
+    for (index = 0; index < 2; index++) {
+        gLinkLevelIcons->mIconKind[index] = -1;
     }
     SetupLinkLevelIcons();
-    for (i = 0; i < 2; i++) {
+    for (index = 0; index < 2; index++) {
         linkLevelIcons = gLinkLevelIcons;
-        oam = &linkLevelIcons->mOamRecords[i];
-        oam->mPositionAndSizeBits = ((linkLevelIcons->mIconPositions[i].mX & 0x1ff) << 16) |
-                                    ((linkLevelIcons->mIconPositions[i].mY & 0xff) | 0x40000000);
-        oam->mCharAndPaletteBits = (0x400 - (i + 1) * 4) | 0xd000;
+        oam = &linkLevelIcons->mOamRecords[index];
+        oam->mPositionAndSizeBits = ((linkLevelIcons->mIconPositions[index].mX & 0x1ff) << 16) |
+                                    ((linkLevelIcons->mIconPositions[index].mY & 0xff) | 0x40000000);
+        oam->mCharAndPaletteBits = (0x400 - (index + 1) * 4) | 0xd000;
     }
 }
 #pragma thumb off
@@ -277,7 +277,7 @@ void ClearLinkLevelIconsPointer(void) {
 
 #pragma thumb on
 void SetupLinkLevelIcons(void) {
-    s32 i;
+    s32 iconIndex;
     Ncgr *chars;
     Unk02021dc8 *cells;
     Nclr *palette;
@@ -285,40 +285,40 @@ void SetupLinkLevelIcons(void) {
     LayoutEntryTable *cellLayout;
     DownloadScreenFiles *loadedFiles;
     CellLayoutEntry *cellEntry;
-    s32 j;
+    s32 charIndex;
     loadedFiles = GetDownloadScreenFiles();
     searchIconCellLayout = loadedFiles->mSearchIconCellLayout;
     cellLayout = loadedFiles->mSearchIconLayoutCellLayout;
     chars = loadedFiles->mSearchIconChars;
     cells = loadedFiles->mSearchIconCells;
     palette = loadedFiles->mSearchIconPalette;
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < gLinkLevelIconCharCounts[i]; j++) {
-            gLinkLevelIcons->mIconChars[i][j] =
+    for (iconIndex = 0; iconIndex < 5; iconIndex++) {
+        for (charIndex = 0; charIndex < gLinkLevelIconCharCounts[iconIndex]; charIndex++) {
+            gLinkLevelIcons->mIconChars[iconIndex][charIndex] =
                 (CharTile *) chars->mData +
-                GetCellCharIndex(gLinkLevelIconCharCellEntryIndices[i][j], cells, searchIconCellLayout);
+                GetCellCharIndex(gLinkLevelIconCharCellEntryIndices[iconIndex][charIndex], cells, searchIconCellLayout);
         }
     }
-    for (i = 0; i < 2; i++) {
-        cellEntry = GetCellLayoutEntry(cellLayout, gLinkLevelIconSlotCellEntryIndices[i]);
-        gLinkLevelIcons->mIconPositions[i].mX = GetLayoutAxisStartX(cellEntry->mUnk_00_0, 0x10);
-        gLinkLevelIcons->mIconPositions[i].mY = GetLayoutAxisStartY(cellEntry->mUnk_00_2, 0x10);
+    for (iconIndex = 0; iconIndex < 2; iconIndex++) {
+        cellEntry = GetCellLayoutEntry(cellLayout, gLinkLevelIconSlotCellEntryIndices[iconIndex]);
+        gLinkLevelIcons->mIconPositions[iconIndex].mX = GetLayoutAxisStartX(cellEntry->mUnk_00_0, 0x10);
+        gLinkLevelIcons->mIconPositions[iconIndex].mY = GetLayoutAxisStartY(cellEntry->mUnk_00_2, 0x10);
     }
-    for (i = 0; i < 2; i++) {
-        NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
+    for (iconIndex = 0; iconIndex < 2; iconIndex++) {
+        NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (iconIndex + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
     }
     NNS_GfdRegisterNewVramTransferTask(0xe, 0x1a0, palette->mData + 0xd0, 0x20);
 }
 
 void UpdateLinkLevelIconTiles(void) {
     s32 slotCount;
-    s32 i;
+    s32 iconIndex;
     s32 linkLevel;
     BOOL flag;
     slotCount = 0;
-    for (i = 0; i < 2; i++) {
-        gLinkLevelIcons->mIconKind[i] = -1;
-        gLinkLevelIcons->mIconLevel[i] = 0;
+    for (iconIndex = 0; iconIndex < 2; iconIndex++) {
+        gLinkLevelIcons->mIconKind[iconIndex] = -1;
+        gLinkLevelIcons->mIconLevel[iconIndex] = 0;
     }
     if (gLinkLevelIcons->mIconEnabled[1] != 0) {
         gLinkLevelIcons->mIconKind[0] = 1;
@@ -343,29 +343,31 @@ void UpdateLinkLevelIconTiles(void) {
             gLinkLevelIcons->mIconKind[slotCount] = 4;
         }
     }
-    for (i = 0; i < 2; i++) {
-        if (gLinkLevelIcons->mIconKind[i] == -1) {
-            NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);
+    for (iconIndex = 0; iconIndex < 2; iconIndex++) {
+        if (gLinkLevelIcons->mIconKind[iconIndex] == -1) {
+            NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (iconIndex + 1) * 4) << 5, gLinkLevelIcons->mZeroChars,
+                                               0x80);
         } else {
-            NNS_GfdRegisterNewVramTransferTask(
-                0x13, (0x400 - (i + 1) * 4) << 5,
-                gLinkLevelIcons->mIconChars[gLinkLevelIcons->mIconKind[i]][gLinkLevelIcons->mIconLevel[i]], 0x80);
+            NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (iconIndex + 1) * 4) << 5,
+                                               gLinkLevelIcons->mIconChars[gLinkLevelIcons->mIconKind[iconIndex]]
+                                                                          [gLinkLevelIcons->mIconLevel[iconIndex]],
+                                               0x80);
         }
     }
 }
 
 void AdvanceLinkLevelIcons(void) {
-    s32 i;
+    s32 iconIndex;
     u32 iconKind;
     gLinkLevelIcons->mCycleFrames++;
     if (gLinkLevelIcons->mCycleFrames > 0x78) {
         gLinkLevelIcons->mCycleFrames = 0;
     }
     UpdateLinkLevelIconTiles();
-    for (i = 0; i < 2; i++) {
-        iconKind = gLinkLevelIcons->mIconKind[i];
+    for (iconIndex = 0; iconIndex < 2; iconIndex++) {
+        iconKind = gLinkLevelIcons->mIconKind[iconIndex];
         if (gLinkLevelIcons->mCycleFrames < 0x69 || iconKind <= 1) {
-            MIi_CpuCopy16(&gLinkLevelIcons->mOamRecords[i],
+            MIi_CpuCopy16(&gLinkLevelIcons->mOamRecords[iconIndex],
                           &gLinkLevelIcons->mOamList->mOams[gLinkLevelIcons->mOamList->mOamCount], 6);
             gLinkLevelIcons->mOamList->mOamCount++;
         }

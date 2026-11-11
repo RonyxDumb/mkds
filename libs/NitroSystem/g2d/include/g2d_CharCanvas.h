@@ -41,19 +41,19 @@ typedef struct Unk02023d84 {
 void InitCharCanvas(Unk02023374 *a, void *b, s32 c, s32 d, u32 e,
                     void (*f)(Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *),
                     void (*g)(Unk02023374 *, u32), void (*h)(Unk02023374 *, u32, s32, s32, s32, s32), u32 i);
-void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 x, s32 y, s32 w, s32 h);
-void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 x, s32 y, s32 w, s32 h);
+void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
+void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
 void ClearContinuous(Unk02023374 *pCanvas, u32 cl);
-void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 x, s32 y, u32 cl, NNSG2dGlyph *pGlyph);
-void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 x, s32 y, u32 cl, NNSG2dGlyph *pGlyph);
+void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
+void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph);
 void LetterChar(Unk02023d84 *pInfo);
-void ClearChar(u8 *pChar, s32 x, s32 y, s32 w, s32 h, u32 cl8, s32 bpp);
+void ClearChar(u8 *pChar, s32 startX, s32 startY, s32 width, s32 height, u32 cl8, s32 bpp);
 u32 OBJSizeToShape(const u8 *pSize);
 void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 x, s32 y, s32 areaWidth, u32 cl, u32 flags, u16 *txt);
 void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 x, s32 y, u32 cl, u16 *str, u16 **pPos);
 void NNS_G2dCharCanvasInitForOBJ1D(void *pCC, void *charBase, s32 areaWidth, s32 areaHeight, s32 colorMode);
 void NNS_G2dCharCanvasInitForBG(void *pCC, void *charBase, u32 areaWidth, u32 areaHeight, u32 colorMode);
-s32 NNS_G2dCharCanvasDrawChar(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 x, s32 y, u32 cl, u16 ccode);
+s32 NNS_G2dCharCanvasDrawChar(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode);
 u32 GetCharIndex1D(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32 objWidth, u32 objHeight);
 void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 x, s32 y, s32 w, s32 h, s32 cl, u32 flags, u16 *txt);
 u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 x, s32 y, u32 cl, u32 flags, void *txt);

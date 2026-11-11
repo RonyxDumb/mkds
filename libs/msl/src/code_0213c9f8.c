@@ -4,38 +4,38 @@
 #include "code_0213c9e8.h"
 #include "code_0213cae0.h"
 
-void *FormatPutWideBuffer(void *p, const u16 *s, u32 n) {
-    FormatPutWideTarget *a = p;
-    void *r;
+void *FormatPutWideBuffer(void *context, const u16 *source, u32 count) {
+    FormatPutWideTarget *target = context;
+    void *copyResult;
 
-    if (a->mWrittenCount + n > a->mSize) {
-        n = a->mSize - a->mWrittenCount;
+    if (target->mWrittenCount + count > target->mSize) {
+        count = target->mSize - target->mWrittenCount;
     }
-    r = wmemcpy(a->mBuffer + a->mWrittenCount, s, n);
-    a->mWrittenCount += n;
-    return r;
+    copyResult = wmemcpy(target->mBuffer + target->mWrittenCount, source, count);
+    target->mWrittenCount += count;
+    return copyResult;
 }
 
-int swprintf(u16 *buf, u32 n, const u16 *fmt, ...) {
-    return vswprintf(buf, n, fmt, (char *) (((int) &fmt & ~3) + 4));
+int swprintf(u16 *buf, u32 maxCount, const u16 *fmt, ...) {
+    return vswprintf(buf, maxCount, fmt, (char *) (((int) &fmt & ~3) + 4));
 }
 
-int vswprintf(u16 *buf, u32 n, const u16 *fmt, char *va) {
+int vswprintf(u16 *buf, u32 maxCount, const u16 *fmt, char *va) {
     FormatPutWideTarget st;
-    int r;
+    int writtenCount;
 
     st.mBuffer = buf;
-    st.mSize = n;
+    st.mSize = maxCount;
     st.mWrittenCount = 0;
-    r = FormatWideWithPutFunc(FormatPutWideBuffer, &st, fmt, va);
-    if (r < 0) {
-        return r;
+    writtenCount = FormatWideWithPutFunc(FormatPutWideBuffer, &st, fmt, va);
+    if (writtenCount < 0) {
+        return writtenCount;
     }
-    if (r < n) {
-        buf[r] = 0;
+    if (writtenCount < maxCount) {
+        buf[writtenCount] = 0;
     } else {
-        *(buf + n - 1) = 0;
+        *(buf + maxCount - 1) = 0;
         return -1;
     }
-    return r;
+    return writtenCount;
 }

@@ -26,7 +26,7 @@
 void UpdateKartViewDistancesAndOutOfView(void) {
     Vec3 cameraToKartWhole;
     Vec3 cameraToKart;
-    s32 i;
+    s32 kartIndex;
     ViewFrustum *viewFrustum;
     KartModelsEntry *modelsEntry;
     s32 margin;
@@ -40,15 +40,15 @@ void UpdateKartViewDistancesAndOutOfView(void) {
     u16 objectCount;
     s32 orderIndex;
     viewFrustum = GetViewFrustum();
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
-        GetKart(i);
-        gKartNameTags->mNameTagBeyondTwoNearest[i] = 0;
-        kart = GetKart(i);
+    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+        GetKart(kartIndex);
+        gKartNameTags->mNameTagBeyondTwoNearest[kartIndex] = 0;
+        kart = GetKart(kartIndex);
         margin = kart->mRadius * 3;
         modelsEntry = kart->mKartModelsEntry;
         VEC_Subtract(kart->mPosSource, &viewFrustum->mCameraPos, &cameraToKart);
         distanceAlongView = VEC_DotProduct(&cameraToKart, &viewFrustum->mViewDirection);
-        gKartNameTags->mDistanceAlongViewWithMargin[i] = distanceAlongView + margin;
+        gKartNameTags->mDistanceAlongViewWithMargin[kartIndex] = distanceAlongView + margin;
         gKartNameTags->mAlongViewOrderIndex[kart->mIndex] =
             gKartNameTags->mStartOrderIndex[kart->mIndex] + gKartNameTags->mAlongViewOrderOffset[kart->mIndex];
         gKartNameTags->mSortedDistanceAlongView[gKartNameTags->mAlongViewOrderIndex[kart->mIndex]] = distanceAlongView;
@@ -58,7 +58,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
         cameraToKartWhole.z = cameraToKartWhole.z >> 12;
         distanceSquared = cameraToKartWhole.x * cameraToKartWhole.x + cameraToKartWhole.y * cameraToKartWhole.y +
                           cameraToKartWhole.z * cameraToKartWhole.z;
-        gKartNameTags->mDistanceSquared[i] = distanceSquared;
+        gKartNameTags->mDistanceSquared[kartIndex] = distanceSquared;
         SetKartNameTagSortedDistanceSquared(gKartNameTags->mStartOrderIndex[kart->mIndex] +
                                                 gKartNameTags->mDistanceSquaredOrderOffset[kart->mIndex],
                                             distanceSquared);
@@ -143,8 +143,8 @@ void UpdateKartViewDistancesAndOutOfView(void) {
 
 void UpdateKartNameTags(void) {
     Vec3 objectPosition;
-    s32 i;
-    s32 x;
+    s32 tagIndex;
+    s32 distance;
     s32 alphaScale;
     KartNameTag *kartObject;
     Vec3 *posSource;
@@ -155,23 +155,23 @@ void UpdateKartNameTags(void) {
         gKartDistanceLimitsSquared = &gOtherCameraDistanceLimitsSquared;
     }
     UpdateKartViewDistancesAndOutOfView();
-    i = 0;
-    while (i < gKartNameTags->mNameTagCount) {
-        kartObject = gKartNameTags->mNameTags[i];
+    tagIndex = 0;
+    while (tagIndex < gKartNameTags->mNameTagCount) {
+        kartObject = gKartNameTags->mNameTags[tagIndex];
         kart = GetKart(kartObject->mKartIndex);
         posSource = kart->mPosSource;
         objectPosition = *posSource;
-        x = gKartNameTags->mDistanceAlongViewWithMargin[kartObject->mKartIndex];
+        distance = gKartNameTags->mDistanceAlongViewWithMargin[kartObject->mKartIndex];
         alphaScale = 0x1000;
-        if (x > 0) {
+        if (distance > 0) {
             if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < 0x9c400 || GetCurrentCameraKind() == 3) {
-                x -= 0x14000;
+                distance -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
                 kartObject->mUnk_14 = 1;
-                if (x < 0) {
-                    x = 0;
+                if (distance < 0) {
+                    distance = 0;
                 }
-                alphaScale = MUL_FIXED12_ROUNDED(x, 0x44);
+                alphaScale = MUL_FIXED12_ROUNDED(distance, 0x44);
             } else {
                 kartObject->mFadeLevelPerCall = -1;
                 kartObject->mUnk_14 = 2;
@@ -206,7 +206,7 @@ void UpdateKartNameTags(void) {
         kartObject->mPos.x = objectPosition.x >> 4;
         kartObject->mPos.y = objectPosition.y >> 4;
         kartObject->mPos.z = objectPosition.z >> 4;
-        i += 1;
+        tagIndex += 1;
     }
     SortKartsByDistanceAlongViewOnePass();
     SortKartsByDistanceOnePass();
@@ -215,26 +215,26 @@ void UpdateKartNameTags(void) {
 void SortKartsByDistanceAlongViewOnePass(void) {
     u16 *kartIndices;
     s16 *orderOffset;
-    u16 i;
+    u16 sortIndex;
     s32 *distancesAlongView;
     s32 previousIndex;
     s32 previousDistance;
     s32 distance;
     u16 savedKartIndex;
     distancesAlongView = gKartNameTags->mSortedDistanceAlongView;
-    for (i = 1; (u32) i < gRaceSetup->mKartCount; i++) {
-        previousIndex = i - 1;
+    for (sortIndex = 1; (u32) sortIndex < gRaceSetup->mKartCount; sortIndex++) {
+        previousIndex = sortIndex - 1;
         previousDistance = distancesAlongView[previousIndex];
-        distance = distancesAlongView[i];
+        distance = distancesAlongView[sortIndex];
         if (previousDistance > distance) {
             kartIndices = gKartNameTags->mKartIndicesByDistanceAlongView;
             orderOffset = gKartNameTags->mAlongViewOrderOffset;
             distancesAlongView[previousIndex] = distance;
-            distancesAlongView[i] = previousDistance;
-            orderOffset[kartIndices[i]]--;
+            distancesAlongView[sortIndex] = previousDistance;
+            orderOffset[kartIndices[sortIndex]]--;
             orderOffset[kartIndices[previousIndex]]++;
-            savedKartIndex = kartIndices[i];
-            kartIndices[i] = kartIndices[previousIndex];
+            savedKartIndex = kartIndices[sortIndex];
+            kartIndices[sortIndex] = kartIndices[previousIndex];
             kartIndices[previousIndex] = savedKartIndex;
         }
     }
@@ -243,33 +243,33 @@ void SortKartsByDistanceAlongViewOnePass(void) {
 void SortKartsByDistanceOnePass(void) {
     u16 *kartIndices;
     s16 *orderOffset;
-    u16 i;
+    u16 sortIndex;
     u32 *distancesSquared;
     s32 previousIndex;
     u32 previousDistanceSquared;
     u32 distanceSquared;
     u16 savedKartIndex;
     distancesSquared = gKartNameTags->mSortedDistanceSquared;
-    for (i = 1; (u32) i < gRaceSetup->mKartCount; i++) {
-        previousIndex = i - 1;
+    for (sortIndex = 1; (u32) sortIndex < gRaceSetup->mKartCount; sortIndex++) {
+        previousIndex = sortIndex - 1;
         previousDistanceSquared = distancesSquared[previousIndex];
-        distanceSquared = distancesSquared[i];
+        distanceSquared = distancesSquared[sortIndex];
         if (previousDistanceSquared > distanceSquared) {
             kartIndices = gKartNameTags->mKartIndicesByDistance;
             orderOffset = gKartNameTags->mDistanceSquaredOrderOffset;
             distancesSquared[previousIndex] = distanceSquared;
-            distancesSquared[i] = previousDistanceSquared;
-            orderOffset[kartIndices[i]]--;
+            distancesSquared[sortIndex] = previousDistanceSquared;
+            orderOffset[kartIndices[sortIndex]]--;
             orderOffset[kartIndices[previousIndex]]++;
-            savedKartIndex = kartIndices[i];
-            kartIndices[i] = kartIndices[previousIndex];
+            savedKartIndex = kartIndices[sortIndex];
+            kartIndices[sortIndex] = kartIndices[previousIndex];
             kartIndices[previousIndex] = savedKartIndex;
         }
     }
 }
 
 void DrawKartNameTags(MtxFx43 *viewMatrix) {
-    s32 i;
+    s32 sortIndex;
     s16 alpha;
     s32 screenY;
     s32 screenX;
@@ -288,19 +288,19 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
     G3_LoadMtx44(&gKartNameTagProjection);
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
-    for (i = gRaceSetup->mKartCount - 1; i >= 0; i--) {
-        kartObject = gKartNameTags->mNameTagByKart[gKartNameTags->mKartIndicesByDistanceAlongView[i]];
+    for (sortIndex = gRaceSetup->mKartCount - 1; sortIndex >= 0; sortIndex--) {
+        kartObject = gKartNameTags->mNameTagByKart[gKartNameTags->mKartIndicesByDistanceAlongView[sortIndex]];
         if (kartObject == NULL) {
             continue;
         }
-        if (gKartNameTags->mSortedDistanceAlongView[i] <= 0) {
+        if (gKartNameTags->mSortedDistanceAlongView[sortIndex] <= 0) {
             continue;
         }
         alpha = kartObject->mAlpha;
         if (alpha == 0) {
             continue;
         }
-        if ((GetKart(gKartNameTags->mKartIndicesByDistanceAlongView[i])->mUnk_7c & 0xe0) != 0) {
+        if ((GetKart(gKartNameTags->mKartIndicesByDistanceAlongView[sortIndex])->mUnk_7c & 0xe0) != 0) {
             continue;
         }
         MTX_MultVec43(&kartObject->mPos, viewMatrix, &viewPos);
@@ -347,7 +347,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     MtxFx43 quadMatrix;
     s32 texWidthFixed;
     s32 texHeightFixed;
-    s32 z;
+    s32 unusedValue;
     reg_G3_TEXIMAGE_PARAM = texPlttEntry->mTexImageParam;
     if (texPlttEntry->mPlttByteCount != 0) {
         reg_G3_PLTT_BASE = texPlttEntry->mPlttOffset >> (4 - ((texPlttEntry->mTexImageParam >> 26 & 7) == 2));

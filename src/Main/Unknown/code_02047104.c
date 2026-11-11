@@ -103,21 +103,21 @@ void BuildArchivePathWithLanguage(const char *prefix, char *path) {
 void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     char path[0x80] = {0};
     u32 *bufferData;
-    s32 f;
+    s32 infoValueA;
     s32 uncompressSource;
-    s32 g;
-    s32 h;
+    s32 infoValueB;
+    s32 bufferIndex;
 
     bufferData = NULL;
     if (gArchiveSlots->mSlots[slotIndex].mLoaded != 0) {
         return;
     }
     uncompressSource = gArchiveSlotInfos[slotIndex].mUncompressSource;
-    f = gArchiveSlotInfos[slotIndex].mUnk_10;
-    g = gArchiveSlotInfos[slotIndex].mUnk_14;
-    h = gArchiveSlotInfos[slotIndex].mBufferIndex;
-    if (h != -1) {
-        bufferData = gArchiveSlots->mBuffers[h].mData;
+    infoValueA = gArchiveSlotInfos[slotIndex].mUnk_10;
+    infoValueB = gArchiveSlotInfos[slotIndex].mUnk_14;
+    bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
+    if (bufferIndex != -1) {
+        bufferData = gArchiveSlots->mBuffers[bufferIndex].mData;
     }
     switch (slotIndex) {
         case 3:
@@ -151,7 +151,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
                     BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
                     break;
             }
-            g = gSceneNames[sceneNumber].mUnk_04;
+            infoValueB = gSceneNames[sceneNumber].mUnk_04;
             break;
         case 9:
             switch (sceneNumber) {
@@ -205,15 +205,16 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
             break;
     }
     if (path[0] != 0) {
-        LoadArchiveSlot(slotIndex, path, bufferData, NULL, f, uncompressSource, g);
+        LoadArchiveSlot(slotIndex, path, bufferData, NULL, infoValueA, uncompressSource, infoValueB);
     }
-    h = *(s32 *) ((s32) &gArchiveSlotInfos[0].mNextSlot + slotIndex * 0x18);
-    if (h != -1) {
-        LoadArchiveSlotForScene(h, sceneNumber);
+    bufferIndex = *(s32 *) ((s32) &gArchiveSlotInfos[0].mNextSlot + slotIndex * 0x18);
+    if (bufferIndex != -1) {
+        LoadArchiveSlotForScene(bufferIndex, sceneNumber);
     }
 }
 
-void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 e, s32 uncompressSource, s32 g) {
+void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 requestValueA,
+                     s32 uncompressSource, s32 requestValueB) {
     ArchiveLoadRequest *request;
     s32 bufferIndex;
 
@@ -222,9 +223,9 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
     request->mData = data;
-    request->mUnk_90 = e;
+    request->mUnk_90 = requestValueA;
     request->mUncompressSource = uncompressSource;
-    request->mUnk_9c = g;
+    request->mUnk_9c = requestValueB;
     if (gBootInfo->mUnk_00 == 2) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
@@ -398,10 +399,10 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
 }
 
 void ReleaseArchiveSlots(void) {
-    s32 i;
+    s32 slotIndex;
 
-    for (i = 0; i < 20; i++) {
-        ReleaseArchiveSlot(i);
+    for (slotIndex = 0; slotIndex < 20; slotIndex++) {
+        ReleaseArchiveSlot(slotIndex);
     }
 }
 
@@ -637,13 +638,13 @@ void ReleaseKartModelLoadSlotsForScene(void) {
 
 #pragma thumb on
 
-void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 c, u32 uncompress, u32 e) {
+void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32 uncompress, u32 flag) {
     ArchiveBuffer *buffer = &gArchiveSlots->mBuffers[bufferIndex];
     buffer->mHeap = heap;
     buffer->mData = NULL;
-    buffer->mUnk_08_0 = c << 10;
+    buffer->mUnk_08_0 = sizeInKb << 10;
     buffer->mUncompress = uncompress;
-    buffer->mUnk_08_30 = e;
+    buffer->mUnk_08_30 = flag;
     buffer->mUnk_08_31 = 1;
 }
 
@@ -652,22 +653,22 @@ void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 c, u32 uncomp
 #pragma thumb on
 
 // Sets up 12 archive buffers on three heaps.
-void InitArchiveBuffers(NNSiFndHeapHead *a, NNSiFndHeapHead *courseBufferHeap, NNSiFndHeapHead *c) {
-    InitArchiveBuffer(c, 2, 0x3c, 0, 1);
-    InitArchiveBuffer(c, 3, 0x32, 0, 1);
-    InitArchiveBuffer(c, 4, 5, 0, 1);
-    InitArchiveBuffer(c, 5, 5, 0, 1);
-    InitArchiveBuffer(c, 0, 0x14, 0, 1);
-    InitArchiveBuffer(c, 1, 0x14, 0, 1);
-    InitArchiveBuffer(c, 0xe, 0x46, 0, 1);
-    InitArchiveBuffer(c, 0xf, 0x46, 0, 1);
+void InitArchiveBuffers(NNSiFndHeapHead *firstHeap, NNSiFndHeapHead *courseBufferHeap, NNSiFndHeapHead *lastHeap) {
+    InitArchiveBuffer(lastHeap, 2, 0x3c, 0, 1);
+    InitArchiveBuffer(lastHeap, 3, 0x32, 0, 1);
+    InitArchiveBuffer(lastHeap, 4, 5, 0, 1);
+    InitArchiveBuffer(lastHeap, 5, 5, 0, 1);
+    InitArchiveBuffer(lastHeap, 0, 0x14, 0, 1);
+    InitArchiveBuffer(lastHeap, 1, 0x14, 0, 1);
+    InitArchiveBuffer(lastHeap, 0xe, 0x46, 0, 1);
+    InitArchiveBuffer(lastHeap, 0xf, 0x46, 0, 1);
     InitArchiveBuffer(courseBufferHeap, 6, 200, 1, 1);
     InitArchiveBuffer(courseBufferHeap, 7, 200, 0, 1);
-    InitArchiveBuffer(a, 8, 0x46, 1, 0);
-    InitArchiveBuffer(a, 0xd, 0x1e, 0, 0);
-    gArchiveSlots->mUnk_a78 = a;
+    InitArchiveBuffer(firstHeap, 8, 0x46, 1, 0);
+    InitArchiveBuffer(firstHeap, 0xd, 0x1e, 0, 0);
+    gArchiveSlots->mUnk_a78 = firstHeap;
     gArchiveSlots->mCourseBufferHeap = courseBufferHeap;
-    gArchiveSlots->mUnk_a80 = c;
+    gArchiveSlots->mUnk_a80 = lastHeap;
 }
 
 void InitArchiveBuffersOnOverlayHeap(void) {
@@ -723,20 +724,20 @@ void RequestMenuDLArchives(void) {
 
 #pragma thumb on
 
-void RequestRaceArchives(void *courseId, void *b) {
+void RequestRaceArchives(void *courseId, void *kind) {
     char path[128];
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mUnk_a80, 3);
     RequestArchiveLoad(gRaceArchivePath, 2);
     RequestArchiveLoadWithLanguage(gRaceArchivePrefix, 3);
-    if (b == (void *) 3) {
+    if (kind == (void *) 3) {
         RequestArchiveLoad(gRaceVsArchivePath, 4);
         RequestArchiveLoadWithLanguage(gRaceVsArchivePrefix, 5);
     } else {
         RequestArchiveLoad(gRaceMgArchivePath, 4);
         RequestArchiveLoadWithLanguage(gRaceMgArchivePrefix, 5);
     }
-    gArchiveSlots->mUnk_a74 = b;
+    gArchiveSlots->mUnk_a74 = kind;
     NNS_FndFreeToFrmHeap(gArchiveSlots->mCourseBufferHeap, 3);
     BuildCourseArchivePath(path, (s32) courseId, 0);
     RequestArchiveLoad(path, 6);
@@ -761,10 +762,10 @@ void RequestResultDLArchives(void) {
 #pragma thumb on
 
 void ClearArchiveBuffersBit31(void) {
-    s32 i;
+    s32 bufferIndex;
 
-    for (i = 0; i < 16; i++) {
-        *OFFSET_PTR(u32, &gArchiveSlots->mBuffers[0].mUnk_08, i * 12) &= 0x7fffffff;
+    for (bufferIndex = 0; bufferIndex < 16; bufferIndex++) {
+        *OFFSET_PTR(u32, &gArchiveSlots->mBuffers[0].mUnk_08, bufferIndex * 12) &= 0x7fffffff;
     }
 }
 
