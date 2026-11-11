@@ -342,7 +342,7 @@ BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags) {
 
 BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size) {
     u32 enabled = OS_DisableInterrupts();
-    gEssidConnectBlock = (Unk02188de4 *) buffer;
+    gEssidConnectBlock = (WCMWepDesc *) buffer;
     gEssidWcmConfig = (WCMConfig *) (((u32) buffer + 0x53) & ~3);
     gEssidWcmWork = (u8 *) (((u32) gEssidWcmConfig + 0x2f) & ~0x1f);
     gEssidConnectRecord = (Unk021a5e84 *) (((u32) gEssidWcmWork + 0x231f) & ~0x1f);

@@ -5,11 +5,11 @@
 
 // Three words: a function called with (name, size) that returns a block, a function called with (name, block, 0) that
 // releases it, and a word.
-typedef struct Unk02188114 {
+typedef struct DWCNetcheckParam {
     /* 00 */ void *(*mAlloc)();
     /* 04 */ void (*mFree)();
     /* 08 */ u32 mUnk_08;
-} Unk02188114;
+} DWCNetcheckParam;
 
 // Element of the table at 0x300 of an Unk02188408.
 typedef struct Unk02188408Entry24 {
@@ -41,7 +41,7 @@ typedef struct Unk02188408Entry0xc0 {
     /* 38 */ u8 pad_38[0x88];
 } Unk02188408Entry0xc0;
 
-// Object behind data_ov000_021b4d00.
+// Object behind gAcWork.
 typedef struct Unk02188408 {
     /* 000 */ u8 pad_000[0x300];
     /* 300 */ Unk02188408Entry24 mUnk_300[9];
@@ -66,15 +66,15 @@ typedef struct Unk02188408 {
     /* d15 */ u8 pad_d15[3];
 } Unk02188408;
 
-extern const s8 *data_ov000_021b1488;
+extern const s8 *gBase64Alphabet;
 extern u8 gHttpName[];
 extern u8 gNetcheckName[];
 
 
 void DWCi_Netcheck_StartThread(void);
 void DWC_Netcheck_Destroy(void);
-u32 DWC_Netcheck_Create(Unk02188114 *p);
-s32 DWC_Auth_Base64Decode(const s8 *a, u32 b, u8 *c, u32 d);
-s32 DWC_Auth_Base64Encode(const u8 *a, u32 b, char *c, u32 d);
-s32 func_ov000_02188408(void);
-void func_ov000_021884a8(void);
+u32 DWC_Netcheck_Create(DWCNetcheckParam *param);
+s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, u8 *dst, u32 dstLength);
+s32 DWC_Auth_Base64Encode(const u8 *src, u32 srcLength, char *dst, u32 dstLength);
+s32 CheckDuplicate(void);
+void FreeDisused(void);

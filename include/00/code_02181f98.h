@@ -5,7 +5,7 @@
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b05f8[][2];
+extern u8 gWiFiVSSettingTimerTableIndices[][2];
 
 extern WiFiStateCallbacks gWiFiVSSettingCallbacks;
 
@@ -268,11 +268,11 @@ typedef struct WiFiSession {
     /* 1f57 */ u8 mBuddyPollIndex;
 } WiFiSession;
 
-extern u8 data_ov000_021b060c[3][9];
-extern s32 data_ov000_021b0628[3][4];
-extern u8 data_ov000_021b0670[3][2];
-extern u8 data_ov000_021b0678[3][2];
-extern u8 data_ov000_021b068c[3][5];
+extern u8 gWiFiVSSettingOffsetTableIndices[3][9];
+extern s32 gWiFiVSSettingMessageIndices[3][4];
+extern u8 gWiFiVSMatchingTotalLabelIndices[3][2];
+extern u8 gWiFiVSMatchingTotalCellIndices[3][2];
+extern u8 gWiFiVSMatchingOffsetTableIndices[3][5];
 extern WiFiVSSetting *gWiFiVSSetting;
 extern WiFiVSMatching *gWiFiVSMatching;
 
@@ -315,17 +315,17 @@ void AdvanceWiFiVSMatching(void);
 #include "code_02016468.h"
 
 extern MenuShared *gMenuShared;
-extern u8 data_ov000_021b05e8[3];
-extern u8 data_ov000_021b05ec[];
-extern u8 data_ov000_021b05f0[];
+extern u8 gWiFiVSSettingLabelIndices[3];
+extern u8 gWiFiVSSettingKartTypes[];
+extern u8 gWiFiVSSettingIndexByKartType[];
 // Objects whose layout isn't known yet.
-extern s32 data_ov000_021b0600[];
-extern u8 data_ov000_021b066c[3];
+extern s32 gWiFiVSSettingOffsetCellCounts[];
+extern u8 gWiFiVSMatchingNameCellIndices[3];
 
-void func_ov000_02181ff0(void);
-void func_ov000_02182150(void);
-void func_ov000_021821e0(void);
-void func_ov000_02182270(void);
+void WriteWiFiVSSettingRegisters(void);
+void AdvanceWiFiVSSettingIndexTimers(void);
+void UpdateWiFiVSSettingHighlight(void);
+void UpdateWiFiVSSettingOffsets(void);
 void AdvanceWiFiVSSettingState11(void);
 void AdvanceWiFiVSSettingState10(void);
 void AdvanceWiFiVSSettingState9(void);
@@ -338,7 +338,7 @@ void AdvanceWiFiVSSettingState3(void);
 void AdvanceWiFiVSSettingState2(void);
 void AdvanceWiFiVSSettingState1(void);
 void AdvanceWiFiVSSettingState0(void);
-void func_ov000_02182de8(void);
+void SetupWiFiVSSettingText(void);
 void LocateAndQueueWiFiVSSetting(void);
-void func_ov000_02182f88(void);
-BOOL func_ov000_021832f0(void);
+void ReleaseWiFiVSSetting(void);
+BOOL HasBuddyRecords(void);

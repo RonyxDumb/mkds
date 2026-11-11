@@ -10,115 +10,125 @@
 #include "00/unk_021b4000.h"
 #include "00/code_02180608.h"
 
-void func_ov000_02184670(void) {
-    s32 n;
-    u32 q;
+void InitWiFiVSMatchingLabels(void) {
+    s32 subObjSizeLeft;
+    u32 settingMessageIndex;
     s32 i;
 
-    n = GX_GetSizeOfSubOBJ();
+    subObjSizeLeft = GX_GetSizeOfSubOBJ();
     {
-        u8 b[3][2] = {{0x78, 0x10}, {0x78, 0x10}, {0x78, 0x10}};
-        u8 *t1 = &b[0][0];
-        u8 *t2;
-        u8 *t3;
+        u8 nameLabelSizes[3][2] = {{0x78, 0x10}, {0x78, 0x10}, {0x78, 0x10}};
+        u8 *nameSizePointer = &nameLabelSizes[0][0];
+        u8 *nameCellPointer;
+        u8 *nameLabelPointer;
 
-        for (i = 0, t2 = data_ov000_021b066c, t3 = data_ov000_021b0664; i < 3; i++) {
-            n -= InitLabelCanvas(gWiFiVSMatching->mHeap, *t3, gWiFiVSMatching->mWiFiVSMatchingBnll, t1[0], t1[1], *t2,
-                                 gWiFiVSMatching->mWiFiVSMatchingSNcer, gWiFiVSMatching->mWiFiVSMatchingBncl,
-                                 gWiFiVSMatching->mWiFiVSMatchingTable, n);
-            t2++;
-            t1 += 2;
-            t3++;
+        for (i = 0, nameCellPointer = gWiFiVSMatchingNameCellIndices,
+            nameLabelPointer = gWiFiVSMatchingNameLabelIndices;
+             i < 3; i++) {
+            subObjSizeLeft -= InitLabelCanvas(
+                gWiFiVSMatching->mHeap, *nameLabelPointer, gWiFiVSMatching->mWiFiVSMatchingBnll, nameSizePointer[0],
+                nameSizePointer[1], *nameCellPointer, gWiFiVSMatching->mWiFiVSMatchingSNcer,
+                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
+            nameCellPointer++;
+            nameSizePointer += 2;
+            nameLabelPointer++;
         }
     }
     {
         s32 j;
-        u8 e[3][2][2] = {{{0x30, 0x10}, {0x30, 0x10}}, {{0x30, 0x10}, {0x30, 0x10}}, {{0x30, 0x10}, {0x30, 0x10}}};
+        u8 totalLabelSizes[3][2][2] = {
+            {{0x30, 0x10}, {0x30, 0x10}}, {{0x30, 0x10}, {0x30, 0x10}}, {{0x30, 0x10}, {0x30, 0x10}}};
 
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 2; j++) {
-                n -= InitLabelCanvas(gWiFiVSMatching->mHeap, data_ov000_021b0670[i][j],
-                                     gWiFiVSMatching->mWiFiVSMatchingBnll, e[i][j][0], e[i][j][1],
-                                     data_ov000_021b0678[i][j], gWiFiVSMatching->mWiFiVSMatchingSNcer,
-                                     gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, n);
+                subObjSizeLeft -= InitLabelCanvas(
+                    gWiFiVSMatching->mHeap, gWiFiVSMatchingTotalLabelIndices[i][j],
+                    gWiFiVSMatching->mWiFiVSMatchingBnll, totalLabelSizes[i][j][0], totalLabelSizes[i][j][1],
+                    gWiFiVSMatchingTotalCellIndices[i][j], gWiFiVSMatching->mWiFiVSMatchingSNcer,
+                    gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
             }
         }
     }
     {
-        void *p;
-        WiFiVSMatching *g;
-        u8 c[3][2] = {{0x78, 0x20}, {0x78, 0x20}, {0x78, 0x20}};
-        u8 *w = &c[0][0];
-        u8 *t1;
-        u8 *t2;
+        void *bmgEntry;
+        WiFiVSMatching *wiFiVSMatching;
+        u8 searchLabelSizes[3][2] = {{0x78, 0x20}, {0x78, 0x20}, {0x78, 0x20}};
+        u8 *searchSizePointer = &searchLabelSizes[0][0];
+        u8 *emblemCellPointer;
+        u8 *searchLabelPointer;
 
-        for (i = 0, t1 = data_ov000_021b0668, t2 = data_ov000_021b0660; i < 3; i++) {
-            n -= InitLabelCanvas(gWiFiVSMatching->mHeap, *t2, gWiFiVSMatching->mWiFiVSMatchingBnll, w[0], w[1], *t1,
-                                 gWiFiVSMatching->mWiFiVSMatchingSNcer, gWiFiVSMatching->mWiFiVSMatchingBncl,
-                                 gWiFiVSMatching->mWiFiVSMatchingTable, n);
-            g = gWiFiVSMatching;
-            p = GetBmgEntry(g->mWiFiMessages, 9);
-            PrintLabelLayoutTextNoFixedAdvance(1, *t2, gWiFiVSMatching->mWiFiVSMatchingBnll, p, g->mWiFiVSMatchingBncl,
-                                               g->mWiFiVSMatchingTable);
-            t1++;
-            w += 2;
-            t2++;
+        for (i = 0, emblemCellPointer = gWiFiVSMatchingEmblemCellIndices,
+            searchLabelPointer = gWiFiVSMatchingSearchLabelIndices;
+             i < 3; i++) {
+            subObjSizeLeft -= InitLabelCanvas(
+                gWiFiVSMatching->mHeap, *searchLabelPointer, gWiFiVSMatching->mWiFiVSMatchingBnll, searchSizePointer[0],
+                searchSizePointer[1], *emblemCellPointer, gWiFiVSMatching->mWiFiVSMatchingSNcer,
+                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
+            wiFiVSMatching = gWiFiVSMatching;
+            bmgEntry = GetBmgEntry(wiFiVSMatching->mWiFiMessages, 9);
+            PrintLabelLayoutTextNoFixedAdvance(1, *searchLabelPointer, gWiFiVSMatching->mWiFiVSMatchingBnll, bmgEntry,
+                                               wiFiVSMatching->mWiFiVSMatchingBncl,
+                                               wiFiVSMatching->mWiFiVSMatchingTable);
+            emblemCellPointer++;
+            searchSizePointer += 2;
+            searchLabelPointer++;
         }
     }
     {
-        u8 a[2] = {0xa0, 0x10};
+        u8 settingLabelSize[2] = {0xa0, 0x10};
 
-        q = LookupWiFiVSSettingMessageIndex(GetWiFiVSSettingIndex());
-        InitLabelCanvas(gWiFiVSMatching->mHeap, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll, a[0], a[1],
-                        gWiFiVSMatching->mWiFiVSMatchingBncl->mCount, gWiFiVSMatching->mWiFiVSMatchingSNcer,
-                        gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, n);
+        settingMessageIndex = LookupWiFiVSSettingMessageIndex(GetWiFiVSSettingIndex());
+        InitLabelCanvas(gWiFiVSMatching->mHeap, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll, settingLabelSize[0],
+                        settingLabelSize[1], gWiFiVSMatching->mWiFiVSMatchingBncl->mCount,
+                        gWiFiVSMatching->mWiFiVSMatchingSNcer, gWiFiVSMatching->mWiFiVSMatchingBncl,
+                        gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
         PrintLabelLayoutTextNoFixedAdvance(1, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll,
-                                           GetBmgEntry(gWiFiVSMatching->mWiFiMessages, q),
+                                           GetBmgEntry(gWiFiVSMatching->mWiFiMessages, settingMessageIndex),
                                            gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
     }
 }
 
-void func_ov000_021845ac(void) {
+void InitWiFiVSMatchingEntryMatrices(void) {
     s32 i;
     s32 j;
-    u8 *p;
-    u8 *q;
-    s32 x;
-    u8 *r;
+    u8 *totalLabelIndices;
+    u8 *emblemCellIndices;
+    s32 cellCount;
+    u8 *totalCellIndices;
 
-    x = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
+    cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
     i = 0;
-    r = &data_ov000_021b0678[0][0];
-    p = &data_ov000_021b0670[0][0];
-    q = data_ov000_021b0668;
+    totalCellIndices = &gWiFiVSMatchingTotalCellIndices[0][0];
+    totalLabelIndices = &gWiFiVSMatchingTotalLabelIndices[0][0];
+    emblemCellIndices = gWiFiVSMatchingEmblemCellIndices;
     for (; i < 3; i++) {
         for (j = 0; j < 2; j++) {
-            gWiFiVSMatching->mWiFiVSMatchingTable[r[j]].mUseMatrix = 1;
-            gWiFiVSMatching->mWiFiVSMatchingTable[x + p[j]].mUseMatrix = 1;
-            SetLayoutEntryAngleAndScale(&gWiFiVSMatching->mWiFiVSMatchingTable[r[j]], 0, 0x1000);
+            gWiFiVSMatching->mWiFiVSMatchingTable[totalCellIndices[j]].mUseMatrix = 1;
+            gWiFiVSMatching->mWiFiVSMatchingTable[cellCount + totalLabelIndices[j]].mUseMatrix = 1;
+            SetLayoutEntryAngleAndScale(&gWiFiVSMatching->mWiFiVSMatchingTable[totalCellIndices[j]], 0, 0x1000);
         }
-        gWiFiVSMatching->mWiFiVSMatchingTable[*q].mUseMatrix = 1;
-        SetLayoutEntryAngleAndScale(&gWiFiVSMatching->mWiFiVSMatchingTable[*q], 0, 0x1000);
-        r += 2;
-        p += 2;
-        q++;
+        gWiFiVSMatching->mWiFiVSMatchingTable[*emblemCellIndices].mUseMatrix = 1;
+        SetLayoutEntryAngleAndScale(&gWiFiVSMatching->mWiFiVSMatchingTable[*emblemCellIndices], 0, 0x1000);
+        totalCellIndices += 2;
+        totalLabelIndices += 2;
+        emblemCellIndices++;
     }
 }
 
-void InitWiFiVSMatching(void *a) {
+void InitWiFiVSMatching(void *heap) {
     s32 i;
     s32 k;
-    void *b;
-    u8 *r;
-    u8 *p1;
-    u8 *p2;
-    u8 *p3;
-    u8 *p4;
-    u8 c;
+    void *oamList;
+    u8 *offsetTableIndices;
+    u8 *emblemCellIndices;
+    u8 *nameLabelIndices;
+    u8 *totalLabelIndices;
+    u8 *nameCellIndices;
+    u8 totalLabelIndex;
 
     GetRaceSetupCopy();
-    gWiFiVSMatching = HeapAlloc(a, 0x170c);
-    gWiFiVSMatching->mHeap = a;
+    gWiFiVSMatching = HeapAlloc(heap, 0x170c);
+    gWiFiVSMatching->mHeap = heap;
     gWiFiVSMatching->mState = 0;
     gWiFiVSMatching->mNextState = 0;
     gWiFiVSMatching->mPendingWiFiState = -1;
@@ -130,42 +140,44 @@ void InitWiFiVSMatching(void *a) {
     }
     gWiFiVSMatching->mUnk_40 = FALSE;
     LocateAndQueueWiFiVSMatching();
-    b = func_ov000_021804f4();
-    ResetOamLists(b, func_ov000_021804e0());
-    InitLayoutTable(a, gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingBnll,
+    oamList = func_ov000_021804f4();
+    ResetOamLists(oamList, func_ov000_021804e0());
+    InitLayoutTable(heap, gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingBnll,
                     &gWiFiVSMatching->mWiFiVSMatchingTable);
     gWiFiVSMatching->mWiFiMessages = FindSceneFile(gWiFiBmgName2);
     gWiFiVSMatching->mCommonMessages = FindFileInLoadedArchives(gCommonBmgName4);
-    func_ov000_02184670();
+    InitWiFiVSMatchingLabels();
     i = 0;
-    r = &data_ov000_021b068c[0][0];
-    p1 = data_ov000_021b0668;
-    p2 = data_ov000_021b0664;
-    p3 = &data_ov000_021b0670[0][0];
-    p4 = data_ov000_021b066c;
+    offsetTableIndices = &gWiFiVSMatchingOffsetTableIndices[0][0];
+    emblemCellIndices = gWiFiVSMatchingEmblemCellIndices;
+    nameLabelIndices = gWiFiVSMatchingNameLabelIndices;
+    totalLabelIndices = &gWiFiVSMatchingTotalLabelIndices[0][0];
+    nameCellIndices = gWiFiVSMatchingNameCellIndices;
     for (; i < 3; i++) {
         for (k = 0; k < 5; k++) {
-            gWiFiVSMatching->mWiFiVSMatchingTable[r[k]].mVisible = 0;
+            gWiFiVSMatching->mWiFiVSMatchingTable[offsetTableIndices[k]].mVisible = 0;
         }
-        gWiFiVSMatching->mWiFiVSMatchingTable[*p1].mVisible = 1;
-        gWiFiVSMatching->mWiFiVSMatchingTable[*p2 + gWiFiVSMatching->mWiFiVSMatchingBncl->mCount].mVisible = 0;
+        gWiFiVSMatching->mWiFiVSMatchingTable[*emblemCellIndices].mVisible = 1;
+        gWiFiVSMatching->mWiFiVSMatchingTable[*nameLabelIndices + gWiFiVSMatching->mWiFiVSMatchingBncl->mCount]
+            .mVisible = 0;
         for (k = 0; k < 2; k++) {
-            c = p3[k];
-            gWiFiVSMatching->mWiFiVSMatchingTable[c + gWiFiVSMatching->mWiFiVSMatchingBncl->mCount].mVisible = 0;
+            totalLabelIndex = totalLabelIndices[k];
+            gWiFiVSMatching->mWiFiVSMatchingTable[totalLabelIndex + gWiFiVSMatching->mWiFiVSMatchingBncl->mCount]
+                .mVisible = 0;
         }
-        gWiFiVSMatching->mWiFiVSMatchingTable[*p4].mVisible = 1;
-        r += 5;
-        p1++;
-        p2++;
-        p3 += 2;
-        p4++;
+        gWiFiVSMatching->mWiFiVSMatchingTable[*nameCellIndices].mVisible = 1;
+        offsetTableIndices += 5;
+        emblemCellIndices++;
+        nameLabelIndices++;
+        totalLabelIndices += 2;
+        nameCellIndices++;
     }
     gWiFiVSMatching->mOffset = 0x100;
     for (i = 0; i < 3; i++) {
         gWiFiVSMatching->mUnk_12[i] = 0;
         gWiFiVSMatching->mUnk_18[i] = 0;
     }
-    func_ov000_021845ac();
+    InitWiFiVSMatchingEntryMatrices();
     if (func_ov000_02180644() != 0) {
         SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
     } else {
@@ -174,11 +186,11 @@ void InitWiFiVSMatching(void *a) {
     gWiFiVSMatching->mBlendFrames = 0;
 }
 
-void func_ov000_02184354(void) {
-    u32 a;
+void ReleaseWiFiVSMatching(void) {
+    u32 displayPlanes;
     StopBothSeqHandles();
-    a = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((a & ~8) << 8);
+    displayPlanes = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((displayPlanes & ~8) << 8);
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0xf00;
     gWiFiVSMatching = NULL;
 }
@@ -188,7 +200,7 @@ void LocateAndQueueWiFiVSMatching(void) {
     Nscr *scrn;
     Nclr *pltt;
     vu16 zero;
-    u16 c;
+    u16 paletteColor;
     s32 i;
 
     LocateNcgr(&chr, FindSceneFile("WiFi_VS_matching_s_b.ncgr"));
@@ -212,28 +224,28 @@ void LocateAndQueueWiFiVSMatching(void) {
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gWiFiVSMatching->mWiFiVSMatchingSONclr->mData,
                                        gWiFiVSMatching->mWiFiVSMatchingSONclr->mDataSize);
     for (i = 0; i < 5; i++) {
-        c = (gWiFiVSMatching->mWiFiVSMatchingSONclr->mData + 0x60 + data_ov000_021b0658[0])[i];
-        gWiFiVSMatching->mFromChannels[i][0] = c & 0x1f;
-        gWiFiVSMatching->mFromChannels[i][1] = (c & 0x3e0) >> 5;
-        gWiFiVSMatching->mFromChannels[i][2] = (c & 0x7c00) >> 10;
+        paletteColor = (gWiFiVSMatching->mWiFiVSMatchingSONclr->mData + 0x60 + gWiFiVSMatchingBlendColorOffsets[0])[i];
+        gWiFiVSMatching->mFromChannels[i][0] = paletteColor & 0x1f;
+        gWiFiVSMatching->mFromChannels[i][1] = (paletteColor & 0x3e0) >> 5;
+        gWiFiVSMatching->mFromChannels[i][2] = (paletteColor & 0x7c00) >> 10;
     }
     for (i = 0; i < 5; i++) {
-        c = (gWiFiVSMatching->mWiFiVSMatchingSONclr->mData + 0x60 + data_ov000_021b0658[1])[i];
-        gWiFiVSMatching->mToChannels[i][0] = c & 0x1f;
-        gWiFiVSMatching->mToChannels[i][1] = (c & 0x3e0) >> 5;
-        gWiFiVSMatching->mToChannels[i][2] = (c & 0x7c00) >> 10;
+        paletteColor = (gWiFiVSMatching->mWiFiVSMatchingSONclr->mData + 0x60 + gWiFiVSMatchingBlendColorOffsets[1])[i];
+        gWiFiVSMatching->mToChannels[i][0] = paletteColor & 0x1f;
+        gWiFiVSMatching->mToChannels[i][1] = (paletteColor & 0x3e0) >> 5;
+        gWiFiVSMatching->mToChannels[i][2] = (paletteColor & 0x7c00) >> 10;
     }
 }
 
-void func_ov000_021840c8(void) {
+void PrintWiFiVSMatchingNoOpponents(void) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
         if (gWiFiVSMatching->mUnk_24[i] == 0) {
-            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0660[i], gWiFiVSMatching->mWiFiVSMatchingBnll,
-                                               GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 10),
-                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
-                                               gWiFiVSMatching->mWiFiVSMatchingTable);
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gWiFiVSMatchingSearchLabelIndices[i], gWiFiVSMatching->mWiFiVSMatchingBnll,
+                GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 10), gWiFiVSMatching->mWiFiVSMatchingBncl,
+                gWiFiVSMatching->mWiFiVSMatchingTable);
         }
     }
 }
@@ -262,21 +274,21 @@ void AdvanceWiFiVSMatchingState0(void) {
 }
 
 void AdvanceWiFiVSMatchingState1(void) {
-    InputSlotIndex idx = UNK_02175628_INDEX_8;
-    BOOL a;
-    BOOL b;
-    u16 v;
-    u32 val;
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    BOOL pairNewUnlessRecentlyLost;
+    BOOL pairRecentlyLost;
+    u16 hasPair;
+    u32 secondTotal;
     s32 j;
     s32 sh;
-    s32 n;
+    s32 otherCount;
     s32 i;
-    BOOL flag;
-    u16 name[11];
-    u16 buf2[10];
-    u16 buf3[10];
-    u8 *dst;
-    s32 k;
+    BOOL blinkOn;
+    u16 nameText[11];
+    u16 firstTotalText[10];
+    u16 secondTotalText[10];
+    u8 *emblemDestination;
+    s32 otherSlot;
 
     if (gWiFiVSMatching->mUnk_08 >= 0x78) {
         gWiFiVSMatching->mUnk_08 = 0x78;
@@ -294,21 +306,21 @@ void AdvanceWiFiVSMatchingState1(void) {
         }
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0 &&
-        (u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) != 0) {
+        (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0) {
         goto hit;
     }
-    a = FALSE;
-    b = FALSE;
-    v = gInputSlots[idx].mPair.mHasPair;
-    if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
-        b = TRUE;
+    pairNewUnlessRecentlyLost = FALSE;
+    pairRecentlyLost = FALSE;
+    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        pairRecentlyLost = TRUE;
     }
-    if (b == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
-        a = TRUE;
+    if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        pairNewUnlessRecentlyLost = TRUE;
     }
-    if (a != FALSE &&
-        IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX, gInputSlots[idx].mPair.mPairY) !=
-            FALSE &&
+    if (pairNewUnlessRecentlyLost != FALSE &&
+        IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                        gInputSlots[slotIndex].mPair.mPairY) != FALSE &&
         IsWiFiSessionMatchingActive() != FALSE) {
     hit:
         StopWiFiSessionMatching();
@@ -321,12 +333,12 @@ void AdvanceWiFiVSMatchingState1(void) {
         return;
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSMatching->mUnk_08 >= 0x78 && CheckWiFiMatchingResult() == -1) {
-        func_ov000_021840c8();
+        PrintWiFiVSMatchingNoOpponents();
         gWiFiVSMatching->mNextState = 9;
         gWiFiVSMatching->mUnk_40 = TRUE;
         gWiFiVSMatching->mUnk_08 = 0;
         for (i = 0; i < 3; i++) {
-            gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 0;
+            gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[i]].mVisible = 0;
         }
         RequestTxtSystemClose();
         RequestSelectReturnState1();
@@ -334,14 +346,14 @@ void AdvanceWiFiVSMatchingState1(void) {
         return;
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && CheckWiFiMatchingResult() == 1) {
-        k = 0;
+        otherSlot = 0;
         gWiFiVSMatching->mUnk_08 = 0;
         if (gWiFiSession->mKartCount <= 1) {
-            func_ov000_021840c8();
+            PrintWiFiVSMatchingNoOpponents();
             gWiFiVSMatching->mNextState = 9;
             gWiFiVSMatching->mUnk_40 = TRUE;
             for (i = 0; i < 3; i++) {
-                gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 0;
+                gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[i]].mVisible = 0;
             }
             RequestTxtSystemClose();
             RequestSelectReturnState1();
@@ -351,39 +363,39 @@ void AdvanceWiFiVSMatchingState1(void) {
         gWiFiVSMatching->mOtherCount = gWiFiSession->mKartCount - 1;
         for (j = 0; j < gWiFiSession->mKartCount; j++) {
             if (j != GetOwnParticipantIndex()) {
-                gWiFiVSMatching->mOtherIndices[k] = j;
-                gWiFiVSMatching->mUnk_24[k] = 1;
-                k++;
+                gWiFiVSMatching->mOtherIndices[otherSlot] = j;
+                gWiFiVSMatching->mUnk_24[otherSlot] = 1;
+                otherSlot++;
             }
         }
         for (i = 0; i < gWiFiVSMatching->mOtherCount; i++) {
-            MIi_CpuCopy16(GetPlayerRecordName(gWiFiVSMatching->mOtherIndices[i]), name, 0x14);
-            name[10] = 0;
-            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0664[i], gWiFiVSMatching->mWiFiVSMatchingBnll, name,
-                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
-                                               gWiFiVSMatching->mWiFiVSMatchingTable);
-            val = GetPlayerRecordSecondTotal(gWiFiVSMatching->mOtherIndices[i]);
-            if (val > 9999) {
-                val = 9999;
+            MIi_CpuCopy16(GetPlayerRecordName(gWiFiVSMatching->mOtherIndices[i]), nameText, 0x14);
+            nameText[10] = 0;
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gWiFiVSMatchingNameLabelIndices[i], gWiFiVSMatching->mWiFiVSMatchingBnll, nameText,
+                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+            secondTotal = GetPlayerRecordSecondTotal(gWiFiVSMatching->mOtherIndices[i]);
+            if (secondTotal > 9999) {
+                secondTotal = 9999;
             }
-            FormatAsciiNumber(GetPlayerRecordFirstTotal(gWiFiVSMatching->mOtherIndices[i]), buf2);
-            FormatAsciiNumber(val, buf3);
-            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0670[i][0], gWiFiVSMatching->mWiFiVSMatchingBnll, buf2,
-                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
-                                               gWiFiVSMatching->mWiFiVSMatchingTable);
-            PrintLabelLayoutTextNoFixedAdvance(1, data_ov000_021b0670[i][1], gWiFiVSMatching->mWiFiVSMatchingBnll, buf3,
-                                               gWiFiVSMatching->mWiFiVSMatchingBncl,
-                                               gWiFiVSMatching->mWiFiVSMatchingTable);
-            dst = gWiFiVSMatching->mOtherEmblems[0];
-            dst += i * 0x200;
-            CopyBytesIntoTiles(GetPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[i]), dst, 0x20);
+            FormatAsciiNumber(GetPlayerRecordFirstTotal(gWiFiVSMatching->mOtherIndices[i]), firstTotalText);
+            FormatAsciiNumber(secondTotal, secondTotalText);
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gWiFiVSMatchingTotalLabelIndices[i][0], gWiFiVSMatching->mWiFiVSMatchingBnll, firstTotalText,
+                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gWiFiVSMatchingTotalLabelIndices[i][1], gWiFiVSMatching->mWiFiVSMatchingBnll, secondTotalText,
+                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+            emblemDestination = gWiFiVSMatching->mOtherEmblems[0];
+            emblemDestination += i * 0x200;
+            CopyBytesIntoTiles(GetPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[i]), emblemDestination, 0x20);
             gWiFiVSMatching->mUnk_16d8[i] = HasPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[i]);
         }
         for (i = 0; i < 3; i++) {
-            gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 0;
+            gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[i]].mVisible = 0;
         }
         for (i = 0; i < gWiFiVSMatching->mOtherCount; i++) {
-            gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 1;
+            gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[i]].mVisible = 1;
         }
         gWiFiVSMatching->mNextState = 2;
         RequestSelectReturnState4();
@@ -393,71 +405,73 @@ void AdvanceWiFiVSMatchingState1(void) {
         gWiFiVSMatching->mCurrentOtherIndex = 0;
         return;
     }
-    n = GetWiFiMatchingParticipantCount() - 1;
-    flag = FALSE;
-    if (n > 3) {
-        n = 3;
+    otherCount = GetWiFiMatchingParticipantCount() - 1;
+    blinkOn = FALSE;
+    if (otherCount > 3) {
+        otherCount = 3;
     }
     gWiFiVSMatching->mUnk_0c = gWiFiVSMatching->mUnk_0c + 1;
     if (gWiFiVSMatching->mUnk_0c >= 0x50) {
         gWiFiVSMatching->mUnk_0c = 0;
     }
-    if (n > 0) {
-        sh = 0x50 >> (n - 1);
+    if (otherCount > 0) {
+        sh = 0x50 >> (otherCount - 1);
         if (gWiFiVSMatching->mUnk_0c % sh >= sh / 2) {
-            flag = TRUE;
+            blinkOn = TRUE;
         }
     }
     for (i = 0; i < 3; i++) {
-        if (i < n && flag != FALSE) {
-            gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 1;
+        if (i < otherCount && blinkOn != FALSE) {
+            gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[i]].mVisible = 1;
             if (i >= gWiFiVSMatching->mUnk_38) {
                 StartWiFiMatchingEntryShowSeq();
                 gWiFiVSMatching->mUnk_38 = gWiFiVSMatching->mUnk_38 + 1;
             }
         } else {
-            gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 0;
+            gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[i]].mVisible = 0;
         }
     }
     sh = gWiFiVSMatching->mUnk_38;
-    while (n < gWiFiVSMatching->mUnk_38) {
+    while (otherCount < gWiFiVSMatching->mUnk_38) {
         StartWiFiMatchingEntryHideSeq();
         sh--;
-        n++;
+        otherCount++;
     }
     gWiFiVSMatching->mUnk_38 = sh;
 }
 
 void AdvanceWiFiVSMatchingState2(void) {
-    s32 t = gWiFiVSMatching->mUnk_08;
-    u16 x = (t << 16) / 0x14;
-    s32 y = ((0x13 - t) * 0xf33) / 0x14 + 0xcd;
+    s32 frame = gWiFiVSMatching->mUnk_08;
+    u16 angle = (frame << 16) / 0x14;
+    s32 scale = ((0x13 - frame) * 0xf33) / 0x14 + 0xcd;
     s32 i;
-    Nclr *q;
+    Nclr *emblemSBNclr;
 
     for (i = 0; i < 3; i++) {
-        SetLayoutEntryAngleAndScale(&gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b0668[i]], x, y);
+        SetLayoutEntryAngleAndScale(&gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingEmblemCellIndices[i]], angle,
+                                    scale);
     }
     gWiFiVSMatching->mUnk_08 = gWiFiVSMatching->mUnk_08 + 1;
     if (gWiFiVSMatching->mUnk_08 >= 0x14) {
         if (IsTxtSystemState0NoOpenRequest() != 0) {
-            q = GetEmblemSBNclr();
+            emblemSBNclr = GetEmblemSBNclr();
             for (i = 0; i < 3; i++) {
-                gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b0668[i]].mVisible = 0;
+                gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingEmblemCellIndices[i]].mVisible = 0;
             }
-            func_ov000_021840c8();
+            PrintWiFiVSMatchingNoOpponents();
             for (i = 0; i < gWiFiVSMatching->mOtherCount; i++) {
                 if (gWiFiVSMatching->mUnk_16d8[i] != 0) {
                     NNS_GfdRegisterNewVramTransferTask(0x23,
-                                                       GetCellCharIndex(data_ov000_021b0668[i],
+                                                       GetCellCharIndex(gWiFiVSMatchingEmblemCellIndices[i],
                                                                         gWiFiVSMatching->mWiFiVSMatchingSNcer,
                                                                         gWiFiVSMatching->mWiFiVSMatchingBncl)
                                                            << 5,
                                                        gWiFiVSMatching->mOtherEmblems[i], 0x200);
-                    NNS_GfdRegisterNewVramTransferTask(0x1e, (i + 3) << 5, q->mData, 0x20);
+                    NNS_GfdRegisterNewVramTransferTask(0x1e, (i + 3) << 5, emblemSBNclr->mData, 0x20);
                 }
                 gWiFiVSMatching
-                    ->mWiFiVSMatchingTable[data_ov000_021b0660[i] + gWiFiVSMatching->mWiFiVSMatchingBncl->mCount]
+                    ->mWiFiVSMatchingTable[gWiFiVSMatchingSearchLabelIndices[i] +
+                                           gWiFiVSMatching->mWiFiVSMatchingBncl->mCount]
                     .mVisible = 0;
             }
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 11), 0, 0, 1, 0, 0, 0);
@@ -476,60 +490,63 @@ void AdvanceWiFiVSMatchingState3(void) {
     }
 }
 
-u8 data_ov000_021b0ce4[30] = {
+u8 gWiFiVSMatchingTotalScalePercents[30] = {
     0x0a, 0x14, 0x1e, 0x28, 0x32, 0x3c, 0x46, 0x50, 0x5a, 0x64, 0x6e, 0x78, 0x82, 0x82, 0x82,
     0x78, 0x6e, 0x64, 0x5a, 0x5a, 0x64, 0x6e, 0x78, 0x78, 0x78, 0x6e, 0x64, 0x64, 0x64, 0x64,
 };
 
-u8 data_ov000_021b0d04[40] = {
+u8 gWiFiVSMatchingEmblemScalePercents[40] = {
     0x0a, 0x14, 0x1e, 0x28, 0x32, 0x3c, 0x46, 0x50, 0x5a, 0x64, 0x6e, 0x78, 0x82, 0x8c,
     0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x91, 0x8c, 0x87,
     0x82, 0x7d, 0x78, 0x73, 0x6e, 0x69, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64,
 };
 
 void AdvanceWiFiVSMatchingState4(void) {
-    s32 orig;
-    s32 i1;
-    s32 i2;
-    s32 cur;
-    s32 a;
-    s32 b;
-    u32 base;
-    u16 c;
+    s32 frame;
+    s32 totalFrame;
+    s32 emblemFrame;
+    s32 otherSlot;
+    s32 totalScale;
+    s32 emblemScale;
+    u32 cellCount;
+    u16 emblemAngle;
     s32 j;
-    u32 e;
+    u32 emblemEntryOffset;
 
-    orig = gWiFiVSMatching->mUnk_08;
-    i1 = orig;
-    i2 = orig;
-    cur = gWiFiVSMatching->mCurrentOtherIndex;
-    base = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
-    if (orig >= 0x1e) {
-        i1 = 0x1d;
+    frame = gWiFiVSMatching->mUnk_08;
+    totalFrame = frame;
+    emblemFrame = frame;
+    otherSlot = gWiFiVSMatching->mCurrentOtherIndex;
+    cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
+    if (frame >= 0x1e) {
+        totalFrame = 0x1d;
     }
-    if (orig >= 0x28) {
-        i2 = 0x27;
+    if (frame >= 0x28) {
+        emblemFrame = 0x27;
     }
-    a = (data_ov000_021b0ce4[i1] << 12) / 100;
-    b = (data_ov000_021b0d04[i2] << 12) / 100;
-    if (orig < 0x20) {
-        c = (i2 << 17) / 0x20;
+    totalScale = (gWiFiVSMatchingTotalScalePercents[totalFrame] << 12) / 100;
+    emblemScale = (gWiFiVSMatchingEmblemScalePercents[emblemFrame] << 12) / 100;
+    if (frame < 0x20) {
+        emblemAngle = (emblemFrame << 17) / 0x20;
     } else {
-        c = 0;
+        emblemAngle = 0;
     }
-    gWiFiVSMatching->mWiFiVSMatchingTable[base + data_ov000_021b0664[cur]].mVisible = 1;
+    gWiFiVSMatching->mWiFiVSMatchingTable[cellCount + gWiFiVSMatchingNameLabelIndices[otherSlot]].mVisible = 1;
     for (j = 0; j < 2; j++) {
-        gWiFiVSMatching->mWiFiVSMatchingTable[(&data_ov000_021b0678[0][0] + cur * 2)[j]].mVisible = 1;
-        gWiFiVSMatching->mWiFiVSMatchingTable[base + (&data_ov000_021b0670[0][0] + cur * 2)[j]].mVisible = 1;
+        gWiFiVSMatching->mWiFiVSMatchingTable[(&gWiFiVSMatchingTotalCellIndices[0][0] + otherSlot * 2)[j]].mVisible = 1;
+        gWiFiVSMatching->mWiFiVSMatchingTable[cellCount + (&gWiFiVSMatchingTotalLabelIndices[0][0] + otherSlot * 2)[j]]
+            .mVisible = 1;
     }
-    e = data_ov000_021b0668[cur] << 6;
-    ((LayoutTableEntry *) ((u32) gWiFiVSMatching->mWiFiVSMatchingTable + e))->mVisible = 1;
-    *(s16 *) ((u8 *) gWiFiVSMatching->mUnk_18 + cur * 2) = data_ov000_021b069c[i1];
+    emblemEntryOffset = gWiFiVSMatchingEmblemCellIndices[otherSlot] << 6;
+    ((LayoutTableEntry *) ((u32) gWiFiVSMatching->mWiFiVSMatchingTable + emblemEntryOffset))->mVisible = 1;
+    *(s16 *) ((u8 *) gWiFiVSMatching->mUnk_18 + otherSlot * 2) = gWiFiVSMatchingNameSlideOffsets[totalFrame];
     for (j = 0; j < 2; j++) {
-        SetLayoutEntryAngleAndScale(&gWiFiVSMatching->mWiFiVSMatchingTable[(&data_ov000_021b0678[0][0] + cur * 2)[j]],
-                                    0, a);
+        SetLayoutEntryAngleAndScale(
+            &gWiFiVSMatching->mWiFiVSMatchingTable[(&gWiFiVSMatchingTotalCellIndices[0][0] + otherSlot * 2)[j]], 0,
+            totalScale);
     }
-    SetLayoutEntryAngleAndScale((LayoutTableEntry *) ((u32) gWiFiVSMatching->mWiFiVSMatchingTable + e), c, b);
+    SetLayoutEntryAngleAndScale((LayoutTableEntry *) ((u32) gWiFiVSMatching->mWiFiVSMatchingTable + emblemEntryOffset),
+                                emblemAngle, emblemScale);
     gWiFiVSMatching->mUnk_08 = gWiFiVSMatching->mUnk_08 + 1;
     if (gWiFiVSMatching->mUnk_08 >= 0x1e && gWiFiVSMatching->mUnk_08 >= 0x28) {
         gWiFiVSMatching->mUnk_08 = 0;
@@ -554,7 +571,7 @@ void AdvanceWiFiVSMatchingState5(void) {
 void AdvanceWiFiVSMatchingState8(void) {
     gWiFiVSMatching->mUnk_08 = gWiFiVSMatching->mUnk_08 + 1;
     // mUnk_30 is 1 to 3 here and indexes the table from 1.
-    if (gWiFiVSMatching->mUnk_08 >= (data_ov000_021b0680 - 1)[gWiFiVSMatching->mOtherCount]) {
+    if (gWiFiVSMatching->mUnk_08 >= (gWiFiVSMatchingResultWaitFrames - 1)[gWiFiVSMatching->mOtherCount]) {
         if (IsSelectReturnState0NoState1Request() != 0) {
             gWiFiVSMatching->mNextState = 11;
             gWiFiVSMatching->mPendingWiFiState = 4;
@@ -567,30 +584,30 @@ void AdvanceWiFiVSMatchingState8(void) {
 }
 
 void AdvanceWiFiVSMatchingState9(void) {
-    BOOL a;
-    BOOL b;
-    u16 v;
-    InputSlotIndex idx = UNK_02175628_INDEX_8;
+    BOOL pairNewUnlessRecentlyLost;
+    BOOL pairRecentlyLost;
+    u16 hasPair;
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
 
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 13), 0, 0, 1, 0, 0, 0);
     }
     if (IsTxtSystemState2NoCloseRequest() != 0) {
-        if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) == 0) {
-            a = FALSE;
-            b = FALSE;
-            v = gInputSlots[idx].mPair.mHasPair;
-            if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
-                b = TRUE;
+        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+            pairNewUnlessRecentlyLost = FALSE;
+            pairRecentlyLost = FALSE;
+            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+                pairRecentlyLost = TRUE;
             }
-            if (b == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
-                a = TRUE;
+            if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+                pairNewUnlessRecentlyLost = TRUE;
             }
-            if (a == FALSE) {
+            if (pairNewUnlessRecentlyLost == FALSE) {
                 return;
             }
-            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX,
-                                                                gInputSlots[idx].mPair.mPairY) == FALSE) {
+            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
                 return;
             }
         }
@@ -627,59 +644,67 @@ void AdvanceWiFiVSMatchingState11(void) {
     }
 }
 
-void func_ov000_02183548(void) {
+void UpdateWiFiVSMatchingOffsets(void) {
     s32 i;
-    u32 base = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
+    u32 cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
     s32 j;
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 5; j++) {
-            gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b068c[i][j]].mOffsetX = gWiFiVSMatching->mOffset;
+            gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOffsetTableIndices[i][j]].mOffsetX =
+                gWiFiVSMatching->mOffset;
         }
     }
     for (i = 0; i < 3; i++) {
-        (gWiFiVSMatching->mWiFiVSMatchingTable + base)[data_ov000_021b0664[i]].mOffsetX =
+        (gWiFiVSMatching->mWiFiVSMatchingTable + cellCount)[gWiFiVSMatchingNameLabelIndices[i]].mOffsetX =
             gWiFiVSMatching->mOffset + gWiFiVSMatching->mUnk_18[i];
-        (gWiFiVSMatching->mWiFiVSMatchingTable + base)[data_ov000_021b0660[i]].mOffsetX = gWiFiVSMatching->mOffset;
+        (gWiFiVSMatching->mWiFiVSMatchingTable + cellCount)[gWiFiVSMatchingSearchLabelIndices[i]].mOffsetX =
+            gWiFiVSMatching->mOffset;
         for (j = 0; j < 2; j++) {
-            (gWiFiVSMatching->mWiFiVSMatchingTable + base)[data_ov000_021b0670[i][j]].mOffsetX =
+            (gWiFiVSMatching->mWiFiVSMatchingTable + cellCount)[gWiFiVSMatchingTotalLabelIndices[i][j]].mOffsetX =
                 gWiFiVSMatching->mOffset - gWiFiVSMatching->mUnk_18[i];
         }
     }
-    (gWiFiVSMatching->mWiFiVSMatchingTable + base)[12].mOffsetX = gWiFiVSMatching->mOffset;
+    (gWiFiVSMatching->mWiFiVSMatchingTable + cellCount)[12].mOffsetX = gWiFiVSMatching->mOffset;
 }
 
-void func_ov000_021834b0(s32 t) {
+void SetWiFiVSMatchingBlendedColors(s32 weight) {
     s32 i;
 
     for (i = 0; i < 5; i++) {
-        WiFiVSMatching *p = gWiFiVSMatching;
+        WiFiVSMatching *wiFiVSMatching = gWiFiVSMatching;
 
-        p->mBlendedColors[i] = ((((0x1000 - t) * p->mFromChannels[i][2] + t * p->mToChannels[i][2]) >> 12) << 10) |
-                               ((((0x1000 - t) * p->mFromChannels[i][0] + t * p->mToChannels[i][0]) >> 12) |
-                                ((((0x1000 - t) * p->mFromChannels[i][1] + t * p->mToChannels[i][1]) >> 12) << 5));
+        wiFiVSMatching->mBlendedColors[i] =
+            ((((0x1000 - weight) * wiFiVSMatching->mFromChannels[i][2] + weight * wiFiVSMatching->mToChannels[i][2]) >>
+              12)
+             << 10) |
+            ((((0x1000 - weight) * wiFiVSMatching->mFromChannels[i][0] + weight * wiFiVSMatching->mToChannels[i][0]) >>
+              12) |
+             ((((0x1000 - weight) * wiFiVSMatching->mFromChannels[i][1] + weight * wiFiVSMatching->mToChannels[i][1]) >>
+               12)
+              << 5));
     }
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0x36, gWiFiVSMatching->mBlendedColors, 10);
 }
 
-void func_ov000_02183444(void) {
-    s32 t;
+void UpdateWiFiVSMatchingPaletteBlend(void) {
+    s32 blendFrame;
 
     if (gWiFiVSMatching->mState == 8 || gWiFiVSMatching->mState == 11) {
         gWiFiVSMatching->mBlendFrames = gWiFiVSMatching->mBlendFrames + 1;
         if (gWiFiVSMatching->mBlendFrames >= 0x3c) {
             gWiFiVSMatching->mBlendFrames = 0;
         }
-        t = gWiFiVSMatching->mBlendFrames;
-        if (t < 0x14) {
-            func_ov000_021834b0((t << 12) / 0x14);
+        blendFrame = gWiFiVSMatching->mBlendFrames;
+        if (blendFrame < 0x14) {
+            SetWiFiVSMatchingBlendedColors((blendFrame << 12) / 0x14);
             return;
         }
-        if (t < 0x28) {
-            func_ov000_021834b0(((0x28 - t) << 12) / 0x14);
+        if (blendFrame < 0x28) {
+            SetWiFiVSMatchingBlendedColors(((0x28 - blendFrame) << 12) / 0x14);
             return;
         }
-        func_ov000_021834b0(0);
+        SetWiFiVSMatchingBlendedColors(0);
     }
 }
 
@@ -717,30 +742,31 @@ void AdvanceWiFiVSMatching(void) {
             AdvanceWiFiVSMatchingState11();
             break;
     }
-    func_ov000_02183548();
-    func_ov000_02183444();
+    UpdateWiFiVSMatchingOffsets();
+    UpdateWiFiVSMatchingPaletteBlend();
     DrawLayoutTable(gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingSNcer,
                     gWiFiVSMatching->mWiFiVSMatchingBnll, func_ov000_021804e0(), gWiFiVSMatching->mWiFiVSMatchingTable);
 }
 
-void func_ov000_02183330(void) {
-    s32 x;
-    u32 plane;
+void WriteWiFiVSMatchingRegisters(void) {
+    s32 bgOffset;
+    u32 displayPlanes;
 
-    plane = ((reg_GXS_DB_DISPCNT) & 0x1f00) >> 8;
-    (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & 0xffffe0ff) | ((plane | 8) << 8);
-    x = -gWiFiVSMatching->mOffset;
-    if (x <= -0x100) {
-        x = -0x100;
+    displayPlanes = ((reg_GXS_DB_DISPCNT) & 0x1f00) >> 8;
+    (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & 0xffffe0ff) | ((displayPlanes | 8) << 8);
+    bgOffset = -gWiFiVSMatching->mOffset;
+    if (bgOffset <= -0x100) {
+        bgOffset = -0x100;
     }
-    if (x >= 0x100) {
-        x = 0x100;
+    if (bgOffset >= 0x100) {
+        bgOffset = 0x100;
     }
-    (reg_G2S_DB_BG3OFS) = x & 0x1ff;
+    (reg_G2S_DB_BG3OFS) = bgOffset & 0x1ff;
 }
 
 void RegisterWiFiVSMatchingCallbacks(void) {
-    WiFiStateCallbacks x = {InitWiFiVSMatching, func_ov000_02184354, AdvanceWiFiVSMatching, func_ov000_02183330};
+    WiFiStateCallbacks x = {InitWiFiVSMatching, ReleaseWiFiVSMatching, AdvanceWiFiVSMatching,
+                            WriteWiFiVSMatchingRegisters};
 
     SetWiFiStateCallbacks(&x);
 }

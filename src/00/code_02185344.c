@@ -22,49 +22,50 @@
 #include "Main/Unknown/code_02047104.h"
 
 void SetWiFiAikotobaCheckDigits(void) {
-    u8 a[20];
+    u8 friendKeyText[20];
     s32 i;
 
-    FormatUserDataFriendKey((u32) a);
+    FormatUserDataFriendKey((u32) friendKeyText);
     for (i = 0; i < 12; i++) {
-        gWiFiAikotobaCheck->mDigits[i] = a[i];
+        gWiFiAikotobaCheck->mDigits[i] = friendKeyText[i];
     }
 }
 
-void func_ov000_021856a8(void) {
-    s32 n = 0x4000;
-    u8 a[12] = {0, 0, 1, 2, 3, 4, 1, 6, 7, 8, 9, 10};
-    u8 b[12] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
-    u16 c;
+void InitWiFiAikotobaCheckDigits(void) {
+    s32 subObjSizeLeft = 0x4000;
+    u8 entryIndices[12] = {0, 0, 1, 2, 3, 4, 1, 6, 7, 8, 9, 10};
+    u8 entryIsCell[12] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
+    u16 cellCount;
     s32 i;
-    s16 z[2];
+    s16 digitText[2];
 
-    c = gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount;
+    cellCount = gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount;
     SetWiFiAikotobaCheckDigits();
     for (i = 0; i < 12; i++) {
-        if (b[i] == 0) {
-            a[i] = a[i] + c;
+        if (entryIsCell[i] == 0) {
+            entryIndices[i] = entryIndices[i] + cellCount;
         }
     }
     for (i = 0; i < 12; i++) {
-        n -= InitLabelCanvas(gWiFiAikotobaCheck->mHeap, data_ov000_021b06dc[i],
-                             gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, 8, 0x10, a[i],
-                             gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcer, gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl,
-                             gWiFiAikotobaCheck->mWiFiAikotobaCheckTable, n);
-        z[0] = 0;
-        z[1] = 0;
-        z[0] = gWiFiAikotobaCheck->mDigits[i];
-        PrintLabelLayoutTextNoFixedAdvance(0, data_ov000_021b06dc[i], gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, z,
-                                           gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl,
-                                           gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
+        subObjSizeLeft -=
+            InitLabelCanvas(gWiFiAikotobaCheck->mHeap, gWiFiAikotobaCheckDigitLabelIndices[i],
+                            gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, 8, 0x10, entryIndices[i],
+                            gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcer, gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl,
+                            gWiFiAikotobaCheck->mWiFiAikotobaCheckTable, subObjSizeLeft);
+        digitText[0] = 0;
+        digitText[1] = 0;
+        digitText[0] = gWiFiAikotobaCheck->mDigits[i];
+        PrintLabelLayoutTextNoFixedAdvance(
+            0, gWiFiAikotobaCheckDigitLabelIndices[i], gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, digitText,
+            gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl, gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
     }
 }
 
-void InitWiFiAikotobaCheck(void *a) {
-    void *b;
+void InitWiFiAikotobaCheck(void *heap) {
+    void *oamList;
 
-    gWiFiAikotobaCheck = HeapAlloc(a, 0x54);
-    gWiFiAikotobaCheck->mHeap = a;
+    gWiFiAikotobaCheck = HeapAlloc(heap, 0x54);
+    gWiFiAikotobaCheck->mHeap = heap;
     gWiFiAikotobaCheck->mState = 0;
     gWiFiAikotobaCheck->mNextState = 0;
     gWiFiAikotobaCheck->mPendingWiFiState = -1;
@@ -72,47 +73,49 @@ void InitWiFiAikotobaCheck(void *a) {
     gWiFiAikotobaCheck->mWiFiMessages = FindSceneFile(data_ov000_021b0fc0);
     gWiFiAikotobaCheck->mCommonMessages = FindFileInLoadedArchives(data_ov000_021b0fcc);
     LocateAndUploadWiFiAikotobaCheck();
-    b = func_ov000_021804f4();
-    ResetOamLists(b, func_ov000_021804e0());
-    InitLayoutTable(a, gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl, gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll,
+    oamList = func_ov000_021804f4();
+    ResetOamLists(oamList, func_ov000_021804e0());
+    InitLayoutTable(heap, gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl, gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll,
                     &gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
     gWiFiAikotobaCheck->mOffset = 0x50;
-    func_ov000_021854f8();
-    func_ov000_021856a8();
+    UpdateWiFiAikotobaCheckOffsets();
+    InitWiFiAikotobaCheckDigits();
     SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiAikotobaCheck->mWiFiMessages, 0x11), 0, 1, 0, 0, 0, 0);
 }
 
-void func_ov000_021855f8(void) {
+void ClearWiFiAikotobaCheckPointer(void) {
     gWiFiAikotobaCheck = NULL;
 }
 
 void LocateAndUploadWiFiAikotobaCheck(void) {
-    void *v1;
-    v1 = FindSceneFile(gWiFiAikotobaCheckBnclName);
-    gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl = v1;
-    v1 = FindSceneFile(gWiFiAikotobaCheckBnllName);
-    gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll = v1;
-    v1 = FindSceneFile(gWiFiAikotobaCheckMNcgrName);
-    LocateNcgr2(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcgr, v1);
-    v1 = FindSceneFile(gWiFiAikotobaCheckMNcerName);
-    LocateNcer(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcer, v1);
-    v1 = FindSceneFile(gWiFiAikotobaCheckMONclrName);
-    LocateNclr(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMONclr, v1);
+    void *sceneFile;
+    sceneFile = FindSceneFile(gWiFiAikotobaCheckBnclName);
+    gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl = sceneFile;
+    sceneFile = FindSceneFile(gWiFiAikotobaCheckBnllName);
+    gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll = sceneFile;
+    sceneFile = FindSceneFile(gWiFiAikotobaCheckMNcgrName);
+    LocateNcgr2(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcgr, sceneFile);
+    sceneFile = FindSceneFile(gWiFiAikotobaCheckMNcerName);
+    LocateNcer(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcer, sceneFile);
+    sceneFile = FindSceneFile(gWiFiAikotobaCheckMONclrName);
+    LocateNclr(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMONclr, sceneFile);
     GX_LoadOBJ(gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcgr->mData, 0,
                gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcgr->mDataSize);
     GX_LoadOBJPltt(gWiFiAikotobaCheck->mWiFiAikotobaCheckMONclr->mData, 0, 0x1a0);
     GX_LoadOBJPltt(gWiFiAikotobaCheck->mWiFiAikotobaCheckMONclr->mData + 0xe0, 0x1c0, 0x40);
 }
 
-void func_ov000_021854f8(void) {
+void UpdateWiFiAikotobaCheckOffsets(void) {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        gWiFiAikotobaCheck->mWiFiAikotobaCheckTable[data_ov000_021b06d8[i]].mOffsetY = gWiFiAikotobaCheck->mOffset;
+        gWiFiAikotobaCheck->mWiFiAikotobaCheckTable[gWiFiAikotobaCheckOffsetIndices[i]].mOffsetY =
+            gWiFiAikotobaCheck->mOffset;
     }
     for (i = 0; i < 12; i++) {
         gWiFiAikotobaCheck
-            ->mWiFiAikotobaCheckTable[data_ov000_021b06dc[i] + gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount]
+            ->mWiFiAikotobaCheckTable[gWiFiAikotobaCheckDigitLabelIndices[i] +
+                                      gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount]
             .mOffsetY = gWiFiAikotobaCheck->mOffset;
     }
 }
@@ -127,23 +130,24 @@ void AdvanceWiFiAikotobaCheckState0(void) {
 }
 
 void AdvanceWiFiAikotobaCheckState1(void) {
-    InputSlotIndex i = UNK_02175628_INDEX_8;
-    BOOL a;
-    BOOL b;
-    u16 c;
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    BOOL pairNewUnlessRecentlyLost;
+    BOOL pairRecentlyLost;
+    u16 hasPair;
 
-    if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
-        a = FALSE;
-        b = FALSE;
-        c = gInputSlots[i].mPair.mHasPair;
-        if (c == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-            b = TRUE;
+    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+        pairNewUnlessRecentlyLost = FALSE;
+        pairRecentlyLost = FALSE;
+        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            pairRecentlyLost = TRUE;
         }
-        if (b == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && c != 0) {
-            a = TRUE;
+        if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            pairNewUnlessRecentlyLost = TRUE;
         }
-        if (a == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
-                                                                          gInputSlots[i].mPair.mPairY) == FALSE) {
+        if (pairNewUnlessRecentlyLost == FALSE ||
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
@@ -163,7 +167,7 @@ void AdvanceWiFiAikotobaCheckState2(void) {
 }
 
 void AdvanceWiFiAikotobaCheck(void) {
-    WiFiAikotobaCheck *p;
+    WiFiAikotobaCheck *wiFiAikotobaCheck;
 
     gWiFiAikotobaCheck->mState = gWiFiAikotobaCheck->mNextState;
     switch (gWiFiAikotobaCheck->mState) {
@@ -177,13 +181,14 @@ void AdvanceWiFiAikotobaCheck(void) {
             AdvanceWiFiAikotobaCheckState2();
             break;
     }
-    func_ov000_021854f8();
-    p = gWiFiAikotobaCheck;
-    DrawLayoutTable(p->mWiFiAikotobaCheckBncl, p->mWiFiAikotobaCheckMNcer, p->mWiFiAikotobaCheckBnll,
-                    func_ov000_021804f4(), p->mWiFiAikotobaCheckTable);
+    UpdateWiFiAikotobaCheckOffsets();
+    wiFiAikotobaCheck = gWiFiAikotobaCheck;
+    DrawLayoutTable(wiFiAikotobaCheck->mWiFiAikotobaCheckBncl, wiFiAikotobaCheck->mWiFiAikotobaCheckMNcer,
+                    wiFiAikotobaCheck->mWiFiAikotobaCheckBnll, func_ov000_021804f4(),
+                    wiFiAikotobaCheck->mWiFiAikotobaCheckTable);
 }
 
-void func_ov000_02185368(void) {}
+void WriteWiFiAikotobaCheckRegistersNop(void) {}
 
 void RegisterWiFiAikotobaCheckCallbacks(void) {
     WiFiStateCallbacks callbacks = gWiFiAikotobaCheckCallbacks;

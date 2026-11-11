@@ -3,106 +3,106 @@
 #include "00/unk_021b4000.h"
 #include "00/code_02188008.h"
 
-void func_ov000_021885ec(void) {
-    Unk021884e4 *p;
-    void *q;
+void DWCi_AC_FreeAll(void) {
+    ACHOLD *hold;
+    void *buffer;
 
-    p = (Unk021884e4 *) func_ov000_02188584(1);
-    if ((p->mUnk_08 & 0x10) != 0) {
-        q = (void *) func_ov000_02188584(0x10);
-        p->mUnk_08 &= ~0x10;
-        p->mUnk_04(0x10, q, 0xd18);
+    hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
+    if ((hold->mUnk_08 & 0x10) != 0) {
+        buffer = (void *) DWCi_AC_GetMemPtr(0x10);
+        hold->mUnk_08 &= ~0x10;
+        hold->mUnk_04(0x10, buffer, 0xd18);
     }
-    if ((p->mUnk_08 & 8) != 0) {
-        q = (void *) func_ov000_02188584(8);
-        p->mUnk_08 &= ~8;
-        p->mUnk_04(8, q, 0xc);
+    if ((hold->mUnk_08 & 8) != 0) {
+        buffer = (void *) DWCi_AC_GetMemPtr(8);
+        hold->mUnk_08 &= ~8;
+        hold->mUnk_04(8, buffer, 0xc);
     }
-    if ((p->mUnk_08 & 4) != 0) {
-        q = (void *) func_ov000_02188584(4);
-        p->mUnk_08 &= ~4;
-        p->mUnk_04(4, q, 0x58);
+    if ((hold->mUnk_08 & 4) != 0) {
+        buffer = (void *) DWCi_AC_GetMemPtr(4);
+        hold->mUnk_08 &= ~4;
+        hold->mUnk_04(4, buffer, 0x58);
     }
-    if ((p->mUnk_08 & 2) != 0) {
-        q = (void *) func_ov000_02188584(2);
-        p->mUnk_08 &= ~2;
-        p->mUnk_04(2, q, 0x2300);
+    if ((hold->mUnk_08 & 2) != 0) {
+        buffer = (void *) DWCi_AC_GetMemPtr(2);
+        hold->mUnk_08 &= ~2;
+        hold->mUnk_04(2, buffer, 0x2300);
     }
-    if ((p->mUnk_08 & 1) != 0) {
-        p->mUnk_08 &= ~1;
-        p->mUnk_04(1, p, 0x18);
+    if ((hold->mUnk_08 & 1) != 0) {
+        hold->mUnk_08 &= ~1;
+        hold->mUnk_04(1, hold, 0x18);
     }
 }
 
-u32 func_ov000_02188584(u32 a) {
-    if ((a & 1) != 0) {
-        return (u32) data_ov000_021b4d10;
+u32 DWCi_AC_GetMemPtr(u32 name) {
+    if ((name & 1) != 0) {
+        return (u32) gAcHold;
     }
-    if ((a & 2) != 0) {
-        return *(u32 *) &data_ov000_021b4d04;
+    if ((name & 2) != 0) {
+        return *(u32 *) &gWcmBuffer;
     }
-    if ((a & 4) != 0) {
-        return *(u32 *) &data_ov000_021b4d08;
+    if ((name & 4) != 0) {
+        return *(u32 *) &gSocConfig;
     }
-    if ((a & 8) != 0) {
-        return *(u32 *) &data_ov000_021b4d0c;
+    if ((name & 8) != 0) {
+        return *(u32 *) &gNetCheck;
     }
-    if ((a & 0x10) != 0) {
-        return *(u32 *) &data_ov000_021b4d00;
+    if ((name & 0x10) != 0) {
+        return *(u32 *) &gAcWork;
     }
     return 0;
 }
 
-void func_ov000_02188534(u8 a) {
-    Unk021884e4 *p;
-    Unk02188408 *q;
+void DWCi_AC_SetPhase(u8 phase) {
+    ACHOLD *hold;
+    Unk02188408 *work;
 
-    p = (Unk021884e4 *) func_ov000_02188584(1);
-    q = (Unk02188408 *) func_ov000_02188584(0x10);
-    p->mUnk_09 = a;
-    if (a < 0x10) {
-        if (a > p->mUnk_16) {
-            p->mUnk_16 = a;
-            if (a > 7) {
-                p->mUnk_15 = func_ov000_021884d8(q->mUnk_d0d);
-                p->mUnk_14 = q->mUnk_444[q->mUnk_d13].mUnk_00;
+    hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
+    work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
+    hold->mUnk_09 = phase;
+    if (phase < 0x10) {
+        if (phase > hold->mUnk_16) {
+            hold->mUnk_16 = phase;
+            if (phase > 7) {
+                hold->mUnk_15 = DWCi_ConvConnectAPType(work->mUnk_d0d);
+                hold->mUnk_14 = work->mUnk_444[work->mUnk_d13].mUnk_00;
             }
         }
     }
 }
 
-u8 func_ov000_02188528(void) {
-    u32 value0;
-    value0 = data_ov000_021b4d10->mUnk_09;
-    return value0;
+u8 DWCi_AC_GetPhase(void) {
+    u32 phase;
+    phase = gAcHold->mUnk_09;
+    return phase;
 }
 
-void func_ov000_02188508(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value4;
-    u32 value5;
-    value5 = (value0) + (0u);
+void DWCi_AC_SetError(u32 error) {
+    u32 value0 = error;
+    u32 hold;
+    u32 errorValue;
+    errorValue = (value0) + (0u);
     value0 = 1u;
-    value0 = func_ov000_02188584(value0);
-    value4 = (value0) + (0u);
-    *(u32 *) ((value4) + 12u) = value5;
-    value0 = func_ov000_02188528();
-    *(u8 *) ((value4) + 10u) = value0;
+    value0 = DWCi_AC_GetMemPtr(value0);
+    hold = (value0) + (0u);
+    *(u32 *) ((hold) + 12u) = errorValue;
+    value0 = DWCi_AC_GetPhase();
+    *(u8 *) ((hold) + 10u) = value0;
 }
 
-u32 func_ov000_021884fc(void) {
-    u32 value0;
-    value0 = data_ov000_021b4d10->mUnk_0c;
-    return value0;
+u32 DWCi_AC_GetError(void) {
+    u32 error;
+    error = gAcHold->mUnk_0c;
+    return error;
 }
 
-void func_ov000_021884e4(u8 value) {
-    data_ov000_021b4d10->mUnk_17 = func_ov000_021884d8(value);
+void SetAcHoldApType(u8 apType) {
+    gAcHold->mUnk_17 = DWCi_ConvConnectAPType(apType);
 }
 
-u8 func_ov000_021884d8(u8 value) {
-    if (value > 2) {
-        value -= 3;
+u8 DWCi_ConvConnectAPType(u8 apType) {
+    if (apType > 2) {
+        apType -= 3;
     }
-    return value;
+    return apType;
 }

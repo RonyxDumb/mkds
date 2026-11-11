@@ -4,8 +4,8 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
-// Object behind data_ov000_021b4c68 (0x40 bytes).
-typedef struct Unk021b4c68 {
+// Object behind gWiFiLoginMenu (0x40 bytes).
+typedef struct WiFiLoginMenu {
     /* 00 */ u32 mState;
     /* 04 */ u32 mNextState;
     /* 08 */ s32 mUnk_08;
@@ -18,28 +18,28 @@ typedef struct Unk021b4c68 {
     /* 20 */ u8 pad_20[0x18];
     /* 38 */ struct Bmg *mWiFiMessages;
     /* 3c */ struct Bmg *mCommonMessages;
-} Unk021b4c68;
+} WiFiLoginMenu;
 
-extern WiFiStateCallbacks data_ov000_021b0a98;
-extern Unk021b4c68 *data_ov000_021b4c68;
+extern WiFiStateCallbacks gWiFiLoginMenuCallbacks;
+extern WiFiLoginMenu *gWiFiLoginMenu;
 
-void func_ov000_02180c04(void);
-u32 func_ov000_02180c28(void);
-void func_ov000_02180c3c(void);
-void func_ov000_02180cdc(void);
-void func_ov000_02180d94(void);
-void func_ov000_02180e58(void);
-void func_ov000_02180f80(void);
-void func_ov000_02180ffc(void);
-void func_ov000_021810dc(void);
-void func_ov000_021811ec(void);
-void func_ov000_021812f4(void);
-void func_ov000_0218134c(void);
-void func_ov000_02181458(void);
-s32 func_ov000_0218151c(s32 a, s32 b, s32 *c);
-u32 func_ov000_02181674(void);
-s32 func_ov000_0218167c(void);
-BOOL func_ov000_02181684(void);
-void func_ov000_021816a0(void);
-void func_ov000_021816a4(void);
-void func_ov000_021816b0(void *heap);
+void RegisterWiFiLoginMenuCallbacks(void);
+u32 WriteWiFiLoginMenuRegisters(void);
+void AdvanceWiFiLoginMenu(void);
+void AdvanceWiFiLoginMenuState9(void);
+void AdvanceWiFiLoginMenuState8(void);
+void AdvanceWiFiLoginMenuState7(void);
+void AdvanceWiFiLoginMenuState6(void);
+void AdvanceWiFiLoginMenuState5(void);
+void AdvanceWiFiLoginMenuState4(void);
+void AdvanceWiFiLoginMenuState3(void);
+void AdvanceWiFiLoginMenuState2(void);
+void AdvanceWiFiLoginMenuState1(void);
+void AdvanceWiFiLoginMenuState0(void);
+s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCountOut);
+u32 GetWiFiSessionErrorCodeNegatedWrapper(void);
+s32 CheckUserDataValidConsoleWrapper(void);
+BOOL IsUserDataFriendKeyZero(void);
+void InitWiFiLoginMenuNop(void);
+void ClearWiFiLoginMenuPointer(void);
+void InitWiFiLoginMenu(void *heap);

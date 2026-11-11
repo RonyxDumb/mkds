@@ -7,8 +7,8 @@ typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 extern WiFiStateCallbacks gSelectKartCallbacks;
 
 void RegisterSelectKartCallbacks(void);
-void func_ov000_02184a04(void);
+void WriteSelectKartRegistersWrapper(void);
 void AdvanceWiFiSelectKartState(void);
-void func_ov000_02184a50(void);
+void InitWiFiSelectKartNop(void);
 void ReleaseWiFiSelectKartState(void);
-void InitWiFiSelectKartState(void *a);
+void InitWiFiSelectKartState(void *heap);

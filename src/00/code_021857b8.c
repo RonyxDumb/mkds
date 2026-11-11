@@ -15,24 +15,24 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02036820.h"
 
-void func_ov000_0218592c(void *a) {
-    data_ov000_021b4c8c = HeapAlloc(a, 8);
-    data_ov000_021b4c8c->mState = 0;
-    data_ov000_021b4c8c->mNextState = 0;
+void InitWiFiConnectionLost(void *heap) {
+    gWiFiConnectionLost = HeapAlloc(heap, 8);
+    gWiFiConnectionLost->mState = 0;
+    gWiFiConnectionLost->mNextState = 0;
     StartFadeToFadedNegative(0x1e);
 }
 
-void func_ov000_02185920(void) {
-    data_ov000_021b4c8c = NULL;
+void ClearWiFiConnectionLostPointer(void) {
+    gWiFiConnectionLost = NULL;
 }
 
-void func_ov000_0218583c(void) {
-    u32 a;
-    BackupFirstBlock *p;
-    s8 b;
+void AdvanceWiFiConnectionLostState0(void) {
+    u32 total;
+    BackupFirstBlock *firstBlock;
+    s8 otherKartCount;
 
     if (AreBrightnessFadesFaded() != 0) {
-        data_ov000_021b4c8c->mNextState = 1;
+        gWiFiConnectionLost->mNextState = 1;
         StartFadeToClear(0x1e);
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x1208;
         reg_G2_BG1CNT = reg_G2_BG1CNT & ~3;
@@ -42,17 +42,17 @@ void func_ov000_0218583c(void) {
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
         GX_SetGraphicsMode(1, 0, 1);
         if (gMenuShared->mUnk_6c != FALSE) {
-            p = gBackupBuffers->mFirstBlock;
-            a = p->mTotals[5];
-            b = gWiFiSession->mKartCountCopy - 1;
-            if (b > 0) {
-                if (a < b) {
-                    a = 0;
+            firstBlock = gBackupBuffers->mFirstBlock;
+            total = firstBlock->mTotals[5];
+            otherKartCount = gWiFiSession->mKartCountCopy - 1;
+            if (otherKartCount > 0) {
+                if (total < otherKartCount) {
+                    total = 0;
                 } else {
-                    a -= b;
+                    total -= otherKartCount;
                 }
             }
-            p->mTotals[5] = a;
+            firstBlock->mTotals[5] = total;
             WriteBackupFirstBlockWrapper();
             WaitThreadFunctionsDone();
             if (gBackupAccess->mBackupEnabled != 0) {
@@ -62,30 +62,30 @@ void func_ov000_0218583c(void) {
     }
 }
 
-void func_ov000_02185818(void) {
-    int v1;
-    v1 = AreBrightnessFadesClear();
-    if (v1 != 0) {
+void AdvanceWiFiConnectionLostState1(void) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
         RequestWiFiState(2);
         gMenuShared->mUnk_1c = 1;
     }
 }
 
-void func_ov000_021857e0(void) {
-    data_ov000_021b4c8c->mState = data_ov000_021b4c8c->mNextState;
-    switch (data_ov000_021b4c8c->mState) {
+void AdvanceWiFiConnectionLost(void) {
+    gWiFiConnectionLost->mState = gWiFiConnectionLost->mNextState;
+    switch (gWiFiConnectionLost->mState) {
         case 0:
-            func_ov000_0218583c();
+            AdvanceWiFiConnectionLostState0();
             break;
         case 1:
-            func_ov000_02185818();
+            AdvanceWiFiConnectionLostState1();
             break;
     }
 }
 
-void func_ov000_021857dc(void) {}
+void WriteWiFiConnectionLostRegistersNop(void) {}
 
-void func_ov000_021857b8(void) {
-    WiFiStateCallbacks callbacks = data_ov000_021b0fd8;
+void RegisterWiFiConnectionLostCallbacks(void) {
+    WiFiStateCallbacks callbacks = gWiFiConnectionLostCallbacks;
     SetWiFiStateCallbacks(&callbacks);
 }

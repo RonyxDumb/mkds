@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/code_02188de4.h"
 
-// Eleven entries of 0xc0 bytes at 0x470 of Unk02188ec0.
+// Eleven entries of 0xc0 bytes at 0x470 of ACWORK.
 typedef struct Unk02188ee0 {
     /* 00 */ u8 pad_00[0xa];
     /* 0a */ u16 mUnk_0a;
@@ -19,31 +19,31 @@ typedef struct Unk02188ee0 {
     /* 38 */ u8 pad_38[0x88];
 } Unk02188ee0;
 
-// Entries of 0x24 bytes at 0x300 of Unk02188ec0.
-typedef struct Unk02188ec0_300 {
+// Entries of 0x24 bytes at 0x300 of ACWORK.
+typedef struct ACSL {
     /* 00 */ u8 mUnk_00_lo : 4;
     /* 00 */ u8 mUnk_00_hi : 4;
     /* 01 */ u8 mUnk_01;
     /* 02 */ u8 mUnk_02;
     /* 03 */ u8 mUnk_03;
     /* 04 */ u8 mUnk_04[0x20];
-} Unk02188ec0_300;
+} ACSL;
 
-// Entries of 4 bytes at 0x444 of Unk02188ec0.
-typedef struct Unk02188ec0_444 {
+// Entries of 4 bytes at 0x444 of ACWORK.
+typedef struct ACFL {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 pad_01;
     /* 02 */ u8 mUnk_02;
     /* 03 */ u8 mUnk_03;
-} Unk02188ec0_444;
+} ACFL;
 
-typedef struct Unk02188ec0 {
-    /* 000 */ Unk02188db0 mUnk_000[3];
-    /* 300 */ Unk02188ec0_300 mUnk_300[9];
-    /* 444 */ Unk02188ec0_444 mUnk_444[11];
+typedef struct ACWORK {
+    /* 000 */ DWCMemPage mUnk_000[3];
+    /* 300 */ ACSL mUnk_300[9];
+    /* 444 */ ACFL mUnk_444[11];
     /* 470 */ Unk02188ee0 mUnk_470[11];
     /* cb0 */ u64 mUnk_cb0;
-    /* cb8 */ Unk02188de4 mUnk_cb8;
+    /* cb8 */ WCMWepDesc mUnk_cb8;
     /* d0a */ u8 mUnk_d0a;
     /* d0b */ u8 mUnk_d0b : 2;
     /* d0b */ u8 mUnk_d0b_2 : 2;
@@ -61,6 +61,6 @@ typedef struct Unk02188ec0 {
     /* d14 */ u8 mUnk_d14;
     /* d15 */ u8 mUnk_d15;
     /* d16 */ u16 mUnk_d16;
-} Unk02188ec0;
+} ACWORK;
 
-u32 func_ov000_02188ec0(Unk02188ec0 *object);
+u32 GetPowerMode(ACWORK *work);

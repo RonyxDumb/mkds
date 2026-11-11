@@ -83,11 +83,11 @@ extern u8 data_ov000_021b4be5[];
 extern u8 gWiFiVSCourseSelectState[];
 extern Http *gHttp;
 extern DWCNetcheck *gNetcheck;
-extern Unk02188408 *data_ov000_021b4d00;
-extern void *data_ov000_021b4d04;
-extern void *data_ov000_021b4d08;
-extern Unk02188114 *data_ov000_021b4d0c;
-extern Unk021884e4 *data_ov000_021b4d10;
+extern Unk02188408 *gAcWork;
+extern void *gWcmBuffer;
+extern void *gSocConfig;
+extern DWCNetcheckParam *gNetCheck;
+extern ACHOLD *gAcHold;
 extern struct Hashtable *data_ov000_021b4d18;
 extern struct SbServer *data_ov000_021b4d1c;
 // Objects behind gWiFiSelectCharacterState and gWiFiSelectKartState.

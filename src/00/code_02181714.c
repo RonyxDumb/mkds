@@ -64,13 +64,14 @@ void InitWiFiTopMenu(void *heap) {
     gWiFiTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     LocateAndQueueWiFiTopMenu();
     for (i = 0; i < 3; i++) {
-        SetCellOamModeXlu(data_ov000_021b05c0[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
+        SetCellOamModeXlu(gWiFiTopMenuXluCellIndices[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer,
+                          gWiFiTopMenu->mWiFiTopMenuBncl);
     }
     ResetOamLists(func_ov000_021804f4(), func_ov000_021804e0());
     InitLayoutTable(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);
     for (j = 0; j < 3; j++) {
-        for (k = 0; k < data_ov000_021b05cc[j]; k++) {
-            gWiFiTopMenu->mWiFiTopMenuTable[data_ov000_021b05d8[j][k]].mOffsetX = 0xdc;
+        for (k = 0; k < gWiFiTopMenuOffsetCellCounts[j]; k++) {
+            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[j][k]].mOffsetX = 0xdc;
         }
     }
     SetLinkLevelIconEnabled(1, 0);
@@ -78,102 +79,105 @@ void InitWiFiTopMenu(void *heap) {
     SendLedPatternNone();
 }
 
-void func_ov000_02181e8c(void) {
+void ClearWiFiTopMenuPointer(void) {
     gWiFiTopMenu = NULL;
 }
 
 void LocateAndQueueWiFiTopMenu(void) {
-    void *v1;
-    v1 = FindSceneFile(gWiFiTopMenuSBnclName);
-    gWiFiTopMenu->mWiFiTopMenuBncl = v1;
-    v1 = FindSceneFile(gWiFiTopMenuSBnblName);
-    gWiFiTopMenu->mWiFiTopMenuBnbl = v1;
-    v1 = FindSceneFile(gWiFiTopMenuSNcgrName);
-    LocateNcgr2(&gWiFiTopMenu->mWiFiTopMenuSNcgr, v1);
-    v1 = FindSceneFile(gWiFiTopMenuSNcerName);
-    LocateNcer(&gWiFiTopMenu->mWiFiTopMenuSNcer, v1);
-    v1 = FindSceneFile(gWiFiTopMenuSONclrName);
-    LocateNclr(&gWiFiTopMenu->mWiFiTopMenuSONclr, v1);
+    void *sceneFile;
+    sceneFile = FindSceneFile(gWiFiTopMenuSBnclName);
+    gWiFiTopMenu->mWiFiTopMenuBncl = sceneFile;
+    sceneFile = FindSceneFile(gWiFiTopMenuSBnblName);
+    gWiFiTopMenu->mWiFiTopMenuBnbl = sceneFile;
+    sceneFile = FindSceneFile(gWiFiTopMenuSNcgrName);
+    LocateNcgr2(&gWiFiTopMenu->mWiFiTopMenuSNcgr, sceneFile);
+    sceneFile = FindSceneFile(gWiFiTopMenuSNcerName);
+    LocateNcer(&gWiFiTopMenu->mWiFiTopMenuSNcer, sceneFile);
+    sceneFile = FindSceneFile(gWiFiTopMenuSONclrName);
+    LocateNclr(&gWiFiTopMenu->mWiFiTopMenuSONclr, sceneFile);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData),
                                        gWiFiTopMenu->mWiFiTopMenuSNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, (gWiFiTopMenu->mWiFiTopMenuSONclr->mData),
                                        gWiFiTopMenu->mWiFiTopMenuSONclr->mDataSize);
 }
 
-s32 func_ov000_02181df0(void) {
+s32 IsUserDataFriendKeyNonZeroWrapper(void) {
     return IsUserDataFriendKeyNonZero();
 }
 
 void AdvanceWiFiTopMenuState0(void) {
-    int v1;
-    v1 = AreBrightnessFadesClear();
-    if (v1 != 0) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
         gWiFiTopMenu->mNextState = 1;
     }
 }
 
 void AdvanceWiFiTopMenuState1(void) {
-    s32 v = 0;
+    s32 offsetX = 0;
     s32 i;
     s32 j;
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
     if (gWiFiTopMenu->mStateFrames >= 20) {
         gWiFiTopMenu->mNextState = 2;
-        gWiFiTopMenu->mStateFrames = v;
+        gWiFiTopMenu->mStateFrames = offsetX;
         RequestSelectReturnState1();
     } else if (gWiFiTopMenu->mStateFrames >= 10) {
-        v = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames - 10);
+        offsetX = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames - 10);
     } else {
-        v = InterpolateS16(1, 0xdc, v, gWiFiTopMenu->mStateFrames, 10);
+        offsetX = InterpolateS16(1, 0xdc, offsetX, gWiFiTopMenu->mStateFrames, 10);
     }
     for (i = 0; i < 3; i++) {
-        for (j = 0; j < data_ov000_021b05cc[i]; j++) {
-            gWiFiTopMenu->mWiFiTopMenuTable[data_ov000_021b05d8[i][j]].mOffsetX = v;
+        for (j = 0; j < gWiFiTopMenuOffsetCellCounts[i]; j++) {
+            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[i][j]].mOffsetX = offsetX;
         }
     }
 }
 
 void AdvanceWiFiTopMenuState2(void) {
-    int v1;
-    v1 = IsSelectReturnState2NoState3Or4Request();
-    if (v1 != 0) {
+    int returnState2NoRequest;
+    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    if (returnState2NoRequest != 0) {
         gWiFiTopMenu->mNextState = 3;
         SetSelectReturnSoundId(0xf);
     }
 }
 
 void AdvanceWiFiTopMenuState3(void) {
-    InputSlotIndex i = UNK_02175628_INDEX_8;
-    BOOL v1 = FALSE;
-    u32 v2 = -1;
-    BOOL v3 = FALSE;
-    s32 v4;
-    s32 v5;
-    BOOL v6;
-    s32 v7;
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    BOOL pairNewUnlessRecentlyLost = FALSE;
+    u32 hitIndex = -1;
+    BOOL pairRecentlyLost = FALSE;
+    s32 previousIndex;
+    s32 pressedKeys;
+    BOOL backPairNewUnlessRecentlyLost;
+    s32 backPairRecentlyLost;
 
-    if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-        v3 = TRUE;
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        pairRecentlyLost = TRUE;
     }
-    if (v3 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
-        v1 = TRUE;
+    if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        pairNewUnlessRecentlyLost = TRUE;
     }
-    if (v1 != FALSE) {
-        v2 = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, gInputSlots[i].mPair.mPairX,
-                                     gInputSlots[i].mPair.mPairY);
+    if (pairNewUnlessRecentlyLost != FALSE) {
+        hitIndex = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, gInputSlots[slotIndex].mPair.mPairX,
+                                           gInputSlots[slotIndex].mPair.mPairY);
     }
-    v5 = gInputSlots[i].mPressedBits & PAD_KEY_B;
-    if ((u16) v5 == 0) {
-        v7 = v6 = FALSE;
-        if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-            v7 = 1;
+    pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    if ((u16) pressedKeys == 0) {
+        backPairRecentlyLost = backPairNewUnlessRecentlyLost = FALSE;
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            backPairRecentlyLost = 1;
         }
-        if (v7 == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
-            v6 = TRUE;
+        if (backPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+            backPairNewUnlessRecentlyLost = TRUE;
         }
-        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
-                                                                           gInputSlots[i].mPair.mPairY) == FALSE) {
+        if (backPairNewUnlessRecentlyLost == FALSE ||
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -184,11 +188,11 @@ void AdvanceWiFiTopMenuState3(void) {
     }
     return;
 next:
-    v5 = gInputSlots[i].mPressedBits & PAD_KEY_A;
-    if ((u16) v5 != 0 || v2 <= 2) {
-        v4 = gWiFiTopMenu->mIndex;
-        if ((u16) v5 == 0) {
-            switch (v2) {
+    pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+    if ((u16) pressedKeys != 0 || hitIndex <= 2) {
+        previousIndex = gWiFiTopMenu->mIndex;
+        if ((u16) pressedKeys == 0) {
+            switch (hitIndex) {
                 case 0:
                     gWiFiTopMenu->mIndex = 0;
                     break;
@@ -200,7 +204,7 @@ next:
                     break;
             }
         }
-        if (gWiFiTopMenu->mIndex == v4) {
+        if (gWiFiTopMenu->mIndex == previousIndex) {
             gWiFiTopMenu->mUnk_18 = FALSE;
         }
         gWiFiTopMenu->mNextState = 4;
@@ -239,12 +243,13 @@ next:
 
 void AdvanceWiFiTopMenuState4(void) {
     s32 i;
-    s32 v;
+    s32 selectedPressOffset;
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
-    v = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames);
-    for (i = 0; i < data_ov000_021b05cc[gWiFiTopMenu->mIndex]; i++) {
-        gWiFiTopMenu->mWiFiTopMenuTable[data_ov000_021b05d8[gWiFiTopMenu->mIndex][i]].mOffsetX = v;
+    selectedPressOffset = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames);
+    for (i = 0; i < gWiFiTopMenuOffsetCellCounts[gWiFiTopMenu->mIndex]; i++) {
+        gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[gWiFiTopMenu->mIndex][i]].mOffsetX =
+            selectedPressOffset;
     }
     if (gWiFiTopMenu->mStateFrames >= 10) {
         gWiFiTopMenu->mNextState = 5;
@@ -277,8 +282,8 @@ void AdvanceWiFiTopMenuState5(void) {
         v = 0xdc;
     }
     for (i = 0; i < 3; i++) {
-        for (j = 0; j < data_ov000_021b05cc[i]; j++) {
-            gWiFiTopMenu->mWiFiTopMenuTable[data_ov000_021b05d8[i][j]].mOffsetX = v;
+        for (j = 0; j < gWiFiTopMenuOffsetCellCounts[i]; j++) {
+            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[i][j]].mOffsetX = v;
         }
     }
     if (gWiFiTopMenu->mStateFrames >= 10) {
@@ -287,7 +292,7 @@ void AdvanceWiFiTopMenuState5(void) {
             return;
         }
         if (GetWiFiNextScene() == -1) {
-            if (gWiFiTopMenu->mPendingWiFiState == 8 && func_ov000_02181df0() == 0) {
+            if (gWiFiTopMenu->mPendingWiFiState == 8 && IsUserDataFriendKeyNonZeroWrapper() == 0) {
                 gWiFiTopMenu->mNextState = 8;
                 gWiFiTopMenu->mPendingWiFiState = -1;
                 SetupTxtSystemMainText(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
@@ -332,25 +337,26 @@ void AdvanceWiFiTopMenuState7(void) {
 }
 
 void AdvanceWiFiTopMenuState8(void) {
-    InputSlotIndex i = UNK_02175628_INDEX_8;
-    s32 a;
-    BOOL b;
-    u32 v;
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    s32 pairRecentlyLost;
+    BOOL pairNewUnlessRecentlyLost;
+    u32 hasPair;
     if (IsTxtSystemState2AfterState1() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
-            a = b = FALSE;
-            v = gInputSlots[i].mPair.mHasPair;
-            if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-                a = 1;
+        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+            pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
+            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+                pairRecentlyLost = 1;
             }
-            if (a == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
-                b = TRUE;
+            if (pairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+                pairNewUnlessRecentlyLost = TRUE;
             }
-            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
-                                                                              gInputSlots[i].mPair.mPairY) == FALSE) {
+            if (pairNewUnlessRecentlyLost == FALSE ||
+                IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
                 return;
             }
         }
@@ -360,26 +366,28 @@ void AdvanceWiFiTopMenuState8(void) {
     }
 }
 
-void func_ov000_021817e8(void) {
+void UpdateWiFiTopMenuHighlight(void) {
     s32 i = 0;
-    BOOL v1 = FALSE;
-    const u8 *p = data_ov000_021b05c4;
-    const u8 *q = data_ov000_021b05c8;
+    BOOL hidden = FALSE;
+    const u8 *tableIndexPointer = gWiFiTopMenuSTableIndices;
+    const u8 *cellIndexPointer = gWiFiTopMenuCellIndices;
     for (; i < 3; i++) {
         if (i == gWiFiTopMenu->mIndex && gWiFiTopMenu->mUnk_18 != FALSE) {
-            gWiFiTopMenu->mWiFiTopMenuTable[*p].mVisible = 1;
-            SetCellPaletteIndex(*q, 0xe, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
+            gWiFiTopMenu->mWiFiTopMenuTable[*tableIndexPointer].mVisible = 1;
+            SetCellPaletteIndex(*cellIndexPointer, 0xe, gWiFiTopMenu->mWiFiTopMenuSNcer,
+                                gWiFiTopMenu->mWiFiTopMenuBncl);
         } else {
-            gWiFiTopMenu->mWiFiTopMenuTable[*p].mVisible = v1;
-            SetCellPaletteIndex(*q, 0xf, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
+            gWiFiTopMenu->mWiFiTopMenuTable[*tableIndexPointer].mVisible = hidden;
+            SetCellPaletteIndex(*cellIndexPointer, 0xf, gWiFiTopMenu->mWiFiTopMenuSNcer,
+                                gWiFiTopMenu->mWiFiTopMenuBncl);
         }
-        p++;
-        q++;
+        tableIndexPointer++;
+        cellIndexPointer++;
     }
 }
 
 void AdvanceWiFiTopMenu(void) {
-    WiFiTopMenu *p;
+    WiFiTopMenu *wiFiTopMenu;
     gWiFiTopMenu->mState = gWiFiTopMenu->mNextState;
     switch (gWiFiTopMenu->mState) {
         case 0:
@@ -410,12 +418,13 @@ void AdvanceWiFiTopMenu(void) {
             AdvanceWiFiTopMenuState8();
             break;
     }
-    func_ov000_021817e8();
-    p = gWiFiTopMenu;
-    DrawLayoutTable(p->mWiFiTopMenuBncl, p->mWiFiTopMenuSNcer, NULL, func_ov000_021804e0(), p->mWiFiTopMenuTable);
+    UpdateWiFiTopMenuHighlight();
+    wiFiTopMenu = gWiFiTopMenu;
+    DrawLayoutTable(wiFiTopMenu->mWiFiTopMenuBncl, wiFiTopMenu->mWiFiTopMenuSNcer, NULL, func_ov000_021804e0(),
+                    wiFiTopMenu->mWiFiTopMenuTable);
 }
 
-void func_ov000_02181738(void) {
+void WriteWiFiTopMenuRegisters(void) {
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
 }
 

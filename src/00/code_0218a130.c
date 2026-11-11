@@ -6,15 +6,15 @@
 #include "00/unk_021b4000.h"
 #include "00/code_02189350.h"
 
-u32 func_ov000_0218a130(Unk02188ec0 *v1) {
+u32 func_ov000_0218a130(ACWORK *v1) {
     Unk02189350 *p;
     u32 s;
 
-    p = (Unk02189350 *) func_ov000_02188584(1);
+    p = (Unk02189350 *) DWCi_AC_GetMemPtr(1);
     s = DWC_Netcheck_GetError();
     if (s != 0) {
-        if (p->mUnk_15 == func_ov000_021884d8(v1->mUnk_d0d)) {
-            p->mUnk_10 = func_ov000_02187484();
+        if (p->mUnk_15 == DWCi_ConvConnectAPType(v1->mUnk_d0d)) {
+            p->mUnk_10 = DWC_Netcheck_GetReturnCode();
         }
         DWC_Netcheck_Destroy();
         if (s != 0xb) {

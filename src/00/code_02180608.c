@@ -53,32 +53,32 @@ void ClearWiFiStateCallbacks(void) {
     gWiFiStates->mCallbacks.mInit = NULL;
     gWiFiStates->mCallbacks.mRelease = NULL;
     gWiFiStates->mCallbacks.mAdvance = NULL;
-    gWiFiStates->mCallbacks.mUnk_0c = NULL;
+    gWiFiStates->mCallbacks.mWriteRegisters = NULL;
 }
 
 void LoadWiFiMenuSceneData(void) {
-    LoadedPartPointer v;
-    LoadNcgrData(&v.mNcgr, FindSceneFile("WiFi_VS_setting_s_b.ncgr"));
-    LoadNclrData(&v.mNclr, FindSceneFile("WiFi_VS_setting_s_b.nclr"));
-    LoadNscrData(&v.mNscr, FindSceneFile("WiFi_VS_s_setting.nscr"));
-    LoadNcgrData(&v.mNcgr, FindSceneFile("WiFi_VS_matching_s_b.ncgr"));
-    LoadNclrData(&v.mNclr, FindSceneFile("WiFi_VS_matching_s_b.nclr"));
-    LoadNscrData(&v.mNscr, FindSceneFile("WiFi_VS_matching_s.nscr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("WiFi_top_menu_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("WiFi_top_menu_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("WiFi_top_menu_s_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("WiFi_VS_setting_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("WiFi_VS_setting_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("WiFi_VS_setting_s_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("WiFi_VS_matching_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("WiFi_VS_matching_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("WiFi_VS_matching_s_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("WiFi_aikotoba_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("WiFi_aikotoba_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("WiFi_aikotoba_s_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("WiFi_aikotoba_check_m.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("WiFi_aikotoba_check_m.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("WiFi_aikotoba_check_m_o.nclr"));
+    LoadedPartPointer loadedPartPointer;
+    LoadNcgrData(&loadedPartPointer.mNcgr, FindSceneFile("WiFi_VS_setting_s_b.ncgr"));
+    LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("WiFi_VS_setting_s_b.nclr"));
+    LoadNscrData(&loadedPartPointer.mNscr, FindSceneFile("WiFi_VS_s_setting.nscr"));
+    LoadNcgrData(&loadedPartPointer.mNcgr, FindSceneFile("WiFi_VS_matching_s_b.ncgr"));
+    LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("WiFi_VS_matching_s_b.nclr"));
+    LoadNscrData(&loadedPartPointer.mNscr, FindSceneFile("WiFi_VS_matching_s.nscr"));
+    LoadNcgrData2(&loadedPartPointer.mNcgr, FindSceneFile("WiFi_top_menu_s.nce.ncgr"));
+    LoadNcerData(&loadedPartPointer.mNcer, FindSceneFile("WiFi_top_menu_s.nce.ncer"));
+    LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("WiFi_top_menu_s_o.nclr"));
+    LoadNcgrData2(&loadedPartPointer.mNcgr, FindSceneFile("WiFi_VS_setting_s.nce.ncgr"));
+    LoadNcerData(&loadedPartPointer.mNcer, FindSceneFile("WiFi_VS_setting_s.nce.ncer"));
+    LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("WiFi_VS_setting_s_o.nclr"));
+    LoadNcgrData2(&loadedPartPointer.mNcgr, FindSceneFile("WiFi_VS_matching_s.nce.ncgr"));
+    LoadNcerData(&loadedPartPointer.mNcer, FindSceneFile("WiFi_VS_matching_s.nce.ncer"));
+    LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("WiFi_VS_matching_s_o.nclr"));
+    LoadNcgrData2(&loadedPartPointer.mNcgr, FindSceneFile("WiFi_aikotoba_s.nce.ncgr"));
+    LoadNcerData(&loadedPartPointer.mNcer, FindSceneFile("WiFi_aikotoba_s.nce.ncer"));
+    LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("WiFi_aikotoba_s_o.nclr"));
+    LoadNcgrData2(&loadedPartPointer.mNcgr, FindSceneFile("WiFi_aikotoba_check_m.nce.ncgr"));
+    LoadNcerData(&loadedPartPointer.mNcer, FindSceneFile("WiFi_aikotoba_check_m.nce.ncer"));
+    LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("WiFi_aikotoba_check_m_o.nclr"));
     LoadSelectCharacterData();
     LoadSelectKartData();
     LoadWiFiVSCourseSelectFiles();
@@ -86,26 +86,26 @@ void LoadWiFiMenuSceneData(void) {
 }
 
 void InitWiFiStates(void *heap, s32 b) {
-    SceneTextInitParams c;
-    StateMachine *q;
+    SceneTextInitParams sceneTextInitParams;
+    StateMachine *sessionStateMachine;
     gWiFiStates = HeapAlloc(heap, 0x3c);
     gWiFiStates->mHeap = heap;
     gWiFiStates->mUnk_14 = 0;
     CreateRaceSetupCopy(heap);
     gWiFiStates->mUnk_2c = CreateWiFiStatesDisplaySettings(heap);
     InitLinkLevelIcons(heap, func_ov000_021804f4());
-    c.mUseTxtSystem = TRUE;
-    c.mTxtSystemFont = GetFontByIndex(1);
-    c.mUseCanvas1 = 0;
-    c.mUseCanvas2 = 0;
-    c.mUseCanvas3 = 0;
-    c.mUseSelectChoises = FALSE;
-    c.mSelectChoisesFont = NULL;
-    c.mUseSelectReturn = TRUE;
-    c.mUseBackScreen = TRUE;
-    c.mBackScreenKind = 1;
+    sceneTextInitParams.mUseTxtSystem = TRUE;
+    sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);
+    sceneTextInitParams.mUseCanvas1 = 0;
+    sceneTextInitParams.mUseCanvas2 = 0;
+    sceneTextInitParams.mUseCanvas3 = 0;
+    sceneTextInitParams.mUseSelectChoises = FALSE;
+    sceneTextInitParams.mSelectChoisesFont = NULL;
+    sceneTextInitParams.mUseSelectReturn = TRUE;
+    sceneTextInitParams.mUseBackScreen = TRUE;
+    sceneTextInitParams.mBackScreenKind = 1;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &c);
+    InitSceneText(heap, &sceneTextInitParams);
     LoadWiFiMenuSceneData();
     InitPlayerEntryList(heap, func_ov000_021804f4());
     InitKartModelMenuWithParamFiles(GetHeap(GetCurrentHeapCall()));
@@ -140,9 +140,9 @@ void InitWiFiStates(void *heap, s32 b) {
                     RegisterWiFiTopMenuCallbacks();
                     break;
                 case 1:
-                    q = &gWiFiSession->mStateMachine;
-                    q->mNextState = 2;
-                    q->mNextStateRequested = 1;
+                    sessionStateMachine = &gWiFiSession->mStateMachine;
+                    sessionStateMachine->mNextState = 2;
+                    sessionStateMachine->mNextStateRequested = 1;
                     gWiFiStates->mState = 2;
                     RegisterWiFiVSSettingCallbacks();
                     break;
@@ -206,7 +206,7 @@ void AdvanceWiFiStates(void) {
         gWiFiStates->mStateHeap = CreateExpHeapFromMaxFree(gWiFiStates->mHeap);
         switch (gWiFiStates->mNextState) {
             case 0:
-                func_ov000_02180c04();
+                RegisterWiFiLoginMenuCallbacks();
                 break;
             case 1:
                 RegisterWiFiTopMenuCallbacks();
@@ -227,7 +227,7 @@ void AdvanceWiFiStates(void) {
                 RegisterWiFiVSCourseSelectCallbacks();
                 break;
             case 7:
-                func_ov000_021857b8();
+                RegisterWiFiConnectionLostCallbacks();
                 break;
             case 8:
                 RegisterWiFiAikotobaCallbacks();
@@ -251,9 +251,9 @@ void AdvanceWiFiStates(void) {
     }
 }
 
-void func_ov000_02180704(void) {
-    if (gWiFiStates->mCallbacks.mUnk_0c != NULL) {
-        gWiFiStates->mCallbacks.mUnk_0c();
+void WriteWiFiStatesRegisters(void) {
+    if (gWiFiStates->mCallbacks.mWriteRegisters != NULL) {
+        gWiFiStates->mCallbacks.mWriteRegisters();
     }
     WriteSceneTextRegisters();
 }
@@ -263,10 +263,10 @@ void SetWiFiStateCallbacks(const WiFiStateCallbacks *callbacks) {
 }
 
 void RequestWiFiState(s32 nextState) {
-    u32 value0 = nextState;
-    u32 value1;
-    value1 = (u32) &gWiFiStates;
-    gWiFiStates->mNextState = value0;
+    u32 requestedState = nextState;
+    u32 wiFiStatesAddress;
+    wiFiStatesAddress = (u32) &gWiFiStates;
+    gWiFiStates->mNextState = requestedState;
 }
 
 s32 GetWiFiPrevState(void) {
@@ -277,8 +277,8 @@ u32 GetWiFiNextScene(void) {
     return (gWiFiStates->mNextScene);
 }
 
-void SetWiFiNextScene(u32 p0) {
-    gWiFiStates->mNextScene = (u16) p0;
+void SetWiFiNextScene(u32 nextScene) {
+    gWiFiStates->mNextScene = (u16) nextScene;
 }
 
 u32 func_ov000_021806a0(void) {
@@ -314,7 +314,7 @@ void func_ov000_02180638(s32 arg0) {
     gWiFiStates->mUnk_34 = value0;
 }
 
-BOOL func_ov000_02180608(void) {
+BOOL IsWiFiSessionOffOutsideLogin(void) {
     BOOL valid = TRUE;
     if (gWiFiStates != NULL && gWiFiStates->mState == 0) {
         valid = FALSE;

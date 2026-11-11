@@ -5,14 +5,14 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
-void func_ov000_0218a064(const u32 *a, Unk02188ec0 *v1, Unk0218a064 *v2) {
-    Unk02188db0 *e;
+void func_ov000_0218a064(const u32 *a, ACWORK *v1, Unk0218a064 *v2) {
+    DWCMemPage *e;
 
     MI_CpuCopy8(data_ov000_021b0738, v2, 0x58);
     v2->mUnk_04 = a[0];
     v2->mUnk_08 = a[1];
     if (v1->mUnk_d0d < 6) {
-        e = &v1->mUnk_000[func_ov000_021884d8(v1->mUnk_d0d)];
+        e = &v1->mUnk_000[DWCi_ConvConnectAPType(v1->mUnk_d0d)];
         if (e->mUnk_c0[0] != 0) {
             v2->mUnk_0c = 0;
             v2->mUnk_10 = func_ov000_0218a018(e->mUnk_c0);

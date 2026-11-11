@@ -20,7 +20,7 @@ typedef struct DWCNetcheck {
     /* 000 */ u32 mError;
     /* 004 */ s32 mUnk_04;
     /* 008 */ DWCHttpLabelValue mHttpLabelvalue[0x20];
-    /* 108 */ Unk02188114 mParam;
+    /* 108 */ DWCNetcheckParam mParam;
     /* 114 */ void *mBody302;
     /* 118 */ void *mBodyWayport;
     /* 11c */ OSThread mThread;
@@ -30,7 +30,7 @@ typedef struct DWCNetcheck {
     /* 1200 */ u8 mUnk_1200[0x1000];
 } DWCNetcheck;
 
-// Object filled by func_ov000_0218635c.
+// Object filled by DWC_Auth_GetResult.
 typedef struct Unk0218635c {
     /* 000 */ s32 mUnk_000;
     /* 004 */ u8 mUnk_004[0x46];
@@ -55,11 +55,11 @@ extern char gHttpbodyPairName2[];
 extern char gParsePairValue[];
 extern char gHtmlPairName[];
 extern char gReturncdPairName2[];
-extern Unk021b4cb4 data_ov000_021b4cb4;
+extern DWCHttpParam data_ov000_021b4cb4;
 extern AuthCreateParams data_ov000_021b4cd4;
 
-u32 func_ov000_02187484(void);
-void DWCi_Netcheck_SetError(u32 a);
+u32 DWC_Netcheck_GetReturnCode(void);
+void DWCi_Netcheck_SetError(u32 error);
 u32 DWC_Netcheck_GetError(void);
 void DWCi_Netcheck_Thread(void);
 void DWC_Netcheck_Abort(void);

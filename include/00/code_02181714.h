@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern u8 data_ov000_021b05d8[][5];
+extern u8 gWiFiTopMenuOffsetTableIndices[][5];
 
 #include "Main/Unknown/code_0201ea58.h"
 #include "Main/Unknown/code_02124094.h"
@@ -40,18 +40,18 @@ typedef struct WiFiTopMenu {
 #include "Main/Unknown/code_02047104.h"
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b05c0[];
-extern const u8 data_ov000_021b05c4[];
-extern const u8 data_ov000_021b05c8[];
+extern u8 gWiFiTopMenuXluCellIndices[];
+extern const u8 gWiFiTopMenuSTableIndices[];
+extern const u8 gWiFiTopMenuCellIndices[];
 // Objects whose layout isn't known yet.
-extern s32 data_ov000_021b05cc[];
+extern s32 gWiFiTopMenuOffsetCellCounts[];
 extern WiFiStateCallbacks gWiFiTopMenuCallbacks;
 extern WiFiTopMenu *gWiFiTopMenu;
 
 void RegisterWiFiTopMenuCallbacks(void);
-void func_ov000_02181738(void);
+void WriteWiFiTopMenuRegisters(void);
 void AdvanceWiFiTopMenu(void);
-void func_ov000_021817e8(void);
+void UpdateWiFiTopMenuHighlight(void);
 void AdvanceWiFiTopMenuState8(void);
 void AdvanceWiFiTopMenuState7(void);
 void AdvanceWiFiTopMenuState6(void);
@@ -61,9 +61,9 @@ void AdvanceWiFiTopMenuState3(void);
 void AdvanceWiFiTopMenuState2(void);
 void AdvanceWiFiTopMenuState1(void);
 void AdvanceWiFiTopMenuState0(void);
-s32 func_ov000_02181df0(void);
+s32 IsUserDataFriendKeyNonZeroWrapper(void);
 void LocateAndQueueWiFiTopMenu(void);
-void func_ov000_02181e8c(void);
+void ClearWiFiTopMenuPointer(void);
 void InitWiFiTopMenu(void *heap);
 
 #include "00/code_021832d8.h"

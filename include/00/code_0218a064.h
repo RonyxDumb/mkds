@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-typedef struct Unk02188ec0 Unk02188ec0;
+typedef struct ACWORK ACWORK;
 
-// Object behind data_ov000_021b4d0c, 0x58 bytes.
+// Object behind gNetCheck, 0x58 bytes.
 typedef struct Unk0218a064 {
     /* 00 */ u8 pad_00[4];
     /* 04 */ u32 mUnk_04;
@@ -18,4 +18,4 @@ typedef struct Unk0218a064 {
     /* 24 */ u8 pad_24[0x34];
 } Unk0218a064;
 
-void func_ov000_0218a064(const u32 *a, Unk02188ec0 *object, Unk0218a064 *out);
+void func_ov000_0218a064(const u32 *a, ACWORK *object, Unk0218a064 *out);

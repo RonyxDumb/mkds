@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern u8 data_ov000_021b06d0[2][4];
+extern u8 gWiFiAikotobaOffsetTableIndices[2][4];
 
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 
@@ -35,21 +35,21 @@ typedef struct WiFiAikotoba {
 #include "00/code_02181f98.h"
 #include "Main/Unknown/code_02047104.h"
 
-extern u8 data_ov000_021b06bc[2];
-extern u8 data_ov000_021b06c0[2];
-extern u8 data_ov000_021b06c4[2];
-extern s32 data_ov000_021b06c8[2];
-extern u8 data_ov000_021b06d8[2];
-extern u8 data_ov000_021b06dc[12];
+extern u8 gWiFiAikotobaCellIndices[2];
+extern u8 gWiFiAikotobaXluCellIndices[2];
+extern u8 gWiFiAikotobaSTableIndices[2];
+extern s32 gWiFiAikotobaOffsetCellCounts[2];
+extern u8 gWiFiAikotobaCheckOffsetIndices[2];
+extern u8 gWiFiAikotobaCheckDigitLabelIndices[12];
 extern WiFiStateCallbacks gWiFiAikotobaCallbacks;
 extern char data_ov000_021b0ee8[];
 extern char data_ov000_021b0ef4[];
 extern WiFiAikotoba *gWiFiAikotoba;
 
 void RegisterWiFiAikotobaCallbacks(void);
-void func_ov000_02184bcc(void);
+void WriteWiFiAikotobaRegisters(void);
 void AdvanceWiFiAikotoba(void);
-void func_ov000_02184c74(void);
+void UpdateWiFiAikotobaHighlight(void);
 void AdvanceWiFiAikotobaState7(void);
 void AdvanceWiFiAikotobaState6(void);
 void AdvanceWiFiAikotobaState5(void);
@@ -58,9 +58,9 @@ void AdvanceWiFiAikotobaState3(void);
 void AdvanceWiFiAikotobaState2(void);
 void AdvanceWiFiAikotobaState1(void);
 void AdvanceWiFiAikotobaState0(void);
-u32 func_ov000_02185184(void);
+BOOL IsBuddyRecordBlockFull(void);
 void LocateAndUploadWiFiAikotoba(void);
-void func_ov000_02185230(void);
-void InitWiFiAikotoba(void *a);
+void ClearWiFiAikotobaPointer(void);
+void InitWiFiAikotoba(void *heap);
 
 #include "00/code_021832d8.h"

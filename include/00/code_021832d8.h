@@ -22,7 +22,7 @@
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_02036c5c.h"
 
-void InitWiFiVSMatching(void *a);
+void InitWiFiVSMatching(void *heap);
 
 #include "00/code_ov000_021804e0.h"
 #include "00/unk_021b4000.h"
@@ -46,22 +46,22 @@ void InitWiFiVSMatching(void *a);
 
 extern MenuShared *gMenuShared;
 extern WiFiSession *gWiFiSession;
-extern u8 data_ov000_021b0658[2];
-extern u8 data_ov000_021b065c[3];
-extern u8 data_ov000_021b0660[3];
-extern u8 data_ov000_021b0664[3];
-extern u8 data_ov000_021b0668[3];
-extern s32 data_ov000_021b0680[3];
-extern s8 data_ov000_021b069c[30];
-extern u8 data_ov000_021b0ce4[30];
-extern u8 data_ov000_021b0d04[40];
+extern u8 gWiFiVSMatchingBlendColorOffsets[2];
+extern u8 gWiFiVSMatchingOtherCellIndices[3];
+extern u8 gWiFiVSMatchingSearchLabelIndices[3];
+extern u8 gWiFiVSMatchingNameLabelIndices[3];
+extern u8 gWiFiVSMatchingEmblemCellIndices[3];
+extern s32 gWiFiVSMatchingResultWaitFrames[3];
+extern s8 gWiFiVSMatchingNameSlideOffsets[30];
+extern u8 gWiFiVSMatchingTotalScalePercents[30];
+extern u8 gWiFiVSMatchingEmblemScalePercents[40];
 extern char gWiFiBmgName2[];
 extern char gCommonBmgName4[];
 
-void func_ov000_02183330(void);
-void func_ov000_02183444(void);
-void func_ov000_021834b0(s32 t);
-void func_ov000_02183548(void);
+void WriteWiFiVSMatchingRegisters(void);
+void UpdateWiFiVSMatchingPaletteBlend(void);
+void SetWiFiVSMatchingBlendedColors(s32 weight);
+void UpdateWiFiVSMatchingOffsets(void);
 void AdvanceWiFiVSMatchingState11(void);
 void AdvanceWiFiVSMatchingState10(void);
 void AdvanceWiFiVSMatchingState9(void);
@@ -72,8 +72,8 @@ void AdvanceWiFiVSMatchingState3(void);
 void AdvanceWiFiVSMatchingState2(void);
 void AdvanceWiFiVSMatchingState1(void);
 void AdvanceWiFiVSMatchingState0(void);
-void func_ov000_021840c8(void);
+void PrintWiFiVSMatchingNoOpponents(void);
 void LocateAndQueueWiFiVSMatching(void);
-void func_ov000_02184354(void);
-void func_ov000_021845ac(void);
-void func_ov000_02184670(void);
+void ReleaseWiFiVSMatching(void);
+void InitWiFiVSMatchingEntryMatrices(void);
+void InitWiFiVSMatchingLabels(void);

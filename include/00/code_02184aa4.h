@@ -7,8 +7,8 @@ typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 extern WiFiStateCallbacks gWiFiVSCourseSelectCallbacks;
 
 void RegisterWiFiVSCourseSelectCallbacks(void);
-void func_ov000_02184ac8(void);
+void WriteWiFiVSCourseSelectRegistersWrapper(void);
 void AdvanceWiFiVSCourseSelectState(void);
-void func_ov000_02184b4c(void);
+void InitWiFiVSCourseSelectNop(void);
 void ReleaseWiFiVSCourseSelectState(void);
-void InitWiFiVSCourseSelectState(u32 a);
+void InitWiFiVSCourseSelectState(u32 heap);

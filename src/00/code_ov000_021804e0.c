@@ -26,7 +26,7 @@ void ReleaseWiFiMenuScene(void) {
 
 void func_ov000_0218058c(void) {
     AdvanceKartModelMenuLoad();
-    func_ov000_02180704();
+    WriteWiFiStatesRegisters();
     UploadOamLists(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
 }
 

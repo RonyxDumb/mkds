@@ -39,16 +39,16 @@ extern char data_ov000_021b0fcc[];
 extern WiFiAikotobaCheck *gWiFiAikotobaCheck;
 
 void RegisterWiFiAikotobaCheckCallbacks(void);
-void func_ov000_02185368(void);
+void WriteWiFiAikotobaCheckRegistersNop(void);
 void AdvanceWiFiAikotobaCheck(void);
 void AdvanceWiFiAikotobaCheckState2(void);
 void AdvanceWiFiAikotobaCheckState1(void);
 void AdvanceWiFiAikotobaCheckState0(void);
-void func_ov000_021854f8(void);
+void UpdateWiFiAikotobaCheckOffsets(void);
 void LocateAndUploadWiFiAikotobaCheck(void);
-void func_ov000_021855f8(void);
-void InitWiFiAikotobaCheck(void *a);
-void func_ov000_021856a8(void);
+void ClearWiFiAikotobaCheckPointer(void);
+void InitWiFiAikotobaCheck(void *heap);
+void InitWiFiAikotobaCheckDigits(void);
 void SetWiFiAikotobaCheckDigits(void);
 
 #include "00/code_021832d8.h"

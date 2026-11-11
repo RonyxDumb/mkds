@@ -42,13 +42,13 @@ void func_ov000_021a39c4(void *a) {
 void func_ov000_021a397c(s32 a) {
     switch (a) {
         case 0:
-            func_ov000_02186628(data_ov000_021b4200);
+            DWC_Auth_SetCustomNas(data_ov000_021b4200);
             break;
         case 1:
-            func_ov000_02186628(data_ov000_021b4228);
+            DWC_Auth_SetCustomNas(data_ov000_021b4228);
             break;
         case 2:
-            func_ov000_02186628(data_ov000_021b424c);
+            DWC_Auth_SetCustomNas(data_ov000_021b424c);
             break;
     }
 }
@@ -65,7 +65,7 @@ void func_ov000_021a3910(void) {
         t.mUnk_00 = func_ov000_021a372c;
         t.mUnk_04 = func_ov000_021a3704;
         data_ov000_021b5df4->mUnk_04 = 2;
-        if (func_ov000_02188868((Unk02188868 *) &t) != 0) {
+        if (DWC_AC_Create((DWCACConfig *) &t) != 0) {
             return;
         }
         func_ov000_0219c384(0xb, -6);
@@ -91,7 +91,7 @@ u32 func_ov000_021a38d8(void) {
 void func_ov000_021a3884(void) {
     Unk021b5df4 *p = data_ov000_021b5df4;
     if (p != NULL && p->mUnk_04 == 2) {
-        data_ov000_021b5df4->mUnk_00 = func_ov000_021887cc();
+        data_ov000_021b5df4->mUnk_00 = DWC_AC_Process();
     } else if (p != NULL && p->mUnk_04 == 4 && p->mUnk_06 != 0 && func_ov000_021a5bfc() != 9) {
         data_ov000_021b5df4->mUnk_06 = 0;
         data_ov000_021b5df4->mUnk_04 = 6;
@@ -102,7 +102,7 @@ u32 func_ov000_021a3810(void) {
     u32 v = 0;
     s32 r;
     if (data_ov000_021b5df4 != NULL) {
-        r = func_ov000_02188758();
+        r = DWC_AC_GetStatus();
         if (r == 5) {
             data_ov000_021b5df4->mUnk_04 = 4;
             data_ov000_021b5df4->mUnk_06 = 1;
@@ -126,10 +126,10 @@ u32 func_ov000_021a3810(void) {
 void func_ov000_021a37dc(void) {
     int v1;
     if (data_ov000_021b5df4 != NULL) {
-        v1 = func_ov000_02188720();
+        v1 = DWC_AC_Destroy();
         while (v1 == 0) {
             OS_Sleep(10);
-            v1 = func_ov000_02188720();
+            v1 = DWC_AC_Destroy();
         }
         *(s32 *) &data_ov000_021b5df4 = 0;
     }
@@ -148,7 +148,7 @@ BOOL func_ov000_021a377c(void) {
     if (func_ov000_021a86e8() != 0) {
         return FALSE;
     }
-    if (func_ov000_02188720() != 0) {
+    if (DWC_AC_Destroy() != 0) {
         data_ov000_021b5df4 = NULL;
         return TRUE;
     }

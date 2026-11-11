@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk021b4cb4 {
+typedef struct DWCHttpParam {
     /* 00 */ char *mUnk_00;
     /* 04 */ BOOL mUnk_04;
     /* 08 */ char *mUnk_08;
@@ -11,11 +11,11 @@ typedef struct Unk021b4cb4 {
     /* 14 */ void (*mUnk_14)();
     /* 18 */ BOOL mUnk_18;
     /* 1c */ s32 mUnk_1c;
-} Unk021b4cb4;
+} DWCHttpParam;
 
 // Objects whose layout isn't known yet.
 extern char *data_ov000_021b1004[];
-extern Unk021b4cb4 data_ov000_021b1040;
+extern DWCHttpParam DWCauthhttpparam;
 extern u8 gHttpBufferName[];
 extern u8 gHttpLowReceiveBufferName[];
 extern u8 gHttpLowSendBufferName[];

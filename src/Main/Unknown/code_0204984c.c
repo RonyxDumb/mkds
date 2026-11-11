@@ -473,7 +473,7 @@ u32 IsDataSharingIncomplete(void) {
 
 BOOL ShouldGoSleepMode(void) {
     if (gBootInfo->mUnk_00 == 2 || SceneIsConnectionActive() ||
-        (GetCurrentSceneNumber() == 12 && func_ov000_02180600() == FALSE) ||
+        (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0) || GetCurrentSceneNumber() == 13 ||
         GetCurrentSceneNumber() == 6) {
         return FALSE;
@@ -485,7 +485,7 @@ u32 IsVolatileHalfwordIndex39Ignored(void) {
     s32 unused;
 
     if (gBootInfo->mUnk_00 == 2 || SceneIsConnectionActive() || GetCurrentSceneNumber() == 6 ||
-        GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && func_ov000_02180608() == FALSE) ||
+        GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLogin() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0)) {
         return 1;
     }

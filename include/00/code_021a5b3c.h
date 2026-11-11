@@ -18,7 +18,7 @@ typedef struct Unk021a5e84 {
 
 u32 func_ov000_021a5b3c(u32 a);
 s32 func_ov000_021a5c24(void);
-s32 func_ov000_021a5e84(Unk021a5e84 *a, Unk02188de4 *b, u32 c);
+s32 func_ov000_021a5e84(Unk021a5e84 *a, WCMWepDesc *b, u32 c);
 s32 func_ov000_021a60a4(const void *a, const u8 *b, u32 c);
 s32 func_ov000_021a61c4(const void *a, const u8 *b, u32 c);
 s32 func_ov000_021a629c(WCMConfig *a, void (*b)(Unk021a586c *));

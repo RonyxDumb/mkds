@@ -52,7 +52,7 @@ typedef struct HttpB4 {
 // and free functions allocate and release the memory of the buffers.
 typedef struct Http {
     /* 000 */ u8 mUnk_00;
-    /* 004 */ Unk021b4cb4 mUnk_04;
+    /* 004 */ DWCHttpParam mUnk_04;
     /* 024 */ s32 mResult;
     /* 028 */ char mUnk_028[0x80];
     /* 0a8 */ char *mHost;
@@ -76,9 +76,9 @@ typedef struct Http {
     /* 1a60 */ u8 mUnk_1a60[];
 } Http;
 
-u32 GrowHttpBuffer(Http *a, HttpBuffer *b, int c);
-void FreeHttpBuffer(Http *a, HttpBuffer *b);
-u32 InitHttpBuffer(Http *a, HttpBuffer *b, int c);
+u32 GrowHttpBuffer(Http *http, HttpBuffer *httpBuffer, int addedSize);
+void FreeHttpBuffer(Http *http, HttpBuffer *httpBuffer);
+u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size);
 
 #include "00/code_02186d04.h"
 
@@ -129,26 +129,29 @@ typedef struct Unk02185984Data {
 #include "00/code_021ad734.h"
 
 extern DWCAuth *gAuth;
-extern DWCWiFiInfo data_ov000_021b4c94;
+extern DWCWiFiInfo gAuthWiFiInfo;
 
-void DWCi_Auth_SetError(s32 a);
-u32 DWCi_Auth_Prepare_FirstPost(Http *a, const char *b, const char *c, DWCHttpLabelValue *d, s32 e, s32 f);
+void DWCi_Auth_SetError(s32 error);
+u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *ingamesn, DWCHttpLabelValue *labelValues,
+                                s32 labelValueCount, s32 getWiFiInfoFromFlash);
 s32 DWCi_Auth_FillResult(void);
-s32 func_ov000_02185ef4(void);
-void DWCi_Auth_Thread(void *param_1);
-s32 DWCi_Auth_Start(s32 a);
-void func_ov000_0218635c(s32 *a);
+s32 ParseAuthHttpResult(void);
+void DWCi_Auth_Thread(void *authAddress);
+s32 DWCi_Auth_Start(s32 getWiFiInfoFromFlash);
+void DWC_Auth_GetResult(s32 *result);
 s32 DWC_Auth_GetError(void);
 void DWC_Auth_Join(void);
 void DWC_Auth_Destroy(void);
 void DWC_Auth_Abort(void);
 void DWCi_Auth_StartThread(void);
-s32 DWC_Auth_Create(AuthCreateParams *a, Http *b);
-void func_ov000_02186628(const void *a);
-BOOL DWC_Http_GetRawResult(DWCHttpLabelValue *a, s32 b, const char *c, char *d, s32 e);
-s32 DWC_Http_GetBase64DecodedResult(DWCHttpLabelValue *a, s32 b, const char *c, char *d, s32 e);
-void *DWC_Http_GetResult(DWCHttpLabelValue *a, s32 b, const char *c);
-BOOL DWC_Http_ParseResult(DWCHttpLabelValue *a, s32 b, s32 c, const char *d);
+s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http);
+void DWC_Auth_SetCustomNas(const void *nasAddress);
+BOOL DWC_Http_GetRawResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, const char *label, char *buffer,
+                           s32 bufferSize);
+s32 DWC_Http_GetBase64DecodedResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, const char *label,
+                                    char *buffer, s32 bufferSize);
+void *DWC_Http_GetResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, const char *label);
+BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s32 noParseBody, const char *reply);
 BOOL DWCi_Http_AddResult(DWCHttpParseResult *list, void *first, void *second);
-BOOL DWCi_Http_SetHostinfo(Http *a, const char *b);
-u32 func_ov000_02186a84(u32 value);
+BOOL DWCi_Http_SetHostinfo(Http *http, const char *url);
+u32 DWCi_Http_CPSCallback(u32 flags);

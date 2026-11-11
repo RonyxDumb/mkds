@@ -15,9 +15,9 @@ u32 func_ov000_02189714(Unk02188ee0 *a) {
     return 0;
 }
 
-u8 func_ov000_021896c4(Unk02188ec0 *v1) {
+u8 func_ov000_021896c4(ACWORK *v1) {
     u8 n;
-    Unk02188ec0_300 *c;
+    ACSL *c;
 
     c = v1->mUnk_300;
     n = func_ov000_0218954c(v1);
@@ -31,9 +31,9 @@ u8 func_ov000_021896c4(Unk02188ec0 *v1) {
     return n;
 }
 
-u8 func_ov000_02189614(Unk02188ec0 *v1) {
+u8 func_ov000_02189614(ACWORK *v1) {
     u8 n;
-    Unk02188ec0_300 *c;
+    ACSL *c;
 
     c = v1->mUnk_300;
     n = func_ov000_0218954c(v1);
@@ -61,13 +61,13 @@ u8 func_ov000_02189614(Unk02188ec0 *v1) {
     return n;
 }
 
-u8 func_ov000_0218954c(Unk02188ec0 *v1) {
+u8 func_ov000_0218954c(ACWORK *v1) {
     s32 i;
     u8 n;
     u8 j;
     BOOL v2;
-    Unk02188db0 *e;
-    Unk02188ec0_300 *c;
+    DWCMemPage *e;
+    ACSL *c;
 
     n = 0;
     e = v1->mUnk_000;
@@ -117,7 +117,7 @@ u8 func_ov000_0218954c(Unk02188ec0 *v1) {
     return n;
 }
 
-u8 func_ov000_021894e4(s32 a, Unk02188ec0_444 *b, Unk02188ec0_300 *c, Unk02188ee0 *d) {
+u8 func_ov000_021894e4(s32 a, ACFL *b, ACSL *c, Unk02188ee0 *d) {
     u8 n;
     u8 i;
     u8 j;

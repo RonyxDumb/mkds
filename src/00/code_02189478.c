@@ -7,7 +7,7 @@
 
 u8 func_ov000_021894c0(void) {
     int v1;
-    v1 = func_ov000_02188584(1);
+    v1 = DWCi_AC_GetMemPtr(1);
     v1 = func_ov000_021892f4((u8 *) (v1 + 10));
     if (v1 == 1) {
         return 0x12;
@@ -18,8 +18,8 @@ u8 func_ov000_021894c0(void) {
 u32 func_ov000_02189478(void) {
     u32 v1;
     int v2;
-    v1 = func_ov000_02188584(1);
-    v2 = func_ov000_021884fc();
+    v1 = DWCi_AC_GetMemPtr(1);
+    v2 = DWCi_AC_GetError();
     if (v2 < 4) {
         return func_ov000_02189440(v2);
     }

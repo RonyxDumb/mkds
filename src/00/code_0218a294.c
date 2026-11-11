@@ -14,10 +14,10 @@
 
 u32 func_ov000_0218a294(void) {
     u32 s;
-    Unk02188ec0 *v1;
+    ACWORK *v1;
 
-    s = func_ov000_02188528();
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    s = DWCi_AC_GetPhase();
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (func_ov000_021a5bfc() == 9) {
         switch (s) {
             case 10:

@@ -15,10 +15,10 @@ void func_ov000_02189868(const u8 *a, const u8 *b, s32 c, u32 d) {
 }
 
 u32 func_ov000_021897bc(void) {
-    Unk02188ec0 *v1;
+    ACWORK *v1;
     u32 r;
 
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     r = 9;
     switch (func_ov000_021a5bfc()) {
         case 3:
@@ -38,11 +38,11 @@ u32 func_ov000_021897bc(void) {
             break;
         case 12:
             func_ov000_021a5c24();
-            func_ov000_02188508(4);
+            DWCi_AC_SetError(4);
             r = 0x11;
             break;
         case 11:
-            func_ov000_02188508(0);
+            DWCi_AC_SetError(0);
             r = 0x11;
             break;
     }
@@ -50,10 +50,10 @@ u32 func_ov000_021897bc(void) {
 }
 
 u8 func_ov000_0218973c(u32 a) {
-    Unk02188ec0 *v1;
+    ACWORK *v1;
     volatile u32 z;
 
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     z = 0;
     MIi_CpuClear32(z, v1->mUnk_300, 0x144);
     switch (a) {

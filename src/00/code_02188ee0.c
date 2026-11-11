@@ -30,7 +30,7 @@ s32 func_ov000_02189280(void) {
             func_ov000_021a5c24();
             break;
         case 11:
-            func_ov000_02188508(0);
+            DWCi_AC_SetError(0);
             return -1;
     }
     return 0;
@@ -48,10 +48,10 @@ u32 func_ov000_0218925c(void) {
 
 u32 func_ov000_0218922c(void) {
     u32 s;
-    Unk02188ec0 *v1;
+    ACWORK *v1;
 
-    s = func_ov000_02188528();
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    s = DWCi_AC_GetPhase();
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     switch (s) {
         case 7:
             s = func_ov000_02189134(v1);
@@ -63,13 +63,13 @@ u32 func_ov000_0218922c(void) {
     return s;
 }
 
-u32 func_ov000_02189134(Unk02188ec0 *v1) {
+u32 func_ov000_02189134(ACWORK *v1) {
     Unk02188ee0 *b;
 
     b = &v1->mUnk_470[v1->mUnk_d13];
     v1->mUnk_d0d = func_ov000_02188ee0(v1);
     MI_CpuFill8(&v1->mUnk_cb8, 0, 0x52);
-    if (func_ov000_02188de4(v1, v1->mUnk_d0d, &v1->mUnk_cb8) != 0) {
+    if (FillApWepKey(v1, v1->mUnk_d0d, &v1->mUnk_cb8) != 0) {
         v1->mUnk_d0b_2 = 1;
         if (((b->mUnk_2c >> 4) & 1) == 0) {
             v1->mUnk_444[v1->mUnk_d13].mUnk_00 = 3;
@@ -91,7 +91,7 @@ u32 func_ov000_02189134(Unk02188ec0 *v1) {
     return 8;
 }
 
-u32 func_ov000_02189030(Unk02188ec0 *v1) {
+u32 func_ov000_02189030(ACWORK *v1) {
     Unk02188ee0 *b;
     u32 r;
     u32 s;
@@ -99,7 +99,7 @@ u32 func_ov000_02189030(Unk02188ec0 *v1) {
     s = func_ov000_021a5bfc();
     b = &v1->mUnk_470[v1->mUnk_d13];
     if (s == 3) {
-        r = func_ov000_02188ec0(v1);
+        r = GetPowerMode(v1);
         v1->mUnk_d15++;
         if (v1->mUnk_d15 > 3) {
             v1->mUnk_d15 = 0;
@@ -119,7 +119,7 @@ u32 func_ov000_02189030(Unk02188ec0 *v1) {
                 return 9;
             }
         }
-        func_ov000_021a5e84((Unk021a5e84 *) b, &v1->mUnk_cb8, r | func_ov000_02188ea0(v1));
+        func_ov000_021a5e84((Unk021a5e84 *) b, &v1->mUnk_cb8, r | GetAuthMode(v1));
     } else if (s == 9) {
         v1->mUnk_d15 = 0;
         v1->mUnk_cb0 = OS_GetTick();
@@ -128,7 +128,7 @@ u32 func_ov000_02189030(Unk02188ec0 *v1) {
     return 8;
 }
 
-u8 func_ov000_02188ee0(Unk02188ec0 *v1) {
+u8 func_ov000_02188ee0(ACWORK *v1) {
     Unk02188ee0 *b;
     s32 r;
     s32 i;
@@ -139,7 +139,7 @@ u8 func_ov000_02188ee0(Unk02188ec0 *v1) {
     if (v1->mUnk_d0c_6 == 0) {
         n = r;
         if (b->mUnk_0a == 0x20) {
-            r = func_ov000_02188c1c((Unk02188408Entry0xc0 *) b);
+            r = DWCi_AC_CheckNintendoSSID((Unk02188408Entry0xc0 *) b);
             if (r > 0) {
                 n++;
             } else {

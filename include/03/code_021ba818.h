@@ -18,7 +18,7 @@ extern const u8 *gEssidSearchEssid;
 extern s32 gEssidWcmState;
 extern Unk021ba818Func *gEssidEventCallback;
 extern Unk021a5e84 *gEssidConnectRecord;
-extern Unk02188de4 *gEssidConnectBlock;
+extern WCMWepDesc *gEssidConnectBlock;
 extern u8 gEssidSearchAddressBytes[6];
 extern u8 gEssidSearchEssidBytes[0x20];
 

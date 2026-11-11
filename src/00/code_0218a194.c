@@ -4,9 +4,9 @@
 
 u32 func_ov000_0218a194(void) {
     int v1;
-    v1 = DWC_Netcheck_Create((Unk02188114 *) func_ov000_02188584(8));
+    v1 = DWC_Netcheck_Create((DWCNetcheckParam *) DWCi_AC_GetMemPtr(8));
     if (v1 != 0) {
-        func_ov000_02188508(3);
+        DWCi_AC_SetError(3);
         return 0x11;
     }
     return 0xe;

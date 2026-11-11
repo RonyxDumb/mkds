@@ -108,7 +108,7 @@ void LoadConnectFilesAndSetBgCnt(void) {
 
 void StartConnectRequest(void) {
     s32 secondaryPairSecond;
-    Unk02188868 connectParams;
+    DWCACConfig connectParams;
     ApWorkCopy *record = GetApWorkCopy();
     MIi_CpuCopy32(gConnectParamsTemplate, &connectParams, 0xc);
     GetSecondaryMenuPair(NULL, &secondaryPairSecond);
@@ -117,11 +117,11 @@ void StartConnectRequest(void) {
     } else {
         connectParams.mUnk_0a = record->mEntryIndex + 1;
     }
-    if (func_ov000_02188868(&connectParams) == 0) {
+    if (DWC_AC_Create(&connectParams) == 0) {
         OS_Terminate();
     }
     if (secondaryPairSecond == 0) {
-        func_ov000_021886fc(record->mEntryIndex, record);
+        DWCi_AC_InsertApInfo(record->mEntryIndex, record);
     }
     AddTask(0, AdvanceConnectRequest, NULL, 0x78);
 }
@@ -171,7 +171,7 @@ void UpdateConnectFadeOut(void) {
 
 void UpdateConnectRelease(void) {
     ApStore *recordStore = GetApStore();
-    if (func_ov000_02188720() != 0) {
+    if (DWC_AC_Destroy() != 0) {
         MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mUnk_000[0].mUnk_f0, 0xe);
         MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mUnk_000[1].mUnk_f0, 0xe);
         ReleaseAnimatedIcon();
@@ -188,7 +188,7 @@ void UpdateConnectRelease(void) {
 }
 
 void AdvanceConnectRequest(u32 entry) {
-    s32 connectResult = func_ov000_021887cc();
+    s32 connectResult = DWC_AC_Process();
     if (connectResult != 0) {
         ReleaseLinkLevel();
         StopSoundSeq();
@@ -196,7 +196,7 @@ void AdvanceConnectRequest(u32 entry) {
             gConnectSucceeded = 1;
             StartSoundSeq(0x11);
         } else {
-            SetJb4ErrorCode(func_ov000_02188758());
+            SetJb4ErrorCode(DWC_AC_GetStatus());
             StartSoundSeq(0x12);
         }
         SetUpdateFunction(StartConnectFadeOut);

@@ -16,17 +16,17 @@
 #include "Main/Unknown/code_020296f4.h"
 #include "Main/Unknown/code_02045874.h"
 
-void InitWiFiVSCourseSelectState(u32 a) {
-    int v1;
-    void *v2;
-    void *v3;
-    v1 = ((u32) HeapAlloc((void *) a, 8));
-    *(s32 *) &gWiFiVSCourseSelectState = v1;
-    *(u32 *) (v1 + 4) = a;
-    func_ov000_02184b4c();
-    v2 = func_ov000_021804f4();
-    v3 = func_ov000_021804e0();
-    InitWiFiVSCourseSelect((void *) a, v2, v3);
+void InitWiFiVSCourseSelectState(u32 heap) {
+    int recordAddress;
+    void *firstOamList;
+    void *secondOamList;
+    recordAddress = ((u32) HeapAlloc((void *) heap, 8));
+    *(s32 *) &gWiFiVSCourseSelectState = recordAddress;
+    *(u32 *) (recordAddress + 4) = heap;
+    InitWiFiVSCourseSelectNop();
+    firstOamList = func_ov000_021804f4();
+    secondOamList = func_ov000_021804e0();
+    InitWiFiVSCourseSelect((void *) heap, firstOamList, secondOamList);
     SetLinkLevelIconEnabled(1, 1);
 }
 
@@ -35,20 +35,20 @@ void ReleaseWiFiVSCourseSelectState(void) {
     *(u32 *) &gWiFiVSCourseSelectState = 0;
 }
 
-void func_ov000_02184b4c(void) {}
+void InitWiFiVSCourseSelectNop(void) {}
 
 void AdvanceWiFiVSCourseSelectState(void) {
-    s32 a;
-    u8 b;
+    s32 selectResult;
+    u8 kartCount;
 
-    a = AdvanceWiFiVSCourseSelect();
-    if (GetWiFiNextScene() == -1 && (a == 1 || a == 2)) {
+    selectResult = AdvanceWiFiVSCourseSelect();
+    if (GetWiFiNextScene() == -1 && (selectResult == 1 || selectResult == 2)) {
         if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(7);
             return;
         }
-        b = gWiFiSession->mKartCount;
-        GetRaceSetupCopy()->mKartCount = b;
+        kartCount = gWiFiSession->mKartCount;
+        GetRaceSetupCopy()->mKartCount = kartCount;
         SetNextRaceSetupFromKartMask();
         if ((u32) gMenuShared->mUnk_1c <= 2) {
             AssignCpuNumbersAndSetupFirstCourse();
@@ -61,7 +61,7 @@ void AdvanceWiFiVSCourseSelectState(void) {
     }
 }
 
-void func_ov000_02184ac8(void) {
+void WriteWiFiVSCourseSelectRegistersWrapper(void) {
     WriteWiFiVSCourseSelectRegisters();
 }
 

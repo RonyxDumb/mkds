@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk02188ec0 Unk02188ec0;
+typedef struct ACWORK ACWORK;
 
-s32 func_ov000_0218a118(const Unk02188ec0 *state);
+s32 func_ov000_0218a118(const ACWORK *state);

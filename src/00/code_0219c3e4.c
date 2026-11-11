@@ -252,7 +252,7 @@ void UpdateWiFiLoginRequest(void) {
     Unk0218635c x;
     Unk0218635c y;
     if (DWC_Auth_GetError() == 0x14) {
-        func_ov000_0218635c(&x.mUnk_000);
+        DWC_Auth_GetResult(&x.mUnk_000);
         strcpy(gWiFiLogin->mAuthToken, x.mUnk_04a);
         strcpy(gWiFiLogin->mUnk_14c, x.mUnk_177);
         DWC_Auth_Destroy();
@@ -265,7 +265,7 @@ void UpdateWiFiLoginRequest(void) {
         }
     } else if (DWC_Auth_GetError() != 0) {
         if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
-            func_ov000_0218635c(&y.mUnk_000);
+            DWC_Auth_GetResult(&y.mUnk_000);
             DWC_Auth_Destroy();
             func_ov000_021a3704(0, (u32) gWiFiLogin->mHttp, 0);
             gWiFiLogin->mHttp = NULL;

@@ -11,16 +11,16 @@
 #include "Main/Unknown/code_02028130.h"
 #include "Main/Unknown/code_02028864.h"
 
-void InitWiFiSelectKartState(void *a) {
-    void *b;
-    void *c;
+void InitWiFiSelectKartState(void *heap) {
+    void *firstOamList;
+    void *secondOamList;
 
-    gWiFiSelectKartState = HeapAlloc(a, 4);
-    gWiFiSelectKartState->mHeap = a;
-    func_ov000_02184a50();
-    b = func_ov000_021804f4();
-    c = func_ov000_021804e0();
-    InitSelectKart(a, 2, b, c);
+    gWiFiSelectKartState = HeapAlloc(heap, 4);
+    gWiFiSelectKartState->mHeap = heap;
+    InitWiFiSelectKartNop();
+    firstOamList = func_ov000_021804f4();
+    secondOamList = func_ov000_021804e0();
+    InitSelectKart(heap, 2, firstOamList, secondOamList);
 }
 
 void ReleaseWiFiSelectKartState(void) {
@@ -28,28 +28,28 @@ void ReleaseWiFiSelectKartState(void) {
     *(u32 *) &gWiFiSelectKartState = 0;
 }
 
-void func_ov000_02184a50(void) {}
+void InitWiFiSelectKartNop(void) {}
 
 void AdvanceWiFiSelectKartState(void) {
-    s32 a;
+    s32 selectResult;
 
-    a = AdvanceSelectKart();
-    if (a == 1 || a == 2) {
+    selectResult = AdvanceSelectKart();
+    if (selectResult == 1 || selectResult == 2) {
         if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(7);
             return;
         }
-        if (a == 1) {
+        if (selectResult == 1) {
             RequestWiFiState(6);
             return;
         }
-        if (a == 2) {
+        if (selectResult == 2) {
             RequestWiFiState(4);
         }
     }
 }
 
-void func_ov000_02184a04(void) {
+void WriteSelectKartRegistersWrapper(void) {
     u32 value3;
     WriteSelectKartRegisters();
 }

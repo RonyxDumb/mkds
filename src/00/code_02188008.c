@@ -12,29 +12,29 @@
 #include "code_0214d018.h"
 #include "code_0200edc0.h"
 
-void func_ov000_021884a8(void) {
-    func_ov000_02188694(8, data_ov000_021b4d0c, 0xc);
-    func_ov000_02188694(0x10, data_ov000_021b4d00, 0xd18);
+void FreeDisused(void) {
+    DWCi_AC_Free(8, gNetCheck, 0xc);
+    DWCi_AC_Free(0x10, gAcWork, 0xd18);
 }
 
-s32 func_ov000_02188408(void) {
-    Unk02188408 *s;
-    char *k;
-    u32 i;
-    u8 j;
-    u8 n;
+s32 CheckDuplicate(void) {
+    Unk02188408 *work;
+    char *chosenSsid;
+    u32 connectNo;
+    u8 index;
+    u8 findListNum;
 
-    s = data_ov000_021b4d00;
-    k = s->mUnk_470[0].mUnk_04;
-    i = s->mUnk_d13;
-    k += i * 0xc0;
-    if (s->mUnk_d0d >= 6) {
+    work = gAcWork;
+    chosenSsid = work->mUnk_470[0].mUnk_04;
+    connectNo = work->mUnk_d13;
+    chosenSsid += connectNo * 0xc0;
+    if (work->mUnk_d0d >= 6) {
         return 1;
     }
-    for (j = 0, n = s->mUnk_d12; j < n; j++) {
-        if (j != i) {
-            if (s->mUnk_444[j].mUnk_01 < 6) {
-                if (strncmp(k, s->mUnk_470[j].mUnk_04, s->mUnk_470[j].mUnk_0a) == 0) {
+    for (index = 0, findListNum = work->mUnk_d12; index < findListNum; index++) {
+        if (index != connectNo) {
+            if (work->mUnk_444[index].mUnk_01 < 6) {
+                if (strncmp(chosenSsid, work->mUnk_470[index].mUnk_04, work->mUnk_470[index].mUnk_0a) == 0) {
                     return 2;
                 }
             }
@@ -43,140 +43,140 @@ s32 func_ov000_02188408(void) {
     return 1;
 }
 
-s32 DWC_Auth_Base64Encode(const u8 *a, u32 b, char *c, u32 d) {
-    const u8 *v1;
-    s32 e;
-    u32 r;
-    s32 k;
-    s32 l;
-    char *v2;
-    u8 v3[3];
+s32 DWC_Auth_Base64Encode(const u8 *src, u32 srcLength, char *dst, u32 dstLength) {
+    const u8 *srcEnd;
+    s32 remainingBits;
+    u32 requiredSize;
+    s32 outputChars;
+    s32 inputBytes;
+    char *dstCursor;
+    u8 readBuffer[3];
 
-    r = b / 3 * 4 + (b % 3 != 0 ? 4 : 0);
-    if (c == NULL) {
-        return r;
+    requiredSize = srcLength / 3 * 4 + (srcLength % 3 != 0 ? 4 : 0);
+    if (dst == NULL) {
+        return requiredSize;
     }
-    if (d < r) {
+    if (dstLength < requiredSize) {
         return -1;
     }
-    v1 = a + b;
-    v2 = c;
-    while (a != v1) {
-        l = v1 - a;
-        e = l * 8;
-        k = e / 6 + (e % 6 != 0 ? 1 : 0);
-        if (l >= 3) {
-            l = 3;
+    srcEnd = src + srcLength;
+    dstCursor = dst;
+    while (src != srcEnd) {
+        inputBytes = srcEnd - src;
+        remainingBits = inputBytes * 8;
+        outputChars = remainingBits / 6 + (remainingBits % 6 != 0 ? 1 : 0);
+        if (inputBytes >= 3) {
+            inputBytes = 3;
         }
-        MI_CpuFill8(v3, 0, 3);
-        MI_CpuCopy8(a, v3, l);
-        v2[0] = data_ov000_021b1488[v3[0] >> 2];
-        if (k >= 2) {
-            v2[1] = data_ov000_021b1488[(v3[0] << 4 & 0x3f) | v3[1] >> 4];
+        MI_CpuFill8(readBuffer, 0, 3);
+        MI_CpuCopy8(src, readBuffer, inputBytes);
+        dstCursor[0] = gBase64Alphabet[readBuffer[0] >> 2];
+        if (outputChars >= 2) {
+            dstCursor[1] = gBase64Alphabet[(readBuffer[0] << 4 & 0x3f) | readBuffer[1] >> 4];
         } else {
-            v2[1] = '*';
+            dstCursor[1] = '*';
         }
-        if (k >= 3) {
-            v2[2] = data_ov000_021b1488[(v3[1] << 2 & 0x3f) | v3[2] >> 6];
+        if (outputChars >= 3) {
+            dstCursor[2] = gBase64Alphabet[(readBuffer[1] << 2 & 0x3f) | readBuffer[2] >> 6];
         } else {
-            v2[2] = '*';
+            dstCursor[2] = '*';
         }
-        if (k >= 4) {
-            v2[3] = data_ov000_021b1488[v3[2] & 0x3f];
+        if (outputChars >= 4) {
+            dstCursor[3] = gBase64Alphabet[readBuffer[2] & 0x3f];
         } else {
-            v2[3] = '*';
+            dstCursor[3] = '*';
         }
-        v2 += 4;
-        a += l;
+        dstCursor += 4;
+        src += inputBytes;
     }
-    return v2 - c;
+    return dstCursor - dst;
 }
 
-s32 DWC_Auth_Base64Decode(const s8 *a, u32 b, u8 *c, u32 d) {
-    s32 n;
-    s32 m;
+s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, u8 *dst, u32 dstLength) {
+    s32 decodedLength;
+    s32 decodedBits;
     u32 i;
-    s32 w;
-    u8 *v1;
-    s8 v2[4];
-    s8 *q;
-    s8 v;
-    s32 j;
+    s32 packedByte;
+    u8 *dstCursor;
+    s8 sextets[4];
+    s8 *sextetPointer;
+    s8 character;
+    s32 sextetIndex;
 
-    if ((b & 3) != 0) {
+    if ((srcLength & 3) != 0) {
         return -1;
     }
-    m = 0;
-    for (i = 0; i < b; i++) {
-        if (a[i] != '*') {
-            m += 6;
+    decodedBits = 0;
+    for (i = 0; i < srcLength; i++) {
+        if (src[i] != '*') {
+            decodedBits += 6;
         }
     }
-    if (c == NULL) {
-        return m / 8;
+    if (dst == NULL) {
+        return decodedBits / 8;
     }
-    n = m / 8;
-    if (d < n) {
+    decodedLength = decodedBits / 8;
+    if (dstLength < decodedLength) {
         return -1;
     }
-    if (b == 0) {
-        *c = 0;
+    if (srcLength == 0) {
+        *dst = 0;
         return 0;
     }
-    v1 = c;
+    dstCursor = dst;
     i = 0;
     do {
-        j = i;
-        q = v2;
-        for (; j < 4; j++) {
-            v = a[j];
-            if (v >= 'A' && v <= 'Z') {
-                *q = v - 'A';
-            } else if (v >= 'a' && v <= 'z') {
-                *q = v - 0x47;
-            } else if (v >= '0' && v <= '9') {
-                *q = v + 4;
-            } else if (v == '.') {
-                *q = 0x3e;
-            } else if (v == '-') {
-                *q = 0x3f;
+        sextetIndex = i;
+        sextetPointer = sextets;
+        for (; sextetIndex < 4; sextetIndex++) {
+            character = src[sextetIndex];
+            if (character >= 'A' && character <= 'Z') {
+                *sextetPointer = character - 'A';
+            } else if (character >= 'a' && character <= 'z') {
+                *sextetPointer = character - 0x47;
+            } else if (character >= '0' && character <= '9') {
+                *sextetPointer = character + 4;
+            } else if (character == '.') {
+                *sextetPointer = 0x3e;
+            } else if (character == '-') {
+                *sextetPointer = 0x3f;
             } else {
-                *q = i;
+                *sextetPointer = i;
             }
-            q++;
+            sextetPointer++;
         }
-        a += 4;
-        w = v2[i] * 4;
-        w |= v2[1] >> 4;
-        v1[0] = w;
-        if (v1 + 1 - c >= n) {
-            return v1 + 1 - c;
+        src += 4;
+        packedByte = sextets[i] * 4;
+        packedByte |= sextets[1] >> 4;
+        dstCursor[0] = packedByte;
+        if (dstCursor + 1 - dst >= decodedLength) {
+            return dstCursor + 1 - dst;
         }
-        w = v2[1] * 16;
-        w |= v2[2] >> 2;
-        v1[1] = w;
-        if (v1 + 2 - c >= n) {
-            return v1 + 2 - c;
+        packedByte = sextets[1] * 16;
+        packedByte |= sextets[2] >> 2;
+        dstCursor[1] = packedByte;
+        if (dstCursor + 2 - dst >= decodedLength) {
+            return dstCursor + 2 - dst;
         }
-        w = v2[2] * 64;
-        w |= v2[3];
-        v1[2] = w;
-        v1 += 3;
-    } while (v1 - c < n);
-    return v1 - c;
+        packedByte = sextets[2] * 64;
+        packedByte |= sextets[3];
+        dstCursor[2] = packedByte;
+        dstCursor += 3;
+    } while (dstCursor - dst < decodedLength);
+    return dstCursor - dst;
 }
 
-u32 DWC_Netcheck_Create(Unk02188114 *p) {
+u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
     if (gNetcheck != NULL) {
         return 4;
     }
-    gNetcheck = p->mAlloc(gNetcheckName, 0x1200);
+    gNetcheck = param->mAlloc(gNetcheckName, 0x1200);
     if (gNetcheck == NULL) {
         return 4;
     }
     MI_CpuFill8(gNetcheck, 0, 0x1200);
     gNetcheck->mUnk_04 = -99999;
-    gNetcheck->mParam = *p;
+    gNetcheck->mParam = *param;
     if (gHttp != NULL) {
         return 4;
     }

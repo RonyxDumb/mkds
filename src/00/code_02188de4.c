@@ -4,41 +4,41 @@
 #include "code_0214d018.h"
 #include "00/code_0218a67c.h"
 
-u32 func_ov000_02188de4(struct Unk02188ec0 *v1, u32 a, Unk02188de4 *v2) {
-    Unk02188db0 *p;
+u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
+    DWCMemPage *userInfo;
 
-    p = v1->mUnk_000;
-    switch (a) {
+    userInfo = work->mUnk_000;
+    switch (type) {
         case 2:
-            p++;
+            userInfo++;
         case 1:
-            p++;
+            userInfo++;
         case 0:
-            v2->mUnk_00 = p->mUnk_e6;
-            MI_CpuCopy8(p->mUnk_80, v2->mUnk_02, 0x50);
+            wepKey->mUnk_00 = userInfo->mUnk_e6;
+            MI_CpuCopy8(userInfo->mUnk_80, wepKey->mUnk_02, 0x50);
             break;
         case 5:
-            p++;
+            userInfo++;
         case 4:
-            p++;
+            userInfo++;
         case 3:
-            v2->mUnk_00 = 1;
-            MI_CpuCopy8(p->mUnk_d1, v2->mUnk_02, 0x14);
-            v2->mUnk_02[0x14] = 0;
+            wepKey->mUnk_00 = 1;
+            MI_CpuCopy8(userInfo->mUnk_d1, wepKey->mUnk_02, 0x14);
+            wepKey->mUnk_02[0x14] = 0;
             break;
         case 6:
-            v2->mUnk_00 = 2;
-            func_ov000_0218a64c(v1->mUnk_470[v1->mUnk_d13].mUnk_0c, v2->mUnk_02);
+            wepKey->mUnk_00 = 2;
+            func_ov000_0218a64c(work->mUnk_470[work->mUnk_d13].mUnk_0c, wepKey->mUnk_02);
             break;
         case 7:
-            v2->mUnk_00 = 2;
-            func_ov000_0218a6ac(v1->mUnk_470[v1->mUnk_d13].mUnk_0c, v2->mUnk_02);
+            wepKey->mUnk_00 = 2;
+            func_ov000_0218a6ac(work->mUnk_470[work->mUnk_d13].mUnk_0c, wepKey->mUnk_02);
             break;
         case 8:
         case 9:
             break;
     }
-    if (v2->mUnk_00 != 0) {
+    if (wepKey->mUnk_00 != 0) {
         return 1;
     }
     return 0;

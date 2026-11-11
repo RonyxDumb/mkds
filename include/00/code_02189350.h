@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Object behind data_ov000_021b4d10.
+// Object behind gAcHold.
 typedef struct Unk02189350 {
     /* 00 */ u8 pad_00[0x10];
     /* 10 */ s32 mUnk_10;

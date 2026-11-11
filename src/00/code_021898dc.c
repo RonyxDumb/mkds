@@ -24,14 +24,14 @@ u32 func_ov000_02189fd0(s32 a) {
     return ((m << 24) & 0xff000000) | (((m << 8) & 0xff0000) | (((m >> 24) & 0xff) | ((m >> 8) & 0xff00)));
 }
 
-void func_ov000_02189f64(Unk02188ec0 *v1) {
-    Unk02188db0 *e;
+void func_ov000_02189f64(ACWORK *v1) {
+    DWCMemPage *e;
     s32 v2;
     u32 a;
     u32 b;
 
     if (v1->mUnk_d0d < 6) {
-        e = &v1->mUnk_000[func_ov000_021884d8(v1->mUnk_d0d)];
+        e = &v1->mUnk_000[DWCi_ConvConnectAPType(v1->mUnk_d0d)];
         v2 = e->mUnk_c8[3] + (e->mUnk_c8[2] + (e->mUnk_c8[0] + e->mUnk_c8[1]));
         if (e->mUnk_c0[0] == 0 && v2 != 0) {
             a = func_ov000_0218a018(e->mUnk_c8);
@@ -43,21 +43,21 @@ void func_ov000_02189f64(Unk02188ec0 *v1) {
 
 u8 func_ov000_02189f00(void) {
     u32 t;
-    Unk02188ec0 *v1;
+    ACWORK *v1;
     Unk02189f00 s;
     s32 r;
 
     t = func_ov000_021a5bfc();
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (t == 1) {
         s.mUnk_00 = v1->mUnk_d0a;
         s.mUnk_04 = 0;
         s.mUnk_08 = 0;
         s.mUnk_0c = 0;
         func_ov000_0218973c(0);
-        r = func_ov000_021a629c((WCMConfig *) &s, (void (*)(Unk021a586c *)) func_ov000_02188d78);
+        r = func_ov000_021a629c((WCMConfig *) &s, (void (*)(Unk021a586c *)) DWCi_AC_CallBackWCM);
         if (r == 1 || r >= 4) {
-            func_ov000_02188508(1);
+            DWCi_AC_SetError(1);
             return 0x11;
         }
     } else {
@@ -67,12 +67,12 @@ u8 func_ov000_02189f00(void) {
 }
 
 u32 func_ov000_02189e80(void) {
-    Unk02188ec0 *v1;
+    ACWORK *v1;
     u32 s;
     u32 t;
 
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
-    s = func_ov000_02188528();
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    s = DWCi_AC_GetPhase();
     t = func_ov000_021a5bfc();
     if (s == 2 && t == 3) {
         s = func_ov000_02189cdc(v1);
@@ -94,9 +94,9 @@ u32 func_ov000_02189e80(void) {
 }
 
 void func_ov000_02189e54(u32 a) {
-    Unk02188ec0 *v1;
+    ACWORK *v1;
 
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (a > 0xd) {
         a = 0xd;
     }
@@ -104,12 +104,12 @@ void func_ov000_02189e54(u32 a) {
 }
 
 s8 func_ov000_02189df8(s32 a) {
-    Unk02188ec0 *v1;
+    ACWORK *v1;
     u16 m;
     u8 i;
     u8 n;
 
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     m = v1->mUnk_d16;
     if (m == 0) {
         return -1;
@@ -127,9 +127,9 @@ s8 func_ov000_02189df8(s32 a) {
 }
 
 void func_ov000_02189d2c(u32 a) {
-    Unk02188ec0 *v1;
+    ACWORK *v1;
 
-    v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
+    v1 = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     switch (a) {
         case 3:
             v1->mUnk_cb0 = OS_GetTick();
@@ -147,7 +147,7 @@ void func_ov000_02189d2c(u32 a) {
     }
 }
 
-u32 func_ov000_02189cdc(Unk02188ec0 *v1) {
+u32 func_ov000_02189cdc(ACWORK *v1) {
     v1->mUnk_cb0 = OS_GetTick();
     v1->mUnk_d11 = 0;
     v1->mUnk_cb0 = OS_GetTick();
@@ -155,7 +155,7 @@ u32 func_ov000_02189cdc(Unk02188ec0 *v1) {
     return 3;
 }
 
-u32 func_ov000_02189c50(Unk02188ec0 *v1) {
+u32 func_ov000_02189c50(ACWORK *v1) {
     if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x12c) {
         v1->mUnk_d11 += 2;
         if (v1->mUnk_d11 >= 0xd) {
@@ -167,7 +167,7 @@ u32 func_ov000_02189c50(Unk02188ec0 *v1) {
     return 3;
 }
 
-u32 func_ov000_02189c04(Unk02188ec0 *v1) {
+u32 func_ov000_02189c04(ACWORK *v1) {
     v1->mUnk_d15 = 0;
     v1->mUnk_d0b_4 = v1->mUnk_d0b_4 + 1;
     func_ov000_0218973c(0);
@@ -175,7 +175,7 @@ u32 func_ov000_02189c04(Unk02188ec0 *v1) {
     return 3;
 }
 
-u32 func_ov000_02189b28(Unk02188ec0 *v1) {
+u32 func_ov000_02189b28(ACWORK *v1) {
     if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x96 || v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo == 1) {
         v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo = 0;
         v1->mUnk_d0f++;
@@ -190,7 +190,7 @@ u32 func_ov000_02189b28(Unk02188ec0 *v1) {
     return 4;
 }
 
-u32 func_ov000_02189a28(Unk02188ec0 *v1) {
+u32 func_ov000_02189a28(ACWORK *v1) {
     if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x96 || v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo == 1) {
         v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo = 0;
         v1->mUnk_d0f++;
@@ -209,7 +209,7 @@ u32 func_ov000_02189a28(Unk02188ec0 *v1) {
     return 5;
 }
 
-u32 func_ov000_02189998(Unk02188ec0 *v1, u32 a) {
+u32 func_ov000_02189998(ACWORK *v1, u32 a) {
     switch (a) {
         case 3:
             if (v1->mUnk_d12 != 0 || v1->mUnk_d16 != 0) {
@@ -239,7 +239,7 @@ u32 func_ov000_02189998(Unk02188ec0 *v1, u32 a) {
     return a;
 }
 
-u32 func_ov000_021898dc(Unk02188ec0 *v1, u32 a) {
+u32 func_ov000_021898dc(ACWORK *v1, u32 a) {
     u8 i;
     u8 n;
 
@@ -256,9 +256,9 @@ u32 func_ov000_021898dc(Unk02188ec0 *v1, u32 a) {
     if (a == 6) {
         if (n == i) {
             if (i == 0) {
-                func_ov000_02188508(5);
+                DWCi_AC_SetError(5);
             } else {
-                func_ov000_02188508(6);
+                DWCi_AC_SetError(6);
             }
             return 0x11;
         }

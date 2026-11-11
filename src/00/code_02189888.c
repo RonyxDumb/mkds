@@ -2,7 +2,7 @@
 #include "00/code_021898dc.h"
 #include "00/code_0218973c.h"
 
-u32 func_ov000_02189888(Unk02188ec0 *a) {
+u32 func_ov000_02189888(ACWORK *a) {
     u8 v1;
     int v2;
     u32 v3;

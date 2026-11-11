@@ -99,7 +99,7 @@ extern Kind5Item20a gKind5Item20a;
 extern u8 gBodyBuffer[];
 extern u8 gPacketBuffer[0x800];
 
-extern Unk02188de4 *gExchangeConnectBlock;
+extern WCMWepDesc *gExchangeConnectBlock;
 extern WCMConfig *gExchangeWcmConfig;
 extern void *gExchangeWcmWork;
 extern u8 *gExchangeSearchAddress;

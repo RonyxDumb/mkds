@@ -16,84 +16,84 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_021519a8.h"
 
-void func_ov000_02188d78(Unk02188d78 *p) {
-    Unk02188408 *s;
+void DWCi_AC_CallBackWCM(Unk02188d78 *notice) {
+    Unk02188408 *work;
 
-    s = (Unk02188408 *) func_ov000_02188584(0x10);
-    if (p->mUnk_00 == 5) {
-        if (p->mUnk_02 != 0) {
-            switch (p->mUnk_08) {
+    work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
+    if (notice->mUnk_00 == 5) {
+        if (notice->mUnk_02 != 0) {
+            switch (notice->mUnk_08) {
                 case 0xd:
-                    s->mUnk_d14 = 1;
+                    work->mUnk_d14 = 1;
                     break;
                 case 0xf:
-                    s->mUnk_d14 = 2;
+                    work->mUnk_d14 = 2;
                     break;
                 case 0x11:
-                    s->mUnk_d14 = 3;
+                    work->mUnk_d14 = 3;
                     break;
                 default:
-                    s->mUnk_d14 = 4;
+                    work->mUnk_d14 = 4;
                     break;
             }
         }
-    } else if (p->mUnk_00 == 7) {
-        func_ov000_02188ca8(p->mUnk_04);
+    } else if (notice->mUnk_00 == 7) {
+        DWCi_AC_GetBeacon(notice->mUnk_04);
     }
 }
 
-void func_ov000_02188ca8(Unk02188408Entry0xc0 *p) {
-    Unk02188408 *s;
-    s32 r;
-    u32 a;
+void DWCi_AC_GetBeacon(Unk02188408Entry0xc0 *bssdesc) {
+    Unk02188408 *work;
+    s32 type;
+    u32 phase;
 
-    r = -1;
-    s = (Unk02188408 *) func_ov000_02188584(0x10);
-    ((Unk021884e4 *) func_ov000_02188584(1))->mUnk_0b = 1;
-    a = func_ov000_02188528();
-    switch (a) {
+    type = -1;
+    work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
+    ((ACHOLD *) DWCi_AC_GetMemPtr(1))->mUnk_0b = 1;
+    phase = DWCi_AC_GetPhase();
+    switch (phase) {
         case 3:
-            if (p->mUnk_0a == 0 || p->mUnk_0c[0] == 0) {
-                func_ov000_02189e54(p->mUnk_36);
-            } else if (p->mUnk_0a == 1 || p->mUnk_0c[0] == 0x20) {
-                func_ov000_02189e54(p->mUnk_36);
-                r = func_ov000_02188bc0(p, s->mUnk_d10, s->mUnk_300);
+            if (bssdesc->mUnk_0a == 0 || bssdesc->mUnk_0c[0] == 0) {
+                func_ov000_02189e54(bssdesc->mUnk_36);
+            } else if (bssdesc->mUnk_0a == 1 || bssdesc->mUnk_0c[0] == 0x20) {
+                func_ov000_02189e54(bssdesc->mUnk_36);
+                type = CompareList(bssdesc, work->mUnk_d10, work->mUnk_300);
             } else {
-                r = func_ov000_02188bc0(p, s->mUnk_d10, s->mUnk_300);
+                type = CompareList(bssdesc, work->mUnk_d10, work->mUnk_300);
             }
             break;
         case 4:
         case 5:
-            r = func_ov000_02188bc0(p, 1, s->mUnk_300 + s->mUnk_d0f);
-            if (r >= 0) {
-                s->mUnk_300[s->mUnk_d0f].mUnk_00 = (s->mUnk_300[s->mUnk_d0f].mUnk_00 & ~0xf) | 1;
+            type = CompareList(bssdesc, 1, work->mUnk_300 + work->mUnk_d0f);
+            if (type >= 0) {
+                work->mUnk_300[work->mUnk_d0f].mUnk_00 = (work->mUnk_300[work->mUnk_d0f].mUnk_00 & ~0xf) | 1;
             }
             break;
         default:
             return;
     }
-    if (r >= 0) {
-        func_ov000_021889b0(func_ov000_02188b20(r, p, s), s);
+    if (type >= 0) {
+        SortList(AddList(type, bssdesc, work), work);
     }
 }
 
-s32 func_ov000_02188c1c(Unk02188408Entry0xc0 *p) {
-    Unk02188408 *s;
-    u8 f;
+s32 DWCi_AC_CheckNintendoSSID(Unk02188408Entry0xc0 *bssdesc) {
+    Unk02188408 *work;
+    u8 nintendoFlag;
 
-    s = (Unk02188408 *) func_ov000_02188584(0x10);
-    if (s->mUnk_d0c_0 == 0 || s->mUnk_d0c_0 == 4) {
-        f = p->mUnk_2c >> 4 & 1;
-        if (f == 1) {
-            if (func_ov000_0218a658((const u8 *) p->mUnk_0c) == 1) {
+    work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
+    if (work->mUnk_d0c_0 == 0 || work->mUnk_d0c_0 == 4) {
+        nintendoFlag = bssdesc->mUnk_2c >> 4 & 1;
+        if (nintendoFlag == 1) {
+            if (func_ov000_0218a658((const u8 *) bssdesc->mUnk_0c) == 1) {
                 return 6;
             }
         }
     }
-    if (s->mUnk_d0c_0 == 0 || s->mUnk_d0c_0 == 5) {
-        f = p->mUnk_2c >> 4 & 1;
-        if (f == 1) {
-            if (func_ov000_0218a6c8((const u8 *) p->mUnk_0c) == 1) {
+    if (work->mUnk_d0c_0 == 0 || work->mUnk_d0c_0 == 5) {
+        nintendoFlag = bssdesc->mUnk_2c >> 4 & 1;
+        if (nintendoFlag == 1) {
+            if (func_ov000_0218a6c8((const u8 *) bssdesc->mUnk_0c) == 1) {
                 return 7;
             }
         }
@@ -101,250 +101,251 @@ s32 func_ov000_02188c1c(Unk02188408Entry0xc0 *p) {
     return -1;
 }
 
-s32 func_ov000_02188bc0(Unk02188408Entry0xc0 *p, s32 n, Unk02188408Entry24 *t) {
+s32 CompareList(Unk02188408Entry0xc0 *bssdesc, s32 num, Unk02188408Entry24 *list) {
     s32 i;
-    s32 r;
-    u16 h;
+    s32 checkResult;
+    u16 ssidLength;
 
-    if (p->mUnk_0a == 0x20) {
-        r = func_ov000_02188c1c(p);
-        if (r > 0) {
-            return r;
+    if (bssdesc->mUnk_0a == 0x20) {
+        checkResult = DWCi_AC_CheckNintendoSSID(bssdesc);
+        if (checkResult > 0) {
+            return checkResult;
         }
     }
     i = 0;
-    if (n > 0) {
-        h = p->mUnk_0a;
+    if (num > 0) {
+        ssidLength = bssdesc->mUnk_0a;
         do {
-            if ((u8) h == t->mUnk_03) {
-                if (strncmp(p->mUnk_0c, t->mUnk_04, h) == 0) {
-                    return t->mUnk_01;
+            if ((u8) ssidLength == list->mUnk_03) {
+                if (strncmp(bssdesc->mUnk_0c, list->mUnk_04, ssidLength) == 0) {
+                    return list->mUnk_01;
                 }
             }
-            t++;
+            list++;
             i++;
-        } while (i < n);
+        } while (i < num);
     }
     return -1;
 }
 
-s32 func_ov000_02188b20(u32 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
+s32 AddList(u32 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) {
     s32 i;
-    s32 r;
-    char *e;
-    s32 n;
+    s32 found;
+    char *entryBssid;
+    s32 findListNum;
 
     i = 0;
-    r = -1;
-    n = s->mUnk_d12;
-    if (n > 0) {
-        e = s->mUnk_470[0].mUnk_04;
+    found = -1;
+    findListNum = work->mUnk_d12;
+    if (findListNum > 0) {
+        entryBssid = work->mUnk_470[0].mUnk_04;
         do {
-            if (p->mUnk_04[0] == e[0] && p->mUnk_04[1] == e[1] && p->mUnk_04[2] == e[2] && p->mUnk_04[3] == e[3] &&
-                p->mUnk_04[4] == e[4] && p->mUnk_04[5] == e[5]) {
-                r = i;
+            if (bssdesc->mUnk_04[0] == entryBssid[0] && bssdesc->mUnk_04[1] == entryBssid[1] &&
+                bssdesc->mUnk_04[2] == entryBssid[2] && bssdesc->mUnk_04[3] == entryBssid[3] &&
+                bssdesc->mUnk_04[4] == entryBssid[4] && bssdesc->mUnk_04[5] == entryBssid[5]) {
+                found = i;
                 break;
             }
-            e += 0xc0;
+            entryBssid += 0xc0;
             i++;
-        } while (i < s->mUnk_d12);
+        } while (i < work->mUnk_d12);
     }
-    if (r == -1) {
-        func_ov000_02188ad4(a, p, s);
-        if (s->mUnk_d12 < 10) {
-            s->mUnk_d12++;
+    if (found == -1) {
+        SetDataListTail(type, bssdesc, work);
+        if (work->mUnk_d12 < 10) {
+            work->mUnk_d12++;
         }
-        r = 10;
+        found = 10;
     } else {
-        func_ov000_02188a74(r, p, s);
+        UpDateList(found, bssdesc, work);
     }
-    return r;
+    return found;
 }
 
-void func_ov000_02188ad4(u8 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
-    Unk02188408Entry4 *t;
-    Unk02188408Entry0xc0 *e;
-    u16 h;
+void SetDataListTail(u8 type, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) {
+    Unk02188408Entry4 *tailFind;
+    Unk02188408Entry0xc0 *tailBss;
+    u16 rssiWord;
 
-    t = &s->mUnk_444[10];
-    e = &s->mUnk_470[10];
-    t->mUnk_01 = a;
-    h = p->mUnk_02;
-    t->mUnk_02 = (h & 2) != 0 ? (u8) (h >> 2) : (u8) ((h >> 2) + 0x19);
-    t->mUnk_03 = s->mUnk_d11 + 1;
-    MIi_CpuCopy32(p, e, 0xc0);
+    tailFind = &work->mUnk_444[10];
+    tailBss = &work->mUnk_470[10];
+    tailFind->mUnk_01 = type;
+    rssiWord = bssdesc->mUnk_02;
+    tailFind->mUnk_02 = (rssiWord & 2) != 0 ? (u8) (rssiWord >> 2) : (u8) ((rssiWord >> 2) + 0x19);
+    tailFind->mUnk_03 = work->mUnk_d11 + 1;
+    MIi_CpuCopy32(bssdesc, tailBss, 0xc0);
 }
 
-void func_ov000_02188a74(u32 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
-    Unk02188408Entry4 *t;
-    Unk02188408Entry0xc0 *e;
-    u16 h;
-    u8 v;
-    s32 x;
+void UpDateList(u32 listIndex, Unk02188408Entry0xc0 *bssdesc, Unk02188408 *work) {
+    Unk02188408Entry4 *findEntry;
+    Unk02188408Entry0xc0 *bssEntry;
+    u16 rssiWord;
+    u8 rssiLevelByte;
+    s32 rssiLevel;
 
-    t = &s->mUnk_444[a];
-    e = &s->mUnk_470[a];
-    h = p->mUnk_02;
-    x = (h & 2) != 0 ? (u8) (h >> 2) : (u8) ((h >> 2) + 0x19);
-    v = x;
-    if (v > t->mUnk_02) {
-        t->mUnk_02 = v;
-        t->mUnk_03 = s->mUnk_d11 + 1;
+    findEntry = &work->mUnk_444[listIndex];
+    bssEntry = &work->mUnk_470[listIndex];
+    rssiWord = bssdesc->mUnk_02;
+    rssiLevel = (rssiWord & 2) != 0 ? (u8) (rssiWord >> 2) : (u8) ((rssiWord >> 2) + 0x19);
+    rssiLevelByte = rssiLevel;
+    if (rssiLevelByte > findEntry->mUnk_02) {
+        findEntry->mUnk_02 = rssiLevelByte;
+        findEntry->mUnk_03 = work->mUnk_d11 + 1;
     }
-    MIi_CpuCopy32(p, e, 0xc0);
+    MIi_CpuCopy32(bssdesc, bssEntry, 0xc0);
 }
 
-void func_ov000_021889b0(u32 a, Unk02188408 *s) {
-    Unk02188408Entry4 *t;
-    Unk02188408Entry0xc0 *e;
-    Unk02188408Entry4 *u;
-    Unk02188408Entry0xc0 *w;
-    Unk02188408Entry4 x;
-    Unk02188408Entry0xc0 y;
+void SortList(u32 listIndex, Unk02188408 *work) {
+    Unk02188408Entry4 *findList;
+    Unk02188408Entry0xc0 *bssDescList;
+    Unk02188408Entry4 *previousFind;
+    Unk02188408Entry0xc0 *previousBss;
+    Unk02188408Entry4 swapFind;
+    Unk02188408Entry0xc0 swapBss;
     s32 i;
 
-    t = s->mUnk_444;
-    e = s->mUnk_470;
-    i = a - 1;
+    findList = work->mUnk_444;
+    bssDescList = work->mUnk_470;
+    i = listIndex - 1;
     if (i >= 0) {
-        u = &t[i];
-        w = &e[i];
+        previousFind = &findList[i];
+        previousBss = &bssDescList[i];
         do {
-            if (t[a].mUnk_02 < u->mUnk_02) {
+            if (findList[listIndex].mUnk_02 < previousFind->mUnk_02) {
                 break;
             }
-            MIi_CpuCopy32(u, &x, 4);
-            MIi_CpuCopy32(&t[a], u, 4);
-            MIi_CpuCopy32(&x, &t[a], 4);
-            MIi_CpuCopy32(w, &y, 0xc0);
-            MIi_CpuCopy32(&e[a], w, 0xc0);
-            MIi_CpuCopy32(&y, &e[a], 0xc0);
-            a = i;
-            u--;
-            w--;
+            MIi_CpuCopy32(previousFind, &swapFind, 4);
+            MIi_CpuCopy32(&findList[listIndex], previousFind, 4);
+            MIi_CpuCopy32(&swapFind, &findList[listIndex], 4);
+            MIi_CpuCopy32(previousBss, &swapBss, 0xc0);
+            MIi_CpuCopy32(&bssDescList[listIndex], previousBss, 0xc0);
+            MIi_CpuCopy32(&swapBss, &bssDescList[listIndex], 0xc0);
+            listIndex = i;
+            previousFind--;
+            previousBss--;
             i--;
         } while (i >= 0);
     }
-    t += 10;
-    func_0214d018_inline(t, 4);
-    func_0214d018_inline(e + 10, 0xc0);
+    findList += 10;
+    func_0214d018_inline(findList, 4);
+    func_0214d018_inline(bssDescList + 10, 0xc0);
 }
 
-u32 func_ov000_02188868(Unk02188868 *p) {
-    Unk021884e4 *z;
-    Unk02188408 *q;
-    Unk02188114 *y;
-    s32 r;
+BOOL DWC_AC_Create(DWCACConfig *config) {
+    ACHOLD *hold;
+    Unk02188408 *work;
+    DWCNetcheckParam *netCheckParam;
+    s32 result;
 
-    data_ov000_021b4d10 = p->mUnk_00(1, 0x18);
-    func_0214d018_inline(data_ov000_021b4d10, 0x18);
-    z = data_ov000_021b4d10;
-    z->mUnk_00 = p->mUnk_00;
-    z->mUnk_04 = p->mUnk_04;
-    z->mUnk_09 = 1;
-    z->mUnk_16 = 1;
-    z->mUnk_08 = 1;
-    data_ov000_021b4d00 = func_ov000_021886c4(0x10, 0xd18);
-    data_ov000_021b4d04 = func_ov000_021886c4(2, 0x2300);
-    data_ov000_021b4d08 = func_ov000_021886c4(4, 0x58);
-    data_ov000_021b4d0c = func_ov000_021886c4(8, 0xc);
-    func_0214d018_inline(data_ov000_021b4d00, 0xd18);
-    func_0214d018_inline(data_ov000_021b4d04, 0x2300);
-    func_0214d018_inline(data_ov000_021b4d08, 0x58);
-    func_0214d018_inline(data_ov000_021b4d0c, 0xc);
-    q = data_ov000_021b4d00;
-    q->mUnk_d0a = p->mUnk_08;
-    q->mUnk_d0b_0 = p->mUnk_09;
-    y = data_ov000_021b4d0c;
-    y->mAlloc = p->mUnk_00;
-    y->mFree = p->mUnk_04;
-    y->mUnk_08 = 0;
-    q->mUnk_d0c_0 = p->mUnk_0a;
-    q->mUnk_d0c_4 = p->mUnk_0b;
-    ReadNvramFirstThreeEntries(q);
-    r = func_ov000_021a6470(data_ov000_021b4d04, 0x2300);
-    if (r == 1 || r >= 4) {
-        func_ov000_021885ec();
+    gAcHold = config->mUnk_00(1, 0x18);
+    func_0214d018_inline(gAcHold, 0x18);
+    hold = gAcHold;
+    hold->mUnk_00 = config->mUnk_00;
+    hold->mUnk_04 = config->mUnk_04;
+    hold->mUnk_09 = 1;
+    hold->mUnk_16 = 1;
+    hold->mUnk_08 = 1;
+    gAcWork = DWCi_AC_Alloc(0x10, 0xd18);
+    gWcmBuffer = DWCi_AC_Alloc(2, 0x2300);
+    gSocConfig = DWCi_AC_Alloc(4, 0x58);
+    gNetCheck = DWCi_AC_Alloc(8, 0xc);
+    func_0214d018_inline(gAcWork, 0xd18);
+    func_0214d018_inline(gWcmBuffer, 0x2300);
+    func_0214d018_inline(gSocConfig, 0x58);
+    func_0214d018_inline(gNetCheck, 0xc);
+    work = gAcWork;
+    work->mUnk_d0a = config->mUnk_08;
+    work->mUnk_d0b_0 = config->mUnk_09;
+    netCheckParam = gNetCheck;
+    netCheckParam->mAlloc = config->mUnk_00;
+    netCheckParam->mFree = config->mUnk_04;
+    netCheckParam->mUnk_08 = 0;
+    work->mUnk_d0c_0 = config->mUnk_0a;
+    work->mUnk_d0c_4 = config->mUnk_0b;
+    ReadNvramFirstThreeEntries(work);
+    result = func_ov000_021a6470(gWcmBuffer, 0x2300);
+    if (result == 1 || result >= 4) {
+        DWCi_AC_FreeAll();
         return 0;
     }
     return 1;
 }
 
-s32 func_ov000_021887cc(void) {
-    u8 a;
-    u32 b;
-    s32 c;
+s32 DWC_AC_Process(void) {
+    u8 phase;
+    u32 interruptState;
+    s32 duplicateResult;
 
-    a = func_ov000_02188528();
-    if (a == 1) {
-        a = func_ov000_02189f00();
-    } else if (a < 7) {
-        b = OS_DisableInterrupts();
-        a = ((u8(*)(void)) func_ov000_02189e80)();
-        func_ov000_02188534(a);
-        OS_RestoreInterrupts(b);
-    } else if (a < 9) {
-        a = ((u8(*)(void)) func_ov000_0218922c)();
-    } else if (a < 10) {
-        a = ((u8(*)(void)) func_ov000_021897bc)();
-    } else if (a < 16) {
-        a = ((u8(*)(void)) func_ov000_0218a294)();
-    } else if (a == 17) {
-        a = func_ov000_021894c0();
+    phase = DWCi_AC_GetPhase();
+    if (phase == 1) {
+        phase = func_ov000_02189f00();
+    } else if (phase < 7) {
+        interruptState = OS_DisableInterrupts();
+        phase = ((u8(*)(void)) func_ov000_02189e80)();
+        DWCi_AC_SetPhase(phase);
+        OS_RestoreInterrupts(interruptState);
+    } else if (phase < 9) {
+        phase = ((u8(*)(void)) func_ov000_0218922c)();
+    } else if (phase < 10) {
+        phase = ((u8(*)(void)) func_ov000_021897bc)();
+    } else if (phase < 16) {
+        phase = ((u8(*)(void)) func_ov000_0218a294)();
+    } else if (phase == 17) {
+        phase = func_ov000_021894c0();
     }
-    func_ov000_02188534(a);
-    if (a == 16) {
-        c = func_ov000_02188408();
-        func_ov000_021884a8();
-        return c;
+    DWCi_AC_SetPhase(phase);
+    if (phase == 16) {
+        duplicateResult = CheckDuplicate();
+        FreeDisused();
+        return duplicateResult;
     }
-    if (a == 18) {
-        func_ov000_021884a8();
+    if (phase == 18) {
+        FreeDisused();
         return -1;
     }
     return 0;
 }
 
-u32 func_ov000_02188758(void) {
-    u32 a;
+u32 DWC_AC_GetStatus(void) {
+    u32 phase;
 
-    a = func_ov000_02188528();
-    if (a <= 1) {
+    phase = DWCi_AC_GetPhase();
+    if (phase <= 1) {
         return 0;
     }
-    if (a < 7) {
+    if (phase < 7) {
         return 1;
     }
-    if (a == 9) {
+    if (phase == 9) {
         return 4;
     }
-    if (a < 10) {
+    if (phase < 10) {
         return 2;
     }
-    if (a == 11) {
+    if (phase == 11) {
         return 4;
     }
-    if (a < 16) {
+    if (phase < 16) {
         return 3;
     }
-    if (a == 16) {
+    if (phase == 16) {
         return 5;
     }
-    if (a == 17) {
+    if (phase == 17) {
         return 4;
     }
     return func_ov000_02189478();
 }
 
-u32 func_ov000_02188720(void) {
-    u8 a;
+BOOL DWC_AC_Destroy(void) {
+    u8 phase;
 
-    a = func_ov000_02188528();
-    if (a == 0 || a == 0x12) {
-        func_ov000_021885ec();
+    phase = DWCi_AC_GetPhase();
+    if (phase == 0 || phase == 0x12) {
+        DWCi_AC_FreeAll();
         return 1;
     }
-    func_ov000_021892f4(&a);
-    func_ov000_02188534(a);
+    func_ov000_021892f4(&phase);
+    DWCi_AC_SetPhase(phase);
     return 0;
 }

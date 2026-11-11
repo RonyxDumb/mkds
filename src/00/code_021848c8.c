@@ -12,22 +12,22 @@
 #include "Main/Unknown/code_02122734.h"
 #include "Main/Unknown/code_0212a910.h"
 
-void InitWiFiSelectCharacterState(void *a) {
-    void *b;
-    void *c;
+void InitWiFiSelectCharacterState(void *heap) {
+    void *firstOamList;
+    void *secondOamList;
     s32 i;
 
-    gWiFiSelectCharacterState = HeapAlloc(a, 4);
-    gWiFiSelectCharacterState->mHeap = a;
-    func_ov000_02184934();
+    gWiFiSelectCharacterState = HeapAlloc(heap, 4);
+    gWiFiSelectCharacterState->mHeap = heap;
+    InitWiFiSelectCharacterNop();
     if (GetWiFiPrevState() != 5) {
         PackWiFiSessionIndicesWrapper();
         SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(GetOwnParticipantIndex()));
         SetSessionKartCount(gWiFiSession->mKartCount);
     }
-    b = func_ov000_021804f4();
-    c = func_ov000_021804e0();
-    InitSelectCharacter(a, 2, b, c);
+    firstOamList = func_ov000_021804f4();
+    secondOamList = func_ov000_021804e0();
+    InitSelectCharacter(heap, 2, firstOamList, secondOamList);
     SetLinkLevelIconEnabled(1, 1);
     gMenuShared->mUnk_6c = FALSE;
     for (i = 0; i < 4; i++) {
@@ -40,27 +40,27 @@ void ReleaseWiFiSelectCharacterState(void) {
     *(u32 *) &gWiFiSelectCharacterState = 0;
 }
 
-void func_ov000_02184934(void) {}
+void InitWiFiSelectCharacterNop(void) {}
 
 void AdvanceWiFiSelectCharacterState(void) {
-    s32 a;
+    s32 selectResult;
 
-    a = AdvanceSelectCharacter();
-    if (a == 1 || a == 3) {
+    selectResult = AdvanceSelectCharacter();
+    if (selectResult == 1 || selectResult == 3) {
         if (IsWiFiConnectionLost() != 0) {
             RequestWiFiState(7);
             return;
         }
-        if (a == 1) {
+        if (selectResult == 1) {
             RequestWiFiState(5);
         }
-        if (a == 3) {
+        if (selectResult == 3) {
             RequestWiFiState(6);
         }
     }
 }
 
-void func_ov000_021848ec(void) {
+void WriteSelectCharacterRegistersWrapper(void) {
     u32 value3;
     WriteSelectCharacterRegisters();
 }

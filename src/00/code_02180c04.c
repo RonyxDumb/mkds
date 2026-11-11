@@ -30,50 +30,50 @@
 #include "Main/Unknown/code_0212a910.h"
 #include "Main/Unknown/code_02047104.h"
 
-void func_ov000_021816b0(void *heap) {
-    data_ov000_021b4c68 = HeapAlloc(heap, 0x40);
-    data_ov000_021b4c68->mHeap = heap;
-    data_ov000_021b4c68->mState = 0;
-    data_ov000_021b4c68->mNextState = 0;
-    data_ov000_021b4c68->mPendingWiFiState = -1;
-    data_ov000_021b4c68->mUnk_08 = 0;
-    data_ov000_021b4c68->mWiFiMessages = FindSceneFile("wifi.bmg");
-    data_ov000_021b4c68->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    func_ov000_021816a0();
+void InitWiFiLoginMenu(void *heap) {
+    gWiFiLoginMenu = HeapAlloc(heap, 0x40);
+    gWiFiLoginMenu->mHeap = heap;
+    gWiFiLoginMenu->mState = 0;
+    gWiFiLoginMenu->mNextState = 0;
+    gWiFiLoginMenu->mPendingWiFiState = -1;
+    gWiFiLoginMenu->mUnk_08 = 0;
+    gWiFiLoginMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
+    gWiFiLoginMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    InitWiFiLoginMenuNop();
     SetLinkLevelIconEnabled(1, 1);
     SetSelectReturnSoundId(0xe);
     SendLedPatternWireless();
 }
 
-void func_ov000_021816a4(void) {
-    data_ov000_021b4c68 = NULL;
+void ClearWiFiLoginMenuPointer(void) {
+    gWiFiLoginMenu = NULL;
 }
 
-void func_ov000_021816a0(void) {}
+void InitWiFiLoginMenuNop(void) {}
 
-BOOL func_ov000_02181684(void) {
+BOOL IsUserDataFriendKeyZero(void) {
     if (IsUserDataFriendKeyNonZero() == 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-s32 func_ov000_0218167c(void) {
+s32 CheckUserDataValidConsoleWrapper(void) {
     return CheckUserDataValidConsole();
 }
 
-u32 func_ov000_02181674(void) {
-    u32 value0;
-    u32 value3;
-    value3 = (u32) &GetWiFiSessionErrorCodeNegated;
-    value0 = GetWiFiSessionErrorCodeNegated();
-    return value0;
+u32 GetWiFiSessionErrorCodeNegatedWrapper(void) {
+    u32 wiFiSessionErrorCodeNegated;
+    u32 getterAddress;
+    getterAddress = (u32) &GetWiFiSessionErrorCodeNegated;
+    wiFiSessionErrorCodeNegated = GetWiFiSessionErrorCodeNegated();
+    return wiFiSessionErrorCodeNegated;
 }
 
-Unk021b4c68 *data_ov000_021b4c68;
+WiFiLoginMenu *gWiFiLoginMenu;
 
-WiFiStateCallbacks data_ov000_021b0a98 = {func_ov000_021816b0, func_ov000_021816a4, func_ov000_02180c3c,
-                                          (void (*)(void)) func_ov000_02180c28};
+WiFiStateCallbacks gWiFiLoginMenuCallbacks = {InitWiFiLoginMenu, ClearWiFiLoginMenuPointer, AdvanceWiFiLoginMenu,
+                                              (void (*)(void)) WriteWiFiLoginMenuRegisters};
 
 static inline s32 func_ov000_02180e58_inline(void) {
     if (gBackupBuffers->mBusy == 0) {
@@ -85,259 +85,266 @@ static inline s32 func_ov000_02180e58_inline(void) {
     return 1;
 }
 
-s32 func_ov000_0218151c(s32 a, s32 b, s32 *c) {
-    u8 t[9] = {2, 2, 1, 2, 2, 2, 1, 2, 2};
-    u16 u[9][2] = {{0x15, 0x26}, {0x27, 0x26}, {0x28, 0},    {0x29, 0x16}, {0x15, 0x16},
-                   {0x2a, 0x2b}, {0x2c, 0},    {0x2d, 0x2e}, {0x2f, 0x2e}};
-    s32 i = 0;
-    s32 v;
-    if (a == 0x4e8c) {
-        i = 1;
-    } else if (a == 0x4e8e) {
-        i = 2;
-    } else if ((a >= 0xc79b && a <= 0xc79e) || (a >= 0xc7a0 && a <= 0xc7fe) || (a >= 0xc864 && a <= 0xc8c6)) {
-        i = 3;
-    } else if ((a >= 0xcb20 && a <= 0xcb23) || (a >= 0xcb84 && a <= 0xcb87) || (a >= 0xcbe8 && a <= 0xcbeb)) {
-        i = 4;
-    } else if (a == 0xc79f) {
-        i = 5;
-    } else if (a >= 0xc350 && a <= 0xc3b3) {
-        i = 6;
-    } else if (a == 0x4e85 || (a >= 0x59d8 && a <= 0x5dbf)) {
-        i = 7;
-    } else if (a >= 0xc800 && a <= 0xc863) {
-        i = 8;
+s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCountOut) {
+    u8 rowPageCounts[9] = {2, 2, 1, 2, 2, 2, 1, 2, 2};
+    u16 rowMessageIndices[9][2] = {{0x15, 0x26}, {0x27, 0x26}, {0x28, 0},    {0x29, 0x16}, {0x15, 0x16},
+                                   {0x2a, 0x2b}, {0x2c, 0},    {0x2d, 0x2e}, {0x2f, 0x2e}};
+    s32 rowIndex = 0;
+    s32 rowPageCount;
+    if (errorCode == 0x4e8c) {
+        rowIndex = 1;
+    } else if (errorCode == 0x4e8e) {
+        rowIndex = 2;
+    } else if ((errorCode >= 0xc79b && errorCode <= 0xc79e) || (errorCode >= 0xc7a0 && errorCode <= 0xc7fe) ||
+               (errorCode >= 0xc864 && errorCode <= 0xc8c6)) {
+        rowIndex = 3;
+    } else if ((errorCode >= 0xcb20 && errorCode <= 0xcb23) || (errorCode >= 0xcb84 && errorCode <= 0xcb87) ||
+               (errorCode >= 0xcbe8 && errorCode <= 0xcbeb)) {
+        rowIndex = 4;
+    } else if (errorCode == 0xc79f) {
+        rowIndex = 5;
+    } else if (errorCode >= 0xc350 && errorCode <= 0xc3b3) {
+        rowIndex = 6;
+    } else if (errorCode == 0x4e85 || (errorCode >= 0x59d8 && errorCode <= 0x5dbf)) {
+        rowIndex = 7;
+    } else if (errorCode >= 0xc800 && errorCode <= 0xc863) {
+        rowIndex = 8;
     }
-    v = t[i];
-    *c = v;
-    if (b >= v) {
+    rowPageCount = rowPageCounts[rowIndex];
+    *pageCountOut = rowPageCount;
+    if (pageIndex >= rowPageCount) {
         return -1;
     }
-    return u[i][b];
+    return rowMessageIndices[rowIndex][pageIndex];
 }
 
-void func_ov000_02181458(void) {
-    if (func_ov000_02181684() != FALSE) {
-        data_ov000_021b4c68->mNextState = 1;
-        SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x1c),
-                                     GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
-        data_ov000_021b4c68->mMessageTableIndex = 0;
+void AdvanceWiFiLoginMenuState0(void) {
+    if (IsUserDataFriendKeyZero() != FALSE) {
+        gWiFiLoginMenu->mNextState = 1;
+        SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1c),
+                                     GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+        gWiFiLoginMenu->mMessageTableIndex = 0;
         return;
     }
-    if (func_ov000_0218167c() != 0) {
-        data_ov000_021b4c68->mNextState = 6;
-        SetupTxtSystemMainTextTwoButtons(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x13),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 1), 0);
+    if (CheckUserDataValidConsoleWrapper() != 0) {
+        gWiFiLoginMenu->mNextState = 6;
+        SetupTxtSystemMainTextTwoButtons(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x13),
+                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0),
+                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 1), 0);
         return;
     }
-    data_ov000_021b4c68->mNextState = 2;
-    SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x20),
-                                 GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+    gWiFiLoginMenu->mNextState = 2;
+    SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x20),
+                                 GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
 }
 
-void func_ov000_0218134c(void) {
-    Unk021b4c68 *p;
+void AdvanceWiFiLoginMenuState1(void) {
+    WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        u16 a[2] = {0, 0x1d};
-        if (data_ov000_021b4c68->mMessageTableIndex < 0) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+        u16 messageIndices[2] = {0, 0x1d};
+        if (gWiFiLoginMenu->mMessageTableIndex < 0) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextButton(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(loginMenu->mCommonMessages, 6));
             return;
         }
-        if (data_ov000_021b4c68->mMessageTableIndex == 0) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextTwoButtons(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                             GetBmgEntry(p->mCommonMessages, 1), 0);
+        if (gWiFiLoginMenu->mMessageTableIndex == 0) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextTwoButtons(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0), GetBmgEntry(loginMenu->mCommonMessages, 1), 0);
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            data_ov000_021b4c68->mNextState = 7;
-            SetupTxtSystemMainTextEx(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            gWiFiLoginMenu->mNextState = 7;
+            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            data_ov000_021b4c68->mUnk_14 = TRUE;
+            gWiFiLoginMenu->mUnk_14 = TRUE;
             StartWiFiSessionLoginSeq();
             return;
         }
-        data_ov000_021b4c68->mPendingWiFiState = 1;
-        RequestWiFiState(data_ov000_021b4c68->mPendingWiFiState);
+        gWiFiLoginMenu->mPendingWiFiState = 1;
+        RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
 
-void func_ov000_021812f4(void) {
+void AdvanceWiFiLoginMenuState2(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        data_ov000_021b4c68->mNextState = 3;
-        SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x21),
-                                     GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
-        data_ov000_021b4c68->mMessageTableIndex = 0;
+        gWiFiLoginMenu->mNextState = 3;
+        SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x21),
+                                     GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+        gWiFiLoginMenu->mMessageTableIndex = 0;
     }
 }
 
-void func_ov000_021811ec(void) {
-    Unk021b4c68 *p;
+void AdvanceWiFiLoginMenuState3(void) {
+    WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        u16 a[2] = {0, 0x22};
-        if (data_ov000_021b4c68->mMessageTableIndex < 0) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+        u16 messageIndices[2] = {0, 0x22};
+        if (gWiFiLoginMenu->mMessageTableIndex < 0) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextButton(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(loginMenu->mCommonMessages, 6));
             return;
         }
-        if (data_ov000_021b4c68->mMessageTableIndex == 0) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextTwoButtons(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                             GetBmgEntry(p->mCommonMessages, 1), 1);
+        if (gWiFiLoginMenu->mMessageTableIndex == 0) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextTwoButtons(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0), GetBmgEntry(loginMenu->mCommonMessages, 1), 1);
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            data_ov000_021b4c68->mNextState = 4;
-            SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x23),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
-            data_ov000_021b4c68->mMessageTableIndex = 0;
+            gWiFiLoginMenu->mNextState = 4;
+            SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x23),
+                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+            gWiFiLoginMenu->mMessageTableIndex = 0;
             return;
         }
-        data_ov000_021b4c68->mPendingWiFiState = 1;
-        RequestWiFiState(data_ov000_021b4c68->mPendingWiFiState);
+        gWiFiLoginMenu->mPendingWiFiState = 1;
+        RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
 
-void func_ov000_021810dc(void) {
-    Unk021b4c68 *p;
+void AdvanceWiFiLoginMenuState4(void) {
+    WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        u16 a[3] = {0, 0x24, 0x25};
-        if (data_ov000_021b4c68->mMessageTableIndex < 1) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+        u16 messageIndices[3] = {0, 0x24, 0x25};
+        if (gWiFiLoginMenu->mMessageTableIndex < 1) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextButton(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(loginMenu->mCommonMessages, 6));
             return;
         }
-        if (data_ov000_021b4c68->mMessageTableIndex == 1) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextTwoButtons(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                             GetBmgEntry(p->mCommonMessages, 1), 1);
+        if (gWiFiLoginMenu->mMessageTableIndex == 1) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextTwoButtons(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0), GetBmgEntry(loginMenu->mCommonMessages, 1), 1);
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            data_ov000_021b4c68->mNextState = 7;
-            SetupTxtSystemMainTextEx(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            gWiFiLoginMenu->mNextState = 7;
+            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            data_ov000_021b4c68->mUnk_14 = TRUE;
+            gWiFiLoginMenu->mUnk_14 = TRUE;
             StartWiFiSessionLoginSeq();
             return;
         }
-        data_ov000_021b4c68->mPendingWiFiState = 1;
-        RequestWiFiState(data_ov000_021b4c68->mPendingWiFiState);
+        gWiFiLoginMenu->mPendingWiFiState = 1;
+        RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
 
-void func_ov000_02180ffc(void) {
-    Unk021b4c68 *p;
+void AdvanceWiFiLoginMenuState5(void) {
+    WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        u16 a[2] = {0, 0x1f};
-        if (data_ov000_021b4c68->mMessageTableIndex < 0) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+        u16 messageIndices[2] = {0, 0x1f};
+        if (gWiFiLoginMenu->mMessageTableIndex < 0) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextButton(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(loginMenu->mCommonMessages, 6));
             return;
         }
-        if (data_ov000_021b4c68->mMessageTableIndex == 0) {
-            data_ov000_021b4c68->mMessageTableIndex++;
-            p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 4));
+        if (gWiFiLoginMenu->mMessageTableIndex == 0) {
+            gWiFiLoginMenu->mMessageTableIndex++;
+            loginMenu = gWiFiLoginMenu;
+            SetupTxtSystemMainTextButton(
+                GetBmgEntry(loginMenu->mWiFiMessages, messageIndices[loginMenu->mMessageTableIndex]),
+                GetBmgEntry(loginMenu->mCommonMessages, 4));
             return;
         }
         if (func_ov000_02180e58_inline() == 0) {
-            data_ov000_021b4c68->mPendingWiFiState = 2;
-            RequestWiFiState(data_ov000_021b4c68->mPendingWiFiState);
+            gWiFiLoginMenu->mPendingWiFiState = 2;
+            RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
         }
     }
 }
 
-void func_ov000_02180f80(void) {
+void AdvanceWiFiLoginMenuState6(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            data_ov000_021b4c68->mNextState = 7;
-            SetupTxtSystemMainTextEx(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            gWiFiLoginMenu->mNextState = 7;
+            SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            data_ov000_021b4c68->mUnk_14 = FALSE;
+            gWiFiLoginMenu->mUnk_14 = FALSE;
             StartWiFiSessionLoginSeq();
             return;
         }
-        data_ov000_021b4c68->mPendingWiFiState = 1;
-        RequestWiFiState(data_ov000_021b4c68->mPendingWiFiState);
+        gWiFiLoginMenu->mPendingWiFiState = 1;
+        RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
 
-void func_ov000_02180e58(void) {
-    s32 v1;
-    s32 v;
+void AdvanceWiFiLoginMenuState7(void) {
+    s32 pageCount;
+    s32 messageIndex;
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (func_ov000_02180e58_inline() == 0) {
-            RequestWiFiState(data_ov000_021b4c68->mPendingWiFiState);
+            RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
             return;
         }
     }
     if (IsTxtSystemState2NoCloseRequest() != 0) {
         switch (GetWiFiSessionLoginResult()) {
             case -1:
-                data_ov000_021b4c68->mErrorCode = func_ov000_02181674();
-                if (data_ov000_021b4c68->mErrorCode < 0) {
-                    data_ov000_021b4c68->mErrorCode = -data_ov000_021b4c68->mErrorCode;
+                gWiFiLoginMenu->mErrorCode = GetWiFiSessionErrorCodeNegatedWrapper();
+                if (gWiFiLoginMenu->mErrorCode < 0) {
+                    gWiFiLoginMenu->mErrorCode = -gWiFiLoginMenu->mErrorCode;
                 }
-                v = func_ov000_0218151c(data_ov000_021b4c68->mErrorCode, 0, &v1);
-                data_ov000_021b4c68->mNextState = 8;
-                SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, v),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
-                data_ov000_021b4c68->mMessageTableIndex = 0;
+                messageIndex = LookupWiFiLoginErrorMessageIndex(gWiFiLoginMenu->mErrorCode, 0, &pageCount);
+                gWiFiLoginMenu->mNextState = 8;
+                SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, messageIndex),
+                                             GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+                gWiFiLoginMenu->mMessageTableIndex = 0;
                 StartWiFiLoginErrorSeq();
                 break;
             case 0:
                 break;
             case 1:
                 if (func_ov000_021806a0() != 0) {
-                    if (data_ov000_021b4c68->mUnk_14 != FALSE) {
-                        data_ov000_021b4c68->mNextState = 5;
-                        SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x1e),
-                                                     GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
-                        data_ov000_021b4c68->mMessageTableIndex = 0;
+                    if (gWiFiLoginMenu->mUnk_14 != FALSE) {
+                        gWiFiLoginMenu->mNextState = 5;
+                        SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1e),
+                                                     GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
+                        gWiFiLoginMenu->mMessageTableIndex = 0;
                     } else {
-                        data_ov000_021b4c68->mPendingWiFiState = 2;
+                        gWiFiLoginMenu->mPendingWiFiState = 2;
                         RequestTxtSystemClose();
                     }
                 }
@@ -347,51 +354,53 @@ void func_ov000_02180e58(void) {
     }
 }
 
-void func_ov000_02180d94(void) {
-    vu16 v1;
-    s32 v2;
-    u16 v3[10];
-    u16 v4[300];
-    s32 v;
+void AdvanceWiFiLoginMenuState8(void) {
+    vu16 zero;
+    s32 pageCount;
+    u16 errorCodeText[10];
+    u16 messageText[300];
+    s32 messageIndex;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        data_ov000_021b4c68->mMessageTableIndex++;
-        v = func_ov000_0218151c(data_ov000_021b4c68->mErrorCode, data_ov000_021b4c68->mMessageTableIndex, &v2);
-        if (v != -1) {
-            SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, v),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+        gWiFiLoginMenu->mMessageTableIndex++;
+        messageIndex = LookupWiFiLoginErrorMessageIndex(gWiFiLoginMenu->mErrorCode, gWiFiLoginMenu->mMessageTableIndex,
+                                                        &pageCount);
+        if (messageIndex != -1) {
+            SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, messageIndex),
+                                         GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
             return;
         }
-        v1 = 0;
-        MIi_CpuClear16(v1, v3, 0x14);
-        FormatAsciiNumber(data_ov000_021b4c68->mErrorCode, v3);
-        FormatMessageWithText(v3, GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x30), v4, 0x258);
-        data_ov000_021b4c68->mNextState = 9;
-        SetupTxtSystemMainText(v4);
+        zero = 0;
+        MIi_CpuClear16(zero, errorCodeText, 0x14);
+        FormatAsciiNumber(gWiFiLoginMenu->mErrorCode, errorCodeText);
+        FormatMessageWithText(errorCodeText, GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x30), messageText, 0x258);
+        gWiFiLoginMenu->mNextState = 9;
+        SetupTxtSystemMainText(messageText);
         RequestSelectReturnState1();
     }
 }
 
-void func_ov000_02180cdc(void) {
-    InputSlotIndex i = UNK_02175628_INDEX_8;
-    s32 a;
-    BOOL b;
-    u32 v;
+void AdvanceWiFiLoginMenuState9(void) {
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    s32 pairRecentlyLost;
+    BOOL pairNewUnlessRecentlyLost;
+    u32 hasPair;
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) == 0) {
-            a = b = FALSE;
-            v = gInputSlots[i].mPair.mHasPair;
-            if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-                a = 1;
+        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+            pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
+            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+                pairRecentlyLost = 1;
             }
-            if (a == 0 && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
-                b = TRUE;
+            if (pairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+                pairNewUnlessRecentlyLost = TRUE;
             }
-            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
-                                                                              gInputSlots[i].mPair.mPairY) == FALSE) {
+            if (pairNewUnlessRecentlyLost == FALSE ||
+                IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
                 goto next;
             }
         }
@@ -401,48 +410,48 @@ void func_ov000_02180cdc(void) {
     }
 next:
     if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        data_ov000_021b4c68->mPendingWiFiState = 1;
-        RequestWiFiState(data_ov000_021b4c68->mPendingWiFiState);
+        gWiFiLoginMenu->mPendingWiFiState = 1;
+        RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
 
-void func_ov000_02180c3c(void) {
-    data_ov000_021b4c68->mState = data_ov000_021b4c68->mNextState;
-    switch (data_ov000_021b4c68->mState) {
+void AdvanceWiFiLoginMenu(void) {
+    gWiFiLoginMenu->mState = gWiFiLoginMenu->mNextState;
+    switch (gWiFiLoginMenu->mState) {
         case 0:
-            func_ov000_02181458();
+            AdvanceWiFiLoginMenuState0();
             break;
         case 1:
-            func_ov000_0218134c();
+            AdvanceWiFiLoginMenuState1();
             break;
         case 2:
-            func_ov000_021812f4();
+            AdvanceWiFiLoginMenuState2();
             break;
         case 3:
-            func_ov000_021811ec();
+            AdvanceWiFiLoginMenuState3();
             break;
         case 4:
-            func_ov000_021810dc();
+            AdvanceWiFiLoginMenuState4();
             break;
         case 5:
-            func_ov000_02180ffc();
+            AdvanceWiFiLoginMenuState5();
             break;
         case 6:
-            func_ov000_02180f80();
+            AdvanceWiFiLoginMenuState6();
             break;
         case 7:
-            func_ov000_02180e58();
+            AdvanceWiFiLoginMenuState7();
             break;
         case 8:
-            func_ov000_02180d94();
+            AdvanceWiFiLoginMenuState8();
             break;
         case 9:
-            func_ov000_02180cdc();
+            AdvanceWiFiLoginMenuState9();
             break;
     }
 }
 
-u32 func_ov000_02180c28(void) {
+u32 WriteWiFiLoginMenuRegisters(void) {
     u32 value0;
     u32 value1;
     u32 value2;
@@ -454,7 +463,7 @@ u32 func_ov000_02180c28(void) {
     return value0;
 }
 
-void func_ov000_02180c04(void) {
-    WiFiStateCallbacks callbacks = data_ov000_021b0a98;
+void RegisterWiFiLoginMenuCallbacks(void) {
+    WiFiStateCallbacks callbacks = gWiFiLoginMenuCallbacks;
     SetWiFiStateCallbacks(&callbacks);
 }
