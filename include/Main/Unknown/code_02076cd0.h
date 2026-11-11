@@ -42,7 +42,7 @@ void CreateEntryCamera(u32 followedKartIndex);
 // Kart's forward vector in mSavedKartForward and refreshes the projection.
 void CreateChaseCamera(void);
 void InitCameraGlobals(void);
-void LoadEmblemSBNclr(void *a);
+void LoadEmblemSBNclr(void *section);
 u16 GetKartListCount(void);
 u16 GetKartListNumber(void);
 BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex);

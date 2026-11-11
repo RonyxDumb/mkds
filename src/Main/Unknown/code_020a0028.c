@@ -12,18 +12,18 @@
 #include "code_02146cbc.h"
 #include "code_02147cd8.h"
 
-void CreateAirship(void *a) {
-    gAirship = CreateMapObjectModelAnimated(a, gAirshipNsbmdName);
+void CreateAirship(void *mapObjectList) {
+    gAirship = CreateMapObjectModelAnimated(mapObjectList, gAirshipNsbmdName);
     SetMapObjectModelPolygonId(gAirship, 0x3f);
 }
 
-void DrawAirship(void *a, Airship *airship) {
-    s32 v;
+void DrawAirship(void *mapObjectList, Airship *airship) {
+    s32 gxParam;
     MtxFx33 rotationMatrix;
     Vec3 translation;
 
-    v = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &v, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     translation.y = (airship->mUnk_a0 + airship->mWobbleOffset) >> 4;
     translation.x = 0;
     translation.z = 0;
@@ -38,21 +38,22 @@ void DrawAirship(void *a, Airship *airship) {
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &airship->mMapObject.mScale, 3);
-    DrawMapObjectModel(a, gAirship, airship);
+    DrawMapObjectModel(mapObjectList, gAirship, airship);
 }
 
 void InitAirshipObjects(AirshipObjectList *list) {
-    s32 i;
+    s32 mapObjectIndex;
     Airship *airship;
-    BOOL z;
+    BOOL followerSpeed;
     s32 speed;
 
     if (list == NULL) {
         return;
     }
-    z = FALSE;
-    for (i = 0; i < list->mUnk_04 && (airship = list->mUnk_00[i]) != NULL; i++) {
-        InitGroupFollower(&airship->mUnk_c8, airship->mMapObject.mCourseMapRow, z);
+    followerSpeed = FALSE;
+    for (mapObjectIndex = 0; mapObjectIndex < list->mUnk_04 && (airship = list->mUnk_00[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
+        InitGroupFollower(&airship->mUnk_c8, airship->mMapObject.mCourseMapRow, followerSpeed);
         airship->mUnk_a4 = (airship->mMapObject.mCourseMapRow->mSettings[0] * 0x5000L) / 100;
         speed = airship->mUnk_a4;
         airship->mUnk_c8.mSpeed = speed;

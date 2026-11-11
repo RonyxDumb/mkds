@@ -83,13 +83,15 @@ void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
 }
 
 void InitKanoke64Objects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 mapObjectIndex;
     Kanoke64 *kanoke64;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (kanoke64 = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (kanoke64 = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         if (kanoke64->mMapObject.mFlags & 0x800) {
             kanoke64->mTimer = (u16) (MapObjectRandomBelowU16(25) + 200);
         }
@@ -126,21 +128,21 @@ static inline s64 XzDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos)
 }
 
 static inline BOOL Kanoke64IsKartNearInAngle(Kanoke64 *kanoke64, s32 objectAngle) {
-    s32 i;
+    s32 kartIndex;
     BOOL isHumanGhostOrPeer;
     s32 angleDifference;
     Kart *kart;
 
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
+    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
         isHumanGhostOrPeer = FALSE;
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind <= 3 &&
-            ((1 << gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= 3 &&
+            ((1 << gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isHumanGhostOrPeer = TRUE;
         }
-        if (isHumanGhostOrPeer == FALSE && i != gRaceSetup->mEntryIndex) {
+        if (isHumanGhostOrPeer == FALSE && kartIndex != gRaceSetup->mEntryIndex) {
             continue;
         }
-        kart = GetKart((u16) i);
+        kart = GetKart((u16) kartIndex);
         if (XzDistanceSquared(&kart->mPos, &kanoke64->mMapObject.mPos) >= 0x225510000000LL) {
             continue;
         }
@@ -169,7 +171,7 @@ s16 Kanoke64FX_CosIdx(s32 angle) {
 }
 
 void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
-    s32 i;
+    s32 burstIndex;
     s32 horizontalSpeed;
     u16 angle;
     s32 nextFrameIndex;
@@ -200,7 +202,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
             return;
     }
     if (kanoke64->mNsbcaFrameIndex == 10) {
-        for (i = 0; i < 3; i++) {
+        for (burstIndex = 0; burstIndex < 3; burstIndex++) {
             Kanoke64SetRandomPos(&basabasaPos, kanoke64->mMapObject.mPos.x, kanoke64->mMapObject.mPos.y + 0x19000,
                                  kanoke64->mMapObject.mPos.z);
             angle = kanoke64->mMapObject.mAngle;
@@ -209,10 +211,10 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
             basabasaVelocity.x = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64FX_SinIdx(angle));
             basabasaVelocity.y = NextRandomBelow(GetMapObjectRandom(), 0x400) + 0x2200;
             basabasaVelocity.z = Kanoke64MulFixed12NoRound(horizontalSpeed, Kanoke64FX_CosIdx(angle));
-            if (i == 0 && kanoke64->mBurstCount == 0) {
-                StartBasabasa(0x50, &basabasaPos, &basabasaVelocity, 0x28, 1, i == 0 ? 3 : 0);
+            if (burstIndex == 0 && kanoke64->mBurstCount == 0) {
+                StartBasabasa(0x50, &basabasaPos, &basabasaVelocity, 0x28, 1, burstIndex == 0 ? 3 : 0);
             } else {
-                StartBasabasa(0x50, &basabasaPos, &basabasaVelocity, 0x28, 0, i == 0 ? 3 : 0);
+                StartBasabasa(0x50, &basabasaPos, &basabasaVelocity, 0x28, 0, burstIndex == 0 ? 3 : 0);
             }
         }
         kanoke64->mBurstCount += 1;

@@ -58,13 +58,13 @@ static inline void func_0203d568_b_inline(void) {
 }
 
 static inline s32 func_0203d568_c_inline(void) {
-    s32 r;
+    s32 busy;
     if (gBackupBuffers->mBusy == 0) {
-        r = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
+        busy = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
     } else {
-        r = 1;
+        busy = 1;
     }
-    return r;
+    return busy;
 }
 
 static inline u16 GetCheckpointRouteIndex(u16 checkpoint) {
@@ -105,17 +105,17 @@ static inline s16 func_0203df74_b_inline(RaceProgressKart *kart, s32 *outProgres
 }
 
 static inline s32 func_0203df74_c_inline(CourseMapRoute *route, u16 checkpoint, s32 progress) {
-    s32 x;
-    s32 t;
+    s32 routeProgress;
+    s32 value;
 
-    t = (checkpoint - route->mFirstEntry) << 12;
+    value = (checkpoint - route->mFirstEntry) << 12;
     if (route->mEntryCount == 0) {
-        x = 0;
+        routeProgress = 0;
     } else {
-        x = FX_Div(t + progress, route->mEntryCount << 12);
+        routeProgress = FX_Div(value + progress, route->mEntryCount << 12);
     }
-    t = x + (route->mLapProgressBase << 12);
-    return MUL_FIXED12_ROUNDED(t, gRaceProgress->mLapProgressScale);
+    value = routeProgress + (route->mLapProgressBase << 12);
+    return MUL_FIXED12_ROUNDED(value, gRaceProgress->mLapProgressScale);
 }
 
 static inline void FinishKartIfMissionRun(s32 kartIndex) {
@@ -125,7 +125,7 @@ static inline void FinishKartIfMissionRun(s32 kartIndex) {
 }
 
 void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
-    BOOL f;
+    BOOL flag;
     BOOL missionTestPassed;
     Unk021759c0_28 *missionSettings;
     EntryKartCounters *entryKartCounters;
@@ -135,15 +135,15 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     }
     kart->mCheckpointNumber = -1;
     kart->mInOrderCheckpointNumber = -1;
-    f = FALSE;
+    flag = FALSE;
     switch (kart->mStatus) {
         case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
-            f = TRUE;
+            flag = TRUE;
             break;
     }
-    if (f != FALSE) {
+    if (flag != FALSE) {
         return;
     }
     if (kart->mLap <= kart->mHighestLap) {
@@ -157,19 +157,19 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     if ((kart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
         StartRaceHudLapTimeDisplay();
     }
-    f = FALSE;
+    flag = FALSE;
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
-        f = TRUE;
+        flag = TRUE;
     } else {
         switch (gRaceSetup->mMissionKind) {
             case 2:
             case 4:
             case 6:
-                f = TRUE;
+                flag = TRUE;
                 break;
         }
     }
-    if (f == FALSE) {
+    if (flag == FALSE) {
         return;
     }
     if (kart->mHighestLap <= GetLapCount()) {
@@ -205,12 +205,12 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     }
 }
 
-void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 b) {
+void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 flag) {
     RaceProgressKart *kart;
     u16 finishRequest;
 
     kart = &gRaceProgress->mKarts[kartIndex];
-    finishRequest = b != 0 ? 1 : 2;
+    finishRequest = flag != 0 ? 1 : 2;
     kart->mRankIndexRequestBits = (kart->mRankIndexRequestBits & ~0x300) | ((finishRequest & 3) << 8);
     if (gRaceProgress->mHeader.mFinishedCount + gRaceProgress->mHeader.mRemovedCount >= gRaceSetup->mKartCount) {
         FinishRaceProgress();
@@ -244,49 +244,52 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
     s32 checkpointProgress;
     u16 checkpoint;
     u16 routeIndex;
-    s16 p;
+    s16 foundCheckpoint;
     s32 lapProgress;
-    s32 k;
+    s32 value;
     CourseMapRoute *route;
 
     checkpoint = kart->mCheckpoint;
     routeIndex = kart->mRoute;
-    p = checkpoint;
+    foundCheckpoint = checkpoint;
     checkpointProgress = 0;
     if (IsKartInRespawnWait(kart->mIndex) != 0) {
         return;
     }
     if (TryGetKartCheckpointProgress(kart, &checkpointProgress, position, routeIndex, checkpoint) == 0) {
         if (checkpointProgress >= 0) {
-            p = FindKartCheckpointForward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
-            if (p == -1) {
-                p = FindKartCheckpointBackward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+            foundCheckpoint = FindKartCheckpointForward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+            if (foundCheckpoint == -1) {
+                foundCheckpoint =
+                    FindKartCheckpointBackward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
             }
         } else {
-            p = FindKartCheckpointBackward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
-            if (p == -1) {
-                p = FindKartCheckpointForward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+            foundCheckpoint =
+                FindKartCheckpointBackward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+            if (foundCheckpoint == -1) {
+                foundCheckpoint =
+                    FindKartCheckpointForward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
             }
         }
-        if (p == -1) {
-            p = func_0203df74_b_inline(kart, &checkpointProgress, position);
+        if (foundCheckpoint == -1) {
+            foundCheckpoint = func_0203df74_b_inline(kart, &checkpointProgress, position);
         }
-        if (p == -1) {
+        if (foundCheckpoint == -1) {
             return;
         }
-        routeIndex = GetCheckpointRouteIndex(p);
+        routeIndex = GetCheckpointRouteIndex(foundCheckpoint);
     }
     route = &gCourseMap->mCheckpointRoutes[routeIndex];
-    lapProgress = func_0203df74_c_inline(route, p, checkpointProgress);
-    k = 0;
-    if (p != -1) {
+    lapProgress = func_0203df74_c_inline(route, foundCheckpoint, checkpointProgress);
+    value = 0;
+    if (foundCheckpoint != -1) {
         if (gCourseMap->mNumberedCheckpointCount >= 1) {
-            k = gRaceProgress->mCheckpointLapProgress[gCourseMap->mNumberedCheckpointCount - 1];
+            value = gRaceProgress->mCheckpointLapProgress[gCourseMap->mNumberedCheckpointCount - 1];
         }
         if (lapProgress <= gRaceProgress->mCheckpointLapProgress[kart->mInOrderCheckpointNumber + 1]) {
-            EnterRaceProgressKartCheckpoint(kart, p);
-        } else if (kart->mCheckpoint == 0 && lapProgress > k) {
-            EnterRaceProgressKartCheckpoint(kart, p);
+            EnterRaceProgressKartCheckpoint(kart, foundCheckpoint);
+        } else if (kart->mCheckpoint == 0 && lapProgress > value) {
+            EnterRaceProgressKartCheckpoint(kart, foundCheckpoint);
         } else {
             checkpointProgress = kart->mCheckpointProgress;
             lapProgress = func_0203df74_c_inline(route, kart->mCheckpoint, checkpointProgress);
@@ -294,8 +297,8 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
     }
     kart->mCheckpointProgress = checkpointProgress;
     kart->mLapProgress = lapProgress;
-    k = ((kart->mLap - 1) << 12) + kart->mLapProgress;
-    kart->mRaceProgress = MUL_FIXED12_ROUNDED(k, gRaceProgress->mRaceProgressScale);
+    value = ((kart->mLap - 1) << 12) + kart->mLapProgress;
+    kart->mRaceProgress = MUL_FIXED12_ROUNDED(value, gRaceProgress->mRaceProgressScale);
 }
 
 void UpdateRaceProgressKarts(void) {
@@ -312,7 +315,7 @@ void UpdateRaceProgressKarts(void) {
     BOOL flag;
     RaceProgress *raceProgress;
     IntPair *checkpointDirection;
-    u16 m;
+    u16 unused;
     s32 finishedCount;
     s32 notRemovedCount;
     s32 insertPos;

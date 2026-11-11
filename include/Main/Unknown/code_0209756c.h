@@ -32,10 +32,11 @@ typedef struct Flipper {
 void *CreateFlipperUpdateList(void);
 void *CreateFlipperDrawList(void);
 void CreateFlipperKindData(void);
-void UpdateFlipper(void *a, Flipper *flipper); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateFlipper(void *mapObjectList,
+                   Flipper *flipper); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitFlipperObjects(MapObjectList *mapObjectList);
-void DrawFlipper(void *a, Flipper *flipper);
-void CreateFlipper(void *a);
+void DrawFlipper(void *mapObjectList, Flipper *flipper);
+void CreateFlipper(void *mapObjectList);
 BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut);
-u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c);
+u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *firstResponse, u8 *response);
 void InitFlipper(Flipper *flipper); /* sets flag 0x200 and the ground matrix (RefreshMapObjectMatrixFromHitNormal) */

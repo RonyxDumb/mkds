@@ -22,20 +22,20 @@ void ClearShapeMapObjectCountListPointer(void) {
 
 s32 UpdateShapeMapObjectCounts(void) {
     BOOL result = FALSE;
-    u16 i = 0;
+    u16 shapeIndex = 0;
     ShapeMapObjectCount *entry;
     CourseMapShape *courseMapShape;
     s32 mapObjectCount;
-    u16 j;
+    u16 mapObjectIndex;
     u8 insideCount;
-    for (i = 0; i < gShapeMapObjectCountList->mEntryCount; i++) {
-        entry = &gShapeMapObjectCountList->mEntries[i];
+    for (shapeIndex = 0; shapeIndex < gShapeMapObjectCountList->mEntryCount; shapeIndex++) {
+        entry = &gShapeMapObjectCountList->mEntries[shapeIndex];
         courseMapShape = GetCourseMapShape(entry->mShapeIndex);
         mapObjectCount =
             FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindValue);
         insideCount = 0;
-        for (j = 0; j < mapObjectCount; j++) {
-            if (IsPosInCourseMapShape(&GetFoundMapObject(j)->mPos, courseMapShape) != 0) {
+        for (mapObjectIndex = 0; mapObjectIndex < mapObjectCount; mapObjectIndex++) {
+            if (IsPosInCourseMapShape(&GetFoundMapObject(mapObjectIndex)->mPos, courseMapShape) != 0) {
                 insideCount = insideCount + 1;
             }
         }
@@ -59,33 +59,33 @@ void CreateRunScenesState(void *heap) {
 }
 
 void InitRunScenesKind(void) {
-    void *h;
-    s32 m;
-    h = GetHeap(GetCurrentHeapCall());
+    void *heap;
+    s32 sndHeapsKind;
+    heap = GetHeap(GetCurrentHeapCall());
     switch (gRunScenesState->mKind) {
         case 0:
             if (gBootInfo->mUnk_00 == 2) {
-                m = 2;
+                sndHeapsKind = 2;
             } else {
-                m = 0;
+                sndHeapsKind = 0;
                 StartLoadOverlay(1);
                 FinishOverlayLoad();
             }
-            InitConnectionBuffers(h);
+            InitConnectionBuffers(heap);
             break;
         case 1:
-            m = 1;
+            sndHeapsKind = 1;
             StartLoadOverlay(0);
             FinishOverlayLoad();
-            CreateWiFiSessionHeap(h);
+            CreateWiFiSessionHeap(heap);
             break;
     }
-    if (m == 2) {
+    if (sndHeapsKind == 2) {
         return;
     }
-    h = HeapAlloc(h, GetSndHeapsBufferSize(m));
-    CreateSndHeaps(m, (u32) h);
-    gRunScenesState->mSndHeapsBuffer = h;
+    heap = HeapAlloc(heap, GetSndHeapsBufferSize(sndHeapsKind));
+    CreateSndHeaps(sndHeapsKind, (u32) heap);
+    gRunScenesState->mSndHeapsBuffer = heap;
 }
 
 int GetCurrentSceneNumber(void) {

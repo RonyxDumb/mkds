@@ -33,36 +33,36 @@ void InitFlipper(Flipper *flipper) {
     RefreshMapObjectMatrixFromHitNormal(&flipper->mMapObject);
 }
 
-u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
-    u32 v;
-    BOOL t;
-    s32 f;
+u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *firstResponse, u8 *response) {
+    u32 responseValue;
+    BOOL pushing;
+    s32 pushSpeed;
     Vec3 offset;
-    s32 s;
-    Vec3 *e;
+    s32 pushScale;
+    Vec3 *pushDirection;
 
-    v = *c;
-    t = (flipper->mState == 2 || flipper->mState == 5) && flipper->mUnk_a0 > 0;
-    if (t) {
-        s = -0x19a;
+    responseValue = *response;
+    pushing = (flipper->mState == 2 || flipper->mState == 5) && flipper->mUnk_a0 > 0;
+    if (pushing) {
+        pushScale = -0x19a;
     } else if ((flipper->mState == 3 || flipper->mState == 6) && flipper->mUnk_a0 < 0) {
-        s = 0x19a;
+        pushScale = 0x19a;
     } else {
-        s = 0;
+        pushScale = 0;
     }
-    if (s != 0) {
+    if (pushScale != 0) {
         if (flipper->mUnk_ed4[kart->mIndex] != 0) {
             flipper->mMapObject.mPosStep.x = 0;
             flipper->mMapObject.mPosStep.y = 0;
             flipper->mMapObject.mPosStep.z = 0;
         } else {
             VEC_Subtract(&kart->mPos, &flipper->mMapObject.mPos, &offset);
-            f = VEC_Mag(&offset);
-            e = &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[2];
-            f = MUL_FIXED12_NO_ROUND(f, s);
-            flipper->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(e->x, f);
-            flipper->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(e->y, f);
-            flipper->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(e->z, f);
+            pushSpeed = VEC_Mag(&offset);
+            pushDirection = &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[2];
+            pushSpeed = MUL_FIXED12_NO_ROUND(pushSpeed, pushScale);
+            flipper->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(pushDirection->x, pushSpeed);
+            flipper->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(pushDirection->y, pushSpeed);
+            flipper->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(pushDirection->z, pushSpeed);
             flipper->mMapObject.mDistanceSquaredAndFlags =
                 flipper->mMapObject.mDistanceSquaredAndFlags | data_usa_02156588;
             StartSoundFullVolumeWrapper(kart, 0x1d1);
@@ -75,7 +75,7 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
     flipper->mMapObject.mPosStep.x = 0;
     flipper->mMapObject.mPosStep.y = 0;
     flipper->mMapObject.mPosStep.z = 0;
-    return v;
+    return responseValue;
 }
 
 // Also sets mUnk_a0 to 0, 1 or -1 by the box hit and the state; CollideKartWithFlipper reads it.
@@ -115,19 +115,19 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
     return hitResult != 0;
 }
 
-void CreateFlipper(void *a) {
-    gFlipper = CreateMapObjectModelAnimated(a, gFlipperNsbmdName);
+void CreateFlipper(void *mapObjectList) {
+    gFlipper = CreateMapObjectModelAnimated(mapObjectList, gFlipperNsbmdName);
     CreateMapObjectModelNsbtpAnimation(gFlipper, gFlipperNsbtpName);
     CreateMapObjectModelNsbtaAnimation(gFlipper, gFlipperNsbtaName);
 }
 
-void DrawFlipper(void *a, Flipper *flipper) {
-    s32 v;
+void DrawFlipper(void *mapObjectList, Flipper *flipper) {
+    s32 gxParam;
     MtxFx43 *matrix;
-    ModelAnimation *s;
+    ModelAnimation *animation;
 
-    v = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &v, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     matrix = &flipper->mUnk_a8[flipper->mUnk_ec0];
     matrix->mRows[3].x = flipper->mMapObject.mPos.x >> 4;
     matrix->mRows[3].y = flipper->mMapObject.mPos.y >> 4;
@@ -135,94 +135,95 @@ void DrawFlipper(void *a, Flipper *flipper) {
     NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &flipper->mMapObject.mScale, 3);
     SetMapObjectModelMirror(gFlipper, flipper->mMirror, 0);
-    s = gFlipper->mAnimations[1];
-    s->mHead.mFrameIndex = flipper->mNsbtpFrameIndex << 12;
-    s->mAnmObjs[s->mCurrentIndex]->mFrame = s->mHead.mFrameIndex;
-    s = gFlipper->mAnimations[3];
-    s->mHead.mFrameIndex = flipper->mNsbtaFrameIndex << 12;
-    s->mAnmObjs[s->mCurrentIndex]->mFrame = s->mHead.mFrameIndex;
-    DrawMapObjectModel(a, gFlipper, flipper);
+    animation = gFlipper->mAnimations[1];
+    animation->mHead.mFrameIndex = flipper->mNsbtpFrameIndex << 12;
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    animation = gFlipper->mAnimations[3];
+    animation->mHead.mFrameIndex = flipper->mNsbtaFrameIndex << 12;
+    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
+    DrawMapObjectModel(mapObjectList, gFlipper, flipper);
 }
 
 void InitFlipperObjects(MapObjectList *mapObjectList) {
-    s32 i;
-    s32 j;
-    s32 v1;
-    s32 d;
-    s32 k;
-    u32 e;
+    s32 mapObjectIndex;
+    s32 segmentIndex;
+    s32 offsetDistance;
+    s32 angleStep;
+    s32 offsetAngle;
+    u32 angle;
     Flipper *flipper;
-    MtxFx43 *q;
-    MtxFx33 m2;
-    MtxFx33 m1;
+    MtxFx43 *segmentMatrix;
+    MtxFx33 tiltMatrix;
+    MtxFx33 segmentRotation;
 
     if (mapObjectList == NULL) {
         return;
     }
-    v1 = data_usa_0215653c[0].x;
-    for (i = 0; i < mapObjectList->mMapObjectCount && (flipper = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    offsetDistance = data_usa_0215653c[0].x;
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (flipper = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         switch (flipper->mMapObject.mCourseMapRow->mSettings[0]) {
             case 0:
                 flipper->mMirror = 0;
                 flipper->mMapObject.mFlags &= ~0x400;
                 flipper->mMapObject.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
-                MTX_RotY33_(&m2, data_usa_02160fb4[0x74], data_usa_02160fb4[0x75]);
+                MTX_RotY33_(&tiltMatrix, data_usa_02160fb4[0x74], data_usa_02160fb4[0x75]);
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= data_usa_02156584;
                 flipper->mMapObject.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
-                MTX_RotY33_(&m2, data_usa_0215d8b4[10], data_usa_0215d8b4[11]);
+                MTX_RotY33_(&tiltMatrix, data_usa_0215d8b4[10], data_usa_0215d8b4[11]);
                 break;
         }
         flipper->mUnk_ec8 = 0;
         if (flipper->mMirror == 0) {
-            e = flipper->mMapObject.mAngle;
+            angle = flipper->mMapObject.mAngle;
         } else {
-            e = -flipper->mMapObject.mAngle;
+            angle = -flipper->mMapObject.mAngle;
         }
-        for (j = 0; j < 30; j++) {
+        for (segmentIndex = 0; segmentIndex < 30; segmentIndex++) {
             if (flipper->mMirror == 0) {
-                d = 0x16c;
+                angleStep = 0x16c;
             } else {
-                d = -0x16c;
+                angleStep = -0x16c;
             }
-            e = e - d;
-            k = (u16) e >> 4;
-            MTX_RotY33_(&m1, FX_SinCosTable_[k * 2], FX_SinCosTable_[k * 2 + 1]);
-            q = &flipper->mUnk_a8[j];
-            MTX_Concat33(&m1, &flipper->mMapObject.mMatrix.mAxes, &q->mAxes);
-            MTX_Concat33(&m2, &q->mAxes, &flipper->mUnk_648[j].mAxes);
-            flipper->mUnk_be8[j].x = flipper->mMapObject.mPos.x >> 4;
-            flipper->mUnk_be8[j].y = flipper->mMapObject.mPos.y >> 4;
-            flipper->mUnk_be8[j].z = flipper->mMapObject.mPos.z >> 4;
+            angle = angle - angleStep;
+            MTX_RotY33_(&segmentRotation, SIN_OF_ANGLE((u16) angle), COS_OF_ANGLE((u16) angle));
+            segmentMatrix = &flipper->mUnk_a8[segmentIndex];
+            MTX_Concat33(&segmentRotation, &flipper->mMapObject.mMatrix.mAxes, &segmentMatrix->mAxes);
+            MTX_Concat33(&tiltMatrix, &segmentMatrix->mAxes, &flipper->mUnk_648[segmentIndex].mAxes);
+            flipper->mUnk_be8[segmentIndex].x = flipper->mMapObject.mPos.x >> 4;
+            flipper->mUnk_be8[segmentIndex].y = flipper->mMapObject.mPos.y >> 4;
+            flipper->mUnk_be8[segmentIndex].z = flipper->mMapObject.mPos.z >> 4;
             if (flipper->mMirror == 0) {
-                k = (u16) (-e + FX_Atan2Idx(-2, -10)) >> 4;
-                flipper->mUnk_d50[j].x =
-                    (flipper->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2 + 1])) >> 4;
-                flipper->mUnk_d50[j].y = flipper->mMapObject.mPos.y >> 4;
-                flipper->mUnk_d50[j].z =
-                    (flipper->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2])) >> 4;
+                offsetAngle = (u16) (-angle + FX_Atan2Idx(-2, -10));
+                flipper->mUnk_d50[segmentIndex].x =
+                    (flipper->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(offsetDistance, COS_OF_ANGLE(offsetAngle))) >> 4;
+                flipper->mUnk_d50[segmentIndex].y = flipper->mMapObject.mPos.y >> 4;
+                flipper->mUnk_d50[segmentIndex].z =
+                    (flipper->mMapObject.mPos.z + MUL_FIXED12_NO_ROUND(offsetDistance, SIN_OF_ANGLE(offsetAngle))) >> 4;
             } else {
-                k = (u16) (-e - FX_Atan2Idx(-2, -10)) >> 4;
-                flipper->mUnk_d50[j].x =
-                    (flipper->mMapObject.mPos.x - MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2 + 1])) >> 4;
-                flipper->mUnk_d50[j].y = flipper->mMapObject.mPos.y >> 4;
-                flipper->mUnk_d50[j].z =
-                    (flipper->mMapObject.mPos.z - MUL_FIXED12_NO_ROUND(v1, FX_SinCosTable_[k * 2])) >> 4;
+                offsetAngle = (u16) (-angle - FX_Atan2Idx(-2, -10));
+                flipper->mUnk_d50[segmentIndex].x =
+                    (flipper->mMapObject.mPos.x - MUL_FIXED12_NO_ROUND(offsetDistance, COS_OF_ANGLE(offsetAngle))) >> 4;
+                flipper->mUnk_d50[segmentIndex].y = flipper->mMapObject.mPos.y >> 4;
+                flipper->mUnk_d50[segmentIndex].z =
+                    (flipper->mMapObject.mPos.z - MUL_FIXED12_NO_ROUND(offsetDistance, SIN_OF_ANGLE(offsetAngle))) >> 4;
             }
         }
     }
 }
 
-void UpdateFlipper(void *a, Flipper *flipper) {
-    s32 i;
+void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
+    s32 kartIndex;
     s32 kartCount;
     RandomState64 *mapObjectRandom;
-    u32 r;
-    s32 w;
+    u32 randomValue;
+    s32 frameIndex;
 
     flipper->mState4Timer = flipper->mState4Timer - (flipper->mState4Timer > 0);
     switch (flipper->mState) {
@@ -264,8 +265,8 @@ void UpdateFlipper(void *a, Flipper *flipper) {
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                r = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
-                flipper->mState1Timer = (u16) ((u16) r * 0x14);
+                randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
+                flipper->mState1Timer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = 1;
             }
             break;
@@ -298,23 +299,23 @@ void UpdateFlipper(void *a, Flipper *flipper) {
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                r = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
-                flipper->mState1Timer = (u16) ((u16) r * 0x14);
+                randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
+                flipper->mState1Timer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = 1;
             }
             break;
     }
     if (flipper->mUnk_ec8 != 0 && (flipper->mMapObject.mFlags & 0x12) == 0) {
-        w = flipper->mNsbtpFrameIndex + 1;
-        if (w >= GetMapObjectModelNsbtpFrameCount(gFlipper)) {
-            w = 1;
+        frameIndex = flipper->mNsbtpFrameIndex + 1;
+        if (frameIndex >= GetMapObjectModelNsbtpFrameCount(gFlipper)) {
+            frameIndex = 1;
         }
-        flipper->mNsbtpFrameIndex = w;
-        w = flipper->mNsbtaFrameIndex + 1;
-        if (w >= GetMapObjectModelNsbtaFrameCount(gFlipper)) {
-            w = 1;
+        flipper->mNsbtpFrameIndex = frameIndex;
+        frameIndex = flipper->mNsbtaFrameIndex + 1;
+        if (frameIndex >= GetMapObjectModelNsbtaFrameCount(gFlipper)) {
+            frameIndex = 1;
         }
-        flipper->mNsbtaFrameIndex = w;
+        flipper->mNsbtaFrameIndex = frameIndex;
         flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 0;
         SPLUtil_SetCylinderEmitterDir(flipper->mUnk_ed0, &flipper->mUnk_be8[flipper->mUnk_ec0],
                                       &flipper->mUnk_d50[flipper->mUnk_ec0]);
@@ -324,9 +325,9 @@ void UpdateFlipper(void *a, Flipper *flipper) {
         flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 1;
     }
     kartCount = gRaceSetup->mKartCount;
-    for (i = 0; i < kartCount; i++) {
-        if (flipper->mUnk_ed4[i] > 0) {
-            flipper->mUnk_ed4[i] = flipper->mUnk_ed4[i] - 1;
+    for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+        if (flipper->mUnk_ed4[kartIndex] > 0) {
+            flipper->mUnk_ed4[kartIndex] = flipper->mUnk_ed4[kartIndex] - 1;
         }
     }
 }

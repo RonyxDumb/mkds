@@ -11,203 +11,205 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_0200fc8c.h"
 
-void StartDmaTransfer(u32 a, const void *b, void *c, u32 d) {
-    vu32 *e;
-    u32 s = OS_DisableInterrupts();
+void StartDmaTransfer(u32 channelIndex, const void *source, void *destination, u32 control) {
+    vu32 *channelRegs;
+    u32 savedIrq = OS_DisableInterrupts();
 
-    *(vu32 *) (0x4000000 + a * 12 + 0xb0) = (u32) b;
-    e = (vu32 *) (0x40000b0 + a * 12);
-    e[1] = (u32) c;
-    e[2] = d;
-    OS_RestoreInterrupts(s);
+    *(vu32 *) (0x4000000 + channelIndex * 12 + 0xb0) = (u32) source;
+    channelRegs = (vu32 *) (0x40000b0 + channelIndex * 12);
+    channelRegs[1] = (u32) destination;
+    channelRegs[2] = control;
+    OS_RestoreInterrupts(savedIrq);
 }
 
-void StartDmaTransferAndChannel0Dummy(u32 a, const void *b, void *c, u32 d) {
-    vu32 *r = (vu32 *) 0x40000b0;
-    vu32 *e;
-    u32 s = OS_DisableInterrupts();
+void StartDmaTransferAndChannel0Dummy(u32 channelIndex, const void *source, void *destination, u32 control) {
+    vu32 *channel0Regs = (vu32 *) 0x40000b0;
+    vu32 *channelRegs;
+    u32 savedIrq = OS_DisableInterrupts();
 
-    *(vu32 *) (0x4000000 + a * 12 + 0xb0) = (u32) b;
-    e = OFFSET_PTR(vu32, r, a * 12);
-    e[1] = (u32) c;
-    e[2] = d;
-    *r;
-    *r;
-    if (a == 0) {
-        e[0] = 0;
-        e[1] = 0;
-        e[2] = 0x81400001;
+    *(vu32 *) (0x4000000 + channelIndex * 12 + 0xb0) = (u32) source;
+    channelRegs = OFFSET_PTR(vu32, channel0Regs, channelIndex * 12);
+    channelRegs[1] = (u32) destination;
+    channelRegs[2] = control;
+    *channel0Regs;
+    *channel0Regs;
+    if (channelIndex == 0) {
+        channelRegs[0] = 0;
+        channelRegs[1] = 0;
+        channelRegs[2] = 0x81400001;
     }
-    OS_RestoreInterrupts(s);
+    OS_RestoreInterrupts(savedIrq);
 }
 
-void StartDmaTransferWithoutIrqDisable(u32 a, const void *b, void *c, u32 d) {
-    u32 o = a * 12;
-    vu32 *e = (vu32 *) (0x40000b0 + o);
+void StartDmaTransferWithoutIrqDisable(u32 channelIndex, const void *source, void *destination, u32 control) {
+    u32 channelOffset = channelIndex * 12;
+    vu32 *channelRegs = (vu32 *) (0x40000b0 + channelOffset);
 
-    *(vu32 *) (0x4000000 + o + 0xb0) = (u32) b;
-    e[1] = (u32) c;
-    e[2] = d;
+    *(vu32 *) (0x4000000 + channelOffset + 0xb0) = (u32) source;
+    channelRegs[1] = (u32) destination;
+    channelRegs[2] = control;
 }
 
-void StartDmaTransferAndChannel0DummyWithoutIrqDisable(u32 a, const void *b, void *c, u32 d) {
-    vu32 *r = (vu32 *) 0x40000b0;
-    vu32 *e;
+void StartDmaTransferAndChannel0DummyWithoutIrqDisable(u32 channelIndex, const void *source, void *destination,
+                                                       u32 control) {
+    vu32 *channel0Regs = (vu32 *) 0x40000b0;
+    vu32 *channelRegs;
 
-    *(vu32 *) (0x4000000 + a * 12 + 0xb0) = (u32) b;
-    e = (vu32 *) (0x40000b0 + a * 12);
-    e[1] = (u32) c;
-    e[2] = d;
-    *r;
-    *r;
-    if (a == 0) {
-        e[0] = 0;
-        e[1] = 0;
-        e[2] = 0x81400001;
+    *(vu32 *) (0x4000000 + channelIndex * 12 + 0xb0) = (u32) source;
+    channelRegs = (vu32 *) (0x40000b0 + channelIndex * 12);
+    channelRegs[1] = (u32) destination;
+    channelRegs[2] = control;
+    *channel0Regs;
+    *channel0Regs;
+    if (channelIndex == 0) {
+        channelRegs[0] = 0;
+        channelRegs[1] = 0;
+        channelRegs[2] = 0x81400001;
     }
-    *r;
-    *r;
+    *channel0Regs;
+    *channel0Regs;
 }
 
-BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
-    s32 i;
-    u32 v;
-    u32 w;
-    s32 r;
-    s32 m;
-    enum { K0 } k;
+BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverlapSearch) {
+    s32 overlapIndex;
+    u32 collisionBits;
+    u32 overlapFlags;
+    s32 grewScale;
+    s32 viewRadiusScale;
+    enum { K0 } itemKind;
 
-    p->mFlags &= -0x1000;
-    if (p->mAgeFrames == 1 && (p->mFlags & 0x8000000) && !(p->mFlags & 0x10000000)) {
-        RoundTripItemObjectData(p);
+    itemObject->mFlags &= -0x1000;
+    if (itemObject->mAgeFrames == 1 && (itemObject->mFlags & 0x8000000) && !(itemObject->mFlags & 0x10000000)) {
+        RoundTripItemObjectData(itemObject);
     }
-    if (p->mFramesSinceCourseHit <= 5) {
-        p->mFramesSinceCourseHit += 1;
+    if (itemObject->mFramesSinceCourseHit <= 5) {
+        itemObject->mFramesSinceCourseHit += 1;
     }
-    if (p->mFramesSinceReset <= 5) {
-        p->mFramesSinceReset += 1;
+    if (itemObject->mFramesSinceReset <= 5) {
+        itemObject->mFramesSinceReset += 1;
     }
-    if (!(p->mFlags & 0x8000)) {
-        p->mCollisionBits = 0;
+    if (!(itemObject->mFlags & 0x8000)) {
+        itemObject->mCollisionBits = 0;
     }
-    if (!(p->mFlags & 0x800000)) {
-        if (p->mScaleTargetOrSpeed == 0) {
-            if (GrowItemObjectScale(p, a->mScaleLimit, 0x2e1) != 0) {
-                RefreshItemObjectScale(p);
+    if (!(itemObject->mFlags & 0x800000)) {
+        if (itemObject->mScaleTargetOrSpeed == 0) {
+            if (GrowItemObjectScale(itemObject, itemPool->mScaleLimit, 0x2e1) != 0) {
+                RefreshItemObjectScale(itemObject);
             } else {
                 goto L_a20;
             }
         } else {
         L_a20:
-            if (p->mFlags & 0xc000) {
-                r = GrowItemObjectScale(p, a->mTargetScale, 0x19a);
-                if (SwingItemObjectScale(p) == 0 && r != 0) {
-                    RefreshItemObjectScale(p);
+            if (itemObject->mFlags & 0xc000) {
+                grewScale = GrowItemObjectScale(itemObject, itemPool->mTargetScale, 0x19a);
+                if (SwingItemObjectScale(itemObject) == 0 && grewScale != 0) {
+                    RefreshItemObjectScale(itemObject);
                 }
-            } else if (GrowItemObjectScale(p, a->mTargetScale, a->mScaleStep) != 0) {
-                RefreshItemObjectScale(p);
+            } else if (GrowItemObjectScale(itemObject, itemPool->mTargetScale, itemPool->mScaleStep) != 0) {
+                RefreshItemObjectScale(itemObject);
             }
         }
     }
-    if (p->mAdvance != NULL) {
-        p->mAdvance(p);
+    if (itemObject->mAdvance != NULL) {
+        itemObject->mAdvance(itemObject);
     }
-    if (p->mFlags & 4) {
+    if (itemObject->mFlags & 4) {
         return TRUE;
     }
-    if (!(p->mFlags & 0x8000) && p->mCollisionSlotIndex != -1) {
-        if (f == 0) {
-            FindCollisionSlotsOverlappingSlot(p->mCollisionSlotIndex, 0x6000);
+    if (!(itemObject->mFlags & 0x8000) && itemObject->mCollisionSlotIndex != -1) {
+        if (skipOverlapSearch == 0) {
+            FindCollisionSlotsOverlappingSlot(itemObject->mCollisionSlotIndex, 0x6000);
         }
-        for (i = 0; i < gFoundCollisionSlotCount; i++) {
-            w = gFoundCollisionSlotFlags[i];
-            if (w & 0x4000) {
-                if (p->mCollisionSlotIndex != gFoundCollisionSlotIndices[i]) {
-                    CollideItemObjectWithItemObject(p, gFoundCollisionSlotObjects[i]);
+        for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
+            overlapFlags = gFoundCollisionSlotFlags[overlapIndex];
+            if (overlapFlags & 0x4000) {
+                if (itemObject->mCollisionSlotIndex != gFoundCollisionSlotIndices[overlapIndex]) {
+                    CollideItemObjectWithItemObject(itemObject, gFoundCollisionSlotObjects[overlapIndex]);
                 } else {
                     continue;
                 }
-            } else if (w & 0x2000) {
-                ApplyMapObjectHitToItemObject(p, gFoundCollisionSlotObjects[i]);
+            } else if (overlapFlags & 0x2000) {
+                ApplyMapObjectHitToItemObject(itemObject, gFoundCollisionSlotObjects[overlapIndex]);
             }
-            if (p->mCollisionSlotIndex == -1) {
+            if (itemObject->mCollisionSlotIndex == -1) {
                 break;
             }
         }
     }
-    v = p->mCollisionBits;
-    if (p->mFlags & 0x8000) {
-        AdvanceCourseColorBlend(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x800);
+    collisionBits = itemObject->mCollisionBits;
+    if (itemObject->mFlags & 0x8000) {
+        AdvanceCourseColorBlend(&itemObject->mColorBlend, (collisionBits & 0x3c000000) >> 26, 0x800);
     } else {
-        AdvanceCourseColorBlend(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x5000);
+        AdvanceCourseColorBlend(&itemObject->mColorBlend, (collisionBits & 0x3c000000) >> 26, 0x5000);
     }
-    if (v & 0x1e34ef) {
-        p->mFramesSinceCourseHit = 0;
-        if (v & 0x1000000) {
-            p->mFramesSinceReset = 0;
+    if (collisionBits & 0x1e34ef) {
+        itemObject->mFramesSinceCourseHit = 0;
+        if (collisionBits & 0x1000000) {
+            itemObject->mFramesSinceReset = 0;
         }
-        if (v & 0x80400) {
-            if (v & 0x400) {
-                if (p->mCourseReleaseTimer == 0) {
-                    if (p->mFlags & 0x8000) {
-                        p->mCourseReleaseTimer = 0xb4;
+        if (collisionBits & 0x80400) {
+            if (collisionBits & 0x400) {
+                if (itemObject->mCourseReleaseTimer == 0) {
+                    if (itemObject->mFlags & 0x8000) {
+                        itemObject->mCourseReleaseTimer = 0xb4;
                     } else {
-                        p->mCourseReleaseTimer = 2;
+                        itemObject->mCourseReleaseTimer = 2;
                     }
                 }
             }
-            if (v & 0x80000) {
-                p->mFlags |= 0x40000000;
+            if (collisionBits & 0x80000) {
+                itemObject->mFlags |= 0x40000000;
             } else {
-                p->mFlags &= ~0x40000000;
+                itemObject->mFlags &= ~0x40000000;
             }
         } else {
-            p->mFlags &= ~0x40000000;
+            itemObject->mFlags &= ~0x40000000;
         }
     }
-    if (p->mCourseReleaseTimer != 0 && !(p->mFlags & 0x180000)) {
-        p->mCourseReleaseTimer -= 1;
-        if (p->mCourseReleaseTimer == 0) {
-            StartItemObjectReleaseOnTimeout(p);
+    if (itemObject->mCourseReleaseTimer != 0 && !(itemObject->mFlags & 0x180000)) {
+        itemObject->mCourseReleaseTimer -= 1;
+        if (itemObject->mCourseReleaseTimer == 0) {
+            StartItemObjectReleaseOnTimeout(itemObject);
         }
     }
-    if (p->mPos.y < 0 && p->mKind != 0xb && p->mKind != 0xa) {
-        StartItemObjectReleaseTimerSynced(p, 1);
+    if (itemObject->mPos.y < 0 && itemObject->mKind != 0xb && itemObject->mKind != 0xa) {
+        StartItemObjectReleaseTimerSynced(itemObject, 1);
     }
-    if (p->mFramesSinceCourseHit < 5) {
-        p->mFlags &= ~0x20000;
+    if (itemObject->mFramesSinceCourseHit < 5) {
+        itemObject->mFlags &= ~0x20000;
     } else {
-        p->mFlags |= 0x20000;
-        if (p->mNormal.y < 0xfae && !(p->mFlags & 0x40000080)) {
-            BlendDirectionTowardUp(&p->mNormal, 0xcd);
+        itemObject->mFlags |= 0x20000;
+        if (itemObject->mNormal.y < 0xfae && !(itemObject->mFlags & 0x40000080)) {
+            BlendDirectionTowardUp(&itemObject->mNormal, 0xcd);
         }
     }
-    if (p->mFramesSinceReset < 5) {
-        p->mFlags |= 0x40000;
+    if (itemObject->mFramesSinceReset < 5) {
+        itemObject->mFlags |= 0x40000;
     } else {
-        p->mFlags &= ~0x40000;
+        itemObject->mFlags &= ~0x40000;
     }
-    k = p->mKind;
-    m = gItemKinds[k].mViewRadiusScale;
-    p->mDistanceSquaredAndFlags =
-        a->mViewTest(p->mPosPointer, p->mRadius * m, a->mDrawDistance, a->mFarDistanceSquared, 0x1f);
-    if (p->mDistanceSquaredAndFlags & 3) {
-        p->mFlags |= 0x10000;
+    itemKind = itemObject->mKind;
+    viewRadiusScale = gItemKinds[itemKind].mViewRadiusScale;
+    itemObject->mDistanceSquaredAndFlags =
+        itemPool->mViewTest(itemObject->mPosPointer, itemObject->mRadius * viewRadiusScale, itemPool->mDrawDistance,
+                            itemPool->mFarDistanceSquared, 0x1f);
+    if (itemObject->mDistanceSquaredAndFlags & 3) {
+        itemObject->mFlags |= 0x10000;
     } else {
-        p->mFlags &= ~0x10000;
+        itemObject->mFlags &= ~0x10000;
     }
-    if (p->mFlags & 0x400000) {
-        UpdateItemObjectSoundSource(p);
+    if (itemObject->mFlags & 0x400000) {
+        UpdateItemObjectSoundSource(itemObject);
     }
-    p->mPrevPos = p->mPos;
-    p->mAgeFrames += 1;
-    if (p->mOwnerKartIndexAndFlags & 0x4000) {
-        if (p->mOwnerKartIndexAndFlags & 0x2000) {
-            if (p->mAgeFrames > 4 && !(p->mFlags & 0x20000)) {
-                p->mOwnerKartIndexAndFlags &= ~0x4000;
+    itemObject->mPrevPos = itemObject->mPos;
+    itemObject->mAgeFrames += 1;
+    if (itemObject->mOwnerKartIndexAndFlags & 0x4000) {
+        if (itemObject->mOwnerKartIndexAndFlags & 0x2000) {
+            if (itemObject->mAgeFrames > 4 && !(itemObject->mFlags & 0x20000)) {
+                itemObject->mOwnerKartIndexAndFlags &= ~0x4000;
             }
-        } else if (p->mAgeFrames > 0x1e) {
-            p->mOwnerKartIndexAndFlags &= ~0x4000;
+        } else if (itemObject->mAgeFrames > 0x1e) {
+            itemObject->mOwnerKartIndexAndFlags &= ~0x4000;
         }
     }
     return FALSE;

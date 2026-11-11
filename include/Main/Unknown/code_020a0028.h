@@ -32,8 +32,8 @@ typedef struct AirshipObjectList {
     /* 04 */ u16 mUnk_04;
 } AirshipObjectList;
 
-void CreateAirship(void *a);
-void DrawAirship(void *a, Airship *airship);
+void CreateAirship(void *mapObjectList);
+void DrawAirship(void *mapObjectList, Airship *airship);
 void InitAirshipObjects(AirshipObjectList *list);
 s32 AirshipFX_CosIdx(s32 angle);
 s32 AirshipFX_MulInline(s32 multiplicand, s32 multiplier);

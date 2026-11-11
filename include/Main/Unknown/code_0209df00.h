@@ -35,12 +35,12 @@ typedef struct Fireball2 {
 void *CreateFireball2UpdateList(void);
 void *CreateFireball2DrawList(void);
 void CreateFireball2KindData(void);
-void UpdateFireball2(void *a, Fireball2 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateFireball2(void *mapObjectList, Fireball2 *fireball2); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitFireball2Objects(MapObjectList *mapObjectList);
-void DrawFireball2(void *a, Fireball2 *b);
-void SetupDrawFireball2(void *a);
-void CreateFireball2(MapObjectList *a); /* also sets word +0x1c of the group record to 1 */
-BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c);
-u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d);
+void DrawFireball2(void *mapObjectList, Fireball2 *fireball2);
+void SetupDrawFireball2(void *mapObjectList);
+void CreateFireball2(MapObjectList *mapObjectList); /* also sets word +0x1c of the group record to 1 */
+BOOL IsPosNearFireball2(Fireball2 *fireball2, Vec3 *pos, s32 radius);
+u8 CollideKartWithFireball2(Fireball2 *fireball2, Kart *kart, u8 *firstResponse, u8 *response);
 void InitFireball2(Fireball2 *fireball2);
 void *CreatePuddleDrawList(void);

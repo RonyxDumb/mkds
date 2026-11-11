@@ -83,7 +83,7 @@ void ReleaseJg(void) {
 void InitJg(void) {
     Kart *kart;
     Vec3 *point;
-    s32 i;
+    s32 pointIndex;
     Vec3 *sourcePoint;
     BOOL flag;
 
@@ -138,8 +138,8 @@ void InitJg(void) {
     gJgPoints[0].y = 0;
     gJgPoints[0].z = 0;
     sourcePoint = data_02159440;
-    for (i = 0; i < 7; i++) {
-        point = &gJgPoints[i + 1];
+    for (pointIndex = 0; pointIndex < 7; pointIndex++) {
+        point = &gJgPoints[pointIndex + 1];
         *point = *sourcePoint;
         if (data_0217b8f8 != 0) {
             point->x = -point->x;
@@ -188,14 +188,13 @@ void InitJg(void) {
 
 void CreateJg(void) {
     s32 angle;
-    s32 j;
-    s32 i;
+    s32 rowIndex;
+    s32 index;
     void *heap;
     JgKindFileNames *sourceRow;
     JgKindRow *kindRow;
     void *file;
-    s32 n;
-    s32 angleIndex;
+    s32 light;
     s32 tableAngle;
 
     heap = GetHeap(GetCurrentHeapCall());
@@ -213,28 +212,23 @@ void CreateJg(void) {
     data_0217b8a0 = HeapAlloc(heap, 0x78);
     data_0217b8e0 = HeapAlloc(heap, 0x78);
     data_0217b904 = HeapAlloc(heap, 0x78);
-    for (i = 0, angle = 0; i < 0x3c; i++) {
-        data_0217b8a4[i] = (u16) MUL_FIXED12_NO_ROUND(FX_SinIdx(angle), 0x4c);
-        angleIndex =
-            (u16) (((u64) (s64) FX_SinCosTable_[((u16) (angle + 0xa218) >> 4) * 2] * 0xb60b60b60b + 0x80000000000) >>
-                   44) >>
-            4;
-        data_0217b8a8[i] = FX_SinCosTable_[angleIndex * 2];
-        data_0217b8a0[i] = FX_SinCosTable_[angleIndex * 2 + 1];
-        data_0217b8e0[i] =
-            (u32) MUL_FIXED12_NO_ROUND(FX_SinCosTable_[((u16) (angle + 0x1554) >> 4) * 2], 0x19a) + 0xe66;
-        data_0217b904[i] =
-            (u32) MUL_FIXED12_NO_ROUND(FX_SinCosTable_[((u16) (angle + 0xbbb0) >> 4) * 2], 0x19a) + 0x119a;
+    for (index = 0, angle = 0; index < 0x3c; index++) {
+        data_0217b8a4[index] = (u16) MUL_FIXED12_NO_ROUND(FX_SinIdx(angle), 0x4c);
+        tableAngle = (u16) (((u64) (s64) SIN_OF_ANGLE((u16) (angle + 0xa218)) * 0xb60b60b60b + 0x80000000000) >> 44);
+        data_0217b8a8[index] = SIN_OF_ANGLE(tableAngle);
+        data_0217b8a0[index] = COS_OF_ANGLE(tableAngle);
+        data_0217b8e0[index] = (u32) MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) (angle + 0x1554)), 0x19a) + 0xe66;
+        data_0217b904[index] = (u32) MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) (angle + 0xbbb0)), 0x19a) + 0x119a;
         angle += 0x444;
     }
     gJgTableIndex = 0;
-    n = 2;
-    for (j = n, sourceRow = data_0216c324, kindRow = data_0217bb08; j < 4; j++) {
+    light = 2;
+    for (rowIndex = light, sourceRow = data_0216c324, kindRow = data_0217bb08; rowIndex < 4; rowIndex++) {
         if (sourceRow->mNsbmdName != NULL) {
             kindRow->mModel = HeapAlloc(heap, 0x6c);
             file = FindSceneFile(sourceRow->mNsbmdName);
             InitNsbmd(kindRow->mModel, file);
-            SetNsbmdPolygonIdLightEmiAll(kindRow->mModel, 0x3f, n, 0x294a);
+            SetNsbmdPolygonIdLightEmiAll(kindRow->mModel, 0x3f, light, 0x294a);
             SetNsbmdCullModeAll(kindRow->mModel, 3);
         } else {
             kindRow->mModel = NULL;
@@ -298,15 +292,15 @@ u16 GetAttractorStrength(int index) {
 void BuildAttractorTables(void) {
     AttractorMapObject *object;
     s32 objectCount;
-    s32 i;
+    s32 objectIndex;
 
     objectCount = gAttractorUpdateList->mMapObjectCount;
     gAttractorPositions = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 4);
     gAttractorStrengths = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 2);
-    for (i = 0; i < gAttractorUpdateList->mMapObjectCount; i++) {
+    for (objectIndex = 0; objectIndex < gAttractorUpdateList->mMapObjectCount; objectIndex++) {
         s32 tableIndex;
 
-        object = gAttractorUpdateList->mMapObjects[i];
+        object = gAttractorUpdateList->mMapObjects[objectIndex];
         tableIndex = object->mTableIndex;
         gAttractorPositions[tableIndex] = &object->mMapObject.mPos;
         gAttractorStrengths[tableIndex] = object->mStrength;
@@ -381,10 +375,10 @@ void UpdateMapObjectList(MapObjectList *list) {
     count = list->mMapObjectCount;
     objects = list->mMapObjects;
     if (callback == NULL) {
-        s32 i;
+        s32 objectIndex;
 
-        for (i = 0; i < count; i++) {
-            object = objects[i];
+        for (objectIndex = 0; objectIndex < count; objectIndex++) {
+            object = objects[objectIndex];
             if (object->mSound != NULL) {
                 UpdateMapObjectSoundSource(object);
             }
@@ -392,10 +386,10 @@ void UpdateMapObjectList(MapObjectList *list) {
         return;
     }
     if (list->mUnk_18 == 2) {
-        s32 i;
+        s32 objectIndex;
 
-        for (i = 0; i < count; i++) {
-            object = objects[i];
+        for (objectIndex = 0; objectIndex < count; objectIndex++) {
+            object = objects[objectIndex];
             if ((object->mFlags & 4) == 0) {
                 previousPos = object->mPos;
                 callback(list, object);
@@ -408,10 +402,10 @@ void UpdateMapObjectList(MapObjectList *list) {
         return;
     }
     {
-        s32 i;
+        s32 objectIndex;
 
-        for (i = 0; i < count; i++) {
-            object = objects[i];
+        for (objectIndex = 0; objectIndex < count; objectIndex++) {
+            object = objects[objectIndex];
             if ((object->mFlags & 4) == 0) {
                 callback(list, object);
                 if (object->mSound != NULL) {
@@ -425,7 +419,7 @@ void UpdateMapObjectList(MapObjectList *list) {
 void CallMapObjectListCallback(MapObjectList *list) {
     MapObject *object;
     u8 callbackArgs[2];
-    s32 i;
+    s32 objectIndex;
     s32 count;
     void **objects;
     s32 (*callback)(MapObject *, void *, void *, void *);
@@ -438,8 +432,8 @@ void CallMapObjectListCallback(MapObjectList *list) {
     if (callback == NULL) {
         return;
     }
-    for (i = 0; i < count; i++) {
-        object = objects[i];
+    for (objectIndex = 0; objectIndex < count; objectIndex++) {
+        object = objects[objectIndex];
         if ((object->mFlags & 0x88) == 0) {
             callback(object, NULL, &callbackArgs[0], &callbackArgs[1]);
         }

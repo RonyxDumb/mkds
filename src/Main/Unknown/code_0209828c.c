@@ -66,11 +66,11 @@ void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset) {
 }
 
 void InitPakkun(Pakkun *pakkun) {
-    s32 v;
-    s32 d;
+    s32 setting;
+    s32 angleDelta;
     Vec3 position;
     Vec3 step;
-    s32 i;
+    s32 followerIndex;
     pakkun->mUnk_1d8 =
         (u32) (((s64) pakkun->mMapObject.mCourseMapRow->mRotationDegrees.y * 0xb60b60b60bLL + 0x80000000000LL) >>
                32 << 4) >>
@@ -81,33 +81,33 @@ void InitPakkun(Pakkun *pakkun) {
     pakkun->mUnk_1f0 = 0x1000;
     pakkun->mUnk_1f4 = 0;
     pakkun->mUnk_1f8 = 0x46000;
-    for (i = 0; i < 7; i++) {
-        pakkun->mFollowers[i].mGroupIndex = 0xffff;
+    for (followerIndex = 0; followerIndex < 7; followerIndex++) {
+        pakkun->mFollowers[followerIndex].mGroupIndex = 0xffff;
     }
-    for (i = 0; i < 7; i++) {
-        if (i == 0) {
-            v = pakkun->mMapObject.mCourseMapRow->mSettings[0];
-        } else if (i == 1) {
-            v = pakkun->mMapObject.mCourseMapRow->mSettings[1];
-        } else if (i == 2) {
-            v = pakkun->mMapObject.mCourseMapRow->mSettings[2];
-        } else if (i == 3) {
-            v = pakkun->mMapObject.mCourseMapRow->mSettings[3];
-        } else if (i == 4) {
-            v = pakkun->mMapObject.mCourseMapRow->mSettings[4];
-        } else if (i == 5) {
-            v = pakkun->mMapObject.mCourseMapRow->mSettings[5];
+    for (followerIndex = 0; followerIndex < 7; followerIndex++) {
+        if (followerIndex == 0) {
+            setting = pakkun->mMapObject.mCourseMapRow->mSettings[0];
+        } else if (followerIndex == 1) {
+            setting = pakkun->mMapObject.mCourseMapRow->mSettings[1];
+        } else if (followerIndex == 2) {
+            setting = pakkun->mMapObject.mCourseMapRow->mSettings[2];
+        } else if (followerIndex == 3) {
+            setting = pakkun->mMapObject.mCourseMapRow->mSettings[3];
+        } else if (followerIndex == 4) {
+            setting = pakkun->mMapObject.mCourseMapRow->mSettings[4];
+        } else if (followerIndex == 5) {
+            setting = pakkun->mMapObject.mCourseMapRow->mSettings[5];
         } else {
-            v = pakkun->mMapObject.mCourseMapRow->mSettings[6];
+            setting = pakkun->mMapObject.mCourseMapRow->mSettings[6];
         }
-        if (v >= 0) {
-            InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], v, 100);
+        if (setting >= 0) {
+            InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], setting, 100);
             GetGroupFollowerLinearPosStep(&pakkun->mFollowers[pakkun->mFollowerCount], &position, &step);
-            d = FX_Atan2Idx(step.x, step.z) - pakkun->mUnk_1d8;
-            if (d > 0x8000) {
-                d -= 0x10000;
+            angleDelta = FX_Atan2Idx(step.x, step.z) - pakkun->mUnk_1d8;
+            if (angleDelta > 0x8000) {
+                angleDelta -= 0x10000;
             }
-            pakkun->mUnk_1bc[pakkun->mFollowerCount] = d;
+            pakkun->mUnk_1bc[pakkun->mFollowerCount] = angleDelta;
             pakkun->mUnk_1fc = pakkun->mMapObject.mPos.y - position.y;
             pakkun->mFollowerCount++;
         }
@@ -116,8 +116,8 @@ void InitPakkun(Pakkun *pakkun) {
     CreateParkedMapObjects(0x1ab, 0x14, pakkun);
 }
 
-void CreatePakkunMouth(void *a) {
-    gPakkunMouth = CreateMapObjectModelAnimated(a, "PakkunMouth.nsbmd");
+void CreatePakkunMouth(void *mapObjectList) {
+    gPakkunMouth = CreateMapObjectModelAnimated(mapObjectList, "PakkunMouth.nsbmd");
     CreateMapObjectModelNsbcaAnimation(gPakkunMouth, "PakkunMouth.nsbca");
     SetMapObjectModelAlpha(gPakkunMouth, 0x1f);
 }
@@ -148,129 +148,131 @@ static inline u32 PakkunMapObjectRandomBelowU16(u32 limit) {
     return (u16) value;
 }
 
-void DrawPakkunMouth(void *a, Pakkun *pakkun) {
-    s32 w;
-    MtxFx33 m;
-    MtxFx33 n;
-    s32 f[3];
-    s32 g[3];
-    s32 t;
-    w = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+void DrawPakkunMouth(void *mapObjectList, Pakkun *pakkun) {
+    s32 gxParam;
+    MtxFx33 yawMatrix;
+    MtxFx33 pitchMatrix;
+    s32 translation[3];
+    s32 scale[3];
+    s32 scaleValue;
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     pakkun->mMapObject.mMatrix.mRows[3].x = pakkun->mMapObject.mPos.x >> 4;
     pakkun->mMapObject.mMatrix.mRows[3].y = pakkun->mMapObject.mPos.y >> 4;
     pakkun->mMapObject.mMatrix.mRows[3].z = pakkun->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &pakkun->mMapObject.mMatrix, 12);
-    f[1] = pakkun->mUnk_1f8 >> 4;
-    f[0] = 0;
-    f[2] = 0;
-    NNS_G3dGeBufferOP_N(0x1c, f, 3);
+    translation[1] = pakkun->mUnk_1f8 >> 4;
+    translation[0] = 0;
+    translation[2] = 0;
+    NNS_G3dGeBufferOP_N(0x1c, translation, 3);
     if (pakkun->mUnk_1dc != 0) {
-        MTX_RotY33_(&m, FX_SinIdx((u16) pakkun->mUnk_1dc), FX_CosIdx((u16) pakkun->mUnk_1dc));
-        NNS_G3dGeBufferOP_N(0x1a, &m, 9);
+        MTX_RotY33_(&yawMatrix, FX_SinIdx((u16) pakkun->mUnk_1dc), FX_CosIdx((u16) pakkun->mUnk_1dc));
+        NNS_G3dGeBufferOP_N(0x1a, &yawMatrix, 9);
     }
     if (pakkun->mUnk_1e0 != 0) {
-        MTX_RotX33_(&n, FX_SinIdx((u16) pakkun->mUnk_1e0), FX_CosIdx((u16) pakkun->mUnk_1e0));
-        NNS_G3dGeBufferOP_N(0x1a, &n, 9);
+        MTX_RotX33_(&pitchMatrix, FX_SinIdx((u16) pakkun->mUnk_1e0), FX_CosIdx((u16) pakkun->mUnk_1e0));
+        NNS_G3dGeBufferOP_N(0x1a, &pitchMatrix, 9);
     }
-    t = pakkun->mUnk_1f0;
-    g[0] = t;
-    g[1] = t;
-    g[2] = t;
-    NNS_G3dGeBufferOP_N(0x1b, g, 3);
+    scaleValue = pakkun->mUnk_1f0;
+    scale[0] = scaleValue;
+    scale[1] = scaleValue;
+    scale[2] = scaleValue;
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
     SetMapObjectModelPolygonId(gPakkunMouth, pakkun->mPolygonId);
     SetMapObjectModelNsbcaFrameIndex(gPakkunMouth, pakkun->mUnk_0a4 >> 12);
-    DrawMapObjectModel(a, gPakkunMouth, pakkun);
+    DrawMapObjectModel(mapObjectList, gPakkunMouth, pakkun);
 }
 
-void CreatePakkunZHead(void *a) {
-    gPakkunZHead = CreateMapObjectModelNsbmd(a, "PakkunZHead.nsbmd");
+void CreatePakkunZHead(void *mapObjectList) {
+    gPakkunZHead = CreateMapObjectModelNsbmd(mapObjectList, "PakkunZHead.nsbmd");
     SetMapObjectModelAlpha(gPakkunZHead, 0x1e);
 }
 
-void SetupDrawPakkunZHead(void *a) {
-    QueueMapObjectModelMaterial(a, gPakkunZHead);
+void SetupDrawPakkunZHead(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gPakkunZHead);
 }
 
-void DrawPakkunZHead(void *a, Pakkun *pakkun) {
-    s32 w;
+void DrawPakkunZHead(void *mapObjectList, Pakkun *pakkun) {
+    s32 gxParam;
     Vec3 position;
-    s32 f[3];
-    s32 t;
+    s32 scale[3];
+    s32 scaleValue;
     position.x = pakkun->mMapObject.mPos.x;
     position.y = pakkun->mMapObject.mPos.y + pakkun->mUnk_1f8;
     position.z = pakkun->mMapObject.mPos.z;
-    w = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&position), 12);
-    t = pakkun->mUnk_1f0;
-    f[0] = t;
-    f[1] = t;
-    f[2] = t;
-    NNS_G3dGeBufferOP_N(0x1b, f, 3);
+    scaleValue = pakkun->mUnk_1f0;
+    scale[0] = scaleValue;
+    scale[1] = scaleValue;
+    scale[2] = scaleValue;
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
     SetMapObjectModelPolygonId(gPakkunZHead, pakkun->mPolygonId);
-    DrawMapObjectModel(a, gPakkunZHead, pakkun);
+    DrawMapObjectModel(mapObjectList, gPakkunZHead, pakkun);
 }
 
-void CreatePakkunBody(void *a) {
-    gPakkunBody = CreateMapObjectModelNsbmd(a, "PakkunBody.nsbmd");
+void CreatePakkunBody(void *mapObjectList) {
+    gPakkunBody = CreateMapObjectModelNsbmd(mapObjectList, "PakkunBody.nsbmd");
     SetMapObjectModelPolygonId(gPakkunBody, 0x3f);
     SetMapObjectModelAlpha(gPakkunBody, 0x1f);
 }
 
-void SetupDrawPakkunBody(void *a) {
-    QueueMapObjectModelMaterial(a, gPakkunBody);
+void SetupDrawPakkunBody(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gPakkunBody);
 }
 
-void DrawPakkunBody(void *a, Pakkun *pakkun) {
-    s32 w;
-    s32 v[3];
-    s32 d;
-    s32 y;
-    s32 x;
-    x = pakkun->mUnk_1e8;
-    y = pakkun->mUnk_1f0;
-    d = 0x3000 - x - y;
-    w = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun) {
+    s32 gxParam;
+    s32 scale[3];
+    s32 sideScale;
+    s32 secondValue;
+    s32 firstValue;
+    firstValue = pakkun->mUnk_1e8;
+    secondValue = pakkun->mUnk_1f0;
+    sideScale = 0x3000 - firstValue - secondValue;
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&pakkun->mMapObject.mPos), 12);
-    v[0] = d;
-    v[1] = x + y - 0x1000;
-    v[2] = d;
-    NNS_G3dGeBufferOP_N(0x1b, v, 3);
+    scale[0] = sideScale;
+    scale[1] = firstValue + secondValue - 0x1000;
+    scale[2] = sideScale;
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
-    DrawMapObjectModel(a, gPakkunBody, pakkun);
+    DrawMapObjectModel(mapObjectList, gPakkunBody, pakkun);
 }
 
 void InitPakkunObjects(void) {
-    s32 i;
+    s32 mapObjectIndex;
     Pakkun *pakkun;
-    float f;
+    float frame;
     if (gPakkunUpdateList == NULL) {
         return;
     }
-    for (i = 0; i < gPakkunUpdateList->mMapObjectCount && (pakkun = gPakkunUpdateList->mMapObjects[i]) != NULL; i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < gPakkunUpdateList->mMapObjectCount &&
+                             (pakkun = gPakkunUpdateList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         if (GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1 > 0) {
-            f = 0.5f + ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12);
+            frame = 0.5f + ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12);
         } else {
-            f = ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12) - 0.5f;
+            frame = ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12) - 0.5f;
         }
         pakkun->mUnk_0a4 = 0;
         pakkun->mUnk_0a8 = 0x1000;
         pakkun->mUnk_0ac = 0;
-        pakkun->mUnk_0b0 = f;
+        pakkun->mUnk_0b0 = frame;
         pakkun->mUnk_1e0 = -0xa4;
     }
 }
 
-void UpdatePakkun(void *a, Pakkun *pakkun) {
-    BOOL f;
-    s32 t;
-    s32 x;
-    s32 y;
-    SoundStartParams s;
+void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
+    BOOL flag;
+    s32 falloffIndex;
+    s32 firstOffset;
+    s32 secondOffset;
+    SoundStartParams soundParams;
     switch (pakkun->mState) {
         case 0:
             pakkun->mFollowerIndex += PakkunMapObjectRandomBelowU16((u16) (pakkun->mFollowerCount - 1)) + 1;
@@ -279,19 +281,19 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
             }
             pakkun->mState = 1;
         case 1:
-            f = FALSE;
+            flag = FALSE;
             if (pakkun->mUnk_1dc < pakkun->mUnk_1bc[pakkun->mFollowerIndex]) {
                 pakkun->mUnk_1dc = pakkun->mUnk_1dc + 0x6d;
                 if (pakkun->mUnk_1dc >= pakkun->mUnk_1bc[pakkun->mFollowerIndex]) {
-                    f = TRUE;
+                    flag = TRUE;
                 }
             } else {
                 pakkun->mUnk_1dc = pakkun->mUnk_1dc - 0x6d;
                 if (pakkun->mUnk_1dc <= pakkun->mUnk_1bc[pakkun->mFollowerIndex]) {
-                    f = TRUE;
+                    flag = TRUE;
                 }
             }
-            if (f != FALSE) {
+            if (flag != FALSE) {
                 if (PakkunMapObjectRandomBelowU16(2) == 0) {
                     pakkun->mState = 2;
                 } else {
@@ -342,17 +344,17 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
                 StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
                 if ((pakkun->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                        t = 2;
+                        falloffIndex = 2;
                     } else if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                        t = 3;
+                        falloffIndex = 3;
                     } else {
-                        t = 4;
+                        falloffIndex = 4;
                     }
-                    s.mSoundId = 0x171;
-                    s.mPositionSource = &pakkun->mMapObject.mPos;
-                    s.mFalloffIndex = t;
-                    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkun->mMapObject.mPos);
-                    StartSoundFromParams(&s);
+                    soundParams.mSoundId = 0x171;
+                    soundParams.mPositionSource = &pakkun->mMapObject.mPos;
+                    soundParams.mFalloffIndex = falloffIndex;
+                    soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkun->mMapObject.mPos);
+                    StartSoundFromParams(&soundParams);
                 }
             } else if (pakkun->mUnk_0a4 == 0) {
                 pakkun->mTimer = 0x1e;
@@ -375,9 +377,9 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
             pakkun->mUnk_1ec = -0x52;
         }
     }
-    x = MUL_FIXED12_NO_ROUND(pakkun->mUnk_1e8 + pakkun->mUnk_1f0 - 0x1000, 0x2f000);
-    y = MUL_FIXED12_NO_ROUND(pakkun->mUnk_1f0, 0x17000);
-    pakkun->mUnk_1f8 = x + y;
+    firstOffset = MUL_FIXED12_NO_ROUND(pakkun->mUnk_1e8 + pakkun->mUnk_1f0 - 0x1000, 0x2f000);
+    secondOffset = MUL_FIXED12_NO_ROUND(pakkun->mUnk_1f0, 0x17000);
+    pakkun->mUnk_1f8 = firstOffset + secondOffset;
 }
 
 void *CreatePakkunMouthDrawList(void) {

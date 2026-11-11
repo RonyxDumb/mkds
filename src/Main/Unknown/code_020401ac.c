@@ -171,7 +171,7 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
 }
 
 void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
-    s32 i;
+    s32 lapIndex;
     MinuteSecondMillisecondTime *lapTime;
     CourseMapRoute *route;
     s32 firstEntry;
@@ -203,7 +203,7 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mCheckpointProgress = 0;
     raceProgressKart->mRankIndexRequestBits = raceProgressKart->mRankIndexRequestBits & ~0x300;
     lapTime = raceProgressKart->mLapTimes;
-    for (i = 0; i < 5; i++) {
+    for (lapIndex = 0; lapIndex < 5; lapIndex++) {
         ComputeRaceTime(&lapTime->mMinute, &lapTime->mSecond, &lapTime->mMillisecond, 0,
                         gRaceProgress->mHeader.mElapsedFrames);
         lapTime++;
@@ -247,16 +247,16 @@ static inline u32 RaceProgressNextRandomBelow(RandomState64 *randomState64, u32 
 
 void InitRaceProgress(void) {
     BOOL entryRaceEnded;
-    s32 i;
+    s32 index;
     u32 seed;
     s32 checkpointNumber;
-    u64 a;
-    u64 c;
-    u64 d;
+    u64 tickSeed1;
+    u64 tickSeed2;
+    u64 tickSeed3;
     u16 routeIndex;
     u16 entryInRoute;
     u16 checkpointIndex;
-    s32 v;
+    s32 value;
     ConnectionWork *connectionWork;
     CourseMapRoute *route;
     CourseMapCheckpoint *checkpoint;
@@ -299,9 +299,9 @@ void InitRaceProgress(void) {
             }
             break;
     }
-    for (i = 0; i < 8; i++) {
-        InitRaceProgressKart(&gRaceProgress->mKarts[i], i);
-        gRaceProgress->mKartAtRank[i] = -1;
+    for (index = 0; index < 8; index++) {
+        InitRaceProgressKart(&gRaceProgress->mKarts[index], index);
+        gRaceProgress->mKartAtRank[index] = -1;
     }
     switch (gRaceSetup->mRaceKind) {
         case RACE_KIND_REPLAY:
@@ -326,17 +326,17 @@ void InitRaceProgress(void) {
                     break;
                 default:
                     connectionWork = gConnectionWork;
-                    v = 0;
+                    value = 0;
                     if (RaceProgressGetWorkConnectionMode(connectionWork) != 0) {
                         if (connectionWork->mState != 0xd) {
-                            v = 1;
+                            value = 1;
                         }
                     }
-                    if (v != 0) {
+                    if (value != 0) {
                         seed = connectionWork->mRaceSeed;
                     } else {
-                        a = OS_GetTick();
-                        seed = (a << 16) + OS_GetTick();
+                        tickSeed1 = OS_GetTick();
+                        seed = (tickSeed1 << 16) + OS_GetTick();
                     }
                     break;
             }
@@ -345,10 +345,10 @@ void InitRaceProgress(void) {
     RaceProgressInitRandomState(&gRaceProgress->mRandom, seed);
     gRaceProgress->mSeed = seed;
     gRaceSetup->mNextHeader.mSeed = seed;
-    a = OS_GetTick();
-    c = OS_GetTick();
-    d = OS_GetTick();
-    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, a + ((c << 24) + (d << 8)));
+    tickSeed1 = OS_GetTick();
+    tickSeed2 = OS_GetTick();
+    tickSeed3 = OS_GetTick();
+    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, tickSeed1 + ((tickSeed2 << 24) + (tickSeed3 << 8)));
     RaceProgressInitRandomState(&gRaceProgress->mFixedSeedRandom, 0xa094a2f);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         ShuffleCourseMapRespawnSlots(&gRaceProgress->mRandom);
@@ -356,10 +356,10 @@ void InitRaceProgress(void) {
     gRaceProgress->mCameraChainEnded = 0;
     gRaceProgress->mLapProgressScale = FX_Inv((gCourseMap->mLapProgressBaseMax + 1) << 12);
     gRaceProgress->mRaceProgressScale = FX_Inv(GetLapCount() << 12);
-    for (i = 0; i < gCourseMap->mNumberedCheckpointCount + 1; i++) {
-        checkpointNumber = i % (gCourseMap->mNumberedCheckpointCount + 1);
+    for (index = 0; index < gCourseMap->mNumberedCheckpointCount + 1; index++) {
+        checkpointNumber = index % (gCourseMap->mNumberedCheckpointCount + 1);
         if (checkpointNumber == gCourseMap->mNumberedCheckpointCount) {
-            gRaceProgress->mCheckpointLapProgress[i] = 0x1000;
+            gRaceProgress->mCheckpointLapProgress[index] = 0x1000;
         } else {
             for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
                 route = &gCourseMap->mCheckpointRoutes[routeIndex];
@@ -367,11 +367,11 @@ void InitRaceProgress(void) {
                     checkpointIndex = entryInRoute + route->mFirstEntry;
                     checkpoint = &gCourseMap->mCheckpoints[checkpointIndex];
                     if (checkpoint->mNumber == checkpointNumber) {
-                        v = Fixed12AddOneThenDivideByIntOrZero((checkpointIndex - route->mFirstEntry) << 12,
-                                                               route->mEntryCount);
-                        v += route->mLapProgressBase << 12;
-                        gRaceProgress->mCheckpointLapProgress[i] =
-                            MUL_FIXED12_ROUNDED(v, gRaceProgress->mLapProgressScale);
+                        value = Fixed12AddOneThenDivideByIntOrZero((checkpointIndex - route->mFirstEntry) << 12,
+                                                                   route->mEntryCount);
+                        value += route->mLapProgressBase << 12;
+                        gRaceProgress->mCheckpointLapProgress[index] =
+                            MUL_FIXED12_ROUNDED(value, gRaceProgress->mLapProgressScale);
                     }
                 }
             }

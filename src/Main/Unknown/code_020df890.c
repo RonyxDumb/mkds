@@ -160,40 +160,39 @@ MkdEfBubbleUpdateList *CreateMkdEfBubbleUpdateList(void) {
 }
 
 void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s32 alpha) {
-    s32 v;
-    s32 w;
+    s32 value;
+    s32 gxParam;
     MtxFx33 rotationMatrix;
-    s32 n;
+    s32 amount;
 
     if (bubble->mMapObject.mStateMachine.mState != 0) {
         return;
     }
-    w = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&bubble->mMapObject.mPos), 0xc);
     if (bubble->mAngleZ != 0) {
-        n = bubble->mAngleZ >> 4;
-        MTX_RotZ33_(&rotationMatrix, FX_SinCosTable_[n * 2], FX_SinCosTable_[n * 2 + 1]);
+        MTX_RotZ33_(&rotationMatrix, SIN_OF_ANGLE(bubble->mAngleZ), COS_OF_ANGLE(bubble->mAngleZ));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &bubble->mMapObject.mScale, 3);
     DrawNsbmdWithMaxAlpha(gMkdEfBubble, alpha);
-    v = bubble->mMapObject.mPos.y - bubble->mInitialY;
-    if (v > 0x10000) {
-        v = 0x1000 - ((v - 0x10000) >> 8);
+    value = bubble->mMapObject.mPos.y - bubble->mInitialY;
+    if (value > 0x10000) {
+        value = 0x1000 - ((value - 0x10000) >> 8);
         bubble->mShadowMatrix.mAlphaCap = 0xd;
     } else {
-        n = 0xd - ((0x10000 - v) >> 13);
-        v = 0x1000;
-        if (n < 1) {
-            n = 1;
+        amount = 0xd - ((0x10000 - value) >> 13);
+        value = 0x1000;
+        if (amount < 1) {
+            amount = 1;
         }
-        bubble->mShadowMatrix.mAlphaCap = n;
+        bubble->mShadowMatrix.mAlphaCap = amount;
     }
-    if (v <= 0) {
+    if (value <= 0) {
         return;
     }
-    DrawObjShadow(&bubble->mShadowMatrix, &v, 0, alpha);
+    DrawObjShadow(&bubble->mShadowMatrix, &value, 0, alpha);
 }
 
 void AdvanceMkdEfBubbleAnimation(void) {

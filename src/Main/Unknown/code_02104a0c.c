@@ -48,7 +48,7 @@ const ItemKind gItemKindKiller = {
 // Allocates the map objects that the item objects with a map-object look take from the pool.
 void CreatePooledMapObjects(void) {
     Vec3 buf;
-    s32 i;
+    s32 objectIndex;
     switch (gRaceSetup->mMode) {
         case MODE_BATTLE:
             gPooledMapObjectCount = 0xb;
@@ -70,8 +70,8 @@ void CreatePooledMapObjects(void) {
     gPooledMapObjectRow.mScale = gVec3Ones;
     gPooledMapObjectRow.mKind = 0x6f;
     gPooledMapObjectRow.mSettings[3] = 1;
-    for (i = 0; i < gPooledMapObjectCount; i++) {
-        gPooledMapObjects[i] = CreateMapObjectFromCourseMapRow(&gPooledMapObjectRow, 0x6f);
+    for (objectIndex = 0; objectIndex < gPooledMapObjectCount; objectIndex++) {
+        gPooledMapObjects[objectIndex] = CreateMapObjectFromCourseMapRow(&gPooledMapObjectRow, 0x6f);
     }
     gPooledMapObjectNextIndex = 0;
 }

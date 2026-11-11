@@ -128,9 +128,9 @@ MapObjectList *CreateWoodbox1UpdateList(void) {
     return data_0217bbf4;
 }
 
-void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
+void DrawWoodbox1(void *mapObjectList, Woodbox1 *woodbox, void *unused, u32 maxAlpha) {
     u16 state;
-    s32 t;
+    s32 shadowValue;
     Vec3 shadowPos;
 
     state = woodbox->mMapObject.mStateMachine.mState;
@@ -141,14 +141,14 @@ void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
     if (state == 0) {
         return;
     }
-    t = MUL_FIXED12_NO_ROUND(0x5a000 - woodbox->mPosOffset.y, 0x2e);
+    shadowValue = MUL_FIXED12_NO_ROUND(0x5a000 - woodbox->mPosOffset.y, 0x2e);
     shadowPos.x = woodbox->mMapObject.mPos.x;
     shadowPos.z = woodbox->mMapObject.mPos.z;
     shadowPos.y = woodbox->mBasePos.y - MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.x, woodbox->mPosOffset.x) -
                   MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.z, woodbox->mPosOffset.z);
     VEC_MultAdd(-woodbox->mMapObject.mExtent.x, &woodbox->mGroundUp, &shadowPos, &shadowPos);
     SetShadowPositionRaised(&woodbox->mUnk_114, &shadowPos);
-    DrawObjShadow(&woodbox->mUnk_114, &t, 0, maxAlpha);
+    DrawObjShadow(&woodbox->mUnk_114, &shadowValue, 0, maxAlpha);
 }
 
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox) {
@@ -683,21 +683,21 @@ void BlendDirectionTowardVector(Vec3 *direction, s32 blendFactor, Vec3 *target, 
 
 void BlendDirectionTowardUp(Vec3 *direction, s32 blendFactor) {
     s32 blend;
-    s32 n;
+    s32 negatedY;
     s32 remaining;
     s32 blendProduct;
     s32 extra;
     s32 directionScale;
 
-    n = -direction->y;
-    blend = MUL_FIXED12_NO_ROUND(0x1000 - n, blendFactor);
+    negatedY = -direction->y;
+    blend = MUL_FIXED12_NO_ROUND(0x1000 - negatedY, blendFactor);
     if (blend > 0x1000) {
         blend = 0x1000;
     }
     remaining = 0x1000 - blend;
     blendProduct = MUL_FIXED12_NO_ROUND(blend, remaining);
-    n += 0x1000;
-    extra = MUL_FIXED12_NO_ROUND(n, blendProduct >> 1);
+    negatedY += 0x1000;
+    extra = MUL_FIXED12_NO_ROUND(negatedY, blendProduct >> 1);
     directionScale = remaining + extra;
     blend = blend + extra;
     direction->x = MUL_FIXED12_NO_ROUND(direction->x, directionScale);

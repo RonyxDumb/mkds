@@ -100,7 +100,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
     CourseMapGroupEntry *fromEntry;
     s32 stateValue;
     s32 speed;
-    s32 t;
+    s32 followerSpeed;
     s32 sine;
     dossun->mEnteredState5 = FALSE;
     follower = &dossun->mFollower;
@@ -134,17 +134,17 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         speed = follower->mSpeed;
         if (dossun->mState < 4) {
             if (speed > 0x4000) {
-                t = MUL_FIXED12_NO_ROUND(speed, 0xf85);
-                follower->mSpeed = t;
-                follower->mProgressStep =
-                    MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
+                followerSpeed = MUL_FIXED12_NO_ROUND(speed, 0xf85);
+                follower->mSpeed = followerSpeed;
+                follower->mProgressStep = MUL_FIXED12_NO_ROUND(
+                    followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             }
         } else {
             if (speed > 0x800) {
-                t = MUL_FIXED12_NO_ROUND(speed, 0xe66);
-                follower->mSpeed = t;
-                follower->mProgressStep =
-                    MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
+                followerSpeed = MUL_FIXED12_NO_ROUND(speed, 0xe66);
+                follower->mSpeed = followerSpeed;
+                follower->mProgressStep = MUL_FIXED12_NO_ROUND(
+                    followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             }
         }
         if (AdvanceGroupFollower(follower) != FALSE) {
@@ -170,10 +170,10 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 return;
             }
             dossun->mState++;
-            t = dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000;
-            follower->mSpeed = t;
-            follower->mProgressStep =
-                MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
+            followerSpeed = dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000;
+            follower->mSpeed = followerSpeed;
+            follower->mProgressStep = MUL_FIXED12_NO_ROUND(
+                followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             return;
         case 1:
             if (dossun->mIsSlowVariant != 0) {
@@ -202,10 +202,10 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         case 4:
             if (dossun->mUnk_a8 < 0x14000) {
                 dossun->mUnk_a8 += 0x1000;
-                t = dossun->mUnk_a8;
-                follower->mSpeed = t;
-                follower->mProgressStep =
-                    MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
+                followerSpeed = dossun->mUnk_a8;
+                follower->mSpeed = followerSpeed;
+                follower->mProgressStep = MUL_FIXED12_NO_ROUND(
+                    followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             }
             break;
         case 5:
@@ -214,10 +214,10 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 return;
             }
             dossun->mState++;
-            t = dossun->mUnk_108;
-            follower->mSpeed = t;
-            follower->mProgressStep =
-                MUL_FIXED12_NO_ROUND(t, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
+            followerSpeed = dossun->mUnk_108;
+            follower->mSpeed = followerSpeed;
+            follower->mProgressStep = MUL_FIXED12_NO_ROUND(
+                followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             return;
         case 6:
             break;

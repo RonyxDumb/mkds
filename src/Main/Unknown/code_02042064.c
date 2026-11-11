@@ -121,7 +121,7 @@ void BuildCourseMapEntryGroupTable(void *heap) {
     u16 groupCount;
     CourseMapGroupEntry *groupEntries;
     u32 size;
-    u16 i;
+    u16 groupIndex;
     CourseMapEntryGroup *group;
 
     courseMap = gCourseMap;
@@ -131,8 +131,8 @@ void BuildCourseMapEntryGroupTable(void *heap) {
     if (size != 0) {
         row = HeapAlloc(heap, size);
         gCourseMap->mEntryGroupTable = row;
-        for (i = 0; i < groupCount; i++) {
-            group = gCourseMap->mEntryGroups + i;
+        for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
+            group = gCourseMap->mEntryGroups + groupIndex;
             row->mGroup = group;
             row->mEntries = groupEntries;
             groupEntries += group->mEntryCount;
@@ -158,7 +158,7 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
     CourseMapItemPoint *itemPoint;
     ItemPointLink *link;
     s32 nextRoute;
-    s32 k;
+    s32 slotIndex;
 
     if (gCourseMap->mVersion < COURSE_MAP_VERSION_ITEM_POINT_SIZE) {
         itemPoint = (CourseMapItemPoint *) ((CourseMapOldItemPoint *) gCourseMap->mItemPoints + pointIndex);
@@ -166,8 +166,8 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
         itemPoint = gCourseMap->mItemPoints + pointIndex;
     }
     link = gCourseMap->mItemPointLinks + pointIndex;
-    for (k = 0; k < 3; k++) {
-        if (previousLink != NULL && link->mPreviousLinks[k] == previousLink) {
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        if (previousLink != NULL && link->mPreviousLinks[slotIndex] == previousLink) {
             return;
         }
     }
@@ -178,16 +178,16 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
     } else {
         link->mLinkIndex = itemPoint->mLinkIndex;
     }
-    for (k = 0; k < 3; k++) {
-        if (previousLink->mNextLinks[k] == NULL) {
-            previousLink->mNextLinks[k] = link;
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        if (previousLink->mNextLinks[slotIndex] == NULL) {
+            previousLink->mNextLinks[slotIndex] = link;
             previousLink->mNextCount++;
             break;
         }
     }
-    for (k = 0; k < 3; k++) {
-        if (link->mPreviousLinks[k] == NULL) {
-            link->mPreviousLinks[k] = previousLink;
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        if (link->mPreviousLinks[slotIndex] == NULL) {
+            link->mPreviousLinks[slotIndex] = previousLink;
             link->mPreviousCount++;
             break;
         }
@@ -196,8 +196,8 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
         BuildCourseMapItemRouteLinks(link, route, pointIndex + 1);
         return;
     }
-    for (k = 0; k < 3; k++) {
-        nextRoute = route->mNextRoutes[k];
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        nextRoute = route->mNextRoutes[slotIndex];
         if (nextRoute != COURSE_MAP_ROUTE_NONE && nextRoute != 0) {
             BuildCourseMapItemRouteLinks(link, &gCourseMap->mItemRoutes[nextRoute],
                                          gCourseMap->mItemRoutes[nextRoute].mFirstEntry);
@@ -208,10 +208,10 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
 void BuildCourseMapItemPointLinks(void *heap) {
     CourseMap *courseMap;
     CourseMapRoute *firstRoute;
-    ItemPointLink **q;
-    s32 i;
+    ItemPointLink **linkPointers;
+    s32 pointIndex;
     ItemPointLink *link;
-    s32 k;
+    s32 slotIndex;
     s32 lastEntry;
     s32 previousFirstEntry;
     CourseMapRoute *routes;
@@ -219,14 +219,14 @@ void BuildCourseMapItemPointLinks(void *heap) {
 
     courseMap = gCourseMap;
     firstRoute = courseMap->mItemRoutes;
-    q = &courseMap->mItemPointLinks;
+    linkPointers = &courseMap->mItemPointLinks;
     courseMap->mItemPointLinks = HeapAlloc(heap, courseMap->mItemPointCount * 0x28);
-    q[1] = courseMap->mItemPointLinks + firstRoute->mFirstEntry;
-    for (i = 0; i < gCourseMap->mItemPointCount; i++) {
-        link = q[0] + i;
-        for (k = 0; k < 3; k++) {
-            link->mPreviousLinks[k] = NULL;
-            link->mNextLinks[k] = NULL;
+    linkPointers[1] = courseMap->mItemPointLinks + firstRoute->mFirstEntry;
+    for (pointIndex = 0; pointIndex < gCourseMap->mItemPointCount; pointIndex++) {
+        link = linkPointers[0] + pointIndex;
+        for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+            link->mPreviousLinks[slotIndex] = NULL;
+            link->mNextLinks[slotIndex] = NULL;
         }
         link->mNextCount = 0;
         link->mPreviousCount = 0;
@@ -238,20 +238,20 @@ void BuildCourseMapItemPointLinks(void *heap) {
     previousRoute = routes + firstRoute->mPreviousRoutes[0];
     previousFirstEntry = routes[firstRoute->mPreviousRoutes[0]].mFirstEntry;
     lastEntry = previousFirstEntry + previousRoute->mEntryCount - 1;
-    q[2] = q[0] + lastEntry;
-    BuildCourseMapItemRouteLinks(q[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
+    linkPointers[2] = linkPointers[0] + lastEntry;
+    BuildCourseMapItemRouteLinks(linkPointers[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
 }
 
 void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *route, u16 pointIndex) {
     RacePointLink *link;
     s32 nextRoute;
-    s32 k;
+    s32 slotIndex;
     CourseMapPoint *racePoint;
 
     racePoint = gCourseMap->mRacePoints + pointIndex;
     link = gCourseMap->mRacePointLinks + pointIndex;
-    for (k = 0; k < 3; k++) {
-        if (previousLink != NULL && link->mPreviousLinks[k] == previousLink) {
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        if (previousLink != NULL && link->mPreviousLinks[slotIndex] == previousLink) {
             return;
         }
     }
@@ -259,16 +259,16 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
     link->mRadius = racePoint->mRadius;
     link->mValues = racePoint->mValues;
     if (previousLink != NULL) {
-        for (k = 0; k < 3; k++) {
-            if (previousLink->mNextLinks[k] == NULL) {
-                previousLink->mNextLinks[k] = link;
+        for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+            if (previousLink->mNextLinks[slotIndex] == NULL) {
+                previousLink->mNextLinks[slotIndex] = link;
                 previousLink->mNextCount++;
                 break;
             }
         }
-        for (k = 0; k < 3; k++) {
-            if (link->mPreviousLinks[k] == NULL) {
-                link->mPreviousLinks[k] = previousLink;
+        for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+            if (link->mPreviousLinks[slotIndex] == NULL) {
+                link->mPreviousLinks[slotIndex] = previousLink;
                 link->mPreviousCount++;
                 break;
             }
@@ -278,8 +278,8 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
         BuildCourseMapRaceRouteLinks(link, route, pointIndex + 1);
         return;
     }
-    for (k = 0; k < 3; k++) {
-        nextRoute = route->mNextRoutes[k];
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        nextRoute = route->mNextRoutes[slotIndex];
         if (nextRoute != COURSE_MAP_ROUTE_NONE) {
             BuildCourseMapRaceRouteLinks(link, &gCourseMap->mRaceRoutes[nextRoute],
                                          gCourseMap->mRaceRoutes[nextRoute].mFirstEntry);
@@ -290,23 +290,23 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
 void BuildCourseMapRacePointLinks(void *heap) {
     CourseMap *courseMap;
     CourseMapRoute *firstRoute;
-    RacePointLink **q;
-    CourseMapRoute *t;
-    s32 i;
+    RacePointLink **linkPointers;
+    CourseMapRoute *lastRoute;
+    s32 index;
     RacePointLink *link;
-    s32 k;
+    s32 slotIndex;
     s32 lastEntry;
 
     courseMap = gCourseMap;
     firstRoute = courseMap->mRaceRoutes;
-    q = &courseMap->mRacePointLinks;
+    linkPointers = &courseMap->mRacePointLinks;
     courseMap->mRacePointLinks = HeapAlloc(heap, courseMap->mRacePointCount * 0x28);
-    q[1] = courseMap->mRacePointLinks + firstRoute->mFirstEntry;
-    for (i = 0; i < gCourseMap->mRacePointCount; i++) {
-        link = q[0] + i;
-        for (k = 0; k < 3; k++) {
-            link->mPreviousLinks[k] = NULL;
-            link->mNextLinks[k] = NULL;
+    linkPointers[1] = courseMap->mRacePointLinks + firstRoute->mFirstEntry;
+    for (index = 0; index < gCourseMap->mRacePointCount; index++) {
+        link = linkPointers[0] + index;
+        for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+            link->mPreviousLinks[slotIndex] = NULL;
+            link->mNextLinks[slotIndex] = NULL;
         }
         link->mNextCount = 0;
         link->mPreviousCount = 0;
@@ -314,14 +314,14 @@ void BuildCourseMapRacePointLinks(void *heap) {
         link->mValues = NULL;
         link->mRadius = 0;
     }
-    t = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];
-    lastEntry = t->mFirstEntry + t->mEntryCount - 1;
-    q[2] = q[0] + lastEntry;
-    BuildCourseMapRaceRouteLinks(q[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
-    for (i = 0; i < gCourseMap->mRaceRouteCount; i++) {
-        t = gCourseMap->mRaceRoutes + (u16) i;
-        if (q[0][t->mFirstEntry].mNextCount == 0) {
-            BuildCourseMapRaceRouteLinks(NULL, t, t->mFirstEntry);
+    lastRoute = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];
+    lastEntry = lastRoute->mFirstEntry + lastRoute->mEntryCount - 1;
+    linkPointers[2] = linkPointers[0] + lastEntry;
+    BuildCourseMapRaceRouteLinks(linkPointers[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
+    for (index = 0; index < gCourseMap->mRaceRouteCount; index++) {
+        lastRoute = gCourseMap->mRaceRoutes + (u16) index;
+        if (linkPointers[0][lastRoute->mFirstEntry].mNextCount == 0) {
+            BuildCourseMapRaceRouteLinks(NULL, lastRoute, lastRoute->mFirstEntry);
         }
     }
 }
@@ -329,30 +329,30 @@ void BuildCourseMapRacePointLinks(void *heap) {
 void BuildCourseMapBattlePointLinks(void *heap) {
     CourseMap *courseMap;
     CourseMapBattleRoute *route;
-    CourseMapBattleRoute *t;
-    PointLink **q;
-    s32 i;
+    CourseMapBattleRoute *routes;
+    PointLink **linkPointers;
+    s32 index;
     PointLink *link;
     PointLink *pointLink;
     s32 pointIndex;
-    s32 k;
+    s32 slotIndex;
     u16 routeIndex;
     u16 linkCount;
     u16 lastPoint;
     CourseMapPoint *battlePoint;
-    u16 b;
-    u16 c;
+    u16 previousIndex;
+    u16 nextIndex;
 
     courseMap = gCourseMap;
     route = courseMap->mBattleRoutes;
-    q = &courseMap->mBattlePointLinks;
+    linkPointers = &courseMap->mBattlePointLinks;
     courseMap->mBattlePointLinks = HeapAlloc(heap, courseMap->mBattlePointCount * 0x30);
-    q[1] = courseMap->mBattlePointLinks;
-    q[2] = courseMap->mBattlePointLinks + gCourseMap->mBattlePointCount;
-    for (i = 0; i < gCourseMap->mBattlePointCount; i++) {
-        link = q[0] + i;
-        for (k = 0; k < 8; k++) {
-            link->mLinks[k] = NULL;
+    linkPointers[1] = courseMap->mBattlePointLinks;
+    linkPointers[2] = courseMap->mBattlePointLinks + gCourseMap->mBattlePointCount;
+    for (index = 0; index < gCourseMap->mBattlePointCount; index++) {
+        link = linkPointers[0] + index;
+        for (slotIndex = 0; slotIndex < 8; slotIndex++) {
+            link->mLinks[slotIndex] = NULL;
         }
         link->mLinkCount = 0;
         link->mPoint = NULL;
@@ -361,22 +361,22 @@ void BuildCourseMapBattlePointLinks(void *heap) {
     }
     for (pointIndex = 0; pointIndex < gCourseMap->mBattlePointCount; pointIndex++) {
         battlePoint = gCourseMap->mBattlePoints + (u16) pointIndex;
-        pointLink = q[0] + pointIndex;
+        pointLink = linkPointers[0] + pointIndex;
         linkCount = 0;
         for (routeIndex = 0; routeIndex < gCourseMap->mBattleRouteCount; routeIndex++) {
-            t = gCourseMap->mBattleRoutes;
-            route = t + routeIndex;
-            if (pointIndex >= t[routeIndex].mFirstEntry && pointIndex < route->mFirstEntry + route->mEntryCount) {
+            routes = gCourseMap->mBattleRoutes;
+            route = routes + routeIndex;
+            if (pointIndex >= routes[routeIndex].mFirstEntry && pointIndex < route->mFirstEntry + route->mEntryCount) {
                 break;
             }
         }
         pointLink->mRouteLinkMask = 0;
         lastPoint = route->mFirstEntry + route->mEntryCount - 1;
         if (pointIndex == route->mFirstEntry) {
-            for (b = 0; b < 8; b++) {
-                if (route->mPreviousPoints[b] != COURSE_MAP_ROUTE_NONE) {
+            for (previousIndex = 0; previousIndex < 8; previousIndex++) {
+                if (route->mPreviousPoints[previousIndex] != COURSE_MAP_ROUTE_NONE) {
                     pointLink->mRouteLinkMask |= 1 << linkCount;
-                    pointLink->mLinks[linkCount++] = q[0] + route->mPreviousPoints[b];
+                    pointLink->mLinks[linkCount++] = linkPointers[0] + route->mPreviousPoints[previousIndex];
                 }
             }
             if (route->mEntryCount > 1) {
@@ -384,10 +384,10 @@ void BuildCourseMapBattlePointLinks(void *heap) {
             }
         }
         if (pointIndex == lastPoint) {
-            for (c = 0; c < 8; c++) {
-                if (route->mNextPoints[c] != COURSE_MAP_ROUTE_NONE) {
+            for (nextIndex = 0; nextIndex < 8; nextIndex++) {
+                if (route->mNextPoints[nextIndex] != COURSE_MAP_ROUTE_NONE) {
                     pointLink->mRouteLinkMask |= 1 << linkCount;
-                    pointLink->mLinks[linkCount++] = q[0] + route->mNextPoints[c];
+                    pointLink->mLinks[linkCount++] = linkPointers[0] + route->mNextPoints[nextIndex];
                 }
             }
             if (route->mEntryCount > 1) {
@@ -406,21 +406,21 @@ void BuildCourseMapBattlePointLinks(void *heap) {
     }
 }
 
-void BuildCourseMapPointLinks(void *a) {
+void BuildCourseMapPointLinks(void *heap) {
     if (gCourseMap->mItemRouteCount != 0) {
-        BuildCourseMapItemPointLinks(a);
+        BuildCourseMapItemPointLinks(heap);
     }
     if (gCourseMap->mRaceRouteCount != 0) {
-        BuildCourseMapRacePointLinks(a);
+        BuildCourseMapRacePointLinks(heap);
     } else if (gCourseMap->mBattleRouteCount != 0) {
-        BuildCourseMapBattlePointLinks(a);
+        BuildCourseMapBattlePointLinks(heap);
     }
 }
 #pragma thumb off
 
 #pragma thumb on
-u32 LoadCourseMapSettingsData(void *arg0) {
-    gCourseMap->mSettings = OFFSET_PTR(CourseMapSettings, arg0, 4);
+u32 LoadCourseMapSettingsData(void *section) {
+    gCourseMap->mSettings = OFFSET_PTR(CourseMapSettings, section, 4);
     return 1;
 }
 #pragma thumb off
@@ -433,12 +433,12 @@ s32 LoadCourseMapStartPlacementsData(void *section, ...) {
 }
 
 s32 LoadCourseMapRespawnsData(void *section, ...) {
-    s32 i;
+    s32 index;
     s32 maxSlot;
     void *heap;
     s32 respawnCount;
-    s32 k;
-    u16 t;
+    s32 respawnIndex;
+    u16 unused;
     CourseMapRespawn *respawn;
 
     heap = GetHeap(GetCurrentHeapCall());
@@ -448,23 +448,23 @@ s32 LoadCourseMapRespawnsData(void *section, ...) {
         respawnCount = gCourseMap->mRespawnCount;
         gCourseMap->mRespawnIndexBySlot = HeapAlloc(heap, respawnCount * 2);
         gCourseMap->mNextRespawnSlot = 0;
-        for (i = 0; i < respawnCount; i++) {
-            gCourseMap->mRespawnIndexBySlot[i] = i;
+        for (index = 0; index < respawnCount; index++) {
+            gCourseMap->mRespawnIndexBySlot[index] = index;
         }
     } else if (gCourseMap->mRespawnCount != 0) {
         maxSlot = 0;
-        for (k = 0; k < gCourseMap->mRespawnCount; k++) {
-            respawn = &gCourseMap->mRespawns[k];
+        for (respawnIndex = 0; respawnIndex < gCourseMap->mRespawnCount; respawnIndex++) {
+            respawn = &gCourseMap->mRespawns[respawnIndex];
             if (respawn->mSlot > maxSlot) {
                 maxSlot = respawn->mSlot;
             }
         }
         gCourseMap->mRespawnIndexBySlot = HeapAlloc(heap, (maxSlot + 1) * 2);
-        for (i = 0; i < maxSlot + 1; i++) {
-            gCourseMap->mRespawnIndexBySlot[i] = COURSE_MAP_RESPAWN_SLOT_NONE;
+        for (index = 0; index < maxSlot + 1; index++) {
+            gCourseMap->mRespawnIndexBySlot[index] = COURSE_MAP_RESPAWN_SLOT_NONE;
         }
-        for (i = 0; i < gCourseMap->mRespawnCount; i++) {
-            gCourseMap->mRespawnIndexBySlot[gCourseMap->mRespawns[i].mSlot] = i;
+        for (index = 0; index < gCourseMap->mRespawnCount; index++) {
+            gCourseMap->mRespawnIndexBySlot[gCourseMap->mRespawns[index].mSlot] = index;
         }
     }
     return 1;
@@ -487,19 +487,19 @@ static inline u16 CourseMapNextRandomBelowU16(RandomState64 *randomState64, u16 
 }
 
 void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64) {
-    s32 i;
+    s32 swapIndex;
     u16 respawnCount;
     u16 firstSlot;
     u16 secondSlot;
-    u16 t;
+    u16 respawnIndex;
 
     respawnCount = gCourseMap->mRespawnCount;
-    for (i = 0; i < 100; i++) {
+    for (swapIndex = 0; swapIndex < 100; swapIndex++) {
         firstSlot = CourseMapNextRandomBelowU16(randomState64, respawnCount);
         secondSlot = CourseMapNextRandomBelowU16(randomState64, respawnCount);
-        t = gCourseMap->mRespawnIndexBySlot[secondSlot];
+        respawnIndex = gCourseMap->mRespawnIndexBySlot[secondSlot];
         gCourseMap->mRespawnIndexBySlot[secondSlot] = gCourseMap->mRespawnIndexBySlot[firstSlot];
-        gCourseMap->mRespawnIndexBySlot[firstSlot] = t;
+        gCourseMap->mRespawnIndexBySlot[firstSlot] = respawnIndex;
     }
 }
 
@@ -511,7 +511,7 @@ s32 LoadCourseMapSubScreenViewData(void *section, ...) {
 
 void BuildCourseMapKeyedPlacementIndexByKey(void) {
     u16 placementCount;
-    u16 i;
+    u16 placementIndex;
 
     placementCount = gCourseMap->mKeyedPlacementCount;
     if (placementCount == 0) {
@@ -519,8 +519,8 @@ void BuildCourseMapKeyedPlacementIndexByKey(void) {
         return;
     }
     gCourseMap->mKeyedPlacementIndexByKey = HeapAlloc(GetHeap(GetCurrentHeapCall()), placementCount * 2);
-    for (i = 0; i < placementCount; i++) {
-        gCourseMap->mKeyedPlacementIndexByKey[gCourseMap->mKeyedPlacements[i].mKey] = i;
+    for (placementIndex = 0; placementIndex < placementCount; placementIndex++) {
+        gCourseMap->mKeyedPlacementIndexByKey[gCourseMap->mKeyedPlacements[placementIndex].mKey] = placementIndex;
     }
 }
 
@@ -540,12 +540,12 @@ s32 LoadCourseMapKeyedPlacementsData(void *section, ...) {
 }
 
 s32 LoadCourseMapRaceEndPlacementsData(void *section, ...) {
-    enum { K0 } r = 0;
+    enum { K0 } result = 0;
 
     if (gCourseMap->mVersion < COURSE_MAP_VERSION_RACE_END_PLACEMENTS) {
-        gCourseMap->mRaceEndPlacementCount = r;
+        gCourseMap->mRaceEndPlacementCount = result;
         gCourseMap->mRaceEndPlacements = NULL;
-        return r;
+        return result;
     }
     gCourseMap->mRaceEndPlacementCount = ReadCourseMapSectionCount(&section);
     if (gCourseMap->mRaceEndPlacementCount != 0) {
@@ -557,8 +557,8 @@ s32 LoadCourseMapRaceEndPlacementsData(void *section, ...) {
 }
 
 s32 LoadCourseMapCheckpointsData(void *section, ...) {
-    u16 i;
-    u16 j;
+    u16 checkpointIndex;
+    u16 numberedCount;
 
     gCourseMap->mCheckpointCount = ReadCourseMapSectionCount(&section);
     if (gCourseMap->mCheckpointCount == 0) {
@@ -566,19 +566,18 @@ s32 LoadCourseMapCheckpointsData(void *section, ...) {
         return 1;
     }
     gCourseMap->mCheckpoints = section;
-    j = 0;
-    for (i = 0; i < gCourseMap->mCheckpointCount; i++) {
-        if (gCourseMap->mCheckpoints[i].mNumber != COURSE_MAP_CHECKPOINT_NO_NUMBER) {
-            j++;
+    numberedCount = 0;
+    for (checkpointIndex = 0; checkpointIndex < gCourseMap->mCheckpointCount; checkpointIndex++) {
+        if (gCourseMap->mCheckpoints[checkpointIndex].mNumber != COURSE_MAP_CHECKPOINT_NO_NUMBER) {
+            numberedCount++;
         }
     }
-    gCourseMap->mNumberedCheckpointCount = j;
+    gCourseMap->mNumberedCheckpointCount = numberedCount;
     return 1;
 }
 
 s32 LoadCourseMapCheckpointRoutesData(void *section, ...) {
-    s32 i;
-    CourseMapRoute *routes;
+    s32 routeIndex;
     CourseMapRoute *lastRoute;
     s32 firstEntry;
 
@@ -589,11 +588,10 @@ s32 LoadCourseMapCheckpointRoutesData(void *section, ...) {
         return 1;
     }
     gCourseMap->mCheckpointRoutes = section;
-    for (i = 0; i < gCourseMap->mCheckpointRouteCount; i++) {
-        if (GetCheckpointRoute(i)->mFirstEntry == 0) {
-            routes = gCourseMap->mCheckpointRoutes;
-            lastRoute = &routes[(u16) (s8) routes[(u16) i].mPreviousRoutes[0]];
-            firstEntry = routes[(u16) (s8) routes[(u16) i].mPreviousRoutes[0]].mFirstEntry;
+    for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
+        if (GetCheckpointRoute(routeIndex)->mFirstEntry == 0) {
+            lastRoute = GetCheckpointRoute((s8) GetCheckpointRoute(routeIndex)->mPreviousRoutes[0]);
+            firstEntry = GetCheckpointRoute((s8) GetCheckpointRoute(routeIndex)->mPreviousRoutes[0])->mFirstEntry;
             gCourseMap->mLastCheckpoint = firstEntry + lastRoute->mEntryCount - 1;
             break;
         }
@@ -708,10 +706,10 @@ void BuildCourseMapKind3ShapeLists(void) {
 
 void CountCourseMapKind4Shapes(void) {
     u16 count;
-    u16 i;
+    u16 shapeIndex;
     count = 0;
-    for (i = 0; i < gCourseMap->mShapeCount; i++) {
-        if (GetCourseMapShape(i)->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
+    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
+        if (GetCourseMapShape(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             count++;
         }
     }
@@ -720,11 +718,11 @@ void CountCourseMapKind4Shapes(void) {
 
 void CountCourseMapKind2ShapesInMode4(void) {
     u8 count;
-    u16 i;
+    u16 shapeIndex;
     count = 0;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        for (i = 0; i < gCourseMap->mShapeCount; i++) {
-            if (GetCourseMapShape(i)->mKind == COURSE_MAP_SHAPE_KIND_2) {
+        for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
+            if (GetCourseMapShape(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_2) {
                 count++;
             }
         }
@@ -749,8 +747,8 @@ s32 LoadCourseMapShapesData(void *section, ...) {
 }
 
 s32 LoadCourseMapCamerasData(void *section, ...) {
-    u16 i;
-    CourseMapCamera *e;
+    u16 cameraIndex;
+    CourseMapCamera *camera;
 
     gCourseMap->mCameraCount = ReadCourseMapSectionCount(&section);
     if (gCourseMap->mCameraCount == 0) {
@@ -762,22 +760,23 @@ s32 LoadCourseMapCamerasData(void *section, ...) {
     gCourseMap->mSecondChainStartEntry = NULL;
     gCourseMap->mFirstKind6Entry = NULL;
     gCourseMap->mFirstKind7EntryInMode2 = NULL;
-    for (i = 0; i < gCourseMap->mCameraCount; i++) {
-        e = gCourseMap->mCameras + i;
-        if (gCourseMap->mFirstChainStartEntry == NULL && e->mChainStart == 1) {
-            gCourseMap->mFirstChainStartEntry = e;
+    for (cameraIndex = 0; cameraIndex < gCourseMap->mCameraCount; cameraIndex++) {
+        camera = gCourseMap->mCameras + cameraIndex;
+        if (gCourseMap->mFirstChainStartEntry == NULL && camera->mChainStart == 1) {
+            gCourseMap->mFirstChainStartEntry = camera;
         }
-        if (gCourseMap->mSecondChainStartEntry == NULL && e->mChainStart == 2) {
-            gCourseMap->mSecondChainStartEntry = e;
+        if (gCourseMap->mSecondChainStartEntry == NULL && camera->mChainStart == 2) {
+            gCourseMap->mSecondChainStartEntry = camera;
         }
-        if (gCourseMap->mFirstKind6Entry == NULL && e->mKind == 6) {
-            gCourseMap->mFirstKind6Entry = e;
+        if (gCourseMap->mFirstKind6Entry == NULL && camera->mKind == 6) {
+            gCourseMap->mFirstKind6Entry = camera;
         }
-        if (gRaceSetup->mMode == MODE_BATTLE && gCourseMap->mFirstKind7EntryInMode2 == NULL && e->mKind == 7) {
-            gCourseMap->mFirstKind7EntryInMode2 = e;
+        if (gRaceSetup->mMode == MODE_BATTLE && gCourseMap->mFirstKind7EntryInMode2 == NULL && camera->mKind == 7) {
+            gCourseMap->mFirstKind7EntryInMode2 = camera;
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN && gCourseMap->mFirstKind8EntryInMode4 == NULL && e->mKind == 8) {
-            gCourseMap->mFirstKind8EntryInMode4 = e;
+        if (gRaceSetup->mMode == MODE_MISSION_RUN && gCourseMap->mFirstKind8EntryInMode4 == NULL &&
+            camera->mKind == 8) {
+            gCourseMap->mFirstKind8EntryInMode4 = camera;
         }
     }
     return 1;

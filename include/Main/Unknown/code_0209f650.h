@@ -32,12 +32,12 @@ extern char gTownMonteNsbtpName[];
 extern void *gTownMonte;
 extern MapObjectKindData *gCourseMapRowKindData[19];
 
-void CreateChandelier(void *a);
+void CreateChandelier(void *mapObjectList);
 void *CreateTownMonteUpdateList(void);
 void *CreateTownMonteDrawList(void);
-void UpdateTownMonte(void *a, TownMonte *townMonte); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitTownMonteObjects(Unk0209f800 *a);
-void DrawTownMonte(void *a, TownMonte *townMonte);
+void UpdateTownMonte(void *mapObjectList, TownMonte *townMonte); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void InitTownMonteObjects(Unk0209f800 *mapObjectList);
+void DrawTownMonte(void *mapObjectList, TownMonte *townMonte);
 // The parameter is the draw group (typed MapObjectModel here); its +0x14 is the callback that runs after the group's
 // draw.
 void CreateTownMonte(
@@ -47,4 +47,4 @@ void CreateCourseMapRowKindData(void);
 void InitCourseMapRowKindData(MapObject *mapObject);
 void *CreateAirshipUpdateList(void);
 void *CreateAirshipDrawList(void);
-void UpdateAirship(void *a, Airship *airship); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateAirship(void *mapObjectList, Airship *airship); /* skipped for objects with mFlags & 4 (parked pool objects) */

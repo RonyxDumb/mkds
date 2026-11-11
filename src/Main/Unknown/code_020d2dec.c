@@ -54,8 +54,8 @@ static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
 }
 
 MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source) {
-    s32 i;
-    s32 j;
+    s32 kindIndex;
+    s32 index;
     MapObjectKindRow *row;
     MapObjectKindDescriptor *descriptor;
     MapObjectKindDescriptor *otherDescriptor;
@@ -64,16 +64,16 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
     MapObject *object;
     s32 tableValue;
     u32 slotFlags;
-    for (i = 0; i < gMapObjectKindCount; i++) {
+    for (kindIndex = 0; kindIndex < gMapObjectKindCount; kindIndex++) {
         {
-            row = &gMapObjectKindRows[i];
+            row = &gMapObjectKindRows[kindIndex];
             if (kind != row->mKind) {
                 continue;
             }
             descriptor = row->mDescriptor;
             if (descriptor->mObjectCount == 0) {
-                for (j = 0; j < gMapObjectKindCount; j++) {
-                    otherDescriptor = gMapObjectKindRows[j].mDescriptor;
+                for (index = 0; index < gMapObjectKindCount; index++) {
+                    otherDescriptor = gMapObjectKindRows[index].mDescriptor;
                     if (otherDescriptor == NULL) {
                         continue;
                     }
@@ -262,7 +262,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             object->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
             if (courseRow != NULL) {
                 if (descriptor->mInitObject != NULL) {
-                    descriptor->mInitObject(object, courseRow, gMapObjectKindRows[i].mInitData);
+                    descriptor->mInitObject(object, courseRow, gMapObjectKindRows[kindIndex].mInitData);
                 }
             } else if (source != NULL) {
                 if (descriptor->mInitObject != NULL) {
@@ -281,9 +281,9 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mCollisionSlotIndex =
                     CreateCollisionSlot(&object->mPos, GetMapObjectCollisionRadius(object), slotFlags, object);
             }
-            j = gMapObjects->mMapObjectCount;
-            gMapObjects->mMapObjectCount = j + 1;
-            gMapObjects->mMapObjects[j] = object;
+            index = gMapObjects->mMapObjectCount;
+            gMapObjects->mMapObjectCount = index + 1;
+            gMapObjects->mMapObjects[index] = object;
             if (gMapObjects->mMapObjectCount >= 0x100) {
                 gMapObjects->mMapObjectCount = 0xff;
             }
@@ -303,18 +303,18 @@ MapObject *CreateMapObjectFromCourseMapRow(CourseMapRow *courseRow, s32 kind) {
 
 void InitMapObjects(void) {
     void *heap;
-    s32 i;
-    s32 n;
-    s32 j;
-    s32 m;
-    s32 c1;
-    s32 c2;
-    s32 s1;
-    s32 s2;
+    s32 index;
+    s32 count;
+    s32 innerIndex;
+    s32 slotIndex;
+    s32 firstCount;
+    s32 secondCount;
+    s32 firstIndex;
+    s32 secondIndex;
     s32 listIndex;
     s32 drawListIndex;
     s32 isNewList;
-    u32 v;
+    u32 value;
     MapObjectKindRow *row;
     MapObjectKindDescriptor *descriptor;
     CourseMapRow *courseRow;
@@ -328,7 +328,7 @@ void InitMapObjects(void) {
     data_0217b4cc = GetMapObjectFirstPolygonId();
     data_0217b4c0 = data_0217b4cc + 9;
     gWrappingPolygonIdBase = data_0217b4c0 + 1;
-    n = gCourseMap->mRowCount;
+    count = gCourseMap->mRowCount;
     gMapObjects = HeapAlloc(heap, 0x2bc);
     gMapObjects->mMapObjects = HeapAlloc(heap, 0x400);
     gFoundMapObjects = HeapAlloc(heap, 0x80);
@@ -336,11 +336,11 @@ void InitMapObjects(void) {
     gMapObjects->mMapObjectCount = 0;
     gMapObjects->mUnk_130 = FALSE;
     gMapObjects->mUnk_178 = FALSE;
-    v = 0;
+    value = 0;
     if (gRaceSetup->mMode != MODE_WIFI) {
-        v = 1;
+        value = 1;
     }
-    gMapObjects->mRunUpdateLists = v;
+    gMapObjects->mRunUpdateLists = value;
     gMapObjectKindCount = 0;
     do {
         row = &gMapObjectKindRows[gMapObjectKindCount];
@@ -361,11 +361,11 @@ void InitMapObjects(void) {
         gMapObjectKindCount++;
     } while (gMapObjectKindCount < 0x85);
     gGrpconfTbl = FindMainRaceOrMainEffectFile("MapObj/grpconf.tbl");
-    v = 1;
+    value = 1;
     if (gRaceSetup->mMode != MODE_TIME_ATTACK && gRaceSetup->mMode != MODE_WIFI) {
-        v = 0;
+        value = 0;
     }
-    data_0217b4e0 = v;
+    data_0217b4e0 = value;
     gMapObjects->mHasKoopaBlock = 0;
     gMapObjects->mUnk_180 = 0;
     gMapObjects->mUnk_184 = 0;
@@ -378,13 +378,13 @@ void InitMapObjects(void) {
     InitMapObjectViewState();
     gWrappingPolygonId = gWrappingPolygonIdBase;
     gNextPolygonId = data_0217b4cc;
-    for (i = 0; i < gMapObjectKindCount; i++) {
-        if (gMapObjectKindRows[i].mDescriptor != NULL) {
-            gMapObjectKindRows[i].mDescriptor->mObjectCount = 0;
+    for (index = 0; index < gMapObjectKindCount; index++) {
+        if (gMapObjectKindRows[index].mDescriptor != NULL) {
+            gMapObjectKindRows[index].mDescriptor->mObjectCount = 0;
         }
     }
-    for (i = 0; i < n; i++) {
-        courseRow = OFFSET_PTR(CourseMapRow, gCourseMap->mRows, i * sizeof(CourseMapRow));
+    for (index = 0; index < count; index++) {
+        courseRow = OFFSET_PTR(CourseMapRow, gCourseMap->mRows, index * sizeof(CourseMapRow));
         if (gRaceSetup->mMode == MODE_TIME_ATTACK && (courseRow->mTimeAttackFlags & 1) == 0) {
             continue;
         }
@@ -400,48 +400,48 @@ void InitMapObjects(void) {
     }
     CreatePooledMapObjects();
     gMapObjects->mDrawListCount = 0;
-    for (m = 0; m < 24; m++) {
-        gMapObjects->mDrawLists[m] = NULL;
+    for (slotIndex = 0; slotIndex < 24; slotIndex++) {
+        gMapObjects->mDrawLists[slotIndex] = NULL;
     }
-    for (i = 0; i < gMapObjectKindCount; i++) {
-        if (gMapObjectKindRows[i].mDescriptor == NULL) {
+    for (index = 0; index < gMapObjectKindCount; index++) {
+        if (gMapObjectKindRows[index].mDescriptor == NULL) {
             continue;
         }
-        v = gMapObjectKindRows[i].mDescriptor->mObjectCount;
-        kindLists[0] = gMapObjectKindRows[i].mDescriptor->mLists[0];
-        kindLists[1] = gMapObjectKindRows[i].mDescriptor->mLists[1];
-        kindLists[2] = gMapObjectKindRows[i].mDescriptor->mLists[2];
-        for (j = 0; j < 3; j++) {
+        value = gMapObjectKindRows[index].mDescriptor->mObjectCount;
+        kindLists[0] = gMapObjectKindRows[index].mDescriptor->mLists[0];
+        kindLists[1] = gMapObjectKindRows[index].mDescriptor->mLists[1];
+        kindLists[2] = gMapObjectKindRows[index].mDescriptor->mLists[2];
+        for (innerIndex = 0; innerIndex < 3; innerIndex++) {
             s32 isNewList;
-            if (kindLists[j] == NULL) {
+            if (kindLists[innerIndex] == NULL) {
                 continue;
             }
             isNewList = 1;
-            for (m = 0; m < gMapObjects->mDrawListCount; m++) {
-                if (gMapObjects->mDrawLists[m] == kindLists[j]) {
-                    DrawListAddToMapObjectListCount(kindLists[j], v);
+            for (slotIndex = 0; slotIndex < gMapObjects->mDrawListCount; slotIndex++) {
+                if (gMapObjects->mDrawLists[slotIndex] == kindLists[innerIndex]) {
+                    DrawListAddToMapObjectListCount(kindLists[innerIndex], value);
                     isNewList = 0;
                 }
             }
             if (isNewList != 0) {
-                ClearMapObjectList(kindLists[j]);
-                if (v != 0) {
-                    DrawListAddToMapObjectListCount(kindLists[j], v);
-                    gMapObjects->mDrawLists[gMapObjects->mDrawListCount++] = kindLists[j];
+                ClearMapObjectList(kindLists[innerIndex]);
+                if (value != 0) {
+                    DrawListAddToMapObjectListCount(kindLists[innerIndex], value);
+                    gMapObjects->mDrawLists[gMapObjects->mDrawListCount++] = kindLists[innerIndex];
                 }
             }
         }
     }
-    for (i = 0; i < gMapObjects->mDrawListCount; i++) {
-        InitMapObjectDrawList(gMapObjects->mDrawLists[i]);
+    for (index = 0; index < gMapObjects->mDrawListCount; index++) {
+        InitMapObjectDrawList(gMapObjects->mDrawLists[index]);
     }
-    for (i = 0; i < gMapObjects->mMapObjectCount; i++) {
-        mapObject = gMapObjects->mMapObjects[i];
-        for (j = 0; j < gMapObjectKindCount; j++) {
-            if (mapObject->mKind == gMapObjectKindRows[j].mKind) {
-                kindLists[0] = gMapObjectKindRows[j].mDescriptor->mLists[0];
-                kindLists[1] = gMapObjectKindRows[j].mDescriptor->mLists[1];
-                kindLists[2] = gMapObjectKindRows[j].mDescriptor->mLists[2];
+    for (index = 0; index < gMapObjects->mMapObjectCount; index++) {
+        mapObject = gMapObjects->mMapObjects[index];
+        for (innerIndex = 0; innerIndex < gMapObjectKindCount; innerIndex++) {
+            if (mapObject->mKind == gMapObjectKindRows[innerIndex].mKind) {
+                kindLists[0] = gMapObjectKindRows[innerIndex].mDescriptor->mLists[0];
+                kindLists[1] = gMapObjectKindRows[innerIndex].mDescriptor->mLists[1];
+                kindLists[2] = gMapObjectKindRows[innerIndex].mDescriptor->mLists[2];
                 if (kindLists[0] != NULL) {
                     AddMapObjectToDrawList(kindLists[0], mapObject);
                 }
@@ -454,85 +454,85 @@ void InitMapObjects(void) {
             }
         }
     }
-    for (i = 0; i < gMapObjects->mDrawListCount; i++) {
-        InitMapObjectDrawOrder(gMapObjects->mDrawLists[i]);
+    for (index = 0; index < gMapObjects->mDrawListCount; index++) {
+        InitMapObjectDrawOrder(gMapObjects->mDrawLists[index]);
     }
     gMapObjects->mUnk_130 = TRUE;
     RunMapObjectDrawListInits();
-    n = gMapObjects->mDrawListCount;
-    c1 = 0;
-    c2 = 0;
-    s1 = 0;
-    s2 = 0;
-    for (drawListIndex = 0; drawListIndex < n; drawListIndex++) {
+    count = gMapObjects->mDrawListCount;
+    firstCount = 0;
+    secondCount = 0;
+    firstIndex = 0;
+    secondIndex = 0;
+    for (drawListIndex = 0; drawListIndex < count; drawListIndex++) {
         list = gMapObjects->mDrawLists[drawListIndex];
         if (list->mUnk_20 != 0) {
             if (list->mUnk_18 == 1) {
-                c1++;
+                firstCount++;
             } else if (list->mUnk_18 == 2) {
-                c2++;
+                secondCount++;
             }
         }
     }
-    m = 0;
-    for (i = 0; i < n; i++) {
-        list = gMapObjects->mDrawLists[i];
+    slotIndex = 0;
+    for (index = 0; index < count; index++) {
+        list = gMapObjects->mDrawLists[index];
         if (list->mUnk_18 == 1) {
             listArray = gMapObjects->mFirstPassDrawLists;
             gMapObjects->mFirstPassDrawListCount++;
             if (list->mUnk_20 != 0) {
-                listIndex = s1++;
+                listIndex = firstIndex++;
             } else {
-                listIndex = c1++;
+                listIndex = firstCount++;
             }
         } else if (list->mUnk_18 == 2) {
             listArray = gMapObjects->mSecondPassDrawLists;
             gMapObjects->mSecondPassDrawListCount++;
             if (list->mUnk_20 != 0) {
-                listIndex = s2++;
+                listIndex = secondIndex++;
             } else {
-                listIndex = c2++;
+                listIndex = secondCount++;
             }
         }
         listArray[listIndex] = list;
     }
     gMapObjects->mUpdateListCount = 0;
-    for (i = 0; i < 16; i++) {
-        gMapObjects->mUpdateLists[i] = NULL;
+    for (index = 0; index < 16; index++) {
+        gMapObjects->mUpdateLists[index] = NULL;
     }
-    for (i = 0; i < gMapObjectKindCount; i++) {
-        if (gMapObjectKindRows[i].mDescriptor == NULL) {
+    for (index = 0; index < gMapObjectKindCount; index++) {
+        if (gMapObjectKindRows[index].mDescriptor == NULL) {
             continue;
         }
-        v = gMapObjectKindRows[i].mDescriptor->mObjectCount;
-        list = gMapObjectKindRows[i].mDescriptor->mLists[3];
+        value = gMapObjectKindRows[index].mDescriptor->mObjectCount;
+        list = gMapObjectKindRows[index].mDescriptor->mLists[3];
         if (list == NULL) {
             continue;
         }
         isNewList = 1;
-        for (j = 0; j < gMapObjects->mUpdateListCount; j++) {
-            if (gMapObjects->mUpdateLists[j] == list) {
-                AddToMapObjectListCount(list, v);
+        for (innerIndex = 0; innerIndex < gMapObjects->mUpdateListCount; innerIndex++) {
+            if (gMapObjects->mUpdateLists[innerIndex] == list) {
+                AddToMapObjectListCount(list, value);
                 isNewList = 0;
             }
         }
         if (isNewList != 0) {
             ClearMapObjectListCount(list);
-            if (v != 0) {
-                AddToMapObjectListCount(list, v);
+            if (value != 0) {
+                AddToMapObjectListCount(list, value);
                 gMapObjects->mUpdateLists[gMapObjects->mUpdateListCount++] = list;
             }
         }
     }
-    for (i = 0; i < gMapObjects->mUpdateListCount; i++) {
-        InitMapObjectUpdateList(gMapObjects->mUpdateLists[i]);
+    for (index = 0; index < gMapObjects->mUpdateListCount; index++) {
+        InitMapObjectUpdateList(gMapObjects->mUpdateLists[index]);
     }
-    for (i = 0; i < gMapObjects->mMapObjectCount; i++) {
-        mapObject = gMapObjects->mMapObjects[i];
-        for (j = 0; j < gMapObjectKindCount; j++) {
-            if (mapObject->mKind == gMapObjectKindRows[j].mKind &&
-                gMapObjectKindRows[j].mDescriptor->mLists[3] != NULL) {
-                AddMapObjectToUpdateList(gMapObjectKindRows[j].mDescriptor->mLists[3], mapObject);
+    for (index = 0; index < gMapObjects->mMapObjectCount; index++) {
+        mapObject = gMapObjects->mMapObjects[index];
+        for (innerIndex = 0; innerIndex < gMapObjectKindCount; innerIndex++) {
+            if (mapObject->mKind == gMapObjectKindRows[innerIndex].mKind &&
+                gMapObjectKindRows[innerIndex].mDescriptor->mLists[3] != NULL) {
+                AddMapObjectToUpdateList(gMapObjectKindRows[innerIndex].mDescriptor->mLists[3], mapObject);
             }
         }
     }
@@ -541,7 +541,7 @@ void InitMapObjects(void) {
 }
 
 void RunMapObjectDrawListInits(void) {
-    s32 i;
+    s32 listIndex;
     s32 drawListCount;
     MapObjectList **listCursor;
     drawListCount = gMapObjects->mDrawListCount;
@@ -550,7 +550,7 @@ void RunMapObjectDrawListInits(void) {
         InitWaterModels(gCourseWater);
     }
     CreateObjShadowAndJgShadow();
-    for (i = 0; i < drawListCount; listCursor++, i++) {
+    for (listIndex = 0; listIndex < drawListCount; listCursor++, listIndex++) {
         if ((*listCursor)->mInit != NULL) {
             (*listCursor)->mInit(*listCursor);
         }
@@ -558,12 +558,12 @@ void RunMapObjectDrawListInits(void) {
 }
 
 void RunMapObjectUpdateListInits(void) {
-    s32 i;
+    s32 listIndex;
     s32 updateListCount;
     MapObjectList **listCursor;
     updateListCount = gMapObjects->mUpdateListCount;
     listCursor = gMapObjects->mUpdateLists;
-    for (i = 0; i < updateListCount; listCursor++, i++) {
+    for (listIndex = 0; listIndex < updateListCount; listCursor++, listIndex++) {
         if ((*listCursor)->mInit != NULL) {
             (*listCursor)->mInit(*listCursor);
         }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int SanboSetupDrawReturnArgument(unsigned int p0);
+unsigned int SanboSetupDrawReturnArgument(unsigned int value);

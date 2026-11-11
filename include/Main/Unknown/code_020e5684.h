@@ -40,8 +40,8 @@ extern MapObjectDrawList *gPendulumDrawList;
 
 void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow);
 void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
-void UpdateSecondHand(u32 a, SecondHand *secondHand);
-void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha);
+void UpdateSecondHand(u32 unused, SecondHand *secondHand);
+void DrawSecondHand(u32 unused, SecondHand *secondHand, u32 unusedArg, u32 alpha);
 MapObjectList *CreateSecondHandUpdateList(void);
 MapObjectDrawList *CreateSecondHandDrawList(void);
 MapObjectKindData *CreateSecondHandKindData(void);

@@ -117,7 +117,7 @@ void ReleaseItemObject(ItemObject *item) {
 }
 
 void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend,
-                            s32 param_5) {
+                            s32 flag) {
     ItemObject *item = itemParam;
     item->mPrevPos = *prevPos;
     if (colorBlend != NULL) {
@@ -126,7 +126,7 @@ void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, 
         InitCourseColorBlend(&item->mColorBlend, 1);
     }
     item->mNormal = *normal;
-    item->mFramesSinceReset = param_5 != 0 ? 0 : 5;
+    item->mFramesSinceReset = flag != 0 ? 0 : 5;
 }
 
 s32 DoesItemObjectHurtKart(ItemObject *item) {
@@ -204,26 +204,26 @@ void CollideItemObjectWithItemObject(ItemObject *item, ItemObject *other) {
 }
 
 void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectParam) {
-    Vec3 a;
+    Vec3 pushOut;
     Vec3 otherPos;
     s32 firstResponse;
     MapObject *reportedMapObject;
     ItemObject *item = itemParam;
     MapObject *mapObject = mapObjectParam;
 
-    if (IsSphereHittingMapObject(&item->mPos, item->mRadius, mapObject, &a) == FALSE) {
+    if (IsSphereHittingMapObject(&item->mPos, item->mRadius, mapObject, &pushOut) == FALSE) {
         return;
     }
     if ((mapObject->mFlags & 0x40) == 0 && (item->mFlags & 0x80000) == 0 &&
         DoesItemObjectRespondToMapObject(item->mKind, mapObject) != 0) {
-        VEC_Add(&item->mPos, &a, &item->mPos);
+        VEC_Add(&item->mPos, &pushOut, &item->mPos);
     }
     switch (CollideItemObjectWithMapObject(item, mapObject, &firstResponse)) {
         case 1:
             otherPos.x = mapObject->mPos.x;
             otherPos.y = item->mPos.y;
             otherPos.z = mapObject->mPos.z;
-            a = otherPos;
+            pushOut = otherPos;
             if (firstResponse == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = mapObject;
@@ -231,7 +231,7 @@ void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectPa
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            ApplyItemObjectHitType(item, 1, &a, &mapObject->mPosStep, reportedMapObject);
+            ApplyItemObjectHitType(item, 1, &pushOut, &mapObject->mPosStep, reportedMapObject);
             item->mOwnerKartIndexAndFlags &= ~0x4000;
             return;
         case 2:
@@ -250,17 +250,17 @@ void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectPa
 void LandItemObjectIfOnGround(ItemObject *item, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal) {
     Vec3 lowerPos;
     u32 collisionBits;
-    s32 x;
-    s32 y;
-    s32 z;
+    s32 lowerX;
+    s32 lowerY;
+    s32 lowerZ;
 
     collisionBits = 0;
-    z = pos->z;
-    y = pos->y - item->mCourseRadius;
-    x = pos->x;
-    lowerPos.x = x;
-    lowerPos.y = y;
-    lowerPos.z = z;
+    lowerZ = pos->z;
+    lowerY = pos->y - item->mCourseRadius;
+    lowerX = pos->x;
+    lowerPos.x = lowerX;
+    lowerPos.y = lowerY;
+    lowerPos.z = lowerZ;
 
     CollideSphereWithCourse(&lowerPos, pos, 0, item->mCourseRadius >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL,
                             NULL, &collisionBits, NULL, NULL, NULL, NULL);

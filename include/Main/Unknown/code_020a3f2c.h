@@ -60,4 +60,5 @@ void *CreateShine16UpdateList(void);
 void *CreateShine16ShadowDrawList(void);
 void *CreateShine16DrawList(void);
 void CreateShine16KindData(void);
-void UpdateShine16(void *a, Shine16 *shine16); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateShine16(void *mapObjectList,
+                   Shine16 *shine16); /* skipped for objects with mFlags & 4 (parked pool objects) */

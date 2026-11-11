@@ -69,10 +69,10 @@ s32 LoadCourseMapSubScreenViewData(void *section, ...);
 void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64);
 s32 LoadCourseMapRespawnsData(void *section, ...);
 s32 LoadCourseMapStartPlacementsData(void *section, ...);
-u32 LoadCourseMapSettingsData(void *arg0);
+u32 LoadCourseMapSettingsData(void *section);
 // Called once by CreateCourseMap after the sections are loaded: builds mItemPointLinks when mItemRouteCount is not 0,
 // and mRacePointLinks when mRaceRouteCount is not 0, else mBattlePointLinks when mBattleRouteCount is not 0.
-void BuildCourseMapPointLinks(void *a);
+void BuildCourseMapPointLinks(void *heap);
 // Allocates mBattlePointLinks (one per battle point) and clears it, stores the first link and the end pointer in the
 // next two CourseMap members, then fills each link from its point and its route: the first point of a route joins the
 // routes named by the bytes at 0x0c of the route, the last point those named by the bytes at 0x04, inner points the

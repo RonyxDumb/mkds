@@ -36,15 +36,17 @@ typedef struct MoveTree {
 
 void CreateBakubakuUpdateList(void);
 void CreateBakubakuDrawList(void);
-void UpdateBakubaku(void *a, Bakubaku *bakubaku); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateBakubaku(void *mapObjectList,
+                    Bakubaku *bakubaku); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitBakubakuObjects(MapObjectList *mapObjectList);
-void DrawBakubaku(void *a, Bakubaku *bakubaku);
-void CreateBakubakuAndBakuShadow(void *a);
+void DrawBakubaku(void *mapObjectList, Bakubaku *bakubaku);
+void CreateBakubakuAndBakuShadow(void *mapObjectList);
 void CreateMoveTreeUpdateList(void);
 void CreateMoveTreeDrawList(void);
 void CreateMoveTreeKindData(void);
-void UpdateMoveTree(void *a, MoveTree *moveTree); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateMoveTree(void *mapObjectList,
+                    MoveTree *moveTree); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitMoveTreeObjects(MapObjectList *mapObjectList);
-void DrawMoveTree(void *a, MoveTree *moveTree, u32 c, u32 d);
-void CreateMoveTree(void *a);
-u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *c, u8 *d);
+void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha);
+void CreateMoveTree(void *mapObjectList);
+u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8 *response);

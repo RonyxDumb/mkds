@@ -17,7 +17,7 @@
 s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     Vec3 *velocity = &item->mVelocity;
     ItemKind *kindInfo;
-    s32 r;
+    s32 value;
     enum { K0 } kind;
 
     if (item->mFlags & 0x80000) {
@@ -41,11 +41,11 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
         kind = item->mKind;
         kindInfo = &gItemKinds[kind];
         if (kindInfo->mFadeOutCallback != NULL) {
-            r = kindInfo->mFadeOutCallback(item);
-            if (r == 0) {
+            value = kindInfo->mFadeOutCallback(item);
+            if (value == 0) {
                 return 2;
             }
-            if (r == 1) {
+            if (value == 1) {
                 return 0;
             }
         }
@@ -70,15 +70,15 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     if (item->mNormal.y != 0) {
         Vec3 *normal = &item->mNormal;
 
-        r = Vec3DotUnrounded(velocity, normal);
-        if (r < 0x3000) {
-            VEC_MultAdd(0x3000 - r, normal, velocity, velocity);
+        value = Vec3DotUnrounded(velocity, normal);
+        if (value < 0x3000) {
+            VEC_MultAdd(0x3000 - value, normal, velocity, velocity);
         }
     }
     item->mFlags |= 0x80001;
     FreeItemObjectCollisionSlot(item);
-    r = Vec3DotUnrounded(velocity, GetViewTransposeMatrixAxis0());
-    if (r > 1) {
+    value = Vec3DotUnrounded(velocity, GetViewTransposeMatrixAxis0());
+    if (value > 1) {
         item->mCoursePointOrParams.x = 1;
     } else {
         item->mCoursePointOrParams.x = 0;

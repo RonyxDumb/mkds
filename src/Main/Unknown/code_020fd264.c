@@ -102,12 +102,12 @@ u32 ItemBombState0ReturnArgument(u32 value) {
 }
 
 void UpdateItemBombState0(ItemBomb *bomb) {
-    u32 v;
+    u32 collisionHitLink;
 
     if (bomb->mIsThrown != 0) {
-        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x385, 0xff8, 0x733, &v);
+        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x385, 0xff8, 0x733, &collisionHitLink);
     } else {
-        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x47b, 0xf91, bomb->mReflectFactor, &v);
+        AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x47b, 0xf91, bomb->mReflectFactor, &collisionHitLink);
     }
     if (bomb->mBouncingItemObject.mItemObject.mFlags & 0x10) {
         StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe5);
@@ -122,7 +122,7 @@ void UpdateItemBombState0(ItemBomb *bomb) {
         bomb->mBouncingItemObject.mItemObject.mVelocity.y *= 2;
     }
     StopSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
-    StartRestingItemObject(&bomb->mBouncingItemObject.mItemObject, &v);
+    StartRestingItemObject(&bomb->mBouncingItemObject.mItemObject, &collisionHitLink);
     if ((bomb->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
         bomb->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }

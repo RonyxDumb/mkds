@@ -25,12 +25,12 @@ u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner);
 void CreateMkdEfBurnerUpdateList(void);
 void CreateMkdEfBurnerDrawList(void);
 void CreateMkdEfBurnerKindData(void);
-void UpdateMkdEfBurner(void *a,
+void UpdateMkdEfBurner(void *mapObjectList,
                        MkdEfBurner *mkdEfBurner); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitMkdEfBurnerObjects(MapObjectList *mapObjectList);
-void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner);
-void SetupDrawMkdEfBurner(void *a);
-void CreateMkdEfBurner(MapObjectList *p); /* also sets word +0x1c of the group record to 1 */
-u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d);
+void DrawMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner);
+void SetupDrawMkdEfBurner(void *mapObjectList);
+void CreateMkdEfBurner(MapObjectList *mapObjectList); /* also sets word +0x1c of the group record to 1 */
+u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *firstResponse, u8 *response);
 void InitMkdEfBurner(
     MapObject *mapObject); /* allocates the object's sound source (CreateMapObjectSoundSourceFalloff2) */

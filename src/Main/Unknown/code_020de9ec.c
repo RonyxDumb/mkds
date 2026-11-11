@@ -224,26 +224,26 @@ void SetupDrawItemBoxShadow(void) {
 void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlpha) {
     Vec3 shadowScale;
     Vec3 *position;
-    s32 n;
+    s32 alphaCap;
     s32 boxAlpha;
     s32 questionAlpha;
     MtxFx43 *matrix;
 
-    n = itemBox->mFramesSinceHit - 0x40;
-    if (n >= 0x40) {
+    alphaCap = itemBox->mFramesSinceHit - 0x40;
+    if (alphaCap >= 0x40) {
         itemBox->mBoxAlpha = 0x1a;
         itemBox->mQuestionAlpha = 0x14;
-        n = 0xd;
+        alphaCap = 0xd;
     } else {
-        boxAlpha = n * 0x1a >> 6;
-        questionAlpha = n * 0x14 >> 6;
-        n = n * 0xd >> 6;
+        boxAlpha = alphaCap * 0x1a >> 6;
+        questionAlpha = alphaCap * 0x14 >> 6;
+        alphaCap = alphaCap * 0xd >> 6;
         if (boxAlpha > 0) {
             if (questionAlpha < 1) {
                 questionAlpha = 1;
             }
-            if (n < 1) {
-                n = 1;
+            if (alphaCap < 1) {
+                alphaCap = 1;
             }
         }
         itemBox->mBoxAlpha = boxAlpha;
@@ -254,11 +254,11 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
             return;
         }
     }
-    if (n < 1) {
+    if (alphaCap < 1) {
         return;
     }
     if (itemBox->mShadowMode == 0) {
-        itemBox->mUnk_0b4.mAlphaCap = n;
+        itemBox->mUnk_0b4.mAlphaCap = alphaCap;
         DrawObjShadowAfterMaterial(&itemBox->mUnk_0b4,
                                    itemBox->mUsesGroupShadow != 0 ? &gGroupItemBoxShadowScaleWord : 0, unusedArg,
                                    maxAlpha);
@@ -272,7 +272,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         gItemBoxShadowMatrix.mRows[3].x = position->x >> 4;
         gItemBoxShadowMatrix.mRows[3].y = position->y >> 4;
         gItemBoxShadowMatrix.mRows[3].z = position->z >> 4;
-        DrawJgShadowWithMatrix(&gGroupItemBoxShadowScale, &gItemBoxShadowMatrix, (u16) n, maxAlpha);
+        DrawJgShadowWithMatrix(&gGroupItemBoxShadowScale, &gItemBoxShadowMatrix, (u16) alphaCap, maxAlpha);
         return;
     }
     shadowScale.x = MUL_FIXED12_NO_ROUND(itemBox->mMapObject.mScale.x, 0x1666);
@@ -287,7 +287,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         gItemBoxShadowMatrix.mRows[3].z = position->z >> 4;
         matrix = &gItemBoxShadowMatrix;
     }
-    DrawJgShadowWithMatrix(&shadowScale, matrix, (u16) n, maxAlpha);
+    DrawJgShadowWithMatrix(&shadowScale, matrix, (u16) alphaCap, maxAlpha);
 }
 
 void UpdateItemBox(void *unused, ItemBox *itemBox) {
@@ -311,7 +311,7 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     }
 }
 
-void StartItemSlotAndEffects(Vec3 *position, Kart *kart, u32 c, int skipEffects, u32 e) {
+void StartItemSlotAndEffects(Vec3 *position, Kart *kart, u32 forcedRowHandle, int skipEffects, u32 shortSpin) {
     void *effect;
     u32 kartIndex;
     kartIndex = kart->mIndex;
@@ -332,7 +332,7 @@ void StartItemSlotAndEffects(Vec3 *position, Kart *kart, u32 c, int skipEffects,
         }
     }
     StartSoundFullVolumeWrapper(kart, 0xd4);
-    StartItemSlotForKart(kartIndex, c, e);
+    StartItemSlotForKart(kartIndex, forcedRowHandle, shortSpin);
 }
 
 u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, u8 *secondResponsePtr) {

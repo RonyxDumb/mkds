@@ -31,59 +31,63 @@ void InitShineBattleObjects(MapObject *mapObject) {
 }
 
 BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList) {
-    s32 i;
-    s32 v1;
-    ShineBattle *e;
-    BOOL f;
-    u32 n;
-    u32 m;
-    u32 r;
-    u16 v2;
-    u32 k;
+    s32 mapObjectIndex;
+    s32 candidateCount;
+    ShineBattle *shineBattle;
+    BOOL eligible;
+    u32 range;
+    u32 rangeLow;
+    u32 randomValue;
+    u16 pickedIndex;
+    u32 remaining;
     RandomState64 *mapObjectRandom;
 
-    v1 = 0;
+    candidateCount = 0;
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
-            f = FALSE;
-            if (e->mHasShine == FALSE) {
-                if (e->mSkipRandomPick == FALSE) {
-                    f = TRUE;
+        for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                                 (shineBattle = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+             mapObjectIndex++) {
+            eligible = FALSE;
+            if (shineBattle->mHasShine == FALSE) {
+                if (shineBattle->mSkipRandomPick == FALSE) {
+                    eligible = TRUE;
                 }
             }
-            v1 += f;
+            candidateCount += eligible;
         }
     }
-    if (v1 > 0) {
-        n = (u16) v1;
-        if (n == 0x10000) {
+    if (candidateCount > 0) {
+        range = (u16) candidateCount;
+        if (range == 0x10000) {
             mapObjectRandom = GetMapObjectRandom();
             mapObjectRandom->mValue =
                 (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-            v2 = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
+            pickedIndex = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
         } else {
             mapObjectRandom = GetMapObjectRandom();
-            if ((u16) n == 0) {
-                r = 0;
+            if ((u16) range == 0) {
+                randomValue = 0;
             } else {
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                m = (u16) n;
-                if (m == 0) {
-                    r = mapObjectRandom->mValue >> 32;
+                rangeLow = (u16) range;
+                if (rangeLow == 0) {
+                    randomValue = mapObjectRandom->mValue >> 32;
                 } else {
-                    r = ((mapObjectRandom->mValue >> 32) * m) >> 32;
+                    randomValue = ((mapObjectRandom->mValue >> 32) * rangeLow) >> 32;
                 }
             }
-            v2 = r;
+            pickedIndex = randomValue;
         }
-        k = v2;
+        remaining = pickedIndex;
         if (mapObjectList != NULL) {
-            for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
-                if (e->mHasShine == FALSE && e->mSkipRandomPick == FALSE) {
-                    if (k-- == 0) {
-                        StartShine16(&e->mMapObject.mPos, i, 1);
-                        e->mHasShine = TRUE;
+            for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                                     (shineBattle = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+                 mapObjectIndex++) {
+                if (shineBattle->mHasShine == FALSE && shineBattle->mSkipRandomPick == FALSE) {
+                    if (remaining-- == 0) {
+                        StartShine16(&shineBattle->mMapObject.mPos, mapObjectIndex, 1);
+                        shineBattle->mHasShine = TRUE;
                         return TRUE;
                     }
                 }
@@ -94,55 +98,57 @@ BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList) {
 }
 
 void StartShineBattle(MapObjectList *mapObjectList) {
-    s32 i;
-    s32 n;
-    s32 j;
-    s32 v;
-    BOOL f;
-    ShineBattle *e;
+    s32 kartIndex;
+    s32 kartCount;
+    s32 mapObjectIndex;
+    s32 value;
+    BOOL flag;
+    ShineBattle *shineBattle;
 
-    n = gRaceSetup->mKartCount;
-    for (i = 0; i < n; i++) {
-        if (i == gRaceSetup->mEntryIndex) {
-            f = FALSE;
-            v = GetCurrentEntry(i)->mPlayer.mKind;
-            if ((u32) v <= 3) {
-                if ((1 << v) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
-                    f = TRUE;
+    kartCount = gRaceSetup->mKartCount;
+    for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+        if (kartIndex == gRaceSetup->mEntryIndex) {
+            flag = FALSE;
+            value = GetCurrentEntry(kartIndex)->mPlayer.mKind;
+            if ((u32) value <= 3) {
+                if ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
+                    flag = TRUE;
                 }
             }
-            if (f != FALSE) {
+            if (flag != FALSE) {
                 continue;
             }
         }
-        StartShineBalloon(GetKart((u16) i));
+        StartShineBalloon(GetKart((u16) kartIndex));
     }
     if (mapObjectList == NULL) {
         return;
     }
-    for (j = 0; j < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[j]) != NULL; j++) {
-        e->mSkipRandomPick = TRUE;
-        if (e->mMapObject.mCourseMapRow->mSettings[0] != 0) {
-            n = gRaceSetup->mKartCount;
-            v = GetShineCount();
-            if (v + GetTotalBalloonOrShineCount() < n + 1) {
-                StartShine16(&e->mMapObject.mPos, j, GetRaceUseChainCameras());
-                e->mHasShine = TRUE;
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (shineBattle = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
+        shineBattle->mSkipRandomPick = TRUE;
+        if (shineBattle->mMapObject.mCourseMapRow->mSettings[0] != 0) {
+            kartCount = gRaceSetup->mKartCount;
+            value = GetShineCount();
+            if (value + GetTotalBalloonOrShineCount() < kartCount + 1) {
+                StartShine16(&shineBattle->mMapObject.mPos, mapObjectIndex, GetRaceUseChainCameras());
+                shineBattle->mHasShine = TRUE;
             }
         }
     }
 }
 
 void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle) {
-    s32 n;
-    s32 v;
+    s32 kartCount;
+    s32 shineCount;
 
     if (GetShineCount() >= 3) {
         return;
     }
-    n = gRaceSetup->mKartCount;
-    v = GetShineCount();
-    if (v + GetTotalBalloonOrShineCount() >= n + 1) {
+    kartCount = gRaceSetup->mKartCount;
+    shineCount = GetShineCount();
+    if (shineCount + GetTotalBalloonOrShineCount() >= kartCount + 1) {
         return;
     }
     shineBattle->mShineStartFrames += 1;
@@ -150,8 +156,8 @@ void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle) {
         return;
     }
     shineBattle->mShineStartFrames = 0;
-    while (GetShineCount() < 3 &&
-           (n = gRaceSetup->mKartCount, v = GetShineCount(), v + GetTotalBalloonOrShineCount() < n + 1)) {
+    while (GetShineCount() < 3 && (kartCount = gRaceSetup->mKartCount, shineCount = GetShineCount(),
+                                   shineCount + GetTotalBalloonOrShineCount() < kartCount + 1)) {
         if (TryStartShine16AtRandomObject(mapObjectList) == FALSE) {
             return;
         }
@@ -171,19 +177,21 @@ void *CreateShineBattleUpdateList(void) {
 
 void ClearShineBattleObjectShine(s32 spawnObjectIndex) {
     MapObjectList *mapObjectList;
-    ShineBattle *e;
-    s32 i;
+    ShineBattle *shineBattle;
+    s32 mapObjectIndex;
 
     mapObjectList = FindMapObjectKindUpdateList(0x6b);
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        if (i == spawnObjectIndex) {
-            e->mHasShine = FALSE;
-            e->mSkipRandomPick = TRUE;
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (shineBattle = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
+        if (mapObjectIndex == spawnObjectIndex) {
+            shineBattle->mHasShine = FALSE;
+            shineBattle->mSkipRandomPick = TRUE;
         } else {
-            e->mSkipRandomPick = FALSE;
+            shineBattle->mSkipRandomPick = FALSE;
         }
     }
 }

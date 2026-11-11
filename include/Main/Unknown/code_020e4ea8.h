@@ -49,4 +49,4 @@ PukupukuDrawList *CreatePukupukuDrawList(void);
 PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void);
 MapObjectList *CreatePukupukuUpdateList(void);
 void SetupDrawPukupuku(void);
-void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha);
+void DrawPukupuku(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u16 alpha);

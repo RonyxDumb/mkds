@@ -44,7 +44,7 @@
 #include "Main/Unknown/code_020e337c.h"
 #include "Main/Unknown/code_020e5c6c.h"
 
-void DrawObPakkunSf(u32 a, ObPakkunSf *obPakkunSf, u32 c, u16 alpha) {
+void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha) {
     MtxFx43 *matrix;
     gObPakkunSf->mFrameIndex = ((obPakkunSf->mFramesSinceInit & 0x10) >> 4);
     if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == 0) {
@@ -58,7 +58,7 @@ void DrawObPakkunSf(u32 a, ObPakkunSf *obPakkunSf, u32 c, u16 alpha) {
                                      &obPakkunSf->mPushedObject.mMapObject.mScale, 0, alpha);
 }
 
-void UpdateObPakkunSf(u32 a, ObPakkunSf *obPakkunSf) {
+void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
 
@@ -145,14 +145,14 @@ MapObjectList *CreateSecondHandUpdateList(void) {
     return gSecondHandUpdateList;
 }
 
-void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha) {
+void DrawSecondHand(u32 unused, SecondHand *secondHand, u32 unusedArg, u32 alpha) {
     secondHand->mMapObject.mMatrix.mRows[3].x = secondHand->mMapObject.mPos.x >> 4;
     secondHand->mMapObject.mMatrix.mRows[3].y = secondHand->mMapObject.mPos.y >> 4;
     secondHand->mMapObject.mMatrix.mRows[3].z = secondHand->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gSecondHand, &secondHand->mMapObject.mMatrix, &secondHand->mMapObject.mScale, alpha);
 }
 
-void UpdateSecondHand(u32 a, SecondHand *secondHand) {
+void UpdateSecondHand(u32 unused, SecondHand *secondHand) {
     AdvanceStateMachine(&secondHand->mMapObject.mStateMachine);
     QuaternionMultiplyAngleAroundY(&secondHand->mInitialRotationQuaternion, secondHand->mMapObject.mAngle,
                                    &secondHand->mRotationQuaternion);
@@ -214,7 +214,7 @@ void UpdateSecondHandState3(SecondHand *secondHand) {
     }
 }
 
-s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 a, u8 *response) {
+s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 unused, u8 *response) {
     u32 itemEffect;
 
     itemEffect = kart->mItemEffect;

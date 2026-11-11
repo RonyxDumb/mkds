@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateSunAndSunLOD(void *a);
+void CreateSunAndSunLOD(void *mapObjectList);

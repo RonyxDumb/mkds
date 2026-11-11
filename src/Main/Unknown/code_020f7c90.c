@@ -19,8 +19,8 @@
 
 void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
     u16(*tab)[0x12];
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 columnIndex;
     u16 sourceRow;
     u16 *sourceRows;
 
@@ -29,26 +29,26 @@ void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
     if (kartCount == 8) {
         return;
     }
-    for (i = 0; i < kartCount; i++) {
-        sourceRow = sourceRows[i] - 1;
-        for (j = 0; j < 0x12; j++) {
-            tab[i][j] = tab[sourceRow][j];
+    for (rowIndex = 0; rowIndex < kartCount; rowIndex++) {
+        sourceRow = sourceRows[rowIndex] - 1;
+        for (columnIndex = 0; columnIndex < 0x12; columnIndex++) {
+            tab[rowIndex][columnIndex] = tab[sourceRow][columnIndex];
         }
     }
-    for (; i < 8; i++) {
-        for (j = 0; j < 0x12; j++) {
-            tab[i][j] = 0;
+    for (; rowIndex < 8; rowIndex++) {
+        for (columnIndex = 0; columnIndex < 0x12; columnIndex++) {
+            tab[rowIndex][columnIndex] = 0;
         }
     }
 }
 
 void CreateItemSlotTables(void) {
     u8 *data;
-    enum { K0 } i;
-    s32 j;
+    enum { K0 } itemIndex;
+    s32 rowIndex;
     s32 rowCount;
     s32 *entry;
-    enum { K1 } k;
+    enum { K1 } compactIndex;
 
     data = FindMainRaceOrMainEffectFile(gItemSlotListDatName);
     switch (gRaceSetup->mMode) {
@@ -113,18 +113,19 @@ void CreateItemSlotTables(void) {
             break;
     }
     rowCount = gItemSlotHumanGhostPeerTable.mRowCount;
-    for (i = 0; i < 0x12; i++) {
-        gItemSlotPossibleItems[i] = 0x12;
-        for (j = 0; j < rowCount; j++) {
-            if (gItemSlotHumanGhostPeerTable.mRows[j][i] != 0 || gItemSlotCpuTable.mRows[j][i] != 0) {
-                gItemSlotPossibleItems[i] = i;
+    for (itemIndex = 0; itemIndex < 0x12; itemIndex++) {
+        gItemSlotPossibleItems[itemIndex] = 0x12;
+        for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            if (gItemSlotHumanGhostPeerTable.mRows[rowIndex][itemIndex] != 0 ||
+                gItemSlotCpuTable.mRows[rowIndex][itemIndex] != 0) {
+                gItemSlotPossibleItems[itemIndex] = itemIndex;
             }
         }
     }
     gItemSlotPossibleItemCount = 0;
-    for (k = 0; k < 0x12; k++) {
-        entry = &gItemSlotPossibleItems[k];
-        if (gItemSlotPossibleItems[k] != 0x12) {
+    for (compactIndex = 0; compactIndex < 0x12; compactIndex++) {
+        entry = &gItemSlotPossibleItems[compactIndex];
+        if (gItemSlotPossibleItems[compactIndex] != 0x12) {
             gItemSlotPossibleItems[gItemSlotPossibleItemCount++] = *entry;
         }
     }

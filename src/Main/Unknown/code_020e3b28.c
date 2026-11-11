@@ -244,12 +244,12 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
     s16 sine;
     s32 angleDelta;
     u16 swingMagnitude;
-    u16 y;
+    u16 angle;
 
     sine = FX_SinIdx(bridge->mSwingAngle);
     swingMagnitude = bridge->mSwingAmplitude + MUL_FIXED12_NO_ROUND(sine, bridge->mSwingAmplitude);
-    y = 0x10000 - swingMagnitude;
-    angleDelta = y - bridge->mAngleX;
+    angle = 0x10000 - swingMagnitude;
+    angleDelta = angle - bridge->mAngleX;
     if (angleDelta > 0x8000) {
         angleDelta -= 0x10000;
     }
@@ -262,9 +262,9 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].y, angleDelta);
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].z, angleDelta);
-    bridge->mAngleX = y;
+    bridge->mAngleX = angle;
     bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
-    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, FX_SinIdx(y), FX_CosIdx(y));
+    MTX_RotX33_(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes, FX_SinIdx(angle), FX_CosIdx(angle));
     MTX_Concat33(&bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes,
                  &bridge->mCollisionMapObject.mCollisionData.mInitialMatrix,
                  &bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes);
@@ -284,7 +284,7 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
     } else if (bridge->mSwingAngle >= 0xc000 && bridge->mSwingAngle < bridge->mSwingAnglePerFrame + 0xc000) {
         bridge->mPauseTimer = bridge->mTroughPauseFrameCount;
     }
-    y = 0x10000 - bridge->mAngleX;
+    angle = 0x10000 - bridge->mAngleX;
     bridge->mAnimationFrameIndex = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mAngleX) * 0x1680000) + 0x80000) >> 20)
                                    << 1;
     if (bridge->mAnimationFrameIndex > gBridgeDrawList->mAnimationFrameCount) {

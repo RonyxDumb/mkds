@@ -96,7 +96,7 @@ void *StartItemObjectOrZero(s32 kind, u16 kartIndex, void *pos, void *normal);
 struct ItemObject *GetCollidedItemObject(u32 index);
 s32 CollideKartWithItemObjects(Kart *kart);
 void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin);
-void DrawItems(void *a);
+void DrawItems(void *unused);
 // Per-frame item step: mode-5 sync, the object pools whose mUnk_14 is set, every kart's record, the item timers, two
 // map-object steps
 void UpdateItems(void);

@@ -99,17 +99,17 @@ static inline void AdvanceAirshipWobble(Airship *airship) {
 }
 
 static inline BOOL IsAnyKartHighestLapAtLeastTwo(void) {
-    s32 i;
+    s32 kartIndex;
 
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
-        if (GetKartHighestLap((u16) i) >= 2) {
+    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+        if (GetKartHighestLap((u16) kartIndex) >= 2) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-void UpdateAirship(void *a, Airship *airship) {
+void UpdateAirship(void *mapObjectList, Airship *airship) {
     switch (airship->mState) {
         case 0:
             if (IsAnyKartHighestLapAtLeastTwo() != FALSE) {
@@ -167,10 +167,10 @@ void InitCourseMapRowKindData(MapObject *mapObject) {
 }
 
 void CreateCourseMapRowKindData(void) {
-    s32 i;
+    s32 kindIndex;
 
-    for (i = 0; i < 19; i++) {
-        gCourseMapRowKindData[i] = NULL;
+    for (kindIndex = 0; kindIndex < 19; kindIndex++) {
+        gCourseMapRowKindData[kindIndex] = NULL;
     }
     gCourseMapRowKindData[0] = CreateEmptyMapObjectKindData();
 }
@@ -185,47 +185,49 @@ void CreateTownMonte(MapObjectList *mapObjectList) {
         gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gTownMonteNsbmdName, gTownMonteNsbtpName), 0x3f);
 }
 
-void DrawTownMonte(void *a, TownMonte *townMonte) {
-    s32 v;
-    s32 d;
-    MtxFx43 *h;
+void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
+    s32 gxParam;
+    s32 tilt;
+    MtxFx43 *viewMatrix;
 
-    d = (0x16c000 - townMonte->mUnk_a4) >> 12;
-    v = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &v, 1);
+    tilt = (0x16c000 - townMonte->mUnk_a4) >> 12;
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     if (townMonte->mMirror != 0) {
-        h = TiltViewRotatedMatrix(&townMonte->mMapObject.mPos, -d, d);
-        NNS_G3dGeBufferOP_N(0x19, h, 0xc);
+        viewMatrix = TiltViewRotatedMatrix(&townMonte->mMapObject.mPos, -tilt, tilt);
+        NNS_G3dGeBufferOP_N(0x19, viewMatrix, 0xc);
     } else {
-        h = TiltViewRotatedMatrix(&townMonte->mMapObject.mPos, d, d);
-        NNS_G3dGeBufferOP_N(0x19, h, 0xc);
+        viewMatrix = TiltViewRotatedMatrix(&townMonte->mMapObject.mPos, tilt, tilt);
+        NNS_G3dGeBufferOP_N(0x19, viewMatrix, 0xc);
     }
     NNS_G3dGeBufferOP_N(0x1b, &townMonte->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gTownMonte, townMonte->mNsbtpFrameIndex);
-    QueueMapObjectModelMaterial(a, gTownMonte);
-    DrawMapObjectModel(a, gTownMonte, townMonte);
+    QueueMapObjectModelMaterial(mapObjectList, gTownMonte);
+    DrawMapObjectModel(mapObjectList, gTownMonte, townMonte);
 }
 
-void InitTownMonteObjects(Unk0209f800 *a) {
+void InitTownMonteObjects(Unk0209f800 *mapObjectList) {
     TownMonte *townMonte;
     RandomState64 *mapObjectRandom;
-    s32 i;
-    s32 j;
+    s32 mapObjectIndex;
+    s32 index;
     u32 nsbtpFrameCount;
-    u16 m;
+    u16 count;
 
-    if (a == NULL) {
+    if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < a->mUnk_04 && (townMonte = a->mUnk_00[i]) != NULL; i++) {
+    for (mapObjectIndex = 0;
+         mapObjectIndex < mapObjectList->mUnk_04 && (townMonte = mapObjectList->mUnk_00[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         townMonte->mUnk_a4 = 0;
         townMonte->mUnk_a8 = 0;
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gTownMonte);
         townMonte->mNsbtpFrameIndex = TownMonteMapObjectRandomBelowU16(nsbtpFrameCount);
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        m = ((mapObjectRandom->mValue >> 32) * 0x1a) >> 32;
-        for (j = 0; j < m; j++) {
+        count = ((mapObjectRandom->mValue >> 32) * 0x1a) >> 32;
+        for (index = 0; index < count; index++) {
             AdvanceTownMonteBounce(townMonte);
         }
         if (townMonte->mMapObject.mCourseMapRow->mSettings[0] != 0) {
@@ -243,10 +245,10 @@ void InitTownMonteObjects(Unk0209f800 *a) {
     }
 }
 
-void UpdateTownMonte(void *a, TownMonte *townMonte) {
+void UpdateTownMonte(void *mapObjectList, TownMonte *townMonte) {
     SoundStartParams soundStartParams;
-    s32 t;
-    u16 w;
+    s32 falloffIndex;
+    u16 soundId;
 
     AdvanceTownMonteBounce(townMonte);
     if (townMonte->mSoundId == 0) {
@@ -255,20 +257,20 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     if (townMonte->mMapObject.mCourseMapRow->mSettings[0] != GetSeqVariableSinceChangeFrames(0)) {
         return;
     }
-    w = townMonte->mSoundId;
+    soundId = townMonte->mSoundId;
     if (townMonte->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
     }
     if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-        t = 2;
+        falloffIndex = 2;
     } else if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-        t = 3;
+        falloffIndex = 3;
     } else {
-        t = 4;
+        falloffIndex = 4;
     }
-    soundStartParams.mSoundId = w;
+    soundStartParams.mSoundId = soundId;
     soundStartParams.mPositionSource = &townMonte->mMapObject.mPos;
-    soundStartParams.mFalloffIndex = t;
+    soundStartParams.mFalloffIndex = falloffIndex;
     soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&townMonte->mMapObject.mPos);
     StartSoundFromParams(&soundStartParams);
 }
@@ -281,8 +283,8 @@ void *CreateTownMonteUpdateList(void) {
     return CreateMapObjectUpdateList(InitTownMonteObjects, UpdateTownMonte, NULL);
 }
 
-void CreateChandelier(void *a) {
-    CreateMapObjectModelNsbcaAnimation(gChandelier = CreateMapObjectModelAnimated(a, gChandelierNsbmdName),
+void CreateChandelier(void *mapObjectList) {
+    CreateMapObjectModelNsbcaAnimation(gChandelier = CreateMapObjectModelAnimated(mapObjectList, gChandelierNsbmdName),
                                        gChandelierNsbcaName);
     SetMapObjectModelPolygonId(gChandelier, 0x3f);
 }

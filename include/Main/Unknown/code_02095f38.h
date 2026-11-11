@@ -51,9 +51,9 @@ BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole);
 void *CreateCoverPooHoleUpdateList(void);
 void *CreateCoverPooHoleDrawList(void);
 void CreateCoverPooHoleKindData(void);
-void UpdateCoverPooHole(void *a,
+void UpdateCoverPooHole(void *mapObjectList,
                         CoverPooHole *coverPooHole); /* skipped for objects with mFlags & 4 (parked pool objects) */
-s32 CoverPooHoleFX_MulInline(s32 a, s32 b);
+s32 CoverPooHoleFX_MulInline(s32 value, s32 scale);
 s32 CoverPooHoleFX_SinIdx(s32 angle);
 void InitCoverPooHoleObjects(MapObjectList *mapObjectList);
 void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole);

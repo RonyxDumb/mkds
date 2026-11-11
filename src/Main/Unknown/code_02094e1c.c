@@ -56,8 +56,8 @@ static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
 
 void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit,
                                    s32 timerLimit) {
-    s32 i;
-    s32 k;
+    s32 spawnIndex;
+    s32 randomRange;
     s32 baseX;
     s32 baseY;
     s32 baseZ;
@@ -67,8 +67,8 @@ void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit,
     Vec3 position;
 
     if (GetUnparkedTeresaCount() < teresaCountLimit) {
-        k = i = 0;
-        for (; i < spawnCount; i++) {
+        randomRange = spawnIndex = 0;
+        for (; spawnIndex < spawnCount; spawnIndex++) {
             if (distanceLimit > 0) {
                 maxDistance = 0.5f + (distanceLimit << 12);
             } else {
@@ -80,7 +80,7 @@ void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit,
             distance = NextRandomBelow(GetRaceLocalRandom(), (s32) maxDistance);
             angle = NextRandomU16(GetRaceLocalRandom());
             position.x = baseX + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_SinIdx(angle));
-            position.y = baseY + NextRandomBelow(GetRaceLocalRandom(), k);
+            position.y = baseY + NextRandomBelow(GetRaceLocalRandom(), randomRange);
             position.z = baseZ + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_CosIdx(angle));
             StartTeresa(&position);
         }
@@ -89,13 +89,15 @@ void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit,
 }
 
 void InitTeresaSpawnerObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 mapObjectIndex;
     TeresaSpawner *spawner;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (spawner = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (spawner = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         spawner->mNearCheckTimer = (u16) TeresaSpawnerNextRandomBelow(&gRaceProgress->mLocalRandom, 0xf);
     }
 }
@@ -122,13 +124,13 @@ s16 TeresaSpawnerFX_CosIdx(s32 angle) {
 }
 
 void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
-    s32 t;
+    s32 timer;
     s32 radius;
     s32 radiusFixed;
     s32 deltaX;
     s32 deltaZ;
-    s32 i;
-    BOOL k;
+    s32 spawnIndex;
+    BOOL randomRange;
     s32 baseX;
     s32 baseY;
     s32 baseZ;
@@ -139,9 +141,9 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
     Vec3 position;
     Vec3 *kartPos;
 
-    t = spawner->mNearCheckTimer;
-    spawner->mNearCheckTimer = t - 1;
-    if (t <= 0) {
+    timer = spawner->mNearCheckTimer;
+    spawner->mNearCheckTimer = timer - 1;
+    if (timer <= 0) {
         spawner->mNearCheckTimer = 0xf;
         radius = spawner->mMapObject.mCourseMapRow->mSettings[0];
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -157,9 +159,9 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
     }
     switch (spawner->mState) {
         case 0:
-            k = FALSE;
+            randomRange = FALSE;
             if (GetCurrentCameraKind() == 2) {
-                for (i = 0; i < spawner->mMapObject.mCourseMapRow->mSettings[1]; i++) {
+                for (spawnIndex = 0; spawnIndex < spawner->mMapObject.mCourseMapRow->mSettings[1]; spawnIndex++) {
                     if (spawner->mMapObject.mCourseMapRow->mSettings[0] > 0) {
                         maxDistance = 0.5f + (spawner->mMapObject.mCourseMapRow->mSettings[0] << 12);
                     } else {
@@ -171,7 +173,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
                     distance = NextRandomBelow(GetRaceLocalRandom(), (s32) maxDistance);
                     angle = NextRandomU16(GetRaceLocalRandom());
                     position.x = baseX + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_SinIdx(angle));
-                    position.y = baseY + NextRandomBelow(GetRaceLocalRandom(), k);
+                    position.y = baseY + NextRandomBelow(GetRaceLocalRandom(), randomRange);
                     position.z = baseZ + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_CosIdx(angle));
                     StartTeresa(&position);
                 }
@@ -192,9 +194,9 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
             spawner->mState = 2;
             break;
         case 2:
-            t = spawner->mSpawnTimer;
-            spawner->mSpawnTimer = t - 1;
-            if (t > 0) {
+            timer = spawner->mSpawnTimer;
+            spawner->mSpawnTimer = timer - 1;
+            if (timer > 0) {
                 break;
             }
             if (spawner->mEntryKartNear != FALSE) {

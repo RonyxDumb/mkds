@@ -75,11 +75,11 @@ typedef struct Unk02175620_060 {
 
 void InitItemInUse(ItemInUse *itemInUse, KartItems *kartItems);
 void ResetItemInUse(ItemInUse *itemInUse);
-void RemoveItemInUseCircle(ItemInUse *itemInUse, s32 i, ItemObject *object);
+void RemoveItemInUseCircle(ItemInUse *itemInUse, s32 objectIndex, ItemObject *object);
 void AdvanceItemInUseCircle(ItemInUse *itemInUse);
 void StartItemInUseCircle(ItemInUse *itemInUse);
 void PlaceItemInUseCircleObjects(ItemInUse *itemInUse);
-void RemoveItemInUseTrail(ItemInUse *itemInUse, s32 i, ItemObject *object);
+void RemoveItemInUseTrail(ItemInUse *itemInUse, s32 objectIndex, ItemObject *object);
 void AdvanceItemInUseTrail(ItemInUse *itemInUse);
 void StartItemInUseTrail(ItemInUse *itemInUse);
 void RemoveItemInUseOne(ItemInUse *itemInUse, ItemObject *index, ItemObject *object);
@@ -113,7 +113,7 @@ void OrderItemPoolObjectsForRelease(ItemObject **objects, s32 pairIndex, s32 end
 void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 frameDifference, u8 *packet, s32 frameStamp);
 BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet);
 BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId);
-void StartItemObjectFromData(ItemPool *tab, s32 frameDifference, void *data, s32 c);
+void StartItemObjectFromData(ItemPool *tab, s32 frameDifference, void *data, s32 useGenericCopy);
 void RoundTripItemObjectData(ItemObject *object);
 // Draws every taken object, including those only held by a kart, with the kind's draw callback or the default.
 void DrawItemPool(ItemPool *tab, void *viewAxis);

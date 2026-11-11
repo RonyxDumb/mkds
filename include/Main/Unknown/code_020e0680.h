@@ -198,11 +198,11 @@ void *CreateBusAKindData(void);
 void *CreateVehicleDrawList(void);
 void *CreateVehicleUpdateList(void);
 void SetVehicleLinkDirection(VehicleDrawList *drawList);
-void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 c, u32 alpha);
-void UpdateVehicle(u32 a, Vehicle *vehicle);
+void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32 alpha);
+void UpdateVehicle(u32 unused, Vehicle *vehicle);
 void StartVehicleHitReaction(Vehicle *vehicle, Vec3 *hitterPosition);
-u8 CollideKartWithVehicle(Vehicle *vehicle, Kart *kart, u8 *c, u8 *d);
-u8 CollideItemObjectWithVehicle(Vehicle *vehicle, ItemObject *itemObject, u8 *c, u8 *d);
+u8 CollideKartWithVehicle(Vehicle *vehicle, Kart *kart, u8 *firstResponse, u8 *response);
+u8 CollideItemObjectWithVehicle(Vehicle *vehicle, ItemObject *itemObject, u8 *firstResponse, u8 *response);
 void ComputeSphereHitOnVehicle(Vehicle *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
 void InitVehicleUpdateList(MapObjectList *updateList);
 void InitVehicleDrawList(VehicleDrawList *drawList);
@@ -219,11 +219,12 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
                             u16 *outFlags, s32 axisFlag, CollisionMapObject *object, Vec3 *sphereCenter, Vec3 *normal,
                             CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord, Vec3 *lowestOffset,
                             Vec3 *pointMotion, u16 *angleChange);
-BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 c, u32 regionFlags, u16 firstPositiveSideBit,
-                            u16 secondPositiveSideBit, u16 *outFlags, u16 queryFlags, s32 firstAxisFlag,
-                            s32 secondAxisFlag, CollisionMapObject *object, Vec3 *sphereCenter, Vec3 *firstNormal,
-                            Vec3 *secondNormal, CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
-                            Vec3 *lowestOffset, Vec3 *pointMotion, u16 *angleChange);
+BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 secondOffset, u32 regionFlags,
+                            u16 firstPositiveSideBit, u16 secondPositiveSideBit, u16 *outFlags, u16 queryFlags,
+                            s32 firstAxisFlag, s32 secondAxisFlag, CollisionMapObject *object, Vec3 *sphereCenter,
+                            Vec3 *firstNormal, Vec3 *secondNormal, CollisionHitRecord *firstHitRecord,
+                            CollisionHitRecord *secondHitRecord, Vec3 *lowestOffset, Vec3 *pointMotion,
+                            u16 *angleChange);
 BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                     CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                                     Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange);

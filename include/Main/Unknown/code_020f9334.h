@@ -16,7 +16,7 @@ void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *p
 // kind's release hook. Only ReleaseItemPoolObject calls it.
 void ReleaseItemObject(ItemObject *item);
 void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend,
-                            s32 param_5);
+                            s32 flag);
 s32 DoesItemObjectHurtKart(ItemObject *item);
 BOOL IsItemObjectOverlappingKart(ItemObject *item, Kart *kart);
 BOOL IsItemObjectOverlappingSphere(ItemObject *item, Vec3 *center, s32 radius);

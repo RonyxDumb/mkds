@@ -47,16 +47,16 @@ void *CreatePakkunUpdateList(void);
 void *CreatePakkunZHeadDrawList(void);
 void *CreatePakkunBodyDrawList(void);
 void *CreatePakkunMouthDrawList(void);
-void UpdatePakkun(void *a, Pakkun *pakkun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdatePakkun(void *mapObjectList, Pakkun *pakkun); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitPakkunObjects(void);
-void DrawPakkunBody(void *a, Pakkun *pakkun);
-void SetupDrawPakkunBody(void *a);
-void CreatePakkunBody(void *a);
-void DrawPakkunZHead(void *a, Pakkun *pakkun);
-void SetupDrawPakkunZHead(void *a);
-void CreatePakkunZHead(void *a);
-void DrawPakkunMouth(void *a, Pakkun *pakkun);
-void CreatePakkunMouth(void *a);
+void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun);
+void SetupDrawPakkunBody(void *mapObjectList);
+void CreatePakkunBody(void *mapObjectList);
+void DrawPakkunZHead(void *mapObjectList, Pakkun *pakkun);
+void SetupDrawPakkunZHead(void *mapObjectList);
+void CreatePakkunZHead(void *mapObjectList);
+void DrawPakkunMouth(void *mapObjectList, Pakkun *pakkun);
+void CreatePakkunMouth(void *mapObjectList);
 void InitPakkun(Pakkun *pakkun);
 void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset);
 void *CreatePakkunSpitUpdateList(void);

@@ -48,251 +48,260 @@ void InitFireball2(Fireball2 *fireball2) {
     fireball2->mMapObject.mAlpha = 0x1f;
 }
 
-u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d) {
-    u8 v;
+u8 CollideKartWithFireball2(Fireball2 *fireball2, Kart *kart, u8 *firstResponse, u8 *response) {
+    u8 responseValue;
 
-    v = *d;
-    if (a->mKartHitTimers[b->mIndex] == 0) {
-        if (b->mItemEffect == 1 || b->mItemEffect == 3) {
-            a->mMapObject.mDistanceSquaredAndFlags |= data_usa_021565e8;
+    responseValue = *response;
+    if (fireball2->mKartHitTimers[kart->mIndex] == 0) {
+        if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
+            fireball2->mMapObject.mDistanceSquaredAndFlags |= data_usa_021565e8;
         }
-        StartSoundIfKartStarOrKiller(&a->mMapObject, b);
+        StartSoundIfKartStarOrKiller(&fireball2->mMapObject, kart);
     }
-    a->mKartHitTimers[b->mIndex] = 0xb;
-    return v;
+    fireball2->mKartHitTimers[kart->mIndex] = 0xb;
+    return responseValue;
 }
 
 static inline BOOL IsKartWithinFireball2Range(Kart *kart, Fireball2 *fireball, s32 radius) {
-    s32 y;
-    s32 x;
-    s32 z;
+    s32 deltaY;
+    s32 deltaX;
+    s32 deltaZ;
     s32 negativeRadius;
 
     negativeRadius = -radius;
-    z = kart->mPos.z - fireball->mMapObject.mPos.z;
-    if (z > radius || z < negativeRadius) {
+    deltaZ = kart->mPos.z - fireball->mMapObject.mPos.z;
+    if (deltaZ > radius || deltaZ < negativeRadius) {
         return FALSE;
     }
-    x = kart->mPos.x - fireball->mMapObject.mPos.x;
-    if (x > radius || x < negativeRadius) {
+    deltaX = kart->mPos.x - fireball->mMapObject.mPos.x;
+    if (deltaX > radius || deltaX < negativeRadius) {
         return FALSE;
     }
-    y = kart->mPos.y - fireball->mMapObject.mPos.y;
-    if (y > radius || y < negativeRadius) {
+    deltaY = kart->mPos.y - fireball->mMapObject.mPos.y;
+    if (deltaY > radius || deltaY < negativeRadius) {
         return FALSE;
     }
-    return (s64) x * x + (s64) y * y + (s64) z * z < (s64) radius * radius;
+    return (s64) deltaX * deltaX + (s64) deltaY * deltaY + (s64) deltaZ * deltaZ < (s64) radius * radius;
 }
 
-BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c) {
-    s32 i;
-    s32 d;
-    s32 e;
-    s32 f;
+BOOL IsPosNearFireball2(Fireball2 *fireball2, Vec3 *pos, s32 radius) {
+    s32 rowIndex;
+    s32 deltaX;
+    s32 deltaY;
+    s32 deltaZ;
 
-    for (i = 0; i < a->mRowCount; i++) {
-        d = b->x - a->mElements[i][0].mUnk_00.x;
-        e = b->y - a->mElements[i][0].mUnk_00.y;
-        f = b->z - a->mElements[i][0].mUnk_00.z;
-        if ((s64) d * d + (s64) e * e + (s64) f * f < (s64) (c + 0xf000) * (c + 0xf000)) {
+    for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
+        deltaX = pos->x - fireball2->mElements[rowIndex][0].mUnk_00.x;
+        deltaY = pos->y - fireball2->mElements[rowIndex][0].mUnk_00.y;
+        deltaZ = pos->z - fireball2->mElements[rowIndex][0].mUnk_00.z;
+        if ((s64) deltaX * deltaX + (s64) deltaY * deltaY + (s64) deltaZ * deltaZ <
+            (s64) (radius + 0xf000) * (radius + 0xf000)) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-void CreateFireball2(MapObjectList *a) {
-    gFireball2 = CreateMapObjectModelNsbmd(a, gFireball2NsbmdName);
+void CreateFireball2(MapObjectList *mapObjectList) {
+    gFireball2 = CreateMapObjectModelNsbmd(mapObjectList, gFireball2NsbmdName);
     SetMapObjectModelPolygonId(gFireball2, 0x3f);
-    a->mSortByDistance = 1;
+    mapObjectList->mSortByDistance = 1;
 }
 
-void SetupDrawFireball2(void *a) {
-    QueueMapObjectModelMaterial(a, gFireball2);
+void SetupDrawFireball2(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gFireball2);
 }
 
-void DrawFireball2(void *a, Fireball2 *b) {
-    s32 s1;
-    s32 s2;
-    s32 s3;
-    MtxFx33 m1;
-    MtxFx33 m2;
-    MtxFx33 m3;
-    s32 i;
-    s32 c;
-    s32 j;
-    s32 f;
-    s32 g;
-    Camera *q;
+void DrawFireball2(void *mapObjectList, Fireball2 *fireball2) {
+    s32 gxParam;
+    s32 centerGxParam;
+    s32 reverseGxParam;
+    MtxFx33 elementRotation;
+    MtxFx33 centerRotation;
+    MtxFx33 reverseRotation;
+    s32 rowIndex;
+    s32 cameraDot;
+    s32 elementIndex;
+    s32 facingForward;
+    s32 rowInFront;
+    Camera *currentCamera;
 
-    q = GetCurrentCamera();
-    c = Vec3DotUnrounded(&b->mMapObject.mMatrix.mRows[0], &q->mForward);
-    for (i = 0; i < b->mRowCount; i++) {
-        if (c >= 0) {
-            f = 1;
+    currentCamera = GetCurrentCamera();
+    cameraDot = Vec3DotUnrounded(&fireball2->mMapObject.mMatrix.mRows[0], &currentCamera->mForward);
+    for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
+        if (cameraDot >= 0) {
+            facingForward = 1;
         } else {
-            f = 0;
+            facingForward = 0;
         }
-        if (b->mElements[i][0].mUnk_0c >= 0x4000 && b->mElements[i][0].mUnk_0c < 0xc000) {
-            g = 1;
+        if (fireball2->mElements[rowIndex][0].mUnk_0c >= 0x4000 && fireball2->mElements[rowIndex][0].mUnk_0c < 0xc000) {
+            rowInFront = 1;
         } else {
-            g = 0;
+            rowInFront = 0;
         }
-        if (f ^ g) {
-            for (j = 0; j < b->mRowElementCount; j++) {
-                s1 = 0x1e;
-                NNS_G3dGeBufferOP_N(0x14, &s1, 1);
-                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
-                if (b->mElements[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(&m1, FX_SinIdx(b->mElements[i][j].mUnk_0e), FX_CosIdx(b->mElements[i][j].mUnk_0e));
-                    NNS_G3dGeBufferOP_N(0x1a, &m1, 9);
+        if (facingForward ^ rowInFront) {
+            for (elementIndex = 0; elementIndex < fireball2->mRowElementCount; elementIndex++) {
+                gxParam = 0x1e;
+                NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
+                NNS_G3dGeBufferOP_N(
+                    0x19, SetViewTransposeMatrixPos(&fireball2->mElements[rowIndex][elementIndex].mUnk_00), 0xc);
+                if (fireball2->mElements[rowIndex][elementIndex].mUnk_0e != 0) {
+                    MTX_RotZ33_(&elementRotation, FX_SinIdx(fireball2->mElements[rowIndex][elementIndex].mUnk_0e),
+                                FX_CosIdx(fireball2->mElements[rowIndex][elementIndex].mUnk_0e));
+                    NNS_G3dGeBufferOP_N(0x1a, &elementRotation, 9);
                 }
-                NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
+                NNS_G3dGeBufferOP_N(0x1b, &fireball2->mMapObject.mScale, 3);
                 SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
-                DrawMapObjectModel(a, gFireball2, b);
+                DrawMapObjectModel(mapObjectList, gFireball2, fireball2);
             }
         }
     }
-    if (b->mRowElementCount > 1) {
-        s2 = 0x1e;
-        NNS_G3dGeBufferOP_N(0x14, &s2, 1);
-        NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mCenterPos), 0xc);
-        if (b->mCenterRotationAngle != 0) {
-            MTX_RotZ33_(&m2, FX_SinIdx(b->mCenterRotationAngle), FX_CosIdx(b->mCenterRotationAngle));
-            NNS_G3dGeBufferOP_N(0x1a, &m2, 9);
+    if (fireball2->mRowElementCount > 1) {
+        centerGxParam = 0x1e;
+        NNS_G3dGeBufferOP_N(0x14, &centerGxParam, 1);
+        NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&fireball2->mCenterPos), 0xc);
+        if (fireball2->mCenterRotationAngle != 0) {
+            MTX_RotZ33_(&centerRotation, FX_SinIdx(fireball2->mCenterRotationAngle),
+                        FX_CosIdx(fireball2->mCenterRotationAngle));
+            NNS_G3dGeBufferOP_N(0x1a, &centerRotation, 9);
         }
-        NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &fireball2->mMapObject.mScale, 3);
         SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
-        DrawMapObjectModel(a, gFireball2, b);
+        DrawMapObjectModel(mapObjectList, gFireball2, fireball2);
     }
-    for (i = 0; i < b->mRowCount; i++) {
-        if (c >= 0) {
-            f = 1;
+    for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
+        if (cameraDot >= 0) {
+            facingForward = 1;
         } else {
-            f = 0;
+            facingForward = 0;
         }
-        if (b->mElements[i][0].mUnk_0c >= 0x4000 && b->mElements[i][0].mUnk_0c < 0xc000) {
-            g = 1;
+        if (fireball2->mElements[rowIndex][0].mUnk_0c >= 0x4000 && fireball2->mElements[rowIndex][0].mUnk_0c < 0xc000) {
+            rowInFront = 1;
         } else {
-            g = 0;
+            rowInFront = 0;
         }
-        if ((f ^ g) == 0) {
-            for (j = b->mRowElementCount - 1; j >= 0; j--) {
-                s3 = 0x1e;
-                NNS_G3dGeBufferOP_N(0x14, &s3, 1);
-                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mElements[i][j].mUnk_00), 0xc);
-                if (b->mElements[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(&m3, FX_SinIdx(b->mElements[i][j].mUnk_0e), FX_CosIdx(b->mElements[i][j].mUnk_0e));
-                    NNS_G3dGeBufferOP_N(0x1a, &m3, 9);
+        if ((facingForward ^ rowInFront) == 0) {
+            for (elementIndex = fireball2->mRowElementCount - 1; elementIndex >= 0; elementIndex--) {
+                reverseGxParam = 0x1e;
+                NNS_G3dGeBufferOP_N(0x14, &reverseGxParam, 1);
+                NNS_G3dGeBufferOP_N(
+                    0x19, SetViewTransposeMatrixPos(&fireball2->mElements[rowIndex][elementIndex].mUnk_00), 0xc);
+                if (fireball2->mElements[rowIndex][elementIndex].mUnk_0e != 0) {
+                    MTX_RotZ33_(&reverseRotation, FX_SinIdx(fireball2->mElements[rowIndex][elementIndex].mUnk_0e),
+                                FX_CosIdx(fireball2->mElements[rowIndex][elementIndex].mUnk_0e));
+                    NNS_G3dGeBufferOP_N(0x1a, &reverseRotation, 9);
                 }
-                NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
+                NNS_G3dGeBufferOP_N(0x1b, &fireball2->mMapObject.mScale, 3);
                 SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
-                DrawMapObjectModel(a, gFireball2, b);
+                DrawMapObjectModel(mapObjectList, gFireball2, fireball2);
             }
         }
     }
 }
 
 void InitFireball2Objects(MapObjectList *mapObjectList) {
-    s32 i;
-    s32 j;
-    s32 k;
-    s16 v;
-    float f;
-    u64 t;
-    Fireball2 *e;
+    s32 mapObjectIndex;
+    s32 elementIndex;
+    s32 rowIndex;
+    s16 radiusSetting;
+    float radius;
+    u64 randomBits;
+    Fireball2 *fireball2;
     RandomState64 *mapObjectRandom;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        v = e->mMapObject.mCourseMapRow->mSettings[1];
-        if (v > 0) {
-            f = 0.5f + (v << 12);
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (fireball2 = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
+        radiusSetting = fireball2->mMapObject.mCourseMapRow->mSettings[1];
+        if (radiusSetting > 0) {
+            radius = 0.5f + (radiusSetting << 12);
         } else {
-            f = (v << 12) - 0.5f;
+            radius = (radiusSetting << 12) - 0.5f;
         }
-        e->mRadius = f;
-        e->mRowAnglePerFrame = (e->mMapObject.mCourseMapRow->mSettings[2] * 0x16c) / 100;
-        e->mRowAngleSpacing = 0x10000 / e->mRowCount;
-        e->mElementRadiusSpacing = e->mRadius / e->mRowElementCount;
+        fireball2->mRadius = radius;
+        fireball2->mRowAnglePerFrame = (fireball2->mMapObject.mCourseMapRow->mSettings[2] * 0x16c) / 100;
+        fireball2->mRowAngleSpacing = 0x10000 / fireball2->mRowCount;
+        fireball2->mElementRadiusSpacing = fireball2->mRadius / fireball2->mRowElementCount;
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        t = mapObjectRandom->mValue >> 32;
-        e->mCenterRotationAngle = (t * 0x10000) >> 32;
-        for (j = 0; j < e->mRowElementCount; j++) {
-            for (k = 0; k < e->mRowCount; k++) {
+        randomBits = mapObjectRandom->mValue >> 32;
+        fireball2->mCenterRotationAngle = (randomBits * 0x10000) >> 32;
+        for (elementIndex = 0; elementIndex < fireball2->mRowElementCount; elementIndex++) {
+            for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                t = mapObjectRandom->mValue >> 32;
-                e->mElements[k][j].mUnk_0e = (t * 0x10000) >> 32;
+                randomBits = mapObjectRandom->mValue >> 32;
+                fireball2->mElements[rowIndex][elementIndex].mUnk_0e = (randomBits * 0x10000) >> 32;
             }
         }
     }
 }
 
-void UpdateFireball2(void *a, Fireball2 *b) {
-    s32 i;
-    s32 j;
-    s32 n;
-    s32 d;
-    u16 w;
-    Kart *p;
-    NNSSndSeqPlayer **h;
-    Vec3 v;
+void UpdateFireball2(void *mapObjectList, Fireball2 *fireball2) {
+    s32 index;
+    s32 rowIndex;
+    s32 ringRadius;
+    s32 axisDistance;
+    u16 angle;
+    Kart *kart;
+    NNSSndSeqPlayer **sndHandleSlot;
+    Vec3 kartOffset;
 
-    n = b->mRadius;
-    b->mCenterPos = b->mMapObject.mPos;
-    if (b->mRowElementCount == 1) {
-        p = GetKart((u16) gRaceSetup->mEntryIndex);
-        if (IsKartWithinFireball2Range(p, b, n - 0xf000) != FALSE) {
-            VEC_Subtract(&p->mPos, &b->mMapObject.mPos, &v);
-            d = Vec3DotUnrounded(&v, &b->mMapObject.mMatrix.mRows[2]);
-            if ((b->mEntryKartAxisDistance < 0 && d > 0) || (b->mEntryKartAxisDistance > 0 && d < 0)) {
+    ringRadius = fireball2->mRadius;
+    fireball2->mCenterPos = fireball2->mMapObject.mPos;
+    if (fireball2->mRowElementCount == 1) {
+        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        if (IsKartWithinFireball2Range(kart, fireball2, ringRadius - 0xf000) != FALSE) {
+            VEC_Subtract(&kart->mPos, &fireball2->mMapObject.mPos, &kartOffset);
+            axisDistance = Vec3DotUnrounded(&kartOffset, &fireball2->mMapObject.mMatrix.mRows[2]);
+            if ((fireball2->mEntryKartAxisDistance < 0 && axisDistance > 0) ||
+                (fireball2->mEntryKartAxisDistance > 0 && axisDistance < 0)) {
                 StopSndHandleSlots7To11();
-                h = GetSndHandleSlot(7);
+                sndHandleSlot = GetSndHandleSlot(7);
                 if ((gRaceSoundKind & 1) && gSoundModeHolder.mSeqStartEnabled != 0) {
-                    if (h[0] != NULL) {
-                        NNS_SndPlayerStopSeq(h, 0);
+                    if (sndHandleSlot[0] != NULL) {
+                        NNS_SndPlayerStopSeq(sndHandleSlot, 0);
                     }
-                    if (h[0] != NULL) {
-                        NNS_SndPlayerStopSeq(h, 0);
+                    if (sndHandleSlot[0] != NULL) {
+                        NNS_SndPlayerStopSeq(sndHandleSlot, 0);
                     }
-                    NNS_SndArcPlayerStartSeqArc(h, 0, 0x1c2);
+                    NNS_SndArcPlayerStartSeqArc(sndHandleSlot, 0, 0x1c2);
                 }
-                b->mEntryKartAxisDistance = 0;
+                fireball2->mEntryKartAxisDistance = 0;
             } else {
-                b->mEntryKartAxisDistance = d;
+                fireball2->mEntryKartAxisDistance = axisDistance;
             }
         } else {
-            b->mEntryKartAxisDistance = 0;
+            fireball2->mEntryKartAxisDistance = 0;
         }
     }
-    if (b->mRowElementCount > 1) {
-        b->mCenterRotationAngle = b->mCenterRotationAngle + 0x51e;
+    if (fireball2->mRowElementCount > 1) {
+        fireball2->mCenterRotationAngle = fireball2->mCenterRotationAngle + 0x51e;
     }
-    for (i = 0; i < b->mRowElementCount; i++) {
-        w = b->mRowAngle;
-        for (j = 0; j < b->mRowCount; j++) {
-            w = w + b->mRowAngleSpacing;
-            b->mElements[j][i].mUnk_0c = w;
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, FX_CosIdx(w)), &b->mMapObject.mMatrix.mRows[0], &b->mMapObject.mPos,
-                        &b->mElements[j][i].mUnk_00);
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(n, FX_SinIdx(w)), &b->mMapObject.mMatrix.mRows[1],
-                        &b->mElements[j][i].mUnk_00, &b->mElements[j][i].mUnk_00);
-            b->mElements[j][i].mUnk_0e = b->mElements[j][i].mUnk_0e + 0x51e;
+    for (index = 0; index < fireball2->mRowElementCount; index++) {
+        angle = fireball2->mRowAngle;
+        for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
+            angle = angle + fireball2->mRowAngleSpacing;
+            fireball2->mElements[rowIndex][index].mUnk_0c = angle;
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(ringRadius, FX_CosIdx(angle)), &fireball2->mMapObject.mMatrix.mRows[0],
+                        &fireball2->mMapObject.mPos, &fireball2->mElements[rowIndex][index].mUnk_00);
+            VEC_MultAdd(MUL_FIXED12_NO_ROUND(ringRadius, FX_SinIdx(angle)), &fireball2->mMapObject.mMatrix.mRows[1],
+                        &fireball2->mElements[rowIndex][index].mUnk_00, &fireball2->mElements[rowIndex][index].mUnk_00);
+            fireball2->mElements[rowIndex][index].mUnk_0e = fireball2->mElements[rowIndex][index].mUnk_0e + 0x51e;
         }
-        n = n - b->mElementRadiusSpacing;
+        ringRadius = ringRadius - fireball2->mElementRadiusSpacing;
     }
-    b->mRowAngle = b->mRowAngle - b->mRowAnglePerFrame;
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
-        if (b->mKartHitTimers[i] > 0) {
-            b->mKartHitTimers[i] = b->mKartHitTimers[i] - 1;
+    fireball2->mRowAngle = fireball2->mRowAngle - fireball2->mRowAnglePerFrame;
+    for (index = 0; index < gRaceSetup->mKartCount; index++) {
+        if (fireball2->mKartHitTimers[index] > 0) {
+            fireball2->mKartHitTimers[index] = fireball2->mKartHitTimers[index] - 1;
         }
     }
-    StartMapObjectSoundWhileRequested(&b->mMapObject, 0x160);
+    StartMapObjectSoundWhileRequested(&fireball2->mMapObject, 0x160);
 }
 
 void CreateFireball2KindData(void) {

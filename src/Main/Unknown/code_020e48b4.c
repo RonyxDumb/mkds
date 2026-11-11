@@ -81,7 +81,7 @@ void SetupDrawPukupuku(void) {
     QueueNsbmdModelMaterial(gPukupuku);
 }
 
-void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
+void DrawPukupuku(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u16 alpha) {
     NsbmdModel *model;
     s32 mirrored;
     u32 motionAngle;
@@ -113,11 +113,11 @@ void DrawPukupuku(u32 a, Pukupuku *pukupuku, u32 b, u16 alpha) {
 }
 
 void SetupDrawPukupukuShadow(void) {
-    u32 value12;
+    u32 unused;
     SendObjShadowMaterial();
 }
 
-void DrawPukupukuShadow(u32 a, Pukupuku *pukupuku, u32 b, u32 alpha) {
+void DrawPukupukuShadow(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u32 alpha) {
     Unk020e4e08 shadowParams;
 
     if (pukupuku->mPushedObject.mMapObject.mStateMachine.mState != 0 &&
@@ -150,19 +150,19 @@ static inline u32 PukupukuNextRandomBelow(RandomState64 *random, u32 range) {
 }
 
 void UpdatePukupukuState0(Pukupuku *pukupuku) {
-    s32 y;
+    s32 groundY;
 
     pukupuku->mPushedObject.mMapObject.mPosStep.y -= 0x385;
     VEC_Add(&pukupuku->mPushedObject.mMapObject.mPos, &pukupuku->mPushedObject.mMapObject.mPosStep,
             &pukupuku->mPushedObject.mMapObject.mPos);
-    y = 0;
-    y += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeX,
-                              pukupuku->mPushedObject.mMapObject.mPos.x - pukupuku->mInitialPos.x);
-    y += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeZ,
-                              pukupuku->mPushedObject.mMapObject.mPos.z - pukupuku->mInitialPos.z);
-    pukupuku->mGroundYOffset = y;
-    y = pukupuku->mInitialPos.y + pukupuku->mGroundYOffset;
-    if (pukupuku->mPushedObject.mMapObject.mPos.y >= y) {
+    groundY = 0;
+    groundY += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeX,
+                                    pukupuku->mPushedObject.mMapObject.mPos.x - pukupuku->mInitialPos.x);
+    groundY += MUL_FIXED12_NO_ROUND(pukupuku->mGroundSlopeZ,
+                                    pukupuku->mPushedObject.mMapObject.mPos.z - pukupuku->mInitialPos.z);
+    pukupuku->mGroundYOffset = groundY;
+    groundY = pukupuku->mInitialPos.y + pukupuku->mGroundYOffset;
+    if (pukupuku->mPushedObject.mMapObject.mPos.y >= groundY) {
         return;
     }
     if (!(pukupuku->mPushedObject.mMapObject.mDistanceSquaredAndFlags & 4)) {
@@ -182,7 +182,7 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pukupuku->mPushedObject.mMapObject.mPos);
         StartSoundFromParams(&soundRequest);
     }
-    pukupuku->mPushedObject.mMapObject.mPos.y = y;
+    pukupuku->mPushedObject.mMapObject.mPos.y = groundY;
     pukupuku->mJumpsUntilHighJump = pukupuku->mJumpsUntilHighJump - 1;
     if (pukupuku->mJumpsUntilHighJump == 0) {
         RandomState64 *random;

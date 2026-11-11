@@ -330,9 +330,9 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
     u32 setFlagBits;
     u32 lastGroupBit;
     u32 newBit;
-    s32 j4;
-    s32 j8;
-    s32 j12;
+    s32 firstFlag;
+    s32 secondFlag;
+    s32 thirdFlag;
     setFlagBits = 0;
     for (engineClass = 0; engineClass < 4; engineClass++) {
         newBit = 0;
@@ -345,29 +345,29 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        j4 = engineClass + 4;
-        if (IsBackupFlagSet(j4) == 0) {
+        firstFlag = engineClass + 4;
+        if (IsBackupFlagSet(firstFlag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(2, engineClass) != FALSE) {
-                SetBackupFlag(j4);
+                SetBackupFlag(firstFlag);
                 newBit = 2;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        j8 = engineClass + 8;
-        if (IsBackupFlagSet(j8) == 0) {
+        secondFlag = engineClass + 8;
+        if (IsBackupFlagSet(secondFlag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(4, engineClass) != FALSE &&
                 IsGrandPrixRecordFilledTopRank(5, engineClass) != FALSE) {
-                SetBackupFlag(j8);
+                SetBackupFlag(secondFlag);
                 newBit = 4;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        j12 = engineClass + 12;
-        if (IsBackupFlagSet(j12) == 0) {
+        thirdFlag = engineClass + 12;
+        if (IsBackupFlagSet(thirdFlag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(6, engineClass) != FALSE) {
-                SetBackupFlag(j12);
+                SetBackupFlag(thirdFlag);
                 newBit = 8;
             }
         }
@@ -385,39 +385,39 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
 
 u32 SetSecretMessageFlagsFromCups3And7(void) {
     u32 setFlagBits;
-    BOOL t;
+    BOOL flag;
     setFlagBits = 0;
-    t = FALSE;
+    flag = FALSE;
     if (IsBackupFlagSet(0x14) == 0) {
         if ((IsGrandPrixRecordFilled(3, 0) != 0 && GetGrandPrixRecordCupRank(3, 0) == 0) ? 1 : 0) {
             SetBackupFlag(0x14);
-            t = TRUE;
+            flag = TRUE;
         }
     }
-    if (t != FALSE) {
+    if (flag != FALSE) {
         setFlagBits = setFlagBits | 0x20;
     }
-    t = FALSE;
+    flag = FALSE;
     if (IsBackupFlagSet(0x15) == 0) {
-        if ((IsGrandPrixRecordFilled(7, t) != 0 && GetGrandPrixRecordCupRank(7, t) == 0) ? 1 : 0) {
+        if ((IsGrandPrixRecordFilled(7, flag) != 0 && GetGrandPrixRecordCupRank(7, flag) == 0) ? 1 : 0) {
             SetBackupFlag(0x15);
-            t = TRUE;
+            flag = TRUE;
         }
     }
-    if (t != FALSE) {
+    if (flag != FALSE) {
         setFlagBits = setFlagBits | 0x40;
     }
-    t = FALSE;
+    flag = FALSE;
     if (IsBackupFlagSet(0x16) == 0) {
         if ((IsGrandPrixRecordFilled(7, 1) != 0 && GetGrandPrixRecordCupRank(7, 1) == 0) ? 1 : 0) {
             SetBackupFlag(0x16);
-            t = TRUE;
+            flag = TRUE;
         }
     }
-    if (t != FALSE) {
+    if (flag != FALSE) {
         setFlagBits = setFlagBits | 0x80;
     }
-    t = FALSE;
+    flag = FALSE;
     if (IsBackupFlagSet(0x17) == 0) {
         BOOL isFilledTopRank;
         if (IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) {
@@ -436,10 +436,10 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
         if (isFilledTopRank != FALSE) {
         l1:
             SetBackupFlag(0x17);
-            t = TRUE;
+            flag = TRUE;
         }
     }
-    if (t != FALSE) {
+    if (flag != FALSE) {
         setFlagBits = setFlagBits | 0x100;
     }
     return setFlagBits;
@@ -447,50 +447,51 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
 
 // Returns 0 none, 1 the staff roll, 2 the true staff roll (all records top rank); both need cup 3 or 7 finished.
 s32 GetStaffRollKindAfterGp(void) {
-    MenuShared *p;
+    MenuShared *menuShared;
     s32 result;
-    s32 n;
+    s32 cupIndex;
     s32 engineClass;
-    BOOL c;
-    BOOL f;
+    BOOL conditionMet;
+    BOOL flag;
     result = 0;
-    p = gMenuShared;
-    engineClass = p->mEngineIndex;
-    n = p->mCupIndex;
-    if (p->mMirrorMode != 0) {
+    menuShared = gMenuShared;
+    engineClass = menuShared->mEngineIndex;
+    cupIndex = menuShared->mCupIndex;
+    if (menuShared->mMirrorMode != 0) {
         engineClass = 3;
     }
-    c = FALSE;
-    f = AreAllGrandPrixRecordsTopRank();
-    if (f != FALSE) {
-        if (n == 3 || n == 7) {
+    conditionMet = FALSE;
+    flag = AreAllGrandPrixRecordsTopRank();
+    if (flag != FALSE) {
+        if (cupIndex == 3 || cupIndex == 7) {
             if (gMenuShared->mCupRankIndex == 0) {
-                c = TRUE;
+                conditionMet = TRUE;
             }
         }
     }
-    if (c != FALSE) {
+    if (conditionMet != FALSE) {
         result = 2;
     } else {
-        c = FALSE;
-        if (n == 3 || n == 7) {
-            if (n == 7) {
-                n = 3;
+        conditionMet = FALSE;
+        if (cupIndex == 3 || cupIndex == 7) {
+            if (cupIndex == 7) {
+                cupIndex = 3;
             } else {
-                n = 7;
+                cupIndex = 7;
             }
-            if (IsGrandPrixRecordFilled(n, engineClass) != 0 && GetGrandPrixRecordCupRank(n, engineClass) <= 2) {
-                f = TRUE;
+            if (IsGrandPrixRecordFilled(cupIndex, engineClass) != 0 &&
+                GetGrandPrixRecordCupRank(cupIndex, engineClass) <= 2) {
+                flag = TRUE;
             } else {
-                f = FALSE;
+                flag = FALSE;
             }
-            if (f != FALSE) {
+            if (flag != FALSE) {
                 if (gMenuShared->mCupRankIndex <= 2) {
-                    c = TRUE;
+                    conditionMet = TRUE;
                 }
             }
         }
-        if (c != FALSE) {
+        if (conditionMet != FALSE) {
             result = 1;
         }
     }

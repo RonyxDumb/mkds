@@ -73,13 +73,13 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 // The object has landed: it stops and is held at its rest point.
-void StartRestingItemObject(ItemObject *item, void *b) {
+void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     s32 fallSpeed;
     enum { K0 } kind;
-    s32 k;
+    s32 bounceFactor;
 
     VEC_MultAdd(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mCoursePointOrParams);
-    UpdateCollisionHitLink(b, item->mCollisionBits, item->mCollisionHitLink, &item->mCoursePointOrParams,
+    UpdateCollisionHitLink(collisionHitLink, item->mCollisionBits, item->mCollisionHitLink, &item->mCoursePointOrParams,
                            &item->mNormal);
     if (item->mCollisionHitLink->mObject != NULL &&
         IsHitLinkOutsideGearRadiusOrFlagged((Unk020e0448 *) item->mCollisionHitLink) != 0) {
@@ -96,12 +96,12 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     }
     item->mBounce = BounceRestingItemObject;
     kind = item->mKind;
-    k = gItemKinds[kind].mBounceFactor;
+    bounceFactor = gItemKinds[kind].mBounceFactor;
     fallSpeed = item->mVelocity.y;
     if (fallSpeed <= 0) {
         fallSpeed = -fallSpeed;
     }
-    item->mScaleTargetOrSpeed = -MUL_FIXED12_NO_ROUND(fallSpeed, k);
+    item->mScaleTargetOrSpeed = -MUL_FIXED12_NO_ROUND(fallSpeed, bounceFactor);
     if (item->mScaleTargetOrSpeed < -0x5c3) {
         item->mScaleTargetOrSpeed = -0x5c3;
     }
@@ -115,7 +115,7 @@ void StartRestingItemObject(ItemObject *item, void *b) {
 }
 
 void AdvanceRestingItemObject(ItemObject *item) {
-    u32 w;
+    u32 collisionHitLink;
 
     if (item->mCollisionHitLink->mObject != NULL) {
         if (GetCollisionHitLinkPosAndVelocity(item->mCollisionHitLink, &item->mCoursePointOrParams, &item->mNormal) !=
@@ -134,10 +134,11 @@ void AdvanceRestingItemObject(ItemObject *item) {
                 return;
             }
             if (CollideSphereWithCourse(&item->mPos, NULL, 0, item->mCourseRadius, 0x44, item->mCollisionSlotIndex,
-                                        NULL, NULL, NULL, &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
+                                        NULL, NULL, NULL, &item->mCollisionBits, NULL, NULL, NULL,
+                                        &collisionHitLink) == 0) {
                 return;
             }
-            if (IsCollisionHitLinkOutdated(&w, item->mCollisionBits, item->mCollisionHitLink) != FALSE) {
+            if (IsCollisionHitLinkOutdated(&collisionHitLink, item->mCollisionBits, item->mCollisionHitLink) != FALSE) {
                 item->mVelocity.x = 0;
                 item->mVelocity.y = 0;
                 item->mVelocity.z = 0;
@@ -239,7 +240,7 @@ void StartFallingItemObject(ItemObject *item) {
 }
 
 void AdvanceFallingItemObject(ItemObject *item) {
-    u32 w;
+    u32 collisionHitLink;
     Vec3 pushOut;
     Vec3 groundNormal;
     Vec3 bounceNormal;
@@ -253,7 +254,8 @@ void AdvanceFallingItemObject(ItemObject *item) {
     item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mVelocity.x, 0xfec);
     velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0xfec);
     if (CollideSphereWithCourse(pos, &item->mPrevPos, 0, item->mCourseRadius, 0x44, item->mCollisionSlotIndex, &pushOut,
-                                &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
+                                &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL,
+                                &collisionHitLink) != 0) {
         VEC_Add(&pushOut, pos, pos);
         if (item->mCollisionBits & 0x1e34ef) {
             LandItemObjectIfOnGround(item, pos, velocity, 0x385, &groundNormal);
@@ -283,7 +285,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
     if (item->mFlags & 3) {
         return;
     }
-    StartRestingItemObject(item, &w);
+    StartRestingItemObject(item, &collisionHitLink);
 }
 
 void FallingBounceItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
@@ -331,7 +333,7 @@ void StartItemStar(ItemInUse *itemInUse, HeldItem *heldItem) {
     AddItemDataFrameOnly(4);
 }
 
-void StartItemKouraGSound(void *kouraParam, s32 b) {
+void StartItemKouraGSound(void *kouraParam, s32 unused) {
     ItemKouraG *koura;
 
     koura = kouraParam;
@@ -398,7 +400,7 @@ void InitItemKouraGFromData(ItemKouraG *koura) {
     InitItemObjectMotion(koura, 9, koura->mReverse, 0);
 }
 
-void StartItemKouraRSound(void *kouraParam, s32 b) {
+void StartItemKouraRSound(void *kouraParam, s32 unused) {
     ItemKouraR *kouraR;
 
     kouraR = kouraParam;
@@ -491,7 +493,7 @@ void UpdateItemKouraRState0And1(ItemKouraR *kouraR) {
 }
 
 void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex) {
-    u32 value1 = kartIndex;
+    u32 value = kartIndex;
     u32 minusOne;
     u32 collisionSlotIndex;
     u32 collisionSlotCompared;
@@ -505,11 +507,11 @@ void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex) {
     if (collisionSlotCompared == minusOneCompared) {
         return;
     }
-    SetItemKouraRKartItemsAndClearTowardKartVelocity(kouraR, value1);
-    value1 = 4u;
-    kouraR->mStateMachine.mNextState = value1;
-    value1 = 1u;
-    kouraR->mStateMachine.mNextStateRequested = value1;
+    SetItemKouraRKartItemsAndClearTowardKartVelocity(kouraR, value);
+    value = 4u;
+    kouraR->mStateMachine.mNextState = value;
+    value = 1u;
+    kouraR->mStateMachine.mNextStateRequested = value;
 }
 
 void UpdateItemKouraRState2(ItemKouraR *kouraR) {
@@ -628,7 +630,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
     Kart *kart;
     BOOL kartFlagged;
     u32 kartBits;
-    s32 n;
+    s32 value;
 
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
@@ -644,17 +646,17 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
         kouraR->mStateMachine.mNextState = 6;
         kouraR->mStateMachine.mNextStateRequested = 1;
     } else {
-        n = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags;
-        if (n & 0x10000000) {
+        value = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags;
+        if (value & 0x10000000) {
             if (kartBits & 1) {
-                n = SteerItemKouraRToKart(kouraR, 0x5333, 0x19a, 1);
+                value = SteerItemKouraRToKart(kouraR, 0x5333, 0x19a, 1);
             } else {
-                n = SteerItemKouraRToKart(kouraR, 0x4b33, 0x19a, 0);
+                value = SteerItemKouraRToKart(kouraR, 0x4b33, 0x19a, 0);
             }
         } else {
-            n = SteerItemKouraRToKart(kouraR, 0x4800, 0x19a, (n & 0x8000000) == 0);
+            value = SteerItemKouraRToKart(kouraR, 0x4800, 0x19a, (value & 0x8000000) == 0);
         }
-        if (n != 0) {
+        if (value != 0) {
             AddItemKouraRTowardKartToVelocity(kouraR);
             kouraR->mStateMachine.mNextState = 2;
             kouraR->mStateMachine.mNextStateRequested = 1;
@@ -865,7 +867,7 @@ BOOL RequestItemKouraRState5IfFar(void *kouraParam, s32 kartIndex) {
 // 0x130 word it stores.
 s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
     KartItems *kartItems;
-    s32 n;
+    s32 unused;
 
     StartItemObjectSoundSource(&banana->mBouncingItemObject.mItemObject);
     banana->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= data_02159834;
@@ -884,13 +886,13 @@ s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
 // Calls AdvanceBouncingItem with one of two pairs of numbers, and when the 0x74 bits allow it
 // doubles the 0x60 word and runs StopSound and StartRestingItemObject.
 void AdvanceItemBanana(ItemBanana *banana) {
-    u32 v;
+    u32 collisionHitLink;
     u32 flags;
 
     if (banana->mThrowForward != 0) {
-        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x1ec, 0xfec, 0, &v);
+        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x1ec, 0xfec, 0, &collisionHitLink);
     } else {
-        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x2e1, 0xf85, 0, &v);
+        AdvanceBouncingItem(&banana->mBouncingItemObject, 0x2e1, 0xf85, 0, &collisionHitLink);
     }
     flags = banana->mBouncingItemObject.mItemObject.mFlags;
     if ((flags & 8) == 0) {
@@ -903,7 +905,7 @@ void AdvanceItemBanana(ItemBanana *banana) {
         banana->mBouncingItemObject.mItemObject.mVelocity.y = banana->mBouncingItemObject.mItemObject.mVelocity.y * 2;
     }
     StopSound(&banana->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
-    StartRestingItemObject(&banana->mBouncingItemObject.mItemObject, &v);
+    StartRestingItemObject(&banana->mBouncingItemObject.mItemObject, &collisionHitLink);
 }
 
 // Hands the 0x130 word and the 0x60 word to StoreItemDataFlagBit/LoadItemDataFlagBit around the
@@ -974,9 +976,9 @@ void AdvanceRestingItemKinoko(ItemKinoko *kinoko) {
 
 // Sets the object up through AdvanceBouncingItem when the 0x74 word allows it.
 void AdvanceBouncingItemKinoko(ItemKinoko *kinoko) {
-    u32 n;
+    u32 collisionHitLink;
 
-    AdvanceBouncingItem(&kinoko->mBouncingItemObject, 0x385, 0xff8, 0x733, &n);
+    AdvanceBouncingItem(&kinoko->mBouncingItemObject, 0x385, 0xff8, 0x733, &collisionHitLink);
     if ((kinoko->mBouncingItemObject.mItemObject.mFlags & 8) == 0) {
         return;
     }
@@ -984,7 +986,7 @@ void AdvanceBouncingItemKinoko(ItemKinoko *kinoko) {
         return;
     }
     StopSound(&kinoko->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
-    StartRestingItemObject(&kinoko->mBouncingItemObject.mItemObject, &n);
+    StartRestingItemObject(&kinoko->mBouncingItemObject.mItemObject, &collisionHitLink);
     if ((kinoko->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
         kinoko->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceRestingItemKinoko;
     }
@@ -1086,7 +1088,7 @@ void CreateItemInfos(void) {
 #pragma thumb off
 
 void InitHeldItem(HeldItem *heldItem, KartItems *kartItems) {
-    s32 i;
+    s32 slotIndex;
 
     heldItem->mKartItems = kartItems;
     heldItem->mItemInfoIndex = 0x13;
@@ -1095,8 +1097,8 @@ void InitHeldItem(HeldItem *heldItem, KartItems *kartItems) {
     heldItem->mUsesTimer = 0;
     heldItem->mTimer = 0;
     heldItem->mUseTimerLimit = 0;
-    for (i = 0; i < 3; i++) {
-        heldItem->mObjects[i] = NULL;
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        heldItem->mObjects[slotIndex] = NULL;
     }
     heldItem->mIsPeerEntry = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
 }
@@ -1108,7 +1110,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     Vec3 *kartDrawPos;
     Vec3 *kartVelocity;
     void (*kindCallback)(void *);
-    s32 i;
+    s32 slotIndex;
     enum { K0 } kind;
 
     if (heldItem->mObjectStartFramesLeft <= 0) {
@@ -1143,7 +1145,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     heldItem->mUsesTimer = 0;
     heldItem->mTimer = 0;
     heldItem->mUseTimerLimit = 0;
-    for (i = 0; i < 3; i++) {
-        heldItem->mObjects[i] = NULL;
+    for (slotIndex = 0; slotIndex < 3; slotIndex++) {
+        heldItem->mObjects[slotIndex] = NULL;
     }
 }

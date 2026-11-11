@@ -75,15 +75,15 @@ typedef struct EmitterParams {
     /* 0a */ u8 mUnk_0a[2];
 } EmitterParams;
 
-void UpdateRock(void *a, RockObject *rock);
+void UpdateRock(void *mapObjectList, RockObject *rock);
 void ResetRockWithEffects(RockObject *rock, s32 wasHit);
-u8 CollideKartWithRock(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
-u8 CollideItemObjectWithRock(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 CollideKartWithRock(RockObject *rock, s32 unused, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 CollideItemObjectWithRock(RockObject *rock, s32 unused, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void ResetRock(RockObject *rock);
 void InitRock(RockObject *rock, struct CourseMapRow *courseRow);
-void CreateNsbmdAndShadowNsbmd(void *a, const char *name, const char *shadowName);
-void CreateRock(void *a);
-void CreateRock2(void *a);
+void CreateNsbmdAndShadowNsbmd(void *mapObjectList, const char *name, const char *shadowName);
+void CreateRock(void *mapObjectList);
+void CreateRock2(void *mapObjectList);
 void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file);
 void InitCourseCollision(void);
 void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, CollisionHitLink *link, Vec3 *position, Vec3 *normal);

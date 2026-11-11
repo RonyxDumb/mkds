@@ -10,4 +10,4 @@ typedef struct Unk020e4e08 {
     /* 04 */ Vec3 mUnk_04;
 } Unk020e4e08;
 
-void DrawPukupukuShadow(u32 a, Pukupuku *pukupuku, u32 b, u32 alpha);
+void DrawPukupukuShadow(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u32 alpha);

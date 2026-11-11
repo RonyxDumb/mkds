@@ -130,7 +130,7 @@ void SetupDrawChoropu(void) {
     QueueNsbmdModelMaterial(gChoropu);
 }
 
-void DrawChoropu(s32 a, Choropu *choropu, s32 c, u16 alpha) {
+void DrawChoropu(s32 unused, Choropu *choropu, s32 unusedArg, u16 alpha) {
     MtxFx43 *matrix;
 
     switch (choropu->mMapObject.mStateMachine.mState) {

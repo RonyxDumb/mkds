@@ -14,14 +14,18 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b);
-void AddLapTimes(const MinuteSecondMillisecondTime *a, const MinuteSecondMillisecondTime *b,
-                 MinuteSecondMillisecondTime *c);
+void StoreRaceProgressKartLapTime(RaceProgressKart *raceProgressKart, s32 pastFinalLap);
+void AddLapTimes(const MinuteSecondMillisecondTime *augend, const MinuteSecondMillisecondTime *addend,
+                 MinuteSecondMillisecondTime *result);
 // d is a sub-frame correction.
-void ComputeRaceTime(u8 *a, u8 *b, u16 *c, s32 d, u32 e);
-s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
-s16 FindKartCheckpointForward(RaceProgressKart *raceProgressKart, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
-BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *b, Vec3 *c, u16 d, u16 e);
-s32 ComputeProgressBetweenCheckpoints(const Vec3 *a, u16 b, u16 c);
-BOOL IsPointBetweenCheckpointLines(const Vec3 *a, const CourseMapCheckpoint *b, const CourseMapCheckpoint *c);
+void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 frameFraction, u32 frames);
+s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+                               u16 checkpointIndex, s32 depth);
+s16 FindKartCheckpointForward(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+                              u16 checkpointIndex, s32 depth);
+BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+                                  u16 checkpointIndex);
+s32 ComputeProgressBetweenCheckpoints(const Vec3 *pos, u16 fromIndex, u16 toIndex);
+BOOL IsPointBetweenCheckpointLines(const Vec3 *pos, const CourseMapCheckpoint *fromCheckpoint,
+                                   const CourseMapCheckpoint *toCheckpoint);
 void UpdateRaceClock(void);

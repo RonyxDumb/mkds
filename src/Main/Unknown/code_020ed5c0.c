@@ -73,7 +73,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     ItemObject **objects;
     s32 objectCount;
     ItemObject *object;
-    s32 i;
+    s32 objectIndex;
     u16 *kartModelHalfwords;
     s32 poolIndex;
 
@@ -125,8 +125,8 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     objects = itemInUse->mObjects;
     kartModelHalfwords = &itemInUse->mKart->mKartModelsEntry->mCourseColorBlend.mColor;
     objectCount = itemInUse->mObjectCount;
-    for (i = 0; i < objectCount; i++) {
-        object = objects[i];
+    for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
+        object = objects[objectIndex];
         object->mAgeFrames = 0;
         object->mPrevPos = object->mPos;
         object->mVelocity = itemInUse->mKartVelocity;
@@ -153,8 +153,8 @@ BOOL IsItemObjectNearPoint(ItemObject *object, Vec3 *point, s32 radius) {
 
 void CollideItemObjects(ItemObject *object, ItemObject *other) {
     Vec3 savedVelocity;
-    s32 n;
-    s32 m;
+    s32 objectHitType;
+    s32 otherHitType;
 
     if ((other->mFlags & 0x1000) != 0) {
         if (object->mCreationNumber > other->mCreationNumber) {
@@ -170,32 +170,32 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
         }
     }
     savedVelocity = object->mVelocity;
-    n = GetItemObjectHitType(object, other);
-    m = GetItemObjectHitType(other, object);
-    ApplyItemObjectHitType(object, n, &other->mPos, &other->mVelocity, NULL);
-    ApplyItemObjectHitType(other, m, &object->mPos, &savedVelocity, NULL);
+    objectHitType = GetItemObjectHitType(object, other);
+    otherHitType = GetItemObjectHitType(other, object);
+    ApplyItemObjectHitType(object, objectHitType, &other->mPos, &other->mVelocity, NULL);
+    ApplyItemObjectHitType(other, otherHitType, &object->mPos, &savedVelocity, NULL);
     if (other->mKind != 1) {
         return;
     }
-    StartTargetKartSoundOnOwnItemHit(other, m, object);
+    StartTargetKartSoundOnOwnItemHit(other, otherHitType, object);
 }
 
 void UpdateItemInUseObjects(ItemInUse *itemInUse) {
     ItemObject **objects;
     s32 objectCount;
     ItemObject *object;
-    s32 i;
-    s32 a;
-    s32 b;
-    s32 j;
+    s32 index;
+    s32 courseHitAttributeBit;
+    s32 outOfView;
+    s32 reverseIndex;
     enum { K0 } idx;
 
     objects = itemInUse->mObjects;
     objectCount = itemInUse->mObjectCount;
-    a = GetKartCourseHitAttributeBit(itemInUse->mKart);
-    b = IsKartOutOfView(itemInUse->mKart);
-    for (i = 0; i < objectCount; i++) {
-        object = objects[i];
+    courseHitAttributeBit = GetKartCourseHitAttributeBit(itemInUse->mKart);
+    outOfView = IsKartOutOfView(itemInUse->mKart);
+    for (index = 0; index < objectCount; index++) {
+        object = objects[index];
         object->mAgeFrames = object->mAgeFrames + 1;
         VEC_Subtract(&object->mPos, &object->mPrevPos, &object->mVelocity);
         object->mPrevPos = object->mPos;
@@ -205,19 +205,19 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                 object->mFlags |= 0x80;
             }
         }
-        if (a != 0) {
+        if (courseHitAttributeBit != 0) {
             object->mFlags |= 0x40000;
         } else {
             object->mFlags &= ~0x40000;
         }
-        if (b != 0) {
+        if (outOfView != 0) {
             object->mFlags |= 0x10000;
         } else {
             object->mFlags &= ~0x10000;
         }
     }
-    for (j = objectCount - 1; j >= 0; j--) {
-        object = objects[j];
+    for (reverseIndex = objectCount - 1; reverseIndex >= 0; reverseIndex--) {
+        object = objects[reverseIndex];
         if (object->mCollisionSlotIndex == -1) {
             if (IsItemObjectScaleAtSetupSize(object) != FALSE) {
                 idx = object->mKind;
@@ -228,9 +228,9 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
             continue;
         }
         FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex, 0x6000);
-        for (i = 0; i < gFoundCollisionSlotCount; i++) {
-            if ((gFoundCollisionSlotFlags[i] & 0x4000) != 0) {
-                ItemObject *other = gFoundCollisionSlotObjects[i];
+        for (index = 0; index < gFoundCollisionSlotCount; index++) {
+            if ((gFoundCollisionSlotFlags[index] & 0x4000) != 0) {
+                ItemObject *other = gFoundCollisionSlotObjects[index];
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
                 }
@@ -239,8 +239,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                     continue;
                 }
                 CollideItemObjects(object, other);
-            } else if ((gFoundCollisionSlotFlags[i] & 0x2000) != 0) {
-                MapObject *other = gFoundCollisionSlotObjects[i];
+            } else if ((gFoundCollisionSlotFlags[index] & 0x2000) != 0) {
+                MapObject *other = gFoundCollisionSlotObjects[index];
                 if (DoesMapObjectRespondToItemObject(other, object) == FALSE) {
                     continue;
                 }
@@ -388,14 +388,14 @@ void StartItemInUseObjectCountdown(ItemInUse *itemInUse) {
 void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
     s32 objectCount;
     ItemObject *target;
-    s32 i;
+    s32 objectIndex;
 
     target = object;
     objectCount = itemInUse->mObjectCount;
-    for (i = 0; i < objectCount; i++) {
-        if (itemInUse->mObjects[i] == target) {
-            ((void (*)(void *, s32, ItemObject *))((void **) gItemInUseRemoveTable)[itemInUse->mUseKind])(itemInUse, i,
-                                                                                                          target);
+    for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
+        if (itemInUse->mObjects[objectIndex] == target) {
+            ((void (*)(void *, s32, ItemObject *))((void **) gItemInUseRemoveTable)[itemInUse->mUseKind])(
+                itemInUse, objectIndex, target);
             if (itemInUse->mObjectCount != 0) {
                 return;
             }
@@ -432,8 +432,8 @@ void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
 }
 
 void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
-    s16 d8;
-    s32 i;
+    s16 alpha;
+    s32 objectIndex;
     NsbmdModel *model;
     s32 takenCount;
     s32 activeCount;
@@ -446,8 +446,8 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     QueueNsbmdModelMaterial(model);
     model->mPolygonAttributes &= ~0x3f000000;
     model->mPolygonAttributes |= 0x4000000;
-    for (i = 0; i < takenCount; i++) {
-        object = pool->mObjects[i];
+    for (objectIndex = 0; objectIndex < takenCount; objectIndex++) {
+        object = pool->mObjects[objectIndex];
         if ((object->mFlags & 0x10000) != 0) {
             continue;
         }
@@ -456,11 +456,11 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
         }
-        if ((d8 = object->mAlpha) != 0x1f) {
+        if ((alpha = object->mAlpha) != 0x1f) {
             model->mPolygonAttributes &= ~0x1f0000;
-            model->mPolygonAttributes |= (u16) d8 << 16;
+            model->mPolygonAttributes |= (u16) alpha << 16;
         }
-        if (i == activeCount) {
+        if (objectIndex == activeCount) {
             model->mPolygonAttributes &= ~0x3f000000;
             model->mPolygonAttributes |= 0x3000000;
         }
@@ -488,7 +488,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             matrix = SetViewAxis2MatrixPos(object->mPosPointer);
         }
         DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
-        if ((d8 = object->mAlpha) != 0x1f) {
+        if ((alpha = object->mAlpha) != 0x1f) {
             model->mPolygonAttributes &= ~0x1f0000;
             model->mPolygonAttributes |= 0x1f0000;
         }
@@ -497,12 +497,12 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
 
 void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, void *, void *)) {
     s32 takenCount;
-    s32 i;
+    s32 objectIndex;
     ItemObject *object;
 
     takenCount = pool->mTakenCount;
-    for (i = 0; i < takenCount; i++) {
-        object = pool->mObjects[i];
+    for (objectIndex = 0; objectIndex < takenCount; objectIndex++) {
+        object = pool->mObjects[objectIndex];
         if ((object->mFlags & 0x10000) != 0) {
             continue;
         }
@@ -516,12 +516,12 @@ void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCall
 }
 
 void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) {
-    s16 d;
+    s16 alpha;
     void *matrix;
 
-    if ((d = object->mAlpha) != 0x1f) {
+    if ((alpha = object->mAlpha) != 0x1f) {
         model->mPolygonAttributes &= ~0x1f0000;
-        model->mPolygonAttributes |= (u16) d << 16;
+        model->mPolygonAttributes |= (u16) alpha << 16;
     }
     QueueNsbmdModelMaterial(model);
     if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
@@ -548,7 +548,7 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         matrix = SetViewAxis2MatrixPos(object->mPosPointer);
     }
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
-    if ((d = object->mAlpha) != 0x1f) {
+    if ((alpha = object->mAlpha) != 0x1f) {
         model->mPolygonAttributes &= ~0x1f0000;
         model->mPolygonAttributes |= 0x1f0000;
     }

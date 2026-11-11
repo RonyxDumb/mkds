@@ -44,7 +44,7 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
     s32 length;
     s32 startExtra = 0;
     s32 endExtra = 0;
-    s32 r;
+    s32 value;
     s32 bend;
     s64 squaredUpLength;
     segment->mPoints[0] = *startPoint;
@@ -71,10 +71,10 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
                 startSlope.y = MUL_FIXED12_NO_ROUND(previousToEnd.y, length);
                 startSlope.z = MUL_FIXED12_NO_ROUND(previousToEnd.z, length);
             } else {
-                r = length + startExtra;
-                startSlope.x = MUL_FIXED12_NO_ROUND(previousToEnd.x, r);
-                startSlope.y = MUL_FIXED12_NO_ROUND(previousToEnd.y, r);
-                startSlope.z = MUL_FIXED12_NO_ROUND(previousToEnd.z, r);
+                value = length + startExtra;
+                startSlope.x = MUL_FIXED12_NO_ROUND(previousToEnd.x, value);
+                startSlope.y = MUL_FIXED12_NO_ROUND(previousToEnd.y, value);
+                startSlope.z = MUL_FIXED12_NO_ROUND(previousToEnd.z, value);
             }
             VEC_MultAdd(0x555, &startSlope, &segment->mPoints[0], &segment->mPoints[1]);
         } else {
@@ -93,10 +93,10 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
                 endSlope.y = MUL_FIXED12_NO_ROUND(startToNext.y, length);
                 endSlope.z = MUL_FIXED12_NO_ROUND(startToNext.z, length);
             } else {
-                r = length + endExtra;
-                endSlope.x = MUL_FIXED12_NO_ROUND(startToNext.x, r);
-                endSlope.y = MUL_FIXED12_NO_ROUND(startToNext.y, r);
-                endSlope.z = MUL_FIXED12_NO_ROUND(startToNext.z, r);
+                value = length + endExtra;
+                endSlope.x = MUL_FIXED12_NO_ROUND(startToNext.x, value);
+                endSlope.y = MUL_FIXED12_NO_ROUND(startToNext.y, value);
+                endSlope.z = MUL_FIXED12_NO_ROUND(startToNext.z, value);
             }
             VEC_MultAdd(-0x555, &endSlope, &segment->mPoints[3], &segment->mPoints[2]);
         } else {
@@ -112,18 +112,18 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
     segment->mProgressLength = segment->mCurveLength;
     segment->mInverseProgressLength = segment->mInverseCurveLength;
     if (computeUp != 0) {
-        r = VEC_DotProduct(&direction, &data_02158088);
-        segment->mUp.x = data_02158088.x - MUL_FIXED12_NO_ROUND(direction.x, r);
-        segment->mUp.y = data_02158088.y - MUL_FIXED12_NO_ROUND(direction.y, r);
-        segment->mUp.z = data_02158088.z - MUL_FIXED12_NO_ROUND(direction.z, r);
+        value = VEC_DotProduct(&direction, &data_02158088);
+        segment->mUp.x = data_02158088.x - MUL_FIXED12_NO_ROUND(direction.x, value);
+        segment->mUp.y = data_02158088.y - MUL_FIXED12_NO_ROUND(direction.y, value);
+        segment->mUp.z = data_02158088.z - MUL_FIXED12_NO_ROUND(direction.z, value);
         squaredUpLength = (s64) segment->mUp.x * segment->mUp.x + (s64) segment->mUp.y * segment->mUp.y +
                           (s64) segment->mUp.z * segment->mUp.z;
         if (squaredUpLength < 16) {
-            r = 0;
+            value = 0;
         } else {
-            r = Vec3NormalizeAndGetLengthUnchecked(&segment->mUp, &segment->mUp);
+            value = Vec3NormalizeAndGetLengthUnchecked(&segment->mUp, &segment->mUp);
         }
-        if (r == 0) {
+        if (value == 0) {
             segment->mUp = data_02158088;
         }
     }

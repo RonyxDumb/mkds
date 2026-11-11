@@ -44,7 +44,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     u16 frameCount;
     u16 frame;
     void *heap;
-    enum { K0 } k;
+    enum { K0 } mask;
 
     resMdl = model->mResMdl;
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
@@ -68,8 +68,8 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
         record->mTexPlttBases = HeapAlloc(heap, frameCount * 4);
         frame = 0;
         if (frame < frameCount) {
-            k = 0xc00f0000;
-            frameWork.mUnk_00 &= k;
+            mask = 0xc00f0000;
+            frameWork.mUnk_00 &= mask;
             frameWork.mUnk_04 = 0;
             do {
                 animation->mHead.mFrameIndex = frame << 12;
@@ -90,7 +90,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     }
 }
 
-void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c) {
+void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused) {
     record->mNsbmd = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
     InitNsbmd(record->mNsbmd, nsbmdFile);
     if (nsbtpFile != NULL) {
@@ -102,9 +102,9 @@ void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c)
     FillNsbmdModel(record->mNsbmd, record->mNsbtpAnimation, record);
 }
 
-void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4) {
+void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused) {
     *recordSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    InitNsbmdModel(*recordSlot, nsbmdFile, nsbtpFile, param_4);
+    InitNsbmdModel(*recordSlot, nsbmdFile, nsbtpFile, unused);
 }
 
 #pragma thumb off
@@ -184,7 +184,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     Vec3 sphereOffset;
     s32 axisDistance;
     s32 axisOverlap;
-    s32 d;
+    s32 combinedRadius;
     s64 distanceSquared;
 
     VEC_Subtract(sphereCenter, &pendulum->mMapObject.mPos, &sphereOffset);
@@ -200,19 +200,19 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
             return FALSE;
         }
     }
-    d = sphereRadius + pendulum->mRadius;
+    combinedRadius = sphereRadius + pendulum->mRadius;
     distanceSquared = (s64) sphereOffset.x * sphereOffset.x + (s64) sphereOffset.y * sphereOffset.y +
                       (s64) sphereOffset.z * sphereOffset.z;
-    if (distanceSquared < (s64) d * d) {
+    if (distanceSquared < (s64) combinedRadius * combinedRadius) {
         reg_CP_SQRTCNT = 1;
         reg_CP_SQRT_PARAM = distanceSquared;
         while (reg_CP_SQRTCNT & 0x8000) {
         }
-        d -= reg_CP_SQRT_RESULT;
+        combinedRadius -= reg_CP_SQRT_RESULT;
     } else {
         return FALSE;
     }
-    if ((axisOverlap > 0 ? axisOverlap : -axisOverlap) < d) {
+    if ((axisOverlap > 0 ? axisOverlap : -axisOverlap) < combinedRadius) {
         out->x = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].x, axisOverlap);
         out->y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].y, axisOverlap);
         out->z = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].z, axisOverlap);
@@ -226,9 +226,9 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         if (distanceSquared >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&sphereOffset, &sphereOffset);
         }
-        out->x = MUL_FIXED12_NO_ROUND(sphereOffset.x, d);
-        out->y = MUL_FIXED12_NO_ROUND(sphereOffset.y, d);
-        out->z = MUL_FIXED12_NO_ROUND(sphereOffset.z, d);
+        out->x = MUL_FIXED12_NO_ROUND(sphereOffset.x, combinedRadius);
+        out->y = MUL_FIXED12_NO_ROUND(sphereOffset.y, combinedRadius);
+        out->z = MUL_FIXED12_NO_ROUND(sphereOffset.z, combinedRadius);
         pendulum->mUnk_10c = TRUE;
     }
     return TRUE;

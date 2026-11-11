@@ -173,7 +173,7 @@ void UpdateKuriboState5(Kuribo *kuribo) {
 void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     Vec3 launchDirection;
     ItemObject *itemObject;
-    s32 d;
+    s32 value;
     if (kuribo->mMapObject.mCourseMapRow == NULL || kuribo->mMapObject.mCourseMapRow->mSettings[2] != 0) {
         return;
     }
@@ -184,13 +184,13 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
         Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
     }
     {
-        Vec3 t = {0, 0, 0};
-        t.x = hitVector->x;
-        t.z = hitVector->z;
-        d = VEC_DotProduct(&launchDirection, &t);
-        launchDirection.x = t.x - MUL_FIXED12_NO_ROUND(launchDirection.x, d);
-        launchDirection.y = t.y - MUL_FIXED12_NO_ROUND(launchDirection.y, d);
-        launchDirection.z = t.z - MUL_FIXED12_NO_ROUND(launchDirection.z, d);
+        Vec3 flatHitVector = {0, 0, 0};
+        flatHitVector.x = hitVector->x;
+        flatHitVector.z = hitVector->z;
+        value = VEC_DotProduct(&launchDirection, &flatHitVector);
+        launchDirection.x = flatHitVector.x - MUL_FIXED12_NO_ROUND(launchDirection.x, value);
+        launchDirection.y = flatHitVector.y - MUL_FIXED12_NO_ROUND(launchDirection.y, value);
+        launchDirection.z = flatHitVector.z - MUL_FIXED12_NO_ROUND(launchDirection.z, value);
     }
     if ((s64) launchDirection.x * launchDirection.x + (s64) launchDirection.y * launchDirection.y +
             (s64) launchDirection.z * launchDirection.z >=
@@ -204,10 +204,10 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mScale.x = 0xcd;
     itemObject->mScale.y = 0xcd;
     itemObject->mScale.z = 0xcd;
-    d = VEC_Mag(hitVector) + 0x5000;
-    itemObject->mVelocity.x = MUL_FIXED12_NO_ROUND(launchDirection.x, d);
-    itemObject->mVelocity.y = MUL_FIXED12_NO_ROUND(launchDirection.y, d);
-    itemObject->mVelocity.z = MUL_FIXED12_NO_ROUND(launchDirection.z, d);
+    value = VEC_Mag(hitVector) + 0x5000;
+    itemObject->mVelocity.x = MUL_FIXED12_NO_ROUND(launchDirection.x, value);
+    itemObject->mVelocity.y = MUL_FIXED12_NO_ROUND(launchDirection.y, value);
+    itemObject->mVelocity.z = MUL_FIXED12_NO_ROUND(launchDirection.z, value);
     itemObject->mVelocity.y += 0xf000;
     VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
     LaunchItemObjectFromPos(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &data_021581f8);

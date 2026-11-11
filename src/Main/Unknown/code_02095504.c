@@ -29,59 +29,61 @@
 #include "code_02148538.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *c, u8 *d) {
-    u8 v;
+u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8 *response) {
+    u8 responseValue;
 
-    v = *d;
+    responseValue = *response;
     if (moveTree->mState <= 1) {
         moveTree->mUnk_a4 = 30;
     }
-    return v;
+    return responseValue;
 }
 
-void CreateMoveTree(void *a) {
-    gMoveTree = CreateMapObjectModelAnimated(a, gMoveTreeNsbmdName);
+void CreateMoveTree(void *mapObjectList) {
+    gMoveTree = CreateMapObjectModelAnimated(mapObjectList, gMoveTreeNsbmdName);
     CreateMapObjectModelNsbcaAnimation(gMoveTree, gMoveTreeNsbcaName);
     SetMapObjectModelPolygonId(gMoveTree, 0x3f);
 }
 
-void DrawMoveTree(void *a, MoveTree *moveTree, u32 c, u32 d) {
-    s32 t;
+void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha) {
+    s32 gxParam;
 
-    t = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&moveTree->mMapObject.mPos), 12);
     NNS_G3dGeBufferOP_N(0x1b, &moveTree->mMapObject.mScale, 3);
     if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
         SetMapObjectModelNsbcaFrameIndex(gMoveTree, moveTree->mNsbcaFrameIndex);
-        DrawMapObjectModel(a, gMoveTree, moveTree);
+        DrawMapObjectModel(mapObjectList, gMoveTree, moveTree);
     } else {
-        DrawMapObjectModel1Mat1Shp(a, gMoveTree, moveTree);
+        DrawMapObjectModel1Mat1Shp(mapObjectList, gMoveTree, moveTree);
     }
     if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
         return;
     }
     SetShadowPositionXZ(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos);
-    DrawObjShadow(&moveTree->mUnk_dc, NULL, c, d);
+    DrawObjShadow(&moveTree->mUnk_dc, NULL, unused, alpha);
 }
 
 void InitMoveTreeObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 mapObjectIndex;
     MoveTree *moveTree;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (moveTree = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (moveTree = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         moveTree->mUnk_a8 = (moveTree->mMapObject.mCourseMapRow->mSettings[0] << 12) / 100;
         RefreshShadowMatrix(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos, 0x54666, 14);
     }
 }
 
-void UpdateMoveTree(void *a, MoveTree *moveTree) {
-    SoundStartParams s1;
-    SoundStartParams s2;
-    u32 k;
+void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
+    SoundStartParams firstSoundParams;
+    SoundStartParams secondSoundParams;
+    u32 falloffIndex;
     s32 speed;
 
     switch (moveTree->mState) {
@@ -116,17 +118,17 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
                 return;
             }
             if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                k = 2;
+                falloffIndex = 2;
             } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                k = 3;
+                falloffIndex = 3;
             } else {
-                k = 4;
+                falloffIndex = 4;
             }
-            s1.mSoundId = 0x11f;
-            s1.mPositionSource = &moveTree->mMapObject.mPos;
-            s1.mFalloffIndex = k;
-            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);
-            StartSoundFromParams(&s1);
+            firstSoundParams.mSoundId = 0x11f;
+            firstSoundParams.mPositionSource = &moveTree->mMapObject.mPos;
+            firstSoundParams.mFalloffIndex = falloffIndex;
+            firstSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);
+            StartSoundFromParams(&firstSoundParams);
             break;
         case 1:
             speed = moveTree->mUnk_a8;
@@ -157,17 +159,17 @@ void UpdateMoveTree(void *a, MoveTree *moveTree) {
                 return;
             }
             if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
-                k = 2;
+                falloffIndex = 2;
             } else if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
-                k = 3;
+                falloffIndex = 3;
             } else {
-                k = 4;
+                falloffIndex = 4;
             }
-            s2.mSoundId = 0x11f;
-            s2.mPositionSource = &moveTree->mMapObject.mPos;
-            s2.mFalloffIndex = k;
-            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);
-            StartSoundFromParams(&s2);
+            secondSoundParams.mSoundId = 0x11f;
+            secondSoundParams.mPositionSource = &moveTree->mMapObject.mPos;
+            secondSoundParams.mFalloffIndex = falloffIndex;
+            secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);
+            StartSoundFromParams(&secondSoundParams);
     }
 }
 
@@ -183,51 +185,53 @@ void CreateMoveTreeUpdateList(void) {
     CreateMapObjectUpdateList(InitMoveTreeObjects, UpdateMoveTree, NULL);
 }
 
-void CreateBakubakuAndBakuShadow(void *a) {
-    gBakubaku = CreateMapObjectModelAnimated(a, gBakubakuNsbmdName);
-    gBakuShadow = CreateMapObjectModelShadow(a, gBakuShadowNsbmdName);
+void CreateBakubakuAndBakuShadow(void *mapObjectList) {
+    gBakubaku = CreateMapObjectModelAnimated(mapObjectList, gBakubakuNsbmdName);
+    gBakuShadow = CreateMapObjectModelShadow(mapObjectList, gBakuShadowNsbmdName);
     SetMapObjectModelPolygonId(gBakubaku, 0x3f);
     SetMapObjectModelPolygonId(gBakuShadow, 0x3f);
 }
 
-void DrawBakubaku(void *a, Bakubaku *bakubaku) {
-    s32 t;
-    MtxFx33 m;
-    s32 i;
+void DrawBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
+    s32 gxParam;
+    MtxFx33 rotation;
+    s32 angle;
 
     if (bakubaku->mState != 2) {
         return;
     }
-    t = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     bakubaku->mMapObject.mMatrix.mRows[3].x = bakubaku->mMapObject.mPos.x >> 4;
     bakubaku->mMapObject.mMatrix.mRows[3].y = bakubaku->mMapObject.mPos.y >> 4;
     bakubaku->mMapObject.mMatrix.mRows[3].z = bakubaku->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &bakubaku->mMapObject.mMatrix, 12);
     NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mMapObject.mScale, 3);
-    DrawMapObjectModel(a, gBakuShadow, bakubaku);
-    i = (u16) (u32) FX_Atan2Idx(-bakubaku->mMapObject.mPosStep.y, 0xc000) >> 4;
-    MTX_RotX33_(&m, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
-    NNS_G3dGeBufferOP_N(0x1a, &m, 9);
-    DrawMapObjectModel(a, gBakubaku, bakubaku);
+    DrawMapObjectModel(mapObjectList, gBakuShadow, bakubaku);
+    angle = (u16) (u32) FX_Atan2Idx(-bakubaku->mMapObject.mPosStep.y, 0xc000);
+    MTX_RotX33_(&rotation, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
+    NNS_G3dGeBufferOP_N(0x1a, &rotation, 9);
+    DrawMapObjectModel(mapObjectList, gBakubaku, bakubaku);
 }
 
 void InitBakubakuObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 mapObjectIndex;
     Bakubaku *bakubaku;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (bakubaku = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (bakubaku = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mRows[2], &bakubaku->mMapObject.mCourseMapRow->mPosition,
                     &bakubaku->mUnk_a4);
     }
 }
 
-void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
-    SoundStartParams s1;
-    SoundStartParams s2;
+void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
+    SoundStartParams firstSoundParams;
+    SoundStartParams secondSoundParams;
     Kart *kart;
     Vec3 *kartPos;
     s64 distanceSquared;
@@ -261,11 +265,11 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
                 return;
             }
             StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
-            s1.mSoundId = 0x186;
-            s1.mPositionSource = &bakubaku->mMapObject.mPos;
-            s1.mFalloffIndex = 4;
-            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
-            StartSoundFromParams(&s1);
+            firstSoundParams.mSoundId = 0x186;
+            firstSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
+            firstSoundParams.mFalloffIndex = 4;
+            firstSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
+            StartSoundFromParams(&firstSoundParams);
             bakubaku->mState = 2;
             break;
         case 2:
@@ -275,11 +279,11 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
                 return;
             }
             StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
-            s2.mSoundId = 0x187;
-            s2.mPositionSource = &bakubaku->mMapObject.mPos;
-            s2.mFalloffIndex = 2;
-            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
-            StartSoundFromParams(&s2);
+            secondSoundParams.mSoundId = 0x187;
+            secondSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
+            secondSoundParams.mFalloffIndex = 2;
+            secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
+            StartSoundFromParams(&secondSoundParams);
             bakubaku->mState = 3;
             break;
         case 3:

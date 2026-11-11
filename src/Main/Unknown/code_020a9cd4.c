@@ -61,32 +61,32 @@ void InitIronBall(IronBall *ironBall) {
         DecimalNonZeroDigitsToBitMask(ironBall->mMapObject.mCourseMapRow->mSettings[6]);
 }
 
-u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *b, u8 *c) {
-    u32 x = *b;
-    u32 y = *c;
+u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *firstResponse, u8 *response) {
+    u32 firstResponseValue = *firstResponse;
+    u32 responseValue = *response;
 
-    if (x == 1) {
+    if (firstResponseValue == 1) {
         ironBall->mHeightSpeed = 0xa000;
         return 0;
     }
-    return (u8) y;
+    return (u8) responseValue;
 }
 
-void CreateIronBall(void *a) {
-    gIronBall = CreateMapObjectModelNsbmd(a, gIronBallNsbmdName);
+void CreateIronBall(void *mapObjectList) {
+    gIronBall = CreateMapObjectModelNsbmd(mapObjectList, gIronBallNsbmdName);
     SetMapObjectModelPolygonId(gIronBall, 0x3f);
 }
 
-void SetupDrawIronBall(void *a) {
-    QueueMapObjectModelMaterial(a, gIronBall);
+void SetupDrawIronBall(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gIronBall);
 }
 
-void DrawIronBall(void *a, IronBall *ironBall) {
-    u32 v;
+void DrawIronBall(void *mapObjectList, IronBall *ironBall) {
+    u32 gxParam;
     MtxFx33 rotationMatrix;
 
-    v = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &v, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&ironBall->mMapObject.mPos), 0xc);
     if (ironBall->mRotateZAngle != 0) {
         MTX_RotZ33_(&rotationMatrix, SIN_OF_ANGLE((u16) ironBall->mRotateZAngle),
@@ -94,5 +94,5 @@ void DrawIronBall(void *a, IronBall *ironBall) {
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &ironBall->mMapObject.mScale, 3);
-    DrawMapObjectModel(a, gIronBall, ironBall);
+    DrawMapObjectModel(mapObjectList, gIronBall, ironBall);
 }

@@ -22,18 +22,18 @@ void CreateBoxAndQuestion(void) {
     s32 cosine;
     s32 sine;
     u32 angleIndex;
-    NsbmdModel *p;
+    NsbmdModel *model;
 
     CreateNsbmdModel(&gBox, FindMainRaceOrMainEffectMapObjFile("box.nsbmd"), 0, 0);
     CreateNsbmdModel(&gQuestion, FindMainRaceOrMainEffectMapObjFile("question.nsbmd"), 0, 0);
     SetNsbmdModelFixedAttributes(gBox);
     SetNsbmdModelFixedAttributes(gQuestion);
-    p = gBox;
-    p->mSpecEmi = p->mSpecEmi & 0x8000ffff;
-    p->mSpecEmi = p->mSpecEmi | 0x52940000;
-    p = gQuestion;
-    p->mSpecEmi = p->mSpecEmi & 0x8000ffff;
-    p->mSpecEmi = p->mSpecEmi | 0x52940000;
+    model = gBox;
+    model->mSpecEmi = model->mSpecEmi & 0x8000ffff;
+    model->mSpecEmi = model->mSpecEmi | 0x52940000;
+    model = gQuestion;
+    model->mSpecEmi = model->mSpecEmi & 0x8000ffff;
+    model->mSpecEmi = model->mSpecEmi | 0x52940000;
     gBoxRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1770);
     for (boxIndex = 0; boxIndex < 0x12c; boxIndex++) {
         angleIndex = (u16) (((u32) boxIndex << 16) / 0x12c) >> 4;

@@ -209,15 +209,15 @@ void AdvanceMissionRunEnd(void) {
     s32 endKind = 2;
     RaceSetup *raceSetup = gRaceSetup;
     s32 entryIndex = raceSetup->mEntryIndex;
-    u16 w;
+    u16 kartIndex;
     u32 kartOffset;
     RaceProgressKart *kart;
     BOOL hasEnded;
     if (entryIndex < 0) {
         return;
     }
-    w = entryIndex;
-    kartOffset = w * 0x8c;
+    kartIndex = entryIndex;
+    kartOffset = kartIndex * 0x8c;
     kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
     hasEnded = FALSE;
     switch (kart->mStatus) {
@@ -329,27 +329,27 @@ void UpdateRaceProgress(void) {
     if (gCourseMap->mCheckpoints != NULL) {
         UpdateRaceProgressKarts();
     } else {
-        BOOL t = FALSE;
+        BOOL entryRaceEnded = FALSE;
         switch (gRaceSetup->mRaceKind) {
             case RACE_KIND_DEMO:
             case RACE_KIND_REPLAY:
             case RACE_KIND_STAFF_ROLL:
-                t = TRUE;
+                entryRaceEnded = TRUE;
                 break;
             case RACE_KIND_NORMAL:
                 if (IsEntryRaceEnded() != 0) {
-                    t = TRUE;
+                    entryRaceEnded = TRUE;
                 }
                 break;
         }
-        gRaceProgress->mEntryRaceEnded = t;
+        gRaceProgress->mEntryRaceEnded = entryRaceEnded;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            u16 *q;
+            u16 *rankBits;
             u8 standingRank = GetKartStandingRankIndexPlusOne(kartIndex);
-            q = &gRaceProgress->mKarts[kartIndex].mRankIndexRequestBits;
-            *q = (*q & ~0xf) | (standingRank & 0xf);
+            rankBits = &gRaceProgress->mKarts[kartIndex].mRankIndexRequestBits;
+            *rankBits = (*rankBits & ~0xf) | (standingRank & 0xf);
         }
         for (kartIndex = 0; kartIndex < 8; kartIndex = (u16) (kartIndex + 1)) {
             gRaceProgress->mKartAtRank[kartIndex] = -1;
@@ -363,15 +363,15 @@ void UpdateRaceProgress(void) {
         AdvanceMissionRunEnd();
     }
     if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        BOOL f = FALSE;
+        BOOL raceEnded = FALSE;
         switch (gRaceProgress->mKarts[0].mStatus) {
             case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
             case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
             case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
-                f = TRUE;
+                raceEnded = TRUE;
                 break;
         }
-        if (f == FALSE) {
+        if (raceEnded == FALSE) {
             return;
         }
         if (gRaceProgress->mRaceDone == 0) {

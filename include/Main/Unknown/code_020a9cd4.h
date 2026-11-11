@@ -7,10 +7,10 @@
 #include "Main/Unknown/code_020a8ed8.h" // IronBall
 #include "Main/Unknown/unk_0217b000.h"
 
-void DrawIronBall(void *a, IronBall *ironBall);
-void SetupDrawIronBall(void *a);
-void CreateIronBall(void *a);
-u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *b, u8 *c);
+void DrawIronBall(void *mapObjectList, IronBall *ironBall);
+void SetupDrawIronBall(void *mapObjectList);
+void CreateIronBall(void *mapObjectList);
+u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *firstResponse, u8 *response);
 void InitIronBall(IronBall *ironBall);
 s32 GetKeyboardChosenKeyValue(void);
 s32 GetKeyboardCursorValue(void);

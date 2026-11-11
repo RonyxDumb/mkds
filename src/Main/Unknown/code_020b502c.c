@@ -238,7 +238,7 @@ BOOL IsRaceHudSubScreenPairNearCenter(const UnkPair020b502c *position) {
     return FALSE;
 }
 
-void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, UnkPair020b502c *out, s32 v1) {
+void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, UnkPair020b502c *out, s32 unused) {
     UnkPair020b502c center = gRaceHudSubScreenProjection->mCenter;
     s32 centerY = center.mSecond;
     s32 pairSecondScaled = gRaceHudSubScreenProjection->mAnglePairSecondScaled;

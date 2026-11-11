@@ -230,13 +230,13 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
 // FALSE when the position is out of reach, else TRUE with the vector c that pushes it out (zero in most states).
 BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, Vec3 *pushOut) {
     Vec3 offset;
-    s32 d;
+    s32 distance;
     VEC_Subtract(position, &coverPooHole->mMapObject.mPos, &offset);
     if (offset.y >= coverPooHole->mCoverHeight + radius) {
         return FALSE;
     }
-    d = VEC_Mag(&offset);
-    if (d >= coverPooHole->mMapObject.mExtent.x + radius) {
+    distance = VEC_Mag(&offset);
+    if (distance >= coverPooHole->mMapObject.mExtent.x + radius) {
         return FALSE;
     }
     if (coverPooHole->mState == 1) {
@@ -249,10 +249,10 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
         if (LENGTH_SQUARED(offset) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
         }
-        d = coverPooHole->mMapObject.mExtent.x + radius - d;
-        pushOut->x = MUL_FIXED12_NO_ROUND(offset.x, d);
-        pushOut->y = MUL_FIXED12_NO_ROUND(offset.y, d);
-        pushOut->z = MUL_FIXED12_NO_ROUND(offset.z, d);
+        distance = coverPooHole->mMapObject.mExtent.x + radius - distance;
+        pushOut->x = MUL_FIXED12_NO_ROUND(offset.x, distance);
+        pushOut->y = MUL_FIXED12_NO_ROUND(offset.y, distance);
+        pushOut->z = MUL_FIXED12_NO_ROUND(offset.z, distance);
         return TRUE;
     }
     pushOut->x = 0;
@@ -364,13 +364,15 @@ void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
 }
 
 void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 mapObjectIndex;
     CoverPooHole *coverPooHole;
     RandomState64 *mapObjectRandom;
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (coverPooHole = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (coverPooHole = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         coverPooHole->mHoleHeight = 0x1000;
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
@@ -393,8 +395,8 @@ s32 CoverPooHoleFX_SinIdx(s32 angle) {
     return FX_SinIdx(angle);
 }
 
-s32 CoverPooHoleFX_MulInline(s32 a, s32 b) {
-    return MUL_FIXED12_ROUNDED(a, b);
+s32 CoverPooHoleFX_MulInline(s32 value, s32 scale) {
+    return MUL_FIXED12_ROUNDED(value, scale);
 }
 
 static inline u16 CoverPooHoleMapObjectRandomBelowU16(u32 limit) {
@@ -426,7 +428,7 @@ static inline void StartCoverPooHoleSound(CoverPooHole *coverPooHole, s32 soundI
     StartSoundFromParams(&startParams);
 }
 
-void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
+void UpdateCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
     s32 nextValue;
 
     coverPooHole->mMapObject.mPosStep.y = 0;
@@ -623,10 +625,10 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
 }
 
 void CreateCoverPooHoleKindData(void) {
-    MapObjectKindData *o;
-    o = CreateMapObjectKindDataWithSound(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole,
-                                         TryGetCoverPooHolePushOut, 0, 1, 0x16d);
-    o->mCollideItemObjectSoundId = 0x1b0;
+    MapObjectKindData *kindData;
+    kindData = CreateMapObjectKindDataWithSound(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole,
+                                                TryGetCoverPooHolePushOut, 0, 1, 0x16d);
+    kindData->mCollideItemObjectSoundId = 0x1b0;
 }
 
 void *CreateCoverPooHoleDrawList(void) {

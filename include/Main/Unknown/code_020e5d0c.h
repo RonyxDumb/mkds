@@ -66,6 +66,6 @@ void DrawPendulum(u32 unused0, PendulumObject *pendulum, u32 unused1, u32 alpha)
 MapObjectList *CreatePendulumUpdateList(void);
 MapObjectDrawList *CreatePendulumDrawList(void);
 MapObjectKindData *CreatePendulumKindData(void);
-void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
-void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
+void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused);
+void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused);
 void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record);

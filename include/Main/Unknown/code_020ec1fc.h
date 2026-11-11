@@ -52,7 +52,7 @@ extern const MapObjectList data_021594e4;
 extern const Woodbox1DrawList data_0215950c;
 extern const Unk02159538 data_02159538;
 
-void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha);
+void DrawWoodbox1(void *mapObjectList, Woodbox1 *woodbox, void *unused, u32 maxAlpha);
 MapObjectList *CreateWoodbox1UpdateList(void);
 Woodbox1DrawList *CreateWoodbox1DrawList(void);
 Unk02159538 *CreateWoodbox1KindData(void);

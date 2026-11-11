@@ -42,12 +42,12 @@ void InitSanbo(Sanbo *sanbo) {
     InitGroupFollower(&sanbo->mFollower, sanbo->mMapObject.mCourseMapRow, 0);
 }
 
-u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *b, u8 *c) {
+u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *firstResponse, u8 *response) {
     SoundStartParams soundStartParams;
-    u32 d;
+    u32 responseValue;
 
-    d = *c;
-    if (*b == 1) {
+    responseValue = *response;
+    if (*firstResponse == 1) {
         StartSanboLaunch(sanbo);
         sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e4;
         sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e8;
@@ -63,15 +63,15 @@ u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *b, u8 *c) {
         }
         sanbo->mFastWobbleTimer = 0x3c;
     }
-    return d;
+    return responseValue;
 }
 
-u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *b, u8 *c) {
+u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstResponse, u8 *response) {
     SoundStartParams soundStartParams;
-    u32 d;
+    u32 responseValue;
 
-    d = *c;
-    if (*b == 1) {
+    responseValue = *response;
+    if (*firstResponse == 1) {
         StartSanboLaunch(sanbo);
         sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e4;
         sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e8;
@@ -86,26 +86,25 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *b, u8 *c
         }
         sanbo->mFastWobbleTimer = 0x3c;
     }
-    return d;
+    return responseValue;
 }
 
-void CreateSanboHAndSanboB(void *a) {
-    gSanboH = CreateMapObjectModelNsbmd(a, gSanboHNsbmdName);
-    gSanboB = CreateMapObjectModelNsbmd(a, gSanboBNsbmdName);
+void CreateSanboHAndSanboB(void *mapObjectList) {
+    gSanboH = CreateMapObjectModelNsbmd(mapObjectList, gSanboHNsbmdName);
+    gSanboB = CreateMapObjectModelNsbmd(mapObjectList, gSanboBNsbmdName);
     SetMapObjectModelPolygonId(gSanboH, 0x3f);
     SetMapObjectModelPolygonId(gSanboB, 0x3f);
 }
 
-u32 SanboSetupDrawReturnArgument(u32 p0) {
-    return p0;
+u32 SanboSetupDrawReturnArgument(u32 value) {
+    return value;
 }
 
-void DrawSanbo(void *a, Sanbo *sanbo) {
-    s32 i;
-    s32 pairIndex;
-    s32 w0;
-    s32 w1;
-    s32 w2;
+void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
+    s32 pieceIndex;
+    s32 gxParam;
+    s32 secondGxParam;
+    s32 thirdGxParam;
     MtxFx33 rotateZMatrix;
     MtxFx33 pieceRotateZMatrix;
     s32 startTranslation[3];
@@ -116,8 +115,8 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
     s32 stackedScaleVector[3];
     s32 drawScale;
 
-    w0 = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &w0, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     switch (sanbo->mState) {
         case 0:
         case 1:
@@ -126,79 +125,79 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
             startTranslation[1] = 0xa00;
             startTranslation[2] = 0;
             NNS_G3dGeBufferOP_N(0x1c, startTranslation, 3);
-            for (i = 0; i < sanbo->mPieceCount; i++) {
-                if (sanbo->mPieces[i].mRotateZAngle != 0) {
-                    pairIndex = ((u16) sanbo->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(&rotateZMatrix, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
+            for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
+                if (sanbo->mPieces[pieceIndex].mRotateZAngle != 0) {
+                    MTX_RotZ33_(&rotateZMatrix, SIN_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle),
+                                COS_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle));
                     NNS_G3dGeBufferOP_N(0x1a, &rotateZMatrix, 9);
                 }
-                if (i != 0) {
+                if (pieceIndex != 0) {
                     stackTranslation[0] = 0;
                     stackTranslation[1] = 0x1400;
                     stackTranslation[2] = 0x80;
                     NNS_G3dGeBufferOP_N(0x1c, stackTranslation, 3);
                 }
-                if (i == 3) {
-                    QueueMapObjectModelMaterial(a, gSanboH);
-                    DrawMapObjectModel(a, gSanboH, sanbo);
+                if (pieceIndex == 3) {
+                    QueueMapObjectModelMaterial(mapObjectList, gSanboH);
+                    DrawMapObjectModel(mapObjectList, gSanboH, sanbo);
                 } else {
-                    QueueMapObjectModelMaterial(a, gSanboB);
-                    DrawMapObjectModel(a, gSanboB, sanbo);
+                    QueueMapObjectModelMaterial(mapObjectList, gSanboB);
+                    DrawMapObjectModel(mapObjectList, gSanboB, sanbo);
                 }
             }
             break;
         case 2:
-            for (i = 0; i < sanbo->mPieceCount; i++) {
-                w1 = 0x1e;
-                NNS_G3dGeBufferOP_N(0x14, &w1, 1);
+            for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
+                secondGxParam = 0x1e;
+                NNS_G3dGeBufferOP_N(0x14, &secondGxParam, 1);
                 pieceTranslation[0] = 0;
                 pieceTranslation[1] = 0xa00;
                 pieceTranslation[2] = 0;
                 NNS_G3dGeBufferOP_N(0x1c, pieceTranslation, 3);
-                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mPieces[i].mPos), 12);
-                if ((sanbo->mMapObject.mFlags & 0x12) == 0 && sanbo->mPieces[i].mRotateZAngle != 0) {
-                    pairIndex = ((u16) sanbo->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(&pieceRotateZMatrix, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
+                NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mPieces[pieceIndex].mPos), 12);
+                if ((sanbo->mMapObject.mFlags & 0x12) == 0 && sanbo->mPieces[pieceIndex].mRotateZAngle != 0) {
+                    MTX_RotZ33_(&pieceRotateZMatrix, SIN_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle),
+                                COS_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle));
                     NNS_G3dGeBufferOP_N(0x1a, &pieceRotateZMatrix, 9);
                 }
-                drawScale = sanbo->mPieces[i].mDrawScale;
+                drawScale = sanbo->mPieces[pieceIndex].mDrawScale;
                 if (drawScale < 0x1000) {
                     pieceScaleVector[0] = drawScale;
                     pieceScaleVector[1] = drawScale;
                     pieceScaleVector[2] = 0;
                     NNS_G3dGeBufferOP_N(0x1b, pieceScaleVector, 3);
                 }
-                if (i == 3) {
-                    QueueMapObjectModelMaterial(a, gSanboH);
-                    DrawMapObjectModel(a, gSanboH, sanbo);
+                if (pieceIndex == 3) {
+                    QueueMapObjectModelMaterial(mapObjectList, gSanboH);
+                    DrawMapObjectModel(mapObjectList, gSanboH, sanbo);
                 } else {
-                    QueueMapObjectModelMaterial(a, gSanboB);
-                    DrawMapObjectModel(a, gSanboB, sanbo);
+                    QueueMapObjectModelMaterial(mapObjectList, gSanboB);
+                    DrawMapObjectModel(mapObjectList, gSanboB, sanbo);
                 }
             }
             break;
         case 3:
-            for (i = 0; i < sanbo->mPieceCount; i++) {
-                w2 = 0x1e;
-                NNS_G3dGeBufferOP_N(0x14, &w2, 1);
+            for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
+                thirdGxParam = 0x1e;
+                NNS_G3dGeBufferOP_N(0x14, &thirdGxParam, 1);
                 NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mMapObject.mPos), 12);
                 stackedTranslation[2] = 0x80;
                 stackedTranslation[0] = 0;
-                stackedTranslation[1] = (i * 0x14000 + 0xa000) >> 4;
+                stackedTranslation[1] = (pieceIndex * 0x14000 + 0xa000) >> 4;
                 NNS_G3dGeBufferOP_N(0x1c, stackedTranslation, 3);
-                drawScale = sanbo->mPieces[i].mDrawScale;
+                drawScale = sanbo->mPieces[pieceIndex].mDrawScale;
                 if (drawScale < 0x1000) {
                     stackedScaleVector[0] = drawScale;
                     stackedScaleVector[1] = drawScale;
                     stackedScaleVector[2] = 0;
                     NNS_G3dGeBufferOP_N(0x1b, stackedScaleVector, 3);
                 }
-                if (i == 3) {
-                    QueueMapObjectModelMaterial(a, gSanboH);
-                    DrawMapObjectModel(a, gSanboH, sanbo);
+                if (pieceIndex == 3) {
+                    QueueMapObjectModelMaterial(mapObjectList, gSanboH);
+                    DrawMapObjectModel(mapObjectList, gSanboH, sanbo);
                 } else {
-                    QueueMapObjectModelMaterial(a, gSanboB);
-                    DrawMapObjectModel(a, gSanboB, sanbo);
+                    QueueMapObjectModelMaterial(mapObjectList, gSanboB);
+                    DrawMapObjectModel(mapObjectList, gSanboB, sanbo);
                 }
             }
             break;
@@ -207,13 +206,15 @@ void DrawSanbo(void *a, Sanbo *sanbo) {
 
 void InitSanboObjects(MapObjectList *mapObjectList) {
     s32 pieceIndex;
-    s32 i;
+    s32 mapObjectIndex;
     Sanbo *sanbo;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (sanbo = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (sanbo = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         sanbo->mPathSpeed = (sanbo->mMapObject.mCourseMapRow->mSettings[0] << 12) / 100;
         sanbo->mPieceCount = 4;
         for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
@@ -230,28 +231,28 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
     }
 }
 
-s32 SanboFX_SinIdx(s32 a) {
-    return FX_SinIdx(a);
+s32 SanboFX_SinIdx(s32 angle) {
+    return FX_SinIdx(angle);
 }
 
-s32 SanboFX_MulInline(s32 a, s32 b) {
-    return MUL_FIXED12_ROUNDED(a, b);
+s32 SanboFX_MulInline(s32 value, s32 scale) {
+    return MUL_FIXED12_ROUNDED(value, scale);
 }
 
-void UpdateSanbo(void *a, Sanbo *sanbo) {
+void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
     SoundStartParams soundStartParams;
-    s32 m;
-    s32 k;
-    s32 i;
-    s32 j;
-    s32 t;
-    s32 v;
+    s32 rotatePieceIndex;
+    s32 resetPieceIndex;
+    s32 pieceIndex;
+    s32 fallPieceIndex;
+    s32 value;
+    s32 newValue;
 
     if (sanbo->mPathWaitTimer-- <= 0) {
-        t = sanbo->mPathSpeed;
-        sanbo->mFollower.mSpeed = t;
+        value = sanbo->mPathSpeed;
+        sanbo->mFollower.mSpeed = value;
         sanbo->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-            t, sanbo->mFollower.mPath->mSegments[sanbo->mFollower.mSegmentIndex].mInverseProgressLength);
+            value, sanbo->mFollower.mPath->mSegments[sanbo->mFollower.mSegmentIndex].mInverseProgressLength);
         if (AdvanceGroupFollower(&sanbo->mFollower) != FALSE) {
             sanbo->mPathWaitTimer = (u16) sanbo->mFollower.mFromEntry->mUnk_0e;
         } else {
@@ -274,52 +275,55 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
             if ((sanbo->mMapObject.mFlags & 0x12) != 0) {
                 return;
             }
-            for (i = 0; i < sanbo->mPieceCount; i++) {
+            for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
                 if (sanbo->mFastWobbleTimer > 0) {
-                    sanbo->mPieces[i].mWobbleAnglePerFrame = 0xb61;
-                } else if (sanbo->mPieces[i].mWobbleAnglePerFrame > 0x38e) {
-                    sanbo->mPieces[i].mWobbleAnglePerFrame = sanbo->mPieces[i].mWobbleAnglePerFrame - 0xb6;
+                    sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = 0xb61;
+                } else if (sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame > 0x38e) {
+                    sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame =
+                        sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame - 0xb6;
                 } else {
-                    sanbo->mPieces[i].mWobbleAnglePerFrame = 0x2d8;
+                    sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = 0x2d8;
                 }
-                if (sanbo->mPieces[i].mWobbleDelayTimer-- <= 0) {
-                    sanbo->mPieces[i].mWobbleDelayTimer = 0;
-                    sanbo->mPieces[i].mWobbleAngle =
-                        sanbo->mPieces[i].mWobbleAngle + sanbo->mPieces[i].mWobbleAnglePerFrame;
-                    sanbo->mPieces[i].mUnk_24 = sanbo->mPieces[i].mWobbleMid +
-                                                SanboFX_MulInline(sanbo->mPieces[i].mWobbleAmplitude,
-                                                                  SanboFX_SinIdx(sanbo->mPieces[i].mWobbleAngle)) -
-                                                sanbo->mPieces[i].mWobbleValue;
-                    sanbo->mPieces[i].mWobbleValue = sanbo->mPieces[i].mWobbleValue + sanbo->mPieces[i].mUnk_24;
-                    t = sanbo->mPieces[i].mWobbleAmplitude;
-                    if (t > 0) {
-                        v = t + sanbo->mPieces[i].mWobbleAmplitudePerFrame;
-                        if (v <= 0) {
-                            v = 0;
+                if (sanbo->mPieces[pieceIndex].mWobbleDelayTimer-- <= 0) {
+                    sanbo->mPieces[pieceIndex].mWobbleDelayTimer = 0;
+                    sanbo->mPieces[pieceIndex].mWobbleAngle =
+                        sanbo->mPieces[pieceIndex].mWobbleAngle + sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame;
+                    sanbo->mPieces[pieceIndex].mUnk_24 =
+                        sanbo->mPieces[pieceIndex].mWobbleMid +
+                        SanboFX_MulInline(sanbo->mPieces[pieceIndex].mWobbleAmplitude,
+                                          SanboFX_SinIdx(sanbo->mPieces[pieceIndex].mWobbleAngle)) -
+                        sanbo->mPieces[pieceIndex].mWobbleValue;
+                    sanbo->mPieces[pieceIndex].mWobbleValue =
+                        sanbo->mPieces[pieceIndex].mWobbleValue + sanbo->mPieces[pieceIndex].mUnk_24;
+                    value = sanbo->mPieces[pieceIndex].mWobbleAmplitude;
+                    if (value > 0) {
+                        newValue = value + sanbo->mPieces[pieceIndex].mWobbleAmplitudePerFrame;
+                        if (newValue <= 0) {
+                            newValue = 0;
                         }
-                        sanbo->mPieces[i].mWobbleAmplitude = v;
-                    } else if (t < 0) {
-                        v = t + sanbo->mPieces[i].mWobbleAmplitudePerFrame;
-                        if (v >= 0) {
-                            v = 0;
+                        sanbo->mPieces[pieceIndex].mWobbleAmplitude = newValue;
+                    } else if (value < 0) {
+                        newValue = value + sanbo->mPieces[pieceIndex].mWobbleAmplitudePerFrame;
+                        if (newValue >= 0) {
+                            newValue = 0;
                         }
-                        sanbo->mPieces[i].mWobbleAmplitude = v;
+                        sanbo->mPieces[pieceIndex].mWobbleAmplitude = newValue;
                     }
-                    t = sanbo->mPieces[i].mWobbleAnglePerFrame;
-                    if (t > 0) {
-                        v = t + sanbo->mPieces[i].mUnk_38;
-                        if (v <= 0) {
-                            v = 0;
+                    value = sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame;
+                    if (value > 0) {
+                        newValue = value + sanbo->mPieces[pieceIndex].mUnk_38;
+                        if (newValue <= 0) {
+                            newValue = 0;
                         }
-                        sanbo->mPieces[i].mWobbleAnglePerFrame = v;
-                    } else if (t < 0) {
-                        v = t + sanbo->mPieces[i].mUnk_38;
-                        if (v >= 0) {
-                            v = 0;
+                        sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = newValue;
+                    } else if (value < 0) {
+                        newValue = value + sanbo->mPieces[pieceIndex].mUnk_38;
+                        if (newValue >= 0) {
+                            newValue = 0;
                         }
-                        sanbo->mPieces[i].mWobbleAnglePerFrame = v;
+                        sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = newValue;
                     }
-                    sanbo->mPieces[i].mRotateZAngle = (u16) sanbo->mPieces[i].mWobbleValue;
+                    sanbo->mPieces[pieceIndex].mRotateZAngle = (u16) sanbo->mPieces[pieceIndex].mWobbleValue;
                 }
             }
             if (sanbo->mFastWobbleTimer <= 0) {
@@ -344,18 +348,22 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
             sanbo->mSoundTimer = 0x14;
             break;
         case 2:
-            for (j = 0; j < sanbo->mPieceCount; j++) {
-                if (sanbo->mPieces[j].mPos.y > 0) {
-                    sanbo->mPieces[j].mPos.x = sanbo->mPieces[j].mPos.x + sanbo->mPieces[j].mVelocity.x;
-                    sanbo->mPieces[j].mPos.y = sanbo->mPieces[j].mPos.y + sanbo->mPieces[j].mVelocity.y;
-                    sanbo->mPieces[j].mPos.z = sanbo->mPieces[j].mPos.z + sanbo->mPieces[j].mVelocity.z;
-                    sanbo->mPieces[j].mVelocity.y = sanbo->mPieces[j].mVelocity.y - 0x400;
+            for (fallPieceIndex = 0; fallPieceIndex < sanbo->mPieceCount; fallPieceIndex++) {
+                if (sanbo->mPieces[fallPieceIndex].mPos.y > 0) {
+                    sanbo->mPieces[fallPieceIndex].mPos.x =
+                        sanbo->mPieces[fallPieceIndex].mPos.x + sanbo->mPieces[fallPieceIndex].mVelocity.x;
+                    sanbo->mPieces[fallPieceIndex].mPos.y =
+                        sanbo->mPieces[fallPieceIndex].mPos.y + sanbo->mPieces[fallPieceIndex].mVelocity.y;
+                    sanbo->mPieces[fallPieceIndex].mPos.z =
+                        sanbo->mPieces[fallPieceIndex].mPos.z + sanbo->mPieces[fallPieceIndex].mVelocity.z;
+                    sanbo->mPieces[fallPieceIndex].mVelocity.y = sanbo->mPieces[fallPieceIndex].mVelocity.y - 0x400;
                 }
             }
             if ((sanbo->mMapObject.mFlags & 0x12) == 0) {
-                for (m = 0; m < sanbo->mPieceCount; m++) {
-                    sanbo->mPieces[m].mRotateZAngle =
-                        sanbo->mPieces[m].mRotateZAngle + sanbo->mPieces[m].mRotateZAnglePerFrame;
+                for (rotatePieceIndex = 0; rotatePieceIndex < sanbo->mPieceCount; rotatePieceIndex++) {
+                    sanbo->mPieces[rotatePieceIndex].mRotateZAngle =
+                        sanbo->mPieces[rotatePieceIndex].mRotateZAngle +
+                        sanbo->mPieces[rotatePieceIndex].mRotateZAnglePerFrame;
                 }
             }
             if (sanbo->mMapObject.mCourseMapRow->mSettings[1] != 0) {
@@ -364,11 +372,11 @@ void UpdateSanbo(void *a, Sanbo *sanbo) {
             if (sanbo->mState2Timer-- > 0) {
                 return;
             }
-            for (k = 0; k < sanbo->mPieceCount; k++) {
-                sanbo->mPieces[k].mWobbleAngle = 0;
-                sanbo->mPieces[k].mDrawScale = 0;
-                sanbo->mPieces[k].mRotateZAngle = 0;
-                sanbo->mPieces[k].mWobbleDelayTimer = k * 0x14;
+            for (resetPieceIndex = 0; resetPieceIndex < sanbo->mPieceCount; resetPieceIndex++) {
+                sanbo->mPieces[resetPieceIndex].mWobbleAngle = 0;
+                sanbo->mPieces[resetPieceIndex].mDrawScale = 0;
+                sanbo->mPieces[resetPieceIndex].mRotateZAngle = 0;
+                sanbo->mPieces[resetPieceIndex].mWobbleDelayTimer = resetPieceIndex * 0x14;
             }
             sanbo->mPieceCount = 1;
             sanbo->mState = 3;
@@ -424,13 +432,15 @@ void ShineKartEliminatedCallback(u16 kartIndex) {
 }
 
 void ShineEndCallback(void) {
-    s32 i;
+    s32 mapObjectIndex;
     MapObject *mapObject;
     MapObjectList *mapObjectList;
 
     mapObjectList = FindMapObjectKindUpdateList(0x6b);
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                                 (mapObject = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+             mapObjectIndex++) {
             if ((mapObject->mFlags & 0x100) == 0) {
                 ParkMapObject(mapObject);
             }
@@ -438,7 +448,9 @@ void ShineEndCallback(void) {
     }
     mapObjectList = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE_BALLOON);
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                                 (mapObject = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+             mapObjectIndex++) {
             if ((mapObject->mFlags & 0x100) == 0) {
                 ParkMapObject(mapObject);
             }

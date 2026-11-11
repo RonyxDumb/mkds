@@ -23,78 +23,80 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 void InitMkdEfBurner(MapObject *mapObject) {
-    MapObject *value0 = mapObject;
-    u32 value12;
-    CreateMapObjectSoundSourceFalloff2(value0);
+    MapObject *burnerMapObject = mapObject;
+    u32 unused;
+    CreateMapObjectSoundSourceFalloff2(burnerMapObject);
 }
 
-u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d) {
-    u8 v;
+u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *firstResponse, u8 *response) {
+    u8 responseValue;
 
-    v = *d;
+    responseValue = *response;
     if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 &&
         StartSoundIfKartStarOrKiller(&mkdEfBurner->mMapObject, kart) != 0) {
         mkdEfBurner->mMapObject.mDistanceSquaredAndFlags |= data_usa_02156470;
         mkdEfBurner->mKartTimers[kart->mIndex] = 0x1f;
     }
-    return v;
+    return responseValue;
 }
 
-void CreateMkdEfBurner(MapObjectList *p) {
-    gMkdEfBurner = CreateMapObjectModelAnimated(p, gMkdEfBurnerNsbmdName);
+void CreateMkdEfBurner(MapObjectList *mapObjectList) {
+    gMkdEfBurner = CreateMapObjectModelAnimated(mapObjectList, gMkdEfBurnerNsbmdName);
     CreateMapObjectModelNsbtaAnimation(gMkdEfBurner, gMkdEfBurnerNsbtaName);
     SetMapObjectModelPolygonId(gMkdEfBurner, 0x3f);
-    p->mSortByDistance = 1;
+    mapObjectList->mSortByDistance = 1;
 }
 
-void SetupDrawMkdEfBurner(void *a) {
-    QueueMapObjectModelMaterial(a, gMkdEfBurner);
+void SetupDrawMkdEfBurner(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gMkdEfBurner);
 }
 
-void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
-    s32 s0;
-    Vec3 s4;
-    Vec3 s10;
+void DrawMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
+    s32 gxParam;
+    Vec3 gxTranslation;
+    Vec3 gxScale;
 
     if (mkdEfBurner->mScaleFixed12 <= 0) {
         return;
     }
     SetMapObjectModelPolygonId(gMkdEfBurner, AllocPolygonIdWrapping());
-    s0 = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &s0, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&mkdEfBurner->mMapObject.mPos), 0xc);
-    s4.y = mkdEfBurner->mMapObject.mExtent.y >> 4;
-    s4.x = 0;
-    s4.z = 0;
-    NNS_G3dGeBufferOP_N(0x1c, &s4, 3);
-    s10.x = mkdEfBurner->mScaleFixed12;
-    s10.y = s10.x;
-    s10.z = s10.x;
-    NNS_G3dGeBufferOP_N(0x1b, &s10, 3);
+    gxTranslation.y = mkdEfBurner->mMapObject.mExtent.y >> 4;
+    gxTranslation.x = 0;
+    gxTranslation.z = 0;
+    NNS_G3dGeBufferOP_N(0x1c, &gxTranslation, 3);
+    gxScale.x = mkdEfBurner->mScaleFixed12;
+    gxScale.y = gxScale.x;
+    gxScale.z = gxScale.x;
+    NNS_G3dGeBufferOP_N(0x1b, &gxScale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &mkdEfBurner->mMapObject.mScale, 3);
     SetMapObjectModelNsbtaFrameIndex(gMkdEfBurner, mkdEfBurner->mNsbtaFrameIndex);
-    DrawMapObjectModel(a, gMkdEfBurner, mkdEfBurner);
+    DrawMapObjectModel(mapObjectList, gMkdEfBurner, mkdEfBurner);
 }
 
 void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
-    BOOL z;
-    s32 i;
+    BOOL followerSpeed;
+    s32 mapObjectIndex;
     MkdEfBurner *mkdEfBurner;
-    u16 f;
+    u16 mapObjectFlag;
     s32 speed;
 
     if (mapObjectList == NULL) {
         return;
     }
-    z = FALSE;
-    f = data_usa_0215646c;
-    for (i = 0; i < mapObjectList->mMapObjectCount && (mkdEfBurner = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    followerSpeed = FALSE;
+    mapObjectFlag = data_usa_0215646c;
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (mkdEfBurner = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         mkdEfBurner->mMapObject.mPos.y =
             mkdEfBurner->mMapObject.mCourseMapRow->mPosition.y - mkdEfBurner->mMapObject.mExtent.y;
         if (mkdEfBurner->mMapObject.mCourseMapRow->mGroupIndex < 0) {
             mkdEfBurner->mFollower.mGroupIndex = 0xffff;
         } else {
-            InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mMapObject.mCourseMapRow, z);
+            InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mMapObject.mCourseMapRow, followerSpeed);
             speed = (mkdEfBurner->mMapObject.mCourseMapRow->mSettings[3] << 12) / 100;
             mkdEfBurner->mFollower.mSpeed = speed;
             mkdEfBurner->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
@@ -112,16 +114,16 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
             if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSettings[2]) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 1;
-                mkdEfBurner->mMapObject.mFlags |= f;
+                mkdEfBurner->mMapObject.mFlags |= mapObjectFlag;
                 mkdEfBurner->mMapObject.mExtent.y = 0;
             }
         }
     }
 }
 
-void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
+void UpdateMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
     u16 nsbtaFrameCount;
-    s32 i;
+    s32 kartIndex;
     u8 kartCount;
 
     switch (mkdEfBurner->mState) {
@@ -178,9 +180,9 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
             mkdEfBurner->mMapObject.mCourseMapRow->mPosition.y - mkdEfBurner->mMapObject.mExtent.y;
     }
     kartCount = gRaceSetup->mKartCount;
-    for (i = 0; i < kartCount; i++) {
-        if (mkdEfBurner->mKartTimers[i] > 0) {
-            mkdEfBurner->mKartTimers[i]--;
+    for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+        if (mkdEfBurner->mKartTimers[kartIndex] > 0) {
+            mkdEfBurner->mKartTimers[kartIndex]--;
         }
     }
 }

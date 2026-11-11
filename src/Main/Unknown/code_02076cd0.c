@@ -93,10 +93,10 @@ u16 GetKartListCount(void) {
     return gKartModelMenu->mKartListCount;
 }
 
-void LoadEmblemSBNclr(void *a) {
+void LoadEmblemSBNclr(void *section) {
     void *nclrFile;
 
-    LoadKartModelMenuFile(a, data_usa_02165714, &nclrFile);
+    LoadKartModelMenuFile(section, data_usa_02165714, &nclrFile);
     LoadNclrData(&gEmblemSBNclr, nclrFile);
 }
 
@@ -134,10 +134,10 @@ void CreateChaseCamera(void) {
 
 void CreateEntryCamera(u32 followedKartIndex) {
     void *heap = GetHeap(GetCurrentHeapCall());
-    u16 i;
+    u16 cameraIndex;
     u16 kind7EntryCount;
     CourseMapCamera *courseMapCamera;
-    u16 m;
+    u16 index;
     u16 listIndex;
     s32 nextIndex;
 
@@ -155,17 +155,17 @@ void CreateEntryCamera(u32 followedKartIndex) {
         if (gEntryCamera->mCourseMapCamera != NULL) {
             kind7EntryCount = 0;
             nextIndex = -1;
-            for (i = 0; i < gCourseMap->mCameraCount; i++) {
-                if (gCourseMap->mCameras[i].mKind == 7) {
+            for (cameraIndex = 0; cameraIndex < gCourseMap->mCameraCount; cameraIndex++) {
+                if (gCourseMap->mCameras[cameraIndex].mKind == 7) {
                     kind7EntryCount++;
                 }
             }
             gKind7EntryCount = kind7EntryCount;
             gEntryCamera->mKind7Entries = HeapAlloc(heap, kind7EntryCount * 0x88);
             courseMapCamera = gEntryCamera->mCourseMapCamera;
-            m = 0;
+            index = 0;
             listIndex = 0;
-            for (; m < gCourseMap->mCameraCount; m++) {
+            for (; index < gCourseMap->mCameraCount; index++) {
                 if (nextIndex != -1) {
                     courseMapCamera = GetCourseMapCamera(nextIndex);
                     if (courseMapCamera == gEntryCamera->mCourseMapCamera) {
@@ -337,7 +337,7 @@ void RefreshCameraProjection(Camera *camera) {
     s32 top;
     s32 bottom;
     s32 staffRollShift;
-    s32 d;
+    s32 unused;
 
     if (camera == gChaseCamera) {
         if (camera->mHalfFovAngle == camera->mHalfFovAngleGoal && gEntryCameraUpdateRan == 0) {

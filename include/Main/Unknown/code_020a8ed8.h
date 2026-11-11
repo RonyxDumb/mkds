@@ -34,7 +34,7 @@ void *CreateIronBallUpdateList(void);
 void *CreateIronBallDrawList(void);
 void *CreateIronBallShadowDrawList(void);
 void CreateIronBallKindData(void);
-void UpdateIronBall(void *a, IronBall *ironBall); /* kind 0x1b0 only */
+void UpdateIronBall(void *mapObjectList, IronBall *ironBall); /* kind 0x1b0 only */
 void InitIronBallObjects(MapObjectList *mapObjectList);
-void DrawIronBallShadow(void *a, IronBall *ironBall, u32 c, u32 d);
+void DrawIronBallShadow(void *mapObjectList, IronBall *ironBall, u32 unused, u32 alpha);
 unsigned int IronBallReturnArgument(unsigned int value);
