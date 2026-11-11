@@ -62,30 +62,30 @@ void SetTexParamaters_(const NNSG3dResTex *pTex, const u32 *pTexName, NNSG3dMatA
     s32 height;
 
     texEntry = NNS_G3dGetResDataByName(&pTex->mDict, pTexName);
-    imageParam = pResult->mUnk_10;
+    imageParam = pResult->mPrmTexImage;
     if ((texEntry->mTexImageParam & 0x1c000000) != 0x14000000) {
         keyOffset = pTex->mTexInfo.mVramKey & 0xffff;
     } else {
         keyOffset = pTex->mTex4x4Info.mVramKey & 0xffff;
     }
-    pResult->mUnk_10 = imageParam & 0xc00f0000;
-    pResult->mUnk_10 = pResult->mUnk_10 | (texEntry->mTexImageParam + keyOffset);
-    pResult->mUnk_2c = texEntry->mExtraParam & 0x7ff;
-    pResult->mUnk_2e = (texEntry->mExtraParam & 0x3ff800) >> 11;
+    pResult->mPrmTexImage = imageParam & 0xc00f0000;
+    pResult->mPrmTexImage = pResult->mPrmTexImage | (texEntry->mTexImageParam + keyOffset);
+    pResult->mOrigWidth = texEntry->mExtraParam & 0x7ff;
+    pResult->mOrigHeight = (texEntry->mExtraParam & 0x3ff800) >> 11;
     width = texEntry->mExtraParam & 0x7ff;
     height = 0x7ff & (texEntry->mExtraParam >> 11);
-    if (width == pResult->mUnk_2c) {
+    if (width == pResult->mOrigWidth) {
         width = 0x1000;
     } else {
-        width = FX_Div(TO_FIXED12(width), TO_FIXED12(pResult->mUnk_2c));
+        width = FX_Div(TO_FIXED12(width), TO_FIXED12(pResult->mOrigWidth));
     }
-    pResult->mUnk_30 = width;
-    if (height == pResult->mUnk_2e) {
+    pResult->mMagW = width;
+    if (height == pResult->mOrigHeight) {
         height = 0x1000;
     } else {
-        height = FX_Div(TO_FIXED12(height), TO_FIXED12(pResult->mUnk_2e));
+        height = FX_Div(TO_FIXED12(height), TO_FIXED12(pResult->mOrigHeight));
     }
-    pResult->mUnk_34 = height;
+    pResult->mMagH = height;
 }
 
 void SetPlttParamaters_(const NNSG3dResTex *pTex, const u32 *pPlttName, NNSG3dMatAnmResult *pResult) {
@@ -100,7 +100,7 @@ void SetPlttParamaters_(const NNSG3dResTex *pTex, const u32 *pPlttName, NNSG3dMa
         base = (u16) (base >> 1);
         keyOffset = (u16) (keyOffset >> 1);
     }
-    pResult->mUnk_14 = base + keyOffset;
+    pResult->mPrmTexPltt = base + keyOffset;
 }
 
 void NNSi_G3dAnmCalcNsBtp(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
@@ -260,22 +260,22 @@ void GetTexSRTAnm_(const NNSG3dResTexSRTAnm *pTexAnm, u16 idx, u32 frame, NNSG3d
 
     dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, &pTexAnm->mDict, pTexAnm->mDict.mOfsEntry);
     srtData = DICT_ENTRY(const NNSG3dResDictTexSRTAnmData, dictEntries, idx);
-    flag = pResult->mUnk_00;
+    flag = pResult->mFlag;
     valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransS, srtData->mTransSEx, frame);
     valueT = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransT, srtData->mTransTEx, frame);
     if (valueS == 0 && valueT == 0) {
         flag |= 4;
     } else {
-        pResult->mUnk_24[0] = valueS;
-        pResult->mUnk_24[1] = valueT;
+        pResult->mTransST[0] = valueS;
+        pResult->mTransST[1] = valueT;
         flag &= ~4;
     }
     rotation = GetTexSRTAnmSinCosVal_(pTexAnm, srtData->mRot, srtData->mRotEx, frame);
     if (rotation == 0x10000000) {
         flag |= 2;
     } else {
-        pResult->mUnk_20[0] = rotation;
-        pResult->mUnk_20[1] = rotation >> 16;
+        pResult->mSinCosR[0] = rotation;
+        pResult->mSinCosR[1] = rotation >> 16;
         flag &= ~2;
     }
     valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleS, srtData->mScaleSEx, frame);
@@ -283,11 +283,11 @@ void GetTexSRTAnm_(const NNSG3dResTexSRTAnm *pTexAnm, u16 idx, u32 frame, NNSG3d
     if (valueS == 0x1000 && valueT == 0x1000) {
         flag |= 1;
     } else {
-        pResult->mUnk_18[0] = valueS;
-        pResult->mUnk_18[1] = valueT;
+        pResult->mScaleST[0] = valueS;
+        pResult->mScaleST[1] = valueT;
         flag &= ~1;
     }
-    pResult->mUnk_00 = flag;
+    pResult->mFlag = flag;
 }
 
 void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
@@ -315,9 +315,9 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 
 void NNSi_G3dAnmCalcNsBta(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
     GetTexSRTAnm_(pAnmObj->mResAnm, dataIdx, FROM_FIXED12(pAnmObj->mFrame), pResult);
-    pResult->mUnk_10 &= ~0xc0000000;
-    pResult->mUnk_10 |= 0x40000000;
-    pResult->mUnk_00 |= 8;
+    pResult->mPrmTexImage &= ~0xc0000000;
+    pResult->mPrmTexImage |= 0x40000000;
+    pResult->mFlag |= 8;
 }
 
 // Blends the two stored colors when the frame falls between them.
@@ -455,13 +455,13 @@ void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
     colorData = DICT_ENTRY(NNSG3dResDictMatCAnmData, dictEntries, (u16) dataIdx);
     colorValue = GetMatColAnmValue_(colorAnim, colorData->mDiffuse, frame);
-    pResult->mUnk_04 =
-        (pResult->mUnk_04 & 0x8000) | colorValue | (GetMatColAnmValue_(colorAnim, colorData->mAmbient, frame) << 16);
+    pResult->mPrmMatColor0 =
+        (pResult->mPrmMatColor0 & 0x8000) | colorValue | (GetMatColAnmValue_(colorAnim, colorData->mAmbient, frame) << 16);
     colorValue = GetMatColAnmValue_(colorAnim, colorData->mEmission, frame);
-    pResult->mUnk_08 =
-        (pResult->mUnk_08 & 0x8000) | GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (colorValue << 16);
-    pResult->mUnk_0c =
-        (pResult->mUnk_0c & ~0x1f0000) | (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
+    pResult->mPrmMatColor1 =
+        (pResult->mPrmMatColor1 & 0x8000) | GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (colorValue << 16);
+    pResult->mPrmPolygonAttr =
+        (pResult->mPrmPolygonAttr & ~0x1f0000) | (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
 }
 
 void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
@@ -545,7 +545,7 @@ void getMdlScale_(NNSG3dJntAnmResult *out) {
             scalePtr += 0x10;
         }
     }
-    rs->mUnk_e8(out, scalePtr, cmd, flags);
+    rs->mFuncJntScale(out, scalePtr, cmd, flags);
 }
 
 void getMdlRot_(NNSG3dJntAnmResult *out) {
@@ -733,7 +733,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
             return;
         }
     }
-    NNS_G3dRS->mUnk_e8(out, scaleOut, NNS_G3dRS->mC, (out->mFlag & 1) ? 4 : 0);
+    NNS_G3dRS->mFuncJntScale(out, scaleOut, NNS_G3dRS->mC, (out->mFlag & 1) ? 4 : 0);
 }
 
 void getTransData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {

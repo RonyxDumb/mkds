@@ -1184,7 +1184,7 @@ s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
 
 u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u16 *remotePortOut, u32 *remoteIpOut) {
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
-    SOCLSocket *cpsSocket = inPipe->mCommandPipe.mThread.mUnk_a4[0];
+    SOCLSocket *cpsSocket = inPipe->mCommandPipe.mThread.mSpecific[0];
     s32 used = inPipe->mConsumed;
     s32 available = cpsSocket->mReceiveBufferLength - used;
     if (available >= 0) {

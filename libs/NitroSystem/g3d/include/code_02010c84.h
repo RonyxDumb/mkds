@@ -27,19 +27,19 @@ typedef struct NNSG3dJntAnmResult {
 
 // Result of a material animation: the colors, polygon attributes and texture parameters of one material.
 struct NNSG3dMatAnmResult {
-    /* 00 */ u32 mUnk_00; // bit 3 set means the texture matrix is set from this result
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10; // bits 30 and 31 are read and set
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ s32 mUnk_18[2];
-    /* 20 */ s16 mUnk_20[2];
-    /* 24 */ s32 mUnk_24[2];
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
+    /* 00 */ u32 mFlag; // bit 3 set means the texture matrix is set from this result
+    /* 04 */ u32 mPrmMatColor0;
+    /* 08 */ u32 mPrmMatColor1;
+    /* 0c */ u32 mPrmPolygonAttr;
+    /* 10 */ u32 mPrmTexImage; // bits 30 and 31 are read and set
+    /* 14 */ u32 mPrmTexPltt;
+    /* 18 */ s32 mScaleST[2];
+    /* 20 */ s16 mSinCosR[2];
+    /* 24 */ s32 mTransST[2];
+    /* 2c */ u16 mOrigWidth;
+    /* 2e */ u16 mOrigHeight;
+    /* 30 */ s32 mMagW;
+    /* 34 */ s32 mMagH;
 };
 
 typedef BOOL (*NNSG3dFuncAnmBlendMat)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32);
@@ -105,14 +105,14 @@ struct NNSG3dRS {
     /* d4 */ void *mResNodeInfo;
     /* d8 */ NNSG3dResMat *mResMat;
     /* dc */ void *mResShp;
-    /* e0 */ s32 mUnk_e0;
-    /* e4 */ s32 mUnk_e4;
-    /* e8 */ UnkFunc *mUnk_e8; // called with four arguments by getJntSRTAnmResult_ and getMdlScale_
-    /* ec */ void (*mUnk_ec)(NNSG3dJntAnmResult *);
-    /* f0 */ void (*mUnk_f0)(NNSG3dMatAnmResult *);
-    /* f4 */ NNSG3dMatAnmResult mUnk_f4;
-    /* 12c */ NNSG3dJntAnmResult mUnk_12c;
-    /* 184 */ NNSG3dVisAnmResult mUnk_184;
+    /* e0 */ s32 mPosScale;
+    /* e4 */ s32 mInvPosScale;
+    /* e8 */ UnkFunc *mFuncJntScale; // called with four arguments by getJntSRTAnmResult_ and getMdlScale_
+    /* ec */ void (*mFuncJntMtx)(NNSG3dJntAnmResult *);
+    /* f0 */ void (*mFuncTexMtx)(NNSG3dMatAnmResult *);
+    /* f4 */ NNSG3dMatAnmResult mTmpMatAnmResult;
+    /* 12c */ NNSG3dJntAnmResult mTmpJntAnmResult;
+    /* 184 */ NNSG3dVisAnmResult mTmpVisAnmResult;
 };
 
 // Entry of the table of animation formats (8 bytes).

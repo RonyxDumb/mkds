@@ -19,7 +19,7 @@
 
 void ApScanCallback(Unk021425e8 *message) {
     if (message->mResultCode == 0 && *((u8 *) gApScan + 0x1e48) == 0 && message->mCommand == 0x26) {
-        switch (message->mUnk_08_0) {
+        switch (message->mReplyState) {
             case 5:
                 StoreApScanEntries((WMStartScanExCallback *) message);
                 StartApScan();
@@ -78,15 +78,15 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
                 slot->mCapaLevel = 1;
                 otherElements = WM_GetOtherElements((const u16 *) bssDesc);
                 elementIndex = 0;
-                elementCount = otherElements.mUnk_00;
+                elementCount = otherElements.mCount;
                 for (; elementIndex < elementCount; elementIndex++) {
-                    if (otherElements.mUnk_04[elementIndex].mUnk_00 == 0x30) {
+                    if (otherElements.mElement[elementIndex].mId == 0x30) {
                         slot->mCapaLevel = 2;
                         break;
                     }
-                    if (otherElements.mUnk_04[elementIndex].mUnk_00 == 0xdd &&
-                        otherElements.mUnk_04[elementIndex].mUnk_01 >= 4 &&
-                        memcmp(otherElements.mUnk_04[elementIndex].mUnk_04, gOtherElementPrefix, 4) == 0) {
+                    if (otherElements.mElement[elementIndex].mId == 0xdd &&
+                        otherElements.mElement[elementIndex].mLength >= 4 &&
+                        memcmp(otherElements.mElement[elementIndex].mBody, gOtherElementPrefix, 4) == 0) {
                         slot->mCapaLevel = 2;
                         break;
                     }

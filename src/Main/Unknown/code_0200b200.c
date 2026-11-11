@@ -25,8 +25,8 @@ u32 StartConnectToEntry(u32 entryIndex) {
     if (entry == NULL) {
         return 0;
     }
-    gScanConnectWork->mUnk_5f08 = entry->mUnk_4b8;
-    gScanConnectWork->mUnk_5f0c = entry->mUnk_4b5;
+    gScanConnectWork->mUnk_5f08 = entry->mGgid;
+    gScanConnectWork->mUnk_5f0c = entry->mFileNo;
     SetupMPLink(&gScanConnectWork->mMPLink);
     SetMPLinkCallback(MPLinkCallback);
     SetScanConnectStateAndNotify(1, 0);
@@ -123,7 +123,7 @@ void MPLinkCallback(s32 eventKind, Unk021425e8 *info) {
 
 void ReceivePortMessage(Unk021425e8 *info) {
     ParentMessage parentMessage;
-    MBi_SetRecvBufferFromParent(&parentMessage, info->mUnk_0c);
+    MBi_SetRecvBufferFromParent(&parentMessage, info->mData);
     switch (parentMessage.mKind) {
         case 1:
             if (gScanConnectWork->mState == 2) {

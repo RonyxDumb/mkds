@@ -168,14 +168,14 @@ void FillParentParameter(s32 flag) {
     parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
     gameInfo = gConnectionWork->mChildren.mGameInfo;
-    gameInfo->mUnk_0e.mHasGhost = 0;
-    gameInfo->mUnk_0e.mKartIndex = 0;
+    gameInfo->mGameInfoPart.mHasGhost = 0;
+    gameInfo->mGameInfoPart.mKartIndex = 0;
     gameInfo->mCharacterIndex = 0;
     gameInfo->mCupCourseIndex = 0;
     gameInfo->mMinute = 0;
     gameInfo->mSecond = 0;
     gameInfo->mMillisecond = 0;
-    gameInfo->mUnk_0e.mChildCount = 0;
+    gameInfo->mGameInfoPart.mChildCount = 0;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         parentParameter->mTgid = (gConnectionWork->mParentTgid + 7) & 0x7fff;
     } else {
@@ -210,9 +210,9 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
     gameInfo = gConnectionWork->mChildren.mGameInfo;
-    gameInfo->mUnk_0e.mHasGhost = 1;
+    gameInfo->mGameInfoPart.mHasGhost = 1;
     MI_CpuCopy8(ghostRecord->mName, gameInfo, 0x14);
-    gameInfo->mUnk_0e.mKartIndex = ghostRecord->mKartIndex;
+    gameInfo->mGameInfoPart.mKartIndex = ghostRecord->mKartIndex;
     gameInfo->mCharacterIndex = ghostRecord->mCharacterIndex;
     gameInfo->mCupCourseIndex = (u8) FindCupCourseIndex(ghostRecord->mCourseId);
     gameInfo->mMinute = ghostRecord->mMinute;

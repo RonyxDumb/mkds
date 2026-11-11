@@ -412,9 +412,9 @@ void PlaceEffectBehindKart(ParticleEmitter *emitter, Kart *kart) {
     position.x >>= 4;
     position.y >>= 4;
     position.z >>= 4;
-    emitter->mUnk_28.x = emitter->mUnk_20->mUnk_00->mUnk_04.x + position.x;
-    emitter->mUnk_28.y = position.y + emitter->mUnk_20->mUnk_00->mUnk_04.y;
-    emitter->mUnk_28.z = position.z + emitter->mUnk_20->mUnk_00->mUnk_04.z;
+    emitter->mPosition.x = emitter->mResource->mHeader->mPositionOffset.x + position.x;
+    emitter->mPosition.y = position.y + emitter->mResource->mHeader->mPositionOffset.y;
+    emitter->mPosition.z = position.z + emitter->mResource->mHeader->mPositionOffset.z;
     forward = &kart->mUnk_138;
     rot.x = forward->x;
     rot.y = forward->y;

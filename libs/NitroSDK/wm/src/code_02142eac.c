@@ -704,8 +704,8 @@ s32 WM_GetMPReceiveBufferSize(void) {
     if (isHost != 1) {
         return ((maxRecvSize + 0x51) & ~0x1f) << 1;
     }
-    DC_InvalidateRange(&work->mStatusArea->mUnk_0f4, 2);
-    return (((maxRecvSize + 0xc) * work->mStatusArea->mUnk_0f4 + 0x29) & ~0x1f) << 1;
+    DC_InvalidateRange(&work->mStatusArea->mMaxEntry, 2);
+    return (((maxRecvSize + 0xc) * work->mStatusArea->mMaxEntry + 0x29) & ~0x1f) << 1;
 }
 
 // Returns the record of station aid in the MP receive data header, or NULL when there is none.
@@ -725,18 +725,18 @@ void *WM_ReadMPData(const Unk021432ac *header, u16 aid) {
     if ((work->mStatusArea->mConnectedChildren & (1 << aid)) == 0) {
         return 0;
     }
-    if (header->mUnk_04 == 0) {
+    if (header->mCount == 0) {
         return 0;
     }
-    records[0] = (u32) header->mUnk_0a;
+    records[0] = (u32) header->mData;
     recordIndex = 0;
     do {
         if (aid == *(u16 *) (records[recordIndex] + 4)) {
             return (void *) records[recordIndex];
         }
         recordIndex++;
-        records[recordIndex] = header->mUnk_06 + records[recordIndex - 1];
-    } while (recordIndex < header->mUnk_04);
+        records[recordIndex] = header->mLength + records[recordIndex - 1];
+    } while (recordIndex < header->mCount);
     return 0;
 }
 
@@ -812,27 +812,27 @@ WMOtherElements WM_GetOtherElements(const u16 *bssDesc) {
     u8 size;
 
     if (bssDesc[0x1e] != 0) {
-        elements.mUnk_00 = 0;
+        elements.mCount = 0;
         return elements;
     }
-    elements.mUnk_00 = bssDesc[0x1f];
-    if (elements.mUnk_00 == 0) {
+    elements.mCount = bssDesc[0x1f];
+    if (elements.mCount == 0) {
         return elements;
     }
-    if (elements.mUnk_00 > 0x10) {
-        elements.mUnk_00 = 0x10;
+    if (elements.mCount > 0x10) {
+        elements.mCount = 0x10;
     }
     body = (const u8 *) bssDesc + 0x40;
     bodyLength = bssDesc[0] * 2 - 0x40;
     total = 0;
-    for (elementIndex = 0; elementIndex < elements.mUnk_00; elementIndex++) {
-        elements.mUnk_04[elementIndex].mUnk_00 = body[0];
-        elements.mUnk_04[elementIndex].mUnk_01 = body[1];
-        elements.mUnk_04[elementIndex].mUnk_04 = body + 2;
-        size = elements.mUnk_04[elementIndex].mUnk_01 + 2;
+    for (elementIndex = 0; elementIndex < elements.mCount; elementIndex++) {
+        elements.mElement[elementIndex].mId = body[0];
+        elements.mElement[elementIndex].mLength = body[1];
+        elements.mElement[elementIndex].mBody = body + 2;
+        size = elements.mElement[elementIndex].mLength + 2;
         total = total + size;
         if (total > bodyLength) {
-            elements.mUnk_00 = 0;
+            elements.mCount = 0;
             return elements;
         }
         body = body + size;

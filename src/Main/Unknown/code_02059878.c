@@ -126,14 +126,14 @@ void ProcessMPChunk(u8 *chunk) {
 }
 
 void MPChunkPortCallback(Unk021425e8 *event) {
-    if (event->mResultCode == 0 && event->mUnk_0c != NULL && event->mUnk_10 >= 4) {
-        DC_StoreRange(event->mUnk_0c, event->mUnk_10);
-        switch (event->mUnk_04) {
+    if (event->mResultCode == 0 && event->mData != NULL && event->mLength >= 4) {
+        DC_StoreRange(event->mData, event->mLength);
+        switch (event->mState) {
             case 7:
             case 9:
                 break;
             case 0x15:
-                ProcessMPChunk(event->mUnk_0c);
+                ProcessMPChunk(event->mData);
                 break;
         }
     }

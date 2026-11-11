@@ -98,13 +98,13 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
     if (entryIndex >= 4) {
         return;
     }
-    isGhost = gameInfo->mUnk_0e.mHasGhost;
+    isGhost = gameInfo->mGameInfoPart.mHasGhost;
     if (isGhost != 0) {
         if (gConnectionWork->mConnectionKind != 2) {
             return;
         }
-        languageIndex = gameInfo->mUnk_0e.mLanguageIndex;
-        childCount = gameInfo->mUnk_0e.mChildCount;
+        languageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
+        childCount = gameInfo->mGameInfoPart.mChildCount;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
         slot->mKey = *key;
         slot->mInUse = 1;
@@ -124,8 +124,8 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         if (gConnectionWork->mConnectionKind == 2) {
             return;
         }
-        gameLanguageIndex = gameInfo->mUnk_0e.mLanguageIndex;
-        gameChildCount = gameInfo->mUnk_0e.mChildCount;
+        gameLanguageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
+        gameChildCount = gameInfo->mGameInfoPart.mChildCount;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
         slot->mKey = *key;
         slot->mInUse = 1;
@@ -193,9 +193,9 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     if ((scanBuffer->mGameInfo.mAttribute & 2) != 0) {
         if (connection->mConnectionKind != 2) {
             userGameInfo = &scanBuffer->mGameInfo.mUserGameInfo;
-            if (userGameInfo->mUnk_07 == 5) {
-                gameInfoPart = (void *) &userGameInfo->mUnk_0e;
-                nameInfo = &gameInfoPart->mUnk_36;
+            if (userGameInfo->mKind == 5) {
+                gameInfoPart = (void *) &userGameInfo->mGameInfoPart;
+                nameInfo = &gameInfoPart->mNameInfo;
                 childCount = -(found != FALSE);
                 MI_CpuCopy8(scanBuffer, chosenSlot, 0xc0);
                 chosenSlot->mKey = *key;
@@ -207,11 +207,11 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 chosenSlot->mLanguageIndex = 0;
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
-                MI_CpuCopy8(nameInfo->mUnk_02, chosenSlot->mName, 0x14);
+                MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, 0x14);
                 gConnectionWork->mRememberedScanKeyHeld = 0;
-            } else if (userGameInfo->mUnk_07 == 9) {
+            } else if (userGameInfo->mKind == 9) {
                 if (chosenSlot->mInUse != 0) {
-                    chosenSlot->mChildCount = userGameInfo->mUnk_0a - 1;
+                    chosenSlot->mChildCount = userGameInfo->mMemberCount - 1;
                 }
             } else if (chosenSlot->mInUse != 0) {
                 chosenSlot->mAge = 0;
@@ -249,13 +249,13 @@ void StartScanCallback(Unk021425e8 *event) {
         return;
     }
     if (event->mResultCode == 0) {
-        switch (event->mUnk_08_0) {
+        switch (event->mReplyState) {
             case 5:
                 DC_InvalidateRange(gConnectionWork->mScanBssDescBuffer, 0xc0);
                 MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, 0xc0);
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gConnectionWork->mState == 0xd) {
-                    value = event->mUnk_12;
+                    value = event->mAid;
                     if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
                         gConnectionWork->mUnk_1ed0 = 1;
                         gConnectionWork->mUnk_1ed4 = value;
@@ -285,12 +285,12 @@ void StartScanCallback(Unk021425e8 *event) {
                             gConnectionWork->mScanResultCallback(event, &scanBuffer);
                         } else if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_SCANNING) != 0) {
                             if ((scanBuffer.mGameInfo.mTgid & 0x8000) != 0) {
-                                key.mBytes[0] = event->mUnk_0a[0];
-                                key.mBytes[1] = event->mUnk_0a[1];
-                                key.mBytes[2] = event->mUnk_0a[2];
-                                key.mBytes[3] = event->mUnk_0a[3];
-                                key.mBytes[4] = event->mUnk_0a[4];
-                                key.mBytes[5] = event->mUnk_0a[5];
+                                key.mBytes[0] = event->mMacAddress[0];
+                                key.mBytes[1] = event->mMacAddress[1];
+                                key.mBytes[2] = event->mMacAddress[2];
+                                key.mBytes[3] = event->mMacAddress[3];
+                                key.mBytes[4] = event->mMacAddress[4];
+                                key.mBytes[5] = event->mMacAddress[5];
                                 FindOrAddScanSlot(&scanBuffer, &key, &scanBuffer.mGameInfo.mUserGameInfo);
                                 *gConnectionWork->mParentBssDesc = scanBuffer;
                             }
@@ -389,7 +389,7 @@ void StartConnectCallback(Unk021425e8 *event) {
     shouldReset = FALSE;
     switch (event->mResultCode) {
         case 0:
-            switch (event->mUnk_08_0) {
+            switch (event->mReplyState) {
                 case 7:
                     gConnectionWork->mOwnIndex = event->mUnk_08_2;
                     gConnectionWork->mExpectedRecordMask = shouldReset;
@@ -482,7 +482,7 @@ void StartMP(void) {
 void StartMPCallback(Unk021425e8 *event) {
     switch (event->mResultCode) {
         case 0:
-            switch (event->mUnk_04) {
+            switch (event->mState) {
                 case 0xa:
                     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
                     gConnectionWork->mSyncDoneChildMask = 0;
@@ -579,7 +579,7 @@ void SetGameInfo(void) {
     gConnectionWork->mStep = 0xf;
     gConnectionWork->mRequestPending = 1;
     children = &gConnectionWork->mChildren;
-    children->mGameInfo->mUnk_0e.mChildCount = children->mChildCount;
+    children->mGameInfo->mGameInfoPart.mChildCount = children->mChildCount;
     isState8Or9 = TRUE;
     if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
         isState8Or9 = FALSE;

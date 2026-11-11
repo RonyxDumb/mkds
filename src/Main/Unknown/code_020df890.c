@@ -205,12 +205,12 @@ void UpdateMkdEfBubble(void *unused, MkdEfBubbleObject *bubble) {
         return;
     }
     if ((bubble->mMapObject.mFlags & 0x12) != 0) {
-        bubble->mFirstEffect->mUnk_24.mHidden = 1;
-        bubble->mSecondEffect->mUnk_24.mHidden = 1;
+        bubble->mFirstEffect->mFlags.mHidden = 1;
+        bubble->mSecondEffect->mFlags.mHidden = 1;
         return;
     }
-    bubble->mFirstEffect->mUnk_24.mHidden = 0;
-    bubble->mSecondEffect->mUnk_24.mHidden = 0;
+    bubble->mFirstEffect->mFlags.mHidden = 0;
+    bubble->mSecondEffect->mFlags.mHidden = 0;
     PlaceEffect(bubble->mFirstEffect, &bubble->mMapObject.mPos);
     PlaceEffect(bubble->mSecondEffect, &bubble->mMapObject.mPos);
 }

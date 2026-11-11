@@ -71,13 +71,13 @@ void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
     kartX = kartPosition->x;
     kartY = kartPosition->y;
     kartZ = kartPosition->z;
-    effect->mUnk_28.x = (kartX >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.x;
-    effect->mUnk_28.y = (kartY >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.y;
-    effect->mUnk_28.z = (kartZ >> 4) + effect->mUnk_20->mUnk_00->mUnk_04.z;
+    effect->mPosition.x = (kartX >> 4) + effect->mResource->mHeader->mPositionOffset.x;
+    effect->mPosition.y = (kartY >> 4) + effect->mResource->mHeader->mPositionOffset.y;
+    effect->mPosition.z = (kartZ >> 4) + effect->mResource->mHeader->mPositionOffset.z;
     if (elapsedFrames >= effect->mUnk_98_8) {
         if (elapsedFrames == effect->mUnk_98_8) {
             ended = 1;
-            effect->mUnk_24.mEnding = 1;
+            effect->mFlags.mEnding = 1;
         }
     } else {
         effect->mUnk_98_16 = elapsedFrames + 1;

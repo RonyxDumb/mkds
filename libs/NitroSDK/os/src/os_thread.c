@@ -166,8 +166,8 @@ void OS_InitThread(void) {
     *(u32 *) OSi_IdleThread.mStackTop = 0x7bf9dd5b;
     OSi_IdleThread.mJoinQueue.mTail = 0;
     OSi_IdleThread.mJoinQueue.mHead = 0;
-    OSi_ThreadInfo.mUnk_00 = 0;
-    OSi_ThreadInfo.mUnk_02 = 0;
+    OSi_ThreadInfo.mIsNeedRescheduling = 0;
+    OSi_ThreadInfo.mIrqDepth = 0;
     *(ThreadSystem **) 0x027fffa0 = &OSi_ThreadInfo;
     OS_SetSwitchThreadCallback(0);
     OS_CreateThread(&data_0216ff6c, OSi_IdleThreadProc, 0, (u8 *) &data_021701b4, 0xc8, 0x1f);
@@ -198,8 +198,8 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, u8 *stac
     thread->mJoinQueue.mTail = 0;
     thread->mJoinQueue.mHead = thread->mJoinQueue.mTail;
     ThreadInitContext(thread, func, (u32) stack - 4);
-    thread->mUnk_04 = arg;
-    thread->mUnk_3c = OS_ExitThread;
+    thread->mR0 = arg;
+    thread->mLr = OS_ExitThread;
     fill = 0;
     MIi_CpuClear32(fill, stackTop + 4, stackSize - 8);
     OS_SetThreadDestructor(thread, 0);
@@ -220,8 +220,8 @@ void OS_ExitThread(void) {
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg) {
     if (data_0216ff44 != 0) {
         ThreadInitContext(thread, OSi_ExitThread, data_0216ff44);
-        thread->mUnk_04 = arg;
-        thread->mUnk_00 = thread->mUnk_00 | 0x80;
+        thread->mR0 = arg;
+        thread->mCpsr = thread->mCpsr | 0x80;
         thread->mState = 1;
         OS_LoadContext(thread);
     } else {
@@ -372,8 +372,8 @@ void OSi_RescheduleThread(void) {
     if (data_0216ff48 != 0) {
         return;
     }
-    if (system->mUnk_02 != 0 || OS_GetProcMode() == 0x12) {
-        system->mUnk_00 = 1;
+    if (system->mIrqDepth != 0 || OS_GetProcMode() == 0x12) {
+        system->mIsNeedRescheduling = 1;
         return;
     }
     current = *data_0216ff54;

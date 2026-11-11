@@ -57,16 +57,16 @@ void QueuePacketToPort(void) {
 void PacketPortCallback(Unk021425e8 *result) {
     u8 packet[0x192];
     u32 connectionMode;
-    if (result->mResultCode == 0 && result->mUnk_0c != NULL && result->mUnk_10 <= 0x192) {
-        DC_InvalidateRange(result->mUnk_0c, result->mUnk_10);
-        MI_CpuCopy8(result->mUnk_0c, packet, result->mUnk_10);
-        if (result->mUnk_04 == 7) {
+    if (result->mResultCode == 0 && result->mData != NULL && result->mLength <= 0x192) {
+        DC_InvalidateRange(result->mData, result->mLength);
+        MI_CpuCopy8(result->mData, packet, result->mLength);
+        if (result->mState == 7) {
             return;
         }
-        if (result->mUnk_04 == 9) {
+        if (result->mState == 9) {
             return;
         }
-        if (result->mUnk_04 == 0x15) {
+        if (result->mState == 0x15) {
             if (gConnectionWork == NULL) {
                 connectionMode = 0;
             } else {
@@ -74,10 +74,10 @@ void PacketPortCallback(Unk021425e8 *result) {
             }
             switch (connectionMode) {
                 case 1:
-                    WBT_MpParentRecvHook(packet, result->mUnk_10, result->mUnk_12);
+                    WBT_MpParentRecvHook(packet, result->mLength, result->mAid);
                     break;
                 case 2:
-                    WBT_MpChildRecvHook(packet, result->mUnk_10);
+                    WBT_MpChildRecvHook(packet, result->mLength);
                     break;
             }
         }

@@ -433,12 +433,12 @@ void MeasureChannelCallback(Unk021425e8 *event) {
         StopConnection();
         return;
     }
-    channelSum = &gConnectionWork->mChannelSums[event->mUnk_08_0];
+    channelSum = &gConnectionWork->mChannelSums[event->mReplyState];
     if (*channelSum < 0) {
         *channelSum = 0;
     }
     *channelSum = *channelSum + event->mUnk_08_2;
-    MeasureChannel(event->mUnk_08_0);
+    MeasureChannel(event->mReplyState);
 }
 
 void *RomArchiveAllocFunc(s32 unusedValue, u32 size, void *block) {
@@ -599,9 +599,9 @@ void StartParentCallback(Unk021425e8 *event) {
     u32 aid;
 
     if (event->mResultCode == 0) {
-        switch (event->mUnk_08_0) {
+        switch (event->mReplyState) {
             case 7:
-                AddChild(event->mUnk_10, &event->mUnk_0a[0], (PlayerRecord *) event->mUnk_14);
+                AddChild(event->mLength, &event->mMacAddress[0], (PlayerRecord *) event->mPeerBytes);
                 break;
             case 0:
                 MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0], 0x14);
@@ -623,8 +623,8 @@ void StartParentCallback(Unk021425e8 *event) {
                 gConnectionWork->mRequestPending = 0;
                 break;
             case 9:
-                RemoveChild(event->mUnk_10);
-                aid = event->mUnk_10;
+                RemoveChild(event->mLength);
+                aid = event->mLength;
                 role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
                 if (role == 1 && gConnectionWork->mState == 9) {
                     gConnectionWork->mLeftParticipantMask[0] |= 1 << aid;

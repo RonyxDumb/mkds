@@ -188,11 +188,11 @@ void SPLAnim_Scale(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
     s32 lo;
     s32 hi;
 
-    scaleAnim = res->mUnk_04;
+    scaleAnim = res->mScaleAnim;
     lo = scaleAnim->mMidStart;
     hi = scaleAnim->mMidEnd;
     if (lifeRate < lo) {
-        scale = scaleAnim->mUnk_00;
+        scale = scaleAnim->mStartScale;
         ptcl->mScale = scale + (lifeRate * (scaleAnim->mMidScale - scale)) / lo;
         return;
     }
@@ -200,7 +200,7 @@ void SPLAnim_Scale(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
         ptcl->mScale = scaleAnim->mMidScale;
         return;
     }
-    scale = scaleAnim->mUnk_04;
+    scale = scaleAnim->mEndScale;
     ptcl->mScale = scale + ((lifeRate - 0xff) * (scale - scaleAnim->mMidScale)) / (0xff - hi);
 }
 
@@ -219,22 +219,22 @@ void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
     s32 elapsed;
     s32 span;
 
-    colorAnim = res->mUnk_08;
-    header = res->mUnk_00;
-    lo = colorAnim->mUnk_04;
+    colorAnim = res->mColorAnim;
+    header = res->mHeader;
+    lo = colorAnim->mFirstBlendStart;
     mid = colorAnim->mFirstBlendEnd;
-    hi = colorAnim->mUnk_06;
+    hi = colorAnim->mSecondBlendEnd;
     if (lifeRate < lo) {
-        ptcl->mColor = colorAnim->mUnk_00;
+        ptcl->mColor = colorAnim->mStartColor;
         return;
     }
     if (lifeRate < mid) {
-        ar = colorAnim->mUnk_00 & 0x1f;
-        ag = (colorAnim->mUnk_00 >> 5) & 0x1f;
-        ab = (colorAnim->mUnk_00 >> 10) & 0x1f;
-        br = header->mUnk_22 & 0x1f;
-        bg = (header->mUnk_22 >> 5) & 0x1f;
-        bb = (header->mUnk_22 >> 10) & 0x1f;
+        ar = colorAnim->mStartColor & 0x1f;
+        ag = (colorAnim->mStartColor >> 5) & 0x1f;
+        ab = (colorAnim->mStartColor >> 10) & 0x1f;
+        br = header->mColor & 0x1f;
+        bg = (header->mColor >> 5) & 0x1f;
+        bb = (header->mColor >> 10) & 0x1f;
         if (colorAnim->mBlend == 0) {
             ptcl->mColor = br | (bg << 5) | (bb << 10);
             return;
@@ -252,12 +252,12 @@ void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
         s32 eg; // PERM
         s32 cg; // PERM
         s32 eb; // PERM
-        er = header->mUnk_22 & 0x1f;
-        eg = (header->mUnk_22 >> 5) & 0x1f;
-        eb = (header->mUnk_22 >> 10) & 0x1f;
-        cr = colorAnim->mUnk_02 & 0x1f;
-        cg = (colorAnim->mUnk_02 >> 5) & 0x1f;
-        cb = (colorAnim->mUnk_02 >> 10) & 0x1f;
+        er = header->mColor & 0x1f;
+        eg = (header->mColor >> 5) & 0x1f;
+        eb = (header->mColor >> 10) & 0x1f;
+        cr = colorAnim->mEndColor & 0x1f;
+        cg = (colorAnim->mEndColor >> 5) & 0x1f;
+        cb = (colorAnim->mEndColor >> 10) & 0x1f;
         if (colorAnim->mBlend == 0) {
             ptcl->mColor = cr | (cg << 5) | (cb << 10);
             return;
@@ -268,7 +268,7 @@ void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
                        ((eb + (elapsed * (cb - eb)) / span) << 10);
         return;
     }
-    ptcl->mColor = colorAnim->mUnk_02;
+    ptcl->mColor = colorAnim->mEndColor;
 }
 
 void SPLAnim_Alpha(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) {
@@ -281,12 +281,12 @@ void SPLAnim_Alpha(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
     lo = alphaAnim->mUnk_04;
     hi = alphaAnim->mUnk_05;
     if (lifeRate < lo) {
-        alpha = alphaAnim->mUnk_00_0 + (lifeRate * (alphaAnim->mMidAlpha - alphaAnim->mUnk_00_0)) / lo;
+        alpha = alphaAnim->mStartAlpha + (lifeRate * (alphaAnim->mMidAlpha - alphaAnim->mStartAlpha)) / lo;
     } else if (lifeRate < hi) {
         alpha = alphaAnim->mMidAlpha;
     } else {
         alpha =
-            alphaAnim->mUnk_00_10 + ((lifeRate - 0xff) * (alphaAnim->mUnk_00_10 - alphaAnim->mMidAlpha)) / (0xff - hi);
+            alphaAnim->mEndAlpha + ((lifeRate - 0xff) * (alphaAnim->mEndAlpha - alphaAnim->mMidAlpha)) / (0xff - hi);
     }
     ptcl->mAnimAlpha =
         (alpha * (0xff - ((alphaAnim->mAlphaRandom *
@@ -304,7 +304,7 @@ void SPLAnim_Texture(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate
 
     texAnim = res->mTextureAnim;
     frameIndex = 0;
-    frameCount = texAnim->mUnk_08_0;
+    frameCount = texAnim->mFrameCount;
     if (frameCount <= 0) {
         return;
     }
@@ -312,7 +312,7 @@ void SPLAnim_Texture(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate
     frameEnd = 0;
     do {
         if (lifeRate < frameEnd + frameLength) {
-            ptcl->mTextureIndex = texAnim->mUnk_00[frameIndex];
+            ptcl->mTextureIndex = texAnim->mTextureIndices[frameIndex];
             return;
         }
         frameEnd += texAnim->mFrameLength;
@@ -323,7 +323,7 @@ void SPLAnim_Texture(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate
 void SPLAnim_ChildScale(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) {
     s32 scale;
 
-    scale = res->mUnk_14->mUnk_04;
+    scale = res->mChildAnim->mEndScale;
     ptcl->mScale = scale + ((scale - 0x1000) * (lifeRate - 0xff)) / 0xff;
 }
 
@@ -337,7 +337,7 @@ void SPLEmitter_ComputeOrthogonalAxes(ParticleEmitter *emtr) {
     s32 dot;
 
     up = data_02161ad0;
-    switch (emtr->mUnk_20->mUnk_00->mUnk_00.mAxis) {
+    switch (emtr->mResource->mHeader->mFlags.mAxis) {
         case 2:
             axis.x = 0x1000;
             axis.y = 0;
@@ -409,14 +409,14 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
     Vec3 direction;
     Vec3 tiltedOffset;
 
-    resource = emtr->mUnk_20;
+    resource = emtr->mResource;
     emitTotal = emtr->mEmitRate + emtr->mEmitFraction;
-    header = resource->mUnk_00;
+    header = resource->mHeader;
     emtr->mEmitFraction = emitTotal & 0xfff;
     emitCount = FROM_FIXED12(emitTotal);
-    if (header->mUnk_00.mUnk_00_0 == 2 || header->mUnk_00.mUnk_00_0 == 3 || header->mUnk_00.mUnk_00_0 == 5 ||
-        header->mUnk_00.mUnk_00_0 == 6 || header->mUnk_00.mUnk_00_0 == 7 || header->mUnk_00.mUnk_00_0 == 8 ||
-        header->mUnk_00.mUnk_00_0 == 9) {
+    if (header->mFlags.mEmitShape == 2 || header->mFlags.mEmitShape == 3 || header->mFlags.mEmitShape == 5 ||
+        header->mFlags.mEmitShape == 6 || header->mFlags.mEmitShape == 7 || header->mFlags.mEmitShape == 8 ||
+        header->mFlags.mEmitShape == 9) {
         SPLEmitter_ComputeOrthogonalAxes(emtr);
     }
     emitIndex = 0;
@@ -427,8 +427,8 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
             if (particle == 0) {
                 return;
             }
-            SPLList_PushFront(&emtr->mUnk_08, particle);
-            switch (header->mUnk_00.mUnk_00_0) {
+            SPLList_PushFront(&emtr->mParticles, particle);
+            switch (header->mFlags.mEmitShape) {
                 case 0:
                     particle->mOffset.x = particle->mOffset.y = particle->mOffset.z = 0;
                     break;
@@ -586,7 +586,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                          emtr->mAxisSpeed) >>
                         8;
 
-            if (header->mUnk_00.mUnk_00_0 == 6) {
+            if (header->mFlags.mEmitShape == 6) {
                 tiltedOffset.x = MUL_FIXED12_ROUNDED(particle->mVelocity.x, emtr->mAxisX.x) +
                                  MUL_FIXED12_ROUNDED(particle->mVelocity.y, emtr->mAxisY.x);
                 tiltedOffset.y = MUL_FIXED12_ROUNDED(particle->mVelocity.x, emtr->mAxisX.y) +
@@ -606,42 +606,42 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                                                          MUL_FIXED12_ROUNDED(emtr->mDirection.y, axisSpeed));
             particle->mVelocity.z = emtr->mVelocity.z + (MUL_FIXED12_ROUNDED(direction.z, directionSpeed) +
                                                          MUL_FIXED12_ROUNDED(emtr->mDirection.z, axisSpeed));
-            particle->mEmitterPosition = emtr->mUnk_28;
+            particle->mEmitterPosition = emtr->mPosition;
 
             particle->mSize =
-                ((header->mUnk_40 + 0xff -
-                  ((header->mUnk_40 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >>
+                ((header->mSizeRandom + 0xff -
+                  ((header->mSizeRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >>
                    7)) *
                  emtr->mSizeScale) >>
                 8;
             particle->mScale = 0x1000;
 
-            if (header->mUnk_00.mHasColorAnim && resource->mUnk_08->mUnk_08_0) {
+            if (header->mFlags.mHasColorAnim && resource->mColorAnim->mRandomColor) {
                 ParticleColorAnim *colorAnim;
                 u32 randomIndex;
                 randomIndex = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 20;
-                colorAnim = resource->mUnk_08;
-                colorChoices[0] = colorAnim->mUnk_00;
-                colorChoices[1] = header->mUnk_22;
-                colorChoices[2] = colorAnim->mUnk_02;
+                colorAnim = resource->mColorAnim;
+                colorChoices[0] = colorAnim->mStartColor;
+                colorChoices[1] = header->mColor;
+                colorChoices[2] = colorAnim->mEndColor;
                 particle->mColor = colorChoices[randomIndex % 3];
             } else {
-                particle->mColor = header->mUnk_22;
+                particle->mColor = header->mColor;
             }
 
             particle->mBaseAlpha = emtr->mAlpha;
             particle->mAnimAlpha = 0x1f;
 
-            if (header->mUnk_00.mRandomAngle) {
+            if (header->mFlags.mRandomAngle) {
                 particle->mAngle = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173);
             } else {
                 particle->mAngle = emtr->mAngle;
             }
 
-            if (header->mUnk_00.mRandomAngleSpeed) {
-                particle->mAngleSpeed = ((header->mUnk_36 - header->mUnk_34) *
+            if (header->mFlags.mRandomAngleSpeed) {
+                particle->mAngleSpeed = ((header->mAngleSpeedMax - header->mAngleSpeedMin) *
                                              ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 20) +
-                                         TO_FIXED12(header->mUnk_34)) >>
+                                         TO_FIXED12(header->mAngleSpeedMin)) >>
                                         12;
             } else {
                 particle->mAngleSpeed = 0;
@@ -656,22 +656,22 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                 1;
             particle->mAge = 0;
 
-            if (header->mUnk_00.mHasTextureAnim && resource->mTextureAnim->mRandomTexture) {
+            if (header->mFlags.mHasTextureAnim && resource->mTextureAnim->mRandomTexture) {
                 ParticleTextureAnim *texAnim;
                 u32 randomIndex;
                 randomIndex = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 20;
                 texAnim = resource->mTextureAnim;
-                particle->mTextureIndex = texAnim->mUnk_00[randomIndex % texAnim->mUnk_08_0];
-            } else if (header->mUnk_00.mHasTextureAnim && !resource->mTextureAnim->mRandomTexture) {
-                particle->mTextureIndex = resource->mTextureAnim->mUnk_00[0];
+                particle->mTextureIndex = texAnim->mTextureIndices[randomIndex % texAnim->mFrameCount];
+            } else if (header->mFlags.mHasTextureAnim && !resource->mTextureAnim->mRandomTexture) {
+                particle->mTextureIndex = resource->mTextureAnim->mTextureIndices[0];
             } else {
                 particle->mTextureIndex = header->mTextureIndex;
             }
 
-            particle->mSecondTimeScale = 0xffff / resource->mUnk_00->mDrawParams.mUnk_00_0;
+            particle->mSecondTimeScale = 0xffff / resource->mHeader->mDrawParams.mSecondTimeLength;
             particle->mFirstTimeScale = 0xffff / particle->mLife;
             particle->mSecondTimeOffset = 0;
-            if (header->mUnk_00.mRandomSecondTimeOffset) {
+            if (header->mFlags.mRandomSecondTimeOffset) {
                 particle->mSecondTimeOffset = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24;
             }
         } while (++emitIndex < emitCount);
@@ -702,43 +702,43 @@ void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, Part
     Vec3 *childVec;
     u32 parentLife;
 
-    childAnim = emtr->mUnk_20->mUnk_14;
-    velocityScale = MUL_FIXED12_ROUNDED(TO_FIXED12(childAnim->mUnk_08), 16);
-    for (childIndex = 0; childIndex < childAnim->mUnk_0c; childIndex++) {
+    childAnim = emtr->mResource->mChildAnim;
+    velocityScale = MUL_FIXED12_ROUNDED(TO_FIXED12(childAnim->mVelocityScale), 16);
+    for (childIndex = 0; childIndex < childAnim->mChildCount; childIndex++) {
         {
             child = SPLList_PopFront(list);
             if (child == NULL) {
                 return;
             }
-            SPLList_PushFront(&emtr->mUnk_14, child);
+            SPLList_PushFront(&emtr->mChildParticles, child);
             childVec = &child->mEmitterPosition;
             child->mOffset = ptcl->mOffset;
             child->mVelocity.x =
                 GetScaledParticleX(velocityScale, ptcl) +
-                ((childAnim->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                  (childAnim->mUnk_02 << 8)) >>
+                ((childAnim->mVelocityRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                  (childAnim->mVelocityRandom << 8)) >>
                  8);
             child->mVelocity.y =
                 GetScaledParticleY(velocityScale, ptcl) +
-                ((childAnim->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                  (childAnim->mUnk_02 << 8)) >>
+                ((childAnim->mVelocityRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                  (childAnim->mVelocityRandom << 8)) >>
                  8);
             child->mVelocity.z =
                 GetScaledParticleZ(velocityScale, ptcl) +
-                ((childAnim->mUnk_02 * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                  (childAnim->mUnk_02 << 8)) >>
+                ((childAnim->mVelocityRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                  (childAnim->mVelocityRandom << 8)) >>
                  8);
             *childVec = ptcl->mEmitterPosition;
             child->mSize = (((ptcl->mSize * ptcl->mScale) >> 12) * AddOneToChildValue(childAnim)) >> 6;
             child->mScale = 0x1000;
-            if (childAnim->mUnk_00_6) {
+            if (childAnim->mOwnColor) {
                 child->mColor = childAnim->mColor;
             } else {
                 child->mColor = ptcl->mColor;
             }
             child->mBaseAlpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
             child->mAnimAlpha = 0x1f;
-            switch (childAnim->mUnk_00_3) {
+            switch (childAnim->mInheritAngle) {
                 case 2:
                     child->mAngle = ptcl->mAngle;
                     child->mAngleSpeed = ptcl->mAngleSpeed;
@@ -752,7 +752,7 @@ void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, Part
                     child->mAngleSpeed = 0;
                     break;
             }
-            child->mLife = childAnim->mUnk_06;
+            child->mLife = childAnim->mLife;
             child->mAge = 0;
             child->mTextureIndex = childAnim->mTextureIndex;
             parentLife = ptcl->mLife;
@@ -866,9 +866,9 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     u8 scaleMode;
     s32 particleScale;
 
-    baseScale = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
+    baseScale = mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale;
     viewMtx = mgr->mRenderStateViewMatrix;
-    scaleMode = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28;
+    scaleMode = mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode;
     particleScale = ptcl->mScale;
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
@@ -888,7 +888,7 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     } else {
         height = MUL_FIXED12_ROUNDED(height, particleScale);
     }
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -910,9 +910,9 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&billboardMtx);
     } else {
-        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         MTX_MultVec43(&viewPos, viewMtx, &viewPos);
         sinAngle = FX_SinIdx(ptcl->mAngle);
         cosAngle = FX_CosIdx(ptcl->mAngle);
@@ -929,9 +929,9 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
         billboardMtx.mRows[3].y = viewPos.y;
         billboardMtx.mRows[3].z = viewPos.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -941,8 +941,8 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mPlaneCenterY);
+                        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX,
+                        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
 
 void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
@@ -961,7 +961,7 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     s32 baseScale;
     MtxFx43 *viewMtx;
 
-    baseScale = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
+    baseScale = mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale;
     viewMtx = mgr->mRenderStateViewMatrix;
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
@@ -971,7 +971,7 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, baseScale);
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28) {
+    switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
         case 0:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
@@ -983,7 +983,7 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -1005,9 +1005,9 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&billboardMtx);
     } else {
-        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         MTX_MultVec43(&viewPos, viewMtx, &viewPos);
         sinAngle = FX_SinIdx(ptcl->mAngle);
         cosAngle = FX_CosIdx(ptcl->mAngle);
@@ -1024,9 +1024,9 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
         billboardMtx.mRows[3].y = viewPos.y;
         billboardMtx.mRows[3].z = viewPos.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -1062,7 +1062,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
     s32 originZ;
 
     viewMtx = mgr->mRenderStateViewMatrix;
-    baseScale = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
+    baseScale = mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale;
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
     reg_G3_POLYGON_ATTR;
@@ -1071,7 +1071,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     width = ptcl->mSize;
     height = MUL_FIXED12_ROUNDED(width, baseScale);
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28) {
+    switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
         case 0:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
@@ -1083,7 +1083,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
     }
-    if (!mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset) {
+    if (!mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset) {
         pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -1108,7 +1108,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
             facing = -facing;
         }
         stretch = MUL_FIXED12_ROUNDED(0x1000 - facing,
-                                      (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_8);
+                                      (s32) mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mStretchFactor);
         stretchedWidth = MUL_FIXED12_ROUNDED(width, stretch + 0x1000);
         buf.mRows[0].x = MUL_FIXED12_ROUNDED(sideVec.x, height);
         buf.mRows[1].x = MUL_FIXED12_ROUNDED(-sideVec.y, stretchedWidth);
@@ -1125,9 +1125,9 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&buf);
     } else {
-        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         sideVec = ptcl->mVelocity;
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
@@ -1149,7 +1149,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
             facing = -facing;
         }
         stretch = MUL_FIXED12_ROUNDED(0x1000 - facing,
-                                      (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_8);
+                                      (s32) mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mStretchFactor);
         stretchedWidth = MUL_FIXED12_ROUNDED(width, stretch + 0x1000);
         buf.mRows[0].x = MUL_FIXED12_ROUNDED(sideVec.x, height);
         buf.mRows[1].x = MUL_FIXED12_ROUNDED(-sideVec.y, stretchedWidth);
@@ -1164,9 +1164,9 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
         buf.mRows[2].z = 0x1000;
         buf.mRows[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -1178,8 +1178,8 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mPlaneCenterY);
+                        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX,
+                        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
 
 void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
@@ -1204,7 +1204,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
     s32 originZ;
 
     viewMtx = mgr->mRenderStateViewMatrix;
-    baseScale = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
+    baseScale = mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale;
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
     reg_G3_POLYGON_ATTR;
@@ -1213,7 +1213,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
     }
     width = ptcl->mSize;
     height = MUL_FIXED12_ROUNDED(width, baseScale);
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28) {
+    switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
         case 0:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
@@ -1225,7 +1225,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
     }
-    if (!mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset) {
+    if (!mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset) {
         pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -1250,7 +1250,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
             facing = -facing;
         }
         stretch = MUL_FIXED12_ROUNDED(0x1000 - facing,
-                                      (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_8);
+                                      (s32) mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mStretchFactor);
         stretchedWidth = MUL_FIXED12_ROUNDED(width, stretch + 0x1000);
         buf.mRows[0].x = MUL_FIXED12_ROUNDED(sideVec.x, height);
         buf.mRows[1].x = MUL_FIXED12_ROUNDED(-sideVec.y, stretchedWidth);
@@ -1267,9 +1267,9 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&buf);
     } else {
-        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         sideVec = ptcl->mVelocity;
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
@@ -1291,7 +1291,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
             facing = -facing;
         }
         stretch = MUL_FIXED12_ROUNDED(0x1000 - facing,
-                                      (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_8);
+                                      (s32) mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mStretchFactor);
         stretchedWidth = MUL_FIXED12_ROUNDED(width, stretch + 0x1000);
         buf.mRows[0].x = MUL_FIXED12_ROUNDED(sideVec.x, height);
         buf.mRows[1].x = MUL_FIXED12_ROUNDED(-sideVec.y, stretchedWidth);
@@ -1306,9 +1306,9 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
         buf.mRows[2].z = 0x1000;
         buf.mRows[3].z = pos.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -1341,11 +1341,11 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mRotateKind](
+    data_02161ac8[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mRotateKind](
         FX_SinIdx(ptcl->mAngle), FX_CosIdx(ptcl->mAngle), &rotationMtx);
     height = ptcl->mSize;
-    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28) {
+    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
+    switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
         case 0:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
@@ -1359,7 +1359,7 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     MTX_Scale43_(&scaleMtx, width, height, height);
     MTX_Concat43(&scaleMtx, &rotationMtx, &worldMtx);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -1367,15 +1367,15 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_MultMtx43(&worldMtx);
     } else {
         worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
         worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -1387,9 +1387,9 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mPlaneKind](
+    data_02161ac0[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
         mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
-        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mPlaneCenterY);
+        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX, mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
 
 void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
@@ -1411,11 +1411,11 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](FX_SinIdx(ptcl->mAngle),
+    data_02161ac8[mgr->mRenderStateEmitter->mResource->mChildAnim->mRotateKind](FX_SinIdx(ptcl->mAngle),
                                                                          FX_CosIdx(ptcl->mAngle), &rotationMtx);
     height = ptcl->mSize;
-    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28) {
+    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
+    switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
         case 0:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
@@ -1429,7 +1429,7 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     MTX_Scale43_(&scaleMtx, width, height, height);
     MTX_Concat43(&rotationMtx, &scaleMtx, &worldMtx);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -1437,15 +1437,15 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_MultMtx43(&worldMtx);
     } else {
         worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
         worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -1457,7 +1457,7 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_11](
+    data_02161ac0[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
         mgr->mRenderStateEmitter->mChildTexCoordU, mgr->mRenderStateEmitter->mChildTexCoordV, 0, 0);
 }
 
@@ -1486,10 +1486,10 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mRotateKind](
+    data_02161ac8[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mRotateKind](
         FX_SinIdx(ptcl->mAngle), FX_CosIdx(ptcl->mAngle), &rotationMtx);
     MTX_Identity43_(&axisMtx);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_31 == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mForwardFromOffset == 0) {
         VEC_Normalize(&ptcl->mVelocity, &forward);
     } else {
         VEC_Normalize(&ptcl->mOffset, &forward);
@@ -1519,8 +1519,8 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     axisMtx.mRows[2].z = upAxis.z;
     MTX_Concat43(&rotationMtx, &axisMtx, &rotationMtx);
     height = ptcl->mSize;
-    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28) {
+    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
+    switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
         case 0:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
@@ -1534,7 +1534,7 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     MTX_Scale43_(&scaleMtx, width, height, height);
     MTX_Concat43(&scaleMtx, &rotationMtx, &worldMtx);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -1542,15 +1542,15 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_MultMtx43(&worldMtx);
     } else {
         worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
         worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -1562,9 +1562,9 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mPlaneKind](
+    data_02161ac0[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
         mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
-        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mPlaneCenterY);
+        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX, mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
 
 void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
@@ -1592,10 +1592,10 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](FX_SinIdx(ptcl->mAngle),
+    data_02161ac8[mgr->mRenderStateEmitter->mResource->mChildAnim->mRotateKind](FX_SinIdx(ptcl->mAngle),
                                                                          FX_CosIdx(ptcl->mAngle), &rotationMtx);
     MTX_Identity43_(&axisMtx);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_10.mUnk_00_6 == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mChildAnim->mTexParams.mForwardFromOffset == 0) {
         VEC_Normalize(&ptcl->mVelocity, &forward);
     } else {
         VEC_Normalize(&ptcl->mOffset, &forward);
@@ -1625,8 +1625,8 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     axisMtx.mRows[2].z = upAxis.z;
     MTX_Concat43(&rotationMtx, &axisMtx, &rotationMtx);
     height = ptcl->mSize;
-    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30);
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mDrawParams.mUnk_00_28) {
+    width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
+    switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
         case 0:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
@@ -1640,7 +1640,7 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     MTX_Scale43_(&scaleMtx, width, height, height);
     MTX_Concat43(&rotationMtx, &scaleMtx, &worldMtx);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mTranslateByOffset == 0) {
+    if (mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mTranslateByOffset == 0) {
         worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x;
         worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y;
         worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z;
@@ -1648,15 +1648,15 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_MultMtx43(&worldMtx);
     } else {
         worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
+            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
         worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
-        originZ = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        originY = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        originX = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        originX = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
         reg_G3_MTX_TRANS = originX;
         reg_G3_MTX_TRANS = originY;
         reg_G3_MTX_TRANS = originZ;
@@ -1668,7 +1668,7 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_11](
+    data_02161ac0[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
         mgr->mRenderStateEmitter->mChildTexCoordU, mgr->mRenderStateEmitter->mChildTexCoordV, 0, 0);
 }
 
@@ -1705,54 +1705,54 @@ void SPLUtil_SetTexture_Stub(ParticleTexture *tex) {}
 void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
     ParticleResourceHeader *header;
 
-    emtr->mUnk_20 = res;
-    *(u32 *) &emtr->mUnk_24 = 0;
-    emtr->mUnk_28.x = pos->x + emtr->mUnk_20->mUnk_00->mUnk_04.x;
-    emtr->mUnk_28.y = pos->y + emtr->mUnk_20->mUnk_00->mUnk_04.y;
-    emtr->mUnk_28.z = pos->z + emtr->mUnk_20->mUnk_00->mUnk_04.z;
+    emtr->mResource = res;
+    *(u32 *) &emtr->mFlags = 0;
+    emtr->mPosition.x = pos->x + emtr->mResource->mHeader->mPositionOffset.x;
+    emtr->mPosition.y = pos->y + emtr->mResource->mHeader->mPositionOffset.y;
+    emtr->mPosition.z = pos->z + emtr->mResource->mHeader->mPositionOffset.z;
     emtr->mVelocity.x = 0;
     emtr->mVelocity.y = 0;
     emtr->mVelocity.z = 0;
-    emtr->mUnk_34.x = emtr->mUnk_34.y = emtr->mUnk_34.z = 0;
+    emtr->mParticleShift.x = emtr->mParticleShift.y = emtr->mParticleShift.z = 0;
     emtr->mAge = 0;
     emtr->mEmitFraction = 0;
-    header = emtr->mUnk_20->mUnk_00;
-    emtr->mDirection = header->mUnk_1c;
-    emtr->mAngle = emtr->mUnk_20->mUnk_00->mUnk_38;
-    emtr->mEmitRate = emtr->mUnk_20->mUnk_00->mUnk_10;
-    emtr->mRadius = emtr->mUnk_20->mUnk_00->mUnk_14;
-    emtr->mHalfLength = emtr->mUnk_20->mUnk_00->mUnk_18;
-    emtr->mDirectionSpeed = emtr->mUnk_20->mUnk_00->mUnk_24;
-    emtr->mAxisSpeed = emtr->mUnk_20->mUnk_00->mUnk_28;
-    emtr->mSizeScale = emtr->mUnk_20->mUnk_00->mUnk_2c;
-    emtr->mLife = emtr->mUnk_20->mUnk_00->mLife;
+    header = emtr->mResource->mHeader;
+    emtr->mDirection = header->mDirection;
+    emtr->mAngle = emtr->mResource->mHeader->mAngle;
+    emtr->mEmitRate = emtr->mResource->mHeader->mEmitRate;
+    emtr->mRadius = emtr->mResource->mHeader->mRadius;
+    emtr->mHalfLength = emtr->mResource->mHeader->mHalfLength;
+    emtr->mDirectionSpeed = emtr->mResource->mHeader->mDirectionSpeed;
+    emtr->mAxisSpeed = emtr->mResource->mHeader->mAxisSpeed;
+    emtr->mSizeScale = emtr->mResource->mHeader->mSizeScale;
+    emtr->mLife = emtr->mResource->mHeader->mLife;
     emtr->mColor = 0x7fff;
-    emtr->mEmitInterval = emtr->mUnk_20->mUnk_00->mEmitInterval;
-    emtr->mAlpha = emtr->mUnk_20->mUnk_00->mAlpha;
+    emtr->mEmitInterval = emtr->mResource->mHeader->mEmitInterval;
+    emtr->mAlpha = emtr->mResource->mHeader->mAlpha;
     emtr->mUpdateCycle = 0;
     emtr->mUnk_80_19 = 0;
     emtr->mPlaneY = 0x80000000;
-    emtr->mTexCoordU = 0x1000 << emtr->mUnk_20->mUnk_00->mDrawParams.mUnk_00_24;
-    emtr->mTexCoordV = 0x1000 << emtr->mUnk_20->mUnk_00->mDrawParams.mUnk_00_26;
-    if (emtr->mUnk_20->mUnk_00->mFlipU) {
+    emtr->mTexCoordU = 0x1000 << emtr->mResource->mHeader->mDrawParams.mTexCoordUShift;
+    emtr->mTexCoordV = 0x1000 << emtr->mResource->mHeader->mDrawParams.mTexCoordVShift;
+    if (emtr->mResource->mHeader->mFlipU) {
         emtr->mTexCoordU *= -1;
     }
-    if (emtr->mUnk_20->mUnk_00->mFlipV) {
+    if (emtr->mResource->mHeader->mFlipV) {
         emtr->mTexCoordV *= -1;
     }
-    if (emtr->mUnk_20->mUnk_00->mUnk_00.mHasChildAnim) {
-        emtr->mChildTexCoordU = 0x1000 << emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_0;
-        emtr->mChildTexCoordV = 0x1000 << emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_2;
-        if (emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_4) {
+    if (emtr->mResource->mHeader->mFlags.mHasChildAnim) {
+        emtr->mChildTexCoordU = 0x1000 << emtr->mResource->mChildAnim->mTexParams.mTexCoordUShift;
+        emtr->mChildTexCoordV = 0x1000 << emtr->mResource->mChildAnim->mTexParams.mTexCoordVShift;
+        if (emtr->mResource->mChildAnim->mTexParams.mFlipU) {
             emtr->mChildTexCoordU *= -1;
         }
-        if (emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_5) {
+        if (emtr->mResource->mChildAnim->mTexParams.mFlipV) {
             emtr->mChildTexCoordV *= -1;
         }
     }
-    emtr->mUnk_00 = emtr->mUnk_04 = 0;
-    emtr->mUnk_08.mFront = emtr->mUnk_14.mFront = 0;
-    emtr->mUnk_08.mCount = emtr->mUnk_14.mCount = 0;
+    emtr->mNext = emtr->mPrev = 0;
+    emtr->mParticles.mFront = emtr->mChildParticles.mFront = 0;
+    emtr->mParticles.mCount = emtr->mChildParticles.mCount = 0;
     emtr->mCallback = 0;
     emtr->mUnk_94 = 0;
     emtr->mUnk_98 = 0;
@@ -1775,10 +1775,10 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
     ParticleAnimEntry tbl2[4];
     Vec3 accel;
 
-    resource = emtr->mUnk_20;
-    childAnim = resource->mUnk_14;
-    header = resource->mUnk_00;
-    flags = header->mUnk_00;
+    resource = emtr->mResource;
+    childAnim = resource->mChildAnim;
+    header = resource->mHeader;
+    flags = header->mFlags;
     animCount = 0;
     dragFactor = header->mDragFactor + 0x180;
     cnt = resource->mBehaviorCount;
@@ -1788,19 +1788,19 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
     }
 
     if (header->mEmitFrameCount == 0 || emtr->mAge < header->mEmitFrameCount) {
-        if (emtr->mAge % emtr->mEmitInterval == 0 && !emtr->mUnk_24.mEnding && !emtr->mUnk_24.mEmissionStopped &&
-            emtr->mUnk_24.mStarted) {
+        if (emtr->mAge % emtr->mEmitInterval == 0 && !emtr->mFlags.mEnding && !emtr->mFlags.mEmissionStopped &&
+            emtr->mFlags.mStarted) {
             SPLEmitter_EmitParticles(emtr, &mgr->mUnk_04[2]);
         }
     }
 
     if (flags.mHasScaleAnim) {
         tbl[animCount].mAnimate = SPLAnim_Scale;
-        tbl[animCount++].mTimeIndex = resource->mUnk_04->mTimeIndex;
+        tbl[animCount++].mTimeIndex = resource->mScaleAnim->mTimeIndex;
     }
-    if (flags.mHasColorAnim && !resource->mUnk_08->mUnk_08_0) {
+    if (flags.mHasColorAnim && !resource->mColorAnim->mRandomColor) {
         tbl[animCount].mAnimate = SPLAnim_Color;
-        tbl[animCount++].mTimeIndex = resource->mUnk_08->mTimeIndex;
+        tbl[animCount++].mTimeIndex = resource->mColorAnim->mTimeIndex;
     }
     if (flags.mHasAlphaAnim) {
         tbl[animCount].mAnimate = SPLAnim_Alpha;
@@ -1811,7 +1811,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
         tbl[animCount++].mTimeIndex = resource->mTextureAnim->mTimeIndex;
     }
 
-    for (particle = emtr->mUnk_08.mFront; particle; particle = next) {
+    for (particle = emtr->mParticles.mFront; particle; particle = next) {
         next = particle->mNext;
         animTime[0] = (particle->mFirstTimeScale * particle->mAge) >> 8;
         animTime[1] = particle->mSecondTimeOffset + ((particle->mSecondTimeScale * particle->mAge) >> 8);
@@ -1820,10 +1820,10 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
         }
         accel.x = accel.y = accel.z = 0;
         if (flags.mFollowEmitter) {
-            particle->mEmitterPosition = emtr->mUnk_28;
+            particle->mEmitterPosition = emtr->mPosition;
         }
         for (index = 0; index < cnt; index++) {
-            resource->mBehaviors[index].mUnk_00(resource->mBehaviors[index].mUnk_04, particle, &accel, emtr);
+            resource->mBehaviors[index].mApply(resource->mBehaviors[index].mData, particle, &accel, emtr);
         }
         particle->mAngle += particle->mAngleSpeed;
         particle->mVelocity.x = (particle->mVelocity.x * dragFactor) >> 9;
@@ -1832,9 +1832,9 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
         particle->mVelocity.x += accel.x;
         particle->mVelocity.y += accel.y;
         particle->mVelocity.z += accel.z;
-        particle->mOffset.x += particle->mVelocity.x + emtr->mUnk_34.x;
-        particle->mOffset.y += particle->mVelocity.y + emtr->mUnk_34.y;
-        particle->mOffset.z += particle->mVelocity.z + emtr->mUnk_34.z;
+        particle->mOffset.x += particle->mVelocity.x + emtr->mParticleShift.x;
+        particle->mOffset.y += particle->mVelocity.y + emtr->mParticleShift.y;
+        particle->mOffset.z += particle->mVelocity.z + emtr->mParticleShift.z;
         if (flags.mHasChildAnim) {
             childAge = TO_FIXED12(particle->mAge) -
                        (MUL_FIXED12_ROUNDED(TO_FIXED12(particle->mLife), TO_FIXED12(childAnim->mStartLifeRate)) >> 8);
@@ -1842,7 +1842,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
                 SPLEmitter_EmitChildren(particle, emtr, &mgr->mUnk_04[2]);
             }
         }
-        if (emtr->mUnk_20->mUnk_00->mUnk_00.mFixedPolygonId) {
+        if (emtr->mResource->mHeader->mFlags.mFixedPolygonId) {
             particle->mPolygonId = mgr->mPolygonIDFix;
         } else {
             particle->mPolygonId = mgr->mPolygonIDCurrent;
@@ -1853,35 +1853,35 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
         }
         particle->mAge++;
         if (particle->mAge > particle->mLife) {
-            SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mUnk_08, particle));
+            SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mParticles, particle));
         }
     }
 
     if (flags.mHasChildAnim) {
         animCount = 0;
-        if (childAnim->mUnk_00_1) {
+        if (childAnim->mHasScaleAnim) {
             tbl2[animCount].mAnimate = SPLAnim_ChildScale;
             tbl2[animCount++].mTimeIndex = 0;
         }
-        if (childAnim->mUnk_00_2) {
+        if (childAnim->mHasAlphaAnim) {
             tbl2[animCount].mAnimate = SPLAnim_ChildAlpha;
             tbl2[animCount++].mTimeIndex = 0;
         }
-        if (!childAnim->mUnk_00_0) {
+        if (!childAnim->mUseBehaviors) {
             cnt = 0;
         }
-        for (particle = emtr->mUnk_14.mFront; particle; particle = next) {
+        for (particle = emtr->mChildParticles.mFront; particle; particle = next) {
             next = particle->mNext;
             animTime[0] = (particle->mAge << 8) / particle->mLife;
             for (index = 0; index < animCount; index++) {
                 tbl2[index].mAnimate(particle, resource, animTime[0]);
             }
             accel.x = accel.y = accel.z = 0;
-            if (childAnim->mUnk_00_5) {
-                particle->mEmitterPosition = emtr->mUnk_28;
+            if (childAnim->mFollowEmitter) {
+                particle->mEmitterPosition = emtr->mPosition;
             }
             for (index = 0; index < cnt; index++) {
-                resource->mBehaviors[index].mUnk_00(resource->mBehaviors[index].mUnk_04, particle, &accel, emtr);
+                resource->mBehaviors[index].mApply(resource->mBehaviors[index].mData, particle, &accel, emtr);
             }
             particle->mAngle += particle->mAngleSpeed;
             particle->mVelocity.x = (particle->mVelocity.x * dragFactor) >> 9;
@@ -1890,10 +1890,10 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
             particle->mVelocity.x += accel.x;
             particle->mVelocity.y += accel.y;
             particle->mVelocity.z += accel.z;
-            particle->mOffset.x += particle->mVelocity.x + emtr->mUnk_34.x;
-            particle->mOffset.y += particle->mVelocity.y + emtr->mUnk_34.y;
-            particle->mOffset.z += particle->mVelocity.z + emtr->mUnk_34.z;
-            if (emtr->mUnk_20->mUnk_00->mUnk_00.mFixedChildPolygonId) {
+            particle->mOffset.x += particle->mVelocity.x + emtr->mParticleShift.x;
+            particle->mOffset.y += particle->mVelocity.y + emtr->mParticleShift.y;
+            particle->mOffset.z += particle->mVelocity.z + emtr->mParticleShift.z;
+            if (emtr->mResource->mHeader->mFlags.mFixedChildPolygonId) {
                 particle->mPolygonId = mgr->mPolygonIDFix;
             } else {
                 particle->mPolygonId = mgr->mPolygonIDCurrent;
@@ -1904,7 +1904,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
             }
             particle->mAge++;
             if (particle->mAge > particle->mLife) {
-                SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mUnk_14, particle));
+                SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mChildParticles, particle));
             }
         }
     }
@@ -1923,10 +1923,10 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     ParticleInstance *particle;
 
     emitter = mgr->mRenderStateEmitter;
-    header = emitter->mUnk_20->mUnk_00;
+    header = emitter->mResource->mHeader;
     drawFunc = 0;
     SPLUtil_SetTexture(mgr->mTextures + header->mTextureIndex);
-    switch (header->mUnk_00.mUnk_00_4) {
+    switch (header->mFlags.mDrawKind) {
         case 0:
             drawFunc = SPLDraw_Billboard;
             break;
@@ -1943,12 +1943,12 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
             drawFunc = SPLDraw_DirectionalPolygon;
             break;
     }
-    if (header->mUnk_00.mHasTextureAnim) {
+    if (header->mFlags.mHasTextureAnim) {
         textureFunc = SPLUtil_SetTexture;
     } else {
         textureFunc = SPLUtil_SetTexture_Stub;
     }
-    for (particle = emitter->mUnk_08.mFront; particle != 0; particle = particle->mNext) {
+    for (particle = emitter->mParticles.mFront; particle != 0; particle = particle->mNext) {
         textureFunc(mgr->mTextures + particle->mTextureIndex);
         drawFunc(mgr, particle);
     }
@@ -1962,12 +1962,12 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
 
     emitter = mgr->mRenderStateEmitter;
     drawFunc = 0;
-    resource = emitter->mUnk_20;
-    if (resource->mUnk_00->mUnk_00.mHasChildAnim == 0) {
+    resource = emitter->mResource;
+    if (resource->mHeader->mFlags.mHasChildAnim == 0) {
         return;
     }
-    SPLUtil_SetTexture(mgr->mTextures + resource->mUnk_14->mTextureIndex);
-    switch (resource->mUnk_14->mDrawKind) {
+    SPLUtil_SetTexture(mgr->mTextures + resource->mChildAnim->mTextureIndex);
+    switch (resource->mChildAnim->mDrawKind) {
         case 0:
             drawFunc = SPLDraw_Child_Billboard;
             break;
@@ -1984,7 +1984,7 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
             drawFunc = SPLDraw_Child_DirectionalPolygon;
             break;
     }
-    for (particle = emitter->mUnk_14.mFront; particle != 0; particle = particle->mNext) {
+    for (particle = emitter->mChildParticles.mFront; particle != 0; particle = particle->mNext) {
         drawFunc(mgr, particle);
     }
 }
@@ -1992,15 +1992,15 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
 void SPLManager_DoDraw(SPLManager *mgr) {
     ParticleResourceHeader *header;
 
-    header = mgr->mRenderStateEmitter->mUnk_20->mUnk_00;
-    if (header->mUnk_00.mChildrenFirst) {
+    header = mgr->mRenderStateEmitter->mResource->mHeader;
+    if (header->mFlags.mChildrenFirst) {
         SPLManager_DrawChildParticles(mgr);
-        if (header->mUnk_00.mHideParticles) {
+        if (header->mFlags.mHideParticles) {
             return;
         }
         SPLManager_DrawParticles(mgr);
     } else {
-        if (header->mUnk_00.mHideParticles == 0) {
+        if (header->mFlags.mHideParticles == 0) {
             SPLManager_DrawParticles(mgr);
         }
         SPLManager_DrawChildParticles(mgr);
@@ -2010,12 +2010,12 @@ void SPLManager_DoDraw(SPLManager *mgr) {
 void SPLUtil_SetCylinderEmitterDir(ParticleEmitter *emtr, Vec3 *pointA, Vec3 *pointB) {
     Vec3 dir;
 
-    if (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_0 - 6 > 1) {
+    if (emtr->mResource->mHeader->mFlags.mEmitShape - 6 > 1) {
         return;
     }
-    emtr->mUnk_28.x = (pointB->x + pointA->x) / 2;
-    emtr->mUnk_28.y = (pointB->y + pointA->y) / 2;
-    emtr->mUnk_28.z = (pointB->z + pointA->z) / 2;
+    emtr->mPosition.x = (pointB->x + pointA->x) / 2;
+    emtr->mPosition.y = (pointB->y + pointA->y) / 2;
+    emtr->mPosition.z = (pointB->z + pointA->z) / 2;
     emtr->mHalfLength = VEC_Distance(pointA, pointB) / 2;
     dir.x = pointB->x - pointA->x;
     dir.y = pointB->y - pointA->y;
@@ -2094,20 +2094,20 @@ void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data) {
     MI_CpuFill8(mgr->mResources, 0, mgr->mResCount << 5);
     for (index = 0; index < mgr->mResCount; index++) {
         resource = mgr->mResources + index;
-        resource->mUnk_00 = OFFSET_PTR(ParticleResourceHeader, data, off);
+        resource->mHeader = OFFSET_PTR(ParticleResourceHeader, data, off);
         off += 0x58;
-        flags = resource->mUnk_00->mUnk_00;
+        flags = resource->mHeader->mFlags;
         if (flags.mHasScaleAnim) {
-            resource->mUnk_04 = OFFSET_PTR(ParticleScaleAnim, data, off);
+            resource->mScaleAnim = OFFSET_PTR(ParticleScaleAnim, data, off);
             off += 0xc;
         } else {
-            resource->mUnk_04 = 0;
+            resource->mScaleAnim = 0;
         }
         if (flags.mHasColorAnim) {
-            resource->mUnk_08 = OFFSET_PTR(ParticleColorAnim, data, off);
+            resource->mColorAnim = OFFSET_PTR(ParticleColorAnim, data, off);
             off += 0xc;
         } else {
-            resource->mUnk_08 = 0;
+            resource->mColorAnim = 0;
         }
         if (flags.mHasAlphaAnim) {
             resource->mAlphaAnim = OFFSET_PTR(ParticleAlphaAnim, data, off);
@@ -2122,10 +2122,10 @@ void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data) {
             resource->mTextureAnim = 0;
         }
         if (flags.mHasChildAnim) {
-            resource->mUnk_14 = OFFSET_PTR(ParticleChildAnim, data, off);
+            resource->mChildAnim = OFFSET_PTR(ParticleChildAnim, data, off);
             off += 0x14;
         } else {
-            resource->mUnk_14 = 0;
+            resource->mChildAnim = 0;
         }
         resource->mBehaviorCount = flags.mHasGravity + flags.mHasRandom + flags.mHasMagnet + flags.mHasSpin +
                                    flags.mHasCollisionPlane + flags.mHasConvergence;
@@ -2133,38 +2133,38 @@ void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data) {
             resource->mBehaviors = mgr->mAlloc(resource->mBehaviorCount << 3);
             behaviorEntry = resource->mBehaviors;
             if (flags.mHasGravity) {
-                behaviorEntry->mUnk_04 = (u8 *) data + off;
-                behaviorEntry->mUnk_00 = SPLBehavior_ApplyGravity;
+                behaviorEntry->mData = (u8 *) data + off;
+                behaviorEntry->mApply = SPLBehavior_ApplyGravity;
                 off += 8;
                 behaviorEntry++;
             }
             if (flags.mHasRandom) {
-                behaviorEntry->mUnk_04 = (u8 *) data + off;
-                behaviorEntry->mUnk_00 = SPLBehavior_ApplyRandom;
+                behaviorEntry->mData = (u8 *) data + off;
+                behaviorEntry->mApply = SPLBehavior_ApplyRandom;
                 off += 8;
                 behaviorEntry++;
             }
             if (flags.mHasMagnet) {
-                behaviorEntry->mUnk_04 = (u8 *) data + off;
-                behaviorEntry->mUnk_00 = SPLBehavior_ApplyMagnet;
+                behaviorEntry->mData = (u8 *) data + off;
+                behaviorEntry->mApply = SPLBehavior_ApplyMagnet;
                 off += 0x10;
                 behaviorEntry++;
             }
             if (flags.mHasSpin) {
-                behaviorEntry->mUnk_04 = (u8 *) data + off;
-                behaviorEntry->mUnk_00 = SPLBehavior_ApplySpin;
+                behaviorEntry->mData = (u8 *) data + off;
+                behaviorEntry->mApply = SPLBehavior_ApplySpin;
                 off += 4;
                 behaviorEntry++;
             }
             if (flags.mHasCollisionPlane) {
-                behaviorEntry->mUnk_04 = (u8 *) data + off;
-                behaviorEntry->mUnk_00 = SPLBehavior_ApplyCollisionPlane;
+                behaviorEntry->mData = (u8 *) data + off;
+                behaviorEntry->mApply = SPLBehavior_ApplyCollisionPlane;
                 off += 8;
                 behaviorEntry++;
             }
             if (flags.mHasConvergence) {
-                behaviorEntry->mUnk_04 = (u8 *) data + off;
-                behaviorEntry->mUnk_00 = SPLBehavior_ApplyConvergence;
+                behaviorEntry->mData = (u8 *) data + off;
+                behaviorEntry->mApply = SPLBehavior_ApplyConvergence;
                 off += 0x10;
             }
         } else {
@@ -2242,23 +2242,23 @@ void SPLManager_Update(SPLManager *mgr) {
     ParticleResourceHeader *header;
 
     for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mFront; emtr != 0; emtr = next) {
-        header = emtr->mUnk_20->mUnk_00;
-        next = emtr->mUnk_00;
-        if (emtr->mUnk_24.mStarted == 0) {
+        header = emtr->mResource->mHeader;
+        next = emtr->mNext;
+        if (emtr->mFlags.mStarted == 0) {
             if (emtr->mAge >= header->mDelayFrameCount) {
-                emtr->mUnk_24.mStarted = 1;
+                emtr->mFlags.mStarted = 1;
                 emtr->mAge = 0;
             }
         }
-        if (emtr->mUnk_24.mPaused == 0) {
+        if (emtr->mFlags.mPaused == 0) {
             if (emtr->mUpdateCycle == 0 || mgr->mCurrentCycle == emtr->mUpdateCycle - 1) {
                 SPLEmitter_Update(mgr, emtr);
             }
         }
-        if ((header->mUnk_00.mEndAfterEmit && header->mEmitFrameCount != 0 && emtr->mUnk_24.mStarted != 0 &&
+        if ((header->mFlags.mEndAfterEmit && header->mEmitFrameCount != 0 && emtr->mFlags.mStarted != 0 &&
              emtr->mAge > header->mEmitFrameCount) ||
-            emtr->mUnk_24.mEnding != 0) {
-            if (emtr->mUnk_08.mCount == 0 && emtr->mUnk_14.mCount == 0) {
+            emtr->mFlags.mEnding != 0) {
+            if (emtr->mParticles.mCount == 0 && emtr->mChildParticles.mCount == 0) {
                 SPLList_PushFront(&mgr->mUnk_04[1], SPLList_Erase(&mgr->mUnk_04[0], (ParticleInstance *) emtr));
             }
         }
@@ -2275,16 +2275,16 @@ void SPLManager_Draw(SPLManager *mgr, MtxFx43 *viewMatrix) {
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
     mgr->mRenderStateViewMatrix = viewMatrix;
     if (mgr->mPolygonIDDrawOrder == 0) {
-        for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mFront; emtr != 0; emtr = emtr->mUnk_00) {
+        for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mFront; emtr != 0; emtr = emtr->mNext) {
             mgr->mRenderStateEmitter = emtr;
-            if (emtr->mUnk_24.mHidden == 0) {
+            if (emtr->mFlags.mHidden == 0) {
                 SPLManager_DoDraw(mgr);
             }
         }
     } else {
-        for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mBack; emtr != 0; emtr = emtr->mUnk_04) {
+        for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mBack; emtr != 0; emtr = emtr->mPrev) {
             mgr->mRenderStateEmitter = emtr;
-            if (emtr->mUnk_24.mHidden == 0) {
+            if (emtr->mFlags.mHidden == 0) {
                 SPLManager_DoDraw(mgr);
             }
         }
@@ -2299,7 +2299,7 @@ ParticleEmitter *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 
         emtr = (ParticleEmitter *) SPLList_PopFront(&mgr->mUnk_04[1]);
         SPLEmitter_Init(emtr, mgr->mResources + resourceId, pos);
         SPLList_PushFront(&mgr->mUnk_04[0], (ParticleInstance *) emtr);
-        if (emtr->mUnk_20->mUnk_00->mUnk_00.mEndAfterEmit) {
+        if (emtr->mResource->mHeader->mFlags.mEndAfterEmit) {
             emtr = 0;
         }
     }
@@ -2318,7 +2318,7 @@ ParticleEmitter *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 res
             initCallback(emtr, param);
         }
         SPLList_PushFront(&mgr->mUnk_04[0], (ParticleInstance *) emtr);
-        if (emtr->mUnk_20->mUnk_00->mUnk_00.mEndAfterEmit) {
+        if (emtr->mResource->mHeader->mFlags.mEndAfterEmit) {
             emtr = 0;
         }
     }
@@ -2328,10 +2328,10 @@ ParticleEmitter *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 res
 void SPLManager_DeleteEmitter(SPLManager *mgr, ParticleEmitter *emtr) {
     ParticleInstance *particle;
 
-    while ((particle = SPLList_PopFront(&emtr->mUnk_08)) != 0) {
+    while ((particle = SPLList_PopFront(&emtr->mParticles)) != 0) {
         SPLList_PushFront(&mgr->mUnk_04[2], particle);
     }
-    while ((particle = SPLList_PopFront(&emtr->mUnk_14)) != 0) {
+    while ((particle = SPLList_PopFront(&emtr->mChildParticles)) != 0) {
         SPLList_PushFront(&mgr->mUnk_04[2], particle);
     }
     SPLList_Erase(&mgr->mUnk_04[0], (ParticleInstance *) emtr);

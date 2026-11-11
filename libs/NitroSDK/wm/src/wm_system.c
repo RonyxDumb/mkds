@@ -223,23 +223,23 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
                 handler(callback);
             }
         } else if (callback->mCommand == 0x82) {
-            if (wm9buf->mPortCallbacks[callback->mUnk_06] != 0) {
-                callback->mUnk_1c = wm9buf->mPortCallbackArgs[callback->mUnk_06];
-                DC_InvalidateRange(callback->mUnk_08, wm9buf->mStatusArea->mMpRecvBufSize);
-                wm9buf->mPortCallbacks[callback->mUnk_06](callback);
+            if (wm9buf->mPortCallbacks[callback->mPort] != 0) {
+                callback->mArg = wm9buf->mPortCallbackArgs[callback->mPort];
+                DC_InvalidateRange(callback->mRecvBuf, wm9buf->mStatusArea->mMpRecvBufSize);
+                wm9buf->mPortCallbacks[callback->mPort](callback);
             }
         } else if (callback->mCommand == 0x81) {
             callback->mCommand = 0xf;
-            handler = callback->mUnk_1c;
+            handler = callback->mArg;
             if (handler != 0) {
                 handler(callback);
             }
         }
     } else {
         if (callback->mCommand == 0xe) {
-            if ((u16) (callback->mUnk_04 + 0xfff5) <= 1) {
+            if ((u16) (callback->mState + 0xfff5) <= 1) {
                 if (callback->mResultCode == 0) {
-                    DC_InvalidateRange(callback->mUnk_08, wm9buf->mStatusArea->mMpRecvBufSize);
+                    DC_InvalidateRange(callback->mRecvBuf, wm9buf->mStatusArea->mMpRecvBufSize);
                 }
             }
         }
@@ -264,37 +264,37 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
             if (command == 8) {
                 peerAddress = (u8 *) callback + 0xa;
                 peerName = (u8 *) callback + 0x14;
-                stateCode = *(u16 *) &callback->mUnk_08;
-                memberIndex = callback->mUnk_10;
+                stateCode = *(u16 *) &callback->mRecvBuf;
+                memberIndex = callback->mLength;
                 ownIndex = 0;
             } else if (command == 0xc) {
                 memberIndex = 0;
-                stateCode = *(u16 *) &callback->mUnk_08;
-                ownIndex = callback->mUnk_10;
+                stateCode = *(u16 *) &callback->mRecvBuf;
+                ownIndex = callback->mLength;
                 peerName = 0;
                 peerAddress = (u8 *) callback + 0xa;
             }
             if (stateCode == 7 || stateCode == 9) {
                 gPortCallbackEvent.mCommand = 0x82;
                 gPortCallbackEvent.mResultCode = 0;
-                gPortCallbackEvent.mUnk_04 = stateCode;
-                gPortCallbackEvent.mUnk_08 = 0;
-                gPortCallbackEvent.mUnk_0c = 0;
-                gPortCallbackEvent.mUnk_10 = 0;
-                gPortCallbackEvent.mUnk_12 = memberIndex;
-                gPortCallbackEvent.mUnk_20 = ownIndex;
-                gPortCallbackEvent.mUnk_1a = 0xffff;
-                MI_CpuCopy8(peerAddress, gPortCallbackEvent.mUnk_14, 6);
+                gPortCallbackEvent.mState = stateCode;
+                gPortCallbackEvent.mRecvBuf = 0;
+                gPortCallbackEvent.mData = 0;
+                gPortCallbackEvent.mLength = 0;
+                gPortCallbackEvent.mAid = memberIndex;
+                gPortCallbackEvent.mOwnIndex = ownIndex;
+                gPortCallbackEvent.mSeqNo = 0xffff;
+                MI_CpuCopy8(peerAddress, gPortCallbackEvent.mPeerBytes, 6);
                 if (peerName != 0) {
-                    MIi_CpuCopy16(peerName, gPortCallbackEvent.mUnk_24, 0x18);
+                    MIi_CpuCopy16(peerName, gPortCallbackEvent.mSsid, 0x18);
                 } else {
                     zero = 0;
-                    MIi_CpuClear16(zero, gPortCallbackEvent.mUnk_24, 0x18);
+                    MIi_CpuClear16(zero, gPortCallbackEvent.mSsid, 0x18);
                 }
                 for (port = 0; port < 16; port++) {
-                    gPortCallbackEvent.mUnk_06 = port;
+                    gPortCallbackEvent.mPort = port;
                     if (wm9buf->mPortCallbacks[port] != 0) {
-                        gPortCallbackEvent.mUnk_1c = wm9buf->mPortCallbackArgs[port];
+                        gPortCallbackEvent.mArg = wm9buf->mPortCallbackArgs[port];
                         wm9buf->mPortCallbacks[port](&gPortCallbackEvent);
                     }
                 }

@@ -8,8 +8,8 @@
 // The thread control block. The threads are linked through OSThread.mNext from OSi_ThreadInfo.mListHead in increasing
 // OSThread.mPriority; OS_CreateThread sets one up.
 typedef struct OSThread {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 00 */ u32 mCpsr;
+    /* 04 */ void *mR0;
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c;
     /* 10 */ u32 mUnk_10;
@@ -23,7 +23,7 @@ typedef struct OSThread {
     /* 30 */ u32 mUnk_30;
     /* 34 */ u32 mUnk_34;
     /* 38 */ u32 mUnk_38;
-    /* 3c */ void (*mUnk_3c)(void);
+    /* 3c */ void (*mLr)(void);
     /* 40 */ u32 mUnk_40;
     /* 44 */ u32 mUnk_44;
     /* 48 */ u8 mUnk_48[0x1c]; // its address goes to the functions called by OS_SaveContext and OS_LoadContext
@@ -43,7 +43,7 @@ typedef struct OSThread {
     /* 94 */ u8 *mStackBottom;
     /* 98 */ u32 mStackWarningOffset;
     /* 9c */ OSThreadQueue mJoinQueue;
-    /* a4 */ void *mUnk_a4[3];
+    /* a4 */ void *mSpecific[3];
     // The alarm of the OS_Sleep call the thread is in, 0 otherwise; OS_CreateThread and OSi_SleepAlarmCallback set it
     // to 0, OS_Sleep sets it, OSi_CancelThreadAlarmForSleep cancels it.
     /* b0 */ OSAlarm *mAlarmForSleep;
@@ -56,8 +56,8 @@ typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
 
 // Object at OSi_ThreadInfo; OS_InitThread stores the address of mCurrentThread in data_0216ff54.
 typedef struct ThreadSystem {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 mIsNeedRescheduling;
+    /* 02 */ u16 mIrqDepth;
     /* 04 */ OSThread *mCurrentThread;
     /* 08 */ OSThread *mListHead;
     /* 0c */ OSSwitchThreadCallback mSwitchCallback;

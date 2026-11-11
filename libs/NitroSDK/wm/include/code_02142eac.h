@@ -10,7 +10,7 @@ typedef void (*Unk021425e8Func)(Unk021425e8 *);
 // 0x2c bytes from 0x36 of Unk0217aa00_24_50_0e.
 typedef struct Unk0217aa00_24_50_0e_36 {
     /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u8 mUnk_02[0x14];
+    /* 02 */ u8 mName[0x14];
     /* 16 */ u8 mUnk_16[0x16];
 } Unk0217aa00_24_50_0e_36;
 
@@ -34,7 +34,7 @@ typedef struct Unk0217aa00_24_50_0e {
     /* 08 */ u8 mUnk_08[2];
     /* 0a */ u8 mUnk_0a[4];
     /* 0e */ u8 mUnk_0e[0x28];
-    /* 36 */ Unk0217aa00_24_50_0e_36 mUnk_36;
+    /* 36 */ Unk0217aa00_24_50_0e_36 mNameInfo;
 } Unk0217aa00_24_50_0e;
 
 // 0x70 bytes at 0x50 of WMBssDesc; the word at 0x38 of ChildList points to one.
@@ -42,11 +42,11 @@ typedef struct UserGameInfo {
     union {
         struct {
             /* 00 */ u8 mUnk_00[7];
-            /* 07 */ u8 mUnk_07;
+            /* 07 */ u8 mKind;
             /* 08 */ u8 mUnk_08[2];
-            /* 0a */ u8 mUnk_0a;
+            /* 0a */ u8 mMemberCount;
             /* 0b */ u8 mUnk_0b[3];
-            /* 0e */ Unk0217aa00_24_50_0e mUnk_0e;
+            /* 0e */ Unk0217aa00_24_50_0e mGameInfoPart;
         };
         struct {
             /* 00 */ u8 mUnk_00_pad[0x18];
@@ -141,7 +141,7 @@ typedef struct Unk02142988 {
     /* 0ba */ u8 mUnk_0ba[8];
     /* 0c2 */ u16 mPwrMgtMode;
     /* 0c4 */ u8 mUnk_0c4[0x30];
-    /* 0f4 */ u16 mUnk_0f4;
+    /* 0f4 */ u16 mMaxEntry;
     /* 0f6 */ u8 mUnk_0f6[0x88];
     // Bit n is set while child n is connected.
     /* 17e */ u16 mConnectedChildren;
@@ -154,60 +154,61 @@ typedef struct Unk02142988 {
     /* 192 */ u8 mUnk_192[0x62a];
 } Unk02142988;
 
-// Message the other processor passes to WmReceiveFifo and to the callbacks.
+// Message the other processor passes to WmReceiveFifo and to the callbacks. Several layouts overlay it: port and
+// indication messages hold the state at 0x04, command replies at 0x08 (mReplyState); names with Or cover both.
 struct Unk021425e8 {
     // Command number; 0x80, 0x81 and 0x82 are indications and port messages. Bit 15 marks a ring message as free.
     /* 00 */ u16 mCommand;
     // 0 on success, otherwise an error number.
     /* 02 */ u16 mResultCode;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 04 */ u16 mState;
+    /* 06 */ u16 mPort;
     /* 08 */ union {
         struct {
-            void *mUnk_08;
-            void *mUnk_0c;
+            void *mRecvBuf;
+            void *mData;
         };
         struct {
-            u16 mUnk_08_0;
+            u16 mReplyState;
             u16 mUnk_08_2;
         };
         struct {
             u8 mUnk_08_b[2];
-            u8 mUnk_0a[6];
+            u8 mMacAddress[6];
         };
     };
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u8 mUnk_14[6];
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ u16 mUnk_20;
+    /* 10 */ u16 mLength;
+    /* 12 */ u16 mAid;
+    /* 14 */ u8 mPeerBytes[6];
+    /* 1a */ u16 mSeqNo;
+    /* 1c */ void *mArg;
+    /* 20 */ u16 mOwnIndex;
     /* 22 */ u8 mUnk_22[2];
-    /* 24 */ u8 mUnk_24[0x12];
-    /* 36 */ u16 mUnk_36;
+    /* 24 */ u8 mSsid[0x12];
+    /* 36 */ u16 mGameInfoLength;
     /* 38 */ struct {
         u32 mUnk_00[0x20];
     } mUnk_38;
 };
 
-// Result of WM_GetOtherElements: mUnk_00 counts the filled entries of mUnk_04.
+// Result of WM_GetOtherElements: mCount counts the filled entries of mElement.
 typedef struct WMOtherElements {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 mCount;
     /* 04 */ struct {
-        /* 00 */ u8 mUnk_00;
-        /* 01 */ u8 mUnk_01;
-        /* 04 */ const u8 *mUnk_04;
-    } mUnk_04[16];
+        /* 00 */ u8 mId;
+        /* 01 */ u8 mLength;
+        /* 04 */ const u8 *mBody;
+    } mElement[16];
 } WMOtherElements;
 
-// Header of the MP receive buffer: mUnk_04 is the number of records, mUnk_06 the size of each, and the records start at
-// mUnk_0a.
+// Header of the MP receive buffer: mCount is the number of records, mLength the size of each, and the records start at
+// mData.
 typedef struct Unk021432ac {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 04 */ u16 mCount;
+    /* 06 */ u16 mLength;
     /* 08 */ u8 mUnk_08[2];
-    /* 0a */ u8 mUnk_0a[1];
+    /* 0a */ u8 mData[1];
 } Unk021432ac;
 
 // One station's record in the MP receive buffer; the payload starts at 0x0a.

@@ -406,7 +406,7 @@ BOOL EndChildWaitWh(void) {
 }
 
 u32 AcceptMatchingWhChild(Unk021425e8 *event) {
-    u16 aid = GetRecordValueByMacAddress(event->mUnk_0a);
+    u16 aid = GetRecordValueByMacAddress(event->mMacAddress);
     if (aid == 0) {
         return 0;
     }

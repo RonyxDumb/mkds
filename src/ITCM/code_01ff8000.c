@@ -120,11 +120,11 @@ void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj) {
     renderState->mResNodeInfo = OFFSET_PTR(Unk02170500_d4, renderObj->mResMdl, 0x40);
     renderState->mResMat = OFFSET_PTR(NNSG3dResMat, renderObj->mResMdl, renderObj->mResMdl->mOfsMat);
     renderState->mResShp = (u8 *) renderObj->mResMdl + renderObj->mResMdl->mOfsShp;
-    renderState->mUnk_e8 = NNS_G3dGetJointScale_FuncArray[renderObj->mResMdl->mInfo.mScalingRule];
-    renderState->mUnk_ec = NNS_G3dSendJointSRT_FuncArray[renderObj->mResMdl->mInfo.mScalingRule];
-    renderState->mUnk_f0 = NNS_G3dSendTexSRT_FuncArray[renderObj->mResMdl->mInfo.mTexMtxMode];
-    renderState->mUnk_e0 = renderObj->mResMdl->mInfo.mPosScale;
-    renderState->mUnk_e4 = renderObj->mResMdl->mInfo.mInvPosScale;
+    renderState->mFuncJntScale = NNS_G3dGetJointScale_FuncArray[renderObj->mResMdl->mInfo.mScalingRule];
+    renderState->mFuncJntMtx = NNS_G3dSendJointSRT_FuncArray[renderObj->mResMdl->mInfo.mScalingRule];
+    renderState->mFuncTexMtx = NNS_G3dSendTexSRT_FuncArray[renderObj->mResMdl->mInfo.mTexMtxMode];
+    renderState->mPosScale = renderObj->mResMdl->mInfo.mPosScale;
+    renderState->mInvPosScale = renderObj->mResMdl->mInfo.mInvPosScale;
     if (renderObj->mCbFunc != 0 && renderObj->mCbCmd < 0x20) {
         renderState->mCbVecFunc[renderObj->mCbCmd] = renderObj->mCbFunc;
         renderState->mCbVecTiming[renderObj->mCbCmd] = renderObj->mCbTiming;
@@ -214,7 +214,7 @@ void NNSi_G3dFuncSbc_NODE(NNSG3dRS *renderState, u32 option) {
         renderState->mCurrentNode = renderState->mC[1];
         nodeIndex = renderState->mCurrentNode;
         renderState->mFlag |= 4;
-        renderState->mVisAnmResult = &renderState->mUnk_184;
+        renderState->mVisAnmResult = &renderState->mTmpVisAnmResult;
         if (renderState->mCbVecFunc[2] != 0) {
             callbackTiming = renderState->mCbVecTiming[2];
         } else {
@@ -276,7 +276,7 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
 
     renderState->mCurrentMat = materialIndex;
     renderState->mFlag |= 8;
-    renderState->mMatAnmResult = &renderState->mUnk_f4;
+    renderState->mMatAnmResult = &renderState->mTmpMatAnmResult;
     if (renderState->mCbVecFunc[4] != 0) {
         callbackTiming = renderState->mCbVecTiming[4];
     } else {
@@ -305,79 +305,79 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
         renderState->mIsMatCached[materialIndex >> 5] |= 1 << (materialIndex & 0x1f);
         result = NNS_G3dRSOnGlb + materialIndex;
     } else {
-        result = &renderState->mUnk_f4;
+        result = &renderState->mTmpMatAnmResult;
     }
-    result->mUnk_00 = 0;
+    result->mFlag = 0;
     resMat = (u8 *) renderState->mResMat;
     dictBase = resMat + 4;
     entrySize = *(u16 *) (dictBase + *(u16 *) (resMat + 0xa));
     if (*(u16 *) (resMat + *(u32 *) (dictBase + *(u16 *) (resMat + 0xa) + entrySize * materialIndex + 4) + 0x1e) &
         0x20) {
-        result->mUnk_00 |= 0x20;
+        result->mFlag |= 0x20;
     }
     matFlags = *OFFSET_PTR(u16, matData, 0x1e);
     mask = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
-    result->mUnk_04 = (NNS_G3dGlb.mPrmMatColor0 & ~mask) | (*OFFSET_PTR(u32, matData, 4) & mask);
+    result->mPrmMatColor0 = (NNS_G3dGlb.mPrmMatColor0 & ~mask) | (*OFFSET_PTR(u32, matData, 4) & mask);
     secondMask = ((u32 *) matColorMask_)[(*OFFSET_PTR(u16, matData, 0x1e) >> 9) & 7];
-    result->mUnk_08 = (NNS_G3dGlb.mPrmMatColor1 & ~secondMask) | (*OFFSET_PTR(u32, matData, 8) & secondMask);
+    result->mPrmMatColor1 = (NNS_G3dGlb.mPrmMatColor1 & ~secondMask) | (*OFFSET_PTR(u32, matData, 8) & secondMask);
     mask = *OFFSET_PTR(u32, matData, 0x10);
-    result->mUnk_0c = (NNS_G3dGlb.mPrmPolygonAttr & ~mask) | (*OFFSET_PTR(u32, matData, 0xc) & mask);
-    result->mUnk_10 = *OFFSET_PTR(u32, matData, 0x14);
-    result->mUnk_14 = *OFFSET_PTR(u16, matData, 0x1c);
+    result->mPrmPolygonAttr = (NNS_G3dGlb.mPrmPolygonAttr & ~mask) | (*OFFSET_PTR(u32, matData, 0xc) & mask);
+    result->mPrmTexImage = *OFFSET_PTR(u32, matData, 0x14);
+    result->mPrmTexPltt = *OFFSET_PTR(u16, matData, 0x1c);
     matFlags = *OFFSET_PTR(u16, matData, 0x1e);
     if (matFlags & 1) {
         texMtxData = OFFSET_PTR(u32, matData, 0x2c);
         if (!(matFlags & 2)) {
-            result->mUnk_18[0] = texMtxData[0];
-            result->mUnk_18[1] = texMtxData[1];
+            result->mScaleST[0] = texMtxData[0];
+            result->mScaleST[1] = texMtxData[1];
             texMtxData += 2;
         } else {
-            result->mUnk_00 |= 1;
+            result->mFlag |= 1;
         }
         if (!(*OFFSET_PTR(u16, matData, 0x1e) & 4)) {
-            result->mUnk_20[0] = ((s16 *) texMtxData)[0];
-            result->mUnk_20[1] = ((s16 *) texMtxData)[1];
+            result->mSinCosR[0] = ((s16 *) texMtxData)[0];
+            result->mSinCosR[1] = ((s16 *) texMtxData)[1];
             texMtxData = (u32 *) ((s16 *) texMtxData + 2);
         } else {
-            result->mUnk_00 |= 2;
+            result->mFlag |= 2;
         }
         if (!(*OFFSET_PTR(u16, matData, 0x1e) & 8)) {
-            result->mUnk_24[0] = texMtxData[0];
-            result->mUnk_24[1] = texMtxData[1];
+            result->mTransST[0] = texMtxData[0];
+            result->mTransST[1] = texMtxData[1];
         } else {
-            result->mUnk_00 |= 4;
+            result->mFlag |= 4;
         }
-        result->mUnk_00 |= 8;
+        result->mFlag |= 8;
     }
     if (renderState->mRenderObj->mAnmMat != 0 &&
         (renderState->mRenderObj->mHintMatAnmExist[materialIndex >> 5] & (1 << (materialIndex & 0x1f)))) {
         renderState->mRenderObj->mFuncBlendMat(result, renderState->mRenderObj->mAnmMat, materialIndex);
     }
-    if (result->mUnk_00 & 0x18) {
-        result->mUnk_2c = *OFFSET_PTR(u16, matData, 0x20);
-        result->mUnk_2e = *OFFSET_PTR(u16, matData, 0x22);
-        result->mUnk_30 = *OFFSET_PTR(u32, matData, 0x24);
-        result->mUnk_34 = *OFFSET_PTR(u32, matData, 0x28);
+    if (result->mFlag & 0x18) {
+        result->mOrigWidth = *OFFSET_PTR(u16, matData, 0x20);
+        result->mOrigHeight = *OFFSET_PTR(u16, matData, 0x22);
+        result->mMagW = *OFFSET_PTR(u32, matData, 0x24);
+        result->mMagH = *OFFSET_PTR(u32, matData, 0x28);
     }
 done:
     renderState->mMatAnmResult = result;
     matAnm = renderState->mMatAnmResult;
-    if (matAnm->mUnk_0c & 0x1f0000) {
-        if (matAnm->mUnk_00 & 0x20) {
-            matAnm->mUnk_0c &= ~0x1f0000;
+    if (matAnm->mPrmPolygonAttr & 0x1f0000) {
+        if (matAnm->mFlag & 0x20) {
+            matAnm->mPrmPolygonAttr &= ~0x1f0000;
         }
         renderState->mFlag &= ~2;
         if (!(renderState->mFlag & 0x100)) {
             commandWords[0] = 0x293130;
-            commandWords[1] = matAnm->mUnk_04;
-            commandWords[2] = matAnm->mUnk_08;
-            commandWords[3] = matAnm->mUnk_0c;
+            commandWords[1] = matAnm->mPrmMatColor0;
+            commandWords[2] = matAnm->mPrmMatColor1;
+            commandWords[3] = matAnm->mPrmPolygonAttr;
             commandWords[4] = 0x2b2a;
-            commandWords[5] = matAnm->mUnk_10;
-            commandWords[6] = matAnm->mUnk_14;
+            commandWords[5] = matAnm->mPrmTexImage;
+            commandWords[6] = matAnm->mPrmTexPltt;
             NNS_G3dGeBufferOP_N(commandWords[0], &commandWords[1], 6);
-            if (matAnm->mUnk_00 & 0x18) {
-                renderState->mUnk_f0(matAnm);
+            if (matAnm->mFlag & 0x18) {
+                renderState->mFuncTexMtx(matAnm);
             }
         }
     } else {
@@ -498,7 +498,7 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
             NNS_G3dGeBufferOP_N(0x14, &restoreIndex, 1);
         }
     }
-    renderState->mJntAnmResult = &renderState->mUnk_12c;
+    renderState->mJntAnmResult = &renderState->mTmpJntAnmResult;
     if (renderState->mCbVecFunc[6] != 0) {
         callbackTiming = renderState->mCbVecTiming[6];
     } else {
@@ -508,7 +508,7 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
         jntAnmResult = renderState->mRenderObj->mRecJntAnm + nodeDescIndex;
         flag = (renderState->mFlag & 0x80) == 0;
     } else {
-        jntAnmResult = &renderState->mUnk_12c;
+        jntAnmResult = &renderState->mTmpJntAnmResult;
         flag = 0;
     }
     if (flag == 0) {
@@ -565,12 +565,12 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
             jntAnmResult->mRot.a[8] = ((s16 *) dataPointer)[7];
             dataPointer += 8;
         }
-        renderState->mUnk_e8(jntAnmResult, dataPointer, renderState->mC, *nodeHeader);
+        renderState->mFuncJntScale(jntAnmResult, dataPointer, renderState->mC, *nodeHeader);
     }
 done:
     renderState->mJntAnmResult = jntAnmResult;
     if (!(renderState->mFlag & 0x100)) {
-        renderState->mUnk_ec(renderState->mJntAnmResult);
+        renderState->mFuncJntMtx(renderState->mJntAnmResult);
     }
     flag = 0;
     renderState->mJntAnmResult = 0;
@@ -595,12 +595,12 @@ void NNSi_G3dFuncSbc_POSSCALE(NNSG3dRS *renderState, u32 option) {
 
     if (!(renderState->mFlag & 0x100) && !(renderState->mFlag & 0x200)) {
         if (option == 0) {
-            scaleValue = renderState->mUnk_e0;
+            scaleValue = renderState->mPosScale;
             scale[2] = scaleValue;
             scale[1] = scaleValue;
             scale[0] = scaleValue;
         } else {
-            scaleValue = renderState->mUnk_e4;
+            scaleValue = renderState->mInvPosScale;
             scale[2] = scaleValue;
             scale[1] = scaleValue;
             scale[0] = scaleValue;

@@ -9,7 +9,7 @@ void StopKartKillerEffect(u32 kartIndex) {
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_24.mEnding = 1;
+    effect->mFlags.mEnding = 1;
     kartEffects->mKillerEffect = NULL;
 }
 

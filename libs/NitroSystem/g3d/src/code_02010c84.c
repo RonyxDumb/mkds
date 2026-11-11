@@ -64,31 +64,31 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
         NNS_G3dGeBufferOP_N(words[0], &words[1], 6);
         if (matData->mFlag & 1) {
             sendTexSRT = NNS_G3dSendTexSRT_FuncArray[resMdl->mInfo.mTexMtxMode];
-            texResult.mUnk_00 = 8;
-            texResult.mUnk_2c = matData->mOrigWidth;
-            texResult.mUnk_2e = matData->mOrigHeight;
-            texResult.mUnk_30 = matData->mMagW;
-            texResult.mUnk_34 = matData->mMagH;
+            texResult.mFlag = 8;
+            texResult.mOrigWidth = matData->mOrigWidth;
+            texResult.mOrigHeight = matData->mOrigHeight;
+            texResult.mMagW = matData->mMagW;
+            texResult.mMagH = matData->mMagH;
             texMtx = matData->mTexMtxData;
             if (!(matData->mFlag & 2)) {
-                texResult.mUnk_18[0] = ((u32 *) texMtx)[0];
-                texResult.mUnk_18[1] = ((u32 *) texMtx)[1];
+                texResult.mScaleST[0] = ((u32 *) texMtx)[0];
+                texResult.mScaleST[1] = ((u32 *) texMtx)[1];
                 texMtx += 8;
             } else {
-                texResult.mUnk_00 |= 1;
+                texResult.mFlag |= 1;
             }
             if (!(matData->mFlag & 4)) {
-                texResult.mUnk_20[0] = ((s16 *) texMtx)[0];
-                texResult.mUnk_20[1] = ((s16 *) texMtx)[1];
+                texResult.mSinCosR[0] = ((s16 *) texMtx)[0];
+                texResult.mSinCosR[1] = ((s16 *) texMtx)[1];
                 texMtx += 4;
             } else {
-                texResult.mUnk_00 |= 2;
+                texResult.mFlag |= 2;
             }
             if (!(matData->mFlag & 8)) {
-                texResult.mUnk_24[0] = ((u32 *) texMtx)[0];
-                texResult.mUnk_24[1] = ((u32 *) texMtx)[1];
+                texResult.mTransST[0] = ((u32 *) texMtx)[0];
+                texResult.mTransST[1] = ((u32 *) texMtx)[1];
             } else {
-                texResult.mUnk_00 |= 4;
+                texResult.mFlag |= 4;
             }
             sendTexSRT(&texResult);
         }
@@ -432,10 +432,10 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
     s32 height;
 
     if (!(state->mFlag & 0x200) && (state->mFlag & 1)) {
-        if ((state->mMatAnmResult->mUnk_10 & 0xc0000000) != 0x80000000) {
-            state->mMatAnmResult->mUnk_10 &= ~0xc0000000;
-            state->mMatAnmResult->mUnk_10 |= 0x80000000;
-            data_02161874[1] = state->mMatAnmResult->mUnk_10;
+        if ((state->mMatAnmResult->mPrmTexImage & 0xc0000000) != 0x80000000) {
+            state->mMatAnmResult->mPrmTexImage &= ~0xc0000000;
+            state->mMatAnmResult->mPrmTexImage |= 0x80000000;
+            data_02161874[1] = state->mMatAnmResult->mPrmTexImage;
             NNS_G3dGeBufferOP_N(data_02161874[0], &data_02161874[1], 1);
         }
         texMode = 3;
@@ -445,8 +445,8 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
         } else {
             timing = 0;
         }
-        width = state->mMatAnmResult->mUnk_2c;
-        height = state->mMatAnmResult->mUnk_2e;
+        width = state->mMatAnmResult->mOrigWidth;
+        height = state->mMatAnmResult->mOrigHeight;
         nrm.mRows[3].x = width << 15;
         nrm.mRows[3].y = -height << 15;
         nrm.mRows[3].z = 0x10000;
@@ -522,10 +522,10 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
         NNS_G3dGetCurrentMtx(&curMatrix, 0);
         storeIdx = 0x1e;
         NNS_G3dGeBufferOP_N(0x13, &storeIdx, 1);
-        if ((state->mMatAnmResult->mUnk_10 & 0xc0000000) != 0xc0000000) {
-            state->mMatAnmResult->mUnk_10 &= ~0xc0000000;
-            state->mMatAnmResult->mUnk_10 |= 0xc0000000;
-            data_0216186c[1] = state->mMatAnmResult->mUnk_10;
+        if ((state->mMatAnmResult->mPrmTexImage & 0xc0000000) != 0xc0000000) {
+            state->mMatAnmResult->mPrmTexImage &= ~0xc0000000;
+            state->mMatAnmResult->mPrmTexImage |= 0xc0000000;
+            data_0216186c[1] = state->mMatAnmResult->mPrmTexImage;
             NNS_G3dGeBufferOP_N(data_0216186c[0], &data_0216186c[1], 1);
         }
         if (state->mCbVecFunc[13] != 0) {
@@ -533,8 +533,8 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
         } else {
             timing = 0;
         }
-        height = state->mMatAnmResult->mUnk_2e;
-        width = state->mMatAnmResult->mUnk_2c;
+        height = state->mMatAnmResult->mOrigHeight;
+        width = state->mMatAnmResult->mOrigWidth;
         data_0216189c[0] = width << 15;
         data_0216189c[5] = -height << 15;
         data_0216189c[12] = width << 15;

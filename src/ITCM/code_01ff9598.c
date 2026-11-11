@@ -430,8 +430,8 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
 }
 
 void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
-    s32 widthFixed = TO_FIXED12(matAnmResult->mUnk_2c);
-    s32 heightFixed = TO_FIXED12(matAnmResult->mUnk_2e);
+    s32 widthFixed = TO_FIXED12(matAnmResult->mOrigWidth);
+    s32 heightFixed = TO_FIXED12(matAnmResult->mOrigHeight);
     s32 cosR;
     s32 scaleS;
     s32 sinR;
@@ -442,10 +442,10 @@ void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     s32 scaleTCos;
 
     FX_DivAsync(heightFixed, widthFixed);
-    cosR = matAnmResult->mUnk_20[1];
-    scaleS = matAnmResult->mUnk_18[0];
-    sinR = matAnmResult->mUnk_20[0];
-    scaleT = matAnmResult->mUnk_18[1];
+    cosR = matAnmResult->mSinCosR[1];
+    scaleS = matAnmResult->mScaleST[0];
+    sinR = matAnmResult->mSinCosR[0];
+    scaleT = matAnmResult->mScaleST[1];
     scaleSSin = MUL_FIXED12_NO_ROUND(scaleS, sinR);
     scaleSCos = MUL_FIXED12_NO_ROUND(scaleS, cosR);
     scaleTSin = MUL_FIXED12_NO_ROUND(scaleT, sinR);
@@ -455,42 +455,42 @@ void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     matrix->mUnk_00[0].y = -scaleTSin * FX_GetDivResult() >> 12;
     FX_DivAsync(widthFixed, heightFixed);
     matrix->mUnk_00[3].x =
-        (matAnmResult->mUnk_2c * (matAnmResult->mUnk_18[0] - (scaleSSin + scaleSCos)) << 3) -
-        matAnmResult->mUnk_2c * (s32) ((s64) matAnmResult->mUnk_18[0] * matAnmResult->mUnk_24[0] >> 8);
+        (matAnmResult->mOrigWidth * (matAnmResult->mScaleST[0] - (scaleSSin + scaleSCos)) << 3) -
+        matAnmResult->mOrigWidth * (s32) ((s64) matAnmResult->mScaleST[0] * matAnmResult->mTransST[0] >> 8);
     matrix->mUnk_00[3].y =
-        matAnmResult->mUnk_2e * (s32) ((s64) matAnmResult->mUnk_18[1] * matAnmResult->mUnk_24[1] >> 8) +
-        (matAnmResult->mUnk_2e * (scaleTSin - scaleTCos - matAnmResult->mUnk_18[1] + 0x2000) << 3);
+        matAnmResult->mOrigHeight * (s32) ((s64) matAnmResult->mScaleST[1] * matAnmResult->mTransST[1] >> 8) +
+        (matAnmResult->mOrigHeight * (scaleTSin - scaleTCos - matAnmResult->mScaleST[1] + 0x2000) << 3);
     matrix->mUnk_00[1].x = scaleSSin * FX_GetDivResult() >> 12;
 }
 
 void texmtxCalc_flagS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
-    s32 widthFixed = TO_FIXED12(matAnmResult->mUnk_2c);
-    s32 heightFixed = TO_FIXED12(matAnmResult->mUnk_2e);
+    s32 widthFixed = TO_FIXED12(matAnmResult->mOrigWidth);
+    s32 heightFixed = TO_FIXED12(matAnmResult->mOrigHeight);
     s32 sinPlusCos;
 
     FX_DivAsync(heightFixed, widthFixed);
-    matrix->mUnk_00[0].x = matAnmResult->mUnk_20[1];
-    matrix->mUnk_00[1].y = matAnmResult->mUnk_20[1];
-    matrix->mUnk_00[0].y = -matAnmResult->mUnk_20[0] * FX_GetDivResult() >> 12;
+    matrix->mUnk_00[0].x = matAnmResult->mSinCosR[1];
+    matrix->mUnk_00[1].y = matAnmResult->mSinCosR[1];
+    matrix->mUnk_00[0].y = -matAnmResult->mSinCosR[0] * FX_GetDivResult() >> 12;
     FX_DivAsync(widthFixed, heightFixed);
-    sinPlusCos = matAnmResult->mUnk_20[0] + matAnmResult->mUnk_20[1];
+    sinPlusCos = matAnmResult->mSinCosR[0] + matAnmResult->mSinCosR[1];
     matrix->mUnk_00[3].x =
-        (matAnmResult->mUnk_2c * (-sinPlusCos + 0x1000) << 3) - (matAnmResult->mUnk_24[0] * matAnmResult->mUnk_2c << 4);
+        (matAnmResult->mOrigWidth * (-sinPlusCos + 0x1000) << 3) - (matAnmResult->mTransST[0] * matAnmResult->mOrigWidth << 4);
     matrix->mUnk_00[3].y =
-        (matAnmResult->mUnk_2e * (matAnmResult->mUnk_20[0] - matAnmResult->mUnk_20[1] + 0x1000) << 3) +
-        (matAnmResult->mUnk_24[1] * matAnmResult->mUnk_2e << 4);
-    matrix->mUnk_00[1].x = matAnmResult->mUnk_20[0] * FX_GetDivResult() >> 12;
+        (matAnmResult->mOrigHeight * (matAnmResult->mSinCosR[0] - matAnmResult->mSinCosR[1] + 0x1000) << 3) +
+        (matAnmResult->mTransST[1] * matAnmResult->mOrigHeight << 4);
+    matrix->mUnk_00[1].x = matAnmResult->mSinCosR[0] * FX_GetDivResult() >> 12;
 }
 
 void texmtxCalc_flagR_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
-    matrix->mUnk_00[0].x = matAnmResult->mUnk_18[0];
-    matrix->mUnk_00[1].y = matAnmResult->mUnk_18[1];
+    matrix->mUnk_00[0].x = matAnmResult->mScaleST[0];
+    matrix->mUnk_00[1].y = matAnmResult->mScaleST[1];
     matrix->mUnk_00[0].y = 0;
     matrix->mUnk_00[3].x =
-        matAnmResult->mUnk_2c * -(s32) ((s64) matAnmResult->mUnk_18[0] * matAnmResult->mUnk_24[0] >> 8);
+        matAnmResult->mOrigWidth * -(s32) ((s64) matAnmResult->mScaleST[0] * matAnmResult->mTransST[0] >> 8);
     matrix->mUnk_00[3].y =
-        matAnmResult->mUnk_2e * (s32) ((s64) matAnmResult->mUnk_18[1] * matAnmResult->mUnk_24[1] >> 8) +
-        (matAnmResult->mUnk_2e * (matAnmResult->mUnk_18[1] * -2 + 0x2000) << 3);
+        matAnmResult->mOrigHeight * (s32) ((s64) matAnmResult->mScaleST[1] * matAnmResult->mTransST[1] >> 8) +
+        (matAnmResult->mOrigHeight * (matAnmResult->mScaleST[1] * -2 + 0x2000) << 3);
     matrix->mUnk_00[1].x = 0;
 }
 
@@ -498,14 +498,14 @@ void texmtxCalc_flagRS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     matrix->mUnk_00[0].x = 0x1000;
     matrix->mUnk_00[1].y = 0x1000;
     matrix->mUnk_00[0].y = 0;
-    matrix->mUnk_00[3].x = -(matAnmResult->mUnk_24[0] * matAnmResult->mUnk_2c) << 4;
-    matrix->mUnk_00[3].y = matAnmResult->mUnk_24[1] * matAnmResult->mUnk_2e << 4;
+    matrix->mUnk_00[3].x = -(matAnmResult->mTransST[0] * matAnmResult->mOrigWidth) << 4;
+    matrix->mUnk_00[3].y = matAnmResult->mTransST[1] * matAnmResult->mOrigHeight << 4;
     matrix->mUnk_00[1].x = 0;
 }
 
 void texmtxCalc_flagT_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
-    s32 widthFixed = TO_FIXED12(matAnmResult->mUnk_2c);
-    s32 heightFixed = TO_FIXED12(matAnmResult->mUnk_2e);
+    s32 widthFixed = TO_FIXED12(matAnmResult->mOrigWidth);
+    s32 heightFixed = TO_FIXED12(matAnmResult->mOrigHeight);
     s32 cosR;
     s32 scaleS;
     s32 sinR;
@@ -516,10 +516,10 @@ void texmtxCalc_flagT_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     s32 scaleTCos;
 
     FX_DivAsync(heightFixed, widthFixed);
-    cosR = matAnmResult->mUnk_20[1];
-    scaleS = matAnmResult->mUnk_18[0];
-    sinR = matAnmResult->mUnk_20[0];
-    scaleT = matAnmResult->mUnk_18[1];
+    cosR = matAnmResult->mSinCosR[1];
+    scaleS = matAnmResult->mScaleST[0];
+    sinR = matAnmResult->mSinCosR[0];
+    scaleT = matAnmResult->mScaleST[1];
     scaleSSin = MUL_FIXED12_NO_ROUND(scaleS, sinR);
     scaleSCos = MUL_FIXED12_NO_ROUND(scaleS, cosR);
     scaleTSin = MUL_FIXED12_NO_ROUND(scaleT, sinR);
@@ -528,7 +528,7 @@ void texmtxCalc_flagT_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     matrix->mUnk_00[1].y = scaleTCos;
     matrix->mUnk_00[0].y = -scaleTSin * FX_GetDivResult() >> 12;
     FX_DivAsync(widthFixed, heightFixed);
-    matrix->mUnk_00[3].x = matAnmResult->mUnk_2c * (matAnmResult->mUnk_18[0] - (scaleSSin + scaleSCos)) << 3;
-    matrix->mUnk_00[3].y = matAnmResult->mUnk_2e * (scaleTSin - scaleTCos - matAnmResult->mUnk_18[1] + 0x2000) << 3;
+    matrix->mUnk_00[3].x = matAnmResult->mOrigWidth * (matAnmResult->mScaleST[0] - (scaleSSin + scaleSCos)) << 3;
+    matrix->mUnk_00[3].y = matAnmResult->mOrigHeight * (scaleTSin - scaleTCos - matAnmResult->mScaleST[1] + 0x2000) << 3;
     matrix->mUnk_00[1].x = scaleSSin * FX_GetDivResult() >> 12;
 }

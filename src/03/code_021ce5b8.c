@@ -104,7 +104,7 @@ void UsbScanCallback(Unk021425e8 *message) {
     if (message->mCommand != 0x26) {
         return;
     }
-    switch (message->mUnk_08_0) {
+    switch (message->mReplyState) {
         case 5:
             if (scan->mReported != 0) {
                 CheckUsbScanEntries((WMStartScanExCallback *) message);

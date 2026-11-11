@@ -477,8 +477,8 @@ void ResetConnectionData(void) {
     gConnectionWork->mStatusFlags = 0;
     gConnectionWork->mChildren.mNameSendIndex = 0;
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, 0x14);
-    gConnectionWork->mChildren.mGameInfo->mUnk_0e.mLanguageIndex = gStartupWork->mLanguageIndex;
-    gConnectionWork->mChildren.mGameInfo->mUnk_0e.mChildCount = 0;
+    gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mLanguageIndex = gStartupWork->mLanguageIndex;
+    gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mChildCount = 0;
     for (innerIndex = 0; innerIndex < 4; innerIndex++) {
         gConnectionWork->mScanSlots[innerIndex].mInUse = 0;
         gConnectionWork->mScanSlots[innerIndex].mAge = 0;

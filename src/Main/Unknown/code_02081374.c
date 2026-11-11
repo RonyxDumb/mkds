@@ -14,7 +14,7 @@ void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_24.mHidden = (shown == 0);
+    effect->mFlags.mHidden = (shown == 0);
 }
 
 void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
@@ -63,7 +63,7 @@ void AdvanceKartContactEffect(ParticleEmitter *effect, s32 flag) {
     }
     kartEffects = &gKartEffects[kart->mIndex];
     if (effect == kartEffects->mContactEffect) {
-        effect->mUnk_24.mEnding = 1;
+        effect->mFlags.mEnding = 1;
         kartEffects->mContactEffect = NULL;
     }
 }

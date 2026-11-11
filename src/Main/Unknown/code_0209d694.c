@@ -194,18 +194,18 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
     if ((sunFireball->mMapObject.mFlags & 0x12) == 0) {
         if (sunFireball->mUnk_bc != NULL) {
             PlaceEffect(sunFireball->mUnk_bc, &sunFireball->mMapObject.mPos);
-            sunFireball->mUnk_bc->mUnk_24.mEmissionStopped = 0;
+            sunFireball->mUnk_bc->mFlags.mEmissionStopped = 0;
         }
         if (sunFireball->mUnk_c0 != NULL) {
             PlaceEffect(sunFireball->mUnk_c0, &sunFireball->mMapObject.mPos);
-            sunFireball->mUnk_c0->mUnk_24.mEmissionStopped = 0;
+            sunFireball->mUnk_c0->mFlags.mEmissionStopped = 0;
         }
     } else {
         if (sunFireball->mUnk_bc != NULL) {
-            sunFireball->mUnk_bc->mUnk_24.mEmissionStopped = 1;
+            sunFireball->mUnk_bc->mFlags.mEmissionStopped = 1;
         }
         if (sunFireball->mUnk_c0 != NULL) {
-            sunFireball->mUnk_c0->mUnk_24.mEmissionStopped = 1;
+            sunFireball->mUnk_c0->mFlags.mEmissionStopped = 1;
         }
     }
 }

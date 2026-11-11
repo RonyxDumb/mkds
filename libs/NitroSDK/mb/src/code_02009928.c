@@ -165,7 +165,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
-            switch (result->mUnk_08_0) {
+            switch (result->mReplyState) {
                 case 0:
                     gWirelessWork->mConnectedAids = 0;
                     gWirelessWork->mMPStarted = 0;
@@ -174,7 +174,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
                     if (gWirelessWork->mResetting == 1) {
                         return;
                     }
-                    gWirelessWork->mConnectedAids |= 1 << result->mUnk_10;
+                    gWirelessWork->mConnectedAids |= 1 << result->mLength;
                     gWirelessWork->mCallback(0, result);
                     if (gWirelessWork->mMPStarted == 0 && mbc->mStartMpBusy == 0) {
                         mbc->mStartMpBusy = 1;
@@ -194,7 +194,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
                     gWirelessWork->mCallback(0x19, NULL);
                     return;
                 case 9:
-                    gWirelessWork->mConnectedAids &= ~(1 << result->mUnk_10);
+                    gWirelessWork->mConnectedAids &= ~(1 << result->mLength);
                     gWirelessWork->mCallback(1, result);
                     return;
                 case 2:
@@ -209,13 +209,13 @@ void MBi_ParentCallback(Unk021425e8 *result) {
             }
         case 14:
             mbc->mStartMpBusy = 0;
-            switch (result->mUnk_04) {
+            switch (result->mState) {
                 case 10:
                     gWirelessWork->mMPStarted = 1;
                     gWirelessWork->mCallback(0x19, NULL);
                     return;
                 case 11:
-                    gWirelessWork->mCallback(3, result->mUnk_08);
+                    gWirelessWork->mCallback(3, result->mRecvBuf);
                     return;
                 default:
                     gWirelessWork->mCallback(0x100, result);
@@ -280,7 +280,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
             }
             return;
         case 0x80:
-            switch (result->mUnk_04) {
+            switch (result->mState) {
                 case 0x10:
                     gWirelessWork->mCallback(0x1d, result);
                     return;
@@ -308,9 +308,9 @@ void MBi_ParentCallback(Unk021425e8 *result) {
 
 void MBi_ChildPortCallback(Unk021425e8 *result) {
     if (result->mResultCode == 0) {
-        if (result->mUnk_04 == 7) {
-        } else if (result->mUnk_04 == 9) {
-        } else if (result->mUnk_04 == 0x15) {
+        if (result->mState == 7) {
+        } else if (result->mState == 9) {
+        } else if (result->mState == 0x15) {
             gWirelessWork->mCallback(9, result);
         }
     }
@@ -362,7 +362,7 @@ void MBi_ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            switch (result->mUnk_08_0) {
+            switch (result->mReplyState) {
                 case 3:
                     return;
                 case 5:
@@ -371,15 +371,15 @@ void MBi_ChildCallback(Unk021425e8 *result) {
                     entryCount = work->mScanEntryCount;
                     if (entryCount > 0) {
                         entry = entries;
-                        firstByte = result->mUnk_0a[0];
+                        firstByte = result->mMacAddress[0];
                         do {
-                            if (firstByte == entry->mMessage.mUnk_0a[0] &&
-                                result->mUnk_0a[1] == entry->mMessage.mUnk_0a[1] &&
-                                result->mUnk_0a[2] == entry->mMessage.mUnk_0a[2] &&
-                                result->mUnk_0a[3] == entry->mMessage.mUnk_0a[3] &&
-                                result->mUnk_0a[4] == entry->mMessage.mUnk_0a[4] &&
-                                result->mUnk_0a[5] == entry->mMessage.mUnk_0a[5]) {
-                                entries[entryIndex].mMessage.mUnk_36 = result->mUnk_36;
+                            if (firstByte == entry->mMessage.mMacAddress[0] &&
+                                result->mMacAddress[1] == entry->mMessage.mMacAddress[1] &&
+                                result->mMacAddress[2] == entry->mMessage.mMacAddress[2] &&
+                                result->mMacAddress[3] == entry->mMessage.mMacAddress[3] &&
+                                result->mMacAddress[4] == entry->mMessage.mMacAddress[4] &&
+                                result->mMacAddress[5] == entry->mMessage.mMacAddress[5]) {
+                                entries[entryIndex].mMessage.mGameInfoLength = result->mGameInfoLength;
                                 entries[entryIndex].mMessage.mUnk_38 = result->mUnk_38;
                                 DC_InvalidateRange(&work->mScanEntries[entryIndex], 0xc0);
                                 MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, &work->mScanEntries[entryIndex], 0xc0);
@@ -439,7 +439,7 @@ void MBi_ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0xb, result);
                 return;
             }
-            switch (result->mUnk_08_0) {
+            switch (result->mReplyState) {
                 case 6:
                     work->mConnectedAids = 0;
                     work->mMPStarted = 1;
@@ -466,7 +466,7 @@ void MBi_ChildCallback(Unk021425e8 *result) {
                     return;
             }
         case 14:
-            switch (result->mUnk_04) {
+            switch (result->mState) {
                 case 10:
                     work->mMPStarted = 1;
                     if (MBi_IsSendEnabled() == 0) {
@@ -519,7 +519,7 @@ void MBi_ChildCallback(Unk021425e8 *result) {
             work->mCallback(0x19, NULL);
             return;
         case 0x80:
-            switch (result->mUnk_04) {
+            switch (result->mState) {
                 case 0x16:
                     OS_Terminate();
                     break;

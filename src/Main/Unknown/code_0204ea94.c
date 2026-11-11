@@ -18,7 +18,7 @@ void EndWbtStep(void) {
 }
 
 void SetScanGhostInfo(u32 entryIndex, UserGameInfo *gameInfo) {
-    gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mUnk_0e.mKartIndex;
+    gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mGameInfoPart.mKartIndex;
     gConnectionWork->mScanGhostInfos[entryIndex].mCharacterIndex = gameInfo->mCharacterIndex;
     gConnectionWork->mScanGhostInfos[entryIndex].mCourseId = GetCupCourseIdAtIndex((u8) gameInfo->mCupCourseIndex);
     gConnectionWork->mScanGhostInfos[entryIndex].mMinute = gameInfo->mMinute;

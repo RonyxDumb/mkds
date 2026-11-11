@@ -99,9 +99,9 @@ void AdvanceStadiumEmitters(void) {
         position.z = tablePosition->z >> 4;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+            if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
                 emitter->mUpdateCycle = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+            } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
                 emitter->mUpdateCycle = 2;
             }
         }
@@ -132,9 +132,9 @@ void CreateAwardEmitters(void) {
         position.z = emitZ;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+            if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
                 emitter->mUpdateCycle = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+            } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
                 emitter->mUpdateCycle = 2;
             }
         }
@@ -149,9 +149,9 @@ void CreateAwardEmitters(void) {
         position.z = emitZ;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x80) {
+            if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
                 emitter->mUpdateCycle = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUpdateCycleBits & 0x40) {
+            } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
                 emitter->mUpdateCycle = 2;
             }
         }

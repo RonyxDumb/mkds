@@ -64,7 +64,7 @@ void ScanConnectStartConnectCallback(Unk021425e8 *result) {
             gMPLink->mCallback(11, result);
         }
     } else {
-        switch (result->mUnk_08_0) {
+        switch (result->mReplyState) {
             case 0:
             case 1:
             case 2:
@@ -135,7 +135,7 @@ void ScanConnectStartMPCallback(Unk021425e8 *result) {
             }
         }
     } else {
-        switch (result->mUnk_04) {
+        switch (result->mState) {
             case 10:
                 gMPLink->mMPStarted = 1;
                 gMPLink->mDataQueued = 0;
@@ -247,7 +247,7 @@ u32 IsMPReadyToQueueData(void) {
 
 void PortCallback(Unk021425e8 *result) {
     if (result->mResultCode == 0) {
-        switch (result->mUnk_04) {
+        switch (result->mState) {
             case 7:
             case 9:
                 break;
@@ -446,13 +446,13 @@ void ScanConnectStartScanCallback(Unk021425e8 *result) {
         ReportScanError(0xa, result->mResultCode);
         return;
     }
-    switch (result->mUnk_08_0) {
+    switch (result->mReplyState) {
         case 3:
             break;
         case 5:
             if (result->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
                 DC_InvalidateRange(&gScanConnectWork->mScanBuffer, 0xc0);
-                MB_RecvGameInfoBeacon(EntryCallback, result->mUnk_12, &gScanConnectWork->mScanBuffer);
+                MB_RecvGameInfoBeacon(EntryCallback, result->mAid, &gScanConnectWork->mScanBuffer);
                 MB_CountGameInfoLifetime(EntryCallback, 1);
             }
         case 4:

@@ -4,7 +4,7 @@
 #include "code_02012b30.h" // MtxFx43
 #include "code_02147cd8.h"
 
-// Linked through mUnk_00/mUnk_04; on the lists at ParticleEmitter 0x08 and 0x14 and SPLManager 0x1c.
+// Linked through mNext/mPrev; on the lists at ParticleEmitter 0x08 and 0x14 and SPLManager 0x1c.
 typedef struct ParticleInstance {
     /* 00 */ struct ParticleInstance *mNext;
     /* 04 */ struct ParticleInstance *mPrev;
@@ -35,8 +35,8 @@ typedef struct ParticleList {
 } ParticleList;
 
 typedef struct ParticleResourceFlags {
-    /* 00 */ u32 mUnk_00_0 : 4;
-    /* 00 */ u32 mUnk_00_4 : 2;
+    /* 00 */ u32 mEmitShape : 4;
+    /* 00 */ u32 mDrawKind : 2;
     /* 00 */ u32 mAxis : 2;
     /* 00 */ u32 mHasScaleAnim : 1;
     /* 00 */ u32 mHasColorAnim : 1;
@@ -64,34 +64,34 @@ typedef struct ParticleResourceFlags {
 } ParticleResourceFlags;
 
 typedef struct ParticleResourceDrawParams {
-    /* 00 */ u32 mUnk_00_0 : 8;
-    /* 00 */ u32 mUnk_00_8 : 16;
-    /* 00 */ u32 mUnk_00_24 : 2;
-    /* 00 */ u32 mUnk_00_26 : 2;
-    /* 00 */ u32 mUnk_00_28 : 3;
-    /* 00 */ u32 mUnk_00_31 : 1;
+    /* 00 */ u32 mSecondTimeLength : 8;
+    /* 00 */ u32 mStretchFactor : 16;
+    /* 00 */ u32 mTexCoordUShift : 2;
+    /* 00 */ u32 mTexCoordVShift : 2;
+    /* 00 */ u32 mScaleMode : 3;
+    /* 00 */ u32 mForwardFromOffset : 1;
 } ParticleResourceDrawParams;
 
 typedef struct ParticleResourceHeader {
-    /* 00 */ ParticleResourceFlags mUnk_00;
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ Vec3s16 mUnk_1c;
-    /* 22 */ u16 mUnk_22;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s16 mUnk_30;
+    /* 00 */ ParticleResourceFlags mFlags;
+    /* 04 */ Vec3 mPositionOffset;
+    /* 10 */ s32 mEmitRate;
+    /* 14 */ s32 mRadius;
+    /* 18 */ s32 mHalfLength;
+    /* 1c */ Vec3s16 mDirection;
+    /* 22 */ u16 mColor;
+    /* 24 */ s32 mDirectionSpeed;
+    /* 28 */ s32 mAxisSpeed;
+    /* 2c */ s32 mSizeScale;
+    /* 30 */ s16 mBaseScale;
     /* 32 */ u16 mDelayFrameCount;
-    /* 34 */ s16 mUnk_34;
-    /* 36 */ s16 mUnk_36;
-    /* 38 */ u16 mUnk_38;
+    /* 34 */ s16 mAngleSpeedMin;
+    /* 36 */ s16 mAngleSpeedMax;
+    /* 38 */ u16 mAngle;
     /* 3a */ u8 mUnk_3a[2];
     /* 3c */ u16 mEmitFrameCount;
     /* 3e */ u16 mLife;
-    /* 40 */ u8 mUnk_40;
+    /* 40 */ u8 mSizeRandom;
     /* 41 */ u8 mLifeRandom;
     /* 42 */ u8 mSpeedRandom;
     /* 43 */ u8 mUnk_43;
@@ -103,15 +103,15 @@ typedef struct ParticleResourceHeader {
     /* 4c */ u32 mFlipU : 1;
     /* 4c */ u32 mFlipV : 1;
     /* 4c */ u32 mUnk_4c_2 : 30;
-    /* 50 */ s16 mUnk_50;
+    /* 50 */ s16 mPlaneCenterX;
     /* 52 */ s16 mPlaneCenterY;
     /* 54 */ u8 mUpdateCycleBits;
 } ParticleResourceHeader;
 
 typedef struct ParticleScaleAnim {
-    /* 00 */ s16 mUnk_00;
+    /* 00 */ s16 mStartScale;
     /* 02 */ s16 mMidScale;
-    /* 04 */ s16 mUnk_04;
+    /* 04 */ s16 mEndScale;
     /* 06 */ u8 mMidStart;
     /* 07 */ u8 mMidEnd;
     /* 08 */ u16 mTimeIndex : 1;
@@ -119,22 +119,22 @@ typedef struct ParticleScaleAnim {
 } ParticleScaleAnim;
 
 typedef struct ParticleColorAnim {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04;
+    /* 00 */ u16 mStartColor;
+    /* 02 */ u16 mEndColor;
+    /* 04 */ u8 mFirstBlendStart;
     /* 05 */ u8 mFirstBlendEnd;
-    /* 06 */ u8 mUnk_06;
+    /* 06 */ u8 mSecondBlendEnd;
     /* 07 */ u8 mUnk_07;
-    /* 08 */ u16 mUnk_08_0 : 1;
+    /* 08 */ u16 mRandomColor : 1;
     /* 08 */ u16 mTimeIndex : 1;
     /* 08 */ u16 mBlend : 1;
     /* 08 */ u16 mUnk_08_3 : 13;
 } ParticleColorAnim;
 
 typedef struct ParticleAlphaAnim {
-    /* 00 */ u16 mUnk_00_0 : 5;
+    /* 00 */ u16 mStartAlpha : 5;
     /* 00 */ u16 mMidAlpha : 5;
-    /* 00 */ u16 mUnk_00_10 : 5;
+    /* 00 */ u16 mEndAlpha : 5;
     /* 00 */ u16 mUnk_00_15 : 1;
     /* 02 */ u16 mAlphaRandom : 8;
     /* 02 */ u16 mTimeIndex : 1;
@@ -145,8 +145,8 @@ typedef struct ParticleAlphaAnim {
 } ParticleAlphaAnim;
 
 typedef struct ParticleTextureAnim {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 mUnk_08_0 : 8;
+    /* 00 */ u8 mTextureIndices[8];
+    /* 08 */ u32 mFrameCount : 8;
     /* 08 */ u32 mFrameLength : 8;
     /* 08 */ u32 mRandomTexture : 1;
     /* 08 */ u32 mTimeIndex : 1;
@@ -154,36 +154,36 @@ typedef struct ParticleTextureAnim {
 } ParticleTextureAnim;
 
 typedef struct ParticleChildTexParams {
-    /* 00 */ u32 mUnk_00_0 : 2;
-    /* 00 */ u32 mUnk_00_2 : 2;
-    /* 00 */ u32 mUnk_00_4 : 1;
-    /* 00 */ u32 mUnk_00_5 : 1;
-    /* 00 */ u32 mUnk_00_6 : 1;
+    /* 00 */ u32 mTexCoordUShift : 2;
+    /* 00 */ u32 mTexCoordVShift : 2;
+    /* 00 */ u32 mFlipU : 1;
+    /* 00 */ u32 mFlipV : 1;
+    /* 00 */ u32 mForwardFromOffset : 1;
     /* 00 */ u32 mUnk_00_7 : 25;
 } ParticleChildTexParams;
 
 typedef struct ParticleChildAnim {
-    /* 00 */ u16 mUnk_00_0 : 1;
-    /* 00 */ u16 mUnk_00_1 : 1;
-    /* 00 */ u16 mUnk_00_2 : 1;
-    /* 00 */ u16 mUnk_00_3 : 2;
-    /* 00 */ u16 mUnk_00_5 : 1;
-    /* 00 */ u16 mUnk_00_6 : 1;
+    /* 00 */ u16 mUseBehaviors : 1;
+    /* 00 */ u16 mHasScaleAnim : 1;
+    /* 00 */ u16 mHasAlphaAnim : 1;
+    /* 00 */ u16 mInheritAngle : 2;
+    /* 00 */ u16 mFollowEmitter : 1;
+    /* 00 */ u16 mOwnColor : 1;
     /* 00 */ u16 mDrawKind : 2;
-    /* 00 */ u16 mUnk_00_9 : 2;
-    /* 00 */ u16 mUnk_00_11 : 1;
+    /* 00 */ u16 mRotateKind : 2;
+    /* 00 */ u16 mPlaneKind : 1;
     /* 00 */ u16 mUnk_00_12 : 4;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08;
+    /* 02 */ s16 mVelocityRandom;
+    /* 04 */ s16 mEndScale;
+    /* 06 */ u16 mLife;
+    /* 08 */ u8 mVelocityScale;
     /* 09 */ u8 mSizeScale;
     /* 0a */ u16 mColor;
-    /* 0c */ u8 mUnk_0c;
+    /* 0c */ u8 mChildCount;
     /* 0d */ u8 mStartLifeRate;
     /* 0e */ u8 mInterval;
     /* 0f */ u8 mTextureIndex;
-    /* 10 */ ParticleChildTexParams mUnk_10;
+    /* 10 */ ParticleChildTexParams mTexParams;
 } ParticleChildAnim;
 
 typedef struct ParticleEmitterFlags {
@@ -200,38 +200,38 @@ typedef struct ParticleResource ParticleResource;
 
 // Entries of the table at ParticleResource 0x18 (count at 0x1c).
 typedef struct ParticleBehaviorEntry {
-    /* 00 */ void (*mUnk_00)(); // called with four arguments; the type of the first differs per entry
-    /* 04 */ void *mUnk_04;
+    /* 00 */ void (*mApply)(); // called with four arguments; the type of the first differs per entry
+    /* 04 */ void *mData;
 } ParticleBehaviorEntry;
 
 struct ParticleResource {
-    /* 00 */ ParticleResourceHeader *mUnk_00;
-    /* 04 */ ParticleScaleAnim *mUnk_04;
-    /* 08 */ ParticleColorAnim *mUnk_08;
+    /* 00 */ ParticleResourceHeader *mHeader;
+    /* 04 */ ParticleScaleAnim *mScaleAnim;
+    /* 08 */ ParticleColorAnim *mColorAnim;
     /* 0c */ ParticleAlphaAnim *mAlphaAnim;
     /* 10 */ ParticleTextureAnim *mTextureAnim;
-    /* 14 */ ParticleChildAnim *mUnk_14;
+    /* 14 */ ParticleChildAnim *mChildAnim;
     /* 18 */ ParticleBehaviorEntry *mBehaviors;
     /* 1c */ u16 mBehaviorCount;
 };
 
 // The four bytes at ParticleEmitter 0x98.
 typedef struct Unk0201ca6c_98 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
+    /* 00 */ u8 mVelocityFactorIndex;
+    /* 01 */ u8 mCounting;
+    /* 02 */ u8 mStepCount;
+    /* 03 */ u8 mSideIndex;
 } Unk0201ca6c_98;
 
 struct ParticleEmitter {
-    /* 00 */ struct ParticleEmitter *mUnk_00;
-    /* 04 */ struct ParticleEmitter *mUnk_04;
-    /* 08 */ ParticleList mUnk_08;
-    /* 14 */ ParticleList mUnk_14;
-    /* 20 */ ParticleResource *mUnk_20;
-    /* 24 */ ParticleEmitterFlags mUnk_24;
-    /* 28 */ Vec3 mUnk_28;
-    /* 34 */ Vec3 mUnk_34;
+    /* 00 */ struct ParticleEmitter *mNext;
+    /* 04 */ struct ParticleEmitter *mPrev;
+    /* 08 */ ParticleList mParticles;
+    /* 14 */ ParticleList mChildParticles;
+    /* 20 */ ParticleResource *mResource;
+    /* 24 */ ParticleEmitterFlags mFlags;
+    /* 28 */ Vec3 mPosition;
+    /* 34 */ Vec3 mParticleShift;
     /* 40 */ Vec3 mVelocity;
     /* 4c */ u16 mAge;
     /* 4e */ s16 mEmitFraction;

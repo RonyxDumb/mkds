@@ -75,9 +75,9 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
                 animation->mHead.mFrameIndex = TO_FIXED12(frame);
                 animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
                 NNSi_G3dAnmCalcNsBtp(&frameWork.mResult, animation->mAnmObjs[0], frameWork.mDataIndex);
-                record->mTexImageParams[frame] = frameWork.mResult.mUnk_10 & 0x3ff0ffff;
+                record->mTexImageParams[frame] = frameWork.mResult.mPrmTexImage & 0x3ff0ffff;
                 record->mTexImageParams[frame] |= frameWork.mTexImageParam;
-                record->mTexPlttBases[frame] = frameWork.mResult.mUnk_14;
+                record->mTexPlttBases[frame] = frameWork.mResult.mPrmTexPltt;
                 frame++;
             } while (frame < frameCount);
         }

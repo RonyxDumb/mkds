@@ -98,7 +98,7 @@ u32 GetRtcSecondsPlusFixedOffset(void) {
 void SetAuthorityTable(u32 table, u32 count) {
     CPSSoc *connection;
     HttpsState *httpsState;
-    connection = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    connection = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if ((connection != NULL) && (httpsState = connection->mHttpsState, httpsState != NULL)) {
         httpsState->mAuthorities = table;
         httpsState->mAuthorityCount = count;

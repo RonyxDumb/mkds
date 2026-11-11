@@ -451,27 +451,27 @@ void MPDataPortCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0) {
         return;
     }
-    if (event->mUnk_0c == 0) {
+    if (event->mData == 0) {
         return;
     }
-    if (event->mUnk_10 < 2) {
+    if (event->mLength < 2) {
         return;
     }
-    if (event->mUnk_10 > 0x18) {
+    if (event->mLength > 0x18) {
         return;
     }
-    DC_InvalidateRange(event->mUnk_0c, event->mUnk_10);
-    MI_CpuCopy8(event->mUnk_0c, &message, event->mUnk_10);
-    if (event->mUnk_04 == 7) {
+    DC_InvalidateRange(event->mData, event->mLength);
+    MI_CpuCopy8(event->mData, &message, event->mLength);
+    if (event->mState == 7) {
         return;
     }
-    if (event->mUnk_04 == 9) {
+    if (event->mState == 9) {
         return;
     }
-    if (event->mUnk_04 != 0x15) {
+    if (event->mState != 0x15) {
         return;
     }
-    ProcessMPData(event->mUnk_12, &message);
+    ProcessMPData(event->mAid, &message);
 }
 
 BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffer, QueueMPDataToPortParams *params) {

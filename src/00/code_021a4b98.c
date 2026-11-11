@@ -763,7 +763,7 @@ void WcmWmReset(void) {
 }
 
 void WcmWmcbIndication(Unk021425e8 *callback) {
-    if (callback->mResultCode == 8 && callback->mUnk_04 == 0x16 && callback->mUnk_06 == 0x25) {
+    if (callback->mResultCode == 8 && callback->mState == 0x16 && callback->mPort == 0x25) {
         switch (gWcmWork->mPhase) {
             case 8:
                 WcmSetPhase(0xc);
@@ -1083,7 +1083,7 @@ void WcmWmcbDisconnect(Unk021425e8 *callback) {
 void WcmWmcbStartDCF(Unk021425e8 *callback) {
     switch (callback->mResultCode) {
         case 0:
-            switch (callback->mUnk_04) {
+            switch (callback->mState) {
                 case 0xe:
                     if (gWcmWork->mPhase == 0xc) {
                         WcmSetPhase(8);
@@ -1094,13 +1094,13 @@ void WcmWmcbStartDCF(Unk021425e8 *callback) {
                     WcmNotify(0, gWcmWork->mBssDesc, 0, 0x85d);
                     return;
                 case 0xf:
-                    WCMi_ShelterRssi(((u16 *) callback->mUnk_08)[7] >> 8);
-                    DC_InvalidateRange(callback->mUnk_08, 0x620);
-                    WCMi_CpsifRecvCallback(callback->mUnk_08);
+                    WCMi_ShelterRssi(((u16 *) callback->mRecvBuf)[7] >> 8);
+                    DC_InvalidateRange(callback->mRecvBuf, 0x620);
+                    WCMi_CpsifRecvCallback(callback->mRecvBuf);
                     return;
                 default:
                     WcmSetPhase(0xb);
-                    WcmNotify(7, gWcmWork->mBssDesc, callback->mUnk_04, 0x86b);
+                    WcmNotify(7, gWcmWork->mBssDesc, callback->mState, 0x86b);
                     return;
             }
         case 4:

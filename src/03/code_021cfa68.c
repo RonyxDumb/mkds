@@ -107,19 +107,19 @@ void StartWhParentCallback(Unk021425e8 *event) {
     u16 aidBit;
     s32 result;
 
-    aidBit = 1 << event->mUnk_10;
+    aidBit = 1 << event->mLength;
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
         SetWhState(9);
         return;
     }
-    switch (event->mUnk_08_0) {
+    switch (event->mReplyState) {
         case 7:
             if (gWhPrintFunction != NULL) {
-                gWhPrintFunction(0x08000000, gWhChildConnectedFormat, event->mUnk_10);
+                gWhPrintFunction(0x08000000, gWhChildConnectedFormat, event->mLength);
             }
             if (gWhWork->mConnectCallback != NULL && gWhWork->mConnectCallback(event) == 0) {
-                result = WM_Disconnect(NULL, event->mUnk_10);
+                result = WM_Disconnect(NULL, event->mLength);
                 if (result == 2) {
                     return;
                 }
@@ -131,7 +131,7 @@ void StartWhParentCallback(Unk021425e8 *event) {
             return;
         case 9:
             if (gWhPrintFunction != NULL) {
-                gWhPrintFunction(0x08000000, gWhChildDisconnectedFormat, event->mUnk_10);
+                gWhPrintFunction(0x08000000, gWhChildDisconnectedFormat, event->mLength);
             }
             gWhWork->mConnectedMask = gWhWork->mConnectedMask & ~aidBit;
             return;
@@ -144,7 +144,7 @@ void StartWhParentCallback(Unk021425e8 *event) {
             return;
         default:
             if (gWhPrintFunction != NULL) {
-                gWhPrintFunction(0x08000000, gWhIndicateStateFormat, event->mUnk_08_0);
+                gWhPrintFunction(0x08000000, gWhIndicateStateFormat, event->mReplyState);
             }
             return;
     }
@@ -174,7 +174,7 @@ void StartWhMPCallback(Unk021425e8 *event) {
         SetWhState(9);
         return;
     }
-    switch (event->mUnk_04) {
+    switch (event->mState) {
         case 0xa:
             if (gWhWork->mConnectMode == 2) {
                 if (gWhWork->mState == 4) {
@@ -208,7 +208,7 @@ void StartWhMPCallback(Unk021425e8 *event) {
         case 0xd:
         default:
             if (gWhPrintFunction != NULL) {
-                gWhPrintFunction(0x08000000, gWhIndicateStateFormat, event->mUnk_04);
+                gWhPrintFunction(0x08000000, gWhIndicateStateFormat, event->mState);
             }
             break;
     }
@@ -432,9 +432,9 @@ void StartWhMeasureChannelCallback(Unk021425e8 *event) {
         return;
     }
     if (gWhPrintFunction != NULL) {
-        gWhPrintFunction(0x08000000, gWhChannelBusyRatioFormat, event->mUnk_08_0, event->mUnk_08_2);
+        gWhPrintFunction(0x08000000, gWhChannelBusyRatioFormat, event->mReplyState, event->mUnk_08_2);
     }
-    channel = event->mUnk_08_0;
+    channel = event->mReplyState;
     busyRatio = event->mUnk_08_2;
     if (gWhWork->mLowestBusyRatio > busyRatio) {
         gWhWork->mLowestBusyRatio = busyRatio;

@@ -77,15 +77,15 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
                 return;
             }
             if ((pakkunSpit->mMapObject.mFlags & 0x12) != 0) {
-                pakkunSpit->mEmitter->mUnk_24.mEmissionStopped = 1;
+                pakkunSpit->mEmitter->mFlags.mEmissionStopped = 1;
                 return;
             }
             PlaceEffect(pakkunSpit->mEmitter, &pakkunSpit->mMapObject.mPos);
-            pakkunSpit->mEmitter->mUnk_24.mEmissionStopped = 0;
+            pakkunSpit->mEmitter->mFlags.mEmissionStopped = 0;
             return;
         case 1:
             if (pakkunSpit->mEmitter != NULL) {
-                for (entry = pakkunSpit->mEmitter->mUnk_08.mFront; entry != NULL; entry = entry->mNext) {
+                for (entry = pakkunSpit->mEmitter->mParticles.mFront; entry != NULL; entry = entry->mNext) {
                     entry->mAge = entry->mLife;
                 }
                 StopEffectAndClearPointer((void **) &pakkunSpit->mEmitter);

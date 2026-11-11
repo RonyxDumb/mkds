@@ -46,7 +46,7 @@ void reset_network_vars(u32 reason) {
         thread = OSi_ThreadInfo.mListHead;
         if (thread != NULL) {
             do {
-                socket = thread->mUnk_a4[0];
+                socket = thread->mSpecific[0];
                 if (socket != NULL && socket->mThread != NULL) {
                     if (socket->mState != 10 && socket->mState != 11) {
                         socket->mState = 0;
@@ -805,7 +805,7 @@ void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
     CPSSoc *socket;
 
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
-        socket = thread->mUnk_a4[0];
+        socket = thread->mSpecific[0];
         if (socket == NULL || socket->mThread == NULL || socket->mState != 0xb ||
             (u16) (u32) socket->mThread != icmp->mIdentifier) {
             continue;
@@ -866,7 +866,7 @@ CPSSoc *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
     OSThread *thread;
 
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
-        socket = thread->mUnk_a4[0];
+        socket = thread->mSpecific[0];
         if (socket == NULL || socket->mThread == NULL || socket->mState != 1 ||
             socket->mLocalPort != (u16) ((tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8))) {
             continue;
@@ -921,7 +921,7 @@ CPSSoc *find_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
 
     thread = OSi_ThreadInfo.mListHead;
     while (thread != NULL) {
-        socket = thread->mUnk_a4[0];
+        socket = thread->mSpecific[0];
         if (socket != NULL && socket->mThread != NULL && check_socket(ipHeader, tcpHeader, socket) != 0) {
             return socket;
         }
@@ -1294,7 +1294,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
         return;
     }
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
-        socket = thread->mUnk_a4[0];
+        socket = thread->mSpecific[0];
         if (socket == NULL || socket->mThread == NULL || socket->mState != 0xa ||
             socket->mLocalPort != (u16) ((udpHeader->mDestPort >> 8) | (udpHeader->mDestPort << 8))) {
             continue;
@@ -1520,7 +1520,7 @@ u16 CPS_SocGetEport(void) {
             gEport = 0x400;
         }
         for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
-            socket = thread->mUnk_a4[0];
+            socket = thread->mSpecific[0];
             if (socket != NULL && socket->mThread != NULL && socket->mLocalPort == gEport) {
                 inUse = 1;
                 break;
@@ -1545,12 +1545,12 @@ void CPS_SocRegister(void *socket) {
 }
 
 void CPS_SocUnRegister(void) {
-    OSi_ThreadInfo.mCurrentThread->mUnk_a4[0] = NULL;
+    OSi_ThreadInfo.mCurrentThread->mSpecific[0] = NULL;
 }
 
 void CPS_SocDatagramMode(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         socket->mState = 10;
         socket->mReceiveBufferLength = 0;
@@ -1560,7 +1560,7 @@ void CPS_SocDatagramMode(void) {
 void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
     u16 ephemeralPort;
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (remoteAddress == 0x7f000001) {
             remoteAddress = *(s32 *) &CPSMyIp;
@@ -1580,7 +1580,7 @@ void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
 
 void CPS_SocUse(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         socket->mThread = OSi_ThreadInfo.mCurrentThread;
         socket->mState = 0;
@@ -1592,14 +1592,14 @@ void CPS_SocUse(void) {
 
 void CPS_SocRelease(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         socket->mThread = NULL;
     }
 }
 
 void CPS_SocDup(OSThread *thread) {
-    thread->mUnk_a4[0] = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    thread->mSpecific[0] = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
 }
 
 void CPSi_TcpListenRaw(CPSSoc *socket) {
@@ -1613,7 +1613,7 @@ void CPSi_TcpListenRaw(CPSSoc *socket) {
 
 void CPS_SetUdpCallback(Unk021a78a4Func callback) {
     u8 *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         *(Unk021a78a4Func *) (socket + 0x38) = callback;
     }
@@ -1622,7 +1622,7 @@ void CPS_SetUdpCallback(Unk021a78a4Func callback) {
 void CPS_TcpListen(void) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             RunSetupAfterReadingKind1RecordUntilDone(socket);
@@ -1662,7 +1662,7 @@ u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
 u32 CPS_TcpConnect(void) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             return CPSi_SslConnect(socket);
@@ -1674,7 +1674,7 @@ u32 CPS_TcpConnect(void) {
 
 u32 CPS_SocWho(u16 *remotePort, u32 *localAddress) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if ((socket != NULL) && ((socket->mState == 4 || (socket->mState == '\n')))) {
         if (remotePort != NULL) {
             *remotePort = socket->mRemotePort;
@@ -1702,7 +1702,7 @@ void CPSi_TcpShutdownRaw(CPSSoc *socket) {
 void CPS_TcpShutdown(void) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             CPSi_SslShutdown(socket);
@@ -1716,7 +1716,7 @@ void CPS_TcpClose(void) {
     CPSSoc *socket;
     s32 startTick;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         startTick = OS_GetTick() >> 16;
         while (gLinkIsOn() != 0 && socket->mState != 0 && (s32) (OS_GetTick() >> 16) - startTick < 0x27) {
@@ -1756,7 +1756,7 @@ u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket) {
 u8 *CPS_SocRead(u32 *length) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if ((u8) (socket->mState + 0xf6) <= 1) {
             return udp_read_raw(length, socket);
@@ -1796,7 +1796,7 @@ void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
 void CPS_SocConsume(u32 length) {
     CPSSoc *socket;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             SkipHttpsReceivedBytes(length, socket);
@@ -1924,7 +1924,7 @@ s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 sec
     u8 state;
     s32 bytesWritten;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         state = socket->mState;
         if (state == 0xa) {
@@ -1959,7 +1959,7 @@ s32 CPS_SocWrite(const u8 *buffer, s32 length) {
     CPSSoc *socket;
     s32 bytesWritten;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mOutBufferLength != 0) {
             bytesWritten = CPSi_SocWrite2(socket->mOutBuffer, socket->mOutBufferLength, buffer, length);
@@ -1981,7 +1981,7 @@ s32 CPS_SocGetLength(void) {
     CPSSoc *socket;
     s32 count;
 
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
             count = ReadHttpsRecordIfBufferedAndGetUnreadByteCount(socket);
@@ -1998,7 +1998,7 @@ s32 CPS_SocGetLength(void) {
 
 void CPS_SocFlush(void) {
     CPSSoc *socket;
-    socket = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if ((socket != NULL) && (socket->mOutBufferLength != 0)) {
         CPSi_SocWrite2((socket->mOutBuffer), socket->mOutBufferLength, NULL, 0);
         socket->mOutBufferLength = 0;
@@ -2110,7 +2110,7 @@ void scavenger(void) {
         thread = OSi_ThreadInfo.mListHead;
         if (thread != NULL) {
             do {
-                socket = thread->mUnk_a4[0];
+                socket = thread->mSpecific[0];
                 if (socket != NULL && socket->mThread != NULL) {
                     if (socket->mState == 3 && (s32) (now - socket->mStateStartTime) > 0x27) {
                         socket->mState = 1;

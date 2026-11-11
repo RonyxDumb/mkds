@@ -88,21 +88,21 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
             MBi_CommChangeParentState(0, 1, eventData);
             break;
         case 0:
-            child = eventData->mUnk_10;
+            child = eventData->mLength;
             if (child != 0 && child < 16) {
                 MBi_CommChangeParentState(child, 2, eventData);
             }
             break;
         case 1:
-            child = eventData->mUnk_10;
+            child = eventData->mLength;
             if (child != 0 && child < 16) {
-                mbc->mChildversion[eventData->mUnk_10 - 1] = 0;
-                MI_CpuFill8(mbc->mChildggid + (eventData->mUnk_10 - 1), 0, 4);
-                MI_CpuFill8(&mbc->mChildUser[eventData->mUnk_10 - 1], 0, 0x16);
-                MBi_ClearParentPieceBuffer(eventData->mUnk_10);
+                mbc->mChildversion[eventData->mLength - 1] = 0;
+                MI_CpuFill8(mbc->mChildggid + (eventData->mLength - 1), 0, 4);
+                MI_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, 0x16);
+                MBi_ClearParentPieceBuffer(eventData->mLength);
                 value = 0;
-                mbc->mReq2child[eventData->mUnk_10 - 1] = value;
-                child = eventData->mUnk_10;
+                mbc->mReq2child[eventData->mLength - 1] = value;
+                child = eventData->mLength;
                 childEntryIndex = mbc->mChildEntryIndex[(s32) child - 1];
                 value = ~value;
                 if (childEntryIndex != value) {
@@ -113,16 +113,16 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
                     mbc->mChildEntryIndex[child - 1] = value;
                     (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~childBit;
                 }
-                if ((mbc->mChildEntryBmp & (1 << eventData->mUnk_10)) != 0) {
+                if ((mbc->mChildEntryBmp & (1 << eventData->mLength)) != 0) {
                     mbc->mChildNum--;
-                    mbc->mChildEntryBmp &= ~(1 << eventData->mUnk_10);
+                    mbc->mChildEntryBmp &= ~(1 << eventData->mLength);
                 }
-                child = eventData->mUnk_10;
+                child = eventData->mLength;
                 if (mbc->mPCommState[child - 1] == 8) {
                     MBi_CommChangeParentState(child, 9, NULL);
                 }
-                MBi_CommChangeParentState(eventData->mUnk_10, 3, eventData);
-                mbc->mPCommState[eventData->mUnk_10 - 1] = 0;
+                MBi_CommChangeParentState(eventData->mLength, 3, eventData);
+                mbc->mPCommState[eventData->mLength - 1] = 0;
             }
             break;
         case 0x11:
