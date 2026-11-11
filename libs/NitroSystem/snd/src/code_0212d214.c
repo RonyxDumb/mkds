@@ -66,7 +66,7 @@ BOOL NNS_SndArcPlayerStartSeq(NNSSndSeqPlayer **handle, s32 seqNo) {
 }
 
 BOOL NNS_SndArcPlayerStartSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 index) {
-    Unk0212f788 *seqArc;
+    NNSSndSeqArc *seqArc;
     NNSSndSeqArcSeqInfo *sound;
     NNSSndArcSeqArcInfo *info;
 
@@ -89,7 +89,7 @@ BOOL NNS_SndArcPlayerStartSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 ind
 // A negative player, bank or priority takes the value from the entry.
 BOOL NNS_SndArcPlayerStartSeqArcEx(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, s32 seqArcNo,
                                    s32 index) {
-    Unk0212f788 *seqArc;
+    NNSSndSeqArc *seqArc;
     NNSSndSeqArcSeqInfo *sound;
     NNSSndArcSeqArcInfo *info;
 
@@ -119,7 +119,7 @@ BOOL NNS_SndArcPlayerStartSeqArcEx(NNSSndSeqPlayer **handle, s32 playerNo, s32 b
 
 BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndArcSeqInfo *info, s32 seqNo) {
     NNSSndSeqPlayer *player;
-    Unk0212f788 *seq;
+    NNSSndSeqData *seq;
     Unk02021968 *bank;
     NNSSndHeap *heap;
 
@@ -144,7 +144,7 @@ BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio
 }
 
 BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndSeqArcSeqInfo *sound,
-                 Unk0212f788 *seqArc, u32 seqArcNo, u32 index) {
+                 NNSSndSeqArc *seqArc, u32 seqArcNo, u32 index) {
     void *player;
     Unk02021968 *bank;
     NNSSndHeap *heap;
@@ -231,9 +231,9 @@ NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
     return NNS_SND_ARC_LOAD_SUCESS;
 }
 
-NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, Unk0212f788 **pData) {
+NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, NNSSndSeqData **pData) {
     NNSSndArcSeqInfo *seqInfo;
-    Unk0212f788 *seqData;
+    NNSSndSeqData *seqData;
     NNSSndArcLoadResult result;
 
     seqInfo = NNS_SndArcGetSeqInfo(seqNo);
@@ -259,9 +259,9 @@ NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap
 }
 
 NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
-                                          Unk0212f788 **pData) {
+                                          NNSSndSeqArc **pData) {
     NNSSndArcSeqArcInfo *seqArcInfo;
-    Unk0212f788 *seqArc;
+    NNSSndSeqArc *seqArc;
 
     seqArcInfo = NNS_SndArcGetSeqArcInfo(seqArcNo);
     if (seqArcInfo == 0) {
@@ -380,7 +380,7 @@ void *NNSi_SndArcLoadFile(u32 fileId, NNSSndHeapDisposeCallback callback, void *
     return buffer;
 }
 
-Unk0212f788 *LoadSeq(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+NNSSndSeqData *LoadSeq(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     void *buffer;
 
     buffer = NNS_SndArcGetFileAddress(fileId);
@@ -393,7 +393,7 @@ Unk0212f788 *LoadSeq(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     return buffer;
 }
 
-Unk0212f788 *LoadSeqArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+NNSSndSeqArc *LoadSeqArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     void *buffer;
 
     buffer = NNS_SndArcGetFileAddress(fileId);
@@ -820,7 +820,7 @@ NNSSndArc *NNS_SndArcGetCurrent(void) {
 
 NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index) {
     NNSSndArcSeqArcInfo *info;
-    Unk0212f788 *seqArc;
+    NNSSndSeqArc *seqArc;
     NNSSndSeqArcSeqInfo *sound;
 
     info = NNS_SndArcGetSeqArcInfo(seqArcNo);

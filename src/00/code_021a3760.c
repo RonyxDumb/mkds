@@ -54,7 +54,7 @@ void func_ov000_021a397c(s32 a) {
 }
 
 void func_ov000_021a3910(void) {
-    Unk021a3910 t;
+    DWCACConfig t;
     if (data_ov000_021b5df4 != NULL) {
         if (data_ov000_021b5df4->mUnk_04 != 1) {
             return;
@@ -65,7 +65,7 @@ void func_ov000_021a3910(void) {
         t.mUnk_00 = func_ov000_021a372c;
         t.mUnk_04 = func_ov000_021a3704;
         data_ov000_021b5df4->mUnk_04 = 2;
-        if (DWC_AC_Create((DWCACConfig *) &t) != 0) {
+        if (DWC_AC_Create(&t) != 0) {
             return;
         }
         func_ov000_0219c384(0xb, -6);

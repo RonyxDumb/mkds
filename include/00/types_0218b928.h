@@ -2,14 +2,6 @@
 
 #include "types.h"
 
-// Address block filled in by recvfrom.
-typedef struct Unk0218b8f4 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} Unk0218b8f4;
-
 // Entry of the list at SbServerList.mUnk_008.
 typedef struct KeyInfo {
     /* 0 */ char *mKeyName;

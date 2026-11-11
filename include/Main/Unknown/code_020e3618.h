@@ -4,15 +4,11 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e0680.h"
+#include "Main/Unknown/unk_02158000.h" // MapObjectDrawList
 
-// Block of eleven words.
-typedef struct Unk020e039c {
-    /* 00 */ u32 mUnk_00[11];
-} Unk020e039c;
-
-extern const Unk020e039c data_0215887c;
-extern const Unk020e039c data_02158be4;
-extern const Unk020e039c data_02158c10;
+extern const MapObjectDrawList data_0215887c;
+extern const MapObjectDrawList data_02158be4;
+extern const MapObjectDrawList data_02158c10;
 
 // Object of kind 0xcc (Bridge) that InitBridge fills.
 typedef struct Bridge {

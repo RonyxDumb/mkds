@@ -43,18 +43,13 @@ extern const MapObjectList data_02158cc0;
 #define ROTARY_STATE_SLOW_DOWN 2
 #define ROTARY_STATE_PAUSE 3
 
-// Block of sixteen words.
-typedef struct Unk020e03f8 {
-    /* 00 */ u32 mUnk_00[16];
-} Unk020e03f8;
-
 extern const u16 data_02158a50;
-extern const Unk020e03f8 data_021588a8;
-extern const Unk020e03f8 data_02158c3c;
-extern const Unk020e03f8 data_02158d18;
-extern const Unk020e03f8 data_02158abc;
-extern const Unk020e03f8 data_02158afc;
-extern const Unk020e03f8 data_02158b3c;
+extern const MapObjectKindData data_021588a8;
+extern const MapObjectKindData data_02158c3c;
+extern const MapObjectKindData data_02158d18;
+extern const MapObjectKindData data_02158abc;
+extern const MapObjectKindData data_02158afc;
+extern const MapObjectKindData data_02158b3c;
 
 // Object ComputeSphereHitOnCollisionBox and ComputeSphereHitOnCollisionCylinder compare against: two vectors, a word
 // and a vector.

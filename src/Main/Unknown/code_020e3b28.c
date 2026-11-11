@@ -213,7 +213,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
 #pragma thumb off
 
 void *CreateBridgeKindData(void) {
-    Unk020e03f8 *kindData;
+    MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = data_02158d18;

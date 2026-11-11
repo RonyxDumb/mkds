@@ -93,14 +93,14 @@ s32 IsHitLinkOutsideGearRadiusOrFlagged(Unk020e0448 *link) {
 }
 
 void *CreateKoopaBlockKindData(void) {
-    Unk020e03f8 *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = data_021588a8;
     return kindData;
 }
 
 void *CreateKoopaBlockDrawList(void) {
-    Unk020e039c *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    MapObjectDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
 
     gKoopaBlockDrawList = drawList;
     *drawList = data_0215887c;

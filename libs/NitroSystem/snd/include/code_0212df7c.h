@@ -27,15 +27,15 @@ void DisposeCallback(void *mem, NNSSndArc *arc, u32 fileId);
 Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
 Unk02021968 *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
 Unk02021968 *LoadBank(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
-Unk0212f788 *LoadSeqArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
-Unk0212f788 *LoadSeq(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
+NNSSndSeqArc *LoadSeqArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
+NNSSndSeqData *LoadSeq(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr);
 void *NNSi_SndArcLoadFile(u32 fileId, NNSSndHeapDisposeCallback callback, void *data1, u32 data2, NNSSndHeap *heap);
 NNSSndArcLoadResult NNSi_SndArcLoadWaveArc(s32 waveArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                            Unk02021968 **pData);
 NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, Unk02021968 **pData);
 NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
-                                          Unk0212f788 **pData);
-NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, Unk0212f788 **pData);
+                                          NNSSndSeqArc **pData);
+NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr, NNSSndSeqData **pData);
 NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap);
 BOOL NNS_SndArcLoadBankEx(s32 bankNo, u32 loadFlag, NNSSndHeap *heap);
 BOOL NNS_SndArcLoadWaveArc(s32 waveArcNo, NNSSndHeap *heap);
@@ -44,7 +44,7 @@ BOOL NNS_SndArcLoadSeqArc(s32 seqArcNo, NNSSndHeap *heap);
 BOOL NNS_SndArcLoadSeq(s32 seqNo, NNSSndHeap *heap);
 BOOL NNS_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap);
 BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndSeqArcSeqInfo *sound,
-                 Unk0212f788 *seqArc, u32 seqArcNo, u32 index);
+                 NNSSndSeqArc *seqArc, u32 seqArcNo, u32 index);
 BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndArcSeqInfo *info, s32 seqNo);
 BOOL NNS_SndArcPlayerStartSeqArcEx(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, s32 seqArcNo,
                                    s32 index);

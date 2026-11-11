@@ -10,7 +10,7 @@
 #include "code_0200fc8c.h"
 
 void MBi_CommParentRecvData(Unk021432ac *header);
-void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child);
+void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child);
 void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData);
 void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data);
 void MBi_CommChangeParentState(u32 child, u32 value, void *data);

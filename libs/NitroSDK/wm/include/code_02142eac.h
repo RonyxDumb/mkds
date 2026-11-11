@@ -210,6 +210,16 @@ typedef struct Unk021432ac {
     /* 0a */ u8 mUnk_0a[1];
 } Unk021432ac;
 
+// One station's record in the MP receive buffer; the payload starts at 0x0a.
+typedef struct WMMpRecvData {
+    /* 00 */ u16 mLength;
+    /* 02 */ u16 mRateRssi;
+    /* 04 */ u16 mAid;
+    /* 06 */ u16 mNoResponse;
+    /* 08 */ u16 mWmHeader;
+    /* 0a */ u8 mPayload[1];
+} WMMpRecvData;
+
 // Request WM_StartConnectEx writes into the request area.
 typedef struct Unk021437d8 {
     /* 00 */ u16 mApiid;

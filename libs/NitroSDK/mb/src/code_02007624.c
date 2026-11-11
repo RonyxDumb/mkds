@@ -204,7 +204,7 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
     }
 }
 
-void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
+void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
     ChildMessage message;
     Unk0200c12c payloadCopy;
     u8 *payload;
@@ -217,7 +217,7 @@ void MBi_CommParentRecvDataPerChild(Unk021432ac *childData, u32 child) {
     if (child == 0 || child > 15) {
         return;
     }
-    payload = MBi_SetRecvBufferFromChild(childData->mUnk_0a, &message, child);
+    payload = MBi_SetRecvBufferFromChild(childData->mPayload, &message, child);
     arrayIndex = child - 1;
     childValue = mbc->mPCommState[arrayIndex];
     switch (message.mKind) {

@@ -2,6 +2,7 @@
 
 #include "00/code_0218a9bc.h"
 #include "00/types_0218b928.h"
+#include "03/code_021bb03c.h" // SocketAddress
 #include "00/code_0218d000.h"
 #include "00/code_021a3668.h"
 #include "00/code_021a3690.h"
@@ -1409,15 +1410,15 @@ s32 SBSendNatNegotiateCookieToServer(SbServerList *serverList, u32 publicIp, u16
 }
 
 s32 ProcessLanData(SbServerList *serverList) {
-    Unk0218b8f4 sender;
+    SocketAddress sender;
     s32 senderLength;
     u8 datagram[0x5e0];
     void *lanServer;
     senderLength = 8;
     while (CanReceiveOnSocket(serverList->mSocket) != 0) {
-        if (recvfrom(serverList->mSocket, datagram, 0x5db, 0, (u8 *) &sender, &senderLength) != -1) {
-            if (SBServerListFindServerByIP(serverList, sender.mUnk_04, sender.mUnk_02) == -1) {
-                lanServer = SBAllocServer(serverList, sender.mUnk_04, sender.mUnk_02);
+        if (recvfrom(serverList->mSocket, datagram, 0x5db, 0, &sender, &senderLength) != -1) {
+            if (SBServerListFindServerByIP(serverList, sender.mAddress, sender.mPort) == -1) {
+                lanServer = SBAllocServer(serverList, sender.mAddress, sender.mPort);
                 if (SBIsNullServer(lanServer) != 0) {
                     return 5;
                 }

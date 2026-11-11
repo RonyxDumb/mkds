@@ -13,13 +13,20 @@ typedef struct NNSSndSeqParam {
     /* 6 */ u16 mReserved;
 } NNSSndSeqParam;
 
-// 12-byte records at 0x20 of Unk0212f788; NNSi_SndSeqArcGetSeqInfo returns one unless its first word is -1.
-typedef struct Unk0212f788 {
+// Sequence file: the file and block headers, the offset of the data and the data.
+typedef struct NNSSndSeqData {
+    /* 00 */ u8 mUnk_00[0x18];
+    /* 18 */ u32 mBaseOffset;
+    /* 1c */ u32 mData[1];
+} NNSSndSeqData;
+
+// 12-byte records at 0x20 of NNSSndSeqArc; NNSi_SndSeqArcGetSeqInfo returns one unless its first word is -1.
+typedef struct NNSSndSeqArc {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ u32 mBaseOffset;
     /* 1c */ u32 mCount; // number of records
     /* 20 */ u32 mInfo[3];
-} Unk0212f788;
+} NNSSndSeqArc;
 
 // File table entry: offset and size in the archive file, and the address it is loaded at.
 typedef struct NNSSndArcFileInfo {

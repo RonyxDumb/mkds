@@ -82,21 +82,21 @@ void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
 #pragma thumb off
 
 void *CreateCarAKindData(void) {
-    Unk020e03f8 *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = data_02158b3c;
     return kindData;
 }
 
 void *CreateTruckAKindData(void) {
-    Unk020e03f8 *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = data_02158afc;
     return kindData;
 }
 
 void *CreateBusAKindData(void) {
-    Unk020e03f8 *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = data_02158abc;
     return kindData;
