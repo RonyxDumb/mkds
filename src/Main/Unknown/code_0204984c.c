@@ -236,7 +236,7 @@ void RunMessageScreenThread(void *unused) {
         if (func_0204984c_inline6()) {
             sessionHeapCreated = TRUE;
         }
-        OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
+        OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
         StopAllSeqPlayers();
         if (gBootInfo->mUnk_00 == 2) {
             BootInfoStartMessageScreenSeq();
@@ -244,7 +244,7 @@ void RunMessageScreenThread(void *unused) {
             StartMessageScreenSeq();
         }
         if (sessionHeapCreated != FALSE) {
-            switch (gSceneRunState->mUnk_118) {
+            switch (gSceneRunState->mMessageKind) {
                 case 1:
                 case 2:
                 case 3:
@@ -304,7 +304,7 @@ void RunMessageScreen(void) {
         hasDisplaySettings = TRUE;
     }
     if (gBootInfo->mUnk_00 == 2) {
-        OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
+        OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
     }
     ResetKeysInputSlot();
     ReadKeysIntoInputSlot();
@@ -313,7 +313,7 @@ void RunMessageScreen(void) {
         sessionHeapCreated = TRUE;
     }
     if (gBootInfo->mUnk_00 != 2) {
-        OpenMessageScreen(gSceneRunState->mUnk_118, gSceneRunState->mUnk_11c);
+        OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
     }
     StopAllSeqPlayers();
     if (gBootInfo->mUnk_00 == 2) {
@@ -325,7 +325,7 @@ void RunMessageScreen(void) {
     PM_DeletePostSleepCallback(&gSceneRunState->mPostSleepCallback);
     PM_SetLCDPower(1);
     if (sessionHeapCreated != FALSE) {
-        switch (gSceneRunState->mUnk_118) {
+        switch (gSceneRunState->mMessageKind) {
             case 1:
             case 2:
             case 3:
@@ -393,8 +393,8 @@ void RunMessageScreenOfKind(s32 kind) {
             inputEnabled = FALSE;
             break;
     }
-    gSceneRunState->mUnk_118 = kind;
-    gSceneRunState->mUnk_11c = inputEnabled;
+    gSceneRunState->mMessageKind = kind;
+    gSceneRunState->mMessageInputEnabled = inputEnabled;
     RunMessageScreen();
     StopSceneSounds();
     if (gStartupWork->mSoundSetSeqPlaying) {
@@ -447,8 +447,8 @@ void InitSceneRunState(void *heap) {
     gSceneRunState->mThreadStack = HeapAllocAligned(heap, 0x400, 0x20);
     gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
     gSceneRunState->mLcdOff = FALSE;
-    gSceneRunState->mUnk_118 = -1;
-    gSceneRunState->mUnk_11c = 0;
+    gSceneRunState->mMessageKind = -1;
+    gSceneRunState->mMessageInputEnabled = 0;
     func_02049c3c_inline(&gSceneRunState->mThreadQueue);
     OS_CreateThread(&gSceneRunState->mThread, RunMessageScreenThread, NULL, (u8 *) gSceneRunState->mThreadStack + 0x400,
                     0x400, 15);

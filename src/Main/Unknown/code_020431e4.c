@@ -69,7 +69,7 @@ void ResetInputSlotsFromParticipants(void) {
             }
         }
     }
-    data_02175624->mUnk_08 = 0;
+    data_02175624->mParticipantPosition = 0;
     data_02175624->mUnk_0c = FALSE;
 }
 
@@ -97,7 +97,7 @@ void ResetInputSlotsFromRaceSetup(void) {
     }
     gInputSlots[8].mSourceKind = 5;
     gInputSlots[9].mSourceKind = 6;
-    data_02175624->mUnk_08 = 0;
+    data_02175624->mParticipantPosition = 0;
     data_02175624->mUnk_0c = FALSE;
     inputSlot = gInputSlots;
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {

@@ -24,9 +24,9 @@ void InitArchiveSlots(void *heap) {
     s32 index;
 
     data_021759c8 = HeapAlloc(heap, 0xa84);
-    data_021759c8->mUnk_8c8.mReadBuffer = HeapAllocAligned(heap, 0x400, 0x20);
+    data_021759c8->mLoadRequest.mReadBuffer = HeapAllocAligned(heap, 0x400, 0x20);
     for (index = 0; index < 20; index++) {
-        data_021759c8->mUnk_00[index].mLoaded = 0;
+        data_021759c8->mSlots[index].mLoaded = 0;
     }
     if (gBootInfo->mUnk_00 != 2) {
         data_021759c8->mFileTableSize = FS_TryLoadTable(0, 0);
@@ -36,7 +36,7 @@ void InitArchiveSlots(void *heap) {
     for (index = 0; index < 16; index++) {
         ResetArchiveBuffer(index);
     }
-    data_021759c8->mUnk_a70 = NULL;
+    data_021759c8->mCourseId = NULL;
     data_021759c8->mUnk_a78 = NULL;
     data_021759c8->mCourseBufferHeap = NULL;
     FS_InitFile(&data_021759c8->mFile);

@@ -7,24 +7,24 @@
 #include "registers.h"
 
 static inline u32 func_020399a8_inline(void) {
-    return data_02175614.mUnk_00 == 2;
+    return data_02175614.mState == BANK_SHARE_CHANGING;
 }
 
 void InitWvrState(void) {
-    data_02175614.mUnk_00 = 1;
+    data_02175614.mState = BANK_SHARE_INACTIVE;
     data_02175614.mCallback = NULL;
 }
 
 void ClearLcdcBanksByState(void) {
-    switch (data_02175614.mUnk_00) {
-        case 0:
+    switch (data_02175614.mState) {
+        case BANK_SHARE_ACTIVE:
             GX_SetBankForLCDC(0x1f7);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0x60000);
             MemFillWordsByBlock_inline((void *) 0x6880000, 0x24000);
             break;
-        case 2:
+        case BANK_SHARE_CHANGING:
             break;
-        case 1:
+        case BANK_SHARE_INACTIVE:
         case 3:
             GX_SetBankForLCDC(0x1ff);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0xa4000);
@@ -34,11 +34,11 @@ void ClearLcdcBanksByState(void) {
 }
 
 void SetBankForARM7ByState(u32 bank) {
-    switch (data_02175614.mUnk_00) {
-        case 0:
-        case 2:
+    switch (data_02175614.mState) {
+        case BANK_SHARE_ACTIVE:
+        case BANK_SHARE_CHANGING:
             break;
-        case 1:
+        case BANK_SHARE_INACTIVE:
         case 3:
             GX_SetBankForARM7(bank);
             break;
@@ -58,11 +58,11 @@ void DisableAllBanks(void) {
     GX_DisableBankForSubBGExtPltt();
     GX_DisableBankForSubOBJExtPltt();
     GX_DisableBankForLCDC();
-    switch (data_02175614.mUnk_00) {
-        case 0:
-        case 2:
+    switch (data_02175614.mState) {
+        case BANK_SHARE_ACTIVE:
+        case BANK_SHARE_CHANGING:
             break;
-        case 1:
+        case BANK_SHARE_INACTIVE:
         case 3:
             GX_DisableBankForARM7();
             break;
@@ -74,23 +74,23 @@ void WvrCallback(u32 state, s32 b) {
     if (b != 0) {
         OS_Terminate();
     }
-    data_02175614.mUnk_00 = state;
+    data_02175614.mState = state;
     if (data_02175614.mCallback == NULL) {
         return;
     }
     switch (state) {
-        case 0:
+        case BANK_SHARE_ACTIVE:
             data_02175614.mCallback(0);
             break;
-        case 1:
+        case BANK_SHARE_INACTIVE:
             data_02175614.mCallback(1);
             break;
     }
 }
 
 void ClearLcdcBankAndStartWvrAndWait(void) {
-    if (data_02175614.mUnk_00 != 0 && data_02175614.mUnk_00 != 3) {
-        data_02175614.mUnk_00 = 2;
+    if (data_02175614.mState != BANK_SHARE_ACTIVE && data_02175614.mState != 3) {
+        data_02175614.mState = BANK_SHARE_CHANGING;
         GX_SetBankForLCDC(8);
         MemFillWordsByBlock_inline((void *) 0x6860000, 0x20000);
         GX_DisableBankForLCDC();
@@ -103,8 +103,8 @@ void ClearLcdcBankAndStartWvrAndWait(void) {
 }
 
 void StopWvrAndWait(void) {
-    if (data_02175614.mUnk_00 != 1 && data_02175614.mUnk_00 != 3) {
-        data_02175614.mUnk_00 = 2;
+    if (data_02175614.mState != BANK_SHARE_INACTIVE && data_02175614.mState != 3) {
+        data_02175614.mState = BANK_SHARE_CHANGING;
         if (WVR_TerminateAsync(WvrCallback, 1) != 1) {
             OS_Terminate();
         }

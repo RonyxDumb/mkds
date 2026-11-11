@@ -197,7 +197,7 @@ void RomArchiveSendCallback(WBTCommand *record) {
     if (transfer->mIsParent == 0) {
         return;
     }
-    transfer->mUnk_0440.mMessageSendPending = FALSE;
+    transfer->mParentView.mMessageSendPending = FALSE;
     SendRomArchiveMessage();
 }
 
@@ -265,7 +265,7 @@ void SendRomArchiveMessage(void) {
     } else {
         sendMask = sendMask & ~v5;
     }
-    entry = view->mUnk_0000;
+    entry = view->mEntries;
     for (i = 0;; entry++, i++) {
         v7 = 1 << i;
         if (v7 > sendMask) {
@@ -274,7 +274,7 @@ void SendRomArchiveMessage(void) {
         if ((v7 & sendMask) != 0) {
             if (firstEntry == NULL) {
                 firstEntry = entry;
-            } else if (firstEntry->mKind != entry->mKind || firstEntry->mUnk_04 != entry->mUnk_04) {
+            } else if (firstEntry->mKind != entry->mKind || firstEntry->mBlockId != entry->mBlockId) {
                 sendMask = sendMask & ~v7;
             }
         }
@@ -296,7 +296,7 @@ void SendRomArchiveMessage(void) {
             view->mUnk_46dc = view->mUnk_46dc & ~sendMask;
             break;
     }
-    blockId = *(volatile s32 *) &firstEntry->mUnk_04;
+    blockId = *(volatile s32 *) &firstEntry->mBlockId;
     replyMessage.mKind = (u8) firstEntry->mKind;
     replyMessage.mUnk_04 = blockId;
     replyMessage.mUnk_00_8 = 1;
@@ -330,14 +330,14 @@ void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node
             MoveRomArchiveNodeToList(&view->mPendingHead, &view->mActiveHead, node);
             node->mState = 2;
         }
-        entry = view->mUnk_0000;
+        entry = view->mEntries;
         for (index = 0;; index++) {
             if ((1 << index) > pendingMask) {
                 break;
             }
             if (((1 << index) & pendingMask) != 0) {
                 node->mChildCount = node->mChildCount + 1;
-                entry->mUnk_04 = node->mBlockId;
+                entry->mBlockId = node->mBlockId;
             }
             entry++;
         }
@@ -559,7 +559,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
         case 10:
             view = &data_usa_021762e0;
             payload = &record->mUnk_14;
-            view->mUnk_0000[fromIndex] = payload->mUnk_0e;
+            view->mEntries[fromIndex] = payload->mUnk_0e;
             switch (record->mUnk_14.mUnk_m.mKind) {
                 case 0:
                     fileLength = record->mUnk_14.mUnk_m.mUnk_00_8;
@@ -581,7 +581,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                     }
                     if (foundNode != NULL) {
                         view->mUnk_46cc = view->mUnk_46cc | (1 << fromIndex);
-                        view->mUnk_0000[fromIndex].mUnk_04 = foundNode->mBlockId;
+                        view->mEntries[fromIndex].mBlockId = foundNode->mBlockId;
                         foundNode->mChildCount = foundNode->mChildCount + 1;
                     } else {
                         for (queuedNode = view->mPendingHead; queuedNode != NULL; queuedNode = queuedNode->mNext) {
@@ -641,7 +641,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
             }
             v8 = q->b.mUnk_20;
             v9 = node->mUnk_098;
-            v10 = q->mUnk_0e.mUnk_04;
+            v10 = q->mUnk_0e.mBlockId;
             if (node->mUnk_09c != 2) {
                 v17 = (node->mFile.mStat & 1) != 0 ? 1 : 0;
                 if (v17 == 0) {
@@ -662,7 +662,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                 if (v14 + v8 > 0x400) {
                     continue;
                 }
-                q->mUnk_0e.mUnk_04 = v9;
+                q->mUnk_0e.mBlockId = v9;
                 q->mUnk_0e.mUnk_08 = (node->mBuffers[v7] + v14);
                 break;
             }
@@ -1031,7 +1031,7 @@ void StopRomArchive(void) {
         }
         transfer->mState = 0;
         if (gRomArchiveTransfer.mIsParent == 0) {
-            view = &transfer->mUnk_0440;
+            view = &transfer->mParentView;
             if (transfer->mPendingFile != NULL) {
                 archive = transfer->mPendingFile->mArc;
                 transfer->mPendingFile = NULL;

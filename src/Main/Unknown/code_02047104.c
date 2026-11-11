@@ -109,7 +109,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     s32 h;
 
     bufferData = NULL;
-    if (data_021759c8->mUnk_00[slotIndex].mLoaded != 0) {
+    if (data_021759c8->mSlots[slotIndex].mLoaded != 0) {
         return;
     }
     uncompressSource = gArchiveSlotInfos[slotIndex].mUncompressSource;
@@ -217,7 +217,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     ArchiveLoadRequest *request;
     s32 bufferIndex;
 
-    request = &data_021759c8->mUnk_8c8;
+    request = &data_021759c8->mLoadRequest;
     strncpy((char *) request->mPath, path, 0x80);
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
@@ -255,7 +255,7 @@ void UncompressArchiveFile(void) {
     u32 uncompressedSize;
     s32 bytesRead;
 
-    request = &data_021759c8->mUnk_8c8;
+    request = &data_021759c8->mLoadRequest;
     FS_InitFile(&file);
     if (FS_OpenFile(&file, request->mPath) == 0) {
         return;
@@ -287,7 +287,7 @@ void UncompressArchiveMemory(void) {
     ArchiveLoadRequest *request;
     u32 uncompressedSize;
 
-    request = &data_021759c8->mUnk_8c8;
+    request = &data_021759c8->mLoadRequest;
     uncompressedSize = *request->mSourceData >> 8;
     if (request->mUnk_90 != 0) {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
@@ -303,8 +303,8 @@ void LoadArchiveSlotData(void) {
     ArchiveLoadRequest *request;
     ArchiveSlot *slot;
 
-    request = &data_021759c8->mUnk_8c8;
-    slot = &data_021759c8->mUnk_00[request->mSlotIndex];
+    request = &data_021759c8->mLoadRequest;
+    slot = &data_021759c8->mSlots[request->mSlotIndex];
     if (request->mData != NULL) {
         if (ArchiveLoadFromMemory(&slot->mArchive, (const u8 *) gArchiveNames[request->mSlotIndex], request->mData) !=
             0) {
@@ -319,8 +319,8 @@ void ReleaseArchiveSlot(int slotIndex) {
     s32 bufferIndex;
 
     shouldFree = TRUE;
-    if (data_021759c8->mUnk_00[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
-        ArchiveUnload(&data_021759c8->mUnk_00[slotIndex].mArchive.mUnk_00);
+    if (data_021759c8->mSlots[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
+        ArchiveUnload(&data_021759c8->mSlots[slotIndex].mArchive.mUnk_00);
         if (gBootInfo->mUnk_00 == 2) {
             bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
             if (bufferIndex != -1 && data_021759c8->mBuffers[bufferIndex].mUncompress != 0) {
@@ -330,10 +330,10 @@ void ReleaseArchiveSlot(int slotIndex) {
             }
         }
         if (shouldFree != FALSE) {
-            HeapFree(GetHeap(GetCurrentHeapCall()), data_021759c8->mUnk_00[slotIndex].mData);
+            HeapFree(GetHeap(GetCurrentHeapCall()), data_021759c8->mSlots[slotIndex].mData);
         }
-        data_021759c8->mUnk_00[slotIndex].mLoaded = 0;
-        data_021759c8->mUnk_00[slotIndex].mData = 0;
+        data_021759c8->mSlots[slotIndex].mLoaded = 0;
+        data_021759c8->mSlots[slotIndex].mData = 0;
         NNS_FndGetTotalFreeSizeForExpHeap(GetHeap(GetCurrentHeapCall()));
     }
 }
@@ -448,25 +448,25 @@ void *FindFileInLoadedArchives(const char *path) {
     void *file;
 
     file = NULL;
-    if (data_021759c8->mUnk_7d8 != 0) {
+    if (data_021759c8->mSlots[17].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[17], path);
     }
-    if (file == NULL && data_021759c8->mUnk_768 != 0) {
+    if (file == NULL && data_021759c8->mSlots[16].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[16], path);
     }
-    if (file == NULL && data_021759c8->mUnk_6f8 != 0) {
+    if (file == NULL && data_021759c8->mSlots[15].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[15], path);
     }
-    if (file == NULL && data_021759c8->mUnk_688 != 0) {
+    if (file == NULL && data_021759c8->mSlots[14].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[14], path);
     }
-    if (file == NULL && data_021759c8->mCompressedArchiveLoaded != 0) {
+    if (file == NULL && data_021759c8->mSlots[19].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[19], path);
     }
-    if (file == NULL && data_021759c8->mUnk_148 != 0) {
+    if (file == NULL && data_021759c8->mSlots[2].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[2], path);
     }
-    if (file == NULL && data_021759c8->mUnk_d8 != 0) {
+    if (file == NULL && data_021759c8->mSlots[1].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[1], path);
     }
     return file;
@@ -476,14 +476,14 @@ void *FindSceneFile(const char *path) {
     void *file;
 
     file = FindArchiveFile(gArchiveNames[5], path);
-    if (file == NULL && data_021759c8->mUnk_458 != 0) {
+    if (file == NULL && data_021759c8->mSlots[9].mLoaded != 0) {
         file = FindArchiveFile(gArchiveNames[9], path);
     }
     if (GetCurrentSceneNumber() == 2) {
-        if (file == NULL && data_021759c8->mUnk_538 != 0) {
+        if (file == NULL && data_021759c8->mSlots[11].mLoaded != 0) {
             file = FindArchiveFile(gArchiveNames[11], path);
         }
-        if (file == NULL && data_021759c8->mUnk_5a8 != 0) {
+        if (file == NULL && data_021759c8->mSlots[12].mLoaded != 0) {
             file = FindArchiveFile(gArchiveNames[12], path);
         }
     }
@@ -520,13 +520,13 @@ void *FindKartModelFile(const char *path) {
     if (((currentSceneNumber == 1) || (currentSceneNumber == 3)) || (currentSceneNumber == 0xc)) {
         file = FindArchiveFile(gArchiveNames[10], path);
     } else {
-        if (data_021759c8->mUnk_308 != 0) {
+        if (data_021759c8->mSlots[6].mLoaded != 0) {
             file = FindArchiveFile(gArchiveNames[6], path);
         }
-        if ((file == NULL) && (data_021759c8->mUnk_378 != 0)) {
+        if ((file == NULL) && (data_021759c8->mSlots[7].mLoaded != 0)) {
             file = FindArchiveFile(gArchiveNames[7], path);
         }
-        if ((file == NULL) && (data_021759c8->mUnk_3e8 != 0)) {
+        if ((file == NULL) && (data_021759c8->mSlots[8].mLoaded != 0)) {
             file = FindArchiveFile(gArchiveNames[8], path);
         }
     }
@@ -554,7 +554,7 @@ void *LoadKartModelFile(const char *path) {
         }
         file = LoadFileAligned(fullPath, 8);
     } else {
-        if (data_021759c8->mUnk_00[6].mLoaded != 0) {
+        if (data_021759c8->mSlots[6].mLoaded != 0) {
             archiveName = gArchiveNames[6];
             if (path[0] == '/') {
                 OS_SNPrintf(fullPath, 0x80, data_usa_02165018, archiveName, path);
@@ -563,7 +563,7 @@ void *LoadKartModelFile(const char *path) {
             }
             file = LoadFileAligned(fullPath, 8);
         }
-        if (file == NULL && data_021759c8->mUnk_00[7].mLoaded != 0) {
+        if (file == NULL && data_021759c8->mSlots[7].mLoaded != 0) {
             archiveName = gArchiveNames[7];
             if (path[0] == '/') {
                 OS_SNPrintf(fullPath, 0x80, data_usa_02165028, archiveName, path);
@@ -572,7 +572,7 @@ void *LoadKartModelFile(const char *path) {
             }
             file = LoadFileAligned(fullPath, 8);
         }
-        if (file == NULL && data_021759c8->mUnk_00[8].mLoaded != 0) {
+        if (file == NULL && data_021759c8->mSlots[8].mLoaded != 0) {
             archiveName = gArchiveNames[8];
             if (path[0] == '/') {
                 OS_SNPrintf(fullPath, 0x80, data_usa_02165038, archiveName, path);
@@ -742,7 +742,7 @@ void RequestRaceArchives(void *courseId, void *b) {
     RequestArchiveLoad(path, 6);
     BuildCourseArchivePath(path, (s32) courseId, 1);
     RequestArchiveLoad(path, 7);
-    data_021759c8->mUnk_a70 = courseId;
+    data_021759c8->mCourseId = courseId;
 }
 
 #pragma thumb off
@@ -776,11 +776,11 @@ s32 ShouldLoadMap2DData(void) {
 }
 
 // Resizes the block that holds the MainEffect archive so it ends where the caller says.
-void ResizeMainEffectArchiveBlock(u8 *a, u32 b) {
+void ResizeMainEffectArchiveBlock(u8 *regionStart, u32 regionSize) {
     u8 *block;
 
-    block = data_021759c8->mUnk_84c;
-    NNS_FndResizeForMBlockExpHeap(GetHeap(GetCurrentHeapCall()), block, b + (a - block));
+    block = data_021759c8->mSlots[18].mData;
+    NNS_FndResizeForMBlockExpHeap(GetHeap(GetCurrentHeapCall()), block, regionSize + (regionStart - block));
 }
 
 void InitCompressedArchiveAndMBChild(void *heap) {
@@ -788,12 +788,12 @@ void InitCompressedArchiveAndMBChild(void *heap) {
     void *data;
 
     uncompressedSize = *GetCompressedArchive() >> 8;
-    data_021759c8->mCompressedArchiveLoaded = 0;
+    data_021759c8->mSlots[19].mLoaded = 0;
     data = HeapAllocAligned(heap, uncompressedSize, 0x20);
     UncompressLZ8AndStoreRange(GetCompressedArchive(), data, uncompressedSize);
-    ArchiveLoadFromMemory(&data_021759c8->mCompressedArchive, (const u8 *) gArchiveNames[19], data);
-    data_021759c8->mCompressedArchiveData = data;
-    data_021759c8->mCompressedArchiveLoaded = 1;
+    ArchiveLoadFromMemory(&data_021759c8->mSlots[19].mArchive, (const u8 *) gArchiveNames[19], data);
+    data_021759c8->mSlots[19].mData = data;
+    data_021759c8->mSlots[19].mLoaded = 1;
     CreateSearchIconMBChildAndMultiDownload(heap);
 }
 

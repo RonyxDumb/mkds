@@ -63,12 +63,12 @@ typedef struct SceneCallbacks {
     // it frees nothing by itself except in the WiFi scene (the heap of ReleasePlayerEntryList): the scene
     // heap is destroyed by the caller. The Race slot also writes a save block in kind 6.
     /* 08 */ void (*mRelease)();
-    /* 0c */ void (*mUnk_0c)();
+    /* 0c */ void (*mPostUpdate)();
     /* 10 */ void (*mPreSleep)(void);
     /* 14 */ void (*mPostSleep)(void);
     /* 18 */ s16 mFadeToClearFrameCount;
     /* 1a */ s16 mFadeToFadedFrameCount;
-    /* 1c */ int mUnk_1c;
+    /* 1c */ int mSkipWhenSpanned;
 } SceneCallbacks;
 
 // Values of SceneRunState.mRunStep.
@@ -100,8 +100,8 @@ typedef struct SceneRunState {
     /* 10c */ s32 mRunStep;
     /* 110 */ BOOL mLcdOff;
     /* 114 */ u8 mUnk_114[4];
-    /* 118 */ s32 mUnk_118;
-    /* 11c */ s32 mUnk_11c;
+    /* 118 */ s32 mMessageKind;
+    /* 11c */ s32 mMessageInputEnabled;
     /* 120 */ s8 mNextScene;
 } SceneRunState;
 
@@ -161,7 +161,7 @@ typedef struct InputState {
     /* 02 */ u16 mPadKeys;
     /* 04 */ u16 mFlags;
     /* 06 */ u8 mUnk_06[2];
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mParticipantPosition;
     /* 0c */ BOOL mUnk_0c;
 } InputState;
 
@@ -185,7 +185,7 @@ typedef struct ArchiveBuffer {
 typedef struct ArchiveSlot {
     /* 00 */ Unk020182c0 mArchive;
     /* 68 */ s32 mLoaded;
-    /* 6c */ Unk02018344 *mData;
+    /* 6c */ void *mData;
 } ArchiveSlot;
 
 // The 0xa0 bytes at 0x8c8 of Unk021759c8.
@@ -202,46 +202,13 @@ typedef struct ArchiveLoadRequest {
 } ArchiveLoadRequest;
 
 typedef struct Unk021759c8 {
-    union {
-        ArchiveSlot mUnk_00[20];
-        struct {
-            /* 00 */ u8 mUnk_00_pad[0xd8];
-            /* d8 */ s32 mUnk_d8;
-            /* 0dc */ u8 mUnk_0dc[0x6c];
-            /* 148 */ s32 mUnk_148;
-            /* 14c */ u8 mUnk_14c[0x1bc];
-            /* 308 */ s32 mUnk_308;
-            /* 30c */ u8 mUnk_30c[0x6c];
-            /* 378 */ s32 mUnk_378;
-            /* 37c */ u8 mUnk_37c[0x6c];
-            /* 3e8 */ s32 mUnk_3e8;
-            /* 3ec */ u8 mUnk_3ec[0x6c];
-            /* 458 */ s32 mUnk_458;
-            /* 45c */ u8 mUnk_45c[0xdc];
-            /* 538 */ s32 mUnk_538;
-            /* 53c */ u8 mUnk_53c[0x6c];
-            /* 5a8 */ s32 mUnk_5a8;
-            /* 5ac */ u8 mUnk_5ac[0xdc];
-            /* 688 */ s32 mUnk_688;
-            /* 68c */ u8 mUnk_68c[0x6c];
-            /* 6f8 */ s32 mUnk_6f8;
-            /* 6fc */ u8 mUnk_6fc[0x6c];
-            /* 768 */ s32 mUnk_768;
-            /* 76c */ u8 mUnk_76c[0x6c];
-            /* 7d8 */ s32 mUnk_7d8;
-            /* 7dc */ u8 mUnk_7dc[0x70];
-            /* 84c */ void *mUnk_84c;
-            /* 850 */ Unk020182c0 mCompressedArchive;
-            /* 8b8 */ s32 mCompressedArchiveLoaded;
-            /* 8bc */ void *mCompressedArchiveData;
-        };
-    };
+    /* 000 */ ArchiveSlot mSlots[20];
     /* 8c0 */ u32 mFileTableSize;
     /* 8c4 */ void *mFileTable;
-    /* 8c8 */ ArchiveLoadRequest mUnk_8c8;
+    /* 8c8 */ ArchiveLoadRequest mLoadRequest;
     /* 968 */ FSFile mFile;
     /* 9b0 */ ArchiveBuffer mBuffers[16];
-    /* a70 */ void *mUnk_a70;
+    /* a70 */ void *mCourseId;
     /* a74 */ void *mUnk_a74;
     /* a78 */ NNSiFndHeapHead *mUnk_a78;
     /* a7c */ NNSiFndHeapHead *mCourseBufferHeap;
@@ -265,8 +232,12 @@ extern FileReadThread gFileReadThread;
 extern vu16 data_021758e8[];
 extern vu16 data_02175928[];
 // Object at data_02175614: a word and a function pointer.
+// Values of WvrState.mState (3 is also tested and never named here).
+#define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
+#define BANK_SHARE_INACTIVE 1 // initial value; after WVR_TerminateAsync finished
+#define BANK_SHARE_CHANGING 2 // set while an async start or terminate is running
 typedef struct WvrState {
-    /* 00 */ volatile s32 mUnk_00;
+    /* 00 */ volatile s32 mState;
     /* 04 */ s32 (*mCallback)();
 } WvrState;
 
@@ -291,7 +262,7 @@ extern Unk021755e4 data_usa_021755e4;
 typedef struct RomArchiveParentViewEntry {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mUnk_00_4 : 28;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mBlockId;
     /* 08 */ u8 *mUnk_08;
 } RomArchiveParentViewEntry;
 
@@ -310,7 +281,7 @@ struct FSFile;
 
 // Part of gRomArchiveTransfer from 0x440: the table, then nine words at 0x46cc.
 typedef struct RomArchiveParentView {
-    /* 0000 */ RomArchiveParentViewEntry mUnk_0000[32];
+    /* 0000 */ RomArchiveParentViewEntry mEntries[32];
     /* 0180 */ u8 mUnk_0180[0x97c];
     /* 0afc */ void *mUnk_0afc;
     /* 0b00 */ u32 mUnk_0b00;
@@ -348,7 +319,7 @@ typedef struct RomArchiveTransfer {
     /* 0030 */ u16 mPort;
     /* 0032 */ u8 mUnk_0032[0xe];
     /* 0040 */ u8 mPacketBuffer[0x400];
-    /* 0440 */ RomArchiveParentView mUnk_0440;
+    /* 0440 */ RomArchiveParentView mParentView;
 } RomArchiveTransfer;
 
 extern RomArchiveTransfer gRomArchiveTransfer;

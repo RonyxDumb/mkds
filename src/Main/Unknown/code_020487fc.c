@@ -144,7 +144,7 @@ static inline void func_020487fc_inline9(const SceneCallbacks *b) {
     if (v == 1 || v == 10) {
         FinishDisplayFrameSwapIf(!func_020487fc_inline12() || !func_020487fc_inline6());
     } else {
-        FinishDisplayFrameUnlessSpanned(b->mUnk_1c);
+        FinishDisplayFrameUnlessSpanned(b->mSkipWhenSpanned);
     }
 }
 
@@ -194,8 +194,8 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     gSceneRunState->mSceneCallbacks = *b;
     gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
     gSceneRunState->mNextScene = 0;
-    gSceneRunState->mUnk_118 = -1;
-    gSceneRunState->mUnk_11c = 0;
+    gSceneRunState->mMessageKind = -1;
+    gSceneRunState->mMessageInputEnabled = 0;
     t = OS_DisableInterrupts();
     if (PM_GetLCDPower() == 1) {
         gSceneRunState->mLcdOff = FALSE;
@@ -264,8 +264,8 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
             a->mNextScene = gSceneRunState->mNextScene;
             goto end;
         }
-        if (b->mUnk_0c != NULL) {
-            b->mUnk_0c(a, gSceneRunState->mSceneFrames);
+        if (b->mPostUpdate != NULL) {
+            b->mPostUpdate(a, gSceneRunState->mSceneFrames);
         }
         UpdateWiFiSession();
         if (!func_020487fc_inline6()) {
@@ -300,8 +300,8 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
         func_020487fc_inline9(b);
         RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
         NNS_GfdDoVramTransfer();
-        if (b->mUnk_0c != NULL) {
-            b->mUnk_0c(0, gSceneRunState->mSceneFrames);
+        if (b->mPostUpdate != NULL) {
+            b->mPostUpdate(0, gSceneRunState->mSceneFrames);
         }
         UpdateWiFiSession();
         if (!func_020487fc_inline6()) {
@@ -358,7 +358,7 @@ end:
     if (v != 0) {
         a->mNextScene = 0;
     } else {
-        w = gSceneRunState->mUnk_118;
+        w = gSceneRunState->mMessageKind;
         if (w != -1) {
             switch (w) {
                 case 4:

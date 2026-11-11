@@ -183,7 +183,7 @@ u32 RunRaceScene(SceneNumbers *sceneNumbers) {
     SceneCallbacks callbacks = gRaceSceneCallbacks;
     SetCurrentRaceFromNext();
     if (gRaceSetup->mMode == 5) {
-        callbacks.mUnk_1c = 1;
+        callbacks.mSkipWhenSpanned = 1;
     }
     if (gRaceSetup->mRaceKind != RACE_KIND_AWARD) {
         if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {

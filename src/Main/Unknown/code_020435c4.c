@@ -66,7 +66,7 @@ static inline void func_02043c14_inline(void) {
     }
     gInputSlots[8].mSourceKind = 5;
     gInputSlots[9].mSourceKind = 6;
-    data_02175624->mUnk_08 = 0;
+    data_02175624->mParticipantPosition = 0;
     data_02175624->mUnk_0c = FALSE;
     slot = gInputSlots;
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {
@@ -351,10 +351,10 @@ void UpdateInputSlots(void) {
     padOrParticipantTouchPoint = packedTouchPoint;
     micOverThreshold = gTouchMicInput->mMicOverThreshold;
     if (func_02043648_inline(gConnectionWork) != 0) {
-        padOrParticipantKeys = GetParticipantPadKeys(GetParticipantIndex(data_02175624->mUnk_08));
+        padOrParticipantKeys = GetParticipantPadKeys(GetParticipantIndex(data_02175624->mParticipantPosition));
         padOrParticipantTouchPoint =
-            gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mUnk_08)].mUnk_00_2;
-        GetParticipantIndex(data_02175624->mUnk_08);
+            gConnectionWork->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(data_02175624->mParticipantPosition)].mUnk_00_2;
+        GetParticipantIndex(data_02175624->mParticipantPosition);
     }
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         slotKeys = 0;
