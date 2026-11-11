@@ -174,7 +174,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     Vec3 launchDirection;
     ItemObject *itemObject;
     s32 d;
-    if (kuribo->mMapObject.mCourseMapRow == NULL || kuribo->mMapObject.mCourseMapRow->mUnk_2c != 0) {
+    if (kuribo->mMapObject.mCourseMapRow == NULL || kuribo->mMapObject.mCourseMapRow->mSetting2 != 0) {
         return;
     }
     VEC_Subtract(&kuribo->mFollower.mFromEntry->mPos, &kuribo->mFollower.mToEntry->mPos, &launchDirection);

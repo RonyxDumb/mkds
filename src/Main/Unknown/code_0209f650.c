@@ -144,7 +144,7 @@ void *CreateAirshipUpdateList(void) {
 void InitCourseMapRowKindData(MapObject *mapObject) {
     s32 kindDataIndex;
 
-    kindDataIndex = mapObject->mCourseMapRow->mUnk_28;
+    kindDataIndex = mapObject->mCourseMapRow->mSetting0;
     if (gCourseMapRowKindData[kindDataIndex] == NULL) {
         gCourseMapRowKindData[kindDataIndex] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
         *gCourseMapRowKindData[kindDataIndex] = *gCourseMapRowKindData[0];
@@ -228,7 +228,7 @@ void InitTownMonteObjects(Unk0209f800 *a) {
         for (j = 0; j < m; j++) {
             AdvanceTownMonteBounce(townMonte);
         }
-        if (townMonte->mMapObject.mCourseMapRow->mUnk_28 != 0) {
+        if (townMonte->mMapObject.mCourseMapRow->mSetting0 != 0) {
             if (townMonte->mNsbtpFrameIndex == 0) {
                 townMonte->mSoundId = 0x1a7;
             } else if (townMonte->mNsbtpFrameIndex == 1) {
@@ -252,7 +252,7 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     if (townMonte->mSoundId == 0) {
         return;
     }
-    if (townMonte->mMapObject.mCourseMapRow->mUnk_28 != GetSeqVariableSinceChangeFrames(0)) {
+    if (townMonte->mMapObject.mCourseMapRow->mSetting0 != GetSeqVariableSinceChangeFrames(0)) {
         return;
     }
     w = townMonte->mSoundId;

@@ -72,13 +72,13 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x82) >> 32;
     itemBox->mFramesSinceHit = 0x80;
     if (row != NULL) {
-        if (itemBox->mMapObject.mKind == 0xc9 && row->mUnk_26 >= 0) {
+        if (itemBox->mMapObject.mKind == 0xc9 && row->mGroupIndex >= 0) {
             usesGroupShadow = TRUE;
         } else {
             usesGroupShadow = FALSE;
         }
         itemBox->mUsesGroupShadow = usesGroupShadow;
-        itemBox->mShortSpin = row->mUnk_34;
+        itemBox->mShortSpin = row->mSetting6;
         itemBox->mNoCourseRow = 0;
     } else {
         itemBox->mUsesGroupShadow = 1;
@@ -90,15 +90,15 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mForcedRowHumanGhostPeer = 0;
         itemBox->mForcedRowCpu = 0;
     } else {
-        itemBox->mForcedRowHumanGhostPeer = row->mUnk_2a;
-        itemBox->mForcedRowCpu = row->mUnk_2c;
+        itemBox->mForcedRowHumanGhostPeer = row->mSetting1;
+        itemBox->mForcedRowCpu = row->mSetting2;
     }
     if (itemBox->mNoCourseRow != 0) {
         itemBox->mShadowMode = 1;
     } else {
-        itemBox->mShadowMode = row->mUnk_2e;
+        itemBox->mShadowMode = row->mSetting3;
         if (itemBox->mShadowMode == 0) {
-            shadowPos = row->mUnk_00;
+            shadowPos = row->mPosition;
             if (itemBox->mUsesGroupShadow != 0) {
                 shadowPos.y += 0x800;
             }
@@ -108,7 +108,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         }
     }
     if (row != NULL) {
-        if (HasCourseTriangleFlag2At(&row->mUnk_00) != 0) {
+        if (HasCourseTriangleFlag2At(&row->mPosition) != 0) {
             itemBox->mMapObject.mFlags |= data_02158568;
         }
     }

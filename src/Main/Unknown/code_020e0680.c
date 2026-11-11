@@ -70,8 +70,8 @@ void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
     choropu->mInitialY = choropu->mMapObject.mPos.y;
     choropu->mBottomY = choropu->mMapObject.mPos.y - 0x12000;
     choropu->mLowestY = choropu->mMapObject.mPos.y - 0x18000;
-    choropu->mRepeatDelayFrameCount = courseRow->mUnk_28;
-    choropu->mStartDelayFrameCount = courseRow->mUnk_2a;
+    choropu->mRepeatDelayFrameCount = courseRow->mSetting0;
+    choropu->mStartDelayFrameCount = courseRow->mSetting1;
     choropu->mMapObject.mStateMachine.mNextState = 0;
     choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&choropu->mShadowMatrix, &choropu->mMapObject.mPos,
@@ -152,7 +152,7 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 c, u32 alpha) 
 
     if (drawList->mLinkCullActive != FALSE) {
         dotAxis2 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mRows[2], &drawList->mEntryKartLinkDirection);
-        directionFlag = vehicle->mMapObject.mCourseMapRow->mUnk_2e;
+        directionFlag = vehicle->mMapObject.mCourseMapRow->mSetting3;
         dotLimit = vehicle->mFollower.mFromEntry->mUnk_12;
         if (directionFlag == 0) {
             dotAxis2 = -dotAxis2;
@@ -417,7 +417,7 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
     zero = 0;
     for (index = 0; index < count; index++) {
         vehicle = *vehicleCursor;
-        groupIndex = vehicle->mMapObject.mCourseMapRow->mUnk_26;
+        groupIndex = vehicle->mMapObject.mCourseMapRow->mGroupIndex;
         vehicle->mUpdateIndex = index;
         if ((seenGroupMask & (1 << groupIndex)) == 0) {
             entryCount = gCourseMap->mEntryGroups[groupIndex].mEntryCount;
@@ -509,15 +509,15 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
 
 void InitVehicle(Vehicle *vehicle, struct CourseMapRow *courseRow, VehicleKindInfo *kindInfo) {
     vehicle->mKindInfo = kindInfo;
-    InitGroupFollower(&vehicle->mFollower, courseRow, (s16) courseRow->mUnk_28 * 0x3000 / 100);
-    vehicle->mStartEntryIndex = courseRow->mUnk_2a;
-    vehicle->mAnimationFrame = courseRow->mUnk_2c;
-    vehicle->mStartEntryY = GetCourseMapGroupEntry(courseRow->mUnk_26, vehicle->mStartEntryIndex)->mPos.y;
+    InitGroupFollower(&vehicle->mFollower, courseRow, (s16) courseRow->mSetting0 * 0x3000 / 100);
+    vehicle->mStartEntryIndex = courseRow->mSetting1;
+    vehicle->mAnimationFrame = courseRow->mSetting2;
+    vehicle->mStartEntryY = GetCourseMapGroupEntry(courseRow->mGroupIndex, vehicle->mStartEntryIndex)->mPos.y;
     vehicle->mExtentPositive.x = MUL_FIXED12_NO_ROUND(kindInfo->mExtentX, vehicle->mMapObject.mScale.x);
     vehicle->mExtentPositive.y = MUL_FIXED12_NO_ROUND(kindInfo->mExtentY, vehicle->mMapObject.mScale.y);
     vehicle->mExtentPositive.z = MUL_FIXED12_NO_ROUND(kindInfo->mExtentZ, vehicle->mMapObject.mScale.z);
     vehicle->mExtentNegativeZ = MUL_FIXED12_NO_ROUND(kindInfo->mExtentNegativeZ, vehicle->mMapObject.mScale.z);
-    vehicle->mRotationBlendRate = (u32) ((s16) courseRow->mUnk_28 * 0xfa) / 100;
+    vehicle->mRotationBlendRate = (u32) ((s16) courseRow->mSetting0 * 0xfa) / 100;
     vehicle->mDefaultBlendRate = vehicle->mRotationBlendRate;
     vehicle->mTireOffset[0] = kindInfo->mTireOffsetX;
     vehicle->mTireOffset[1] = kindInfo->mTireOffsetY >> 4;

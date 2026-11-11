@@ -82,10 +82,10 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         ironBall->mMapObject.mFlags |= b;
         ironBall->mMapObject.mFlags |= c;
         ironBall->mMapObject.mFlags |= a;
-        ironBall->mNormalPathSpeed = (ironBall->mMapObject.mCourseMapRow->mUnk_28 * 0xa000L) / 100;
-        ironBall->mSlowPathSpeed = (ironBall->mMapObject.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
+        ironBall->mNormalPathSpeed = (ironBall->mMapObject.mCourseMapRow->mSetting0 * 0xa000L) / 100;
+        ironBall->mSlowPathSpeed = (ironBall->mMapObject.mCourseMapRow->mSetting0 * 0x5000L) / 100;
         ironBall->mPathSpeed = ironBall->mNormalPathSpeed;
-        ironBall->mPathPos = ironBall->mMapObject.mCourseMapRow->mUnk_00;
+        ironBall->mPathPos = ironBall->mMapObject.mCourseMapRow->mPosition;
         ironBall->mMapObject.mPos = ironBall->mPathPos;
         ironBall->mPathPos.y += 0x1000;
         RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mPathPos, ironBall->mMapObject.mExtent.x << 1,
@@ -97,10 +97,10 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
                     &ironBall->mMapObject.mPos);
         if (ironBall->mMapObject.mFlags & 0x800) {
-            ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mUnk_2a;
+            ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mSetting1;
             ironBall->mState = z2;
         } else {
-            ironBall->mNextStartLap = (ironBall->mMapObject.mCourseMapRow->mUnk_2a + 0x176f) / 6000 + 1;
+            ironBall->mNextStartLap = (ironBall->mMapObject.mCourseMapRow->mSetting1 + 0x176f) / 6000 + 1;
             ironBall->mState = z1;
         }
     }
@@ -126,8 +126,8 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 if (ironBall->mTimer-- > 0) {
                     return;
                 }
-                ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mUnk_2c;
-                ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mUnk_2e;
+                ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mSetting2;
+                ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mSetting3;
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
                 ironBall->mState = 1;
                 return;
@@ -145,7 +145,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 return;
             }
             ironBall->mNextStartLap = ironBall->mNextStartLap + 1;
-            ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mUnk_2e;
+            ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mSetting3;
             SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
             ironBall->mState = 1;
             return;
@@ -179,7 +179,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             if (fromEntry->mUnk_10 >= 0) {
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_10, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
-            } else if (ironBall->mMapObject.mCourseMapRow->mUnk_2c != 0) {
+            } else if (ironBall->mMapObject.mCourseMapRow->mSetting2 != 0) {
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
                 ironBall->mMapObject.mFlags |= data_021567ec;
                 ironBall->mMapObject.mFlags |= data_021567f0;

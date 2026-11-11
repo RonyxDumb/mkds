@@ -114,9 +114,9 @@ void InitSunObjects(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (sun = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mUnk_28;
+            sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mSetting0;
         } else if (gRaceSetup->mMode == MODE_WIFI) {
-            sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mUnk_2a;
+            sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mSetting1;
         }
     }
 }
@@ -504,7 +504,7 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (bound = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        if (bound->mMapObject.mCourseMapRow->mUnk_26 >= 0) {
+        if (bound->mMapObject.mCourseMapRow->mGroupIndex >= 0) {
             InitGroupFollower(&bound->mUnk_0f8, bound->mMapObject.mCourseMapRow, 0);
             bound->mUnk_0f8.mSpeed = 0x3000;
             bound->mUnk_0f8.mProgressStep = MUL_FIXED12_NO_ROUND(

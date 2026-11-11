@@ -83,7 +83,7 @@ Vec3 *CreateCourseMapGroupSideVectors(CourseMapRow *row) {
     CourseMapGroupEntry *endEntry;
     CourseMapGroupEntry *startEntry;
     s32 savedZ;
-    groupIndex = row->mUnk_26;
+    groupIndex = row->mGroupIndex;
     entryCount = gCourseMap->mEntryGroups[groupIndex].mEntryCount;
     sideVectors = HeapAlloc(GetHeap(GetCurrentHeapCall()), entryCount * 12);
     for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {

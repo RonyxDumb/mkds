@@ -185,7 +185,7 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
                                                       FX_SinIdx((u16) mapObject->mAngle))) +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
                                                       FX_CosIdx((u16) mapObject->mAngle)));
-            position->y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mEffects[effectIndex].mOffset.y;
+            position->y = mapObject->mUnk_000.mCourseMapRow->mPosition.y + mapObject->mEffects[effectIndex].mOffset.y;
             position->z = mapObject->mUnk_000.mPos.z +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
                                                       FX_CosIdx((u16) mapObject->mAngle))) -
@@ -383,8 +383,7 @@ void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const 
     if (prmName != NULL) {
         mapObject->mPrm = LoadMissionRunFile(prmName);
     }
-    mapObject->mAngle =
-        (u16) (((s64) mapObject->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
+    mapObject->mAngle = DEG_TO_ANGLE(mapObject->mUnk_000.mCourseMapRow->mRotationDegrees.y);
     mapObject->mAlphaLimit = 0x1f000;
     if (mapObject->mPrm != NULL) {
         SetMapObjectExtentX(&mapObject->mUnk_000, mapObject->mPrm->mUnk_00c << 2);
@@ -395,7 +394,7 @@ void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const 
     mapObject->mPosWithOffset = mapObject->mUnk_000.mPos;
     mapObject->mBounceEnabled = FALSE;
     mapObject->mGravityEnabled = TRUE;
-    mapObject->mEntryGroupIndex = mapObject->mUnk_000.mCourseMapRow->mUnk_26;
+    mapObject->mEntryGroupIndex = mapObject->mUnk_000.mCourseMapRow->mGroupIndex;
 }
 
 void LoadMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, const char *shadowNsbmdName) {
@@ -885,12 +884,12 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
         shadowPosition.z = mapObject->mUnk_000.mPos.z;
     } else if (mapObject->mUnk_27c == 3) {
         shadowPosition.x = mapObject->mUnk_2e8.x;
-        shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y;
+        shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mPosition.y;
         shadowPosition.z = mapObject->mUnk_2e8.z;
     } else {
         if (depth >= 4) {
             s32 adjustedDepth =
-                depth - ((mapObject->mUnk_000.mPos.y - mapObject->mUnk_000.mCourseMapRow->mUnk_00.y) >> 15);
+                depth - ((mapObject->mUnk_000.mPos.y - mapObject->mUnk_000.mCourseMapRow->mPosition.y) >> 15);
 
             if (adjustedDepth <= 4) {
                 adjustedDepth = 4;
@@ -898,7 +897,7 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
             depth = (u16) adjustedDepth;
         }
         shadowPosition.x = mapObject->mUnk_000.mPos.x;
-        shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y;
+        shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mPosition.y;
         shadowPosition.z = mapObject->mUnk_000.mPos.z;
     }
     if (depth > 0x10) {

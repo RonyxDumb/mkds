@@ -161,7 +161,7 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
     }
     v1 = data_usa_0215653c[0].x;
     for (i = 0; i < mapObjectList->mMapObjectCount && (flipper = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        switch (flipper->mMapObject.mCourseMapRow->mUnk_28) {
+        switch (flipper->mMapObject.mCourseMapRow->mSetting0) {
             case 0:
                 flipper->mMirror = 0;
                 flipper->mMapObject.mFlags &= ~0x400;

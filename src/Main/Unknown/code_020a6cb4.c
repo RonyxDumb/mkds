@@ -122,7 +122,7 @@ void StartShineBattle(MapObjectList *mapObjectList) {
     }
     for (j = 0; j < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[j]) != NULL; j++) {
         e->mSkipRandomPick = TRUE;
-        if (e->mMapObject.mCourseMapRow->mUnk_28 != 0) {
+        if (e->mMapObject.mCourseMapRow->mSetting0 != 0) {
             n = gRaceSetup->mKartCount;
             v = GetShineCount();
             if (v + GetTotalBalloonOrShineCount() < n + 1) {

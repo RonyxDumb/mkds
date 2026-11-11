@@ -229,7 +229,7 @@ void UpdateWoodbox1State1(Woodbox1 *woodbox) {
     if (woodbox->mMapObject.mStateMachine.mStateFrames < 900) {
         return;
     }
-    if (woodbox->mMapObject.mCourseMapRow->mUnk_2c != 0) {
+    if (woodbox->mMapObject.mCourseMapRow->mSetting2 != 0) {
         return;
     }
     if (data_0217bbf0 == NULL) {
@@ -432,7 +432,7 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mMapObject.mPosStep.x = 0;
     woodbox->mMapObject.mPosStep.y = 0;
     woodbox->mMapObject.mPosStep.z = 0;
-    woodbox->mHeadingAngle = (((s64) courseRow->mUnk_0c.y * 0xB60B60B60BLL) + 0x80000000000LL) >> 44;
+    woodbox->mHeadingAngle = DEG_TO_ANGLE(courseRow->mRotationDegrees.y);
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
     Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
     woodbox->mUnk_0f4.x = -woodbox->mGroundUp.x;
@@ -458,12 +458,12 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mUnk_100.y = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.y, 0x800);
     woodbox->mUnk_100.z = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.z, 0x800);
     woodbox->mUnk_10c = 0x1555;
-    woodbox->mItemRowHandle = courseRow->mUnk_28;
-    woodbox->mItemChancePercent = courseRow->mUnk_2a;
+    woodbox->mItemRowHandle = courseRow->mSetting0;
+    woodbox->mItemChancePercent = courseRow->mSetting1;
     InitStateMachine(&woodbox->mMapObject.mStateMachine, gWoodbox1StateTable, 4, woodbox);
     woodbox->mMapObject.mStateMachine.mNextState = 0;
     woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mUnk_00,
+    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mPosition,
                         MUL_FIXED12_NO_ROUND(woodbox->mMapObject.mScale.x, 0x19000), 13);
 }
 

@@ -35,7 +35,7 @@ struct NNSG3dMatAnmResult {
     /* 14 */ u32 mUnk_14;
     /* 18 */ s32 mUnk_18[2];
     /* 20 */ s16 mUnk_20[2];
-    /* 24 */ u32 mUnk_24[2];
+    /* 24 */ s32 mUnk_24[2];
     /* 2c */ u16 mUnk_2c;
     /* 2e */ u16 mUnk_2e;
     /* 30 */ s32 mUnk_30;

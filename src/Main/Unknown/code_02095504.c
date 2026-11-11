@@ -73,7 +73,7 @@ void InitMoveTreeObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (moveTree = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        moveTree->mUnk_a8 = (moveTree->mMapObject.mCourseMapRow->mUnk_28 << 12) / 100;
+        moveTree->mUnk_a8 = (moveTree->mMapObject.mCourseMapRow->mSetting0 << 12) / 100;
         RefreshShadowMatrix(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos, 0x54666, 14);
     }
 }
@@ -220,7 +220,7 @@ void InitBakubakuObjects(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (bakubaku = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mRows[2], &bakubaku->mMapObject.mCourseMapRow->mUnk_00,
+        VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mRows[2], &bakubaku->mMapObject.mCourseMapRow->mPosition,
                     &bakubaku->mUnk_a4);
     }
 }
@@ -246,9 +246,9 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
                     return;
                 }
             }
-            bakubaku->mMapObject.mPos.x = bakubaku->mMapObject.mCourseMapRow->mUnk_00.x;
-            bakubaku->mMapObject.mPos.y = bakubaku->mMapObject.mCourseMapRow->mUnk_00.y - 0x32000;
-            bakubaku->mMapObject.mPos.z = bakubaku->mMapObject.mCourseMapRow->mUnk_00.z;
+            bakubaku->mMapObject.mPos.x = bakubaku->mMapObject.mCourseMapRow->mPosition.x;
+            bakubaku->mMapObject.mPos.y = bakubaku->mMapObject.mCourseMapRow->mPosition.y - 0x32000;
+            bakubaku->mMapObject.mPos.z = bakubaku->mMapObject.mCourseMapRow->mPosition.z;
             bakubaku->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mRows[2].x, 0xc000);
             bakubaku->mMapObject.mPosStep.y = 0xc000;
             bakubaku->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mRows[2].z, 0xc000);
@@ -257,7 +257,7 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
         case 1:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
             VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
-            if (bakubaku->mMapObject.mPos.y < bakubaku->mMapObject.mCourseMapRow->mUnk_00.y) {
+            if (bakubaku->mMapObject.mPos.y < bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
                 return;
             }
             StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
@@ -271,7 +271,7 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
         case 2:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
             VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
-            if (bakubaku->mMapObject.mPos.y > bakubaku->mMapObject.mCourseMapRow->mUnk_00.y) {
+            if (bakubaku->mMapObject.mPos.y > bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
                 return;
             }
             StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
@@ -285,7 +285,7 @@ void UpdateBakubaku(void *a, Bakubaku *bakubaku) {
         case 3:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
             VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
-            if (bakubaku->mMapObject.mPos.y <= bakubaku->mMapObject.mCourseMapRow->mUnk_00.y - 0x32000) {
+            if (bakubaku->mMapObject.mPos.y <= bakubaku->mMapObject.mCourseMapRow->mPosition.y - 0x32000) {
                 bakubaku->mState4Timer = 0x708;
                 bakubaku->mState = 4;
             }

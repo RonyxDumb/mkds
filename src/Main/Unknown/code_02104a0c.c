@@ -65,11 +65,11 @@ void CreatePooledMapObjects(void) {
     }
     gPooledMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), gPooledMapObjectCount * 4);
     buf = data_0215a6cc;
-    gPooledMapObjectRow.mUnk_00 = buf;
-    gPooledMapObjectRow.mUnk_0c = buf;
-    gPooledMapObjectRow.mUnk_18 = gVec3Ones;
+    gPooledMapObjectRow.mPosition = buf;
+    gPooledMapObjectRow.mRotationDegrees = buf;
+    gPooledMapObjectRow.mScale = gVec3Ones;
     gPooledMapObjectRow.mKind = 0x6f;
-    gPooledMapObjectRow.mUnk_2e = 1;
+    gPooledMapObjectRow.mSetting3 = 1;
     for (i = 0; i < gPooledMapObjectCount; i++) {
         gPooledMapObjects[i] = CreateMapObjectFromCourseMapRow(&gPooledMapObjectRow, 0x6f);
     }

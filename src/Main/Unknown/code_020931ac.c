@@ -32,7 +32,8 @@ u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d
     u8 v;
 
     v = *d;
-    if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 && StartSoundIfKartStarOrKiller(&mkdEfBurner->mMapObject, kart) != 0) {
+    if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 &&
+        StartSoundIfKartStarOrKiller(&mkdEfBurner->mMapObject, kart) != 0) {
         mkdEfBurner->mMapObject.mDistanceSquaredAndFlags |= data_usa_02156470;
         mkdEfBurner->mKartTimers[kart->mIndex] = 0x1f;
     }
@@ -88,25 +89,27 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
     z = FALSE;
     f = data_usa_0215646c;
     for (i = 0; i < mapObjectList->mMapObjectCount && (mkdEfBurner = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        mkdEfBurner->mMapObject.mPos.y = mkdEfBurner->mMapObject.mCourseMapRow->mUnk_00.y - mkdEfBurner->mMapObject.mExtent.y;
-        if (mkdEfBurner->mMapObject.mCourseMapRow->mUnk_26 < 0) {
+        mkdEfBurner->mMapObject.mPos.y =
+            mkdEfBurner->mMapObject.mCourseMapRow->mPosition.y - mkdEfBurner->mMapObject.mExtent.y;
+        if (mkdEfBurner->mMapObject.mCourseMapRow->mGroupIndex < 0) {
             mkdEfBurner->mFollower.mGroupIndex = 0xffff;
         } else {
             InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mMapObject.mCourseMapRow, z);
-            speed = (mkdEfBurner->mMapObject.mCourseMapRow->mUnk_2e << 12) / 100;
+            speed = (mkdEfBurner->mMapObject.mCourseMapRow->mSetting3 << 12) / 100;
             mkdEfBurner->mFollower.mSpeed = speed;
             mkdEfBurner->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 speed,
                 mkdEfBurner->mFollower.mPath->mSegments[mkdEfBurner->mFollower.mSegmentIndex].mInverseProgressLength);
         }
-        if (mkdEfBurner->mMapObject.mCourseMapRow->mUnk_28 == 0 && mkdEfBurner->mMapObject.mCourseMapRow->mUnk_2a == 0 &&
-            mkdEfBurner->mMapObject.mCourseMapRow->mUnk_2c == 0) {
+        if (mkdEfBurner->mMapObject.mCourseMapRow->mSetting0 == 0 &&
+            mkdEfBurner->mMapObject.mCourseMapRow->mSetting1 == 0 &&
+            mkdEfBurner->mMapObject.mCourseMapRow->mSetting2 == 0) {
             mkdEfBurner->mScaleFixed12 = 0x1000;
             mkdEfBurner->mState = 4;
             mkdEfBurner->mMapObject.mFlags &= ~1;
         } else {
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mUnk_2c) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSetting2) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 1;
                 mkdEfBurner->mMapObject.mFlags |= f;
@@ -124,7 +127,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
     switch (mkdEfBurner->mState) {
         case 0:
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mUnk_2a) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSetting1) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 1;
                 mkdEfBurner->mMapObject.mFlags &= ~1;
@@ -141,7 +144,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
             break;
         case 2:
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mUnk_28) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSetting0) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 3;
             }
@@ -171,7 +174,8 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
         GetGroupFollowerLinearPosition(&mkdEfBurner->mFollower, &mkdEfBurner->mMapObject.mPos);
         mkdEfBurner->mMapObject.mPos.y = mkdEfBurner->mMapObject.mPos.y - mkdEfBurner->mMapObject.mExtent.y;
     } else {
-        mkdEfBurner->mMapObject.mPos.y = mkdEfBurner->mMapObject.mCourseMapRow->mUnk_00.y - mkdEfBurner->mMapObject.mExtent.y;
+        mkdEfBurner->mMapObject.mPos.y =
+            mkdEfBurner->mMapObject.mCourseMapRow->mPosition.y - mkdEfBurner->mMapObject.mExtent.y;
     }
     kartCount = gRaceSetup->mKartCount;
     for (i = 0; i < kartCount; i++) {

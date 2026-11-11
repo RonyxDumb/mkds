@@ -98,7 +98,7 @@ void CreateKoopaBlock(void) {
 
 void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     InitStateMachine(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine, gKoopaBlockStateTable, 3, koopaBlock);
-    koopaBlock->mFollowSpeed = (courseRow->mUnk_28 << 12) / 100;
+    koopaBlock->mFollowSpeed = (courseRow->mSetting0 << 12) / 100;
     InitGroupFollower(&koopaBlock->mFollower, courseRow, koopaBlock->mFollowSpeed);
     koopaBlock->mPauseTimer = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mPrevMatrix =

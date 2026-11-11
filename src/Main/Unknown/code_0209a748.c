@@ -296,7 +296,7 @@ void UpdateCrab(void *a, Crab *crab) {
             }
             SetupGroupFollowerAtEntry(&crab->mFollower, 0, 0);
             GetGroupFollowerLinearXz(&crab->mFollower, &crab->mMapObject.mPos);
-            crab->mMapObject.mPos.y = crab->mMapObject.mCourseMapRow->mUnk_00.y - 0x5000;
+            crab->mMapObject.mPos.y = crab->mMapObject.mCourseMapRow->mPosition.y - 0x5000;
             crab->mCrabWobble.mAngle = 0;
             crab->mCrabWobble.mMid = 0;
             crab->mCrabWobble.mAmplitude = 0x2aab;
@@ -318,10 +318,10 @@ void UpdateCrab(void *a, Crab *crab) {
             AdvanceCrabWobble(&crab->mCrabWobble);
             crab->mRotateZAngle = crab->mCrabWobble.mValue;
             crab->mMapObject.mPos.y += 0x200;
-            if (crab->mMapObject.mPos.y < crab->mMapObject.mCourseMapRow->mUnk_00.y) {
+            if (crab->mMapObject.mPos.y < crab->mMapObject.mCourseMapRow->mPosition.y) {
                 return;
             }
-            crab->mMapObject.mPos.y = crab->mMapObject.mCourseMapRow->mUnk_00.y;
+            crab->mMapObject.mPos.y = crab->mMapObject.mCourseMapRow->mPosition.y;
             crab->mMapObject.mPosStep.x = 0;
             crab->mMapObject.mPosStep.y = 0;
             crab->mMapObject.mPosStep.z = 0;

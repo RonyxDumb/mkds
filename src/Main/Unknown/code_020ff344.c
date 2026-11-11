@@ -34,12 +34,12 @@ void CreateDram(void) {
 
 void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
     InitStateMachine(&dram->mMapObject.mStateMachine, gDramStateTable, 6, dram);
-    dram->mAnglePerFrameChoices[0] = courseRow->mUnk_28 * 0x80 / 100;
-    dram->mAnglePerFrameChoices[2] = courseRow->mUnk_30 * 0x80 / 100;
+    dram->mAnglePerFrameChoices[0] = courseRow->mSetting0 * 0x80 / 100;
+    dram->mAnglePerFrameChoices[2] = courseRow->mSetting4 * 0x80 / 100;
     dram->mAnglePerFrameChoices[1] = (dram->mAnglePerFrameChoices[0] + dram->mAnglePerFrameChoices[2]) / 2;
-    dram->mSteadyFrameCount = courseRow->mUnk_2a;
-    dram->mRampFrameCount = courseRow->mUnk_2c;
-    dram->mDelayFrameCount = courseRow->mUnk_2e;
+    dram->mSteadyFrameCount = courseRow->mSetting1;
+    dram->mRampFrameCount = courseRow->mSetting2;
+    dram->mDelayFrameCount = courseRow->mSetting3;
     dram->mAngleX = 0;
     if (dram->mRampFrameCount != 0) {
         dram->mRampPerFrame = 0x1000 / dram->mRampFrameCount;
@@ -74,7 +74,8 @@ void InitMissionRunBoxMapObject(Unk020ff97c *object) {
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
     object->mCollisionMapObject.mCollisionData.mUnk_130 = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_100 = MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mScale.x, 0x190000);
+    object->mCollisionMapObject.mCollisionData.mUnk_100 =
+        MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mScale.x, 0x190000);
     object->mCollisionMapObject.mCollisionData.mHalfSizeY =
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mScale.y, 0x64000) >> 1;
     object->mCollisionMapObject.mCollisionData.mPositiveHalfSizeZ =
@@ -90,8 +91,9 @@ void InitMissionRunBoxMapObject(Unk020ff97c *object) {
     object->mCollisionMapObject.mMapObject.mPosStep.x = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.y = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.z = 0;
-    VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY, &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1],
-                &object->mCollisionMapObject.mMapObject.mPos, &object->mCollisionMapObject.mCollisionData.mCenterPos);
+    VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
+                &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1], &object->mCollisionMapObject.mMapObject.mPos,
+                &object->mCollisionMapObject.mCollisionData.mCenterPos);
     object->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     object->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
     object->mCollisionMapObject.mSkipsFlaggedQueries = 1;
@@ -240,7 +242,8 @@ void AdvanceItemFBox(ItemFBox *fbox) {
         } else {
             AdvanceBouncingItem(&fbox->mBouncingItemObject, 0x2e1, 0xf85, 0, (u32 *) &unusedOutput);
         }
-        if ((fbox->mBouncingItemObject.mItemObject.mFlags & 8) && (fbox->mBouncingItemObject.mItemObject.mFlags & 3) == 0) {
+        if ((fbox->mBouncingItemObject.mItemObject.mFlags & 8) &&
+            (fbox->mBouncingItemObject.mItemObject.mFlags & 3) == 0) {
             if (fbox->mThrownForward != 0) {
                 fbox->mBouncingItemObject.mItemObject.mVelocity.y *= 2;
             }

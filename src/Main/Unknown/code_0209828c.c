@@ -72,7 +72,9 @@ void InitPakkun(Pakkun *pakkun) {
     Vec3 step;
     s32 i;
     pakkun->mUnk_1d8 =
-        (u32) (((s64) pakkun->mMapObject.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 32 << 4) >> 16;
+        (u32) (((s64) pakkun->mMapObject.mCourseMapRow->mRotationDegrees.y * 0xb60b60b60bLL + 0x80000000000LL) >>
+               32 << 4) >>
+        16;
     pakkun->mUnk_1e4 = TRUE;
     pakkun->mUnk_1e8 = 0x1000;
     pakkun->mUnk_1ec = 0;
@@ -84,19 +86,19 @@ void InitPakkun(Pakkun *pakkun) {
     }
     for (i = 0; i < 7; i++) {
         if (i == 0) {
-            v = pakkun->mMapObject.mCourseMapRow->mUnk_28;
+            v = pakkun->mMapObject.mCourseMapRow->mSetting0;
         } else if (i == 1) {
-            v = pakkun->mMapObject.mCourseMapRow->mUnk_2a;
+            v = pakkun->mMapObject.mCourseMapRow->mSetting1;
         } else if (i == 2) {
-            v = pakkun->mMapObject.mCourseMapRow->mUnk_2c;
+            v = pakkun->mMapObject.mCourseMapRow->mSetting2;
         } else if (i == 3) {
-            v = pakkun->mMapObject.mCourseMapRow->mUnk_2e;
+            v = pakkun->mMapObject.mCourseMapRow->mSetting3;
         } else if (i == 4) {
-            v = pakkun->mMapObject.mCourseMapRow->mUnk_30;
+            v = pakkun->mMapObject.mCourseMapRow->mSetting4;
         } else if (i == 5) {
-            v = pakkun->mMapObject.mCourseMapRow->mUnk_32;
+            v = pakkun->mMapObject.mCourseMapRow->mSetting5;
         } else {
-            v = pakkun->mMapObject.mCourseMapRow->mUnk_34;
+            v = pakkun->mMapObject.mCourseMapRow->mSetting6;
         }
         if (v >= 0) {
             InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], v, 100);

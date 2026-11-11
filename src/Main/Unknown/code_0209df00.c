@@ -39,8 +39,8 @@ void *CreatePuddleDrawList(void) {
 
 void InitFireball2(Fireball2 *a) {
     a->mMapObject.mFlags |= data_usa_021565ec;
-    a->mRowCount = a->mMapObject.mCourseMapRow->mUnk_28;
-    a->mRowElementCount = a->mMapObject.mCourseMapRow->mUnk_2e + 1;
+    a->mRowCount = a->mMapObject.mCourseMapRow->mSetting0;
+    a->mRowElementCount = a->mMapObject.mCourseMapRow->mSetting3 + 1;
     CreateMapObjectSoundSourceFalloff2(&a->mMapObject);
     a->mMapObject.mFlags &= ~1;
     a->mMapObject.mFlags &= ~2;
@@ -207,14 +207,14 @@ void InitFireball2Objects(MapObjectList *p) {
         return;
     }
     for (i = 0; i < p->mMapObjectCount && (e = p->mMapObjects[i]) != NULL; i++) {
-        v = e->mMapObject.mCourseMapRow->mUnk_2a;
+        v = e->mMapObject.mCourseMapRow->mSetting1;
         if (v > 0) {
             f = 0.5f + (v << 12);
         } else {
             f = (v << 12) - 0.5f;
         }
         e->mRadius = f;
-        e->mRowAnglePerFrame = (e->mMapObject.mCourseMapRow->mUnk_2c * 0x16c) / 100;
+        e->mRowAnglePerFrame = (e->mMapObject.mCourseMapRow->mSetting2 * 0x16c) / 100;
         e->mRowAngleSpacing = 0x10000 / e->mRowCount;
         e->mElementRadiusSpacing = e->mRadius / e->mRowElementCount;
         r = GetMapObjectRandom();

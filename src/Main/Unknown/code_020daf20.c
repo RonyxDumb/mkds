@@ -400,9 +400,9 @@ void CreateDossunAndDossunShadow(void) {
 
 #pragma thumb on
 void InitDossun(Dossun *dossun, CourseMapRow *row) {
-    dossun->mIsSlowVariant = row->mUnk_28;
+    dossun->mIsSlowVariant = row->mSetting0;
     InitGroupFollower(&dossun->mFollower, row, dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000);
-    dossun->mStartEntryIndex = row->mUnk_2a;
+    dossun->mStartEntryIndex = row->mSetting1;
     dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
     dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2d000);
     dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);

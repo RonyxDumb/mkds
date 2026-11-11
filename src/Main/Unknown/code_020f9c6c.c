@@ -138,7 +138,7 @@ void InitItemKouraWCommon(ItemKouraW *item) {
     item->mLift = 0x32000;
     item->mUnk_264 = 0xf000;
     item->mDrawOffsetAngle = 0;
-    item->mUnk_27c = 0x1a000;
+    item->mSpeed = 0x1a000;
     item->mSmoothedDirectionDelta.x = 0;
     item->mSmoothedDirectionDelta.y = 0;
     item->mSmoothedDirectionDelta.z = 0;
@@ -340,7 +340,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     if (item->mStateMachine.mStateFrames == 8) {
         item->mPosStrip = StartPosStrip(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer);
     }
-    AdvanceLinkFollowingItem(&item->mLinkFollowingItemObject, item->mUnk_27c, 0x21, item->mRankKartIndex, 1);
+    AdvanceLinkFollowingItem(&item->mLinkFollowingItemObject, item->mSpeed, 0x21, item->mRankKartIndex, 1);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
         AdvanceSoundDistanceSquaredChange(
             &item->mSoundDistanceSquaredChange,
@@ -445,7 +445,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
 }
 
 void EnterItemKouraWState3(ItemKouraW *item) {
-    item->mUnk_27c = VEC_Mag(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
+    item->mSpeed = VEC_Mag(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
     item->mUnk_284 = 0x1e000;
     if (item->mKartItems->mKartIndex == gRaceSetup->mEntryIndex) {
         item->mSoundId = 0xdd;
@@ -463,12 +463,12 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
         (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         gain += 0x19a;
     }
-    if (item->mUnk_27c > 0xd000) {
-        item->mUnk_27c -= 0xccd;
+    if (item->mSpeed > 0xd000) {
+        item->mSpeed -= 0xccd;
     } else {
-        item->mUnk_27c += 0xccd;
+        item->mSpeed += 0xccd;
     }
-    SteerItemKouraWAtAngleZero(item, gain, item->mUnk_27c, item->mUnk_284);
+    SteerItemKouraWAtAngleZero(item, gain, item->mSpeed, item->mUnk_284);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
         AdvanceSoundDistanceSquaredChange(
             &item->mSoundDistanceSquaredChange,
@@ -493,12 +493,12 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
     void *normal;
     ItemPointLink *link;
 
-    if (item->mUnk_27c > 0xd000) {
-        item->mUnk_27c -= 0xccd;
+    if (item->mSpeed > 0xd000) {
+        item->mSpeed -= 0xccd;
     } else {
-        item->mUnk_27c += 0xccd;
+        item->mSpeed += 0xccd;
     }
-    AdvanceLinkFollowingItem(&item->mLinkFollowingItemObject, item->mUnk_27c, 0x21, item->mRankKartIndex, 1);
+    AdvanceLinkFollowingItem(&item->mLinkFollowingItemObject, item->mSpeed, 0x21, item->mRankKartIndex, 1);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
         AdvanceSoundDistanceSquaredChange(
             &item->mSoundDistanceSquaredChange,
@@ -543,10 +543,10 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
     Vec3 direction;
     void *normal;
 
-    if (item->mUnk_27c > 0xd000) {
-        item->mUnk_27c -= 0xccd;
+    if (item->mSpeed > 0xd000) {
+        item->mSpeed -= 0xccd;
     } else {
-        item->mUnk_27c += 0xccd;
+        item->mSpeed += 0xccd;
     }
     item->mLift -= 0xccd;
     item->mAngleStep += 0x2d;
@@ -555,7 +555,7 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
     } else {
         item->mUnk_284 -= 0xccd;
     }
-    SteerItemKouraWToNextAnglePoint(item, 0x4cd, item->mUnk_27c, item->mUnk_284, item->mAngleStep);
+    SteerItemKouraWToNextAnglePoint(item, 0x4cd, item->mSpeed, item->mUnk_284, item->mAngleStep);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
         AdvanceSoundDistanceSquaredChange(
             &item->mSoundDistanceSquaredChange,
@@ -605,7 +605,7 @@ void EnterItemKouraWState5(ItemKouraW *item) {
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mUnk_100 = gItemKinds[kind].mTargetScale;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x800000;
     item->mEasedDirection = item->mPreviousDirection;
-    item->mUnk_27c = 0x3000;
+    item->mSpeed = 0x3000;
     item->mUnk_284 = 0x59a;
 }
 
@@ -625,17 +625,17 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
         item->mStateMachine.mNextState = 6;
         item->mStateMachine.mNextStateRequested = 1;
     }
-    item->mUnk_27c -= 0xa14;
+    item->mSpeed -= 0xa14;
     item->mUnk_284 -= 0x102;
     if (item->mUnk_284 < 0x7b) {
         item->mUnk_284 = 0x7b;
     }
     normal = GetItemKouraWNormalOrNull(item);
     if (normal != NULL) {
-        VEC_MultAdd(item->mUnk_27c, normal, &item->mKartForward, &v);
+        VEC_MultAdd(item->mSpeed, normal, &item->mKartForward, &v);
     } else {
         z = item->mKartForward.z;
-        y = item->mUnk_27c;
+        y = item->mSpeed;
         x = item->mKartForward.x;
         v.x = x;
         v.y = y;
@@ -1056,7 +1056,7 @@ void DrawItems(void *a) {
     enum { K0 } poolIndex;
     void *viewAxis;
 
-    viewAxis = &((Unk020e6b38 *) GetViewTransposeMatrix())->mUnk_18;
+    viewAxis = &((Unk020e6b38 *) GetViewTransposeMatrix())->mAxis2;
     QueueViewMatrix();
     for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
         if (gItemPools[poolIndex].mTakenCount > 0 && gItemPools[poolIndex].mDrawnByMapObjects == 0) {
@@ -1245,8 +1245,8 @@ void StartCourseMapItemObjects(void) {
     for (i = 0; i < rowCount; i++) {
         row = &gCourseMap->mRows[i];
         if (row->mKind == 0x6d) {
-            kind = row->mUnk_28;
-            if (CollideSphereWithCourse(&row->mUnk_00, 0, 0, 0xa000, 8, -2, 0, &normal, 0, 0, 0, 0, 0, &v) == 0) {
+            kind = row->mSetting0;
+            if (CollideSphereWithCourse(&row->mPosition, 0, 0, 0xa000, 8, -2, 0, &normal, 0, 0, 0, 0, 0, &v) == 0) {
                 normal = gCourseMapItemVec3UnitY;
             }
             item = CourseMapStartItemObjectOrZero(kind, 8, row, &normal);

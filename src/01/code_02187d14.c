@@ -23,7 +23,7 @@ void IncrementEntryGroupIndex(Unk02188950 *mapObject, s32 groupSpan) {
     s32 firstGroupIndex;
     s32 nextGroupIndex;
 
-    firstGroupIndex = mapObject->mUnk_000.mCourseMapRow->mUnk_26;
+    firstGroupIndex = mapObject->mUnk_000.mCourseMapRow->mGroupIndex;
     nextGroupIndex = mapObject->mEntryGroupIndex + 1;
     if (nextGroupIndex >= firstGroupIndex + groupSpan) {
         nextGroupIndex = firstGroupIndex;

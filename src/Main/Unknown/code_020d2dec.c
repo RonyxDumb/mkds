@@ -194,9 +194,9 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             }
             object->mCollisionSlotIndex = -1;
             if (courseRow != NULL) {
-                object->mPos.x = courseRow->mUnk_00.x;
-                object->mPos.y = courseRow->mUnk_00.y;
-                object->mPos.z = courseRow->mUnk_00.z;
+                object->mPos.x = courseRow->mPosition.x;
+                object->mPos.y = courseRow->mPosition.y;
+                object->mPos.z = courseRow->mPosition.z;
             } else if (source != NULL) {
                 object->mPos.x = source->mPos.x;
                 object->mPos.y = source->mPos.y;
@@ -212,15 +212,15 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mPosStep.z = 0x270f000;
             }
             if (courseRow != NULL) {
-                object->mAngle = ((s64) courseRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
-                Matrix3x3FromVec3Degrees(&courseRow->mUnk_0c, &object->mMatrix.mAxes);
+                object->mAngle = DEG_TO_ANGLE(courseRow->mRotationDegrees.y);
+                Matrix3x3FromVec3Degrees(&courseRow->mRotationDegrees, &object->mMatrix.mAxes);
             } else if (source != NULL) {
                 object->mAngle = source->mAngle;
                 object->mMatrix = source->mMatrix;
             }
             object->mKindData = kindData;
             if (courseRow != NULL) {
-                SetMapObjectScale(object, &courseRow->mUnk_18);
+                SetMapObjectScale(object, &courseRow->mScale);
             } else {
                 SetMapObjectScale(object, &source->mScale);
             }
@@ -250,8 +250,8 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mDigitMask = source->mDigitMask;
                 object->mFlags |= source->mFlags & 0x80;
             } else if (courseRow != NULL) {
-                if (courseRow->mUnk_36 != 0) {
-                    SetMapObjectMaskAndFlagFromNumber(courseRow->mUnk_36, object);
+                if (courseRow->mSetting7 != 0) {
+                    SetMapObjectMaskAndFlagFromNumber(courseRow->mSetting7, object);
                 }
             }
             if (descriptor->mLists[3] != NULL && descriptor->mLists[3]->mForEachObject != NULL) {
@@ -385,7 +385,7 @@ void InitMapObjects(void) {
     }
     for (i = 0; i < n; i++) {
         courseRow = OFFSET_PTR(CourseMapRow, gCourseMap->mRows, i * sizeof(CourseMapRow));
-        if (gRaceSetup->mMode == MODE_TIME_ATTACK && (courseRow->mUnk_38 & 1) == 0) {
+        if (gRaceSetup->mMode == MODE_TIME_ATTACK && (courseRow->mTimeAttackFlags & 1) == 0) {
             continue;
         }
         CreateMapObject(courseRow->mKind, courseRow, NULL);

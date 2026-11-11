@@ -52,15 +52,15 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
     bridge->mCollisionMapObject.mCollisionData.mUnk_130 = 1;
-    bridge->mSwingAmplitude = ((courseRow->mUnk_28 * 0x10000) / 0x168) >> 1;
-    bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mUnk_2a) >> 1;
-    bridge->mPeakPauseFrameCount = courseRow->mUnk_2c;
-    bridge->mTroughPauseFrameCount = courseRow->mUnk_2e;
+    bridge->mSwingAmplitude = ((courseRow->mSetting0 * 0x10000) / 0x168) >> 1;
+    bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mSetting1) >> 1;
+    bridge->mPeakPauseFrameCount = courseRow->mSetting2;
+    bridge->mTroughPauseFrameCount = courseRow->mSetting3;
     bridge->mPauseTimer = 0;
     bridge->mSwingAngle = 0;
     if (gRaceSetup->mMode == MODE_WIFI) {
         bridge->mSwingAnglePerFrame = 0;
-        bridge->mSwingAngle = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
+        bridge->mSwingAngle = ((courseRow->mSetting4 * 0x10000) / 0x168) >> 1;
     }
     bridge->mCollisionMapObject.mCollisionData.mUnk_100 =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.x, 0x5a000);
@@ -81,7 +81,7 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~2;
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~8;
     bridge->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
-    if (courseRow->mUnk_0c.y < 0) {
+    if (courseRow->mRotationDegrees.y < 0) {
         CreateMapObjectSoundSourceFalloff4(&bridge->mCollisionMapObject.mMapObject);
     }
 }

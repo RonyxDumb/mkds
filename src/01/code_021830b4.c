@@ -206,7 +206,7 @@ void StartDonketuWalkToCourseMapRow(Unk02188950 *donketu) {
         StartMapObjectState(donketu, 3, NULL);
         StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_168, donketu->mPrm->mUnk_16c);
         TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mUnk_178, 0x270f000);
-        SetAnglePointAndMoveAnglePoint(donketu, &donketu->mUnk_000.mCourseMapRow->mUnk_00);
+        SetAnglePointAndMoveAnglePoint(donketu, &donketu->mUnk_000.mCourseMapRow->mPosition);
         SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mUnk_174, donketu->mPrm->mUnk_170);
         StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_17c, NULL);
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
@@ -214,7 +214,7 @@ void StartDonketuWalkToCourseMapRow(Unk02188950 *donketu) {
         StartMapObjectState(donketu, 3, NULL);
         StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_168, donketu->mPrm->mUnk_16c << 2);
         TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mUnk_178, 0x270f000);
-        SetAnglePointAndMoveAnglePoint(donketu, &donketu->mUnk_000.mCourseMapRow->mUnk_00);
+        SetAnglePointAndMoveAnglePoint(donketu, &donketu->mUnk_000.mCourseMapRow->mPosition);
         SetSpeedTargetAndPerCall(donketu, -donketu->mPrm->mUnk_174, donketu->mPrm->mUnk_170);
         StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_17c, NULL);
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
@@ -352,8 +352,8 @@ void InitDonketuObjects(MapObjectList *list) {
         for (objectIndex = 0; objectIndex < list->mMapObjectCount && (donketu = list->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
             DecrementEntryIndexSkipZero(donketu);
-            donketu->mUnk_000.mCourseMapRow->mUnk_00.x = 0;
-            donketu->mUnk_000.mCourseMapRow->mUnk_00.z = 0;
+            donketu->mUnk_000.mCourseMapRow->mPosition.x = 0;
+            donketu->mUnk_000.mCourseMapRow->mPosition.z = 0;
             if (GetRaceUseChainCameras() != 0) {
                 StartDonketuChainStartupFirst(donketu);
             } else {

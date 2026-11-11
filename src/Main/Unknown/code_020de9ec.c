@@ -39,8 +39,8 @@ void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mFollower.mGroupFollower.mGroupIndex = (0x0000ffffu);
         return;
     }
-    InitGroupFollowerWithSpeeds(&itemBox->mFollower, row, *&data_02158908, row->mUnk_28);
-    SetupGroupFollowerWithSpeeds(&itemBox->mFollower, row->mUnk_30, 1);
+    InitGroupFollowerWithSpeeds(&itemBox->mFollower, row, *&data_02158908, row->mSetting0);
+    SetupGroupFollowerWithSpeeds(&itemBox->mFollower, row->mSetting4, 1);
     GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
 }
 
@@ -356,7 +356,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     StartItemSlotAndEffects(&itemBox->mMapObject.mPos, kart,
                             kindInMask != FALSE ? itemBox->mForcedRowHumanGhostPeer : itemBox->mForcedRowCpu,
                             distanceBits, itemBox->mShortSpin);
-    if (itemBox->mNoCourseRow != 0 || itemBox->mMapObject.mCourseMapRow->mUnk_32 != 0) {
+    if (itemBox->mNoCourseRow != 0 || itemBox->mMapObject.mCourseMapRow->mSetting5 != 0) {
         itemBox->mFramesSinceHit = 0x80;
         ParkMapObject(&itemBox->mMapObject);
     }

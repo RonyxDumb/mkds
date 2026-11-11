@@ -313,7 +313,7 @@ void ShowKingTeresaNearKart(Unk02188950 *mapObject) {
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     VEC_MultAdd(-mapObject->mPrm->mUnk_0e8, &kart->mEasedTurnedForward, &kart->mPos, &nearKartPoint);
     mapObject->mUnk_000.mPos.x = nearKartPoint.x;
-    mapObject->mUnk_000.mPos.y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mPrm->mUnk_080;
+    mapObject->mUnk_000.mPos.y = mapObject->mUnk_000.mCourseMapRow->mPosition.y + mapObject->mPrm->mUnk_080;
     mapObject->mUnk_000.mPos.z = nearKartPoint.z;
     mapObject->mMoveAngle =
         (u16) (FX_Atan2Idx(kart->mPos.x - mapObject->mUnk_000.mPos.x, kart->mPos.z - mapObject->mUnk_000.mPos.z) +
@@ -416,7 +416,7 @@ void StartKingTeresaHideForNextGroup(Unk02188950 *mapObject) {
 u32 AdvanceKingTeresaSinkToCourseRow(Unk02188950 *mapObject) {
     int newY;
     int lowestY;
-    lowestY = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mPrm->mUnk_084;
+    lowestY = mapObject->mUnk_000.mCourseMapRow->mPosition.y + mapObject->mPrm->mUnk_084;
     newY = mapObject->mUnk_000.mPos.y - mapObject->mPrm->mUnk_088;
     if (newY <= lowestY) {
         newY = lowestY;

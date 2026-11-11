@@ -5,20 +5,20 @@
 
 // Row of the array at 0x00 of the object behind gCourseMap.
 typedef struct CourseMapRow {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ Vec3 mUnk_18;
+    /* 00 */ Vec3 mPosition;
+    /* 0c */ Vec3 mRotationDegrees;
+    /* 18 */ Vec3 mScale;
     /* 24 */ u16 mKind;
-    /* 26 */ s16 mUnk_26;
-    /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-    /* 2c */ s16 mUnk_2c;
-    /* 2e */ s16 mUnk_2e;
-    /* 30 */ s16 mUnk_30;
-    /* 32 */ s16 mUnk_32;
-    /* 34 */ s16 mUnk_34;
-    /* 36 */ s16 mUnk_36;
-    /* 38 */ u16 mUnk_38;
+    /* 26 */ s16 mGroupIndex;
+    /* 28 */ s16 mSetting0;
+    /* 2a */ s16 mSetting1;
+    /* 2c */ s16 mSetting2;
+    /* 2e */ s16 mSetting3;
+    /* 30 */ s16 mSetting4;
+    /* 32 */ s16 mSetting5;
+    /* 34 */ s16 mSetting6;
+    /* 36 */ s16 mSetting7;
+    /* 38 */ u16 mTimeAttackFlags;
     /* 3a */ u8 mUnk_3a[2];
 } CourseMapRow;
 
@@ -29,7 +29,7 @@ typedef struct CourseMapRow {
 // Object GetViewTransposeMatrix returns: a vector at 0x18.
 typedef struct Unk020e6b38 {
     /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ Vec3 mUnk_18;
+    /* 18 */ Vec3 mAxis2;
 } Unk020e6b38;
 
 // Stack object of InitItemKouraWFromData: the two vectors Vec3NormalizeAndGetLengthUnchecked and
@@ -58,7 +58,7 @@ typedef struct ItemKouraW {
     /* 274 */ u16 mRank;
     /* 276 */ u16 mRankKartIndex;
     /* 278 */ s32 mRankTargetSkipped;
-    /* 27c */ s32 mUnk_27c;
+    /* 27c */ s32 mSpeed;
     /* 280 */ u16 mKartMask;
     /* 282 */ u8 mUnk_282[2];
     /* 284 */ s32 mUnk_284;

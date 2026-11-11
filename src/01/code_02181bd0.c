@@ -282,13 +282,13 @@ void StartCoinsFadeIn(void) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
             if (coin->mState == 9 && (coin->mUnk_000.mFlags & 0x100) == 0) {
-                coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mUnk_00.x;
-                coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xa000;
-                coin->mUnk_000.mPos.z = coin->mUnk_000.mCourseMapRow->mUnk_00.z;
+                coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mPosition.x;
+                coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mPosition.y + 0xa000;
+                coin->mUnk_000.mPos.z = coin->mUnk_000.mCourseMapRow->mPosition.z;
                 coin->mUnk_000.mPosStep.x = 0;
                 coin->mUnk_000.mPosStep.y = 0x5000;
                 coin->mUnk_000.mPosStep.z = 0;
-                coin->mBounceY = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xe000;
+                coin->mBounceY = coin->mUnk_000.mCourseMapRow->mPosition.y + 0xe000;
                 coin->mState = 2;
                 coin->mScaleFactor = 0x1000;
                 coin->mModelAlpha = 0;
@@ -385,12 +385,12 @@ void InitCoinObjects(MapObjectList *coinList) {
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
-            coin->mUnk_0d8 = coin->mUnk_000.mCourseMapRow->mUnk_00;
+            coin->mUnk_0d8 = coin->mUnk_000.mCourseMapRow->mPosition;
             coin->mUnk_000.mPos = coin->mUnk_0d8;
             coin->mUnk_000.mPos.y = coin->mUnk_000.mPos.y + 0xe000;
-            if (coin->mUnk_000.mCourseMapRow->mUnk_26 >= 0) {
+            if (coin->mUnk_000.mCourseMapRow->mGroupIndex >= 0) {
                 InitGroupFollower(&coin->mFollower, coin->mUnk_000.mCourseMapRow, 0);
-                speed = (coin->mUnk_000.mCourseMapRow->mUnk_28 << 12) / 100;
+                speed = (coin->mUnk_000.mCourseMapRow->mSetting0 << 12) / 100;
                 coin->mFollower.mSpeed = speed;
                 coin->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                     speed, coin->mFollower.mPath->mSegments[coin->mFollower.mSegmentIndex].mInverseProgressLength);
@@ -398,7 +398,7 @@ void InitCoinObjects(MapObjectList *coinList) {
                 coin->mFollower.mGroupIndex = 0xffff;
             }
             coin->mScaleFactor = 0x1000;
-            if (coin->mUnk_000.mCourseMapRow->mUnk_2a == 0) {
+            if (coin->mUnk_000.mCourseMapRow->mSetting1 == 0) {
                 coin->mModelAlpha = 0x1f;
             } else {
                 coin->mModelAlpha = 0;
@@ -453,8 +453,8 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 coin->mUnk_000.mPosStep.y = 0;
                 coin->mUnk_000.mPosStep.z = 0;
             }
-            if (coin->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
-                radius = coin->mUnk_000.mCourseMapRow->mUnk_2a;
+            if (coin->mUnk_000.mCourseMapRow->mSetting1 != 0) {
+                radius = coin->mUnk_000.mCourseMapRow->mSetting1;
                 for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
                     kartPos = &GetKart((u16) kartIndex)->mPos;
                     dx = kartPos->x - coin->mUnk_000.mPos.x;
@@ -596,7 +596,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 coin->mModelAlpha = newAlpha;
                 break;
             }
-            if (coin->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
+            if (coin->mUnk_000.mCourseMapRow->mSetting2 != 0) {
                 coin->mState = 7;
                 coin->mScaleFactor = 0x1000;
                 coin->mModelAlpha = 0;
@@ -605,13 +605,13 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     AddMissionRunBossCount(1);
                 }
             } else {
-                coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mUnk_00.x;
-                coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0x64000;
-                coin->mUnk_000.mPos.z = coin->mUnk_000.mCourseMapRow->mUnk_00.z;
+                coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mPosition.x;
+                coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mPosition.y + 0x64000;
+                coin->mUnk_000.mPos.z = coin->mUnk_000.mCourseMapRow->mPosition.z;
                 coin->mUnk_000.mPosStep.x = 0;
                 coin->mUnk_000.mPosStep.y = 0;
                 coin->mUnk_000.mPosStep.z = 0;
-                coin->mBounceY = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xe000;
+                coin->mBounceY = coin->mUnk_000.mCourseMapRow->mPosition.y + 0xe000;
                 coin->mState = 2;
                 coin->mScaleFactor = 0x1000;
                 coin->mModelAlpha = 0;

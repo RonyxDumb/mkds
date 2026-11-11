@@ -128,7 +128,7 @@ void EnterChoropuState4(Choropu *choropu) {
             return;
         }
     }
-    StartEffect(0x30, &choropu->mMapObject.mCourseMapRow->mUnk_00);
+    StartEffect(0x30, &choropu->mMapObject.mCourseMapRow->mPosition);
 }
 
 void UpdateChoropuState4(Choropu *choropu) {

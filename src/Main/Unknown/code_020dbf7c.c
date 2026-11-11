@@ -92,12 +92,12 @@ void CreateWanwanAndRockShadow(void) {
 
 #pragma thumb on
 void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
-    wanwan->mCenterPos = row->mUnk_00;
+    wanwan->mCenterPos = row->mPosition;
     wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
-    wanwan->mUnk_f8 = (row->mUnk_28 * 0x3000) >> 2;
-    wanwan->mUnk_1dc = row->mUnk_2a << 12;
-    wanwan->mMaxRadius = row->mUnk_28 << 12;
+    wanwan->mUnk_f8 = (row->mSetting0 * 0x3000) >> 2;
+    wanwan->mUnk_1dc = row->mSetting1 << 12;
+    wanwan->mMaxRadius = row->mSetting0 << 12;
     wanwan->mUnk_1fc = wanwan->mUnk_f8 - (wanwan->mUnk_f0 << 1);
     wanwan->mFollowsPath = 0;
     wanwan->mUsesCourseCollision = 0;
@@ -115,16 +115,16 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
 
 #pragma thumb on
 void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
-    wanwan->mCenterPos = row->mUnk_00;
+    wanwan->mCenterPos = row->mPosition;
     wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
     wanwan->mFollowsPath = 1;
-    wanwan->mUsesCourseCollision = row->mUnk_2a;
+    wanwan->mUsesCourseCollision = row->mSetting1;
     wanwan->mUnk_ac = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
     InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
     SetStateMachineState(&wanwan->mMapObject.mStateMachine, 5);
-    InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, data_02158908, row->mUnk_28);
+    InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, data_02158908, row->mSetting0);
     ResetWanwan(wanwan);
 }
 #pragma thumb off

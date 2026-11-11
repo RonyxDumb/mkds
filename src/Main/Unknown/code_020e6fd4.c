@@ -314,16 +314,16 @@ void BuildAttractorTables(void) {
 }
 
 void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *courseRow) {
-    object->mTableIndex = courseRow->mUnk_28;
+    object->mTableIndex = courseRow->mSetting0;
     switch (gRaceSetup->mEngineIndex) {
         case 0:
-            object->mStrength = courseRow->mUnk_2a;
+            object->mStrength = courseRow->mSetting1;
             break;
         case 1:
-            object->mStrength = courseRow->mUnk_2c;
+            object->mStrength = courseRow->mSetting2;
             break;
         case 2:
-            object->mStrength = courseRow->mUnk_2e;
+            object->mStrength = courseRow->mSetting3;
             break;
     }
 }

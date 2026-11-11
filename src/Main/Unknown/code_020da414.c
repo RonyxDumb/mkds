@@ -40,13 +40,13 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
     StateMachine *stateMachine;
     kuribo->mModelAlpha = 0x1f;
     if (row != NULL) {
-        InitGroupFollower(&kuribo->mFollower, row, (row->mUnk_28 << 11) / 100);
-        startEntry = GetCourseMapGroupEntry(row->mUnk_26, row->mUnk_2e);
+        InitGroupFollower(&kuribo->mFollower, row, (row->mSetting0 << 11) / 100);
+        startEntry = GetCourseMapGroupEntry(row->mGroupIndex, row->mSetting3);
         kuribo->mStartY = startEntry->mPos.y;
-        kuribo->mOrientationBlendAmount = row->mUnk_28 * 0xb4 / 100;
-        kuribo->mReturnsAfterWait = row->mUnk_2a == 0;
+        kuribo->mOrientationBlendAmount = row->mSetting0 * 0xb4 / 100;
+        kuribo->mReturnsAfterWait = row->mSetting1 == 0;
         InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
-        SetupGroupFollowerAtEntry(&kuribo->mFollower, kuribo->mMapObject.mCourseMapRow->mUnk_2e, 1);
+        SetupGroupFollowerAtEntry(&kuribo->mFollower, kuribo->mMapObject.mCourseMapRow->mSetting3, 1);
         GetGroupFollowerCurveXz(&kuribo->mFollower, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mPos.y = kuribo->mStartY;
         zeroedVector = &kuribo->mMapObject.mPosStep;

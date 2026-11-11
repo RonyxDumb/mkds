@@ -161,11 +161,11 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
     object->mCollisionMapObject.mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
-    object->mRampFrameCount = courseRow->mUnk_2c;
-    object->mSteadyFrameCount = courseRow->mUnk_2a;
-    object->mPauseFrameCount = courseRow->mUnk_2e;
-    object->mAnglePerFrame = courseRow->mUnk_28 * 0x80 / 100;
-    if (courseRow->mUnk_30 != 0) {
+    object->mRampFrameCount = courseRow->mSetting2;
+    object->mSteadyFrameCount = courseRow->mSetting1;
+    object->mPauseFrameCount = courseRow->mSetting3;
+    object->mAnglePerFrame = courseRow->mSetting0 * 0x80 / 100;
+    if (courseRow->mSetting4 != 0) {
         object->mAnglePerFrame = -object->mAnglePerFrame;
     }
     object->mCollisionMapObject.mMapObject.mAngle = 0;
@@ -194,14 +194,14 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_RAMP_UP;
     object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     object->mModelIndex = kindInfo->mModelIndex;
-    if (object->mModelIndex == ROTARY_MODEL_GEAR_BLACK && courseRow->mUnk_32 == 0) {
+    if (object->mModelIndex == ROTARY_MODEL_GEAR_BLACK && courseRow->mSetting5 == 0) {
         object->mModelIndex = ROTARY_MODEL_GEAR_WHITE;
     }
     object->mCollisionMapObject.mMapObject.mFlags &= ~2;
     object->mCollisionMapObject.mMapObject.mFlags &= ~8;
     object->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
     if (kindInfo->mModelIndex == 0) {
-        object->mSoundId = courseRow->mUnk_0c.x > 0 ? 0x175 : 0x176;
+        object->mSoundId = courseRow->mRotationDegrees.x > 0 ? 0x175 : 0x176;
     } else {
         object->mSoundId = kindInfo->mSoundId;
     }

@@ -42,9 +42,9 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                 case COURSE_ID_CROSS:
                     courseSoundObject->mState = 4;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
-                    crossFirstZ = courseMapRow->mUnk_00.z + (-0x4a6000);
-                    crossFirstY = courseMapRow->mUnk_00.y;
-                    crossFirstX = courseMapRow->mUnk_00.x + (-0x2c6000);
+                    crossFirstZ = courseMapRow->mPosition.z + (-0x4a6000);
+                    crossFirstY = courseMapRow->mPosition.y;
+                    crossFirstX = courseMapRow->mPosition.x + (-0x2c6000);
                     courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x103;
                     courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 5;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
@@ -54,9 +54,9 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.y = crossFirstY;
                     courseSoundObject->mFirstPart.mSourcePos.z = crossFirstZ;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
-                    crossSecondZ = courseMapRow->mUnk_00.z + 0x726000;
-                    crossSecondY = courseMapRow->mUnk_00.y;
-                    crossSecondX = courseMapRow->mUnk_00.x + (-0x7ee000);
+                    crossSecondZ = courseMapRow->mPosition.z + 0x726000;
+                    crossSecondY = courseMapRow->mPosition.y;
+                    crossSecondX = courseMapRow->mPosition.x + (-0x7ee000);
                     courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x103;
                     courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 5;
                     courseSoundObject->mSecondPart.mStartParams.mPositionSource =
@@ -69,9 +69,9 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                 case COURSE_ID_BANK:
                     courseSoundObject->mState = 5;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
-                    bankChainZ = courseMapRow->mUnk_00.z;
-                    bankChainY = courseMapRow->mUnk_00.y;
-                    bankChainX = courseMapRow->mUnk_00.x;
+                    bankChainZ = courseMapRow->mPosition.z;
+                    bankChainY = courseMapRow->mPosition.y;
+                    bankChainX = courseMapRow->mPosition.x;
                     courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x109;
                     courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 4;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
@@ -117,7 +117,8 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.x = 0;
                     courseSoundObject->mSecondPart.mSourcePos.y = 0;
                     courseSoundObject->mSecondPart.mSourcePos.z = 0;
-                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
+                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart,
+                                                     &courseSoundObject->mMapObject.mPos);
                     break;
                 case COURSE_ID_MARIO:
                     courseSoundObject->mState = 1;
@@ -137,14 +138,15 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.x = 0;
                     courseSoundObject->mSecondPart.mSourcePos.y = 0;
                     courseSoundObject->mSecondPart.mSourcePos.z = 0;
-                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
+                    PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart,
+                                                     &courseSoundObject->mMapObject.mPos);
                     break;
                 case COURSE_ID_BANK:
                     courseSoundObject->mState = 6;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
-                    bankFirstZ = courseMapRow->mUnk_00.z;
-                    bankFirstY = courseMapRow->mUnk_00.y;
-                    bankFirstX = courseMapRow->mUnk_00.x;
+                    bankFirstZ = courseMapRow->mPosition.z;
+                    bankFirstY = courseMapRow->mPosition.y;
+                    bankFirstX = courseMapRow->mPosition.x;
                     courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x109;
                     courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 6;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
@@ -157,9 +159,9 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                                 &courseSoundObject->mMapObject.mMatrix.mRows[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
-                    bankSecondZ = courseMapRow->mUnk_00.z;
-                    bankSecondY = courseMapRow->mUnk_00.y;
-                    bankSecondX = courseMapRow->mUnk_00.x;
+                    bankSecondZ = courseMapRow->mPosition.z;
+                    bankSecondY = courseMapRow->mPosition.y;
+                    bankSecondX = courseMapRow->mPosition.x;
                     courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x109;
                     courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 6;
                     courseSoundObject->mSecondPart.mStartParams.mPositionSource =

@@ -106,7 +106,7 @@ void StartKurikingTurnToRowState(Unk02188950 *mapObject) {
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1b4, mapObject->mPrm->mUnk_1b8);
     StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_1bc, mapObject->mPrm->mUnk_1b8, 0);
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_1c8, mapObject->mPrm->mUnk_1cc);
-    SetAnglePointAndMoveAnglePoint(mapObject, &mapObject->mUnk_000.mCourseMapRow->mUnk_00);
+    SetAnglePointAndMoveAnglePoint(mapObject, &mapObject->mUnk_000.mCourseMapRow->mPosition);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1c0, mapObject->mPrm->mUnk_1c4);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1d0, StartKurikingJumpAnimationState);
     SetKurikingSoundCallbacks(mapObject);

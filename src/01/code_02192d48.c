@@ -22,8 +22,7 @@ MapObjectModel *gStopSign;
 void InitStopSign(Unk02188950 *mapObject) {
     MtxFx33 rotationMatrix;
     RefreshMapObjectMatrixFromHitNormal(&mapObject->mUnk_000);
-    mapObject->mUnk_000.mAngle =
-        (mapObject->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
+    mapObject->mUnk_000.mAngle = DEG_TO_ANGLE(mapObject->mUnk_000.mCourseMapRow->mRotationDegrees.y);
     MTX_RotY33_(&rotationMatrix, FX_SinIdx(mapObject->mUnk_000.mAngle), FX_CosIdx(mapObject->mUnk_000.mAngle));
     MTX_Concat33(&rotationMatrix, &mapObject->mUnk_000.mMatrix.mAxes, &mapObject->mUnk_000.mMatrix.mAxes);
 }

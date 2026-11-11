@@ -245,23 +245,22 @@ void CreatePendulumAndPendulumShadow(void) {
 void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     s32 amplitudeSetting;
 
-    pendulum->mMapObject.mExtent.y =
-        MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mUnk_18.z);
-    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &pendulum->mRotationQuaternion);
+    pendulum->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mUnk_10, courseRow->mScale.z);
+    QuaternionFromVec3Degrees(&courseRow->mRotationDegrees, &pendulum->mRotationQuaternion);
     pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mAxes;
     pendulum->mCourseRowDistance = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.y, 0x1f4000);
     pendulum->mSwingAngle = 0;
-    pendulum->mCourseRowPos.x = courseRow->mUnk_00.x;
-    pendulum->mCourseRowPos.y = courseRow->mUnk_00.y;
-    pendulum->mCourseRowPos.z = courseRow->mUnk_00.z;
+    pendulum->mCourseRowPos.x = courseRow->mPosition.x;
+    pendulum->mCourseRowPos.y = courseRow->mPosition.y;
+    pendulum->mCourseRowPos.z = courseRow->mPosition.z;
     VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
     pendulum->mPrevPos = pendulum->mMapObject.mPos;
     pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
     pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
     pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
-    amplitudeSetting = courseRow->mUnk_2a;
-    pendulum->mSwingAnglePerFrame = 0x640000u / (u32) courseRow->mUnk_28 / 0xf0u;
+    amplitudeSetting = courseRow->mSetting1;
+    pendulum->mSwingAnglePerFrame = 0x640000u / (u32) courseRow->mSetting0 / 0xf0u;
     pendulum->mSwingAmplitude = (u32) (amplitudeSetting * 0x1111) / 0x64u;
     pendulum->mRadius = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.x, 0x64000);
     pendulum->mHalfSizeZ = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.z, 0x32000);

@@ -40,13 +40,11 @@ void ResetMissionRunMapObjects(void) {
                 tableObj =
                     table->mMapObjects[i -
                                        (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
-                obj->mUnk_000.mPos = tableObj->mUnk_000.mCourseMapRow->mUnk_00;
+                obj->mUnk_000.mPos = tableObj->mUnk_000.mCourseMapRow->mPosition;
                 tableObj =
                     table->mMapObjects[i -
                                        (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
-                obj->mAngle =
-                    (u16) (((s64) tableObj->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >>
-                           44);
+                obj->mAngle = DEG_TO_ANGLE(tableObj->mUnk_000.mCourseMapRow->mRotationDegrees.y);
             }
         }
     }
