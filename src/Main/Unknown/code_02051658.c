@@ -26,7 +26,7 @@ static inline u32 ScanGetConnectionMode(void) {
 void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
     ConnectionWork *connection;
     ScanStateView *scanState;
-    Unk02143a78 *scanParams;
+    ScanParam *scanParams;
     u16 channel;
     s32 index;
     u16 allowedChannels;
@@ -60,21 +60,21 @@ void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
                 }
             } while (((1 << (channel - 1)) & allowedChannels) == 0);
         }
-        scanParams->mUnk_04 = channel;
+        scanParams->mChannel = channel;
         scanState->mChannel = channel;
         for (index = 0; index < 6; index++) {
-            scanParams->mUnk_08[index] = 0xff;
+            scanParams->mBssid[index] = 0xff;
         }
     } else {
-        scanParams->mUnk_08[0] = scanState->mTargetAddress[0];
-        scanParams->mUnk_08[1] = scanState->mTargetAddress[1];
-        scanParams->mUnk_08[2] = scanState->mTargetAddress[2];
-        scanParams->mUnk_08[3] = scanState->mTargetAddress[3];
-        scanParams->mUnk_08[4] = scanState->mTargetAddress[4];
-        scanParams->mUnk_08[5] = scanState->mTargetAddress[5];
+        scanParams->mBssid[0] = scanState->mTargetAddress[0];
+        scanParams->mBssid[1] = scanState->mTargetAddress[1];
+        scanParams->mBssid[2] = scanState->mTargetAddress[2];
+        scanParams->mBssid[3] = scanState->mTargetAddress[3];
+        scanParams->mBssid[4] = scanState->mTargetAddress[4];
+        scanParams->mBssid[5] = scanState->mTargetAddress[5];
         scanState->mTargetRemaining = scanState->mTargetRemaining - 1;
     }
-    scanParams->mUnk_06 = WM_GetDispersionScanPeriod();
+    scanParams->mMaxChannelTime = WM_GetDispersionScanPeriod();
     if (WM_StartScan(StartScanCallback, scanParams) != 2) {
         gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
         StopConnection();
@@ -396,7 +396,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                     seed = shouldReset;
                     switch (ScanGetConnectionMode()) {
                         case 1:
-                            seed = gConnectionWork->mParentParameter->mUnk_0c;
+                            seed = gConnectionWork->mParentParameter->mTgid;
                             break;
                         case 2:
                             seed = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
@@ -533,7 +533,7 @@ void SetMPFrequencyCallback(Unk021425e8 *event) {
 void SetEntry(s32 enabled) {
     s32 result;
 
-    if ((gConnectionWork->mParentParameter->mUnk_0e != 0) == enabled) {
+    if ((gConnectionWork->mParentParameter->mEntryFlag != 0) == enabled) {
         return;
     }
     gConnectionWork->mStep = 0xd;
@@ -584,7 +584,7 @@ void SetGameInfo(void) {
     if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
         isState8Or9 = FALSE;
     }
-    if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, 0x1c, 0x25, gConnectionWork->mParentParameter->mUnk_0c,
+    if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, 0x1c, 0x25, gConnectionWork->mParentParameter->mTgid,
                        isState8Or9 == FALSE) != 2) {
         gConnectionWork->mRequestPending = 0;
     }

@@ -397,8 +397,8 @@ void SetScanConnectStateAndNotify(u32 state, void *info) {
 void StartRepeatedScan(UnkFunc *callback, u32 param) {
     gScanConnectWork->mScanCallback = callback;
     gScanConnectWork->mUnk_05e4 = param;
-    gScanConnectWork->mScanParams.mUnk_04 = 0;
-    gScanConnectWork->mScanParams.mUnk_00 = &gScanConnectWork->mScanBuffer;
+    gScanConnectWork->mScanParams.mChannel = 0;
+    gScanConnectWork->mScanParams.mScanBuf = &gScanConnectWork->mScanBuffer;
     gScanConnectWork->mRepeatScan = 1;
     gScanConnectWork->mUseScanBssid = 0;
     gScanConnectWork->mUnk_05ee = 0;
@@ -416,9 +416,9 @@ void ScanConnectStartScan(void) {
     u8 *defaultBssid;
     work = gScanConnectWork;
     if (work->mUseScanBssid != 0) {
-        work->mScanParams.mUnk_06 = 0xdc;
+        work->mScanParams.mMaxChannelTime = 0xdc;
     } else {
-        bssid = work->mScanParams.mUnk_08;
+        bssid = work->mScanParams.mBssid;
         defaultBssid = gDefaultScanBssid;
         bssid[0] = defaultBssid[0];
         bssid[1] = defaultBssid[1];
@@ -426,14 +426,14 @@ void ScanConnectStartScan(void) {
         bssid[3] = defaultBssid[3];
         bssid[4] = defaultBssid[4];
         bssid[5] = defaultBssid[5];
-        gScanConnectWork->mScanParams.mUnk_06 = 10;
+        gScanConnectWork->mScanParams.mMaxChannelTime = 10;
         if (PickScanChannel() == 0) {
             ReportScanError(0x1e, 0);
             return;
         }
     }
-    if (gScanConnectWork->mScanParams.mUnk_04 == 0) {
-        gScanConnectWork->mScanParams.mUnk_04 = 1;
+    if (gScanConnectWork->mScanParams.mChannel == 0) {
+        gScanConnectWork->mScanParams.mChannel = 1;
     }
     wmResult = WM_StartScan(ScanConnectStartScanCallback, &gScanConnectWork->mScanParams);
     if (wmResult != 2) {
@@ -498,7 +498,7 @@ void ReportScanError(u16 errorCode, u16 resultCode) {
 void SetScanBssid(const u8 *bssid) {
     u8 *dest;
     gScanConnectWork->mUseScanBssid = 1;
-    dest = gScanConnectWork->mScanParams.mUnk_08;
+    dest = gScanConnectWork->mScanParams.mBssid;
     dest[0] = bssid[0];
     dest[1] = bssid[1];
     dest[2] = bssid[2];
@@ -538,13 +538,13 @@ u32 PickScanChannel(void) {
     if (allowedChannels == 0x8000 || allowedChannels == 0) {
         return 0;
     }
-    gScanConnectWork->mScanParams.mUnk_04++;
+    gScanConnectWork->mScanParams.mChannel++;
     do {
-        gScanConnectWork->mScanParams.mUnk_04++;
-        if (gScanConnectWork->mScanParams.mUnk_04 > 0x10) {
-            gScanConnectWork->mScanParams.mUnk_04 = 1;
+        gScanConnectWork->mScanParams.mChannel++;
+        if (gScanConnectWork->mScanParams.mChannel > 0x10) {
+            gScanConnectWork->mScanParams.mChannel = 1;
         }
-    } while ((allowedChannels & (1 << (gScanConnectWork->mScanParams.mUnk_04 - 1))) == 0);
+    } while ((allowedChannels & (1 << (gScanConnectWork->mScanParams.mChannel - 1))) == 0);
     return 1;
 }
 

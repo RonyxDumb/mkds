@@ -24,5 +24,5 @@ int vsscanf(const char *text, const char *format, char *args);
 typedef struct ScanStringSource ScanStringSource;
 
 int ScanStringSourceOp(void *context, int character, int operation);
-int ScanWithSourceFunc(Unk02138618Func f, ScanStringSource *source, const char *format, char *b);
+int ScanWithSourceFunc(ScanReadCharFunc f, ScanStringSource *source, const char *format, char *b);
 const char *ScanParseSpec(const char *format, ScanSpec *outSpec);

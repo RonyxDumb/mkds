@@ -10,7 +10,7 @@ typedef struct NNSG2dCharWidths {
     /* 02 */ s8 mCharWidth;
 } NNSG2dCharWidths;
 
-// Entry of the chain at 0x0c of an Unk02022ce4: a range of mUnk_00..mUnk_02 with 8 bytes of header, then
+// Entry of the chain at 0x0c of an NNSG2dFontInformation: a range of mUnk_00..mUnk_02 with 8 bytes of header, then
 // entries of mUnk_0a (of the object) bytes.
 typedef struct Unk02022c80_n {
     /* 00 */ u16 mUnk_00;
@@ -24,7 +24,7 @@ typedef struct Unk02022dd8_s {
     /* 02 */ Unk02021a5c mUnk_02[1];
 } Unk02022dd8_s;
 
-// Entry of the chain at 0x10 of an Unk02022ce4: a range of mUnk_00..mUnk_02 and a kind (0: base number in
+// Entry of the chain at 0x10 of an NNSG2dFontInformation: a range of mUnk_00..mUnk_02 and a kind (0: base number in
 // mUnk_0c, 1: halfwords from 0x0c, 2: mUnk_0c pairs from 0x0e).
 typedef struct Unk02022dd8 {
     /* 00 */ u16 mUnk_00;
@@ -35,7 +35,8 @@ typedef struct Unk02022dd8 {
     /* 0c */ Unk02022dd8_s mUnk_0c;
 } Unk02022dd8;
 
-// Object behind Unk02022ce4.mUnk_08: a byte at 0x01, a halfword at 0x02 and bytes from 0x08 (DrawKeyboardGlyphs).
+// Object behind NNSG2dFontInformation.mUnk_08: a byte at 0x01, a halfword at 0x02 and bytes from 0x08
+// (DrawKeyboardGlyphs).
 typedef struct Unk02022ce4_08 {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mUnk_01;
@@ -44,22 +45,22 @@ typedef struct Unk02022ce4_08 {
     /* 08 */ u8 mUnk_08[1];
 } Unk02022ce4_08;
 
-typedef struct Unk02022ce4 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ s8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ NNSG2dCharWidths mUnk_04;
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ Unk02022ce4_08 *mUnk_08;
-    /* 0c */ Unk02022c80_n *mUnk_0c;
-    /* 10 */ Unk02022dd8 *mUnk_10;
-} Unk02022ce4;
+typedef struct NNSG2dFontInformation {
+    /* 00 */ u8 mFontType;
+    /* 01 */ s8 mLinefeed;
+    /* 02 */ u16 mAlterCharIndex;
+    /* 04 */ NNSG2dCharWidths mDefaultWidth;
+    /* 07 */ u8 mEncoding;
+    /* 08 */ Unk02022ce4_08 *mPGlyph;
+    /* 0c */ Unk02022c80_n *mPWidth;
+    /* 10 */ Unk02022dd8 *mPMap;
+} NNSG2dFontInformation;
 
 // Called with the address of a pointer to halfwords (NNSi_G2dSplitCharUTF16); returns a u16.
 typedef u16 Unk02022aa8_f();
 
 typedef struct Unk02022aa8 {
-    /* 00 */ Unk02022ce4 *mPRes;
+    /* 00 */ NNSG2dFontInformation *mPRes;
     /* 04 */ Unk02022aa8_f *mCbCharSpliter;
     /* 08 */ u16 mUnk_08;
     /* 0a */ u16 mUnk_0a;

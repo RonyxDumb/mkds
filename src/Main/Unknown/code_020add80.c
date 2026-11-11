@@ -2,5 +2,5 @@
 #include "code_02022aa8.h"
 
 u32 GetFontGlyphImageStride(Unk02022aa8 *font) {
-    return font->mPRes->mUnk_08->mUnk_02;
+    return font->mPRes->mPGlyph->mUnk_02;
 }

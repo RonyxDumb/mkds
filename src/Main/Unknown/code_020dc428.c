@@ -42,11 +42,11 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 MapObjectList *gWanwanUpdateList = 0;
-Unk020dd804 *gWanwanDrawList = 0;
+WanwanDrawList *gWanwanDrawList = 0;
 
 const Unk020dd860 data_02158388 = {
     CollideKartWithWanwan, CollideItemObjectWithWanwan, 1, 0x1b000, {0}, 1, 1, 0x12e, {0}};
-const Unk020dd804 data_0215835c = {{0}, CreateWanwanAndRockShadow, {0}, DrawWanwan, {0}, 1, {0}, 0};
+const WanwanDrawList data_0215835c = {{0}, CreateWanwanAndRockShadow, {0}, DrawWanwan, {0}, 1, {0}, 0};
 const MapObjectList data_02158334 = {NULL, 0, {0}, NULL, NULL, UpdateWanwan, NULL, 0, NULL, 0, NULL};
 
 Unk020dd860 *CreateWanwanKindData(void) {
@@ -57,8 +57,8 @@ Unk020dd860 *CreateWanwanKindData(void) {
     return kindData;
 }
 
-Unk020dd804 *CreateWanwanDrawList(void) {
-    Unk020dd804 *drawList;
+WanwanDrawList *CreateWanwanDrawList(void) {
+    WanwanDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gWanwanDrawList = drawList;

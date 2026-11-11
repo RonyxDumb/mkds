@@ -11,10 +11,10 @@
                             ".bss" abs32 RWX
 #pragma section ITCM begin
 
-Unk01ff9320_Fn calcTexMtx_[8] = {
-    (Unk01ff9320_Fn) texmtxCalc_flag_,   (Unk01ff9320_Fn) texmtxCalc_flagS_,   (Unk01ff9320_Fn) texmtxCalc_flagR_,
-    (Unk01ff9320_Fn) texmtxCalc_flagRS_, (Unk01ff9320_Fn) texmtxCalc_flagT_,   (Unk01ff9320_Fn) texmtxCalc_flagTS_,
-    (Unk01ff9320_Fn) texmtxCalc_flagTR_, (Unk01ff9320_Fn) texmtxCalc_flagTRS_,
+CalcTexMtxFunc calcTexMtx_[8] = {
+    (CalcTexMtxFunc) texmtxCalc_flag_,   (CalcTexMtxFunc) texmtxCalc_flagS_,   (CalcTexMtxFunc) texmtxCalc_flagR_,
+    (CalcTexMtxFunc) texmtxCalc_flagRS_, (CalcTexMtxFunc) texmtxCalc_flagT_,   (CalcTexMtxFunc) texmtxCalc_flagTS_,
+    (CalcTexMtxFunc) texmtxCalc_flagTR_, (CalcTexMtxFunc) texmtxCalc_flagTRS_,
 };
 
 #pragma section ITCM end

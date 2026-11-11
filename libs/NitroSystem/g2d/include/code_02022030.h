@@ -59,7 +59,7 @@ typedef struct NNSG2dCellDataWithBR {
 } NNSG2dCellDataWithBR;
 
 typedef struct Unk02022030 {
-    /* 00 */ Unk02022188 *mPCurrent;
+    /* 00 */ NNSG2dAnimFrameData *mPCurrent;
     /* 04 */ u32 mReverse;
     /* 08 */ u32 mActive;
     /* 0c */ s32 mCurrentTime;
@@ -75,13 +75,13 @@ typedef struct Unk02022030 {
 
 // Record at the first word of the element: ApplyCurrentAnimResult_ reads these members, except when the low byte of
 // mUnk_04 of the header is 2 (then Unk020229b4).
-struct Unk020229c8 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s16 mUnk_0c;
-    /* 0e */ s16 mUnk_0e;
+struct NNSG2dAnimDataSRT {
+    /* 00 */ u16 mIndex;
+    /* 02 */ u16 mRotZ;
+    /* 04 */ s32 mSx;
+    /* 08 */ s32 mSy;
+    /* 0c */ s16 mPx;
+    /* 0e */ s16 mPy;
 };
 
 typedef struct Unk020229b4 {

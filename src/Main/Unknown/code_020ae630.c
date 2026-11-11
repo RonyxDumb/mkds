@@ -8,8 +8,8 @@
 #pragma thumb on
 
 void ResetOamLists(void *mainOam, void *subOam) {
-    Unk020ae630 *mainOamList = mainOam;
-    Unk020ae630 *subOamList = subOam;
+    OamEntryList *mainOamList = mainOam;
+    OamEntryList *subOamList = subOam;
 
     if (mainOamList != NULL) {
         mainOamList->mOamCount = 0;
@@ -24,8 +24,8 @@ void ResetOamLists(void *mainOam, void *subOam) {
 }
 
 void ClearOamListCounts(void *mainOam, void *subOam) {
-    Unk020ae630 *mainOamList = mainOam;
-    Unk020ae630 *subOamList = subOam;
+    OamEntryList *mainOamList = mainOam;
+    OamEntryList *subOamList = subOam;
 
     if (mainOamList != NULL) {
         mainOamList->mOamCount = 0;
@@ -39,8 +39,8 @@ void ClearOamListCounts(void *mainOam, void *subOam) {
 
 // Hides every entry past the used count in both lists.
 void HideUnusedOams(void *mainOam, void *subOam) {
-    Unk020ae630 *mainOamList = mainOam;
-    Unk020ae630 *subOamList = subOam;
+    OamEntryList *mainOamList = mainOam;
+    OamEntryList *subOamList = subOam;
     u16 usedEntryCount;
     s32 hiddenIndex;
 
@@ -48,18 +48,18 @@ void HideUnusedOams(void *mainOam, void *subOam) {
         usedEntryCount = mainOamList->mOamCount;
         DC_FlushRange(mainOamList, 0x400);
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
-            mainOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 =
-                (mainOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            mainOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
+            mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
+                (mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
+            mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
         }
     }
     if (subOamList != NULL) {
         usedEntryCount = subOamList->mOamCount;
         DC_FlushRange(subOamList, 0x400);
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
-            subOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 =
-                (subOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            subOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
+            subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
+                (subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
+            subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
         }
     }
 }

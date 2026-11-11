@@ -157,7 +157,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
 }
 
 void FillParentParameter(s32 flag) {
-    Unk02143c30 *parentParameter;
+    ParentParameter *parentParameter;
     UserGameInfo *gameInfo;
     RTCTime time;
     u32 hour;
@@ -177,7 +177,7 @@ void FillParentParameter(s32 flag) {
     gameInfo->mMillisecond = 0;
     gameInfo->mUnk_0e.mChildCount = 0;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-        parentParameter->mUnk_0c = (gConnectionWork->mParentTgid + 7) & 0x7fff;
+        parentParameter->mTgid = (gConnectionWork->mParentTgid + 7) & 0x7fff;
     } else {
         GetClockTimeOrZero(&time);
         hour = time.mHour;
@@ -188,18 +188,18 @@ void FillParentParameter(s32 flag) {
         generatorState = OS_GetTickLo() | seconds << 16;
         generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
         highWord = generatorState >> 32;
-        parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
+        parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | 0x8000;
     }
-    parentParameter->mUnk_32 = gConnectionWork->mParentChannel;
-    parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUnk_04 = 0x1c;
-    parentParameter->mUnk_10 = 7;
-    parentParameter->mUnk_0e = flag != 0 ? 1 : 0;
+    parentParameter->mChannel = gConnectionWork->mParentChannel;
+    parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
+    parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
+    parentParameter->mUserGameInfoLength = 0x1c;
+    parentParameter->mMaxEntry = 7;
+    parentParameter->mEntryFlag = flag != 0 ? 1 : 0;
 }
 
 void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
-    Unk02143c30 *parentParameter;
+    ParentParameter *parentParameter;
     UserGameInfo *gameInfo;
     RTCTime time;
     u32 hour;
@@ -227,14 +227,14 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     generatorState = OS_GetTickLo() | seconds << 16;
     generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
     highWord = generatorState >> 32;
-    parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
-    parentParameter->mUnk_32 = gConnectionWork->mParentChannel;
-    parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUnk_04 = 0x1c;
-    parentParameter->mUnk_10 = 1;
-    parentParameter->mUnk_34 = 0x1b6;
-    parentParameter->mUnk_36 = 0x2e;
+    parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | 0x8000;
+    parentParameter->mChannel = gConnectionWork->mParentChannel;
+    parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
+    parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
+    parentParameter->mUserGameInfoLength = 0x1c;
+    parentParameter->mMaxEntry = 1;
+    parentParameter->mParentMaxSize = 0x1b6;
+    parentParameter->mChildMaxSize = 0x2e;
 }
 
 void SetGroupSendMaskAsParent(u8 sendMask) {

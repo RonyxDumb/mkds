@@ -176,7 +176,7 @@ static inline int IsScanSkippedChar(int character) {
     return (character < 0 || character >= 0x80) ? 0 : (gCharClassFlags[character] & 0x100);
 }
 
-int ScanWithSourceFunc(Unk02138618Func fn, ScanStringSource *source, const char *format, char *argList) {
+int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char *format, char *argList) {
     int consumedCount;
     int s32;
     long long s64;

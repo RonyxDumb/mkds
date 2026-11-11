@@ -550,8 +550,8 @@ typedef struct TitleScene {
     /* 0a4 */ struct Ncgr *mTitleSNceNcgr;
     /* 0a8 */ struct Unk02021dc8 *mTitleSNceNcer;
     /* 0ac */ u8 mUnk_ac[4];
-    /* 0b0 */ Unk020ae630 mMainOam;
-    /* 4b4 */ Unk020ae630 mSubOam;
+    /* 0b0 */ OamEntryList mMainOam;
+    /* 4b4 */ OamEntryList mSubOam;
     /* 8b8 */ struct CharacterKartPicks *mCharacterKartPicks;
 } TitleScene;
 

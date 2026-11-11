@@ -531,7 +531,7 @@ void InitRaceConnection(void) {
     shiftedValue = 0;
     switch (ConnectionGetConnectionMode()) {
         case 1:
-            shiftedValue = connection->mParentParameter->mUnk_0c;
+            shiftedValue = connection->mParentParameter->mTgid;
             break;
         case 2:
             shiftedValue = connection->mParentBssDesc->mGameInfo.mTgid;
@@ -540,7 +540,7 @@ void InitRaceConnection(void) {
     addedValue = 0;
     switch (ConnectionGetConnectionMode()) {
         case 1:
-            addedValue = connection->mParentParameter->mUnk_0c;
+            addedValue = connection->mParentParameter->mTgid;
             break;
         case 2:
             addedValue = connection->mParentBssDesc->mGameInfo.mTgid;

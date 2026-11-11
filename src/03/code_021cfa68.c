@@ -37,7 +37,7 @@ BOOL SetWhParentParameter(void) {
     s32 result;
 
     SetWhState(3);
-    result = WM_SetParentParameter(SetWhParentParameterCallback, (Unk02143c30 *) gWhWork);
+    result = WM_SetParentParameter(SetWhParentParameterCallback, (ParentParameter *) gWhWork);
     if (result != 2) {
         SetWhErrorCode(result);
         SetWhState(9);

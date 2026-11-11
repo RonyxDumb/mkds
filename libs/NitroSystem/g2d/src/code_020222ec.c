@@ -12,19 +12,19 @@ static inline u32 NNSi_G2dIsCellAnimVramTransferHandleValid(const Unk02022030 *p
 }
 
 void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
-    Unk020229c8 *animResult;
+    NNSG2dAnimDataSRT *animResult;
     Unk02021dc8 *cellBank;
     u32 animType;
     NNSG2dVramTransferData *pVramData;
     u32 valid;
     NNSG2dCellVramTransferData *pTransferData;
 
-    if (pCellAnim->mPCurrent->mUnk_04 == 0) {
+    if (pCellAnim->mPCurrent->mFrames == 0) {
         return;
     }
     animResult = NNS_G2dGetAnimCtrlCurrentElement(pCellAnim);
     cellBank = pCellAnim->mPCellDataBank;
-    pCellAnim->mPCurrentCell = NNS_G2dGetCellDataByIdx(cellBank, animResult->mUnk_00);
+    pCellAnim->mPCurrentCell = NNS_G2dGetCellDataByIdx(cellBank, animResult->mIndex);
     animType = pCellAnim->mPAnimSequence->mAnimType & 0xff;
     NNSi_G2dSrtcInitControl(&pCellAnim->mSrtCtrl, 1);
     if (animType != 0) {
@@ -32,9 +32,9 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
             NNSi_G2dSrtcSetTrans(&pCellAnim->mSrtCtrl, ((Unk020229b4 *) animResult)->mUnk_04,
                                  ((Unk020229b4 *) animResult)->mUnk_06);
         } else {
-            NNSi_G2dSrtcSetSRTScale(&pCellAnim->mSrtCtrl, animResult->mUnk_04, animResult->mUnk_08);
-            NNSi_G2dSrtcSetSRTRotZ(&pCellAnim->mSrtCtrl, animResult->mUnk_02);
-            NNSi_G2dSrtcSetTrans(&pCellAnim->mSrtCtrl, animResult->mUnk_0c, animResult->mUnk_0e);
+            NNSi_G2dSrtcSetSRTScale(&pCellAnim->mSrtCtrl, animResult->mSx, animResult->mSy);
+            NNSi_G2dSrtcSetSRTRotZ(&pCellAnim->mSrtCtrl, animResult->mRotZ);
+            NNSi_G2dSrtcSetTrans(&pCellAnim->mSrtCtrl, animResult->mPx, animResult->mPy);
         }
     }
     pVramData = cellBank->mPVramTransferData;
@@ -46,7 +46,7 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     if (valid == 0) {
         return;
     }
-    pTransferData = &pVramData->mPCellTransferDataArray[animResult->mUnk_00];
+    pTransferData = &pVramData->mPCellTransferDataArray[animResult->mIndex];
     NNS_G2dSetCellTransferStateRequested(pCellAnim->mCellTransferStateHandle, pTransferData->mSrcDataOffset,
                                          pTransferData->mSzByte);
 }
@@ -225,8 +225,8 @@ void NNSi_G2dSrtcSetInitialValue(NNSG2dSRTControl *pCtrl) {
 
 void SequenceEdgeHandle_(Unk02022030 *pAnimCtrl) {
     u32 playMode;
-    Unk02022188 *current;
-    Unk02022188 *last;
+    NNSG2dAnimFrameData *current;
+    NNSG2dAnimFrameData *last;
 
     playMode = pAnimCtrl->mOverriddenPlayMode;
     if (playMode == 0) {

@@ -62,7 +62,7 @@ u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 by
 }
 
 // Moves the scan to the next allowed channel; returns 0 when no channel is allowed.
-u32 changeScanChannel(Unk02143a78 *scanParams) {
+u32 changeScanChannel(ScanParam *scanParams) {
     u16 candidate;
     u16 channelIndex;
     u16 currentChannel;
@@ -72,11 +72,11 @@ u32 changeScanChannel(Unk02143a78 *scanParams) {
         return 0;
     }
     channelIndex = 0;
-    currentChannel = scanParams->mUnk_04;
+    currentChannel = scanParams->mChannel;
     candidate = currentChannel;
     for (; channelIndex < 16;) {
         if ((allowedMask & (1 << (candidate - 1))) != 0 && currentChannel != candidate) {
-            scanParams->mUnk_04 = candidate;
+            scanParams->mChannel = candidate;
             break;
         }
         channelIndex++;
@@ -147,7 +147,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
-            MBi_CheckWmErrcode(7, WM_SetParentParameter(MBi_ParentCallback, (Unk02143c30 *) gWirelessWork));
+            MBi_CheckWmErrcode(7, WM_SetParentParameter(MBi_ParentCallback, (ParentParameter *) gWirelessWork));
             return;
         case 7:
             gWirelessWork->mCallback(0x15, result);
@@ -340,19 +340,19 @@ void MBi_ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            gScanParams.mUnk_00 = work->mScanBuffer;
-            if (gScanParams.mUnk_04 == 0) {
-                gScanParams.mUnk_04 = 1;
+            gScanParams.mScanBuf = work->mScanBuffer;
+            if (gScanParams.mChannel == 0) {
+                gScanParams.mChannel = 1;
             }
-            if (gScanParams.mUnk_06 == 0) {
-                gScanParams.mUnk_06 = 0xc8;
+            if (gScanParams.mMaxChannelTime == 0) {
+                gScanParams.mMaxChannelTime = 0xc8;
             }
-            gScanParams.mUnk_08[0] = 0xff;
-            gScanParams.mUnk_08[1] = 0xff;
-            gScanParams.mUnk_08[2] = 0xff;
-            gScanParams.mUnk_08[3] = 0xff;
-            gScanParams.mUnk_08[4] = 0xff;
-            gScanParams.mUnk_08[5] = 0xff;
+            gScanParams.mBssid[0] = 0xff;
+            gScanParams.mBssid[1] = 0xff;
+            gScanParams.mBssid[2] = 0xff;
+            gScanParams.mBssid[3] = 0xff;
+            gScanParams.mBssid[4] = 0xff;
+            gScanParams.mBssid[5] = 0xff;
             work->mRepeatScan = 1;
             work->mUnk_5e8 = 1;
             MBi_CheckWmErrcode(0xa, WM_StartScan(MBi_ChildCallback, &gScanParams));
@@ -817,7 +817,7 @@ void MB_DisconnectChild(u32 childIndex) {
 void MBi_SetMaxScanTime(u32 maxChannelTime) {
     u32 maxChannelTimeCopy = maxChannelTime;
     u32 unusedValue;
-    gScanParams.mUnk_06 = maxChannelTimeCopy;
+    gScanParams.mMaxChannelTime = maxChannelTimeCopy;
 }
 #pragma thumb off
 

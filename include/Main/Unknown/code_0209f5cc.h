@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0209f13c.h" // Unk0209f338
+#include "Main/Unknown/code_0209f13c.h" // Chandelier
 
-void DrawChandelier(void *mapObjectList, Unk0209f338 *chandelier);
+void DrawChandelier(void *mapObjectList, Chandelier *chandelier);

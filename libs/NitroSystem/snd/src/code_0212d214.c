@@ -549,8 +549,8 @@ BOOL LoadSingleWave(Unk02021968 *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *he
 }
 
 BOOL LoadSingleWaves(Unk02021968 *waveArc, Unk02021968 *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap) {
-    Unk02021bc8 pos;
-    Unk02021bc8 firstPos;
+    SNDInstPos pos;
+    SNDInstPos firstPos;
     Unk020219f0 inst;
 
     SND_GetFirstInstDataPos(&firstPos);

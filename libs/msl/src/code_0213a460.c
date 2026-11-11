@@ -6,11 +6,9 @@
 #include "code_0213cae0.h"
 #include "code_0213ee6c.h"
 
-// Reads values through readChar(source, 0, 0), at most maxChars of them, in the given base. st is the state: 1, 2, 4, 8
-// and 0x10 while reading, 0x20 or 0x40 once it stops. *usedCount gets the count used, *negative 1 after a minus,
-// *overflow 1 when the value does not fit.
-u32 ScanInt32(int base, int maxChars, Unk02138618Func readChar, ScanStringSource *source, int *usedCount, int *negative,
-              int *overflow) {
+// Reads digits through readChar in the given base, at most maxChars of them.
+u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSource *source, int *usedCount,
+              int *negative, int *overflow) {
     int st;
     int consumed;
     int leadingSpaces;
@@ -122,7 +120,7 @@ u32 ScanInt32(int base, int maxChars, Unk02138618Func readChar, ScanStringSource
 }
 
 // Same as ScanInt32 with a 64-bit result.
-u64 ScanInt64(int base, int maxChars, Unk02138618Func readChar, void *source, int *usedCount, int *negative,
+u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, int *usedCount, int *negative,
               int *overflow) {
     int st;
     int consumed;
@@ -287,7 +285,7 @@ long StrtolBase10(const char *string) {
 
 /* readChar is called as readChar(source, 0, 0) for each next value and as readChar(source, currentChar, 1) with a value
  * already read. */
-double ScanDouble(int maxChars, Unk02138618Func readChar, void *source, int *usedCount, int *overflow) {
+double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *usedCount, int *overflow) {
     int state = 1;
     int hexState = 0;
     int consumed = 0;

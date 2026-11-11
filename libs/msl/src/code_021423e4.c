@@ -25,15 +25,15 @@ void __call_static_initializers(void) {
 }
 
 void RunListNodeCallbacks(void) {
-    Unk02005210 *node;
+    MWiDestructorChain *node;
 
     node = data_0217eeb0;
     if (node == 0) {
         return;
     }
     do {
-        data_0217eeb0 = node->mUnk_00;
-        ((void (*)(void *, s32)) node->mUnk_04)(node->mUnk_08, -1);
+        data_0217eeb0 = node->mNext;
+        ((void (*)(void *, s32)) node->mDtor)(node->mObj, -1);
         node = data_0217eeb0;
     } while (node != 0);
 }

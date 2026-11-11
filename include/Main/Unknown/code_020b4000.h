@@ -7,7 +7,7 @@
 
 // Objects stored through the first parameter: Nscr by LocateNscr and LoadNscrData, Ncgr by
 // LocateNcgr, LoadNcgrData, LocateNcgr2 and LoadNcgrData2, Nclr by LocateNclr and LoadNclrData,
-// Unk02021db0 by LoadNanrData, Unk02021dc8 by LocateNcer and LoadNcerData (LoadNanrData passes it to
+// AnimBank by LoadNanrData, Unk02021dc8 by LocateNcer and LoadNcerData (LoadNanrData passes it to
 // NNS_G2dUnpackNAN, LoadNcerData to NNS_G2dUnpackNCE; LocateNcer looks up the same block tag as LoadNcerData).
 typedef struct Ncgr {
     /* 0000 */ u16 mUnk_00;

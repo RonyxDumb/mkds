@@ -341,7 +341,7 @@ s32 WM_End(Unk021425e8Func callback) {
 }
 
 // Sets the parent parameters (command 7). Needs state 2; game info and beacon data sizes are limited to 0x200 bytes.
-s32 WM_SetParentParameter(Unk021425e8Func callback, Unk02143c30 *pparaBuf) {
+s32 WM_SetParentParameter(Unk021425e8Func callback, ParentParameter *pparaBuf) {
     s32 result;
 
     result = WMi_CheckStateEx(1, 2);
@@ -351,20 +351,20 @@ s32 WM_SetParentParameter(Unk021425e8Func callback, Unk02143c30 *pparaBuf) {
     if (pparaBuf == 0) {
         return 6;
     }
-    if (pparaBuf->mUnk_04 != 0) {
-        if (pparaBuf->mUnk_00 == 0) {
+    if (pparaBuf->mUserGameInfoLength != 0) {
+        if (pparaBuf->mUserGameInfo == 0) {
             return 6;
         }
     }
-    if (pparaBuf->mUnk_34 + (pparaBuf->mUnk_14 != 0 ? 0x2a : 0) > 0x200 ||
-        pparaBuf->mUnk_36 + (pparaBuf->mUnk_14 != 0 ? 6 : 0) > 0x200) {
+    if (pparaBuf->mParentMaxSize + (pparaBuf->mKsFlag != 0 ? 0x2a : 0) > 0x200 ||
+        pparaBuf->mChildMaxSize + (pparaBuf->mKsFlag != 0 ? 6 : 0) > 0x200) {
         return 6;
     }
     WmCheckParentParameter(pparaBuf);
     WMi_SetCallbackTable(7, callback);
     DC_StoreRange(pparaBuf, 0x40);
-    if (pparaBuf->mUnk_04 != 0) {
-        DC_StoreRange(pparaBuf->mUnk_00, pparaBuf->mUnk_04);
+    if (pparaBuf->mUserGameInfoLength != 0) {
+        DC_StoreRange(pparaBuf->mUserGameInfo, pparaBuf->mUserGameInfoLength);
     }
     result = WMi_SendCommand(7, 1, pparaBuf);
     if (result == 0) {
@@ -374,14 +374,14 @@ s32 WM_SetParentParameter(Unk021425e8Func callback, Unk02143c30 *pparaBuf) {
 }
 
 // Returns 1 when the game info length, beacon period and channel of param are in range, otherwise 0.
-u32 WmCheckParentParameter(const Unk02143c30 *param) {
-    if (param->mUnk_04 > 0x70) {
+u32 WmCheckParentParameter(const ParentParameter *param) {
+    if (param->mUserGameInfoLength > 0x70) {
         return 0;
     }
-    if (param->mUnk_18 < 10 || param->mUnk_18 > 0x3e8) {
+    if (param->mBeaconPeriod < 10 || param->mBeaconPeriod > 0x3e8) {
         return 0;
     }
-    if (param->mUnk_32 < 1 || param->mUnk_32 > 0xe) {
+    if (param->mChannel < 1 || param->mChannel > 0xe) {
         return 0;
     }
     return 1;
@@ -425,7 +425,7 @@ s32 WM_EndParent(Unk021425e8Func callback) {
 }
 
 // Starts a scan (command 10). Needs state 2, 3 or 5; the channel must be 1 to 14.
-s32 WM_StartScan(Unk021425e8Func callback, Unk02143a78 *param) {
+s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
     Unk02143a78_0c *request;
     s32 result;
 
@@ -436,24 +436,24 @@ s32 WM_StartScan(Unk021425e8Func callback, Unk02143a78 *param) {
     if (param == 0) {
         return 6;
     }
-    if (param->mUnk_00 == 0) {
+    if (param->mScanBuf == 0) {
         return 6;
     }
-    if (param->mUnk_04 < 1 || param->mUnk_04 > 0xe) {
+    if (param->mChannel < 1 || param->mChannel > 0xe) {
         return 6;
     }
     WMi_SetCallbackTable(0xa, callback);
     request = (Unk02143a78_0c *) WMi_GetSystemWork()->mRequestArea;
     request->mApiid = 0xa;
-    request->mChannel = param->mUnk_04;
-    request->mScanBuf = param->mUnk_00;
-    request->mMaxChannelTime = param->mUnk_06;
-    request->mBssid[0] = param->mUnk_08[0];
-    request->mBssid[1] = param->mUnk_08[1];
-    request->mBssid[2] = param->mUnk_08[2];
-    request->mBssid[3] = param->mUnk_08[3];
-    request->mBssid[4] = param->mUnk_08[4];
-    request->mBssid[5] = param->mUnk_08[5];
+    request->mChannel = param->mChannel;
+    request->mScanBuf = param->mScanBuf;
+    request->mMaxChannelTime = param->mMaxChannelTime;
+    request->mBssid[0] = param->mBssid[0];
+    request->mBssid[1] = param->mBssid[1];
+    request->mBssid[2] = param->mBssid[2];
+    request->mBssid[3] = param->mBssid[3];
+    request->mBssid[4] = param->mBssid[4];
+    request->mBssid[5] = param->mBssid[5];
     result = WMi_SendCommand(0xa, 0);
     if (result == 0) {
         return 2;

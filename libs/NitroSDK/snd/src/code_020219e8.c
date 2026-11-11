@@ -98,23 +98,23 @@ void SND_DestroyWaveArc(Unk02021968 *waveArc) {
 }
 
 // Sets pos to the start of the instrument entries.
-void SND_GetFirstInstDataPos(Unk02021bc8 *pos) {
-    Unk02021bc8 first;
+void SND_GetFirstInstDataPos(SNDInstPos *pos) {
+    SNDInstPos first;
 
-    first.mUnk_00 = 0;
-    first.mUnk_04 = 0;
+    first.mPrgNo = 0;
+    first.mIndex = 0;
     *pos = first;
 }
 
 // Copies the instrument entry at pos into inst and moves pos on; returns 0 when there are no more.
-u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, Unk02021bc8 *pos) {
+u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, SNDInstPos *pos) {
     u32 entry;
     Unk02021a60 *simple;
     Unk02021aa8 *drumSet;
     Unk02021b24 *keySplit;
 
-    while (pos->mUnk_00 < bank->mUnk_38) {
-        entry = bank->mUnk_3c[pos->mUnk_00];
+    while (pos->mPrgNo < bank->mUnk_38) {
+        entry = bank->mUnk_3c[pos->mPrgNo];
         inst->mUnk_00 = entry;
         switch (inst->mUnk_00) {
             case 1:
@@ -126,30 +126,30 @@ u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, Unk02021bc8 *pos) 
                 inst->mUnk_02 = simple->mUnk_00;
                 inst->mUnk_06 = simple->mUnk_04;
                 inst->mUnk_0a = simple->mUnk_08;
-                pos->mUnk_00++;
+                pos->mPrgNo++;
                 return 1;
             case 0x10:
                 drumSet = OFFSET_PTR(Unk02021aa8, bank, (entry >> 8));
-                while (pos->mUnk_04 < drumSet->mUnk_01 - drumSet->mUnk_00 + 1) {
-                    inst->mEntry = drumSet->mUnk_02[pos->mUnk_04];
-                    pos->mUnk_04++;
+                while (pos->mIndex < drumSet->mUnk_01 - drumSet->mUnk_00 + 1) {
+                    inst->mEntry = drumSet->mUnk_02[pos->mIndex];
+                    pos->mIndex++;
                     return 1;
                 }
                 break;
             case 0x11:
                 keySplit = OFFSET_PTR(Unk02021b24, bank, (entry >> 8));
-                while (pos->mUnk_04 < 8) {
-                    if (keySplit->mUnk_00[pos->mUnk_04] == 0) {
+                while (pos->mIndex < 8) {
+                    if (keySplit->mUnk_00[pos->mIndex] == 0) {
                         break;
                     }
-                    inst->mEntry = keySplit->mUnk_08[pos->mUnk_04];
-                    pos->mUnk_04++;
+                    inst->mEntry = keySplit->mUnk_08[pos->mIndex];
+                    pos->mIndex++;
                     return 1;
                 }
                 break;
         }
-        pos->mUnk_00++;
-        pos->mUnk_04 = 0;
+        pos->mPrgNo++;
+        pos->mIndex = 0;
     }
     return 0;
 }

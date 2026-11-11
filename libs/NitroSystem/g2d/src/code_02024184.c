@@ -40,7 +40,7 @@ void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32
     s32 halfWidth;
     u16 *pos;
 
-    lineHeight = pTxn->mLineSpacing + ((Unk02022aa8 *) pTxn->mFont)->mPRes->mUnk_01;
+    lineHeight = pTxn->mLineSpacing + ((Unk02022aa8 *) pTxn->mFont)->mPRes->mLinefeed;
     pos = txt;
     if (pos == 0) {
         return;

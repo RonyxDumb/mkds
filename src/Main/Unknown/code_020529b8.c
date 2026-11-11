@@ -35,7 +35,7 @@
 #include "Main/Unknown/code_0203c25c.h"
 
 void ResetConnection(void) {
-    Unk02143a78 *scanParams;
+    ScanParam *scanParams;
     Unk021438f0 *scanExParams;
     BlockTransferView *blocks;
     BlockEntry *blockEntry;
@@ -51,11 +51,11 @@ void ResetConnection(void) {
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mFlags = 0;
     scanParams = gConnectionWork->mScanParams;
-    scanParams->mUnk_00 = gConnectionWork->mScanBssDescBuffer;
-    scanParams->mUnk_04 = 0;
-    scanParams->mUnk_06 = 0;
+    scanParams->mScanBuf = gConnectionWork->mScanBssDescBuffer;
+    scanParams->mChannel = 0;
+    scanParams->mMaxChannelTime = 0;
     for (index = 0; index < 6; index++) {
-        scanParams->mUnk_08[index] = 0xff;
+        scanParams->mBssid[index] = 0xff;
     }
     scanExParams = gConnectionWork->mScanExParams;
     scanExParams->mUnk_00 = gConnectionWork->mScanExBuffer;
@@ -610,7 +610,7 @@ void StartParentCallback(Unk021425e8 *event) {
                 role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
                 switch (role) {
                     case 1:
-                        seed = gConnectionWork->mParentParameter->mUnk_0c;
+                        seed = gConnectionWork->mParentParameter->mTgid;
                         break;
                     case 2:
                         seed = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;

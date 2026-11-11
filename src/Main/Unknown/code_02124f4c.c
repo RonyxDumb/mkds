@@ -76,12 +76,12 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
     lineIndex = 0;
     charSpacing = textCanvas->mCharSpacing;
     font = textCanvas->mFont;
-    lineHeight = textCanvas->mLineSpacing + font->mPRes->mUnk_01;
+    lineHeight = textCanvas->mLineSpacing + font->mPRes->mLinefeed;
     readPointer = text;
     writePointer = expandedText;
     *maxWidth = ~lineIndex;
     *lineWidths = lineIndex;
-    *textHeight = font->mPRes->mUnk_01;
+    *textHeight = font->mPRes->mLinefeed;
     charCode = font->mCbCharSpliter(&readPointer);
     if (charCode != 0) {
         lineWidthPointer = lineWidths;
@@ -106,7 +106,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                             (fixedDigitsOnly != 0 && !IsDigitOrDash(tagTextChar))) {
                                             glyphIndex = NNS_G2dFontFindGlyphIndex(font, tagTextChar);
                                             if (glyphIndex == 0xffff) {
-                                                glyphIndex = font->mPRes->mUnk_02;
+                                                glyphIndex = font->mPRes->mAlterCharIndex;
                                             }
                                             charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                             *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -125,7 +125,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                         (fixedDigitsOnly != 0 && !IsDigitOrDash(playerNameChars[playerNameIndex]))) {
                                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, playerNameChars[playerNameIndex]);
                                         if (glyphIndex == 0xffff) {
-                                            glyphIndex = font->mPRes->mUnk_02;
+                                            glyphIndex = font->mPRes->mAlterCharIndex;
                                         }
                                         charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                         *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -144,7 +144,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                             (fixedDigitsOnly != 0 && !IsDigitOrDash(tagTextChar))) {
                                             glyphIndex = NNS_G2dFontFindGlyphIndex(font, tagTextChar);
                                             if (glyphIndex == 0xffff) {
-                                                glyphIndex = font->mPRes->mUnk_02;
+                                                glyphIndex = font->mPRes->mAlterCharIndex;
                                             }
                                             charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                             *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -163,7 +163,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                         (fixedDigitsOnly != 0 && !IsDigitOrDash(ownerTextChars[ownerTextIndex]))) {
                                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, ownerTextChars[ownerTextIndex]);
                                         if (glyphIndex == 0xffff) {
-                                            glyphIndex = font->mPRes->mUnk_02;
+                                            glyphIndex = font->mPRes->mAlterCharIndex;
                                         }
                                         charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                         *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -200,7 +200,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                     if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !IsDigitOrDash(charCode))) {
                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
                         if (glyphIndex == 0xffff) {
-                            glyphIndex = font->mPRes->mUnk_02;
+                            glyphIndex = font->mPRes->mAlterCharIndex;
                         }
                         charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                         *lineWidthPointer += charWidths->mCharWidth + value;
@@ -257,7 +257,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
     cursorY = top;
     charSpacing = textCanvas->mCharSpacing;
     font = textCanvas->mFont;
-    lineAdvance = textCanvas->mLineSpacing + font->mPRes->mUnk_01;
+    lineAdvance = textCanvas->mLineSpacing + font->mPRes->mLinefeed;
     readPointer = text;
     cursorX += GetTextLineOffset(alignFlags, lineAlign, width, textWidth, *lineWidths);
     if (cursorX < 0) {
@@ -312,7 +312,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
             } else {
                 glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
                 if (glyphIndex == 0xffff) {
-                    glyphIndex = font->mPRes->mUnk_02;
+                    glyphIndex = font->mPRes->mAlterCharIndex;
                 }
                 charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                 cursorX += (fixedAdvance - charWidths->mCharWidth) >> 1;

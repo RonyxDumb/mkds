@@ -176,10 +176,10 @@ typedef struct NNSSndHeapBlock {
 } NNSSndHeapBlock;
 
 // Position in the entries of an Unk02021968, set by SND_GetFirstInstDataPos and advanced by SND_GetNextInstData.
-typedef struct Unk02021bc8 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-} Unk02021bc8;
+typedef struct SNDInstPos {
+    /* 00 */ u32 mPrgNo;
+    /* 04 */ u32 mIndex;
+} SNDInstPos;
 
 // Entry of 8 bytes in the table at 0x18 of an Unk02021968: SND_DestroyWaveArc clears the entries of a chain linked
 // through mUnk_04, SND_DestroyBank and SND_AssignWaveArc move entries between the chains of two objects.

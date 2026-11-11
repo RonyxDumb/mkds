@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "ITCM/code_01ff8000.h"
 
-void DrawChandelier(void *mapObjectList, Unk0209f338 *chandelier) {
+void DrawChandelier(void *mapObjectList, Chandelier *chandelier) {
     MtxFx43 *viewMatrix;
     u32 commandArg;
     commandArg = 0x1e;

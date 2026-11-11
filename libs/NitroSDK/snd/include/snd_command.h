@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk020217b4 Unk020217b4;
+typedef struct SNDSharedWork SNDSharedWork;
 
 // 0x18 bytes, linked through mNext. data_021735a0 holds 256 of them; SND_CommandInit chains them and SND_AllocCommand
 // takes one.
@@ -31,7 +31,7 @@ extern s32 data_021732e0;
 extern s32 data_021732e4;
 extern u32 data_021732e8;
 extern SNDCommand *data_021732ec[13];
-extern Unk020217b4 data_02173320;
+extern SNDSharedWork data_02173320;
 extern SNDCommand data_021735a0[256];
 extern Unk02021734 data_02174da0[8];
 

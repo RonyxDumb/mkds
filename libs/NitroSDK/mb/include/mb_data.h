@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02142eac.h" // Unk02143a78
+#include "code_02142eac.h" // ScanParam
 
 // Three words that MBi_SetChildMPMaxSize sets up.
 typedef struct PieceSizes {
@@ -26,4 +26,4 @@ extern struct WorkerQueue *gWorkerQueue;
 extern struct MbRequestPieceBuf *gPieceBuffer;
 extern u8 gLastPieceIndex;
 extern PieceSizes gPieceSizes;
-extern Unk02143a78 gScanParams;
+extern ScanParam gScanParams;

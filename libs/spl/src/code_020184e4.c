@@ -1667,26 +1667,26 @@ static inline void SetTexImageParam(u32 addr, Unk02019df8_Kind format, Unk02019d
                             (wrapT << 18) | (color0Transparent << 29);
 }
 
-void SPLUtil_SetTexture(Unk020184e4_2c *tex) {
+void SPLUtil_SetTexture(ParticleTexture *tex) {
     Unk020184e4_2c_0c texParam;
     u32 scaleX;
     u32 scaleY;
 
-    texParam = tex->mUnk_0c;
-    SetTexImageParam(tex->mUnk_04, texParam.mUnk_00_0, texParam.mUnk_00_4, texParam.mUnk_00_8, texParam.mUnk_00_12,
-                     texParam.mUnk_00_14, texParam.mUnk_00_16);
-    reg_G3_PLTT_BASE = tex->mUnk_08 >> (4 - (texParam.mUnk_00_0 == 2 ? 1 : 0));
+    texParam = tex->mParam;
+    SetTexImageParam(tex->mTextureVramAddr, texParam.mUnk_00_0, texParam.mUnk_00_4, texParam.mUnk_00_8,
+                     texParam.mUnk_00_12, texParam.mUnk_00_14, texParam.mUnk_00_16);
+    reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mUnk_00_0 == 2 ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
-    scaleX = tex->mUnk_10 << 12;
-    scaleY = tex->mUnk_12 << 12;
+    scaleX = tex->mWidth << 12;
+    scaleY = tex->mHeight << 12;
     reg_G3_MTX_SCALE = scaleX;
     reg_G3_MTX_SCALE = scaleY;
     reg_G3_MTX_SCALE = 0;
     reg_G3_MTX_MODE = 1;
 }
 
-void SPLUtil_SetTexture_Stub(Unk020184e4_2c *tex) {}
+void SPLUtil_SetTexture_Stub(ParticleTexture *tex) {}
 
 void SPLEmitter_Init(Unk0201ca6c *emtr, Unk0201ca6c_20 *res, Vec3 *pos) {
     Unk0201ca6c_20_00 *header;
@@ -1905,7 +1905,7 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     Unk0201ca6c *emitter;
     Unk0201ca6c_20_00 *header;
     void (*drawFunc)(SPLManager *mgr, Unk0201e3c8 *b);
-    void (*textureFunc)(Unk020184e4_2c *mgr);
+    void (*textureFunc)(ParticleTexture *mgr);
     Unk0201e3c8 *particle;
 
     emitter = mgr->mRenderStateEmitter;
@@ -2070,7 +2070,7 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
     Unk0201ca6c_20 *resource;
     Unk0201ca6c_20_00_00 flags;
     Unk0201ca6c_20_18 *behaviorEntry;
-    Unk020184e4_2c *texture;
+    ParticleTexture *texture;
     Unk020184e4_2c_00 *textureHeader;
 
     off = 0x20;
@@ -2162,30 +2162,30 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
         textureHeader = OFFSET_PTR(Unk020184e4_2c_00, data, off);
-        texture->mUnk_00 = textureHeader;
-        texture->mUnk_10 = 1 << (textureHeader->mUnk_04.mUnk_00_4 + 3);
-        texture->mUnk_12 = 1 << (textureHeader->mUnk_04.mUnk_00_8 + 3);
-        texture->mUnk_0c = textureHeader->mUnk_04;
+        texture->mHeader = textureHeader;
+        texture->mWidth = 1 << (textureHeader->mUnk_04.mUnk_00_4 + 3);
+        texture->mHeight = 1 << (textureHeader->mUnk_04.mUnk_00_8 + 3);
+        texture->mParam = textureHeader->mUnk_04;
         off += textureHeader->mUnk_1c;
     }
 }
 
 s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 isSpecial)) {
     s32 index;
-    Unk020184e4_2c *texture;
+    ParticleTexture *texture;
     Unk020184e4_2c_00 *textureHeader;
     u32 vramAddr;
 
     GX_BeginLoadTex();
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
-        textureHeader = texture->mUnk_00;
+        textureHeader = texture->mHeader;
         if (textureHeader->mUnk_04.mUnk_00_17) {
-            texture->mUnk_04 = mgr->mTextures[textureHeader->mUnk_04.mUnk_00_18].mUnk_04;
+            texture->mTextureVramAddr = mgr->mTextures[textureHeader->mUnk_04.mUnk_00_18].mTextureVramAddr;
         } else {
             vramAddr = vramAlloc(textureHeader->mUnk_08, textureHeader->mUnk_04.mUnk_00_0 == 5 ? 1 : 0);
-            GX_LoadTex((u8 *) texture->mUnk_00 + 0x20, vramAddr, textureHeader->mUnk_08);
-            texture->mUnk_04 = vramAddr;
+            GX_LoadTex((u8 *) texture->mHeader + 0x20, vramAddr, textureHeader->mUnk_08);
+            texture->mTextureVramAddr = vramAddr;
         }
     }
     GX_EndLoadTex();
@@ -2194,20 +2194,20 @@ s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
 
 s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 isSpecial)) {
     s32 index;
-    Unk020184e4_2c *texture;
+    ParticleTexture *texture;
     Unk020184e4_2c_00 *textureHeader;
     u32 vramAddr;
 
     GX_BeginLoadTexPltt();
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
-        textureHeader = texture->mUnk_00;
+        textureHeader = texture->mHeader;
         vramAddr = 0;
         if (textureHeader->mUnk_10 != 0) {
             vramAddr = vramAlloc(textureHeader->mUnk_10, textureHeader->mUnk_04.mUnk_00_0 == 2 ? 1 : 0);
-            GX_LoadTexPltt((u8 *) texture->mUnk_00 + textureHeader->mUnk_0c, vramAddr, textureHeader->mUnk_10);
+            GX_LoadTexPltt((u8 *) texture->mHeader + textureHeader->mUnk_0c, vramAddr, textureHeader->mUnk_10);
         }
-        texture->mUnk_08 = vramAddr;
+        texture->mPaletteVramAddr = vramAddr;
     }
     GX_EndLoadTexPltt();
     return 1;

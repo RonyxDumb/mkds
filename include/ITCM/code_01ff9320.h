@@ -13,7 +13,7 @@ typedef struct TexMtxCommand {
     /* 4c */ u32 mUnk_4c;
 } TexMtxCommand;
 
-typedef void (*Unk01ff9320_Fn)(s32 *, NNSG3dMatAnmResult *);
+typedef void (*CalcTexMtxFunc)(s32 *, NNSG3dMatAnmResult *);
 
 void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult);
 void texmtxCalc_flagTRS_(s32 *matrix);

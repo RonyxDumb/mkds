@@ -48,8 +48,8 @@ typedef union Unk020219f0 {
 } Unk020219f0;
 
 u32 SND_GetWaveDataCount(Unk02021968 *waveArc);
-u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, Unk02021bc8 *pos);
-void SND_GetFirstInstDataPos(Unk02021bc8 *pos);
+u32 SND_GetNextInstData(Unk02021968 *bank, Unk020219f0 *inst, SNDInstPos *pos);
+void SND_GetFirstInstDataPos(SNDInstPos *pos);
 void SND_DestroyWaveArc(Unk02021968 *waveArc);
 void SND_DestroyBank(Unk02021968 *bank);
 void SND_AssignWaveArc(Unk02021968 *bank, s32 index, Unk02021968 *waveArc);

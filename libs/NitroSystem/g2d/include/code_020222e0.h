@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "code_02022030.h" // Unk020229c8
+#include "code_02022030.h" // NNSG2dAnimDataSRT
 
-Unk020229c8 *NNS_G2dGetAnimCtrlCurrentElement(Unk02022030 *pAnimCtrl);
+NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(Unk02022030 *pAnimCtrl);

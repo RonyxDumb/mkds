@@ -4,7 +4,7 @@
 #include "code_0200eddc.h"
 #include "Main/Unknown/code_0200e000.h"
 
-Unk020217b4 *data_02174e00;
+SNDSharedWork *data_02174e00;
 
 // Reads the player status word of the shared work area after invalidating its cache line.
 u32 SND_GetPlayerStatus(void) {
@@ -25,7 +25,7 @@ u32 SNDi_GetFinishedCommandTag(void) {
 }
 
 // Clears the status words, the tick counters and sets every variable to -1, then writes the area back to memory.
-void SNDi_InitSharedWork(Unk020217b4 *work) {
+void SNDi_InitSharedWork(SNDSharedWork *work) {
     s32 playerNo;
     s32 variableNo;
 

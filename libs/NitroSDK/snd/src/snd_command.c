@@ -18,7 +18,7 @@ s32 data_021732dc;
 s32 data_021732e0;
 s32 data_021732e4;
 SNDCommand *data_021732ec[13];
-Unk020217b4 data_02173320;
+SNDSharedWork data_02173320;
 SNDCommand data_021735a0[256];
 
 // Stores handler and arg in the alarm table entry for alarmNo and returns the id byte of that entry after raising it.

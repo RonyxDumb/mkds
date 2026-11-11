@@ -7,16 +7,16 @@ typedef struct Wanwan Wanwan;
 
 // Object of CreateWanwanDrawList: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
 // it at 0x28.
-typedef struct Unk020dd804 {
+typedef struct WanwanDrawList {
     /* 00 */ u8 mUnk_00[8];
-    /* 08 */ void (*mUnk_08)(void);
+    /* 08 */ void (*mInit)(void);
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ void (*mUnk_10)(void *, Wanwan *, void *, u32);
+    /* 10 */ void (*mForEachObject)(void *, Wanwan *, void *, u32);
     /* 14 */ u8 mUnk_14[4];
     /* 18 */ s32 mUnk_18;
     /* 1c */ u8 mUnk_1c[0xc];
-    /* 28 */ struct Unk020dd804 **mUnk_28;
-} Unk020dd804;
+    /* 28 */ struct WanwanDrawList **mListSlot;
+} WanwanDrawList;
 
 // Object of CreateWanwanKindData: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
 typedef struct Unk020dd860 {
@@ -32,10 +32,10 @@ typedef struct Unk020dd860 {
 } Unk020dd860;
 
 extern const MapObjectList data_02158334;
-extern const Unk020dd804 data_0215835c;
+extern const WanwanDrawList data_0215835c;
 extern const Unk020dd860 data_02158388;
 extern MapObjectList *gWanwanUpdateList;
-extern Unk020dd804 *gWanwanDrawList;
+extern WanwanDrawList *gWanwanDrawList;
 
 void EnterWanwanState5(Wanwan *wanwan);
 void UpdateWanwanState4Nop(Wanwan *wanwan);
@@ -50,5 +50,5 @@ u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *s
 void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
 MapObjectList *CreateWanwanUpdateList(void);
-Unk020dd804 *CreateWanwanDrawList(void);
+WanwanDrawList *CreateWanwanDrawList(void);
 Unk020dd860 *CreateWanwanKindData(void);

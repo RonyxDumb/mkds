@@ -8,7 +8,7 @@ typedef struct OSMutex OSMutex;
 
 typedef struct OSMessageQueue OSMessageQueue;
 
-struct Unk02005210;
+struct MWiDestructorChain;
 struct WMArm9Buf;
 struct Unk021425e8;
 
@@ -23,7 +23,7 @@ extern void *data_0217eef8[10];
 extern struct Unk021425e8 gPortCallbackEvent;
 // The ten 0x100-byte command messages.
 extern u8 data_0217ef60[10][0x100];
-extern struct Unk02005210 *data_0217eeb0;
+extern struct MWiDestructorChain *data_0217eeb0;
 // Function pointers called and cleared by ExitTail (data_0217e984) and exit (data_0217e988).
 extern void (*data_0217e984)(void);
 extern void (*data_0217e988)(void);

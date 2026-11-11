@@ -5,7 +5,7 @@
 #include "code_02004dc0.h" // FSOverlayInfo, FSFile
 #include "code_0212d214.h"
 #include "os_thread.h"
-#include "code_02142eac.h" // Unk021438f0, Unk02143a78, Unk02143c30
+#include "code_02142eac.h" // Unk021438f0, ScanParam, ParentParameter
 #include "code_021445e0.h" // WMDataSharingInfo, WMDataSet
 #include "code_02147cd8.h" // Vec3s16
 #include "code_0214a748.h" // MtxFx44
@@ -550,8 +550,8 @@ typedef struct ConnectionWork {
     /* 000c */ s32 mStep;
     /* 0010 */ s32 mRequestPending;
     /* 0014 */ void *mWmWorkBuffer;
-    /* 0018 */ Unk02143c30 *mParentParameter;
-    /* 001c */ Unk02143a78 *mScanParams;
+    /* 0018 */ ParentParameter *mParentParameter;
+    /* 001c */ ScanParam *mScanParams;
     /* 0020 */ Unk021438f0 *mScanExParams;
     /* 0024 */ WMBssDesc *mParentBssDesc;
     /* 0028 */ void *mScanBssDescBuffer;

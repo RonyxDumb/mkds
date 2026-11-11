@@ -259,12 +259,12 @@ typedef struct Unk021438f0_0c {
 } Unk021438f0_0c;
 
 // Scan parameters of WM_StartScan.
-typedef struct Unk02143a78 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08[6];
-} Unk02143a78;
+typedef struct ScanParam {
+    /* 00 */ void *mScanBuf;
+    /* 04 */ u16 mChannel;
+    /* 06 */ u16 mMaxChannelTime;
+    /* 08 */ u8 mBssid[6];
+} ScanParam;
 
 // Request WM_StartScan writes into the request area.
 typedef struct Unk02143a78_0c {
@@ -276,22 +276,22 @@ typedef struct Unk02143a78_0c {
 } Unk02143a78_0c;
 
 // Parent parameters of WM_SetParentParameter.
-typedef struct Unk02143c30 {
-    /* 00 */ struct UserGameInfo *mUnk_00;
-    /* 04 */ u16 mUnk_04;
+typedef struct ParentParameter {
+    /* 00 */ struct UserGameInfo *mUserGameInfo;
+    /* 04 */ u16 mUserGameInfoLength;
     /* 06 */ u8 mUnk_06[6];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
+    /* 0c */ u16 mTgid;
+    /* 0e */ u16 mEntryFlag;
+    /* 10 */ u16 mMaxEntry;
     /* 12 */ u8 mUnk_12[2];
-    /* 14 */ u16 mUnk_14;
+    /* 14 */ u16 mKsFlag;
     /* 16 */ u8 mUnk_16[2];
-    /* 18 */ u16 mUnk_18;
+    /* 18 */ u16 mBeaconPeriod;
     /* 1a */ u8 mUnk_1a[0x18];
-    /* 32 */ u16 mUnk_32;
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u16 mUnk_36;
-} Unk02143c30;
+    /* 32 */ u16 mChannel;
+    /* 34 */ u16 mParentMaxSize;
+    /* 36 */ u16 mChildMaxSize;
+} ParentParameter;
 
 s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize);
 s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData, u16 sendDataSize);
@@ -310,12 +310,12 @@ s32 WM_PowerOff(Unk021425e8Func callback);
 s32 WM_Initialize(void *wmSysBuf, Unk021425e8Func callback, u16 dmaNo);
 s32 WM_Reset(Unk021425e8Func callback);
 s32 WM_End(Unk021425e8Func callback);
-s32 WM_SetParentParameter(Unk021425e8Func callback, Unk02143c30 *pparaBuf);
-u32 WmCheckParentParameter(const Unk02143c30 *param);
+s32 WM_SetParentParameter(Unk021425e8Func callback, ParentParameter *pparaBuf);
+u32 WmCheckParentParameter(const ParentParameter *param);
 s32 WMi_StartParentEx(Unk021425e8Func callback, BOOL powerSave);
 s32 WM_StartParent(Unk021425e8Func callback);
 s32 WM_EndParent(Unk021425e8Func callback);
-s32 WM_StartScan(Unk021425e8Func callback, Unk02143a78 *param);
+s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param);
 s32 WM_StartScanEx(Unk021425e8Func callback, Unk021438f0 *param);
 s32 WM_EndScan(Unk021425e8Func callback);
 s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode);

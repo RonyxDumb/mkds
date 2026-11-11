@@ -233,12 +233,12 @@ void FS_StartOverlay(FSOverlayInfo *info) {
 
 // Runs and removes the end handlers whose function or object lies inside the overlay.
 void FS_EndOverlay(FSOverlayInfo *info) {
-    Unk02005210 *prev;
-    Unk02005210 *base;
-    Unk02005210 *cur;
-    Unk02005210 *next;
-    Unk02005210 *first;
-    Unk02005210 *removedLast;
+    MWiDestructorChain *prev;
+    MWiDestructorChain *base;
+    MWiDestructorChain *cur;
+    MWiDestructorChain *next;
+    MWiDestructorChain *first;
+    MWiDestructorChain *removedLast;
     u32 low;
     u32 high;
     u32 enabled;
@@ -256,12 +256,12 @@ void FS_EndOverlay(FSOverlayInfo *info) {
         cur = base;
         if (base != 0) {
             do {
-                arg = cur->mUnk_08;
-                next = cur->mUnk_00;
-                funcAddr = (u32) cur->mUnk_04;
+                arg = cur->mObj;
+                next = cur->mNext;
+                funcAddr = (u32) cur->mDtor;
                 if ((arg == 0 && funcAddr >= low && funcAddr < high) || ((u32) arg >= low && (u32) arg < high)) {
                     if (removedLast != 0) {
-                        removedLast->mUnk_00 = cur;
+                        removedLast->mNext = cur;
                     } else {
                         first = cur;
                     }
@@ -269,10 +269,10 @@ void FS_EndOverlay(FSOverlayInfo *info) {
                         data_0217eeb0 = next;
                         base = next;
                     }
-                    cur->mUnk_00 = 0;
+                    cur->mNext = 0;
                     removedLast = cur;
                     if (prev != 0) {
-                        prev->mUnk_00 = next;
+                        prev->mNext = next;
                     }
                 } else {
                     prev = cur;
@@ -285,9 +285,9 @@ void FS_EndOverlay(FSOverlayInfo *info) {
             return;
         }
         do {
-            next = first->mUnk_00;
-            if (first->mUnk_04 != 0) {
-                first->mUnk_04(first->mUnk_08);
+            next = first->mNext;
+            if (first->mDtor != 0) {
+                first->mDtor(first->mObj);
             }
             first = next;
         } while (first != 0);

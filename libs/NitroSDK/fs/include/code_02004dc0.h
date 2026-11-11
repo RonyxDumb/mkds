@@ -29,11 +29,11 @@ typedef struct FSOverlayInfo {
 } FSOverlayInfo;
 
 // Node of the list at data_0217eeb0 that FS_EndOverlay walks.
-typedef struct Unk02005210 {
-    /* 00 */ struct Unk02005210 *mUnk_00;
-    /* 04 */ void (*mUnk_04)(void *);
-    /* 08 */ void *mUnk_08;
-} Unk02005210;
+typedef struct MWiDestructorChain {
+    /* 00 */ struct MWiDestructorChain *mNext;
+    /* 04 */ void (*mDtor)(void *);
+    /* 08 */ void *mObj;
+} MWiDestructorChain;
 
 extern u32 data_0216f350;
 extern u32 data_0216f354;

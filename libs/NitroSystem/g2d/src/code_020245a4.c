@@ -97,7 +97,7 @@ u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *reader, s32 bitCount) {
     return result & (0xff >> (8 - bitCount));
 }
 
-u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, Unk02022ce4 **fontOut) {
+u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation **fontOut) {
     u32 versionIndex;
     NNSG2dBinaryBlockHeader *part;
 
@@ -114,10 +114,10 @@ u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, Unk02022ce4 **fontOut)
         *fontOut = 0;
         return 0;
     }
-    *fontOut = (Unk02022ce4 *) (part + 1);
+    *fontOut = (NNSG2dFontInformation *) (part + 1);
     if (versionIndex != 0) {
-        (*fontOut)->mUnk_07 = (*fontOut)->mUnk_04.mCharWidth;
-        (*fontOut)->mUnk_04.mCharWidth = 0;
+        (*fontOut)->mEncoding = (*fontOut)->mDefaultWidth.mCharWidth;
+        (*fontOut)->mDefaultWidth.mCharWidth = 0;
     }
     return versionIndex + 1;
 }

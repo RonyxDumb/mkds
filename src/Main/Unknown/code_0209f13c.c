@@ -18,7 +18,7 @@
 
 void InitChandelierObjects(Unk0209f514 *objectList) {
     s32 objectIndex;
-    Unk0209f338 *chandelier;
+    Chandelier *chandelier;
     RandomState64 *random;
 
     if (objectList == NULL) {
@@ -32,7 +32,7 @@ void InitChandelierObjects(Unk0209f514 *objectList) {
     }
 }
 
-void UpdateChandelier(void *mapObjectList, Unk0209f338 *chandelier) {
+void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     SoundStartParams firstSoundParams;
     SoundStartParams secondSoundParams;
     SoundStartParams thirdSoundParams;

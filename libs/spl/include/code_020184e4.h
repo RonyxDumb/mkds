@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_0201c528.h"
 
-// Word at Unk020184e4_2c 0x0c and Unk020184e4_2c_00 0x04.
+// Word at ParticleTexture 0x0c and Unk020184e4_2c_00 0x04.
 typedef struct Unk020184e4_2c_0c {
     /* 00 */ u32 mUnk_00_0 : 4;
     /* 00 */ u32 mUnk_00_4 : 4;
@@ -28,14 +28,14 @@ typedef struct Unk020184e4_2c_00 {
 } Unk020184e4_2c_00;
 
 // Entries of the table at SPLManager 0x2c (0x14 bytes each, count at 0x32).
-typedef struct Unk020184e4_2c {
-    /* 00 */ Unk020184e4_2c_00 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ Unk020184e4_2c_0c mUnk_0c;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-} Unk020184e4_2c;
+typedef struct ParticleTexture {
+    /* 00 */ Unk020184e4_2c_00 *mHeader;
+    /* 04 */ u32 mTextureVramAddr;
+    /* 08 */ u32 mPaletteVramAddr;
+    /* 0c */ Unk020184e4_2c_0c mParam;
+    /* 10 */ u16 mWidth;
+    /* 12 */ u16 mHeight;
+} ParticleTexture;
 
 // First bytes of the data SPLManager_LoadResources reads.
 typedef struct Unk02018a1c {
@@ -48,7 +48,7 @@ typedef struct SPLManager {
     /* 00 */ void *(*mAlloc)(u32 a);
     /* 04 */ ParticleList mUnk_04[3];
     /* 28 */ Unk0201ca6c_20 *mResources;
-    /* 2c */ Unk020184e4_2c *mTextures;
+    /* 2c */ ParticleTexture *mTextures;
     /* 30 */ u16 mResCount;
     /* 32 */ u16 mTexCount;
     /* 34 */ s16 mMaxEmitters;
@@ -92,8 +92,8 @@ void SPLManager_DrawChildParticles(SPLManager *mgr);
 void SPLManager_DrawParticles(SPLManager *mgr);
 void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr);
 void SPLEmitter_Init(Unk0201ca6c *emtr, Unk0201ca6c_20 *res, Vec3 *pos);
-void SPLUtil_SetTexture_Stub(Unk020184e4_2c *tex);
-void SPLUtil_SetTexture(Unk020184e4_2c *tex);
+void SPLUtil_SetTexture_Stub(ParticleTexture *tex);
+void SPLUtil_SetTexture(ParticleTexture *tex);
 void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl);
 void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl);
 void SPLDraw_Child_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl);
