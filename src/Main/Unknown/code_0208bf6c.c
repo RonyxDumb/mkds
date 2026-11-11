@@ -8,7 +8,7 @@ void SetupKartAiForBattle(KartAi *kartAi, s32 kartIndex) {
     SetupBattleKartAi(kartAi, kart);
     SetupBattleKartAiSpeedLimit(&kartAi->mAiSpeedLimit, kartAi);
     ClearKartAiItemUseWrapper(&kartAi->mItemUse);
-    PickBattleKartAiRaceStart(kartAi, &kartAi->mUnk_e8);
+    PickBattleKartAiRaceStart(kartAi, &kartAi->mRaceSpeedLimit);
 }
 
 void ResetKartAiForBattle(KartAi *kartAi, PointLink *link) {

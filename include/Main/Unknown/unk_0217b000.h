@@ -487,8 +487,7 @@ typedef struct KeyboardTextEntry {
     /* 04 */ void *mBg2Scr;
     /* 08 */ s32 mBg2CharSize;
     /* 0c */ s32 mBg2ScrSize;
-    /* 10 */ struct Ncgr *mNcgrs[5];
-    /* 24 */ struct Ncgr *mUnk_24;
+    /* 10 */ struct Ncgr *mNcgrs[6];
     /* 28 */ void *mKbds[6];
     /* 40 */ u16 *mText;
     /* 44 */ u16 mTextCapacity;
@@ -863,16 +862,25 @@ typedef struct RaceTaPositions {
 
 extern RaceTaPositions *gRaceTaPositions;
 // Object behind gRaceLinkLevel.
-typedef struct Unk0217b3ec {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-} Unk0217b3ec;
+typedef struct RaceLinkLevel {
+    /* 00 */ s32 mLinkLevel;
+    /* 04 */ s32 mWiFiLinkLevel;
+    /* 08 */ s32 mFriendOnFrames;
+    /* 0c */ s32 mPrevFriendOn;
+    /* 10 */ s32 mFriendOn;
+} RaceLinkLevel;
 
-extern Unk0217b3ec *gRaceLinkLevel;
-extern Unk0217b3ec *gRaceLapNumber;
+// Object behind gRaceLapNumber.
+typedef struct RaceLapNumber {
+    /* 00 */ s32 mLapIndex;
+    /* 04 */ s32 mPrevLapIndex;
+    /* 08 */ s32 mLastLapIndex;
+    /* 0c */ s32 mBlinkFrames;
+    /* 10 */ s32 mBlinkShown;
+} RaceLapNumber;
+
+extern RaceLinkLevel *gRaceLinkLevel;
+extern RaceLapNumber *gRaceLapNumber;
 // Object behind gRaceHudSubScreenSecondHand, 0x44 bytes allocated by CreateRaceHudSubScreenSecondHand: a table of
 // object pointers and two counts (as in RaceHudSubScreenCells), three halfwords and two arrays of three pairs.
 typedef struct RaceHudSubScreenSecondHand {
@@ -934,8 +942,8 @@ typedef struct KeyboardCanvas {
     /* 04 */ void *mBg2Char;
     /* 08 */ void *mMarkedBg2Char;
     /* 0c */ u16 *mBg2Scr;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 10 */ s32 mScreenMapWidth;
+    /* 14 */ s32 mScreenMapHeight;
     /* 18 */ s32 mScreenMapTopBits;
     /* 1c */ s32 mScreenMapTileBase;
     /* 20 */ s32 mGlyphColor;

@@ -156,7 +156,7 @@ void UpdateKartSound(Kart *kart) {
         return;
     }
     if (gSceneSoundState.mRaceState == 0) {
-        h = kart->mKeyALevel;
+        h = kart->mRevLevel;
         if (h > 0xcd && gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (kartFlag2Set != 0) {
                 if ((kart->mUnk_4c & KART_4C_HEADING_SWING) != 0) {

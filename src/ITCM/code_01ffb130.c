@@ -197,10 +197,10 @@ void AdvanceKartByVelocity(Kart *kart) {
     ScaleKartVelocityAndSetCappedLengthAndDirection(kart, velocityScale);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetKartForwardSpeedRatio(Vec3DotUnrounded(&kart->mVelocity, &kart->mTurnedForward));
-        if ((kart->mUnk_44 & 0x1000000) && kart->mKeyALevel != 0) {
-            kart->mKeyALevel = MUL_FIXED12_NO_ROUND(kart->mKeyALevel, 0xfae);
-            if (kart->mKeyALevel < 0xcd) {
-                kart->mKeyALevel = 0;
+        if ((kart->mUnk_44 & 0x1000000) && kart->mRevLevel != 0) {
+            kart->mRevLevel = MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0xfae);
+            if (kart->mRevLevel < 0xcd) {
+                kart->mRevLevel = 0;
             }
         }
     }

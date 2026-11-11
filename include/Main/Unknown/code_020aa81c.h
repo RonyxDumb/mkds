@@ -39,7 +39,7 @@ void SetupKeyboardKeyRepeat(u16 keyMask);
 BOOL IsRepeatCounterFiring(RepeatCounter *repeatCounter);
 void ResetRepeatCounter(RepeatCounter *repeatCounter);
 void AdvanceKeyboardTextEntry(void);
-void InitKeyboardTextEntry(s32 a, s32 b, s32 textCapacity);
+void InitKeyboardTextEntry(s32 screenMapWidth, s32 screenMapHeight, s32 textCapacity);
 u16 KeyboardCursorCallback(s32 rectValue, u16 keys);
 s32 KeyboardKeyCallback(u32 keyValue, s32 newPress);
 s32 GetKeyboardLastCharIndex(void);

@@ -177,15 +177,15 @@ void ResetBattleKartAi(KartAi *kartAi) {
     Vec3 zeroVector = data_02155ebc;
 
     kartAi->mSideOffset = zeroVector;
-    kartAi->mUnk_6c = 0;
-    kartAi->mUnk_6e = 0;
+    kartAi->mSideOffsetFrames = 0;
+    kartAi->mSideOffsetFrameLimit = 0;
     kartAi->mTurnAngleDegrees = 0;
     kartAi->mSideOffsetRatio = 0;
-    kartAi->mUnk_78 = 0;
-    kartAi->mUnk_7a = 0;
+    kartAi->mContactStageFrames = 0;
+    kartAi->mContactStageFrameLimit = 0;
     kartAi->mLinkSpeedLimit = 0;
-    kartAi->mUnk_a8 = 0;
-    kartAi->mUnk_ac = 0;
+    kartAi->mContactStage = 0;
+    kartAi->mContactTimer = 0;
     kartAi->mTargetKart = NULL;
     kartAi->mTargetAhead = 0;
     kartAi->mTargetDistanceSquared = 0;
@@ -194,9 +194,9 @@ void ResetBattleKartAi(KartAi *kartAi) {
     kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
     kartAi->mInflateWaitFrames = 0;
     kartAi->mInflatePending = FALSE;
-    kartAi->mUnk_c8 = 0;
-    kartAi->mUnk_ca = 0;
-    kartAi->mUnk_cc = 0;
+    kartAi->mHeadingSwingPhase = 0;
+    kartAi->mHeadingSwingOffset = 0;
+    kartAi->mHeadingSwingSign = 0;
     kartAi->mTargetShine = NULL;
     kartAi->mEntrySearchStartIndex = 0;
     kartAi->mEntryForwardDot = 0;
@@ -341,12 +341,12 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
     s32 sideOffsetScale;
 
     VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &kartAi->mSideOffset);
-    kartAi->mUnk_6c++;
-    if (kartAi->mUnk_6c > kartAi->mUnk_6e) {
-        kartAi->mUnk_6c = 0;
+    kartAi->mSideOffsetFrames++;
+    if (kartAi->mSideOffsetFrames > kartAi->mSideOffsetFrameLimit) {
+        kartAi->mSideOffsetFrames = 0;
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
-        kartAi->mUnk_6e = 0;
+        kartAi->mSideOffsetFrameLimit = 0;
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);

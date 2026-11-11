@@ -51,36 +51,36 @@ void SetupBattleKartAiItemInUseEntry(KartAi *kartAi) {
 void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex) {
     Kart *kart = GetKart(kartIndex);
 
-    kartAi->mUnk_154 = 0;
-    SetupAwardMissionRunKartAi(kartAi, kart, kartAi->mUnk_154);
-    InitKartAiRaceSpeedLimit(&kartAi->mUnk_e8, kartAi);
+    kartAi->mListedCpu = 0;
+    SetupAwardMissionRunKartAi(kartAi, kart, kartAi->mListedCpu);
+    InitKartAiRaceSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        kartAi->mUnk_e8.mBoostsAtRaceStart = 1;
-        kartAi->mUnk_e8.mRaceStartBoostChoice = 4;
+        kartAi->mRaceSpeedLimit.mBoostsAtRaceStart = 1;
+        kartAi->mRaceSpeedLimit.mRaceStartBoostChoice = 4;
     } else {
-        kartAi->mUnk_e8.mBoostsAtRaceStart = 0;
-        kartAi->mUnk_e8.mRaceStartBoostChoice = 0;
+        kartAi->mRaceSpeedLimit.mBoostsAtRaceStart = 0;
+        kartAi->mRaceSpeedLimit.mRaceStartBoostChoice = 0;
     }
 }
 
 void ResetKartAiForAwardMissionRun(KartAi *kartAi, RacePointLink *pointLink) {
     ResetAwardMissionRunKartAi(kartAi, pointLink);
-    ResetAwardMissionRunKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
+    ResetAwardMissionRunKartAiSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
 }
 
 void AdvanceKartAiForAwardMissionRun(KartAi *kartAi) {
     AdvanceAwardMissionRunKartAi(kartAi);
-    AdvanceKartAiTurnSpeedLimit(&kartAi->mUnk_e8, kartAi);
+    AdvanceKartAiTurnSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
 }
 
 void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex) {
     Kart *kart = GetKart(kartIndex);
 
-    kartAi->mUnk_154 = 0;
-    SetupStaffRollKartAi(kartAi, kart, kartAi->mUnk_154);
-    InitKartAiRaceSpeedLimit(&kartAi->mUnk_e8, kartAi);
-    kartAi->mUnk_e8.mBoostsAtRaceStart = 0;
-    kartAi->mUnk_e8.mRaceStartBoostChoice = 0;
+    kartAi->mListedCpu = 0;
+    SetupStaffRollKartAi(kartAi, kart, kartAi->mListedCpu);
+    InitKartAiRaceSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
+    kartAi->mRaceSpeedLimit.mBoostsAtRaceStart = 0;
+    kartAi->mRaceSpeedLimit.mRaceStartBoostChoice = 0;
     if (kart->mIndex != gRaceSetup->mEntryIndex) {
         kart->mUnk_7c |= KART_7C_HIDDEN;
     }

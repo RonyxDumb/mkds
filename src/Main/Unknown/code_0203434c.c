@@ -86,7 +86,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     s32 result;
     s32 touchInReturnRect;
     s32 rectIndex;
-    s32 i;
+    s32 entryIndex;
     s32 courseLabelIndex;
     s32 courseMessageIndex;
     BOOL pairIsNew;
@@ -141,34 +141,36 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                         SetupGhostMainTextShort();
                     }
                     gTimeAttackGhostGetScan->mFilledCount = 0;
-                    for (i = 0; i < 4; i++) {
-                        courseLabelIndex = i + 4;
-                        if (TryGetScanGhostInfo(i, &ghostRecordInfo, &idBytes[0], &idBytes[1], &idBytes[2],
+                    for (entryIndex = 0; entryIndex < 4; entryIndex++) {
+                        courseLabelIndex = entryIndex + 4;
+                        if (TryGetScanGhostInfo(entryIndex, &ghostRecordInfo, &idBytes[0], &idBytes[1], &idBytes[2],
                                                 &ghostRecordInfo.mTime.mMinute, &ghostRecordInfo.mTime.mSecond,
                                                 &ghostRecordInfo.mTime.mMillisecond)) {
-                            ghostRecordInfo.mUnk_18[1] = idBytes[0];
-                            ghostRecordInfo.mUnk_18[0] = idBytes[1];
-                            ghostRecordInfo.mUnk_18[2] = idBytes[2];
+                            ghostRecordInfo.mKartIndex = idBytes[0];
+                            ghostRecordInfo.mCharacterIndex = idBytes[1];
+                            ghostRecordInfo.mCourseId = idBytes[2];
                             gTimeAttackGhostGetScan->mFilledCount++;
-                            if (gTimeAttackGhostGetScan->mGhostInfoEntries[i].mFilled == FALSE ||
-                                AreGhostRecordInfosDifferent(&gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInfo,
-                                                             &ghostRecordInfo) != FALSE) {
-                                courseMessageIndex = GetGhostCourseMessageIndex(ghostRecordInfo.mUnk_18[2]);
+                            if (gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mFilled == FALSE ||
+                                AreGhostRecordInfosDifferent(
+                                    &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInfo, &ghostRecordInfo) !=
+                                    FALSE) {
+                                courseMessageIndex = GetGhostCourseMessageIndex(ghostRecordInfo.mCourseId);
                                 ghostRecordInfo.mName[10] = 0;
                                 PrintLabelLayoutTextNoFixedAdvance(
-                                    1, gTimeAttackGhostGetScanSSelLabelTextRows[i][0], subCellFileSet->mLabelLayout,
-                                    &ghostRecordInfo, subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
+                                    1, gTimeAttackGhostGetScanSSelLabelTextRows[entryIndex][0],
+                                    subCellFileSet->mLabelLayout, &ghostRecordInfo, subCellFileSet->mCellLayout,
+                                    subCellFileSet->mCellTable);
                                 PrintLabelLayoutTextNoFixedAdvance(
                                     1, gTimeAttackGhostGetScanSSelLabelTextRows[courseLabelIndex][0],
                                     subCellFileSet->mLabelLayout,
                                     GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, courseMessageIndex),
                                     subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
-                                MIi_CpuCopyFast(&ghostRecordInfo, &gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInfo,
-                                                0x28);
-                                gTimeAttackGhostGetScan->mGhostInfoEntries[i].mFilled = TRUE;
+                                MIi_CpuCopyFast(&ghostRecordInfo,
+                                                &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInfo, 0x28);
+                                gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mFilled = TRUE;
                                 SetInterpolationStateIfOpposite(
-                                    &gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInterpolation, 0);
-                                if (gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex == i) {
+                                    &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInterpolation, 0);
+                                if (gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex == entryIndex) {
                                     RefreshScanSelectedGhostInfo();
                                 }
                                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
@@ -177,8 +179,8 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                             }
                         } else {
                             SetInterpolationStateIfOpposite(
-                                &gTimeAttackGhostGetScan->mGhostInfoEntries[i].mInterpolation, 2);
-                            gTimeAttackGhostGetScan->mGhostInfoEntries[i].mFilled = FALSE;
+                                &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInterpolation, 2);
+                            gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mFilled = FALSE;
                         }
                     }
                     UpdateScanSelectedIndex();
@@ -302,10 +304,10 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
         case 8:
             if (DoesAnySlotGhostMatchCourse(
                     gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex]
-                        .mInfo.mUnk_18[2]) != 0) {
+                        .mInfo.mCourseId) != 0) {
                 courseMessageIndex = GetGhostCourseMessageIndex(
                     gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex]
-                        .mInfo.mUnk_18[2]);
+                        .mInfo.mCourseId);
                 message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x55);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 0);
                 secondButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 1);
@@ -341,7 +343,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     gTimeAttackGhostGetScan->mGhostSlot = FindSlotGhostForCourse(
                         gTimeAttackGhostGetScan
                             ->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex]
-                            .mInfo.mUnk_18[2]);
+                            .mInfo.mCourseId);
                     GetSlotGhostBuffer()->mHead.mFilled = 1;
                     WriteSlotGhostRecord((u8) gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
                     gTimeAttackGhostGetScan->mState = 11;
@@ -398,10 +400,10 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     }
     UpdateScanEntryOffsetX();
     UpdateConnectionSendTimer();
-    for (i = 0; i < 2; i++) {
-        cellFileSet = &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[i];
+    for (entryIndex = 0; entryIndex < 2; entryIndex++) {
+        cellFileSet = &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[entryIndex];
         DrawLayoutTable(cellFileSet->mCellLayout, cellFileSet->mCells, cellFileSet->mLabelLayout,
-                        gTimeAttackGhostGetScan->mOamLists[i], cellFileSet->mCellTable);
+                        gTimeAttackGhostGetScan->mOamLists[entryIndex], cellFileSet->mCellTable);
     }
     return result;
 }

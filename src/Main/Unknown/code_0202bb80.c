@@ -307,8 +307,8 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 }
                 SetExtraEntryNames();
                 for (i = 0; i < 8; i++) {
-                    gPlayerEntryList->mUnk_1dc[i] = 0;
-                    gPlayerEntryList->mUnk_1bc[i] = gPlayerEntryList->mUnk_1dc[i];
+                    gPlayerEntryList->mKartShown[i] = 0;
+                    gPlayerEntryList->mCharacterShown[i] = gPlayerEntryList->mKartShown[i];
                 }
                 break;
             case 2:
@@ -326,11 +326,11 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                     SetEntryTargetSlot(n, 0);
                 }
                 for (i = 0; i < 4; i++) {
-                    gPlayerEntryList->mUnk_1ac[i] = 0;
+                    gPlayerEntryList->mEmptySlotSoundPlayed[i] = 0;
                 }
                 for (i = 0; i < 8; i++) {
-                    gPlayerEntryList->mUnk_1dc[i] = 0;
-                    gPlayerEntryList->mUnk_1bc[i] = gPlayerEntryList->mUnk_1dc[i];
+                    gPlayerEntryList->mKartShown[i] = 0;
+                    gPlayerEntryList->mCharacterShown[i] = gPlayerEntryList->mKartShown[i];
                 }
                 break;
         }
@@ -473,8 +473,8 @@ void AdvancePlayerEntryList(void) {
                         GetRaceSetupCopy()->mEntries[i].mCharacterIndex = -1;
                         GetRaceSetupCopy()->mEntries[i].mKartIndex = -1;
                         GetRaceSetupCopy()->mEntries[i].mKartStored = 0;
-                        gPlayerEntryList->mUnk_1dc[i] = 0;
-                        gPlayerEntryList->mUnk_1bc[i] = gPlayerEntryList->mUnk_1dc[i];
+                        gPlayerEntryList->mKartShown[i] = 0;
+                        gPlayerEntryList->mCharacterShown[i] = gPlayerEntryList->mKartShown[i];
                     } else if ((c & 0x40) != 0) {
                         d = c & 0x3f;
                         if (d == 0xc) {
@@ -487,9 +487,9 @@ void AdvancePlayerEntryList(void) {
                         }
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
                         GetRaceSetupCopy()->mEntries[i].mCharacterIndex = d;
-                        if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mUnk_1bc[i] == 0) {
+                        if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mCharacterShown[i] == 0) {
                             AddCharacterSeqQueueEntry(d, 0);
-                            gPlayerEntryList->mUnk_1bc[i] = 1;
+                            gPlayerEntryList->mCharacterShown[i] = 1;
                         }
                         if ((c & 0x80) != 0) {
                             e = GetCharacterKartIndexByMode(d);
@@ -501,9 +501,9 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
                         GetRaceSetupCopy()->mEntries[i].mKartIndex = c & 0x3f;
                         GetRaceSetupCopy()->mEntries[i].mKartStored = 1;
-                        if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mUnk_1dc[i] == 0) {
+                        if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mKartShown[i] == 0) {
                             AddCharacterSeqQueueEntry(GetRaceSetupCopy()->mEntries[i].mCharacterIndex, 1);
-                            gPlayerEntryList->mUnk_1dc[i] = 1;
+                            gPlayerEntryList->mKartShown[i] = 1;
                         }
                     }
                 }
@@ -517,8 +517,8 @@ void AdvancePlayerEntryList(void) {
                                                      fileSet->mCellLayout);
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
-                        if (gPlayerEntryList->mUnk_1ac[i] == 0) {
-                            gPlayerEntryList->mUnk_1ac[i] = 1;
+                        if (gPlayerEntryList->mEmptySlotSoundPlayed[i] == 0) {
+                            gPlayerEntryList->mEmptySlotSoundPlayed[i] = 1;
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x52);
                         }
                     } else {
@@ -541,16 +541,16 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = d;
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = g;
                         if (gPlayerEntryList->mEntryIndex != i) {
-                            if (gPlayerEntryList->mUnk_1bc[i] == 0 && d != 0) {
+                            if (gPlayerEntryList->mCharacterShown[i] == 0 && d != 0) {
                                 AddCharacterSeqQueueEntry(e, 0);
                                 if (g != FALSE) {
-                                    gPlayerEntryList->mUnk_1dc[i] = 1;
+                                    gPlayerEntryList->mKartShown[i] = 1;
                                 }
-                            } else if (gPlayerEntryList->mUnk_1dc[i] == 0 && g != FALSE) {
+                            } else if (gPlayerEntryList->mKartShown[i] == 0 && g != FALSE) {
                                 AddCharacterSeqQueueEntry(e, 1);
                             }
-                            gPlayerEntryList->mUnk_1bc[i] = d;
-                            gPlayerEntryList->mUnk_1dc[i] = g;
+                            gPlayerEntryList->mCharacterShown[i] = d;
+                            gPlayerEntryList->mKartShown[i] = g;
                         }
                     }
                 }

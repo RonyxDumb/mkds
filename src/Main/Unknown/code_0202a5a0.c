@@ -32,7 +32,7 @@ void InitResultsByMode(void *heap) {
     if (gResultScene->mMode == 0) {
         InitResultsGp(heap, gResultScene, gResultScene->mSubOam);
     } else {
-        InitResultsBattle(heap, (s32) gResultScene, (s32) gResultScene->mSubOam);
+        InitResultsBattle(heap, gResultScene, gResultScene->mSubOam);
     }
     InitLinkLevelIcons(heap, gResultScene);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;

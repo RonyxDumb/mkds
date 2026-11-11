@@ -336,11 +336,11 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
 
 void InitRaceLinkLevel(void) {
     gRaceLinkLevel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
-    gRaceLinkLevel->mUnk_00 = 0;
-    gRaceLinkLevel->mUnk_04 = 0;
-    gRaceLinkLevel->mUnk_08 = 0;
-    gRaceLinkLevel->mUnk_0c = 0;
-    gRaceLinkLevel->mUnk_10 = 0;
+    gRaceLinkLevel->mLinkLevel = 0;
+    gRaceLinkLevel->mWiFiLinkLevel = 0;
+    gRaceLinkLevel->mFriendOnFrames = 0;
+    gRaceLinkLevel->mPrevFriendOn = 0;
+    gRaceLinkLevel->mFriendOn = 0;
 }
 
 void ClearRaceLinkLevelPointer(void) {
@@ -355,24 +355,24 @@ void UpdateRaceLinkLevel(void) {
         return;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
-        gRaceLinkLevel->mUnk_04 = GetWiFiLinkLevel();
-        gRaceLinkLevel->mUnk_0c = gRaceLinkLevel->mUnk_10;
-        gRaceLinkLevel->mUnk_10 = IsLocateFriendOnWithBuddyStatus4();
-        if (gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_0c == 0) {
+        gRaceLinkLevel->mWiFiLinkLevel = GetWiFiLinkLevel();
+        gRaceLinkLevel->mPrevFriendOn = gRaceLinkLevel->mFriendOn;
+        gRaceLinkLevel->mFriendOn = IsLocateFriendOnWithBuddyStatus4();
+        if (gRaceLinkLevel->mFriendOn != 0 && gRaceLinkLevel->mPrevFriendOn == 0) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x26);
         }
-        if (gRaceLinkLevel->mUnk_10 != 0) {
-            gRaceLinkLevel->mUnk_08++;
-            if (gRaceLinkLevel->mUnk_08 >= 0x78) {
-                gRaceLinkLevel->mUnk_08 = 0;
+        if (gRaceLinkLevel->mFriendOn != 0) {
+            gRaceLinkLevel->mFriendOnFrames++;
+            if (gRaceLinkLevel->mFriendOnFrames >= 0x78) {
+                gRaceLinkLevel->mFriendOnFrames = 0;
             }
         } else {
-            gRaceLinkLevel->mUnk_08 = 0;
-            gRaceLinkLevel->mUnk_0c = 0;
-            gRaceLinkLevel->mUnk_10 = 0;
+            gRaceLinkLevel->mFriendOnFrames = 0;
+            gRaceLinkLevel->mPrevFriendOn = 0;
+            gRaceLinkLevel->mFriendOn = 0;
         }
     } else {
-        gRaceLinkLevel->mUnk_00 = gConnectionWork->mState == 0 ? 0 : WM_GetLinkLevel();
+        gRaceLinkLevel->mLinkLevel = gConnectionWork->mState == 0 ? 0 : WM_GetLinkLevel();
     }
 }
 
@@ -386,18 +386,18 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
     if (gStartupWork->mConnectionKind != 0) {
         if (IsRaceHudGoalMUploaded() == 0) {
             if (gRaceSetup->mMode == MODE_WIFI) {
-                levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mUnk_04 + 0x28);
+                levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mWiFiLinkLevel + 0x28);
             } else {
-                levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mUnk_00 + 0x28);
+                levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mLinkLevel + 0x28);
             }
         } else {
             if (gRaceSetup->mMode == MODE_WIFI) {
-                levelCell = GetRaceGoalMNcerEntry(gRaceLinkLevel->mUnk_04 + 0x3c);
+                levelCell = GetRaceGoalMNcerEntry(gRaceLinkLevel->mWiFiLinkLevel + 0x3c);
             } else {
-                levelCell = GetRaceGoalMNcerEntry(gRaceLinkLevel->mUnk_00 + 0x3c);
+                levelCell = GetRaceGoalMNcerEntry(gRaceLinkLevel->mLinkLevel + 0x3c);
             }
         }
-        if (gRaceSetup->mMode == MODE_WIFI && gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_08 < 0x69) {
+        if (gRaceSetup->mMode == MODE_WIFI && gRaceLinkLevel->mFriendOn != 0 && gRaceLinkLevel->mFriendOnFrames < 0x69) {
             if (IsRaceHudGoalMUploaded() != 0) {
                 extraCell = GetRaceGoalMNcerEntry(0x42);
             } else {

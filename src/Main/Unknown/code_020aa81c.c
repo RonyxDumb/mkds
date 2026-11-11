@@ -186,7 +186,7 @@ u16 KeyboardCursorCallback(s32 rectValue, u16 keys) {
     return nextRectValue;
 }
 
-void InitKeyboardTextEntry(s32 a, s32 b, s32 textCapacity) {
+void InitKeyboardTextEntry(s32 screenMapWidth, s32 screenMapHeight, s32 textCapacity) {
     KeyboardTextEntry *keyboardTextEntry;
 
     gKeyboardTextEntry = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x78);
@@ -195,13 +195,14 @@ void InitKeyboardTextEntry(s32 a, s32 b, s32 textCapacity) {
     gKeyboardTextEntry->mTextIndex = 0;
     gKeyboardTextEntry->mTextIndexCopy = 0;
     gKeyboardTextEntry->mText = HeapAlloc(GetHeap(GetCurrentHeapCall()), (textCapacity + 1) * 2);
-    gKeyboardTextEntry->mBg2ScrSize = b * (a * 2);
+    gKeyboardTextEntry->mBg2ScrSize = screenMapHeight * (screenMapWidth * 2);
     gKeyboardTextEntry->mBg2Scr = HeapAlloc(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2ScrSize);
     gKeyboardTextEntry->mBg2CharSize = 0x4020;
     gKeyboardTextEntry->mBg2Char =
         HeapAllocAligned(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2CharSize, 0x20);
     keyboardTextEntry = gKeyboardTextEntry;
-    InitKeyboardKeysAndCanvas(GetFontByIndex(0), keyboardTextEntry->mBg2Char, keyboardTextEntry->mBg2Scr, a, b, 0);
+    InitKeyboardKeysAndCanvas(GetFontByIndex(0), keyboardTextEntry->mBg2Char, keyboardTextEntry->mBg2Scr,
+                              screenMapWidth, screenMapHeight, 0);
     SetKeyboardCursorCallback(KeyboardCursorCallback);
     SetKeyboardKeyCallback(KeyboardKeyCallback);
     SetKeyboardScreenMapTopBits(0);
@@ -221,7 +222,7 @@ void InitKeyboardTextEntry(s32 a, s32 b, s32 textCapacity) {
     LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[1], FindSceneFile(data_02167c24));
     LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[3], FindSceneFile(data_02167c3c));
     LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[4], FindSceneFile(data_02167c54));
-    LocateNcgr2(&gKeyboardTextEntry->mUnk_24, FindSceneFile(data_02167c6c));
+    LocateNcgr2(&gKeyboardTextEntry->mNcgrs[5], FindSceneFile(data_02167c6c));
     gKeyboardTextEntry->mKbds[0] = FindSceneFile(data_02167c84);
     gKeyboardTextEntry->mKbds[2] = FindSceneFile(data_02167c90);
     gKeyboardTextEntry->mKbds[1] = FindSceneFile(data_02167c9c);
@@ -945,8 +946,8 @@ void InitKeyboardKeysAndCanvas(struct Unk02022aa8 *font, void *bg2Char, u16 *bg2
     gKeyboardCanvas.mBg2Char = bg2Char;
     gKeyboardCanvas.mMarkedBg2Char = bg2Char;
     gKeyboardCanvas.mBg2Scr = bg2Scr;
-    gKeyboardCanvas.mUnk_10 = d;
-    gKeyboardCanvas.mUnk_14 = e;
+    gKeyboardCanvas.mScreenMapWidth = d;
+    gKeyboardCanvas.mScreenMapHeight = e;
     gKeyboardCanvas.mScreenMapTileBase = screenMapTileBase;
     InitKeyboardInput();
     SetupRepeatCounter(&data_0217b2ac, 0x28, 5);
@@ -1009,7 +1010,8 @@ void FillKeyboardBg2Scr(KeyboardKeys *keyboardKeys) {
     columnCount = keyboardKeys->mCurrentLayout->mNcgr->mUnk_02;
     rowCount = keyboardKeys->mCurrentLayout->mNcgr->mUnk_00;
     clearValue = columnCount * rowCount;
-    MIi_CpuClear16(clearValue, gKeyboardCanvas.mBg2Scr, gKeyboardCanvas.mUnk_14 * (gKeyboardCanvas.mUnk_10 * 2));
+    MIi_CpuClear16(clearValue, gKeyboardCanvas.mBg2Scr,
+                   gKeyboardCanvas.mScreenMapHeight * (gKeyboardCanvas.mScreenMapWidth * 2));
     row = 0;
     rowFirstTile = 0;
     rowFirstTile = (u32) rowFirstTile;
@@ -1019,7 +1021,7 @@ void FillKeyboardBg2Scr(KeyboardKeys *keyboardKeys) {
         rowFirstTile = (u32) rowFirstTile;
         do {
             for (column = firstColumn; column < columnCount; column++) {
-                gKeyboardCanvas.mBg2Scr[column + row * gKeyboardCanvas.mUnk_14 / 2] =
+                gKeyboardCanvas.mBg2Scr[column + row * gKeyboardCanvas.mScreenMapHeight / 2] =
                     (gKeyboardCanvas.mScreenMapTopBits << 12) |
                     (column + (gKeyboardCanvas.mScreenMapTileBase + rowFirstTile));
             }

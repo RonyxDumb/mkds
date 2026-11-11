@@ -535,7 +535,7 @@ typedef struct Kart {
     /* 4c8 */ s32 mRadiusFactor;
     /* 4cc */ s32 mTireTurnAngle;
     /* 4d0 */ u32 mCollisionStepFrames;
-    /* 4d4 */ s32 mKeyALevel;
+    /* 4d4 */ s32 mRevLevel;
     /* 4d8 */ s16 mAttractorIndex;
     /* 4da */ s16 mCourseHitTimer;
     /* 4dc */ s16 mLandingTimer;

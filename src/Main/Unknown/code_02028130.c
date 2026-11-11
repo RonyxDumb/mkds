@@ -138,12 +138,12 @@ int AdvanceSelectKart(void) {
                 RequestSelectReturnState3WithSound(v);
             } else if (GetNewOrRepeatBits(t, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
-                gSelectKart->mUnk_114 = 3;
+                gSelectKart->mSlidingCellIndex = 3;
                 p->mCellTable[1].mVisible = 0;
                 p->mCellTable[3].mVisible = 1;
             } else if (GetNewOrRepeatBits(t, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
-                gSelectKart->mUnk_114 = 2;
+                gSelectKart->mSlidingCellIndex = 2;
                 p->mCellTable[0].mVisible = 0;
                 p->mCellTable[2].mVisible = 1;
             }
@@ -160,17 +160,17 @@ int AdvanceSelectKart(void) {
             if (gSelectKart->mStateFrames > 6) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 2;
-                p->mCellTable[gSelectKart->mUnk_114].mOffsetX = 0;
+                p->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = 0;
                 p->mCellTable[1].mVisible = 1;
                 p->mCellTable[0].mVisible = 1;
                 p->mCellTable[3].mVisible = 0;
                 p->mCellTable[2].mVisible = 0;
             } else {
                 v = LookupFrameOffset(gSelectKart->mStateFrames);
-                if (gSelectKart->mUnk_114 == 2) {
+                if (gSelectKart->mSlidingCellIndex == 2) {
                     v = -v;
                 }
-                p->mCellTable[gSelectKart->mUnk_114].mOffsetX = v;
+                p->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = v;
             }
             break;
         case 4:
@@ -251,22 +251,22 @@ int AdvanceSelectKart(void) {
     if (d->mEntryListUsed != FALSE) {
         AdvancePlayerEntryList();
     } else {
-        DrawLayoutTable(q->mCellLayout, q->mCells, NULL, d->mUnk_080, q->mCellTable);
+        DrawLayoutTable(q->mCellLayout, q->mCells, NULL, d->mMainOam, q->mCellTable);
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         d = gSelectKart;
         if (d->mState != 8) {
-            DrawLayoutTable(p->mCellLayout, p->mCells, p->mLabelLayout, d->mUnk_084, p->mCellTable);
+            DrawLayoutTable(p->mCellLayout, p->mCells, p->mLabelLayout, d->mSubOam, p->mCellTable);
         }
     } else {
         AdvanceSelectRaceRuleWait();
     }
     switch (r) {
         case 1:
-            GetRaceSetupCopy()->mUnk_108 = 0;
+            GetRaceSetupCopy()->mEntryTransition = 0;
             break;
         case 2:
-            GetRaceSetupCopy()->mUnk_108 = 2;
+            GetRaceSetupCopy()->mEntryTransition = 2;
             break;
     }
     return r;

@@ -36,20 +36,20 @@ void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 a)
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
     kartAi->mUnk_06 = kartAi->mIndex % 4;
-    kartAi->mUnk_88 = 0x1000;
+    kartAi->mDriftStartRandomLimit = 0x1000;
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
         kartAi->mDriftChargeRandomLimit = 0;
     } else {
         kartAi->mDriftChargeRandomLimit = 0x1000;
     }
     kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
-    InitRacePointLinkCursor(&kartAi->mUnk_08, kartAi->mIndex);
+    InitRacePointLinkCursor(&kartAi->mPointLinkCursor, kartAi->mIndex);
     ResetKartAi(kartAi, 0);
-    kartAi->mUnk_cc = 1;
+    kartAi->mHeadingSwingSign = 1;
 }
 
 void ResetAwardMissionRunKartAi(struct KartAi *kartAi, struct RacePointLink *pointLink) {
-    ResetPointLinkCursor(&kartAi->mUnk_08, pointLink);
+    ResetPointLinkCursor(&kartAi->mPointLinkCursor, pointLink);
     ResetKartAi(kartAi, 1);
     ResetKartAi(kartAi, 1);
 }
@@ -65,9 +65,9 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AdvanceKartAiContactStages(kartAi);
     }
-    linkCursor = &kartAi->mUnk_08;
+    linkCursor = &kartAi->mPointLinkCursor;
     kart = kartAi->mKart;
-    if (kartAi->mUnk_90 == 2) {
+    if (kartAi->mDriftState == 2) {
         kartForward = &kart->mTurnedForward;
     } else {
         kartForward = &kart->mUnk_138;
@@ -87,23 +87,23 @@ void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 a) {
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
     kartAi->mUnk_06 = kartAi->mIndex % 4;
-    kartAi->mUnk_88 = 0x1000;
+    kartAi->mDriftStartRandomLimit = 0x1000;
     kartAi->mDriftChargeRandomLimit = 0;
     kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
-    InitRacePointLinkCursor(&kartAi->mUnk_08, kartAi->mIndex);
+    InitRacePointLinkCursor(&kartAi->mPointLinkCursor, kartAi->mIndex);
     ResetKartAi(kartAi, 0);
-    kartAi->mUnk_cc = 1;
+    kartAi->mHeadingSwingSign = 1;
 }
 
 void AdvanceStaffRollKartAi(struct KartAi *kartAi) {
     Vec3 kartPos;
     Vec3 toLinkPos;
-    PointLinkCursor *linkCursor = &kartAi->mUnk_08;
+    PointLinkCursor *linkCursor = &kartAi->mPointLinkCursor;
     Kart *kart = kartAi->mKart;
     Vec3 *kartForward;
     RacePointLink *requestedLink;
 
-    if (kartAi->mUnk_90 == 2) {
+    if (kartAi->mDriftState == 2) {
         kartForward = &kart->mTurnedForward;
     } else {
         kartForward = &kart->mUnk_138;
@@ -150,8 +150,8 @@ void InitKartAiTables(void) {
 u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
     raceSpeedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;
     raceSpeedLimit->mSpeedLimitBeforeTurn = raceSpeedLimit->mBaseSpeedLimit;
-    raceSpeedLimit->mUnk_1c = GetKartAiTableIndex(kartAi->mIndex);
-    raceSpeedLimit->mUnk_20 = raceSpeedLimit->mUnk_1c;
+    raceSpeedLimit->mTableIndex = GetKartAiTableIndex(kartAi->mIndex);
+    raceSpeedLimit->mUnk_20 = raceSpeedLimit->mTableIndex;
     raceSpeedLimit->mUnk_24 = 0;
     raceSpeedLimit->mSpeedLimit = raceSpeedLimit->mBaseSpeedLimit;
     raceSpeedLimit->mSpeedLimitAddition = 0;
@@ -197,13 +197,13 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     tableIndex = GetKartAiTableIndex(kartAi->mIndex);
     kartAiOfKart = GetKart(kartAi->mIndex)->mAi;
-    if (kartAiOfKart->mUnk_154 != 0) {
+    if (kartAiOfKart->mListedCpu != 0) {
         tableIndex = boostChosen;
     }
     randomLimit = gKartAiRaceStartBoostRandomLimits[tableIndex];
     if (randomValue < randomLimit || randomLimit >= 0x1000) {
         raceSpeedLimit->mBoostsAtRaceStart = 1;
-        raceSpeedLimit->mRaceStartBoostChoice = PickKartAiRaceStartBoost(kartAiOfKart->mUnk_154);
+        raceSpeedLimit->mRaceStartBoostChoice = PickKartAiRaceStartBoost(kartAiOfKart->mListedCpu);
         boostChosen = TRUE;
     }
     if (boostChosen != FALSE) {
@@ -247,7 +247,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         }
         kart = kartAi->mKart;
         t = raceSpeedLimit->mSpeedLimitAddition + kart->mSpeedLimitGoal;
-        if (kartAi->mUnk_a8 == 2) {
+        if (kartAi->mContactStage == 2) {
             t = 0x3000;
         }
         if (t > 0xa000) {
@@ -256,7 +256,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         if (kart->mUnk_4c & 0x8000000) {
             t = MUL_FIXED12_ROUNDED(t, 0xb33);
         }
-        if (kartAi->mUnk_90 == 0) {
+        if (kartAi->mDriftState == 0) {
             raceSpeedLimit->mTurnSpeedLimit = t;
             if (kartAi->mTurnAngleDegrees > 0x5000) {
                 turnExcessRatio = MUL_FIXED12_NO_ROUND(kartAi->mTurnAngleDegrees - 0x5000, 0x5b);
@@ -297,7 +297,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
     BOOL isHumanGhostOrPeer;
     s32 v;
     s32 d;
-    s32 *k = &raceSpeedLimit->mUnk_1c;
+    s32 *k = &raceSpeedLimit->mTableIndex;
     KartAiParamRow *kartAiParamRow = GetKartAiParamRow();
     s32 e;
     s32 g;
@@ -327,14 +327,14 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
                         d = GetKartIndexAtRank(i);
                         if (d >= 0) {
                             KartAi *otherKartAi = GetKart(d)->mAi;
-                            KartAiRaceSpeedLimit *otherRaceSpeedLimit = &otherKartAi->mUnk_e8;
+                            KartAiRaceSpeedLimit *otherRaceSpeedLimit = &otherKartAi->mRaceSpeedLimit;
 
-                            if (otherKartAi->mUnk_154 != 0) {
-                                if (otherRaceSpeedLimit->mUnk_1c == 2) {
+                            if (otherKartAi->mListedCpu != 0) {
+                                if (otherRaceSpeedLimit->mTableIndex == 2) {
                                     k[0] = 2;
                                     k[1] = k[0];
                                     otherRaceSpeedLimit->mUnk_20 = 1;
-                                    otherRaceSpeedLimit->mUnk_1c = otherRaceSpeedLimit->mUnk_20;
+                                    otherRaceSpeedLimit->mTableIndex = otherRaceSpeedLimit->mUnk_20;
                                     break;
                                 }
                             }
@@ -379,7 +379,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             if (d >= 0) {
                 g = GetKartRaceProgressScaled(kartIndex);
                 g -= GetKartRaceProgressScaled((u16) d);
-                if (g > GetKart(d)->mAi->mUnk_e8.mUnk_24) {
+                if (g > GetKart(d)->mAi->mRaceSpeedLimit.mUnk_24) {
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
                         MUL_FIXED12_NO_ROUND(raceSpeedLimit->mSpeedLimitBeforeTurn, 0xf85);
                     raceSpeedLimit->mSpeedLimitReduced = 1;
@@ -400,7 +400,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
                         Kart *otherKart = GetKart(d);
                         s32 w = kartAiParamRow->mUnk_08;
 
-                        if (otherKart->mAi->mUnk_e8.mSpeedLimit > MUL_FIXED12_NO_ROUND(w, 0xcd0)) {
+                        if (otherKart->mAi->mRaceSpeedLimit.mSpeedLimit > MUL_FIXED12_NO_ROUND(w, 0xcd0)) {
                             e = GetKartRaceProgressScaled((u16) d) - g;
                             if (e < MUL_FIXED12_NO_ROUND(k[2], GetFirstRankProgressRatio())) {
                                 raceSpeedLimit->mSpeedLimitBeforeTurn =
@@ -477,7 +477,7 @@ void InitKartAiRaceSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-        speedRatio = GetPointLinkSpeedRatio(&kartAi->mUnk_08);
+        speedRatio = GetPointLinkSpeedRatio(&kartAi->mPointLinkCursor);
         kartAi->mKart->mForwardSpeed = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, speedRatio);
         kartAi->mKart->mSpeedLimitGoal = kartAi->mKart->mForwardSpeed;
         kartAi->mKart->mSpeedLimit = kartAi->mKart->mSpeedLimitGoal;

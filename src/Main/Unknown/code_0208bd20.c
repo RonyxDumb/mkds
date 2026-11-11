@@ -7,5 +7,5 @@
 
 void AdvanceKartAiForStaffRoll(KartAi *kartAi) {
     AdvanceStaffRollKartAi(kartAi);
-    AdvanceKartAiTurnSpeedLimit(&kartAi->mUnk_e8, kartAi);
+    AdvanceKartAiTurnSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
 }

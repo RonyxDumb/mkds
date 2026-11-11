@@ -97,8 +97,8 @@ void AdvanceKartDrawState(Kart *kart) {
         turnFraction = MUL_FIXED12_NO_ROUND(animationState->mMiddleFrameReciprocal, animationState->mTurnFrameOffset);
         tireTurnAngle = MUL_FIXED12_NO_ROUND(turnFraction, 0xce4);
         k = kart->mVelocityLengthRatio;
-        if (kart->mKeyALevel > k) {
-            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) MUL_FIXED12_NO_ROUND(kart->mKeyALevel, 0x7d0);
+        if (kart->mRevLevel > k) {
+            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0x7d0);
         } else {
             k = MUL_FIXED12_NO_ROUND(k, 0xfa0);
             if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {

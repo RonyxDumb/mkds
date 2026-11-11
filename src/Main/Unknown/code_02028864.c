@@ -53,7 +53,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     gSelectKart->mHeap = h;
     gSelectKart->mMode = b;
     gSelectKart->mTouchRect = -1;
-    switch (GetRaceSetupCopy()->mUnk_108) {
+    switch (GetRaceSetupCopy()->mEntryTransition) {
         case 1:
             SetupInterpolation(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
             SetupInterpolation(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
@@ -70,8 +70,8 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     SetupInterpolation(&gSelectKart->mInterpolations[1], 0, 10, -0x40, 0);
     SetupInterpolation(&gSelectKart->mInterpolations[3], 0, 10, 0x40, 0);
     SetupInterpolation(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
-    gSelectKart->mUnk_080 = c;
-    gSelectKart->mUnk_084 = d;
+    gSelectKart->mMainOam = c;
+    gSelectKart->mSubOam = d;
     if (gSelectKart->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
         v = 1;
     } else {
@@ -166,7 +166,7 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
         p->mCellTable[2].mVisible = 0;
         p->mCellTable[3].mVisible = p->mCellTable[2].mVisible;
     } else {
-        InitSelectRaceRuleWait(gSelectKart->mHeap, gSelectKart->mUnk_084);
+        InitSelectRaceRuleWait(gSelectKart->mHeap, gSelectKart->mSubOam);
         SlideInSelectRaceRuleWait();
     }
     RefreshKartMenuParamElements();

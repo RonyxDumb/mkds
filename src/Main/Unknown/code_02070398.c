@@ -586,7 +586,7 @@ void ResetKart(Kart *kart) {
     kart->mSurfaceSpeedLimitGoal = 0;
     kart->mRadiusFactor = 0x1000;
     kart->mCollisionStepFrames = 0;
-    kart->mKeyALevel = 0;
+    kart->mRevLevel = 0;
     kart->mAttractorIndex = -1;
     kart->mLandingTimer = 0;
     kart->mCourseHitTimer = 0;
@@ -985,7 +985,7 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     kart->mOffsetCycleAmount.z =
         gKartOffsetCycleZ[tableIndex] +
         MUL_FIXED12_NO_ROUND((gKartOffsetCycleZ[nextTableIndex] - gKartOffsetCycleZ[tableIndex]) >> 1, fraction);
-    keyALevel = kart->mKeyALevel;
+    keyALevel = kart->mRevLevel;
     amountScale = MUL_FIXED12_NO_ROUND(keyALevel, 0x333);
     if (keyALevel > 0xf33) {
         t = MUL_FIXED12_NO_ROUND((keyALevel - 0xf33) * 0x32, 0x19a);
@@ -1030,7 +1030,7 @@ void AdvanceKartHeadingSwing(Kart *kart) {
                 kart->mHeadingAngleOffsetCount = kart->mHeadingAngleOffsetCount + 1;
             }
         }
-        kart->mKeyALevel = 0x1000;
+        kart->mRevLevel = 0x1000;
     } else {
         kart->mHeadingAngleOffsetPerFrame =
             kart->mHeadingAngleOffsetDirection * 0x3c + kart->mHeadingAngleOffsetPerFrame;
@@ -1040,7 +1040,7 @@ void AdvanceKartHeadingSwing(Kart *kart) {
             kart->mHeadingAngleOffsetPerFrame = -0xd2;
         }
         kart->mHeadingAngleOffset = kart->mHeadingAngleOffset + kart->mHeadingAngleOffsetPerFrame;
-        kart->mKeyALevel = MUL_FIXED12_NO_ROUND(kart->mKeyALevel, 0xf5c);
+        kart->mRevLevel = MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0xf5c);
         offset = kart->mHeadingAngleOffset;
         if ((offset > 0 && kart->mHeadingAngleOffsetDirection > 0) ||
             (offset < 0 && kart->mHeadingAngleOffsetDirection < 0)) {

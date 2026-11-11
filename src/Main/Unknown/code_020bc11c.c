@@ -689,11 +689,11 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
 
 void InitRaceLapNumber(void) {
     gRaceLapNumber = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
-    gRaceLapNumber->mUnk_00 = 0;
-    gRaceLapNumber->mUnk_04 = 0;
-    gRaceLapNumber->mUnk_08 = (u16) (GetLapCount() - 1);
-    gRaceLapNumber->mUnk_0c = 0;
-    gRaceLapNumber->mUnk_10 = 1;
+    gRaceLapNumber->mLapIndex = 0;
+    gRaceLapNumber->mPrevLapIndex = 0;
+    gRaceLapNumber->mLastLapIndex = (u16) (GetLapCount() - 1);
+    gRaceLapNumber->mBlinkFrames = 0;
+    gRaceLapNumber->mBlinkShown = 1;
 }
 
 void ClearRaceLapNumberPointer(void) {
@@ -705,7 +705,7 @@ typedef enum { UNK_020B843C_ARG_0, UNK_020B843C_ARG_1 } Unk020b843c_Arg;
 
 // Plays a sound when the displayed kart starts a lap before the last, and counts 0x78 frames for the lap number blink.
 void UpdateRaceLapNumber(void) {
-    Unk0217b3ec *lapNumber;
+    RaceLapNumber *lapNumber;
     NNSSndSeqPlayer **seqPlayerHandle;
     u32 seqIndex;
 
@@ -723,10 +723,10 @@ void UpdateRaceLapNumber(void) {
                 return;
         }
     }
-    gRaceLapNumber->mUnk_04 = gRaceLapNumber->mUnk_00;
-    gRaceLapNumber->mUnk_00 = GetKartHighestLap(GetFollowedKartOrEntryIndex()) - 1;
-    if (gRaceLapNumber->mUnk_00 != gRaceLapNumber->mUnk_04 && gRaceLapNumber->mUnk_08 > 0) {
-        if (gRaceLapNumber->mUnk_00 < gRaceLapNumber->mUnk_08) {
+    gRaceLapNumber->mPrevLapIndex = gRaceLapNumber->mLapIndex;
+    gRaceLapNumber->mLapIndex = GetKartHighestLap(GetFollowedKartOrEntryIndex()) - 1;
+    if (gRaceLapNumber->mLapIndex != gRaceLapNumber->mPrevLapIndex && gRaceLapNumber->mLastLapIndex > 0) {
+        if (gRaceLapNumber->mLapIndex < gRaceLapNumber->mLastLapIndex) {
             seqIndex = 0x41;
             if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
                 seqIndex = 0x1c7;
@@ -744,21 +744,21 @@ void UpdateRaceLapNumber(void) {
                 }
             }
         }
-        gRaceLapNumber->mUnk_0c = 1;
+        gRaceLapNumber->mBlinkFrames = 1;
     }
     lapNumber = gRaceLapNumber;
-    if (lapNumber->mUnk_0c != 0) {
-        if ((lapNumber->mUnk_0c - 1) % 12 < 8) {
-            lapNumber->mUnk_10 = 1;
+    if (lapNumber->mBlinkFrames != 0) {
+        if ((lapNumber->mBlinkFrames - 1) % 12 < 8) {
+            lapNumber->mBlinkShown = 1;
         } else {
-            lapNumber->mUnk_10 = 0;
+            lapNumber->mBlinkShown = 0;
         }
-        gRaceLapNumber->mUnk_0c++;
-        if (gRaceLapNumber->mUnk_0c > 0x78) {
-            gRaceLapNumber->mUnk_0c = 0;
+        gRaceLapNumber->mBlinkFrames++;
+        if (gRaceLapNumber->mBlinkFrames > 0x78) {
+            gRaceLapNumber->mBlinkFrames = 0;
         }
     } else {
-        lapNumber->mUnk_10 = 1;
+        lapNumber->mBlinkShown = 1;
     }
 }
 
@@ -786,7 +786,7 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
             case 4:
             case 6:
             case 10:
-                if (gRaceLapNumber->mUnk_08 < 2) {
+                if (gRaceLapNumber->mLastLapIndex < 2) {
                     return;
                 }
                 break;
@@ -802,15 +802,15 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
     lapLabelDrawPosition[1] = lapPosition[1] << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, lapLabelDrawPosition, 0, 1);
-    if (gRaceLapNumber->mUnk_10 != 0) {
-        cell = GetRaceMNcerEntry(gRaceLapNumber->mUnk_00 + 0x21);
+    if (gRaceLapNumber->mBlinkShown != 0) {
+        cell = GetRaceMNcerEntry(gRaceLapNumber->mLapIndex + 0x21);
         lapNumberDrawPosition[0] = lapPosition[0] << 12;
         lapNumberDrawPosition[1] = lapPosition[1] << 12;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   lapNumberDrawPosition, 0, 1);
     }
-    switch (gRaceLapNumber->mUnk_08) {
+    switch (gRaceLapNumber->mLastLapIndex) {
         case 2:
             cell = GetRaceMNcerEntry(0x26);
             lastLapIndexTwoDrawPosition[0] = lapPosition[0] << 12;

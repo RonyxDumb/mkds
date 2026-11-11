@@ -198,7 +198,7 @@ void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton) {
     u16 text[0x100];
     void *message;
     message = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, messageIndex);
-    MIi_CpuCopy16(gTimeAttackGhostSend->mUnk_0b8, name, 0x14);
+    MIi_CpuCopy16(gTimeAttackGhostSend->mChildName, name, 0x14);
     name[10] = 0;
     FormatMessageWithText(name, message, text, 0x100);
     if (withButton != 0) {
@@ -236,14 +236,14 @@ void SetGhostSendCellsOffsetY(void) {
 }
 
 void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
-    s16 r[4];
+    s16 groupFirstEntries[4];
     s32 cellIndex;
     s32 labelIndex;
     LayoutTableEntry *cellTable;
     CellFileSet *mainFileSet;
     CellFileSet *subFileSet;
     void *heap;
-    s32 i;
+    s32 entryIndex;
     s32 objSizeLeft;
     s32 subCellCount;
     s32 assignedCount;
@@ -264,11 +264,11 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
                       gTimeAttackGhostSendMONclrName, gTimeAttackGhostSendMBnclName, gTimeAttackGhostSendMBnllName,
                       NULL, FindSceneFile);
     SetupCellFileSet(0, gTimeAttackGhostSend->mHeap, mainFileSet);
-    for (i = 0; i < mainFileSet->mLabelLayout->mCount; i++) {
+    for (entryIndex = 0; entryIndex < mainFileSet->mLabelLayout->mCount; entryIndex++) {
         objSizeLeft -= SetupLabelCanvas(0, gTimeAttackGhostSend->mHeap, mainFileSet,
-                                        gTimeAttackGhostSendMLabelTextRows[i], objSizeLeft);
+                                        gTimeAttackGhostSendMLabelTextRows[entryIndex], objSizeLeft);
     }
-    LocateAndQueueScreenMapFileSet(1, &gTimeAttackGhostSend->mUnk_024, gTimeAttackGhostSendSBNcgrName,
+    LocateAndQueueScreenMapFileSet(1, &gTimeAttackGhostSend->mScreenMapFileSets[1], gTimeAttackGhostSendSBNcgrName,
                                    gTimeAttackGhostSendSBNclrName, gTimeAttackGhostSendSNscrName, 3, FindSceneFile);
     subFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     objSizeLeft = GX_GetSizeOfSubOBJ();
@@ -278,42 +278,43 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
                       gTimeAttackGhostSendSBnblName, FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostSend->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mCount;
-    for (i = 0; i < subFileSet->mLabelLayout->mCount; i++) {
-        if (gTimeAttackGhostSendSLabelTextRows[i][3] < 0) {
-            gTimeAttackGhostSendSLabelTextRows[i][3] = subCellCount + assignedCount++;
+    for (entryIndex = 0; entryIndex < subFileSet->mLabelLayout->mCount; entryIndex++) {
+        if (gTimeAttackGhostSendSLabelTextRows[entryIndex][3] < 0) {
+            gTimeAttackGhostSendSLabelTextRows[entryIndex][3] = subCellCount + assignedCount++;
         }
         objSizeLeft -= SetupLabelCanvas(1, gTimeAttackGhostSend->mHeap, subFileSet,
-                                        (s16(*)[4]) gTimeAttackGhostSendSLabelTextRows + i, objSizeLeft);
+                                        (s16(*)[4]) gTimeAttackGhostSendSLabelTextRows + entryIndex, objSizeLeft);
     }
     PrintGhostSendCounts();
-    for (i = 0; i < 0xf; i++) {
-        SetCellPriority(i, 3, subFileSet->mCells, subFileSet->mCellLayout);
+    for (entryIndex = 0; entryIndex < 0xf; entryIndex++) {
+        SetCellPriority(entryIndex, 3, subFileSet->mCells, subFileSet->mCellLayout);
     }
-    for (i = 0; i < 0xe; i++) {
-        SetLabelPriority(i, 2, subFileSet->mLabelLayout, subFileSet->mCellTable, subFileSet->mCellLayout);
+    for (entryIndex = 0; entryIndex < 0xe; entryIndex++) {
+        SetLabelPriority(entryIndex, 2, subFileSet->mLabelLayout, subFileSet->mCellTable, subFileSet->mCellLayout);
     }
-    for (i = 0; i < 0xe; i++) {
-        cellIndex = gTimeAttackGhostSendSLabelTextRows[i][3];
-        labelIndex = gTimeAttackGhostSendSLabelTextRows[i][0];
+    for (entryIndex = 0; entryIndex < 0xe; entryIndex++) {
+        cellIndex = gTimeAttackGhostSendSLabelTextRows[entryIndex][3];
+        labelIndex = gTimeAttackGhostSendSLabelTextRows[entryIndex][0];
         cellTable = subFileSet->mCellTable;
         SetLayoutEntryPositionFromCell(cellIndex, &cellTable[cellIndex], subFileSet->mCellLayout);
         SetLayoutEntryPositionFromLabel(labelIndex, cellTable + subCellCount + labelIndex, subFileSet->mLabelLayout);
     }
     SetLayoutEntryPositionFromCell(0xe, &subFileSet->mCellTable[0xe], subFileSet->mCellLayout);
     if (GetGhostCount() != 0) {
-        Unk02174e40_24 *screenMapFileSet = &gTimeAttackGhostSend->mUnk_024;
-        r[0] = 0;
-        r[1] = 7;
-        r[2] = subCellCount;
-        r[3] = subCellCount + 7;
-        InitScrollList(gTimeAttackGhostSend->mHeap, 4, r, 0xe, 0xf, 0x7c, subFileSet->mCellTable, subFileSet->mRects,
-                       screenMapFileSet->mUnk_20 + 0xc, 0, 1, 2, GetGhostCount(), RefreshGhostListRows);
+        ScreenMapFileSet *screenMapFileSet = &gTimeAttackGhostSend->mScreenMapFileSets[1];
+        groupFirstEntries[0] = 0;
+        groupFirstEntries[1] = 7;
+        groupFirstEntries[2] = subCellCount;
+        groupFirstEntries[3] = subCellCount + 7;
+        InitScrollList(gTimeAttackGhostSend->mHeap, 4, groupFirstEntries, 0xe, 0xf, 0x7c, subFileSet->mCellTable,
+                       subFileSet->mRects, screenMapFileSet->mScreenMaps[3]->mData, 0, 1, 2, GetGhostCount(),
+                       RefreshGhostListRows);
     } else {
-        for (i = 0; i < subCellCount; i++) {
-            subFileSet->mCellTable[i].mVisible = 0;
+        for (entryIndex = 0; entryIndex < subCellCount; entryIndex++) {
+            subFileSet->mCellTable[entryIndex].mVisible = 0;
         }
-        for (i = 0; i < 0xe; i++) {
-            subFileSet->mCellTable[subCellCount + i].mVisible = 0;
+        for (entryIndex = 0; entryIndex < 0xe; entryIndex++) {
+            subFileSet->mCellTable[subCellCount + entryIndex].mVisible = 0;
         }
     }
     SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[2]);
@@ -447,7 +448,7 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
                 SetSelectReturnSoundId(0xf);
                 StopTimeAttackGhostSendSeq();
                 gTimeAttackGhostSend->mState = 0xb;
-            } else if (CopySingleChildName(gTimeAttackGhostSend->mUnk_0b8) != 0) {
+            } else if (CopySingleChildName(gTimeAttackGhostSend->mChildName) != 0) {
                 RequestSelectReturnState4();
                 StopTimeAttackGhostSendSeq();
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);

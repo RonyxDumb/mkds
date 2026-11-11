@@ -410,9 +410,9 @@ void StartPlayerEntryListKindIfUsed(s32 kind) {
 }
 
 void StartSelectCharacterReturn(void) {
-    gSelectCharacter->mUnk_068 = 0;
-    gSelectCharacter->mUnk_08c = 2;
-    gSelectCharacter->mUnk_06c = 8;
+    gSelectCharacter->mStateFrames = 0;
+    gSelectCharacter->mResult = 2;
+    gSelectCharacter->mState = 8;
     RequestSelectReturnState3WithSound(0);
     StartPlayerEntryListKindIfUsed(3);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], 2);

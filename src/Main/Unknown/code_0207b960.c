@@ -66,7 +66,7 @@ void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
     if ((kartAi->mKart->mUnk_48 & 0x10000020) != 0) {
         return;
     }
-    x = GetPointLinkSpeedRatio(&kartAi->mUnk_08);
+    x = GetPointLinkSpeedRatio(&kartAi->mPointLinkCursor);
     kartAi->mKart->mSpeedLimitGoal = MUL_FIXED12_ROUNDED(raceSpeedLimit->mSpeedLimit, x);
 }
 
@@ -722,7 +722,7 @@ void AdvanceRaceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *ka
         return;
     }
     if (gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex == 0xe) {
-        if (kartAi->mUnk_08.mLink->mNextCount > 1) {
+        if (kartAi->mPointLinkCursor.mLink->mNextCount > 1) {
             return;
         }
     }

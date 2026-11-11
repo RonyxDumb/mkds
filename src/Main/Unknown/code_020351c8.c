@@ -196,9 +196,9 @@ void PrintSelectedGhostRecord(void) {
 void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     void *heap;
     CellFileSet *cellFileSet;
-    s32 i;
+    s32 entryIndex;
     u32 remainingObjSize;
-    s32 j;
+    s32 textRowIndex;
     s32 assignedCount;
     s32 cellCount;
     s32 cellIndex;
@@ -221,9 +221,9 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(cellFileSet, data_021644f8, data_02164518, data_02164538, data_02164558, data_02164574, NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
-    for (i = 0; i < cellFileSet->mLabelLayout->mCount; i++) {
+    for (entryIndex = 0; entryIndex < cellFileSet->mLabelLayout->mCount; entryIndex++) {
         remainingObjSize -= SetupLabelCanvas(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
-                                             gTimeAttackGhostGetSlotMLabelTextRows[i], remainingObjSize);
+                                             gTimeAttackGhostGetSlotMLabelTextRows[entryIndex], remainingObjSize);
     }
     LocateAndQueueScreenMapFileSet(1, gTimeAttackGhostGetSlot, data_02164590, data_021645b0, data_021645d0, 3,
                                    FindSceneFile);
@@ -234,26 +234,26 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
                       gTimeAttackGhostGetSBnllName, gTimeAttackGhostGetSBnblName, FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mCount;
-    j = 0;
-    if (j < cellFileSet->mLabelLayout->mCount) {
+    textRowIndex = 0;
+    if (textRowIndex < cellFileSet->mLabelLayout->mCount) {
         row = gTimeAttackGhostGetSlotSLabelTextRows[0];
         do {
             if (row[3] < 0) {
                 row[3] = cellCount + assignedCount++;
             }
             remainingObjSize -= SetupLabelCanvas(1, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
-                                                 gTimeAttackGhostGetSlotSLabelTextRows[j], remainingObjSize);
+                                                 gTimeAttackGhostGetSlotSLabelTextRows[textRowIndex], remainingObjSize);
             row += 4;
-            j++;
-        } while (j < cellFileSet->mLabelLayout->mCount);
+            textRowIndex++;
+        } while (textRowIndex < cellFileSet->mLabelLayout->mCount);
     }
-    for (i = 0; i < 8; i++) {
-        SetCellPriority(i, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        SetCellPriority(entryIndex, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
-    for (j = 0, row = gTimeAttackGhostGetSlotSLabelTextRows[0]; j < 7; j++) {
+    for (textRowIndex = 0, row = gTimeAttackGhostGetSlotSLabelTextRows[0]; textRowIndex < 7; textRowIndex++) {
         cellIndex = row[3];
         labelIndex = row[0];
-        secondLabelIndex = gTimeAttackGhostGetSlotSLabelTextRows[j + 7][0];
+        secondLabelIndex = gTimeAttackGhostGetSlotSLabelTextRows[textRowIndex + 7][0];
         cellTable = cellFileSet->mCellTable;
         SetLayoutEntryPositionFromCell(cellIndex, &cellTable[cellIndex], cellFileSet->mCellLayout);
         SetLayoutEntryPositionFromLabel(labelIndex, &cellTable[labelIndex] + cellCount, cellFileSet->mLabelLayout);
@@ -266,7 +266,8 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     groupFirstEntries[1] = cellCount;
     groupFirstEntries[2] = cellCount + 7;
     InitScrollList(gTimeAttackGhostGetSlot->mHeap, 3, groupFirstEntries, 7, 8, 0x7c, cellFileSet->mCellTable,
-                   cellFileSet->mRects, gTimeAttackGhostGetSlot->mUnk_20 + 0xc, 0, 1, 2, 10, RefreshSlotGhostListRows);
+                   cellFileSet->mRects, gTimeAttackGhostGetSlot->mScreenMapFileSet.mScreenMaps[3]->mData, 0, 1, 2, 10,
+                   RefreshSlotGhostListRows);
     SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[2]);
     PrintSelectedGhostRecord();
     SetupInterpolation(&gTimeAttackGhostGetSlot->mInterpolation, 0, 10, -0xc0, 0);

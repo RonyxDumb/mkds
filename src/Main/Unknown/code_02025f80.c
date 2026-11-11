@@ -154,7 +154,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     MemFillWordsByBlock_inline(gSelectCharacter, 0x12c);
     gSelectCharacter->mHeap = heap;
     gSelectCharacter->mMode = mode;
-    switch (GetRaceSetupCopy()->mUnk_108) {
+    switch (GetRaceSetupCopy()->mEntryTransition) {
         case 0:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 0, 10, 0x60, 0);
@@ -179,7 +179,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     SetupInterpolation(&gSelectCharacter->mInterpolations[1], 0, 10, -0x40, 0);
     gSelectCharacter->mMainOam = mainOam;
-    gSelectCharacter->mUnk_058 = subOam;
+    gSelectCharacter->mSubOam = subOam;
     if (gSelectCharacter->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
         f = TRUE;
     } else {
@@ -257,7 +257,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         sParts->mCellTable[25].mDoubleAffine = 0;
         sParts->mCellTable[24].mDoubleAffine = sParts->mCellTable[25].mDoubleAffine;
     } else if (GetRaceSetupCopy()->mMode == 2) {
-        InitSelectRaceRuleWait(gSelectCharacter->mHeap, gSelectCharacter->mUnk_058);
+        InitSelectRaceRuleWait(gSelectCharacter->mHeap, gSelectCharacter->mSubOam);
         SlideInSelectRaceRuleWait();
     }
     gSelectCharacter->mTableRowCount = 8;
@@ -363,7 +363,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         RequestSelectReturnState1();
     }
     if (AreBrightnessFadesClear() != 0) {
-        gSelectCharacter->mUnk_06c = 1;
+        gSelectCharacter->mState = 1;
     } else {
         StartFadeToClear(10);
         SetSelectCharacterRowCellsVisible(0);
@@ -416,50 +416,50 @@ int AdvanceSelectCharacter(void) {
     inputSlot = GetPadInputSlot();
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
-    switch (selectCharacter->mUnk_06c) {
+    switch (selectCharacter->mState) {
         case 0:
             if (AreBrightnessFadesClear() != 0) {
-                gSelectCharacter->mUnk_06c = 1;
+                gSelectCharacter->mState = 1;
             }
             break;
         case 1:
-            if (selectCharacter->mUnk_068 == 0) {
+            if (selectCharacter->mStateFrames == 0) {
                 SetSelectCharacterRowCellsVisible(1);
             }
-            gSelectCharacter->mUnk_068++;
+            gSelectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mUnk_068 < 10) {
-                selectCharacterReload->mScale = (selectCharacterReload->mUnk_068 << 12) / 10;
+            if (selectCharacterReload->mStateFrames < 10) {
+                selectCharacterReload->mScale = (selectCharacterReload->mStateFrames << 12) / 10;
             } else {
                 selectCharacterReload->mScale = 0x1000;
-                gSelectCharacter->mUnk_068 = 0;
+                gSelectCharacter->mStateFrames = 0;
                 if (gBootInfo->mUnk_00 == 2) {
                     nextState = 2;
                 } else {
                     nextState = 3;
                 }
-                gSelectCharacter->mUnk_06c = nextState;
+                gSelectCharacter->mState = nextState;
             }
             SetSelectCharacterAngleAndScale();
             break;
         case 2:
             selectCharacter->mCharacterIndex = 0xc;
             gSelectCharacter->mKartIndex = 0x24;
-            gSelectCharacter->mUnk_068 = 0;
-            gSelectCharacter->mUnk_08c = 1;
+            gSelectCharacter->mStateFrames = 0;
+            gSelectCharacter->mResult = 1;
             if (GetRaceSetupCopy()->mMode == 3) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
                 if (gConnectionWork->mState == 8) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                 }
                 StartPlayerEntryListKindIfUsed(1);
-                gSelectCharacter->mUnk_06c = 8;
+                gSelectCharacter->mState = 8;
             } else if (GetRaceSetupCopy()->mMode == 2) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
                 if (gConnectionWork->mState == 8) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                 }
-                gSelectCharacter->mUnk_06c = 6;
+                gSelectCharacter->mState = 6;
             }
             break;
         case 3:
@@ -477,16 +477,16 @@ int AdvanceSelectCharacter(void) {
                     }
                     SetupSelectCharacterRow(previousTableIndex);
                     StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
-                    gSelectCharacter->mUnk_068 = 0;
-                    gSelectCharacter->mUnk_06c = 5;
+                    gSelectCharacter->mStateFrames = 0;
+                    gSelectCharacter->mState = 5;
                 } else if (gSelectCharacter->mMode == 0 &&
                            IsSelectReturnState2NoState3Or4RequestAndInRect(pointX, pointY) != FALSE) {
                     StartSelectCharacterReturn();
                 }
             } else if (IsSelectCharacterModeAndTimerZero() != 0) {
-                gSelectCharacter->mUnk_068 = 0;
-                gSelectCharacter->mUnk_08c = 3;
-                gSelectCharacter->mUnk_06c = 6;
+                gSelectCharacter->mStateFrames = 0;
+                gSelectCharacter->mResult = 3;
+                gSelectCharacter->mState = 6;
                 StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
                 SetKartModelMenuSpinStopped(1);
                 selectCharacterReload = gSelectCharacter;
@@ -505,8 +505,8 @@ int AdvanceSelectCharacter(void) {
             } else {
                 keyBits = gInputSlots[inputSlot].mPressedBits;
                 if ((u16) (keyBits & PAD_KEY_A) != 0) {
-                    gSelectCharacter->mUnk_068 = 0;
-                    gSelectCharacter->mUnk_06c = 5;
+                    gSelectCharacter->mStateFrames = 0;
+                    gSelectCharacter->mState = 5;
                     RefreshSelectCharacterRowCells();
                     StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
                 } else if (gSelectCharacter->mMode == 0 && (u16) (keyBits & PAD_KEY_B) != 0) {
@@ -540,25 +540,25 @@ int AdvanceSelectCharacter(void) {
                     if (gSelectCharacter->mTableIndex != previousTableIndex) {
                         StartCursorMoveSound();
                         SetupSelectCharacterRow(previousTableIndex);
-                        gSelectCharacter->mUnk_06c = 4;
+                        gSelectCharacter->mState = 4;
                     }
                 }
             }
             break;
         case 4:
-            selectCharacter->mUnk_068++;
-            if (gSelectCharacter->mUnk_068 > 5) {
+            selectCharacter->mStateFrames++;
+            if (gSelectCharacter->mStateFrames > 5) {
                 SetSelectCharacterBracketsResting();
-                gSelectCharacter->mUnk_068 = 0;
-                gSelectCharacter->mUnk_06c = 3;
+                gSelectCharacter->mStateFrames = 0;
+                gSelectCharacter->mState = 3;
             }
             break;
         case 5:
-            selectCharacter->mUnk_068++;
+            selectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mUnk_068 > 5) {
-                selectCharacterReload->mUnk_068 = 0;
-                gSelectCharacter->mUnk_08c = 1;
+            if (selectCharacterReload->mStateFrames > 5) {
+                selectCharacterReload->mStateFrames = 0;
+                gSelectCharacter->mResult = 1;
                 SetSelectCharacterBracketsResting();
                 selectCharacterReload = gSelectCharacter;
                 switch (selectCharacterReload->mMode) {
@@ -571,13 +571,13 @@ int AdvanceSelectCharacter(void) {
                         if (GetRaceSetupCopy()->mMode == 2) {
                             GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 1;
                             SetKartModelMenuSpinStopped(1);
-                            gSelectCharacter->mUnk_06c = 7;
+                            gSelectCharacter->mState = 7;
                             ClearNonParticipantKartIndices();
                             SetKartIndicesFromCharacters();
                         } else {
                             StartPlayerEntryListKindIfUsed(1);
                             StartKartModelMenuTimedSpinStop();
-                            gSelectCharacter->mUnk_06c = 8;
+                            gSelectCharacter->mState = 8;
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         }
                         break;
@@ -589,7 +589,7 @@ int AdvanceSelectCharacter(void) {
                             }
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                             StartPlayerEntryListKindIfUsed(1);
-                            gSelectCharacter->mUnk_06c = 8;
+                            gSelectCharacter->mState = 8;
                             StartKartModelMenuTimedSpinStop();
                         } else if (GetRaceSetupCopy()->mMode == 2) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
@@ -597,14 +597,14 @@ int AdvanceSelectCharacter(void) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                             }
                             SetKartModelMenuSpinStopped(1);
-                            gSelectCharacter->mUnk_06c = 6;
+                            gSelectCharacter->mState = 6;
                         }
                         break;
                     case 2:
                         SetWiFiSessionOwnCharacterIndex(selectCharacterReload->mCharacterIndex);
                         SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         StartPlayerEntryListKindIfUsed(1);
-                        gSelectCharacter->mUnk_06c = 8;
+                        gSelectCharacter->mState = 8;
                         StartKartModelMenuTimedSpinStop();
                         break;
                 }
@@ -617,18 +617,18 @@ int AdvanceSelectCharacter(void) {
                     WriteWiFiSessionToRaceSetupCopy();
                 }
                 if (GetRaceSetupCopy()->mMode == 2 || IsSelectCharacterModeAndTimerZero() != 0) {
-                    gSelectCharacter->mUnk_06c = 7;
+                    gSelectCharacter->mState = 7;
                 } else {
                     StartPlayerEntryListKindIfUsed(1);
                     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
-                    gSelectCharacter->mUnk_06c = 8;
+                    gSelectCharacter->mState = 8;
                 }
             }
             break;
         case 7:
-            selectCharacter->mUnk_068++;
+            selectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mUnk_068 > 60) {
+            if (selectCharacterReload->mStateFrames > 60) {
                 if (selectCharacterReload->mMode == 2) {
                     StartPlayerEntryListKindIfUsed(3);
                 } else {
@@ -640,26 +640,26 @@ int AdvanceSelectCharacter(void) {
                 } else if (GetRaceSetupCopy()->mMode == 2) {
                     SlideOutSelectRaceRuleWait();
                 }
-                gSelectCharacter->mUnk_068 = 0;
-                gSelectCharacter->mUnk_06c = 8;
+                gSelectCharacter->mStateFrames = 0;
+                gSelectCharacter->mState = 8;
             }
             break;
         case 8:
-            selectCharacter->mUnk_068++;
+            selectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mUnk_068 < 10) {
-                selectCharacterReload->mScale = ((10 - selectCharacterReload->mUnk_068) << 12) / 10;
+            if (selectCharacterReload->mStateFrames < 10) {
+                selectCharacterReload->mScale = ((10 - selectCharacterReload->mStateFrames) << 12) / 10;
             } else {
                 GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                     selectCharacterReload->mCharacterIndex;
                 GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = gSelectCharacter->mKartIndex;
-                gSelectCharacter->mUnk_06c = 9;
+                gSelectCharacter->mState = 9;
             }
             gSelectCharacter->mAngle += 0x1000;
             SetSelectCharacterAngleAndScale();
             break;
         case 9:
-            result = selectCharacter->mUnk_08c;
+            result = selectCharacter->mResult;
             break;
     }
 
@@ -671,7 +671,7 @@ int AdvanceSelectCharacter(void) {
     SetSelectCharacterCellOffsetsY(interpolatedValue, GetInterpolatedValue(&gSelectCharacter->mInterpolations[2]));
     if (gBootInfo->mUnk_00 != 2) {
         selectCharacterReload = gSelectCharacter;
-        if (selectCharacterReload->mUnk_08c != 2) {
+        if (selectCharacterReload->mResult != 2) {
             RequestKartModelMenuCharacter(selectCharacterReload->mCharacterIndex);
             RequestKartModelMenuKart(gSelectCharacter->mKartIndex);
         }
@@ -684,9 +684,9 @@ int AdvanceSelectCharacter(void) {
                         gSelectCharacter->mMainOam, selectCharacter->mGpMParts.mCellTable);
     }
     if (gBootInfo->mUnk_00 != 2) {
-        DrawLayoutTableKeepMatrixCount(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mUnk_058,
+        DrawLayoutTableKeepMatrixCount(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mSubOam,
                                        sParts->mCellTable);
-        IncrementOamMatrixCount(gSelectCharacter->mUnk_058);
+        IncrementOamMatrixCount(gSelectCharacter->mSubOam);
     } else if (GetRaceSetupCopy()->mMode == 2) {
         AdvanceSelectRaceRuleWait();
     }
@@ -696,9 +696,9 @@ int AdvanceSelectCharacter(void) {
     switch (result) {
         case 1:
             if (GetRaceSetupCopy()->mMode == 2) {
-                GetRaceSetupCopy()->mUnk_108 = 0;
+                GetRaceSetupCopy()->mEntryTransition = 0;
             } else {
-                GetRaceSetupCopy()->mUnk_108 = 1;
+                GetRaceSetupCopy()->mEntryTransition = 1;
             }
             break;
         case 2:
@@ -706,7 +706,7 @@ int AdvanceSelectCharacter(void) {
                 RequestKartModelMenuCharacter(-1);
                 RequestKartModelMenuKart(-1);
             }
-            GetRaceSetupCopy()->mUnk_108 = 0;
+            GetRaceSetupCopy()->mEntryTransition = 0;
             break;
     }
     return result;
@@ -730,7 +730,7 @@ void WriteSelectCharacterRegisters(void) {
     u32 displayBits = 0x18;
 
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
-    if (!(gSelectCharacter->mUnk_06c == 9 && gSelectCharacter->mUnk_08c == 2)) {
+    if (!(gSelectCharacter->mState == 9 && gSelectCharacter->mResult == 2)) {
         displayBits |= 1;
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (displayBits << 8);

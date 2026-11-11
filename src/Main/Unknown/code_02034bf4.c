@@ -111,7 +111,7 @@ void UpdateScanSlideOffsets(void) {
 
 void RefreshScanSelectedGhostInfo(void) {
     GhostInfoEntry *selectedEntry;
-    s32 i;
+    s32 cellIndex;
     CellFileSet *mainCellFileSet;
     s32 entryCount;
     BOOL hasSelection;
@@ -119,18 +119,18 @@ void RefreshScanSelectedGhostInfo(void) {
     mainCellFileSet = &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[0];
     selectedEntry = &gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex];
     entryCount = mainCellFileSet->mCellLayout->mCount + mainCellFileSet->mLabelLayout->mCount;
-    for (i = 0; i < entryCount; i++) {
+    for (cellIndex = 0; cellIndex < entryCount; cellIndex++) {
         if (gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex >= 0) {
             hasSelection = TRUE;
         } else {
             hasSelection = FALSE;
         }
-        mainCellFileSet->mCellTable[i].mVisible = hasSelection;
+        mainCellFileSet->mCellTable[cellIndex].mVisible = hasSelection;
     }
     if (gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex >= 0) {
         PrintGhostRecordInfo(&gTimeAttackGhostGetScan->mInfoFileSets, gTimeAttackGhostGetScanMLabelTextRows,
-                             selectedEntry, selectedEntry->mInfo.mUnk_18[0], selectedEntry->mInfo.mUnk_18[1],
-                             selectedEntry->mInfo.mUnk_18[2], &selectedEntry->mInfo.mTime);
+                             selectedEntry, selectedEntry->mInfo.mCharacterIndex, selectedEntry->mInfo.mKartIndex,
+                             selectedEntry->mInfo.mCourseId, &selectedEntry->mInfo.mTime);
     }
 }
 
@@ -161,21 +161,21 @@ void RefreshScanEntryPalettes(void) {
 }
 
 BOOL AreGhostRecordInfosDifferent(GhostRecordInfo *storedInfo, GhostRecordInfo *newInfo) {
-    s32 i;
+    s32 charIndex;
     s32 nameDiffers;
     BOOL halfwordDiffers;
 
     nameDiffers = 0;
-    for (i = 0; i < 11; i++) {
-        if (storedInfo->mName[i] != newInfo->mName[i]) {
+    for (charIndex = 0; charIndex < 11; charIndex++) {
+        if (storedInfo->mName[charIndex] != newInfo->mName[charIndex]) {
             halfwordDiffers = TRUE;
         } else {
             halfwordDiffers = FALSE;
         }
         nameDiffers |= halfwordDiffers;
     }
-    if (nameDiffers != 0 || storedInfo->mUnk_18[1] != newInfo->mUnk_18[1] ||
-        storedInfo->mUnk_18[0] != newInfo->mUnk_18[0] || storedInfo->mUnk_18[2] != newInfo->mUnk_18[2] ||
+    if (nameDiffers != 0 || storedInfo->mKartIndex != newInfo->mKartIndex ||
+        storedInfo->mCharacterIndex != newInfo->mCharacterIndex || storedInfo->mCourseId != newInfo->mCourseId ||
         storedInfo->mTime.mMinute != newInfo->mTime.mMinute || storedInfo->mTime.mSecond != newInfo->mTime.mSecond ||
         storedInfo->mTime.mMillisecond != newInfo->mTime.mMillisecond) {
         return TRUE;

@@ -224,7 +224,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
     Unk02165608 h;
 
     if (kart->mUnk_48 & 2) {
-        keyALevel = kart->mKeyALevel;
+        keyALevel = kart->mRevLevel;
         if (keyALevel < 0) {
             levelStep = 0x52;
         } else if (keyALevel > 0x1000) {
@@ -233,12 +233,12 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             levelStep = FX_Div(0x4a, 0x1000);
             levelStep = 0x52 - MUL_FIXED12_NO_ROUND(levelStep, keyALevel);
         }
-        kart->mKeyALevel = kart->mKeyALevel + levelStep;
-        if (kart->mKeyALevel > 0x1000) {
-            kart->mKeyALevel = 0x1000;
+        kart->mRevLevel = kart->mRevLevel + levelStep;
+        if (kart->mRevLevel > 0x1000) {
+            kart->mRevLevel = 0x1000;
         }
     } else {
-        kart->mKeyALevel = MUL_FIXED12_NO_ROUND(kart->mKeyALevel, 0xf5c);
+        kart->mRevLevel = MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0xf5c);
     }
     if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
         if (GetRaceStartSequenceFrames() - 0xaf > 0) {
@@ -284,7 +284,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 }
             }
         } else if (kart->mUnk_48 & 2) {
-            c = kart->mKeyALevel;
+            c = kart->mRevLevel;
             if (c > 0xf34) {
                 if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
                     kart->mUnk_4c |= KART_4C_HEADING_SWING;
@@ -336,7 +336,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             kart->mUnk_44 |= 0x1000000;
         }
     }
-    kart->mOffsetCyclePhaseStep = kart->mKeyALevel + 0x1000;
+    kart->mOffsetCyclePhaseStep = kart->mRevLevel + 0x1000;
 }
 
 void ApplyKartAttractorPull(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet) {

@@ -64,7 +64,7 @@ typedef struct RaceSetupCopy {
     // Set by SetMissionFileRowIndex from the mission table cell value minus 1: a 0-based position in mMissionFileRows.
     /* 104 */ u16 mMissionFileRowIndex;
     /* 106 */ u8 mUnk_106[2];
-    /* 108 */ s32 mUnk_108;
+    /* 108 */ s32 mEntryTransition;
     /* 10c */ u8 mEntryIndex;
     /* 10d */ u8 mSessionKartCount;
 } RaceSetupCopy;
@@ -79,8 +79,8 @@ typedef struct SelectKart {
     /* 040 */ u8 mUnk_040[8];
     /* 048 */ CellFileSet mSelectCharacterGpMParts;
     /* 064 */ CellFileSet mSelectKartSParts;
-    /* 080 */ void *mUnk_080;
-    /* 084 */ void *mUnk_084;
+    /* 080 */ void *mMainOam;
+    /* 084 */ void *mSubOam;
     /* 088 */ struct Bmg *mKartSelectMessages;
     /* 08c */ void *mHeap;
     /* 090 */ s32 mStateFrames; /* counts only in states 3, 4 and 6 */
@@ -100,7 +100,7 @@ typedef struct SelectKart {
     /* 108 */ BOOL mTouchHeld;
     /* 10c */ s32 mTouchHeldFrames;
     /* 110 */ s32 mTouchRect;
-    /* 114 */ u16 mUnk_114;
+    /* 114 */ u16 mSlidingCellIndex;
     /* 116 */ u8 mUnk_116[2];
 } SelectKart;
 
@@ -130,12 +130,12 @@ typedef struct SelectCharacter {
     /* 01c */ CellFileSet mSParts;
     /* 038 */ CellFileSet mGpNameMParts;
     /* 054 */ void *mMainOam;
-    /* 058 */ void *mUnk_058;
+    /* 058 */ void *mSubOam;
     /* 05c */ void *mHeap;
     /* 060 */ s32 mTableIndex;
     /* 064 */ s32 mPreviousTableIndex;
-    /* 068 */ s32 mUnk_068;
-    /* 06c */ s32 mUnk_06c;
+    /* 068 */ s32 mStateFrames;
+    /* 06c */ s32 mState;
     /* 070 */ s32 mScale;
     /* 074 */ u16 mAngle;
     /* 076 */ u8 mUnk_076[2];
@@ -144,7 +144,7 @@ typedef struct SelectCharacter {
     /* 080 */ s32 mMode;
     // Row to move to on up, down, right and left; 0xffff means stay on the row.
     /* 84 */ s16 mTableIndexByKey[4];
-    /* 08c */ s32 mUnk_08c;
+    /* 08c */ s32 mResult;
     /* 090 */ SelectCharacterRow mRows[12];
     /* 0f0 */ s32 mCharacterIndex;
     /* 0f4 */ s32 mKartIndex;
@@ -164,9 +164,9 @@ typedef struct PlayerEntryList {
     /* 044 */ s32 mEntryIndex;
     /* 048 */ s32 mPlayerCount;
     /* 04c */ PlayerEntryRow mEntries[8];
-    /* 1ac */ s32 mUnk_1ac[4];
-    /* 1bc */ s32 mUnk_1bc[8];
-    /* 1dc */ s32 mUnk_1dc[8];
+    /* 1ac */ s32 mEmptySlotSoundPlayed[4];
+    /* 1bc */ s32 mCharacterShown[8];
+    /* 1dc */ s32 mKartShown[8];
     /* 1fc */ BOOL mSetupRequested;
     /* 200 */ s32 mTimerEnabled;
     /* 204 */ s32 mUseTeams;
@@ -197,7 +197,7 @@ typedef struct ResultsBattleEntry {
 typedef struct ResultsBattle {
     /* 000 */ ScreenMapFileSet mScreenMapFileSets[2];
     /* 048 */ CellFileSet mCellFileSets[4];
-    /* 0b8 */ s32 mUnk_0b8[2];
+    /* 0b8 */ void *mOamLists[2];
     /* 0c0 */ Nclr *mCellFileSet2ShyguyPalette;
     /* 0c4 */ Nclr *mCellFileSet3ShyguyPalette;
     /* 0c8 */ struct Bmg *mCommonMessages;
@@ -222,7 +222,9 @@ extern ResultsBattle *gResultsBattle;
 typedef struct GhostRecordInfo {
     /* 00 */ u16 mName[11];
     /* 16 */ u8 mUnk_16[2];
-    /* 18 */ s32 mUnk_18[3];
+    /* 18 */ s32 mCharacterIndex;
+    /* 1c */ s32 mKartIndex;
+    /* 20 */ s32 mCourseId;
     /* 24 */ MinuteSecondMillisecondTime mTime;
 } GhostRecordInfo;
 
@@ -263,22 +265,15 @@ extern TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
 // Objects whose layout isn't known yet.
 extern struct ResultScene *gResultScene;
 extern struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
-// 0x20 bytes, then the word at 0x44 the code addresses 0xc past.
-typedef struct Unk02174e40_24 {
-    /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ u8 *mUnk_20;
-} Unk02174e40_24;
-
 // 0xe0 bytes.
 typedef struct TimeAttackGhostSend {
-    /* 000 */ u8 mUnk_000[0x24];
-    /* 024 */ Unk02174e40_24 mUnk_024;
+    /* 000 */ ScreenMapFileSet mScreenMapFileSets[2];
     /* 048 */ void *mOamLists[2];
     /* 050 */ GhostInfoFileSets mInfoFileSets;
     /* 0ac */ Bmg *mGhostMessages;
     /* 0b0 */ s32 mState;
     /* 0b4 */ s32 mUnk_0b4;
-    /* 0b8 */ u8 mUnk_0b8[0x14];
+    /* 0b8 */ u8 mChildName[0x14];
     /* 0cc */ Interpolation mInterpolation;
     /* 0dc */ void *mHeap;
 } TimeAttackGhostSend;
@@ -369,8 +364,7 @@ struct MultiSelectMember;
 extern struct MultiSelectMember *gMultiSelectMember;
 // Ghost scene part that lists the slot ghosts and saves the received ghost over the picked one.
 typedef struct TimeAttackGhostGetSlot {
-    /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ u8 *mUnk_20;
+    /* 00 */ ScreenMapFileSet mScreenMapFileSet;
     /* 24 */ void *mOamLists[2];
     /* 2c */ GhostInfoFileSets mInfoFileSets;
     /* 88 */ Bmg *mGhostMessages;

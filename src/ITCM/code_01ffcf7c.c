@@ -304,7 +304,7 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
     }
     r = FALSE;
     CallKartAiLinkPosAndDirection(&v0, &v1, p);
-    if (p->mUnk_a8 == 1) {
+    if (p->mContactStage == 1) {
         u = &q->mUnk_12c;
         d = VEC_DotProduct(u, &v1);
         v5.x = v1.x - MUL_FIXED12_NO_ROUND(u->x, d);
@@ -346,14 +346,14 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
         r = TRUE;
     }
     if ((q->mUnk_4c & 0x8000000) && p->mTurnAngleDegrees < 0x46000 && (q->mUnk_44 & KART_44_ON_GROUND) &&
-        !(q->mUnk_48 & 0x8020) && q->mVelocityLength > 0x3000 && p->mUnk_90 != 2 && p->mUnk_a8 == 0) {
-        p->mUnk_c8 += 0x44c;
-        p->mUnk_ca = MUL_FIXED12_ROUNDED(FX_SinIdx(p->mUnk_c8), 0xfa);
-        q->mHeadingAngle += (s16) p->mUnk_ca * p->mUnk_cc;
+        !(q->mUnk_48 & 0x8020) && q->mVelocityLength > 0x3000 && p->mDriftState != 2 && p->mContactStage == 0) {
+        p->mHeadingSwingPhase += 0x44c;
+        p->mHeadingSwingOffset = MUL_FIXED12_ROUNDED(FX_SinIdx(p->mHeadingSwingPhase), 0xfa);
+        q->mHeadingAngle += (s16) p->mHeadingSwingOffset * p->mHeadingSwingSign;
         r = TRUE;
     } else {
-        p->mUnk_ca = 0;
-        p->mUnk_c8 = 0;
+        p->mHeadingSwingOffset = 0;
+        p->mHeadingSwingPhase = 0;
     }
 end:
     if (r == FALSE) {
