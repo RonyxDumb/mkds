@@ -24,101 +24,101 @@
 #include "Main/Unknown/code_02125f54.h"
 #include "code_0214d018.h"
 
-Unk021a9be4 *data_ov001_021a9be4;
+NicknameScene *gNicknameScene;
 
-void func_ov001_021987d4(void *heap, s16 a) {
-    SceneTextInitParams arg;
+void InitNicknameSceneObject(void *heap, s16 a) {
+    SceneTextInitParams textParams;
 
-    data_ov001_021a9be4 = HeapAlloc(heap, 0x18);
-    data_ov001_021a9be4->mUnk_08 = heap;
-    data_ov001_021a9be4->mUnk_10 = CreateSceneDisplaySettings(heap);
-    arg.mUseTxtSystem = TRUE;
-    arg.mTxtSystemFont = GetFontByIndex(1);
-    arg.mUseCanvas1 = 0;
-    arg.mUseCanvas2 = 1;
-    arg.mUseCanvas3 = 0;
-    arg.mUseSelectChoises = FALSE;
-    arg.mSelectChoisesFont = NULL;
-    arg.mUseSelectReturn = TRUE;
-    arg.mUseBackScreen = TRUE;
-    arg.mBackScreenKind = 0;
+    gNicknameScene = HeapAlloc(heap, 0x18);
+    gNicknameScene->mHeap = heap;
+    gNicknameScene->mSceneDisplaySettings = CreateSceneDisplaySettings(heap);
+    textParams.mUseTxtSystem = TRUE;
+    textParams.mTxtSystemFont = GetFontByIndex(1);
+    textParams.mUseCanvas1 = 0;
+    textParams.mUseCanvas2 = 1;
+    textParams.mUseCanvas3 = 0;
+    textParams.mUseSelectChoises = FALSE;
+    textParams.mSelectChoisesFont = NULL;
+    textParams.mUseSelectReturn = TRUE;
+    textParams.mUseBackScreen = TRUE;
+    textParams.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &arg);
-    data_ov001_021a9be4->mUnk_0c = a;
-    data_ov001_021a9be4->mUnk_0e = -1;
-    data_ov001_021a9be4->mUnk_00 = 0;
-    data_ov001_021a9be4->mUnk_04 = data_ov001_021a9be4->mUnk_00;
-    data_ov001_021a9be4->mUnk_14 = FindFileInLoadedArchives("common.bmg");
+    InitSceneText(heap, &textParams);
+    gNicknameScene->mUnk_0c = a;
+    gNicknameScene->mNextScene = -1;
+    gNicknameScene->mState = 0;
+    gNicknameScene->mNextState = gNicknameScene->mState;
+    gNicknameScene->mCommonMessages = FindFileInLoadedArchives("common.bmg");
 }
 
-void func_ov001_021987bc(void) {
+void ReleaseNicknameSceneObject(void) {
     ReleaseSceneText();
-    *(u32 *) &data_ov001_021a9be4 = 0;
+    *(u32 *) &gNicknameScene = 0;
 }
 
-void func_ov001_02198768(void) {
-    void *a;
-    void *b;
-    void *c;
+void AdvanceNicknameSceneState0(void) {
+    void *messageText;
+    void *firstButtonText;
+    void *secondButtonText;
     if (AreBrightnessFadesClear() != 0) {
-        data_ov001_021a9be4->mUnk_04 = 1;
-        a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0xc);
-        b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
-        c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
-        SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
+        gNicknameScene->mNextState = 1;
+        messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0xc);
+        firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
+        secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
+        SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 0);
     }
 }
 
-void func_ov001_021986e8(void) {
-    void *a;
-    void *b;
-    void *c;
+void AdvanceNicknameSceneState1(void) {
+    void *messageText;
+    void *firstButtonText;
+    void *secondButtonText;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            data_ov001_021a9be4->mUnk_04 = 2;
-            a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0xd);
-            b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
-            c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
-            SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
+            gNicknameScene->mNextState = 2;
+            messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0xd);
+            firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
+            secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
+            SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 0);
         } else {
-            data_ov001_021a9be4->mUnk_0e = 0xe;
+            gNicknameScene->mNextScene = 0xe;
         }
     }
 }
 
-void func_ov001_02198624(void) {
-    void *a;
-    void *b;
-    void *c;
-    u8 *d;
+void AdvanceNicknameSceneState2(void) {
+    void *messageText;
+    void *firstButtonText;
+    void *secondButtonText;
+    u8 *ownerText;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            d = gStartupWork->mOwnerText;
+            ownerText = gStartupWork->mOwnerText;
             gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
             MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
-            MI_CpuCopy8(d, gBackupBuffers->mFirstBlock->mPlayerName, 0x14);
+            MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName, 0x14);
             WriteBackupFirstBlockWrapper();
-            data_ov001_021a9be4->mUnk_04 = 3;
-            a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0x13);
-            b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
-            c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
-            SetupTxtSystemSubTextTwoButtons(a, b, c, 1);
+            gNicknameScene->mNextState = 3;
+            messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0x13);
+            firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
+            secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
+            SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 1);
         } else {
-            data_ov001_021a9be4->mUnk_0e = 0xe;
+            gNicknameScene->mNextScene = 0xe;
         }
     }
 }
 
-void func_ov001_021985b0(void) {
-    s32 v;
+void AdvanceNicknameSceneState3(void) {
+    s32 backupBusy;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
@@ -126,46 +126,46 @@ void func_ov001_021985b0(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (gBackupBuffers->mBusy == 0) {
             if (gBackupAccess->mBackupEnabled != 0) {
-                v = gBackupAccess->mCommandRunning;
+                backupBusy = gBackupAccess->mCommandRunning;
             } else {
-                v = 0;
+                backupBusy = 0;
             }
         } else {
-            v = 1;
+            backupBusy = 1;
         }
-        if (v == 0) {
+        if (backupBusy == 0) {
             if (GetTxtSystemSelectedIndex() == 0) {
-                data_ov001_021a9be4->mUnk_0e = 3;
+                gNicknameScene->mNextScene = 3;
             } else {
-                data_ov001_021a9be4->mUnk_0e = 0;
+                gNicknameScene->mNextScene = 0;
             }
         }
     }
 }
 
-void func_ov001_02198554(void) {
+void AdvanceNicknameScene(void) {
     AdvanceSceneText();
-    data_ov001_021a9be4->mUnk_00 = data_ov001_021a9be4->mUnk_04;
-    switch (data_ov001_021a9be4->mUnk_00) {
+    gNicknameScene->mState = gNicknameScene->mNextState;
+    switch (gNicknameScene->mState) {
         case 0:
-            func_ov001_02198768();
+            AdvanceNicknameSceneState0();
             break;
         case 1:
-            func_ov001_021986e8();
+            AdvanceNicknameSceneState1();
             break;
         case 2:
-            func_ov001_02198624();
+            AdvanceNicknameSceneState2();
             break;
         case 3:
-            func_ov001_021985b0();
+            AdvanceNicknameSceneState3();
             break;
     }
 }
 
-void func_ov001_0219854c(void) {
+void NicknameWriteSceneTextRegistersWrapper(void) {
     WriteSceneTextRegisters();
 }
 
-int func_ov001_0219853c(void) {
-    return data_ov001_021a9be4->mUnk_0e;
+int GetNicknameSceneNextScene(void) {
+    return gNicknameScene->mNextScene;
 }

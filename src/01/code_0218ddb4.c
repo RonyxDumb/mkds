@@ -788,7 +788,8 @@ void CreateKingTeresaKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x0u, 0x0u, 0x0u);
+    void *kindData =
+        CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x0u, 0x0u, 0x0u);
 }
 
 void *CreateKingTeresaDrawList(void) {

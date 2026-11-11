@@ -3,9 +3,9 @@
 #include "types.h"
 
 int GetEndingSceneNextScene(void);
-s32 func_ov001_0219e0b8(void);
-void func_ov001_0219e0c4(void);
-void func_ov001_0219e0d4(void);
+s32 GetStaffRollEndedEarly(void);
+void SetStaffRollEndedEarly(void);
+void WriteEndingSceneRegisters(void);
 void AdvanceEndingScene(void);
 void AdvanceEndingSceneState7(void);
 void AdvanceEndingSceneState6(void);
@@ -16,8 +16,8 @@ void AdvanceEndingSceneState2(void);
 void AdvanceEndingSceneState1(void);
 void AdvanceEndingSceneState0(void);
 void LoadAndQueueEndingSceneData(void);
-void func_ov001_0219e5a0(void);
+void QueueEndingSceneIndex1Data(void);
 void QueueEndingSceneNcgrNscrNclr(int param_1);
-void func_ov001_0219e660(void);
-void func_ov001_0219e6e0(void);
+void InitEndingSceneDisplay(void);
+void ClearEndingScenePointer(void);
 void CreateEndingScene(void *heap);

@@ -161,10 +161,10 @@ extern TestScene *gTestScene;
 extern u16 gShadowScaleToggle;
 extern SelectBattleStage *gSelectBattleStage;
 // One pair of halfwords of the object behind gOptionEmbremSelect.
-typedef struct Unk021a9bfc_18 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-} Unk021a9bfc_18;
+typedef struct OptionEmbremSelectOffset {
+    /* 00 */ s16 mOffsetX;
+    /* 02 */ s16 mOffsetY;
+} OptionEmbremSelectOffset;
 
 // Object behind gOptionEmbremSelect.
 typedef struct OptionEmbremSelect {
@@ -174,7 +174,7 @@ typedef struct OptionEmbremSelect {
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mStateFrames;
-    /* 18 */ Unk021a9bfc_18 mUnk_18[2];
+    /* 18 */ OptionEmbremSelectOffset mUnk_18[2];
     /* 20 */ s32 mNextOptionState;
     /* 24 */ BOOL mUnk_24;
     // Set to 6 by a press; counts down to 0 only while mUnk_08 == 1. 6 - timer indexes a table through
@@ -244,7 +244,7 @@ typedef struct TimeAttackTopMenu {
 
 extern RaceHudSubScreenCells *gRaceHudSubScreenKurikingCells;
 extern u16 data_ov001_021a9b94;
-extern const char *data_ov001_021a90e8[5];
+extern const char *gMissionRunLVselGradeStrings[5];
 extern const char *data_ov001_021a92c8[5];
 
 #include "00/code_021832d8.h"

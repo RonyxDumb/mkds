@@ -168,7 +168,7 @@ void InitKurikingObjects(MapObjectList *mapObjectList) {
 
     if (mapObjectList != NULL) {
         for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
-            func_ov001_0219b1c4(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mUnk_050, 0);
+            StartMapObjectModelNsbtaAnimation(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mUnk_050, 0);
             if (GetRaceUseChainCameras()) {
                 StartKurikingChainStartupFirst(obj);
             } else {
@@ -227,7 +227,7 @@ void UpdateKuriking(u32 unused, Unk02188950 *mapObject) {
         mapObject->mUnk_2b8 = 1;
     }
     AdvanceMissionRunMapObject(unused, mapObject);
-    func_ov001_0219b1fc(mapObject->mNsbmd);
+    AdvanceMapObjectModelNsbtaAnimation(mapObject->mNsbmd);
     var = mapObject->mUnk_134 + 1;
     if (var >= GetAbsoluteCounter(mapObject) * 30) {
         var = GetAbsoluteCounter(mapObject) * 30;
@@ -270,7 +270,8 @@ void CreateKurikingKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
+    void *kindData =
+        CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
 void *CreateKurikingDrawList(void) {

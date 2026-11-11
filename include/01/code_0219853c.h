@@ -16,25 +16,25 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "03/code_021b94b8.h"
 
-// Object behind data_ov001_021a9be4.
-typedef struct Unk021a9be4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
+// Object behind gNicknameScene.
+typedef struct NicknameScene {
+    /* 00 */ s32 mState;
+    /* 04 */ s32 mNextState;
+    /* 08 */ void *mHeap;
     /* 0c */ s16 mUnk_0c;
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ struct Bmg *mUnk_14;
-} Unk021a9be4;
+    /* 0e */ s16 mNextScene;
+    /* 10 */ void *mSceneDisplaySettings;
+    /* 14 */ struct Bmg *mCommonMessages;
+} NicknameScene;
 
-int func_ov001_0219853c(void);
-void func_ov001_0219854c(void);
-void func_ov001_02198554(void);
-void func_ov001_021985b0(void);
-void func_ov001_02198624(void);
-void func_ov001_021986e8(void);
-void func_ov001_02198768(void);
-void func_ov001_021987bc(void);
-void func_ov001_021987d4(void *heap, s16 a);
+int GetNicknameSceneNextScene(void);
+void NicknameWriteSceneTextRegistersWrapper(void);
+void AdvanceNicknameScene(void);
+void AdvanceNicknameSceneState3(void);
+void AdvanceNicknameSceneState2(void);
+void AdvanceNicknameSceneState1(void);
+void AdvanceNicknameSceneState0(void);
+void ReleaseNicknameSceneObject(void);
+void InitNicknameSceneObject(void *heap, s16 a);
 
 #include "00/code_021832d8.h"

@@ -42,7 +42,7 @@ extern const SelectBattleStageNscrRect gSelectBattleStageNscrRects[];
 void WriteSelectBattleStageRegisters(void);
 s32 AdvanceSelectBattleStage(void);
 void AdvanceSelectBattleStageOffsetTimer(void);
-void func_ov001_0219c8ec(void);
+void UpdateSelectBattleStageHighlight(void);
 void AdvanceSelectBattleStageState6(void);
 void AdvanceSelectBattleStageState5(void);
 void AdvanceSelectBattleStageState4(void);
@@ -50,10 +50,10 @@ void AdvanceSelectBattleStageState3(void);
 void AdvanceSelectBattleStageState2(void);
 void AdvanceSelectBattleStageState1(void);
 void AdvanceSelectBattleStageState0(void);
-void func_ov001_0219cec4(void);
+void UpdateSelectBattleStageCellOffsets(void);
 void CopyAndQueueSelectBattleStageNscrRect(void);
 void LocateAndQueueSelectBattleStage(void);
 void ReleaseSelectBattleStage(void);
-void InitSelectBattleStage(void *c, s32 d, void *e, void *f);
+void InitSelectBattleStage(void *parentHeap, s32 d, void *mainOam, void *subOam);
 
 #include "00/code_021832d8.h"

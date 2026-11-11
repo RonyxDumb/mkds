@@ -11,13 +11,13 @@ void SetPointInRangePoint(Unk02188950 *mapObject, Vec3 *point) {
 }
 
 void StartAnimationNoEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 frameStep) {
-    func_ov001_0219b208(mapObject->mNsbmd, (u16) animationEntry, frameStep, 0);
+    StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 0);
     mapObject->mAnimationEndCallback = NULL;
 }
 
 void StartAnimationWithEndCallback(Unk02188950 *mapObject, s32 animationEntry, s32 frameStep,
                                    void (*endCallback)(Unk02188950 *)) {
-    func_ov001_0219b208(mapObject->mNsbmd, (u16) animationEntry, frameStep, 1);
+    StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 1);
     if (endCallback == NULL) {
         endCallback = StopMapObjectState;
     }

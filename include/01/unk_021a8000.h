@@ -67,7 +67,7 @@ extern char data_ov001_021a8608[];
 extern char data_ov001_021a8628[];
 extern char data_ov001_021a8644[];
 extern char data_ov001_021a8650[];
-extern u16 *data_ov001_021a8280[5];
+extern u16 *gRecordGpxGradeStrings[5];
 extern const char *gTimeAttackTopMenuSBnblName;
 extern const char *gTimeAttackTopMenuSNcerName;
 extern const char *gTimeAttackTopMenuSNcgrName;

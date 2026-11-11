@@ -12,7 +12,7 @@ void StartKurikingTurnToEntryState(Unk02188950 *mapObject) {
     MissionRunPrm *prm;
     StartMapObjectState(mapObject, 2, &UpdateKurikingTurnToEntryState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_15c, mapObject->mPrm->mUnk_160);
-    func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_160, 0);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_160, 0);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_168, mapObject->mPrm->mUnk_16c);
     prm = mapObject->mPrm;
     TurnAndMoveToPointOwnRates(mapObject, prm->mUnk_178, prm->mUnk_17c, prm->mUnk_170, prm->mUnk_174);

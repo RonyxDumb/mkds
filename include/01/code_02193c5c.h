@@ -82,10 +82,10 @@ typedef struct RecordGpx {
     /* 90 */ s32 mUnk_90;
 } RecordGpx;
 
-extern u8 data_ov001_021a65f0[][4];
-extern const u16 data_ov001_021a66cc[4][3];
-extern const u16 data_ov001_021a66b4[4][3];
-extern const u16 data_ov001_021a6674[4][2];
+extern u8 gOptionTopMenuOffsetTableIndices[][4];
+extern const u16 gRecordGpxTotalPointsCellIndices[4][3];
+extern const u16 gRecordGpxGradeCellIndices[4][3];
+extern const u16 gRecordGpxCharacterKartCellIndices[4][2];
 
 #include "01/code_02192e78.h"
 #include "01/code_021932e4.h"
@@ -104,19 +104,19 @@ extern const u16 data_ov001_021a6674[4][2];
 #include "Main/Unknown/code_0211d000.h"
 #include "Main/Unknown/code_02047104.h"
 
-extern const u16 data_ov001_021a6614[4];
-extern const u16 data_ov001_021a662c[4];
-extern const u16 data_ov001_021a663c[4];
+extern const u16 gRecordGpxTimeLabelIndices[4];
+extern const u16 gRecordGpxTotalPointsLabelIndices[4];
+extern const u16 gRecordGpxGradeLabelIndices[4];
 extern const u16 data_ov001_021a6654[4];
 extern const u16 data_ov001_021a665c[4];
-extern const u16 data_ov001_021a666c[4];
+extern const u16 gRecordGpxTrophyCellIndices[4];
 // Objects whose layout isn't known yet.
 extern const RecordScreenCallbacks gRecordGpxCallbacks;
 extern const RecordScreenCallbacks gRecordTAttCallbacks;
 
 void RegisterRecordGpxCallbacks(void);
-void func_ov001_02193c84(void);
-void func_ov001_02193ccc(void);
+void WriteRecordGpxRegisters(void);
+void WriteRecordGpxBgOffsets(void);
 void AdvanceRecordGpx(void);
 void AdvanceRecordGpxState6(void);
 void AdvanceRecordGpxState5(void);
@@ -125,23 +125,23 @@ void AdvanceRecordGpxState3(void);
 void AdvanceRecordGpxState2(void);
 void AdvanceRecordGpxState1(void);
 void AdvanceRecordGpxState0(void);
-void func_ov001_021946d0(void);
+void ReleaseRecordGpx(void);
 void InitRecordGpx(void *heap);
 void RequestRecordGpxState6(void);
 void RequestRecordGpxState5(void);
-void func_ov001_021949d4(void);
+void RequestRecordGpxState4AndMoveIndex(void);
 void RequestRecordGpxState3(void);
 void RequestRecordGpxState2(void);
 void RequestRecordGpxState1AndSetup(void);
-void func_ov001_02194a50(void);
-u32 func_ov001_02194c9c(u32 a);
-u32 func_ov001_02194d04(s32 a);
-void func_ov001_02194d18(void);
-void func_ov001_02194d48(void);
+void ResetRecordGpx(void);
+u32 IsRecordGpxCupSelectable(u32 cupIndex);
+u32 IsRecordGpxCupBackupFlagSet(s32 cupIndex);
+void DecrementRecordGpxIndex(void);
+void IncrementRecordGpxIndex(void);
 void SetupRecordGpx(void);
 void AdvanceRecordGpxOffsetTimers(void);
-void SetupRecordGpxDashes(s32 a);
-void SetupRecordGpxValues(s32 a);
+void SetupRecordGpxDashes(s32 row);
+void SetupRecordGpxValues(s32 row);
 void LocateAndQueueRecordGpx(void);
 
 #include "00/code_021832d8.h"

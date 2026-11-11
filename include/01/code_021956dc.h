@@ -95,7 +95,7 @@ typedef struct BackupAccess {
     /* 6c */ u8 mUnk_6c;
 } BackupAccess;
 
-extern u16 data_ov001_021a6850[][2];
+extern u16 gRecordTAttCharacterKartCellIndices[][2];
 
 #include "Main/Unknown/code_021172a8.h"
 #include "Main/Unknown/code_0211130c.h"
@@ -103,21 +103,21 @@ extern u16 data_ov001_021a6850[][2];
 #include "code_021458c4.h"
 
 extern BackupAccess *gBackupAccess;
-extern u16 data_ov001_021a67c0[];
-extern u16 data_ov001_021a67c4[];
-extern u16 data_ov001_021a67c8[];
-extern u16 data_ov001_021a67d4[];
-extern u16 data_ov001_021a67e0[];
-extern u16 data_ov001_021a67ec[];
+extern u16 gRecordTAttTimerZeroSTableIndices[];
+extern u16 gRecordTAttRunningSTableIndices[];
+extern u16 gRecordTAttTimeLabelWidths[];
+extern u16 gRecordTAttTimeLabelIndices[];
+extern u16 gRecordTAttTimeLabelHeights[];
+extern u16 gRecordTAttNameLabelHeights[];
 extern u16 data_ov001_021a67f8[];
-extern u16 data_ov001_021a6804[];
-extern u16 data_ov001_021a6810[];
-extern u16 data_ov001_021a681c[];
-extern s32 data_ov001_021a6900[];
+extern u16 gRecordTAttNameLabelWidths[];
+extern u16 gRecordTAttNameLabelIndices[];
+extern u16 gRecordTAttButtonSequence[];
+extern s32 gRecordTAttCourseIds[];
 
 void RegisterRecordTAttCallbacks(void);
-void func_ov001_02195704(void);
-void func_ov001_0219574c(void);
+void WriteRecordTAttRegisters(void);
+void WriteRecordTAttBgOffsets(void);
 void AdvanceRecordTAtt(void);
 void AdvanceRecordTAttState17(void);
 void AdvanceRecordTAttState16(void);
@@ -137,34 +137,34 @@ void AdvanceRecordTAttState3(void);
 void AdvanceRecordTAttState2(void);
 void AdvanceRecordTAttState1(void);
 void AdvanceRecordTAttState0(void);
-void func_ov001_02196904(void);
+void ReleaseRecordTAtt(void);
 void InitRecordTAtt(void *heap);
-BOOL func_ov001_02196c4c(void);
-void func_ov001_02196cd0(void);
+BOOL AdvanceRecordTAttButtonSequence(void);
+void AdvanceRecordTAttOffsetTimers(void);
 void RequestRecordTAttState17(void);
-void func_ov001_02196d8c(void);
+void RequestRecordTAttState16(void);
 void RequestRecordTAttState15(void);
-void func_ov001_02196dbc(void);
-void func_ov001_02196e30(void);
-void func_ov001_02196e54(void);
-void func_ov001_02196e88(void);
-void func_ov001_02196eb0(void);
-void func_ov001_02196ecc(void);
-void func_ov001_02196f64(void);
-void func_ov001_02196f80(void);
+void RequestRecordTAttState14(void);
+void RequestRecordTAttState13(void);
+void RequestRecordTAttState12(void);
+void RequestRecordTAttState11(void);
+void RequestRecordTAttState10(void);
+void RequestRecordTAttState9(void);
+void RequestRecordTAttState8(void);
+void RequestRecordTAttState7(void);
 void RequestRecordTAttState6(void);
 void RequestRecordTAttState5(void);
-void func_ov001_02196fd8(void);
+void RequestRecordTAttState4AndMoveIndex(void);
 void RequestRecordTAttState3(void);
-void func_ov001_02197024(void);
-void func_ov001_0219703c(void);
-void func_ov001_02197058(void);
-BOOL func_ov001_02197210(void);
-void func_ov001_02197274(void);
-void func_ov001_021972b4(void);
-void func_ov001_021972f4(void);
-void func_ov001_0219750c(u16 a);
-void func_ov001_021975f4(u16 a);
+void RequestRecordTAttState2(void);
+void RequestRecordTAttState1AndSetup(void);
+void ResetRecordTAtt(void);
+BOOL CheckRecordTAttFirstRecordFormat(void);
+void DecrementRecordTAttIndex(void);
+void IncrementRecordTAttIndex(void);
+void SetupRecordTAtt(void);
+void SetupRecordTAttRowDashes(u16 row);
+void SetupRecordTAttRowValues(u16 row);
 void LocateAndQueueRecordTAtt(void);
 
 #include "00/code_021832d8.h"

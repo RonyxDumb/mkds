@@ -14,7 +14,7 @@
 EndingScene *gEndingScene;
 
 void CreateEndingScene(void *heap) {
-    void *result;
+    void *bmgEntry;
 
     gEndingScene = HeapAlloc(heap, 0x470);
     gEndingScene->mHeap = heap;
@@ -30,37 +30,37 @@ void CreateEndingScene(void *heap) {
     }
     gEndingScene->mIndex1Queued = FALSE;
     gEndingScene->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    func_ov001_0219e660();
+    InitEndingSceneDisplay();
     LoadAndQueueEndingSceneData();
     ResetOamLists(gEndingScene->mMainOam, NULL);
     InitLayoutTable(gEndingScene->mHeap, gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksBnll,
                     &gEndingScene->mEndingThanksTable);
-    result = NULL;
+    bmgEntry = NULL;
     gEndingScene->mEndingThanksTable->mVisible = 0;
     {
         u16 table[2][2] = {{200, 24}, {200, 24}};
 
         switch (gEndingScene->mKind) {
             case 0:
-                result = GetBmgEntry(gEndingScene->mCommonMessages, 0x77);
+                bmgEntry = GetBmgEntry(gEndingScene->mCommonMessages, 0x77);
                 break;
             case 1:
-                result = GetBmgEntry(gEndingScene->mCommonMessages, 0x78);
+                bmgEntry = GetBmgEntry(gEndingScene->mCommonMessages, 0x78);
                 break;
         }
         InitLabelCanvas(gEndingScene->mHeap, 0, gEndingScene->mEndingThanksBnll, table[gEndingScene->mKind][0],
                         table[gEndingScene->mKind][1], 0, gEndingScene->mThanksYouMNcer,
                         gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksTable, 0x8000);
-        PrintLabelLayoutTextNoFixedAdvance(0, 0, gEndingScene->mEndingThanksBnll, result,
+        PrintLabelLayoutTextNoFixedAdvance(0, 0, gEndingScene->mEndingThanksBnll, bmgEntry,
                                            gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksTable);
     }
 }
 
-void func_ov001_0219e6e0(void) {
+void ClearEndingScenePointer(void) {
     *&gEndingScene = 0;
 }
 
-void func_ov001_0219e660(void) {
+void InitEndingSceneDisplay(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x100;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x100;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;
@@ -90,7 +90,7 @@ void QueueEndingSceneNcgrNscrNclr(int i) {
                                        gEndingScene->mEndAllRightsReservedSBAndLogoEndNintendoSBNclrs[i]->mDataSize);
 }
 
-void func_ov001_0219e5a0(void) {
+void QueueEndingSceneIndex1Data(void) {
     reg_G2_BG0CNT = reg_G2_BG0CNT & 0x43 | 0x00001f80u;
     QueueEndingSceneNcgrNscrNclr(1);
     gEndingScene->mIndex1Queued = TRUE;
@@ -151,7 +151,7 @@ void LoadAndQueueEndingSceneData(void) {
             break;
     }
     if (gMenuShared->mUnk_70 != 0) {
-        func_ov001_0219e5a0();
+        QueueEndingSceneIndex1Data();
     } else {
         QueueEndingSceneNcgrNscrNclr(0);
     }
@@ -180,56 +180,56 @@ void AdvanceEndingSceneState1(void) {
 }
 
 void AdvanceEndingSceneState2(void) {
-    int v1;
-    v1 = AreBrightnessFadesFaded();
-    if (v1 != 0) {
+    int fadesFaded;
+    fadesFaded = AreBrightnessFadesFaded();
+    if (fadesFaded != 0) {
         gEndingScene->mNextState = 3;
     }
 }
 
 void AdvanceEndingSceneState3(void) {
-    EndingScene *p;
+    EndingScene *endingScene;
 
     gEndingScene->mUnk_008++;
-    p = gEndingScene;
-    if (p->mUnk_008 > gEndingSceneStateTable[3]) {
-        p->mNextState = 4;
+    endingScene = gEndingScene;
+    if (endingScene->mUnk_008 > gEndingSceneStateTable[3]) {
+        endingScene->mNextState = 4;
         gEndingScene->mUnk_008 = 0;
         StartFadeToClearNegative(gEndingSceneStateTable[4]);
-        func_ov001_0219e5a0();
+        QueueEndingSceneIndex1Data();
     }
 }
 
 void AdvanceEndingSceneState4(void) {
-    int v1;
-    v1 = AreBrightnessFadesClear();
-    if (v1 != 0) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
         gEndingScene->mNextState = 5;
     }
 }
 
 void AdvanceEndingSceneState5(void) {
-    InputSlotIndex idx = UNK_02175628_INDEX_8;
-    u16 flags;
-    BOOL a;
-    BOOL b;
-    u16 x;
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    u16 keyPressed;
+    BOOL touchBegan;
+    BOOL recentlyLost;
+    u16 hasPair;
 
     gEndingScene->mUnk_008++;
     if (gEndingScene->mUnk_008 > gEndingSceneStateTable[gEndingScene->mState]) {
         gEndingScene->mUnk_008 = gEndingSceneStateTable[gEndingScene->mState];
-        flags = gInputSlots[idx].mPressedBits & 0xc0f;
-        if (flags == 0) {
-            a = FALSE;
-            b = FALSE;
-            x = gInputSlots[idx].mPair.mHasPair;
-            if (x == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
-                b = TRUE;
+        keyPressed = gInputSlots[slotIndex].mPressedBits & 0xc0f;
+        if (keyPressed == 0) {
+            touchBegan = FALSE;
+            recentlyLost = FALSE;
+            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+                recentlyLost = TRUE;
             }
-            if (b == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && x != 0) {
-                a = TRUE;
+            if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+                touchBegan = TRUE;
             }
-            if (a == FALSE) {
+            if (touchBegan == FALSE) {
                 return;
             }
         }
@@ -287,21 +287,21 @@ void AdvanceEndingScene(void) {
     HideUnusedOams(gEndingScene->mMainOam, NULL);
 }
 
-void func_ov001_0219e0d4(void) {
-    u32 bits;
+void WriteEndingSceneRegisters(void) {
+    u32 displayBits;
 
     if (gEndingScene->mIndex1Queued != FALSE) {
-        bits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((bits | 0x10) << 8);
+        displayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((displayBits | 0x10) << 8);
     }
     UploadOamLists(gEndingScene->mMainOam, NULL);
 }
 
-void func_ov001_0219e0c4(void) {
+void SetStaffRollEndedEarly(void) {
     gMenuShared->mUnk_70 = 1;
 }
 
-s32 func_ov001_0219e0b8(void) {
+s32 GetStaffRollEndedEarly(void) {
     return gMenuShared->mUnk_70;
 }
 

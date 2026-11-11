@@ -38,87 +38,87 @@
 RecordTopMenu *gRecordTopMenu;
 
 void LocateAndQueueRecordTopMenu(void) {
-    Ncgr *a;
-    Nclr *b;
-    Ncgr *c;
-    Nclr *d;
-    Ncgr *e;
-    Nclr *f;
-    Nscr *g;
-    u16 *q;
+    Ncgr *recordTopMenuMNcgr;
+    Nclr *recordTopMenuMONclr;
+    Ncgr *recordTopMenuSNcgr;
+    Nclr *recordTopMenuSONclr;
+    Ncgr *recordTopMenuMBNcgr;
+    Nclr *recordTopMenuMBNclr;
+    Nscr *recordTopMenuMNscr;
+    u16 *paletteData;
 
-    a = NULL;
-    b = NULL;
-    c = NULL;
-    d = NULL;
-    e = NULL;
-    f = NULL;
-    g = NULL;
-    LocateNcgr(&e, FindSceneFile(gRecordTopMenuMBNcgrName));
-    LocateNclr(&f, FindSceneFile(gRecordTopMenuMBNclrName));
-    LocateNscr(&g, FindSceneFile(gRecordTopMenuMNscrName));
+    recordTopMenuMNcgr = NULL;
+    recordTopMenuMONclr = NULL;
+    recordTopMenuSNcgr = NULL;
+    recordTopMenuSONclr = NULL;
+    recordTopMenuMBNcgr = NULL;
+    recordTopMenuMBNclr = NULL;
+    recordTopMenuMNscr = NULL;
+    LocateNcgr(&recordTopMenuMBNcgr, FindSceneFile(gRecordTopMenuMBNcgrName));
+    LocateNclr(&recordTopMenuMBNclr, FindSceneFile(gRecordTopMenuMBNclrName));
+    LocateNscr(&recordTopMenuMNscr, FindSceneFile(gRecordTopMenuMNscrName));
     gRecordTopMenu->mUnk_28 = HeapAlloc(gRecordTopMenu->mHeap, 0x800);
     gRecordTopMenu->mRecordTopMenuMBncl = FindSceneFile(gRecordTopMenuMBnclName);
     gRecordTopMenu->mRecordTopMenuMBnll = FindSceneFile(gRecordTopMenuMBnllName);
-    LocateNcgr2(&a, FindSceneFile(gRecordTopMenuMNcgrName));
+    LocateNcgr2(&recordTopMenuMNcgr, FindSceneFile(gRecordTopMenuMNcgrName));
     LocateNcer(&gRecordTopMenu->mRecordTopMenuMNcer, FindSceneFile(gRecordTopMenuMNcerName));
-    LocateNclr(&b, FindSceneFile(gRecordTopMenuMONclrName));
+    LocateNclr(&recordTopMenuMONclr, FindSceneFile(gRecordTopMenuMONclrName));
     gRecordTopMenu->mRecordTopMenuSBncl = FindSceneFile(gRecordTopMenuSBnclName);
     gRecordTopMenu->mRecordTopMenuSBnbl = FindSceneFile(gRecordTopMenuSBnblName);
-    LocateNcgr2(&c, FindSceneFile(gRecordTopMenuSNcgrName));
+    LocateNcgr2(&recordTopMenuSNcgr, FindSceneFile(gRecordTopMenuSNcgrName));
     LocateNcer(&gRecordTopMenu->mRecordTopMenuSNcer, FindSceneFile(gRecordTopMenuSNcerName));
-    LocateNclr(&d, FindSceneFile(gRecordTopMenuSONclrName));
-    q = b->mData;
-    NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(15, 0, f->mData, 0x60);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, g->mData, g->mDataSize);
+    LocateNclr(&recordTopMenuSONclr, FindSceneFile(gRecordTopMenuSONclrName));
+    paletteData = recordTopMenuMONclr->mData;
+    NNS_GfdRegisterNewVramTransferTask(4, 0, recordTopMenuMBNcgr->mData, recordTopMenuMBNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, recordTopMenuMBNclr->mData, 0x60);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, recordTopMenuMNscr->mData, recordTopMenuMNscr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->mUnk_28, 0x800);
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(14, 0, b->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, q + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, recordTopMenuMNcgr->mData, recordTopMenuMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(14, 0, recordTopMenuMONclr->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, paletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, recordTopMenuSNcgr->mData, recordTopMenuSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, recordTopMenuSONclr->mData, recordTopMenuSONclr->mDataSize);
 }
 
-void SetRecordTopMenuRowOn(s32 a) {
-    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[a]].mVisible = 1;
-    SetCellPaletteIndex(data_ov001_021a6aa4[a], 14, gRecordTopMenu->mRecordTopMenuSNcer,
+void SetRecordTopMenuRowOn(s32 row) {
+    gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[row]].mVisible = 1;
+    SetCellPaletteIndex(gRecordTopMenuRowCellIndices[row], 14, gRecordTopMenu->mRecordTopMenuSNcer,
                         gRecordTopMenu->mRecordTopMenuSBncl);
 }
 
-void SetRecordTopMenuRowOff(s32 a) {
-    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[a]].mVisible = 0;
-    SetCellPaletteIndex(data_ov001_021a6aa4[a], 15, gRecordTopMenu->mRecordTopMenuSNcer,
+void SetRecordTopMenuRowOff(s32 row) {
+    gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[row]].mVisible = 0;
+    SetCellPaletteIndex(gRecordTopMenuRowCellIndices[row], 15, gRecordTopMenu->mRecordTopMenuSNcer,
                         gRecordTopMenu->mRecordTopMenuSBncl);
 }
 
 void ResetRecordTopMenu(void) {
     s32 i;
     s32 j;
-    u16 *p;
-    s32 n;
+    u16 *labelRow;
+    s32 mainLayoutCount;
 
     gRecordTopMenu->mNextState = 0;
     gRecordTopMenu->mStateFrames = 0;
     gRecordTopMenu->mBg0Offset = ~0xbf;
-    n = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
+    mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = ~0xbf;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = ~0xbf;
-    gRecordTopMenu->mRecordTopMenuMTable[n].mOffsetY = ~0xbf;
+    gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount].mOffsetY = ~0xbf;
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuMTable[data_ov001_021a6aac[i]].mOffsetY = ~0xbf;
+        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mOffsetY = ~0xbf;
     }
     for (i = 0; i < 3; i++) {
-        for (j = 0, p = data_ov001_021a6ae4[i]; j < 3; j++) {
-            gRecordTopMenu->mRecordTopMenuMTable[n + *p].mOffsetY = ~0xbf;
-            p++;
+        for (j = 0, labelRow = gRecordTopMenuLabelIndices[i]; j < 3; j++) {
+            gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *labelRow].mOffsetY = ~0xbf;
+            labelRow++;
         }
     }
     for (i = 0; i < 3; i++) {
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = 0xe0;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = 0xe0;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[i]].mOffsetX = 0xe0;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[i]].mOffsetX = 0xe0;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = 0xe0;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = 0xe0;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = 0xe0;
         SetRecordTopMenuRowOff(i);
     }
 }
@@ -135,7 +135,7 @@ void RequestRecordTopMenuState2(void) {
     gRecordTopMenu->mStateFrames = 0;
 }
 
-void func_ov001_0219ae44(void) {
+void RequestRecordTopMenuState3(void) {
     gRecordTopMenu->mNextState = 3;
     gRecordTopMenu->mStateFrames = 0;
     RequestSelectReturnState1();
@@ -205,7 +205,7 @@ void DecrementRecordTopMenuIndex(void) {
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
 }
 
-void func_ov001_0219ac98(void) {
+void RefreshRecordTopMenuGradeCells(void) {
     s32 best = 7;
     s32 i;
     s32 j;
@@ -223,22 +223,22 @@ void func_ov001_0219ac98(void) {
         }
     }
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuMTable[data_ov001_021a6aac[i]].mVisible = 0;
+        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mVisible = 0;
     }
     if (best > 4) {
-        gRecordTopMenu->mRecordTopMenuMTable[data_ov001_021a6aac[best - 5]].mVisible = 1;
+        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[best - 5]].mVisible = 1;
     }
 }
 
 void InitRecordTopMenu(void *heap) {
     u32 scores[3][3] = {0};
     u16 buf[16];
-    s32 rem;
-    u16 x;
-    u16 base;
+    s32 remainingSize;
+    u16 labelEntryIndex;
+    u16 mainLayoutCount;
     s32 i;
     s32 j;
-    BackupFirstBlock **pp;
+    BackupFirstBlock **firstBlock;
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x8800;
@@ -264,7 +264,7 @@ void InitRecordTopMenu(void *heap) {
     }
     LocateAndQueueRecordTopMenu();
     for (i = 0; i < 3; i++) {
-        SetCellOamModeXlu(data_ov001_021a6ac4[i], 1, gRecordTopMenu->mRecordTopMenuSNcer,
+        SetCellOamModeXlu(gRecordTopMenuXluCellIndices[i], 1, gRecordTopMenu->mRecordTopMenuSNcer,
                           gRecordTopMenu->mRecordTopMenuSBncl);
     }
     ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
@@ -273,104 +273,105 @@ void InitRecordTopMenu(void *heap) {
     InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuSBncl, NULL, &gRecordTopMenu->mRecordTopMenuSTable);
     gRecordTopMenu->mUnk_20 = FindFileInLoadedArchives("common.bmg");
     gRecordTopMenu->mRecordMessages = FindSceneFile("record.bmg");
-    rem = 0x8000;
-    rem -=
+    remainingSize = 0x8000;
+    remainingSize -=
         InitLabelCanvas(heap, 0, gRecordTopMenu->mRecordTopMenuMBnll, 0xaa, 0xe, 0, gRecordTopMenu->mRecordTopMenuMNcer,
-                        gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, rem);
+                        gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, remainingSize);
     PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordTopMenu->mRecordTopMenuMBnll,
                                        GetBmgEntry(gRecordTopMenu->mRecordMessages, 9),
                                        gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
-    x = 1;
-    base = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
+    labelEntryIndex = 1;
+    mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
-            rem -= InitLabelCanvas(heap, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll,
-                                   data_ov001_021a6af8[i][j], data_ov001_021a6b0c[i][j], x,
-                                   gRecordTopMenu->mRecordTopMenuMNcer, gRecordTopMenu->mRecordTopMenuMBncl,
-                                   gRecordTopMenu->mRecordTopMenuMTable, rem);
-            x = base + data_ov001_021a6ae4[i][j];
+            remainingSize -=
+                InitLabelCanvas(heap, gRecordTopMenuLabelIndices[i][j], gRecordTopMenu->mRecordTopMenuMBnll,
+                                gRecordTopMenuLabelWidths[i][j], gRecordTopMenuLabelHeights[i][j], labelEntryIndex,
+                                gRecordTopMenu->mRecordTopMenuMNcer, gRecordTopMenu->mRecordTopMenuMBncl,
+                                gRecordTopMenu->mRecordTopMenuMTable, remainingSize);
+            labelEntryIndex = mainLayoutCount + gRecordTopMenuLabelIndices[i][j];
         }
     }
     for (i = 0; i < 3; i++) {
         PrintLabelLayoutTextNoFixedAdvance(
-            0, data_ov001_021a6ae4[0][i], gRecordTopMenu->mRecordTopMenuMBnll,
+            0, gRecordTopMenuLabelIndices[0][i], gRecordTopMenu->mRecordTopMenuMBnll,
             GetBmgEntry(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[i]),
             gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
-    pp = &gBackupBuffers->mFirstBlock;
-    scores[1][0] = (*pp)->mTotals[0];
-    scores[2][0] = (*pp)->mTotals[1];
-    scores[1][1] = (*pp)->mTotals[2];
-    scores[2][1] = (*pp)->mTotals[3];
-    scores[1][2] = (*pp)->mTotals[4];
-    scores[2][2] = (*pp)->mTotals[5];
+    firstBlock = &gBackupBuffers->mFirstBlock;
+    scores[1][0] = (*firstBlock)->mTotals[0];
+    scores[2][0] = (*firstBlock)->mTotals[1];
+    scores[1][1] = (*firstBlock)->mTotals[2];
+    scores[2][1] = (*firstBlock)->mTotals[3];
+    scores[1][2] = (*firstBlock)->mTotals[4];
+    scores[2][2] = (*firstBlock)->mTotals[5];
     for (i = 1; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             if (scores[i][j] > 9999) {
                 scores[i][j] = 9999;
             }
             FormatAsciiNumber(scores[i][j], buf);
-            PrintLabelLayoutTextFixedAdvance(0, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll, buf,
-                                             gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable,
-                                             6);
+            PrintLabelLayoutTextFixedAdvance(0, gRecordTopMenuLabelIndices[i][j], gRecordTopMenu->mRecordTopMenuMBnll,
+                                             buf, gRecordTopMenu->mRecordTopMenuMBncl,
+                                             gRecordTopMenu->mRecordTopMenuMTable, 6);
         }
     }
-    func_ov001_0219ac98();
+    RefreshRecordTopMenuGradeCells();
     ResetRecordTopMenu();
     SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
 }
 
 void ReleaseRecordTopMenu(void) {
-    u32 a;
-    u32 b;
+    u32 mainDisplayBits;
+    u32 subDisplayBits;
 
     gRecordTopMenu = NULL;
-    a = (reg_GX_DISPCNT & 0x1f00) >> 8;
-    a &= ~0x11;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (a << 8);
-    b = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    b &= ~0x1;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (b << 8);
+    mainDisplayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    mainDisplayBits &= ~0x11;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (mainDisplayBits << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    subDisplayBits &= ~0x1;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
 }
 
 void AdvanceRecordTopMenuState0(void) {
-    int v1;
-    v1 = AreBrightnessFadesClear();
-    if (v1 != 0) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
         RequestRecordTopMenuState1();
     }
 }
 
 void AdvanceRecordTopMenuState1(void) {
-    s16 a;
+    s16 offsetX;
     s32 i;
     s32 j;
-    s16 b;
+    s16 offsetY;
     u16 *p;
-    s32 idx;
+    s32 mainLayoutCount;
 
     gRecordTopMenu->mStateFrames++;
-    a = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
-    b = InterpolateS16(1, -0xc0, 0, gRecordTopMenu->mStateFrames, 10);
-    gRecordTopMenu->mBg0Offset = b;
-    idx = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
-    gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
-    gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = b;
-    gRecordTopMenu->mRecordTopMenuMTable[idx].mOffsetY = b;
+    offsetX = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
+    offsetY = InterpolateS16(1, -0xc0, 0, gRecordTopMenu->mStateFrames, 10);
+    gRecordTopMenu->mBg0Offset = offsetY;
+    mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
+    gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = offsetY;
+    gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = offsetY;
+    gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount].mOffsetY = offsetY;
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuMTable[data_ov001_021a6aac[i]].mOffsetY = b;
+        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mOffsetY = offsetY;
     }
     for (i = 0; i < 3; i++) {
-        for (j = 0, p = data_ov001_021a6ae4[i]; j < 3; j++) {
-            gRecordTopMenu->mRecordTopMenuMTable[idx + *p].mOffsetY = b;
+        for (j = 0, p = gRecordTopMenuLabelIndices[i]; j < 3; j++) {
+            gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *p].mOffsetY = offsetY;
             p++;
         }
     }
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = a;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = a;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[i]].mOffsetX = a;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[i]].mOffsetX = a;
+        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
         RequestRecordTopMenuState2();
@@ -378,66 +379,69 @@ void AdvanceRecordTopMenuState1(void) {
 }
 
 void AdvanceRecordTopMenuState2(void) {
-    s16 v;
+    s16 offsetX;
     s32 i;
 
     gRecordTopMenu->mStateFrames++;
-    v = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
+    offsetX = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[i]].mOffsetX = v;
+        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
-        func_ov001_0219ae44();
+        RequestRecordTopMenuState3();
     }
 }
 
 void AdvanceRecordTopMenuState3(void) {
-    int v1;
-    v1 = IsSelectReturnState2NoState3Or4Request();
-    if (v1 != 0) {
+    int returnState2NoRequest;
+    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    if (returnState2NoRequest != 0) {
         RequestRecordTopMenuState4();
     }
 }
 
 void AdvanceRecordTopMenuState4(void) {
-    InputSlotIndex i;
-    u16 flags;
-    BOOL b;
-    s32 sel;
-    BOOL a;
-    BOOL b2;
-    BOOL a2;
-    s32 t;
+    InputSlotIndex slotIndex;
+    u16 keyBPressed;
+    BOOL touchBegan;
+    s32 touchedRect;
+    BOOL recentlyLost;
+    BOOL touchBeganAgain;
+    BOOL recentlyLostAgain;
+    s32 rowIndex;
 
-    b = FALSE;
-    sel = -1;
-    i = UNK_02175628_INDEX_8;
-    a = FALSE;
-    if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-        a = TRUE;
+    touchBegan = FALSE;
+    touchedRect = -1;
+    slotIndex = UNK_02175628_INDEX_8;
+    recentlyLost = FALSE;
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        recentlyLost = TRUE;
     }
-    if (a == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
-        b = TRUE;
+    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        touchBegan = TRUE;
     }
-    if (b != FALSE) {
-        sel = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[i].mPair.mPairX,
-                                      gInputSlots[i].mPair.mPairY);
+    if (touchBegan != FALSE) {
+        touchedRect = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
+                                              gInputSlots[slotIndex].mPair.mPairY);
     }
-    flags = gInputSlots[i].mPressedBits & PAD_KEY_B;
-    if (flags == 0) {
-        b2 = FALSE;
-        a2 = FALSE;
-        if (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-            a2 = TRUE;
+    keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    if (keyBPressed == 0) {
+        touchBeganAgain = FALSE;
+        recentlyLostAgain = FALSE;
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            recentlyLostAgain = TRUE;
         }
-        if (a2 == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0) {
-            b2 = TRUE;
+        if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+            touchBeganAgain = TRUE;
         }
-        if (b2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
-                                                                           gInputSlots[i].mPair.mPairY) == FALSE) {
+        if (touchBeganAgain == FALSE ||
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto skip;
         }
     }
@@ -447,22 +451,22 @@ void AdvanceRecordTopMenuState4(void) {
     RequestSelectReturnState3WithSound(1);
     return;
 skip:
-    if ((u32) sel <= 2) {
-        t = data_ov001_021a6acc[sel];
-        if (gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[t]].mVisible != 0) {
-            if (gRecordTopMenu->mIndex == t) {
+    if ((u32) touchedRect <= 2) {
+        rowIndex = data_ov001_021a6acc[touchedRect];
+        if (gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mVisible != 0) {
+            if (gRecordTopMenu->mIndex == rowIndex) {
                 SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
-                gRecordTopMenu->mIndex = t;
+                gRecordTopMenu->mIndex = rowIndex;
             } else {
                 SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
-                gRecordTopMenu->mIndex = t;
+                gRecordTopMenu->mIndex = rowIndex;
                 SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
             }
             RequestRecordTopMenuState5();
         }
     } else {
-        flags = gInputSlots[i].mPressedBits & PAD_KEY_A;
-        if (flags != 0) {
+        keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+        if (keyBPressed != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             RequestRecordTopMenuState5();
         } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
@@ -478,14 +482,14 @@ skip:
 }
 
 void AdvanceRecordTopMenuState5(void) {
-    s16 v;
+    s16 offsetX;
 
     gRecordTopMenu->mStateFrames++;
-    v = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
-    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[gRecordTopMenu->mIndex]].mOffsetX = v;
-    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[gRecordTopMenu->mIndex]].mOffsetX = v;
-    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[gRecordTopMenu->mIndex]].mOffsetX = v;
-    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[gRecordTopMenu->mIndex]].mOffsetX = v;
+    offsetX = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
+    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
+    gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
+    gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
+    gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
     if (gRecordTopMenu->mStateFrames == 5) {
         SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
     }
@@ -500,38 +504,38 @@ void AdvanceRecordTopMenuState5(void) {
 }
 
 void AdvanceRecordTopMenuState6(void) {
-    s16 a;
+    s16 offsetX;
     s32 i;
     s32 j;
-    s16 b;
-    u16 *p;
-    s32 idx;
+    s16 offsetY;
+    u16 *labelRow;
+    s32 mainLayoutCount;
 
     if (GetRecordNextScene() == -1 && gRecordTopMenu->mUnk_44 == 5) {
         SetRecordNextScene(0);
     }
     gRecordTopMenu->mStateFrames++;
-    a = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
-    b = InterpolateS16(1, 0, -0xc0, gRecordTopMenu->mStateFrames, 10);
-    gRecordTopMenu->mBg0Offset = b;
-    idx = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
-    gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
-    gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = b;
-    gRecordTopMenu->mRecordTopMenuMTable[idx].mOffsetY = b;
+    offsetX = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
+    offsetY = InterpolateS16(1, 0, -0xc0, gRecordTopMenu->mStateFrames, 10);
+    gRecordTopMenu->mBg0Offset = offsetY;
+    mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
+    gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = offsetY;
+    gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = offsetY;
+    gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount].mOffsetY = offsetY;
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuMTable[data_ov001_021a6aac[i]].mOffsetY = b;
+        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mOffsetY = offsetY;
     }
     for (i = 0; i < 3; i++) {
-        for (j = 0, p = data_ov001_021a6ae4[i]; j < 3; j++) {
-            gRecordTopMenu->mRecordTopMenuMTable[idx + *p].mOffsetY = b;
-            p++;
+        for (j = 0, labelRow = gRecordTopMenuLabelIndices[i]; j < 3; j++) {
+            gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *labelRow].mOffsetY = offsetY;
+            labelRow++;
         }
     }
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = a;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = a;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[i]].mOffsetX = a;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[i]].mOffsetX = a;
+        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10 && GetRecordNextScene() == -1) {
         RequestRecordScreen(gRecordTopMenu->mUnk_44);
@@ -539,16 +543,16 @@ void AdvanceRecordTopMenuState6(void) {
 }
 
 void AdvanceRecordTopMenuState7(void) {
-    s16 v;
+    s16 offsetX;
     s32 i;
 
     gRecordTopMenu->mStateFrames++;
-    v = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[i]].mOffsetX = v;
+        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
         RequestRecordTopMenuState8();
@@ -556,35 +560,36 @@ void AdvanceRecordTopMenuState7(void) {
 }
 
 void AdvanceRecordTopMenuState8(void) {
-    int v1;
-    v1 = IsTxtSystemState2NoCloseRequest();
-    if (v1 != 0) {
+    int txtSystemNoCloseRequest;
+    txtSystemNoCloseRequest = IsTxtSystemState2NoCloseRequest();
+    if (txtSystemNoCloseRequest != 0) {
         RequestRecordTopMenuState9();
     }
 }
 
 void AdvanceRecordTopMenuState9(void) {
-    InputSlotIndex i = UNK_02175628_INDEX_8;
-    u16 flags;
-    BOOL b;
-    BOOL a;
-    u16 v;
+    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    u16 keyBPressed;
+    BOOL touchBegan;
+    BOOL recentlyLost;
+    u16 hasPair;
 
-    RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[i].mPair.mPairX,
-                            gInputSlots[i].mPair.mPairY);
-    flags = gInputSlots[i].mPressedBits & PAD_KEY_B;
-    if (flags == 0) {
-        b = FALSE;
-        a = FALSE;
-        v = gInputSlots[i].mPair.mHasPair;
-        if (v == 0 && gInputSlots[i].mPair.mNoPairCount < 5) {
-            a = TRUE;
+    RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
+                            gInputSlots[slotIndex].mPair.mPairY);
+    keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    if (keyBPressed == 0) {
+        touchBegan = FALSE;
+        recentlyLost = FALSE;
+        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            recentlyLost = TRUE;
         }
-        if (a == FALSE && gInputSlots[i].mPair.mPrevHasPair == 0 && v != 0) {
-            b = TRUE;
+        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            touchBegan = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX,
-                                                                          gInputSlots[i].mPair.mPairY) == FALSE) {
+        if (touchBegan == FALSE ||
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
@@ -593,31 +598,31 @@ void AdvanceRecordTopMenuState9(void) {
 }
 
 void AdvanceRecordTopMenuState10(void) {
-    int v1;
-    v1 = IsTxtSystemState0NoOpenRequest();
-    if (v1 != 0) {
+    int txtSystemNoOpenRequest;
+    txtSystemNoOpenRequest = IsTxtSystemState0NoOpenRequest();
+    if (txtSystemNoOpenRequest != 0) {
         RequestRecordTopMenuState11();
     }
 }
 
 void AdvanceRecordTopMenuState11(void) {
     s32 i;
-    s16 v;
+    s16 offsetX;
     gRecordTopMenu->mStateFrames++;
-    v = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[i]].mOffsetX = v;
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[i]].mOffsetX = v;
+        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
-        func_ov001_0219ae44();
+        RequestRecordTopMenuState3();
     }
 }
 
 void AdvanceRecordTopMenu(void) {
-    RecordTopMenu *p;
+    RecordTopMenu *recordTopMenu;
     gRecordTopMenu->mState = gRecordTopMenu->mNextState;
     switch (gRecordTopMenu->mState) {
         case 0:
@@ -657,29 +662,30 @@ void AdvanceRecordTopMenu(void) {
             AdvanceRecordTopMenuState11();
             break;
     }
-    p = gRecordTopMenu;
-    DrawLayoutTable(p->mRecordTopMenuMBncl, p->mRecordTopMenuMNcer, p->mRecordTopMenuMBnll, GetRecordMainOam(),
-                    p->mRecordTopMenuMTable);
-    p = gRecordTopMenu;
-    DrawLayoutTable(p->mRecordTopMenuSBncl, p->mRecordTopMenuSNcer, NULL, GetRecordSubOam(), p->mRecordTopMenuSTable);
+    recordTopMenu = gRecordTopMenu;
+    DrawLayoutTable(recordTopMenu->mRecordTopMenuMBncl, recordTopMenu->mRecordTopMenuMNcer,
+                    recordTopMenu->mRecordTopMenuMBnll, GetRecordMainOam(), recordTopMenu->mRecordTopMenuMTable);
+    recordTopMenu = gRecordTopMenu;
+    DrawLayoutTable(recordTopMenu->mRecordTopMenuSBncl, recordTopMenu->mRecordTopMenuSNcer, NULL, GetRecordSubOam(),
+                    recordTopMenu->mRecordTopMenuSTable);
 }
 
-void func_ov001_0219a0c0(void) {
+void WriteRecordTopMenuBgOffsets(void) {
     reg_G2_BG0OFS = (-gRecordTopMenu->mBg0Offset << 16) & 0x1ff0000;
     AdvanceRecordSceneRegistersTimer();
 }
 
 void WriteRecordTopMenuRegisters(void) {
-    u32 a;
-    u32 b;
-    a = (reg_GX_DISPCNT & 0x1f00) >> 8;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((a | 0x11) << 8);
-    b = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((b | 0x1) << 8);
+    u32 mainDisplayBits;
+    u32 subDisplayBits;
+    mainDisplayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((mainDisplayBits | 0x11) << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits | 0x1) << 8);
 }
 
 void RegisterRecordTopMenuCallbacks(void) {
-    RecordScreenCallbacks tbl = {InitRecordTopMenu, ReleaseRecordTopMenu, AdvanceRecordTopMenu, func_ov001_0219a0c0,
-                                 WriteRecordTopMenuRegisters};
+    RecordScreenCallbacks tbl = {InitRecordTopMenu, ReleaseRecordTopMenu, AdvanceRecordTopMenu,
+                                 WriteRecordTopMenuBgOffsets, WriteRecordTopMenuRegisters};
     SetRecordScreenCallbacks(&tbl);
 }

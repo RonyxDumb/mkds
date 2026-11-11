@@ -42,7 +42,7 @@ typedef struct RecordTopMenu {
 
 void RegisterRecordTopMenuCallbacks(void);
 void WriteRecordTopMenuRegisters(void);
-void func_ov001_0219a0c0(void);
+void WriteRecordTopMenuBgOffsets(void);
 void AdvanceRecordTopMenu(void);
 void AdvanceRecordTopMenuState11(void);
 void AdvanceRecordTopMenuState10(void);
@@ -58,7 +58,7 @@ void AdvanceRecordTopMenuState1(void);
 void AdvanceRecordTopMenuState0(void);
 void ReleaseRecordTopMenu(void);
 void InitRecordTopMenu(void *heap);
-void func_ov001_0219ac98(void);
+void RefreshRecordTopMenuGradeCells(void);
 void DecrementRecordTopMenuIndex(void);
 void IncrementRecordTopMenuIndex(void);
 void RequestRecordTopMenuState11(void);
@@ -69,12 +69,12 @@ void RequestRecordTopMenuState7(void);
 void RequestRecordTopMenuState6(void);
 void RequestRecordTopMenuState5(void);
 void RequestRecordTopMenuState4(void);
-void func_ov001_0219ae44(void);
+void RequestRecordTopMenuState3(void);
 void RequestRecordTopMenuState2(void);
 void RequestRecordTopMenuState1(void);
 void ResetRecordTopMenu(void);
-void SetRecordTopMenuRowOff(s32 a);
-void SetRecordTopMenuRowOn(s32 a);
+void SetRecordTopMenuRowOff(s32 row);
+void SetRecordTopMenuRowOn(s32 row);
 void LocateAndQueueRecordTopMenu(void);
 
 #include "00/code_021832d8.h"

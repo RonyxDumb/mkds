@@ -3,9 +3,9 @@
 #include "types.h"
 
 void RegisterOptionHensyuMenuCallbacks(void);
-void func_ov001_02199988(void);
+void WriteOptionHensyuMenuRegisters(void);
 void AdvanceOptionHensyuMenu(void);
-void func_ov001_02199a20(void);
+void UpdateOptionHensyuMenuHighlight(void);
 void AdvanceOptionHensyuMenuState5(void);
 void AdvanceOptionHensyuMenuState4(void);
 void AdvanceOptionHensyuMenuState3(void);

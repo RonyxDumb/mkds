@@ -21,23 +21,23 @@ u8 *gNicknameBuffers;
 u8 *gOptionBuffers;
 
 static SceneCallbacks gOptionSceneCallbacks = {
-    InitOptionScene, UpdateOptionScene, ReleaseOptionScene, func_ov001_0219e9a4, 0, 0, 10, 10, 0};
+    InitOptionScene, UpdateOptionScene, ReleaseOptionScene, WriteOptionSceneRegisters, 0, 0, 10, 10, 0};
 static SceneCallbacks gEndingSceneCallbacks = {
-    InitEndingScene, UpdateEndingScene, ReleaseEndingScene, func_ov001_0219ea6c, 0, 0, 30, 1, 0};
+    InitEndingScene, UpdateEndingScene, ReleaseEndingScene, WriteEndingSceneRegistersWrapper, 0, 0, 30, 1, 0};
 
-int RunEndingScene(void *a) {
+int RunEndingScene(void *sceneNumbers) {
     SceneCallbacks local = gEndingSceneCallbacks;
 
-    RunScene(a, &local);
+    RunScene(sceneNumbers, &local);
     return 0;
 }
 
-void InitOptionScene(s16 *a) {
+void InitOptionScene(s16 *sceneNumbers) {
     void *heap;
 
     heap = GetHeap(GetCurrentHeapCall());
     gOptionBuffers = HeapAlloc(heap, 0x808);
-    InitOptionStates((heap), *a);
+    InitOptionStates((heap), *sceneNumbers);
 }
 
 void ReleaseOptionScene(void) {
@@ -45,24 +45,24 @@ void ReleaseOptionScene(void) {
     gOptionBuffers = NULL;
 }
 
-void func_ov001_0219e9a4(void) {
+void WriteOptionSceneRegisters(void) {
     WriteOptionStatesRegisters();
     UploadOamLists(gOptionBuffers, gOptionBuffers + 0x404);
 }
 
-void UpdateOptionScene(s16 *a) {
+void UpdateOptionScene(s16 *sceneNumbers) {
     ClearOamListCounts(gOptionBuffers, gOptionBuffers + 0x404);
     AdvanceOptionStates();
     HideUnusedOams(gOptionBuffers, gOptionBuffers + 0x404);
-    if (a != NULL && GetOptionNextScene() != -1) {
-        a[2] = GetOptionNextScene();
+    if (sceneNumbers != NULL && GetOptionNextScene() != -1) {
+        sceneNumbers[2] = GetOptionNextScene();
     }
 }
 
-int RunOptionScene(void *a) {
+int RunOptionScene(void *sceneNumbers) {
     SceneCallbacks local = gOptionSceneCallbacks;
 
-    RunScene(a, &local);
+    RunScene(sceneNumbers, &local);
     return 0;
 }
 
@@ -74,41 +74,41 @@ u8 *GetOptionSecondBuffer(void) {
     return gOptionBuffers + 0x404;
 }
 
-void InitNicknameScene(s16 *a) {
+void InitNicknameScene(s16 *sceneNumbers) {
     void *heap;
 
     heap = GetHeap(GetCurrentHeapCall());
     gNicknameBuffers = HeapAlloc(heap, 0x808);
-    func_ov001_021987d4(heap, *a);
+    InitNicknameSceneObject(heap, *sceneNumbers);
 }
 
 void ReleaseNicknameScene(void) {
-    func_ov001_021987bc();
+    ReleaseNicknameSceneObject();
     gNicknameBuffers = NULL;
 }
 
-void func_ov001_0219e89c(void) {
-    u8 *p;
+void WriteNicknameSceneRegisters(void) {
+    u8 *nicknameBuffers;
 
-    func_ov001_0219854c();
-    p = gNicknameBuffers;
-    UploadOamLists(p, p + 0x404);
+    NicknameWriteSceneTextRegistersWrapper();
+    nicknameBuffers = gNicknameBuffers;
+    UploadOamLists(nicknameBuffers, nicknameBuffers + 0x404);
 }
 
-void UpdateNicknameScene(s16 *a) {
+void UpdateNicknameScene(s16 *sceneNumbers) {
     ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 0x404);
-    func_ov001_02198554();
+    AdvanceNicknameScene();
     HideUnusedOams(gNicknameBuffers, gNicknameBuffers + 0x404);
-    if (a != NULL && func_ov001_0219853c() != -1) {
-        a[2] = func_ov001_0219853c();
+    if (sceneNumbers != NULL && GetNicknameSceneNextScene() != -1) {
+        sceneNumbers[2] = GetNicknameSceneNextScene();
     }
 }
 
-int RunNicknameScene(void *a) {
+int RunNicknameScene(void *sceneNumbers) {
     SceneCallbacks callbacks = {
-        InitNicknameScene, UpdateNicknameScene, ReleaseNicknameScene, func_ov001_0219e89c, 0, 0, 10, 10, 0,
+        InitNicknameScene, UpdateNicknameScene, ReleaseNicknameScene, WriteNicknameSceneRegisters, 0, 0, 10, 10, 0,
     };
 
-    RunScene(a, &callbacks);
+    RunScene(sceneNumbers, &callbacks);
     return 0;
 }

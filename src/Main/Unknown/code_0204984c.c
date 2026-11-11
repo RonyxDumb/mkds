@@ -170,7 +170,7 @@ s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId) {
     return result;
 }
 
-// On scenes 2 to 15 it also starts the stepped stop itself and returns FALSE when func_ov001_0219e0b8 is non-zero.
+// On scenes 2 to 15 it also starts the stepped stop itself and returns FALSE when GetStaffRollEndedEarly is non-zero.
 s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
     BOOL result = TRUE;
 
@@ -203,7 +203,7 @@ s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
         case 2:
             if (nextScene != 0) {
                 if (nextScene == 15) {
-                    if (func_ov001_0219e0b8()) {
+                    if (GetStaffRollEndedEarly()) {
                         StopSceneSoundSetSeqWithSteps(0x78);
                     }
                     result = FALSE;

@@ -750,7 +750,7 @@ void AdvanceMissionRunMapObject(u32 unused, Unk02188950 *mapObject) {
 
     if (mapObject->mNsbmd != NULL) {
         previousFrame = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
-        func_ov001_0219b250(mapObject->mNsbmd);
+        AdvanceMapObjectModelNsbcaAnimation(mapObject->mNsbmd);
         currentFrame = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
         if (mapObject->mAnimationFrameCallbackFrameIndex != 0) {
             if (previousFrame < mapObject->mAnimationFrameCallbackFrameIndex &&
@@ -778,7 +778,7 @@ void AdvanceMissionRunMapObject(u32 unused, Unk02188950 *mapObject) {
                 mapObject->mUnk_1ec(mapObject);
             }
         }
-        if (!func_ov001_0219b240(mapObject->mNsbmd)) {
+        if (!IsMapObjectModelNsbcaPlaying(mapObject->mNsbmd)) {
             ClearAndRunCallback(mapObject, &mapObject->mAnimationEndCallback);
         }
     }

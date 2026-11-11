@@ -249,8 +249,8 @@ void CreateBombKingKindData(void) {
     void *kartCollisionCallback = &CollideKartWithMissionRunMapObject;
     void *itemCollisionCallback = &CollideItemWithMissionRunMapObject;
     void *sphereHitCallback = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData =
-        func_ov001_0219b510(kartCollisionCallback, itemCollisionCallback, sphereHitCallback, 0x2u, 0x1u, soundId, 0x0u);
+    void *kindData = CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback,
+                                                         sphereHitCallback, 0x2u, 0x1u, soundId, 0x0u);
 }
 
 void *CreateBombKingDrawList(void) {

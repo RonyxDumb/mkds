@@ -36,12 +36,12 @@ typedef struct OptionStateCallbackTable {
 extern const OptionStateCallbackTable gOptionEmbremSelectCallbacks;
 
 void RegisterOptionEmbremSelectCallbacks(void);
-void func_ov001_0219d600(void);
+void WriteOptionEmbremSelectRegisters(void);
 void AdvanceOptionEmbremSelect(void);
-void func_ov001_0219d6ac(void);
-void func_ov001_0219d730(void);
-void func_ov001_0219d810(void);
-void func_ov001_0219d858(void);
+void AdvanceOptionEmbremSelectTimers(void);
+void UpdateOptionEmbremSelectHighlight(void);
+void UpdateOptionEmbremSelectIndexCells(void);
+void UpdateOptionEmbremSelectCellOffsets(void);
 void AdvanceOptionEmbremSelectState6(void);
 void AdvanceOptionEmbremSelectState5(void);
 void AdvanceOptionEmbremSelectState4(void);
@@ -49,11 +49,11 @@ void AdvanceOptionEmbremSelectState3(void);
 void AdvanceOptionEmbremSelectState2(void);
 void AdvanceOptionEmbremSelectState1(void);
 void AdvanceOptionEmbremSelectState0(void);
-BOOL func_ov001_0219de38(void);
+BOOL IsBackupEmblemOff(void);
 void LocateAndQueueOptionEmbremSelect(void);
 /* slot mRelease of OptionStateCallbacks; only clears the global, the state heap is destroyed by
    AdvanceOptionStates after it returns */
 void ReleaseOptionEmbremSelect(void);
-void InitOptionEmbremSelect(void *a);
+void InitOptionEmbremSelect(void *heap);
 
 #include "00/code_021832d8.h"

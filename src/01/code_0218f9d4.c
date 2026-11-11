@@ -1412,8 +1412,8 @@ void CreateIwanteKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData =
-        func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, soundId, collideItemSoundId);
+    void *kindData = CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, soundId,
+                                                         collideItemSoundId);
 }
 
 void *CreateIwanteDrawList(void) {

@@ -6,20 +6,20 @@
 #include "Main/Unknown/code_0212b000.h"
 #include "Main/Unknown/code_02087cfc.h"
 
-void func_ov001_0219b208(MapObjectModel *a, s32 b, s32 c, s32 d) {
-    StartModelAnimationBlend(a->mAnimations[0], b);
-    a->mAnimations[0]->mHead.mFrameStep = c;
-    SetModelAnimationEntryLoopMode(a->mAnimations[0], ((u16) b),
-                                   (d != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
+void StartMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, s32 entryIndex, s32 frameStep, s32 clampLoop) {
+    StartModelAnimationBlend(mapObjectModel->mAnimations[0], entryIndex);
+    mapObjectModel->mAnimations[0]->mHead.mFrameStep = frameStep;
+    SetModelAnimationEntryLoopMode(mapObjectModel->mAnimations[0], ((u16) entryIndex),
+                                   (clampLoop != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
 }
 
-void func_ov001_0219b1fc(MapObjectModel *a) {
-    AdvanceModelAnimation(a->mAnimations[3]);
+void AdvanceMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel) {
+    AdvanceModelAnimation(mapObjectModel->mAnimations[3]);
 }
 
-void func_ov001_0219b1c4(MapObjectModel *a, s32 b, s32 c, s32 d) {
-    StartModelAnimationBlend(a->mAnimations[3], b);
-    a->mAnimations[1]->mHead.mFrameStep = c;
-    SetModelAnimationEntryLoopMode(a->mAnimations[3], ((u16) b),
-                                   (d != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
+void StartMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, s32 entryIndex, s32 frameStep, s32 clampLoop) {
+    StartModelAnimationBlend(mapObjectModel->mAnimations[3], entryIndex);
+    mapObjectModel->mAnimations[1]->mHead.mFrameStep = frameStep;
+    SetModelAnimationEntryLoopMode(mapObjectModel->mAnimations[3], ((u16) entryIndex),
+                                   (clampLoop != 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP));
 }

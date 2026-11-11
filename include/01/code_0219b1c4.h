@@ -4,6 +4,6 @@
 
 typedef struct MapObjectModel MapObjectModel;
 
-void func_ov001_0219b208(MapObjectModel *a, s32 b, s32 c, s32 d);
-void func_ov001_0219b1fc(MapObjectModel *a);
-void func_ov001_0219b1c4(MapObjectModel *a, s32 b, s32 c, s32 d);
+void StartMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, s32 entryIndex, s32 frameStep, s32 clampLoop);
+void AdvanceMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel);
+void StartMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, s32 entryIndex, s32 frameStep, s32 clampLoop);

@@ -39,7 +39,7 @@ void StartKurikingKartInRangeState(Unk02188950 *mapObject) {
 
     StartMapObjectState(mapObject, 2, UpdateKurikingKartInRangeState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
-    func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_10c, mapObject->mPrm->mUnk_108, 0);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_10c, mapObject->mPrm->mUnk_108, 0);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_110, mapObject->mPrm->mUnk_114);
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_118, mapObject->mPrm->mUnk_11c);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
@@ -66,7 +66,7 @@ void SetKurikingWalkByCounter(Unk02188950 *mapObject) {
 void StartKurikingWalkState(Unk02188950 *mapObject) {
     StartMapObjectState(mapObject, 1, UpdateKurikingWalkState);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_098, mapObject->mPrm->mUnk_09c);
-    func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_0a0, mapObject->mPrm->mUnk_09c, 0);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_0a0, mapObject->mPrm->mUnk_09c, 0);
     SetKurikingWalkByCounter(mapObject);
     SetKurikingSoundCallbacks(mapObject);
 }

@@ -114,7 +114,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                             break;
                         }
                         if (ShouldEndStaffRoll(sceneFrames) != 0) {
-                            func_ov001_0219e0c4();
+                            SetStaffRollEndedEarly();
                             sceneNumbers->mNextScene = 0xf;
                         }
                         break;

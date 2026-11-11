@@ -10,30 +10,30 @@
 #include "01/code_0219f8ec.h"
 #include "01/unk_021ca000.h"
 
-void *data_ov001_021ca40c;
+void *gEndingSceneUnusedBlock;
 
 void InitEndingScene(void) {
     void *heap = GetHeap(GetCurrentHeapCall());
 
-    data_ov001_021ca40c = HeapAlloc(heap, 4);
+    gEndingSceneUnusedBlock = HeapAlloc(heap, 4);
     CreateEndingScene(heap);
 }
 
 void ReleaseEndingScene(void) {
-    func_ov001_0219e6e0();
-    *(u32 *) &data_ov001_021ca40c = 0;
+    ClearEndingScenePointer();
+    *(u32 *) &gEndingSceneUnusedBlock = 0;
 }
 
-void func_ov001_0219ea6c(void) {
-    func_ov001_0219e0d4();
+void WriteEndingSceneRegistersWrapper(void) {
+    WriteEndingSceneRegisters();
 }
 
-void UpdateEndingScene(int a) {
-    u16 v1;
-    int v2;
+void UpdateEndingScene(int sceneNumbers) {
+    u16 nextSceneValue;
+    int nextScene;
     AdvanceEndingScene();
-    if ((a != 0) && (v2 = GetEndingSceneNextScene(), v2 != -1)) {
-        v1 = GetEndingSceneNextScene();
-        *(u16 *) (a + 4) = v1;
+    if ((sceneNumbers != 0) && (nextScene = GetEndingSceneNextScene(), nextScene != -1)) {
+        nextSceneValue = GetEndingSceneNextScene();
+        *(u16 *) (sceneNumbers + 4) = nextSceneValue;
     }
 }

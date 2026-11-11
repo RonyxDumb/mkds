@@ -390,8 +390,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, gHanachan1NsbmdName, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, firstNsbca);
-    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
+    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
+    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 1;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0dc, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
@@ -405,8 +405,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, gHanachan2NsbmdName, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, secondNsbca);
-    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
+    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
+    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 2;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0e4, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
@@ -420,8 +420,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, gHanachan3NsbmdName, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, firstNsbca);
-    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
+    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
+    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 3;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0ec, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
@@ -435,8 +435,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, gHanachan4NsbmdName, NULL, NULL);
-    func_ov001_0219b28c(obj->mNsbmd, secondNsbca);
-    func_ov001_0219b25c(obj->mNsbmd, firstNsbtp);
+    InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
+    InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 4;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0f4, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
@@ -453,7 +453,8 @@ void CreateHanachanKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
+    void *kindData =
+        CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
 void *CreateHanachanDrawList(void) {
@@ -468,7 +469,8 @@ void CreateHanachanFollowerKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
+    void *kindData =
+        CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
 void *CreateHanachanFollowerDrawList(void) {
