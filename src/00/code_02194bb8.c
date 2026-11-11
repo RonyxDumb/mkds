@@ -58,7 +58,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
 
     data = operation->mUnk_04;
     data->mUnk_00c = 0x1000;
-    data->mInputBuffer = func_ov000_021a3690(data->mUnk_00c + 1);
+    data->mInputBuffer = DWCi_GsMalloc(data->mUnk_00c + 1);
     if (data->mInputBuffer == NULL) {
         GpiSetErrorMessage(connection, data_ov000_021b35f8);
         return 1;
@@ -105,7 +105,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
 BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 kind) {
     GPISearchData *data;
 
-    data = func_ov000_021a3690(0x144);
+    data = DWCi_GsMalloc(0x144);
     if (data == NULL) {
         GpiSetErrorMessage(connection, data_ov000_021b35f8);
         return TRUE;
@@ -120,7 +120,7 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
     data->mUnk_020 = 0;
     data->mUnk_024 = 0;
     data->mUnk_01c = 0x1000;
-    data->mOutputBuffer = func_ov000_021a3690(data->mUnk_01c + 1);
+    data->mOutputBuffer = DWCi_GsMalloc(data->mUnk_01c + 1);
     if (data->mOutputBuffer == NULL) {
         GpiSetErrorMessage(connection, data_ov000_021b35f8);
         return TRUE;
@@ -402,7 +402,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             }
                             d = TRUE;
                         } else if (strcmp(key, data_ov000_021b37bc) == 0) {
-                            q1 = func_ov000_021a3678(e.mUnk_0c, ++e.mUnk_04 * 0xac);
+                            q1 = DWCi_GsRealloc(e.mUnk_0c, ++e.mUnk_04 * 0xac);
                             e.mUnk_0c = q1;
                             if (q1 == NULL) {
                                 GpiSetErrorMessage(connection, data_ov000_021b35f8);
@@ -455,7 +455,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                     }
-                    func_ov000_021a3668(e.mUnk_0c);
+                    DWCi_GsFree(e.mUnk_0c);
                     e.mUnk_0c = NULL;
                 } else if (data->mKind == 2) {
                     c2 = operation->mUnk_0c;
@@ -469,7 +469,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
-                        u2 = func_ov000_021a3690(0x3c);
+                        u2 = DWCi_GsMalloc(0x3c);
                         if (u2 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -489,7 +489,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == 3) {
                     c3 = operation->mUnk_0c;
                     if (c3.mCallback != NULL) {
-                        u3 = func_ov000_021a3690(0x44);
+                        u3 = DWCi_GsMalloc(0x44);
                         if (u3 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -515,13 +515,13 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return result;
                             }
                             if (strcmp(key, data_ov000_021b37c0) == 0) {
-                                q = func_ov000_021a3678(u3->mUnk_3c, (u3->mUnk_38 + 1) * 4);
+                                q = DWCi_GsRealloc(u3->mUnk_3c, (u3->mUnk_38 + 1) * 4);
                                 if (q == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
                                 }
                                 u3->mUnk_3c = (char **) q;
-                                q = func_ov000_021a3690(0x1f);
+                                q = DWCi_GsMalloc(0x1f);
                                 if (q == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
@@ -531,13 +531,13 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 u3->mUnk_38++;
                             } else if (strcmp(key, data_ov000_021b37c8) == 0) {
                                 if (u3->mUnk_38 > 0) {
-                                    q = func_ov000_021a3678(u3->mUnk_40, u3->mUnk_38 * 4);
+                                    q = DWCi_GsRealloc(u3->mUnk_40, u3->mUnk_38 * 4);
                                     if (q == NULL) {
                                         GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                         return 1;
                                     }
                                     u3->mUnk_40 = (char **) q;
-                                    q = func_ov000_021a3690(0x15);
+                                    q = DWCi_GsMalloc(0x15);
                                     if (q == NULL) {
                                         GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                         return 1;
@@ -561,7 +561,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == 4) {
                     c4 = operation->mUnk_0c;
                     if (c4.mCallback != NULL) {
-                        u4 = func_ov000_021a3690(0x10);
+                        u4 = DWCi_GsMalloc(0x10);
                         if (u4 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -580,7 +580,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 d = TRUE;
                             } else if (strcmp(key, data_ov000_021b3834) == 0) {
                                 u4->mUnk_08++;
-                                u4->mUnk_0c = func_ov000_021a3678(u4->mUnk_0c, u4->mUnk_08 * 0x128);
+                                u4->mUnk_0c = DWCi_GsRealloc(u4->mUnk_0c, u4->mUnk_08 * 0x128);
                                 q4 = u4->mUnk_0c;
                                 if (q4 == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
@@ -647,7 +647,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             }
                             y = StrtolBase10(value);
                         }
-                        u5 = func_ov000_021a3690(8);
+                        u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -685,7 +685,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         } else {
                             y = StrtolBase10(value);
                         }
-                        u5 = func_ov000_021a3690(8);
+                        u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -700,7 +700,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == 7) {
                     c7 = operation->mUnk_0c;
                     if (c7.mCallback != NULL) {
-                        u7 = func_ov000_021a3690(0xc);
+                        u7 = DWCi_GsMalloc(0xc);
                         if (u7 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -726,7 +726,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (strcmp(key, data_ov000_021b3864) == 0) {
                                 d = TRUE;
                             } else if (strcmp(key, data_ov000_021b386c) == 0) {
-                                q1 = func_ov000_021a3678(u7->mUnk_08, (u7->mUnk_04 + 1) * 0xac);
+                                q1 = DWCi_GsRealloc(u7->mUnk_08, (u7->mUnk_04 + 1) * 0xac);
                                 if (q1 == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
@@ -777,7 +777,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     c8 = operation->mUnk_0c;
                     if (c8.mCallback != NULL) {
                         i = 0;
-                        u9 = func_ov000_021a3690(0xc);
+                        u9 = DWCi_GsMalloc(0xc);
                         if (u9 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -795,7 +795,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return 3;
                         }
                         u9->mUnk_04 = StrtolBase10(value);
-                        u9->mUnk_08 = func_ov000_021a3690(u9->mUnk_04 * 4);
+                        u9->mUnk_08 = DWCi_GsMalloc(u9->mUnk_04 * 4);
                         if (u9->mUnk_08 == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
@@ -807,7 +807,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return result;
                             }
                             if (strcmp(key, data_ov000_021b37c0) == 0) {
-                                u9->mUnk_08[i] = func_ov000_021a3690(0x15);
+                                u9->mUnk_08[i] = DWCi_GsMalloc(0x15);
                                 if (u9->mUnk_08[i] == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                     return 1;
@@ -857,7 +857,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
     gpState = connection->mGpiConnection;
     count = 0;
     if (gpState->mSearchCount > 0) {
-        operations = func_ov000_021a3690(gpState->mSearchCount * 4);
+        operations = DWCi_GsMalloc(gpState->mSearchCount * 4);
         if (operations == NULL) {
             GpiSetErrorMessage(connection, data_ov000_021b35f8);
             return TRUE;
@@ -884,7 +884,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
                 GpiRemoveOperation(connection, operations[index]);
             }
         }
-        func_ov000_021a3668(operations);
+        DWCi_GsFree(operations);
     }
     return FALSE;
 }

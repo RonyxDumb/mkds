@@ -30,7 +30,7 @@ s32 func_ov000_021a4a08(Unk021a4a08 **a, s32 b, s32 c, const char *d, const char
     if (a == NULL) {
         o = &data_ov000_021b4278;
     } else {
-        *a = func_ov000_021a3690(0x110);
+        *a = DWCi_GsMalloc(0x110);
         o = *a;
     }
     srand(GetElapsedMilliseconds());
@@ -195,7 +195,7 @@ void func_ov000_021a47ac(Unk021a4a08 *a) {
         SocketShutDown();
     }
     if (a != &data_ov000_021b4278) {
-        func_ov000_021a3668(a);
+        DWCi_GsFree(a);
     }
 }
 

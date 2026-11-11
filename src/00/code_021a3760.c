@@ -22,50 +22,50 @@
 #include "string.h"
 #include "code_02134398.h"
 
-void func_ov000_021a39d8(Unk021b5df4 *a, u16 b, u32 c, u32 d) {
-    if (data_ov000_021b5df4 == NULL) {
-        MI_CpuFill8(a, 0, 12);
-        a->mUnk_08 = b;
-        a->mUnk_0a = 1;
-        a->mUnk_04 = 1;
-        a->mUnk_06 = 0;
-        data_ov000_021b5df4 = a;
-        func_ov000_021a397c(0);
-        data_ov000_021b49f4 = d;
+void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslThreadPriority) {
+    if (gInetControl == NULL) {
+        MI_CpuFill8(inetCntl, 0, 12);
+        inetCntl->mDmaNo = dmaNo;
+        inetCntl->mPowerMode = 1;
+        inetCntl->mState = 1;
+        inetCntl->mOnline = 0;
+        gInetControl = inetCntl;
+        DWC_SetAuthServer(0);
+        gSslLowThreadPriority = sslThreadPriority;
     }
 }
 
-void func_ov000_021a39c4(void *a) {
-    func_ov000_021a39d8((a), 3, 1, 0x14);
+void DWC_InitInet(void *inetCntl) {
+    DWC_InitInetEx((inetCntl), 3, 1, 0x14);
 }
 
-void func_ov000_021a397c(s32 a) {
-    switch (a) {
+void DWC_SetAuthServer(s32 type) {
+    switch (type) {
         case 0:
-            DWC_Auth_SetCustomNas(data_ov000_021b4200);
+            DWC_Auth_SetCustomNas(gNasTestUrl);
             break;
         case 1:
-            DWC_Auth_SetCustomNas(data_ov000_021b4228);
+            DWC_Auth_SetCustomNas(gNasDevelopUrl);
             break;
         case 2:
-            DWC_Auth_SetCustomNas(data_ov000_021b424c);
+            DWC_Auth_SetCustomNas(gNasReleaseUrl);
             break;
     }
 }
 
-void func_ov000_021a3910(void) {
-    DWCACConfig t;
-    if (data_ov000_021b5df4 != NULL) {
-        if (data_ov000_021b5df4->mUnk_04 != 1) {
+void DWC_ConnectInetAsync(void) {
+    DWCACConfig config;
+    if (gInetControl != NULL) {
+        if (gInetControl->mState != 1) {
             return;
         }
-        MI_CpuFill8(&t, 0, 12);
-        t.mUnk_08 = data_ov000_021b5df4->mUnk_08;
-        t.mUnk_09 = data_ov000_021b5df4->mUnk_0a;
-        t.mUnk_00 = func_ov000_021a372c;
-        t.mUnk_04 = func_ov000_021a3704;
-        data_ov000_021b5df4->mUnk_04 = 2;
-        if (DWC_AC_Create(&t) != 0) {
+        MI_CpuFill8(&config, 0, 12);
+        config.mUnk_08 = gInetControl->mDmaNo;
+        config.mUnk_09 = gInetControl->mPowerMode;
+        config.mUnk_00 = DWC_Alloc;
+        config.mUnk_04 = DWC_Free;
+        gInetControl->mState = 2;
+        if (DWC_AC_Create(&config) != 0) {
             return;
         }
         DWCi_SetError(0xb, -6);
@@ -74,89 +74,89 @@ void func_ov000_021a3910(void) {
     DWCi_SetError(0xb, -4);
 }
 
-u32 func_ov000_021a38d8(void) {
-    Unk021b5df4 *v1;
-    v1 = data_ov000_021b5df4;
-    if (v1 == NULL) {
+u32 DWC_CheckInet(void) {
+    DWCInetControl *inetCntl;
+    inetCntl = gInetControl;
+    if (inetCntl == NULL) {
         return 0;
     }
-    if (v1->mUnk_00 != 0) {
-        v1->mUnk_04 = 3;
-        func_ov000_021a3810();
+    if (inetCntl->mAcState != 0) {
+        inetCntl->mState = 3;
+        DWC_GetInetStatus();
         return 1;
     }
     return 0;
 }
 
-void func_ov000_021a3884(void) {
-    Unk021b5df4 *p = data_ov000_021b5df4;
-    if (p != NULL && p->mUnk_04 == 2) {
-        data_ov000_021b5df4->mUnk_00 = DWC_AC_Process();
-    } else if (p != NULL && p->mUnk_04 == 4 && p->mUnk_06 != 0 && func_ov000_021a5bfc() != 9) {
-        data_ov000_021b5df4->mUnk_06 = 0;
-        data_ov000_021b5df4->mUnk_04 = 6;
+void DWC_ProcessInet(void) {
+    DWCInetControl *inetCntl = gInetControl;
+    if (inetCntl != NULL && inetCntl->mState == 2) {
+        gInetControl->mAcState = DWC_AC_Process();
+    } else if (inetCntl != NULL && inetCntl->mState == 4 && inetCntl->mOnline != 0 && func_ov000_021a5bfc() != 9) {
+        gInetControl->mOnline = 0;
+        gInetControl->mState = 6;
     }
 }
 
-u32 func_ov000_021a3810(void) {
-    u32 v = 0;
-    s32 r;
-    if (data_ov000_021b5df4 != NULL) {
-        r = DWC_AC_GetStatus();
-        if (r == 5) {
-            data_ov000_021b5df4->mUnk_04 = 4;
-            data_ov000_021b5df4->mUnk_06 = 1;
+u32 DWC_GetInetStatus(void) {
+    u32 result = 0;
+    s32 state;
+    if (gInetControl != NULL) {
+        state = DWC_AC_GetStatus();
+        if (state == 5) {
+            gInetControl->mState = 4;
+            gInetControl->mOnline = 1;
             return 4;
         }
-        if (r < 0) {
-            if (r >= -10) {
-                DWCi_SetError(0xb, r - 0x2bc);
-                data_ov000_021b5df4->mUnk_04 = 8;
+        if (state < 0) {
+            if (state >= -10) {
+                DWCi_SetError(0xb, state - 0x2bc);
+                gInetControl->mState = 8;
                 return 8;
             }
-            DWCi_SetError(5, r);
-            data_ov000_021b5df4->mUnk_04 = 7;
+            DWCi_SetError(5, state);
+            gInetControl->mState = 7;
             return 7;
         }
-        v = 2;
+        result = 2;
     }
-    return v;
+    return result;
 }
 
-void func_ov000_021a37dc(void) {
+void DWC_CleanupInet(void) {
     int v1;
-    if (data_ov000_021b5df4 != NULL) {
+    if (gInetControl != NULL) {
         v1 = DWC_AC_Destroy();
         while (v1 == 0) {
             OS_Sleep(10);
             v1 = DWC_AC_Destroy();
         }
-        *(s32 *) &data_ov000_021b5df4 = 0;
+        *(s32 *) &gInetControl = 0;
     }
 }
 
-BOOL func_ov000_021a377c(void) {
-    Unk021b5df4 *p = data_ov000_021b5df4;
-    if (p == NULL) {
+BOOL DWC_CleanupInetAsync(void) {
+    DWCInetControl *inetCntl = gInetControl;
+    if (inetCntl == NULL) {
         return TRUE;
     }
-    if (p->mUnk_04 == 4) {
-        p->mUnk_04 = 5;
-    } else if (p->mUnk_04 != 5) {
+    if (inetCntl->mState == 4) {
+        inetCntl->mState = 5;
+    } else if (inetCntl->mState != 5) {
         return TRUE;
     }
     if (func_ov000_021a86e8() != 0) {
         return FALSE;
     }
     if (DWC_AC_Destroy() != 0) {
-        data_ov000_021b5df4 = NULL;
+        gInetControl = NULL;
         return TRUE;
     }
     return FALSE;
 }
 
-u32 func_ov000_021a3760(void) {
-    if ((data_ov000_021b5df4 != NULL) && (data_ov000_021b5df4->mUnk_04 == 6)) {
+u32 DWCi_CheckDisconnected(void) {
+    if ((gInetControl != NULL) && (gInetControl->mState == 6)) {
         return 1;
     }
     return 0;

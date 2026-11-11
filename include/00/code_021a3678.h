@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *func_ov000_021a3678(void *a, u32 b);
+void *DWCi_GsRealloc(void *ptr, u32 size);

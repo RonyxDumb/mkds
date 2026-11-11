@@ -307,7 +307,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             profileRec = GpiFindOrAddProfile(connection, profileid);
         }
         if (saveFlag != 0) {
-            func_ov000_021a3668(profileRec->mUnk_18);
+            DWCi_GsFree(profileRec->mUnk_18);
             profileRec->mUnk_18 = NULL;
             profileRec->mUnk_18 = goastrdup(buffer);
         }
@@ -316,7 +316,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
         }
         callback = operation->mUnk_0c;
         if (callback.mCallback != NULL) {
-            arg = func_ov000_021a3690(0x204);
+            arg = DWCi_GsMalloc(0x204);
             if (arg == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2f58);
                 return 1;
@@ -830,7 +830,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
     }
     if (callback != 0 && reuseCached != FALSE && GpiFindProfile(connection, profile, &profileEntry) != 0 &&
         profileEntry->mUnk_0c != 0) {
-        arg = func_ov000_021a3690(0x204);
+        arg = DWCi_GsMalloc(0x204);
         if (arg == NULL) {
             GpiSetErrorMessage(connection, data_ov000_021b2f58);
             return 1;
@@ -875,7 +875,7 @@ u32 gpiSetInfoCache(GpConnection *connection, Unk021919ac_node *profile, Unk0219
         return 1;
     }
     gpiFreeInfoCache(profile);
-    profile->mUnk_0c = func_ov000_021a3690(0xf0);
+    profile->mUnk_0c = DWCi_GsMalloc(0xf0);
     if (profile->mUnk_0c != NULL) {
         *profile->mUnk_0c = *cache;
         profile->mUnk_0c->mUnk_00[0] = goastrdup(cache->mUnk_00[0]);

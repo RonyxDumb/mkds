@@ -19,7 +19,7 @@
 #include "00/code_021a01dc.h"
 #include "00/code_0219dd4c.h"
 
-u32 func_ov000_021a2c64(void) {
+u32 DWC_IsValidCancelMatching(void) {
     if (DWCi_IsError() != 0) {
         return 0;
     }
@@ -29,141 +29,141 @@ u32 func_ov000_021a2c64(void) {
     return 1;
 }
 
-u32 func_ov000_021a2b9c(u32 a, char *b, void *c) {
-    u32 i;
-    if (b == NULL || c == NULL) {
+u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
+    u32 index;
+    if (keyString == NULL || valueSrc == NULL) {
         return 0;
     }
-    if (a >= 100) {
-        i = a - 100;
-        if (gMatchingKeys[i][0] != 0) {
-            return a;
+    if (keyId >= 100) {
+        index = keyId - 100;
+        if (gMatchingKeys[index][0] != 0) {
+            return keyId;
         }
     }
-    a = FindFreeMatchingKeyId();
-    if (a == 0) {
+    keyId = FindFreeMatchingKeyId();
+    if (keyId == 0) {
         return 0;
     }
-    i = a - 100;
-    gMatchingKeys[i][0] = a;
-    data_ov000_021b5699[i * 12] = 0;
-    *(u16 *) &data_ov000_021b569a[i * 12] = 0;
-    if (*(void **) &data_ov000_021b569c[i * 12] != NULL) {
-        func_ov000_021a3704(4, *(u32 *) &data_ov000_021b569c[i * 12], 0);
+    index = keyId - 100;
+    gMatchingKeys[index][0] = keyId;
+    gMatchingKeyIsString[index * 12] = 0;
+    *(u16 *) &gMatchingKeyPad[index * 12] = 0;
+    if (*(void **) &gMatchingKeyString[index * 12] != NULL) {
+        DWC_Free(4, *(u32 *) &gMatchingKeyString[index * 12], 0);
     }
-    *(void **) &data_ov000_021b569c[i * 12] = func_ov000_021a372c(4, strlen(b) + 1);
-    if (*(void **) &data_ov000_021b569c[i * 12] == NULL) {
+    *(void **) &gMatchingKeyString[index * 12] = DWC_Alloc(4, strlen(keyString) + 1);
+    if (*(void **) &gMatchingKeyString[index * 12] == NULL) {
         ReportMatchingError(0xb, 0xfffec77f);
         return 0;
     }
-    strcpy(*(char **) &data_ov000_021b569c[i * 12], b);
-    *(void **) &data_ov000_021b56a0[i * 12] = c;
-    func_ov000_021a4b84(a, b);
-    return a;
+    strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);
+    *(void **) &gMatchingKeyValue[index * 12] = valueSrc;
+    func_ov000_021a4b84(keyId, keyString);
+    return keyId;
 }
 
-u32 func_ov000_021a2ad0(u32 a, char *b, void *c) {
-    u32 i;
-    if (b == NULL || c == NULL) {
+u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
+    u32 index;
+    if (keyString == NULL || valueSrc == NULL) {
         return 0;
     }
-    if (a >= 100) {
-        i = a - 100;
-        if (gMatchingKeys[i][0] != 0) {
-            return a;
+    if (keyId >= 100) {
+        index = keyId - 100;
+        if (gMatchingKeys[index][0] != 0) {
+            return keyId;
         }
     }
-    a = FindFreeMatchingKeyId();
-    if (a == 0) {
+    keyId = FindFreeMatchingKeyId();
+    if (keyId == 0) {
         return 0;
     }
-    i = a - 100;
-    gMatchingKeys[i][0] = a;
-    data_ov000_021b5699[i * 12] = 1;
-    *(u16 *) &data_ov000_021b569a[i * 12] = 0;
-    if (*(void **) &data_ov000_021b569c[i * 12] != NULL) {
-        func_ov000_021a3704(4, *(u32 *) &data_ov000_021b569c[i * 12], 0);
+    index = keyId - 100;
+    gMatchingKeys[index][0] = keyId;
+    gMatchingKeyIsString[index * 12] = 1;
+    *(u16 *) &gMatchingKeyPad[index * 12] = 0;
+    if (*(void **) &gMatchingKeyString[index * 12] != NULL) {
+        DWC_Free(4, *(u32 *) &gMatchingKeyString[index * 12], 0);
     }
-    *(void **) &data_ov000_021b569c[i * 12] = func_ov000_021a372c(4, strlen(b) + 1);
-    if (*(void **) &data_ov000_021b569c[i * 12] == NULL) {
+    *(void **) &gMatchingKeyString[index * 12] = DWC_Alloc(4, strlen(keyString) + 1);
+    if (*(void **) &gMatchingKeyString[index * 12] == NULL) {
         ReportMatchingError(0xb, 0xfffec77f);
         return 0;
     }
-    strcpy(*(char **) &data_ov000_021b569c[i * 12], b);
-    *(void **) &data_ov000_021b56a0[i * 12] = c;
-    func_ov000_021a4b84(a, b);
-    return a;
+    strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);
+    *(void **) &gMatchingKeyValue[index * 12] = valueSrc;
+    func_ov000_021a4b84(keyId, keyString);
+    return keyId;
 }
 
-s32 func_ov000_021a2a88(u32 a, void *b, s32 c) {
-    u32 r;
+s32 DWC_GetMatchIntValue(u32 index, void *keyString, s32 idefault) {
+    u32 serverEntry;
     if (gWiFiMatching == NULL || DWCi_IsError() != 0) {
-        return c;
+        return idefault;
     }
-    r = ServerBrowserGetServer(gWiFiMatching->mServerList, a);
-    if (r != 0) {
-        c = SbServerGetInt((SbServer *) r, b, c);
+    serverEntry = ServerBrowserGetServer(gWiFiMatching->mServerList, index);
+    if (serverEntry != 0) {
+        idefault = SbServerGetInt((SbServer *) serverEntry, keyString, idefault);
     }
-    return c;
+    return idefault;
 }
 
-u32 func_ov000_021a299c(u32 a, void *b, u32 c) {
-    WiFiMatching *p = gWiFiMatching;
-    Unk021b5670 *q;
-    if (p == NULL) {
+u32 DWC_SetMatchingOption(u32 opttype, void *optval, u32 optlen) {
+    WiFiMatching *wiFiMatching = gWiFiMatching;
+    DWCMatchOptMinCompleteIn *optMinComp;
+    if (wiFiMatching == NULL) {
         return 1;
     }
-    if (b == NULL) {
+    if (optval == NULL) {
         return 3;
     }
-    switch (a) {
+    switch (opttype) {
         case 0:
-            if (p->mState == 0x13) {
+            if (wiFiMatching->mState == 0x13) {
                 return 1;
             }
-            if (*(u8 *) b != 0 && ((u8 *) b)[1] <= 1) {
+            if (*(u8 *) optval != 0 && ((u8 *) optval)[1] <= 1) {
                 return 3;
             }
-            q = data_ov000_021b5670;
-            if (q == NULL) {
-                q = func_ov000_021a372c(4, 0x20);
-                data_ov000_021b5670 = q;
-                if (q == NULL) {
+            optMinComp = gOptMinComp;
+            if (optMinComp == NULL) {
+                optMinComp = DWC_Alloc(4, 0x20);
+                gOptMinComp = optMinComp;
+                if (optMinComp == NULL) {
                     return 4;
                 }
             }
-            q->mUnk_00 = *(u8 *) b;
-            data_ov000_021b5670->mUnk_01 = ((u8 *) b)[1];
-            data_ov000_021b5670->mUnk_02 = 0;
-            data_ov000_021b5670->mUnk_03 = 0;
-            data_ov000_021b5670->mUnk_04 = *OFFSET_PTR(u32, b, 4);
-            data_ov000_021b5670->mUnk_08 = 0;
-            data_ov000_021b5670->mUnk_0c = 0;
-            data_ov000_021b5670->mUnk_10 = func_ov000_021a350c();
-            data_ov000_021b5670->mUnk_18 = func_ov000_021a350c();
+            optMinComp->mValid = *(u8 *) optval;
+            gOptMinComp->mMinEntry = ((u8 *) optval)[1];
+            gOptMinComp->mRetry = 0;
+            gOptMinComp->mPad = 0;
+            gOptMinComp->mTimeout = *OFFSET_PTR(u32, optval, 4);
+            gOptMinComp->mRecvBit = 0;
+            gOptMinComp->mTimeoutBit = 0;
+            gOptMinComp->mStartTime = MatchingGetTickMilliseconds();
+            gOptMinComp->mLastPollTime = MatchingGetTickMilliseconds();
             return 0;
         case 1:
-            if (*(u32 *) b != 0) {
-                data_ov000_021b5668.mUnk_00 = 1;
+            if (*(u32 *) optval != 0) {
+                gOptSCBlock.mValid = 1;
             } else {
-                data_ov000_021b5668.mUnk_00 = 0;
+                gOptSCBlock.mValid = 0;
             }
-            data_ov000_021b5668.mUnk_01 = 0;
+            gOptSCBlock.mLock = 0;
             return 0;
         default:
             return 2;
     }
 }
 
-s32 func_ov000_021a2950(u64 *a) {
-    Unk021b5670 *p = data_ov000_021b5670;
-    u64 t;
-    if (p == NULL || p->mUnk_00 == 0) {
+s32 DWC_GetMOMinCompState(u64 *time) {
+    DWCMatchOptMinCompleteIn *optMinComp = gOptMinComp;
+    u64 elapsed;
+    if (optMinComp == NULL || optMinComp->mValid == 0) {
         return -1;
     }
-    t = func_ov000_021a350c() - p->mUnk_10;
-    if (a != NULL) {
-        *a = t;
+    elapsed = MatchingGetTickMilliseconds() - optMinComp->mStartTime;
+    if (time != NULL) {
+        *time = elapsed;
     }
-    return t >= p->mUnk_04;
+    return elapsed >= optMinComp->mTimeout;
 }

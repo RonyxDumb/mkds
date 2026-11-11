@@ -72,7 +72,7 @@ BOOL UpdateWiFiSessionRelease(void) {
     if (gWiFiSession->mStateMachine.mState == 0) {
         return 1;
     }
-    if (func_ov000_021a377c() == FALSE) {
+    if (DWC_CleanupInetAsync() == FALSE) {
         return 0;
     }
     ResetWiFiSession();
@@ -97,7 +97,7 @@ void ReleaseWiFiSession(void) {
     StateMachine *stateMachine;
 
     ReleaseWiFiConnection();
-    func_ov000_021a37dc();
+    DWC_CleanupInet();
     ResetWiFiSession();
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 0;
@@ -117,9 +117,9 @@ void SetupWiFiSessionLogin(void) {
         DWC_CreateUserData(&gWiFiSession->mUserData, 0x414d434a);
     }
     CopyBuddyFriendDataList(&gWiFiSession->mBuddies[0]);
-    func_ov000_021a39c4(&gWiFiSession->mLogin);
-    func_ov000_021a397c(2);
-    func_ov000_021a3910();
+    DWC_InitInet(&gWiFiSession->mLogin);
+    DWC_SetAuthServer(2);
+    DWC_ConnectInetAsync();
     buddyIndex = 0;
     if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
         do {
@@ -135,11 +135,11 @@ void SetupWiFiSessionLogin(void) {
 }
 
 void AdvanceWiFiSessionLoginStep1(void) {
-    if (func_ov000_021a38d8() == 0) {
-        func_ov000_021a3884();
+    if (DWC_CheckInet() == 0) {
+        DWC_ProcessInet();
         return;
     }
-    switch (func_ov000_021a3810()) {
+    switch (DWC_GetInetStatus()) {
         case 4:
             StartWiFiLogin(0, 0, WiFiSessionLoginCallback, 0);
             gWiFiSession->mLogin.mStep = 2;
@@ -147,7 +147,7 @@ void AdvanceWiFiSessionLoginStep1(void) {
         case 7:
             gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
             ReleaseWiFiConnection();
-            func_ov000_021a37dc();
+            DWC_CleanupInet();
             gWiFiSession->mLogin.mStep = 7;
             break;
         case 8:
@@ -175,7 +175,7 @@ u32 UpdateWiFiSessionLogin(void) {
             break;
         case 6:
             ReleaseWiFiConnection();
-            func_ov000_021a37dc();
+            DWC_CleanupInet();
             gWiFiSession->mLogin.mStep = 7;
             break;
         case 5:
@@ -216,7 +216,7 @@ void WiFiSessionBuddySyncCallback(s32 result, s32 changed) {
         gWiFiSession->mLogin.mStep = 5;
     } else {
         ReleaseWiFiConnection();
-        func_ov000_021a37dc();
+        DWC_CleanupInet();
         gWiFiSession->mLogin.mStep = 7;
     }
 }

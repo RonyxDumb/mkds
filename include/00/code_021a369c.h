@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-void *func_ov000_021a369c(u32 a, void *b, u32 c, u32 d, u32 e);
-void *func_ov000_021a36f0(u32 p0, void *p1, u32 p2, u32 p3);
-void func_ov000_021a3704(unsigned int p0, unsigned int p1, unsigned int p2);
-void *func_ov000_021a3718(unsigned int p0, unsigned int p1, unsigned int p2);
-void *func_ov000_021a372c(u32 heap, u32 size);
-u32 func_ov000_021a3744(void *(*arg0)(u32, u32, s32), void (*arg1)(u32, void *));
+void *DWC_ReallocEx(u32 name, void *ptr, u32 heldSize, u32 wantedSize, u32 align);
+void *DWC_Realloc(u32 name, void *ptr, u32 oldsize, u32 newsize);
+void DWC_Free(unsigned int name, unsigned int ptr, unsigned int size);
+void *DWC_AllocEx(unsigned int name, unsigned int size, unsigned int align);
+void *DWC_Alloc(u32 name, u32 size);
+u32 DWC_SetMemFunc(void *(*alloc)(u32, u32, s32), void (*free)(u32, void *));

@@ -56,7 +56,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     if (callback.mCallback != NULL) {
         switch (operation->mType) {
             case 0:
-                arg = func_ov000_021a3690(0x20);
+                arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
@@ -73,7 +73,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             case 1:
-                newProfileArg = func_ov000_021a3690(8);
+                newProfileArg = DWCi_GsMalloc(8);
                 if (newProfileArg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
@@ -86,7 +86,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             case 2:
-                arg = func_ov000_021a3690(0x204);
+                arg = DWCi_GsMalloc(0x204);
                 if (arg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
@@ -99,7 +99,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             case 3:
-                searchArg = func_ov000_021a3690(0x10);
+                searchArg = DWCi_GsMalloc(0x10);
                 if (searchArg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
@@ -113,7 +113,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             case 4:
-                uniquenickArg = func_ov000_021a3690(4);
+                uniquenickArg = DWCi_GsMalloc(4);
                 if (uniquenickArg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b32e0);
                     return 1;
@@ -136,7 +136,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
 u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operationOut, int blocking, int callback,
                        int param) {
     GpiConnection *gpState = connection->mGpiConnection;
-    GpiOperation *pendingOp = func_ov000_021a3690(0x24);
+    GpiOperation *pendingOp = DWCi_GsMalloc(0x24);
 
     if (pendingOp == NULL) {
         GpiSetErrorMessage(connection, data_ov000_021b32e0);
@@ -175,14 +175,14 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
         }
         shutdown(searchData->mUnk_04, 2);
         closesocket(searchData->mUnk_04);
-        func_ov000_021a3668(searchData->mUnk_18);
+        DWCi_GsFree(searchData->mUnk_18);
         searchData->mUnk_18 = NULL;
-        func_ov000_021a3668(searchData->mUnk_08);
+        DWCi_GsFree(searchData->mUnk_08);
         searchData->mUnk_08 = NULL;
     }
-    func_ov000_021a3668(operation->mUnk_04);
+    DWCi_GsFree(operation->mUnk_04);
     operation->mUnk_04 = NULL;
-    func_ov000_021a3668(operation);
+    DWCi_GsFree(operation);
 }
 
 void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation) {

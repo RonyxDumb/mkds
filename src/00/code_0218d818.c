@@ -21,7 +21,7 @@ void DarrayCallElemCallback(void *b, s32 c) {
 
 void DarrayGrow(Darray *a) {
     a->mCapacity = a->mCapacity + a->mGrowCount;
-    a->mList = func_ov000_021a3678(a->mList, a->mCapacity * a->mElemSize);
+    a->mList = DWCi_GsRealloc(a->mList, a->mCapacity * a->mElemSize);
     if (a->mList == NULL) {
         AssertionFailed(data_ov000_021b2348, data_ov000_021b22dc, NULL, 0x41);
     }
@@ -32,7 +32,7 @@ void DarraySetElement(Darray *a, const void *b, s32 c) {
 }
 
 void *DarrayCreate(s32 elemSize, s32 c, void (*d)(void *)) {
-    Darray *array = func_ov000_021a3690(0x18);
+    Darray *array = DWCi_GsMalloc(0x18);
     if (array == NULL) {
         AssertionFailed(data_ov000_021b2334, data_ov000_021b22dc, NULL, 0x52);
     }
@@ -48,7 +48,7 @@ void *DarrayCreate(s32 elemSize, s32 c, void (*d)(void *)) {
     array->mGrowCount = c;
     array->mElemCallback = d;
     if (array->mCapacity != 0) {
-        array->mList = func_ov000_021a3690(array->mCapacity * array->mElemSize);
+        array->mList = DWCi_GsMalloc(array->mCapacity * array->mElemSize);
         if (array->mList == NULL) {
             AssertionFailed(data_ov000_021b2348, data_ov000_021b22dc, NULL, 0x5e);
         }
@@ -71,8 +71,8 @@ void DarrayDelete(void *c) {
             b = b + 1;
         } while (b < array->mCount);
     }
-    func_ov000_021a3668(array->mList);
-    func_ov000_021a3668(array);
+    DWCi_GsFree(array->mList);
+    DWCi_GsFree(array);
 }
 
 s32 DarrayGetCount(void *b) {

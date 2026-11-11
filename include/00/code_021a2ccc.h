@@ -21,8 +21,8 @@ typedef struct WiFiPeerMessage {
     // Total size of the message being received, from the header (code_021a2ccc.c:239); 0 after the message is complete.
     /* 18 */ s32 mReceiveSize;
     /* 1c */ u8 mUnk_1c;
-    // Receive state, switched on once per received packet in func_ov000_021a2eec (code_021a2ccc.c:181, through the
-    // getter func_ov000_021a2fb4): 0 initial (only a control header, kind 2 to 4, is accepted); 1 expecting a header
+    // Receive state, switched on once per received packet in DWCs_HandleReliableMessage (through
+    // the getter DWCs_GetRecvState): 0 initial (only a control header, kind 2 to 4, is accepted); 1 expecting a header
     // (SetPeerReceiveBuffer, end of a message); 2 header of a data message (kind 1) accepted, body packets are copied
     // into the buffer; 3 control header (kind 2 to 4) taken, the next packet is the control body (state restored from
     // mUnk_1e); 4 data header refused (no buffer or too small): the next packet is dropped and the state returns to 1.
@@ -56,36 +56,36 @@ typedef struct WiFiMessageLayer {
     /* 612 */ u8 pad_612[2];
 } WiFiMessageLayer;
 
-// Local of func_ov000_021a31e8, filled by a copy of eight bytes.
-typedef struct Unk021a31e8 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[2];
-} Unk021a31e8;
+// Local of DWCs_DecodeHeader, filled by a copy of eight bytes.
+typedef struct DWCTransportHeader {
+    /* 00 */ u32 mSize;
+    /* 04 */ u16 mType;
+    /* 06 */ u8 mMagicStrings[2];
+} DWCTransportHeader;
 
-// Points at WiFiConnection.mMessageLayer: set by InitWiFiMessageLayer, set to NULL by func_ov000_021a2fec
+// Points at WiFiConnection.mMessageLayer: set by InitWiFiMessageLayer, set to NULL by DWCi_ShutdownTransport
 // (ReleaseWiFiConnection).
 extern WiFiMessageLayer *gWiFiMessageLayer;
 
-BOOL func_ov000_021a2ccc(void);
-s32 func_ov000_021a2d18(u32 a);
-void func_ov000_021a2d38(u32 a, void *b, s32 c);
-void func_ov000_021a2d68(int a, void *b, s32 c);
-void func_ov000_021a2dfc(int a, void *b, s32 c);
-void func_ov000_021a2e7c(Unk0219887c *a, const void *b, int c);
-void func_ov000_021a2eec(Unk0219887c *a, void *b, s32 c);
-void func_ov000_021a2f98(u32 a, void *b, u32 c, u32 d);
-u8 func_ov000_021a2fb4(int a);
-u8 func_ov000_021a2fc8(int a);
-WiFiPeerMessage *func_ov000_021a2fdc(int a);
-void func_ov000_021a2fec(void);
-void func_ov000_021a2ff8(int a);
+BOOL DWC_RegisterMatchingStatus(void);
+s32 DWCs_GetOutgoingBufferFreeSize(u32 aid);
+void DWCs_RecvSystemDataBody(u32 aid, void *message, s32 size);
+void DWCs_RecvDataBody(int aid, void *message, s32 size);
+void DWCs_RecvDataHeader(int aid, void *message, s32 size);
+void DWCs_HandleUnreliableMessage(Unk0219887c *connection, const void *message, int size);
+void DWCs_HandleReliableMessage(Unk0219887c *connection, void *message, s32 size);
+void DWCs_Send(u32 aid, void *buffer, u32 size, u32 reliable);
+u8 DWCs_GetRecvState(int aid);
+u8 DWCs_GetSendState(int aid);
+WiFiPeerMessage *DWCs_GetTransConnection(int aid);
+void DWCi_ShutdownTransport(void);
+void DWCi_ClearTransConnection(int aid);
 void UpdateWiFiMessageLayer(void);
-void func_ov000_021a314c(Unk0219887c *a, u32 b);
-void func_ov000_021a317c(Unk0219887c *a, void *b, s32 c, u32 d);
+void DWCi_PingCallback(Unk0219887c *connection, u32 latency);
+void DWCi_RecvCallback(Unk0219887c *connection, void *message, s32 size, u32 reliable);
 void InitWiFiMessageLayer(WiFiMessageLayer *state);
-s32 func_ov000_021a31d4(s32 value);
-u16 func_ov000_021a31e8(const void *a);
-void func_ov000_021a321c(Unk021a31e8 *a, u16 b, u32 c);
-void func_ov000_021a323c(void (*arg0)(u32, void *, u32));
-void func_ov000_021a3250(u32 (*arg0)(void));
+s32 DWCs_GetRequiredHeaderSize(s32 type);
+u16 DWCs_DecodeHeader(const void *message);
+void DWCs_EncodeHeader(DWCTransportHeader *header, u16 type, u32 size);
+void DWC_SetUserRecvCallback(void (*callback)(u32, void *, u32));
+void DWC_SetUserSendCallback(u32 (*callback)(void));

@@ -123,8 +123,8 @@ void UpdateWiFiSessionState4(void) {
 void EnterWiFiSessionState5(void) {
     WiFiRaceSync *wiFiRaceSync;
 
-    func_ov000_021a3250(FinishWiFiRaceSyncSend);
-    func_ov000_021a323c(WiFiRaceSyncReceiveCallback);
+    DWC_SetUserSendCallback(FinishWiFiRaceSyncSend);
+    DWC_SetUserRecvCallback(WiFiRaceSyncReceiveCallback);
     wiFiRaceSync = gWiFiRaceSync;
     wiFiRaceSync->mStateMachine.mNextState = 1;
     wiFiRaceSync->mStateMachine.mNextStateRequested = 1;

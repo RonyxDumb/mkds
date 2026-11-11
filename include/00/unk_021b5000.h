@@ -62,35 +62,35 @@ typedef struct Unk021b5fa8 {
 } Unk021b5fa8;
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b5dec[];
-extern u8 data_ov000_021b5df0[];
+extern u8 gFreeFunc[];
+extern u8 gAllocFunc[];
 extern Unk021b5f50 *data_ov000_021b5f50;
 extern u8 data_ov000_021b5f98[];
 
 extern u8 gMatchingMaskedParticipantIndices[0x20];
 
-// Four bytes at data_ov000_021b5668.
-typedef struct Unk021b5668 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
+// Four bytes at gOptSCBlock.
+typedef struct DWCMatchOptSCBlock {
+    /* 00 */ u8 mValid;
+    /* 01 */ u8 mLock;
     /* 02 */ u16 mUnk_02;
-} Unk021b5668;
+} DWCMatchOptSCBlock;
 
-extern Unk021b5668 data_ov000_021b5668;
+extern DWCMatchOptSCBlock gOptSCBlock;
 
-typedef struct Unk021b5670 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u64 mUnk_10;
-    /* 18 */ u64 mUnk_18;
-} Unk021b5670;
+typedef struct DWCMatchOptMinCompleteIn {
+    /* 00 */ u8 mValid;
+    /* 01 */ u8 mMinEntry;
+    /* 02 */ u8 mRetry;
+    /* 03 */ u8 mPad;
+    /* 04 */ u32 mTimeout;
+    /* 08 */ u32 mRecvBit;
+    /* 0c */ u32 mTimeoutBit;
+    /* 10 */ u64 mStartTime;
+    /* 18 */ u64 mLastPollTime;
+} DWCMatchOptMinCompleteIn;
 
-extern Unk021b5670 *data_ov000_021b5670;
+extern DWCMatchOptMinCompleteIn *gOptMinComp;
 extern void *gMatchingFilterText;
 extern Unk021b5f54 data_ov000_021b5f54;
 extern u8 data_ov000_021b5f80;

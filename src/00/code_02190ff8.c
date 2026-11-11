@@ -158,7 +158,7 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
     GpiCopyString(gpState->mEmail, email, 0x33);
     GpiCopyString((char *) gpState->mPassword, password, 0x1f);
     _strlwr((s8 *) gpState->mEmail);
-    data = func_ov000_021a3690(0x308);
+    data = DWCi_GsMalloc(0x308);
     if (data == NULL) {
         GpiSetErrorMessage(connection, data_ov000_021b2cdc);
         return 1;
@@ -464,7 +464,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
             gpState->mConnectState = 3;
             callback = operation->mUnk_0c;
             if (callback.mCallback != NULL) {
-                arg = func_ov000_021a3690(0x20);
+                arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b2cdc);
                     return 1;
@@ -513,16 +513,16 @@ u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile) {
 
     gpState = connection->mGpiConnection;
     if (profile->mBuddyStatus != NULL && gpState->mUnk_104 == FALSE) {
-        func_ov000_021a3668(profile->mBuddyStatus->mUnk_08);
+        DWCi_GsFree(profile->mBuddyStatus->mUnk_08);
         profile->mBuddyStatus->mUnk_08 = NULL;
-        func_ov000_021a3668(profile->mBuddyStatus->mUnk_0c);
+        DWCi_GsFree(profile->mBuddyStatus->mUnk_0c);
         profile->mBuddyStatus->mUnk_0c = NULL;
-        func_ov000_021a3668(profile->mBuddyStatus);
+        DWCi_GsFree(profile->mBuddyStatus);
         profile->mBuddyStatus = NULL;
     }
-    func_ov000_021a3668(profile->mUnk_10);
+    DWCi_GsFree(profile->mUnk_10);
     profile->mUnk_10 = NULL;
-    func_ov000_021a3668(profile->mUnk_18);
+    DWCi_GsFree(profile->mUnk_18);
     profile->mUnk_18 = NULL;
     profile->mUnk_14 = 0;
     if (profile->mUnk_0c == 0 || (gpState->mUnk_104 == TRUE && profile->mBuddyStatus == NULL)) {
@@ -564,15 +564,15 @@ void GpiCloseConnection(GpConnection *connection, s32 tellServer) {
         gpState->mUserId = 0;
         gpState->mProfileId = 0;
     }
-    func_ov000_021a3668(gpState->mInputBuffer);
+    DWCi_GsFree(gpState->mInputBuffer);
     gpState->mInputBuffer = NULL;
-    func_ov000_021a3668(gpState->mCommandBuffer);
+    DWCi_GsFree(gpState->mCommandBuffer);
     gpState->mCommandBuffer = NULL;
-    func_ov000_021a3668(gpState->mOutputBuffer.mBuffer);
+    DWCi_GsFree(gpState->mOutputBuffer.mBuffer);
     gpState->mOutputBuffer.mBuffer = NULL;
-    func_ov000_021a3668(gpState->mUpdateproBuffer);
+    DWCi_GsFree(gpState->mUpdateproBuffer);
     gpState->mUpdateproBuffer = NULL;
-    func_ov000_021a3668(gpState->mUpdateuiBuffer);
+    DWCi_GsFree(gpState->mUpdateuiBuffer);
     gpState->mUpdateuiBuffer = NULL;
     while (gpState->mOperationList != NULL) {
         GpiRemoveOperation(connection, gpState->mOperationList);

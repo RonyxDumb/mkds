@@ -39,17 +39,18 @@ typedef struct UnmatchedDataAddress {
     /* 04 */ u32 mAddress;
 } UnmatchedDataAddress;
 
-void ParseMatchingGpMessage(GpConnection *param_1, u32 param_2, const char *param_3);
-void WiFiGt2ResultCallback(Unk0219887c *param_1, s32 param_2);
-void WiFiIncomingConnectionCallback(u32 param_1, Unk0219887c *connection, u32 address, u32 port, s32 param_5,
-                                    char *text);
-u32 WiFiUnmatchedDataCallback(u32 param_1, u32 address, u16 port, u8 *data, u32 size);
+void ParseMatchingGpMessage(GpConnection *gpConnection, u32 profileId, const char *message);
+void WiFiGt2ResultCallback(Unk0219887c *connection, s32 result);
+void WiFiIncomingConnectionCallback(u32 socket, Unk0219887c *connection, u32 address, u32 port, s32 latency,
+                                    char *message);
+u32 WiFiUnmatchedDataCallback(u32 socket, u32 address, u16 port, u8 *data, u32 size);
 void UpdateMatching(s32 param_1);
-void StartMatchingWithBuddies(const void *param_1, s32 param_2, s32 param_3, s32 param_4, void *param_5, u32 param_6,
-                              u32 param_7, u32 param_8);
-void StartMatchingWithFilter(u32 param_1, const void *param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6);
-u32 func_ov000_021a2768(u32 param_1);
-void InitMatching(WiFiMatching *param_1, GpConnection *param_2, void **param_3, void *param_4, void *param_5,
-                  void *param_6, void *param_7, u32 param_8);
+void StartMatchingWithBuddies(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
+                              void *matchedCallback, u32 matchedParam, u32 evalCallback, u32 evalParam);
+void StartMatchingWithFilter(u32 numEntry, const void *addFilter, u32 matchedCallback, u32 matchedParam,
+                             u32 evalCallback, u32 evalParam);
+u32 DWCi_QR2Startup(u32 profileId);
+void InitMatching(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void **connectionSocket,
+                  void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
 
 #include "00/code_021a3760.h"

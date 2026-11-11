@@ -147,7 +147,7 @@ u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int 
         return 0;
     }
     if (connection->mUnk_38.mData != NULL) {
-        func_ov000_021a3668(connection->mUnk_38.mData);
+        DWCi_GsFree(connection->mUnk_38.mData);
         connection->mUnk_38.mData = NULL;
     }
     connection->mState = 1;

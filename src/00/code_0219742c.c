@@ -69,7 +69,7 @@ s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
             return 3;
         }
     }
-    gRcvBuffer = func_ov000_021a3690(0x40);
+    gRcvBuffer = DWCi_GsMalloc(0x40);
     if (gRcvBuffer == NULL) {
         return 3;
     }
@@ -187,7 +187,7 @@ void GstatsClose(void) {
     gSock = -1;
     ClosePendingCallbacks();
     if (gRcvBuffer != NULL) {
-        func_ov000_021a3668(gRcvBuffer);
+        DWCi_GsFree(gRcvBuffer);
         gRcvBuffer = NULL;
         gRcvMax = 0;
         gRcvLen = 0;
@@ -237,7 +237,7 @@ BOOL PersistThink(void) {
                 } else {
                     gRcvMax = gRcvMax * 2;
                 }
-                gRcvBuffer = func_ov000_021a3678(gRcvBuffer, gRcvMax + 1);
+                gRcvBuffer = DWCi_GsRealloc(gRcvBuffer, gRcvMax + 1);
                 if (gRcvBuffer == NULL) {
                     return FALSE;
                 }

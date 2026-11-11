@@ -22,19 +22,19 @@ typedef struct MatchingSendHeader {
 } MatchingSendHeader;
 
 // The twelve bytes at WiFiMatching.mUnk_18c.
-typedef struct Unk021a0c30 {
-    /* 00 */ u8 mUnk_00;
+typedef struct DWCNNInfo {
+    /* 00 */ u8 mIsQR2;
     /* 02 */ u16 mPort;
     /* 04 */ u32 mAddress;
-    /* 08 */ u32 mUnk_08;
-} Unk021a0c30;
+    /* 08 */ u32 mCookie;
+} DWCNNInfo;
 
 s32 CopyNthSlashField(char *out, const char *text, s32 index);
 s32 SendMatchingCommandToProfile(struct GpConnection *gpConnection, u32 command, u32 profileId, const char *text);
 u32 SendMatchingCommandToAddress(u32 command, u32 address, u32 port, u32 *values, u32 valueCount);
 u32 SendMatchingCommand(u32 command, u32 profileId, u32 address, u32 port, void *values, s32 valueCount);
-u32 func_ov000_021a0c30(Unk021a0c30 *a);
-u32 func_ov000_021a0cac(s32 a, s32 b, u32 c);
-s32 BuildMatchingFilter(char *buffer, s32 profileId, s32 c, s32 mode);
-u32 StartMatchingServerList(u32 a);
+u32 DWCi_DoNatNegotiationAsync(DWCNNInfo *nnInfo);
+u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server);
+s32 BuildMatchingFilter(char *buffer, s32 profileId, s32 numEntry, s32 mode);
+u32 StartMatchingServerList(u32 profileId);
 void StopMatching(void);

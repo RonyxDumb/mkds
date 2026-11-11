@@ -37,13 +37,13 @@ void gti2ConnectionClosed(Gt2Connection *connection, ...) {
 
 void gti2ConnectionCleanup(Gt2Connection *connection) {
     if (connection->mUnk_38.mData != NULL) {
-        func_ov000_021a3668(connection->mUnk_38.mData);
+        DWCi_GsFree(connection->mUnk_38.mData);
     }
     if (connection->mIncomingBuffer.mData != NULL) {
-        func_ov000_021a3668(connection->mIncomingBuffer.mData);
+        DWCi_GsFree(connection->mIncomingBuffer.mData);
     }
     if (connection->mSendBuffer.mData != NULL) {
-        func_ov000_021a3668(connection->mSendBuffer.mData);
+        DWCi_GsFree(connection->mSendBuffer.mData);
     }
     if (connection->mIncomingBufferMessages != NULL) {
         DarrayDelete(connection->mIncomingBufferMessages);
@@ -57,7 +57,7 @@ void gti2ConnectionCleanup(Gt2Connection *connection) {
     if (connection->mReceiveFilters != NULL) {
         DarrayDelete(connection->mReceiveFilters);
     }
-    func_ov000_021a3668(connection);
+    DWCi_GsFree(connection);
 }
 
 BOOL gti2SocketErrorCallback(Gt2Socket *socket) {

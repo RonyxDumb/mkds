@@ -57,9 +57,9 @@ void WiFiGpMessageCallback(GpConnection *connection, Unk0219b4b4 *arg, u32 param
 }
 
 // Slot 1 of the Gt2ConnectionCallbacks record (the library's Gt2CallDataCallback, code_02197e58.c:152): the body
-// only forwards (connection, data, size, flag) to func_ov000_021a317c, the receive side of the message layer.
+// only forwards (connection, data, size, flag) to DWCi_RecvCallback, the receive side of the message layer.
 void WiFiGt2DataCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable) {
-    func_ov000_021a317c(connection, message, length, reliable);
+    DWCi_RecvCallback(connection, message, length, reliable);
 }
 
 void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
@@ -101,7 +101,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         }
         aid = connectionInfo[1];
         inMask = (gWiFiConnection->mMatching.mParticipantMask & (1 << aid)) != 0;
-        func_ov000_021a2ff8(aid);
+        DWCi_ClearTransConnection(aid);
         wiFiConnection = gWiFiConnection;
         if ((wiFiConnection->mMatching.mMode == 2 && reason == 0) ||
             (wiFiConnection->mMatching.mMode == 3 && aid == 0)) {
@@ -114,12 +114,12 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
     }
     if (gWiFiConnection->mUnk_2d == 0 && gWiFiConnection->mState == 6 && inMask == 0) {
         if (gWiFiConnection->mMatching.mMode == 2 && kind == 0) {
-            func_ov000_021a1488();
-            func_ov000_021a1798(profileId);
+            DWCi_GPSetServerStatus();
+            DWCi_ProcessMatchSCClosing(profileId);
         }
         return;
     }
-    if (func_ov000_021a17bc(kind, detail, profileId) != 0) {
+    if (DWCi_ProcessMatchClosing(kind, detail, profileId) != 0) {
         return;
     }
     if (kind != 0) {
@@ -128,7 +128,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
     }
     if (gWiFiConnection->mMatching.mMode == 2) {
         if (gWiFiConnection->mUnk_2d == 0) {
-            func_ov000_021a1488();
+            DWCi_GPSetServerStatus();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
         }
@@ -153,16 +153,16 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
     if (gWiFiConnection->mUnk_2d != 0 || gWiFiConnection->mMatching.mMode != 2) {
         if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             NNFreeNegotiateList();
-            func_ov000_021a1a10();
+            DWCi_ClearQR2Key();
             SetWiFiConnectionState(3);
         }
     }
 }
 
 // Slot 3 of the record (Gt2CallElapsedTimeCallback, code_02197e58.c:196): the body only forwards (connection,
-// elapsed time) to func_ov000_021a314c, which calls the layer's mUnk_60c with the time and the peer index.
+// elapsed time) to DWCi_PingCallback, which calls the layer's mUnk_60c with the time and the peer index.
 void WiFiGt2ElapsedTimeCallback(Unk0219887c *connection, u32 latency) {
-    func_ov000_021a314c(connection, latency);
+    DWCi_PingCallback(connection, latency);
 }
 
 void DWCi_GT2SocketErrorCallback(u32 *socket) {

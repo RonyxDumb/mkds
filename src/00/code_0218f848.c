@@ -17,7 +17,7 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
     u32 r;
     s32 i;
     a->mGpiConnection = NULL;
-    p.mGpiConnection = func_ov000_021a3690(0x490);
+    p.mGpiConnection = DWCi_GsMalloc(0x490);
     if (p.mGpiConnection == NULL) {
         return 1;
     }
@@ -31,7 +31,7 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
     p.mGpiConnection->mProductId = b;
     p.mGpiConnection->mNamespaceId = c;
     if (GpiInitProfileList(&p) == FALSE) {
-        func_ov000_021a3668(p.mGpiConnection);
+        DWCi_GsFree(p.mGpiConnection);
         p.mGpiConnection = NULL;
         return 1;
     }

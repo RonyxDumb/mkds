@@ -50,7 +50,7 @@ void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
     }
     e = iconnection->mCallbacks[0];
     if (e.mCallback != NULL) {
-        f = func_ov000_021a3690(0x10);
+        f = DWCi_GsMalloc(0x10);
         if (f != NULL) {
             f->mUnk_00 = result;
             f->mUnk_0c = fatal;
@@ -66,7 +66,7 @@ u32 GpiQueueCallback(GpConnection *a, GpiCallback b, void *c, GpiOperation *d, s
     GpiQueuedCallback *g;
 
     f = a->mGpiConnection;
-    g = func_ov000_021a3690(0x18);
+    g = DWCi_GsMalloc(0x18);
     if (g == NULL) {
         GpiSetErrorMessage(a, data_ov000_021b2a7c);
         return 1;
@@ -104,49 +104,49 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
     data->mCallback.mCallback(a, data->mArg, data->mCallback.mUnk_04);
     if (data->mUnk_0c == 2) {
         c = data->mArg;
-        func_ov000_021a3668(c->mUnk_08);
+        DWCi_GsFree(c->mUnk_08);
         c = data->mArg;
         c->mUnk_08 = NULL;
     } else if (data->mUnk_0c == 3) {
         e = data->mArg;
         for (d = 0; d < e->mUnk_38; d++) {
-            func_ov000_021a3668(e->mUnk_3c[d]);
+            DWCi_GsFree(e->mUnk_3c[d]);
             e->mUnk_3c[d] = NULL;
-            func_ov000_021a3668(e->mUnk_40[d]);
+            DWCi_GsFree(e->mUnk_40[d]);
             e->mUnk_40[d] = NULL;
         }
-        func_ov000_021a3668(e->mUnk_3c);
+        DWCi_GsFree(e->mUnk_3c);
         e->mUnk_3c = NULL;
-        func_ov000_021a3668(e->mUnk_40);
+        DWCi_GsFree(e->mUnk_40);
         e->mUnk_40 = NULL;
     } else if (data->mUnk_0c == 4) {
         c = data->mArg;
-        func_ov000_021a3668(c->mUnk_0c);
+        DWCi_GsFree(c->mUnk_0c);
         c->mUnk_0c = NULL;
     } else if (data->mUnk_0c == 7) {
         c = data->mArg;
         if (c->mUnk_10 != NULL) {
-            func_ov000_021a3668(c->mUnk_10);
+            DWCi_GsFree(c->mUnk_10);
             c->mUnk_10 = NULL;
         }
     } else if (data->mUnk_0c == 8) {
         c = data->mArg;
         if (c->mUnk_08 != NULL) {
-            func_ov000_021a3668(c->mUnk_08);
+            DWCi_GsFree(c->mUnk_08);
             c->mUnk_08 = NULL;
         }
     } else if (data->mUnk_0c == 9) {
         Unk02190da0Data *f = data->mArg;
         for (d = 0; d < f->mUnk_04; d++) {
-            func_ov000_021a3668(f->mUnk_08[d]);
+            DWCi_GsFree(f->mUnk_08[d]);
             f->mUnk_08[d] = NULL;
         }
-        func_ov000_021a3668(f->mUnk_08);
+        DWCi_GsFree(f->mUnk_08);
         f->mUnk_08 = NULL;
     }
-    func_ov000_021a3668(data->mArg);
+    DWCi_GsFree(data->mArg);
     data->mArg = NULL;
-    func_ov000_021a3668(data);
+    DWCi_GsFree(data);
 }
 
 u32 GpiCallQueuedCallbacks(GpConnection *a, s32 b) {

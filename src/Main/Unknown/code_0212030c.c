@@ -37,7 +37,7 @@ StateCallbacks gWiFiSessionStateTable[7] = {
 };
 
 u32 GetWiFiLinkLevel(void) {
-    return func_ov000_021a3758();
+    return DWC_GetLinkLevel();
 }
 
 #pragma thumb on
@@ -57,7 +57,7 @@ void CreateWiFiSessionHeap(void *heap) {
     gWiFiSession->mHeapBuffer = HeapAllocAligned(heap, 0x3e800, 0x20);
     gWiFiSession->mHeap = NNS_FndCreateExpHeapEx(gWiFiSession->mHeapBuffer, 0x3e800, 1);
     gWiFiSession->mHeapCreated = TRUE;
-    func_ov000_021a3744(WiFiSessionHeapAlloc, WiFiSessionHeapFree);
+    DWC_SetMemFunc(WiFiSessionHeapAlloc, WiFiSessionHeapFree);
 }
 
 // Destroys the heap and frees its buffer (mHeap is left set), clears mHeapCreated and requests state 0.
@@ -133,7 +133,7 @@ void UpdateWiFiSession(void) {
 }
 
 s32 SendWiFiPacketToParticipant(u32 participantIndex, void *packet, s32 size, u32 (*finishCallback)(void)) {
-    return func_ov000_021a32a0(participantIndex, packet, size);
+    return DWC_SendUnreliable(participantIndex, packet, size);
 }
 
 // Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_ov000_021a2cac(void);
+u32 DWC_CancelMatching(void);

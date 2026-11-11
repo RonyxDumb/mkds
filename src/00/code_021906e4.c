@@ -45,7 +45,7 @@ u32 GpiAppendBufferByte(void *a, GpiBuffer *outputBuffer, s32 c) {
     d = outputBuffer->mBuffer;
     if (f == e) {
         f += 0x800;
-        d = func_ov000_021a3678(d, f + 1);
+        d = DWCi_GsRealloc(d, f + 1);
         if (d == NULL) {
             GpiSetErrorMessage(a, data_ov000_021b292c);
             return 1;
@@ -81,7 +81,7 @@ u32 GpiAppendBufferBytes(void *a, GpiBuffer *outputBuffer, const void *string, s
     e = outputBuffer->mBuffer;
     if (f - g < stringLen) {
         f += stringLen < 0x800 ? 0x800 : stringLen;
-        e = func_ov000_021a3678(e, f + 1);
+        e = DWCi_GsRealloc(e, f + 1);
         if (e == NULL) {
             GpiSetErrorMessage(a, data_ov000_021b292c);
             return 1;
@@ -226,7 +226,7 @@ u32 GpiReceiveBuffer(GpConnection *a, s32 sock, GpiBuffer *inputBuffer, s32 *byt
         n = h + 0x800;
         if (n > i) {
             i = n;
-            g = func_ov000_021a3678(g, n + 1);
+            g = DWCi_GsRealloc(g, n + 1);
             if (g == NULL) {
                 GpiSetErrorMessage(a, data_ov000_021b292c);
                 return 1;

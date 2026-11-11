@@ -409,10 +409,10 @@ u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *a, AuthorityRecord *b) {
     func_ov000_021ac4b8(d, a->mCheckedBytes, a->mCheckedBytesLength, n);
     func_ov000_021ac4b8(e, b->mSecondBytes, b->mSecondLength, n);
     func_ov000_021ac4b8(f, b->mFirstBytes, b->mFirstLength, n);
-    if (data_ov000_021b49f4 < 0x20) {
+    if (gSslLowThreadPriority < 0x20) {
         t = OSi_ThreadInfo.mCurrentThread;
         g = OS_GetThreadPriority(t);
-        OS_SetThreadPriority(t, data_ov000_021b49f4);
+        OS_SetThreadPriority(t, gSslLowThreadPriority);
         func_ov000_021ac7e8(c, d, e, n, f);
         OS_SetThreadPriority(t, g);
     } else {
@@ -1487,10 +1487,10 @@ void func_ov000_021a9640(Unk021a998c *a) {
     func_ov000_021ac4b8(g, e, b, d);
     func_ov000_021ac4b8(h, c->mSecondValue, c->mSecondValueLength, d);
     func_ov000_021ac4b8(i, c->mFirstValue, b, d);
-    if (data_ov000_021b49f4 < 0x20) {
+    if (gSslLowThreadPriority < 0x20) {
         OSThread *n = OSi_ThreadInfo.mCurrentThread;
         u32 o = OS_GetThreadPriority(n);
-        OS_SetThreadPriority(n, data_ov000_021b49f4);
+        OS_SetThreadPriority(n, gSslLowThreadPriority);
         func_ov000_021ac7e8(f, g, h, d, i);
         OS_SetThreadPriority(n, o);
     } else {

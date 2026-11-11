@@ -104,7 +104,7 @@ void ReleaseWiFiLogin(void) {
     if (gWiFiLogin->mHttp != NULL) {
         DWC_Auth_Abort();
         DWC_Auth_Destroy();
-        func_ov000_021a3704(0, (u32) gWiFiLogin->mHttp, 0);
+        DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
     }
     *(s32 *) &gWiFiLogin = 0;
@@ -151,7 +151,7 @@ s32 ReportWiFiLoginGpResult(s32 result) {
 }
 
 // Callback of the GP connect, given by StartWiFiLoginGpConnect: clears mConnectPending; on success in mState 2 checks
-// the saved record's profile id, then (DWCi_GT2Startup, func_ov000_021a2768 with the profile id) sets mState 5 and
+// the saved record's profile id, then (DWCi_GT2Startup, DWCi_QR2Startup with the profile id) sets mState 5 and
 // reports success through mResultCallback (id mismatch: error 6); in mState 3 calls GpGetInfo with the
 // profile id and DWCi_GPGetInfoCallback as its callback; a GP error goes to ReportWiFiLoginGpResult.
 void WiFiLoginGpConnectCallback(GpConnection *connection, Unk0219c400 *arg, u32 param) {
@@ -160,7 +160,7 @@ void WiFiLoginGpConnectCallback(GpConnection *connection, Unk0219c400 *arg, u32 
         if (gWiFiLogin->mState == 2) {
             if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(1, data_ov000_021b4064, NULL)) == 0) {
                 if (gWiFiLogin->mUnk_20->mGsProfileId == arg->mUnk_04) {
-                    if (DWCi_GT2Startup() == 0 && func_ov000_021a2768(arg->mUnk_04) == 0) {
+                    if (DWCi_GT2Startup() == 0 && DWCi_QR2Startup(arg->mUnk_04) == 0) {
                         gWiFiLogin->mState = 5;
                         gWiFiLogin->mResultCallback(0, arg->mUnk_04, gWiFiLogin->mResultCallbackArg);
                     }
@@ -235,9 +235,9 @@ void StartWiFiLoginRequest(void (*callback)(), void *param) {
         DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mUnk_40, gWiFiLogin->mUnk_0c, gWiFiLogin->mUnk_24c);
     }
     strcpy(authParams.mGsbrcd, gWiFiLogin->mUnk_255);
-    authParams.mAlloc = (void *(*) (const void *, u32)) func_ov000_021a372c;
-    authParams.mFree = (void (*)(const void *, void *, u32)) func_ov000_021a3704;
-    httpBlock = func_ov000_021a3718(0, 0x1a60, 4);
+    authParams.mAlloc = (void *(*) (const void *, u32)) DWC_Alloc;
+    authParams.mFree = (void (*)(const void *, void *, u32)) DWC_Free;
+    httpBlock = DWC_AllocEx(0, 0x1a60, 4);
     gWiFiLogin->mHttp = httpBlock;
     startTick = OS_GetTick();
     gWiFiLogin->mRequestStartTime = startTick;
@@ -257,7 +257,7 @@ void UpdateWiFiLoginRequest(void) {
         strcpy(gWiFiLogin->mAuthToken, authResult.mUnk_04a);
         strcpy(gWiFiLogin->mUnk_14c, authResult.mUnk_177);
         DWC_Auth_Destroy();
-        func_ov000_021a3704(0, (u32) gWiFiLogin->mHttp, 0);
+        DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
         if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUnk_20) != 0) {
             stRemoteAuthCallback(gWiFiLogin->mAuthToken, gWiFiLogin->mUnk_14c, pStRemoteAuthParam);
@@ -268,15 +268,15 @@ void UpdateWiFiLoginRequest(void) {
         if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
             DWC_Auth_GetResult(&failedAuthResult.mUnk_000);
             DWC_Auth_Destroy();
-            func_ov000_021a3704(0, (u32) gWiFiLogin->mHttp, 0);
+            DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
             gWiFiLogin->mHttp = NULL;
             ReportWiFiLoginError(2, failedAuthResult.mUnk_000);
         } else {
             DWC_Auth_Destroy();
             MI_CpuFill8(&authParams, 0, 0x2c);
             strcpy(authParams.mGsbrcd, gWiFiLogin->mUnk_255);
-            authParams.mAlloc = (void *(*) (const void *, u32)) func_ov000_021a372c;
-            authParams.mFree = (void (*)(const void *, void *, u32)) func_ov000_021a3704;
+            authParams.mAlloc = (void *(*) (const void *, u32)) DWC_Alloc;
+            authParams.mFree = (void (*)(const void *, void *, u32)) DWC_Free;
             DWC_Auth_Create(&authParams, gWiFiLogin->mHttp);
         }
     }

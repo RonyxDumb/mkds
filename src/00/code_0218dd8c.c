@@ -27,11 +27,11 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 e, s32 (*hashFn)(void
     if (nBuckets == 0) {
         AssertionFailed(data_ov000_021b2388, data_ov000_021b2358, NULL, 0x3b);
     }
-    table = func_ov000_021a3690(0x14);
+    table = DWCi_GsMalloc(0x14);
     if (table == NULL) {
         AssertionFailed(data_ov000_021b2364, data_ov000_021b2358, NULL, 0x3e);
     }
-    table->mBuckets = func_ov000_021a3690(nBuckets * 4);
+    table->mBuckets = DWCi_GsMalloc(nBuckets * 4);
     if (table->mBuckets == NULL) {
         AssertionFailed(data_ov000_021b2394, data_ov000_021b2358, NULL, 0x41);
     }
@@ -55,8 +55,8 @@ void HashtableDelete(void *c) {
         for (b = 0; b < table->mBucketCount; b++) {
             DarrayDelete(table->mBuckets[b]);
         }
-        func_ov000_021a3668(table->mBuckets);
-        func_ov000_021a3668(table);
+        DWCi_GsFree(table->mBuckets);
+        DWCi_GsFree(table);
     }
 }
 

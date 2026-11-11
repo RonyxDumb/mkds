@@ -45,7 +45,7 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
     }
     callback = operation->mUnk_0c;
     if (callback.mCallback != NULL) {
-        arg = func_ov000_021a3690(4);
+        arg = DWCi_GsMalloc(4);
         if (arg == NULL) {
             GpiSetErrorMessage(connection, data_ov000_021b39fc);
             return 1;

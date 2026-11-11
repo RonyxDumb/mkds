@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk021b5df4 Unk021b5df4;
+typedef struct DWCInetControl DWCInetControl;
 
 typedef struct Unk021a3a18 {
     /* 000 */ u32 mUnk_00;

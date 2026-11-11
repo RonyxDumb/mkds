@@ -2,25 +2,25 @@
 
 #include "types.h"
 
-typedef struct Unk021b5df4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-} Unk021b5df4;
+typedef struct DWCInetControl {
+    /* 00 */ s32 mAcState;
+    /* 04 */ u16 mState;
+    /* 06 */ u16 mOnline;
+    /* 08 */ u16 mDmaNo;
+    /* 0a */ u16 mPowerMode;
+} DWCInetControl;
 
 #include "00/code_021a3a18.h"
 
-extern Unk021b5df4 *data_ov000_021b5df4;
+extern DWCInetControl *gInetControl;
 
-u32 func_ov000_021a3760(void);
-BOOL func_ov000_021a377c(void);
-void func_ov000_021a37dc(void);
-u32 func_ov000_021a3810(void);
-void func_ov000_021a3884(void);
-u32 func_ov000_021a38d8(void);
-void func_ov000_021a3910(void);
-void func_ov000_021a397c(s32 a);
-void func_ov000_021a39c4(void *a);
-void func_ov000_021a39d8(Unk021b5df4 *a, u16 b, u32 c, u32 d);
+u32 DWCi_CheckDisconnected(void);
+BOOL DWC_CleanupInetAsync(void);
+void DWC_CleanupInet(void);
+u32 DWC_GetInetStatus(void);
+void DWC_ProcessInet(void);
+u32 DWC_CheckInet(void);
+void DWC_ConnectInetAsync(void);
+void DWC_SetAuthServer(s32 type);
+void DWC_InitInet(void *inetCntl);
+void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslThreadPriority);

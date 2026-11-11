@@ -55,29 +55,29 @@ u32 GpiResetConnection(GpConnection *connection) {
     gpState->mInputBufferLength = 0;
     gpState->mUnk_1e8 = 0;
     gpState->mInputBufferCapacity = 0;
-    func_ov000_021a3668(gpState->mInputBuffer);
+    DWCi_GsFree(gpState->mInputBuffer);
     gpState->mInputBuffer = NULL;
     gpState->mInputBuffer = NULL;
     gpState->mCommandBufferCapacity = 0;
-    func_ov000_021a3668(gpState->mCommandBuffer);
+    DWCi_GsFree(gpState->mCommandBuffer);
     gpState->mCommandBuffer = NULL;
     gpState->mCommandBuffer = NULL;
     gpState->mOutputBuffer.mLength = 0;
     gpState->mOutputBuffer.mPos = 0;
     gpState->mOutputBuffer.mCapacity = 0;
-    func_ov000_021a3668(gpState->mOutputBuffer.mBuffer);
+    DWCi_GsFree(gpState->mOutputBuffer.mBuffer);
     gpState->mOutputBuffer.mBuffer = NULL;
     gpState->mOutputBuffer.mBuffer = NULL;
     gpState->mUpdateproBufferLength = 0;
     gpState->mUnk_44c = 0;
     gpState->mUpdateproBufferCapacity = 0;
-    func_ov000_021a3668(gpState->mUpdateproBuffer);
+    DWCi_GsFree(gpState->mUpdateproBuffer);
     gpState->mUpdateproBuffer = NULL;
     gpState->mUpdateproBuffer = NULL;
     gpState->mUpdateuiBufferLength = 0;
     gpState->mUnk_45c = 0;
     gpState->mUpdateuiBufferCapacity = 0;
-    func_ov000_021a3668(gpState->mUpdateuiBuffer);
+    DWCi_GsFree(gpState->mUpdateuiBuffer);
     gpState->mUpdateuiBuffer = NULL;
     gpState->mUpdateuiBuffer = NULL;
     gpState->mListenSocket = -1;
@@ -141,7 +141,7 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
                     growth = 0x800;
                 }
                 gpState->mCommandBufferCapacity = gpState->mCommandBufferCapacity + growth;
-                buffer = func_ov000_021a3678(gpState->mCommandBuffer, gpState->mCommandBufferCapacity + 1);
+                buffer = DWCi_GsRealloc(gpState->mCommandBuffer, gpState->mCommandBufferCapacity + 1);
                 if (buffer == NULL) {
                     GpiSetErrorMessage(connection, gOutOfMemoryErrorString);
                     return 1;

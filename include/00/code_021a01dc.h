@@ -15,7 +15,7 @@
 #include "00/code_0219f000.h"
 #include "00/code_021a0000.h"
 
-// Address and byte-swapped port of a peer, built by ReceiveMatchingCommand for func_ov000_0219db18.
+// Address and byte-swapped port of a peer, built by ReceiveMatchingCommand for DWCi_NNCompletedCallback.
 typedef struct PeerAddress {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mPort;

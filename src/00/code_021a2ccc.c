@@ -20,8 +20,8 @@
 #include "string.h"
 #include "code_02134398.h"
 
-void func_ov000_021a3250(u32 (*arg0)(void)) {
-    u32 value0 = (u32) arg0;
+void DWC_SetUserSendCallback(u32 (*callback)(void)) {
+    u32 value0 = (u32) callback;
     u32 value1;
     u32 value2;
     value1 = (u32) &gWiFiMessageLayer;
@@ -30,8 +30,8 @@ void func_ov000_021a3250(u32 (*arg0)(void)) {
     *(u32 *) ((value2) + (value1)) = value0;
 }
 
-void func_ov000_021a323c(void (*arg0)(u32, void *, u32)) {
-    u32 value0 = (u32) arg0;
+void DWC_SetUserRecvCallback(void (*callback)(u32, void *, u32)) {
+    u32 value0 = (u32) callback;
     u32 value1;
     u32 value2;
     value1 = (u32) &gWiFiMessageLayer;
@@ -40,23 +40,23 @@ void func_ov000_021a323c(void (*arg0)(u32, void *, u32)) {
     *(u32 *) ((value2) + (value1)) = value0;
 }
 
-void func_ov000_021a321c(Unk021a31e8 *a, u16 b, u32 c) {
-    strncpy((char *) a->mUnk_06, data_ov000_021b41f0, 2);
-    a->mUnk_04 = b;
-    a->mUnk_00 = c;
+void DWCs_EncodeHeader(DWCTransportHeader *header, u16 type, u32 size) {
+    strncpy((char *) header->mMagicStrings, gDwcMagicStrings, 2);
+    header->mType = type;
+    header->mSize = size;
 }
 
-u16 func_ov000_021a31e8(const void *a) {
-    Unk021a31e8 t;
-    MI_CpuCopy8(a, &t, 8);
-    if (memcmp(t.mUnk_06, data_ov000_021b41f0, 2) == 0) {
-        return t.mUnk_04;
+u16 DWCs_DecodeHeader(const void *message) {
+    DWCTransportHeader header;
+    MI_CpuCopy8(message, &header, 8);
+    if (memcmp(header.mMagicStrings, gDwcMagicStrings, 2) == 0) {
+        return header.mType;
     }
     return 0;
 }
 
-s32 func_ov000_021a31d4(s32 value) {
-    switch (value) {
+s32 DWCs_GetRequiredHeaderSize(s32 type) {
+    switch (type) {
         case 2:
         case 3:
         case 4:
@@ -73,19 +73,19 @@ void InitWiFiMessageLayer(WiFiMessageLayer *state) {
     gWiFiMessageLayer->mSendChunkSize = 0x5b9;
 }
 
-void func_ov000_021a317c(Unk0219887c *a, void *b, s32 c, u32 d) {
+void DWCi_RecvCallback(Unk0219887c *connection, void *message, s32 size, u32 reliable) {
     if (gWiFiMessageLayer != NULL) {
-        if (d != 0) {
-            func_ov000_021a2eec(a, b, c);
+        if (reliable != 0) {
+            DWCs_HandleReliableMessage(connection, message, size);
         } else {
-            func_ov000_021a2e7c(a, b, c);
+            DWCs_HandleUnreliableMessage(connection, message, size);
         }
     }
 }
 
-void func_ov000_021a314c(Unk0219887c *a, u32 b) {
+void DWCi_PingCallback(Unk0219887c *connection, u32 latency) {
     if (gWiFiMessageLayer->mUnk_60c != NULL) {
-        gWiFiMessageLayer->mUnk_60c(b, DWCi_GetConnectionAID(a));
+        gWiFiMessageLayer->mUnk_60c(latency, DWCi_GetConnectionAID(connection));
     }
 }
 
@@ -93,47 +93,48 @@ void func_ov000_021a314c(Unk0219887c *a, u32 b) {
 // own index) continues the chunked send and, when the elapsed time since the last receive exceeds the peer's limit,
 // calls the timeout callback func (mUnk_608; no writer in src).
 void UpdateWiFiMessageLayer(void) {
-    u8 *l;
-    s32 n;
+    u8 *aidArray;
+    s32 playerCount;
     s32 i;
-    u8 d;
-    WiFiPeerMessage *e;
-    s32 m;
-    s32 k;
-    u64 t;
+    u8 aid;
+    WiFiPeerMessage *messageSlot;
+    s32 remainBytes;
+    s32 sendSize;
+    u64 nowTicks;
     if (gWiFiMessageLayer != NULL) {
-        n = DWC_GetAIDList(&l);
-        for (i = 0; i < n; i++) {
-            d = l[i];
-            if (d != GetOwnParticipantIndex() && func_ov000_021a2fc8(d) == 1) {
-                e = func_ov000_021a2fdc(d);
-                m = e->mSendSize - e->mSentSize;
-                k = gWiFiMessageLayer->mSendChunkSize;
-                if (m <= k) {
-                    k = m;
+        playerCount = DWC_GetAIDList(&aidArray);
+        for (i = 0; i < playerCount; i++) {
+            aid = aidArray[i];
+            if (aid != GetOwnParticipantIndex() && DWCs_GetSendState(aid) == 1) {
+                messageSlot = DWCs_GetTransConnection(aid);
+                remainBytes = messageSlot->mSendSize - messageSlot->mSentSize;
+                sendSize = gWiFiMessageLayer->mSendChunkSize;
+                if (remainBytes <= sendSize) {
+                    sendSize = remainBytes;
                 }
-                if (func_ov000_021a2d18(d) < k) {
+                if (DWCs_GetOutgoingBufferFreeSize(aid) < sendSize) {
                     continue;
                 }
-                func_ov000_021a2f98(d, (e->mSendBuffer + e->mSentSize), k, 1);
-                e->mSentSize += k;
-                if (e->mSentSize == e->mSendSize) {
+                DWCs_Send(aid, (messageSlot->mSendBuffer + messageSlot->mSentSize), sendSize, 1);
+                messageSlot->mSentSize += sendSize;
+                if (messageSlot->mSentSize == messageSlot->mSendSize) {
                     if (gWiFiMessageLayer->mSendCallback != NULL) {
-                        gWiFiMessageLayer->mSendCallback(e->mSendSize, d);
+                        gWiFiMessageLayer->mSendCallback(messageSlot->mSendSize, aid);
                     }
-                    e->mUnk_1c = 0;
-                    e->mSendBuffer = NULL;
-                    e->mSentSize = 0;
-                    e->mSendSize = 0;
+                    messageSlot->mUnk_1c = 0;
+                    messageSlot->mSendBuffer = NULL;
+                    messageSlot->mSentSize = 0;
+                    messageSlot->mSendSize = 0;
                 }
             }
-            if (DWC_IsValidAID(d) != 0) {
-                e = func_ov000_021a2fdc(d);
-                if (gWiFiMessageLayer->mUnk_608 != NULL && e->mUnk_2c != 0) {
-                    t = OS_GetTick();
-                    if ((u32) _ll_udiv((t - e->mUnk_24) << 6, 0x82ea) > e->mUnk_2c) {
-                        gWiFiMessageLayer->mUnk_608(d);
-                        e->mUnk_24 = t;
+            if (DWC_IsValidAID(aid) != 0) {
+                messageSlot = DWCs_GetTransConnection(aid);
+                if (gWiFiMessageLayer->mUnk_608 != NULL && messageSlot->mUnk_2c != 0) {
+                    nowTicks = OS_GetTick();
+                    if ((u32) _ll_udiv((nowTicks - messageSlot->mUnk_24) << 6, 0x82ea) >
+                        messageSlot->mUnk_2c) {
+                        gWiFiMessageLayer->mUnk_608(aid);
+                        messageSlot->mUnk_24 = nowTicks;
                     }
                 }
             }
@@ -141,62 +142,62 @@ void UpdateWiFiMessageLayer(void) {
     }
 }
 
-void func_ov000_021a2ff8(int a) {
+void DWCi_ClearTransConnection(int aid) {
     if (gWiFiMessageLayer != NULL) {
-        gWiFiMessageLayer->mPeers[a].mSentSize = 0;
-        gWiFiMessageLayer->mPeers[a].mReceivedSize = 0;
-        gWiFiMessageLayer->mPeers[a].mSendSize = 0;
-        gWiFiMessageLayer->mPeers[a].mReceiveSize = 0;
-        gWiFiMessageLayer->mPeers[a].mUnk_1c = 0;
-        gWiFiMessageLayer->mPeers[a].mMessageKind = 0;
+        gWiFiMessageLayer->mPeers[aid].mSentSize = 0;
+        gWiFiMessageLayer->mPeers[aid].mReceivedSize = 0;
+        gWiFiMessageLayer->mPeers[aid].mSendSize = 0;
+        gWiFiMessageLayer->mPeers[aid].mReceiveSize = 0;
+        gWiFiMessageLayer->mPeers[aid].mUnk_1c = 0;
+        gWiFiMessageLayer->mPeers[aid].mMessageKind = 0;
     }
 }
 
-void func_ov000_021a2fec(void) {
+void DWCi_ShutdownTransport(void) {
     gWiFiMessageLayer = NULL;
 }
 
-WiFiPeerMessage *func_ov000_021a2fdc(int a) {
-    return &gWiFiMessageLayer->mPeers[a];
+WiFiPeerMessage *DWCs_GetTransConnection(int aid) {
+    return &gWiFiMessageLayer->mPeers[aid];
 }
 
-u8 func_ov000_021a2fc8(int a) {
-    return gWiFiMessageLayer->mPeers[a].mUnk_1c;
+u8 DWCs_GetSendState(int aid) {
+    return gWiFiMessageLayer->mPeers[aid].mUnk_1c;
 }
 
-u8 func_ov000_021a2fb4(int a) {
-    return gWiFiMessageLayer->mPeers[a].mReceiveState;
+u8 DWCs_GetRecvState(int aid) {
+    return gWiFiMessageLayer->mPeers[aid].mReceiveState;
 }
 
-void func_ov000_021a2f98(u32 a, void *b, u32 c, u32 d) {
-    void *v1;
-    v1 = DWCi_GetGT2Connection(a);
-    gt2Send(v1, b, c, d);
+void DWCs_Send(u32 aid, void *buffer, u32 size, u32 reliable) {
+    void *connection;
+    connection = DWCi_GetGT2Connection(aid);
+    gt2Send(connection, buffer, size, reliable);
 }
 
-void func_ov000_021a2eec(Unk0219887c *a, void *b, s32 c) {
-    u8 v1 = DWCi_GetConnectionAID(a);
-    switch (func_ov000_021a2fb4(v1)) {
+void DWCs_HandleReliableMessage(Unk0219887c *connection, void *message, s32 size) {
+    u8 aid = DWCi_GetConnectionAID(connection);
+    switch (DWCs_GetRecvState(aid)) {
         case 0: {
-            u16 n = func_ov000_021a31e8(b);
+            u16 n = DWCs_DecodeHeader(message);
             if (n >= 2 && n <= 4) {
-                func_ov000_021a2dfc(v1, b, c);
+                DWCs_RecvDataHeader(aid, message, size);
             }
             break;
         }
         case 1:
-            func_ov000_021a2dfc(v1, b, c);
+            DWCs_RecvDataHeader(aid, message, size);
             break;
         case 2:
-            func_ov000_021a2d68(v1, b, c);
+            DWCs_RecvDataBody(aid, message, size);
             break;
         case 3:
-            func_ov000_021a2d38(v1, b, c);
+            DWCs_RecvSystemDataBody(aid, message, size);
             break;
         case 4:
-            gWiFiMessageLayer->mPeers[v1].mReceiveState = 1;
-            gWiFiMessageLayer->mPeers[v1].mReceivedSize = 0;
-            gWiFiMessageLayer->mPeers[v1].mReceiveSize = 0;
+            gWiFiMessageLayer->mPeers[aid].mReceiveState = 1;
+            gWiFiMessageLayer->mPeers[aid].mReceivedSize = 0;
+            gWiFiMessageLayer->mPeers[aid].mReceiveSize = 0;
             break;
         default:
             OS_Terminate();
@@ -204,102 +205,102 @@ void func_ov000_021a2eec(Unk0219887c *a, void *b, s32 c) {
     }
 }
 
-void func_ov000_021a2e7c(Unk0219887c *a, const void *b, int c) {
-    int v1;
-    WiFiPeerMessage *v2;
+void DWCs_HandleUnreliableMessage(Unk0219887c *connection, const void *message, int size) {
+    int aid;
+    WiFiPeerMessage *peer;
     u64 v3;
-    v1 = DWCi_GetConnectionAID(a);
-    v2 = &gWiFiMessageLayer->mPeers[v1];
-    if ((v2->mReceiveBuffer != NULL) && (v2->mReceiveBufferSize >= c)) {
-        MI_CpuCopy8(b, v2->mReceiveBuffer, c);
+    aid = DWCi_GetConnectionAID(connection);
+    peer = &gWiFiMessageLayer->mPeers[aid];
+    if ((peer->mReceiveBuffer != NULL) && (peer->mReceiveBufferSize >= size)) {
+        MI_CpuCopy8(message, peer->mReceiveBuffer, size);
         if (gWiFiMessageLayer->mReceiveCallback != NULL) {
-            gWiFiMessageLayer->mReceiveCallback(v1, v2->mReceiveBuffer, c);
+            gWiFiMessageLayer->mReceiveCallback(aid, peer->mReceiveBuffer, size);
         }
-        if ((gWiFiMessageLayer->mUnk_608 != NULL) && (v2->mUnk_2c != 0)) {
+        if ((gWiFiMessageLayer->mUnk_608 != NULL) && (peer->mUnk_2c != 0)) {
             v3 = OS_GetTick();
-            v2->mUnk_24 = v3;
+            peer->mUnk_24 = v3;
         }
     }
 }
 
-void func_ov000_021a2dfc(int a, void *b, s32 c) {
-    WiFiPeerMessage *e = &gWiFiMessageLayer->mPeers[a];
+void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
+    WiFiPeerMessage *connection = &gWiFiMessageLayer->mPeers[aid];
     u32 t[2];
-    u16 n;
-    e->mUnk_1e = func_ov000_021a2fb4(a);
-    n = func_ov000_021a31e8(b);
-    switch (n) {
+    u16 type;
+    connection->mUnk_1e = DWCs_GetRecvState(aid);
+    type = DWCs_DecodeHeader(message);
+    switch (type) {
         case 1:
-            if (c != 8) {
+            if (size != 8) {
                 return;
             }
-            MI_CpuCopy8(b, t, 8);
-            e->mReceiveSize = t[0];
-            e->mReceivedSize = 0;
-            if (e->mReceiveBuffer != NULL && e->mReceiveBufferSize >= e->mReceiveSize) {
-                e->mReceiveState = 2;
+            MI_CpuCopy8(message, t, 8);
+            connection->mReceiveSize = t[0];
+            connection->mReceivedSize = 0;
+            if (connection->mReceiveBuffer != NULL && connection->mReceiveBufferSize >= connection->mReceiveSize) {
+                connection->mReceiveState = 2;
             } else {
-                e->mReceiveState = 4;
+                connection->mReceiveState = 4;
             }
             break;
         case 2:
         case 3:
         case 4:
-            e->mReceiveState = 3;
+            connection->mReceiveState = 3;
             break;
     }
-    e->mMessageKind = n;
+    connection->mMessageKind = type;
 }
 
-void func_ov000_021a2d68(int a, void *b, s32 c) {
-    WiFiPeerMessage *e = &gWiFiMessageLayer->mPeers[a];
-    s32 n;
-    if (func_ov000_021a2fb4(a) == 2) {
-        if (e->mReceivedSize + c > e->mReceiveBufferSize) {
+void DWCs_RecvDataBody(int aid, void *message, s32 size) {
+    WiFiPeerMessage *connection = &gWiFiMessageLayer->mPeers[aid];
+    s32 expected;
+    if (DWCs_GetRecvState(aid) == 2) {
+        if (connection->mReceivedSize + size > connection->mReceiveBufferSize) {
             OS_Terminate();
         }
-        MI_CpuCopy8(b, e->mReceiveBuffer + e->mReceivedSize, c);
+        MI_CpuCopy8(message, connection->mReceiveBuffer + connection->mReceivedSize, size);
     }
-    e->mReceivedSize += c;
-    n = e->mReceiveSize;
-    if (e->mReceivedSize == n) {
-        e->mReceiveState = 1;
-        e->mReceivedSize = 0;
-        e->mReceiveSize = 0;
+    connection->mReceivedSize += size;
+    expected = connection->mReceiveSize;
+    if (connection->mReceivedSize == expected) {
+        connection->mReceiveState = 1;
+        connection->mReceivedSize = 0;
+        connection->mReceiveSize = 0;
         if (gWiFiMessageLayer->mReceiveCallback != NULL) {
-            gWiFiMessageLayer->mReceiveCallback(a, e->mReceiveBuffer, n);
+            gWiFiMessageLayer->mReceiveCallback(aid, connection->mReceiveBuffer, expected);
         }
     }
-    if (gWiFiMessageLayer->mUnk_608 != NULL && e->mUnk_2c != 0) {
-        e->mUnk_24 = OS_GetTick();
+    if (gWiFiMessageLayer->mUnk_608 != NULL && connection->mUnk_2c != 0) {
+        connection->mUnk_24 = OS_GetTick();
     }
 }
 
-void func_ov000_021a2d38(u32 a, void *b, s32 c) {
-    WiFiPeerMessage *e = func_ov000_021a2fdc(a);
-    e->mReceiveState = e->mUnk_1e;
-    switch (e->mMessageKind) {
+void DWCs_RecvSystemDataBody(u32 aid, void *message, s32 size) {
+    WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
+    peer->mReceiveState = peer->mUnk_1e;
+    switch (peer->mMessageKind) {
         case 2:
         case 3:
         case 4:
-            ReceiveMatchingPeerMessage(a, e->mMessageKind, b);
+            ReceiveMatchingPeerMessage(aid, peer->mMessageKind, message);
             break;
     }
 }
 
-s32 func_ov000_021a2d18(u32 a) {
-    s32 n = gt2GetOutgoingBufferFreeSpace(DWCi_GetGT2Connection(a)) - 0x207;
-    if (n <= 0) {
-        n = 0;
+s32 DWCs_GetOutgoingBufferFreeSize(u32 aid) {
+    s32 freeSize = gt2GetOutgoingBufferFreeSpace(DWCi_GetGT2Connection(aid)) - 0x207;
+    if (freeSize <= 0) {
+        freeSize = 0;
     }
-    return n;
+    return freeSize;
 }
 
-BOOL func_ov000_021a2ccc(void) {
+BOOL DWC_RegisterMatchingStatus(void) {
     if (gWiFiMatching == NULL || gWiFiMatching->mOwnProfileId == 0 || DWCi_IsError() != 0) {
         return FALSE;
     }
-    if (func_ov000_021a2768(gWiFiMatching->mOwnProfileId) == 0) {
+    if (DWCi_QR2Startup(gWiFiMatching->mOwnProfileId) == 0) {
         return TRUE;
     }
     return FALSE;

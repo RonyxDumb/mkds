@@ -4,7 +4,7 @@
 
 typedef struct PeerAddress PeerAddress;
 
-// Object func_ov000_0219db18 reads and writes through its last parameter.
+// Object DWCi_NNCompletedCallback reads and writes through its last parameter.
 typedef struct Unk0219db18 {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mUnk_01;
@@ -12,5 +12,5 @@ typedef struct Unk0219db18 {
     /* 08 */ u32 mUnk_08;
 } Unk0219db18;
 
-u32 func_ov000_0219dabc(void);
-void func_ov000_0219db18(s32 a, s32 b, PeerAddress *c, void *d);
+u32 DWCi_ProcessNNFailure(void);
+void DWCi_NNCompletedCallback(s32 result, s32 gamesocket, PeerAddress *remoteaddr, void *userdata);

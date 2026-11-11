@@ -89,7 +89,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                     }
                 }
                 if (canFreeSig != FALSE) {
-                    func_ov000_021a3668(profileEntry->mUnk_18);
+                    DWCi_GsFree(profileEntry->mUnk_18);
                     profileEntry->mUnk_18 = NULL;
                     if (GpiIsProfileEmpty(profileEntry) != 0) {
                         GpiRemoveProfile(connection, profileEntry);
@@ -281,7 +281,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                 case 1:
                     callback = gpState->mCallbacks[3];
                     if (callback.mCallback != NULL) {
-                        arg = func_ov000_021a3690(0xc);
+                        arg = DWCi_GsMalloc(0xc);
                         if (arg == NULL) {
                             GpiSetErrorMessage(connection, data_ov000_021b3494);
                             return 1;
@@ -341,15 +341,15 @@ s32 GpiPeerUpdate(GpConnection *connection, GpiPeer *peer) {
 void GpiPeerDelete(GpConnection *connection, GpiPeer *peer) {
     shutdown(peer->mSocket, 2);
     closesocket(peer->mSocket);
-    func_ov000_021a3668(peer->mInputBuffer);
+    DWCi_GsFree(peer->mInputBuffer);
     peer->mInputBuffer = NULL;
-    func_ov000_021a3668(*(void **) peer->mOutputBuffer);
+    DWCi_GsFree(*(void **) peer->mOutputBuffer);
     *(void **) peer->mOutputBuffer = NULL;
     if (peer->mQueuedMessages != NULL) {
         DarrayDelete(peer->mQueuedMessages);
         peer->mQueuedMessages = NULL;
     }
-    func_ov000_021a3668(peer);
+    DWCi_GsFree(peer);
 }
 
 void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer) {
@@ -448,13 +448,13 @@ GpiPeer *gpiGetConnectedPeer(GpConnection *object, u32 key) {
 }
 
 void gpiFreeMessage(void **bufferPointer) {
-    func_ov000_021a3668(*bufferPointer);
+    DWCi_GsFree(*bufferPointer);
     *bufferPointer = NULL;
 }
 
 GpiPeer *GpiPeerCreate(GpConnection *connection, u32 profileid, u32 initiate) {
     GpiConnection *gpState = connection->mGpiConnection;
-    GpiPeer *peerConn = func_ov000_021a3690(0x40);
+    GpiPeer *peerConn = DWCi_GsMalloc(0x40);
 
     if (peerConn == NULL) {
         return NULL;

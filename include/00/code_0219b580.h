@@ -24,11 +24,11 @@ typedef struct WiFiConnection {
     // WiFiGt2ResultCallback (retries up to 5 times).
     /* 04 */ void (*mResultCallback)();
     // Slot 1 of the record at mResultCallback: data received from a peer, forwarded to the net layer
-    // (func_ov000_021a317c).
+    // (DWCi_RecvCallback).
     /* 08 */ void (*mDataCallback)();
     /* 0c */ s32 (*mUnk_0c)();
     // Slot 3 of the record at mResultCallback: forwards (connection, elapsed time) to the net layer's mUnk_60c
-    // callback (func_ov000_021a314c). Slot 2 (mUnk_0c, the library's unnamed mUnk_08) is the connection-closed
+    // callback (DWCi_PingCallback). Slot 2 (mUnk_0c) is the connection-closed
     // handler DWCi_GT2ClosedCallback.
     /* 10 */ void (*mElapsedTimeCallback)();
     // Passed to CreateSocket as the send buffer size (0 selects 0x2000).

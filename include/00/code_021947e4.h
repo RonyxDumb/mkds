@@ -3,7 +3,7 @@
 #include "types.h"
 
 // Object at 0x08 of GpiProfile: GpiWriteDelbuddyAndRemoveBuddy reads its 0x00 and passes its 0x08, its 0x0c and the
-// object to func_ov000_021a3668.
+// object to DWCi_GsFree.
 typedef struct GpiBuddyStatus {
     /* 00 */ s32 mIndex;
     /* 04 */ s32 mUnk_04;

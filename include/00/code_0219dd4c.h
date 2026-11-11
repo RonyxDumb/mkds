@@ -14,8 +14,8 @@ typedef struct MatchingReceiveHeader {
     /* 10 */ u32 mProfileId;
 } MatchingReceiveHeader;
 
-void ParseMatchingRecords(const void *a, u32 b);
-void func_ov000_0219ddbc(u32 a);
-u32 func_ov000_0219edb0(u32 a, u32 b);
+void ParseMatchingRecords(const void *data, u32 len);
+void DWCi_QR2NatnegCallback(u32 cookie);
+u32 DWCi_SendCancelMatchSynCommand(u32 profileId, u32 command);
 void ReleaseMatching(void);
-void ReportMatchingError(s32 a, s32 b);
+void ReportMatchingError(s32 isServer, s32 isSelf);

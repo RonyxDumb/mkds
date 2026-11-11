@@ -145,7 +145,7 @@ void ReleaseWiFiConnection(void) {
         ReleaseWiFiLogin();
         DWCi_ShutdownFriend();
         ReleaseMatching();
-        func_ov000_021a2fec();
+        DWCi_ShutdownTransport();
         if (gWiFiConnection->mSocket != NULL) {
             gt2CloseSocket(gWiFiConnection->mSocket);
             gWiFiConnection->mSocket = NULL;
@@ -156,11 +156,11 @@ void ReleaseWiFiConnection(void) {
 
 u32 UpdateInetConnection(void) {
     int checkResult;
-    func_ov000_021a3884();
-    checkResult = func_ov000_021a3760();
+    DWC_ProcessInet();
+    checkResult = DWCi_CheckDisconnected();
     if (checkResult != 0) {
         DWCi_SetError(9, 0);
-        func_ov000_021a37dc();
+        DWC_CleanupInet();
         return 1;
     }
     return 0;
@@ -259,7 +259,7 @@ void StartWiFiLogin(u32 playerName, u32 reserved, void (*callback)(s32 playerNam
             gWiFiConnection->mLoginCallbackArg = callbackArg;
             gWiFiConnection->mLogin.mUnk_10 = playerName;
             gWiFiConnection->mLogin.mUnk_14 = reserved;
-            if (func_ov000_021a3810() != 4) {
+            if (DWC_GetInetStatus() != 4) {
                 ReportWiFiLoginError(2, -60010);
                 return;
             }
@@ -338,7 +338,7 @@ void StartWiFiMatchingWithBuddies(void *friendIdxList, u32 friendIdxListLength, 
         index = 0;
         friendIdxListLength = 0;
         for (; index < DWCi_GetFriendListLen(); index++) {
-            randomKeys[index] = func_ov000_021a3448(0x80) + 1;
+            randomKeys[index] = DWCi_GetMathRand32(0x80) + 1;
             friendIdxListLength++;
         }
         index = 0;
@@ -444,7 +444,7 @@ s32 DWCi_GT2Startup(void) {
     if (gWiFiConnection->mSocket != NULL) {
         return 0;
     }
-    randomPort = (u16) (func_ov000_021a3448(0x4000) + 0xc000);
+    randomPort = (u16) (DWCi_GetMathRand32(0x4000) + 0xc000);
     wiFiConnection = gWiFiConnection;
     result = gt2CreateSocket((Gt2Socket **) gWiFiConnection, (const char *) Gt2FormatAddress(0, randomPort, 0),
                              wiFiConnection->mSendBufferSize, wiFiConnection->mReceiveBufferSize,
@@ -688,7 +688,7 @@ void WiFiMatchingCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 ind
 
     if (error == 0 && cancel != 0) {
         if (gWiFiConnection->mMatching.mState == 0) {
-            func_ov000_021a1a10();
+            DWCi_ClearQR2Key();
             SetWiFiConnectionState(3);
         }
     } else if (error == 0) {

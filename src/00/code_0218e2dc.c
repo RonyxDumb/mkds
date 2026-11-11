@@ -59,7 +59,7 @@ void *goastrdup(const char *src) {
     if (src == NULL) {
         return NULL;
     }
-    res = func_ov000_021a3690(strlen(src) + 1);
+    res = DWCi_GsMalloc(strlen(src) + 1);
     if (res != NULL) {
         strcpy(res, src);
     }

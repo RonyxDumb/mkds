@@ -13,7 +13,7 @@ void DeleteSocket(Gt2Socket *a) {
     closesocket(a->mDescriptor);
     HashtableDelete(a->mConnections);
     DarrayDelete(a->mConnectionsToFree);
-    func_ov000_021a3668(a);
+    DWCi_GsFree(a);
     SocketShutDown();
 }
 

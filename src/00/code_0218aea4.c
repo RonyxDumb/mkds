@@ -538,7 +538,7 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
     serverList->mState = 3;
     serverList->mParseState = 0;
     if (serverList->mInBuffer == NULL) {
-        serverList->mInBuffer = func_ov000_021a3690(0x1000);
+        serverList->mInBuffer = DWCi_GsMalloc(0x1000);
         if (serverList->mInBuffer == NULL) {
             return 5;
         }
@@ -568,7 +568,7 @@ void FreeKeyList(SbServerList *serverList) {
 
 void SBServerListDisconnect(SbServerList *serverList) {
     if (serverList->mInBuffer != NULL) {
-        func_ov000_021a3668(serverList->mInBuffer);
+        DWCi_GsFree(serverList->mInBuffer);
     }
     serverList->mInBuffer = NULL;
     serverList->mInBufferLength = 0;
@@ -1530,7 +1530,7 @@ MatchingServerList *ServerBrowserNewA(const char *targetName, const char *source
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return NULL;
     }
-    matchingServerList = func_ov000_021a3690(0x638);
+    matchingServerList = DWCi_GsMalloc(0x638);
     if (matchingServerList == NULL) {
         return NULL;
     }
@@ -1547,7 +1547,7 @@ MatchingServerList *ServerBrowserNewA(const char *targetName, const char *source
 void ServerBrowserFree(MatchingServerList *matchingServerList) {
     SBServerListCleanup(&matchingServerList->mList);
     SBEngineCleanup(matchingServerList);
-    func_ov000_021a3668(matchingServerList);
+    DWCi_GsFree(matchingServerList);
 }
 
 s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async, u32 disconnectOnComplete,
@@ -1666,7 +1666,7 @@ void RefStringFree(u32 element) {
     u32 stringPointer = element;
     u32 value3;
     stringPointer = *(const u32 *) ((stringPointer) + 0u);
-    func_ov000_021a3668((void *) stringPointer);
+    DWCi_GsFree((void *) stringPointer);
 }
 
 struct Hashtable *SBRefStrHash(struct SbServerList *serverList) {
@@ -1690,7 +1690,7 @@ void SBServerFree(int *serverPointer) {
     serverRecord = *serverPointer;
     HashtableDelete((s32 *) (*(u32 *) (serverRecord + 0x18)));
     *(u32 *) (serverRecord + 0x18) = 0;
-    func_ov000_021a3668((void *) serverRecord);
+    DWCi_GsFree((void *) serverRecord);
 }
 
 void SbServerSetValue(SbServer *server, const char *key, const char *value) {
@@ -1969,14 +1969,14 @@ u32 SBServerGetPing(SbServer *server) {
 
 SbServer *SBAllocServer(SbServerList *serverList, u32 outerAddress, u16 outerPort) {
     SbServer *newServer;
-    newServer = func_ov000_021a3690(0x24);
+    newServer = DWCi_GsMalloc(0x24);
     if (newServer == NULL) {
         return NULL;
     }
     newServer->mKeyValues = HashtableCreate(8, 8, 4, (s32(*)(void *, s32)) KeyValHashKey,
                                          (s32(*)(void *, void *)) KeyValCompareKey, (void (*)(void *)) KeyValFree);
     if (newServer->mKeyValues == NULL) {
-        func_ov000_021a3668(newServer);
+        DWCi_GsFree(newServer);
         return NULL;
     }
     newServer->mStateFlags = 0;

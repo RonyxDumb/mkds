@@ -6,7 +6,7 @@
 
 u32 InitBuffer(Gt2Buffer *a, int b) {
     u8 *v1;
-    v1 = func_ov000_021a3690(b);
+    v1 = DWCi_GsMalloc(b);
     a->mData = v1;
     if (a->mData == 0) {
         return 0;

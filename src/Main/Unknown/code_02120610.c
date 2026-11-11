@@ -297,7 +297,7 @@ BOOL AreAllStepMessagesReceived(void) {
     }
     if (checkedCount == 0) {
         gWiFiSession->mConnectionLost = 1;
-        func_ov000_021a2ccc();
+        DWC_RegisterMatchingStatus();
         DWC_CloseAllConnectionsHard();
         gWiFiSession->mStep = 0xb;
         return FALSE;
@@ -337,13 +337,13 @@ void EndWiFiSessionOnPicksMismatch(u32 index) {
         return;
     }
     gWiFiSession->mConnectionLost = 1;
-    func_ov000_021a2ccc();
+    DWC_RegisterMatchingStatus();
     DWC_CloseAllConnectionsHard();
     gWiFiSession->mStep = 0xb;
 }
 
 BOOL IsWiFiMatchingBeforeTimeLimit(void) {
-    return func_ov000_021a2950(NULL) == 0;
+    return DWC_GetMOMinCompState(NULL) == 0;
 }
 
 u8 GetWiFiMatchingParticipantCount(void) {
@@ -355,11 +355,11 @@ BOOL HasWiFiBuddyStatus4(void) {
 }
 
 u32 StopWiFiSessionMatching(void) {
-    return func_ov000_021a2cac();
+    return DWC_CancelMatching();
 }
 
 BOOL IsWiFiSessionMatchingActive(void) {
-    if (func_ov000_021a2c64() != 0) {
+    if (DWC_IsValidCancelMatching() != 0) {
         if (gWiFiSession->mStateMachine.mState == 3) {
             return TRUE;
         }
@@ -399,7 +399,7 @@ void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
         gWiFiSession->mUnk_18e0.mUnk_01 = 2;
         gWiFiSession->mUnk_18e0.mTimeLimit = 0xea60;
     }
-    func_ov000_021a299c(0, &gWiFiSession->mUnk_18e0, 0);
+    DWC_SetMatchingOption(0, &gWiFiSession->mUnk_18e0, 0);
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = 3;
     stateMachine->mNextStateRequested = 1;
@@ -423,16 +423,16 @@ void RegisterKartKeysAndStart(void) {
     gWiFiSession->mKeys[3].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mElo;
     __memcpy(gWiFiSession->mKeys[2].mName, "kart_filter", 12);
     gWiFiSession->mKeys[2].mId =
-        func_ov000_021a2ad0(gWiFiSession->mKeys[2].mId, gWiFiSession->mKeys[2].mName, "ds_mario_kart_product");
+        DWC_AddMatchKeyString(gWiFiSession->mKeys[2].mId, gWiFiSession->mKeys[2].mName, "ds_mario_kart_product");
     __memcpy(gWiFiSession->mKeys[1].mName, "kart_type", 10);
     gWiFiSession->mKeys[1].mId =
-        func_ov000_021a2b9c(gWiFiSession->mKeys[1].mId, gWiFiSession->mKeys[1].mName, &gWiFiSession->mKeys[1]);
+        DWC_AddMatchKeyInt(gWiFiSession->mKeys[1].mId, gWiFiSession->mKeys[1].mName, &gWiFiSession->mKeys[1]);
     __memcpy(gWiFiSession->mKeys[3].mName, "kart_elo", 9);
     gWiFiSession->mKeys[3].mId =
-        func_ov000_021a2b9c(gWiFiSession->mKeys[3].mId, gWiFiSession->mKeys[3].mName, &gWiFiSession->mKeys[3]);
+        DWC_AddMatchKeyInt(gWiFiSession->mKeys[3].mId, gWiFiSession->mKeys[3].mName, &gWiFiSession->mKeys[3]);
     __memcpy(gWiFiSession->mKeys[0].mName, "kart_region", 12);
     gWiFiSession->mKeys[0].mId =
-        func_ov000_021a2b9c(gWiFiSession->mKeys[0].mId, gWiFiSession->mKeys[0].mName, &gWiFiSession->mKeys[0]);
+        DWC_AddMatchKeyInt(gWiFiSession->mKeys[0].mId, gWiFiSession->mKeys[0].mName, &gWiFiSession->mKeys[0]);
     eloLow = gWiFiSession->mPlayerRecords[0].mPlayer.mElo - 0x3e8;
     if (eloLow <= 0) {
         eloLow = 0;
@@ -489,9 +489,9 @@ s32 ComputeEloEval(u32 serverIndex) {
     s32 value;
     WiFiSession *session;
 
-    kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
-    kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
-    value = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
+    kartType = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[1].mName, 5);
+    kartRegion = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[0].mName, 3);
+    value = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[3].mName, -1);
     if (kartType == 5 || kartRegion == 3 || value < 0) {
         return 0;
     }
@@ -516,8 +516,8 @@ BOOL ComputeRegionEval(u32 serverIndex) {
     s32 kartType;
     s32 kartRegion;
 
-    kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
-    kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
+    kartType = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[1].mName, 5);
+    kartRegion = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[0].mName, 3);
     if (kartType == 5 || kartRegion == 3) {
         return FALSE;
     }
@@ -535,9 +535,9 @@ s32 ComputeRegionEloEval(u32 serverIndex) {
     s32 value;
     WiFiSession *session;
 
-    kartType = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[1].mName, 5);
-    kartRegion = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[0].mName, 3);
-    value = func_ov000_021a2a88(serverIndex, gWiFiSession->mKeys[3].mName, -1);
+    kartType = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[1].mName, 5);
+    kartRegion = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[0].mName, 3);
+    value = DWC_GetMatchIntValue(serverIndex, gWiFiSession->mKeys[3].mName, -1);
     if (kartType == 5 || kartRegion == 3 || value < 0) {
         return 0;
     }
@@ -594,7 +594,7 @@ void SetWiFiDisconnectKind(s32 kind) {
     if (gWiFiSession->mDisconnectKind != 2) {
         return;
     }
-    func_ov000_021a2ccc();
+    DWC_RegisterMatchingStatus();
     DWC_CloseAllConnectionsHard();
 }
 

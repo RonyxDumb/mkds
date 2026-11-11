@@ -6,9 +6,9 @@ void gpiDestroy(GpConnection *connection) {
     GpiConnection *gpState;
     gpState = connection->mGpiConnection;
     GpiCloseConnection(connection, 1);
-    func_ov000_021a3668(gpState->mUnk_460);
+    DWCi_GsFree(gpState->mUnk_460);
     gpState->mUnk_460 = NULL;
     HashtableDelete(gpState->mProfileList.mTable);
-    func_ov000_021a3668(gpState);
+    DWCi_GsFree(gpState);
     connection->mGpiConnection = NULL;
 }

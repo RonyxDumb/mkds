@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov000_0219dd48(void);
+void DWCi_NNProgressCallback(void);

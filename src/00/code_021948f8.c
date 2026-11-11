@@ -20,17 +20,17 @@
 
 void GpiReleaseProfile(GpiProfile *profile) {
     if (profile->mBuddyStatus != NULL) {
-        func_ov000_021a3668(profile->mBuddyStatus->mUnk_08);
+        DWCi_GsFree(profile->mBuddyStatus->mUnk_08);
         profile->mBuddyStatus->mUnk_08 = NULL;
-        func_ov000_021a3668(profile->mBuddyStatus->mUnk_0c);
+        DWCi_GsFree(profile->mBuddyStatus->mUnk_0c);
         profile->mBuddyStatus->mUnk_0c = NULL;
-        func_ov000_021a3668(profile->mBuddyStatus);
+        DWCi_GsFree(profile->mBuddyStatus);
         profile->mBuddyStatus = NULL;
     }
     gpiFreeInfoCache((Unk021919ac_node *) profile);
-    func_ov000_021a3668(profile->mUnk_10);
+    DWCi_GsFree(profile->mUnk_10);
     profile->mUnk_10 = NULL;
-    func_ov000_021a3668(profile->mUnk_18);
+    DWCi_GsFree(profile->mUnk_18);
     profile->mUnk_18 = NULL;
 }
 
@@ -70,7 +70,7 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     profileNumber = StrtolBase10(intValue);
     callback = operation->mUnk_0c;
     if (callback.mCallback != NULL) {
-        arg = func_ov000_021a3690(8);
+        arg = DWCi_GsMalloc(8);
         if (arg == NULL) {
             GpiSetErrorMessage(connection, data_ov000_021b35a8);
             return 1;

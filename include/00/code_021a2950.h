@@ -2,14 +2,14 @@
 
 #include "types.h"
 
-extern u8 data_ov000_021b5699[];
-extern u8 data_ov000_021b569a[];
-extern u8 data_ov000_021b569c[];
-extern u8 data_ov000_021b56a0[];
+extern u8 gMatchingKeyIsString[];
+extern u8 gMatchingKeyPad[];
+extern u8 gMatchingKeyString[];
+extern u8 gMatchingKeyValue[];
 
-s32 func_ov000_021a2950(u64 *a);
-u32 func_ov000_021a299c(u32 a, void *b, u32 c);
-s32 func_ov000_021a2a88(u32 a, void *b, s32 c);
-u32 func_ov000_021a2ad0(u32 a, char *b, void *c);
-u32 func_ov000_021a2b9c(u32 a, char *b, void *c);
-u32 func_ov000_021a2c64(void);
+s32 DWC_GetMOMinCompState(u64 *time);
+u32 DWC_SetMatchingOption(u32 opttype, void *optval, u32 optlen);
+s32 DWC_GetMatchIntValue(u32 index, void *keyString, s32 idefault);
+u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc);
+u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc);
+u32 DWC_IsValidCancelMatching(void);

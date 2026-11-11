@@ -248,7 +248,7 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u
         memcpy(packetBuf + headLen, data, len);
         packetData = packetBuf;
     } else {
-        packetData = func_ov000_021a3690(totalLength + 0x100);
+        packetData = DWCi_GsMalloc(totalLength + 0x100);
         memcpy(packetData, packetBuf, headLen);
         memcpy(packetData + headLen, data, len);
     }
@@ -264,7 +264,7 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u
         AddRequestCallback(2, ownId, profileId, type, index, callback, instance);
     }
     if (packetData != packetBuf) {
-        func_ov000_021a3668(packetData);
+        DWCi_GsFree(packetData);
     }
 }
 

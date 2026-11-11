@@ -5,8 +5,8 @@
 typedef struct MatchingServerList MatchingServerList;
 
 
-void func_ov000_0219e134(s32 a);
-void WiFiMatchingServerListCallback(MatchingServerList *list, s32 event, s32 c);
+void DWCi_SBPrintServerData(s32 server);
+void WiFiMatchingServerListCallback(MatchingServerList *list, s32 event, s32 server);
 u32 ReportMatchingConnectResult(u32 result);
-s32 func_ov000_0219e45c(s32 a);
-s32 func_ov000_0219e4a0(s32 a);
+s32 DWCi_HandleNNResult(s32 result);
+s32 DWCi_HandleNNError(s32 error);

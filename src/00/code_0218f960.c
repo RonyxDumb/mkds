@@ -83,7 +83,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             if (messageCallback.mCallback == NULL) {
                 break;
             }
-            messageArg = func_ov000_021a3690(0xc);
+            messageArg = DWCi_GsMalloc(0xc);
             if (messageArg == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
@@ -93,7 +93,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            messageArg->mUnk_08 = func_ov000_021a3690(strlen(buffer) + 1);
+            messageArg->mUnk_08 = DWCi_GsMalloc(strlen(buffer) + 1);
             if (messageArg->mUnk_08 == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
@@ -129,7 +129,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            func_ov000_021a3668(profileRec->mUnk_10);
+            DWCi_GsFree(profileRec->mUnk_10);
             profileRec->mUnk_10 = NULL;
             str += 8;
             profileRec->mUnk_10 = goastrdup(str);
@@ -138,7 +138,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             if (requestCallback.mCallback == NULL) {
                 break;
             }
-            requestArg = func_ov000_021a3690(0x40c);
+            requestArg = DWCi_GsMalloc(0x40c);
             if (requestArg == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
@@ -158,7 +158,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 return 1;
             }
             if (profileRec->mBuddyStatus == NULL) {
-                profileRec->mBuddyStatus = func_ov000_021a3690(0x18);
+                profileRec->mBuddyStatus = DWCi_GsMalloc(0x18);
                 if (profileRec->mBuddyStatus == NULL) {
                     GpiSetErrorMessage(connection, data_ov000_021b2814);
                     return 1;
@@ -182,7 +182,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 return 3;
             }
             buddyInfo->mUnk_04 = StrtolBase10(intText);
-            func_ov000_021a3668(buddyInfo->mUnk_08);
+            DWCi_GsFree(buddyInfo->mUnk_08);
             buddyInfo->mUnk_08 = NULL;
             if (GpiGetValue(buffer, gPipeSsKey, replyValue, 0x100) == FALSE) {
                 replyValue[0] = 0;
@@ -192,7 +192,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
             }
-            func_ov000_021a3668(buddyInfo->mUnk_0c);
+            DWCi_GsFree(buddyInfo->mUnk_0c);
             buddyInfo->mUnk_0c = NULL;
             if (GpiGetValue(buffer, gPipeLsKey, replyValue, 0x100) == FALSE) {
                 replyValue[0] = 0;
@@ -219,7 +219,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             if (statusCallback.mCallback == NULL) {
                 break;
             }
-            messageArg = func_ov000_021a3690(0xc);
+            messageArg = DWCi_GsMalloc(0xc);
             if (messageArg == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
@@ -260,7 +260,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             if (inviteCallback.mCallback == NULL) {
                 break;
             }
-            inviteArg = func_ov000_021a3690(0x108);
+            inviteArg = DWCi_GsMalloc(0x108);
             if (inviteArg == NULL) {
                 GpiSetErrorMessage(connection, data_ov000_021b2814);
                 return 1;
@@ -352,7 +352,7 @@ u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
     if (result == 0) {
         profileEntry->mUnk_14--;
         if (gpState->mUnk_100 == 0 && profileEntry->mUnk_14 <= 0) {
-            func_ov000_021a3668(profileEntry->mUnk_10);
+            DWCi_GsFree(profileEntry->mUnk_10);
             profileEntry->mUnk_10 = NULL;
             if (GpiIsProfileEmpty(profileEntry) != 0) {
                 GpiRemoveProfile(connection, profileEntry);
@@ -391,11 +391,11 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile) {
         if (buddyIndex < 0) {
             AssertionFailed(gIndexNotNegativeAssertion, gGpiBuddyFileName, NULL, 0x1fd);
         }
-        func_ov000_021a3668(profileEntry->mBuddyStatus->mUnk_08);
+        DWCi_GsFree(profileEntry->mBuddyStatus->mUnk_08);
         profileEntry->mBuddyStatus->mUnk_08 = NULL;
-        func_ov000_021a3668(profileEntry->mBuddyStatus->mUnk_0c);
+        DWCi_GsFree(profileEntry->mBuddyStatus->mUnk_0c);
         profileEntry->mBuddyStatus->mUnk_0c = NULL;
-        func_ov000_021a3668(profileEntry->mBuddyStatus);
+        DWCi_GsFree(profileEntry->mBuddyStatus);
         profileEntry->mBuddyStatus = NULL;
         if (GpiIsProfileEmpty(profileEntry) != 0) {
             GpiRemoveProfile(connection, profileEntry);

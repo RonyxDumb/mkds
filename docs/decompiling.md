@@ -356,7 +356,7 @@ Inline getters and helpers:
 - The loop counter kept in a callee-saved register and the running total spilled, where the original has it the other
   way round: fold the increment into the use, `t[3] = m + k++;` (InitTimeAttackGhostGetSlot).
 - A call result kept in the return-value local where the original only tests it: use a separate local for the result;
-  the return local keeps its initial 0 (func_ov000_021a0cac).
+  the return local keeps its initial 0 (DWCi_NNStartupAsync).
 - Scale and component in each other's registers across repeated vector blocks: one pointer local, assigned right before
   each block, instead of several set up at the top (func_0208ecd8).
 - A pointer local `p = &a[i]` that disappears because `a[i].f` is also written elsewhere: write `p->f` so the pointer
@@ -599,11 +599,11 @@ Expression shapes:
   extern `const`; a const cast at the use does not do it (func_ov003_021c1cd8).
 - Pool address plus constant kept in callee-saved registers across a loop, ours reloading: the loop needs a preheader. A
   0/1 flag set by if/else right before the loop jumps into the header from its then arm, so write `d = b == 0;`
-  (func_ov000_0219fbec).
+  (DWCi_SendResvCommandToFriend).
 - Every field reloaded after a free-room test while ours reuses the loads: declare the pointer locals loaded from the
   tables `volatile`, and only those (hand-picked; the only spelling that matched; NNS_GfdAllocFrmTexVram).
 - A loop bound reloaded each pass while the guard's load is reused after the loop (signed `ble`): no named copy of the
-  bound; write the condition and the after-loop test through the global (func_ov000_0219fbec).
+  bound; write the condition and the after-loop test through the global (DWCi_SendResvCommandToFriend).
 
 ### 1.5 Loops
 
@@ -742,7 +742,7 @@ Expression shapes:
 - An inner switch value loaded before its guard, with case results set in the same register and stored once after the
   switch: one local, `t = b->m; if (..) { switch (t) { .. t = 9; .. } v = t; }` (MPLinkCallback).
 - Range compare signed (`blt`/`ble`) where the original is unsigned (`bcc`/`bls`): an unsigned mask constant, `v &
-  0xff00u` (func_ov000_021a0cac).
+  0xff00u` (DWCi_NNStartupAsync).
 - A sign flag and its source swapped: write abs as `a = a > 0 ? a : -a;`, not `if (a <= 0) a = -a;` (LimitKartForwardSpeedAndGetScaled).
 - `streq` of the zero arm before the other arm's store: negate the `||` chain to `&&` and swap the arms (LimitKartForwardSpeedAndGetScaled).
 - An early `popeq`/`bxeq` return of 0 where ours if-converts the tail: `if (ok != 0) { return expr; } return 0;`
@@ -911,7 +911,7 @@ Expression shapes:
 - Out-parameter locals of an inline getter kept in stack words with their dead stores, ours in registers: cast the
   addresses at every call, `f(p, (u32 *) &x, (u32 *) &y)` (RefreshJb3ListRowPositions).
 - A frame about 0x200 too big with a separate scratch buffer: make the buffer an array member of a local struct
-  (`h.mUnk_008`; func_ov000_0219fbec).
+  (`h.mUnk_008`; DWCi_SendResvCommandToFriend).
 - Thumb: values read before a call and kept across it: read them into locals before the call (InitTimeAttackGhostSend).
 - Thumb: a `movs` copy of `b - 1` right after a call, used for an index and then times `0x16`: `v = b - 1; ... a[v] ...;
   v *= 0x16;` (MBi_CommParentRecvDataPerChild).

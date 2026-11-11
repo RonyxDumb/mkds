@@ -31,7 +31,7 @@ BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int le
     s8 challengeBytes[0x24];
     gti2MessageCheck((const char **) &message, &len);
     if (len > 0) {
-        connection->mUnk_38.mData = func_ov000_021a3690(len);
+        connection->mUnk_38.mData = DWCi_GsMalloc(len);
         if (connection->mUnk_38.mData == NULL) {
             return TRUE;
         }

@@ -67,8 +67,8 @@ u32 CreateConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 addre
         }
     }
     if (newConnection != NULL) {
-        func_ov000_021a3668(newConnection->mIncomingBuffer.mData);
-        func_ov000_021a3668(newConnection->mSendBuffer.mData);
+        DWCi_GsFree(newConnection->mIncomingBuffer.mData);
+        DWCi_GsFree(newConnection->mSendBuffer.mData);
         if (newConnection->mIncomingBufferMessages != NULL) {
             DarrayDelete(newConnection->mIncomingBufferMessages);
         }
@@ -81,7 +81,7 @@ u32 CreateConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 addre
         if (newConnection->mReceiveFilters != NULL) {
             DarrayDelete(newConnection->mReceiveFilters);
         }
-        func_ov000_021a3668(newConnection);
+        DWCi_GsFree(newConnection);
     }
     return 1;
 }

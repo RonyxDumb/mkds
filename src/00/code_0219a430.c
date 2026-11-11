@@ -64,7 +64,7 @@ u32 CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBu
     if (Gt2ParseAddress(localAddress, &address, &netPort) == FALSE) {
         return 4;
     }
-    newSocket = func_ov000_021a3690(0x44);
+    newSocket = DWCi_GsMalloc(0x44);
     if (newSocket == NULL) {
         return 1;
     }
@@ -76,20 +76,20 @@ u32 CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBu
     newSocket->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & gti2ConnectionHash,
                                               (s32(*)(void *, void *)) & gti2ConnectionCompare, NULL);
     if (newSocket->mConnections == NULL) {
-        func_ov000_021a3668(newSocket);
+        DWCi_GsFree(newSocket);
         return 1;
     }
     newSocket->mConnectionsToFree = DarrayCreate(4, 4, (void (*)(void *)) & gti2ConnectionFree);
     if (newSocket->mConnectionsToFree == NULL) {
         HashtableDelete(newSocket->mConnections);
-        func_ov000_021a3668(newSocket);
+        DWCi_GsFree(newSocket);
         return 1;
     }
     newSocket->mDescriptor = OpenNetSocket(2, 2, 0);
     if (newSocket->mDescriptor == -1) {
         HashtableDelete(newSocket->mConnections);
         DarrayDelete(newSocket->mConnectionsToFree);
-        func_ov000_021a3668(newSocket);
+        DWCi_GsFree(newSocket);
         return 3;
     }
     bindWords = (u32 *) &socketAddress;
@@ -102,7 +102,7 @@ u32 CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBu
         closesocket(newSocket->mDescriptor);
         HashtableDelete(newSocket->mConnections);
         DarrayDelete(newSocket->mConnectionsToFree);
-        func_ov000_021a3668(newSocket);
+        DWCi_GsFree(newSocket);
         return 3;
     }
     addressLength = 8;

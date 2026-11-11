@@ -5,7 +5,7 @@ Gt2Connection *gti2CreateConnectionObject(void) {
     u32 value0;
     u32 allocFunction;
     value0 = 160u;
-    allocFunction = (u32) &func_ov000_021a3690;
-    value0 = (u32) func_ov000_021a3690(value0);
+    allocFunction = (u32) &DWCi_GsMalloc;
+    value0 = (u32) DWCi_GsMalloc(value0);
     return (Gt2Connection *) value0;
 }

@@ -166,7 +166,7 @@ u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
     }
     profileEntry->mUnk_14 = profileEntry->mUnk_14 + -1;
     if ((gpState->mUnk_100 == 0) && (profileEntry->mUnk_14 <= 0)) {
-        func_ov000_021a3668(profileEntry->mUnk_10);
+        DWCi_GsFree(profileEntry->mUnk_10);
         profileEntry->mUnk_10 = NULL;
         canFree = GpiIsProfileEmpty(profileEntry);
         if (canFree != 0) {
