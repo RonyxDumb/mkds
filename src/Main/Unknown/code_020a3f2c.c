@@ -92,7 +92,8 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *a, u8 *b) {
 
     v1 = *a;
     v2 = *b;
-    if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x200) != 0 || IsKartEliminated(kart->mIndex) != FALSE) {
+    if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & KART_48_OBJECTS_SKIP) != 0 ||
+        IsKartEliminated(kart->mIndex) != FALSE) {
         return 0;
     }
     if (v1 == 1) {

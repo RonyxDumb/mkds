@@ -94,7 +94,7 @@ void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32
 void StartKartLowSpeedTurnSound(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant) {
     u32 soundId;
 
-    switch (kart->mUnk_450.mSoundRow.mSoundRowIndex) {
+    switch (kart->mSound.mSoundRow.mSoundRowIndex) {
         case 0:
             soundId = 0xb2;
             break;
@@ -130,7 +130,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
     if (kart->mUnk_4c & 0x10000000) {
         return;
     }
-    soundState = &kart->mUnk_450;
+    soundState = &kart->mSound;
     pitch = soundState->mPitch >> 12;
     if (pitch > 0x1fc) {
         volume = 0x7f;
@@ -251,7 +251,7 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
     if (!(kart->mSoundSource.mSourceFlags & 1)) {
         return;
     }
-    soundState = &kart->mUnk_450;
+    soundState = &kart->mSound;
     if (kart->mUnk_4c & 0x10000000) {
         return;
     }
@@ -476,7 +476,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 player
         if (playingSound == NULL) {
             return;
         }
-        NNS_SndPlayerWriteVariable(&playingSound->mSeqPlayer, 0, kart->mUnk_450.mUnk_68);
+        NNS_SndPlayerWriteVariable(&playingSound->mSeqPlayer, 0, kart->mSound.mSoundIndex);
     } else {
         NNS_SndArcPlayerStartSeqArcEx(&playingSound->mSeqPlayer, playerNo, -1, playerPrio, seqArcNo, soundId);
     }
@@ -494,7 +494,7 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
     s16 depthPitch;
 
     volume = playingSound->mVolume;
-    totalPitchOffset = pitchOffset + kart->mUnk_450.mDistanceChangeFunction(&kart->mSoundDistanceSquaredChange);
+    totalPitchOffset = pitchOffset + kart->mSound.mDistanceChangeFunction(&kart->mSoundDistanceSquaredChange);
     if (playingSound->mSeqArcNo != 2) {
         waterDepth = kart->mWaterDepth;
         depthPitch = 0;
@@ -568,7 +568,7 @@ void SetKartThunderShrinkSoundTrackParams(Kart *kart, PlayingSound *playingSound
 
     flags = playingSound->mFlags;
     pitchOffset = 0;
-    if (!(flags & 0x10) && gSceneSoundState.mRaceFrames > kart->mUnk_450.mThunderShrinkRaceFrame + 1) {
+    if (!(flags & 0x10) && gSceneSoundState.mRaceFrames > kart->mSound.mThunderShrinkRaceFrame + 1) {
         pitchOffset = 0x180;
         if (flags & 0x80) {
             pitchOffset += 0x100;

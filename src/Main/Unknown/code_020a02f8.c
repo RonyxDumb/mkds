@@ -860,7 +860,7 @@ void UpdateStandings(void) {
                             kart->mUnk_48 &= ~0x2000000;
                         }
                     }
-                } else if (kartStanding->mUnk_04 == TRUE && (kart->mUnk_44 & 0x10000) != 0) {
+                } else if (kartStanding->mUnk_04 == TRUE && (kart->mUnk_44 & KART_44_LANDED) != 0) {
                     kartStanding->mUnk_04 = FALSE;
                     kartStanding->mUnk_1c = 0;
                     if ((kart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {

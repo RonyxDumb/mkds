@@ -169,11 +169,11 @@ void InitKartResources(Kart *kart) {
             &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
     }
     kart->mUnk_44 |= KART_44_ON_GROUND;
-    kart->mUnk_4d0 = 0x64;
+    kart->mCollisionStepFrames = 0x64;
     kart->mRadius = kart->mPhysicalParam->mRadius;
     InitKartSoundParams(kart);
     if (gRaceSetup->mMode == 5) {
-        kart->mUnk_514 = HeapAlloc(heap, 0xb8);
+        kart->mParticipantRecordData = HeapAlloc(heap, 0xb8);
         InitParticipantKartRecordState(kart, heap);
     }
     if (IsRaceAwardOrStaffRoll() != 0) {

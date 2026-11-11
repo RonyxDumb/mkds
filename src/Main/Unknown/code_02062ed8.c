@@ -80,7 +80,7 @@ void WriteKartToParticipantRecord(Kart *kart) {
 
     recordBase = &gWiFiRaceSync->mSendBuffer->mRecord;
     record = OFFSET_PTR(ParticipantKartRecord, recordBase, 8);
-    recordState = kart->mUnk_514;
+    recordState = kart->mParticipantRecordData;
     record->mPosX = kart->mPos.x >> 10;
     record->mPosY = (kart->mPos.y - kart->mHopHeight) >> 10;
     record->mPosZ = kart->mPos.z >> 10;

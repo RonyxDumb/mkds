@@ -76,7 +76,7 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
         StartKartState4(hitKart, v, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mUnk_7c & 0x200) {
-            hitKart->mUnk_514->mEventToggleFlags ^= 0x80;
+            hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
         }
         r = TRUE;
         w = starKart->mUnk_7c & 0x200;
@@ -84,22 +84,22 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
             switch (hitKart->mIndex) {
                 case 0:
                     if (w) {
-                        starKart->mUnk_514->mEventToggleFlags ^= 0x200;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x200;
                     }
                     break;
                 case 1:
                     if (w) {
-                        starKart->mUnk_514->mEventToggleFlags ^= 0x400;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x400;
                     }
                     break;
                 case 2:
                     if (w) {
-                        starKart->mUnk_514->mEventToggleFlags ^= 0x800;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x800;
                     }
                     break;
                 case 3:
                     if (w) {
-                        starKart->mUnk_514->mEventToggleFlags ^= 0x1000;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x1000;
                     }
                     break;
             }
@@ -130,7 +130,7 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
         StartKartState5(hitKart, &a, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mUnk_7c & 0x200) {
-            hitKart->mUnk_514->mEventToggleFlags ^= 0x80;
+            hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
         }
         r = TRUE;
         w = killerKart->mUnk_7c & 0x200;
@@ -138,22 +138,22 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
             switch (hitKart->mIndex) {
                 case 0:
                     if (w) {
-                        killerKart->mUnk_514->mEventToggleFlags ^= 0x400000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x400000;
                     }
                     break;
                 case 1:
                     if (w) {
-                        killerKart->mUnk_514->mEventToggleFlags ^= 0x800000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x800000;
                     }
                     break;
                 case 2:
                     if (w) {
-                        killerKart->mUnk_514->mEventToggleFlags ^= 0x1000000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x1000000;
                     }
                     break;
                 case 3:
                     if (w) {
-                        killerKart->mUnk_514->mEventToggleFlags ^= 0x2000000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x2000000;
                     }
                     break;
             }
@@ -300,7 +300,7 @@ void UpdateKartAheadEffect(Kart *kart) {
 
     distance = 0;
     aheadFound = FALSE;
-    ComputeKartPointAlongUp(&kart->mSecondCollisionCenter, kart->mUnk_510, 0x400, kart);
+    ComputeKartPointAlongUp(&kart->mSecondCollisionCenter, kart->mCollisionPosSource, 0x400, kart);
     VEC_MultAdd(MUL_FIXED12_NO_ROUND(kart->mRadius, -0x4000), &kart->mTurnedForward, &kart->mSecondCollisionCenter,
                 &kart->mSecondCollisionCenter);
     if (kart->mIndex == GetRaceUpdateFramesMod8() && !(kart->mUnk_4c & (0x10000000 | KART_4C_AHEAD_BOOST))) {
@@ -313,7 +313,7 @@ void UpdateKartAheadEffect(Kart *kart) {
                     distance = VEC_Mag(&offset);
                     if (Vec3DotUnrounded(&otherKart->mTurnedForward, &offset) > MUL_FIXED12_NO_ROUND(distance, 0xe7f)) {
                         aheadFound = TRUE;
-                        kart->mUnk_538.mAheadCount++;
+                        kart->mItemEffectData.mAheadCount++;
                         break;
                     }
                 }
@@ -323,11 +323,11 @@ void UpdateKartAheadEffect(Kart *kart) {
             if (aheadFound != FALSE) {
                 kart->mUnk_4c |= KART_4C_AHEAD_BUILD_UP;
                 StartKartAheadEffectIfSelectedEntry(kart);
-                if (kart->mUnk_538.mAheadCount > 0xf && distance < 0x3c000) {
+                if (kart->mItemEffectData.mAheadCount > 0xf && distance < 0x3c000) {
                     StartKartAheadBoost(kart);
                 }
             } else {
-                kart->mUnk_538.mAheadCount = 0;
+                kart->mItemEffectData.mAheadCount = 0;
                 kart->mUnk_4c &= ~KART_4C_AHEAD_BUILD_UP;
                 if (!(kart->mUnk_4c & KART_4C_AHEAD_BOOST)) {
                     kart->mAheadSpeedLimitFactor = 0x1000;
@@ -384,7 +384,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             // r is still 0 here, KART_BOOST_ITEM_OR_SURFACE.
             StartKartBoost(kart, hitResult, 0x5a);
             kart->mUnk_48 |= 0x100000;
-            kart->mUnk_538.mUnk_00 = 0x5a;
+            kart->mItemEffectData.mKinokoBoostTimer = 0x5a;
             if (gRaceSetup->mMode == MODE_BATTLE) {
                 ClearStandingsHitSeenFromKart(kart->mIndex);
             }
@@ -413,7 +413,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             t = kart->mUnk_7c & 0x200;
             if (t) {
                 if (t) {
-                    kart->mUnk_514->mEventToggleFlags ^= 0x4000;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
                 }
             } else {
                 while (kartIndex < gRaceSetup->mKartCount) {
@@ -456,7 +456,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
         if (gRaceSetup->mMode != MODE_MISSION_RUN) {
             IncrementEntryKartItemHitCount(kartIndex);
         }
-        if (!(ownerKart->mUnk_48 & 0x840)) {
+        if (!(ownerKart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
             StartKartSeqArcSound(ownerKart, ownerKart->mSoundIndex, 8);
         }
         ownerBits7c = ownerKart->mUnk_7c;
@@ -465,15 +465,15 @@ void ApplyItemObjectHitToKart(Kart *kart) {
         }
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags &= ~0x60000000;
-        kart->mUnk_514->mEventToggleFlags |= (kartIndex & 3) << 0x1d;
+        kart->mParticipantRecordData->mEventToggleFlags &= ~0x60000000;
+        kart->mParticipantRecordData->mEventToggleFlags |= (kartIndex & 3) << 0x1d;
     }
 }
 
 void StartKartSoundAndCharacterAnimation(Kart *kart) {
     u32 bits7c;
 
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 8);
     }
     bits7c = kart->mUnk_7c;

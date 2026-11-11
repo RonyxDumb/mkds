@@ -156,34 +156,34 @@ void AdvanceKartMotion(Kart *p) {
     }
 }
 
-void AdvanceKartCollision(Kart *p) {
+void AdvanceKartCollision(Kart *kart) {
     Vec3 v;
 
-    if (p->mUnk_7c & KART_7C_REMOVED) {
+    if (kart->mUnk_7c & KART_7C_REMOVED) {
         return;
     }
-    if (p->mUnk_44 & KART_44_NEAR_KART) {
-        p->mUnk_44 |= 0x80000;
+    if (kart->mUnk_44 & KART_44_NEAR_KART) {
+        kart->mUnk_44 |= 0x80000;
     } else {
-        p->mUnk_44 &= ~0x80000;
+        kart->mUnk_44 &= ~0x80000;
     }
-    ComputeKartCollisionCenter(&p->mCollisionCenter, &p->mDrawMatrixPos, 0x400, p);
-    CollideKartWithCourse(p, &v);
-    AdvanceKartOrientation(p, &v);
-    p->mGroundNormal = v;
-    p->mUnk_4d0 = p->mUnk_4d0 + 1;
-    if (p->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
-        ComputeKartSidePoints(p);
+    ComputeKartCollisionCenter(&kart->mCollisionCenter, &kart->mDrawMatrixPos, 0x400, kart);
+    CollideKartWithCourse(kart, &v);
+    AdvanceKartOrientation(kart, &v);
+    kart->mGroundNormal = v;
+    kart->mCollisionStepFrames = kart->mCollisionStepFrames + 1;
+    if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
+        ComputeKartSidePoints(kart);
     }
-    if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && IsRaceStarted() == 1) {
-        SetKartKind3ShapeListMask(p->mIndex);
+    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && IsRaceStarted() == 1) {
+        SetKartKind3ShapeListMask(kart->mIndex);
     }
-    UpdateKartSoundWrapper(p);
-    AdvanceKartCollisionTimer(p);
-    if (p->mUnk_4c & 8) {
-        AdvanceKartModelScaleAnimation(p);
+    UpdateKartSoundWrapper(kart);
+    AdvanceKartCollisionTimer(kart);
+    if (kart->mUnk_4c & 8) {
+        AdvanceKartModelScaleAnimation(kart);
     }
-    p->mAdvanceOffsetCycle(p);
+    kart->mAdvanceOffsetCycle(kart);
 }
 
 void UpdateKartPrevValuesAndClearFlags(Kart *p) {
@@ -270,11 +270,11 @@ void AdvanceKartInputAndTurn(Kart *kart) {
     s32 lowSpeedTurn;
     enum { K0 } entryIndex;
 
-    if (kart->mUnk_48 & 0x4000) {
+    if (kart->mUnk_48 & KART_48_STATE_END_TIMER) {
         kart->mStateEndTimer = kart->mStateEndTimer - 1;
         if (kart->mStateEndTimer <= 0) {
             kart->mStateEndTimer = 0;
-            kart->mUnk_48 &= ~0x44000;
+            kart->mUnk_48 &= ~(KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED);
         }
     }
     if (IsRaceStarted() == 1) {
@@ -309,7 +309,7 @@ void AdvanceKartInputAndTurn(Kart *kart) {
         if (AdvanceKartRank(kart) == 0) {
             return;
         }
-        if (kart->mUnk_48 & 0x840) {
+        if (kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) {
             return;
         }
         StartKartSeqArcSound(kart, kart->mSoundIndex, 8);
@@ -336,26 +336,26 @@ BOOL IsKartNotNormalOrFlagged(Kart *kart) {
 }
 
 void UpdateKartInputFlags(Kart *kart) {
-    u32 *r;
-    u32 *q;
-    u32 f;
+    u32 *keyBFlagsPointer;
+    u32 *flagsPointer;
+    u32 flags;
     enum { K0 } entryIndex;
 
     kart->mUnk_48 &= ~0x186;
     kart->mUnk_44 &= ~0x40500;
-    q = (u32 *) &kart->mUnk_48;
+    flagsPointer = (u32 *) &kart->mUnk_48;
     entryIndex = kart->mEntryIndex;
     if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_A)) {
-        *q |= 2;
+        *flagsPointer |= 2;
     }
     entryIndex = kart->mEntryIndex;
     if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_B)) {
-        r = (u32 *) &kart->mUnk_48;
+        keyBFlagsPointer = (u32 *) &kart->mUnk_48;
         kart->mUnk_48 |= 4;
-        f = kart->mUnk_48;
-        if ((f & 2) && !(f & 0x8020)) {
-            *r &= ~6;
-            *r |= 0x80;
+        flags = kart->mUnk_48;
+        if ((flags & 2) && !(flags & 0x8020)) {
+            *keyBFlagsPointer &= ~6;
+            *keyBFlagsPointer |= 0x80;
         }
     }
     if (kart->mForwardSpeed < 0) {
@@ -542,38 +542,38 @@ void SetKartPrevCollisionCenter(Kart *p) {
 
 // Called once per step of the driving states (AdvanceKartMotion, AdvancePeerKartMotion); also writes mUnk_dc in five
 // branches.
-void UpdateKartSpeedLimitGoal(Kart *p) {
-    s32 *q;
-    u32 f;
+void UpdateKartSpeedLimitGoal(Kart *kart) {
+    s32 *goalPointer;
+    u32 flags;
 
-    p->mSpeedLimitGoal =
-        MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mBaseSpeedLimit, p->mSpeedLimitFactor),
-                             MUL_FIXED12_NO_ROUND((s32) p->mSpeedLimitGroundFactor, p->mAheadSpeedLimitFactor));
-    q = &p->mSpeedLimitGoal;
-    if (p->mUnk_7c & 0x402000) {
-        *q = p->mPhysicalParam->mBaseSpeedLimit;
-        p->mSpeedLimitFactor = 0x1000;
+    kart->mSpeedLimitGoal =
+        MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, kart->mSpeedLimitFactor),
+                             MUL_FIXED12_NO_ROUND((s32) kart->mSpeedLimitGroundFactor, kart->mAheadSpeedLimitFactor));
+    goalPointer = &kart->mSpeedLimitGoal;
+    if (kart->mUnk_7c & 0x402000) {
+        *goalPointer = kart->mPhysicalParam->mBaseSpeedLimit;
+        kart->mSpeedLimitFactor = 0x1000;
     }
-    if (p->mUnk_48 & 0x10000000) {
-        *q = p->mUnk_4c4;
-        p->mSpeedLimitFactor = 0x1000;
+    if (kart->mUnk_48 & 0x10000000) {
+        *goalPointer = kart->mSurfaceSpeedLimitGoal;
+        kart->mSpeedLimitFactor = 0x1000;
     }
-    f = p->mUnk_48;
-    if (f & KART_48_BOOST) {
-        if ((p->mUnk_4c & 0x10000040) || (f & 0x20000000)) {
-            *q = p->mPhysicalParam->mBaseSpeedLimit;
-            p->mSpeedLimitFactor = 0x1000;
+    flags = kart->mUnk_48;
+    if (flags & KART_48_BOOST) {
+        if ((kart->mUnk_4c & 0x10000040) || (flags & 0x20000000)) {
+            *goalPointer = kart->mPhysicalParam->mBaseSpeedLimit;
+            kart->mSpeedLimitFactor = 0x1000;
         }
-        *q = MUL_FIXED12_NO_ROUND(*q, 0x14cd);
-        if (p->mUnk_48 & 0x400001) {
-            if (*q < 0x8800) {
-                *q = 0x8800;
-                p->mSpeedLimitFactor = 0x1000;
+        *goalPointer = MUL_FIXED12_NO_ROUND(*goalPointer, 0x14cd);
+        if (kart->mUnk_48 & 0x400001) {
+            if (*goalPointer < 0x8800) {
+                *goalPointer = 0x8800;
+                kart->mSpeedLimitFactor = 0x1000;
             }
         }
-    } else if (p->mUnk_4c & 0x10000040) {
-        *q = MUL_FIXED12_NO_ROUND(p->mPhysicalParam->mBaseSpeedLimit, 0x1333);
-        p->mSpeedLimitFactor = 0x1000;
+    } else if (kart->mUnk_4c & 0x10000040) {
+        *goalPointer = MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x1333);
+        kart->mSpeedLimitFactor = 0x1000;
     }
 }
 

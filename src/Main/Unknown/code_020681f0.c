@@ -209,7 +209,7 @@ void StartKartHitReaction(Kart *kart) {
         StartKartCharacterAnimationOnce(kart, 1, 0);
         SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
     }
-    if ((kart->mUnk_48 & 0x840) != 0) {
+    if ((kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) != 0) {
         return;
     }
     StartKartSeqArcSound(kart, kart->mSoundIndex, 0);

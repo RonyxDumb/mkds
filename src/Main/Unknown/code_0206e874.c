@@ -49,7 +49,7 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
     if (kart->mUnk_44 & 0x40000010) {
         return;
     }
-    kart->mUnk_44 |= 0x10000;
+    kart->mUnk_44 |= KART_44_LANDED;
     if (kart->mLandingTimer <= 0) {
         soundQueueIndex = (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
         sortKeyOffset = gKartSurfaceSoundSortOffsets[2];
@@ -62,7 +62,7 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
     if (kart->mUnk_48 & 0x2000000) {
         kart->mUnk_4c &= ~KART_4C_RESPAWN_DROP;
         kart->mUnk_48 &= ~0x2000000;
-        kart->mUnk_40c = GetRaceUpdateFrames();
+        kart->mRespawnLandRaceFrame = GetRaceUpdateFrames();
         ResetRaceTaKartPositions(kart->mIndex);
         return;
     }
@@ -106,16 +106,16 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
 
 void CollideKartWithMapObjects(Kart *kart) {
     MapObject *touchedMapObjects[2] = {0};
-    s32 i;
+    s32 foundIndex;
     MapObject *mapObject;
     Vec3 positionOffset;
-    Vec3 v;
-    Vec3 w;
+    Vec3 contactNormal;
+    Vec3 mapObjectVector;
     Vec3 z;
     Vec3 *foundMapObjectVector;
     Vec3 *u;
-    s32 v2;
-    BOOL v3;
+    s32 handlerOutput;
+    BOOL contactRequested;
     u16 touchedCount;
     BOOL touchedBefore;
     s32 g;
@@ -123,46 +123,47 @@ void CollideKartWithMapObjects(Kart *kart) {
     s32 foundCount;
     s32 handlerResult;
     s32 s;
-    s32 d;
+    s32 vectorLength;
     s32 m;
-    s32 v5;
-    s32 v6;
-    s32 v7;
-    u16 j;
+    s32 hitVelocityX;
+    s32 hitVerticalSpeed;
+    s32 hitVelocityZ;
+    u16 slotIndex;
 
-    v3 = FALSE;
+    contactRequested = FALSE;
     mapObject = NULL;
     touchedCount = 0;
     kart->mMapObjectVectorForwardDot = kart->mMapObjectVectorLength = 0;
     foundCount = FindMapObjectsTouchingKart(kart, &kart->mCollisionCenter, &positionOffset);
     if (foundCount != 0) {
-        if (!(kart->mUnk_48 & 0x40)) {
-            i = foundCount - 1;
+        if (!(kart->mUnk_48 & KART_48_SINKING)) {
+            foundIndex = foundCount - 1;
             kart->mUnk_44 |= 0x40000;
-            if (i >= 0) {
+            if (foundIndex >= 0) {
                 z = data_02154f94;
                 do {
                     s = 0;
                     touchedBefore = FALSE;
-                    mapObject = GetFoundMapObject(i);
+                    mapObject = GetFoundMapObject(foundIndex);
                     handlerIndex = CollideKartWithMapObject(kart, mapObject);
                     handlerResult =
                         ((s32(*)(Kart *, s32 *, MapObject *)) gCollideKartWithMapObjectResponses[handlerIndex])(
-                            kart, &v2, mapObject);
+                            kart, &handlerOutput, mapObject);
                     if (handlerResult != 0) {
-                        v = z;
+                        contactNormal = z;
                         u = &mapObject->mPosStep;
-                        foundMapObjectVector = GetFoundMapObjectVector(i);
-                        d = func_0206e874_inline(foundMapObjectVector, &v);
-                        if (d != 0) {
-                            if (v2 != 2) {
+                        foundMapObjectVector = GetFoundMapObjectVector(foundIndex);
+                        vectorLength = func_0206e874_inline(foundMapObjectVector, &contactNormal);
+                        if (vectorLength != 0) {
+                            if (handlerOutput != 2) {
                                 ((void (*)(Kart *, Vec3 *, MapObject *)) gKartMapObjectSecondResponses[handlerIndex])(
-                                    kart, &v, mapObject);
+                                    kart, &contactNormal, mapObject);
                             }
                             if (handlerResult & 8) {
-                                ApplyKartContact(kart, &v, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);
+                                ApplyKartContact(kart, &contactNormal, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1,
+                                                 handlerOutput);
                             } else if (handlerResult & 2) {
-                                s = Vec3DotUnrounded(&kart->mTurnedForward, &v) + 0x1000;
+                                s = Vec3DotUnrounded(&kart->mTurnedForward, &contactNormal) + 0x1000;
                                 if (s > 0x1000) {
                                     s = 0x1000;
                                 } else if (s < 0x29) {
@@ -173,37 +174,39 @@ void CollideKartWithMapObjects(Kart *kart) {
                         }
                         if (handlerResult & 1) {
                             if (u->x != 0 || u->y != 0 || u->z != 0) {
-                                w = z;
+                                mapObjectVector = z;
                                 m = 1;
                                 if (handlerResult & 4) {
-                                    w = *u;
+                                    mapObjectVector = *u;
                                 } else {
-                                    if (d != 0) {
-                                        s = VEC_DotProduct(&v, u);
-                                        w.x = MUL_FIXED12_NO_ROUND(v.x, s);
-                                        w.y = MUL_FIXED12_NO_ROUND(v.y, s);
-                                        w.z = MUL_FIXED12_NO_ROUND(v.z, s);
+                                    if (vectorLength != 0) {
+                                        s = VEC_DotProduct(&contactNormal, u);
+                                        mapObjectVector.x = MUL_FIXED12_NO_ROUND(contactNormal.x, s);
+                                        mapObjectVector.y = MUL_FIXED12_NO_ROUND(contactNormal.y, s);
+                                        mapObjectVector.z = MUL_FIXED12_NO_ROUND(contactNormal.z, s);
                                     }
-                                    if (Vec3DotUnrounded(&v, &w) < 0) {
+                                    if (Vec3DotUnrounded(&contactNormal, &mapObjectVector) < 0) {
                                         m = 0;
                                     }
                                 }
-                                kart->mMapObjectVectorLength = VEC_Mag(&w);
+                                kart->mMapObjectVectorLength = VEC_Mag(&mapObjectVector);
                                 if (kart->mMapObjectVectorLength > 0x1000 && m != 0) {
-                                    kart->mMapObjectVectorForwardDot = Vec3DotUnrounded(&kart->mTurnedForward, &w);
-                                    s = VEC_DotProduct(&kart->mTurnedForward, &w);
-                                    v6 = w.y - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, s);
-                                    v7 = w.z - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, s);
-                                    v5 = w.x - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, s);
-                                    kart->mHitVelocity.x += v5;
-                                    kart->mHitVelocity.z += v7;
-                                    kart->mVerticalSpeed += v6;
+                                    kart->mMapObjectVectorForwardDot =
+                                        Vec3DotUnrounded(&kart->mTurnedForward, &mapObjectVector);
+                                    s = VEC_DotProduct(&kart->mTurnedForward, &mapObjectVector);
+                                    hitVerticalSpeed =
+                                        mapObjectVector.y - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, s);
+                                    hitVelocityZ = mapObjectVector.z - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, s);
+                                    hitVelocityX = mapObjectVector.x - MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, s);
+                                    kart->mHitVelocity.x += hitVelocityX;
+                                    kart->mHitVelocity.z += hitVelocityZ;
+                                    kart->mVerticalSpeed += hitVerticalSpeed;
                                 }
                             }
                         }
                         s = kart->mSpeedLimitHitFactor;
                         if (handlerResult & 8) {
-                            v3 = TRUE;
+                            contactRequested = TRUE;
                         }
                     }
                     g = mapObject->mFlags & 0x200;
@@ -215,19 +218,20 @@ void CollideKartWithMapObjects(Kart *kart) {
                     }
                     if (kart->mVelocityLength > 0x2000 || g != 0) {
                         if (touchedCount < 2) {
-                            for (j = 0; j < 2; j++) {
-                                if (mapObject == kart->mPrevTouchingMapObjects[j]) {
+                            for (slotIndex = 0; slotIndex < 2; slotIndex++) {
+                                if (mapObject == kart->mPrevTouchingMapObjects[slotIndex]) {
                                     touchedBefore = TRUE;
                                     break;
                                 }
                             }
                             if (touchedBefore == FALSE) {
-                                for (j = 0; j < 2; j++) {
-                                    if (mapObject == kart->mPrevTouchingMapObjects[j] || kart->mUnk_444[j] != 0) {
+                                for (slotIndex = 0; slotIndex < 2; slotIndex++) {
+                                    if (mapObject == kart->mPrevTouchingMapObjects[slotIndex] ||
+                                        kart->mMapObjectSoundPlayed[slotIndex] != 0) {
                                         continue;
                                     }
-                                    StartMapObjectKindSound(mapObject, &kart->mSoundSource, v2, m);
-                                    kart->mUnk_444[j] = 1;
+                                    StartMapObjectKindSound(mapObject, &kart->mSoundSource, handlerOutput, m);
+                                    kart->mMapObjectSoundPlayed[slotIndex] = 1;
                                     break;
                                 }
                             }
@@ -236,30 +240,30 @@ void CollideKartWithMapObjects(Kart *kart) {
                         }
                     }
                     if (handlerIndex == 0xb) {
-                        kart->mUnk_44c = mapObject;
+                        kart->mScaleEffectMapObject = mapObject;
                     }
-                } while (--i >= 0);
+                } while (--foundIndex >= 0);
             }
         }
         if (kart->mUnk_48 & 0x4000000) {
-            if (kart->mUnk_44c == mapObject) {
+            if (kart->mScaleEffectMapObject == mapObject) {
                 positionOffset.z = 0;
                 positionOffset.x = 0;
             }
         }
         VEC_Add(&kart->mPos, &positionOffset, &kart->mPos);
     }
-    for (j = 0; j < 2; j++) {
-        kart->mPrevTouchingMapObjects[j] = touchedMapObjects[j];
-        if (kart->mUnk_444[j] != 0) {
-            kart->mUnk_440[j]++;
-            if (kart->mUnk_440[j] > 10) {
-                kart->mUnk_444[j] = 0;
-                kart->mUnk_440[j] = 0;
+    for (slotIndex = 0; slotIndex < 2; slotIndex++) {
+        kart->mPrevTouchingMapObjects[slotIndex] = touchedMapObjects[slotIndex];
+        if (kart->mMapObjectSoundPlayed[slotIndex] != 0) {
+            kart->mMapObjectSoundFrames[slotIndex]++;
+            if (kart->mMapObjectSoundFrames[slotIndex] > 10) {
+                kart->mMapObjectSoundPlayed[slotIndex] = 0;
+                kart->mMapObjectSoundFrames[slotIndex] = 0;
             }
         }
     }
-    if (v3 != FALSE) {
+    if (contactRequested != FALSE) {
         kart->mUnk_44 |= 0x40;
     } else {
         kart->mUnk_44 &= ~0x40;

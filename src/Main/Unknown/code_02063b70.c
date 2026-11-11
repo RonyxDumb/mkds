@@ -97,7 +97,7 @@ void DrawKart(Kart *kart) {
     if (modelsEntry->mKartModelHidden == 0) {
         SetKartModelTireAlpha(modelsEntry, modelsEntry->mFarFromCamera == FALSE);
         func_02063cc4_inline(0x13, 0x1c);
-        func_02063cc4_inline2(0x1b, kart->mUnk_4f0.x, kart->mUnk_4f0.y, 0x1000);
+        func_02063cc4_inline2(0x1b, kart->mOffsetCycleAmount.x, kart->mOffsetCycleAmount.y, 0x1000);
         DrawNsbmd(modelsEntry->mModels[1]);
         if (modelsEntry->mModels[2] != NULL) {
             f = kart->mKartModelsEntry->mTireTranslations;
@@ -115,7 +115,7 @@ void DrawKart(Kart *kart) {
             NNS_G3dGeBufferOP_N(0x1c, f, 3);
             func_02063cc4_inline2(0x1b, h, h, h);
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-            pairIndex = (kart->mUnk_4cc >> 4) * 2;
+            pairIndex = (kart->mTireTurnAngle >> 4) * 2;
             MTX_RotY33_(&k, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
             NNS_G3dGeBufferOP_N(0x1a, &k, 9);
             NNS_G3dGeBufferOP_N(0x1a, &spinMatrix, 9);
@@ -133,7 +133,7 @@ void DrawKart(Kart *kart) {
         return;
     }
     translation = modelsEntry->mKartOffsetData->mCharacterOffsets[modelsEntry->mCharacterIndex];
-    translation.y = translation.y + (kart->mModelOffsetY + kart->mUnk_4f0.z);
+    translation.y = translation.y + (kart->mModelOffsetY + kart->mOffsetCycleAmount.z);
     func_02063cc4_inline(0x14, 0x1d);
     NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
     DrawNsbmd(modelsEntry->mModels[0]);

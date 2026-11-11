@@ -12,9 +12,9 @@ void AdvanceKartOffsetCycleIndex(Kart *kart) {
     if (kart->mOffsetCycleIndex >= 8) {
         kart->mOffsetCycleIndex = 0;
     }
-    kart->mUnk_4f0.x = gKartOffsetCycleX[kart->mOffsetCycleIndex];
-    kart->mUnk_4f0.y = gKartOffsetCycleY[kart->mOffsetCycleIndex];
-    kart->mUnk_4f0.z = gKartOffsetCycleZ[kart->mOffsetCycleIndex];
+    kart->mOffsetCycleAmount.x = gKartOffsetCycleX[kart->mOffsetCycleIndex];
+    kart->mOffsetCycleAmount.y = gKartOffsetCycleY[kart->mOffsetCycleIndex];
+    kart->mOffsetCycleAmount.z = gKartOffsetCycleZ[kart->mOffsetCycleIndex];
 }
 
 s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {

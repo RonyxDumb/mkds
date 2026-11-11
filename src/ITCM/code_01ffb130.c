@@ -71,7 +71,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         }
     }
     if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
-        itemEffectState = &kart->mUnk_538;
+        itemEffectState = &kart->mItemEffectData;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
                             0xa3);
@@ -87,14 +87,14 @@ void AdvanceKartByVelocity(Kart *kart) {
         }
     }
     if (kart->mUnk_4c & 0x40) {
-        itemEffectState = &kart->mUnk_538;
+        itemEffectState = &kart->mItemEffectData;
         AdvanceKartStarEffects(kart->mIndex);
         if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) &&
             kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
             SetKartCharacterAnimation(kart, 2, 1);
         }
-        itemEffectState->mUnk_06++;
-        if (itemEffectState->mUnk_06 > 0x1c2) {
+        itemEffectState->mStarFrames++;
+        if (itemEffectState->mStarFrames > 0x1c2) {
             kart->mUnk_4c &= ~0x40;
             StopKartStarModels(kart);
             kart->mItemEffect = 0;
@@ -116,10 +116,10 @@ void AdvanceKartByVelocity(Kart *kart) {
     }
     gKartStateFunctions[kart->mState](kart);
     ScaleKartForwardSpeed(kart);
-    if (kart->mUnk_48 & 0x40) {
+    if (kart->mUnk_48 & KART_48_SINKING) {
         kart->mSinkFrames++;
         if (kart->mSinkFrames > 0x41) {
-            kart->mUnk_48 &= ~0x240;
+            kart->mUnk_48 &= ~(KART_48_SINKING | KART_48_OBJECTS_SKIP);
             if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                 SetJgState4Countdown();
             }
@@ -197,10 +197,10 @@ void AdvanceKartByVelocity(Kart *kart) {
     ScaleKartVelocityAndSetCappedLengthAndDirection(kart, velocityScale);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetKartForwardSpeedRatio(Vec3DotUnrounded(&kart->mVelocity, &kart->mTurnedForward));
-        if ((kart->mUnk_44 & 0x1000000) && kart->mUnk_4d4 != 0) {
-            kart->mUnk_4d4 = MUL_FIXED12_NO_ROUND(kart->mUnk_4d4, 0xfae);
-            if (kart->mUnk_4d4 < 0xcd) {
-                kart->mUnk_4d4 = 0;
+        if ((kart->mUnk_44 & 0x1000000) && kart->mKeyALevel != 0) {
+            kart->mKeyALevel = MUL_FIXED12_NO_ROUND(kart->mKeyALevel, 0xfae);
+            if (kart->mKeyALevel < 0xcd) {
+                kart->mKeyALevel = 0;
             }
         }
     }
@@ -225,7 +225,7 @@ void AdvanceKartByVelocity(Kart *kart) {
     if (kart->mUnk_7c & 0x8000000) {
         return;
     }
-    ComputeKartPointAlongUp(&kart->mPointAlongUp, kart->mUnk_510, kart->mPhysicalParam->mUnk_04, kart);
+    ComputeKartPointAlongUp(&kart->mPointAlongUp, kart->mCollisionPosSource, kart->mPhysicalParam->mUnk_04, kart);
     ApplyItemObjectHitToKart(kart);
     CollideKartWithKarts(kart);
     UpdateKartAheadEffect(kart);

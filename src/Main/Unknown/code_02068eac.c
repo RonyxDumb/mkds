@@ -65,7 +65,7 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
     KartItemEffectState *effectState;
     s32 mode;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     if ((kart->mUnk_4c & 0x10000040) || (kart->mUnk_48 & 0x10000)) {
         return FALSE;
     }
@@ -88,7 +88,7 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
             func_ov001_0218173c();
         }
     }
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
     }
     return TRUE;
@@ -97,7 +97,7 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
 void AdvanceKartScaleTableEffect(Kart *kart) {
     KartItemEffectState *effectState;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     if (effectState->mScaleEffectTimer <= 0) {
         if (effectState->mScaleTableIndex == 0) {
             StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
@@ -196,7 +196,7 @@ void StartKartThunder(Kart *kart) {
     bit200 = kart->mUnk_7c & 0x200;
     if (bit200 != 0) {
         if (bit200 != 0) {
-            kart->mUnk_514->mEventToggleFlags ^= 0x4000;
+            kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
         }
         return;
     }
@@ -210,7 +210,7 @@ void StartKartThunder(Kart *kart) {
 void StartKartKinokoBoost(Kart *kart) {
     StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x5a);
     kart->mUnk_48 |= 0x100000;
-    kart->mUnk_538.mUnk_00 = 0x5a;
+    kart->mItemEffectData.mKinokoBoostTimer = 0x5a;
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
@@ -220,7 +220,7 @@ void StartKartKinokoBoost(Kart *kart) {
 void StartKartStar(Kart *kart) {
     KartItemEffectState *effectState;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     if (kart->mUnk_4c & 0x10000000) {
         return;
     }
@@ -243,7 +243,7 @@ void StartKartStar(Kart *kart) {
         SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
     }
     SkipOrthoQuadsHold(kart->mIndex);
-    effectState->mUnk_06 = 0;
+    effectState->mStarFrames = 0;
     kart->mUnk_4c |= 0x40;
     kart->mItemEffect = 1;
     StartKartStarModels(kart);
@@ -255,7 +255,7 @@ void StartKartStar(Kart *kart) {
         StandingsReturnArgument(kart->mIndex);
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x2000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x2000;
     }
     SetKartCharacterAnimation(kart, 2, 1);
 }
@@ -266,7 +266,7 @@ void StartKartTeresa(Kart *kart) {
     KartItemEffectState *effectStateAgain;
     u32 kartBits;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     effectState->mTeresaFrames = 0;
     if (kart->mUnk_4c & 0x10000040) {
         kart->mUnk_4c &= ~0x40;
@@ -286,9 +286,9 @@ void StartKartTeresa(Kart *kart) {
     SkipOrthoQuadsHold(kart->mIndex);
     kartBits = kart->mUnk_4c;
     if (!(kartBits & 0x20000) && (kartBits & 0x8000000)) {
-        effectStateAgain = &kart->mUnk_538;
-        if (effectStateAgain->mUnk_1c <= 0x190) {
-            effectStateAgain->mUnk_1c = 0x190;
+        effectStateAgain = &kart->mItemEffectData;
+        if (effectStateAgain->mGessoFrames <= 0x190) {
+            effectStateAgain->mGessoFrames = 0x190;
             kart->mUnk_4c |= 0x20000;
             StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
                                      GetKartCourseAmbColor());
@@ -298,14 +298,14 @@ void StartKartTeresa(Kart *kart) {
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         kart->mUnk_7c |= 0x4000;
     } else {
-        effectState->mUnk_12 = 2;
-        effectState->mUnk_14 = 0;
-        effectState->mUnk_18 = 10;
-        effectState->mUnk_16 = 0;
-        effectState->mUnk_1a = 1;
+        effectState->mTeresaToggleDivisor = 2;
+        effectState->mTeresaStepFrames = 0;
+        effectState->mTeresaStepLimit = 10;
+        effectState->mTeresaToggleFrames = 0;
+        effectState->mTeresaDivisorStep = 1;
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x4000000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000000;
     }
 }
 
@@ -322,28 +322,28 @@ void AdvanceKartTeresa(Kart *kart) {
     if (kartBits & KART_4C_BLINK_GUARD) {
         return;
     }
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     if (!(kartBits & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
-        if (effectState->mUnk_16 < 0x50) {
-            effectState->mUnk_16++;
-            effectState->mUnk_14++;
-            if (effectState->mUnk_14 > effectState->mUnk_18) {
-                effectState->mUnk_14 = 0;
-                effectState->mUnk_12 = effectState->mUnk_12 + effectState->mUnk_1a;
-                effectState->mUnk_18 = effectState->mUnk_18 + effectState->mUnk_1a * 5;
+        if (effectState->mTeresaToggleFrames < 0x50) {
+            effectState->mTeresaToggleFrames++;
+            effectState->mTeresaStepFrames++;
+            if (effectState->mTeresaStepFrames > effectState->mTeresaStepLimit) {
+                effectState->mTeresaStepFrames = 0;
+                effectState->mTeresaToggleDivisor = effectState->mTeresaToggleDivisor + effectState->mTeresaDivisorStep;
+                effectState->mTeresaStepLimit = effectState->mTeresaStepLimit + effectState->mTeresaDivisorStep * 5;
             }
-            if (effectState->mUnk_16 % effectState->mUnk_12 == 0) {
+            if (effectState->mTeresaToggleFrames % effectState->mTeresaToggleDivisor == 0) {
                 kart->mUnk_7c &= ~0x8000;
             } else {
                 kart->mUnk_7c |= 0x8000;
             }
-            if (effectState->mUnk_16 >= 0x50) {
+            if (effectState->mTeresaToggleFrames >= 0x50) {
                 kart->mUnk_7c |= 0x8000;
             }
         }
         if (effectState->mTeresaFrames == 0x172) {
-            effectState->mUnk_1a = -1;
-            effectState->mUnk_16 = 0;
+            effectState->mTeresaDivisorStep = -1;
+            effectState->mTeresaToggleFrames = 0;
         }
         HideKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     }
@@ -379,7 +379,7 @@ void StartKartKiller(Kart *kart) {
     u8 kartCount;
 
     rankOffsets = data_usa_0216557c;
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     effectState->mKillerFrames = 0;
     effectState->mUnk_20 = 0;
     effectState->mKillerEnding = FALSE;
@@ -441,7 +441,7 @@ void StartKartKiller(Kart *kart) {
     StartKartKillerEffect(kart->mIndex);
     ResetKartScaleEffects(kart);
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x100000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x100000;
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetCameraHalfFovAngleGoal(0x1d4c);
@@ -456,15 +456,15 @@ void AdvanceKartKiller(Kart *kart) {
     BOOL endEarly;
     KartFollowEffectIds effectIds;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     effectState->mKillerFrames++;
     if (!(kart->mUnk_7c & 0x400)) {
         if (AdvanceKartKillerCursor(&effectState->mKillerCursor) != 0) {
-            effectStateAgain = &kart->mUnk_538;
+            effectStateAgain = &kart->mItemEffectData;
             if ((kart->mUnk_4c & 0x10000000) && effectStateAgain->mKillerEnding == FALSE) {
                 effectStateAgain->mKillerEnding = TRUE;
                 if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mEventToggleFlags ^= 0x200000;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x200000;
                 }
             }
         }
@@ -518,7 +518,7 @@ void AdvanceKartKiller(Kart *kart) {
     }
     effectState->mKillerEnding = TRUE;
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x200000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x200000;
     }
 }
 
@@ -541,7 +541,7 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
     if (kartBits & KART_7C_TERESA) {
         return;
     }
-    kart->mUnk_538.mUnk_1c = 0;
+    kart->mItemEffectData.mGessoFrames = 0;
     kart->mUnk_4c |= 0x8000000;
     kart->mUnk_4c &= ~0x20000;
     if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
@@ -552,12 +552,12 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
         StartKartCharacterAnimationOnce(kart, 1, 0);
         SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
     }
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
     }
     StartOrthoQuadsGesoSumi(kart->mIndex, orthoQuadCount);
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x80000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x80000;
     }
 }
 
@@ -566,19 +566,19 @@ void AdvanceKartGesso(Kart *kart) {
     u32 kartBits;
 
     kartBits = kart->mUnk_4c;
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     if (!(kartBits & 0x40)) {
-        if (effectState->mUnk_1c == 0x190 && !(kartBits & 0x20000) && (kartBits & 0x8000000) &&
-            effectState->mUnk_1c <= 0x190) {
-            effectState->mUnk_1c = 0x190;
+        if (effectState->mGessoFrames == 0x190 && !(kartBits & 0x20000) && (kartBits & 0x8000000) &&
+            effectState->mGessoFrames <= 0x190) {
+            effectState->mGessoFrames = 0x190;
             kart->mUnk_4c |= 0x20000;
             StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
                                      GetKartCourseAmbColor());
         }
         AdvanceKartModelColorBlend(kart->mKartModelsEntry, (kart->mUnk_4c & 0x20000) ? 0x52 : 0x19a);
     }
-    effectState->mUnk_1c++;
-    if (effectState->mUnk_1c <= 0x1c2) {
+    effectState->mGessoFrames++;
+    if (effectState->mGessoFrames <= 0x1c2) {
         return;
     }
     if (!(kart->mUnk_4c & 0x8000000)) {
@@ -594,7 +594,7 @@ void AdvanceKartGesso(Kart *kart) {
 void StartKartAheadBoost(Kart *kart) {
     KartItemEffectState *effectState;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     effectState->mAheadBoostFrames = 0;
     effectState->mAheadCount = 0;
     kart->mAheadSpeedLimitFactor = data_usa_021654dc;
@@ -614,7 +614,7 @@ void StartKartAheadBoost(Kart *kart) {
         StartSound(&kart->mSoundSource, 0xa4, 0x7f, 0);
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x40000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x40000;
     }
 }
 

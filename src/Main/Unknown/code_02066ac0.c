@@ -54,7 +54,7 @@ s32 CollideKartWithMapObjectResponse13(Kart *kart, s32 *output) {
     *output = 0xc;
     kart->mUnk_48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         if ((kart->mUnk_4c & 0x10000000) == 0 && (kart->mUnk_48 & 0x4000000) == 0) {
@@ -70,7 +70,7 @@ s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output) {
     *output = 0xc;
     kart->mUnk_48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         if ((kart->mUnk_4c & 0x10000000) == 0 && (kart->mUnk_48 & 0x4000000) == 0) {
@@ -85,7 +85,7 @@ s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output) {
 }
 
 s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject) {
-    if (TryStartKartScaleTableEffect(kart) != FALSE && kart->mUnk_44c != (struct MapObject *) mapObject &&
+    if (TryStartKartScaleTableEffect(kart) != FALSE && kart->mScaleEffectMapObject != (struct MapObject *) mapObject &&
         (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         GetEntryKartCounters()->mMapObjectHitCount++;
     }
@@ -159,7 +159,7 @@ s32 ApplyKartSurfaceKind12(Kart *kart) {
     }
     kart->mUnk_48 = kart->mUnk_48 | 0x10000000;
     kart->mVerticalSpeed = gKartSurfaceKind12VerticalSpeeds[kart->mSurfaceVariant];
-    kart->mUnk_4c4 = data_0216559c[kart->mSurfaceVariant];
+    kart->mSurfaceSpeedLimitGoal = data_0216559c[kart->mSurfaceVariant];
     StopKartCurrentEffects(kart);
     return 8;
 }
@@ -354,11 +354,11 @@ void StartKartRaceEnd(Kart *kart) {
             SetKartModelsGrayColors(kart);
         }
     }
-    effectState = &kart->mUnk_538;
+    effectState = &kart->mItemEffectData;
     if ((kart->mUnk_4c & 0x10000000) != 0 && effectState->mKillerEnding == FALSE) {
         effectState->mKillerEnding = TRUE;
         if ((kart->mUnk_7c & 0x200) != 0) {
-            kart->mUnk_514->mEventToggleFlags ^= 0x200000;
+            kart->mParticipantRecordData->mEventToggleFlags ^= 0x200000;
         }
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
@@ -410,7 +410,7 @@ void StartKartRaceEnd(Kart *kart) {
         return;
     }
     d = GetKartSeqArcSoundOffsetByRank(GetKartRank(kart->mIndex));
-    if ((kart->mUnk_48 & 0x840) != 0) {
+    if ((kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) != 0) {
         return;
     }
     StartKartSeqArcSound(kart, kart->mSoundIndex, d);
@@ -468,7 +468,7 @@ void AdvanceParticipantKartRecords(Kart *kart) {
     ParticipantKartRecordNode *pendingNode;
     ParticipantKartRecordNode *nextNode;
 
-    state = kart->mUnk_514;
+    state = kart->mParticipantRecordData;
     appliedNow = 0;
     participantSyncFrames = GetParticipantSyncFrames(((u8 *) gParticipantKartMap)[kart->mIndex & 0xff]);
     state->mPosBlendFactor = IsRaceStarted() == 1 ? 0x333 : appliedNow;
@@ -487,7 +487,7 @@ void AdvanceParticipantKartRecords(Kart *kart) {
                     node->mApplyTimer = negatedDifference + 1;
                     NNS_FndAppendListObject(&state->mPendingRecords, node);
                 }
-                stateAgain = kart->mUnk_514;
+                stateAgain = kart->mParticipantRecordData;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +
                     MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
@@ -502,13 +502,13 @@ void AdvanceParticipantKartRecords(Kart *kart) {
         }
         state->mLastSyncCount = participantSyncFrames;
     } else {
-        stateAgain = kart->mUnk_514;
+        stateAgain = kart->mParticipantRecordData;
         stateAgain->mEasedTurnAngle =
             stateAgain->mEasedTurnAngle +
             MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
         kart->mTurnAngle = stateAgain->mEasedTurnAngle;
     }
-    stateAgain = kart->mUnk_514;
+    stateAgain = kart->mParticipantRecordData;
     pendingNode = NNS_FndGetNextListObject(&stateAgain->mPendingRecords, NULL);
     while (pendingNode != NULL) {
         nextNode = NNS_FndGetNextListObject(&stateAgain->mPendingRecords, pendingNode);
@@ -526,22 +526,22 @@ void AdvanceParticipantKartRecords(Kart *kart) {
         }
         pendingNode = NNS_FndGetNextListObject(&stateAgain->mPendingRecords, pendingNode);
     }
-    if ((kart->mUnk_514->mUnk_44 & 2) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 2) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_A);
     }
-    if ((kart->mUnk_514->mUnk_44 & 4) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 4) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_B);
     }
-    if ((kart->mUnk_514->mUnk_44 & 8) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 8) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_LEFT);
     }
-    if ((kart->mUnk_514->mUnk_44 & 0x10) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 0x10) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_RIGHT);
     }
-    if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
         kart->mUnk_44 = kart->mUnk_44 | KART_44_ON_GROUND;
     }
-    if ((kart->mUnk_514->mUnk_44 & 0x20) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 0x20) != 0) {
         kart->mBoostTimer = 3;
         kart->mUnk_48 = kart->mUnk_48 | KART_48_BOOST;
     } else {

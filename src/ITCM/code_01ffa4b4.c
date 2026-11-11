@@ -77,7 +77,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 kart->mPrevHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, d);
                 kart->mPrevHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, d);
             }
-            kart->mUnk_4da = 3;
+            kart->mCourseHitTimer = 3;
             if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(kart, collisionFlags, &lowestOffset) != 0 ||
                 (kart->mUnk_44 & 0x4000000)) {
                 lowestOffsetLength = 0;
@@ -105,8 +105,8 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
             }
         } else {
             kart->mUnk_44 &= ~0x80;
-            if (kart->mUnk_4da > 0) {
-                kart->mUnk_4da--;
+            if (kart->mCourseHitTimer > 0) {
+                kart->mCourseHitTimer--;
             }
         }
         if (collisionFlags & 0x8c10) {
@@ -126,7 +126,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
             SetKartItemLinkFromHitValue(&(gKartItems)[kart->mIndex],
                                         (u16) ((PickCollisionHitValue(0x400000) & 0xe0) >> 5));
             if (kart->mUnk_4c & 0x10000000) {
-                ResetKartKillerCursorTo(&kart->mUnk_538.mKillerCursor,
+                ResetKartKillerCursorTo(&kart->mItemEffectData.mKillerCursor,
                                         (RacePointLink *) (gKartItems)[kart->mIndex].mItemLink.mLink);
             }
             if ((kart->mUnk_7c & 2) && (collisionFlags & 0x400000) && kart->mState != KART_STATE_LAUNCH_DOUBLE_FLIP) {

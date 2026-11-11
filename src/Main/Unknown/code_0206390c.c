@@ -41,7 +41,7 @@ void CallKartSlot6AndToggleFlag(Kart *kart) {
     }
     kart->mSlotFunctions[6](kart);
     if ((kart->mUnk_7c & 0x200) != 0) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x10000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x10000;
     }
 }
 
@@ -55,11 +55,11 @@ void KartAiCallKartSlot6AndToggleFlag(Kart *kart) {
     if (b == 0) {
         kart->mSlotFunctions[6](kart);
         if ((kart->mUnk_7c & 0x200) != 0) {
-            kart->mUnk_514->mEventToggleFlags ^= 0x10000;
+            kart->mParticipantRecordData->mEventToggleFlags ^= 0x10000;
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        kart->mUnk_48 &= ~0x200;
+        kart->mUnk_48 &= ~KART_48_OBJECTS_SKIP;
     }
 }
 

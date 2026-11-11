@@ -93,21 +93,21 @@ extern SoundRequestQueue data_0217d29c;
 // Frames after which the Teresa effect ends (7.5 seconds).
 #define KART_TERESA_MAX_FRAMES 0x1c2
 typedef struct KartItemEffectState {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
+    /* 00 */ s16 mKinokoBoostTimer;
+    /* 02 */ s16 mThunderShrinkTimer;
+    /* 04 */ s16 mThunderShrinkFrameIndex;
+    /* 06 */ s16 mStarFrames;
     /* 08 */ s16 mAheadCount;
     /* 0a */ s16 mAheadBoostFrames;
     /* 0c */ s16 mScaleTableIndex;
     /* 0e */ s16 mScaleEffectTimer;
     /* 10 */ s16 mTeresaFrames;
-    /* 12 */ s16 mUnk_12;
-    /* 14 */ s16 mUnk_14;
-    /* 16 */ s16 mUnk_16;
-    /* 18 */ s16 mUnk_18;
-    /* 1a */ s16 mUnk_1a;
-    /* 1c */ s16 mUnk_1c;
+    /* 12 */ s16 mTeresaToggleDivisor;
+    /* 14 */ s16 mTeresaStepFrames;
+    /* 16 */ s16 mTeresaToggleFrames;
+    /* 18 */ s16 mTeresaStepLimit;
+    /* 1a */ s16 mTeresaDivisorStep;
+    /* 1c */ s16 mGessoFrames;
     /* 1e */ s16 mKillerFrames;
     /* 20 */ s16 mUnk_20;
     /* 22 */ u8 mUnk_22[2];
@@ -132,8 +132,8 @@ typedef struct ParticipantKartRecordState {
     /* 34 */ Vec3 mUnk_34;
     /* 40 */ s16 mTargetTurnAngle;
     /* 42 */ u8 mUnk_42[2];
-    /* 44 */ u32 mUnk_44;
-    /* 48 */ u32 mUnk_48;
+    /* 44 */ u32 mRecordBits;
+    /* 48 */ u32 mRecordKartBits;
     /* 4c */ Vec4 mSmoothedRotation;
     /* 5c */ s16 mEasedTurnAngle;
     /* 5e */ u8 mUnk_5e[2];
@@ -143,7 +143,7 @@ typedef struct ParticipantKartRecordState {
     /* 80 */ NNSFndList mPendingRecords;
     /* 8c */ NNSFndList mFreeRecords;
     /* 98 */ Vec3 mPushDirection;
-    /* a4 */ s32 mUnk_a4;
+    /* a4 */ s32 mStartedStateKind;
     /* a8 */ Vec3 mPosOffset;
     /* b4 */ u16 mPosOffsetIndex;
 } ParticipantKartRecordState;
@@ -174,6 +174,9 @@ typedef struct ParticipantKartRecordState {
 // 0x57ffffdf).
 #define KART_44_NEAR_KART 0x20
 // Set in the step when mForwardSpeed is negative (the Kart is reversing).
+// Set by ApplyKartLanding at each landing and cleared only by ResetKart; the flip states and the mission standing check
+// read it.
+#define KART_44_LANDED 0x10000
 #define KART_44_REVERSING 0x100
 
 // Bits of Kart.mUnk_4c.
@@ -211,6 +214,18 @@ typedef struct ParticipantKartRecordState {
 // Set by ApplyKartSurfaceKind19 (the boost surface) and read as "the Kart is on a boost surface".
 // Respawn wait: the kart has fallen off the course and waits to be put back (IsKartInRespawnWait).
 #define KART_48_RESPAWN_WAIT 0x800
+// Part of the mask IsKartNotNormalOrFlagged tests, which narrows the input mask. Set by ResetKartMotionState(kart, 0),
+// with KART_48_STATE_END_TIMER and by the fall-out literal 0x41000; cleared with it and when the kart is placed.
+#define KART_48_INPUT_LOCKED 0x40000
+// Set when a special state hands back to normal driving, with KART_48_INPUT_LOCKED; AdvanceKartInputAndTurn counts
+// mStateEndTimer down and clears both at 0.
+#define KART_48_STATE_END_TIMER 0x4000
+// Set while the kart sinks after being placed (ResetKartAndSetPos): mPos.y drops each step until mSinkFrames passes
+// 0x41.
+#define KART_48_SINKING 0x40
+// Set with KART_48_SINKING by ResetKartAndSetPos and cleared with it; mission gates, coins, the mission run and the
+// entry-kart object checks skip the kart while it is set. Battle mode clears it every step.
+#define KART_48_OBJECTS_SKIP 0x200
 #define KART_48_ON_BOOST_SURFACE 1
 
 // The values of Kart.mState; each indexes gKartStateFunctions.
@@ -496,8 +511,8 @@ typedef struct Kart {
     /* 402 */ u8 mUnk_402[2];
     /* 404 */ s32 mModelScaleY;
     /* 408 */ s32 mModelOffsetY;
-    /* 40c */ s32 mUnk_40c;
-    /* 410 */ s32 mUnk_410;
+    /* 40c */ s32 mRespawnLandRaceFrame;
+    /* 410 */ s32 mRespawnPressRaceFrame;
     /* 414 */ s32 mModelScaleX;
     /* 418 */ s32 mModelScaleZ;
     // Part of mScale looked up in three tables (x, y, z) of 25 entries (0x800 up to 0x1000) by a step counter, forwards
@@ -510,19 +525,19 @@ typedef struct Kart {
     // AdvanceKartScaleTableEffect.
     /* 434 */ s32 mScaleYFactor;
     /* 438 */ struct MapObject *mPrevTouchingMapObjects[2];
-    /* 440 */ u16 mUnk_440[2];
-    /* 444 */ s32 mUnk_444[2];
-    /* 44c */ struct MapObject *mUnk_44c;
-    /* 450 */ KartSound mUnk_450;
-    /* 4bc */ s32 mUnk_4bc;
+    /* 440 */ u16 mMapObjectSoundFrames[2];
+    /* 444 */ s32 mMapObjectSoundPlayed[2];
+    /* 44c */ struct MapObject *mScaleEffectMapObject;
+    /* 450 */ KartSound mSound;
+    /* 4bc */ s32 mRespawnWaitVelocityScale;
     /* 4c0 */ s32 mCourseHitAttributeBit;
-    /* 4c4 */ s32 mUnk_4c4;
+    /* 4c4 */ s32 mSurfaceSpeedLimitGoal;
     /* 4c8 */ s32 mRadiusFactor;
-    /* 4cc */ s32 mUnk_4cc;
-    /* 4d0 */ u32 mUnk_4d0;
-    /* 4d4 */ s32 mUnk_4d4;
+    /* 4cc */ s32 mTireTurnAngle;
+    /* 4d0 */ u32 mCollisionStepFrames;
+    /* 4d4 */ s32 mKeyALevel;
     /* 4d8 */ s16 mAttractorIndex;
-    /* 4da */ s16 mUnk_4da;
+    /* 4da */ s16 mCourseHitTimer;
     /* 4dc */ s16 mLandingTimer;
     // Angle added to mHeadingAngle when the orientation is built, never to mHeadingAngle itself;
     // AdvanceKartHeadingSwing swings it back and forth and sets it to 0 at the end.
@@ -533,24 +548,24 @@ typedef struct Kart {
     /* 4e2 */ s16 mHeadingAngleOffsetDirection;
     /* 4e4 */ u16 mHeadingAngleOffsetCount;
     /* 4e6 */ u8 mUnk_4e6[2];
-    /* 4e8 */ s32 mUnk_4e8;
-    /* 4ec */ s32 mUnk_4ec;
-    /* 4f0 */ Vec3 mUnk_4f0;
+    /* 4e8 */ s32 mOffsetCyclePhaseStep;
+    /* 4ec */ s32 mOffsetCyclePhase;
+    /* 4f0 */ Vec3 mOffsetCycleAmount;
     /* 4fc */ u16 mOffsetCycleIndex;
     /* 4fe */ u8 mUnk_4fe[2];
     /* 500 */ u32 mWaterDepth;
     /* 504 */ u16 mBlinkFrames;
     /* 506 */ u16 mBlinkCycleFrames;
-    // Points to mPos, or for a kind-3 entry in mode 5 to a Vec3 of the received record (mUnk_514); set in InitKart.
-    // Draw, culling, effect placement and the position getter read the position through it.
+    // Points to mPos, or for a kind-3 entry in mode 5 to a Vec3 of the received record (mParticipantRecordData); set in
+    // InitKart. Draw, culling, effect placement and the position getter read the position through it.
     /* 508 */ Vec3 *mPosSource;
-    /* 50c */ Vec4 *mUnk_50c;
-    /* 510 */ Vec3 *mUnk_510;
-    /* 514 */ ParticipantKartRecordState *mUnk_514;
+    /* 50c */ Vec4 *mRotationSource;
+    /* 510 */ Vec3 *mCollisionPosSource;
+    /* 514 */ ParticipantKartRecordState *mParticipantRecordData;
     /* 518 */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
     /* 528 */ u8 mUnk_528[0xc];
     /* 534 */ Vec3 *mPosSourceCopy;
-    /* 538 */ KartItemEffectState mUnk_538;
+    /* 538 */ KartItemEffectState mItemEffectData;
     /* 590 */ struct KartModelsEntry *mKartModelsEntry;
     /* 594 */ s32 mWobbleAmplitude;
     /* 598 */ s16 mWobbleDirection;

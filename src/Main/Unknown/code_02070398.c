@@ -208,15 +208,15 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *a) {
     flags = kart->mUnk_4c;
     finished = FALSE;
     if (flags & 0x4000000) {
-        if (kart->mUnk_4bc > 0x19a) {
-            kart->mUnk_4bc = MUL_FIXED12_NO_ROUND(kart->mUnk_4bc, 0xe66LL);
+        if (kart->mRespawnWaitVelocityScale > 0x19a) {
+            kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
-        *a = kart->mUnk_4bc;
+        *a = kart->mRespawnWaitVelocityScale;
     } else if (flags & 0x200000) {
-        if (kart->mUnk_4bc > 0x666) {
-            kart->mUnk_4bc = MUL_FIXED12_NO_ROUND(kart->mUnk_4bc, 0xe66LL);
+        if (kart->mRespawnWaitVelocityScale > 0x666) {
+            kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
-        *a = kart->mUnk_4bc;
+        *a = kart->mRespawnWaitVelocityScale;
     }
     kart->mRespawnFrames = kart->mRespawnFrames + 1;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
@@ -244,10 +244,10 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
     kart->mSlotFunctions[1](kart);
     kart->mUnk_7c &= ~0xe000;
     StopOrthoQuads(kart->mIndex);
-    kart->mUnk_48 |= 0x240;
+    kart->mUnk_48 |= KART_48_SINKING | KART_48_OBJECTS_SKIP;
     kart->mPos = *position;
     if (kart->mUnk_7c & 0x400) {
-        recordState = kart->mUnk_514;
+        recordState = kart->mParticipantRecordData;
         recordState->mSmoothedPos = kart->mPos;
         recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
         recordState->mSmoothedRotation = kart->mUnk_110_q;
@@ -471,7 +471,7 @@ void ResetKart(Kart *kart) {
     kart->mSpeedLimitGroundFactor = 0x1000;
     kart->mAheadSpeedLimitFactor = 0x1000;
     kart->mState = KART_STATE_NORMAL;
-    ClearKartItemEffectState(&kart->mUnk_538);
+    ClearKartItemEffectState(&kart->mItemEffectData);
     MTX_Identity43_(&kart->mUnk_120_m);
     MTX_Identity43_(&kart->mUnk_150_m);
     MTX_Identity43_(&kart->mWobbleMatrix);
@@ -574,30 +574,30 @@ void ResetKart(Kart *kart) {
     kart->mModelScaleZ = 0x1000;
     for (i = 0; i < 2; i++) {
         kart->mPrevTouchingMapObjects[i] = NULL;
-        kart->mUnk_440[i] = 0;
-        kart->mUnk_444[i] = 0;
+        kart->mMapObjectSoundFrames[i] = 0;
+        kart->mMapObjectSoundPlayed[i] = 0;
     }
-    kart->mUnk_44c = NULL;
+    kart->mScaleEffectMapObject = NULL;
     kart->mModelOffsetY = 0;
-    kart->mUnk_40c = 0;
-    kart->mUnk_410 = 0;
-    kart->mUnk_4bc = 0;
+    kart->mRespawnLandRaceFrame = 0;
+    kart->mRespawnPressRaceFrame = 0;
+    kart->mRespawnWaitVelocityScale = 0;
     kart->mCourseHitAttributeBit = 0;
-    kart->mUnk_4c4 = 0;
+    kart->mSurfaceSpeedLimitGoal = 0;
     kart->mRadiusFactor = 0x1000;
-    kart->mUnk_4d0 = 0;
-    kart->mUnk_4d4 = 0;
+    kart->mCollisionStepFrames = 0;
+    kart->mKeyALevel = 0;
     kart->mAttractorIndex = -1;
     kart->mLandingTimer = 0;
-    kart->mUnk_4da = 0;
+    kart->mCourseHitTimer = 0;
     kart->mHeadingAngleOffset = 0;
     kart->mHeadingAngleOffsetPerFrame = 0;
     kart->mHeadingAngleOffsetDirection = 1;
     kart->mHeadingAngleOffsetCount = 0;
-    kart->mUnk_4ec = 0;
-    kart->mUnk_4e8 = 0x1000;
-    kart->mUnk_4f0 = data_usa_02154f64;
-    kart->mUnk_4f0.z = 0;
+    kart->mOffsetCyclePhase = 0;
+    kart->mOffsetCyclePhaseStep = 0x1000;
+    kart->mOffsetCycleAmount = data_usa_02154f64;
+    kart->mOffsetCycleAmount.z = 0;
     kart->mOffsetCycleIndex = 0;
     kart->mWaterDepth = 0;
     kart->mBlinkCycleFrames = 0;
@@ -607,7 +607,7 @@ void ResetKart(Kart *kart) {
     kart->mWobbleAngle = 0;
     kart->mRank = 0;
     SetKartCharacterAnimation(kart, 0, 0);
-    kart->mUnk_4cc = 0;
+    kart->mTireTurnAngle = 0;
 }
 
 void InitParticipantKartRecordState(Kart *kart, void *heap) {
@@ -616,7 +616,7 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     u16 i;
     u8 *entries;
 
-    recordState = kart->mUnk_514;
+    recordState = kart->mParticipantRecordData;
     if (recordState == NULL) {
         return;
     }
@@ -632,8 +632,8 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     recordState->mEventToggleFlags = recordState->mAppliedFlags;
     zeroVector = data_02154f94;
     recordState->mUnk_34 = zeroVector;
-    recordState->mUnk_44 = 0;
-    recordState->mUnk_48 = 0;
+    recordState->mRecordBits = 0;
+    recordState->mRecordKartBits = 0;
     recordState->mTargetTurnAngle = 0;
     recordState->mEasedTurnAngle = 0;
     recordState->mHopHeight = 0;
@@ -655,7 +655,7 @@ void ResetParticipantKartRecordPos(Kart *kart) {
     if (!(kart->mUnk_7c & 0x400)) {
         return;
     }
-    recordState = kart->mUnk_514;
+    recordState = kart->mParticipantRecordData;
     recordState->mSmoothedPos = kart->mPos;
     recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
     recordState->mSmoothedRotation = kart->mUnk_110_q;
@@ -690,19 +690,19 @@ void InitKartFlags(Kart *kart) {
 }
 
 void ClearKartItemEffectState(KartItemEffectState *itemEffectState) {
-    itemEffectState->mUnk_00 = 0;
-    itemEffectState->mUnk_02 = 0;
-    itemEffectState->mUnk_04 = 0;
-    itemEffectState->mUnk_06 = 0;
+    itemEffectState->mKinokoBoostTimer = 0;
+    itemEffectState->mThunderShrinkTimer = 0;
+    itemEffectState->mThunderShrinkFrameIndex = 0;
+    itemEffectState->mStarFrames = 0;
     itemEffectState->mAheadCount = 0;
     itemEffectState->mAheadBoostFrames = 0;
     itemEffectState->mScaleTableIndex = 0;
     itemEffectState->mScaleEffectTimer = 0;
-    itemEffectState->mUnk_12 = 0;
-    itemEffectState->mUnk_14 = 0;
-    itemEffectState->mUnk_16 = 0;
-    itemEffectState->mUnk_18 = 0;
-    itemEffectState->mUnk_1c = 0;
+    itemEffectState->mTeresaToggleDivisor = 0;
+    itemEffectState->mTeresaStepFrames = 0;
+    itemEffectState->mTeresaToggleFrames = 0;
+    itemEffectState->mTeresaStepLimit = 0;
+    itemEffectState->mGessoFrames = 0;
     itemEffectState->mKillerFrames = 0;
     itemEffectState->mUnk_20 = 0;
     itemEffectState->mKillerEnding = FALSE;
@@ -711,7 +711,7 @@ void ClearKartItemEffectState(KartItemEffectState *itemEffectState) {
 
 void InitKartSound(Kart *kart) {
     InitSoundSource(&kart->mSoundSource, 0, kart->mPosSource);
-    InitKartSoundCallbacks(kart, &kart->mUnk_450);
+    InitKartSoundCallbacks(kart, &kart->mSound);
     InitKartSoundParams(kart);
     switch (kart->mKartModelsEntry->mCharacterIndex) {
         case 0:
@@ -776,30 +776,30 @@ void InitKartSoundParams(Kart *kart) {
     s32 soundRowIndex;
     s32 soundIndex;
     s32 rowOffset;
-    s32 a;
-    s32 b;
-    s32 c;
+    s32 firstSoundColumn;
+    s32 secondSoundColumn;
+    s32 thirdSoundColumn;
     s32 highRatioSoundId;
     s32 midRatioSoundId;
     s32 lowRatioSoundId;
-    s32 g;
+    s32 lastSoundColumn;
 
-    kart->mUnk_450.mSoundId = 0xa5;
-    kartSound = &kart->mUnk_450;
+    kart->mSound.mSoundId = 0xa5;
+    kartSound = &kart->mSound;
     kartSound->mVolume = 0x64;
     kartSound->mPitch = -1;
     kartSound->mTargetPitch = 0;
     kartSound->mPitchPerCall = 0;
-    kartSound->mUnk_14 = 0;
+    kartSound->mPrevKeyADown = 0;
     kartSound->mPitchPerSpeedOverLimit = FX_Div(0x300000, 0xd000 - kart->mPhysicalParam->mBaseSpeedLimit);
-    kartSound->mUnk_1c = FX_Div(0x580000, kart->mPhysicalParam->mBaseSpeedLimit);
-    kartSound->mUnk_20 = FX_Div(0x480000, kart->mPhysicalParam->mBaseSpeedLimit);
-    kartSound->mUnk_24 = FX_Div(0x280000, kart->mPhysicalParam->mBaseSpeedLimit);
+    kartSound->mPitchPerSpeedKeyA = FX_Div(0x580000, kart->mPhysicalParam->mBaseSpeedLimit);
+    kartSound->mPitchPerSpeedNoKeyA = FX_Div(0x480000, kart->mPhysicalParam->mBaseSpeedLimit);
+    kartSound->mPitchPerSpeedKeyB = FX_Div(0x280000, kart->mPhysicalParam->mBaseSpeedLimit);
     kartSound->mLapProgressAtLastSound = 0;
     kartSound->mLapProgressSoundCount = 0;
     kartSound->mLastSeqArcSoundRaceFrame = 0;
     kartSound->mThunderShrinkRaceFrame = -1;
-    kartSound->mUnk_38 = -1;
+    kartSound->mWhileRequestedSoundId = -1;
     switch (kart->mKartModelsEntry->mKartIndex / 3) {
         case 0:
             soundIndex = 4;
@@ -841,32 +841,32 @@ void InitKartSoundParams(Kart *kart) {
             soundIndex = 12;
             break;
     }
-    kartSound->mUnk_68 = soundIndex;
+    kartSound->mSoundIndex = soundIndex;
     soundRowIndex = GetKartSoundTableRow(kart->mKartModelsEntry->mKartIndex);
     rowOffset = soundRowIndex * 0x1c;
-    a = *(s32 *) (data_02161ae8 + rowOffset);
-    b = *(s32 *) (data_02161aec + rowOffset);
-    c = *(s32 *) (data_02161af0 + rowOffset);
+    firstSoundColumn = *(s32 *) (data_02161ae8 + rowOffset);
+    secondSoundColumn = *(s32 *) (data_02161aec + rowOffset);
+    thirdSoundColumn = *(s32 *) (data_02161af0 + rowOffset);
     highRatioSoundId = *(s32 *) (data_02161af4 + rowOffset);
     midRatioSoundId = *(s32 *) (data_02161af8 + rowOffset);
     lowRatioSoundId = *(s32 *) (data_02161afc + rowOffset);
-    g = *(s32 *) (data_02161b00 + rowOffset);
+    lastSoundColumn = *(s32 *) (data_02161b00 + rowOffset);
     soundRow.mSoundRowIndex = soundRowIndex;
-    soundRow.mUnk_04 = a;
-    soundRow.mUnk_08 = b;
-    soundRow.mUnk_0c = c;
+    soundRow.mUnk_04 = firstSoundColumn;
+    soundRow.mUnk_08 = secondSoundColumn;
+    soundRow.mUnk_0c = thirdSoundColumn;
     soundRow.mHighRatioSoundId = highRatioSoundId;
     soundRow.mMidRatioSoundId = midRatioSoundId;
     soundRow.mLowRatioSoundId = lowRatioSoundId;
-    soundRow.mUnk_1c = g;
+    soundRow.mClampedPitchSoundId = lastSoundColumn;
     if (kart->mIndex != gRaceSetup->mEntryIndex) {
-        b = c;
+        secondSoundColumn = thirdSoundColumn;
     }
     if (kart->mIndex != gRaceSetup->mEntryIndex) {
-        a = c;
+        firstSoundColumn = thirdSoundColumn;
     }
-    soundRow.mUnk_20 = b;
-    soundRow.mUnk_24 = a;
+    soundRow.mKeyAHighRatioSoundId = secondSoundColumn;
+    soundRow.mKeyALowRatioSoundId = firstSoundColumn;
     kartSound->mSoundRow = soundRow;
 }
 
@@ -913,7 +913,7 @@ void KartStartSoundFullVolume(void *soundSource, int soundId) {
 
 void StartKartSoundWhileRequested(void *kart, int soundId) {
     if (StartSoundWhileRequested(kart, soundId, 0x7f, 0) != NULL) {
-        ((Kart *) kart)->mUnk_450.mUnk_38 = soundId;
+        ((Kart *) kart)->mSound.mWhileRequestedSoundId = soundId;
     }
 }
 
@@ -926,7 +926,7 @@ void RequestKartSound(void *kart, int soundId) {
 }
 
 void StartKartSeqArcSoundOffset7(Kart *kart) {
-    if (kart->mUnk_48 & 0x840) {
+    if (kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) {
         return;
     }
     StartKartSeqArcSound(kart, kart->mSoundIndex, 7);
@@ -961,50 +961,53 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     s32 fraction;
     u16 tableIndex;
     u16 nextTableIndex;
-    s32 v;
-    s32 s;
+    s32 keyALevel;
+    s32 amountScale;
     s32 t;
 
-    kart->mUnk_4ec = kart->mUnk_4ec + kart->mUnk_4e8;
-    t = kart->mUnk_4ec - 0x8000;
+    kart->mOffsetCyclePhase = kart->mOffsetCyclePhase + kart->mOffsetCyclePhaseStep;
+    t = kart->mOffsetCyclePhase - 0x8000;
     if (t >= 0) {
-        kart->mUnk_4ec = t;
+        kart->mOffsetCyclePhase = t;
     }
-    fraction = kart->mUnk_4ec & 0xfff;
-    tableIndex = kart->mUnk_4ec >> 12;
+    fraction = kart->mOffsetCyclePhase & 0xfff;
+    tableIndex = kart->mOffsetCyclePhase >> 12;
     nextTableIndex = tableIndex + 1;
     if (nextTableIndex >= 8) {
         nextTableIndex = 0;
     }
-    kart->mUnk_4f0.x =
+    kart->mOffsetCycleAmount.x =
         gKartOffsetCycleX[tableIndex] +
         MUL_FIXED12_NO_ROUND((gKartOffsetCycleX[nextTableIndex] - gKartOffsetCycleX[tableIndex]) >> 1, fraction);
-    kart->mUnk_4f0.y =
+    kart->mOffsetCycleAmount.y =
         gKartOffsetCycleY[tableIndex] +
         MUL_FIXED12_NO_ROUND((gKartOffsetCycleY[nextTableIndex] - gKartOffsetCycleY[tableIndex]) >> 1, fraction);
-    kart->mUnk_4f0.z =
+    kart->mOffsetCycleAmount.z =
         gKartOffsetCycleZ[tableIndex] +
         MUL_FIXED12_NO_ROUND((gKartOffsetCycleZ[nextTableIndex] - gKartOffsetCycleZ[tableIndex]) >> 1, fraction);
-    v = kart->mUnk_4d4;
-    s = MUL_FIXED12_NO_ROUND(v, 0x333);
-    if (v > 0xf33) {
-        t = MUL_FIXED12_NO_ROUND((v - 0xf33) * 0x32, 0x19a);
+    keyALevel = kart->mKeyALevel;
+    amountScale = MUL_FIXED12_NO_ROUND(keyALevel, 0x333);
+    if (keyALevel > 0xf33) {
+        t = MUL_FIXED12_NO_ROUND((keyALevel - 0xf33) * 0x32, 0x19a);
         if (t > 0x19a) {
             t = 0x19a;
         }
         t = t + 0x333;
-        s = MUL_FIXED12_NO_ROUND(v, t);
-    } else if (v > 0xd9a) {
-        t = MUL_FIXED12_NO_ROUND((v - 0xd9a) * 0x32, 0x52);
+        amountScale = MUL_FIXED12_NO_ROUND(keyALevel, t);
+    } else if (keyALevel > 0xd9a) {
+        t = MUL_FIXED12_NO_ROUND((keyALevel - 0xd9a) * 0x32, 0x52);
         if (t > 0x52) {
             t = 0x52;
         }
         t = t + 0x333;
-        s = MUL_FIXED12_NO_ROUND(v, t);
+        amountScale = MUL_FIXED12_NO_ROUND(keyALevel, t);
     }
-    kart->mUnk_4f0.x = kart->mUnk_4f0.x + MUL_FIXED12_NO_ROUND(kart->mUnk_4f0.x, s);
-    kart->mUnk_4f0.y = kart->mUnk_4f0.y + MUL_FIXED12_NO_ROUND(kart->mUnk_4f0.y, s);
-    kart->mUnk_4f0.z = kart->mUnk_4f0.z + MUL_FIXED12_NO_ROUND(kart->mUnk_4f0.z, s);
+    kart->mOffsetCycleAmount.x =
+        kart->mOffsetCycleAmount.x + MUL_FIXED12_NO_ROUND(kart->mOffsetCycleAmount.x, amountScale);
+    kart->mOffsetCycleAmount.y =
+        kart->mOffsetCycleAmount.y + MUL_FIXED12_NO_ROUND(kart->mOffsetCycleAmount.y, amountScale);
+    kart->mOffsetCycleAmount.z =
+        kart->mOffsetCycleAmount.z + MUL_FIXED12_NO_ROUND(kart->mOffsetCycleAmount.z, amountScale);
 }
 
 void AdvanceKartHeadingSwing(Kart *kart) {
@@ -1027,7 +1030,7 @@ void AdvanceKartHeadingSwing(Kart *kart) {
                 kart->mHeadingAngleOffsetCount = kart->mHeadingAngleOffsetCount + 1;
             }
         }
-        kart->mUnk_4d4 = 0x1000;
+        kart->mKeyALevel = 0x1000;
     } else {
         kart->mHeadingAngleOffsetPerFrame =
             kart->mHeadingAngleOffsetDirection * 0x3c + kart->mHeadingAngleOffsetPerFrame;
@@ -1037,7 +1040,7 @@ void AdvanceKartHeadingSwing(Kart *kart) {
             kart->mHeadingAngleOffsetPerFrame = -0xd2;
         }
         kart->mHeadingAngleOffset = kart->mHeadingAngleOffset + kart->mHeadingAngleOffsetPerFrame;
-        kart->mUnk_4d4 = MUL_FIXED12_NO_ROUND(kart->mUnk_4d4, 0xf5c);
+        kart->mKeyALevel = MUL_FIXED12_NO_ROUND(kart->mKeyALevel, 0xf5c);
         offset = kart->mHeadingAngleOffset;
         if ((offset > 0 && kart->mHeadingAngleOffsetDirection > 0) ||
             (offset < 0 && kart->mHeadingAngleOffsetDirection < 0)) {
@@ -1075,12 +1078,12 @@ void ResetKartMotionState(Kart *kart, s32 b) {
     PlayingSound *playingSound;
 
     if (b == 0) {
-        kart->mUnk_48 |= 0x40000;
+        kart->mUnk_48 |= KART_48_INPUT_LOCKED;
         kart->mUnk_44 &= ~KART_44_ON_GROUND;
     }
     kart->mUnk_48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
@@ -1233,9 +1236,9 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
 
     flags = kart->mUnk_4c;
     if (!(flags & 0x20000) && (flags & 0x8000000)) {
-        itemEffectState = &kart->mUnk_538;
-        if (itemEffectState->mUnk_1c <= 0x190) {
-            itemEffectState->mUnk_1c = 0x190;
+        itemEffectState = &kart->mItemEffectData;
+        if (itemEffectState->mGessoFrames <= 0x190) {
+            itemEffectState->mGessoFrames = 0x190;
             kart->mUnk_4c |= 0x20000;
             StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
                                      GetKartCourseAmbColor());
@@ -1260,7 +1263,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     }
 
     if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
-        itemEffectState = &kart->mUnk_538;
+        itemEffectState = &kart->mItemEffectData;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             AddSoundRequest(gSoundRequestQueues, GetKartCameraDistanceSquared(kart->mIndex), RequestKartSound, kart,
                             0xa3);
@@ -1277,14 +1280,14 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     }
 
     if (kart->mUnk_4c & 0x40) {
-        itemEffectState = &kart->mUnk_538;
+        itemEffectState = &kart->mItemEffectData;
         AdvanceKartStarEffects(kart->mIndex);
         if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) &&
             kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
             SetKartCharacterAnimation(kart, 2, 1);
         }
-        itemEffectState->mUnk_06++;
-        if (itemEffectState->mUnk_06 > KART_TERESA_MAX_FRAMES) {
+        itemEffectState->mStarFrames++;
+        if (itemEffectState->mStarFrames > KART_TERESA_MAX_FRAMES) {
             kart->mUnk_4c &= ~0x40;
             StopKartStarModels(kart);
             kart->mItemEffect = 0;
@@ -1312,7 +1315,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         StopDispCapBlend();
         kart->mUnk_48 &= ~0x10000;
         AdvanceKartQuaternionBlendFactor(kart, &kart->mGroundNormal);
-        kart->mUnk_48 &= ~0x40000;
+        kart->mUnk_48 &= ~KART_48_INPUT_LOCKED;
         kart->mAirTiltAngleOffset = (s16) (MUL_FIXED12_NO_ROUND(placementAngles.x, 0x4000) >> 12) + 0x32;
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
             NNS_SndPlayerStopSeq(GetSndHandleSlot(7), 0x14);
@@ -1467,7 +1470,7 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
     flags = kart->mUnk_44;
     if (!(flags & 0xc2200) && !(kart->mUnk_7c & 0x400)) {
         if (!(flags & 0xc0000) && !(kart->mUnk_4c & 0x100) && kart->mPointMotion.x == 0 && kart->mPointMotion.y == 0 &&
-            kart->mPointMotion.z == 0 && kart->mAttractorPullSpeed == 0 && kart->mUnk_4d0 >= 0x64) {
+            kart->mPointMotion.z == 0 && kart->mAttractorPullSpeed == 0 && kart->mCollisionStepFrames >= 0x64) {
             kart->mPos.x = kart->mPrevPos.x;
             kart->mPos.z = kart->mPrevPos.z;
         } else {

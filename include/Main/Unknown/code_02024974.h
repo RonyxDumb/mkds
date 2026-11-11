@@ -14,9 +14,9 @@ typedef struct KartSoundRow {
     /* 10 */ s32 mHighRatioSoundId;
     /* 14 */ s32 mMidRatioSoundId;
     /* 18 */ s32 mLowRatioSoundId;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 1c */ s32 mClampedPitchSoundId;
+    /* 20 */ s32 mKeyAHighRatioSoundId;
+    /* 24 */ s32 mKeyALowRatioSoundId;
 } KartSoundRow;
 
 // The bytes from 0x450 of an Kart, which UpdateKartSound and AdvanceKartSoundPitch read and write.
@@ -27,20 +27,20 @@ typedef struct KartSound {
     /* 08 */ s32 mPitch;
     /* 0c */ s32 mTargetPitch;
     /* 10 */ s32 mPitchPerCall;
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 mPrevKeyADown;
     /* 18 */ s32 mPitchPerSpeedOverLimit;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 1c */ s32 mPitchPerSpeedKeyA;
+    /* 20 */ s32 mPitchPerSpeedNoKeyA;
+    /* 24 */ s32 mPitchPerSpeedKeyB;
     /* 28 */ s32 mLapProgressAtLastSound;
     /* 2c */ u8 mLapProgressSoundCount;
     /* 2d */ u8 mUnk_2d[3];
     /* 30 */ s32 mLastSeqArcSoundRaceFrame;
     /* 34 */ s32 mThunderShrinkRaceFrame;
-    /* 38 */ s32 mUnk_38;
+    /* 38 */ s32 mWhileRequestedSoundId;
     /* 3c */ UnkWordFunc *mDistanceChangeFunction;
     /* 40 */ KartSoundRow mSoundRow;
-    /* 68 */ s32 mUnk_68;
+    /* 68 */ s32 mSoundIndex;
 } KartSound;
 
 typedef struct Kart Kart;

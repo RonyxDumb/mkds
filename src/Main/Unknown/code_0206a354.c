@@ -56,7 +56,7 @@ void StartKartState2(Kart *kart, int a, int b) {
     if (b != 0) {
         return;
     }
-    if (kart->mUnk_48 & 0x840) {
+    if (kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) {
         return;
     }
     StartKartSeqArcSound(kart, kart->mSoundIndex, 1);
@@ -66,7 +66,7 @@ void AdvanceKartState1And2(Kart *kart) {
     if (kart->mUnk_4c & 0x20) {
         return;
     }
-    kart->mUnk_48 |= 0x44000;
+    kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
     kart->mStateEndTimer = 0xa;
     kart->mState = KART_STATE_NORMAL;
     kart->mUnk_4c &= ~0x30;
@@ -84,7 +84,7 @@ BOOL TryStartKartState6(Kart *kart) {
     }
     StartKartState6(kart);
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x20000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x20000;
     }
     return TRUE;
 }
@@ -94,7 +94,7 @@ void StartKartState6(Kart *kart) {
     kart->mTurnAngle = 0;
     kart->mUnk_48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
@@ -129,7 +129,7 @@ void StartKartState6(Kart *kart) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         func_ov001_0218173c();
     }
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 2);
     }
     kart->mUnk_4c &= ~0x80000000;
@@ -159,7 +159,7 @@ void AdvanceKartState6(Kart *kart) {
         } else {
             kart->mRotationAngle = 0;
         }
-        if (kart->mUnk_44 & 0x10000) {
+        if (kart->mUnk_44 & KART_44_LANDED) {
             if (kart->mRotationAngleSum < 0x13000) {
                 kart->mVerticalSpeed += 0x1800;
             }
@@ -193,9 +193,9 @@ void AdvanceKartState6(Kart *kart) {
             if (kart->mRotationEndFrames != 0) {
                 return;
             }
-            kart->mUnk_4d0 = 0x46;
+            kart->mCollisionStepFrames = 0x46;
             c = kart->mRotationEndFrames;
-            kart->mUnk_48 |= 0x44000;
+            kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
             kart->mStateEndTimer = c;
             kart->mUnk_4c |= 0x80000000;
             return;
@@ -255,7 +255,7 @@ BOOL TryStartKartState3(Kart *kart) {
     }
     StartKartState3(kart);
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x10;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x10;
     }
     return TRUE;
 }
@@ -282,7 +282,7 @@ void StartKartState3(Kart *kart) {
         StartEffect(0xd, &kart->mPos);
         StartEffect(0xe, &kart->mPos);
     }
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 2);
     }
     StartKartItemInUseOneCountdown(&(gKartItems)[kart->mIndex]);
@@ -321,7 +321,7 @@ void AdvanceKartState3(Kart *kart) {
     }
     n = kart->mRotationEndFrames;
     if (n == 0) {
-        kart->mUnk_48 |= 0x44000;
+        kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
         kart->mStateEndTimer = n;
         kart->mUnk_4c &= ~0x10;
     }
@@ -427,18 +427,18 @@ void StartKartState4(Kart *kart, const Vec3 *a, s32 b) {
         StartEffect(0xe, &kart->mPos);
     }
     kart->mUnk_4c |= 0x1;
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 2);
     }
     if (b == 0) {
         return;
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x20;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x20;
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mPushDirection = *a;
-        kart->mUnk_514->mUnk_a4 = 4;
+        kart->mParticipantRecordData->mPushDirection = *a;
+        kart->mParticipantRecordData->mStartedStateKind = 4;
     }
 }
 
@@ -464,7 +464,7 @@ void AdvanceKartState4(Kart *kart) {
     }
     n = kart->mRotationEndFrames;
     if (n == 0) {
-        kart->mUnk_48 |= 0x44000;
+        kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
         kart->mStateEndTimer = n;
         kart->mUnk_4c &= ~0x10;
     }
@@ -536,17 +536,17 @@ s32 StartKartState5(Kart *kart, const Vec3 *a, s32 b) {
         StartEffect(0xd, &kart->mPos);
         StartEffect(0xe, &kart->mPos);
     }
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 2);
     }
     kart->mUnk_4c |= 0x1;
     if (b != 0) {
         if (kart->mUnk_7c & 0x200) {
-            kart->mUnk_514->mEventToggleFlags ^= 0x40;
+            kart->mParticipantRecordData->mEventToggleFlags ^= 0x40;
         }
         if (kart->mUnk_7c & 0x200) {
-            kart->mUnk_514->mPushDirection = *a;
-            kart->mUnk_514->mUnk_a4 = 5;
+            kart->mParticipantRecordData->mPushDirection = *a;
+            kart->mParticipantRecordData->mStartedStateKind = 5;
         }
     }
     return 1;
@@ -557,7 +557,7 @@ void AdvanceKartState5(Kart *kart) {
 
     if (kart->mRotationAngleSum == 0) {
         kart->mVerticalSpeed = data_usa_0216550c;
-    } else if (kart->mUnk_44 & 0x10000) {
+    } else if (kart->mUnk_44 & KART_44_LANDED) {
         if (kart->mVerticalSpeedStepCount == 0) {
             kart->mVerticalSpeed = data_usa_021654e4;
         }
@@ -579,7 +579,7 @@ void AdvanceKartState5(Kart *kart) {
     }
     n = kart->mRotationEndFrames;
     if (n == 0) {
-        kart->mUnk_48 |= 0x44000;
+        kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
         kart->mStateEndTimer = n;
         kart->mUnk_4c &= ~0x10;
     }
@@ -601,7 +601,7 @@ void AdvanceKartState5(Kart *kart) {
 }
 
 void StartKartThunderShrink(Kart *kart) {
-    KartItemEffectState *q = &kart->mUnk_538;
+    KartItemEffectState *q = &kart->mItemEffectData;
 
     if (kart->mUnk_4c & 0x10000040) {
         return;
@@ -612,8 +612,8 @@ void StartKartThunderShrink(Kart *kart) {
     if (kart->mUnk_48 & 0x10040) {
         return;
     }
-    q->mUnk_02 = data_usa_02154a54[GetKartRank(kart->mIndex) - 1];
-    q->mUnk_04 = 0;
+    q->mThunderShrinkTimer = data_usa_02154a54[GetKartRank(kart->mIndex) - 1];
+    q->mThunderShrinkFrameIndex = 0;
     kart->mShrinkFactor = 0xb33;
     kart->mUnk_4c |= KART_4C_THUNDER_SHRINK;
     TrySpinKart(kart, 2, 1);
@@ -630,19 +630,19 @@ void StartKartThunderShrink(Kart *kart) {
         SetThunderShrinkSoundFlag(1);
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x8000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x8000;
     }
 }
 
 void AdvanceKartThunderShrink(Kart *kart) {
-    KartItemEffectState *q = &kart->mUnk_538;
+    KartItemEffectState *q = &kart->mItemEffectData;
 
-    if (q->mUnk_02 <= 0) {
-        if (q->mUnk_04 == 0) {
+    if (q->mThunderShrinkTimer <= 0) {
+        if (q->mThunderShrinkFrameIndex == 0) {
             StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
         }
-        q->mUnk_04 = q->mUnk_04 + 1;
-        if (q->mUnk_04 >= 0x19) {
+        q->mThunderShrinkFrameIndex = q->mThunderShrinkFrameIndex + 1;
+        if (q->mThunderShrinkFrameIndex >= 0x19) {
             kart->mScaleBase.x = 0x1000;
             kart->mScaleBase.y = 0x1000;
             kart->mScaleBase.z = 0x1000;
@@ -653,7 +653,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-            if (q->mUnk_04 > 0x19) {
+            if (q->mThunderShrinkFrameIndex > 0x19) {
                 kart->mUnk_4c &= ~KART_4C_THUNDER_SHRINK;
                 if (!(kart->mUnk_4c & 0x10080)) {
                     kart->mShrinkFactor = 0x1000;
@@ -668,9 +668,9 @@ void AdvanceKartThunderShrink(Kart *kart) {
             return;
         }
         kart->mUnk_4c |= 0x100;
-        kart->mScaleFactor.x = gKartScaleFactorXTable[q->mUnk_04];
-        kart->mScaleFactor.y = gKartScaleFactorYTable[q->mUnk_04];
-        kart->mScaleFactor.z = gKartScaleFactorZTable[q->mUnk_04];
+        kart->mScaleFactor.x = gKartScaleFactorXTable[q->mThunderShrinkFrameIndex];
+        kart->mScaleFactor.y = gKartScaleFactorYTable[q->mThunderShrinkFrameIndex];
+        kart->mScaleFactor.z = gKartScaleFactorZTable[q->mThunderShrinkFrameIndex];
         kart->mScaleBase.x = 0x1000;
         kart->mScaleBase.y = 0x1000;
         kart->mScaleBase.z = 0x1000;
@@ -680,7 +680,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         return;
     }
-    q->mUnk_02 = q->mUnk_02 - 1;
+    q->mThunderShrinkTimer = q->mThunderShrinkTimer - 1;
     if (kart->mScaleBase.y > 0x800) {
         s32 v = kart->mScaleBase.y;
 

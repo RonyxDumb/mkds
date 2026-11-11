@@ -75,7 +75,7 @@ void StartKartClampedPitchSound(Kart *kart, KartSound *soundRecord) {
     if (clampedValue > 0x440000) {
         clampedValue = 0x440000;
     }
-    StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mSoundRow.mUnk_1c, soundRecord->mVolume,
+    StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mSoundRow.mClampedPitchSoundId, soundRecord->mVolume,
                              (clampedValue << 4) >> 16);
 }
 
@@ -134,7 +134,7 @@ void UpdateKartSound(Kart *kart) {
     s32 aboveSpeedLimit;
     s32 kartFlags;
 
-    soundRecord = &kart->mUnk_450;
+    soundRecord = &kart->mSound;
     kartFlags = kart->mUnk_48;
     kartFlag2Set = (kartFlags & 2) != 0 ? 1 : 0;
     g = (kartFlags & 4) != 0 ? 1 : 0;
@@ -143,11 +143,11 @@ void UpdateKartSound(Kart *kart) {
         soundRecord->mTargetPitch = 0x6c0000;
         soundRecord->mPitchPerCall = 0;
         if (kartFlag2Set != 0) {
-            soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_20;
+            soundRecord->mSoundId = soundRecord->mSoundRow.mKeyAHighRatioSoundId;
         } else {
             soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
         }
-        soundRecord->mUnk_14 = kartFlag2Set;
+        soundRecord->mPrevKeyADown = kartFlag2Set;
         soundRecord->mVolume = 0x46;
         StartSoundWhileRequested(&kart->mSoundSource, 0xfc, 0x7f, 0);
         return;
@@ -156,7 +156,7 @@ void UpdateKartSound(Kart *kart) {
         return;
     }
     if (gSceneSoundState.mRaceState == 0) {
-        h = kart->mUnk_4d4;
+        h = kart->mKeyALevel;
         if (h > 0xcd && gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (kartFlag2Set != 0) {
                 if ((kart->mUnk_4c & KART_4C_HEADING_SWING) != 0) {
@@ -164,14 +164,14 @@ void UpdateKartSound(Kart *kart) {
                 } else {
                     targetPitch = MUL_FIXED12_ROUNDED(h, 0x580000);
                 }
-                g = AdvanceKartSoundPitch(&kart->mUnk_450, targetPitch, 0);
+                g = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
                 soundRecord->mVolume = 0x7f;
                 soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_04;
                 AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) StartKartClampedPitchSound, kart, (s32) soundRecord);
             } else {
                 targetPitch = MUL_FIXED12_ROUNDED(h, 0x480000);
-                g = AdvanceKartSoundPitch(&kart->mUnk_450, targetPitch, 0);
+                g = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
                 soundRecord->mVolume = 0x46;
                 soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_04;
                 AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
@@ -186,7 +186,7 @@ void UpdateKartSound(Kart *kart) {
             g = -1;
         }
         soundRecord->mPitch = g;
-        soundRecord->mUnk_14 = kartFlag2Set;
+        soundRecord->mPrevKeyADown = kartFlag2Set;
         return;
     }
     baseSpeedLimit = kart->mPhysicalParam->mBaseSpeedLimit;
@@ -194,7 +194,7 @@ void UpdateKartSound(Kart *kart) {
     h = velocityLength - baseSpeedLimit;
     aboveSpeedLimit = h > 0 ? 1 : 0;
     if (g != 0 && kart->mForwardSpeed > 0 && (kart->mUnk_44 & KART_44_ON_GROUND) != 0) {
-        g = MUL_FIXED12_ROUNDED(soundRecord->mUnk_24, velocityLength);
+        g = MUL_FIXED12_ROUNDED(soundRecord->mPitchPerSpeedKeyB, velocityLength);
         if (g > 0x280000) {
             g = 0x280000;
         }
@@ -205,13 +205,13 @@ void UpdateKartSound(Kart *kart) {
         if (aboveSpeedLimit != 0) {
             targetPitch = MUL_FIXED12_ROUNDED(h, soundRecord->mPitchPerSpeedOverLimit) + 0x580000;
         } else {
-            targetPitch = MUL_FIXED12_ROUNDED(soundRecord->mUnk_1c, velocityLength);
+            targetPitch = MUL_FIXED12_ROUNDED(soundRecord->mPitchPerSpeedKeyA, velocityLength);
         }
-        g = AdvanceKartSoundPitch(&kart->mUnk_450, targetPitch, aboveSpeedLimit);
+        g = AdvanceKartSoundPitch(&kart->mSound, targetPitch, aboveSpeedLimit);
         soundRecord->mVolume = 0x7f;
-        if (soundRecord->mUnk_14 == 0) {
-            soundRecord->mSoundId =
-                kart->mVelocityLengthRatio < 0x333 ? soundRecord->mSoundRow.mUnk_24 : soundRecord->mSoundRow.mUnk_20;
+        if (soundRecord->mPrevKeyADown == 0) {
+            soundRecord->mSoundId = kart->mVelocityLengthRatio < 0x333 ? soundRecord->mSoundRow.mKeyALowRatioSoundId
+                                                                       : soundRecord->mSoundRow.mKeyAHighRatioSoundId;
         }
         AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) StartKartSound, kart, (s32) soundRecord);
@@ -219,9 +219,9 @@ void UpdateKartSound(Kart *kart) {
         if (aboveSpeedLimit != 0) {
             targetPitch = MUL_FIXED12_ROUNDED(h, soundRecord->mPitchPerSpeedOverLimit) + 0x480000;
         } else {
-            targetPitch = MUL_FIXED12_ROUNDED(soundRecord->mUnk_20, velocityLength);
+            targetPitch = MUL_FIXED12_ROUNDED(soundRecord->mPitchPerSpeedNoKeyA, velocityLength);
         }
-        g = AdvanceKartSoundPitch(&kart->mUnk_450, targetPitch, aboveSpeedLimit);
+        g = AdvanceKartSoundPitch(&kart->mSound, targetPitch, aboveSpeedLimit);
         soundRecord->mVolume = 0x32;
         if (kart->mVelocityLengthRatio < 0x19a) {
             soundRecord->mSoundId = soundRecord->mSoundRow.mLowRatioSoundId;
@@ -234,7 +234,7 @@ void UpdateKartSound(Kart *kart) {
                         (void (*)(void *, int)) StartKartSound, kart, (s32) soundRecord);
     }
     soundRecord->mPitch = g;
-    soundRecord->mUnk_14 = kartFlag2Set;
+    soundRecord->mPrevKeyADown = kartFlag2Set;
 }
 
 void StartSoundVolumeFromFractionIfTwo(SoundSource *soundSource, u16 soundId, s32 fraction, s32 c) {

@@ -9,7 +9,7 @@ typedef struct MtxFx43 MtxFx43;
 void AdvanceKartForwardSpeedAndAngles(Kart *kart);
 void UpdateKartForwardAndLengthRatio(Kart *kart);
 void UpdateKartSpeedLimit(Kart *p);
-void UpdateKartSpeedLimitGoal(Kart *p);
+void UpdateKartSpeedLimitGoal(Kart *kart);
 // Stores the previous collision center: the point mRadius plus 0x400 along the up vector from mUnk_98. Slot 5 of
 // Kart.mSlotFunctions for every Kart except the remote Karts of mode 5; also called once from
 // ApplyParticipantKartRecord.
@@ -41,7 +41,7 @@ void ResetKartTurnAndRadius(Kart *kart);
 void UpdateKartPrevValuesAndClearFlags(Kart *p);
 // Slot 4 step of one Kart: moves Kart.mCollisionCenter, sweeps it against the course from Kart.mPrevCollisionCenter,
 // counts the step and calls the function in mUnk_230.
-void AdvanceKartCollision(Kart *p);
+void AdvanceKartCollision(Kart *kart);
 // Slot 3 step of one Kart: speed limits from the physical parameters, the Kart state function, gravity and the velocity
 // added to mPos. Does not test collisions.
 void AdvanceKartMotion(Kart *p);

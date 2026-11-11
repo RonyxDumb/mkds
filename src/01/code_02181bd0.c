@@ -319,7 +319,7 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *e, u8 *f) {
     u8 a = *e;
     u8 b = *f;
 
-    if (kart->mUnk_48 & 0x200) {
+    if (kart->mUnk_48 & KART_48_OBJECTS_SKIP) {
         return 0;
     }
     if (a == 1) {

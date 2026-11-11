@@ -119,7 +119,7 @@ void func_ov001_0218f6d8(Unk02188950 *a) {
 
 s32 func_ov001_0218f688(Unk02188950 *a) {
     Kart *obj = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((obj->mUnk_48 & 0x200) == 0) {
+    if ((obj->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &obj->mPos);
         func_ov001_02188d8c(a, &obj->mPos);
     }
@@ -129,7 +129,7 @@ s32 func_ov001_0218f688(Unk02188950 *a) {
 
 s32 func_ov001_0218f634(Unk02188950 *a) {
     Kart *obj = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((obj->mUnk_48 & 0x200) == 0) {
+    if ((obj->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &obj->mPos);
         func_ov001_02188d8c(a, &obj->mPos);
     }
@@ -180,7 +180,7 @@ s32 func_ov001_0218f3ec(Unk02188950 *a) {
     Vec3 v;
 
     p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & 0x200) == 0) {
+    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
         VEC_MultAdd(a->mPrm->mUnk_21c, &p->mEasedTurnedForward, &p->mPos, &v);
         SetAnglePointAndMoveAnglePoint(a, &v);
         func_ov001_02188d8c(a, &v);
@@ -194,7 +194,7 @@ s32 func_ov001_0218f3ac(Unk02188950 *a) {
     Kart *p;
 
     p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & 0x200) == 0) {
+    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &p->mPos);
     }
     func_ov001_0218f6d8(a);
@@ -226,7 +226,7 @@ s32 func_ov001_0218f244(Unk02188950 *a) {
     Vec3 v;
 
     p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & 0x200) == 0) {
+    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
         VEC_MultAdd(-a->mPrm->mUnk_0e8, &p->mEasedTurnedForward, &p->mPos, &v);
         SetAnglePointAndMoveAnglePoint(a, &v);
         func_ov001_02188d8c(a, &v);
@@ -258,7 +258,7 @@ s32 func_ov001_0218efc4(Unk02188950 *a) {
     float f;
 
     p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & 0x200) == 0) {
+    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &p->mPos);
         func_ov001_02188d8c(a, &p->mPos);
     }
@@ -670,7 +670,7 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
         if (b->mUnk_0a8 != 0) {
             if (func_ov001_021871f8(b, 5) != 0) {
                 p = GetKart((u16) gRaceSetup->mEntryIndex);
-                if (p->mState == KART_STATE_NORMAL && (p->mUnk_48 & 0x200) == 0 &&
+                if (p->mState == KART_STATE_NORMAL && (p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0 &&
                     GetEntryKartInRange(b, 0, b->mPrm->mUnk_184) != NULL &&
                     GetEntryKartFacingObject(b, 0, b->mPrm->mUnk_180) != NULL &&
                     GetEntryKartInRange(b, b->mPrm->mUnk_188, 0) != NULL) {
@@ -688,7 +688,7 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
             }
         } else {
             p = GetKart((u16) gRaceSetup->mEntryIndex);
-            if (p->mUnk_48 & 0x200) {
+            if (p->mUnk_48 & KART_48_OBJECTS_SKIP) {
                 if (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0) {
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                         SetMissionRunTimer((u16) b->mPrm->mUnk_1bc);

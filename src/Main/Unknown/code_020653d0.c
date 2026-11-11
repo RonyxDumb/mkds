@@ -73,21 +73,21 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
 
     recordFlags = record->mFlags;
     wasOnGround = (kart->mUnk_44 & KART_44_ON_GROUND) != 0;
-    state = kart->mUnk_514;
+    state = kart->mParticipantRecordData;
     newPos.x = record->mPosX << 10;
     newPos.y = record->mPosY << 10;
     newPos.z = record->mPosZ << 10;
     kart->mForwardSpeed = record->mForwardSpeed << 2;
     kart->mHeadingAngle = record->mHeadingAngle;
-    state->mUnk_44 = record->mUnk_14;
-    state->mUnk_48 = record->mUnk_10;
-    byte = state->mUnk_48 >> 24;
+    state->mRecordBits = record->mUnk_14;
+    state->mRecordKartBits = record->mUnk_10;
+    byte = state->mRecordKartBits >> 24;
     state->mPushDirection.x = (s16) (((byte & 0x80) ? 0xc000 : 0) | (byte << 6));
-    byte = state->mUnk_48 >> 16;
+    byte = state->mRecordKartBits >> 16;
     state->mPushDirection.y = (s16) (((byte & 0x80) ? 0xc000 : 0) | (byte << 6));
-    byte = state->mUnk_48 >> 8;
+    byte = state->mRecordKartBits >> 8;
     state->mPushDirection.z = (s16) (((byte & 0x80) ? 0xc000 : 0) | (byte << 6));
-    state->mUnk_48 = state->mUnk_48 & 0xff;
+    state->mRecordKartBits = state->mRecordKartBits & 0xff;
     state->mTargetTurnAngle = record->mTurnAngle;
     kart->mTurnAngle = record->mTurnAngle;
     if (wasOnGround) {
@@ -95,17 +95,17 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     } else {
         kart->mUnk_44 &= ~KART_44_ON_GROUND;
     }
-    if (kart->mUnk_514->mUnk_48 & 2) {
+    if (kart->mParticipantRecordData->mRecordKartBits & 2) {
         kart->mUnk_44 |= 2;
     } else {
         kart->mUnk_44 &= ~2;
     }
-    if (kart->mUnk_514->mUnk_48 & 8) {
+    if (kart->mParticipantRecordData->mRecordKartBits & 8) {
         kart->mUnk_44 |= KART_44_DRIFTING;
     } else {
         kart->mUnk_44 &= ~KART_44_DRIFTING;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x10000) != 0) != ((recordFlags & 0x10000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x10000) != 0) != ((recordFlags & 0x10000) != 0)) {
         s = kart->mHeadingAngle;
         ResetKartAndSetPos(kart, &newPos, 0, 0);
         kart->mHeadingAngle = s;
@@ -113,7 +113,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         kart->mUnk_110_q = kart->mUnk_e0_m;
         if (kart->mUnk_7c & 0x400) {
-            stateAgain = kart->mUnk_514;
+            stateAgain = kart->mParticipantRecordData;
             stateAgain->mSmoothedPos = kart->mPos;
             stateAgain->mSmoothedDrawPos = stateAgain->mSmoothedPos;
             stateAgain->mSmoothedRotation = kart->mUnk_110_q;
@@ -171,7 +171,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         VEC_Add(&newPos, &state->mPosOffset, &newPos);
         FindCollisionSlotsAroundPos(&newPos, stepCount * 0xd000 + kart->mRadius, 0x8000);
         for (i = 0; i < stepCount; i++) {
-            if (kart->mUnk_48 & 0x40) {
+            if (kart->mUnk_48 & KART_48_SINKING) {
                 kart->mPos.y -= 0x19a;
             } else {
                 if (i < 3 && i < stepCount / 2) {
@@ -180,7 +180,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 QuaternionFromAxisAngle(&data_02154f7c, kart->mHeadingAngle, &kart->mUnk_e0_m);
                 QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
                 Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
-                stateAgain = kart->mUnk_514;
+                stateAgain = kart->mParticipantRecordData;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +
                     MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
@@ -199,7 +199,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 VEC_Add(&newPos, &moveStep, &newPos);
                 VEC_Add(&newPos, &kart->mHitVelocity, &newPos);
                 VEC_Add(&kart->mVelocity, &kart->mHitVelocity, &kart->mVelocity);
-                if (kart->mUnk_514->mUnk_44 & 1) {
+                if (kart->mParticipantRecordData->mRecordBits & 1) {
                     kart->mVerticalSpeed = 0;
                 }
                 k = (kart->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
@@ -223,45 +223,46 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             prevPos = newPos;
         }
     }
-    if (kart->mUnk_48 & 0x40) {
+    if (kart->mUnk_48 & KART_48_SINKING) {
         goto l0;
     }
     kart->mPos.x = newPos.x;
     kart->mPos.z = newPos.z;
     startedState = 0;
-    if (((kart->mUnk_514->mAppliedFlags & 1) != 0) != ((recordFlags & 1) != 0) && (kart->mUnk_44 & KART_44_ON_GROUND)) {
-        stateAgain = ((volatile Kart *) kart)->mUnk_514;
+    if (((kart->mParticipantRecordData->mAppliedFlags & 1) != 0) != ((recordFlags & 1) != 0) &&
+        (kart->mUnk_44 & KART_44_ON_GROUND)) {
+        stateAgain = ((volatile Kart *) kart)->mParticipantRecordData;
         stateAgain->mHopSpeed = 0x1405;
         stateAgain->mHopHeight = 0;
         kart->mVerticalSpeed += 0x21a2;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x20000) != 0) != ((recordFlags & 0x20000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x20000) != 0) != ((recordFlags & 0x20000) != 0)) {
         StartKartState6(kart);
         startedState = 1;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 4) != 0) != ((recordFlags & 4) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 4) != 0) != ((recordFlags & 4) != 0)) {
         StartKartState2(kart, 1, 0);
         startedState = 1;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 8) != 0) != ((recordFlags & 8) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 8) != 0) != ((recordFlags & 8) != 0)) {
         StartKartState2(kart, 2, 0);
         startedState = 1;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x10) != 0) != ((recordFlags & 0x10) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x10) != 0) != ((recordFlags & 0x10) != 0)) {
         StartKartState3(kart);
         startedState = 1;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x2000) != 0) != ((recordFlags & 0x2000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x2000) != 0) != ((recordFlags & 0x2000) != 0)) {
         StartKartStar(kart);
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x4000) != 0) != ((recordFlags & 0x4000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x4000) != 0) != ((recordFlags & 0x4000) != 0)) {
         i = 0;
         StartFadeFog();
         StartEffectsAtOtherKarts(kart->mIndex);
         e = kart->mUnk_7c & 0x200;
         if (e) {
             if (e) {
-                kart->mUnk_514->mEventToggleFlags ^= 0x4000;
+                kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
             }
         } else {
             for (; i < (u32) gRaceSetup->mKartCount; i++) {
@@ -271,19 +272,19 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             }
         }
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x8000) != 0) != ((recordFlags & 0x8000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x8000) != 0) != ((recordFlags & 0x8000) != 0)) {
         StartKartThunderShrink(kart);
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x100000) != 0) != ((recordFlags & 0x100000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x100000) != 0) != ((recordFlags & 0x100000) != 0)) {
         StartKartKiller(kart);
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x200000) != 0) != ((recordFlags & 0x200000) != 0)) {
-        kart->mUnk_538.mKillerEnding = TRUE;
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x200000) != 0) != ((recordFlags & 0x200000) != 0)) {
+        kart->mItemEffectData.mKillerEnding = TRUE;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x4000000) != 0) != ((recordFlags & 0x4000000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x4000000) != 0) != ((recordFlags & 0x4000000) != 0)) {
         StartKartTeresa(kart);
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x40) != 0) != ((recordFlags & 0x40) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x40) != 0) != ((recordFlags & 0x40) != 0)) {
         if (kart->mUnk_7c & 0x200) {
             if ((kart->mUnk_4c & 0x10000040) || kart->mState == KART_STATE_PUSH_FLIP) {
                 goto l1;
@@ -294,10 +295,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(kart, &state->mPushDirection, 0);
     l1:
-        if (((kart->mUnk_514->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
+        if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         }
-    } else if (((kart->mUnk_514->mAppliedFlags & 0x20) != 0) != ((recordFlags & 0x20) != 0)) {
+    } else if (((kart->mParticipantRecordData->mAppliedFlags & 0x20) != 0) != ((recordFlags & 0x20) != 0)) {
         if (kart->mUnk_7c & 0x200) {
             if ((kart->mUnk_4c & 0x10000040) || kart->mState == KART_STATE_PUSH_FLIP) {
                 goto l2;
@@ -307,15 +308,15 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         StartKartState4(kart, &state->mPushDirection, 0);
     l2:
-        if (((kart->mUnk_514->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
+        if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         }
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x40000) != 0) != ((recordFlags & 0x40000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x40000) != 0) != ((recordFlags & 0x40000) != 0)) {
         StartKartAheadBoost(kart);
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x80000) != 0) != ((recordFlags & 0x80000) != 0)) {
-        kart->mUnk_538.mUnk_1c = 0;
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x80000) != 0) != ((recordFlags & 0x80000) != 0)) {
+        kart->mItemEffectData.mGessoFrames = 0;
         kart->mUnk_4c |= 0x8000000;
         kart->mUnk_4c &= ~0x20000;
         if (kart->mUnk_4c & KART_4C_AHEAD_BOOST) {
@@ -326,7 +327,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             StartKartCharacterAnimationOnce(kart, 1, 0);
             SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
         }
-        if (!(kart->mUnk_48 & 0x840)) {
+        if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
             StartKartSeqArcSound(kart, kart->mSoundIndex, 0);
         }
         StartOrthoQuadsGesoSumi(kart->mIndex, 0);
@@ -339,7 +340,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     }
     o = GetKart(gRaceSetup->mEntryIndex);
     e = 0;
-    if (((kart->mUnk_514->mAppliedFlags & 0x400000) != 0) != ((recordFlags & 0x400000) != 0) && o->mIndex == 0) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x400000) != 0) != ((recordFlags & 0x400000) != 0) &&
+        o->mIndex == 0) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -358,7 +360,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     l3:
         e = 1;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x800000) != 0) != ((recordFlags & 0x800000) != 0) && o->mIndex == 1) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x800000) != 0) != ((recordFlags & 0x800000) != 0) &&
+        o->mIndex == 1) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -377,7 +380,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     l4:
         e = 1;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x1000000) != 0) != ((recordFlags & 0x1000000) != 0) && o->mIndex == 2) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000000) != 0) != ((recordFlags & 0x1000000) != 0) &&
+        o->mIndex == 2) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -396,7 +400,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     l5:
         e = 1;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x2000000) != 0) != ((recordFlags & 0x2000000) != 0) && o->mIndex == 3) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x2000000) != 0) != ((recordFlags & 0x2000000) != 0) &&
+        o->mIndex == 3) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -418,7 +423,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     if (e) {
         goto l0;
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x200) != 0) != ((recordFlags & 0x200) != 0) && o->mIndex == 0) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x200) != 0) != ((recordFlags & 0x200) != 0) &&
+        o->mIndex == 0) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -439,7 +445,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartState4(o, &direction, 0);
     l7:
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x400) != 0) != ((recordFlags & 0x400) != 0) && o->mIndex == 1) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x400) != 0) != ((recordFlags & 0x400) != 0) &&
+        o->mIndex == 1) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -460,7 +467,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartState4(o, &direction, 0);
     l8:
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x800) != 0) != ((recordFlags & 0x800) != 0) && o->mIndex == 2) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x800) != 0) != ((recordFlags & 0x800) != 0) &&
+        o->mIndex == 2) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -481,7 +489,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartState4(o, &direction, 0);
     l9:
     }
-    if (((kart->mUnk_514->mAppliedFlags & 0x1000) != 0) != ((recordFlags & 0x1000) != 0) && o->mIndex == 3) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000) != 0) != ((recordFlags & 0x1000) != 0) &&
+        o->mIndex == 3) {
         Vec3 direction;
 
         s = kart->mIndex;
@@ -503,5 +512,5 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     l10:
     }
 l0:
-    kart->mUnk_514->mAppliedFlags = recordFlags;
+    kart->mParticipantRecordData->mAppliedFlags = recordFlags;
 }

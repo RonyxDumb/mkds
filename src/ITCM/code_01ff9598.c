@@ -134,11 +134,11 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     return FALSE;
 }
 
-void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
-    s32 d = Vec3DotUnrounded(&p->mGroundNormal, a);
+void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *a) {
+    s32 d = Vec3DotUnrounded(&kart->mGroundNormal, a);
     s32 m;
 
-    if (p->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
+    if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
         m = 0x4cd;
     } else {
         m = 0x1ec;
@@ -147,22 +147,22 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
         d = 0;
     }
     if (d >= 0xe66) {
-        if (p->mUnk_44 & 0x1000) {
-            if (p->mCollisionHitLink->mObject == NULL && p->mPointMotion.x == 0 && p->mPointMotion.y == 0 &&
-                p->mPointMotion.z == 0 && p->mUnk_4d0 > 100) {
-                p->mQuaternionBlendFactor = 0;
+        if (kart->mUnk_44 & 0x1000) {
+            if (kart->mCollisionHitLink->mObject == NULL && kart->mPointMotion.x == 0 && kart->mPointMotion.y == 0 &&
+                kart->mPointMotion.z == 0 && kart->mCollisionStepFrames > 100) {
+                kart->mQuaternionBlendFactor = 0;
                 return;
             }
         }
-        if (p->mQuaternionBlendFactor >= m) {
+        if (kart->mQuaternionBlendFactor >= m) {
             return;
         }
-        p->mQuaternionBlendFactor = p->mQuaternionBlendFactor + 0x14;
-        if (p->mQuaternionBlendFactor > m) {
-            p->mQuaternionBlendFactor = m;
+        kart->mQuaternionBlendFactor = kart->mQuaternionBlendFactor + 0x14;
+        if (kart->mQuaternionBlendFactor > m) {
+            kart->mQuaternionBlendFactor = m;
         }
     } else {
-        p->mQuaternionBlendFactor = MUL_FIXED12_NO_ROUND(m, p->mVelocityLengthRatio);
+        kart->mQuaternionBlendFactor = MUL_FIXED12_NO_ROUND(m, kart->mVelocityLengthRatio);
     }
 }
 
@@ -263,10 +263,10 @@ void AdvanceKartBoosts(Kart *kart) {
         }
     }
     if (kart->mUnk_48 & 0x100000) {
-        kart->mUnk_538.mUnk_00 = kart->mUnk_538.mUnk_00 - 1;
-        if (kart->mUnk_538.mUnk_00 <= 0) {
+        kart->mItemEffectData.mKinokoBoostTimer = kart->mItemEffectData.mKinokoBoostTimer - 1;
+        if (kart->mItemEffectData.mKinokoBoostTimer <= 0) {
             kart->mUnk_48 = kart->mUnk_48 & ~0x20100000;
-            kart->mUnk_538.mUnk_00 = 0;
+            kart->mItemEffectData.mKinokoBoostTimer = 0;
         }
     }
     if (!(kart->mUnk_44 & 0x1000000) && !(kart->mUnk_7c & 0x400)) {
@@ -276,19 +276,19 @@ void AdvanceKartBoosts(Kart *kart) {
         return;
     }
     raceUpdateFrames = GetRaceUpdateFrames();
-    if (kart->mUnk_410 == 0) {
+    if (kart->mRespawnPressRaceFrame == 0) {
         entryIndex = kart->mEntryIndex;
         if ((u16) (gInputSlots[entryIndex].mPressedBits & PAD_KEY_A) != 0) {
-            kart->mUnk_410 = raceUpdateFrames;
+            kart->mRespawnPressRaceFrame = raceUpdateFrames;
         }
     }
-    if (kart->mUnk_40c == 0) {
+    if (kart->mRespawnLandRaceFrame == 0) {
         return;
     }
-    if (kart->mUnk_410 == 0) {
+    if (kart->mRespawnPressRaceFrame == 0) {
         return;
     }
-    frameDifference = kart->mUnk_410 - kart->mUnk_40c;
+    frameDifference = kart->mRespawnPressRaceFrame - kart->mRespawnLandRaceFrame;
     if (frameDifference <= 0) {
         frameDifference = -frameDifference;
     }

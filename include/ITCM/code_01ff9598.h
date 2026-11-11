@@ -68,7 +68,7 @@ void AdvanceKartBoosts(Kart *kart);
 void RefreshKartSurface(Kart *p);
 void AdvanceKartOrientation(Kart *p, Vec3 *a);
 void UpdateKartAirborne(Kart *p);
-void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a);
+void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *a);
 BOOL StartKartRespawnWaitIfBelowZero(Kart *kart);
 void ClearKartGroundContact(Kart *kart, u32 clearedBits);
 BOOL IsLowestOffsetFarOnHitBitOrYAbove(Kart *kart, u32 collisionBits, Vec3 *lowestOffset);

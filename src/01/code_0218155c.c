@@ -134,7 +134,7 @@ void UpdateMissionRunData(void) {
     MissionRunData *missionRunData;
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((kart->mUnk_48 & 0x200) == 0) {
+    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
         missionRunData = gMissionRunData;
         missionRunData->mPrevKartPos = missionRunData->mKartPos;
         missionRunData->mPrevKartHeadingAngle = missionRunData->mKartHeadingAngle;

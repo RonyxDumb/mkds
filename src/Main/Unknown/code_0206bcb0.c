@@ -51,11 +51,11 @@ void AdvanceKartBoost(s32 *acceleration, Kart *kart) {
     if (!(flags & 0x8000000)) {
         return;
     }
-    q = &kart->mUnk_538;
-    if (q->mUnk_1c > 400) {
+    q = &kart->mItemEffectData;
+    if (q->mGessoFrames > 400) {
         return;
     }
-    q->mUnk_1c = 400;
+    q->mGessoFrames = 400;
     kart->mUnk_4c |= 0x20000;
     diffColor = GetKartCourseDiffColor();
     emiColor = GetKartCourseEmiColor();
@@ -303,7 +303,7 @@ recheck:
         kart->mCollisionHitLink->mObject = NULL;
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mEventToggleFlags ^= 0x1;
+        kart->mParticipantRecordData->mEventToggleFlags ^= 0x1;
     }
 }
 
@@ -464,7 +464,7 @@ BOOL IsKartOutOfView(Kart *kart) {
 void StartKartState(Kart *kart, KartState mode) {
     kart->mUnk_48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->mItemEffectData.mKinokoBoostTimer = 0;
     kart->mMiniTurboTimer = 0;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
@@ -595,11 +595,11 @@ BOOL TrySpinKart(Kart *kart, int rotationCount, int b) {
         if (b == 0) {
             if (rotationCount == 1) {
                 if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mEventToggleFlags ^= 0x4;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x4;
                 }
             } else if (rotationCount == 2) {
                 if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mEventToggleFlags ^= 0x8;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x8;
                 }
             }
         }

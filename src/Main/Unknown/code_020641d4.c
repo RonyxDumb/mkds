@@ -31,16 +31,16 @@ void AdvanceKartDrawState(Kart *kart) {
     MtxFx43 rotationMatrix;
     MtxFx43 extraYRotationMatrix;
     MtxFx43 yRotationMatrix;
-    s32 j;
+    s32 turnFraction;
     s32 k;
-    u16 l;
+    u16 tireTurnAngle;
     u32 kartBits;
     MtxFx43 *drawMatrix;
     Vec3 *q;
     CharacterAnimationState *animationState;
     enum { K0 } entryIndex;
 
-    Matrix4x3FromQuaternion(&kart->mUnk_120_m, kart->mUnk_50c);
+    Matrix4x3FromQuaternion(&kart->mUnk_120_m, kart->mRotationSource);
     kartBits = kart->mUnk_4c;
     if ((kartBits & 0x10) != 0) {
         drawMatrix = &kart->mUnk_150_m;
@@ -94,11 +94,11 @@ void AdvanceKartDrawState(Kart *kart) {
     modelsEntry = kart->mKartModelsEntry;
     if (modelsEntry->mModels[2] != NULL) {
         animationState = &modelsEntry->mAnimationState;
-        j = MUL_FIXED12_NO_ROUND(animationState->mMiddleFrameReciprocal, animationState->mTurnFrameOffset);
-        l = MUL_FIXED12_NO_ROUND(j, 0xce4);
+        turnFraction = MUL_FIXED12_NO_ROUND(animationState->mMiddleFrameReciprocal, animationState->mTurnFrameOffset);
+        tireTurnAngle = MUL_FIXED12_NO_ROUND(turnFraction, 0xce4);
         k = kart->mVelocityLengthRatio;
-        if (kart->mUnk_4d4 > k) {
-            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) MUL_FIXED12_NO_ROUND(kart->mUnk_4d4, 0x7d0);
+        if (kart->mKeyALevel > k) {
+            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) MUL_FIXED12_NO_ROUND(kart->mKeyALevel, 0x7d0);
         } else {
             k = MUL_FIXED12_NO_ROUND(k, 0xfa0);
             if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {
@@ -115,7 +115,7 @@ void AdvanceKartDrawState(Kart *kart) {
             }
             kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) k;
         }
-        kart->mUnk_4cc = l;
+        kart->mTireTurnAngle = tireTurnAngle;
     }
     characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
     if (characterAnimation != NULL && characterAnimation->mAnmObjCount != 0) {

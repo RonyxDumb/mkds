@@ -11,11 +11,11 @@
 #include "registers.h"
 
 void StopKartSoundWhileRequested(Kart *a) {
-    if (a->mUnk_450.mUnk_38 == 0xffff) {
+    if (a->mSound.mWhileRequestedSoundId == 0xffff) {
         return;
     }
-    StopSoundEx(&a->mSoundSource, 0, a->mUnk_450.mUnk_38, 0);
-    a->mUnk_450.mUnk_38 = 0xffff;
+    StopSoundEx(&a->mSoundSource, 0, a->mSound.mWhileRequestedSoundId, 0);
+    a->mSound.mWhileRequestedSoundId = 0xffff;
 }
 
 void InitSoundFalloffs(void) {

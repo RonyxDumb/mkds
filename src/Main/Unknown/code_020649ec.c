@@ -72,7 +72,7 @@ void AdvancePeerKartMotion(Kart *kart) {
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         return;
     }
-    recordState = kart->mUnk_514;
+    recordState = kart->mParticipantRecordData;
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
     AdvanceParticipantKartRecords(kart);
     if (kart->mForwardSpeed > 0x3000) {
@@ -84,7 +84,7 @@ void AdvancePeerKartMotion(Kart *kart) {
     UpdateKartForwardAndLengthRatio(kart);
     AdvanceKartInputAndTurn(kart);
     AdvanceKartBoosts(kart);
-    recordState = kart->mUnk_514;
+    recordState = kart->mParticipantRecordData;
     recordState->mHopSpeed = recordState->mHopSpeed + kart->mGravity;
     recordState->mHopHeight = recordState->mHopHeight + recordState->mHopSpeed;
     if (recordState->mHopHeight < 0) {
@@ -94,7 +94,7 @@ void AdvancePeerKartMotion(Kart *kart) {
     if (IsRaceStarted() == 1) {
         kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycleIndex;
     }
-    if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
         kart->mVerticalSpeed = 0;
     }
     AdvanceKartByVelocity(kart);
@@ -113,7 +113,7 @@ void AdvancePeerKartCollision(Kart *kart) {
     u32 hitAttributes;
     Vec3 *upAxis;
 
-    recordState = kart->mUnk_514;
+    recordState = kart->mParticipantRecordData;
     if ((kart->mUnk_7c & KART_7C_REMOVED) != 0) {
         return;
     }
@@ -126,7 +126,7 @@ void AdvancePeerKartCollision(Kart *kart) {
     CollideKartWithCourse(kart, &groundNormal);
     AdvancePeerKartOrientation(kart, &groundNormal);
     kart->mGroundNormal = groundNormal;
-    kart->mUnk_4d0 = kart->mUnk_4d0 + 1;
+    kart->mCollisionStepFrames = kart->mCollisionStepFrames + 1;
     UpdateKartSoundWrapper(kart);
     AdvanceKartCollisionTimer(kart);
     if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) != 0) {
@@ -144,7 +144,7 @@ void AdvancePeerKartCollision(Kart *kart) {
     posStep.y = MUL_FIXED12_NO_ROUND(posStep.y, blendFactor);
     posStep.z = MUL_FIXED12_NO_ROUND(posStep.z, blendFactor);
     VEC_Add(&recordState->mSmoothedPos, &posStep, &recordState->mSmoothedPos);
-    if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
         ComputeKartPointAlongUp(&probePos, &recordState->mSmoothedPos, 0x400, kart);
         upAxis = &kart->mUnk_12c;
         downOffset.x = MUL_FIXED12_NO_ROUND(upAxis->x, -0x7000);
@@ -168,9 +168,9 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     s32 headingDifference;
     s32 hopHeightTilt;
 
-    recordState = kart->mUnk_514;
+    recordState = kart->mParticipantRecordData;
     kart->mVelocityScaleFactor = 0x1000;
-    if (kart->mAirborneFrames > 5 && (kart->mUnk_514->mUnk_44 & 1) == 0) {
+    if (kart->mAirborneFrames > 5 && (kart->mParticipantRecordData->mRecordBits & 1) == 0) {
         kart->mQuaternionBlendFactor = 0xf6;
         ComputeKartAirTiltQuaternion(kart, &kart->mUnk_100_q);
     } else {
@@ -248,13 +248,13 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
             slotFunctions++;
         }
     }
-    kart->mUnk_514 = NULL;
+    kart->mParticipantRecordData = NULL;
     if (kart->mSlotFunctions[1] != 0) {
         kart->mSlotFunctions[1](kart);
     }
     kart->mPosSource = &kart->mPos;
-    kart->mUnk_50c = &kart->mUnk_110_q;
-    kart->mUnk_510 = &kart->mPos;
+    kart->mRotationSource = &kart->mUnk_110_q;
+    kart->mCollisionPosSource = &kart->mPos;
     if (kart->mSlotFunctions[0] != 0) {
         kart->mSlotFunctions[0](kart);
     }
@@ -265,18 +265,18 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     }
     if (gRaceSetup->mMode == 5) {
         if (isPeer != 0) {
-            kart->mPosSource = &kart->mUnk_514->mSmoothedDrawPos;
-            kart->mUnk_50c = &kart->mUnk_514->mSmoothedRotation;
-            kart->mUnk_510 = &kart->mUnk_514->mSmoothedPos;
+            kart->mPosSource = &kart->mParticipantRecordData->mSmoothedDrawPos;
+            kart->mRotationSource = &kart->mParticipantRecordData->mSmoothedRotation;
+            kart->mCollisionPosSource = &kart->mParticipantRecordData->mSmoothedPos;
         } else {
             kart->mPosSource = &kart->mPos;
-            kart->mUnk_50c = &kart->mUnk_110_q;
-            kart->mUnk_510 = &kart->mPos;
+            kart->mRotationSource = &kart->mUnk_110_q;
+            kart->mCollisionPosSource = &kart->mPos;
         }
     } else {
         kart->mPosSource = &kart->mPos;
-        kart->mUnk_50c = &kart->mUnk_110_q;
-        kart->mUnk_510 = &kart->mPos;
+        kart->mRotationSource = &kart->mUnk_110_q;
+        kart->mCollisionPosSource = &kart->mPos;
     }
     kart->mPosSourceCopy = kart->mPosSource;
     PlaceKartAtStartPlacement(kart, 0);

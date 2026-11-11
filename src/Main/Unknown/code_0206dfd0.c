@@ -86,7 +86,7 @@ void CollideKartWithKarts(Kart *p) {
     if (p->mUnk_7c & 0x402000) {
         return;
     }
-    if (p->mUnk_48 & 0x40) {
+    if (p->mUnk_48 & KART_48_SINKING) {
         return;
     }
     for (i = 0; i < gFoundCollisionSlotCount; i++) {
@@ -100,7 +100,7 @@ void CollideKartWithKarts(Kart *p) {
         if (q->mUnk_7c & 0x402020) {
             continue;
         }
-        if (q->mUnk_48 & 0x40) {
+        if (q->mUnk_48 & KART_48_SINKING) {
             continue;
         }
         r = p->mRadius + q->mRadius;
@@ -148,8 +148,8 @@ void CollideKartWithKarts(Kart *p) {
                     b.z -= MUL_FIXED12_NO_ROUND(q->mCourseContactNormal.z, f);
                 }
             }
-            VEC_Add(p->mUnk_510, &a, p->mUnk_510);
-            VEC_Add(q->mUnk_510, &b, q->mUnk_510);
+            VEC_Add(p->mCollisionPosSource, &a, p->mCollisionPosSource);
+            VEC_Add(q->mCollisionPosSource, &b, q->mCollisionPosSource);
             if (q->mUnk_44 & 0xc0) {
                 VEC_Subtract(&q->mVelocity, &p->mVelocity, &e);
                 f = VEC_DotProduct(&n, &e);

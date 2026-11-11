@@ -4,6 +4,6 @@
 #include "Main/Unknown/code_02105ec0.h"
 
 void SetKartThunderShrinkTrackParamsFunction(Kart *kart) {
-    kart->mUnk_450.mThunderShrinkRaceFrame = gSceneSoundState.mRaceFrames;
+    kart->mSound.mThunderShrinkRaceFrame = gSceneSoundState.mRaceFrames;
     kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) SetKartThunderShrinkSoundTrackParams;
 }
