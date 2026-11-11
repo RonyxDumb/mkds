@@ -283,21 +283,21 @@ void DWCi_RemoteLoginProcess(void) {
     }
 }
 
-void DWCi_GPGetInfoCallback(GpConnection *connection, Unk0219c400 *arg, u32 param) {
+void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 param) {
     char lastNameToSet[0x15];
     char accountName[0x15];
     char tempUserName[0x15];
     WiFiLogin *wiFiLogin;
-    if (arg->mUnk_00 != 0) {
+    if (arg->mResult != 0) {
         return;
     }
     wiFiLogin = gWiFiLogin;
     if (wiFiLogin->mState == 3) {
-        if (arg->mUnk_8e[0] == 0) {
+        if ((s8) arg->mLastname[0] == 0) {
             DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, lastNameToSet);
             if (ReportWiFiLoginGpResult(GpSetInfosA(connection, 0x705, (const s8 *) lastNameToSet)) == 0) {
                 gWiFiLogin->mState = 4;
-                if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mUnk_04, 0, 0, DWCi_GPGetInfoCallback, 0)) !=
+                if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) !=
                     0) {
                     return;
                 }
@@ -309,13 +309,13 @@ void DWCi_GPGetInfoCallback(GpConnection *connection, Unk0219c400 *arg, u32 para
         }
     } else if (wiFiLogin->mState == 4) {
         DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, accountName);
-        if (strcmp((const char *) arg->mUnk_8e, accountName) == 0) {
+        if (strcmp(arg->mLastname, accountName) == 0) {
             DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mTempLoginId, gWiFiLogin->mGamecode, tempUserName);
-            DWCi_Acc_SetLoginIdToUserData(gWiFiLogin->mUserData, &gWiFiLogin->mTempLoginId, arg->mUnk_04);
+            DWCi_Acc_SetLoginIdToUserData(gWiFiLogin->mUserData, &gWiFiLogin->mTempLoginId, arg->mProfile);
             GpDisconnect(connection);
             stRemoteAuthCallback(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, pStRemoteAuthParam);
         } else {
-            if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mUnk_04, 0, 0, DWCi_GPGetInfoCallback, 0)) != 0) {
+            if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) != 0) {
                 return;
             }
         }

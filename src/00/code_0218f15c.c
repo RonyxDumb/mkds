@@ -304,7 +304,7 @@ u32 GpSetCallback(GpConnection *connection, s32 func, void (*callback)(void *con
 }
 
 u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *partnerchallenge, s32 firewall,
-                               s32 blocking, Unk0218f15cCb callback, u32 param) {
+                               s32 blocking, GpConnectCb callback, u32 param) {
     GpiConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
@@ -320,7 +320,7 @@ u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *part
         return 2;
     }
     if (gpState->mSimulation != 0) {
-        Unk0218f15cArg arg = {0};
+        ConnectReply arg = {0};
         callback(connection, &arg, param);
         return 0;
     }

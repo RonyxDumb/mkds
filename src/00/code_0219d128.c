@@ -163,7 +163,7 @@ void DWCi_StopFriendProcess(s32 error, s32 errorCode) {
 // list holds an entry with that name or id; otherwise the request is dropped locally (no message is sent).
 void DWCi_GPRecvBuddyRequestCallback(GpConnection *connection, u32 *arg) {
     if (gWiFiBuddySync->mBuddies != NULL) {
-        GpGetInfo(connection, *arg, 0, 0, (Unk0218eff8Cb) DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
+        GpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
     }
 }
 
@@ -171,7 +171,7 @@ u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, u32 *arg, u32 param) 
     int compareResult;
     compareResult = strcmp((const char *) (arg[2]), gBuddyAuthorizedMessage);
     if (compareResult == 0) {
-        GpGetInfo(connection, *arg, 0, 0, (Unk0218eff8Cb) DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
+        GpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
         return 1;
     }
     return 0;
@@ -327,7 +327,7 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
         } else if (DWC_GetGsProfileId(DWCi_GetUserData(), &friendList[gWiFiBuddySync->mSyncIndex]) == -1) {
             DWC_LoginIdToUserName(DWCi_GetUserData(), &friendList[gWiFiBuddySync->mSyncIndex], searchName);
             GpProfileSearchA(gWiFiBuddySync->mGpConnection, NULL, NULL, NULL, NULL, (s8 *) searchName, 0, 0,
-                             (Unk0218f0a8Cb) DWCi_GPProfileSearchCallback, gWiFiBuddySync->mSyncIndex);
+                             DWCi_GPProfileSearchCallback, gWiFiBuddySync->mSyncIndex);
             gWiFiBuddySync->mBuddyUpdateState = 2;
             return;
         }

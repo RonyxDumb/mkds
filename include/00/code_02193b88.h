@@ -3,12 +3,13 @@
 #include "types.h"
 #include "00/code_0218f960.h"
 #include "00/code_0218e8d4.h"
+#include "00/code_02194bb8.h"
 
 // Buffers made by GpiQueueOperationCallback, one for each request type; the first word is taken from the request.
 typedef struct ConnectReply {
     /* 00 */ s32 mResult;
     /* 04 */ u32 mProfile;
-    /* 08 */ u8 mUniquenick[0x18];
+    /* 08 */ char mUniquenick[0x18];
 } ConnectReply;
 
 typedef struct NewProfileReply {
@@ -20,7 +21,7 @@ typedef struct ProfileSearchReply {
     /* 0 */ s32 mResult;
     /* 4 */ s32 mNumMatches;
     /* 8 */ s32 mMore;
-    /* c */ Unk0219c400Entry *mMatches;
+    /* c */ ProfileMatch *mMatches;
 } ProfileSearchReply;
 
 typedef struct RegisterNickReply {
@@ -47,13 +48,6 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
 #include "00/code_021965a0.h"
 #include "00/code_02196594.h"
 #include "00/code_0218e2dc.h"
-
-// Message handed to GpiQueueCallback by gpiProcessPeerConnected.
-typedef struct Unk021941c4Msg {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-} Unk021941c4Msg;
 
 extern s8 gPeerBufferName[];
 extern u8 data_ov000_021b3494[];

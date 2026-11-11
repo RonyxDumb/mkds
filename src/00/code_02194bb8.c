@@ -199,7 +199,7 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
 s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
     char key[0x200];
     char value[0x200];
-    Unk02194cac_10 e;
+    ProfileSearchReply e;
     u32 state;
     s32 n;
     GpiCallback c1;
@@ -383,10 +383,10 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 }
                 if (data->mKind == 1) {
                     d = FALSE;
-                    e.mUnk_00 = 0;
-                    e.mUnk_04 = 0;
-                    e.mUnk_0c = NULL;
-                    e.mUnk_08 = 0x601;
+                    e.mResult = 0;
+                    e.mNumMatches = 0;
+                    e.mMatches = NULL;
+                    e.mMore = 0x601;
                     do {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                         if (result != 0) {
@@ -398,17 +398,17 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return result;
                             }
                             if (strcmp(key, gMoreKey) == 0 && strcmp(value, data_ov000_021b3768) != 0) {
-                                e.mUnk_08 = 0x600;
+                                e.mMore = 0x600;
                             }
                             d = TRUE;
                         } else if (strcmp(key, gBsrKey) == 0) {
-                            q1 = DWCi_GsRealloc(e.mUnk_0c, ++e.mUnk_04 * 0xac);
-                            e.mUnk_0c = q1;
+                            q1 = DWCi_GsRealloc(e.mMatches, ++e.mNumMatches * 0xac);
+                            e.mMatches = q1;
                             if (q1 == NULL) {
                                 GpiSetErrorMessage(connection, data_ov000_021b35f8);
                                 return 1;
                             }
-                            i = e.mUnk_04 - 1;
+                            i = e.mNumMatches - 1;
                             t1 = &q1[i];
                             memset(t1, 0, 0xac);
                             q1[i].mProfile = StrtolBase10(value);
@@ -440,22 +440,22 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return 3;
                         }
                     } while (d == FALSE);
-                    v = e.mUnk_08;
+                    v = e.mMore;
                     c1 = operation->mCallback;
                     if (c1.mCallback != NULL) {
                         c1.mCallback(connection, &e, c1.mParam);
                     }
-                    if (v == 0x600 && e.mUnk_08 == 0x600) {
+                    if (v == 0x600 && e.mMore == 0x600) {
                         result = gpiProfileSearch(
                             connection, data->mNick, data->mUniquenick, data->mEmail, data->mFirstname, data->mLastname,
-                            data->mIcquin, e.mUnk_04 + data->mSkip, operation->mBlocking,
+                            data->mIcquin, e.mNumMatches + data->mSkip, operation->mBlocking,
                             (u32) operation->mCallback.mCallback, operation->mCallback.mParam);
                         if (result != 0) {
                             return result;
                         }
                     }
-                    DWCi_GsFree(e.mUnk_0c);
-                    e.mUnk_0c = NULL;
+                    DWCi_GsFree(e.mMatches);
+                    e.mMatches = NULL;
                 } else if (data->mKind == 2) {
                     c2 = operation->mCallback;
                     if (c2.mCallback != NULL) {

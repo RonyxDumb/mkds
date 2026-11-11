@@ -27,6 +27,8 @@
 #include "00/code_02193000.h"
 #include "00/unk_021b3000.h"
 #include "00/code_02194bb8.h"
+#include "00/code_02193b88.h"
+#include "00/code_02192d64.h"
 
 void GpDisconnect(GpConnection *connection) {
     if (connection != NULL && connection->mGpiConnection != NULL && connection->mGpiConnection->mSimulation == 0) {
@@ -36,7 +38,7 @@ void GpDisconnect(GpConnection *connection) {
 }
 
 u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                     s32 icquin, u32 blocking, Unk0218f0a8Cb callback, u32 param) {
+                     s32 icquin, u32 blocking, GpProfileSearchCb callback, u32 param) {
     GpiConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL) {
         return 2;
@@ -46,8 +48,8 @@ u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
         return 2;
     }
     if (gpState->mSimulation != 0) {
-        Unk0218f0a8Arg arg = {0};
-        arg.mUnk_08 = 0x601;
+        ProfileSearchReply arg = {0};
+        arg.mMore = 0x601;
         callback(connection, &arg, param);
         return 0;
     }
@@ -55,7 +57,7 @@ u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
                                 (u32) callback, param);
 }
 
-u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, Unk0218eff8Cb callback, u32 param) {
+u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, GpGetInfoCb callback, u32 param) {
     GpiConnection *gpState;
     if (connection == NULL || (gpState = connection->mGpiConnection) == NULL || profile == 0) {
         return 2;
@@ -65,7 +67,7 @@ u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blockin
         return 2;
     }
     if (gpState->mSimulation != 0) {
-        Unk0218eff8Arg arg = {0};
+        GetInfoReply arg = {0};
         callback(connection, &arg, param);
         return 0;
     }

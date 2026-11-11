@@ -17,33 +17,14 @@ typedef struct GpBuddyStatus {
     /* 20c */ s32 mPort;
 } GpBuddyStatus;
 
-// Element of the array behind Unk0218eff8Arg.mUnk_0c, 0xac bytes.
-typedef struct Unk0219c400Entry {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 pad_04[0xa8];
-} Unk0219c400Entry;
+typedef struct ProfileMatch ProfileMatch;
 
-// Zeroed by GpGetInfo and passed to the callback (0x204 bytes); the callbacks name it Unk0219c400.
-typedef struct Unk0218eff8Arg {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ Unk0219c400Entry *mUnk_0c;
-    /* 10 */ u8 pad_10[0x7e];
-    /* 8e */ s8 mUnk_8e[0x20];
-    /* ae */ u8 pad_ae[0x156];
-} Unk0218eff8Arg;
+typedef struct GetInfoReply GetInfoReply;
 
-// Zeroed by GpProfileSearchA (0x08 set to 0x601) and passed to the callback.
-typedef struct Unk0218f0a8Arg {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-} Unk0218f0a8Arg;
+typedef struct ProfileSearchReply ProfileSearchReply;
 
-typedef void (*Unk0218eff8Cb)(GpConnection *a, Unk0218eff8Arg *b, u32 c);
-typedef void (*Unk0218f0a8Cb)(GpConnection *a, Unk0218f0a8Arg *b, u32 c);
+typedef void (*GpGetInfoCb)(GpConnection *a, GetInfoReply *b, u32 c);
+typedef void (*GpProfileSearchCb)(GpConnection *a, ProfileSearchReply *b, u32 c);
 
 u32 GpIsBuddy(GpConnection *connection, u32 profile);
 u32 GpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index);
@@ -56,6 +37,6 @@ u32 GpDeleteBuddy(GpConnection *connection, u32 profile);
 u32 GpDenyBuddyRequest(GpConnection *connection, int profile);
 u32 GpAuthBuddyRequest(GpConnection *connection, u32 profile);
 u32 GpSetInfosA(GpConnection *connection, s32 info, const s8 *value);
-u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, Unk0218eff8Cb callback, u32 param);
+u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, GpGetInfoCb callback, u32 param);
 u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                     s32 icquin, u32 blocking, Unk0218f0a8Cb callback, u32 param);
+                     s32 icquin, u32 blocking, GpProfileSearchCb callback, u32 param);

@@ -330,7 +330,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
     char buffer[0x200];
     char loginNameBuf[0x52];
     GpiCallback callback;
-    Unk02191284Node *arg;
+    ConnectReply *arg;
     void *loginTarget;
     u32 result;
 
@@ -470,8 +470,8 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                     return 1;
                 }
                 memset(arg, 0, 0x20);
-                arg->mUnk_04 = gpState->mProfileId;
-                arg->mUnk_00 = 0;
+                arg->mProfile = gpState->mProfileId;
+                arg->mResult = 0;
                 GpiCopyString(arg->mUniquenick, uniqueNickText, 0x15);
                 result = GpiQueueCallback(connection, callback, arg, operation, 0);
                 if (result != 0) {

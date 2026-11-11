@@ -8,6 +8,6 @@
 
 void DWCi_SetPersistDataValuesAsync(u32 profileId, u32 type, u32 valueString, u32 param);
 void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated);
-void DWCi_GPGetInfoCallback_RecvAuthMessage(GpConnection *connection, Unk0219c400 *arg, u32 param);
-void DWCi_GPGetInfoCallback_RecvBuddyRequest(GpConnection *connection, Unk0219c400 *arg, u32 param);
+void DWCi_GPGetInfoCallback_RecvAuthMessage(GpConnection *connection, GetInfoReply *arg, u32 param);
+void DWCi_GPGetInfoCallback_RecvBuddyRequest(GpConnection *connection, GetInfoReply *arg, u32 param);
 void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *arg, u32 friendIdx);

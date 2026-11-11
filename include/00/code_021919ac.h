@@ -41,13 +41,6 @@ typedef struct GPIConnectData {
     /* 304 */ s32 mNewUser;
 } GPIConnectData;
 
-// Object of 0x204 bytes that gpiGetInfo allocates.
-typedef struct Unk021919ac_m {
-    /* 000 */ u32 mUnk_000;
-    /* 004 */ u32 mUnk_004;
-    /* 008 */ u8 mUnk_008[0x1fc];
-} Unk021919ac_m;
-
 void randomString(s8 *buffer, s32 numChars);
 u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data);
 u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniquenick, const char *email,

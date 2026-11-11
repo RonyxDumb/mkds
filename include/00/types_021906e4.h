@@ -46,9 +46,3 @@ typedef struct ErrorData {
     /* 0c */ s32 mFatal;
 } ErrorData;
 
-// Object GpiProcessConnectOperation allocates and hands to GpiQueueCallback.
-typedef struct Unk02191284Node {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ char mUniquenick[0x18];
-} Unk02191284Node;

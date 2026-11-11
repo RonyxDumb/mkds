@@ -21,14 +21,6 @@ typedef struct PlayerMatch {
     /* 028 */ char mStatusString[0x100];
 } PlayerMatch;
 
-// 0x10-byte local of GpiUpdateSearch passed to GpiCallback.mCallback.
-typedef struct Unk02194cac_10 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ ProfileMatch *mUnk_0c;
-} Unk02194cac_10;
-
 // Objects GpiUpdateSearch allocates and passes to GpiQueueCallback.
 typedef struct GpCheckNewUserResponseArg {
     /* 00 */ s32 mResult;

@@ -234,7 +234,7 @@ s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
 
 s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
     GpiConnection *gpState;
-    Unk021941c4Msg *arg;
+    BuddyMessageData *arg;
     s32 len;
     u32 socketGone;
     GpiCallback callback;
@@ -285,9 +285,9 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                             GpiSetErrorMessage(connection, data_ov000_021b3494);
                             return 1;
                         }
-                        arg->mUnk_00 = peerConn->mProfileId;
+                        arg->mProfile = peerConn->mProfileId;
                         arg->mUnk_08 = goastrdup((const char *) buffer);
-                        arg->mUnk_04 = GetUnixTime(NULL);
+                        arg->mDate = GetUnixTime(NULL);
                         result = GpiQueueCallback(connection, callback, arg, NULL, 2);
                         if (result != 0) {
                             return result;

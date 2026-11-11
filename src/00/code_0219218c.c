@@ -812,7 +812,7 @@ u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
 u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, u32 callback, u32 param) {
     GpiProfile *profileEntry;
     GpiOperation *pendingOp;
-    Unk021919ac_m *arg;
+    GetInfoReply *arg;
     GpiCallback queuedCallback;
     u32 result;
     BOOL reuseCached;
@@ -835,9 +835,9 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
             GpiSetErrorMessage(connection, data_ov000_021b2f58);
             return 1;
         }
-        gpiInfoCacheToArg(profileEntry->mCache, (GetInfoReply *) arg);
-        arg->mUnk_000 = 0;
-        arg->mUnk_004 = profile;
+        gpiInfoCacheToArg(profileEntry->mCache, arg);
+        arg->mResult = 0;
+        arg->mProfile = profile;
         queuedCallback.mCallback = (void (*)(void *, void *, u32)) callback;
         queuedCallback.mParam = param;
         result = GpiCreateOperation(connection, 2, 0, (s32 *) &pendingOp, 1, callback, param);
