@@ -285,7 +285,7 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
     }
     gMelcoBlock.mUnk_01 = 0;
     MI_CpuCopy8(request->mMelcoBytes, gMelcoBlock.mMelcoBytes, request->mMelcoLength);
-    func_ov000_021a6894();
+    WCM_ClearApList();
     if (StartEssidSearch(NULL, request->mEssid, request->mEssidLength, 0x30bffe) != 0) {
         retries = 0;
         OS_CreateAlarm(&timer);

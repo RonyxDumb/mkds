@@ -14,20 +14,20 @@
 #include "00/code_021a6fa8.h"
 #include "code_0200e77c.h"
 
-// One element of the table at data_ov000_021b5dfc.
+// One element of the table at gLocalIpList.
 typedef struct Unk021b5dfc {
     /* 0 */ u32 mUnk_00;
 } Unk021b5dfc;
 
 typedef void (*Unk021b5f54Func)(void *param_1, void *param_2, void *param_3, u16 param_4);
 
-typedef struct Unk021b5f54 {
-    /* 00 */ u8 mUnk_00;
-    /* 04 */ OSThreadQueue mUnk_04;
-    /* 0c */ OSMutex mUnk_0c;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ Unk021b5f54Func mUnk_28;
-} Unk021b5f54;
+typedef struct WCMCpsifWork {
+    /* 00 */ u8 mInitialized;
+    /* 04 */ OSThreadQueue mSendQ;
+    /* 0c */ OSMutex mSendMutex;
+    /* 24 */ s32 mSendResult;
+    /* 28 */ Unk021b5f54Func mRecvCallback;
+} WCMCpsifWork;
 
 typedef struct Unk021b5f94 {
     /* 00 */ s32 mUnk_00;
@@ -64,7 +64,7 @@ typedef struct Unk021b5fa8 {
 // Objects whose layout isn't known yet.
 extern u8 gFreeFunc[];
 extern u8 gAllocFunc[];
-extern Unk021b5f50 *data_ov000_021b5f50;
+extern WCMWork *gWcmWork;
 extern u8 data_ov000_021b5f98[];
 
 extern u8 gMatchingMaskedParticipantIndices[0x20];
@@ -92,9 +92,9 @@ typedef struct DWCMatchOptMinCompleteIn {
 
 extern DWCMatchOptMinCompleteIn *gOptMinComp;
 extern void *gMatchingFilterText;
-extern Unk021b5f54 data_ov000_021b5f54;
-extern u8 data_ov000_021b5f80;
-extern u8 data_ov000_021b5f84[16];
+extern WCMCpsifWork gWcmCpsifWork;
+extern u8 gWcmRssiIndex;
+extern u8 gWcmRssi[16];
 extern Unk021b5f94 *data_ov000_021b5f94;
 extern u32 data_ov000_021b5f9c;
 extern Unk021a6fa8 *data_ov000_021b5fa4;

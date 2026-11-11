@@ -1,21 +1,21 @@
 #include "00/code_021a6d1c.h"
 #include "00/code_021a6934.h"
 
-u32 func_ov000_021a6d40(void) {
-    u8 *v1;
-    v1 = func_ov000_021a6b10();
-    if (v1 != NULL) {
+u32 SOCL_LinkIsOn(void) {
+    u8 *mac;
+    mac = WCM_GetApMacAddress();
+    if (mac != NULL) {
         return 1;
     }
     return 0;
 }
 
-u32 func_ov000_021a6d1c(const u8 *a, const u8 *b) {
+BOOL WCM_CompareBssID(const u8 *bssidLeft, const u8 *bssidRight) {
     int i;
 
     i = 0;
     do {
-        if (a[i] != b[i]) {
+        if (bssidLeft[i] != bssidRight[i]) {
             return 0;
         }
         i++;

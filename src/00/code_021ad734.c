@@ -280,7 +280,7 @@ void func_ov000_021affcc(u8 *a, u32 b, const void *c, u32 d) {
         MI_CpuCopy8(c, a + b, d);
     }
     MI_CpuCopy8(data_ov000_021b4c40, a + 6, 6);
-    if (func_ov000_021a6974(a, a + 6, b + d - 6) < 0) {
+    if (WCM_SendDCFData(a, a + 6, b + d - 6) < 0) {
         e = 1;
     } else {
         e = 0;

@@ -138,8 +138,8 @@ void DWCi_Netcheck_Thread(void) {
                     }
                     interruptState = OS_DisableInterrupts();
                     MI_CpuFill8(ssidText, 0, 0x21);
-                    func_ov000_021a6abc(&ssidLength);
-                    MI_CpuCopy8(func_ov000_021a6abc(NULL), ssidText, ssidLength);
+                    WCM_GetApEssid(&ssidLength);
+                    MI_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
                     OS_RestoreInterrupts(interruptState);
                     if (DWC_Http_Add_PostBase64Item(gHttp, gSsidPairName, ssidText, strlen(ssidText)) != FALSE) {
                         ReleaseHttp(gHttp);
@@ -257,8 +257,8 @@ void DWCi_Netcheck_Thread(void) {
         }
         interruptState = OS_DisableInterrupts();
         MI_CpuFill8(ssidText, 0, 0x21);
-        func_ov000_021a6abc(&ssidLength);
-        MI_CpuCopy8(func_ov000_021a6abc(NULL), ssidText, ssidLength);
+        WCM_GetApEssid(&ssidLength);
+        MI_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
         OS_RestoreInterrupts(interruptState);
         if (DWC_Http_Add_PostBase64Item(gHttp, gSsidPairName, ssidText, strlen(ssidText)) != FALSE) {
             ReleaseHttp(gHttp);

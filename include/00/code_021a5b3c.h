@@ -8,7 +8,7 @@
 #include "00/code_021a4b98.h"
 
 
-// 0xc0 bytes; func_ov000_021a5e84 copies one to mUnk_2140 of an Unk021b5f50, func_ov000_021a671c to a list entry.
+// 0xc0 bytes; WCM_ConnectAsync copies one to mUnk_2140 of an WCMWork, WCMi_EntryApList to a list entry.
 typedef struct Unk021a5e84 {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u8 mUnk_04[0x38];
@@ -16,14 +16,14 @@ typedef struct Unk021a5e84 {
     /* 3e */ u8 mUnk_3e[0x82];
 } Unk021a5e84;
 
-u32 func_ov000_021a5b3c(u32 a);
-s32 func_ov000_021a5c24(void);
-s32 func_ov000_021a5e84(Unk021a5e84 *a, WCMWepDesc *b, u32 c);
-s32 func_ov000_021a60a4(const void *a, const u8 *b, u32 c);
-s32 func_ov000_021a61c4(const void *a, const u8 *b, u32 c);
-s32 func_ov000_021a629c(WCMConfig *a, void (*b)(Unk021a586c *));
-BOOL func_ov000_021a6428(void);
-s32 func_ov000_021a6470(Unk021b5f50 *a, u32 b);
-void func_ov000_021a6558(Unk021b5f50_2270_0c *a);
-Unk021b5f50_2270_0c *func_ov000_021a65d8(u32 a);
-Unk021b5f50_2270_0c *func_ov000_021a6614(const u8 *a);
+u32 WCM_UpdateOption(u32 option);
+s32 WCM_TerminateAsync(void);
+s32 WCM_ConnectAsync(Unk021a5e84 *bssDesc, WCMWepDesc *wepDesc, u32 option);
+s32 WCM_BeginSearchAsync(const void *bssid, const u8 *essid, u32 option);
+s32 WCM_SearchAsync(const void *bssid, const u8 *essid, u32 option);
+s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *));
+BOOL WCM_Finish(void);
+s32 WCM_Init(WCMWork *buf, u32 len);
+void WcmAppendApList(WCMApList *aplist);
+WCMApList *WcmSearchIndexedApList(u32 index);
+WCMApList *WcmSearchApList(const u8 *bssid);

@@ -125,7 +125,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(6, 0);
                     }
                 } else if (gExchangeWcmState == 6) {
-                    if (func_ov000_021a61c4(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
+                    if (WCM_SearchAsync(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -133,8 +133,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(2, 0);
                     }
                 } else if (gExchangeWcmState == 8) {
-                    if (func_ov000_021a5e84(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) ==
-                        3) {
+                    if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -187,7 +186,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(10, 0);
                     }
                 } else if (gExchangeWcmState == 6) {
-                    if (func_ov000_021a61c4(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
+                    if (WCM_SearchAsync(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -195,7 +194,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(2, 0);
                     }
                 } else if (gExchangeWcmState == 2) {
-                    if (func_ov000_021a61e4() == 3) {
+                    if (WCM_CleanupAsync() == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -203,8 +202,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(2, 0);
                     }
                 } else if (gExchangeWcmState == 8) {
-                    if (func_ov000_021a5e84(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) ==
-                        3) {
+                    if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -227,7 +225,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(14, 0);
                     }
                 } else if (gExchangeWcmState == 6) {
-                    if (func_ov000_021a61c4(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
+                    if (WCM_SearchAsync(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -235,7 +233,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(2, 0);
                     }
                 } else if (gExchangeWcmState == 2) {
-                    if (func_ov000_021a61e4() == 3) {
+                    if (WCM_CleanupAsync() == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -243,8 +241,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                         gExchangeEventCallback(2, 0);
                     }
                 } else if (gExchangeWcmState == 8) {
-                    if (func_ov000_021a5e84(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) ==
-                        3) {
+                    if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
                         return;
                     }
                     gExchangeWcmState = 3;
@@ -264,7 +261,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
         case 2:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == 2) {
-                    func_ov000_021a6428();
+                    WCM_Finish();
                     gExchangeWcmState = 0;
                     if (gExchangeEventCallback != NULL) {
                         gExchangeEventCallback(20, 0);
@@ -306,17 +303,17 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
 BOOL StartExchangeReturnToIdle(void) {
     switch (gExchangeWcmState) {
         case 5:
-            if (func_ov000_021a61c4(NULL, NULL, 0) != 3) {
+            if (WCM_SearchAsync(NULL, NULL, 0) != 3) {
                 return 0;
             }
             break;
         case 7:
-            if (func_ov000_021a5db0() != 3) {
+            if (WCM_DisconnectAsync() != 3) {
                 return 0;
             }
             break;
         case 1:
-            if (func_ov000_021a629c(gExchangeWcmConfig, (void (*)(Unk021a586c *)) ExchangeWcmNotifyCallback) != 3) {
+            if (WCM_StartupAsync(gExchangeWcmConfig, (void (*)(WCMNotice *)) ExchangeWcmNotifyCallback) != 3) {
                 return 0;
             }
             break;
@@ -336,8 +333,8 @@ s32 CopyExchangeScanRecords(u8 *output, s32 maxCount) {
     s32 count;
     s32 i;
 
-    func_ov000_021a67dc(1);
-    count = func_ov000_021a6844();
+    WCM_LockApList(1);
+    count = WCM_CountApList();
     if (count > 0) {
         i = 0;
         if (count > 0) {
@@ -345,13 +342,13 @@ s32 CopyExchangeScanRecords(u8 *output, s32 maxCount) {
                 if (i >= maxCount) {
                     break;
                 }
-                MIi_CpuCopy32(func_ov000_021a6788(i), output, 0xc0);
+                MIi_CpuCopy32(WCM_PointApList(i), output, 0xc0);
                 i++;
                 output += 0xc0;
             } while (i < count);
         }
     }
-    func_ov000_021a67dc(0);
+    WCM_LockApList(0);
     return count;
 }
 
@@ -393,7 +390,7 @@ BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option) {
         gExchangeSearchEssid = WCM_Essid_Any;
     }
     if (gExchangeWcmState == 3) {
-        if (func_ov000_021a61c4(gExchangeSearchAddressBytes, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
+        if (WCM_SearchAsync(gExchangeSearchAddressBytes, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
             gExchangeWcmState = 6;
             OS_RestoreInterrupts(savedInterrupts);
             return 1;
@@ -411,7 +408,7 @@ BOOL DisconnectExchange(void) {
     u32 savedInterrupts = OS_DisableInterrupts();
 
     if (gExchangeWcmState == 7) {
-        if (func_ov000_021a5db0() == 3) {
+        if (WCM_DisconnectAsync() == 3) {
             gExchangeWcmState = 4;
             OS_RestoreInterrupts(savedInterrupts);
             return 1;
@@ -425,7 +422,7 @@ BOOL CleanupExchangeWcm(void) {
     u32 savedInterrupts = OS_DisableInterrupts();
 
     if (gExchangeWcmState == 3) {
-        if (func_ov000_021a61e4() != 3) {
+        if (WCM_CleanupAsync() != 3) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
@@ -458,7 +455,7 @@ BOOL ConnectExchangeToEntry(void *entry, void *optionalBytes, u32 option) {
         return 1;
     }
     if (gExchangeWcmState == 3) {
-        if (func_ov000_021a5e84(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
+        if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
             gExchangeWcmState = 8;
             OS_RestoreInterrupts(savedInterrupts);
             return 1;
@@ -487,14 +484,14 @@ BOOL InitExchangeWcm(void (*callback)(u32, u32), void *buffer, u32 size) {
     gExchangeWcmConfig->mDmaNo = 3;
     gExchangeEventCallback = (UnkFunc *) callback;
     if (gExchangeWcmState == 0) {
-        if (func_ov000_021a6470(gExchangeWcmWork, 0x2300) != 0) {
+        if (WCM_Init(gExchangeWcmWork, 0x2300) != 0) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
         gExchangeWcmState = 1;
     }
     if (gExchangeWcmState == 1) {
-        if (func_ov000_021a629c(gExchangeWcmConfig, (void (*)(Unk021a586c *)) ExchangeWcmNotifyCallback) != 3) {
+        if (WCM_StartupAsync(gExchangeWcmConfig, (void (*)(WCMNotice *)) ExchangeWcmNotifyCallback) != 3) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }

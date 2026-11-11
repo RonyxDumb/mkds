@@ -566,14 +566,14 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
         return 5;
     }
     interruptState = OS_DisableInterrupts();
-    bssidPointer = func_ov000_021a6b10();
+    bssidPointer = WCM_GetApMacAddress();
     if (bssidPointer == NULL) {
         OS_RestoreInterrupts(interruptState);
         return 3;
     }
     MI_CpuCopy8(bssidPointer, postData.mUnk_08, 6);
     MI_CpuFill8(apInfoBytes, 0, 0x21);
-    apInfoPointer = func_ov000_021a6abc((u16 *) &postData);
+    apInfoPointer = WCM_GetApEssid((u16 *) &postData);
     if (apInfoPointer == NULL) {
         OS_RestoreInterrupts(interruptState);
         return 3;

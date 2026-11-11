@@ -123,7 +123,7 @@ void InitWiFiConnection(void *connectionObject, void *userData, s32 productId, c
 void ReleaseWiFiConnection(void) {
     if (gWiFiConnection != NULL) {
         if (gWiFiConnection->mMatching.mUnk_10 != NULL) {
-            func_ov000_021a47ac(gWiFiConnection->mMatching.mUnk_10);
+            qr2_shutdown(gWiFiConnection->mMatching.mUnk_10);
             gWiFiConnection->mMatching.mUnk_10 = NULL;
         }
         gWiFiConnection->mMatching.mUnk_18 = 0;
@@ -244,7 +244,7 @@ void UpdateWiFiConnection(void) {
     }
     if (gWiFiConnection->mMatching.mUnk_18 == 1) {
         if (gWiFiConnection->mMatching.mUnk_10 != NULL) {
-            func_ov000_021a47ac(gWiFiConnection->mMatching.mUnk_10);
+            qr2_shutdown(gWiFiConnection->mMatching.mUnk_10);
             gWiFiConnection->mMatching.mUnk_10 = NULL;
         }
         gWiFiConnection->mMatching.mUnk_18 = 0;

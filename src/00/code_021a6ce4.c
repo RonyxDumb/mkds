@@ -6,17 +6,17 @@
 #include "code_02133048.h"
 #include "code_0200fc8c.h"
 
-u32 func_ov000_021a6ce4(void) {
-    u32 a;
-    Unk021b5f50 *b;
-    u32 c;
+u32 WCM_GetLinkLevel(void) {
+    u32 enabled;
+    WCMWork *work;
+    u32 level;
 
-    a = OS_DisableInterrupts();
-    b = func_ov000_021a5b30();
-    c = 0;
-    if (b != NULL && b->mUnk_2260 == 9) {
-        c = func_ov000_021a6c68();
+    enabled = OS_DisableInterrupts();
+    work = WCMi_GetSystemWork();
+    level = 0;
+    if (work != NULL && work->mPhase == 9) {
+        level = WcmGetLinkLevel();
     }
-    OS_RestoreInterrupts(a);
-    return c;
+    OS_RestoreInterrupts(enabled);
+    return level;
 }

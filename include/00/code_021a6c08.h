@@ -11,6 +11,6 @@ typedef struct Unk021a6bb4 {
     /* 2c */ u8 mUnk_2c[1];
 } Unk021a6bb4;
 
-void func_ov000_021a6c08(u8 c);
-s32 func_ov000_021a6c68(void);
-u8 func_ov000_021a6c90(void);
+void WCMi_ShelterRssi(u8 rssi);
+s32 WcmGetLinkLevel(void);
+u8 WCMi_GetRssiAverage(void);

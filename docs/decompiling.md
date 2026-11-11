@@ -551,7 +551,7 @@ Expression shapes:
 - An address or constant from the early-return test shared with a store far below it, where ours reloads: write that
   store before the first if/else join; the scheduler moves it down to the original's place (OS_InitThread).
 - Two 0/1 flag arguments computed in the other order: put `? 1 : 0` on the later one only, `d = (v & M) != M ? 1 : 0`
-  (Thumb; func_ov000_021a54b0).
+  (Thumb; WcmWmcbCommon).
 - A global pointer loaded before an unrelated subtraction with its index add after it: reuse an existing dead local for
   the pointer, `q = g; v1 = a - b; v2 = ((T *) q)->arr[n].m;`; a fresh local of any type is folded away and does not
   move the load (Thumb; func_0204f644).
@@ -768,7 +768,7 @@ Expression shapes:
 - A cast on the address can swap address and value registers in a read-modify-write of a global. A pointer local
   initialised with a cast (`T *p = (T *) &g;`) changes addressing (1.1). Try both.
 - A word the original loads from the pool as `.word SYMBOL` where ours has a plain number: write the symbol, cast
-  to the field's type: `(int) OS_IrqHandler`.
+  to the field's type: `(int) OS_IrqHandler` (WcmCpsifTryLockMutexInIRQ).
 - A small value (0, 1, 2, 3, 0x2000000) loaded from a pool word with no relocation is a symbol the compiler can't
   fold: an absolute address defined by the linker. Bytes match with such a symbol in place (RunDWCUtility,
   InitStartup).
@@ -827,7 +827,7 @@ Expression shapes:
 - A `-0x8000` compare constant that takes r0 before the final value: write `(s16) (x >> 7)` instead of `(s32) (x << 9)
   >> 16` (TP_CalcCalibrateParam).
 - A `u16` argument converted right after its value's `if`, before the next test: assign it to a `u16` local at that
-  point and pass the local (Thumb; func_ov000_021a4bc4).
+  point and pass the local (Thumb; WcmWmcbReset).
 - `lsl/lsr #16` before a call whose callee passes that register on untouched: widen the parameter to `u32` and write
   `(u16)` at the callers that need the narrowing (FilterAndEvalMatchingServerList).
 - `(u8) i` converted again at a second identical call, where ours reuses it in a callee-saved register: `(s32) (u8) i`

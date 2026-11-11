@@ -47,7 +47,7 @@ u8 DWCi_AC_Start(void) {
     Unk02189f00 config;
     s32 result;
 
-    wcmPhase = func_ov000_021a5bfc();
+    wcmPhase = WCM_GetPhase();
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (wcmPhase == 1) {
         config.mUnk_00 = work->mUnk_d0a;
@@ -55,7 +55,7 @@ u8 DWCi_AC_Start(void) {
         config.mUnk_08 = 0;
         config.mUnk_0c = 0;
         DWCi_AC_MakeSearchList(0);
-        result = func_ov000_021a629c((WCMConfig *) &config, (void (*)(Unk021a586c *)) DWCi_AC_CallBackWCM);
+        result = WCM_StartupAsync((WCMConfig *) &config, (void (*)(WCMNotice *)) DWCi_AC_CallBackWCM);
         if (result == 1 || result >= 4) {
             DWCi_AC_SetError(1);
             return 0x11;
@@ -73,7 +73,7 @@ u32 DWCi_AC_SearchAP(void) {
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     phase = DWCi_AC_GetPhase();
-    wcmPhase = func_ov000_021a5bfc();
+    wcmPhase = WCM_GetPhase();
     if (phase == 2 && wcmPhase == 3) {
         phase = SearchStart(work);
     } else if (phase == 6) {
@@ -274,7 +274,7 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
         }
     }
     work->mUnk_d13 = i;
-    if (func_ov000_021a6024() != 1) {
+    if (WCM_EndSearchAsync() != 1) {
         work->mUnk_d0e = phase;
         phase = 7;
     }

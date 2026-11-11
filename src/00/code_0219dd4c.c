@@ -113,7 +113,7 @@ u32 DWCi_QR2Startup(u32 profileId) {
     attempt = 0;
     do {
         wiFiMatching = gWiFiMatching;
-        initResult = func_ov000_021a4a08(
+        initResult = qr2_init_socketA(
             &gWiFiMatching->mUnk_10, GetSocketDescriptor(*wiFiMatching->mConnectionSocket),
             GetSocketPort(*wiFiMatching->mConnectionSocket), wiFiMatching->mGameName, wiFiMatching->mUnk_2e0, 1, 1,
             (Unk021a4a08Func88) WriteMatchingKeyValue, (Unk021a4a08Func8c) DWCi_QR2PlayerKeyCallback,
@@ -130,10 +130,10 @@ u32 DWCi_QR2Startup(u32 profileId) {
     } while (attempt < 5);
     gWiFiMatching->mOwnAddress = NULL;
     gWiFiMatching->mOwnPort = 0;
-    func_ov000_021a49cc(gWiFiMatching->mUnk_10, SetMatchingOwnAddress);
-    func_ov000_021a49f4(gWiFiMatching->mUnk_10, DWCi_QR2NatnegCallback);
-    func_ov000_021a49e0(gWiFiMatching->mUnk_10, ParseMatchingRecords);
-    func_ov000_021a4818(gWiFiMatching->mUnk_10);
+    qr2_register_publicaddress_callback(gWiFiMatching->mUnk_10, SetMatchingOwnAddress);
+    qr2_register_natneg_callback(gWiFiMatching->mUnk_10, DWCi_QR2NatnegCallback);
+    qr2_register_clientmessage_callback(gWiFiMatching->mUnk_10, ParseMatchingRecords);
+    qr2_send_statechanged(gWiFiMatching->mUnk_10);
     return initResult;
 }
 
@@ -226,7 +226,7 @@ void StartMatchingWithBuddies(const void *friendIdxList, s32 friendIdxListLen, s
 void UpdateMatching(s32 param_1) {
     WiFiMatching *wiFiMatching;
     u32 waitMs;
-    Unk021a4a08 *qr2Obj;
+    QueryRecord *qr2Obj;
     if (gWiFiMatching == NULL) {
         return;
     }
@@ -235,7 +235,7 @@ void UpdateMatching(s32 param_1) {
     }
     if (param_1 == 0) {
         if (gWiFiMatching->mUnk_10 != NULL) {
-            func_ov000_021a49a0(gWiFiMatching->mUnk_10);
+            qr2_think(gWiFiMatching->mUnk_10);
         }
         if (gWiFiMatching->mConnectionSocket != NULL) {
             gt2Think(*gWiFiMatching->mConnectionSocket);
@@ -376,14 +376,14 @@ void UpdateMatching(s32 param_1) {
         ServerBrowserThink(gWiFiMatching->mServerList);
     }
     if (gWiFiMatching->mUnk_10 != NULL) {
-        func_ov000_021a49a0(gWiFiMatching->mUnk_10);
+        qr2_think(gWiFiMatching->mUnk_10);
         wiFiMatching = gWiFiMatching;
         qr2Obj = wiFiMatching->mUnk_10;
-        if ((qr2Obj->mUnk_0b4 == FALSE && (wiFiMatching->mMode == 0 || wiFiMatching->mMode == 1) &&
+        if ((qr2Obj->mUserStateChangeRequested == FALSE && (wiFiMatching->mMode == 0 || wiFiMatching->mMode == 1) &&
              (wiFiMatching->mState == 1 || wiFiMatching->mState == 2 || wiFiMatching->mState == 3 ||
               wiFiMatching->mState == 4 || wiFiMatching->mState == 6 || wiFiMatching->mState == 11)) ||
             (wiFiMatching->mMode == 2 && wiFiMatching->mState == 11)) {
-            func_ov000_021a4818(qr2Obj);
+            qr2_send_statechanged(qr2Obj);
         }
     }
     NNThink();
@@ -419,7 +419,7 @@ u32 WiFiUnmatchedDataCallback(u32 socket, u32 address, u16 port, u8 *data, u32 s
     firstByte = data[0];
     if ((firstByte == 0xfe && data[1] == 0xfd) || firstByte == 0x5c) {
         if (gWiFiMatching->mUnk_10 != NULL) {
-            func_ov000_021a3c14((Unk021a3a18 *) gWiFiMatching->mUnk_10, (s8 *) data, size, &originAddr);
+            qr2_parse_queryA((Unk021a3a18 *) gWiFiMatching->mUnk_10, (s8 *) data, size, &originAddr);
         }
     } else if (memcmp(data, NNMagicData, 6) == 0) {
         NNProcessData(data, size, &originAddr);
@@ -613,7 +613,7 @@ void DWCi_ClearQR2Key(void) {
     if (wiFiMatching->mMode != 2) {
         wiFiMatching->mUnk_14 = 0;
         gWiFiMatching->mUnk_16 = 0;
-        func_ov000_021a4818(gWiFiMatching->mUnk_10);
+        qr2_send_statechanged(gWiFiMatching->mUnk_10);
     }
 }
 
@@ -983,11 +983,11 @@ void SetupMatching(u8 matchType, u8 numEntry, UnkFunc *matchedCallback, u32 matc
     (*v1)->mResultCallbackArg = matchedParam;
     (*v1)->mUnk_174[1] = 0;
     (*v1)->mParticipantIndices[0] = 0;
-    func_ov000_021a4b84(0x32, gDwcPidKey);
-    func_ov000_021a4b84(0x33, gDwcMtypeKey);
-    func_ov000_021a4b84(0x34, gDwcMresvKey);
-    func_ov000_021a4b84(0x35, gDwcMverKey);
-    func_ov000_021a4b84(0x36, gDwcEvalKey);
+    qr2_register_keyA(0x32, gDwcPidKey);
+    qr2_register_keyA(0x33, gDwcMtypeKey);
+    qr2_register_keyA(0x34, gDwcMresvKey);
+    qr2_register_keyA(0x35, gDwcMverKey);
+    qr2_register_keyA(0x36, gDwcEvalKey);
 }
 
 void StopMatching(void) {
@@ -1462,7 +1462,7 @@ s32 ReceiveMatchingCommand(s32 command, u32 profileId, u32 c, u16 d, u32 *values
             u = values[1];
             o->mParticipantProfileIds[o->mUnk_14 + 1] = z;
             gWiFiMatching->mParticipantIndices[gWiFiMatching->mUnk_14 + 1] = u;
-            func_ov000_021a4818(gWiFiMatching->mUnk_10);
+            qr2_send_statechanged(gWiFiMatching->mUnk_10);
             p = gWiFiMatching;
             if (p->mUnk_454 == NULL) {
                 break;
@@ -1608,10 +1608,10 @@ s32 DWCi_CheckResvCommand(s32 profileId, u32 senderMode, s32 priorFlag) {
                 gWiFiMatching->mUnk_14 == gWiFiMatching->mUnk_16 ||
                 (gWiFiMatching->mMresvPresent != 0 && gWiFiMatching->mMresvProfileId == gWiFiMatching->mOwnProfileId)) {
                 reply = 3;
-                if (gWiFiMatching->mMode == 0 && gWiFiMatching->mUnk_10->mUnk_0b4 == FALSE &&
+                if (gWiFiMatching->mMode == 0 && gWiFiMatching->mUnk_10->mUserStateChangeRequested == FALSE &&
                     gWiFiMatching->mMresvPresent != 0 &&
                     gWiFiMatching->mMresvProfileId == gWiFiMatching->mOwnProfileId) {
-                    func_ov000_021a4818(gWiFiMatching->mUnk_10);
+                    qr2_send_statechanged(gWiFiMatching->mUnk_10);
                 }
             } else if ((gWiFiMatching->mState != 3 && gWiFiMatching->mState != 4) ||
                        (gWiFiMatching->mOwnAddress == NULL && gWiFiMatching->mOwnPort == 0)) {
@@ -1667,7 +1667,7 @@ u32 DWCi_ProcessResvOK(u32 profileId, u32 address, u16 port) {
     gWiFiMatching->mMresvProfileId = profileId;
     gWiFiMatching->mUnk_1b0 = 0;
     gWiFiMatching->mUnk_1bc = 0;
-    func_ov000_021a4818(gWiFiMatching->mUnk_10);
+    qr2_send_statechanged(gWiFiMatching->mUnk_10);
     gWiFiMatching->mReplyProfileId = 0;
     gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mUnk_14 + 1] = profileId;
     gWiFiMatching->mParticipantCommandAddresses[gWiFiMatching->mUnk_14 + 1] = address;
@@ -1873,7 +1873,7 @@ u32 DWCi_CancelPreConnectedServerProcess(u32 clientPid) {
     if (hostSide != 0) {
         gWiFiMatching->mMresvPresent = 0;
         gWiFiMatching->mMresvProfileId = 0;
-        func_ov000_021a4818(gWiFiMatching->mUnk_10);
+        qr2_send_statechanged(gWiFiMatching->mUnk_10);
     }
     if (gWiFiMatching->mLastParticipantPos < 0x1f) {
         gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos + 1] = 0;
@@ -1984,7 +1984,7 @@ void DWCi_PostProcessConnection(s32 type) {
             } else {
                 wiFiMatching->mMresvPresent = 0;
                 gWiFiMatching->mMresvProfileId = 0;
-                func_ov000_021a4818(gWiFiMatching->mUnk_10);
+                qr2_send_statechanged(gWiFiMatching->mUnk_10);
                 wiFiMatching = gWiFiMatching;
                 if (wiFiMatching->mMode == 0) {
                     wiFiMatching->mState = 3;
@@ -3143,37 +3143,37 @@ BOOL FilterAndEvalMatchingServerList(s32 sort) {
     return TRUE;
 }
 
-void WriteMatchingKeyValue(s32 keyId, Unk021a471c *buffer, void *userdata) {
+void WriteMatchingKeyValue(s32 keyId, QueryBuffer *buffer, void *userdata) {
     s32 index;
     switch (keyId) {
         case 8:
-            func_ov000_021a4760(buffer, gWiFiMatching->mUnk_14);
+            qr2_buffer_add_int(buffer, gWiFiMatching->mUnk_14);
             return;
         case 0xa:
-            func_ov000_021a4760(buffer, gWiFiMatching->mUnk_16);
+            qr2_buffer_add_int(buffer, gWiFiMatching->mUnk_16);
             return;
         case 0x32:
-            func_ov000_021a4760(buffer, gWiFiMatching->mOwnProfileId);
+            qr2_buffer_add_int(buffer, gWiFiMatching->mOwnProfileId);
             return;
         case 0x33:
-            func_ov000_021a4760(buffer, gWiFiMatching->mMode);
+            qr2_buffer_add_int(buffer, gWiFiMatching->mMode);
             return;
         case 0x34:
-            func_ov000_021a4760(buffer, gWiFiMatching->mMresvProfileId);
+            qr2_buffer_add_int(buffer, gWiFiMatching->mMresvProfileId);
             return;
         case 0x35:
-            func_ov000_021a4760(buffer, 3);
+            qr2_buffer_add_int(buffer, 3);
             return;
         case 0x36:
-            func_ov000_021a4760(buffer, 1);
+            qr2_buffer_add_int(buffer, 1);
             return;
     }
     index = keyId - 100;
     if (gMatchingKeys[index][0] != 0) {
         if (gMatchingKeyIsString[index * 12] != 0) {
-            func_ov000_021a471c(buffer, *(const char **) &gMatchingKeyValue[index * 12]);
+            qr2_buffer_addA(buffer, *(const char **) &gMatchingKeyValue[index * 12]);
         } else {
-            func_ov000_021a4760(buffer, **(s32 **) &gMatchingKeyValue[index * 12]);
+            qr2_buffer_add_int(buffer, **(s32 **) &gMatchingKeyValue[index * 12]);
         }
     }
 }
@@ -3187,18 +3187,18 @@ void AddMatchingKeyIds(s32 keytype, MatchingKeyIds *keyIds, void *userdata) {
     u8 *d;
     switch (keytype) {
         case 0:
-            func_ov000_021a4784(keyIds, 8);
-            func_ov000_021a4784(keyIds, 0xa);
-            func_ov000_021a4784(keyIds, 0x32);
-            func_ov000_021a4784(keyIds, 0x33);
-            func_ov000_021a4784(keyIds, 0x34);
-            func_ov000_021a4784(keyIds, 0x35);
-            func_ov000_021a4784(keyIds, 0x36);
+            qr2_keybuffer_add(keyIds, 8);
+            qr2_keybuffer_add(keyIds, 0xa);
+            qr2_keybuffer_add(keyIds, 0x32);
+            qr2_keybuffer_add(keyIds, 0x33);
+            qr2_keybuffer_add(keyIds, 0x34);
+            qr2_keybuffer_add(keyIds, 0x35);
+            qr2_keybuffer_add(keyIds, 0x36);
             i = 0;
             d = gMatchingKeys[0];
             for (; i < 0x9a; i++) {
                 if (d[0] != 0) {
-                    func_ov000_021a4784(keyIds, d[0]);
+                    qr2_keybuffer_add(keyIds, d[0]);
                 }
                 d += 12;
             }

@@ -1928,7 +1928,7 @@ void func_ov000_021a6db0(void) {
     MI_CpuFill8(a, 0, 0x30);
     a->mUnk_04 = b->mUnk_18;
     a->mUnk_08 = b->mUnk_1c;
-    a->mUnk_10 = func_ov000_021a6d40;
+    a->mUnk_10 = SOCL_LinkIsOn;
     a->mUnk_14 = 0;
     a->mUnk_18 = 0;
     a->mUnk_2c = *(u32 *) data_ov000_021b5f98;
@@ -1969,7 +1969,7 @@ void func_ov000_021a6db0(void) {
         c = 0xb;
     }
     func_ov000_021b0240(c);
-    func_ov000_021a6aa0(func_ov000_021afe5c);
+    WCM_SetRecvDCFCallback(func_ov000_021afe5c);
     func_ov000_021b02b0(func_ov000_021a8424);
     func_ov000_021b02fc(a);
 }

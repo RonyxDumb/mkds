@@ -58,7 +58,7 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
     }
     strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);
     *(void **) &gMatchingKeyValue[index * 12] = valueSrc;
-    func_ov000_021a4b84(keyId, keyString);
+    qr2_register_keyA(keyId, keyString);
     return keyId;
 }
 
@@ -91,7 +91,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
     }
     strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);
     *(void **) &gMatchingKeyValue[index * 12] = valueSrc;
-    func_ov000_021a4b84(keyId, keyString);
+    qr2_register_keyA(keyId, keyString);
     return keyId;
 }
 

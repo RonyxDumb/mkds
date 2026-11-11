@@ -11,23 +11,23 @@
 #include "code_0214d018.h"
 
 s32 DisConnectAP(void) {
-    switch (func_ov000_021a5bfc()) {
+    switch (WCM_GetPhase()) {
         case 0:
             return 1;
         case 1:
-            func_ov000_021a6428();
+            WCM_Finish();
             break;
         case 3:
-            func_ov000_021a61e4();
+            WCM_CleanupAsync();
             break;
         case 6:
-            func_ov000_021a6024();
+            WCM_EndSearchAsync();
             break;
         case 9:
-            func_ov000_021a5db0();
+            WCM_DisconnectAsync();
             break;
         case 12:
-            func_ov000_021a5c24();
+            WCM_TerminateAsync();
             break;
         case 11:
             DWCi_AC_SetError(0);
@@ -96,7 +96,7 @@ u32 ConnectAP(ACWORK *work) {
     u32 powerMode;
     u32 connPhase;
 
-    connPhase = func_ov000_021a5bfc();
+    connPhase = WCM_GetPhase();
     bssDesc = &work->mUnk_470[work->mUnk_d13];
     if (connPhase == 3) {
         powerMode = GetPowerMode(work);
@@ -119,7 +119,7 @@ u32 ConnectAP(ACWORK *work) {
                 return 9;
             }
         }
-        func_ov000_021a5e84((Unk021a5e84 *) bssDesc, &work->mUnk_cb8, powerMode | GetAuthMode(work));
+        WCM_ConnectAsync((Unk021a5e84 *) bssDesc, &work->mUnk_cb8, powerMode | GetAuthMode(work));
     } else if (connPhase == 9) {
         work->mUnk_d15 = 0;
         work->mUnk_cb0 = OS_GetTick();

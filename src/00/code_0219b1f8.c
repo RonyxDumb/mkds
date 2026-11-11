@@ -137,7 +137,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
     }
     if (gWiFiConnection->mMatching.mMode == 0 || gWiFiConnection->mMatching.mMode == 1) {
         gWiFiConnection->mMatching.mUnk_16 = gWiFiConnection->mMatching.mUnk_14;
-        func_ov000_021a4818(gWiFiConnection->mMatching.mUnk_10);
+        qr2_send_statechanged(gWiFiConnection->mMatching.mUnk_10);
     }
     wiFiConnection = gWiFiConnection;
     if (wiFiConnection->mUnk_7c != NULL && inMask != 0) {

@@ -40,22 +40,22 @@ typedef struct Unk021a3a18 Unk021a3a18;
 
 typedef struct Unk021a3a18 Unk021a3a18;
 
-typedef struct Unk021a3eb0 {
+typedef struct NatnegMagic {
     /* 0 */ u8 mUnk_00[6];
-} Unk021a3eb0;
+} NatnegMagic;
 
-typedef struct Unk021a471c Unk021a471c;
-typedef struct Unk021a4a08 Unk021a4a08;
+typedef struct QueryBuffer QueryBuffer;
+typedef struct QueryRecord QueryRecord;
 
 typedef struct SOCHostEnt SOCHostEnt;
 
 // Output buffer the string writers append to: bytes at mUnk_000, used length at mUnk_800.
-typedef struct Unk021a471c {
+typedef struct QueryBuffer {
     /* 000 */ u8 mUnk_000[0x800];
     /* 800 */ s32 mUnk_800;
-} Unk021a471c;
+} QueryBuffer;
 
-// Address record filled by func_ov000_021a4654.
+// Address record filled by ResolveQueryHostAddress.
 typedef struct Unk021a4654 {
     /* 0 */ u8 mUnk_00;
     /* 1 */ u8 mUnk_01;
@@ -63,96 +63,98 @@ typedef struct Unk021a4654 {
     /* 4 */ u32 mUnk_04;
 } Unk021a4654;
 
-// Four-byte entry moved by func_ov000_021a46d4.
+// Four-byte entry moved by enum_local_ips.
 typedef struct Unk021a46d4 {
     /* 0 */ u8 mUnk_00[4];
 } Unk021a46d4;
 
-typedef struct Unk021a4a08 Unk021a4a08;
+typedef struct QueryRecord QueryRecord;
 
-// List of values and their count; filled by the callback at mUnk_094 of an Unk021a4a08.
+// List of values and their count; filled by the callback at mUnk_094 of a QueryRecord.
 typedef struct MatchingKeyIds {
     /* 000 */ u8 mUnk_000[0x100];
     /* 100 */ s32 mUnk_100;
 } MatchingKeyIds;
 
-typedef void (*Unk021a4a08Func88)(u8 a, Unk021a471c *b, void *c);
-typedef void (*Unk021a4a08Func8c)(u8 a, s32 b, Unk021a471c *c, void *d);
+typedef void (*Unk021a4a08Func88)(u8 a, QueryBuffer *b, void *c);
+typedef void (*Unk021a4a08Func8c)(u8 a, s32 b, QueryBuffer *c, void *d);
 typedef void (*Unk021a4a08Func94)(s32 a, MatchingKeyIds *b, void *c);
 typedef s32 (*Unk021a4a08Func98)(s32 a, void *b);
 typedef void (*Unk021a4a08Func9c)(s32 a, const u8 *b, void *c);
 typedef void (*Unk021a4a08Funca8)(u32 a, u16 b, void *c);
 
-// 0x110 bytes; func_ov000_021a4a08 fills it, data_ov000_021b426c points at the one in use.
-typedef struct Unk021a4a08 {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x40];
-    /* 044 */ u8 mUnk_044[0x40];
-    /* 084 */ u8 mUnk_084[4];
-    /* 088 */ Unk021a4a08Func88 mUnk_088;
-    /* 08c */ Unk021a4a08Func8c mUnk_08c;
-    /* 090 */ Unk021a4a08Func8c mUnk_090;
-    /* 094 */ Unk021a4a08Func94 mUnk_094;
-    /* 098 */ Unk021a4a08Func98 mUnk_098;
-    /* 09c */ Unk021a4a08Func9c mUnk_09c;
-    /* 0a0 */ UnkFunc *mUnk_0a0;
-    /* 0a4 */ UnkFunc *mUnk_0a4;
-    /* 0a8 */ Unk021a4a08Funca8 mUnk_0a8;
-    /* 0ac */ u32 mUnk_0ac;
-    /* 0b0 */ u32 mUnk_0b0;
-    /* 0b4 */ BOOL mUnk_0b4;
-    /* 0b8 */ s32 mUnk_0b8;
-    /* 0bc */ s32 mUnk_0bc;
-    /* 0c0 */ s32 mUnk_0c0;
-    /* 0c4 */ BOOL mUnk_0c4;
-    /* 0c8 */ s32 mUnk_0c8;
-    /* 0cc */ Unk021a4654 mUnk_0cc;
-    /* 0d4 */ s32 mUnk_0d4;
-    /* 0d8 */ s32 mUnk_0d8[10];
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ u32 mUnk_104;
-    /* 108 */ u16 mUnk_108;
-    /* 10c */ void *mUnk_10c;
-} Unk021a4a08;
+// 0x110 bytes; qr2_init_socketA fills it, gCurrentQr2Rec points at the one in use.
+typedef struct QueryRecord {
+    /* 000 */ s32 mHbSock;
+    /* 004 */ u8 mGameName[0x40];
+    /* 044 */ u8 mSecretKey[0x40];
+    /* 084 */ u8 mInstanceKey[4];
+    /* 088 */ Unk021a4a08Func88 mServerKeyCallback;
+    /* 08c */ Unk021a4a08Func8c mPlayerKeyCallback;
+    /* 090 */ Unk021a4a08Func8c mTeamKeyCallback;
+    /* 094 */ Unk021a4a08Func94 mKeyListCallback;
+    /* 098 */ Unk021a4a08Func98 mPlayerTeamCountCallback;
+    /* 09c */ Unk021a4a08Func9c mAddErrorCallback;
+    /* 0a0 */ UnkFunc *mNatnegCallback;
+    /* 0a4 */ UnkFunc *mClientMessageCallback;
+    /* 0a8 */ Unk021a4a08Funca8 mPublicAddressCallback;
+    /* 0ac */ u32 mLastHeartbeat;
+    /* 0b0 */ u32 mLastKeepalive;
+    /* 0b4 */ BOOL mUserStateChangeRequested;
+    /* 0b8 */ s32 mListedState;
+    /* 0bc */ s32 mIsPublic;
+    /* 0c0 */ s32 mQport;
+    /* 0c4 */ BOOL mReadSocket;
+    /* 0c8 */ s32 mNatNegotiate;
+    /* 0cc */ Unk021a4654 mHbAddr;
+    /* 0d4 */ s32 mCdkeyProcess;
+    /* 0d8 */ s32 mClientMessageKeys[10];
+    /* 100 */ s32 mCurMessageKey;
+    /* 104 */ u32 mPublicIp;
+    /* 108 */ u16 mPublicPort;
+    /* 10c */ void *mUserData;
+} QueryRecord;
 
-s32 func_ov000_021a4a08(Unk021a4a08 **a, s32 b, s32 c, const char *d, const char *e, s32 f, s32 g, Unk021a4a08Func88 h,
-                        Unk021a4a08Func8c i, Unk021a4a08Func8c j, Unk021a4a08Func94 k, Unk021a4a08Func98 l,
-                        Unk021a4a08Func9c m, void *n);
+s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *gamename, const char *secretKey,
+                     s32 isPublic, s32 natFlag, Unk021a4a08Func88 serverKeyFn,
+                     Unk021a4a08Func8c playerKeyFn, Unk021a4a08Func8c teamKeyFn,
+                     Unk021a4a08Func94 keyListFn, Unk021a4a08Func98 countFn,
+                     Unk021a4a08Func9c errorFn, void *userData);
 
-extern Unk021a4a08 data_ov000_021b4278;
-extern s32 data_ov000_021b5df8;
-extern u8 data_ov000_021b5dfc[5 * 4];
-extern char data_ov000_021b5e10[];
-extern s8 data_ov000_021b5e50[];
+extern QueryRecord gStaticQr2Rec;
+extern s32 gNumLocalIps;
+extern u8 gLocalIpList[5 * 4];
+extern char gQr2Hostname[];
+extern s8 gQr2Indata[];
 
-void func_ov000_021a3a18(Unk021a3a18 *a, s32 b);
-void func_ov000_021a3bbc(Unk021a3a18 *a);
-void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d);
-u32 func_ov000_021a3e5c(Unk021a3a18 *a, int b);
-void func_ov000_021a3eb0(Unk021a3a18 *a, u8 *b, s32 c);
-void func_ov000_021a3f78(Unk021a4a08 *a, Unk021a471c *b);
-void func_ov000_021a3fc8(Unk021a4a08 *a, Unk021a471c *b, s32 c);
-void func_ov000_021a412c(Unk021a4a08 *a, Unk021a471c *b, const u8 *c, s32 d);
-void func_ov000_021a41a0(Unk021a4a08 *a, Unk021a471c *b, s32 c, const u8 *d, s32 e, const u8 *f, s32 g, const u8 *h);
-void func_ov000_021a41dc(Unk021a4a08 *a, Unk021a471c *b, s32 c, s32 d, const u8 *e);
-void func_ov000_021a438c(Unk021a4a08 *a, const char *b);
-void func_ov000_021a4418(Unk021a4a08 *a, Unk021a471c *b, const char *c, s32 d);
-void func_ov000_021a4480(unsigned int p0, unsigned int p1, unsigned int p2);
-void func_ov000_021a44a0(u8 *a, s32 b, u8 *c, s32 d);
-void func_ov000_021a4578(const u8 *a, s32 b, u8 *c);
-unsigned char func_ov000_021a4610(u32 a);
-void func_ov000_021a4648(u8 *a, u8 *b);
-BOOL func_ov000_021a4654(const char *a, u32 b, Unk021a4654 *c, SOCHostEnt **d);
-void func_ov000_021a46d4(void);
-void func_ov000_021a471c(Unk021a471c *a, const char *b);
-void func_ov000_021a4760(Unk021a471c *a, s32 b);
-void func_ov000_021a4784(MatchingKeyIds *a, int b);
-void func_ov000_021a47ac(Unk021a4a08 *a);
-void func_ov000_021a4818(Unk021a4a08 *a);
-void func_ov000_021a4868(Unk021a4a08 *a);
-void func_ov000_021a4940(Unk021a4a08 *a);
-void func_ov000_021a49a0(Unk021a4a08 *a);
-void func_ov000_021a49cc(void *a, void (*b)(void *, u16));
-void func_ov000_021a49e0(Unk021a4a08 *a, UnkFunc *b);
-void func_ov000_021a49f4(Unk021a4a08 *a, UnkFunc *b);
-// Declared here until the code that defines it is decompiled.
+void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged);
+void send_keepalive(Unk021a3a18 *qrec);
+void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender);
+BOOL qr_got_recent_message(Unk021a3a18 *qrec, int msgkey);
+void qr_process_client_message(Unk021a3a18 *qrec, u8 *buf, s32 len);
+void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf);
+void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keytype);
+void qr_process_query(QueryRecord *qrec, QueryBuffer *buf, const u8 *qdata, s32 len);
+void qr_build_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 serverkeycount, const u8 *serverkeys,
+                          s32 playerkeycount, const u8 *playerkeys, s32 teamkeycount, const u8 *teamkeys);
+void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keytype, s32 keycount, const u8 *keys);
+void handle_public_address(QueryRecord *qrec, const char *buffer);
+void compute_challenge_response(QueryRecord *qrec, QueryBuffer *buf, const char *challenge, s32 challengelen);
+void qr_add_packet_header(unsigned int buf, unsigned int ptype, unsigned int reqkey);
+void gs_encrypt(u8 *key, s32 keyLength, u8 *dataBytes, s32 bufferLength);
+void gs_encode(const u8 *ins, s32 size, u8 *result);
+unsigned char encode_ct(u32 value);
+void swap_byte(u8 *first, u8 *second);
+BOOL ResolveQueryHostAddress(const char *host, u32 port, Unk021a4654 *saddr, SOCHostEnt **savehent);
+void enum_local_ips(void);
+void qr2_buffer_addA(QueryBuffer *outbuf, const char *value);
+void qr2_buffer_add_int(QueryBuffer *outbuf, s32 value);
+void qr2_keybuffer_add(MatchingKeyIds *keybuffer, int keyid);
+void qr2_shutdown(QueryRecord *qrec);
+void qr2_send_statechanged(QueryRecord *qrec);
+void qr2_check_send_heartbeat(QueryRecord *qrec);
+void qr2_check_queries(QueryRecord *qrec);
+void qr2_think(QueryRecord *qrec);
+void qr2_register_publicaddress_callback(void *qrec, void (*pacallback)(void *, u16));
+void qr2_register_clientmessage_callback(QueryRecord *qrec, UnkFunc *cmcallback);
+void qr2_register_natneg_callback(QueryRecord *qrec, UnkFunc *nncallback);

@@ -263,7 +263,7 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     work->mUnk_d0c_0 = config->mUnk_0a;
     work->mUnk_d0c_4 = config->mUnk_0b;
     ReadNvramFirstThreeEntries(work);
-    result = func_ov000_021a6470(gWcmBuffer, 0x2300);
+    result = WCM_Init(gWcmBuffer, 0x2300);
     if (result == 1 || result >= 4) {
         DWCi_AC_FreeAll();
         return 0;

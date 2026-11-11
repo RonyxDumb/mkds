@@ -4,4 +4,4 @@
 
 extern void *gQr2RegisteredKeyList[255];
 
-void func_ov000_021a4b84(s32 index, void *value);
+void qr2_register_keyA(s32 keyid, void *key);

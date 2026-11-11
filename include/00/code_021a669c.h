@@ -5,10 +5,10 @@
 #include "00/code_021a5b3c.h"
 #include "code_0200e77c.h"
 
-Unk021b5f50_2270_0c *func_ov000_021a669c(void);
-void func_ov000_021a671c(Unk021a5e84 *a, u16 b);
-u8 *func_ov000_021a6788(u16 a);
-u32 func_ov000_021a67dc(u32 a);
-u32 func_ov000_021a6844(void);
-void func_ov000_021a6894(void);
-void func_ov000_021a68dc(OSMutex *a);
+WCMApList *WcmAllocApList(void);
+void WCMi_EntryApList(Unk021a5e84 *bssDesc, u16 linkLevel);
+u8 *WCM_PointApList(u16 index);
+u32 WCM_LockApList(u32 lock);
+u32 WCM_CountApList(void);
+void WCM_ClearApList(void);
+void WcmCpsifUnlockMutexInIRQ(OSMutex *mutex);

@@ -18,7 +18,7 @@ typedef struct WiFiMatching {
     // modes 2 and 3.
     /* 00e */ u8 mLastMaskedParticipantPos;
     /* 00f */ u8 mUnk_0f;
-    /* 010 */ struct Unk021a4a08 *mUnk_10;
+    /* 010 */ struct QueryRecord *mUnk_10;
     /* 014 */ u8 mUnk_14;
     // 0 filter search, 1 buddy list (set by SetupMatching); the code also tests 2 and 3, which nothing sets.
     /* 015 */ volatile u8 mMode;

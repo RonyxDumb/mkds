@@ -26,841 +26,840 @@
 #include "code_0200f790.h"
 #include "00/unk_021b0000.h"
 
-Unk021b5f50_2270_0c *func_ov000_021a6614(const u8 *a) {
-    Unk021b5f50 *g;
-    Unk021b5f50_2270 *l;
-    Unk021b5f50_2270_0c *e;
+WCMApList *WcmSearchApList(const u8 *bssid) {
+    WCMWork *work;
+    WCMApListHeader *aplistHeader;
+    WCMApList *apNode;
 
-    g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
-    e = NULL;
-    if (a == NULL) {
+    work = WCMi_GetSystemWork();
+    aplistHeader = work->mPbdBuffer;
+    apNode = NULL;
+    if (bssid == NULL) {
         return NULL;
     }
-    if (l != NULL && g->mUnk_2274 > 0xc) {
-        for (e = l->mUnk_04; e != NULL; e = e->mUnk_0c) {
-            if (func_ov000_021a6d1c((u8 *) (void *) e->mUnk_10 + 4, a) != 0) {
+    if (aplistHeader != NULL && work->mNbdBuffer > 0xc) {
+        for (apNode = aplistHeader->mHead; apNode != NULL; apNode = apNode->mNext) {
+            if (WCM_CompareBssID((u8 *) (void *) apNode->mData + 4, bssid) != 0) {
                 break;
             }
         }
     }
-    return e;
+    return apNode;
 }
 
-Unk021b5f50_2270_0c *func_ov000_021a65d8(u32 a) {
-    Unk021b5f50 *g;
-    Unk021b5f50_2270 *l;
-    Unk021b5f50_2270_0c *e;
+WCMApList *WcmSearchIndexedApList(u32 index) {
+    WCMWork *work;
+    WCMApListHeader *aplistHeader;
+    WCMApList *apNode;
 
-    g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
-    e = NULL;
-    if (l != NULL && g->mUnk_2274 > 0xc) {
-        for (e = l->mUnk_04; e != NULL; e = e->mUnk_0c) {
-            if (e->mUnk_04 == a) {
+    work = WCMi_GetSystemWork();
+    aplistHeader = work->mPbdBuffer;
+    apNode = NULL;
+    if (aplistHeader != NULL && work->mNbdBuffer > 0xc) {
+        for (apNode = aplistHeader->mHead; apNode != NULL; apNode = apNode->mNext) {
+            if (apNode->mIndex == index) {
                 break;
             }
         }
     }
-    return e;
+    return apNode;
 }
 
-void func_ov000_021a6558(Unk021b5f50_2270_0c *a) {
-    Unk021b5f50 *g;
-    Unk021b5f50_2270 *l;
-    Unk021b5f50_2270_0c *e;
+void WcmAppendApList(WCMApList *aplist) {
+    WCMWork *work;
+    WCMApListHeader *aplistHeader;
+    WCMApList *entry;
 
-    g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
-    if (a != NULL && l != NULL && g->mUnk_2274 > 0xc) {
-        for (e = l->mUnk_04; e != NULL; e = e->mUnk_0c) {
-            if (e == a) {
-                if (e->mUnk_08 != NULL) {
-                    e->mUnk_08->mUnk_0c = e->mUnk_0c;
+    work = WCMi_GetSystemWork();
+    aplistHeader = work->mPbdBuffer;
+    if (aplist != NULL && aplistHeader != NULL && work->mNbdBuffer > 0xc) {
+        for (entry = aplistHeader->mHead; entry != NULL; entry = entry->mNext) {
+            if (entry == aplist) {
+                if (entry->mPrevious != NULL) {
+                    entry->mPrevious->mNext = entry->mNext;
                 } else {
-                    l->mUnk_04 = e->mUnk_0c;
+                    aplistHeader->mHead = entry->mNext;
                 }
-                if (e->mUnk_0c != NULL) {
-                    e->mUnk_0c->mUnk_08 = e->mUnk_08;
+                if (entry->mNext != NULL) {
+                    entry->mNext->mPrevious = entry->mPrevious;
                 } else {
-                    l->mUnk_08 = e->mUnk_08;
+                    aplistHeader->mTail = entry->mPrevious;
                 }
                 break;
             }
         }
-        a->mUnk_0c = NULL;
-        a->mUnk_08 = l->mUnk_08;
-        l->mUnk_08 = a;
-        if (a->mUnk_08 != NULL) {
-            a->mUnk_08->mUnk_0c = a;
+        aplist->mNext = NULL;
+        aplist->mPrevious = aplistHeader->mTail;
+        aplistHeader->mTail = aplist;
+        if (aplist->mPrevious != NULL) {
+            aplist->mPrevious->mNext = aplist;
         } else {
-            l->mUnk_04 = a;
+            aplistHeader->mHead = aplist;
         }
-        if (e == NULL) {
-            a->mUnk_04 = l->mUnk_00;
-            l->mUnk_00++;
+        if (entry == NULL) {
+            aplist->mIndex = aplistHeader->mCount;
+            aplistHeader->mCount++;
         }
     }
 }
 
-s32 func_ov000_021a6470(Unk021b5f50 *a, u32 b) {
-    u32 v1;
+s32 WCM_Init(WCMWork *buf, u32 len) {
+    u32 enabled;
 
-    v1 = OS_DisableInterrupts();
-    if (data_ov000_021b5f50 != NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    if (gWcmWork != NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    if (a == NULL) {
-        OS_RestoreInterrupts(v1);
+    if (buf == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    if (((u32) a & 0x1f) != 0) {
-        OS_RestoreInterrupts(v1);
+    if (((u32) buf & 0x1f) != 0) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    if (b < sizeof(Unk021b5f50)) {
-        OS_RestoreInterrupts(v1);
+    if (len < sizeof(WCMWork)) {
+        OS_RestoreInterrupts(enabled);
         return 6;
     }
-    data_ov000_021b5f50 = a;
-    a->mUnk_2260 = 1;
-    data_ov000_021b5f50->mUnk_2280 = 0;
-    data_ov000_021b5f50->mUnk_2268 = 0;
-    data_ov000_021b5f50->mUnk_226a = 0;
-    data_ov000_021b5f50->mUnk_226b = 0;
-    data_ov000_021b5f50->mUnk_2282 = 0;
-    data_ov000_021b5f50->mUnk_22f8 = 0;
-    func_ov000_021a5930();
-    func_ov000_021a6bdc();
+    gWcmWork = buf;
+    buf->mPhase = 1;
+    gWcmWork->mNotifyId = 0;
+    gWcmWork->mMaxScanTime = 0;
+    gWcmWork->mApListLock = 0;
+    gWcmWork->mResetting = 0;
+    gWcmWork->mAuthId = 0;
+    gWcmWork->mWlStatusOnConnectFail = 0;
+    WcmInitOption();
+    WCMi_InitCpsif();
     if (OS_IsTickAvailable() == 0) {
         OS_InitTick();
     }
     if (OS_IsAlarmAvailable() == 0) {
         OS_InitAlarm();
     }
-    OS_CreateAlarm(&data_ov000_021b5f50->mUnk_22cc);
-    OS_RestoreInterrupts(v1);
+    OS_CreateAlarm(&gWcmWork->mKeepAliveAlarm);
+    OS_RestoreInterrupts(enabled);
     return 0;
 }
 
-BOOL func_ov000_021a6428(void) {
-    u32 v1;
-    Unk021b5f50 *g;
+BOOL WCM_Finish(void) {
+    u32 enabled;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return TRUE;
     }
-    if (g->mUnk_2260 != 1) {
-        OS_RestoreInterrupts(v1);
+    if (work->mPhase != 1) {
+        OS_RestoreInterrupts(enabled);
         return TRUE;
     }
-    data_ov000_021b5f50 = NULL;
-    OS_RestoreInterrupts(v1);
+    gWcmWork = NULL;
+    OS_RestoreInterrupts(enabled);
     return FALSE;
 }
 
-s32 func_ov000_021a629c(WCMConfig *a, void (*b)(Unk021a586c *)) {
-    u32 v1;
-    s32 r;
-    Unk021b5f50 *g;
+s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *)) {
+    u32 enabled;
+    s32 result;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (work->mPhase) {
         case 1:
-            func_ov000_021a5a78(a, b);
+            WcmConfigure(config, notify);
             break;
         case 2:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 2;
         case 3:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 0;
         default:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 1;
     }
-    switch (WM_Init(data_ov000_021b5f50, data_ov000_021b5f50->mUnk_226c)) {
+    switch (WM_Init(gWcmWork, gWcmWork->mDmaNo)) {
         case 3:
-            func_ov000_021a57fc(0xb);
-            OS_RestoreInterrupts(v1);
+            WcmSetPhase(0xb);
+            OS_RestoreInterrupts(enabled);
             return 7;
         case 4:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 5;
         case 1:
         case 2:
         case 5:
         case 6:
         default:
-            func_ov000_021a57fc(0xb);
-            OS_RestoreInterrupts(v1);
+            WcmSetPhase(0xb);
+            OS_RestoreInterrupts(enabled);
             return 7;
         case 0:
             break;
     }
     if (WM_GetAllowedChannel() == 0) {
         if (WM_Finish() != 0) {
-            func_ov000_021a57fc(0xb);
-            OS_RestoreInterrupts(v1);
+            WcmSetPhase(0xb);
+            OS_RestoreInterrupts(enabled);
             return 7;
         }
-        OS_RestoreInterrupts(v1);
+        OS_RestoreInterrupts(enabled);
         return 5;
     }
-    if (WM_SetIndCallback(func_ov000_021a56e4) != 0) {
-        func_ov000_021a57fc(0xb);
-        OS_RestoreInterrupts(v1);
+    if (WM_SetIndCallback(WcmWmcbIndication) != 0) {
+        WcmSetPhase(0xb);
+        OS_RestoreInterrupts(enabled);
         return 7;
     }
-    r = WM_Enable(func_ov000_021a54b0);
-    switch (r) {
+    result = WM_Enable(WcmWmcbCommon);
+    switch (result) {
         case 2:
-            func_ov000_021a57fc(2);
-            data_ov000_021b5f50->mUnk_2280 = 1;
+            WcmSetPhase(2);
+            gWcmWork->mNotifyId = 1;
             break;
         case 8:
-            func_ov000_021a57fc(0xc);
-            OS_RestoreInterrupts(v1);
+            WcmSetPhase(0xc);
+            OS_RestoreInterrupts(enabled);
             return 1;
         case 3:
         default:
-            func_ov000_021a57fc(0xb);
-            OS_RestoreInterrupts(v1);
+            WcmSetPhase(0xb);
+            OS_RestoreInterrupts(enabled);
             return 7;
     }
-    OS_RestoreInterrupts(v1);
+    OS_RestoreInterrupts(enabled);
     return 3;
 }
 
-s32 func_ov000_021a61e4(void) {
-    u32 v1;
-    s32 r;
-    Unk021b5f50 *g;
+s32 WCM_CleanupAsync(void) {
+    u32 enabled;
+    s32 result;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (work->mPhase) {
         case 4:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 2;
         case 1:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 0;
         default:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 1;
         case 3:
-            r = WM_PowerOff(func_ov000_021a54b0);
-            switch (r) {
+            result = WM_PowerOff(WcmWmcbCommon);
+            switch (result) {
                 case 2:
-                    func_ov000_021a57fc(4);
-                    data_ov000_021b5f50->mUnk_2280 = 2;
+                    WcmSetPhase(4);
+                    gWcmWork->mNotifyId = 2;
                     break;
                 case 8:
-                    OS_RestoreInterrupts(v1);
+                    OS_RestoreInterrupts(enabled);
                     return 4;
                 case 3:
                 default:
-                    func_ov000_021a57fc(0xb);
-                    OS_RestoreInterrupts(v1);
+                    WcmSetPhase(0xb);
+                    OS_RestoreInterrupts(enabled);
                     return 7;
             }
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 3;
     }
 }
 
-s32 func_ov000_021a61c4(const void *a, const u8 *b, u32 c) {
-    if (a == NULL || b == NULL) {
-        return func_ov000_021a6024();
+s32 WCM_SearchAsync(const void *bssid, const u8 *essid, u32 option) {
+    if (bssid == NULL || essid == NULL) {
+        return WCM_EndSearchAsync();
     }
-    return func_ov000_021a60a4(a, b, c);
+    return WCM_BeginSearchAsync(bssid, essid, option);
 }
 
-s32 func_ov000_021a60a4(const void *a, const u8 *b, u32 c) {
-    u32 v1;
-    s32 r;
-    Unk021b5f50 *g;
+s32 WCM_BeginSearchAsync(const void *bssid, const u8 *essid, u32 option) {
+    u32 enabled;
+    s32 result;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (work->mPhase) {
         case 5:
-            func_ov000_021a5948(a, b, c);
-            OS_RestoreInterrupts(v1);
+            WcmEditScanExParam(bssid, essid, option);
+            OS_RestoreInterrupts(enabled);
             return 2;
         case 6:
-            func_ov000_021a5948(a, b, c);
-            OS_RestoreInterrupts(v1);
+            WcmEditScanExParam(bssid, essid, option);
+            OS_RestoreInterrupts(enabled);
             return 0;
         default:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 1;
         case 3:
-            func_ov000_021a5948(a, b, c);
-            DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mScanBuf, data_ov000_021b5f50->mUnk_2288.mScanBufSize);
-            data_ov000_021b5f50->mUnk_2284++;
-            r = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->mUnk_2288);
-            switch (r) {
+            WcmEditScanExParam(bssid, essid, option);
+            DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
+            gWcmWork->mScanCount++;
+            result = WM_StartScanEx((Unk021425e8Func) WcmWmcbScanEx, &gWcmWork->mScanExParam);
+            switch (result) {
                 case 2:
-                    func_ov000_021a57fc(5);
-                    data_ov000_021b5f50->mUnk_2280 = 3;
+                    WcmSetPhase(5);
+                    gWcmWork->mNotifyId = 3;
                     break;
                 case 8:
-                    OS_RestoreInterrupts(v1);
+                    OS_RestoreInterrupts(enabled);
                     return 4;
                 case 3:
                 default:
-                    func_ov000_021a57fc(0xb);
-                    OS_RestoreInterrupts(v1);
+                    WcmSetPhase(0xb);
+                    OS_RestoreInterrupts(enabled);
                     return 7;
             }
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 3;
     }
 }
 
-s32 func_ov000_021a6024(void) {
-    u32 v1;
-    Unk021b5f50 *g;
+s32 WCM_EndSearchAsync(void) {
+    u32 enabled;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (work->mPhase) {
         case 6:
-            func_ov000_021a57fc(7);
-            data_ov000_021b5f50->mUnk_2280 = 4;
+            WcmSetPhase(7);
+            gWcmWork->mNotifyId = 4;
             break;
         case 7:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 2;
         case 3:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 0;
         default:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 1;
     }
-    OS_RestoreInterrupts(v1);
+    OS_RestoreInterrupts(enabled);
     return 3;
 }
 
-s32 func_ov000_021a5e84(Unk021a5e84 *a, WCMWepDesc *b, u32 c) {
-    u32 v1;
-    s32 r;
-    Unk021b5f50 *g;
+s32 WCM_ConnectAsync(Unk021a5e84 *bssDesc, WCMWepDesc *wepDesc, u32 option) {
+    u32 enabled;
+    s32 result;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (work->mPhase) {
         case 3:
-            if (a == NULL) {
-                OS_RestoreInterrupts(v1);
+            if (bssDesc == NULL) {
+                OS_RestoreInterrupts(enabled);
                 return 1;
             }
-            if (a->mUnk_3c != 0) {
-                OS_RestoreInterrupts(v1);
+            if (bssDesc->mUnk_3c != 0) {
+                OS_RestoreInterrupts(enabled);
                 return 1;
             }
-            if (b != NULL) {
-                if (b->mUnk_00 >= 4 || b->mUnk_01 >= 4) {
-                    OS_RestoreInterrupts(v1);
+            if (wepDesc != NULL) {
+                if (wepDesc->mUnk_00 >= 4 || wepDesc->mUnk_01 >= 4) {
+                    OS_RestoreInterrupts(enabled);
                     return 1;
                 }
-                g->mUnk_2250 = b->mUnk_00;
-                data_ov000_021b5f50->mUnk_2251 = b->mUnk_01;
-                if (data_ov000_021b5f50->mUnk_2250 == 0) {
-                    MI_CpuFill8(data_ov000_021b5f50->mUnk_2200, 0, 0x50);
+                work->mWepMode = wepDesc->mUnk_00;
+                gWcmWork->mWepKeyId = wepDesc->mUnk_01;
+                if (gWcmWork->mWepMode == 0) {
+                    MI_CpuFill8(gWcmWork->mWepKey, 0, 0x50);
                 } else {
-                    MI_CpuCopy8(b->mUnk_02, data_ov000_021b5f50->mUnk_2200, 0x50);
+                    MI_CpuCopy8(wepDesc->mUnk_02, gWcmWork->mWepKey, 0x50);
                 }
             } else {
-                MI_CpuFill8(g->mUnk_2200, 0, 0x52);
+                MI_CpuFill8(work->mWepKey, 0, 0x52);
             }
-            MI_CpuCopy8(a, data_ov000_021b5f50->mUnk_2140, 0xc0);
-            data_ov000_021b5f50->mUnk_2170 = data_ov000_021b5f50->mUnk_216e | 3;
-            func_ov000_021a5b3c(c);
+            MI_CpuCopy8(bssDesc, gWcmWork->mBssDesc, 0xc0);
+            gWcmWork->mSupportRateSet = gWcmWork->mBasicRateSet | 3;
+            WCM_UpdateOption(option);
             break;
         case 8:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 2;
         case 9:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 0;
         default:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 1;
     }
-    r = WM_SetLifeTime(func_ov000_021a54b0, 0xffff, 0x50, 0xffff, 0xffff);
-    switch (r) {
+    result = WM_SetLifeTime(WcmWmcbCommon, 0xffff, 0x50, 0xffff, 0xffff);
+    switch (result) {
         case 2:
-            func_ov000_021a57fc(8);
-            data_ov000_021b5f50->mUnk_2280 = 5;
+            WcmSetPhase(8);
+            gWcmWork->mNotifyId = 5;
             break;
         case 8:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 4;
         case 3:
         default:
-            func_ov000_021a57fc(0xb);
-            OS_RestoreInterrupts(v1);
+            WcmSetPhase(0xb);
+            OS_RestoreInterrupts(enabled);
             return 7;
     }
-    OS_RestoreInterrupts(v1);
+    OS_RestoreInterrupts(enabled);
     return 3;
 }
 
-s32 func_ov000_021a5db0(void) {
-    u32 v1;
-    s32 r;
-    Unk021b5f50 *g;
+s32 WCM_DisconnectAsync(void) {
+    u32 enabled;
+    s32 result;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (work->mPhase) {
         case 10:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 2;
         case 3:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 0;
         default:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 1;
         case 9:
             break;
     }
-    if (g->mUnk_226b == 1) {
-        func_ov000_021a57fc(0xa);
-        data_ov000_021b5f50->mUnk_2280 = 6;
+    if (work->mResetting == 1) {
+        WcmSetPhase(0xa);
+        gWcmWork->mNotifyId = 6;
     } else {
-        r = WM_EndDCF(func_ov000_021a4e28);
-        switch (r) {
+        result = WM_EndDCF(WcmWmcbEndDCF);
+        switch (result) {
             case 2:
-                func_ov000_021a57fc(0xa);
-                data_ov000_021b5f50->mUnk_2280 = 6;
+                WcmSetPhase(0xa);
+                gWcmWork->mNotifyId = 6;
                 break;
             case 8:
-                OS_RestoreInterrupts(v1);
+                OS_RestoreInterrupts(enabled);
                 return 4;
             case 3:
             default:
-                func_ov000_021a57fc(0xb);
-                OS_RestoreInterrupts(v1);
+                WcmSetPhase(0xb);
+                OS_RestoreInterrupts(enabled);
                 return 7;
         }
     }
-    OS_RestoreInterrupts(v1);
+    OS_RestoreInterrupts(enabled);
     return 3;
 }
 
-s32 func_ov000_021a5c24(void) {
-    u32 v1;
-    s32 r;
-    Unk021b5f50 *g;
-    Unk02142988 *p;
+s32 WCM_TerminateAsync(void) {
+    u32 enabled;
+    s32 result;
+    WCMWork *work;
+    Unk02142988 *wmStatus;
 
-    v1 = OS_DisableInterrupts();
-    g = data_ov000_021b5f50;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = gWcmWork;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (work->mPhase) {
         case 13:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 2;
         case 1:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 0;
         case 6:
-            func_ov000_021a57fc(0xd);
-            data_ov000_021b5f50->mUnk_2280 = 9;
-            OS_RestoreInterrupts(v1);
+            WcmSetPhase(0xd);
+            gWcmWork->mNotifyId = 9;
+            OS_RestoreInterrupts(enabled);
             return 3;
         case 3:
         case 9:
         case 12:
             break;
         default:
-            OS_RestoreInterrupts(v1);
+            OS_RestoreInterrupts(enabled);
             return 1;
     }
-    if (g->mUnk_226b == 1) {
-        func_ov000_021a57fc(0xd);
-        data_ov000_021b5f50->mUnk_2280 = 9;
+    if (work->mResetting == 1) {
+        WcmSetPhase(0xd);
+        gWcmWork->mNotifyId = 9;
     } else {
-        p = WMi_GetStatusAddress();
-        DC_InvalidateRange(p, 2);
-        switch (p->mState) {
+        wmStatus = WMi_GetStatusAddress();
+        DC_InvalidateRange(wmStatus, 2);
+        switch (wmStatus->mState) {
             case 0:
-                r = WM_Finish();
-                if (r == 0) {
-                    func_ov000_021a57fc(1);
-                    data_ov000_021b5f50->mUnk_2280 = 0;
-                    OS_RestoreInterrupts(v1);
+                result = WM_Finish();
+                if (result == 0) {
+                    WcmSetPhase(1);
+                    gWcmWork->mNotifyId = 0;
+                    OS_RestoreInterrupts(enabled);
                     return 0;
                 }
                 break;
             case 1:
-                r = WM_Disable(func_ov000_021a54b0);
+                result = WM_Disable(WcmWmcbCommon);
                 break;
             case 2:
-                r = WM_PowerOff(func_ov000_021a54b0);
+                result = WM_PowerOff(WcmWmcbCommon);
                 break;
             default:
-                data_ov000_021b5f50->mUnk_226b = 1;
-                r = WM_Reset(func_ov000_021a4bc4);
+                gWcmWork->mResetting = 1;
+                result = WM_Reset(WcmWmcbReset);
                 break;
         }
-        switch (r) {
+        switch (result) {
             case 2:
-                func_ov000_021a57fc(0xd);
-                data_ov000_021b5f50->mUnk_2280 = 9;
+                WcmSetPhase(0xd);
+                gWcmWork->mNotifyId = 9;
                 break;
             case 8:
-                OS_RestoreInterrupts(v1);
+                OS_RestoreInterrupts(enabled);
                 return 4;
             case 3:
             default:
-                func_ov000_021a57fc(0xb);
-                OS_RestoreInterrupts(v1);
+                WcmSetPhase(0xb);
+                OS_RestoreInterrupts(enabled);
                 return 7;
         }
     }
-    OS_RestoreInterrupts(v1);
+    OS_RestoreInterrupts(enabled);
     return 3;
 }
 
-u32 func_ov000_021a5bfc(void) {
-    u32 v1;
-    u32 r;
-    Unk021b5f50 *g;
+u32 WCM_GetPhase(void) {
+    u32 enabled;
+    u32 connPhase;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    r = 0;
-    g = data_ov000_021b5f50;
-    if (g != NULL) {
-        r = g->mUnk_2260;
+    enabled = OS_DisableInterrupts();
+    connPhase = 0;
+    work = gWcmWork;
+    if (work != NULL) {
+        connPhase = work->mPhase;
     }
-    OS_RestoreInterrupts(v1);
-    return r;
+    OS_RestoreInterrupts(enabled);
+    return connPhase;
 }
 
-u32 func_ov000_021a5b3c(u32 a) {
-    u32 v1;
-    u32 b;
-    u32 v2;
-    Unk021b5f50 *g;
+u32 WCM_UpdateOption(u32 option) {
+    u32 enabled;
+    u32 clearMask;
+    u32 previousOption;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    b = 0;
-    g = data_ov000_021b5f50;
-    v2 = g->mUnk_2264;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    clearMask = 0;
+    work = gWcmWork;
+    previousOption = work->mOption;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
-    if (a & 0x8000) {
-        b |= 0x3ffe;
-        if ((a & 0x3ffe) == 0) {
-            a |= 0xa082;
+    if (option & 0x8000) {
+        clearMask |= 0x3ffe;
+        if ((option & 0x3ffe) == 0) {
+            option |= 0xa082;
         }
     }
-    if (a & 0x20000) {
-        b |= 0x10000;
+    if (option & 0x20000) {
+        clearMask |= 0x10000;
     }
-    if (a & 0x80000) {
-        b |= 0x40000;
+    if (option & 0x80000) {
+        clearMask |= 0x40000;
     }
-    if (a & 0x200000) {
-        b |= 0x100000;
+    if (option & 0x200000) {
+        clearMask |= 0x100000;
     }
-    if (a & 0x800000) {
-        b |= 0x400000;
+    if (option & 0x800000) {
+        clearMask |= 0x400000;
     }
-    g->mUnk_2264 = a | (v2 & ~b);
-    OS_RestoreInterrupts(v1);
-    return v2;
+    work->mOption = option | (previousOption & ~clearMask);
+    OS_RestoreInterrupts(enabled);
+    return previousOption;
 }
 
-Unk021b5f50 *func_ov000_021a5b30(void) {
-    return data_ov000_021b5f50;
+WCMWork *WCMi_GetSystemWork(void) {
+    return gWcmWork;
 }
 
-void func_ov000_021a5a78(WCMConfig *a, void (*b)(Unk021a586c *)) {
-    u8 *p;
+void WcmConfigure(WCMConfig *config, void (*notify)(WCMNotice *)) {
+    u8 *bufferStart;
 
-    if (a == NULL) {
-        data_ov000_021b5f50->mUnk_226c = 3;
-        data_ov000_021b5f50->mUnk_2270 = NULL;
-        data_ov000_021b5f50->mUnk_2274 = 0;
-        data_ov000_021b5f50->mUnk_2278 = 0;
+    if (config == NULL) {
+        gWcmWork->mDmaNo = 3;
+        gWcmWork->mPbdBuffer = NULL;
+        gWcmWork->mNbdBuffer = 0;
+        gWcmWork->mNbdMode = 0;
     } else {
-        data_ov000_021b5f50->mUnk_226c = a->mDmaNo & 3;
-        p = a->mPbdBuffer;
-        if ((((4 - ((u32) p & 3)) & 3) + 0xc) > a->mNbdBuffer) {
-            data_ov000_021b5f50->mUnk_2270 = NULL;
-            data_ov000_021b5f50->mUnk_2274 = 0;
+        gWcmWork->mDmaNo = config->mDmaNo & 3;
+        bufferStart = config->mPbdBuffer;
+        if ((((4 - ((u32) bufferStart & 3)) & 3) + 0xc) > config->mNbdBuffer) {
+            gWcmWork->mPbdBuffer = NULL;
+            gWcmWork->mNbdBuffer = 0;
         } else {
-            data_ov000_021b5f50->mUnk_2270 = (Unk021b5f50_2270 *) (((u32) p + 3) & ~3);
-            data_ov000_021b5f50->mUnk_2274 = a->mNbdBuffer - ((4 - ((u32) a->mPbdBuffer & 3)) & 3);
-            MI_CpuFill8(data_ov000_021b5f50->mUnk_2270, 0, data_ov000_021b5f50->mUnk_2274);
+            gWcmWork->mPbdBuffer = (WCMApListHeader *) (((u32) bufferStart + 3) & ~3);
+            gWcmWork->mNbdBuffer = config->mNbdBuffer - ((4 - ((u32) config->mPbdBuffer & 3)) & 3);
+            MI_CpuFill8(gWcmWork->mPbdBuffer, 0, gWcmWork->mNbdBuffer);
         }
-        data_ov000_021b5f50->mUnk_2278 = a->mNbdMode;
+        gWcmWork->mNbdMode = config->mNbdMode;
     }
-    data_ov000_021b5f50->mUnk_227c = b;
+    gWcmWork->mNotify = notify;
 }
 
-void func_ov000_021a5948(const void *a, const u8 *b, u32 c) {
-    u16 v;
-    s32 i;
+void WcmEditScanExParam(const void *bssid, const u8 *essid, u32 option) {
+    u16 maxChannelTime;
+    s32 essidLength;
 
-    func_ov000_021a5b3c(c);
-    data_ov000_021b5f50->mUnk_2288.mScanBuf = data_ov000_021b5f50->mUnk_1500;
-    data_ov000_021b5f50->mUnk_2288.mScanBufSize = 0x400;
-    data_ov000_021b5f50->mUnk_2288.mChannelList = (1 << func_ov000_021a58dc(0)) >> 1;
-    v = data_ov000_021b5f50->mUnk_2268;
-    if (v == 0) {
-        v = WM_GetDispersionScanPeriod();
+    WCM_UpdateOption(option);
+    gWcmWork->mScanExParam.mScanBuf = gWcmWork->mRecvBuf;
+    gWcmWork->mScanExParam.mScanBufSize = 0x400;
+    gWcmWork->mScanExParam.mChannelList = (1 << WcmGetNextScanChannel(0)) >> 1;
+    maxChannelTime = gWcmWork->mMaxScanTime;
+    if (maxChannelTime == 0) {
+        maxChannelTime = WM_GetDispersionScanPeriod();
     }
-    data_ov000_021b5f50->mUnk_2288.mMaxChannelTime = v;
-    data_ov000_021b5f50->mUnk_2288.mScanType = (data_ov000_021b5f50->mUnk_2264 & 0x300000) != 0x300000;
-    if (a == NULL) {
-        MI_CpuCopy8(WCM_Bssid_Any, data_ov000_021b5f50->mUnk_2288.mBssid, 6);
+    gWcmWork->mScanExParam.mMaxChannelTime = maxChannelTime;
+    gWcmWork->mScanExParam.mScanType = (gWcmWork->mOption & 0x300000) != 0x300000;
+    if (bssid == NULL) {
+        MI_CpuCopy8(WCM_Bssid_Any, gWcmWork->mScanExParam.mBssid, 6);
     } else {
-        MI_CpuCopy8(a, data_ov000_021b5f50->mUnk_2288.mBssid, 6);
+        MI_CpuCopy8(bssid, gWcmWork->mScanExParam.mBssid, 6);
     }
-    if (b == NULL || b == WCM_Essid_Any) {
-        MI_CpuCopy8(WCM_Essid_Any, data_ov000_021b5f50->mUnk_2288.mSsid, 0x20);
-        data_ov000_021b5f50->mUnk_2288.mSsidLength = 0;
+    if (essid == NULL || essid == WCM_Essid_Any) {
+        MI_CpuCopy8(WCM_Essid_Any, gWcmWork->mScanExParam.mSsid, 0x20);
+        gWcmWork->mScanExParam.mSsidLength = 0;
     } else {
-        MI_CpuCopy8(b, data_ov000_021b5f50->mUnk_2288.mSsid, 0x20);
-        for (i = 0; i < 0x20; i++) {
-            if (*b == 0) {
+        MI_CpuCopy8(essid, gWcmWork->mScanExParam.mSsid, 0x20);
+        for (essidLength = 0; essidLength < 0x20; essidLength++) {
+            if (*essid == 0) {
                 break;
             }
-            b++;
+            essid++;
         }
-        data_ov000_021b5f50->mUnk_2288.mSsidLength = i;
+        gWcmWork->mScanExParam.mSsidLength = essidLength;
     }
-    data_ov000_021b5f50->mUnk_2284 = 0;
+    gWcmWork->mScanCount = 0;
 }
 
-void func_ov000_021a5930(void) {
-    data_ov000_021b5f50->mUnk_2264 = 0xaaa082;
+void WcmInitOption(void) {
+    gWcmWork->mOption = 0xaaa082;
 }
 
-u16 func_ov000_021a58dc(u16 a) {
-    s32 i;
-    s32 j;
-    u32 f;
+u16 WcmGetNextScanChannel(u16 channel) {
+    s32 offset;
+    s32 candidate;
+    u32 option;
 
-    i = 0;
-    j = a;
-    f = data_ov000_021b5f50->mUnk_2264;
+    offset = 0;
+    candidate = channel;
+    option = gWcmWork->mOption;
     do {
-        if (f & (1 << (j % 13 + 1))) {
+        if (option & (1 << (candidate % 13 + 1))) {
             break;
         }
-        j++;
-        i++;
-    } while (i < 13);
-    return (a + i) % 13 + 1;
+        candidate++;
+        offset++;
+    } while (offset < 13);
+    return (channel + offset) % 13 + 1;
 }
 
-void func_ov000_021a58a4(u32 b, const void *c, u32 d, u32 e) {
-    s16 a;
+void WcmNotify(u32 result, const void *para0, u32 para1, u32 para2) {
+    s16 savedId;
 
-    a = data_ov000_021b5f50->mUnk_2280;
-    data_ov000_021b5f50->mUnk_2280 = 0;
-    func_ov000_021a586c(a, b, c, d, e);
+    savedId = gWcmWork->mNotifyId;
+    gWcmWork->mNotifyId = 0;
+    WcmNotifyEx(savedId, result, para0, para1, para2);
 }
 
-void func_ov000_021a586c(s16 a, u32 b, void *c, u32 d, u32 e) {
-    Unk021a586c v;
+void WcmNotifyEx(s16 notify, u32 result, void *para0, u32 para1, u32 para2) {
+    WCMNotice noticeRec;
 
-    if (data_ov000_021b5f50->mUnk_227c != NULL) {
-        v.mUnk_00 = a;
-        v.mUnk_02 = b;
-        v.mUnk_04 = c;
-        v.mUnk_08 = d;
-        v.mUnk_0c = e;
-        data_ov000_021b5f50->mUnk_227c(&v);
+    if (gWcmWork->mNotify != NULL) {
+        noticeRec.mUnk_00 = notify;
+        noticeRec.mUnk_02 = result;
+        noticeRec.mUnk_04 = para0;
+        noticeRec.mUnk_08 = para1;
+        noticeRec.mUnk_0c = para2;
+        gWcmWork->mNotify(&noticeRec);
     }
 }
 
-void func_ov000_021a57fc(u32 a) {
-    u32 b;
+void WcmSetPhase(u32 phase) {
+    u32 enabled;
 
-    b = OS_DisableInterrupts();
-    if (data_ov000_021b5f50->mUnk_2260 == 9 && a != 9) {
-        OS_CancelAlarm(&data_ov000_021b5f50->mUnk_22cc);
+    enabled = OS_DisableInterrupts();
+    if (gWcmWork->mPhase == 9 && phase != 9) {
+        OS_CancelAlarm(&gWcmWork->mKeepAliveAlarm);
     }
-    if (data_ov000_021b5f50->mUnk_2260 != 0xb) {
-        data_ov000_021b5f50->mUnk_2260 = a;
+    if (gWcmWork->mPhase != 0xb) {
+        gWcmWork->mPhase = phase;
     }
-    if (a == 9) {
-        OS_SetAlarm(&data_ov000_021b5f50->mUnk_22cc, 0x22f5341, func_ov000_021a5794, NULL);
+    if (phase == 9) {
+        OS_SetAlarm(&gWcmWork->mKeepAliveAlarm, 0x22f5341, WcmKeepAliveAlarm, NULL);
     }
-    OS_RestoreInterrupts(b);
+    OS_RestoreInterrupts(enabled);
 }
 
-void func_ov000_021a57a8(void) {
-    u32 a;
+void WCMi_ResetKeepAliveAlarm(void) {
+    u32 enabled;
 
-    a = OS_DisableInterrupts();
-    OS_CancelAlarm(&data_ov000_021b5f50->mUnk_22cc);
-    if (data_ov000_021b5f50->mUnk_2260 == 9) {
-        OS_SetAlarm(&data_ov000_021b5f50->mUnk_22cc, 0x22f5341, func_ov000_021a5794, NULL);
+    enabled = OS_DisableInterrupts();
+    OS_CancelAlarm(&gWcmWork->mKeepAliveAlarm);
+    if (gWcmWork->mPhase == 9) {
+        OS_SetAlarm(&gWcmWork->mKeepAliveAlarm, 0x22f5341, WcmKeepAliveAlarm, NULL);
     }
-    OS_RestoreInterrupts(a);
+    OS_RestoreInterrupts(enabled);
 }
 
-void func_ov000_021a5794(void *a) {
-    func_ov000_021a6b54();
-    func_ov000_021a57a8();
+void WcmKeepAliveAlarm(void *arg) {
+    WCMi_CpsifSendNullPacket();
+    WCMi_ResetKeepAliveAlarm();
 }
 
-void func_ov000_021a574c(void) {
-    if (data_ov000_021b5f50->mUnk_226b == 0) {
-        data_ov000_021b5f50->mUnk_226b = 1;
-        if (WM_Reset(func_ov000_021a4bc4) != 2) {
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, NULL, 0, 0x611);
+void WcmWmReset(void) {
+    if (gWcmWork->mResetting == 0) {
+        gWcmWork->mResetting = 1;
+        if (WM_Reset(WcmWmcbReset) != 2) {
+            WcmSetPhase(0xb);
+            WcmNotify(7, NULL, 0, 0x611);
         }
     }
 }
 
-void func_ov000_021a56e4(Unk021425e8 *v1) {
-    if (v1->mResultCode == 8 && v1->mUnk_04 == 0x16 && v1->mUnk_06 == 0x25) {
-        switch (data_ov000_021b5f50->mUnk_2260) {
+void WcmWmcbIndication(Unk021425e8 *callback) {
+    if (callback->mResultCode == 8 && callback->mUnk_04 == 0x16 && callback->mUnk_06 == 0x25) {
+        switch (gWcmWork->mPhase) {
             case 8:
-                func_ov000_021a57fc(0xc);
+                WcmSetPhase(0xc);
                 return;
             case 9:
             case 12:
-                func_ov000_021a574c();
+                WcmWmReset();
                 return;
             case 10:
-                func_ov000_021a57fc(0xc);
+                WcmSetPhase(0xc);
                 break;
         }
     }
 }
 
-void func_ov000_021a54b0(Unk021425e8 *v1) {
-    Unk021b5f50 *g;
-    s32 r = 0x14;
+void WcmWmcbCommon(Unk021425e8 *callback) {
+    WCMWork *work;
+    s32 result = 0x14;
 
-    switch (v1->mResultCode) {
+    switch (callback->mResultCode) {
         case 0:
-            switch (v1->mCommand) {
+            switch (callback->mCommand) {
                 case 3:
-                    r = WM_PowerOn(func_ov000_021a54b0);
+                    result = WM_PowerOn(WcmWmcbCommon);
                     break;
                 case 4:
                     switch (WM_Finish()) {
                         case 0:
-                            func_ov000_021a57fc(1);
-                            func_ov000_021a58a4(0, NULL, 0, 0x663);
+                            WcmSetPhase(1);
+                            WcmNotify(0, NULL, 0, 0x663);
                             return;
                         case 4:
                         default:
-                            func_ov000_021a57fc(0xb);
-                            func_ov000_021a58a4(7, NULL, 0, 0x66a);
+                            WcmSetPhase(0xb);
+                            WcmNotify(7, NULL, 0, 0x66a);
                             return;
                     }
                 case 5:
-                    func_ov000_021a57fc(3);
-                    func_ov000_021a58a4(0, NULL, 0, 0x670);
+                    WcmSetPhase(3);
+                    WcmNotify(0, NULL, 0, 0x670);
                     return;
                 case 6:
-                    r = WM_Disable(func_ov000_021a54b0);
+                    result = WM_Disable(WcmWmcbCommon);
                     break;
                 case 0x1d:
-                    r = WM_SetBeaconIndication((Unk021425e8Func) func_ov000_021a54b0, 0);
+                    result = WM_SetBeaconIndication((Unk021425e8Func) WcmWmcbCommon, 0);
                     break;
                 case 0x19:
-                    g = data_ov000_021b5f50;
-                    r = WM_SetWEPKeyEx(func_ov000_021a54b0, g->mUnk_2250, g->mUnk_2251, g->mUnk_2200);
+                    work = gWcmWork;
+                    result = WM_SetWEPKeyEx(WcmWmcbCommon, work->mWepMode, work->mWepKeyId, work->mWepKey);
                     break;
                 case 0x27: {
-                    u32 v;
-                    u16 e;
-                    u32 d;
-                    g = data_ov000_021b5f50;
-                    v = g->mUnk_2264;
-                    e = (v & 0xc0000) == 0xc0000;
-                    d = (v & 0x30000) != 0x30000 ? 1 : 0;
-                    r = WM_StartConnectEx((Unk021425e8Func) func_ov000_021a5088, (u16 *) g->mUnk_2140, NULL, d, e);
+                    u32 option;
+                    u16 authMode;
+                    u32 powerSave;
+                    work = gWcmWork;
+                    option = work->mOption;
+                    authMode = (option & 0xc0000) == 0xc0000;
+                    powerSave = (option & 0x30000) != 0x30000 ? 1 : 0;
+                    result = WM_StartConnectEx((Unk021425e8Func) WcmWmcbConnect, (u16 *) work->mBssDesc, NULL,
+                                               powerSave, authMode);
                     break;
                 }
             }
-            if (r == 2) {
+            if (result == 2) {
                 return;
             }
-            switch (r) {
+            switch (result) {
                 case 8:
-                    func_ov000_021a57fc(0xc);
-                    func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0,
-                                        0x6a7);
+                    WcmSetPhase(0xc);
+                    WcmNotify(1, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6a7);
                     return;
                 case 3:
                 default:
-                    func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0,
-                                        0x6b0);
+                    WcmSetPhase(0xb);
+                    WcmNotify(7, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6b0);
                     return;
             }
             break;
         case 1:
-            func_ov000_021a57fc(0xc);
-            func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0, 0x6d0);
+            WcmSetPhase(0xc);
+            WcmNotify(1, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6d0);
             return;
         case 2:
         case 3:
         case 4:
         default:
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0, 0x6da);
+            WcmSetPhase(0xb);
+            WcmNotify(7, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6da);
             return;
     }
 }
 
-// Not compiled code: the 1.2 compiler has no clz instruction.
+// Hand-written asm: it counts leading zeros with clz.
 // clang-format off
 #pragma thumb off
-asm u32 func_ov000_021a4b98(u32 a) {
+asm u32 WcmCountBits(u32 bits) {
     mov r1, r0
     mov r0, #0
     mov r3, #1
@@ -873,174 +872,171 @@ count_bits:
     b count_bits
 }
 
-asm u32 func_ov000_021a4bbc(u32 a) {
+asm u32 WcmCountLeadingZero(u32 value) {
     clz r0, r0
     bx lr
 }
 #pragma thumb on
 // clang-format on
 
-void func_ov000_021a52b0(Unk021a5088 *v1) {
-    s32 a;
-    s32 b;
-    u32 c;
-    u32 d;
-    u32 e;
+void WcmWmcbScanEx(Unk021a5088 *callback) {
+    s32 result;
+    s32 index;
+    u32 option;
+    u32 channelCount;
+    u32 scanCount;
 
-    a = 0x14;
-    switch (v1->mUnk_02) {
+    result = 0x14;
+    switch (callback->mUnk_02) {
         case 0:
-            if (data_ov000_021b5f50->mUnk_2260 == 5) {
-                func_ov000_021a57fc(6);
-                func_ov000_021a58a4(0, 0, 0, 0x6f6);
+            if (gWcmWork->mPhase == 5) {
+                WcmSetPhase(6);
+                WcmNotify(0, 0, 0, 0x6f6);
             }
-            switch (data_ov000_021b5f50->mUnk_2260) {
+            switch (gWcmWork->mPhase) {
                 case 6:
-                    data_ov000_021b5f50->mUnk_2280 = 7;
-                    if (v1->mUnk_08 == 5) {
-                        DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mScanBuf,
-                                           data_ov000_021b5f50->mUnk_2288.mScanBufSize);
-                        for (b = 0; b < v1->mUnk_0e; b++) {
-                            func_ov000_021a671c((Unk021a5e84 *) v1->mUnk_10[b], v1->mUnk_50[b]);
-                            func_ov000_021a586c(7, 0, v1->mUnk_10[b], (u32) v1, 0x70b);
+                    gWcmWork->mNotifyId = 7;
+                    if (callback->mUnk_08 == 5) {
+                        DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
+                        for (index = 0; index < callback->mUnk_0e; index++) {
+                            WCMi_EntryApList((Unk021a5e84 *) callback->mUnk_10[index], callback->mUnk_50[index]);
+                            WcmNotifyEx(7, 0, callback->mUnk_10[index], (u32) callback, 0x70b);
                         }
                     }
-                    c = data_ov000_021b5f50->mUnk_2264;
-                    if ((c & 0xc00000) == 0xc00000) {
-                        d = func_ov000_021a4b98(c & 0x3ffe);
-                        if (d != 0) {
-                            e = data_ov000_021b5f50->mUnk_2284;
-                            if (e % d == 0) {
-                                func_ov000_021a586c(8, 0, (void *) e, 0, 0x718);
+                    option = gWcmWork->mOption;
+                    if ((option & 0xc00000) == 0xc00000) {
+                        channelCount = WcmCountBits(option & 0x3ffe);
+                        if (channelCount != 0) {
+                            scanCount = gWcmWork->mScanCount;
+                            if (scanCount % channelCount == 0) {
+                                WcmNotifyEx(8, 0, (void *) scanCount, 0, 0x718);
                             }
                         }
                     }
-                    data_ov000_021b5f50->mUnk_2288.mChannelList =
-                        (1 << func_ov000_021a58dc(32 - func_ov000_021a4bbc(v1->mUnk_0a))) >> 1;
-                    DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mScanBuf,
-                                       data_ov000_021b5f50->mUnk_2288.mScanBufSize);
-                    data_ov000_021b5f50->mUnk_2284++;
-                    a = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->mUnk_2288);
+                    gWcmWork->mScanExParam.mChannelList =
+                        (1 << WcmGetNextScanChannel(32 - WcmCountLeadingZero(callback->mUnk_0a))) >> 1;
+                    DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
+                    gWcmWork->mScanCount++;
+                    result = WM_StartScanEx((Unk021425e8Func) WcmWmcbScanEx, &gWcmWork->mScanExParam);
                     break;
                 case 7:
-                    a = WM_EndScan((Unk021425e8Func) func_ov000_021a524c);
+                    result = WM_EndScan((Unk021425e8Func) WcmWmcbEndScan);
                     break;
                 case 13:
-                    func_ov000_021a574c();
+                    WcmWmReset();
                     return;
             }
-            switch (a) {
+            switch (result) {
                 case 2:
                     return;
                 case 8:
-                    func_ov000_021a57fc(0xc);
-                    func_ov000_021a58a4(1, 0, 0, 0x743);
+                    WcmSetPhase(0xc);
+                    WcmNotify(1, 0, 0, 0x743);
                     return;
                 case 3:
                 default:
-                    func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, 0, 0, 0x74c);
+                    WcmSetPhase(0xb);
+                    WcmNotify(7, 0, 0, 0x74c);
                     return;
             }
         case 1:
-            func_ov000_021a574c();
+            WcmWmReset();
             return;
         case 2:
         case 3:
         case 4:
         default:
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, 0, 0, 0x75d);
+            WcmSetPhase(0xb);
+            WcmNotify(7, 0, 0, 0x75d);
             return;
     }
 }
 
-void func_ov000_021a524c(Unk021425e8 *v1) {
-    switch (v1->mResultCode) {
+void WcmWmcbEndScan(Unk021425e8 *callback) {
+    switch (callback->mResultCode) {
         case 0:
-            func_ov000_021a57fc(3);
-            func_ov000_021a58a4(0, 0, 0, 0x774);
+            WcmSetPhase(3);
+            WcmNotify(0, 0, 0, 0x774);
             return;
         case 1:
-            func_ov000_021a574c();
+            WcmWmReset();
             return;
         case 2:
         case 3:
         case 4:
         default:
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, 0, 0, 0x784);
+            WcmSetPhase(0xb);
+            WcmNotify(7, 0, 0, 0x784);
             return;
     }
 }
 
-void func_ov000_021a5088(Unk021a5088 *v1) {
-    u16 a;
-    s32 b;
+void WcmWmcbConnect(Unk021a5088 *callback) {
+    u16 authId;
+    s32 result;
 
-    switch (v1->mUnk_02) {
+    switch (callback->mUnk_02) {
         case 0:
-            switch (v1->mUnk_08) {
+            switch (callback->mUnk_08) {
                 case 8:
                 case 9:
-                    switch (data_ov000_021b5f50->mUnk_2260 - 8) {
+                    switch (gWcmWork->mPhase - 8) {
                         case 2:
-                            data_ov000_021b5f50->mUnk_2282 = 0;
+                            gWcmWork->mAuthId = 0;
                         case 0:
-                            func_ov000_021a57fc(0xc);
+                            WcmSetPhase(0xc);
                             return;
                         case 1:
-                            data_ov000_021b5f50->mUnk_2282 = 0;
-                            data_ov000_021b5f50->mUnk_2280 = 6;
+                            gWcmWork->mAuthId = 0;
+                            gWcmWork->mNotifyId = 6;
                         case 4:
-                            func_ov000_021a574c();
+                            WcmWmReset();
                             return;
                         default:
                             break;
                     }
                     break;
                 case 7:
-                    if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
-                        func_ov000_021a57fc(8);
-                        func_ov000_021a574c();
+                    if (gWcmWork->mPhase == 0xc) {
+                        WcmSetPhase(8);
+                        WcmWmReset();
                         return;
                     }
-                    a = v1->mUnk_0a;
-                    if (a >= 1 && a <= 0x7d7) {
-                        data_ov000_021b5f50->mUnk_2282 = a;
-                        b = WM_StartDCF((Unk021425e8Func) func_ov000_021a4f10, &data_ov000_021b5f50->mUnk_0000[0x1500],
-                                        0x620);
-                        switch (b) {
+                    authId = callback->mUnk_0a;
+                    if (authId >= 1 && authId <= 0x7d7) {
+                        gWcmWork->mAuthId = authId;
+                        result = WM_StartDCF((Unk021425e8Func) WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
+                        switch (result) {
                             case 2:
                                 return;
                             case 8:
-                                func_ov000_021a57fc(0xc);
-                                func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, 0, 0x7d7);
+                                WcmSetPhase(0xc);
+                                WcmNotify(1, gWcmWork->mBssDesc, 0, 0x7d7);
                                 return;
                             case 3:
                             default:
-                                func_ov000_021a57fc(0xb);
-                                func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x7e0);
+                                WcmSetPhase(0xb);
+                                WcmNotify(7, gWcmWork->mBssDesc, 0, 0x7e0);
                                 return;
                         }
                     }
-                    func_ov000_021a574c();
+                    WcmWmReset();
                     return;
                 case 6:
                     break;
                 default:
-                    func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, v1->mUnk_08, 0x7ee);
+                    WcmSetPhase(0xb);
+                    WcmNotify(7, gWcmWork->mBssDesc, callback->mUnk_08, 0x7ee);
                     return;
             }
             break;
         case 1:
-            data_ov000_021b5f50->mUnk_22f8 = v1->mUnk_0e;
+            gWcmWork->mWlStatusOnConnectFail = callback->mUnk_0e;
         case 6:
         case 11:
         case 12:
-            func_ov000_021a57fc(8);
-            func_ov000_021a574c();
+            WcmSetPhase(8);
+            WcmWmReset();
             return;
         case 2:
         case 3:
@@ -1051,194 +1047,194 @@ void func_ov000_021a5088(Unk021a5088 *v1) {
         case 9:
         case 10:
         default:
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x804);
+            WcmSetPhase(0xb);
+            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x804);
             return;
     }
 }
 
-void func_ov000_021a4fe0(Unk021425e8 *v1) {
-    switch (v1->mResultCode) {
+void WcmWmcbDisconnect(Unk021425e8 *callback) {
+    switch (callback->mResultCode) {
         case 0:
-            if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
-                func_ov000_021a57fc(0xa);
-                func_ov000_021a574c();
+            if (gWcmWork->mPhase == 0xc) {
+                WcmSetPhase(0xa);
+                WcmWmReset();
                 return;
             }
-            data_ov000_021b5f50->mUnk_2282 = 0;
-            func_ov000_021a57fc(3);
-            func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 0, 0x827);
+            gWcmWork->mAuthId = 0;
+            WcmSetPhase(3);
+            WcmNotify(0, gWcmWork->mBssDesc, 0, 0x827);
             return;
         case 1:
         case 3:
-            func_ov000_021a57fc(0xa);
-            func_ov000_021a574c();
+            WcmSetPhase(0xa);
+            WcmWmReset();
             return;
         case 2:
         case 4:
         default:
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x839);
+            WcmSetPhase(0xb);
+            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x839);
             return;
     }
 }
 
-void func_ov000_021a4f10(Unk021425e8 *v1) {
-    switch (v1->mResultCode) {
+void WcmWmcbStartDCF(Unk021425e8 *callback) {
+    switch (callback->mResultCode) {
         case 0:
-            switch (v1->mUnk_04) {
+            switch (callback->mUnk_04) {
                 case 0xe:
-                    if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
-                        func_ov000_021a57fc(8);
-                        func_ov000_021a574c();
+                    if (gWcmWork->mPhase == 0xc) {
+                        WcmSetPhase(8);
+                        WcmWmReset();
                         return;
                     }
-                    func_ov000_021a57fc(9);
-                    func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 0, 0x85d);
+                    WcmSetPhase(9);
+                    WcmNotify(0, gWcmWork->mBssDesc, 0, 0x85d);
                     return;
                 case 0xf:
-                    func_ov000_021a6c08(((u16 *) v1->mUnk_08)[7] >> 8);
-                    DC_InvalidateRange(v1->mUnk_08, 0x620);
-                    func_ov000_021a6bb4(v1->mUnk_08);
+                    WCMi_ShelterRssi(((u16 *) callback->mUnk_08)[7] >> 8);
+                    DC_InvalidateRange(callback->mUnk_08, 0x620);
+                    WCMi_CpsifRecvCallback(callback->mUnk_08);
                     return;
                 default:
-                    func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, v1->mUnk_04, 0x86b);
+                    WcmSetPhase(0xb);
+                    WcmNotify(7, gWcmWork->mBssDesc, callback->mUnk_04, 0x86b);
                     return;
             }
         case 4:
         default:
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x877);
+            WcmSetPhase(0xb);
+            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x877);
             return;
     }
 }
 
-void func_ov000_021a4e28(Unk021425e8 *v1) {
-    s32 a;
+void WcmWmcbEndDCF(Unk021425e8 *callback) {
+    s32 result;
 
-    switch (v1->mResultCode) {
+    switch (callback->mResultCode) {
         case 0:
-            if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
-                func_ov000_021a57fc(0xa);
-                func_ov000_021a574c();
+            if (gWcmWork->mPhase == 0xc) {
+                WcmSetPhase(0xa);
+                WcmWmReset();
                 return;
             }
-            a = WM_Disconnect((Unk021425e8Func) func_ov000_021a4fe0, 0);
-            switch (a) {
+            result = WM_Disconnect((Unk021425e8Func) WcmWmcbDisconnect, 0);
+            switch (result) {
                 case 2:
                     return;
                 case 8:
-                    func_ov000_021a57fc(0xc);
-                    func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, 0, 0x8a0);
+                    WcmSetPhase(0xc);
+                    WcmNotify(1, gWcmWork->mBssDesc, 0, 0x8a0);
                     return;
                 case 3:
-                    func_ov000_021a57fc(0xa);
-                    func_ov000_021a574c();
+                    WcmSetPhase(0xa);
+                    WcmWmReset();
                     return;
                 default:
-                    func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x8ac);
+                    WcmSetPhase(0xb);
+                    WcmNotify(7, gWcmWork->mBssDesc, 0, 0x8ac);
                     return;
             }
         case 1:
         case 3:
-            func_ov000_021a57fc(0xa);
-            func_ov000_021a574c();
+            WcmSetPhase(0xa);
+            WcmWmReset();
             return;
         case 2:
         case 4:
         default:
-            func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x8bf);
+            WcmSetPhase(0xb);
+            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x8bf);
             return;
     }
 }
 
-void func_ov000_021a4bc4(Unk021425e8 *v1) {
-    u16 a;
-    u32 b;
-    u32 c;
-    s32 e;
-    u16 f;
+void WcmWmcbReset(Unk021425e8 *callback) {
+    u16 failStatus;
+    u32 sharedKeyFlag;
+    u32 powerSave;
+    s32 result;
+    u16 authMode;
 
-    if (v1->mResultCode == 0) {
-        data_ov000_021b5f50->mUnk_226b = 0;
-        data_ov000_021b5f50->mUnk_2282 = 0;
-        switch (data_ov000_021b5f50->mUnk_2260) {
+    if (callback->mResultCode == 0) {
+        gWcmWork->mResetting = 0;
+        gWcmWork->mAuthId = 0;
+        switch (gWcmWork->mPhase) {
             case 5:
             case 6:
-                func_ov000_021a57fc(3);
-                func_ov000_021a58a4(1, 0, 0, 0x8e1);
+                WcmSetPhase(3);
+                WcmNotify(1, 0, 0, 0x8e1);
                 return;
             case 7:
-                func_ov000_021a57fc(3);
-                func_ov000_021a58a4(0, 0, 0, 0x8e7);
+                WcmSetPhase(3);
+                WcmNotify(0, 0, 0, 0x8e7);
                 return;
             case 8:
-                a = data_ov000_021b5f50->mUnk_22f8;
-                data_ov000_021b5f50->mUnk_22f8 = 0;
-                if (a == 0x12 && (data_ov000_021b5f50->mUnk_2170 & 0x24) != 0x24) {
-                    data_ov000_021b5f50->mUnk_2170 |= 0x24;
-                    b = 0;
-                    if ((data_ov000_021b5f50->mUnk_2264 & 0xc0000) == 0xc0000) {
-                        b = 1;
+                failStatus = gWcmWork->mWlStatusOnConnectFail;
+                gWcmWork->mWlStatusOnConnectFail = 0;
+                if (failStatus == 0x12 && (gWcmWork->mSupportRateSet & 0x24) != 0x24) {
+                    gWcmWork->mSupportRateSet |= 0x24;
+                    sharedKeyFlag = 0;
+                    if ((gWcmWork->mOption & 0xc0000) == 0xc0000) {
+                        sharedKeyFlag = 1;
                     }
-                    f = b;
-                    if ((data_ov000_021b5f50->mUnk_2264 & 0x30000) == 0x30000) {
-                        c = 0;
+                    authMode = sharedKeyFlag;
+                    if ((gWcmWork->mOption & 0x30000) == 0x30000) {
+                        powerSave = 0;
                     } else {
-                        c = 1;
+                        powerSave = 1;
                     }
-                    e = WM_StartConnectEx((Unk021425e8Func) func_ov000_021a5088, (u16 *) data_ov000_021b5f50->mUnk_2140,
-                                          0, c, f);
-                    switch (e) {
+                    result = WM_StartConnectEx((Unk021425e8Func) WcmWmcbConnect, (u16 *) gWcmWork->mBssDesc, 0,
+                                               powerSave, authMode);
+                    switch (result) {
                         case 2:
                             return;
                         case 8:
-                            func_ov000_021a57fc(0xc);
-                            func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, a, 0x905);
+                            WcmSetPhase(0xc);
+                            WcmNotify(1, gWcmWork->mBssDesc, failStatus, 0x905);
                             return;
                         case 3:
                         default:
-                            func_ov000_021a57fc(0xb);
-                            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, a, 0x90c);
+                            WcmSetPhase(0xb);
+                            WcmNotify(7, gWcmWork->mBssDesc, failStatus, 0x90c);
                             return;
                     }
                 }
-                func_ov000_021a57fc(3);
-                func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, a, 0x913);
+                WcmSetPhase(3);
+                WcmNotify(1, gWcmWork->mBssDesc, failStatus, 0x913);
                 return;
             case 9:
             case 12:
-                func_ov000_021a57fc(3);
-                func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 1, 0x91b);
+                WcmSetPhase(3);
+                WcmNotify(0, gWcmWork->mBssDesc, 1, 0x91b);
                 return;
             case 10:
-                func_ov000_021a57fc(3);
-                func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 0, 0x922);
+                WcmSetPhase(3);
+                WcmNotify(0, gWcmWork->mBssDesc, 0, 0x922);
                 return;
             case 13:
-                e = WM_PowerOff((Unk021425e8Func) func_ov000_021a54b0);
-                switch (e) {
+                result = WM_PowerOff((Unk021425e8Func) WcmWmcbCommon);
+                switch (result) {
                     case 2:
                         return;
                     case 8:
-                        func_ov000_021a57fc(0xc);
-                        func_ov000_021a58a4(1, 0, 0, 0x930);
+                        WcmSetPhase(0xc);
+                        WcmNotify(1, 0, 0, 0x930);
                         return;
                     case 3:
                     default:
-                        func_ov000_021a57fc(0xb);
-                        func_ov000_021a58a4(7, 0, 0, 0x939);
+                        WcmSetPhase(0xb);
+                        WcmNotify(7, 0, 0, 0x939);
                         return;
                 }
             default:
-                func_ov000_021a57fc(0xb);
-                func_ov000_021a58a4(7, 0, data_ov000_021b5f50->mUnk_2260, 0x93f);
+                WcmSetPhase(0xb);
+                WcmNotify(7, 0, gWcmWork->mPhase, 0x93f);
                 return;
         }
     }
-    func_ov000_021a57fc(0xb);
-    func_ov000_021a58a4(7, 0, 0, 0x946);
+    WcmSetPhase(0xb);
+    WcmNotify(7, 0, 0, 0x946);
 }

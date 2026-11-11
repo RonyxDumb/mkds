@@ -2,5 +2,5 @@
 #include "00/code_021a6ce4.h"
 
 u32 DWC_GetLinkLevel(void) {
-    return func_ov000_021a6ce4();
+    return WCM_GetLinkLevel();
 }

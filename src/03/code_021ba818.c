@@ -27,14 +27,14 @@ void EssidWcmNotifyCallback(s16 *event) {
                         gEssidEventCallback(6, 0);
                     }
                 } else if (gEssidWcmState == 6) {
-                    if (func_ov000_021a61c4(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
+                    if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
                         }
                     }
                 } else if (gEssidWcmState == 8) {
-                    if (func_ov000_021a5e84(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
+                    if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
@@ -86,21 +86,21 @@ void EssidWcmNotifyCallback(s16 *event) {
                         gEssidEventCallback(0xa, 0);
                     }
                 } else if (gEssidWcmState == 6) {
-                    if (func_ov000_021a61c4(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
+                    if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
                         }
                     }
                 } else if (gEssidWcmState == 2) {
-                    if (func_ov000_021a61e4() != 3) {
+                    if (WCM_CleanupAsync() != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
                         }
                     }
                 } else if (gEssidWcmState == 8) {
-                    if (func_ov000_021a5e84(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
+                    if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
@@ -122,21 +122,21 @@ void EssidWcmNotifyCallback(s16 *event) {
                         gEssidEventCallback(0xe, 0);
                     }
                 } else if (gEssidWcmState == 6) {
-                    if (func_ov000_021a61c4(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
+                    if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
                         }
                     }
                 } else if (gEssidWcmState == 2) {
-                    if (func_ov000_021a61e4() != 3) {
+                    if (WCM_CleanupAsync() != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
                         }
                     }
                 } else if (gEssidWcmState == 8) {
-                    if (func_ov000_021a5e84(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
+                    if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
                         gEssidWcmState = 3;
                         if (gEssidEventCallback != NULL) {
                             gEssidEventCallback(2, 0);
@@ -155,7 +155,7 @@ void EssidWcmNotifyCallback(s16 *event) {
         case 2:
             if (event[1] == 0) {
                 if (gEssidWcmState == 2) {
-                    func_ov000_021a6428();
+                    WCM_Finish();
                     gEssidWcmState = 0;
                     if (gEssidEventCallback != NULL) {
                         gEssidEventCallback(0x14, 0);
@@ -186,17 +186,17 @@ void EssidWcmNotifyCallback(s16 *event) {
 BOOL StartEssidReturnToIdle(void) {
     switch (gEssidWcmState) {
         case 5:
-            if (func_ov000_021a61c4(NULL, NULL, 0) != 3) {
+            if (WCM_SearchAsync(NULL, NULL, 0) != 3) {
                 return FALSE;
             }
             break;
         case 7:
-            if (func_ov000_021a5db0() != 3) {
+            if (WCM_DisconnectAsync() != 3) {
                 return FALSE;
             }
             break;
         case 1:
-            if (func_ov000_021a629c(gEssidWcmConfig, (void (*)(Unk021a586c *)) EssidWcmNotifyCallback) != 3) {
+            if (WCM_StartupAsync(gEssidWcmConfig, (void (*)(WCMNotice *)) EssidWcmNotifyCallback) != 3) {
                 return FALSE;
             }
             break;
@@ -215,17 +215,17 @@ BOOL StartEssidReturnToIdle(void) {
 s32 CopyEssidScanRecords(RawEntry *records, s32 maxCount) {
     s32 count;
     s32 i;
-    func_ov000_021a67dc(1);
-    count = func_ov000_021a6844();
+    WCM_LockApList(1);
+    count = WCM_CountApList();
     if (count > 0) {
         for (i = 0; i < count; i++, records++) {
             if (i >= maxCount) {
                 break;
             }
-            MIi_CpuCopy32(func_ov000_021a6788(i), records, 0xc0);
+            MIi_CpuCopy32(WCM_PointApList(i), records, 0xc0);
         }
     }
-    func_ov000_021a67dc(0);
+    WCM_LockApList(0);
     return count;
 }
 
@@ -255,7 +255,7 @@ BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLen
         gEssidSearchEssid = WCM_Essid_Any;
     }
     if (gEssidWcmState == 3) {
-        if (func_ov000_021a61c4(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) == 3) {
+        if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) == 3) {
             gEssidWcmState = 6;
             OS_RestoreInterrupts(enabled);
             return TRUE;
@@ -272,7 +272,7 @@ BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLen
 BOOL EndEssidSearch(void) {
     u32 enabled = OS_DisableInterrupts();
     if (gEssidWcmState == 5) {
-        if (func_ov000_021a61c4(NULL, NULL, 0) == 3) {
+        if (WCM_SearchAsync(NULL, NULL, 0) == 3) {
             gEssidWcmState = 4;
             OS_RestoreInterrupts(enabled);
             return TRUE;
@@ -285,7 +285,7 @@ BOOL EndEssidSearch(void) {
 BOOL DisconnectEssid(void) {
     u32 enabled = OS_DisableInterrupts();
     if (gEssidWcmState == 7) {
-        if (func_ov000_021a5db0() == 3) {
+        if (WCM_DisconnectAsync() == 3) {
             gEssidWcmState = 4;
             OS_RestoreInterrupts(enabled);
             return TRUE;
@@ -298,7 +298,7 @@ BOOL DisconnectEssid(void) {
 BOOL CleanupEssidWcm(void) {
     u32 enabled = OS_DisableInterrupts();
     if (gEssidWcmState == 3) {
-        if (func_ov000_021a61e4() != 3) {
+        if (WCM_CleanupAsync() != 3) {
             OS_RestoreInterrupts(enabled);
             return FALSE;
         }
@@ -330,7 +330,7 @@ BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags) {
         return TRUE;
     }
     if (gEssidWcmState == 3) {
-        if (func_ov000_021a5e84(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) == 3) {
+        if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) == 3) {
             gEssidWcmState = 8;
             OS_RestoreInterrupts(enabled);
             return TRUE;
@@ -352,14 +352,14 @@ BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size) {
     gEssidWcmConfig->mDmaNo = 3;
     gEssidEventCallback = callback;
     if (gEssidWcmState == 0) {
-        if (func_ov000_021a6470((Unk021b5f50 *) gEssidWcmWork, 0x2300) != 0) {
+        if (WCM_Init((WCMWork *) gEssidWcmWork, 0x2300) != 0) {
             OS_RestoreInterrupts(enabled);
             return FALSE;
         }
         gEssidWcmState = 1;
     }
     if (gEssidWcmState == 1) {
-        if (func_ov000_021a629c(gEssidWcmConfig, (void (*)(Unk021a586c *)) EssidWcmNotifyCallback) != 3) {
+        if (WCM_StartupAsync(gEssidWcmConfig, (void (*)(WCMNotice *)) EssidWcmNotifyCallback) != 3) {
             OS_RestoreInterrupts(enabled);
             return FALSE;
         }

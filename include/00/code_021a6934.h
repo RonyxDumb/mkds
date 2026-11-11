@@ -6,14 +6,14 @@
 #include "00/unk_021b5000.h"
 #include "00/code_021a6c08.h"
 
-extern OSMutex data_ov000_021b5f60;
+extern OSMutex gWcmCpsifSendMutex;
 
-void func_ov000_021a6934(void);
-void func_ov000_021a6944(Unk021425e8 *a);
-s32 func_ov000_021a6974(const void *d, const void *e, s32 f);
-u32 func_ov000_021a6aa0(Unk021b5f54Func arg0);
-u8 *func_ov000_021a6abc(u16 *e);
-u8 *func_ov000_021a6b10(void);
-void func_ov000_021a6b54(void);
-void func_ov000_021a6bb4(Unk021a6bb4 *b);
-void func_ov000_021a6bdc(void);
+void WcmCpsifKACallback(void);
+void WcmCpsifWmCallback(Unk021425e8 *callback);
+s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len);
+u32 WCM_SetRecvDCFCallback(Unk021b5f54Func callback);
+u8 *WCM_GetApEssid(u16 *length);
+u8 *WCM_GetApMacAddress(void);
+void WCMi_CpsifSendNullPacket(void);
+void WCMi_CpsifRecvCallback(Unk021a6bb4 *recv);
+void WCMi_InitCpsif(void);

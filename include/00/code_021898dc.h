@@ -4,7 +4,7 @@
 #include "00/code_02188ec0.h"
 #include "00/code_021a5b3c.h"
 
-// Four words handed to func_ov000_021a629c by DWCi_AC_Start.
+// Four words handed to WCM_StartupAsync by DWCi_AC_Start.
 typedef struct Unk02189f00 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;

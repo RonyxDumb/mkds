@@ -1,11 +1,11 @@
 #include "00/code_021a666c.h"
 
-Unk021b5f50_2270_0c *func_ov000_021a666c(void) {
-    Unk021b5f50 *g;
+WCMApList *WcmGetOldestApList(void) {
+    WCMWork *work;
 
-    g = func_ov000_021a5b30();
-    if (g->mUnk_2270 != NULL && g->mUnk_2274 > 0xc) {
-        return g->mUnk_2270->mUnk_04;
+    work = WCMi_GetSystemWork();
+    if (work->mPbdBuffer != NULL && work->mNbdBuffer > 0xc) {
+        return work->mPbdBuffer->mHead;
     }
     return NULL;
 }

@@ -18,765 +18,773 @@
 #include "00/code_021a3690.h"
 #include "00/code_021a6d5c.h"
 
-s32 func_ov000_021a4a08(Unk021a4a08 **a, s32 b, s32 c, const char *d, const char *e, s32 f, s32 g, Unk021a4a08Func88 h,
-                        Unk021a4a08Func8c i, Unk021a4a08Func8c j, Unk021a4a08Func94 k, Unk021a4a08Func98 l,
-                        Unk021a4a08Func9c m, void *n) {
-    char p[0x40];
-    s32 r;
-    s8 s;
-    s32 t;
-    Unk021a4a08 *o;
+s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *gamename, const char *secretKey,
+                     s32 isPublic, s32 natFlag, Unk021a4a08Func88 serverKeyFn,
+                     Unk021a4a08Func8c playerKeyFn, Unk021a4a08Func8c teamKeyFn,
+                     Unk021a4a08Func94 keyListFn, Unk021a4a08Func98 countFn,
+                     Unk021a4a08Func9c errorFn, void *userData) {
+    char hostText[0x40];
+    s32 index;
+    s8 hostOverride;
+    s32 resolved;
+    QueryRecord *record;
 
-    if (a == NULL) {
-        o = &data_ov000_021b4278;
+    if (qrec == NULL) {
+        record = &gStaticQr2Rec;
     } else {
-        *a = DWCi_GsMalloc(0x110);
-        o = *a;
+        *qrec = DWCi_GsMalloc(0x110);
+        record = *qrec;
     }
     srand(GetElapsedMilliseconds());
-    strcpy((char *) o->mUnk_004, d);
-    strcpy((char *) o->mUnk_044, e);
-    o->mUnk_0c0 = c;
-    r = 0;
-    o->mUnk_0ac = 0;
-    o->mUnk_0b0 = 0;
-    o->mUnk_000 = b;
-    o->mUnk_0b8 = 1;
-    o->mUnk_10c = n;
-    o->mUnk_088 = h;
-    o->mUnk_08c = i;
-    o->mUnk_090 = j;
-    o->mUnk_094 = k;
-    o->mUnk_098 = l;
-    o->mUnk_09c = m;
-    o->mUnk_0a0 = 0;
-    o->mUnk_0a4 = 0;
-    o->mUnk_0d4 = 0;
-    o->mUnk_0bc = f;
-    o->mUnk_0c4 = FALSE;
-    o->mUnk_0c8 = g;
-    o->mUnk_104 = 0;
-    o->mUnk_108 = 0;
-    o->mUnk_0a8 = NULL;
-    o->mUnk_0b4 = FALSE;
+    strcpy((char *) record->mGameName, gamename);
+    strcpy((char *) record->mSecretKey, secretKey);
+    record->mQport = boundport;
+    index = 0;
+    record->mLastHeartbeat = 0;
+    record->mLastKeepalive = 0;
+    record->mHbSock = socket;
+    record->mListedState = 1;
+    record->mUserData = userData;
+    record->mServerKeyCallback = serverKeyFn;
+    record->mPlayerKeyCallback = playerKeyFn;
+    record->mTeamKeyCallback = teamKeyFn;
+    record->mKeyListCallback = keyListFn;
+    record->mPlayerTeamCountCallback = countFn;
+    record->mAddErrorCallback = errorFn;
+    record->mNatnegCallback = 0;
+    record->mClientMessageCallback = 0;
+    record->mCdkeyProcess = 0;
+    record->mIsPublic = isPublic;
+    record->mReadSocket = FALSE;
+    record->mNatNegotiate = natFlag;
+    record->mPublicIp = 0;
+    record->mPublicPort = 0;
+    record->mPublicAddressCallback = NULL;
+    record->mUserStateChangeRequested = FALSE;
     do {
-        o->mUnk_084[r] = (s32) rand() % 0xff;
-        r++;
-    } while (r < 4);
-    r = 0;
+        record->mInstanceKey[index] = (s32) rand() % 0xff;
+        index++;
+    } while (index < 4);
+    index = 0;
     do {
-        o->mUnk_0d8[r] = -1;
-        r++;
-    } while (r < 10);
-    o->mUnk_100 = 0;
-    if (data_ov000_021b5df8 == 0) {
-        func_ov000_021a46d4();
+        record->mClientMessageKeys[index] = -1;
+        index++;
+    } while (index < 10);
+    record->mCurMessageKey = 0;
+    if (gNumLocalIps == 0) {
+        enum_local_ips();
     }
-    if (f != 0) {
-        s = data_ov000_021b5e10[0];
-        if (s == 0) {
-            sprintf(p, data_ov000_021b4464, d);
+    if (isPublic != 0) {
+        hostOverride = gQr2Hostname[0];
+        if (hostOverride == 0) {
+            sprintf(hostText, data_ov000_021b4464, gamename);
         }
-        t = func_ov000_021a4654(s != 0 ? data_ov000_021b5e10 : p, 0x6cfc, &o->mUnk_0cc, NULL);
+        resolved = ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, 0x6cfc, &record->mHbAddr, NULL);
     } else {
-        t = 1;
+        resolved = 1;
     }
-    if (t != 0) {
+    if (resolved != 0) {
         return 0;
     }
     return 3;
 }
 
-void func_ov000_021a49f4(Unk021a4a08 *a, UnkFunc *b) {
-    if (a == NULL) {
-        a = data_ov000_021b426c;
+void qr2_register_natneg_callback(QueryRecord *qrec, UnkFunc *nncallback) {
+    if (qrec == NULL) {
+        qrec = gCurrentQr2Rec;
     }
-    a->mUnk_0a0 = b;
+    qrec->mNatnegCallback = nncallback;
 }
 
-void func_ov000_021a49e0(Unk021a4a08 *a, UnkFunc *b) {
-    if (a == NULL) {
-        a = data_ov000_021b426c;
+void qr2_register_clientmessage_callback(QueryRecord *qrec, UnkFunc *cmcallback) {
+    if (qrec == NULL) {
+        qrec = gCurrentQr2Rec;
     }
-    a->mUnk_0a4 = b;
+    qrec->mClientMessageCallback = cmcallback;
 }
 
-void func_ov000_021a49cc(void *a, void (*b)(void *, u16)) {
-    if (a == NULL) {
-        a = data_ov000_021b426c;
+void qr2_register_publicaddress_callback(void *qrec, void (*pacallback)(void *, u16)) {
+    if (qrec == NULL) {
+        qrec = gCurrentQr2Rec;
     }
-    *(void (**)(void *, u16))((u8 *) a + 0xa8) = b;
+    *(void (**)(void *, u16))((u8 *) qrec + 0xa8) = pacallback;
 }
 
-void func_ov000_021a49a0(Unk021a4a08 *a) {
-    if (a == NULL) {
-        a = data_ov000_021b426c;
+void qr2_think(QueryRecord *qrec) {
+    if (qrec == NULL) {
+        qrec = gCurrentQr2Rec;
     }
-    if (a->mUnk_0bc != 0) {
-        func_ov000_021a4868(a);
+    if (qrec->mIsPublic != 0) {
+        qr2_check_send_heartbeat(qrec);
     }
-    func_ov000_021a4940(a);
+    qr2_check_queries(qrec);
 }
 
-void func_ov000_021a4940(Unk021a4a08 *a) {
-    u8 b[8];
-    s32 c;
-    s32 d;
-    s32 e;
+void qr2_check_queries(QueryRecord *qrec) {
+    u8 senderAddress[8];
+    s32 senderAddressLength;
+    s32 zero;
+    s32 bytesReceived;
 
-    c = 8;
-    if (a->mUnk_0c4 != FALSE && CanReceiveOnSocket(a->mUnk_000) != 0) {
-        d = 0;
+    senderAddressLength = 8;
+    if (qrec->mReadSocket != FALSE && CanReceiveOnSocket(qrec->mHbSock) != 0) {
+        zero = 0;
         do {
-            e = recvfrom(a->mUnk_000, data_ov000_021b5e50, 0xff, d, b, &c);
-            if (e != ~d) {
-                data_ov000_021b5e50[e] = d;
-                func_ov000_021a3c14((Unk021a3a18 *) a, data_ov000_021b5e50, e, b);
+            bytesReceived = recvfrom(qrec->mHbSock, gQr2Indata, 0xff, zero, senderAddress, &senderAddressLength);
+            if (bytesReceived != ~zero) {
+                gQr2Indata[bytesReceived] = zero;
+                qr2_parse_queryA((Unk021a3a18 *) qrec, gQr2Indata, bytesReceived, senderAddress);
             }
-        } while (CanReceiveOnSocket(a->mUnk_000) != 0);
+        } while (CanReceiveOnSocket(qrec->mHbSock) != 0);
     }
 }
 
-void func_ov000_021a4868(Unk021a4a08 *a) {
-    u32 b;
-    s32 c;
+void qr2_check_send_heartbeat(QueryRecord *qrec) {
+    u32 currentTime;
+    s32 listState;
 
-    b = GetElapsedMilliseconds();
-    if (a->mUnk_000 != -1) {
-        c = a->mUnk_0b8;
-        if (c > 0 && b - a->mUnk_0ac > 10000) {
-            if (c >= 4) {
-                a->mUnk_0b8 = 0;
-                a->mUnk_09c(5, data_ov000_021b442c, a->mUnk_10c);
+    currentTime = GetElapsedMilliseconds();
+    if (qrec->mHbSock != -1) {
+        listState = qrec->mListedState;
+        if (listState > 0 && currentTime - qrec->mLastHeartbeat > 10000) {
+            if (listState >= 4) {
+                qrec->mListedState = 0;
+                qrec->mAddErrorCallback(5, gNoChallengeErrorMessage, qrec->mUserData);
                 return;
             }
-            func_ov000_021a3a18((Unk021a3a18 *) a, 3);
-            a->mUnk_0b8 = a->mUnk_0b8 + 1;
-        } else if (a->mUnk_0b4 != FALSE && b - a->mUnk_0ac > 10000) {
-            func_ov000_021a3a18((Unk021a3a18 *) a, 1);
-        } else if (b - a->mUnk_0ac > 60000 || a->mUnk_0ac == 0 || b < a->mUnk_0ac) {
-            func_ov000_021a3a18((Unk021a3a18 *) a, 0);
+            send_heartbeat((Unk021a3a18 *) qrec, 3);
+            qrec->mListedState = qrec->mListedState + 1;
+        } else if (qrec->mUserStateChangeRequested != FALSE && currentTime - qrec->mLastHeartbeat > 10000) {
+            send_heartbeat((Unk021a3a18 *) qrec, 1);
+        } else if (currentTime - qrec->mLastHeartbeat > 60000 || qrec->mLastHeartbeat == 0 ||
+                   currentTime < qrec->mLastHeartbeat) {
+            send_heartbeat((Unk021a3a18 *) qrec, 0);
         }
-        if (b - a->mUnk_0b0 > 20000) {
-            func_ov000_021a3bbc((Unk021a3a18 *) a);
+        if (currentTime - qrec->mLastKeepalive > 20000) {
+            send_keepalive((Unk021a3a18 *) qrec);
         }
     }
 }
 
-void func_ov000_021a4818(Unk021a4a08 *a) {
-    int v1;
-    if (a == NULL) {
-        a = data_ov000_021b426c;
+void qr2_send_statechanged(QueryRecord *qrec) {
+    int currentTime;
+    if (qrec == NULL) {
+        qrec = gCurrentQr2Rec;
     }
-    if (a->mUnk_0bc != 0) {
-        v1 = GetElapsedMilliseconds();
-        if ((v1 - a->mUnk_0ac) < (0x00002710u)) {
-            a->mUnk_0b4 = TRUE;
+    if (qrec->mIsPublic != 0) {
+        currentTime = GetElapsedMilliseconds();
+        if ((currentTime - qrec->mLastHeartbeat) < (0x00002710u)) {
+            qrec->mUserStateChangeRequested = TRUE;
             return;
         }
-        func_ov000_021a3a18((Unk021a3a18 *) a, 1);
-        a->mUnk_0b4 = FALSE;
+        send_heartbeat((Unk021a3a18 *) qrec, 1);
+        qrec->mUserStateChangeRequested = FALSE;
     }
 }
 
-void func_ov000_021a47ac(Unk021a4a08 *a) {
-    if (a == NULL) {
-        a = data_ov000_021b426c;
+void qr2_shutdown(QueryRecord *qrec) {
+    if (qrec == NULL) {
+        qrec = gCurrentQr2Rec;
     }
-    if (a->mUnk_0bc != 0) {
-        func_ov000_021a3a18((Unk021a3a18 *) a, 2);
+    if (qrec->mIsPublic != 0) {
+        send_heartbeat((Unk021a3a18 *) qrec, 2);
     }
-    if (a->mUnk_000 != -1 && a->mUnk_0c4 != FALSE) {
-        closesocket(a->mUnk_000);
+    if (qrec->mHbSock != -1 && qrec->mReadSocket != FALSE) {
+        closesocket(qrec->mHbSock);
     }
-    a->mUnk_000 = -1;
-    a->mUnk_0ac = 0;
-    if (a->mUnk_0c4 != FALSE) {
+    qrec->mHbSock = -1;
+    qrec->mLastHeartbeat = 0;
+    if (qrec->mReadSocket != FALSE) {
         SocketShutDown();
     }
-    if (a != &data_ov000_021b4278) {
-        DWCi_GsFree(a);
+    if (qrec != &gStaticQr2Rec) {
+        DWCi_GsFree(qrec);
     }
 }
 
-void func_ov000_021a4784(MatchingKeyIds *a, int b) {
-    int v1;
-    v1 = a->mUnk_100;
-    if (((v1 < 0xfe) && (1 <= b)) && (b <= 254)) {
-        a->mUnk_100 = v1 + 1;
-        a->mUnk_000[v1] = (s8) b;
+void qr2_keybuffer_add(MatchingKeyIds *keybuffer, int keyid) {
+    int keyCount;
+    keyCount = keybuffer->mUnk_100;
+    if (((keyCount < 0xfe) && (1 <= keyid)) && (keyid <= 254)) {
+        keybuffer->mUnk_100 = keyCount + 1;
+        keybuffer->mUnk_000[keyCount] = (s8) keyid;
     }
 }
 
-static inline u16 func_ov000_021a4654_inline(u16 v1) {
-    return ((v1 >> 8) & 0xff) | ((v1 << 8) & 0xff00);
+static inline u16 func_ov000_021a4654_inline(u16 port) {
+    return ((port >> 8) & 0xff) | ((port << 8) & 0xff00);
 }
 
-void func_ov000_021a4760(Unk021a471c *a, s32 b) {
-    char c[0x18];
+void qr2_buffer_add_int(QueryBuffer *outbuf, s32 value) {
+    char text[0x18];
 
-    sprintf(c, data_ov000_021b4428, b);
-    func_ov000_021a471c(a, c);
+    sprintf(text, gIntFormat, value);
+    qr2_buffer_addA(outbuf, text);
 }
 
-void func_ov000_021a471c(Unk021a471c *a, const char *b) {
-    s32 c;
-    s32 d;
+void qr2_buffer_addA(QueryBuffer *outbuf, const char *value) {
+    s32 appendLen;
+    s32 available;
 
-    c = strlen(b) + 1;
-    d = 0x800 - a->mUnk_800;
-    if (c > d) {
-        c = d;
+    appendLen = strlen(value) + 1;
+    available = 0x800 - outbuf->mUnk_800;
+    if (appendLen > available) {
+        appendLen = available;
     }
-    if (c != 0) {
-        memcpy(&a->mUnk_000[a->mUnk_800], b, c);
-        a->mUnk_800 += c;
-        a->mUnk_000[a->mUnk_800 - 1] = 0;
+    if (appendLen != 0) {
+        memcpy(&outbuf->mUnk_000[outbuf->mUnk_800], value, appendLen);
+        outbuf->mUnk_800 += appendLen;
+        outbuf->mUnk_000[outbuf->mUnk_800 - 1] = 0;
     }
 }
 
-void func_ov000_021a46d4(void) {
-    SOCHostEnt *a;
-    Unk021a46d4 *b;
-    Unk021a46d4 *d;
+void enum_local_ips(void) {
+    SOCHostEnt *localHost;
+    Unk021a46d4 *hostAddress;
+    Unk021a46d4 *ownAddressList;
 
-    a = getlocalhost();
-    if (a != NULL) {
-        data_ov000_021b5df8 = 0;
-        d = (Unk021a46d4 *) data_ov000_021b5dfc;
-        for (; data_ov000_021b5df8 < 5; data_ov000_021b5df8++) {
-            b = (Unk021a46d4 *) a->mUnk_0c[data_ov000_021b5df8];
-            if (b == NULL) {
+    localHost = getlocalhost();
+    if (localHost != NULL) {
+        gNumLocalIps = 0;
+        ownAddressList = (Unk021a46d4 *) gLocalIpList;
+        for (; gNumLocalIps < 5; gNumLocalIps++) {
+            hostAddress = (Unk021a46d4 *) localHost->mUnk_0c[gNumLocalIps];
+            if (hostAddress == NULL) {
                 break;
             }
-            d[data_ov000_021b5df8] = *b;
+            ownAddressList[gNumLocalIps] = *hostAddress;
         }
     }
 }
 
-BOOL func_ov000_021a4654(const char *a, u32 b, Unk021a4654 *c, SOCHostEnt **d) {
-    SOCHostEnt *e;
+BOOL ResolveQueryHostAddress(const char *host, u32 port, Unk021a4654 *saddr, SOCHostEnt **savehent) {
+    SOCHostEnt *hent;
 
-    e = NULL;
-    c->mUnk_01 = 2;
-    c->mUnk_02 = func_ov000_021a4654_inline(b);
-    if (a == NULL) {
-        c->mUnk_04 = 0;
+    hent = NULL;
+    saddr->mUnk_01 = 2;
+    saddr->mUnk_02 = func_ov000_021a4654_inline(port);
+    if (host == NULL) {
+        saddr->mUnk_04 = 0;
     } else {
-        c->mUnk_04 = inet_addr((u32) a);
+        saddr->mUnk_04 = inet_addr((u32) host);
     }
-    if (c->mUnk_04 == -1) {
-        if (strcmp(a, data_ov000_021b4418) != 0) {
-            e = func_ov000_021a8f84(a);
-            if (e == NULL) {
+    if (saddr->mUnk_04 == -1) {
+        if (strcmp(host, gBroadcastAddress) != 0) {
+            hent = func_ov000_021a8f84(host);
+            if (hent == NULL) {
                 return FALSE;
             }
-            c->mUnk_04 = **e->mUnk_0c;
+            saddr->mUnk_04 = **hent->mUnk_0c;
         }
     }
-    if (d != NULL) {
-        *d = e;
+    if (savehent != NULL) {
+        *savehent = hent;
     }
     return TRUE;
 }
 
-void func_ov000_021a4648(u8 *a, u8 *b) {
-    u8 v1;
-    v1 = *a;
-    *a = *b;
-    *b = v1;
+void swap_byte(u8 *first, u8 *second) {
+    u8 tempByte;
+    tempByte = *first;
+    *first = *second;
+    *second = tempByte;
 }
 
-u8 func_ov000_021a4610(u32 a) {
-    if (a < 0x1a) {
-        return a + 0x41 & 0xff;
+u8 encode_ct(u32 value) {
+    if (value < 0x1a) {
+        return value + 0x41 & 0xff;
     }
-    if (a < 0x34) {
-        return a + 0x47 & 0xff;
+    if (value < 0x34) {
+        return value + 0x47 & 0xff;
     }
-    if (a < 0x3e) {
-        return a - 4 & 0xff;
+    if (value < 0x3e) {
+        return value - 4 & 0xff;
     }
-    if (a == 0x3e) {
+    if (value == 0x3e) {
         return 0x2b;
     }
-    if (a == 0x3f) {
+    if (value == 0x3f) {
         return 0x2f;
     }
     return 0;
 }
 
-void func_ov000_021a4578(const u8 *a, s32 b, u8 *c) {
-    u8 d[7];
-    s32 e;
-    s32 f;
-    u8 *g;
-    s32 h;
+void gs_encode(const u8 *ins, s32 size, u8 *result) {
+    u8 tripKwart[7];
+    s32 inputIndex;
+    s32 position;
+    u8 *tripCursor;
+    s32 quartetIndex;
     u8 i;
     u8 j;
 
-    e = 0;
-    if (b > 0) {
+    inputIndex = 0;
+    if (size > 0) {
         do {
-            for (f = 0, g = d; f <= 2; f++, e++) {
-                if (e < b) {
-                    *g = *a++;
+            for (position = 0, tripCursor = tripKwart; position <= 2; position++, inputIndex++) {
+                if (inputIndex < size) {
+                    *tripCursor = *ins++;
                 } else {
-                    *g = 0;
+                    *tripCursor = 0;
                 }
-                g++;
+                tripCursor++;
             }
-            i = d[0];
-            d[3] = i >> 2;
-            j = d[1];
-            d[4] = ((i & 3) << 4) + (j >> 4);
-            i = d[2];
-            d[5] = ((j & 0xf) << 2) + (i >> 6);
-            d[6] = i & 0x3f;
-            for (h = 0, g = &d[3]; h <= 3; h++) {
-                *c++ = func_ov000_021a4610(*g);
-                g++;
+            i = tripKwart[0];
+            tripKwart[3] = i >> 2;
+            j = tripKwart[1];
+            tripKwart[4] = ((i & 3) << 4) + (j >> 4);
+            i = tripKwart[2];
+            tripKwart[5] = ((j & 0xf) << 2) + (i >> 6);
+            tripKwart[6] = i & 0x3f;
+            for (quartetIndex = 0, tripCursor = &tripKwart[3]; quartetIndex <= 3; quartetIndex++) {
+                *result++ = encode_ct(*tripCursor);
+                tripCursor++;
             }
-        } while (e < b);
+        } while (inputIndex < size);
     }
-    *c = 0;
+    *result = 0;
 }
 
-void func_ov000_021a44a0(u8 *a, s32 b, u8 *c, s32 d) {
-    u8 e[0x100];
-    s16 o;
-    u8 *n;
-    u8 g;
-    u8 h;
-    u8 i;
-    u8 j;
-    s16 k;
-    s16 l;
-    u8 *m;
+void gs_encrypt(u8 *key, s32 keyLength, u8 *dataBytes, s32 bufferLength) {
+    u8 state[0x100];
+    s16 byteIndex;
+    u8 *statePtrAtX;
+    u8 keyPos;
+    u8 swapIndex;
+    u8 streamX;
+    u8 streamIndex;
+    s16 fillIndex;
+    s16 scheduleIndex;
+    u8 *stateCursor;
 
-    for (k = 0; k < 0x100; k++) {
-        e[k] = k;
+    for (fillIndex = 0; fillIndex < 0x100; fillIndex++) {
+        state[fillIndex] = fillIndex;
     }
-    g = 0;
-    h = 0;
-    l = 0;
-    m = e;
+    keyPos = 0;
+    swapIndex = 0;
+    scheduleIndex = 0;
+    stateCursor = state;
     do {
-        h = (m[0] + a[g] + h) % 0x100;
-        g = (g + 1) % b;
-        func_ov000_021a4648(m, e + h);
-        m++;
-        l++;
-    } while (l < 0x100);
-    i = 0;
-    h = 0;
-    o = 0;
-    if (d > 0) {
+        swapIndex = (stateCursor[0] + key[keyPos] + swapIndex) % 0x100;
+        keyPos = (keyPos + 1) % keyLength;
+        swap_byte(stateCursor, state + swapIndex);
+        stateCursor++;
+        scheduleIndex++;
+    } while (scheduleIndex < 0x100);
+    streamX = 0;
+    swapIndex = 0;
+    byteIndex = 0;
+    if (bufferLength > 0) {
         do {
-            i = (i + c[o] + 1) % 0x100;
-            n = e + i;
-            h = (*n + h) % 0x100;
-            func_ov000_021a4648(n, e + h);
-            j = (*n + e[h]) % 0x100;
-            c[o] ^= e[j];
-            o++;
-        } while (o < d);
+            streamX = (streamX + dataBytes[byteIndex] + 1) % 0x100;
+            statePtrAtX = state + streamX;
+            swapIndex = (*statePtrAtX + swapIndex) % 0x100;
+            swap_byte(statePtrAtX, state + swapIndex);
+            streamIndex = (*statePtrAtX + state[swapIndex]) % 0x100;
+            dataBytes[byteIndex] ^= state[streamIndex];
+            byteIndex++;
+        } while (byteIndex < bufferLength);
     }
 }
 
-void func_ov000_021a4480(u32 p0, u32 p1, u32 p2) {
-    u32 v1;
+void qr_add_packet_header(u32 buf, u32 ptype, u32 reqkey) {
+    u32 body;
     u32 v2;
     u32 v4;
     u32 v6;
     u32 v8;
-    u32 v10;
-    u32 v11;
-    *(u8 *) ((p0) + (0)) = p1;
-    v1 = ((p0) + (0x1u));
-    v2 = (*(u8 *) ((p2) + (0)));
-    *(u8 *) ((p0) + (1)) = v2;
-    v4 = (*(u8 *) ((p2) + (1)));
-    *(u8 *) ((v1) + (1)) = v4;
-    v6 = (*(u8 *) ((p2) + (2)));
-    *(u8 *) ((v1) + (2)) = v6;
-    v8 = (*(u8 *) ((p2) + (3)));
-    *(u8 *) ((v1) + (3)) = v8;
-    v10 = 0x5u;
-    v11 = 0x800u;
-    *(u32 *) ((p0) + (0 + (v11))) = v10;
+    u32 headerLength;
+    u32 lengthOffset;
+    *(u8 *) ((buf) + (0)) = ptype;
+    body = ((buf) + (0x1u));
+    v2 = (*(u8 *) ((reqkey) + (0)));
+    *(u8 *) ((buf) + (1)) = v2;
+    v4 = (*(u8 *) ((reqkey) + (1)));
+    *(u8 *) ((body) + (1)) = v4;
+    v6 = (*(u8 *) ((reqkey) + (2)));
+    *(u8 *) ((body) + (2)) = v6;
+    v8 = (*(u8 *) ((reqkey) + (3)));
+    *(u8 *) ((body) + (3)) = v8;
+    headerLength = 0x5u;
+    lengthOffset = 0x800u;
+    *(u32 *) ((buf) + (0 + (lengthOffset))) = headerLength;
 }
 
-void func_ov000_021a4418(Unk021a4a08 *a, Unk021a471c *b, const char *c, s32 d) {
-    u8 e[0x44];
+void compute_challenge_response(QueryRecord *qrec, QueryBuffer *buf, const char *challenge, s32 challengelen) {
+    u8 cipherBytes[0x44];
 
-    if (d >= 1 && d <= 0x41 && ((s8 *) c)[d - 1] == 0) {
-        strcpy((char *) e, c);
-        func_ov000_021a44a0(a->mUnk_044, strlen((const char *) a->mUnk_044), e, d - 1);
-        func_ov000_021a4578(e, d - 1, &b->mUnk_000[b->mUnk_800]);
-        b->mUnk_800 += strlen((const char *) &b->mUnk_000[b->mUnk_800]) + 1;
+    if (challengelen >= 1 && challengelen <= 0x41 && ((s8 *) challenge)[challengelen - 1] == 0) {
+        strcpy((char *) cipherBytes, challenge);
+        gs_encrypt(qrec->mSecretKey, strlen((const char *) qrec->mSecretKey), cipherBytes, challengelen - 1);
+        gs_encode(cipherBytes, challengelen - 1, &buf->mUnk_000[buf->mUnk_800]);
+        buf->mUnk_800 += strlen((const char *) &buf->mUnk_000[buf->mUnk_800]) + 1;
     }
 }
 
-void func_ov000_021a438c(Unk021a4a08 *a, const char *b) {
-    u32 c;
-    u32 d;
-    u16 e;
+void handle_public_address(QueryRecord *qrec, const char *buffer) {
+    u32 outerAddress;
+    u32 scannedPort;
+    u16 natPort;
 
-    sscanf(b, data_ov000_021b440c, &c, &d);
-    e = d;
-    c = (c << 24 & 0xff000000) | ((c << 8 & 0xff0000) | ((c >> 24 & 0xff) | (c >> 8 & 0xff00)));
-    if (c != 0 && e != 0) {
-        if (a->mUnk_104 != c || a->mUnk_108 != e) {
-            a->mUnk_104 = c;
-            a->mUnk_108 = e;
-            a->mUnk_0a8(c, e, a->mUnk_10c);
+    sscanf(buffer, gPublicAddressFormat, &outerAddress, &scannedPort);
+    natPort = scannedPort;
+    outerAddress = (outerAddress << 24 & 0xff000000) |
+               ((outerAddress << 8 & 0xff0000) | ((outerAddress >> 24 & 0xff) | (outerAddress >> 8 & 0xff00)));
+    if (outerAddress != 0 && natPort != 0) {
+        if (qrec->mPublicIp != outerAddress || qrec->mPublicPort != natPort) {
+            qrec->mPublicIp = outerAddress;
+            qrec->mPublicPort = natPort;
+            qrec->mPublicAddressCallback(outerAddress, natPort, qrec->mUserData);
         }
     }
 }
 
-void func_ov000_021a41dc(Unk021a4a08 *a, Unk021a471c *b, s32 c, s32 d, const u8 *e) {
-    MatchingKeyIds f;
-    u16 g;
-    u16 h;
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 l;
-    s32 m;
-    s32 n;
-    const u8 *o;
-    const char *p;
-    u8 *q;
-    u8 *r;
+void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keytype, s32 keycount, const u8 *keys) {
+    MatchingKeyIds keybuffer;
+    u16 countShort;
+    u16 swappedCount;
+    s32 countValue;
+    s32 playerIdx;
+    s32 bufferLength;
+    s32 keyIndex;
+    s32 firstKeyIndex;
+    s32 keyPosition;
+    const u8 *keyCursor;
+    const char *keyName;
+    u8 *countBytes;
+    u8 *writePtr;
 
-    f.mUnk_100 = 0;
-    if (d == 0) {
+    keybuffer.mUnk_100 = 0;
+    if (keycount == 0) {
         return;
     }
-    if ((u32) (c - 1) <= 1) {
-        if ((u32) (0x800 - b->mUnk_800) < 2) {
+    if ((u32) (keytype - 1) <= 1) {
+        if ((u32) (0x800 - buf->mUnk_800) < 2) {
             return;
         }
-        i = a->mUnk_098(c, a->mUnk_10c);
-        g = i;
-        h = (g >> 8 & 0xff) | (g << 8 & 0xff00);
-        r = &b->mUnk_000[b->mUnk_800];
-        q = (u8 *) &h;
-        r[0] = q[0];
-        r[1] = q[1];
-        b->mUnk_800 += 2;
+        countValue = qrec->mPlayerTeamCountCallback(keytype, qrec->mUserData);
+        countShort = countValue;
+        swappedCount = (countShort >> 8 & 0xff) | (countShort << 8 & 0xff00);
+        writePtr = &buf->mUnk_000[buf->mUnk_800];
+        countBytes = (u8 *) &swappedCount;
+        writePtr[0] = countBytes[0];
+        writePtr[1] = countBytes[1];
+        buf->mUnk_800 += 2;
     } else {
-        i = 1;
+        countValue = 1;
     }
-    if (d == 0xff) {
-        a->mUnk_094(c, &f, a->mUnk_10c);
-        l = 0;
-        if (f.mUnk_100 > 0) {
-            o = f.mUnk_000;
+    if (keycount == 0xff) {
+        qrec->mKeyListCallback(keytype, &keybuffer, qrec->mUserData);
+        keyIndex = 0;
+        if (keybuffer.mUnk_100 > 0) {
+            keyCursor = keybuffer.mUnk_000;
             do {
-                p = gQr2RegisteredKeyList[*o];
-                if (p == NULL) {
-                    p = data_ov000_021b43f8;
+                keyName = gQr2RegisteredKeyList[*keyCursor];
+                if (keyName == NULL) {
+                    keyName = gUnregisteredKeyName;
                 }
-                func_ov000_021a471c(b, p);
-                if (c == 0) {
-                    k = b->mUnk_800;
-                    a->mUnk_088(*o, b, a->mUnk_10c);
-                    if (k == b->mUnk_800) {
-                        func_ov000_021a471c(b, data_ov000_021b4400);
+                qr2_buffer_addA(buf, keyName);
+                if (keytype == 0) {
+                    bufferLength = buf->mUnk_800;
+                    qrec->mServerKeyCallback(*keyCursor, buf, qrec->mUserData);
+                    if (bufferLength == buf->mUnk_800) {
+                        qr2_buffer_addA(buf, data_ov000_021b4400);
                     }
                 }
-                o++;
-                l++;
-            } while (l < f.mUnk_100);
+                keyCursor++;
+                keyIndex++;
+            } while (keyIndex < keybuffer.mUnk_100);
         }
-        if (0x800 - b->mUnk_800 < 1) {
+        if (0x800 - buf->mUnk_800 < 1) {
             return;
         }
-        b->mUnk_000[b->mUnk_800++] = 0;
-        d = f.mUnk_100;
-        e = f.mUnk_000;
-        if (c == 0) {
+        buf->mUnk_000[buf->mUnk_800++] = 0;
+        keycount = keybuffer.mUnk_100;
+        keys = keybuffer.mUnk_000;
+        if (keytype == 0) {
             return;
         }
     }
-    j = 0;
-    if (i > 0) {
-        m = j;
+    playerIdx = 0;
+    if (countValue > 0) {
+        firstKeyIndex = playerIdx;
         do {
-            n = m;
-            if (d > 0) {
+            keyPosition = firstKeyIndex;
+            if (keycount > 0) {
                 do {
-                    k = b->mUnk_800;
-                    if (c == 0) {
-                        a->mUnk_088(e[n], b, a->mUnk_10c);
-                    } else if (c == 1) {
-                        a->mUnk_08c(e[n], j, b, a->mUnk_10c);
-                    } else if (c == 2) {
-                        a->mUnk_090(e[n], j, b, a->mUnk_10c);
+                    bufferLength = buf->mUnk_800;
+                    if (keytype == 0) {
+                        qrec->mServerKeyCallback(keys[keyPosition], buf, qrec->mUserData);
+                    } else if (keytype == 1) {
+                        qrec->mPlayerKeyCallback(keys[keyPosition], playerIdx, buf, qrec->mUserData);
+                    } else if (keytype == 2) {
+                        qrec->mTeamKeyCallback(keys[keyPosition], playerIdx, buf, qrec->mUserData);
                     }
-                    if (k == b->mUnk_800) {
-                        func_ov000_021a471c(b, data_ov000_021b4400);
+                    if (bufferLength == buf->mUnk_800) {
+                        qr2_buffer_addA(buf, data_ov000_021b4400);
                     }
-                    n++;
-                } while (n < d);
+                    keyPosition++;
+                } while (keyPosition < keycount);
             }
-            j++;
-        } while (j < i);
+            playerIdx++;
+        } while (playerIdx < countValue);
     }
 }
 
-void func_ov000_021a41a0(Unk021a4a08 *a, Unk021a471c *b, s32 c, const u8 *d, s32 e, const u8 *f, s32 g, const u8 *h) {
-    func_ov000_021a41dc(a, b, 0, c, d);
-    func_ov000_021a41dc(a, b, 1, e, f);
-    func_ov000_021a41dc(a, b, 2, g, h);
+void qr_build_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 serverkeycount, const u8 *serverkeys,
+                          s32 playerkeycount, const u8 *playerkeys, s32 teamkeycount, const u8 *teamkeys) {
+    qr_build_partial_query_reply(qrec, buf, 0, serverkeycount, serverkeys);
+    qr_build_partial_query_reply(qrec, buf, 1, playerkeycount, playerkeys);
+    qr_build_partial_query_reply(qrec, buf, 2, teamkeycount, teamkeys);
 }
 
-void func_ov000_021a412c(Unk021a4a08 *a, Unk021a471c *b, const u8 *c, s32 d) {
-    u8 h;
-    u8 i;
-    u8 j;
-    const u8 *e;
-    const u8 *g;
-    const u8 *f;
+void qr_process_query(QueryRecord *qrec, QueryBuffer *buf, const u8 *qdata, s32 len) {
+    u8 serverKeyTotal;
+    u8 playerKeyTotal;
+    u8 teamKeyTotal;
+    const u8 *serverKeyList;
+    const u8 *playerKeyList;
+    const u8 *teamKeyList;
 
-    e = NULL;
-    g = NULL;
-    f = NULL;
-    if (d >= 3) {
-        h = *c++;
-        d--;
-        if (h != 0 && h != 0xff) {
-            e = c;
-            c += h;
-            d -= h;
+    serverKeyList = NULL;
+    playerKeyList = NULL;
+    teamKeyList = NULL;
+    if (len >= 3) {
+        serverKeyTotal = *qdata++;
+        len--;
+        if (serverKeyTotal != 0 && serverKeyTotal != 0xff) {
+            serverKeyList = qdata;
+            qdata += serverKeyTotal;
+            len -= serverKeyTotal;
         }
-        if (d >= 2) {
-            i = *c++;
-            d--;
-            if (i != 0 && i != 0xff) {
-                g = c;
-                c += i;
-                d -= i;
+        if (len >= 2) {
+            playerKeyTotal = *qdata++;
+            len--;
+            if (playerKeyTotal != 0 && playerKeyTotal != 0xff) {
+                playerKeyList = qdata;
+                qdata += playerKeyTotal;
+                len -= playerKeyTotal;
             }
-            if (d >= 1) {
-                j = *c;
-                d--;
-                if (j != 0 && j != 0xff) {
-                    f = c + 1;
-                    d -= j;
+            if (len >= 1) {
+                teamKeyTotal = *qdata;
+                len--;
+                if (teamKeyTotal != 0 && teamKeyTotal != 0xff) {
+                    teamKeyList = qdata + 1;
+                    len -= teamKeyTotal;
                 }
-                if (d >= 0) {
-                    func_ov000_021a41a0(a, b, h, e, i, g, j, f);
+                if (len >= 0) {
+                    qr_build_query_reply(qrec, buf, serverKeyTotal, serverKeyList, playerKeyTotal, playerKeyList,
+                                         teamKeyTotal, teamKeyList);
                 }
             }
         }
     }
 }
 
-void func_ov000_021a3fc8(Unk021a4a08 *a, Unk021a471c *b, s32 c) {
-    char e[0x80];
-    MatchingKeyIds d;
-    s32 f;
-    s32 g;
-    s32 h;
-    s32 i;
-    s32 j;
-    const char *k;
-    u8 *l;
+void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keytype) {
+    char keyNameBuf[0x80];
+    MatchingKeyIds keybuffer;
+    s32 teamTotal;
+    s32 bufferLength;
+    s32 keyIndex;
+    s32 firstPindex;
+    s32 playerIdx;
+    const char *keyName;
+    u8 *keyCursor;
 
-    d.mUnk_100 = 0;
-    if ((u32) (c - 1) <= 1) {
-        f = a->mUnk_098(c, a->mUnk_10c);
+    keybuffer.mUnk_100 = 0;
+    if ((u32) (keytype - 1) <= 1) {
+        teamTotal = qrec->mPlayerTeamCountCallback(keytype, qrec->mUserData);
     } else {
-        f = 1;
+        teamTotal = 1;
     }
-    a->mUnk_094(c, &d, a->mUnk_10c);
-    h = 0;
-    if (d.mUnk_100 > 0) {
-        l = d.mUnk_000;
-        i = h;
+    qrec->mKeyListCallback(keytype, &keybuffer, qrec->mUserData);
+    keyIndex = 0;
+    if (keybuffer.mUnk_100 > 0) {
+        keyCursor = keybuffer.mUnk_000;
+        firstPindex = keyIndex;
         do {
-            k = gQr2RegisteredKeyList[*l];
-            if (k == NULL) {
-                k = data_ov000_021b43f8;
+            keyName = gQr2RegisteredKeyList[*keyCursor];
+            if (keyName == NULL) {
+                keyName = gUnregisteredKeyName;
             }
-            if (c == 0) {
-                func_ov000_021a471c(b, k);
-                b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
-                g = b->mUnk_800;
-                a->mUnk_088(*l, b, a->mUnk_10c);
-                if (g == b->mUnk_800) {
-                    func_ov000_021a471c(b, data_ov000_021b4400);
+            if (keytype == 0) {
+                qr2_buffer_addA(buf, keyName);
+                buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
+                bufferLength = buf->mUnk_800;
+                qrec->mServerKeyCallback(*keyCursor, buf, qrec->mUserData);
+                if (bufferLength == buf->mUnk_800) {
+                    qr2_buffer_addA(buf, data_ov000_021b4400);
                 }
-                b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
+                buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
             } else {
-                j = i;
-                if (f > 0) {
+                playerIdx = firstPindex;
+                if (teamTotal > 0) {
                     do {
-                        sprintf(e, data_ov000_021b4404, k, j);
-                        func_ov000_021a471c(b, e);
-                        b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
-                        g = b->mUnk_800;
-                        if (c == 1) {
-                            a->mUnk_08c(*l, j, b, a->mUnk_10c);
-                        } else if (c == 2) {
-                            a->mUnk_090(*l, j, b, a->mUnk_10c);
+                        sprintf(keyNameBuf, data_ov000_021b4404, keyName, playerIdx);
+                        qr2_buffer_addA(buf, keyNameBuf);
+                        buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
+                        bufferLength = buf->mUnk_800;
+                        if (keytype == 1) {
+                            qrec->mPlayerKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
+                        } else if (keytype == 2) {
+                            qrec->mTeamKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
                         }
-                        if (g == b->mUnk_800) {
-                            func_ov000_021a471c(b, data_ov000_021b4400);
+                        if (bufferLength == buf->mUnk_800) {
+                            qr2_buffer_addA(buf, data_ov000_021b4400);
                         }
-                        b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
-                        j++;
-                    } while (j < f);
+                        buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
+                        playerIdx++;
+                    } while (playerIdx < teamTotal);
                 }
             }
-            l++;
-            h++;
-        } while (h < d.mUnk_100);
+            keyCursor++;
+            keyIndex++;
+        } while (keyIndex < keybuffer.mUnk_100);
     }
 }
 
-void func_ov000_021a3f78(Unk021a4a08 *a, Unk021a471c *b) {
-    b->mUnk_800 = 1;
-    b->mUnk_000[0] = 0x5c;
-    func_ov000_021a3fc8(a, b, 0);
-    func_ov000_021a3fc8(a, b, 1);
-    func_ov000_021a3fc8(a, b, 2);
-    func_ov000_021a471c(b, data_ov000_021b43e4);
-    b->mUnk_800 = b->mUnk_800 + -1;
+void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf) {
+    buf->mUnk_800 = 1;
+    buf->mUnk_000[0] = 0x5c;
+    qr_build_partial_old_query_reply(qrec, buf, 0);
+    qr_build_partial_old_query_reply(qrec, buf, 1);
+    qr_build_partial_old_query_reply(qrec, buf, 2);
+    qr2_buffer_addA(buf, gFinalQueryidText);
+    buf->mUnk_800 = buf->mUnk_800 + -1;
 }
 
-void func_ov000_021a3eb0(Unk021a3a18 *a, u8 *b, s32 c) {
-    Unk021a3eb0 s = data_ov000_021b4270;
-    s32 i;
-    BOOL k = TRUE;
-    u32 x;
-    u8 *p;
-    u8 *t;
-    if (c >= 10) {
-        for (i = 0; i < 6; i++) {
-            if (s.mUnk_00[i] != b[i]) {
-                k = FALSE;
+void qr_process_client_message(Unk021a3a18 *qrec, u8 *buf, s32 len) {
+    NatnegMagic magicRef = gNatnegMagicBytes;
+    s32 index;
+    BOOL natNegPacket = TRUE;
+    u32 echoCookie;
+    u8 *cookieSource;
+    u8 *cookieBytes;
+    if (len >= 10) {
+        for (index = 0; index < 6; index++) {
+            if (magicRef.mUnk_00[index] != buf[index]) {
+                natNegPacket = FALSE;
                 break;
             }
         }
     } else {
-        k = FALSE;
+        natNegPacket = FALSE;
     }
-    if (k != FALSE) {
-        t = (u8 *) &x;
-        p = b + 6;
-        t[0] = p[0];
-        t[1] = p[1];
-        t[2] = p[2];
-        t[3] = p[3];
-        if (a->mUnk_a0 != NULL) {
-            a->mUnk_a0(((x << 24) & 0xff000000) | (((x << 8) & 0xff0000) | (((x >> 24) & 0xff) | ((x >> 8) & 0xff00))),
-                       a->mUnk_10c);
+    if (natNegPacket != FALSE) {
+        cookieBytes = (u8 *) &echoCookie;
+        cookieSource = buf + 6;
+        cookieBytes[0] = cookieSource[0];
+        cookieBytes[1] = cookieSource[1];
+        cookieBytes[2] = cookieSource[2];
+        cookieBytes[3] = cookieSource[3];
+        if (qrec->mUnk_a0 != NULL) {
+            qrec->mUnk_a0(((echoCookie << 24) & 0xff000000) |
+                              (((echoCookie << 8) & 0xff0000) | (((echoCookie >> 24) & 0xff) | ((echoCookie >> 8) & 0xff00))),
+                          qrec->mUnk_10c);
         }
-    } else if (a->mUnk_a4 != NULL) {
-        a->mUnk_a4((s8 *) b, c, a->mUnk_10c);
+    } else if (qrec->mUnk_a4 != NULL) {
+        qrec->mUnk_a4((s8 *) buf, len, qrec->mUnk_10c);
     }
 }
 
-u32 func_ov000_021a3e5c(Unk021a3a18 *a, int b) {
-    int v1;
-    int v2;
-    int *v4;
-    v1 = 0;
+BOOL qr_got_recent_message(Unk021a3a18 *qrec, int msgkey) {
+    int index;
+    int nextIndex;
+    int *keyField;
+    index = 0;
     do {
-        if (b == a->mUnk_d8[v1]) {
+        if (msgkey == qrec->mUnk_d8[index]) {
             return 1;
         }
-        v1 = v1 + 1;
-    } while (v1 < 10);
-    v2 = (a->mUnk_100 + 1) % (10);
-    v4 = &a->mUnk_100;
-    *v4 = v2;
-    a->mUnk_d8[*v4] = b;
+        index = index + 1;
+    } while (index < 10);
+    nextIndex = (qrec->mUnk_100 + 1) % (10);
+    keyField = &qrec->mUnk_100;
+    *keyField = nextIndex;
+    qrec->mUnk_d8[*keyField] = msgkey;
     return 0;
 }
 
-void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
-    Unk021a4480 k;
-    s32 t;
-    s32 i;
-    s8 *p5;
-    s8 *p6;
-    k.mUnk_800 = 0;
-    if (a == NULL) {
-        a = (Unk021a3a18 *) data_ov000_021b426c;
+void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
+    Unk021a4480 buf;
+    s32 queryKind;
+    s32 index;
+    s8 *requestKey;
+    s8 *pos;
+    buf.mUnk_800 = 0;
+    if (qrec == NULL) {
+        qrec = (Unk021a3a18 *) gCurrentQr2Rec;
     }
-    if (b[0] == 0x3b) {
-        if (a->mUnk_d4 != NULL) {
-            a->mUnk_d4(b, c, d);
+    if (query[0] == 0x3b) {
+        if (qrec->mUnk_d4 != NULL) {
+            qrec->mUnk_d4(query, len, sender);
             return;
         }
-    } else if (b[0] == 0x5c) {
-        func_ov000_021a3f78((Unk021a4a08 *) a, (Unk021a471c *) &k);
-        sendto(a->mUnk_00, &k, k.mUnk_800, 0, d, 8);
+    } else if (query[0] == 0x5c) {
+        qr_process_old_query((QueryRecord *) qrec, (QueryBuffer *) &buf);
+        sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, sender, 8);
         return;
-    } else if (c >= 7) {
-        if ((u8) b[0] == 0xfe) {
-            if ((u8) b[1] == 0xfd) {
-                if (a->mUnk_b8 > 0) {
-                    a->mUnk_b8 = 0;
+    } else if (len >= 7) {
+        if ((u8) query[0] == 0xfe) {
+            if ((u8) query[1] == 0xfd) {
+                if (qrec->mUnk_b8 > 0) {
+                    qrec->mUnk_b8 = 0;
                 }
-                t = b[2];
-                p5 = b + 3;
-                p6 = b + 7;
-                c = c - 7;
-                func_ov000_021a4480((u32) &k, t, (u32) p5);
-                switch (t) {
+                queryKind = query[2];
+                requestKey = query + 3;
+                pos = query + 7;
+                len = len - 7;
+                qr_add_packet_header((u32) &buf, queryKind, (u32) requestKey);
+                switch (queryKind) {
                     case 0:
-                        func_ov000_021a412c((Unk021a4a08 *) a, (Unk021a471c *) &k, (u8 *) p6, c);
+                        qr_process_query((QueryRecord *) qrec, (QueryBuffer *) &buf, (u8 *) pos, len);
                         break;
                     case 1:
-                        if (c >= 13 && a->mUnk_a8 != 0) {
-                            func_ov000_021a438c((Unk021a4a08 *) a, (const char *) (p6 + c - 13));
+                        if (len >= 13 && qrec->mUnk_a8 != 0) {
+                            handle_public_address((QueryRecord *) qrec, (const char *) (pos + len - 13));
                         }
-                        func_ov000_021a4418((Unk021a4a08 *) a, (Unk021a471c *) &k, (const char *) p6, c);
+                        compute_challenge_response((QueryRecord *) qrec, (QueryBuffer *) &buf, (const char *) pos,
+                                                   len);
                         break;
                     case 2:
-                        if (c > 0x20) {
-                            c = 0x20;
+                        if (len > 0x20) {
+                            len = 0x20;
                         }
-                        k.mUnk_000[0] = 5;
-                        memcpy(&k.mUnk_000[k.mUnk_800], p6, c);
-                        k.mUnk_800 += c;
+                        buf.mUnk_000[0] = 5;
+                        memcpy(&buf.mUnk_000[buf.mUnk_800], pos, len);
+                        buf.mUnk_800 += len;
                         break;
                     case 4:
-                        if (a->mUnk_b8 == -1) {
+                        if (qrec->mUnk_b8 == -1) {
                             return;
                         }
-                        for (i = 0; i < 4; i++) {
-                            if (p5[i] != a->mUnk_84[i]) {
+                        for (index = 0; index < 4; index++) {
+                            if (requestKey[index] != qrec->mUnk_84[index]) {
                                 return;
                             }
                         }
-                        if (c < 2) {
+                        if (len < 2) {
                             return;
                         }
-                        a->mUnk_b8 = -1;
-                        a->mUnk_9c(p6[0], (u8 *) (p6 + 1), a->mUnk_10c);
+                        qrec->mUnk_b8 = -1;
+                        qrec->mUnk_9c(pos[0], (u8 *) (pos + 1), qrec->mUnk_10c);
                         return;
                     case 6:
-                        for (i = 0; i < 4; i++) {
-                            if (p5[i] != a->mUnk_84[i]) {
+                        for (index = 0; index < 4; index++) {
+                            if (requestKey[index] != qrec->mUnk_84[index]) {
                                 return;
                             }
                         }
-                        if (c < 4) {
+                        if (len < 4) {
                             return;
                         }
-                        k.mUnk_000[0] = 7;
-                        __memcpy(&k.mUnk_000[k.mUnk_800], p6, 4);
-                        k.mUnk_800 += 4;
-                        __memcpy(&i, p6, 4);
-                        if (func_ov000_021a3e5c(a, i) == 0) {
-                            func_ov000_021a3eb0(a, (u8 *) (p6 + 4), c - 4);
+                        buf.mUnk_000[0] = 7;
+                        __memcpy(&buf.mUnk_000[buf.mUnk_800], pos, 4);
+                        buf.mUnk_800 += 4;
+                        __memcpy(&index, pos, 4);
+                        if (qr_got_recent_message(qrec, index) == 0) {
+                            qr_process_client_message(qrec, (u8 *) (pos + 4), len - 4);
                         }
                         break;
                     case 3:
@@ -786,56 +794,56 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
                     default:
                         return;
                 }
-                sendto(a->mUnk_00, &k, k.mUnk_800, 0, d, 8);
+                sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, sender, 8);
             }
         }
     }
 }
 
-void func_ov000_021a3bbc(Unk021a3a18 *a) {
-    Unk021a4480 k;
-    k.mUnk_800 = 0;
-    func_ov000_021a4480((u32) &k, 8, (u32) a->mUnk_84);
-    sendto(a->mUnk_00, &k, k.mUnk_800, 0, a->mUnk_cc, 8);
-    a->mUnk_b0 = GetElapsedMilliseconds();
+void send_keepalive(Unk021a3a18 *qrec) {
+    Unk021a4480 buf;
+    buf.mUnk_800 = 0;
+    qr_add_packet_header((u32) &buf, 8, (u32) qrec->mUnk_84);
+    sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, qrec->mUnk_cc, 8);
+    qrec->mUnk_b0 = GetElapsedMilliseconds();
 }
 
-void func_ov000_021a3a18(Unk021a3a18 *a, s32 b) {
-    Unk021a4480 k;
-    char t[0x14];
-    s32 i;
-    k.mUnk_800 = 0;
-    func_ov000_021a4480((u32) &k, 3, (u32) a->mUnk_84);
-    for (i = 0; i < data_ov000_021b5df8; i++) {
-        sprintf(t, data_ov000_021b4388, i);
-        func_ov000_021a471c((Unk021a471c *) &k, t);
-        func_ov000_021a471c((Unk021a471c *) &k, func_ov000_021a8c6c(((Unk021b5dfc *) data_ov000_021b5dfc)[i]));
+void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged) {
+    Unk021a4480 buf;
+    char keyText[0x14];
+    s32 index;
+    buf.mUnk_800 = 0;
+    qr_add_packet_header((u32) &buf, 3, (u32) qrec->mUnk_84);
+    for (index = 0; index < gNumLocalIps; index++) {
+        sprintf(keyText, gLocalIpKeyFormat, index);
+        qr2_buffer_addA((QueryBuffer *) &buf, keyText);
+        qr2_buffer_addA((QueryBuffer *) &buf, func_ov000_021a8c6c(((Unk021b5dfc *) gLocalIpList)[index]));
     }
-    func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b4394);
-    func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_c0);
-    func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43a0);
-    func_ov000_021a471c((Unk021a471c *) &k, a->mUnk_c8 != 0 ? data_ov000_021b43a8 : data_ov000_021b43ac);
-    if (b != 0) {
-        func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43b0);
-        func_ov000_021a4760((Unk021a471c *) &k, b);
+    qr2_buffer_addA((QueryBuffer *) &buf, gLocalportKey);
+    qr2_buffer_add_int((QueryBuffer *) &buf, qrec->mUnk_c0);
+    qr2_buffer_addA((QueryBuffer *) &buf, gNatnegKey);
+    qr2_buffer_addA((QueryBuffer *) &buf, qrec->mUnk_c8 != 0 ? gNatnegOnValue : gNatnegOffValue);
+    if (statechanged != 0) {
+        qr2_buffer_addA((QueryBuffer *) &buf, gStatechangedKey);
+        qr2_buffer_add_int((QueryBuffer *) &buf, statechanged);
     }
-    func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43c0);
-    func_ov000_021a471c((Unk021a471c *) &k, a->mUnk_04);
-    if (a->mUnk_a8 != 0) {
-        func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43cc);
-        func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_104);
-        func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43d8);
-        func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_108);
+    qr2_buffer_addA((QueryBuffer *) &buf, data_ov000_021b43c0);
+    qr2_buffer_addA((QueryBuffer *) &buf, qrec->mUnk_04);
+    if (qrec->mUnk_a8 != 0) {
+        qr2_buffer_addA((QueryBuffer *) &buf, gPublicipKey);
+        qr2_buffer_add_int((QueryBuffer *) &buf, qrec->mUnk_104);
+        qr2_buffer_addA((QueryBuffer *) &buf, gPublicportKey);
+        qr2_buffer_add_int((QueryBuffer *) &buf, qrec->mUnk_108);
     }
-    if (b != 2) {
-        func_ov000_021a41a0((Unk021a4a08 *) a, (Unk021a471c *) &k, 0xff, NULL, 0xff, NULL, 0xff, NULL);
-    } else if (0x800 - k.mUnk_800 >= 1) {
-        k.mUnk_000[k.mUnk_800++] = 0;
+    if (statechanged != 2) {
+        qr_build_query_reply((QueryRecord *) qrec, (QueryBuffer *) &buf, 0xff, NULL, 0xff, NULL, 0xff, NULL);
+    } else if (0x800 - buf.mUnk_800 >= 1) {
+        buf.mUnk_000[buf.mUnk_800++] = 0;
     }
-    sendto(a->mUnk_00, &k, k.mUnk_800, 0, a->mUnk_cc, 8);
-    a->mUnk_ac = GetElapsedMilliseconds();
-    a->mUnk_b0 = a->mUnk_ac;
-    if (b != 0) {
-        a->mUnk_b4 = 0;
+    sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, qrec->mUnk_cc, 8);
+    qrec->mUnk_ac = GetElapsedMilliseconds();
+    qrec->mUnk_b0 = qrec->mUnk_ac;
+    if (statechanged != 0) {
+        qrec->mUnk_b4 = 0;
     }
 }

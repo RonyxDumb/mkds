@@ -92,7 +92,7 @@ void DWC_ProcessInet(void) {
     DWCInetControl *inetCntl = gInetControl;
     if (inetCntl != NULL && inetCntl->mState == 2) {
         gInetControl->mAcState = DWC_AC_Process();
-    } else if (inetCntl != NULL && inetCntl->mState == 4 && inetCntl->mOnline != 0 && func_ov000_021a5bfc() != 9) {
+    } else if (inetCntl != NULL && inetCntl->mState == 4 && inetCntl->mOnline != 0 && WCM_GetPhase() != 9) {
         gInetControl->mOnline = 0;
         gInetControl->mState = 6;
     }

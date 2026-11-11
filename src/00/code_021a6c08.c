@@ -11,52 +11,52 @@
 #include "code_0200fc8c.h"
 #include "00/code_021a574c.h"
 
-u8 func_ov000_021a6c90(void) {
-    s32 a = 0;
-    u32 b = data_ov000_021b5f80;
+u8 WCMi_GetRssiAverage(void) {
+    s32 sum = 0;
+    u32 count = gWcmRssiIndex;
     s32 i;
 
-    if (b > 16) {
+    if (count > 16) {
         for (i = 0; i < 16; i++) {
-            a += data_ov000_021b5f84[i];
+            sum += gWcmRssi[i];
         }
-        a = a / 16;
-    } else if (b != 0) {
-        for (i = 0; i < (s32) b; i++) {
-            a += data_ov000_021b5f84[i];
+        sum = sum / 16;
+    } else if (count != 0) {
+        for (i = 0; i < (s32) count; i++) {
+            sum += gWcmRssi[i];
         }
-        a = a / (s32) b;
+        sum = sum / (s32) count;
     }
-    return a;
+    return sum;
 }
 
-s32 func_ov000_021a6c68(void) {
-    u32 value = func_ov000_021a6c90();
+s32 WcmGetLinkLevel(void) {
+    u32 averageRssi = WCMi_GetRssiAverage();
     s32 level = 0;
-    if (value >= 28) {
+    if (averageRssi >= 28) {
         level = 3;
-    } else if (value >= 22) {
+    } else if (averageRssi >= 22) {
         level = 2;
-    } else if (value >= 16) {
+    } else if (averageRssi >= 16) {
         level = 1;
     }
     return level;
 }
 
-void func_ov000_021a6c08(u8 c) {
-    u8 a;
-    u8 b;
+void WCMi_ShelterRssi(u8 rssi) {
+    u8 raw;
+    u8 index;
 
-    if (c & 2) {
-        a = (c >> 2) & 0xff;
+    if (rssi & 2) {
+        raw = (rssi >> 2) & 0xff;
     } else {
-        a = (c >> 2) + 25;
+        raw = (rssi >> 2) + 25;
     }
-    b = data_ov000_021b5f80;
-    data_ov000_021b5f84[b % 16] = a;
-    if (b >= 16) {
-        data_ov000_021b5f80 = (b + 1) % 16 + 16;
+    index = gWcmRssiIndex;
+    gWcmRssi[index % 16] = raw;
+    if (index >= 16) {
+        gWcmRssiIndex = (index + 1) % 16 + 16;
     } else {
-        data_ov000_021b5f80++;
+        gWcmRssiIndex++;
     }
 }

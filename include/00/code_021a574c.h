@@ -3,8 +3,8 @@
 #include "types.h"
 #include "00/code_021a4b98.h"
 
-typedef struct Unk021a586c Unk021a586c;
-typedef struct Unk021b5f50 Unk021b5f50;
+typedef struct WCMNotice WCMNotice;
+typedef struct WCMWork WCMWork;
 
 typedef struct WCMConfig {
     /* 00 */ u32 mDmaNo;
@@ -13,14 +13,14 @@ typedef struct WCMConfig {
     /* 0c */ u32 mNbdMode;
 } WCMConfig;
 
-void func_ov000_021a574c(void);
-void func_ov000_021a5794(void *a);
-void func_ov000_021a57a8(void);
-void func_ov000_021a57fc(u32 a);
-void func_ov000_021a586c(s16 a, u32 b, void *c, u32 d, u32 e);
-void func_ov000_021a58a4(u32 b, const void *c, u32 d, u32 e);
-u16 func_ov000_021a58dc(u16 a);
-void func_ov000_021a5930(void);
-void func_ov000_021a5948(const void *a, const u8 *b, u32 c);
-void func_ov000_021a5a78(WCMConfig *a, void (*b)(Unk021a586c *));
-Unk021b5f50 *func_ov000_021a5b30(void);
+void WcmWmReset(void);
+void WcmKeepAliveAlarm(void *arg);
+void WCMi_ResetKeepAliveAlarm(void);
+void WcmSetPhase(u32 phase);
+void WcmNotifyEx(s16 notify, u32 result, void *para0, u32 para1, u32 para2);
+void WcmNotify(u32 result, const void *para0, u32 para1, u32 para2);
+u16 WcmGetNextScanChannel(u16 channel);
+void WcmInitOption(void);
+void WcmEditScanExParam(const void *bssid, const u8 *essid, u32 option);
+void WcmConfigure(WCMConfig *config, void (*notify)(WCMNotice *));
+WCMWork *WCMi_GetSystemWork(void);

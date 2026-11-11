@@ -11,7 +11,7 @@ void ScanStart(const u8 *bssid, const u8 *essid, s32 channel, u32 mode) {
     if (channel > 12) {
         channel = 12;
     }
-    func_ov000_021a61c4(bssid, essid, mode | gAcSearchChannel[channel]);
+    WCM_SearchAsync(bssid, essid, mode | gAcSearchChannel[channel]);
 }
 
 u32 DWCi_AC_ConnectRetryAP(void) {
@@ -20,7 +20,7 @@ u32 DWCi_AC_ConnectRetryAP(void) {
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     nextPhase = 9;
-    switch (func_ov000_021a5bfc()) {
+    switch (WCM_GetPhase()) {
         case 3:
             nextPhase = work->mUnk_d0e;
             if (work->mUnk_d0c_6 == 1) {
@@ -31,13 +31,13 @@ u32 DWCi_AC_ConnectRetryAP(void) {
             }
             break;
         case 6:
-            func_ov000_021a6024();
+            WCM_EndSearchAsync();
             break;
         case 9:
-            func_ov000_021a5db0();
+            WCM_DisconnectAsync();
             break;
         case 12:
-            func_ov000_021a5c24();
+            WCM_TerminateAsync();
             DWCi_AC_SetError(4);
             nextPhase = 0x11;
             break;

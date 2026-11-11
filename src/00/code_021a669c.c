@@ -7,144 +7,144 @@
 #include "os_thread.h"
 #include "code_02000800.h"
 
-void func_ov000_021a68dc(OSMutex *a) {
-    if (a->mHolder == (struct OSThread *) OS_IrqHandler) {
-        a->mLockCount--;
-        if (a->mLockCount == 0) {
-            a->mHolder = NULL;
-            OS_WakeupThread(&a->mQueue);
+void WcmCpsifUnlockMutexInIRQ(OSMutex *mutex) {
+    if (mutex->mHolder == (struct OSThread *) OS_IrqHandler) {
+        mutex->mLockCount--;
+        if (mutex->mLockCount == 0) {
+            mutex->mHolder = NULL;
+            OS_WakeupThread(&mutex->mQueue);
         }
     }
 }
 
-void func_ov000_021a6894(void) {
-    u32 v1;
-    Unk021b5f50 *g;
+void WCM_ClearApList(void) {
+    u32 enabled;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = func_ov000_021a5b30();
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = WCMi_GetSystemWork();
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return;
     }
-    if (g->mUnk_2270 != NULL && (s32) g->mUnk_2274 > 0) {
-        MI_CpuFill8(g->mUnk_2270, 0, g->mUnk_2274);
+    if (work->mPbdBuffer != NULL && (s32) work->mNbdBuffer > 0) {
+        MI_CpuFill8(work->mPbdBuffer, 0, work->mNbdBuffer);
     }
-    OS_RestoreInterrupts(v1);
+    OS_RestoreInterrupts(enabled);
 }
 
-u32 func_ov000_021a6844(void) {
-    u32 v1;
-    u32 r;
-    Unk021b5f50 *g;
+u32 WCM_CountApList(void) {
+    u32 enabled;
+    u32 count;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = func_ov000_021a5b30();
-    r = 0;
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
-        return r;
+    enabled = OS_DisableInterrupts();
+    work = WCMi_GetSystemWork();
+    count = 0;
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
+        return count;
     }
-    if (g->mUnk_2270 != NULL && g->mUnk_2274 > 0xc) {
-        r = g->mUnk_2270->mUnk_00;
+    if (work->mPbdBuffer != NULL && work->mNbdBuffer > 0xc) {
+        count = work->mPbdBuffer->mCount;
     }
-    OS_RestoreInterrupts(v1);
-    return r;
+    OS_RestoreInterrupts(enabled);
+    return count;
 }
 
-u32 func_ov000_021a67dc(u32 a) {
-    u32 v1;
-    Unk021b5f50 *g;
+u32 WCM_LockApList(u32 lock) {
+    u32 enabled;
+    WCMWork *work;
 
-    v1 = OS_DisableInterrupts();
-    g = func_ov000_021a5b30();
-    if (g == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    work = WCMi_GetSystemWork();
+    if (work == NULL) {
+        OS_RestoreInterrupts(enabled);
         return 0;
     }
-    if (a != 0) {
-        a = g->mUnk_226a != 0;
-        g->mUnk_226a = 1;
+    if (lock != 0) {
+        lock = work->mApListLock != 0;
+        work->mApListLock = 1;
     } else {
-        a = g->mUnk_226a != 0;
-        g->mUnk_226a = 0;
+        lock = work->mApListLock != 0;
+        work->mApListLock = 0;
     }
-    OS_RestoreInterrupts(v1);
-    return a;
+    OS_RestoreInterrupts(enabled);
+    return lock;
 }
 
-u8 *func_ov000_021a6788(u16 a) {
-    u32 v1;
-    Unk021b5f50_2270_0c *e;
+u8 *WCM_PointApList(u16 index) {
+    u32 enabled;
+    WCMApList *apNode;
 
-    v1 = OS_DisableInterrupts();
-    if (func_ov000_021a5b30() == NULL) {
-        OS_RestoreInterrupts(v1);
+    enabled = OS_DisableInterrupts();
+    if (WCMi_GetSystemWork() == NULL) {
+        OS_RestoreInterrupts(enabled);
         return NULL;
     }
-    e = func_ov000_021a65d8(a);
-    if (e == NULL) {
-        OS_RestoreInterrupts(v1);
+    apNode = WcmSearchIndexedApList(index);
+    if (apNode == NULL) {
+        OS_RestoreInterrupts(enabled);
         return NULL;
     }
-    OS_RestoreInterrupts(v1);
-    return e->mUnk_10;
+    OS_RestoreInterrupts(enabled);
+    return apNode->mData;
 }
 
-void func_ov000_021a671c(Unk021a5e84 *a, u16 b) {
-    Unk021b5f50 *g;
-    Unk021b5f50_2270_0c *e;
+void WCMi_EntryApList(Unk021a5e84 *bssDesc, u16 linkLevel) {
+    WCMWork *work;
+    WCMApList *entry;
 
-    g = func_ov000_021a5b30();
-    if (g != NULL && g->mUnk_226a == 0 && a->mUnk_3c == 0) {
-        e = func_ov000_021a6614(a->mUnk_04);
-        if (e == NULL) {
-            e = func_ov000_021a669c();
+    work = WCMi_GetSystemWork();
+    if (work != NULL && work->mApListLock == 0 && bssDesc->mUnk_3c == 0) {
+        entry = WcmSearchApList(bssDesc->mUnk_04);
+        if (entry == NULL) {
+            entry = WcmAllocApList();
         }
-        if (e == NULL && g->mUnk_2278 == 1) {
-            e = func_ov000_021a666c();
+        if (entry == NULL && work->mNbdMode == 1) {
+            entry = WcmGetOldestApList();
         }
-        if (e != NULL) {
-            e->mUnk_02 = b;
-            MIi_CpuCopyFast(a, e->mUnk_10, 0xc0);
-            func_ov000_021a6558(e);
+        if (entry != NULL) {
+            entry->mLinkLevel = linkLevel;
+            MIi_CpuCopyFast(bssDesc, entry->mData, 0xc0);
+            WcmAppendApList(entry);
         }
     }
 }
 
-Unk021b5f50_2270_0c *func_ov000_021a669c(void) {
-    Unk021b5f50 *g;
-    Unk021b5f50_2270 *l;
-    Unk021b5f50_2270_0c *e;
-    u32 n;
-    s32 i;
+WCMApList *WcmAllocApList(void) {
+    WCMWork *work;
+    WCMApListHeader *aplistHeader;
+    WCMApList *apNode;
+    u32 capacity;
+    s32 index;
 
-    g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
-    e = NULL;
-    if (l != NULL && g->mUnk_2274 > 0xc) {
-        n = (g->mUnk_2274 - 0xc) / 0xd0;
-        if (n != 0 && n > l->mUnk_00) {
-            for (i = 0; i < n; i++) {
-                e = &l->mUnk_0c[(u32) i];
-                if (e->mUnk_00 == 0) {
+    work = WCMi_GetSystemWork();
+    aplistHeader = work->mPbdBuffer;
+    apNode = NULL;
+    if (aplistHeader != NULL && work->mNbdBuffer > 0xc) {
+        capacity = (work->mNbdBuffer - 0xc) / 0xd0;
+        if (capacity != 0 && capacity > aplistHeader->mCount) {
+            for (index = 0; index < capacity; index++) {
+                apNode = &aplistHeader->mUnk_0c[(u32) index];
+                if (apNode->mState == 0) {
                     break;
                 }
             }
-            if (i < n) {
-                e->mUnk_00 = 1;
-                e->mUnk_04 = l->mUnk_00;
-                e->mUnk_0c = NULL;
-                e->mUnk_08 = l->mUnk_08;
-                l->mUnk_08 = e;
-                if (e->mUnk_08 != NULL) {
-                    e->mUnk_08->mUnk_0c = e;
+            if (index < capacity) {
+                apNode->mState = 1;
+                apNode->mIndex = aplistHeader->mCount;
+                apNode->mNext = NULL;
+                apNode->mPrevious = aplistHeader->mTail;
+                aplistHeader->mTail = apNode;
+                if (apNode->mPrevious != NULL) {
+                    apNode->mPrevious->mNext = apNode;
                 } else {
-                    l->mUnk_04 = e;
+                    aplistHeader->mHead = apNode;
                 }
-                l->mUnk_00++;
+                aplistHeader->mCount++;
             }
         }
     }
-    return e;
+    return apNode;
 }
