@@ -598,7 +598,7 @@ s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *messa
     if (len == -1) {
         len = strlen(message);
     }
-    sprintf(buffer, data_ov000_021b334c, len);
+    sprintf(buffer, gLenMsgFormat, len);
     result = GpiPeerSendString(connection, (Unk02190988 *) peer, buffer);
     if (result != 0) {
         return result;

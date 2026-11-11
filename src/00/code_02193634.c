@@ -44,13 +44,13 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     s32 result;
 
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b32f0, gGpiOperationFileName, NULL, 0x22);
+        AssertionFailed(gConnectionAssertText, gGpiOperationFileName, NULL, 0x22);
     }
     if (connection->mGpiConnection == NULL) {
-        AssertionFailed(data_ov000_021b3304, gGpiOperationFileName, NULL, 0x23);
+        AssertionFailed(gConnectionDerefAssertText, gGpiOperationFileName, NULL, 0x23);
     }
     if (operation == NULL) {
-        AssertionFailed(data_ov000_021b3318, gGpiOperationFileName, NULL, 0x24);
+        AssertionFailed(gOperationAssertText, gGpiOperationFileName, NULL, 0x24);
     }
     callback = operation->mUnk_0c;
     if (callback.mCallback != NULL) {
@@ -171,7 +171,7 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
         searchData = (Unk02193858 *) operation->mUnk_04;
         gpState->mSearchCount--;
         if (gpState->mSearchCount < 0) {
-            AssertionFailed(data_ov000_021b32c0, gGpiOperationFileName, NULL, 0xb6);
+            AssertionFailed(gNumSearchesAssertion, gGpiOperationFileName, NULL, 0xb6);
         }
         shutdown(searchData->mUnk_04, 2);
         closesocket(searchData->mUnk_04);
@@ -251,7 +251,7 @@ s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const
             result = gpiProcessRegisterUniqueNick(connection, operation, input);
             break;
         default:
-            gpiDebug(connection, data_ov000_021b3264, type);
+            gpiDebug(connection, gInvalidOperationTypeFormat, type);
             AssertionFailed(data_ov000_021b32ac, gGpiOperationFileName, NULL, 0x146);
             break;
     }

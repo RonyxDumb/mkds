@@ -65,10 +65,10 @@ u32 GpiAppendBufferBytes(void *a, GpiBuffer *outputBuffer, const void *string, s
     s32 g;
 
     if (string == NULL) {
-        AssertionFailed(data_ov000_021b2a18, gGpiBufferFileName, NULL, 0x51);
+        AssertionFailed(gStringAssertText, gGpiBufferFileName, NULL, 0x51);
     }
     if (stringLen < 0) {
-        AssertionFailed(data_ov000_021b2a28, gGpiBufferFileName, NULL, 0x52);
+        AssertionFailed(gStringLenAssertion, gGpiBufferFileName, NULL, 0x52);
     }
     if (outputBuffer == NULL) {
         AssertionFailed(gOutputBufferAssertText, gGpiBufferFileName, NULL, 0x53);
@@ -117,14 +117,14 @@ u32 GpiSendBytes(GpConnection *a, s32 b, const void *c, s32 d, s32 *e, s32 *f, c
             if (g[0] == 0x50 && g[1] == 0x52) {
                 return 3;
             }
-            GpiSetError(a, 5, data_ov000_021b29cc);
+            GpiSetError(a, 5, gSendSocketErrorString);
             GpiQueueErrorCallback(a, 3, 0);
             return 3;
         }
         *f = 0;
         *e = 0;
     } else if (h == 0) {
-        gpiDebug(a, data_ov000_021b29f4, g);
+        gpiDebug(a, gSendConnectionClosedFormat, g);
         *f = 0;
         *e = 1;
     } else {
@@ -204,16 +204,16 @@ u32 GpiReceiveBuffer(GpConnection *a, s32 sock, GpiBuffer *inputBuffer, s32 *byt
     s32 n;
 
     if (sock == -1) {
-        AssertionFailed(data_ov000_021b28d8, gGpiBufferFileName, NULL, 0x150);
+        AssertionFailed(gSockAssertion, gGpiBufferFileName, NULL, 0x150);
     }
     if (inputBuffer == NULL) {
-        AssertionFailed(data_ov000_021b28f0, gGpiBufferFileName, NULL, 0x151);
+        AssertionFailed(gInputBufferAssertText, gGpiBufferFileName, NULL, 0x151);
     }
     if (bytesRead == NULL) {
-        AssertionFailed(data_ov000_021b2904, gGpiBufferFileName, NULL, 0x152);
+        AssertionFailed(gBytesReadAssertText, gGpiBufferFileName, NULL, 0x152);
     }
     if (connClosed == NULL) {
-        AssertionFailed(data_ov000_021b2918, gGpiBufferFileName, NULL, 0x153);
+        AssertionFailed(gConnClosedAssertText, gGpiBufferFileName, NULL, 0x153);
     }
     g = inputBuffer->mBuffer;
     h = inputBuffer->mLength;
@@ -236,12 +236,12 @@ u32 GpiReceiveBuffer(GpConnection *a, s32 sock, GpiBuffer *inputBuffer, s32 *byt
         if (l == -1) {
             n = GOAGetLastError(sock);
             if (n != -6 && n != -0x1a && n != -0x4c) {
-                GpiSetErrorMessage(a, data_ov000_021b293c);
+                GpiSetErrorMessage(a, gReadSocketErrorString);
                 return 3;
             }
         } else if (l == 0) {
             k = TRUE;
-            gpiDebug(a, data_ov000_021b2968, f);
+            gpiDebug(a, gRecvConnectionClosedFormat, f);
         } else {
             h += l;
             j += l;
@@ -249,7 +249,7 @@ u32 GpiReceiveBuffer(GpConnection *a, s32 sock, GpiBuffer *inputBuffer, s32 *byt
         g[h] = 0;
     } while (l != -1 && k == FALSE && j < 0x20000);
     if (j != 0) {
-        gpiDebug(a, data_ov000_021b298c, f, j);
+        gpiDebug(a, gRecvTotalFormat, f, j);
     }
     inputBuffer->mBuffer = g;
     inputBuffer->mLength = h;
@@ -301,13 +301,13 @@ u32 GpiSendBuffer(GpConnection *a, s32 sock, GpiBuffer *outputBuffer, u32 *d, s3
         pos += m;
     }
     if (len < 0) {
-        AssertionFailed(data_ov000_021b28b4, gGpiBufferFileName, NULL, 0x1de);
+        AssertionFailed(gLenAssertion, gGpiBufferFileName, NULL, 0x1de);
     }
     if (pos < 0) {
-        AssertionFailed(data_ov000_021b28c0, gGpiBufferFileName, NULL, 0x1df);
+        AssertionFailed(gPosAssertion, gGpiBufferFileName, NULL, 0x1df);
     }
     if (pos > len) {
-        AssertionFailed(data_ov000_021b28cc, gGpiBufferFileName, NULL, 0x1e0);
+        AssertionFailed(gPosLenAssertion, gGpiBufferFileName, NULL, 0x1e0);
     }
     outputBuffer->mLength = len;
     outputBuffer->mPos = pos;

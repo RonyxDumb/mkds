@@ -254,7 +254,7 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gResponseKey);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, response);
     if (gpState->mFirewall == TRUE) {
-        GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2d80);
+        GpiAppendBufferString(connection, &gpState->mOutputBuffer, gFirewall1Key);
     }
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gPortKey);
     port = gpState->mPort;
@@ -357,7 +357,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
     data = (Unk02191284Data *) operation->mUnk_04;
     switch (operation->mUnk_14) {
         case 1:
-            if (strncmp(input, data_ov000_021b2ba8, 5) != 0) {
+            if (strncmp(input, gLc1Key, 5) != 0) {
                 GpiSetError(connection, 1, data_ov000_021b2bb0);
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
@@ -406,7 +406,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
             operation->mUnk_14 = 2;
             break;
         case 2:
-            if (strncmp(input, data_ov000_021b2c3c, 5) != 0) {
+            if (strncmp(input, gLc2Key, 5) != 0) {
                 GpiSetError(connection, 1, data_ov000_021b2bb0);
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
