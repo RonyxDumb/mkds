@@ -266,7 +266,7 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gGsiAcGamename);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gNamespaceidKey);
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mNamespaceId);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2d4c);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gId1Key);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2b3c);
     return 0;
 }
@@ -317,7 +317,7 @@ u32 GpiWriteNewuser(GpConnection *connection, Unk02191284Data *data) {
         GpiAppendBufferString(connection, &gpState->mOutputBuffer, gCdkeyencKey);
         GpiAppendBufferString(connection, &gpState->mOutputBuffer, cdKeyEncoded);
     }
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2d4c);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gId1Key);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2b3c);
     return 0;
 }

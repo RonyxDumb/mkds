@@ -22,7 +22,7 @@ void PlaceSelectionPair(u32 pairIndex, u32 leftX, u32 rightX, u32 yPos) {
 
     ReleaseSelectionObjectSlots();
     i = 0;
-    objectIds = data_ov003_021d5f4c + pairIndex * 2;
+    objectIds = gSelectionPairImages + pairIndex * 2;
     for (; i < 2; i++) {
         gSelectionObjects[i] = CreateOamRangeFromNceImage(0, *objectIds, 1);
         SetOamRangePriority(gSelectionObjects[i], -1, 1);

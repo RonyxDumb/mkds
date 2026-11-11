@@ -1,4 +1,4 @@
-data_ov002_02180500 kind:bss addr:0x021804e0
+gOverlayFrmHeapBuffer kind:bss addr:0x021804e0
 data_usa_ov002_021804e1 kind:bss addr:0x021804e1 ambiguous
 data_usa_ov002_021813d4 kind:bss addr:0x021813d4 ambiguous
 data_usa_ov002_021813f0 kind:bss addr:0x021813f0 ambiguous
@@ -101,7 +101,7 @@ data_usa_ov002_021a9159 kind:bss addr:0x021a9159 ambiguous
 data_usa_ov002_021a9664 kind:bss addr:0x021a9664 ambiguous
 data_usa_ov002_021a9698 kind:bss addr:0x021a9698 ambiguous
 data_usa_ov002_021a99c0 kind:bss addr:0x021a99c0 ambiguous
-data_ov002_021a9c00 kind:bss addr:0x021a9be0 ambiguous
+gOverlayExpHeapBuffer kind:bss addr:0x021a9be0 ambiguous
 data_usa_ov002_021ac7f4 kind:bss addr:0x021ac7f4 ambiguous
 data_usa_ov002_021b0788 kind:bss addr:0x021b0788 ambiguous
 data_usa_ov002_021b0790 kind:bss addr:0x021b0790 ambiguous

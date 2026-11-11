@@ -175,10 +175,10 @@ void InitMissionRunMSselCells(void) {
                 gMissionRunMSsel
                     ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[missionIndex][0]]
                     .mVisible = 1;
-                PrintLabelLayoutTextNoFixedAdvance(1, gMissionRunMSselLabelSTableIndices[missionIndex][0],
-                                                   gMissionRunMSsel->mMissionRunMSselSBnll, data_ov001_021a92c8[out],
-                                                   gMissionRunMSsel->mMissionRunMSselSBncl,
-                                                   gMissionRunMSsel->mMissionRunMSselSTable);
+                PrintLabelLayoutTextNoFixedAdvance(
+                    1, gMissionRunMSselLabelSTableIndices[missionIndex][0], gMissionRunMSsel->mMissionRunMSselSBnll,
+                    gMissionRunMSselGradeStrings[out], gMissionRunMSsel->mMissionRunMSselSBncl,
+                    gMissionRunMSsel->mMissionRunMSselSTable);
             } else if (out <= 7) {
                 gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][out + 1]]
                     .mVisible = 1;
@@ -564,9 +564,9 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
     InitLayoutTable(gMissionRunMSsel->mHeap, gMissionRunMSsel->mMissionRunMSselSBncl,
                     gMissionRunMSsel->mMissionRunMSselSBnll, &gMissionRunMSsel->mMissionRunMSselSTable);
     gMissionRunMSsel->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a94a4);
-    gMissionRunMSsel->mMissionMessages = FindSceneFile(data_ov001_021a94b0);
-    gMissionRunMSsel->mMissionTableMtbl = FindFileInLoadedArchives(data_ov001_021a94bc);
-    gMissionRunMSsel->mUnk_50 = (MissionFileRow *) ((u8 *) FindSceneFile(data_ov001_021a94d0) + 8);
+    gMissionRunMSsel->mMissionMessages = FindSceneFile(gMissionRunMSselMissionBmgName);
+    gMissionRunMSsel->mMissionTableMtbl = FindFileInLoadedArchives(gMissionRunMSselMtblName);
+    gMissionRunMSsel->mUnk_50 = (MissionFileRow *) ((u8 *) FindSceneFile(gMissionRunMSselMissionMrName) + 8);
     InitLabelCanvas(gMissionRunMSsel->mHeap, 0, gMissionRunMSsel->mMissionRunMSselMBnll, 0xd2, 0x46, 0,
                     gMissionRunMSsel->mMissionRunMSselMNcer, gMissionRunMSsel->mMissionRunMSselMBncl,
                     gMissionRunMSsel->mMissionRunMSselMTable, 0x8000);

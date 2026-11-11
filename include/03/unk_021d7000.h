@@ -122,7 +122,7 @@ extern u8 gWhRecvBufferSizeFormat[];
 extern u8 gWhSendBufferSizeFormat[];
 extern u8 gWhConnectModeFormat[];
 extern u8 gWhDecidedChannelFormat[];
-extern void *data_ov003_021d7c0c[];
+extern void *gTextCanvasNftrNames[];
 extern u8 gWhChannelBusyRatioFormat[];
 extern u8 gWhIndicateStateFormat[];
 extern u8 gWhEndParentFailedText[];

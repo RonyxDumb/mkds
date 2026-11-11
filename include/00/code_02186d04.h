@@ -6,7 +6,7 @@
 #include "00/code_02185954.h"
 
 extern char data_ov000_021b1204[];
-extern char data_ov000_021b1348[];
+extern char gContentLengthHeaderText[];
 extern char data_ov000_021b135c[];
 extern char data_ov000_021b1368[];
 extern const char data_ov000_021b1370[];

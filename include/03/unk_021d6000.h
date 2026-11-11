@@ -72,7 +72,7 @@ extern Bytes7 gKind2Item3Bytes;
 extern Bytes4 gWarpString;
 extern u8 gExchangeSocketConfig[];
 extern u8 gJtNullNscName[];
-extern u8 data_ov003_021d67f0[];
+extern u8 gTaskListCapacities[];
 extern u8 gEditAddrKeyboardRow4HighlightValues[];
 extern u8 gEditAddrKeyboardExtraKeyImages[];
 extern u8 gEditAddrKeyboardRow4KeyImages[];

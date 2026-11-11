@@ -130,7 +130,7 @@ void *HashtableFind(Hashtable *table, void *d) {
 void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *d) {
     s32 a;
     if (fn == NULL) {
-        AssertionFailed(data_ov000_021b2354, gHashtableFileName, NULL, 0xb6);
+        AssertionFailed(gHashtableFnAssertText, gHashtableFileName, NULL, 0xb6);
     }
     for (a = 0; a < table->mBucketCount; a++) {
         DarrayForEachReverse(table->mBuckets[a], (UnkCompare *) fn, d);
@@ -141,7 +141,7 @@ void *HashtableFindByFn(Hashtable *table, int fn, const void *c) {
     void *v1;
     int v3;
     if (fn == 0) {
-        AssertionFailed(data_ov000_021b2354, gHashtableFileName, NULL, 0xd3);
+        AssertionFailed(gHashtableFnAssertText, gHashtableFileName, NULL, 0xd3);
     }
     v3 = 0;
     if (0 < table->mBucketCount) {

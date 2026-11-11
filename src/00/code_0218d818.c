@@ -23,7 +23,7 @@ void DarrayGrow(Darray *a) {
     a->mCapacity = a->mCapacity + a->mGrowCount;
     a->mList = DWCi_GsRealloc(a->mList, a->mCapacity * a->mElemSize);
     if (a->mList == NULL) {
-        AssertionFailed(data_ov000_021b2348, gDarrayFileName, NULL, 0x41);
+        AssertionFailed(gArrayListAssertText, gDarrayFileName, NULL, 0x41);
     }
 }
 
@@ -50,7 +50,7 @@ void *DarrayCreate(s32 elemSize, s32 c, void (*d)(void *)) {
     if (array->mCapacity != 0) {
         array->mList = DWCi_GsMalloc(array->mCapacity * array->mElemSize);
         if (array->mList == NULL) {
-            AssertionFailed(data_ov000_021b2348, gDarrayFileName, NULL, 0x5e);
+            AssertionFailed(gArrayListAssertText, gDarrayFileName, NULL, 0x5e);
         }
     } else {
         array->mList = NULL;
@@ -183,7 +183,7 @@ s32 DarrayFindIndex(Darray *a, const void *b, UnkCompare *c, s32 d, s32 e) {
 void DarrayForEachReverse(Darray *array, UnkCompare *fn, const void *c) {
     s32 i;
     if (fn == NULL) {
-        AssertionFailed(data_ov000_021b22d8, gDarrayFileName, NULL, 0x104);
+        AssertionFailed(gDarrayFnAssertText, gDarrayFileName, NULL, 0x104);
     }
     for (i = array->mCount - 1; i >= 0; i--) {
         fn(DarrayGetElement(array, i), c);
@@ -194,7 +194,7 @@ void *DarrayFindByFnReverse(Darray *array, UnkCompare *fn, const void *c) {
     s32 i;
     void *e;
     if (fn == NULL) {
-        AssertionFailed(data_ov000_021b22d8, gDarrayFileName, NULL, 0x121);
+        AssertionFailed(gDarrayFnAssertText, gDarrayFileName, NULL, 0x121);
     }
     for (i = array->mCount - 1; i >= 0; i--) {
         e = DarrayGetElement(array, i);

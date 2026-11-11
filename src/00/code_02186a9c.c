@@ -41,7 +41,7 @@ BOOL DWC_Http_Add_HeaderItem(Http *a, const char *b, const char *c) {
     s32 i;
     d = &a->mSendBuffer;
     e = strlen(c);
-    f = strlen(data_ov000_021b12a0);
+    f = strlen(gHeaderItemFormat);
     e = e + (f - 4 + strlen(b));
     i = d->mEnd - d->mCursor;
     if (e + 1 > i) {
@@ -53,7 +53,7 @@ BOOL DWC_Http_Add_HeaderItem(Http *a, const char *b, const char *c) {
     g = (char *) p + 2;
     h = p[2];
     memmove(g + e, g, strlen(g) + 1);
-    i = OS_SNPrintf(g, e + 1, data_ov000_021b12a0, b, c);
+    i = OS_SNPrintf(g, e + 1, gHeaderItemFormat, b, c);
     g[i] = h;
     d->mCursor = d->mCursor + e;
     return FALSE;

@@ -36,7 +36,7 @@ void InitTextCanvases(void) {
     gTextCanvases->mFreeObjCanvases = CreateFilledPointerStack(0x20, canvases->mObjCanvasStorage, 0x38);
     b = NULL;
     for (i = 0; i < 2; i++) {
-        gTextCanvases->mFontFiles[i] = LoadFile(data_ov003_021d7c0c[i], b, 4);
+        gTextCanvases->mFontFiles[i] = LoadFile(gTextCanvasNftrNames[i], b, 4);
         NNS_G2dFontInitUTF16(&gTextCanvases->mFonts[i], gTextCanvases->mFontFiles[i]);
     }
 }
@@ -85,7 +85,7 @@ void DeleteObjTextCanvas(void *canvas) {
 
 BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     BgTextCanvas *canvas = &gTextCanvases->mBgTextCanvases[screen];
-    u32 areaHeight = data_ov003_021d67e2[screen * 2];
+    u32 areaHeight = gBgTextCanvasHeights[screen * 2];
     u32 areaWidth = gBgTextCanvasSizes[screen * 2];
     vu16 *bgControl;
     u32 screenBase;

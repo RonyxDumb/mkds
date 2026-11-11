@@ -1120,7 +1120,7 @@ gSlideButtonsPosition kind:data(any) addr:0x021d5e84
 gSlideButtonSize kind:data(any) addr:0x021d5e88
 gSlideButtonCounts kind:data(any) addr:0x021d5e8c
 gSlideButtonOrigins kind:data(any) addr:0x021d5e94
-data_ov003_021d5ed6 kind:data(any) addr:0x021d5e96
+gSlideButtonOriginYs kind:data(any) addr:0x021d5e96
 gSlideButtonImages kind:data(any) addr:0x021d5e9c
 gSlideButtonPositionIndices kind:data(any) addr:0x021d5eac
 gSubScreenMessageRect kind:data(any) addr:0x021d5ebc
@@ -1130,7 +1130,7 @@ gPrintMessageAndTextRect kind:data(any) addr:0x021d5ed4
 gLanguageTextFlags kind:data(any) addr:0x021d5edc
 gPrintMessageTextXPositions kind:data(any) addr:0x021d5ef4
 gPrintMessageTextYPositions kind:data(any) addr:0x021d5ef6
-data_ov003_021d5f4c kind:data(any) addr:0x021d5f0c
+gSelectionPairImages kind:data(any) addr:0x021d5f0c
 gLinkLevelPosition kind:data(any) addr:0x021d5f14
 gLinkLevelImages kind:data(any) addr:0x021d5f18
 gEditKeyboardKeyPalettes kind:data(any) addr:0x021d5f20
@@ -1271,9 +1271,9 @@ data_ov003_021d67b2 kind:data(any) addr:0x021d6772
 gDwcArchiveName kind:data(any) addr:0x021d6798
 gBgTextCanvasCharOffsets kind:data(any) addr:0x021d679c
 gBgTextCanvasSizes kind:data(any) addr:0x021d67a0
-data_ov003_021d67e2 kind:data(any) addr:0x021d67a2
+gBgTextCanvasHeights kind:data(any) addr:0x021d67a2
 gTouchScreenRect kind:data(any) addr:0x021d67a8
-data_ov003_021d67f0 kind:data(any) addr:0x021d67b0
+gTaskListCapacities kind:data(any) addr:0x021d67b0
 gItemTypesToFind kind:data(any) addr:0x021d67c0
 gSocketDescriptor kind:data(any) addr:0x021d67c4
 gRetryLimitTemplate kind:data(any) addr:0x021d67c8
@@ -1491,14 +1491,14 @@ gWhChildConnectedFormat kind:data(any) addr:0x021d7b30
 gWhChildDisconnectedFormat kind:data(any) addr:0x021d7b5c
 gWhStateFromFormat kind:data(any) addr:0x021d7b88
 gWhStateToFormat kind:data(any) addr:0x021d7b90
-data_ov003_021d7bd4 kind:data(any) addr:0x021d7b94
-data_ov003_021d7bd8 kind:data(any) addr:0x021d7b98
-data_ov003_021d7be0 kind:data(any) addr:0x021d7ba0
-data_ov003_021d7bf8 kind:data(any) addr:0x021d7bb8
+gLzFileSuffix kind:data(any) addr:0x021d7b94
+gRomDir kind:data(any) addr:0x021d7b98
+gDwcUtilityBinName kind:data(any) addr:0x021d7ba0
+gDwcArchiveRootFormat kind:data(any) addr:0x021d7bb8
 @784 kind:data(any) addr:0x021d7bc0 local
 @782 kind:data(any) addr:0x021d7bc4 local
 @721 kind:data(any) addr:0x021d7bc8 local
-data_ov003_021d7c0c kind:data(any) addr:0x021d7bcc
+gTextCanvasNftrNames kind:data(any) addr:0x021d7bcc
 data_usa_ov003_021d7bd4 kind:data(any) addr:0x021d7bd4
 data_usa_ov003_021d7be4 kind:data(any) addr:0x021d7be4
 gFlagBit4OfKind1010Packet kind:bss addr:0x021d7c00

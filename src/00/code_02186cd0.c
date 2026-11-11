@@ -714,9 +714,9 @@ void DWCi_Http_Thread(void *argument) {
                 if (strstr(s, gHttpHeaderEndMarker) != NULL) {
                     headerReceived = 1;
                     http->mBodyStart = strstr(s, gHttpHeaderEndMarker) + 4;
-                    contentLengthText = strstr(receiveBuffer->mStart, data_ov000_021b1348);
+                    contentLengthText = strstr(receiveBuffer->mStart, gContentLengthHeaderText);
                     if (contentLengthText != NULL) {
-                        contentLengthText = contentLengthText + strlen(data_ov000_021b1348);
+                        contentLengthText = contentLengthText + strlen(gContentLengthHeaderText);
                         lengthEnd = (s8 *) strstr(contentLengthText, gHttpLineEndMarker);
                         savedByte = *lengthEnd;
                         *lengthEnd = 0;

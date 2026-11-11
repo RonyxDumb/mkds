@@ -134,7 +134,7 @@ void InitOverlayTable(void *heap) {
 
 // Creates the frame heap in a fixed 0x50000-byte buffer.
 void CreateOverlayFrmHeap(void) {
-    gOverlayLoader->mFrmHeap = NNS_FndCreateFrmHeapEx(data_ov002_02180500, 0x50000, 0);
+    gOverlayLoader->mFrmHeap = NNS_FndCreateFrmHeapEx(gOverlayFrmHeapBuffer, 0x50000, 0);
 }
 
 // Marks no overlay as current: index 4 is past the three table entries.
@@ -234,7 +234,7 @@ void CreateOverlayExpHeap(void) {
     if (gOverlayLoader->mCurrentOverlay != 1) {
         return;
     }
-    gOverlayLoader->mExpHeap = NNS_FndCreateExpHeapEx(data_ov002_021a9c00, 0x20800, 1);
+    gOverlayLoader->mExpHeap = NNS_FndCreateExpHeapEx(gOverlayExpHeapBuffer, 0x20800, 1);
 }
 
 void FreeOverlayExpHeap(void) {

@@ -618,9 +618,9 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     }
     DWCi_Http_AddResult(&results, gSdkverPairName, gSdkverPairValue);
     if (gAuthWiFiInfo.mAttestedUserId != 0) {
-        OS_SNPrintf(userIdText, 0xe, data_ov000_021b10d0, gAuthWiFiInfo.mAttestedUserId);
+        OS_SNPrintf(userIdText, 0xe, gUserIdFormat, gAuthWiFiInfo.mAttestedUserId);
     } else {
-        OS_SNPrintf(userIdText, 0xe, data_ov000_021b10d0, gAuthWiFiInfo.mNotAttestedId);
+        OS_SNPrintf(userIdText, 0xe, gUserIdFormat, gAuthWiFiInfo.mNotAttestedId);
     }
     DWCi_Http_AddResult(&results, gUseridPairName, userIdText);
     OS_SNPrintf(postData.mPassword, 4, data_ov000_021b10e0, gAuthWiFiInfo.mPass);

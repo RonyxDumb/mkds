@@ -221,9 +221,9 @@ extern const char *gSelectEngineBSBnblName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
 extern char data_ov001_021a94a4[];
-extern char data_ov001_021a94b0[];
-extern char data_ov001_021a94bc[];
-extern char data_ov001_021a94d0[];
+extern char gMissionRunMSselMissionBmgName[];
+extern char gMissionRunMSselMtblName[];
+extern char gMissionRunMSselMissionMrName[];
 typedef struct TimeAttackTopMenu {
     /* 00 */ struct Unk02021dc8 *mTimeAttackTopMenuSNcer;
     /* 04 */ struct LayoutEntryTable *mTimeAttackTopMenuSBncl;
@@ -245,6 +245,6 @@ typedef struct TimeAttackTopMenu {
 extern RaceHudSubScreenCells *gRaceHudSubScreenKurikingCells;
 extern u16 gCoinShadowRotationIndex;
 extern const char *gMissionRunLVselGradeStrings[5];
-extern const char *data_ov001_021a92c8[5];
+extern const char *gMissionRunMSselGradeStrings[5];
 
 #include "00/code_021832d8.h"

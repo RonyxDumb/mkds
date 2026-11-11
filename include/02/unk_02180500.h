@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern u8 data_ov002_02180500[];
-extern u8 data_ov002_021a9c00[];
+extern u8 gOverlayFrmHeapBuffer[];
+extern u8 gOverlayExpHeapBuffer[];
 extern u8 gTcpipStackTop[];
 extern u8 data_ov002_021ca440[];

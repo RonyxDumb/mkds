@@ -31,7 +31,7 @@ void InitDwcArchive(void) {
 
     gDwcArchive = AllocZeroedExpHeapBlock(0xe8, 4);
     FS_InitFile(&file);
-    if (FS_OpenFile(&file, data_ov003_021d7be0) == 0) {
+    if (FS_OpenFile(&file, gDwcUtilityBinName) == 0) {
         OS_Terminate();
     }
     gDwcArchive->mLockId = OS_GetLockID();
@@ -53,12 +53,12 @@ void InitDwcArchive(void) {
     gDwcArchive->mTables = AllocExpHeapBlock(tablesSize, 4);
     FS_LoadArchiveTables(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
     gDwcArchive->mUnk_84 = CreateFilledPointerStack(0x20, gDwcArchive->mUnk_04, 4);
-    OS_SPrintf(dirPath, data_ov003_021d7bf8, gDwcArchiveName);
+    OS_SPrintf(dirPath, gDwcArchiveRootFormat, gDwcArchiveName);
     FS_ChangeDir((u8 *) dirPath);
 }
 
 void ReleaseDwcArchive(void) {
-    FS_ChangeDir(data_ov003_021d7bd8);
+    FS_ChangeDir(gRomDir);
     FS_UnloadArchiveTables(&gDwcArchive->mArchive);
     FS_UnloadArchive(&gDwcArchive->mArchive);
     FS_ReleaseArchiveName(&gDwcArchive->mArchive);
@@ -113,7 +113,7 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
     if (outSize != NULL) {
         *outSize = c;
     }
-    if (AreStringEndsEqual(path, data_ov003_021d7bd4, 2) != 0) {
+    if (AreStringEndsEqual(path, gLzFileSuffix, 2) != 0) {
         readAlignment = -4;
     } else {
         readAlignment = alignment;

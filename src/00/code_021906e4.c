@@ -140,10 +140,10 @@ u32 GpiPeerSendByte(GpConnection *a, Unk02190988 *b, s8 c) {
     u32 f;
 
     if (b->mOutputBuffer.mBuffer == NULL) {
-        AssertionFailed(data_ov000_021b29a4, gGpiBufferFileName, NULL, 0xde);
+        AssertionFailed(gPeerOutputBufferAssertText, gGpiBufferFileName, NULL, 0xde);
     }
     if (b->mOutputBuffer.mLength - b->mOutputBuffer.mPos == 0 && DarrayGetCount(b->mQueuedMessages) == 0) {
-        f = GpiSendBytes(a, b->mSocket, &c, 1, &d, &e, data_ov000_021b29c8);
+        f = GpiSendBytes(a, b->mSocket, &c, 1, &d, &e, gPeerSendId);
         if (f != 0) {
             return f;
         }
@@ -161,7 +161,7 @@ u32 GpiPeerSendBytes(GpConnection *a, Unk02190988 *b, const char *c, s32 d) {
     u32 h;
 
     if (b->mOutputBuffer.mBuffer == NULL) {
-        AssertionFailed(data_ov000_021b29a4, gGpiBufferFileName, NULL, 0xfb);
+        AssertionFailed(gPeerOutputBufferAssertText, gGpiBufferFileName, NULL, 0xfb);
     }
     e = 0;
     if (d == 0) {
@@ -169,7 +169,7 @@ u32 GpiPeerSendBytes(GpConnection *a, Unk02190988 *b, const char *c, s32 d) {
     }
     if (b->mOutputBuffer.mLength - b->mOutputBuffer.mPos == 0 && DarrayGetCount(b->mQueuedMessages) == 0) {
         do {
-            h = GpiSendBytes(a, b->mSocket, c + e, d, &f, &g, data_ov000_021b29c8);
+            h = GpiSendBytes(a, b->mSocket, c + e, d, &f, &g, gPeerSendId);
             if (h != 0) {
                 return h;
             }

@@ -20,7 +20,7 @@ void InitTasks(void) {
 
     gTaskLists = AllocExpHeapBlock(0x78, 4);
     i = 0;
-    countPtr = data_ov003_021d67f0;
+    countPtr = gTaskListCapacities;
     do {
         gTaskLists[i].mCapacity = *countPtr;
         gTaskLists[i].mEntryStorage = AllocExpHeapBlock(*countPtr * 0x14, 4);

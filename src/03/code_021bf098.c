@@ -142,7 +142,7 @@ void AdvanceButtonTouch(void) {
                 CopyNceImageToOamEntries(0, touchedImage, GetOamRangeEntry(gSlideButtons->mButtons[i], 0));
                 positionIndex = (gSlideButtonPositionIndices + gSlideButtons->mKind * 2)[i];
                 SetOamRangePosition(gSlideButtons->mButtons[i], -1, gSlideButtonOrigins[positionIndex * 2],
-                                    data_ov003_021d5ed6[positionIndex * 2]);
+                                    gSlideButtonOriginYs[positionIndex * 2]);
                 SetOamRangePriority(gSlideButtons->mButtons[i], -1, 1);
                 gSlideButtons->mResetTask = AddTask(0, AdvanceButtonReset, NULL, 0x6e);
                 gSlideButtons->mButtonResult = i;
