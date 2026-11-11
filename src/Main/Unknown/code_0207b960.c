@@ -848,14 +848,14 @@ void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     u16 i;
 
     posCurve->mParam = 0;
-    posCurve->mUnk_34 = 0;
+    posCurve->mEntryIndex = 0;
     posCurve->mUnk_38 = 0;
     if (entryGroup->mEntryCount < 4) {
         return;
     }
     for (i = 0; i < 4; i++) {
         posCurve->mPoints[i] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, i)->mPos;
-        posCurve->mUnk_34 = i;
+        posCurve->mEntryIndex = i;
     }
 }
 
@@ -865,13 +865,13 @@ void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera)
     CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
 
     posCurve->mParam = 0;
-    posCurve->mUnk_34 = 0;
+    posCurve->mEntryIndex = 0;
     posCurve->mUnk_38 = 0;
     if (entryGroup->mEntryCount < 4) {
         return;
     }
     posCurve->mUnk_38 = entryGroup->mEntryCount - 1;
-    posCurve->mUnk_34 = 2;
+    posCurve->mEntryIndex = 2;
     entryIndex = 2;
     for (i = 0; i < 3; i++) {
         posCurve->mPoints[(u16) i] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
@@ -888,12 +888,12 @@ void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *map
     entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
     posCurve->mParam += paramStep;
     if (posCurve->mParam > 0x1000) {
-        posCurve->mUnk_34++;
-        if (posCurve->mUnk_34 >= entryGroup->mEntryCount) {
-            posCurve->mUnk_34 = entryGroup->mEntryCount;
+        posCurve->mEntryIndex++;
+        if (posCurve->mEntryIndex >= entryGroup->mEntryCount) {
+            posCurve->mEntryIndex = entryGroup->mEntryCount;
             posCurve->mParam = 0x1000;
         } else {
-            groupEntry = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, posCurve->mUnk_34);
+            groupEntry = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, posCurve->mEntryIndex);
             for (i = 0; i < 3; i++) {
                 posCurve->mPoints[i] = posCurve->mPoints[i + 1];
             }

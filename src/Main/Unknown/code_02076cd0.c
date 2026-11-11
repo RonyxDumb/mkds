@@ -161,7 +161,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                 }
             }
             gKind7EntryCount = kind7EntryCount;
-            gEntryCamera->mUnk_21c = HeapAlloc(heap, kind7EntryCount * 0x88);
+            gEntryCamera->mKind7Entries = HeapAlloc(heap, kind7EntryCount * 0x88);
             courseMapCamera = gEntryCamera->mCourseMapCamera;
             m = 0;
             listIndex = 0;
@@ -173,12 +173,12 @@ void CreateEntryCamera(u32 followedKartIndex) {
                     }
                 }
                 if (courseMapCamera->mKind == 7) {
-                    InitKind7CameraEntry(&gEntryCamera->mUnk_21c[listIndex], courseMapCamera);
+                    InitKind7CameraEntry(&gEntryCamera->mKind7Entries[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
                 }
             }
-            gEntryCamera->mUnk_220 = gEntryCamera->mUnk_21c;
+            gEntryCamera->mUnk_220 = gEntryCamera->mKind7Entries;
             gEntryCamera->mUnk_224 = 0;
             gEntryCamera->mKind = 3;
             gCameraEntryChanged = 1;
@@ -264,7 +264,7 @@ void SetupCamera(Camera *camera) {
     camera->mHalfFovPairSecond = FX_CosIdx((u16) camera->mHalfFovAngle);
     camera->mAspectRatio = 0x1555;
     camera->mNear = 0x400;
-    camera->mUnk_08c = 0x640000;
+    camera->mSecondFar = 0x640000;
     camera->mFar = gCourseMap->mSettings->mCameraFar;
     if (camera->mFar < 0x1000) {
         camera->mFar = 0x640000;
@@ -281,7 +281,7 @@ void SetupCamera(Camera *camera) {
     camera->mLookAtHeight = gDefaultLookAtHeight;
     camera->mUnk_0d8 = 1;
     camera->mFollowDistance = gDefaultFollowDistance;
-    camera->mUnk_0e0 = camera->mFollowDistance;
+    camera->mInitialFollowDistance = camera->mFollowDistance;
     camera->mLookAtLowering = 0;
     camera->mFollowDistanceScale = 0x1000;
     camera->mUnk_0ec = 0;
@@ -300,7 +300,7 @@ void SetupCamera(Camera *camera) {
     camera->mCollisionOffsetLength = 0;
     camera->mViewPosYOffset = 0;
     camera->mWobbling = FALSE;
-    camera->mUnk_144 = 0;
+    camera->mFactor = 0;
     camera->mWobblePerFrame = 0;
     camera->mWobbleDirection = 1;
     camera->mWobbleDecay = 0;
@@ -318,14 +318,14 @@ void SetupCamera(Camera *camera) {
     camera->mKind = 0;
     camera->mPosGoalKartOffset = zero;
     camera->mPosGoalCollisionOffset = zero;
-    camera->mUnk_254 = 3;
-    camera->mUnk_258 = FALSE;
-    camera->mUnk_25c = FALSE;
+    camera->mCollisionState = CAMERA_COLLISION_STATE_NONE;
+    camera->mCollisionActive = FALSE;
+    camera->mCollisionLatch = FALSE;
     camera->mSavedKartForward = zero;
-    camera->mUnk_0a8 = zero;
-    camera->mUnk_0b4 = zero;
+    camera->mPosOffset = zero;
+    camera->mLookAtOffset = zero;
     camera->mSideDistanceSign = gRaceSetup->mMirrorMode ? -1 : 1;
-    camera->mUnk_21c = NULL;
+    camera->mKind7Entries = NULL;
     camera->mUnk_220 = NULL;
     camera->mUnk_20c = 0;
     camera->mUnk_20e = 0;

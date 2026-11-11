@@ -1043,6 +1043,12 @@ struct Kind7CameraEntry;
 // The viewer of a race: position, look-at point, three axes, view matrix and frustum. One class, several instances:
 // gChaseCamera follows the selected kart, gEntryCamera and gFirstChainCamera / gSecondChainCamera step through
 // CourseMapCamera entries; gCurrentCamera points at the one used this frame.
+// Camera.mCollisionState: neither a length nor an offset is kept.
+#define CAMERA_COLLISION_STATE_NONE 3
+// Camera.mCollisionState: the hit is kept as a length.
+#define CAMERA_COLLISION_STATE_LENGTH 1
+// Camera.mCollisionState: the hit is kept as a vector offset.
+#define CAMERA_COLLISION_STATE_OFFSET 0
 typedef struct Camera {
     /* 000 */ Vec3 mUp;
     // baseUp x forward, perpendicular to mUp and mForward. Sign not fixed (left or right is not shown); not updated
@@ -1057,7 +1063,8 @@ typedef struct Camera {
     /* 060 */ s32 mHalfFovAngle;
     // Default gDefaultHalfFovAngle (0x157c, about 30 degrees).
     /* 064 */ s32 mHalfFovAngleGoal;
-    // First and second element of the pair FX_SinCosTable_ holds for mHalfFovAngle; mFrustumTop = mNear * first / second.
+    // First and second element of the pair FX_SinCosTable_ holds for mHalfFovAngle; mFrustumTop = mNear * first /
+    // second.
     /* 068 */ s16 mHalfFovPairFirst;
     /* 06a */ s16 mHalfFovPairSecond;
     /* 06c */ s32 mAspectRatio;
@@ -1073,11 +1080,11 @@ typedef struct Camera {
     // Fraction of the Kart's last-frame movement (mPos - mPrevPos) added to the camera position while Kart bit 0x1000
     // of mUnk_48 is set; 0x1000 when the camera is placed, times 0xe66/0x1000 per use.
     /* 088 */ s32 mKartMoveScale;
-    /* 08c */ s32 mUnk_08c;
+    /* 08c */ s32 mSecondFar;
     /* 090 */ Vec3 mViewLookAt;
     /* 09c */ Vec3 mViewPos;
-    /* 0a8 */ Vec3 mUnk_0a8;
-    /* 0b4 */ Vec3 mUnk_0b4;
+    /* 0a8 */ Vec3 mPosOffset;
+    /* 0b4 */ Vec3 mLookAtOffset;
     // The up vector mUp is built from: eased toward world up (or a kart vector); mUp is made perpendicular to
     // mForward from it.
     /* 0c0 */ Vec3 mBaseUp;
@@ -1087,7 +1094,7 @@ typedef struct Camera {
     /* 0d4 */ s32 mLookAtHeight;
     /* 0d8 */ s32 mUnk_0d8;
     /* 0dc */ s32 mFollowDistance;
-    /* 0e0 */ s32 mUnk_0e0;
+    /* 0e0 */ s32 mInitialFollowDistance;
     // Amount the look-at is lowered: +0x1000 per call up to 0xa000 while the Kart has bit 0x10000 of mUnk_48, else
     // decays; subtracted from the look-at goal y (UpdateChaseCameraLookAt).
     /* 0e4 */ s32 mLookAtLowering;
@@ -1108,7 +1115,7 @@ typedef struct Camera {
     /* 134 */ Vec3 mPrevPos;
     // Set by StartCameraWobble, cleared by UpdateCameraWobble when the amplitude is used up.
     /* 140 */ BOOL mWobbling;
-    /* 144 */ s32 mUnk_144;
+    /* 144 */ s32 mFactor;
     /* 148 */ s32 mWobbleAmplitude;
     // Added to mUnk_144 each frame, times mWobbleDirection.
     /* 14c */ s32 mWobblePerFrame;
@@ -1136,7 +1143,7 @@ typedef struct Camera {
     // Kart.mUnk_120 (a row of the Kart's matrix) times mPosGoalKartOffsetScale; added to the position goal.
     /* 188 */ Vec3 mPosGoalKartOffset;
     /* 194 */ PosCurve mPosCurve;
-    /* 1d0 */ PosCurve mUnk_1d0;
+    /* 1d0 */ PosCurve mReversePosCurve;
     /* 20c */ u16 mUnk_20c;
     /* 20e */ u16 mUnk_20e;
     // Index into gKarts the look-at is taken from (entry cameras; the chase camera is handed its Kart).
@@ -1146,7 +1153,7 @@ typedef struct Camera {
     // use.
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
-    /* 21c */ struct Kind7CameraEntry *mUnk_21c;
+    /* 21c */ struct Kind7CameraEntry *mKind7Entries;
     /* 220 */ struct Kind7CameraEntry *mUnk_220;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
@@ -1182,9 +1189,9 @@ typedef struct Camera {
     // Which camera this instance is: 0 chase, 1 entry camera, 2 chain camera, 3 entry camera in mode 2 with a kind 7
     // entry; tested by outside code (GetCurrentCameraKind).
     /* 250 */ s32 mKind;
-    /* 254 */ s32 mUnk_254;
-    /* 258 */ BOOL mUnk_258;
-    /* 25c */ BOOL mUnk_25c;
+    /* 254 */ s32 mCollisionState;
+    /* 258 */ BOOL mCollisionActive;
+    /* 25c */ BOOL mCollisionLatch;
     // GetKartForward (row 2 of the Kart's matrix, taken as its heading) of the selected Kart at creation; used instead
     // of the live vector for a Kart with bit 0x20000000 of mUnk_4c. SetupCamera zeroes it.
     /* 260 */ Vec3 mSavedKartForward;
