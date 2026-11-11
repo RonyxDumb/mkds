@@ -1,14 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021884d8.h"
 
-// Object behind gAcHold.
-typedef struct Unk02189350 {
-    /* 00 */ u8 pad_00[0x10];
-    /* 10 */ s32 mErrorTest;
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
-    /* 16 */ u8 mUnk_16;
-} Unk02189350;
-
-s32 GetNotFoundInet(Unk02189350 *object);
+s32 GetNotFoundInet(ACHOLD *object);

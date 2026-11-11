@@ -6,6 +6,7 @@
 #include "00/code_02186d04.h"
 #include "00/code_02187484.h"
 #include "00/code_02188008.h"
+#include "00/code_02188ec0.h"
 #include "00/code_021884d8.h"
 #include "00/code_0218e2dc.h"
 #include "00/code_021a3a18.h"
@@ -83,7 +84,7 @@ extern u8 gSha1ZeroPaddingBytes[];
 extern u8 gWiFiVSCourseSelectState[];
 extern Http *gHttp;
 extern DWCNetcheck *gNetcheck;
-extern Unk02188408 *gAcWork;
+extern ACWORK *gAcWork;
 extern void *gWcmBuffer;
 extern void *gSocConfig;
 extern DWCNetcheckParam *gNetCheck;

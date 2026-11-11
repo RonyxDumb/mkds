@@ -29,5 +29,5 @@ u32 DWCi_AC_GetResult(void) {
     if (error == 5) {
         return GetNotFoundAP(hold);
     }
-    return GetNotFoundInet((Unk02189350 *) hold);
+    return GetNotFoundInet((ACHOLD *) hold);
 }

@@ -55,17 +55,17 @@ u32 DWCi_AC_GetMemPtr(u32 name) {
 
 void DWCi_AC_SetPhase(u8 phase) {
     ACHOLD *hold;
-    Unk02188408 *work;
+    ACWORK *work;
 
     hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
-    work = (Unk02188408 *) DWCi_AC_GetMemPtr(0x10);
+    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     hold->mPhase = phase;
     if (phase < 0x10) {
         if (phase > hold->mEndSequence) {
             hold->mEndSequence = phase;
             if (phase > 7) {
-                hold->mEndType = DWCi_ConvConnectAPType(work->mUnk_d0d);
-                hold->mEndState = work->mUnk_444[work->mUnk_d13].mUnk_00;
+                hold->mEndType = DWCi_ConvConnectAPType(work->mConnectApType);
+                hold->mEndState = work->mFindList[work->mConnectNo].mState;
             }
         }
     }

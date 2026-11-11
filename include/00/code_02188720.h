@@ -3,6 +3,7 @@
 #include "types.h"
 #include "00/code_02187484.h"
 #include "00/code_02188008.h"
+#include "00/code_02188ec0.h"
 #include "00/code_021884d8.h"
 #include "code_0214d018.h"
 #include "00/code_021a5b3c.h"
@@ -39,11 +40,11 @@ BOOL DWC_AC_Destroy(void);
 u32 DWC_AC_GetStatus(void);
 s32 DWC_AC_Process(void);
 BOOL DWC_AC_Create(DWCACConfig *config);
-void SortList(u32 listIndex, Unk02188408 *work);
-void UpDateList(u32 listIndex, WMBssDesc *bssdesc, Unk02188408 *work);
-void SetDataListTail(u8 type, WMBssDesc *bssdesc, Unk02188408 *work);
-s32 AddList(u32 type, WMBssDesc *bssdesc, Unk02188408 *work);
-s32 CompareList(WMBssDesc *bssdesc, s32 num, Unk02188408Entry24 *list);
+void SortList(u32 listIndex, ACWORK *work);
+void UpDateList(u32 listIndex, WMBssDesc *bssdesc, ACWORK *work);
+void SetDataListTail(u8 type, WMBssDesc *bssdesc, ACWORK *work);
+s32 AddList(u32 type, WMBssDesc *bssdesc, ACWORK *work);
+s32 CompareList(WMBssDesc *bssdesc, s32 num, ACSL *list);
 s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
 void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
 void DWCi_AC_CallBackWCM(Unk02188d78 *notice);

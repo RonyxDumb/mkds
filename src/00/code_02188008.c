@@ -18,24 +18,24 @@ void FreeDisused(void) {
 }
 
 s32 CheckDuplicate(void) {
-    Unk02188408 *work;
+    ACWORK *work;
     u8 *chosenSsid;
     u32 connectNo;
     u8 index;
     u8 findListNum;
 
     work = gAcWork;
-    chosenSsid = work->mUnk_470[0].mBssid;
-    connectNo = work->mUnk_d13;
+    chosenSsid = work->mBssDesc[0].mBssid;
+    connectNo = work->mConnectNo;
     chosenSsid += connectNo * 0xc0;
-    if (work->mUnk_d0d >= 6) {
+    if (work->mConnectApType >= 6) {
         return 1;
     }
-    for (index = 0, findListNum = work->mUnk_d12; index < findListNum; index++) {
+    for (index = 0, findListNum = work->mFindListNum; index < findListNum; index++) {
         if (index != connectNo) {
-            if (work->mUnk_444[index].mApType < 6) {
-                if (strncmp((const char *) chosenSsid, (const char *) work->mUnk_470[index].mBssid,
-                            work->mUnk_470[index].mSsidLength) == 0) {
+            if (work->mFindList[index].mApType < 6) {
+                if (strncmp((const char *) chosenSsid, (const char *) work->mBssDesc[index].mBssid,
+                            work->mBssDesc[index].mSsidLength) == 0) {
                     return 2;
                 }
             }

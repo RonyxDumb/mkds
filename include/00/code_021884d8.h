@@ -11,7 +11,7 @@ typedef struct ACHOLD {
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
     /* 0c */ u32 mError;
-    /* 10 */ u8 pad_10[4];
+    /* 10 */ s32 mErrorTest;
     /* 14 */ u8 mEndState;
     /* 15 */ u8 mEndType;
     /* 16 */ u8 mEndSequence;

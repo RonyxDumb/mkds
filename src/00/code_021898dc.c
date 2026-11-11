@@ -44,18 +44,18 @@ void CheckSetDNS(ACWORK *work) {
 u8 DWCi_AC_Start(void) {
     u32 wcmPhase;
     ACWORK *work;
-    Unk02189f00 config;
+    WCMConfig config;
     s32 result;
 
     wcmPhase = WCM_GetPhase();
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (wcmPhase == 1) {
-        config.mUnk_00 = work->mDmaNo;
-        config.mUnk_04 = 0;
-        config.mUnk_08 = 0;
-        config.mUnk_0c = 0;
+        config.mDmaNo = work->mDmaNo;
+        config.mPbdBuffer = NULL;
+        config.mNbdBuffer = 0;
+        config.mNbdMode = 0;
         DWCi_AC_MakeSearchList(0);
-        result = WCM_StartupAsync((WCMConfig *) &config, (void (*)(WCMNotice *)) DWCi_AC_CallBackWCM);
+        result = WCM_StartupAsync(&config, (void (*)(WCMNotice *)) DWCi_AC_CallBackWCM);
         if (result == 1 || result >= 4) {
             DWCi_AC_SetError(1);
             return 0x11;

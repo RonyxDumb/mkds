@@ -7,13 +7,13 @@
 #include "00/code_02189350.h"
 
 u32 ConnectTestProcess(ACWORK *work) {
-    Unk02189350 *hold;
+    ACHOLD *hold;
     u32 error;
 
-    hold = (Unk02189350 *) DWCi_AC_GetMemPtr(1);
+    hold = (ACHOLD *) DWCi_AC_GetMemPtr(1);
     error = DWC_Netcheck_GetError();
     if (error != 0) {
-        if (hold->mUnk_15 == DWCi_ConvConnectAPType(work->mConnectApType)) {
+        if (hold->mEndType == DWCi_ConvConnectAPType(work->mConnectApType)) {
             hold->mErrorTest = DWC_Netcheck_GetReturnCode();
         }
         DWC_Netcheck_Destroy();
