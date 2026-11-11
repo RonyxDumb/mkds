@@ -31,7 +31,7 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1de);
             return;
         }
-        c = gRaceSetup->mUnk_3c;
+        c = gRaceSetup->mMissionMapObjectKind0;
         if (c == 0x65 || c == 0xc9) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xd4);
         }

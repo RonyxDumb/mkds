@@ -169,10 +169,10 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
     if (entryIndex == raceSetup->mEntryIndex) {
         return;
     }
-    if (raceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20 == 0) {
+    if (raceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData == 0) {
         return;
     }
-    foundIndex = FindBuddyIndexByFriendData(raceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20);
+    foundIndex = FindBuddyIndexByFriendData(raceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData);
     if (foundIndex == -1) {
         return;
     }

@@ -849,7 +849,7 @@ void InitKartModels(void *heap, u32 kartCount) {
         entries = gKartModels->mKartModelsEntries;
         entry = &entries[i];
         InitKartModelsEntry(entry);
-        entry->mRegion = gRaceSetup->mCurrentEntries[i].mPlayer.mUnk_25;
+        entry->mRegion = gRaceSetup->mCurrentEntries[i].mPlayer.mRegion;
         ResetKartKillerAnimationLooping(entry);
         entries[i].mCharacterIndex = gRaceSetup->mCurrentEntries[i].mCharacterIndex;
         entry->mKartIndex = gRaceSetup->mCurrentEntries[i].mKartIndex;

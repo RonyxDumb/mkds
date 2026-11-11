@@ -28,7 +28,7 @@ BOOL func_ov001_021816b4(void);
 void func_ov001_021816fc(void);
 void func_ov001_0218171c(void);
 void func_ov001_0218173c(void);
-void func_ov001_0218175c(s32 b);
+void func_ov001_0218175c(s32 mapObjectKind);
 void func_ov001_021817e0(void);
 s32 GetMissionRunBossCount(void);
 u32 GetMissionRunCountLimit(void);

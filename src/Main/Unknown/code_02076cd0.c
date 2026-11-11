@@ -107,7 +107,7 @@ void InitCameraGlobals(void) {
     gCameraEntryChanged = 1;
     tableIndex = gEntryCameraUpdateRan = 0;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        tableIndex = gRaceSetup->mUnk_036;
+        tableIndex = gRaceSetup->mMissionCameraTableIndex;
         tableIndex = (u16) tableIndex;
     } else {
         tableIndex = (u16) tableIndex;

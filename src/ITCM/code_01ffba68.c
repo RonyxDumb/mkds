@@ -371,7 +371,7 @@ void SetKartMissionRunInputMask(Kart *kart) {
     if (raceSetup->mMode != MODE_MISSION_RUN) {
         return;
     }
-    if (!(raceSetup->mUnk_044 & 1)) {
+    if (!(raceSetup->mMissionRunBits & MISSION_RUN_BIT_INPUT_MASK)) {
         return;
     }
     entryIndex = kart->mEntryIndex;

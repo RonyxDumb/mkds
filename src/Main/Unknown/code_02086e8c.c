@@ -237,7 +237,7 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry) {
 
 u16 GetKartPaletteColor(int kartIndex) {
     if (gRaceSetup->mMode == 5) {
-        return data_02155a2c[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_25];
+        return data_02155a2c[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mRegion];
     }
     if (gRaceSetup->mUseTeams != 0) {
         return gTeamPaletteColors[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
@@ -352,10 +352,10 @@ void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     u8 highNibble;
     u8 lowNibble;
     texPlttEntryAlias = texPlttEntry;
-    if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_26 != 0) {
+    if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mLowestGrandPrixRecordValue != 0) {
         pixels = gKartNameTagMaskedTexBuffer;
         nibbleLimit = 7;
-        switch (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_26) {
+        switch (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mLowestGrandPrixRecordValue) {
             case 2:
                 nibbleLimit = 4;
                 break;
@@ -396,7 +396,7 @@ void InitKartEmblemPointers(void) {
     for (i = 0; (u32) i < gRaceSetup->mKartCount; i++) {
         gKartNameTags->mEmblemTex[i] = NULL;
         gKartNameTags->mEmblemPltt[i] = NULL;
-        if (gRaceSetup->mCurrentEntries[i].mPlayer.mUnk_24 == 0 || gRaceSetup->mUseTeams != 0) {
+        if (gRaceSetup->mCurrentEntries[i].mPlayer.mHasEmblem == 0 || gRaceSetup->mUseTeams != 0) {
             if (gRaceSetup->mUseTeams != 0) {
                 path = BuildTeamEmblemNsbtxPath(gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex == 1 ? 1 : 0);
             } else {

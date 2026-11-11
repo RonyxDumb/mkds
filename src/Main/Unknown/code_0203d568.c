@@ -126,7 +126,7 @@ static inline void func_0203e550_inline(s32 kartIndex) {
 void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     BOOL f;
     BOOL missionTestPassed;
-    Unk021759c0_28 *s;
+    Unk021759c0_28 *missionSettings;
     EntryKartCounters *entryKartCounters;
 
     if (kart->mLap < 0x7fffffff) {
@@ -176,12 +176,12 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     }
     kart->mHighestLap = GetLapCount();
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        s = &gRaceSetup->mUnk_28_view;
+        missionSettings = &gRaceSetup->mUnk_28_view;
         missionTestPassed = TRUE;
         entryKartCounters = GetEntryKartCounters();
-        switch (s->mMissionKind) {
+        switch (missionSettings->mMissionKind) {
             case 4:
-                if (s->mUnk_0f > (u32) entryKartCounters->mMiniTurboCount) {
+                if (missionSettings->mMissionRunCountLimit > (u32) entryKartCounters->mMiniTurboCount) {
                     missionTestPassed = FALSE;
                 }
                 break;

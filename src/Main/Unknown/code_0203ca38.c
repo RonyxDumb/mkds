@@ -260,13 +260,13 @@ void AdvanceMissionRunEnd(void) {
         }
         return;
     }
-    if ((raceSetup->mUnk_044 & 2) != 0) {
+    if ((raceSetup->mMissionRunBits & MISSION_RUN_BIT_END_NOT_NORMAL) != 0) {
         if (IsEntryKartNotNormalOrScaleTableBit() != FALSE) {
             endFound = TRUE;
         }
     }
     if (endFound == FALSE) {
-        if ((gRaceSetup->mUnk_044 & 4) != 0) {
+        if ((gRaceSetup->mMissionRunBits & MISSION_RUN_BIT_END_IN_CONTACT) != 0) {
             if (IsEntryKartInContact() != 0) {
                 endKind = 3;
                 endFound = TRUE;
@@ -274,7 +274,7 @@ void AdvanceMissionRunEnd(void) {
         }
     }
     if (endFound == FALSE) {
-        if ((gRaceSetup->mUnk_044 & 8) != 0) {
+        if ((gRaceSetup->mMissionRunBits & MISSION_RUN_BIT_END_KART_FLAG_1000) != 0) {
             if (IsEntryKartFlag1000Set() != 0) {
                 endFound = TRUE;
             }

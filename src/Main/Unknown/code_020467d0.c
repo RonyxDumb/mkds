@@ -102,17 +102,18 @@ void RefreshRaceSetupKartCounts(s32 entryCount) {
     }
 }
 
-void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex, int f) {
+void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex,
+                      int listedCpuSlot) {
     gRaceSetup->mNextEntries[entryIndex].mCharacterIndex = characterIndex;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mKind = playerKind;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mIndex = entryIndex;
     gRaceSetup->mNextEntries[entryIndex].mKartIndex = kartIndex;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuSlot = f;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuSlot = listedCpuSlot;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = playerKind == PLAYER_KIND_GHOST ? 0 : 3;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_14 = 0;
-    if (f != 3) {
-        gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_14 |= 1;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags = 0;
+    if (listedCpuSlot != 3) {
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags |= KART_ENTRY_LISTED_CPU_FLAG;
     }
 }
 

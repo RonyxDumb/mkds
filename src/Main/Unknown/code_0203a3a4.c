@@ -158,7 +158,7 @@ void InitRaceScene(void) {
     SetHeapGroupId(8);
     mirrorMode = gRaceSetup->mMirrorMode;
     if (mirrorMode == 0 && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        if ((gRaceSetup->mUnk_044 & 0x10) != 0) {
+        if ((gRaceSetup->mMissionRunBits & MISSION_RUN_BIT_SWAP_LEFT_RIGHT) != 0) {
             mirrorMode = 1;
         }
     }

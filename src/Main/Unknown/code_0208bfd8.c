@@ -14,7 +14,8 @@
 void SetupKartAiForRace(KartAi *kartAi, s32 kartIndex) {
     Kart *kart = GetKart(kartIndex);
 
-    kartAi->mUnk_154 = (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0;
+    kartAi->mUnk_154 =
+        (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0;
     SetupRaceKartAi(kartAi, kart, kartAi->mUnk_154);
     SetupRaceKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
     ClearKartAiItemUse(&kartAi->mItemUse);

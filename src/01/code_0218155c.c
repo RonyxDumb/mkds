@@ -240,17 +240,19 @@ void func_ov001_021817e0(void) {
     }
 }
 
-void func_ov001_0218175c(s32 b) {
+void func_ov001_0218175c(s32 mapObjectKind) {
     RaceSetup *raceSetup = gRaceSetup;
     u32 missionKind = raceSetup->mMissionKind;
     if (missionKind == 3 || missionKind == 7 || missionKind == 0) {
-        u32 a = raceSetup->mUnk_3c;
-        if (a == 0 && raceSetup->mUnk_3e == 0 && raceSetup->mUnk_40 == 0 && raceSetup->mUnk_42 == 0 && b > 400 &&
-            b < 500) {
+        u32 missionObjectKind0 = raceSetup->mMissionMapObjectKind0;
+        if (missionObjectKind0 == 0 && raceSetup->mMissionMapObjectKind1 == 0 &&
+            raceSetup->mMissionMapObjectKind2 == 0 && raceSetup->mMissionMapObjectKind3 == 0 && mapObjectKind > 400 &&
+            mapObjectKind < 500) {
             func_ov001_02181aa0();
             return;
         }
-        if (b == a || b == raceSetup->mUnk_3e || b == raceSetup->mUnk_40 || b == raceSetup->mUnk_42) {
+        if (mapObjectKind == missionObjectKind0 || mapObjectKind == raceSetup->mMissionMapObjectKind1 ||
+            mapObjectKind == raceSetup->mMissionMapObjectKind2 || mapObjectKind == raceSetup->mMissionMapObjectKind3) {
             func_ov001_02181aa0();
         }
     }

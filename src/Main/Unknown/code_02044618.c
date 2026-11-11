@@ -65,7 +65,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mUnk_56[0] = 0;
     gRaceSetup->mNextHeader.mMirrorMode = 0;
     gRaceSetup->mNextHeader.mUseTeams = 0;
-    gRaceSetup->mNextHeader.mUnk_5c = 0;
+    gRaceSetup->mNextHeader.mSeed = 0;
     gRaceSetup->mNextHeader.mCourseNumber = 1;
     gRaceSetup->mNextHeader.mEntryIndex = -1;
     gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
@@ -78,12 +78,12 @@ void ResetRaceSetup(void) {
         gRaceSetup->mNextEntries[i].mPlayer.mListedCpuSlot = 3;
         gRaceSetup->mNextEntries[i].mPlayer.mIndex = i;
         gRaceSetup->mNextEntries[i].mPlayer.mGhostRecordIndex = 3;
-        gRaceSetup->mNextEntries[i].mPlayer.mUnk_14 = 0;
+        gRaceSetup->mNextEntries[i].mPlayer.mListedCpuFlags = 0;
         gRaceSetup->mNextEntries[i].mPlayer.mName = NULL;
-        gRaceSetup->mNextEntries[i].mPlayer.mUnk_24 = 0;
-        gRaceSetup->mNextEntries[i].mPlayer.mUnk_25 = gStartupWork->mRegion;
+        gRaceSetup->mNextEntries[i].mPlayer.mHasEmblem = 0;
+        gRaceSetup->mNextEntries[i].mPlayer.mRegion = gStartupWork->mRegion;
         gRaceSetup->mNextEntries[i].mPlayer.mEmblemData = NULL;
-        gRaceSetup->mNextEntries[i].mPlayer.mUnk_20 = 0;
+        gRaceSetup->mNextEntries[i].mPlayer.mFriendData = 0;
     }
     gRaceSetup->mNextEntries[7].mPlayer.mListedCpuSlot = 0;
     gRaceSetup->mNextEntries[6].mPlayer.mListedCpuSlot = 1;
@@ -118,124 +118,124 @@ void ResetRaceSetup(void) {
 
 void SetCurrentEntryPlayer(s32 entryIndex) {
     Unk0217aa08 *p;
-    ConnectionWork *q;
+    ConnectionWork *connectionWork;
     void **nameSlot;
     void **emblemDataSlot;
-    u8 *b2;
-    u8 *b3;
-    u8 *b4;
-    DWCAccFriendData **b5;
+    u8 *hasEmblemSlot;
+    u8 *regionSlot;
+    u8 *lowestRecordValueSlot;
+    DWCAccFriendData **exchangeTokenSlot;
     BOOL f;
-    BOOL g;
+    BOOL hasEmblem;
     BOOL t;
-    s8 x;
-    u8 v;
+    s8 participantOfKart;
+    u8 participantIndex;
 
     p = data_0217aa08;
     nameSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName;
     emblemDataSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mEmblemData;
-    b2 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_24;
-    b3 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_25;
-    b4 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_26;
-    b5 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20;
+    hasEmblemSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mHasEmblem;
+    regionSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mRegion;
+    lowestRecordValueSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mLowestGrandPrixRecordValue;
+    exchangeTokenSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mFriendData;
     f = FALSE;
     if (p->mEmblemRecord->mFilled != 0) {
         f = p->mFirstBlock->mUnk_31_3 == 0;
     }
     if (f != FALSE) {
-        g = TRUE;
+        hasEmblem = TRUE;
     } else {
-        g = FALSE;
+        hasEmblem = FALSE;
     }
     *nameSlot = NULL;
     *emblemDataSlot = NULL;
-    *b2 = 0;
-    *b5 = 0;
-    *b3 = gStartupWork->mRegion;
-    *b4 = 0;
+    *hasEmblemSlot = 0;
+    *exchangeTokenSlot = 0;
+    *regionSlot = gStartupWork->mRegion;
+    *lowestRecordValueSlot = 0;
     if (entryIndex == gRaceSetup->mEntryIndex) {
         *nameSlot = &data_0217aa08->mFirstBlock->mPlayerName;
         *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
-        *b2 = g != FALSE ? 1 : 0;
-        *b3 = gStartupWork->mRegion;
-        *b4 = GetLowestGrandPrixRecordValue();
+        *hasEmblemSlot = hasEmblem != FALSE ? 1 : 0;
+        *regionSlot = gStartupWork->mRegion;
+        *lowestRecordValueSlot = GetLowestGrandPrixRecordValue();
         return;
     }
     switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind) {
         case PLAYER_KIND_HUMAN:
-            q = gConnectionWork;
+            connectionWork = gConnectionWork;
             t = FALSE;
-            if ((q == NULL ? 0 : q->mConnectionMode) != 0 && q->mState != 13) {
+            if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
                 t = TRUE;
             }
             if (t == FALSE) {
                 return;
             }
-            if (func_02045084_inline(q, entryIndex) == NULL) {
+            if (func_02045084_inline(connectionWork, entryIndex) == NULL) {
                 return;
             }
-            *nameSlot = func_02045084_inline(q, entryIndex);
+            *nameSlot = func_02045084_inline(connectionWork, entryIndex);
             *emblemDataSlot = &func_02045084_inline(gConnectionWork, entryIndex)->mEmblem[0];
-            *b2 = func_02045084_inline(gConnectionWork, entryIndex)->mHasEmblem;
-            *b3 = func_02045084_inline(gConnectionWork, entryIndex)->mRegion;
-            *b5 = func_02045084_inline2() ||
-                          (gConnectionWork->mGroupSendMask & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
-                      ? 0
-                      : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
-            *b4 = func_02045084_inline(gConnectionWork, entryIndex)->mLowestGrandPrixRecordValue;
+            *hasEmblemSlot = func_02045084_inline(gConnectionWork, entryIndex)->mHasEmblem;
+            *regionSlot = func_02045084_inline(gConnectionWork, entryIndex)->mRegion;
+            *exchangeTokenSlot = func_02045084_inline2() || (gConnectionWork->mGroupSendMask &
+                                                             (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
+                                     ? 0
+                                     : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
+            *lowestRecordValueSlot = func_02045084_inline(gConnectionWork, entryIndex)->mLowestGrandPrixRecordValue;
             break;
         case PLAYER_KIND_GHOST:
             switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
                 case 0:
                     *nameSlot = &data_0217aa08->mCourseGhostRecord->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
-                    *b2 = g != FALSE ? 1 : 0;
-                    *b3 = data_0217aa08->mCourseGhostRecord->mHead.mUnk_08_2;
-                    *b4 = 0;
+                    *hasEmblemSlot = hasEmblem != FALSE ? 1 : 0;
+                    *regionSlot = data_0217aa08->mCourseGhostRecord->mHead.mUnk_08_2;
+                    *lowestRecordValueSlot = 0;
                     break;
                 case 1:
                     *nameSlot = &data_0217aa08->mSlotGhostRecords[0]->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mSlotGhostRecords[0]->mEmblem;
-                    *b2 = data_0217aa08->mSlotGhostRecords[0]->mHead.mHasEmblem;
-                    *b3 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_08_2;
-                    *b4 = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_2f_0;
+                    *hasEmblemSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mHasEmblem;
+                    *regionSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_08_2;
+                    *lowestRecordValueSlot = data_0217aa08->mSlotGhostRecords[0]->mHead.mUnk_2f_0;
                     break;
                 case 2:
                     *nameSlot = &data_0217aa08->mSlotGhostRecords[1]->mHead.mName;
                     *emblemDataSlot = &data_0217aa08->mSlotGhostRecords[1]->mEmblem;
-                    *b2 = 1;
-                    *b3 = data_0217aa08->mSlotGhostRecords[1]->mHead.mUnk_08_2;
-                    *b4 = 1;
+                    *hasEmblemSlot = 1;
+                    *regionSlot = data_0217aa08->mSlotGhostRecords[1]->mHead.mUnk_08_2;
+                    *lowestRecordValueSlot = 1;
                     break;
             }
             break;
         case PLAYER_KIND_PEER:
-            x = gParticipantKartMap->mParticipantOfKart[(u8) entryIndex];
-            if (x < 0) {
+            participantOfKart = GetParticipantOfKart(entryIndex);
+            if (participantOfKart < 0) {
                 return;
             }
-            v = x;
-            *nameSlot = GetPlayerRecordName(v);
-            *emblemDataSlot = GetPlayerRecordEmblem(v);
-            *b2 = HasPlayerRecordEmblem(v);
-            *b3 = GetPlayerRecordRegion(v);
-            *b5 = GetPlayerRecordFriendData(v);
-            *b4 = GetPlayerRecordLowestGrandPrixValue(v);
+            participantIndex = participantOfKart;
+            *nameSlot = GetPlayerRecordName(participantIndex);
+            *emblemDataSlot = GetPlayerRecordEmblem(participantIndex);
+            *hasEmblemSlot = HasPlayerRecordEmblem(participantIndex);
+            *regionSlot = GetPlayerRecordRegion(participantIndex);
+            *exchangeTokenSlot = GetPlayerRecordFriendData(participantIndex);
+            *lowestRecordValueSlot = GetPlayerRecordLowestGrandPrixValue(participantIndex);
             break;
     }
 }
 
 void RefreshListedCpuEntryIndices(void) {
     u8 listedCount;
-    s8 j;
+    s8 entryIndex;
 
     listedCount = 0;
-    for (j = 0; j < 2; j++) {
-        gRaceSetup->mListedCpuEntryIndices[j] = -1;
+    for (entryIndex = 0; entryIndex < 2; entryIndex++) {
+        gRaceSetup->mListedCpuEntryIndices[entryIndex] = -1;
     }
-    for (j = 0; j < gRaceSetup->mKartCount; j++) {
-        if ((gRaceSetup->mCurrentEntries[(u16) j].mPlayer.mUnk_14 & 1) != 0) {
-            gRaceSetup->mListedCpuEntryIndices[(u8) gRaceSetup->mCurrentEntries[j].mPlayer.mListedCpuSlot] = j;
+    for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex++) {
+        if ((gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
+            SetListedCpuEntryIndex(gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot, entryIndex);
             listedCount++;
         }
     }

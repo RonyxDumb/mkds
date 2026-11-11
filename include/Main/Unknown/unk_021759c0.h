@@ -19,6 +19,8 @@ typedef enum { PLAYER_KIND_HUMAN, PLAYER_KIND_CPU, PLAYER_KIND_GHOST, PLAYER_KIN
 
 // Bit set of the kinds 0, 2 and 3 (human, ghost, peer): the entries the mask tests pick out.
 #define PLAYER_KIND_MASK_HUMAN_GHOST_PEER 0xd
+// Bit 0 of KartEntryPlayer.mListedCpuFlags: the entry fills a listed CPU slot.
+#define KART_ENTRY_LISTED_CPU_FLAG 1
 // The 0x28 bytes from 0x08 of each KartEntry entry (code keeps pointers to them).
 typedef struct KartEntryPlayer {
     /* 00 */ u32 mKind;
@@ -26,16 +28,16 @@ typedef struct KartEntryPlayer {
     /* 08 */ s32 mListedCpuSlot;
     /* 0c */ s32 mIndex;
     /* 10 */ s32 mGhostRecordIndex;
-    /* 14 */ u16 mUnk_14;
+    /* 14 */ u16 mListedCpuFlags;
 // Running number among the kind-1 entries; -1 when the entry has none.
     /* 16 */ s8 mNumber;
     /* 17 */ u8 mUnk_17;
     /* 18 */ void *mName;
     /* 1c */ void *mEmblemData;
-    /* 20 */ DWCAccFriendData *mUnk_20;
-    /* 24 */ u8 mUnk_24;
-    /* 25 */ u8 mUnk_25;
-    /* 26 */ u8 mUnk_26;
+    /* 20 */ DWCAccFriendData *mFriendData;
+    /* 24 */ u8 mHasEmblem;
+    /* 25 */ u8 mRegion;
+    /* 26 */ u8 mLowestGrandPrixRecordValue;
     /* 27 */ u8 mUnk_27;
 } KartEntryPlayer;
 
@@ -49,16 +51,23 @@ typedef struct KartEntry {
 
 // Values of the mMode member of RaceSetup and of RaceSetupHeader. The member is set
 // when the race is confirmed and is 0 in the menus before that.
-// Grand Prix (also the value in the menus before a race is confirmed): code_0203b6ac.c:114 stores it as the next mode.
+// Grand Prix (also the value in the menus before a race is confirmed): stored as the next mode.
 #define MODE_GRAND_PRIX 0
-// Time attack: code_020bc11c.c:113 returns early in this mode (the end handling below is not run).
+// Time attack: the end handling below is not run in this mode.
 #define MODE_TIME_ATTACK 1
-// Battle: code_020bc11c.c:119 reads the balloon or shine count of every kart only in this mode.
+// Battle: reads the balloon or shine count of every kart only in this mode.
 #define MODE_BATTLE 2
-// Versus: code_0203ca38.c:36 (shared case with battle) reads the team setting mUseTeams.
+// Versus: shares the case with battle and reads the team setting mUseTeams.
 #define MODE_VS 3
-// Mission run: the mission row and column are read only while the mode has this value (code_02045874.c:372-373).
+// Mission run: the mission row and column are read only while the mode has this value.
 #define MODE_MISSION_RUN 4
+#define MISSION_RUN_BIT_END_IN_CONTACT 4
+#define MISSION_RUN_BIT_END_KART_FLAG_1000 8
+#define MISSION_RUN_BIT_END_NOT_NORMAL 2
+#define MISSION_RUN_BIT_FLIP_FOLLOW_DIRECTION 0x20
+#define MISSION_RUN_BIT_SWAP_LEFT_RIGHT 0x10
+// Bits of RaceSetup.mMissionRunBits; each switches on one mission run rule.
+#define MISSION_RUN_BIT_INPUT_MASK 1
 // WiFi race: the WiFi session and the synced ranks are read only in this mode.
 #define MODE_WIFI 5
 
@@ -155,7 +164,7 @@ typedef struct RaceSetupHeader {
     /* 57 */ s8 mMirrorMode;
     /* 58 */ u8 mUseTeams;
     /* 59 */ u8 mUnk_59[0x3];
-    /* 5c */ s32 mUnk_5c;
+    /* 5c */ s32 mSeed;
     /* 60 */ u16 mCourseNumber;
     /* 62 */ s8 mEntryIndex;
     /* 63 */ u8 mFollowedKartIndex;
@@ -166,13 +175,13 @@ typedef struct RaceSetupHeader {
 // The 0x10 bytes at 0x28 of the object behind gRaceSetup (the same bytes as its mUnk_028 to mUnk_37).
 typedef struct Unk021759c0_28 {
     /* 00 */ u16 mMissionTimeLimitFrameCount;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
+    /* 02 */ u16 mTimeScoreFrameCount;
+    /* 04 */ s16 mTimeScoreWeight;
     /* 06 */ u8 mMissionTableValue;
     /* 07 */ u8 mMissionKind;
     /* 08 */ u8 mUnk_08[6];
-    /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
+    /* 0e */ u8 mMissionCameraTableIndex;
+    /* 0f */ u8 mMissionRunCountLimit;
 } Unk021759c0_28;
 
 #define CPU_DIFFICULTY_HARD 3
@@ -198,22 +207,22 @@ typedef struct RaceSetup {
         Unk021759c0_28 mUnk_28_view;
         struct {
             /* 028 */ u16 mMissionTimeLimitFrameCount;
-            /* 02a */ u16 mUnk_02a;
-            /* 02c */ s16 mUnk_02c;
+            /* 02a */ u16 mTimeScoreFrameCount;
+            /* 02c */ s16 mTimeScoreWeight;
             /* 02e */ u8 mMissionTableValue;
             /* 2f */ u8 mMissionKind;
             /* 030 */ u8 mUnk_030[0x6];
-            /* 036 */ u8 mUnk_036;
+            /* 036 */ u8 mMissionCameraTableIndex;
             /* 37 */ u8 mMissionRunCountLimit;
         };
     };
     /* 038 */ u16 mFinishWaitFrameCount;
     /* 03a */ u8 mUnk_03a[0x2];
-    /* 3c */ u16 mUnk_3c;
-    /* 3e */ u16 mUnk_3e;
-    /* 40 */ u16 mUnk_40;
-    /* 42 */ u16 mUnk_42;
-    /* 044 */ u16 mUnk_044;
+    /* 3c */ u16 mMissionMapObjectKind0;
+    /* 3e */ u16 mMissionMapObjectKind1;
+    /* 40 */ u16 mMissionMapObjectKind2;
+    /* 42 */ u16 mMissionMapObjectKind3;
+    /* 044 */ u16 mMissionRunBits;
     /* 046 */ u8 mUnk_046[0x2];
     /* 048 */ char mMissionRunStem[0xc];
     /* 54 */ s8 mMissionTableRow;
@@ -223,7 +232,7 @@ typedef struct RaceSetup {
     /* 57 */ s8 mMirrorMode;
     /* 58 */ s8 mUseTeams;
     /* 059 */ u8 mUnk_059[0x3];
-    /* 05c */ s32 mUnk_05c;
+    /* 05c */ s32 mSeed;
     /* 60 */ u16 mCourseNumber;
     /* 62 */ s8 mEntryIndex;
     /* 063 */ u8 mFollowedKartIndex;

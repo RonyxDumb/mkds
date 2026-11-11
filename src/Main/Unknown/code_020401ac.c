@@ -139,10 +139,10 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
             missionSettings = &raceSetup->mUnk_28_view;
             entryKartCounters = GetEntryKartCounters();
             scoreTerms.mTimeRemainingScore =
-                FX_Div(
-                    missionSettings->mUnk_04 * (missionSettings->mUnk_02 - raceProgress->mHeader.mElapsedFrames)
-                        << 12,
-                    0x3e8000) >>
+                FX_Div(missionSettings->mTimeScoreWeight *
+                               (missionSettings->mTimeScoreFrameCount - raceProgress->mHeader.mElapsedFrames)
+                           << 12,
+                       0x3e8000) >>
                 12;
             scoreTerms.mFirstPlaceScore = 0;
             scoreTerms.mRaceStartBoostScore = 0;
@@ -215,13 +215,13 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mUnk_3c = (raceProgressKart->mUnk_3c & ~0xf) | ((u16) (kartIndex + 1) & 0xf);
 }
 
-static inline u32 func_020401ac_inline(ConnectionWork *p) {
-    return p == NULL ? 0 : p->mConnectionMode;
+static inline u32 func_020401ac_inline(ConnectionWork *connectionWork) {
+    return connectionWork == NULL ? 0 : connectionWork->mConnectionMode;
 }
 
-static inline void func_020401ac_inline2(RaceProgressHeader *q) {
-    q->mElapsedFrames = 0;
-    q->mClockEnabled = 0;
+static inline void func_020401ac_inline2(RaceProgressHeader *raceProgressHeader) {
+    raceProgressHeader->mElapsedFrames = 0;
+    raceProgressHeader->mClockEnabled = 0;
 }
 
 static inline void func_020401ac_inline3(MinuteSecondMillisecondTime *time, u32 frames) {
@@ -244,7 +244,7 @@ static inline u32 func_020401ac_inline6(RandomState64 *randomState64, u32 limit)
 }
 
 void InitRaceProgress(void) {
-    BOOL f;
+    BOOL entryRaceEnded;
     s32 i;
     u32 seed;
     s32 checkpointNumber;
@@ -255,13 +255,13 @@ void InitRaceProgress(void) {
     u16 entryInRoute;
     u16 checkpointIndex;
     s32 v;
-    ConnectionWork *p;
+    ConnectionWork *connectionWork;
     CourseMapRoute *route;
     CourseMapCheckpoint *checkpoint;
 
     func_020401ac_inline2(&gRaceProgress->mHeader);
     func_020401ac_inline3(&gRaceProgress->mHeader.mClockTime, gRaceProgress->mHeader.mElapsedFrames);
-    f = FALSE;
+    entryRaceEnded = FALSE;
     gRaceProgress->mHeader.mFinishedCount = 0;
     gRaceProgress->mHeader.mRemovedCount = 0;
     gRaceProgress->mRaceDone = 0;
@@ -269,15 +269,15 @@ void InitRaceProgress(void) {
         case RACE_KIND_DEMO:
         case RACE_KIND_REPLAY:
         case RACE_KIND_STAFF_ROLL:
-            f = TRUE;
+            entryRaceEnded = TRUE;
             break;
         case RACE_KIND_NORMAL:
             if (IsEntryRaceEnded() != 0) {
-                f = TRUE;
+                entryRaceEnded = TRUE;
             }
             break;
     }
-    gRaceProgress->mEntryRaceEnded = f;
+    gRaceProgress->mEntryRaceEnded = entryRaceEnded;
     gRaceProgress->mEntryEndKind = 6;
     gRaceProgress->mTimeCountsDown = FALSE;
     gRaceProgress->mTimeLimitFrameCount = 0;
@@ -303,7 +303,7 @@ void InitRaceProgress(void) {
     }
     switch (gRaceSetup->mRaceKind) {
         case RACE_KIND_REPLAY:
-            seed = gRaceSetup->mUnk_05c;
+            seed = gRaceSetup->mSeed;
             break;
         case RACE_KIND_AWARD:
             seed = 0xc240793;
@@ -323,15 +323,15 @@ void InitRaceProgress(void) {
                     seed = 0x5b12f73;
                     break;
                 default:
-                    p = gConnectionWork;
+                    connectionWork = gConnectionWork;
                     v = 0;
-                    if (func_020401ac_inline(p) != 0) {
-                        if (p->mState != 0xd) {
+                    if (func_020401ac_inline(connectionWork) != 0) {
+                        if (connectionWork->mState != 0xd) {
                             v = 1;
                         }
                     }
                     if (v != 0) {
-                        seed = p->mUnk_1eb0;
+                        seed = connectionWork->mUnk_1eb0;
                     } else {
                         a = OS_GetTick();
                         seed = (a << 16) + OS_GetTick();
@@ -342,7 +342,7 @@ void InitRaceProgress(void) {
     }
     func_020401ac_inline4(&gRaceProgress->mRandom, seed);
     gRaceProgress->mSeed = seed;
-    gRaceSetup->mNextHeader.mUnk_5c = seed;
+    gRaceSetup->mNextHeader.mSeed = seed;
     a = OS_GetTick();
     c = OS_GetTick();
     d = OS_GetTick();

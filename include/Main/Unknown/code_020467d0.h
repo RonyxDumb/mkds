@@ -22,7 +22,8 @@ typedef struct StateMachine {
 s32 FindCupIndexOfCourse(s32 courseId);
 u32 GetCupCourseIdAtIndex(s32 courseIndex);
 s32 FindCupCourseIndex();
-void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex, int f);
+void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex,
+                      int listedCpuSlot);
 void RefreshRaceSetupKartCounts(s32 entryCount);
 void CreateRaceSetupObjects(void *heap);
 s32 RunSecondMenuScene(void *sceneNumbers);

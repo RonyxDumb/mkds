@@ -88,7 +88,7 @@ void SetupCameraBehindKart(void) {
     kart = GetKart(gRaceSetup->mEntryIndex);
     SetupCamera(gChaseCamera);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        if (gRaceSetup->mUnk_044 & 0x20) {
+        if (gRaceSetup->mMissionRunBits & MISSION_RUN_BIT_FLIP_FOLLOW_DIRECTION) {
             gChaseCamera->mFollowDirectionSign = -0x1000;
         }
     }

@@ -139,7 +139,7 @@ void UseItemByTargetOrRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kar
 
     raceSetup = gRaceSetup;
     kartIndex = kartAi->mIndex;
-    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0) {
+    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
         if (itemUse->mRandomValue <= 0xc00) {
             itemUse->mItemBitsEveryCall = 1;
             return;
@@ -153,7 +153,7 @@ void UseItemByRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
 
     raceSetup = gRaceSetup;
     kartIndex = kartAi->mIndex;
-    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0) {
+    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
         if (itemUse->mRandomValue <= 0x400) {
             itemUse->mItemBitsEveryCall = 1;
             return;
