@@ -28,10 +28,10 @@ typedef struct Unk021da26c_168c {
 // Object that gApScan points to (0x1e60 bytes).
 typedef struct ApScan {
     /* 0000 */ u8 mUnk_0000[0xf00];
-    /* 0f00 */ u8 mUnk_0f00[0x400];
-    /* 1300 */ ApScanEntry mUnk_1300[0x14];
-    /* 1648 */ ScanParamBlock mUnk_1648;
-    /* 168c */ Unk021da26c_168c mUnk_168c;
+    /* 0f00 */ u8 mScanBuf[0x400];
+    /* 1300 */ ApScanEntry mEntries[0x14];
+    /* 1648 */ ScanParamBlock mScanParam;
+    /* 168c */ Unk021da26c_168c mStatus;
     /* 1e48 */ u8 mUnk_1e48;
     /* 1e49 */ u8 mUnk_1e49[0x17];
 } ApScan;

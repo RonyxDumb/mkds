@@ -712,10 +712,10 @@ void decrypt_premaster_secret(u8 *secret, const u8 *encrypted, CPSPrivateKey *pr
     u16 *j;
     u16 *k;
     s32 digitCount;
-    if (privateKey == NULL || privateKey->mUnk_00 == 0) {
+    if (privateKey == NULL || privateKey->mModulusLength == 0) {
         return;
     }
-    digitCount = privateKey->mUnk_00 * 2;
+    digitCount = privateKey->mModulusLength * 2;
     digitCount = digitCount / 2 + 1;
     workBlock = (u16 *) CPSiAlloc(digitCount * 0x14);
     if (workBlock == NULL) {
@@ -728,20 +728,20 @@ void decrypt_premaster_secret(u8 *secret, const u8 *encrypted, CPSPrivateKey *pr
     i = h + digitCount;
     j = i + digitCount;
     k = j + digitCount;
-    CPSi_big_from_char(workBlock, encrypted, privateKey->mUnk_00, digitCount);
-    CPSi_big_from_char(e, privateKey->mUnk_1c, privateKey->mUnk_18, digitCount);
-    CPSi_big_from_char(i, privateKey->mUnk_0c, privateKey->mUnk_08, digitCount);
+    CPSi_big_from_char(workBlock, encrypted, privateKey->mModulusLength, digitCount);
+    CPSi_big_from_char(e, privateKey->mExponent1, privateKey->mExponent1Length, digitCount);
+    CPSi_big_from_char(i, privateKey->mPrime1, privateKey->mPrime1Length, digitCount);
     CPSi_big_montpower(g, workBlock, e, digitCount, i);
-    CPSi_big_from_char(e, privateKey->mUnk_24, privateKey->mUnk_20, digitCount);
-    CPSi_big_from_char(i, privateKey->mUnk_14, privateKey->mUnk_10, digitCount);
+    CPSi_big_from_char(e, privateKey->mExponent2, privateKey->mExponent2Length, digitCount);
+    CPSi_big_from_char(i, privateKey->mPrime2, privateKey->mPrime2Length, digitCount);
     CPSi_big_montpower(h, workBlock, e, digitCount, i);
     CPSi_big_sub(workBlock, g, h, digitCount);
-    CPSi_big_from_char(e, privateKey->mUnk_2c, privateKey->mUnk_28, digitCount);
+    CPSi_big_from_char(e, privateKey->mCoefficient, privateKey->mCoefficientLength, digitCount);
     CPSi_big_mult(f, workBlock, e, digitCount);
-    CPSi_big_from_char(e, privateKey->mUnk_14, privateKey->mUnk_10, digitCount);
+    CPSi_big_from_char(e, privateKey->mPrime2, privateKey->mPrime2Length, digitCount);
     CPSi_big_mult(workBlock, f, e, digitCount);
     CPSi_big_add(f, workBlock, h, digitCount);
-    CPSi_big_from_char(e, privateKey->mUnk_04, privateKey->mUnk_00, digitCount);
+    CPSi_big_from_char(e, privateKey->mModulus, privateKey->mModulusLength, digitCount);
     if (CPSi_big_sign(f, digitCount) < 0) {
         CPSi_big_negate(f, digitCount);
         CPSi_big_div(NULL, f, e, j, digitCount, k);
@@ -1669,8 +1669,7 @@ s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(CPSSoc *connection) {
     return httpsState->mReceivedBlockEnd - httpsState->mReceivedBlockOffset;
 }
 
-s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength,
-                           CPSSoc *connection) {
+s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength, CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     s32 remaining = firstLength + secondLength;
     u8 *record;

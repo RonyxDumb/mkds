@@ -14,12 +14,12 @@
 // Argument of DWC_AC_Create: the first two words go to the ACHOLD and the DWCNetcheckParam it sets up, the
 // bytes at 8 to 0xb to the object at gAcWork.
 typedef struct DWCACConfig {
-    /* 00 */ void *(*mUnk_00)();
-    /* 04 */ void (*mUnk_04)();
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b;
+    /* 00 */ void *(*mAlloc)();
+    /* 04 */ void (*mFree)();
+    /* 08 */ u8 mDmaNo;
+    /* 09 */ u8 mPowerMode;
+    /* 0a */ u8 mConnectType;
+    /* 0b */ u8 mSkipNetCheck;
 } DWCACConfig;
 
 // Argument of DWCi_AC_CallBackWCM.
@@ -34,7 +34,6 @@ static inline void func_0214d018_inline(void *p, u32 n) {
     vu32 v = 0;
     MIi_CpuClear32(v, p, n);
 }
-
 
 BOOL DWC_AC_Destroy(void);
 u32 DWC_AC_GetStatus(void);

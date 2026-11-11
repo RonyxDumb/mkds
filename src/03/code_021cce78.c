@@ -35,10 +35,10 @@ void ApScanCallback(Unk021425e8 *message) {
 }
 
 void StoreApScanEntries(WMStartScanExCallback *scanResult) {
-    ApScanEntry *entries = gApScan->mUnk_1300;
+    ApScanEntry *entries = gApScan->mEntries;
     s32 i;
     s32 j;
-    DC_InvalidateRange(gApScan->mUnk_0f00, 0x400);
+    DC_InvalidateRange(gApScan->mScanBuf, 0x400);
     for (i = 0; i < scanResult->mBssDescCount; i++) {
         Unk021ccf30_10 *bssDesc = scanResult->mBssDesc[i];
         if (bssDesc->mUnk_0c[0] != 0 && bssDesc->mUnk_3c == 0) {

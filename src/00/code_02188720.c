@@ -237,11 +237,11 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     DWCNetcheckParam *netCheckParam;
     s32 result;
 
-    gAcHold = config->mUnk_00(1, 0x18);
+    gAcHold = config->mAlloc(1, 0x18);
     func_0214d018_inline(gAcHold, 0x18);
     hold = gAcHold;
-    hold->mAlloc = config->mUnk_00;
-    hold->mFree = config->mUnk_04;
+    hold->mAlloc = config->mAlloc;
+    hold->mFree = config->mFree;
     hold->mPhase = 1;
     hold->mEndSequence = 1;
     hold->mAllocState = 1;
@@ -254,14 +254,14 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     func_0214d018_inline(gSocConfig, 0x58);
     func_0214d018_inline(gNetCheck, 0xc);
     work = gAcWork;
-    work->mUnk_d0a = config->mUnk_08;
-    work->mUnk_d0b_0 = config->mUnk_09;
+    work->mUnk_d0a = config->mDmaNo;
+    work->mUnk_d0b_0 = config->mPowerMode;
     netCheckParam = gNetCheck;
-    netCheckParam->mAlloc = config->mUnk_00;
-    netCheckParam->mFree = config->mUnk_04;
+    netCheckParam->mAlloc = config->mAlloc;
+    netCheckParam->mFree = config->mFree;
     netCheckParam->mUnk_08 = 0;
-    work->mUnk_d0c_0 = config->mUnk_0a;
-    work->mSkipNetCheck = config->mUnk_0b;
+    work->mUnk_d0c_0 = config->mConnectType;
+    work->mSkipNetCheck = config->mSkipNetCheck;
     ReadNvramFirstThreeEntries(work);
     result = WCM_Init(gWcmBuffer, 0x2300);
     if (result == 1 || result >= 4) {

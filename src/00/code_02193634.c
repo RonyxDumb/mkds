@@ -105,8 +105,8 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(searchArg, 0, 0x10);
-                searchArg->mUnk_00 = operation->mResult;
-                searchArg->mUnk_0c = 0;
+                searchArg->mResult = operation->mResult;
+                searchArg->mMatches = 0;
                 result = GpiQueueCallback(connection, callback, searchArg, operation, 0);
                 if (result != 0) {
                     return result;

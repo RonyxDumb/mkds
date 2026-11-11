@@ -22,7 +22,7 @@ void CreateEndingScene(void *heap) {
     gEndingScene->mNextScene = -1;
     gEndingScene->mState = 0;
     gEndingScene->mNextState = gEndingScene->mState;
-    gEndingScene->mUnk_008 = 0;
+    gEndingScene->mStateFrames = 0;
     if (gRaceSetup->mCourseId == COURSE_ID_STAFFROLLTRUE) {
         gEndingScene->mKind = 1;
     } else {
@@ -171,10 +171,10 @@ void AdvanceEndingSceneState0(void) {
 }
 
 void AdvanceEndingSceneState1(void) {
-    gEndingScene->mUnk_008++;
-    if (gEndingScene->mUnk_008 > gEndingSceneStateTable[gEndingScene->mState]) {
+    gEndingScene->mStateFrames++;
+    if (gEndingScene->mStateFrames > gEndingSceneStateTable[gEndingScene->mState]) {
         gEndingScene->mNextState = 2;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->mStateFrames = 0;
         StartFadeToFadedNegative(gEndingSceneStateTable[2]);
     }
 }
@@ -190,11 +190,11 @@ void AdvanceEndingSceneState2(void) {
 void AdvanceEndingSceneState3(void) {
     EndingScene *endingScene;
 
-    gEndingScene->mUnk_008++;
+    gEndingScene->mStateFrames++;
     endingScene = gEndingScene;
-    if (endingScene->mUnk_008 > gEndingSceneStateTable[3]) {
+    if (endingScene->mStateFrames > gEndingSceneStateTable[3]) {
         endingScene->mNextState = 4;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->mStateFrames = 0;
         StartFadeToClearNegative(gEndingSceneStateTable[4]);
         QueueEndingSceneIndex1Data();
     }
@@ -215,9 +215,9 @@ void AdvanceEndingSceneState5(void) {
     BOOL recentlyLost;
     u16 hasPair;
 
-    gEndingScene->mUnk_008++;
-    if (gEndingScene->mUnk_008 > gEndingSceneStateTable[gEndingScene->mState]) {
-        gEndingScene->mUnk_008 = gEndingSceneStateTable[gEndingScene->mState];
+    gEndingScene->mStateFrames++;
+    if (gEndingScene->mStateFrames > gEndingSceneStateTable[gEndingScene->mState]) {
+        gEndingScene->mStateFrames = gEndingSceneStateTable[gEndingScene->mState];
         keyPressed = gInputSlots[slotIndex].mPressedBits & 0xc0f;
         if (keyPressed == 0) {
             touchBegan = FALSE;
@@ -234,7 +234,7 @@ void AdvanceEndingSceneState5(void) {
             }
         }
         gEndingScene->mNextState = 6;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->mStateFrames = 0;
         StartFadeToFadedNegative(gEndingSceneStateTable[6]);
     }
 }
@@ -242,13 +242,13 @@ void AdvanceEndingSceneState5(void) {
 void AdvanceEndingSceneState6(void) {
     if (AreBrightnessFadesFaded() != 0) {
         gEndingScene->mNextState = 7;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->mStateFrames = 0;
     }
 }
 
 void AdvanceEndingSceneState7(void) {
-    gEndingScene->mUnk_008++;
-    if (gEndingScene->mUnk_008 > gEndingSceneStateTable[7]) {
+    gEndingScene->mStateFrames++;
+    if (gEndingScene->mStateFrames > gEndingSceneStateTable[7]) {
         gEndingScene->mNextScene = 0;
     }
 }

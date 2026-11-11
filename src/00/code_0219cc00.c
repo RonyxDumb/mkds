@@ -32,41 +32,41 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
     s32 matchSlot;
     s32 k;
     s32 buddyIndex;
-    if (arg->mUnk_00 == 0 && arg->mUnk_04 != 0 && GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) != 0) {
+    if (arg->mResult == 0 && arg->mNumMatches != 0 && GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) != 0) {
         if (gWiFiBuddySync->mState == 1) {
             gWiFiBuddySync->mBuddiesChanged = 1;
-            for (matchSlot = 0; matchSlot < arg->mUnk_04; matchSlot++) {
+            for (matchSlot = 0; matchSlot < arg->mNumMatches; matchSlot++) {
                 if (DWCi_RefreshFriendListForth(gWiFiBuddySync->mBuddies, friendIdx,
-                                                arg->mUnk_0c[matchSlot].mUnk_00) != FALSE) {
+                                                arg->mMatches[matchSlot].mUnk_00) != FALSE) {
                     gWiFiBuddySync->mSyncIndex++;
                     gWiFiBuddySync->mBuddyUpdateState = 1;
-                    arg->mUnk_08 = 0x601;
+                    arg->mMore = 0x601;
                     return;
                 }
             }
             k = 0;
-            for (matchSlot = 0; matchSlot < arg->mUnk_04; matchSlot++) {
-                ReportBuddySyncGpResult(GpGetBuddyIndex(connection, arg->mUnk_0c[matchSlot].mUnk_00, &buddyIndex));
+            for (matchSlot = 0; matchSlot < arg->mNumMatches; matchSlot++) {
+                ReportBuddySyncGpResult(GpGetBuddyIndex(connection, arg->mMatches[matchSlot].mUnk_00, &buddyIndex));
                 if (buddyIndex == ~k) {
-                    DWCi_GPSendBuddyRequest(arg->mUnk_0c[matchSlot].mUnk_00);
+                    DWCi_GPSendBuddyRequest(arg->mMatches[matchSlot].mUnk_00);
                 } else {
-                    InitFriendDataFromGsProfileId(&gWiFiBuddySync->mBuddies[friendIdx], arg->mUnk_0c[0].mUnk_00);
+                    InitFriendDataFromGsProfileId(&gWiFiBuddySync->mBuddies[friendIdx], arg->mMatches[0].mUnk_00);
                     DWCi_SetBuddyFriendData(&gWiFiBuddySync->mBuddies[friendIdx]);
                     DWCi_CallBuddyFriendCallback(friendIdx);
                     gWiFiBuddySync->mSyncIndex++;
                     gWiFiBuddySync->mBuddyUpdateState = 1;
-                    arg->mUnk_08 = 0x601;
+                    arg->mMore = 0x601;
                     return;
                 }
             }
-            if (arg->mUnk_08 != 0x600) {
+            if (arg->mMore != 0x600) {
                 gWiFiBuddySync->mSyncIndex++;
                 gWiFiBuddySync->mBuddyUpdateState = 1;
             }
         }
     } else {
-        if (arg->mUnk_00 != 0) {
-            if (ReportBuddySyncGpResult(arg->mUnk_00) != 0) {
+        if (arg->mResult != 0) {
+            if (ReportBuddySyncGpResult(arg->mResult) != 0) {
                 return;
             }
         } else if (gWiFiBuddySync->mState == 1 || GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) == 0) {

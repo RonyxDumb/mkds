@@ -60,10 +60,10 @@ void DWC_ConnectInetAsync(void) {
             return;
         }
         MI_CpuFill8(&config, 0, 12);
-        config.mUnk_08 = gInetControl->mDmaNo;
-        config.mUnk_09 = gInetControl->mPowerMode;
-        config.mUnk_00 = DWC_Alloc;
-        config.mUnk_04 = DWC_Free;
+        config.mDmaNo = gInetControl->mDmaNo;
+        config.mPowerMode = gInetControl->mPowerMode;
+        config.mAlloc = DWC_Alloc;
+        config.mFree = DWC_Free;
         gInetControl->mState = 2;
         if (DWC_AC_Create(&config) != 0) {
             return;

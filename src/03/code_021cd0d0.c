@@ -28,17 +28,17 @@ void ReleaseApScan(void) {
 BOOL InitApScan(void) {
     ApScan *apScan;
     volatile u16 zeroValue = 0;
-    MIi_CpuClear16(zeroValue, gApScan->mUnk_1300, 0x348);
+    MIi_CpuClear16(zeroValue, gApScan->mEntries, 0x348);
     if (WM_Initialize(gApScan, ApScanCallback, 3) != 2) {
         return 0;
     }
     do {
-        WM_ReadStatus(&gApScan->mUnk_168c);
-    } while (gApScan->mUnk_168c.mState != 2);
+        WM_ReadStatus(&gApScan->mStatus);
+    } while (gApScan->mStatus.mState != 2);
     apScan = gApScan;
-    apScan->mUnk_1648 = gApScanParamTemplate;
-    apScan->mUnk_1648.mUnk_00.mScanBuf = apScan->mUnk_0f00;
-    gApScan->mUnk_1648.mUnk_00.mMaxChannelTime = WM_GetDispersionScanPeriod();
+    apScan->mScanParam = gApScanParamTemplate;
+    apScan->mScanParam.mUnk_00.mScanBuf = apScan->mScanBuf;
+    gApScan->mScanParam.mUnk_00.mMaxChannelTime = WM_GetDispersionScanPeriod();
     if (StartApScan() != 0) {
         return 1;
     }
@@ -47,7 +47,7 @@ BOOL InitApScan(void) {
 
 BOOL StartApScan(void) {
     int startResult;
-    startResult = WM_StartScanEx(ApScanCallback, &gApScan->mUnk_1648.mUnk_00);
+    startResult = WM_StartScanEx(ApScanCallback, &gApScan->mScanParam.mUnk_00);
     if (startResult == 2) {
         return 1;
     }
@@ -56,14 +56,14 @@ BOOL StartApScan(void) {
 
 BOOL StopApScan(void) {
     gApScan->mUnk_1e48 = 1;
-    WM_ReadStatus(&gApScan->mUnk_168c);
-    if (gApScan->mUnk_168c.mState != 2) {
+    WM_ReadStatus(&gApScan->mStatus);
+    if (gApScan->mStatus.mState != 2) {
         if (WM_Reset(ApScanCallback) != 2) {
             return 0;
         }
         do {
-            WM_ReadStatus(&gApScan->mUnk_168c);
-        } while (gApScan->mUnk_168c.mState != 2);
+            WM_ReadStatus(&gApScan->mStatus);
+        } while (gApScan->mStatus.mState != 2);
     }
     if (WM_End(ApScanCallback) != 2) {
         return 0;
@@ -77,7 +77,7 @@ int CountApScanEntries(int *entriesOut) {
     int entryAddress;
     int bssidDiff;
     entryCount = 0;
-    *entriesOut = (s32) gApScan->mUnk_1300;
+    *entriesOut = (s32) gApScan->mEntries;
     slotIndex = 0;
     entryAddress = *entriesOut;
     do {

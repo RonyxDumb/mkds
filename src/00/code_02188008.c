@@ -175,7 +175,7 @@ u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
         return 4;
     }
     MI_CpuFill8(gNetcheck, 0, 0x1200);
-    gNetcheck->mUnk_04 = -99999;
+    gNetcheck->mReturnCode = -99999;
     gNetcheck->mParam = *param;
     if (gHttp != NULL) {
         return 4;
@@ -212,8 +212,8 @@ void DWC_Netcheck_Destroy(void) {
 
 void DWCi_Netcheck_StartThread(void) {
     if (gNetcheck->mThread.mId == 0 || OS_IsThreadTerminated(&gNetcheck->mThread) != 0) {
-        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck, gNetcheck->mUnk_1200,
-                        0x1000, 0x10);
+        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck,
+                        gNetcheck->mThreadStack, 0x1000, 0x10);
         OS_WakeupThreadDirect(&gNetcheck->mThread);
     }
 }

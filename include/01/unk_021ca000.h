@@ -8,7 +8,7 @@
 typedef struct EndingScene {
     /* 000 */ s32 mState;
     /* 004 */ s32 mNextState;
-    /* 008 */ s32 mUnk_008;
+    /* 008 */ s32 mStateFrames;
     /* 00c */ s32 mKind;
     /* 010 */ void *mHeap;
     /* 014 */ s16 mNextScene;

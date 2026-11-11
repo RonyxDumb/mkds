@@ -32,13 +32,13 @@
 // Object of 0x308 bytes that GpiStartConnect allocates and fills.
 typedef struct GPIConnectData {
     /* 000 */ char mUnk_000[0x80];
-    /* 080 */ char mUnk_080[0x21];
-    /* 0a1 */ char mUnk_0a1[0x21];
-    /* 0c2 */ s8 mUnk_0c2[0x100];
-    /* 1c2 */ s8 mUnk_1c2[0x100];
-    /* 2c2 */ char mUnk_2c2[0x41];
+    /* 080 */ char mUserChallenge[0x21];
+    /* 0a1 */ char mPasswordHash[0x21];
+    /* 0c2 */ s8 mAuthtoken[0x100];
+    /* 1c2 */ s8 mPartnerChallenge[0x100];
+    /* 2c2 */ char mCdkey[0x41];
     /* 303 */ u8 mUnk_303;
-    /* 304 */ s32 mUnk_304;
+    /* 304 */ s32 mNewUser;
 } GPIConnectData;
 
 // Object that GpiCreateOperation returns through its fourth argument.
@@ -76,7 +76,6 @@ typedef union Unk021919ac_sa {
     } f;
     u32 w[2];
 } Unk021919ac_sa;
-
 
 void randomString(s8 *buffer, s32 numChars);
 u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data);

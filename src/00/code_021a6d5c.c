@@ -501,7 +501,7 @@ s32 SOCLi_GetReadBufferOccpiedSize(SOCLSocket *socket) {
         kind = socket->mFlagMode;
         if (kind == 1) {
             if (inPipe->mUdpDataOut != NULL) {
-                size = inPipe->mUdpDataOut->mUnk_04;
+                size = inPipe->mUdpDataOut->mSize;
             }
         } else if ((kind == 0) || (kind == 4)) {
             size = socket->mReceiveBufferLength - inPipe->mConsumed;
@@ -739,7 +739,7 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
         } else if (socket->mFlagMode == 1) {
             datagram = socket->mReceiveBlock->mUdpDataOut;
             while (datagram != NULL) {
-                nextDatagram = datagram->mUnk_00;
+                nextDatagram = datagram->mNext;
                 SOCLiConfigPtr->mFree(datagram);
                 datagram = nextDatagram;
             }
@@ -1333,20 +1333,20 @@ s32 SOCLi_ReadUdpBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
         datagram = inPipe->mUdpDataOut;
     }
     if (datagram != NULL) {
-        if (length > datagram->mUnk_04) {
-            length = datagram->mUnk_04;
+        if (length > datagram->mSize) {
+            length = datagram->mSize;
         }
-        MI_CpuCopy8(datagram->mUnk_0c, buffer, length);
+        MI_CpuCopy8(datagram->mData, buffer, length);
         if (remotePort != NULL) {
-            *remotePort = datagram->mUnk_06;
+            *remotePort = datagram->mRemotePort;
         }
         if (peerAddr != NULL) {
-            *peerAddr = datagram->mUnk_08;
+            *peerAddr = datagram->mRemoteIp;
         }
-        result = datagram->mUnk_04;
+        result = datagram->mSize;
         if (inPipe->mNoConsume == 0) {
-            inPipe->mUdpDataOut = datagram->mUnk_00;
-            if (datagram->mUnk_00 == NULL) {
+            inPipe->mUdpDataOut = datagram->mNext;
+            if (datagram->mNext == NULL) {
                 inPipe->mUdpDataIn = NULL;
             }
             SOCLiConfigPtr->mFree(datagram);
@@ -1364,18 +1364,18 @@ s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket) {
         SOCLiSocketUdpData *datagram = SOCLiConfigPtr->mAlloc(length + 0xc);
         if (datagram != NULL) {
             inPipe->mUdpDataSize += length;
-            datagram->mUnk_00 = NULL;
-            datagram->mUnk_04 = length;
-            datagram->mUnk_06 = socket->mCpsRemotePort;
-            datagram->mUnk_08 = socket->mCpsRemoteIp;
-            MI_CpuCopy8(data, datagram->mUnk_0c, length);
+            datagram->mNext = NULL;
+            datagram->mSize = length;
+            datagram->mRemotePort = socket->mCpsRemotePort;
+            datagram->mRemoteIp = socket->mCpsRemoteIp;
+            MI_CpuCopy8(data, datagram->mData, length);
             if (socket->mLocalPort == 0) {
                 socket->mLocalPort = socket->mCpsLocalPort;
             }
             socket->mCpsRemotePort = socket->mCpsRemotePortBound;
             socket->mCpsRemoteIp = socket->mCpsRemoteIpBound;
             if (((const SOCLiSocketRecvCommandPipe *) inPipe)->mUdpDataIn != NULL) {
-                inPipe->mUdpDataIn->mUnk_00 = datagram;
+                inPipe->mUdpDataIn->mNext = datagram;
             }
             inPipe->mUdpDataIn = datagram;
             if (inPipe->mUdpDataOut == NULL) {

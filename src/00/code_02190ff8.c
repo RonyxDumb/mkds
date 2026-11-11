@@ -164,13 +164,13 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
         return 1;
     }
     memset(data, 0, 0x308);
-    data->mUnk_304 = newuser;
+    data->mNewUser = newuser;
     if (*authtoken != 0 && *partnerchallenge != 0) {
-        GpiCopyString((char *) data->mUnk_0c2, (const char *) authtoken, 0x100);
-        GpiCopyString((char *) data->mUnk_1c2, (const char *) partnerchallenge, 0x100);
+        GpiCopyString((char *) data->mAuthtoken, (const char *) authtoken, 0x100);
+        GpiCopyString((char *) data->mPartnerChallenge, (const char *) partnerchallenge, 0x100);
     }
     if (cdkey != NULL) {
-        GpiCopyString(data->mUnk_2c2, cdkey, 0x41);
+        GpiCopyString(data->mCdkey, cdkey, 0x41);
     }
     result = GpiCreateOperation(connection, 0, (s32) data, (s32 *) &pendingOp, blocking, callback, param);
     if (result != 0) {
@@ -203,23 +203,23 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     u16 port;
 
     gpState = connection->mGpiConnection;
-    randomString((s8 *) data->mUnk_080, 0x20);
-    if (data->mUnk_1c2[0] != 0) {
-        passwordPtr = data->mUnk_1c2;
+    randomString((s8 *) data->mUserChallenge, 0x20);
+    if (data->mPartnerChallenge[0] != 0) {
+        passwordPtr = data->mPartnerChallenge;
     } else {
         passwordPtr = gpState->mPassword;
     }
-    MD5Digest((const char *) passwordPtr, strlen((const char *) passwordPtr), data->mUnk_0a1);
-    if (data->mUnk_0c2[0] != 0) {
-        loginName = data->mUnk_0c2;
+    MD5Digest((const char *) passwordPtr, strlen((const char *) passwordPtr), data->mPasswordHash);
+    if (data->mAuthtoken[0] != 0) {
+        loginName = data->mAuthtoken;
     } else if (gpState->mUniquenick[0] != 0) {
         loginName = gpState->mUniquenick;
     } else {
         sprintf(loginNameBuf, gNickEmailFormat, gpState->mNick, gpState->mEmail);
         loginName = (s8 *) loginNameBuf;
     }
-    sprintf(buffer, gChallengeResponseFormat, data->mUnk_0a1, gSpacePadding, loginName, data->mUnk_080, data,
-            data->mUnk_0a1);
+    sprintf(buffer, gChallengeResponseFormat, data->mPasswordHash, gSpacePadding, loginName, data->mUserChallenge, data,
+            data->mPasswordHash);
     MD5Digest(buffer, strlen(buffer), response);
     if (gpState->mInfoCaching != 0) {
         gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, (void **) &profileRec);
@@ -230,10 +230,10 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     }
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gLoginKey);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gChallengeKey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data->mUnk_080);
-    if (data->mUnk_0c2[0] != 0) {
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data->mUserChallenge);
+    if (data->mAuthtoken[0] != 0) {
         GpiAppendBufferString(connection, &gpState->mOutputBuffer, gAuthtokenKey);
-        GpiAppendBufferString(connection, &gpState->mOutputBuffer, data->mUnk_0c2);
+        GpiAppendBufferString(connection, &gpState->mOutputBuffer, data->mAuthtoken);
     } else if (gpState->mUniquenick[0] != 0) {
         GpiAppendBufferString(connection, &gpState->mOutputBuffer, gUniquenickKey);
         GpiAppendBufferString(connection, &gpState->mOutputBuffer, gpState->mUniquenick);

@@ -32,7 +32,7 @@ void DWC_Netcheck_Abort(void) {
         if (gNetcheck->mThread.mId != 0) {
             OS_JoinThread(&gNetcheck->mThread);
         }
-        gNetcheck->mUnk_04 = 0xfffffff9;
+        gNetcheck->mReturnCode = 0xfffffff9;
     }
 }
 
@@ -68,7 +68,7 @@ void DWCi_Netcheck_Thread(void) {
         gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
         gHttpParam.mFree = gNetcheck->mParam.mFree;
         gHttpParam.mTimeoutMillis = 20000;
-        gNetcheck->mUnk_04 = -2;
+        gNetcheck->mReturnCode = -2;
         if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
@@ -86,7 +86,7 @@ void DWCi_Netcheck_Thread(void) {
         http = gHttp;
         switch (http->mResult) {
             case 2:
-                gNetcheck->mUnk_04 = -1;
+                gNetcheck->mReturnCode = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
@@ -108,7 +108,7 @@ void DWCi_Netcheck_Thread(void) {
             if (r == 0x12e) {
                 netcheck = gNetcheck;
                 if (netcheck->mBodyWayport != NULL) {
-                    netcheck->mUnk_04 = -6;
+                    netcheck->mReturnCode = -6;
                     ReleaseHttp(gHttp);
                     gHttpParam.mUrl = DWCauthhttpparam.mUrl;
                     gHttpParam.mAction = FALSE;
@@ -167,7 +167,7 @@ void DWCi_Netcheck_Thread(void) {
                     http = gHttp;
                     switch (http->mResult) {
                         case 2:
-                            gNetcheck->mUnk_04 = -1;
+                            gNetcheck->mReturnCode = -1;
                         default:
                             ReleaseHttp(gHttp);
                             DWCi_Netcheck_SetError(3);
@@ -201,7 +201,7 @@ void DWCi_Netcheck_Thread(void) {
         ReleaseHttp(gHttp);
         DWCi_BM_GetWiFiInfo(&wiFiInfo);
         if (wiFiInfo.mAttestedUserId == 0) {
-            gNetcheck->mUnk_04 = -3;
+            gNetcheck->mReturnCode = -3;
             gAuthParam.mIngamesn[0] = 0;
             gAuthParam.mGsbrcd[0] = 0;
             gAuthParam.mAlloc = gNetcheck->mParam.mAlloc;
@@ -213,10 +213,10 @@ void DWCi_Netcheck_Thread(void) {
             DWC_Auth_Join();
             if (DWC_Auth_GetError() != 20) {
                 if (DWC_Auth_GetError() == 9) {
-                    gNetcheck->mUnk_04 = -1;
+                    gNetcheck->mReturnCode = -1;
                 } else {
                     DWC_Auth_GetResult(&authResult.mReturnCode);
-                    gNetcheck->mUnk_04 = authResult.mReturnCode;
+                    gNetcheck->mReturnCode = authResult.mReturnCode;
                 }
                 DWCi_Netcheck_SetError(6);
                 break;
@@ -224,11 +224,11 @@ void DWCi_Netcheck_Thread(void) {
             DWC_Auth_Destroy();
         }
         if (r == 200) {
-            gNetcheck->mUnk_04 = 0;
+            gNetcheck->mReturnCode = 0;
             DWCi_Netcheck_SetError(11);
             break;
         }
-        gNetcheck->mUnk_04 = -4;
+        gNetcheck->mReturnCode = -4;
         gHttpParam.mUrl = DWCauthhttpparam.mUrl;
         gHttpParam.mAction = FALSE;
         gHttpParam.mReceiveBufferStart = NULL;
@@ -286,7 +286,7 @@ void DWCi_Netcheck_Thread(void) {
         http = gHttp;
         switch (http->mResult) {
             case 2:
-                gNetcheck->mUnk_04 = -1;
+                gNetcheck->mReturnCode = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
@@ -398,7 +398,7 @@ void DWCi_Netcheck_Thread(void) {
             }
         }
         ReleaseHttp(gHttp);
-        gNetcheck->mUnk_04 = -5;
+        gNetcheck->mReturnCode = -5;
         gHttpParam.mUrl = urlText;
         gHttpParam.mAction = FALSE;
         gHttpParam.mReceiveBufferStart = NULL;
@@ -428,7 +428,7 @@ void DWCi_Netcheck_Thread(void) {
         http = gHttp;
         switch (http->mResult) {
             case 2:
-                gNetcheck->mUnk_04 = -1;
+                gNetcheck->mReturnCode = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
@@ -485,7 +485,7 @@ void DWCi_Netcheck_SetError(u32 error) {
 }
 
 u32 DWC_Netcheck_GetReturnCode(void) {
-    return gNetcheck->mUnk_04;
+    return gNetcheck->mReturnCode;
 }
 
 s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {

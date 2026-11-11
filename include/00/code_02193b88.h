@@ -26,10 +26,10 @@ typedef struct NewProfileReply {
 } NewProfileReply;
 
 typedef struct ProfileSearchReply {
-    /* 0 */ s32 mUnk_00;
-    /* 4 */ s32 mUnk_04;
-    /* 8 */ s32 mUnk_08;
-    /* c */ Unk0219c400Entry *mUnk_0c;
+    /* 0 */ s32 mResult;
+    /* 4 */ s32 mNumMatches;
+    /* 8 */ s32 mMore;
+    /* c */ Unk0219c400Entry *mMatches;
 } ProfileSearchReply;
 
 typedef struct RegisterNickReply {

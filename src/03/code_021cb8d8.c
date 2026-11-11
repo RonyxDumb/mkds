@@ -113,9 +113,9 @@ void StartConnectRequest(void) {
     MIi_CpuCopy32(gConnectParamsTemplate, &connectParams, 0xc);
     GetSecondaryMenuPair(NULL, &secondaryPairSecond);
     if (secondaryPairSecond == 2) {
-        connectParams.mUnk_0a = 4;
+        connectParams.mConnectType = 4;
     } else {
-        connectParams.mUnk_0a = record->mEntryIndex + 1;
+        connectParams.mConnectType = record->mEntryIndex + 1;
     }
     if (DWC_AC_Create(&connectParams) == 0) {
         OS_Terminate();

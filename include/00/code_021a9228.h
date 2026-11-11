@@ -5,7 +5,6 @@
 
 typedef struct HttpsState HttpsState;
 
-
 #include "00/unk_021b4000.h"
 #include "Main/Unknown/unk_0216f000.h"
 
@@ -27,18 +26,18 @@ typedef struct HttpsState HttpsState;
 
 // Six length and pointer pairs.
 typedef struct CPSPrivateKey {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ const u8 *mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ const u8 *mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ const u8 *mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ const u8 *mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ const u8 *mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ const u8 *mUnk_2c;
+    /* 00 */ u32 mModulusLength;
+    /* 04 */ const u8 *mModulus;
+    /* 08 */ u32 mPrime1Length;
+    /* 0c */ const u8 *mPrime1;
+    /* 10 */ u32 mPrime2Length;
+    /* 14 */ const u8 *mPrime2;
+    /* 18 */ u32 mExponent1Length;
+    /* 1c */ const u8 *mExponent1;
+    /* 20 */ u32 mExponent2Length;
+    /* 24 */ const u8 *mExponent2;
+    /* 28 */ u32 mCoefficientLength;
+    /* 2c */ const u8 *mCoefficient;
 } CPSPrivateKey;
 
 typedef struct HttpsState HttpsState;

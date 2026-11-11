@@ -20,7 +20,7 @@ typedef struct WiFiPeerMessage {
     /* 14 */ s32 mSendSize;
     // Total size of the message being received, from the header; 0 after the message is complete.
     /* 18 */ s32 mReceiveSize;
-    /* 1c */ u8 mUnk_1c;
+    /* 1c */ u8 mSendState;
     // Receive state, switched on once per received packet in DWCs_HandleReliableMessage (through
     // the getter DWCs_GetRecvState): 0 initial (only a control header, kind 2 to 4, is accepted); 1 expecting a header
     // (DWC_SetRecvBuffer, end of a message); 2 header of a data message (kind 1) accepted, body packets are copied
@@ -28,13 +28,13 @@ typedef struct WiFiPeerMessage {
     // mUnk_1e); 4 data header refused (no buffer or too small): the next packet is dropped and the state returns to 1.
     // Not a per-frame switch.
     /* 1d */ u8 mReceiveState;
-    /* 1e */ u8 mUnk_1e;
+    /* 1e */ u8 mLastReceiveState;
     /* 1f */ u8 pad_1f[3];
     // Kind from the header of the current message: 1 for a data message, 2 to 4 for the messages
     // DWCi_ProcessMatchSynPacket takes.
     /* 22 */ u16 mMessageKind;
-    /* 24 */ u64 mUnk_24;
-    /* 2c */ u32 mUnk_2c;
+    /* 24 */ u64 mPreviousReceiveTick;
+    /* 2c */ u32 mReceiveTimeoutTime;
 } WiFiPeerMessage;
 
 // Message framing on top of the Gt2 socket, embedded in WiFiConnection at 0x7a0 (0x614 bytes = sizeof, zeroed by

@@ -115,7 +115,7 @@ BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size) {
     if (DWCi_IsSendableReliable(aid, type) == FALSE) {
         return FALSE;
     }
-    peer->mUnk_1c = 1;
+    peer->mSendState = 1;
     peer->mSendBuffer = buffer;
     peer->mSentSize = 0;
     peer->mSendSize = size;
@@ -134,7 +134,7 @@ BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size) {
         if (gWiFiMessageLayer->mSendCallback != NULL && type == 1) {
             gWiFiMessageLayer->mSendCallback(peer->mSendSize, aid);
         }
-        peer->mUnk_1c = 0;
+        peer->mSendState = 0;
         peer->mSendBuffer = NULL;
         peer->mSentSize = 0;
         peer->mSendSize = 0;

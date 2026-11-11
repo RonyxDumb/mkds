@@ -6,9 +6,9 @@ struct ACWORK;
 
 // Bytes handed out by FillApWepKey: a leading byte, then the payload.
 typedef struct WCMWepDesc {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02[0x50];
+    /* 00 */ u8 mMode;
+    /* 01 */ u8 mKeyId;
+    /* 02 */ u8 mKey[0x50];
 } WCMWepDesc;
 
 // One of the 0x100-byte entries at the start of ACWORK.

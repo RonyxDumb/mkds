@@ -10,11 +10,11 @@ typedef s32 (*Unk021a78a4Func)(void *param_1, u32 param_2, SOCLSocket *param_3);
 
 // Entry of the list behind mUnk_100 and mUnk_104 of an SOCLiSocketRecvCommandPipe; the data follows at mUnk_0c.
 typedef struct SOCLiSocketUdpData {
-    /* 00 */ struct SOCLiSocketUdpData *mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[4];
+    /* 00 */ struct SOCLiSocketUdpData *mNext;
+    /* 04 */ u16 mSize;
+    /* 06 */ u16 mRemotePort;
+    /* 08 */ u32 mRemoteIp;
+    /* 0c */ u8 mData[4];
 } SOCLiSocketUdpData;
 
 // An SOCLiCommandPacket entry as SOCLi_ReadCallBack reads it.

@@ -389,16 +389,16 @@ s32 WCM_ConnectAsync(WMBssDesc *bssDesc, WCMWepDesc *wepDesc, u32 option) {
                 return 1;
             }
             if (wepDesc != NULL) {
-                if (wepDesc->mUnk_00 >= 4 || wepDesc->mUnk_01 >= 4) {
+                if (wepDesc->mMode >= 4 || wepDesc->mKeyId >= 4) {
                     OS_RestoreInterrupts(enabled);
                     return 1;
                 }
-                work->mWepMode = wepDesc->mUnk_00;
-                gWcmWork->mWepKeyId = wepDesc->mUnk_01;
+                work->mWepMode = wepDesc->mMode;
+                gWcmWork->mWepKeyId = wepDesc->mKeyId;
                 if (gWcmWork->mWepMode == 0) {
                     MI_CpuFill8(gWcmWork->mWepKey, 0, 0x50);
                 } else {
-                    MI_CpuCopy8(wepDesc->mUnk_02, gWcmWork->mWepKey, 0x50);
+                    MI_CpuCopy8(wepDesc->mKey, gWcmWork->mWepKey, 0x50);
                 }
             } else {
                 MI_CpuFill8(work->mWepKey, 0, 0x52);

@@ -121,7 +121,7 @@ void DWCi_TransportProcess(void) {
                     if (gWiFiMessageLayer->mSendCallback != NULL) {
                         gWiFiMessageLayer->mSendCallback(peer->mSendSize, aid);
                     }
-                    peer->mUnk_1c = 0;
+                    peer->mSendState = 0;
                     peer->mSendBuffer = NULL;
                     peer->mSentSize = 0;
                     peer->mSendSize = 0;
@@ -129,12 +129,12 @@ void DWCi_TransportProcess(void) {
             }
             if (DWC_IsValidAID(aid) != 0) {
                 peer = DWCs_GetTransConnection(aid);
-                if (gWiFiMessageLayer->mUnk_608 != NULL && peer->mUnk_2c != 0) {
+                if (gWiFiMessageLayer->mUnk_608 != NULL && peer->mReceiveTimeoutTime != 0) {
                     now = OS_GetTick();
-                    if ((u32) _ll_udiv((now - peer->mUnk_24) << 6, 0x82ea) >
-                        peer->mUnk_2c) {
+                    if ((u32) _ll_udiv((now - peer->mPreviousReceiveTick) << 6, 0x82ea) >
+                        peer->mReceiveTimeoutTime) {
                         gWiFiMessageLayer->mUnk_608(aid);
-                        peer->mUnk_24 = now;
+                        peer->mPreviousReceiveTick = now;
                     }
                 }
             }
@@ -148,7 +148,7 @@ void DWCi_ClearTransConnection(int aid) {
         gWiFiMessageLayer->mPeers[aid].mReceivedSize = 0;
         gWiFiMessageLayer->mPeers[aid].mSendSize = 0;
         gWiFiMessageLayer->mPeers[aid].mReceiveSize = 0;
-        gWiFiMessageLayer->mPeers[aid].mUnk_1c = 0;
+        gWiFiMessageLayer->mPeers[aid].mSendState = 0;
         gWiFiMessageLayer->mPeers[aid].mMessageKind = 0;
     }
 }
@@ -162,7 +162,7 @@ WiFiPeerMessage *DWCs_GetTransConnection(int aid) {
 }
 
 u8 DWCs_GetSendState(int aid) {
-    return gWiFiMessageLayer->mPeers[aid].mUnk_1c;
+    return gWiFiMessageLayer->mPeers[aid].mSendState;
 }
 
 u8 DWCs_GetRecvState(int aid) {
@@ -216,9 +216,9 @@ void DWCs_HandleUnreliableMessage(Unk0219887c *connection, const void *message, 
         if (gWiFiMessageLayer->mReceiveCallback != NULL) {
             gWiFiMessageLayer->mReceiveCallback(aid, peer->mReceiveBuffer, size);
         }
-        if ((gWiFiMessageLayer->mUnk_608 != NULL) && (peer->mUnk_2c != 0)) {
+        if ((gWiFiMessageLayer->mUnk_608 != NULL) && (peer->mReceiveTimeoutTime != 0)) {
             v3 = OS_GetTick();
-            peer->mUnk_24 = v3;
+            peer->mPreviousReceiveTick = v3;
         }
     }
 }
@@ -227,7 +227,7 @@ void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
     WiFiPeerMessage *connection = &gWiFiMessageLayer->mPeers[aid];
     u32 t[2];
     u16 type;
-    connection->mUnk_1e = DWCs_GetRecvState(aid);
+    connection->mLastReceiveState = DWCs_GetRecvState(aid);
     type = DWCs_DecodeHeader(message);
     switch (type) {
         case 1:
@@ -271,14 +271,14 @@ void DWCs_RecvDataBody(int aid, void *message, s32 size) {
             gWiFiMessageLayer->mReceiveCallback(aid, connection->mReceiveBuffer, expected);
         }
     }
-    if (gWiFiMessageLayer->mUnk_608 != NULL && connection->mUnk_2c != 0) {
-        connection->mUnk_24 = OS_GetTick();
+    if (gWiFiMessageLayer->mUnk_608 != NULL && connection->mReceiveTimeoutTime != 0) {
+        connection->mPreviousReceiveTick = OS_GetTick();
     }
 }
 
 void DWCs_RecvSystemDataBody(u32 aid, void *message, s32 size) {
     WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
-    peer->mReceiveState = peer->mUnk_1e;
+    peer->mReceiveState = peer->mLastReceiveState;
     switch (peer->mMessageKind) {
         case 2:
         case 3:
