@@ -68,436 +68,449 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-void func_ov001_0218f850(Unk02188950 *a) {
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_198, a->mPrm->mUnk_19c);
-    SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_1a0, a->mPrm->mUnk_1a4);
-    SetSpeedAndClearTarget(a, 0);
-    StopTurningMoveFollowsAngle(a);
-    StartEffectAtOffset(a, 0, 0, 0, 0x41e, 0);
-    StartEffectAtOffset(a, 0, 0, 0, 0x41f, 0);
-    StartEffectAtOffset(a, 0, 0, 0, 0x420, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x22d);
-    a->mUnk_000.mFlags = a->mUnk_000.mFlags | data_ov001_021a65bc;
+void HideKingTeresaWithEffects(Unk02188950 *mapObject) {
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1a0, mapObject->mPrm->mUnk_1a4);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StopTurningMoveFollowsAngle(mapObject);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x41e, 0);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x41f, 0);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x420, 0);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x22d);
+    mapObject->mUnk_000.mFlags = mapObject->mUnk_000.mFlags | data_ov001_021a65bc;
 }
 
-void func_ov001_0218f724(Unk02188950 *b) {
-    Vec3 v1;
-    Vec3 v2;
-    u32 a;
+void SetKingTeresaVelocityWithKartTurn(Unk02188950 *mapObject) {
+    Vec3 kartStep;
+    Vec3 offsetFromKart;
+    u32 headingChange;
     s32 i;
-    s32 s;
-    s32 c;
-    s64 z;
-    s64 x;
+    s32 sine;
+    s32 cosine;
+    s64 offsetZ;
+    s64 offsetX;
     VEC_Subtract(gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
-                 gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunPrevKartPos() : 0, &v1);
-    v1.y = 0;
-    a = 0;
+                 gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunPrevKartPos() : 0, &kartStep);
+    kartStep.y = 0;
+    headingChange = 0;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunPrevKartHeadingAngle();
+        headingChange = GetMissionRunPrevKartHeadingAngle();
     }
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartHeadingAngle() : 0) - a;
-    VEC_Subtract(&b->mUnk_000.mPos, gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0, &v2);
+    headingChange = (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartHeadingAngle() : 0) - headingChange;
+    VEC_Subtract(&mapObject->mUnk_000.mPos, gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
+                 &offsetFromKart);
     for (i = 0; i < 1; i++) {
-        c = FX_CosIdx((u16) a);
-        x = v2.x;
-        s = FX_SinIdx((u16) a);
-        z = v2.z;
+        cosine = FX_CosIdx((u16) headingChange);
+        offsetX = offsetFromKart.x;
+        sine = FX_SinIdx((u16) headingChange);
+        offsetZ = offsetFromKart.z;
     }
-    v1.x += (s32) (z * s >> 12) + (s32) (x * c >> 12) - v2.x;
-    v1.z += (s32) (z * c >> 12) - (s32) (x * s >> 12) - v2.z;
-    SetVelocity(b, &v1);
+    kartStep.x += (s32) (offsetZ * sine >> 12) + (s32) (offsetX * cosine >> 12) - offsetFromKart.x;
+    kartStep.z += (s32) (offsetZ * cosine >> 12) - (s32) (offsetX * sine >> 12) - offsetFromKart.z;
+    SetVelocity(mapObject, &kartStep);
 }
 
-void func_ov001_0218f6d8(Unk02188950 *a) {
-    Vec3 local;
+void SetKingTeresaVelocityToKartStep(Unk02188950 *mapObject) {
+    Vec3 kartStep;
     VEC_Subtract(gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
-                 gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunPrevKartPos() : 0, &local);
-    local.y = 0;
-    SetVelocity(a, &local);
+                 gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunPrevKartPos() : 0, &kartStep);
+    kartStep.y = 0;
+    SetVelocity(mapObject, &kartStep);
 }
 
-s32 func_ov001_0218f688(Unk02188950 *a) {
-    Kart *obj = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((obj->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
-        SetAnglePointAndMoveAnglePoint(a, &obj->mPos);
-        SetPointInRangePoint(a, &obj->mPos);
+s32 AdvanceKingTeresaFollowKart(Unk02188950 *mapObject) {
+    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+        SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+        SetPointInRangePoint(mapObject, &kart->mPos);
     }
-    func_ov001_0218f6d8(a);
+    SetKingTeresaVelocityToKartStep(mapObject);
     return 0;
 }
 
-s32 func_ov001_0218f634(Unk02188950 *a) {
-    Kart *obj = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((obj->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
-        SetAnglePointAndMoveAnglePoint(a, &obj->mPos);
-        SetPointInRangePoint(a, &obj->mPos);
+s32 AdvanceKingTeresaFollowKartClearFog(Unk02188950 *mapObject) {
+    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+        SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+        SetPointInRangePoint(mapObject, &kart->mPos);
     }
-    func_ov001_0218f6d8(a);
+    SetKingTeresaVelocityToKartStep(mapObject);
     ClearFadeFogHoldFrames();
     return 0;
 }
 
-void func_ov001_0218f57c(Unk02188950 *a) {
-    Kart *p;
+void StartKingTeresaTurnAwayFromKart(Unk02188950 *mapObject) {
+    Kart *kart;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(a, 5, func_ov001_0218f634);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_1fc, a->mPrm->mUnk_200);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_204, a->mPrm->mUnk_208);
-    TurnFromPointMoveFollowsAngle(a, a->mPrm->mUnk_20c, a->mPrm->mUnk_210);
-    SetAnglePointAndMoveAnglePoint(a, &p->mPos);
-    StopMoveAngleTurning(a);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_214, NULL);
-    SetKartCollisionCallback(a, func_ov001_0218f9a8);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    StartMapObjectState(mapObject, 5, AdvanceKingTeresaFollowKartClearFog);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1fc, mapObject->mPrm->mUnk_200);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_204, mapObject->mPrm->mUnk_208);
+    TurnFromPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_20c, mapObject->mPrm->mUnk_210);
+    SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+    StopMoveAngleTurning(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_214, NULL);
+    SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
 }
 
-void func_ov001_0218f51c(Unk02188950 *a) {
+void StartKingTeresaCoinsFadeOut(Unk02188950 *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(a, 5, func_ov001_0218f634);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_1f4, a->mPrm->mUnk_1f8, func_ov001_0218f57c);
-    SetKartCollisionCallback(a, func_ov001_0218f9a8);
+    StartMapObjectState(mapObject, 5, AdvanceKingTeresaFollowKartClearFog);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_1f4, mapObject->mPrm->mUnk_1f8,
+                                  StartKingTeresaTurnAwayFromKart);
+    SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
     StartCoinsFadeOut();
 }
 
-void func_ov001_0218f454(Unk02188950 *a) {
-    Kart *p;
+void StartKingTeresaTurnTowardKart(Unk02188950 *mapObject) {
+    Kart *kart;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(a, 5, func_ov001_0218f634);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_1d8, a->mPrm->mUnk_1dc);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_1e0, a->mPrm->mUnk_1e4);
-    TurnToPointMoveFollowsAngle(a, a->mPrm->mUnk_1e8, a->mPrm->mUnk_1ec);
-    SetAnglePointAndMoveAnglePoint(a, &p->mPos);
-    StopMoveAngleTurning(a);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_1f0, func_ov001_0218f51c);
-    SetKartCollisionCallback(a, func_ov001_0218f9a8);
-    StartMapObjectSound(&a->mUnk_000, 0x229);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    StartMapObjectState(mapObject, 5, AdvanceKingTeresaFollowKartClearFog);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1d8, mapObject->mPrm->mUnk_1dc);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1e0, mapObject->mPrm->mUnk_1e4);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_1e8, mapObject->mPrm->mUnk_1ec);
+    SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+    StopMoveAngleTurning(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1f0, StartKingTeresaCoinsFadeOut);
+    SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x229);
 }
 
-s32 func_ov001_0218f3ec(Unk02188950 *a) {
-    Kart *p;
-    Vec3 v;
+s32 AdvanceKingTeresaFollowForwardPoint(Unk02188950 *mapObject) {
+    Kart *kart;
+    Vec3 targetPoint;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
-        VEC_MultAdd(a->mPrm->mUnk_21c, &p->mEasedTurnedForward, &p->mPos, &v);
-        SetAnglePointAndMoveAnglePoint(a, &v);
-        SetPointInRangePoint(a, &v);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+        VEC_MultAdd(mapObject->mPrm->mUnk_21c, &kart->mEasedTurnedForward, &kart->mPos, &targetPoint);
+        SetAnglePointAndMoveAnglePoint(mapObject, &targetPoint);
+        SetPointInRangePoint(mapObject, &targetPoint);
     }
-    func_ov001_0218f6d8(a);
+    SetKingTeresaVelocityToKartStep(mapObject);
     ClearFadeFogHoldFrames();
     return 0;
 }
 
-s32 func_ov001_0218f3ac(Unk02188950 *a) {
-    Kart *p;
+s32 AdvanceKingTeresaFaceKart(Unk02188950 *mapObject) {
+    Kart *kart;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
-        SetAnglePointAndMoveAnglePoint(a, &p->mPos);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+        SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     }
-    func_ov001_0218f6d8(a);
+    SetKingTeresaVelocityToKartStep(mapObject);
     return 0;
 }
 
-void func_ov001_0218f2a8(Unk02188950 *a) {
-    Kart *p;
-    Vec3 v;
+void StartKingTeresaMoveToForwardPoint(Unk02188950 *mapObject) {
+    Kart *kart;
+    Vec3 targetPoint;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    VEC_MultAdd(a->mPrm->mUnk_21c, &p->mEasedTurnedForward, &p->mPos, &v);
-    StartMapObjectState(a, 5, func_ov001_0218f3ac);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_0ec, a->mPrm->mUnk_0f0);
-    SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_0f4, a->mPrm->mUnk_0f8);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0fc, a->mPrm->mUnk_100);
-    TurnToPointMoveFollowsAngle(a, a->mPrm->mUnk_104, a->mPrm->mUnk_108);
-    SetPointInRangeCallback(a, a->mPrm->mUnk_218, 0, &v, (UnkFunc *) func_ov001_0218f454);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    VEC_MultAdd(mapObject->mPrm->mUnk_21c, &kart->mEasedTurnedForward, &kart->mPos, &targetPoint);
+    StartMapObjectState(mapObject, 5, AdvanceKingTeresaFaceKart);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0ec, mapObject->mPrm->mUnk_0f0);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0f4, mapObject->mPrm->mUnk_0f8);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0fc, mapObject->mPrm->mUnk_100);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_218, 0, &targetPoint,
+                            (UnkFunc *) StartKingTeresaTurnTowardKart);
     if (gKingTeresaState != 2) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 2;
-    SetKartCollisionCallback(a, func_ov001_0218e298);
-    a->mUnk_000.mFlags |= data_ov001_021a65b0;
+    SetKartCollisionCallback(mapObject, KingTeresaBossTransferCallback);
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
 }
 
-s32 func_ov001_0218f244(Unk02188950 *a) {
-    Kart *p;
-    Vec3 v;
+s32 AdvanceKingTeresaApproachKart(Unk02188950 *mapObject) {
+    Kart *kart;
+    Vec3 targetPoint;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
-        VEC_MultAdd(-a->mPrm->mUnk_0e8, &p->mEasedTurnedForward, &p->mPos, &v);
-        SetAnglePointAndMoveAnglePoint(a, &v);
-        SetPointInRangePoint(a, &v);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+        VEC_MultAdd(-mapObject->mPrm->mUnk_0e8, &kart->mEasedTurnedForward, &kart->mPos, &targetPoint);
+        SetAnglePointAndMoveAnglePoint(mapObject, &targetPoint);
+        SetPointInRangePoint(mapObject, &targetPoint);
     }
-    func_ov001_0218f6d8(a);
+    SetKingTeresaVelocityToKartStep(mapObject);
     return 0;
 }
 
-void func_ov001_0218f16c(Unk02188950 *a) {
-    Kart *p;
-    Vec3 v;
+void StartKingTeresaApproachKart(Unk02188950 *mapObject) {
+    Kart *kart;
+    Vec3 targetPoint;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    VEC_MultAdd(-a->mPrm->mUnk_0e8, &p->mEasedTurnedForward, &p->mPos, &v);
-    StartMapObjectState(a, 3, func_ov001_0218f244);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_0c4, a->mPrm->mUnk_0c8);
-    SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_0cc, a->mPrm->mUnk_0d0);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0d4, a->mPrm->mUnk_0d8);
-    TurnToPointMoveFollowsAngle(a, a->mPrm->mUnk_0dc, a->mPrm->mUnk_0e0);
-    SetPointInRangeCallback(a, a->mPrm->mUnk_0e4, 0, &v, (UnkFunc *) func_ov001_0218f2a8);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    VEC_MultAdd(-mapObject->mPrm->mUnk_0e8, &kart->mEasedTurnedForward, &kart->mPos, &targetPoint);
+    StartMapObjectState(mapObject, 3, AdvanceKingTeresaApproachKart);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0c4, mapObject->mPrm->mUnk_0c8);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0cc, mapObject->mPrm->mUnk_0d0);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0dc, mapObject->mPrm->mUnk_0e0);
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0e4, 0, &targetPoint,
+                            (UnkFunc *) StartKingTeresaMoveToForwardPoint);
     if (gKingTeresaState != 1) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 1;
 }
 
-s32 func_ov001_0218efc4(Unk02188950 *a) {
-    Kart *p;
-    float f;
+s32 AdvanceKingTeresaWaitToApproach(Unk02188950 *mapObject) {
+    Kart *kart;
+    float scaledTimerGap;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    if ((p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
-        SetAnglePointAndMoveAnglePoint(a, &p->mPos);
-        SetPointInRangePoint(a, &p->mPos);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if ((kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0) {
+        SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+        SetPointInRangePoint(mapObject, &kart->mPos);
     }
-    func_ov001_0218f724(a);
-    if (GetEntryKartInRange(a, a->mPrm->mUnk_0b8, 0) == NULL) {
-        a->mUnk_1c4 = a->mPrm->mUnk_0c0;
+    SetKingTeresaVelocityWithKartTurn(mapObject);
+    if (GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_0b8, 0) == NULL) {
+        mapObject->mUnk_1c4 = mapObject->mPrm->mUnk_0c0;
     } else {
-        a->mUnk_1c4 = 0;
+        mapObject->mUnk_1c4 = 0;
     }
-    a->mAlphaLimitPerCall = a->mPrm->mUnk_09c;
-    if (a->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > 0) {
-        f = 0.5f + ((a->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12);
+    mapObject->mAlphaLimitPerCall = mapObject->mPrm->mUnk_09c;
+    if (mapObject->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > 0) {
+        scaledTimerGap =
+            0.5f +
+            ((mapObject->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12);
     } else {
-        f = ((a->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12) - 0.5f;
+        scaledTimerGap =
+            ((mapObject->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12) -
+            0.5f;
     }
-    a->mAlphaLimitTarget = (s32) f / a->mPrm->mUnk_1d4;
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <= a->mPrm->mUnk_1d0 &&
-        GetEntryKartFacingObject(a, 0, a->mPrm->mUnk_0bc) != NULL) {
-        SetKartCollisionCallback(a, func_ov001_0218f9a8);
-        a->mUnk_000.mFlags |= data_ov001_021a65b0;
-        func_ov001_0218f16c(a);
-    } else if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > a->mPrm->mUnk_1cc) {
-        StopMapObjectState(a);
+    mapObject->mAlphaLimitTarget = (s32) scaledTimerGap / mapObject->mPrm->mUnk_1d4;
+    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <= mapObject->mPrm->mUnk_1d0 &&
+        GetEntryKartFacingObject(mapObject, 0, mapObject->mPrm->mUnk_0bc) != NULL) {
+        SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+        mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+        StartKingTeresaApproachKart(mapObject);
+    } else if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > mapObject->mPrm->mUnk_1cc) {
+        StopMapObjectState(mapObject);
     }
     return 0;
 }
 
-void func_ov001_0218ef30(Unk02188950 *a) {
+void StartKingTeresaWaitToApproach(Unk02188950 *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(a, 3, func_ov001_0218efc4);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_090, a->mPrm->mUnk_094);
-    SetSpeedAndClearTarget(a, a->mPrm->mUnk_0a0);
-    TurnToPointMoveSideways(a, a->mPrm->mUnk_0b0, 0x270f000, a->mPrm->mUnk_0a8, 0x270f000, 0);
+    StartMapObjectState(mapObject, 3, AdvanceKingTeresaWaitToApproach);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_090, mapObject->mPrm->mUnk_094);
+    SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_0a0);
+    TurnToPointMoveSideways(mapObject, mapObject->mPrm->mUnk_0b0, 0x270f000, mapObject->mPrm->mUnk_0a8, 0x270f000, 0);
     if (gKingTeresaState != 0) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 0;
 }
 
-void func_ov001_0218ee88(Unk02188950 *a) {
-    Kart *p;
-    Vec3 v;
+void ShowKingTeresaNearKart(Unk02188950 *mapObject) {
+    Kart *kart;
+    Vec3 nearKartPoint;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    VEC_MultAdd(-a->mPrm->mUnk_0e8, &p->mEasedTurnedForward, &p->mPos, &v);
-    a->mUnk_000.mPos.x = v.x;
-    a->mUnk_000.mPos.y = a->mUnk_000.mCourseMapRow->mUnk_00.y + a->mPrm->mUnk_080;
-    a->mUnk_000.mPos.z = v.z;
-    a->mMoveAngle = (u16) (FX_Atan2Idx(p->mPos.x - a->mUnk_000.mPos.x, p->mPos.z - a->mUnk_000.mPos.z) + 0x4000);
-    a->mAngle = a->mMoveAngle;
-    func_ov001_0218ef30(a);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    VEC_MultAdd(-mapObject->mPrm->mUnk_0e8, &kart->mEasedTurnedForward, &kart->mPos, &nearKartPoint);
+    mapObject->mUnk_000.mPos.x = nearKartPoint.x;
+    mapObject->mUnk_000.mPos.y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mPrm->mUnk_080;
+    mapObject->mUnk_000.mPos.z = nearKartPoint.z;
+    mapObject->mMoveAngle =
+        (u16) (FX_Atan2Idx(kart->mPos.x - mapObject->mUnk_000.mPos.x, kart->mPos.z - mapObject->mUnk_000.mPos.z) +
+               0x4000);
+    mapObject->mAngle = mapObject->mMoveAngle;
+    StartKingTeresaWaitToApproach(mapObject);
     SetBossCoinShownCount(0);
-    a->mUnk_000.mFlags &= ~1;
+    mapObject->mUnk_000.mFlags &= ~1;
 }
 
-void func_ov001_0218edc8(Unk02188950 *a) {
-    Kart *p;
+void StartKingTeresaHitReaction(Unk02188950 *mapObject) {
+    Kart *kart;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(a, 3, func_ov001_0218f634);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_144, a->mPrm->mUnk_148);
-    SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_14c, a->mPrm->mUnk_150);
-    SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_154, a->mPrm->mUnk_158);
-    TurnToPointMoveFollowsAngle(a, a->mPrm->mUnk_15c, a->mPrm->mUnk_160);
-    SetAnglePointAndMoveAnglePoint(a, &p->mPos);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_164, NULL);
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    StartMapObjectState(mapObject, 3, AdvanceKingTeresaFollowKartClearFog);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_144, mapObject->mPrm->mUnk_148);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_14c, mapObject->mPrm->mUnk_150);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_154, mapObject->mPrm->mUnk_158);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_15c, mapObject->mPrm->mUnk_160);
+    SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_164, NULL);
 }
 
-u32 func_ov001_0218edb8(void) {
+u32 ClearFadeFogHoldFramesWrapper(void) {
     ClearFadeFogHoldFrames();
     return 0;
 }
 
-void func_ov001_0218ec40(Unk02188950 *a) {
+void StartKingTeresaMoveToGroupEntry(Unk02188950 *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
-    StartMapObjectState(a, 1, (s32(*)(Unk02188950 *)) func_ov001_0218edb8);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_118, a->mPrm->mUnk_11c);
-    SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_120, a->mPrm->mUnk_124);
-    if (a->mUnk_0a8 == 1) {
-        SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_128, a->mPrm->mUnk_12c);
-        TurnToPointMoveFollowsAngle(a, a->mPrm->mUnk_130, a->mPrm->mUnk_134);
-    } else if (a->mUnk_0a8 == 2) {
-        SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_220, a->mPrm->mUnk_224);
-        TurnToPointMoveFollowsAngle(a, a->mPrm->mUnk_228, a->mPrm->mUnk_22c);
-    } else if (a->mUnk_0a8 == 3) {
-        SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_230, a->mPrm->mUnk_234);
-        TurnToPointMoveFollowsAngle(a, a->mPrm->mUnk_238, a->mPrm->mUnk_23c);
+    StartMapObjectState(mapObject, 1, (s32(*)(Unk02188950 *)) ClearFadeFogHoldFramesWrapper);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_118, mapObject->mPrm->mUnk_11c);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_120, mapObject->mPrm->mUnk_124);
+    if (mapObject->mUnk_0a8 == 1) {
+        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_128, mapObject->mPrm->mUnk_12c);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_130, mapObject->mPrm->mUnk_134);
+    } else if (mapObject->mUnk_0a8 == 2) {
+        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_220, mapObject->mPrm->mUnk_224);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_228, mapObject->mPrm->mUnk_22c);
+    } else if (mapObject->mUnk_0a8 == 3) {
+        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_230, mapObject->mPrm->mUnk_234);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_238, mapObject->mPrm->mUnk_23c);
     }
-    SetAnglePointAndMoveAnglePoint(a, &GetCurrentGroupEntry(a)->mPos);
-    SetPointInRangeCallback(a, a->mPrm->mUnk_138, a->mPrm->mUnk_13c, &GetCurrentGroupEntry(a)->mPos, NULL);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_138, mapObject->mPrm->mUnk_13c,
+                            &GetCurrentGroupEntry(mapObject)->mPos, NULL);
     if (gKingTeresaState != 5) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 5;
 }
 
-void func_ov001_0218eb94(Unk02188950 *a) {
+void ShowKingTeresaAtGroupEntry(Unk02188950 *mapObject) {
     RandomState64 *rng;
     GetKart((u16) gRaceSetup->mEntryIndex);
     rng = GetMapObjectRandom();
     rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
-    a->mUnk_000.mPos.x = (&GetCurrentGroupEntry(a)->mPos)->x;
-    a->mUnk_000.mPos.y = a->mPrm->mUnk_080 + (&GetCurrentGroupEntry(a)->mPos)->y;
-    a->mUnk_000.mPos.z = (&GetCurrentGroupEntry(a)->mPos)->z;
-    StartMapObjectState(a, 5, (s32(*)(Unk02188950 *)) func_ov001_0218edb8);
-    func_ov001_0218f900(a);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_1b4, NULL);
+    mapObject->mUnk_000.mPos.x = (&GetCurrentGroupEntry(mapObject)->mPos)->x;
+    mapObject->mUnk_000.mPos.y = mapObject->mPrm->mUnk_080 + (&GetCurrentGroupEntry(mapObject)->mPos)->y;
+    mapObject->mUnk_000.mPos.z = (&GetCurrentGroupEntry(mapObject)->mPos)->z;
+    StartMapObjectState(mapObject, 5, (s32(*)(Unk02188950 *)) ClearFadeFogHoldFramesWrapper);
+    ShowKingTeresaWithEffects(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1b4, NULL);
     if (gKingTeresaState != 5) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 5;
 }
 
-void func_ov001_0218ead0(Unk02188950 *a) {
-    int v1;
-    u32 v2;
+void StartKingTeresaHideForNextGroup(Unk02188950 *mapObject) {
+    int currentValue;
+    u32 nextValue;
 
-    StartMapObjectState(a, 5, (s32(*)(Unk02188950 *)) func_ov001_0218edb8);
-    func_ov001_0218f850(a);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_1a8, func_ov001_0218eb94);
+    StartMapObjectState(mapObject, 5, (s32(*)(Unk02188950 *)) ClearFadeFogHoldFramesWrapper);
+    HideKingTeresaWithEffects(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a8, ShowKingTeresaAtGroupEntry);
     SetBossCoinShownCount(0);
-    IncrementEntryGroupIndex(a, a->mPrm->mUnk_140);
-    v1 = a->mUnk_0a8;
-    if (v1 == 1) {
-        v2 = 2;
-    } else if (v1 == 2) {
-        v2 = 3;
-    } else if (v1 == 3) {
-        v2 = 3;
+    IncrementEntryGroupIndex(mapObject, mapObject->mPrm->mUnk_140);
+    currentValue = mapObject->mUnk_0a8;
+    if (currentValue == 1) {
+        nextValue = 2;
+    } else if (currentValue == 2) {
+        nextValue = 3;
+    } else if (currentValue == 3) {
+        nextValue = 3;
     } else {
-        v2 = 1;
+        nextValue = 1;
     }
-    a->mUnk_0a8 = v2;
+    mapObject->mUnk_0a8 = nextValue;
     if (gKingTeresaState != 3) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 3;
-    a->mCollisionExtentTargetZ = a->mPrm->mUnk_00c;
-    a->mCollisionExtent.z = a->mCollisionExtentTargetZ;
-    a->mCollisionExtentTargetX = a->mCollisionExtent.z;
-    a->mCollisionExtent.x = a->mCollisionExtentTargetX;
+    mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mUnk_00c;
+    mapObject->mCollisionExtent.z = mapObject->mCollisionExtentTargetZ;
+    mapObject->mCollisionExtentTargetX = mapObject->mCollisionExtent.z;
+    mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX;
 }
 
-u32 func_ov001_0218ea98(Unk02188950 *a) {
-    int v1;
-    int v2;
-    v2 = a->mUnk_000.mCourseMapRow->mUnk_00.y + a->mPrm->mUnk_084;
-    v1 = a->mUnk_000.mPos.y - a->mPrm->mUnk_088;
-    if (v1 <= v2) {
-        v1 = v2;
+u32 AdvanceKingTeresaSinkToCourseRow(Unk02188950 *mapObject) {
+    int newY;
+    int lowestY;
+    lowestY = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mPrm->mUnk_084;
+    newY = mapObject->mUnk_000.mPos.y - mapObject->mPrm->mUnk_088;
+    if (newY <= lowestY) {
+        newY = lowestY;
     }
-    a->mUnk_000.mPos.y = v1;
+    mapObject->mUnk_000.mPos.y = newY;
     ClearFadeFogHoldFrames();
     return 0;
 }
 
-void func_ov001_0218e92c(Unk02188950 *p) {
-    StartMapObjectState(p, 5, (s32(*)(Unk02188950 *)) func_ov001_0218ea98);
-    StartAnimationNoEndCallback(p, p->mPrm->mUnk_170, p->mPrm->mUnk_174);
-    SetAlphaLimitTargetAndPerCall(p, p->mPrm->mUnk_178, p->mPrm->mUnk_17c);
-    StopTurningMoveFollowsAngle(p);
-    SetSpeedAndClearTarget(p, 0);
-    StartStateFrameCountCallback(p, p->mPrm->mUnk_194, func_ov001_0218ead0);
-    StartEffectAtOffset(p, 0, 0, 0, 0x431, 0);
-    StartEffectAtOffset(p, 0, 0, 0, 0x430, 0);
-    StartEffectAtOffset(p, 0, 0, 0, 0x432, 0);
+void StartKingTeresaShowBossCoins(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 5, (s32(*)(Unk02188950 *)) AdvanceKingTeresaSinkToCourseRow);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_170, mapObject->mPrm->mUnk_174);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_178, mapObject->mPrm->mUnk_17c);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_194, StartKingTeresaHideForNextGroup);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x431, 0);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x430, 0);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x432, 0);
     if (gKingTeresaState != 4) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 4;
-    SetKartCollisionCallback(p, func_ov001_0218e38c);
-    p->mUnk_000.mFlags |= data_ov001_021a65b0;
-    SetBossCoinShownCount(p->mPrm->mUnk_18c < (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
-                              ? p->mPrm->mUnk_18c
+    SetKartCollisionCallback(mapObject, KingTeresaParkBossCoinsCallback);
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+    SetBossCoinShownCount(mapObject->mPrm->mUnk_18c <
+                                  (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
+                              ? mapObject->mPrm->mUnk_18c
                               : (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0));
-    p->mCollisionExtent.x = p->mCollisionExtentTargetX = p->mCollisionExtent.z = p->mCollisionExtentTargetZ =
-        p->mPrm->mUnk_00c / 2;
+    mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX = mapObject->mCollisionExtent.z =
+        mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mUnk_00c / 2;
 }
 
-void func_ov001_0218e8d8(Unk02188950 *a) {
-    StartMapObjectState(a, 5, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_168, a->mPrm->mUnk_16c, func_ov001_0218e92c);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
+void StartKingTeresaStopForBossCoins(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 5, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_168, mapObject->mPrm->mUnk_16c,
+                                  StartKingTeresaShowBossCoins);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
     SetBossCoinShownCount(0);
-    StartMapObjectSound(&a->mUnk_000, 0x00000230u);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x00000230u);
 }
 
-void func_ov001_0218e8b0(Unk02188950 *a) {
-    StartMapObjectState(a, 1, NULL);
-    SetShadowOffsetYAndScale(a, 0, 0x19000);
+void StartKingTeresaCoinsFadeIn(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
     SetFadeFogHoldFramesToLimit();
     StartCoinsFadeIn();
 }
 
-void func_ov001_0218e860(Unk02188950 *a) {
-    StartMapObjectState(a, 5, (s32(*)(Unk02188950 *)) func_ov001_0218f688);
-    func_ov001_0218f850(a);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_1a8, func_ov001_0218e8b0);
+void StartKingTeresaHideThenCoinsFadeIn(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 5, (s32(*)(Unk02188950 *)) AdvanceKingTeresaFollowKart);
+    HideKingTeresaWithEffects(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a8, StartKingTeresaCoinsFadeIn);
     if (gKingTeresaState != 3) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 3;
 }
 
-void func_ov001_0218e7d0(Unk02188950 *p) {
-    StartMapObjectState(p, 1, NULL);
-    SetShadowOffsetYAndScale(p, 0, 0x19000);
-    StartAnimationNoEndCallback(p, p->mPrm->mUnk_198, p->mPrm->mUnk_19c);
-    SetAlphaLimitTargetAndPerCall(p, p->mPrm->mUnk_1a0, p->mPrm->mUnk_1a4);
-    SetSpeedAndClearTarget(p, 0);
-    StopTurningMoveFollowsAngle(p);
+void HideKingTeresaWithoutEffects(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1a0, mapObject->mPrm->mUnk_1a4);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StopTurningMoveFollowsAngle(mapObject);
     if (gKingTeresaState != 3) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 3;
-    p->mUnk_000.mFlags |= data_ov001_021a65bc;
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65bc;
 }
 
-void func_ov001_0218e7b0(Unk02188950 *a) {
-    StartMapObjectState(a, 1, NULL);
-    SetShadowOffsetYAndScale(a, 0, 0x19000);
+void StartKingTeresaState1ShadowOffset(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 1, NULL);
+    SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
 }
 
-void func_ov001_0218e760(Unk02188950 *p) {
-    StartMapObjectState(p, 5, func_ov001_0218f688);
-    func_ov001_0218f850(p);
-    StartStateFrameCountCallback(p, p->mPrm->mUnk_1a8, func_ov001_0218e7b0);
+void StartKingTeresaHideThenState1(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 5, AdvanceKingTeresaFollowKart);
+    HideKingTeresaWithEffects(mapObject);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a8, StartKingTeresaState1ShadowOffset);
     if (gKingTeresaState != 3) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 3;
 }
 
-void func_ov001_0218e710(Unk02188950 *p) {
-    StartMapObjectState(p, 8, NULL);
-    StartAnimationNoEndCallback(p, p->mPrm->mUnk_078, p->mPrm->mUnk_07c);
-    StopTurningMoveFollowsAngle(p);
-    SetSpeedAndClearTarget(p, 0);
+void StartKingTeresaKartEliminatedHold(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
     if (gKingTeresaState != 6) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
@@ -505,279 +518,283 @@ void func_ov001_0218e710(Unk02188950 *p) {
     SetFadeFogHoldFramesToLimit();
 }
 
-void func_ov001_0218e690(Unk02188950 *p) {
-    StartMapObjectState(p, 8, NULL);
-    StartAnimationNoEndCallback(p, p->mPrm->mUnk_070, p->mPrm->mUnk_074);
-    StartEffect(0x3fe, &p->mUnk_000.mPos);
-    StartEffect(0x3fd, &p->mUnk_000.mPos);
+void HideKingTeresaAtEndReached(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    StartEffect(0x3fe, &mapObject->mUnk_000.mPos);
+    StartEffect(0x3fd, &mapObject->mUnk_000.mPos);
     if (gKingTeresaState != 7) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 7;
-    p->mUnk_000.mFlags |= data_ov001_021a65b4;
-    p->mUnk_000.mFlags |= data_ov001_021a65b8;
-    p->mUnk_000.mFlags |= data_ov001_021a65bc;
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65b4;
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65b8;
+    mapObject->mUnk_000.mFlags |= data_ov001_021a65bc;
 }
 
-s32 func_ov001_0218e650(Unk02188950 *a) {
-    if (a->mStateFrames == 50) {
-        SoundStartParams local = {0x22f, 0, 0xe, 0};
-        local.mPositionSource = &a->mUnk_000.mPos;
-        local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);
-        StartSndHandleSoundUnchecked(&local, GetSecondSndHandleSlot());
+s32 AdvanceKingTeresaEndReachedSound(Unk02188950 *mapObject) {
+    if (mapObject->mStateFrames == 50) {
+        SoundStartParams soundParams = {0x22f, 0, 0xe, 0};
+        soundParams.mPositionSource = &mapObject->mUnk_000.mPos;
+        soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
+        StartSndHandleSoundUnchecked(&soundParams, GetSecondSndHandleSlot());
     }
     return 0;
 }
 
-void func_ov001_0218e5c4(Unk02188950 *a) {
-    a->mUnk_000.mPos.y += a->mPrm->mUnk_080;
-    a->mAlphaLimit = a->mAlphaLimitTarget = 0x1f000;
-    a->mAlphaLimitPerCall = 0;
-    StartMapObjectState(a, 8, func_ov001_0218e650);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);
-    StartStateFrameCountCallback(a, 0x3c, func_ov001_0218e690);
+void ShowKingTeresaAtEndReached(Unk02188950 *mapObject) {
+    mapObject->mUnk_000.mPos.y += mapObject->mPrm->mUnk_080;
+    mapObject->mAlphaLimit = mapObject->mAlphaLimitTarget = 0x1f000;
+    mapObject->mAlphaLimitPerCall = 0;
+    StartMapObjectState(mapObject, 8, AdvanceKingTeresaEndReachedSound);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    StartStateFrameCountCallback(mapObject, 0x3c, HideKingTeresaAtEndReached);
     if (gKingTeresaState != 7) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 7;
-    a->mUnk_000.mFlags &= ~1;
+    mapObject->mUnk_000.mFlags &= ~1;
 }
 
-void func_ov001_0218e594(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);
-    StopTurningMoveFollowsAngle(a);
-    SetSpeedAndClearTarget(a, 0);
+void StartKingTeresaWinnerDecidedHold(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    StopTurningMoveFollowsAngle(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
 }
 
-void func_ov001_0218e58c(void) {
+void KingTeresaStandingsEndCallback(void) {
     ResetMissionRunMapObjects();
 }
 
-void func_ov001_0218e564(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, func_ov001_0218e760);
+void StartKingTeresaSecondAnimation(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
+                                  StartKingTeresaHideThenState1);
 }
 
-void func_ov001_0218e520(Unk02188950 *a) {
-    a->mUnk_000.mPos.y += a->mPrm->mUnk_080;
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, func_ov001_0218e564);
+void StartKingTeresaFirstAnimation(Unk02188950 *mapObject) {
+    mapObject->mUnk_000.mPos.y += mapObject->mPrm->mUnk_080;
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, StartKingTeresaSecondAnimation);
 }
 
-void func_ov001_0218e508(Unk02188950 *a) {
-    StartMapObjectState(a, 8, NULL);
-    func_ov001_0218f900(a);
+void ShowKingTeresaAfterWait(Unk02188950 *mapObject) {
+    StartMapObjectState(mapObject, 8, NULL);
+    ShowKingTeresaWithEffects(mapObject);
 }
 
-void func_ov001_0218e4ac(Unk02188950 *a) {
-    a->mUnk_000.mPos.y += a->mPrm->mUnk_080;
-    a->mAlphaLimitTarget = 0;
-    a->mAlphaLimit = a->mAlphaLimitTarget;
-    a->mAlphaLimit = 0;
-    StartMapObjectState(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, func_ov001_0218e508);
+void StartKingTeresaZeroAlphaWait(Unk02188950 *mapObject) {
+    mapObject->mUnk_000.mPos.y += mapObject->mPrm->mUnk_080;
+    mapObject->mAlphaLimitTarget = 0;
+    mapObject->mAlphaLimit = mapObject->mAlphaLimitTarget;
+    mapObject->mAlphaLimit = 0;
+    StartMapObjectState(mapObject, 8, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, ShowKingTeresaAfterWait);
 }
 
-void func_ov001_0218e474(Unk02188950 *a) {
-    a->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource(&a->mUnk_000.mSound->mSoundSource, 0xe, &a->mUnk_000.mPos);
-    a->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsSecond[6];
+void InitKingTeresaMapObject(Unk02188950 *mapObject) {
+    mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xe, &mapObject->mUnk_000.mPos);
+    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffWordsSecond[6];
 }
 
-void func_ov001_0218e38c(Unk02188950 *a, Kart *b) {
-    a->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, FX_SinIdx(b->mHeadingAngle));
-    a->mUnk_000.mPosStep.y = 0;
-    a->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(-a->mPrm->mUnk_024, FX_CosIdx(b->mHeadingAngle));
-    ParkBossCoins(a->mPrm->mUnk_190);
-    func_ov001_0218ead0(a);
-    a->mUnk_2d8 = 0;
-    SetKartCollisionCallback(a, func_ov001_0218f9a8);
-    func_ov001_0218e860(a);
-    a->mUnk_0a8 = 0;
-    StartMapObjectSound(&a->mUnk_000, 0x22c);
-    a->mCollisionExtent.x = a->mCollisionExtentTargetX = a->mCollisionExtent.z = a->mCollisionExtentTargetZ =
-        a->mPrm->mUnk_00c;
+void KingTeresaParkBossCoinsCallback(Unk02188950 *mapObject, Kart *kart) {
+    mapObject->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mUnk_024, FX_SinIdx(kart->mHeadingAngle));
+    mapObject->mUnk_000.mPosStep.y = 0;
+    mapObject->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mUnk_024, FX_CosIdx(kart->mHeadingAngle));
+    ParkBossCoins(mapObject->mPrm->mUnk_190);
+    StartKingTeresaHideForNextGroup(mapObject);
+    mapObject->mUnk_2d8 = 0;
+    SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+    StartKingTeresaHideThenCoinsFadeIn(mapObject);
+    mapObject->mUnk_0a8 = 0;
+    StartMapObjectSound(&mapObject->mUnk_000, 0x22c);
+    mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX = mapObject->mCollisionExtent.z =
+        mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mUnk_00c;
 }
 
-void func_ov001_0218e344(Unk02188950 *a) {
-    int v1;
-    v1 = IsStateNumberBelow(a, 5);
-    if (v1 != 0) {
-        func_ov001_0218edc8(a);
+void KingTeresaHitReactionCallback(Unk02188950 *mapObject) {
+    int isBelowFive;
+    isBelowFive = IsStateNumberBelow(mapObject, 5);
+    if (isBelowFive != 0) {
+        StartKingTeresaHitReaction(mapObject);
     }
-    a->mUnk_2d8 = 0xd;
-    SetKartCollisionCallback(a, func_ov001_0218e344);
-    if (a->mTimer == 0) {
-        StartMapObjectSound(&a->mUnk_000, 0x00000234u);
+    mapObject->mUnk_2d8 = 0xd;
+    SetKartCollisionCallback(mapObject, KingTeresaHitReactionCallback);
+    if (mapObject->mTimer == 0) {
+        StartMapObjectSound(&mapObject->mUnk_000, 0x00000234u);
     }
 }
 
-void func_ov001_0218e298(Unk02188950 *a, Kart *b) {
-    AddPendingBossTransferInMissionRun((u16) a->mPrm->mUnk_110);
-    a->mUnk_000.mPosStep.x = 0;
-    a->mUnk_000.mPosStep.y = a->mPrm->mUnk_114;
-    a->mUnk_000.mPosStep.z = 0;
-    a->mUnk_2d8 = 0xc;
-    a->mUnk_158 = func_ov001_0218f3ec;
-    SetKartCollisionCallback(a, func_ov001_0218f9a8);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-    StartKartHitReaction(b);
-    SetShadowOffsetYAndScale(a, 0, 0x32000);
-    a->mUnk_0a8 = 1;
+void KingTeresaBossTransferCallback(Unk02188950 *mapObject, Kart *kart) {
+    AddPendingBossTransferInMissionRun((u16) mapObject->mPrm->mUnk_110);
+    mapObject->mUnk_000.mPosStep.x = 0;
+    mapObject->mUnk_000.mPosStep.y = mapObject->mPrm->mUnk_114;
+    mapObject->mUnk_000.mPosStep.z = 0;
+    mapObject->mUnk_2d8 = 0xc;
+    mapObject->mUnk_158 = AdvanceKingTeresaFollowForwardPoint;
+    SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartKartHitReaction(kart);
+    SetShadowOffsetYAndScale(mapObject, 0, 0x32000);
+    mapObject->mUnk_0a8 = 1;
     if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0)) {
         StartFadeFog();
     }
 }
 
-void InitKingTeresaObjects(MapObjectList *a) {
+void InitKingTeresaObjects(MapObjectList *mapObjectList) {
     s32 i;
-    Unk02188950 *obj;
-    MissionRunPrm *a0;
+    Unk02188950 *mapObject;
+    MissionRunPrm *prm;
 
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (obj = a->mMapObjects[i]) != NULL; i++) {
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
             if (GetRaceUseChainCameras() != 0) {
-                func_ov001_0218e4ac(obj);
+                StartKingTeresaZeroAlphaWait(mapObject);
             } else {
-                func_ov001_0218e520(obj);
+                StartKingTeresaFirstAnimation(mapObject);
             }
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                a0 = obj->mPrm;
-                SetMissionRunTimerValues(a0->mUnk_1b8, a0->mUnk_1bc, a0->mUnk_1c0, a0->mUnk_1c4);
+                prm = mapObject->mPrm;
+                SetMissionRunTimerValues(prm->mUnk_1b8, prm->mUnk_1bc, prm->mUnk_1c0, prm->mUnk_1c4);
             }
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_0218e58c);
+    SetStandingsEndCallback((void (*)(void)) KingTeresaStandingsEndCallback);
 }
 
-void UpdateKingTeresa(u32 a, Unk02188950 *b) {
-    Kart *p;
+void UpdateKingTeresa(u32 unused, Unk02188950 *mapObject) {
+    Kart *kart;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
-        if (IsStateNumberBelow(b, 5) != 0) {
+        if (IsStateNumberBelow(mapObject, 5) != 0) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
-                func_ov001_0218e710(b);
+                StartKingTeresaKartEliminatedHold(mapObject);
             } else if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecidedAndEndReached() : 0) {
-                func_ov001_0218e5c4(b);
+                ShowKingTeresaAtEndReached(mapObject);
             } else {
-                func_ov001_0218e594(b);
+                StartKingTeresaWinnerDecidedHold(mapObject);
             }
         }
     } else {
-        if (b->mUnk_0a8 != 0) {
-            if (IsStateNumberBelow(b, 5) != 0) {
-                p = GetKart((u16) gRaceSetup->mEntryIndex);
-                if (p->mState == KART_STATE_NORMAL && (p->mUnk_48 & KART_48_OBJECTS_SKIP) == 0 &&
-                    GetEntryKartInRange(b, 0, b->mPrm->mUnk_184) != NULL &&
-                    GetEntryKartFacingObject(b, 0, b->mPrm->mUnk_180) != NULL &&
-                    GetEntryKartInRange(b, b->mPrm->mUnk_188, 0) != NULL) {
-                    func_ov001_0218e8d8(b);
+        if (mapObject->mUnk_0a8 != 0) {
+            if (IsStateNumberBelow(mapObject, 5) != 0) {
+                kart = GetKart((u16) gRaceSetup->mEntryIndex);
+                if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & KART_48_OBJECTS_SKIP) == 0 &&
+                    GetEntryKartInRange(mapObject, 0, mapObject->mPrm->mUnk_184) != NULL &&
+                    GetEntryKartFacingObject(mapObject, 0, mapObject->mPrm->mUnk_180) != NULL &&
+                    GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_188, 0) != NULL) {
+                    StartKingTeresaStopForBossCoins(mapObject);
                 }
             }
-            if (IsStateNumberBelow(b, 3) != 0) {
-                if (IsPointInRange(b, &GetCurrentGroupEntry(b)->mPos, b->mPrm->mUnk_138, 0) != 0) {
-                    IncrementEntryIndex(b);
+            if (IsStateNumberBelow(mapObject, 3) != 0) {
+                if (IsPointInRange(mapObject, &GetCurrentGroupEntry(mapObject)->mPos, mapObject->mPrm->mUnk_138, 0) !=
+                    0) {
+                    IncrementEntryIndex(mapObject);
                 }
-                SetKartCollisionCallback(b, func_ov001_0218e344);
-                b->mUnk_000.mFlags &= ~0x40;
+                SetKartCollisionCallback(mapObject, KingTeresaHitReactionCallback);
+                mapObject->mUnk_000.mFlags &= ~0x40;
                 SetBossCoinShownCount(0);
-                func_ov001_0218ec40(b);
+                StartKingTeresaMoveToGroupEntry(mapObject);
             }
         } else {
-            p = GetKart((u16) gRaceSetup->mEntryIndex);
-            if (p->mUnk_48 & KART_48_OBJECTS_SKIP) {
+            kart = GetKart((u16) gRaceSetup->mEntryIndex);
+            if (kart->mUnk_48 & KART_48_OBJECTS_SKIP) {
                 if (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0) {
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                        SetMissionRunTimer((u16) b->mPrm->mUnk_1bc);
+                        SetMissionRunTimer((u16) mapObject->mPrm->mUnk_1bc);
                     }
                 } else {
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                         SetMissionRunTimer(0);
                     }
                 }
-                if ((b->mUnk_000.mFlags & 1) == 0) {
-                    SetKartCollisionCallback(b, func_ov001_0218f9a8);
-                    b->mUnk_000.mFlags |= data_ov001_021a65b0;
-                    func_ov001_0218e7d0(b);
+                if ((mapObject->mUnk_000.mFlags & 1) == 0) {
+                    SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+                    mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                    HideKingTeresaWithoutEffects(mapObject);
                 }
             }
             if (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) {
-                if (IsStateNumberBelow(b, 3) != 0) {
-                    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) < b->mPrm->mUnk_1c8) {
-                        if (b->mUnk_000.mFlags & 1) {
-                            SetKartCollisionCallback(b, func_ov001_0218f9a8);
-                            b->mUnk_000.mFlags |= data_ov001_021a65b0;
-                            func_ov001_0218ee88(b);
+                if (IsStateNumberBelow(mapObject, 3) != 0) {
+                    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <
+                        mapObject->mPrm->mUnk_1c8) {
+                        if (mapObject->mUnk_000.mFlags & 1) {
+                            SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+                            mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                            ShowKingTeresaNearKart(mapObject);
                         } else {
-                            SetKartCollisionCallback(b, func_ov001_0218f9a8);
-                            b->mUnk_000.mFlags |= data_ov001_021a65b0;
-                            func_ov001_0218ef30(b);
+                            SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+                            mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                            StartKingTeresaWaitToApproach(mapObject);
                         }
-                    } else if ((b->mUnk_000.mFlags & 1) == 0) {
-                        SetKartCollisionCallback(b, func_ov001_0218f9a8);
-                        b->mUnk_000.mFlags |= data_ov001_021a65b0;
-                        func_ov001_0218e7d0(b);
+                    } else if ((mapObject->mUnk_000.mFlags & 1) == 0) {
+                        SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+                        mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                        HideKingTeresaWithoutEffects(mapObject);
                     }
                 }
             }
         }
         if (gKingTeresaState == 0) {
-            StartKingTeresaAlphaSound(b->mUnk_000.mSound);
+            StartKingTeresaAlphaSound(mapObject->mUnk_000.mSound);
         } else if (IsKingTeresaState0Or2Or5() != 0) {
-            StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22a);
+            StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x22a);
         } else if (gKingTeresaState == 4) {
-            StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22b);
+            StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x22b);
         }
     }
-    AdvanceMissionRunMapObject(a, b);
+    AdvanceMissionRunMapObject(unused, mapObject);
 }
 
-void InitKingTeresa(MapObjectList *a) {
+void InitKingTeresa(MapObjectList *mapObjectList) {
     int i;
-    Unk02188950 *p;
-    MissionRunPrm *a0;
+    Unk02188950 *mapObject;
+    MissionRunPrm *prm;
 
-    if (a != NULL) {
-        for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
+    if (mapObjectList != NULL) {
+        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                AddMissionRunMapObject(p);
+                AddMissionRunMapObject(mapObject);
             }
-            InitMissionRunMapObject(a, p, data_ov001_021a7da0, data_ov001_021a7db4, data_ov001_021a7dc8);
-            LoadMissionRunMapObjectShadow(a, p, data_ov001_021a7dd8);
-            a0 = p->mPrm;
-            SetCollisionOffsetAndExtent(p, a0->mUnk_008, a0->mUnk_00c, a0->mUnk_240);
-            SetShadowOffsetYAndScale(p, 0, 0x19000);
-            SetKartCollisionCallback(p, func_ov001_0218f9a8);
-            SetNodePositionSource(p, 0);
-            p->mUnk_000.mFlags |= data_ov001_021a65b0;
-            p->mUnk_2b8 = 3;
+            InitMissionRunMapObject(mapObjectList, mapObject, gKingTeresaNsbmdName, gKingTeresaNsbcaName,
+                                    gKingTeresaPrmName);
+            LoadMissionRunMapObjectShadow(mapObjectList, mapObject, data_ov001_021a7dd8);
+            prm = mapObject->mPrm;
+            SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_240);
+            SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
+            SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+            SetNodePositionSource(mapObject, 0);
+            mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+            mapObject->mUnk_2b8 = 3;
         }
     }
 }
 
-void DrawKingTeresa(void *a, Unk02188950 *b) {
-    DrawMissionRunMapObject(a, b);
-    if (b->mUnk_0a8 == 0) {
-        DrawMissionRunMapObjectShadow(a, b, 0);
+void DrawKingTeresa(void *mapObjectList, Unk02188950 *mapObject) {
+    DrawMissionRunMapObject(mapObjectList, mapObject);
+    if (mapObject->mUnk_0a8 == 0) {
+        DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
         return;
     }
-    DrawMissionRunMapObjectShadow(a, b, 1);
+    DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 1);
 }
 
-void func_ov001_0218dde8(void) {
-    void *v6 = &CollideKartWithMissionRunMapObject;
-    void *v7 = &CollideItemWithMissionRunMapObject;
-    void *v8 = &ComputeSphereHitOnMissionRunMapObject;
-    void *v10 = func_ov001_0219b510(v6, v7, v8, 0x2u, 0x0u, 0x0u, 0x0u);
+void CreateKingTeresaKindData(void) {
+    void *kartCollision = &CollideKartWithMissionRunMapObject;
+    void *itemCollision = &CollideItemWithMissionRunMapObject;
+    void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
+    void *kindData = func_ov001_0219b510(kartCollision, itemCollision, sphereHit, 0x2u, 0x0u, 0x0u, 0x0u);
 }
 
-void *func_ov001_0218ddcc(void) {
+void *CreateKingTeresaDrawList(void) {
     return CreateMapObjectDrawList1(InitKingTeresa, DrawKingTeresa, ToggleShadowScale);
 }
 
-void *func_ov001_0218ddb4(void) {
+void *CreateKingTeresaUpdateList(void) {
     return CreateMapObjectUpdateList(InitKingTeresaObjects, UpdateKingTeresa, NULL);
 }

@@ -63,7 +63,7 @@ void UpdateRaceHudSubScreenIwanteCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenIwanteCells->mCells[cellCount].mDrawPos,
                                                 var, 1, 1)) {
-                if (func_ov001_0218f9c0((Unk02188950 *) object)) {
+                if (IsIwanteWalkB((Unk02188950 *) object)) {
                     entryIndex = (object->mFlags & 0x400) ? 0xc8 : 0xc6;
                 } else {
                     entryIndex = (object->mFlags & 0x400) ? 0xc7 : 0xc5;
