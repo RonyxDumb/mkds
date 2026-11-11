@@ -1191,9 +1191,9 @@ void RunExchangeThread(void) {
     CallStatusCallback();
 }
 
-typedef struct Unk021bccd0_block {
+typedef struct BodyBlock {
     /* 0 */ u8 mUnk_00[8];
-} Unk021bccd0_block;
+} BodyBlock;
 
 BOOL TransformBodyWithKey(u8 *output, u8 *input, u32 inputLength, u8 *key, int keyLength) {
     u8 workBuffer[16];
@@ -1229,7 +1229,7 @@ BOOL TransformBodyWithKey(u8 *output, u8 *input, u32 inputLength, u8 *key, int k
     for (pass = 0; pass < 6; pass++) {
         for (blockIndex = 1; blockIndex <= blockCount; blockIndex++) {
             cursor = output + (u32) blockIndex * 8;
-            *(Unk021bccd0_block *) (workBuffer + 8) = *(Unk021bccd0_block *) cursor;
+            *(BodyBlock *) (workBuffer + 8) = *(BodyBlock *) cursor;
             TransformBlock(keyWords, lastGroup, workBuffer, workBuffer);
             counter = (s64) blockCount * (s32) pass + (s32) blockIndex;
             counterBytes = (((counter & 0x00000000000000ffULL) << 56) | ((counter & 0x000000000000ff00ULL) << 40) |
@@ -1237,10 +1237,10 @@ BOOL TransformBodyWithKey(u8 *output, u8 *input, u32 inputLength, u8 *key, int k
                             ((counter & 0x000000ff00000000ULL) >> 8) | ((counter & 0x0000ff0000000000ULL) >> 24) |
                             ((counter & 0x00ff000000000000ULL) >> 40) | ((counter & 0xff00000000000000ULL) >> 56));
             XorEightBytes(workBuffer, (u8 *) &counterBytes, workBuffer);
-            *(Unk021bccd0_block *) cursor = *(Unk021bccd0_block *) (workBuffer + 8);
+            *(BodyBlock *) cursor = *(BodyBlock *) (workBuffer + 8);
         }
     }
-    *(Unk021bccd0_block *) output = *(Unk021bccd0_block *) workBuffer;
+    *(BodyBlock *) output = *(BodyBlock *) workBuffer;
     return TRUE;
 }
 

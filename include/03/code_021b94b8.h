@@ -90,12 +90,12 @@ typedef struct WaitTimeout {
     /* 4 */ s32 mUnk_04;
 } WaitTimeout;
 
-typedef struct Unk021b7cec {
-    /* 0 */ u8 mUnk_00;
+typedef struct ItemContainerView {
+    /* 0 */ u8 mType;
     /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
-} Unk021b7cec;
+    /* 2 */ u16 mLength;
+    /* 4 */ u32 mFirstWord;
+} ItemContainerView;
 
 typedef struct PacketTag {
     /* 0 */ u8 mBytes[6];

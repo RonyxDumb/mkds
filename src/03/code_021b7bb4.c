@@ -201,7 +201,7 @@ s32 AdvanceStepByKind(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *
 
 s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
     Packet *packet;
-    Unk021b7cec *payload;
+    ItemContainerView *payload;
     u32 *valuePointer;
     s32 result;
     if (mode != 0) {
@@ -209,19 +209,19 @@ s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         return mode;
     }
     packet = (Packet *) buffer->mBytes;
-    payload = (Unk021b7cec *) &buffer->mBytes[0x18];
+    payload = (ItemContainerView *) &buffer->mBytes[0x18];
     result = XorSwapAndCheckTag(&list[0], &packet->mTag);
     if (result < 0) {
         (*attempts)++;
         return mode;
     }
-    if (SwapBytes16(payload->mUnk_02) == 0) {
+    if (SwapBytes16(payload->mLength) == 0) {
         (*attempts)++;
         return mode;
     }
-    if (payload->mUnk_00 == 7) {
-        valuePointer = &payload->mUnk_04;
-        if (PacketSwapBytes32(payload->mUnk_04) == -2) {
+    if (payload->mType == 7) {
+        valuePointer = &payload->mFirstWord;
+        if (PacketSwapBytes32(payload->mFirstWord) == -2) {
             SetErrorCode(0x14);
         } else if (PacketSwapBytes32(*valuePointer) == -3) {
             SetErrorCode(0x15);
@@ -230,11 +230,11 @@ s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         }
         return -1;
     }
-    if (payload->mUnk_00 != 1) {
+    if (payload->mType != 1) {
         (*attempts)++;
         return mode;
     }
-    result = ParseItemChain((PacketItem *) &payload->mUnk_04, gItemSlots);
+    result = ParseItemChain((PacketItem *) &payload->mFirstWord, gItemSlots);
     if (result < 0) {
         if (result == -2) {
             SetErrorCode(0x16);
@@ -250,27 +250,27 @@ s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
 
 s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
     Packet *packet;
-    Unk021b7cec *payload;
+    ItemContainerView *payload;
     s32 result;
     if (mode != 1) {
         (*attempts)++;
         return mode;
     }
     packet = (Packet *) buffer->mBytes;
-    payload = (Unk021b7cec *) &buffer->mBytes[0x18];
+    payload = (ItemContainerView *) &buffer->mBytes[0x18];
     result = XorSwapAndCheckTag(&list[1], &packet->mTag);
     if (result < 0) {
         (*attempts)++;
         return mode;
     }
-    if (SwapBytes16(payload->mUnk_02) == 0) {
+    if (SwapBytes16(payload->mLength) == 0) {
         (*attempts)++;
         return mode;
     }
-    if (payload->mUnk_00 == 7) {
-        if (PacketSwapBytes32(payload->mUnk_04) == -2) {
+    if (payload->mType == 7) {
+        if (PacketSwapBytes32(payload->mFirstWord) == -2) {
             SetErrorCode(0x14);
-        } else if (PacketSwapBytes32(payload->mUnk_04) == -3) {
+        } else if (PacketSwapBytes32(payload->mFirstWord) == -3) {
             SetErrorCode(0x15);
         } else {
             SetErrorCode(0x18);
@@ -293,35 +293,35 @@ s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
 
 s32 AdvanceStepForKind3010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
     Packet *packet;
-    Unk021b7cec *payload;
+    ItemContainerView *payload;
     s32 result;
     if (mode != 2) {
         (*attempts)++;
         return mode;
     }
     packet = (Packet *) buffer->mBytes;
-    payload = (Unk021b7cec *) &buffer->mBytes[0x18];
+    payload = (ItemContainerView *) &buffer->mBytes[0x18];
     result = XorSwapAndCheckTag(&list[2], &packet->mTag);
     if (result < 0) {
         (*attempts)++;
         return mode;
     }
-    if (payload->mUnk_00 != 7) {
+    if (payload->mType != 7) {
         (*attempts)++;
         return mode;
     }
-    if (SwapBytes16(payload->mUnk_02) == 0) {
+    if (SwapBytes16(payload->mLength) == 0) {
         (*attempts)++;
         return mode;
     }
-    if (PacketSwapBytes32(payload->mUnk_04) == 0) {
+    if (PacketSwapBytes32(payload->mFirstWord) == 0) {
         return 0x64;
     }
-    if (PacketSwapBytes32(payload->mUnk_04) == -2) {
+    if (PacketSwapBytes32(payload->mFirstWord) == -2) {
         SetErrorCode(0x14);
         return -1;
     }
-    if (PacketSwapBytes32(payload->mUnk_04) == -3) {
+    if (PacketSwapBytes32(payload->mFirstWord) == -3) {
         SetErrorCode(0x15);
         return -1;
     }
@@ -737,7 +737,7 @@ s32 SendPacketKind2000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     s16 payloadLength;
     s16 flags;
     u8 tagBytes[8];
-    Unk021b7cec item;
+    ItemContainerView item;
     PacketBuffer *packetBuffer;
     payloadCrc = 0;
     payloadLength = 0;
@@ -745,11 +745,11 @@ s32 SendPacketKind2000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     packetBuffer = gRequestPacketBuffer;
     FillBytes(&item, 0, 8);
     FillBytes(packetBuffer, 0, 0x5dc);
-    item.mUnk_00 = 2;
+    item.mType = 2;
     item.mUnk_01 = 0;
-    item.mUnk_02 = PacketSwapBytes16(4);
-    item.mUnk_04 = gRequestState.mWantedRecordMask;
-    item.mUnk_04 = SwapBytes32(item.mUnk_04);
+    item.mLength = PacketSwapBytes16(4);
+    item.mFirstWord = gRequestState.mWantedRecordMask;
+    item.mFirstWord = SwapBytes32(item.mFirstWord);
     payloadLength = 8;
     FillPayloadRecord(gFlagBit4OfKind1010Packet, &packetBuffer->mBytes[12], &item, &payloadLength, &flags, &payloadCrc);
     CopyBytes(tagBytes, &list[1], 8);
