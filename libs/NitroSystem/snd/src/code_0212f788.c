@@ -40,10 +40,10 @@ NNSSndSeqArcSeqInfo *NNSi_SndSeqArcGetSeqInfo(Unk0212f788 *archive, s32 entry) {
     if (entry < 0) {
         return 0;
     }
-    if (entry >= archive->mUnk_1c) {
+    if (entry >= archive->mCount) {
         return 0;
     }
-    record = (NNSSndSeqArcSeqInfo *) ((u8 *) archive->mUnk_20 + entry * 12);
+    record = (NNSSndSeqArcSeqInfo *) ((u8 *) archive->mInfo + entry * 12);
     if (record->mOffset == -1) {
         return 0;
     }

@@ -14,14 +14,14 @@ typedef struct NNSG2dGlyph {
 // 0x20-byte object set up by NNS_G2dCharCanvasInitForOBJ1D and NNS_G2dCharCanvasInitForBG: a buffer of 8 x 8 blocks of
 // mUnk_0c * 8 bytes and the functions that draw into it.
 typedef struct Unk02023374 {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u8 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ void (*mUnk_14)(struct Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *);
-    /* 18 */ void (*mUnk_18)(struct Unk02023374 *, u32);
-    /* 1c */ void (*mUnk_1c)(struct Unk02023374 *, u32, s32, s32, s32, s32);
+    /* 00 */ u8 *mCharBase;
+    /* 04 */ s32 mAreaWidth;
+    /* 08 */ s32 mAreaHeight;
+    /* 0c */ u8 mDstBpp;
+    /* 10 */ u32 mParam;
+    /* 14 */ void (*mPDrawGlyph)(struct Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *);
+    /* 18 */ void (*mPClear)(struct Unk02023374 *, u32);
+    /* 1c */ void (*mPClearArea)(struct Unk02023374 *, u32, s32, s32, s32, s32);
 } Unk02023374;
 
 // Argument of LetterChar, built on the stack by DrawGlyph1D and DrawGlyphLine.

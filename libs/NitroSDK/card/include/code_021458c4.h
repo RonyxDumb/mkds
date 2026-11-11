@@ -4,10 +4,10 @@
 #include "os_thread.h"
 
 // Two words read as a pair: data_0216f35c, data_0216f364 and the tables in the ROM header.
-typedef struct Unk02005704 {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-} Unk02005704;
+typedef struct CARDRomRegion {
+    /* 00 */ u8 *mOffset;
+    /* 04 */ u32 mLength;
+} CARDRomRegion;
 
 // The first 0x60 bytes of the ROM header, the part FS_ReadFile reads to find the tables.
 typedef struct RomHeaderStart {
@@ -24,28 +24,28 @@ typedef struct RomHeaderStart {
             /* 40 */ u32 mFntOffset;
             /* 44 */ u32 mFntSize;
         };
-        /* 40 */ Unk02005704 mFntTable;
+        /* 40 */ CARDRomRegion mFntTable;
     };
     union {
         struct {
             /* 48 */ u32 mFatOffset;
             /* 4c */ u32 mFatSize;
         };
-        /* 48 */ Unk02005704 mFatTable;
+        /* 48 */ CARDRomRegion mFatTable;
     };
     union {
         struct {
             /* 50 */ u32 mOverlayTable0Offset;
             /* 54 */ u32 mOverlayTable0Size;
         };
-        /* 50 */ Unk02005704 mOverlayTable0;
+        /* 50 */ CARDRomRegion mOverlayTable0;
     };
     union {
         struct {
             /* 58 */ u32 mOverlayTable1Offset;
             /* 5c */ u32 mOverlayTable1Size;
         };
-        /* 58 */ Unk02005704 mOverlayTable1;
+        /* 58 */ CARDRomRegion mOverlayTable1;
     };
 } RomHeaderStart;
 

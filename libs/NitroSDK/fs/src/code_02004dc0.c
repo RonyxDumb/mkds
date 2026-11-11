@@ -22,8 +22,8 @@
 u32 data_0216f350;
 u32 data_0216f354;
 u32 data_0216f358;
-Unk02005704 data_0216f364;
-Unk02005704 data_0216f35c;
+CARDRomRegion data_0216f364;
+CARDRomRegion data_0216f35c;
 FSArchive data_0216f36c;
 
 void *fsi_digest_key_ptr = fsi_def_digest_key;
@@ -105,20 +105,20 @@ u32 FSi_LoadOverlayInfoCore(FSOverlayInfo *info, u32 selector, u32 index, FSArch
 u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     FSFile file;
     FSFileID fileID;
-    Unk02005704 *table;
-    Unk02005704 *region0;
-    Unk02005704 *region1;
+    CARDRomRegion *table;
+    CARDRomRegion *region0;
+    CARDRomRegion *region1;
 
     if (selector == 0) {
         table = &data_0216f35c;
     } else {
         table = &data_0216f364;
     }
-    if (table->mUnk_00 != 0) {
-        if (index * 32 >= table->mUnk_04) {
+    if (table->mOffset != 0) {
+        if (index * 32 >= table->mLength) {
             return 0;
         }
-        MI_CpuCopy8(table->mUnk_00 + index * 32, info, 0x20);
+        MI_CpuCopy8(table->mOffset + index * 32, info, 0x20);
         info->mTarget = selector;
         FS_InitFile(&file);
         FS_GetOverlayFileID(&fileID, info);
@@ -132,8 +132,8 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     }
     region0 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable0;
     region1 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable1;
-    return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->mUnk_00, region0->mUnk_04,
-                                   region1->mUnk_00, region1->mUnk_04);
+    return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->mOffset, region0->mLength,
+                                   region1->mOffset, region1->mLength);
 }
 
 // Starts reading an overlay image without waiting; the file stays open until the read ends.
@@ -323,7 +323,7 @@ u32 FS_UnloadOverlay(u32 selector, u32 index) {
 
 // Sets the overlay table for a target; the table of target 0 is checked against its digest first.
 void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
-    Unk02005704 *table;
+    CARDRomRegion *table;
     u32 saved;
 
     if (data != 0 && selector == 0) {
@@ -339,8 +339,8 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
         table = &data_0216f364;
     }
     saved = OS_DisableInterrupts();
-    table->mUnk_00 = data;
-    table->mUnk_04 = size;
+    table->mOffset = data;
+    table->mLength = size;
     OS_RestoreInterrupts(saved);
 }
 
@@ -392,18 +392,18 @@ void FSi_InitRom(u32 dmaNo) {
 
     data_0216f358 = dmaNo;
     data_0216f354 = OS_GetLockID();
-    data_0216f35c.mUnk_00 = 0;
-    data_0216f35c.mUnk_04 = 0;
-    data_0216f364.mUnk_00 = 0;
-    data_0216f364.mUnk_04 = 0;
+    data_0216f35c.mOffset = 0;
+    data_0216f35c.mLength = 0;
+    data_0216f364.mOffset = 0;
+    data_0216f364.mLength = 0;
     CARD_Init();
     FS_InitArchive(&data_0216f36c);
     FS_RegisterArchiveName(&data_0216f36c, data_02161764, 3);
     if (SYSTEM_WORK->mWmBootBuf.mUnk_00 == 2) {
-        data_0216f35c.mUnk_00 = (u8 *) -1;
-        data_0216f35c.mUnk_04 = 0;
-        data_0216f364.mUnk_00 = (u8 *) -1;
-        data_0216f364.mUnk_04 = 0;
+        data_0216f35c.mOffset = (u8 *) -1;
+        data_0216f35c.mLength = 0;
+        data_0216f364.mOffset = (u8 *) -1;
+        data_0216f364.mLength = 0;
         FS_SetArchiveProc(&data_0216f36c, FSi_EmptyArchiveProc, -1);
         FS_LoadArchive(&data_0216f36c, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
         return;
@@ -411,21 +411,21 @@ void FSi_InitRom(u32 dmaNo) {
     fntRegion = 0x27ffe40;
     fatRegion = 0x27ffe48;
     FS_SetArchiveProc(&data_0216f36c, FSi_RomArchiveProc, 0x602);
-    if (((Unk02005704 *) fntRegion)->mUnk_00 == (u8 *) -1) {
+    if (((CARDRomRegion *) fntRegion)->mOffset == (u8 *) -1) {
         return;
     }
-    if (((Unk02005704 *) fntRegion)->mUnk_00 == 0) {
+    if (((CARDRomRegion *) fntRegion)->mOffset == 0) {
         return;
     }
-    if (((Unk02005704 *) fatRegion)->mUnk_00 == (u8 *) -1) {
+    if (((CARDRomRegion *) fatRegion)->mOffset == (u8 *) -1) {
         return;
     }
-    if (((Unk02005704 *) fatRegion)->mUnk_00 == 0) {
+    if (((CARDRomRegion *) fatRegion)->mOffset == 0) {
         return;
     }
-    FS_LoadArchive(&data_0216f36c, 0, (u32) ((Unk02005704 *) fatRegion)->mUnk_00, ((Unk02005704 *) fatRegion)->mUnk_04,
-                   (u32) ((Unk02005704 *) fntRegion)->mUnk_00, ((Unk02005704 *) fntRegion)->mUnk_04,
-                   FSi_ReadRomCallback, FSi_WriteDummyCallback);
+    FS_LoadArchive(&data_0216f36c, 0, (u32) ((CARDRomRegion *) fatRegion)->mOffset,
+                   ((CARDRomRegion *) fatRegion)->mLength, (u32) ((CARDRomRegion *) fntRegion)->mOffset,
+                   ((CARDRomRegion *) fntRegion)->mLength, FSi_ReadRomCallback, FSi_WriteDummyCallback);
 }
 
 // Copies the ROM archive tables into the given memory.

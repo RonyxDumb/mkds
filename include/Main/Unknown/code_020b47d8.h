@@ -4,7 +4,7 @@
 #include "code_02012b30.h" // MtxFx22
 #include "Main/Unknown/code_020b4000.h" // Nscr, Ncgr, Nclr
 #include "g2d_NAN_load.h" // Unk02021dc8
-#include "g2d_NSC_load.h" // Unk02021f9c
+#include "g2d_NSC_load.h" // NNSG2dBinaryFileHeader
 
 void LocateNscr(Nscr **out, void *file);
 void LoadNscrData(Nscr **out, void *file);

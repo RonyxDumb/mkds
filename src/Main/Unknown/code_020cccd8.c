@@ -641,7 +641,7 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
     MtxFx22 matrix;
     s32 position[2];
     s32 drawX;
-    struct Unk020224e0_c *ncerEntry;
+    struct NNSG2dCellDataWithBR *ncerEntry;
     s32 drawY;
 
     minDrawValue = GetRaceHudSubScreenMinDrawValue();

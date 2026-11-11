@@ -43,92 +43,92 @@ void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) 
 }
 
 BOOL IsCellOamModeXlu(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    if ((cellData->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
+    if ((cellData->mPOamAttrArray->mAttr0 & 0xc00) >> 10 == 1) {
         return TRUE;
     }
     return FALSE;
 }
 
 void SetCellOamModeXlu(u32 index, s32 enableXlu, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     s32 oamIndex;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellOAMAttrData *oamEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    oamEntry = cellData->mUnk_04;
-    for (oamIndex = 0; oamIndex < cellData->mUnk_00; oamIndex++) {
-        oamEntry->mUnk_00 &= ~0xc00;
+    oamEntry = cellData->mPOamAttrArray;
+    for (oamIndex = 0; oamIndex < cellData->mNumOAMAttrs; oamIndex++) {
+        oamEntry->mAttr0 &= ~0xc00;
         if (enableXlu != 0) {
-            oamEntry->mUnk_00 |= 0x400;
+            oamEntry->mAttr0 |= 0x400;
         }
         oamEntry++;
     }
 }
 
 u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    return (cellData->mUnk_04->mUnk_04 & 0xf000) >> 12;
+    return (cellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12;
 }
 
 void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     s32 oamIndex;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellOAMAttrData *oamEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    oamEntry = cellData->mUnk_04;
-    for (oamIndex = 0; oamIndex < cellData->mUnk_00; oamIndex++) {
-        oamEntry->mUnk_04 &= ~0xf000;
-        oamEntry->mUnk_04 |= paletteIndex << 12;
+    oamEntry = cellData->mPOamAttrArray;
+    for (oamIndex = 0; oamIndex < cellData->mNumOAMAttrs; oamIndex++) {
+        oamEntry->mAttr2 &= ~0xf000;
+        oamEntry->mAttr2 |= paletteIndex << 12;
         oamEntry++;
     }
 }
 
 u8 GetCellPriority(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    return (cellData->mUnk_04->mUnk_04 & 0xc00) >> 10;
+    return (cellData->mPOamAttrArray->mAttr2 & 0xc00) >> 10;
 }
 
 void SetCellPriority(u32 index, u32 priority, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     s32 oamIndex;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellOAMAttrData *oamEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    oamEntry = cellData->mUnk_04;
-    for (oamIndex = 0; oamIndex < cellData->mUnk_00; oamIndex++) {
-        oamEntry->mUnk_04 &= ~0xc00;
-        oamEntry->mUnk_04 |= priority << 10;
+    oamEntry = cellData->mPOamAttrArray;
+    for (oamIndex = 0; oamIndex < cellData->mNumOAMAttrs; oamIndex++) {
+        oamEntry->mAttr2 &= ~0xc00;
+        oamEntry->mAttr2 |= priority << 10;
         oamEntry++;
     }
 }
 
 u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    return cellData->mUnk_04->mUnk_04 & 0x3ff;
+    return cellData->mPOamAttrArray->mAttr2 & 0x3ff;
 }
 
 // Queues every entry's characters and used palette rows; copies the source palette index to the destination entries.
@@ -139,10 +139,10 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
     s32 oamCount;
     s32 destCharOffset;
     u8 *charsSource;
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     s32 oamIndex;
-    Unk020224e0_c *destCellData;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellDataWithBR *destCellData;
+    NNSG2dCellOAMAttrData *oamEntry;
     CellLayoutEntry *cellEntry;
     CellLayoutEntry *destCellEntry;
     s32 charBytes;
@@ -161,16 +161,16 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
     destCellEntry = (CellLayoutEntry *) (destCellLayout + 1);
     destCellEntry += destIndex;
     destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
-    oamCount = cellData->mUnk_00;
+    oamCount = cellData->mNumOAMAttrs;
     for (paletteRow = 0; paletteRow < 16; paletteRow++) {
         usedPalettes[paletteRow] = 0;
     }
     for (oamIndex = 0; oamIndex < oamCount; oamIndex++) {
-        sourceAttr2 = cellData->mUnk_04[oamIndex].mUnk_04;
-        destCharOffset = (destCellData->mUnk_04[oamIndex].mUnk_04 & 0x3ff) << 5;
-        oamEntry = &cellData->mUnk_04[oamIndex];
-        oamSize = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
-        oamShape = ((u32) cellData->mUnk_04[oamIndex].mUnk_00 & 0xc000) >> 14;
+        sourceAttr2 = cellData->mPOamAttrArray[oamIndex].mAttr2;
+        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & 0x3ff) << 5;
+        oamEntry = &cellData->mPOamAttrArray[oamIndex];
+        oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
+        oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
         charBytes = (&data_0215d024[oamSize])[oamShape * 4] << 5;
         charsSource = (u8 *) chars->mData + ((sourceAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
@@ -181,8 +181,8 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
         }
         paletteIndex = (sourceAttr2 & 0xf000) >> 12;
         usedPalettes[paletteIndex] = 1;
-        destCellData->mUnk_04[oamIndex].mUnk_04 &= ~0xf000;
-        destCellData->mUnk_04[oamIndex].mUnk_04 |= paletteIndex << 12;
+        destCellData->mPOamAttrArray[oamIndex].mAttr2 &= ~0xf000;
+        destCellData->mPOamAttrArray[oamIndex].mAttr2 |= paletteIndex << 12;
     }
     runStart = 0;
     runLength = 0;
@@ -209,9 +209,9 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
 void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable *cellLayout, s32 queueSelector,
                     u32 destIndex, Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout) {
     s32 oamIndex;
-    Unk020224e0_c *cellData;
-    Unk020224e0_c *destCellData;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellDataWithBR *cellData;
+    NNSG2dCellDataWithBR *destCellData;
+    NNSG2dCellOAMAttrData *oamEntry;
     CellLayoutEntry *cellEntry;
     CellLayoutEntry *destCellEntry;
     s32 oamCount;
@@ -227,14 +227,14 @@ void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable
     destCellEntry += destIndex;
     destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
     oamIndex = 0;
-    oamCount = cellData->mUnk_00;
+    oamCount = cellData->mNumOAMAttrs;
     for (; oamIndex < oamCount; oamIndex++) {
-        destCharOffset = (destCellData->mUnk_04[oamIndex].mUnk_04 & 0x3ff) << 5;
-        oamEntry = &cellData->mUnk_04[oamIndex];
-        oamSize = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
-        oamShape = ((u32) cellData->mUnk_04[oamIndex].mUnk_00 & 0xc000) >> 14;
+        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & 0x3ff) << 5;
+        oamEntry = &cellData->mPOamAttrArray[oamIndex];
+        oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
+        oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
         charBytes = (&data_0215d024[oamSize])[oamShape * 4] << 5;
-        charsSource = (u8 *) chars->mData + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
@@ -248,9 +248,9 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
                                    LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
                                    Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout) {
     s32 oamIndex;
-    Unk020224e0_c *cellData;
-    Unk020224e0_c *destCellData;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellDataWithBR *cellData;
+    NNSG2dCellDataWithBR *destCellData;
+    NNSG2dCellOAMAttrData *oamEntry;
     CellLayoutEntry *cellEntry;
     CellLayoutEntry *destCellEntry;
     s32 oamCount;
@@ -269,14 +269,14 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
     destCellEntry += destIndex;
     destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
     oamIndex = 0;
-    oamCount = cellData->mUnk_00;
+    oamCount = cellData->mNumOAMAttrs;
     for (; oamIndex < oamCount; oamIndex++) {
-        destCharOffset = (destCellData->mUnk_04[oamIndex].mUnk_04 & 0x3ff) << 5;
-        oamEntry = &cellData->mUnk_04[oamIndex];
-        oamSize = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
-        oamShape = ((u32) cellData->mUnk_04[oamIndex].mUnk_00 & 0xc000) >> 14;
+        destCharOffset = (destCellData->mPOamAttrArray[oamIndex].mAttr2 & 0x3ff) << 5;
+        oamEntry = &cellData->mPOamAttrArray[oamIndex];
+        oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
+        oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
         charBytes = (&data_0215d024[oamSize])[oamShape * 4] << 5;
-        charsSource = (u8 *) chars->mData + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
@@ -284,8 +284,8 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
             NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
         }
     }
-    destPaletteOffset = (((u32) destCellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5;
-    paletteSource = (u8 *) palette->mData + ((((u32) cellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5);
+    destPaletteOffset = (((u32) destCellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12) << 5;
+    paletteSource = (u8 *) palette->mData + ((((u32) cellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12) << 5);
     if (queueSelector == 0) {
         queueCommand = 0xe;
     } else {
@@ -299,7 +299,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     Unk02022eb0 oamBuffer[128];
     LabelLayoutEntry *labelEntry;
     LabelCanvas *canvas;
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     s32 widthBlocks;
     s32 heightBlocks;
     s32 blockCount;
@@ -325,7 +325,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     canvas->mTextCanvas.mCharIndex = ((charOffset - 0x100) >> 5) - blockCount;
     canvas->mTextCanvas.mCharBuffer = HeapAlloc(heap, canvas->mTextCanvas.mCharBytes);
     NNS_G2dCharCanvasInitForOBJ1D(canvas, canvas->mTextCanvas.mCharBuffer, widthBlocks, heightBlocks, 4);
-    canvas->mCharCanvas.mUnk_18(&canvas->mCharCanvas, 0);
+    canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, 0);
     lineSpacing = labelEntry->mLineSpacing;
     charSpacing = labelEntry->mCharSpacing;
     font = GetFontByIndex(labelEntry->mFontIndex);
@@ -364,13 +364,13 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     oamCount =
         NNS_G2dArrangeOBJ1D(oamBuffer, widthBlocks, heightBlocks, value, originY, 0, canvas->mTextCanvas.mCharIndex, 0);
     cellData = HeapAlloc(heap, oamCount * 6 + 0x10);
-    cellData->mUnk_00 = oamCount;
-    cellData->mUnk_02 = 0;
-    cellData->mUnk_04 = (Unk020224e0_s *) (cellData + 1);
-    cellData->mUnk_08 = widthBlocks << 2;
-    cellData->mUnk_0a = heightBlocks << 2;
-    cellData->mUnk_0c = -widthBlocks << 2;
-    cellData->mUnk_0e = -heightBlocks << 2;
+    cellData->mNumOAMAttrs = oamCount;
+    cellData->mCellAttr = 0;
+    cellData->mPOamAttrArray = (NNSG2dCellOAMAttrData *) (cellData + 1);
+    cellData->mMaxX = widthBlocks << 2;
+    cellData->mMaxY = heightBlocks << 2;
+    cellData->mMinX = -widthBlocks << 2;
+    cellData->mMinY = -heightBlocks << 2;
     for (oamIndex = 0; oamIndex < oamCount; oamIndex++) {
         oamBuffer[oamIndex].mUnk_04 = (oamBuffer[oamIndex].mUnk_04 & ~0xc00) | (priority * 0x400);
         if (isXlu != 0) {
@@ -384,9 +384,9 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
         }
         oamBuffer[oamIndex].mUnk_00 &= ~0x1000;
         oamBuffer[oamIndex].mUnk_00 &= 0xc1fffcff;
-        cellData->mUnk_04[oamIndex].mUnk_00 = oamBuffer[oamIndex].mUnk_00_0;
-        cellData->mUnk_04[oamIndex].mUnk_02 = oamBuffer[oamIndex].mUnk_00_2;
-        cellData->mUnk_04[oamIndex].mUnk_04 = oamBuffer[oamIndex].mUnk_04;
+        cellData->mPOamAttrArray[oamIndex].mAttr0 = oamBuffer[oamIndex].mUnk_00_0;
+        cellData->mPOamAttrArray[oamIndex].mAttr1 = oamBuffer[oamIndex].mUnk_00_2;
+        cellData->mPOamAttrArray[oamIndex].mAttr2 = oamBuffer[oamIndex].mUnk_04;
     }
     canvas->mCellData = cellData;
     return canvas->mTextCanvas.mCharBytes;
@@ -434,7 +434,7 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *l
         flags |= 0x100;
         offsetY = alignedHeight - canvasHeight;
     }
-    canvas->mCharCanvas.mUnk_18(&canvas->mCharCanvas, 0);
+    canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, 0);
     DrawTextInRectFixedAdvance(&canvas->mTextCanvas, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mColor,
                                flags, labelEntry->mAxisX.mUnk_00_14, text, fixedDigitsOnly, fixedAdvance);
     chars = canvas->mTextCanvas.mCharBuffer;
@@ -472,7 +472,7 @@ void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntry
     s32 charBytes;
     GetLabelLayoutEntry(labelLayout, labelIndex);
     canvas = (table + cellLayout->mCount + labelIndex)->mLabelCanvas;
-    canvas->mCharCanvas.mUnk_18(&canvas->mCharCanvas, 0);
+    canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, 0);
     chars = canvas->mTextCanvas.mCharBuffer;
     destOffset = canvas->mTextCanvas.mCharIndex << 5;
     charBytes = canvas->mTextCanvas.mCharBytes;
@@ -489,7 +489,7 @@ BOOL IsLabelOamModeXlu(s32 labelIndex, void *labelLayout, LayoutTableEntry *tabl
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mCount;
-    if ((labelTableEntry->mLabelCanvas->mCellData->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
+    if ((labelTableEntry->mLabelCanvas->mCellData->mPOamAttrArray->mAttr0 & 0xc00) >> 10 == 1) {
         return TRUE;
     }
     return FALSE;
@@ -500,16 +500,16 @@ void SetLabelOamModeXlu(u32 labelIndex, u32 enableXlu, LayoutEntryTable *labelLa
     LayoutTableEntry *labelTableEntry;
     LayoutTableEntry *entry;
     s32 oamIndex;
-    Unk020224e0_c *cellData;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellDataWithBR *cellData;
+    NNSG2dCellOAMAttrData *oamEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mCount;
     cellData = labelTableEntry->mLabelCanvas->mCellData;
-    oamEntry = cellData->mUnk_04;
-    for (oamIndex = 0; oamIndex < cellData->mUnk_00; oamIndex++) {
-        oamEntry->mUnk_00 &= ~0xc00;
+    oamEntry = cellData->mPOamAttrArray;
+    for (oamIndex = 0; oamIndex < cellData->mNumOAMAttrs; oamIndex++) {
+        oamEntry->mAttr0 &= ~0xc00;
         if (enableXlu != 0) {
-            oamEntry->mUnk_00 |= 0x400;
+            oamEntry->mAttr0 |= 0x400;
         }
         oamEntry++;
     }
@@ -520,15 +520,15 @@ void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, LayoutEntryTable *lab
     LayoutTableEntry *labelTableEntry;
     LayoutTableEntry *entry;
     s32 oamIndex;
-    Unk020224e0_c *cellData;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellDataWithBR *cellData;
+    NNSG2dCellOAMAttrData *oamEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mCount;
     cellData = labelTableEntry->mLabelCanvas->mCellData;
-    oamEntry = cellData->mUnk_04;
-    for (oamIndex = 0; oamIndex < cellData->mUnk_00; oamIndex++) {
-        oamEntry->mUnk_04 &= ~0xf000;
-        oamEntry->mUnk_04 |= paletteIndex << 12;
+    oamEntry = cellData->mPOamAttrArray;
+    for (oamIndex = 0; oamIndex < cellData->mNumOAMAttrs; oamIndex++) {
+        oamEntry->mAttr2 &= ~0xf000;
+        oamEntry->mAttr2 |= paletteIndex << 12;
         oamEntry++;
     }
 }
@@ -538,7 +538,7 @@ u8 GetLabelPriority(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, 
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mCount;
-    return (labelTableEntry->mLabelCanvas->mCellData->mUnk_04->mUnk_04 & 0xc00) >> 10;
+    return (labelTableEntry->mLabelCanvas->mCellData->mPOamAttrArray->mAttr2 & 0xc00) >> 10;
 }
 
 void SetLabelPriority(u32 labelIndex, u32 priority, LayoutEntryTable *labelLayout, LayoutTableEntry *table,
@@ -546,15 +546,15 @@ void SetLabelPriority(u32 labelIndex, u32 priority, LayoutEntryTable *labelLayou
     LayoutTableEntry *labelTableEntry;
     LayoutTableEntry *entry;
     s32 oamIndex;
-    Unk020224e0_c *cellData;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellDataWithBR *cellData;
+    NNSG2dCellOAMAttrData *oamEntry;
     entry = table + labelIndex;
     labelTableEntry = entry + cellLayout->mCount;
     cellData = labelTableEntry->mLabelCanvas->mCellData;
-    oamEntry = cellData->mUnk_04;
-    for (oamIndex = 0; oamIndex < cellData->mUnk_00; oamIndex++) {
-        oamEntry->mUnk_04 &= ~0xc00;
-        oamEntry->mUnk_04 |= priority << 10;
+    oamEntry = cellData->mPOamAttrArray;
+    for (oamIndex = 0; oamIndex < cellData->mNumOAMAttrs; oamIndex++) {
+        oamEntry->mAttr2 &= ~0xc00;
+        oamEntry->mAttr2 |= priority << 10;
         oamEntry++;
     }
 }

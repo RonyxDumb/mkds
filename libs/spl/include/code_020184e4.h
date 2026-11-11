@@ -46,7 +46,7 @@ typedef struct Unk02018a1c {
 
 typedef struct SPLManager {
     /* 00 */ void *(*mAlloc)(u32 a);
-    /* 04 */ Unk0201e494 mUnk_04[3];
+    /* 04 */ ParticleList mUnk_04[3];
     /* 28 */ Unk0201ca6c_20 *mResources;
     /* 2c */ Unk020184e4_2c *mTextures;
     /* 30 */ u16 mResCount;

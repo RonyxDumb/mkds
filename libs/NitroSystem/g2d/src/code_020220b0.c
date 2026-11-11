@@ -3,11 +3,11 @@
 
 void NNS_G2dInitAnimCtrl(Unk02022030 *pAnimCtrl) {
     NNS_G2dInitAnimCallBackFunctor(&pAnimCtrl->mCallbackFunctor);
-    pAnimCtrl->mUnk_00 = 0;
-    pAnimCtrl->mUnk_04 = 0;
-    pAnimCtrl->mUnk_08 = 1;
-    pAnimCtrl->mUnk_0c = 0;
-    pAnimCtrl->mUnk_10 = 0x1000;
-    pAnimCtrl->mUnk_14 = 0;
-    pAnimCtrl->mUnk_18 = 0;
+    pAnimCtrl->mPCurrent = 0;
+    pAnimCtrl->mReverse = 0;
+    pAnimCtrl->mActive = 1;
+    pAnimCtrl->mCurrentTime = 0;
+    pAnimCtrl->mSpeed = 0x1000;
+    pAnimCtrl->mOverriddenPlayMode = 0;
+    pAnimCtrl->mPAnimSequence = 0;
 }

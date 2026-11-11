@@ -61,7 +61,7 @@ typedef struct IntPair {
 #define RACE_HUD_PRIORITY_OUTSIDE_BOX 2
 typedef struct RaceHudSubScreenCell {
     /* 00 */ IntPair mDrawPos;
-    /* 08 */ struct Unk020224e0_c *mCell;
+    /* 08 */ struct NNSG2dCellDataWithBR *mCell;
     /* 0c */ u16 mPriority;
     /* 0e */ u16 mUnk_0e;
     /* 10 */ u16 mAngle;

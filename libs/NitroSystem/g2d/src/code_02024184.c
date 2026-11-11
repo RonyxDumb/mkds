@@ -13,7 +13,7 @@ void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 x, s32 y, u32 cl, u16 *s
     hSpace = pTxn->mCharSpacing;
     font = pTxn->mFont;
     pos = str;
-    readChar = font->mUnk_04;
+    readChar = font->mCbCharSpliter;
     code = readChar(&pos);
     if (code != 0) {
         do {
@@ -39,7 +39,7 @@ void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 x, s32 y, s32 areaWid
     s32 halfWidth;
     u16 *pos;
 
-    lineHeight = pTxn->mLineSpacing + ((Unk02022aa8 *) pTxn->mFont)->mUnk_00->mUnk_01;
+    lineHeight = pTxn->mLineSpacing + ((Unk02022aa8 *) pTxn->mFont)->mPRes->mUnk_01;
     pos = txt;
     if (pos == 0) {
         return;

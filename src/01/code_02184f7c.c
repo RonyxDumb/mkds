@@ -56,11 +56,11 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
         NNS_G2dInitCellAnimation(&entry->mUnk_2c, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mUnk_00),
                                  cells);
         if (rec[entryIndex].mUnk_06 > 1) {
-            entry->mUnk_2c.mUnk_08 = TRUE;
+            entry->mUnk_2c.mActive = TRUE;
         } else {
-            entry->mUnk_2c.mUnk_08 = FALSE;
+            entry->mUnk_2c.mActive = FALSE;
         }
-        cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
+        cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mPCurrentCell;
         if ((cell->mUnk_02 >> 11) & 1) {
             box = cell->mUnk_08;
             entry->mBoundsLeft = box[2] << 12;
@@ -106,23 +106,23 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_1e = mtx.mUnk_00[3] >> 4;
                     mtx.mUnk_00[0] = entry->mScale;
                     mtx.mUnk_00[3] = entry->mScale;
-                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
+                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mPCurrentCell;
                     scaledPos[0] = screenX << 12;
                     scaledPos[1] = screenY << 12;
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
                         (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
-                        (Unk020224e0_c *) cell, &mtx, scaledPos, idx, 1);
+                        (NNSG2dCellDataWithBR *) cell, &mtx, scaledPos, idx, 1);
                 } else {
-                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
+                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mPCurrentCell;
                     unscaledPos[0] = screenX << 12;
                     unscaledPos[1] = screenY << 12;
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
                         (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
-                        (Unk020224e0_c *) cell, NULL, unscaledPos, 0, 0);
+                        (NNSG2dCellDataWithBR *) cell, NULL, unscaledPos, 0, 0);
                 }
             }
         }
-        if (cellAnim->mUnk_08 != FALSE) {
+        if (cellAnim->mActive != FALSE) {
             NNS_G2dSetCellAnimationSpeed(&entry->mUnk_2c, 0x1000);
             NNS_G2dTickCellAnimation(&entry->mUnk_2c, 0x1000);
         }
@@ -162,14 +162,14 @@ void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
     Unk02022030 *cellAnim = &entry->mUnk_2c;
 
     if (frameOrCommand == -1) {
-        cellAnim->mUnk_14 = 2;
-        entry->mUnk_2c.mUnk_08 = TRUE;
+        cellAnim->mOverriddenPlayMode = 2;
+        entry->mUnk_2c.mActive = TRUE;
     } else if (frameOrCommand == -2) {
         NNS_G2dResetAnimCtrlState(cellAnim);
-        cellAnim->mUnk_14 = 1;
-        entry->mUnk_2c.mUnk_08 = TRUE;
+        cellAnim->mOverriddenPlayMode = 1;
+        entry->mUnk_2c.mActive = TRUE;
     } else if (frameOrCommand == -3) {
-        entry->mUnk_2c.mUnk_08 = FALSE;
+        entry->mUnk_2c.mActive = FALSE;
     } else if (frameOrCommand == -4) {
         entry->mShown = TRUE;
     } else if (frameOrCommand == -5) {

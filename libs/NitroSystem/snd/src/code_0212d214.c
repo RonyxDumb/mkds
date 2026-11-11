@@ -136,7 +136,7 @@ BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio
         NNSi_SndPlayerFreeSeqPlayer(player);
         return 0;
     }
-    NNSi_SndPlayerStartSeq(player, (u8 *) seq + seq->mUnk_18, 0, bank);
+    NNSi_SndPlayerStartSeq(player, (u8 *) seq + seq->mBaseOffset, 0, bank);
     NNS_SndPlayerSetInitialVolume(handle, info->mParam.mVolume);
     NNS_SndPlayerSetChannelPriority(handle, info->mParam.mChannelPrio);
     NNS_SndPlayerSetSeqNo(handle, seqNo);
@@ -158,7 +158,7 @@ BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerP
         NNSi_SndPlayerFreeSeqPlayer(player);
         return 0;
     }
-    NNSi_SndPlayerStartSeq(player, (u8 *) seqArc + seqArc->mUnk_18, sound->mOffset, bank);
+    NNSi_SndPlayerStartSeq(player, (u8 *) seqArc + seqArc->mBaseOffset, sound->mOffset, bank);
     NNS_SndPlayerSetInitialVolume(handle, sound->mParam.mVolume);
     NNS_SndPlayerSetChannelPriority(handle, sound->mParam.mChannelPrio);
     NNS_SndPlayerSetSeqArcNo(handle, seqArcNo, index);

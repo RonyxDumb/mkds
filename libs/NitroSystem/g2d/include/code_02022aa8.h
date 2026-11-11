@@ -59,8 +59,8 @@ typedef struct Unk02022ce4 {
 typedef u16 Unk02022aa8_f();
 
 typedef struct Unk02022aa8 {
-    /* 00 */ Unk02022ce4 *mUnk_00;
-    /* 04 */ Unk02022aa8_f *mUnk_04;
+    /* 00 */ Unk02022ce4 *mPRes;
+    /* 04 */ Unk02022aa8_f *mCbCharSpliter;
     /* 08 */ u16 mUnk_08;
     /* 0a */ u16 mUnk_0a;
 } Unk02022aa8;
@@ -71,16 +71,15 @@ typedef struct Unk02022b10 {
     /* 04 */ s32 mUnk_04;
 } Unk02022b10;
 
-
-#include "g2d_NSC_load.h" // Unk02021f9c
+#include "g2d_NSC_load.h" // NNSG2dBinaryFileHeader
 
 void NNSi_G2dFontGetTextRect(Unk02022b10 *pRect, Unk02022aa8 *pFont, s32 hSpace, s32 vSpace, u8 *txt);
 s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt);
 s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPos);
 NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(Unk02022aa8 *pFont, u32 idx);
 u32 NNS_G2dFontFindGlyphIndex(Unk02022aa8 *pFont, u32 code);
-void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile);
-void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile);
+void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile);
+void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile);
 u32 GetGlyphIndex(Unk02022dd8 *pMap, u32 code);
 u32 NNSi_G2dCalcRequiredOBJ(u32 areaWidth, u32 areaHeight);
 void NNS_G2dMapScrToChar256x16Pltt(u16 *areaBase, s32 areaWidth, s32 areaHeight, s32 scnWidth, s32 charNo, u32 cplt);

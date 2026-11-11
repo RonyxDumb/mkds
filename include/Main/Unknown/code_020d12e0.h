@@ -12,7 +12,7 @@ typedef struct EndingStaffRollObject {
     /* 000 */ s32 mStaffRollFrames;
     /* 004 */ Nclr *mEndingStaffRollMO00Nclr;
     /* 008 */ Ncgr *mEndingStaffRollM00Ncgr;
-    /* 00c */ Unk020224e0_c *mCell;
+    /* 00c */ NNSG2dCellDataWithBR *mCell;
     /* 010 */ RaceHudOamBuffer mOamBuffer;
 } EndingStaffRollObject;
 

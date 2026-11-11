@@ -11,21 +11,21 @@ u16 NNSi_G2dSplitCharUTF16(u16 **stringPtr) {
     return character;
 }
 
-static inline s32 NNSi_G2dIsBinFileSignatureValid(Unk02021f9c *file) {
-    if (file != 0 && file->mUnk_00 == 0x4e465452) {
+static inline s32 NNSi_G2dIsBinFileSignatureValid(NNSG2dBinaryFileHeader *file) {
+    if (file != 0 && file->mSignature == 0x4e465452) {
         return 1;
     }
     return 0;
 }
 
-static inline s32 NNSi_G2dIsBinFileVersionValid(Unk02021f9c *file, u16 version) {
-    if (file != 0 && file->mUnk_06 == version) {
+static inline s32 NNSi_G2dIsBinFileVersionValid(NNSG2dBinaryFileHeader *file, u16 version) {
+    if (file != 0 && file->mVersion == version) {
         return 1;
     }
     return 0;
 }
 
-static inline s32 NNS_G2dIsBinFileValid(Unk02021f9c *file, u16 version) {
+static inline s32 NNS_G2dIsBinFileValid(NNSG2dBinaryFileHeader *file, u16 version) {
     if (file != 0) {
         return NNSi_G2dIsBinFileSignatureValid(file) && NNSi_G2dIsBinFileVersionValid(file, version);
     }
@@ -97,9 +97,9 @@ u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *reader, s32 bitCount) {
     return result & (0xff >> (8 - bitCount));
 }
 
-u32 NNSi_G2dGetUnpackedFont(Unk02021f9c *file, Unk02022ce4 **fontOut) {
+u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, Unk02022ce4 **fontOut) {
     u32 versionIndex;
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (NNS_G2dIsBinFileValid(file, 0x100)) {
         versionIndex = 0;
@@ -122,14 +122,14 @@ u32 NNSi_G2dGetUnpackedFont(Unk02021f9c *file, Unk02022ce4 **fontOut) {
     return versionIndex + 1;
 }
 
-void NNSi_G2dUnpackNFT(Unk02021f9c *file) {
-    Unk02021fd0 *block;
+void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file) {
+    NNSG2dBinaryBlockHeader *block;
     s32 blockIndex;
     Unk020245a4_08 *blockData;
 
-    block = OFFSET_PTR(Unk02021fd0, file, file->mUnk_0c);
-    for (blockIndex = 0; blockIndex < file->mUnk_0e; blockIndex++) {
-        switch (block->mUnk_00) {
+    block = OFFSET_PTR(NNSG2dBinaryBlockHeader, file, file->mHeaderSize);
+    for (blockIndex = 0; blockIndex < file->mDataBlocks; blockIndex++) {
+        switch (block->mKind) {
             case 0x46494e46:
                 blockData = (Unk020245a4_08 *) (block + 1);
                 blockData->mUnk_04[1] += (u32) file;
@@ -155,6 +155,6 @@ void NNSi_G2dUnpackNFT(Unk02021f9c *file) {
             case 0x43474c50:
                 break;
         }
-        block = OFFSET_PTR(Unk02021fd0, block, block->mUnk_04);
+        block = OFFSET_PTR(NNSG2dBinaryBlockHeader, block, block->mSize);
     }
 }

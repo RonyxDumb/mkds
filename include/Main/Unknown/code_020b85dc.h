@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020224e0_c Unk020224e0_c;
+typedef struct NNSG2dCellDataWithBR NNSG2dCellDataWithBR;
 
-Unk020224e0_c *GetRaceMNcerEntry(u32 cellIndex);
+NNSG2dCellDataWithBR *GetRaceMNcerEntry(u32 cellIndex);

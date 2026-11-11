@@ -21,29 +21,29 @@ void NNSi_SndArcStrmMain(void) {
 
     player = data_0217e404;
     for (i = 0; i < 4; i++, player++) {
-        if (!player->mUnk_110_0) {
+        if (!player->mActiveFlag) {
             continue;
         }
-        if (player->mUnk_114 == 0) {
+        if (player->mFinishCounter == 0) {
             ForceStopStrm_(player);
             continue;
         }
-        if (player->mUnk_110_2 && player->mUnk_118 != 0) {
+        if (player->mStartFlag && player->mPrepareFlag != 0) {
             NNS_SndStrmStart(&player->mStream);
-            player->mUnk_110_1 = 1;
-            player->mUnk_110_2 = 0;
+            player->mPlayFlag = 1;
+            player->mStartFlag = 0;
         }
-        if (player->mUnk_110_1) {
-            NNSi_SndFaderUpdate(&player->mUnk_e8);
-            initVolume = data_02152ce4[player->mUnk_154];
-            volume = data_02152ce4[NNSi_SndFaderGet(&player->mUnk_e8) >> 8];
+        if (player->mPlayFlag) {
+            NNSi_SndFaderUpdate(&player->mFader);
+            initVolume = data_02152ce4[player->mInitVolume];
+            volume = data_02152ce4[NNSi_SndFaderGet(&player->mFader) >> 8];
             volume += initVolume;
-            if (volume != player->mUnk_158) {
+            if (volume != player->mVolume) {
                 NNS_SndStrmSetVolume(&player->mStream, volume);
-                player->mUnk_158 = volume;
+                player->mVolume = volume;
             }
-            if (player->mUnk_110_3) {
-                if (NNSi_SndFaderIsFinished(&player->mUnk_e8) != 0) {
+            if (player->mFadeOutFlag) {
+                if (NNSi_SndFaderIsFinished(&player->mFader) != 0) {
                     ForceStopStrm_(player);
                 }
             }
@@ -52,13 +52,13 @@ void NNSi_SndArcStrmMain(void) {
 }
 
 void FreePlayer(Unk0212c7f0 *player) {
-    if (player->mUnk_14c != 0) {
-        *player->mUnk_14c = 0;
-        player->mUnk_14c = 0;
+    if (player->mHandle != 0) {
+        *player->mHandle = 0;
+        player->mHandle = 0;
     }
-    player->mUnk_110_0 = 0;
-    player->mUnk_110_2 = 0;
-    player->mUnk_110_1 = 0;
+    player->mActiveFlag = 0;
+    player->mStartFlag = 0;
+    player->mPlayFlag = 0;
 }
 
 // Stops the player with the thread mutexes held.
@@ -67,10 +67,10 @@ void ForceStopStrm_(Unk0212c7f0 *player) {
     if (data_0217df04 != 0) {
         OS_LockMutex(&data_0217df04->mMutex);
     }
-    if (player->mUnk_110_1) {
+    if (player->mPlayFlag) {
         NNS_SndStrmStop(&player->mStream);
     }
-    if (player->mUnk_110_0) {
+    if (player->mActiveFlag) {
         FS_CancelFile(&player->mFile);
     }
     ShutdownPlayer_(player);
@@ -82,7 +82,7 @@ void ForceStopStrm_(Unk0212c7f0 *player) {
 
 // Frees the channels and file and drops the player's load commands.
 void ShutdownPlayer_(Unk0212c7f0 *player) {
-    if (!player->mUnk_110_0) {
+    if (!player->mActiveFlag) {
         return;
     }
     FreeChannel(player);
@@ -96,11 +96,11 @@ void ShutdownPlayer_(Unk0212c7f0 *player) {
 
 // Frees the stream channel when the count reaches 0.
 void FreeChannel(Unk0212c7f0 *player) {
-    if (player->mUnk_120 == 0) {
+    if (player->mAllocChannelCount == 0) {
         return;
     }
-    player->mUnk_120 = player->mUnk_120 - 1;
-    if (player->mUnk_120 != 0) {
+    player->mAllocChannelCount = player->mAllocChannelCount - 1;
+    if (player->mAllocChannelCount != 0) {
         return;
     }
     NNS_SndStrmFreeChannel(&player->mStream);

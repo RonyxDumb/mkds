@@ -13,7 +13,7 @@ u32 GetFontGlyphIndex(Unk02022aa8 *font, u32 code) {
 
     glyphIndex = NNS_G2dFontFindGlyphIndex(font, code);
     if (glyphIndex == 0xffff) {
-        glyphIndex = font->mUnk_00->mUnk_02;
+        glyphIndex = font->mPRes->mUnk_02;
     }
     return glyphIndex;
 }

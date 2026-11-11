@@ -73,7 +73,7 @@ void DrawEndingStaffRoll(void) {
     RaceHudOamBuffer *oamBuffer;
     s32 i;
     EndingStaffRollObject *staffRoll;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     RaceHudOamBits *oamBits;
     s32 position[2];
 

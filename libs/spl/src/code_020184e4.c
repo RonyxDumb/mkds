@@ -33,63 +33,63 @@ void SPLRandom_VecFx32_XY(Vec3 *vec) {
     VEC_Normalize(vec, vec);
 }
 
-void SPLList_PushFront(Unk0201e494 *list, Unk0201e3c8 *node) {
-    if (list->mUnk_00 == 0) {
-        list->mUnk_00 = node;
-        list->mUnk_08 = node;
+void SPLList_PushFront(ParticleList *list, Unk0201e3c8 *node) {
+    if (list->mFront == 0) {
+        list->mFront = node;
+        list->mBack = node;
         node->mUnk_00 = 0;
         node->mUnk_04 = node->mUnk_00;
     } else {
-        node->mUnk_00 = list->mUnk_00;
+        node->mUnk_00 = list->mFront;
         node->mUnk_04 = 0;
-        list->mUnk_00->mUnk_04 = node;
-        list->mUnk_00 = node;
+        list->mFront->mUnk_04 = node;
+        list->mFront = node;
     }
-    list->mUnk_04++;
+    list->mCount++;
 }
 
-Unk0201e3c8 *SPLList_PopFront(Unk0201e494 *list) {
+Unk0201e3c8 *SPLList_PopFront(ParticleList *list) {
     Unk0201e3c8 *first;
     Unk0201e3c8 *node;
 
     node = 0;
-    first = list->mUnk_00;
+    first = list->mFront;
     if (first != 0) {
         node = first;
-        list->mUnk_00 = first->mUnk_00;
-        if (list->mUnk_00 != 0) {
+        list->mFront = first->mUnk_00;
+        if (list->mFront != 0) {
             first->mUnk_00->mUnk_04 = 0;
         } else {
-            list->mUnk_00 = 0;
-            list->mUnk_08 = 0;
+            list->mFront = 0;
+            list->mBack = 0;
         }
-        list->mUnk_04--;
+        list->mCount--;
     }
     return node;
 }
 
-Unk0201e3c8 *SPLList_Erase(Unk0201e494 *list, Unk0201e3c8 *node) {
+Unk0201e3c8 *SPLList_Erase(ParticleList *list, Unk0201e3c8 *node) {
     Unk0201e3c8 *next;
 
     next = node->mUnk_00;
     if (next == 0) {
-        if (list->mUnk_00 == node) {
-            list->mUnk_00 = 0;
-            list->mUnk_08 = 0;
+        if (list->mFront == node) {
+            list->mFront = 0;
+            list->mBack = 0;
         } else {
             node->mUnk_04->mUnk_00 = 0;
-            list->mUnk_08 = list->mUnk_08->mUnk_04;
+            list->mBack = list->mBack->mUnk_04;
         }
     } else {
-        if (list->mUnk_00 == node) {
-            list->mUnk_00 = next;
-            list->mUnk_00->mUnk_04 = 0;
+        if (list->mFront == node) {
+            list->mFront = next;
+            list->mFront->mUnk_04 = 0;
         } else {
             next->mUnk_04 = node->mUnk_04;
             node->mUnk_04->mUnk_00 = node->mUnk_00;
         }
     }
-    list->mUnk_04--;
+    list->mCount--;
     return node;
 }
 
@@ -384,7 +384,7 @@ void SPLUtil_TiltCoordinates(Vec3 *ptclPos, const Vec3 *pos, Unk0201ca6c *emtr) 
                  (MUL_FIXED12_ROUNDED(pos->x, emtr->mUnk_84.z) + MUL_FIXED12_ROUNDED(pos->y, emtr->mUnk_8a.z));
 }
 
-void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
+void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, ParticleList *list) {
     Unk0201ca6c_20 *resource;
     Unk0201ca6c_20_00 *header;
     Unk0201e3c8 *particle;
@@ -692,7 +692,7 @@ static inline s32 AddOneToChildValue(Unk0201ca6c_20_14 *childAnim) {
     return childAnim->mUnk_09 + 1;
 }
 
-void SPLEmitter_EmitChildren(Unk0201e3c8 *ptcl, Unk0201ca6c *emtr, Unk0201e494 *list) {
+void SPLEmitter_EmitChildren(Unk0201e3c8 *ptcl, Unk0201ca6c *emtr, ParticleList *list) {
     s32 velocityScale;
     Unk0201e3c8 *child;
     s32 childIndex;
@@ -1737,8 +1737,8 @@ void SPLEmitter_Init(Unk0201ca6c *emtr, Unk0201ca6c_20 *res, Vec3 *pos) {
         }
     }
     emtr->mUnk_00 = emtr->mUnk_04 = 0;
-    emtr->mUnk_08.mUnk_00 = emtr->mUnk_14.mUnk_00 = 0;
-    emtr->mUnk_08.mUnk_04 = emtr->mUnk_14.mUnk_04 = 0;
+    emtr->mUnk_08.mFront = emtr->mUnk_14.mFront = 0;
+    emtr->mUnk_08.mCount = emtr->mUnk_14.mCount = 0;
     emtr->mUnk_90 = 0;
     emtr->mUnk_94 = 0;
     emtr->mUnk_98 = 0;
@@ -1797,7 +1797,7 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
         tbl[animCount++].mUnk_04 = resource->mUnk_10->mUnk_08_17;
     }
 
-    for (particle = emtr->mUnk_08.mUnk_00; particle; particle = next) {
+    for (particle = emtr->mUnk_08.mFront; particle; particle = next) {
         next = particle->mUnk_00;
         animTime[0] = (particle->mUnk_2a * particle->mUnk_26) >> 8;
         animTime[1] = particle->mUnk_2d + ((particle->mUnk_28 * particle->mUnk_26) >> 8);
@@ -1856,7 +1856,7 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
         if (!childAnim->mUnk_00_0) {
             cnt = 0;
         }
-        for (particle = emtr->mUnk_14.mUnk_00; particle; particle = next) {
+        for (particle = emtr->mUnk_14.mFront; particle; particle = next) {
             next = particle->mUnk_00;
             animTime[0] = (particle->mUnk_26 << 8) / particle->mUnk_24;
             for (index = 0; index < animCount; index++) {
@@ -1934,7 +1934,7 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     } else {
         textureFunc = SPLUtil_SetTexture_Stub;
     }
-    for (particle = emitter->mUnk_08.mUnk_00; particle != 0; particle = particle->mUnk_00) {
+    for (particle = emitter->mUnk_08.mFront; particle != 0; particle = particle->mUnk_00) {
         textureFunc(mgr->mTextures + particle->mUnk_2c);
         drawFunc(mgr, particle);
     }
@@ -1970,7 +1970,7 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
             drawFunc = SPLDraw_Child_DirectionalPolygon;
             break;
     }
-    for (particle = emitter->mUnk_14.mUnk_00; particle != 0; particle = particle->mUnk_00) {
+    for (particle = emitter->mUnk_14.mFront; particle != 0; particle = particle->mUnk_00) {
         drawFunc(mgr, particle);
     }
 }
@@ -2037,12 +2037,12 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     mgr->mPolygonIDDrawOrder = 0;
     mgr->mUnk_38_25 = 0;
     mgr->mAlloc = alloc;
-    mgr->mUnk_04[0].mUnk_04 = 0;
-    mgr->mUnk_04[1].mUnk_04 = 0;
-    mgr->mUnk_04[2].mUnk_04 = 0;
-    mgr->mUnk_04[0].mUnk_00 = 0;
-    mgr->mUnk_04[1].mUnk_00 = 0;
-    mgr->mUnk_04[2].mUnk_00 = 0;
+    mgr->mUnk_04[0].mCount = 0;
+    mgr->mUnk_04[1].mCount = 0;
+    mgr->mUnk_04[2].mCount = 0;
+    mgr->mUnk_04[0].mFront = 0;
+    mgr->mUnk_04[1].mFront = 0;
+    mgr->mUnk_04[2].mFront = 0;
     mgr->mMiscPolygonAttr = 0;
     mgr->mCurrentCycle = 0;
     block = alloc(maxEmitters * 0x9c);
@@ -2226,7 +2226,7 @@ void SPLManager_Update(SPLManager *mgr) {
     Unk0201ca6c *next;
     Unk0201ca6c_20_00 *header;
 
-    for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mUnk_00; emtr != 0; emtr = next) {
+    for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mFront; emtr != 0; emtr = next) {
         header = emtr->mUnk_20->mUnk_00;
         next = emtr->mUnk_00;
         if (emtr->mUnk_24.mUnk_00_4 == 0) {
@@ -2243,7 +2243,7 @@ void SPLManager_Update(SPLManager *mgr) {
         if ((header->mUnk_00.mUnk_00_14 && header->mUnk_3c != 0 && emtr->mUnk_24.mUnk_00_4 != 0 &&
              emtr->mUnk_4c > header->mUnk_3c) ||
             emtr->mUnk_24.mUnk_00_0 != 0) {
-            if (emtr->mUnk_08.mUnk_04 == 0 && emtr->mUnk_14.mUnk_04 == 0) {
+            if (emtr->mUnk_08.mCount == 0 && emtr->mUnk_14.mCount == 0) {
                 SPLList_PushFront(&mgr->mUnk_04[1], SPLList_Erase(&mgr->mUnk_04[0], (Unk0201e3c8 *) emtr));
             }
         }
@@ -2260,14 +2260,14 @@ void SPLManager_Draw(SPLManager *mgr, MtxFx43 *viewMatrix) {
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
     mgr->mRenderStateViewMatrix = viewMatrix;
     if (mgr->mPolygonIDDrawOrder == 0) {
-        for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mUnk_00; emtr != 0; emtr = emtr->mUnk_00) {
+        for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mFront; emtr != 0; emtr = emtr->mUnk_00) {
             mgr->mRenderStateEmitter = emtr;
             if (emtr->mUnk_24.mUnk_00_3 == 0) {
                 SPLManager_DoDraw(mgr);
             }
         }
     } else {
-        for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mUnk_08; emtr != 0; emtr = emtr->mUnk_04) {
+        for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mBack; emtr != 0; emtr = emtr->mUnk_04) {
             mgr->mRenderStateEmitter = emtr;
             if (emtr->mUnk_24.mUnk_00_3 == 0) {
                 SPLManager_DoDraw(mgr);
@@ -2280,7 +2280,7 @@ Unk0201ca6c *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 *pos
     Unk0201ca6c *emtr;
 
     emtr = 0;
-    if (mgr->mUnk_04[1].mUnk_00 != 0) {
+    if (mgr->mUnk_04[1].mFront != 0) {
         emtr = (Unk0201ca6c *) SPLList_PopFront(&mgr->mUnk_04[1]);
         SPLEmitter_Init(emtr, mgr->mResources + resourceId, pos);
         SPLList_PushFront(&mgr->mUnk_04[0], (Unk0201e3c8 *) emtr);
@@ -2296,7 +2296,7 @@ Unk0201ca6c *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourc
     Unk0201ca6c *emtr;
 
     emtr = 0;
-    if (mgr->mUnk_04[1].mUnk_00 != 0) {
+    if (mgr->mUnk_04[1].mFront != 0) {
         emtr = (Unk0201ca6c *) SPLList_PopFront(&mgr->mUnk_04[1]);
         SPLEmitter_Init(emtr, mgr->mResources + resourceId, pos);
         if (initCallback != 0) {

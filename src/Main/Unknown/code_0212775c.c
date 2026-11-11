@@ -384,7 +384,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         NNS_G2dCharCanvasInitForBG(&gSelectChoises->mCharCanvases[canvasIndex],
                                    gSelectChoises->mCharBuffers[canvasIndex], 0x20, 2, 4);
         charCanvas = &gSelectChoises->mCharCanvases[canvasIndex];
-        charCanvas->mUnk_18(charCanvas, 0);
+        charCanvas->mPClear(charCanvas, 0);
         charSpacing = IsLanguageJa();
         textCanvas = &gSelectChoises->mTextCanvases[canvasIndex];
         textCanvas->mCharCanvas = &gSelectChoises->mCharCanvases[canvasIndex];
@@ -771,9 +771,9 @@ void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond) {
     Unk02023374 *charCanvas;
 
     charCanvas = &gSelectChoises->mCharCanvases[0];
-    charCanvas->mUnk_18(charCanvas, 5);
+    charCanvas->mPClear(charCanvas, 5);
     charCanvas = &gSelectChoises->mCharCanvases[1];
-    charCanvas->mUnk_18(charCanvas, 5);
+    charCanvas->mPClear(charCanvas, 5);
     DrawTextInRectNoFixedAdvance(&gSelectChoises->mTextCanvases[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
     DrawTextInRectNoFixedAdvance(&gSelectChoises->mTextCanvases[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
     ClearSelectChoisesUseCharBuffers();

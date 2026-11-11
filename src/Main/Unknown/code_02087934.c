@@ -5,7 +5,7 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "registers.h"
 
-void ResetModelAnimationWithLoopFlag(Unk02087b78 *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
+void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
     modelAnimation->mLoopMode = loopFlag == 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP;
     modelAnimation->mDone = 0;
     modelAnimation->mFrameStep = 0x1000;
@@ -15,7 +15,7 @@ void ResetModelAnimationWithLoopFlag(Unk02087b78 *modelAnimation, s32 frameCount
     modelAnimation->mLoopCount = 0;
 }
 
-void ApplyModelAnimationLoopMode(Unk02087b78 *modelAnimation) {
+void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation) {
     s32 frameIndex;
     switch (modelAnimation->mLoopMode) {
         case MODEL_ANIMATION_LOOP_MODE_WRAP:
@@ -54,7 +54,7 @@ void ApplyModelAnimationLoopMode(Unk02087b78 *modelAnimation) {
     }
 }
 
-void AdvanceModelAnimationFrame(Unk02087b78 *modelAnimation) {
+void AdvanceModelAnimationFrame(ModelAnimationFrameLoop *modelAnimation) {
     modelAnimation->mDone = 0;
     modelAnimation->mFrameIndex = modelAnimation->mFrameIndex + modelAnimation->mFrameStep;
     ApplyModelAnimationLoopMode(modelAnimation);

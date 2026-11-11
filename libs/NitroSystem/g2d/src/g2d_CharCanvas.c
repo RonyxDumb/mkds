@@ -193,12 +193,12 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
     s32 bytesPerChar;
     u8 *pBase;
 
-    bytesPerChar = (pCanvas->mUnk_0c * 0x40) / 8;
+    bytesPerChar = (pCanvas->mDstBpp * 0x40) / 8;
     glyphWidth = pGlyph->mPWidths->mGlyphWidth;
-    glyphHeight = pFont->mUnk_00->mUnk_08->mUnk_01;
-    canvasW = pCanvas->mUnk_04;
-    canvasH = pCanvas->mUnk_08;
-    pBase = pCanvas->mUnk_00;
+    glyphHeight = pFont->mPRes->mUnk_08->mUnk_01;
+    canvasW = pCanvas->mAreaWidth;
+    canvasH = pCanvas->mAreaHeight;
+    pBase = pCanvas->mCharBase;
     if (glyphWidth == 0) {
         return;
     }
@@ -235,7 +235,7 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
     if (numY < 0) {
         return;
     }
-    stride = pCanvas->mUnk_10;
+    stride = pCanvas->mParam;
     pTile = pBase + bytesPerChar * (stride * firstY + firstX);
     rowSkip = bytesPerChar * (stride - numX);
     if (drawX >= 0) {
@@ -250,9 +250,9 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
     info.mUnk_24 = cl - 1;
     info.mUnk_14 = glyphHeight;
     limitX = drawX - numX * 8;
-    info.mUnk_1c = pFont->mUnk_00->mUnk_08->mUnk_04[2];
-    info.mUnk_20 = pCanvas->mUnk_0c;
-    info.mUnk_18 = info.mUnk_1c * pFont->mUnk_00->mUnk_08->mUnk_00;
+    info.mUnk_1c = pFont->mPRes->mUnk_08->mUnk_04[2];
+    info.mUnk_20 = pCanvas->mDstBpp;
+    info.mUnk_18 = info.mUnk_1c * pFont->mPRes->mUnk_08->mUnk_00;
     for (curY = drawY; curY > limitY; curY -= 8) {
         info.mUnk_0c = curY;
         for (curX = drawX; curX > limitX; curX -= 8) {
@@ -292,11 +292,11 @@ void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY,
     u32 height;
     u32 width;
 
-    bytesPerChar = (pCanvas->mUnk_0c * 0x40) / 8;
+    bytesPerChar = (pCanvas->mDstBpp * 0x40) / 8;
     glyphWidth = pGlyph->mPWidths->mGlyphWidth;
-    canvasW = pCanvas->mUnk_04;
-    canvasH = pCanvas->mUnk_08;
-    glyphHeight = pFont->mUnk_00->mUnk_08->mUnk_01;
+    canvasW = pCanvas->mAreaWidth;
+    canvasH = pCanvas->mAreaHeight;
+    glyphHeight = pFont->mPRes->mUnk_08->mUnk_01;
     if (glyphWidth == 0) {
         return;
     }
@@ -333,7 +333,7 @@ void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY,
     if (numY < 0) {
         return;
     }
-    pBase = pCanvas->mUnk_00;
+    pBase = pCanvas->mCharBase;
     if (drawX >= 0) {
         drawX &= 7;
     }
@@ -346,12 +346,12 @@ void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY,
     info.mUnk_24 = cl - 1;
     info.mUnk_14 = glyphHeight;
     info.mUnk_10 = glyphWidth;
-    info.mUnk_1c = pFont->mUnk_00->mUnk_08->mUnk_04[2];
-    info.mUnk_20 = pCanvas->mUnk_0c;
-    info.mUnk_18 = info.mUnk_1c * pFont->mUnk_00->mUnk_08->mUnk_00;
-    objSizeWord = pCanvas->mUnk_10;
-    width = pCanvas->mUnk_04;
-    height = pCanvas->mUnk_08;
+    info.mUnk_1c = pFont->mPRes->mUnk_08->mUnk_04[2];
+    info.mUnk_20 = pCanvas->mDstBpp;
+    info.mUnk_18 = info.mUnk_1c * pFont->mPRes->mUnk_08->mUnk_00;
+    objSizeWord = pCanvas->mParam;
+    width = pCanvas->mAreaWidth;
+    height = pCanvas->mAreaHeight;
     objWidth = ((u8 *) &objSizeWord)[0];
     objHeight = ((u8 *) &objSizeWord)[1];
     charY = firstY;
@@ -373,7 +373,7 @@ void ClearContinuous(Unk02023374 *pCanvas, u32 cl) {
     volatile u32 fill;
     s32 bytes;
 
-    if (pCanvas->mUnk_0c == 4) {
+    if (pCanvas->mDstBpp == 4) {
         cl = cl | (cl << 4);
         cl = cl | (cl << 8);
         cl = cl | (cl << 16);
@@ -382,9 +382,9 @@ void ClearContinuous(Unk02023374 *pCanvas, u32 cl) {
         cl = cl | (cl << 16);
     }
     fill = cl;
-    bytes = pCanvas->mUnk_04 * pCanvas->mUnk_08;
-    bytes *= (pCanvas->mUnk_0c * 0x40) / 8;
-    MIi_CpuClearFast(fill, pCanvas->mUnk_00, bytes);
+    bytes = pCanvas->mAreaWidth * pCanvas->mAreaHeight;
+    bytes *= (pCanvas->mDstBpp * 0x40) / 8;
+    MIi_CpuClearFast(fill, pCanvas->mCharBase, bytes);
 }
 
 void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
@@ -405,7 +405,7 @@ void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaW
     s32 colOffset;
     s32 cols;
 
-    bitsPerPixel = pCanvas->mUnk_0c;
+    bitsPerPixel = pCanvas->mDstBpp;
     xEnd = areaX + areaWidth;
     yEnd = areaY + areaHeight;
     if (bitsPerPixel == 4) {
@@ -421,8 +421,8 @@ void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaW
     bytesPerChar = (bitsPerPixel * 0x40) / 8;
     xEndAligned = (xEnd + 7) & ~7;
     yEndAligned = (yEnd + 7) & ~7;
-    pRow = pCanvas->mUnk_00 + bytesPerChar * ((pixelY / 8) * pCanvas->mUnk_10 + charX0 / 8);
-    rowStep = pCanvas->mUnk_10 * bytesPerChar;
+    pRow = pCanvas->mCharBase + bytesPerChar * ((pixelY / 8) * pCanvas->mParam + charX0 / 8);
+    rowStep = pCanvas->mParam * bytesPerChar;
     for (; pixelY < yEndAligned; pixelY += 8) {
         if (pixelY < areaY) {
             rowOffset = areaY - pixelY;
@@ -479,7 +479,7 @@ void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWid
     s32 cols;
     u32 charIdx;
 
-    bitsPerPixel = pCanvas->mUnk_0c;
+    bitsPerPixel = pCanvas->mDstBpp;
     xEnd = areaX + areaWidth;
     yEnd = areaY + areaHeight;
     if (bitsPerPixel == 4) {
@@ -492,15 +492,15 @@ void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWid
     }
     xAligned = areaX & ~7;
     pixelY = areaY & ~7;
-    objSizeWord = pCanvas->mUnk_10;
+    objSizeWord = pCanvas->mParam;
     xEndAligned = (xEnd + 7) & ~7;
     yEndAligned = (yEnd + 7) & ~7;
     bytesPerChar = (bitsPerPixel * 0x40) / 8;
     charX0 = xAligned / 8;
     charY = pixelY / 8;
-    canvasW = pCanvas->mUnk_04;
-    canvasH = pCanvas->mUnk_08;
-    pBase = pCanvas->mUnk_00;
+    canvasW = pCanvas->mAreaWidth;
+    canvasH = pCanvas->mAreaHeight;
+    pBase = pCanvas->mCharBase;
     objWidth = ((u8 *) &objSizeWord)[0];
     objHeight = ((u8 *) &objSizeWord)[1];
     for (; pixelY < yEndAligned; pixelY += 8) {
@@ -538,14 +538,14 @@ void InitCharCanvas(Unk02023374 *pCanvas, void *charBase, s32 areaWidth, s32 are
                     void (*drawGlyph)(Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *),
                     void (*clearAll)(Unk02023374 *, u32), void (*clearArea)(Unk02023374 *, u32, s32, s32, s32, s32),
                     u32 stride) {
-    pCanvas->mUnk_04 = areaWidth;
-    pCanvas->mUnk_08 = areaHeight;
-    pCanvas->mUnk_0c = bpp;
-    pCanvas->mUnk_00 = charBase;
-    pCanvas->mUnk_14 = drawGlyph;
-    pCanvas->mUnk_18 = clearAll;
-    pCanvas->mUnk_1c = clearArea;
-    pCanvas->mUnk_10 = stride;
+    pCanvas->mAreaWidth = areaWidth;
+    pCanvas->mAreaHeight = areaHeight;
+    pCanvas->mDstBpp = bpp;
+    pCanvas->mCharBase = charBase;
+    pCanvas->mPDrawGlyph = drawGlyph;
+    pCanvas->mPClear = clearAll;
+    pCanvas->mPClearArea = clearArea;
+    pCanvas->mParam = stride;
 }
 
 s32 NNS_G2dCharCanvasDrawChar(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode) {
@@ -555,12 +555,12 @@ s32 NNS_G2dCharCanvasDrawChar(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 draw
 
     glyphIdx = NNS_G2dFontFindGlyphIndex(pFont, ccode);
     if (glyphIdx == 0xffff) {
-        glyphIdx = pFont->mUnk_00->mUnk_02;
+        glyphIdx = pFont->mPRes->mUnk_02;
     }
     glyph.mPWidths = NNS_G2dFontGetCharWidthsFromIndex(pFont, glyphIdx);
-    pRes = pFont->mUnk_00->mUnk_08;
+    pRes = pFont->mPRes->mUnk_08;
     glyph.mImage = &pRes->mUnk_08[glyphIdx * pRes->mUnk_02];
-    pCanvas->mUnk_14(pCanvas, pFont, drawX + glyph.mPWidths->mLeft, drawY, cl, &glyph);
+    pCanvas->mPDrawGlyph(pCanvas, pFont, drawX + glyph.mPWidths->mLeft, drawY, cl, &glyph);
     if (pFont->mUnk_08 != 0) {
         return glyph.mPWidths->mLeft + glyph.mPWidths->mGlyphWidth;
     }

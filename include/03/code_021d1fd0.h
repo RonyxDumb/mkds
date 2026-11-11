@@ -42,7 +42,7 @@ typedef struct TextCanvases {
     /* 018 */ u8 mObjCanvasStorage[0x700];
     /* 718 */ BgTextCanvas mBgTextCanvases[2];
     /* 788 */ PointerStack *mFreeObjCanvases;
-    /* 78c */ Unk02021f9c *mFontFiles[2];
+    /* 78c */ NNSG2dBinaryFileHeader *mFontFiles[2];
     /* 794 */ u8 mBgUploadPending[4];
 } TextCanvases;
 

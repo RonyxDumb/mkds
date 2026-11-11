@@ -211,28 +211,28 @@ void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer) {
         }
     }
     if (hasLapTime != 0) {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x27);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x27);
         lapTimeFirstCellPos[0] = cellXs[0] << 12;
         lapTimeFirstCellPos[1] = 0xc000;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   lapTimeFirstCellPos, 0, 1);
     } else {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(0x26);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(0x26);
         firstCellPos[0] = cellXs[0] << 12;
         firstCellPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, firstCellPos, 0, 1);
     }
     if (gRaceTimeDigits->mTime.mDigits[0] != 0) {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[0]);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[0]);
         minuteTensPos[0] = cellXs[1] << 12;
         minuteTensPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, minuteTensPos, 0, 1);
     }
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[1]);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[1]);
         minuteOnesPos[0] = cellXs[2] << 12;
         minuteOnesPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
@@ -240,35 +240,35 @@ void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer) {
     }
     afterCellIndex = cellOffset + 0x32;
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(afterCellIndex);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(afterCellIndex);
         afterMinutesPos[0] = cellXs[3] << 12;
         afterMinutesPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, afterMinutesPos, 0, 1);
     }
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[2]);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[2]);
         secondTensPos[0] = cellXs[4] << 12;
         secondTensPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, secondTensPos, 0, 1);
     }
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[3]);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[3]);
         secondOnesPos[0] = cellXs[5] << 12;
         secondOnesPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, secondOnesPos, 0, 1);
     }
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(afterCellIndex);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(afterCellIndex);
         afterSecondsPos[0] = cellXs[6] << 12;
         afterSecondsPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, afterSecondsPos, 0, 1);
     }
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[4]);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[4]);
         millisecondHundredsPos[0] = cellXs[7] << 12;
         millisecondHundredsPos[1] = 0xc000;
         oamBuffer->mOamCount +=
@@ -276,14 +276,14 @@ void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer) {
                                   millisecondHundredsPos, 0, 1);
     }
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[5]);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[5]);
         millisecondTensPos[0] = cellXs[8] << 12;
         millisecondTensPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
             &oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL, millisecondTensPos, 0, 1);
     }
     {
-        Unk020224e0_c *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[6]);
+        NNSG2dCellDataWithBR *cell = GetRaceSNcerEntry(cellOffset + 0x28 + gRaceTimeDigits->mTime.mDigits[6]);
         millisecondOnesPos[0] = cellXs[9] << 12;
         millisecondOnesPos[1] = 0xc000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(

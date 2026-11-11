@@ -102,7 +102,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
     ItemPool *pool;
     ItemObject **objects;
     s32 activeCount;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     ItemObject *object;
     Vec3 *position;
     s32 teresaOffsetY;
@@ -376,7 +376,7 @@ void UpdateRaceHudSubScreenKarts(void) {
     SortIndicesByKey(gRaceHudSubScreenKarts->mDrawOrder, sortKeys, gRaceSetup->mKartCount);
 }
 
-static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, MtxFx22 *matrix,
+static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, NNSG2dCellDataWithBR *cell, MtxFx22 *matrix,
                                                s32 screenX, s32 screenY, u16 matrixIndex, s32 xlu, s32 priority) {
     s32 position[2];
     s32 oamIndex;
@@ -399,8 +399,8 @@ static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, Unk0
     }
 }
 
-static inline void AddRaceHudSubScreenCellOamsNoMatrix(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, s32 screenX,
-                                                       s32 screenY) {
+static inline void AddRaceHudSubScreenCellOamsNoMatrix(RaceHudOamBuffer *oamBuffer, NNSG2dCellDataWithBR *cell,
+                                                       s32 screenX, s32 screenY) {
     s32 position[2];
     s32 oamIndex;
 
@@ -416,7 +416,7 @@ static inline void AddRaceHudSubScreenKartStarCells(RaceHudOamBuffer *oamBuffer,
     s32 angle;
     s32 offsetX;
     s32 offsetY;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     for (starIndex = 0; starIndex < 3; starIndex++) {
         angle = (u16) (((frame + 12 - starIndex * 4) << 16) / 64);
@@ -432,7 +432,7 @@ static inline void AddRaceHudSubScreenKartStarCells(RaceHudOamBuffer *oamBuffer,
 void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
     s32 kartIndex;
     s32 translucent;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     MtxFx22 rotationMatrix;
     MtxFx22 rotationMatrix2;
     s32 drawOrderIndex;
@@ -600,7 +600,7 @@ void UpdateRaceHudSubScreenSecondHand(void) {
 }
 
 void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     MtxFx22 rotationMatrix;
     u32 minDrawValue;
     u16 rotationSlot0;

@@ -255,7 +255,7 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
     s32 slotY;
     s32 rankDrawPosition[2];
     s32 markerDrawPosition[2];
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     slideX = gRaceRankList->mSlideX;
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
@@ -303,7 +303,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
     s32 secondKartDrawPosition[2];
     s32 markerDrawPosition[2];
     s32 markerIndex;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
@@ -383,7 +383,7 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
     s32 kartDrawPosition[2];
     s32 markerDrawPosition[2];
     s32 markerIndex;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
@@ -471,7 +471,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
     s32 shineOnesDrawPosition[2];
     s32 markerDrawPosition[2];
     s32 markerIndex;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
@@ -594,7 +594,7 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
     s32 shineOnesDrawPosition[2];
     s32 markerDrawPosition[2];
     s32 markerIndex;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     for (rankIndex = 0; rankIndex < (u32) gRaceSetup->mKartCount; rankIndex++) {
         kartIndex = gRaceRankList->mKartsByRank[rankIndex];
@@ -772,7 +772,7 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
     s32 lastLapIndexTwoDrawPosition[2];
     s32 lastLapIndexFourDrawPosition[2];
     s32 showLapTimeFrames;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         return;

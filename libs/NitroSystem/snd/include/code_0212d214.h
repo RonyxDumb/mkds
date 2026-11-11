@@ -16,9 +16,9 @@ typedef struct NNSSndSeqParam {
 // 12-byte records at 0x20 of Unk0212f788; NNSi_SndSeqArcGetSeqInfo returns one unless its first word is -1.
 typedef struct Unk0212f788 {
     /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c; // number of records
-    /* 20 */ u32 mUnk_20[3];
+    /* 18 */ u32 mBaseOffset;
+    /* 1c */ u32 mCount; // number of records
+    /* 20 */ u32 mInfo[3];
 } Unk0212f788;
 
 // File table entry: offset and size in the archive file, and the address it is loaded at.

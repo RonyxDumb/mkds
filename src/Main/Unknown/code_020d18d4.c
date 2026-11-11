@@ -86,7 +86,7 @@ void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
 
 void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer) {
     s32 spriteX[5] = {175, 190, 203, 216, 231};
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     MtxFx22 *matrix = NULL;
     u16 matrixIndex;
     s32 position0[2];
@@ -137,7 +137,7 @@ void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer) {
 
 void DrawRaceMNumberPairOneDigit(RaceHudOamBuffer *oamBuffer) {
     s32 spriteX[3] = {205, 218, 231};
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     MtxFx22 *matrix;
     u16 matrixIndex;
     s32 position0[2];

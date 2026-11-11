@@ -332,8 +332,8 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
     MtxFx22 matrix;
     s32 scrollY;
     s32 upperItem;
-    Unk020224e0_c *cell;
-    Unk020224e0_c *teamCell;
+    NNSG2dCellDataWithBR *cell;
+    NNSG2dCellDataWithBR *teamCell;
     s32 oamIndex;
     GXOamAttr *oam;
     GXOamAttr *matrixOams;
@@ -513,7 +513,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
     s32 i;
     s32 oamIndex;
     GXOamAttr *oam;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         return;
@@ -641,7 +641,7 @@ void DrawRaceMissionRunCount(RaceHudOamBuffer *oamBuffer) {
     s32 count;
     s32 countLimit;
     RaceModeCount *modeCount;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
 
     modeCount = gRaceModeCount;
     countLimit = modeCount->mMissionRunCountLimit;

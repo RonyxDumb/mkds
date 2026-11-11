@@ -4,7 +4,7 @@
 #include "code_02012b30.h" // MtxFx22
 #include "g2d_CharCanvas.h" // Unk02023374
 #include "g2d_NAN_load.h" // Unk02021dc8
-#include "code_02022030.h" // Unk020224e0_c, Unk020224e0_s
+#include "code_02022030.h" // NNSG2dCellDataWithBR, NNSG2dCellOAMAttrData
 #include "Main/Unknown/code_0201ea58.h" // LayoutEntryTable
 
 typedef struct Ncgr Ncgr;
@@ -39,7 +39,7 @@ typedef struct LabelTextCanvas {
 typedef struct LabelCanvas {
     /* 00 */ Unk02023374 mCharCanvas;
     /* 20 */ LabelTextCanvas mTextCanvas;
-    /* 44 */ Unk020224e0_c *mCellData;
+    /* 44 */ NNSG2dCellDataWithBR *mCellData;
 } LabelCanvas;
 
 // 0x40-byte element of the tables InitLayoutTable allocates and InitLayoutTableEntries sets up: behind
@@ -60,7 +60,7 @@ typedef struct LayoutTableEntry {
     /* 3c */ LabelCanvas *mLabelCanvas;
 } LayoutTableEntry;
 
-// 8-byte elements InitLabelCanvas fills and copies into Unk020224e0_s elements.
+// 8-byte elements InitLabelCanvas fills and copies into NNSG2dCellOAMAttrData elements.
 typedef struct Unk02022eb0 {
     /* 00 */ union {
         u32 mUnk_00;

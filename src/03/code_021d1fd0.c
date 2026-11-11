@@ -180,7 +180,7 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
         font = gTextCanvases->mFonts + fontIndex;
         glyphIndex = NNS_G2dFontFindGlyphIndex(font, *text);
         if (glyphIndex == 0xffff) {
-            glyphIndex = font->mUnk_00->mUnk_02;
+            glyphIndex = font->mPRes->mUnk_02;
         }
         widths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
         if (font->mUnk_08 != 0) {
@@ -200,7 +200,7 @@ void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32
 }
 
 void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color) {
-    canvas->mUnk_00.mUnk_18(&canvas->mUnk_00, color);
+    canvas->mUnk_00.mPClear(&canvas->mUnk_00, color);
 }
 
 void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 f) {

@@ -32,7 +32,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
     MtxFx22 *matrix;
     LayoutAxis axisRecords[3];
     s32 position[2];
-    Unk020224e0_c *cellData;
+    NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     u16 groupIndex;
     u32 oamCount;
@@ -51,8 +51,8 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
         cellData = entry->mLabelCanvas->mCellData;
         axisRecords[0] = labelEntry->mAxisX;
         axisRecords[1] = labelEntry->mAxisY;
-        width = cellData->mUnk_08 - cellData->mUnk_0c;
-        height = cellData->mUnk_0a - cellData->mUnk_0e;
+        width = cellData->mMaxX - cellData->mMinX;
+        height = cellData->mMaxY - cellData->mMinY;
         position[0] = axisRecords[0].mUnk_00_0 << 12;
         position[1] = axisRecords[1].mUnk_00_0 << 12;
     } else {
@@ -61,8 +61,8 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
         axisRecords[2] = cellEntry->mUnk_00_0;
         axisRecords[0] = axisRecords[2];
         axisRecords[1] = cellEntry->mUnk_00_2;
-        width = cellData->mUnk_08 - cellData->mUnk_0c;
-        height = cellData->mUnk_0a - cellData->mUnk_0e;
+        width = cellData->mMaxX - cellData->mMinX;
+        height = cellData->mMaxY - cellData->mMinY;
         position[0] = ((width >> 1) + GetLayoutAxisStartX(axisRecords[2], width)) << 12;
         position[1] = ((height >> 1) + GetLayoutAxisStartY(cellEntry->mUnk_00_2, height)) << 12;
     }

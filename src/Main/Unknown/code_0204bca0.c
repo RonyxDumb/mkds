@@ -47,7 +47,7 @@ s32 RomArchiveChildProc(FSFile *file, u32 command) {
 void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
     RomHeaderStart fileHeader;
     FSFile romFile;
-    Unk02005704 tables[4];
+    CARDRomRegion tables[4];
     u32 paddedSizes[4];
     u32 *tablePointers[4];
     u32 *block;
@@ -95,19 +95,19 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         tables[0] = SYSTEM_WORK->mRomHeader.mHead.mFatTable;
         tables[1] = SYSTEM_WORK->mRomHeader.mHead.mFntTable;
         positionOffset = 0;
-        tables[2].mUnk_00 = (u8 *) (header->mOverlayTable0Offset + imageOffset);
-        tables[2].mUnk_04 = header->mOverlayTable0Size;
-        tables[3].mUnk_00 = (u8 *) (header->mOverlayTable1Offset + imageOffset);
-        tables[3].mUnk_04 = header->mOverlayTable1Size;
+        tables[2].mOffset = (u8 *) (header->mOverlayTable0Offset + imageOffset);
+        tables[2].mLength = header->mOverlayTable0Size;
+        tables[3].mOffset = (u8 *) (header->mOverlayTable1Offset + imageOffset);
+        tables[3].mLength = header->mOverlayTable1Size;
     }
     blockSize = blockSize + 4;
     for (value = 0; value < 4; value++) {
-        paddedSizes[value] = (tables[value].mUnk_04 + 0x1f) & ~0x1f;
+        paddedSizes[value] = (tables[value].mLength + 0x1f) & ~0x1f;
         blockSize = blockSize + (paddedSizes[value] + 4);
     }
     if (appendOverlayEntries != 0) {
         for (value = 2; value < 4; value++) {
-            alignedSize = (((tables[value].mUnk_04 >> 5) << 3) + 0x1f) & ~0x1f;
+            alignedSize = (((tables[value].mLength >> 5) << 3) + 0x1f) & ~0x1f;
             paddedSizes[0] = paddedSizes[0] + alignedSize;
             blockSize = blockSize + alignedSize;
         }
@@ -125,8 +125,8 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         for (tableIndex = 0; tableIndex < 4; tableIndex++) {
             tablePointers[tableIndex] = cursor;
             tableData = tablePointers[tableIndex];
-            *tableData = tables[tableIndex].mUnk_04;
-            FS_SeekFile(&romFile, positionOffset + (u32) tables[tableIndex].mUnk_00, origin);
+            *tableData = tables[tableIndex].mLength;
+            FS_SeekFile(&romFile, positionOffset + (u32) tables[tableIndex].mOffset, origin);
             FS_ReadFile(&romFile, tableData + 1, *tableData);
             cursor = OFFSET_PTR(u32, cursor, (paddedSizes[tableIndex] + 4));
         }
@@ -167,7 +167,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
 }
 
 u32 ReloadRomArchiveFromBlock(u32 *block) {
-    Unk02005704 tables[4];
+    CARDRomRegion tables[4];
     u32 positionOffset;
     FSArchive *archive;
     s32 tableIndex;
@@ -177,14 +177,14 @@ u32 ReloadRomArchiveFromBlock(u32 *block) {
     FS_SetArchiveProc(archive, RomArchiveChildProc, -1);
     positionOffset = *block++;
     for (tableIndex = 0; tableIndex < 4; tableIndex++) {
-        tables[tableIndex].mUnk_00 = (u8 *) (block + 1);
-        tables[tableIndex].mUnk_04 = *block;
-        block = (u32 *) (tables[tableIndex].mUnk_00 + ((tables[tableIndex].mUnk_04 + 0x1f) & ~0x1f));
+        tables[tableIndex].mOffset = (u8 *) (block + 1);
+        tables[tableIndex].mLength = *block;
+        block = (u32 *) (tables[tableIndex].mOffset + ((tables[tableIndex].mLength + 0x1f) & ~0x1f));
     }
-    FS_LoadArchive(archive, NULL, (u32) tables[0].mUnk_00, tables[0].mUnk_04, (u32) tables[1].mUnk_00,
-                   tables[1].mUnk_04, RomArchiveReadCallback, RomArchiveWriteCallback);
-    FS_AttachOverlayTable(0, tables[2].mUnk_00, tables[2].mUnk_04);
-    FS_AttachOverlayTable(1, tables[3].mUnk_00, tables[3].mUnk_04);
+    FS_LoadArchive(archive, NULL, (u32) tables[0].mOffset, tables[0].mLength, (u32) tables[1].mOffset,
+                   tables[1].mLength, RomArchiveReadCallback, RomArchiveWriteCallback);
+    FS_AttachOverlayTable(0, tables[2].mOffset, tables[2].mLength);
+    FS_AttachOverlayTable(1, tables[3].mOffset, tables[3].mLength);
     return positionOffset;
 }
 

@@ -103,7 +103,7 @@ typedef struct KartModelsEntry {
     /* 068 */ u16 mVariant;
     /* 06a */ KartModelColorBlend mColorBlend;
     /* 096 */ u8 mUnk_096[2];
-    /* 098 */ Unk02087b78 mKillerItemAnimation;
+    /* 098 */ ModelAnimationFrameLoop mKillerItemAnimation;
     /* 0ac */ BOOL mFaceAnimationRemoved;
     /* 0b0 */ s32 mRegion;
 } KartModelsEntry;

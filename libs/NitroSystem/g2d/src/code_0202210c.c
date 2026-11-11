@@ -16,7 +16,7 @@ static inline void CallbackFuncHandling_(const Unk02022030 *pAnimCtrl, u16 curre
 }
 
 static inline u32 ShouldAnmCtrlMoveNext_(Unk02022030 *pAnimCtrl) {
-    if (pAnimCtrl->mUnk_08 != 0 && pAnimCtrl->mUnk_0c >= (pAnimCtrl->mUnk_00->mUnk_04 << 12)) {
+    if (pAnimCtrl->mActive != 0 && pAnimCtrl->mCurrentTime >= (pAnimCtrl->mPCurrent->mUnk_04 << 12)) {
         return 1;
     }
     return 0;
@@ -30,30 +30,31 @@ u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames) {
     s32 *currentTime;
 
     changedFrame = 0;
-    if (pAnimCtrl->mUnk_08 != 1) {
+    if (pAnimCtrl->mActive != 1) {
         return 0;
     }
-    pAnimCtrl->mUnk_0c += Abs(MUL_FIXED12_ROUNDED(pAnimCtrl->mUnk_10, frames));
-    currentTime = &pAnimCtrl->mUnk_0c;
+    pAnimCtrl->mCurrentTime += Abs(MUL_FIXED12_ROUNDED(pAnimCtrl->mSpeed, frames));
+    currentTime = &pAnimCtrl->mCurrentTime;
     while (ShouldAnmCtrlMoveNext_(pAnimCtrl)) {
         changedFrame = 1;
-        *currentTime = *currentTime - (pAnimCtrl->mUnk_00->mUnk_04 << 12);
-        if ((pAnimCtrl->mUnk_10 > 0) ^ pAnimCtrl->mUnk_04) {
-            pAnimCtrl->mUnk_00++;
+        *currentTime = *currentTime - (pAnimCtrl->mPCurrent->mUnk_04 << 12);
+        if ((pAnimCtrl->mSpeed > 0) ^ pAnimCtrl->mReverse) {
+            pAnimCtrl->mPCurrent++;
         } else {
-            pAnimCtrl->mUnk_00--;
+            pAnimCtrl->mPCurrent--;
         }
-        next = pAnimCtrl->mUnk_00;
-        if ((pAnimCtrl->mUnk_10 > 0) ^ pAnimCtrl->mUnk_04) {
-            atEdge = next >= &pAnimCtrl->mUnk_18->mUnk_0c[pAnimCtrl->mUnk_18->mUnk_00];
+        next = pAnimCtrl->mPCurrent;
+        if ((pAnimCtrl->mSpeed > 0) ^ pAnimCtrl->mReverse) {
+            atEdge = next >= &pAnimCtrl->mPAnimSequence->mPAnmFrameArray[pAnimCtrl->mPAnimSequence->mNumFrames];
         } else {
-            atEdge = next <= &pAnimCtrl->mUnk_18->mUnk_0c[pAnimCtrl->mUnk_18->mUnk_02] - 1;
+            atEdge =
+                next <= &pAnimCtrl->mPAnimSequence->mPAnmFrameArray[pAnimCtrl->mPAnimSequence->mLoopStartFrameIdx] - 1;
         }
         if (atEdge) {
             SequenceEdgeHandle_(pAnimCtrl);
         }
         if (pAnimCtrl->mCallbackFunctor.mType != 0) {
-            frameIdx = ((u32) pAnimCtrl->mUnk_00 - (u32) pAnimCtrl->mUnk_18->mUnk_0c) >> 3;
+            frameIdx = ((u32) pAnimCtrl->mPCurrent - (u32) pAnimCtrl->mPAnimSequence->mPAnmFrameArray) >> 3;
             CallbackFuncHandling_(pAnimCtrl, frameIdx);
         }
     }
@@ -65,7 +66,7 @@ u32 NNS_G2dSetAnimCtrlCurrentFrame(Unk02022030 *pAnimCtrl, u32 index) {
 
     result = SetAnimCtrlCurrentFrameImpl_(pAnimCtrl, index);
     if (result != 0) {
-        pAnimCtrl->mUnk_0c = 0;
+        pAnimCtrl->mCurrentTime = 0;
     }
     return result;
 }

@@ -142,7 +142,7 @@ BOOL IsLanguageJa(void) {
 }
 
 void LoadNclrData(Nclr **outNclr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
         part = FindPartByTag(file, 0x504c5454);
@@ -155,7 +155,7 @@ void LoadNclrData(Nclr **outNclr, void *file) {
 }
 
 void LocateNclr(Nclr **outNclr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
@@ -167,7 +167,7 @@ void LocateNclr(Nclr **outNclr, void *file) {
 }
 
 void LoadNcgrData2(Ncgr **outNcgr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
         part = FindPartByTag(file, 0x43484152);
@@ -180,7 +180,7 @@ void LoadNcgrData2(Ncgr **outNcgr, void *file) {
 }
 
 void LocateNcgr2(Ncgr **outNcgr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
@@ -192,7 +192,7 @@ void LocateNcgr2(Ncgr **outNcgr, void *file) {
 }
 
 void LoadNcgrData(Ncgr **outNcgr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
         part = FindPartByTag(file, 0x43484152);
@@ -205,7 +205,7 @@ void LoadNcgrData(Ncgr **outNcgr, void *file) {
 }
 
 void LocateNcgr(Ncgr **outNcgr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
@@ -217,7 +217,7 @@ void LocateNcgr(Ncgr **outNcgr, void *file) {
 }
 
 void LoadNcerData(Unk02021dc8 **outNcer, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
@@ -231,7 +231,7 @@ void LoadNcerData(Unk02021dc8 **outNcer, void *file) {
 }
 
 void LocateNcer(Unk02021dc8 **outNcer, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
@@ -243,7 +243,7 @@ void LocateNcer(Unk02021dc8 **outNcer, void *file) {
 }
 
 void LoadNanrData(Unk02021db0 **outNanr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
@@ -257,20 +257,20 @@ void LoadNanrData(Unk02021db0 **outNanr, void *file) {
 }
 
 void LoadNscrData(Nscr **outNscr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
         part = FindPartByTag(file, 0x5343524e);
         if (part != NULL) {
             *outNscr = (Nscr *) (part + 1);
-            NNS_G2dGetUnpackedScreenData(file, (Unk02021fd0 **) outNscr);
+            NNS_G2dGetUnpackedScreenData(file, (NNSG2dBinaryBlockHeader **) outNscr);
         }
     }
     DC_FlushRange((*outNscr)->mData, (*outNscr)->mDataSize);
 }
 
 void LocateNscr(Nscr **outNscr, void *file) {
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;

@@ -427,7 +427,7 @@ RaceNclrNcgr *GetRaceNclrNcgr(u32 pairIndex) {
     return &gRaceNcerNclrNcgrTables->mNclrNcgrPairs[pairIndex];
 }
 
-Unk020224e0_c *GetRaceMNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceMNcerEntries[cellIndex];
 }
 
@@ -512,43 +512,43 @@ u32 LookupRaceMNcerIndex(u32 kind) {
     return cellIndex;
 }
 
-Unk020224e0_c *GetRaceGoalMNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceGoalMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceTaMNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceTaMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceTaMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceBattleMNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceBattleMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceBattleMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceMrMNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceMrMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceMrMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceGoalMrMNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceGoalMrMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalMrMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceSNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceSNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceGoalSNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceGoalSNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceGoalTeamSNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceGoalTeamSNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceNewRecordTaSNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceNewRecordTaSNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceStartBattleMNcerEntry(u32 cellIndex) {
+NNSG2dCellDataWithBR *GetRaceStartBattleMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceStartBattleMNcerEntries[cellIndex];
 }
 
@@ -835,36 +835,36 @@ void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars) {
     u8 index;
     u8 nameIndex;
     s32 colorIndex;
-    Unk020224e0_s *oamEntry;
+    NNSG2dCellOAMAttrData *oamEntry;
 
     LoadNcgrData2(&transferChars, FindSceneFileWrapper("race_transfer_s_o.NCGR"));
     transferCharData = transferChars->mData;
     for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
         GetEntryCharacterAndPalette(kartIndex, &characterIndex, &paletteIndex);
         CopyCharsBlock(transferCharData, characterIndex << 1, 0, 2, 2, chars, kartIndex << 1, 0);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[kartIndex]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[kartIndex]->mPOamAttrArray;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfff) + (paletteIndex << 12);
     }
     for (index = 0; index < (s32) gRaceSetup->mKartCount; index++) {
         GetEntryCharacterAndPalette(index, &characterIndex, &paletteIndex);
         CopyCharsBlock(transferCharData, characterIndex << 1, 2, 2, 2, chars, (index << 1) + 0x10, 0);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[index + 8]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[index]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[index]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[index + 8]->mPOamAttrArray;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[index]->mPOamAttrArray;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[index]->mPOamAttrArray;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfff) + (paletteIndex << 12);
         if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[index + 7]->mUnk_04;
-            oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[index + 7]->mPOamAttrArray;
+            oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfff) + (paletteIndex << 12);
         }
     }
     if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
         for (index = 0; index < 6; index++) {
             GetTimeRecordCharacterAndPalette(index, &characterIndex, &paletteIndex);
             CopyCharsBlock(transferCharData, characterIndex << 1, 2, 2, 2, chars, ((index + 2) << 1) + 0x10, 0);
-            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[index + 8]->mUnk_04;
-            oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[index + 8]->mPOamAttrArray;
+            oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfff) + (paletteIndex << 12);
         }
     }
     for (nameIndex = 0; nameIndex < (s32) gRaceSetup->mKartCount; nameIndex++) {

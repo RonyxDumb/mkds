@@ -1,23 +1,23 @@
 #include "g2d_NSC_load.h"
 
-Unk02021fd0 *FindPartByTag(Unk02021f9c *file, u32 tag) {
+NNSG2dBinaryBlockHeader *FindPartByTag(NNSG2dBinaryFileHeader *file, u32 tag) {
     u16 i;
     u16 count;
-    Unk02021fd0 *part;
+    NNSG2dBinaryBlockHeader *part;
 
-    part = OFFSET_PTR(Unk02021fd0, file, file->mUnk_0c);
-    count = file->mUnk_0e;
+    part = OFFSET_PTR(NNSG2dBinaryBlockHeader, file, file->mHeaderSize);
+    count = file->mDataBlocks;
     for (i = 0; i < count; i++) {
-        if (part->mUnk_00 == tag) {
+        if (part->mKind == tag) {
             return part;
         }
-        part = OFFSET_PTR(Unk02021fd0, part, part->mUnk_04);
+        part = OFFSET_PTR(NNSG2dBinaryBlockHeader, part, part->mSize);
     }
     return 0;
 }
 
-u32 NNS_G2dGetUnpackedScreenData(Unk02021f9c *pNscrFile, Unk02021fd0 **ppScrData) {
-    Unk02021fd0 *part;
+u32 NNS_G2dGetUnpackedScreenData(NNSG2dBinaryFileHeader *pNscrFile, NNSG2dBinaryBlockHeader **ppScrData) {
+    NNSG2dBinaryBlockHeader *part;
 
     part = FindPartByTag(pNscrFile, 0x5343524e);
     if (part != 0) {

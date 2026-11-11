@@ -527,7 +527,7 @@ const Vec3 gVec3Zero = {0, 0, 0};
 
 void DrawRaceStartGp(void) {
     RaceHudOamBuffer *oamBuffer;
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     s32 position[2];
 
     gRaceStartGp->mMainOam.mOamCount = 0;

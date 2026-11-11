@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_0211d4a8.h"
 
 void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer) {
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     s32 positions[2][2];
 
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xe000;

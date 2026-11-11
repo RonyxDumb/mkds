@@ -150,7 +150,7 @@ void UpdateRaceGoalTimes(void) {
 
 // Draws the finish time and lap times of the goal screen.
 void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     s32 positions[4][2];
     s32 slideOffsets[6];
     u16 rowIndex;
@@ -208,7 +208,7 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
 
 // Draws the seven digits of e and the two separators; the first digit is skipped when it is 0.
 void DrawRaceGoalTimeDigits(RaceHudOamBuffer *oamBuffer, s32 originX, s32 originY, TimeDigits *digits, s32 cellOffset) {
-    Unk020224e0_c *cell;
+    NNSG2dCellDataWithBR *cell;
     s32 digit0Position[2];
     s32 digit1Position[2];
     s32 separator0Position[2];

@@ -3,15 +3,15 @@
 #include "types.h"
 #include "code_02022030.h"
 
-typedef struct Unk020224e0_c Unk020224e0_c;
+typedef struct NNSG2dCellDataWithBR NNSG2dCellDataWithBR;
 
-Unk020224e0_c *GetRaceStartBattleMNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceNewRecordTaSNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceGoalTeamSNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceGoalSNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceSNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceGoalMrMNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceMrMNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceBattleMNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceTaMNcerEntry(unsigned int cellIndex);
-Unk020224e0_c *GetRaceGoalMNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceStartBattleMNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceNewRecordTaSNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceGoalTeamSNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceGoalSNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceSNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceGoalMrMNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceMrMNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceBattleMNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceTaMNcerEntry(unsigned int cellIndex);
+NNSG2dCellDataWithBR *GetRaceGoalMNcerEntry(unsigned int cellIndex);

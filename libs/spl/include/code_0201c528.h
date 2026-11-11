@@ -28,11 +28,11 @@ typedef struct Unk0201e3c8 {
 } Unk0201e3c8;
 
 // Used by SPLList_PushFront, SPLList_Erase and SPLList_PopFront.
-typedef struct Unk0201e494 {
-    /* 00 */ Unk0201e3c8 *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ Unk0201e3c8 *mUnk_08;
-} Unk0201e494;
+typedef struct ParticleList {
+    /* 00 */ Unk0201e3c8 *mFront;
+    /* 04 */ s32 mCount;
+    /* 08 */ Unk0201e3c8 *mBack;
+} ParticleList;
 
 typedef struct Unk0201ca6c_20_00_00 {
     /* 00 */ u32 mUnk_00_0 : 4;
@@ -226,8 +226,8 @@ typedef struct Unk0201ca6c_98 {
 struct Unk0201ca6c {
     /* 00 */ struct Unk0201ca6c *mUnk_00;
     /* 04 */ struct Unk0201ca6c *mUnk_04;
-    /* 08 */ Unk0201e494 mUnk_08;
-    /* 14 */ Unk0201e494 mUnk_14;
+    /* 08 */ ParticleList mUnk_08;
+    /* 14 */ ParticleList mUnk_14;
     /* 20 */ Unk0201ca6c_20 *mUnk_20;
     /* 24 */ Unk0201ca6c_24 mUnk_24;
     /* 28 */ Vec3 mUnk_28;
@@ -304,8 +304,8 @@ typedef struct Unk0201e170 {
 void SPLUtil_RotateXYZ(s32 sinValue, s32 cosValue, MtxFx43 *mtx);
 void SPLUtil_DrawXZPlane(u32 texCoordU, u32 texCoordV, s32 centerX, s32 centerZ);
 void SPLUtil_DrawXYPlane(u32 texCoordU, u32 texCoordV, s32 centerX, s32 centerY);
-void SPLEmitter_EmitChildren(Unk0201e3c8 *emtr, Unk0201ca6c *q, Unk0201e494 *r);
-void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *r);
+void SPLEmitter_EmitChildren(Unk0201e3c8 *emtr, Unk0201ca6c *q, ParticleList *r);
+void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, ParticleList *r);
 void SPLUtil_TiltCoordinates(Vec3 *ptclPos, const Vec3 *pos, Unk0201ca6c *emtr);
 void SPLEmitter_ComputeOrthogonalAxes(Unk0201ca6c *emtr);
 void SPLAnim_ChildAlpha(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate);
@@ -320,8 +320,8 @@ void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc
 void SPLBehavior_ApplyMagnet(const Unk0201e248 *magnet, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplyRandom(const Unk0201e2cc *rng, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
 void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr);
-Unk0201e3c8 *SPLList_Erase(Unk0201e494 *list, Unk0201e3c8 *node);
-Unk0201e3c8 *SPLList_PopFront(Unk0201e494 *list);
-void SPLList_PushFront(Unk0201e494 *list, Unk0201e3c8 *node);
+Unk0201e3c8 *SPLList_Erase(ParticleList *list, Unk0201e3c8 *node);
+Unk0201e3c8 *SPLList_PopFront(ParticleList *list);
+void SPLList_PushFront(ParticleList *list, Unk0201e3c8 *node);
 void SPLRandom_VecFx32_XY(Vec3 *vec);
 void SPLRandom_VecFx32(Vec3 *vec);
