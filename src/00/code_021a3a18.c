@@ -227,14 +227,14 @@ void qr2_buffer_addA(QueryBuffer *outbuf, const char *value) {
     s32 available;
 
     appendLen = strlen(value) + 1;
-    available = 0x800 - outbuf->mUnk_800;
+    available = 0x800 - outbuf->mLen;
     if (appendLen > available) {
         appendLen = available;
     }
     if (appendLen != 0) {
-        memcpy(&outbuf->mUnk_000[outbuf->mUnk_800], value, appendLen);
-        outbuf->mUnk_800 += appendLen;
-        outbuf->mUnk_000[outbuf->mUnk_800 - 1] = 0;
+        memcpy(&outbuf->mBuffer[outbuf->mLen], value, appendLen);
+        outbuf->mLen += appendLen;
+        outbuf->mBuffer[outbuf->mLen - 1] = 0;
     }
 }
 
@@ -416,8 +416,8 @@ void compute_challenge_response(QueryRecord *qrec, QueryBuffer *buf, const char 
     if (challengelen >= 1 && challengelen <= 0x41 && ((s8 *) challenge)[challengelen - 1] == 0) {
         strcpy((char *) cipherBytes, challenge);
         gs_encrypt(qrec->mSecretKey, strlen((const char *) qrec->mSecretKey), cipherBytes, challengelen - 1);
-        gs_encode(cipherBytes, challengelen - 1, &buf->mUnk_000[buf->mUnk_800]);
-        buf->mUnk_800 += strlen((const char *) &buf->mUnk_000[buf->mUnk_800]) + 1;
+        gs_encode(cipherBytes, challengelen - 1, &buf->mBuffer[buf->mLen]);
+        buf->mLen += strlen((const char *) &buf->mBuffer[buf->mLen]) + 1;
     }
 }
 
@@ -459,17 +459,17 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
         return;
     }
     if ((u32) (keytype - 1) <= 1) {
-        if ((u32) (0x800 - buf->mUnk_800) < 2) {
+        if ((u32) (0x800 - buf->mLen) < 2) {
             return;
         }
         countValue = qrec->mPlayerTeamCountCallback(keytype, qrec->mUserData);
         countShort = countValue;
         swappedCount = (countShort >> 8 & 0xff) | (countShort << 8 & 0xff00);
-        writePtr = &buf->mUnk_000[buf->mUnk_800];
+        writePtr = &buf->mBuffer[buf->mLen];
         countBytes = (u8 *) &swappedCount;
         writePtr[0] = countBytes[0];
         writePtr[1] = countBytes[1];
-        buf->mUnk_800 += 2;
+        buf->mLen += 2;
     } else {
         countValue = 1;
     }
@@ -485,9 +485,9 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
                 }
                 qr2_buffer_addA(buf, keyName);
                 if (keytype == 0) {
-                    bufferLength = buf->mUnk_800;
+                    bufferLength = buf->mLen;
                     qrec->mServerKeyCallback(*keyCursor, buf, qrec->mUserData);
-                    if (bufferLength == buf->mUnk_800) {
+                    if (bufferLength == buf->mLen) {
                         qr2_buffer_addA(buf, data_ov000_021b4400);
                     }
                 }
@@ -495,10 +495,10 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
                 keyIndex++;
             } while (keyIndex < keybuffer.mUnk_100);
         }
-        if (0x800 - buf->mUnk_800 < 1) {
+        if (0x800 - buf->mLen < 1) {
             return;
         }
-        buf->mUnk_000[buf->mUnk_800++] = 0;
+        buf->mBuffer[buf->mLen++] = 0;
         keycount = keybuffer.mUnk_100;
         keys = keybuffer.mUnk_000;
         if (keytype == 0) {
@@ -512,7 +512,7 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
             keyPosition = firstKeyIndex;
             if (keycount > 0) {
                 do {
-                    bufferLength = buf->mUnk_800;
+                    bufferLength = buf->mLen;
                     if (keytype == 0) {
                         qrec->mServerKeyCallback(keys[keyPosition], buf, qrec->mUserData);
                     } else if (keytype == 1) {
@@ -520,7 +520,7 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
                     } else if (keytype == 2) {
                         qrec->mTeamKeyCallback(keys[keyPosition], playerIdx, buf, qrec->mUserData);
                     }
-                    if (bufferLength == buf->mUnk_800) {
+                    if (bufferLength == buf->mLen) {
                         qr2_buffer_addA(buf, data_ov000_021b4400);
                     }
                     keyPosition++;
@@ -610,30 +610,30 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
             }
             if (keytype == 0) {
                 qr2_buffer_addA(buf, keyName);
-                buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
-                bufferLength = buf->mUnk_800;
+                buf->mBuffer[buf->mLen - 1] = 0x5c;
+                bufferLength = buf->mLen;
                 qrec->mServerKeyCallback(*keyCursor, buf, qrec->mUserData);
-                if (bufferLength == buf->mUnk_800) {
+                if (bufferLength == buf->mLen) {
                     qr2_buffer_addA(buf, data_ov000_021b4400);
                 }
-                buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
+                buf->mBuffer[buf->mLen - 1] = 0x5c;
             } else {
                 playerIdx = firstPindex;
                 if (teamTotal > 0) {
                     do {
                         sprintf(keyNameBuf, data_ov000_021b4404, keyName, playerIdx);
                         qr2_buffer_addA(buf, keyNameBuf);
-                        buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
-                        bufferLength = buf->mUnk_800;
+                        buf->mBuffer[buf->mLen - 1] = 0x5c;
+                        bufferLength = buf->mLen;
                         if (keytype == 1) {
                             qrec->mPlayerKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
                         } else if (keytype == 2) {
                             qrec->mTeamKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
                         }
-                        if (bufferLength == buf->mUnk_800) {
+                        if (bufferLength == buf->mLen) {
                             qr2_buffer_addA(buf, data_ov000_021b4400);
                         }
-                        buf->mUnk_000[buf->mUnk_800 - 1] = 0x5c;
+                        buf->mBuffer[buf->mLen - 1] = 0x5c;
                         playerIdx++;
                     } while (playerIdx < teamTotal);
                 }
@@ -645,13 +645,13 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
 }
 
 void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf) {
-    buf->mUnk_800 = 1;
-    buf->mUnk_000[0] = 0x5c;
+    buf->mLen = 1;
+    buf->mBuffer[0] = 0x5c;
     qr_build_partial_old_query_reply(qrec, buf, 0);
     qr_build_partial_old_query_reply(qrec, buf, 1);
     qr_build_partial_old_query_reply(qrec, buf, 2);
     qr2_buffer_addA(buf, gFinalQueryidText);
-    buf->mUnk_800 = buf->mUnk_800 + -1;
+    buf->mLen = buf->mLen + -1;
 }
 
 void qr_process_client_message(Unk021a3a18 *qrec, u8 *buf, s32 len) {
@@ -712,7 +712,7 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
     s32 index;
     s8 *requestKey;
     s8 *pos;
-    buf.mUnk_800 = 0;
+    buf.mLen = 0;
     if (qrec == NULL) {
         qrec = (Unk021a3a18 *) gCurrentQr2Rec;
     }
@@ -723,7 +723,7 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
         }
     } else if (query[0] == 0x5c) {
         qr_process_old_query((QueryRecord *) qrec, &buf);
-        sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, sender, 8);
+        sendto(qrec->mUnk_00, &buf, buf.mLen, 0, sender, 8);
         return;
     } else if (len >= 7) {
         if ((u8) query[0] == 0xfe) {
@@ -750,9 +750,9 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
                         if (len > 0x20) {
                             len = 0x20;
                         }
-                        buf.mUnk_000[0] = 5;
-                        memcpy(&buf.mUnk_000[buf.mUnk_800], pos, len);
-                        buf.mUnk_800 += len;
+                        buf.mBuffer[0] = 5;
+                        memcpy(&buf.mBuffer[buf.mLen], pos, len);
+                        buf.mLen += len;
                         break;
                     case 4:
                         if (qrec->mUnk_b8 == -1) {
@@ -778,9 +778,9 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
                         if (len < 4) {
                             return;
                         }
-                        buf.mUnk_000[0] = 7;
-                        __memcpy(&buf.mUnk_000[buf.mUnk_800], pos, 4);
-                        buf.mUnk_800 += 4;
+                        buf.mBuffer[0] = 7;
+                        __memcpy(&buf.mBuffer[buf.mLen], pos, 4);
+                        buf.mLen += 4;
                         __memcpy(&index, pos, 4);
                         if (qr_got_recent_message(qrec, index) == 0) {
                             qr_process_client_message(qrec, (u8 *) (pos + 4), len - 4);
@@ -793,7 +793,7 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
                     default:
                         return;
                 }
-                sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, sender, 8);
+                sendto(qrec->mUnk_00, &buf, buf.mLen, 0, sender, 8);
             }
         }
     }
@@ -801,9 +801,9 @@ void qr2_parse_queryA(Unk021a3a18 *qrec, s8 *query, s32 len, void *sender) {
 
 void send_keepalive(Unk021a3a18 *qrec) {
     QueryBuffer buf;
-    buf.mUnk_800 = 0;
+    buf.mLen = 0;
     qr_add_packet_header((u32) &buf, 8, (u32) qrec->mUnk_84);
-    sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, qrec->mUnk_cc, 8);
+    sendto(qrec->mUnk_00, &buf, buf.mLen, 0, qrec->mUnk_cc, 8);
     qrec->mUnk_b0 = GetElapsedMilliseconds();
 }
 
@@ -811,7 +811,7 @@ void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged) {
     QueryBuffer buf;
     char keyText[0x14];
     s32 index;
-    buf.mUnk_800 = 0;
+    buf.mLen = 0;
     qr_add_packet_header((u32) &buf, 3, (u32) qrec->mUnk_84);
     for (index = 0; index < gNumLocalIps; index++) {
         sprintf(keyText, gLocalIpKeyFormat, index);
@@ -836,10 +836,10 @@ void send_heartbeat(Unk021a3a18 *qrec, s32 statechanged) {
     }
     if (statechanged != 2) {
         qr_build_query_reply((QueryRecord *) qrec, &buf, 0xff, NULL, 0xff, NULL, 0xff, NULL);
-    } else if (0x800 - buf.mUnk_800 >= 1) {
-        buf.mUnk_000[buf.mUnk_800++] = 0;
+    } else if (0x800 - buf.mLen >= 1) {
+        buf.mBuffer[buf.mLen++] = 0;
     }
-    sendto(qrec->mUnk_00, &buf, buf.mUnk_800, 0, qrec->mUnk_cc, 8);
+    sendto(qrec->mUnk_00, &buf, buf.mLen, 0, qrec->mUnk_cc, 8);
     qrec->mUnk_ac = GetElapsedMilliseconds();
     qrec->mUnk_b0 = qrec->mUnk_ac;
     if (statechanged != 0) {

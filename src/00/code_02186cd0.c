@@ -61,13 +61,13 @@ void DWCi_Netcheck_Thread(void) {
     dataText = NULL;
     waitText = NULL;
     for (;;) {
-        gHttpParam.mUnk_00 = gConnTestUrl;
-        gHttpParam.mUnk_04 = TRUE;
-        gHttpParam.mUnk_08 = NULL;
-        gHttpParam.mUnk_0c = 0x1000;
-        gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
-        gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
-        gHttpParam.mUnk_1c = 20000;
+        gHttpParam.mUrl = gConnTestUrl;
+        gHttpParam.mAction = TRUE;
+        gHttpParam.mReceiveBufferStart = NULL;
+        gHttpParam.mReceiveBufferSize = 0x1000;
+        gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
+        gHttpParam.mFree = gNetcheck->mParam.mFree;
+        gHttpParam.mTimeoutMillis = 20000;
         gNetcheck->mUnk_04 = -2;
         if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
@@ -110,15 +110,15 @@ void DWCi_Netcheck_Thread(void) {
                 if (netcheck->mBodyWayport != NULL) {
                     netcheck->mUnk_04 = -6;
                     ReleaseHttp(gHttp);
-                    gHttpParam.mUnk_00 = DWCauthhttpparam.mUnk_00;
-                    gHttpParam.mUnk_04 = FALSE;
-                    gHttpParam.mUnk_08 = NULL;
-                    gHttpParam.mUnk_0c = 0x200;
-                    gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
-                    gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
-                    gHttpParam.mUnk_1c = 20000;
-                    if (strcmp(gHttpParam.mUnk_00, data_ov000_021b1400) != 0) {
-                        gHttpParam.mUnk_18 = TRUE;
+                    gHttpParam.mUrl = DWCauthhttpparam.mUrl;
+                    gHttpParam.mAction = FALSE;
+                    gHttpParam.mReceiveBufferStart = NULL;
+                    gHttpParam.mReceiveBufferSize = 0x200;
+                    gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
+                    gHttpParam.mFree = gNetcheck->mParam.mFree;
+                    gHttpParam.mTimeoutMillis = 20000;
+                    if (strcmp(gHttpParam.mUrl, data_ov000_021b1400) != 0) {
+                        gHttpParam.mIgnoreCa = TRUE;
                     }
                     if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
                         ReleaseHttp(gHttp);
@@ -229,15 +229,15 @@ void DWCi_Netcheck_Thread(void) {
             break;
         }
         gNetcheck->mUnk_04 = -4;
-        gHttpParam.mUnk_00 = DWCauthhttpparam.mUnk_00;
-        gHttpParam.mUnk_04 = FALSE;
-        gHttpParam.mUnk_08 = NULL;
-        gHttpParam.mUnk_0c = 0x1000;
-        gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
-        gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
-        gHttpParam.mUnk_1c = 40000;
-        if (strcmp(gHttpParam.mUnk_00, data_ov000_021b1400) != 0) {
-            gHttpParam.mUnk_18 = TRUE;
+        gHttpParam.mUrl = DWCauthhttpparam.mUrl;
+        gHttpParam.mAction = FALSE;
+        gHttpParam.mReceiveBufferStart = NULL;
+        gHttpParam.mReceiveBufferSize = 0x1000;
+        gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
+        gHttpParam.mFree = gNetcheck->mParam.mFree;
+        gHttpParam.mTimeoutMillis = 40000;
+        if (strcmp(gHttpParam.mUrl, data_ov000_021b1400) != 0) {
+            gHttpParam.mIgnoreCa = TRUE;
         }
         if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
@@ -399,13 +399,13 @@ void DWCi_Netcheck_Thread(void) {
         }
         ReleaseHttp(gHttp);
         gNetcheck->mUnk_04 = -5;
-        gHttpParam.mUnk_00 = urlText;
-        gHttpParam.mUnk_04 = FALSE;
-        gHttpParam.mUnk_08 = NULL;
-        gHttpParam.mUnk_0c = 0x1000;
-        gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
-        gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
-        gHttpParam.mUnk_1c = 40000;
+        gHttpParam.mUrl = urlText;
+        gHttpParam.mAction = FALSE;
+        gHttpParam.mReceiveBufferStart = NULL;
+        gHttpParam.mReceiveBufferSize = 0x1000;
+        gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
+        gHttpParam.mFree = gNetcheck->mParam.mFree;
+        gHttpParam.mTimeoutMillis = 40000;
         if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
@@ -491,21 +491,21 @@ u32 DWC_Netcheck_GetReturnCode(void) {
 s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {
     MI_CpuFill8(http, 0, 0x1a60);
     http->mContentLength = -1;
-    http->mUnk_04 = *param;
-    http->mLowReceiveBuffer = http->mUnk_04.mUnk_10(gHttpLowReceiveBufferName, 0xb68);
+    http->mParam = *param;
+    http->mLowReceiveBuffer = http->mParam.mAlloc(gHttpLowReceiveBufferName, 0xb68);
     if (http->mLowReceiveBuffer == NULL) {
         http->mResult = 1;
         return 1;
     }
-    http->mLowSendBuffer = http->mUnk_04.mUnk_10(gHttpLowSendBufferName, 0x5ea);
+    http->mLowSendBuffer = http->mParam.mAlloc(gHttpLowSendBufferName, 0x5ea);
     if (http->mLowSendBuffer == NULL) {
         http->mResult = 1;
         return 1;
     }
-    DWCi_Http_SetHostinfo(http, param->mUnk_00);
+    DWCi_Http_SetHostinfo(http, param->mUrl);
     http->mResult = DWCi_Http_WriteBasicHeader(http);
     if (http->mResult == 0) {
-        http->mUnk_00 = 0xff;
+        http->mInitFlag = 0xff;
     }
     return http->mResult;
 }
@@ -529,25 +529,25 @@ u32 DWC_Http_FinishHeader(Http *http) {
 void DWC_Http_StartThread(Http *http) {
     u32 priority;
     priority = OS_GetThreadPriority(OSi_ThreadInfo.mCurrentThread);
-    http->mUnk_a40 = FALSE;
-    OS_InitMutex(&http->mUnk_a28);
-    OS_InitMutex(&http->mUnk_948);
-    if (http->mUnk_04.mUnk_18 == 1) {
+    http->mAbort = FALSE;
+    OS_InitMutex(&http->mAbortMutex);
+    OS_InitMutex(&http->mReceiveMutex);
+    if (http->mParam.mIgnoreCa == 1) {
         DWChttpignoreca = 1;
     } else {
         DWChttpignoreca = 0;
     }
     if (http->mThread.mId == 0 || OS_IsThreadTerminated(&http->mThread) != 0) {
-        OS_CreateThread(&http->mThread, DWCi_Http_Thread, http, http->mUnk_1a60, 0x1000, priority - 1);
+        OS_CreateThread(&http->mThread, DWCi_Http_Thread, http, http->mThreadStackBottom, 0x1000, priority - 1);
         OS_WakeupThreadDirect(&http->mThread);
     }
 }
 
 void DWC_Http_Abort(Http *http) {
-    if (http->mUnk_00 == 0xff) {
-        OS_LockMutex(&http->mUnk_a28);
-        http->mUnk_a40 = TRUE;
-        OS_UnlockMutex(&http->mUnk_a28);
+    if (http->mInitFlag == 0xff) {
+        OS_LockMutex(&http->mAbortMutex);
+        http->mAbort = TRUE;
+        OS_UnlockMutex(&http->mAbortMutex);
         if (http->mThread.mId != 0) {
             OS_JoinThread(&http->mThread);
         }
@@ -555,12 +555,12 @@ void DWC_Http_Abort(Http *http) {
 }
 
 u32 SleepUnlessHttpAborted(Http *http) {
-    OS_LockMutex(&http->mUnk_a28);
-    if (http->mUnk_a40 == TRUE) {
-        OS_UnlockMutex(&http->mUnk_a28);
+    OS_LockMutex(&http->mAbortMutex);
+    if (http->mAbort == TRUE) {
+        OS_UnlockMutex(&http->mAbortMutex);
         return 0;
     }
-    OS_UnlockMutex(&http->mUnk_a28);
+    OS_UnlockMutex(&http->mAbortMutex);
     OS_Sleep(10);
     return 1;
 }
@@ -588,10 +588,10 @@ void DWCi_Http_Thread(void *argument) {
     const char *contentLengthText;
 
     headerReceived = 0;
-    socketBuffers = &http->mUnk_b4;
-    sslInfo = &http->mUnk_118;
+    socketBuffers = &http->mSoc;
+    sslInfo = &http->mHttpsState;
     receiveBuffer = &http->mReceiveBuffer;
-    timeoutMillis = http->mUnk_04.mUnk_1c;
+    timeoutMillis = http->mParam.mTimeoutMillis;
     if (timeoutMillis <= 0) {
         timeoutMillis = 60000;
     }
@@ -668,37 +668,37 @@ void DWCi_Http_Thread(void *argument) {
         }
     }
     FreeHttpBuffer(http, &http->mSendBuffer);
-    OS_LockMutex(&http->mUnk_948);
-    if (http->mUnk_04.mUnk_08 == NULL) {
-        if (InitHttpBuffer(http, &http->mReceiveBuffer, http->mUnk_04.mUnk_0c) == 0) {
+    OS_LockMutex(&http->mReceiveMutex);
+    if (http->mParam.mReceiveBufferStart == NULL) {
+        if (InitHttpBuffer(http, &http->mReceiveBuffer, http->mParam.mReceiveBufferSize) == 0) {
             http->mResult = 1;
-            OS_UnlockMutex(&http->mUnk_948);
+            OS_UnlockMutex(&http->mReceiveMutex);
             goto fail;
         }
     } else {
-        http->mReceiveBuffer.mStart = http->mUnk_04.mUnk_08;
+        http->mReceiveBuffer.mStart = http->mParam.mReceiveBufferStart;
         http->mReceiveBuffer.mCursor = http->mReceiveBuffer.mStart;
-        http->mReceiveBuffer.mEnd = http->mReceiveBuffer.mStart + http->mUnk_04.mUnk_0c;
-        http->mReceiveBuffer.mSize = http->mUnk_04.mUnk_0c;
+        http->mReceiveBuffer.mEnd = http->mReceiveBuffer.mStart + http->mParam.mReceiveBufferSize;
+        http->mReceiveBuffer.mSize = http->mParam.mReceiveBufferSize;
     }
     receiveBuffer->mCursor = receiveBuffer->mStart;
     receiveBuffer->mEnd = receiveBuffer->mStart + receiveBuffer->mSize;
-    OS_UnlockMutex(&http->mUnk_948);
+    OS_UnlockMutex(&http->mReceiveMutex);
     while (1) {
         if (CPSMyIp == 0) {
             http->mResult = 5;
             goto fail;
         }
-        OS_LockMutex(&http->mUnk_948);
+        OS_LockMutex(&http->mReceiveMutex);
         if (receiveBuffer->mCursor >= receiveBuffer->mEnd - 1) {
-            OS_UnlockMutex(&http->mUnk_948);
+            OS_UnlockMutex(&http->mReceiveMutex);
             break;
         }
         n = CPS_SocGetLength();
         if (n > 0) {
             receivedData = CPS_SocRead((u32 *) &n);
             if (receivedData == NULL) {
-                OS_UnlockMutex(&http->mUnk_948);
+                OS_UnlockMutex(&http->mReceiveMutex);
                 break;
             }
             bufferSpace = receiveBuffer->mEnd - 1 - receiveBuffer->mCursor;
@@ -727,23 +727,23 @@ void DWCi_Http_Thread(void *argument) {
             }
             if (n > copyLength) {
                 CPS_SocConsume(n);
-                OS_UnlockMutex(&http->mUnk_948);
+                OS_UnlockMutex(&http->mReceiveMutex);
                 break;
             }
             CPS_SocConsume(copyLength);
         }
         if (n < 0) {
-            OS_UnlockMutex(&http->mUnk_948);
+            OS_UnlockMutex(&http->mReceiveMutex);
             break;
         }
         if (http->mContentLength > 0 && n > 0 && http->mBodyStart + http->mContentLength <= receiveBuffer->mCursor) {
-            OS_UnlockMutex(&http->mUnk_948);
+            OS_UnlockMutex(&http->mReceiveMutex);
             break;
         }
         nowTick = OS_GetTick();
         if ((u64) timeoutMillis < (nowTick - startTick) * 64 / 0x82ea) {
             http->mResult = 6;
-            OS_UnlockMutex(&http->mUnk_948);
+            OS_UnlockMutex(&http->mReceiveMutex);
             goto fail;
         }
         if (http->mUseHttps == 1) {
@@ -753,7 +753,7 @@ void DWCi_Http_Thread(void *argument) {
                 entropyTick = nowTick;
             }
         }
-        OS_UnlockMutex(&http->mUnk_948);
+        OS_UnlockMutex(&http->mReceiveMutex);
         if (SleepUnlessHttpAborted(http) == 0) {
             http->mResult = 7;
             goto fail;
@@ -774,16 +774,16 @@ fail:
 
 void ReleaseHttp(Http *a) {
     if (a != NULL) {
-        if (a->mUnk_04.mUnk_08 == NULL) {
+        if (a->mParam.mReceiveBufferStart == NULL) {
             FreeHttpBuffer(a, &a->mReceiveBuffer);
         }
         FreeHttpBuffer(a, &a->mSendBuffer);
         if (a->mLowReceiveBuffer != NULL) {
-            a->mUnk_04.mUnk_14(gHttpLowReceiveBufferName, a->mLowReceiveBuffer, 0);
+            a->mParam.mFree(gHttpLowReceiveBufferName, a->mLowReceiveBuffer, 0);
             a->mLowReceiveBuffer = NULL;
         }
         if (a->mLowSendBuffer != NULL) {
-            a->mUnk_04.mUnk_14(gHttpLowSendBufferName, a->mLowSendBuffer, 0);
+            a->mParam.mFree(gHttpLowSendBufferName, a->mLowSendBuffer, 0);
             a->mLowSendBuffer = NULL;
         }
         MI_CpuFill8(a, 0, 0x1a60);

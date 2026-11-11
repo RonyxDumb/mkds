@@ -44,10 +44,10 @@ typedef struct QueryRecord QueryRecord;
 
 typedef struct SOCHostEnt SOCHostEnt;
 
-// Output buffer the string writers append to: bytes at mUnk_000, used length at mUnk_800.
+// Output buffer the string writers append to: bytes at mUnk_000, used length at mLen.
 typedef struct QueryBuffer {
-    /* 000 */ u8 mUnk_000[0x800];
-    /* 800 */ s32 mUnk_800;
+    /* 000 */ u8 mBuffer[0x800];
+    /* 800 */ s32 mLen;
 } QueryBuffer;
 
 // Four-byte entry moved by enum_local_ips.

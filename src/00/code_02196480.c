@@ -43,7 +43,7 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    callback = operation->mUnk_0c;
+    callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(4);
         if (arg == NULL) {

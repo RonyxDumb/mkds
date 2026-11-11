@@ -16,7 +16,7 @@ BOOL DWCi_Http_WriteBasicHeader(Http *a) {
     s32 d;
     s32 e;
     s32 f;
-    if (a->mUnk_04.mUnk_04 == 0) {
+    if (a->mParam.mAction == 0) {
         c = gHttpPostRequestFormat;
     } else {
         c = gHttpGetRequestFormat;

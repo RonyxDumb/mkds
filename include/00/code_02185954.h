@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-
 typedef struct DWCHttpLabelValue {
     /* 00 */ void *mFirst;
     /* 04 */ void *mSecond;
@@ -48,32 +47,32 @@ typedef struct HttpB4 {
     /* 50 */ u8 pad_50[0x14];
 } HttpB4;
 
-// 0x1a60 bytes; the stack of its thread ends at mUnk_1a60. mUnk_04 holds the setup it was created with; its allocate
-// and free functions allocate and release the memory of the buffers.
+// 0x1a60 bytes; the stack of its thread ends at mThreadStackBottom. mUnk_04 holds the setup it was created with; its
+// allocate and free functions allocate and release the memory of the buffers.
 typedef struct Http {
-    /* 000 */ u8 mUnk_00;
-    /* 004 */ DWCHttpParam mUnk_04;
+    /* 000 */ u8 mInitFlag;
+    /* 004 */ DWCHttpParam mParam;
     /* 024 */ s32 mResult;
-    /* 028 */ char mUnk_028[0x80];
+    /* 028 */ char mUrl[0x80];
     /* 0a8 */ char *mHost;
     /* 0ac */ char *mPath;
     /* 0b0 */ BOOL mUseHttps;
-    /* 0b4 */ HttpB4 mUnk_b4;
-    /* 118 */ Http118 mUnk_118;
+    /* 0b4 */ HttpB4 mSoc;
+    /* 118 */ Http118 mHttpsState;
     /* 91c */ void *mLowReceiveBuffer;
     /* 920 */ void *mLowSendBuffer;
     /* 924 */ s32 mPairCount;
     /* 928 */ HttpBuffer mSendBuffer;
     /* 938 */ HttpBuffer mReceiveBuffer;
-    /* 948 */ OSMutex mUnk_948;
+    /* 948 */ OSMutex mReceiveMutex;
     /* 960 */ s32 mContentLength;
     /* 964 */ const char *mBodyStart;
     /* 968 */ OSThread mThread;
     /* a20 */ u8 pad_a20[8];
-    /* a28 */ OSMutex mUnk_a28;
-    /* a40 */ BOOL mUnk_a40;
+    /* a28 */ OSMutex mAbortMutex;
+    /* a40 */ BOOL mAbort;
     /* a44 */ u8 pad_a44[0x101c];
-    /* 1a60 */ u8 mUnk_1a60[];
+    /* 1a60 */ u8 mThreadStackBottom[];
 } Http;
 
 u32 GrowHttpBuffer(Http *http, HttpBuffer *httpBuffer, int addedSize);

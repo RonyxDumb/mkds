@@ -68,7 +68,7 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
         return 3;
     }
     profileNumber = StrtolBase10(intValue);
-    callback = operation->mUnk_0c;
+    callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(8);
         if (arg == NULL) {

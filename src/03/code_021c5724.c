@@ -67,7 +67,7 @@ void CreateApList(void) {
     CreateObjectsForMenuPair(2);
     SetupApListScroll();
     CreateApListRowObjects();
-    gApList->mUnk_0c = InitBgTextCanvas(0, 0);
+    gApList->mTextCanvas = InitBgTextCanvas(0, 0);
     gApList->mBgOffsetTask = AddTask(1, WriteApListBgOffset, NULL, 0x6e);
     RefreshApList();
     PlaceApListSelection();
@@ -97,16 +97,16 @@ void SetupApListScroll(void) {
     gApList->mScrollYMax = (gApList->mEntryCount - 4) * 0x1c;
     if (gApList->mEntryCount <= 4) {
         entryCountRange = 0;
-        gApList->mUnk_53 = 0;
+        gApList->mScrollBarOffsetMax = 0;
     } else if (gApList->mEntryCount <= 8) {
         entryCountRange = 1;
-        gApList->mUnk_53 = 0x1f;
+        gApList->mScrollBarOffsetMax = 0x1f;
     } else {
         entryCountRange = 2;
-        gApList->mUnk_53 = 0x37;
+        gApList->mScrollBarOffsetMax = 0x37;
     }
     if (entryCountRange != 0) {
-        offset = FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax);
+        offset = FX_DivS32(*(u16 *) &gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax);
     }
     CreateScrollBar(entryCountRange, 0x55, 0xec, 0x3f, offset);
 }
@@ -120,22 +120,22 @@ void CreateApListRowObjects(void) {
         rowCount = 5;
     }
     for (i = 0; i < rowCount; i++) {
-        gApList->mUnk_10[i] = CreateOamEntryFromNceImage(0, gApListRowLeftImageIndices[0]);
-        gApList->mUnk_24[i] = CreateOamEntryFromNceImage(0, gApListRowRightImageIndices[0]);
+        gApList->mRowLeftOamEntries[i] = CreateOamEntryFromNceImage(0, gApListRowLeftImageIndices[0]);
+        gApList->mRowRightOamEntries[i] = CreateOamEntryFromNceImage(0, gApListRowRightImageIndices[0]);
     }
     for (imageIndex = 0; imageIndex < 3; imageIndex++) {
-        CopyNceImageToOamEntries(0, gApListRowLeftImageIndices[imageIndex], gApList->mUnk_10[0]);
-        gApList->mUnk_42[imageIndex] = gApList->mUnk_10[0]->mAttr2 & 0x3ff;
+        CopyNceImageToOamEntries(0, gApListRowLeftImageIndices[imageIndex], gApList->mRowLeftOamEntries[0]);
+        gApList->mRowLeftTiles[imageIndex] = gApList->mRowLeftOamEntries[0]->mAttr2 & 0x3ff;
     }
     for (imageIndex = 0; imageIndex < 4; imageIndex++) {
-        CopyNceImageToOamEntries(0, gApListRowRightImageIndices[imageIndex], gApList->mUnk_24[0]);
-        gApList->mUnk_48[imageIndex] = gApList->mUnk_24[0]->mAttr2 & 0x3ff;
+        CopyNceImageToOamEntries(0, gApListRowRightImageIndices[imageIndex], gApList->mRowRightOamEntries[0]);
+        gApList->mRowRightTiles[imageIndex] = gApList->mRowRightOamEntries[0]->mAttr2 & 0x3ff;
     }
     for (i = 0; i < rowCount; i++) {
         OamEntry *oamEntry;
-        oamEntry = gApList->mUnk_10[i];
+        oamEntry = gApList->mRowLeftOamEntries[i];
         oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
-        oamEntry = gApList->mUnk_24[i];
+        oamEntry = gApList->mRowRightOamEntries[i];
         oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
     }
 }
@@ -176,7 +176,7 @@ void UpdateApListInput(void) {
     if (gApList->mScrollTask != 0) {
         return;
     }
-    if (gApList->mUnk_57 != 0) {
+    if (gApList->mScrollBarDragging != 0) {
         return;
     }
     if (IsTouchPressedInRect(&gTouchScreenRect) != 0) {
@@ -233,7 +233,7 @@ void UpdateApListInput(void) {
         return;
     }
     if (AreKeysReleased(0x200) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->mKeyBlockedSoundPlayed = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x100) != 0) {
@@ -241,7 +241,7 @@ void UpdateApListInput(void) {
         return;
     }
     if (AreKeysReleased(0x100) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->mKeyBlockedSoundPlayed = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x40) != 0) {
@@ -249,7 +249,7 @@ void UpdateApListInput(void) {
         return;
     }
     if (AreKeysReleased(0x40) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->mKeyBlockedSoundPlayed = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x80) != 0) {
@@ -257,7 +257,7 @@ void UpdateApListInput(void) {
         return;
     }
     if (AreKeysReleased(0x80) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->mKeyBlockedSoundPlayed = 0;
     }
 }
 
@@ -273,21 +273,23 @@ void UpdateApListScroll(void) {
     }
     switch (GetScrollBarEvent()) {
         case 1:
-            gApList->mUnk_57 = 1;
+            gApList->mScrollBarDragging = 1;
             DisableButtonTouch();
             break;
         case 2:
             if (gApList->mScrollTimer == 0) {
                 ReleaseSelectionObjectSlots();
-                *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mUnk_53);
+                *(u16 *) &gApListScrollY =
+                    FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
                 RefreshApList();
                 gApList->mScrollTimer = 4;
             }
             break;
         case 3:
-            gApList->mUnk_57 = 0;
+            gApList->mScrollBarDragging = 0;
             EnableButtonTouch();
-            *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mUnk_53);
+            *(u16 *) &gApListScrollY =
+                FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
             StartSoundSeq(0x13);
             RefreshApList();
             rowOffset = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
@@ -301,9 +303,9 @@ void UpdateApListScroll(void) {
             break;
         case 4:
             if (*(u16 *) &gApListScrollY == 0) {
-                if (gApList->mUnk_58 == 0) {
+                if (gApList->mBarBlockedSoundPlayed == 0) {
                     StartSoundSeq(9);
-                    gApList->mUnk_58 = 1;
+                    gApList->mBarBlockedSoundPlayed = 1;
                 }
             } else {
                 StartSoundSeq(0x13);
@@ -313,9 +315,9 @@ void UpdateApListScroll(void) {
         case 6:
             apList = gApList;
             if (apList->mEntryCount <= 4 || *(u16 *) &gApListScrollY == apList->mScrollYMax) {
-                if (apList->mUnk_58 == 0) {
+                if (apList->mBarBlockedSoundPlayed == 0) {
                     StartSoundSeq(9);
-                    gApList->mUnk_58 = 1;
+                    gApList->mBarBlockedSoundPlayed = 1;
                 }
             } else {
                 StartSoundSeq(0x13);
@@ -324,21 +326,21 @@ void UpdateApListScroll(void) {
             break;
         case 5:
         case 7:
-            gApList->mUnk_58 = 0;
+            gApList->mBarBlockedSoundPlayed = 0;
             break;
     }
 }
 
 void UpdateApListResult(void) {
     int entryIndex;
-    if (gApList->mScrollTask == 0 && gApList->mUnk_57 == 0) {
+    if (gApList->mScrollTask == 0 && gApList->mScrollBarDragging == 0) {
         switch (GetButtonResult()) {
             case 0:
                 StartSoundSeq(7);
                 break;
             case 1:
                 if (gApListSelectedRow == 4) {
-                    gApList->mUnk_54 = 1;
+                    gApList->mSelectionMade = 1;
                     StartSoundSeq(6);
                     RequestApListPaletteRowCopy();
                 } else {
@@ -351,7 +353,7 @@ void UpdateApListResult(void) {
                         SetUpdateFunction(UpdateApListMessageResult);
                         return;
                     }
-                    gApList->mUnk_54 = 1;
+                    gApList->mSelectionMade = 1;
                     gApList->mEntryIndex = entryIndex;
                     StartSoundSeq(6);
                 }
@@ -371,7 +373,7 @@ void StartApListClose(void) {
 
 void UpdateApListFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
-        if (gApList->mUnk_54 != 0) {
+        if (gApList->mSelectionMade != 0) {
             StartSlideButtonsOut();
         } else {
             DisableButtonTouch();
@@ -396,14 +398,14 @@ void UpdateApListRelease(void) {
     }
     RemoveTaskEntryWrapper(1, gApList->mBgOffsetTask);
     for (i = 0; i < 5; i++) {
-        if (gApList->mUnk_10[i] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mUnk_10[i]);
+        if (gApList->mRowLeftOamEntries[i] != NULL) {
+            DeleteOamEntry((u32 *) gApList->mRowLeftOamEntries[i]);
         }
-        if (gApList->mUnk_24[i] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mUnk_24[i]);
+        if (gApList->mRowRightOamEntries[i] != NULL) {
+            DeleteOamEntry((u32 *) gApList->mRowRightOamEntries[i]);
         }
     }
-    ReleaseBgTextCanvas(gApList->mUnk_0c);
+    ReleaseBgTextCanvas(gApList->mTextCanvas);
     ReleaseScrollBar();
     ReleaseSelectionObjectSlots();
     HideSubScreenMessage();
@@ -415,7 +417,7 @@ void UpdateApListRelease(void) {
     reg_G2_BG0OFS = 0;
     reg_G2_BG2OFS = 0;
     apList = gApList;
-    if (apList->mUnk_54 == 0) {
+    if (apList->mSelectionMade == 0) {
         ReleaseApScan();
         CopyApEntryToWorkCopy(GetApWorkCopy()->mEntryIndex);
         SetPrimaryMenuPair(2, 0);
@@ -447,7 +449,7 @@ void RefreshApList(void) {
     int visibleRowCount;
     entryIndex = FX_DivS32(*(u16 *) &gApListScrollY, 0x1c);
     visibleRowCount = gApList->mEntryCount;
-    ClearBgTextCanvas(gApList->mUnk_0c, 0);
+    ClearBgTextCanvas(gApList->mTextCanvas, 0);
     if (5 < visibleRowCount) {
         visibleRowCount = 5;
     }
@@ -468,7 +470,7 @@ void RefreshApList(void) {
             entryIndex = entryIndex + 1;
         } while (index < visibleRowCount);
     }
-    RequestBgTextCanvasUpload(gApList->mUnk_0c);
+    RequestBgTextCanvasUpload(gApList->mTextCanvas);
     RefreshApListRowPositions();
 }
 
@@ -494,7 +496,7 @@ void PrintApListEntryText(int entryIndex, int yPos) {
         for (i = 0; i < lineLength; i++) {
             lineText[i] = (gApList->mEntries + entryOffset)[i];
         }
-        DrawCharsCentered(gApList->mUnk_0c, 0xa, yPos, 2, 0xa, lineText, 1);
+        DrawCharsCentered(gApList->mTextCanvas, 0xa, yPos, 2, 0xa, lineText, 1);
         if (textLength > 0x10) {
             MI_CpuFill8(lineText, 0, 0x22);
             lineLength = textLength - 0x10;
@@ -502,7 +504,7 @@ void PrintApListEntryText(int entryIndex, int yPos) {
                 lineText[i] = (gApList->mEntries + entryOffset)[i + 0x10];
             }
             yPos += 0xc;
-            DrawCharsCentered(gApList->mUnk_0c, 0xa, yPos, 2, 0xa, lineText, 1);
+            DrawCharsCentered(gApList->mTextCanvas, 0xa, yPos, 2, 0xa, lineText, 1);
         }
     }
 }
@@ -511,12 +513,13 @@ void SetApListRowTiles(int entryIndex, int rowSlot) {
     OamEntry *oamEntry;
     int entryOffset;
     if (entryIndex < gApList->mEntryCount) {
-        oamEntry = gApList->mUnk_10[rowSlot];
+        oamEntry = gApList->mRowLeftOamEntries[rowSlot];
         entryOffset = entryIndex * 0x2a;
-        oamEntry->mAttr2 = (oamEntry->mAttr2 & ~0x3ff) | gApList->mUnk_42[*(gApList->mEntries + entryOffset + 0x28)];
-        oamEntry = gApList->mUnk_24[rowSlot];
         oamEntry->mAttr2 =
-            (oamEntry->mAttr2 & ~0x3ff) | gApList->mUnk_48[*(u16 *) (gApList->mEntries + entryOffset + 0x26)];
+            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowLeftTiles[*(gApList->mEntries + entryOffset + 0x28)];
+        oamEntry = gApList->mRowRightOamEntries[rowSlot];
+        oamEntry->mAttr2 =
+            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowRightTiles[*(u16 *) (gApList->mEntries + entryOffset + 0x26)];
     }
 }
 
@@ -531,9 +534,9 @@ void RefreshApListRowPositions(void) {
     }
     for (i = 0; i < rowCount; i++, yPos += 0x1c) {
         OamEntry *oamEntry;
-        oamEntry = gApList->mUnk_10[i];
+        oamEntry = gApList->mRowLeftOamEntries[i];
         oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos - 2) & 0xff) | 0xb30000;
-        oamEntry = gApList->mUnk_24[i];
+        oamEntry = gApList->mRowRightOamEntries[i];
         oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos + 1) & 0xff) | 0xd20000;
     }
     gApList->mBgOffsetPending = 1;
@@ -559,7 +562,7 @@ void AdvanceApListScrollYDecrease(u32 task) {
     }
     RefreshApListRowPositions();
     if (rowOffset == 0) {
-        PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
+        PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax));
         EnableScrollBarInput();
         PlaceApListSelection();
         gApList->mScrollTask = 0;
@@ -579,7 +582,7 @@ void AdvanceApListScrollYIncrease(u32 task) {
     }
     *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY - rowOffset;
     RefreshApList();
-    PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
+    PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax));
     EnableScrollBarInput();
     PlaceApListSelection();
     gApList->mScrollTask = 0;
@@ -662,9 +665,9 @@ void MoveApListSelectedRow(int direction) {
             break;
     }
     if (moved == FALSE) {
-        if (gApList->mUnk_59 == 0) {
+        if (gApList->mKeyBlockedSoundPlayed == 0) {
             StartSoundSeq(9);
-            gApList->mUnk_59 = 1;
+            gApList->mKeyBlockedSoundPlayed = 1;
         }
     } else {
         StartSoundSeq(8);
@@ -674,9 +677,9 @@ void MoveApListSelectedRow(int direction) {
 
 void StartApListScrollYDecrease(void) {
     if (*(u16 *) &gApListScrollY == 0) {
-        if (gApList->mUnk_59 == 0) {
+        if (gApList->mKeyBlockedSoundPlayed == 0) {
             StartSoundSeq(9);
-            gApList->mUnk_59 = 1;
+            gApList->mKeyBlockedSoundPlayed = 1;
         }
     } else {
         StartSoundSeq(0x13);
@@ -686,9 +689,9 @@ void StartApListScrollYDecrease(void) {
 
 void StartApListScrollYIncrease(void) {
     if (*(u16 *) &gApListScrollY == gApList->mScrollYMax || gApList->mEntryCount <= 4) {
-        if (gApList->mUnk_59 == 0) {
+        if (gApList->mKeyBlockedSoundPlayed == 0) {
             StartSoundSeq(9);
-            gApList->mUnk_59 = 1;
+            gApList->mKeyBlockedSoundPlayed = 1;
         }
     } else {
         StartSoundSeq(0x13);

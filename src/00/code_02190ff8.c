@@ -354,8 +354,8 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
         GpiQueueErrorCallback(connection, 4, 0);
         return 4;
     }
-    data = (Unk02191284Data *) operation->mUnk_04;
-    switch (operation->mUnk_14) {
+    data = (Unk02191284Data *) operation->mData;
+    switch (operation->mState) {
         case 1:
             if (strncmp(input, gLc1Key, 5) != 0) {
                 GpiSetError(connection, 1, data_ov000_021b2bb0);
@@ -372,13 +372,13 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 if (result != 0) {
                     return result;
                 }
-                operation->mUnk_14 = 3;
+                operation->mState = 3;
             } else {
                 result = GpiWriteLogin(connection, (GPIConnectData *) data);
                 if (result != 0) {
                     return result;
                 }
-                operation->mUnk_14 = 2;
+                operation->mState = 2;
             }
             break;
         case 3:
@@ -403,7 +403,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
             if (result != 0) {
                 return result;
             }
-            operation->mUnk_14 = 2;
+            operation->mState = 2;
             break;
         case 2:
             if (strncmp(input, gLc2Key, 5) != 0) {
@@ -462,7 +462,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 n->mUserId = gpState->mUserId;
             }
             gpState->mConnectState = 3;
-            callback = operation->mUnk_0c;
+            callback = operation->mCallback;
             if (callback.mCallback != NULL) {
                 arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {

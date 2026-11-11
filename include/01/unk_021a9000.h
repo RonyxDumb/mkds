@@ -170,13 +170,13 @@ typedef struct OptionEmbremSelectOffset {
 typedef struct OptionEmbremSelect {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 08 */ s32 mSelectedRow;
+    /* 0c */ s32 mEmblemOffChoice;
+    /* 10 */ s32 mEmblemOffAtOpen;
     /* 14 */ s32 mStateFrames;
-    /* 18 */ OptionEmbremSelectOffset mUnk_18[2];
+    /* 18 */ OptionEmbremSelectOffset mCellGroupOffsets[2];
     /* 20 */ s32 mNextOptionState;
-    /* 24 */ BOOL mUnk_24;
+    /* 24 */ BOOL mHighlightVisible;
     // Set to 6 by a press; counts down to 0 only while mUnk_08 == 1. 6 - timer indexes a table through
     // LookupFrameOffset (a displacement that returns to 0); [0] is subtracted from a row member, [1] added to one.
     /* 28 */ s32 mOffsetTimers[2];

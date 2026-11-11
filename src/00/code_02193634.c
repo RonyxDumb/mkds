@@ -52,7 +52,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     if (operation == NULL) {
         AssertionFailed(gOperationAssertText, gGpiOperationFileName, NULL, 0x24);
     }
-    callback = operation->mUnk_0c;
+    callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         switch (operation->mType) {
             case 0:
@@ -62,7 +62,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(arg, 0, 0x20);
-                arg->mResult = operation->mUnk_1c;
+                arg->mResult = operation->mResult;
                 if (gpState->mErrorNumber == 0x201) {
                     arg->mProfile = gpState->mProfileId;
                     gpState->mProfileId = 0;
@@ -79,7 +79,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(newProfileArg, 0, 8);
-                newProfileArg->mUnk_00 = operation->mUnk_1c;
+                newProfileArg->mUnk_00 = operation->mResult;
                 result = GpiQueueCallback(connection, callback, newProfileArg, operation, 0);
                 if (result != 0) {
                     return result;
@@ -92,7 +92,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(arg, 0, 0x204);
-                arg->mResult = operation->mUnk_1c;
+                arg->mResult = operation->mResult;
                 result = GpiQueueCallback(connection, callback, arg, operation, 0);
                 if (result != 0) {
                     return result;
@@ -105,7 +105,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(searchArg, 0, 0x10);
-                searchArg->mUnk_00 = operation->mUnk_1c;
+                searchArg->mUnk_00 = operation->mResult;
                 searchArg->mUnk_0c = 0;
                 result = GpiQueueCallback(connection, callback, searchArg, operation, 0);
                 if (result != 0) {
@@ -119,7 +119,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(uniquenickArg, 0, 4);
-                uniquenickArg->mUnk_00 = operation->mUnk_1c;
+                uniquenickArg->mUnk_00 = operation->mResult;
                 result = GpiQueueCallback(connection, callback, uniquenickArg, operation, 0);
                 if (result != 0) {
                     return result;
@@ -143,9 +143,9 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
         return 1;
     }
     pendingOp->mType = type;
-    pendingOp->mUnk_04 = (void *) data;
-    pendingOp->mUnk_08 = blocking;
-    pendingOp->mUnk_14 = 0;
+    pendingOp->mData = (void *) data;
+    pendingOp->mBlocking = blocking;
+    pendingOp->mState = 0;
     if (type == 0) {
         pendingOp->mId = 1;
     } else {
@@ -154,9 +154,9 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
             gpState->mNextOperationId = 2;
         }
     }
-    pendingOp->mUnk_1c = 0;
-    pendingOp->mUnk_0c.mCallback = (void (*)(void *, void *, u32)) callback;
-    pendingOp->mUnk_0c.mUnk_04 = param;
+    pendingOp->mResult = 0;
+    pendingOp->mCallback.mCallback = (void (*)(void *, void *, u32)) callback;
+    pendingOp->mCallback.mUnk_04 = param;
     pendingOp->mNext = gpState->mOperationList;
     gpState->mOperationList = pendingOp;
     *operationOut = (s32) pendingOp;
@@ -168,7 +168,7 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
     Unk02193858 *searchData;
 
     if (operation->mType == 3) {
-        searchData = (Unk02193858 *) operation->mUnk_04;
+        searchData = (Unk02193858 *) operation->mData;
         gpState->mSearchCount--;
         if (gpState->mSearchCount < 0) {
             AssertionFailed(gNumSearchesAssertion, gGpiOperationFileName, NULL, 0xb6);
@@ -180,8 +180,8 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
         DWCi_GsFree(searchData->mUnk_08);
         searchData->mUnk_08 = NULL;
     }
-    DWCi_GsFree(operation->mUnk_04);
-    operation->mUnk_04 = NULL;
+    DWCi_GsFree(operation->mData);
+    operation->mData = NULL;
     DWCi_GsFree(operation);
 }
 
@@ -225,7 +225,7 @@ BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
 BOOL gpiOperationsAreBlocking(GpConnection *object) {
     GpiOperation *node = object->mGpiConnection->mOperationList;
     while (node != NULL) {
-        if (node->mUnk_08 != 0 && node->mType != 3) {
+        if (node->mBlocking != 0 && node->mType != 3) {
             return TRUE;
         }
         node = node->mNext;
@@ -256,7 +256,7 @@ s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const
             break;
     }
     if (result != 0) {
-        operation->mUnk_1c = result;
+        operation->mResult = result;
     }
     return result;
 }

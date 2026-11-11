@@ -41,7 +41,7 @@ u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size) {
     if (size == 0) {
         return 0;
     }
-    httpBuffer->mStart = http->mUnk_04.mUnk_10(gHttpBufferName, size);
+    httpBuffer->mStart = http->mParam.mAlloc(gHttpBufferName, size);
     if (httpBuffer->mStart == NULL) {
         return 0;
     }
@@ -53,7 +53,7 @@ u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size) {
 
 void FreeHttpBuffer(Http *http, HttpBuffer *httpBuffer) {
     if (httpBuffer->mStart != NULL) {
-        http->mUnk_04.mUnk_14(gHttpBufferName, httpBuffer->mStart, 0);
+        http->mParam.mFree(gHttpBufferName, httpBuffer->mStart, 0);
     }
     MI_CpuFill8(httpBuffer, 0, 0x10);
 }
@@ -63,12 +63,12 @@ u32 GrowHttpBuffer(Http *http, HttpBuffer *httpBuffer, int addedSize) {
     if (addedSize <= 0) {
         return 0;
     }
-    newBlock = http->mUnk_04.mUnk_10(NULL, httpBuffer->mSize + addedSize);
+    newBlock = http->mParam.mAlloc(NULL, httpBuffer->mSize + addedSize);
     if (newBlock == NULL) {
         return 0;
     }
     MI_CpuCopy8(httpBuffer->mStart, newBlock, httpBuffer->mSize);
-    http->mUnk_04.mUnk_14(NULL, httpBuffer->mStart, 0);
+    http->mParam.mFree(NULL, httpBuffer->mStart, 0);
     if (newBlock == NULL) {
         return 0;
     }
@@ -84,16 +84,16 @@ BOOL DWCi_Http_SetHostinfo(Http *http, const char *url) {
     if (strlen(url) >= 0x80) {
         return FALSE;
     }
-    strncpy(http->mUnk_028, url, 0x80);
-    if (strlen(url) != strlen(http->mUnk_028)) {
+    strncpy(http->mUrl, url, 0x80);
+    if (strlen(url) != strlen(http->mUrl)) {
         return FALSE;
     }
-    found = strstr(http->mUnk_028, gHttpUrlPrefix);
+    found = strstr(http->mUrl, gHttpUrlPrefix);
     if (found != NULL) {
-        http->mHost = http->mUnk_028 + 7;
+        http->mHost = http->mUrl + 7;
         http->mUseHttps = FALSE;
     } else {
-        found = strstr(http->mUnk_028, gHttpsUrlPrefix);
+        found = strstr(http->mUrl, gHttpsUrlPrefix);
         if (found == NULL) {
             return FALSE;
         }
@@ -240,7 +240,7 @@ BOOL DWC_Http_GetRawResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, 
 }
 
 void DWC_Auth_SetCustomNas(const void *nasAddress) {
-    DWCauthhttpparam.mUnk_00 = nasAddress;
+    DWCauthhttpparam.mUrl = nasAddress;
 }
 
 s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http) {
@@ -260,8 +260,8 @@ s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http) {
     gAuth->mUnk_1cc = *createParams;
     gAuth->mUnk_1cc.mIngamesn[0x14] = 0;
     gAuth->mUnk_1cc.mGsbrcd[0xb] = 0;
-    DWCauthhttpparam.mUnk_10 = createParams->mAlloc;
-    DWCauthhttpparam.mUnk_14 = createParams->mFree;
+    DWCauthhttpparam.mAlloc = createParams->mAlloc;
+    DWCauthhttpparam.mFree = createParams->mFree;
     gAuth->mError = DWCi_Auth_Start(1);
     if (gAuth->mError == 0) {
         DWCi_Auth_StartThread();
@@ -337,8 +337,8 @@ void DWC_Auth_GetResult(s32 *result) {
 }
 
 s32 DWCi_Auth_Start(s32 getWiFiInfoFromFlash) {
-    if (strcmp(DWCauthhttpparam.mUnk_00, data_ov000_021b1020) != 0) {
-        DWCauthhttpparam.mUnk_18 = TRUE;
+    if (strcmp(DWCauthhttpparam.mUrl, data_ov000_021b1020) != 0) {
+        DWCauthhttpparam.mIgnoreCa = TRUE;
     }
     if (DWC_Http_Create(gAuth->mHttp, &DWCauthhttpparam) != 0) {
         return 4;

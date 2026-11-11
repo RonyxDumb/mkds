@@ -314,7 +314,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
         if (gpState->mUnk_100 != 0) {
             gpiSetInfoCache(connection, profileRec, &infoRecord);
         }
-        callback = operation->mUnk_0c;
+        callback = operation->mCallback;
         if (callback.mCallback != NULL) {
             arg = DWCi_GsMalloc(0x204);
             if (arg == NULL) {

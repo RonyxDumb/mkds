@@ -56,7 +56,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
     SOCHostEnt *resolvedHost;
     s32 openResult;
 
-    data = operation->mUnk_04;
+    data = operation->mData;
     data->mInputBufferCapacity = 0x1000;
     data->mInputBuffer = DWCi_GsMalloc(data->mInputBufferCapacity + 1);
     if (data->mInputBuffer == NULL) {
@@ -98,7 +98,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
             }
         }
     }
-    operation->mUnk_14 = 1;
+    operation->mState = 1;
     return 0;
 }
 
@@ -236,8 +236,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
     SuggestNickReply *u9;
 
     gpState = connection->mGpiConnection;
-    data = operation->mUnk_04;
-    if (operation->mUnk_08 != 0) {
+    data = operation->mData;
+    if (operation->mBlocking != 0) {
         loop = TRUE;
     } else {
         loop = FALSE;
@@ -248,7 +248,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
         if (result != 0) {
             return result;
         }
-        if (operation->mUnk_14 == 1) {
+        if (operation->mState == 1) {
             result = GpiCheckConnectComplete(connection, data->mSocket, &state);
             if (result != 0) {
                 return result;
@@ -361,9 +361,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b376c);
                 GpiAppendBufferString(connection, &data->mOutputBuffer, gGsiAcGamename);
                 GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3778);
-                operation->mUnk_14 = 4;
+                operation->mState = 4;
             }
-        } else if (operation->mUnk_14 == 4) {
+        } else if (operation->mState == 4) {
             result = GpiReceiveBuffer(connection, data->mSocket, (GpiBuffer *) &data->mInputBuffer, (s32 *) &j,
                                       &socketGone, gSmString);
             if (result != 0) {
@@ -376,7 +376,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
             }
             if (strstr(data->mInputBuffer, data_ov000_021b3778) != NULL) {
                 n = 0;
-                operation->mUnk_14 = 5;
+                operation->mState = 5;
                 if (GpiReadError(connection, data->mInputBuffer, 1) != FALSE) {
                     data->mRemove = TRUE;
                     return 4;
@@ -441,15 +441,15 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     } while (d == FALSE);
                     v = e.mUnk_08;
-                    c1 = operation->mUnk_0c;
+                    c1 = operation->mCallback;
                     if (c1.mCallback != NULL) {
                         c1.mCallback(connection, &e, c1.mUnk_04);
                     }
                     if (v == 0x600 && e.mUnk_08 == 0x600) {
-                        result = gpiProfileSearch(connection, data->mNick, data->mUniquenick, data->mEmail,
-                                                      data->mFirstname, data->mLastname, data->mIcquin,
-                                                      e.mUnk_04 + data->mSkip, operation->mUnk_08,
-                                                      (u32) operation->mUnk_0c.mCallback, operation->mUnk_0c.mUnk_04);
+                        result = gpiProfileSearch(
+                            connection, data->mNick, data->mUniquenick, data->mEmail, data->mFirstname, data->mLastname,
+                            data->mIcquin, e.mUnk_04 + data->mSkip, operation->mBlocking,
+                            (u32) operation->mCallback.mCallback, operation->mCallback.mUnk_04);
                         if (result != 0) {
                             return result;
                         }
@@ -457,7 +457,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     DWCi_GsFree(e.mUnk_0c);
                     e.mUnk_0c = NULL;
                 } else if (data->mKind == 2) {
-                    c2 = operation->mUnk_0c;
+                    c2 = operation->mCallback;
                     if (c2.mCallback != NULL) {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                         if (result != 0) {
@@ -486,7 +486,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else if (data->mKind == 3) {
-                    c3 = operation->mUnk_0c;
+                    c3 = operation->mCallback;
                     if (c3.mCallback != NULL) {
                         u3 = DWCi_GsMalloc(0x44);
                         if (u3 == NULL) {
@@ -558,7 +558,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else if (data->mKind == 4) {
-                    c4 = operation->mUnk_0c;
+                    c4 = operation->mCallback;
                     if (c4.mCallback != NULL) {
                         u4 = DWCi_GsMalloc(0x10);
                         if (u4 == NULL) {
@@ -622,7 +622,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else if (data->mKind == 5) {
-                    c5 = operation->mUnk_0c;
+                    c5 = operation->mCallback;
                     if (c5.mCallback != NULL) {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                         if (result != 0) {
@@ -658,7 +658,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else if (data->mKind == 6) {
-                    c6 = operation->mUnk_0c;
+                    c6 = operation->mCallback;
                     if (c6.mCallback != NULL) {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                         if (result != 0) {
@@ -696,7 +696,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else if (data->mKind == 7) {
-                    c7 = operation->mUnk_0c;
+                    c7 = operation->mCallback;
                     if (c7.mCallback != NULL) {
                         u7 = DWCi_GsMalloc(0xc);
                         if (u7 == NULL) {
@@ -771,7 +771,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else if (data->mKind == 8) {
-                    c8 = operation->mUnk_0c;
+                    c8 = operation->mCallback;
                     if (c8.mCallback != NULL) {
                         i = 0;
                         u9 = DWCi_GsMalloc(0xc);
@@ -860,22 +860,22 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
             return TRUE;
         }
         for (pendingOp = gpState->mOperationList; pendingOp != NULL; pendingOp = pendingOp->mNext) {
-            if (pendingOp->mType == 3 && pendingOp->mUnk_14 != 5 && pendingOp->mUnk_04->mProcessing == 0) {
+            if (pendingOp->mType == 3 && pendingOp->mState != 5 && pendingOp->mData->mProcessing == 0) {
                 if (count >= gpState->mSearchCount) {
                     AssertionFailed(gSearchIndexAssertion, gGpiSearchFileName, NULL, 0x563);
                 }
                 operations[count++] = pendingOp;
-                pendingOp->mUnk_04->mProcessing = 1;
+                pendingOp->mData->mProcessing = 1;
             }
         }
         for (index = 0; index < count; index++) {
             result = GpiUpdateSearch(connection, operations[index]);
             if (result != 0) {
-                operations[index]->mUnk_1c = result;
+                operations[index]->mResult = result;
             }
         }
         for (index = 0; index < count; index++) {
-            data = operations[index]->mUnk_04;
+            data = operations[index]->mData;
             data->mProcessing = 0;
             if (data->mRemove != 0) {
                 GpiRemoveOperation(connection, operations[index]);

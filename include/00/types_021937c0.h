@@ -32,12 +32,12 @@ typedef struct GPISearchData {
 
 typedef struct GpiOperation {
     /* 00 */ u32 mType;
-    /* 04 */ GPISearchData *mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ GpiCallback mUnk_0c;
-    /* 14 */ s32 mUnk_14;
+    /* 04 */ GPISearchData *mData;
+    /* 08 */ u32 mBlocking;
+    /* 0c */ GpiCallback mCallback;
+    /* 14 */ s32 mState;
     /* 18 */ u32 mId;
-    /* 1c */ u32 mUnk_1c;
+    /* 1c */ u32 mResult;
     /* 20 */ struct GpiOperation *mNext;
 } GpiOperation;
 

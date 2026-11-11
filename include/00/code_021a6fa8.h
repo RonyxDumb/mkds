@@ -32,16 +32,16 @@ typedef struct SOCLiSocketCommandPipe {
 } SOCLiSocketCommandPipe;
 
 typedef struct SOCLiSocketRecvCommandPipe {
-    /* 000 */ SOCLiSocketCommandPipe mUnk_00;
-    /* 0f8 */ s32 mUnk_f8;
-    /* 0fc */ u16 mUnk_fc;
-    /* 0fe */ s8 mUnk_fe;
-    /* 100 */ struct SOCLiSocketUdpData *mUnk_100;
-    /* 104 */ struct SOCLiSocketUdpData *mUnk_104;
-    /* 108 */ u16 mUnk_108;
-    /* 10a */ u16 mUnk_10a;
-    /* 10c */ OSThreadQueue mUnk_10c;
-    /* 114 */ u8 mUnk_114[4];
+    /* 000 */ SOCLiSocketCommandPipe mCommandPipe;
+    /* 0f8 */ s32 mConsumed;
+    /* 0fc */ u16 mConsumedMin;
+    /* 0fe */ s8 mNoConsume;
+    /* 100 */ struct SOCLiSocketUdpData *mUdpDataIn;
+    /* 104 */ struct SOCLiSocketUdpData *mUdpDataOut;
+    /* 108 */ u16 mUdpDataSize;
+    /* 10a */ u16 mUdpDataSizeMax;
+    /* 10c */ OSThreadQueue mUdpDataWaiting;
+    /* 114 */ u8 mCommandMessages[4];
 } SOCLiSocketRecvCommandPipe;
 
 typedef struct SOCLiSocketSendCommandPipe {

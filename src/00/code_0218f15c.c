@@ -221,7 +221,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
         } while (loop != FALSE);
         if (result != 0) {
             if (GpiFindOperation(connection, &pendingOp, 1) != FALSE) {
-                pendingOp->mUnk_1c = 4;
+                pendingOp->mResult = 4;
             } else {
                 AssertionFailed(gGpiFalseAssertText, gGpiFileName, NULL, 0x1db);
             }
@@ -241,7 +241,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
     pendingOp = gpState->mOperationList;
     if (pendingOp != NULL) {
         do {
-            if (pendingOp->mUnk_1c != 0) {
+            if (pendingOp->mResult != 0) {
                 GpiQueueOperationCallback(connection, pendingOp);
                 doomedOp = pendingOp;
                 pendingOp = pendingOp->mNext;

@@ -3,14 +3,14 @@
 #include "types.h"
 
 typedef struct DWCHttpParam {
-    /* 00 */ char *mUnk_00;
-    /* 04 */ BOOL mUnk_04;
-    /* 08 */ char *mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ void *(*mUnk_10)();
-    /* 14 */ void (*mUnk_14)();
-    /* 18 */ BOOL mUnk_18;
-    /* 1c */ s32 mUnk_1c;
+    /* 00 */ char *mUrl;
+    /* 04 */ BOOL mAction;
+    /* 08 */ char *mReceiveBufferStart;
+    /* 0c */ s32 mReceiveBufferSize;
+    /* 10 */ void *(*mAlloc)();
+    /* 14 */ void (*mFree)();
+    /* 18 */ BOOL mIgnoreCa;
+    /* 1c */ s32 mTimeoutMillis;
 } DWCHttpParam;
 
 // Objects whose layout isn't known yet.
