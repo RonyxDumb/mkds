@@ -60,7 +60,7 @@ void func_ov003_021cb3d8(void) {
                     break;
                 case 2:
                     SetPrimaryMenuPair(2, 1);
-                    SetUpdateFunction(func_ov003_021ca504);
+                    SetUpdateFunction(SetupExchangeSearch);
                     break;
                 case 3:
                     SetPrimaryMenuPair(2, 0);

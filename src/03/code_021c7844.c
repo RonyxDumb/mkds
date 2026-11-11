@@ -26,122 +26,122 @@
 #include "03/code_021c209c.h"
 
 void PrintJb4Error(void) {
-    s32 a;
-    s32 b;
-    s32 c;
-    void *d;
-    void *e;
-    u16 f;
-    u16 g;
-    u16 h[8];
-    GetSecondaryMenuPair(NULL, &b);
-    a = *(s32 *) gJb4ErrorCode;
-    if (a >= -0x4e83) {
-        c = 0x0;
-    } else if (a >= -0x4e84) {
-        c = 0x15;
-    } else if (a >= -0x4e85) {
-        c = 0x4a;
-    } else if (a >= -0x4e8b) {
-        c = 0x15;
-    } else if (a >= -0x4e8c) {
-        c = 0x49;
-    } else if (a >= -0x4e8d) {
-        c = 0x15;
-    } else if (a >= -0x4e8e) {
-        c = 0x18;
-    } else if (a >= -0x5207) {
-        c = 0x15;
-    } else if (a >= -0x59d7) {
-        c = 0x0;
-    } else if (a >= -0x5dbf) {
-        c = 0x4a;
-    } else if (a >= -0xc34f) {
-        c = 0x0;
-    } else if (a >= -0xc352) {
-        c = 0x35;
-    } else if (a >= -0xc353) {
-        c = 0x26;
-    } else if (a >= -0xc3b2) {
-        c = 0x0;
-    } else if (a >= -0xc3b3) {
-        if (b == 2) {
-            c = 0x26;
+    s32 errorCode;
+    s32 secondaryPairSecond;
+    s32 messageIndex;
+    void *canvas;
+    void *messageEntry;
+    u16 codeY;
+    u16 codeX;
+    u16 codeText[8];
+    GetSecondaryMenuPair(NULL, &secondaryPairSecond);
+    errorCode = *(s32 *) gJb4ErrorCode;
+    if (errorCode >= -0x4e83) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0x4e84) {
+        messageIndex = 0x15;
+    } else if (errorCode >= -0x4e85) {
+        messageIndex = 0x4a;
+    } else if (errorCode >= -0x4e8b) {
+        messageIndex = 0x15;
+    } else if (errorCode >= -0x4e8c) {
+        messageIndex = 0x49;
+    } else if (errorCode >= -0x4e8d) {
+        messageIndex = 0x15;
+    } else if (errorCode >= -0x4e8e) {
+        messageIndex = 0x18;
+    } else if (errorCode >= -0x5207) {
+        messageIndex = 0x15;
+    } else if (errorCode >= -0x59d7) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0x5dbf) {
+        messageIndex = 0x4a;
+    } else if (errorCode >= -0xc34f) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xc352) {
+        messageIndex = 0x35;
+    } else if (errorCode >= -0xc353) {
+        messageIndex = 0x26;
+    } else if (errorCode >= -0xc3b2) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xc3b3) {
+        if (secondaryPairSecond == 2) {
+            messageIndex = 0x26;
         } else {
-            c = 0x35;
+            messageIndex = 0x35;
         }
-    } else if (a >= -0xc79a) {
-        c = 0x0;
-    } else if (a >= -0xc79b) {
-        if (b == 2) {
-            c = 0x26;
+    } else if (errorCode >= -0xc79a) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xc79b) {
+        if (secondaryPairSecond == 2) {
+            messageIndex = 0x26;
         } else {
-            c = 0x36;
+            messageIndex = 0x36;
         }
-    } else if (a >= -0xc79e) {
-        c = 0x37;
-    } else if (a >= -0xc79f) {
-        c = 0x26;
-    } else if (a >= -0xc7ff) {
-        c = 0x0;
-    } else if (a >= -0xc863) {
-        c = 0x4c;
-    } else if (a >= -0xc866) {
-        c = 0x4d;
-    } else if (a >= -0xc867) {
-        c = 0x25;
-    } else if (a >= -0xcb1f) {
-        c = 0x0;
-    } else if (a >= -0xcb22) {
-        c = 0x38;
-    } else if (a >= -0xcb23) {
-        c = 0x4e;
-    } else if (a >= -0xcb83) {
-        c = 0x0;
-    } else if (a >= -0xcb87) {
-        c = 0x3b;
-    } else if (a >= -0xcbe7) {
-        c = 0x0;
-    } else if (a >= -0xcbeb) {
-        c = 0x3b;
-    } else if (a >= -0xcc4b) {
-        c = 0x0;
-    } else if (a >= -0xccaf) {
-        c = 0x15;
-    } else if (a >= -0xcf07) {
-        c = 0x0;
-    } else if (a >= -0xd033) {
-        c = 0x15;
+    } else if (errorCode >= -0xc79e) {
+        messageIndex = 0x37;
+    } else if (errorCode >= -0xc79f) {
+        messageIndex = 0x26;
+    } else if (errorCode >= -0xc7ff) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xc863) {
+        messageIndex = 0x4c;
+    } else if (errorCode >= -0xc866) {
+        messageIndex = 0x4d;
+    } else if (errorCode >= -0xc867) {
+        messageIndex = 0x25;
+    } else if (errorCode >= -0xcb1f) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xcb22) {
+        messageIndex = 0x38;
+    } else if (errorCode >= -0xcb23) {
+        messageIndex = 0x4e;
+    } else if (errorCode >= -0xcb83) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xcb87) {
+        messageIndex = 0x3b;
+    } else if (errorCode >= -0xcbe7) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xcbeb) {
+        messageIndex = 0x3b;
+    } else if (errorCode >= -0xcc4b) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xccaf) {
+        messageIndex = 0x15;
+    } else if (errorCode >= -0xcf07) {
+        messageIndex = 0x0;
+    } else if (errorCode >= -0xd033) {
+        messageIndex = 0x15;
     } else {
-        c = 0;
+        messageIndex = 0;
     }
-    d = InitBgTextCanvas(0, data_ov003_021d6408[GetLanguageIndex()]);
-    e = GetMessageEntry(gMessages, c);
-    swprintf(h, 8, gDecimalFormat, -*(s32 *) gJb4ErrorCode);
-    f = data_ov003_021d641a[GetLanguageIndex() * 2];
-    g = data_ov003_021d6418[GetLanguageIndex() * 2];
-    DrawCharsCentered(d, g, f, 2, 0xa, h, 0);
-    DrawCanvasTextRect(d, data_ov003_021d6410[0], data_ov003_021d6410[1], data_ov003_021d6410[2],
-                       data_ov003_021d6410[3], 2, GetLanguageTextFlags(), e);
-    RequestBgTextCanvasUpload(d);
+    canvas = InitBgTextCanvas(0, gJb4ErrorFontIndices[GetLanguageIndex()]);
+    messageEntry = GetMessageEntry(gMessages, messageIndex);
+    swprintf(codeText, 8, gDecimalFormat, -*(s32 *) gJb4ErrorCode);
+    codeY = gJb4ErrorCodeYPositions[GetLanguageIndex() * 2];
+    codeX = gJb4ErrorCodeXPositions[GetLanguageIndex() * 2];
+    DrawCharsCentered(canvas, codeX, codeY, 2, 0xa, codeText, 0);
+    DrawCanvasTextRect(canvas, gJb4ErrorMessageRect[0], gJb4ErrorMessageRect[1], gJb4ErrorMessageRect[2],
+                       gJb4ErrorMessageRect[3], 2, GetLanguageTextFlags(), messageEntry);
+    RequestBgTextCanvasUpload(canvas);
 }
 
-void func_ov003_021c79e4(void) {
+void StartJb4ErrorFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c79b4);
+    SetUpdateFunction(UpdateJb4ErrorFadeIn);
 }
 
-void func_ov003_021c79b4(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateJb4ErrorFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         CreateSlideButtonsForMenuPair(4);
-        SetUpdateFunction(func_ov003_021c7990);
+        SetUpdateFunction(UpdateJb4ErrorButtonsIn);
     }
 }
 
-void func_ov003_021c7990(void) {
+void UpdateJb4ErrorButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateJb4Error);
@@ -150,49 +150,49 @@ void func_ov003_021c7990(void) {
 
 void UpdateJb4Error(void) {
     UpdateJb4ErrorInput();
-    func_ov003_021c7958();
-    func_ov003_021c7934();
+    UpdateJb4ErrorNop();
+    UpdateJb4ErrorResult();
 }
 
 void UpdateJb4ErrorInput(void) {
-    int v1;
-    v1 = AreKeysPressed(1);
-    if (v1 != 0) {
+    int keysPressed;
+    keysPressed = AreKeysPressed(1);
+    if (keysPressed != 0) {
         SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021c7958(void) {}
+void UpdateJb4ErrorNop(void) {}
 
-void func_ov003_021c7934(void) {
-    int v1;
-    v1 = GetButtonResult();
-    if (v1 == 0) {
+void UpdateJb4ErrorResult(void) {
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult == 0) {
         StartSoundSeq(6);
-        SetUpdateFunction(func_ov003_021c7914);
+        SetUpdateFunction(StartJb4ErrorClose);
     }
 }
 
-void func_ov003_021c7914(void) {
+void StartJb4ErrorClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c78d8);
+    SetUpdateFunction(UpdateJb4ErrorFadeOut);
 }
 
-void func_ov003_021c78d8(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateJb4ErrorFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartSlideButtonsOut();
         StartBlendBrightnessFade(3, 1, 1, 8);
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021c7850);
+        SetUpdateFunction(UpdateJb4ErrorRelease);
     }
 }
 
-void func_ov003_021c7850(void) {
+void UpdateJb4ErrorRelease(void) {
     int v1;
-    int v2[1];
+    int secondaryPair[1];
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
         (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
@@ -200,8 +200,8 @@ void func_ov003_021c7850(void) {
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        GetSecondaryMenuPair(NULL, v2);
-        if (v2[0] != 0) {
+        GetSecondaryMenuPair(NULL, secondaryPair);
+        if (secondaryPair[0] != 0) {
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(CreateAp);
             return;
@@ -213,6 +213,6 @@ void func_ov003_021c7850(void) {
     }
 }
 
-void SetJb4ErrorCode(u32 a) {
-    *(u32 *) &gJb4ErrorCode = a;
+void SetJb4ErrorCode(u32 errorCode) {
+    *(u32 *) &gJb4ErrorCode = errorCode;
 }

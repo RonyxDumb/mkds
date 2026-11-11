@@ -29,109 +29,109 @@
 #include "03/code_021d254c.h"
 #include "03/code_021cea3c.h"
 
-void func_ov003_021ca1e4(void) {
-    int v1;
-    v1 = func_ov003_021cef80();
-    if (v1 == 0) {
+void UpdateExchangeSearchMessageResult(void) {
+    int messageAnswer;
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
-        SetUpdateFunction(func_ov003_021ca1c8);
+        SetUpdateFunction(UpdateExchangeSearchMessageClose);
     }
 }
 
-void func_ov003_021ca1c8(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
-        SetUpdateFunction(func_ov003_021ca350);
+void UpdateExchangeSearchMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
+        SetUpdateFunction(StartExchangeSearchClose);
     }
 }
 
-void func_ov003_021ca194(void) {
-    *(u8 *) &data_ov003_021da220 = 0;
-    func_ov003_021ca130();
+void SetupExchangeResult(void) {
+    *(u8 *) &gExchangeResultFrames = 0;
+    LoadExchangeResultFileAndSetBgCnt();
     LoadHlSetScr();
     PrintMessage(0x6b);
     StartSoundSeq(0x10);
-    SetUpdateFunction(func_ov003_021ca108);
+    SetUpdateFunction(StartExchangeResultFadeIn);
 }
 
-void func_ov003_021ca130(void) {
-    void *v2 = &gXb4MultiNscName5;
-    void *v3 = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(v2, v3);
-    u32 v5 = 0x4001008u;
-    u32 v6 = (*(u16 *) ((v5) + (0)));
-    u32 v8 = ((v6) & ~(0x3u));
-    u32 v9 = ((v8) | (0x3u));
-    u32 v11;
-    u32 v12;
-    u32 v13;
-    u32 v14;
-    u32 v16;
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v26;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    *(u16 *) ((v5) + (0)) = v9;
-    v11 = 0x400100au;
-    v12 = (*(u16 *) ((v11) + (0)));
-    v13 = ((v12) & ~(0x3u));
-    v14 = ((v13) | (0x3u));
-    *(u16 *) ((v11) + (0)) = v14;
-    v16 = 0x4000008u;
-    v17 = (*(u16 *) ((v16) + (0)));
-    v18 = ((v17) & ~(0x3u));
-    v19 = ((v18) | (0x3u));
-    *(u16 *) ((v16) + (0)) = v19;
-    v21 = 0x400000au;
-    v22 = (*(u16 *) ((v21) + (0)));
-    v23 = ((v22) & ~(0x3u));
-    v24 = ((v23) | (0x3u));
-    *(u16 *) ((v21) + (0)) = v24;
-    v26 = 0x400000cu;
-    v27 = (*(u16 *) ((v26) + (0)));
-    v28 = ((v27) & ~(0x3u));
-    v29 = ((v28) | (0x3u));
-    *(u16 *) ((v26) + (0)) = v29;
+void LoadExchangeResultFileAndSetBgCnt(void) {
+    void *xb4MultiNscName = &gXb4MultiNscName5;
+    void *bg2ScrLoader = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(xb4MultiNscName, bg2ScrLoader);
+    u32 subBg0CntAddress = 0x4001008u;
+    u32 subBg0CntValue = (*(u16 *) ((subBg0CntAddress) + (0)));
+    u32 subBg0CntCleared = ((subBg0CntValue) & ~(0x3u));
+    u32 subBg0CntNew = ((subBg0CntCleared) | (0x3u));
+    u32 subBg1CntAddress;
+    u32 subBg1CntValue;
+    u32 subBg1CntCleared;
+    u32 subBg1CntNew;
+    u32 mainBg0CntAddress;
+    u32 mainBg0CntValue;
+    u32 mainBg0CntCleared;
+    u32 mainBg0CntNew;
+    u32 mainBg1CntAddress;
+    u32 mainBg1CntValue;
+    u32 mainBg1CntCleared;
+    u32 mainBg1CntNew;
+    u32 mainBg2CntAddress;
+    u32 mainBg2CntValue;
+    u32 mainBg2CntCleared;
+    u32 mainBg2CntNew;
+    *(u16 *) ((subBg0CntAddress) + (0)) = subBg0CntNew;
+    subBg1CntAddress = 0x400100au;
+    subBg1CntValue = (*(u16 *) ((subBg1CntAddress) + (0)));
+    subBg1CntCleared = ((subBg1CntValue) & ~(0x3u));
+    subBg1CntNew = ((subBg1CntCleared) | (0x3u));
+    *(u16 *) ((subBg1CntAddress) + (0)) = subBg1CntNew;
+    mainBg0CntAddress = 0x4000008u;
+    mainBg0CntValue = (*(u16 *) ((mainBg0CntAddress) + (0)));
+    mainBg0CntCleared = ((mainBg0CntValue) & ~(0x3u));
+    mainBg0CntNew = ((mainBg0CntCleared) | (0x3u));
+    *(u16 *) ((mainBg0CntAddress) + (0)) = mainBg0CntNew;
+    mainBg1CntAddress = 0x400000au;
+    mainBg1CntValue = (*(u16 *) ((mainBg1CntAddress) + (0)));
+    mainBg1CntCleared = ((mainBg1CntValue) & ~(0x3u));
+    mainBg1CntNew = ((mainBg1CntCleared) | (0x3u));
+    *(u16 *) ((mainBg1CntAddress) + (0)) = mainBg1CntNew;
+    mainBg2CntAddress = 0x400000cu;
+    mainBg2CntValue = (*(u16 *) ((mainBg2CntAddress) + (0)));
+    mainBg2CntCleared = ((mainBg2CntValue) & ~(0x3u));
+    mainBg2CntNew = ((mainBg2CntCleared) | (0x3u));
+    *(u16 *) ((mainBg2CntAddress) + (0)) = mainBg2CntNew;
 }
 
-void func_ov003_021ca108(void) {
+void StartExchangeResultFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021ca0e8);
+    SetUpdateFunction(UpdateExchangeResultFadeIn);
 }
 
-void func_ov003_021ca0e8(void) {
+void UpdateExchangeResultFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
-        SetUpdateFunction(func_ov003_021ca0d4);
+        SetUpdateFunction(UpdateExchangeResult);
     }
 }
 
-void func_ov003_021ca0d4(void) {
-    func_ov003_021ca028();
-    func_ov003_021ca0d0();
+void UpdateExchangeResult(void) {
+    UpdateExchangeResultFrames();
+    UpdateExchangeResultNop();
 }
 
-void func_ov003_021ca0d0(void) {}
+void UpdateExchangeResultNop(void) {}
 
-void func_ov003_021ca0a4(void) {
+void StartExchangeResultFadeOut(void) {
     StartBlendBrightnessFade(3, 1, 1, 8);
     StartBlendBrightnessFade(3, 0, 0x15, 8);
-    SetUpdateFunction(func_ov003_021ca050);
+    SetUpdateFunction(UpdateExchangeResultRelease);
 }
 
-void func_ov003_021ca050(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateExchangeResultRelease(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);
@@ -142,9 +142,9 @@ void func_ov003_021ca050(void) {
     }
 }
 
-void func_ov003_021ca028(void) {
-    data_ov003_021da220[0]++;
-    if (data_ov003_021da220[0] >= 120) {
-        SetUpdateFunction(func_ov003_021ca0a4);
+void UpdateExchangeResultFrames(void) {
+    gExchangeResultFrames[0]++;
+    if (gExchangeResultFrames[0] >= 120) {
+        SetUpdateFunction(StartExchangeResultFadeOut);
     }
 }

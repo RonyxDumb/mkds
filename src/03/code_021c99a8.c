@@ -32,176 +32,176 @@
 #include "03/code_021d254c.h"
 #include "os_thread.h"
 
-void func_ov003_021c9c5c(void) {
-    *(u8 *) &data_ov003_021da218 = 0;
-    func_ov003_021c9bf8();
+void SetupExchangeEntry(void) {
+    *(u8 *) &gExchangeEntryShowNext = 0;
+    LoadExchangeEntryFileAndSetBgCnt();
     LoadHlSetScr();
     PrintMessage(0x6a);
     CreateAnimatedIcon(1);
-    SetUpdateFunction(func_ov003_021c9bd0);
+    SetUpdateFunction(StartExchangeEntryFadeIn);
 }
 
-void func_ov003_021c9bf8(void) {
-    void *v2 = &gXb4MultiNscName3;
-    void *v3 = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(v2, v3);
-    u32 v5 = 0x4001008u;
-    u32 v6 = (*(u16 *) ((v5) + (0)));
-    u32 v8 = ((v6) & ~(0x3u));
-    u32 v9 = ((v8) | (0x3u));
-    u32 v11;
-    u32 v12;
-    u32 v13;
-    u32 v14;
-    u32 v16;
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v26;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    *(u16 *) ((v5) + (0)) = v9;
-    v11 = 0x400100au;
-    v12 = (*(u16 *) ((v11) + (0)));
-    v13 = ((v12) & ~(0x3u));
-    v14 = ((v13) | (0x3u));
-    *(u16 *) ((v11) + (0)) = v14;
-    v16 = 0x4000008u;
-    v17 = (*(u16 *) ((v16) + (0)));
-    v18 = ((v17) & ~(0x3u));
-    v19 = ((v18) | (0x3u));
-    *(u16 *) ((v16) + (0)) = v19;
-    v21 = 0x400000au;
-    v22 = (*(u16 *) ((v21) + (0)));
-    v23 = ((v22) & ~(0x3u));
-    v24 = ((v23) | (0x3u));
-    *(u16 *) ((v21) + (0)) = v24;
-    v26 = 0x400000cu;
-    v27 = (*(u16 *) ((v26) + (0)));
-    v28 = ((v27) & ~(0x3u));
-    v29 = ((v28) | (0x3u));
-    *(u16 *) ((v26) + (0)) = v29;
+void LoadExchangeEntryFileAndSetBgCnt(void) {
+    void *xb4MultiNscName = &gXb4MultiNscName3;
+    void *bg2ScrLoader = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(xb4MultiNscName, bg2ScrLoader);
+    u32 subBg0CntAddress = 0x4001008u;
+    u32 subBg0CntValue = (*(u16 *) ((subBg0CntAddress) + (0)));
+    u32 subBg0CntCleared = ((subBg0CntValue) & ~(0x3u));
+    u32 subBg0CntNew = ((subBg0CntCleared) | (0x3u));
+    u32 subBg1CntAddress;
+    u32 subBg1CntValue;
+    u32 subBg1CntCleared;
+    u32 subBg1CntNew;
+    u32 mainBg0CntAddress;
+    u32 mainBg0CntValue;
+    u32 mainBg0CntCleared;
+    u32 mainBg0CntNew;
+    u32 mainBg1CntAddress;
+    u32 mainBg1CntValue;
+    u32 mainBg1CntCleared;
+    u32 mainBg1CntNew;
+    u32 mainBg2CntAddress;
+    u32 mainBg2CntValue;
+    u32 mainBg2CntCleared;
+    u32 mainBg2CntNew;
+    *(u16 *) ((subBg0CntAddress) + (0)) = subBg0CntNew;
+    subBg1CntAddress = 0x400100au;
+    subBg1CntValue = (*(u16 *) ((subBg1CntAddress) + (0)));
+    subBg1CntCleared = ((subBg1CntValue) & ~(0x3u));
+    subBg1CntNew = ((subBg1CntCleared) | (0x3u));
+    *(u16 *) ((subBg1CntAddress) + (0)) = subBg1CntNew;
+    mainBg0CntAddress = 0x4000008u;
+    mainBg0CntValue = (*(u16 *) ((mainBg0CntAddress) + (0)));
+    mainBg0CntCleared = ((mainBg0CntValue) & ~(0x3u));
+    mainBg0CntNew = ((mainBg0CntCleared) | (0x3u));
+    *(u16 *) ((mainBg0CntAddress) + (0)) = mainBg0CntNew;
+    mainBg1CntAddress = 0x400000au;
+    mainBg1CntValue = (*(u16 *) ((mainBg1CntAddress) + (0)));
+    mainBg1CntCleared = ((mainBg1CntValue) & ~(0x3u));
+    mainBg1CntNew = ((mainBg1CntCleared) | (0x3u));
+    *(u16 *) ((mainBg1CntAddress) + (0)) = mainBg1CntNew;
+    mainBg2CntAddress = 0x400000cu;
+    mainBg2CntValue = (*(u16 *) ((mainBg2CntAddress) + (0)));
+    mainBg2CntCleared = ((mainBg2CntValue) & ~(0x3u));
+    mainBg2CntNew = ((mainBg2CntCleared) | (0x3u));
+    *(u16 *) ((mainBg2CntAddress) + (0)) = mainBg2CntNew;
 }
 
-void func_ov003_021c9bd0(void) {
+void StartExchangeEntryFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c9bac);
+    SetUpdateFunction(UpdateExchangeEntryFadeIn);
 }
 
-void func_ov003_021c9bac(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if (v1 == 0) {
+void UpdateExchangeEntryFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
+    if (fadeSlotBusy == 0) {
         CreateSlideButtonsForMenuPair(1);
-        SetUpdateFunction(func_ov003_021c9b88);
+        SetUpdateFunction(UpdateExchangeEntryButtonsIn);
     }
 }
 
-void func_ov003_021c9b88(void) {
-    int v1;
-    v1 = GetButtonResult();
-    if (v1 != -2) {
+void UpdateExchangeEntryButtonsIn(void) {
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult != -2) {
         EnableButtonTouch();
-        SetUpdateFunction(func_ov003_021c9b68);
+        SetUpdateFunction(UpdateExchangeEntry);
     }
 }
 
-void func_ov003_021c9b68(void) {
+void UpdateExchangeEntry(void) {
     OS_Sleep(0xa);
-    func_ov003_021c99a8();
-    func_ov003_021c9b38();
-    func_ov003_021c9b34();
-    func_ov003_021c9b0c();
+    UpdateExchangeEntryOutcome();
+    UpdateExchangeEntryInput();
+    UpdateExchangeEntryNop();
+    UpdateExchangeEntryResult();
 }
 
-void func_ov003_021c9b38(void) {
+void UpdateExchangeEntryInput(void) {
     int v1;
     v1 = AreKeysPressed(2);
     if (v1 != 0) {
         SetButtonResultIfNone(0);
         return;
     }
-    v1 = func_ov003_021c9c90();
+    v1 = ExchangeEntryPAD_DetectFold();
     if (v1 != 0) {
         SetButtonResultIfNone(0);
     }
 }
 
-void func_ov003_021c9b34(void) {}
+void UpdateExchangeEntryNop(void) {}
 
-void func_ov003_021c9b0c(void) {
-    int v1;
-    v1 = GetButtonResult();
-    if (v1 == 0) {
+void UpdateExchangeEntryResult(void) {
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult == 0) {
         StopSoundSeq();
         StartSoundSeq(7);
-        SetUpdateFunction(func_ov003_021c9aec);
+        SetUpdateFunction(StartExchangeEntryClose);
     }
 }
 
-void func_ov003_021c9aec(void) {
+void StartExchangeEntryClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c9a9c);
+    SetUpdateFunction(UpdateExchangeEntryFadeOut);
 }
 
-void func_ov003_021c9a9c(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
-        if (data_ov003_021da218 == 0) {
+void UpdateExchangeEntryFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
+        if (gExchangeEntryShowNext == 0) {
             StartSlideButtonsOut();
         }
-        if (data_ov003_021da218 == 0) {
+        if (gExchangeEntryShowNext == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021c9a0c);
+        SetUpdateFunction(UpdateExchangeEntryRelease);
     }
 }
 
-void func_ov003_021c9a0c(void) {
+void UpdateExchangeEntryRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((data_ov003_021da218 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
+    if ((v1 == 0) && (((gExchangeEntryShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
                        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
-        if (data_ov003_021da218 == 0) {
+        if (gExchangeEntryShowNext == 0) {
             HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da218 == 0) {
+        if (gExchangeEntryShowNext == 0) {
             StopExchangeWithStatusRecord();
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupWay);
             return;
         }
         SetPrimaryMenuPair(0, 0);
-        SetUpdateFunction(func_ov003_021c9fd4);
+        SetUpdateFunction(SetupExchangeKey);
     }
 }
 
-void func_ov003_021c99a8(void) {
+void UpdateExchangeEntryOutcome(void) {
     switch (GetExchangeOutcome()) {
         case 2:
-            data_ov003_021da218 = 1;
-            SetUpdateFunction(func_ov003_021c9aec);
+            gExchangeEntryShowNext = 1;
+            SetUpdateFunction(StartExchangeEntryClose);
             break;
         case 4:
-            data_ov003_021da218 = 0;
+            gExchangeEntryShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(9);
             func_ov003_021cefc0(0x41, 1, 1, -1, 0);
             DisableButtonTouch();
-            SetUpdateFunction(func_ov003_021c9980);
+            SetUpdateFunction(UpdateExchangeEntryMessageResult);
             break;
     }
 }

@@ -27,14 +27,14 @@ typedef struct Unk021d66d0 {
 } Unk021d66d0;
 
 // Objects whose layout isn't known yet.
-extern s8 data_ov003_021d6434[];
+extern s8 gJb3ListDigitColumns[];
 extern Rect gJb3ListCellRect;
-extern Rect data_ov003_021d6444;
-extern Rect data_ov003_021d644c;
+extern Rect gJb3ListLeftButtonRect;
+extern Rect gJb3ListRightButtonRect;
 extern u8 gJb3ListIdByEntryIndex[];
-extern const u8 data_ov003_021d6478[][3];
+extern const u8 gJb3ListCellImageIds[][3];
 extern u8 gJb3ListEntryIndexById[];
-extern u16 data_ov003_021d6488[];
+extern u16 gJb3ListBackNscOffsets[];
 extern u8 data_ov003_021d64e4[];
 extern s8 data_ov003_021d64e8[];
 extern Unk021d64f0 data_ov003_021d64f0[];

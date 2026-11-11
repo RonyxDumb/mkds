@@ -5,17 +5,17 @@
 typedef struct Bytes4 Bytes4;
 
 // Bytes moved as one value.
-typedef struct Unk021d73e0 {
+typedef struct Bytes21 {
     /* 00 */ u8 mUnk_00[0x15];
-} Unk021d73e0;
+} Bytes21;
 
-typedef struct Unk021d73f8 {
+typedef struct Bytes22 {
     /* 00 */ u8 mUnk_00[0x16];
-} Unk021d73f8;
+} Bytes22;
 
-typedef struct Unk021d7410 {
+typedef struct Bytes23 {
     /* 00 */ u8 mUnk_00[0x17];
-} Unk021d7410;
+} Bytes23;
 
 // Six bytes moved as one value.
 typedef struct Unk021d7864 {
@@ -44,9 +44,9 @@ typedef struct Unk021d7708 {
 
 // Objects whose layout isn't known yet.
 extern Unk021d7864 data_ov003_021d7864;
-extern Unk021d73e0 gYbBgStep2NclName;
-extern Unk021d73f8 gYbBgStep21NclName;
-extern Unk021d7410 gJb3ListBackNscName;
+extern Bytes21 gYbBgStep2NclName;
+extern Bytes22 gYbBgStep21NclName;
+extern Bytes23 gJb3ListBackNscName;
 extern u8 gYbObjKbNclName3[];
 extern u8 gJbBgStep2NcgName[];
 extern u8 gJbBgStep21NcgName[];

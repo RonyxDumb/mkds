@@ -2,16 +2,16 @@
 
 #include "types.h"
 
-void func_ov003_021c9cf4(void);
-void func_ov003_021c9d94(void);
-void func_ov003_021c9e1c(void);
-void func_ov003_021c9e64(void);
-void func_ov003_021c9e84(void);
-void func_ov003_021c9eac(void);
-void func_ov003_021c9eb0(void);
-void func_ov003_021c9ee0(void);
-void func_ov003_021c9f00(void);
-void func_ov003_021c9f24(void);
-void func_ov003_021c9f48(void);
-void func_ov003_021c9f70(void);
-void func_ov003_021c9fd4(void);
+void UpdateExchangeKeyOutcome(void);
+void UpdateExchangeKeyRelease(void);
+void UpdateExchangeKeyFadeOut(void);
+void StartExchangeKeyClose(void);
+void UpdateExchangeKeyResult(void);
+void UpdateExchangeKeyNop(void);
+void UpdateExchangeKeyInput(void);
+void UpdateExchangeKey(void);
+void UpdateExchangeKeyButtonsIn(void);
+void UpdateExchangeKeyFadeIn(void);
+void StartExchangeKeyFadeIn(void);
+void LoadExchangeKeyFileAndSetBgCnt(void);
+void SetupExchangeKey(void);

@@ -2,16 +2,16 @@
 
 #include "types.h"
 
-void func_ov003_021c99a8(void);
-void func_ov003_021c9a0c(void);
-void func_ov003_021c9a9c(void);
-void func_ov003_021c9aec(void);
-void func_ov003_021c9b0c(void);
-void func_ov003_021c9b34(void);
-void func_ov003_021c9b38(void);
-void func_ov003_021c9b68(void);
-void func_ov003_021c9b88(void);
-void func_ov003_021c9bac(void);
-void func_ov003_021c9bd0(void);
-void func_ov003_021c9bf8(void);
-void func_ov003_021c9c5c(void);
+void UpdateExchangeEntryOutcome(void);
+void UpdateExchangeEntryRelease(void);
+void UpdateExchangeEntryFadeOut(void);
+void StartExchangeEntryClose(void);
+void UpdateExchangeEntryResult(void);
+void UpdateExchangeEntryNop(void);
+void UpdateExchangeEntryInput(void);
+void UpdateExchangeEntry(void);
+void UpdateExchangeEntryButtonsIn(void);
+void UpdateExchangeEntryFadeIn(void);
+void StartExchangeEntryFadeIn(void);
+void LoadExchangeEntryFileAndSetBgCnt(void);
+void SetupExchangeEntry(void);

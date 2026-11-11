@@ -8,7 +8,7 @@
 void SetupJb4Error(void) {
     LoadJb4ErrorFileAndSetBgCnt();
     PrintJb4Error();
-    SetUpdateFunction(func_ov003_021c79e4);
+    SetUpdateFunction(StartJb4ErrorFadeIn);
 }
 
 void LoadJb4ErrorFileAndSetBgCnt(void) {

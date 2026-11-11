@@ -38,186 +38,186 @@
 #include "03/code_021bf810.h"
 #include "03/code_021be610.h"
 
-void func_ov003_021ca504(void) {
-    data_ov003_021da224 = 0;
-    func_ov003_021ca480();
+void SetupExchangeSearch(void) {
+    gExchangeSearchShowNext = 0;
+    LoadExchangeSearchFilesAndSetBgCnt();
     LoadHlSetScr();
     ShowSubScreenMessage(0x83, -1, 0);
     CreateObjectsForMenuPair(2);
     PrintMessage(0x69);
     CreateAnimatedIcon(0);
     StartSoundSeq(0xb);
-    SetUpdateFunction(func_ov003_021ca444);
+    SetUpdateFunction(StartExchangeSearchFadeIn);
 }
 
-void func_ov003_021ca480(void) {
-    void *v2 = &gJbBgStep3NcgName5;
-    void *v3 = &GX_LoadBG2Char;
-    u32 v4 = LoadFileToVram(v2, v3);
-    void *v5 = &gYbBgStep3NclName5;
-    void *v6 = &GX_LoadBGPltt;
-    u32 v7 = LoadFileToVram(v5, v6);
-    void *v8 = &gXb4MultiNscName6;
-    void *v9 = &GX_LoadBG2Scr;
-    u32 v10 = LoadFileToVram(v8, v9);
-    u32 v11 = 0x4001008u;
-    u32 v12 = (*(u16 *) ((v11) + (0)));
-    u32 v14 = ((v12) & ~(0x3u));
-    u32 v15 = ((v14) | (0x3u));
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v20;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v25;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    u32 v30;
-    u32 v32;
-    u32 v33;
-    u32 v34;
-    u32 v35;
-    *(u16 *) ((v11) + (0)) = v15;
-    v17 = 0x400100au;
-    v18 = (*(u16 *) ((v17) + (0)));
-    v19 = ((v18) & ~(0x3u));
-    v20 = ((v19) | (0x3u));
-    *(u16 *) ((v17) + (0)) = v20;
-    v22 = 0x4000008u;
-    v23 = (*(u16 *) ((v22) + (0)));
-    v24 = ((v23) & ~(0x3u));
-    v25 = ((v24) | (0x3u));
-    *(u16 *) ((v22) + (0)) = v25;
-    v27 = 0x400000au;
-    v28 = (*(u16 *) ((v27) + (0)));
-    v29 = ((v28) & ~(0x3u));
-    v30 = ((v29) | (0x3u));
-    *(u16 *) ((v27) + (0)) = v30;
-    v32 = 0x400000cu;
-    v33 = (*(u16 *) ((v32) + (0)));
-    v34 = ((v33) & ~(0x3u));
-    v35 = ((v34) | (0x3u));
-    *(u16 *) ((v32) + (0)) = v35;
+void LoadExchangeSearchFilesAndSetBgCnt(void) {
+    void *jbBgStep3NcgName = &gJbBgStep3NcgName5;
+    void *bg2CharLoader = &GX_LoadBG2Char;
+    u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, bg2CharLoader);
+    void *ybBgStep3NclName = &gYbBgStep3NclName5;
+    void *bgPlttLoader = &GX_LoadBGPltt;
+    u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, bgPlttLoader);
+    void *xb4MultiNscName = &gXb4MultiNscName6;
+    void *bg2ScrLoader = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(xb4MultiNscName, bg2ScrLoader);
+    u32 subBg0CntAddress = 0x4001008u;
+    u32 subBg0CntValue = (*(u16 *) ((subBg0CntAddress) + (0)));
+    u32 subBg0CntCleared = ((subBg0CntValue) & ~(0x3u));
+    u32 subBg0CntNew = ((subBg0CntCleared) | (0x3u));
+    u32 subBg1CntAddress;
+    u32 subBg1CntValue;
+    u32 subBg1CntCleared;
+    u32 subBg1CntNew;
+    u32 mainBg0CntAddress;
+    u32 mainBg0CntValue;
+    u32 mainBg0CntCleared;
+    u32 mainBg0CntNew;
+    u32 mainBg1CntAddress;
+    u32 mainBg1CntValue;
+    u32 mainBg1CntCleared;
+    u32 mainBg1CntNew;
+    u32 mainBg2CntAddress;
+    u32 mainBg2CntValue;
+    u32 mainBg2CntCleared;
+    u32 mainBg2CntNew;
+    *(u16 *) ((subBg0CntAddress) + (0)) = subBg0CntNew;
+    subBg1CntAddress = 0x400100au;
+    subBg1CntValue = (*(u16 *) ((subBg1CntAddress) + (0)));
+    subBg1CntCleared = ((subBg1CntValue) & ~(0x3u));
+    subBg1CntNew = ((subBg1CntCleared) | (0x3u));
+    *(u16 *) ((subBg1CntAddress) + (0)) = subBg1CntNew;
+    mainBg0CntAddress = 0x4000008u;
+    mainBg0CntValue = (*(u16 *) ((mainBg0CntAddress) + (0)));
+    mainBg0CntCleared = ((mainBg0CntValue) & ~(0x3u));
+    mainBg0CntNew = ((mainBg0CntCleared) | (0x3u));
+    *(u16 *) ((mainBg0CntAddress) + (0)) = mainBg0CntNew;
+    mainBg1CntAddress = 0x400000au;
+    mainBg1CntValue = (*(u16 *) ((mainBg1CntAddress) + (0)));
+    mainBg1CntCleared = ((mainBg1CntValue) & ~(0x3u));
+    mainBg1CntNew = ((mainBg1CntCleared) | (0x3u));
+    *(u16 *) ((mainBg1CntAddress) + (0)) = mainBg1CntNew;
+    mainBg2CntAddress = 0x400000cu;
+    mainBg2CntValue = (*(u16 *) ((mainBg2CntAddress) + (0)));
+    mainBg2CntCleared = ((mainBg2CntValue) & ~(0x3u));
+    mainBg2CntNew = ((mainBg2CntCleared) | (0x3u));
+    *(u16 *) ((mainBg2CntAddress) + (0)) = mainBg2CntNew;
 }
 
-void func_ov003_021ca444(void) {
+void StartExchangeSearchFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021ca410);
+    SetUpdateFunction(UpdateExchangeSearchFadeIn);
 }
 
-void func_ov003_021ca410(void) {
+void UpdateExchangeSearchFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         StartExchangeWithStatusRecord();
         CreateSlideButtonsForMenuPair(1);
-        SetUpdateFunction(func_ov003_021ca3ec);
+        SetUpdateFunction(UpdateExchangeSearchButtonsIn);
     }
 }
 
-void func_ov003_021ca3ec(void) {
-    int v1;
-    v1 = GetButtonResult();
-    if (v1 != -2) {
+void UpdateExchangeSearchButtonsIn(void) {
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult != -2) {
         EnableButtonTouch();
-        SetUpdateFunction(func_ov003_021ca3cc);
+        SetUpdateFunction(UpdateExchangeSearch);
     }
 }
 
-void func_ov003_021ca3cc(void) {
+void UpdateExchangeSearch(void) {
     OS_Sleep(0xa);
-    func_ov003_021ca20c();
-    func_ov003_021ca39c();
-    func_ov003_021ca398();
-    func_ov003_021ca370();
+    UpdateExchangeSearchOutcome();
+    UpdateExchangeSearchInput();
+    UpdateExchangeSearchNop();
+    UpdateExchangeSearchResult();
 }
 
-void func_ov003_021ca39c(void) {
+void UpdateExchangeSearchInput(void) {
     int v1;
     v1 = AreKeysPressed(2);
     if (v1 != 0) {
         SetButtonResultIfNone(0);
         return;
     }
-    v1 = func_ov003_021ca54c();
+    v1 = ExchangeSearchPAD_DetectFold();
     if (v1 != 0) {
         SetButtonResultIfNone(0);
     }
 }
 
-void func_ov003_021ca398(void) {}
+void UpdateExchangeSearchNop(void) {}
 
-void func_ov003_021ca370(void) {
-    int v1;
-    v1 = GetButtonResult();
-    if (v1 == 0) {
+void UpdateExchangeSearchResult(void) {
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult == 0) {
         StopSoundSeq();
         StartSoundSeq(7);
-        SetUpdateFunction(func_ov003_021ca350);
+        SetUpdateFunction(StartExchangeSearchClose);
     }
 }
 
-void func_ov003_021ca350(void) {
+void StartExchangeSearchClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021ca300);
+    SetUpdateFunction(UpdateExchangeSearchFadeOut);
 }
 
-void func_ov003_021ca300(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
-        if (data_ov003_021da224 == 0) {
+void UpdateExchangeSearchFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
+        if (gExchangeSearchShowNext == 0) {
             StartSlideButtonsOut();
         }
-        if (data_ov003_021da224 == 0) {
+        if (gExchangeSearchShowNext == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x14, 8);
-        SetUpdateFunction(func_ov003_021ca270);
+        SetUpdateFunction(UpdateExchangeSearchRelease);
     }
 }
 
-void func_ov003_021ca270(void) {
+void UpdateExchangeSearchRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((data_ov003_021da224 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
+    if ((v1 == 0) && (((gExchangeSearchShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
                        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
-        if (data_ov003_021da224 == 0) {
+        if (gExchangeSearchShowNext == 0) {
             HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da224 == 0) {
+        if (gExchangeSearchShowNext == 0) {
             StopExchangeWithStatusRecord();
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupWay);
             return;
         }
         SetPrimaryMenuPair(0, 0);
-        SetUpdateFunction(func_ov003_021c9c5c);
+        SetUpdateFunction(SetupExchangeEntry);
     }
 }
 
-void func_ov003_021ca20c(void) {
+void UpdateExchangeSearchOutcome(void) {
     switch (GetExchangeOutcome()) {
         case 1:
-            data_ov003_021da224 = 1;
-            SetUpdateFunction(func_ov003_021ca350);
+            gExchangeSearchShowNext = 1;
+            SetUpdateFunction(StartExchangeSearchClose);
             break;
         case 4:
-            data_ov003_021da224 = 0;
+            gExchangeSearchShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(9);
             func_ov003_021cefc0(0x41, 1, 1, -1, 0);
             DisableButtonTouch();
-            SetUpdateFunction(func_ov003_021ca1e4);
+            SetUpdateFunction(UpdateExchangeSearchMessageResult);
             break;
     }
 }

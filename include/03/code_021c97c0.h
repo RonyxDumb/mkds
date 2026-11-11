@@ -2,14 +2,14 @@
 
 #include "types.h"
 
-void func_ov003_021c97c0(void);
-void func_ov003_021c9804(void);
-void func_ov003_021c9830(void);
-void func_ov003_021c9834(void);
-void func_ov003_021c9838(void);
-void func_ov003_021c985c(void);
-void func_ov003_021c9894(void);
-void func_ov003_021c98d0(void);
-void func_ov003_021c9944(void);
-void func_ov003_021c9964(void);
-void func_ov003_021c9980(void);
+void UpdateRecordSavedRelease(void);
+void StartRecordSavedFadeOut(void);
+void UpdateRecordSavedNop(void);
+void UpdateRecordSavedInputNop(void);
+void UpdateRecordSaved(void);
+void UpdateRecordSavedFadeIn(void);
+void StartRecordSavedFadeIn(void);
+void LoadRecordSavedFilesAndSetBgCnt(void);
+void SetupRecordSaved(void);
+void UpdateExchangeEntryMessageClose(void);
+void UpdateExchangeEntryMessageResult(void);

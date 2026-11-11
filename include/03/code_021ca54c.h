@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_ov003_021ca54c(void);
+u32 ExchangeSearchPAD_DetectFold(void);

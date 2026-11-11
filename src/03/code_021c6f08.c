@@ -38,103 +38,103 @@
 #include "code_02134398.h"
 
 void CreateEditAddr(void) {
-    Unk021d7310 a;
-    u8 b[5];
-    s32 c;
-    EditAddr *d;
-    a = data_ov003_021d7310;
-    b[0] = data_ov003_021d7300[0];
-    b[1] = data_ov003_021d7300[1];
-    b[2] = data_ov003_021d7300[2];
-    b[3] = data_ov003_021d7300[3];
-    b[4] = data_ov003_021d7300[4];
+    EditAddrTextFuncs textFuncs;
+    u8 subScreenMessageIndices[5];
+    s32 secondaryPairFirst;
+    EditAddr *editAddr;
+    textFuncs = gEditAddrFormatFuncs;
+    subScreenMessageIndices[0] = gEditAddrSubScreenMessageIndices[0];
+    subScreenMessageIndices[1] = gEditAddrSubScreenMessageIndices[1];
+    subScreenMessageIndices[2] = gEditAddrSubScreenMessageIndices[2];
+    subScreenMessageIndices[3] = gEditAddrSubScreenMessageIndices[3];
+    subScreenMessageIndices[4] = gEditAddrSubScreenMessageIndices[4];
     gEditAddr = AllocZeroedExpHeapBlock(0x18, 4);
-    GetSecondaryMenuPair(&c, NULL);
-    a.mUnk_00[c](gEditAddr->mText);
-    d = gEditAddr;
-    if (memcmp(d->mText, data_ov003_021d73ac, 3) != 0) {
-        d->mGroupIndex = 3;
+    GetSecondaryMenuPair(&secondaryPairFirst, NULL);
+    textFuncs.mUnk_00[secondaryPairFirst](gEditAddr->mText);
+    editAddr = gEditAddr;
+    if (memcmp(editAddr->mText, gEditAddrZeroGroupText, 3) != 0) {
+        editAddr->mGroupIndex = 3;
     } else {
-        MI_CpuFill8(d->mText, 0, 0xc);
+        MI_CpuFill8(editAddr->mText, 0, 0xc);
         gEditAddr->mGroupIndex = 0;
     }
     LoadEditAddrFilesAndSetBgCnt();
-    LoadHlScr(c + 0xb);
-    ShowSubScreenMessage(b[c], -1, 0);
+    LoadHlScr(secondaryPairFirst + 0xb);
+    ShowSubScreenMessage(subScreenMessageIndices[secondaryPairFirst], -1, 0);
     CreateObjectsForMenuPair(2);
     gEditAddr->mUnk_00 = InitBgTextCanvas(0, 0);
     gEditAddr->mUnk_04 = CreateOamEntryFromNceImage(0, 0x3f);
     gEditAddr->mUnk_04->mUnk_04 = (gEditAddr->mUnk_04->mUnk_04 & 0xfffff3ff) | 0xc00;
-    func_ov003_021c7160();
+    PlaceEditAddrGroupOam();
     PrintEditAddrText();
-    SetUpdateFunction(func_ov003_021c7678);
+    SetUpdateFunction(StartEditAddrFadeIn);
 }
 
 void LoadEditAddrFilesAndSetBgCnt(void) {
-    void *v2 = &gYbObjKbNclName2;
-    void *v3 = &GX_LoadOBJPltt;
-    u32 v4 = LoadFileToVram(v2, v3);
-    void *v5 = &gJbBgStep3NcgName3;
-    void *v6 = &GX_LoadBG2Char;
-    u32 v7 = LoadFileToVram(v5, v6);
-    void *v8 = &gYbBgStep3NclName3;
-    void *v9 = &GX_LoadBGPltt;
-    u32 v10 = LoadFileToVram(v8, v9);
-    void *v11 = &gXb4EditAddrNscName;
-    void *v12 = &GX_LoadBG2Scr;
-    u32 v13 = LoadFileToVram(v11, v12);
-    u32 v14 = 0x4001008u;
-    u32 v15 = (*(u16 *) ((v14) + (0)));
-    u32 v17 = ((v15) & ~(0x3u));
-    u32 v18 = ((v17) | (0x3u));
-    u32 v20;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v25;
-    u32 v26;
-    u32 v27;
-    u32 v29;
-    u32 v31;
-    u32 v32;
-    u32 v33;
-    u32 v34;
-    u32 v36;
-    u32 v37;
-    u32 v38;
-    u32 v39;
-    *(u16 *) ((v14) + (0)) = v18;
-    v20 = 0x400100au;
-    v21 = (*(u16 *) ((v20) + (0)));
-    v22 = ((v21) & ~(0x3u));
-    v23 = ((v22) | (0x3u));
-    *(u16 *) ((v20) + (0)) = v23;
-    v25 = 0x4000008u;
-    v26 = (*(u16 *) ((v25) + (0)));
-    v27 = ((v26) & ~(0x3u));
-    v29 = ((v27) | (0x2u));
-    *(u16 *) ((v25) + (0)) = v29;
-    v31 = 0x400000au;
-    v32 = (*(u16 *) ((v31) + (0)));
-    v33 = ((v32) & ~(0x3u));
-    v34 = ((v33) | (0x3u));
-    *(u16 *) ((v31) + (0)) = v34;
-    v36 = 0x400000cu;
-    v37 = (*(u16 *) ((v36) + (0)));
-    v38 = ((v37) & ~(0x3u));
-    v39 = ((v38) | (0x3u));
-    *(u16 *) ((v36) + (0)) = v39;
+    void *ybObjKbNclName = &gYbObjKbNclName2;
+    void *objPlttLoader = &GX_LoadOBJPltt;
+    u32 objPlttLoadResult = LoadFileToVram(ybObjKbNclName, objPlttLoader);
+    void *jbBgStep3NcgName = &gJbBgStep3NcgName3;
+    void *bg2CharLoader = &GX_LoadBG2Char;
+    u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, bg2CharLoader);
+    void *ybBgStep3NclName = &gYbBgStep3NclName3;
+    void *bgPlttLoader = &GX_LoadBGPltt;
+    u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, bgPlttLoader);
+    void *xb4EditAddrNscName = &gXb4EditAddrNscName;
+    void *bg2ScrLoader = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(xb4EditAddrNscName, bg2ScrLoader);
+    u32 subBg0CntAddress = 0x4001008u;
+    u32 subBg0CntValue = (*(u16 *) ((subBg0CntAddress) + (0)));
+    u32 subBg0CntCleared = ((subBg0CntValue) & ~(0x3u));
+    u32 subBg0CntNew = ((subBg0CntCleared) | (0x3u));
+    u32 subBg1CntAddress;
+    u32 subBg1CntValue;
+    u32 subBg1CntCleared;
+    u32 subBg1CntNew;
+    u32 mainBg0CntAddress;
+    u32 mainBg0CntValue;
+    u32 mainBg0CntCleared;
+    u32 mainBg0CntNew;
+    u32 mainBg1CntAddress;
+    u32 mainBg1CntValue;
+    u32 mainBg1CntCleared;
+    u32 mainBg1CntNew;
+    u32 mainBg2CntAddress;
+    u32 mainBg2CntValue;
+    u32 mainBg2CntCleared;
+    u32 mainBg2CntNew;
+    *(u16 *) ((subBg0CntAddress) + (0)) = subBg0CntNew;
+    subBg1CntAddress = 0x400100au;
+    subBg1CntValue = (*(u16 *) ((subBg1CntAddress) + (0)));
+    subBg1CntCleared = ((subBg1CntValue) & ~(0x3u));
+    subBg1CntNew = ((subBg1CntCleared) | (0x3u));
+    *(u16 *) ((subBg1CntAddress) + (0)) = subBg1CntNew;
+    mainBg0CntAddress = 0x4000008u;
+    mainBg0CntValue = (*(u16 *) ((mainBg0CntAddress) + (0)));
+    mainBg0CntCleared = ((mainBg0CntValue) & ~(0x3u));
+    mainBg0CntNew = ((mainBg0CntCleared) | (0x2u));
+    *(u16 *) ((mainBg0CntAddress) + (0)) = mainBg0CntNew;
+    mainBg1CntAddress = 0x400000au;
+    mainBg1CntValue = (*(u16 *) ((mainBg1CntAddress) + (0)));
+    mainBg1CntCleared = ((mainBg1CntValue) & ~(0x3u));
+    mainBg1CntNew = ((mainBg1CntCleared) | (0x3u));
+    *(u16 *) ((mainBg1CntAddress) + (0)) = mainBg1CntNew;
+    mainBg2CntAddress = 0x400000cu;
+    mainBg2CntValue = (*(u16 *) ((mainBg2CntAddress) + (0)));
+    mainBg2CntCleared = ((mainBg2CntValue) & ~(0x3u));
+    mainBg2CntNew = ((mainBg2CntCleared) | (0x3u));
+    *(u16 *) ((mainBg2CntAddress) + (0)) = mainBg2CntNew;
 }
 
-void func_ov003_021c7678(void) {
+void StartEditAddrFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021c7614);
+    SetUpdateFunction(UpdateEditAddrFadeIn);
 }
 
-void func_ov003_021c7614(void) {
+void UpdateEditAddrFadeIn(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
@@ -144,17 +144,17 @@ void func_ov003_021c7614(void) {
             SetEditAddrKeyboardRemoveCharEnabled(0);
             SetEditAddrKeyboardNextGroupEnabled(0);
         } else {
-            v1 = func_ov003_021c735c(0x1a);
+            v1 = IsEditAddrGroupFull(0x1a);
             if (v1 != 0) {
                 SetEditAddrKeyboardAddCharEnabled(0);
             }
             SetEditAddrKeyboardNextGroupEnabled(0);
         }
-        SetUpdateFunction(func_ov003_021c75f8);
+        SetUpdateFunction(UpdateEditAddrKeyboardIn);
     }
 }
 
-void func_ov003_021c75f8(void) {
+void UpdateEditAddrKeyboardIn(void) {
     if (GetEditAddrKeyboardInput() != 31) {
         SetUpdateFunction(UpdateEditAddr);
     }
@@ -162,18 +162,18 @@ void func_ov003_021c75f8(void) {
 
 void UpdateEditAddr(void) {
     UpdateEditAddrInput();
-    func_ov003_021c7358();
+    UpdateEditAddrNop();
 }
 
 void UpdateEditAddrInput(void) {
-    s32 a;
-    u8 *b;
-    s32 k;
-    EditAddr *h;
-    EditAddr **g;
-    u8 e;
-    a = GetEditAddrKeyboardInput();
-    switch (a) {
+    s32 keyboardInput;
+    u8 *text;
+    s32 groupOffset;
+    EditAddr *editAddr;
+    EditAddr **editAddrPointer;
+    u8 groupIndex;
+    keyboardInput = GetEditAddrKeyboardInput();
+    switch (keyboardInput) {
         case 0:
             return;
         case 0x10:
@@ -192,11 +192,11 @@ void UpdateEditAddrInput(void) {
             SetEditAddrKeyboardNextGroupEnabled(0);
             break;
         case 0x11:
-            e = gEditAddr->mGroupIndex;
-            if (e >= 3) {
+            groupIndex = gEditAddr->mGroupIndex;
+            if (groupIndex >= 3) {
                 break;
             }
-            if (gEditAddr->mText[e * 3 + 2] == 0) {
+            if (gEditAddr->mText[groupIndex * 3 + 2] == 0) {
                 break;
             }
             StartSoundSeq(1);
@@ -206,10 +206,10 @@ void UpdateEditAddrInput(void) {
         case 0x12:
             gEditAddr->mUnk_15 = 0;
             StartSoundSeq(7);
-            SetUpdateFunction(func_ov003_021c733c);
+            SetUpdateFunction(StartEditAddrClose);
             return;
         case 0x13:
-            if (func_ov003_021c6f64() != FALSE) {
+            if (IsEditAddrTextValid() != FALSE) {
                 StartSoundSeq(6);
                 gEditAddr->mUnk_15 = 1;
             } else {
@@ -218,37 +218,37 @@ void UpdateEditAddrInput(void) {
             }
             gEditAddr->mGroupIndex = 3;
             gEditAddr->mUnk_04->mUnk_00 = (gEditAddr->mUnk_04->mUnk_00 & 0xc1fffcff) | 0x200;
-            func_ov003_021c7160();
-            func_ov003_021c7050();
-            SetUpdateFunction(func_ov003_021c733c);
+            PlaceEditAddrGroupOam();
+            WriteEditAddrGroupPadding();
+            SetUpdateFunction(StartEditAddrClose);
             return;
         default:
             if (gEditAddr->mGroupIndex == 3) {
-                if (func_ov003_021c735c(0x1a) != 0) {
+                if (IsEditAddrGroupFull(0x1a) != 0) {
                     break;
                 }
             }
             StartSoundSeq(1);
-            g = &gEditAddr;
-            b = (*g)->mText;
-            k = (*g)->mGroupIndex * 3;
-            if (b[k + 2] == 0) {
-                b[k + 2] = a;
-            } else if (b[k + 1] == 0) {
-                b[k + 1] = b[k + 2];
-                b[k + 2] = a;
-                if (func_ov003_021c735c(0x1a) != 0) {
-                    h = gEditAddr;
-                    if (h->mGroupIndex < 3) {
-                        h->mGroupIndex = h->mGroupIndex + 1;
+            editAddrPointer = &gEditAddr;
+            text = (*editAddrPointer)->mText;
+            groupOffset = (*editAddrPointer)->mGroupIndex * 3;
+            if (text[groupOffset + 2] == 0) {
+                text[groupOffset + 2] = keyboardInput;
+            } else if (text[groupOffset + 1] == 0) {
+                text[groupOffset + 1] = text[groupOffset + 2];
+                text[groupOffset + 2] = keyboardInput;
+                if (IsEditAddrGroupFull(0x1a) != 0) {
+                    editAddr = gEditAddr;
+                    if (editAddr->mGroupIndex < 3) {
+                        editAddr->mGroupIndex = editAddr->mGroupIndex + 1;
                     }
                 }
             } else {
-                b[k] = b[k + 1];
-                b[k + 1] = b[k + 2];
-                b[k + 2] = a;
-                if ((*g)->mGroupIndex < 3) {
-                    (*g)->mGroupIndex = (*g)->mGroupIndex + 1;
+                text[groupOffset] = text[groupOffset + 1];
+                text[groupOffset + 1] = text[groupOffset + 2];
+                text[groupOffset + 2] = keyboardInput;
+                if ((*editAddrPointer)->mGroupIndex < 3) {
+                    (*editAddrPointer)->mGroupIndex = (*editAddrPointer)->mGroupIndex + 1;
                 }
             }
             SetEditAddrKeyboardRemoveCharEnabled(1);
@@ -258,141 +258,142 @@ void UpdateEditAddrInput(void) {
                 SetEditAddrKeyboardNextGroupEnabled(0);
             }
             if (gEditAddr->mGroupIndex == 3) {
-                if (func_ov003_021c735c(0x1a) != 0) {
+                if (IsEditAddrGroupFull(0x1a) != 0) {
                     SetEditAddrKeyboardAddCharEnabled(0);
                 }
             }
             break;
     }
     PrintEditAddrText();
-    func_ov003_021c7160();
+    PlaceEditAddrGroupOam();
 }
 
-u32 func_ov003_021c735c(s32 a) {
-    u8 b[4];
-    u8 *c;
-    u8 *d;
-    s32 e;
-    u8 f;
-    d = gEditAddr->mText;
-    c = d + gEditAddr->mGroupIndex * 3;
-    f = *c;
-    if (f != 0 && f != 0x20) {
+BOOL IsEditAddrGroupFull(s32 groupLimit) {
+    u8 groupText[4];
+    u8 *group;
+    u8 *text;
+    s32 charIndex;
+    u8 firstChar;
+    text = gEditAddr->mText;
+    group = text + gEditAddr->mGroupIndex * 3;
+    firstChar = *group;
+    if (firstChar != 0 && firstChar != 0x20) {
         return 1;
     }
-    MI_CpuCopy8(c, b, 3);
-    b[3] = 0;
-    c = b;
-    for (e = 0; e < 3; e++) {
-        if (*c != 0) {
+    MI_CpuCopy8(group, groupText, 3);
+    groupText[3] = 0;
+    group = groupText;
+    for (charIndex = 0; charIndex < 3; charIndex++) {
+        if (*group != 0) {
             break;
         }
-        *c = 0x20;
-        c++;
+        *group = 0x20;
+        group++;
     }
-    if (StrtolBase10((const char *) b) >= a) {
+    if (StrtolBase10((const char *) groupText) >= groupLimit) {
         return 1;
     }
     return 0;
 }
 
-void func_ov003_021c7358(void) {}
+void UpdateEditAddrNop(void) {}
 
-void func_ov003_021c733c(void) {
+void StartEditAddrClose(void) {
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c7314);
+    SetUpdateFunction(UpdateEditAddrSlideOut);
 }
 
-void func_ov003_021c7314(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateEditAddrSlideOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartEditAddrKeyboardSlideOut();
         StartSoundSeq(0x15);
-        SetUpdateFunction(func_ov003_021c72a4);
+        SetUpdateFunction(UpdateEditAddrResult);
     }
 }
 
-void func_ov003_021c72a4(void) {
-    u8 a;
+void UpdateEditAddrResult(void) {
+    u8 result;
     if (HasEditAddrKeyboard() == 0) {
-        a = gEditAddr->mUnk_15;
-        if (a == 0) {
-            SetUpdateFunction(func_ov003_021c722c);
+        result = gEditAddr->mUnk_15;
+        if (result == 0) {
+            SetUpdateFunction(ReleaseEditAddr);
             return;
         }
-        if (a == 2) {
+        if (result == 2) {
             func_ov003_021cefc0(0x2f, 3, 1, -1, 0);
-            SetUpdateFunction(func_ov003_021c6f3c);
+            SetUpdateFunction(UpdateEditAddrInvalidMessageResult);
             return;
         }
         func_ov003_021cefc0(0x9b, 2, 1, -1, 0);
-        SetUpdateFunction(func_ov003_021c7118);
+        SetUpdateFunction(UpdateEditAddrMessageResult);
     }
 }
 
-void func_ov003_021c722c(void) {
-    int v1[1];
+void ReleaseEditAddr(void) {
+    int secondaryPair[1];
     HideSubScreenMessage();
     DeleteOamEntry((u32 *) (u32) (gEditAddr->mUnk_04));
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&gYbObjMainNclName3, &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x15);
-    GetSecondaryMenuPair(v1, NULL);
-    if (3 <= v1[0]) {
-        v1[0] = v1[0] + 1;
+    GetSecondaryMenuPair(secondaryPair, NULL);
+    if (3 <= secondaryPair[0]) {
+        secondaryPair[0] = secondaryPair[0] + 1;
     }
     SetPrimaryMenuPair(2, 1);
-    SetSecondaryMenuPair(0, v1[0] + 3);
+    SetSecondaryMenuPair(0, secondaryPair[0] + 3);
     SetUpdateFunction(CreateJb3List);
     FreeExpHeapBlockAndClearPointer(&gEditAddr);
 }
 
 void PrintEditAddrText(void) {
-    u16 a[6];
-    s32 b;
-    u8 *c;
-    EditAddr *s;
-    u16 d;
-    a[0] = data_ov003_021d7308[0];
-    a[1] = data_ov003_021d7308[1];
-    a[2] = data_ov003_021d7308[2];
-    a[3] = data_ov003_021d7308[3];
-    a[2] = data_ov003_021d63f8[0];
-    a[3] = data_ov003_021d63f8[1];
+    u16 rectAndChar[6];
+    s32 charIndex;
+    u8 *charX;
+    EditAddr *editAddr;
+    u16 charXPosition;
+    rectAndChar[0] = gEditAddrCharRect[0];
+    rectAndChar[1] = gEditAddrCharRect[1];
+    rectAndChar[2] = gEditAddrCharRect[2];
+    rectAndChar[3] = gEditAddrCharRect[3];
+    rectAndChar[2] = gEditAddrCharSize[0];
+    rectAndChar[3] = gEditAddrCharSize[1];
     ClearBgTextCanvas(gEditAddr->mUnk_00, 0);
-    b = 0;
-    a[5] = 0;
-    c = gEditAddrCharX;
+    charIndex = 0;
+    rectAndChar[5] = 0;
+    charX = gEditAddrCharX;
     do {
-        s = gEditAddr;
-        a[4] = s->mText[b];
-        d = *c;
-        a[0] = d;
-        DrawCanvasTextRect(s->mUnk_00, d, a[1], a[2], a[3], 2, 0x480, &a[4]);
-        c++;
-        b++;
-    } while (b < 12);
+        editAddr = gEditAddr;
+        rectAndChar[4] = editAddr->mText[charIndex];
+        charXPosition = *charX;
+        rectAndChar[0] = charXPosition;
+        DrawCanvasTextRect(editAddr->mUnk_00, charXPosition, rectAndChar[1], rectAndChar[2], rectAndChar[3], 2, 0x480,
+                           &rectAndChar[4]);
+        charX++;
+        charIndex++;
+    } while (charIndex < 12);
     RequestBgTextCanvasUpload(gEditAddr->mUnk_00);
 }
 
-void func_ov003_021c7160(void) {
-    EditAddr *a;
-    Unk021da1f8_04 *p;
-    u32 t;
-    s32 b;
-    a = gEditAddr;
-    b = a->mGroupIndex;
-    if (b > 3) {
-        b = 3;
+void PlaceEditAddrGroupOam(void) {
+    EditAddr *editAddr;
+    Unk021da1f8_04 *oamEntry;
+    u32 xBits;
+    s32 groupIndex;
+    editAddr = gEditAddr;
+    groupIndex = editAddr->mGroupIndex;
+    if (groupIndex > 3) {
+        groupIndex = 3;
     }
-    p = a->mUnk_04;
-    t = (gEditAddrCharX[b * 3 + 2] & 0x1ff) << 16;
-    p->mUnk_00 = t | ((p->mUnk_00 & 0xfe00ff00) | 0x28);
+    oamEntry = editAddr->mUnk_04;
+    xBits = (gEditAddrCharX[groupIndex * 3 + 2] & 0x1ff) << 16;
+    oamEntry->mUnk_00 = xBits | ((oamEntry->mUnk_00 & 0xfe00ff00) | 0x28);
 }
 
-void func_ov003_021c7118(void) {
+void UpdateEditAddrMessageResult(void) {
     gEditAddr->mUnk_15 = func_ov003_021cef80();
     switch (gEditAddr->mUnk_15) {
         case 0:
@@ -405,135 +406,135 @@ void func_ov003_021c7118(void) {
             return;
     }
     func_ov003_021cef90();
-    SetUpdateFunction(func_ov003_021c70a4);
+    SetUpdateFunction(UpdateEditAddrMessageClose);
 }
 
-void func_ov003_021c70a4(void) {
-    Unk021d7324 a;
-    s32 b;
-    a = data_ov003_021d7324;
+void UpdateEditAddrMessageClose(void) {
+    Unk021d7324 storeFuncs;
+    s32 secondaryPairFirst;
+    storeFuncs = gEditAddrStoreFuncs;
     if (func_ov003_021cef6c() == 0) {
         if (gEditAddr->mUnk_15 == 0) {
             gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & 0xc1fffcff;
-            SetUpdateFunction(func_ov003_021c7614);
+            SetUpdateFunction(UpdateEditAddrFadeIn);
             return;
         }
-        GetSecondaryMenuPair(&b, NULL);
-        a.mUnk_00[b](gEditAddr->mText);
-        SetUpdateFunction(func_ov003_021c722c);
+        GetSecondaryMenuPair(&secondaryPairFirst, NULL);
+        storeFuncs.mUnk_00[secondaryPairFirst](gEditAddr->mText);
+        SetUpdateFunction(ReleaseEditAddr);
     }
 }
 
-void func_ov003_021c7050(void) {
-    int v1;
-    int v2;
-    int v3;
-    int v4;
-    u8 v5;
-    u8 v6;
-    v1 = 0;
-    v4 = 0;
+void WriteEditAddrGroupPadding(void) {
+    int groupCounter;
+    int group;
+    int charIndex;
+    int groupOffset;
+    u8 fillChar;
+    u8 currentChar;
+    groupCounter = 0;
+    groupOffset = 0;
     do {
-        v2 = (s32) gEditAddr + 8 + v4;
-        v3 = 0;
+        group = (s32) gEditAddr + 8 + groupOffset;
+        charIndex = 0;
         do {
-            v6 = *(s8 *) (v2 + v3);
-            if (((v6 != '0') && (v6 != ' ')) && (v6 != 0)) {
+            currentChar = *(s8 *) (group + charIndex);
+            if (((currentChar != '0') && (currentChar != ' ')) && (currentChar != 0)) {
                 break;
             }
-            if (v3 == 2) {
-                v5 = 0x30;
+            if (charIndex == 2) {
+                fillChar = 0x30;
             } else {
-                v5 = 0x20;
+                fillChar = 0x20;
             }
-            *(u8 *) (v2 + v3) = v5;
-            v3 = v3 + 1;
-        } while (v3 < 3);
-        v4 = v4 + 3;
-        v1 = v1 + 1;
-    } while (v1 < 4);
+            *(u8 *) (group + charIndex) = fillChar;
+            charIndex = charIndex + 1;
+        } while (charIndex < 3);
+        groupOffset = groupOffset + 3;
+        groupCounter = groupCounter + 1;
+    } while (groupCounter < 4);
     PrintEditAddrText();
 }
 
-BOOL func_ov003_021c6f64(void) {
-    u8 a[4];
-    u8 *k;
-    u8 *j;
-    s32 c;
-    s32 e;
-    s32 d;
-    u8 *i;
-    s32 f;
-    u8 b[4];
-    BOOL g;
-    s32 h;
-    u8 *m;
-    a[0] = gEditAddrGroupMax[0];
-    a[1] = gEditAddrGroupMax[1];
-    a[2] = gEditAddrGroupMax[2];
-    a[3] = gEditAddrGroupMax[3];
-    c = 0;
-    d = 0;
-    k = (u8 *) gEditAddr;
+BOOL IsEditAddrTextValid(void) {
+    u8 groupMax[4];
+    u8 *text;
+    u8 *group;
+    s32 groupCounter;
+    s32 charIndex;
+    s32 groupOffset;
+    u8 *maxChar;
+    s32 secondaryPair;
+    u8 addressBytes[4];
+    BOOL zeroSeen;
+    s32 byteCounter;
+    u8 *bytePointer;
+    groupMax[0] = gEditAddrGroupMax[0];
+    groupMax[1] = gEditAddrGroupMax[1];
+    groupMax[2] = gEditAddrGroupMax[2];
+    groupMax[3] = gEditAddrGroupMax[3];
+    groupCounter = 0;
+    groupOffset = 0;
+    text = (u8 *) gEditAddr;
     do {
-        j = k + 8 + d;
-        if (*j != 0x20) {
-            for (e = 0, i = a; e < 3; e++) {
-                if (j[e] > *i) {
+        group = text + 8 + groupOffset;
+        if (*group != 0x20) {
+            for (charIndex = 0, maxChar = groupMax; charIndex < 3; charIndex++) {
+                if (group[charIndex] > *maxChar) {
                     return FALSE;
                 }
-                if (j[e] < *i) {
+                if (group[charIndex] < *maxChar) {
                     break;
                 }
-                i++;
+                maxChar++;
             }
         }
-        d += 3;
-        c++;
-    } while (c < 4);
-    k += 8;
-    func_ov003_021cd2e0((char *) k, b);
-    GetSecondaryMenuPair(&f, NULL);
-    if (f == 1) {
-        g = FALSE;
-        h = 0;
-        m = b;
+        groupOffset += 3;
+        groupCounter++;
+    } while (groupCounter < 4);
+    text += 8;
+    func_ov003_021cd2e0((char *) text, addressBytes);
+    GetSecondaryMenuPair(&secondaryPair, NULL);
+    if (secondaryPair == 1) {
+        zeroSeen = FALSE;
+        byteCounter = 0;
+        bytePointer = addressBytes;
         do {
-            for (e = 0; e < 8; e++) {
-                if (g != FALSE) {
-                    if ((*m & (1 << (7 - e))) != 0) {
+            for (charIndex = 0; charIndex < 8; charIndex++) {
+                if (zeroSeen != FALSE) {
+                    if ((*bytePointer & (1 << (7 - charIndex))) != 0) {
                         return FALSE;
                     }
-                } else if ((*m & (1 << (7 - e))) == 0) {
-                    g = TRUE;
+                } else if ((*bytePointer & (1 << (7 - charIndex))) == 0) {
+                    zeroSeen = TRUE;
                 }
             }
-            m++;
-            h++;
-        } while (h < 4);
+            bytePointer++;
+            byteCounter++;
+        } while (byteCounter < 4);
         return TRUE;
     }
-    if (DWC_BACKUPlCheckAddress(b) != 0) {
+    if (DWC_BACKUPlCheckAddress(addressBytes) != 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-void func_ov003_021c6f3c(void) {
-    int v1;
-    v1 = func_ov003_021cef80();
-    if (v1 == 0) {
+void UpdateEditAddrInvalidMessageResult(void) {
+    int messageAnswer;
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
-        SetUpdateFunction(func_ov003_021c6f08);
+        SetUpdateFunction(UpdateEditAddrInvalidMessageClose);
     }
 }
 
-void func_ov003_021c6f08(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
+void UpdateEditAddrInvalidMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
         gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & (0xc1fffcffu);
-        SetUpdateFunction(func_ov003_021c7614);
+        SetUpdateFunction(UpdateEditAddrFadeIn);
     }
 }

@@ -61,18 +61,18 @@
 
 void CreateJb3List(void) {
     int a;
-    Unk021cd5e0_400 *b;
+    Unk021cd5e0_400 *record;
     int i;
-    Jb3List *p;
-    b = func_ov003_021cdb6c();
-    p = AllocZeroedExpHeapBlock(0x48, 4);
-    gJb3List = p;
-    p->mUnk_43 = b->mUnk_f6;
+    Jb3List *jb3List;
+    record = func_ov003_021cdb6c();
+    jb3List = AllocZeroedExpHeapBlock(0x48, 4);
+    gJb3List = jb3List;
+    jb3List->mUnk_43 = record->mUnk_f6;
     gJb3List->mReturnId = 0xc;
-    func_ov003_021c94c8();
+    ResetJb3ListScrollAndSelection();
     LoadJb3ListFilesAndSetBgCnt();
     if (gJb3ListMode == 0) {
-        ShowSubScreenMessage(0x7c, data_ov003_021d6434[GetLanguageIndex()], b->mUnk_f4 + 1);
+        ShowSubScreenMessage(0x7c, gJb3ListDigitColumns[GetLanguageIndex()], record->mUnk_f4 + 1);
     } else {
         ShowSubScreenMessage(0x97, -1, 0);
     }
@@ -81,9 +81,9 @@ void CreateJb3List(void) {
     func_ov003_021ccea4(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
     gJb3List->mUnk_14 = InitBgTextCanvas(0, 1);
     for (i = 0; i < 7; i++) {
-        gJb3List->mUnk_18[i] = CreateOamEntryFromNceImage(0, data_ov003_021d6478[0][1]);
+        gJb3List->mUnk_18[i] = CreateOamEntryFromNceImage(0, gJb3ListCellImageIds[0][1]);
     }
-    switch (b->mUnk_00.mUnk_e7) {
+    switch (record->mUnk_00.mUnk_e7) {
         case 1:
             gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x50);
             gJb3List->mUnk_34->mUnk_04 = (gJb3List->mUnk_34->mUnk_04 & ~0xc00) | 0xc00;
@@ -96,28 +96,28 @@ void CreateJb3List(void) {
     gJb3List->mBgOffsetTask = AddTask(1, WriteJb3ListBgOffset, NULL, 0x6e);
     gJb3List->mIdTimerTask = AddTask(0, AdvanceJb3ListIdTimers, NULL, 0x78);
     RefreshJb3List();
-    func_ov003_021c81b8();
-    SetUpdateFunction(func_ov003_021c948c);
+    PlaceJb3ListSelectionPair();
+    SetUpdateFunction(StartJb3ListFadeIn);
 }
 
 void LoadJb3ListFilesAndSetBgCnt(void) {
-    Unk021d7410 a;
-    Unk021d73e0 b;
-    Unk021d73f8 c;
-    a = gJb3ListBackNscName;
-    b = gYbBgStep2NclName;
-    c = gYbBgStep21NclName;
+    Bytes23 jb3ListBackNscName;
+    Bytes21 ybBgStep2NclName;
+    Bytes22 ybBgStep21NclName;
+    jb3ListBackNscName = gJb3ListBackNscName;
+    ybBgStep2NclName = gYbBgStep2NclName;
+    ybBgStep21NclName = gYbBgStep21NclName;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0xe18;
     LoadFileToVram(gYbObjKbNclName3, GX_LoadOBJPltt);
     LoadFileToVram(gJbBgStep2NcgName, GX_LoadBG3Char);
     LoadFileToVram(gJbBgStep21NcgName, GX_LoadBG2Char);
-    LoadFileToVram(&b, GX_LoadBGPltt);
+    LoadFileToVram(&ybBgStep2NclName, GX_LoadBGPltt);
     LoadFileToVram(gJb3ListNscName, GX_LoadBG3Scr);
-    gJb3List->mJb3ListBackNsc = LoadFile(BuildFilePathWithLanguage((u8 *) &a), NULL, 4);
+    gJb3List->mJb3ListBackNsc = LoadFile(BuildFilePathWithLanguage((u8 *) &jb3ListBackNscName), NULL, 4);
     func_ov003_021cca30(gJb3List->mJb3ListBackNsc);
     func_ov003_021cc9fc();
-    gJb3List->mYbBgStep2NclFiles[0] = LoadFile(BuildFilePathWithLanguage((u8 *) &b), NULL, 4);
-    gJb3List->mYbBgStep2NclFiles[1] = LoadFile(BuildFilePathWithLanguage((u8 *) &c), NULL, 4);
+    gJb3List->mYbBgStep2NclFiles[0] = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep2NclName), NULL, 4);
+    gJb3List->mYbBgStep2NclFiles[1] = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep21NclName), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~0x3) | 0x3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~0x3) | 0x3;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~0x3) | 0x3;
@@ -126,26 +126,26 @@ void LoadJb3ListFilesAndSetBgCnt(void) {
     reg_G2_BG3CNT = (reg_G2_BG3CNT & ~0x3) | 0x2;
 }
 
-void func_ov003_021c94c8(void) {
-    int v1[1];
+void ResetJb3ListScrollAndSelection(void) {
+    int secondaryPairSecond[1];
     func_ov003_021cdb6c();
-    GetSecondaryMenuPair(NULL, v1);
-    if (v1[0] == 0) {
+    GetSecondaryMenuPair(NULL, secondaryPairSecond);
+    if (secondaryPairSecond[0] == 0) {
         gJb3ListScrollY = 0;
         gJb3ListSelectedId = 0;
         gJb3ListSelectedRow = 0;
     }
 }
 
-void func_ov003_021c948c(void) {
+void StartJb3ListFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x1d, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x1d);
-    SetUpdateFunction(func_ov003_021c9464);
+    SetUpdateFunction(UpdateJb3ListFadeIn);
 }
 
-void func_ov003_021c9464(void) {
+void UpdateJb3ListFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         SetUpdateFunction(UpdateJb3List);
     }
@@ -157,25 +157,25 @@ void UpdateJb3List(void) {
 }
 
 void UpdateJb3ListInput(void) {
-    Jb3List *s;
-    s = gJb3List;
-    if (s->mScrollTask != 0) {
+    Jb3List *jb3List;
+    jb3List = gJb3List;
+    if (jb3List->mScrollTask != 0) {
         return;
     }
-    if (s->mUnk_45 != 0) {
+    if (jb3List->mUnk_45 != 0) {
         return;
     }
     if (UpdateJb3ListHit() != 0) {
         return;
     }
     if (AreKeysPressed(1) != 0) {
-        func_ov003_021c90dc(gJb3ListSelectedId);
+        StartJb3ListIdAction(gJb3ListSelectedId);
         return;
     }
     if (AreKeysPressed(2) != 0) {
         StartSoundSeq(7);
         gJb3List->mUnk_40 = 0xd;
-        SetUpdateFunction(func_ov003_021c8e80);
+        SetUpdateFunction(StartJb3ListClose);
         return;
     }
     if (AreKeysPressedOrRepeated(0x200) != 0) {
@@ -237,112 +237,112 @@ void UpdateJb3ListInput(void) {
     }
 }
 
-u32 UpdateJb3ListHit(void) {
-    int v1;
-    int v2;
+BOOL UpdateJb3ListHit(void) {
+    int hitId;
+    int idEnabled;
     func_ov003_021cdb6c();
-    v1 = GetJb3ListHitId();
-    if (v1 == 0xe) {
+    hitId = GetJb3ListHitId();
+    if (hitId == 0xe) {
         return 0;
     }
-    v2 = IsJb3ListIdEnabled(v1);
-    if (v2 == 0) {
+    idEnabled = IsJb3ListIdEnabled(hitId);
+    if (idEnabled == 0) {
         StartSoundSeq(9);
         return 1;
     }
-    SetJb3ListSelectedId(v1);
-    switch (v1) {
+    SetJb3ListSelectedId(hitId);
+    switch (hitId) {
         case 2:
         case 3:
         case 7:
         case 8:
             StartJb3ListIdTimer();
     }
-    func_ov003_021c90dc(v1);
+    StartJb3ListIdAction(hitId);
     return 1;
 }
 
-void func_ov003_021c90dc(u32 param_1) {
-    if (IsJb3ListIdEnabled(param_1) == 0) {
+void StartJb3ListIdAction(u32 listId) {
+    if (IsJb3ListIdEnabled(listId) == 0) {
         StartSoundSeq(9);
         return;
     }
-    switch (param_1) {
+    switch (listId) {
         case 2:
         case 3:
             StartSoundSeq(6);
-            func_ov003_021c9084(((param_1 - 2) ^ 1) != 0);
+            func_ov003_021c9084(((listId - 2) ^ 1) != 0);
             return;
         case 7:
         case 8:
             StartSoundSeq(6);
-            func_ov003_021c9058(((param_1 - 7) ^ 1) != 0);
+            func_ov003_021c9058(((listId - 7) ^ 1) != 0);
             return;
     }
-    gJb3List->mUnk_40 = param_1;
-    if (param_1 - 0xb <= 1) {
-        func_ov003_021c7ec4();
-        if (func_ov003_021c7d8c() == 0) {
+    gJb3List->mUnk_40 = listId;
+    if (listId - 0xb <= 1) {
+        RequestJb3ListPaletteRowCopy();
+        if (IsJb3ListRecordValid() == 0) {
             StartSoundSeq(9);
             func_ov003_021cefc0(0x2f, 1, 1, -1, 0);
-            SetUpdateFunction(func_ov003_021c7d58);
+            SetUpdateFunction(UpdateJb3ListMessageResult);
             return;
         }
-        if (param_1 == 0xb) {
+        if (listId == 0xb) {
             StartSoundSeq(6);
         } else {
             StartSoundSeq(0xe);
         }
-    } else if (param_1 == 0xd) {
-        func_ov003_021c7ec4();
+    } else if (listId == 0xd) {
+        RequestJb3ListPaletteRowCopy();
         StartSoundSeq(7);
     } else {
         StartSoundSeq(6);
-        SetupJb3ListCell(0, 1, GetJb3ListRowOfEntryIndex(gJb3ListEntryIndexById[param_1]));
+        SetupJb3ListCell(0, 1, GetJb3ListRowOfEntryIndex(gJb3ListEntryIndexById[listId]));
         RefreshJb3ListRowPositions();
     }
     func_ov003_021cce38();
-    SetUpdateFunction(func_ov003_021c8e80);
+    SetUpdateFunction(StartJb3ListClose);
 }
 
-void func_ov003_021c9084(u32 param_1) {
-    Unk021cd5e0_400 *r;
-    BOOL a;
-    r = func_ov003_021cdb6c();
-    if (r->mUnk_f5 != param_1) {
-        if (param_1 != 0) {
+void func_ov003_021c9084(u32 newValue) {
+    Unk021cd5e0_400 *record;
+    BOOL otherValue;
+    record = func_ov003_021cdb6c();
+    if (record->mUnk_f5 != newValue) {
+        if (newValue != 0) {
             if (gJb3List->mUnk_43 != 0) {
-                a = TRUE;
+                otherValue = TRUE;
             } else {
-                a = FALSE;
+                otherValue = FALSE;
             }
         } else {
-            gJb3List->mUnk_43 = r->mUnk_f6;
-            a = FALSE;
+            gJb3List->mUnk_43 = record->mUnk_f6;
+            otherValue = FALSE;
         }
-        func_ov003_021cdb58(param_1);
-        func_ov003_021cdb44(a);
+        func_ov003_021cdb58(newValue);
+        func_ov003_021cdb44(otherValue);
         RefreshJb3List();
     }
 }
 
-void func_ov003_021c9058(u32 a) {
-    Unk021cd5e0_400 *v1;
-    v1 = func_ov003_021cdb6c();
-    if (v1->mUnk_f6 != a) {
-        gJb3List->mUnk_43 = (s8) a;
-        func_ov003_021cdb44(a);
+void func_ov003_021c9058(u32 newValue) {
+    Unk021cd5e0_400 *record;
+    record = func_ov003_021cdb6c();
+    if (record->mUnk_f6 != newValue) {
+        gJb3List->mUnk_43 = (s8) newValue;
+        func_ov003_021cdb44(newValue);
         RefreshJb3List();
     }
 }
 
 void UpdateJb3ListScrollInput(void) {
-    int a;
-    Jb3List *s;
-    s = gJb3List;
-    if (s->mScrollTask == 0) {
-        if (s->mScrollTimer != 0) {
-            s->mScrollTimer--;
+    int scrollRemainder;
+    Jb3List *jb3List;
+    jb3List = gJb3List;
+    if (jb3List->mScrollTask == 0) {
+        if (jb3List->mScrollTimer != 0) {
+            jb3List->mScrollTimer--;
         }
         switch (func_ov003_021cce60()) {
             case 1:
@@ -362,12 +362,12 @@ void UpdateJb3ListScrollInput(void) {
                 gJb3ListScrollY = _s32_div_f(func_ov003_021cce6c() * 0x91, 0x37);
                 StartSoundSeq(0x13);
                 RefreshJb3List();
-                a = FX_ModS32(gJb3ListScrollY, 0x1d);
-                if (a == 0) {
+                scrollRemainder = FX_ModS32(gJb3ListScrollY, 0x1d);
+                if (scrollRemainder == 0) {
                     SetJb3ListSelectedIdFromRow();
                     return;
                 }
-                if (a < 0x10) {
+                if (scrollRemainder < 0x10) {
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYDecrease, NULL, 0x78);
                 } else {
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYIncrease, NULL, 0x78);
@@ -405,31 +405,31 @@ void UpdateJb3ListScrollInput(void) {
     }
 }
 
-void func_ov003_021c8e80(void) {
+void StartJb3ListClose(void) {
     func_ov003_021cce38();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021c8e48);
+    SetUpdateFunction(UpdateJb3ListFadeOut);
 }
 
-void func_ov003_021c8e48(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateJb3ListFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartBlendBrightnessFade(3, 1, 1, 8);
         StartBlendBrightnessFade(3, 0, 0x1d, 8);
-        SetUpdateFunction(func_ov003_021c8c14);
+        SetUpdateFunction(UpdateJb3ListRelease);
     }
 }
 
-static inline void func_ov003_021c85a0_inline(OamEntry *p, u32 *x, u32 *y) {
-    *x = (p->mUnk_00 & 0x1ff0000) >> 16;
-    *y = p->mUnk_00 & 0xff;
+static inline void func_ov003_021c85a0_inline(OamEntry *oamEntry, u32 *x, u32 *y) {
+    *x = (oamEntry->mUnk_00 & 0x1ff0000) >> 16;
+    *y = oamEntry->mUnk_00 & 0xff;
 }
 
-void func_ov003_021c8c14(void) {
+void UpdateJb3ListRelease(void) {
     int i;
-    u32 v;
-    Unk021cd5e0_400 *r;
+    u32 chosenId;
+    Unk021cd5e0_400 *record;
     if (IsBlendBrightnessFadeSlotBusy(1) != 0) {
         return;
     }
@@ -461,11 +461,11 @@ void func_ov003_021c8c14(void) {
     reg_G2_BG0OFS = 0;
     reg_G2_BG2OFS = 0;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0xe10;
-    v = gJb3List->mUnk_40;
-    switch (v) {
+    chosenId = gJb3List->mUnk_40;
+    switch (chosenId) {
         case 0:
         case 1:
-            SetSecondaryMenuPair(v, 0);
+            SetSecondaryMenuPair(chosenId, 0);
             SetPrimaryMenuPair(2, 0);
             SetUpdateFunction(CreateEdit);
             break;
@@ -474,8 +474,8 @@ void func_ov003_021c8c14(void) {
         case 6:
         case 9:
         case 10:
-            i = v - 4;
-            if (v >= 9) {
+            i = chosenId - 4;
+            if (chosenId >= 9) {
                 i -= 2;
             }
             SetPrimaryMenuPair(2, 0);
@@ -483,16 +483,16 @@ void func_ov003_021c8c14(void) {
             SetUpdateFunction(CreateEditAddr);
             break;
         case 11:
-            r = func_ov003_021cdb6c();
-            r->mUnk_00.mUnk_d0 = DWCi_BACKUPlConvMaskCidr(r->mUnk_f0);
-            if (r->mUnk_f5 != 0) {
-                MI_CpuFill8(r->mUnk_00.mUnk_c0, 0, 4);
-                MI_CpuFill8(r->mUnk_00.mUnk_c4, 0, 4);
-                MI_CpuFill8(r->mUnk_f0, 0, 4);
-                r->mUnk_00.mUnk_d0 = 0;
+            record = func_ov003_021cdb6c();
+            record->mUnk_00.mUnk_d0 = DWCi_BACKUPlConvMaskCidr(record->mUnk_f0);
+            if (record->mUnk_f5 != 0) {
+                MI_CpuFill8(record->mUnk_00.mUnk_c0, 0, 4);
+                MI_CpuFill8(record->mUnk_00.mUnk_c4, 0, 4);
+                MI_CpuFill8(record->mUnk_f0, 0, 4);
+                record->mUnk_00.mUnk_d0 = 0;
             }
-            if (r->mUnk_f6 != 0) {
-                MI_CpuFill8(r->mUnk_00.mUnk_c8, 0, 8);
+            if (record->mUnk_f6 != 0) {
+                MI_CpuFill8(record->mUnk_00.mUnk_c8, 0, 8);
             }
             SetPrimaryMenuPair(2, 0);
             SetSecondaryMenuPair(0, 0);
@@ -500,7 +500,7 @@ void func_ov003_021c8c14(void) {
             break;
         case 12:
             SetPrimaryMenuPair(0, 0);
-            SetUpdateFunction(func_ov003_021c9944);
+            SetUpdateFunction(SetupRecordSaved);
             break;
         case 13:
             if (gJb3ListMode == 0) {
@@ -517,310 +517,313 @@ void func_ov003_021c8c14(void) {
 }
 
 void RefreshJb3List(void) {
-    int a;
+    int firstEntryIndex;
     int i;
-    int j;
-    a = FX_DivS32(gJb3ListScrollY, 0x1d);
+    int entryIndex;
+    firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
     ClearBgTextCanvas(gJb3List->mUnk_14, 0);
-    for (i = 0, j = a; i < 5; i++, j++) {
-        PrintJb3ListEntryText(j, i);
+    for (i = 0, entryIndex = firstEntryIndex; i < 5; i++, entryIndex++) {
+        PrintJb3ListEntryText(entryIndex, i);
     }
-    func_ov003_021cc9c0((s32) (gJb3List->mJb3ListBackNsc + data_ov003_021d6488[a]), 0, 0x1e, 0x13);
-    for (i = 0; i < 5; i++, a++) {
-        SetupJb3ListEntryCells(a, i);
+    func_ov003_021cc9c0((s32) (gJb3List->mJb3ListBackNsc + gJb3ListBackNscOffsets[firstEntryIndex]), 0, 0x1e, 0x13);
+    for (i = 0; i < 5; i++, firstEntryIndex++) {
+        SetupJb3ListEntryCells(firstEntryIndex, i);
     }
     func_ov003_021cc9fc();
     RequestBgTextCanvasUpload(gJb3List->mUnk_14);
     RefreshJb3ListRowPositions();
 }
 
-void PrintJb3ListEntryText(u32 a, int b) {
-    Unk021cd5e0_400 *r;
-    int x;
-    u8 y[0x21];
-    r = func_ov003_021cdb6c();
-    switch (a) {
+void PrintJb3ListEntryText(u32 entryIndex, int row) {
+    Unk021cd5e0_400 *record;
+    int starCount;
+    u8 starText[0x21];
+    record = func_ov003_021cdb6c();
+    switch (entryIndex) {
         case 0:
-            PrintJb3ListEntryString(r->mUnk_00.mUnk_40, b);
+            PrintJb3ListEntryString(record->mUnk_00.mUnk_40, row);
             return;
         case 1:
-            switch (r->mUnk_00.mUnk_e6_0) {
+            switch (record->mUnk_00.mUnk_e6_0) {
                 case 0:
                     return;
                 case 1:
-                    x = 10;
+                    starCount = 10;
                     break;
                 case 2:
-                    x = 0x1a;
+                    starCount = 0x1a;
                     break;
                 case 3:
-                    x = 0x20;
+                    starCount = 0x20;
                     break;
             }
-            if (r->mUnk_00.mUnk_e6_2 == 1) {
-                x = _s32_div_f(x, 2);
+            if (record->mUnk_00.mUnk_e6_2 == 1) {
+                starCount = _s32_div_f(starCount, 2);
             }
-            MI_CpuFill8(y, 0, 0x21);
-            memset(y, 0x2a, x);
-            PrintJb3ListEntryString(y, b);
+            MI_CpuFill8(starText, 0, 0x21);
+            memset(starText, 0x2a, starCount);
+            PrintJb3ListEntryString(starText, row);
             return;
         case 3:
-            if (r->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_00.mUnk_c0, b);
+            if (record->mUnk_f5 == 0) {
+                PrintJb3ListEntryBytes(record->mUnk_00.mUnk_c0, row);
             }
             break;
         case 4:
-            if (r->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_f0, b);
+            if (record->mUnk_f5 == 0) {
+                PrintJb3ListEntryBytes(record->mUnk_f0, row);
             }
             break;
         case 5:
-            if (r->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_00.mUnk_c4, b);
+            if (record->mUnk_f5 == 0) {
+                PrintJb3ListEntryBytes(record->mUnk_00.mUnk_c4, row);
             }
             break;
         case 7:
-            if (r->mUnk_f6 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_00.mUnk_c8, b);
+            if (record->mUnk_f6 == 0) {
+                PrintJb3ListEntryBytes(record->mUnk_00.mUnk_c8, row);
             }
             break;
         case 8:
-            if (r->mUnk_f6 == 0) {
-                PrintJb3ListEntryBytes(&r->mUnk_00.mUnk_c8[4], b);
+            if (record->mUnk_f6 == 0) {
+                PrintJb3ListEntryBytes(&record->mUnk_00.mUnk_c8[4], row);
             }
             break;
     }
 }
 
-void SetupJb3ListEntryCells(u32 a, int b) {
-    Unk021cd5e0_400 *r;
-    int x;
-    int y;
-    BOOL z;
-    int w;
-    r = func_ov003_021cdb6c();
-    switch (a) {
+void SetupJb3ListEntryCells(u32 entryIndex, int row) {
+    Unk021cd5e0_400 *record;
+    int cellKind;
+    int cellState;
+    BOOL secondState;
+    int secondKind;
+    record = func_ov003_021cdb6c();
+    switch (entryIndex) {
         case 0:
         case 1:
-            x = 0;
-            y = 0;
-            if (IsJb3ListIdEnabled(x) == 0) {
-                y = 2;
+            cellKind = 0;
+            cellState = 0;
+            if (IsJb3ListIdEnabled(cellKind) == 0) {
+                cellState = 2;
             }
             break;
         case 2:
-            z = FALSE;
-            y = 0;
-            if (r->mUnk_f5 != 0) {
-                x = 1;
-                w = 4;
+            secondState = FALSE;
+            cellState = 0;
+            if (record->mUnk_f5 != 0) {
+                cellKind = 1;
+                secondKind = 4;
             } else {
-                x = 2;
-                w = 3;
+                cellKind = 2;
+                secondKind = 3;
             }
             if (gJb3List->mIdTimer[0] != 0) {
-                y = 1;
+                cellState = 1;
             }
             if (gJb3List->mIdTimer[1] != 0) {
-                z = TRUE;
+                secondState = TRUE;
             }
-            SetupJb3ListCell(w, z, b);
+            SetupJb3ListCell(secondKind, secondState, row);
             break;
         case 3:
         case 4:
         case 5:
-            x = 0;
-            if (r->mUnk_f5 != 0) {
-                y = 2;
+            cellKind = 0;
+            if (record->mUnk_f5 != 0) {
+                cellState = 2;
             } else {
-                y = x;
+                cellState = cellKind;
             }
             break;
         case 6:
-            z = FALSE;
-            y = 0;
-            if (r->mUnk_f6 != 0) {
-                x = 1;
-                w = 4;
+            secondState = FALSE;
+            cellState = 0;
+            if (record->mUnk_f6 != 0) {
+                cellKind = 1;
+                secondKind = 4;
             } else {
-                if (r->mUnk_f5 == 0) {
-                    y = 2;
+                if (record->mUnk_f5 == 0) {
+                    cellState = 2;
                 }
-                x = 2;
-                w = 3;
+                cellKind = 2;
+                secondKind = 3;
             }
             if (gJb3List->mIdTimer[2] != 0) {
-                y = 1;
+                cellState = 1;
             }
             if (gJb3List->mIdTimer[3] != 0) {
-                z = TRUE;
+                secondState = TRUE;
             }
-            SetupJb3ListCell(w, z, b);
+            SetupJb3ListCell(secondKind, secondState, row);
             break;
         case 7:
         case 8:
-            x = 0;
-            if (r->mUnk_f6 != 0) {
-                y = 2;
+            cellKind = 0;
+            if (record->mUnk_f6 != 0) {
+                cellState = 2;
             } else {
-                y = x;
+                cellState = cellKind;
             }
             break;
         default:
-            x = 0;
-            y = 2;
+            cellKind = 0;
+            cellState = 2;
             break;
     }
-    SetupJb3ListCell(x, y, b);
+    SetupJb3ListCell(cellKind, cellState, row);
 }
 
-u32 IsJb3ListIdEnabled(u32 a) {
-    Unk021cd5e0_400 *r;
-    u32 v1;
-    r = func_ov003_021cdb6c();
-    v1 = 1;
-    switch (a) {
+BOOL IsJb3ListIdEnabled(u32 listId) {
+    Unk021cd5e0_400 *record;
+    u32 enabled;
+    record = func_ov003_021cdb6c();
+    enabled = 1;
+    switch (listId) {
         case 7:
-            if (r->mUnk_f5 == 0) {
-                v1 = 0;
+            if (record->mUnk_f5 == 0) {
+                enabled = 0;
             }
             break;
         case 0:
         case 1:
-            if ((u8) (r->mUnk_00.mUnk_e7 + 0xff) <= 1) {
-                v1 = 0;
+            if ((u8) (record->mUnk_00.mUnk_e7 + 0xff) <= 1) {
+                enabled = 0;
             }
             break;
         case 4:
         case 5:
         case 6:
-            if (r->mUnk_f5 != 0) {
-                v1 = 0;
+            if (record->mUnk_f5 != 0) {
+                enabled = 0;
             }
             break;
         case 9:
         case 10:
-            if (r->mUnk_f6 != 0) {
-                v1 = 0;
+            if (record->mUnk_f6 != 0) {
+                enabled = 0;
             }
             break;
     }
-    return v1;
+    return enabled;
 }
 
-void SetupJb3ListCell(int d, int e, int f) {
-    u16 a[5];
-    u16 b;
-    u32 c;
-    OamEntry **p;
-    a[0] = gJb3ListCellRect.mUnk_00;
-    b = data_ov003_021d644c.mUnk_00;
-    a[1] = b;
-    a[2] = b;
-    b = data_ov003_021d6444.mUnk_00;
-    a[3] = b;
-    a[4] = b;
-    p = &gJb3List->mUnk_18[f];
-    if ((u32) (d - 1) <= 1) {
-        if (GetJb3ListEntryIndexOfRow(f) == 2) {
-            p = &gJb3List->mUnk_18[5];
+void SetupJb3ListCell(int cellKind, int cellState, int row) {
+    u16 cellXPositions[5];
+    u16 secondXPosition;
+    u32 xBits;
+    OamEntry **entryPointer;
+    cellXPositions[0] = gJb3ListCellRect.mUnk_00;
+    secondXPosition = gJb3ListRightButtonRect.mUnk_00;
+    cellXPositions[1] = secondXPosition;
+    cellXPositions[2] = secondXPosition;
+    secondXPosition = gJb3ListLeftButtonRect.mUnk_00;
+    cellXPositions[3] = secondXPosition;
+    cellXPositions[4] = secondXPosition;
+    entryPointer = &gJb3List->mUnk_18[row];
+    if ((u32) (cellKind - 1) <= 1) {
+        if (GetJb3ListEntryIndexOfRow(row) == 2) {
+            entryPointer = &gJb3List->mUnk_18[5];
         } else {
-            p = &gJb3List->mUnk_18[6];
+            entryPointer = &gJb3List->mUnk_18[6];
         }
     }
-    if (data_ov003_021d6478[d][e] != 0) {
-        CopyNceImageToOamEntries(0, data_ov003_021d6478[d][e], *p);
-        c = (a[d] & 0x1ff) << 16;
-        (*p)->mUnk_00 = c | ((*p)->mUnk_00 & 0xfe00ff00);
-        (*p)->mUnk_04 = ((*p)->mUnk_04 & ~0xc00) | 0xc00;
+    if (gJb3ListCellImageIds[cellKind][cellState] != 0) {
+        CopyNceImageToOamEntries(0, gJb3ListCellImageIds[cellKind][cellState], *entryPointer);
+        xBits = (cellXPositions[cellKind] & 0x1ff) << 16;
+        (*entryPointer)->mUnk_00 = xBits | ((*entryPointer)->mUnk_00 & 0xfe00ff00);
+        (*entryPointer)->mUnk_04 = ((*entryPointer)->mUnk_04 & ~0xc00) | 0xc00;
     } else {
-        (*p)->mUnk_00 = ((*p)->mUnk_00 & 0xfe00ff00) | 0x1000000;
+        (*entryPointer)->mUnk_00 = ((*entryPointer)->mUnk_00 & 0xfe00ff00) | 0x1000000;
     }
 }
 
-void PrintJb3ListEntryString(const u8 *g, int h) {
-    u16 f[17];
-    int a;
-    int b;
-    int c;
+void PrintJb3ListEntryString(const u8 *bytes, int row) {
+    u16 text[17];
+    int length;
+    int shownLength;
+    int character;
     int i;
-    int d;
-    int e;
-    MI_CpuFill8(f, 0, 0x22);
-    a = GetStringLengthWithLimit(g, 0x20);
-    if (a <= 0x10) {
-        b = a;
+    int yPosition;
+    int secondLineLength;
+    MI_CpuFill8(text, 0, 0x22);
+    length = GetStringLengthWithLimit(bytes, 0x20);
+    if (length <= 0x10) {
+        shownLength = length;
     } else {
-        b = 0x10;
+        shownLength = 0x10;
     }
-    for (i = 0; i < b; i++) {
-        c = g[i];
-        if (c == 0x20) {
-            f[i] = 0xe01d;
+    for (i = 0; i < shownLength; i++) {
+        character = bytes[i];
+        if (character == 0x20) {
+            text[i] = 0xe01d;
         } else {
-            f[i] = c;
+            text[i] = character;
         }
     }
-    d = h * 0x1d + 2;
-    if (a <= 0x10) {
-        d += 5;
+    yPosition = row * 0x1d + 2;
+    if (length <= 0x10) {
+        yPosition += 5;
     }
-    DrawCharsCentered(gJb3List->mUnk_14, 0x48, d, 2, 8, f, 1);
-    if (a > 0x10) {
-        MI_CpuFill8(f, 0, 0x22);
-        e = a - 0x10;
-        for (i = 0; i < e; i++) {
-            c = g[i + 0x10];
-            if (c == 0x20) {
-                f[i] = 0xe01d;
+    DrawCharsCentered(gJb3List->mUnk_14, 0x48, yPosition, 2, 8, text, 1);
+    if (length > 0x10) {
+        MI_CpuFill8(text, 0, 0x22);
+        secondLineLength = length - 0x10;
+        for (i = 0; i < secondLineLength; i++) {
+            character = bytes[i + 0x10];
+            if (character == 0x20) {
+                text[i] = 0xe01d;
             } else {
-                f[i] = c;
+                text[i] = character;
             }
         }
-        DrawCharsCentered(gJb3List->mUnk_14, 0x48, d + 0xc, 2, 8, f, 1);
+        DrawCharsCentered(gJb3List->mUnk_14, 0x48, yPosition + 0xc, 2, 8, text, 1);
     }
 }
 
-void PrintJb3ListEntryBytes(const u8 *b, int c) {
-    u16 a[16];
-    swprintf(a, 0x10, gDotSeparatedBytesFormat, b[0], b[1], b[2], b[3]);
-    DrawCharsCentered(gJb3List->mUnk_14, 0x5f, c * 0x1d + 8, 2, 7, a, 1);
+void PrintJb3ListEntryBytes(const u8 *bytes, int row) {
+    u16 text[16];
+    swprintf(text, 0x10, gDotSeparatedBytesFormat, bytes[0], bytes[1], bytes[2], bytes[3]);
+    DrawCharsCentered(gJb3List->mUnk_14, 0x5f, row * 0x1d + 8, 2, 7, text, 1);
 }
 
 void RefreshJb3ListRowPositions(void) {
-    int a;
-    int b;
-    OamEntry *p;
-    int c;
+    int firstEntryIndex;
+    int firstRowY;
+    OamEntry *oamEntry;
+    int rowY;
     int i;
-    u32 x;
-    u32 y;
-    a = FX_DivS32(gJb3ListScrollY, 0x1d);
-    b = 0x34 - FX_ModS32(gJb3ListScrollY, 0x1d);
+    u32 xPosition;
+    u32 yPosition;
+    firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
+    firstRowY = 0x34 - FX_ModS32(gJb3ListScrollY, 0x1d);
     if (gJb3List->mUnk_34 != NULL) {
-        if (a == 0) {
-            x = 0x26;
+        if (firstEntryIndex == 0) {
+            xPosition = 0x26;
         } else {
-            x = 0x100;
+            xPosition = 0x100;
         }
-        gJb3List->mUnk_34->mUnk_00 = ((x & 0x1ff) << 16) | ((gJb3List->mUnk_34->mUnk_00 & 0xfe00ff00) | (b & 0xff));
+        gJb3List->mUnk_34->mUnk_00 =
+            ((xPosition & 0x1ff) << 16) | ((gJb3List->mUnk_34->mUnk_00 & 0xfe00ff00) | (firstRowY & 0xff));
     }
-    for (i = 0, c = b; i < 5; i++, c += 0x1d) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[i], (u32 *) &x, &y);
-        p = gJb3List->mUnk_18[i];
-        p->mUnk_00 = ((x & 0x1ff) << 16) | ((p->mUnk_00 & 0xfe00ff00) | (c & 0xff));
+    for (i = 0, rowY = firstRowY; i < 5; i++, rowY += 0x1d) {
+        func_ov003_021c85a0_inline(gJb3List->mUnk_18[i], (u32 *) &xPosition, &yPosition);
+        oamEntry = gJb3List->mUnk_18[i];
+        oamEntry->mUnk_00 = ((xPosition & 0x1ff) << 16) | ((oamEntry->mUnk_00 & 0xfe00ff00) | (rowY & 0xff));
     }
-    if (a <= 2) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[5], &x, (u32 *) &y);
+    if (firstEntryIndex <= 2) {
+        func_ov003_021c85a0_inline(gJb3List->mUnk_18[5], &xPosition, (u32 *) &yPosition);
         gJb3List->mUnk_18[5]->mUnk_00 =
-            ((x & 0x1ff) << 16) | ((gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | ((b + (2 - a) * 0x1d) & 0xff));
+            ((xPosition & 0x1ff) << 16) |
+            ((gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
         gJb3List->mUnk_18[5]->mUnk_00 = (gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | 0x1000000;
     }
-    if (a >= 2 && a <= 6) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[6], &x, (u32 *) &y);
+    if (firstEntryIndex >= 2 && firstEntryIndex <= 6) {
+        func_ov003_021c85a0_inline(gJb3List->mUnk_18[6], &xPosition, (u32 *) &yPosition);
         gJb3List->mUnk_18[6]->mUnk_00 =
-            ((x & 0x1ff) << 16) | ((gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | ((b + (6 - a) * 0x1d) & 0xff));
+            ((xPosition & 0x1ff) << 16) |
+            ((gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
         gJb3List->mUnk_18[6]->mUnk_00 = (gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | 0x1000000;
     }
@@ -828,93 +831,93 @@ void RefreshJb3ListRowPositions(void) {
 }
 
 u32 GetJb3ListHitId(void) {
-    Rect a;
-    Rect *b;
-    s32 c;
-    s32 d;
-    s32 e;
-    Rect *f;
+    Rect cellRect;
+    Rect *cellRectPointer;
+    s32 firstEntryIndex;
+    s32 rowIndex;
+    s32 searchEntryIndex;
+    Rect *fixedRect;
     if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
         return 0xe;
     }
-    c = FX_DivS32(gJb3ListScrollY, 0x1d);
-    b = &a;
-    a = gJb3ListCellRect;
-    for (d = 0; d < 4; d++, c++, a.mUnk_02 += 0x1d) {
-        if (c != 2 && c != 6) {
-            if (IsTouchPressedInOriginSizeRect(b) != 0) {
-                return gJb3ListIdByEntryIndex[c];
+    firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
+    cellRectPointer = &cellRect;
+    cellRect = gJb3ListCellRect;
+    for (rowIndex = 0; rowIndex < 4; rowIndex++, firstEntryIndex++, cellRect.mUnk_02 += 0x1d) {
+        if (firstEntryIndex != 2 && firstEntryIndex != 6) {
+            if (IsTouchPressedInOriginSizeRect(cellRectPointer) != 0) {
+                return gJb3ListIdByEntryIndex[firstEntryIndex];
             }
         }
     }
-    e = FX_DivS32(gJb3ListScrollY, 0x1d);
-    for (d = 0; d < 4; d++, e++) {
-        if (e == 2) {
-            a = data_ov003_021d644c;
-            d = d * 0x1d;
-            a.mUnk_02 = a.mUnk_02 + d;
-            if (IsTouchPressedInOriginSizeRect(&a) != 0) {
+    searchEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
+    for (rowIndex = 0; rowIndex < 4; rowIndex++, searchEntryIndex++) {
+        if (searchEntryIndex == 2) {
+            cellRect = gJb3ListRightButtonRect;
+            rowIndex = rowIndex * 0x1d;
+            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 2;
             }
-            a = data_ov003_021d6444;
-            a.mUnk_02 = a.mUnk_02 + d;
-            if (IsTouchPressedInOriginSizeRect(&a) != 0) {
+            cellRect = gJb3ListLeftButtonRect;
+            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 3;
             }
             break;
         }
     }
-    e = FX_DivS32(gJb3ListScrollY, 0x1d);
-    for (d = 0; d < 4; d++, e++) {
-        if (e == 6) {
-            a = data_ov003_021d644c;
-            d = d * 0x1d;
-            a.mUnk_02 = a.mUnk_02 + d;
-            if (IsTouchPressedInOriginSizeRect(&a) != 0) {
+    searchEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
+    for (rowIndex = 0; rowIndex < 4; rowIndex++, searchEntryIndex++) {
+        if (searchEntryIndex == 6) {
+            cellRect = gJb3ListRightButtonRect;
+            rowIndex = rowIndex * 0x1d;
+            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 7;
             }
-            a = data_ov003_021d6444;
-            a.mUnk_02 = a.mUnk_02 + d;
-            if (IsTouchPressedInOriginSizeRect(&a) != 0) {
+            cellRect = gJb3ListLeftButtonRect;
+            cellRect.mUnk_02 = cellRect.mUnk_02 + rowIndex;
+            if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
                 return 8;
             }
             break;
         }
     }
-    d = 0;
-    f = gJb3ListFixedRects;
-    for (; d < 3; d++) {
-        if (IsTouchPressedInRect(f) != 0) {
-            return d + 0xb;
+    rowIndex = 0;
+    fixedRect = gJb3ListFixedRects;
+    for (; rowIndex < 3; rowIndex++) {
+        if (IsTouchPressedInRect(fixedRect) != 0) {
+            return rowIndex + 0xb;
         }
-        f++;
+        fixedRect++;
     }
     return 0xe;
 }
 
-int GetJb3ListRowOfEntryIndex(int a) {
-    int v1;
-    int v2;
-    v1 = FX_DivS32(gJb3ListScrollY, 0x1d);
-    v2 = 0;
+int GetJb3ListRowOfEntryIndex(int entryIndex) {
+    int firstEntryIndex;
+    int row;
+    firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
+    row = 0;
     do {
-        if (v1 == a) {
-            return v2;
+        if (firstEntryIndex == entryIndex) {
+            return row;
         }
-        v2 = v2 + 1;
-        v1 = v1 + 1;
-    } while (v2 < 4);
+        row = row + 1;
+        firstEntryIndex = firstEntryIndex + 1;
+    } while (row < 4);
     return -1;
 }
 
-int GetJb3ListEntryIndexOfRow(int a) {
-    int v1;
-    v1 = FX_DivS32(gJb3ListScrollY, 0x1d);
-    return v1 + a;
+int GetJb3ListEntryIndexOfRow(int row) {
+    int firstEntryIndex;
+    firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
+    return firstEntryIndex + row;
 }
 
-void AdvanceJb3ListScrollYDecrease(u32 b) {
-    s32 a;
+void AdvanceJb3ListScrollYDecrease(u32 taskEntry) {
+    s32 scrollRemainder;
     func_ov003_021cce38();
     ReleaseSelectionObjectSlots();
     if (gJb3ListScrollY > 6) {
@@ -922,185 +925,185 @@ void AdvanceJb3ListScrollYDecrease(u32 b) {
     } else {
         gJb3ListScrollY = 0;
     }
-    a = FX_ModS32(gJb3ListScrollY, 0x1d);
-    if (a == 0x17) {
+    scrollRemainder = FX_ModS32(gJb3ListScrollY, 0x1d);
+    if (scrollRemainder == 0x17) {
         RefreshJb3List();
         return;
     }
-    if (a > 0x17) {
-        gJb3ListScrollY = gJb3ListScrollY + (0x1d - a);
-        a = 0;
+    if (scrollRemainder > 0x17) {
+        gJb3ListScrollY = gJb3ListScrollY + (0x1d - scrollRemainder);
+        scrollRemainder = 0;
     }
     RefreshJb3ListRowPositions();
-    if (a == 0) {
+    if (scrollRemainder == 0) {
         func_ov003_021cce58(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
         func_ov003_021cce48();
         SetJb3ListSelectedIdFromRow();
         gJb3List->mScrollTask = 0;
-        RequestTaskRemoval(0, b);
+        RequestTaskRemoval(0, taskEntry);
     }
 }
 
-void AdvanceJb3ListScrollYIncrease(u32 b) {
-    s32 a;
+void AdvanceJb3ListScrollYIncrease(u32 taskEntry) {
+    s32 scrollRemainder;
     func_ov003_021cce38();
     ReleaseSelectionObjectSlots();
     gJb3ListScrollY = gJb3ListScrollY + 6;
-    a = FX_ModS32(gJb3ListScrollY, 0x1d);
-    if (a >= 6) {
+    scrollRemainder = FX_ModS32(gJb3ListScrollY, 0x1d);
+    if (scrollRemainder >= 6) {
         RefreshJb3ListRowPositions();
         return;
     }
-    gJb3ListScrollY = gJb3ListScrollY - a;
+    gJb3ListScrollY = gJb3ListScrollY - scrollRemainder;
     RefreshJb3List();
     func_ov003_021cce58(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
     func_ov003_021cce48();
     SetJb3ListSelectedIdFromRow();
     gJb3List->mScrollTask = 0;
-    RequestTaskRemoval(0, b);
+    RequestTaskRemoval(0, taskEntry);
 }
 
 void WriteJb3ListBgOffset(void) {
-    u32 a;
-    s32 b;
+    u32 firstEntryIndex;
+    s32 bgOffsetY;
     if (gJb3List->mBgOffsetPending != 0) {
-        a = FX_DivS32(gJb3ListScrollY, 0x1d);
-        b = FX_ModS32(gJb3ListScrollY, 0x1d) - 0x33;
-        reg_G2_BG0OFS = (b << 16) & 0x1ff0000;
-        reg_G2_BG2OFS = ((b + data_ov003_021d6460[a]) << 16) & 0x1ff0000;
+        firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
+        bgOffsetY = FX_ModS32(gJb3ListScrollY, 0x1d) - 0x33;
+        reg_G2_BG0OFS = (bgOffsetY << 16) & 0x1ff0000;
+        reg_G2_BG2OFS = ((bgOffsetY + gJb3ListBg2OffsetByEntry[firstEntryIndex]) << 16) & 0x1ff0000;
         gJb3List->mBgOffsetPending = 0;
     }
 }
 
-void func_ov003_021c81b8(void) {
-    Unk021d73d0 a;
-    Rect b;
-    s32 d;
-    a = data_ov003_021d73d0;
-    d = a.mUnk_00[gJb3ListSelectedId];
-    if (d >= 3) {
-        PlaceSelectionPair(3, data_ov003_021d64b4[d].mUnk_00, data_ov003_021d64b4[d].mUnk_04,
-                           data_ov003_021d64b4[d].mUnk_02);
+void PlaceJb3ListSelectionPair(void) {
+    Jb3ListSelectionRectIndices selectionRectIndices;
+    Rect selectionRect;
+    s32 rectIndex;
+    selectionRectIndices = gJb3ListSelectionRectIndices;
+    rectIndex = selectionRectIndices.mUnk_00[gJb3ListSelectedId];
+    if (rectIndex >= 3) {
+        PlaceSelectionPair(3, gJb3ListSelectionRects[rectIndex].mUnk_00, gJb3ListSelectionRects[rectIndex].mUnk_04,
+                           gJb3ListSelectionRects[rectIndex].mUnk_02);
         return;
     }
-    b = data_ov003_021d64b4[d];
-    b.mUnk_02 = b.mUnk_02 + gJb3ListSelectedRow * 0x1d;
-    PlaceSelectionPair(1, b.mUnk_00, b.mUnk_04, b.mUnk_02);
+    selectionRect = gJb3ListSelectionRects[rectIndex];
+    selectionRect.mUnk_02 = selectionRect.mUnk_02 + gJb3ListSelectedRow * 0x1d;
+    PlaceSelectionPair(1, selectionRect.mUnk_00, selectionRect.mUnk_04, selectionRect.mUnk_02);
 }
 
 void SetJb3ListSelectedIdFromRow(void) {
-    Unk021cd5e0_400 *a;
-    s32 b;
+    Unk021cd5e0_400 *record;
+    s32 entryIndex;
     if ((u8) (gJb3ListSelectedId + 0xf5) <= 2) {
-        func_ov003_021c81b8();
+        PlaceJb3ListSelectionPair();
         return;
     }
-    a = func_ov003_021cdb6c();
-    b = gJb3ListSelectedRow + FX_DivS32(gJb3ListScrollY, 0x1d);
-    switch (b) {
+    record = func_ov003_021cdb6c();
+    entryIndex = gJb3ListSelectedRow + FX_DivS32(gJb3ListScrollY, 0x1d);
+    switch (entryIndex) {
         case 2:
-            if (a->mUnk_f5 != 0) {
+            if (record->mUnk_f5 != 0) {
                 gJb3ListSelectedId = 2;
             } else {
                 gJb3ListSelectedId = 3;
             }
             break;
         case 6:
-            if (a->mUnk_f6 != 0) {
+            if (record->mUnk_f6 != 0) {
                 gJb3ListSelectedId = 7;
             } else {
                 gJb3ListSelectedId = 8;
             }
             break;
         default:
-            gJb3ListSelectedId = gJb3ListIdByEntryIndex[b];
+            gJb3ListSelectedId = gJb3ListIdByEntryIndex[entryIndex];
             break;
     }
-    func_ov003_021c81b8();
+    PlaceJb3ListSelectionPair();
 }
 
-void SetJb3ListSelectedId(u32 a) {
-    gJb3ListSelectedId = a;
-    gJb3ListSelectedRow = GetJb3ListRowOfEntryIndex(gJb3ListEntryIndexById[a]);
-    func_ov003_021c81b8();
+void SetJb3ListSelectedId(u32 listId) {
+    gJb3ListSelectedId = listId;
+    gJb3ListSelectedRow = GetJb3ListRowOfEntryIndex(gJb3ListEntryIndexById[listId]);
+    PlaceJb3ListSelectionPair();
 }
 
-void MoveJb3ListSelection(s32 d) {
-    Unk021cd5e0_400 *a;
-    s32 b;
-    s32 c;
-    a = func_ov003_021cdb6c();
-    b = 0;
-    c = gJb3ListSelectedId;
-    if (c == 8 && a->mUnk_f5 == 0) {
-        if (d == 0) {
+void MoveJb3ListSelection(s32 direction) {
+    Unk021cd5e0_400 *record;
+    s32 moveResult;
+    s32 selectedId;
+    record = func_ov003_021cdb6c();
+    moveResult = 0;
+    selectedId = gJb3ListSelectedId;
+    if (selectedId == 8 && record->mUnk_f5 == 0) {
+        if (direction == 0) {
             return;
         }
-        if (d == 2) {
+        if (direction == 2) {
             return;
         }
     }
-    switch (c) {
+    switch (selectedId) {
         case 0:
-            if (d == 1) {
+            if (direction == 1) {
                 gJb3ListSelectedId = 0xb;
-            } else if (d == 3) {
+            } else if (direction == 3) {
                 gJb3ListSelectedRow = gJb3ListSelectedRow + 1;
             } else {
-                b = 2;
+                moveResult = 2;
             }
             break;
         case 0xa:
-            if (d == 1) {
+            if (direction == 1) {
                 gJb3ListSelectedRow = gJb3ListSelectedRow - 1;
-            } else if (d == 3) {
+            } else if (direction == 3) {
                 gJb3ListSelectedId = gJb3List->mReturnId;
             } else {
-                b = 2;
+                moveResult = 2;
             }
             break;
         case 0xb:
-            if (d == 1) {
+            if (direction == 1) {
                 if (gJb3List->mUnk_47 != 0) {
                     return;
                 }
                 StartSoundSeq(9);
                 gJb3List->mUnk_47 = 1;
                 return;
-            } else if (d == 3) {
+            } else if (direction == 3) {
                 gJb3ListSelectedId = 0;
                 gJb3ListSelectedRow = 0;
                 gJb3ListScrollY = 0;
                 RefreshJb3List();
                 func_ov003_021cce58(0);
             } else {
-                b = 2;
+                moveResult = 2;
             }
             break;
         case 0xc:
         case 0xd:
-            gJb3List->mReturnId = c;
-            if (d == 1) {
+            gJb3List->mReturnId = selectedId;
+            if (direction == 1) {
                 gJb3ListSelectedId = 0xa;
                 gJb3ListSelectedRow = 3;
                 gJb3ListScrollY = 0x91;
                 RefreshJb3List();
                 func_ov003_021cce58(0x37);
-            } else if (d == 3) {
+            } else if (direction == 3) {
                 if (gJb3List->mUnk_47 != 0) {
                     return;
                 }
                 StartSoundSeq(9);
                 gJb3List->mUnk_47 = 1;
                 return;
-            } else if (c == 0xc) {
+            } else if (selectedId == 0xc) {
                 gJb3ListSelectedId = 0xd;
             } else {
                 gJb3ListSelectedId = 0xc;
             }
             break;
         default:
-            if (d == 1) {
+            if (direction == 1) {
                 if (gJb3ListSelectedRow != 0) {
                     gJb3ListSelectedRow = gJb3ListSelectedRow - 1;
                     break;
@@ -1108,7 +1111,7 @@ void MoveJb3ListSelection(s32 d) {
                 StartSoundSeq(0x13);
                 gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYDecrease, NULL, 0x78);
                 return;
-            } else if (d == 3) {
+            } else if (direction == 3) {
                 if (gJb3ListSelectedRow < 3) {
                     gJb3ListSelectedRow = gJb3ListSelectedRow + 1;
                     break;
@@ -1117,43 +1120,43 @@ void MoveJb3ListSelection(s32 d) {
                 gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYIncrease, NULL, 0x78);
                 return;
             } else {
-                b = 2;
-                if (c == 2) {
+                moveResult = 2;
+                if (selectedId == 2) {
                     gJb3ListSelectedId = 3;
-                } else if (c == 3) {
-                    gJb3ListSelectedId = b;
-                } else if (c == 7) {
+                } else if (selectedId == 3) {
+                    gJb3ListSelectedId = moveResult;
+                } else if (selectedId == 7) {
                     gJb3ListSelectedId = 8;
-                } else if (c == 8) {
+                } else if (selectedId == 8) {
                     gJb3ListSelectedId = 7;
                 } else {
                     break;
                 }
                 StartSoundSeq(8);
-                func_ov003_021c81b8();
+                PlaceJb3ListSelectionPair();
             }
             break;
     }
-    if (b != 2) {
+    if (moveResult != 2) {
         StartSoundSeq(8);
-        if (b == 0) {
+        if (moveResult == 0) {
             SetJb3ListSelectedIdFromRow();
         }
     }
 }
 
-void func_ov003_021c7ec4(void) {
-    u8 a;
-    a = data_ov003_021d6430[gJb3ListSelectedId - 0xb];
-    func_ov003_021cc948(gJb3List->mYbBgStep2NclFiles[1], a, a);
+void RequestJb3ListPaletteRowCopy(void) {
+    u8 paletteRow;
+    paletteRow = gJb3ListPaletteRows[gJb3ListSelectedId - 0xb];
+    func_ov003_021cc948(gJb3List->mYbBgStep2NclFiles[1], paletteRow, paletteRow);
 }
 
 void AdvanceJb3ListIdTimers(void) {
-    s32 a;
-    for (a = 0; a < 4; a++) {
-        if (gJb3List->mIdTimer[a] != 0) {
-            gJb3List->mIdTimer[a] = gJb3List->mIdTimer[a] - 1;
-            if (gJb3List->mIdTimer[a] == 0) {
+    s32 timerIndex;
+    for (timerIndex = 0; timerIndex < 4; timerIndex++) {
+        if (gJb3List->mIdTimer[timerIndex] != 0) {
+            gJb3List->mIdTimer[timerIndex] = gJb3List->mIdTimer[timerIndex] - 1;
+            if (gJb3List->mIdTimer[timerIndex] == 0) {
                 RefreshJb3List();
             }
         }
@@ -1161,75 +1164,76 @@ void AdvanceJb3ListIdTimers(void) {
 }
 
 void StartJb3ListIdTimer(void) {
-    u8 a[4];
-    s32 c;
-    u8 *b;
-    u8 d;
-    b = a;
-    a[0] = gJb3ListTimerIds[0];
-    a[1] = gJb3ListTimerIds[1];
-    a[2] = gJb3ListTimerIds[2];
-    a[3] = gJb3ListTimerIds[3];
-    c = 0;
-    d = gJb3ListSelectedId;
-    for (; c < 4; c++) {
-        if (d == *b) {
-            gJb3List->mIdTimer[c] = 0x14;
-            if ((c & 1) != 0) {
-                gJb3List->mIdTimer[c - 1] = 0;
+    u8 timerIds[4];
+    s32 timerIndex;
+    u8 *timerIdPointer;
+    u8 selectedId;
+    timerIdPointer = timerIds;
+    timerIds[0] = gJb3ListTimerIds[0];
+    timerIds[1] = gJb3ListTimerIds[1];
+    timerIds[2] = gJb3ListTimerIds[2];
+    timerIds[3] = gJb3ListTimerIds[3];
+    timerIndex = 0;
+    selectedId = gJb3ListSelectedId;
+    for (; timerIndex < 4; timerIndex++) {
+        if (selectedId == *timerIdPointer) {
+            gJb3List->mIdTimer[timerIndex] = 0x14;
+            if ((timerIndex & 1) != 0) {
+                gJb3List->mIdTimer[timerIndex - 1] = 0;
             } else {
-                gJb3List->mIdTimer[c + 1] = 0;
+                gJb3List->mIdTimer[timerIndex + 1] = 0;
             }
             return;
         }
-        b++;
+        timerIdPointer++;
     }
 }
 
-u32 func_ov003_021c7d8c(void) {
-    Unk021cd5e0_400 *a;
-    a = func_ov003_021cdb6c();
-    if (a->mUnk_00.mUnk_40[0] == 0) {
+BOOL IsJb3ListRecordValid(void) {
+    Unk021cd5e0_400 *record;
+    record = func_ov003_021cdb6c();
+    if (record->mUnk_00.mUnk_40[0] == 0) {
         return 0;
     }
-    if (a->mUnk_f6 == 0) {
-        if (DWC_BACKUPlCheckAddress(a->mUnk_00.mUnk_c8) == 0 && DWC_BACKUPlCheckAddress(&a->mUnk_00.mUnk_c8[4]) == 0) {
+    if (record->mUnk_f6 == 0) {
+        if (DWC_BACKUPlCheckAddress(record->mUnk_00.mUnk_c8) == 0 &&
+            DWC_BACKUPlCheckAddress(&record->mUnk_00.mUnk_c8[4]) == 0) {
             return 0;
         }
     }
-    if (a->mUnk_f5 == 0) {
-        if (DWC_BACKUPlCheckAddress(a->mUnk_00.mUnk_c0) == 0) {
+    if (record->mUnk_f5 == 0) {
+        if (DWC_BACKUPlCheckAddress(record->mUnk_00.mUnk_c0) == 0) {
             return 0;
         }
-        if (DWC_BACKUPlCheckAddress(a->mUnk_00.mUnk_c4) == 0) {
+        if (DWC_BACKUPlCheckAddress(record->mUnk_00.mUnk_c4) == 0) {
             return 0;
         }
-        if (DWC_BACKUPlCheckIp(a->mUnk_00.mUnk_c0, a->mUnk_f0) == 0) {
+        if (DWC_BACKUPlCheckIp(record->mUnk_00.mUnk_c0, record->mUnk_f0) == 0) {
             return 0;
         }
     }
     return 1;
 }
 
-void func_ov003_021c7d58(void) {
-    int v1;
-    v1 = func_ov003_021cef80();
-    if (v1 == 0) {
+void UpdateJb3ListMessageResult(void) {
+    int messageAnswer;
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
         func_ov003_021cc900((u32) gJb3List->mYbBgStep2NclFiles[0]);
-        SetUpdateFunction(func_ov003_021c7d3c);
+        SetUpdateFunction(UpdateJb3ListMessageClose);
     }
 }
 
-void func_ov003_021c7d3c(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
+void UpdateJb3ListMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
         SetUpdateFunction(UpdateJb3List);
     }
 }
 
-void SetJb3ListMode(u8 a) {
-    gJb3ListMode = a;
+void SetJb3ListMode(u8 mode) {
+    gJb3ListMode = mode;
 }
