@@ -19,6 +19,10 @@ typedef struct PosCurve {
     /* 38 */ s32 mUnk_38;
 } PosCurve;
 
+static inline Vec3 *GetPosCurvePoint(PosCurve *posCurve, u16 pointIndex) {
+    return &posCurve->mPoints[pointIndex];
+}
+
 struct KartAi;
 
 extern void (*data_0217ae3c)(KartAiItemUse *a, struct KartAi *b);

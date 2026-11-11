@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0206bcb0.h"
@@ -58,6 +59,10 @@ typedef struct KartItems {
     /* 208 */ BOOL mTargetedByKouraR;
     /* 20c */ BOOL mUnk_20c;
 } KartItems;
+
+static inline KartItems *GetKartItems(u16 kartIndex) {
+    return &gKartItems[kartIndex];
+}
 
 // The object behind gCourseMap from its first byte: the halfword at 0x60
 // and the word at 0xb0.

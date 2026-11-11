@@ -389,7 +389,7 @@ void SetEntryCameraUpdateHold(s32 hold) {
     if (courseMapCameraIndex < 0) {
         return;
     }
-    courseMapCamera = &gCourseMap->mCameras[(u16) courseMapCameraIndex];
+    courseMapCamera = GetCourseMapCamera(courseMapCameraIndex);
     entryCamera->mCourseMapCamera = courseMapCamera;
     entryCamera->mFovBlend = 0;
     entryCamera->mHalfFovPairFirst = courseMapCamera->mHalfFovPairFirst;

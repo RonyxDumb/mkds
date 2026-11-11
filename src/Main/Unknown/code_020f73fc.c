@@ -82,7 +82,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             break;
         case 2:
             if (item->mFlags & 0x1000) {
-                RemoveItemInUseObject(&(gKartItems)[(u16) (item->mOwnerKartIndexAndFlags & ~0xff00)].mItemInUse, item);
+                RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~0xff00)->mItemInUse, item);
             }
             n = 0;
             if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +

@@ -362,12 +362,12 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     if (item->mRankTargetSkipped == 0) {
         if (gRaceProgress->mRaceDone != 0) {
             item->mRank = 1;
-            item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
+            item->mRankKartIndex = GetKartAtRank(item->mRank);
         } else {
-            item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
+            item->mRankKartIndex = GetKartAtRank(item->mRank);
             while (IsKartEnded(item->mRankKartIndex) != 0 && (u32) item->mRank < gRaceSetup->mKartCount) {
                 (item->mRank)++;
-                item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
+                item->mRankKartIndex = GetKartAtRank(item->mRank);
             }
         }
         if (item->mRankKartIndex ==
@@ -1163,7 +1163,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
         }
         gCollidedItemObjects[hitCount++] = item;
         if (item->mFlags & 0x1000) {
-            RemoveItemInUseObject(&gKartItems[(u16) (item->mOwnerKartIndexAndFlags & ~0xff00)].mItemInUse, item);
+            RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~0xff00)->mItemInUse, item);
         }
         kind = item->mKind;
         if (gItemKinds[kind].mEndsOnKartHit != 0) {

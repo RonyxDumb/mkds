@@ -69,7 +69,7 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
             GetGhostRecordTime(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], time);
             break;
         case 1:
-            GetGhostRecordTime(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead, time);
+            GetGhostRecordTime(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex), time);
             break;
         case 2:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
@@ -91,7 +91,7 @@ void GetGhostRecordSetName(u32 kind, void *name) {
             GetGhostRecordName(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], ghostName);
             break;
         case 1:
-            GetGhostRecordName(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead, ghostName);
+            GetGhostRecordName(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex), ghostName);
             break;
         case 2:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
@@ -119,8 +119,7 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
                 GetGhostRecordCharacterIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
         case 1:
-            characterIndex = GetGhostRecordCharacterIndex(
-                &gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead);
+            characterIndex = GetGhostRecordCharacterIndex(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex));
             break;
         case 2:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
@@ -145,8 +144,7 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
             kartIndex = GetGhostRecordKartIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
         case 1:
-            kartIndex =
-                GetGhostRecordKartIndex(&gGhostRecordSet->mSlotGhostRecords[(u8) gGhostRecordSet->mSlotIndex].mHead);
+            kartIndex = GetGhostRecordKartIndex(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex));
             break;
         case 2:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;

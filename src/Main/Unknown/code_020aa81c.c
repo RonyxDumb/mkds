@@ -1100,7 +1100,7 @@ void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
         charMapOffset = 0;
         firstCharRectIndex = rectIndex;
         do {
-            rect = &layout->mRects[(u32) rectIndex];
+            rect = GetKeyboardLayoutRect(layout, rectIndex);
             character = *OFFSET_PTR(u16, keyboardKeys->mCharMap, charMapOffset);
             if (rect->mWidth > 1 && rect->mHeight > 1) {
                 glyphIndex = NNS_G2dFontFindGlyphIndex(font, character);

@@ -167,7 +167,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
             listIndex = 0;
             for (; m < gCourseMap->mCameraCount; m++) {
                 if (nextIndex != -1) {
-                    courseMapCamera = &gCourseMap->mCameras[(u16) nextIndex];
+                    courseMapCamera = GetCourseMapCamera(nextIndex);
                     if (courseMapCamera == gEntryCamera->mCourseMapCamera) {
                         break;
                     }

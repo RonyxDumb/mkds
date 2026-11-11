@@ -22,7 +22,7 @@ void SubtractDroppedFromRank(u32 kartIndex) {
 
     participantKartMap = gParticipantKartMap;
     wiFiRaceSync = gWiFiRaceSync;
-    participantIndex = participantKartMap->mParticipantOfKart[(u8) kartIndex];
+    participantIndex = GetParticipantOfKart(kartIndex);
     rank = wiFiRaceSync->mEntries[participantIndex].mRank;
     if (participantIndex < 0) {
         return;

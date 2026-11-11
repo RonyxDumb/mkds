@@ -59,6 +59,8 @@ typedef struct KartEntry {
 #define MODE_VS 3
 // Mission run: the mission row and column are read only while the mode has this value (code_02045874.c:372-373).
 #define MODE_MISSION_RUN 4
+// WiFi race: the WiFi session and the synced ranks are read only in this mode.
+#define MODE_WIFI 5
 
 // Values of the mCourseId member of RaceSetup and of RaceSetupHeader, and of the course id stored in the race
 // Values of the mRaceKind member of RaceSetup and of RaceSetupHeader.
@@ -251,6 +253,14 @@ typedef struct RaceSetup {
 } RaceSetup;
 
 extern RaceSetup *gRaceSetup;
+
+static inline KartEntry *GetCurrentEntry(u16 entryIndex) {
+    return &gRaceSetup->mCurrentEntries[entryIndex];
+}
+
+static inline void SetListedCpuEntryIndex(u8 listedCpuSlot, s8 entryIndex) {
+    gRaceSetup->mListedCpuEntryIndices[listedCpuSlot] = entryIndex;
+}
 
 // Object behind gTouchMicInput; the members are the ones the code reads.
 typedef struct TouchMicInput {

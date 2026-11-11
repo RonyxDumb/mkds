@@ -314,7 +314,7 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
     RunMapObjectListCallbacks();
     StartThunderBlockTimer(0);
     RemoveHeldItemObjects(heldItem, 1);
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
     AddItemDataFrameOnly(6);
@@ -323,7 +323,7 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
 void StartItemStar(ItemInUse *itemInUse, HeldItem *heldItem) {
     StartKartStar(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
     AddItemDataFrameOnly(4);
@@ -557,7 +557,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         if (rankAhead < 1) {
             rankAhead = gRaceSetup->mKartCount;
         }
-        targetKartIndex = gRaceProgress->mKartAtRank[(u8) rankAhead - 1];
+        targetKartIndex = GetKartAtRank(rankAhead);
     }
     AdvanceLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0xd000, 0x29, targetKartIndex, 0);
     if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
@@ -909,7 +909,7 @@ void StartItemKinokoBoost(ItemInUse *itemInUse, HeldItem *heldItem) {
     StartKartKinokoBoost(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
     itemInUse->mKartItems->mKinokoBoostStarted = TRUE;
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
     AddItemDataFrameOnly(3);
@@ -1010,7 +1010,7 @@ void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *velocity, s32 timer) {
 // Fills a table of eighteen 0x1c-byte objects allocated here.
 void CreateItemInfos(void) {
     ItemInfo *infos;
-    s32 i;
+    s32 infoIndex;
 
     infos = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1f8);
     gItemInfos = infos;
@@ -1036,10 +1036,10 @@ void CreateItemInfos(void) {
         case MODE_BATTLE:
             infos[17].mEnabled = TRUE;
             break;
-        case 5:
-            for (i = 0; i < 0x12; i++) {
-                if (gItemInfos[(u32) i].mEnabled != FALSE && gItemInfos[(u32) i].mEnabledInMode5 == 0) {
-                    gItemInfos[i].mEnabled = FALSE;
+        case MODE_WIFI:
+            for (infoIndex = 0; infoIndex < 0x12; infoIndex++) {
+                if (GetItemInfo(infoIndex)->mEnabled != FALSE && GetItemInfo(infoIndex)->mEnabledInWiFi == 0) {
+                    gItemInfos[infoIndex].mEnabled = FALSE;
                 }
             }
             break;

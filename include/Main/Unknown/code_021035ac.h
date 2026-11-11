@@ -28,5 +28,9 @@ struct OrthoQuad {
     /* 30 */ u32 mPickedCornerIndex;
 };
 
+static inline s16 *GetOrthoQuadCorner(OrthoQuad *quad, u32 cornerIndex) {
+    return quad->mCorners[cornerIndex];
+}
+
 void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex);
 void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad);

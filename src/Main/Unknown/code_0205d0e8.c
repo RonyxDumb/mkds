@@ -335,7 +335,7 @@ s32 ComputeGrandPrixRecordValue(void) {
     entryIndex = raceSetup->mEntryIndex;
     score = cupRecords->mScore;
     entryKartIndex = (u8) entryIndex;
-    totalPoints = cupRecords->mKartResults[(u8) ((raceSetup->mCourseNumber - 1) % 4)][(u8) entryKartIndex].mTotalPoints;
+    totalPoints = GetKartCourseResult((raceSetup->mCourseNumber - 1) % 4, entryKartIndex)->mTotalPoints;
     if (score >= 1000) {
         scoreBucket = 0;
     } else if (score >= 700) {

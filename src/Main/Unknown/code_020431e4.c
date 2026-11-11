@@ -74,8 +74,8 @@ void ResetInputSlotsFromParticipants(void) {
 }
 
 void ResetInputSlotsFromRaceSetup(void) {
-    s32 i;
-    s32 k;
+    s32 slotIndex;
+    s32 resetIndex;
     u16 entryIndex;
     s32 inputSlotIndex;
     BOOL isNonCpu;
@@ -84,8 +84,8 @@ void ResetInputSlotsFromRaceSetup(void) {
     ConnectionWork *connectionWork;
     s32 playerKind;
 
-    for (i = 0; i < 10; i++) {
-        inputSlot = &gInputSlots[(u32) i];
+    for (slotIndex = 0; slotIndex < 10; slotIndex++) {
+        inputSlot = GetInputSlot(slotIndex);
         ResetInputSlot(inputSlot);
         SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
@@ -100,7 +100,7 @@ void ResetInputSlotsFromRaceSetup(void) {
     data_02175624->mUnk_08 = 0;
     data_02175624->mUnk_0c = FALSE;
     inputSlot = gInputSlots;
-    for (k = 0; k < 10; k++) {
+    for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(inputSlot);
         inputSlot->mRequestedBits = 0;
         SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
@@ -126,7 +126,7 @@ void ResetInputSlotsFromRaceSetup(void) {
                 }
             } else if (playerKind == 2) {
                 gInputSlots[inputSlotIndex].mSourceKind = 1;
-            } else if (raceSetup->mMode == 5) {
+            } else if (raceSetup->mMode == MODE_WIFI) {
                 gInputSlots[inputSlotIndex].mSourceKind = 7;
             } else {
                 gInputSlots[inputSlotIndex].mSourceKind = 4;

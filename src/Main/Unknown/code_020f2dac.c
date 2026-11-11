@@ -29,7 +29,7 @@
 // Runs the countdown that starts the held objects, then counts the use timer down and, when it ends, takes one object
 // off the held item.
 void UpdateHeldItem(HeldItem *rec) {
-    s32 i;
+    s32 objectIndex;
     u32 objectKind;
     Unk020f40dc_Kind kind;
     s32 reservedCount;
@@ -48,7 +48,7 @@ void UpdateHeldItem(HeldItem *rec) {
     if (rec->mTimer != 0) {
         return;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         if (gRaceSetup->mEntryIndex == rec->mKartItems->mKartIndex) {
             kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
             AddItemDataFrameOnly(gItemInfos[kind].mObjectKind);
@@ -57,7 +57,7 @@ void UpdateHeldItem(HeldItem *rec) {
     rec->mObjectCount -= 1;
     objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
     reservedCount = gItemPools[objectKind].mReservedCount;
-    gItemPools[(s32) objectKind].mReservedCount = reservedCount - 1;
+    GetItemPool(objectKind)->mReservedCount = reservedCount - 1;
     if (rec->mObjectCount == 0) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
@@ -65,37 +65,37 @@ void UpdateHeldItem(HeldItem *rec) {
         rec->mUsesTimer = 0;
         rec->mTimer = 0;
         rec->mUseTimerLimit = 0;
-        for (i = 0; i < 3; i++) {
-            rec->mObjects[i] = NULL;
+        for (objectIndex = 0; objectIndex < 3; objectIndex++) {
+            rec->mObjects[objectIndex] = NULL;
         }
     }
 }
 
 // Makes the item held and reserves its objects in the item's pool.
 void SetHeldItem(HeldItem *rec, s32 kind) {
-    u32 k;
+    u32 objectCountOrKind;
     s32 reservedCount;
 
-    k = gItemInfos[kind].mObjectCount;
+    objectCountOrKind = gItemInfos[kind].mObjectCount;
     rec->mItemInfoIndex = kind;
-    rec->mObjectCount = k;
+    rec->mObjectCount = objectCountOrKind;
     rec->mObjectStartFramesLeft = 0;
     SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
     rec->mUsesTimer = gItemInfos[kind].mUsesTimer;
     rec->mTimer = 0;
     rec->mUseTimerLimit = 0;
-    k = gItemInfos[kind].mObjectKind;
-    reservedCount = gItemPools[k].mReservedCount;
-    gItemPools[(s32) k].mReservedCount = reservedCount + rec->mObjectCount;
+    objectCountOrKind = gItemInfos[kind].mObjectKind;
+    reservedCount = gItemPools[objectCountOrKind].mReservedCount;
+    GetItemPool(objectCountOrKind)->mReservedCount = reservedCount + rec->mObjectCount;
 }
 
 void RemoveHeldItemObjects(HeldItem *rec, s32 amount) {
-    s32 i;
+    s32 objectIndex;
     int objectKind;
 
     rec->mObjectCount -= amount;
     objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
-    gItemPools[(s32) objectKind].mReservedCount = gItemPools[objectKind].mReservedCount - amount;
+    GetItemPool(objectKind)->mReservedCount = gItemPools[objectKind].mReservedCount - amount;
     if (rec->mObjectCount == 0) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
@@ -103,8 +103,8 @@ void RemoveHeldItemObjects(HeldItem *rec, s32 amount) {
         rec->mUsesTimer = 0;
         rec->mTimer = 0;
         rec->mUseTimerLimit = 0;
-        for (i = 0; i < 3; i++) {
-            rec->mObjects[i] = NULL;
+        for (objectIndex = 0; objectIndex < 3; objectIndex++) {
+            rec->mObjects[objectIndex] = NULL;
         }
     }
 }
@@ -126,29 +126,29 @@ void ResetHeldItem(HeldItem *rec) {
 // Gives the held objects back to the pool, or the reserved count unless keep is set, then empties the record.
 void ReleaseHeldItem(HeldItem *rec, s32 keep) {
     s32 reservedCount;
-    s32 i;
+    s32 objectIndex;
     s32 objectCount;
-    s32 j;
-    s32 m;
+    s32 releaseIndex;
+    s32 startedObjectCount;
     Unk020f40dc_Kind kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
     u32 poolIndex = gItemInfos[kind].mObjectKind;
 
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceSetup->mMode == MODE_WIFI) {
         objectCount = rec->mObjectCount;
         if (rec->mIsPeerEntry == FALSE) {
-            for (i = 0; i < objectCount; i++) {
+            for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
                 AddItemDataNoItemId(poolIndex);
             }
         }
     }
     if (rec->mObjectStartFramesLeft != 0) {
-        m = rec->mObjectCount;
-        for (j = 0; j < m; j++) {
-            ReleaseItemPoolObject(&gItemPools[rec->mObjects[j]->mKind], rec->mObjects[j]);
+        startedObjectCount = rec->mObjectCount;
+        for (releaseIndex = 0; releaseIndex < startedObjectCount; releaseIndex++) {
+            ReleaseItemPoolObject(&gItemPools[rec->mObjects[releaseIndex]->mKind], rec->mObjects[releaseIndex]);
         }
     } else if (keep == 0) {
         reservedCount = gItemPools[poolIndex].mReservedCount;
-        gItemPools[(s32) poolIndex].mReservedCount = reservedCount - rec->mObjectCount;
+        GetItemPool(poolIndex)->mReservedCount = reservedCount - rec->mObjectCount;
     }
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
@@ -156,8 +156,8 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
     rec->mUsesTimer = 0;
     rec->mTimer = 0;
     rec->mUseTimerLimit = 0;
-    for (i = 0; i < 3; i++) {
-        rec->mObjects[i] = NULL;
+    for (objectIndex = 0; objectIndex < 3; objectIndex++) {
+        rec->mObjects[objectIndex] = NULL;
     }
 }
 
@@ -284,7 +284,7 @@ void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count) {
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount) {
     int objectKind = gItemInfos[itemInfoIndex].mObjectKind;
 
-    gItemPools[(s32) objectKind].mReservedCount = gItemPools[objectKind].mReservedCount - amount;
+    GetItemPool(objectKind)->mReservedCount = gItemPools[objectKind].mReservedCount - amount;
 }
 
 s32 GetItemPointLinkByIndex(s32 idx) {

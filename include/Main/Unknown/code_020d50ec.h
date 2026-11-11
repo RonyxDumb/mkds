@@ -21,6 +21,10 @@ typedef struct CollisionSlot {
     /* 18 */ void *mObject;
 } CollisionSlot;
 
+static inline CollisionSlot *GetCollisionSlot(s16 slotId) {
+    return &gCollisionSlots[slotId];
+}
+
 // Four-byte element of the tables behind gCollisionSlotHighEnds and gCollisionSlotLowEnds.
 typedef struct CollisionSlotEnd {
     /* 00 */ u32 mOtherEndIndex : 8;

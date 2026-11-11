@@ -8,7 +8,7 @@ typedef struct Unk020b6e00 {
     /* 04 */ u16 mUnk_04;
 } Unk020b6e00;
 
-s32 LookupRaceSNcerIndex(s32 kartIndex, s32 b);
+s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem);
 void RenderKartEntryNames(void);
 void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *outPaletteIndex);
 void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars);

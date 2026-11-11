@@ -1529,6 +1529,10 @@ typedef struct KartNameTags {
 } KartNameTags;
 
 extern KartNameTags *gKartNameTags;
+
+static inline void SetKartNameTagSortedDistanceSquared(u16 sortedIndex, u32 distanceSquared) {
+    gKartNameTags->mSortedDistanceSquared[sortedIndex] = distanceSquared;
+}
 extern const char *gKartModelPathPrefix;
 extern char gKartModelPathBuffer[];
 
@@ -1594,6 +1598,10 @@ typedef struct ParticipantKartMap {
 } ParticipantKartMap;
 
 extern ParticipantKartMap *gParticipantKartMap;
+
+static inline s8 GetParticipantOfKart(u8 kartIndex) {
+    return gParticipantKartMap->mParticipantOfKart[kartIndex];
+}
 // 0xa-byte elements of the rows (eight each) of the table at member 0 of CupRecords.
 typedef struct KartCourseResult {
     /* 00 */ u16 mTotalPoints;
@@ -1636,6 +1644,10 @@ typedef struct CupRecords {
 } CupRecords;
 
 extern CupRecords *gCupRecords;
+
+static inline KartCourseResult *GetKartCourseResult(u8 course, u8 kartIndex) {
+    return &gCupRecords->mKartResults[course][kartIndex];
+}
 extern struct Kart *gKarts;
 extern NNSFndList gResFileEntries;
 // The event counters of the selected entry's Kart, allocated by InitKarts.

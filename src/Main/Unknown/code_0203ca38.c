@@ -42,23 +42,24 @@ void FinishRaceProgress(void) {
     switch (mode) {
         case MODE_GRAND_PRIX:
         case MODE_VS:
-        case 5: {
+        case MODE_WIFI: {
             for (kartIndex = 0; kartIndex < raceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-                u32 t;
+                u32 rankValue;
                 u8 rank;
                 u32 rankPoints = 0;
-                if (raceSetup->mMode == 5) {
-                    t = gWiFiRaceSync->mEntries[gParticipantKartMap->mParticipantOfKart[kartIndex & 0xff]].mRank;
+                if (raceSetup->mMode == MODE_WIFI) {
+                    rankValue =
+                        gWiFiRaceSync->mEntries[gParticipantKartMap->mParticipantOfKart[kartIndex & 0xff]].mRank;
                 } else {
-                    t = gRaceProgress->mKarts[kartIndex].mRank;
+                    rankValue = gRaceProgress->mKarts[kartIndex].mRank;
                 }
-                rank = t;
+                rank = rankValue;
                 if (gRaceProgress->mKarts[kartIndex].mStatus != RACE_PROGRESS_KART_STATUS_REMOVED) {
                     rankPoints = LookupRankPoints(rank);
                 }
                 SetKartCourseResult(kartIndex, rank, rankPoints);
                 SetKartCourseFinishTime(kartIndex, &gRaceProgress->mKarts[kartIndex].mLapTimes[5]);
-                if (gRaceSetup->mMode == 5) {
+                if (gRaceSetup->mMode == MODE_WIFI) {
                     if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {
                         ClearKartCourseTotalPoints(kartIndex);
                     }
@@ -73,7 +74,7 @@ void FinishRaceProgress(void) {
             break;
         }
         case MODE_BATTLE: {
-            s32 e;
+            s32 isOnWinningTeam;
             if (usesTeams != FALSE) {
                 kartIndex = 0;
                 if (kartIndex < raceSetup->mKartCount) {
@@ -92,26 +93,28 @@ void FinishRaceProgress(void) {
                 }
             }
             for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-                gRaceProgress->mKarts[kartIndex].mFlags |= RACE_PROGRESS_KART_FLAG_MODE_2_END;
+                gRaceProgress->mKarts[kartIndex].mFlags |= RACE_PROGRESS_KART_FLAG_BATTLE_END;
                 if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                     if (usesTeams != FALSE) {
-                        e = winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
+                        isOnWinningTeam =
+                            winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
-                        e = 1;
+                        isOnWinningTeam = 1;
                     }
                     SetBattleKartCourseResult(kartIndex, 1);
                 } else {
                     if (usesTeams != FALSE) {
-                        e = winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
+                        isOnWinningTeam =
+                            winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
-                        e = 0;
+                        isOnWinningTeam = 0;
                     }
                     SetBattleKartCourseResult(kartIndex, 0);
                     if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_RACING) {
                         gRaceProgress->mKarts[kartIndex].mStatus = RACE_PROGRESS_KART_STATUS_BATTLE_LOSER;
                     }
                 }
-                FinishKartAtBattleEnd(GetKart(kartIndex), e);
+                FinishKartAtBattleEnd(GetKart(kartIndex), isOnWinningTeam);
             }
             StartRaceEndSeq(0);
             break;
@@ -134,7 +137,7 @@ void UpdateBattleKartStatuses(void) {
                 } else {
                     kart->mStatus = RACE_PROGRESS_KART_STATUS_BATTLE_LOSER;
                 }
-                kart->mFlags |= RACE_PROGRESS_KART_FLAG_MODE_2_END;
+                kart->mFlags |= RACE_PROGRESS_KART_FLAG_BATTLE_END;
             }
         }
         return;
@@ -148,7 +151,7 @@ void UpdateBattleKartStatuses(void) {
                 } else {
                     kart->mStatus = RACE_PROGRESS_KART_STATUS_BATTLE_LOSER;
                 }
-                kart->mFlags |= RACE_PROGRESS_KART_FLAG_MODE_2_END;
+                kart->mFlags |= RACE_PROGRESS_KART_FLAG_BATTLE_END;
             }
         }
     }
@@ -162,7 +165,7 @@ void UpdateBattleKartStatuses(void) {
             case MODE_MISSION_RUN:
                 FinishRemainingMissionRunKarts();
                 break;
-            case 5:
+            case MODE_WIFI:
                 FinishRemainingWiFiRaceKarts();
                 break;
             default:
@@ -294,11 +297,11 @@ void FinishRaceProgressKartWithEndKind4(u16 kartIndex) {
 }
 
 void UpdateRaceProgress(void) {
-    u32 i;
+    u32 kartIndex;
     UpdateRaceClock();
-    if (gRaceSetup->mMode == 5) {
-        for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
-            RaceProgressKart *kart = &gRaceProgress->mKarts[i];
+    if (gRaceSetup->mMode == MODE_WIFI) {
+        for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
+            RaceProgressKart *kart = &gRaceProgress->mKarts[kartIndex];
             if (kart->mFinishRequest != 0) {
                 FinishRaceProgressKart(kart, kart->mFinishRequest == 1 ? 1 : 0);
                 if (IsRaceEndConditionMet() != 0) {
@@ -311,7 +314,7 @@ void UpdateRaceProgress(void) {
                         case MODE_MISSION_RUN:
                             FinishRemainingMissionRunKarts();
                             break;
-                        case 5:
+                        case MODE_WIFI:
                             FinishRemainingWiFiRaceKarts();
                             break;
                         default:
@@ -342,14 +345,14 @@ void UpdateRaceProgress(void) {
         gRaceProgress->mEntryRaceEnded = t;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
+        for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
             u16 *q;
-            u8 standingRank = func_0203ca38_inline(i);
-            q = &gRaceProgress->mKarts[i].mUnk_3c;
+            u8 standingRank = func_0203ca38_inline(kartIndex);
+            q = &gRaceProgress->mKarts[kartIndex].mUnk_3c;
             *q = (*q & ~0xf) | (standingRank & 0xf);
         }
-        for (i = 0; i < 8; i = (u16) (i + 1)) {
-            gRaceProgress->mKartAtRank[i] = -1;
+        for (kartIndex = 0; kartIndex < 8; kartIndex = (u16) (kartIndex + 1)) {
+            gRaceProgress->mKartAtRank[kartIndex] = -1;
         }
         UpdateBattleKartStatuses();
         if (ShouldFinishBattle() != 0) {

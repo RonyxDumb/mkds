@@ -511,7 +511,7 @@ void ProcessItemDataMessage(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex
     if (packet[1] == 0xff) {
         return;
     }
-    SetActiveItem(&gKartItems[(u16) kartIndex], 0x10);
+    SetActiveItem(GetKartItems(kartIndex), 0x10);
 }
 
 void DelayItemDataWithFrameStamp(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {

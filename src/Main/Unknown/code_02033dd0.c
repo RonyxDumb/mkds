@@ -50,74 +50,74 @@ void WriteGhostGetScanRegisters(void) {
 }
 
 void AssignResultsBattleTeamOrder(void) {
-    ResultsBattle *o;
+    ResultsBattle *resultsBattle;
     s32 nextOrderIndex;
     s32 team1Count;
-    s32 i;
+    s32 entryIndex;
 
     nextOrderIndex = 0;
     team1Count = 0;
-    for (i = 0; i < gResultsBattle->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 0) {
-            gResultsBattle->mEntries[i].mOrderIndex = nextOrderIndex;
+    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+        if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 0) {
+            gResultsBattle->mEntries[entryIndex].mOrderIndex = nextOrderIndex;
             nextOrderIndex++;
         }
     }
-    for (i = 0; i < gResultsBattle->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 1) {
+    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+        if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 1) {
             team1Count++;
         }
     }
     if (nextOrderIndex < 4 && team1Count <= 4) {
         nextOrderIndex = 4;
     }
-    for (i = 0; i < gResultsBattle->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 1) {
-            gResultsBattle->mEntries[i].mOrderIndex = nextOrderIndex;
+    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+        if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 1) {
+            gResultsBattle->mEntries[entryIndex].mOrderIndex = nextOrderIndex;
             nextOrderIndex++;
         }
     }
 }
 
 void AssignResultsBattleTeamOrderByScore(void) {
-    ResultsBattle *o;
+    ResultsBattle *resultsBattle;
     s32 scores[8];
     s32 team0Entries[8];
     s32 team1Entries[8];
     s32 team0BestIndex;
     s32 nextOrderIndex;
-    s32 k;
+    s32 memberIndex;
     s32 team0Count;
-    s32 i;
+    s32 kartIndex;
     s32 team1Count;
-    s32 j;
+    s32 team1Step;
     s32 team0BestScore;
-    s32 d;
+    s32 team0Step;
     s32 team1BestScore;
     s32 team1BestIndex;
 
     nextOrderIndex = 0;
     team0Count = 0;
     team1Count = 0;
-    for (i = 0; i < (o = gResultsBattle)->mKartCount; i++) {
-        scores[i] = o->mEntries[i].mScore;
+    for (kartIndex = 0; kartIndex < (resultsBattle = gResultsBattle)->mKartCount; kartIndex++) {
+        scores[kartIndex] = resultsBattle->mEntries[kartIndex].mScore;
     }
-    for (i = 0; i < (o = *(ResultsBattle **) &gResultsBattle)->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 0) {
-            team0Entries[team0Count] = i;
+    for (kartIndex = 0; kartIndex < (resultsBattle = *(ResultsBattle **) &gResultsBattle)->mKartCount; kartIndex++) {
+        if (GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 0) {
+            team0Entries[team0Count] = kartIndex;
             team0Count = team0Count + 1;
         } else {
-            team1Entries[team1Count] = i;
+            team1Entries[team1Count] = kartIndex;
             team1Count = team1Count + 1;
         }
     }
-    for (d = 0; d < team0Count; d++) {
+    for (team0Step = 0; team0Step < team0Count; team0Step++) {
         team0BestScore = -1;
         team0BestIndex = -1;
-        for (k = 0; k < team0Count; k++) {
-            if (team0BestScore < scores[team0Entries[k]]) {
-                team0BestScore = scores[team0Entries[k]];
-                team0BestIndex = k;
+        for (memberIndex = 0; memberIndex < team0Count; memberIndex++) {
+            if (team0BestScore < scores[team0Entries[memberIndex]]) {
+                team0BestScore = scores[team0Entries[memberIndex]];
+                team0BestIndex = memberIndex;
             }
         }
         gResultsBattle->mEntries[team0Entries[team0BestIndex]].mOrderIndex = nextOrderIndex++;
@@ -126,13 +126,13 @@ void AssignResultsBattleTeamOrderByScore(void) {
     if (nextOrderIndex < 4 && team1Count <= 4) {
         nextOrderIndex = 4;
     }
-    for (j = 0; j < team1Count; j++) {
+    for (team1Step = 0; team1Step < team1Count; team1Step++) {
         team1BestScore = -1;
         team1BestIndex = -1;
-        for (k = 0; k < team1Count; k++) {
-            if (team1BestScore < scores[team1Entries[k]]) {
-                team1BestScore = scores[team1Entries[k]];
-                team1BestIndex = k;
+        for (memberIndex = 0; memberIndex < team1Count; memberIndex++) {
+            if (team1BestScore < scores[team1Entries[memberIndex]]) {
+                team1BestScore = scores[team1Entries[memberIndex]];
+                team1BestIndex = memberIndex;
             }
         }
         gResultsBattle->mEntries[team1Entries[team1BestIndex]].mOrderIndex = nextOrderIndex++;

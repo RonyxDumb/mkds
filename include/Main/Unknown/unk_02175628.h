@@ -91,3 +91,7 @@ extern InputSlot data_02175672[];
 extern InputSlot data_02175670[];
 
 extern InputSlot gInputSlots[];
+
+static inline InputSlot *GetInputSlot(u32 inputSlotIndex) {
+    return &gInputSlots[inputSlotIndex];
+}

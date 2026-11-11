@@ -369,6 +369,10 @@ typedef struct Standings {
 
 // The Standings object, allocated by InitStandings in modes 2 and 4.
 extern Standings *gStandings;
+
+static inline KartStanding *GetStandingsKart(u16 kartIndex) {
+    return &gStandings->mKarts[kartIndex];
+}
 extern MapObjectModel *gBalloon;
 extern Vec3 data_0217b208;
 extern Vec3 data_0217b214;
@@ -394,6 +398,10 @@ typedef struct KeyboardLayout {
     /* 0c */ u16 mFixedKeyCount;
     /* 0e */ u16 mRectCount;
 } KeyboardLayout;
+
+static inline KeyboardRect *GetKeyboardLayoutRect(KeyboardLayout *layout, u32 rectIndex) {
+    return &layout->mRects[rectIndex];
+}
 
 // Four halfwords at 0x34 of KeyboardKeys (IsRepeatCounterFiring, AdvanceRepeatCounter).
 typedef struct RepeatCounter {
@@ -955,6 +963,10 @@ extern RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
+
+static inline RaceHudSubScreenCell *GetRaceHudSubScreenDossunCell(u32 cellIndex) {
+    return &gRaceHudSubScreenDossunCells->mCells[cellIndex];
+}
 extern RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;

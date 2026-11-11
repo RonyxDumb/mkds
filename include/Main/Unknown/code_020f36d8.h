@@ -117,7 +117,7 @@ typedef struct ItemObject {
 
 // Bits of RaceProgressKart.mFlags.
 #define RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY 0x1
-#define RACE_PROGRESS_KART_FLAG_MODE_2_END 0x2
+#define RACE_PROGRESS_KART_FLAG_BATTLE_END 0x2
 #define RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT 0x4
 #define RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED 0x8
 #define RACE_PROGRESS_KART_FLAG_GOAL_WAIT 0x10
@@ -427,7 +427,7 @@ struct HeldItem;
 typedef struct ItemInfo {
     // Gate of the roll and of the hand-over of the rolled item; set per mode by CreateItemInfos
     /* 00 */ BOOL mEnabled;
-    /* 04 */ s32 mEnabledInMode5;
+    /* 04 */ s32 mEnabledInWiFi;
     /* 08 */ s32 mObjectKind;
     /* 0c */ s32 mObjectCount;
     /* 10 */ s32 mUsesTimer;
@@ -522,9 +522,25 @@ typedef struct HeldItem {
 extern s32 gItemPointLinksByIndex[];
 extern ItemKind *gItemKinds;
 extern RaceProgress *gRaceProgress;
+
+static inline RaceProgressKart *GetRaceProgressKart(u16 kartIndex) {
+    return &gRaceProgress->mKarts[kartIndex];
+}
+
+static inline s8 GetKartAtRank(u8 rank) {
+    return gRaceProgress->mKartAtRank[rank - 1];
+}
 extern ItemSpreadRow gItemSpreadRows[];
 extern ItemInfo *gItemInfos;
+
+static inline ItemInfo *GetItemInfo(u32 itemInfoIndex) {
+    return &gItemInfos[itemInfoIndex];
+}
 extern ItemPool *gItemPools;
+
+static inline ItemPool *GetItemPool(s32 objectKind) {
+    return &gItemPools[objectKind];
+}
 
 u8 GetItemPointLinkIndex(ItemPointLinkRef *ref);
 void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx, s32 flag);

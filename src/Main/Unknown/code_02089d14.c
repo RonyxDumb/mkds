@@ -138,7 +138,7 @@ void InitStemSetArray(void *heap) {
             copiedSet->mNsbmdCount = sourceSet->mNsbmdCount;
         } else {
             gStemSets->mSets[setIndex] = HeapAlloc(heap, 0x14);
-            InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[setIndex], &gCountStartStems[(u32) setIndex], setIndex);
+            InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[setIndex], GetCountStartStem(setIndex), setIndex);
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mRuleKind == 1) {

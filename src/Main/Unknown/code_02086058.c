@@ -59,9 +59,9 @@ void UpdateKartViewDistancesAndOutOfView(void) {
         distanceSquared = cameraToKartWhole.x * cameraToKartWhole.x + cameraToKartWhole.y * cameraToKartWhole.y +
                           cameraToKartWhole.z * cameraToKartWhole.z;
         gKartNameTags->mDistanceSquared[i] = distanceSquared;
-        gKartNameTags->mSortedDistanceSquared[(u16) (gKartNameTags->mStartOrderIndex[kart->mIndex] +
-                                                     gKartNameTags->mDistanceSquaredOrderOffset[kart->mIndex])] =
-            distanceSquared;
+        SetKartNameTagSortedDistanceSquared(gKartNameTags->mStartOrderIndex[kart->mIndex] +
+                                                gKartNameTags->mDistanceSquaredOrderOffset[kart->mIndex],
+                                            distanceSquared);
         if (kart->mIndex != gRaceSetup->mEntryIndex) {
             isWithinFalloff = TRUE;
             if (distanceSquared > gSoundFalloffs[0].mUnk_20) {

@@ -19,6 +19,10 @@ typedef struct KartAppear {
 extern u32 gResultTotalMax;
 extern u8 gTimeRecordCharTable[];
 
+static inline u8 GetTimeRecordChar(u8 charIndex) {
+    return gTimeRecordCharTable[charIndex];
+}
+
 u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut);
 void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord);
 void SetRaceResultRecords(void);

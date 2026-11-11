@@ -90,7 +90,7 @@ CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject) {
 
     if (mapObject->mEntryGroupIndex < courseMap->mEntryGroupCount) {
         nextEntryIndex = mapObject->mEntryIndex + 1;
-        if (nextEntryIndex >= courseMap->mEntryGroups[(u16) mapObject->mEntryGroupIndex].mEntryCount) {
+        if (nextEntryIndex >= GetCourseMapEntryGroup(mapObject->mEntryGroupIndex)->mEntryCount) {
             nextEntryIndex = 0;
         }
         return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, nextEntryIndex);

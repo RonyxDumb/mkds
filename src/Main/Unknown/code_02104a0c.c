@@ -85,7 +85,7 @@ void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
 
 void ResetKartActiveItemAfterKiller(s32 kartIndex) {
     gKartItems[kartIndex].mActiveItem = 0x13;
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
     if (kartIndex == gRaceSetup->mEntryIndex) {
@@ -96,7 +96,7 @@ void ResetKartActiveItemAfterKiller(s32 kartIndex) {
 
 // Battle only: hands item 17 to a kart with an empty hand when its timer is 0 and counts the running timers down.
 void UpdateBouncingItemBoxTimers(void) {
-    s32 i;
+    s32 kartIndex;
     s32 timer;
     KartItems *kartItems;
     HeldItem *heldItem;
@@ -106,20 +106,20 @@ void UpdateBouncingItemBoxTimers(void) {
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
-    for (i = 0; i < 8; i++) {
-        timer = gBouncingItemBoxTimers[i];
+    for (kartIndex = 0; kartIndex < 8; kartIndex++) {
+        timer = gBouncingItemBoxTimers[kartIndex];
         if (timer < 0) {
             continue;
         }
-        kartItems = &gKartItems[(u16) i];
+        kartItems = GetKartItems(kartIndex);
         heldItem = &kartItems->mHeldItem;
         if (heldItem->mItemInfoIndex != 0x13) {
             continue;
         }
         if (timer == 0) {
             SetHeldItem(heldItem, 0x11);
-            gBouncingItemBoxTimerRunning[i] = 0;
-            if (i == gRaceSetup->mEntryIndex && (data_0217c780 & 1)) {
+            gBouncingItemBoxTimerRunning[kartIndex] = 0;
+            if (kartIndex == gRaceSetup->mEntryIndex && (data_0217c780 & 1)) {
                 sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
                 if (data_0217d084.mUnk_0c != 0) {
                     if (sndHandle[0] != NULL) {
@@ -131,8 +131,8 @@ void UpdateBouncingItemBoxTimers(void) {
                     NNS_SndArcPlayerStartSeqArc(sndHandle, seqArcNo, 0x3f);
                 }
             }
-        } else if (gBouncingItemBoxTimerRunning[i] != 0 && timer > 0) {
-            gBouncingItemBoxTimers[i]--;
+        } else if (gBouncingItemBoxTimerRunning[kartIndex] != 0 && timer > 0) {
+            gBouncingItemBoxTimers[kartIndex]--;
         }
     }
 }
@@ -179,7 +179,7 @@ void ResetBouncingItemBox(BouncingItemBox *box) {
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 2;
     }
-    gBouncingItemBoxTimers[(u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)] = 0x258;
+    SetBouncingItemBoxTimer(box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00, 0x258);
 }
 
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {

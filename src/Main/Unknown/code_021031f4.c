@@ -698,7 +698,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
         rank = 1;
         ownerRank = GetKartRank(ownerIndex);
         do {
-            kartIndex = gRaceProgress->mKartAtRank[(u8) rank - 1];
+            kartIndex = GetKartAtRank(rank);
             kart = GetKart(kartIndex);
             if ((kart->mUnk_7c & 0x402020) == 0 && (kart->mUnk_4c & 0x10000840) == 0 &&
                 (kart->mUnk_48 & 0x10000) == 0) {

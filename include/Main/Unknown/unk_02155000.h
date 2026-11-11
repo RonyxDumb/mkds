@@ -69,6 +69,10 @@ typedef struct StemSetParams {
 } StemSetParams;
 
 extern const StemSetParams gCountStartStems[3];
+
+static inline const StemSetParams *GetCountStartStem(u32 setIndex) {
+    return &gCountStartStems[setIndex];
+}
 extern const StemSetParams gGoalStems;
 extern const StemSetParams gWinStems;
 extern const StemSetParams gLoseStems;

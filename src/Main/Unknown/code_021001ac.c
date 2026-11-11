@@ -150,7 +150,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
         do {
             if (rankAhead > 1) {
                 rankAhead = (u16) (rankAhead - 1);
-                kartIndex = raceProgress->mKartAtRank[(u8) rankAhead - 1];
+                kartIndex = GetKartAtRank(rankAhead);
                 if (IsItemTeresaTargetKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;
@@ -161,7 +161,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             }
             if (rankBehind < kartCount) {
                 rankBehind = (u16) (rankBehind + 1);
-                kartIndex = raceProgress->mKartAtRank[(u8) rankBehind - 1];
+                kartIndex = GetKartAtRank(rankBehind);
                 if (IsItemTeresaTargetKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;
@@ -178,7 +178,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
         do {
             if (rankBehind < kartCount) {
                 rankBehind = (u16) (rankBehind + 1);
-                kartIndex = raceProgress->mKartAtRank[(u8) rankBehind - 1];
+                kartIndex = GetKartAtRank(rankBehind);
                 if (IsItemTeresaTargetKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
                     0) {
                     weightSum = weightSum + *weightCursor;
@@ -190,7 +190,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             }
             if (rankAhead > 1) {
                 rankAhead = (u16) (rankAhead - 1);
-                kartIndex = raceProgress->mKartAtRank[(u8) rankAhead - 1];
+                kartIndex = GetKartAtRank(rankAhead);
                 if (IsItemTeresaTargetKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
                     0) {
                     weightSum = weightSum + *weightCursor;
@@ -589,7 +589,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
             } else {
                 ownerKartIndex = 8;
             }
-            pickFunction(teresa, raceSetup->mCurrentEntries[(u16) ownerKartIndex].mPlayer.mTeamIndex);
+            pickFunction(teresa, GetCurrentEntry(ownerKartIndex)->mPlayer.mTeamIndex);
             if (teresa->mPickedKartIndex == 8) {
                 pickFunction(teresa, -1);
             }
@@ -825,7 +825,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
     } else {
         ownerKartIndex = 8;
     }
-    ownerKartItems = &gKartItems[(u16) ownerKartIndex];
+    ownerKartItems = GetKartItems(ownerKartIndex);
     teresa->mKart = ownerKartItems->mKart;
     teresa->mFollowEnded = FALSE;
     if (teresa->mUnk_24c != FALSE) {
@@ -873,7 +873,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
     } else {
         ownerKartIndex = 8;
     }
-    ownerKartItems = &gKartItems[(u16) ownerKartIndex];
+    ownerKartItems = GetKartItems(ownerKartIndex);
     if (teresa->mUnk_24c != FALSE && ownerKartItems->mActiveItem != 0x10 && teresa->mItemCount != -0x40) {
         teresa->mFollowEnded = TRUE;
         if (teresa->mItemObject.mFlags & 0x8000000) {
@@ -1021,7 +1021,7 @@ void ResetItemTeresaOwnerActiveItem(ItemTeresa *teresa) {
     } else {
         ownerKartIndex = 8;
     }
-    ownerKartItems = &gKartItems[(u16) ownerKartIndex];
+    ownerKartItems = GetKartItems(ownerKartIndex);
     if (ownerKartItems->mActiveItem != 0x10) {
         return;
     }
@@ -1052,7 +1052,7 @@ void InitItemTeresaFromData(ItemTeresa *teresa) {
     } else {
         ownerKartIndex = 8;
     }
-    SetActiveItem(&gKartItems[(u16) ownerKartIndex], 0x10);
+    SetActiveItem(GetKartItems(ownerKartIndex), 0x10);
 }
 
 // Selectors: 0 picked kart, 1 reported state, 2 item taken, 3 item given (item index << 2 | count).

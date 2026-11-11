@@ -15,6 +15,10 @@ typedef struct WBTPacketBitmap {
     /* 1c */ u8 mInlineChunkBitmap[0x28];
 } WBTPacketBitmap;
 
+static inline u32 *GetPacketBitmapWord(WBTPacketBitmap *bitmap, s32 chunkIndex) {
+    return &bitmap->mBitmap[chunkIndex >> 5];
+}
+
 // Entry of BlockTransfer; 0x68 bytes.
 typedef struct BlockTransferEntry {
 // 1 at rest; 2 while a parsed request waits for its reply.

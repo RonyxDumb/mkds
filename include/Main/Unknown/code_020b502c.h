@@ -431,6 +431,18 @@ typedef struct RaceHudSubScreenProjection {
 
 extern CourseMap *gCourseMap;
 
+static inline CourseMapRoute *GetCheckpointRoute(u16 routeIndex) {
+    return &gCourseMap->mCheckpointRoutes[routeIndex];
+}
+
+static inline CourseMapEntryGroup *GetCourseMapEntryGroup(u16 groupIndex) {
+    return &gCourseMap->mEntryGroups[groupIndex];
+}
+
+static inline CourseMapCamera *GetCourseMapCamera(u16 cameraIndex) {
+    return &gCourseMap->mCameras[cameraIndex];
+}
+
 #include "Main/Unknown/unk_02175628.h"
 
 extern RaceHudSubScreenProjection *gRaceHudSubScreenProjection;

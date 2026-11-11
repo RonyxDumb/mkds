@@ -48,13 +48,13 @@ static inline void func_02043a34_inline(void) {
 }
 
 static inline void func_02043c14_inline(void) {
-    s32 i;
-    s32 k;
+    s32 slotIndex;
+    s32 resetIndex;
     InputSlot *inputSlot;
     InputSlot *slot;
 
-    for (i = 0; i < 10; i++) {
-        inputSlot = &gInputSlots[(u32) i];
+    for (slotIndex = 0; slotIndex < 10; slotIndex++) {
+        inputSlot = GetInputSlot(slotIndex);
         ResetInputSlot(inputSlot);
         SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
@@ -69,7 +69,7 @@ static inline void func_02043c14_inline(void) {
     data_02175624->mUnk_08 = 0;
     data_02175624->mUnk_0c = FALSE;
     slot = gInputSlots;
-    for (k = 0; k < 10; k++) {
+    for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(slot);
         slot->mRequestedBits = 0;
         SetInputSlotRepeat(slot, 0xff3, 0x1e, 0xa);

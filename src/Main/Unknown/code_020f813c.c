@@ -133,11 +133,11 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     ItemInfo *itemInfo;
     ItemPool *pool;
     enum { K0 } itemIndex, objectKind;
-    BOOL isMode5;
+    BOOL isWiFiRace;
     BOOL isEntryKart;
 
     kartItems = slot->mSelf;
-    isMode5 = gRaceSetup->mMode == 5;
+    isWiFiRace = gRaceSetup->mMode == MODE_WIFI;
     if (slot->mSlotState != 0) {
         return;
     }
@@ -146,10 +146,10 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     }
     slot->mSlotState = 1;
     slot->mSlotShownItem = 0x13;
-    if (!isMode5) {
+    if (!isWiFiRace) {
         StopRaceRankListItemInUse(slot->mSelf->mKartIndex);
     }
-    if (isMode5) {
+    if (isWiFiRace) {
         slot->mIsShortSpin = FALSE;
         slot->mSlotFrames = 0;
         slot->mSlotFrameCount = 0x85;
@@ -175,7 +175,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
         slot->mSlotResult = PickItem(GetKartVariant(kartItems->mKartIndex), forcedRowHandle, rank, isHumanGhostOrPeer,
                                      isEntryKart, 0x12);
     }
-    if (isMode5) {
+    if (isWiFiRace) {
         StartOwnSlotResultSync(slot->mSlotResult);
         slot->mResultPending = TRUE;
         return;

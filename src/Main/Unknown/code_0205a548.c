@@ -102,7 +102,7 @@ void ResetParticipantHeldItem(u32 participantIndex) {
         return;
     }
     view->mPendingItemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
-    ResetHeldItem(&gKartItems[(u16) gParticipantKartMap->mKartOfParticipant[participantIndex]].mHeldItem);
+    ResetHeldItem(&GetKartItems(gParticipantKartMap->mKartOfParticipant[participantIndex])->mHeldItem);
 }
 
 void SetParticipantHeldItem(s32 participantIndex, s32 itemInfoIndex, s32 count) {
@@ -111,6 +111,6 @@ void SetParticipantHeldItem(s32 participantIndex, s32 itemInfoIndex, s32 count) 
     view = &gWiFiRaceSync->mEntries[participantIndex].mSlotResultSyncState;
     view->mItemInfoIndex = itemInfoIndex;
     view->mPendingItemInfoIndex = itemInfoIndex;
-    SetHeldItemWithCount(&gKartItems[(u16) gParticipantKartMap->mKartOfParticipant[participantIndex]].mHeldItem,
+    SetHeldItemWithCount(&GetKartItems(gParticipantKartMap->mKartOfParticipant[participantIndex])->mHeldItem,
                          itemInfoIndex, count);
 }

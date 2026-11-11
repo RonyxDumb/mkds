@@ -549,12 +549,12 @@ Unk020224e0_c *GetRaceStartBattleMNcerEntry(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceStartBattleMNcerEntries[cellIndex];
 }
 
-s32 LookupRaceSNcerIndex(s32 kartIndex, s32 b) {
+s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem) {
     KartItems *kartItems;
     u32 heldObjectCount;
     enum { K0 } itemInfoIndex;
 
-    switch (b) {
+    switch (shownItem) {
         case 0:
             return 0x1b;
         case 1:
@@ -566,7 +566,7 @@ s32 LookupRaceSNcerIndex(s32 kartIndex, s32 b) {
         case 4:
             return 0x11;
         case 5:
-            kartItems = &gKartItems[(u16) kartIndex];
+            kartItems = GetKartItems(kartIndex);
             itemInfoIndex = kartItems->mHeldItem.mItemInfoIndex;
             if (gItemInfos[itemInfoIndex].mObjectKind == 3) {
                 heldObjectCount = (u16) kartItems->mHeldItem.mObjectCount;

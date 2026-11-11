@@ -1059,7 +1059,7 @@ void UpdateRaceHudSubScreenDossunCells(void) {
                 gRaceHudSubScreenDossunCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xaf);
                 gRaceHudSubScreenDossunCells->mCells[cellCount].mPriority = 1;
                 gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mDrawPos =
-                    gRaceHudSubScreenDossunCells->mCells[(u32) cellCount].mDrawPos;
+                    GetRaceHudSubScreenDossunCell(cellCount)->mDrawPos;
                 gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mCell = GetRaceSNcerEntry(0xb0);
                 gRaceHudSubScreenDossunCells->mCells[cellCount + 1].mPriority = 2;
                 cellCount += 2;
