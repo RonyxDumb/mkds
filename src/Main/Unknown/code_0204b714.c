@@ -29,7 +29,7 @@ void RunFileReadThread(void *unused) {
     romArchiveTransfer = &gRomArchiveTransfer;
     while (1) {
         waitIrqState = OS_DisableInterrupts();
-        archiveState = (RomArchiveParentView *) &data_usa_021762e0;
+        archiveState = (RomArchiveParentView *) &gRomArchiveParentView;
         node = archiveState->mPendingHead;
         if (node == NULL) {
             do {
@@ -58,12 +58,12 @@ void RunFileReadThread(void *unused) {
             node->mUnk_0a0 = 1;
             node->mUnk_09c = 2;
             updateIrqState = OS_DisableInterrupts();
-            ActivateRomArchiveNode(&data_usa_021762e0, node, 1);
+            ActivateRomArchiveNode(&gRomArchiveParentView, node, 1);
             OS_RestoreInterrupts(updateIrqState);
         } else {
             FS_CloseFile(&node->mFile);
             updateIrqState = OS_DisableInterrupts();
-            FreeRomArchiveNode(&data_usa_021762e0, node);
+            FreeRomArchiveNode(&gRomArchiveParentView, node);
             OS_RestoreInterrupts(updateIrqState);
         }
     }

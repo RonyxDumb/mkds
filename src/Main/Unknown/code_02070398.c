@@ -1443,7 +1443,7 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     headingAngle = kart->mHeadingAngle;
     airTiltAngle = kart->mAirTiltAngle;
     MTX_RotY43_(&headingMatrix, FX_SinIdx(headingAngle), FX_CosIdx(headingAngle));
-    MTX_MultVec43(&data_02154f88, &headingMatrix, &tiltAxis);
+    MTX_MultVec43(&gKartVec3UnitX, &headingMatrix, &tiltAxis);
     MTX_RotAxis43(&tiltMatrix, &tiltAxis, FX_SinIdx(airTiltAngle), FX_CosIdx(airTiltAngle));
     MTX_MultVec43(&gKartVec3UnitY, &tiltMatrix, &tiltedUp);
     TryQuaternionFromVectors(quaternion, &gKartVec3UnitY, &tiltedUp);

@@ -12,7 +12,7 @@
 #include "code_0214c778.h"
 #include "code_0214d5b8.h"
 
-u16 data_0217eed0;
+u16 wmInitialized;
 struct WMArm9Buf *wm9buf;
 OSMessageQueue data_0217eed8;
 void *data_0217eef8[10];
@@ -35,25 +35,25 @@ s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize) {
     s32 port;
     s32 index;
 
-    if (data_0217eed0 != 0) {
+    if (wmInitialized != 0) {
         return 3;
     }
-    data_0217eed0 = 1;
+    wmInitialized = 1;
     if (wmSysBuf == 0) {
-        data_0217eed0 = 0;
+        wmInitialized = 0;
         return 6;
     }
     if (dmaNo > 3) {
-        data_0217eed0 = 0;
+        wmInitialized = 0;
         return 6;
     }
     if (((u32) wmSysBuf & 0x1f) != 0) {
-        data_0217eed0 = 0;
+        wmInitialized = 0;
         return 6;
     }
     PXI_Init();
     if (PXI_IsCallbackReady(0xa, 1) == 0) {
-        data_0217eed0 = 0;
+        wmInitialized = 0;
         return 4;
     }
     DC_InvalidateRange(wmSysBuf, bufSize);
@@ -92,7 +92,7 @@ s32 WM_Finish(void) {
     WmClearFifoRecvFlag();
     PXI_SetFifoRecvCallback(0xa, 0);
     wm9buf = 0;
-    data_0217eed0 = 0;
+    wmInitialized = 0;
     return 0;
 }
 
@@ -144,7 +144,7 @@ WMArm9Buf *WMi_GetSystemWork(void) {
 
 // Returns 0 once the library is set up, otherwise 3.
 s32 WMi_CheckInitialized(void) {
-    if (data_0217eed0 != 0) {
+    if (wmInitialized != 0) {
         return 0;
     }
     return 3;
@@ -255,7 +255,7 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
         handler = wm9buf->mCommandCallbacks[callback->mCommand];
         if (handler != 0) {
             handler(callback);
-            if (data_0217eed0 == 0) {
+            if (wmInitialized == 0) {
                 return;
             }
         }

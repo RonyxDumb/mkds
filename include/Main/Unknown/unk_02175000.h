@@ -243,8 +243,8 @@ typedef struct WvrState {
 
 extern WvrState gWvrState;
 
-// Eight halfwords at data_usa_021755e4: two groups of four.
-typedef struct Unk021755e4 {
+// Eight halfwords at gUnreadHalfwordGroups: two groups of four.
+typedef struct UnreadHalfwordGroups {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
     /* 04 */ u16 mUnk_04;
@@ -253,9 +253,9 @@ typedef struct Unk021755e4 {
     /* 0a */ u16 mUnk_0a;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
-} Unk021755e4;
+} UnreadHalfwordGroups;
 
-extern Unk021755e4 data_usa_021755e4;
+extern UnreadHalfwordGroups gUnreadHalfwordGroups;
 
 // Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
 // words.

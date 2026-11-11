@@ -194,7 +194,7 @@ u32 InitSoundSetPlayer(SoundSetPlayer *player, u32 seqId, u32 firstBankId, u32 s
         LoadSoundSet(loadedSet, player->mSoundSet);
     }
     NNS_SndHandleInit(&player->mSeqPlayer);
-    data_0217d060 = player;
+    gCurrentSoundSetPlayer = player;
     player->mLoadedSet = loadedSet;
     return 1;
 }
@@ -209,5 +209,5 @@ void StopSoundSetSeq(SoundSetPlayer *player, u32 fadeSteps) {
 
 void ReleaseSoundSetPlayer(SoundSetPlayer *player) {
     ReleaseSoundSet(player->mLoadedSet);
-    data_0217d060 = NULL;
+    gCurrentSoundSetPlayer = NULL;
 }

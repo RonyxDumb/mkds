@@ -497,9 +497,9 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
         *angleChange = 0;
     }
     if (hitObjects != NULL) {
-        *(void ***) hitObjects = data_0217b5d0;
-        data_0217b5d0[1] = NULL;
-        data_0217b5d0[0] = NULL;
+        *(void ***) hitObjects = gSphereHitObjects;
+        gSphereHitObjects[1] = NULL;
+        gSphereHitObjects[0] = NULL;
     }
     if (data_0217b610 != 0 && collisionSlotIndex != -2) {
         hitObjectCount = 0;
@@ -524,12 +524,12 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 gCollisionHitCount++;
                 if (hitObjects != NULL) {
                     if (hitObjectBit & 0x1e34ef) {
-                        data_0217b5d0[hitObjectCount++] = data_0217b5d0[0];
-                        data_0217b5d0[0] = foundObject;
+                        gSphereHitObjects[hitObjectCount++] = gSphereHitObjects[0];
+                        gSphereHitObjects[0] = foundObject;
                     } else {
-                        data_0217b5d0[hitObjectCount++] = foundObject;
+                        gSphereHitObjects[hitObjectCount++] = foundObject;
                     }
-                    data_0217b5d0[hitObjectCount] = NULL;
+                    gSphereHitObjects[hitObjectCount] = NULL;
                     if (hitObjectCount >= 15) {
                         hitObjectCount--;
                     }

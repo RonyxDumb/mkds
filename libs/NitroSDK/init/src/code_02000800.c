@@ -13,12 +13,12 @@ asm void _start(void) {
     bl init_cp15
     mov r0, #0x13
     msr cpsr_c, r0
-    ldr r0, =data_027e0000
+    ldr r0, =gDtcmData
     add r0, r0, #0x3fc0
     mov sp, r0
     mov r0, #0x12
     msr cpsr_c, r0
-    ldr r0, =data_027e0000
+    ldr r0, =gDtcmData
     add r0, r0, #0x3fc0
     sub r0, r0, #0x40
     sub sp, r0, #0x4
@@ -28,7 +28,7 @@ asm void _start(void) {
     msr cpsr_fsxc, r0
     sub sp, r1, #0x4
     mov r0, #0x0
-    ldr r1, =data_027e0000
+    ldr r1, =gDtcmData
     mov r2, #0x4000
     bl INITi_CpuClear32
     mov r0, #0x0
@@ -62,7 +62,7 @@ flush_line:
     blt flush_line
     ldr r1, =0x27fff9c
     str r0, [r1, #0x0]
-    ldr r1, =data_027e0000
+    ldr r1, =gDtcmData
     add r1, r1, #0x3fc0
     add r1, r1, #0x3c
     ldr r0, =OS_IrqHandler

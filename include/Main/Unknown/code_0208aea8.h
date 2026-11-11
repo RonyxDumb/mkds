@@ -25,7 +25,7 @@ typedef struct AwardEmitterEffectIds {
 typedef SPLManager *GetSPLManagerFunc(s32 *a, s32 b);
 extern GetSPLManagerFunc *gGetSPLManagerFunction;
 
-extern StadiumEmitters *data_0217b048;
+extern StadiumEmitters *gStadiumEmitters;
 extern char data_usa_021660c8[];
 extern char data_usa_021660e0[];
 extern AwardFirstEffectIds data_usa_021660f8;

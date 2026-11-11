@@ -5,4 +5,4 @@
 #include "code_02003024.h"
 
 // Objects whose layout isn't known yet.
-extern RomArchiveParentView data_usa_021762e0;
+extern RomArchiveParentView gRomArchiveParentView;

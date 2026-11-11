@@ -208,7 +208,7 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
         } else {
             kart->mHopTiltAngle = 0;
         }
-        QuaternionFromAxisAngle(&data_02154f88, (u16) -kart->mHopTiltAngle, &tiltQuaternion);
+        QuaternionFromAxisAngle(&gKartVec3UnitX, (u16) -kart->mHopTiltAngle, &tiltQuaternion);
         QuaternionMultiply(&kart->mUnk_110_q, &tiltQuaternion, &kart->mUnk_110_q);
     } else {
         kart->mHopTiltAngle = 0;

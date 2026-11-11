@@ -14,7 +14,7 @@ typedef struct DtcmData {
     /* 3ff8 */ u32 mIrqCheckFlags;
 } DtcmData;
 
-extern DtcmData data_027e0000;
+extern DtcmData gDtcmData;
 
 #define HW_DTCM ((DtcmData *) 0x027e0000)
 

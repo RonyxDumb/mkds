@@ -18,7 +18,7 @@ typedef struct SNDSharedWork {
     /* 260 */ s16 mGlobalVariable[16];
 } SNDSharedWork;
 
-extern SNDSharedWork *data_02174e00;
+extern SNDSharedWork *SNDi_SharedWork;
 
 u32 SNDi_IncAlarmId(u32 alarmNo);
 void SND_AlarmInit(void);

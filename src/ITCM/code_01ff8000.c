@@ -640,14 +640,14 @@ L_loop:
 // clang-format on
 
 // clang-format off
-// OSThread switch after an interrupt: clears the pending flags of the thread list at data_027e0000, then saves the
+// OSThread switch after an interrupt: clears the pending flags of the thread list at gDtcmData, then saves the
 // registers of the running thread in its context and loads those of the first runnable thread.
 // Not compiled code: it switches processor modes and moves the whole register set with the user-bank forms of stm and
 // ldm (msr, mrs, ^).
 asm void OS_IrqHandler_ThreadSwitch(void) {
     mov r2, #0x1
     mov r3, #0x0
-    ldr ip, =data_027e0000
+    ldr ip, =gDtcmData
     ldr ip, [ip, #0x0]
     cmp ip, #0x0
     beq L_01ff80a8
@@ -660,7 +660,7 @@ L_01ff8070:
     mov ip, r0
     cmp ip, #0x0
     bne L_01ff8070
-    ldr ip, =data_027e0000
+    ldr ip, =gDtcmData
     str r3, [ip, #0x0]
     str r3, [ip, #0x4]
     ldr ip, =OSi_ThreadInfo

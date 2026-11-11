@@ -165,7 +165,7 @@ void PreSleepRaceScene(void) {
         SetChoisesSOpenDuringRace(1);
     }
     PreSleepMicInput();
-    while ((u32) data_0217c7ac != 0) {
+    while ((u32) gChoisesSSeqHandle != 0) {
         PrepareDisplayFrame();
         UpdateChoisesS();
         UpdateSounds();

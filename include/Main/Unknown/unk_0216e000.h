@@ -27,7 +27,7 @@ extern const char gKeyboardSBFlameNcgrName[];
 extern const char gKeyboardSBFlame02NscrName[];
 extern const char gKeyboardSBFlame01NscrName[];
 extern const char gKeyboardSBNclrName[];
-extern CallbackInfo data_0216eaa4;
+extern CallbackInfo sCallbackInfo;
 
 // Walked by FflushAll; fwrite compares its argument with entries 1 and 2; printf passes entry 1
 // to fwide and FormatWithPutFunc.

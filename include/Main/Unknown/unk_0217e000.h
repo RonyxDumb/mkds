@@ -15,7 +15,7 @@ struct Unk021425e8;
 // System work area set up by WmInitCore.
 extern struct WMArm9Buf *wm9buf;
 // Nonzero while the library is set up.
-extern u16 data_0217eed0;
+extern u16 wmInitialized;
 // Ring of free command messages.
 extern OSMessageQueue data_0217eed8;
 extern void *data_0217eef8[10];
@@ -39,7 +39,7 @@ extern u32 gLockHoldCounts[];
 // 0x14-byte entries passed to OS_TryLockMutex, OS_UnlockMutex and OS_LockMutex; ExitTail uses entry 0,
 // fwrite entries 3-5, printf entry 3 and raise entry 7. An OSMutex is 0x18 bytes, so OSMutex.mPrev of one entry is
 // the start of the next entry.
-extern u8 data_0217eadc[][0x14];
+extern u8 gLockMutexes[][0x14];
 extern OSMutex data_0217e3e0;
 extern NNSFndList data_0217e3f8;
 extern Unk0212c7f0 data_0217e404[4];

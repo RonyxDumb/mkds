@@ -290,7 +290,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
             rowIndex = 0x30;
             *output = gSoundRowTable[rowIndex];
             rowWritten = TRUE;
-            if (data_0217d060 != NULL) {
+            if (gCurrentSoundSetPlayer != NULL) {
                 output->mUnk_00[1] = 0xff;
                 output->mUnk_00[2] = 0xff;
                 output->mUnk_00[3] = 0xff;

@@ -252,8 +252,8 @@ void SetupCamera(Camera *camera) {
     camera->mPos.z = 0xc6b000;
     initialLookAt = *(volatile Vec3 *) &data_usa_02154fdc;
     camera->mLookAt = initialLookAt;
-    worldUp = *(volatile Vec3 *) &data_usa_02154fc4;
-    camera->mUp = data_usa_02154fc4;
+    worldUp = *(volatile Vec3 *) &gCameraVec3UnitY;
+    camera->mUp = gCameraVec3UnitY;
     camera->mSide = data_usa_02154fd0;
     MTX_Identity43_(&camera->mViewMatrix);
     camera->mForward = data_usa_02154fb8;
@@ -390,7 +390,7 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
     Vec3 eyePos;
     Vec3 lookAtPos;
 
-    worldUp = data_usa_02154fc4;
+    worldUp = gCameraVec3UnitY;
     VEC_Subtract(&camera->mLookAt, &camera->mPos, &forward);
     if (LENGTH_SQUARED(forward) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&forward, &forward);

@@ -1,4 +1,4 @@
-data_027e0000 kind:data(any) addr:0x027e0000
+gDtcmData kind:data(any) addr:0x027e0000
 OS_IRQTable kind:data(any) addr:0x027e0008
 data_usa_027e0021 kind:data(any) addr:0x027e0021
 gCollisionHitCount kind:data(any) addr:0x027e0060

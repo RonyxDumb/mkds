@@ -45,8 +45,8 @@ void AdvanceStadiumEmitters(void) {
     GetSPLManagerFunc *getManager;
     Camera *camera;
 
-    data_0217b048->mEmitterTimer--;
-    if (data_0217b048->mEmitterTimer > 0) {
+    gStadiumEmitters->mEmitterTimer--;
+    if (gStadiumEmitters->mEmitterTimer > 0) {
         return;
     }
     bestDot = -0x1000;
@@ -54,7 +54,7 @@ void AdvanceStadiumEmitters(void) {
     camera = GetCurrentCamera();
     cameraForward = camera->mForward;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
-        StadiumEmitters *stadiumEmitters = data_0217b048;
+        StadiumEmitters *stadiumEmitters = gStadiumEmitters;
         if (stadiumEmitters->mEmitters[slotIndex] != NULL) {
             s32 effectIndex;
             ParticleEmitter **emitterSlot = &stadiumEmitters->mEmitters[slotIndex];
@@ -63,7 +63,7 @@ void AdvanceStadiumEmitters(void) {
         }
     }
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
-        s32 dot = VEC_DotProduct(&cameraForward, &data_0217b048->mDirections[slotIndex]);
+        s32 dot = VEC_DotProduct(&cameraForward, &gStadiumEmitters->mDirections[slotIndex]);
         if (dot >= bestDot) {
             bestDot = dot;
             bestIndex = slotIndex;
@@ -105,10 +105,10 @@ void AdvanceStadiumEmitters(void) {
                 emitter->mUpdateCycle = 2;
             }
         }
-        data_0217b048->mEmitters[emitterIndex] = emitter;
+        gStadiumEmitters->mEmitters[emitterIndex] = emitter;
     }
     randomDraw = StadiumEmittersNextRandomBelow(&gRaceProgress->mLocalRandom, 0x19);
-    data_0217b048->mEmitterTimer = (u16) randomDraw + 0x14;
+    gStadiumEmitters->mEmitterTimer = (u16) randomDraw + 0x14;
 }
 
 void CreateAwardEmitters(void) {

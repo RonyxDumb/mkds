@@ -24,7 +24,7 @@ u32 data_0216f354;
 u32 data_0216f358;
 CARDRomRegion data_0216f364;
 CARDRomRegion data_0216f35c;
-FSArchive data_0216f36c;
+FSArchive fsi_arc_rom;
 
 void *fsi_digest_key_ptr = fsi_def_digest_key;
 u8 data_02161764[4] = "rom";
@@ -56,7 +56,7 @@ void FS_ClearOverlayImage(FSOverlayInfo *info) {
 void FS_GetOverlayFileID(FSFileID *fileID, FSOverlayInfo *info) {
     FSFileID id;
 
-    id.mArc = &data_0216f36c;
+    id.mArc = &fsi_arc_rom;
     id.mFileId = info->mFileId;
     *fileID = id;
 }
@@ -132,7 +132,7 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     }
     region0 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable0;
     region1 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable1;
-    return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->mOffset, region0->mLength,
+    return FSi_LoadOverlayInfoCore(info, selector, index, &fsi_arc_rom, region0->mOffset, region0->mLength,
                                    region1->mOffset, region1->mLength);
 }
 
@@ -397,20 +397,20 @@ void FSi_InitRom(u32 dmaNo) {
     data_0216f364.mOffset = 0;
     data_0216f364.mLength = 0;
     CARD_Init();
-    FS_InitArchive(&data_0216f36c);
-    FS_RegisterArchiveName(&data_0216f36c, data_02161764, 3);
+    FS_InitArchive(&fsi_arc_rom);
+    FS_RegisterArchiveName(&fsi_arc_rom, data_02161764, 3);
     if (SYSTEM_WORK->mWmBootBuf.mBootType == 2) {
         data_0216f35c.mOffset = (u8 *) -1;
         data_0216f35c.mLength = 0;
         data_0216f364.mOffset = (u8 *) -1;
         data_0216f364.mLength = 0;
-        FS_SetArchiveProc(&data_0216f36c, FSi_EmptyArchiveProc, -1);
-        FS_LoadArchive(&data_0216f36c, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
+        FS_SetArchiveProc(&fsi_arc_rom, FSi_EmptyArchiveProc, -1);
+        FS_LoadArchive(&fsi_arc_rom, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
         return;
     }
     fntRegion = 0x27ffe40;
     fatRegion = 0x27ffe48;
-    FS_SetArchiveProc(&data_0216f36c, FSi_RomArchiveProc, 0x602);
+    FS_SetArchiveProc(&fsi_arc_rom, FSi_RomArchiveProc, 0x602);
     if (((CARDRomRegion *) fntRegion)->mOffset == (u8 *) -1) {
         return;
     }
@@ -423,14 +423,14 @@ void FSi_InitRom(u32 dmaNo) {
     if (((CARDRomRegion *) fatRegion)->mOffset == 0) {
         return;
     }
-    FS_LoadArchive(&data_0216f36c, 0, (u32) ((CARDRomRegion *) fatRegion)->mOffset,
+    FS_LoadArchive(&fsi_arc_rom, 0, (u32) ((CARDRomRegion *) fatRegion)->mOffset,
                    ((CARDRomRegion *) fatRegion)->mLength, (u32) ((CARDRomRegion *) fntRegion)->mOffset,
                    ((CARDRomRegion *) fntRegion)->mLength, FSi_ReadRomCallback, FSi_WriteDummyCallback);
 }
 
 // Copies the ROM archive tables into the given memory.
 u32 FS_TryLoadTable(u32 mem, u32 size) {
-    return FS_LoadArchiveTables(&data_0216f36c, mem, size);
+    return FS_LoadArchiveTables(&fsi_arc_rom, mem, size);
 }
 
 // Initializes the file system once.

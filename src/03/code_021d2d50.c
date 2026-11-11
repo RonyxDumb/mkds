@@ -32,7 +32,7 @@ void RestoreTaskVBlankIrq(void) {
 
 void TaskVBlankIrqHandler(void) {
     RunTasksAndRemoveRequested(1);
-    *OFFSET_PTR(u32, &data_027e0000, 0x3ff8) |= 1;
+    *OFFSET_PTR(u32, &gDtcmData, 0x3ff8) |= 1;
 }
 
 void InitKeyTouchInput(void) {

@@ -1034,7 +1034,7 @@ typedef struct Race {
     // Value of mUpdateFrames modulo RaceSetup.mKartCount as of the end of the latest UpdateRace, 0 at set-up; its one
     // reader uses it as a kart index.
     /* 14 */ s32 mUpdateFramesModKartCount;
-    // Start index (0 to 7) of the 32 entries of data_0217aadc that UpdateRace gives to G3X_SetToonTable on each call;
+    // Start index (0 to 7) of the 32 entries of gToonTable that UpdateRace gives to G3X_SetToonTable on each call;
     // it advances by 1 each time mToonTableFrames passes data_021653ec and wraps back to 0 after 7.
     /* 18 */ s32 mToonTableOffset;
     // Counts calls of UpdateRace since mToonTableOffset last changed; when it exceeds data_021653ec (2) it restarts at
@@ -1262,10 +1262,10 @@ extern s32 data_0217aa78;
 extern s32 data_0217aa80;
 extern s32 data_0217aa84;
 extern Camera *gRaceChaseCamera;
-extern u32 data_0217aa8c[4];
+extern u32 gFadeFogEntryBytes[4];
 extern u32 gFadeFogTable[8];
 extern u32 gCourseFogTable[8];
-extern u16 data_0217aadc[32];
+extern u16 gToonTable[32];
 extern MtxFx43 *gCurrentViewMatrix;
 extern u32 data_0217ac10;
 extern void *data_0217ac14;

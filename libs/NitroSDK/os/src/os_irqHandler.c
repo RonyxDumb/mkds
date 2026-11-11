@@ -25,6 +25,6 @@ void OS_WaitIrq(u32 clear, u32 irqFlags) {
     }
     pendingFlags = &dtcm->mIrqCheckFlags;
     do {
-        OS_SleepThread(&data_027e0000.mIrqThreadQueue);
+        OS_SleepThread(&gDtcmData.mIrqThreadQueue);
     } while ((irqFlags & *pendingFlags) == 0);
 }

@@ -68,7 +68,7 @@ void InitEffects(void *defaultHeap) {
     SPLManager_UploadPalettes(gRaceEffectFogOffSPLManager);
     gMissionRunSPLManager = NULL;
     data_0217b054 = NULL;
-    data_0217b048 = NULL;
+    gStadiumEmitters = NULL;
     if (GetCurrentSceneNumber() != 2) {
         return;
     }
@@ -96,16 +96,16 @@ void InitEffects(void *defaultHeap) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_STADIUM:
             directionOrigin = data_usa_021660fc;
-            data_0217b048 = HeapAlloc(effectHeap, 0x64);
+            gStadiumEmitters = HeapAlloc(effectHeap, 0x64);
             for (emitterIndex = 0; emitterIndex < 6; emitterIndex++) {
-                data_0217b048->mEmitters[emitterIndex] = NULL;
+                gStadiumEmitters->mEmitters[emitterIndex] = NULL;
                 VEC_Subtract(&data_usa_02155f78[emitterIndex], &directionOrigin, &offset);
-                emitterDirection = &data_0217b048->mDirections[emitterIndex];
+                emitterDirection = &gStadiumEmitters->mDirections[emitterIndex];
                 if (LENGTH_SQUARED(offset) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&offset, emitterDirection);
                 }
             }
-            data_0217b048->mEmitterTimer = 1;
+            gStadiumEmitters->mEmitterTimer = 1;
             data_0217b054 = AdvanceStadiumEmitters;
             break;
         case COURSE_ID_AWARD:

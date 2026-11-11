@@ -178,7 +178,7 @@ extern MapObjectModel *gCover;
 extern MapObjectModel *gPoo;
 extern u16 gSearchStartIndex;
 extern s32 gEntryYDifferenceLimit;
-extern BattleKartAiParams *data_0217b030;
+extern BattleKartAiParams *gBattleKartAiParams;
 
 // Objects whose layout isn't known yet.
 struct SPLManager;
@@ -378,8 +378,8 @@ static inline KartStanding *GetStandingsKart(u16 kartIndex) {
     return &gStandings->mKarts[kartIndex];
 }
 extern MapObjectModel *gBalloon;
-extern Vec3 data_0217b208;
-extern Vec3 data_0217b214;
+extern Vec3 gBalloonCameraPosEighth;
+extern Vec3 gBalloonCameraPosHalf;
 // 8-byte entries of the tables KeyboardKeys points to (FindKeyboardRectByValue returns one).
 typedef struct KeyboardRect {
     /* 00 */ u8 mX;
@@ -1013,10 +1013,10 @@ extern RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
 // Which model the Jg shows and its row in gJgKindRows: 0 lap_count, 1 lap_final, 2 jg_reverse, 3 jg_flag, 4 none.
 extern s32 gJgKind;
-extern s32 data_0217b8ac;
-extern s32 data_0217b8c4;
+extern s32 gJgSnapUntilPushFlip;
+extern s32 gJgAgainstCheckpointFrames;
 extern s32 gJgVisible;
-extern s32 data_0217b900;
+extern s32 gJgSnapActive;
 
 extern StateMachine gJgStateMachine;
 extern Vec3 *gItemPushVector;
@@ -1060,7 +1060,7 @@ extern struct Nsbmd *gPendulum;
 extern struct ShadowModel *gPendulumShadow;
 extern struct Nsbmd *gSecondHand;
 extern struct MapObjectList *gAttractorUpdateList;
-extern s32 data_0217b8b4;
+extern s32 gJgStateCounter;
 extern u16 gJgFinalLap;
 extern u16 gJgState2FrameCount;
 extern u16 gJgKartIndex;
@@ -1068,19 +1068,19 @@ extern u16 gJgProbeStep;
 extern u16 gJgHighestLap;
 extern s32 gJgShiftSpeedX;
 extern s32 gJgShiftX;
-extern s32 data_0217b8cc;
-extern s32 data_0217b8ec;
-extern s32 data_0217b8f0;
-extern s32 data_0217b8bc;
-extern s32 data_0217b894;
-extern s32 data_0217b8f8;
+extern s32 gJgHeightOffsetSpeed;
+extern s32 gJgHeightOffset;
+extern s32 gJgInView;
+extern s32 gJgNearKart;
+extern s32 gJgState1AngleActive;
+extern s32 gJgStartSideNotFlipped;
 extern s32 gJgLapAndReverseEnabled;
 extern u16 *data_0217b8c0;
 extern Vec3 gJgTargetPos;
 extern Vec3 gJgProbeCenter;
-extern Vec3 data_0217b918;
+extern Vec3 gJgPreviousCollisionCenter;
 extern Vec3 gJgCollisionCenter;
-extern Vec3 data_0217b99c;
+extern Vec3 gJgPreviousPos;
 extern Vec3 gJgPos;
 extern Vec3 gJgEasedPos;
 extern Vec3 gJgKartMove;
@@ -1097,7 +1097,7 @@ extern s32 data_0217b8d0;
 extern s32 data_0217b898;
 extern s32 data_0217b89c;
 extern s32 data_0217b8d8;
-extern s32 data_0217b908;
+extern s32 gJgVelocityFactorX;
 // Copy of the kart's position, y minus the kart's hop height (state 4 stores it without that).
 extern Vec3 gJgKartPos;
 extern Vec3 gJgKind4Offset;
@@ -1111,7 +1111,7 @@ extern u16 gJgAlpha;
 extern u16 gJgAngle;
 extern Vec3 gJgKind3Offset;
 extern Vec3 gJgKind2Offset;
-extern void *data_0217b5d0[16];
+extern void *gSphereHitObjects[16];
 extern s32 data_0217b610;
 extern CourseCollision gCourseCollision;
 extern u32 data_0217bbe8;

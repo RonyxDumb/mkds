@@ -40,20 +40,20 @@ void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed) {
     heightTexCoord = (texHeightFixed << 8) >> 16;
     widthTexCoord = (texWidthFixed << 8) >> 16;
     reg_G3_TEXCOORD = 0x60006;
-    vertexZ = data_021659d4[2];
-    reg_G3_VTX_16 = data_021659d4[0] | data_021659d4[1] << 16;
+    vertexZ = gKartNameTagLineVertices[2];
+    reg_G3_VTX_16 = gKartNameTagLineVertices[0] | gKartNameTagLineVertices[1] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = heightTexCoord << 16 | 6;
-    vertexZ = data_021659d4[5];
-    reg_G3_VTX_16 = data_021659d4[3] | data_021659d4[4] << 16;
+    vertexZ = gKartNameTagLineVertices[5];
+    reg_G3_VTX_16 = gKartNameTagLineVertices[3] | gKartNameTagLineVertices[4] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = widthTexCoord | heightTexCoord << 16;
-    vertexZ = data_021659d4[8];
-    reg_G3_VTX_16 = data_021659d4[6] | data_021659d4[7] << 16;
+    vertexZ = gKartNameTagLineVertices[8];
+    reg_G3_VTX_16 = gKartNameTagLineVertices[6] | gKartNameTagLineVertices[7] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = widthTexCoord | 0x60000;
-    vertexZ = data_021659d4[11];
-    reg_G3_VTX_16 = data_021659d4[9] | data_021659d4[10] << 16;
+    vertexZ = gKartNameTagLineVertices[11];
+    reg_G3_VTX_16 = gKartNameTagLineVertices[9] | gKartNameTagLineVertices[10] << 16;
     reg_G3_VTX_16 = vertexZ;
 }
 
@@ -457,7 +457,7 @@ void UploadTextureAndPalette(TexPlttEntry *texPlttEntry) {
     u16 texFormatBits;
     u32 texOffset;
     texFormatBits = texPlttEntry->mTexImageParam >> 26 & 7;
-    texOffset = (data_021619ec(texPlttEntry->mTexByteCount, 0, 0) & 0xffff) << 3;
+    texOffset = (NNS_GfdDefaultFuncAllocTexVram(texPlttEntry->mTexByteCount, 0, 0) & 0xffff) << 3;
     texPlttEntry->mTexImageParam = texPlttEntry->mTexImageParam & 0xffff0000;
     GX_BeginLoadTex();
     GX_LoadTex(texPlttEntry->mTexData, texOffset, texPlttEntry->mTexByteCount);

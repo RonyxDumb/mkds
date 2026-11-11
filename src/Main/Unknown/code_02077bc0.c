@@ -1517,9 +1517,9 @@ void SetupLightFrustumAndLookAt(s32 unusedArg1, s32 yOffset) {
     target.y += yOffset;
     VEC_Subtract(&target, &data_usa_021656fc, &viewDirection);
     VEC_CrossProduct(&referenceAxis, &viewDirection, &camUp);
-    data_021704dc[0] = data_usa_021656fc;
-    data_021704dc[1] = camUp;
-    data_021704dc[2] = target;
+    gCameraLookAtVectors[0] = data_usa_021656fc;
+    gCameraLookAtVectors[1] = camUp;
+    gCameraLookAtVectors[2] = target;
     G3i_LookAt_(&data_usa_021656fc, &camUp, &target, 0, &NNS_G3dGlb.mCameraMtx);
     NNS_G3dGlb.mFlag &= ~0xe8;
     NNS_G3dGlbFlushP();

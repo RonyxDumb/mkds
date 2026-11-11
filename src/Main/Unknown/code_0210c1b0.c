@@ -201,7 +201,7 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
         }
     }
     if (sound == NULL) {
-        sound = TakeSoundHandleEntry(&data_0217d034);
+        sound = TakeSoundHandleEntry(&gPlayingSoundPool);
         StopPlayingSoundSeq(sound, 0);
         sourceList = sound->mSourceList;
         if (sourceList != NULL) {
@@ -276,7 +276,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
         }
     }
     if (sound == NULL) {
-        sound = TakeSoundHandleEntry(&data_0217d034);
+        sound = TakeSoundHandleEntry(&gPlayingSoundPool);
         StopPlayingSoundSeq(sound, 0);
         sourceList = sound->mSourceList;
         if (sourceList != NULL) {

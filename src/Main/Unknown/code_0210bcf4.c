@@ -88,7 +88,7 @@ void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void
     if (gSoundModeHolder.mSoundsEnabled == 0) {
         return;
     }
-    sound = TakeSoundHandleEntry(&data_0217d034);
+    sound = TakeSoundHandleEntry(&gPlayingSoundPool);
     StopPlayingSoundSeq(sound, 0);
     sourceList = sound->mSourceList;
     if (sourceList != NULL) {
@@ -130,7 +130,7 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
     } else {
         countThisPass = data_0217d024[0];
         data_0217d024[0] = countThisPass + 1;
-        if ((countThisPass & 3) == data_0217d010[0]) {
+        if ((countThisPass & 3) == gSoundSourceUpdatePass[0]) {
             runThisCall = 1;
         }
     }

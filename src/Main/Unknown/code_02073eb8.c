@@ -70,9 +70,9 @@ void ApplyCameraLookAt(Camera *camera) {
     Vec3 *viewPos = &camera->mViewPos;
     Vec3 *viewLookAt = &camera->mViewLookAt;
 
-    data_021704dc[0] = *viewPos;
-    data_021704dc[1] = camera->mUp;
-    data_021704dc[2] = *viewLookAt;
+    gCameraLookAtVectors[0] = *viewPos;
+    gCameraLookAtVectors[1] = camera->mUp;
+    gCameraLookAtVectors[2] = *viewLookAt;
     G3i_LookAt_(viewPos, &camera->mUp, viewLookAt, 0, &data_usa_021702c8);
     NNS_G3dGlb.mFlag &= ~0xe8;
 }
@@ -100,7 +100,7 @@ void SetupCameraBehindKart(void) {
     offset.z = MUL_FIXED12_NO_ROUND(axes.mRows[2].z, behindDistance);
     VEC_Add(&kart->mPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
-    chaseCamera->mBaseUp = data_usa_02154fc4;
+    chaseCamera->mBaseUp = gCameraVec3UnitY;
     chaseCamera->mPrevPos = chaseCamera->mPos;
     chaseCamera->mKartMoveScale = 0x1000;
     gChaseCamera->mHeightHold = 0;
@@ -197,7 +197,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     if (kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) {
         GetKartUp(kart, &targetUp);
     } else {
-        targetUp = data_usa_02154fc4;
+        targetUp = gCameraVec3UnitY;
     }
     VEC_Subtract(&targetUp, &camera->mBaseUp, &upStep);
     upStep.x = MUL_FIXED12_NO_ROUND(upStep.x, 0x800);
@@ -274,7 +274,7 @@ void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
                 collided = FALSE;
             }
         } else if (flags & 0x1e34ef) {
-            if (gRaceSetup->mMode != MODE_BATTLE || VEC_DotProduct(&data_usa_02154fc4, &firstNormal) < 0xfae ||
+            if (gRaceSetup->mMode != MODE_BATTLE || VEC_DotProduct(&gCameraVec3UnitY, &firstNormal) < 0xfae ||
                 camera->mPos.y - kart->mPos.y < gFollowHeight) {
                 VEC_Add(&pushOut, &camera->mPos, &camera->mPos);
             }
@@ -712,7 +712,7 @@ void UpdateCameraAngleEntry(Camera *camera) {
     crossInput = directionCopy;
     lookDirection = directionCopy;
     MulVec3Fixed12NoRound(&lookAtOffset, &lookDirection, -courseMapCamera->mLookAtStartOrParams.z);
-    Vec3CrossUnrounded(&data_usa_02154fc4, &baseDirection, &sideAxis);
+    Vec3CrossUnrounded(&gCameraVec3UnitY, &baseDirection, &sideAxis);
     Vec3CrossUnrounded(&crossInput, &sideAxis, &upAxis);
     MTX_RotAxis33(&yawMatrix, &upAxis, FX_SinIdx(startYaw), FX_CosIdx(startYaw));
     MTX_RotAxis33(&pitchMatrix, &sideAxis, FX_SinIdx(startPitch), FX_CosIdx(startPitch));
@@ -791,7 +791,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }
-    MTX_RotAxis33(&rotation, &data_usa_02154fc4, FX_SinIdx(data_usa_021656a0), FX_CosIdx(data_usa_021656a0));
+    MTX_RotAxis33(&rotation, &gCameraVec3UnitY, FX_SinIdx(data_usa_021656a0), FX_CosIdx(data_usa_021656a0));
     MTX_MultVec33(&lightDirection, &rotation, &lightDirection);
     lightDirection.x = MUL_FIXED12_NO_ROUND(lightDirection.x, 0xfae);
     lightDirection.y = MUL_FIXED12_NO_ROUND(lightDirection.y, 0xfae);
@@ -1085,7 +1085,7 @@ void ResetCameraBehind(const Vec3 *kartPos, void *quaternion) {
     offset.z = MUL_FIXED12_NO_ROUND(axes.mRows[2].z, behindDistance);
     VEC_Add(kartPos, &offset, &chaseCamera->mPos);
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
-    chaseCamera->mBaseUp = data_usa_02154fc4;
+    chaseCamera->mBaseUp = gCameraVec3UnitY;
     chaseCamera->mPrevPos = chaseCamera->mPos;
     chaseCamera->mKartMoveScale = 0x1000;
     gChaseCamera->mHeightHold = 0;

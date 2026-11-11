@@ -390,7 +390,7 @@ void RequestRomArchiveBytes(FSFile *file) {
     s32 requestedLength;
 
     readLength = file->mArg.p.mUnk_08;
-    childView = (RomArchiveChildView *) &data_usa_021762e0;
+    childView = (RomArchiveChildView *) &gRomArchiveParentView;
     if (readLength < 0) {
         readLength = childView->mMaxReadSize;
         childView->mMaxReadSize = 0;
@@ -557,7 +557,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
         case 8:
             break;
         case 10:
-            view = &data_usa_021762e0;
+            view = &gRomArchiveParentView;
             payload = &record->mData;
             view->mEntries[fromIndex] = payload->mUnk_0e;
             switch (record->mData.mUnk_m.mKind) {
@@ -715,7 +715,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
     void *newBuffer;
 
     fromIndex = WBT_AidbitmapToAid(record->mPeerBmp);
-    childView = (RomArchiveChildView *) &data_usa_021762e0;
+    childView = (RomArchiveChildView *) &gRomArchiveParentView;
     switch (record->mCommand) {
         case 2:
             if (record->mTargetBmp != 0) {
@@ -984,7 +984,7 @@ void StartRomArchivePacketSend(void) {
     s32 isParent;
     gRomArchiveTransfer.mSendAllowed = TRUE;
     if (gRomArchiveTransfer.mIsParent == 0) {
-        childView = (RomArchiveChildView *) &data_usa_021762e0;
+        childView = (RomArchiveChildView *) &gRomArchiveParentView;
         WM_ReadStatus(childView->mUnk_340);
         WBT_SetOwnAid(childView->mUnk_4c4);
         WBT_RequestSync(1, RomArchiveChildCallback);

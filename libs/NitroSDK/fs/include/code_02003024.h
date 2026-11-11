@@ -81,7 +81,7 @@ typedef struct FSFile {
     /* 44 */ Unk02003024U *mResult;
 } FSFile;
 
-// 0x5c-byte object (FS_InitArchive clears 0x5c bytes; data_0216f36c) at mArc of FSFile. Links at mNext and mPrev
+// 0x5c-byte object (FS_InitArchive clears 0x5c bytes; fsi_arc_rom) at mArc of FSFile. Links at mNext and mPrev
 // (FS_RegisterArchiveName, FS_ReleaseArchiveName), flags at mFlag, the list of FSFile at mList; the addresses of
 // mSyncQ and mStatQ go to OS_WakeupThread and OS_SleepThread; mRead to mProc are called from FSi_TranslateCommand,
 // FSi_WriteFileCommand, FSi_ReadFileCommand, FSi_ReadTable, FSi_SendCommand and FSi_NextCommand.

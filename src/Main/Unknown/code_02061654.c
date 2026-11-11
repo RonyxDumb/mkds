@@ -188,14 +188,14 @@ void InitRace(void) {
     SetHeapGroupId(9);
     *(u16 *) 0x05000000 = 0xff00;
     reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT & 0xffffcffd;
-    G3X_SetToonTable(data_0217aadc);
+    G3X_SetToonTable(gToonTable);
     for (index = 0; index < 8; index++) {
-        data_0217aadc[index] = data_02154970[index];
-        data_0217aadc[index + 16] = data_02154980[index];
+        gToonTable[index] = data_02154970[index];
+        gToonTable[index + 16] = data_02154980[index];
     }
     for (index = 0; index < 8; index++) {
-        data_0217aadc[index + 8] = data_0217aadc[index];
-        data_0217aadc[index + 24] = data_0217aadc[index + 16];
+        gToonTable[index + 8] = gToonTable[index];
+        gToonTable[index + 24] = gToonTable[index + 16];
     }
     InitRaceFog();
     SetKoopaCourseLight2();
@@ -364,7 +364,7 @@ void UpdateRace(void) {
     gRace->mUpdateFramesMod8 = gRace->mUpdateFrames & 7;
     gRace->mUpdateFramesMod2 = gRace->mUpdateFrames & 1;
     gRace->mUpdateFramesModKartCount = (u32) gRace->mUpdateFrames % gRaceSetup->mKartCount;
-    G3X_SetToonTable(&data_0217aadc[gRace->mToonTableOffset]);
+    G3X_SetToonTable(&gToonTable[gRace->mToonTableOffset]);
     gRace->mToonTableFrames++;
     if ((u32) gRace->mToonTableFrames > data_021653ec) {
         gRace->mToonTableFrames = 0;
@@ -591,16 +591,16 @@ void BuildFadeFog(s32 fadeLevel, s32 flag) {
         gFadeFogOffset = MUL_FIXED12_ROUNDED(courseWeight, gCourseFogOffset);
         for (index = 0; index < 8; index++) {
             tableEntry = gCourseFogTable[index];
-            data_0217aa8c[0] = tableEntry & 0xff;
-            data_0217aa8c[1] = (tableEntry & 0xff00) >> 8;
-            data_0217aa8c[2] = (tableEntry & 0xff0000) >> 16;
-            data_0217aa8c[3] = (tableEntry & 0xff000000) >> 24;
+            gFadeFogEntryBytes[0] = tableEntry & 0xff;
+            gFadeFogEntryBytes[1] = (tableEntry & 0xff00) >> 8;
+            gFadeFogEntryBytes[2] = (tableEntry & 0xff0000) >> 16;
+            gFadeFogEntryBytes[3] = (tableEntry & 0xff000000) >> 24;
             for (byteIndex = 0; byteIndex < 4; byteIndex++) {
-                fogByte = data_0217aa8c[byteIndex];
-                data_0217aa8c[byteIndex] = MUL_FIXED12_ROUNDED(fogByte, (s32) courseWeight) + data_0217aa44;
+                fogByte = gFadeFogEntryBytes[byteIndex];
+                gFadeFogEntryBytes[byteIndex] = MUL_FIXED12_ROUNDED(fogByte, (s32) courseWeight) + data_0217aa44;
             }
-            gFadeFogTable[index] =
-                data_0217aa8c[0] | (data_0217aa8c[1] << 8) | (data_0217aa8c[2] << 16) | (data_0217aa8c[3] << 24);
+            gFadeFogTable[index] = gFadeFogEntryBytes[0] | (gFadeFogEntryBytes[1] << 8) |
+                                   (gFadeFogEntryBytes[2] << 16) | (gFadeFogEntryBytes[3] << 24);
         }
         data_0217aa58 = tableEntry;
     } else {

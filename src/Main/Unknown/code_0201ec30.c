@@ -13,7 +13,7 @@ u8 data_02173288;
 s32 data_021732a8;
 s32 data_0217328c;
 s32 data_021732a4;
-MICAutoParam *data_02173290;
+MICAutoParam *gMicSampleAnalysisParam;
 s32 data_02173294;
 s32 data_02173298;
 u8 gMicIntervalHistogram[4];
@@ -29,7 +29,7 @@ s32 GetMicSampleAmplitude(s32 sample) {
 void InitMicSampleAnalysis(MICAutoParam *autoParam) {
     s32 bucketIndex;
 
-    data_02173290 = autoParam;
+    gMicSampleAnalysisParam = autoParam;
     data_02173294 = 1;
     data_02173288 = 0;
     data_02173298 = 0;
@@ -81,7 +81,7 @@ u8 UpdateMicSampleAnalysis(void) {
 
     cnt = 0;
     cappedLevel = 0;
-    len = data_02173290->mSize;
+    len = gMicSampleAnalysisParam->mSize;
     last = 9999;
     maxv = 0;
     lim = 2;
@@ -94,13 +94,13 @@ u8 UpdateMicSampleAnalysis(void) {
     }
     mind = len;
     samplePtr = MIC_GetLastSamplingAddress();
-    buf = data_02173290->mBuffer;
+    buf = gMicSampleAnalysisParam->mBuffer;
     pos = samplePtr - buf;
     if (pos >= len / 8) {
         sampleIndex = pos - len / 8;
         DC_InvalidateRange(buf + sampleIndex, pos);
         for (; sampleIndex < pos; sampleIndex++) {
-            if (data_02173290->mType == 0) {
+            if (gMicSampleAnalysisParam->mType == 0) {
                 sample = GetMicSampleAmplitude(ClampMicSample(buf[sampleIndex]));
             } else {
                 sample = (s8) buf[sampleIndex];
@@ -119,7 +119,7 @@ u8 UpdateMicSampleAnalysis(void) {
         sampleIndex = len - (len / 8 - pos);
         DC_InvalidateRange(buf + sampleIndex, (u16) len);
         for (; sampleIndex < len; sampleIndex++) {
-            if (data_02173290->mType == 0) {
+            if (gMicSampleAnalysisParam->mType == 0) {
                 sample = GetMicSampleAmplitude(ClampMicSample(buf[sampleIndex]));
             } else {
                 sample = (s8) buf[sampleIndex];
@@ -136,7 +136,7 @@ u8 UpdateMicSampleAnalysis(void) {
         }
         DC_InvalidateRange(buf, pos);
         for (sampleIndex = 0; sampleIndex < pos; sampleIndex++) {
-            if (data_02173290->mType == 0) {
+            if (gMicSampleAnalysisParam->mType == 0) {
                 sample = GetMicSampleAmplitude(ClampMicSample(buf[sampleIndex]));
             } else {
                 sample = (s8) buf[sampleIndex];
@@ -156,7 +156,7 @@ u8 UpdateMicSampleAnalysis(void) {
         gMicIntervalHistogram[bucketIndex] = 0;
     }
     for (sampleIndex = pos; sampleIndex < len; sampleIndex++) {
-        if (data_02173290->mType != 0) {
+        if (gMicSampleAnalysisParam->mType != 0) {
             sample = (s8) buf[sampleIndex] + 127;
         } else {
             sample = ClampMicSample(buf[sampleIndex]);
@@ -195,7 +195,7 @@ u8 UpdateMicSampleAnalysis(void) {
     }
     cnt3 = last - len;
     for (sampleIndex = 0; sampleIndex < pos; sampleIndex++) {
-        if (data_02173290->mType != 0) {
+        if (gMicSampleAnalysisParam->mType != 0) {
             sample = (s8) buf[sampleIndex] + 127;
         } else {
             sample = ClampMicSample(buf[sampleIndex]);
@@ -239,7 +239,7 @@ u8 UpdateMicSampleAnalysis(void) {
     ok = 0;
     data_02173288 = 0;
     if (level > 99) {
-        if (data_02173290->mType == 0) {
+        if (gMicSampleAnalysisParam->mType == 0) {
             GetMicSampleAmplitude(ClampMicSample(*samplePtr));
         }
         cappedLevel = level;

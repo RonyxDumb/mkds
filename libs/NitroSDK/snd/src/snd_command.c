@@ -11,7 +11,7 @@
 u32 data_021732cc;
 u32 data_021732e8;
 SNDCommand *data_021732d8;
-SNDCommand *data_021732d0;
+SNDCommand *sReserveList;
 SNDCommand *data_021732c8;
 SNDCommand *data_021732d4;
 s32 data_021732dc;
@@ -59,21 +59,21 @@ void SND_CommandInit(void) {
     }
     data_021735a0[255].mNext = 0;
     data_021732d8 = &data_021735a0[255];
-    data_021732d0 = 0;
+    sReserveList = 0;
     data_021732d4 = 0;
     data_021732e4 = 0;
     data_021732dc = 0;
     data_021732e0 = 0;
     data_021732e8 = 1;
     data_021732cc = 0;
-    data_02174e00 = &data_02173320;
+    SNDi_SharedWork = &data_02173320;
     SNDi_InitSharedWork(&data_02173320);
     command = SND_AllocCommand(1);
     if (command == 0) {
         return;
     }
     command->mId = 0x1d;
-    command->mArg[0] = (u32) data_02174e00;
+    command->mArg[0] = (u32) SNDi_SharedWork;
     SND_PushCommand(command);
     SND_FlushCommand(1);
 }
@@ -161,7 +161,7 @@ void SND_PushCommand(SNDCommand *command) {
     end = data_021732d4;
     if (end == 0) {
         data_021732d4 = command;
-        data_021732d0 = command;
+        sReserveList = command;
     } else {
         end->mNext = command;
         data_021732d4 = command;
@@ -176,7 +176,7 @@ u32 SND_FlushCommand(u32 flags) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    if (data_021732d0 == 0) {
+    if (sReserveList == 0) {
         OS_RestoreInterrupts(enabled);
         return 1;
     }
@@ -190,28 +190,28 @@ u32 SND_FlushCommand(u32 flags) {
         } while (data_021732e4 >= 8);
     }
     DC_FlushRange(data_021735a0, 0x1800);
-    if (PXI_SendWordByFifo(7, (u32) data_021732d0, 0) < 0) {
+    if (PXI_SendWordByFifo(7, (u32) sReserveList, 0) < 0) {
         if ((flags & 1) == 0) {
             OS_RestoreInterrupts(enabled);
             return 0;
         }
-        if (PXI_SendWordByFifo(7, (u32) data_021732d0, 0) < 0) {
+        if (PXI_SendWordByFifo(7, (u32) sReserveList, 0) < 0) {
             do {
                 OS_RestoreInterrupts(enabled);
                 OS_SpinWait(0x64);
                 enabled = OS_DisableInterrupts();
-            } while (PXI_SendWordByFifo(7, (u32) data_021732d0, 0) < 0);
+            } while (PXI_SendWordByFifo(7, (u32) sReserveList, 0) < 0);
         }
     }
     if ((flags & 2) != 0) {
         RequestCommandProc();
     }
-    data_021732ec[data_021732e0] = data_021732d0;
+    data_021732ec[data_021732e0] = sReserveList;
     data_021732e0++;
     if (data_021732e0 > 8) {
         data_021732e0 = 0;
     }
-    data_021732d0 = 0;
+    sReserveList = 0;
     data_021732d4 = 0;
     data_021732e4++;
     data_021732e8++;
@@ -245,7 +245,7 @@ u32 SND_GetCurrentCommandTag(void) {
     u32 tag;
 
     enabled = OS_DisableInterrupts();
-    if (data_021732d0 == 0) {
+    if (sReserveList == 0) {
         tag = data_021732cc;
     } else {
         tag = data_021732e8;
@@ -302,7 +302,7 @@ s32 SND_CountReservedCommand(void) {
 
     enabled = OS_DisableInterrupts();
     count = 0;
-    for (command = data_021732d0; command != 0; command = command->mNext) {
+    for (command = sReserveList; command != 0; command = command->mNext) {
         count++;
     }
     OS_RestoreInterrupts(enabled);

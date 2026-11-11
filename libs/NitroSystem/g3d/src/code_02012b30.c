@@ -369,7 +369,7 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                 tex4x4Key = NNS_G3dTex4x4GetRequiredSize(tex);
                 plttKey = NNS_G3dPlttGetRequiredSize(tex);
                 if (texKey != 0) {
-                    texKey = data_021619ec(texKey, 0, 0);
+                    texKey = NNS_GfdDefaultFuncAllocTexVram(texKey, 0, 0);
                     if (texKey == 0) {
                         texOk = 0;
                     }
@@ -377,7 +377,7 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                     texKey = 0;
                 }
                 if (tex4x4Key != 0) {
-                    tex4x4Key = data_021619ec(tex4x4Key, 1, 0);
+                    tex4x4Key = NNS_GfdDefaultFuncAllocTexVram(tex4x4Key, 1, 0);
                     if (tex4x4Key == 0) {
                         tex4x4Ok = 0;
                     }
@@ -394,8 +394,8 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                 }
                 if (texOk == 0 || tex4x4Ok == 0 || plttOk == 0) {
                     data_021619f8(plttKey);
-                    data_021619f0(tex4x4Key);
-                    data_021619f0(texKey);
+                    NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);
+                    NNS_GfdDefaultFuncFreeTexVram(texKey);
                     return 0;
                 }
                 NNS_G3dTexSetTexKey(tex, texKey, tex4x4Key);
@@ -457,9 +457,9 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
         data_021619f8(plttKey);
     }
     if (tex4x4Key != 0) {
-        data_021619f0(tex4x4Key);
+        NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);
     }
     if (texKey != 0) {
-        data_021619f0(texKey);
+        NNS_GfdDefaultFuncFreeTexVram(texKey);
     }
 }

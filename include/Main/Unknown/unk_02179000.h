@@ -4,7 +4,7 @@
 
 struct RomArchiveFileNode;
 
-// Object behind data_02179ec0: the list head at 0xb04 is the word at 0x46c4 of data_usa_021762e0.
+// Object behind data_02179ec0: the list head at 0xb04 is the word at 0x46c4 of gRomArchiveParentView.
 typedef struct Unk02179ec0 {
     /* 000 */ u8 mUnk_000[0xb04];
     /* b04 */ struct RomArchiveFileNode *mUnk_b04;

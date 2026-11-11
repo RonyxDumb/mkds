@@ -58,15 +58,15 @@ void SetupTrophy(void) {
     }
     {
         Vec3 cameraPos;
-        Vec3 cameraTarget;
-        Vec3 cameraUp = {0, 0, 0};
+        Vec3 cameraUp;
+        Vec3 cameraTarget = {0, 0, 0};
 
-        cameraTarget = data_021676d0;
+        cameraUp = data_021676d0;
         cameraPos = data_021676c4;
-        data_021704dc[0] = cameraPos;
-        data_021704dc[1] = cameraTarget;
-        data_021704dc[2] = cameraUp;
-        G3i_LookAt_(&cameraPos, &cameraTarget, &cameraUp, 0, &NNS_G3dGlb.mCameraMtx);
+        gCameraLookAtVectors[0] = cameraPos;
+        gCameraLookAtVectors[1] = cameraUp;
+        gCameraLookAtVectors[2] = cameraTarget;
+        G3i_LookAt_(&cameraPos, &cameraUp, &cameraTarget, 0, &NNS_G3dGlb.mCameraMtx);
         NNS_G3dGlb.mFlag &= ~0xe8;
         SetG3xSwapBits(gDisplaySettings, 1, 1);
         NNS_G3dGlb.mPrmViewPort = 0xbfff0000;

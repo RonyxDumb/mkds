@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_0212d214.h"
 
-// 0x24 bytes; data_0217d89c holds an array of them. NNSSndPlayer.mPlayerList holds the sequence players of the player,
+// 0x24 bytes; sPlayer holds an array of them. NNSSndPlayer.mPlayerList holds the sequence players of the player,
 // NNSSndPlayer.mHeapList its free player heaps.
 typedef struct NNSSndPlayer {
     /* 00 */ NNSFndList mPlayerList;

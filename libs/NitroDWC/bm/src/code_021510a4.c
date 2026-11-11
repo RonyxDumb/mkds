@@ -162,12 +162,12 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
     writeHeader |= 0x2002500;
     writeBufHigh |= 0x30000;
     bufAddr |= 0x1040000;
-    statusHigh = (u32) &data_usa_021804a0 >> 24;
+    statusHigh = (u32) &Work >> 24;
     statusHigh |= 0x2002200;
-    statusMid = (u32) &data_usa_021804a0 >> 8;
+    statusMid = (u32) &Work >> 8;
     statusMid &= 0xffff;
     statusMid |= 0x10000;
-    statusLow = (u32) &data_usa_021804a0 << 8;
+    statusLow = (u32) &Work << 8;
     statusLow &= 0xff00;
     statusLow |= 0x1020000;
     tag = 4;
@@ -224,18 +224,18 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                     break;
                 case 4:
                 case 5:
-                    DC_InvalidateRange(&data_usa_021804a0, 1);
+                    DC_InvalidateRange(&Work, 1);
                     if (state == 4) {
-                        if (data_usa_021804a0 & 2) {
+                        if (Work & 2) {
                             state = 3;
                             break;
                         }
                         return 0;
                     }
-                    if ((data_usa_021804a0 & 1) == 0) {
+                    if ((Work & 1) == 0) {
                         return 1;
                     }
-                    if ((data_usa_021804a0 & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
+                    if ((Work & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
                         state = 6;
                     } else {
                         WaitByLoop(0x4000);

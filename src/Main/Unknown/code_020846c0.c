@@ -65,7 +65,7 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
         tex4x4Value = NNS_G3dTex4x4GetRequiredSize(texture);
         plttValue = NNS_G3dPlttGetRequiredSize(texture);
         if (texValue != 0) {
-            texValue = data_021619ec(texValue, 0, 0);
+            texValue = NNS_GfdDefaultFuncAllocTexVram(texValue, 0, 0);
             if (texValue == 0) {
                 texOk = 0;
             }
@@ -73,7 +73,7 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
             texValue = 0;
         }
         if (tex4x4Value != 0) {
-            tex4x4Value = data_021619ec(tex4x4Value, 1, 0);
+            tex4x4Value = NNS_GfdDefaultFuncAllocTexVram(tex4x4Value, 1, 0);
             if (tex4x4Value == 0) {
                 tex4x4Ok = 0;
             }
@@ -90,8 +90,8 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
         }
         if (texOk == 0 || tex4x4Ok == 0 || plttOk == 0) {
             data_021619f8(plttValue);
-            data_021619f0(tex4x4Value);
-            data_021619f0(texValue);
+            NNS_GfdDefaultFuncFreeTexVram(tex4x4Value);
+            NNS_GfdDefaultFuncFreeTexVram(texValue);
             return 0;
         }
         NNS_G3dTexSetTexKey(texture, texValue, tex4x4Value);

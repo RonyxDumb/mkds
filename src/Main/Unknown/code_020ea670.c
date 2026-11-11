@@ -232,8 +232,8 @@ void UpdateWoodbox1State1(Woodbox1 *woodbox) {
     if (woodbox->mMapObject.mCourseMapRow->mSettings[2] != 0) {
         return;
     }
-    if (data_0217bbf0 == NULL) {
-        data_0217bbf0 = woodbox;
+    if (gBouncingWoodbox1 == NULL) {
+        gBouncingWoodbox1 = woodbox;
         woodbox->mMapObject.mStateMachine.mNextState = 2;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -355,7 +355,7 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
     Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
     if (woodbox->mMapObject.mStateMachine.mStateFrames >= 90) {
-        data_0217bbf0 = NULL;
+        gBouncingWoodbox1 = NULL;
         woodbox->mMapObject.mStateMachine.mNextState = 0;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -366,8 +366,8 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8
         if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
             if (kart->mItemEffect == 1 || kart->mVelocityLength > 0x3000) {
                 StartWoodbox1ItemObject(woodbox, &kart->mVelocity);
-                if (data_0217bbf0 == woodbox) {
-                    data_0217bbf0 = NULL;
+                if (gBouncingWoodbox1 == woodbox) {
+                    gBouncingWoodbox1 = NULL;
                 }
                 woodbox->mMapObject.mStateMachine.mNextState = 1;
                 woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -395,8 +395,8 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 
     firstResponseMinusOne = *firstResponse - 1;
     if (firstResponseMinusOne <= 1) {
         StartWoodbox1ItemObject(woodbox, &itemObject->mVelocity);
-        if (data_0217bbf0 == woodbox) {
-            data_0217bbf0 = NULL;
+        if (gBouncingWoodbox1 == woodbox) {
+            gBouncingWoodbox1 = NULL;
         }
         woodbox->mMapObject.mStateMachine.mNextState = 1;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -416,7 +416,7 @@ void CreateWoodbox1(MapObjectList *list) {
 }
 
 void ClearWoodbox1Pointer(MapObjectList *list) {
-    data_0217bbf0 = NULL;
+    gBouncingWoodbox1 = NULL;
 }
 
 void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
@@ -812,17 +812,17 @@ void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
 
     resMdl = model->mResMdl;
     modelAlpha = NNS_G3dMdlGetMdlAlpha(resMdl, 0);
-    data_0216c3d4 = modelAlpha;
+    gSavedModelAlpha = modelAlpha;
     if (maxAlpha < modelAlpha) {
         NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
     }
     DrawNsbmd(model);
-    savedAlpha = data_0216c3d4;
+    savedAlpha = gSavedModelAlpha;
     if (maxAlpha < savedAlpha) {
         NNS_G3dMdlSetMdlAlphaAll(resMdl, savedAlpha);
     }
-    data_0216c3d4 = -1;
+    gSavedModelAlpha = -1;
 }
 
 void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
@@ -832,17 +832,17 @@ void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
 
     resMdl = model->mResMdl;
     modelAlpha = NNS_G3dMdlGetMdlAlpha(resMdl, 0);
-    data_0216c3d4 = modelAlpha;
+    gSavedModelAlpha = modelAlpha;
     if (maxAlpha < modelAlpha) {
         NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
     }
     NNS_G3dDraw1Mat1Shp(model->mResMdl, 0, 0, 1);
-    savedAlpha = data_0216c3d4;
+    savedAlpha = gSavedModelAlpha;
     if (maxAlpha < savedAlpha) {
         NNS_G3dMdlSetMdlAlphaAll(resMdl, savedAlpha);
     }
-    data_0216c3d4 = -1;
+    gSavedModelAlpha = -1;
 }
 
 void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
@@ -854,7 +854,7 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
 
     resMdl = model->mResMdl;
     modelAlpha = NNS_G3dMdlGetMdlAlpha(resMdl, 0);
-    data_0216c3d4 = modelAlpha;
+    gSavedModelAlpha = modelAlpha;
     if (maxAlpha < modelAlpha) {
         NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
@@ -864,9 +864,9 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     data_0217bbe8 = matData->mPolyAttr;
     NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) SendMaterialPolygonAttributes, 0, 4, 3);
     DrawNsbmd(model);
-    savedAlpha = data_0216c3d4;
+    savedAlpha = gSavedModelAlpha;
     if (maxAlpha < savedAlpha) {
         NNS_G3dMdlSetMdlAlphaAll(resMdl, savedAlpha);
     }
-    data_0216c3d4 = -1;
+    gSavedModelAlpha = -1;
 }

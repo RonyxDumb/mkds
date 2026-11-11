@@ -67,7 +67,7 @@ void SetJgState4(void) {
 #pragma thumb off
 void SetJgState4Countdown(void) {
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        data_0217b8b4 = 0x14;
+        gJgStateCounter = 0x14;
     }
 }
 
@@ -106,10 +106,10 @@ void InitJg(void) {
     gJgTargetPos.y = 0;
     gJgTargetPos.z = 0;
     gJgProbeCenter = gJgTargetPos;
-    data_0217b918 = gJgProbeCenter;
-    gJgCollisionCenter = data_0217b918;
-    data_0217b99c = gJgCollisionCenter;
-    gJgPos = data_0217b99c;
+    gJgPreviousCollisionCenter = gJgProbeCenter;
+    gJgCollisionCenter = gJgPreviousCollisionCenter;
+    gJgPreviousPos = gJgCollisionCenter;
+    gJgPos = gJgPreviousPos;
     gJgKartMove.x = 0;
     gJgKartMove.y = 0;
     gJgKartMove.z = 0;
@@ -119,17 +119,17 @@ void InitJg(void) {
     gJgProbeStep = 0;
     gJgShiftSpeedX = 0;
     gJgShiftX = 0;
-    data_0217b8cc = 0;
-    data_0217b8ec = 0;
+    gJgHeightOffsetSpeed = 0;
+    gJgHeightOffset = 0;
     gJgEasedPos = gJgPos;
     flag = TRUE;
-    data_0217b8f0 = flag;
-    data_0217b8bc = flag;
-    data_0217b894 = 0;
+    gJgInView = flag;
+    gJgNearKart = flag;
+    gJgState1AngleActive = 0;
     if (gCourseMap->mSettings->mStartSideFlipped != 0) {
         flag = FALSE;
     }
-    data_0217b8f8 = flag;
+    gJgStartSideNotFlipped = flag;
     gJgKind = 4;
     gJgHighestLap = 1;
     gJgFinalLap = GetLapCount();
@@ -141,7 +141,7 @@ void InitJg(void) {
     for (pointIndex = 0; pointIndex < 7; pointIndex++) {
         point = &gJgPoints[pointIndex + 1];
         *point = *sourcePoint;
-        if (data_0217b8f8 != 0) {
+        if (gJgStartSideNotFlipped != 0) {
             point->x = -point->x;
             point->y = -point->y;
             point->z = -point->z;

@@ -34,7 +34,7 @@ typedef struct QueueMPDataToPortParams {
     /* 0e */ u8 mUnk_0e[2];
 } QueueMPDataToPortParams;
 
-extern QueueMPDataToPortParams data_0216523c;
+extern QueueMPDataToPortParams gMPDataToPortParams;
 extern const s32 data_02165510[2];
 extern const Vec3 data_02165524;
 extern const Vec3 data_0216553c;
@@ -67,7 +67,7 @@ extern const char gKartAppearFileName[];
 extern const char *gCharacterDirName;
 extern const char *gKartDirName;
 extern const char *gCharacterSubDirNames[13];
-extern u16 data_021659d4[12];
+extern u16 gKartNameTagLineVertices[12];
 extern TexPlttEntry data_021659ec;
 extern TexPlttEntry data_02165a10;
 extern TexPlttEntry data_02165a34;

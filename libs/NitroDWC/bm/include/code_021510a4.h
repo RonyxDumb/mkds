@@ -12,7 +12,7 @@ typedef struct DWCWiFiInfo {
 
 extern u16 data_usa_02180474;
 extern u32 data_usa_02180478;
-extern u8 data_usa_021804a0;
+extern u8 Work;
 
 u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
 u16 Callback_NVRAM(u32 tag, u32 data, u32 err);

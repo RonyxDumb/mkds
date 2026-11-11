@@ -21,7 +21,7 @@ s32 NNS_SndCaptureStartEffect(void *buffer, u32 bufSize, u32 format, u32 rate, u
     u8 *bufferBytes = buffer;
 
     NNS_SndCaptureStopEffect();
-    if (data_0217ddd0.mActiveFlag != 0) {
+    if (sCapParam.mActiveFlag != 0) {
         return 0;
     }
     zero = 0;
@@ -33,10 +33,10 @@ s32 NNS_SndCaptureStartEffect(void *buffer, u32 bufSize, u32 format, u32 rate, u
 
 // Stops the capture when it is a running effect capture.
 void NNS_SndCaptureStopEffect(void) {
-    if (data_0217ddd0.mActiveFlag == 0) {
+    if (sCapParam.mActiveFlag == 0) {
         return;
     }
-    if (data_0217ddd0.mType != 1) {
+    if (sCapParam.mType != 1) {
         return;
     }
     NNSi_SndCaptureStop();
@@ -45,13 +45,13 @@ void NNS_SndCaptureStopEffect(void) {
 // Clears the thread flag and CaptureParam.mActiveFlag.
 void NNSi_SndCaptureInit(void) {
     data_0217dda8 = 0;
-    data_0217ddd0.mActiveFlag = 0;
+    sCapParam.mActiveFlag = 0;
 }
 
 // For a reverb capture steps the fader, stops the capture when the fade out has finished and otherwise sets the
 // volume of the playback channels from the fader.
 void NNSi_SndCaptureMain(void) {
-    CaptureParam *capture = &data_0217ddd0;
+    CaptureParam *capture = &sCapParam;
     NNSSndFader *fader;
     s32 volume;
 
@@ -95,7 +95,7 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
     timerUnits = 0;
     playChannels = 0;
     alarm = -1;
-    capture = &data_0217ddd0;
+    capture = &sCapParam;
     DC_FlushRange(left, length);
     DC_FlushRange(right, length);
     isByteFormat = format == 1;
@@ -185,7 +185,7 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
 // Stops the timers, waits for the commands, drops the alarm messages, unlocks what the capture locked and restores
 // the output selector of an effect capture.
 void NNSi_SndCaptureStop(void) {
-    CaptureParam *capture = &data_0217ddd0;
+    CaptureParam *capture = &sCapParam;
     s32 hasAlarm;
     u32 tag;
 
@@ -218,7 +218,7 @@ void NNSi_SndCaptureStop(void) {
 
 // Stops the capture timers and waits for the commands, for the sleep mode.
 void NNSi_SndCaptureBeginSleep(void) {
-    CaptureParam *capture = &data_0217ddd0;
+    CaptureParam *capture = &sCapParam;
     u32 tag;
 
     if (capture->mActiveFlag == 0) {
@@ -233,7 +233,7 @@ void NNSi_SndCaptureBeginSleep(void) {
 
 // Clears and flushes both buffers and restarts the capture timers after sleep mode.
 void NNSi_SndCaptureEndSleep(void) {
-    CaptureParam *capture = &data_0217ddd0;
+    CaptureParam *capture = &sCapParam;
     volatile u32 zeroL;
     volatile u32 zeroR;
 

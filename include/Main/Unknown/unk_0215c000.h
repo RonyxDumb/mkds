@@ -32,7 +32,7 @@ extern u16 data_0215c56c[];
 extern u16 data_0215c59c[];
 extern u16 gSelectCupNameMBnclIndices[];
 extern u32 gSelectRaceRuleTeamsToSetupCopy[];
-extern u16 data_0215cf1c[];
+extern u16 gSelectCupMCellSlots[];
 extern u16 data_0215cefc[];
 extern u16 gSelectCupMCourseCells[];
 extern u16 gSelectCupMCourseLabels[];

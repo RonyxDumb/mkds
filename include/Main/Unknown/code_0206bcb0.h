@@ -82,7 +82,7 @@ typedef struct SoundRequestQueue {
     /* 4 */ SoundRequest *mRequests;
 } SoundRequestQueue;
 
-extern SoundRequestQueue data_0217d294;
+extern SoundRequestQueue gKouraSoundRequestQueue;
 extern SoundRequestQueue data_0217d29c;
 
 // Frames before the Killer effect may end early because of the kart's rank.
@@ -169,7 +169,8 @@ typedef struct ParticipantKartRecordState {
 #define KART_MOTION_REVERSING 0x100
 // Set while mCollisionPushVelocity pushes the Kart away from the course.
 #define KART_MOTION_COURSE_PUSH 0x200
-// Set while no gas is held on the ground; no drive input changed mForwardSpeed; ScaleKartForwardSpeed then decays it.
+// Set while no gas is held on the ground; no drive input changed mForwardSpeed; ScaleKartForwardSpeed
+// then decays it.
 #define KART_MOTION_COASTING 0x400
 // Set at the start of a hop; with HOPPING the heading turns by mTurnDirection until the drift ends.
 #define KART_MOTION_HOP_STEER 0x800

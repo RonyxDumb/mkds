@@ -345,7 +345,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -365,7 +365,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -385,7 +385,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -405,7 +405,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -428,7 +428,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -450,7 +450,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -472,7 +472,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
@@ -494,7 +494,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         Vec3 direction;
 
         value = kart->mIndex;
-        direction = data_02154f88;
+        direction = gKartVec3UnitX;
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {

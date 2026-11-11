@@ -35,20 +35,20 @@ int printf(const char *fmt, ...) {
     if (fwide(&data_0216eb7c[1], -1) >= 0) {
         return -1;
     }
-    if (OS_TryLockMutex((OSMutex *) data_0217eadc[3]) == 0) {
+    if (OS_TryLockMutex((OSMutex *) gLockMutexes[3]) == 0) {
         gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
         gLockHoldCounts[3] = 1;
     } else if (gLockOwnerThreadIds[3] == OSi_ThreadInfo.mListHead->mId) {
         gLockHoldCounts[3]++;
     } else {
-        OS_LockMutex((OSMutex *) data_0217eadc[3]);
+        OS_LockMutex((OSMutex *) gLockMutexes[3]);
         gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
         gLockHoldCounts[3] = 1;
     }
     result = FormatWithPutFunc(FormatPutFwrite, &data_0216eb7c[1], fmt, (char *) (((int) &fmt & ~3) + 4));
     gLockHoldCounts[3]--;
     if (gLockHoldCounts[3] == 0) {
-        OS_UnlockMutex((OSMutex *) data_0217eadc[3]);
+        OS_UnlockMutex((OSMutex *) gLockMutexes[3]);
     }
     return result;
 }
@@ -342,7 +342,7 @@ u32 fwrite(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
     } else {
         lockIndex = 5;
     }
-    mutex = (OSMutex *) data_0217eadc[lockIndex];
+    mutex = (OSMutex *) gLockMutexes[lockIndex];
     if (OS_TryLockMutex(mutex) == 0) {
         gLockOwnerThreadIds[lockIndex] = OSi_ThreadInfo.mListHead->mId;
         gLockHoldCounts[lockIndex] = 1;

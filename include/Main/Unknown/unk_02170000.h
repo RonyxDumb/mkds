@@ -33,5 +33,5 @@ extern u32 data_02170274[2];
 extern NNSG3dGlb NNS_G3dGlb;
 extern NNSG3dRS *NNS_G3dRS;
 // The three vectors passed to G3i_LookAt_, written together before each call.
-extern Vec3 data_021704dc[3];
+extern Vec3 gCameraLookAtVectors[3];
 extern NNSG3dMatAnmResult NNS_G3dRSOnGlb[];

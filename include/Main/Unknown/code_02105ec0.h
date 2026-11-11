@@ -91,16 +91,16 @@ typedef struct SceneSoundState {
 
 extern SceneSoundState gSceneSoundState;
 
-extern NNSSndSeqPlayer *data_0217c854;
+extern NNSSndSeqPlayer *gRaceSeqHandle;
 
-// Object data_0217d060 points to.
+// Object gCurrentSoundSetPlayer points to.
 typedef struct SoundSetPlayer {
     /* 00 */ SoundSet mSoundSet;
     /* 0c */ NNSSndSeqPlayer *mSeqPlayer;
     /* 10 */ LoadedSoundSet *mLoadedSet;
 } SoundSetPlayer;
 
-extern SoundSetPlayer *data_0217d060;
+extern SoundSetPlayer *gCurrentSoundSetPlayer;
 
 // Object behind gVolumeFade.
 typedef struct VolumeFade {

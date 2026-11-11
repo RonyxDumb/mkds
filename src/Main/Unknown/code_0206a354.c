@@ -509,7 +509,7 @@ s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record) {
         value = 0;
     }
     if (value == 0) {
-        flatDirection = data_02154f88;
+        flatDirection = gKartVec3UnitX;
     }
     kart->mEffectFlags |= KART_EFFECT_TUMBLING;
     kart->mRotationAngle = 0;

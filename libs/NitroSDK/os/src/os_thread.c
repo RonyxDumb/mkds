@@ -156,9 +156,9 @@ void OS_InitThread(void) {
     if (stackSize <= 0) {
         stackTop = (u8 *) 0x27e00e0 - stackSize;
     } else {
-        stackTop = (u8 *) &data_027e0000 + 0x3f80 - (u32) data_00000c00 - stackSize;
+        stackTop = (u8 *) &gDtcmData + 0x3f80 - (u32) data_00000c00 - stackSize;
     }
-    stackBottom = (u8 *) &data_027e0000 + 0x3f80 - (u32) data_00000c00;
+    stackBottom = (u8 *) &gDtcmData + 0x3f80 - (u32) data_00000c00;
     OSi_IdleThread.mStackBottom = stackBottom;
     OSi_IdleThread.mStackTop = stackTop;
     OSi_IdleThread.mStackWarningOffset = 0;

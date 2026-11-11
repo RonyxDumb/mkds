@@ -14,7 +14,7 @@ typedef struct NNSGfdFrmTexRegionState {
 
 extern NNSGfdFrmTexRegionState *data_021619fc[2];
 extern NNSGfdFrmTexRegionState *data_02161a04[5];
-extern NNSGfdFrmTexRegionState data_02161a18[5];
+extern NNSGfdFrmTexRegionState vramRegions_[5];
 extern u16 data_02173210;
 
 s32 NNS_GfdFreeFrmTexVram(u32 texKey);

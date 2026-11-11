@@ -40,7 +40,7 @@ extern u32 data_0216f354;
 extern u32 data_0216f358;
 extern CARDRomRegion data_0216f35c;
 extern CARDRomRegion data_0216f364;
-extern FSArchive data_0216f36c;
+extern FSArchive fsi_arc_rom;
 extern u8 fsi_def_digest_key[];
 extern u8 data_02161764[];
 extern void *fsi_digest_key_ptr;

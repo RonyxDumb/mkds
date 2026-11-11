@@ -31,7 +31,7 @@ typedef struct NNSSndSeqPlayer {
 #include "code_0212d214.h"
 
 // Memory NNS_SndPlayerCreateHeap gets from NNS_SndHeapAlloc: mHandle is the NNSSndHeap it sets up on mUnk_14, mPlayerNo
-// the index of the data_0217d89c element whose heap list receives it.
+// the index of the sPlayer element whose heap list receives it.
 typedef struct NNSSndPlayerHeap {
     /* 00 */ u8 mLink[8];
     /* 08 */ NNSSndHeap *mHandle;
@@ -45,7 +45,7 @@ typedef struct NNSSndPlayerHeap {
 typedef struct SNDBankData SNDBankData;
 
 extern NNSFndList data_0217d444;
-extern NNSFndList data_0217d450;
+extern NNSFndList sPrioList;
 
 void SetPlayerPriority(NNSSndSeqPlayer *seq, int priority);
 void PlayerHeapDisposeCallback(void *mem, u32 size, void *data1, u32 data2);

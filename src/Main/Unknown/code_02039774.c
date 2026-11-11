@@ -156,12 +156,12 @@ void Vec3CrossUnrounded(const Vec3 *lhs, const Vec3 *rhs, Vec3 *axb) {
 }
 
 void InitUnreadHalfwordGroups(void) {
-    data_usa_021755e4.mUnk_08 = 0;
-    data_usa_021755e4.mUnk_0a = 0;
-    data_usa_021755e4.mUnk_0c = 0;
-    data_usa_021755e4.mUnk_0e = 3;
-    data_usa_021755e4.mUnk_00 = 0;
-    data_usa_021755e4.mUnk_02 = 0;
-    data_usa_021755e4.mUnk_04 = 0;
-    data_usa_021755e4.mUnk_06 = 3;
+    gUnreadHalfwordGroups.mUnk_08 = 0;
+    gUnreadHalfwordGroups.mUnk_0a = 0;
+    gUnreadHalfwordGroups.mUnk_0c = 0;
+    gUnreadHalfwordGroups.mUnk_0e = 3;
+    gUnreadHalfwordGroups.mUnk_00 = 0;
+    gUnreadHalfwordGroups.mUnk_02 = 0;
+    gUnreadHalfwordGroups.mUnk_04 = 0;
+    gUnreadHalfwordGroups.mUnk_06 = 3;
 }

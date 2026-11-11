@@ -52,12 +52,12 @@ void SetupDrawBalloon(void *mapObjectList) {
     Camera *currentCamera;
 
     currentCamera = GetCurrentCamera();
-    data_0217b214.x = currentCamera->mPos.x >> 1;
-    data_0217b214.y = currentCamera->mPos.y >> 1;
-    data_0217b214.z = currentCamera->mPos.z >> 1;
-    data_0217b208.x = currentCamera->mPos.x >> 3;
-    data_0217b208.y = currentCamera->mPos.y >> 3;
-    data_0217b208.z = currentCamera->mPos.z >> 3;
+    gBalloonCameraPosHalf.x = currentCamera->mPos.x >> 1;
+    gBalloonCameraPosHalf.y = currentCamera->mPos.y >> 1;
+    gBalloonCameraPosHalf.z = currentCamera->mPos.z >> 1;
+    gBalloonCameraPosEighth.x = currentCamera->mPos.x >> 3;
+    gBalloonCameraPosEighth.y = currentCamera->mPos.y >> 3;
+    gBalloonCameraPosEighth.z = currentCamera->mPos.z >> 3;
     QueueMapObjectModelMaterial(mapObjectList, gBalloon);
 }
 
@@ -90,14 +90,17 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     if (drawCount == 1 && balloon->mDrawList == NULL) {
         distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
         if (distanceSquared < 0x2710) {
-            balloon->mDrawPos.x = data_0217b214.x + (balloon->mMapObject.mPos.x >> 1);
-            balloon->mDrawPos.y = data_0217b214.y + (balloon->mMapObject.mPos.y >> 1);
-            balloon->mDrawPos.z = data_0217b214.z + (balloon->mMapObject.mPos.z >> 1);
+            balloon->mDrawPos.x = gBalloonCameraPosHalf.x + (balloon->mMapObject.mPos.x >> 1);
+            balloon->mDrawPos.y = gBalloonCameraPosHalf.y + (balloon->mMapObject.mPos.y >> 1);
+            balloon->mDrawPos.z = gBalloonCameraPosHalf.z + (balloon->mMapObject.mPos.z >> 1);
             balloon->mDrawScale = 0x800;
         } else if (distanceSquared < 0x9c40) {
-            balloon->mDrawPos.x = data_0217b208.x + balloon->mMapObject.mPos.x - (balloon->mMapObject.mPos.x >> 3);
-            balloon->mDrawPos.y = data_0217b208.y + balloon->mMapObject.mPos.y - (balloon->mMapObject.mPos.y >> 3);
-            balloon->mDrawPos.z = data_0217b208.z + balloon->mMapObject.mPos.z - (balloon->mMapObject.mPos.z >> 3);
+            balloon->mDrawPos.x =
+                gBalloonCameraPosEighth.x + balloon->mMapObject.mPos.x - (balloon->mMapObject.mPos.x >> 3);
+            balloon->mDrawPos.y =
+                gBalloonCameraPosEighth.y + balloon->mMapObject.mPos.y - (balloon->mMapObject.mPos.y >> 3);
+            balloon->mDrawPos.z =
+                gBalloonCameraPosEighth.z + balloon->mMapObject.mPos.z - (balloon->mMapObject.mPos.z >> 3);
             balloon->mDrawScale = 0xe00;
         } else {
             balloon->mDrawPos = balloon->mMapObject.mPos;
@@ -129,14 +132,14 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     } else if (drawCount > 0) {
         distanceSquared = balloon->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
         if (distanceSquared < 0x2710) {
-            balloon->mDrawPos.x = data_0217b214.x + (balloon->mTargetPos.x >> 1);
-            balloon->mDrawPos.y = data_0217b214.y + (balloon->mTargetPos.y >> 1);
-            balloon->mDrawPos.z = data_0217b214.z + (balloon->mTargetPos.z >> 1);
+            balloon->mDrawPos.x = gBalloonCameraPosHalf.x + (balloon->mTargetPos.x >> 1);
+            balloon->mDrawPos.y = gBalloonCameraPosHalf.y + (balloon->mTargetPos.y >> 1);
+            balloon->mDrawPos.z = gBalloonCameraPosHalf.z + (balloon->mTargetPos.z >> 1);
             balloon->mDrawScale = 0x800;
         } else if (distanceSquared < 0x9c40) {
-            balloon->mDrawPos.x = data_0217b208.x + balloon->mTargetPos.x - (balloon->mTargetPos.x >> 3);
-            balloon->mDrawPos.y = data_0217b208.y + balloon->mTargetPos.y - (balloon->mTargetPos.y >> 3);
-            balloon->mDrawPos.z = data_0217b208.z + balloon->mTargetPos.z - (balloon->mTargetPos.z >> 3);
+            balloon->mDrawPos.x = gBalloonCameraPosEighth.x + balloon->mTargetPos.x - (balloon->mTargetPos.x >> 3);
+            balloon->mDrawPos.y = gBalloonCameraPosEighth.y + balloon->mTargetPos.y - (balloon->mTargetPos.y >> 3);
+            balloon->mDrawPos.z = gBalloonCameraPosEighth.z + balloon->mTargetPos.z - (balloon->mTargetPos.z >> 3);
             balloon->mDrawScale = 0xe00;
         } else {
             balloon->mDrawPos = balloon->mTargetPos;

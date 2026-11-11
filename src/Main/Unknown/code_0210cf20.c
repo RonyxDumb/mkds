@@ -27,7 +27,7 @@
 void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
     s32 index;
 
-    InitSoundHandlePool(&data_0217d034, sounds, count, 0x1c);
+    InitSoundHandlePool(&gPlayingSoundPool, sounds, count, 0x1c);
     for (index = 0; index < count; index++) {
         ResetPlayingSoundHandle(sounds);
         ClearThreeWords(&sounds->mUnk_08);
@@ -42,7 +42,7 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
     for (index = 0; index < 2; index++) {
         NNS_FndInitList(&gSoundSourceUpdateLists[index], 0x1c);
     }
-    data_0217d010[0] = 0;
+    gSoundSourceUpdatePass[0] = 0;
     data_0217d024[0] = 0;
 }
 
@@ -67,7 +67,7 @@ void UpdateSoundSources(void) {
         }
         data_0217d020 = 0;
     }
-    IncrementSoundHandleAges(&data_0217d034);
+    IncrementSoundHandleAges(&gPlayingSoundPool);
     updateLists = gSoundSourceUpdateLists;
     for (source = updateLists->mHead; source != NULL; source = updateLists->mHead) {
         SetPlayingSoundsParams(source);
@@ -82,9 +82,9 @@ void UpdateSoundSources(void) {
     if (source != NULL) {
         updateLists = gSoundSourceUpdateLists;
         do {
-            if ((countThisPass++ & 3) == data_0217d010[0]) {
+            if ((countThisPass++ & 3) == gSoundSourceUpdatePass[0]) {
                 SetPlayingSoundsParams(source);
-            } else if ((countThisPass & 1) == (data_0217d010[0] & 1)) {
+            } else if ((countThisPass & 1) == (gSoundSourceUpdatePass[0] & 1)) {
                 for (sound = source->mPlayingSounds.mHead; sound != NULL;
                      sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
                     if (sound->mSeqPlayer != NULL) {
@@ -99,9 +99,9 @@ void UpdateSoundSources(void) {
             source = secondUpdateList->mHead;
         } while (source != NULL);
     }
-    data_0217d010[0]++;
-    if (data_0217d010[0] == 4) {
-        data_0217d010[0] = 0;
+    gSoundSourceUpdatePass[0]++;
+    if (gSoundSourceUpdatePass[0] == 4) {
+        gSoundSourceUpdatePass[0] = 0;
     }
     data_0217d024[0] = 0;
 }
@@ -140,10 +140,10 @@ void StartPlayingSoundsFade(s32 volume, s32 steps) {
     u8 *entryAddress;
     s32 soundIndex;
 
-    entryAddress = data_0217d034.mEntries;
-    for (soundIndex = 0; soundIndex < data_0217d034.mCount; soundIndex++) {
+    entryAddress = gPlayingSoundPool.mEntries;
+    for (soundIndex = 0; soundIndex < gPlayingSoundPool.mCount; soundIndex++) {
         NNS_SndPlayerMoveVolume(&((PlayingSound *) entryAddress)->mSeqPlayer, volume, steps);
-        entryAddress += data_0217d034.mEntrySize;
+        entryAddress += gPlayingSoundPool.mEntrySize;
     }
 }
 
@@ -151,13 +151,13 @@ void StopAllPlayingSounds(u32 fadeSteps) {
     u8 *entryAddress;
     s32 soundIndex;
 
-    entryAddress = data_0217d034.mEntries;
-    for (soundIndex = 0; soundIndex < data_0217d034.mCount; soundIndex++) {
+    entryAddress = gPlayingSoundPool.mEntries;
+    for (soundIndex = 0; soundIndex < gPlayingSoundPool.mCount; soundIndex++) {
         NNS_SndPlayerStopSeq(&((PlayingSound *) entryAddress)->mSeqPlayer, fadeSteps);
         ((PlayingSound *) entryAddress)->mFlags &= ~4;
         ((PlayingSound *) entryAddress)->mFlags &= ~8;
         ((PlayingSound *) entryAddress)->mFlags &= ~2;
-        entryAddress += data_0217d034.mEntrySize;
+        entryAddress += gPlayingSoundPool.mEntrySize;
     }
 }
 

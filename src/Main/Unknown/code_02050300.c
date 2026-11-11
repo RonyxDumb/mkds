@@ -514,9 +514,9 @@ BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    data_0216523c.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = 0x18;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    if (QueueMPDataToPort(&halfword, 2, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
+    if (QueueMPDataToPort(&halfword, 2, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
     }
     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
@@ -537,9 +537,9 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    data_0216523c.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = 0x18;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    if (QueueMPDataToPort(&message, 0x18, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
+    if (QueueMPDataToPort(&message, 0x18, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
     }
     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
@@ -555,9 +555,9 @@ BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    data_0216523c.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = 0x18;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    if (QueueMPDataToPort(&message, 0x12, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
+    if (QueueMPDataToPort(&message, 0x12, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
     }
     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
@@ -572,9 +572,9 @@ BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    data_0216523c.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = 0x18;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    if (QueueMPDataToPort(&message, 8, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
+    if (QueueMPDataToPort(&message, 8, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
     }
     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;

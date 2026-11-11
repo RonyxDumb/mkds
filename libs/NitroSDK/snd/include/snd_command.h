@@ -23,7 +23,7 @@ typedef struct AlarmCallbackInfo {
 
 extern SNDCommand *data_021732c8;
 extern u32 data_021732cc;
-extern SNDCommand *data_021732d0;
+extern SNDCommand *sReserveList;
 extern SNDCommand *data_021732d4;
 extern SNDCommand *data_021732d8;
 extern s32 data_021732dc;

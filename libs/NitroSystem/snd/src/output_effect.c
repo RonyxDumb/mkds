@@ -13,7 +13,7 @@
 // Sets the output effect to type, then starts an effect capture of 32000 Hz with two parts, handled by EffectCallback.
 void NNS_SndCaptureStartOutputEffect(void *buffer, u32 bufSize, s32 type) {
     NNS_SndCaptureChangeOutputEffect(type);
-    NNS_SndCaptureStartEffect(buffer, bufSize, 0, 32000, 2, EffectCallback, &data_0216eaa4);
+    NNS_SndCaptureStartEffect(buffer, bufSize, 0, 32000, 2, EffectCallback, &sCallbackInfo);
 }
 
 // Does nothing when type is already set. Otherwise clears CallbackInfo.mBuffer, stores type in CallbackInfo.mType and
@@ -23,31 +23,31 @@ void NNS_SndCaptureChangeOutputEffect(s32 type) {
     u32 enabled;
     volatile u16 zero;
 
-    if (type == data_0216eaa4.mType) {
+    if (type == sCallbackInfo.mType) {
         return;
     }
-    if (data_0216eaa4.mType == 1) {
+    if (sCallbackInfo.mType == 1) {
         SNDi_SetSurroundDecay(0);
     }
     enabled = OS_DisableInterrupts();
     zero = 0;
-    MIi_CpuClear16(zero, &data_0216eaa4.mBuffer, 0xc0);
-    data_0216eaa4.mType = type;
+    MIi_CpuClear16(zero, &sCallbackInfo.mBuffer, 0xc0);
+    sCallbackInfo.mType = type;
     switch (type) {
         case 1:
-            data_0216eaa4.mEffectFunc = SurroundProc;
+            sCallbackInfo.mEffectFunc = SurroundProc;
             break;
         case 2:
-            data_0216eaa4.mEffectFunc = HeadphoneProc;
+            sCallbackInfo.mEffectFunc = HeadphoneProc;
             break;
         case 3:
-            data_0216eaa4.mEffectFunc = MonoProc;
+            sCallbackInfo.mEffectFunc = MonoProc;
             break;
         case 0:
-            data_0216eaa4.mEffectFunc = NothingProc;
+            sCallbackInfo.mEffectFunc = NothingProc;
             break;
         default:
-            data_0216eaa4.mEffectFunc = NothingProc;
+            sCallbackInfo.mEffectFunc = NothingProc;
             break;
     }
     OS_RestoreInterrupts(enabled);

@@ -15,9 +15,9 @@ u32 DGT_SetOverlayTableMode(u32 flag) {
     prev = data_02180490;
     data_02180490 = flag;
     if (flag != 0) {
-        data_0216f26c = DGTi_Hash2ProcessMessageBlock;
+        DGTi_Hash2ProcessMessageBlockFunc = DGTi_Hash2ProcessMessageBlock;
     } else {
-        data_0216f26c = DGTi_hash2_arm4_small;
+        DGTi_Hash2ProcessMessageBlockFunc = DGTi_hash2_arm4_small;
     }
     return prev;
 }
@@ -58,7 +58,7 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
             MI_CpuCopy8(input, buffer + num, chunk);
             length -= chunk;
             input += chunk;
-            data_0216f26c(ctx, buffer, 0x40);
+            DGTi_Hash2ProcessMessageBlockFunc(ctx, buffer, 0x40);
             ctx->mBufferLen = 0;
         } else {
             MI_CpuCopy8(input, buffer + num, length);
@@ -70,13 +70,13 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
         chunk = length & ~0x3f;
         length -= chunk;
         if (((u32) input & 3) == 0) {
-            data_0216f26c(ctx, (u8 *) input, chunk);
+            DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) input, chunk);
             input += chunk;
         } else {
             do {
                 MI_CpuCopy8(input, buffer, 0x40);
                 input += 0x40;
-                data_0216f26c(ctx, buffer, 0x40);
+                DGTi_Hash2ProcessMessageBlockFunc(ctx, buffer, 0x40);
                 chunk -= 0x40;
             } while ((int) chunk > 0);
         }
@@ -116,7 +116,7 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
         for (; wordIndex < 16; wordIndex++) {
             blockWords[wordIndex] = 0;
         }
-        data_0216f26c(ctx, (u8 *) blockWords, 0x40);
+        DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) blockWords, 0x40);
         wordIndex = 0;
     }
     for (; wordIndex < 14; wordIndex++) {
@@ -132,7 +132,7 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
     blockBytes[0x3a] = value >> 8;
     blockBytes[0x39] = value >> 16;
     blockBytes[0x38] = value >> 24;
-    data_0216f26c(ctx, (u8 *) blockWords, 0x40);
+    DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) blockWords, 0x40);
     value = ctx->mWords[0];
     digest[0] = value >> 24;
     digest[1] = value >> 16;

@@ -4,24 +4,24 @@
 #include "code_0200eddc.h"
 #include "Main/Unknown/code_0200e000.h"
 
-SNDSharedWork *data_02174e00;
+SNDSharedWork *SNDi_SharedWork;
 
 // Reads the player status word of the shared work area after invalidating its cache line.
 u32 SND_GetPlayerStatus(void) {
-    DC_InvalidateRange(&data_02174e00->mPlayerStatus, 4);
-    return data_02174e00->mPlayerStatus;
+    DC_InvalidateRange(&SNDi_SharedWork->mPlayerStatus, 4);
+    return SNDi_SharedWork->mPlayerStatus;
 }
 
 // Reads variable varNo of player playerNo from the shared work area after invalidating its cache line.
 s16 SND_GetPlayerLocalVariable(s32 playerNo, s32 varNo) {
-    DC_InvalidateRange(&data_02174e00->mPlayer[playerNo].mVariable[varNo], 2);
-    return data_02174e00->mPlayer[playerNo].mVariable[varNo];
+    DC_InvalidateRange(&SNDi_SharedWork->mPlayer[playerNo].mVariable[varNo], 2);
+    return SNDi_SharedWork->mPlayer[playerNo].mVariable[varNo];
 }
 
 // Reads the finished command tag of the shared work area after invalidating its cache line.
 u32 SNDi_GetFinishedCommandTag(void) {
-    DC_InvalidateRange(data_02174e00, 4);
-    return data_02174e00->mFinishCommandTag;
+    DC_InvalidateRange(SNDi_SharedWork, 4);
+    return SNDi_SharedWork->mFinishCommandTag;
 }
 
 // Clears the status words, the tick counters and sets every variable to -1, then writes the area back to memory.

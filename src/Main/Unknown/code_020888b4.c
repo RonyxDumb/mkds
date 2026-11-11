@@ -154,15 +154,15 @@ void SetupBattleKartAiParams(void) {
     RaceSetup *raceSetup;
 
     gSearchStartIndex = 0;
-    data_0217b030 = &data_0216600c;
+    gBattleKartAiParams = &data_0216600c;
     raceSetup = gRaceSetup;
     if (raceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
         switch (raceSetup->mCpuDifficulty) {
             case CPU_DIFFICULTY_NORMAL:
-                data_0217b030 = &data_02166028;
+                gBattleKartAiParams = &data_02166028;
                 break;
             case CPU_DIFFICULTY_HARD:
-                data_0217b030 = &data_02165ff0;
+                gBattleKartAiParams = &data_02165ff0;
                 break;
         }
     } else {
@@ -217,7 +217,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
     kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);
     if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
-        kartAiParams = data_0217b030;
+        kartAiParams = gBattleKartAiParams;
         balloonCountGoal = 0;
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
@@ -521,8 +521,8 @@ void AdvanceBattleKartAiMicInflate(KartAi *kartAi) {
         return;
     }
     balloonsLeftTestPassed = FALSE;
-    if (balloonsLeftToMake > data_0217b030->mInflateBalloonsLeftLimit ||
-        (balloonsLeftToMake == data_0217b030->mInflateBalloonsLeftLimit &&
+    if (balloonsLeftToMake > gBattleKartAiParams->mInflateBalloonsLeftLimit ||
+        (balloonsLeftToMake == gBattleKartAiParams->mInflateBalloonsLeftLimit &&
          IsKartInflatingBalloon(kartAi->mIndex) != 0)) {
         balloonsLeftTestPassed = TRUE;
     }
@@ -530,7 +530,7 @@ void AdvanceBattleKartAiMicInflate(KartAi *kartAi) {
         return;
     }
     kartAi->mInflateWaitFrames++;
-    if (kartAi->mInflateWaitFrames > data_0217b030->mInflateWaitFrameCount) {
+    if (kartAi->mInflateWaitFrames > gBattleKartAiParams->mInflateWaitFrameCount) {
         StartKartMicInflate(kartAi->mIndex);
         kartAi->mInflateWaitFrames = 0;
     }
@@ -538,7 +538,7 @@ void AdvanceBattleKartAiMicInflate(KartAi *kartAi) {
 }
 
 void PickKartAiBalloonCountGoal(KartAi *kartAi) {
-    s32 *randomLimits = data_0217b030->mUnk_0c;
+    s32 *randomLimits = gBattleKartAiParams->mUnk_0c;
     RandomState64 *kartAiRandom;
     s16 goalIndex;
     s32 randomValue;

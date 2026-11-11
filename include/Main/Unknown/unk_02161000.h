@@ -25,7 +25,7 @@ extern const char data_02161eac[];
 extern const char data_02161ec4[];
 extern const char data_02161edc[];
 
-extern u32 (*data_021619ec)(s32 a, s32 b, s32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 a, s32 b, s32 c);
 extern u32 (*data_021619f4)(s32 a, s32 b, s32 c);
 extern void (*data_02161ac0[])(s32 a, s32 b, s32 c, s32 d);
 extern void (*data_02161ac8[])(s32 a, s32 b, void *c);
@@ -72,7 +72,7 @@ extern u32 data_02161928[];
 extern Vec3 data_02161930[];
 extern Vec3 data_02161954;
 extern Vec3 data_02161960;
-extern s32 (*data_021619f0)(u32);
+extern s32 (*NNS_GfdDefaultFuncFreeTexVram)(u32);
 extern s32 (*data_021619f8)(u32);
 
 extern void (*data_021617d4)(void *, NNSG3dAnmObj *, u32);
@@ -80,7 +80,7 @@ extern void (*data_021617d8)(void *, NNSG3dAnmObj *, u32);
 extern void (*data_021617dc)(void *, NNSG3dAnmObj *, u32);
 extern void (*data_021617e0)(void *, NNSG3dAnmObj *, u32);
 extern void (*data_021617e4)(void *, NNSG3dAnmObj *, u32);
-extern u32 (*data_021619ec)();
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)();
 extern u32 (*data_021619f4)();
 
 extern const char gSelectCharacterGpMNcgrName[];

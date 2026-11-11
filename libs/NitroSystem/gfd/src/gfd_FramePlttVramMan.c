@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_02173000.h"
 
 void NNS_GfdInitFrmPlttVramManager(u32 szByte, s32 useAsDefault) {
-    data_02173214.mSzTotal = szByte;
+    s_managerState_.mSzTotal = szByte;
     NNS_GfdResetFrmPlttVramState();
     if (useAsDefault != 0) {
         data_021619f4 = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmPlttVram;
@@ -26,27 +26,27 @@ u32 NNS_GfdAllocFrmPlttVram(u32 szByte, s32 bPltt4, s32 allocFrom) {
         return 0;
     }
     if (allocFrom == 1) {
-        current = data_02173214.mLoAddr;
+        current = s_managerState_.mLoAddr;
         if (bPltt4 != 0) {
             alignment = (8 - (current & 7)) & 7;
         } else {
             alignment = (16 - (current & 0xf)) & 0xf;
         }
         increase = szByte + alignment;
-        if (data_02173214.mHiAddr - current >= increase) {
+        if (s_managerState_.mHiAddr - current >= increase) {
             found = current + increase;
             if (bPltt4 != 0 && found > 0x10000) {
                 found = 0;
             } else {
                 addr = current + alignment;
                 found = 1;
-                data_02173214.mLoAddr += increase;
+                s_managerState_.mLoAddr += increase;
             }
         } else {
             found = 0;
         }
     } else {
-        current = data_02173214.mHiAddr;
+        current = s_managerState_.mHiAddr;
         if (current >= szByte) {
             increase = current - szByte;
             if (bPltt4 != 0) {
@@ -55,13 +55,13 @@ u32 NNS_GfdAllocFrmPlttVram(u32 szByte, s32 bPltt4, s32 allocFrom) {
                 alignment = increase & 0xf;
             }
             increase = szByte + alignment;
-            if (current - data_02173214.mLoAddr >= increase) {
+            if (current - s_managerState_.mLoAddr >= increase) {
                 if (bPltt4 != 0 && current > 0x10000) {
                     found = 0;
                 } else {
                     found = 1;
-                    data_02173214.mHiAddr -= increase;
-                    addr = data_02173214.mHiAddr;
+                    s_managerState_.mHiAddr -= increase;
+                    addr = s_managerState_.mHiAddr;
                 }
                 goto done;
             }
@@ -81,6 +81,6 @@ s32 NNS_GfdFreeFrmPlttVram(u32 plttKey) {
 }
 
 void NNS_GfdResetFrmPlttVramState(void) {
-    data_02173214.mLoAddr = 0;
-    data_02173214.mHiAddr = data_02173214.mSzTotal;
+    s_managerState_.mLoAddr = 0;
+    s_managerState_.mHiAddr = s_managerState_.mSzTotal;
 }

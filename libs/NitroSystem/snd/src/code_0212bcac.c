@@ -32,7 +32,7 @@ BOOL NNS_SndPlayerCreateHeap(int index, NNSSndHeap *heap, u32 size) {
         return 0;
     }
     block->mHandle = inner;
-    NNS_FndAppendListObject(&data_0217d89c[index].mHeapList, block);
+    NNS_FndAppendListObject(&sPlayer[index].mHeapList, block);
     return 1;
 }
 
@@ -198,7 +198,7 @@ void NNS_SndPlayerSetSeqArcNo(NNSSndSeqPlayer **handle, int archive, int index) 
     (*handle)->mSeqArcIndex = index;
 }
 
-NNSFndList data_0217d450;
+NNSFndList sPrioList;
 NNSFndList data_0217d444;
 
 // Reads the sequence variable number variable of the sequence of handle into value; 0 for a handle without a sequence
@@ -232,14 +232,14 @@ void NNSi_SndPlayerInit(void) {
     NNSSndSeqPlayer *seq;
     NNSSndPlayer *player;
 
-    NNS_FndInitList(&data_0217d450, 0x14);
+    NNS_FndInitList(&sPrioList, 0x14);
     NNS_FndInitList(&data_0217d444, 0x14);
     for (index = 0, seq = data_0217d45c; index < 16; index++, seq++) {
         seq->mStatus = 0;
         seq->mPlayerNo = index;
         NNS_FndAppendListObject(&data_0217d444, seq);
     }
-    for (index = 0, player = data_0217d89c; index < 32; index++, player++) {
+    for (index = 0, player = sPlayer; index < 32; index++, player++) {
         NNS_FndInitList(&player->mPlayerList, 0xc);
         NNS_FndInitList(&player->mHeapList, 0);
         player->mVolume = 0x7f;
@@ -260,8 +260,8 @@ void NNSi_SndPlayerMain(void) {
     s32 volume;
 
     status = SND_GetPlayerStatus();
-    for (seq = NNS_FndGetNextListObject(&data_0217d450, 0); seq != 0; seq = next) {
-        next = NNS_FndGetNextListObject(&data_0217d450, seq);
+    for (seq = NNS_FndGetNextListObject(&sPrioList, 0); seq != 0; seq = next) {
+        next = NNS_FndGetNextListObject(&sPrioList, seq);
         if (seq->mStartFlag == 0 && SND_IsFinishedCommandTag(seq->mCommandTag) != 0) {
             seq->mStartFlag = 1;
         }
@@ -299,7 +299,7 @@ void NNSi_SndPlayerMain(void) {
 // when none could be taken.
 NNSSndSeqPlayer *NNSi_SndPlayerAllocSeqPlayer(NNSSndSeqPlayer **handle, int index, int priority) {
     NNSSndSeqPlayer *seq = *handle;
-    NNSSndPlayer *player = &data_0217d89c[index];
+    NNSSndPlayer *player = &sPlayer[index];
 
     if (seq != 0) {
         NNS_SndHandleReleaseSeq(handle);
@@ -363,7 +363,7 @@ void NNSi_SndPlayerStopSeq(NNSSndSeqPlayer *seq, int fadeSteps) {
 
 // Takes a free player heap of index for seq, empties it and returns its heap.
 NNSSndHeap *NNSi_SndPlayerAllocHeap(int index, NNSSndSeqPlayer *seq) {
-    NNSSndPlayer *player = &data_0217d89c[index];
+    NNSSndPlayer *player = &sPlayer[index];
     NNSSndPlayerHeap *heap;
 
     heap = NNS_FndGetNextListObject(&player->mHeapList, 0);
@@ -408,13 +408,12 @@ void InsertPlayerList(NNSSndPlayer *player, NNSSndSeqPlayer *seq) {
 void InsertPrioList(NNSSndSeqPlayer *seq) {
     NNSSndSeqPlayer *next;
 
-    for (next = NNS_FndGetNextListObject(&data_0217d450, 0); next != 0;
-         next = NNS_FndGetNextListObject(&data_0217d450, next)) {
+    for (next = NNS_FndGetNextListObject(&sPrioList, 0); next != 0; next = NNS_FndGetNextListObject(&sPrioList, next)) {
         if (seq->mPrio < next->mPrio) {
             break;
         }
     }
-    NNS_FndInsertListObject(&data_0217d450, next, seq);
+    NNS_FndInsertListObject(&sPrioList, next, seq);
 }
 
 // Stops the sequence of seq at once and shuts the player down.
@@ -432,7 +431,7 @@ NNSSndSeqPlayer *AllocSeqPlayer(int priority) {
     NNSSndSeqPlayer *seq = NNS_FndGetNextListObject(&data_0217d444, 0);
 
     if (seq == 0) {
-        seq = NNS_FndGetNextListObject(&data_0217d450, 0);
+        seq = NNS_FndGetNextListObject(&sPrioList, 0);
         if (priority < seq->mPrio) {
             return 0;
         }
@@ -460,7 +459,7 @@ void ShutdownPlayer(NNSSndSeqPlayer *seq) {
         seq->mHeap->mPlayer = 0;
         seq->mHeap = 0;
     }
-    NNS_FndRemoveListObject(&data_0217d450, seq);
+    NNS_FndRemoveListObject(&sPrioList, seq);
     NNS_FndAppendListObject(&data_0217d444, seq);
     seq->mStatus = 0;
 }
@@ -477,7 +476,7 @@ void PlayerHeapDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
         heap->mPlayer->mHeap = 0;
         return;
     }
-    NNS_FndRemoveListObject(&data_0217d89c[heap->mPlayerNo].mHeapList, heap);
+    NNS_FndRemoveListObject(&sPlayer[heap->mPlayerNo].mHeapList, heap);
 }
 
 // Moves seq to the place of priority in its player list and in the busy list.
@@ -488,7 +487,7 @@ void SetPlayerPriority(NNSSndSeqPlayer *seq, int priority) {
         NNS_FndRemoveListObject(&player->mPlayerList, seq);
         seq->mPlayer = 0;
     }
-    NNS_FndRemoveListObject(&data_0217d450, seq);
+    NNS_FndRemoveListObject(&sPrioList, seq);
     seq->mPrio = priority;
     if (player != 0) {
         InsertPlayerList(player, seq);

@@ -2027,7 +2027,7 @@ void SPLUtil_SetCylinderEmitterDir(ParticleEmitter *emtr, Vec3 *pointA, Vec3 *po
 }
 
 u32 SPLUtil_AllocTextureVRAM(s32 size, s32 is4x4) {
-    return (data_021619ec(size, is4x4, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocTexVram(size, is4x4, 0) & 0xffff) << 3;
 }
 
 u32 SPLUtil_AllocPaletteVRAM(s32 size, s32 is4Pltt) {

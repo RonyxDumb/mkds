@@ -2,11 +2,11 @@
 #include "Main/Unknown/unk_02161000.h"
 
 void NNSi_GfdSetTexNrmSearchArray(int idx1st, int idx2nd, int idx3rd, int idx4th, int idx5th) {
-    data_02161a04[0] = &data_02161a18[idx1st];
-    data_02161a04[1] = &data_02161a18[idx2nd];
-    data_02161a04[2] = &data_02161a18[idx3rd];
-    data_02161a04[3] = &data_02161a18[idx4th];
-    data_02161a04[4] = &data_02161a18[idx5th];
+    data_02161a04[0] = &vramRegions_[idx1st];
+    data_02161a04[1] = &vramRegions_[idx2nd];
+    data_02161a04[2] = &vramRegions_[idx3rd];
+    data_02161a04[3] = &vramRegions_[idx4th];
+    data_02161a04[4] = &vramRegions_[idx5th];
 }
 
 void NNS_GfdInitFrmTexVramManager(u16 numBanks, BOOL useAsDefault) {
@@ -18,8 +18,8 @@ void NNS_GfdInitFrmTexVramManager(u16 numBanks, BOOL useAsDefault) {
     data_02173210 = numBanks;
     NNS_GfdResetFrmTexVramState();
     if (useAsDefault != 0) {
-        data_021619ec = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmTexVram;
-        data_021619f0 = NNS_GfdFreeFrmTexVram;
+        NNS_GfdDefaultFuncAllocTexVram = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmTexVram;
+        NNS_GfdDefaultFuncFreeTexVram = NNS_GfdFreeFrmTexVram;
     }
 }
 
@@ -29,7 +29,7 @@ void NNS_GfdResetFrmTexVramState(void) {
     NNSGfdFrmTexRegionState *region;
 
     numBanks = data_02173210;
-    region = data_02161a18;
+    region = vramRegions_;
     if (numBanks > 1) {
         numBanks++;
     }
@@ -74,10 +74,10 @@ u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt) {
             if (region->mBActive != 0 && region->mTail - region->mHead >= size) {
                 switch (region->mIndex) {
                     case 0:
-                        palRegion = &data_02161a18[1];
+                        palRegion = &vramRegions_[1];
                         break;
                     case 3:
-                        palRegion = &data_02161a18[2];
+                        palRegion = &vramRegions_[2];
                         break;
                     default:
                         palRegion = 0;
