@@ -20,10 +20,12 @@ extern const double data_0216eca0;
 // Used by three functions of this file, by PowBody (which stores 33 there) and by overlay 0.
 extern int gLibErrorCode;
 
-double strtod(const char *s, const char **end);
-long StrtolBase10(const char *s);
-long strtol(const char *s, const char **end, int base);
-u32 strtoul(const char *s, const char **end, int base);
-double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r);
-u64 ScanInt64(int a, int b, Unk02138618Func f, void *p, int *q, int *r, int *s);
-u32 ScanInt32(int a, int b, Unk02138618Func f, ScanStringSource *p, int *q, int *r, int *s);
+double strtod(const char *string, const char **end);
+long StrtolBase10(const char *string);
+long strtol(const char *string, const char **end, int base);
+u32 strtoul(const char *string, const char **end, int base);
+double ScanDouble(int maxChars, Unk02138618Func readChar, void *source, int *usedCount, int *overflow);
+u64 ScanInt64(int base, int maxChars, Unk02138618Func readChar, void *source, int *usedCount, int *negative,
+              int *overflow);
+u32 ScanInt32(int base, int maxChars, Unk02138618Func readChar, ScanStringSource *source, int *usedCount, int *negative,
+              int *overflow);

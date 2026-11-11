@@ -88,27 +88,29 @@ void SetKeyboardButtonCorners(void) {
 #pragma thumb on
 
 void PrintKeyboardButtonTexts(void) {
-    s32 i;
-    for (i = 0; i < 2; i++) {
+    s32 kindIndex;
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
         Keyboard *keyboard = gKeyboard;
-        PrintLabelLayoutTextNoFixedAdvance(1, gKeyboardButtonLabelIndices[i][0], gKeyboard->mBnlls[i],
-                                           GetBmgEntry(keyboard->mCommonMessages, 4), keyboard->mBncls[i],
-                                           keyboard->mTables[i][1]);
+        PrintLabelLayoutTextNoFixedAdvance(1, gKeyboardButtonLabelIndices[kindIndex][0], gKeyboard->mBnlls[kindIndex],
+                                           GetBmgEntry(keyboard->mCommonMessages, 4), keyboard->mBncls[kindIndex],
+                                           keyboard->mTables[kindIndex][1]);
         keyboard = gKeyboard;
-        PrintLabelLayoutTextNoFixedAdvance(1, gKeyboardButtonLabelIndices[i][1], gKeyboard->mBnlls[i],
-                                           GetBmgEntry(keyboard->mCommonMessages, 5), keyboard->mBncls[i],
-                                           keyboard->mTables[i][1]);
+        PrintLabelLayoutTextNoFixedAdvance(1, gKeyboardButtonLabelIndices[kindIndex][1], gKeyboard->mBnlls[kindIndex],
+                                           GetBmgEntry(keyboard->mCommonMessages, 5), keyboard->mBncls[kindIndex],
+                                           keyboard->mTables[kindIndex][1]);
     }
 }
 
 void InitKeyboardCursorCorners(void) {
-    s32 i;
-    s32 j;
-    s32 k;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            for (k = 0; k < 4; k++) {
-                LayoutTableEntry *entry = &gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][k]];
+    s32 kindIndex;
+    s32 screenIndex;
+    s32 cornerIndex;
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
+        for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+            for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+                LayoutTableEntry *entry =
+                    &gKeyboard
+                         ->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][cornerIndex]];
                 entry->mUsePosition = TRUE;
                 entry->mPositionX = 0;
                 entry->mPositionY = 0;
@@ -118,29 +120,33 @@ void InitKeyboardCursorCorners(void) {
 }
 
 void HideKeyboardFirstBufferObjects(void) {
-    s32 i;
-    s32 j;
-    s32 k;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            for (k = 0; k < 3; k++) {
-                gKeyboard->mTables[i][0][gKeyboardButtonEntryIndices[i][j][k]].mVisible = 0;
+    s32 kindIndex;
+    s32 itemIndex;
+    s32 entryIndex;
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
+        for (itemIndex = 0; itemIndex < 2; itemIndex++) {
+            for (entryIndex = 0; entryIndex < 3; entryIndex++) {
+                gKeyboard->mTables[kindIndex][0][gKeyboardButtonEntryIndices[kindIndex][itemIndex][entryIndex]]
+                    .mVisible = 0;
             }
-            gKeyboard->mTables[i][0][gKeyboardButtonLabelIndices[i][j] + gKeyboard->mBncls[i]->mCount].mVisible = 0;
+            gKeyboard
+                ->mTables[kindIndex][0]
+                         [gKeyboardButtonLabelIndices[kindIndex][itemIndex] + gKeyboard->mBncls[kindIndex]->mCount]
+                .mVisible = 0;
         }
     }
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gKeyboardTextLimits[i]; j++) {
-            gKeyboard->mTables[i][0][gKeyboardTextIndexEntryIndices[i][j]].mVisible = 0;
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
+        for (itemIndex = 0; itemIndex < gKeyboardTextLimits[kindIndex]; itemIndex++) {
+            gKeyboard->mTables[kindIndex][0][gKeyboardTextIndexEntryIndices[kindIndex][itemIndex]].mVisible = 0;
         }
     }
-    for (i = 0; i < 2; i++) {
-        for (k = 0; k < 4; k++) {
-            gKeyboard->mTables[i][0][gKeyboardCursorCornerEntryIndices[i][k]].mVisible = 0;
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
+        for (entryIndex = 0; entryIndex < 4; entryIndex++) {
+            gKeyboard->mTables[kindIndex][0][gKeyboardCursorCornerEntryIndices[kindIndex][entryIndex]].mVisible = 0;
         }
     }
-    for (j = 0; j < 10; j++) {
-        gKeyboard->mTables[1][0][data_0215d110[j]].mVisible = 0;
+    for (itemIndex = 0; itemIndex < 10; itemIndex++) {
+        gKeyboard->mTables[1][0][data_0215d110[itemIndex]].mVisible = 0;
     }
 }
 
@@ -169,18 +175,18 @@ void SetKeyboardTextFromPlayerName(void) {
 }
 
 void CopyKeyboardTextAsBytes(void) {
-    s32 i;
+    s32 charIndex;
     MI_CpuFill8(&gKeyboard->mRecords[2], 0, 0xd);
-    for (i = 0; i < 12; i++) {
-        ((u8 *) &gKeyboard->mRecords[2])[i] = gKeyboard->mRecords[0].mChars[i];
+    for (charIndex = 0; charIndex < 12; charIndex++) {
+        ((u8 *) &gKeyboard->mRecords[2])[charIndex] = gKeyboard->mRecords[0].mChars[charIndex];
     }
 }
 
 void InitKeyboard(void *heap, s32 mode) {
     volatile u16 zero;
     SceneTextInitParams config;
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 screenIndex;
     gKeyboard = HeapAlloc(heap, 0xc4);
     gKeyboard->mHeap = heap;
     gKeyboard->mDisplaySettings = CreateSceneDisplaySettings(heap);
@@ -239,28 +245,29 @@ void InitKeyboard(void *heap, s32 mode) {
     }
     SelectKeyboardLayout(gKeyboard->mLayout);
     QueueKeyboardScreenMap();
-    for (i = 0; i < 2; i++) {
-        gKeyboard->mCursorOnButton[i] = 0;
+    for (index = 0; index < 2; index++) {
+        gKeyboard->mCursorOnButton[index] = 0;
     }
     gKeyboard->mTextEntryEnabled = FALSE;
     gKeyboard->mNextState = gKeyboard->mState;
     gKeyboard->mStateFrames = 0;
     gKeyboard->mOffsetY = 0xc0;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            gKeyboard->mTextOffsetY[i][j] = gKeyboardTextOffsetYInitial[i][j];
+    for (index = 0; index < 2; index++) {
+        for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+            gKeyboard->mTextOffsetY[index][screenIndex] = gKeyboardTextOffsetYInitial[index][screenIndex];
         }
     }
     gKeyboard->mCommonMessages = FindFileInLoadedArchives(data_0216ea60);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            InitLayoutTable(heap, gKeyboard->mBncls[i], gKeyboard->mBnlls[i], &gKeyboard->mTables[i][j]);
+    for (index = 0; index < 2; index++) {
+        for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+            InitLayoutTable(heap, gKeyboard->mBncls[index], gKeyboard->mBnlls[index],
+                            &gKeyboard->mTables[index][screenIndex]);
         }
     }
     InitKeyboardCursorCorners();
-    for (i = 0; i < 2; i++) {
+    for (index = 0; index < 2; index++) {
         zero = 0;
-        MIi_CpuClear16(zero, &gKeyboard->mRecords[i], 0x18);
+        MIi_CpuClear16(zero, &gKeyboard->mRecords[index], 0x18);
     }
     InitKeyboardLabelCanvases();
     PrintKeyboardButtonTexts();
@@ -286,63 +293,75 @@ void WriteKeyboardObjectOffsets(void) {
     s32 cursorTop;
     s32 cursorRight;
     s32 cursorBottom;
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 m;
+    s32 kindIndex;
+    s32 screenIndex;
+    s32 entryIndex;
+    s32 buttonIndex;
     s16 offsetY;
     s16 keyboardOffsetY;
-    for (i = 0; i < 2; i++) {
-        cellCounts[i] = gKeyboard->mBncls[i]->mCount;
-        for (j = 0; j < 2; j++) {
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
+        cellCounts[kindIndex] = gKeyboard->mBncls[kindIndex]->mCount;
+        for (screenIndex = 0; screenIndex < 2; screenIndex++) {
             offsetY = -500;
-            if (i == 1 || gKeyboard->mRecords[2].mMode == 0xc) {
-                offsetY = gKeyboard->mTextOffsetY[i][j];
+            if (kindIndex == 1 || gKeyboard->mRecords[2].mMode == 0xc) {
+                offsetY = gKeyboard->mTextOffsetY[kindIndex][screenIndex];
             }
-            for (k = 0; k < data_0215d0d8[i]; k++) {
-                gKeyboard->mTables[i][j][data_0215d0dc[i][k]].mOffsetY = offsetY;
+            for (entryIndex = 0; entryIndex < data_0215d0d8[kindIndex]; entryIndex++) {
+                gKeyboard->mTables[kindIndex][screenIndex][data_0215d0dc[kindIndex][entryIndex]].mOffsetY = offsetY;
             }
-            for (k = 0; k < gKeyboardTextLimits[i]; k++) {
-                gKeyboard->mTables[i][j][gKeyboardTextIndexEntryIndices[i][k]].mOffsetY = offsetY;
-                (gKeyboard->mTables[i][j] + cellCounts[i])[gKeyboardTextCharLabelIndices[i][k]].mOffsetY = offsetY;
+            for (entryIndex = 0; entryIndex < gKeyboardTextLimits[kindIndex]; entryIndex++) {
+                gKeyboard->mTables[kindIndex][screenIndex][gKeyboardTextIndexEntryIndices[kindIndex][entryIndex]]
+                    .mOffsetY = offsetY;
+                (gKeyboard->mTables[kindIndex][screenIndex] +
+                 cellCounts[kindIndex])[gKeyboardTextCharLabelIndices[kindIndex][entryIndex]]
+                    .mOffsetY = offsetY;
             }
             offsetY = gKeyboard->mOffsetY;
-            for (m = 0; m < 2; m++) {
-                for (k = 0; k < 3; k++) {
-                    gKeyboard->mTables[i][j][gKeyboardButtonEntryIndices[i][m][k]].mOffsetY = offsetY;
+            for (buttonIndex = 0; buttonIndex < 2; buttonIndex++) {
+                for (entryIndex = 0; entryIndex < 3; entryIndex++) {
+                    gKeyboard
+                        ->mTables[kindIndex][screenIndex]
+                                 [gKeyboardButtonEntryIndices[kindIndex][buttonIndex][entryIndex]]
+                        .mOffsetY = offsetY;
                 }
-                (gKeyboard->mTables[i][j] + cellCounts[i])[gKeyboardButtonLabelIndices[i][m]].mOffsetY = offsetY;
+                (gKeyboard->mTables[kindIndex][screenIndex] +
+                 cellCounts[kindIndex])[gKeyboardButtonLabelIndices[kindIndex][buttonIndex]]
+                    .mOffsetY = offsetY;
             }
             keyboardOffsetY = gKeyboard->mOffsetY;
             GetKeyboardCursorBoundsRelative(&cursorLeft, &cursorTop, &cursorRight, &cursorBottom);
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][0]].mPositionX = cursorLeft;
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][0]].mPositionY =
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][0]].mPositionX =
+                cursorLeft;
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][0]].mPositionY =
                 keyboardOffsetY + cursorTop + 0x28;
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][1]].mPositionX = cursorLeft;
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][1]].mPositionY =
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][1]].mPositionX =
+                cursorLeft;
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][1]].mPositionY =
                 keyboardOffsetY + cursorBottom + 0x28;
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][2]].mPositionX = cursorRight;
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][2]].mPositionY =
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][2]].mPositionX =
+                cursorRight;
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][2]].mPositionY =
                 keyboardOffsetY + cursorTop + 0x28;
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][3]].mPositionX = cursorRight;
-            gKeyboard->mTables[i][j][gKeyboardCursorCornerEntryIndices[i][3]].mPositionY =
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][3]].mPositionX =
+                cursorRight;
+            gKeyboard->mTables[kindIndex][screenIndex][gKeyboardCursorCornerEntryIndices[kindIndex][3]].mPositionY =
                 keyboardOffsetY + cursorBottom + 0x28;
         }
     }
-    for (i = 0; i < 2; i++) {
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
         offsetY = -500;
-        if (gKeyboard->mKind == 1 && i == 1) {
+        if (gKeyboard->mKind == 1 && kindIndex == 1) {
             offsetY = gKeyboard->mOffsetY;
         }
-        for (k = 0; k < 10; k++) {
-            gKeyboard->mTables[1][i][data_0215d110[k]].mOffsetY = offsetY;
+        for (entryIndex = 0; entryIndex < 10; entryIndex++) {
+            gKeyboard->mTables[1][kindIndex][data_0215d110[entryIndex]].mOffsetY = offsetY;
         }
         offsetY = -500;
         if (gKeyboard->mKind == 1) {
-            offsetY = gKeyboard->mTextOffsetY[1][i];
+            offsetY = gKeyboard->mTextOffsetY[1][kindIndex];
         }
-        for (k = 0; k < 6; k++) {
-            gKeyboard->mTables[1][i][data_0215d0f0[k]].mOffsetY = offsetY;
+        for (entryIndex = 0; entryIndex < 6; entryIndex++) {
+            gKeyboard->mTables[1][kindIndex][data_0215d0f0[entryIndex]].mOffsetY = offsetY;
         }
     }
 }
@@ -466,16 +485,16 @@ void AdvanceKeyboardState2(void) {
     void *text;
     s32 touchedRectIndex;
     BOOL result;
-    BOOL g;
-    u16 c;
+    BOOL pairRecentlyLost;
+    u16 hasPair;
     result = FALSE;
     touchedRectIndex = -1;
-    g = FALSE;
-    c = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (c == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
-        g = TRUE;
+    pairRecentlyLost = FALSE;
+    hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+        pairRecentlyLost = TRUE;
     }
-    if (g == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && c != 0) {
+    if (pairRecentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         result = TRUE;
     }
     if (result != FALSE) {
@@ -584,12 +603,12 @@ void AdvanceKeyboardState5(void) {
 #pragma thumb on
 
 void UpdateKeyboardNameButtons(void) {
-    s32 i;
+    s32 charIndex;
     u8 textLimit;
-    i = 0;
+    charIndex = 0;
     gKeyboard->mButtonEnabled[0] = 0;
-    for (; i < GetKeyboardTextIndex(); i++) {
-        if (GetKeyboardText()[i] != 0x20 && GetKeyboardText()[i] != 0x3000) {
+    for (; charIndex < GetKeyboardTextIndex(); charIndex++) {
+        if (GetKeyboardText()[charIndex] != 0x20 && GetKeyboardText()[charIndex] != 0x3000) {
             gKeyboard->mButtonEnabled[0] = 1;
         }
     }
@@ -644,21 +663,21 @@ void AdvanceKeyboardState7(void) {
     KeyboardRecord *textRecord;
     void *text;
     s32 touchedRectIndex;
-    BOOL f;
-    BOOL g;
+    BOOL touched;
+    BOOL pairRecentlyLost;
     s32 previousLayout;
-    u16 c;
-    f = FALSE;
+    u16 hasPair;
+    touched = FALSE;
     touchedRectIndex = -1;
-    g = FALSE;
-    c = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (c == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
-        g = TRUE;
+    pairRecentlyLost = FALSE;
+    hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+        pairRecentlyLost = TRUE;
     }
-    if (g == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && c != 0) {
-        f = TRUE;
+    if (pairRecentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        touched = TRUE;
     }
-    if (f != FALSE) {
+    if (touched != FALSE) {
         touchedRectIndex = RectTableFindContaining(gKeyboard->mBnbls[1], gInputSlots[inputSlotIndex].mPair.mPairX,
                                                    gInputSlots[inputSlotIndex].mPair.mPairY);
     }
@@ -704,35 +723,35 @@ void AdvanceKeyboardState7(void) {
     } else {
         keyboard = gKeyboard;
         previousLayout = keyboard->mLayout;
-        f = FALSE;
+        touched = FALSE;
         switch (touchedRectIndex) {
             case 0:
                 keyboard->mLayout = 1;
                 SelectKeyboardLayout(gKeyboard->mLayout);
-                f = TRUE;
+                touched = TRUE;
                 break;
             case 1:
                 keyboard->mLayout = 2;
                 SelectKeyboardLayout(gKeyboard->mLayout);
-                f = TRUE;
+                touched = TRUE;
                 break;
             case 2:
                 keyboard->mLayout = 3;
                 SelectKeyboardLayout(gKeyboard->mLayout);
-                f = TRUE;
+                touched = TRUE;
                 break;
             case 3:
                 keyboard->mLayout = 4;
                 SelectKeyboardLayout(gKeyboard->mLayout);
-                f = TRUE;
+                touched = TRUE;
                 break;
             case 4:
                 keyboard->mLayout = 5;
                 SelectKeyboardLayout(gKeyboard->mLayout);
-                f = TRUE;
+                touched = TRUE;
                 break;
         }
-        if (f != FALSE) {
+        if (touched != FALSE) {
             if (previousLayout != gKeyboard->mLayout) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1e5);
             } else {
@@ -942,55 +961,57 @@ void AdvanceKeyboardState13(void) {
 }
 
 void PrintKeyboardTextChars(void) {
-    s32 i;
-    s32 j;
-    s32 k;
+    s32 kindIndex;
+    s32 screenIndex;
+    s32 charIndex;
     u16 charString[2];
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            for (k = 0; k < gKeyboardTextLimits[i]; k++) {
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
+        for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+            for (charIndex = 0; charIndex < gKeyboardTextLimits[kindIndex]; charIndex++) {
                 charString[0] = 0;
                 charString[1] = 0;
-                charString[0] = gKeyboard->mRecords[i].mChars[k];
-                PrintLabelLayoutTextNoFixedAdvance(j, gKeyboardTextCharLabelIndices[i][k], gKeyboard->mBnlls[i],
-                                                   charString, gKeyboard->mBncls[i], gKeyboard->mTables[i][j]);
+                charString[0] = gKeyboard->mRecords[kindIndex].mChars[charIndex];
+                PrintLabelLayoutTextNoFixedAdvance(
+                    screenIndex, gKeyboardTextCharLabelIndices[kindIndex][charIndex], gKeyboard->mBnlls[kindIndex],
+                    charString, gKeyboard->mBncls[kindIndex], gKeyboard->mTables[kindIndex][screenIndex]);
             }
         }
     }
 }
 
 void ShowKeyboardCursorButtonObjects(void) {
-    s32 i;
+    s32 buttonIndex;
     s32 kind;
-    for (i = 0; i < 2; i++) {
-        if (gKeyboard->mCursorOnButton[i] != 0) {
+    for (buttonIndex = 0; buttonIndex < 2; buttonIndex++) {
+        if (gKeyboard->mCursorOnButton[buttonIndex] != 0) {
             kind = gKeyboard->mKind;
-            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][i][0]].mVisible = 1;
+            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][buttonIndex][0]].mVisible = 1;
         } else {
             kind = gKeyboard->mKind;
-            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][i][0]].mVisible = 0;
+            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][buttonIndex][0]].mVisible = 0;
         }
     }
 }
 
 void ShowKeyboardDisabledButtonObjects(void) {
-    s32 i;
+    s32 buttonIndex;
     s32 kind;
-    for (i = 0; i < 2; i++) {
-        if (gKeyboard->mButtonEnabled[i] != 0) {
+    for (buttonIndex = 0; buttonIndex < 2; buttonIndex++) {
+        if (gKeyboard->mButtonEnabled[buttonIndex] != 0) {
             kind = gKeyboard->mKind;
-            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][i][1]].mVisible = 0;
+            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][buttonIndex][1]].mVisible = 0;
         } else {
             kind = gKeyboard->mKind;
-            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][i][1]].mVisible = 1;
+            gKeyboard->mTables[kind][1][gKeyboardButtonEntryIndices[kind][buttonIndex][1]].mVisible = 1;
         }
     }
 }
 
 void ShowKeyboardTextIndexObject(void) {
-    s32 i;
-    for (i = 0; i < gKeyboardTextLimits[gKeyboard->mKind]; i++) {
-        gKeyboard->mTables[gKeyboard->mKind][1][gKeyboardTextIndexEntryIndices[gKeyboard->mKind][i]].mVisible = 0;
+    s32 charIndex;
+    for (charIndex = 0; charIndex < gKeyboardTextLimits[gKeyboard->mKind]; charIndex++) {
+        gKeyboard->mTables[gKeyboard->mKind][1][gKeyboardTextIndexEntryIndices[gKeyboard->mKind][charIndex]].mVisible =
+            0;
     }
     gKeyboard->mTables[gKeyboard->mKind][1][gKeyboardTextIndexEntryIndices[gKeyboard->mKind][GetKeyboardTextIndex()]]
         .mVisible = 1;
@@ -999,26 +1020,26 @@ void ShowKeyboardTextIndexObject(void) {
 void ShowKeyboardRemainingCharObjects(void) {
     u16 nameChars[10];
     s32 charCount;
-    s32 k;
-    s32 l;
-    s32 i;
-    s32 j;
+    s32 remaining;
+    s32 firstShown;
+    s32 slotIndex;
+    s32 screenIndex;
     u8 *entryIndexPointer;
     if (gKeyboard->mKind == 1) {
         charCount = CopyTextWithinWidth(gKeyboard->mRecords[1].mChars, nameChars);
-        k = 6;
+        remaining = 6;
         if (charCount > 4) {
-            k = 10 - charCount;
+            remaining = 10 - charCount;
         }
-        i = 0;
+        slotIndex = 0;
         entryIndexPointer = data_0215d0f0;
-        l = 6 - k;
-        for (; i < 6; i++) {
-            for (j = 0; j < 2; j++) {
-                if (i >= l && gKeyboard->mRecords[2].mMode != 0xc) {
-                    gKeyboard->mTables[1][j][*entryIndexPointer].mVisible = 1;
+        firstShown = 6 - remaining;
+        for (; slotIndex < 6; slotIndex++) {
+            for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+                if (slotIndex >= firstShown && gKeyboard->mRecords[2].mMode != 0xc) {
+                    gKeyboard->mTables[1][screenIndex][*entryIndexPointer].mVisible = 1;
                 } else {
-                    gKeyboard->mTables[1][j][*entryIndexPointer].mVisible = 0;
+                    gKeyboard->mTables[1][screenIndex][*entryIndexPointer].mVisible = 0;
                 }
             }
             entryIndexPointer++;
@@ -1027,14 +1048,14 @@ void ShowKeyboardRemainingCharObjects(void) {
 }
 
 void ShowKeyboardLayoutObject(void) {
-    s32 i;
+    s32 layoutIndex;
     BOOL hiddenValue;
     u8 *entryIndexPointer;
     u8 entryIndex;
-    i = 0;
+    layoutIndex = 0;
     entryIndexPointer = gKeyboardLayoutEntryIndices;
     hiddenValue = FALSE;
-    for (; i < 6; i++) {
+    for (; layoutIndex < 6; layoutIndex++) {
         entryIndex = *entryIndexPointer;
         if (entryIndex != 0xff) {
             gKeyboard->mTables[1][1][entryIndex].mVisible = hiddenValue;
@@ -1045,7 +1066,7 @@ void ShowKeyboardLayoutObject(void) {
 }
 
 void AdvanceKeyboard(void) {
-    s32 i;
+    s32 kindIndex;
     Keyboard *keyboard;
     AdvanceLinkLevelIcons();
     AdvanceSceneText();
@@ -1103,10 +1124,10 @@ void AdvanceKeyboard(void) {
     ShowKeyboardCursorButtonObjects();
     ShowKeyboardDisabledButtonObjects();
     WriteKeyboardObjectOffsets();
-    for (i = 0; i < 2; i++) {
+    for (kindIndex = 0; kindIndex < 2; kindIndex++) {
         keyboard = gKeyboard;
-        DrawLayoutTable(keyboard->mBncls[i], keyboard->mNcer, keyboard->mBnlls[i], GetKeyboardFirstBuffer(),
-                        keyboard->mTables[i][0]);
+        DrawLayoutTable(keyboard->mBncls[kindIndex], keyboard->mNcer, keyboard->mBnlls[kindIndex],
+                        GetKeyboardFirstBuffer(), keyboard->mTables[kindIndex][0]);
     }
     keyboard = gKeyboard;
     DrawLayoutTable(keyboard->mBncls[keyboard->mKind], keyboard->mNcer, keyboard->mBnlls[keyboard->mKind],

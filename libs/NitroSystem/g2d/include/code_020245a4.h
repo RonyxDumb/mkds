@@ -18,10 +18,10 @@ typedef struct Unk020245a4_08 {
     /* 04 */ u32 mUnk_04[4];
 } Unk020245a4_08;
 
-void NNSi_G2dUnpackNFT(Unk02021f9c *a);
-u32 NNSi_G2dGetUnpackedFont(Unk02021f9c *a, Unk02022ce4 **b);
-u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *a, s32 b);
-u16 NNSi_G2dSplitChar1Byte(u8 **a);
-u16 NNSi_G2dSplitCharShiftJIS(u8 **a);
-u16 NNSi_G2dSplitCharUTF8(u8 **a);
-u16 NNSi_G2dSplitCharUTF16(u16 **a);
+void NNSi_G2dUnpackNFT(Unk02021f9c *file);
+u32 NNSi_G2dGetUnpackedFont(Unk02021f9c *file, Unk02022ce4 **fontOut);
+u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *reader, s32 bitCount);
+u16 NNSi_G2dSplitChar1Byte(u8 **stringPtr);
+u16 NNSi_G2dSplitCharShiftJIS(u8 **stringPtr);
+u16 NNSi_G2dSplitCharUTF8(u8 **stringPtr);
+u16 NNSi_G2dSplitCharUTF16(u16 **stringPtr);

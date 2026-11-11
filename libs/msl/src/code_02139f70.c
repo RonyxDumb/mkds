@@ -3,86 +3,86 @@
 #include "code_02139f70.h"
 #include "code_0213a460.h"
 
-double atof(const char *s) {
-    return strtod(s, 0);
+double atof(const char *string) {
+    return strtod(string, 0);
 }
 
-u32 strlen(const char *s) {
-    u32 n = -1;
-    u32 c;
+u32 strlen(const char *string) {
+    u32 length = -1;
+    u32 currentChar;
 
     do {
-        c = *s++;
-        n++;
-    } while (c != 0);
-    return n;
+        currentChar = *string++;
+        length++;
+    } while (currentChar != 0);
+    return length;
 }
 
 char *strcpy(char *dst, const char *src) {
-    char *p;
-    u32 a;
-    u32 b;
-    u32 w;
-    u32 k;
-    u32 m;
-    u32 t;
-    u32 n;
+    char *cursor;
+    u32 srcAlign;
+    u32 dstAlign;
+    u32 word;
+    u32 zeroTestAdd;
+    u32 zeroTestMask;
+    u32 sum;
+    u32 headCount;
 
-    p = dst;
-    a = (u32) src & 3;
-    b = (u32) dst & 3;
-    if (b == a) {
-        if (a != 0) {
+    cursor = dst;
+    srcAlign = (u32) src & 3;
+    dstAlign = (u32) dst & 3;
+    if (dstAlign == srcAlign) {
+        if (srcAlign != 0) {
             *dst = *src;
             if (*dst == 0) {
                 return dst;
             }
-            n = 3 - a;
-            if (n != 0) {
+            headCount = 3 - srcAlign;
+            if (headCount != 0) {
                 do {
-                    *++p = *++src;
-                    if (*p == 0) {
+                    *++cursor = *++src;
+                    if (*cursor == 0) {
                         return dst;
                     }
-                } while (--n != 0);
+                } while (--headCount != 0);
             }
-            p++;
+            cursor++;
             src++;
         }
-        w = *(u32 *) src;
-        k = 0xfefefeff;
-        m = 0x80808080;
-        t = w + k;
-        if ((t & m) == 0) {
-            p -= 4;
+        word = *(u32 *) src;
+        zeroTestAdd = 0xfefefeff;
+        zeroTestMask = 0x80808080;
+        sum = word + zeroTestAdd;
+        if ((sum & zeroTestMask) == 0) {
+            cursor -= 4;
             do {
-                p += 4;
-                *(u32 *) p = w;
+                cursor += 4;
+                *(u32 *) cursor = word;
                 src += 4;
-                w = *(u32 *) src;
-                t = w + k;
-            } while ((t & m) == 0);
-            p += 4;
+                word = *(u32 *) src;
+                sum = word + zeroTestAdd;
+            } while ((sum & zeroTestMask) == 0);
+            cursor += 4;
         }
     }
-    *p = *src;
-    if (*p == 0) {
+    *cursor = *src;
+    if (*cursor == 0) {
         return dst;
     }
     do {
-        *++p = *++src;
-    } while (*p != 0);
+        *++cursor = *++src;
+    } while (*cursor != 0);
     return dst;
 }
 
-char *strncpy(char *dst, const char *src, u32 n) {
-    char *p;
+char *strncpy(char *dst, const char *src, u32 count) {
+    char *cursor;
 
-    p = dst;
-    for (; n != 0; n--) {
-        if ((*p++ = *src++) == 0) {
-            while (--n != 0) {
-                *p++ = 0;
+    cursor = dst;
+    for (; count != 0; count--) {
+        if ((*cursor++ = *src++) == 0) {
+            while (--count != 0) {
+                *cursor++ = 0;
             }
             break;
         }
@@ -91,166 +91,166 @@ char *strncpy(char *dst, const char *src, u32 n) {
 }
 
 char *strcat(char *dst, const char *src) {
-    char *p;
-    char *q;
+    char *cursor;
+    char *last;
 
-    p = dst;
-    while (*p++ != 0) {
+    cursor = dst;
+    while (*cursor++ != 0) {
     }
-    p--;
+    cursor--;
     do {
-        q = p;
-        *p++ = *src++;
-    } while (*q != 0);
+        last = cursor;
+        *cursor++ = *src++;
+    } while (*last != 0);
     return dst;
 }
 
-int strcmp(const char *a, const char *b) {
-    u32 c;
-    u32 d;
-    u32 x;
-    u32 y;
-    u32 f;
-    u32 k;
-    u32 m;
-    u32 ra;
-    u32 rb;
+int strcmp(const char *left, const char *right) {
+    u32 leftValue;
+    u32 diff;
+    u32 leftByte;
+    u32 byteDiff;
+    u32 rightValue;
+    u32 zeroTestAdd;
+    u32 zeroTestMask;
+    u32 leftAlign;
+    u32 rightAlign;
 
-    c = *a;
-    d = c - *b;
-    if (d != 0) {
-        return d;
+    leftValue = *left;
+    diff = leftValue - *right;
+    if (diff != 0) {
+        return diff;
     }
-    ra = (u32) a & 3;
-    rb = (u32) b & 3;
-    if (rb == ra) {
-        if (ra != 0) {
-            if (c == 0) {
+    leftAlign = (u32) left & 3;
+    rightAlign = (u32) right & 3;
+    if (rightAlign == leftAlign) {
+        if (leftAlign != 0) {
+            if (leftValue == 0) {
                 return 0;
             }
-            ra = 3 - ra;
-            if (ra != 0) {
+            leftAlign = 3 - leftAlign;
+            if (leftAlign != 0) {
                 do {
-                    x = *++a;
-                    y = x - *++b;
-                    if (y != 0) {
-                        return y;
+                    leftByte = *++left;
+                    byteDiff = leftByte - *++right;
+                    if (byteDiff != 0) {
+                        return byteDiff;
                     }
-                    if (x == 0) {
+                    if (leftByte == 0) {
                         return 0;
                     }
-                } while (--ra != 0);
+                } while (--leftAlign != 0);
             }
-            a++;
-            b++;
+            left++;
+            right++;
         }
-        c = *(u32 *) a;
-        k = 0xfefefeff;
-        m = 0x80808080;
-        f = *(u32 *) b;
-        if (((c + k) & m) == 0) {
-            if (c == f) {
+        leftValue = *(u32 *) left;
+        zeroTestAdd = 0xfefefeff;
+        zeroTestMask = 0x80808080;
+        rightValue = *(u32 *) right;
+        if (((leftValue + zeroTestAdd) & zeroTestMask) == 0) {
+            if (leftValue == rightValue) {
                 do {
-                    c = *(u32 *) (a += 4);
-                    f = *(u32 *) (b += 4);
-                    if (((c + k) & m) != 0) {
+                    leftValue = *(u32 *) (left += 4);
+                    rightValue = *(u32 *) (right += 4);
+                    if (((leftValue + zeroTestAdd) & zeroTestMask) != 0) {
                         goto tail;
                     }
-                } while (c == f);
+                } while (leftValue == rightValue);
             }
-            a--;
-            b--;
+            left--;
+            right--;
             goto slow;
         }
     tail:
-        c = *a;
-        d = c - *b;
-        if (d != 0) {
-            return d;
+        leftValue = *left;
+        diff = leftValue - *right;
+        if (diff != 0) {
+            return diff;
         }
     }
 slow:
-    if (c == 0) {
+    if (leftValue == 0) {
         return 0;
     }
     do {
-        x = *++a;
-        y = x - *++b;
-        if (y != 0) {
-            return y;
+        leftByte = *++left;
+        byteDiff = leftByte - *++right;
+        if (byteDiff != 0) {
+            return byteDiff;
         }
-    } while (x != 0);
+    } while (leftByte != 0);
     return 0;
 }
 
-int strncmp(const char *a, const char *b, u32 n) {
-    u32 c;
-    u32 d;
+int strncmp(const char *left, const char *right, u32 count) {
+    u32 leftChar;
+    u32 rightChar;
 
-    if (n != 0) {
+    if (count != 0) {
         do {
-            d = *b++;
-            c = *a++;
-            if (c != d) {
-                return c - d;
+            rightChar = *right++;
+            leftChar = *left++;
+            if (leftChar != rightChar) {
+                return leftChar - rightChar;
             }
-            if (c == 0) {
+            if (leftChar == 0) {
                 break;
             }
-        } while (--n != 0);
+        } while (--count != 0);
     }
     return 0;
 }
 
-char *strchr(const char *s, int c) {
-    u32 d;
-    const char *p;
+char *strchr(const char *string, int chr) {
+    u32 current;
+    const char *cursor;
 
-    c = (u8) c;
-    p = s + 1;
-    d = *s;
-    if (d != 0) {
+    chr = (u8) chr;
+    cursor = string + 1;
+    current = *string;
+    if (current != 0) {
         do {
-            if (d == c) {
-                return (char *) (p - 1);
+            if (current == chr) {
+                return (char *) (cursor - 1);
             }
-            d = *p++;
-        } while (d != 0);
+            current = *cursor++;
+        } while (current != 0);
     }
-    if (c != 0) {
+    if (chr != 0) {
         return 0;
     }
-    return (char *) (p - 1);
+    return (char *) (cursor - 1);
 }
 
-char *strstr(const char *a, const char *b) {
-    u32 d;
-    const char *p;
-    u32 c;
-    u32 e;
-    const char *q;
-    const char *r;
-    u32 f;
+char *strstr(const char *haystack, const char *needle) {
+    u32 haystackChar;
+    const char *cursor;
+    u32 needleFirst;
+    u32 needleChar;
+    const char *haystackScan;
+    const char *needleScan;
+    u32 scanChar;
 
-    if (b == 0) {
-        return (char *) a;
+    if (needle == 0) {
+        return (char *) haystack;
     }
-    c = *b;
-    if (c == 0) {
-        return (char *) a;
+    needleFirst = *needle;
+    if (needleFirst == 0) {
+        return (char *) haystack;
     }
-    p = a + 1;
-    d = *a;
-    for (; d != 0; d = *p++) {
-        if (d == c) {
-            q = p;
-            r = b + 1;
+    cursor = haystack + 1;
+    haystackChar = *haystack;
+    for (; haystackChar != 0; haystackChar = *cursor++) {
+        if (haystackChar == needleFirst) {
+            haystackScan = cursor;
+            needleScan = needle + 1;
             do {
-                e = *r++;
-                f = *q++;
-            } while (f == e && f != 0);
-            if (e == 0) {
-                return (char *) (p - 1);
+                needleChar = *needleScan++;
+                scanChar = *haystackScan++;
+            } while (scanChar == needleChar && scanChar != 0);
+            if (needleChar == 0) {
+                return (char *) (cursor - 1);
             }
         }
     }

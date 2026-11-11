@@ -21,9 +21,9 @@ typedef struct FormatWideSpec {
 // u16 table indexed by characters below 0x80; FormatWideParseSpec tests bit 3, FormatWideDouble bit 9.
 extern const u16 data_0215d384[];
 
-int FormatWideWithPutFunc(void *(*a)(void *, const u16 *, u32), void *b, const u16 *c, char *d);
-u16 *FormatWideDouble(double v, u16 *end, FormatWideSpec s);
-void FormatWideRoundDigitChars(DigitRecord *a, int k);
-u16 *FormatWideInt64(u64 v, u16 *end, FormatWideSpec s);
-u16 *FormatWideInt32(unsigned long v, u16 *end, FormatWideSpec s);
-const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c);
+int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putArg, const u16 *format, char *argList);
+u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec);
+void FormatWideRoundDigitChars(DigitRecord *record, int keepCount);
+u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec);
+u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec);
+const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec *specOut);

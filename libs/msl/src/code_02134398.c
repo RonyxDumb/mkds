@@ -11,26 +11,26 @@
 #include "Main/Unknown/unk_0216f000.h"
 #include "Main/Unknown/unk_0217e000.h"
 
-void *FormatPutFwrite(void *a, const char *b, u32 n) {
-    if (n != fwrite(b, 1, n, a)) {
-        a = 0;
+void *FormatPutFwrite(void *file, const char *text, u32 count) {
+    if (count != fwrite(text, 1, count, file)) {
+        file = 0;
     }
-    return a;
+    return file;
 }
 
-void *FormatPutBuffer(void *p, const char *b, u32 n) {
-    FormatPutTarget *a = p;
+void *FormatPutBuffer(void *arg, const char *text, u32 count) {
+    FormatPutTarget *target = arg;
 
-    if (a->mWrittenCount + n > a->mSize) {
-        n = a->mSize - a->mWrittenCount;
+    if (target->mWrittenCount + count > target->mSize) {
+        count = target->mSize - target->mWrittenCount;
     }
-    memcpy(a->mBuffer + a->mWrittenCount, b, n);
-    a->mWrittenCount += n;
+    memcpy(target->mBuffer + target->mWrittenCount, text, count);
+    target->mWrittenCount += count;
     return (void *) 1;
 }
 
 int printf(const char *fmt, ...) {
-    int r;
+    int result;
 
     if (fwide(&data_0216eb7c[1], -1) >= 0) {
         return -1;
@@ -45,35 +45,35 @@ int printf(const char *fmt, ...) {
         gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
         gLockHoldCounts[3] = 1;
     }
-    r = FormatWithPutFunc(FormatPutFwrite, &data_0216eb7c[1], fmt, (char *) (((int) &fmt & ~3) + 4));
+    result = FormatWithPutFunc(FormatPutFwrite, &data_0216eb7c[1], fmt, (char *) (((int) &fmt & ~3) + 4));
     gLockHoldCounts[3]--;
     if (gLockHoldCounts[3] == 0) {
         OS_UnlockMutex((OSMutex *) data_0217eadc[3]);
     }
-    return r;
+    return result;
 }
 
-int vsnprintf(char *buf, u32 n, const char *fmt, char *va) {
+int vsnprintf(char *buf, u32 size, const char *fmt, char *va) {
     FormatPutTarget st;
-    int r;
+    int result;
 
     st.mBuffer = buf;
-    st.mSize = n;
+    st.mSize = size;
     st.mWrittenCount = 0;
-    r = FormatWithPutFunc(FormatPutBuffer, &st, fmt, va);
+    result = FormatWithPutFunc(FormatPutBuffer, &st, fmt, va);
     if (buf == 0) {
-        return r;
+        return result;
     }
-    if (r < n) {
-        buf[r] = 0;
-    } else if (n != 0) {
-        *(buf + n - 1) = 0;
+    if (result < size) {
+        buf[result] = 0;
+    } else if (size != 0) {
+        *(buf + size - 1) = 0;
     }
-    return r;
+    return result;
 }
 
-int snprintf(char *buf, u32 n, const char *fmt, ...) {
-    return vsnprintf(buf, n, fmt, (char *) (((int) &fmt & ~3) + 4));
+int snprintf(char *buf, u32 size, const char *fmt, ...) {
+    return vsnprintf(buf, size, fmt, (char *) (((int) &fmt & ~3) + 4));
 }
 
 int sprintf(char *buf, const char *fmt, ...) {
@@ -84,111 +84,111 @@ int sprintf(char *buf, const char *fmt, ...) {
 
 void NopWriteHook(void) {}
 
-void MemsetBody(u8 *p, int c, u32 n) {
-    u32 *w;
-    u32 m;
-    u32 k;
+void MemsetBody(u8 *dst, int fill, u32 count) {
+    u32 *wordPtr;
+    u32 alignBytes;
+    u32 blockCount;
 
-    c = (u8) c;
-    if (n >= 0x20) {
-        m = -(u32) p & 3;
-        if (m != 0) {
-            n -= m;
+    fill = (u8) fill;
+    if (count >= 0x20) {
+        alignBytes = -(u32) dst & 3;
+        if (alignBytes != 0) {
+            count -= alignBytes;
             do {
-                *p++ = c;
-                m--;
-            } while (m != 0);
+                *dst++ = fill;
+                alignBytes--;
+            } while (alignBytes != 0);
         }
-        w = (u32 *) p;
-        if (c != 0) {
-            c = (c << 24) | (c << 16) | (c << 8) | c;
+        wordPtr = (u32 *) dst;
+        if (fill != 0) {
+            fill = (fill << 24) | (fill << 16) | (fill << 8) | fill;
         }
-        for (k = n >> 5; k != 0; k--) {
-            *w++ = c;
-            *w++ = c;
-            *w++ = c;
-            *w++ = c;
-            *w++ = c;
-            *w++ = c;
-            *w++ = c;
-            *w++ = c;
+        for (blockCount = count >> 5; blockCount != 0; blockCount--) {
+            *wordPtr++ = fill;
+            *wordPtr++ = fill;
+            *wordPtr++ = fill;
+            *wordPtr++ = fill;
+            *wordPtr++ = fill;
+            *wordPtr++ = fill;
+            *wordPtr++ = fill;
+            *wordPtr++ = fill;
         }
-        for (k = (n & 0x1f) >> 2; k != 0; k--) {
-            *w++ = c;
+        for (blockCount = (count & 0x1f) >> 2; blockCount != 0; blockCount--) {
+            *wordPtr++ = fill;
         }
-        n &= 3;
-        p = (u8 *) w;
+        count &= 3;
+        dst = (u8 *) wordPtr;
     }
-    for (; n != 0; n--) {
-        *p++ = c;
+    for (; count != 0; count--) {
+        *dst++ = fill;
     }
 }
 
-void *memcpy(void *dst, const void *src, u32 n) {
-    u8 *p = dst;
-    const u8 *s = src;
+void *memcpy(void *dst, const void *src, u32 count) {
+    u8 *dstBytes = dst;
+    const u8 *srcBytes = src;
 
-    for (; n != 0; n--) {
-        *p++ = *s++;
+    for (; count != 0; count--) {
+        *dstBytes++ = *srcBytes++;
     }
     return dst;
 }
 
-void *memmove(void *a, const void *b, u32 n) {
-    if (b >= a) {
-        u8 *d;
-        const u8 *s;
+void *memmove(void *dst, const void *src, u32 count) {
+    if (src >= dst) {
+        u8 *dstBytes;
+        const u8 *srcBytes;
 
-        for (d = a, s = b; n != 0; n--) {
-            *d++ = *s++;
+        for (dstBytes = dst, srcBytes = src; count != 0; count--) {
+            *dstBytes++ = *srcBytes++;
         }
     } else {
-        const u8 *s;
-        u8 *d;
+        const u8 *srcBytes;
+        u8 *dstBytes;
 
-        for (s = (const u8 *) b + n, d = (u8 *) a + n; n != 0; n--) {
-            *--d = *--s;
+        for (srcBytes = (const u8 *) src + count, dstBytes = (u8 *) dst + count; count != 0; count--) {
+            *--dstBytes = *--srcBytes;
         }
     }
-    return a;
+    return dst;
 }
 
-void *memset(void *p, int c, size_t n) {
-    MemsetBody(p, c, n);
-    return p;
+void *memset(void *dst, int value, size_t count) {
+    MemsetBody(dst, value, count);
+    return dst;
 }
 
-void *memchr(const void *x, int c, u32 n) {
-    const u8 *p = x;
-    u8 ch = c;
+void *memchr(const void *buffer, int value, u32 count) {
+    const u8 *bytes = buffer;
+    u8 ch = value;
 
-    for (; n != 0; n--) {
-        if (*p++ == ch) {
-            return (p - 1);
-        }
-    }
-    return 0;
-}
-
-void *MemChrBackward(const void *a, int v, u32 n) {
-    u8 c = v;
-    const u8 *p = (const u8 *) a + n;
-
-    for (; n != 0; n--) {
-        if (*--p == c) {
-            return p;
+    for (; count != 0; count--) {
+        if (*bytes++ == ch) {
+            return (bytes - 1);
         }
     }
     return 0;
 }
 
-int memcmp(const void *x, const void *y, u32 n) {
-    const u8 *a = x;
-    const u8 *b = y;
+void *MemChrBackward(const void *buffer, int value, u32 count) {
+    u8 target = value;
+    const u8 *cursor = (const u8 *) buffer + count;
 
-    for (; n != 0; n--) {
-        if (*a++ != *b++) {
-            return a[-1] < b[-1] ? -1 : 1;
+    for (; count != 0; count--) {
+        if (*--cursor == target) {
+            return cursor;
+        }
+    }
+    return 0;
+}
+
+int memcmp(const void *left, const void *right, u32 count) {
+    const u8 *leftBytes = left;
+    const u8 *rightBytes = right;
+
+    for (; count != 0; count--) {
+        if (*leftBytes++ != *rightBytes++) {
+            return leftBytes[-1] < rightBytes[-1] ? -1 : 1;
         }
     }
     return 0;
@@ -199,15 +199,15 @@ int memcmp(const void *x, const void *y, u32 n) {
 #include "code_02134b18.h"
 #include "code_02139f70.h"
 
-int mbtowc(u16 *dst, const char *src, u32 n) {
-    return data_0216eccc.mUnk_08->mUnk_00(dst, src, n);
+int mbtowc(u16 *dst, const char *src, u32 maxBytes) {
+    return data_0216eccc.mUnk_08->mUnk_00(dst, src, maxBytes);
 }
 
-int MbtowcSingleByte(u16 *dst, const char *src, u32 n) {
+int MbtowcSingleByte(u16 *dst, const char *src, u32 maxBytes) {
     if (src == 0) {
         return 0;
     }
-    if (n == 0) {
+    if (maxBytes == 0) {
         return -1;
     }
     if (dst != 0) {
@@ -219,32 +219,32 @@ int MbtowcSingleByte(u16 *dst, const char *src, u32 n) {
     return 1;
 }
 
-int WctombSingleByte(char *dst, u16 c) {
+int WctombSingleByte(char *dst, u16 wideChar) {
     if (dst == 0) {
         return 0;
     }
-    *dst = c;
+    *dst = wideChar;
     return 1;
 }
 
-int wctomb(char *dst, u16 c) {
-    return data_0216eccc.mUnk_08->mUnk_04(dst, c);
+int wctomb(char *dst, u16 wideChar) {
+    return data_0216eccc.mUnk_08->mUnk_04(dst, wideChar);
 }
 
-int mbstowcs(u16 *dst, const char *src, u32 n) {
-    u32 i;
+int mbstowcs(u16 *dst, const char *src, u32 count) {
+    u32 index;
     int len;
-    int r;
+    int charLength;
 
     len = strlen(src);
     if (dst != 0) {
-        for (i = 0; i < n; i++) {
+        for (index = 0; index < count; index++) {
             if (*src != 0) {
-                r = mbtowc(dst, src, len);
+                charLength = mbtowc(dst, src, len);
                 dst++;
-                if (r > 0) {
-                    src += r;
-                    len -= r;
+                if (charLength > 0) {
+                    src += charLength;
+                    len -= charLength;
                 } else {
                     return -1;
                 }
@@ -254,283 +254,284 @@ int mbstowcs(u16 *dst, const char *src, u32 n) {
             }
         }
     } else {
-        i = 0;
+        index = 0;
     }
-    return i;
+    return index;
 }
 
-int wcstombs(char *dst, const u16 *src, u32 n) {
+int wcstombs(char *dst, const u16 *src, u32 count) {
     u32 len;
-    u32 i = 0;
+    u32 written = 0;
     char buf[4];
-    char *p;
+    char *encoded;
 
     if (dst == 0 || src == 0) {
         return 0;
     }
-    p = buf;
+    encoded = buf;
     while (1) {
         if (*src == 0) {
-            dst[i] = 0;
+            dst[written] = 0;
             break;
         }
-        len = wctomb(p, *src++);
-        if (i + len > n) {
+        len = wctomb(encoded, *src++);
+        if (written + len > count) {
             break;
         }
-        strncpy(dst + i, p, len);
-        i += len;
-        if (i > n) {
+        strncpy(dst + written, encoded, len);
+        written += len;
+        if (written > count) {
             break;
         }
     }
-    return i;
+    return written;
 }
 
 #pragma avoid_byte all
 
 #include "code_0213ee6c.h"
 
-double LdexpViaFrexp(double a, int n) {
-    int e;
+double LdexpViaFrexp(double value, int exponentDelta) {
+    int exponent;
 
-    a = frexp(a, &e);
-    e += n;
-    return ldexp(a, e);
+    value = frexp(value, &exponent);
+    exponent += exponentDelta;
+    return ldexp(value, exponent);
 }
 
-int fflush(FILE *a) {
-    if (a == 0) {
+int fflush(FILE *stream) {
+    if (stream == 0) {
         return FflushAll();
     }
-    if (a->mFailed != 0 || a->mUnk_04_7 == 0) {
+    if (stream->mFailed != 0 || stream->mUnk_04_7 == 0) {
         return -1;
     }
-    if (a->mUnk_04_2 == 1) {
+    if (stream->mUnk_04_2 == 1) {
         return 0;
     }
-    if (a->mUnk_08_0 >= 3) {
-        a->mUnk_08_0 = 2;
+    if (stream->mUnk_08_0 >= 3) {
+        stream->mUnk_08_0 = 2;
     }
-    if (a->mUnk_08_0 == 2) {
-        a->mBufferRemaining = 0;
+    if (stream->mUnk_08_0 == 2) {
+        stream->mBufferRemaining = 0;
     }
-    if (a->mUnk_08_0 != 1) {
-        a->mUnk_08_0 = 0;
+    if (stream->mUnk_08_0 != 1) {
+        stream->mUnk_08_0 = 0;
         return 0;
     }
-    if (FileFlushBuffer(a, 0) != 0) {
-        a->mFailed = 1;
-        a->mBufferRemaining = 0;
+    if (FileFlushBuffer(stream, 0) != 0) {
+        stream->mFailed = 1;
+        stream->mBufferRemaining = 0;
         return -1;
     }
-    a->mUnk_08_0 = 0;
-    a->mUnk_18 = 0;
-    a->mBufferRemaining = 0;
+    stream->mUnk_08_0 = 0;
+    stream->mUnk_18 = 0;
+    stream->mBufferRemaining = 0;
     return 0;
 }
 
-u32 fwrite(const char *a, u32 b, u32 c, FILE *d) {
-    int i;
-    OSMutex *p;
-    u32 r;
+u32 fwrite(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
+    int lockIndex;
+    OSMutex *mutex;
+    u32 result;
 
-    if (d == &data_0216eb7c[1]) {
-        i = 3;
-    } else if (d == &data_0216eb7c[2]) {
-        i = 4;
+    if (stream == &data_0216eb7c[1]) {
+        lockIndex = 3;
+    } else if (stream == &data_0216eb7c[2]) {
+        lockIndex = 4;
     } else {
-        i = 5;
+        lockIndex = 5;
     }
-    p = (OSMutex *) data_0217eadc[i];
-    if (OS_TryLockMutex(p) == 0) {
-        gLockOwnerThreadIds[i] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[i] = 1;
+    mutex = (OSMutex *) data_0217eadc[lockIndex];
+    if (OS_TryLockMutex(mutex) == 0) {
+        gLockOwnerThreadIds[lockIndex] = OSi_ThreadInfo.mListHead->mId;
+        gLockHoldCounts[lockIndex] = 1;
     } else {
-        u32 v;
+        u32 ownerId;
 
-        v = gLockOwnerThreadIds[i];
-        if (v == OSi_ThreadInfo.mListHead->mId) {
-            gLockHoldCounts[i]++;
+        ownerId = gLockOwnerThreadIds[lockIndex];
+        if (ownerId == OSi_ThreadInfo.mListHead->mId) {
+            gLockHoldCounts[lockIndex]++;
         } else {
-            OS_LockMutex(p);
-            gLockOwnerThreadIds[i] = OSi_ThreadInfo.mListHead->mId;
-            gLockHoldCounts[i] = 1;
+            OS_LockMutex(mutex);
+            gLockOwnerThreadIds[lockIndex] = OSi_ThreadInfo.mListHead->mId;
+            gLockHoldCounts[lockIndex] = 1;
         }
     }
-    r = FwriteBody(a, b, c, d);
-    if (--gLockHoldCounts[i] == 0) {
-        OS_UnlockMutex(p);
+    result = FwriteBody(data, itemSize, itemCount, stream);
+    if (--gLockHoldCounts[lockIndex] == 0) {
+        OS_UnlockMutex(mutex);
     }
-    return r;
+    return result;
 }
 
 #pragma avoid_byte all
 
 #include "code_02133e50.h"
 
-u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
-    u32 n;
-    u32 t;
-    u32 v;
-    u32 l;
-    int m;
-    char *q;
-    u8 *s1;
-    u32 s2;
+u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
+    u32 remaining;
+    u32 written;
+    u32 newlineChar;
+    u32 chunk;
+    int bufferedMode;
+    char *newlinePos;
+    u8 *savedBuffer;
+    u32 savedBufferSize;
 
-    if (fwide(d, 0) == 0) {
-        fwide(d, -1);
+    if (fwide(stream, 0) == 0) {
+        fwide(stream, -1);
     }
-    n = b * c;
-    if (n == 0 || d->mFailed != 0 || d->mUnk_04_7 == 0) {
+    remaining = itemSize * itemCount;
+    if (remaining == 0 || stream->mFailed != 0 || stream->mUnk_04_7 == 0) {
         return 0;
     }
-    if (d->mUnk_04_7 == 2) {
+    if (stream->mUnk_04_7 == 2) {
         NopWriteHook();
     }
-    m = 1;
-    if (d->mUnk_04_12 != 0) {
-        if (d->mUnk_04_5 != 2 && d->mUnk_04_5 != 1) {
-            m = 0;
+    bufferedMode = 1;
+    if (stream->mUnk_04_12 != 0) {
+        if (stream->mUnk_04_5 != 2 && stream->mUnk_04_5 != 1) {
+            bufferedMode = 0;
         }
     }
-    if (d->mUnk_08_0 == 0 && (d->mUnk_04_2 & 2) != 0) {
-        d->mUnk_08_0 = 1;
-        FileResetBuffer(d);
+    if (stream->mUnk_08_0 == 0 && (stream->mUnk_04_2 & 2) != 0) {
+        stream->mUnk_08_0 = 1;
+        FileResetBuffer(stream);
     }
-    if (d->mUnk_08_0 != 1) {
-        d->mFailed = 1;
-        d->mBufferRemaining = 0;
+    if (stream->mUnk_08_0 != 1) {
+        stream->mFailed = 1;
+        stream->mBufferRemaining = 0;
         return 0;
     }
-    t = 0;
-    if (n != 0 && (d->mBufferNext != d->mBuffer || m != 0)) {
-        d->mBufferRemaining = d->mBufferSize - (d->mBufferNext - d->mBuffer);
-        v = 10;
+    written = 0;
+    if (remaining != 0 && (stream->mBufferNext != stream->mBuffer || bufferedMode != 0)) {
+        stream->mBufferRemaining = stream->mBufferSize - (stream->mBufferNext - stream->mBuffer);
+        newlineChar = 10;
         do {
-            q = 0;
-            l = d->mBufferRemaining;
-            if (l > n) {
-                l = n;
+            newlinePos = 0;
+            chunk = stream->mBufferRemaining;
+            if (chunk > remaining) {
+                chunk = remaining;
             }
-            if (d->mUnk_04_5 == 1 && l != 0) {
-                q = MemChrBackward(a, v, l);
-                if (q != 0) {
-                    l = q + 1 - a;
+            if (stream->mUnk_04_5 == 1 && chunk != 0) {
+                newlinePos = MemChrBackward(data, newlineChar, chunk);
+                if (newlinePos != 0) {
+                    chunk = newlinePos + 1 - data;
                 }
             }
-            if (l != 0) {
-                memcpy(d->mBufferNext, a, l);
-                a += l;
-                n -= l;
-                d->mBufferNext += l;
-                d->mBufferRemaining -= l;
+            if (chunk != 0) {
+                memcpy(stream->mBufferNext, data, chunk);
+                data += chunk;
+                remaining -= chunk;
+                stream->mBufferNext += chunk;
+                stream->mBufferRemaining -= chunk;
             }
-            if (d->mBufferRemaining == 0 || q != 0 || d->mUnk_04_5 == 0) {
-                if (FileFlushBuffer(d, 0) != 0) {
-                    d->mFailed = 1;
-                    n = 0;
-                    d->mBufferRemaining = n;
+            if (stream->mBufferRemaining == 0 || newlinePos != 0 || stream->mUnk_04_5 == 0) {
+                if (FileFlushBuffer(stream, 0) != 0) {
+                    stream->mFailed = 1;
+                    remaining = 0;
+                    stream->mBufferRemaining = remaining;
                     break;
                 }
             }
-            t += l;
-        } while (n != 0 && m != 0);
+            written += chunk;
+        } while (remaining != 0 && bufferedMode != 0);
     }
-    if (n != 0 && m == 0) {
-        s1 = d->mBuffer;
-        s2 = d->mBufferSize;
-        d->mBuffer = (u8 *) a;
-        d->mBufferSize = n;
-        d->mBufferNext = (u8 *) a + n;
-        if (FileFlushBuffer(d, &l) == 0) {
-            t += l;
+    if (remaining != 0 && bufferedMode == 0) {
+        savedBuffer = stream->mBuffer;
+        savedBufferSize = stream->mBufferSize;
+        stream->mBuffer = (u8 *) data;
+        stream->mBufferSize = remaining;
+        stream->mBufferNext = (u8 *) data + remaining;
+        if (FileFlushBuffer(stream, &chunk) == 0) {
+            written += chunk;
         } else {
-            d->mFailed = 1;
-            d->mBufferRemaining = 0;
+            stream->mFailed = 1;
+            stream->mBufferRemaining = 0;
         }
-        d->mBuffer = s1;
-        d->mBufferSize = s2;
-        FileResetBuffer(d);
-        d->mBufferRemaining = 0;
+        stream->mBuffer = savedBuffer;
+        stream->mBufferSize = savedBufferSize;
+        FileResetBuffer(stream);
+        stream->mBufferRemaining = 0;
     }
-    if (d->mUnk_04_5 != 2) {
-        d->mBufferRemaining = 0;
+    if (stream->mUnk_04_5 != 2) {
+        stream->mBufferRemaining = 0;
     }
-    return t / b;
+    return written / itemSize;
 }
 
-void ConvertTextNewlinesNop(u8 *a, u32 *b) {}
+void ConvertTextNewlinesNop(u8 *buffer, u32 *length) {}
 
-void FileResetBuffer(FILE *a) {
-    a->mBufferNext = a->mBuffer;
-    a->mBufferRemaining = a->mBufferSize;
-    a->mBufferRemaining = a->mBufferRemaining - (a->mUnk_18 & a->mUnk_2c);
-    a->mUnk_34 = a->mUnk_18;
+void FileResetBuffer(FILE *stream) {
+    stream->mBufferNext = stream->mBuffer;
+    stream->mBufferRemaining = stream->mBufferSize;
+    stream->mBufferRemaining = stream->mBufferRemaining - (stream->mUnk_18 & stream->mUnk_2c);
+    stream->mUnk_34 = stream->mUnk_18;
 }
 
-int FileFlushBuffer(FILE *a, u32 *b) {
-    int n;
-    int r;
+int FileFlushBuffer(FILE *stream, u32 *writtenOut) {
+    int pending;
+    int result;
 
-    n = a->mBufferNext - a->mBuffer;
-    if (n != 0) {
-        a->mBufferRemaining = n;
-        if (a->mUnk_04_12 == 0) {
-            ConvertTextNewlinesNop(a->mBuffer, &a->mBufferRemaining);
+    pending = stream->mBufferNext - stream->mBuffer;
+    if (pending != 0) {
+        stream->mBufferRemaining = pending;
+        if (stream->mUnk_04_12 == 0) {
+            ConvertTextNewlinesNop(stream->mBuffer, &stream->mBufferRemaining);
         }
-        r = a->mWriteFunc(a->mUnk_00, a->mBuffer, &a->mBufferRemaining, a->mUnk_48);
-        if (b != 0) {
-            *b = a->mBufferRemaining;
+        result = stream->mWriteFunc(stream->mUnk_00, stream->mBuffer, &stream->mBufferRemaining, stream->mUnk_48);
+        if (writtenOut != 0) {
+            *writtenOut = stream->mBufferRemaining;
         }
-        if (r != 0) {
-            return r;
+        if (result != 0) {
+            return result;
         }
-        a->mUnk_18 = a->mUnk_18 + a->mBufferRemaining;
+        stream->mUnk_18 = stream->mUnk_18 + stream->mBufferRemaining;
     }
-    FileResetBuffer(a);
+    FileResetBuffer(stream);
     return 0;
 }
 
-void AssertionFailed(const char *a, const char *b, const char *c, int d) {
-    printf("Assertion (%s) failed in \"%s\", function \"%s\", line %d\n", a, b, c, d);
+void AssertionFailed(const char *expression, const char *fileName, const char *functionName, int lineNumber) {
+    printf("Assertion (%s) failed in \"%s\", function \"%s\", line %d\n", expression, fileName, functionName,
+           lineNumber);
     abort();
 }
 
-u32 Abs(u32 arg0) {
-    u32 value0 = arg0;
-    s32 compareLeft0;
-    s32 compareRight0;
-    compareLeft0 = value0;
-    compareRight0 = 0u;
-    if (compareLeft0 < compareRight0) {
-        value0 = (0u) - (value0);
+u32 Abs(u32 value) {
+    u32 absValue = value;
+    s32 left;
+    s32 right;
+    left = absValue;
+    right = 0u;
+    if (left < right) {
+        absValue = (0u) - (absValue);
     }
-    return value0;
+    return absValue;
 }
 
 #pragma avoid_byte all
 
 int FflushAll(void) {
-    int r;
-    int i;
-    FILE *p;
+    int result;
+    int index;
+    FILE *stream;
 
-    r = 0;
-    i = 1;
-    p = data_0216eb7c;
+    result = 0;
+    index = 1;
+    stream = data_0216eb7c;
     do {
-        if (p->mUnk_04_7 != 0) {
-            if (fflush(p) != 0) {
-                r = -1;
+        if (stream->mUnk_04_7 != 0) {
+            if (fflush(stream) != 0) {
+                result = -1;
             }
         }
-        p = (i < 3) ? &data_0216eb7c[i++] : 0;
-    } while (p != 0);
-    return r;
+        stream = (index < 3) ? &data_0216eb7c[index++] : 0;
+    } while (stream != 0);
+    return result;
 }
 
-double nan(const char *a) {
+double nan(const char *tag) {
     return data_0216ec9c;
 }

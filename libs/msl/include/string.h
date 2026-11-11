@@ -4,4 +4,4 @@
 // small memset(p, 0, n) calls out inline as stores or a byte loop.
 typedef unsigned long size_t;
 
-void *memset(void *p, int c, size_t n);
+void *memset(void *dst, int value, size_t count);

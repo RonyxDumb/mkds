@@ -1,160 +1,160 @@
 #include "code_020245a4.h"
 #include "code_0200fc8c.h"
 
-u16 NNSi_G2dSplitCharUTF16(u16 **a) {
-    u16 *p;
-    u16 c;
+u16 NNSi_G2dSplitCharUTF16(u16 **stringPtr) {
+    u16 *cursor;
+    u16 character;
 
-    p = *a;
-    c = *p++;
-    *a = p;
-    return c;
+    cursor = *stringPtr;
+    character = *cursor++;
+    *stringPtr = cursor;
+    return character;
 }
 
-static inline s32 NNSi_G2dIsBinFileSignatureValid(Unk02021f9c *a) {
-    if (a != 0 && a->mUnk_00 == 0x4e465452) {
+static inline s32 NNSi_G2dIsBinFileSignatureValid(Unk02021f9c *file) {
+    if (file != 0 && file->mUnk_00 == 0x4e465452) {
         return 1;
     }
     return 0;
 }
 
-static inline s32 NNSi_G2dIsBinFileVersionValid(Unk02021f9c *a, u16 v) {
-    if (a != 0 && a->mUnk_06 == v) {
+static inline s32 NNSi_G2dIsBinFileVersionValid(Unk02021f9c *file, u16 version) {
+    if (file != 0 && file->mUnk_06 == version) {
         return 1;
     }
     return 0;
 }
 
-static inline s32 NNS_G2dIsBinFileValid(Unk02021f9c *a, u16 v) {
-    if (a != 0) {
-        return NNSi_G2dIsBinFileSignatureValid(a) && NNSi_G2dIsBinFileVersionValid(a, v);
+static inline s32 NNS_G2dIsBinFileValid(Unk02021f9c *file, u16 version) {
+    if (file != 0) {
+        return NNSi_G2dIsBinFileSignatureValid(file) && NNSi_G2dIsBinFileVersionValid(file, version);
     }
     return 0;
 }
 
-u16 NNSi_G2dSplitCharUTF8(u8 **a) {
-    u8 *p;
-    u16 c;
+u16 NNSi_G2dSplitCharUTF8(u8 **stringPtr) {
+    u8 *cursor;
+    u16 character;
 
-    p = *a;
-    c = *p;
-    if ((c & 0x80) == 0) {
-        *a = p + 1;
-    } else if ((c & 0xe0) == 0xc0) {
-        c = ((c & 0x1f) << 6) | (p[1] & 0x3f);
-        *a = p + 2;
+    cursor = *stringPtr;
+    character = *cursor;
+    if ((character & 0x80) == 0) {
+        *stringPtr = cursor + 1;
+    } else if ((character & 0xe0) == 0xc0) {
+        character = ((character & 0x1f) << 6) | (cursor[1] & 0x3f);
+        *stringPtr = cursor + 2;
     } else {
-        c = ((c & 0x1f) << 12) | ((p[1] & 0x3f) << 6) | (p[2] & 0x3f);
-        *a = p + 3;
+        character = ((character & 0x1f) << 12) | ((cursor[1] & 0x3f) << 6) | (cursor[2] & 0x3f);
+        *stringPtr = cursor + 3;
     }
-    return c;
+    return character;
 }
 
-u16 NNSi_G2dSplitCharShiftJIS(u8 **a) {
-    u16 c;
-    u8 *p;
+u16 NNSi_G2dSplitCharShiftJIS(u8 **stringPtr) {
+    u16 character;
+    u8 *cursor;
 
-    p = *a;
-    c = *p;
-    if ((c >= 0x81 && c < 0xa0) || c >= 0xe0) {
-        c = p[1] | (c << 8);
-        *a = *a + 2;
+    cursor = *stringPtr;
+    character = *cursor;
+    if ((character >= 0x81 && character < 0xa0) || character >= 0xe0) {
+        character = cursor[1] | (character << 8);
+        *stringPtr = *stringPtr + 2;
     } else {
-        *a = *a + 1;
+        *stringPtr = *stringPtr + 1;
     }
-    return c;
+    return character;
 }
 
-u16 NNSi_G2dSplitChar1Byte(u8 **a) {
-    u8 *p;
-    u8 c;
+u16 NNSi_G2dSplitChar1Byte(u8 **stringPtr) {
+    u8 *cursor;
+    u8 character;
 
-    p = *a;
-    c = *p++;
-    *a = p;
-    return c;
+    cursor = *stringPtr;
+    character = *cursor++;
+    *stringPtr = cursor;
+    return character;
 }
 
-u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *a, s32 b) {
-    s32 n;
-    u32 c;
-    u32 r;
-    u8 *p;
+u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *reader, s32 bitCount) {
+    s32 availableBits;
+    u32 bits;
+    u32 result;
+    u8 *src;
 
-    n = a->mAvailableBits;
-    c = a->mBits;
-    if (n < b) {
-        p = a->mSrc;
-        a->mSrc = p + 1;
-        r = c << (b - n);
-        a->mBits = *p;
-        a->mAvailableBits = 8;
-        r = NNSi_G2dBitReaderRead(a, b - n) | r;
+    availableBits = reader->mAvailableBits;
+    bits = reader->mBits;
+    if (availableBits < bitCount) {
+        src = reader->mSrc;
+        reader->mSrc = src + 1;
+        result = bits << (bitCount - availableBits);
+        reader->mBits = *src;
+        reader->mAvailableBits = 8;
+        result = NNSi_G2dBitReaderRead(reader, bitCount - availableBits) | result;
     } else {
-        a->mAvailableBits = n - b;
-        r = c >> (n - b);
+        reader->mAvailableBits = availableBits - bitCount;
+        result = bits >> (availableBits - bitCount);
     }
-    return r & (0xff >> (8 - b));
+    return result & (0xff >> (8 - bitCount));
 }
 
-u32 NNSi_G2dGetUnpackedFont(Unk02021f9c *a, Unk02022ce4 **b) {
-    u32 r;
-    Unk02021fd0 *p;
+u32 NNSi_G2dGetUnpackedFont(Unk02021f9c *file, Unk02022ce4 **fontOut) {
+    u32 versionIndex;
+    Unk02021fd0 *part;
 
-    if (NNS_G2dIsBinFileValid(a, 0x100)) {
-        r = 0;
-    } else if (NNS_G2dIsBinFileValid(a, 1)) {
-        r = 1;
+    if (NNS_G2dIsBinFileValid(file, 0x100)) {
+        versionIndex = 0;
+    } else if (NNS_G2dIsBinFileValid(file, 1)) {
+        versionIndex = 1;
     } else {
         OS_Terminate();
     }
-    NNSi_G2dUnpackNFT(a);
-    p = FindPartByTag(a, 0x46494e46);
-    if (p == 0) {
-        *b = 0;
+    NNSi_G2dUnpackNFT(file);
+    part = FindPartByTag(file, 0x46494e46);
+    if (part == 0) {
+        *fontOut = 0;
         return 0;
     }
-    *b = (Unk02022ce4 *) (p + 1);
-    if (r != 0) {
-        (*b)->mUnk_07 = (*b)->mUnk_04.mCharWidth;
-        (*b)->mUnk_04.mCharWidth = 0;
+    *fontOut = (Unk02022ce4 *) (part + 1);
+    if (versionIndex != 0) {
+        (*fontOut)->mUnk_07 = (*fontOut)->mUnk_04.mCharWidth;
+        (*fontOut)->mUnk_04.mCharWidth = 0;
     }
-    return r + 1;
+    return versionIndex + 1;
 }
 
-void NNSi_G2dUnpackNFT(Unk02021f9c *a) {
-    Unk02021fd0 *p;
-    s32 i;
-    Unk020245a4_08 *q;
+void NNSi_G2dUnpackNFT(Unk02021f9c *file) {
+    Unk02021fd0 *block;
+    s32 blockIndex;
+    Unk020245a4_08 *blockData;
 
-    p = OFFSET_PTR(Unk02021fd0, a, a->mUnk_0c);
-    for (i = 0; i < a->mUnk_0e; i++) {
-        switch (p->mUnk_00) {
+    block = OFFSET_PTR(Unk02021fd0, file, file->mUnk_0c);
+    for (blockIndex = 0; blockIndex < file->mUnk_0e; blockIndex++) {
+        switch (block->mUnk_00) {
             case 0x46494e46:
-                q = (Unk020245a4_08 *) (p + 1);
-                q->mUnk_04[1] += (u32) a;
-                if (q->mUnk_04[2] != 0) {
-                    q->mUnk_04[2] += (u32) a;
+                blockData = (Unk020245a4_08 *) (block + 1);
+                blockData->mUnk_04[1] += (u32) file;
+                if (blockData->mUnk_04[2] != 0) {
+                    blockData->mUnk_04[2] += (u32) file;
                 }
-                if (q->mUnk_04[3] != 0) {
-                    q->mUnk_04[3] += (u32) a;
+                if (blockData->mUnk_04[3] != 0) {
+                    blockData->mUnk_04[3] += (u32) file;
                 }
                 break;
             case 0x43574448:
-                q = (Unk020245a4_08 *) (p + 1);
-                if (q->mUnk_04[0] != 0) {
-                    q->mUnk_04[0] += (u32) a;
+                blockData = (Unk020245a4_08 *) (block + 1);
+                if (blockData->mUnk_04[0] != 0) {
+                    blockData->mUnk_04[0] += (u32) file;
                 }
                 break;
             case 0x434d4150:
-                q = (Unk020245a4_08 *) (p + 1);
-                if (q->mUnk_04[1] != 0) {
-                    q->mUnk_04[1] += (u32) a;
+                blockData = (Unk020245a4_08 *) (block + 1);
+                if (blockData->mUnk_04[1] != 0) {
+                    blockData->mUnk_04[1] += (u32) file;
                 }
                 break;
             case 0x43474c50:
                 break;
         }
-        p = OFFSET_PTR(Unk02021fd0, p, p->mUnk_04);
+        block = OFFSET_PTR(Unk02021fd0, block, block->mUnk_04);
     }
 }

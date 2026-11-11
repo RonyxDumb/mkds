@@ -120,7 +120,7 @@ void ReleaseSndHeaps(void);
 void CreateSndHeaps(u32 heapSizeKind, u32 buffer);
 void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive);
 void UpdateSounds(void);
-void InitSceneSounds(s32 e);
+void InitSceneSounds(s32 unused);
 void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo seqInfo, SceneSoundState *sceneSoundState);
 void StartSceneSounds(void);
 void StartRaceSounds(void);

@@ -9,120 +9,120 @@
 #include "code_0213ecf8.h"
 #include "code_0213ee6c.h"
 
-const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c) {
-    FormatWideSpec s;
-    const u16 *p;
+const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec *specOut) {
+    FormatWideSpec parsed;
+    const u16 *cursor;
     u16 ch;
-    int k;
+    int matched;
 
-    s.mPadKind = 1;
-    s.mSignKind = 0;
-    s.mHasDot = 0;
-    s.mHash = 0;
-    s.mArgKind = 0;
-    s.mMinLength = 0;
-    s.mUnk_0c = 0;
-    p = a + 1;
-    ch = *p;
+    parsed.mPadKind = 1;
+    parsed.mSignKind = 0;
+    parsed.mHasDot = 0;
+    parsed.mHash = 0;
+    parsed.mArgKind = 0;
+    parsed.mMinLength = 0;
+    parsed.mUnk_0c = 0;
+    cursor = format + 1;
+    ch = *cursor;
     if (ch == '%') {
-        s.mSpecChar = ch;
-        *c = s;
-        return p + 1;
+        parsed.mSpecChar = ch;
+        *specOut = parsed;
+        return cursor + 1;
     }
     for (;;) {
-        k = 1;
+        matched = 1;
         switch (ch) {
             case '-':
-                s.mPadKind = 0;
+                parsed.mPadKind = 0;
                 break;
             case '+':
-                s.mSignKind = 1;
+                parsed.mSignKind = 1;
                 break;
             case ' ':
-                if (s.mSignKind != 1) {
-                    s.mSignKind = 2;
+                if (parsed.mSignKind != 1) {
+                    parsed.mSignKind = 2;
                 }
                 break;
             case '#':
-                s.mHash = 1;
+                parsed.mHash = 1;
                 break;
             case '0':
-                if (s.mPadKind != 0) {
-                    s.mPadKind = 2;
+                if (parsed.mPadKind != 0) {
+                    parsed.mPadKind = 2;
                 }
                 break;
             default:
-                k = 0;
+                matched = 0;
                 break;
         }
-        if (!k) {
+        if (!matched) {
             break;
         }
-        ch = *++p;
+        ch = *++cursor;
     }
     if (ch == '*') {
-        *b += 4;
-        s.mMinLength = *(int *) (*b - 4);
-        if (s.mMinLength < 0) {
-            s.mPadKind = 0;
-            s.mMinLength = -s.mMinLength;
+        *argList += 4;
+        parsed.mMinLength = *(int *) (*argList - 4);
+        if (parsed.mMinLength < 0) {
+            parsed.mPadKind = 0;
+            parsed.mMinLength = -parsed.mMinLength;
         }
-        ch = *++p;
+        ch = *++cursor;
     } else {
         while ((ch >= 0x80 ? 0 : data_0215d384[ch] & 8) != 0) {
-            s.mMinLength = s.mMinLength * 10 + (ch - '0');
-            ch = *++p;
+            parsed.mMinLength = parsed.mMinLength * 10 + (ch - '0');
+            ch = *++cursor;
         }
     }
-    if (s.mMinLength > 0x1fd) {
-        s.mSpecChar = 0xffff;
-        *c = s;
-        return p + 1;
+    if (parsed.mMinLength > 0x1fd) {
+        parsed.mSpecChar = 0xffff;
+        *specOut = parsed;
+        return cursor + 1;
     }
     if (ch == '.') {
-        s.mHasDot = 1;
-        ch = *++p;
+        parsed.mHasDot = 1;
+        ch = *++cursor;
         if (ch == '*') {
-            *b += 4;
-            s.mUnk_0c = *(int *) (*b - 4);
-            if (s.mUnk_0c < 0) {
-                s.mHasDot = 0;
+            *argList += 4;
+            parsed.mUnk_0c = *(int *) (*argList - 4);
+            if (parsed.mUnk_0c < 0) {
+                parsed.mHasDot = 0;
             }
-            ch = *++p;
+            ch = *++cursor;
         } else {
             while ((ch >= 0x80 ? 0 : data_0215d384[ch] & 8) != 0) {
-                s.mUnk_0c = s.mUnk_0c * 10 + (ch - '0');
-                ch = *++p;
+                parsed.mUnk_0c = parsed.mUnk_0c * 10 + (ch - '0');
+                ch = *++cursor;
             }
         }
     }
-    k = 1;
+    matched = 1;
     switch (ch) {
         case 'h':
-            s.mArgKind = 2;
-            if (p[1] == 'h') {
-                s.mArgKind = 1;
-                ch = *++p;
+            parsed.mArgKind = 2;
+            if (cursor[1] == 'h') {
+                parsed.mArgKind = 1;
+                ch = *++cursor;
             }
             break;
         case 'l':
-            s.mArgKind = 3;
-            if (p[1] == 'l') {
-                s.mArgKind = 4;
-                ch = *++p;
+            parsed.mArgKind = 3;
+            if (cursor[1] == 'l') {
+                parsed.mArgKind = 4;
+                ch = *++cursor;
             }
             break;
         case 'L':
-            s.mArgKind = 5;
+            parsed.mArgKind = 5;
             break;
         default:
-            k = 0;
+            matched = 0;
             break;
     }
-    if (k) {
-        ch = *++p;
+    if (matched) {
+        ch = *++cursor;
     }
-    s.mSpecChar = ch;
+    parsed.mSpecChar = ch;
     switch (ch) {
         case 'd':
         case 'i':
@@ -130,611 +130,607 @@ const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c) {
         case 'u':
         case 'x':
         case 'X':
-            if (s.mArgKind == 5) {
-                s.mArgKind = 4;
+            if (parsed.mArgKind == 5) {
+                parsed.mArgKind = 4;
             }
-            if (s.mHasDot == 0) {
-                s.mUnk_0c = 1;
-            } else if (s.mPadKind == 2) {
-                s.mPadKind = 1;
+            if (parsed.mHasDot == 0) {
+                parsed.mUnk_0c = 1;
+            } else if (parsed.mPadKind == 2) {
+                parsed.mPadKind = 1;
             }
             break;
         case 'f':
         case 'F':
-            if (s.mArgKind == 2 || s.mArgKind == 4) {
-                s.mSpecChar = 0xffff;
-            } else if (s.mHasDot == 0) {
-                s.mUnk_0c = 6;
+            if (parsed.mArgKind == 2 || parsed.mArgKind == 4) {
+                parsed.mSpecChar = 0xffff;
+            } else if (parsed.mHasDot == 0) {
+                parsed.mUnk_0c = 6;
             }
             break;
         case 'g':
         case 'G':
-            if (s.mUnk_0c == 0) {
-                s.mUnk_0c = 1;
+            if (parsed.mUnk_0c == 0) {
+                parsed.mUnk_0c = 1;
             }
         case 'e':
         case 'E':
-            if (s.mArgKind == 2 || s.mArgKind == 4 || s.mArgKind == 1) {
-                s.mSpecChar = 0xffff;
-            } else if (s.mHasDot == 0) {
-                s.mUnk_0c = 6;
+            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 1) {
+                parsed.mSpecChar = 0xffff;
+            } else if (parsed.mHasDot == 0) {
+                parsed.mUnk_0c = 6;
             }
             break;
         case 'p':
-            s.mArgKind = 3;
-            s.mHash = 1;
-            s.mSpecChar = 'x';
-            s.mUnk_0c = 8;
+            parsed.mArgKind = 3;
+            parsed.mHash = 1;
+            parsed.mSpecChar = 'x';
+            parsed.mUnk_0c = 8;
             break;
         case 'c':
-            if (s.mArgKind == 3) {
-                s.mArgKind = 6;
-            } else if (s.mHasDot != 0 || s.mArgKind != 0) {
-                s.mSpecChar = 0xffff;
+            if (parsed.mArgKind == 3) {
+                parsed.mArgKind = 6;
+            } else if (parsed.mHasDot != 0 || parsed.mArgKind != 0) {
+                parsed.mSpecChar = 0xffff;
             }
             break;
         case 's':
-            if (s.mArgKind == 3) {
-                s.mArgKind = 6;
-            } else if (s.mArgKind != 0) {
-                s.mSpecChar = 0xffff;
+            if (parsed.mArgKind == 3) {
+                parsed.mArgKind = 6;
+            } else if (parsed.mArgKind != 0) {
+                parsed.mSpecChar = 0xffff;
             }
             break;
         case 'n':
-            if (s.mArgKind == 5) {
-                s.mArgKind = 4;
+            if (parsed.mArgKind == 5) {
+                parsed.mArgKind = 4;
             }
             break;
         default:
-            s.mSpecChar = 0xffff;
+            parsed.mSpecChar = 0xffff;
             break;
     }
-    *c = s;
-    return p + 1;
+    *specOut = parsed;
+    return cursor + 1;
 }
 
-// Writes the digits of v backwards from end (after a 0 terminator) and returns the address of the first one, or 0
-// when more than 0x1fd characters would result. The character s.mUnk_06 picks base 10 ('d', 'i', 'u'), 8 ('o') or
-// 16 ('x', 'X'; digits above 9 start at 'a' for 'x', else at 'A'). Nothing is written but the terminator when v
-// and s.mUnk_0c are 0, unless mUnk_03 is set and the character is 'o'. 'd' and 'i' negate a negative v and put '-'
-// in front; mUnk_00 == 2 pads with '0' to mUnk_08 (less 1 for a sign, less 2 for a 0x prefix); mUnk_01 1 and 2 put
-// '+' and ' ' in front; mUnk_03 puts a '0' in front for base 8 and '0' plus the character for base 16.
-u16 *FormatWideInt32(unsigned long v, u16 *end, FormatWideSpec s) {
-    unsigned long b;
-    u16 *p;
-    int n;
-    int a;
-    int m;
-    int k;
-    u8 t;
-    int f;
-    int d;
-    u16 c;
+// Writes the digits of value backwards from end and returns the address of the first one, or 0 when too long.
+u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec) {
+    unsigned long base;
+    u16 *cursor;
+    int negative;
+    int count;
+    int precision;
+    int width;
+    u8 alt;
+    int signKind;
+    int digit;
+    u16 conv;
 
-    m = s.mUnk_0c;
-    t = s.mHash;
-    c = s.mSpecChar;
-    k = s.mMinLength;
-    f = s.mSignKind;
-    a = 0;
-    n = 0;
-    p = end;
-    *--p = 0;
-    if (v == 0 && m == 0) {
-        if (t == 0 || c != 'o') {
-            return p;
+    precision = spec.mUnk_0c;
+    alt = spec.mHash;
+    conv = spec.mSpecChar;
+    width = spec.mMinLength;
+    signKind = spec.mSignKind;
+    count = 0;
+    negative = 0;
+    cursor = end;
+    *--cursor = 0;
+    if (value == 0 && precision == 0) {
+        if (alt == 0 || conv != 'o') {
+            return cursor;
         }
     }
-    switch (c) {
+    switch (conv) {
         case 'd':
         case 'i':
-            b = 10;
-            if ((int) v < 0) {
-                v = -v;
-                a = 1;
+            base = 10;
+            if ((int) value < 0) {
+                value = -value;
+                count = 1;
             }
             break;
         case 'o':
-            b = 8;
-            f = 0;
+            base = 8;
+            signKind = 0;
             break;
         case 'u':
-            b = 10;
-            f = 0;
+            base = 10;
+            signKind = 0;
             break;
         case 'x':
         case 'X':
-            b = 16;
-            f = 0;
+            base = 16;
+            signKind = 0;
             break;
     }
     do {
-        d = v % b;
-        v = v / b;
-        if (d < 10) {
-            d += '0';
-        } else if (c == 'x') {
-            d += 0x57;
+        digit = value % base;
+        value = value / base;
+        if (digit < 10) {
+            digit += '0';
+        } else if (conv == 'x') {
+            digit += 0x57;
         } else {
-            d += 0x37;
+            digit += 0x37;
         }
-        *--p = d;
-        n++;
-    } while (v != 0);
-    if (b == 8 && t != 0) {
-        if (*p != '0') {
-            *--p = '0';
-            n++;
-        }
-    }
-    if (s.mPadKind == 2) {
-        m = k;
-        if (a != 0 || f != 0) {
-            m--;
-        }
-        if (b == 16 && t != 0) {
-            m -= 2;
+        *--cursor = digit;
+        negative++;
+    } while (value != 0);
+    if (base == 8 && alt != 0) {
+        if (*cursor != '0') {
+            *--cursor = '0';
+            negative++;
         }
     }
-    if (m + (end - p) > 0x1fd) {
+    if (spec.mPadKind == 2) {
+        precision = width;
+        if (count != 0 || signKind != 0) {
+            precision--;
+        }
+        if (base == 16 && alt != 0) {
+            precision -= 2;
+        }
+    }
+    if (precision + (end - cursor) > 0x1fd) {
         return 0;
     }
-    while (n < m) {
-        n++;
-        *--p = '0';
+    while (negative < precision) {
+        negative++;
+        *--cursor = '0';
     }
-    if (b == 16 && t != 0) {
-        *--p = c;
-        *--p = '0';
+    if (base == 16 && alt != 0) {
+        *--cursor = conv;
+        *--cursor = '0';
     }
-    if (a != 0) {
-        *--p = '-';
-    } else if (f == 1) {
-        *--p = '+';
-    } else if (f == 2) {
-        *--p = ' ';
+    if (count != 0) {
+        *--cursor = '-';
+    } else if (signKind == 1) {
+        *--cursor = '+';
+    } else if (signKind == 2) {
+        *--cursor = ' ';
     }
-    return p;
+    return cursor;
 }
 
-// Same as FormatWideInt32 with a 64-bit v (one word per half; the digit and the quotient come from 64-bit unsigned
+// Same as FormatWideInt32 with a 64-bit value (one word per half; the digit and the quotient come from 64-bit unsigned
 // division and remainder).
-u16 *FormatWideInt64(u64 v, u16 *end, FormatWideSpec s) {
-    int a;
-    int m;
-    int k;
-    u8 t;
-    int d;
-    u64 b;
-    u16 *p;
-    s32 n;
-    u16 c;
-    u8 f;
-    int e;
+// Same as FormatWideInt32 with a 64-bit value.
+u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec) {
+    int count;
+    int precision;
+    int width;
+    u8 alt;
+    int digit;
+    u64 base;
+    u16 *cursor;
+    s32 negative;
+    u16 conv;
+    u8 signKind;
+    int digitChar;
 
-    m = s.mUnk_0c;
-    t = s.mHash;
-    f = s.mSignKind;
-    k = s.mMinLength;
-    a = 0;
-    n = 0;
-    c = s.mSpecChar;
-    p = end;
-    *--p = 0;
-    if (v == 0 && m == 0) {
-        if (t == 0 || c != 'o') {
-            return p;
+    precision = spec.mUnk_0c;
+    alt = spec.mHash;
+    signKind = spec.mSignKind;
+    width = spec.mMinLength;
+    count = 0;
+    negative = 0;
+    conv = spec.mSpecChar;
+    cursor = end;
+    *--cursor = 0;
+    if (value == 0 && precision == 0) {
+        if (alt == 0 || conv != 'o') {
+            return cursor;
         }
     }
-    switch (c) {
+    switch (conv) {
         case 'd':
         case 'i':
-            b = 10;
-            if ((s64) v < 0) {
-                v = -v;
-                a = 1;
+            base = 10;
+            if ((s64) value < 0) {
+                value = -value;
+                count = 1;
             }
             break;
         case 'o':
-            b = 8;
-            f = 0;
+            base = 8;
+            signKind = 0;
             break;
         case 'u':
-            b = 10;
-            f = 0;
+            base = 10;
+            signKind = 0;
             break;
         case 'x':
         case 'X':
-            b = 16;
-            f = 0;
+            base = 16;
+            signKind = 0;
             break;
     }
     do {
-        d = v % b;
-        v = v / b;
-        if (d < 10) {
-            e = d + '0';
-        } else if (c == 'x') {
-            e = d + 0x57;
+        digit = value % base;
+        value = value / base;
+        if (digit < 10) {
+            digitChar = digit + '0';
+        } else if (conv == 'x') {
+            digitChar = digit + 0x57;
         } else {
-            e = d + 0x37;
+            digitChar = digit + 0x37;
         }
-        *--p = e;
-        n++;
-    } while (v != 0);
-    if (b == 8 && t != 0) {
-        if (*p != '0') {
-            *--p = '0';
-            n++;
-        }
-    }
-    if (s.mPadKind == 2) {
-        m = k;
-        if (a != 0 || f != 0) {
-            m--;
-        }
-        if (b == 16 && t != 0) {
-            m -= 2;
+        *--cursor = digitChar;
+        negative++;
+    } while (value != 0);
+    if (base == 8 && alt != 0) {
+        if (*cursor != '0') {
+            *--cursor = '0';
+            negative++;
         }
     }
-    if (m + (end - p) > 0x1fd) {
+    if (spec.mPadKind == 2) {
+        precision = width;
+        if (count != 0 || signKind != 0) {
+            precision--;
+        }
+        if (base == 16 && alt != 0) {
+            precision -= 2;
+        }
+    }
+    if (precision + (end - cursor) > 0x1fd) {
         return 0;
     }
-    while (n < m) {
-        n++;
-        *--p = '0';
+    while (negative < precision) {
+        negative++;
+        *--cursor = '0';
     }
-    if (b == 16 && t != 0) {
-        *--p = c;
-        *--p = '0';
+    if (base == 16 && alt != 0) {
+        *--cursor = conv;
+        *--cursor = '0';
     }
-    if (a != 0) {
-        *--p = '-';
-    } else if (f == 1) {
-        *--p = '+';
-    } else if (f == 2) {
-        *--p = ' ';
+    if (count != 0) {
+        *--cursor = '-';
+    } else if (signKind == 1) {
+        *--cursor = '+';
+    } else if (signKind == 2) {
+        *--cursor = ' ';
     }
-    return p;
+    return cursor;
 }
 
-void FormatWideRoundDigitChars(DigitRecord *a, int k) {
-    char *b;
-    char *p;
-    char *q;
-    int n;
-    u8 v;
-    int c;
+void FormatWideRoundDigitChars(DigitRecord *record, int keepCount) {
+    char *digitStart;
+    char *cursor;
+    char *tail;
+    int digitCount;
+    u8 digit;
+    int roundUp;
 
-    if (k < 0) {
+    if (keepCount < 0) {
     zero:
-        a->mExponent = 0;
-        a->mDigitCount = 1;
-        a->mDigits[0] = '0';
+        record->mExponent = 0;
+        record->mDigitCount = 1;
+        record->mDigits[0] = '0';
         return;
     }
-    n = a->mDigitCount;
-    if (k >= n) {
+    digitCount = record->mDigitCount;
+    if (keepCount >= digitCount) {
         return;
     }
-    b = a->mDigits;
-    p = b + k + 1;
-    v = *--p - '0';
-    if (v == 5) {
-        q = b + n;
-        while (--q > p && *q == '0') {
+    digitStart = record->mDigits;
+    cursor = digitStart + keepCount + 1;
+    digit = *--cursor - '0';
+    if (digit == 5) {
+        tail = digitStart + digitCount;
+        while (--tail > cursor && *tail == '0') {
         }
-        if (q == p) {
-            c = p[-1] & 1;
+        if (tail == cursor) {
+            roundUp = cursor[-1] & 1;
         } else {
-            c = 1;
+            roundUp = 1;
         }
     } else {
-        c = v > 5;
+        roundUp = digit > 5;
     }
-    while (k != 0) {
-        v = *--p - '0' + c;
-        c = v > 9;
-        if (c != 0 || v == 0) {
-            k--;
+    while (keepCount != 0) {
+        digit = *--cursor - '0' + roundUp;
+        roundUp = digit > 9;
+        if (roundUp != 0 || digit == 0) {
+            keepCount--;
         } else {
-            *p = v + '0';
+            *cursor = digit + '0';
             break;
         }
     }
-    if (c != 0) {
-        a->mExponent++;
-        a->mDigitCount = 1;
-        a->mDigits[0] = '1';
+    if (roundUp != 0) {
+        record->mExponent++;
+        record->mDigitCount = 1;
+        record->mDigits[0] = '1';
         return;
     }
-    if (k == 0) {
+    if (keepCount == 0) {
         goto zero;
     }
-    a->mDigitCount = k;
+    record->mDigitCount = keepCount;
 }
 
-u16 *FormatWideDouble(double v, u16 *a, FormatWideSpec b) {
-    Unk02140c28 g;
-    DigitRecord h;
+u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec) {
+    Unk02140c28 digitOptions;
+    DigitRecord record;
     char buf[0x200];
-    int k;
-    u16 t;
-    u8 x;
-    u8 y;
-    char *p;
-    char *q;
-    u16 *r;
-    int e;
-    int m;
-    int f;
-    int n;
-    int i;
-    u8 c;
+    int precision;
+    u16 conv;
+    u8 alt;
+    u8 signKind;
+    char *cursor;
+    char *tail;
+    u16 *wideCursor;
+    int exponent;
+    int intDigits;
+    int fracDigits;
+    int exponentDigits;
+    int index;
+    u8 exponentSign;
 
-    k = b.mUnk_0c;
-    t = b.mSpecChar;
-    x = b.mHash;
-    y = b.mSignKind;
-    if (k > 509) {
+    precision = spec.mUnk_0c;
+    conv = spec.mSpecChar;
+    alt = spec.mHash;
+    signKind = spec.mSignKind;
+    if (precision > 509) {
         return 0;
     }
-    g.mUnk_00 = 0;
-    g.mDigitCount = 0x20;
-    DoubleToDigitChars(&g, v, &h);
-    p = h.mDigits + h.mDigitCount;
-    while (h.mDigitCount > 1 && *--p == '0') {
-        h.mDigitCount--;
-        h.mExponent++;
+    digitOptions.mUnk_00 = 0;
+    digitOptions.mDigitCount = 0x20;
+    DoubleToDigitChars(&digitOptions, value, &record);
+    cursor = record.mDigits + record.mDigitCount;
+    while (record.mDigitCount > 1 && *--cursor == '0') {
+        record.mDigitCount--;
+        record.mExponent++;
     }
-    switch (h.mDigits[0]) {
+    switch (record.mDigits[0]) {
         case '0':
-            h.mExponent = 0;
+            record.mExponent = 0;
             break;
         case 'I':
-            if (v < 0.0) {
-                r = a - 5;
-                if ((t >= 0x80 ? 0 : data_0215d384[t] & 0x200) != 0) {
-                    wcscpy(r, L"-INF");
+            if (value < 0.0) {
+                wideCursor = end - 5;
+                if ((conv >= 0x80 ? 0 : data_0215d384[conv] & 0x200) != 0) {
+                    wcscpy(wideCursor, L"-INF");
                 } else {
-                    wcscpy(r, L"-inf");
+                    wcscpy(wideCursor, L"-inf");
                 }
             } else {
-                r = a - 4;
-                if ((t >= 0x80 ? 0 : data_0215d384[t] & 0x200) != 0) {
-                    wcscpy(r, L"INF");
+                wideCursor = end - 4;
+                if ((conv >= 0x80 ? 0 : data_0215d384[conv] & 0x200) != 0) {
+                    wcscpy(wideCursor, L"INF");
                 } else {
-                    wcscpy(r, L"inf");
+                    wcscpy(wideCursor, L"inf");
                 }
             }
-            return r;
+            return wideCursor;
         case 'N':
-            r = a - 4;
-            wcscpy(r, L"NaN");
-            return r;
+            wideCursor = end - 4;
+            wcscpy(wideCursor, L"NaN");
+            return wideCursor;
     }
-    h.mExponent += h.mDigitCount - 1;
-    p = buf + sizeof(buf);
-    *--p = 0;
-    switch (t) {
+    record.mExponent += record.mDigitCount - 1;
+    cursor = buf + sizeof(buf);
+    *--cursor = 0;
+    switch (conv) {
         case 'g':
         case 'G':
-            if (h.mDigitCount > k) {
-                FormatWideRoundDigitChars(&h, k);
+            if (record.mDigitCount > precision) {
+                FormatWideRoundDigitChars(&record, precision);
             }
-            if (h.mExponent < -4 || h.mExponent >= k) {
-                if (x != 0) {
-                    k--;
+            if (record.mExponent < -4 || record.mExponent >= precision) {
+                if (alt != 0) {
+                    precision--;
                 } else {
-                    k = h.mDigitCount - 1;
+                    precision = record.mDigitCount - 1;
                 }
-                if (t == 'g') {
-                    t = 'e';
+                if (conv == 'g') {
+                    conv = 'e';
                 } else {
-                    t = 'E';
+                    conv = 'E';
                 }
                 goto exp;
             }
-            if (x != 0) {
-                k -= h.mExponent + 1;
+            if (alt != 0) {
+                precision -= record.mExponent + 1;
             } else {
-                if ((k = h.mDigitCount - (h.mExponent + 1)) < 0) {
-                    k = 0;
+                if ((precision = record.mDigitCount - (record.mExponent + 1)) < 0) {
+                    precision = 0;
                 }
             }
             goto fix;
         case 'e':
         case 'E':
         exp:
-            if (h.mDigitCount > k + 1) {
-                FormatWideRoundDigitChars(&h, k + 1);
+            if (record.mDigitCount > precision + 1) {
+                FormatWideRoundDigitChars(&record, precision + 1);
             }
-            e = h.mExponent;
-            c = '+';
-            if (e < 0) {
-                e = -e;
-                c = '-';
+            exponent = record.mExponent;
+            exponentSign = '+';
+            if (exponent < 0) {
+                exponent = -exponent;
+                exponentSign = '-';
             }
-            for (n = 0; e != 0 || n < 2; n++) {
-                *--p = e % 10 + '0';
-                e /= 10;
+            for (exponentDigits = 0; exponent != 0 || exponentDigits < 2; exponentDigits++) {
+                *--cursor = exponent % 10 + '0';
+                exponent /= 10;
             }
-            *--p = c;
-            *--p = t;
-            if (buf - p + k > 509) {
+            *--cursor = exponentSign;
+            *--cursor = conv;
+            if (buf - cursor + precision > 509) {
                 return 0;
             }
-            if (h.mDigitCount < k + 1) {
-                for (i = k + 2 - h.mDigitCount; --i != 0;) {
-                    *--p = '0';
+            if (record.mDigitCount < precision + 1) {
+                for (index = precision + 2 - record.mDigitCount; --index != 0;) {
+                    *--cursor = '0';
                 }
             }
-            q = h.mDigits + h.mDigitCount;
-            for (i = h.mDigitCount; --i != 0;) {
-                *--p = *--q;
+            tail = record.mDigits + record.mDigitCount;
+            for (index = record.mDigitCount; --index != 0;) {
+                *--cursor = *--tail;
             }
-            if (k != 0 || x != 0) {
-                *--p = '.';
+            if (precision != 0 || alt != 0) {
+                *--cursor = '.';
             }
-            *--p = h.mDigits[0];
-            if (h.mNegative != 0) {
-                *--p = '-';
-            } else if (y == 1) {
-                *--p = '+';
-            } else if (y == 2) {
-                *--p = ' ';
+            *--cursor = record.mDigits[0];
+            if (record.mNegative != 0) {
+                *--cursor = '-';
+            } else if (signKind == 1) {
+                *--cursor = '+';
+            } else if (signKind == 2) {
+                *--cursor = ' ';
             }
             break;
         case 'f':
         case 'F':
         fix:
-            if ((f = h.mDigitCount - h.mExponent - 1) < 0) {
-                f = 0;
+            if ((fracDigits = record.mDigitCount - record.mExponent - 1) < 0) {
+                fracDigits = 0;
             }
-            if (f > k) {
-                FormatWideRoundDigitChars(&h, h.mDigitCount - (f - k));
-                if ((f = h.mDigitCount - h.mExponent - 1) < 0) {
-                    f = 0;
+            if (fracDigits > precision) {
+                FormatWideRoundDigitChars(&record, record.mDigitCount - (fracDigits - precision));
+                if ((fracDigits = record.mDigitCount - record.mExponent - 1) < 0) {
+                    fracDigits = 0;
                 }
             }
-            if ((m = h.mExponent + 1) < 0) {
-                m = 0;
+            if ((intDigits = record.mExponent + 1) < 0) {
+                intDigits = 0;
             }
-            if (m + f > 509) {
+            if (intDigits + fracDigits > 509) {
                 return 0;
             }
-            q = h.mDigits + h.mDigitCount;
-            for (i = 0; i < k - f; i++) {
-                *--p = '0';
+            tail = record.mDigits + record.mDigitCount;
+            for (index = 0; index < precision - fracDigits; index++) {
+                *--cursor = '0';
             }
-            for (i = 0; i < f && i < h.mDigitCount; i++) {
-                *--p = *--q;
+            for (index = 0; index < fracDigits && index < record.mDigitCount; index++) {
+                *--cursor = *--tail;
             }
-            for (; i < f; i++) {
-                *--p = '0';
+            for (; index < fracDigits; index++) {
+                *--cursor = '0';
             }
-            if (k != 0 || x != 0) {
-                *--p = '.';
+            if (precision != 0 || alt != 0) {
+                *--cursor = '.';
             }
-            if (m != 0) {
-                for (i = 0; i < m - h.mDigitCount; i++) {
-                    *--p = '0';
+            if (intDigits != 0) {
+                for (index = 0; index < intDigits - record.mDigitCount; index++) {
+                    *--cursor = '0';
                 }
-                for (; i < m; i++) {
-                    *--p = *--q;
+                for (; index < intDigits; index++) {
+                    *--cursor = *--tail;
                 }
             } else {
-                *--p = '0';
+                *--cursor = '0';
             }
-            if (h.mNegative != 0) {
-                *--p = '-';
-            } else if (y == 1) {
-                *--p = '+';
-            } else if (y == 2) {
-                *--p = ' ';
+            if (record.mNegative != 0) {
+                *--cursor = '-';
+            } else if (signKind == 1) {
+                *--cursor = '+';
+            } else if (signKind == 2) {
+                *--cursor = ' ';
             }
             break;
     }
-    r = a - strlen(p) - 1;
-    mbstowcs(r, p, strlen(p));
-    return r;
+    wideCursor = end - strlen(cursor) - 1;
+    mbstowcs(wideCursor, cursor, strlen(cursor));
+    return wideCursor;
 }
 
-int FormatWideWithPutFunc(void *(*a)(void *, const u16 *, u32), void *b, const u16 *c, char *d) {
-    u16 e = ' ';
-    u16 f;
-    char g;
-    FormatWideSpec s;
+int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putArg, const u16 *format, char *argList) {
+    u16 padChar = ' ';
+    u16 spaceChar;
+    char charArg;
+    FormatWideSpec spec;
     u16 buf[512];
-    int t;
-    long v;
-    u64 vl;
-    const u16 *q;
-    int w;
-    u16 *p;
-    int n;
-    double x;
-    const char *bp;
-    int m;
-    const u16 *r;
-    const char *bq;
-    int k;
+    int totalLength;
+    long value32;
+    u64 value64;
+    const u16 *percentPos;
+    int printedLength;
+    u16 *text;
+    int textLength;
+    double doubleValue;
+    const char *narrowText;
+    int narrowLength;
+    const u16 *nulPos;
+    const char *narrowNulPos;
+    int padCharValue;
 
-    t = 0;
-    while (*c != 0) {
-        q = wcschr(c, '%');
-        if (q == 0) {
-            n = wcslen(c);
-            t += n;
-            if (n != 0 && a(b, c, n) == 0) {
+    totalLength = 0;
+    while (*format != 0) {
+        percentPos = wcschr(format, '%');
+        if (percentPos == 0) {
+            textLength = wcslen(format);
+            totalLength += textLength;
+            if (textLength != 0 && putFunc(putArg, format, textLength) == 0) {
                 return -1;
             }
             break;
         }
-        n = q - c;
-        t += n;
-        if (n != 0 && a(b, c, n) == 0) {
+        textLength = percentPos - format;
+        totalLength += textLength;
+        if (textLength != 0 && putFunc(putArg, format, textLength) == 0) {
             return -1;
         }
-        c = FormatWideParseSpec(q, &d, &s);
-        switch (s.mSpecChar) {
+        format = FormatWideParseSpec(percentPos, &argList, &spec);
+        switch (spec.mSpecChar) {
             case 'd':
             case 'i':
-                if (s.mArgKind == 3) {
-                    d += 4;
-                    v = *(long *) (d - 4);
-                } else if (s.mArgKind == 4) {
-                    d += 8;
-                    vl = *(u64 *) (d - 8);
+                if (spec.mArgKind == 3) {
+                    argList += 4;
+                    value32 = *(long *) (argList - 4);
+                } else if (spec.mArgKind == 4) {
+                    argList += 8;
+                    value64 = *(u64 *) (argList - 8);
                 } else {
-                    d += 4;
-                    v = *(int *) (d - 4);
+                    argList += 4;
+                    value32 = *(int *) (argList - 4);
                 }
-                if (s.mArgKind == 2) {
-                    v = (short) v;
+                if (spec.mArgKind == 2) {
+                    value32 = (short) value32;
                 }
-                if (s.mArgKind == 4) {
-                    p = FormatWideInt64(vl, buf + 512, s);
-                    if (p == 0) {
+                if (spec.mArgKind == 4) {
+                    text = FormatWideInt64(value64, buf + 512, spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    p = FormatWideInt32(v, buf + 512, s);
-                    if (p == 0) {
+                    text = FormatWideInt32(value32, buf + 512, spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 }
-                n = buf + 511 - p;
+                textLength = buf + 511 - text;
                 break;
             case 'o':
             case 'u':
             case 'x':
             case 'X':
-                if (s.mArgKind == 3) {
-                    d += 4;
-                    v = *(long *) (d - 4);
-                } else if (s.mArgKind == 4) {
-                    d += 8;
-                    vl = *(u64 *) (d - 8);
+                if (spec.mArgKind == 3) {
+                    argList += 4;
+                    value32 = *(long *) (argList - 4);
+                } else if (spec.mArgKind == 4) {
+                    argList += 8;
+                    value64 = *(u64 *) (argList - 8);
                 } else {
-                    d += 4;
-                    v = *(int *) (d - 4);
+                    argList += 4;
+                    value32 = *(int *) (argList - 4);
                 }
-                if (s.mArgKind == 2) {
-                    v = (u16) v;
+                if (spec.mArgKind == 2) {
+                    value32 = (u16) value32;
                 }
-                if (s.mArgKind == 4) {
-                    p = FormatWideInt64(vl, buf + 512, s);
-                    if (p == 0) {
+                if (spec.mArgKind == 4) {
+                    text = FormatWideInt64(value64, buf + 512, spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    p = FormatWideInt32(v, buf + 512, s);
-                    if (p == 0) {
+                    text = FormatWideInt32(value32, buf + 512, spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 }
-                n = buf + 511 - p;
+                textLength = buf + 511 - text;
                 break;
             case 'e':
             case 'f':
@@ -742,144 +738,144 @@ int FormatWideWithPutFunc(void *(*a)(void *, const u16 *, u32), void *b, const u
             case 'E':
             case 'F':
             case 'G':
-                if (s.mArgKind == 5) {
-                    d += 8;
-                    x = *(long double *) (d - 8);
+                if (spec.mArgKind == 5) {
+                    argList += 8;
+                    doubleValue = *(long double *) (argList - 8);
                 } else {
-                    d += 8;
-                    x = *(double *) (d - 8);
+                    argList += 8;
+                    doubleValue = *(double *) (argList - 8);
                 }
-                p = FormatWideDouble(x, buf + 512, s);
-                if (p == 0) {
+                text = FormatWideDouble(doubleValue, buf + 512, spec);
+                if (text == 0) {
                     goto bad;
                 }
-                n = buf + 511 - p;
+                textLength = buf + 511 - text;
                 break;
             case 's':
-                if (s.mArgKind == 6) {
-                    d += 4;
-                    p = *(u16 **) (d - 4);
-                    if (p == 0) {
-                        p = L"";
+                if (spec.mArgKind == 6) {
+                    argList += 4;
+                    text = *(u16 **) (argList - 4);
+                    if (text == 0) {
+                        text = L"";
                     }
-                    if (s.mHash != 0) {
-                        n = (u8) *p++;
-                        if (s.mHasDot != 0 && n > s.mUnk_0c) {
-                            n = s.mUnk_0c;
+                    if (spec.mHash != 0) {
+                        textLength = (u8) *text++;
+                        if (spec.mHasDot != 0 && textLength > spec.mUnk_0c) {
+                            textLength = spec.mUnk_0c;
                         }
-                    } else if (s.mHasDot != 0) {
-                        n = s.mUnk_0c;
-                        r = wmemchr(p, 0, n);
-                        if (r != 0) {
-                            n = r - p;
+                    } else if (spec.mHasDot != 0) {
+                        textLength = spec.mUnk_0c;
+                        nulPos = wmemchr(text, 0, textLength);
+                        if (nulPos != 0) {
+                            textLength = nulPos - text;
                         }
                     } else {
-                        n = wcslen(p);
+                        textLength = wcslen(text);
                     }
                 } else {
-                    d += 4;
-                    bp = *(const char **) (d - 4);
-                    if (bp == 0) {
-                        bp = "";
+                    argList += 4;
+                    narrowText = *(const char **) (argList - 4);
+                    if (narrowText == 0) {
+                        narrowText = "";
                     }
-                    if (s.mHash != 0) {
+                    if (spec.mHash != 0) {
                     // reads p (the u16 pointer of the other branch), not bp
-                        m = (u8) *p;
-                        if (s.mHasDot != 0 && m > s.mUnk_0c) {
-                            m = s.mUnk_0c;
+                        narrowLength = (u8) *text;
+                        if (spec.mHasDot != 0 && narrowLength > spec.mUnk_0c) {
+                            narrowLength = spec.mUnk_0c;
                         }
-                    } else if (s.mHasDot != 0) {
-                        m = s.mUnk_0c;
-                        bq = memchr(bp, 0, m);
-                        if (bq != 0) {
-                            m = bq - bp;
+                    } else if (spec.mHasDot != 0) {
+                        narrowLength = spec.mUnk_0c;
+                        narrowNulPos = memchr(narrowText, 0, narrowLength);
+                        if (narrowNulPos != 0) {
+                            narrowLength = narrowNulPos - narrowText;
                         }
                     } else {
-                        m = strlen(bp);
+                        narrowLength = strlen(narrowText);
                     }
-                    n = mbstowcs(buf, bp, m);
-                    if (n < 0) {
+                    textLength = mbstowcs(buf, narrowText, narrowLength);
+                    if (textLength < 0) {
                         goto bad;
                     }
-                    p = buf;
+                    text = buf;
                 }
                 break;
             case 'n':
-                d += 4;
-                p = *(u16 **) (d - 4);
-                switch (s.mArgKind) {
+                argList += 4;
+                text = *(u16 **) (argList - 4);
+                switch (spec.mArgKind) {
                     case 0:
-                        *(int *) p = t;
+                        *(int *) text = totalLength;
                         break;
                     case 2:
-                        *(short *) p = t;
+                        *(short *) text = totalLength;
                         break;
                     case 3:
-                        *(long *) p = t;
+                        *(long *) text = totalLength;
                         break;
                     case 4:
-                        *(long long *) p = t;
+                        *(long long *) text = totalLength;
                         break;
                 }
                 continue;
             case 'c':
-                p = buf;
-                if (s.mArgKind == 6) {
-                    d += 4;
-                    n = 1;
-                    *p = *(int *) (d - 4);
+                text = buf;
+                if (spec.mArgKind == 6) {
+                    argList += 4;
+                    textLength = 1;
+                    *text = *(int *) (argList - 4);
                 } else {
-                    d += 4;
-                    g = *(int *) (d - 4);
-                    n = mbtowc(p, &g, 1);
+                    argList += 4;
+                    charArg = *(int *) (argList - 4);
+                    textLength = mbtowc(text, &charArg, 1);
                 }
                 break;
             case '%':
                 buf[0] = '%';
-                p = buf;
-                n = 1;
+                text = buf;
+                textLength = 1;
                 break;
             case 0xffff:
             default:
             bad:
-                n = wcslen(q);
-                t += n;
-                if (n != 0 && a(b, q, n) == 0) {
+                textLength = wcslen(percentPos);
+                totalLength += textLength;
+                if (textLength != 0 && putFunc(putArg, percentPos, textLength) == 0) {
                     return -1;
                 }
-                return t;
+                return totalLength;
         }
-        w = n;
-        if (s.mPadKind != 0) {
-            k = s.mPadKind == 2 ? '0' : ' ';
-            e = k;
-            if ((*p == '+' || *p == '-' || *p == ' ') && k == '0') {
-                if (a(b, p, 1) == 0) {
+        printedLength = textLength;
+        if (spec.mPadKind != 0) {
+            padCharValue = spec.mPadKind == 2 ? '0' : ' ';
+            padChar = padCharValue;
+            if ((*text == '+' || *text == '-' || *text == ' ') && padCharValue == '0') {
+                if (putFunc(putArg, text, 1) == 0) {
                     return -1;
                 }
-                p++;
-                n--;
+                text++;
+                textLength--;
             }
-            while (w < s.mMinLength) {
-                if (a(b, &e, 1) == 0) {
+            while (printedLength < spec.mMinLength) {
+                if (putFunc(putArg, &padChar, 1) == 0) {
                     return -1;
                 }
-                w++;
+                printedLength++;
             }
         }
-        if (n != 0 && a(b, p, n) == 0) {
+        if (textLength != 0 && putFunc(putArg, text, textLength) == 0) {
             return -1;
         }
-        if (s.mPadKind == 0) {
-            while (w < s.mMinLength) {
-                f = ' ';
-                if (a(b, &f, 1) == 0) {
+        if (spec.mPadKind == 0) {
+            while (printedLength < spec.mMinLength) {
+                spaceChar = ' ';
+                if (putFunc(putArg, &spaceChar, 1) == 0) {
                     return -1;
                 }
-                w++;
+                printedLength++;
             }
         }
-        t += w;
+        totalLength += printedLength;
     }
-    return t;
+    return totalLength;
 }

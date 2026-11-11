@@ -11,13 +11,13 @@
 #include "Main/Unknown/unk_02170000.h"
 
 void NNSi_G3dAnmObjInitNsBva(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
-    u32 i;
+    u32 mapIndex;
 
     pAnmObj->mFuncAnm = data_021617d4;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumNode;
     pAnmObj->mResAnm = pResAnm;
-    for (i = 0; i < pAnmObj->mNumMapData; i++) {
-        pAnmObj->mMapData[i] = i | 0x100;
+    for (mapIndex = 0; mapIndex < pAnmObj->mNumMapData; mapIndex++) {
+        pAnmObj->mMapData[mapIndex] = mapIndex | 0x100;
     }
 }
 
@@ -36,7 +36,7 @@ void NNSi_G3dAnmObjInitNsBtp(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     u8 *matBlock;
     NNSG3dResDictEntryHeader *dictEntries;
     s32 matIdx;
-    u32 i;
+    u32 entryIndex;
 
     patAnim = pResAnm;
     matBlock = (u8 *) pResMdl + pResMdl->mOfsMat;
@@ -45,11 +45,11 @@ void NNSi_G3dAnmObjInitNsBtp(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mResAnm = patAnim;
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
-    for (i = 0; i < patAnim->mDict.mNumEntry; i++) {
+    for (entryIndex = 0; entryIndex < patAnim->mDict.mNumEntry; entryIndex++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &patAnim->mDict, patAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, i));
+        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
         if (matIdx >= 0) {
-            pAnmObj->mMapData[matIdx] = i | 0x100;
+            pAnmObj->mMapData[matIdx] = entryIndex | 0x100;
         }
     }
 }
@@ -58,8 +58,8 @@ void SetTexParamaters_(const NNSG3dResTex *pTex, const u32 *pTexName, NNSG3dMatA
     const NNSG3dResDictTexData *texEntry;
     u32 imageParam;
     u32 keyOffset;
-    s32 w;
-    s32 h;
+    s32 width;
+    s32 height;
 
     texEntry = NNS_G3dGetResDataByName(&pTex->mDict, pTexName);
     imageParam = pResult->mUnk_10;
@@ -72,20 +72,20 @@ void SetTexParamaters_(const NNSG3dResTex *pTex, const u32 *pTexName, NNSG3dMatA
     pResult->mUnk_10 = pResult->mUnk_10 | (texEntry->mTexImageParam + keyOffset);
     pResult->mUnk_2c = texEntry->mExtraParam & 0x7ff;
     pResult->mUnk_2e = (texEntry->mExtraParam & 0x3ff800) >> 11;
-    w = texEntry->mExtraParam & 0x7ff;
-    h = 0x7ff & (texEntry->mExtraParam >> 11);
-    if (w == pResult->mUnk_2c) {
-        w = 0x1000;
+    width = texEntry->mExtraParam & 0x7ff;
+    height = 0x7ff & (texEntry->mExtraParam >> 11);
+    if (width == pResult->mUnk_2c) {
+        width = 0x1000;
     } else {
-        w = FX_Div(w << 12, pResult->mUnk_2c << 12);
+        width = FX_Div(width << 12, pResult->mUnk_2c << 12);
     }
-    pResult->mUnk_30 = w;
-    if (h == pResult->mUnk_2e) {
-        h = 0x1000;
+    pResult->mUnk_30 = width;
+    if (height == pResult->mUnk_2e) {
+        height = 0x1000;
     } else {
-        h = FX_Div(h << 12, pResult->mUnk_2e << 12);
+        height = FX_Div(height << 12, pResult->mUnk_2e << 12);
     }
-    pResult->mUnk_34 = h;
+    pResult->mUnk_34 = height;
 }
 
 void SetPlttParamaters_(const NNSG3dResTex *pTex, const u32 *pPlttName, NNSG3dMatAnmResult *pResult) {
@@ -191,9 +191,9 @@ u32 GetTexSRTAnmSinCosVal_(const NNSG3dResTexSRTAnm *pTexAnm, u32 info, u32 data
     const FxPairS16 *values;
     u32 lastStep;
     u32 sample;
-    s32 s;
+    s32 sinValue;
     s32 sSub;
-    s32 c;
+    s32 cosValue;
     s32 cSub;
 
     if (info & 0x20000000) {
@@ -227,13 +227,13 @@ u32 GetTexSRTAnmSinCosVal_(const NNSG3dResTexSRTAnm *pTexAnm, u32 info, u32 data
                     sample = frame >> 2;
                     lastStep = sample + 1;
                 }
-                s = values[sample].mFirst;
+                sinValue = values[sample].mFirst;
                 sSub = values[lastStep].mFirst;
-                c = values[sample].mSecond;
+                cosValue = values[sample].mSecond;
                 cSub = values[lastStep].mSecond;
-                s = s * 3 + sSub;
-                c = c * 3 + cSub;
-                return (s >> 2 & 0xffff) | (c >> 2 << 16);
+                sinValue = sinValue * 3 + sSub;
+                cosValue = cosValue * 3 + cSub;
+                return (sinValue >> 2 & 0xffff) | (cosValue >> 2 << 16);
             }
             sample = frame >> 2;
             goto half;
@@ -243,48 +243,48 @@ u32 GetTexSRTAnmSinCosVal_(const NNSG3dResTexSRTAnm *pTexAnm, u32 info, u32 data
 single:
     return ((const u32 *) values)[frame];
 half:
-    s = values[sample].mFirst;
+    sinValue = values[sample].mFirst;
     sSub = (values + sample)[1].mFirst;
-    c = (values + sample)->mSecond;
+    cosValue = (values + sample)->mSecond;
     cSub = (values + sample)[1].mSecond;
-    return (((s + sSub) >> 1) & 0xffff) | ((c + cSub) >> 1 << 16);
+    return (((sinValue + sSub) >> 1) & 0xffff) | ((cosValue + cSub) >> 1 << 16);
 }
 
 void GetTexSRTAnm_(const NNSG3dResTexSRTAnm *pTexAnm, u16 idx, u32 frame, NNSG3dMatAnmResult *pResult) {
     const NNSG3dResDictEntryHeader *dictEntries;
     const NNSG3dResDictTexSRTAnmData *srtData;
     u32 flag;
-    s32 x;
-    s32 y;
-    u32 z;
+    s32 valueS;
+    s32 valueT;
+    u32 rotation;
 
     dictEntries = OFFSET_PTR(const NNSG3dResDictEntryHeader, &pTexAnm->mDict, pTexAnm->mDict.mOfsEntry);
     srtData = DICT_ENTRY(const NNSG3dResDictTexSRTAnmData, dictEntries, idx);
     flag = pResult->mUnk_00;
-    x = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransS, srtData->mTransSEx, frame);
-    y = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransT, srtData->mTransTEx, frame);
-    if (x == 0 && y == 0) {
+    valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransS, srtData->mTransSEx, frame);
+    valueT = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransT, srtData->mTransTEx, frame);
+    if (valueS == 0 && valueT == 0) {
         flag |= 4;
     } else {
-        pResult->mUnk_24[0] = x;
-        pResult->mUnk_24[1] = y;
+        pResult->mUnk_24[0] = valueS;
+        pResult->mUnk_24[1] = valueT;
         flag &= ~4;
     }
-    z = GetTexSRTAnmSinCosVal_(pTexAnm, srtData->mRot, srtData->mRotEx, frame);
-    if (z == 0x10000000) {
+    rotation = GetTexSRTAnmSinCosVal_(pTexAnm, srtData->mRot, srtData->mRotEx, frame);
+    if (rotation == 0x10000000) {
         flag |= 2;
     } else {
-        pResult->mUnk_20[0] = z;
-        pResult->mUnk_20[1] = z >> 16;
+        pResult->mUnk_20[0] = rotation;
+        pResult->mUnk_20[1] = rotation >> 16;
         flag &= ~2;
     }
-    x = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleS, srtData->mScaleSEx, frame);
-    y = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleT, srtData->mScaleTEx, frame);
-    if (x == 0x1000 && y == 0x1000) {
+    valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleS, srtData->mScaleSEx, frame);
+    valueT = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleT, srtData->mScaleTEx, frame);
+    if (valueS == 0x1000 && valueT == 0x1000) {
         flag |= 1;
     } else {
-        pResult->mUnk_18[0] = x;
-        pResult->mUnk_18[1] = y;
+        pResult->mUnk_18[0] = valueS;
+        pResult->mUnk_18[1] = valueT;
         flag &= ~1;
     }
     pResult->mUnk_00 = flag;
@@ -296,7 +296,7 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     u8 *matBlock;
     NNSG3dResDictEntryHeader *dictEntries;
     s32 matIdx;
-    u32 i;
+    u32 entryIndex;
 
     srtAnim = pResAnm;
     matBlock = (u8 *) pResMdl + pResMdl->mOfsMat;
@@ -304,11 +304,11 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
-    for (i = 0; i < srtAnim->mDict.mNumEntry; i++) {
+    for (entryIndex = 0; entryIndex < srtAnim->mDict.mNumEntry; entryIndex++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &srtAnim->mDict, srtAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, i));
+        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
         if (matIdx >= 0) {
-            pAnmObj->mMapData[matIdx] = i | 0x100;
+            pAnmObj->mMapData[matIdx] = entryIndex | 0x100;
         }
     }
 }
@@ -426,7 +426,7 @@ void NNSi_G3dAnmObjInitNsBma(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     u8 *matBlock;
     NNSG3dResDictEntryHeader *dictEntries;
     s32 matIdx;
-    u32 i;
+    u32 entryIndex;
 
     colorAnim = pResAnm;
     matBlock = (u8 *) pResMdl + pResMdl->mOfsMat;
@@ -434,17 +434,17 @@ void NNSi_G3dAnmObjInitNsBma(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
-    for (i = 0; i < colorAnim->mDict.mNumEntry; i++) {
+    for (entryIndex = 0; entryIndex < colorAnim->mDict.mNumEntry; entryIndex++) {
         dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
-        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, i));
+        matIdx = NNS_G3dGetResDictIdxByName(matBlock + 4, DICT_ENTRY_NAME(dictEntries, entryIndex));
         if (matIdx >= 0) {
-            pAnmObj->mMapData[matIdx] = i | 0x100;
+            pAnmObj->mMapData[matIdx] = entryIndex | 0x100;
         }
     }
 }
 
 void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
-    u32 x;
+    u32 colorValue;
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResMatCAnm *colorAnim;
     u32 frame;
@@ -454,19 +454,19 @@ void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     frame = pAnmObj->mFrame >> 12;
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
     colorData = DICT_ENTRY(NNSG3dResDictMatCAnmData, dictEntries, (u16) dataIdx);
-    x = GetMatColAnmValue_(colorAnim, colorData->mDiffuse, frame);
+    colorValue = GetMatColAnmValue_(colorAnim, colorData->mDiffuse, frame);
     pResult->mUnk_04 =
-        (pResult->mUnk_04 & 0x8000) | x | (GetMatColAnmValue_(colorAnim, colorData->mAmbient, frame) << 16);
-    x = GetMatColAnmValue_(colorAnim, colorData->mEmission, frame);
+        (pResult->mUnk_04 & 0x8000) | colorValue | (GetMatColAnmValue_(colorAnim, colorData->mAmbient, frame) << 16);
+    colorValue = GetMatColAnmValue_(colorAnim, colorData->mEmission, frame);
     pResult->mUnk_08 =
-        (pResult->mUnk_08 & 0x8000) | GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (x << 16);
+        (pResult->mUnk_08 & 0x8000) | GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (colorValue << 16);
     pResult->mUnk_0c =
         (pResult->mUnk_0c & ~0x1f0000) | (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
 }
 
 void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     volatile u16 zero;
-    u32 i;
+    u32 nodeIndex;
     u16 *tagOffsets;
     NNSG3dResJntAnm *anim;
 
@@ -477,8 +477,8 @@ void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
     tagOffsets = anim->mUnk_14;
-    for (i = 0; i < anim->mNumNode; i++) {
-        pAnmObj->mMapData[i] = (*OFFSET_PTR(u32, anim, tagOffsets[i]) >> 24) | 0x100;
+    for (nodeIndex = 0; nodeIndex < anim->mNumNode; nodeIndex++) {
+        pAnmObj->mMapData[nodeIndex] = (*OFFSET_PTR(u32, anim, tagOffsets[nodeIndex]) >> 24) | 0x100;
     }
 }
 
@@ -606,12 +606,12 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
     u32 flags;
     const u32 *cursor;
     const u32 *tag;
-    s32 r0;
-    s32 r1;
-    s32 r2;
-    s32 r3;
-    s32 r4;
-    s32 r5;
+    s32 row0X;
+    s32 row0Y;
+    s32 row0Z;
+    s32 row1X;
+    s32 row1Y;
+    s32 row1Z;
 
     tag = OFFSET_PTR(const u32, jntAnm, jntAnm->mUnk_14[node]);
     flags = tag[0];
@@ -672,15 +672,15 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
             } else {
                 if (getRotDataByIdx_(&out->mRot, OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3),
                                      OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5), *cursor)) {
-                    r5 = out->mRot.mRows[1].z;
-                    r0 = out->mRot.mRows[0].x;
-                    r3 = out->mRot.mRows[1].x;
-                    r2 = out->mRot.mRows[0].z;
-                    r1 = out->mRot.mRows[0].y;
-                    r4 = out->mRot.mRows[1].y;
-                    out->mRot.mRows[2].x = (r1 * r5 - r2 * r4) >> 12;
-                    out->mRot.mRows[2].y = (r2 * r3 - r0 * r5) >> 12;
-                    out->mRot.mRows[2].z = (r0 * r4 - r1 * r3) >> 12;
+                    row1Z = out->mRot.mRows[1].z;
+                    row0X = out->mRot.mRows[0].x;
+                    row1X = out->mRot.mRows[1].x;
+                    row0Z = out->mRot.mRows[0].z;
+                    row0Y = out->mRot.mRows[0].y;
+                    row1Y = out->mRot.mRows[1].y;
+                    out->mRot.mRows[2].x = (row0Y * row1Z - row0Z * row1Y) >> 12;
+                    out->mRot.mRows[2].y = (row0Z * row1X - row0X * row1Z) >> 12;
+                    out->mRot.mRows[2].z = (row0X * row1Y - row0Y * row1X) >> 12;
                 }
                 cursor += 1;
             }
@@ -737,118 +737,118 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
 }
 
 void getTransData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
-    s32 x;
+    s32 sample0;
     u32 lastStep;
     const u8 *values;
     u32 info;
-    u32 k;
-    u32 i;
-    s32 y;
-    u32 j;
+    u32 indexA;
+    u32 frameIndex;
+    s32 sample1;
+    u32 indexB;
 
-    i = frame >> 12;
+    frameIndex = frame >> 12;
     values = (const u8 *) jntAnm + desc[1];
     info = desc[0];
     if (info & 0xc0000000) {
         lastStep = (info & 0x1fff0000) >> 16;
         if (info & 0x40000000) {
-            if (i & 1) {
-                if (i > lastStep) {
-                    i = (lastStep >> 1) + 1;
+            if (frameIndex & 1) {
+                if (frameIndex > lastStep) {
+                    frameIndex = (lastStep >> 1) + 1;
                     goto single;
                 }
-                k = i >> 1;
+                indexA = frameIndex >> 1;
             } else {
-                i >>= 1;
+                frameIndex >>= 1;
                 goto single;
             }
         } else {
-            if (i & 3) {
-                if (i > lastStep) {
-                    i = (i & 3) + (lastStep >> 2);
+            if (frameIndex & 3) {
+                if (frameIndex > lastStep) {
+                    frameIndex = (frameIndex & 3) + (lastStep >> 2);
                     goto single;
                 }
-                if (i & 1) {
-                    if (i & 2) {
-                        j = i >> 2;
-                        k = j + 1;
+                if (frameIndex & 1) {
+                    if (frameIndex & 2) {
+                        indexB = frameIndex >> 2;
+                        indexA = indexB + 1;
                     } else {
-                        k = i >> 2;
-                        j = k + 1;
+                        indexA = frameIndex >> 2;
+                        indexB = indexA + 1;
                     }
                     if (info & 0x20000000) {
-                        x = ((const s16 *) values)[k];
-                        y = ((const s16 *) values)[j];
-                        *out = (x + x + x + y) >> 2;
+                        sample0 = ((const s16 *) values)[indexA];
+                        sample1 = ((const s16 *) values)[indexB];
+                        *out = (sample0 + sample0 + sample0 + sample1) >> 2;
                     } else {
-                        x = ((const s32 *) values)[k];
-                        y = ((const s32 *) values)[j];
-                        *out = ((s64) x + x + x + y) >> 2;
+                        sample0 = ((const s32 *) values)[indexA];
+                        sample1 = ((const s32 *) values)[indexB];
+                        *out = ((s64) sample0 + sample0 + sample0 + sample1) >> 2;
                     }
                     return;
                 }
-                k = i >> 2;
+                indexA = frameIndex >> 2;
             } else {
-                i >>= 2;
+                frameIndex >>= 2;
                 goto single;
             }
         }
         if (info & 0x20000000) {
-            x = ((const s16 *) values)[k];
-            y = (&((const s16 *) values)[k])[1];
-            *out = (x + y) >> 1;
+            sample0 = ((const s16 *) values)[indexA];
+            sample1 = (&((const s16 *) values)[indexA])[1];
+            *out = (sample0 + sample1) >> 1;
         } else {
-            x = ((const s32 *) values)[k];
-            y = (&((const s32 *) values)[k])[1];
-            *out = (x >> 1) + (y >> 1);
+            sample0 = ((const s32 *) values)[indexA];
+            sample1 = (&((const s32 *) values)[indexA])[1];
+            *out = (sample0 >> 1) + (sample1 >> 1);
         }
         return;
     }
 single:
     if (info & 0x20000000) {
-        *out = ((const s16 *) values)[i];
+        *out = ((const s16 *) values)[frameIndex];
     } else {
-        *out = ((const s32 *) values)[i];
+        *out = ((const s32 *) values)[frameIndex];
     }
 }
 
 void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
     u32 lastStep;
     const u8 *values;
-    s32 q;
-    s32 y;
-    s32 sh;
+    s32 remainder;
+    s32 sample1;
+    s32 stepBits;
     u32 info;
-    s32 m;
-    u32 i;
-    s32 x;
+    s32 step;
+    u32 frameIndex;
+    s32 sample0;
 
-    i = frame >> 12;
+    frameIndex = frame >> 12;
     values = (const u8 *) jntAnm + desc[1];
     info = desc[0];
-    if (i == jntAnm->mNumFrame - 1) {
+    if (frameIndex == jntAnm->mNumFrame - 1) {
         if (info & 0xc0000000) {
             if (info & 0x40000000) {
-                i = (i & 1) + (i >> 1);
+                frameIndex = (frameIndex & 1) + (frameIndex >> 1);
             } else {
-                i = (i & 3) + (i >> 2);
+                frameIndex = (frameIndex & 3) + (frameIndex >> 2);
             }
         }
         if (jntAnm->mFlag & 2) {
-            sh = frame & 0xfff;
+            stepBits = frame & 0xfff;
             if (info & 0x20000000) {
-                x = ((const s16 *) values)[i];
-                q = ((const s16 *) values)[0];
+                sample0 = ((const s16 *) values)[frameIndex];
+                remainder = ((const s16 *) values)[0];
             } else {
-                x = ((const s32 *) values)[i];
-                q = ((const s32 *) values)[0];
+                sample0 = ((const s32 *) values)[frameIndex];
+                remainder = ((const s32 *) values)[0];
             }
-            *out = x + ((sh * (q - x)) >> 12);
+            *out = sample0 + ((stepBits * (remainder - sample0)) >> 12);
         } else {
             if (info & 0x20000000) {
-                *out = ((const s16 *) values)[i];
+                *out = ((const s16 *) values)[frameIndex];
             } else {
-                *out = ((const s32 *) values)[i];
+                *out = ((const s32 *) values)[frameIndex];
             }
         }
         return;
@@ -856,125 +856,125 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     if (info & 0xc0000000) {
         lastStep = (info & 0x1fff0000) >> 16;
         if (info & 0x40000000) {
-            if (i >= lastStep) {
-                i = lastStep >> 1;
+            if (frameIndex >= lastStep) {
+                frameIndex = lastStep >> 1;
                 goto last;
             }
-            i >>= 1;
-            q = frame & 0x1fff;
-            m = 2;
-            sh = 1;
+            frameIndex >>= 1;
+            remainder = frame & 0x1fff;
+            step = 2;
+            stepBits = 1;
         } else {
-            if (i >= lastStep) {
-                i = (i & 3) + (i >> 2);
+            if (frameIndex >= lastStep) {
+                frameIndex = (frameIndex & 3) + (frameIndex >> 2);
                 goto last;
             }
-            i >>= 2;
-            q = frame & 0x3fff;
-            m = 4;
-            sh = 2;
+            frameIndex >>= 2;
+            remainder = frame & 0x3fff;
+            step = 4;
+            stepBits = 2;
         }
     } else {
     last:
-        q = frame & 0xfff;
-        m = 1;
-        sh = 0;
+        remainder = frame & 0xfff;
+        step = 1;
+        stepBits = 0;
     }
     if (info & 0x20000000) {
-        x = ((const s16 *) values)[i];
-        y = (&((const s16 *) values)[i])[1];
+        sample0 = ((const s16 *) values)[frameIndex];
+        sample1 = (&((const s16 *) values)[frameIndex])[1];
     } else {
-        x = ((const s32 *) values)[i];
-        y = (&((const s32 *) values)[i])[1];
+        sample0 = ((const s32 *) values)[frameIndex];
+        sample1 = (&((const s32 *) values)[frameIndex])[1];
     }
-    *out = (x * m + ((q * (y - x)) >> 12)) >> sh;
+    *out = (sample0 * step + ((remainder * (sample1 - sample0)) >> 12)) >> stepBits;
 }
 
 void getScaleData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
     u32 info;
     const FxPairS16 *values16;
     const FxPairS32 *values32;
-    u32 k;
-    s32 y;
+    u32 indexA;
+    s32 second;
     u32 lastStep;
-    s32 x;
-    const FxPairS16 *e16;
-    const FxPairS32 *e32;
-    u32 i;
+    s32 first;
+    const FxPairS16 *pair16;
+    const FxPairS32 *pair32;
+    u32 frameIndex;
 
-    i = frame >> 12;
+    frameIndex = frame >> 12;
     values16 = OFFSET_PTR(const FxPairS16, jntAnm, desc[1]);
     values32 = OFFSET_PTR(const FxPairS32, jntAnm, desc[1]);
     info = desc[0];
     if (info & 0xc0000000) {
         lastStep = (info & 0x1fff0000) >> 16;
         if (info & 0x40000000) {
-            if (i & 1) {
-                if (i > lastStep) {
-                    i = (lastStep >> 1) + 1;
+            if (frameIndex & 1) {
+                if (frameIndex > lastStep) {
+                    frameIndex = (lastStep >> 1) + 1;
                     goto single;
                 }
-                k = i >> 1;
+                indexA = frameIndex >> 1;
                 goto half;
             }
-            i >>= 1;
+            frameIndex >>= 1;
             goto single;
         }
-        if (i & 3) {
-            if (i > lastStep) {
-                i = (i & 3) + (lastStep >> 2);
+        if (frameIndex & 3) {
+            if (frameIndex > lastStep) {
+                frameIndex = (frameIndex & 3) + (lastStep >> 2);
                 goto single;
             }
-            if (i & 1) {
-                if (i & 2) {
-                    i >>= 2;
-                    k = i + 1;
+            if (frameIndex & 1) {
+                if (frameIndex & 2) {
+                    frameIndex >>= 2;
+                    indexA = frameIndex + 1;
                 } else {
-                    k = i >> 2;
-                    i = k + 1;
+                    indexA = frameIndex >> 2;
+                    frameIndex = indexA + 1;
                 }
                 if (info & 0x20000000) {
-                    e16 = values16 + k;
-                    x = values16[k].mFirst;
-                    y = values16[i].mFirst;
-                    out[0] = (x + (x << 1) + y) >> 2;
-                    x = e16->mSecond;
-                    y = (values16 + i)->mSecond;
-                    out[1] = (x + (x << 1) + y) >> 2;
+                    pair16 = values16 + indexA;
+                    first = values16[indexA].mFirst;
+                    second = values16[frameIndex].mFirst;
+                    out[0] = (first + (first << 1) + second) >> 2;
+                    first = pair16->mSecond;
+                    second = (values16 + frameIndex)->mSecond;
+                    out[1] = (first + (first << 1) + second) >> 2;
                 } else {
-                    e32 = values32 + k;
-                    x = values32[k].mFirst;
-                    y = values32[i].mFirst;
-                    out[0] = ((s64) x + x + x + y) >> 2;
-                    x = e32->mSecond;
-                    y = (values32 + i)->mSecond;
-                    out[1] = ((s64) x + x + x + y) >> 2;
+                    pair32 = values32 + indexA;
+                    first = values32[indexA].mFirst;
+                    second = values32[frameIndex].mFirst;
+                    out[0] = ((s64) first + first + first + second) >> 2;
+                    first = pair32->mSecond;
+                    second = (values32 + frameIndex)->mSecond;
+                    out[1] = ((s64) first + first + first + second) >> 2;
                 }
                 return;
             }
-            k = i >> 2;
+            indexA = frameIndex >> 2;
             goto half;
         }
-        i >>= 2;
+        frameIndex >>= 2;
     }
 single:
     if (info & 0x20000000) {
-        out[0] = values16[i].mFirst;
-        out[1] = values16[i].mSecond;
+        out[0] = values16[frameIndex].mFirst;
+        out[1] = values16[frameIndex].mSecond;
     } else {
-        out[0] = values32[i].mFirst;
-        out[1] = values32[i].mSecond;
+        out[0] = values32[frameIndex].mFirst;
+        out[1] = values32[frameIndex].mSecond;
     }
     return;
 half:
     if (info & 0x20000000) {
-        e16 = values16 + k;
-        out[0] = (e16->mFirst + e16[1].mFirst) >> 1;
-        out[1] = (e16->mSecond + e16[1].mSecond) >> 1;
+        pair16 = values16 + indexA;
+        out[0] = (pair16->mFirst + pair16[1].mFirst) >> 1;
+        out[1] = (pair16->mSecond + pair16[1].mSecond) >> 1;
     } else {
-        e32 = values32 + k;
-        out[0] = (e32->mFirst + e32[1].mFirst) >> 1;
-        out[1] = (e32->mSecond + e32[1].mSecond) >> 1;
+        pair32 = values32 + indexA;
+        out[0] = (pair32->mFirst + pair32[1].mFirst) >> 1;
+        out[1] = (pair32->mSecond + pair32[1].mSecond) >> 1;
     }
 }
 
@@ -982,396 +982,395 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     const FxPairS16 *values16;
     const FxPairS32 *values32;
     u32 info;
-    s32 y0;
-    u32 i;
-    u32 j;
-    s32 q;
-    s32 m;
-    s32 sh;
-    s32 y1;
-    s32 x0;
-    s32 x1;
+    s32 scale1;
+    u32 frameIndex;
+    u32 nextIndex;
+    s32 remainder;
+    s32 step;
+    s32 stepBits;
+    s32 invScale1;
+    s32 scale0;
+    s32 invScale0;
     u32 lastStep;
 
-    i = frame >> 12;
+    frameIndex = frame >> 12;
     values16 = OFFSET_PTR(const FxPairS16, jntAnm, desc[1]);
     values32 = OFFSET_PTR(const FxPairS32, jntAnm, desc[1]);
     info = desc[0];
-    if (i == jntAnm->mNumFrame - 1) {
+    if (frameIndex == jntAnm->mNumFrame - 1) {
         if (info & 0xc0000000) {
             if (info & 0x40000000) {
-                i = (i & 1) + (i >> 1);
+                frameIndex = (frameIndex & 1) + (frameIndex >> 1);
             } else {
-                i = (i & 3) + (i >> 2);
+                frameIndex = (frameIndex & 3) + (frameIndex >> 2);
             }
         }
         if (jntAnm->mFlag & 2) {
-            j = 0;
+            nextIndex = 0;
             goto last;
         }
         if (info & 0x20000000) {
-            out[0] = values16[i].mFirst;
-            out[1] = values16[i].mSecond;
+            out[0] = values16[frameIndex].mFirst;
+            out[1] = values16[frameIndex].mSecond;
         } else {
-            out[0] = values32[i].mFirst;
-            out[1] = values32[i].mSecond;
+            out[0] = values32[frameIndex].mFirst;
+            out[1] = values32[frameIndex].mSecond;
         }
         return;
     }
     if (info & 0xc0000000) {
         lastStep = (info & 0x1fff0000) >> 16;
         if (info & 0x40000000) {
-            if (i >= lastStep) {
-                i = lastStep >> 1;
-                j = i + 1;
+            if (frameIndex >= lastStep) {
+                frameIndex = lastStep >> 1;
+                nextIndex = frameIndex + 1;
                 goto last;
             }
-            i >>= 1;
-            j = i + 1;
-            q = frame & 0x1fff;
-            m = 2;
-            sh = 1;
+            frameIndex >>= 1;
+            nextIndex = frameIndex + 1;
+            remainder = frame & 0x1fff;
+            step = 2;
+            stepBits = 1;
         } else {
-            if (i >= lastStep) {
-                i = (i & 3) + (i >> 2);
-                j = i + 1;
+            if (frameIndex >= lastStep) {
+                frameIndex = (frameIndex & 3) + (frameIndex >> 2);
+                nextIndex = frameIndex + 1;
                 goto last;
             }
-            i >>= 2;
-            j = i + 1;
-            q = frame & 0x3fff;
-            m = 4;
-            sh = 2;
+            frameIndex >>= 2;
+            nextIndex = frameIndex + 1;
+            remainder = frame & 0x3fff;
+            step = 4;
+            stepBits = 2;
         }
     } else {
-        j = i + 1;
+        nextIndex = frameIndex + 1;
     last:
-        q = frame & 0xfff;
-        m = 1;
-        sh = 0;
+        remainder = frame & 0xfff;
+        step = 1;
+        stepBits = 0;
     }
     if (info & 0x20000000) {
-        x0 = values16[i].mFirst;
-        x1 = values16[i].mSecond;
-        y0 = values16[j].mFirst;
-        y1 = values16[j].mSecond;
+        scale0 = values16[frameIndex].mFirst;
+        invScale0 = values16[frameIndex].mSecond;
+        scale1 = values16[nextIndex].mFirst;
+        invScale1 = values16[nextIndex].mSecond;
     } else {
-        x0 = values32[i].mFirst;
-        x1 = values32[i].mSecond;
-        y0 = values32[j].mFirst;
-        y1 = values32[j].mSecond;
+        scale0 = values32[frameIndex].mFirst;
+        invScale0 = values32[frameIndex].mSecond;
+        scale1 = values32[nextIndex].mFirst;
+        invScale1 = values32[nextIndex].mSecond;
     }
-    out[0] = (x0 * m + ((q * (y0 - x0)) >> 12)) >> sh;
-    out[1] = (x1 * m + ((q * (y1 - x1)) >> 12)) >> sh;
+    out[0] = (scale0 * step + ((remainder * (scale1 - scale0)) >> 12)) >> stepBits;
+    out[1] = (invScale0 * step + ((remainder * (invScale1 - invScale0)) >> 12)) >> stepBits;
 }
 
 void getRotData_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
-    MtxFx33 t;
-    MtxFx33 u;
-    const s16 *s0;
-    const s16 *s1;
+    MtxFx33 startMtx;
+    MtxFx33 endMtx;
+    const s16 *rot3Table;
+    const s16 *rot5Table;
     u32 info;
     const u16 *values;
-    u32 i;
+    u32 frameIndex;
     u32 lastStep;
-    int k;
-    u32 i0;
-    u32 i1;
-    int f;
-    s32 x0;
-    s32 x1;
-    s32 x2;
-    s32 x3;
-    s32 x4;
-    s32 x5;
+    int pairIndex;
+    u32 firstIndex;
+    u32 secondIndex;
+    int needsCross;
+    s32 row0X;
+    s32 row0Y;
+    s32 row0Z;
+    s32 row1X;
+    s32 row1Y;
+    s32 row1Z;
 
-    i = frame >> 12;
-    s0 = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3);
-    s1 = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5);
+    frameIndex = frame >> 12;
+    rot3Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3);
+    rot5Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5);
     info = desc[0];
     values = OFFSET_PTR(const u16, jntAnm, desc[1]);
     if (info & 0xc0000000) {
         lastStep = (info & 0x1fff0000) >> 16;
         if (info & 0x40000000) {
-            if (i & 1) {
-                if (i > lastStep) {
-                    i = (lastStep >> 1) + 1;
+            if (frameIndex & 1) {
+                if (frameIndex > lastStep) {
+                    frameIndex = (lastStep >> 1) + 1;
                     goto single;
                 }
-                k = i >> 1;
+                pairIndex = frameIndex >> 1;
             } else {
-                i >>= 1;
+                frameIndex >>= 1;
                 goto single;
             }
         } else {
-            if (i & 3) {
-                if (i > lastStep) {
-                    i = (i & 3) + (lastStep >> 2);
+            if (frameIndex & 3) {
+                if (frameIndex > lastStep) {
+                    frameIndex = (frameIndex & 3) + (lastStep >> 2);
                     goto single;
                 }
-                if (i & 1) {
-                    f = 0;
-                    if (i & 2) {
-                        i1 = i >> 2;
-                        i0 = i1 + 1;
+                if (frameIndex & 1) {
+                    needsCross = 0;
+                    if (frameIndex & 2) {
+                        secondIndex = frameIndex >> 2;
+                        firstIndex = secondIndex + 1;
                     } else {
-                        i0 = i >> 2;
-                        i1 = i0 + 1;
+                        firstIndex = frameIndex >> 2;
+                        secondIndex = firstIndex + 1;
                     }
-                    f |= getRotDataByIdx_(out, s0, s1, values[i0]);
-                    f |= getRotDataByIdx_(&t, s0, s1, values[i1]);
-                    out->mRows[0].x = out->mRows[0].x * 3 + t.mRows[0].x;
-                    out->mRows[0].y = out->mRows[0].y * 3 + t.mRows[0].y;
-                    out->mRows[0].z = out->mRows[0].z * 3 + t.mRows[0].z;
-                    out->mRows[1].x = out->mRows[1].x * 3 + t.mRows[1].x;
-                    out->mRows[1].y = out->mRows[1].y * 3 + t.mRows[1].y;
-                    out->mRows[1].z = out->mRows[1].z * 3 + t.mRows[1].z;
+                    needsCross |= getRotDataByIdx_(out, rot3Table, rot5Table, values[firstIndex]);
+                    needsCross |= getRotDataByIdx_(&startMtx, rot3Table, rot5Table, values[secondIndex]);
+                    out->mRows[0].x = out->mRows[0].x * 3 + startMtx.mRows[0].x;
+                    out->mRows[0].y = out->mRows[0].y * 3 + startMtx.mRows[0].y;
+                    out->mRows[0].z = out->mRows[0].z * 3 + startMtx.mRows[0].z;
+                    out->mRows[1].x = out->mRows[1].x * 3 + startMtx.mRows[1].x;
+                    out->mRows[1].y = out->mRows[1].y * 3 + startMtx.mRows[1].y;
+                    out->mRows[1].z = out->mRows[1].z * 3 + startMtx.mRows[1].z;
                     VEC_Normalize(&out->mRows[0], &out->mRows[0]);
                     VEC_Normalize(&out->mRows[1], &out->mRows[1]);
-                    if (f == 0) {
-                        out->mRows[2].x = out->mRows[2].x * 3 + t.mRows[2].x;
-                        out->mRows[2].y = out->mRows[2].y * 3 + t.mRows[2].y;
-                        out->mRows[2].z = out->mRows[2].z * 3 + t.mRows[2].z;
+                    if (needsCross == 0) {
+                        out->mRows[2].x = out->mRows[2].x * 3 + startMtx.mRows[2].x;
+                        out->mRows[2].y = out->mRows[2].y * 3 + startMtx.mRows[2].y;
+                        out->mRows[2].z = out->mRows[2].z * 3 + startMtx.mRows[2].z;
                         VEC_Normalize(&out->mRows[2], &out->mRows[2]);
                     } else {
-                        x5 = out->mRows[1].z;
-                        x0 = out->mRows[0].x;
-                        x3 = out->mRows[1].x;
-                        x2 = out->mRows[0].z;
-                        x1 = out->mRows[0].y;
-                        x4 = out->mRows[1].y;
-                        out->mRows[2].x = (x1 * x5 - x2 * x4) >> 12;
-                        out->mRows[2].y = (x2 * x3 - x0 * x5) >> 12;
-                        out->mRows[2].z = (x0 * x4 - x1 * x3) >> 12;
+                        row1Z = out->mRows[1].z;
+                        row0X = out->mRows[0].x;
+                        row1X = out->mRows[1].x;
+                        row0Z = out->mRows[0].z;
+                        row0Y = out->mRows[0].y;
+                        row1Y = out->mRows[1].y;
+                        out->mRows[2].x = (row0Y * row1Z - row0Z * row1Y) >> 12;
+                        out->mRows[2].y = (row0Z * row1X - row0X * row1Z) >> 12;
+                        out->mRows[2].z = (row0X * row1Y - row0Y * row1X) >> 12;
                     }
                     return;
                 }
-                k = i >> 2;
+                pairIndex = frameIndex >> 2;
             } else {
-                i >>= 2;
+                frameIndex >>= 2;
                 goto single;
             }
         }
-        f = 0;
-        f |= getRotDataByIdx_(out, s0, s1, values[k]);
-        f |= getRotDataByIdx_(&u, s0, s1, *(values + k + 1));
-        out->mRows[0].x += u.mRows[0].x;
-        out->mRows[0].y += u.mRows[0].y;
-        out->mRows[0].z += u.mRows[0].z;
-        out->mRows[1].x += u.mRows[1].x;
-        out->mRows[1].y += u.mRows[1].y;
-        out->mRows[1].z += u.mRows[1].z;
+        needsCross = 0;
+        needsCross |= getRotDataByIdx_(out, rot3Table, rot5Table, values[pairIndex]);
+        needsCross |= getRotDataByIdx_(&endMtx, rot3Table, rot5Table, *(values + pairIndex + 1));
+        out->mRows[0].x += endMtx.mRows[0].x;
+        out->mRows[0].y += endMtx.mRows[0].y;
+        out->mRows[0].z += endMtx.mRows[0].z;
+        out->mRows[1].x += endMtx.mRows[1].x;
+        out->mRows[1].y += endMtx.mRows[1].y;
+        out->mRows[1].z += endMtx.mRows[1].z;
         VEC_Normalize(&out->mRows[0], &out->mRows[0]);
         VEC_Normalize(&out->mRows[1], &out->mRows[1]);
-        if (f == 0) {
-            out->mRows[2].x += u.mRows[2].x;
-            out->mRows[2].y += u.mRows[2].y;
-            out->mRows[2].z += u.mRows[2].z;
+        if (needsCross == 0) {
+            out->mRows[2].x += endMtx.mRows[2].x;
+            out->mRows[2].y += endMtx.mRows[2].y;
+            out->mRows[2].z += endMtx.mRows[2].z;
             VEC_Normalize(&out->mRows[2], &out->mRows[2]);
         } else {
-            x5 = out->mRows[1].z;
-            x0 = out->mRows[0].x;
-            x3 = out->mRows[1].x;
-            x2 = out->mRows[0].z;
-            x1 = out->mRows[0].y;
-            x4 = out->mRows[1].y;
-            out->mRows[2].x = (x1 * x5 - x2 * x4) >> 12;
-            out->mRows[2].y = (x2 * x3 - x0 * x5) >> 12;
-            out->mRows[2].z = (x0 * x4 - x1 * x3) >> 12;
+            row1Z = out->mRows[1].z;
+            row0X = out->mRows[0].x;
+            row1X = out->mRows[1].x;
+            row0Z = out->mRows[0].z;
+            row0Y = out->mRows[0].y;
+            row1Y = out->mRows[1].y;
+            out->mRows[2].x = (row0Y * row1Z - row0Z * row1Y) >> 12;
+            out->mRows[2].y = (row0Z * row1X - row0X * row1Z) >> 12;
+            out->mRows[2].z = (row0X * row1Y - row0Y * row1X) >> 12;
         }
         return;
     }
 single:
-    if (getRotDataByIdx_(out, s0, s1, values[i]) == 0) {
+    if (getRotDataByIdx_(out, rot3Table, rot5Table, values[frameIndex]) == 0) {
         return;
     }
-    x5 = out->mRows[1].z;
-    x0 = out->mRows[0].x;
-    x3 = out->mRows[1].x;
-    x2 = out->mRows[0].z;
-    x1 = out->mRows[0].y;
-    x4 = out->mRows[1].y;
-    out->mRows[2].x = (x1 * x5 - x2 * x4) >> 12;
-    out->mRows[2].y = (x2 * x3 - x0 * x5) >> 12;
-    out->mRows[2].z = (x0 * x4 - x1 * x3) >> 12;
+    row1Z = out->mRows[1].z;
+    row0X = out->mRows[0].x;
+    row1X = out->mRows[1].x;
+    row0Z = out->mRows[0].z;
+    row0Y = out->mRows[0].y;
+    row1Y = out->mRows[1].y;
+    out->mRows[2].x = (row0Y * row1Z - row0Z * row1Y) >> 12;
+    out->mRows[2].y = (row0Z * row1X - row0X * row1Z) >> 12;
+    out->mRows[2].z = (row0X * row1Y - row0Y * row1X) >> 12;
 }
 
 void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
-    s32 r;
-    s32 x1;
+    s32 row2ZStart;
+    s32 row0Y;
     u32 lastStep;
-    MtxFx33 t;
-    MtxFx33 u;
-    u32 f;
-    s32 x5;
-    s32 x3;
-    s32 x4;
+    MtxFx33 startMtx;
+    MtxFx33 endMtx;
+    u32 needsCross;
+    s32 row1Z;
+    s32 row1X;
+    s32 row1Y;
     u32 info;
-    const s16 *s0;
-    s32 h;
-    const s16 *s1;
-    u32 i;
-    s32 q;
-    s32 m;
-    s32 x0;
+    const s16 *rot3Table;
+    s32 row1ZSaved;
+    const s16 *rot5Table;
+    u32 frameIndex;
+    s32 remainder;
+    s32 step;
+    s32 row0X;
     const u16 *values;
-    s32 x2;
-    u32 j;
+    s32 row0Z;
+    u32 nextIndex;
 
-    i = frame >> 12;
-    s0 = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3);
-    s1 = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5);
+    frameIndex = frame >> 12;
+    rot3Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3);
+    rot5Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5);
     info = desc[0];
     values = OFFSET_PTR(const u16, jntAnm, desc[1]);
-    if (i == jntAnm->mNumFrame - 1) {
+    if (frameIndex == jntAnm->mNumFrame - 1) {
         if (info & 0xc0000000) {
             if (info & 0x40000000) {
-                i = (i & 1) + (i >> 1);
+                frameIndex = (frameIndex & 1) + (frameIndex >> 1);
             } else {
-                i = (i & 3) + (i >> 2);
+                frameIndex = (frameIndex & 3) + (frameIndex >> 2);
             }
         }
         if (jntAnm->mFlag & 2) {
-            j = 0;
+            nextIndex = 0;
             goto interp1;
         }
-        if (getRotDataByIdx_(out, s0, s1, values[i]) == 0) {
+        if (getRotDataByIdx_(out, rot3Table, rot5Table, values[frameIndex]) == 0) {
             return;
         }
-        x5 = out->mRows[1].z;
-        x0 = out->mRows[0].x;
-        x3 = out->mRows[1].x;
-        x1 = out->mRows[0].y;
-        x2 = out->mRows[0].z;
-        x4 = out->mRows[1].y;
-        out->mRows[2].x = (x1 * x5 - x2 * x4) >> 12;
-        out->mRows[2].y = (x2 * x3 - x0 * x5) >> 12;
-        out->mRows[2].z = (x0 * x4 - x1 * x3) >> 12;
+        row1Z = out->mRows[1].z;
+        row0X = out->mRows[0].x;
+        row1X = out->mRows[1].x;
+        row0Y = out->mRows[0].y;
+        row0Z = out->mRows[0].z;
+        row1Y = out->mRows[1].y;
+        out->mRows[2].x = (row0Y * row1Z - row0Z * row1Y) >> 12;
+        out->mRows[2].y = (row0Z * row1X - row0X * row1Z) >> 12;
+        out->mRows[2].z = (row0X * row1Y - row0Y * row1X) >> 12;
         return;
     }
     if (info & 0xc0000000) {
         lastStep = (info & 0x1fff0000) >> 16;
         if (info & 0x40000000) {
-            if (i >= lastStep) {
-                i = lastStep >> 1;
-                j = i + 1;
+            if (frameIndex >= lastStep) {
+                frameIndex = lastStep >> 1;
+                nextIndex = frameIndex + 1;
                 goto interp1;
             }
-            i >>= 1;
-            j = i + 1;
-            m = 2;
-            q = frame & 0x1fff;
+            frameIndex >>= 1;
+            nextIndex = frameIndex + 1;
+            step = 2;
+            remainder = frame & 0x1fff;
         } else {
-            if (i >= lastStep) {
-                i = (i & 3) + (i >> 2);
-                j = i + 1;
+            if (frameIndex >= lastStep) {
+                frameIndex = (frameIndex & 3) + (frameIndex >> 2);
+                nextIndex = frameIndex + 1;
                 goto interp1;
             }
-            i >>= 2;
-            j = i + 1;
-            q = frame & 0x3fff;
-            m = 4;
+            frameIndex >>= 2;
+            nextIndex = frameIndex + 1;
+            remainder = frame & 0x3fff;
+            step = 4;
         }
         goto interp;
     } else {
-        j = i + 1;
+        nextIndex = frameIndex + 1;
     }
 interp1:
-    m = 1;
-    q = frame & 0xfff;
+    step = 1;
+    remainder = frame & 0xfff;
 interp:
-    f = 0;
-    f |= getRotDataByIdx_(&t, s0, s1, values[i]);
-    f |= getRotDataByIdx_(&u, s0, s1, values[j]);
-    out->mRows[0].x = t.mRows[0].x * m + ((q * (u.mRows[0].x - t.mRows[0].x)) >> 12);
-    out->mRows[0].y = t.mRows[0].y * m + ((q * (u.mRows[0].y - t.mRows[0].y)) >> 12);
-    out->mRows[0].z = t.mRows[0].z * m + ((q * (u.mRows[0].z - t.mRows[0].z)) >> 12);
-    out->mRows[1].x = t.mRows[1].x * m + ((q * (u.mRows[1].x - t.mRows[1].x)) >> 12);
-    out->mRows[1].y = t.mRows[1].y * m + ((q * (u.mRows[1].y - t.mRows[1].y)) >> 12);
-    out->mRows[1].z = t.mRows[1].z * m + ((q * (u.mRows[1].z - t.mRows[1].z)) >> 12);
+    needsCross = 0;
+    needsCross |= getRotDataByIdx_(&startMtx, rot3Table, rot5Table, values[frameIndex]);
+    needsCross |= getRotDataByIdx_(&endMtx, rot3Table, rot5Table, values[nextIndex]);
+    out->mRows[0].x = startMtx.mRows[0].x * step + ((remainder * (endMtx.mRows[0].x - startMtx.mRows[0].x)) >> 12);
+    out->mRows[0].y = startMtx.mRows[0].y * step + ((remainder * (endMtx.mRows[0].y - startMtx.mRows[0].y)) >> 12);
+    out->mRows[0].z = startMtx.mRows[0].z * step + ((remainder * (endMtx.mRows[0].z - startMtx.mRows[0].z)) >> 12);
+    out->mRows[1].x = startMtx.mRows[1].x * step + ((remainder * (endMtx.mRows[1].x - startMtx.mRows[1].x)) >> 12);
+    out->mRows[1].y = startMtx.mRows[1].y * step + ((remainder * (endMtx.mRows[1].y - startMtx.mRows[1].y)) >> 12);
+    out->mRows[1].z = startMtx.mRows[1].z * step + ((remainder * (endMtx.mRows[1].z - startMtx.mRows[1].z)) >> 12);
     VEC_Normalize(&out->mRows[0], &out->mRows[0]);
     VEC_Normalize(&out->mRows[1], &out->mRows[1]);
-    if (f == 0) {
-        out->mRows[2].x = t.mRows[2].x * m + ((q * (u.mRows[2].x - t.mRows[2].x)) >> 12);
-        out->mRows[2].y = t.mRows[2].y * m + ((q * (u.mRows[2].y - t.mRows[2].y)) >> 12);
-        r = t.mRows[2].z;
-        out->mRows[2].z = t.mRows[2].z * m + ((q * (u.mRows[2].z - r)) >> 12);
+    if (needsCross == 0) {
+        out->mRows[2].x = startMtx.mRows[2].x * step + ((remainder * (endMtx.mRows[2].x - startMtx.mRows[2].x)) >> 12);
+        out->mRows[2].y = startMtx.mRows[2].y * step + ((remainder * (endMtx.mRows[2].y - startMtx.mRows[2].y)) >> 12);
+        row2ZStart = startMtx.mRows[2].z;
+        out->mRows[2].z = startMtx.mRows[2].z * step + ((remainder * (endMtx.mRows[2].z - row2ZStart)) >> 12);
         VEC_Normalize(&out->mRows[2], &out->mRows[2]);
     } else {
-        h = out->mRows[1].z;
-        x0 = out->mRows[0].x;
-        x2 = out->mRows[0].z;
-        x5 = h;
-        x3 = out->mRows[1].x;
-        x1 = out->mRows[0].y;
-        x4 = out->mRows[1].y;
-        out->mRows[2].x = (x1 * x5 - x2 * x4) >> 12;
-        out->mRows[2].y = (x2 * x3 - x0 * x5) >> 12;
-        out->mRows[2].z = (x0 * x4 - x1 * x3) >> 12;
+        row1ZSaved = out->mRows[1].z;
+        row0X = out->mRows[0].x;
+        row0Z = out->mRows[0].z;
+        row1Z = row1ZSaved;
+        row1X = out->mRows[1].x;
+        row0Y = out->mRows[0].y;
+        row1Y = out->mRows[1].y;
+        out->mRows[2].x = (row0Y * row1Z - row0Z * row1Y) >> 12;
+        out->mRows[2].y = (row0Z * row1X - row0X * row1Z) >> 12;
+        out->mRows[2].z = (row0X * row1Y - row0Y * row1X) >> 12;
     }
 }
 
 BOOL getRotDataByIdx_(MtxFx33 *out, const s16 *rot3, const s16 *rot5, u32 info) {
-    s32 x;
-    s32 y;
-    s32 v;
-    const s16 *w;
-    s16 t;
-    u32 k;
-    s32 z;
+    s32 valueX;
+    s32 valueY;
+    s32 packed;
+    const s16 *rotEntry;
+    s16 extraBits;
+    u32 axisIndex;
+    s32 header;
 
     if (info & 0x8000) {
-        out->a[0] = out->a[1] = out->a[2] = out->a[3] = out->a[4] =
-            out->a[5] = out->a[6] = out->a[7] = out->a[8] = 0;
+        out->a[0] = out->a[1] = out->a[2] = out->a[3] = out->a[4] = out->a[5] = out->a[6] = out->a[7] = out->a[8] = 0;
         info = (info & 0x7fff) * 3;
-        w = rot3 + info;
-        z = rot3[info];
-        k = z & 0xf;
-        x = w[1];
-        y = w[2];
-        out->a[k] = (z & 0x10) ? -0x1000 : 0x1000;
-        out->a[data_02152c30[k][0]] = x;
-        out->a[data_02152c31[k][0]] = y;
-        if (w[0] & 0x20) {
-            y = -y;
+        rotEntry = rot3 + info;
+        header = rot3[info];
+        axisIndex = header & 0xf;
+        valueX = rotEntry[1];
+        valueY = rotEntry[2];
+        out->a[axisIndex] = (header & 0x10) ? -0x1000 : 0x1000;
+        out->a[data_02152c30[axisIndex][0]] = valueX;
+        out->a[data_02152c31[axisIndex][0]] = valueY;
+        if (rotEntry[0] & 0x20) {
+            valueY = -valueY;
         }
-        out->a[data_02152c32[k][0]] = y;
-        if (w[0] & 0x40) {
-            x = -x;
+        out->a[data_02152c32[axisIndex][0]] = valueY;
+        if (rotEntry[0] & 0x40) {
+            valueX = -valueX;
         }
-        out->a[data_02152c33[k][0]] = x;
+        out->a[data_02152c33[axisIndex][0]] = valueX;
         return 0;
     }
     info = (info & 0x7fff) * 5;
-    w = rot5 + info;
-    v = w[4];
-    out->a[4] = v >> 3;
-    t = v & 7;
-    v = rot5[info];
-    out->a[0] = v >> 3;
-    t = (t << 3) | (v & 7);
-    v = w[1];
-    out->a[1] = v >> 3;
-    t = (t << 3) | (v & 7);
-    v = w[2];
-    out->a[2] = v >> 3;
-    t = (t << 3) | (v & 7);
-    v = w[3];
-    out->a[3] = v >> 3;
-    t = (t << 3) | (v & 7);
-    out->a[5] = (t << 19) >> 19;
+    rotEntry = rot5 + info;
+    packed = rotEntry[4];
+    out->a[4] = packed >> 3;
+    extraBits = packed & 7;
+    packed = rot5[info];
+    out->a[0] = packed >> 3;
+    extraBits = (extraBits << 3) | (packed & 7);
+    packed = rotEntry[1];
+    out->a[1] = packed >> 3;
+    extraBits = (extraBits << 3) | (packed & 7);
+    packed = rotEntry[2];
+    out->a[2] = packed >> 3;
+    extraBits = (extraBits << 3) | (packed & 7);
+    packed = rotEntry[3];
+    out->a[3] = packed >> 3;
+    extraBits = (extraBits << 3) | (packed & 7);
+    out->a[5] = (extraBits << 19) >> 19;
     return 1;
 }
 
 void *NNSi_G3dGetBinaryBlockFromFile(const u8 *pFileHead, u32 fileSignature, u32 blockSignature) {
     const NNSG3dResFileHeader *fileHeader;
     NNSG3dResDataBlockHeader *blockHeader;
-    u32 i;
+    u32 blockIndex;
 
     fileHeader = (const NNSG3dResFileHeader *) pFileHead;
     if (fileHeader->mSigVal == fileSignature) {
-        for (i = 0; i < fileHeader->mDataBlocks; i++) {
-            blockHeader = NNS_G3dGetDataBlockHeaderByIdx(fileHeader, i);
+        for (blockIndex = 0; blockIndex < fileHeader->mDataBlocks; blockIndex++) {
+            blockHeader = NNS_G3dGetDataBlockHeaderByIdx(fileHeader, blockIndex);
             if (blockHeader->mSignature == blockSignature) {
                 return blockHeader;
             }

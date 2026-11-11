@@ -98,63 +98,63 @@ extern const Vec3 data_02155fcc;
 // Ends the turn effects of this Kart: when the level 4 group is present calls mStopLevel4Effects and sets
 // mLevel4StopRequested, otherwise clears it; clears both restart members; sets the remove bit of the turn start objects
 // and forgets them. The level 2 and level 3 groups end by their own counters.
-void StopKartTurnEffects(KartTurnEffects *p);
+void StopKartTurnEffects(KartTurnEffects *turnEffects);
 // The KartTurnEffects record of the Kart with that index; changes nothing.
-KartTurnEffects *GetKartTurnEffects(int v1);
+KartTurnEffects *GetKartTurnEffects(int kartIndex);
 // Releases every effect object of the Kart set at once (turn start, level 4, level 3 and level 2 groups) and clears the
 // flags and counters.
-void ReleaseKartTurnEffects(KartTurnEffects *p);
+void ReleaseKartTurnEffects(KartTurnEffects *turnEffects);
 // Counts mLevel2Frames and releases the level 2 objects when it passes 8, otherwise places them from the side arrays;
 // while the group is present it also stops the turn start objects emitting, and clears that again when it ends.
-void AdvanceKartLevel2Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b);
+void AdvanceKartLevel2Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions);
 // Starts the two level 2 objects (id 0x7e), releasing earlier ones; does nothing when v1 is 0.
-void StartKartLevel2Effects(KartTurnEffects *p, int v1);
+void StartKartLevel2Effects(KartTurnEffects *turnEffects, int enable);
 // Counts mLevel3Frames and releases both level 3 sets when it passes 10, otherwise places all objects from the side
 // arrays; does nothing when the group is not present.
-void AdvanceKartLevel3Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b);
+void AdvanceKartLevel3Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions);
 // Starts the level 3 objects, two per side, releasing earlier ones; does nothing when v1 is 0.
-void StartKartLevel3Effects(KartTurnEffects *p, int v1);
+void StartKartLevel3Effects(KartTurnEffects *turnEffects, int enable);
 // Each call: counts mLevel4StopFrames while a stop is requested and resets the group when it passes 10; restarts the
 // group after a restart request once Kart.mUnk_44 bit 8 has been set for more than 10 calls; while the group is
 // present, places the objects from the side arrays and switches their emission with Kart.mUnk_44 bit 0x10.
-void AdvanceKartLevel4Effects(KartTurnEffects *p, Kart *q);
+void AdvanceKartLevel4Effects(KartTurnEffects *turnEffects, Kart *kart);
 // Releases the level 4 group through mReleaseLevel4Effects when present and clears mLevel4Present, mLevel4StopFrames,
 // mLevel4StopRequested and both restart members.
-void ResetKartLevel4Effects(KartTurnEffects *p);
-void ShowKartEffectsFirstOnly(KartTurnEffects *p);
-void ShowKartEffectsWithSecond(KartTurnEffects *p);
-void ShowKartNonLevel4Effects(KartTurnEffects *p);
-void HideKartEffectsFirstOnly(KartTurnEffects *p);
-void HideKartEffectsWithSecond(KartTurnEffects *p);
-void HideKartNonLevel4Effects(KartTurnEffects *p);
+void ResetKartLevel4Effects(KartTurnEffects *turnEffects);
+void ShowKartEffectsFirstOnly(KartTurnEffects *turnEffects);
+void ShowKartEffectsWithSecond(KartTurnEffects *turnEffects);
+void ShowKartNonLevel4Effects(KartTurnEffects *turnEffects);
+void HideKartEffectsFirstOnly(KartTurnEffects *turnEffects);
+void HideKartEffectsWithSecond(KartTurnEffects *turnEffects);
+void HideKartNonLevel4Effects(KartTurnEffects *turnEffects);
 // Sets the direction and the position of the first level 4 object of each side from the side arrays.
-void PlaceKartLevel4EffectsFirstOnly(KartTurnEffects *p, Vec3s16 *a, Vec3 *b);
+void PlaceKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions);
 // Sets the direction and the position of both level 4 objects of each side from the side arrays (the position is the
 // side position plus the object origin).
-void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *p, Vec3s16 *a, Vec3 *b);
-void StopKartLevel4EffectsFirstOnly(KartTurnEffects *p);
-void StopKartLevel4EffectsWithSecond(KartTurnEffects *p);
+void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions);
+void StopKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects);
+void StopKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects);
 // Releases the first level 4 object of each side and clears the pointers.
-void ReleaseKartLevel4EffectsFirstOnly(KartTurnEffects *p);
+void ReleaseKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects);
 // Releases the first and second level 4 objects of each side and clears the pointers.
-void ReleaseKartLevel4EffectsWithSecond(KartTurnEffects *p);
-void StartKartLevel4EmissionFirstOnly(KartTurnEffects *p);
-void StartKartLevel4EmissionWithSecond(KartTurnEffects *p);
-void StopKartLevel4EmissionFirstOnly(KartTurnEffects *p);
-void StopKartLevel4EmissionWithSecond(KartTurnEffects *p);
+void ReleaseKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects);
+void StartKartLevel4EmissionFirstOnly(KartTurnEffects *turnEffects);
+void StartKartLevel4EmissionWithSecond(KartTurnEffects *turnEffects);
+void StopKartLevel4EmissionFirstOnly(KartTurnEffects *turnEffects);
+void StopKartLevel4EmissionWithSecond(KartTurnEffects *turnEffects);
 // Starts only the first level 4 object on each side.
-void StartKartLevel4EffectsFirstOnly(KartTurnEffects *p);
+void StartKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects);
 // Starts the first and the second level 4 object on each side.
-void StartKartLevel4EffectsWithSecond(KartTurnEffects *p);
+void StartKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects);
 // Each call, for each side: sets the object velocity from Kart.mEffectVelocity, its position from mSidePositions minus
 // that velocity, and its emit-stop bit from Kart.mUnk_44 bit 0x10; does nothing when the group is not present.
-void AdvanceKartTurnStartEffects(KartTurnEffects *p, Kart *q);
+void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart);
 // Sets the library's remove bit of both turn start objects and forgets them; does nothing when the group is not
 // present.
-void StopKartTurnStartEffects(KartTurnEffects *p);
+void StopKartTurnStartEffects(KartTurnEffects *turnEffects);
 // Starts the two effect objects of the turn start group, replacing any earlier ones.
-void StartKartTurnStartEffects(KartTurnEffects *p);
+void StartKartTurnStartEffects(KartTurnEffects *turnEffects);
 // Allocates one KartTurnEffects per counted Kart in the heap a, installs the function set with the second level 4
 // object for the selected entry, in time trial and when RaceSetup.mUnk_00c is 5 and the set with the first object
 // only for the others, and clears every pointer and counter.
-void InitKartTurnEffects(void *a);
+void InitKartTurnEffects(void *heap);

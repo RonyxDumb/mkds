@@ -30,10 +30,10 @@ void SetupMPLink(MPLink *link) {
 #pragma thumb on
 
 void SetMPLinkCallback(UnkFunc *callback) {
-    u32 v2 = (OS_DisableInterrupts());
-    u32 v6;
+    u32 irqState = (OS_DisableInterrupts());
+    u32 restoredIrq;
     gMPLink->mCallback = callback;
-    v6 = (OS_RestoreInterrupts(v2));
+    restoredIrq = (OS_RestoreInterrupts(irqState));
 }
 
 #pragma thumb off
@@ -41,7 +41,7 @@ void SetMPLinkCallback(UnkFunc *callback) {
 #pragma thumb on
 
 void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
-    s32 r;
+    s32 wmResult;
     gMPLink->mMPStarted = 0;
     gMPLink->mResetting = 0;
     gMPLink->mSendBufferSize = (scanBuffer->mGameInfo.mChildMaxSize + 0x21) & ~0x1f;
@@ -50,21 +50,21 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     gMPLink->mUnk_16 = scanBuffer->mGameInfo.mChildMaxSize;
     gMPLink->mUnk_18 = gMPLink->mUnk_14 - 6;
     MBi_SetChildMPMaxSize(gMPLink->mUnk_16);
-    r = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
-    if (r != 2) {
+    wmResult = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
+    if (wmResult != 2) {
         if (gMPLink->mCallback != NULL) {
             gMPLink->mCallback(11, 0);
         }
     }
 }
 
-void ScanConnectStartConnectCallback(Unk021425e8 *a) {
-    if (a->mResultCode != 0) {
+void ScanConnectStartConnectCallback(Unk021425e8 *result) {
+    if (result->mResultCode != 0) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(11, a);
+            gMPLink->mCallback(11, result);
         }
     } else {
-        switch (a->mUnk_08_0) {
+        switch (result->mUnk_08_0) {
             case 0:
             case 1:
             case 2:
@@ -81,7 +81,7 @@ void ScanConnectStartConnectCallback(Unk021425e8 *a) {
                 break;
             case 7:
                 if (gMPLink->mCallback != NULL) {
-                    gMPLink->mCallback(6, a);
+                    gMPLink->mCallback(6, result);
                 }
                 break;
         }
@@ -89,53 +89,53 @@ void ScanConnectStartConnectCallback(Unk021425e8 *a) {
 }
 
 void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer) {
-    CommandResult v;
-    CommandResult w;
-    s32 r;
-    MPLink *p;
+    CommandResult portError;
+    CommandResult startError;
+    s32 wmResult;
+    MPLink *mpLink;
     gMPLink->mSendBuffer = sendBuffer;
     gMPLink->mReceiveBuffer = receiveBuffer;
-    r = WM_SetPortCallback(1, PortCallback, NULL);
-    if (r != 0) {
-        p = gMPLink;
-        if (p->mCallback != NULL) {
-            v.mCommand = 14;
-            v.mResultCode = r;
-            p->mCallback(0xff, &v);
+    wmResult = WM_SetPortCallback(1, PortCallback, NULL);
+    if (wmResult != 0) {
+        mpLink = gMPLink;
+        if (mpLink->mCallback != NULL) {
+            portError.mCommand = 14;
+            portError.mResultCode = wmResult;
+            mpLink->mCallback(0xff, &portError);
         }
         return;
     }
-    p = gMPLink;
-    r = WM_StartMPEx(ScanConnectStartMPCallback, receiveBuffer, p->mReceiveBufferSize, sendBuffer, p->mSendBufferSize,
-                     1, 0, 0, 0, 1, 1);
-    if (r != 2) {
-        p = gMPLink;
-        if (p->mCallback != NULL) {
-            w.mCommand = 14;
-            w.mResultCode = r;
-            p->mCallback(0xff, &w);
+    mpLink = gMPLink;
+    wmResult = WM_StartMPEx(ScanConnectStartMPCallback, receiveBuffer, mpLink->mReceiveBufferSize, sendBuffer,
+                            mpLink->mSendBufferSize, 1, 0, 0, 0, 1, 1);
+    if (wmResult != 2) {
+        mpLink = gMPLink;
+        if (mpLink->mCallback != NULL) {
+            startError.mCommand = 14;
+            startError.mResultCode = wmResult;
+            mpLink->mCallback(0xff, &startError);
         }
     }
 }
 
-void ScanConnectStartMPCallback(Unk021425e8 *a) {
-    CommandResult v;
-    CommandResult w;
-    MPLink *p;
-    u16 c;
-    u16 b = a->mResultCode;
-    if (b != 0) {
-        if (b != 15 && b != 9 && b != 13) {
-            c = a->mCommand;
-            p = gMPLink;
-            if (p->mCallback != NULL) {
-                v.mCommand = c;
-                v.mResultCode = b;
-                p->mCallback(0x100, &v);
+void ScanConnectStartMPCallback(Unk021425e8 *result) {
+    CommandResult errorResult;
+    CommandResult stateResult;
+    MPLink *mpLink;
+    u16 command;
+    u16 resultCode = result->mResultCode;
+    if (resultCode != 0) {
+        if (resultCode != 15 && resultCode != 9 && resultCode != 13) {
+            command = result->mCommand;
+            mpLink = gMPLink;
+            if (mpLink->mCallback != NULL) {
+                errorResult.mCommand = command;
+                errorResult.mResultCode = resultCode;
+                mpLink->mCallback(0x100, &errorResult);
             }
         }
     } else {
-        switch (a->mUnk_04) {
+        switch (result->mUnk_04) {
             case 10:
                 gMPLink->mMPStarted = 1;
                 gMPLink->mDataQueued = 0;
@@ -149,12 +149,12 @@ void ScanConnectStartMPCallback(Unk021425e8 *a) {
                 break;
             case 11:
             default:
-                c = a->mCommand;
-                p = gMPLink;
-                if (p->mCallback != NULL) {
-                    w.mCommand = c;
-                    w.mResultCode = 1;
-                    p->mCallback(0x100, &w);
+                command = result->mCommand;
+                mpLink = gMPLink;
+                if (mpLink->mCallback != NULL) {
+                    stateResult.mCommand = command;
+                    stateResult.mResultCode = 1;
+                    mpLink->mCallback(0x100, &stateResult);
                 }
                 break;
             case 12:
@@ -165,34 +165,34 @@ void ScanConnectStartMPCallback(Unk021425e8 *a) {
 }
 
 void StartResetWithFlag(void) {
-    CommandResult v;
-    s32 r;
+    CommandResult errorResult;
+    s32 wmResult;
     gMPLink->mResetting = 1;
-    r = WM_Reset(StartResetWithFlagCallback);
-    if (r != 2) {
-        MPLink *p;
+    wmResult = WM_Reset(StartResetWithFlagCallback);
+    if (wmResult != 2) {
+        MPLink *mpLink;
         gMPLink->mResetting = 0;
-        p = gMPLink;
-        if (p->mCallback != NULL) {
-            v.mCommand = 1;
-            v.mResultCode = r;
-            p->mCallback(0xff, &v);
+        mpLink = gMPLink;
+        if (mpLink->mCallback != NULL) {
+            errorResult.mCommand = 1;
+            errorResult.mResultCode = wmResult;
+            mpLink->mCallback(0xff, &errorResult);
         }
     }
 }
 
-void StartResetWithFlagCallback(Unk021425e8 *a) {
-    CommandResult v;
-    u16 b;
+void StartResetWithFlagCallback(Unk021425e8 *result) {
+    CommandResult errorResult;
+    u16 resultCode;
     gMPLink->mResetting = 0;
-    b = a->mResultCode;
-    if (b != 0) {
-        u16 c = a->mCommand;
-        MPLink *p = gMPLink;
-        if (p->mCallback != NULL) {
-            v.mCommand = c;
-            v.mResultCode = b;
-            p->mCallback(0x100, &v);
+    resultCode = result->mResultCode;
+    if (resultCode != 0) {
+        u16 command = result->mCommand;
+        MPLink *mpLink = gMPLink;
+        if (mpLink->mCallback != NULL) {
+            errorResult.mCommand = command;
+            errorResult.mResultCode = resultCode;
+            mpLink->mCallback(0x100, &errorResult);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
@@ -202,28 +202,28 @@ void StartResetWithFlagCallback(Unk021425e8 *a) {
 }
 
 void StartReset(void) {
-    CommandResult v;
-    s32 r = WM_Reset(StartResetCallback);
-    if (r != 2) {
-        MPLink *p = gMPLink;
-        if (p->mCallback != NULL) {
-            v.mCommand = 1;
-            v.mResultCode = r;
-            p->mCallback(0xff, &v);
+    CommandResult errorResult;
+    s32 wmResult = WM_Reset(StartResetCallback);
+    if (wmResult != 2) {
+        MPLink *mpLink = gMPLink;
+        if (mpLink->mCallback != NULL) {
+            errorResult.mCommand = 1;
+            errorResult.mResultCode = wmResult;
+            mpLink->mCallback(0xff, &errorResult);
         }
     }
 }
 
-void StartResetCallback(Unk021425e8 *a) {
-    CommandResult v;
-    u16 b = a->mResultCode;
-    if (b != 0) {
-        u16 c = a->mCommand;
-        MPLink *p = gMPLink;
-        if (p->mCallback != NULL) {
-            v.mCommand = c;
-            v.mResultCode = b;
-            p->mCallback(0x100, &v);
+void StartResetCallback(Unk021425e8 *result) {
+    CommandResult errorResult;
+    u16 resultCode = result->mResultCode;
+    if (resultCode != 0) {
+        u16 command = result->mCommand;
+        MPLink *mpLink = gMPLink;
+        if (mpLink->mCallback != NULL) {
+            errorResult.mCommand = command;
+            errorResult.mResultCode = resultCode;
+            mpLink->mCallback(0x100, &errorResult);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
@@ -233,61 +233,61 @@ void StartResetCallback(Unk021425e8 *a) {
 }
 
 u32 IsMPReadyToQueueData(void) {
-    u32 r = 0;
-    u32 v = 0;
-    MPLink *p = gMPLink;
-    if (p->mMPStarted == 1 && p->mDataQueued == 0) {
-        v = 1;
+    u32 ready = 0;
+    u32 mpActive = 0;
+    MPLink *mpLink = gMPLink;
+    if (mpLink->mMPStarted == 1 && mpLink->mDataQueued == 0) {
+        mpActive = 1;
     }
-    if (v != 0 && p->mResetting == 0) {
-        r = 1;
+    if (mpActive != 0 && mpLink->mResetting == 0) {
+        ready = 1;
     }
-    return r;
+    return ready;
 }
 
-void PortCallback(Unk021425e8 *a) {
-    if (a->mResultCode == 0) {
-        switch (a->mUnk_04) {
+void PortCallback(Unk021425e8 *result) {
+    if (result->mResultCode == 0) {
+        switch (result->mUnk_04) {
             case 7:
             case 9:
                 break;
             case 21:
                 if (gMPLink->mCallback != NULL) {
-                    gMPLink->mCallback(9, a);
+                    gMPLink->mCallback(9, result);
                 }
                 break;
         }
     }
 }
 
-s32 QueueMPDataIfReady(u32 a, u16 b, u8 *c) {
-    s32 r;
-    DC_FlushRange(c, 4);
+s32 QueueMPDataIfReady(u32 dataSize, u16 destBitmap, u8 *data) {
+    s32 wmResult;
+    DC_FlushRange(data, 4);
     DC_WaitWriteBufferEmpty();
     if (IsMPReadyToQueueData() == 0) {
         return 1;
     }
-    r = WM_SetMPDataToPortEx(QueueMPDataCallback, NULL, c, (u16) a, b, 1, 3);
-    if (r == 2) {
+    wmResult = WM_SetMPDataToPortEx(QueueMPDataCallback, NULL, data, (u16) dataSize, destBitmap, 1, 3);
+    if (wmResult == 2) {
         gMPLink->mDataQueued = 1;
         return 2;
     }
-    return r;
+    return wmResult;
 }
 
-void QueueMPDataCallback(Unk021425e8 *a) {
+void QueueMPDataCallback(Unk021425e8 *result) {
     gMPLink->mDataQueued = 0;
-    if (a->mResultCode == 0) {
+    if (result->mResultCode == 0) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(8, a);
+            gMPLink->mCallback(8, result);
         }
-    } else if (a->mResultCode == 9) {
+    } else if (result->mResultCode == 9) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(0x29, a);
+            gMPLink->mCallback(0x29, result);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(0x12, a);
+            gMPLink->mCallback(0x12, result);
         }
     }
     if (gMPLink->mCallback != NULL) {
@@ -299,13 +299,13 @@ void ClearPortCallback(void) {
     WM_SetPortCallback(1, NULL, NULL);
 }
 
-void InitScanConnectWork(ScanConnectWork *a, void *b) {
+void InitScanConnectWork(ScanConnectWork *work, void *initData) {
     if (gScanConnectInitialized == 0) {
         gScanConnectInitialized = 1;
-        MI_CpuFill8(a, 0, 0x5f20);
-        gScanConnectWork = a;
-        a->mState = 0;
-        MI_CpuCopy8(b, gScanConnectWork->mUnk_05c4, 0x16);
+        MI_CpuFill8(work, 0, 0x5f20);
+        gScanConnectWork = work;
+        work->mState = 0;
+        MI_CpuCopy8(initData, gScanConnectWork->mUnk_05c4, 0x16);
         MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mUnk_05e8);
         MB_InitRecvGameInfoStatus();
         MBi_SetScanLockFunc(SetScanBssid, ClearUseScanBssid);
@@ -370,23 +370,23 @@ u32 GetScanConnectWorkSize(void) {
 }
 
 void SetScanConnectStateCallback(UnkFunc *callback) {
-    u32 v2 = (OS_DisableInterrupts());
-    u32 v7;
+    u32 irqState = (OS_DisableInterrupts());
+    u32 restoredIrq;
     gScanConnectWork->mStateCallback = callback;
-    v7 = (OS_RestoreInterrupts(v2));
+    restoredIrq = (OS_RestoreInterrupts(irqState));
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetScanConnectStateAndNotify(u32 state, void *b) {
-    u32 v1;
-    v1 = OS_DisableInterrupts();
+void SetScanConnectStateAndNotify(u32 state, void *info) {
+    u32 irqState;
+    irqState = OS_DisableInterrupts();
     gScanConnectWork->mState = state;
-    OS_RestoreInterrupts(v1);
+    OS_RestoreInterrupts(irqState);
     if (gScanConnectWork->mStateCallback != NULL) {
-        gScanConnectWork->mStateCallback(state, b);
+        gScanConnectWork->mStateCallback(state, info);
     }
 }
 
@@ -394,9 +394,9 @@ void SetScanConnectStateAndNotify(u32 state, void *b) {
 
 #pragma thumb on
 
-void StartRepeatedScan(UnkFunc *callback, u32 b) {
+void StartRepeatedScan(UnkFunc *callback, u32 param) {
     gScanConnectWork->mScanCallback = callback;
-    gScanConnectWork->mUnk_05e4 = b;
+    gScanConnectWork->mUnk_05e4 = param;
     gScanConnectWork->mScanParams.mUnk_04 = 0;
     gScanConnectWork->mScanParams.mUnk_00 = &gScanConnectWork->mScanBuffer;
     gScanConnectWork->mRepeatScan = 1;
@@ -410,22 +410,22 @@ void StartRepeatedScan(UnkFunc *callback, u32 b) {
 #pragma thumb on
 
 void ScanConnectStartScan(void) {
-    s32 r;
-    ScanConnectWork *d;
-    u8 *p;
-    u8 *q;
-    d = gScanConnectWork;
-    if (d->mUseScanBssid != 0) {
-        d->mScanParams.mUnk_06 = 0xdc;
+    s32 wmResult;
+    ScanConnectWork *work;
+    u8 *bssid;
+    u8 *defaultBssid;
+    work = gScanConnectWork;
+    if (work->mUseScanBssid != 0) {
+        work->mScanParams.mUnk_06 = 0xdc;
     } else {
-        p = d->mScanParams.mUnk_08;
-        q = gDefaultScanBssid;
-        p[0] = q[0];
-        p[1] = q[1];
-        p[2] = q[2];
-        p[3] = q[3];
-        p[4] = q[4];
-        p[5] = q[5];
+        bssid = work->mScanParams.mUnk_08;
+        defaultBssid = gDefaultScanBssid;
+        bssid[0] = defaultBssid[0];
+        bssid[1] = defaultBssid[1];
+        bssid[2] = defaultBssid[2];
+        bssid[3] = defaultBssid[3];
+        bssid[4] = defaultBssid[4];
+        bssid[5] = defaultBssid[5];
         gScanConnectWork->mScanParams.mUnk_06 = 10;
         if (PickScanChannel() == 0) {
             ReportScanError(0x1e, 0);
@@ -435,24 +435,24 @@ void ScanConnectStartScan(void) {
     if (gScanConnectWork->mScanParams.mUnk_04 == 0) {
         gScanConnectWork->mScanParams.mUnk_04 = 1;
     }
-    r = WM_StartScan(ScanConnectStartScanCallback, &gScanConnectWork->mScanParams);
-    if (r != 2) {
-        ReportScanError(0xa, r);
+    wmResult = WM_StartScan(ScanConnectStartScanCallback, &gScanConnectWork->mScanParams);
+    if (wmResult != 2) {
+        ReportScanError(0xa, wmResult);
     }
 }
 
-void ScanConnectStartScanCallback(Unk021425e8 *a) {
-    if (a->mResultCode != 0) {
-        ReportScanError(0xa, a->mResultCode);
+void ScanConnectStartScanCallback(Unk021425e8 *result) {
+    if (result->mResultCode != 0) {
+        ReportScanError(0xa, result->mResultCode);
         return;
     }
-    switch (a->mUnk_08_0) {
+    switch (result->mUnk_08_0) {
         case 3:
             break;
         case 5:
-            if (a->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
+            if (result->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
                 DC_InvalidateRange(&gScanConnectWork->mScanBuffer, 0xc0);
-                MB_RecvGameInfoBeacon(EntryCallback, a->mUnk_12, &gScanConnectWork->mScanBuffer);
+                MB_RecvGameInfoBeacon(EntryCallback, result->mUnk_12, &gScanConnectWork->mScanBuffer);
                 MB_CountGameInfoLifetime(EntryCallback, 1);
             }
         case 4:
@@ -469,42 +469,42 @@ void ScanConnectStartScanCallback(Unk021425e8 *a) {
     }
 }
 
-void CallScanCallbackWithEntry(u32 a, MBGameInfoRecvList *entry, u32 entryIndex) {
-    ScanEntryArgs v;
-    ScanConnectWork *d;
-    d = gScanConnectWork;
-    if (d->mScanCallback != NULL) {
-        v.mEntryIndex = entryIndex;
+void CallScanCallbackWithEntry(u32 event, MBGameInfoRecvList *entry, u32 entryIndex) {
+    ScanEntryArgs args;
+    ScanConnectWork *work;
+    work = gScanConnectWork;
+    if (work->mScanCallback != NULL) {
+        args.mEntryIndex = entryIndex;
         if (entry != NULL) {
-            v.mEntry = entry;
-            v.mScanBuffer = entry->mScanBuffer;
+            args.mEntry = entry;
+            args.mScanBuffer = entry->mScanBuffer;
         } else {
-            v.mEntry = NULL;
-            v.mScanBuffer = NULL;
+            args.mEntry = NULL;
+            args.mScanBuffer = NULL;
         }
-        d->mScanCallback(a, &v);
+        work->mScanCallback(event, &args);
     }
 }
 
-void ReportScanError(u16 a, u16 b) {
-    ScanErrorArgs v;
+void ReportScanError(u16 errorCode, u16 resultCode) {
+    ScanErrorArgs args;
     if (gScanConnectWork->mScanCallback != NULL) {
-        v.mErrorCode = a;
-        v.mResultCode = b;
-        gScanConnectWork->mScanCallback(2, &v);
+        args.mErrorCode = errorCode;
+        args.mResultCode = resultCode;
+        gScanConnectWork->mScanCallback(2, &args);
     }
 }
 
-void SetScanBssid(const u8 *a) {
-    u8 *p;
+void SetScanBssid(const u8 *bssid) {
+    u8 *dest;
     gScanConnectWork->mUseScanBssid = 1;
-    p = gScanConnectWork->mScanParams.mUnk_08;
-    p[0] = a[0];
-    p[1] = a[1];
-    p[2] = a[2];
-    p[3] = a[3];
-    p[4] = a[4];
-    p[5] = a[5];
+    dest = gScanConnectWork->mScanParams.mUnk_08;
+    dest[0] = bssid[0];
+    dest[1] = bssid[1];
+    dest[2] = bssid[2];
+    dest[3] = bssid[3];
+    dest[4] = bssid[4];
+    dest[5] = bssid[5];
 }
 
 #pragma thumb off
@@ -517,8 +517,8 @@ void ClearUseScanBssid(void) {
 
 #pragma thumb on
 
-void EntryCallback(u32 a, void *entry, u32 entryIndex) {
-    switch (a) {
+void EntryCallback(u32 event, void *entry, u32 entryIndex) {
+    switch (event) {
         case 0:
         case 2:
         case 4:
@@ -533,9 +533,9 @@ void EntryCallback(u32 a, void *entry, u32 entryIndex) {
 }
 
 u32 PickScanChannel(void) {
-    u16 a;
-    a = WM_GetAllowedChannel();
-    if (a == 0x8000 || a == 0) {
+    u16 allowedChannels;
+    allowedChannels = WM_GetAllowedChannel();
+    if (allowedChannels == 0x8000 || allowedChannels == 0) {
         return 0;
     }
     gScanConnectWork->mScanParams.mUnk_04++;
@@ -544,7 +544,7 @@ u32 PickScanChannel(void) {
         if (gScanConnectWork->mScanParams.mUnk_04 > 0x10) {
             gScanConnectWork->mScanParams.mUnk_04 = 1;
         }
-    } while ((a & (1 << (gScanConnectWork->mScanParams.mUnk_04 - 1))) == 0);
+    } while ((allowedChannels & (1 << (gScanConnectWork->mScanParams.mUnk_04 - 1))) == 0);
     return 1;
 }
 
@@ -558,10 +558,10 @@ void RequestEndScan(void) {
 #pragma thumb on
 
 void ScanConnectEndScan(void) {
-    u32 v1;
-    v1 = WM_EndScan(ScanConnectEndScanCallback);
-    if (v1 != 2) {
-        ReportScanError(0xb, v1 & 0xffff);
+    u32 wmResult;
+    wmResult = WM_EndScan(ScanConnectEndScanCallback);
+    if (wmResult != 2) {
+        ReportScanError(0xb, wmResult & 0xffff);
     }
 }
 

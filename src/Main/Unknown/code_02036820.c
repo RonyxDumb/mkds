@@ -4,152 +4,152 @@
 #include "heapcommon.h"
 #include "code_0200fc8c.h"
 
-void *HeapAlloc(void *a, u32 b) {
-    NNSiFndHeapHead *h = a;
-    void *c = NULL;
-    switch (h->mSignature) {
+void *HeapAlloc(void *heap, u32 size) {
+    NNSiFndHeapHead *heapHead = heap;
+    void *block = NULL;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            c = NNS_FndAllocFromExpHeapEx(a, b, 4);
+            block = NNS_FndAllocFromExpHeapEx(heap, size, 4);
             break;
         case 0x46524d48:
-            c = NNS_FndAllocFromFrmHeapEx(a, b, 4);
+            block = NNS_FndAllocFromFrmHeapEx(heap, size, 4);
             break;
     }
-    return c;
+    return block;
 }
 
-void *HeapAllocAligned(void *a, u32 b, s32 c) {
-    NNSiFndHeapHead *h = a;
-    void *d = NULL;
-    u32 e;
-    switch (h->mSignature) {
+void *HeapAllocAligned(void *heap, u32 size, s32 alignment) {
+    NNSiFndHeapHead *heapHead = heap;
+    void *block = NULL;
+    u32 irqState;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            d = NNS_FndAllocFromExpHeapEx(a, b, c);
+            block = NNS_FndAllocFromExpHeapEx(heap, size, alignment);
             break;
         case 0x46524d48:
-            e = OS_DisableInterrupts();
-            d = NNS_FndAllocFromFrmHeapEx(a, b, c);
-            OS_RestoreInterrupts(e);
+            irqState = OS_DisableInterrupts();
+            block = NNS_FndAllocFromFrmHeapEx(heap, size, alignment);
+            OS_RestoreInterrupts(irqState);
             break;
     }
-    return d;
+    return block;
 }
 
-void HeapFree(void *a, void *b) {
-    NNSiFndHeapHead *h = a;
-    switch (h->mSignature) {
+void HeapFree(void *heap, void *block) {
+    NNSiFndHeapHead *heapHead = heap;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            NNS_FndFreeToExpHeap(a, b);
+            NNS_FndFreeToExpHeap(heap, block);
             break;
         case 0x46524d48:
             break;
     }
 }
 
-void HeapDestroy(NNSiFndHeapHead *a) {
-    NNSiFndHeapHead *h = a;
-    NNSiFndHeapHead *p;
-    switch (h->mSignature) {
+void HeapDestroy(NNSiFndHeapHead *heap) {
+    NNSiFndHeapHead *heapHead = heap;
+    NNSiFndHeapHead *parentHeap;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            NNS_FndDestroyExpHeap(a);
+            NNS_FndDestroyExpHeap(heap);
             break;
         case 0x46524d48:
-            NNS_FndDestroyFrmHeap(a);
+            NNS_FndDestroyFrmHeap(heap);
             break;
     }
-    p = NNS_FndFindContainHeap(a);
-    if (p == NULL) {
+    parentHeap = NNS_FndFindContainHeap(heap);
+    if (parentHeap == NULL) {
         return;
     }
-    switch (p->mSignature) {
+    switch (parentHeap->mSignature) {
         case 0x45585048:
-            NNS_FndFreeToExpHeap(p, a);
+            NNS_FndFreeToExpHeap(parentHeap, heap);
             break;
         case 0x46524d48:
             break;
     }
 }
 
-void *CreateExpHeapFromMaxFree(void *a) {
-    NNSiFndHeapHead *h = a;
-    u32 b = 0;
-    void *c;
-    switch (h->mSignature) {
+void *CreateExpHeapFromMaxFree(void *parent) {
+    NNSiFndHeapHead *heapHead = parent;
+    u32 size = 0;
+    void *block;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            b = NNS_FndGetAllocatableSizeForExpHeapEx(a, 4);
+            size = NNS_FndGetAllocatableSizeForExpHeapEx(parent, 4);
             break;
         case 0x46524d48:
-            b = NNS_FndGetAllocatableSizeForFrmHeapEx(a, 4);
+            size = NNS_FndGetAllocatableSizeForFrmHeapEx(parent, 4);
             break;
     }
-    c = NULL;
-    switch (h->mSignature) {
+    block = NULL;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            c = NNS_FndAllocFromExpHeapEx(a, b, 4);
+            block = NNS_FndAllocFromExpHeapEx(parent, size, 4);
             break;
         case 0x46524d48:
-            c = NNS_FndAllocFromFrmHeapEx(a, b, 4);
+            block = NNS_FndAllocFromFrmHeapEx(parent, size, 4);
             break;
     }
-    return NNS_FndCreateExpHeapEx(c, b, 1);
+    return NNS_FndCreateExpHeapEx(block, size, 1);
 }
 
-void *CreateFrmHeapFromMaxFree(void *a) {
-    NNSiFndHeapHead *h = a;
-    u32 b = 0;
-    void *c;
-    switch (h->mSignature) {
+void *CreateFrmHeapFromMaxFree(void *parent) {
+    NNSiFndHeapHead *heapHead = parent;
+    u32 size = 0;
+    void *block;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            b = NNS_FndGetAllocatableSizeForExpHeapEx(a, 4);
+            size = NNS_FndGetAllocatableSizeForExpHeapEx(parent, 4);
             break;
         case 0x46524d48:
-            b = NNS_FndGetAllocatableSizeForFrmHeapEx(a, 4);
+            size = NNS_FndGetAllocatableSizeForFrmHeapEx(parent, 4);
             break;
     }
-    c = NULL;
-    switch (h->mSignature) {
+    block = NULL;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            c = NNS_FndAllocFromExpHeapEx(a, b, 4);
+            block = NNS_FndAllocFromExpHeapEx(parent, size, 4);
             break;
         case 0x46524d48:
-            c = NNS_FndAllocFromFrmHeapEx(a, b, 4);
+            block = NNS_FndAllocFromFrmHeapEx(parent, size, 4);
             break;
     }
-    return NNS_FndCreateFrmHeapEx(c, b, 1);
+    return NNS_FndCreateFrmHeapEx(block, size, 1);
 }
 
-void *CreateFrmHeapFromFront(void *a, u32 b) {
-    NNSiFndHeapHead *h = a;
-    void *c = NULL;
-    switch (h->mSignature) {
+void *CreateFrmHeapFromFront(void *parent, u32 size) {
+    NNSiFndHeapHead *heapHead = parent;
+    void *block = NULL;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            c = NNS_FndAllocFromExpHeapEx(a, b, 4);
+            block = NNS_FndAllocFromExpHeapEx(parent, size, 4);
             break;
         case 0x46524d48:
-            c = NNS_FndAllocFromFrmHeapEx(a, b, 4);
+            block = NNS_FndAllocFromFrmHeapEx(parent, size, 4);
             break;
     }
-    return NNS_FndCreateFrmHeapEx(c, b, 1);
+    return NNS_FndCreateFrmHeapEx(block, size, 1);
 }
 
-void *CreateFrmHeapFromBack(void *a, u32 b) {
-    NNSiFndHeapHead *h = a;
-    void *c = NULL;
-    u32 d;
-    switch (h->mSignature) {
+void *CreateFrmHeapFromBack(void *parent, u32 size) {
+    NNSiFndHeapHead *heapHead = parent;
+    void *block = NULL;
+    u32 irqState;
+    switch (heapHead->mSignature) {
         case 0x45585048:
-            c = NNS_FndAllocFromExpHeapEx(a, b, -4);
+            block = NNS_FndAllocFromExpHeapEx(parent, size, -4);
             break;
         case 0x46524d48:
-            d = OS_DisableInterrupts();
-            c = NNS_FndAllocFromFrmHeapEx(a, b, -4);
-            OS_RestoreInterrupts(d);
+            irqState = OS_DisableInterrupts();
+            block = NNS_FndAllocFromFrmHeapEx(parent, size, -4);
+            OS_RestoreInterrupts(irqState);
             break;
     }
-    return NNS_FndCreateFrmHeapEx(c, b, 1);
+    return NNS_FndCreateFrmHeapEx(block, size, 1);
 }
 
-void FrmHeapShrinkInParent(void *a) {
-    u32 b = NNS_FndAdjustFrmHeap(a);
-    NNS_FndResizeForMBlockExpHeap(NNS_FndFindContainHeap(a), a, b);
+void FrmHeapShrinkInParent(void *heap) {
+    u32 newSize = NNS_FndAdjustFrmHeap(heap);
+    NNS_FndResizeForMBlockExpHeap(NNS_FndFindContainHeap(heap), heap, newSize);
 }

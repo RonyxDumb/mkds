@@ -302,8 +302,8 @@ typedef struct Unk0201e170 {
 } Unk0201e170;
 
 void SPLUtil_RotateXYZ(s32 sinValue, s32 cosValue, MtxFx43 *mtx);
-void SPLUtil_DrawXZPlane(u32 a, u32 b, s32 c, s32 d);
-void SPLUtil_DrawXYPlane(u32 a, u32 b, s32 c, s32 d);
+void SPLUtil_DrawXZPlane(u32 texCoordU, u32 texCoordV, s32 centerX, s32 centerZ);
+void SPLUtil_DrawXYPlane(u32 texCoordU, u32 texCoordV, s32 centerX, s32 centerY);
 void SPLEmitter_EmitChildren(Unk0201e3c8 *emtr, Unk0201ca6c *q, Unk0201e494 *r);
 void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *r);
 void SPLUtil_TiltCoordinates(Vec3 *ptclPos, const Vec3 *pos, Unk0201ca6c *emtr);

@@ -2,10 +2,10 @@
 
 #include "types.h"
 
-double nan(const char *a);
+double nan(const char *tag);
 int FflushAll(void);
 
-u32 Abs(u32 arg0);
+u32 Abs(u32 value);
 
 typedef int (*Unk0213c94cFunc)(u32 a, u8 *b, u32 *c, u32 d);
 
@@ -40,17 +40,17 @@ typedef struct FILE {
     /* 48 */ u32 mUnk_48;
 } FILE;
 
-void AssertionFailed(const char *a, const char *b, const char *c, int d);
-int FileFlushBuffer(FILE *a, u32 *b);
-void FileResetBuffer(FILE *a);
-u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d);
+void AssertionFailed(const char *expression, const char *fileName, const char *functionName, int lineNumber);
+int FileFlushBuffer(FILE *stream, u32 *writtenOut);
+void FileResetBuffer(FILE *stream);
+u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream);
 
-int memcmp(const void *a, const void *b, u32 n);
-void *MemChrBackward(const void *a, int v, u32 n);
-void *memchr(const void *p, int c, u32 n);
-void *memmove(void *a, const void *b, u32 n);
-void *memcpy(void *dst, const void *src, u32 n);
-void MemsetBody(u8 *p, int c, u32 n);
+int memcmp(const void *left, const void *right, u32 count);
+void *MemChrBackward(const void *buffer, int value, u32 count);
+void *memchr(const void *buffer, int value, u32 count);
+void *memmove(void *dst, const void *src, u32 count);
+void *memcpy(void *dst, const void *src, u32 count);
+void MemsetBody(u8 *dst, int fill, u32 count);
 
 // 12 bytes. Filled by vsnprintf and read by FormatPutBuffer: output buffer, its length, and the count written.
 typedef struct FormatPutTarget {
@@ -60,11 +60,11 @@ typedef struct FormatPutTarget {
 } FormatPutTarget;
 
 int sprintf(char *buf, const char *fmt, ...);
-int snprintf(char *buf, u32 n, const char *fmt, ...);
-int vsnprintf(char *buf, u32 n, const char *fmt, char *va);
+int snprintf(char *buf, u32 size, const char *fmt, ...);
+int vsnprintf(char *buf, u32 size, const char *fmt, char *va);
 int printf(const char *fmt, ...);
-void *FormatPutBuffer(void *p, const char *b, u32 n);
-void *FormatPutFwrite(void *a, const char *b, u32 n);
+void *FormatPutBuffer(void *arg, const char *text, u32 count);
+void *FormatPutFwrite(void *file, const char *text, u32 count);
 
-void ConvertTextNewlinesNop(u8 *a, u32 *b);
+void ConvertTextNewlinesNop(u8 *buffer, u32 *length);
 void NopWriteHook(void);

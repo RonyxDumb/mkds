@@ -67,24 +67,24 @@ BOOL IsCupEnabled(s32 cupIndex) {
 
 void AssignCpuNumbers(void) {
     u8 nextCpuNumber;
-    BOOL f;
-    u8 i;
+    BOOL noCpuNumbers;
+    u8 entryIndex;
     nextCpuNumber = 1;
-    f = FALSE;
+    noCpuNumbers = FALSE;
     switch (gRaceSetup->mNextHeader.mMode) {
         case MODE_GRAND_PRIX:
         case MODE_TIME_ATTACK:
         case MODE_MISSION_RUN:
         case MODE_WIFI:
-            f = TRUE;
+            noCpuNumbers = TRUE;
             break;
     }
-    for (i = 0; i < 8; i++) {
-        if (f == FALSE && gRaceSetup->mNextEntries[i].mPlayer.mKind == PLAYER_KIND_CPU) {
-            gRaceSetup->mNextEntries[i].mPlayer.mNumber = nextCpuNumber;
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        if (noCpuNumbers == FALSE && gRaceSetup->mNextEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
+            gRaceSetup->mNextEntries[entryIndex].mPlayer.mNumber = nextCpuNumber;
             nextCpuNumber = nextCpuNumber + 1;
         } else {
-            gRaceSetup->mNextEntries[i].mPlayer.mNumber = -1;
+            gRaceSetup->mNextEntries[entryIndex].mPlayer.mNumber = -1;
         }
     }
     gRaceSetup->mNextCpuNumber = nextCpuNumber;
@@ -106,12 +106,12 @@ u32 NextRandomBelowU16(RandomState64 *randomState64, u32 limit) {
 }
 
 void BuildCourseList(s32 isVersus) {
-    s32 f;
-    u32 m;
-    const u32 *t;
-    u32 i;
-    u32 n;
-    f = 0;
+    s32 flag;
+    u32 cupCount;
+    const u32 *cupTable;
+    u32 listIndex;
+    u32 courseCount;
+    flag = 0;
     ResetCupRecords();
     gRaceSetup->mCourseListIndex = 0;
     gRaceSetup->mNextHeader.mCourseNumber = 1;
@@ -122,131 +122,131 @@ void BuildCourseList(s32 isVersus) {
     } else {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_BATTLE;
     }
-    for (i = 0; i < 0x21; i++) {
-        gRaceSetup->mCourseList[i] = 0;
+    for (listIndex = 0; listIndex < 0x21; listIndex++) {
+        gRaceSetup->mCourseList[listIndex] = 0;
     }
     switch (gStartupWork->mConnectionKind) {
         case 1:
         case 2:
-            f = (gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0;
+            flag = (gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0;
             break;
     }
     switch (gRaceSetup->mNextHeader.mCourseListMode) {
         case 1:
             if (isVersus != 0) {
-                u8 p;
-                u8 q;
-                u32 n;
-                s32 e;
-                s32 c;
-                m = f != 0 ? 2 : 8;
-                t = f != 0 ? data_usa_021540c0 : data_usa_02154108;
-                e = gRaceSetup->mNextHeader.mCourseId;
-                n = m * 4;
-                for (f = 0; f < n; f++) {
-                    p = f / 4;
-                    q = f % 4;
-                    if (e == gCupCourseIdTable[t[p]][q]) {
+                u8 cupSlot;
+                u8 courseSlot;
+                u32 entryCount;
+                s32 currentCourseId;
+                s32 enabledCount;
+                cupCount = flag != 0 ? 2 : 8;
+                cupTable = flag != 0 ? data_usa_021540c0 : data_usa_02154108;
+                currentCourseId = gRaceSetup->mNextHeader.mCourseId;
+                entryCount = cupCount * 4;
+                for (flag = 0; flag < entryCount; flag++) {
+                    cupSlot = flag / 4;
+                    courseSlot = flag % 4;
+                    if (currentCourseId == gCupCourseIdTable[cupTable[cupSlot]][courseSlot]) {
                         break;
                     }
                 }
-                c = 0;
-                for (f = 0; f < n; f++) {
-                    if (IsCupEnabled(t[p]) != FALSE) {
-                        gRaceSetup->mCourseList[c] = gCupCourseIdTable[t[p]][q];
-                        c = (u8) (c + 1);
+                enabledCount = 0;
+                for (flag = 0; flag < entryCount; flag++) {
+                    if (IsCupEnabled(cupTable[cupSlot]) != FALSE) {
+                        gRaceSetup->mCourseList[enabledCount] = gCupCourseIdTable[cupTable[cupSlot]][courseSlot];
+                        enabledCount = (u8) (enabledCount + 1);
                     }
-                    q = q + 1;
-                    if (q >= 4) {
-                        q = 0;
-                        p = p + 1;
-                        if (p >= m) {
-                            p = 0;
+                    courseSlot = courseSlot + 1;
+                    if (courseSlot >= 4) {
+                        courseSlot = 0;
+                        cupSlot = cupSlot + 1;
+                        if (cupSlot >= cupCount) {
+                            cupSlot = 0;
                         }
                     }
                 }
                 return;
             } else {
-                s32 e;
-                u32 s;
-                n = f != 0 ? 3 : 6;
-                s = 0;
-                t = f != 0 ? data_usa_021540c8 : data_usa_021540d4;
-                e = gRaceSetup->mNextHeader.mCourseId;
-                for (i = 0; i < n; i++) {
-                    s = i;
-                    if (e == t[i]) {
+                s32 currentCourseId;
+                u32 startIndex;
+                courseCount = flag != 0 ? 3 : 6;
+                startIndex = 0;
+                cupTable = flag != 0 ? data_usa_021540c8 : data_usa_021540d4;
+                currentCourseId = gRaceSetup->mNextHeader.mCourseId;
+                for (listIndex = 0; listIndex < courseCount; listIndex++) {
+                    startIndex = listIndex;
+                    if (currentCourseId == cupTable[listIndex]) {
                         break;
                     }
                 }
-                for (i = 0; i < n; i++) {
-                    gRaceSetup->mCourseList[i] = t[s];
-                    s++;
-                    if (s >= n) {
-                        s = 0;
+                for (listIndex = 0; listIndex < courseCount; listIndex++) {
+                    gRaceSetup->mCourseList[listIndex] = cupTable[startIndex];
+                    startIndex++;
+                    if (startIndex >= courseCount) {
+                        startIndex = 0;
                     }
                 }
                 return;
             }
         case 2:
             if (isVersus != 0) {
-                RandomState64 *g;
-                u32 n;
-                s32 k;
-                s32 c;
-                u8 q;
-                u8 p;
-                u8 w;
-                u8 x;
-                u8 y;
-                s32 h;
-                s32 z;
-                g = GetRandomState();
-                m = f != 0 ? 2 : 8;
-                t = f != 0 ? data_usa_021540c0 : data_usa_02154108;
-                n = m * 4;
-                c = 0;
-                for (k = 0; k < n; k++) {
-                    p = k / 4;
-                    q = k % 4;
-                    if (IsCupEnabled(t[p]) != FALSE) {
-                        gRaceSetup->mCourseList[c] = gCupCourseIdTable[t[p]][q];
-                        c = (u8) (c + 1);
+                RandomState64 *random;
+                u32 entryCount;
+                s32 entryIndex;
+                s32 enabledCount;
+                u8 courseSlot;
+                u8 cupSlot;
+                u8 swapIndex;
+                u8 shuffleIndex;
+                u8 swapTemp;
+                s32 swapCount;
+                s32 passIndex;
+                random = GetRandomState();
+                cupCount = flag != 0 ? 2 : 8;
+                cupTable = flag != 0 ? data_usa_021540c0 : data_usa_02154108;
+                entryCount = cupCount * 4;
+                enabledCount = 0;
+                for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
+                    cupSlot = entryIndex / 4;
+                    courseSlot = entryIndex % 4;
+                    if (IsCupEnabled(cupTable[cupSlot]) != FALSE) {
+                        gRaceSetup->mCourseList[enabledCount] = gCupCourseIdTable[cupTable[cupSlot]][courseSlot];
+                        enabledCount = (u8) (enabledCount + 1);
                     }
                 }
-                h = c * 2;
-                for (z = 0; z < h; z++) {
-                    w = NextRandomBelowU16(g, (vu16) (c - 1));
-                    x = z % c;
-                    y = gRaceSetup->mCourseList[x];
-                    if (w >= x) {
-                        w = w + 1;
+                swapCount = enabledCount * 2;
+                for (passIndex = 0; passIndex < swapCount; passIndex++) {
+                    swapIndex = NextRandomBelowU16(random, (vu16) (enabledCount - 1));
+                    shuffleIndex = passIndex % enabledCount;
+                    swapTemp = gRaceSetup->mCourseList[shuffleIndex];
+                    if (swapIndex >= shuffleIndex) {
+                        swapIndex = swapIndex + 1;
                     }
-                    gRaceSetup->mCourseList[x] = gRaceSetup->mCourseList[w];
-                    gRaceSetup->mCourseList[w] = y;
+                    gRaceSetup->mCourseList[shuffleIndex] = gRaceSetup->mCourseList[swapIndex];
+                    gRaceSetup->mCourseList[swapIndex] = swapTemp;
                 }
             } else {
-                s32 k;
-                RandomState64 *g;
-                g = GetRandomState();
-                n = f != 0 ? 3 : 6;
-                t = f != 0 ? data_usa_021540c8 : data_usa_021540d4;
-                for (k = 0; k < n; k++) {
-                    gRaceSetup->mCourseList[k] = t[k];
+                s32 courseIndex;
+                RandomState64 *random;
+                random = GetRandomState();
+                courseCount = flag != 0 ? 3 : 6;
+                cupTable = flag != 0 ? data_usa_021540c8 : data_usa_021540d4;
+                for (courseIndex = 0; courseIndex < courseCount; courseIndex++) {
+                    gRaceSetup->mCourseList[courseIndex] = cupTable[courseIndex];
                 }
-                k = 0;
-                if (k < n) {
-                    m = (u16) (n - 1);
-                    for (; k < n; k++) {
-                        u8 w;
-                        u8 y;
-                        w = BuildCourseListNextRandomBelowU16(g, m);
-                        y = gRaceSetup->mCourseList[k];
-                        if (w >= k) {
-                            w = w + 1;
+                courseIndex = 0;
+                if (courseIndex < courseCount) {
+                    cupCount = (u16) (courseCount - 1);
+                    for (; courseIndex < courseCount; courseIndex++) {
+                        u8 swapIndex;
+                        u8 swapTemp;
+                        swapIndex = BuildCourseListNextRandomBelowU16(random, cupCount);
+                        swapTemp = gRaceSetup->mCourseList[courseIndex];
+                        if (swapIndex >= courseIndex) {
+                            swapIndex = swapIndex + 1;
                         }
-                        gRaceSetup->mCourseList[k] = gRaceSetup->mCourseList[w];
-                        gRaceSetup->mCourseList[w] = y;
+                        gRaceSetup->mCourseList[courseIndex] = gRaceSetup->mCourseList[swapIndex];
+                        gRaceSetup->mCourseList[swapIndex] = swapTemp;
                     }
                 }
             }
@@ -256,7 +256,7 @@ void BuildCourseList(s32 isVersus) {
 }
 
 void AssignCpuNumbersAndSetupFirstCourse(void) {
-    u8 i;
+    u8 entryIndex;
     u8 humanIndex;
     AssignCpuNumbers();
     switch (gRaceSetup->mNextHeader.mMode) {
@@ -278,9 +278,9 @@ void AssignCpuNumbersAndSetupFirstCourse(void) {
             ResetCupRecords();
             gRaceSetup->mNextHeader.mCourseNumber = 1;
             gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
-            for (i = 0; i < 4; i++) {
-                if (gRaceSetup->mNextEntries[i].mPlayer.mKind == PLAYER_KIND_HUMAN) {
-                    humanIndex = i;
+            for (entryIndex = 0; entryIndex < 4; entryIndex++) {
+                if (gRaceSetup->mNextEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN) {
+                    humanIndex = entryIndex;
                     break;
                 }
             }
@@ -300,8 +300,8 @@ void AssignCpuNumbersAndSetupFirstCourse(void) {
 
 BOOL CopyEntryResultAndSetupAwardRace(void) {
     s8 entryIndex;
-    u8 i;
-    s8 j;
+    u8 index;
+    s8 kartIndex;
     u8 courseIndexInCup;
     u32 lowByte;
     s32 rankIndex;
@@ -318,40 +318,40 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     courseResult = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
     gMenuShared->mTotalPoints = courseResult->mTotalPoints;
     gMenuShared->mKartIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mKartIndex;
-    for (i = 0; i < 4; i++) {
+    for (index = 0; index < 4; index++) {
         MinuteSecondMillisecondTime finishTime;
-        GetKartCourseFinishTime(&finishTime, (u16) gRaceSetup->mEntryIndex, i);
-        gMenuShared->mCourseTimes[i] = finishTime;
+        GetKartCourseFinishTime(&finishTime, (u16) gRaceSetup->mEntryIndex, index);
+        gMenuShared->mCourseTimes[index] = finishTime;
     }
     if ((u32) GetKartCupRank((u16) gRaceSetup->mEntryIndex) > 3) {
         return FALSE;
     }
     gRaceSetup->mNextHeader.mCourseId = COURSE_ID_AWARD;
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_AWARD;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < gRaceSetup->mKartCount; j++) {
-            if (GetKartCupRank((u16) j) == i + 1) {
+    for (index = 0; index < 3; index++) {
+        for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+            if (GetKartCupRank((u16) kartIndex) == index + 1) {
                 break;
             }
         }
-        SetNextRaceEntry(i, GetCurrentEntry(j)->mCharacterIndex, GetCurrentEntry(j)->mKartIndex, PLAYER_KIND_CPU, -1,
-                         3);
+        SetNextRaceEntry(index, GetCurrentEntry(kartIndex)->mCharacterIndex, GetCurrentEntry(kartIndex)->mKartIndex,
+                         PLAYER_KIND_CPU, -1, 3);
     }
-    for (; i < 8; i++) {
-        SetNextRaceEntry(i, i, i * 3, PLAYER_KIND_NONE, -1, 3);
+    for (; index < 8; index++) {
+        SetNextRaceEntry(index, index, index * 3, PLAYER_KIND_NONE, -1, 3);
     }
-    for (i = 0; i < 8; i++) {
-        rankIndex = GetKartCupRank(i) - 1;
-        gMenuShared->mUnk_cc[rankIndex] = gRaceSetup->mCurrentEntries[i].mKartIndex;
-        gMenuShared->mUnk_ac[rankIndex] = gRaceSetup->mCurrentEntries[i].mCharacterIndex;
+    for (index = 0; index < 8; index++) {
+        rankIndex = GetKartCupRank(index) - 1;
+        gMenuShared->mUnk_cc[rankIndex] = gRaceSetup->mCurrentEntries[index].mKartIndex;
+        gMenuShared->mUnk_ac[rankIndex] = gRaceSetup->mCurrentEntries[index].mCharacterIndex;
     }
     gRaceSetup->mNextHeader.mFollowedKartIndex = GetKartCupRank((u16) gRaceSetup->mEntryIndex) - 1;
     return TRUE;
 }
 
 void SetupStaffRollRace(s32 useTrueStaffRoll) {
-    u8 i;
-    s8 j;
+    u8 index;
+    s8 searchIndex;
     s32 characterIndex;
     s32 kartIndex;
     if (useTrueStaffRoll != 0) {
@@ -362,64 +362,64 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_STAFF_ROLL;
     gRaceSetup->mNextHeader.mEngineIndex = 1;
     gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < gRaceSetup->mKartCount; j++) {
-            if (GetKartCupRank((u16) j) == i + 1) {
+    for (index = 0; index < 8; index++) {
+        for (searchIndex = 0; searchIndex < gRaceSetup->mKartCount; searchIndex++) {
+            if (GetKartCupRank((u16) searchIndex) == index + 1) {
                 break;
             }
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             if ((gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1) == 6 &&
                 (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
-                if (i == 0) {
+                if (index == 0) {
                     characterIndex = 7;
                     kartIndex = 0x15;
-                } else if (i == 7) {
+                } else if (index == 7) {
                     characterIndex = 0;
                     kartIndex = characterIndex;
                 } else {
-                    characterIndex = i;
-                    kartIndex = i * 3;
+                    characterIndex = index;
+                    kartIndex = index * 3;
                 }
             } else {
-                characterIndex = i;
-                kartIndex = i * 3;
+                characterIndex = index;
+                kartIndex = index * 3;
             }
         } else if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
             if (GetStaffRollKindAfterGp() != 2) {
-                characterIndex = i;
-                kartIndex = i * 3;
+                characterIndex = index;
+                kartIndex = index * 3;
             } else {
-                characterIndex = gMenuShared->mUnk_ac[i];
-                kartIndex = gMenuShared->mUnk_cc[i];
+                characterIndex = gMenuShared->mUnk_ac[index];
+                kartIndex = gMenuShared->mUnk_cc[index];
             }
         } else {
-            characterIndex = i;
-            kartIndex = i * 3;
+            characterIndex = index;
+            kartIndex = index * 3;
         }
-        SetNextRaceEntry(i, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, 3);
+        SetNextRaceEntry(index, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, 3);
     }
 }
 
 s32 AdvanceToNextCourse(void) {
     BOOL result;
-    s32 i;
-    s32 v;
-    s32 x;
+    s32 entryIndex;
+    s32 newSlot;
+    s32 oldSlot;
     result = TRUE;
     gRaceSetup->mNextHeader.mCourseNumber++;
     if (gRaceSetup->mListedCpuCount > 1) {
-        for (i = 0; i < gRaceSetup->mKartCount; i++) {
-            x = gRaceSetup->mCurrentEntries[i].mPlayer.mListedCpuSlot;
-            v = 3;
-            if (x != 0) {
-                if (x == 1) {
-                    v = 0;
+        for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex++) {
+            oldSlot = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot;
+            newSlot = 3;
+            if (oldSlot != 0) {
+                if (oldSlot == 1) {
+                    newSlot = 0;
                 }
             } else {
-                v = 1;
+                newSlot = 1;
             }
-            gRaceSetup->mNextEntries[i].mPlayer.mListedCpuSlot = v;
+            gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuSlot = newSlot;
         }
     }
     switch (gRaceSetup->mCourseListMode) {

@@ -32,28 +32,28 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_020681f0.h"
 
-void StartKartState2(Kart *kart, int a, int b) {
-    int d = 1;
+void StartKartState2(Kart *kart, int spinCount, int skipSound) {
+    int direction = 1;
 
     StartKartState(kart, KART_STATE_SPIN);
     if (kart->mUnk_44 & 0xa) {
         if (kart->mTurnDirection == 1) {
-            d = -1;
+            direction = -1;
         }
     } else if (kart->mTurnRatio < 0) {
-        d = -1;
+        direction = -1;
     }
     kart->mYRotationAnglePerFrame = 0x750;
-    kart->mYRotationAnglePerFrame = kart->mYRotationAnglePerFrame * d;
+    kart->mYRotationAnglePerFrame = kart->mYRotationAnglePerFrame * direction;
     kart->mYRotationAngle = 0;
     kart->mYRotationAngleSum = 0;
-    kart->mYRotationCount = a;
+    kart->mYRotationCount = spinCount;
     kart->mUnk_4c |= 0x20;
     StartKartItemInUseOneCountdown(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunPendingDropOnKartHit();
     }
-    if (b != 0) {
+    if (skipSound != 0) {
         return;
     }
     if (kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT)) {
@@ -139,22 +139,22 @@ void StartKartState6(Kart *kart) {
 }
 
 void AdvanceKartState6(Kart *kart) {
-    Vec3 a;
-    s32 c;
-    u16 i;
+    Vec3 launchAxis;
+    s32 value;
+    u16 swingAngle;
 
     if (kart->mRotationEndFrames == 0) {
-        MtxFx33 m;
+        MtxFx33 swingMtx;
 
         kart->mForwardSpeed = 0;
         if ((kart->mRotationAngleSum > 0 ? kart->mRotationAngleSum : -kart->mRotationAngleSum) < 0x1ffff) {
             kart->mRotationAngle = kart->mRotationAngle - kart->mRotationAnglePerFrame;
             kart->mRotationAngleSum = kart->mRotationAngleSum + kart->mRotationAnglePerFrame;
-            c = kart->mRotationAnglePerFrame;
-            if (c <= 0xc8) {
+            value = kart->mRotationAnglePerFrame;
+            if (value <= 0xc8) {
                 kart->mRotationAnglePerFrame = 0xc8;
             } else {
-                kart->mRotationAnglePerFrame = MUL_FIXED12_NO_ROUND(c, 0xf85);
+                kart->mRotationAnglePerFrame = MUL_FIXED12_NO_ROUND(value, 0xf85);
             }
         } else {
             kart->mRotationAngle = 0;
@@ -173,15 +173,15 @@ void AdvanceKartState6(Kart *kart) {
             kart->mLaunchAxisSwingAngleSum += 0x3e8;
             kart->mLaunchAxisSwing = FX_SinIdx(kart->mLaunchAxisSwingAngle);
         }
-        i = MUL_FIXED12_NO_ROUND(kart->mLaunchAxisSwing, 0xce4);
-        MTX_RotAxis33(&m, &kart->mLaunchForward, FX_SinIdx(i), FX_CosIdx(i));
-        MTX_MultVec33(&kart->mRotationAxis, &m, &a);
-        QuaternionFromAxisAngle(&a, kart->mRotationAngle, &kart->mRotationQuaternion);
+        swingAngle = MUL_FIXED12_NO_ROUND(kart->mLaunchAxisSwing, 0xce4);
+        MTX_RotAxis33(&swingMtx, &kart->mLaunchForward, FX_SinIdx(swingAngle), FX_CosIdx(swingAngle));
+        MTX_MultVec33(&kart->mRotationAxis, &swingMtx, &launchAxis);
+        QuaternionFromAxisAngle(&launchAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
     } else {
-        Vec4 q;
+        Vec4 targetQuaternion;
 
-        q = data_usa_0216556c;
-        QuaternionBlend(&kart->mRotationQuaternion, &q, &kart->mRotationQuaternion, 0x266);
+        targetQuaternion = data_usa_0216556c;
+        QuaternionBlend(&kart->mRotationQuaternion, &targetQuaternion, &kart->mRotationQuaternion, 0x266);
     }
     QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
     if (!(kart->mUnk_4c & 0x80000000)) {
@@ -194,9 +194,9 @@ void AdvanceKartState6(Kart *kart) {
                 return;
             }
             kart->mCollisionStepFrames = 0x46;
-            c = kart->mRotationEndFrames;
+            value = kart->mRotationEndFrames;
             kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
-            kart->mStateEndTimer = c;
+            kart->mStateEndTimer = value;
             kart->mUnk_4c |= 0x80000000;
             return;
         }
@@ -222,35 +222,35 @@ void AdvanceKartState6(Kart *kart) {
 }
 
 BOOL TryStartKartState3(Kart *kart) {
-    BOOL v1;
-    BOOL v2;
-    BOOL c;
-    int v;
-    u32 f = kart->mUnk_4c;
+    BOOL allowed;
+    BOOL blocked;
+    BOOL hasOtherState;
+    int state;
+    u32 flags = kart->mUnk_4c;
 
-    if (f & KART_4C_BLINK_GUARD) {
-        v1 = FALSE;
+    if (flags & KART_4C_BLINK_GUARD) {
+        allowed = FALSE;
     } else if (kart->mUnk_7c & 0x200) {
-        if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(f & 0x10000040)) {
-            v1 = TRUE;
+        if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(flags & 0x10000040)) {
+            allowed = TRUE;
         } else {
-            v1 = FALSE;
+            allowed = FALSE;
         }
     } else {
-        v2 = TRUE;
-        if (!(f & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
-            v = kart->mState;
-            c = FALSE;
-            if (v != KART_STATE_NORMAL && v != KART_STATE_1 && v != KART_STATE_SPIN) {
-                c = TRUE;
+        blocked = TRUE;
+        if (!(flags & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
+            state = kart->mState;
+            hasOtherState = FALSE;
+            if (state != KART_STATE_NORMAL && state != KART_STATE_1 && state != KART_STATE_SPIN) {
+                hasOtherState = TRUE;
             }
-            if (c == FALSE) {
-                v2 = FALSE;
+            if (hasOtherState == FALSE) {
+                blocked = FALSE;
             }
         }
-        v1 = v2 == FALSE;
+        allowed = blocked == FALSE;
     }
-    if (!v1) {
+    if (!allowed) {
         return FALSE;
     }
     StartKartState3(kart);
@@ -261,7 +261,7 @@ BOOL TryStartKartState3(Kart *kart) {
 }
 
 void StartKartState3(Kart *kart) {
-    Vec3 v;
+    Vec3 forward;
 
     StartKartState(kart, KART_STATE_FLIP);
     kart->mUnk_4c |= 0x10;
@@ -272,8 +272,8 @@ void StartKartState3(Kart *kart) {
     kart->mRotationAngleSum = 0;
     kart->mForwardSpeed = kart->mForwardSpeed + 0x800;
     GetKartMatrixRow0(kart, &kart->mRotationAxis);
-    GetKartForward(kart, &v);
-    VEC_MultAdd(0x2e2, &v, &kart->mRotationAxis, &kart->mRotationAxis);
+    GetKartForward(kart, &forward);
+    VEC_MultAdd(0x2e2, &forward, &kart->mRotationAxis, &kart->mRotationAxis);
     Vec3NormalizeAndGetLengthUnchecked(&kart->mRotationAxis, &kart->mRotationAxis);
     QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
     kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, 0x99a);
@@ -292,7 +292,7 @@ void StartKartState3(Kart *kart) {
 }
 
 void AdvanceKartState3(Kart *kart) {
-    s16 n;
+    s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
         kart->mVerticalSpeed = data_usa_021654e8;
@@ -319,10 +319,10 @@ void AdvanceKartState3(Kart *kart) {
         QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
         return;
     }
-    n = kart->mRotationEndFrames;
-    if (n == 0) {
+    endFrames = kart->mRotationEndFrames;
+    if (endFrames == 0) {
         kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
-        kart->mStateEndTimer = n;
+        kart->mStateEndTimer = endFrames;
         kart->mUnk_4c &= ~0x10;
     }
     kart->mRotationEndFrames++;
@@ -340,58 +340,58 @@ void AdvanceKartState3(Kart *kart) {
 }
 
 BOOL TryStartKartState4(Kart *kart, MapObject *mapObject) {
-    Vec3 t;
-    Vec3 u;
-    Vec3 w;
-    BOOL v1;
-    BOOL v2;
-    BOOL c;
-    int v;
-    u32 f = kart->mUnk_4c;
+    Vec3 pushDirection;
+    Vec3 offset;
+    Vec3 cross;
+    BOOL allowed;
+    BOOL blocked;
+    BOOL hasOtherState;
+    int state;
+    u32 flags = kart->mUnk_4c;
 
-    if (f & KART_4C_BLINK_GUARD) {
-        v1 = FALSE;
+    if (flags & KART_4C_BLINK_GUARD) {
+        allowed = FALSE;
     } else if (kart->mUnk_7c & 0x200) {
-        if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(f & 0x10000040)) {
-            v1 = TRUE;
+        if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(flags & 0x10000040)) {
+            allowed = TRUE;
         } else {
-            v1 = FALSE;
+            allowed = FALSE;
         }
     } else {
-        v2 = TRUE;
-        if (!(f & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
-            v = kart->mState;
-            c = FALSE;
-            if (v != KART_STATE_NORMAL && v != KART_STATE_1 && v != KART_STATE_SPIN) {
-                c = TRUE;
+        blocked = TRUE;
+        if (!(flags & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
+            state = kart->mState;
+            hasOtherState = FALSE;
+            if (state != KART_STATE_NORMAL && state != KART_STATE_1 && state != KART_STATE_SPIN) {
+                hasOtherState = TRUE;
             }
-            if (c == FALSE) {
-                v2 = FALSE;
+            if (hasOtherState == FALSE) {
+                blocked = FALSE;
             }
         }
-        v1 = v2 == FALSE;
+        allowed = blocked == FALSE;
     }
-    if (!v1) {
+    if (!allowed) {
         return FALSE;
     }
-    t = mapObject->mMatrix.mRows[0];
-    VEC_Subtract(&kart->mPos, &mapObject->mPos, &u);
-    VEC_CrossProduct(&mapObject->mMatrix.mRows[2], &u, &w);
-    if (VEC_DotProduct(&w, &mapObject->mMatrix.mRows[1]) < 0) {
-        t.x = -t.x;
-        t.y = -t.y;
-        t.z = -t.z;
+    pushDirection = mapObject->mMatrix.mRows[0];
+    VEC_Subtract(&kart->mPos, &mapObject->mPos, &offset);
+    VEC_CrossProduct(&mapObject->mMatrix.mRows[2], &offset, &cross);
+    if (VEC_DotProduct(&cross, &mapObject->mMatrix.mRows[1]) < 0) {
+        pushDirection.x = -pushDirection.x;
+        pushDirection.y = -pushDirection.y;
+        pushDirection.z = -pushDirection.z;
     }
-    StartKartState4(kart, &t, 0);
+    StartKartState4(kart, &pushDirection, 0);
     return TRUE;
 }
 
-void StartKartState4(Kart *kart, const Vec3 *a, s32 b) {
-    Vec3 v;
-    s32 r;
-    s32 x;
-    s32 y;
-    s32 z;
+void StartKartState4(Kart *kart, const Vec3 *pushDirection, s32 record) {
+    Vec3 unitY;
+    s32 dot;
+    s32 pushX;
+    s32 pushY;
+    s32 pushZ;
 
     StartKartState(kart, KART_STATE_PUSH_FLIP);
     kart->mUnk_4c |= 0x10;
@@ -400,24 +400,24 @@ void StartKartState4(Kart *kart, const Vec3 *a, s32 b) {
     kart->mRotationAnglePerFrame = data_usa_021654d4;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
-    v = gKartVec3UnitY;
-    Vec3CrossUnrounded(&v, a, &kart->mRotationAxis);
+    unitY = gKartVec3UnitY;
+    Vec3CrossUnrounded(&unitY, pushDirection, &kart->mRotationAxis);
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunPendingDropOnKartHit();
     }
     if (!(kart->mUnk_7c & 0x400)) {
-        x = MUL_FIXED12_NO_ROUND(a->x, 0x1b33);
-        y = MUL_FIXED12_NO_ROUND(a->y, 0x1b33);
-        z = MUL_FIXED12_NO_ROUND(a->z, 0x1b33);
-        kart->mHitVelocity.x += x;
-        kart->mHitVelocity.z += z;
-        kart->mVerticalSpeed += y;
-        r = Vec3DotUnrounded(&kart->mTurnedForward, a);
-        if (r <= 0) {
+        pushX = MUL_FIXED12_NO_ROUND(pushDirection->x, 0x1b33);
+        pushY = MUL_FIXED12_NO_ROUND(pushDirection->y, 0x1b33);
+        pushZ = MUL_FIXED12_NO_ROUND(pushDirection->z, 0x1b33);
+        kart->mHitVelocity.x += pushX;
+        kart->mHitVelocity.z += pushZ;
+        kart->mVerticalSpeed += pushY;
+        dot = Vec3DotUnrounded(&kart->mTurnedForward, pushDirection);
+        if (dot <= 0) {
             kart->mForwardSpeed = 0;
         } else {
-            kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, r) >> 2;
+            kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, dot) >> 2;
         }
     }
     QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
@@ -430,20 +430,20 @@ void StartKartState4(Kart *kart, const Vec3 *a, s32 b) {
     if (!(kart->mUnk_48 & (KART_48_SINKING | KART_48_RESPAWN_WAIT))) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 2);
     }
-    if (b == 0) {
+    if (record == 0) {
         return;
     }
     if (kart->mUnk_7c & 0x200) {
         kart->mParticipantRecordData->mEventToggleFlags ^= 0x20;
     }
     if (kart->mUnk_7c & 0x200) {
-        kart->mParticipantRecordData->mPushDirection = *a;
+        kart->mParticipantRecordData->mPushDirection = *pushDirection;
         kart->mParticipantRecordData->mStartedStateKind = 4;
     }
 }
 
 void AdvanceKartState4(Kart *kart) {
-    s16 n;
+    s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
         kart->mVerticalSpeed = data_usa_0216550c;
@@ -462,10 +462,10 @@ void AdvanceKartState4(Kart *kart) {
         QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
         return;
     }
-    n = kart->mRotationEndFrames;
-    if (n == 0) {
+    endFrames = kart->mRotationEndFrames;
+    if (endFrames == 0) {
         kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
-        kart->mStateEndTimer = n;
+        kart->mStateEndTimer = endFrames;
         kart->mUnk_4c &= ~0x10;
     }
     kart->mRotationEndFrames++;
@@ -485,24 +485,24 @@ void AdvanceKartState4(Kart *kart) {
     }
 }
 
-s32 StartKartState5(Kart *kart, const Vec3 *a, s32 b) {
-    Vec3 v;
-    Vec3 w;
-    s32 r;
-    s32 x;
-    s32 y;
-    s32 z;
+s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record) {
+    Vec3 flatDirection;
+    Vec3 unitY;
+    s32 value;
+    s32 pushX;
+    s32 pushY;
+    s32 pushZ;
 
     StartKartState(kart, KART_STATE_PUSH_DOUBLE_FLIP);
-    v = *a;
-    v.y = 0;
-    if (LENGTH_SQUARED(v) >= 16) {
-        r = Vec3NormalizeAndGetLengthUnchecked(&v, &v);
+    flatDirection = *pushDirection;
+    flatDirection.y = 0;
+    if (LENGTH_SQUARED(flatDirection) >= 16) {
+        value = Vec3NormalizeAndGetLengthUnchecked(&flatDirection, &flatDirection);
     } else {
-        r = 0;
+        value = 0;
     }
-    if (r == 0) {
-        v = data_02154f88;
+    if (value == 0) {
+        flatDirection = data_02154f88;
     }
     kart->mUnk_4c |= 0x10;
     kart->mRotationAngle = 0;
@@ -510,20 +510,20 @@ s32 StartKartState5(Kart *kart, const Vec3 *a, s32 b) {
     kart->mRotationAnglePerFrame = data_usa_021654e0;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
-    w = gKartVec3UnitY;
-    Vec3CrossUnrounded(&w, &v, &kart->mRotationAxis);
+    unitY = gKartVec3UnitY;
+    Vec3CrossUnrounded(&unitY, &flatDirection, &kart->mRotationAxis);
     if (!(kart->mUnk_7c & 0x400)) {
-        x = ((s64) v.x << 14) >> 12;
-        y = ((s64) v.y << 14) >> 12;
-        z = ((s64) v.z << 14) >> 12;
-        kart->mHitVelocity.x += x;
-        kart->mHitVelocity.z += z;
-        kart->mVerticalSpeed += y;
-        r = Vec3DotUnrounded(&kart->mTurnedForward, &v);
-        if (r <= 0) {
+        pushX = ((s64) flatDirection.x << 14) >> 12;
+        pushY = ((s64) flatDirection.y << 14) >> 12;
+        pushZ = ((s64) flatDirection.z << 14) >> 12;
+        kart->mHitVelocity.x += pushX;
+        kart->mHitVelocity.z += pushZ;
+        kart->mVerticalSpeed += pushY;
+        value = Vec3DotUnrounded(&kart->mTurnedForward, &flatDirection);
+        if (value <= 0) {
             kart->mForwardSpeed = 0;
         } else {
-            kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, r) >> 2;
+            kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, value) >> 2;
         }
     }
     QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
@@ -540,12 +540,12 @@ s32 StartKartState5(Kart *kart, const Vec3 *a, s32 b) {
         StartKartSeqArcSound(kart, kart->mSoundIndex, 2);
     }
     kart->mUnk_4c |= 0x1;
-    if (b != 0) {
+    if (record != 0) {
         if (kart->mUnk_7c & 0x200) {
             kart->mParticipantRecordData->mEventToggleFlags ^= 0x40;
         }
         if (kart->mUnk_7c & 0x200) {
-            kart->mParticipantRecordData->mPushDirection = *a;
+            kart->mParticipantRecordData->mPushDirection = *pushDirection;
             kart->mParticipantRecordData->mStartedStateKind = 5;
         }
     }
@@ -553,7 +553,7 @@ s32 StartKartState5(Kart *kart, const Vec3 *a, s32 b) {
 }
 
 void AdvanceKartState5(Kart *kart) {
-    s16 n;
+    s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
         kart->mVerticalSpeed = data_usa_0216550c;
@@ -577,10 +577,10 @@ void AdvanceKartState5(Kart *kart) {
         QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
         return;
     }
-    n = kart->mRotationEndFrames;
-    if (n == 0) {
+    endFrames = kart->mRotationEndFrames;
+    if (endFrames == 0) {
         kart->mUnk_48 |= KART_48_STATE_END_TIMER | KART_48_INPUT_LOCKED;
-        kart->mStateEndTimer = n;
+        kart->mStateEndTimer = endFrames;
         kart->mUnk_4c &= ~0x10;
     }
     kart->mRotationEndFrames++;
@@ -601,7 +601,7 @@ void AdvanceKartState5(Kart *kart) {
 }
 
 void StartKartThunderShrink(Kart *kart) {
-    KartItemEffectState *q = &kart->mItemEffectData;
+    KartItemEffectState *itemEffect = &kart->mItemEffectData;
 
     if (kart->mUnk_4c & 0x10000040) {
         return;
@@ -612,8 +612,8 @@ void StartKartThunderShrink(Kart *kart) {
     if (kart->mUnk_48 & 0x10040) {
         return;
     }
-    q->mThunderShrinkTimer = data_usa_02154a54[GetKartRank(kart->mIndex) - 1];
-    q->mThunderShrinkFrameIndex = 0;
+    itemEffect->mThunderShrinkTimer = data_usa_02154a54[GetKartRank(kart->mIndex) - 1];
+    itemEffect->mThunderShrinkFrameIndex = 0;
     kart->mShrinkFactor = 0xb33;
     kart->mUnk_4c |= KART_4C_THUNDER_SHRINK;
     TrySpinKart(kart, 2, 1);
@@ -635,14 +635,14 @@ void StartKartThunderShrink(Kart *kart) {
 }
 
 void AdvanceKartThunderShrink(Kart *kart) {
-    KartItemEffectState *q = &kart->mItemEffectData;
+    KartItemEffectState *itemEffect = &kart->mItemEffectData;
 
-    if (q->mThunderShrinkTimer <= 0) {
-        if (q->mThunderShrinkFrameIndex == 0) {
+    if (itemEffect->mThunderShrinkTimer <= 0) {
+        if (itemEffect->mThunderShrinkFrameIndex == 0) {
             StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
         }
-        q->mThunderShrinkFrameIndex = q->mThunderShrinkFrameIndex + 1;
-        if (q->mThunderShrinkFrameIndex >= 0x19) {
+        itemEffect->mThunderShrinkFrameIndex = itemEffect->mThunderShrinkFrameIndex + 1;
+        if (itemEffect->mThunderShrinkFrameIndex >= 0x19) {
             kart->mScaleBase.x = 0x1000;
             kart->mScaleBase.y = 0x1000;
             kart->mScaleBase.z = 0x1000;
@@ -653,7 +653,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-            if (q->mThunderShrinkFrameIndex > 0x19) {
+            if (itemEffect->mThunderShrinkFrameIndex > 0x19) {
                 kart->mUnk_4c &= ~KART_4C_THUNDER_SHRINK;
                 if (!(kart->mUnk_4c & 0x10080)) {
                     kart->mShrinkFactor = 0x1000;
@@ -668,9 +668,9 @@ void AdvanceKartThunderShrink(Kart *kart) {
             return;
         }
         kart->mUnk_4c |= 0x100;
-        kart->mScaleFactor.x = gKartScaleFactorXTable[q->mThunderShrinkFrameIndex];
-        kart->mScaleFactor.y = gKartScaleFactorYTable[q->mThunderShrinkFrameIndex];
-        kart->mScaleFactor.z = gKartScaleFactorZTable[q->mThunderShrinkFrameIndex];
+        kart->mScaleFactor.x = gKartScaleFactorXTable[itemEffect->mThunderShrinkFrameIndex];
+        kart->mScaleFactor.y = gKartScaleFactorYTable[itemEffect->mThunderShrinkFrameIndex];
+        kart->mScaleFactor.z = gKartScaleFactorZTable[itemEffect->mThunderShrinkFrameIndex];
         kart->mScaleBase.x = 0x1000;
         kart->mScaleBase.y = 0x1000;
         kart->mScaleBase.z = 0x1000;
@@ -680,22 +680,22 @@ void AdvanceKartThunderShrink(Kart *kart) {
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
         return;
     }
-    q->mThunderShrinkTimer = q->mThunderShrinkTimer - 1;
+    itemEffect->mThunderShrinkTimer = itemEffect->mThunderShrinkTimer - 1;
     if (kart->mScaleBase.y > 0x800) {
-        s32 v = kart->mScaleBase.y;
+        s32 scale = kart->mScaleBase.y;
 
-        if (v < 0x800) {
-            v += 0x29;
-            if (v > 0x800) {
-                v = 0x800;
+        if (scale < 0x800) {
+            scale += 0x29;
+            if (scale > 0x800) {
+                scale = 0x800;
             }
         } else {
-            v -= 0x29;
-            if (v <= 0x800) {
-                v = 0x800;
+            scale -= 0x29;
+            if (scale <= 0x800) {
+                scale = 0x800;
             }
         }
-        kart->mScaleBase.y = v;
+        kart->mScaleBase.y = scale;
         kart->mScaleBase.z = kart->mScaleBase.y;
         kart->mScaleBase.x = kart->mScaleBase.z;
         kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);

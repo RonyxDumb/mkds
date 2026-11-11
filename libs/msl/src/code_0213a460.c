@@ -6,290 +6,296 @@
 #include "code_0213cae0.h"
 #include "code_0213ee6c.h"
 
-// Reads values through f(p, 0, 0), at most b of them, in base a. st is the state: 1, 2, 4, 8 and 0x10 while
-// reading, 0x20 or 0x40 once it stops. *q gets the count used, *r 1 after a '-', *s 1 when the value does not fit.
-u32 ScanInt32(int a, int b, Unk02138618Func f, ScanStringSource *p, int *q, int *r, int *s) {
+// Reads values through readChar(source, 0, 0), at most maxChars of them, in the given base. st is the state: 1, 2, 4, 8
+// and 0x10 while reading, 0x20 or 0x40 once it stops. *usedCount gets the count used, *negative 1 after a minus,
+// *overflow 1 when the value does not fit.
+u32 ScanInt32(int base, int maxChars, Unk02138618Func readChar, ScanStringSource *source, int *usedCount, int *negative,
+              int *overflow) {
     int st;
-    int n;
-    int k;
-    int c;
+    int consumed;
+    int leadingSpaces;
+    int currentChar;
     u32 acc;
     u32 lim;
 
-    k = 0;
-    *r = *s = 0;
+    leadingSpaces = 0;
+    *negative = *overflow = 0;
     st = 1;
-    n = k;
-    acc = k;
-    lim = k;
-    if (a < 0 || a == 1 || a > 36 || b < 1) {
+    consumed = leadingSpaces;
+    acc = leadingSpaces;
+    lim = leadingSpaces;
+    if (base < 0 || base == 1 || base > 36 || maxChars < 1) {
         st = 0x40;
     } else {
-        n++;
-        c = f(p, 0, 0);
+        consumed++;
+        currentChar = readChar(source, 0, 0);
     }
-    if (a != 0) {
-        lim = 0xffffffffU / a;
+    if (base != 0) {
+        lim = 0xffffffffU / base;
     }
-    while (n <= b && c != -1 && !(st & 0x60)) {
+    while (consumed <= maxChars && currentChar != -1 && !(st & 0x60)) {
         switch (st) {
             case 1:
-                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x100) {
-                    c = f(p, 0, 0);
-                    k++;
+                if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x100) {
+                    currentChar = readChar(source, 0, 0);
+                    leadingSpaces++;
                 } else {
-                    if (c == '+') {
-                        n++;
-                        c = f(p, 0, 0);
-                    } else if (c == '-') {
-                        n++;
-                        c = f(p, 0, 0);
-                        *r = 1;
+                    if (currentChar == '+') {
+                        consumed++;
+                        currentChar = readChar(source, 0, 0);
+                    } else if (currentChar == '-') {
+                        consumed++;
+                        currentChar = readChar(source, 0, 0);
+                        *negative = 1;
                     }
                     st = 2;
                 }
                 break;
             case 2:
-                if ((a == 0 || a == 16) && c == '0') {
+                if ((base == 0 || base == 16) && currentChar == '0') {
                     st = 4;
-                    n++;
-                    c = f(p, 0, 0);
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
                     st = 8;
                 }
                 break;
             case 4:
-                if (c == 'X' || c == 'x') {
-                    a = 16;
+                if (currentChar == 'X' || currentChar == 'x') {
+                    base = 16;
                     st = 8;
-                    n++;
-                    c = f(p, 0, 0);
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
-                    if (a == 0) {
-                        a = 8;
+                    if (base == 0) {
+                        base = 8;
                     }
                     st = 0x10;
                 }
                 break;
             case 8:
             case 0x10:
-                if (a == 0) {
-                    a = 10;
+                if (base == 0) {
+                    base = 10;
                 }
                 if (lim == 0) {
-                    lim = 0xffffffffU / a;
+                    lim = 0xffffffffU / base;
                 }
-                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8) {
-                    c -= '0';
-                    if (c >= a) {
+                if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8) {
+                    currentChar -= '0';
+                    if (currentChar >= base) {
                         st = st == 0x10 ? 0x20 : 0x40;
-                        c += '0';
+                        currentChar += '0';
                         break;
                     }
                 } else {
-                    if (!(((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x1) &&
-                          ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) - 0x37 < a)) {
+                    if (!(((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x1) &&
+                          ((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar]) - 0x37 <
+                              base)) {
                         st = st == 0x10 ? 0x20 : 0x40;
                         break;
                     }
-                    c = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
-                    c -= 0x37;
+                    currentChar = (currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar];
+                    currentChar -= 0x37;
                 }
                 if (acc > lim) {
-                    *s = 1;
+                    *overflow = 1;
                 }
-                acc *= a;
-                if (c > 0xffffffffU - acc) {
-                    *s = 1;
+                acc *= base;
+                if (currentChar > 0xffffffffU - acc) {
+                    *overflow = 1;
                 }
-                acc += c;
+                acc += currentChar;
                 st = 0x10;
-                n++;
-                c = f(p, 0, 0);
+                consumed++;
+                currentChar = readChar(source, 0, 0);
                 break;
         }
     }
     if (!(st & 0x34)) {
-        *q = acc = 0;
+        *usedCount = acc = 0;
     } else {
-        *q = n - 1 + k;
+        *usedCount = consumed - 1 + leadingSpaces;
     }
-    f(p, c, 1);
+    readChar(source, currentChar, 1);
     return acc;
 }
 
 // Same as ScanInt32 with a 64-bit result.
-u64 ScanInt64(int a, int b, Unk02138618Func f, void *p, int *q, int *r, int *s) {
+u64 ScanInt64(int base, int maxChars, Unk02138618Func readChar, void *source, int *usedCount, int *negative,
+              int *overflow) {
     int st;
-    int n;
-    int k;
-    int c;
+    int consumed;
+    int leadingSpaces;
+    int currentChar;
     u64 acc;
     u64 lim;
 
-    k = 0;
-    *r = *s = 0;
+    leadingSpaces = 0;
+    *negative = *overflow = 0;
     st = 1;
-    n = k;
-    acc = k;
-    lim = k;
-    if (a < 0 || a == 1 || a > 36 || b < 1) {
+    consumed = leadingSpaces;
+    acc = leadingSpaces;
+    lim = leadingSpaces;
+    if (base < 0 || base == 1 || base > 36 || maxChars < 1) {
         st = 0x40;
     } else {
-        n++;
-        c = f(p, 0, 0);
+        consumed++;
+        currentChar = readChar(source, 0, 0);
     }
-    if (a != 0) {
-        lim = 0xffffffffffffffffULL / a;
+    if (base != 0) {
+        lim = 0xffffffffffffffffULL / base;
     }
-    while (n <= b && c != -1 && !(st & 0x60)) {
+    while (consumed <= maxChars && currentChar != -1 && !(st & 0x60)) {
         switch (st) {
             case 1:
-                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x100) {
-                    c = f(p, 0, 0);
-                    k++;
+                if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x100) {
+                    currentChar = readChar(source, 0, 0);
+                    leadingSpaces++;
                 } else {
-                    if (c == '+') {
-                        n++;
-                        c = f(p, 0, 0);
-                    } else if (c == '-') {
-                        n++;
-                        c = f(p, 0, 0);
-                        *r = 1;
+                    if (currentChar == '+') {
+                        consumed++;
+                        currentChar = readChar(source, 0, 0);
+                    } else if (currentChar == '-') {
+                        consumed++;
+                        currentChar = readChar(source, 0, 0);
+                        *negative = 1;
                     }
                     st = 2;
                 }
                 break;
             case 2:
-                if ((a == 0 || a == 16) && c == '0') {
+                if ((base == 0 || base == 16) && currentChar == '0') {
                     st = 4;
-                    n++;
-                    c = f(p, 0, 0);
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
                     st = 8;
                 }
                 break;
             case 4:
-                if (c == 'X' || c == 'x') {
-                    a = 16;
+                if (currentChar == 'X' || currentChar == 'x') {
+                    base = 16;
                     st = 8;
-                    n++;
-                    c = f(p, 0, 0);
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
-                    if (a == 0) {
-                        a = 8;
+                    if (base == 0) {
+                        base = 8;
                     }
                     st = 0x10;
                 }
                 break;
             case 8:
             case 0x10:
-                if (a == 0) {
-                    a = 10;
+                if (base == 0) {
+                    base = 10;
                 }
                 if (lim == 0) {
-                    lim = 0xffffffffffffffffULL / a;
+                    lim = 0xffffffffffffffffULL / base;
                 }
-                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8) {
-                    c -= '0';
-                    if (c >= a) {
+                if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8) {
+                    currentChar -= '0';
+                    if (currentChar >= base) {
                         st = st == 0x10 ? 0x20 : 0x40;
-                        c += '0';
+                        currentChar += '0';
                         break;
                     }
                 } else {
-                    if (!(((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x1) &&
-                          ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) - 0x37 < a)) {
+                    if (!(((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x1) &&
+                          ((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar]) - 0x37 <
+                              base)) {
                         st = st == 0x10 ? 0x20 : 0x40;
                         break;
                     }
-                    c = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
-                    c -= 0x37;
+                    currentChar = (currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar];
+                    currentChar -= 0x37;
                 }
                 if (acc > lim) {
-                    *s = 1;
+                    *overflow = 1;
                 }
-                acc *= a;
-                if (c > 0xffffffffffffffffULL - acc) {
-                    *s = 1;
+                acc *= base;
+                if (currentChar > 0xffffffffffffffffULL - acc) {
+                    *overflow = 1;
                 }
-                acc += c;
+                acc += currentChar;
                 st = 0x10;
-                n++;
-                c = f(p, 0, 0);
+                consumed++;
+                currentChar = readChar(source, 0, 0);
                 break;
         }
     }
     if (!(st & 0x34)) {
-        *q = acc = 0;
+        *usedCount = acc = 0;
     } else {
-        *q = n - 1 + k;
+        *usedCount = consumed - 1 + leadingSpaces;
     }
-    f(p, c, 1);
+    readChar(source, currentChar, 1);
     return acc;
 }
 
-u32 strtoul(const char *s, const char **end, int base) {
-    int n;
+u32 strtoul(const char *string, const char **end, int base) {
+    int usedCount;
     int neg;
     int ovf;
     ScanStringSource st;
-    u32 v;
+    u32 value;
 
-    st.mNextChar = s;
+    st.mNextChar = string;
     st.mAtEnd = 0;
-    v = ScanInt32(base, 0x7fffffff, ScanStringSourceOp, &st, &n, &neg, &ovf);
+    value = ScanInt32(base, 0x7fffffff, ScanStringSourceOp, &st, &usedCount, &neg, &ovf);
     if (end != 0) {
-        *end = s + n;
+        *end = string + usedCount;
     }
     if (ovf != 0) {
         gLibErrorCode = 0x22;
         return -1;
     }
     if (neg != 0) {
-        v = -v;
+        value = -value;
     }
-    return v;
+    return value;
 }
 
-long strtol(const char *s, const char **end, int base) {
-    int n;
+long strtol(const char *string, const char **end, int base) {
+    int usedCount;
     int neg;
     int ovf;
     ScanStringSource st;
-    u32 v;
+    u32 value;
 
-    st.mNextChar = s;
+    st.mNextChar = string;
     st.mAtEnd = 0;
-    v = ScanInt32(base, 0x7fffffff, ScanStringSourceOp, &st, &n, &neg, &ovf);
+    value = ScanInt32(base, 0x7fffffff, ScanStringSourceOp, &st, &usedCount, &neg, &ovf);
     if (end != 0) {
-        *end = s + n;
+        *end = string + usedCount;
     }
-    if (ovf != 0 || (neg == 0 && v > 0x7fffffff) || (neg != 0 && v > 0x80000000)) {
-        v = neg != 0 ? 0x80000000 : 0x7fffffff;
+    if (ovf != 0 || (neg == 0 && value > 0x7fffffff) || (neg != 0 && value > 0x80000000)) {
+        value = neg != 0 ? 0x80000000 : 0x7fffffff;
         gLibErrorCode = 0x22;
-        return v;
+        return value;
     }
     if (neg != 0) {
-        v = -v;
+        value = -value;
     }
-    return v;
+    return value;
 }
 
-long StrtolBase10(const char *s) {
-    return strtol(s, 0, 10);
+long StrtolBase10(const char *string) {
+    return strtol(string, 0, 10);
 }
 
-/* f is called as f(p, 0, 0) for each next value and as f(p, c, 1) with a value already read. */
-double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
-    int s = 1;
-    int h = 0;
-    int n = 0;
-    int c;
-    int w = 0;
-    int m;
+/* readChar is called as readChar(source, 0, 0) for each next value and as readChar(source, currentChar, 1) with a value
+ * already read. */
+double ScanDouble(int maxChars, Unk02138618Func readChar, void *source, int *usedCount, int *overflow) {
+    int state = 1;
+    int hexState = 0;
+    int consumed = 0;
+    int currentChar;
+    int leadingSpaces = 0;
+    int negative;
     int em;
-    int e;
+    int exponent;
     int ea;
     int sg;
     char *hp;
@@ -299,242 +305,248 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
     int hk;
     int hm;
     u32 hd;
-    double x;
+    double result;
     DigitRecord rec = {0};
     char hb[8];
 
-    m = 0;
-    *r = 0;
+    negative = 0;
+    *overflow = 0;
     em = 0;
-    e = 0;
+    exponent = 0;
     ea = 0;
     sg = 0;
     he = 0;
     hm = 0;
     hd = 0;
     hz = hb;
-    n++;
-    c = f(p, 0, 0);
+    consumed++;
+    currentChar = readChar(source, 0, 0);
 
-    while (n <= a && c != -1 && !(s & 0x1800)) {
-        switch (s) {
+    while (consumed <= maxChars && currentChar != -1 && !(state & 0x1800)) {
+        switch (state) {
             case 1:
-                if ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x100) {
-                    c = f(p, 0, 0);
-                    w++;
+                if ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x100) {
+                    currentChar = readChar(source, 0, 0);
+                    leadingSpaces++;
                 } else {
-                    switch ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) {
+                    switch ((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar]) {
                         case '-':
-                            m = 1;
-                    /* fall through */
+                            negative = 1;
+                            /* fall through */
                         case '+':
-                            n++;
-                            c = f(p, 0, 0);
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                             sg = 1;
                             break;
                         case 'I':
-                            n++;
-                            c = f(p, 0, 0);
-                            s = 0x4000;
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
+                            state = 0x4000;
                             break;
                         case 'N':
-                            n++;
-                            c = f(p, 0, 0);
-                            s = 0x2000;
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
+                            state = 0x2000;
                             break;
                         default:
-                            s = 2;
+                            state = 2;
                             break;
                     }
                 }
                 break;
             case 0x4000: {
-                int i = 1;
-                char t[9] = "INFINITY";
-                char *tp;
+                int matchCount = 1;
+                char pattern[9] = "INFINITY";
+                char *patternCursor;
 
-                tp = t + 1;
-                while (i < 8 && *tp == ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c])) {
-                    tp++;
-                    i++;
-                    n++;
-                    c = f(p, 0, 0);
+                patternCursor = pattern + 1;
+                while (matchCount < 8 &&
+                       *patternCursor ==
+                           ((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar])) {
+                    patternCursor++;
+                    matchCount++;
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 }
-                if (i == 3 || i == 8) {
-                    if (m) {
-                        x = -data_0216ec98;
+                if (matchCount == 3 || matchCount == 8) {
+                    if (negative) {
+                        result = -data_0216ec98;
                     } else {
-                        x = data_0216ec98;
+                        result = data_0216ec98;
                     }
-                    *q = w + i + sg;
-                    return x;
+                    *usedCount = leadingSpaces + matchCount + sg;
+                    return result;
                 }
-                s = 0x1000;
+                state = 0x1000;
                 break;
             }
             case 0x2000: {
-                int i = 1;
-                int j = 0;
-                char t[5] = "NAN(";
+                int matchCount = 1;
+                int nameLength = 0;
+                char pattern[5] = "NAN(";
                 char buf[32] = {0};
-                char *tp;
+                char *patternCursor;
 
-                tp = t + 1;
-                while (i < 4 && *tp == ((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c])) {
-                    tp++;
-                    i++;
-                    n++;
-                    c = f(p, 0, 0);
+                patternCursor = pattern + 1;
+                while (matchCount < 4 &&
+                       *patternCursor ==
+                           ((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar])) {
+                    patternCursor++;
+                    matchCount++;
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 }
-                if (i == 3 || i == 4) {
-                    if (i == 4) {
-                        while (j < 32 && (((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8) ||
-                                          ((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x1) || c == '.')) {
-                            buf[j++] = c;
-                            n++;
-                            c = f(p, 0, 0);
+                if (matchCount == 3 || matchCount == 4) {
+                    if (matchCount == 4) {
+                        while (nameLength < 32 &&
+                               (((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8) ||
+                                ((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x1) ||
+                                currentChar == '.')) {
+                            buf[nameLength++] = currentChar;
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         }
-                        if (c != ')') {
-                            s = 0x1000;
+                        if (currentChar != ')') {
+                            state = 0x1000;
                             break;
                         }
-                        j++;
+                        nameLength++;
                     }
-                    buf[j] = 0;
-                    if (m) {
-                        x = -nan(buf);
+                    buf[nameLength] = 0;
+                    if (negative) {
+                        result = -nan(buf);
                     } else {
-                        x = nan(buf);
+                        result = nan(buf);
                     }
-                    *q = w + i + j + sg;
-                    return x;
+                    *usedCount = leadingSpaces + matchCount + nameLength + sg;
+                    return result;
                 }
-                s = 0x1000;
+                state = 0x1000;
                 break;
             }
             case 2:
-                if (c == '.') {
-                    s = 0x10;
-                    n++;
-                    c = f(p, 0, 0);
-                } else if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                    s = 0x1000;
-                } else if (c == '0') {
-                    int t;
+                if (currentChar == '.') {
+                    state = 0x10;
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
+                } else if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                    state = 0x1000;
+                } else if (currentChar == '0') {
+                    int charValue;
 
-                    n++;
-                    c = t = f(p, 0, 0);
-                    if (((t < 0 || t >= 0x80) ? t : gUpperCaseMap[t]) == 'X') {
-                        s = 0x8000;
-                        h = 1;
+                    consumed++;
+                    currentChar = charValue = readChar(source, 0, 0);
+                    if (((charValue < 0 || charValue >= 0x80) ? charValue : gUpperCaseMap[charValue]) == 'X') {
+                        state = 0x8000;
+                        hexState = 1;
                     } else {
-                        s = 4;
+                        state = 4;
                     }
                 } else {
-                    s = 8;
+                    state = 8;
                 }
                 break;
             case 4:
-                if (c == '0') {
-                    n++;
-                    c = f(p, 0, 0);
+                if (currentChar == '0') {
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
-                    s = 8;
+                    state = 8;
                 }
                 break;
             case 8:
-                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                    if (c == '.') {
-                        s = 0x20;
-                        n++;
-                        c = f(p, 0, 0);
+                if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                    if (currentChar == '.') {
+                        state = 0x20;
+                        consumed++;
+                        currentChar = readChar(source, 0, 0);
                     } else {
-                        s = 0x40;
+                        state = 0x40;
                     }
                 } else {
                     if (rec.mDigitCount < 20) {
-                        rec.mDigits[rec.mDigitCount++] = c;
+                        rec.mDigits[rec.mDigitCount++] = currentChar;
                     } else {
                         ea++;
                     }
-                    n++;
-                    c = f(p, 0, 0);
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 }
                 break;
             case 0x10:
-                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                    s = 0x1000;
+                if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                    state = 0x1000;
                 } else {
-                    s = 0x20;
+                    state = 0x20;
                 }
                 break;
             case 0x20:
-                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                    s = 0x40;
+                if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                    state = 0x40;
                 } else {
                     if (rec.mDigitCount < 20) {
-                        if (c != '0' || rec.mDigitCount != 0) {
-                            rec.mDigits[rec.mDigitCount++] = c;
+                        if (currentChar != '0' || rec.mDigitCount != 0) {
+                            rec.mDigits[rec.mDigitCount++] = currentChar;
                         }
                         ea--;
                     }
-                    n++;
-                    c = f(p, 0, 0);
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 }
                 break;
             case 0x40:
-                if (((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) == 'E') {
-                    s = 0x80;
-                    n++;
-                    c = f(p, 0, 0);
+                if (((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar]) == 'E') {
+                    state = 0x80;
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
-                    s = 0x800;
+                    state = 0x800;
                 }
                 break;
             case 0x80:
-                if (c == '+') {
-                    n++;
-                    c = f(p, 0, 0);
-                } else if (c == '-') {
-                    n++;
-                    c = f(p, 0, 0);
+                if (currentChar == '+') {
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
+                } else if (currentChar == '-') {
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                     em = 1;
                 }
-                s = 0x100;
+                state = 0x100;
                 break;
             case 0x100:
-                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                    s = 0x1000;
-                } else if (c == '0') {
-                    s = 0x200;
-                    n++;
-                    c = f(p, 0, 0);
+                if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                    state = 0x1000;
+                } else if (currentChar == '0') {
+                    state = 0x200;
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
-                    s = 0x400;
+                    state = 0x400;
                 }
                 break;
             case 0x200:
-                if (c == '0') {
-                    n++;
-                    c = f(p, 0, 0);
+                if (currentChar == '0') {
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 } else {
-                    s = 0x400;
+                    state = 0x400;
                 }
                 break;
             case 0x400:
-                if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                    s = 0x800;
+                if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                    state = 0x800;
                 } else {
-                    e = e * 10 + (c - '0');
-                    if (e > 0x7fff) {
-                        *r = 1;
+                    exponent = exponent * 10 + (currentChar - '0');
+                    if (exponent > 0x7fff) {
+                        *overflow = 1;
                     }
-                    n++;
-                    c = f(p, 0, 0);
+                    consumed++;
+                    currentChar = readChar(source, 0, 0);
                 }
                 break;
             case 0x8000:
-                switch (h) {
+                switch (hexState) {
                     case 1:
                         hz[0] = 0;
                         hz[1] = 0;
@@ -548,122 +560,125 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
                         lim = 14;
                         hd = 0;
                         hk = 0;
-                        h = 2;
-                        n++;
-                        c = f(p, 0, 0);
+                        hexState = 2;
+                        consumed++;
+                        currentChar = readChar(source, 0, 0);
                         break;
                     case 2:
-                        if (c == '0') {
-                            n++;
-                            c = f(p, 0, 0);
+                        if (currentChar == '0') {
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         } else {
-                            h = 4;
+                            hexState = 4;
                         }
                         break;
                     case 4:
-                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x400)) {
-                            if (c == '.') {
-                                h = 8;
-                                n++;
-                                c = f(p, 0, 0);
+                        if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x400)) {
+                            if (currentChar == '.') {
+                                hexState = 8;
+                                consumed++;
+                                currentChar = readChar(source, 0, 0);
                             } else {
-                                h = 0x10;
+                                hexState = 0x10;
                             }
                         } else if (hd < lim) {
-                            u8 v;
-                            u8 d;
-                            int t;
+                            u8 hexByte;
+                            u8 nibble;
+                            int upperChar;
 
                             hd++;
-                            v = hp[hk / 2];
-                            t = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
-                            d = t >= 'A' ? t - 0x37 : t - '0';
+                            hexByte = hp[hk / 2];
+                            upperChar =
+                                (currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar];
+                            nibble = upperChar >= 'A' ? upperChar - 0x37 : upperChar - '0';
                             if (hk % 2) {
-                                v |= d;
+                                hexByte |= nibble;
                             } else {
-                                v |= (u8) (d << 4);
+                                hexByte |= (u8) (nibble << 4);
                             }
-                            hp[hk++ / 2] = v;
-                            n++;
-                            c = f(p, 0, 0);
+                            hp[hk++ / 2] = hexByte;
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         } else {
-                            n++;
-                            c = f(p, 0, 0);
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         }
                         break;
                     case 8:
-                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x400)) {
-                            h = 0x10;
+                        if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x400)) {
+                            hexState = 0x10;
                         } else if (hd < lim) {
-                            u8 v;
-                            u8 d;
-                            int t;
+                            u8 hexByte;
+                            u8 nibble;
+                            int upperChar;
 
-                            v = hp[hk / 2];
-                            t = (c < 0 || c >= 0x80) ? c : gUpperCaseMap[c];
-                            d = t >= 'A' ? t - 0x37 : t - '0';
+                            hexByte = hp[hk / 2];
+                            upperChar =
+                                (currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar];
+                            nibble = upperChar >= 'A' ? upperChar - 0x37 : upperChar - '0';
                             if (hk % 2) {
-                                v |= d;
+                                hexByte |= nibble;
                             } else {
-                                v |= (u8) (d << 4);
+                                hexByte |= (u8) (nibble << 4);
                             }
-                            hp[hk++ / 2] = v;
-                            n++;
-                            c = f(p, 0, 0);
+                            hp[hk++ / 2] = hexByte;
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         } else {
-                            n++;
-                            c = f(p, 0, 0);
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         }
                         break;
                     case 0x10:
-                        if (((c < 0 || c >= 0x80) ? c : gUpperCaseMap[c]) == 'P') {
-                            h = 0x20;
-                            n++;
-                            c = f(p, 0, 0);
+                        if (((currentChar < 0 || currentChar >= 0x80) ? currentChar : gUpperCaseMap[currentChar]) ==
+                            'P') {
+                            hexState = 0x20;
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         } else {
-                            s = 0x800;
+                            state = 0x800;
                         }
                         break;
                     case 0x20:
-                        if (c == '-') {
+                        if (currentChar == '-') {
                             hm = 1;
-                        } else if (c != '+') {
-                            f(p, c, 1);
-                            n--;
+                        } else if (currentChar != '+') {
+                            readChar(source, currentChar, 1);
+                            consumed--;
                         }
-                        h = 0x40;
-                        n++;
-                        c = f(p, 0, 0);
+                        hexState = 0x40;
+                        consumed++;
+                        currentChar = readChar(source, 0, 0);
                         break;
                     case 0x40:
-                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                            s = 0x1000;
-                        } else if (c == '0') {
-                            h = 0x80;
-                            n++;
-                            c = f(p, 0, 0);
+                        if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                            state = 0x1000;
+                        } else if (currentChar == '0') {
+                            hexState = 0x80;
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         } else {
-                            h = 0x100;
+                            hexState = 0x100;
                         }
                         break;
                     case 0x80:
-                        if (c == '0') {
-                            n++;
-                            c = f(p, 0, 0);
+                        if (currentChar == '0') {
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         } else {
-                            h = 0x100;
+                            hexState = 0x100;
                         }
                         break;
                     case 0x100:
-                        if (!((c < 0 || c >= 0x80) ? 0 : gCharClassFlags[c] & 0x8)) {
-                            s = 0x800;
+                        if (!((currentChar < 0 || currentChar >= 0x80) ? 0 : gCharClassFlags[currentChar] & 0x8)) {
+                            state = 0x800;
                         } else {
-                            he = he * 10 + (c - '0');
-                            if (e > 0x7fff) {
-                                *r = 1;
+                            he = he * 10 + (currentChar - '0');
+                            if (exponent > 0x7fff) {
+                                *overflow = 1;
                             }
-                            n++;
-                            c = f(p, 0, 0);
+                            consumed++;
+                            currentChar = readChar(source, 0, 0);
                         }
                         break;
                 }
@@ -671,136 +686,136 @@ double ScanDouble(int a, Unk02138618Func f, void *p, int *q, int *r) {
         }
     }
 
-    if (s != 0x8000 ? !(s & 0xe2c) : (n - 1 <= 2 || !(h & 0x18e))) {
-        *q = 0;
+    if (state != 0x8000 ? !(state & 0xe2c) : (consumed - 1 <= 2 || !(hexState & 0x18e))) {
+        *usedCount = 0;
     } else {
-        *q = n - 1 + w;
+        *usedCount = consumed - 1 + leadingSpaces;
     }
-    f(p, c, 1);
+    readChar(source, currentChar, 1);
 
-    if (h == 0) {
-        int k;
-        char *dp;
+    if (hexState == 0) {
+        int digitIndex;
+        char *digitCursor;
 
         if (em) {
-            e = -e;
+            exponent = -exponent;
         }
-        k = rec.mDigitCount;
-        dp = &rec.mDigits[k];
-        while (k-- != 0 && *--dp == '0') {
+        digitIndex = rec.mDigitCount;
+        digitCursor = &rec.mDigits[digitIndex];
+        while (digitIndex-- != 0 && *--digitCursor == '0') {
             ea++;
         }
-        rec.mDigitCount = k + 1;
+        rec.mDigitCount = digitIndex + 1;
         if (rec.mDigitCount == 0) {
             rec.mDigits[rec.mDigitCount++] = '0';
         }
-        e += ea;
-        if (e < -0x8000 || e > 0x7fff) {
-            *r = 1;
+        exponent += ea;
+        if (exponent < -0x8000 || exponent > 0x7fff) {
+            *overflow = 1;
         }
-        if (*r) {
+        if (*overflow) {
             if (em) {
                 return 0.0;
             }
-            if (!m) {
+            if (!negative) {
                 return data_0216eca0;
             }
             return -data_0216eca0;
         }
-        rec.mExponent = e;
-        x = DigitCharsToDouble(&rec);
-        if (x != 0.0 && x < 2.2250738585072014e-308) {
-            *r = 1;
-        } else if (x > 1.7976931348623157e+308) {
-            *r = 1;
-            x = data_0216eca0;
+        rec.mExponent = exponent;
+        result = DigitCharsToDouble(&rec);
+        if (result != 0.0 && result < 2.2250738585072014e-308) {
+            *overflow = 1;
+        } else if (result > 1.7976931348623157e+308) {
+            *overflow = 1;
+            result = data_0216eca0;
         }
-        if (m && (s & 0xe2c)) {
-            x = -x;
+        if (negative && (state & 0xe2c)) {
+            result = -result;
         }
-        return x;
+        return result;
     } else {
-        u32 i;
-        u32 b;
-        u32 bp;
-        u8 *ob;
-        u8 v;
-        int j;
-        u8 cy;
-        u32 sh;
-        u32 t;
-        double u;
+        u32 leadingZeros;
+        u32 bitIndex;
+        u32 bitPos;
+        u8 *outBytes;
+        u8 byteValue;
+        int byteIndex;
+        u8 carry;
+        u32 shift;
+        u32 biasedExponent;
+        double hexValue;
 
-        ob = (u8 *) &u;
+        outBytes = (u8 *) &hexValue;
         if (hm) {
             he = -he;
         }
         he += hd * 4;
-        for (i = 0; i < 4 && !(hb[0] & (0x80 >> i)); i++) {
+        for (leadingZeros = 0; leadingZeros < 4 && !(hb[0] & (0x80 >> leadingZeros)); leadingZeros++) {
             he--;
         }
-        i++;
-        if (i != 0) {
-            cy = 0;
+        leadingZeros++;
+        if (leadingZeros != 0) {
+            carry = 0;
             for (hp = hb + 7; hp >= hb; hp--) {
-                v = *hp;
-                *hp = cy | (v << i);
-                cy = v >> (8 - i);
+                byteValue = *hp;
+                *hp = carry | (byteValue << leadingZeros);
+                carry = byteValue >> (8 - leadingZeros);
             }
         }
-        ob[0] = 0;
-        ob[1] = 0;
-        ob[2] = 0;
-        ob[3] = 0;
-        ob[4] = 0;
-        ob[5] = 0;
-        ob[6] = 0;
-        ob[7] = 0;
-        for (b = 0, bp = 12; b < 52; b += 8) {
-            v = hb[b / 8];
-            if (b + 8 > 52) {
-                v &= 0xff << (52 - b);
+        outBytes[0] = 0;
+        outBytes[1] = 0;
+        outBytes[2] = 0;
+        outBytes[3] = 0;
+        outBytes[4] = 0;
+        outBytes[5] = 0;
+        outBytes[6] = 0;
+        outBytes[7] = 0;
+        for (bitIndex = 0, bitPos = 12; bitIndex < 52; bitIndex += 8) {
+            byteValue = hb[bitIndex / 8];
+            if (bitIndex + 8 > 52) {
+                byteValue &= 0xff << (52 - bitIndex);
             }
-            sh = bp % 8;
-            ob[bp / 8] |= (u8) (v >> sh);
-            bp += 8;
-            ob[bp / 8] |= (u8) (v << (8 - sh));
+            shift = bitPos % 8;
+            outBytes[bitPos / 8] |= (u8) (byteValue >> shift);
+            bitPos += 8;
+            outBytes[bitPos / 8] |= (u8) (byteValue << (8 - shift));
         }
-        t = he + 0x3fe;
-        if (t & -0x800) {
-            *r = 1;
+        biasedExponent = he + 0x3fe;
+        if (biasedExponent & -0x800) {
+            *overflow = 1;
             return 0.0;
         }
-        ob[0] |= (t << 21) >> 25;
-        ob[1] |= (t << 21) >> 17;
-        if (m) {
-            ob[0] |= 0x80;
+        outBytes[0] |= (biasedExponent << 21) >> 25;
+        outBytes[1] |= (biasedExponent << 21) >> 17;
+        if (negative) {
+            outBytes[0] |= 0x80;
         }
-        for (j = 0; j < 4; j++) {
-            v = ob[j];
-            ob[j] = ob[7 - j];
-            ob[7 - j] = v;
+        for (byteIndex = 0; byteIndex < 4; byteIndex++) {
+            byteValue = outBytes[byteIndex];
+            outBytes[byteIndex] = outBytes[7 - byteIndex];
+            outBytes[7 - byteIndex] = byteValue;
         }
-        return *(double *) ob;
+        return *(double *) outBytes;
     }
 }
 
-double strtod(const char *s, const char **end) {
-    int n;
+double strtod(const char *string, const char **end) {
+    int usedCount;
     int ovf;
     ScanStringSource st;
-    double v;
-    double a;
+    double value;
+    double absValue;
 
-    st.mNextChar = s;
+    st.mNextChar = string;
     st.mAtEnd = 0;
-    v = ScanDouble(0x7fffffff, ScanStringSourceOp, &st, &n, &ovf);
+    value = ScanDouble(0x7fffffff, ScanStringSourceOp, &st, &usedCount, &ovf);
     if (end != 0) {
-        *end = s + n;
+        *end = string + usedCount;
     }
-    a = fabs(v);
-    if (ovf != 0 || (v != 0.0 && (a < 2.2250738585072014e-308 || a > 1.7976931348623157e308))) {
+    absValue = fabs(value);
+    if (ovf != 0 || (value != 0.0 && (absValue < 2.2250738585072014e-308 || absValue > 1.7976931348623157e308))) {
         gLibErrorCode = 0x22;
     }
-    return v;
+    return value;
 }

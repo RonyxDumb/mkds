@@ -5,7 +5,7 @@
 
 typedef struct KeyboardRect KeyboardRect;
 
-void SetupKeyboardLayoutOther3(KeyboardRect *a, struct Ncgr *b, u32 c);
-void SetupKeyboardLayoutOther2(KeyboardRect *a, struct Ncgr *b, u32 c);
-void SetupKeyboardLayoutOther1(KeyboardRect *a, struct Ncgr *b, u32 c);
-void SetupKeyboardLayoutAscii(KeyboardRect *a, struct Ncgr *b, u32 c);
+void SetupKeyboardLayoutOther3(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount);
+void SetupKeyboardLayoutOther2(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount);
+void SetupKeyboardLayoutOther1(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount);
+void SetupKeyboardLayoutAscii(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount);

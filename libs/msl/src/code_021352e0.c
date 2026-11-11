@@ -8,219 +8,220 @@
 #include "code_0213a460.h"
 #include "code_0213ee6c.h"
 
-const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
-    const char *s;
-    FormatSpec v;
-    int c;
-    int n;
-    int w;
+const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf) {
+    const char *cursor;
+    FormatSpec parsed;
+    int currentChar;
+    int matched;
+    int widthArg;
 
-    v.mPadKind = 1;
-    v.mSignKind = 0;
-    v.mHasDot = 0;
-    v.mHash = 0;
-    v.mArgKind = 0;
-    v.mMinLength = 0;
-    v.mUnk_0c = 0;
-    s = p + 1;
-    c = *s;
-    if (c == '%') {
-        v.mSpecChar = c;
-        *buf = v;
-        return s + 1;
+    parsed.mPadKind = 1;
+    parsed.mSignKind = 0;
+    parsed.mHasDot = 0;
+    parsed.mHash = 0;
+    parsed.mArgKind = 0;
+    parsed.mMinLength = 0;
+    parsed.mUnk_0c = 0;
+    cursor = format + 1;
+    currentChar = *cursor;
+    if (currentChar == '%') {
+        parsed.mSpecChar = currentChar;
+        *buf = parsed;
+        return cursor + 1;
     }
     for (;;) {
-        n = 1;
-        switch (c) {
+        matched = 1;
+        switch (currentChar) {
             case '-':
-                v.mPadKind = 0;
+                parsed.mPadKind = 0;
                 break;
             case '+':
-                v.mSignKind = 1;
+                parsed.mSignKind = 1;
                 break;
             case ' ':
-                if (v.mSignKind != 1) {
-                    v.mSignKind = 2;
+                if (parsed.mSignKind != 1) {
+                    parsed.mSignKind = 2;
                 }
                 break;
             case '#':
-                v.mHash = 1;
+                parsed.mHash = 1;
                 break;
             case '0':
-                if (v.mPadKind != 0) {
-                    v.mPadKind = 2;
+                if (parsed.mPadKind != 0) {
+                    parsed.mPadKind = 2;
                 }
                 break;
             default:
-                n = 0;
+                matched = 0;
                 break;
         }
-        if (!n) {
+        if (!matched) {
             break;
         }
-        c = *++s;
+        currentChar = *++cursor;
     }
-    if (c == '*') {
-        *b += 4;
-        w = ((int *) *b)[-1];
-        v.mMinLength = w;
-        if (w < 0) {
-            v.mPadKind = 0;
-            v.mMinLength = -w;
+    if (currentChar == '*') {
+        *argList += 4;
+        widthArg = ((int *) *argList)[-1];
+        parsed.mMinLength = widthArg;
+        if (widthArg < 0) {
+            parsed.mPadKind = 0;
+            parsed.mMinLength = -widthArg;
         }
-        c = *++s;
+        currentChar = *++cursor;
     } else {
-        while ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8)) {
-            v.mMinLength = v.mMinLength * 10 + (c - '0');
-            c = *++s;
+        while ((currentChar < 0 || currentChar >= 0x80) ? 0 : (gCharClassFlags[currentChar] & 8)) {
+            parsed.mMinLength = parsed.mMinLength * 10 + (currentChar - '0');
+            currentChar = *++cursor;
         }
     }
-    if (v.mMinLength > 0x1fd) {
-        v.mSpecChar = 0xff;
-        *buf = v;
-        return s + 1;
+    if (parsed.mMinLength > 0x1fd) {
+        parsed.mSpecChar = 0xff;
+        *buf = parsed;
+        return cursor + 1;
     }
-    if (c == '.') {
-        v.mHasDot = 1;
-        c = *++s;
-        if (c == '*') {
-            *b += 4;
-            v.mUnk_0c = ((int *) *b)[-1];
-            if (v.mUnk_0c < 0) {
-                v.mHasDot = 0;
+    if (currentChar == '.') {
+        parsed.mHasDot = 1;
+        currentChar = *++cursor;
+        if (currentChar == '*') {
+            *argList += 4;
+            parsed.mUnk_0c = ((int *) *argList)[-1];
+            if (parsed.mUnk_0c < 0) {
+                parsed.mHasDot = 0;
             }
-            c = *++s;
+            currentChar = *++cursor;
         } else {
-            while ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 8)) {
-                v.mUnk_0c = v.mUnk_0c * 10 + (c - '0');
-                c = *++s;
+            while ((currentChar < 0 || currentChar >= 0x80) ? 0 : (gCharClassFlags[currentChar] & 8)) {
+                parsed.mUnk_0c = parsed.mUnk_0c * 10 + (currentChar - '0');
+                currentChar = *++cursor;
             }
         }
     }
-    n = 1;
-    switch (c) {
+    matched = 1;
+    switch (currentChar) {
         case 'h':
-            v.mArgKind = 2;
-            if (s[1] == 'h') {
-                v.mArgKind = 1;
-                c = *++s;
+            parsed.mArgKind = 2;
+            if (cursor[1] == 'h') {
+                parsed.mArgKind = 1;
+                currentChar = *++cursor;
             }
             break;
         case 'l':
-            v.mArgKind = 3;
-            if (s[1] == 'l') {
-                v.mArgKind = 7;
-                c = *++s;
+            parsed.mArgKind = 3;
+            if (cursor[1] == 'l') {
+                parsed.mArgKind = 7;
+                currentChar = *++cursor;
             }
             break;
         case 'L':
-            v.mArgKind = 8;
+            parsed.mArgKind = 8;
             break;
         case 'j':
-            v.mArgKind = 4;
+            parsed.mArgKind = 4;
             break;
         case 'z':
-            v.mArgKind = 5;
+            parsed.mArgKind = 5;
             break;
         case 't':
-            v.mArgKind = 6;
+            parsed.mArgKind = 6;
             break;
         default:
-            n = 0;
+            matched = 0;
             break;
     }
-    if (n) {
-        c = *++s;
+    if (matched) {
+        currentChar = *++cursor;
     }
-    v.mSpecChar = c;
-    switch (c) {
+    parsed.mSpecChar = currentChar;
+    switch (currentChar) {
         case 'd':
         case 'i':
         case 'o':
         case 'u':
         case 'x':
         case 'X':
-            if (v.mArgKind == 8) {
-                v.mSpecChar = 0xff;
-            } else if (v.mHasDot == 0) {
-                v.mUnk_0c = 1;
-            } else if (v.mPadKind == 2) {
-                v.mPadKind = 1;
+            if (parsed.mArgKind == 8) {
+                parsed.mSpecChar = 0xff;
+            } else if (parsed.mHasDot == 0) {
+                parsed.mUnk_0c = 1;
+            } else if (parsed.mPadKind == 2) {
+                parsed.mPadKind = 1;
             }
             break;
         case 'f':
         case 'F':
-            if (v.mArgKind == 2 || v.mArgKind == 4 || v.mArgKind == 5 || v.mArgKind == 6 || v.mArgKind == 7) {
-                v.mSpecChar = 0xff;
-            } else if (v.mHasDot == 0) {
-                v.mUnk_0c = 6;
+            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 5 || parsed.mArgKind == 6 ||
+                parsed.mArgKind == 7) {
+                parsed.mSpecChar = 0xff;
+            } else if (parsed.mHasDot == 0) {
+                parsed.mUnk_0c = 6;
             }
             break;
         case 'a':
         case 'A':
-            if (v.mHasDot == 0) {
-                v.mUnk_0c = 0xd;
+            if (parsed.mHasDot == 0) {
+                parsed.mUnk_0c = 0xd;
             }
-            if (v.mArgKind == 2 || v.mArgKind == 4 || v.mArgKind == 5 || v.mArgKind == 6 || v.mArgKind == 7 ||
-                v.mArgKind == 1) {
-                v.mSpecChar = 0xff;
+            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 5 || parsed.mArgKind == 6 ||
+                parsed.mArgKind == 7 || parsed.mArgKind == 1) {
+                parsed.mSpecChar = 0xff;
             }
             break;
         case 'g':
         case 'G':
-            if (v.mUnk_0c == 0) {
-                v.mUnk_0c = 1;
+            if (parsed.mUnk_0c == 0) {
+                parsed.mUnk_0c = 1;
             }
         case 'e':
         case 'E':
-            if (v.mArgKind == 2 || v.mArgKind == 4 || v.mArgKind == 5 || v.mArgKind == 6 || v.mArgKind == 7 ||
-                v.mArgKind == 1) {
-                v.mSpecChar = 0xff;
-            } else if (v.mHasDot == 0) {
-                v.mUnk_0c = 6;
+            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 5 || parsed.mArgKind == 6 ||
+                parsed.mArgKind == 7 || parsed.mArgKind == 1) {
+                parsed.mSpecChar = 0xff;
+            } else if (parsed.mHasDot == 0) {
+                parsed.mUnk_0c = 6;
             }
             break;
         case 'p':
-            v.mSpecChar = 'x';
-            v.mHash = 1;
-            v.mArgKind = 3;
-            v.mUnk_0c = 8;
+            parsed.mSpecChar = 'x';
+            parsed.mHash = 1;
+            parsed.mArgKind = 3;
+            parsed.mUnk_0c = 8;
             break;
         case 'c':
-            if (v.mArgKind == 3) {
-                v.mArgKind = 9;
-            } else if (v.mHasDot != 0 || v.mArgKind != 0) {
-                v.mSpecChar = 0xff;
+            if (parsed.mArgKind == 3) {
+                parsed.mArgKind = 9;
+            } else if (parsed.mHasDot != 0 || parsed.mArgKind != 0) {
+                parsed.mSpecChar = 0xff;
             }
             break;
         case 's':
-            if (v.mArgKind == 3) {
-                v.mArgKind = 9;
-            } else if (v.mArgKind != 0) {
-                v.mSpecChar = 0xff;
+            if (parsed.mArgKind == 3) {
+                parsed.mArgKind = 9;
+            } else if (parsed.mArgKind != 0) {
+                parsed.mSpecChar = 0xff;
             }
             break;
         case 'n':
-            if (v.mArgKind == 8) {
-                v.mSpecChar = 0xff;
+            if (parsed.mArgKind == 8) {
+                parsed.mSpecChar = 0xff;
             }
             break;
         default:
-            v.mSpecChar = 0xff;
+            parsed.mSpecChar = 0xff;
             break;
     }
-    *buf = v;
-    return s + 1;
+    *buf = parsed;
+    return cursor + 1;
 }
 
-char *FormatInt32(unsigned long v, char *end, FormatSpec spec) {
+char *FormatInt32(unsigned long value, char *end, FormatSpec spec) {
     int neg;
     int width;
     u8 alt;
     u8 sign;
-    int d;
+    int digit;
     int base;
-    char *p;
+    char *cursor;
     int cnt;
     int prec;
     u8 conv;
@@ -230,20 +231,20 @@ char *FormatInt32(unsigned long v, char *end, FormatSpec spec) {
     conv = spec.mSpecChar;
     width = spec.mMinLength;
     sign = spec.mSignKind;
-    p = end;
+    cursor = end;
     neg = 0;
-    *--p = 0;
+    *--cursor = 0;
     cnt = neg;
-    if (v == 0 && prec == 0 && !(alt != 0 && conv == 'o')) {
-        return p;
+    if (value == 0 && prec == 0 && !(alt != 0 && conv == 'o')) {
+        return cursor;
     }
     switch (conv) {
         case 'i':
         case 'd':
             base = 10;
-            if ((long) v < 0) {
+            if ((long) value < 0) {
                 neg = 1;
-                v = -v;
+                value = -value;
             }
             break;
         case 'u':
@@ -261,20 +262,20 @@ char *FormatInt32(unsigned long v, char *end, FormatSpec spec) {
             break;
     }
     do {
-        d = v % base;
-        v = v / base;
-        if (d < 10) {
-            d += '0';
+        digit = value % base;
+        value = value / base;
+        if (digit < 10) {
+            digit += '0';
         } else if (conv == 'x') {
-            d += 'a' - 10;
+            digit += 'a' - 10;
         } else {
-            d += 'A' - 10;
+            digit += 'A' - 10;
         }
-        *--p = d;
+        *--cursor = digit;
         cnt++;
-    } while (v != 0);
-    if (base == 8 && alt != 0 && *p != '0') {
-        *--p = '0';
+    } while (value != 0);
+    if (base == 8 && alt != 0 && *cursor != '0') {
+        *--cursor = '0';
         cnt++;
     }
     if (spec.mPadKind == 2) {
@@ -286,57 +287,57 @@ char *FormatInt32(unsigned long v, char *end, FormatSpec spec) {
             prec -= 2;
         }
     }
-    if (prec + (end - p) > 0x1fd) {
+    if (prec + (end - cursor) > 0x1fd) {
         return 0;
     }
     while (cnt < prec) {
-        *--p = '0';
+        *--cursor = '0';
         cnt++;
     }
     if (base == 16 && alt != 0) {
-        *--p = conv;
-        *--p = '0';
+        *--cursor = conv;
+        *--cursor = '0';
     }
     if (neg != 0) {
-        *--p = '-';
+        *--cursor = '-';
     } else if (sign == 1) {
-        *--p = '+';
+        *--cursor = '+';
     } else if (sign == 2) {
-        *--p = ' ';
+        *--cursor = ' ';
     }
-    return p;
+    return cursor;
 }
 
-char *FormatInt64(u64 v, char *end, FormatSpec spec) {
+char *FormatInt64(u64 value, char *end, FormatSpec spec) {
     int neg;
-    int w;
+    int precision;
     int flag;
     u32 wid;
     int alt;
     u64 base;
-    char *p;
+    char *cursor;
     int count;
     int ch;
-    int d;
+    int digit;
 
-    w = spec.mUnk_0c;
+    precision = spec.mUnk_0c;
     alt = spec.mHash;
     ch = spec.mSpecChar;
     wid = spec.mMinLength;
     flag = spec.mSignKind;
-    p = end;
+    cursor = end;
     neg = 0;
-    *--p = 0;
+    *--cursor = 0;
     count = neg;
-    if (v == 0 && w == 0 && (alt == 0 || ch != 'o')) {
-        return p;
+    if (value == 0 && precision == 0 && (alt == 0 || ch != 'o')) {
+        return cursor;
     }
     switch (ch) {
         case 'd':
         case 'i':
             base = 10;
-            if ((s64) v < 0) {
-                v = -v;
+            if ((s64) value < 0) {
+                value = -value;
                 neg = 1;
             }
             break;
@@ -355,552 +356,552 @@ char *FormatInt64(u64 v, char *end, FormatSpec spec) {
             break;
     }
     do {
-        d = v % base;
-        v = v / base;
-        if (d < 10) {
-            d += '0';
+        digit = value % base;
+        value = value / base;
+        if (digit < 10) {
+            digit += '0';
         } else if (ch == 'x') {
-            d += 'a' - 10;
+            digit += 'a' - 10;
         } else {
-            d += 'A' - 10;
+            digit += 'A' - 10;
         }
-        *--p = d;
+        *--cursor = digit;
         count++;
-    } while (v != 0);
-    if (base == 8 && alt != 0 && *p != '0') {
-        *--p = '0';
+    } while (value != 0);
+    if (base == 8 && alt != 0 && *cursor != '0') {
+        *--cursor = '0';
         count++;
     }
     if (spec.mPadKind == 2) {
-        w = wid;
+        precision = wid;
         if (neg != 0 || flag != 0) {
-            w--;
+            precision--;
         }
         if (base == 16 && alt != 0) {
-            w -= 2;
+            precision -= 2;
         }
     }
-    if (w + (end - p) > 0x1fd) {
+    if (precision + (end - cursor) > 0x1fd) {
         return 0;
     }
-    while (count < w) {
-        *--p = '0';
+    while (count < precision) {
+        *--cursor = '0';
         count++;
     }
     if (base == 16 && alt != 0) {
-        *--p = ch;
-        *--p = '0';
+        *--cursor = ch;
+        *--cursor = '0';
     }
     if (neg != 0) {
-        *--p = '-';
+        *--cursor = '-';
     } else if (flag == 1) {
-        *--p = '+';
+        *--cursor = '+';
     } else if (flag == 2) {
-        *--p = ' ';
+        *--cursor = ' ';
     }
-    return p;
+    return cursor;
 }
 
-char *FormatDoubleHex(double x, char *buf, FormatSpec e) {
-    int n;
-    u8 c;
-    u8 f;
-    u8 s;
-    Unk02140c28 a;
-    FormatSpec b;
-    DigitRecord r;
-    char *p;
-    int i;
-    u8 t;
-    u8 *q;
-    u8 *w;
-    u8 d;
-    int j;
-    int k;
+char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
+    int precision;
+    u8 conv;
+    u8 alt;
+    u8 signKind;
+    Unk02140c28 digitOptions;
+    FormatSpec exponentSpec;
+    DigitRecord digits;
+    char *cursor;
+    int byteIndex;
+    u8 swapTemp;
+    u8 *mantissaBytes;
+    u8 *swapBytes;
+    u8 nibble;
+    int counter;
+    int bitOffset;
 
-    n = e.mUnk_0c;
-    c = e.mSpecChar;
-    f = e.mHash;
-    s = e.mSignKind;
-    if (n > 0x1fd) {
+    precision = spec.mUnk_0c;
+    conv = spec.mSpecChar;
+    alt = spec.mHash;
+    signKind = spec.mSignKind;
+    if (precision > 0x1fd) {
         return 0;
     }
-    a.mUnk_00 = 0;
-    a.mDigitCount = 0x20;
-    DoubleToDigitChars(&a, x, &r);
-    if (0.0 == fabs(x)) {
-        p = buf - 6;
-        strcpy(p, gFormatHexZero);
-        return p;
+    digitOptions.mUnk_00 = 0;
+    digitOptions.mDigitCount = 0x20;
+    DoubleToDigitChars(&digitOptions, value, &digits);
+    if (0.0 == fabs(value)) {
+        cursor = buf - 6;
+        strcpy(cursor, gFormatHexZero);
+        return cursor;
     }
-    if (r.mDigits[0] == 'I') {
-        if (r.mNegative != 0) {
-            p = buf - 5;
-            if (c == 'A') {
-                strcpy(p, gFormatMinusInfUpper);
+    if (digits.mDigits[0] == 'I') {
+        if (digits.mNegative != 0) {
+            cursor = buf - 5;
+            if (conv == 'A') {
+                strcpy(cursor, gFormatMinusInfUpper);
             } else {
-                strcpy(p, gFormatMinusInfLower);
+                strcpy(cursor, gFormatMinusInfLower);
             }
         } else {
-            p = buf - 4;
-            if (c == 'A') {
-                strcpy(p, gFormatInfUpper);
+            cursor = buf - 4;
+            if (conv == 'A') {
+                strcpy(cursor, gFormatInfUpper);
             } else {
-                strcpy(p, gFormatInfLower);
+                strcpy(cursor, gFormatInfLower);
             }
         }
-        return p;
+        return cursor;
     }
-    if (r.mDigits[0] == 'N') {
-        if (r.mNegative != 0) {
-            p = buf - 5;
-            if (c == 'A') {
-                strcpy(p, gFormatMinusNanUpper);
+    if (digits.mDigits[0] == 'N') {
+        if (digits.mNegative != 0) {
+            cursor = buf - 5;
+            if (conv == 'A') {
+                strcpy(cursor, gFormatMinusNanUpper);
             } else {
-                strcpy(p, gFormatMinusNanLower);
+                strcpy(cursor, gFormatMinusNanLower);
             }
         } else {
-            p = buf - 4;
-            if (c == 'A') {
-                strcpy(p, gFormatNanUpper);
+            cursor = buf - 4;
+            if (conv == 'A') {
+                strcpy(cursor, gFormatNanUpper);
             } else {
-                strcpy(p, gFormatNanLower);
+                strcpy(cursor, gFormatNanLower);
             }
         }
-        return p;
+        return cursor;
     }
-    b.mPadKind = 1;
-    b.mSignKind = 1;
-    b.mHasDot = 0;
-    b.mHash = 0;
-    b.mArgKind = 0;
-    b.mUnk_0c = 1;
-    b.mMinLength = 0;
-    b.mSpecChar = 'd';
-    w = (u8 *) &x;
-    for (i = 0; i < 4; i++) {
-        t = w[i];
-        w[i] = w[7 - i];
-        w[7 - i] = t;
+    exponentSpec.mPadKind = 1;
+    exponentSpec.mSignKind = 1;
+    exponentSpec.mHasDot = 0;
+    exponentSpec.mHash = 0;
+    exponentSpec.mArgKind = 0;
+    exponentSpec.mUnk_0c = 1;
+    exponentSpec.mMinLength = 0;
+    exponentSpec.mSpecChar = 'd';
+    swapBytes = (u8 *) &value;
+    for (byteIndex = 0; byteIndex < 4; byteIndex++) {
+        swapTemp = swapBytes[byteIndex];
+        swapBytes[byteIndex] = swapBytes[7 - byteIndex];
+        swapBytes[7 - byteIndex] = swapTemp;
     }
-    k = ((u8 *) &x)[0] << 25;
-    k |= ((u8 *) &x)[1] << 17;
-    k = ((u32) k >> 21) & 0x7ff;
-    j = k - 1023;
-    p = FormatInt32(j, buf, b);
-    if (c == 'a') {
-        *--p = 'p';
+    bitOffset = ((u8 *) &value)[0] << 25;
+    bitOffset |= ((u8 *) &value)[1] << 17;
+    bitOffset = ((u32) bitOffset >> 21) & 0x7ff;
+    counter = bitOffset - 1023;
+    cursor = FormatInt32(counter, buf, exponentSpec);
+    if (conv == 'a') {
+        *--cursor = 'p';
     } else {
-        *--p = 'P';
+        *--cursor = 'P';
     }
-    k = n * 4 + 11;
-    q = (u8 *) &x;
-    for (j = n; j >= 1; j--) {
-        if (k < 64) {
-            d = q[k >> 3] >> (7 - (k & 7));
-            if ((k & ~7) != ((k - 4) & ~7)) {
-                d = d | ((q[(k >> 3) - 1] << 8) >> (7 - (k & 7)));
+    bitOffset = precision * 4 + 11;
+    mantissaBytes = (u8 *) &value;
+    for (counter = precision; counter >= 1; counter--) {
+        if (bitOffset < 64) {
+            nibble = mantissaBytes[bitOffset >> 3] >> (7 - (bitOffset & 7));
+            if ((bitOffset & ~7) != ((bitOffset - 4) & ~7)) {
+                nibble = nibble | ((mantissaBytes[(bitOffset >> 3) - 1] << 8) >> (7 - (bitOffset & 7)));
             }
-            d &= 15;
-            if (d < 10) {
-                d += '0';
-            } else if (c == 'a') {
-                d += 'a' - 10;
+            nibble &= 15;
+            if (nibble < 10) {
+                nibble += '0';
+            } else if (conv == 'a') {
+                nibble += 'a' - 10;
             } else {
-                d += 'A' - 10;
+                nibble += 'A' - 10;
             }
         } else {
-            d = '0';
+            nibble = '0';
         }
-        *--p = d;
-        k -= 4;
+        *--cursor = nibble;
+        bitOffset -= 4;
     }
-    if (n != 0 || f != 0) {
-        *--p = '.';
+    if (precision != 0 || alt != 0) {
+        *--cursor = '.';
     }
-    *--p = '1';
-    if (c == 'a') {
-        *--p = 'x';
+    *--cursor = '1';
+    if (conv == 'a') {
+        *--cursor = 'x';
     } else {
-        *--p = 'X';
+        *--cursor = 'X';
     }
-    *--p = '0';
-    if (r.mNegative != 0) {
-        *--p = '-';
-    } else if (s == 1) {
-        *--p = '+';
-    } else if (s == 2) {
-        *--p = ' ';
+    *--cursor = '0';
+    if (digits.mNegative != 0) {
+        *--cursor = '-';
+    } else if (signKind == 1) {
+        *--cursor = '+';
+    } else if (signKind == 2) {
+        *--cursor = ' ';
     }
-    return p;
+    return cursor;
 }
 
-void FormatRoundDigitChars(DigitRecord *a, int k) {
-    char *b;
-    char *p;
-    char *q;
-    int n;
-    u8 v;
-    int c;
+void FormatRoundDigitChars(DigitRecord *record, int keepCount) {
+    char *digitStart;
+    char *cursor;
+    char *tail;
+    int digitCount;
+    u8 digit;
+    int roundUp;
 
-    if (k < 0) {
+    if (keepCount < 0) {
     zero:
-        a->mExponent = 0;
-        a->mDigitCount = 1;
-        a->mDigits[0] = '0';
+        record->mExponent = 0;
+        record->mDigitCount = 1;
+        record->mDigits[0] = '0';
         return;
     }
-    n = a->mDigitCount;
-    if (k >= n) {
+    digitCount = record->mDigitCount;
+    if (keepCount >= digitCount) {
         return;
     }
-    b = a->mDigits;
-    p = b + k + 1;
-    v = *--p - '0';
-    if (v == 5) {
-        q = b + n;
-        while (--q > p && *q == '0') {
+    digitStart = record->mDigits;
+    cursor = digitStart + keepCount + 1;
+    digit = *--cursor - '0';
+    if (digit == 5) {
+        tail = digitStart + digitCount;
+        while (--tail > cursor && *tail == '0') {
         }
-        if (q == p) {
-            c = p[-1] & 1;
+        if (tail == cursor) {
+            roundUp = cursor[-1] & 1;
         } else {
-            c = 1;
+            roundUp = 1;
         }
     } else {
-        c = v > 5;
+        roundUp = digit > 5;
     }
-    while (k != 0) {
-        v = *--p - '0' + c;
-        c = v > 9;
-        if (c != 0 || v == 0) {
-            k--;
+    while (keepCount != 0) {
+        digit = *--cursor - '0' + roundUp;
+        roundUp = digit > 9;
+        if (roundUp != 0 || digit == 0) {
+            keepCount--;
         } else {
-            *p = v + '0';
+            *cursor = digit + '0';
             break;
         }
     }
-    if (c != 0) {
-        a->mExponent++;
-        a->mDigitCount = 1;
-        a->mDigits[0] = '1';
+    if (roundUp != 0) {
+        record->mExponent++;
+        record->mDigitCount = 1;
+        record->mDigits[0] = '1';
         return;
     }
-    if (k == 0) {
+    if (keepCount == 0) {
         goto zero;
     }
-    a->mDigitCount = k;
+    record->mDigitCount = keepCount;
 }
 
-char *FormatDouble(double v, char *buf, FormatSpec f) {
-    Unk02140c28 m;
-    DigitRecord d;
-    u8 a;
-    int b;
-    int g;
-    int h;
-    char *t;
-    char *p;
-    char *q;
-    int x;
-    int y;
-    int n;
-    int i;
-    int j;
-    int k;
-    int c;
+char *FormatDouble(double value, char *buf, FormatSpec spec) {
+    Unk02140c28 digitOptions;
+    DigitRecord record;
+    u8 conv;
+    int precision;
+    int signKind;
+    int alt;
+    char *source;
+    char *cursor;
+    char *tail;
+    int exponent;
+    int exponentSign;
+    int exponentDigits;
+    int index;
+    int intDigits;
+    int fracDigits;
+    int counter;
 
-    a = f.mSpecChar;
-    b = f.mUnk_0c;
-    h = f.mHash;
-    g = f.mSignKind;
-    m.mUnk_00 = 0;
-    m.mDigitCount = 0x20;
-    DoubleToDigitChars(&m, v, &d);
-    q = d.mDigits + d.mDigitCount;
-    while (d.mDigitCount > 1 && *--q == '0') {
-        d.mDigitCount--;
-        d.mExponent++;
+    conv = spec.mSpecChar;
+    precision = spec.mUnk_0c;
+    alt = spec.mHash;
+    signKind = spec.mSignKind;
+    digitOptions.mUnk_00 = 0;
+    digitOptions.mDigitCount = 0x20;
+    DoubleToDigitChars(&digitOptions, value, &record);
+    tail = record.mDigits + record.mDigitCount;
+    while (record.mDigitCount > 1 && *--tail == '0') {
+        record.mDigitCount--;
+        record.mExponent++;
     }
-    switch (d.mDigits[0]) {
+    switch (record.mDigits[0]) {
         case '0':
-            d.mExponent = 0;
+            record.mExponent = 0;
             break;
         case 'I':
-            c = a;
-            if (v < 0.0) {
-                p = buf - 5;
-                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
-                    strcpy(p, gFormatMinusInfUpper);
+            counter = conv;
+            if (value < 0.0) {
+                cursor = buf - 5;
+                if ((counter < 0 || counter >= 0x80) ? 0 : (gCharClassFlags[counter] & 0x200)) {
+                    strcpy(cursor, gFormatMinusInfUpper);
                 } else {
-                    strcpy(p, gFormatMinusInfLower);
+                    strcpy(cursor, gFormatMinusInfLower);
                 }
             } else {
-                p = buf - 4;
-                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
-                    strcpy(p, gFormatInfUpper);
+                cursor = buf - 4;
+                if ((counter < 0 || counter >= 0x80) ? 0 : (gCharClassFlags[counter] & 0x200)) {
+                    strcpy(cursor, gFormatInfUpper);
                 } else {
-                    strcpy(p, gFormatInfLower);
+                    strcpy(cursor, gFormatInfLower);
                 }
             }
-            return p;
+            return cursor;
         case 'N':
-            c = a;
-            if (d.mNegative) {
-                p = buf - 5;
-                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
-                    strcpy(p, gFormatMinusNanUpper);
+            counter = conv;
+            if (record.mNegative) {
+                cursor = buf - 5;
+                if ((counter < 0 || counter >= 0x80) ? 0 : (gCharClassFlags[counter] & 0x200)) {
+                    strcpy(cursor, gFormatMinusNanUpper);
                 } else {
-                    strcpy(p, gFormatMinusNanLower);
+                    strcpy(cursor, gFormatMinusNanLower);
                 }
             } else {
-                p = buf - 4;
-                if ((c < 0 || c >= 0x80) ? 0 : (gCharClassFlags[c] & 0x200)) {
-                    strcpy(p, gFormatNanUpper);
+                cursor = buf - 4;
+                if ((counter < 0 || counter >= 0x80) ? 0 : (gCharClassFlags[counter] & 0x200)) {
+                    strcpy(cursor, gFormatNanUpper);
                 } else {
-                    strcpy(p, gFormatNanLower);
+                    strcpy(cursor, gFormatNanLower);
                 }
             }
-            return p;
+            return cursor;
     }
-    d.mExponent += d.mDigitCount - 1;
-    p = buf - 1;
-    *p = 0;
-    switch (a) {
+    record.mExponent += record.mDigitCount - 1;
+    cursor = buf - 1;
+    *cursor = 0;
+    switch (conv) {
         case 'g':
         case 'G':
-            if (d.mDigitCount > b) {
-                FormatRoundDigitChars(&d, b);
+            if (record.mDigitCount > precision) {
+                FormatRoundDigitChars(&record, precision);
             }
-            if (d.mExponent < -4 || d.mExponent >= b) {
-                if (h) {
-                    b--;
+            if (record.mExponent < -4 || record.mExponent >= precision) {
+                if (alt) {
+                    precision--;
                 } else {
-                    b = d.mDigitCount - 1;
+                    precision = record.mDigitCount - 1;
                 }
-                if (a == 'g') {
-                    a = 'e';
+                if (conv == 'g') {
+                    conv = 'e';
                 } else {
-                    a = 'E';
+                    conv = 'E';
                 }
             } else {
-                if (h) {
-                    b -= d.mExponent + 1;
+                if (alt) {
+                    precision -= record.mExponent + 1;
                 } else {
-                    b = d.mDigitCount - (d.mExponent + 1);
-                    if (b < 0) {
-                        b = 0;
+                    precision = record.mDigitCount - (record.mExponent + 1);
+                    if (precision < 0) {
+                        precision = 0;
                     }
                 }
                 goto case_f;
             }
         case 'e':
         case 'E':
-            if (d.mDigitCount > b + 1) {
-                FormatRoundDigitChars(&d, b + 1);
+            if (record.mDigitCount > precision + 1) {
+                FormatRoundDigitChars(&record, precision + 1);
             }
-            x = d.mExponent;
-            y = '+';
-            if (x < 0) {
-                x = -x;
-                y = '-';
+            exponent = record.mExponent;
+            exponentSign = '+';
+            if (exponent < 0) {
+                exponent = -exponent;
+                exponentSign = '-';
             }
-            for (n = 0; x != 0 || n < 2;) {
-                *--p = x % 10 + '0';
-                x /= 10;
-                n++;
+            for (exponentDigits = 0; exponent != 0 || exponentDigits < 2;) {
+                *--cursor = exponent % 10 + '0';
+                exponent /= 10;
+                exponentDigits++;
             }
-            p[-1] = y;
-            p -= 2;
-            *p = a;
-            if (b + (buf - p) > 0x1fd) {
+            cursor[-1] = exponentSign;
+            cursor -= 2;
+            *cursor = conv;
+            if (precision + (buf - cursor) > 0x1fd) {
                 return 0;
             }
-            if (d.mDigitCount < b + 1) {
-                i = b + 2 - d.mDigitCount;
-                while (--i) {
-                    *--p = '0';
+            if (record.mDigitCount < precision + 1) {
+                index = precision + 2 - record.mDigitCount;
+                while (--index) {
+                    *--cursor = '0';
                 }
             }
-            t = d.mDigits + d.mDigitCount;
-            for (i = d.mDigitCount - 1; i != 0; i--) {
-                *--p = *--t;
+            source = record.mDigits + record.mDigitCount;
+            for (index = record.mDigitCount - 1; index != 0; index--) {
+                *--cursor = *--source;
             }
-            if (b != 0 || h) {
-                *--p = '.';
+            if (precision != 0 || alt) {
+                *--cursor = '.';
             }
-            *--p = d.mDigits[0];
-            if (d.mNegative) {
-                *--p = '-';
-            } else if (g == 1) {
-                *--p = '+';
-            } else if (g == 2) {
-                *--p = ' ';
+            *--cursor = record.mDigits[0];
+            if (record.mNegative) {
+                *--cursor = '-';
+            } else if (signKind == 1) {
+                *--cursor = '+';
+            } else if (signKind == 2) {
+                *--cursor = ' ';
             }
             break;
         case 'f':
         case 'F':
         case_f:
-            x = d.mExponent;
-            k = d.mDigitCount - x - 1;
-            if (k < 0) {
-                k = 0;
+            exponent = record.mExponent;
+            fracDigits = record.mDigitCount - exponent - 1;
+            if (fracDigits < 0) {
+                fracDigits = 0;
             }
-            if (k > b) {
-                FormatRoundDigitChars(&d, d.mDigitCount - (k - b));
-                x = d.mExponent;
-                k = d.mDigitCount - x - 1;
-                if (k < 0) {
-                    k = 0;
+            if (fracDigits > precision) {
+                FormatRoundDigitChars(&record, record.mDigitCount - (fracDigits - precision));
+                exponent = record.mExponent;
+                fracDigits = record.mDigitCount - exponent - 1;
+                if (fracDigits < 0) {
+                    fracDigits = 0;
                 }
             }
-            j = x + 1;
-            if (j < 0) {
-                j = 0;
+            intDigits = exponent + 1;
+            if (intDigits < 0) {
+                intDigits = 0;
             }
-            if (j + k > 0x1fd) {
+            if (intDigits + fracDigits > 0x1fd) {
                 return 0;
             }
-            t = d.mDigits + d.mDigitCount;
-            for (c = 0; c < b - k; c++) {
-                *--p = '0';
+            source = record.mDigits + record.mDigitCount;
+            for (counter = 0; counter < precision - fracDigits; counter++) {
+                *--cursor = '0';
             }
-            for (c = 0; c < k && c < d.mDigitCount; c++) {
-                *--p = *--t;
+            for (counter = 0; counter < fracDigits && counter < record.mDigitCount; counter++) {
+                *--cursor = *--source;
             }
-            for (; c < k; c++) {
-                *--p = '0';
+            for (; counter < fracDigits; counter++) {
+                *--cursor = '0';
             }
-            if (b != 0 || h) {
-                *--p = '.';
+            if (precision != 0 || alt) {
+                *--cursor = '.';
             }
-            if (j != 0) {
-                for (c = 0; c < j - d.mDigitCount; c++) {
-                    *--p = '0';
+            if (intDigits != 0) {
+                for (counter = 0; counter < intDigits - record.mDigitCount; counter++) {
+                    *--cursor = '0';
                 }
-                for (; c < j; c++) {
-                    *--p = *--t;
+                for (; counter < intDigits; counter++) {
+                    *--cursor = *--source;
                 }
             } else {
-                *--p = '0';
+                *--cursor = '0';
             }
-            if (d.mNegative) {
-                *--p = '-';
-            } else if (g == 1) {
-                *--p = '+';
-            } else if (g == 2) {
-                *--p = ' ';
+            if (record.mNegative) {
+                *--cursor = '-';
+            } else if (signKind == 1) {
+                *--cursor = '+';
+            } else if (signKind == 2) {
+                *--cursor = ' ';
             }
             break;
     }
-    return p;
+    return cursor;
 }
 
-int FormatWithPutFunc(void *(*f)(void *, const char *, u32), void *a, const char *b, char *c) {
-    FormatSpec e;
+int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg, const char *format, char *argList) {
+    FormatSpec spec;
     char buf[0x200];
-    char g;
-    char h;
-    int k;
-    unsigned long long x;
-    const char *s;
-    int m;
-    int n;
-    int w;
-    char *p;
-    unsigned long v;
-    double y;
-    const u16 *t;
-    char *q;
-    void *u;
+    char padChar;
+    char spaceChar;
+    int totalLength;
+    unsigned long long value64;
+    const char *percentPos;
+    int textLength;
+    int chunkLength;
+    int printedLength;
+    char *text;
+    unsigned long value32;
+    double doubleValue;
+    const u16 *wideText;
+    char *nulPos;
+    void *countPtr;
 
-    g = ' ';
-    k = 0;
-    while (*b != 0) {
-        s = strchr(b, '%');
-        if (s == 0) {
-            n = strlen(b);
-            k += n;
-            if (n != 0 && f(a, b, n) == 0) {
+    padChar = ' ';
+    totalLength = 0;
+    while (*format != 0) {
+        percentPos = strchr(format, '%');
+        if (percentPos == 0) {
+            chunkLength = strlen(format);
+            totalLength += chunkLength;
+            if (chunkLength != 0 && putFunc(putArg, format, chunkLength) == 0) {
                 return -1;
             }
             break;
         }
-        n = s - b;
-        k += n;
-        if (n != 0 && f(a, b, n) == 0) {
+        chunkLength = percentPos - format;
+        totalLength += chunkLength;
+        if (chunkLength != 0 && putFunc(putArg, format, chunkLength) == 0) {
             return -1;
         }
-        b = FormatParseSpec(s, &c, &e);
-        switch (e.mSpecChar) {
+        format = FormatParseSpec(percentPos, &argList, &spec);
+        switch (spec.mSpecChar) {
             case 'd':
             case 'i':
-                if (e.mArgKind == 3) {
-                    v = *(long *) ((c += 4) - 4);
-                } else if (e.mArgKind == 7) {
-                    x = *(long long *) ((c += 8) - 8);
-                } else if (e.mArgKind == 4) {
-                    v = *(long long *) ((c += 8) - 8);
-                } else if (e.mArgKind == 5) {
-                    v = *(u32 *) ((c += 4) - 4);
-                } else if (e.mArgKind == 6) {
-                    v = *(long *) ((c += 4) - 4);
+                if (spec.mArgKind == 3) {
+                    value32 = *(long *) ((argList += 4) - 4);
+                } else if (spec.mArgKind == 7) {
+                    value64 = *(long long *) ((argList += 8) - 8);
+                } else if (spec.mArgKind == 4) {
+                    value32 = *(long long *) ((argList += 8) - 8);
+                } else if (spec.mArgKind == 5) {
+                    value32 = *(u32 *) ((argList += 4) - 4);
+                } else if (spec.mArgKind == 6) {
+                    value32 = *(long *) ((argList += 4) - 4);
                 } else {
-                    v = *(int *) ((c += 4) - 4);
+                    value32 = *(int *) ((argList += 4) - 4);
                 }
-                if (e.mArgKind == 2) {
-                    v = (short) v;
+                if (spec.mArgKind == 2) {
+                    value32 = (short) value32;
                 }
-                if (e.mArgKind == 1) {
-                    v = (s8) v;
+                if (spec.mArgKind == 1) {
+                    value32 = (s8) value32;
                 }
-                if (e.mArgKind == 7) {
-                    p = FormatInt64(x, buf + sizeof(buf), e);
-                    if (p == 0) {
+                if (spec.mArgKind == 7) {
+                    text = FormatInt64(value64, buf + sizeof(buf), spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    p = FormatInt32(v, buf + sizeof(buf), e);
-                    if (p == 0) {
+                    text = FormatInt32(value32, buf + sizeof(buf), spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 }
-                m = buf + sizeof(buf) - 1 - p;
+                textLength = buf + sizeof(buf) - 1 - text;
                 break;
             case 'o':
             case 'u':
             case 'x':
             case 'X':
-                if (e.mArgKind == 3) {
-                    v = *(unsigned long *) ((c += 4) - 4);
-                } else if (e.mArgKind == 7) {
-                    x = *(unsigned long long *) ((c += 8) - 8);
-                } else if (e.mArgKind == 4) {
-                    v = *(unsigned long long *) ((c += 8) - 8);
-                } else if (e.mArgKind == 5) {
-                    v = *(u32 *) ((c += 4) - 4);
-                } else if (e.mArgKind == 6) {
-                    v = *(unsigned long *) ((c += 4) - 4);
+                if (spec.mArgKind == 3) {
+                    value32 = *(unsigned long *) ((argList += 4) - 4);
+                } else if (spec.mArgKind == 7) {
+                    value64 = *(unsigned long long *) ((argList += 8) - 8);
+                } else if (spec.mArgKind == 4) {
+                    value32 = *(unsigned long long *) ((argList += 8) - 8);
+                } else if (spec.mArgKind == 5) {
+                    value32 = *(u32 *) ((argList += 4) - 4);
+                } else if (spec.mArgKind == 6) {
+                    value32 = *(unsigned long *) ((argList += 4) - 4);
                 } else {
-                    v = *(u32 *) ((c += 4) - 4);
+                    value32 = *(u32 *) ((argList += 4) - 4);
                 }
-                if (e.mArgKind == 2) {
-                    v = (u16) v;
+                if (spec.mArgKind == 2) {
+                    value32 = (u16) value32;
                 }
-                if (e.mArgKind == 1) {
-                    v = (u8) v;
+                if (spec.mArgKind == 1) {
+                    value32 = (u8) value32;
                 }
-                if (e.mArgKind == 7) {
-                    p = FormatInt64(x, buf + sizeof(buf), e);
-                    if (p == 0) {
+                if (spec.mArgKind == 7) {
+                    text = FormatInt64(value64, buf + sizeof(buf), spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    p = FormatInt32(v, buf + sizeof(buf), e);
-                    if (p == 0) {
+                    text = FormatInt32(value32, buf + sizeof(buf), spec);
+                    if (text == 0) {
                         goto bad;
                     }
                 }
-                m = buf + sizeof(buf) - 1 - p;
+                textLength = buf + sizeof(buf) - 1 - text;
                 break;
             case 'e':
             case 'E':
@@ -908,126 +909,126 @@ int FormatWithPutFunc(void *(*f)(void *, const char *, u32), void *a, const char
             case 'F':
             case 'g':
             case 'G':
-                if (e.mArgKind == 8) {
-                    y = *(long double *) ((c += 8) - 8);
+                if (spec.mArgKind == 8) {
+                    doubleValue = *(long double *) ((argList += 8) - 8);
                 } else {
-                    y = *(double *) ((c += 8) - 8);
+                    doubleValue = *(double *) ((argList += 8) - 8);
                 }
-                p = FormatDouble(y, buf + sizeof(buf), e);
-                if (p == 0) {
+                text = FormatDouble(doubleValue, buf + sizeof(buf), spec);
+                if (text == 0) {
                     goto bad;
                 }
-                m = buf + sizeof(buf) - 1 - p;
+                textLength = buf + sizeof(buf) - 1 - text;
                 break;
             case 'a':
             case 'A':
-                if (e.mArgKind == 8) {
-                    y = *(long double *) ((c += 8) - 8);
+                if (spec.mArgKind == 8) {
+                    doubleValue = *(long double *) ((argList += 8) - 8);
                 } else {
-                    y = *(double *) ((c += 8) - 8);
+                    doubleValue = *(double *) ((argList += 8) - 8);
                 }
-                p = FormatDoubleHex(y, buf + sizeof(buf), e);
-                if (p == 0) {
+                text = FormatDoubleHex(doubleValue, buf + sizeof(buf), spec);
+                if (text == 0) {
                     goto bad;
                 }
-                m = buf + sizeof(buf) - 1 - p;
+                textLength = buf + sizeof(buf) - 1 - text;
                 break;
             case 's':
-                if (e.mArgKind == 9) {
-                    t = *(const u16 **) ((c += 4) - 4);
-                    if (t == 0) {
-                        t = L"";
+                if (spec.mArgKind == 9) {
+                    wideText = *(const u16 **) ((argList += 4) - 4);
+                    if (wideText == 0) {
+                        wideText = L"";
                     }
-                    if (wcstombs(buf, t, sizeof(buf)) < 0) {
+                    if (wcstombs(buf, wideText, sizeof(buf)) < 0) {
                         goto bad;
                     }
-                    p = buf;
+                    text = buf;
                 } else {
-                    p = *(char **) ((c += 4) - 4);
+                    text = *(char **) ((argList += 4) - 4);
                 }
-                if (p == 0) {
-                    p = "";
+                if (text == 0) {
+                    text = "";
                 }
-                if (e.mHash != 0) {
-                    m = *p++;
-                    if (e.mHasDot != 0 && m > e.mUnk_0c) {
-                        m = e.mUnk_0c;
+                if (spec.mHash != 0) {
+                    textLength = *text++;
+                    if (spec.mHasDot != 0 && textLength > spec.mUnk_0c) {
+                        textLength = spec.mUnk_0c;
                     }
-                } else if (e.mHasDot != 0) {
-                    m = e.mUnk_0c;
-                    q = memchr(p, 0, m);
-                    if (q != 0) {
-                        m = q - p;
+                } else if (spec.mHasDot != 0) {
+                    textLength = spec.mUnk_0c;
+                    nulPos = memchr(text, 0, textLength);
+                    if (nulPos != 0) {
+                        textLength = nulPos - text;
                     }
                 } else {
-                    m = strlen(p);
+                    textLength = strlen(text);
                 }
                 break;
             case 'n':
-                u = *(void **) ((c += 4) - 4);
-                switch (e.mArgKind) {
+                countPtr = *(void **) ((argList += 4) - 4);
+                switch (spec.mArgKind) {
                     case 0:
-                        *(int *) u = k;
+                        *(int *) countPtr = totalLength;
                         break;
                     case 2:
-                        *(short *) u = k;
+                        *(short *) countPtr = totalLength;
                         break;
                     case 3:
-                        *(long *) u = k;
+                        *(long *) countPtr = totalLength;
                         break;
                     case 7:
-                        *(long long *) u = k;
+                        *(long long *) countPtr = totalLength;
                         break;
                 }
                 continue;
             case 'c':
-                p = buf;
-                *p = *(int *) ((c += 4) - 4);
-                m = 1;
+                text = buf;
+                *text = *(int *) ((argList += 4) - 4);
+                textLength = 1;
                 break;
             case '%':
-                p = buf;
-                *p = '%';
-                m = 1;
+                text = buf;
+                *text = '%';
+                textLength = 1;
                 break;
             case 0xff:
             default:
             bad:
-                n = strlen(s);
-                k += n;
-                if (n != 0 && f(a, s, n) == 0) {
+                chunkLength = strlen(percentPos);
+                totalLength += chunkLength;
+                if (chunkLength != 0 && putFunc(putArg, percentPos, chunkLength) == 0) {
                     return -1;
                 }
-                return k;
+                return totalLength;
         }
-        w = m;
-        if (e.mPadKind != 0) {
-            g = e.mPadKind == 2 ? '0' : ' ';
-            if ((*p == '+' || *p == '-' || *p == ' ') && g == '0') {
-                if (f(a, p, 1) == 0) {
+        printedLength = textLength;
+        if (spec.mPadKind != 0) {
+            padChar = spec.mPadKind == 2 ? '0' : ' ';
+            if ((*text == '+' || *text == '-' || *text == ' ') && padChar == '0') {
+                if (putFunc(putArg, text, 1) == 0) {
                     return -1;
                 }
-                p++;
-                m--;
+                text++;
+                textLength--;
             }
-            for (; w < e.mMinLength; w++) {
-                if (f(a, &g, 1) == 0) {
+            for (; printedLength < spec.mMinLength; printedLength++) {
+                if (putFunc(putArg, &padChar, 1) == 0) {
                     return -1;
                 }
             }
         }
-        if (m != 0 && f(a, p, m) == 0) {
+        if (textLength != 0 && putFunc(putArg, text, textLength) == 0) {
             return -1;
         }
-        if (e.mPadKind == 0) {
-            for (; w < e.mMinLength; w++) {
-                h = ' ';
-                if (f(a, &h, 1) == 0) {
+        if (spec.mPadKind == 0) {
+            for (; printedLength < spec.mMinLength; printedLength++) {
+                spaceChar = ' ';
+                if (putFunc(putArg, &spaceChar, 1) == 0) {
                     return -1;
                 }
             }
         }
-        k += w;
+        totalLength += printedLength;
     }
-    return k;
+    return totalLength;
 }

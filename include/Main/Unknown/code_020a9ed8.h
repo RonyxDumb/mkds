@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void SetKeyboardButton1Rect(u32 a, u32 b, u32 c, u32 d);
-void SetKeyboardButton0Rect(u32 a, u32 b, u32 c, u32 d);
+void SetKeyboardButton1Rect(u32 left, u32 top, u32 right, u32 bottom);
+void SetKeyboardButton0Rect(u32 left, u32 top, u32 right, u32 bottom);

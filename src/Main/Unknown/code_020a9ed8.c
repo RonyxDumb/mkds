@@ -14,391 +14,394 @@
 
 #pragma thumb on
 u32 GetKeyboardKeyValue(void) {
-    u32 value0;
-    value0 = gKeyboardKeys.mKeyValue;
-    return value0;
+    u32 keyValue;
+    keyValue = gKeyboardKeys.mKeyValue;
+    return keyValue;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-u16 ConvertCharPair1(u16 a) {
-    u16 r;
-    u16 t;
+u16 ConvertCharPair1(u16 charCode) {
+    u16 converted;
+    u16 mapped;
 
-    if (a == 0 || a == 0x3000) {
-        return a;
+    if (charCode == 0 || charCode == 0x3000) {
+        return charCode;
     }
-    if (IsCharInTable2(a) != 0) {
-        r = ConvertCharPair2(a);
-        t = LookupCharInTablePair(gCharTablePair1, r);
-        if (t != r) {
-            return t;
+    if (IsCharInTable2(charCode) != 0) {
+        converted = ConvertCharPair2(charCode);
+        mapped = LookupCharInTablePair(gCharTablePair1, converted);
+        if (mapped != converted) {
+            return mapped;
         }
-        return a;
+        return charCode;
     }
-    if (IsCharInTable3(a) != 0) {
-        r = ConvertCharPair3(a);
-        t = LookupCharInTablePair(gCharTablePair1, r);
-        if (t != r) {
-            return t;
+    if (IsCharInTable3(charCode) != 0) {
+        converted = ConvertCharPair3(charCode);
+        mapped = LookupCharInTablePair(gCharTablePair1, converted);
+        if (mapped != converted) {
+            return mapped;
         }
-        return a;
+        return charCode;
     }
-    return LookupCharInTablePair(gCharTablePair1, a);
+    return LookupCharInTablePair(gCharTablePair1, charCode);
 }
 
-u16 ConvertCharPair2(u16 a) {
-    u16 r;
-    u16 t;
+u16 ConvertCharPair2(u16 charCode) {
+    u16 converted;
+    u16 mapped;
 
-    if (a == 0 || a == 0x3000) {
-        return a;
+    if (charCode == 0 || charCode == 0x3000) {
+        return charCode;
     }
-    if (IsCharInTable1(a) != 0) {
-        r = ConvertCharPair1(a);
-        t = LookupCharInTablePair(gCharTablePair2, r);
-        if (t != r) {
-            return t;
+    if (IsCharInTable1(charCode) != 0) {
+        converted = ConvertCharPair1(charCode);
+        mapped = LookupCharInTablePair(gCharTablePair2, converted);
+        if (mapped != converted) {
+            return mapped;
         }
-        return a;
+        return charCode;
     }
-    return LookupCharInTablePair(gCharTablePair2, a);
+    return LookupCharInTablePair(gCharTablePair2, charCode);
 }
 
-u16 ConvertCharPair3(u16 a) {
-    u16 r;
-    u16 t;
+u16 ConvertCharPair3(u16 charCode) {
+    u16 converted;
+    u16 mapped;
 
-    if (a == 0 || a == 0x3000) {
-        return a;
+    if (charCode == 0 || charCode == 0x3000) {
+        return charCode;
     }
-    if (IsCharInTable1(a) != 0) {
-        r = ConvertCharPair1(a);
-        t = LookupCharInTablePair(gCharTablePair3, r);
-        if (t != r) {
-            return t;
+    if (IsCharInTable1(charCode) != 0) {
+        converted = ConvertCharPair1(charCode);
+        mapped = LookupCharInTablePair(gCharTablePair3, converted);
+        if (mapped != converted) {
+            return mapped;
         }
-        return a;
+        return charCode;
     }
-    return LookupCharInTablePair(gCharTablePair3, a);
+    return LookupCharInTablePair(gCharTablePair3, charCode);
 }
 
-u16 CycleCharTables(u16 a) {
-    s32 i;
-    s32 j;
-    s32 n;
-    u16 **p;
-    u16 *q;
-    u16 *s;
+u16 CycleCharTables(u16 charCode) {
+    s32 tableIndex;
+    s32 offset;
+    s32 charIndex;
+    u16 **tablePtr;
+    u16 *found;
+    u16 *otherTable;
 
-    if (a == 0 || a == 0x3000) {
-        return a;
+    if (charCode == 0 || charCode == 0x3000) {
+        return charCode;
     }
-    for (i = 0, p = gCharTables; i < 4; p++, i++) {
-        q = wcschr(*p, a);
-        if (q != NULL) {
-            n = q - gCharTables[i];
+    for (tableIndex = 0, tablePtr = gCharTables; tableIndex < 4; tablePtr++, tableIndex++) {
+        found = wcschr(*tablePtr, charCode);
+        if (found != NULL) {
+            charIndex = found - gCharTables[tableIndex];
             break;
         }
     }
-    if (i < 4) {
-        for (j = 1; j < 4; j++) {
-            s = gCharTables[(i + j) % 4];
-            if (s[n] != 0x3000) {
-                return s[n];
+    if (tableIndex < 4) {
+        for (offset = 1; offset < 4; offset++) {
+            otherTable = gCharTables[(tableIndex + offset) % 4];
+            if (otherTable[charIndex] != 0x3000) {
+                return otherTable[charIndex];
             }
         }
     } else {
-        return a;
+        return charCode;
     }
-    return a;
+    return charCode;
 }
 
-u32 IsCharInTable1(u16 a) {
-    if (wcschr(gCharTablePair1[1], a) != NULL) {
+u32 IsCharInTable1(u16 charCode) {
+    if (wcschr(gCharTablePair1[1], charCode) != NULL) {
         return 1;
     }
     return 0;
 }
 
-u32 IsCharInTable2(u16 a) {
-    if (wcschr(gCharTablePair2[1], a) != NULL) {
+u32 IsCharInTable2(u16 charCode) {
+    if (wcschr(gCharTablePair2[1], charCode) != NULL) {
         return 1;
     }
     return 0;
 }
 
-u32 IsCharInTable3(u16 a) {
-    if (wcschr(gCharTablePair3[1], a) != NULL) {
+u32 IsCharInTable3(u16 charCode) {
+    if (wcschr(gCharTablePair3[1], charCode) != NULL) {
         return 1;
     }
     return 0;
 }
 
-void AddToNonzeroNibblesInTile(u32 *a, u32 b, s32 c, s32 d, s32 e, s32 f) {
-    u32 v1;
-    u32 m;
-    u32 *p;
-    u32 w;
-    s32 i;
+void AddToNonzeroNibblesInTile(u32 *tile, u32 addValue, s32 startX, s32 startRow, s32 endX, s32 endRow) {
+    u32 addMask;
+    u32 rowMask;
+    u32 *rowPtr;
+    u32 rowValue;
+    s32 pixelIndex;
 
-    v1 = 0;
-    for (i = 0; i < e - c; i++) {
-        v1 |= b << (i * 4);
+    addMask = 0;
+    for (pixelIndex = 0; pixelIndex < endX - startX; pixelIndex++) {
+        addMask |= addValue << (pixelIndex * 4);
     }
-    v1 <<= c * 4;
-    if (d < f) {
-        p = a + d;
+    addMask <<= startX * 4;
+    if (startRow < endRow) {
+        rowPtr = tile + startRow;
         do {
-            m = v1;
-            w = *p;
-            if ((w & 0xf0000000) == 0) {
-                m &= 0xfffffff;
+            rowMask = addMask;
+            rowValue = *rowPtr;
+            if ((rowValue & 0xf0000000) == 0) {
+                rowMask &= 0xfffffff;
             }
-            if ((w & 0xf000000) == 0) {
-                m &= 0xf0ffffff;
+            if ((rowValue & 0xf000000) == 0) {
+                rowMask &= 0xf0ffffff;
             }
-            if ((w & 0xf00000) == 0) {
-                m &= 0xff0fffff;
+            if ((rowValue & 0xf00000) == 0) {
+                rowMask &= 0xff0fffff;
             }
-            if ((w & 0xf0000) == 0) {
-                m &= 0xfff0ffff;
+            if ((rowValue & 0xf0000) == 0) {
+                rowMask &= 0xfff0ffff;
             }
-            if ((w & 0xf000) == 0) {
-                m &= 0xffff0fff;
+            if ((rowValue & 0xf000) == 0) {
+                rowMask &= 0xffff0fff;
             }
-            if ((w & 0xf00) == 0) {
-                m &= 0xfffff0ff;
+            if ((rowValue & 0xf00) == 0) {
+                rowMask &= 0xfffff0ff;
             }
-            if ((w & 0xf0) == 0) {
-                m &= ~0xf0;
+            if ((rowValue & 0xf0) == 0) {
+                rowMask &= ~0xf0;
             }
-            if ((w & 0xf) == 0) {
-                m &= ~0xf;
+            if ((rowValue & 0xf) == 0) {
+                rowMask &= ~0xf;
             }
-            *p += m;
-            p++;
-            d++;
-        } while (d < f);
+            *rowPtr += rowMask;
+            rowPtr++;
+            startRow++;
+        } while (startRow < endRow);
     }
 }
 
-void AddToNonzeroNibblesOnRectEdge(u32 (*a)[8], s32 b, u32 c, s32 d, s32 e, s32 f, s32 g) {
-    AddToNonzeroNibblesInRect(a, b, c, d, e, f, e + 1);
-    AddToNonzeroNibblesInRect(a, b, c, d, g - 1, f, g);
-    AddToNonzeroNibblesInRect(a, b, c, d, e + 1, d + 1, g - 1);
-    AddToNonzeroNibblesInRect(a, b, c, f - 1, e + 1, f, g - 1);
+void AddToNonzeroNibblesOnRectEdge(u32 (*tiles)[8], s32 rowWidth, u32 addValue, s32 left, s32 top, s32 right,
+                                   s32 bottom) {
+    AddToNonzeroNibblesInRect(tiles, rowWidth, addValue, left, top, right, top + 1);
+    AddToNonzeroNibblesInRect(tiles, rowWidth, addValue, left, bottom - 1, right, bottom);
+    AddToNonzeroNibblesInRect(tiles, rowWidth, addValue, left, top + 1, left + 1, bottom - 1);
+    AddToNonzeroNibblesInRect(tiles, rowWidth, addValue, right - 1, top + 1, right, bottom - 1);
 }
 
-void AddToNonzeroNibblesInRect(u32 (*a)[8], s32 b, u32 c, s32 d, s32 e, s32 f, s32 g) {
-    s32 y;
-    s32 x0;
-    s32 x1;
-    s32 y1;
-    s32 v1;
-    s32 v2;
-    s32 w;
+void AddToNonzeroNibblesInRect(u32 (*tiles)[8], s32 rowWidth, u32 addValue, s32 left, s32 top, s32 right, s32 bottom) {
+    s32 tileY;
+    s32 firstTileX;
+    s32 endTileX;
+    s32 endTileY;
+    s32 tileTop;
+    s32 tileRowBase;
+    s32 tilesPerRow;
 
-    if (d < f && e < g) {
-        x0 = d >> 3;
-        x1 = ((f - 1) >> 3) + 1;
-        y1 = ((g - 1) >> 3) + 1;
-        y = e >> 3;
-        if (y < y1) {
-            v1 = y << 3;
-            w = b >> 3;
-            v2 = y * w;
+    if (left < right && top < bottom) {
+        firstTileX = left >> 3;
+        endTileX = ((right - 1) >> 3) + 1;
+        endTileY = ((bottom - 1) >> 3) + 1;
+        tileY = top >> 3;
+        if (tileY < endTileY) {
+            tileTop = tileY << 3;
+            tilesPerRow = rowWidth >> 3;
+            tileRowBase = tileY * tilesPerRow;
             do {
-                s32 x;
-                x = x0;
-                for (; x < x1; x++) {
-                    s32 s;
-                    s32 t;
-                    s32 u;
-                    s32 v;
+                s32 tileX;
+                tileX = firstTileX;
+                for (; tileX < endTileX; tileX++) {
+                    s32 localLeft;
+                    s32 localTop;
+                    s32 localRight;
+                    s32 localBottom;
 
-                    s = d - (x << 3);
-                    if (s < 0) {
-                        s = 0;
+                    localLeft = left - (tileX << 3);
+                    if (localLeft < 0) {
+                        localLeft = 0;
                     }
-                    t = e - v1 < 0 ? 0 : e - v1;
-                    u = f - (x << 3);
-                    if (u > 8) {
-                        u = 8;
+                    localTop = top - tileTop < 0 ? 0 : top - tileTop;
+                    localRight = right - (tileX << 3);
+                    if (localRight > 8) {
+                        localRight = 8;
                     }
-                    v = g - v1 > 8 ? 8 : g - v1;
-                    AddToNonzeroNibblesInTile(a[x + v2], c, s, t, u, v);
+                    localBottom = bottom - tileTop > 8 ? 8 : bottom - tileTop;
+                    AddToNonzeroNibblesInTile(tiles[tileX + tileRowBase], addValue, localLeft, localTop, localRight,
+                                              localBottom);
                 }
-                v1 += 8;
-                v2 += w;
-                y++;
-            } while (y < y1);
+                tileTop += 8;
+                tileRowBase += tilesPerRow;
+                tileY++;
+            } while (tileY < endTileY);
         }
     }
 }
 
-void RefreshKeyboardCursor(KeyboardKeys *a) {
-    KeyboardRect *q;
-    KeyboardRect *r;
-    s32 x;
-    s32 y;
+void RefreshKeyboardCursor(KeyboardKeys *keyboardKeys) {
+    KeyboardRect *cursorRect;
+    KeyboardRect *rectAtCenter;
+    s32 centerX;
+    s32 centerY;
 
-    q = a->mCursorRect;
-    if (q == NULL) {
-        a->mCursorRect = a->mCurrentLayout->mRects + a->mCurrentLayout->mFixedKeyCount;
+    cursorRect = keyboardKeys->mCursorRect;
+    if (cursorRect == NULL) {
+        keyboardKeys->mCursorRect = keyboardKeys->mCurrentLayout->mRects + keyboardKeys->mCurrentLayout->mFixedKeyCount;
         return;
     }
-    if (q->mKeyId <= 0xff) {
-        x = gKeyboardOffsetX + ((q->mX << 1) + q->mWidth) / 2 + 3;
-        y = gKeyboardOffsetY + ((q->mY << 1) + q->mHeight) / 2 - 3;
+    if (cursorRect->mKeyId <= 0xff) {
+        centerX = gKeyboardOffsetX + ((cursorRect->mX << 1) + cursorRect->mWidth) / 2 + 3;
+        centerY = gKeyboardOffsetY + ((cursorRect->mY << 1) + cursorRect->mHeight) / 2 - 3;
     } else {
-        x = ((q->mX << 1) + q->mWidth) / 2 + 3;
-        y = ((q->mY << 1) + q->mHeight) / 2 - 3;
+        centerX = ((cursorRect->mX << 1) + cursorRect->mWidth) / 2 + 3;
+        centerY = ((cursorRect->mY << 1) + cursorRect->mHeight) / 2 - 3;
     }
-    r = FindKeyboardRectAt(a, x, y);
-    if (r != NULL) {
-        a->mCursorRect = r;
+    rectAtCenter = FindKeyboardRectAt(keyboardKeys, centerX, centerY);
+    if (rectAtCenter != NULL) {
+        keyboardKeys->mCursorRect = rectAtCenter;
         return;
     }
-    a->mCursorRect = a->mCurrentLayout->mRects + a->mCurrentLayout->mFixedKeyCount;
+    keyboardKeys->mCursorRect = keyboardKeys->mCurrentLayout->mRects + keyboardKeys->mCurrentLayout->mFixedKeyCount;
 }
 
-KeyboardRect *FindKeyboardRectInDirection(u32 a, KeyboardRect *b, KeyboardRect *c) {
-    s32 x0;
-    s32 x1;
-    s32 y0;
-    s32 y1;
-    s32 v1;
-    s32 v2;
-    s32 v3;
-    s32 v4;
-    s32 x;
-    s32 x2;
-    s32 y2;
-    s32 v5;
-    s32 v6;
-    s32 k;
-    s32 m;
-    s32 h8;
-    s32 w8;
-    u16 r;
-    KeyboardRect *q;
-    KeyboardRect *e;
-    Ncgr *g;
+KeyboardRect *FindKeyboardRectInDirection(u32 direction, KeyboardRect *rect, KeyboardRect *unused) {
+    s32 startX;
+    s32 endX;
+    s32 startY;
+    s32 endY;
+    s32 stepX;
+    s32 stepY;
+    s32 offsetX;
+    s32 offsetY;
+    s32 scanX;
+    s32 wrappedX;
+    s32 wrappedY;
+    s32 localX;
+    s32 localY;
+    s32 margin;
+    s32 negMargin;
+    s32 spanX;
+    s32 spanY;
+    u16 callbackResult;
+    KeyboardRect *callbackRect;
+    KeyboardRect *foundRect;
+    Ncgr *ncgr;
 
     if (gKeyboardKeys.mCursorCallback != NULL) {
-        r = gKeyboardKeys.mCursorCallback(GetKeyboardRectValue(b), a);
-        if (r != 0) {
-            q = FindKeyboardRectByValue(r);
-            if (q != NULL) {
-                return q;
+        callbackResult = gKeyboardKeys.mCursorCallback(GetKeyboardRectValue(rect), direction);
+        if (callbackResult != 0) {
+            callbackRect = FindKeyboardRectByValue(callbackResult);
+            if (callbackRect != NULL) {
+                return callbackRect;
             }
         }
     }
-    if (b->mKeyId <= 0xff) {
-        v3 = gKeyboardOffsetX;
-        v4 = gKeyboardOffsetY;
+    if (rect->mKeyId <= 0xff) {
+        offsetX = gKeyboardOffsetX;
+        offsetY = gKeyboardOffsetY;
     } else {
-        v3 = 0;
-        v4 = 0;
+        offsetX = 0;
+        offsetY = 0;
     }
-    if ((a & 0x40) != 0) {
-        v1 = -8;
-        v2 = -8;
-        x0 = x1 = v3 + (b->mX + b->mX + b->mWidth) / 2;
-        x1 -= 0x10;
-        y0 = v4 + b->mY;
-        y1 = y0 - 0x120;
-    } else if ((a & 0x80) != 0) {
-        v1 = 8;
-        v2 = 8;
-        x0 = x1 = v3 + (b->mX + b->mX + b->mWidth) / 2;
-        x1 += 0x10;
-        y0 = v4 + (b->mY + b->mHeight);
-        y1 = y0 + 0x120;
-    } else if ((a & 0x20) != 0) {
-        v1 = -8;
-        v2 = 8;
-        x0 = v3 + b->mX;
-        x1 = x0 - 0x120;
-        y0 = y1 = v4 + (b->mY + b->mY + b->mHeight) / 2;
-        y1 += 0x10;
-    } else if ((a & 0x10) != 0) {
-        v1 = 8;
-        v2 = 8;
-        x0 = v3 + (b->mX + b->mWidth);
-        x1 = x0 + 0x120;
-        y0 = y1 = v4 + (b->mY + b->mY + b->mHeight) / 2;
-        y1 += 0x10;
+    if ((direction & 0x40) != 0) {
+        stepX = -8;
+        stepY = -8;
+        startX = endX = offsetX + (rect->mX + rect->mX + rect->mWidth) / 2;
+        endX -= 0x10;
+        startY = offsetY + rect->mY;
+        endY = startY - 0x120;
+    } else if ((direction & 0x80) != 0) {
+        stepX = 8;
+        stepY = 8;
+        startX = endX = offsetX + (rect->mX + rect->mX + rect->mWidth) / 2;
+        endX += 0x10;
+        startY = offsetY + (rect->mY + rect->mHeight);
+        endY = startY + 0x120;
+    } else if ((direction & 0x20) != 0) {
+        stepX = -8;
+        stepY = 8;
+        startX = offsetX + rect->mX;
+        endX = startX - 0x120;
+        startY = endY = offsetY + (rect->mY + rect->mY + rect->mHeight) / 2;
+        endY += 0x10;
+    } else if ((direction & 0x10) != 0) {
+        stepX = 8;
+        stepY = 8;
+        startX = offsetX + (rect->mX + rect->mWidth);
+        endX = startX + 0x120;
+        startY = endY = offsetY + (rect->mY + rect->mY + rect->mHeight) / 2;
+        endY += 0x10;
     }
-    for (; y0 != y1; y0 += v2) {
-        x = x0;
-        if (x != x1) {
-            v6 = y0 - v4;
+    for (; startY != endY; startY += stepY) {
+        scanX = startX;
+        if (scanX != endX) {
+            localY = startY - offsetY;
             do {
-                x2 = x;
-                y2 = y0;
-                g = gKeyboardKeys.mCurrentLayout->mNcgr;
-                h8 = g->mUnk_02 << 3;
-                w8 = g->mUnk_00 << 3;
-                v5 = x - v3;
-                k = data_usa_021679f8;
-                m = -k;
-                if (v5 < m) {
-                    x2 = x + (h8 + k * 2);
-                } else if (v5 > h8 + k) {
-                    x2 = x - (h8 + k * 2);
+                wrappedX = scanX;
+                wrappedY = startY;
+                ncgr = gKeyboardKeys.mCurrentLayout->mNcgr;
+                spanX = ncgr->mUnk_02 << 3;
+                spanY = ncgr->mUnk_00 << 3;
+                localX = scanX - offsetX;
+                margin = data_usa_021679f8;
+                negMargin = -margin;
+                if (localX < negMargin) {
+                    wrappedX = scanX + (spanX + margin * 2);
+                } else if (localX > spanX + margin) {
+                    wrappedX = scanX - (spanX + margin * 2);
                 }
-                if (v6 < m) {
-                    y2 = y2 + (w8 + k * 2);
-                } else if (v6 > w8 + k) {
-                    y2 = y2 - (w8 + k * 2);
+                if (localY < negMargin) {
+                    wrappedY = wrappedY + (spanY + margin * 2);
+                } else if (localY > spanY + margin) {
+                    wrappedY = wrappedY - (spanY + margin * 2);
                 }
-                e = FindKeyboardRectAt(&gKeyboardKeys, x2, y2);
-                if (e != NULL && e != b) {
-                    return e;
+                foundRect = FindKeyboardRectAt(&gKeyboardKeys, wrappedX, wrappedY);
+                if (foundRect != NULL && foundRect != rect) {
+                    return foundRect;
                 }
-                x += v1;
-            } while (x != x1);
+                scanX += stepX;
+            } while (scanX != endX);
         }
     }
-    return b;
+    return rect;
 }
 
-u16 LookupCharInTablePair(u16 **a, u16 b) {
-    s32 i;
-    u16 *p;
-    u16 r;
+u16 LookupCharInTablePair(u16 **tablePair, u16 charCode) {
+    s32 tableIndex;
+    u16 *found;
+    u16 mapped;
 
-    for (i = 0; i < 2; i++) {
-        p = wcschr(a[i], b);
-        if (p != NULL) {
-            r = a[1 - i][p - a[i]];
-            if (r != 0x3000) {
-                return r;
+    for (tableIndex = 0; tableIndex < 2; tableIndex++) {
+        found = wcschr(tablePair[tableIndex], charCode);
+        if (found != NULL) {
+            mapped = tablePair[1 - tableIndex][found - tablePair[tableIndex]];
+            if (mapped != 0x3000) {
+                return mapped;
             }
-            return b;
+            return charCode;
         }
     }
-    return b;
+    return charCode;
 }
 
-void SetupKeyboardLayout(KeyboardRect *a, Ncgr *b, void (*c)(KeyboardKeys *), s32 d, u32 e, u16 *f) {
-    u32 x;
-    u32 y;
+void SetupKeyboardLayout(KeyboardRect *rects, Ncgr *ncgr, void (*callback)(KeyboardKeys *), s32 fixedCount,
+                         u32 rectCount, u16 *charMap) {
+    u32 touchX;
+    u32 touchY;
 
     gKeyboardKeys.mCurrentLayout = &data_0217b294;
-    gKeyboardKeys.mCurrentLayout->mRects = a;
-    gKeyboardKeys.mCurrentLayout->mNcgr = b;
-    gKeyboardKeys.mCurrentLayout->mCallback = c;
-    gKeyboardKeys.mCurrentLayout->mFixedKeyCount = d - 1;
-    gKeyboardKeys.mCurrentLayout->mRectCount = e;
-    gKeyboardKeys.mCharMap = f + 1;
+    gKeyboardKeys.mCurrentLayout->mRects = rects;
+    gKeyboardKeys.mCurrentLayout->mNcgr = ncgr;
+    gKeyboardKeys.mCurrentLayout->mCallback = callback;
+    gKeyboardKeys.mCurrentLayout->mFixedKeyCount = fixedCount - 1;
+    gKeyboardKeys.mCurrentLayout->mRectCount = rectCount;
+    gKeyboardKeys.mCharMap = charMap + 1;
     if (gKeyboardKeys.mTouchStartRect != NULL) {
-        x = GetKeyboardLastTouchX();
-        y = GetKeyboardLastTouchY();
-        gKeyboardKeys.mTouchStartRect = FindKeyboardRectAt(&gKeyboardKeys, x, y);
+        touchX = GetKeyboardLastTouchX();
+        touchY = GetKeyboardLastTouchY();
+        gKeyboardKeys.mTouchStartRect = FindKeyboardRectAt(&gKeyboardKeys, touchX, touchY);
     }
     FillKeyboardBg2Scr(&gKeyboardKeys);
     DrawKeyboardGlyphs(&gKeyboardKeys);
@@ -406,60 +409,60 @@ void SetupKeyboardLayout(KeyboardRect *a, Ncgr *b, void (*c)(KeyboardKeys *), s3
     RefreshKeyboardCursor(&gKeyboardKeys);
 }
 
-void SetupKeyboardLayoutHiragana(KeyboardRect *a, Ncgr *b, u32 c) {
+void SetupKeyboardLayoutHiragana(KeyboardRect *rects, Ncgr *ncgr, u32 rectCount) {
     gKeyboardLayoutKeyIds[0] = 4;
     gKeyboardLayoutKeyIds[1] = 0;
-    SetupKeyboardLayout(a, b, HiraganaKatakanaLayoutCallback, 9, c, gKbdmapHiragana);
+    SetupKeyboardLayout(rects, ncgr, HiraganaKatakanaLayoutCallback, 9, rectCount, gKbdmapHiragana);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupKeyboardLayoutAscii(KeyboardRect *a, struct Ncgr *b, u32 c) {
-    u16 *v1;
-    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+void SetupKeyboardLayoutAscii(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
+    u16 *keyIds;
+    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
     *(u16 *) &gKeyboardLayoutKeyIds = 0;
-    v1[1] = 0;
-    SetupKeyboardLayout(a, b, AsciiLayoutCallback, 6, c, gKbdmapAscii);
+    keyIds[1] = 0;
+    SetupKeyboardLayout(rects, ncgr, AsciiLayoutCallback, 6, rectCount, gKbdmapAscii);
 }
 
-void SetupKeyboardLayoutOther1(KeyboardRect *a, struct Ncgr *b, u32 c) {
-    u16 *v1;
-    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+void SetupKeyboardLayoutOther1(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
+    u16 *keyIds;
+    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
     *(u16 *) &gKeyboardLayoutKeyIds = 0;
-    v1[1] = 0;
-    SetupKeyboardLayout(a, b, NULL, 4, c, gKbdmapOther1);
+    keyIds[1] = 0;
+    SetupKeyboardLayout(rects, ncgr, NULL, 4, rectCount, gKbdmapOther1);
 }
 
-void SetupKeyboardLayoutOther2(KeyboardRect *a, struct Ncgr *b, u32 c) {
-    u16 *v1;
-    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+void SetupKeyboardLayoutOther2(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
+    u16 *keyIds;
+    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
     *(u16 *) &gKeyboardLayoutKeyIds = 0;
-    v1[1] = 0;
-    SetupKeyboardLayout(a, b, NULL, 4, c, gKbdmapOther2);
+    keyIds[1] = 0;
+    SetupKeyboardLayout(rects, ncgr, NULL, 4, rectCount, gKbdmapOther2);
 }
 
-void SetupKeyboardLayoutOther3(KeyboardRect *a, struct Ncgr *b, u32 c) {
-    u16 *v1;
-    v1 = (u16 *) &gKeyboardLayoutKeyIds;
+void SetupKeyboardLayoutOther3(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
+    u16 *keyIds;
+    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
     *(u16 *) &gKeyboardLayoutKeyIds = 0;
-    v1[1] = 0;
-    SetupKeyboardLayout(a, b, NULL, 4, c, gKbdmapOther3);
+    keyIds[1] = 0;
+    SetupKeyboardLayout(rects, ncgr, NULL, 4, rectCount, gKbdmapOther3);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetKeyboardRect(KeyboardRect *p, u32 a, u32 b, u32 c, u32 d) {
-    if (p != NULL) {
-        p->mX = a;
-        p->mY = b;
-        p->mWidth = c - a;
-        p->mHeight = d - b;
-        p->mNextRectOffset = 0;
-        p->mKeyId = 0xff00;
+void SetKeyboardRect(KeyboardRect *rect, u32 left, u32 top, u32 right, u32 bottom) {
+    if (rect != NULL) {
+        rect->mX = left;
+        rect->mY = top;
+        rect->mWidth = right - left;
+        rect->mHeight = bottom - top;
+        rect->mNextRectOffset = 0;
+        rect->mKeyId = 0xff00;
     }
 }
 
@@ -467,12 +470,12 @@ void SetKeyboardRect(KeyboardRect *p, u32 a, u32 b, u32 c, u32 d) {
 
 #pragma thumb on
 
-void SetKeyboardButton0Rect(u32 a, u32 b, u32 c, u32 d) {
-    SetKeyboardRect(&gKeyboardKeys.mButton0Rect, a, b, c, d);
+void SetKeyboardButton0Rect(u32 left, u32 top, u32 right, u32 bottom) {
+    SetKeyboardRect(&gKeyboardKeys.mButton0Rect, left, top, right, bottom);
 }
 
-void SetKeyboardButton1Rect(u32 a, u32 b, u32 c, u32 d) {
-    SetKeyboardRect(&gKeyboardKeys.mButton1Rect, a, b, c, d);
+void SetKeyboardButton1Rect(u32 left, u32 top, u32 right, u32 bottom) {
+    SetKeyboardRect(&gKeyboardKeys.mButton1Rect, left, top, right, bottom);
 }
 
 #pragma thumb off

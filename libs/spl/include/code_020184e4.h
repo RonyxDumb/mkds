@@ -86,11 +86,11 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
                            u16 maxPolyId);
 u32 SPLUtil_AllocPaletteVRAM(s32 size, s32 is4Pltt);
 u32 SPLUtil_AllocTextureVRAM(s32 size, s32 is4x4);
-void SPLUtil_SetCylinderEmitterDir(Unk0201ca6c *emtr, Vec3 *p1, Vec3 *p2);
+void SPLUtil_SetCylinderEmitterDir(Unk0201ca6c *emtr, Vec3 *pointA, Vec3 *pointB);
 void SPLManager_DoDraw(SPLManager *mgr);
 void SPLManager_DrawChildParticles(SPLManager *mgr);
 void SPLManager_DrawParticles(SPLManager *mgr);
-void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *b);
+void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr);
 void SPLEmitter_Init(Unk0201ca6c *emtr, Unk0201ca6c_20 *res, Vec3 *pos);
 void SPLUtil_SetTexture_Stub(Unk020184e4_2c *tex);
 void SPLUtil_SetTexture(Unk020184e4_2c *tex);

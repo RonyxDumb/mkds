@@ -7,37 +7,38 @@
 #include "code_0214177c.h"
 #include "Main/Unknown/code_02130000.h"
 
-// 1 when a and b have the same mUnk_02 and the same digits (missing digits count as 0), or both have mUnk_05[0] == 0.
-int DigitsEqual(const DigitRecord *a, const DigitRecord *b) {
-    int i;
-    int m;
+// 1 when left and right have the same mUnk_02 and the same digits (missing digits count as 0), or both have mUnk_05[0]
+// == 0.
+int DigitsEqual(const DigitRecord *left, const DigitRecord *right) {
+    int digitIndex;
+    int commonCount;
     int la;
     int lb;
 
-    if (a->mDigits[0] == 0) {
-        return b->mDigits[0] == 0;
+    if (left->mDigits[0] == 0) {
+        return right->mDigits[0] == 0;
     }
-    if (b->mDigits[0] == 0) {
-        return a->mDigits[0] == 0;
+    if (right->mDigits[0] == 0) {
+        return left->mDigits[0] == 0;
     }
-    if (a->mExponent == b->mExponent) {
-        la = a->mDigitCount;
-        m = la;
-        lb = b->mDigitCount;
-        i = 0;
+    if (left->mExponent == right->mExponent) {
+        la = left->mDigitCount;
+        commonCount = la;
+        lb = right->mDigitCount;
+        digitIndex = 0;
         if (la > lb) {
-            m = lb;
+            commonCount = lb;
         }
-        for (; i < m; i++) {
-            if (a->mDigits[i] != b->mDigits[i]) {
+        for (; digitIndex < commonCount; digitIndex++) {
+            if (left->mDigits[digitIndex] != right->mDigits[digitIndex]) {
                 return 0;
             }
         }
-        if (m == la) {
-            a = b;
+        if (commonCount == la) {
+            left = right;
         }
-        for (; i < a->mDigitCount; i++) {
-            if (a->mDigits[i] != 0) {
+        for (; digitIndex < left->mDigitCount; digitIndex++) {
+            if (left->mDigits[digitIndex] != 0) {
                 return 0;
             }
         }
@@ -46,483 +47,484 @@ int DigitsEqual(const DigitRecord *a, const DigitRecord *b) {
     return 0;
 }
 
-// 1 when a is less than b: compares mUnk_05[0] == 0 first, then mUnk_02, then the digits from mUnk_05[0] on.
-int DigitsLess(const DigitRecord *a, const DigitRecord *b) {
-    int i;
-    int m;
+// 1 when left is less than right: compares mUnk_05[0] == 0 first, then mUnk_02, then the digits from mUnk_05[0] on.
+int DigitsLess(const DigitRecord *left, const DigitRecord *right) {
+    int digitIndex;
+    int commonCount;
     int la;
     int lb;
-    u32 x;
-    u32 y;
+    u32 rightDigit;
+    u32 leftDigit;
 
-    if (a->mDigits[0] == 0) {
-        return b->mDigits[0] != 0;
+    if (left->mDigits[0] == 0) {
+        return right->mDigits[0] != 0;
     }
-    if (b->mDigits[0] == 0) {
+    if (right->mDigits[0] == 0) {
         return 0;
     }
-    if (a->mExponent == b->mExponent) {
-        la = a->mDigitCount;
-        m = la;
-        lb = b->mDigitCount;
-        i = 0;
+    if (left->mExponent == right->mExponent) {
+        la = left->mDigitCount;
+        commonCount = la;
+        lb = right->mDigitCount;
+        digitIndex = 0;
         if (la > lb) {
-            m = lb;
+            commonCount = lb;
         }
-        for (; i < m; i++) {
-            x = b->mDigits[i];
-            y = a->mDigits[i];
-            if (y < x) {
+        for (; digitIndex < commonCount; digitIndex++) {
+            rightDigit = right->mDigits[digitIndex];
+            leftDigit = left->mDigits[digitIndex];
+            if (leftDigit < rightDigit) {
                 return 1;
             }
-            if (x < y) {
+            if (rightDigit < leftDigit) {
                 return 0;
             }
         }
-        if (m == la) {
-            for (; i < b->mDigitCount; i++) {
-                if (b->mDigits[i] != 0) {
+        if (commonCount == la) {
+            for (; digitIndex < right->mDigitCount; digitIndex++) {
+                if (right->mDigits[digitIndex] != 0) {
                     return 1;
                 }
             }
         }
         return 0;
     }
-    return a->mExponent < b->mExponent;
+    return left->mExponent < right->mExponent;
 }
 
-// Copies b to a; if c->mUnk_05[0] is not 0, subtracts c's digits from a's, shifted by mUnk_02, and then drops leading
-// and trailing zero digits.
-void DigitsSubtract(DigitRecord *a, const DigitRecord *b, const DigitRecord *c) {
-    int n;
-    int m;
-    int d;
-    char *p;
-    char *e;
-    const char *cb;
-    const char *s;
-    const char *t;
-    int k;
-    char *q;
-    const char *r;
-    int f;
+// Copies minuend to result; if subtrahend->mUnk_05[0] is not 0, subtracts its digits from the result, shifted by
+// mUnk_02, and then drops leading and trailing zero digits.
+void DigitsSubtract(DigitRecord *result, const DigitRecord *minuend, const DigitRecord *subtrahend) {
+    int digitCount;
+    int length;
+    int shift;
+    char *resultDigits;
+    char *resultEnd;
+    const char *subDigits;
+    const char *subCursor;
+    const char *subEnd;
+    int consumed;
+    char *borrowCursor;
+    const char *subTail;
+    int roundDown;
 
-    *a = *b;
-    if (c->mDigits[0] == 0) {
+    *result = *minuend;
+    if (subtrahend->mDigits[0] == 0) {
         return;
     }
-    n = a->mDigitCount;
-    m = n;
-    if (n < c->mDigitCount) {
-        m = c->mDigitCount;
+    digitCount = result->mDigitCount;
+    length = digitCount;
+    if (digitCount < subtrahend->mDigitCount) {
+        length = subtrahend->mDigitCount;
     }
-    d = a->mExponent - c->mExponent;
-    m += d;
-    if (m > 32) {
-        m = 32;
+    shift = result->mExponent - subtrahend->mExponent;
+    length += shift;
+    if (length > 32) {
+        length = 32;
     }
-    if (n < m) {
+    if (digitCount < length) {
         do {
-            a->mDigitCount++;
-            a->mDigits[n] = 0;
-            n = a->mDigitCount;
-        } while (n < m);
+            result->mDigitCount++;
+            result->mDigits[digitCount] = 0;
+            digitCount = result->mDigitCount;
+        } while (digitCount < length);
     }
-    p = a->mDigits;
-    e = p + m;
-    if (c->mDigitCount + d < m) {
-        e = p + (c->mDigitCount + d);
+    resultDigits = result->mDigits;
+    resultEnd = resultDigits + length;
+    if (subtrahend->mDigitCount + shift < length) {
+        resultEnd = resultDigits + (subtrahend->mDigitCount + shift);
     }
-    cb = c->mDigits;
-    s = cb + (e - p - d);
-    t = s;
-    while (e > p && s > cb) {
-        e--;
-        s--;
-        if (*e < *s) {
-            q = e - 1;
-            while (*q == 0) {
-                q--;
+    subDigits = subtrahend->mDigits;
+    subCursor = subDigits + (resultEnd - resultDigits - shift);
+    subEnd = subCursor;
+    while (resultEnd > resultDigits && subCursor > subDigits) {
+        resultEnd--;
+        subCursor--;
+        if (*resultEnd < *subCursor) {
+            borrowCursor = resultEnd - 1;
+            while (*borrowCursor == 0) {
+                borrowCursor--;
             }
-            while (q != e) {
-                (*q)--;
-                q++;
-                *q += 10;
+            while (borrowCursor != resultEnd) {
+                (*borrowCursor)--;
+                borrowCursor++;
+                *borrowCursor += 10;
             }
         }
-        *e -= *s;
+        *resultEnd -= *subCursor;
     }
-    k = t - cb;
-    if (k < c->mDigitCount) {
-        f = 0;
-        if (*t < 5) {
-            f = 1;
-        } else if (*t == 5) {
-            r = c->mDigits + c->mDigitCount;
-            t++;
-            while (t < r) {
-                if (*t != 0) {
+    consumed = subEnd - subDigits;
+    if (consumed < subtrahend->mDigitCount) {
+        roundDown = 0;
+        if (*subEnd < 5) {
+            roundDown = 1;
+        } else if (*subEnd == 5) {
+            subTail = subtrahend->mDigits + subtrahend->mDigitCount;
+            subEnd++;
+            while (subEnd < subTail) {
+                if (*subEnd != 0) {
                     goto done;
                 }
-                t++;
+                subEnd++;
             }
-            e = p + k + d - 1;
-            if (*e & 1) {
-                f = 1;
+            resultEnd = resultDigits + consumed + shift - 1;
+            if (*resultEnd & 1) {
+                roundDown = 1;
             }
         }
-        if (f != 0) {
-            if (*e < 1) {
-                q = e - 1;
-                while (*q == 0) {
-                    q--;
+        if (roundDown != 0) {
+            if (*resultEnd < 1) {
+                borrowCursor = resultEnd - 1;
+                while (*borrowCursor == 0) {
+                    borrowCursor--;
                 }
-                while (q != e) {
-                    (*q)--;
-                    q++;
-                    *q += 10;
+                while (borrowCursor != resultEnd) {
+                    (*borrowCursor)--;
+                    borrowCursor++;
+                    *borrowCursor += 10;
                 }
             }
-            (*e)--;
+            (*resultEnd)--;
         }
     }
 done:
-    t = p;
-    while (*t == 0) {
-        t++;
+    subEnd = resultDigits;
+    while (*subEnd == 0) {
+        subEnd++;
     }
-    if (t > p) {
-        char *x;
+    if (subEnd > resultDigits) {
+        char *digitsEnd;
         u8 cnt;
 
-        cnt = t - p;
-        a->mExponent -= cnt;
-        x = p + a->mDigitCount;
-        while (t < x) {
-            *p = *t;
-            t++;
-            p++;
+        cnt = subEnd - resultDigits;
+        result->mExponent -= cnt;
+        digitsEnd = resultDigits + result->mDigitCount;
+        while (subEnd < digitsEnd) {
+            *resultDigits = *subEnd;
+            subEnd++;
+            resultDigits++;
         }
-        a->mDigitCount -= cnt;
+        result->mDigitCount -= cnt;
     }
-    p = a->mDigits;
-    t = p + a->mDigitCount;
-    while (t > p) {
-        t--;
-        if (*t != 0) {
+    resultDigits = result->mDigits;
+    subEnd = resultDigits + result->mDigitCount;
+    while (subEnd > resultDigits) {
+        subEnd--;
+        if (*subEnd != 0) {
             break;
         }
     }
-    a->mDigitCount = t - p + 1;
+    result->mDigitCount = subEnd - resultDigits + 1;
 }
 
-// Fills out from the double v: mUnk_00 is the sign bit. A zero v gives one digit 0; an all-ones exponent gives one
-// digit, 0x4e when the mantissa bits are not all 0, else 0x49. Otherwise the digits come from DigitsFromU64 and
+// Fills out from the double value: mUnk_00 is the sign bit. A zero value gives one digit 0; an all-ones exponent gives
+// one digit, 0x4e when the mantissa bits are not all 0, else 0x49. Otherwise the digits come from DigitsFromU64 and
 // DigitsPowerOfTwo, combined by DigitsMultiply.
-void DoubleToDigits(DigitRecord *out, double v) {
-    int e;
-    double y1;
-    double y2;
-    double y3;
-    double m;
+void DoubleToDigits(DigitRecord *out, double value) {
+    int binaryExponent;
+    double classifyCopy1;
+    double classifyCopy2;
+    double mantissaCopy;
+    double mantissa;
     DigitRecord big_a;
     DigitRecord big_b;
-    u32 *w;
+    u32 *mantissaWords;
     u32 hi;
     u8 sign;
-    int k;
-    int n;
-    int s;
+    int fpClass;
+    int lowZeroBits;
+    int shift;
 
-    hi = ((u32 *) &v)[1];
+    hi = ((u32 *) &value)[1];
     sign = (hi & 0x80000000) != 0;
-    if (v == 0.0) {
+    if (value == 0.0) {
         out->mNegative = sign;
         out->mExponent = 0;
         out->mDigitCount = 1;
         out->mDigits[0] = 0;
         return;
     }
-    y1 = v;
-    switch (((u32 *) &y1)[1] & 0x7ff00000) {
+    classifyCopy1 = value;
+    switch (((u32 *) &classifyCopy1)[1] & 0x7ff00000) {
         case 0x7ff00000:
-            if ((((u32 *) &y1)[1] & 0xfffff) || ((u32 *) &y1)[0]) {
-                k = 1;
+            if ((((u32 *) &classifyCopy1)[1] & 0xfffff) || ((u32 *) &classifyCopy1)[0]) {
+                fpClass = 1;
             } else {
-                k = 2;
+                fpClass = 2;
             }
             break;
         case 0:
-            if ((((u32 *) &y1)[1] & 0xfffff) || ((u32 *) &y1)[0]) {
-                k = 5;
+            if ((((u32 *) &classifyCopy1)[1] & 0xfffff) || ((u32 *) &classifyCopy1)[0]) {
+                fpClass = 5;
             } else {
-                k = 3;
+                fpClass = 3;
             }
             break;
         default:
-            k = 4;
+            fpClass = 4;
             break;
     }
-    if (k <= 2) {
+    if (fpClass <= 2) {
         out->mNegative = sign;
         out->mExponent = 0;
         out->mDigitCount = 1;
-        y2 = v;
-        switch (((u32 *) &y2)[1] & 0x7ff00000) {
+        classifyCopy2 = value;
+        switch (((u32 *) &classifyCopy2)[1] & 0x7ff00000) {
             case 0x7ff00000:
-                if ((((u32 *) &y2)[1] & 0xfffff) || ((u32 *) &y2)[0]) {
-                    k = 1;
+                if ((((u32 *) &classifyCopy2)[1] & 0xfffff) || ((u32 *) &classifyCopy2)[0]) {
+                    fpClass = 1;
                 } else {
-                    k = 2;
+                    fpClass = 2;
                 }
                 break;
             case 0:
-                if ((((u32 *) &y2)[1] & 0xfffff) || ((u32 *) &y2)[0]) {
-                    k = 5;
+                if ((((u32 *) &classifyCopy2)[1] & 0xfffff) || ((u32 *) &classifyCopy2)[0]) {
+                    fpClass = 5;
                 } else {
-                    k = 3;
+                    fpClass = 3;
                 }
                 break;
             default:
-                k = 4;
+                fpClass = 4;
                 break;
         }
-        out->mDigits[0] = k == 1 ? 0x4e : 0x49;
+        out->mDigits[0] = fpClass == 1 ? 0x4e : 0x49;
         return;
     }
     if (sign) {
-        v = 0.0 - v;
+        value = 0.0 - value;
     }
-    m = frexp(v, &e);
-    y3 = m;
-    w = (u32 *) &y3;
-    if (w[0]) {
-        n = CountLowZeroBits(w[0]);
+    mantissa = frexp(value, &binaryExponent);
+    mantissaCopy = mantissa;
+    mantissaWords = (u32 *) &mantissaCopy;
+    if (mantissaWords[0]) {
+        lowZeroBits = CountLowZeroBits(mantissaWords[0]);
     } else {
-        n = CountLowZeroBits(w[1] | 0x100000) + 0x20;
+        lowZeroBits = CountLowZeroBits(mantissaWords[1] | 0x100000) + 0x20;
     }
-    s = 0x35 - n;
-    DigitsPowerOfTwo(&big_b, e - s);
-    DigitsFromU64(&big_a, ldexp(m, s));
+    shift = 0x35 - lowZeroBits;
+    DigitsPowerOfTwo(&big_b, binaryExponent - shift);
+    DigitsFromU64(&big_a, ldexp(mantissa, shift));
     DigitsMultiply(out, &big_a, &big_b);
     out->mNegative = sign;
 }
 
-// Calls DoubleToDigits on b, then raises mUnk_04 to n (a->mUnk_02, at most 32) by appending 0 entries to mUnk_05,
-// lowers b->mUnk_02 by mUnk_04 - 1 and adds 0x30 to every entry. Does nothing more when mUnk_05[0] is above 9.
-void DoubleToDigitChars(Unk02140c28 *a, double v, DigitRecord *b) {
-    int n;
-    int i;
+// Calls DoubleToDigits on record, then raises mUnk_04 to the count (options->mUnk_02, at most 32) by appending 0
+// entries to mUnk_05, lowers record->mUnk_02 by mUnk_04 - 1 and adds 0x30 to every entry. Does nothing more when
+// mUnk_05[0] is above 9.
+void DoubleToDigitChars(Unk02140c28 *options, double value, DigitRecord *record) {
+    int digitCount;
+    int digitIndex;
 
-    n = a->mDigitCount;
-    DoubleToDigits(b, v);
-    if (b->mDigits[0] > 9) {
+    digitCount = options->mDigitCount;
+    DoubleToDigits(record, value);
+    if (record->mDigits[0] > 9) {
         return;
     }
-    if (n > 32) {
-        n = 32;
+    if (digitCount > 32) {
+        digitCount = 32;
     }
-    DigitsRoundTo(b, n);
-    while (b->mDigitCount < n) {
-        b->mDigits[b->mDigitCount++] = 0;
+    DigitsRoundTo(record, digitCount);
+    while (record->mDigitCount < digitCount) {
+        record->mDigits[record->mDigitCount++] = 0;
     }
-    b->mExponent = b->mExponent - (b->mDigitCount - 1);
-    for (i = 0; i < b->mDigitCount; i++) {
-        b->mDigits[i] += 0x30;
+    record->mExponent = record->mExponent - (record->mDigitCount - 1);
+    for (digitIndex = 0; digitIndex < record->mDigitCount; digitIndex++) {
+        record->mDigits[digitIndex] += 0x30;
     }
 }
 
-double DigitCharsToDouble(const DigitRecord *d) {
-    char *p;
+double DigitCharsToDouble(const DigitRecord *record) {
+    char *cursor;
     char *end;
-    int m;
-    u32 v;
-    int i;
-    u64 *py;
-    int j;
-    int k;
-    double r;
-    u64 *pr;
-    double x;
-    double y;
-    double t;
-    double s;
+    int exponent5;
+    u32 chunkValue;
+    int chunkIndex;
+    u64 *neighborBits;
+    int searchUp;
+    int fpClass;
+    double nanValue;
+    u64 *nanBits;
+    double result;
+    double neighbor;
+    double scaled;
+    double sum;
     union {
         double d;
         u32 w[2];
-    } u1, u2;
-    DigitRecord e;
-    DigitRecord g;
-    DigitRecord a;
-    DigitRecord b;
-    DigitRecord c;
-    DigitRecord f;
+    } resultUnion, neighborUnion;
+    DigitRecord parsed;
+    DigitRecord maxRecord;
+    DigitRecord resultRecord;
+    DigitRecord neighborRecord;
+    DigitRecord diffLow;
+    DigitRecord diffHigh;
 
-    if (d->mDigitCount == 0) {
-        return copysign(0.0, d->mNegative == 0 ? 1.0 : -1.0);
+    if (record->mDigitCount == 0) {
+        return copysign(0.0, record->mNegative == 0 ? 1.0 : -1.0);
     }
-    switch (d->mDigits[0]) {
+    switch (record->mDigits[0]) {
         case '0':
-            return copysign(0.0, d->mNegative == 0 ? 1.0 : -1.0);
+            return copysign(0.0, record->mNegative == 0 ? 1.0 : -1.0);
         case 'I':
-            return copysign(data_0216ec98, d->mNegative == 0 ? 1.0 : -1.0);
+            return copysign(data_0216ec98, record->mNegative == 0 ? 1.0 : -1.0);
         case 'N':
-            pr = (u64 *) &r;
-            *pr = 0x7ff0000000000000ULL;
-            if (d->mNegative) {
-                *pr |= 0x8000000000000000ULL;
+            nanBits = (u64 *) &nanValue;
+            *nanBits = 0x7ff0000000000000ULL;
+            if (record->mNegative) {
+                *nanBits |= 0x8000000000000000ULL;
             }
-            *pr |= 0x0008000000000000ULL;
-            return r;
+            *nanBits |= 0x0008000000000000ULL;
+            return nanValue;
     }
-    e = *d;
-    for (p = e.mDigits, end = p + e.mDigitCount; p < end; p++) {
-        *p -= '0';
+    parsed = *record;
+    for (cursor = parsed.mDigits, end = cursor + parsed.mDigitCount; cursor < end; cursor++) {
+        *cursor -= '0';
     }
-    e.mExponent += e.mDigitCount - 1;
-    m = e.mExponent;
-    DigitsFromString(&g, data_0216ef70, 0x134);
-    if (DigitsLess(&g, &e)) {
-        return copysign(data_0216ec98, d->mNegative == 0 ? 1.0 : -1.0);
+    parsed.mExponent += parsed.mDigitCount - 1;
+    exponent5 = parsed.mExponent;
+    DigitsFromString(&maxRecord, data_0216ef70, 0x134);
+    if (DigitsLess(&maxRecord, &parsed)) {
+        return copysign(data_0216ec98, record->mNegative == 0 ? 1.0 : -1.0);
     }
-    p = e.mDigits;
-    x = *p++;
-    while (p < end) {
-        int n;
+    cursor = parsed.mDigits;
+    result = *cursor++;
+    while (cursor < end) {
+        int chunkLength;
 
-        v = 0;
-        n = (end - p) % 8;
-        if (n == 0) {
-            n = 8;
+        chunkValue = 0;
+        chunkLength = (end - cursor) % 8;
+        if (chunkLength == 0) {
+            chunkLength = 8;
         }
-        for (i = 0; i < n; i++) {
-            v = 10 * v + *p;
-            p++;
+        for (chunkIndex = 0; chunkIndex < chunkLength; chunkIndex++) {
+            chunkValue = 10 * chunkValue + *cursor;
+            cursor++;
         }
-        t = x * data_0216ef30[n - 1];
-        s = t + v;
-        if (v != 0 && t == s) {
+        scaled = result * data_0216ef30[chunkLength - 1];
+        sum = scaled + chunkValue;
+        if (chunkValue != 0 && scaled == sum) {
             break;
         }
-        x = s;
-        m -= n;
+        result = sum;
+        exponent5 -= chunkLength;
     }
-    if (m < 0) {
-        x = x / pow(5.0, -m);
+    if (exponent5 < 0) {
+        result = result / pow(5.0, -exponent5);
     } else {
-        x = x * pow(5.0, m);
+        result = result * pow(5.0, exponent5);
     }
-    x = ldexp(x, m);
-    u1.d = x;
-    switch (u1.w[1] & 0x7ff00000) {
+    result = ldexp(result, exponent5);
+    resultUnion.d = result;
+    switch (resultUnion.w[1] & 0x7ff00000) {
         case 0x7ff00000:
-            if ((u1.w[1] & 0xfffff) || u1.w[0]) {
-                k = 1;
+            if ((resultUnion.w[1] & 0xfffff) || resultUnion.w[0]) {
+                fpClass = 1;
             } else {
-                k = 2;
+                fpClass = 2;
             }
             break;
         case 0:
-            if ((u1.w[1] & 0xfffff) || u1.w[0]) {
-                k = 5;
+            if ((resultUnion.w[1] & 0xfffff) || resultUnion.w[0]) {
+                fpClass = 5;
             } else {
-                k = 3;
+                fpClass = 3;
             }
             break;
         default:
-            k = 4;
+            fpClass = 4;
             break;
     }
-    if (k == 2) {
-        x = 1.7976931348623157e+308;
+    if (fpClass == 2) {
+        result = 1.7976931348623157e+308;
     }
-    py = (u64 *) &y;
-    j = 0;
-    DoubleToDigits(&a, x);
-    if (!DigitsEqual(&a, &e)) {
-        if (DigitsLess(&a, &e)) {
-            j = 1;
+    neighborBits = (u64 *) &neighbor;
+    searchUp = 0;
+    DoubleToDigits(&resultRecord, result);
+    if (!DigitsEqual(&resultRecord, &parsed)) {
+        if (DigitsLess(&resultRecord, &parsed)) {
+            searchUp = 1;
         }
-        y = x;
+        neighbor = result;
         for (;;) {
-            if (j) {
-                (*py)++;
-                u2.d = y;
-                switch (u2.w[1] & 0x7ff00000) {
+            if (searchUp) {
+                (*neighborBits)++;
+                neighborUnion.d = neighbor;
+                switch (neighborUnion.w[1] & 0x7ff00000) {
                     case 0x7ff00000:
-                        if ((u2.w[1] & 0xfffff) || u2.w[0]) {
-                            k = 1;
+                        if ((neighborUnion.w[1] & 0xfffff) || neighborUnion.w[0]) {
+                            fpClass = 1;
                         } else {
-                            k = 2;
+                            fpClass = 2;
                         }
                         break;
                     case 0:
-                        if ((u2.w[1] & 0xfffff) || u2.w[0]) {
-                            k = 5;
+                        if ((neighborUnion.w[1] & 0xfffff) || neighborUnion.w[0]) {
+                            fpClass = 5;
                         } else {
-                            k = 3;
+                            fpClass = 3;
                         }
                         break;
                     default:
-                        k = 4;
+                        fpClass = 4;
                         break;
                 }
-                if (k == 2) {
+                if (fpClass == 2) {
                     goto done;
                 }
             } else {
-                (*py)--;
+                (*neighborBits)--;
             }
-            DoubleToDigits(&b, y);
-            if (j && !DigitsLess(&b, &e)) {
+            DoubleToDigits(&neighborRecord, neighbor);
+            if (searchUp && !DigitsLess(&neighborRecord, &parsed)) {
                 break;
             }
-            if (!j && !DigitsLess(&e, &b)) {
-                c = a;
-                a = b;
-                b = c;
-                t = x;
-                x = y;
-                y = t;
+            if (!searchUp && !DigitsLess(&parsed, &neighborRecord)) {
+                diffLow = resultRecord;
+                resultRecord = neighborRecord;
+                neighborRecord = diffLow;
+                scaled = result;
+                result = neighbor;
+                neighbor = scaled;
                 break;
             }
-            a = b;
-            x = y;
+            resultRecord = neighborRecord;
+            result = neighbor;
         }
-        DigitsSubtract(&c, &e, &a);
-        DigitsSubtract(&f, &b, &e);
-        if (DigitsEqual(&c, &f)) {
-            if (*(u64 *) &x & 1) {
-                x = y;
+        DigitsSubtract(&diffLow, &parsed, &resultRecord);
+        DigitsSubtract(&diffHigh, &neighborRecord, &parsed);
+        if (DigitsEqual(&diffLow, &diffHigh)) {
+            if (*(u64 *) &result & 1) {
+                result = neighbor;
             }
-        } else if (!DigitsLess(&c, &f)) {
-            x = y;
+        } else if (!DigitsLess(&diffLow, &diffHigh)) {
+            result = neighbor;
         }
     }
 done:
-    if (e.mNegative) {
-        x = -x;
+    if (parsed.mNegative) {
+        result = -result;
     }
-    return x;
+    return result;
 }
 
-double pow(double a, double b) {
-    return PowBody(a, b);
+double pow(double base, double power) {
+    return PowBody(base, power);
 }
 
-// Classifies the exponent field of d: 1 and 2 when it is all ones (1 with mantissa bits set, 2 without), 3 and 5
+// Classifies the exponent field of value: 1 and 2 when it is all ones (1 with mantissa bits set, 2 without), 3 and 5
 // when it is zero (3 with a zero mantissa, 5 otherwise), 4 otherwise.
-static inline int __fpclassifyd(double d) {
-    int m = *((int *) &d + 1) & 0x7ff00000;
+static inline int __fpclassifyd(double value) {
+    int exponentBits = *((int *) &value + 1) & 0x7ff00000;
 
-    switch (m) {
+    switch (exponentBits) {
         case 0x7ff00000:
-            if ((*((int *) &d + 1) & 0xfffff) != 0 || *(int *) &d != 0) {
+            if ((*((int *) &value + 1) & 0xfffff) != 0 || *(int *) &value != 0) {
                 return 1;
             }
             return 2;
         case 0:
-            if ((*((int *) &d + 1) & 0xfffff) != 0 || *(int *) &d != 0) {
+            if ((*((int *) &value + 1) & 0xfffff) != 0 || *(int *) &value != 0) {
                 return 5;
             }
             return 3;
@@ -530,101 +532,103 @@ static inline int __fpclassifyd(double d) {
     return 4;
 }
 
-// Adds n to the exponent field of x, scaling with multiplications by constants when it leaves the normal range.
-double ldexp(double x, int n) {
-    int h;
-    int l;
-    int k;
+// Adds exponentDelta to the exponent field of value, scaling with multiplications by constants when it leaves the
+// normal range.
+double ldexp(double value, int exponentDelta) {
+    int highWord;
+    int lowWord;
+    int exponentField;
 
-    if (__fpclassifyd(x) <= 2 || 0.0 == x) {
-        return x;
+    if (__fpclassifyd(value) <= 2 || 0.0 == value) {
+        return value;
     }
-    h = *((int *) &x + 1);
-    l = *(int *) &x;
-    k = (h & 0x7ff00000) >> 20;
-    if (k == 0) {
-        if ((l | (h & 0x7fffffff)) == 0) {
-            return x;
+    highWord = *((int *) &value + 1);
+    lowWord = *(int *) &value;
+    exponentField = (highWord & 0x7ff00000) >> 20;
+    if (exponentField == 0) {
+        if ((lowWord | (highWord & 0x7fffffff)) == 0) {
+            return value;
         }
-        x *= 18014398509481984.0;
-        h = *((int *) &x + 1);
-        k = ((h & 0x7ff00000) >> 20) - 54;
-        if (n < -50000) {
-            return 1e-300 * x;
+        value *= 18014398509481984.0;
+        highWord = *((int *) &value + 1);
+        exponentField = ((highWord & 0x7ff00000) >> 20) - 54;
+        if (exponentDelta < -50000) {
+            return 1e-300 * value;
         }
     }
-    if (k == 0x7ff) {
-        return x + x;
+    if (exponentField == 0x7ff) {
+        return value + value;
     }
-    k += n;
-    if (k > 0x7fe) {
-        return 1e300 * copysign(1e300, x);
+    exponentField += exponentDelta;
+    if (exponentField > 0x7fe) {
+        return 1e300 * copysign(1e300, value);
     }
-    if (k > 0) {
-        *((int *) &x + 1) = (h & 0x800fffff) | (k << 20);
-        return x;
+    if (exponentField > 0) {
+        *((int *) &value + 1) = (highWord & 0x800fffff) | (exponentField << 20);
+        return value;
     }
-    if (k <= -54) {
-        if (n > 50000) {
-            return 1e300 * copysign(1e300, x);
+    if (exponentField <= -54) {
+        if (exponentDelta > 50000) {
+            return 1e300 * copysign(1e300, value);
         }
-        return 1e-300 * copysign(1e-300, x);
+        return 1e-300 * copysign(1e-300, value);
     }
-    k += 54;
-    *((int *) &x + 1) = (h & 0x800fffff) | (k << 20);
-    return x * 5.551115123125783e-17;
+    exponentField += 54;
+    *((int *) &value + 1) = (highWord & 0x800fffff) | (exponentField << 20);
+    return value * 5.551115123125783e-17;
 }
 
-// Splits a into a fraction with an exponent field of 0x3fe and the exponent count stored to *e (0 and a unchanged
-// when a is zero or has an all-ones exponent field).
-double frexp(double a, int *e) {
-    int m;
-    int h;
-    int l;
+// Splits value into a fraction with an exponent field of 0x3fe and the exponent count stored to *exponentOut (0 and
+// value unchanged when value is zero or has an all-ones exponent field).
+double frexp(double value, int *exponentOut) {
+    int absHigh;
+    int highWord;
+    int lowWord;
 
-    h = *((int *) &a + 1);
-    l = *(int *) &a;
-    m = h & 0x7fffffff;
-    *e = 0;
-    if (m >= 0x7ff00000 || (m | l) == 0) {
-        return a;
+    highWord = *((int *) &value + 1);
+    lowWord = *(int *) &value;
+    absHigh = highWord & 0x7fffffff;
+    *exponentOut = 0;
+    if (absHigh >= 0x7ff00000 || (absHigh | lowWord) == 0) {
+        return value;
     }
-    if (m < 0x100000) {
-        a *= 18014398509481984.0;
-        h = *((int *) &a + 1);
-        m = h & 0x7fffffff;
-        *e = -54;
+    if (absHigh < 0x100000) {
+        value *= 18014398509481984.0;
+        highWord = *((int *) &value + 1);
+        absHigh = highWord & 0x7fffffff;
+        *exponentOut = -54;
     }
-    *e += (m >> 20) - 1022;
-    *((int *) &a + 1) = (h & 0x800fffff) | 0x3fe00000;
-    return a;
+    *exponentOut += (absHigh >> 20) - 1022;
+    *((int *) &value + 1) = (highWord & 0x800fffff) | 0x3fe00000;
+    return value;
 }
 
-// Clears the sign bit of a.
-double fabs(double a) {
-    *((u32 *) &a + 1) &= 0x7fffffff;
-    return a;
+// Clears the sign bit of value.
+double fabs(double value) {
+    *((u32 *) &value + 1) &= 0x7fffffff;
+    return value;
 }
 
-// a with the sign bit of b.
-double copysign(double a, double b) {
-    *((u32 *) &a + 1) = (*((u32 *) &a + 1) & 0x7fffffff) | (*((u32 *) &b + 1) & 0x80000000);
-    return a;
+// magnitude with the sign bit of sign.
+double copysign(double magnitude, double sign) {
+    *((u32 *) &magnitude + 1) = (*((u32 *) &magnitude + 1) & 0x7fffffff) | (*((u32 *) &sign + 1) & 0x80000000);
+    return magnitude;
 }
 
-double PowBody(double a, double b) {
-    static const double k0 = -1.904654299957768e-09;
-    int q;
-    double z, c, p1, b1, t1, t, s1, t3;
-    double d, u, v, w, r, s, s0, s2, s3, t2, t4, z1, z2, p2;
-    int i, j, k, m, n, e;
+double PowBody(double base, double power) {
+    static const double ln2Low = -1.904654299957768e-09;
+    int scaleExp;
+    double result, absBase, logHigh, powerHigh, logProdHigh, temp, ratioHigh, tHigh;
+    double baseCopy, highTerm, lowTerm, correction, poly, sign, ratio, ratioSquared, ratioError, logProdLow, tLow,
+        scaledHigh, scaledLow, logLow;
+    int lowBits, bits, expBits, intKind, nonNegative, baseExponent;
     int ha, hb, ia, ib;
     u32 la, lb;
 
-    hb = *(1 + (int *) &b);
-    lb = *(u32 *) &b;
-    ha = *(1 + (int *) &a);
-    la = *(u32 *) &a;
+    hb = *(1 + (int *) &power);
+    lb = *(u32 *) &power;
+    ha = *(1 + (int *) &base);
+    la = *(u32 *) &base;
     ib = hb & 0x7fffffff;
     ia = ha & 0x7fffffff;
 
@@ -632,24 +636,24 @@ double PowBody(double a, double b) {
         return 1.0;
     }
     if (ia > 0x7ff00000 || (ia == 0x7ff00000 && la != 0) || ib > 0x7ff00000 || (ib == 0x7ff00000 && lb != 0)) {
-        return a + b;
+        return base + power;
     }
 
-    m = 0;
+    intKind = 0;
     if (ha < 0) {
         if (ib >= 0x43400000) {
-            m = 2;
+            intKind = 2;
         } else if (ib >= 0x3ff00000) {
-            k = (ib >> 20) - 0x3ff;
-            if (k > 20) {
-                j = lb >> (52 - k);
-                if ((j << (52 - k)) == lb) {
-                    m = 2 - (j & 1);
+            expBits = (ib >> 20) - 0x3ff;
+            if (expBits > 20) {
+                bits = lb >> (52 - expBits);
+                if ((bits << (52 - expBits)) == lb) {
+                    intKind = 2 - (bits & 1);
                 }
             } else if (lb == 0) {
-                j = ib >> (20 - k);
-                if ((j << (20 - k)) == ib) {
-                    m = 2 - (j & 1);
+                bits = ib >> (20 - expBits);
+                if ((bits << (20 - expBits)) == ib) {
+                    intKind = 2 - (bits & 1);
                 }
             }
         }
@@ -658,51 +662,51 @@ double PowBody(double a, double b) {
     if (lb == 0) {
         if (ib == 0x7ff00000) {
             if (((ia - 0x3ff00000) | la) == 0) {
-                return b - b;
+                return power - power;
             } else if (ia >= 0x3ff00000) {
-                return hb >= 0 ? b : 0.0;
+                return hb >= 0 ? power : 0.0;
             } else {
-                return hb < 0 ? -b : 0.0;
+                return hb < 0 ? -power : 0.0;
             }
         }
         if (ib == 0x3ff00000) {
             if (hb < 0) {
-                return 1.0 / a;
+                return 1.0 / base;
             } else {
-                return a;
+                return base;
             }
         }
         if (hb == 0x40000000) {
-            return a * a;
+            return base * base;
         }
         if (hb == 0x3fe00000) {
             if (ha >= 0) {
-                return SqrtDouble(a);
+                return SqrtDouble(base);
             }
         }
     }
 
-    d = a;
-    c = fabs(d);
+    baseCopy = base;
+    absBase = fabs(baseCopy);
     if (la == 0) {
         if (ia == 0x7ff00000 || ia == 0 || ia == 0x3ff00000) {
-            z = c;
+            result = absBase;
             if (hb < 0) {
-                z = 1.0 / z;
+                result = 1.0 / result;
             }
             if (ha < 0) {
-                if (((ia - 0x3ff00000) | m) == 0) {
-                    z = (z - z) / (z - z);
-                } else if (m == 1) {
-                    z = -z;
+                if (((ia - 0x3ff00000) | intKind) == 0) {
+                    result = (result - result) / (result - result);
+                } else if (intKind == 1) {
+                    result = -result;
                 }
             }
-            return z;
+            return result;
         }
     }
 
-    n = (ha >> 31) + 1;
-    if ((n | m) == 0) {
+    nonNegative = (ha >> 31) + 1;
+    if ((nonNegative | intKind) == 0) {
         gLibErrorCode = 33;
         return data_0216ec9c;
     }
@@ -722,124 +726,127 @@ double PowBody(double a, double b) {
         if (ia > 0x3ff00000) {
             return hb > 0 ? 1e300 * 1e300 : 0.0;
         }
-        t = d - 1.0;
-        w = (t * t) * (0.5 - t * (0.3333333333333333 - t * 0.25));
-        u = 1.4426950216293335 * t;
-        v = t * 1.9259629911266175e-08 - w * 1.4426950408889634;
-        t1 = u + v;
-        *(int *) &t1 = 0;
-        t2 = v - (t1 - u);
+        temp = baseCopy - 1.0;
+        correction = (temp * temp) * (0.5 - temp * (0.3333333333333333 - temp * 0.25));
+        highTerm = 1.4426950216293335 * temp;
+        lowTerm = temp * 1.9259629911266175e-08 - correction * 1.4426950408889634;
+        logProdHigh = highTerm + lowTerm;
+        *(int *) &logProdHigh = 0;
+        logProdLow = lowTerm - (logProdHigh - highTerm);
     } else {
-        e = 0;
+        baseExponent = 0;
         if (ia < 0x00100000) {
-            c *= 9007199254740992.0;
-            e -= 53;
-            ia = *(1 + (int *) &c);
+            absBase *= 9007199254740992.0;
+            baseExponent -= 53;
+            ia = *(1 + (int *) &absBase);
         }
-        e += (ia >> 20) - 0x3ff;
-        j = ia & 0x000fffff;
-        ia = j | 0x3ff00000;
-        if (j <= 0x3988e) {
-            k = 0;
-        } else if (j < 0xbb67a) {
-            k = 1;
+        baseExponent += (ia >> 20) - 0x3ff;
+        bits = ia & 0x000fffff;
+        ia = bits | 0x3ff00000;
+        if (bits <= 0x3988e) {
+            expBits = 0;
+        } else if (bits < 0xbb67a) {
+            expBits = 1;
         } else {
-            k = 0;
-            e += 1;
+            expBits = 0;
+            baseExponent += 1;
             ia -= 0x00100000;
         }
-        *(1 + (int *) &c) = ia;
+        *(1 + (int *) &absBase) = ia;
 
-        u = c - data_0215d494[k];
-        v = 1.0 / (c + data_0215d494[k]);
-        s0 = u * v;
-        s1 = s0;
-        *(int *) &s1 = 0;
-        t3 = 0.0;
-        *(1 + (int *) &t3) = ((ia >> 1) | 0x20000000) + 0x00080000 + (k << 18);
-        t4 = c - (t3 - data_0215d494[k]);
-        s3 = v * ((u - s1 * t3) - s1 * t4);
-        s2 = s0 * s0;
-        r = s2 * s2 *
-            (0.5999999999999946 +
-             s2 * (0.4285714285785502 +
-                   s2 * (0.33333332981837743 +
-                         s2 * (0.272728123808534 + s2 * (0.23066074577556175 + s2 * 0.20697501780033842)))));
-        r += s3 * (s1 + s0);
-        s2 = s1 * s1;
-        t3 = 3.0 + s2 + r;
-        *(int *) &t3 = 0;
-        t4 = r - ((t3 - 3.0) - s2);
-        u = s1 * t3;
-        v = s3 * t3 + t4 * s0;
-        p1 = u + v;
-        *(int *) &p1 = 0;
-        p2 = v - (p1 - u);
-        z1 = 0.9617967009544373 * p1;
-        z2 = data_0215d4a4[k] + (-7.028461650952758e-09 * p1 + p2 * 0.9617966939259756);
-        t = e;
-        t1 = ((z1 + z2) + data_0215d484[k]) + t;
-        *(int *) &t1 = 0;
-        t2 = z2 - (((t1 - t) - data_0215d484[k]) - z1);
-    }
-
-    s = 1.0;
-    if ((n | (m - 1)) == 0) {
-        s = -1.0;
-    }
-    b1 = b;
-    *(int *) &b1 = 0;
-    p2 = (b - b1) * t1 + b * t2;
-    p1 = b1 * t1;
-    z = p2 + p1;
-    j = *(1 + (int *) &z);
-    i = *(int *) &z;
-    if (j >= 0x40900000) {
-        if (((j - 0x40900000) | i) != 0) {
-            return s * 1e300 * 1e300;
-        } else if (p2 + 8.008566259537294e-17 > z - p1) {
-            return s * 1e300 * 1e300;
-        }
-    } else if ((j & 0x7fffffff) >= 0x4090cc00) {
-        if (((j - 0xc090cc00) | i) != 0) {
-            return s * 1e-300 * 1e-300;
-        } else if (p2 <= z - p1) {
-            return s * 1e-300 * 1e-300;
-        }
+        highTerm = absBase - data_0215d494[expBits];
+        lowTerm = 1.0 / (absBase + data_0215d494[expBits]);
+        ratio = highTerm * lowTerm;
+        ratioHigh = ratio;
+        *(int *) &ratioHigh = 0;
+        tHigh = 0.0;
+        *(1 + (int *) &tHigh) = ((ia >> 1) | 0x20000000) + 0x00080000 + (expBits << 18);
+        tLow = absBase - (tHigh - data_0215d494[expBits]);
+        ratioError = lowTerm * ((highTerm - ratioHigh * tHigh) - ratioHigh * tLow);
+        ratioSquared = ratio * ratio;
+        poly = ratioSquared * ratioSquared *
+               (0.5999999999999946 +
+                ratioSquared * (0.4285714285785502 +
+                                ratioSquared * (0.33333332981837743 +
+                                                ratioSquared * (0.272728123808534 +
+                                                                ratioSquared * (0.23066074577556175 +
+                                                                                ratioSquared * 0.20697501780033842)))));
+        poly += ratioError * (ratioHigh + ratio);
+        ratioSquared = ratioHigh * ratioHigh;
+        tHigh = 3.0 + ratioSquared + poly;
+        *(int *) &tHigh = 0;
+        tLow = poly - ((tHigh - 3.0) - ratioSquared);
+        highTerm = ratioHigh * tHigh;
+        lowTerm = ratioError * tHigh + tLow * ratio;
+        logHigh = highTerm + lowTerm;
+        *(int *) &logHigh = 0;
+        logLow = lowTerm - (logHigh - highTerm);
+        scaledHigh = 0.9617967009544373 * logHigh;
+        scaledLow = data_0215d4a4[expBits] + (-7.028461650952758e-09 * logHigh + logLow * 0.9617966939259756);
+        temp = baseExponent;
+        logProdHigh = ((scaledHigh + scaledLow) + data_0215d484[expBits]) + temp;
+        *(int *) &logProdHigh = 0;
+        logProdLow = scaledLow - (((logProdHigh - temp) - data_0215d484[expBits]) - scaledHigh);
     }
 
-    i = j & 0x7fffffff;
-    k = (i >> 20) - 0x3ff;
-    q = 0;
-    if (i > 0x3fe00000) {
-        i = j + (0x00100000 >> (k + 1));
-        k = ((i & 0x7fffffff) >> 20) - 0x3ff;
-        t = 0.0;
-        *(1 + (int *) &t) = i & ~(0x000fffff >> k);
-        q = ((i & 0x000fffff) | 0x00100000) >> (20 - k);
-        if (j < 0) {
-            q = -q;
-        }
-        p1 -= t;
+    sign = 1.0;
+    if ((nonNegative | (intKind - 1)) == 0) {
+        sign = -1.0;
     }
-    t = p2 + p1;
-    *(int *) &t = 0;
-    u = t * 0.6931471824645996;
-    v = (p2 - (t - p1)) * 0.6931471805599453 + t * k0;
-    z = u + v;
-    w = v - (z - u);
-    t = z * z;
-    t1 = z - t * (0.16666666666666602 +
-                  t * (-0.0027777777777015593 +
-                       t * (6.613756321437934e-05 + t * (-1.6533902205465252e-06 + t * 4.1381367970572385e-08))));
-    r = (z * t1) / (t1 - 2.0) - (w + z * w);
-    z = 1.0 - (r - z);
-    j = *(1 + (int *) &z);
-    j += q << 20;
-    if ((j >> 20) <= 0) {
-        z = LdexpViaFrexp(z, q);
+    powerHigh = power;
+    *(int *) &powerHigh = 0;
+    logLow = (power - powerHigh) * logProdHigh + power * logProdLow;
+    logHigh = powerHigh * logProdHigh;
+    result = logLow + logHigh;
+    bits = *(1 + (int *) &result);
+    lowBits = *(int *) &result;
+    if (bits >= 0x40900000) {
+        if (((bits - 0x40900000) | lowBits) != 0) {
+            return sign * 1e300 * 1e300;
+        } else if (logLow + 8.008566259537294e-17 > result - logHigh) {
+            return sign * 1e300 * 1e300;
+        }
+    } else if ((bits & 0x7fffffff) >= 0x4090cc00) {
+        if (((bits - 0xc090cc00) | lowBits) != 0) {
+            return sign * 1e-300 * 1e-300;
+        } else if (logLow <= result - logHigh) {
+            return sign * 1e-300 * 1e-300;
+        }
+    }
+
+    lowBits = bits & 0x7fffffff;
+    expBits = (lowBits >> 20) - 0x3ff;
+    scaleExp = 0;
+    if (lowBits > 0x3fe00000) {
+        lowBits = bits + (0x00100000 >> (expBits + 1));
+        expBits = ((lowBits & 0x7fffffff) >> 20) - 0x3ff;
+        temp = 0.0;
+        *(1 + (int *) &temp) = lowBits & ~(0x000fffff >> expBits);
+        scaleExp = ((lowBits & 0x000fffff) | 0x00100000) >> (20 - expBits);
+        if (bits < 0) {
+            scaleExp = -scaleExp;
+        }
+        logHigh -= temp;
+    }
+    temp = logLow + logHigh;
+    *(int *) &temp = 0;
+    highTerm = temp * 0.6931471824645996;
+    lowTerm = (logLow - (temp - logHigh)) * 0.6931471805599453 + temp * ln2Low;
+    result = highTerm + lowTerm;
+    correction = lowTerm - (result - highTerm);
+    temp = result * result;
+    logProdHigh = result - temp * (0.16666666666666602 +
+                                   temp * (-0.0027777777777015593 +
+                                           temp * (6.613756321437934e-05 +
+                                                   temp * (-1.6533902205465252e-06 + temp * 4.1381367970572385e-08))));
+    poly = (result * logProdHigh) / (logProdHigh - 2.0) - (correction + result * correction);
+    result = 1.0 - (poly - result);
+    bits = *(1 + (int *) &result);
+    bits += scaleExp << 20;
+    if ((bits >> 20) <= 0) {
+        result = LdexpViaFrexp(result, scaleExp);
     } else {
-        *(1 + (int *) &z) += q << 20;
+        *(1 + (int *) &result) += scaleExp << 20;
     }
-    return s * z;
+    return sign * result;
 }

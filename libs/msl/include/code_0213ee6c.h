@@ -33,15 +33,15 @@ extern double data_0216ef30[];
 // Passed by DigitCharsToDouble to DigitsFromString.
 extern char data_0216ef70[];
 
-double PowBody(double a, double b);
-double copysign(double a, double b);
-double fabs(double a);
-double frexp(double a, int *e);
-double ldexp(double a, int n);
-double pow(double a, double b);
-double DigitCharsToDouble(const DigitRecord *d);
-void DoubleToDigitChars(Unk02140c28 *a, double v, DigitRecord *b);
+double PowBody(double base, double power);
+double copysign(double magnitude, double sign);
+double fabs(double value);
+double frexp(double value, int *exponentOut);
+double ldexp(double value, int exponentDelta);
+double pow(double base, double power);
+double DigitCharsToDouble(const DigitRecord *record);
+void DoubleToDigitChars(Unk02140c28 *options, double value, DigitRecord *record);
 void DoubleToDigits(DigitRecord *out, double a);
-void DigitsSubtract(DigitRecord *out, const DigitRecord *a, const DigitRecord *b);
-int DigitsLess(const DigitRecord *a, const DigitRecord *b);
-int DigitsEqual(const DigitRecord *a, const DigitRecord *b);
+void DigitsSubtract(DigitRecord *result, const DigitRecord *minuend, const DigitRecord *subtrahend);
+int DigitsLess(const DigitRecord *left, const DigitRecord *right);
+int DigitsEqual(const DigitRecord *left, const DigitRecord *right);

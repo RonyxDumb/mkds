@@ -8,604 +8,604 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 
-void InitKartTurnEffects(void *a) {
-    u16 i;
-    u16 j;
-    KartTurnEffects *e;
+void InitKartTurnEffects(void *heap) {
+    u16 kartIndex;
+    u16 sideIndex;
+    KartTurnEffects *turnEffects;
 
-    gKartTurnEffects = HeapAlloc(a, gRaceSetup->mKartCount * 0x88);
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        e = &gKartTurnEffects[i];
-        e->mIndex = i;
-        if (i == gRaceSetup->mEntryIndex || gRaceSetup->mRaceKind == RACE_KIND_AWARD ||
+    gKartTurnEffects = HeapAlloc(heap, gRaceSetup->mKartCount * 0x88);
+    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+        turnEffects = &gKartTurnEffects[kartIndex];
+        turnEffects->mIndex = kartIndex;
+        if (kartIndex == gRaceSetup->mEntryIndex || gRaceSetup->mRaceKind == RACE_KIND_AWARD ||
             gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            e->mTurnStartEffectId = 0x14;
-            e->mLevel4FirstEffectId = 0x11;
-            e->mLevel4SecondEffectId = 0x12;
-            e->mStartLevel4Effects = StartKartLevel4EffectsWithSecond;
-            e->mStopLevel4Emission = StopKartLevel4EmissionWithSecond;
-            e->mStartLevel4Emission = StartKartLevel4EmissionWithSecond;
-            e->mReleaseLevel4Effects = ReleaseKartLevel4EffectsWithSecond;
-            e->mStopLevel4Effects = StopKartLevel4EffectsWithSecond;
-            e->mPlaceLevel4Effects = PlaceKartLevel4EffectsWithSecond;
-            e->mHideEffects = HideKartEffectsWithSecond;
-            e->mShowEffects = ShowKartEffectsWithSecond;
+            turnEffects->mTurnStartEffectId = 0x14;
+            turnEffects->mLevel4FirstEffectId = 0x11;
+            turnEffects->mLevel4SecondEffectId = 0x12;
+            turnEffects->mStartLevel4Effects = StartKartLevel4EffectsWithSecond;
+            turnEffects->mStopLevel4Emission = StopKartLevel4EmissionWithSecond;
+            turnEffects->mStartLevel4Emission = StartKartLevel4EmissionWithSecond;
+            turnEffects->mReleaseLevel4Effects = ReleaseKartLevel4EffectsWithSecond;
+            turnEffects->mStopLevel4Effects = StopKartLevel4EffectsWithSecond;
+            turnEffects->mPlaceLevel4Effects = PlaceKartLevel4EffectsWithSecond;
+            turnEffects->mHideEffects = HideKartEffectsWithSecond;
+            turnEffects->mShowEffects = ShowKartEffectsWithSecond;
         } else {
-            e->mTurnStartEffectId = 0x15;
-            e->mLevel4FirstEffectId = 0x13;
-            e->mLevel4SecondEffectId = -1;
-            e->mStartLevel4Effects = StartKartLevel4EffectsFirstOnly;
-            e->mStopLevel4Emission = StopKartLevel4EmissionFirstOnly;
-            e->mStartLevel4Emission = StartKartLevel4EmissionFirstOnly;
-            e->mReleaseLevel4Effects = ReleaseKartLevel4EffectsFirstOnly;
-            e->mStopLevel4Effects = StopKartLevel4EffectsFirstOnly;
-            e->mPlaceLevel4Effects = PlaceKartLevel4EffectsFirstOnly;
-            e->mHideEffects = HideKartEffectsFirstOnly;
-            e->mShowEffects = ShowKartEffectsFirstOnly;
+            turnEffects->mTurnStartEffectId = 0x15;
+            turnEffects->mLevel4FirstEffectId = 0x13;
+            turnEffects->mLevel4SecondEffectId = -1;
+            turnEffects->mStartLevel4Effects = StartKartLevel4EffectsFirstOnly;
+            turnEffects->mStopLevel4Emission = StopKartLevel4EmissionFirstOnly;
+            turnEffects->mStartLevel4Emission = StartKartLevel4EmissionFirstOnly;
+            turnEffects->mReleaseLevel4Effects = ReleaseKartLevel4EffectsFirstOnly;
+            turnEffects->mStopLevel4Effects = StopKartLevel4EffectsFirstOnly;
+            turnEffects->mPlaceLevel4Effects = PlaceKartLevel4EffectsFirstOnly;
+            turnEffects->mHideEffects = HideKartEffectsFirstOnly;
+            turnEffects->mShowEffects = ShowKartEffectsFirstOnly;
         }
-        e->mLevel3FirstEffectId = 0x16;
-        e->mLevel3SecondEffectId = 0x17;
-        for (j = 0; j < 2; j++) {
-            e->mLevel4FirstEffects[j] = NULL;
-            e->mLevel4SecondEffects[j] = NULL;
-            e->mTurnStartEffects[j] = NULL;
-            e->mLevel3FirstEffects[j] = NULL;
-            e->mLevel3SecondEffects[j] = NULL;
+        turnEffects->mLevel3FirstEffectId = 0x16;
+        turnEffects->mLevel3SecondEffectId = 0x17;
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mLevel4FirstEffects[sideIndex] = NULL;
+            turnEffects->mLevel4SecondEffects[sideIndex] = NULL;
+            turnEffects->mTurnStartEffects[sideIndex] = NULL;
+            turnEffects->mLevel3FirstEffects[sideIndex] = NULL;
+            turnEffects->mLevel3SecondEffects[sideIndex] = NULL;
         }
-        e->mLevel4StopFrames = 0;
-        e->mLevel4StopRequested = FALSE;
-        e->mLevel4Present = 0;
-        e->mTurnStartPresent = 0;
-        e->mLevel3Present = 0;
-        e->mLevel2Present = FALSE;
-        e->mLevel3Frames = 0;
-        e->mLevel2Frames = 0;
-        e->mLevel4RestartFrames = 0;
-        e->mLevel4RestartRequested = 0;
+        turnEffects->mLevel4StopFrames = 0;
+        turnEffects->mLevel4StopRequested = FALSE;
+        turnEffects->mLevel4Present = 0;
+        turnEffects->mTurnStartPresent = 0;
+        turnEffects->mLevel3Present = 0;
+        turnEffects->mLevel2Present = FALSE;
+        turnEffects->mLevel3Frames = 0;
+        turnEffects->mLevel2Frames = 0;
+        turnEffects->mLevel4RestartFrames = 0;
+        turnEffects->mLevel4RestartRequested = 0;
     }
 }
 
-void StartKartTurnStartEffects(KartTurnEffects *p) {
-    u16 i;
+void StartKartTurnStartEffects(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mTurnStartPresent != 0) {
-        for (i = 0; i < 2; i++) {
-            DeleteEffectAndClearPointer(&p->mTurnStartEffects[i]);
+    if (turnEffects->mTurnStartPresent != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            DeleteEffectAndClearPointer(&turnEffects->mTurnStartEffects[sideIndex]);
         }
     }
-    p->mTurnStartPresent = 0;
-    for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i] = StartEffect(p->mTurnStartEffectId, &data_02155fcc);
-        p->mTurnStartEffects[i]->mUnk_72 = 0x7fff;
-        p->mTurnStartEffects[i]->mUnk_80_8 = 0x1c;
-        p->mTurnStartEffects[i]->mUnk_6c = 0x1000;
+    turnEffects->mTurnStartPresent = 0;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mTurnStartEffects[sideIndex] = StartEffect(turnEffects->mTurnStartEffectId, &data_02155fcc);
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_72 = 0x7fff;
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_80_8 = 0x1c;
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_6c = 0x1000;
     }
-    p->mTurnStartPresent = 1;
+    turnEffects->mTurnStartPresent = 1;
 }
 
-void StopKartTurnStartEffects(KartTurnEffects *p) {
-    u16 i;
+void StopKartTurnStartEffects(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mTurnStartPresent == 0) {
+    if (turnEffects->mTurnStartPresent == 0) {
         return;
     }
-    for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i]->mUnk_24.mUnk_00_0 = 1;
-        p->mTurnStartEffects[i] = NULL;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_0 = 1;
+        turnEffects->mTurnStartEffects[sideIndex] = NULL;
     }
-    p->mTurnStartPresent = 0;
+    turnEffects->mTurnStartPresent = 0;
 }
 
-void AdvanceKartTurnStartEffects(KartTurnEffects *p, Kart *q) {
-    u16 i;
-    KartEffects *e;
-    Vec3 a;
-    Vec3 b;
-    Vec3 c;
-    Unk0201ca6c *f;
+void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart) {
+    u16 sideIndex;
+    KartEffects *kartEffects;
+    Vec3 velocity;
+    Vec3 negVelocity;
+    Vec3 position;
+    Unk0201ca6c *effect;
 
-    if (p->mTurnStartPresent == 0) {
+    if (turnEffects->mTurnStartPresent == 0) {
         return;
     }
-    e = GetKartEffects(q->mIndex);
-    for (i = 0; i < 2; i++) {
-        a.x = MUL_FIXED12_NO_ROUND(q->mEffectVelocity.x, 0xb33);
-        a.y = MUL_FIXED12_NO_ROUND(q->mEffectVelocity.y, 0xb33);
-        a.z = MUL_FIXED12_NO_ROUND(q->mEffectVelocity.z, 0xb33);
-        p->mTurnStartEffects[i]->mUnk_40 = a;
-        b.x = -a.x;
-        b.y = -a.y;
-        b.z = -a.z;
-        VEC_Add(&e->mSidePositions[i], &b, &c);
-        f = p->mTurnStartEffects[i];
-        f->mUnk_28.x = c.x + f->mUnk_20->mUnk_00->mUnk_04.x;
-        f->mUnk_28.y = c.y + f->mUnk_20->mUnk_00->mUnk_04.y;
-        f->mUnk_28.z = c.z + f->mUnk_20->mUnk_00->mUnk_04.z;
-        if ((q->mUnk_44 & KART_44_ON_GROUND) == 0) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 1;
+    kartEffects = GetKartEffects(kart->mIndex);
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        velocity.x = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.x, 0xb33);
+        velocity.y = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.y, 0xb33);
+        velocity.z = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.z, 0xb33);
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_40 = velocity;
+        negVelocity.x = -velocity.x;
+        negVelocity.y = -velocity.y;
+        negVelocity.z = -velocity.z;
+        VEC_Add(&kartEffects->mSidePositions[sideIndex], &negVelocity, &position);
+        effect = turnEffects->mTurnStartEffects[sideIndex];
+        effect->mUnk_28.x = position.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
+        effect->mUnk_28.y = position.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
+        effect->mUnk_28.z = position.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
+        if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0) {
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
         } else {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 0;
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
         }
     }
 }
 
-void StartKartLevel4EffectsWithSecond(KartTurnEffects *p) {
-    u16 i;
+void StartKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i] = StartEffect(p->mLevel4FirstEffectId, &data_02155fcc);
-        p->mLevel4SecondEffects[i] = StartEffect(p->mLevel4SecondEffectId, &data_02155fcc);
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &data_02155fcc);
+        turnEffects->mLevel4SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel4SecondEffectId, &data_02155fcc);
     }
 }
 
-void StartKartLevel4EffectsFirstOnly(KartTurnEffects *p) {
-    u16 i;
+void StartKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i] = StartEffect(p->mLevel4FirstEffectId, &data_02155fcc);
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &data_02155fcc);
     }
 }
 
-void StopKartLevel4EmissionWithSecond(KartTurnEffects *p) {
-    u16 i;
+void StopKartLevel4EmissionWithSecond(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 1;
-        p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_1 = 1;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
+        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
     }
 }
 
-void StopKartLevel4EmissionFirstOnly(KartTurnEffects *p) {
-    u16 i;
+void StopKartLevel4EmissionFirstOnly(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 1;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
     }
 }
 
-void StartKartLevel4EmissionWithSecond(KartTurnEffects *p) {
-    u16 i;
+void StartKartLevel4EmissionWithSecond(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 0;
-        p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_1 = 0;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
+        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
     }
 }
 
-void StartKartLevel4EmissionFirstOnly(KartTurnEffects *p) {
-    u16 i;
+void StartKartLevel4EmissionFirstOnly(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 0;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
     }
 }
 
-void ReleaseKartLevel4EffectsWithSecond(KartTurnEffects *p) {
-    u16 i;
+void ReleaseKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        DeleteEffect(p->mLevel4FirstEffects[i]);
-        DeleteEffect(p->mLevel4SecondEffects[i]);
-        p->mLevel4FirstEffects[i] = NULL;
-        p->mLevel4SecondEffects[i] = NULL;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        DeleteEffect(turnEffects->mLevel4FirstEffects[sideIndex]);
+        DeleteEffect(turnEffects->mLevel4SecondEffects[sideIndex]);
+        turnEffects->mLevel4FirstEffects[sideIndex] = NULL;
+        turnEffects->mLevel4SecondEffects[sideIndex] = NULL;
     }
 }
 
-void ReleaseKartLevel4EffectsFirstOnly(KartTurnEffects *p) {
-    u16 i;
+void ReleaseKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    for (i = 0; i < 2; i++) {
-        DeleteEffect(p->mLevel4FirstEffects[i]);
-        p->mLevel4FirstEffects[i] = NULL;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        DeleteEffect(turnEffects->mLevel4FirstEffects[sideIndex]);
+        turnEffects->mLevel4FirstEffects[sideIndex] = NULL;
     }
 }
 
-void StopKartLevel4EffectsWithSecond(KartTurnEffects *p) {
-    u16 i;
+void StopKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mLevel4Present == 0) {
+    if (turnEffects->mLevel4Present == 0) {
         return;
     }
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 1;
-        p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_1 = 1;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
+        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
     }
 }
 
-void StopKartLevel4EffectsFirstOnly(KartTurnEffects *p) {
-    if (p->mLevel4Present == 0) {
+void StopKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects) {
+    if (turnEffects->mLevel4Present == 0) {
         return;
     }
-    if (p->mLevel4Present != 0) {
-        p->mReleaseLevel4Effects(p);
+    if (turnEffects->mLevel4Present != 0) {
+        turnEffects->mReleaseLevel4Effects(turnEffects);
     }
-    p->mLevel4Present = 0;
-    p->mLevel4StopFrames = 0;
-    p->mLevel4StopRequested = FALSE;
-    p->mLevel4RestartFrames = 0;
-    p->mLevel4RestartRequested = 0;
+    turnEffects->mLevel4Present = 0;
+    turnEffects->mLevel4StopFrames = 0;
+    turnEffects->mLevel4StopRequested = FALSE;
+    turnEffects->mLevel4RestartFrames = 0;
+    turnEffects->mLevel4RestartRequested = 0;
 }
 
-void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
-    u16 i;
-    Unk0201ca6c *e;
-    s32 n;
+void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
+    u16 sideIndex;
+    Unk0201ca6c *effect;
+    s32 coord;
 
-    for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_50 = a[i];
-        p->mLevel4SecondEffects[i]->mUnk_50 = a[i];
-        e = p->mLevel4FirstEffects[i];
-        n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
-        n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
-        n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
-        e = p->mLevel4SecondEffects[i];
-        n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
-        n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
-        n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
-    }
-}
-
-void PlaceKartLevel4EffectsFirstOnly(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
-    u16 i;
-    Unk0201ca6c *e;
-    s32 t;
-
-    for (i = 0; i < 2; i++) {
-        e = p->mLevel4FirstEffects[i];
-        e->mUnk_50 = a[i];
-        e = p->mLevel4FirstEffects[i];
-        t = b[i].x;
-        e->mUnk_28.x = t + e->mUnk_20->mUnk_00->mUnk_04.x;
-        t = b[i].y;
-        e->mUnk_28.y = t + e->mUnk_20->mUnk_00->mUnk_04.y;
-        t = b[i].z;
-        e->mUnk_28.z = t + e->mUnk_20->mUnk_00->mUnk_04.z;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
+        turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
+        effect = turnEffects->mLevel4FirstEffects[sideIndex];
+        coord = sidePositions[sideIndex].x;
+        effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
+        coord = sidePositions[sideIndex].y;
+        effect->mUnk_28.y = coord + effect->mUnk_20->mUnk_00->mUnk_04.y;
+        coord = sidePositions[sideIndex].z;
+        effect->mUnk_28.z = coord + effect->mUnk_20->mUnk_00->mUnk_04.z;
+        effect = turnEffects->mLevel4SecondEffects[sideIndex];
+        coord = sidePositions[sideIndex].x;
+        effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
+        coord = sidePositions[sideIndex].y;
+        effect->mUnk_28.y = coord + effect->mUnk_20->mUnk_00->mUnk_04.y;
+        coord = sidePositions[sideIndex].z;
+        effect->mUnk_28.z = coord + effect->mUnk_20->mUnk_00->mUnk_04.z;
     }
 }
 
-void HideKartNonLevel4Effects(KartTurnEffects *p) {
-    u16 i;
+void PlaceKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
+    u16 sideIndex;
+    Unk0201ca6c *effect;
+    s32 coord;
 
-    if (p->mTurnStartPresent != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_3 = 1;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        effect = turnEffects->mLevel4FirstEffects[sideIndex];
+        effect->mUnk_50 = sideDirections[sideIndex];
+        effect = turnEffects->mLevel4FirstEffects[sideIndex];
+        coord = sidePositions[sideIndex].x;
+        effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
+        coord = sidePositions[sideIndex].y;
+        effect->mUnk_28.y = coord + effect->mUnk_20->mUnk_00->mUnk_04.y;
+        coord = sidePositions[sideIndex].z;
+        effect->mUnk_28.z = coord + effect->mUnk_20->mUnk_00->mUnk_04.z;
+    }
+}
+
+void HideKartNonLevel4Effects(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
+
+    if (turnEffects->mTurnStartPresent != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
         }
     }
-    if (p->mLevel3Present != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mLevel3FirstEffects[i]->mUnk_24.mUnk_00_3 = 1;
-            p->mLevel3SecondEffects[i]->mUnk_24.mUnk_00_3 = 1;
+    if (turnEffects->mLevel3Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
+            turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
         }
     }
-    if (p->mLevel2Present == FALSE) {
+    if (turnEffects->mLevel2Present == FALSE) {
         return;
     }
-    for (i = 0; i < 2; i++) {
-        p->mLevel2Effects[i]->mUnk_24.mUnk_00_3 = 1;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel2Effects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
     }
 }
 
-void HideKartEffectsWithSecond(KartTurnEffects *p) {
-    u16 i;
+void HideKartEffectsWithSecond(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mLevel4Present != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 1;
-            p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_3 = 1;
+    if (turnEffects->mLevel4Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
+            turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
         }
     }
-    HideKartNonLevel4Effects(p);
+    HideKartNonLevel4Effects(turnEffects);
 }
 
-void HideKartEffectsFirstOnly(KartTurnEffects *p) {
-    u16 i;
+void HideKartEffectsFirstOnly(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mLevel4Present != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 1;
+    if (turnEffects->mLevel4Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 1;
         }
     }
-    HideKartNonLevel4Effects(p);
+    HideKartNonLevel4Effects(turnEffects);
 }
 
-void ShowKartNonLevel4Effects(KartTurnEffects *p) {
-    u16 i;
+void ShowKartNonLevel4Effects(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mTurnStartPresent != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_3 = 0;
+    if (turnEffects->mTurnStartPresent != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
         }
     }
-    if (p->mLevel3Present != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mLevel3FirstEffects[i]->mUnk_24.mUnk_00_3 = 0;
-            p->mLevel3SecondEffects[i]->mUnk_24.mUnk_00_3 = 0;
+    if (turnEffects->mLevel3Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
+            turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
         }
     }
-    if (p->mLevel2Present == FALSE) {
+    if (turnEffects->mLevel2Present == FALSE) {
         return;
     }
-    for (i = 0; i < 2; i++) {
-        p->mLevel2Effects[i]->mUnk_24.mUnk_00_3 = 0;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel2Effects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
     }
 }
 
-void ShowKartEffectsWithSecond(KartTurnEffects *p) {
-    u16 i;
+void ShowKartEffectsWithSecond(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mLevel4Present != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 0;
-            p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_3 = 0;
+    if (turnEffects->mLevel4Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
+            turnEffects->mLevel4SecondEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
         }
     }
-    ShowKartNonLevel4Effects(p);
+    ShowKartNonLevel4Effects(turnEffects);
 }
 
-void ShowKartEffectsFirstOnly(KartTurnEffects *p) {
-    u16 i;
+void ShowKartEffectsFirstOnly(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mLevel4Present != 0) {
-        for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 0;
+    if (turnEffects->mLevel4Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mLevel4FirstEffects[sideIndex]->mUnk_24.mUnk_00_3 = 0;
         }
     }
-    ShowKartNonLevel4Effects(p);
+    ShowKartNonLevel4Effects(turnEffects);
 }
 
-void ResetKartLevel4Effects(KartTurnEffects *p) {
-    if (p->mLevel4Present != 0) {
-        p->mReleaseLevel4Effects(p);
+void ResetKartLevel4Effects(KartTurnEffects *turnEffects) {
+    if (turnEffects->mLevel4Present != 0) {
+        turnEffects->mReleaseLevel4Effects(turnEffects);
     }
-    p->mLevel4Present = 0;
-    p->mLevel4StopFrames = 0;
-    p->mLevel4StopRequested = FALSE;
-    p->mLevel4RestartFrames = 0;
-    p->mLevel4RestartRequested = 0;
+    turnEffects->mLevel4Present = 0;
+    turnEffects->mLevel4StopFrames = 0;
+    turnEffects->mLevel4StopRequested = FALSE;
+    turnEffects->mLevel4RestartFrames = 0;
+    turnEffects->mLevel4RestartRequested = 0;
 }
 
-void AdvanceKartLevel4Effects(KartTurnEffects *p, Kart *q) {
-    KartEffects *e;
+void AdvanceKartLevel4Effects(KartTurnEffects *turnEffects, Kart *kart) {
+    KartEffects *kartEffects;
 
-    if (p->mLevel4StopRequested != FALSE) {
-        p->mLevel4StopFrames++;
-        if (p->mLevel4StopFrames > 10) {
-            if (p->mLevel4Present != 0) {
-                p->mReleaseLevel4Effects(p);
+    if (turnEffects->mLevel4StopRequested != FALSE) {
+        turnEffects->mLevel4StopFrames++;
+        if (turnEffects->mLevel4StopFrames > 10) {
+            if (turnEffects->mLevel4Present != 0) {
+                turnEffects->mReleaseLevel4Effects(turnEffects);
             }
-            p->mLevel4Present = 0;
-            p->mLevel4StopFrames = 0;
-            p->mLevel4StopRequested = FALSE;
-            p->mLevel4RestartFrames = 0;
-            p->mLevel4RestartRequested = 0;
+            turnEffects->mLevel4Present = 0;
+            turnEffects->mLevel4StopFrames = 0;
+            turnEffects->mLevel4StopRequested = FALSE;
+            turnEffects->mLevel4RestartFrames = 0;
+            turnEffects->mLevel4RestartRequested = 0;
         }
     }
-    if ((q->mUnk_44 & KART_44_DRIFTING) && p->mLevel4RestartRequested != 0) {
-        p->mLevel4RestartFrames++;
-        if (p->mLevel4RestartFrames > 10) {
-            if (p->mLevel4Present != 0) {
-                p->mReleaseLevel4Effects(p);
+    if ((kart->mUnk_44 & KART_44_DRIFTING) && turnEffects->mLevel4RestartRequested != 0) {
+        turnEffects->mLevel4RestartFrames++;
+        if (turnEffects->mLevel4RestartFrames > 10) {
+            if (turnEffects->mLevel4Present != 0) {
+                turnEffects->mReleaseLevel4Effects(turnEffects);
             }
-            p->mLevel4Present = 0;
-            p->mLevel4StopFrames = 0;
-            p->mLevel4StopRequested = FALSE;
-            p->mLevel4RestartFrames = 0;
-            p->mLevel4RestartRequested = 0;
-            p->mStartLevel4Effects(p);
-            p->mLevel4Present = 1;
-            p->mLevel4RestartFrames = 0;
-            p->mLevel4RestartRequested = 0;
+            turnEffects->mLevel4Present = 0;
+            turnEffects->mLevel4StopFrames = 0;
+            turnEffects->mLevel4StopRequested = FALSE;
+            turnEffects->mLevel4RestartFrames = 0;
+            turnEffects->mLevel4RestartRequested = 0;
+            turnEffects->mStartLevel4Effects(turnEffects);
+            turnEffects->mLevel4Present = 1;
+            turnEffects->mLevel4RestartFrames = 0;
+            turnEffects->mLevel4RestartRequested = 0;
         }
     }
-    if (p->mLevel4Present == 0) {
+    if (turnEffects->mLevel4Present == 0) {
         return;
     }
-    e = GetKartEffects(q->mIndex);
-    p->mPlaceLevel4Effects(p, e->mSideDirections, e->mSidePositions);
-    if ((q->mUnk_44 & KART_44_ON_GROUND) == 0) {
-        p->mStopLevel4Emission(p);
+    kartEffects = GetKartEffects(kart->mIndex);
+    turnEffects->mPlaceLevel4Effects(turnEffects, kartEffects->mSideDirections, kartEffects->mSidePositions);
+    if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0) {
+        turnEffects->mStopLevel4Emission(turnEffects);
         return;
     }
-    if (p->mLevel4StopRequested == FALSE) {
-        p->mStartLevel4Emission(p);
+    if (turnEffects->mLevel4StopRequested == FALSE) {
+        turnEffects->mStartLevel4Emission(turnEffects);
     }
 }
 
-void StartKartLevel3Effects(KartTurnEffects *p, int v1) {
-    u16 i;
+void StartKartLevel3Effects(KartTurnEffects *turnEffects, int enable) {
+    u16 sideIndex;
 
-    if (v1 == 0) {
+    if (enable == 0) {
         return;
     }
-    if (p->mLevel3Present != 0) {
-        for (i = 0; i < 2; i++) {
-            DeleteEffect(p->mLevel3FirstEffects[i]);
-            DeleteEffect(p->mLevel3SecondEffects[i]);
-            p->mLevel3FirstEffects[i] = NULL;
-            p->mLevel3SecondEffects[i] = NULL;
+    if (turnEffects->mLevel3Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            DeleteEffect(turnEffects->mLevel3FirstEffects[sideIndex]);
+            DeleteEffect(turnEffects->mLevel3SecondEffects[sideIndex]);
+            turnEffects->mLevel3FirstEffects[sideIndex] = NULL;
+            turnEffects->mLevel3SecondEffects[sideIndex] = NULL;
         }
     }
-    p->mLevel3Present = 0;
-    p->mLevel3Frames = 0;
-    for (i = 0; i < 2; i++) {
-        p->mLevel3FirstEffects[i] = StartEffect(p->mLevel3FirstEffectId, &data_02155fcc);
-        p->mLevel3SecondEffects[i] = StartEffect(p->mLevel3SecondEffectId, &data_02155fcc);
+    turnEffects->mLevel3Present = 0;
+    turnEffects->mLevel3Frames = 0;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel3FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel3FirstEffectId, &data_02155fcc);
+        turnEffects->mLevel3SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel3SecondEffectId, &data_02155fcc);
     }
-    p->mLevel3Present = 1;
+    turnEffects->mLevel3Present = 1;
 }
 
-void AdvanceKartLevel3Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
-    u16 i;
-    Unk0201ca6c *e;
-    s32 n;
+void AdvanceKartLevel3Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
+    u16 sideIndex;
+    Unk0201ca6c *effect;
+    s32 coord;
 
-    if (p->mLevel3Present == 0) {
+    if (turnEffects->mLevel3Present == 0) {
         return;
     }
-    p->mLevel3Frames++;
-    if (p->mLevel3Frames > 10) {
-        if (p->mLevel3Present != 0) {
-            for (i = 0; i < 2; i++) {
-                DeleteEffect(p->mLevel3FirstEffects[i]);
-                DeleteEffect(p->mLevel3SecondEffects[i]);
-                p->mLevel3FirstEffects[i] = NULL;
-                p->mLevel3SecondEffects[i] = NULL;
-            }
-        }
-        p->mLevel3Present = 0;
-        p->mLevel3Frames = 0;
-        return;
-    }
-    for (i = 0; i < 2; i++) {
-        p->mLevel3FirstEffects[i]->mUnk_50 = a[i];
-        p->mLevel3SecondEffects[i]->mUnk_50 = a[i];
-        e = p->mLevel3FirstEffects[i];
-        n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
-        n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
-        n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
-        e = p->mLevel3SecondEffects[i];
-        n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
-        n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
-        n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
-    }
-}
-
-void StartKartLevel2Effects(KartTurnEffects *p, int v1) {
-    u16 i;
-
-    if (v1 == 0) {
-        return;
-    }
-    if (p->mLevel2Present != FALSE) {
-        for (i = 0; i < 2; i++) {
-            DeleteEffect(p->mLevel2Effects[i]);
-            p->mLevel2Effects[i] = NULL;
-        }
-    }
-    p->mLevel2Present = FALSE;
-    p->mLevel2Frames = 0;
-    for (i = 0; i < 2; i++) {
-        p->mLevel2Effects[i] = StartEffect(0x7e, &data_02155fcc);
-    }
-    p->mLevel2Present = TRUE;
-}
-
-void AdvanceKartLevel2Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
-    u16 i;
-    Unk0201ca6c *e;
-    s32 t;
-
-    if (p->mLevel2Present == FALSE) {
-        return;
-    }
-    p->mLevel2Frames++;
-    if (p->mLevel2Frames > 8) {
-        if (p->mLevel2Present != FALSE) {
-            for (i = 0; i < 2; i++) {
-                DeleteEffect(p->mLevel2Effects[i]);
-                p->mLevel2Effects[i] = NULL;
+    turnEffects->mLevel3Frames++;
+    if (turnEffects->mLevel3Frames > 10) {
+        if (turnEffects->mLevel3Present != 0) {
+            for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+                DeleteEffect(turnEffects->mLevel3FirstEffects[sideIndex]);
+                DeleteEffect(turnEffects->mLevel3SecondEffects[sideIndex]);
+                turnEffects->mLevel3FirstEffects[sideIndex] = NULL;
+                turnEffects->mLevel3SecondEffects[sideIndex] = NULL;
             }
         }
-        p->mLevel2Present = FALSE;
-        p->mLevel2Frames = 0;
-        if (p->mTurnStartPresent == 0) {
+        turnEffects->mLevel3Present = 0;
+        turnEffects->mLevel3Frames = 0;
+        return;
+    }
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel3FirstEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
+        turnEffects->mLevel3SecondEffects[sideIndex]->mUnk_50 = sideDirections[sideIndex];
+        effect = turnEffects->mLevel3FirstEffects[sideIndex];
+        coord = sidePositions[sideIndex].x;
+        effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
+        coord = sidePositions[sideIndex].y;
+        effect->mUnk_28.y = coord + effect->mUnk_20->mUnk_00->mUnk_04.y;
+        coord = sidePositions[sideIndex].z;
+        effect->mUnk_28.z = coord + effect->mUnk_20->mUnk_00->mUnk_04.z;
+        effect = turnEffects->mLevel3SecondEffects[sideIndex];
+        coord = sidePositions[sideIndex].x;
+        effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
+        coord = sidePositions[sideIndex].y;
+        effect->mUnk_28.y = coord + effect->mUnk_20->mUnk_00->mUnk_04.y;
+        coord = sidePositions[sideIndex].z;
+        effect->mUnk_28.z = coord + effect->mUnk_20->mUnk_00->mUnk_04.z;
+    }
+}
+
+void StartKartLevel2Effects(KartTurnEffects *turnEffects, int enable) {
+    u16 sideIndex;
+
+    if (enable == 0) {
+        return;
+    }
+    if (turnEffects->mLevel2Present != FALSE) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            DeleteEffect(turnEffects->mLevel2Effects[sideIndex]);
+            turnEffects->mLevel2Effects[sideIndex] = NULL;
+        }
+    }
+    turnEffects->mLevel2Present = FALSE;
+    turnEffects->mLevel2Frames = 0;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mLevel2Effects[sideIndex] = StartEffect(0x7e, &data_02155fcc);
+    }
+    turnEffects->mLevel2Present = TRUE;
+}
+
+void AdvanceKartLevel2Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirections, Vec3 *sidePositions) {
+    u16 sideIndex;
+    Unk0201ca6c *effect;
+    s32 coord;
+
+    if (turnEffects->mLevel2Present == FALSE) {
+        return;
+    }
+    turnEffects->mLevel2Frames++;
+    if (turnEffects->mLevel2Frames > 8) {
+        if (turnEffects->mLevel2Present != FALSE) {
+            for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+                DeleteEffect(turnEffects->mLevel2Effects[sideIndex]);
+                turnEffects->mLevel2Effects[sideIndex] = NULL;
+            }
+        }
+        turnEffects->mLevel2Present = FALSE;
+        turnEffects->mLevel2Frames = 0;
+        if (turnEffects->mTurnStartPresent == 0) {
             return;
         }
-        for (i = 0; i < 2; i++) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 0;
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 0;
         }
         return;
     }
-    for (i = 0; i < 2; i++) {
-        e = p->mLevel2Effects[i];
-        e->mUnk_50 = a[i];
-        e = p->mLevel2Effects[i];
-        t = b[i].x;
-        e->mUnk_28.x = t + e->mUnk_20->mUnk_00->mUnk_04.x;
-        t = b[i].y;
-        e->mUnk_28.y = t + e->mUnk_20->mUnk_00->mUnk_04.y;
-        t = b[i].z;
-        e->mUnk_28.z = t + e->mUnk_20->mUnk_00->mUnk_04.z;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        effect = turnEffects->mLevel2Effects[sideIndex];
+        effect->mUnk_50 = sideDirections[sideIndex];
+        effect = turnEffects->mLevel2Effects[sideIndex];
+        coord = sidePositions[sideIndex].x;
+        effect->mUnk_28.x = coord + effect->mUnk_20->mUnk_00->mUnk_04.x;
+        coord = sidePositions[sideIndex].y;
+        effect->mUnk_28.y = coord + effect->mUnk_20->mUnk_00->mUnk_04.y;
+        coord = sidePositions[sideIndex].z;
+        effect->mUnk_28.z = coord + effect->mUnk_20->mUnk_00->mUnk_04.z;
     }
-    if (p->mTurnStartPresent == 0) {
+    if (turnEffects->mTurnStartPresent == 0) {
         return;
     }
-    for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 1;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_1 = 1;
     }
 }
 
-void ReleaseKartTurnEffects(KartTurnEffects *p) {
-    u16 i;
-    u16 j;
+void ReleaseKartTurnEffects(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
+    u16 level2SideIndex;
 
-    if (p->mTurnStartPresent != 0) {
-        for (i = 0; i < 2; i++) {
-            DeleteEffectAndClearPointer(&p->mTurnStartEffects[i]);
+    if (turnEffects->mTurnStartPresent != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            DeleteEffectAndClearPointer(&turnEffects->mTurnStartEffects[sideIndex]);
         }
     }
-    p->mTurnStartPresent = 0;
-    if (p->mLevel4Present != 0) {
-        p->mReleaseLevel4Effects(p);
+    turnEffects->mTurnStartPresent = 0;
+    if (turnEffects->mLevel4Present != 0) {
+        turnEffects->mReleaseLevel4Effects(turnEffects);
     }
-    p->mLevel4Present = 0;
-    p->mLevel4StopFrames = 0;
-    p->mLevel4StopRequested = FALSE;
-    p->mLevel4RestartFrames = 0;
-    p->mLevel4RestartRequested = 0;
-    if (p->mLevel3Present != 0) {
-        for (i = 0; i < 2; i++) {
-            DeleteEffect(p->mLevel3FirstEffects[i]);
-            DeleteEffect(p->mLevel3SecondEffects[i]);
-            p->mLevel3FirstEffects[i] = NULL;
-            p->mLevel3SecondEffects[i] = NULL;
+    turnEffects->mLevel4Present = 0;
+    turnEffects->mLevel4StopFrames = 0;
+    turnEffects->mLevel4StopRequested = FALSE;
+    turnEffects->mLevel4RestartFrames = 0;
+    turnEffects->mLevel4RestartRequested = 0;
+    if (turnEffects->mLevel3Present != 0) {
+        for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+            DeleteEffect(turnEffects->mLevel3FirstEffects[sideIndex]);
+            DeleteEffect(turnEffects->mLevel3SecondEffects[sideIndex]);
+            turnEffects->mLevel3FirstEffects[sideIndex] = NULL;
+            turnEffects->mLevel3SecondEffects[sideIndex] = NULL;
         }
     }
-    p->mLevel3Present = 0;
-    p->mLevel3Frames = 0;
-    if (p->mLevel2Present != FALSE) {
-        for (j = 0; j < 2; j++) {
-            DeleteEffect(p->mLevel2Effects[j]);
-            p->mLevel2Effects[j] = NULL;
+    turnEffects->mLevel3Present = 0;
+    turnEffects->mLevel3Frames = 0;
+    if (turnEffects->mLevel2Present != FALSE) {
+        for (level2SideIndex = 0; level2SideIndex < 2; level2SideIndex++) {
+            DeleteEffect(turnEffects->mLevel2Effects[level2SideIndex]);
+            turnEffects->mLevel2Effects[level2SideIndex] = NULL;
         }
     }
-    p->mLevel2Present = FALSE;
-    p->mLevel2Frames = 0;
+    turnEffects->mLevel2Present = FALSE;
+    turnEffects->mLevel2Frames = 0;
 }
 
-KartTurnEffects *GetKartTurnEffects(int v1) {
-    return gKartTurnEffects + v1;
+KartTurnEffects *GetKartTurnEffects(int kartIndex) {
+    return gKartTurnEffects + kartIndex;
 }
 
-void StopKartTurnEffects(KartTurnEffects *p) {
-    u16 i;
+void StopKartTurnEffects(KartTurnEffects *turnEffects) {
+    u16 sideIndex;
 
-    if (p->mLevel4Present == 0) {
-        p->mLevel4StopRequested = FALSE;
+    if (turnEffects->mLevel4Present == 0) {
+        turnEffects->mLevel4StopRequested = FALSE;
     } else {
-        p->mStopLevel4Effects(p);
-        p->mLevel4StopRequested = TRUE;
+        turnEffects->mStopLevel4Effects(turnEffects);
+        turnEffects->mLevel4StopRequested = TRUE;
     }
-    p->mLevel4RestartFrames = 0;
-    p->mLevel4RestartRequested = 0;
-    if (p->mTurnStartPresent == 0) {
+    turnEffects->mLevel4RestartFrames = 0;
+    turnEffects->mLevel4RestartRequested = 0;
+    if (turnEffects->mTurnStartPresent == 0) {
         return;
     }
-    for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i]->mUnk_24.mUnk_00_0 = 1;
-        p->mTurnStartEffects[i] = NULL;
+    for (sideIndex = 0; sideIndex < 2; sideIndex++) {
+        turnEffects->mTurnStartEffects[sideIndex]->mUnk_24.mUnk_00_0 = 1;
+        turnEffects->mTurnStartEffects[sideIndex] = NULL;
     }
-    p->mTurnStartPresent = 0;
+    turnEffects->mTurnStartPresent = 0;
 }
