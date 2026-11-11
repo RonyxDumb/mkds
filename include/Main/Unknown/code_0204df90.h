@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk0217aa00_1658 Unk0217aa00_1658;
+typedef struct MultiBootStateView MultiBootStateView;
 
 // Twenty bytes after a two-byte head.
 typedef struct Unk0204e4d8 {
@@ -35,6 +35,6 @@ void StartRepeatedScanStep1D(void);
 void StartCloseScanConnect(void);
 void SetupScanConnect(void);
 void StartMultiBootParent(void);
-void ResetConnectionBuffers(Unk0217aa00_1658 *view);
-void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *c);
+void ResetConnectionBuffers(MultiBootStateView *view);
+void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *childInfo);
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg);

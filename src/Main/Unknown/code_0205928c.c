@@ -64,7 +64,7 @@ static inline s32 func_0205955c_inline2(void) {
 
 static inline s32 func_0205955c_inline3(void) {
     BOOL r = FALSE;
-    if (func_0205955c_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_0205955c_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         r = TRUE;
     }
     return r;
@@ -88,9 +88,9 @@ void StoreReceivedPlayerNameByState(const void *data, s32 aid, s32 playerIndex, 
         return;
     }
     playerBit = 1 << playerIndex;
-    if (!(gConnectionWork->mUnk_164c & playerBit)) {
-        MI_CpuCopy8(data, &gConnectionWork->mUnk_045c[playerIndex], 0x14);
-        gConnectionWork->mUnk_164c |= playerBit;
+    if (!(gConnectionWork->mNamesStoredMask & playerBit)) {
+        MI_CpuCopy8(data, &gConnectionWork->mPlayerRecords[playerIndex], 0x14);
+        gConnectionWork->mNamesStoredMask |= playerBit;
     }
 }
 
@@ -101,7 +101,7 @@ s32 IsAllMPChildSharedDataCopied(void) {
 
     allCopied = 1;
     childIndex = allCopied;
-    childMask = gConnectionWork->mUnk_0044.mChildMask;
+    childMask = gConnectionWork->mChildren.mChildMask;
     for (; childIndex < 8; childIndex++) {
         if ((childMask & (allCopied << childIndex)) &&
             gConnectionWork->mUnk_15bc_view.mSharedDataCopied[childIndex] == 0) {
@@ -121,8 +121,8 @@ s32 AdvanceParentSync(void) {
             gConnectionWork->mSyncState = 6;
             break;
         case 6:
-            if (gConnectionWork->mUnk_0044.mChildMask ==
-                (gConnectionWork->mUnk_0044.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
+            if (gConnectionWork->mChildren.mChildMask ==
+                (gConnectionWork->mChildren.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
                 gConnectionWork->mSyncState = 7;
             }
             break;
@@ -145,7 +145,7 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
     done = FALSE;
     switch (gConnectionWork->mSyncState) {
         case 0:
-            if (gConnectionWork->mUnk_0454 & 1) {
+            if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
                 gConnectionWork->mSyncState = 2;
             }
             break;
@@ -186,7 +186,7 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
             }
             break;
         case 1:
-            if (gConnectionWork->mUnk_1e44 & 2) {
+            if (gConnectionWork->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
                 done = TRUE;
             }
             break;
@@ -216,8 +216,8 @@ u32 AdvanceMainAndMenuDLArchives(void) {
 void RequestMPState16(void *courseId, void *mode) {
     MPStateMachine *stateMachine;
     gConnectionWork->mSyncState = 0;
-    gConnectionWork->mUnk_1e44 &= ~2;
-    stateMachine = &gConnectionWork->mUnk_1608;
+    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = 0x10;
     stateMachine->mStateMachine.mNextStateRequested = 1;
     gConnectionWork->mCourseId = courseId;
@@ -245,7 +245,7 @@ static inline s32 func_020593dc_inline2(void) {
 
 static inline s32 func_020593dc_inline3(void) {
     BOOL r = FALSE;
-    if (func_020593dc_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_020593dc_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         r = TRUE;
     }
     return r;
@@ -263,8 +263,8 @@ void RequestMPState18(void) {
     MPStateMachine *stateMachine;
 
     gConnectionWork->mSyncState = 0;
-    gConnectionWork->mUnk_1e44 &= ~2;
-    stateMachine = &gConnectionWork->mUnk_1608;
+    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = 0x12;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -273,8 +273,8 @@ void RequestMPState21(void) {
     MPStateMachine *stateMachine;
 
     gConnectionWork->mSyncState = 0;
-    gConnectionWork->mUnk_1e44 &= ~2;
-    stateMachine = &gConnectionWork->mUnk_1608;
+    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = 0x15;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -317,7 +317,7 @@ void UpdateMPState16(void) {
     MPStateMachine *stateMachine;
     result = AdvanceRaceArchives();
     if (result == 1) {
-        stateMachine = &gConnectionWork->mUnk_1608;
+        stateMachine = &gConnectionWork->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = 0x11;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -341,7 +341,7 @@ void LoadCourseSoundSetCallback(void) {
 
 void EnterMPState17(void) {
     gConnectionWork->mSyncState = 0;
-    gConnectionWork->mUnk_1e44 &= ~2;
+    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
 }
 
@@ -354,7 +354,7 @@ void UpdateMPState17(void) {
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadCourseSoundSetCallback);
     if (result == 1) {
-        stateMachine = &gConnectionWork->mUnk_1608;
+        stateMachine = &gConnectionWork->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = 0x14;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -375,7 +375,7 @@ void EnterMPState20(void) {
 void UpdateMPState20(void) {
     MPStateMachine *stateMachine;
     if (gConnectionWork->mRequestPending == 0) {
-        stateMachine = &gConnectionWork->mUnk_1608;
+        stateMachine = &gConnectionWork->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = 0xf;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }

@@ -39,7 +39,7 @@ u16 GetParticipantPadKeys(u32 participantIndex) {
             break;
     }
     if (stateMatches != FALSE) {
-        result = gConnectionWork->mUnk_15c8[participantIndex].mUnk_00_0;
+        result = gConnectionWork->mSharingReceiveRecords[participantIndex].mPadKeys;
     } else {
         result = 0;
     }
@@ -71,9 +71,9 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
     if (gBootInfo->mUnk_00 == 2) {
         return FALSE;
     }
-    if (connectionWork->mUnk_00ac[entryIndex].mInUse != 0) {
+    if (connectionWork->mScanSlots[entryIndex].mInUse != 0) {
         if (destination != NULL) {
-            MI_CpuCopy8(connectionWork->mUnk_00ac[entryIndex].mName, destination, 0x14);
+            MI_CpuCopy8(connectionWork->mScanSlots[entryIndex].mName, destination, 0x14);
         }
         result = TRUE;
     }
@@ -90,11 +90,11 @@ BOOL IsScanSlotMultiBoot(u16 entryIndex) {
         entryValid = FALSE;
     } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
-    } else if (gConnectionWork->mUnk_00ac[entryIndex].mInUse != 0) {
+    } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        if (gConnectionWork->mUnk_00ac[entryIndex].mMultiBoot != 0) {
+        if (gConnectionWork->mScanSlots[entryIndex].mMultiBoot != 0) {
             result = TRUE;
         }
     }
@@ -111,11 +111,11 @@ s32 GetScanSlotChildCount(u16 entryIndex) {
         entryValid = FALSE;
     } else if (gBootInfo->mUnk_00 == 2) {
         entryValid = FALSE;
-    } else if (gConnectionWork->mUnk_00ac[entryIndex].mInUse != 0) {
+    } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        result = gConnectionWork->mUnk_00ac[entryIndex].mChildCount;
+        result = gConnectionWork->mScanSlots[entryIndex].mChildCount;
     }
     return result;
 }
@@ -128,7 +128,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
     switch (func_0204f814_inline()) {
         case 1:
             result = FALSE;
-            if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+            if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 childUser = MB_CommGetChildUser(entryIndex);
                 if ((gConnectionWork->mWaitToSendMask & (1 << entryIndex)) != 0 && childUser != NULL) {
                     if (destination != NULL) {
@@ -136,9 +136,9 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
                     }
                     result = TRUE;
                 }
-            } else if ((gConnectionWork->mUnk_0044.mChildMask & (1 << entryIndex)) != 0) {
+            } else if ((gConnectionWork->mChildren.mChildMask & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gConnectionWork->mUnk_045c[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, 0x14);
                 }
                 result = TRUE;
             }
@@ -147,7 +147,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
             result = FALSE;
             if ((gConnectionWork->mReceivedNameMask & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gConnectionWork->mUnk_045c[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, 0x14);
                 }
                 result = TRUE;
             }
@@ -167,7 +167,7 @@ void FillParentParameter(s32 a) {
 
     parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = gConnectionWork->mUnk_0044.mUnk_38;
+    gameInfo = gConnectionWork->mChildren.mUnk_38;
     gameInfo->mUnk_0e.mHasGhost = 0;
     gameInfo->mUnk_0e.mKartIndex = 0;
     gameInfo->mCharacterIndex = 0;
@@ -176,8 +176,8 @@ void FillParentParameter(s32 a) {
     gameInfo->mSecond = 0;
     gameInfo->mMillisecond = 0;
     gameInfo->mUnk_0e.mChildCount = 0;
-    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
-        parentParameter->mUnk_0c = (gConnectionWork->mUnk_1690 + 7) & 0x7fff;
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+        parentParameter->mUnk_0c = (gConnectionWork->mParentTgid + 7) & 0x7fff;
     } else {
         GetClockTimeOrZero(&time);
         hour = time.mHour;
@@ -192,7 +192,7 @@ void FillParentParameter(s32 a) {
     }
     parentParameter->mUnk_32 = gConnectionWork->mParentChannel;
     parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gConnectionWork->mUnk_0044.mUnk_38;
+    parentParameter->mUnk_00 = gConnectionWork->mChildren.mUnk_38;
     parentParameter->mUnk_04 = 0x1c;
     parentParameter->mUnk_10 = 7;
     parentParameter->mUnk_0e = a != 0 ? 1 : 0;
@@ -209,7 +209,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
 
     parentParameter = gConnectionWork->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = gConnectionWork->mUnk_0044.mUnk_38;
+    gameInfo = gConnectionWork->mChildren.mUnk_38;
     gameInfo->mUnk_0e.mHasGhost = 1;
     MI_CpuCopy8(ghostRecord->mName, gameInfo, 0x14);
     gameInfo->mUnk_0e.mKartIndex = ghostRecord->mKartIndex;
@@ -230,7 +230,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
     parentParameter->mUnk_32 = gConnectionWork->mParentChannel;
     parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gConnectionWork->mUnk_0044.mUnk_38;
+    parentParameter->mUnk_00 = gConnectionWork->mChildren.mUnk_38;
     parentParameter->mUnk_04 = 0x1c;
     parentParameter->mUnk_10 = 1;
     parentParameter->mUnk_34 = 0x1b6;
@@ -242,7 +242,7 @@ void SetGroupSendMaskAsParent(u8 sendMask) {
     BOOL allowed;
 
     proceed = FALSE;
-    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
         if (func_0204f814_inline() != 1) {
             if (gBootInfo->mUnk_00 != 2) {

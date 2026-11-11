@@ -12,7 +12,7 @@ void StartBlockCountRequest(void) {
     u8 mask;
     s32 s = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
     if (s == 1) {
-        mask = gConnectionWork->mUnk_0044.mChildMask;
+        mask = gConnectionWork->mChildren.mChildMask;
     } else {
         mask = 1;
     }
@@ -64,8 +64,8 @@ void StartBlockDataRequest(void) {
     s32 savedValue = gConnectionWork->mStep;
     gConnectionWork->mStep = 0x2c;
     gConnectionWork->mRequestPending = 1;
-    gConnectionWork->mUnk_1d60 = gConnectionWork->mBlockEntries[gConnectionWork->mBlockIndex].mBuffer;
-    if (WBT_GetBlock(1, gConnectionWork->mBlockInfos[0]->mBlockId, &gConnectionWork->mUnk_1d60,
+    gConnectionWork->mCurrentBlockBuffer = gConnectionWork->mBlockEntries[gConnectionWork->mBlockIndex].mBuffer;
+    if (WBT_GetBlock(1, gConnectionWork->mBlockInfos[0]->mBlockId, &gConnectionWork->mCurrentBlockBuffer,
                      gConnectionWork->mBlockInfos[0]->mSize, gConnectionWork->mChunkBitmaps,
                      BlockDataRequestCallback) == 0) {
         gConnectionWork->mStep = savedValue;

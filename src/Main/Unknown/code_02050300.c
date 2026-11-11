@@ -54,7 +54,8 @@ void DisconnectChildrenCallback(Unk021425e8 *event) {
         switch (gConnectionWork->mState) {
             case 8:
             case 9:
-                gConnectionWork->mUnk_1eac[0] = gConnectionWork->mUnk_1eac[0] | gConnectionWork->mRemovedChildMask;
+                gConnectionWork->mLeftParticipantMask[0] =
+                    gConnectionWork->mLeftParticipantMask[0] | gConnectionWork->mRemovedChildMask;
                 break;
         }
     }
@@ -66,7 +67,7 @@ void EndDataSharing(void) {
 
     gConnectionWork->mStep = 0x11;
     gConnectionWork->mRequestPending = 1;
-    result = WM_EndDataSharing(gConnectionWork->mUnk_15bc);
+    result = WM_EndDataSharing(gConnectionWork->mSharingInfo);
     gConnectionWork->mRequestPending = 0;
     if (result == 0) {
         return;
@@ -87,7 +88,7 @@ void EndMPCallback(Unk021425e8 *event) {
     ConnectionWork *connection;
 
     gConnectionWork->mRequestPending = 0;
-    gConnectionWork->mUnk_0454 &= ~1;
+    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
     if (event->mResultCode != 0) {
         StopConnection();
         return;
@@ -123,12 +124,12 @@ void Disconnect(void) {
     ChildEntry *child;
 
     result = 7;
-    children = &gConnectionWork->mUnk_0044;
+    children = &gConnectionWork->mChildren;
     switch (func_02050650_inline()) {
         case 1:
             for (i = 0, child = children->mEntries; i < children->mChildCount; i++, child++) {
                 if (child->mAid != 0xffff) {
-                    gConnectionWork->mUnk_0044.mDisconnectingIndex = i;
+                    gConnectionWork->mChildren.mDisconnectingIndex = i;
                     gConnectionWork->mStep = 0x14;
                     gConnectionWork->mRequestPending = 1;
                     result = WM_Disconnect(DisconnectCallback, child->mAid);
@@ -149,7 +150,7 @@ void Disconnect(void) {
             break;
         case 2:
             if (func_02050650_inline() == 2) {
-                gConnectionWork->mUnk_0436 |= 2;
+                gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_DISCONNECTING;
             }
             break;
         default:
@@ -167,24 +168,24 @@ void DisconnectCallback(Unk021425e8 *event) {
             gConnectionWork->mRequestPending = 0;
             switch (gConnectionWork->mConnectionMode) {
                 case 1:
-                    aid = gConnectionWork->mUnk_0044.mEntries[gConnectionWork->mUnk_0044.mDisconnectingIndex].mAid;
+                    aid = gConnectionWork->mChildren.mEntries[gConnectionWork->mChildren.mDisconnectingIndex].mAid;
                     RemoveChild(aid);
                     if (func_02050650_inline() == 1) {
                         if (gConnectionWork->mState == 9) {
-                            gConnectionWork->mUnk_1eac[0] |= 1 << aid;
+                            gConnectionWork->mLeftParticipantMask[0] |= 1 << aid;
                         }
                     }
-                    gConnectionWork->mUnk_0044.mDisconnectingIndex = -1;
+                    gConnectionWork->mChildren.mDisconnectingIndex = -1;
                     break;
                 case 2:
-                    gConnectionWork->mUnk_0436 &= ~2;
+                    gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECTING;
                     ResetConnectionData();
                     break;
             }
             break;
         case 1:
-            if ((gConnectionWork->mUnk_0436 & 2) != 0) {
-                gConnectionWork->mUnk_0436 &= ~2;
+            if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_DISCONNECTING) != 0) {
+                gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECTING;
                 ResetConnectionData();
                 gConnectionWork->mRequestPending = 0;
             } else {
@@ -198,7 +199,7 @@ void DisconnectCallback(Unk021425e8 *event) {
 }
 
 BOOL IsMultiBootSetupStarted(void) {
-    return (gConnectionWork->mUnk_0454 & 0x40) != 0;
+    return (gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0;
 }
 
 s32 GetConnectionMode(void) {
@@ -232,18 +233,18 @@ void End(void) {
         return;
     }
     connection = gConnectionWork;
-    flags = connection->mUnk_0454;
-    if ((flags & 0x100) != 0) {
+    flags = connection->mFlags;
+    if ((flags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
         connection->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
         if (func_02050ec0_inline() != 0) {
             StopRomArchive();
-            gConnectionWork->mUnk_0454 &= ~0x100;
+            gConnectionWork->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
         }
         gConnectionWork->mRequestPending = 0;
         return;
     }
-    if ((flags & 0x200) != 0) {
+    if ((flags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
         StopBlockTransferStep();
         return;
     }
@@ -257,11 +258,11 @@ void End(void) {
     if (WM_End(EndCallback) == 2) {
         return;
     }
-    if ((gConnectionWork->mUnk_0454 & 0x100) != 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
         StopRomArchiveTransfer();
         return;
     }
-    if ((gConnectionWork->mUnk_0454 & 0x200) != 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_BLOCK_TRANSFER) != 0) {
         StopBlockTransferStep();
         return;
     }
@@ -290,7 +291,7 @@ void SetRequestErrorCode(s32 errorCode) {
 void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry) {
     ChildList *children;
 
-    children = &gConnectionWork->mUnk_0044;
+    children = &gConnectionWork->mChildren;
     if (children->mChildCount >= 7) {
         return;
     }
@@ -303,15 +304,15 @@ void AddChild(u32 aid, u8 *b, PlayerRecord *playerEntry) {
     children->mEntries[0].mUnk_00[3] = b[3];
     children->mEntries[0].mUnk_00[4] = b[4];
     children->mEntries[0].mUnk_00[5] = b[5];
-    MI_CpuCopy8(playerEntry, &gConnectionWork->mUnk_045c[aid], 0x14);
-    gConnectionWork->mUnk_008b |= 8;
+    MI_CpuCopy8(playerEntry, &gConnectionWork->mPlayerRecords[aid], 0x14);
+    gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     if ((playerEntry->mEmblem[0] & 1) != 0) {
         gConnectionWork->mGroupSendMask |= 1 << aid;
     }
 }
 
 static inline void func_0205081c_inline2(u16 v) {
-    MPStateMachine *p = &gConnectionWork->mUnk_1608;
+    MPStateMachine *p = &gConnectionWork->mMPStateMachine;
     p->mStateMachine.mNextState = v;
     p->mStateMachine.mNextStateRequested = 1;
 }
@@ -320,7 +321,7 @@ static inline void func_0205081c_inline(u8 v) {
     u32 r = 0;
     u32 b;
 
-    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         b = 1;
         if (func_02050650_inline() != 1) {
             if (gBootInfo->mUnk_00 != 2) {
@@ -348,7 +349,7 @@ static inline void func_02050b88_inline(u16 v1) {
         if ((v1 & (1 << i)) != 0) {
             f = gConnectionWork->mState == 9 ? 1 : 0;
             if (func_02050650_inline() == 1) {
-                gConnectionWork->mUnk_0044.mChildMask &= ~(1 << i);
+                gConnectionWork->mChildren.mChildMask &= ~(1 << i);
                 if (f != 0) {
                     gConnectionWork->mRemovedChildMask |= 1 << i;
                 }
@@ -359,7 +360,7 @@ static inline void func_02050b88_inline(u16 v1) {
     if (func_02050650_inline() != 1) {
         return;
     }
-    if ((gConnectionWork->mUnk_0454 & 0x100) == 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) == 0) {
         return;
     }
     func_0205081c_inline(gConnectionWork->mGroupSendMask);
@@ -368,14 +369,14 @@ static inline void func_02050b88_inline(u16 v1) {
 void RemoveChild(u32 aid) {
     ChildList *children;
 
-    children = &gConnectionWork->mUnk_0044;
+    children = &gConnectionWork->mChildren;
     if (children->mEntries[aid - 1].mAid == 0xffff) {
         return;
     }
     children->mEntries[aid - 1].mAid = 0xffff;
     children->mChildCount -= 1;
     func_02050b88_inline(1 << aid);
-    gConnectionWork->mUnk_008b |= 8;
+    gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     switch (gConnectionWork->mState) {
         case 9:
             if (children->mChildCount < 1) {
@@ -398,12 +399,12 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             break;
         case 4:
             gConnectionWork->mSyncDoneChildMask |= 1 << aid;
-            if (gConnectionWork->mSyncDoneChildMask == gConnectionWork->mUnk_0044.mChildMask) {
+            if (gConnectionWork->mSyncDoneChildMask == gConnectionWork->mChildren.mChildMask) {
                 gConnectionWork->mRequestPending = 0;
             }
             break;
         case 5:
-            gConnectionWork->mUnk_1e44 |= 2;
+            gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SYNC_DONE;
             gConnectionWork->mRequestPending = 0;
             break;
         case 1:
@@ -428,17 +429,17 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             }
             break;
         case 9:
-            if ((gConnectionWork->mUnk_164d & (1 << message->mUnk_0a)) != 0) {
+            if ((gConnectionWork->mBitsReceivedMask & (1 << message->mUnk_0a)) != 0) {
                 return;
             }
-            MI_CpuCopy8(message->mUnk_02, gConnectionWork->mUnk_045c[message->mUnk_0a].mBits, 4);
-            gConnectionWork->mUnk_164d |= 1 << message->mUnk_0a;
+            MI_CpuCopy8(message->mUnk_02, gConnectionWork->mPlayerRecords[message->mUnk_0a].mBits, 4);
+            gConnectionWork->mBitsReceivedMask |= 1 << message->mUnk_0a;
             break;
         case 7:
             func_02050b88_inline(message->mUnk_04);
             break;
         case 8:
-            gConnectionWork->mUnk_1eb0 = message->mUnk_04;
+            gConnectionWork->mRaceSeed = message->mUnk_04;
             break;
     }
 }
@@ -478,7 +479,7 @@ BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffe
     sendSize = dataSize;
     switch (func_02050650_inline()) {
         case 1:
-            if (gConnectionWork->mUnk_0044.mChildMask == 0) {
+            if (gConnectionWork->mChildren.mChildMask == 0) {
                 return FALSE;
             }
             break;
@@ -509,15 +510,15 @@ BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap) {
     u16 halfword;
 
     halfword = kind;
-    if ((gConnectionWork->mUnk_0454 & 1) == 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
     data_0216523c.mMaxDataSize = 0x18;
-    gConnectionWork->mUnk_0454 &= ~1;
-    if (QueueMPDataToPort(&halfword, 2, destBitmap, gConnectionWork->mUnk_0040, &data_0216523c) != FALSE) {
+    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
+    if (QueueMPDataToPort(&halfword, 2, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
         return TRUE;
     }
-    gConnectionWork->mUnk_0454 |= 1;
+    gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
     return FALSE;
 }
 
@@ -525,22 +526,22 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     MPPlayerNameMessage message;
 
     message.mKind = 6;
-    MI_CpuCopy8(&gConnectionWork->mUnk_045c[playerIndex], message.mName, 0x14);
+    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[playerIndex], message.mName, 0x14);
     message.mPlayerIndex = playerIndex;
     if (func_02050650_inline() == 1) {
-        message.mConnectedMask = gConnectionWork->mUnk_0044.mChildMask | 1;
+        message.mConnectedMask = gConnectionWork->mChildren.mChildMask | 1;
     } else {
         message.mConnectedMask = 0;
     }
-    if ((gConnectionWork->mUnk_0454 & 1) == 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
     data_0216523c.mMaxDataSize = 0x18;
-    gConnectionWork->mUnk_0454 &= ~1;
-    if (QueueMPDataToPort(&message, 0x18, destBitmap, gConnectionWork->mUnk_0040, &data_0216523c) != FALSE) {
+    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
+    if (QueueMPDataToPort(&message, 0x18, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
         return TRUE;
     }
-    gConnectionWork->mUnk_0454 |= 1;
+    gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
     return FALSE;
 }
 
@@ -548,17 +549,17 @@ BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap) {
     MPPlayerBitsMessage message;
 
     message.mKind = 9;
-    MI_CpuCopy8(gConnectionWork->mUnk_045c[playerIndex].mBits, message.mBits, 4);
+    MI_CpuCopy8(gConnectionWork->mPlayerRecords[playerIndex].mBits, message.mBits, 4);
     message.mPlayerIndex = playerIndex;
-    if ((gConnectionWork->mUnk_0454 & 1) == 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
     data_0216523c.mMaxDataSize = 0x18;
-    gConnectionWork->mUnk_0454 &= ~1;
-    if (QueueMPDataToPort(&message, 0x12, destBitmap, gConnectionWork->mUnk_0040, &data_0216523c) != FALSE) {
+    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
+    if (QueueMPDataToPort(&message, 0x12, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
         return TRUE;
     }
-    gConnectionWork->mUnk_0454 |= 1;
+    gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
     return FALSE;
 }
 
@@ -567,18 +568,18 @@ BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word) {
 
     message.mUnk_00 = kind;
     message.mUnk_04 = word;
-    if ((gConnectionWork->mUnk_0454 & 1) == 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
     data_0216523c.mMaxDataSize = 0x18;
-    gConnectionWork->mUnk_0454 &= ~1;
-    if (QueueMPDataToPort(&message, 8, destBitmap, gConnectionWork->mUnk_0040, &data_0216523c) != FALSE) {
+    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
+    if (QueueMPDataToPort(&message, 8, destBitmap, gConnectionWork->mMPDataBuffer, &data_0216523c) != FALSE) {
         return TRUE;
     }
-    gConnectionWork->mUnk_0454 |= 1;
+    gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
     return FALSE;
 }
 
 void QueueMPDataToPortCallback(void) {
-    gConnectionWork->mUnk_0454 |= 1;
+    gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
 }

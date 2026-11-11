@@ -49,7 +49,7 @@ static inline void func_0203d568_b_inline(void) {
         (GetNextSceneNumber() != 6 || gMenuShared->mWLMenuKind != 2) && func_0203d568_inline(gConnectionWork) != 0) {
         for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
             if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&
-                (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mUnk_1e8c[entryIndex])) == 0) {
+                (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mParticipantIndexByPos[entryIndex])) == 0) {
                 ReplaceEntryWithCpu(entryIndex);
             }
         }

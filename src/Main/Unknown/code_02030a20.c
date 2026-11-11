@@ -130,8 +130,8 @@ void PrintMultiSelectConnectionNames(void) {
     for (i = 1, labelMessageRow = data_usa_02153d88; i < 8; labelMessageRow++, i++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-        if (&gConnectionWork->mUnk_045c[(u16) i] != NULL) {
-            MIi_CpuCopy16(&gConnectionWork->mUnk_045c[(u16) i], &nameBuffer[1], 0x14);
+        if (&gConnectionWork->mPlayerRecords[(u16) i] != NULL) {
+            MIi_CpuCopy16(&gConnectionWork->mPlayerRecords[(u16) i], &nameBuffer[1], 0x14);
             if (nameBuffer[1] != 0) {
                 PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                                    &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
@@ -389,7 +389,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
             switch (AdvanceConnectByMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex)) {
                 case 1:
                     if (gStartupWork->mConnectionKind == 2) {
-                        SetMultiSimple((gConnectionWork->mUnk_0454 & 0x40) != 0 ? 1 : 0);
+                        SetMultiSimple((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0 ? 1 : 0);
                     }
                     gMultiSelectMember->mSetupState = 4;
                     if (gMultiSelectMember->mUnk_84 == 0) {
@@ -670,10 +670,10 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             x = gConnectionWork->mConnectionMode;
         }
         if (x == 1) {
-            if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+            if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 x = gConnectionWork->mWaitToSendCount;
             } else {
-                x = gConnectionWork->mUnk_0044.mChildCount;
+                x = gConnectionWork->mChildren.mChildCount;
             }
         } else {
             x = 0;

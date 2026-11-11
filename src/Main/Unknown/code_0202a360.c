@@ -48,7 +48,7 @@ u32 GetResultSceneSeqKind(void) {
             } else {
                 ownIndex = 0;
             }
-            ownEntryIndex = gConnectionWork->mUnk_1e52[(u16) ownIndex].mEntryIndex;
+            ownEntryIndex = gConnectionWork->mParticipantPosByIndex[(u16) ownIndex].mEntryIndex;
             break;
         case 3:
             ownEntryIndex = (u16) GetPackedIndex(GetOwnParticipantIndex());

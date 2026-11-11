@@ -10,21 +10,21 @@ void ParentBlockTransferCallback(WBTCommand *record) {
         SetZeroWordReceived(&record->mUnk_14.w.mUnk_14, record->mUnk_14.b.mUnk_1d);
         return;
     }
-    switch (gConnectionWork->mUnk_1e46) {
+    switch (gConnectionWork->mParentTransferStep) {
         case 0:
             if (callbackCode == 2) {
-                gConnectionWork->mUnk_1e46 = 1;
+                gConnectionWork->mParentTransferStep = 1;
             }
             break;
         case 1:
             if (callbackCode == 8) {
-                gConnectionWork->mUnk_1e46 = 2;
+                gConnectionWork->mParentTransferStep = 2;
             }
             break;
         case 2:
             if (callbackCode == 8) {
-                gConnectionWork->mUnk_1e44 |= 4;
-                gConnectionWork->mUnk_1e46 = 0;
+                gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SEQUENCE_DONE;
+                gConnectionWork->mParentTransferStep = 0;
             }
             break;
     }

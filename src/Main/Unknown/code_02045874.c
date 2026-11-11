@@ -128,7 +128,7 @@ void BuildCourseList(s32 isVersus) {
     switch (gStartupWork->mConnectionKind) {
         case 1:
         case 2:
-            f = (gConnectionWork->mUnk_0454 & 0x40) != 0;
+            f = (gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0;
             break;
     }
     switch (gRaceSetup->mNextHeader.mCourseListMode) {

@@ -6,7 +6,7 @@
 #pragma thumb on
 
 void ConnectFailedCallback(void) {
-    if ((0x00000708u) < gConnectionWork->mUnk_1692) {
+    if ((0x00000708u) < gConnectionWork->mStepWaitFrames) {
         SetRequestErrorCode(5);
         return;
     }

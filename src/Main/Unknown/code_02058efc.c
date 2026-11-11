@@ -29,7 +29,7 @@ void UpdateMPState21(void) {
     MPStateMachine *stateMachine;
     result = AdvanceMenuDLArchives();
     if (result == 1) {
-        stateMachine = &gConnectionWork->mUnk_1608;
+        stateMachine = &gConnectionWork->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = 0x14;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -52,7 +52,7 @@ void UpdateMPState18(void) {
     MPStateMachine *stateMachine;
     result = AdvanceResultDLArchives();
     if (result == 1) {
-        stateMachine = &gConnectionWork->mUnk_1608;
+        stateMachine = &gConnectionWork->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = 0x13;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
@@ -64,7 +64,7 @@ void UpdateMPState18(void) {
 
 void EnterMPState19(void) {
     gConnectionWork->mSyncState = 0;
-    gConnectionWork->mUnk_1e44 &= ~2;
+    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
 }
 
@@ -83,7 +83,7 @@ void UpdateMPState19(void) {
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadResultSceneSoundSetCallback);
     if (result == 1) {
-        stateMachine = &gConnectionWork->mUnk_1608;
+        stateMachine = &gConnectionWork->mMPStateMachine;
         stateMachine->mStateMachine.mNextState = 0xf;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }

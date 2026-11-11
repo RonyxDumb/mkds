@@ -141,9 +141,8 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
         case 2:
             SetSelectChoisesSoundId(1, 0xf);
             gResultsBattle->mOwnEntryIndex =
-                gConnectionWork
-                    ->mUnk_1e52[(u16) (gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0)]
-                    .mEntryIndex;
+                GetParticipantPosByIndex(gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0)
+                    ->mEntryIndex;
             gResultsBattle->mKartCount = gRaceSetup->mKartCount;
             gResultsBattle->mState = 0;
             break;
@@ -422,7 +421,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 gResultsBattle->mState = 7;
                                 break;
                             case 1:
-                                gConnectionWork->mUnk_0454 = gConnectionWork->mUnk_0454 | 0x80;
+                                gConnectionWork->mFlags = gConnectionWork->mFlags | CONNECTION_FLAG_ENDING;
                                 gResultsBattle->mState = 6;
                                 break;
                             case -1:

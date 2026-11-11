@@ -4,8 +4,8 @@
 
 void FinishMultiBootParentSetup(void) {
     gConnectionWork->mState = 2;
-    gConnectionWork->mUnk_0044.mNameSendIndex = 0;
-    gConnectionWork->mUnk_008b &= ~8;
+    gConnectionWork->mChildren.mNameSendIndex = 0;
+    gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
 }
 
 void DisconnectRemovedChildren(void) {
@@ -14,7 +14,7 @@ void DisconnectRemovedChildren(void) {
     if (removedChildMask == 0) {
         return;
     }
-    if (QueueMPDataHalfwordAndWord(7, gConnectionWork->mUnk_0044.mChildMask, removedChildMask) == FALSE) {
+    if (QueueMPDataHalfwordAndWord(7, gConnectionWork->mChildren.mChildMask, removedChildMask) == FALSE) {
         return;
     }
     DisconnectChildren(removedChildMask);

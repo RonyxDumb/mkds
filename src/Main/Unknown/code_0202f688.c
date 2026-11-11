@@ -415,7 +415,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4e);
                     } else {
                         if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 2) {
-                            gConnectionWork->mUnk_0436 |= 1;
+                            gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_SCANNING;
                         }
                         NNS_SndArcSetCurrent(&gOnMemorySndArc);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);

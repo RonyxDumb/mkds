@@ -29,7 +29,7 @@ static inline s32 func_02055030_inline2(void) {
 
 static inline s32 func_02055030_inline3(void) {
     BOOL r = FALSE;
-    if (func_02055030_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_02055030_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         r = TRUE;
     }
     return r;
@@ -48,7 +48,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
 
     status = 0;
     if (gConnectionWork->mRequestPending != 0) {
-        if (gConnectionWork->mStep == 7 && gConnectionWork->mUnk_043b == 1) {
+        if (gConnectionWork->mStep == 7 && gConnectionWork->mKeepScanning == 1) {
             if (TrySelectScanSlot(entryIndex) == 0) {
                 SetRequestErrorCode(5);
             }
@@ -92,12 +92,12 @@ s32 AdvanceGameInfoOnChildChange(void) {
     }
     switch (gConnectionWork->mStep) {
         case 11:
-            if (gConnectionWork->mUnk_008b & 8) {
+            if (gConnectionWork->mStatusFlags & CONNECTION_STATUS_CHILDREN_CHANGED) {
                 SetGameInfo();
             }
             break;
         case 15:
-            gConnectionWork->mUnk_008b &= ~8;
+            gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
             gConnectionWork->mStep = 11;
             break;
     }
@@ -117,7 +117,7 @@ void AdvanceConnection(void) {
         case 8:
         case 9:
             if (UpdateDataSharing() == FALSE) {
-                gConnectionWork->mUnk_0454 |= 0x10;
+                gConnectionWork->mFlags |= CONNECTION_FLAG_SHARING_NOT_UPDATED;
             }
             if (gConnectionWork->mState != 9) {
                 return;
@@ -128,23 +128,23 @@ void AdvanceConnection(void) {
             DisconnectRemovedChildren();
             break;
         case 2:
-            childMask = gConnectionWork->mUnk_0044.mChildMask;
+            childMask = gConnectionWork->mChildren.mChildMask;
             participantMask = childMask | 1;
-            if (gConnectionWork->mUnk_0044.mNameSendIndex >= 8) {
-                gConnectionWork->mUnk_0044.mNameSendIndex++;
-                if ((s32) gConnectionWork->mUnk_0044.mNameSendIndex > 0x2c) {
-                    gConnectionWork->mUnk_0044.mNameSendIndex = 0;
+            if (gConnectionWork->mChildren.mNameSendIndex >= 8) {
+                gConnectionWork->mChildren.mNameSendIndex++;
+                if ((s32) gConnectionWork->mChildren.mNameSendIndex > 0x2c) {
+                    gConnectionWork->mChildren.mNameSendIndex = 0;
                 }
                 return;
             }
-            participantIndex = gConnectionWork->mUnk_0044.mNameSendIndex % 8;
+            participantIndex = gConnectionWork->mChildren.mNameSendIndex % 8;
             if (participantMask & (1 << participantIndex)) {
                 if (QueueMPDataPlayerName(participantIndex, childMask) == FALSE) {
                     return;
                 }
-                gConnectionWork->mUnk_0044.mNameSendIndex++;
+                gConnectionWork->mChildren.mNameSendIndex++;
             } else {
-                gConnectionWork->mUnk_0044.mNameSendIndex++;
+                gConnectionWork->mChildren.mNameSendIndex++;
             }
             break;
     }
@@ -155,7 +155,7 @@ s32 AdvanceConnectionEnd(void) {
 
     finished = FALSE;
     if (gConnectionWork->mState == 0) {
-        gConnectionWork->mUnk_0454 &= ~0x80;
+        gConnectionWork->mFlags &= ~CONNECTION_FLAG_ENDING;
         return 1;
     }
     switch (gConnectionWork->mStep) {
@@ -180,8 +180,8 @@ s32 AdvanceConnectionEnd(void) {
             gConnectionWork->mRequestPending = 0;
             break;
     }
-    if (gConnectionWork->mRequestPending != 0 && gConnectionWork->mStep == 7 && gConnectionWork->mUnk_043b == 1) {
-        gConnectionWork->mUnk_043b = 0;
+    if (gConnectionWork->mRequestPending != 0 && gConnectionWork->mStep == 7 && gConnectionWork->mKeepScanning == 1) {
+        gConnectionWork->mKeepScanning = 0;
     }
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
@@ -200,7 +200,7 @@ s32 AdvanceConnectionEnd(void) {
             ClearParticipantBits();
             gConnectionWork->mState = 0;
             finished = TRUE;
-            gConnectionWork->mUnk_0454 &= ~0x80;
+            gConnectionWork->mFlags &= ~CONNECTION_FLAG_ENDING;
             break;
         case 1:
         case 2:

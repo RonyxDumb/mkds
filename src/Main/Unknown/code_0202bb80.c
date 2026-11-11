@@ -292,15 +292,16 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 } else {
                     i = 0;
                 }
-                gPlayerEntryList->mEntryIndex = gConnectionWork->mUnk_1e52[(u16) i].mEntryIndex;
+                gPlayerEntryList->mEntryIndex = gConnectionWork->mParticipantPosByIndex[(u16) i].mEntryIndex;
                 for (j = 0; j < (n = gPlayerEntryList->mPlayerCount); j++) {
                     GetRaceSetupCopy()->mEntries[j].mPlayerKind = PLAYER_KIND_HUMAN;
                     clearValue = 0;
                     MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[j].mName, 0x16);
-                    func_0202c0d4_inline(gConnectionWork->mUnk_1e8c[(u16) j] == 0xffff
-                                             ? (void *) 0
-                                             : &gConnectionWork->mUnk_045c[gConnectionWork->mUnk_1e8c[(u16) j]],
-                                         gPlayerEntryList->mEntries[j].mName, 0x14);
+                    func_0202c0d4_inline(
+                        gConnectionWork->mParticipantIndexByPos[(u16) j] == 0xffff
+                            ? (void *) 0
+                            : &gConnectionWork->mPlayerRecords[gConnectionWork->mParticipantIndexByPos[(u16) j]],
+                        gPlayerEntryList->mEntries[j].mName, 0x14);
                 }
                 for (; n < 8; n++) {
                     SetEntryTargetSlot(n, 0);
@@ -461,8 +462,10 @@ void AdvancePlayerEntryList(void) {
 
                 for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
                     if (gConnectionWork->mState == 8 &&
-                        (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mUnk_1e8c[(u16) i])) != 0) {
-                        c = gConnectionWork->mUnk_15c8[gConnectionWork->mUnk_1e8c[(u16) i]].mUnk_00[5];
+                        (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mParticipantIndexByPos[(u16) i])) !=
+                            0) {
+                        c = gConnectionWork->mSharingReceiveRecords[gConnectionWork->mParticipantIndexByPos[(u16) i]]
+                                .mUnk_00[5];
                     } else {
                         c = 0;
                     }

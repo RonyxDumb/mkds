@@ -2,5 +2,5 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void ClearRaceConnectionFlag(void) {
-    gConnectionWork->mUnk_0454 &= ~8;
+    gConnectionWork->mFlags &= ~CONNECTION_FLAG_RACE;
 }

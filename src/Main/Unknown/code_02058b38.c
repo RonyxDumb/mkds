@@ -21,7 +21,7 @@ static inline u32 func_02058b38_inline(void) {
 }
 
 static inline void func_02058b74_inline(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mUnk_1608;
+    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = nextState;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -36,7 +36,7 @@ static inline s32 func_02058cac_inline2(void) {
 
 static inline s32 func_02058cac_inline3(void) {
     BOOL r = FALSE;
-    if (func_02058cac_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_02058cac_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         r = TRUE;
     }
     return r;
@@ -58,7 +58,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
     done = FALSE;
     switch (gConnectionWork->mSyncState) {
         case 0:
-            if (gConnectionWork->mUnk_0454 & 1) {
+            if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
                 switch (func_02058b38_inline()) {
                     case 1:
                         gConnectionWork->mSyncState = 6;
@@ -71,13 +71,13 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
             break;
         case 7:
             QueueMPDataHalfword(5, 0xff);
-            gConnectionWork->mUnk_1e44 |= 2;
+            gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SYNC_DONE;
             gConnectionWork->mSyncDoneChildMask = done;
             gConnectionWork->mSyncState = 1;
             break;
         case 6:
-            if (gConnectionWork->mUnk_0044.mChildMask ==
-                (gConnectionWork->mUnk_0044.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
+            if (gConnectionWork->mChildren.mChildMask ==
+                (gConnectionWork->mChildren.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
                 gConnectionWork->mSyncState = 7;
             }
             break;
@@ -104,7 +104,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
             }
             break;
         case 1:
-            if (gConnectionWork->mUnk_1e44 & 2) {
+            if (gConnectionWork->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
                 done = TRUE;
             }
             break;
@@ -128,13 +128,13 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
         }
         return 2;
     }
-    AdvanceStateMachine(&gConnectionWork->mUnk_1608.mStateMachine);
+    AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
     if (!func_02058cac_inline4()) {
-        if (func_02058b38_inline() == 1 && gConnectionWork->mUnk_0044.mChildCount == 0) {
+        if (func_02058b38_inline() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
             SetRequestErrorCode(7);
         }
     }
-    if (gConnectionWork->mUnk_1608.mStateMachine.mState == 0xf) {
+    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == 0xf) {
         finished = TRUE;
     }
     return finished;
@@ -144,7 +144,7 @@ void EnterMPState0(void) {
     u16 ownIndex;
 
     ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
-    FillPlayerRecord(&gConnectionWork->mUnk_045c[ownIndex]);
+    FillPlayerRecord(&gConnectionWork->mPlayerRecords[ownIndex]);
 }
 
 void UpdateMPState0(void) {
@@ -173,24 +173,24 @@ void EnterMPState22(void) {
     v = (u32) v & ~(u32) (v >> 32);
     if (gBootInfo->mUnk_00 == 2) {
         v = v * 0x5d588b656c078965ull + 0x269ec3;
-        gConnectionWork->mUnk_1608.mDelayTimer = (u16) (((v >> 32) * 0xb4) >> 32) + 0x78;
+        gConnectionWork->mMPStateMachine.mDelayTimer = (u16) (((v >> 32) * 0xb4) >> 32) + 0x78;
     } else {
-        gConnectionWork->mUnk_1608.mDelayTimer = 0xb4;
+        gConnectionWork->mMPStateMachine.mDelayTimer = 0xb4;
     }
 }
 
 void UpdateMPState22(void) {
-    gConnectionWork->mUnk_1608.mDelayTimer = gConnectionWork->mUnk_1608.mDelayTimer - 1;
-    if (gConnectionWork->mUnk_1608.mDelayTimer < 0) {
+    gConnectionWork->mMPStateMachine.mDelayTimer = gConnectionWork->mMPStateMachine.mDelayTimer - 1;
+    if (gConnectionWork->mMPStateMachine.mDelayTimer < 0) {
         func_02058b74_inline(7);
     }
 }
 
 void EnterMPState5(void) {
     if (func_02058b38_inline() == 1) {
-        gConnectionWork->mParticipantMask = gConnectionWork->mUnk_0044.mChildMask | 1;
+        gConnectionWork->mParticipantMask = gConnectionWork->mChildren.mChildMask | 1;
     }
-    gConnectionWork->mUnk_1608.mChildDataWaitFrames = 0;
+    gConnectionWork->mMPStateMachine.mChildDataWaitFrames = 0;
 }
 
 #pragma thumb off

@@ -16,7 +16,7 @@ void CombineParticipantBits(void) {
     for (i = 0; i < 8; i++) {
         if ((gConnectionWork->mParticipantMask & (1 << i)) != 0) {
             for (j = 0; j < 4; j++) {
-                entry = &gConnectionWork->mUnk_045c[i];
+                entry = &gConnectionWork->mPlayerRecords[i];
                 bitsByte = &entry->mBits[j];
                 if (i == 0) {
                     data_0217aa08->mParticipantAndBits[j] = *bitsByte;
@@ -26,7 +26,7 @@ void CombineParticipantBits(void) {
                     data_0217aa08->mParticipantOrBits[j] |= *bitsByte;
                 }
             }
-            entry = &gConnectionWork->mUnk_045c[i];
+            entry = &gConnectionWork->mPlayerRecords[i];
             value = GetKartAppearLimitFromBits(entry->mBits);
             if (i == 0) {
                 data_0217aa08->mParticipantMaxValue = value;

@@ -13,7 +13,7 @@ void StopBlockTransferStep(void) {
     gConnectionWork->mStep = 0x2d;
     gConnectionWork->mRequestPending = 1;
     WBT_End();
-    gConnectionWork->mUnk_0454 &= ~0x200;
+    gConnectionWork->mFlags &= ~CONNECTION_FLAG_BLOCK_TRANSFER;
     gConnectionWork->mRequestPending = 0;
 }
 
@@ -55,10 +55,10 @@ BOOL CopySingleChildName(void *destination) {
 
     found = FALSE;
     if (func_0204eb08_inline() == 1) {
-        if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+        if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             childCount = gConnectionWork->mWaitToSendCount;
         } else {
-            childCount = gConnectionWork->mUnk_0044.mChildCount;
+            childCount = gConnectionWork->mChildren.mChildCount;
         }
     } else {
         childCount = 0;
@@ -70,10 +70,10 @@ BOOL CopySingleChildName(void *destination) {
         return FALSE;
     }
     index = 1;
-    childMask = gConnectionWork->mUnk_0044.mChildMask;
+    childMask = gConnectionWork->mChildren.mChildMask;
     do {
         if ((childMask & (1 << index)) != 0) {
-            MI_CpuCopy8(&gConnectionWork->mUnk_045c[index], destination, 0x14);
+            MI_CpuCopy8(&gConnectionWork->mPlayerRecords[index], destination, 0x14);
             found = TRUE;
             break;
         }

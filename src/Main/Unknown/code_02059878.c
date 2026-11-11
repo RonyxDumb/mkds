@@ -30,7 +30,7 @@ static inline u32 func_02059878_inline(void) {
 }
 
 static inline void func_02059878_inline2(u16 v) {
-    MPStateMachine *p = &gConnectionWork->mUnk_1608;
+    MPStateMachine *p = &gConnectionWork->mMPStateMachine;
     p->mStateMachine.mNextState = v;
     p->mStateMachine.mNextStateRequested = 1;
 }
@@ -66,7 +66,7 @@ void ProcessMPChunk(u8 *chunk) {
     u8 playerBit;
 
     playerIndex = chunk[0];
-    entry = &gConnectionWork->mUnk_045c[playerIndex];
+    entry = &gConnectionWork->mPlayerRecords[playerIndex];
     finished = 0;
     if (func_02059878_inline() == 1) {
         byteOffset = chunk[1] << 5;
@@ -81,20 +81,20 @@ void ProcessMPChunk(u8 *chunk) {
             break;
         case 0xfe:
             if (func_02059878_inline() == 2) {
-                gConnectionWork->mUnk_043a = *(u16 *) (chunk + 2);
+                gConnectionWork->mExpectedRecordMask = *(u16 *) (chunk + 2);
             }
             break;
         case 0xfd:
             if (func_02059878_inline() == 1) {
-                gConnectionWork->mUnk_162a |= 1 << playerIndex;
-                if (gConnectionWork->mUnk_0044.mChildMask ==
-                    (gConnectionWork->mUnk_0044.mChildMask & gConnectionWork->mUnk_162a)) {
+                gConnectionWork->mRecordReceivedMask |= 1 << playerIndex;
+                if (gConnectionWork->mChildren.mChildMask ==
+                    (gConnectionWork->mChildren.mChildMask & gConnectionWork->mRecordReceivedMask)) {
                     func_02059878_inline2(10);
                 }
             }
             break;
         case 0xfc:
-            gConnectionWork->mUnk_045c[playerIndex].mHasEmblem = 0;
+            gConnectionWork->mPlayerRecords[playerIndex].mHasEmblem = 0;
             finished = 1;
             break;
         default:
@@ -109,12 +109,13 @@ void ProcessMPChunk(u8 *chunk) {
         playerBit = 1U << chunk[0];
         if (func_02059878_inline() == 1) {
             if (QueueMPChunk(0xff, NULL, 0, 0, playerBit) != FALSE) {
-                gConnectionWork->mUnk_162a |= 1 << chunk[0];
+                gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
                 return;
             }
         } else {
-            gConnectionWork->mUnk_162a |= 1 << chunk[0];
-            if (gConnectionWork->mUnk_043a == (gConnectionWork->mUnk_043a & gConnectionWork->mUnk_162a)) {
+            gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
+            if (gConnectionWork->mExpectedRecordMask ==
+                (gConnectionWork->mExpectedRecordMask & gConnectionWork->mRecordReceivedMask)) {
                 ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
                 if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
                     func_02059878_inline2(10);
@@ -142,23 +143,24 @@ void InitMPStateMachine(void) {
     ConnectionWork *connectionWork;
     u32 connectionMode;
 
-    InitStateMachine(&gConnectionWork->mUnk_1608.mStateMachine, gMPStateTable, 0x17, NULL);
-    gConnectionWork->mUnk_164e = 0;
-    gConnectionWork->mUnk_1608.mChildDataWaitFrames = 0;
-    gConnectionWork->mUnk_1608.mChunkSendFlags = 0;
+    InitStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine, gMPStateTable, 0x17, NULL);
+    gConnectionWork->mPlayerSendIndex = 0;
+    gConnectionWork->mMPStateMachine.mChildDataWaitFrames = 0;
+    gConnectionWork->mMPStateMachine.mChunkSendFlags = 0;
     gConnectionWork->mEntryChunkIndex = 0;
-    gConnectionWork->mUnk_162a = 0;
-    gConnectionWork->mUnk_164c = 0;
+    gConnectionWork->mRecordReceivedMask = 0;
+    gConnectionWork->mNamesStoredMask = 0;
     connectionWork = gConnectionWork;
     connectionMode = 0;
     if (connectionWork != NULL) {
         connectionMode = connectionWork->mConnectionMode;
     }
     if (connectionMode == 1) {
-        connectionWork->mUnk_0044.mUnk_42 =
-            (connectionWork->mUnk_0454 & 0x40) != 0 ? connectionWork->mUnk_1695 : connectionWork->mUnk_0044.mChildMask;
+        connectionWork->mChildren.mUnk_42 = (connectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0
+                                                ? connectionWork->mMultiBootChildMask
+                                                : connectionWork->mChildren.mChildMask;
     }
-    gConnectionWork->mUnk_1eb0 = 0;
+    gConnectionWork->mRaceSeed = 0;
 }
 
 #pragma thumb off

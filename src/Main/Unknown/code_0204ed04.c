@@ -18,7 +18,7 @@ void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
 
 #pragma thumb on
 void PacketPortSendCallback(void) {
-    gConnectionWork->mUnk_1e44 &= ~1;
+    gConnectionWork->mTransferFlags &= ~1;
 }
 #pragma thumb off
 
@@ -27,7 +27,7 @@ void PacketPortSendCallback(void) {
 void QueuePacketToPort(void) {
     u16 packetSize;
     u16 destMask;
-    if (!(gConnectionWork->mUnk_1e44 & 1)) {
+    if (!(gConnectionWork->mTransferFlags & 1)) {
         u32 connectionMode;
         if (gConnectionWork == NULL) {
             connectionMode = 0;
@@ -38,7 +38,7 @@ void QueuePacketToPort(void) {
             case 1:
                 data_usa_0216522c.mMaxDataSize = 0x192;
                 packetSize = WBT_MpParentSendHook(gConnectionWork->mPacketBuffer, 0x192);
-                destMask = gConnectionWork->mUnk_0044.mChildMask;
+                destMask = gConnectionWork->mChildren.mChildMask;
                 break;
             case 2:
                 data_usa_0216522c.mMaxDataSize = 0xe;
@@ -49,7 +49,7 @@ void QueuePacketToPort(void) {
         if (QueueMPDataToPort(gConnectionWork->mPacketBuffer, packetSize, destMask, NULL, &data_usa_0216522c) ==
             FALSE) {
             gConnectionWork->mSendTimer = data_usa_02165228;
-            gConnectionWork->mUnk_1e44 &= ~1;
+            gConnectionWork->mTransferFlags &= ~1;
         }
     }
 }

@@ -64,7 +64,7 @@ void ResetInputSlotsFromParticipants(void) {
     connectionWork = gConnectionWork;
     if (func_020431e4_inline(connectionWork) != 0) {
         for (j = 0; j < 8; j++) {
-            if (connectionWork->mParticipantMask & (1 << connectionWork->mUnk_1e8c[j])) {
+            if (connectionWork->mParticipantMask & (1 << connectionWork->mParticipantIndexByPos[j])) {
                 gInputSlots[j].mSourceKind = 4;
             }
         }

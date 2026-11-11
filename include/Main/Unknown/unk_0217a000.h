@@ -258,20 +258,20 @@ typedef struct Unk0217aa08 {
 } Unk0217aa08;
 
 // Object behind member 0x15c4 of ConnectionWork.
-typedef struct Unk0217aa00_15c4 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05;
+typedef struct SharingSendRecord {
+    /* 00 */ u16 mPadKeys;
+    /* 02 */ u16 mTouchPoint;
+    /* 04 */ u8 mLeftParticipantMask;
+    /* 05 */ u8 mSendByte;
     /* 06 */ union {
         u8 mUnk_06;
         struct {
             u8 mUnk_06_0 : 7;
-            u8 mUnk_06_7 : 1;
+            u8 mMicOverThreshold : 1;
         };
     };
     /* 07 */ u8 mUnk_07;
-} Unk0217aa00_15c4;
+} SharingSendRecord;
 
 // 8-byte entries from 0x44 of ConnectionWork.
 typedef struct ChildEntry {
@@ -304,10 +304,10 @@ typedef struct ScanGhostInfo {
 } ScanGhostInfo;
 
 // Elements of the array at member 0x1e52 of gConnectionWork.
-typedef struct Unk0217aa00_1e52 {
+typedef struct ParticipantPosition {
     /* 00 */ u16 mEntryIndex;
     /* 02 */ u8 mUnk_02[6];
-} Unk0217aa00_1e52;
+} ParticipantPosition;
 
 // Part of ConnectionWork from 0x1608.
 typedef struct MPStateMachine {
@@ -344,7 +344,7 @@ typedef struct BlockEntry {
 } BlockEntry;
 
 // Members from 0x16a0 of ConnectionWork as one object.
-typedef struct Unk0217aa00_16a0_view {
+typedef struct BlockTransferView {
     /* 000 */ BlockEntry mBlockEntries[12];
     /* 660 */ s32 mUnk_660;
     /* 664 */ u8 mUnk_664[4];
@@ -355,15 +355,15 @@ typedef struct Unk0217aa00_16a0_view {
     /* 6b5 */ u8 mUnk_6b5[3];
     /* 6b8 */ void *mCompressedBuffer;
     /* 6bc */ u8 mUnk_6bc[0xdc];
-    /* 798 */ BOOL mUnk_798;
-    /* 79c */ BOOL mUnk_79c;
+    /* 798 */ BOOL mZeroWordReceived;
+    /* 79c */ BOOL mMPSetupActive;
     /* 7a0 */ u16 mGhostBlockCount;
     /* 7a2 */ u16 mUnk_7a2;
     /* 7a4 */ u8 mUnk_7a4;
     /* 7a5 */ s8 mUnk_7a5;
     /* 7a6 */ u8 mUnk_7a6;
     /* 7a7 */ u8 mUnk_7a7[1];
-} Unk0217aa00_16a0_view;
+} BlockTransferView;
 
 // 0x22c-byte entries from 0x45c of ConnectionWork; also the tail from 0xc of WiFiPlayerRecord.
 typedef struct PlayerRecord {
@@ -410,44 +410,44 @@ typedef struct ScanSlot {
 } ScanSlot;
 
 // The 0x3b0 bytes from 0xac of ConnectionWork as one object: the four entries, then the members up to 0x45c.
-typedef struct Unk0217aa00_ac {
-    /* 000 */ ScanSlot mUnk_000[4];
-    /* 380 */ u8 mUnk_380[6];
+typedef struct ScanStateView {
+    /* 000 */ ScanSlot mSlots[4];
+    /* 380 */ u8 mTargetAddress[6];
     /* 386 */ u8 mUnk_386[2];
-    /* 388 */ u16 mUnk_388;
+    /* 388 */ u16 mSlotCount;
     /* 38a */ u16 mUnk_38a;
-    /* 38c */ u8 mUnk_38c;
-    /* 38d */ u8 mUnk_38d;
+    /* 38c */ u8 mTargetRemaining;
+    /* 38d */ u8 mChannel;
     /* 38e */ u8 mUnk_38e;
-    /* 38f */ s8 mUnk_38f;
+    /* 38f */ s8 mIsRepeat;
     /* 390 */ u8 mUnk_390[0x20];
-} Unk0217aa00_ac;
+} ScanStateView;
 
 // 8-byte entries behind member 0xc of DataSharing.
-typedef struct Unk0217aa00_15c8 {
+typedef struct SharingReceiveRecord {
     /* 00 */ union {
         u8 mUnk_00[6];
         struct {
-            u16 mUnk_00_0;
-            u16 mUnk_00_2;
+            u16 mPadKeys;
+            u16 mTouchPoint;
         };
     };
     /* 06 */ union {
         u8 mUnk_06;
         struct {
             u8 mUnk_06_0 : 7;
-            u8 mUnk_06_7 : 1;
+            u8 mMicOverThreshold : 1;
         };
     };
     /* 07 */ u8 mUnk_07;
-} Unk0217aa00_15c8;
+} SharingReceiveRecord;
 
 // Members 0x15bc to 0x1607 of ConnectionWork as one object.
 typedef struct DataSharing {
     /* 00 */ WMDataSharingInfo *mUnk_00;
     /* 04 */ WMDataSet *mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ Unk0217aa00_15c8 *mUnk_0c;
+    /* 0c */ SharingReceiveRecord *mUnk_0c;
     /* 10 */ s32 mSharedDataCopied[8];
     /* 30 */ u8 mUnk_30;
     /* 31 */ u8 mUnk_31[3];
@@ -461,20 +461,20 @@ typedef struct DataSharing {
 } DataSharing;
 
 // 8-byte entries from 0x1e4c of ConnectionWork.
-typedef struct Unk0217aa00_1e4c_00 {
+typedef struct ParticipantPositionRow {
     /* 00 */ u16 mUnk_00[3];
     /* 06 */ u16 mUnk_06;
-} Unk0217aa00_1e4c_00;
+} ParticipantPositionRow;
 
 // Members 0x1e4c to 0x1ecf of ConnectionWork as one object.
-typedef struct Unk0217aa00_1e4c {
-    /* 00 */ Unk0217aa00_1e4c_00 mUnk_00[8];
+typedef struct ParticipantTablesView {
+    /* 00 */ ParticipantPositionRow mUnk_00[8];
     /* 40 */ u8 mUnk_40[0x20];
-    /* 60 */ u8 mUnk_60;
+    /* 60 */ u8 mLeftParticipantMask;
     /* 61 */ u8 mUnk_61[7];
     /* 68 */ u8 mUnk_68;
     /* 69 */ u8 mUnk_69[0x1b];
-} Unk0217aa00_1e4c;
+} ParticipantTablesView;
 
 // Seed, multiplier and increment of a multiply-add generator, each as a low word and a high word.
 typedef struct RandomState {
@@ -493,13 +493,13 @@ typedef struct BlockInfo {
 } BlockInfo;
 
 // Members 0x1658 to 0x169f of ConnectionWork as one object.
-typedef struct Unk0217aa00_1658 {
+typedef struct MultiBootStateView {
     /* 00 */ void *mUnk_00;
     /* 04 */ void *mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ void *mUnk_0c;
     /* 10 */ void *mUnk_10;
-    /* 14 */ s32 mUnk_14[8];
+    /* 14 */ s32 mChildStateCodes[8];
     /* 34 */ u32 mUnk_34;
     /* 38 */ u16 mUnk_38;
     /* 3a */ u16 mUnk_3a;
@@ -512,59 +512,87 @@ typedef struct Unk0217aa00_1658 {
     /* 42 */ s8 mUnk_42;
     /* 43 */ u8 mUnk_43;
     /* 44 */ s32 mUnk_44;
-} Unk0217aa00_1658;
+} MultiBootStateView;
 
+// ConnectionWork.mFlags: a block transfer is running.
+#define CONNECTION_FLAG_BLOCK_TRANSFER 0x200
+// ConnectionWork.mFlags: a message may be queued; cleared while one is queued.
+#define CONNECTION_FLAG_SEND_READY 1
+// ConnectionWork.mFlags: a rom archive transfer is running.
+#define CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER 0x100
+// ConnectionWork.mFlags: multiboot setup has started.
+#define CONNECTION_FLAG_MULTIBOOT_SETUP 0x40
+// ConnectionWork.mFlags: set when UpdateDataSharing returned FALSE.
+#define CONNECTION_FLAG_SHARING_NOT_UPDATED 0x10
+// ConnectionWork.mFlags: set while a scene runs with a live connection.
+#define CONNECTION_FLAG_SCENE_RUNNING 4
+// ConnectionWork.mFlags: the connection is a race connection.
+#define CONNECTION_FLAG_RACE 8
+// ConnectionWork.mFlags: the connection is being ended; cleared when the end finishes.
+#define CONNECTION_FLAG_ENDING 0x80
+// ConnectionWork.mOperationFlags: a disconnect is running.
+#define CONNECTION_OPERATION_DISCONNECTING 2
+// ConnectionWork.mOperationFlags: a scan is running.
+#define CONNECTION_OPERATION_SCANNING 1
+// ConnectionWork.mStatusFlags: data sharing sync finished.
+#define CONNECTION_STATUS_SHARING_SYNCED 1
+// ConnectionWork.mStatusFlags: the child set changed since the game info was last refreshed.
+#define CONNECTION_STATUS_CHILDREN_CHANGED 8
+// ConnectionWork.mTransferFlags: the parent transfer callback finished its sequence.
+#define CONNECTION_TRANSFER_SEQUENCE_DONE 4
+// ConnectionWork.mTransferFlags: the sync wait is done.
+#define CONNECTION_TRANSFER_SYNC_DONE 2
 typedef struct ConnectionWork {
     /* 0000 */ u32 mConnectionMode;
     /* 0004 */ s32 mState;
     /* 0008 */ s32 mErrorCode;
     /* 000c */ s32 mStep;
     /* 0010 */ s32 mRequestPending;
-    /* 0014 */ void *mUnk_0014;
+    /* 0014 */ void *mWmWorkBuffer;
     /* 0018 */ Unk02143c30 *mParentParameter;
-    /* 001c */ Unk02143a78 *mUnk_001c;
-    /* 0020 */ Unk021438f0 *mUnk_0020;
+    /* 001c */ Unk02143a78 *mScanParams;
+    /* 0020 */ Unk021438f0 *mScanExParams;
     /* 0024 */ WMBssDesc *mParentBssDesc;
-    /* 0028 */ void *mUnk_0028;
-    /* 002c */ void *mUnk_002c;
-    /* 0030 */ s32 mUnk_0030;
-    /* 0034 */ void *mUnk_0034;
-    /* 0038 */ s32 mUnk_0038;
-    /* 003c */ void *mUnk_003c;
-    /* 0040 */ void *mUnk_0040;
-    /* 0044 */ ChildList mUnk_0044;
+    /* 0028 */ void *mScanBssDescBuffer;
+    /* 002c */ void *mScanExBuffer;
+    /* 0030 */ s32 mStartMPSendBufferSize;
+    /* 0034 */ void *mStartMPSendBuffer;
+    /* 0038 */ s32 mStartMPReceiveBufferSize;
+    /* 003c */ void *mStartMPReceiveBuffer;
+    /* 0040 */ void *mMPDataBuffer;
+    /* 0044 */ ChildList mChildren;
     /* 0088 */ s8 mParentChannel;
     /* 0089 */ union {
-        u8 mUnk_0089;
+        u8 mMeasureProgress;
         struct {
-            u8 mUnk_0089_0 : 4;
-            u8 mUnk_0089_4 : 4;
+            u8 mMeasureCount : 4;
+            u8 mMeasurePass : 4;
         };
     };
     /* 008a */ u8 mRemovedChildMask;
-    /* 008b */ u8 mUnk_008b;
+    /* 008b */ u8 mStatusFlags;
     /* 008c */ s16 mChannelSums[0xe];
     /* 00a8 */ u8 mUnk_00a8[4];
     /* 00ac */ union {
         struct {
-            /* 00ac */ ScanSlot mUnk_00ac[4];
-            /* 042c */ ScanMacAddress mUnk_042c;
+            /* 00ac */ ScanSlot mScanSlots[4];
+            /* 042c */ ScanMacAddress mRememberedScanKey;
             /* 0432 */ u16 mOwnIndex;
             /* 0434 */ u16 mUnk_0434;
-            /* 0436 */ u16 mUnk_0436;
+            /* 0436 */ u16 mOperationFlags;
             /* 0438 */ u8 mUnk_0438;
             /* 0439 */ u8 mUnk_0439;
-            /* 043a */ u8 mUnk_043a;
-            /* 043b */ s8 mUnk_043b;
-            /* 043c */ u8 mUnk_043c;
+            /* 043a */ u8 mExpectedRecordMask;
+            /* 043b */ s8 mKeepScanning;
+            /* 043c */ u8 mLanguageIndex;
             /* 043d */ u8 mReceivedNameMask;
             /* 043e */ u8 mUnk_043e[0x2];
-            /* 0440 */ s32 (*mUnk_0440)();
-            /* 0444 */ s32 (*mUnk_0444)();
-            /* 0448 */ void (*mUnk_0448)();
-            /* 044c */ void (*mUnk_044c)();
-            /* 0450 */ void (*mUnk_0450)();
-            /* 0454 */ u16 mUnk_0454;
+            /* 0440 */ s32 (*mScanResultCallback)();
+            /* 0444 */ s32 (*mScanFilterCallback)();
+            /* 0448 */ void (*mConnectedCallback)();
+            /* 044c */ void (*mConnectFailedCallback)();
+            /* 0450 */ void (*mDisconnectedCallback)();
+            /* 0454 */ u16 mFlags;
             /* 0456 */ union {
                 u8 mUnk_0456;
                 struct {
@@ -575,65 +603,65 @@ typedef struct ConnectionWork {
             /* 0458 */ u8 mUnk_0458;
             /* 0459 */ u8 mUnk_0459[3];
         };
-        Unk0217aa00_ac mUnk_00ac_view;
+        ScanStateView mUnk_00ac_view;
     };
-    /* 045c */ PlayerRecord mUnk_045c[8];
+    /* 045c */ PlayerRecord mPlayerRecords[8];
     /* 15bc */ union {
         struct {
-            /* 15bc */ WMDataSharingInfo *mUnk_15bc;
-            /* 15c0 */ WMDataSet *mUnk_15c0;
-            /* 15c4 */ Unk0217aa00_15c4 *mUnk_15c4;
-            /* 15c8 */ Unk0217aa00_15c8 *mUnk_15c8;
+            /* 15bc */ WMDataSharingInfo *mSharingInfo;
+            /* 15c0 */ WMDataSet *mSharingDataSet;
+            /* 15c4 */ SharingSendRecord *mSharingSendRecord;
+            /* 15c8 */ SharingReceiveRecord *mSharingReceiveRecords;
             /* 15cc */ s32 mUnk_15cc;
             /* 15d0 */ u8 mUnk_15d0[0x1c];
-            /* 15ec */ u8 mUnk_15ec;
+            /* 15ec */ u8 mSyncToggle;
             /* 15ed */ u8 mUnk_15ed[0x3];
-            /* 15f0 */ s32 mUnk_15f0;
+            /* 15f0 */ s32 mSharingStepResult;
             /* 15f4 */ u16 mUnk_15f4;
             /* 15f6 */ u8 mParticipantMask;
             /* 15f7 */ u8 mDataSharingSendByte;
             /* 15f8 */ u16 mUnk_15f8[7];
-            /* 1606 */ u8 mUnk_1606;
+            /* 1606 */ u8 mArrivedMemberMask;
             /* 1607 */ u8 mUnk_1607[0x1];
         };
         DataSharing mUnk_15bc_view;
     };
-    /* 1608 */ MPStateMachine mUnk_1608;
+    /* 1608 */ MPStateMachine mMPStateMachine;
     /* 1624 */ void *mChunkBuffer;
     /* 1628 */ u8 mEntryChunkIndex;
     /* 1629 */ u8 mEntryChunkSlot;
-    /* 162a */ u8 mUnk_162a;
+    /* 162a */ u8 mRecordReceivedMask;
     /* 162b */ u8 mUnk_162b[0x1];
     /* 162c */ u8 *mChunkReceivedFlags[8];
-    /* 164c */ u8 mUnk_164c;
-    /* 164d */ u8 mUnk_164d;
-    /* 164e */ u8 mUnk_164e;
+    /* 164c */ u8 mNamesStoredMask;
+    /* 164d */ u8 mBitsReceivedMask;
+    /* 164e */ u8 mPlayerSendIndex;
     /* 164f */ u8 mCallbackFailed;
     /* 1650 */ void *mCourseId;
     /* 1654 */ void *mMode;
     /* 1658 */ union {
         struct {
-            /* 1658 */ void *mUnk_1658;
-            /* 165c */ void *mUnk_165c;
-            /* 1660 */ s32 mUnk_1660;
-            /* 1664 */ void *mUnk_1664;
+            /* 1658 */ void *mMultiBootSegment;
+            /* 165c */ void *mMultiBootWork;
+            /* 1660 */ s32 mMultiBootWorkSize;
+            /* 1664 */ void *mAllocHeap;
             /* 1668 */ void *mUnk_1668;
             /* 166c */ s32 mUnk_166c;
             /* 1670 */ u8 mUnk_1670[0x1c];
-            /* 168c */ u32 mUnk_168c;
-            /* 1690 */ u16 mUnk_1690;
-            /* 1692 */ u16 mUnk_1692;
-            /* 1694 */ u8 mUnk_1694;
-            /* 1695 */ u8 mUnk_1695;
+            /* 168c */ u32 mMultiBootSegmentSize;
+            /* 1690 */ u16 mParentTgid;
+            /* 1692 */ u16 mStepWaitFrames;
+            /* 1694 */ u8 mMultiBootRequestFlags;
+            /* 1695 */ u8 mMultiBootChildMask;
             /* 1696 */ u8 mWaitToSendMask;
             /* 1697 */ u8 mSendCompleteMask;
-            /* 1698 */ u8 mUnk_1698;
+            /* 1698 */ u8 mBootRequestDoneMask;
             /* 1699 */ u8 mWaitToSendCount;
             /* 169a */ s8 mScanEntryIndex;
             /* 169b */ u8 mUnk_169b[0x1];
-            /* 169c */ s32 mUnk_169c;
+            /* 169c */ s32 mScanConnected;
         };
-        Unk0217aa00_1658 mUnk_1658_view;
+        MultiBootStateView mUnk_1658_view;
     };
     /* 16a0 */ union {
         struct {
@@ -648,7 +676,7 @@ typedef struct ConnectionWork {
             /* 1d58 */ void *mCompressedBuffer;
             /* 1d5c */ s16 mBlockIndex;
             /* 1d5e */ u16 mBlockCount;
-            /* 1d60 */ u32 *mUnk_1d60;
+            /* 1d60 */ u32 *mCurrentBlockBuffer;
             /* 1d64 */ u8 mUnk_1d64[0x3c];
             /* 1da0 */ BlockInfo *mBlockInfos[16];
             /* 1de0 */ void *mChunkBitmaps[16];
@@ -659,28 +687,28 @@ typedef struct ConnectionWork {
             /* 1e30 */ u8 *mPacketBuffer;
             /* 1e34 */ s32 mSyncState;
             /* 1e38 */ s32 mZeroWordReceived;
-            /* 1e3c */ s32 mUnk_1e3c;
+            /* 1e3c */ s32 mMPSetupActive;
             /* 1e40 */ u16 mGhostBlockCount;
             /* 1e42 */ u16 mSendTimer;
-            /* 1e44 */ u8 mUnk_1e44;
+            /* 1e44 */ u8 mTransferFlags;
             /* 1e45 */ s8 mSelectedScanEntry;
-            /* 1e46 */ u8 mUnk_1e46;
+            /* 1e46 */ u8 mParentTransferStep;
             /* 1e47 */ u8 mUnk_1e47[0x1];
             /* 1e48 */ ScanGhostInfo *mScanGhostInfos;
             /* 1e4c */ union {
                 struct {
                     /* 1e4c */ u16 mUnk_1e4c;
                     /* 1e4e */ u8 mUnk_1e4e[0x4];
-                    /* 1e52 */ Unk0217aa00_1e52 mUnk_1e52[7];
+                    /* 1e52 */ ParticipantPosition mParticipantPosByIndex[7];
                     /* 1e8a */ u16 mUnk_1e8a;
-                    /* 1e8c */ u16 mUnk_1e8c[8];
+                    /* 1e8c */ u16 mParticipantIndexByPos[8];
                     /* 1e9c */ u16 mParticipantIndices[8];
-                    /* 1eac */ u8 mUnk_1eac[4];
-                    /* 1eb0 */ s32 mUnk_1eb0;
+                    /* 1eac */ u8 mLeftParticipantMask[4];
+                    /* 1eb0 */ s32 mRaceSeed;
                     /* 1eb4 */ u8 mUnk_1eb4[4];
                     /* 1eb8 */ RandomState mRandom;
                 };
-                Unk0217aa00_1e4c mUnk_1e4c_view;
+                ParticipantTablesView mUnk_1e4c_view;
             };
             /* 1ed0 */ s32 mUnk_1ed0;
             /* 1ed4 */ u16 mUnk_1ed4;
@@ -691,12 +719,24 @@ typedef struct ConnectionWork {
             /* 1ee0 */ u8 mUnk_1ee0[2];
             /* 1ee2 */ u8 mUnk_1ee2[6];
         };
-        Unk0217aa00_16a0_view mUnk_16a0_view;
+        BlockTransferView mUnk_16a0_view;
     };
     /* 1ee8 */ RandomState64 mRandomState;
 } ConnectionWork;
 
 extern ConnectionWork *gConnectionWork;
+
+static inline ParticipantPosition *GetParticipantPosByIndex(u16 index) {
+    return &gConnectionWork->mParticipantPosByIndex[index];
+}
+
+static inline u16 GetParticipantIndexByPos(u16 index) {
+    return gConnectionWork->mParticipantIndexByPos[index];
+}
+
+static inline PlayerRecord *GetPlayerRecord(u16 index) {
+    return &gConnectionWork->mPlayerRecords[index];
+}
 extern Unk0217aa08 *data_0217aa08;
 // Object behind gThreadFunctionQueue; the OSThread at 0x2c is passed to OS_CreateThread and OS_WakeupThreadDirect.
 typedef struct ThreadFunctionQueue {
@@ -1654,6 +1694,14 @@ extern CupRecords *gCupRecords;
 
 static inline KartCourseResult *GetKartCourseResult(u8 course, u8 kartIndex) {
     return &gCupRecords->mKartResults[course][kartIndex];
+}
+
+static inline CourseTeamResults *GetCupCourseTeamResults(u8 course) {
+    return &gCupRecords->mTeamResults[course];
+}
+
+static inline CourseTeamResult *GetCupCourseTeamResult(CourseTeamResults *courseTeams, u32 team) {
+    return &courseTeams->mTeams[team];
 }
 extern struct Kart *gKarts;
 extern NNSFndList gResFileEntries;

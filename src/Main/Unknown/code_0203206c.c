@@ -348,7 +348,7 @@ s32 AdvanceSelectGame(void) {
                 if (GetSelectChoisesIndex() == 0 || GetSelectChoisesIndex() == ~a) {
                     gSelectGame->mState = 4;
                 } else {
-                    gConnectionWork->mUnk_0454 |= 0x80;
+                    gConnectionWork->mFlags |= CONNECTION_FLAG_ENDING;
                     gSelectGame->mResult = 3;
                     gSelectGame->mState = 8;
                 }

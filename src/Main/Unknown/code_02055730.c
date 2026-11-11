@@ -106,7 +106,7 @@ static inline s32 func_02055808_inline2(void) {
 
 static inline s32 func_02055808_inline3(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_02055808_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         r = TRUE;
     }
     return r;
@@ -332,7 +332,7 @@ void StoreReceivedPlayerName(const void *entryName, s32 entryIndex, s32 keepMask
     u8 keptBits;
 
     keptBits = gConnectionWork->mReceivedNameMask & keepMask;
-    MI_CpuCopy8(entryName, &gConnectionWork->mUnk_045c[entryIndex], 0x14);
+    MI_CpuCopy8(entryName, &gConnectionWork->mPlayerRecords[entryIndex], 0x14);
     gConnectionWork->mReceivedNameMask = keptBits | (1 << entryIndex);
 }
 
@@ -349,7 +349,7 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
     switch (gConnectionWork->mStep) {
         case 0:
         case 21:
-            gConnectionWork->mUnk_0454 &= ~0x40;
+            gConnectionWork->mFlags &= ~CONNECTION_FLAG_MULTIBOOT_SETUP;
             gConnectionWork->mState = 1;
             Initialize();
             break;
@@ -382,9 +382,9 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
             break;
         case 11:
             gConnectionWork->mState = 2;
-            gConnectionWork->mUnk_0044.mNameSendIndex = 0;
+            gConnectionWork->mChildren.mNameSendIndex = 0;
             result = TRUE;
-            gConnectionWork->mUnk_008b &= ~8;
+            gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
             break;
         default:
             StopConnection();
@@ -407,8 +407,8 @@ s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot) {
 }
 
 s32 AdvanceConnectByMultiBoot(u16 entryIndex) {
-    if (gConnectionWork->mUnk_0436 & 1) {
-        gConnectionWork->mUnk_0436 &= ~1;
+    if (gConnectionWork->mOperationFlags & CONNECTION_OPERATION_SCANNING) {
+        gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
     }
     if (gBootInfo->mUnk_00 == 2 || IsScanSlotMultiBoot(entryIndex) != 0) {
         return AdvanceScanConnect(entryIndex);

@@ -13,10 +13,11 @@ void SetMPFrequency(u32 mpFreq);
 void StartMPCallback(Unk021425e8 *event);
 void StartMP(void);
 void StartConnectCallback(Unk021425e8 *event);
-void StartConnect(WMBssDesc *a, void *b, void (*c)(), void (*d)(), void (*e)());
+void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connectedCallback)(), void (*failedCallback)(),
+                  void (*disconnectedCallback)());
 void EndScanCallback(Unk021425e8 *event);
 void EndScan(void);
 void StartScanCallback(Unk021425e8 *event);
-void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo *c);
+void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo);
 void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo, u8 entryIndex);
-void StartScan(s32 a, s32 (*b)(), s32 (*c)());
+void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)());

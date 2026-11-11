@@ -20,40 +20,40 @@
 
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     u32 workSize;
-    gConnectionWork->mUnk_1664 = heap;
+    gConnectionWork->mAllocHeap = heap;
     workSize = GetScanConnectWorkSize();
     if (gBootInfo->mUnk_00 != 2 && workSize < 0xc000) {
         workSize = 0xc000;
     }
-    gConnectionWork->mUnk_1660 = workSize;
-    gConnectionWork->mUnk_165c = HeapAllocAligned(heap, gConnectionWork->mUnk_1660, 0x20);
+    gConnectionWork->mMultiBootWorkSize = workSize;
+    gConnectionWork->mMultiBootWork = HeapAllocAligned(heap, gConnectionWork->mMultiBootWorkSize, 0x20);
     if (gBootInfo->mUnk_00 != 2) {
-        gConnectionWork->mUnk_168c = MB_GetSegmentLength(NULL);
-        if (gConnectionWork->mUnk_168c > 0x80000) {
-            gConnectionWork->mUnk_168c = 0x80000;
+        gConnectionWork->mMultiBootSegmentSize = MB_GetSegmentLength(NULL);
+        if (gConnectionWork->mMultiBootSegmentSize > 0x80000) {
+            gConnectionWork->mMultiBootSegmentSize = 0x80000;
         }
-        gConnectionWork->mUnk_1658 = HeapAllocAligned(heap, gConnectionWork->mUnk_168c, 0x20);
+        gConnectionWork->mMultiBootSegment = HeapAllocAligned(heap, gConnectionWork->mMultiBootSegmentSize, 0x20);
         SetGameRegistryTexts(bmg);
         gConnectionWork->mUnk_1668 = HeapAllocAligned(heap, 0x4c0, 0x20);
     } else {
-        gConnectionWork->mUnk_168c = 0;
-        gConnectionWork->mUnk_1658 = 0;
+        gConnectionWork->mMultiBootSegmentSize = 0;
+        gConnectionWork->mMultiBootSegment = 0;
         gConnectionWork->mUnk_1668 = 0;
     }
     ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
 }
 
-void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *c) {
-    gConnectionWork->mUnk_1658_view.mUnk_14[index] = code;
+void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *childInfo) {
+    gConnectionWork->mUnk_1658_view.mChildStateCodes[index] = code;
     if (gConnectionWork->mStep == 0x1b && code != 0xc) {
         return;
     }
     switch (code) {
         case 10: {
             u32 accept = 1;
-            if (gConnectionWork->mUnk_1694 & 1) {
+            if (gConnectionWork->mMultiBootRequestFlags & 1) {
                 accept = 0;
-            } else if ((gConnectionWork->mUnk_008b & 4) && c->mUnk_00_4 == 0) {
+            } else if ((gConnectionWork->mStatusFlags & 4) && childInfo->mUnk_00_4 == 0) {
                 accept = 0;
             }
             if (accept != 0) {
@@ -71,7 +71,7 @@ void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *c) {
             }
             break;
         case 9:
-            gConnectionWork->mUnk_1695 |= 1 << index;
+            gConnectionWork->mMultiBootChildMask |= 1 << index;
             break;
         case 12:
             gConnectionWork->mRequestPending = 0;
@@ -80,36 +80,37 @@ void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *c) {
             gConnectionWork->mRequestPending = 0;
             break;
         case 3:
-            if (gConnectionWork->mUnk_1695 & (1 << index)) {
-                gConnectionWork->mUnk_1698 |= 1 << index;
+            if (gConnectionWork->mMultiBootChildMask & (1 << index)) {
+                gConnectionWork->mBootRequestDoneMask |= 1 << index;
                 if (gConnectionWork->mWaitToSendMask ==
-                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mUnk_1698)) {
+                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mBootRequestDoneMask)) {
                     gConnectionWork->mRequestPending = 0;
                 }
             }
-            if (!(gConnectionWork->mUnk_1694 & 2)) {
+            if (!(gConnectionWork->mMultiBootRequestFlags & 2)) {
                 if (gConnectionWork->mWaitToSendCount != 0) {
                     if (gConnectionWork->mWaitToSendMask & (1 << index)) {
                         gConnectionWork->mWaitToSendMask &= ~(1 << index);
                         gConnectionWork->mWaitToSendCount--;
                     }
-                    if ((gConnectionWork->mUnk_1694 & 1) && gConnectionWork->mWaitToSendMask == 0) {
+                    if ((gConnectionWork->mMultiBootRequestFlags & 1) && gConnectionWork->mWaitToSendMask == 0) {
                         SetRequestErrorCode(7);
                     }
                 } else {
                     gConnectionWork->mWaitToSendMask = 0;
-                    gConnectionWork->mUnk_1698 = 0;
-                    gConnectionWork->mUnk_1695 = 0;
+                    gConnectionWork->mBootRequestDoneMask = 0;
+                    gConnectionWork->mMultiBootChildMask = 0;
                     gConnectionWork->mWaitToSendCount = 0;
                 }
             }
-            if ((gConnectionWork->mUnk_1694 & 2) &&
-                gConnectionWork->mWaitToSendMask == (gConnectionWork->mWaitToSendMask & gConnectionWork->mUnk_1698) &&
+            if ((gConnectionWork->mMultiBootRequestFlags & 2) &&
+                gConnectionWork->mWaitToSendMask ==
+                    (gConnectionWork->mWaitToSendMask & gConnectionWork->mBootRequestDoneMask) &&
                 gConnectionWork->mStep == 0x19) {
                 gConnectionWork->mRequestPending = 0;
                 return;
             }
-            if ((gConnectionWork->mUnk_1694 & 1) &&
+            if ((gConnectionWork->mMultiBootRequestFlags & 1) &&
                 gConnectionWork->mWaitToSendMask ==
                     (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask) &&
                 gConnectionWork->mStep == 0x18) {
@@ -126,16 +127,16 @@ void ParentStateCallback(u32 index, u32 code, Unk0204e4d8 *c) {
     }
 }
 
-void ResetConnectionBuffers(Unk0217aa00_1658 *view) {
+void ResetConnectionBuffers(MultiBootStateView *view) {
     s32 index;
-    if (gConnectionWork->mUnk_165c != 0) {
-        MI_CpuFill8(gConnectionWork->mUnk_165c, 0, gConnectionWork->mUnk_1660);
+    if (gConnectionWork->mMultiBootWork != 0) {
+        MI_CpuFill8(gConnectionWork->mMultiBootWork, 0, gConnectionWork->mMultiBootWorkSize);
     }
     if (gConnectionWork->mUnk_1668 != 0) {
         MI_CpuFill8(gConnectionWork->mUnk_1668, 0, 0x4c0);
     }
     for (index = 0; index < 8; index++) {
-        view->mUnk_14[index] = 0;
+        view->mChildStateCodes[index] = 0;
     }
     view->mUnk_3c = 0;
     view->mUnk_3d = 0;
@@ -158,8 +159,8 @@ void StartMultiBootParent(void) {
     user.mUnk_00_0 = gStartupWork->mUnk_40;
     user.mUnk_00_4 = 8;
     MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, user.mUnk_02, 0x14);
-    gConnectionWork->mUnk_1690 = ComputeParentTgid(1);
-    if (MB_Init(gConnectionWork->mUnk_165c, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mUnk_1690, 2) != 0) {
+    gConnectionWork->mParentTgid = ComputeParentTgid(1);
+    if (MB_Init(gConnectionWork->mMultiBootWork, (Unk02009ff4 *) &user, 0x25, gConnectionWork->mParentTgid, 2) != 0) {
         SetRequestErrorCode(5);
     }
     MB_SetParentCommParam(0x1fe, 7);
@@ -170,20 +171,20 @@ void StartMultiBootParent(void) {
     if (RegisterMultiBootSegment() == 0) {
         SetRequestErrorCode(5);
     }
-    gConnectionWork->mUnk_008b &= ~4;
+    gConnectionWork->mStatusFlags &= ~4;
     gConnectionWork->mRequestPending = 0;
 }
 
 void SetupScanConnect(void) {
-    Unk0204e4d8 b;
+    Unk0204e4d8 userInfo;
     gConnectionWork->mStep = 0x1c;
     gConnectionWork->mRequestPending = 1;
-    b.mUnk_00_0 = gStartupWork->mUnk_40;
-    b.mUnk_01 = 10;
-    b.mUnk_00_4 = 9;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, b.mUnk_02, 0x14);
+    userInfo.mUnk_00_0 = gStartupWork->mUnk_40;
+    userInfo.mUnk_01 = 10;
+    userInfo.mUnk_00_4 = 9;
+    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, userInfo.mUnk_02, 0x14);
     gConnectionWork->mScanEntryIndex = -1;
-    InitScanConnectWork(gConnectionWork->mUnk_165c, &b);
+    InitScanConnectWork(gConnectionWork->mMultiBootWork, &userInfo);
     SetScanConnectStateCallback(ScanConnectStateCallback);
     gConnectionWork->mRequestPending = 0;
 }
@@ -213,7 +214,7 @@ void StartRepeatedScanStep1E(void) {
     StartRepeatedScan(RepeatedScanCallback, 0x25);
 }
 
-// Returns the scan entry index with bytes 4..9 matching the first six of element a of mUnk_00ac[0].mUnk_c0, or -1.
+// Returns the scan entry index with bytes 4..9 matching the first six of element a of mScanSlots[0].mUnk_c0, or -1.
 s32 FindScanEntryIndex(u32 entryIndex) {
     s32 result;
     u16 index;
@@ -222,7 +223,7 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     if (gConnectionWork->mStep == 0x1e) {
         for (index = 0; index < 16; index++) {
             if (MB_FakeGetParentBssDesc(index, &scanBlock) != 0) {
-                u8 *tableBytes = gConnectionWork->mUnk_00ac[0].mKey.mUnk_00;
+                u8 *tableBytes = gConnectionWork->mScanSlots[0].mKey.mUnk_00;
                 u8 *entryBytes = tableBytes + entryIndex * 0xe0;
                 if (scanBlock.mBssid[0] == tableBytes[entryIndex * 0xe0] && scanBlock.mBssid[1] == entryBytes[1] &&
                     scanBlock.mBssid[2] == entryBytes[2] && scanBlock.mBssid[3] == entryBytes[3] &&
@@ -257,11 +258,11 @@ void ScanConnectStateCallback(u32 state) {
             gConnectionWork->mRequestPending = 0;
             break;
         case 20:
-            gConnectionWork->mUnk_1692 = (OS_GetTick() >> 10) % 40;
+            gConnectionWork->mStepWaitFrames = (OS_GetTick() >> 10) % 40;
             gConnectionWork->mRequestPending = 0;
             break;
         case 7:
-            gConnectionWork->mUnk_169c = 1;
+            gConnectionWork->mScanConnected = 1;
             gConnectionWork->mState = 6;
             break;
         case 4:
@@ -269,7 +270,7 @@ void ScanConnectStateCallback(u32 state) {
             break;
         case 3:
         case 6:
-            gConnectionWork->mUnk_169c = 0;
+            gConnectionWork->mScanConnected = 0;
             gConnectionWork->mRequestPending = 0;
             break;
     }
@@ -279,7 +280,7 @@ s32 AdvanceMultiBootParentSetup(void) {
     BOOL result = FALSE;
     switch (gConnectionWork->mStep) {
         case 0:
-            gConnectionWork->mUnk_0454 |= 0x40;
+            gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
             gConnectionWork->mState = 1;
             Initialize();
             break;
@@ -304,7 +305,7 @@ s32 AdvanceMultiBootScanSetup(void) {
     if (gBootInfo->mUnk_00 == 2) {
         switch (gConnectionWork->mStep) {
             case 0:
-                gConnectionWork->mUnk_0454 |= 0x40;
+                gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
                 gConnectionWork->mState = 1;
                 Initialize();
                 break;
@@ -315,7 +316,7 @@ s32 AdvanceMultiBootScanSetup(void) {
     } else {
         switch (gConnectionWork->mStep) {
             case 0:
-                gConnectionWork->mUnk_0454 |= 0x40;
+                gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
                 gConnectionWork->mState = 1;
                 Initialize();
                 break;
@@ -370,14 +371,14 @@ void StartSendingToAllChildren(void) {
     gConnectionWork->mRequestPending = index;
     count = 0;
     gConnectionWork->mSendCompleteMask = count;
-    gConnectionWork->mUnk_1694 |= index;
+    gConnectionWork->mMultiBootRequestFlags |= index;
     for (; index <= 15; index++) {
         if (MB_CommResponseRequest(index, 2) == 1) {
             count++;
         }
     }
     if (count == 0) {
-        gConnectionWork->mUnk_1694 &= ~1;
+        gConnectionWork->mMultiBootRequestFlags &= ~1;
     }
 }
 
@@ -387,23 +388,23 @@ void StartBootRequestToAllChildren(void) {
     gConnectionWork->mStep = 0x19;
     index = 1;
     gConnectionWork->mRequestPending = index;
-    gConnectionWork->mUnk_1694 |= 2;
+    gConnectionWork->mMultiBootRequestFlags |= 2;
     count = 0;
-    gConnectionWork->mUnk_1695 = count;
+    gConnectionWork->mMultiBootChildMask = count;
     for (; index <= 15; index++) {
         if (MB_CommResponseRequest(index, 3) == 1) {
             count++;
         }
     }
     if (count == 0) {
-        gConnectionWork->mUnk_1694 &= ~2;
+        gConnectionWork->mMultiBootRequestFlags &= ~2;
     }
 }
 
 void StartEndToIdle(void) {
     gConnectionWork->mStep = 0x1b;
     gConnectionWork->mRequestPending = 1;
-    gConnectionWork->mUnk_1694 &= ~2;
+    gConnectionWork->mMultiBootRequestFlags &= ~2;
     MB_EndToIdle();
 }
 
@@ -416,7 +417,7 @@ void StartRequestEndScan(void) {
 void StartConnectToScanEntry(u32 entryIndex) {
     gConnectionWork->mStep = 0x22;
     gConnectionWork->mRequestPending = 1;
-    gConnectionWork->mUnk_169c = 0;
+    gConnectionWork->mScanConnected = 0;
     if (StartConnectToEntry(entryIndex) == 0) {
         SetRequestErrorCode(5);
     }

@@ -5,7 +5,7 @@
 
 void ResetPendingFiles(void) {
     int i;
-    Unk0217aa00_16a0_view *view;
+    BlockTransferView *view;
     BlockEntry *entry;
     u32 flagBitsMask;
     u32 clearPendingMask;

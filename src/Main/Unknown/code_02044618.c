@@ -34,8 +34,8 @@ static inline void func_020446e0_inline(s32 f, u32 teamIndex, s32 playerKind, u3
 static inline PlayerRecord *func_02045084_inline(ConnectionWork *q, s32 entryIndex) {
     u16 participantIndex;
 
-    participantIndex = q->mUnk_1e8c[entryIndex];
-    return participantIndex == 0xffff ? 0 : &q->mUnk_045c[participantIndex];
+    participantIndex = q->mParticipantIndexByPos[entryIndex];
+    return participantIndex == 0xffff ? 0 : &q->mPlayerRecords[participantIndex];
 }
 
 static inline BOOL func_02045084_inline2(void) {
@@ -178,10 +178,11 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             *emblemDataSlot = &func_02045084_inline(gConnectionWork, entryIndex)->mEmblem[0];
             *hasEmblemSlot = func_02045084_inline(gConnectionWork, entryIndex)->mHasEmblem;
             *regionSlot = func_02045084_inline(gConnectionWork, entryIndex)->mRegion;
-            *exchangeTokenSlot = func_02045084_inline2() || (gConnectionWork->mGroupSendMask &
-                                                             (1 << gConnectionWork->mUnk_1e8c[entryIndex])) != 0
-                                     ? 0
-                                     : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
+            *exchangeTokenSlot =
+                func_02045084_inline2() || (gConnectionWork->mGroupSendMask &
+                                            (1 << gConnectionWork->mParticipantIndexByPos[entryIndex])) != 0
+                    ? 0
+                    : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
             *lowestRecordValueSlot = func_02045084_inline(gConnectionWork, entryIndex)->mLowestGrandPrixRecordValue;
             break;
         case PLAYER_KIND_GHOST:
@@ -398,7 +399,7 @@ void SetCurrentRaceFromNext(void) {
                 f = TRUE;
             }
             if (f != FALSE) {
-                entryIndex = q->mUnk_1e52[(u16) (q->mConnectionMode == 2 ? q->mOwnIndex : 0)].mEntryIndex;
+                entryIndex = q->mParticipantPosByIndex[(u16) (q->mConnectionMode == 2 ? q->mOwnIndex : 0)].mEntryIndex;
             }
             gRaceSetup->mNextHeader.mEntryIndex = entryIndex;
             gRaceSetup->mNextHeader.mFollowedKartIndex = entryIndex;

@@ -28,13 +28,13 @@ u32 TrySelectScanSlot(u32 entryIndex) {
     if (entryIndex >= 4) {
         return 0;
     }
-    if ((gConnectionWork->mUnk_0454 & 0x40) != 0) {
+    if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         entryValid = result;
         if (func_02050080_inline() != 2) {
             entryValid = 0;
         } else if (gBootInfo->mUnk_00 == 2) {
             entryValid = 0;
-        } else if (gConnectionWork->mUnk_00ac[entryIndex].mInUse != 0) {
+        } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
             entryValid = 1;
         }
         if (entryValid != 0) {
@@ -42,16 +42,16 @@ u32 TrySelectScanSlot(u32 entryIndex) {
             result = 1;
         }
     } else {
-        gConnectionWork->mUnk_043b = 0;
+        gConnectionWork->mKeepScanning = 0;
         gConnectionWork->mUnk_0438 = 0;
-        entry = &gConnectionWork->mUnk_00ac[entryIndex];
-        gConnectionWork->mUnk_0436 &= ~1;
+        entry = &gConnectionWork->mScanSlots[entryIndex];
+        gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
         if (entry->mInUse != 0) {
             MI_CpuCopy8(entry, gConnectionWork->mParentBssDesc, 0xc0);
             DC_StoreRange(gConnectionWork->mParentBssDesc, 0xc0);
             connectionWork = gConnectionWork;
-            connectionWork->mUnk_042c = entry->mKey;
-            connectionWork->mUnk_043c = entry->mLanguageIndex;
+            connectionWork->mRememberedScanKey = entry->mKey;
+            connectionWork->mLanguageIndex = entry->mLanguageIndex;
             result = 1;
         }
     }
@@ -74,16 +74,16 @@ void RefreshParticipantTables(void) {
     participantCount = 0;
     for (; index < 8; index++) {
         if ((gConnectionWork->mParticipantMask & (1 << index)) != 0) {
-            gConnectionWork->mUnk_1e52[index].mEntryIndex = participantCount;
-            gConnectionWork->mUnk_1e8c[participantCount] = index;
+            gConnectionWork->mParticipantPosByIndex[index].mEntryIndex = participantCount;
+            gConnectionWork->mParticipantIndexByPos[participantCount] = index;
             gConnectionWork->mParticipantIndices[participantCount] = index;
             participantCount++;
         } else {
-            gConnectionWork->mUnk_1e52[index].mEntryIndex = 0xffff;
+            gConnectionWork->mParticipantPosByIndex[index].mEntryIndex = 0xffff;
         }
     }
     for (; participantCount < 8; participantCount++) {
-        gConnectionWork->mUnk_1e8c[participantCount] = 0xffff;
+        gConnectionWork->mParticipantIndexByPos[participantCount] = 0xffff;
         gConnectionWork->mParticipantIndices[participantCount] = 0xffff;
     }
     if (GetCurrentSceneNumber() == 2) {

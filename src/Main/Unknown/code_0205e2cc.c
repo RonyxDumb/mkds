@@ -94,9 +94,9 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
             ownIndex = 0;
         }
         if (playerIndex != (u16) ownIndex) {
-            if ((gConnectionWork->mGroupSendMask & (1 << gConnectionWork->mUnk_1e8c[playerIndex])) == 0) {
+            if ((gConnectionWork->mGroupSendMask & (1 << gConnectionWork->mParticipantIndexByPos[playerIndex])) == 0) {
                 if ((gConnectionWork->mParticipantMask & (1 << playerIndex)) != 0) {
-                    playerEntry = &gConnectionWork->mUnk_045c[playerIndex];
+                    playerEntry = &gConnectionWork->mPlayerRecords[playerIndex];
                     buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);
                     if (buddyIndex != -1) {
                         if (playerEntry->mHasEmblem != 0) {
@@ -132,7 +132,8 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
                     blockData->mFilledBits |= 1 << slotIndex;
-                    MI_CpuCopy8((u8 *) &gConnectionWork->mUnk_045c[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
+                    MI_CpuCopy8((u8 *) &gConnectionWork->mPlayerRecords[k] + 0x14, blockData->mEmblems[slotIndex],
+                                0x200);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);

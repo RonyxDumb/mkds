@@ -31,8 +31,8 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             }
             break;
         case 10:
-            connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
-            if (gConnectionWork->mUnk_1692 > 0x4b0) {
+            connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
+            if (gConnectionWork->mStepWaitFrames > 0x4b0) {
                 SetRequestErrorCode(5);
                 return 3;
             }
@@ -42,8 +42,8 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             break;
         case 30: {
             s32 scanEntryIndex;
-            connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
-            if (gConnectionWork->mUnk_1692 > 0x4b0) {
+            connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
+            if (gConnectionWork->mStepWaitFrames > 0x4b0) {
                 SetRequestErrorCode(5);
             } else {
                 scanEntryIndex = FindScanEntryIndex(entryIndex);
@@ -61,14 +61,14 @@ s32 AdvanceScanConnect(u16 entryIndex) {
     }
     switch (connectionWork->mStep) {
         case 7:
-            connectionWork->mUnk_0454 |= 0x40;
+            connectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
             EndScan();
             break;
         case 9:
             SetupScanConnect();
             break;
         case 28:
-            connectionWork->mUnk_1692 = 0;
+            connectionWork->mStepWaitFrames = 0;
             StartRepeatedScanStep1E();
             break;
         case 30:
@@ -82,7 +82,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             }
             break;
         case 34:
-            if (connectionWork->mUnk_169c != 0) {
+            if (connectionWork->mScanConnected != 0) {
                 if (connectionWork->mScanEntryIndex == -1) {
                     ReadFakeParentBssDesc(entryIndex);
                 } else {
@@ -96,7 +96,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             StartCloseScanConnect();
             break;
         case 1:
-            connectionWork->mUnk_1692 = 0;
+            connectionWork->mStepWaitFrames = 0;
         case 2:
             if (gBootInfo->mUnk_00 == 2) {
                 ReadMultiBootParentBssDesc();
@@ -105,8 +105,8 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             }
             break;
         case 31:
-            if (connectionWork->mUnk_1692 < 0x3c) {
-                connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
+            if (connectionWork->mStepWaitFrames < 0x3c) {
+                connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
             } else {
                 connectionWork->mStep = 32;
             }
@@ -147,20 +147,20 @@ u8 CompactMaskBits(u8 mask) {
 s32 AdvanceChildMaskCovered(void) {
     BOOL result = FALSE;
     ConnectionWork *connectionWork = gConnectionWork;
-    u32 maskCopy = connectionWork->mUnk_1695;
-    u8 childMask = connectionWork->mUnk_0044.mChildMask;
+    u32 maskCopy = connectionWork->mMultiBootChildMask;
+    u8 childMask = connectionWork->mChildren.mChildMask;
 
     if (maskCopy == (maskCopy & childMask)) {
         result = TRUE;
-    } else if (connectionWork->mUnk_1692 > 0x708) {
+    } else if (connectionWork->mStepWaitFrames > 0x708) {
         if (childMask == 0) {
             SetRequestErrorCode(5);
         } else {
-            gConnectionWork->mUnk_1695 = CompactMaskBits(childMask);
+            gConnectionWork->mMultiBootChildMask = CompactMaskBits(childMask);
             result = TRUE;
         }
     } else {
-        connectionWork->mUnk_1692 = connectionWork->mUnk_1692 + 1;
+        connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
     }
     return result;
 }
@@ -210,8 +210,8 @@ s32 AdvanceMultiBootParent(void) {
             StartParent(NULL);
             break;
         case 6:
-            gConnectionWork->mUnk_1695 = CompactMaskBits(gConnectionWork->mUnk_1695);
-            gConnectionWork->mUnk_1692 = 0;
+            gConnectionWork->mMultiBootChildMask = CompactMaskBits(gConnectionWork->mMultiBootChildMask);
+            gConnectionWork->mStepWaitFrames = 0;
             StartMP();
             break;
         case 11:

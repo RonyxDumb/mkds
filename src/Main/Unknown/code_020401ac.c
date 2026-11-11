@@ -331,7 +331,7 @@ void InitRaceProgress(void) {
                         }
                     }
                     if (v != 0) {
-                        seed = connectionWork->mUnk_1eb0;
+                        seed = connectionWork->mRaceSeed;
                     } else {
                         a = OS_GetTick();
                         seed = (a << 16) + OS_GetTick();

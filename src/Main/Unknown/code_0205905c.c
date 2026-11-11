@@ -25,7 +25,7 @@ static inline s32 func_0205905c_inline2(void) {
 
 static inline s32 func_0205905c_inline3(void) {
     BOOL r = FALSE;
-    if (func_0205905c_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_0205905c_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         r = TRUE;
     }
     return r;
@@ -48,13 +48,13 @@ BOOL AdvanceMPStateMachine(void) {
     if (!func_0205905c_inline2()) {
         return TRUE;
     }
-    AdvanceStateMachine(&gConnectionWork->mUnk_1608.mStateMachine);
+    AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
     if (!func_0205905c_inline4()) {
-        if (func_0205905c_inline() == 1 && gConnectionWork->mUnk_0044.mChildCount == 0) {
+        if (func_0205905c_inline() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
             SetRequestErrorCode(7);
         }
     }
-    if (gConnectionWork->mUnk_1608.mStateMachine.mState == 0xf) {
+    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == 0xf) {
         finished = TRUE;
     }
     return finished;

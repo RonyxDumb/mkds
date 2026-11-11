@@ -16,9 +16,9 @@ u32 RegisterMultiBootSegment(void) {
     result = 0;
     size = MB_GetSegmentLength(NULL);
     if ((0x00010000u) <= size) {
-        succeeded = MB_ReadSegment(NULL, gConnectionWork->mUnk_1658, gConnectionWork->mUnk_168c);
+        succeeded = MB_ReadSegment(NULL, gConnectionWork->mMultiBootSegment, gConnectionWork->mMultiBootSegmentSize);
         if ((succeeded != 0) &&
-            (succeeded = MB_RegisterFile(data_0215472c, gConnectionWork->mUnk_1658), succeeded != 0)) {
+            (succeeded = MB_RegisterFile(data_0215472c, gConnectionWork->mMultiBootSegment), succeeded != 0)) {
             result = 1;
         }
     }

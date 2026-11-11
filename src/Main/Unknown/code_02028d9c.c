@@ -66,7 +66,7 @@ u16 GetOwnIndexOrZero(void) {
 }
 
 u32 GetParticipantEntryIndex(u32 participantIndex) {
-    return (gConnectionWork->mUnk_1e52[participantIndex].mEntryIndex);
+    return (gConnectionWork->mParticipantPosByIndex[participantIndex].mEntryIndex);
 }
 
 u32 GetOwnEntryIndex(void) {

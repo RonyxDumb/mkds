@@ -58,7 +58,7 @@ static inline s32 func_020487fc_inline2(void) {
 
 static inline s32 func_020487fc_inline3(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_020487fc_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         r = TRUE;
     }
     return r;
@@ -66,7 +66,7 @@ static inline s32 func_020487fc_inline3(void) {
 
 static inline s32 func_020487fc_inline4(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline3() && (gConnectionWork->mUnk_0454 & 0x10)) {
+    if (func_020487fc_inline3() && (gConnectionWork->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
         r = TRUE;
     }
     return r;
@@ -215,7 +215,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     InitSceneSounds(0);
     ResetInputSlotsFromParticipants();
     if (func_020487fc_inline2()) {
-        gConnectionWork->mUnk_0454 |= 4;
+        gConnectionWork->mFlags |= CONNECTION_FLAG_SCENE_RUNNING;
     }
     LoadFontAndPlayerCharacterData();
     StartInputSlots();
@@ -336,7 +336,7 @@ end:
     gSceneRunState->mRunStep = SCENE_RUN_STEP_RELEASE;
     gDisplaySettings->mIrqCallback = NULL;
     if (func_020487fc_inline2()) {
-        gConnectionWork->mUnk_0454 &= ~4;
+        gConnectionWork->mFlags &= ~CONNECTION_FLAG_SCENE_RUNNING;
     }
     StartDataSharingSync();
     AdvanceConnection();

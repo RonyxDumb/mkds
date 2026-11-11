@@ -53,7 +53,7 @@ static inline s32 func_0204984c_inline2(void) {
 
 static inline s32 func_0204984c_inline3(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline2() && !(gConnectionWork->mUnk_0454 & 0x80)) {
+    if (func_0204984c_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
@@ -61,7 +61,7 @@ static inline s32 func_0204984c_inline3(void) {
 
 static inline s32 func_0204984c_inline4(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && (gConnectionWork->mUnk_0454 & 0x10)) {
+    if (func_0204984c_inline3() && (gConnectionWork->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
         result = TRUE;
     }
     return result;

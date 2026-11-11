@@ -39,8 +39,8 @@ void StartParentSideBlockTransfer(void) {
     gConnectionWork->mRequestPending = 1;
     WBT_InitParent(0x192, 0xe, ParentBlockTransferCallback);
     gConnectionWork->mSendTimer = 0;
-    gConnectionWork->mUnk_1e44 &= ~1;
-    gConnectionWork->mUnk_0454 |= 0x200;
+    gConnectionWork->mTransferFlags &= ~1;
+    gConnectionWork->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
     gConnectionWork->mRequestPending = 0;
 }
 
@@ -49,8 +49,8 @@ void StartChildSideBlockTransfer(void) {
     gConnectionWork->mRequestPending = 1;
     WBT_InitChild(ChildBlockTransferCallback);
     gConnectionWork->mSendTimer = 0;
-    gConnectionWork->mUnk_1e44 &= ~1;
-    gConnectionWork->mUnk_0454 |= 0x200;
+    gConnectionWork->mTransferFlags &= ~1;
+    gConnectionWork->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
     gConnectionWork->mRequestPending = 0;
 }
 
@@ -69,7 +69,7 @@ void AllocTransferBuffers(void *heap) {
 }
 
 void InitBlockEntries(void *heap, s32 mode) {
-    Unk0217aa00_16a0_view *view = &gConnectionWork->mUnk_16a0_view;
+    BlockTransferView *view = &gConnectionWork->mUnk_16a0_view;
     s32 i;
     for (i = 0; i < 12; i++) {
         view->mBlockEntries[i].mPath = 0;
@@ -79,8 +79,8 @@ void InitBlockEntries(void *heap, s32 mode) {
         view->mBlockEntries[i].mUnk_84_0 = 0;
     }
     view->mUnk_660 = mode;
-    view->mUnk_798 = FALSE;
-    view->mUnk_79c = FALSE;
+    view->mZeroWordReceived = FALSE;
+    view->mMPSetupActive = FALSE;
     view->mGhostBlockCount = 0;
     view->mUnk_7a2 = 0;
     view->mUnk_7a4 = 0;
