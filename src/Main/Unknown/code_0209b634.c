@@ -195,7 +195,7 @@ void SetMapObjectModelNsbcaFrameIndex(MapObjectModel *mapObjectModel, u16 frameI
     MapObjectModel *model = mapObjectModel;
     ModelAnimation *animation = model->mAnimations[0];
 
-    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
@@ -210,7 +210,7 @@ u16 GetMapObjectModelNsbcaFrameCount(MapObjectModel *mapObjectModel) {
 void SetMapObjectModelNsbmaFrameIndex(MapObjectModel *mapObjectModel, u32 frameIndex) {
     ModelAnimation *animation = mapObjectModel->mAnimations[2];
 
-    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
@@ -231,7 +231,7 @@ u16 GetMapObjectModelNsbtaFrameCount(MapObjectModel *mapObjectModel) {
 void SetMapObjectModelNsbtaFrameIndex(MapObjectModel *mapObjectModel, s32 frameIndex) {
     ModelAnimation *animation = mapObjectModel->mAnimations[3];
 
-    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 
@@ -246,7 +246,7 @@ void SetMapObjectModelNsbtpFrameIndex(MapObjectModel *mapObjectModel, u16 frameI
         return;
     }
     animation = mapObjectModel->mAnimations[1];
-    animation->mHead.mFrameIndex = frameIndex << 12;
+    animation->mHead.mFrameIndex = TO_FIXED12(frameIndex);
     animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
 }
 

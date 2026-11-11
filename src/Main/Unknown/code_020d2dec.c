@@ -146,22 +146,22 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     descriptor->mKindData->mUnk_34 = grpconfRow->mViewTestKind >= 2 ? 1 : 0;
                     tableValue = grpconfRow->mViewRadius;
                     descriptor->mKindData->mUnk_2c =
-                        tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
+                        tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                     tableValue = grpconfRow->mDrawDistance;
                     descriptor->mKindData->mUnk_30 =
-                        tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
+                        tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                 }
                 if (grpconfRow->mShapeKind != 0) {
                     descriptor->mKindData->mShapeKind = grpconfRow->mShapeKind;
                     tableValue = grpconfRow->mExtentX;
                     descriptor->mKindData->mUnk_0c =
-                        tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
+                        tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                     tableValue = grpconfRow->mExtentY;
                     descriptor->mKindData->mUnk_10 =
-                        tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
+                        tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                     tableValue = grpconfRow->mExtentZ;
                     descriptor->mKindData->mUnk_14 =
-                        tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
+                        tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                 }
                 if (descriptor->mLists[0] == NULL && descriptor->mCreateDrawList0 != NULL) {
                     descriptor->mLists[0] = descriptor->mCreateDrawList0();

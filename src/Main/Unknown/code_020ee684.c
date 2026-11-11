@@ -553,9 +553,9 @@ void UpdateItemPool(ItemPool *pool) {
                     kartIndex = object->mOwnerKartIndexAndFlags & ~0xff00;
                     kart = GetKart(kartIndex);
                     kartPos = &kart->mDrawMatrixPos;
-                    distanceSquared = ((kartPos->x - objectPos->x) >> 12) * ((kartPos->x - objectPos->x) >> 12);
-                    deltaY = (kartPos->y - objectPos->y) >> 12;
-                    deltaZ = (kartPos->z - objectPos->z) >> 12;
+                    distanceSquared = FROM_FIXED12(kartPos->x - objectPos->x) * FROM_FIXED12(kartPos->x - objectPos->x);
+                    deltaY = FROM_FIXED12(kartPos->y - objectPos->y);
+                    deltaZ = FROM_FIXED12(kartPos->z - objectPos->z);
                     distanceSquared += deltaY * deltaY;
                     distanceSquared += deltaZ * deltaZ;
                     if (min <= distanceSquared) {
@@ -1293,7 +1293,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
 
     kartItems = itemInUse->mKartItems;
     objectCount = itemInUse->mObjectCount;
-    speedAngle = (u16) (((u32) (itemInUse->mKartVelocityLength * 0x1e)) >> 12);
+    speedAngle = (u16) FROM_FIXED12((u32) (itemInUse->mKartVelocityLength * 0x1e));
     if (itemInUse->mKart->mState != KART_STATE_NORMAL) {
         itemInUse->mCircleAngleSpeed = 0;
     } else {

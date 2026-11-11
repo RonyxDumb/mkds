@@ -529,7 +529,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                 }
             }
             if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != 0x1000) {
-                headingAnglePerFrame = (kart->mVelocityLength >> 12) * 100;
+                headingAnglePerFrame = FROM_FIXED12(kart->mVelocityLength) * 100;
                 if ((u16) kart->mTurnAngle > 0x7fff) {
                     headingAnglePerFrame = headingAnglePerFrame * -1;
                 }
@@ -538,7 +538,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         } else if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != 0x1000) {
             factor = 0x1000 - forwardFactor;
             if (kart->mVelocityLength > 0x1800 && factor > 0x19a) {
-                headingAnglePerFrame = (MUL_FIXED12_NO_ROUND(kart->mVelocityLength, factor) >> 12) * 30;
+                headingAnglePerFrame = FROM_FIXED12(MUL_FIXED12_NO_ROUND(kart->mVelocityLength, factor)) * 30;
                 Vec3CrossUnrounded(&kart->mSignedTurnedForward, contactNormal, &crossVector);
                 if (Vec3DotUnrounded(&crossVector, &kart->mUnk_12c) < 0) {
                     headingAnglePerFrame = headingAnglePerFrame * -1;

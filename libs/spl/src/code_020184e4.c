@@ -413,7 +413,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
     emitTotal = emtr->mEmitRate + emtr->mEmitFraction;
     header = resource->mUnk_00;
     emtr->mEmitFraction = emitTotal & 0xfff;
-    emitCount = emitTotal >> 12;
+    emitCount = FROM_FIXED12(emitTotal);
     if (header->mUnk_00.mUnk_00_0 == 2 || header->mUnk_00.mUnk_00_0 == 3 || header->mUnk_00.mUnk_00_0 == 5 ||
         header->mUnk_00.mUnk_00_0 == 6 || header->mUnk_00.mUnk_00_0 == 7 || header->mUnk_00.mUnk_00_0 == 8 ||
         header->mUnk_00.mUnk_00_0 == 9) {
@@ -641,7 +641,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
             if (header->mUnk_00.mRandomAngleSpeed) {
                 particle->mAngleSpeed = ((header->mUnk_36 - header->mUnk_34) *
                                              ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 20) +
-                                         (header->mUnk_34 << 12)) >>
+                                         TO_FIXED12(header->mUnk_34)) >>
                                         12;
             } else {
                 particle->mAngleSpeed = 0;
@@ -703,7 +703,7 @@ void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, Part
     u32 parentLife;
 
     childAnim = emtr->mUnk_20->mUnk_14;
-    velocityScale = MUL_FIXED12_ROUNDED(childAnim->mUnk_08 << 12, 16);
+    velocityScale = MUL_FIXED12_ROUNDED(TO_FIXED12(childAnim->mUnk_08), 16);
     for (childIndex = 0; childIndex < childAnim->mUnk_0c; childIndex++) {
         {
             child = SPLList_PopFront(list);
@@ -874,7 +874,7 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     emitterColor = mgr->mRenderStateEmitter->mColor;
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -965,7 +965,7 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     viewMtx = mgr->mRenderStateViewMatrix;
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -1065,7 +1065,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
     baseScale = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -1207,7 +1207,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
     baseScale = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -1337,7 +1337,7 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
 
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -1407,7 +1407,7 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
 
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -1482,7 +1482,7 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
 
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -1588,7 +1588,7 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
 
     alpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
     reg_G3_POLYGON_ATTR = (ptcl->mPolygonId << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (alpha << 16);
-    reg_G3_POLYGON_ATTR; // read back after the write
+    reg_G3_POLYGON_ATTR;
     if (alpha == 0) {
         return;
     }
@@ -1692,8 +1692,8 @@ void SPLUtil_SetTexture(ParticleTexture *tex) {
     reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == 2 ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
-    scaleX = tex->mWidth << 12;
-    scaleY = tex->mHeight << 12;
+    scaleX = TO_FIXED12(tex->mWidth);
+    scaleY = TO_FIXED12(tex->mHeight);
     reg_G3_MTX_SCALE = scaleX;
     reg_G3_MTX_SCALE = scaleY;
     reg_G3_MTX_SCALE = 0;
@@ -1836,9 +1836,9 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
         particle->mOffset.y += particle->mVelocity.y + emtr->mUnk_34.y;
         particle->mOffset.z += particle->mVelocity.z + emtr->mUnk_34.z;
         if (flags.mHasChildAnim) {
-            childAge = (particle->mAge << 12) -
-                       (MUL_FIXED12_ROUNDED(particle->mLife << 12, childAnim->mStartLifeRate << 12) >> 8);
-            if (childAge >= 0 && (childAge >> 12) % childAnim->mInterval == 0) {
+            childAge = TO_FIXED12(particle->mAge) -
+                       (MUL_FIXED12_ROUNDED(TO_FIXED12(particle->mLife), TO_FIXED12(childAnim->mStartLifeRate)) >> 8);
+            if (childAge >= 0 && FROM_FIXED12(childAge) % childAnim->mInterval == 0) {
                 SPLEmitter_EmitChildren(particle, emtr, &mgr->mUnk_04[2]);
             }
         }

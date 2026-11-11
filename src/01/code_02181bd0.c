@@ -390,7 +390,7 @@ void InitCoinObjects(MapObjectList *coinList) {
             coin->mMapObject.mPos.y = coin->mMapObject.mPos.y + 0xe000;
             if (coin->mMapObject.mCourseMapRow->mGroupIndex >= 0) {
                 InitGroupFollower(&coin->mFollower, coin->mMapObject.mCourseMapRow, 0);
-                speed = (coin->mMapObject.mCourseMapRow->mSettings[0] << 12) / 100;
+                speed = TO_FIXED12(coin->mMapObject.mCourseMapRow->mSettings[0]) / 100;
                 coin->mFollower.mSpeed = speed;
                 coin->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                     speed, coin->mFollower.mPath->mSegments[coin->mFollower.mSegmentIndex].mInverseProgressLength);
@@ -459,7 +459,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     kartPos = &GetKart((u16) kartIndex)->mPos;
                     dx = kartPos->x - coin->mMapObject.mPos.x;
                     dz = kartPos->z - coin->mMapObject.mPos.z;
-                    if ((s64) dx * dx + (s64) dz * dz < (s64) (radius << 12) * (radius << 12)) {
+                    if ((s64) dx * dx + (s64) dz * dz < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
                         found = TRUE;
                         goto checked;
                     }

@@ -53,9 +53,9 @@ void UpdateKartViewDistancesAndOutOfView(void) {
             gKartNameTags->mStartOrderIndex[kart->mIndex] + gKartNameTags->mAlongViewOrderOffset[kart->mIndex];
         gKartNameTags->mSortedDistanceAlongView[gKartNameTags->mAlongViewOrderIndex[kart->mIndex]] = distanceAlongView;
         VEC_Subtract(kart->mPosSource, &viewFrustum->mCameraPos, &cameraToKartWhole);
-        cameraToKartWhole.x = cameraToKartWhole.x >> 12;
-        cameraToKartWhole.y = cameraToKartWhole.y >> 12;
-        cameraToKartWhole.z = cameraToKartWhole.z >> 12;
+        cameraToKartWhole.x = FROM_FIXED12(cameraToKartWhole.x);
+        cameraToKartWhole.y = FROM_FIXED12(cameraToKartWhole.y);
+        cameraToKartWhole.z = FROM_FIXED12(cameraToKartWhole.z);
         distanceSquared = cameraToKartWhole.x * cameraToKartWhole.x + cameraToKartWhole.y * cameraToKartWhole.y +
                           cameraToKartWhole.z * cameraToKartWhole.z;
         gKartNameTags->mDistanceSquared[kartIndex] = distanceSquared;
@@ -82,7 +82,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
                 kart->mUnk_4c |= KART_4C_OUT_OF_VIEW;
             } else {
                 isBeyondPlanes = FALSE;
-                marginWhole = margin >> 12;
+                marginWhole = FROM_FIXED12(margin);
                 if (VEC_DotProduct(&cameraToKartWhole, &viewFrustum->mLeftPlaneNormal) - marginWhole > 0) {
                     isBeyondPlanes = TRUE;
                 } else if (VEC_DotProduct(&cameraToKartWhole, &viewFrustum->mRightPlaneNormal) - marginWhole > 0) {

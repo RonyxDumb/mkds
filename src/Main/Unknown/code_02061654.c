@@ -578,7 +578,7 @@ void BuildFadeFog(s32 fadeLevel, s32 flag) {
     s32 fogByte;
 
     if (gCourseMap->mSettings->mFogEnabled != 0 && flag == 0) {
-        fadeWeight = MUL_FIXED12_ROUNDED(57, fadeLevel << 12);
+        fadeWeight = MUL_FIXED12_ROUNDED(57, TO_FIXED12(fadeLevel));
         data_0217aa78 = fadeWeight;
         courseWeight = 4096 - fadeWeight;
         data_0217aa84 = courseWeight;

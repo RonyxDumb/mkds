@@ -297,7 +297,8 @@ void SetStemSet(s32 setIndex) {
     }
     gStemSets->mShownFrames = 0;
     if (gStemSets->mShownIndex == 1 || gStemSets->mShownIndex == 3) {
-        gStemSets->mShownFrameCount = GetModelAnimationFrameCountFixed(gStemSets->mSets[8]->mNsbcaNsbmaNsbtp[0]) >> 12;
+        gStemSets->mShownFrameCount =
+            FROM_FIXED12(GetModelAnimationFrameCountFixed(gStemSets->mSets[8]->mNsbcaNsbmaNsbtp[0]));
     }
 }
 
@@ -309,7 +310,7 @@ void StartTimedQuad(TimedQuad *timedQuad) {
 }
 
 void UpdateTimedQuad(TimedQuad *timedQuad) {
-    timedQuad->mAlpha = MUL_FIXED12_ROUNDED((s32) timedQuad->mTimer << 12, 0x1333) >> 12;
+    timedQuad->mAlpha = FROM_FIXED12(MUL_FIXED12_ROUNDED((s32) timedQuad->mTimer << 12, 0x1333));
     timedQuad->mTimer = timedQuad->mTimer - 1;
     if (timedQuad->mTimer <= 0) {
         timedQuad->mEnabled = 0;

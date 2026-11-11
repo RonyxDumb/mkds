@@ -34,9 +34,10 @@ void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data,
         matEntry->mTexImageParam |= texData->mTexImageParam + keyOffset;
         width = texData->mExtraParam & 0x7ff;
         height = (texData->mExtraParam >> 11) & 0x7ff;
-        matEntry->mMagW = (width == matEntry->mOrigWidth) ? 0x1000 : FX_Div(width << 12, matEntry->mOrigWidth << 12);
+        matEntry->mMagW =
+            (width == matEntry->mOrigWidth) ? 0x1000 : FX_Div(TO_FIXED12(width), TO_FIXED12(matEntry->mOrigWidth));
         matEntry->mMagH =
-            (height == matEntry->mOrigHeight) ? 0x1000 : FX_Div(height << 12, matEntry->mOrigHeight << 12);
+            (height == matEntry->mOrigHeight) ? 0x1000 : FX_Div(TO_FIXED12(height), TO_FIXED12(matEntry->mOrigHeight));
     }
     data->mFlag |= 1;
 }

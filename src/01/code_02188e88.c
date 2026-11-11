@@ -115,14 +115,14 @@ BOOL IsWithinXzDistanceOfPoint(MissionRunMapObject *mapObject, Vec3 *point, s32 
         dx = mapObject->mUnk_000.mPos.x - point->x;
         dz = mapObject->mUnk_000.mPos.z - point->z;
         if (radius > 0) {
-            radiusAsFloat = 0.5f + (radius << 12);
+            radiusAsFloat = 0.5f + TO_FIXED12(radius);
         } else {
-            radiusAsFloat = (radius << 12) - 0.5f;
+            radiusAsFloat = TO_FIXED12(radius) - 0.5f;
         }
         if (radius > 0) {
-            radiusAsFloatCopy = 0.5f + (radius << 12);
+            radiusAsFloatCopy = 0.5f + TO_FIXED12(radius);
         } else {
-            radiusAsFloatCopy = (radius << 12) - 0.5f;
+            radiusAsFloatCopy = TO_FIXED12(radius) - 0.5f;
         }
         if ((s64) dx * dx + (s64) dz * dz < (s64) (s32) radiusAsFloatCopy * (s32) radiusAsFloat) {
             return 1;

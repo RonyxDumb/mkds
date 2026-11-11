@@ -190,7 +190,7 @@ void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
     s32 tilt;
     MtxFx43 *viewMatrix;
 
-    tilt = (0x16c000 - townMonte->mUnk_a4) >> 12;
+    tilt = FROM_FIXED12(0x16c000 - townMonte->mUnk_a4);
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     if (townMonte->mMirror != 0) {

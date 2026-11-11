@@ -128,8 +128,8 @@ void SetModelAnimation(ModelAnimation *modelAnimation, s32 entryIndex) {
     NNS_G3dRenderObjAddAnmObj(&modelAnimation->mRenderObj->mRenderObj,
                               modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
-    frameCountFixed =
-        gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;
+    frameCountFixed = TO_FIXED12(
+        gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]));
     ResetModelAnimationWithLoopFlag(&modelAnimation->mHead, frameCountFixed,
                                     modelAnimation->mLoopFlags[modelAnimation->mCurrentIndex]);
 }
@@ -155,8 +155,8 @@ void StartModelAnimationBlend(ModelAnimation *modelAnimation, u16 entryIndex) {
     NNS_G3dRenderObjAddAnmObj(&modelAnimation->mRenderObj->mRenderObj,
                               modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0;
-    frameCountFixed =
-        gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;
+    frameCountFixed = TO_FIXED12(
+        gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]));
     ResetModelAnimationWithLoopFlag(&modelAnimation->mHead, frameCountFixed,
                                     modelAnimation->mLoopFlags[modelAnimation->mCurrentIndex]);
 }
@@ -196,5 +196,5 @@ void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation) {
 s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation) {
     enum { K0 } kind = modelAnimation->mKind;
 
-    return gAnmFrameCountGetters[kind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;
+    return TO_FIXED12(gAnmFrameCountGetters[kind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]));
 }

@@ -836,7 +836,7 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
     Vec3 shiftedPosition;
     MtxFx33 rotationMatrix;
 
-    alphaLimit = mapObject->mAlphaLimit >> 12;
+    alphaLimit = FROM_FIXED12(mapObject->mAlphaLimit);
     shiftedPosition.x = mapObject->mUnk_000.mPos.x >> 4;
     shiftedPosition.y = mapObject->mUnk_000.mPos.y >> 4;
     shiftedPosition.z = mapObject->mUnk_000.mPos.z >> 4;
@@ -881,7 +881,7 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *map
     s32 value;
     Vec3 shadowPosition;
 
-    depth = mapObject->mAlphaLimit >> 12;
+    depth = FROM_FIXED12(mapObject->mAlphaLimit);
     if (mapObject->mUnk_27c == 2) {
         shadowPosition.x = mapObject->mUnk_000.mPos.x;
         shadowPosition.y = mapObject->mUnk_000.mPos.y;

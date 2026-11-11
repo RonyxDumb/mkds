@@ -24,8 +24,8 @@ void texmtxCalc_flagTS_(s32 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     s32 heightFixed;
     s32 negSum;
 
-    widthFixed = matAnmResult->mUnk_2c << 12;
-    heightFixed = matAnmResult->mUnk_2e << 12;
+    widthFixed = TO_FIXED12(matAnmResult->mUnk_2c);
+    heightFixed = TO_FIXED12(matAnmResult->mUnk_2e);
     FX_DivAsync(heightFixed, widthFixed);
     matrix[0] = matAnmResult->mUnk_20[1];
     matrix[5] = matAnmResult->mUnk_20[1];

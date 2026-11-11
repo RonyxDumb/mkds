@@ -218,7 +218,7 @@ void DrawRaceGoalM(RaceHudOamBuffer *oamBuffer) {
             offsetY = InterpolateS16(1, 0x40, 0, gRaceGoalM->mUpdateFrames, 0x14);
             cell = GetRaceGoalMNcerEntry(gRaceGoalM->mRankIndex);
             position[0] = 0x18000;
-            position[1] = (offsetY + 0xa8) << 12;
+            position[1] = TO_FIXED12(offsetY + 0xa8);
             oamIndex = oamBuffer->mOamCount;
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
@@ -243,35 +243,35 @@ void DrawRaceGoalMGrandPrix(RaceHudOamBuffer *oamBuffer) {
     offsetY = InterpolateS16(1, 0x40, 0, gRaceGoalM->mUpdateFrames, 0x14);
     cell = GetRaceGoalMNcerEntry(gRaceGoalM->mRankIndex);
     rankPosition[0] = 0x18000;
-    rankPosition[1] = (offsetY + 0xa8) << 12;
+    rankPosition[1] = TO_FIXED12(offsetY + 0xa8);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, rankPosition, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(gRaceGoalM->mPointsGained + 8);
     pointsPosition[0] = 0x48000;
-    pointsPosition[1] = (offsetY + 0xb0) << 12;
+    pointsPosition[1] = TO_FIXED12(offsetY + 0xb0);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, pointsPosition, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(IsPointsLabelPlural(gRaceGoalM->mPointsGained) != FALSE ? 0x13 : 0x14);
     cell13Or14Position[0] = 0x48000;
-    cell13Or14Position[1] = (offsetY + 0xb0) << 12;
+    cell13Or14Position[1] = TO_FIXED12(offsetY + 0xb0);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell13Or14Position, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(0x40);
     cell40Position[0] = 0xda000;
-    cell40Position[1] = (offsetY + 0xa6) << 12;
+    cell40Position[1] = TO_FIXED12(offsetY + 0xa6);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell40Position, 0, 1);
 
     cell = GetRaceGoalMNcerEntry(0x41);
     cell41Position[0] = 0xda000;
-    cell41Position[1] = (offsetY + 0xa6) << 12;
+    cell41Position[1] = TO_FIXED12(offsetY + 0xa6);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell41Position, 0, 1);
@@ -327,7 +327,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
         return;
     }
     cell = GetRaceGoalMrMNcerEntry(cellIndex);
-    position[0] = (offsetY + 0x80) << 12;
+    position[0] = TO_FIXED12(offsetY + 0x80);
     position[1] = 0x60000;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
@@ -732,8 +732,8 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                             trailPriority = gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[sampleIndex];
                             trailCell = GetRaceSNcerEntry(0x4f);
                             trailOamIndex = oamBuffer->mOamCount;
-                            trailCellPosition[0] = trailPosition.mFirst << 12;
-                            trailCellPosition[1] = trailPosition.mSecond << 12;
+                            trailCellPosition[0] = TO_FIXED12(trailPosition.mFirst);
+                            trailCellPosition[1] = TO_FIXED12(trailPosition.mSecond);
                             trailOam = &oamBuffer->mOamBits[trailOamIndex];
                             oamBuffer->mOamCount +=
                                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[trailOamIndex], 0x80 - trailOamIndex, trailCell,
@@ -771,8 +771,8 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                     if (sampleCell != NULL) {
                         priority = gRaceTaPositions->mSamples[index][sampleIndex].mPriority;
                         sampleOamIndex = oamBuffer->mOamCount;
-                        sampleCellPosition[0] = samplePosition.mFirst << 12;
-                        sampleCellPosition[1] = samplePosition.mSecond << 12;
+                        sampleCellPosition[0] = TO_FIXED12(samplePosition.mFirst);
+                        sampleCellPosition[1] = TO_FIXED12(samplePosition.mSecond);
                         sampleOam = &oamBuffer->mOamBits[sampleOamIndex];
                         oamBuffer->mOamCount +=
                             NNS_G2dMakeCellToOams(&oamBuffer->mOams[sampleOamIndex], 0x80 - sampleOamIndex, sampleCell,

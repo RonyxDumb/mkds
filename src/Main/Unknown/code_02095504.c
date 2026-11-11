@@ -75,7 +75,7 @@ void InitMoveTreeObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (moveTree = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        moveTree->mUnk_a8 = (moveTree->mMapObject.mCourseMapRow->mSettings[0] << 12) / 100;
+        moveTree->mUnk_a8 = TO_FIXED12(moveTree->mMapObject.mCourseMapRow->mSettings[0]) / 100;
         RefreshShadowMatrix(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos, 0x54666, 14);
     }
 }

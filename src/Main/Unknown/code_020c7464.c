@@ -250,7 +250,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                     if (GetKart(kartIndex)->mState != KART_STATE_NORMAL) {
                         gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex]++;
                         gRaceHudSubScreenKarts->mAngle[kartIndex] =
-                            (gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] << 12) % 0x10000;
+                            TO_FIXED12(gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex]) % 0x10000;
                     } else {
                         gRaceHudSubScreenKarts->mAngle[kartIndex] = 0;
                         gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] = 0;
@@ -275,7 +275,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                     if (GetKart(kartIndex)->mState != KART_STATE_NORMAL) {
                         gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex]++;
                         gRaceHudSubScreenKarts->mAngle[kartIndex] =
-                            (gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] << 12) % 0x10000;
+                            TO_FIXED12(gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex]) % 0x10000;
                     } else {
                         gRaceHudSubScreenKarts->mAngle[kartIndex] = 0;
                         gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] = 0;
@@ -383,8 +383,8 @@ static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, NNSG
     RaceHudOamBits *oam;
 
     oamIndex = oamBuffer->mOamCount;
-    position[0] = screenX << 12;
-    position[1] = screenY << 12;
+    position[0] = TO_FIXED12(screenX);
+    position[1] = TO_FIXED12(screenY);
     oam = &oamBuffer->mOamBits[oamIndex];
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, matrix, position, matrixIndex, 1);
@@ -404,8 +404,8 @@ static inline void AddRaceHudSubScreenCellOamsNoMatrix(RaceHudOamBuffer *oamBuff
     s32 position[2];
     s32 oamIndex;
 
-    position[0] = screenX << 12;
-    position[1] = screenY << 12;
+    position[0] = TO_FIXED12(screenX);
+    position[1] = TO_FIXED12(screenY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
@@ -656,8 +656,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         screenY0 = gRaceHudSubScreenSecondHand->mEndPositions[0].mSecond;
         if (screenX0 > -32 && screenX0 < 288 && screenY0 > -32 && screenY0 < 224) {
             cell = GetRaceSNcerEntry(156);
-            endPosition0[0] = screenX0 << 12;
-            endPosition0[1] = screenY0 << 12;
+            endPosition0[0] = TO_FIXED12(screenX0);
+            endPosition0[1] = TO_FIXED12(screenY0);
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, endPosition0, rotationSlot0, 1);
@@ -671,8 +671,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             screenY0 = gRaceHudSubScreenSecondHand->mEndPositions[0].mSecond + (trailSumY0 + trailDeltaY0) / 4;
             if (screenX0 > -32 && screenX0 < 288 && screenY0 > -32 && screenY0 < 224) {
                 cell = GetRaceSNcerEntry(155);
-                middlePosition0[0] = screenX0 << 12;
-                middlePosition0[1] = screenY0 << 12;
+                middlePosition0[0] = TO_FIXED12(screenX0);
+                middlePosition0[1] = TO_FIXED12(screenY0);
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           &rotationMatrix, middlePosition0, rotationSlot0, 1);
@@ -684,8 +684,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         screenY0 = gRaceHudSubScreenSecondHand->mDrawPositions[0].mSecond;
         if (screenX0 > -32 && screenX0 < 288 && screenY0 > -32 && screenY0 < 224) {
             cell = GetRaceSNcerEntry(154);
-            drawPosition0[0] = screenX0 << 12;
-            drawPosition0[1] = screenY0 << 12;
+            drawPosition0[0] = TO_FIXED12(screenX0);
+            drawPosition0[1] = TO_FIXED12(screenY0);
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, drawPosition0, rotationSlot0, 1);
@@ -707,8 +707,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         screenY2 = gRaceHudSubScreenSecondHand->mEndPositions[2].mSecond;
         if (screenX2 > -32 && screenX2 < 288 && screenY2 > -32 && screenY2 < 224) {
             cell = GetRaceSNcerEntry(156);
-            endPosition2[0] = screenX2 << 12;
-            endPosition2[1] = screenY2 << 12;
+            endPosition2[0] = TO_FIXED12(screenX2);
+            endPosition2[1] = TO_FIXED12(screenY2);
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, endPosition2, rotationSlot2, 1);
@@ -722,8 +722,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             screenY2 = gRaceHudSubScreenSecondHand->mEndPositions[2].mSecond + (trailSumY2 + trailDeltaY2) / 3;
             if (screenX2 > -32 && screenX2 < 288 && screenY2 > -32 && screenY2 < 224) {
                 cell = GetRaceSNcerEntry(155);
-                middlePosition2[0] = screenX2 << 12;
-                middlePosition2[1] = screenY2 << 12;
+                middlePosition2[0] = TO_FIXED12(screenX2);
+                middlePosition2[1] = TO_FIXED12(screenY2);
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           &rotationMatrix, middlePosition2, rotationSlot2, 1);
@@ -735,8 +735,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         screenY2 = gRaceHudSubScreenSecondHand->mDrawPositions[2].mSecond;
         if (screenX2 > -32 && screenX2 < 288 && screenY2 > -32 && screenY2 < 224) {
             cell = GetRaceSNcerEntry(154);
-            drawPosition2[0] = screenX2 << 12;
-            drawPosition2[1] = screenY2 << 12;
+            drawPosition2[0] = TO_FIXED12(screenX2);
+            drawPosition2[1] = TO_FIXED12(screenY2);
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, drawPosition2, rotationSlot2, 1);
@@ -757,8 +757,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
     screenY1 = gRaceHudSubScreenSecondHand->mEndPositions[1].mSecond;
     if (screenX1 > -16 && screenX1 < 272 && screenY1 > -16 && screenY1 < 208) {
         cell = GetRaceSNcerEntry(159);
-        endPosition1[0] = screenX1 << 12;
-        endPosition1[1] = screenY1 << 12;
+        endPosition1[0] = TO_FIXED12(screenX1);
+        endPosition1[1] = TO_FIXED12(screenY1);
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                   &rotationMatrix, endPosition1, rotationSlot1, 1);
@@ -772,8 +772,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         screenY1 = gRaceHudSubScreenSecondHand->mEndPositions[1].mSecond + (trailSumY1 + trailDeltaY1) / 4;
         if (screenX1 > -16 && screenX1 < 272 && screenY1 > -16 && screenY1 < 208) {
             cell = GetRaceSNcerEntry(158);
-            middlePosition1[0] = screenX1 << 12;
-            middlePosition1[1] = screenY1 << 12;
+            middlePosition1[0] = TO_FIXED12(screenX1);
+            middlePosition1[1] = TO_FIXED12(screenY1);
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, middlePosition1, rotationSlot1, 1);
@@ -785,8 +785,8 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
     screenY1 = gRaceHudSubScreenSecondHand->mDrawPositions[1].mSecond;
     if (screenX1 > -16 && screenX1 < 272 && screenY1 > -16 && screenY1 < 208) {
         cell = GetRaceSNcerEntry(157);
-        drawPosition1[0] = screenX1 << 12;
-        drawPosition1[1] = screenY1 << 12;
+        drawPosition1[0] = TO_FIXED12(screenX1);
+        drawPosition1[1] = TO_FIXED12(screenY1);
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                   &rotationMatrix, drawPosition1, rotationSlot1, 1);

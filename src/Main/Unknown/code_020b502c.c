@@ -276,9 +276,9 @@ static inline s32 ClearFixed12Fraction(s32 value) {
     float wholePart;
 
     if (GetFixed12Whole(value) > 0) {
-        wholePart = 0.5f + (GetFixed12Whole(value) << 12);
+        wholePart = 0.5f + TO_FIXED12(GetFixed12Whole(value));
     } else {
-        wholePart = (GetFixed12Whole(value) << 12) - 0.5f;
+        wholePart = TO_FIXED12(GetFixed12Whole(value)) - 0.5f;
     }
     return wholePart;
 }
@@ -376,15 +376,15 @@ void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out) {
     out->mX1 = out->mCenterX - 0x80;
     out->mY1 = out->mCenterY - 0x60;
     if (gRaceHudSubScreenProjection->mCenterWhole.mFirst > 0) {
-        wholePart = 0.5f + (gRaceHudSubScreenProjection->mCenterWhole.mFirst << 12);
+        wholePart = 0.5f + TO_FIXED12(gRaceHudSubScreenProjection->mCenterWhole.mFirst);
     } else {
-        wholePart = (gRaceHudSubScreenProjection->mCenterWhole.mFirst << 12) - 0.5f;
+        wholePart = TO_FIXED12(gRaceHudSubScreenProjection->mCenterWhole.mFirst) - 0.5f;
     }
     gRaceHudSubScreenProjection->mCenterRemainderX = gRaceHudSubScreenProjection->mCenter.mFirst - (s32) wholePart;
     if (gRaceHudSubScreenProjection->mCenterWhole.mSecond > 0) {
-        wholePart = 0.5f + (gRaceHudSubScreenProjection->mCenterWhole.mSecond << 12);
+        wholePart = 0.5f + TO_FIXED12(gRaceHudSubScreenProjection->mCenterWhole.mSecond);
     } else {
-        wholePart = (gRaceHudSubScreenProjection->mCenterWhole.mSecond << 12) - 0.5f;
+        wholePart = TO_FIXED12(gRaceHudSubScreenProjection->mCenterWhole.mSecond) - 0.5f;
     }
     gRaceHudSubScreenProjection->mCenterRemainderY = gRaceHudSubScreenProjection->mCenter.mSecond - (s32) wholePart;
 }
@@ -551,7 +551,7 @@ s32 RaceHudSubScreenFX_SinIdx(s32 angle) {
 }
 
 s32 GetFixed12Whole(s32 value) {
-    return value >> 12;
+    return FROM_FIXED12(value);
 }
 
 s32 RaceHudSubScreenGetCurrentMirrorMode(void) {

@@ -215,7 +215,7 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (sanbo = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        sanbo->mPathSpeed = (sanbo->mMapObject.mCourseMapRow->mSettings[0] << 12) / 100;
+        sanbo->mPathSpeed = TO_FIXED12(sanbo->mMapObject.mCourseMapRow->mSettings[0]) / 100;
         sanbo->mPieceCount = 4;
         for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
             sanbo->mPieces[pieceIndex].mWobbleAngle = 0;

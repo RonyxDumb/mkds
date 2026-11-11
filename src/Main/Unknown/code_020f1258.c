@@ -179,8 +179,8 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
     }
     GetKartPos(&offset, kartIndex);
     VEC_Subtract(&offset, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &offset);
-    distanceSquared = (offset.x >> 12) * (offset.x >> 12);
-    distanceSquared += (offset.z >> 12) * (offset.z >> 12);
+    distanceSquared = FROM_FIXED12(offset.x) * FROM_FIXED12(offset.x);
+    distanceSquared += FROM_FIXED12(offset.z) * FROM_FIXED12(offset.z);
     if (distanceSquared > 0x27100 || (maxDistanceSquared != 0 && distanceSquared > maxDistanceSquared)) {
         return 0;
     }
@@ -188,16 +188,16 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
     if (dot < 0) {
         return 0;
     }
-    offsetSquared = Vec3DotUnrounded(&offset, &offset) >> 12;
+    offsetSquared = FROM_FIXED12(Vec3DotUnrounded(&offset, &offset));
     velocitySquared = Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
                                        &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
     lengthProduct = (s64) velocitySquared * offsetSquared;
-    dotSquared = (s64) dot * (dot >> 12);
-    if ((s32) (dotSquared >> 12) < MUL_FIXED12_NO_ROUND((s32) (lengthProduct >> 12), 0x400)) {
+    dotSquared = (s64) dot * FROM_FIXED12(dot);
+    if ((s32) FROM_FIXED12(dotSquared) < MUL_FIXED12_NO_ROUND((s32) FROM_FIXED12(lengthProduct), 0x400)) {
         return 0;
     }
     dot = Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal, &offset);
-    if ((dot >> 12) * (dot >> 12) > 0x9c4) {
+    if (FROM_FIXED12(dot) * FROM_FIXED12(dot) > 0x9c4) {
         return 0;
     }
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) {

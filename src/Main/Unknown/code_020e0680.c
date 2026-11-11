@@ -179,7 +179,7 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
     vehicle->mMapObject.mMatrix.mRows[3].z = vehicle->mMapObject.mPos.z >> 4;
     animation = vehicle->mModelAnimation;
     if (animation != NULL) {
-        animation->mHead.mFrameIndex = vehicle->mAnimationFrame << 12;
+        animation->mHead.mFrameIndex = TO_FIXED12(vehicle->mAnimationFrame);
         animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
     }
     SendLight01Color(&vehicle->mCourseColorBlend.mColor);
@@ -427,9 +427,9 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
                 angleDegrees = entry->mUnk_0e;
                 if (angleDegrees != 0) {
                     if (angleDegrees > 0) {
-                        scaledDegrees = 0.5f + (angleDegrees << 12);
+                        scaledDegrees = 0.5f + TO_FIXED12(angleDegrees);
                     } else {
-                        scaledDegrees = (angleDegrees << 12) - 0.5f;
+                        scaledDegrees = TO_FIXED12(angleDegrees) - 0.5f;
                     }
                     dotLimit = COS_OF_ANGLE(DEG_TO_ANGLE((s32) scaledDegrees));
                 } else {

@@ -98,7 +98,7 @@ void CreateKoopaBlock(void) {
 
 void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     InitStateMachine(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine, gKoopaBlockStateTable, 3, koopaBlock);
-    koopaBlock->mFollowSpeed = (courseRow->mSettings[0] << 12) / 100;
+    koopaBlock->mFollowSpeed = TO_FIXED12(courseRow->mSettings[0]) / 100;
     InitGroupFollower(&koopaBlock->mFollower, courseRow, koopaBlock->mFollowSpeed);
     koopaBlock->mPauseTimer = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mPrevMatrix =
@@ -260,8 +260,8 @@ void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
         if (bubble->mMapObject.mPosStep.y <= -0x1333) {
             bubble->mAngleZ = 0x8000;
         } else {
-            bubble->mAngleZ =
-                MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mPosStep.y, gMkdEfBubbleUpdateList->mAngleScale) >> 12;
+            bubble->mAngleZ = FROM_FIXED12(
+                MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mPosStep.y, gMkdEfBubbleUpdateList->mAngleScale));
         }
     }
     bubble->mMapObject.mPosStep.y -= 0x199;

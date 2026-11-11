@@ -179,14 +179,14 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
         slideOffsets[rowIndex] = InterpolateS16(1, 0x80, 0, updateFrames - rowIndex * 4, 0x14);
     }
     cell = GetRaceGoalMNcerEntry((IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x15);
-    positions[1][0] = (slideOffsets[0] + 0xa2) << 12;
+    positions[1][0] = TO_FIXED12(slideOffsets[0] + 0xa2);
     positions[1][1] = 0x10000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, positions[1], 0, 1);
     DrawRaceGoalTimeDigits(oamBuffer, slideOffsets[0], 0x10, &gRaceGoalTimes->mFinishTime,
                            IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0);
     cell = GetRaceGoalMNcerEntry((IsRaceNewRecordTaBestLapRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x16);
-    positions[2][0] = (slideOffsets[1] + 0x99) << 12;
+    positions[2][0] = TO_FIXED12(slideOffsets[1] + 0x99);
     positions[2][1] = 0x28000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, positions[2], 0, 1);
@@ -197,8 +197,8 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
         }
         cell = GetRaceGoalMNcerEntry(rowIndex + 0x18 + cellOffset);
         rowY = rowIndex * 16 + 0x28;
-        positions[3][0] = (slideOffsets[rowIndex + 1] + 0x9e) << 12;
-        positions[3][1] = rowY << 12;
+        positions[3][0] = TO_FIXED12(slideOffsets[rowIndex + 1] + 0x9e);
+        positions[3][1] = TO_FIXED12(rowY);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, positions[3], 0, 1);
         DrawRaceGoalTimeDigits(oamBuffer, slideOffsets[rowIndex + 1], rowY, &gRaceGoalTimes->mLapTimes[rowIndex],
@@ -222,49 +222,49 @@ void DrawRaceGoalTimeDigits(RaceHudOamBuffer *oamBuffer, s32 originX, s32 origin
 
     if (digits->mDigits[0] != 0) {
         cell = GetRaceGoalMNcerEntry(digits->mDigits[0] + 0x17 + cellOffset);
-        digit0Position[0] = (originX + columnOffsets[0]) << 12;
-        digit0Position[1] = originY << 12;
+        digit0Position[0] = TO_FIXED12(originX + columnOffsets[0]);
+        digit0Position[1] = TO_FIXED12(originY);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, digit0Position, 0, 1);
     }
     cell = GetRaceGoalMNcerEntry(digits->mDigits[1] + 0x17 + cellOffset);
-    digit1Position[0] = (originX + columnOffsets[1]) << 12;
-    digit1Position[1] = originY << 12;
+    digit1Position[0] = TO_FIXED12(originX + columnOffsets[1]);
+    digit1Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit1Position, 0, 1);
     cell = GetRaceGoalMNcerEntry(cellOffset + 0x21);
-    separator0Position[0] = (originX + columnOffsets[2]) << 12;
-    separator0Position[1] = originY << 12;
+    separator0Position[0] = TO_FIXED12(originX + columnOffsets[2]);
+    separator0Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, separator0Position, 0, 1);
     cell = GetRaceGoalMNcerEntry(digits->mDigits[2] + 0x17 + cellOffset);
-    digit2Position[0] = (originX + columnOffsets[3]) << 12;
-    digit2Position[1] = originY << 12;
+    digit2Position[0] = TO_FIXED12(originX + columnOffsets[3]);
+    digit2Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit2Position, 0, 1);
     cell = GetRaceGoalMNcerEntry(digits->mDigits[3] + 0x17 + cellOffset);
-    digit3Position[0] = (originX + columnOffsets[4]) << 12;
-    digit3Position[1] = originY << 12;
+    digit3Position[0] = TO_FIXED12(originX + columnOffsets[4]);
+    digit3Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit3Position, 0, 1);
     cell = GetRaceGoalMNcerEntry(cellOffset + 0x21);
-    separator1Position[0] = (originX + columnOffsets[5]) << 12;
-    separator1Position[1] = originY << 12;
+    separator1Position[0] = TO_FIXED12(originX + columnOffsets[5]);
+    separator1Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, separator1Position, 0, 1);
     cell = GetRaceGoalMNcerEntry(digits->mDigits[4] + 0x17 + cellOffset);
-    digit4Position[0] = (originX + columnOffsets[6]) << 12;
-    digit4Position[1] = originY << 12;
+    digit4Position[0] = TO_FIXED12(originX + columnOffsets[6]);
+    digit4Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit4Position, 0, 1);
     cell = GetRaceGoalMNcerEntry(digits->mDigits[5] + 0x17 + cellOffset);
-    digit5Position[0] = (originX + columnOffsets[7]) << 12;
-    digit5Position[1] = originY << 12;
+    digit5Position[0] = TO_FIXED12(originX + columnOffsets[7]);
+    digit5Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit5Position, 0, 1);
     cell = GetRaceGoalMNcerEntry(digits->mDigits[6] + 0x17 + cellOffset);
-    digit6Position[0] = (originX + columnOffsets[8]) << 12;
-    digit6Position[1] = originY << 12;
+    digit6Position[0] = TO_FIXED12(originX + columnOffsets[8]);
+    digit6Position[1] = TO_FIXED12(originY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit6Position, 0, 1);
 }

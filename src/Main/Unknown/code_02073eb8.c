@@ -491,7 +491,7 @@ void UpdateCameraByEntryKind(Camera *camera) {
         case 0:
             camera->mPos = camera->mCourseMapCamera->mPosOrParams;
             if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-                camera->mFollowedKartIndex = (camera->mCourseMapCamera->mLookAtEndOrParams.z >> 12) - 1;
+                camera->mFollowedKartIndex = FROM_FIXED12(camera->mCourseMapCamera->mLookAtEndOrParams.z) - 1;
                 GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
                 camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mLookAtStartOrParams.y;
             } else {
@@ -657,7 +657,7 @@ void UpdateCameraEntry(Camera *camera) {
 void UpdateCameraPosCurveLookAtKart(Camera *camera) {
     UpdateCameraPosCurve(camera, camera->mCourseMapCamera->mPosCurvePerFrame);
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        camera->mFollowedKartIndex = (camera->mCourseMapCamera->mLookAtEndOrParams.z >> 12) - 1;
+        camera->mFollowedKartIndex = FROM_FIXED12(camera->mCourseMapCamera->mLookAtEndOrParams.z) - 1;
         GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
         camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mLookAtStartOrParams.y;
     } else {
@@ -693,7 +693,7 @@ void UpdateCameraAngleEntry(Camera *camera) {
     s32 endPitch;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        camera->mFollowedKartIndex = (courseMapCamera->mLookAtEndOrParams.z >> 12) - 1;
+        camera->mFollowedKartIndex = FROM_FIXED12(courseMapCamera->mLookAtEndOrParams.z) - 1;
         GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
         camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mLookAtStartOrParams.y;
     } else {

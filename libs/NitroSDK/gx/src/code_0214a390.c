@@ -9,8 +9,8 @@ void G2x_SetBGyAffine_(vu16 *reg, const s32 *mtx, s32 centerX, s32 centerY, s32 
 
     words[0] = (u16) (s16) (mtx[0] >> 4) | ((u16) (s16) (mtx[1] >> 4) << 16);
     words[1] = (u16) (s16) (mtx[2] >> 4) | ((u16) (s16) (mtx[3] >> 4) << 16);
-    affineX = mtx[0] * (x1 - centerX) + mtx[1] * (y1 - centerY) + (centerX << 12);
-    y2 = mtx[2] * (x1 - centerX) + mtx[3] * (y1 - centerY) + (centerY << 12);
+    affineX = mtx[0] * (x1 - centerX) + mtx[1] * (y1 - centerY) + TO_FIXED12(centerX);
+    y2 = mtx[2] * (x1 - centerX) + mtx[3] * (y1 - centerY) + TO_FIXED12(centerY);
     words[2] = affineX >> 4;
     words[3] = y2 >> 4;
 }

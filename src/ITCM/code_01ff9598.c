@@ -427,8 +427,8 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
 }
 
 void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
-    s32 widthFixed = matAnmResult->mUnk_2c << 12;
-    s32 heightFixed = matAnmResult->mUnk_2e << 12;
+    s32 widthFixed = TO_FIXED12(matAnmResult->mUnk_2c);
+    s32 heightFixed = TO_FIXED12(matAnmResult->mUnk_2e);
     s32 cosR;
     s32 scaleS;
     s32 sinR;
@@ -461,8 +461,8 @@ void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
 }
 
 void texmtxCalc_flagS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
-    s32 widthFixed = matAnmResult->mUnk_2c << 12;
-    s32 heightFixed = matAnmResult->mUnk_2e << 12;
+    s32 widthFixed = TO_FIXED12(matAnmResult->mUnk_2c);
+    s32 heightFixed = TO_FIXED12(matAnmResult->mUnk_2e);
     s32 sinPlusCos;
 
     FX_DivAsync(heightFixed, widthFixed);
@@ -501,8 +501,8 @@ void texmtxCalc_flagRS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
 }
 
 void texmtxCalc_flagT_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
-    s32 widthFixed = matAnmResult->mUnk_2c << 12;
-    s32 heightFixed = matAnmResult->mUnk_2e << 12;
+    s32 widthFixed = TO_FIXED12(matAnmResult->mUnk_2c);
+    s32 heightFixed = TO_FIXED12(matAnmResult->mUnk_2e);
     s32 cosR;
     s32 scaleS;
     s32 sinR;

@@ -150,9 +150,9 @@ void Vec3CrossUnrounded(const Vec3 *lhs, const Vec3 *rhs, Vec3 *axb) {
     crossX = (s64) lhs->y * rhs->z - (s64) lhs->z * rhs->y;
     crossY = (s64) lhs->z * rhs->x - (s64) lhs->x * rhs->z;
     crossZ = (s64) lhs->x * rhs->y - (s64) lhs->y * rhs->x;
-    axb->x = crossX >> 12;
-    axb->y = crossY >> 12;
-    axb->z = crossZ >> 12;
+    axb->x = FROM_FIXED12(crossX);
+    axb->y = FROM_FIXED12(crossY);
+    axb->z = FROM_FIXED12(crossZ);
 }
 
 void InitUnreadHalfwordGroups(void) {

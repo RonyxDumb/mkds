@@ -80,7 +80,7 @@ void QueueBalloonSound(void *position, s32 distanceSquared) {
 void StartIronBallBounceSound(struct MapObjectSound *soundSource, s32 fixedValue) {
     s32 clampedValue;
 
-    clampedValue = fixedValue >> 12;
+    clampedValue = FROM_FIXED12(fixedValue);
     if (clampedValue > 0x1e) {
         clampedValue = 0x1e;
     }
@@ -91,7 +91,7 @@ void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue) {
     s32 pitchAndModSpeed;
     PlayingSound *sound;
 
-    pitchAndModSpeed = (fixedValue >> 12) + 5;
+    pitchAndModSpeed = FROM_FIXED12(fixedValue) + 5;
     sound = StartSoundWhileRequested(&mapSound->mSoundSource, 0x1cd, 0x7f, (s16) pitchAndModSpeed);
     if (sound != NULL) {
         NNS_SndPlayerSetTrackModSpeed(&sound->mSeqPlayer, 0xffff, pitchAndModSpeed);

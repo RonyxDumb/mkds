@@ -39,7 +39,7 @@ void WriteBackupSlotGhost(s32 index, const void *record) {
     u32 offset;
     void *buffer;
 
-    offset = index << 12;
+    offset = TO_FIXED12(index);
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
         MI_CpuCopy8(record, buffer, 0x1000);
@@ -53,7 +53,7 @@ void ReadBackupSlotGhost(u32 index, SlotGhostRecord *ghostRecord) {
     BackupAccess *backupAccess;
     s32 backupEnabled;
 
-    offset = index << 12;
+    offset = TO_FIXED12(index);
     backupAccess = gBackupAccess;
     backupEnabled = backupAccess->mBackupEnabled;
     if (backupEnabled != 0) {

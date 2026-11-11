@@ -200,9 +200,9 @@ s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDistSq, u16 
     s32 distSq;
     s32 xSquared;
     s32 bottomDot;
-    maxDistance = (maxDistance + radius) >> 12;
-    offsetZ = (pos->z - gViewFrustum.mCameraPos.z) >> 12;
-    offsetX = (pos->x - gViewFrustum.mCameraPos.x) >> 12;
+    maxDistance = FROM_FIXED12(maxDistance + radius);
+    offsetZ = FROM_FIXED12(pos->z - gViewFrustum.mCameraPos.z);
+    offsetX = FROM_FIXED12(pos->x - gViewFrustum.mCameraPos.x);
     xSquared = offsetX * offsetX;
     distSq = offsetZ * offsetZ + xSquared;
     result = distSq & ~0xc000001f;
@@ -215,7 +215,7 @@ s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDistSq, u16 
         }
         result |= data_usa_021568f8;
     }
-    offsetY = (pos->y - gViewFrustum.mCameraPos.y) >> 12;
+    offsetY = FROM_FIXED12(pos->y - gViewFrustum.mCameraPos.y);
     if (offsetX * gViewFrustum.mViewDirection.x + offsetY * gViewFrustum.mViewDirection.y +
             offsetZ * gViewFrustum.mViewDirection.z <
         gViewFrustum.mNear - radius) {
@@ -253,10 +253,10 @@ s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDist
     s32 result;
     s32 distSq;
     s32 offsetX;
-    maxDistance = (maxDistance + radius) >> 12;
+    maxDistance = FROM_FIXED12(maxDistance + radius);
     VEC_Subtract(pos, &gViewFrustum.mCameraPos, &offset);
-    offset.x = (pos->x - gViewFrustum.mCameraPos.x) >> 12;
-    offset.z = (pos->z - gViewFrustum.mCameraPos.z) >> 12;
+    offset.x = FROM_FIXED12(pos->x - gViewFrustum.mCameraPos.x);
+    offset.z = FROM_FIXED12(pos->z - gViewFrustum.mCameraPos.z);
     distSq = offset.x * offset.x + offset.z * offset.z;
     result = distSq & ~0xc000001f;
     if (distSq > nearDistSq) {
@@ -268,7 +268,7 @@ s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDist
         }
         result |= data_usa_021568f8;
     }
-    offset.y = (pos->y - gViewFrustum.mCameraPos.y) >> 12;
+    offset.y = FROM_FIXED12(pos->y - gViewFrustum.mCameraPos.y);
     offsetX = ((const Vec3 *) &offset)->x;
     if (offset.y * GetFrustumLeftPlaneNormalY(&gViewFrustum) + offset.x * gViewFrustum.mLeftPlaneNormal.x +
             offset.z * gViewFrustum.mLeftPlaneNormal.z >

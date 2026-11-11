@@ -307,7 +307,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
         case 9:
             cell = GetRaceGoalSNcerEntry(0x21);
             oamIndex = oamBuffer->mOamCount;
-            cell21Position[1] = (gRaceGoalS->mOffset + 0xb) << 12;
+            cell21Position[1] = TO_FIXED12(gRaceGoalS->mOffset + 0xb);
             cell21Position[0] = 0;
             oam = &oamBuffer->mOamBits[oamIndex];
             oamBuffer->mOamCount +=
@@ -321,7 +321,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
         case 6:
             cell = GetRaceGoalSNcerEntry(0x22);
             oamIndex = oamBuffer->mOamCount;
-            cell22Position[1] = (gRaceGoalS->mOffset + 0xb) << 12;
+            cell22Position[1] = TO_FIXED12(gRaceGoalS->mOffset + 0xb);
             cell22Position[0] = 0;
             oam = &oamBuffer->mOamBits[oamIndex];
             oamBuffer->mOamCount +=
@@ -338,7 +338,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                 oamIndex = oamBuffer->mOamCount;
                 offset = gRaceGoalS->mOffset;
                 cell2bPosition[0] = 0x80000;
-                cell2bPosition[1] = (offset + 0x60) << 12;
+                cell2bPosition[1] = TO_FIXED12(offset + 0x60);
                 oam = &oamBuffer->mOamBits[oamIndex];
                 oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL,
                                                               cell2bPosition, 0, 1);
@@ -369,30 +369,30 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
         if (gRaceGoalS->mRowVisible[rowIndex] != 0) {
             if (hundreds != 0) {
                 cell = GetRaceGoalSNcerEntry(hundreds + 0x10);
-                hundredsPosition[0] = (offsetX + 0xba) << 12;
-                hundredsPosition[1] = rowYs[rowIndex] << 12;
+                hundredsPosition[0] = TO_FIXED12(offsetX + 0xba);
+                hundredsPosition[1] = TO_FIXED12(rowYs[rowIndex]);
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, hundredsPosition, 0, 1);
             }
             if (hundreds != 0 || tens != 0) {
                 cell = GetRaceGoalSNcerEntry(tens + 0x10);
-                tensPosition[0] = (offsetX + 0xc3) << 12;
-                tensPosition[1] = rowYs[rowIndex] << 12;
+                tensPosition[0] = TO_FIXED12(offsetX + 0xc3);
+                tensPosition[1] = TO_FIXED12(rowYs[rowIndex]);
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, tensPosition, 0, 1);
             }
             cell = GetRaceGoalSNcerEntry(ones + 0x10);
-            onesPosition[0] = (offsetX + 0xcc) << 12;
-            onesPosition[1] = rowYs[rowIndex] << 12;
+            onesPosition[0] = TO_FIXED12(offsetX + 0xcc);
+            onesPosition[1] = TO_FIXED12(rowYs[rowIndex]);
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, onesPosition, 0, 1);
             if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE)) {
                 cellIndex = IsPointsLabelPlural(number) != FALSE ? 0x1a : 0x1b;
                 cell = GetRaceGoalSNcerEntry(cellIndex);
-                cell1aOr1bPosition[0] = (offsetX + 0xd1) << 12;
-                cell1aOr1bPosition[1] = rowYs[rowIndex] << 12;
+                cell1aOr1bPosition[0] = TO_FIXED12(offsetX + 0xd1);
+                cell1aOr1bPosition[1] = TO_FIXED12(rowYs[rowIndex]);
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, cell1aOr1bPosition, 0, 1);
@@ -400,8 +400,8 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             if (gRaceSetup->mUseTeams != 0) {
                 cellIndex = GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 0 ? 0x1f : 0x20;
                 cell = GetRaceGoalSNcerEntry(cellIndex);
-                teamPosition[0] = (offsetX + 0xec) << 12;
-                teamPosition[1] = rowYs[rowIndex] << 12;
+                teamPosition[0] = TO_FIXED12(offsetX + 0xec);
+                teamPosition[1] = TO_FIXED12(rowYs[rowIndex]);
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, teamPosition, 0, 1);
@@ -410,26 +410,26 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                 if (gRaceGoalS->mUpdate == ShowRaceGoalSRows || gRaceGoalS->mUpdate == HoldRaceGoalSRows ||
                     gRaceGoalS->mUpdate == FinishRaceGoalS) {
                     cell = GetRaceGoalSNcerEntry(gRaceGoalS->mRankComparison[kartIndex] + 0x1c);
-                    rankChangePosition[0] = (offsetX + 0xc) << 12;
-                    rankChangePosition[1] = rowYs[rowIndex] << 12;
+                    rankChangePosition[0] = TO_FIXED12(offsetX + 0xc);
+                    rankChangePosition[1] = TO_FIXED12(rowYs[rowIndex]);
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                               cell, NULL, rankChangePosition, 0, 1);
                 }
             }
             cell = GetRaceGoalSNcerEntry(rowIndex + 8);
-            placePosition[0] = (offsetX + 0x1d) << 12;
-            placePosition[1] = rowYs[rowIndex] << 12;
+            placePosition[0] = TO_FIXED12(offsetX + 0x1d);
+            placePosition[1] = TO_FIXED12(rowYs[rowIndex]);
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, placePosition, 0, 1);
             cell = GetRaceGoalSNcerEntry(kartIndex);
-            kartPosition[0] = (offsetX + 0x2e) << 12;
-            kartPosition[1] = rowYs[rowIndex] << 12;
+            kartPosition[0] = TO_FIXED12(offsetX + 0x2e);
+            kartPosition[1] = TO_FIXED12(rowYs[rowIndex]);
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, kartPosition, 0, 1);
             cell = GetRaceGoalSNcerEntry(kartIndex + 0x23);
-            kartExtraPosition[0] = (offsetX + 0x3b) << 12;
-            kartExtraPosition[1] = rowYs[rowIndex] << 12;
+            kartExtraPosition[0] = TO_FIXED12(offsetX + 0x3b);
+            kartExtraPosition[1] = TO_FIXED12(rowYs[rowIndex]);
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                       kartExtraPosition, 0, 1);
@@ -456,13 +456,13 @@ void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 posit
     tens = number / 10 % 10;
     ones = number % 10;
     cell = GetRaceGoalTeamSNcerEntry(kartIndex);
-    kartPosition[0] = (positionX + 0xc) << 12;
-    kartPosition[1] = positionY << 12;
+    kartPosition[0] = TO_FIXED12(positionX + 0xc);
+    kartPosition[1] = TO_FIXED12(positionY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, kartPosition, 0, 1);
     cell = GetRaceGoalTeamSNcerEntry(kartIndex + 0x20);
-    kartExtraPosition[0] = (positionX + 0x16) << 12;
-    kartExtraPosition[1] = positionY << 12;
+    kartExtraPosition[0] = TO_FIXED12(positionX + 0x16);
+    kartExtraPosition[1] = TO_FIXED12(positionY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, kartExtraPosition, 0, 1);
     if (kartIndex == GetFollowedKartOrEntryIndex()) {
@@ -471,8 +471,8 @@ void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 posit
         cellIndex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex == 0 ? 0x1c : 0x1d;
     }
     cell = GetRaceGoalTeamSNcerEntry(cellIndex);
-    teamPosition[0] = positionX << 12;
-    teamPosition[1] = positionY << 12;
+    teamPosition[0] = TO_FIXED12(positionX);
+    teamPosition[1] = TO_FIXED12(positionY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, teamPosition, 0, 1);
     if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -485,21 +485,21 @@ void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 posit
     }
     if (hundreds != 0) {
         cell = GetRaceGoalTeamSNcerEntry(hundreds + 8);
-        hundredsPosition[0] = (positionX + 0x57) << 12;
-        hundredsPosition[1] = positionY << 12;
+        hundredsPosition[0] = TO_FIXED12(positionX + 0x57);
+        hundredsPosition[1] = TO_FIXED12(positionY);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, hundredsPosition, 0, 1);
     }
     if (hundreds != 0 || tens != 0) {
         cell = GetRaceGoalTeamSNcerEntry(tens + 8);
-        tensPosition[0] = (positionX + 0x60) << 12;
-        tensPosition[1] = positionY << 12;
+        tensPosition[0] = TO_FIXED12(positionX + 0x60);
+        tensPosition[1] = TO_FIXED12(positionY);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, tensPosition, 0, 1);
     }
     cell = GetRaceGoalTeamSNcerEntry(ones + 8);
-    onesPosition[0] = (positionX + 0x69) << 12;
-    onesPosition[1] = positionY << 12;
+    onesPosition[0] = TO_FIXED12(positionX + 0x69);
+    onesPosition[1] = TO_FIXED12(positionY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, onesPosition, 0, 1);
 }
@@ -521,28 +521,28 @@ void DrawRaceGoalSTeamNumber(RaceHudOamBuffer *oamBuffer, s32 number, s32 positi
     ones = number % 10;
     if (thousands != 0) {
         cell = GetRaceGoalTeamSNcerEntry(thousands + 0x12);
-        thousandsPosition[0] = positionX << 12;
-        thousandsPosition[1] = positionY << 12;
+        thousandsPosition[0] = TO_FIXED12(positionX);
+        thousandsPosition[1] = TO_FIXED12(positionY);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, thousandsPosition, 0, 1);
     }
     if (thousands != 0 || hundreds != 0) {
         cell = GetRaceGoalTeamSNcerEntry(hundreds + 0x12);
-        hundredsPosition[0] = (positionX + 0xf) << 12;
-        hundredsPosition[1] = positionY << 12;
+        hundredsPosition[0] = TO_FIXED12(positionX + 0xf);
+        hundredsPosition[1] = TO_FIXED12(positionY);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, hundredsPosition, 0, 1);
     }
     if (thousands != 0 || hundreds != 0 || tens != 0) {
         cell = GetRaceGoalTeamSNcerEntry(tens + 0x12);
-        tensPosition[0] = (positionX + 0x1e) << 12;
-        tensPosition[1] = positionY << 12;
+        tensPosition[0] = TO_FIXED12(positionX + 0x1e);
+        tensPosition[1] = TO_FIXED12(positionY);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, tensPosition, 0, 1);
     }
     cell = GetRaceGoalTeamSNcerEntry(ones + 0x12);
-    onesPosition[0] = (positionX + 0x2d) << 12;
-    onesPosition[1] = positionY << 12;
+    onesPosition[0] = TO_FIXED12(positionX + 0x2d);
+    onesPosition[1] = TO_FIXED12(positionY);
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, onesPosition, 0, 1);
 }

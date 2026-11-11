@@ -146,19 +146,19 @@ s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
     saveY = gEmblemCursor->mCellY;
     originX = gEmblemCursor->mOriginX;
     cellShift = gEmblemCursor->mCellShift;
-    prevPointFixedX = (gEmblemCursor->mPrevX - originX) << 12;
+    prevPointFixedX = TO_FIXED12(gEmblemCursor->mPrevX - originX);
     prevPointFixedX >>= cellShift;
     originY = gEmblemCursor->mOriginY;
-    prevPointFixedY = (gEmblemCursor->mPrevY - originY) << 12;
+    prevPointFixedY = TO_FIXED12(gEmblemCursor->mPrevY - originY);
     prevPointFixedY >>= cellShift;
-    pointFixedX = (x - originX) << 12;
+    pointFixedX = TO_FIXED12(x - originX);
     pointFixedX >>= cellShift;
-    pointFixedY = (y - originY) << 12;
+    pointFixedY = TO_FIXED12(y - originY);
     pointFixedY >>= cellShift;
-    prevPointCellX = prevPointFixedX >> 12;
-    prevPointCellY = prevPointFixedY >> 12;
-    pointCellX = pointFixedX >> 12;
-    pointCellY = pointFixedY >> 12;
+    prevPointCellX = FROM_FIXED12(prevPointFixedX);
+    prevPointCellY = FROM_FIXED12(prevPointFixedY);
+    pointCellX = FROM_FIXED12(pointFixedX);
+    pointCellY = FROM_FIXED12(pointFixedY);
     prevInGrid = FALSE;
     if (prevPointCellX >= 0 && prevPointCellX < gEmblemCursor->mSide && prevPointCellY >= 0 &&
         prevPointCellY < gEmblemCursor->mSide) {

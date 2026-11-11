@@ -70,9 +70,9 @@ void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit,
         randomRange = spawnIndex = 0;
         for (; spawnIndex < spawnCount; spawnIndex++) {
             if (distanceLimit > 0) {
-                maxDistance = 0.5f + (distanceLimit << 12);
+                maxDistance = 0.5f + TO_FIXED12(distanceLimit);
             } else {
-                maxDistance = (distanceLimit << 12) - 0.5f;
+                maxDistance = TO_FIXED12(distanceLimit) - 0.5f;
             }
             baseZ = 0;
             baseY = spawner->mMapObject.mPos.y;
@@ -147,7 +147,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
         spawner->mNearCheckTimer = 0xf;
         radius = spawner->mMapObject.mCourseMapRow->mSettings[0];
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
-        radiusFixed = radius << 12;
+        radiusFixed = TO_FIXED12(radius);
         kartPos = &kart->mPos;
         deltaX = kartPos->x - spawner->mMapObject.mPos.x;
         deltaZ = kartPos->z - spawner->mMapObject.mPos.z;
@@ -163,9 +163,9 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
             if (GetCurrentCameraKind() == 2) {
                 for (spawnIndex = 0; spawnIndex < spawner->mMapObject.mCourseMapRow->mSettings[1]; spawnIndex++) {
                     if (spawner->mMapObject.mCourseMapRow->mSettings[0] > 0) {
-                        maxDistance = 0.5f + (spawner->mMapObject.mCourseMapRow->mSettings[0] << 12);
+                        maxDistance = 0.5f + TO_FIXED12(spawner->mMapObject.mCourseMapRow->mSettings[0]);
                     } else {
-                        maxDistance = (spawner->mMapObject.mCourseMapRow->mSettings[0] << 12) - 0.5f;
+                        maxDistance = TO_FIXED12(spawner->mMapObject.mCourseMapRow->mSettings[0]) - 0.5f;
                     }
                     baseZ = spawner->mMapObject.mPos.z;
                     baseY = spawner->mMapObject.mPos.y;

@@ -227,7 +227,7 @@ void CreateItemTeresaFrameScaleTable(void) {
 
     gItemTeresaFrameScales = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x52);
     for (frameIndex = 0; frameIndex <= 0x28; frameIndex++) {
-        gItemTeresaFrameScales[frameIndex] = ((0x28 - frameIndex) << 12) / (0x29 - frameIndex);
+        gItemTeresaFrameScales[frameIndex] = TO_FIXED12(0x28 - frameIndex) / (0x29 - frameIndex);
     }
     for (frameIndex -= 5; frameIndex <= 0x28; frameIndex++) {
         gItemTeresaFrameScales[frameIndex] =

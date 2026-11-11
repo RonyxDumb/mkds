@@ -152,12 +152,12 @@ void DrawCrab(void *mapObjectList, Crab *crab) {
         NNS_G3dGeBufferOP_N(0x1a, &crabRotation, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &crab->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
+    SetMapObjectModelNsbtpFrameIndex(gCrab, FROM_FIXED12(crab->mCrabNsbtpFrameIndexFixed12));
     QueueMapObjectModelMaterial(mapObjectList, gCrab);
     DrawMapObjectModel(mapObjectList, gCrab, crab);
     MTX_RotZ33_(&handRotation, FX_SinIdx((u16) crab->mHandWobble.mValue), FX_CosIdx((u16) crab->mHandWobble.mValue));
     NNS_G3dGeBufferOP_N(0x1a, &handRotation, 9);
-    SetMapObjectModelNsbtpFrameIndex(gCrabHand, crab->mHandNsbtpFrameIndexFixed12 >> 12);
+    SetMapObjectModelNsbtpFrameIndex(gCrabHand, FROM_FIXED12(crab->mHandNsbtpFrameIndexFixed12));
     QueueMapObjectModelMaterial(mapObjectList, gCrabHand);
     DrawMapObjectModel(mapObjectList, gCrabHand, crab);
 }
@@ -238,8 +238,8 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
                 (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
-                           ? 0.5f + (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12)
-                           : (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12) - 0.5f)) {
+                           ? 0.5f + TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand))
+                           : TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand)) - 0.5f)) {
                 crab->mHandNsbtpFrameIndexFixed12 = 0;
             }
             if (crab->mTimer-- > 0) {
@@ -269,8 +269,8 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mCrabNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mCrabNsbtpFrameIndexFixed12 >=
                 (s32) (GetMapObjectModelNsbtpFrameCount(gCrab) > 0
-                           ? 0.5f + (GetMapObjectModelNsbtpFrameCount(gCrab) << 12)
-                           : (GetMapObjectModelNsbtpFrameCount(gCrab) << 12) - 0.5f)) {
+                           ? 0.5f + TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrab))
+                           : TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrab)) - 0.5f)) {
                 crab->mCrabNsbtpFrameIndexFixed12 = 0;
             }
             AdvanceCrabWobble(&crab->mHandWobble);
@@ -313,8 +313,8 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
                 (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
-                           ? 0.5f + (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12)
-                           : (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12) - 0.5f)) {
+                           ? 0.5f + TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand))
+                           : TO_FIXED12(GetMapObjectModelNsbtpFrameCount(gCrabHand)) - 0.5f)) {
                 crab->mHandNsbtpFrameIndexFixed12 = 0;
             }
             AdvanceCrabWobble(&crab->mCrabWobble);

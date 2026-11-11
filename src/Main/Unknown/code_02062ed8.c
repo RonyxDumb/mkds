@@ -273,7 +273,7 @@ void SetCourseModelsFogEnableFlags(u32 flag) {
 
 s32 GetCourseModelNsbtpFrame(void) {
     if (gCourseModels.mNsbtpAnmObjCount != 0) {
-        return gCourseModels.mNsbtpFrameIndex >> 12;
+        return FROM_FIXED12(gCourseModels.mNsbtpFrameIndex);
     }
     return -1;
 }

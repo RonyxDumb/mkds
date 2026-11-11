@@ -28,6 +28,10 @@ typedef s32 BOOL;
 #define TRUE 1
 #define FALSE 0
 
+// Whole number to fixed-point and back (12 fraction bits).
+#define TO_FIXED12(x) ((x) << 12)
+#define FROM_FIXED12(x) ((x) >> 12)
+
 #define MUL_FIXED12_ROUNDED(a, b) ((s32) (((s64) (a) * (b) + 0x800) >> 12))
 #define MUL_FIXED12_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 12))
 #define MUL_FIXED24_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 24))
@@ -35,11 +39,11 @@ typedef s32 BOOL;
 // Sum of two, three or four fixed-point products, shifted down to 12 fractional bits.
 #define DOT2_FIXED12(a0, b0, a1, b1) (((s64) (a0) * (b0) + (s64) (a1) * (b1)) >> 12)
 #define DOT3_FIXED12(a0, b0, a1, b1, a2, b2) (((s64) (a0) * (b0) + (s64) (a1) * (b1) + (s64) (a2) * (b2)) >> 12)
-#define DOT4_FIXED12(a0, b0, a1, b1, a2, b2, a3, b3) \
+#define DOT4_FIXED12(a0, b0, a1, b1, a2, b2, a3, b3)                                                                   \
     (((s64) (a0) * (b0) + (s64) (a1) * (b1) + (s64) (a2) * (b2) + (s64) (a3) * (b3)) >> 12)
 // The same sums, rounded.
 #define DOT2_FIXED12_ROUNDED(a0, b0, a1, b1) (((s64) (a0) * (b0) + (s64) (a1) * (b1) + 0x800) >> 12)
-#define DOT3_FIXED12_ROUNDED(a0, b0, a1, b1, a2, b2) \
+#define DOT3_FIXED12_ROUNDED(a0, b0, a1, b1, a2, b2)                                                                   \
     (((s64) (a0) * (b0) + (s64) (a1) * (b1) + (s64) (a2) * (b2) + 0x800) >> 12)
 // Difference of two fixed-point products (one component of a cross product), shifted down to 12 fractional bits.
 #define CROSS2_FIXED12(a0, b0, a1, b1) (((s64) (a0) * (b0) - (s64) (a1) * (b1)) >> 12)

@@ -6,5 +6,5 @@
 u32 GetFirstBridgeAnimationFrame(void) {
     Bridge *firstBridge = gBridgeDrawList->mMapObjectList.mMapObjects[0];
 
-    return firstBridge->mAnimationFrameIndex >> 12;
+    return FROM_FIXED12(firstBridge->mAnimationFrameIndex);
 }

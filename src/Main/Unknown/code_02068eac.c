@@ -364,9 +364,9 @@ void AdvanceKartTeresa(Kart *kart) {
     }
     GetKartPos(&entryPos, (u16) gRaceSetup->mEntryIndex);
     GetKartPos(&kartPos, kart->mIndex);
-    diffX = (entryPos.x - kartPos.x) >> 12;
-    diffY = (entryPos.y - kartPos.y) >> 12;
-    diffZ = (entryPos.z - kartPos.z) >> 12;
+    diffX = FROM_FIXED12(entryPos.x - kartPos.x);
+    diffY = FROM_FIXED12(entryPos.y - kartPos.y);
+    diffZ = FROM_FIXED12(entryPos.z - kartPos.z);
     SetMinKartDistanceSquared(diffX * diffX + diffY * diffY + diffZ * diffZ);
 }
 

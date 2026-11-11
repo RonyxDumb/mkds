@@ -1038,7 +1038,7 @@ void StopKartStarSeq(void) {
     if (data_0217c78c != 0) {
         if (gSceneSoundState.mRaceState == 1) {
             StartScenePlayersSeq(&gScenePlayers);
-            NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, gVolumeFade.mVolume >> 12);
+            NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, FROM_FIXED12(gVolumeFade.mVolume));
             NNS_SndPlayerSetTempoRatio(&gScenePlayersSeqPlayer, 0x12c);
             SetRestartedSeqPitchFlag();
         }
@@ -1060,7 +1060,7 @@ void EndRaceSounds(void) {
     if (data_0217c78c != 0) {
         if (gSceneSoundState.mRaceState == 1) {
             StartScenePlayersSeq(&gScenePlayers);
-            NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, gVolumeFade.mVolume >> 12);
+            NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, FROM_FIXED12(gVolumeFade.mVolume));
             NNS_SndPlayerSetTempoRatio(&gScenePlayersSeqPlayer, 0x12c);
             SetRestartedSeqPitchFlag();
         }
@@ -1231,7 +1231,7 @@ void UpdateRaceSounds(void) {
             gSceneSoundState.mRaceFrames++;
             if (gSceneSoundState.mRaceFrames == 0x28) {
                 StartScenePlayersSeq(&gScenePlayers);
-                NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, gVolumeFade.mVolume >> 12);
+                NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, FROM_FIXED12(gVolumeFade.mVolume));
             }
             volumeFade = &gPlayerVolumeFade;
             tableRow = volumeFade->mRaceStarted;
@@ -1294,7 +1294,7 @@ void UpdateRaceSounds(void) {
                 data_0217c78c = 1;
             } else if (gSceneSoundState.mRaceState == 1) {
                 StartScenePlayersSeq(&gScenePlayers);
-                NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, gVolumeFade.mVolume >> 12);
+                NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, FROM_FIXED12(gVolumeFade.mVolume));
                 NNS_SndPlayerSetTempoRatio(&gScenePlayersSeqPlayer, 0x12c);
                 SetRestartedSeqPitchFlag();
             }

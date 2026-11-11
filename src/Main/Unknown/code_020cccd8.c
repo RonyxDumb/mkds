@@ -679,8 +679,8 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
             drawX = cell->mDrawPos.mFirst;
             ncerEntry = cell->mCell;
             drawY = cell->mDrawPos.mSecond;
-            position[0] = drawX << 12;
-            position[1] = drawY << 12;
+            position[0] = TO_FIXED12(drawX);
+            position[1] = TO_FIXED12(drawY);
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, ncerEntry,
                                                           &matrix, position, matrixIndex, 1);
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {

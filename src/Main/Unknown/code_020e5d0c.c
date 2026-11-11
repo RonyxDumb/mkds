@@ -60,7 +60,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     record->mFrameIndex = 0;
     if (animation != NULL) {
         frameWork.mTexImageParam = matData->mTexImageParam;
-        frameCount = GetModelAnimationFrameCountFixed(animation) >> 12;
+        frameCount = FROM_FIXED12(GetModelAnimationFrameCountFixed(animation));
         record->mFrameCount = frameCount;
         heap = GetHeap(GetCurrentHeapCall());
         record->mTexImageParams = HeapAlloc(heap, frameCount * 4);
@@ -72,7 +72,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
             frameWork.mTexImageParam &= mask;
             frameWork.mDataIndex = 0;
             do {
-                animation->mHead.mFrameIndex = frame << 12;
+                animation->mHead.mFrameIndex = TO_FIXED12(frame);
                 animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
                 NNSi_G3dAnmCalcNsBtp(&frameWork.mResult, animation->mAnmObjs[0], frameWork.mDataIndex);
                 record->mTexImageParams[frame] = frameWork.mResult.mUnk_10 & 0x3ff0ffff;

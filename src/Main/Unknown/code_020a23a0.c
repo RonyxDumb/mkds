@@ -142,9 +142,9 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
         SetModelAnimation(&gTrophy->mModelAnimation, 0);
         storedRankIndex = gTrophy->mRankIndex;
         if (storedRankIndex != 0) {
-            frameIndex = 0.5f + (storedRankIndex << 12);
+            frameIndex = 0.5f + TO_FIXED12(storedRankIndex);
         } else {
-            frameIndex = (storedRankIndex << 12) - 0.5f;
+            frameIndex = TO_FIXED12(storedRankIndex) - 0.5f;
         }
         modelAnimation = &gTrophy->mModelAnimation;
         modelAnimation->mHead.mFrameIndex = frameIndex;

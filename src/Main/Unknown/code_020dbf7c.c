@@ -96,8 +96,8 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
     wanwan->mUnk_f8 = (row->mSettings[0] * 0x3000) >> 2;
-    wanwan->mUnk_1dc = row->mSettings[1] << 12;
-    wanwan->mMaxRadius = row->mSettings[0] << 12;
+    wanwan->mUnk_1dc = TO_FIXED12(row->mSettings[1]);
+    wanwan->mMaxRadius = TO_FIXED12(row->mSettings[0]);
     wanwan->mUnk_1fc = wanwan->mUnk_f8 - (wanwan->mUnk_f0 << 1);
     wanwan->mFollowsPath = 0;
     wanwan->mUsesCourseCollision = 0;

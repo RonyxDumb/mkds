@@ -80,8 +80,8 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
                          ? 1
                          : 0;
         VEC_Subtract(kartPos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &kartOffset);
-        offsetX = kartOffset.x >> 12;
-        offsetZ = kartOffset.z >> 12;
+        offsetX = FROM_FIXED12(kartOffset.x);
+        offsetZ = FROM_FIXED12(kartOffset.z);
         if (offsetX * offsetX + offsetZ * offsetZ > (shortRange ? 0x9c40 : 0x27100)) {
             return FALSE;
         }

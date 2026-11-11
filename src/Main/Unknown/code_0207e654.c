@@ -86,7 +86,7 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
 }
 
 s32 GetPointLinkSpeedRatio(PointLinkCursor *pointLinkCursor) {
-    s32 fixedValue = pointLinkCursor->mLink->mValues[1] << 12;
+    s32 fixedValue = TO_FIXED12(pointLinkCursor->mLink->mValues[1]);
 
     return MUL_FIXED12_ROUNDED(fixedValue, 0x29);
 }

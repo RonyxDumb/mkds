@@ -233,16 +233,16 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
     }
     if (bomb->mNearestKartDistanceSquared < 8) {
         GetKartPos(&kartPosition, bomb->mNearestKartIndex);
-        deltaX = (bomb->mBouncingItemObject.mItemObject.mPos.x - kartPosition.x) >> 12;
-        deltaY = (bomb->mBouncingItemObject.mItemObject.mPos.y - kartPosition.y) >> 12;
-        deltaZ = (bomb->mBouncingItemObject.mItemObject.mPos.z - kartPosition.z) >> 12;
+        deltaX = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.x - kartPosition.x);
+        deltaY = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.y - kartPosition.y);
+        deltaZ = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.z - kartPosition.z);
         distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
         bomb->mNearestKartDistanceSquared = distanceSquared;
     }
     kartPosition = kart->mDrawMatrixPos;
-    deltaX = (bomb->mBouncingItemObject.mItemObject.mPos.x - kartPosition.x) >> 12;
-    deltaY = (bomb->mBouncingItemObject.mItemObject.mPos.y - kartPosition.y) >> 12;
-    deltaZ = (bomb->mBouncingItemObject.mItemObject.mPos.z - kartPosition.z) >> 12;
+    deltaX = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.x - kartPosition.x);
+    deltaY = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.y - kartPosition.y);
+    deltaZ = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.z - kartPosition.z);
     distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
     if (distanceSquared < bomb->mNearestKartDistanceSquared) {
         bomb->mNearestKartIndex = candidateKartIndex;

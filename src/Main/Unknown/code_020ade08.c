@@ -80,7 +80,7 @@ s32 InterpolateMulFixed12NoRound(s32 value, s32 factor) {
 }
 
 s32 InterpolateGetFixed12Whole(s32 value) {
-    return value >> 12;
+    return FROM_FIXED12(value);
 }
 
 #pragma thumb on
@@ -105,9 +105,9 @@ s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 duration
             easeValue = InterpolateFX_CosIdx((elapsedFrames << 15) / durationFrames);
             difference = end - start;
             if (difference > 0) {
-                scaledDifference = 0.5f + (difference << 12);
+                scaledDifference = 0.5f + TO_FIXED12(difference);
             } else {
-                scaledDifference = (difference << 12) - 0.5f;
+                scaledDifference = TO_FIXED12(difference) - 0.5f;
             }
             return start +
                    InterpolateGetFixed12Whole(InterpolateMulFixed12NoRound(scaledDifference, 0x1000 - easeValue)) / 2;

@@ -64,7 +64,7 @@ void UpdateSoundPitchSwing(void) {
     anglePairFirst = FX_SinIdx(wrappedAngle);
     scaledSwing = (s64) anglePairFirst * 0x90000 + 0x800;
     gSoundPitchSwingAngle = wrappedAngle;
-    gSoundPitchSwing = (s32) (scaledSwing >> 12) >> 12;
+    gSoundPitchSwing = (s32) FROM_FIXED12(scaledSwing) >> 12;
 }
 
 void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32 surfaceVariant, u32 waterDepth) {
@@ -131,7 +131,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
         return;
     }
     soundState = &kart->mSound;
-    pitch = soundState->mPitch >> 12;
+    pitch = FROM_FIXED12(soundState->mPitch);
     if (pitch > 0x1fc) {
         volume = 0x7f;
     } else {
@@ -153,7 +153,8 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
                 depthPitch += gSoundPitchSwing;
             }
         } else if (waterDepth > 0x61a8 && waterDepth <= 0x11170) {
-            depthPitch = (MUL_FIXED12_ROUNDED(gKartPitchPerWaterDepth, (s32) ((waterDepth - 0x61a8) << 12))) >> 12;
+            depthPitch =
+                FROM_FIXED12(MUL_FIXED12_ROUNDED(gKartPitchPerWaterDepth, (s32) TO_FIXED12(waterDepth - 0x61a8)));
             if (isEntryKart != FALSE) {
                 depthPitch += gSoundPitchSwing >> 1;
             }
@@ -505,7 +506,8 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
                 depthPitch += gSoundPitchSwing;
             }
         } else if (waterDepth > 0x61a8 && waterDepth <= 0x11170) {
-            depthPitch = (MUL_FIXED12_ROUNDED(gKartPitchPerWaterDepth, (s32) ((waterDepth - 0x61a8) << 12))) >> 12;
+            depthPitch =
+                FROM_FIXED12(MUL_FIXED12_ROUNDED(gKartPitchPerWaterDepth, (s32) TO_FIXED12(waterDepth - 0x61a8)));
             if (isEntryKart != FALSE) {
                 depthPitch += gSoundPitchSwing >> 1;
             }
@@ -549,7 +551,7 @@ void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
             depthPitch = 0x1c2;
             depthPitch += gSoundPitchSwing;
         } else if (depth > 0x61a8 && depth <= 0x11170) {
-            depthPitch = (MUL_FIXED12_ROUNDED(gKouraPitchPerWaterDepth, (s32) ((depth - 0x61a8) << 12))) >> 12;
+            depthPitch = FROM_FIXED12(MUL_FIXED12_ROUNDED(gKouraPitchPerWaterDepth, (s32) TO_FIXED12(depth - 0x61a8)));
             depthPitch += gSoundPitchSwing >> 1;
         }
         pitchOffset -= depthPitch;

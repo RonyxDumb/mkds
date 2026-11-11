@@ -376,12 +376,12 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
     if (gRaceItemSlot->mScale.mScaleFrames == 0) {
         cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(upperItem));
         upperItemPos[0] = 0x18000;
-        upperItemPos[1] = (scrollY - 8) << 12;
+        upperItemPos[1] = TO_FIXED12(scrollY - 8);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, upperItemPos, 0, 1);
         cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(gRaceItemSlot->mLowerItem));
         lowerItemPos[0] = 0x18000;
-        lowerItemPos[1] = (scrollY + 0x18) << 12;
+        lowerItemPos[1] = TO_FIXED12(scrollY + 0x18);
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, lowerItemPos, 0, 1);
     } else {
@@ -393,7 +393,7 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(upperItem));
         oamIndex = oamBuffer->mOamCount;
         scaledUpperItemPos[0] = 0x18000;
-        scaledUpperItemPos[1] = (scrollY - 8) << 12;
+        scaledUpperItemPos[1] = TO_FIXED12(scrollY - 8);
         oam = &oamBuffer->mOams[oamIndex];
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(oam, 0x80 - oamIndex, cell, &matrix, scaledUpperItemPos, matrixIndex, 1);
@@ -403,7 +403,7 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(gRaceItemSlot->mLowerItem));
         oamIndex = oamBuffer->mOamCount;
         scaledLowerItemPos[0] = 0x18000;
-        scaledLowerItemPos[1] = (scrollY + 0x18) << 12;
+        scaledLowerItemPos[1] = TO_FIXED12(scrollY + 0x18);
         oam = &oamBuffer->mOams[oamIndex];
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(oam, 0x80 - oamIndex, cell, &matrix, scaledLowerItemPos, matrixIndex, 1);

@@ -224,10 +224,10 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);
-    timerRange = (state0TimerBase << 12) >> 16;
+    timerRange = TO_FIXED12(state0TimerBase) >> 16;
     randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);
     basabasa->mState0Timer = state0TimerBase + randomOffset;
-    timerRange = (state2TimerBase << 12) >> 16;
+    timerRange = TO_FIXED12(state2TimerBase) >> 16;
     randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);
     basabasa->mState2Timer = state2TimerBase + randomOffset;
     basabasa->mMapObject.mPos = *startPos;

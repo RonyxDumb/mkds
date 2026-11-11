@@ -163,5 +163,5 @@ s32 GetGroupFollowerProgress(GroupFollower *follower) {
     } else {
         progress = 0x1000000 - follower->mProgress;
     }
-    return progress >> 12;
+    return FROM_FIXED12(progress);
 }

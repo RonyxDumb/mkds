@@ -201,7 +201,7 @@ s32 ComputeViewDepthAlpha(Vec3 *position) {
     viewMatrix = gViewMatrix;
     zDot = (s64) position->x * viewMatrix->mRows[0].z + (s64) position->y * viewMatrix->mRows[1].z +
            (s64) position->z * viewMatrix->mRows[2].z;
-    return -(viewMatrix->mRows[3].z + (s32) (zDot >> 12)) >> 9;
+    return -(viewMatrix->mRows[3].z + (s32) FROM_FIXED12(zDot)) >> 9;
 }
 
 void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAlpha) {
@@ -229,7 +229,7 @@ void DrawNsbmdModelWithMaxAlpha(NsbmdModel *model, Vec3 *position, s32 usePositi
         viewMatrix = gViewMatrix;
         zDot = (s64) position->x * viewMatrix->mRows[0].z + (s64) position->y * viewMatrix->mRows[1].z +
                (s64) position->z * viewMatrix->mRows[2].z;
-        depthAlpha = -(viewMatrix->mRows[3].z + (s32) (zDot >> 12)) >> 9;
+        depthAlpha = -(viewMatrix->mRows[3].z + (s32) FROM_FIXED12(zDot)) >> 9;
         if (depthAlpha < currentAlpha) {
             if (depthAlpha == 0) {
                 depthAlpha = 1;

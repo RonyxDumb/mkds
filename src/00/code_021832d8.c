@@ -525,8 +525,8 @@ void AdvanceWiFiVSMatchingState4(void) {
     if (frame >= 0x28) {
         emblemFrame = 0x27;
     }
-    totalScale = (gWiFiVSMatchingTotalScalePercents[totalFrame] << 12) / 100;
-    emblemScale = (gWiFiVSMatchingEmblemScalePercents[emblemFrame] << 12) / 100;
+    totalScale = TO_FIXED12(gWiFiVSMatchingTotalScalePercents[totalFrame]) / 100;
+    emblemScale = TO_FIXED12(gWiFiVSMatchingEmblemScalePercents[emblemFrame]) / 100;
     if (frame < 0x20) {
         emblemAngle = (emblemFrame << 17) / 0x20;
     } else {
@@ -698,11 +698,11 @@ void UpdateWiFiVSMatchingPaletteBlend(void) {
         }
         blendFrame = gWiFiVSMatching->mBlendFrames;
         if (blendFrame < 0x14) {
-            SetWiFiVSMatchingBlendedColors((blendFrame << 12) / 0x14);
+            SetWiFiVSMatchingBlendedColors(TO_FIXED12(blendFrame) / 0x14);
             return;
         }
         if (blendFrame < 0x28) {
-            SetWiFiVSMatchingBlendedColors(((0x28 - blendFrame) << 12) / 0x14);
+            SetWiFiVSMatchingBlendedColors(TO_FIXED12(0x28 - blendFrame) / 0x14);
             return;
         }
         SetWiFiVSMatchingBlendedColors(0);

@@ -101,8 +101,8 @@ u32 ComputeDistanceViewTest(Vec3 *position, s32 unusedArg1, s32 unusedArg2, s32 
     s32 distanceSquared;
     u32 result;
 
-    deltaX = (position->x - gViewFrustum.mCameraPos.x) >> 12;
-    deltaZ = (position->z - gViewFrustum.mCameraPos.z) >> 12;
+    deltaX = FROM_FIXED12(position->x - gViewFrustum.mCameraPos.x);
+    deltaZ = FROM_FIXED12(position->z - gViewFrustum.mCameraPos.z);
     distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
     result = distanceSquared & ~0xc000001f;
     if (distanceSquared > distanceLimitSquared) {
@@ -118,8 +118,8 @@ s32 GetHorizontalCameraDistanceSquared(Vec3 *position) {
     if (position == NULL) {
         return 0;
     }
-    deltaX = (position->x - gViewFrustum.mCameraPos.x) >> 12;
-    deltaZ = (position->z - gViewFrustum.mCameraPos.z) >> 12;
+    deltaX = FROM_FIXED12(position->x - gViewFrustum.mCameraPos.x);
+    deltaZ = FROM_FIXED12(position->z - gViewFrustum.mCameraPos.z);
     return deltaX * deltaX + deltaZ * deltaZ;
 }
 
@@ -168,7 +168,7 @@ BOOL IsMapObjectOutOfRangeOrMaskedAtDistance(MapObject *mapObject, s32 distanceS
         return TRUE;
     }
     kindData = mapObject->mKindData;
-    heightAboveCamera = (position->y - gViewFrustum.mCameraPos.y) >> 12;
+    heightAboveCamera = FROM_FIXED12(position->y - gViewFrustum.mCameraPos.y);
     if (heightAboveCamera < kindData->mUnk_3c || kindData->mUnk_38 < heightAboveCamera) {
         return TRUE;
     }

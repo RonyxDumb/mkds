@@ -47,10 +47,10 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
         entry = &list->mEntries[entryIndex];
         entry->mLld = list;
         entry->mAnimIndex = rec[entryIndex].mUnk_00;
-        entry->mPosX = rec[entryIndex].mUnk_02 > 0 ? 0.5f + (rec[entryIndex].mUnk_02 << 12)
-                                                   : (rec[entryIndex].mUnk_02 << 12) - 0.5f;
-        entry->mPosY = rec[entryIndex].mUnk_04 > 0 ? 0.5f + (rec[entryIndex].mUnk_04 << 12)
-                                                   : (rec[entryIndex].mUnk_04 << 12) - 0.5f;
+        entry->mPosX = rec[entryIndex].mUnk_02 > 0 ? 0.5f + TO_FIXED12(rec[entryIndex].mUnk_02)
+                                                   : TO_FIXED12(rec[entryIndex].mUnk_02) - 0.5f;
+        entry->mPosY = rec[entryIndex].mUnk_04 > 0 ? 0.5f + TO_FIXED12(rec[entryIndex].mUnk_04)
+                                                   : TO_FIXED12(rec[entryIndex].mUnk_04) - 0.5f;
         entry->mScale = 0x1000;
         entry->mShown = rec[entryIndex].mUnk_06 != 0;
         NNS_G2dInitCellAnimation(&entry->mCellAnim, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mUnk_00),
@@ -63,10 +63,10 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
         cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
         if ((cell->mUnk_02 >> 11) & 1) {
             box = cell->mUnk_08;
-            entry->mBoundsLeft = box[2] << 12;
-            entry->mBoundsTop = box[3] << 12;
-            entry->mBoundsRight = box[0] << 12;
-            entry->mBoundsBottom = box[1] << 12;
+            entry->mBoundsLeft = TO_FIXED12(box[2]);
+            entry->mBoundsTop = TO_FIXED12(box[3]);
+            entry->mBoundsRight = TO_FIXED12(box[0]);
+            entry->mBoundsBottom = TO_FIXED12(box[1]);
         }
     }
     return list;
@@ -91,8 +91,8 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
             }
         }
         if (entry->mShown != FALSE && entry->mScale > 0) {
-            screenX = (entry->mPosX >> 12) + lld->mOffsetX;
-            screenY = (entry->mPosY >> 12) + lld->mOffsetY;
+            screenX = FROM_FIXED12(entry->mPosX) + lld->mOffsetX;
+            screenY = FROM_FIXED12(entry->mPosY) + lld->mOffsetY;
             if (screenX >= -64 && screenX <= 0x140 && screenY >= -48 && screenY <= 0xf0) {
                 if (entry->mScale != 0x1000) {
                     u16 idx = AllocOamMatrixIndex(oamBuffer);
@@ -107,15 +107,15 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     mtx.mUnk_00[0] = entry->mScale;
                     mtx.mUnk_00[3] = entry->mScale;
                     cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
-                    scaledPos[0] = screenX << 12;
-                    scaledPos[1] = screenY << 12;
+                    scaledPos[0] = TO_FIXED12(screenX);
+                    scaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
                         (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
                         (NNSG2dCellDataWithBR *) cell, &mtx, scaledPos, idx, 1);
                 } else {
                     cell = (Unk021a5a58_2c_2c *) entry->mCellAnim.mPCurrentCell;
-                    unscaledPos[0] = screenX << 12;
-                    unscaledPos[1] = screenY << 12;
+                    unscaledPos[0] = TO_FIXED12(screenX);
+                    unscaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
                         (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
                         (NNSG2dCellDataWithBR *) cell, NULL, unscaledPos, 0, 0);
@@ -139,8 +139,8 @@ s32 FindLldEntryAtPoint(Lld *lld, s32 startIndex, s32 pointX, s32 pointY) {
     u16 count;
     LldEntry *entry;
 
-    fixedX = pointX > 0 ? 0.5f + (pointX << 12) : (pointX << 12) - 0.5f;
-    fixedY = pointY > 0 ? 0.5f + (pointY << 12) : (pointY << 12) - 0.5f;
+    fixedX = pointX > 0 ? 0.5f + TO_FIXED12(pointX) : TO_FIXED12(pointX) - 0.5f;
+    fixedY = pointY > 0 ? 0.5f + TO_FIXED12(pointY) : TO_FIXED12(pointY) - 0.5f;
     count = lld->mEntryCount;
     for (; startIndex < count; startIndex++) {
         entry = &lld->mEntries[startIndex];
@@ -188,16 +188,16 @@ s32 GetLldEntryFrameIndex(LldEntry *entry) {
 }
 
 void SetLldEntryPos(LldEntry *entry, s32 screenX, s32 screenY) {
-    entry->mPosX = (screenX - entry->mLld->mOffsetX) << 12;
-    entry->mPosY = (screenY - entry->mLld->mOffsetY) << 12;
+    entry->mPosX = TO_FIXED12(screenX - entry->mLld->mOffsetX);
+    entry->mPosY = TO_FIXED12(screenY - entry->mLld->mOffsetY);
 }
 
 s32 GetLldEntryX(LldEntry *entry) {
-    return (entry->mPosX >> 12) + entry->mLld->mOffsetX;
+    return FROM_FIXED12(entry->mPosX) + entry->mLld->mOffsetX;
 }
 
 s32 GetLldEntryY(LldEntry *entry) {
-    return (entry->mPosY >> 12) + entry->mLld->mOffsetY;
+    return FROM_FIXED12(entry->mPosY) + entry->mLld->mOffsetY;
 }
 
 void SetLldEntryScale(LldEntry *entry, s32 scale) {
@@ -209,10 +209,10 @@ s32 GetLldEntryScale(LldEntry *entry) {
 }
 
 void SetLldEntryBounds(LldEntry *entry, s32 left, s32 top, s32 right, s32 bottom) {
-    entry->mBoundsLeft = left << 12;
-    entry->mBoundsTop = top << 12;
-    entry->mBoundsRight = right << 12;
-    entry->mBoundsBottom = bottom << 12;
+    entry->mBoundsLeft = TO_FIXED12(left);
+    entry->mBoundsTop = TO_FIXED12(top);
+    entry->mBoundsRight = TO_FIXED12(right);
+    entry->mBoundsBottom = TO_FIXED12(bottom);
 }
 
 void StartDonketuStepSoundFirst(MissionRunMapObject *mapObject) {

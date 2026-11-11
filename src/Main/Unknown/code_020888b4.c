@@ -50,8 +50,8 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 static inline s32 BattleKartAiXzIntDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos) {
-    s32 xDifference = (firstPos->x - secondPos->x) >> 12;
-    s32 zDifference = (firstPos->z - secondPos->z) >> 12;
+    s32 xDifference = FROM_FIXED12(firstPos->x - secondPos->x);
+    s32 zDifference = FROM_FIXED12(firstPos->z - secondPos->z);
 
     return xDifference * xDifference + zDifference * zDifference;
 }

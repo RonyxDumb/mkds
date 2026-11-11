@@ -270,9 +270,9 @@ void AdvanceKartAi(Kart *kart) {
     }
     entryKart = GetKart(gRaceSetup->mEntryIndex);
     VEC_Subtract(&kart->mPos, &entryKart->mPos, &offset);
-    offset.x = offset.x >> 12;
-    offset.y = offset.y >> 12;
-    offset.z = offset.z >> 12;
+    offset.x = FROM_FIXED12(offset.x);
+    offset.y = FROM_FIXED12(offset.y);
+    offset.z = FROM_FIXED12(offset.z);
     if (offset.x * offset.x + offset.y * offset.y + offset.z * offset.z > 0x271000) {
         kart->mUnk_48 = kart->mUnk_48 | 0x8000000;
     } else {

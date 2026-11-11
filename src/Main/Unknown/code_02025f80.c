@@ -433,7 +433,7 @@ int AdvanceSelectCharacter(void) {
             gSelectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
             if (selectCharacterReload->mStateFrames < 10) {
-                selectCharacterReload->mScale = (selectCharacterReload->mStateFrames << 12) / 10;
+                selectCharacterReload->mScale = TO_FIXED12(selectCharacterReload->mStateFrames) / 10;
             } else {
                 selectCharacterReload->mScale = 0x1000;
                 gSelectCharacter->mStateFrames = 0;
@@ -652,7 +652,7 @@ int AdvanceSelectCharacter(void) {
             selectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
             if (selectCharacterReload->mStateFrames < 10) {
-                selectCharacterReload->mScale = ((10 - selectCharacterReload->mStateFrames) << 12) / 10;
+                selectCharacterReload->mScale = TO_FIXED12(10 - selectCharacterReload->mStateFrames) / 10;
             } else {
                 GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                     selectCharacterReload->mCharacterIndex;

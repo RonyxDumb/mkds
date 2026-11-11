@@ -535,7 +535,7 @@ void RefreshSelectChoisesPaletteBits(void) {
                  column <= gSelectChoisesPaletteRects[choiceIndex].mMaxX; column++) {
                 entry = gSelectChoises->mNscrCopy[row * 32 + column];
                 entry &= 0xffff0fff;
-                entry += topNibble << 12;
+                entry += TO_FIXED12(topNibble);
                 gSelectChoises->mNscrCopy[row * 32 + column] = entry;
             }
         }

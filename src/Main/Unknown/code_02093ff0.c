@@ -74,7 +74,7 @@ static inline void AdvanceTeresaAlpha(Teresa *teresa) {
         teresa->mAlphaFixed12PerFrame = -teresa->mAlphaFixed12PerFrame;
         teresa->mAlphaFixed12 = teresa->mAlphaFixed12Min * 2 - teresa->mAlphaFixed12;
     }
-    teresa->mModelAlpha = teresa->mAlphaFixed12 >> 12;
+    teresa->mModelAlpha = FROM_FIXED12(teresa->mAlphaFixed12);
 }
 
 static inline void AdvanceTeresaValueStoppingAtZero(s32 *value, s32 *delta) {
@@ -150,7 +150,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
                 teresa->mState0Timer = 0;
                 teresa->mAlphaFixed12 = teresa->mAlphaFixed12 - 0x1000;
                 if (teresa->mAlphaFixed12 > 0) {
-                    teresa->mModelAlpha = teresa->mAlphaFixed12 >> 12;
+                    teresa->mModelAlpha = FROM_FIXED12(teresa->mAlphaFixed12);
                 } else {
                     teresa->mModelAlpha = 0;
                     ParkMapObject(&teresa->mMapObject);

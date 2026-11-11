@@ -356,7 +356,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
                 animation->mAnmObjCount = 0;
             }
             if (kind == 2) {
-                if (GetModelAnimationFrameCountFixed(modelEffect->mAnimations[0]) >> 12 == 0x20) {
+                if (FROM_FIXED12(GetModelAnimationFrameCountFixed(modelEffect->mAnimations[0])) == 0x20) {
                     gKind2EffectIds[0] = 0x37;
                     gKind2EffectIds[1] = 0x38;
                 } else {

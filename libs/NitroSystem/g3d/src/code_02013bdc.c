@@ -26,7 +26,7 @@ void NNSi_G3dAnmCalcNsBva(u32 *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx
     u32 bitPos;
 
     visAnim = pAnmObj->mResAnm;
-    bitPos = (pAnmObj->mFrame >> 12) * visAnim->mNumNode + dataIdx;
+    bitPos = FROM_FIXED12(pAnmObj->mFrame) * visAnim->mNumNode + dataIdx;
     *pResult = visAnim->mVisData[bitPos >> 5] & (1 << (bitPos & 0x1f));
 }
 
@@ -77,13 +77,13 @@ void SetTexParamaters_(const NNSG3dResTex *pTex, const u32 *pTexName, NNSG3dMatA
     if (width == pResult->mUnk_2c) {
         width = 0x1000;
     } else {
-        width = FX_Div(width << 12, pResult->mUnk_2c << 12);
+        width = FX_Div(TO_FIXED12(width), TO_FIXED12(pResult->mUnk_2c));
     }
     pResult->mUnk_30 = width;
     if (height == pResult->mUnk_2e) {
         height = 0x1000;
     } else {
-        height = FX_Div(height << 12, pResult->mUnk_2e << 12);
+        height = FX_Div(TO_FIXED12(height), TO_FIXED12(pResult->mUnk_2e));
     }
     pResult->mUnk_34 = height;
 }
@@ -314,7 +314,7 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 }
 
 void NNSi_G3dAnmCalcNsBta(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
-    GetTexSRTAnm_(pAnmObj->mResAnm, dataIdx, pAnmObj->mFrame >> 12, pResult);
+    GetTexSRTAnm_(pAnmObj->mResAnm, dataIdx, FROM_FIXED12(pAnmObj->mFrame), pResult);
     pResult->mUnk_10 &= ~0xc0000000;
     pResult->mUnk_10 |= 0x40000000;
     pResult->mUnk_00 |= 8;
@@ -451,7 +451,7 @@ void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     NNSG3dResDictMatCAnmData *colorData;
 
     colorAnim = pAnmObj->mResAnm;
-    frame = pAnmObj->mFrame >> 12;
+    frame = FROM_FIXED12(pAnmObj->mFrame);
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
     colorData = DICT_ENTRY(NNSG3dResDictMatCAnmData, dictEntries, (u16) dataIdx);
     colorValue = GetMatColAnmValue_(colorAnim, colorData->mDiffuse, frame);
@@ -483,19 +483,19 @@ void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 }
 
 void NNSi_G3dAnmCalcNsBca(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, int dataIdx) {
-    s32 frame;
+    s32 clampedFrame;
     s32 end;
     NNSG3dResJntAnm *jntAnim;
 
     jntAnim = pAnmObj->mResAnm;
-    frame = pAnmObj->mFrame;
-    end = jntAnim->mNumFrame << 12;
-    if (frame >= end) {
-        frame = end - 1;
-    } else if (frame < 0) {
-        frame = 0;
+    clampedFrame = pAnmObj->mFrame;
+    end = TO_FIXED12(jntAnim->mNumFrame);
+    if (clampedFrame >= end) {
+        clampedFrame = end - 1;
+    } else if (clampedFrame < 0) {
+        clampedFrame = 0;
     }
-    getJntSRTAnmResult_(jntAnim, dataIdx, frame, pResult);
+    getJntSRTAnmResult_(jntAnim, dataIdx, clampedFrame, pResult);
 }
 
 void getMdlTrans_(NNSG3dJntAnmResult *out) {
@@ -746,7 +746,7 @@ void getTransData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *
     s32 sample1;
     u32 indexB;
 
-    frameIndex = frame >> 12;
+    frameIndex = FROM_FIXED12(frame);
     values = (const u8 *) jntAnm + desc[1];
     info = desc[0];
     if (info & 0xc0000000) {
@@ -815,7 +815,7 @@ single:
 void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
     u32 lastStep;
     const u8 *values;
-    s32 remainder;
+    s32 fraction;
     s32 sample1;
     s32 stepBits;
     u32 info;
@@ -823,7 +823,7 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     u32 frameIndex;
     s32 sample0;
 
-    frameIndex = frame >> 12;
+    frameIndex = FROM_FIXED12(frame);
     values = (const u8 *) jntAnm + desc[1];
     info = desc[0];
     if (frameIndex == jntAnm->mNumFrame - 1) {
@@ -838,12 +838,12 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
             stepBits = frame & 0xfff;
             if (info & 0x20000000) {
                 sample0 = ((const s16 *) values)[frameIndex];
-                remainder = ((const s16 *) values)[0];
+                fraction = ((const s16 *) values)[0];
             } else {
                 sample0 = ((const s32 *) values)[frameIndex];
-                remainder = ((const s32 *) values)[0];
+                fraction = ((const s32 *) values)[0];
             }
-            *out = sample0 + ((stepBits * (remainder - sample0)) >> 12);
+            *out = sample0 + ((stepBits * (fraction - sample0)) >> 12);
         } else {
             if (info & 0x20000000) {
                 *out = ((const s16 *) values)[frameIndex];
@@ -861,7 +861,7 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
                 goto last;
             }
             frameIndex >>= 1;
-            remainder = frame & 0x1fff;
+            fraction = frame & 0x1fff;
             step = 2;
             stepBits = 1;
         } else {
@@ -870,13 +870,13 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
                 goto last;
             }
             frameIndex >>= 2;
-            remainder = frame & 0x3fff;
+            fraction = frame & 0x3fff;
             step = 4;
             stepBits = 2;
         }
     } else {
     last:
-        remainder = frame & 0xfff;
+        fraction = frame & 0xfff;
         step = 1;
         stepBits = 0;
     }
@@ -887,7 +887,7 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
         sample0 = ((const s32 *) values)[frameIndex];
         sample1 = (&((const s32 *) values)[frameIndex])[1];
     }
-    *out = (sample0 * step + ((remainder * (sample1 - sample0)) >> 12)) >> stepBits;
+    *out = (sample0 * step + ((fraction * (sample1 - sample0)) >> 12)) >> stepBits;
 }
 
 void getScaleData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
@@ -902,7 +902,7 @@ void getScaleData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *
     const FxPairS32 *pair32;
     u32 frameIndex;
 
-    frameIndex = frame >> 12;
+    frameIndex = FROM_FIXED12(frame);
     values16 = OFFSET_PTR(const FxPairS16, jntAnm, desc[1]);
     values32 = OFFSET_PTR(const FxPairS32, jntAnm, desc[1]);
     info = desc[0];
@@ -985,7 +985,7 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     s32 scale1;
     u32 frameIndex;
     u32 nextIndex;
-    s32 remainder;
+    s32 fraction;
     s32 step;
     s32 stepBits;
     s32 invScale1;
@@ -993,7 +993,7 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     s32 invScale0;
     u32 lastStep;
 
-    frameIndex = frame >> 12;
+    frameIndex = FROM_FIXED12(frame);
     values16 = OFFSET_PTR(const FxPairS16, jntAnm, desc[1]);
     values32 = OFFSET_PTR(const FxPairS32, jntAnm, desc[1]);
     info = desc[0];
@@ -1028,7 +1028,7 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
             }
             frameIndex >>= 1;
             nextIndex = frameIndex + 1;
-            remainder = frame & 0x1fff;
+            fraction = frame & 0x1fff;
             step = 2;
             stepBits = 1;
         } else {
@@ -1039,14 +1039,14 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
             }
             frameIndex >>= 2;
             nextIndex = frameIndex + 1;
-            remainder = frame & 0x3fff;
+            fraction = frame & 0x3fff;
             step = 4;
             stepBits = 2;
         }
     } else {
         nextIndex = frameIndex + 1;
     last:
-        remainder = frame & 0xfff;
+        fraction = frame & 0xfff;
         step = 1;
         stepBits = 0;
     }
@@ -1061,8 +1061,8 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
         scale1 = values32[nextIndex].mFirst;
         invScale1 = values32[nextIndex].mSecond;
     }
-    out[0] = (scale0 * step + ((remainder * (scale1 - scale0)) >> 12)) >> stepBits;
-    out[1] = (invScale0 * step + ((remainder * (invScale1 - invScale0)) >> 12)) >> stepBits;
+    out[0] = (scale0 * step + ((fraction * (scale1 - scale0)) >> 12)) >> stepBits;
+    out[1] = (invScale0 * step + ((fraction * (invScale1 - invScale0)) >> 12)) >> stepBits;
 }
 
 void getRotData_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
@@ -1085,7 +1085,7 @@ void getRotData_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     s32 row1Y;
     s32 row1Z;
 
-    frameIndex = frame >> 12;
+    frameIndex = FROM_FIXED12(frame);
     rot3Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3);
     rot5Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5);
     info = desc[0];
@@ -1211,14 +1211,14 @@ void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntA
     s32 row1ZSaved;
     const s16 *rot5Table;
     u32 frameIndex;
-    s32 remainder;
+    s32 fraction;
     s32 step;
     s32 row0X;
     const u16 *values;
     s32 row0Z;
     u32 nextIndex;
 
-    frameIndex = frame >> 12;
+    frameIndex = FROM_FIXED12(frame);
     rot3Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot3);
     rot5Table = OFFSET_PTR(const s16, jntAnm, jntAnm->mOfsRot5);
     info = desc[0];
@@ -1260,7 +1260,7 @@ void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntA
             frameIndex >>= 1;
             nextIndex = frameIndex + 1;
             step = 2;
-            remainder = frame & 0x1fff;
+            fraction = frame & 0x1fff;
         } else {
             if (frameIndex >= lastStep) {
                 frameIndex = (frameIndex & 3) + (frameIndex >> 2);
@@ -1269,7 +1269,7 @@ void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntA
             }
             frameIndex >>= 2;
             nextIndex = frameIndex + 1;
-            remainder = frame & 0x3fff;
+            fraction = frame & 0x3fff;
             step = 4;
         }
         goto interp;
@@ -1278,24 +1278,24 @@ void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntA
     }
 interp1:
     step = 1;
-    remainder = frame & 0xfff;
+    fraction = frame & 0xfff;
 interp:
     needsCross = 0;
     needsCross |= getRotDataByIdx_(&startMtx, rot3Table, rot5Table, values[frameIndex]);
     needsCross |= getRotDataByIdx_(&endMtx, rot3Table, rot5Table, values[nextIndex]);
-    out->mRows[0].x = startMtx.mRows[0].x * step + ((remainder * (endMtx.mRows[0].x - startMtx.mRows[0].x)) >> 12);
-    out->mRows[0].y = startMtx.mRows[0].y * step + ((remainder * (endMtx.mRows[0].y - startMtx.mRows[0].y)) >> 12);
-    out->mRows[0].z = startMtx.mRows[0].z * step + ((remainder * (endMtx.mRows[0].z - startMtx.mRows[0].z)) >> 12);
-    out->mRows[1].x = startMtx.mRows[1].x * step + ((remainder * (endMtx.mRows[1].x - startMtx.mRows[1].x)) >> 12);
-    out->mRows[1].y = startMtx.mRows[1].y * step + ((remainder * (endMtx.mRows[1].y - startMtx.mRows[1].y)) >> 12);
-    out->mRows[1].z = startMtx.mRows[1].z * step + ((remainder * (endMtx.mRows[1].z - startMtx.mRows[1].z)) >> 12);
+    out->mRows[0].x = startMtx.mRows[0].x * step + ((fraction * (endMtx.mRows[0].x - startMtx.mRows[0].x)) >> 12);
+    out->mRows[0].y = startMtx.mRows[0].y * step + ((fraction * (endMtx.mRows[0].y - startMtx.mRows[0].y)) >> 12);
+    out->mRows[0].z = startMtx.mRows[0].z * step + ((fraction * (endMtx.mRows[0].z - startMtx.mRows[0].z)) >> 12);
+    out->mRows[1].x = startMtx.mRows[1].x * step + ((fraction * (endMtx.mRows[1].x - startMtx.mRows[1].x)) >> 12);
+    out->mRows[1].y = startMtx.mRows[1].y * step + ((fraction * (endMtx.mRows[1].y - startMtx.mRows[1].y)) >> 12);
+    out->mRows[1].z = startMtx.mRows[1].z * step + ((fraction * (endMtx.mRows[1].z - startMtx.mRows[1].z)) >> 12);
     VEC_Normalize(&out->mRows[0], &out->mRows[0]);
     VEC_Normalize(&out->mRows[1], &out->mRows[1]);
     if (needsCross == 0) {
-        out->mRows[2].x = startMtx.mRows[2].x * step + ((remainder * (endMtx.mRows[2].x - startMtx.mRows[2].x)) >> 12);
-        out->mRows[2].y = startMtx.mRows[2].y * step + ((remainder * (endMtx.mRows[2].y - startMtx.mRows[2].y)) >> 12);
+        out->mRows[2].x = startMtx.mRows[2].x * step + ((fraction * (endMtx.mRows[2].x - startMtx.mRows[2].x)) >> 12);
+        out->mRows[2].y = startMtx.mRows[2].y * step + ((fraction * (endMtx.mRows[2].y - startMtx.mRows[2].y)) >> 12);
         row2ZStart = startMtx.mRows[2].z;
-        out->mRows[2].z = startMtx.mRows[2].z * step + ((remainder * (endMtx.mRows[2].z - row2ZStart)) >> 12);
+        out->mRows[2].z = startMtx.mRows[2].z * step + ((fraction * (endMtx.mRows[2].z - row2ZStart)) >> 12);
         VEC_Normalize(&out->mRows[2], &out->mRows[2]);
     } else {
         row1ZSaved = out->mRows[1].z;

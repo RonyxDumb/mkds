@@ -108,13 +108,13 @@ static inline s32 func_0203df74_c_inline(CourseMapRoute *route, u16 checkpoint, 
     s32 routeProgress;
     s32 value;
 
-    value = (checkpoint - route->mFirstEntry) << 12;
+    value = TO_FIXED12(checkpoint - route->mFirstEntry);
     if (route->mEntryCount == 0) {
         routeProgress = 0;
     } else {
-        routeProgress = FX_Div(value + progress, route->mEntryCount << 12);
+        routeProgress = FX_Div(value + progress, TO_FIXED12(route->mEntryCount));
     }
-    value = routeProgress + (route->mLapProgressBase << 12);
+    value = routeProgress + TO_FIXED12(route->mLapProgressBase);
     return MUL_FIXED12_ROUNDED(value, gRaceProgress->mLapProgressScale);
 }
 
@@ -297,7 +297,7 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
     }
     kart->mCheckpointProgress = checkpointProgress;
     kart->mLapProgress = lapProgress;
-    value = ((kart->mLap - 1) << 12) + kart->mLapProgress;
+    value = TO_FIXED12(kart->mLap - 1) + kart->mLapProgress;
     kart->mRaceProgress = MUL_FIXED12_ROUNDED(value, gRaceProgress->mRaceProgressScale);
 }
 

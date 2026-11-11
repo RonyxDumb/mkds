@@ -175,8 +175,8 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
             cellData = cell->mCell;
             screenY = cell->mDrawPos.mSecond;
             oamIndex = oamBuffer->mOamCount;
-            drawPosition[0] = screenX << 12;
-            drawPosition[1] = screenY << 12;
+            drawPosition[0] = TO_FIXED12(screenX);
+            drawPosition[1] = TO_FIXED12(screenY);
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cellData,
                                       useRotation != 0 ? &rotationMatrix : 0, drawPosition, matrixIndex, 1);
@@ -238,8 +238,8 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
             cellData = cell->mCell;
             screenY = cell->mDrawPos.mSecond;
             oamIndex = oamBuffer->mOamCount;
-            drawPosition[0] = screenX << 12;
-            drawPosition[1] = screenY << 12;
+            drawPosition[0] = TO_FIXED12(screenX);
+            drawPosition[1] = TO_FIXED12(screenY);
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cellData,
                                                           &matrix, drawPosition, matrixIndex, 1);
             oam = &oamBuffer->mOamBits[oamIndex];

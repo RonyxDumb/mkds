@@ -180,7 +180,7 @@ void DrawPakkunMouth(void *mapObjectList, Pakkun *pakkun) {
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
     SetMapObjectModelPolygonId(gPakkunMouth, pakkun->mPolygonId);
-    SetMapObjectModelNsbcaFrameIndex(gPakkunMouth, pakkun->mUnk_0a4 >> 12);
+    SetMapObjectModelNsbcaFrameIndex(gPakkunMouth, FROM_FIXED12(pakkun->mUnk_0a4));
     DrawMapObjectModel(mapObjectList, gPakkunMouth, pakkun);
 }
 
@@ -255,9 +255,9 @@ void InitPakkunObjects(void) {
                              (pakkun = gPakkunUpdateList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
         if (GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1 > 0) {
-            frame = 0.5f + ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12);
+            frame = 0.5f + TO_FIXED12(GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1);
         } else {
-            frame = ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12) - 0.5f;
+            frame = TO_FIXED12(GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) - 0.5f;
         }
         pakkun->mUnk_0a4 = 0;
         pakkun->mUnk_0a8 = 0x1000;
@@ -340,7 +340,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             if (pakkun->mUnk_0a4 >= pakkun->mUnk_0b0) {
                 pakkun->mUnk_0a4 = pakkun->mUnk_0ac;
             }
-            if ((pakkun->mUnk_0a4 >> 12) == 10) {
+            if (FROM_FIXED12(pakkun->mUnk_0a4) == 10) {
                 StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
                 if ((pakkun->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {

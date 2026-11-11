@@ -219,9 +219,9 @@ void InitFireball2Objects(MapObjectList *mapObjectList) {
          mapObjectIndex++) {
         radiusSetting = fireball2->mMapObject.mCourseMapRow->mSettings[1];
         if (radiusSetting > 0) {
-            radius = 0.5f + (radiusSetting << 12);
+            radius = 0.5f + TO_FIXED12(radiusSetting);
         } else {
-            radius = (radiusSetting << 12) - 0.5f;
+            radius = TO_FIXED12(radiusSetting) - 0.5f;
         }
         fireball2->mRadius = radius;
         fireball2->mRowAnglePerFrame = (fireball2->mMapObject.mCourseMapRow->mSettings[2] * 0x16c) / 100;

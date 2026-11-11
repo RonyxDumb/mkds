@@ -16,7 +16,7 @@ static inline void CallbackFuncHandling_(const Unk02022030 *pAnimCtrl, u16 curre
 }
 
 static inline u32 ShouldAnmCtrlMoveNext_(Unk02022030 *pAnimCtrl) {
-    if (pAnimCtrl->mActive != 0 && pAnimCtrl->mCurrentTime >= (pAnimCtrl->mPCurrent->mFrames << 12)) {
+    if (pAnimCtrl->mActive != 0 && pAnimCtrl->mCurrentTime >= TO_FIXED12(pAnimCtrl->mPCurrent->mFrames)) {
         return 1;
     }
     return 0;
@@ -37,7 +37,7 @@ u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames) {
     currentTime = &pAnimCtrl->mCurrentTime;
     while (ShouldAnmCtrlMoveNext_(pAnimCtrl)) {
         changedFrame = 1;
-        *currentTime = *currentTime - (pAnimCtrl->mPCurrent->mFrames << 12);
+        *currentTime = *currentTime - TO_FIXED12(pAnimCtrl->mPCurrent->mFrames);
         if ((pAnimCtrl->mSpeed > 0) ^ pAnimCtrl->mReverse) {
             pAnimCtrl->mPCurrent++;
         } else {

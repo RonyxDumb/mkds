@@ -143,9 +143,9 @@ void StartHanachanFollowerMoveState(MissionRunMapObject *mapObject) {
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_088, mapObject->mPrm->mUnk_08c);
     frameOffset = mapObject->mPrm->mUnk_0d0 * mapObject->mUnk_0a8;
     if (frameOffset > 0) {
-        frameIndexValue = 0.5f + (frameOffset << 12);
+        frameIndexValue = 0.5f + TO_FIXED12(frameOffset);
     } else {
-        frameIndexValue = (frameOffset << 12) - 0.5f;
+        frameIndexValue = TO_FIXED12(frameOffset) - 0.5f;
     }
     modelAnimation = mapObject->mNsbmd->mAnimations[0];
     modelAnimation->mHead.mFrameIndex = frameIndexValue;

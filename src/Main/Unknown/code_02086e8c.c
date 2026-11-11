@@ -231,8 +231,8 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry) {
             texHeight = 0x400;
             break;
     }
-    texPlttEntry->mTexWidthFixed = texWidth << 12;
-    texPlttEntry->mTexHeightFixed = texHeight << 12;
+    texPlttEntry->mTexWidthFixed = TO_FIXED12(texWidth);
+    texPlttEntry->mTexHeightFixed = TO_FIXED12(texHeight);
 }
 
 u16 GetKartPaletteColor(int kartIndex) {

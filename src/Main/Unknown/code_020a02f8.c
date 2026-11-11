@@ -986,7 +986,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
         distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
         if (distanceSquared < (s64) halfRadius * halfRadius) {
             value = 2;
-        } else if (distanceSquared < (s64) (radius << 12) * (radius << 12)) {
+        } else if (distanceSquared < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
             value = 1;
         } else {
             value = 0;
@@ -1037,7 +1037,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
             value = mapObject->mDistanceVolumeFixed12 < mapObject->mSoundVolumeFixed12
                         ? mapObject->mDistanceVolumeFixed12
                         : mapObject->mSoundVolumeFixed12;
-            SetSndHandleTrackVolume(GetSndHandleSlot(8), value >> 12);
+            SetSndHandleTrackVolume(GetSndHandleSlot(8), FROM_FIXED12(value));
         }
     }
     if (mapObject->mSecondSoundId == 0) {
@@ -1056,7 +1056,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
     if (*GetSndHandleSlot(9) == NULL) {
         return;
     }
-    SetSndHandleTrackVolume(GetSndHandleSlot(9), mapObject->mDistanceVolumeFixed12 >> 12);
+    SetSndHandleTrackVolume(GetSndHandleSlot(9), FROM_FIXED12(mapObject->mDistanceVolumeFixed12));
 }
 
 void *CreateDistanceSoundUpdateList(void) {

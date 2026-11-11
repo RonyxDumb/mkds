@@ -137,12 +137,12 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
             if (posX > 0xff) {
                 posX = posX | 0xff00;
             }
-            oamOffset[0] = posX << 12;
+            oamOffset[0] = TO_FIXED12(posX);
             posY = *(u32 *) dstOam & 0xff;
             if (posY > 0x7f) {
                 posY = posY | 0xff00;
             }
-            oamOffset[1] = posY << 12;
+            oamOffset[1] = TO_FIXED12(posY);
             if (pMtxSR != 0) {
                 attr = *(u32 *) dstOam;
                 if (G2_GetOBJEffect(attr) == 0x300) {
@@ -167,12 +167,12 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
                 halfWidth = data_021530d0[shape][size] >> 1;
                 halfHeight = data_021530b8[shape][size] >> 1;
                 oamOffset[0] +=
-                    pMtxSR->mUnk_00[0] * halfWidth + (s32) - (halfWidth << 12) + pMtxSR->mUnk_00[2] * halfHeight;
+                    pMtxSR->mUnk_00[0] * halfWidth + (s32) -TO_FIXED12(halfWidth) + pMtxSR->mUnk_00[2] * halfHeight;
                 oamOffset[1] +=
-                    pMtxSR->mUnk_00[1] * halfWidth + (s32) - (halfHeight << 12) + pMtxSR->mUnk_00[3] * halfHeight;
+                    pMtxSR->mUnk_00[1] * halfWidth + (s32) -TO_FIXED12(halfHeight) + pMtxSR->mUnk_00[3] * halfHeight;
                 if (shouldAdjust != 0) {
-                    oamOffset[0] -= halfWidth << 12;
-                    oamOffset[1] -= halfHeight << 12;
+                    oamOffset[0] -= TO_FIXED12(halfWidth);
+                    oamOffset[1] -= TO_FIXED12(halfHeight);
                 }
             }
             if (pBaseTrans != 0) {
@@ -180,7 +180,7 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
                 oamOffset[1] += pBaseTrans[1];
             }
             *(u32 *) dstOam = (*(u32 *) dstOam & 0xfe00ff00) | (((oamOffset[1] + 0x800) >> 12) & 0xff) |
-                              ((((oamOffset[0] + 0x800) >> 12) & 0x1ff) << 16);
+                              ((FROM_FIXED12(oamOffset[0] + 0x800) & 0x1ff) << 16);
         }
     }
     return numDstOam;

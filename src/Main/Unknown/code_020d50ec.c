@@ -269,16 +269,16 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     rock->mStartScale = rock->mMapObject.mScale.y;
     rowValue = courseRow->mSettings[3];
     if (rowValue > 0) {
-        scaledValue = 0.5f + (rowValue << 12);
+        scaledValue = 0.5f + TO_FIXED12(rowValue);
     } else {
-        scaledValue = (rowValue << 12) - 0.5f;
+        scaledValue = TO_FIXED12(rowValue) - 0.5f;
     }
     rock->mScalePerFrame = (s32) scaledValue / 60000;
     rowValue = courseRow->mSettings[4];
     if (rowValue > 0) {
-        scaledValue = 0.5f + (rowValue << 12);
+        scaledValue = 0.5f + TO_FIXED12(rowValue);
     } else {
-        scaledValue = (rowValue << 12) - 0.5f;
+        scaledValue = TO_FIXED12(rowValue) - 0.5f;
     }
     rock->mScaleLimit = (s32) scaledValue / 1000 + 0x1000;
     ResetRock(rock);
@@ -292,7 +292,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
         rock->mMapObject.mFlags &= ~8;
         rock->mMapObject.mAlpha = 0x1f;
     }
-    rock->mBounceRatio = (courseRow->mSettings[2] << 12) / 100;
+    rock->mBounceRatio = TO_FIXED12(courseRow->mSettings[2]) / 100;
     if (rock->mMapObject.mKind == 0x192) {
         CreateMapObjectSoundSourceFalloff4(&rock->mMapObject);
     } else {

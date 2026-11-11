@@ -253,7 +253,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
         recordState->mPosOffsetIndex = 0;
     }
     if (forward != NULL) {
-        kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(forward->x, forward->z), 0x28be60dLL) >> 12;
+        kart->mHeadingAngle = FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(forward->x, forward->z), 0x28be60dLL));
         axis = data_02165524;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     }
@@ -969,7 +969,7 @@ void AdvanceKartOffsetCycle(Kart *kart) {
         kart->mOffsetCyclePhase = value;
     }
     fraction = kart->mOffsetCyclePhase & 0xfff;
-    tableIndex = kart->mOffsetCyclePhase >> 12;
+    tableIndex = FROM_FIXED12(kart->mOffsetCyclePhase);
     nextTableIndex = tableIndex + 1;
     if (nextTableIndex >= 8) {
         nextTableIndex = 0;
@@ -1314,7 +1314,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         kart->mUnk_48 &= ~0x10000;
         AdvanceKartQuaternionBlendFactor(kart, &kart->mGroundNormal);
         kart->mUnk_48 &= ~KART_48_INPUT_LOCKED;
-        kart->mAirTiltAngleOffset = (s16) (MUL_FIXED12_NO_ROUND(placementAngles.x, 0x4000) >> 12) + 0x32;
+        kart->mAirTiltAngleOffset = (s16) FROM_FIXED12(MUL_FIXED12_NO_ROUND(placementAngles.x, 0x4000)) + 0x32;
         if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
             NNS_SndPlayerStopSeq(GetSndHandleSlot(7), 0x14);
         }
@@ -1326,7 +1326,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         flatForward.y = 0;
         kart->mQuaternionBlendFactor = 0x1000;
         NormalizeLengthOrZero(&flatForward, &flatForward);
-        kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d) >> 12;
+        kart->mHeadingAngle = FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d));
         axis = data_02165524;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         Vec3CrossUnrounded(&gKartVec3UnitY, &kart->mTurnedForward, &sideVector);
@@ -1393,7 +1393,8 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     kart->mForwardSpeed = 0x5000;
     kart->mTurnedForward = placementForward;
     kart->mEasedTurnedForward = kart->mTurnedForward;
-    kart->mHeadingAngle = MUL_FIXED12_NO_ROUND(FX_Atan2(placementForward.x, placementForward.z), 0x28be60dLL) >> 12;
+    kart->mHeadingAngle =
+        FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(placementForward.x, placementForward.z), 0x28be60dLL));
     axis = data_02165524;
     QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {

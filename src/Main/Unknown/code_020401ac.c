@@ -100,7 +100,7 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     }
     scoreTerms->mFirstPlaceScore =
         (rankTimeGpFile->mFirstPlaceWeight *
-         FX_Div(raceProgressKart->mFirstPlaceFrames << 12, gRaceProgress->mHeader.mRankTime << 12)) >>
+         FX_Div(TO_FIXED12(raceProgressKart->mFirstPlaceFrames), TO_FIXED12(gRaceProgress->mHeader.mRankTime))) >>
         12;
     if (entryKartCounters->mRaceStartBoosted != 0) {
         scoreTerms->mRaceStartBoostScore = rankTimeGpFile->mRaceStartBoostPoints;
@@ -110,7 +110,7 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     scoreTerms->mMiniTurboScore = rankTimeGpFile->mMiniTurboPoints * entryKartCounters->mMiniTurboCount;
     scoreTerms->mItemHitScore = rankTimeGpFile->mItemHitPoints * entryKartCounters->mItemHitCount;
     scoreTerms->mSurfaceScore =
-        -((u32) (entryKartCounters->mSurfaceCount * FX_Inv(rankTimeGpFile->mSurfaceDivisor << 12)) >> 12);
+        -((u32) (entryKartCounters->mSurfaceCount * FX_Inv(TO_FIXED12(rankTimeGpFile->mSurfaceDivisor))) >> 12);
     scoreTerms->mCourseContactScore = entryKartCounters->mCourseContactCount * -rankTimeGpFile->mCourseContactPoints;
     scoreTerms->mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -rankTimeGpFile->mMapObjectHitPoints;
     scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mRespawnPoints;
@@ -237,7 +237,7 @@ static inline void RaceProgressInitRandomState(RandomState64 *randomState64, u32
 }
 
 static inline s32 Fixed12AddOneThenDivideByIntOrZero(s32 value, s32 divisor) {
-    return divisor == 0 ? 0 : FX_Div(value + 0x1000, divisor << 12);
+    return divisor == 0 ? 0 : FX_Div(value + 0x1000, TO_FIXED12(divisor));
 }
 
 static inline u32 RaceProgressNextRandomBelow(RandomState64 *randomState64, u32 limit) {
@@ -354,8 +354,8 @@ void InitRaceProgress(void) {
         ShuffleCourseMapRespawnSlots(&gRaceProgress->mRandom);
     }
     gRaceProgress->mCameraChainEnded = 0;
-    gRaceProgress->mLapProgressScale = FX_Inv((gCourseMap->mLapProgressBaseMax + 1) << 12);
-    gRaceProgress->mRaceProgressScale = FX_Inv(GetLapCount() << 12);
+    gRaceProgress->mLapProgressScale = FX_Inv(TO_FIXED12(gCourseMap->mLapProgressBaseMax + 1));
+    gRaceProgress->mRaceProgressScale = FX_Inv(TO_FIXED12(GetLapCount()));
     for (index = 0; index < gCourseMap->mNumberedCheckpointCount + 1; index++) {
         checkpointNumber = index % (gCourseMap->mNumberedCheckpointCount + 1);
         if (checkpointNumber == gCourseMap->mNumberedCheckpointCount) {
@@ -367,9 +367,9 @@ void InitRaceProgress(void) {
                     checkpointIndex = entryInRoute + route->mFirstEntry;
                     checkpoint = &gCourseMap->mCheckpoints[checkpointIndex];
                     if (checkpoint->mNumber == checkpointNumber) {
-                        value = Fixed12AddOneThenDivideByIntOrZero((checkpointIndex - route->mFirstEntry) << 12,
+                        value = Fixed12AddOneThenDivideByIntOrZero(TO_FIXED12(checkpointIndex - route->mFirstEntry),
                                                                    route->mEntryCount);
-                        value += route->mLapProgressBase << 12;
+                        value += TO_FIXED12(route->mLapProgressBase);
                         gRaceProgress->mCheckpointLapProgress[index] =
                             MUL_FIXED12_ROUNDED(value, gRaceProgress->mLapProgressScale);
                     }

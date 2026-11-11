@@ -87,11 +87,11 @@ void AdvancePaletteBlend(void) {
     }
     cycleFrames = gPaletteBlend->mCycleFrames;
     if (cycleFrames < 0x1e) {
-        BlendPaletteColors(((0x1e - cycleFrames) << 12) / 0x1e);
+        BlendPaletteColors(TO_FIXED12(0x1e - cycleFrames) / 0x1e);
     } else if (cycleFrames < 0x3c) {
         BlendPaletteColors(0);
     } else {
-        BlendPaletteColors(((cycleFrames - 0x3c) << 12) / 0x1e);
+        BlendPaletteColors(TO_FIXED12(cycleFrames - 0x3c) / 0x1e);
     }
 }
 
@@ -169,7 +169,7 @@ void AdvanceStaffRollTextState1(void) {
     s32 bgPositionY;
     StaffRollTag *tag;
     gStaffRollText->mScrollYFixed += gStaffRollText->mScrollYPerFrame;
-    bgPositionY = (gStaffRollText->mScrollYFixed >> 12) - 8;
+    bgPositionY = FROM_FIXED12(gStaffRollText->mScrollYFixed) - 8;
     if (bgPositionY < 0) {
         bgPositionY += 0x100;
     }
@@ -229,7 +229,7 @@ void AdvanceStaffRollTextState1(void) {
                         staffRollText->mCharSpacing = argument;
                         break;
                     case 4:
-                        staffRollText->mScrollYPerFrame = (argument << 12) / 100;
+                        staffRollText->mScrollYPerFrame = TO_FIXED12(argument) / 100;
                         break;
                     case 5:
                         break;
@@ -261,7 +261,7 @@ void AdvanceStaffRollTextState1(void) {
     NNSi_G2dTextCanvasDrawTextRect(&gStaffRollText->mTextCanvas, 8, value, 0xf0, 0x10, color,
                                    gStaffRollText->mAlignFlags, lineText);
     staffRollText = gStaffRollText;
-    bgPositionY = (((staffRollText->mScrollYFixed >> 12) % 256) + 0xc0) >> 3;
+    bgPositionY = ((FROM_FIXED12(staffRollText->mScrollYFixed) % 256) + 0xc0) >> 3;
     bgPositionY = bgPositionY << 3;
     if (bgPositionY >= 0x100) {
         bgPositionY -= 0x100;

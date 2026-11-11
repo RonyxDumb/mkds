@@ -340,17 +340,17 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
     ItemPointLink *nodeAlias = node;
 
     best = node;
-    deltaX = (linkPos->x - pos->x) >> 12;
-    deltaY = (linkPos->y - pos->y) >> 12;
-    deltaZ = (linkPos->z - pos->z) >> 12;
+    deltaX = FROM_FIXED12(linkPos->x - pos->x);
+    deltaY = FROM_FIXED12(linkPos->y - pos->y);
+    deltaZ = FROM_FIXED12(linkPos->z - pos->z);
     bestDist = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
     for (linkIndex = 0; linkIndex < nodeAlias->mNextCount; linkIndex++) {
         nextLink = node->mNextLinks[linkIndex];
         if (nextLink != NULL) {
             linkPos = nextLink->mPointPos;
-            deltaX = (linkPos->x - pos->x) >> 12;
-            deltaY = (linkPos->y - posAlias->y) >> 12;
-            deltaZ = (linkPos->z - posAlias->z) >> 12;
+            deltaX = FROM_FIXED12(linkPos->x - pos->x);
+            deltaY = FROM_FIXED12(linkPos->y - posAlias->y);
+            deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
             distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
             nextCount = nextLink->mNextCount;
             if (distanceSquared < bestDist) {
@@ -360,9 +360,9 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
             for (firstAroundIndex = 0; firstAroundIndex < nextCount; firstAroundIndex++) {
                 linkAroundNext = nextLink->mNextLinks[firstAroundIndex];
                 linkPos = linkAroundNext->mPointPos;
-                deltaX = (linkPos->x - pos->x) >> 12;
-                deltaY = (linkPos->y - posAlias->y) >> 12;
-                deltaZ = (linkPos->z - posAlias->z) >> 12;
+                deltaX = FROM_FIXED12(linkPos->x - pos->x);
+                deltaY = FROM_FIXED12(linkPos->y - posAlias->y);
+                deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
                 distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
                 if (distanceSquared < bestDist) {
                     bestDist = distanceSquared;
@@ -374,9 +374,9 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
                 linkAroundNext = nextLink->mPreviousLinks[secondAroundIndex];
                 if (linkAroundNext != node) {
                     linkPos = linkAroundNext->mPointPos;
-                    deltaX = (linkPos->x - pos->x) >> 12;
-                    deltaY = (linkPos->y - posAlias->y) >> 12;
-                    deltaZ = (linkPos->z - posAlias->z) >> 12;
+                    deltaX = FROM_FIXED12(linkPos->x - pos->x);
+                    deltaY = FROM_FIXED12(linkPos->y - posAlias->y);
+                    deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
                     distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
                     if (distanceSquared < bestDist) {
                         bestDist = distanceSquared;
@@ -390,9 +390,9 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
         previousLink = node->mPreviousLinks[linkIndex];
         if (previousLink != NULL) {
             previousLinkPos = previousLink->mPointPos;
-            deltaX = (previousLinkPos->x - pos->x) >> 12;
-            deltaY = (previousLinkPos->y - posAlias->y) >> 12;
-            deltaZ = (previousLinkPos->z - posAlias->z) >> 12;
+            deltaX = FROM_FIXED12(previousLinkPos->x - pos->x);
+            deltaY = FROM_FIXED12(previousLinkPos->y - posAlias->y);
+            deltaZ = FROM_FIXED12(previousLinkPos->z - posAlias->z);
             distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
             previousCount = previousLink->mPreviousCount;
             if (distanceSquared < bestDist) {
@@ -402,9 +402,9 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
             for (firstAroundIndex = 0; firstAroundIndex < previousCount; firstAroundIndex++) {
                 linkAroundPrevious = previousLink->mPreviousLinks[firstAroundIndex];
                 previousLinkPos = linkAroundPrevious->mPointPos;
-                deltaX = (previousLinkPos->x - pos->x) >> 12;
-                deltaY = (previousLinkPos->y - posAlias->y) >> 12;
-                deltaZ = (previousLinkPos->z - posAlias->z) >> 12;
+                deltaX = FROM_FIXED12(previousLinkPos->x - pos->x);
+                deltaY = FROM_FIXED12(previousLinkPos->y - posAlias->y);
+                deltaZ = FROM_FIXED12(previousLinkPos->z - posAlias->z);
                 distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
                 if (distanceSquared < bestDist) {
                     bestDist = distanceSquared;
@@ -416,9 +416,9 @@ BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out,
                 linkAroundPrevious = previousLink->mNextLinks[secondAroundIndex];
                 if (linkAroundPrevious != node) {
                     previousLinkPos = linkAroundPrevious->mPointPos;
-                    deltaX = (previousLinkPos->x - pos->x) >> 12;
-                    deltaY = (previousLinkPos->y - posAlias->y) >> 12;
-                    deltaZ = (previousLinkPos->z - posAlias->z) >> 12;
+                    deltaX = FROM_FIXED12(previousLinkPos->x - pos->x);
+                    deltaY = FROM_FIXED12(previousLinkPos->y - posAlias->y);
+                    deltaZ = FROM_FIXED12(previousLinkPos->z - posAlias->z);
                     distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
                     if (distanceSquared < bestDist) {
                         bestDist = distanceSquared;
@@ -437,12 +437,12 @@ BOOL CopyCloserItemPointLinkRef(ItemPointLinkRef *current, ItemPointLinkRef *can
                                 Vec3 *pos) {
     Vec3 *currentPos = current->mLink->mPointPos;
     Vec3 *candidatePos = candidate->mLink->mPointPos;
-    s32 currentDistanceSquared = ((currentPos->x - pos->x) >> 12) * ((currentPos->x - pos->x) >> 12) +
-                                 ((currentPos->y - pos->y) >> 12) * ((currentPos->y - pos->y) >> 12) +
-                                 ((currentPos->z - pos->z) >> 12) * ((currentPos->z - pos->z) >> 12);
-    s32 candidateDistanceSquared = ((candidatePos->x - pos->x) >> 12) * ((candidatePos->x - pos->x) >> 12) +
-                                   ((candidatePos->y - pos->y) >> 12) * ((candidatePos->y - pos->y) >> 12) +
-                                   ((candidatePos->z - pos->z) >> 12) * ((candidatePos->z - pos->z) >> 12);
+    s32 currentDistanceSquared = FROM_FIXED12(currentPos->x - pos->x) * FROM_FIXED12(currentPos->x - pos->x) +
+                                 FROM_FIXED12(currentPos->y - pos->y) * FROM_FIXED12(currentPos->y - pos->y) +
+                                 FROM_FIXED12(currentPos->z - pos->z) * FROM_FIXED12(currentPos->z - pos->z);
+    s32 candidateDistanceSquared = FROM_FIXED12(candidatePos->x - pos->x) * FROM_FIXED12(candidatePos->x - pos->x) +
+                                   FROM_FIXED12(candidatePos->y - pos->y) * FROM_FIXED12(candidatePos->y - pos->y) +
+                                   FROM_FIXED12(candidatePos->z - pos->z) * FROM_FIXED12(candidatePos->z - pos->z);
 
     if (candidateDistanceSquared < currentDistanceSquared) {
         *out = *candidate;
@@ -469,9 +469,9 @@ BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3
     s32 childIndex;
 
     linkPos = node->mPointPos;
-    deltaX = (linkPos->x - pos->x) >> 12;
-    deltaY = (linkPos->y - pos->y) >> 12;
-    deltaZ = (linkPos->z - pos->z) >> 12;
+    deltaX = FROM_FIXED12(linkPos->x - pos->x);
+    deltaY = FROM_FIXED12(linkPos->y - pos->y);
+    deltaZ = FROM_FIXED12(linkPos->z - pos->z);
     startDistanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
     stepsLeft = gCourseMap->mItemPointCount;
     posAlias = pos;
@@ -484,9 +484,9 @@ BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3
             child = current->mNextLinks[childIndex];
             if (child != NULL) {
                 linkPos = child->mPointPos;
-                deltaX = (linkPos->x - pos->x) >> 12;
-                deltaY = (linkPos->y - posAlias->y) >> 12;
-                deltaZ = (linkPos->z - posAlias->z) >> 12;
+                deltaX = FROM_FIXED12(linkPos->x - pos->x);
+                deltaY = FROM_FIXED12(linkPos->y - posAlias->y);
+                deltaZ = FROM_FIXED12(linkPos->z - posAlias->z);
                 distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
                 if (distanceSquared < bestDist) {
                     bestDist = distanceSquared;
@@ -555,12 +555,15 @@ void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx,
                     child = side != 0 ? node->mNextLinks[childIndex] : node->mPreviousLinks[childIndex];
                     if (child != NULL) {
                         childPos = child->mPointPos;
-                        distance = ((pos->x - origin->x) >> 12) * ((childPos->x - origin->x) >> 12);
-                        distance += ((pos->z - origin->z) >> 12) * ((childPos->z - origin->z) >> 12);
+                        distance = FROM_FIXED12(pos->x - origin->x) * FROM_FIXED12(childPos->x - origin->x);
+                        distance += FROM_FIXED12(pos->z - origin->z) * FROM_FIXED12(childPos->z - origin->z);
                         if (distance > 0) {
-                            distance = ((child->mPointPos->x - pos->x) >> 12) * ((child->mPointPos->x - pos->x) >> 12);
-                            distance += ((child->mPointPos->y - pos->y) >> 12) * ((child->mPointPos->y - pos->y) >> 12);
-                            distance += ((child->mPointPos->z - pos->z) >> 12) * ((child->mPointPos->z - pos->z) >> 12);
+                            distance =
+                                FROM_FIXED12(child->mPointPos->x - pos->x) * FROM_FIXED12(child->mPointPos->x - pos->x);
+                            distance +=
+                                FROM_FIXED12(child->mPointPos->y - pos->y) * FROM_FIXED12(child->mPointPos->y - pos->y);
+                            distance +=
+                                FROM_FIXED12(child->mPointPos->z - pos->z) * FROM_FIXED12(child->mPointPos->z - pos->z);
                             if (distance < bestDistanceSquared) {
                                 bestDistanceSquared = distance;
                                 cur = child;
@@ -580,12 +583,15 @@ void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx,
                 if (child != NULL && child != node) {
                     if (found != FALSE) {
                         childPos = child->mPointPos;
-                        distance = ((pos->x - origin->x) >> 12) * ((childPos->x - origin->x) >> 12);
-                        distance += ((pos->z - origin->z) >> 12) * ((childPos->z - origin->z) >> 12);
+                        distance = FROM_FIXED12(pos->x - origin->x) * FROM_FIXED12(childPos->x - origin->x);
+                        distance += FROM_FIXED12(pos->z - origin->z) * FROM_FIXED12(childPos->z - origin->z);
                         if (distance > 0) {
-                            distance = ((child->mPointPos->x - pos->x) >> 12) * ((child->mPointPos->x - pos->x) >> 12);
-                            distance += ((child->mPointPos->y - pos->y) >> 12) * ((child->mPointPos->y - pos->y) >> 12);
-                            distance += ((child->mPointPos->z - pos->z) >> 12) * ((child->mPointPos->z - pos->z) >> 12);
+                            distance =
+                                FROM_FIXED12(child->mPointPos->x - pos->x) * FROM_FIXED12(child->mPointPos->x - pos->x);
+                            distance +=
+                                FROM_FIXED12(child->mPointPos->y - pos->y) * FROM_FIXED12(child->mPointPos->y - pos->y);
+                            distance +=
+                                FROM_FIXED12(child->mPointPos->z - pos->z) * FROM_FIXED12(child->mPointPos->z - pos->z);
                             if (distance < bestDistanceSquared) {
                                 bestDistanceSquared = distance;
                                 bestSecondLink = child;

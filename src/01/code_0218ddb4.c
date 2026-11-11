@@ -274,12 +274,11 @@ s32 AdvanceKingTeresaWaitToApproach(MissionRunMapObject *mapObject) {
     }
     mapObject->mAlphaLimitPerCall = mapObject->mPrm->mUnk_09c;
     if (mapObject->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > 0) {
-        scaledTimerGap =
-            0.5f +
-            ((mapObject->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12);
+        scaledTimerGap = 0.5f + TO_FIXED12(mapObject->mPrm->mUnk_1cc -
+                                           (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0));
     } else {
         scaledTimerGap =
-            ((mapObject->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12) -
+            TO_FIXED12(mapObject->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) -
             0.5f;
     }
     mapObject->mAlphaLimitTarget = (s32) scaledTimerGap / mapObject->mPrm->mUnk_1d4;

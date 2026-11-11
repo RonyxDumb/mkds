@@ -212,7 +212,7 @@ static inline u8 *CopyItemFlagsHalfword(u8 *cursor, u32 *valueSlot, void *toData
             halfword = *(u16 *) cursor;
         }
         if (toData == NULL) {
-            *valueSlot = halfword << 12;
+            *valueSlot = TO_FIXED12(halfword);
         }
         return cursor + 2;
     }

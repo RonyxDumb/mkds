@@ -97,7 +97,7 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
             mkdEfBurner->mFollower.mGroupIndex = 0xffff;
         } else {
             InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mMapObject.mCourseMapRow, followerSpeed);
-            speed = (mkdEfBurner->mMapObject.mCourseMapRow->mSettings[3] << 12) / 100;
+            speed = TO_FIXED12(mkdEfBurner->mMapObject.mCourseMapRow->mSettings[3]) / 100;
             mkdEfBurner->mFollower.mSpeed = speed;
             mkdEfBurner->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 speed,

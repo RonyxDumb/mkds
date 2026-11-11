@@ -254,7 +254,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
         }
         sun->mNsbcaFrameIndexPerFrame = value;
     }
-    sun->mNsbcaFrameIndex += sun->mNsbcaFrameIndexPerFrame >> 12;
+    sun->mNsbcaFrameIndex += FROM_FIXED12(sun->mNsbcaFrameIndexPerFrame);
     if (sun->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gSun)) {
         sun->mNsbcaFrameIndex = 0;
     }

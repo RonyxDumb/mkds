@@ -379,8 +379,8 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     distance = -distance;
                 }
                 if (distance < 0x14000) {
-                    deltaX = (forwardBattlePoint->mPos.x - GetKartStandingPos(shine16->mHitByKartIndex)->x) >> 12;
-                    deltaZ = (forwardBattlePoint->mPos.z - GetKartStandingPos(shine16->mHitByKartIndex)->z) >> 12;
+                    deltaX = FROM_FIXED12(forwardBattlePoint->mPos.x - GetKartStandingPos(shine16->mHitByKartIndex)->x);
+                    deltaZ = FROM_FIXED12(forwardBattlePoint->mPos.z - GetKartStandingPos(shine16->mHitByKartIndex)->z);
                     distance = deltaX * deltaX + deltaZ * deltaZ;
                     if (shine16->mHitByKartIndex == shine16->mKartIndex) {
                         if (distance < 0x9c400 && distance > shine16->mTargetDistanceSquared) {

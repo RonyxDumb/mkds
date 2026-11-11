@@ -78,16 +78,16 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
     if (prevPosition != NULL) {
         prevPositionCopy = *prevPosition;
     }
-    cellX = (positionCopy.x - courseCollision->mOriginX) >> 12;
+    cellX = FROM_FIXED12(positionCopy.x - courseCollision->mOriginX);
     radiusSquared = (s64) radius * radius;
     if (cellX & courseCollision->mOutsideMaskX) {
         return FALSE;
     }
-    cellY = (positionCopy.y - courseCollision->mOriginY) >> 12;
+    cellY = FROM_FIXED12(positionCopy.y - courseCollision->mOriginY);
     if (cellY & courseCollision->mOutsideMaskY) {
         return FALSE;
     }
-    cellZ = (positionCopy.z - courseCollision->mOriginZ) >> 12;
+    cellZ = FROM_FIXED12(positionCopy.z - courseCollision->mOriginZ);
     if (cellZ & courseCollision->mOutsideMaskZ) {
         return FALSE;
     }

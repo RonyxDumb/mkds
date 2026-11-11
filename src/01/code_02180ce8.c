@@ -202,16 +202,16 @@ s32 SetEmblemGridLine(s32 lineX, s32 lineY, s32 endX, s32 endY, s32 value) {
     u8 *cellPtr;
 
     changed = FALSE;
-    if ((endX >> 12) > (lineX >> 12)) {
+    if (FROM_FIXED12(endX) > FROM_FIXED12(lineX)) {
         dx = endX - lineX;
-    } else if ((lineX >> 12) > (endX >> 12)) {
+    } else if (FROM_FIXED12(lineX) > FROM_FIXED12(endX)) {
         dx = lineX - endX;
     } else {
         dx = 0;
     }
-    if ((endY >> 12) > (lineY >> 12)) {
+    if (FROM_FIXED12(endY) > FROM_FIXED12(lineY)) {
         dy = endY - lineY;
-    } else if ((lineY >> 12) > (endY >> 12)) {
+    } else if (FROM_FIXED12(lineY) > FROM_FIXED12(endY)) {
         dy = lineY - endY;
     } else {
         dy = 0;
@@ -235,19 +235,19 @@ s32 SetEmblemGridLine(s32 lineX, s32 lineY, s32 endX, s32 endY, s32 value) {
         stepY = -0x1000;
     }
     if (dx > dy) {
-        stepCount = dx >> 12;
+        stepCount = FROM_FIXED12(dx);
     } else {
-        stepCount = dy >> 12;
+        stepCount = FROM_FIXED12(dy);
     }
     for (stepIndex = 0; stepIndex <= stepCount; stepIndex++, lineX += stepX, lineY += stepY) {
-        cellPtr = GetEmblemGridCellPtr(lineX >> 12, lineY >> 12);
+        cellPtr = GetEmblemGridCellPtr(FROM_FIXED12(lineX), FROM_FIXED12(lineY));
         if (cellPtr != NULL && *cellPtr != value) {
             changed = TRUE;
             CopyEmblemGridCellsOnFirstChange();
             *cellPtr = value;
         }
     }
-    cellPtr = GetEmblemGridCellPtr(endX >> 12, endY >> 12);
+    cellPtr = GetEmblemGridCellPtr(FROM_FIXED12(endX), FROM_FIXED12(endY));
     if (cellPtr != NULL && *cellPtr != value) {
         changed = TRUE;
         CopyEmblemGridCellsOnFirstChange();
