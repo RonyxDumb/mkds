@@ -67,7 +67,7 @@ void CreateJb3List(void) {
     record = GetApWorkCopy();
     jb3List = AllocZeroedExpHeapBlock(0x48, 4);
     gJb3List = jb3List;
-    jb3List->mUnk_43 = record->mDnsNone;
+    jb3List->mDnsNoneCopy = record->mDnsNone;
     gJb3List->mReturnId = 0xc;
     ResetJb3ListScrollAndSelection();
     LoadJb3ListFilesAndSetBgCnt();
@@ -79,18 +79,18 @@ void CreateJb3List(void) {
     CreateObjectsForMenuPair(1);
     LoadHlListScr();
     CreateScrollBar(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
-    gJb3List->mUnk_14 = InitBgTextCanvas(0, 1);
+    gJb3List->mBgTextCanvas = InitBgTextCanvas(0, 1);
     for (i = 0; i < 7; i++) {
-        gJb3List->mUnk_18[i] = CreateOamEntryFromNceImage(0, gJb3ListCellImageIds[0][1]);
+        gJb3List->mCellOamEntries[i] = CreateOamEntryFromNceImage(0, gJb3ListCellImageIds[0][1]);
     }
     switch (record->mEntry.mSetType) {
         case 1:
-            gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x50);
-            gJb3List->mUnk_34->mAttr2 = (gJb3List->mUnk_34->mAttr2 & ~0xc00) | 0xc00;
+            gJb3List->mSetTypeOamEntry = CreateOamEntryFromNceImage(0, 0x50);
+            gJb3List->mSetTypeOamEntry->mAttr2 = (gJb3List->mSetTypeOamEntry->mAttr2 & ~0xc00) | 0xc00;
             break;
         case 2:
-            gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x51);
-            gJb3List->mUnk_34->mAttr2 = (gJb3List->mUnk_34->mAttr2 & ~0xc00) | 0xc00;
+            gJb3List->mSetTypeOamEntry = CreateOamEntryFromNceImage(0, 0x51);
+            gJb3List->mSetTypeOamEntry->mAttr2 = (gJb3List->mSetTypeOamEntry->mAttr2 & ~0xc00) | 0xc00;
             break;
     }
     gJb3List->mBgOffsetTask = AddTask(1, WriteJb3ListBgOffset, NULL, 0x6e);
@@ -162,7 +162,7 @@ void UpdateJb3ListInput(void) {
     if (jb3List->mScrollTask != 0) {
         return;
     }
-    if (jb3List->mUnk_45 != 0) {
+    if (jb3List->mScrollBarDragging != 0) {
         return;
     }
     if (UpdateJb3ListHit() != 0) {
@@ -174,17 +174,17 @@ void UpdateJb3ListInput(void) {
     }
     if (AreKeysPressed(2) != 0) {
         StartSoundSeq(7);
-        gJb3List->mUnk_40 = 0xd;
+        gJb3List->mChosenId = 0xd;
         SetUpdateFunction(StartJb3ListClose);
         return;
     }
     if (AreKeysPressedOrRepeated(0x200) != 0) {
         if (gJb3ListScrollY == 0x91) {
-            if (gJb3List->mUnk_47 != 0) {
+            if (gJb3List->mKeyLimitSoundPlayed != 0) {
                 return;
             }
             StartSoundSeq(9);
-            gJb3List->mUnk_47 = 1;
+            gJb3List->mKeyLimitSoundPlayed = 1;
             return;
         }
         StartSoundSeq(0x13);
@@ -192,16 +192,16 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x200) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->mKeyLimitSoundPlayed = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x100) != 0) {
         if (gJb3ListScrollY == 0) {
-            if (gJb3List->mUnk_47 != 0) {
+            if (gJb3List->mKeyLimitSoundPlayed != 0) {
                 return;
             }
             StartSoundSeq(9);
-            gJb3List->mUnk_47 = 1;
+            gJb3List->mKeyLimitSoundPlayed = 1;
             return;
         }
         StartSoundSeq(0x13);
@@ -209,7 +209,7 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x100) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->mKeyLimitSoundPlayed = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x40) != 0) {
@@ -217,7 +217,7 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x40) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->mKeyLimitSoundPlayed = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x80) != 0) {
@@ -225,7 +225,7 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x80) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->mKeyLimitSoundPlayed = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x20) != 0) {
@@ -279,7 +279,7 @@ void StartJb3ListIdAction(u32 listId) {
             SetJb3ListDnsNone(((listId - 7) ^ 1) != 0);
             return;
     }
-    gJb3List->mUnk_40 = listId;
+    gJb3List->mChosenId = listId;
     if (listId - 0xb <= 1) {
         RequestJb3ListPaletteRowCopy();
         if (IsJb3ListRecordValid() == 0) {
@@ -311,13 +311,13 @@ void SetJb3ListIpNone(u32 newValue) {
     record = GetApWorkCopy();
     if (record->mIpNone != newValue) {
         if (newValue != 0) {
-            if (gJb3List->mUnk_43 != 0) {
+            if (gJb3List->mDnsNoneCopy != 0) {
                 otherValue = TRUE;
             } else {
                 otherValue = FALSE;
             }
         } else {
-            gJb3List->mUnk_43 = record->mDnsNone;
+            gJb3List->mDnsNoneCopy = record->mDnsNone;
             otherValue = FALSE;
         }
         SetApWorkIpNone(newValue);
@@ -330,7 +330,7 @@ void SetJb3ListDnsNone(u32 newValue) {
     ApWorkCopy *record;
     record = GetApWorkCopy();
     if (record->mDnsNone != newValue) {
-        gJb3List->mUnk_43 = (s8) newValue;
+        gJb3List->mDnsNoneCopy = (s8) newValue;
         SetApWorkDnsNone(newValue);
         RefreshJb3List();
     }
@@ -346,7 +346,7 @@ void UpdateJb3ListScrollInput(void) {
         }
         switch (GetScrollBarEvent()) {
             case 1:
-                gJb3List->mUnk_45 = 1;
+                gJb3List->mScrollBarDragging = 1;
                 break;
             case 2:
                 if (gJb3List->mScrollTimer != 0) {
@@ -358,7 +358,7 @@ void UpdateJb3ListScrollInput(void) {
                 gJb3List->mScrollTimer = 4;
                 break;
             case 3:
-                gJb3List->mUnk_45 = 0;
+                gJb3List->mScrollBarDragging = 0;
                 gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, 0x37);
                 StartSoundSeq(0x13);
                 RefreshJb3List();
@@ -375,11 +375,11 @@ void UpdateJb3ListScrollInput(void) {
                 break;
             case 4:
                 if (gJb3ListScrollY == 0) {
-                    if (gJb3List->mUnk_46 != 0) {
+                    if (gJb3List->mScrollBarLimitSoundPlayed != 0) {
                         return;
                     }
                     StartSoundSeq(9);
-                    gJb3List->mUnk_46 = 1;
+                    gJb3List->mScrollBarLimitSoundPlayed = 1;
                 } else {
                     StartSoundSeq(0x13);
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYDecrease, NULL, 0x78);
@@ -387,11 +387,11 @@ void UpdateJb3ListScrollInput(void) {
                 break;
             case 6:
                 if (gJb3ListScrollY == 0x91) {
-                    if (gJb3List->mUnk_46 != 0) {
+                    if (gJb3List->mScrollBarLimitSoundPlayed != 0) {
                         return;
                     }
                     StartSoundSeq(9);
-                    gJb3List->mUnk_46 = 1;
+                    gJb3List->mScrollBarLimitSoundPlayed = 1;
                 } else {
                     StartSoundSeq(0x13);
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYIncrease, NULL, 0x78);
@@ -399,7 +399,7 @@ void UpdateJb3ListScrollInput(void) {
                 break;
             case 5:
             case 7:
-                gJb3List->mUnk_46 = 0;
+                gJb3List->mScrollBarLimitSoundPlayed = 0;
                 break;
         }
     }
@@ -439,15 +439,15 @@ void UpdateJb3ListRelease(void) {
     RemoveTaskEntryWrapper(0, gJb3List->mIdTimerTask);
     RemoveTaskEntryWrapper(1, gJb3List->mBgOffsetTask);
     for (i = 0; i < 7; i++) {
-        DeleteOamEntry((u32 *) gJb3List->mUnk_18[i]);
+        DeleteOamEntry((u32 *) gJb3List->mCellOamEntries[i]);
     }
-    if (gJb3List->mUnk_34 != NULL) {
-        DeleteOamEntry((u32 *) gJb3List->mUnk_34);
+    if (gJb3List->mSetTypeOamEntry != NULL) {
+        DeleteOamEntry((u32 *) gJb3List->mSetTypeOamEntry);
     }
     ReleaseScrollBar();
     ReleaseBgTextCanvasOfScreen(0);
     ReleaseSelectionObjectSlots();
-    if (gJb3List->mUnk_40 != 0xc) {
+    if (gJb3List->mChosenId != 0xc) {
         HideSubScreenMessage();
     }
     ReleaseBg2ScrBuffer();
@@ -461,7 +461,7 @@ void UpdateJb3ListRelease(void) {
     reg_G2_BG0OFS = 0;
     reg_G2_BG2OFS = 0;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0xe10;
-    chosenId = gJb3List->mUnk_40;
+    chosenId = gJb3List->mChosenId;
     switch (chosenId) {
         case 0:
         case 1:
@@ -521,7 +521,7 @@ void RefreshJb3List(void) {
     int i;
     int entryIndex;
     firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
-    ClearBgTextCanvas(gJb3List->mUnk_14, 0);
+    ClearBgTextCanvas(gJb3List->mBgTextCanvas, 0);
     for (i = 0, entryIndex = firstEntryIndex; i < 5; i++, entryIndex++) {
         PrintJb3ListEntryText(entryIndex, i);
     }
@@ -530,7 +530,7 @@ void RefreshJb3List(void) {
         SetupJb3ListEntryCells(firstEntryIndex, i);
     }
     RequestBg2ScrUpload();
-    RequestBgTextCanvasUpload(gJb3List->mUnk_14);
+    RequestBgTextCanvasUpload(gJb3List->mBgTextCanvas);
     RefreshJb3ListRowPositions();
 }
 
@@ -720,12 +720,12 @@ void SetupJb3ListCell(int cellKind, int cellState, int row) {
     secondXPosition = gJb3ListLeftButtonRect.mX;
     cellXPositions[3] = secondXPosition;
     cellXPositions[4] = secondXPosition;
-    entryPointer = &gJb3List->mUnk_18[row];
+    entryPointer = &gJb3List->mCellOamEntries[row];
     if ((u32) (cellKind - 1) <= 1) {
         if (GetJb3ListEntryIndexOfRow(row) == 2) {
-            entryPointer = &gJb3List->mUnk_18[5];
+            entryPointer = &gJb3List->mCellOamEntries[5];
         } else {
-            entryPointer = &gJb3List->mUnk_18[6];
+            entryPointer = &gJb3List->mCellOamEntries[6];
         }
     }
     if (gJb3ListCellImageIds[cellKind][cellState] != 0) {
@@ -765,7 +765,7 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
     if (length <= 0x10) {
         yPosition += 5;
     }
-    DrawCharsCentered(gJb3List->mUnk_14, 0x48, yPosition, 2, 8, text, 1);
+    DrawCharsCentered(gJb3List->mBgTextCanvas, 0x48, yPosition, 2, 8, text, 1);
     if (length > 0x10) {
         MI_CpuFill8(text, 0, 0x22);
         secondLineLength = length - 0x10;
@@ -777,14 +777,14 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
                 text[i] = character;
             }
         }
-        DrawCharsCentered(gJb3List->mUnk_14, 0x48, yPosition + 0xc, 2, 8, text, 1);
+        DrawCharsCentered(gJb3List->mBgTextCanvas, 0x48, yPosition + 0xc, 2, 8, text, 1);
     }
 }
 
 void PrintJb3ListEntryBytes(const u8 *bytes, int row) {
     u16 text[16];
     swprintf(text, 0x10, gDotSeparatedBytesFormat, bytes[0], bytes[1], bytes[2], bytes[3]);
-    DrawCharsCentered(gJb3List->mUnk_14, 0x5f, row * 0x1d + 8, 2, 7, text, 1);
+    DrawCharsCentered(gJb3List->mBgTextCanvas, 0x5f, row * 0x1d + 8, 2, 7, text, 1);
 }
 
 void RefreshJb3ListRowPositions(void) {
@@ -797,35 +797,35 @@ void RefreshJb3ListRowPositions(void) {
     u32 yPosition;
     firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
     firstRowY = 0x34 - FX_ModS32(gJb3ListScrollY, 0x1d);
-    if (gJb3List->mUnk_34 != NULL) {
+    if (gJb3List->mSetTypeOamEntry != NULL) {
         if (firstEntryIndex == 0) {
             xPosition = 0x26;
         } else {
             xPosition = 0x100;
         }
-        gJb3List->mUnk_34->mAttr01 =
-            ((xPosition & 0x1ff) << 16) | ((gJb3List->mUnk_34->mAttr01 & 0xfe00ff00) | (firstRowY & 0xff));
+        gJb3List->mSetTypeOamEntry->mAttr01 =
+            ((xPosition & 0x1ff) << 16) | ((gJb3List->mSetTypeOamEntry->mAttr01 & 0xfe00ff00) | (firstRowY & 0xff));
     }
     for (i = 0, rowY = firstRowY; i < 5; i++, rowY += 0x1d) {
-        Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[i], (u32 *) &xPosition, &yPosition);
-        oamEntry = gJb3List->mUnk_18[i];
+        Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[i], (u32 *) &xPosition, &yPosition);
+        oamEntry = gJb3List->mCellOamEntries[i];
         oamEntry->mAttr01 = ((xPosition & 0x1ff) << 16) | ((oamEntry->mAttr01 & 0xfe00ff00) | (rowY & 0xff));
     }
     if (firstEntryIndex <= 2) {
-        Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[5], &xPosition, (u32 *) &yPosition);
-        gJb3List->mUnk_18[5]->mAttr01 =
-            ((xPosition & 0x1ff) << 16) |
-            ((gJb3List->mUnk_18[5]->mAttr01 & 0xfe00ff00) | ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
+        Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[5], &xPosition, (u32 *) &yPosition);
+        gJb3List->mCellOamEntries[5]->mAttr01 =
+            ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[5]->mAttr01 & 0xfe00ff00) |
+                                           ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
-        gJb3List->mUnk_18[5]->mAttr01 = (gJb3List->mUnk_18[5]->mAttr01 & 0xfe00ff00) | 0x1000000;
+        gJb3List->mCellOamEntries[5]->mAttr01 = (gJb3List->mCellOamEntries[5]->mAttr01 & 0xfe00ff00) | 0x1000000;
     }
     if (firstEntryIndex >= 2 && firstEntryIndex <= 6) {
-        Jb3ListG2_GetOBJPosition(gJb3List->mUnk_18[6], &xPosition, (u32 *) &yPosition);
-        gJb3List->mUnk_18[6]->mAttr01 =
-            ((xPosition & 0x1ff) << 16) |
-            ((gJb3List->mUnk_18[6]->mAttr01 & 0xfe00ff00) | ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));
+        Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[6], &xPosition, (u32 *) &yPosition);
+        gJb3List->mCellOamEntries[6]->mAttr01 =
+            ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[6]->mAttr01 & 0xfe00ff00) |
+                                           ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
-        gJb3List->mUnk_18[6]->mAttr01 = (gJb3List->mUnk_18[6]->mAttr01 & 0xfe00ff00) | 0x1000000;
+        gJb3List->mCellOamEntries[6]->mAttr01 = (gJb3List->mCellOamEntries[6]->mAttr01 & 0xfe00ff00) | 0x1000000;
     }
     gJb3List->mBgOffsetPending = 1;
 }
@@ -1064,11 +1064,11 @@ void MoveJb3ListSelection(s32 direction) {
             break;
         case 0xb:
             if (direction == 1) {
-                if (gJb3List->mUnk_47 != 0) {
+                if (gJb3List->mKeyLimitSoundPlayed != 0) {
                     return;
                 }
                 StartSoundSeq(9);
-                gJb3List->mUnk_47 = 1;
+                gJb3List->mKeyLimitSoundPlayed = 1;
                 return;
             } else if (direction == 3) {
                 gJb3ListSelectedId = 0;
@@ -1090,11 +1090,11 @@ void MoveJb3ListSelection(s32 direction) {
                 RefreshJb3List();
                 PlaceScrollBarWrapper(0x37);
             } else if (direction == 3) {
-                if (gJb3List->mUnk_47 != 0) {
+                if (gJb3List->mKeyLimitSoundPlayed != 0) {
                     return;
                 }
                 StartSoundSeq(9);
-                gJb3List->mUnk_47 = 1;
+                gJb3List->mKeyLimitSoundPlayed = 1;
                 return;
             } else if (selectedId == 0xc) {
                 gJb3ListSelectedId = 0xd;

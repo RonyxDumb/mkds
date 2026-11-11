@@ -520,12 +520,12 @@ u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile) {
         DWCi_GsFree(profile->mBuddyStatus);
         profile->mBuddyStatus = NULL;
     }
-    DWCi_GsFree(profile->mUnk_10);
-    profile->mUnk_10 = NULL;
-    DWCi_GsFree(profile->mUnk_18);
-    profile->mUnk_18 = NULL;
-    profile->mUnk_14 = 0;
-    if (profile->mUnk_0c == 0 || (gpState->mUnk_104 == TRUE && profile->mBuddyStatus == NULL)) {
+    DWCi_GsFree(profile->mAuthSig);
+    profile->mAuthSig = NULL;
+    DWCi_GsFree(profile->mPeerSig);
+    profile->mPeerSig = NULL;
+    profile->mRequestCount = 0;
+    if (profile->mCache == 0 || (gpState->mUnk_104 == TRUE && profile->mBuddyStatus == NULL)) {
         GpiRemoveProfile(connection, profile);
         return 0;
     }

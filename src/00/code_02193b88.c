@@ -81,7 +81,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                 GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34e0);
                 GpiAppendBufferString(connection, peer->mOutputBuffer, gpState->mNick);
                 GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34e8);
-                GpiAppendBufferString(connection, peer->mOutputBuffer, profileEntry->mUnk_18);
+                GpiAppendBufferString(connection, peer->mOutputBuffer, profileEntry->mPeerSig);
                 GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34c8);
                 for (otherPeer = gpState->mPeerList; otherPeer != NULL; otherPeer = otherPeer->mNext) {
                     if (otherPeer->mProfileId == peer->mProfileId && otherPeer != peer && otherPeer->mState <= 0x67) {
@@ -89,8 +89,8 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                     }
                 }
                 if (canFreeSig != FALSE) {
-                    DWCi_GsFree(profileEntry->mUnk_18);
-                    profileEntry->mUnk_18 = NULL;
+                    DWCi_GsFree(profileEntry->mPeerSig);
+                    profileEntry->mPeerSig = NULL;
                     if (GpiIsProfileEmpty(profileEntry) != 0) {
                         GpiRemoveProfile(connection, profileEntry);
                     }

@@ -164,10 +164,10 @@ u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
     if (found == 0) {
         return 0;
     }
-    profileEntry->mUnk_14 = profileEntry->mUnk_14 + -1;
-    if ((gpState->mUnk_100 == 0) && (profileEntry->mUnk_14 <= 0)) {
-        DWCi_GsFree(profileEntry->mUnk_10);
-        profileEntry->mUnk_10 = NULL;
+    profileEntry->mRequestCount = profileEntry->mRequestCount + -1;
+    if ((gpState->mUnk_100 == 0) && (profileEntry->mRequestCount <= 0)) {
+        DWCi_GsFree(profileEntry->mAuthSig);
+        profileEntry->mAuthSig = NULL;
         canFree = GpiIsProfileEmpty(profileEntry);
         if (canFree != 0) {
             GpiRemoveProfile(connection, profileEntry);

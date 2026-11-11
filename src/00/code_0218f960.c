@@ -129,11 +129,11 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            DWCi_GsFree(profileRec->mUnk_10);
-            profileRec->mUnk_10 = NULL;
+            DWCi_GsFree(profileRec->mAuthSig);
+            profileRec->mAuthSig = NULL;
             str += 8;
-            profileRec->mUnk_10 = goastrdup(str);
-            profileRec->mUnk_14++;
+            profileRec->mAuthSig = goastrdup(str);
+            profileRec->mRequestCount++;
             requestCallback = gpState->mCallbacks[1];
             if (requestCallback.mCallback == NULL) {
                 break;
@@ -316,7 +316,7 @@ u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const
         if (peerConn == NULL) {
             return 1;
         }
-        if (profileRec->mUnk_18 == NULL) {
+        if (profileRec->mPeerSig == NULL) {
             result = gpiPeerGetSig(connection, peerConn);
             if (result != 0) {
                 return result;
@@ -344,16 +344,16 @@ u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
         GpiSetErrorMessage(connection, gInvalidProfileErrorString);
         return 2;
     }
-    if (profileEntry->mUnk_10 == NULL) {
+    if (profileEntry->mAuthSig == NULL) {
         GpiSetErrorMessage(connection, gInvalidProfileErrorString);
         return 2;
     }
     result = gpiSendAuthBuddyRequest(connection, profileEntry);
     if (result == 0) {
-        profileEntry->mUnk_14--;
-        if (gpState->mUnk_100 == 0 && profileEntry->mUnk_14 <= 0) {
-            DWCi_GsFree(profileEntry->mUnk_10);
-            profileEntry->mUnk_10 = NULL;
+        profileEntry->mRequestCount--;
+        if (gpState->mUnk_100 == 0 && profileEntry->mRequestCount <= 0) {
+            DWCi_GsFree(profileEntry->mAuthSig);
+            profileEntry->mAuthSig = NULL;
             if (GpiIsProfileEmpty(profileEntry) != 0) {
                 GpiRemoveProfile(connection, profileEntry);
             }

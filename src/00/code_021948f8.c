@@ -28,10 +28,10 @@ void GpiReleaseProfile(GpiProfile *profile) {
         profile->mBuddyStatus = NULL;
     }
     gpiFreeInfoCache(profile);
-    DWCi_GsFree(profile->mUnk_10);
-    profile->mUnk_10 = NULL;
-    DWCi_GsFree(profile->mUnk_18);
-    profile->mUnk_18 = NULL;
+    DWCi_GsFree(profile->mAuthSig);
+    profile->mAuthSig = NULL;
+    DWCi_GsFree(profile->mPeerSig);
+    profile->mPeerSig = NULL;
 }
 
 BOOL GpiInitProfileList(GpConnection *connection) {
@@ -105,10 +105,10 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
 
         newProfile.mProfileId = id;
         newProfile.mUserId = 0;
-        newProfile.mUnk_0c = 0;
-        newProfile.mUnk_10 = NULL;
-        newProfile.mUnk_18 = NULL;
-        newProfile.mUnk_14 = 0;
+        newProfile.mCache = 0;
+        newProfile.mAuthSig = NULL;
+        newProfile.mPeerSig = NULL;
+        newProfile.mRequestCount = 0;
         HashtableSet(profileStore->mTable, &newProfile);
     }
     profileStore->mUnk_04 = profileStore->mUnk_04 + 1;

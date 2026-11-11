@@ -77,7 +77,7 @@ u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile) {
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gFromprofileidKey);
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profile->mProfileId);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gSigKey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, profile->mUnk_10);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, profile->mAuthSig);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2778);
     return 0;
 }

@@ -57,8 +57,8 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
     s32 openResult;
 
     data = operation->mUnk_04;
-    data->mUnk_00c = 0x1000;
-    data->mInputBuffer = DWCi_GsMalloc(data->mUnk_00c + 1);
+    data->mInputBufferCapacity = 0x1000;
+    data->mInputBuffer = DWCi_GsMalloc(data->mInputBufferCapacity + 1);
     if (data->mInputBuffer == NULL) {
         GpiSetErrorMessage(connection, data_ov000_021b35f8);
         return 1;
@@ -114,19 +114,19 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
     data->mKind = kind;
     data->mSocket = -1;
     data->mInputBuffer = NULL;
-    data->mUnk_010 = 0;
-    data->mUnk_014 = 0;
-    data->mUnk_00c = 0;
-    data->mUnk_020 = 0;
-    data->mUnk_024 = 0;
-    data->mUnk_01c = 0x1000;
-    data->mOutputBuffer = DWCi_GsMalloc(data->mUnk_01c + 1);
+    data->mInputBufferLength = 0;
+    data->mInputBufferPos = 0;
+    data->mInputBufferCapacity = 0;
+    data->mOutputBufferLength = 0;
+    data->mOutputBufferPos = 0;
+    data->mOutputBufferCapacity = 0x1000;
+    data->mOutputBuffer = DWCi_GsMalloc(data->mOutputBufferCapacity + 1);
     if (data->mOutputBuffer == NULL) {
         GpiSetErrorMessage(connection, data_ov000_021b35f8);
         return TRUE;
     }
-    data->mUnk_13c = 0;
-    data->mUnk_140 = 0;
+    data->mProcessing = 0;
+    data->mRemove = 0;
     *searchData = data;
     return FALSE;
 }
@@ -158,36 +158,36 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
     result = GpiCreateSearch(connection, &data, 1);
     if (result == 0) {
         if (nick == NULL) {
-            data->mUnk_028[0] = 0;
+            data->mNick[0] = 0;
         } else {
-            GpiCopyString((char *) data->mUnk_028, (const char *) nick, 0x1f);
+            GpiCopyString((char *) data->mNick, (const char *) nick, 0x1f);
         }
         if (uniquenick == NULL) {
-            data->mUnk_047[0] = 0;
+            data->mUniquenick[0] = 0;
         } else {
-            GpiCopyString((char *) data->mUnk_047, (const char *) uniquenick, 0x15);
+            GpiCopyString((char *) data->mUniquenick, (const char *) uniquenick, 0x15);
         }
         if (email == NULL) {
-            data->mUnk_05c[0] = 0;
+            data->mEmail[0] = 0;
         } else {
-            GpiCopyString((char *) data->mUnk_05c, (const char *) email, 0x33);
+            GpiCopyString((char *) data->mEmail, (const char *) email, 0x33);
         }
-        _strlwr(data->mUnk_05c);
+        _strlwr(data->mEmail);
         if (firstname == NULL) {
-            data->mUnk_08f[0] = 0;
+            data->mFirstname[0] = 0;
         } else {
-            GpiCopyString((char *) data->mUnk_08f, (const char *) firstname, 0x1f);
+            GpiCopyString((char *) data->mFirstname, (const char *) firstname, 0x1f);
         }
         if (lastname == NULL) {
-            data->mUnk_0ae[0] = 0;
+            data->mLastname[0] = 0;
         } else {
-            GpiCopyString((char *) data->mUnk_0ae, (const char *) lastname, 0x1f);
+            GpiCopyString((char *) data->mLastname, (const char *) lastname, 0x1f);
         }
-        data->mUnk_130 = icquin;
+        data->mIcquin = icquin;
         if (skip < 0) {
             skip = 0;
         }
-        data->mUnk_134 = skip;
+        data->mSkip = skip;
         result = GpiStartSearchOperation(connection, (u32) data, blocking, callback, param);
         if (result == 0) {
             result = 0;
@@ -267,44 +267,44 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
-                    if (data->mUnk_028[0] != 0) {
+                    if (data->mNick[0] != 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3698);
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_028);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
                     }
-                    if (data->mUnk_047[0] != 0) {
+                    if (data->mUniquenick[0] != 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36a0);
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_047);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
                     }
-                    if (data->mUnk_05c[0] != 0) {
+                    if (data->mEmail[0] != 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                     }
-                    if (data->mUnk_08f[0] != 0) {
+                    if (data->mFirstname[0] != 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b8);
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_08f);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mFirstname);
                     }
-                    if (data->mUnk_0ae[0] != 0) {
+                    if (data->mLastname[0] != 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36c4);
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_0ae);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mLastname);
                     }
-                    if (data->mUnk_130 != 0) {
+                    if (data->mIcquin != 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36d0);
-                        GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mUnk_130);
+                        GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mIcquin);
                     }
-                    if (data->mUnk_134 > 0) {
+                    if (data->mSkip > 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, gSkipKey);
-                        GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mUnk_134);
+                        GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mSkip);
                     }
                 } else if (data->mKind == 2) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gValidKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                 } else if (data->mKind == 3) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gNicksKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_0cd);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else if (data->mKind == 4) {
@@ -314,32 +314,32 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b367c);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3708);
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mUnk_138);
+                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mProductId);
                 } else if (data->mKind == 5) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gCheckKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3698);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_028);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_0cd);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
                 } else if (data->mKind == 6) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b371c);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3698);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_028);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_05c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_0cd);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gProductIDKey);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProductId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36a0);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_047);
-                    if (data->mUnk_0ec[0] != 0) {
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
+                    if (data->mCdkey[0] != 0) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, gCdkeyKey);
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_0ec);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mCdkey);
                     }
                 } else if (data->mKind == 7) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gOthersKey);
@@ -352,7 +352,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == 8) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gUniquesearchKey);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, gPreferrednickKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUnk_047);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else {
@@ -378,7 +378,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 n = 0;
                 operation->mUnk_14 = 5;
                 if (GpiReadError(connection, data->mInputBuffer, 1) != FALSE) {
-                    data->mUnk_140 = TRUE;
+                    data->mRemove = TRUE;
                     return 4;
                 }
                 if (data->mKind == 1) {
@@ -446,9 +446,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         c1.mCallback(connection, &e, c1.mUnk_04);
                     }
                     if (v == 0x600 && e.mUnk_08 == 0x600) {
-                        result = gpiProfileSearch(connection, data->mUnk_028, data->mUnk_047, data->mUnk_05c,
-                                                      data->mUnk_08f, data->mUnk_0ae, data->mUnk_130,
-                                                      e.mUnk_04 + data->mUnk_134, operation->mUnk_08,
+                        result = gpiProfileSearch(connection, data->mNick, data->mUniquenick, data->mEmail,
+                                                      data->mFirstname, data->mLastname, data->mIcquin,
+                                                      e.mUnk_04 + data->mSkip, operation->mUnk_08,
                                                       (u32) operation->mUnk_0c.mCallback, operation->mUnk_0c.mUnk_04);
                         if (result != 0) {
                             return result;
@@ -474,7 +474,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return 1;
                         }
                         u2->mUnk_00 = 0;
-                        GpiCopyString(u2->mUnk_04, (const char *) data->mUnk_05c, 0x33);
+                        GpiCopyString(u2->mUnk_04, (const char *) data->mEmail, 0x33);
                         if ((s8) value[0] == 0x30) {
                             u2->mUnk_38 = FALSE;
                         } else {
@@ -494,7 +494,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return 1;
                         }
                         u3->mUnk_00 = 0;
-                        strcpy(u3->mUnk_04, (const char *) data->mUnk_05c);
+                        strcpy(u3->mUnk_04, (const char *) data->mEmail);
                         u3->mUnk_38 = 0;
                         u3->mUnk_3c = NULL;
                         u3->mUnk_40 = NULL;
@@ -565,7 +565,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, data_ov000_021b35f8);
                             return 1;
                         }
-                        u4->mUnk_04 = data->mUnk_138;
+                        u4->mUnk_04 = data->mProductId;
                         d = FALSE;
                         u4->mUnk_00 = 0;
                         u4->mUnk_08 = 0;
@@ -831,7 +831,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else {
                     AssertionFailed(data_ov000_021b3768, gGpiSearchFileName, NULL, 0x52a);
                 }
-                data->mUnk_140 = TRUE;
+                data->mRemove = TRUE;
                 loop = FALSE;
             }
         }
@@ -860,12 +860,12 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
             return TRUE;
         }
         for (pendingOp = gpState->mOperationList; pendingOp != NULL; pendingOp = pendingOp->mNext) {
-            if (pendingOp->mType == 3 && pendingOp->mUnk_14 != 5 && pendingOp->mUnk_04->mUnk_13c == 0) {
+            if (pendingOp->mType == 3 && pendingOp->mUnk_14 != 5 && pendingOp->mUnk_04->mProcessing == 0) {
                 if (count >= gpState->mSearchCount) {
                     AssertionFailed(gSearchIndexAssertion, gGpiSearchFileName, NULL, 0x563);
                 }
                 operations[count++] = pendingOp;
-                pendingOp->mUnk_04->mUnk_13c = 1;
+                pendingOp->mUnk_04->mProcessing = 1;
             }
         }
         for (index = 0; index < count; index++) {
@@ -876,8 +876,8 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
         }
         for (index = 0; index < count; index++) {
             data = operations[index]->mUnk_04;
-            data->mUnk_13c = 0;
-            if (data->mUnk_140 != 0) {
+            data->mProcessing = 0;
+            if (data->mRemove != 0) {
                 GpiRemoveOperation(connection, operations[index]);
             }
         }

@@ -19,10 +19,10 @@ typedef struct GpiProfile {
     /* 00 */ u32 mProfileId;
     /* 04 */ u32 mUserId;
     /* 08 */ GpiBuddyStatus *mBuddyStatus;
-    /* 0c */ struct GPIInfoCache *mUnk_0c;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ void *mUnk_18;
+    /* 0c */ struct GPIInfoCache *mCache;
+    /* 10 */ void *mAuthSig;
+    /* 14 */ s32 mRequestCount;
+    /* 18 */ void *mPeerSig;
 } GpiProfile;
 
 u32 GpiIsProfileEmpty(GpiProfile *a);

@@ -307,9 +307,9 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             profileRec = GpiFindOrAddProfile(connection, profileid);
         }
         if (saveFlag != 0) {
-            DWCi_GsFree(profileRec->mUnk_18);
-            profileRec->mUnk_18 = NULL;
-            profileRec->mUnk_18 = goastrdup(buffer);
+            DWCi_GsFree(profileRec->mPeerSig);
+            profileRec->mPeerSig = NULL;
+            profileRec->mPeerSig = goastrdup(buffer);
         }
         if (gpState->mUnk_100 != 0) {
             gpiSetInfoCache(connection, profileRec, &infoRecord);
@@ -829,13 +829,13 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
         reuseCached = FALSE;
     }
     if (callback != 0 && reuseCached != FALSE && GpiFindProfile(connection, profile, &profileEntry) != 0 &&
-        profileEntry->mUnk_0c != 0) {
+        profileEntry->mCache != 0) {
         arg = DWCi_GsMalloc(0x204);
         if (arg == NULL) {
             GpiSetErrorMessage(connection, data_ov000_021b2f58);
             return 1;
         }
-        gpiInfoCacheToArg(profileEntry->mUnk_0c, (GetInfoReply *) arg);
+        gpiInfoCacheToArg(profileEntry->mCache, (GetInfoReply *) arg);
         arg->mUnk_000 = 0;
         arg->mUnk_004 = profile;
         queuedCallback.mCallback = (void (*)(void *, void *, u32)) callback;
@@ -875,18 +875,18 @@ u32 gpiSetInfoCache(GpConnection *connection, GpiProfile *profile, GPIInfoCache 
         return 1;
     }
     gpiFreeInfoCache(profile);
-    profile->mUnk_0c = DWCi_GsMalloc(0xf0);
-    if (profile->mUnk_0c != NULL) {
-        *profile->mUnk_0c = *cache;
-        profile->mUnk_0c->mUnk_00[0] = goastrdup(cache->mUnk_00[0]);
-        profile->mUnk_0c->mUnk_00[1] = goastrdup(cache->mUnk_00[1]);
-        profile->mUnk_0c->mUnk_00[2] = goastrdup(cache->mUnk_00[2]);
-        profile->mUnk_0c->mUnk_00[3] = goastrdup(cache->mUnk_00[3]);
-        profile->mUnk_0c->mUnk_00[4] = goastrdup(cache->mUnk_00[4]);
-        profile->mUnk_0c->mUnk_00[5] = goastrdup(cache->mUnk_00[5]);
-        profile->mUnk_0c->mAimName = goastrdup(cache->mAimName);
+    profile->mCache = DWCi_GsMalloc(0xf0);
+    if (profile->mCache != NULL) {
+        *profile->mCache = *cache;
+        profile->mCache->mUnk_00[0] = goastrdup(cache->mUnk_00[0]);
+        profile->mCache->mUnk_00[1] = goastrdup(cache->mUnk_00[1]);
+        profile->mCache->mUnk_00[2] = goastrdup(cache->mUnk_00[2]);
+        profile->mCache->mUnk_00[3] = goastrdup(cache->mUnk_00[3]);
+        profile->mCache->mUnk_00[4] = goastrdup(cache->mUnk_00[4]);
+        profile->mCache->mUnk_00[5] = goastrdup(cache->mUnk_00[5]);
+        profile->mCache->mAimName = goastrdup(cache->mAimName);
     }
-    if (profile->mUnk_0c != NULL) {
+    if (profile->mCache != NULL) {
         return 1;
     }
     return 0;

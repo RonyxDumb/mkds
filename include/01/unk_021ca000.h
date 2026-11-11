@@ -69,8 +69,8 @@ typedef struct MissionRunMSsel {
     /* 10 */ LayoutEntryTable *mMissionRunMSselSBncl;
     /* 14 */ void *mMissionRunMSselSBnbl;
     /* 18 */ struct LayoutEntryTable *mMissionRunMSselSBnll;
-    /* 1c */ Nclr *mUnk_1c;
-    /* 20 */ u16 mUnk_20[0x10];
+    /* 1c */ Nclr *mMissionRunMSselSOPalette;
+    /* 20 */ u16 mBlendedPalette[0x10];
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 40 */ LayoutTableEntry *mMissionRunMSselMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
@@ -78,30 +78,30 @@ typedef struct MissionRunMSsel {
     /* 48 */ void *mUnk_48;
     // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the mission number
     /* 4c */ MissionTable *mMissionTableMtbl;
-    /* 50 */ MissionFileRow *mUnk_50;
+    /* 50 */ MissionFileRow *mMissionFileRows;
     /* 54 */ struct Bmg *mCommonMessages;
     /* 58 */ void *mMissionMessages;
     /* 5c */ void *mHeap;
     /* 60 */ u32 mState;
     /* 64 */ s32 mNextState;
     /* 68 */ s32 mStateFrames; /* counted only in states 1, 4, 8; zeroed by the next-state setter */
-    /* 6c */ s32 mUnk_6c[9];
+    /* 6c */ s32 mIndexCellTimers[9];
     // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
     /* 90 */ s32 mBg0OffsetX;
     // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
     /* 94 */ s32 mBg0OffsetY;
     // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated; X is not written
     /* 98 */ s32 mBg1Offset;
-    /* 9c */ s16 mUnk_9c;
+    /* 9c */ s16 mExitOffsetX;
     /* 9e */ s16 mIndex; /* mission number - 1, 8 = ninth mission */
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ BOOL mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
-    /* b0 */ s16 mUnk_b0;
+    /* a0 */ s32 mAllRecorded;
+    /* a4 */ BOOL mBossRecorded;
+    /* a8 */ s32 mPaletteBlendFrame;
+    /* ac */ s32 mIndexChangeTimer;
+    /* b0 */ s16 mShownIndex;
     /* b2 */ u8 mUnk_b2[0x2];
-    /* b4 */ void *mUnk_b4;
-    /* b8 */ void *mUnk_b8;
+    /* b4 */ void *mMainOamList;
+    /* b8 */ void *mSubOamList;
     /* bc */ s32 mResult; /* 1 = mission chosen, 2 = Back; also read by ReleaseMissionRunMSsel for the sound */
 } MissionRunMSsel;
 

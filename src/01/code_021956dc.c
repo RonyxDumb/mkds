@@ -340,7 +340,7 @@ void RequestRecordTAttState1AndSetup(void) {
 void RequestRecordTAttState2(void) {
     gRecordTAtt->mNextState = 2;
     gRecordTAtt->mStateFrames = 0;
-    gRecordTAtt->mUnk_74 = FALSE;
+    gRecordTAtt->mClearChosen = FALSE;
 }
 
 // Requests state 3.
@@ -352,7 +352,7 @@ void RequestRecordTAttState3(void) {
 void RequestRecordTAttState4AndMoveIndex(void) {
     gRecordTAtt->mNextState = 4;
     gRecordTAtt->mStateFrames = 0;
-    switch (gRecordTAtt->mUnk_70) {
+    switch (gRecordTAtt->mIndexMoveDirection) {
         case 0:
             IncrementRecordTAttIndex();
             break;
@@ -484,12 +484,12 @@ void AdvanceRecordTAttOffsetTimers(void) {
     s32 i;
 
     gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[0]].mOffsetX =
-        -LookupFrameOffset(6 - gRecordTAtt->mUnk_78[0]);
+        -LookupFrameOffset(6 - gRecordTAtt->mOffsetTimers[0]);
     gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[1]].mOffsetX =
-        LookupFrameOffset(6 - gRecordTAtt->mUnk_78[1]);
+        LookupFrameOffset(6 - gRecordTAtt->mOffsetTimers[1]);
     for (i = 0; i < 2; i++) {
-        if (gRecordTAtt->mUnk_78[i] > 0) {
-            gRecordTAtt->mUnk_78[i]--;
+        if (gRecordTAtt->mOffsetTimers[i] > 0) {
+            gRecordTAtt->mOffsetTimers[i]--;
             gRecordTAtt->mRecordTAttSTable[gRecordTAttTimerZeroSTableIndices[i]].mVisible = 0;
             gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[i]].mVisible = 1;
         } else {
@@ -506,18 +506,18 @@ BOOL AdvanceRecordTAttButtonSequence(void) {
     pressedBits = gInputSlots[slotIndex].mPressedBits;
     if (pressedBits != 0) {
         if (gRecordTAttButtonSequence[0] == (gRecordTAttButtonSequence[0] | pressedBits)) {
-            gRecordTAtt->mUnk_80 = 1;
+            gRecordTAtt->mButtonSequenceIndex = 1;
             gRecordTAtt->mUnk_84 = FALSE;
-        } else if (gRecordTAttButtonSequence[gRecordTAtt->mUnk_80] ==
-                   (gRecordTAttButtonSequence[gRecordTAtt->mUnk_80] | pressedBits)) {
-            gRecordTAtt->mUnk_80++;
+        } else if (gRecordTAttButtonSequence[gRecordTAtt->mButtonSequenceIndex] ==
+                   (gRecordTAttButtonSequence[gRecordTAtt->mButtonSequenceIndex] | pressedBits)) {
+            gRecordTAtt->mButtonSequenceIndex++;
             gRecordTAtt->mUnk_84 = FALSE;
-            if (gRecordTAtt->mUnk_80 >= 6) {
-                gRecordTAtt->mUnk_80 = 0;
+            if (gRecordTAtt->mButtonSequenceIndex >= 6) {
+                gRecordTAtt->mButtonSequenceIndex = 0;
                 return TRUE;
             }
         } else {
-            gRecordTAtt->mUnk_80 = 0;
+            gRecordTAtt->mButtonSequenceIndex = 0;
         }
     }
     return FALSE;
@@ -537,15 +537,15 @@ void InitRecordTAtt(void *heap) {
     (reg_G2S_DB_BG1CNT) = ((reg_G2S_DB_BG1CNT) & 0x43) | 0x1018;
     (reg_G2S_DB_BG3CNT) = ((reg_G2S_DB_BG3CNT) & 0x43) | 0x5810;
     gRecordTAtt = HeapAlloc(heap, 0x94);
-    gRecordTAtt->mUnk_4c = heap;
+    gRecordTAtt->mHeap = heap;
     gRecordTAtt->mState = 0;
     gRecordTAtt->mIndex = 0;
-    gRecordTAtt->mUnk_70 = 0;
-    gRecordTAtt->mUnk_74 = FALSE;
-    gRecordTAtt->mUnk_88 = FALSE;
-    gRecordTAtt->mUnk_8c = FALSE;
+    gRecordTAtt->mIndexMoveDirection = 0;
+    gRecordTAtt->mClearChosen = FALSE;
+    gRecordTAtt->mLeftRepeat = FALSE;
+    gRecordTAtt->mRightRepeat = FALSE;
     for (i = 0; i < 2; i++) {
-        gRecordTAtt->mUnk_78[i] = 0;
+        gRecordTAtt->mOffsetTimers[i] = 0;
     }
     LocateAndQueueRecordTAtt();
     CreateKartIcon(heap);
@@ -697,10 +697,10 @@ void AdvanceRecordTAttState2(void) {
                                                  gInputSlots[slotIndex].mPair.mPairY);
     }
     if (touchedRect != 0) {
-        gRecordTAtt->mUnk_88 = FALSE;
+        gRecordTAtt->mLeftRepeat = FALSE;
     }
     if (touchedRect != 1) {
-        gRecordTAtt->mUnk_8c = FALSE;
+        gRecordTAtt->mRightRepeat = FALSE;
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         x = FALSE;
@@ -718,26 +718,26 @@ void AdvanceRecordTAttState2(void) {
         }
     }
     RequestRecordTAttState5();
-    gRecordTAtt->mUnk_90 = 0;
+    gRecordTAtt->mNextScreen = 0;
     RequestSelectReturnState3WithSound(0);
     goto done;
 other:
     if (touchBeganRect == 2 || (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_X) != 0) {
         RequestRecordTAttState7();
-    } else if ((touchedRect == 0 && gRecordTAtt->mUnk_88 != FALSE) ||
-               (touchBeganRect == 0 && gRecordTAtt->mUnk_88 == FALSE) ||
+    } else if ((touchedRect == 0 && gRecordTAtt->mLeftRepeat != FALSE) ||
+               (touchBeganRect == 0 && gRecordTAtt->mLeftRepeat == FALSE) ||
                (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
-        gRecordTAtt->mUnk_70 = 1;
-        gRecordTAtt->mUnk_78[0] = 6;
-        gRecordTAtt->mUnk_88 = TRUE;
+        gRecordTAtt->mIndexMoveDirection = 1;
+        gRecordTAtt->mOffsetTimers[0] = 6;
+        gRecordTAtt->mLeftRepeat = TRUE;
         RequestRecordTAttState3();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
-    } else if ((touchedRect == 1 && gRecordTAtt->mUnk_8c != FALSE) ||
-               (touchBeganRect == 1 && gRecordTAtt->mUnk_8c == FALSE) ||
+    } else if ((touchedRect == 1 && gRecordTAtt->mRightRepeat != FALSE) ||
+               (touchBeganRect == 1 && gRecordTAtt->mRightRepeat == FALSE) ||
                (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
-        gRecordTAtt->mUnk_70 = 0;
-        gRecordTAtt->mUnk_78[1] = 6;
-        gRecordTAtt->mUnk_8c = TRUE;
+        gRecordTAtt->mIndexMoveDirection = 0;
+        gRecordTAtt->mOffsetTimers[1] = 6;
+        gRecordTAtt->mRightRepeat = TRUE;
         RequestRecordTAttState3();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
     }
@@ -759,7 +759,7 @@ void AdvanceRecordTAttState3(void) {
 
     targetOffsetX = 0;
     AdvanceRecordTAttOffsetTimers();
-    switch (gRecordTAtt->mUnk_70) {
+    switch (gRecordTAtt->mIndexMoveDirection) {
         case 0:
             targetOffsetX = -0x100;
             break;
@@ -808,7 +808,7 @@ void AdvanceRecordTAttState4(void) {
 
     startOffsetX = 0;
     AdvanceRecordTAttOffsetTimers();
-    switch (gRecordTAtt->mUnk_70) {
+    switch (gRecordTAtt->mIndexMoveDirection) {
         case 0:
             startOffsetX = 0x100;
             break;
@@ -900,7 +900,7 @@ void AdvanceRecordTAttState6(void) {
     gRecordTAtt->mBg1OffsetY = offsetY;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = offsetY;
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordScreen(gRecordTAtt->mUnk_90);
+        RequestRecordScreen(gRecordTAtt->mNextScreen);
     }
 }
 
@@ -971,7 +971,7 @@ void AdvanceRecordTAttState10(void) {
                     CARD_WaitBackupAsync();
                 }
             }
-            gRecordTAtt->mUnk_74 = TRUE;
+            gRecordTAtt->mClearChosen = TRUE;
         }
         RequestRecordTAttState11();
     }
@@ -982,7 +982,7 @@ void AdvanceRecordTAttState11(void) {
     u16 mainLayoutCount;
 
     gRecordTAtt->mStateFrames++;
-    if (gRecordTAtt->mUnk_74 != FALSE) {
+    if (gRecordTAtt->mClearChosen != FALSE) {
         offsetX = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
         gRecordTAtt->mBg1OffsetX = offsetX;
         mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
@@ -1014,7 +1014,7 @@ void AdvanceRecordTAttState12(void) {
 
     gRecordTAtt->mStateFrames++;
     offsetX = InterpolateS16(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
-    if (gRecordTAtt->mUnk_74 != FALSE) {
+    if (gRecordTAtt->mClearChosen != FALSE) {
         u16 w;
 
         gRecordTAtt->mBg1OffsetX = offsetX;

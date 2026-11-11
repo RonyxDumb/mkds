@@ -22,19 +22,19 @@ typedef struct Jb3List {
     /* 04 */ u8 mIdTimer[4];
     /* 08 */ u16 *mJb3ListBackNsc;
     /* 0c */ void *mYbBgStep2NclFiles[2];
-    /* 14 */ BgTextCanvas *mUnk_14;
-    /* 18 */ OamEntry *mUnk_18[7];
-    /* 34 */ OamEntry *mUnk_34;
+    /* 14 */ BgTextCanvas *mBgTextCanvas;
+    /* 18 */ OamEntry *mCellOamEntries[7];
+    /* 34 */ OamEntry *mSetTypeOamEntry;
     /* 38 */ u32 mScrollTask;
     /* 3c */ u32 mBgOffsetTask;
-    /* 40 */ u8 mUnk_40;
+    /* 40 */ u8 mChosenId;
     /* 41 */ u8 mScrollTimer;
     /* 42 */ u8 mReturnId;
-    /* 43 */ u8 mUnk_43;
+    /* 43 */ u8 mDnsNoneCopy;
     /* 44 */ u8 mBgOffsetPending;
-    /* 45 */ u8 mUnk_45;
-    /* 46 */ u8 mUnk_46;
-    /* 47 */ u8 mUnk_47;
+    /* 45 */ u8 mScrollBarDragging;
+    /* 46 */ u8 mScrollBarLimitSoundPlayed;
+    /* 47 */ u8 mKeyLimitSoundPlayed;
 } Jb3List;
 
 // Objects whose layout isn't known yet.

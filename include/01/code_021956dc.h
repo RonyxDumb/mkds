@@ -39,7 +39,7 @@ typedef struct RecordTAtt {
     /* 40 */ struct Bmg *mCommonMessages;
     /* 44 */ void *mGhostMessages;
     /* 48 */ struct Bmg *mRecordMessages;
-    /* 4c */ void *mUnk_4c;
+    /* 4c */ void *mHeap;
     /* 50 */ s32 mState;
     /* 54 */ s32 mNextState;
     /* 58 */ s32 mStateFrames; /* counted only in states 0, 1, 3-8, 11, 12, 13, 17 */
@@ -51,15 +51,15 @@ typedef struct RecordTAtt {
     // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; Y is not written
     /* 68 */ s32 mBg3OffsetX;
     /* 6c */ s32 mIndex;
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ BOOL mUnk_74;
-    /* 78 */ s32 mUnk_78[2];
-    /* 80 */ s16 mUnk_80;
+    /* 70 */ s32 mIndexMoveDirection;
+    /* 74 */ BOOL mClearChosen;
+    /* 78 */ s32 mOffsetTimers[2];
+    /* 80 */ s16 mButtonSequenceIndex;
     /* 82 */ u8 mUnk_82[2];
     /* 84 */ BOOL mUnk_84;
-    /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
-    /* 90 */ s32 mUnk_90;
+    /* 88 */ BOOL mLeftRepeat;
+    /* 8c */ BOOL mRightRepeat;
+    /* 90 */ s32 mNextScreen;
 } RecordTAtt;
 
 // Object behind gBackupAccess.
