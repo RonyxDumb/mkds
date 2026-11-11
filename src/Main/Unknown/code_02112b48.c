@@ -55,8 +55,8 @@ u16 GetRecordSortKey(u16 listIndex) {
 
 // Orders b entries from index a by descending key.
 void SortRecordRange(s32 first, u16 count) {
-    s32 i;
-    s32 j;
+    s32 recordIndex;
+    s32 scanIndex;
     s32 end;
     u16 maxIndex;
     s32 lastIndex;
@@ -68,20 +68,20 @@ void SortRecordRange(s32 first, u16 count) {
     maxIndex = 0;
     end = first + count;
     lastIndex = end - 1;
-    for (i = first; i < lastIndex; i++) {
+    for (recordIndex = first; recordIndex < lastIndex; recordIndex++) {
         maxKey = 0;
-        for (j = i; j < end; j++) {
-            key = GetRecordSortKey(j);
+        for (scanIndex = recordIndex; scanIndex < end; scanIndex++) {
+            key = GetRecordSortKey(scanIndex);
             if (maxKey < key) {
                 maxKey = key;
-                maxIndex = j;
+                maxIndex = scanIndex;
             }
         }
-        for (j = maxIndex; j > i; j--) {
-            previousEntry = gRecordList->mEntries + j - 1;
+        for (scanIndex = maxIndex; scanIndex > recordIndex; scanIndex--) {
+            previousEntry = gRecordList->mEntries + scanIndex - 1;
             swapEntry = *previousEntry;
-            *previousEntry = gRecordList->mEntries[j];
-            gRecordList->mEntries[j] = swapEntry;
+            *previousEntry = gRecordList->mEntries[scanIndex];
+            gRecordList->mEntries[scanIndex] = swapEntry;
         }
     }
 }
@@ -92,15 +92,15 @@ void SortRecordRange(s32 first, u16 count) {
 
 void CreateRecordList(void *heap) {
     int listAddress;
-    void *v2;
+    void *value;
     listAddress = ((u32) HeapAlloc(heap, 0x10));
     *(s32 *) &gRecordList = listAddress;
-    v2 = HeapAlloc(heap, 0x78);
-    gRecordList->mEntries = v2;
-    v2 = CreateEmblemBlock(heap);
-    gRecordList->mEmblemBlock = v2;
-    v2 = FindSceneFile(gEmblem2BinName);
-    gRecordList->mEmblem2Bin = v2;
+    value = HeapAlloc(heap, 0x78);
+    gRecordList->mEntries = value;
+    value = CreateEmblemBlock(heap);
+    gRecordList->mEmblemBlock = value;
+    value = FindSceneFile(gEmblem2BinName);
+    gRecordList->mEmblem2Bin = value;
 }
 
 #pragma thumb off
@@ -115,17 +115,17 @@ void ClearRecordListPointer(void) {
 
 // Fills the table with the used slots, flagged ones first, each group ordered by key.
 void BuildRecordList(void) {
-    s32 i;
+    s32 recordIndex;
     u16 flaggedCount;
     s32 nextFlaggedIndex;
     s32 nextUnflaggedIndex;
 
     flaggedCount = 0;
     gRecordList->mRecordCount = 0;
-    for (i = 0; i < 0x3c; i++) {
-        if (IsBuddyRecordFilled(i)) {
+    for (recordIndex = 0; recordIndex < 0x3c; recordIndex++) {
+        if (IsBuddyRecordFilled(recordIndex)) {
             gRecordList->mRecordCount++;
-            if (IsBuddyRecordFlagged(i)) {
+            if (IsBuddyRecordFlagged(recordIndex)) {
                 flaggedCount++;
             }
         }
@@ -133,13 +133,13 @@ void BuildRecordList(void) {
     if (gRecordList->mRecordCount != 0) {
         nextFlaggedIndex = 0;
         nextUnflaggedIndex = flaggedCount;
-        for (i = 0; i < 0x3c; i++) {
-            if (IsBuddyRecordFilled(i)) {
-                if (IsBuddyRecordFlagged(i)) {
-                    gRecordList->mEntries[nextFlaggedIndex].mRecordIndex = (u8) i;
+        for (recordIndex = 0; recordIndex < 0x3c; recordIndex++) {
+            if (IsBuddyRecordFilled(recordIndex)) {
+                if (IsBuddyRecordFlagged(recordIndex)) {
+                    gRecordList->mEntries[nextFlaggedIndex].mRecordIndex = (u8) recordIndex;
                     nextFlaggedIndex++;
                 } else {
-                    gRecordList->mEntries[nextUnflaggedIndex].mRecordIndex = (u8) i;
+                    gRecordList->mEntries[nextUnflaggedIndex].mRecordIndex = (u8) recordIndex;
                     nextUnflaggedIndex++;
                 }
             }
@@ -150,13 +150,13 @@ void BuildRecordList(void) {
 }
 
 u16 GetRecordCount(void) {
-    s32 i;
+    s32 recordIndex;
     u16 count;
 
     count = 0;
     if (gRecordList == NULL) {
-        for (i = 0; i < 0x3c; i++) {
-            if (IsBuddyRecordFilled(i)) {
+        for (recordIndex = 0; recordIndex < 0x3c; recordIndex++) {
+            if (IsBuddyRecordFilled(recordIndex)) {
                 count++;
             }
         }
@@ -343,33 +343,35 @@ BOOL IsRecordVSRowFilled(int row) {
 
 // Shows or hides the objects of the five rows and of each row's flag.
 void AdvanceRecordVSRowObjects(void) {
-    s32 i;
+    s32 rowIndex;
     u16 firstIndex;
     u16 subBase;
 
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     firstIndex = GetRecordVSFirstRecordIndex();
-    for (i = 0; i < 5; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mVisible = 0;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mVisible = 0;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mVisible = 0;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mVisible = 0;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mVisible = 0;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mVisible = 0;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mVisible = 0;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mVisible = 0;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mVisible = 0;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mVisible = 0;
     }
-    for (i = 0; i < 5; i++) {
-        if (IsRecordVSRowFilled((s16) i)) {
-            if (gRecordVS->mIndex == i) {
-                gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mVisible = 1;
-                SetLabelPaletteIndex(gRecordVSRowLabelIndices[i], 0xe, gRecordVS->mRecordVSSBnll,
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        if (IsRecordVSRowFilled((s16) rowIndex)) {
+            if (gRecordVS->mIndex == rowIndex) {
+                gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mVisible = 1;
+                SetLabelPaletteIndex(gRecordVSRowLabelIndices[rowIndex], 0xe, gRecordVS->mRecordVSSBnll,
                                      gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
             } else {
-                gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mVisible = 1;
-                SetLabelPaletteIndex(gRecordVSRowLabelIndices[i], 0xf, gRecordVS->mRecordVSSBnll,
+                gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mVisible = 1;
+                SetLabelPaletteIndex(gRecordVSRowLabelIndices[rowIndex], 0xf, gRecordVS->mRecordVSSBnll,
                                      gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
             }
-            gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mVisible = !IsRecordFlagged(firstIndex + i);
-            gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mVisible = IsRecordFlagged(firstIndex + i);
-            gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mVisible = 1;
+            gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mVisible =
+                !IsRecordFlagged(firstIndex + rowIndex);
+            gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mVisible =
+                IsRecordFlagged(firstIndex + rowIndex);
+            gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mVisible = 1;
         }
     }
 }
@@ -380,8 +382,8 @@ void PrintRecordVSShownRecord(void) {
     u8 friendKey[0x14];
     DateBytes date;
     RecordVS *recordVS;
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 columnIndex;
     s32 firstIndex;
 
     firstIndex = GetRecordVSFirstRecordIndex();
@@ -405,10 +407,10 @@ void PrintRecordVSShownRecord(void) {
             counts[2][0] = GetRecordMatchKind0SecondCount(firstIndex + gRecordVS->mShownIndex);
             counts[2][1] = GetRecordMatchKind1SecondCount(firstIndex + gRecordVS->mShownIndex);
             counts[2][2] = GetRecordMatchKind2SecondCount(firstIndex + gRecordVS->mShownIndex);
-            for (i = 1; i < 3; i++) {
-                for (j = 0; j < 3; j++) {
-                    if (counts[i][j] > 9999) {
-                        counts[i][j] = 9999;
+            for (index = 1; index < 3; index++) {
+                for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+                    if (counts[index][columnIndex] > 9999) {
+                        counts[index][columnIndex] = 9999;
                     }
                 }
             }
@@ -444,10 +446,10 @@ void PrintRecordVSShownRecord(void) {
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
             PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVS->mRecordVSMTransientBnll, buf,
                                                gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
-            for (i = 0; i < 12; i++) {
-                FormatAsciiNumber(friendKey[i] - 0x30, buf);
+            for (index = 0; index < 12; index++) {
+                FormatAsciiNumber(friendKey[index] - 0x30, buf);
                 PrintLabelLayoutTextNoFixedAdvance(
-                    0, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll, buf,
+                    0, gRecordVSFriendKeyLabelIndices[index], gRecordVS->mRecordVSMTransientBnll, buf,
                     gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
             }
             ReadRecordEmblem(firstIndex + gRecordVS->mShownIndex, gRecordVS->mEmblem, gRecordVS->mEmblemConverted);
@@ -460,17 +462,17 @@ void PrintRecordVSShownRecord(void) {
 }
 
 void RefreshRecordVSPage(void) {
-    s32 i;
+    s32 rowIndex;
     s32 firstIndex;
     s32 listIndex;
     u8 buf[0x20];
 
     firstIndex = GetRecordVSFirstRecordIndex();
-    for (i = 0; i < 5; i++) {
-        listIndex = firstIndex + i;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        listIndex = firstIndex + rowIndex;
         if (GetRecordCount() > listIndex) {
             CopyRecordText(listIndex, buf, 0x20);
-            PrintLabelLayoutTextNoFixedAdvance(1, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, buf,
+            PrintLabelLayoutTextNoFixedAdvance(1, gRecordVSRowLabelIndices[rowIndex], gRecordVS->mRecordVSSBnll, buf,
                                                gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable);
         }
     }
@@ -541,7 +543,7 @@ void DecrementRecordVSIndex(void) {
 #pragma thumb on
 
 void AdvanceRecordVSOffsetTimers(void) {
-    s32 i;
+    s32 buttonIndex;
     u16 firstIndex;
 
     firstIndex = GetRecordVSFirstRecordIndex();
@@ -549,14 +551,14 @@ void AdvanceRecordVSOffsetTimers(void) {
         -LookupFrameOffset(6 - gRecordVS->mOffsetTimers[0]);
     gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[1]].mOffsetX =
         LookupFrameOffset(6 - gRecordVS->mOffsetTimers[1]);
-    for (i = 0; i < 2; i++) {
-        if (gRecordVS->mOffsetTimers[i] > 0) {
-            gRecordVS->mOffsetTimers[i]--;
-            gRecordVS->mRecordVSSTable[gRecordVSPageButtonIndices[i]].mVisible = 0;
-            gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[i]].mVisible = 1;
+    for (buttonIndex = 0; buttonIndex < 2; buttonIndex++) {
+        if (gRecordVS->mOffsetTimers[buttonIndex] > 0) {
+            gRecordVS->mOffsetTimers[buttonIndex]--;
+            gRecordVS->mRecordVSSTable[gRecordVSPageButtonIndices[buttonIndex]].mVisible = 0;
+            gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[buttonIndex]].mVisible = 1;
         } else {
-            gRecordVS->mRecordVSSTable[gRecordVSPageButtonIndices[i]].mVisible = 1;
-            gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[i]].mVisible = 0;
+            gRecordVS->mRecordVSSTable[gRecordVSPageButtonIndices[buttonIndex]].mVisible = 1;
+            gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[buttonIndex]].mVisible = 0;
         }
     }
     if (firstIndex == 0) {
@@ -624,13 +626,13 @@ void AdvanceRecordVSIndexChange(void) {
 }
 
 void RequestRecordVSState0(void) {
-    s32 i;
+    s32 rowIndex;
     u16 transientBase;
     u16 subBase;
-    s32 l;
+    s32 objectRowIndex;
     u16 mainBase;
-    s32 j;
-    i = 0;
+    s32 labelIndex;
+    rowIndex = 0;
     gRecordVS->mNextState = 0;
     gRecordVS->mStateFrames = 0;
     gRecordVS->mBg0OffsetX = 0;
@@ -648,9 +650,9 @@ void RequestRecordVSState0(void) {
     gRecordVS->mRecordVSMTable[mainBase + 1].mOffsetY = -192;
     gRecordVS->mRecordVSMTable[mainBase + 11].mOffsetY = -192;
     gRecordVS->mRecordVSMTable[mainBase + 12].mOffsetY = -192;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetY = -192;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (labelIndex = 0; labelIndex < 3; labelIndex++) {
+            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[rowIndex][labelIndex]].mOffsetY = -192;
         }
     }
     gRecordVS->mRecordVSMTransientTable[1].mOffsetY = -192;
@@ -658,8 +660,8 @@ void RequestRecordVSState0(void) {
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetY = -192;
     gRecordVS->mRecordVSMTransientTable[transientBase + 1].mOffsetY = -192;
     gRecordVS->mRecordVSMTransientTable[transientBase + 14].mOffsetY = -192;
-    for (j = 0; j < 12; j++) {
-        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[j]].mOffsetY = -192;
+    for (labelIndex = 0; labelIndex < 12; labelIndex++) {
+        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY = -192;
     }
     gRecordVS->mRecordVSSTable[20].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[21].mOffsetX = 0x100;
@@ -668,15 +670,15 @@ void RequestRecordVSState0(void) {
     gRecordVS->mRecordVSSTable[25].mVisible = 0;
     gRecordVS->mRecordVSSTable[26].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = 0x100;
-    for (l = 0; l < 5; l++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[l]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[l]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[l]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[l]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[l]].mOffsetX = 0x100;
+    for (objectRowIndex = 0; objectRowIndex < 5; objectRowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[objectRowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[objectRowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[objectRowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[objectRowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = 0x100;
     }
-    for (j = 0; j < 2; j++) {
-        gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[j]].mVisible = 0;
+    for (labelIndex = 0; labelIndex < 2; labelIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[labelIndex]].mVisible = 0;
     }
 }
 
@@ -734,10 +736,10 @@ void RequestRecordVSState7(void) {
 }
 
 void RequestRecordVSState8(void) {
-    s32 i;
+    s32 rowIndex;
     u16 subBase;
     gRecordVS->mNextState = 8;
-    i = 0;
+    rowIndex = 0;
     gRecordVS->mStateFrames = 0;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = 0x100;
@@ -747,15 +749,15 @@ void RequestRecordVSState8(void) {
     gRecordVS->mRecordVSSTable[25].mVisible = 0;
     gRecordVS->mRecordVSSTable[26].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = 0x100;
-    for (i = 0; i < 5; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = 0x100;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = 0x100;
     }
-    for (i = 0; i < 2; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[i]].mVisible = 0;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[rowIndex]].mVisible = 0;
     }
     WriteBackupBuddyRecords();
 }
@@ -774,10 +776,10 @@ void RequestRecordVSState10(void) {
 }
 
 void RequestRecordVSState11AndRefreshPage(void) {
-    s32 i;
+    s32 rowIndex;
     u16 subBase;
     gRecordVS->mNextState = 11;
-    i = 0;
+    rowIndex = 0;
     gRecordVS->mStateFrames = 0;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = 0x100;
@@ -786,23 +788,23 @@ void RequestRecordVSState11AndRefreshPage(void) {
     gRecordVS->mRecordVSSTable[25].mOffsetX = -256;
     gRecordVS->mRecordVSSTable[26].mOffsetX = -256;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = -256;
-    for (i = 0; i < 5; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = 0x100;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = 0x100;
     }
-    for (i = 0; i < 2; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[i]].mVisible = 0;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[rowIndex]].mVisible = 0;
     }
     RefreshRecordVSPage();
 }
 
 void InitRecordVS(void *heap) {
     s32 remaining;
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 columnIndex;
     u16 objectIndex;
     u16 mainBase;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 2;
@@ -820,8 +822,8 @@ void InitRecordVS(void *heap) {
     gRecordVS->mShowsFriendKey = 0;
     gRecordVS->mPageDecrementRepeat = FALSE;
     gRecordVS->mPageIncrementRepeat = FALSE;
-    for (i = 0; i < 2; i++) {
-        gRecordVS->mOffsetTimers[i] = 0;
+    for (index = 0; index < 2; index++) {
+        gRecordVS->mOffsetTimers[index] = 0;
     }
     LoadEmblemSBNclr(heap);
     LocateAndQueueRecordVS();
@@ -845,19 +847,21 @@ void InitRecordVS(void *heap) {
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
     objectIndex = 4;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            remaining -= InitLabelCanvas(heap, gRecordVSGridLabelIndices[i][j], gRecordVS->mRecordVSMBnll,
-                                         gRecordVSGridLabelWidths[i][j], gRecordVSGridLabelHeights[i][j], objectIndex,
-                                         gRecordVS->mRecordVSMNcer, gRecordVS->mRecordVSMBncl,
-                                         gRecordVS->mRecordVSMTable, remaining);
-            objectIndex = mainBase + gRecordVSGridLabelIndices[i][j];
+    for (index = 0; index < 3; index++) {
+        for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+            remaining -=
+                InitLabelCanvas(heap, gRecordVSGridLabelIndices[index][columnIndex], gRecordVS->mRecordVSMBnll,
+                                gRecordVSGridLabelWidths[index][columnIndex],
+                                gRecordVSGridLabelHeights[index][columnIndex], objectIndex, gRecordVS->mRecordVSMNcer,
+                                gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
+            objectIndex = mainBase + gRecordVSGridLabelIndices[index][columnIndex];
         }
     }
-    for (i = 0; i < 3; i++) {
-        PrintLabelLayoutTextNoFixedAdvance(0, gRecordVSGridLabelIndices[0][i], gRecordVS->mRecordVSMBnll,
-                                           GetBmgEntry(gRecordVS->mRecordMessages, gRecordVSGridRow0MessageIndices[i]),
-                                           gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
+    for (index = 0; index < 3; index++) {
+        PrintLabelLayoutTextNoFixedAdvance(
+            0, gRecordVSGridLabelIndices[0][index], gRecordVS->mRecordVSMBnll,
+            GetBmgEntry(gRecordVS->mRecordMessages, gRecordVSGridRow0MessageIndices[index]), gRecordVS->mRecordVSMBncl,
+            gRecordVS->mRecordVSMTable);
     }
     remaining -= InitLabelCanvas(heap, 0, gRecordVS->mRecordVSMTransientBnll, 0x8c, 0x10, 0, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
@@ -872,28 +876,29 @@ void InitRecordVS(void *heap) {
     PrintLabelLayoutTextNoFixedAdvance(0, 0xe, gRecordVS->mRecordVSMTransientBnll,
                                        GetBmgEntry(gRecordVS->mRecordMessages, 0xc), gRecordVS->mRecordVSMTransientBncl,
                                        gRecordVS->mRecordVSMTransientTable);
-    for (i = 0; i < 12; i++) {
-        remaining -= InitLabelCanvas(heap, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll,
-                                     gRecordVSFriendKeyLabelWidths[i], gRecordVSFriendKeyLabelHeights[i], i + 3,
-                                     gRecordVS->mRecordVSMNcer, gRecordVS->mRecordVSMTransientBncl,
+    for (index = 0; index < 12; index++) {
+        remaining -= InitLabelCanvas(heap, gRecordVSFriendKeyLabelIndices[index], gRecordVS->mRecordVSMTransientBnll,
+                                     gRecordVSFriendKeyLabelWidths[index], gRecordVSFriendKeyLabelHeights[index],
+                                     index + 3, gRecordVS->mRecordVSMNcer, gRecordVS->mRecordVSMTransientBncl,
                                      gRecordVS->mRecordVSMTransientTable, remaining);
     }
     remaining = GX_GetSizeOfSubOBJ();
-    for (i = 0; i < 5; i++) {
-        remaining -=
-            InitLabelCanvas(heap, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, gRecordVSRowLabelWidths[i],
-                            gRecordVSRowLabelHeights[i], gRecordVSHighlightObjectIndices[i], gRecordVS->mRecordVSSNcer,
-                            gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable, remaining);
+    for (index = 0; index < 5; index++) {
+        remaining -= InitLabelCanvas(heap, gRecordVSRowLabelIndices[index], gRecordVS->mRecordVSSBnll,
+                                     gRecordVSRowLabelWidths[index], gRecordVSRowLabelHeights[index],
+                                     gRecordVSHighlightObjectIndices[index], gRecordVS->mRecordVSSNcer,
+                                     gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable, remaining);
     }
     InitLabelCanvas(heap, 5, gRecordVS->mRecordVSSBnll, 0x98, 0x10, 0x19, gRecordVS->mRecordVSSNcer,
                     gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable, remaining);
     PrintLabelLayoutTextNoFixedAdvance(1, 5, gRecordVS->mRecordVSSBnll, GetBmgEntry(gRecordVS->mRecordMessages, 3),
                                        gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable);
-    for (i = 0; i < 5; i++) {
-        SetCellOamModeXlu(gRecordVSUnhighlightedObjectIndices[i], 0, gRecordVS->mRecordVSSNcer,
+    for (index = 0; index < 5; index++) {
+        SetCellOamModeXlu(gRecordVSUnhighlightedObjectIndices[index], 0, gRecordVS->mRecordVSSNcer,
                           gRecordVS->mRecordVSSBncl);
-        SetCellOamModeXlu(gRecordVSHighlightObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-        SetLabelOamModeXlu(gRecordVSRowLabelIndices[i], 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable,
+        SetCellOamModeXlu(gRecordVSHighlightObjectIndices[index], 0, gRecordVS->mRecordVSSNcer,
+                          gRecordVS->mRecordVSSBncl);
+        SetLabelOamModeXlu(gRecordVSRowLabelIndices[index], 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable,
                            gRecordVS->mRecordVSSBncl);
     }
     SetCellOamModeXlu(0x18, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);

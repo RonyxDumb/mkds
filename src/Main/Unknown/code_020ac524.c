@@ -27,111 +27,111 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 
-void InitShineBalloon(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value12;
-    ParkMapObject((void *) value0);
+void InitShineBalloon(u32 mapObjectArg) {
+    u32 mapObjectCopy = mapObjectArg;
+    u32 unusedValue;
+    ParkMapObject((void *) mapObjectCopy);
 }
 
-void CreateShineBalloon(void *a) {
-    MapObjectModel *p;
+void CreateShineBalloon(void *mapObjectList) {
+    MapObjectModel *mapObjectModelNsbmd;
 
-    p = CreateMapObjectModelNsbmd(a, "shine_balloon.nsbmd");
-    gShineBalloon = p;
-    SetMapObjectModelPolygonId(p, 0x3f);
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, "shine_balloon.nsbmd");
+    gShineBalloon = mapObjectModelNsbmd;
+    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
-void SetupDrawShineBalloon(void *a) {
-    QueueMapObjectModelMaterial(a, gShineBalloon);
+void SetupDrawShineBalloon(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gShineBalloon);
 }
 
-void DrawShineBalloon(void *a, ShineBalloonObject *b) {
-    s32 s0;
-    Vec3 v1;
-    Vec3 v2;
-    Vec3 v3;
-    Vec3 v4;
-    s32 t;
-    s32 v5;
+void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
+    s32 gxParam;
+    Vec3 cameraOffset;
+    Vec3 heightOffset;
+    Vec3 pulseScale;
+    Vec3 distanceScale;
+    s32 scale;
+    s32 cameraDistance;
 
-    if (b->mUnk_ac->mVisible == 0) {
+    if (shineBalloonObject->mUnk_ac->mVisible == 0) {
         return;
     }
-    s0 = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &s0, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&b->mMapObject.mPos), 0xc);
-    v2.y = GetKartBalloonOrShineHeight(b->mUnk_ac) >> 4;
-    v2.x = 0;
-    v2.z = 0;
-    NNS_G3dGeBufferOP_N(0x1c, &v2, 3);
-    t = b->mUnk_a0;
-    if (t != 0x1000) {
-        v3.x = t;
-        v3.y = t;
-        v3.z = t;
-        NNS_G3dGeBufferOP_N(0x1b, &v3, 3);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&shineBalloonObject->mMapObject.mPos), 0xc);
+    heightOffset.y = GetKartBalloonOrShineHeight(shineBalloonObject->mUnk_ac) >> 4;
+    heightOffset.x = 0;
+    heightOffset.z = 0;
+    NNS_G3dGeBufferOP_N(0x1c, &heightOffset, 3);
+    scale = shineBalloonObject->mUnk_a0;
+    if (scale != 0x1000) {
+        pulseScale.x = scale;
+        pulseScale.y = scale;
+        pulseScale.z = scale;
+        NNS_G3dGeBufferOP_N(0x1b, &pulseScale, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mMapObject.mScale, 3);
-    VEC_Subtract(&b->mMapObject.mPos, &GetCurrentCamera()->mPos, &v1);
-    v5 = VEC_Mag(&v1);
-    v4.x = v5;
-    v4.y = v5;
-    v4.z = v5;
-    NNS_G3dGeBufferOP_N(0x1b, &v4, 3);
-    DrawMapObjectModel(a, gShineBalloon, b);
+    NNS_G3dGeBufferOP_N(0x1b, &shineBalloonObject->mMapObject.mScale, 3);
+    VEC_Subtract(&shineBalloonObject->mMapObject.mPos, &GetCurrentCamera()->mPos, &cameraOffset);
+    cameraDistance = VEC_Mag(&cameraOffset);
+    distanceScale.x = cameraDistance;
+    distanceScale.y = cameraDistance;
+    distanceScale.z = cameraDistance;
+    NNS_G3dGeBufferOP_N(0x1b, &distanceScale, 3);
+    DrawMapObjectModel(mapObjectList, gShineBalloon, shineBalloonObject);
 }
 
-void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
-    switch (b->mState) {
+void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
+    switch (shineBalloonObject->mState) {
         case 0:
-            if (GetBalloonOrShineCount(b->mUnk_ac->mIndex) == 0) {
+            if (GetBalloonOrShineCount(shineBalloonObject->mUnk_ac->mIndex) == 0) {
                 return;
             }
-            b->mTimer = 0x1e;
-            b->mUnk_a4 = 0x19;
-            b->mState = 1;
-            b->mMapObject.mFlags &= ~2;
-            b->mMapObject.mFlags &= ~8;
-            b->mMapObject.mAlpha = 0x1f;
+            shineBalloonObject->mTimer = 0x1e;
+            shineBalloonObject->mUnk_a4 = 0x19;
+            shineBalloonObject->mState = 1;
+            shineBalloonObject->mMapObject.mFlags &= ~2;
+            shineBalloonObject->mMapObject.mFlags &= ~8;
+            shineBalloonObject->mMapObject.mAlpha = 0x1f;
             break;
         case 1:
-            if (b->mTimer-- > 0) {
+            if (shineBalloonObject->mTimer-- > 0) {
                 return;
             }
-            b->mTimer = 0;
-            b->mUnk_a0 += b->mUnk_a4;
-            b->mUnk_a4 -= 4;
-            if (b->mUnk_a4 < 0) {
-                if (b->mUnk_a0 <= 0x4a) {
-                    b->mUnk_a0 = 0x4a;
-                    b->mState = 2;
+            shineBalloonObject->mTimer = 0;
+            shineBalloonObject->mUnk_a0 += shineBalloonObject->mUnk_a4;
+            shineBalloonObject->mUnk_a4 -= 4;
+            if (shineBalloonObject->mUnk_a4 < 0) {
+                if (shineBalloonObject->mUnk_a0 <= 0x4a) {
+                    shineBalloonObject->mUnk_a0 = 0x4a;
+                    shineBalloonObject->mState = 2;
                 }
             }
-            b->mMapObject.mPos = b->mUnk_ac->mPos;
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mUnk_ac->mPos;
             break;
         case 2:
-            if (GetBalloonOrShineCount(b->mUnk_ac->mIndex) == 0) {
-                b->mTimer = 0x1e;
-                b->mUnk_a4 = 8;
-                b->mState = 3;
+            if (GetBalloonOrShineCount(shineBalloonObject->mUnk_ac->mIndex) == 0) {
+                shineBalloonObject->mTimer = 0x1e;
+                shineBalloonObject->mUnk_a4 = 8;
+                shineBalloonObject->mState = 3;
             }
-            b->mMapObject.mPos = b->mUnk_ac->mPos;
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mUnk_ac->mPos;
             break;
         case 3:
-            if (b->mTimer-- <= 0) {
-                b->mTimer = 0;
-                b->mUnk_a0 += b->mUnk_a4;
-                b->mUnk_a4 -= 4;
-                if (b->mUnk_a4 < 0) {
-                    if (b->mUnk_a0 <= 0) {
-                        b->mUnk_a0 = 0;
-                        b->mState = 0;
-                        b->mMapObject.mFlags |= data_02156838;
-                        b->mMapObject.mFlags |= data_0215683c;
+            if (shineBalloonObject->mTimer-- <= 0) {
+                shineBalloonObject->mTimer = 0;
+                shineBalloonObject->mUnk_a0 += shineBalloonObject->mUnk_a4;
+                shineBalloonObject->mUnk_a4 -= 4;
+                if (shineBalloonObject->mUnk_a4 < 0) {
+                    if (shineBalloonObject->mUnk_a0 <= 0) {
+                        shineBalloonObject->mUnk_a0 = 0;
+                        shineBalloonObject->mState = 0;
+                        shineBalloonObject->mMapObject.mFlags |= data_02156838;
+                        shineBalloonObject->mMapObject.mFlags |= data_0215683c;
                     }
                 }
             }
-            b->mMapObject.mPos = b->mUnk_ac->mPos;
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mUnk_ac->mPos;
             break;
     }
 }
@@ -148,55 +148,55 @@ void *CreateShineBalloonUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateShineBalloon, NULL);
 }
 
-void StartShineBalloon(Kart *a) {
-    ShineBalloonObject *o;
+void StartShineBalloon(Kart *kart) {
+    ShineBalloonObject *shineBalloonObject;
 
-    o = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE_BALLOON));
-    if (o == NULL) {
+    shineBalloonObject = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE_BALLOON));
+    if (shineBalloonObject == NULL) {
         return;
     }
-    o->mMapObject.mPos.x = 0;
-    o->mMapObject.mPos.y = 0;
-    o->mMapObject.mPos.z = 0;
-    o->mMapObject.mPosStep.x = 0;
-    o->mMapObject.mPosStep.y = 0;
-    o->mMapObject.mPosStep.z = 0;
-    o->mUnk_ac = a;
-    o->mUnk_a0 = 0;
-    o->mUnk_a4 = 0;
-    o->mTimer = 0;
-    o->mState = 0;
+    shineBalloonObject->mMapObject.mPos.x = 0;
+    shineBalloonObject->mMapObject.mPos.y = 0;
+    shineBalloonObject->mMapObject.mPos.z = 0;
+    shineBalloonObject->mMapObject.mPosStep.x = 0;
+    shineBalloonObject->mMapObject.mPosStep.y = 0;
+    shineBalloonObject->mMapObject.mPosStep.z = 0;
+    shineBalloonObject->mUnk_ac = kart;
+    shineBalloonObject->mUnk_a0 = 0;
+    shineBalloonObject->mUnk_a4 = 0;
+    shineBalloonObject->mTimer = 0;
+    shineBalloonObject->mState = 0;
 }
 
 // Creates b map objects of kind a from the source object c and parks each one that is not already parked.
-void CreateParkedMapObjects(u32 a, s32 b, void *c) {
-    s32 i;
-    MapObject *e;
+void CreateParkedMapObjects(u32 kind, s32 count, void *object) {
+    s32 index;
+    MapObject *mapObject;
 
-    for (i = 0; i < b; i++) {
-        e = CreateMapObjectFromObject(c, a);
-        if ((e->mFlags & 0x100) == 0) {
-            ParkMapObject(e);
+    for (index = 0; index < count; index++) {
+        mapObject = CreateMapObjectFromObject(object, kind);
+        if ((mapObject->mFlags & 0x100) == 0) {
+            ParkMapObject(mapObject);
         }
     }
 }
 
 // Returns the first map object in the update list of kind a that has the parked bit 0x100, or NULL if there is none;
 // changes nothing.
-void *FindParkedMapObject(s32 a) {
-    MapObjectList *v1;
-    void **v2;
-    s32 n;
-    s32 i;
-    MapObject *e;
+void *FindParkedMapObject(s32 kind) {
+    MapObjectList *mapObjectList;
+    void **mapObjects;
+    s32 objectCount;
+    s32 objectIndex;
+    MapObject *mapObject;
 
-    v1 = FindMapObjectKindUpdateList(a);
-    v2 = GetMapObjects(v1);
-    n = GetMapObjectListCount(v1);
-    for (i = 0; i < n; i++) {
-        e = v2[i];
-        if (e->mFlags & 0x100) {
-            return e;
+    mapObjectList = FindMapObjectKindUpdateList(kind);
+    mapObjects = GetMapObjects(mapObjectList);
+    objectCount = GetMapObjectListCount(mapObjectList);
+    for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
+        mapObject = mapObjects[objectIndex];
+        if (mapObject->mFlags & 0x100) {
+            return mapObject;
         }
     }
     return NULL;

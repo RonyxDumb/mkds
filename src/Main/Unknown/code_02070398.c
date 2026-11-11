@@ -132,29 +132,29 @@ void ResetKartToRespawnPoint(Kart *kart) {
     Vec3 sideDirection;
     MtxFx33 rotationMatrix;
     PointLink *respawnLink;
-    s32 x;
+    s32 value;
     s32 forwardOffset;
-    s32 i;
+    s32 index;
     KartItems *kartItems;
-    s64 l;
+    s64 sinValue;
 
     if (kart->mRespawnSlot == -1) {
-        i = kart->mIndex;
+        index = kart->mIndex;
         if (gRaceSetup->mMode == MODE_BATTLE) {
-            i = GetCourseMapRespawnSlot(0);
+            index = GetCourseMapRespawnSlot(0);
         } else {
-            i = GetCourseMapRespawnSlot(gRaceProgress->mKarts[i].mCheckpoint);
+            index = GetCourseMapRespawnSlot(gRaceProgress->mKarts[index].mCheckpoint);
         }
-        kart->mRespawnSlot = i;
+        kart->mRespawnSlot = index;
     }
-    i = (u16) kart->mRespawnSlot;
+    index = (u16) kart->mRespawnSlot;
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        respawnLink = GetCourseMapRespawnBattlePointLink(i, &respawnPos, &respawnAngles);
+        respawnLink = GetCourseMapRespawnBattlePointLink(index, &respawnPos, &respawnAngles);
     } else {
-        respawnLink = GetCourseMapRespawnRacePointLink(i, &respawnPos, &respawnAngles);
+        respawnLink = GetCourseMapRespawnRacePointLink(index, &respawnPos, &respawnAngles);
     }
-    i = ((u16) ((s32) (((s64) respawnAngles.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
-    MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
+    index = DEG_TO_ANGLE_TRUNCATED(respawnAngles.y);
+    MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(index), COS_OF_ANGLE(index));
     MTX_MultVec33(&data_02154f70, &rotationMatrix, &respawnForward);
     if (gRaceSetup->mMode != MODE_BATTLE && gCourseMap->mItemRouteCount != 0) {
         (kartItems = &gKartItems[kart->mIndex])->mItemLink.mLink =
@@ -162,29 +162,27 @@ void ResetKartToRespawnPoint(Kart *kart) {
         kartItems->mItemLink.mNextLinksUsed = 1;
     }
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
-        x = data_usa_02154d4c[kart->mIndex][0];
+        value = data_usa_02154d4c[kart->mIndex][0];
         forwardOffset = data_usa_02154d50[kart->mIndex][0];
         Vec3CrossUnrounded(&gKartVec3UnitY, &respawnForward, &sideDirection);
-        VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, x), &sideDirection, &respawnPos, &respawnPos);
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, value), &sideDirection, &respawnPos, &respawnPos);
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
         if (respawnAngles.x != 0 && forwardOffset != 0) {
-            i = ((u16) ((s32) (((s64) respawnAngles.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
-            l = FX_SinCosTable_[i * 2];
-            i = (l * -forwardOffset + 0x800) >> 12;
-            respawnPos.y += MUL_FIXED12_ROUNDED(i, data_usa_02165504);
+            sinValue = SIN_OF_ANGLE(DEG_TO_ANGLE_TRUNCATED(respawnAngles.x));
+            index = (sinValue * -forwardOffset + 0x800) >> 12;
+            respawnPos.y += MUL_FIXED12_ROUNDED(index, data_usa_02165504);
         }
-        if (respawnAngles.z != 0 && x != 0) {
-            i = ((u16) ((s32) (((s64) respawnAngles.z * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12)) >> 4;
-            l = FX_SinCosTable_[i * 2];
-            i = (l * x + 0x800) >> 12;
-            respawnPos.y += MUL_FIXED12_ROUNDED(i, data_usa_02165504);
+        if (respawnAngles.z != 0 && value != 0) {
+            sinValue = SIN_OF_ANGLE(DEG_TO_ANGLE_TRUNCATED(respawnAngles.z));
+            index = (sinValue * value + 0x800) >> 12;
+            respawnPos.y += MUL_FIXED12_ROUNDED(index, data_usa_02165504);
         }
     }
     respawnPos.y += 0x28000;
-    x = kart->mUnk_48;
-    if (x & 0x800000) {
+    value = kart->mUnk_48;
+    if (value & 0x800000) {
         SetupKartFollowEffect(StartEffect(0x71, &respawnPos), kart->mIndex, 0x32);
-    } else if (x & 0x1000000) {
+    } else if (value & 0x1000000) {
         SetupKartFollowEffect(StartEffect(0x70, &respawnPos), kart->mIndex, 0x32);
     }
     ResetKartAndSetPos(kart, &respawnPos, &respawnForward, respawnLink);
@@ -201,7 +199,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     }
 }
 
-s32 AdvanceKartRespawnWait(Kart *kart, s32 *a) {
+s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
     BOOL finished;
     u32 flags;
 
@@ -211,12 +209,12 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *a) {
         if (kart->mRespawnWaitVelocityScale > 0x19a) {
             kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
-        *a = kart->mRespawnWaitVelocityScale;
+        *outVelocityScale = kart->mRespawnWaitVelocityScale;
     } else if (flags & 0x200000) {
         if (kart->mRespawnWaitVelocityScale > 0x666) {
             kart->mRespawnWaitVelocityScale = MUL_FIXED12_NO_ROUND(kart->mRespawnWaitVelocityScale, 0xe66LL);
         }
-        *a = kart->mRespawnWaitVelocityScale;
+        *outVelocityScale = kart->mRespawnWaitVelocityScale;
     }
     kart->mRespawnFrames = kart->mRespawnFrames + 1;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
@@ -283,7 +281,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
 }
 
 void StopKartItemsAndEffects(Kart *kart) {
-    s32 i;
+    s32 effectIndex;
     KartFollowEffectIds effectIds;
 
     ReleaseKartItems(&gKartItems[kart->mIndex]);
@@ -324,12 +322,12 @@ void StopKartItemsAndEffects(Kart *kart) {
         }
         kart->mRadiusFactor = 0x1000;
         kart->mSurfaceGroup = -1;
-        i = 0;
+        effectIndex = 0;
         kart->mItemEffect = 0;
         if (kart->mKartModelsEntry->mKartModelHidden == 0) {
             effectIds = gKartFollowEffectIds;
-            for (i = 0; i < 3; i++) {
-                SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
+            for (effectIndex = 0; effectIndex < 3; effectIndex++) {
+                SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[effectIndex], &kart->mPos), kart->mIndex, 0x14);
             }
         }
         StopKartKillerEffect(kart->mIndex);
@@ -381,38 +379,38 @@ void ResetKartToStartPlacement(Kart *kart) {
 }
 
 void InitKartPhysicalParams(Kart *kart) {
-    s32 a;
-    s32 b;
-    s16 i;
+    s32 factor;
+    s32 adjustment;
+    s16 surfaceIndex;
     KartPhysicalParam *physicalParam;
     s32 *charPhysicalParam;
 
     kart->mPhysicalParam = GetKartPhysicalParam(kart->mIndex);
-    a = 0x1000;
-    b = 0;
+    factor = 0x1000;
+    adjustment = 0;
     if (IsRaceAwardOrStaffRoll() == 0) {
         switch (gRaceSetup->mEngineIndex) {
             case 0:
-                a = 0xb33;
-                b = -0x28;
+                factor = 0xb33;
+                adjustment = -0x28;
                 break;
             case 1:
-                a = 0xd9a;
-                b = -0x14;
+                factor = 0xd9a;
+                adjustment = -0x14;
                 break;
         }
     }
-    kart->mPhysicalParam->mBaseSpeedLimit = MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, a);
-    kart->mPhysicalParam->mUnk_32 = kart->mPhysicalParam->mUnk_32 + b;
+    kart->mPhysicalParam->mBaseSpeedLimit = MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, factor);
+    kart->mPhysicalParam->mUnk_32 = kart->mPhysicalParam->mUnk_32 + adjustment;
     kart->mSpeedLimitFactorPerDepth = 0x1000 - kart->mPhysicalParam->mSurfaceSpeedLimitFactors[4];
     kart->mSpeedLimitFactorPerDepth = FX_Div(kart->mSpeedLimitFactorPerDepth, kart->mPhysicalParam->mRadius << 1);
     kart->mCharPhysicalParam = GetCharPhysicalParam(kart->mIndex);
     physicalParam = kart->mPhysicalParam;
     charPhysicalParam = kart->mCharPhysicalParam;
-    for (i = 0; i < 12; i++) {
-        a = physicalParam->mSurfaceSpeedLimitFactors[i];
-        if (a < 0x1000) {
-            physicalParam->mSurfaceSpeedLimitFactors[i] = MUL_FIXED12_ROUNDED(a, *charPhysicalParam);
+    for (surfaceIndex = 0; surfaceIndex < 12; surfaceIndex++) {
+        factor = physicalParam->mSurfaceSpeedLimitFactors[surfaceIndex];
+        if (factor < 0x1000) {
+            physicalParam->mSurfaceSpeedLimitFactors[surfaceIndex] = MUL_FIXED12_ROUNDED(factor, *charPhysicalParam);
         }
     }
 }
@@ -443,7 +441,7 @@ void ResetKartMotionVectorsAndFactors(Kart *kart) {
 
 void ResetKart(Kart *kart) {
     Vec3 zeroVector;
-    u16 i;
+    u16 slotIndex;
 
     ClearCharacterTurnAndNextAnimation(kart->mKartModelsEntry);
     kart->mUnk_44 = 0;
@@ -572,10 +570,10 @@ void ResetKart(Kart *kart) {
     kart->mModelScaleY = 0x1000;
     kart->mModelScaleX = 0x1000;
     kart->mModelScaleZ = 0x1000;
-    for (i = 0; i < 2; i++) {
-        kart->mPrevTouchingMapObjects[i] = NULL;
-        kart->mMapObjectSoundFrames[i] = 0;
-        kart->mMapObjectSoundPlayed[i] = 0;
+    for (slotIndex = 0; slotIndex < 2; slotIndex++) {
+        kart->mPrevTouchingMapObjects[slotIndex] = NULL;
+        kart->mMapObjectSoundFrames[slotIndex] = 0;
+        kart->mMapObjectSoundPlayed[slotIndex] = 0;
     }
     kart->mScaleEffectMapObject = NULL;
     kart->mModelOffsetY = 0;
@@ -613,7 +611,7 @@ void ResetKart(Kart *kart) {
 void InitParticipantKartRecordState(Kart *kart, void *heap) {
     ParticipantKartRecordState *recordState;
     Vec3 zeroVector;
-    u16 i;
+    u16 recordIndex;
     u8 *entries;
 
     recordState = kart->mParticipantRecordData;
@@ -644,8 +642,8 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     NNS_FndInitList(&recordState->mPendingRecords, 0);
     NNS_FndInitList(&recordState->mFreeRecords, 0);
     entries = HeapAlloc(heap, 0x438);
-    for (i = 0; i < 0x1e; i++) {
-        NNS_FndAppendListObject(&recordState->mFreeRecords, entries + i * 0x24);
+    for (recordIndex = 0; recordIndex < 0x1e; recordIndex++) {
+        NNS_FndAppendListObject(&recordState->mFreeRecords, entries + recordIndex * 0x24);
     }
 }
 
@@ -885,7 +883,7 @@ void StartSoundWhileRequestedFullVolume(SoundSource *soundSource, u32 soundId) {
     u32 soundIdCopy = soundId;
     u32 volume;
     u32 pitch;
-    u32 value12;
+    u32 unusedValue;
     volume = 0x7fu;
     pitch = 0u;
     StartSoundWhileRequested(sourceCopy, soundIdCopy, volume, pitch);
@@ -905,7 +903,7 @@ void KartStartSoundFullVolume(void *soundSource, int soundId) {
     u32 soundIdCopy = soundId;
     u32 volume;
     u32 pitch;
-    u32 v6;
+    u32 unusedValue;
     volume = 0x7fu;
     pitch = 0u;
     StartSound(sourceCopy, soundIdCopy, volume, pitch);
@@ -963,12 +961,12 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     u16 nextTableIndex;
     s32 keyALevel;
     s32 amountScale;
-    s32 t;
+    s32 value;
 
     kart->mOffsetCyclePhase = kart->mOffsetCyclePhase + kart->mOffsetCyclePhaseStep;
-    t = kart->mOffsetCyclePhase - 0x8000;
-    if (t >= 0) {
-        kart->mOffsetCyclePhase = t;
+    value = kart->mOffsetCyclePhase - 0x8000;
+    if (value >= 0) {
+        kart->mOffsetCyclePhase = value;
     }
     fraction = kart->mOffsetCyclePhase & 0xfff;
     tableIndex = kart->mOffsetCyclePhase >> 12;
@@ -988,19 +986,19 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     keyALevel = kart->mRevLevel;
     amountScale = MUL_FIXED12_NO_ROUND(keyALevel, 0x333);
     if (keyALevel > 0xf33) {
-        t = MUL_FIXED12_NO_ROUND((keyALevel - 0xf33) * 0x32, 0x19a);
-        if (t > 0x19a) {
-            t = 0x19a;
+        value = MUL_FIXED12_NO_ROUND((keyALevel - 0xf33) * 0x32, 0x19a);
+        if (value > 0x19a) {
+            value = 0x19a;
         }
-        t = t + 0x333;
-        amountScale = MUL_FIXED12_NO_ROUND(keyALevel, t);
+        value = value + 0x333;
+        amountScale = MUL_FIXED12_NO_ROUND(keyALevel, value);
     } else if (keyALevel > 0xd9a) {
-        t = MUL_FIXED12_NO_ROUND((keyALevel - 0xd9a) * 0x32, 0x52);
-        if (t > 0x52) {
-            t = 0x52;
+        value = MUL_FIXED12_NO_ROUND((keyALevel - 0xd9a) * 0x32, 0x52);
+        if (value > 0x52) {
+            value = 0x52;
         }
-        t = t + 0x333;
-        amountScale = MUL_FIXED12_NO_ROUND(keyALevel, t);
+        value = value + 0x333;
+        amountScale = MUL_FIXED12_NO_ROUND(keyALevel, value);
     }
     kart->mOffsetCycleAmount.x =
         kart->mOffsetCycleAmount.x + MUL_FIXED12_NO_ROUND(kart->mOffsetCycleAmount.x, amountScale);
@@ -1052,14 +1050,14 @@ void AdvanceKartHeadingSwing(Kart *kart) {
     }
 }
 
-void StartKartModelScaleAnimation(Kart *kart, s32 a) {
+void StartKartModelScaleAnimation(Kart *kart, s32 mode) {
     s32 state;
 
     state = kart->mState;
     if (state != KART_STATE_NORMAL && state != KART_STATE_LAUNCH_DOUBLE_FLIP) {
         return;
     }
-    if (a == 2) {
+    if (mode == 2) {
         kart->mModelScaleKind = 2;
     } else if (kart->mUnk_44 & 2) {
         kart->mModelScaleKind = 1;
@@ -1073,11 +1071,11 @@ void StartKartModelScaleAnimation(Kart *kart, s32 a) {
     kart->mUnk_4c |= 8;
 }
 
-void ResetKartMotionState(Kart *kart, s32 b) {
+void ResetKartMotionState(Kart *kart, s32 flag) {
     NNSSndSeqPlayer **sndHandleSlot;
     PlayingSound *playingSound;
 
-    if (b == 0) {
+    if (flag == 0) {
         kart->mUnk_48 |= KART_48_INPUT_LOCKED;
         kart->mUnk_44 &= ~KART_44_ON_GROUND;
     }
@@ -1157,7 +1155,7 @@ void StartFixedPositionEffects(Kart *kart) {
     Vec3 *cameraPos;
     BOOL cameraOutsideBox;
     s32 effectCount;
-    s32 i;
+    s32 effectIndex;
     s32 *nextEffectId;
     s32 *effectIdsOtherPtr;
 
@@ -1185,7 +1183,7 @@ void StartFixedPositionEffects(Kart *kart) {
             effectCount = 2;
             nextEffectId = effectIdsOtherPtr;
         }
-        for (i = 0; i < effectCount; i++) {
+        for (effectIndex = 0; effectIndex < effectCount; effectIndex++) {
             StartEffect(*nextEffectId, &effectPos);
             nextEffectId++;
         }
@@ -1206,7 +1204,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     u16 placementIndex;
     s32 distance;
     s32 angleIndex;
-    s32 t;
+    s32 speed;
     u32 flags;
     Vec3 placementPos;
     Vec3 placementAngles;
@@ -1217,7 +1215,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     Vec3 toKart;
     Vec3 flatForward;
     Vec3 sideVector;
-    MtxFx43 m2;
+    MtxFx43 placementMatrix;
     MtxFx33 rotationMatrix;
     Vec3 axis;
 
@@ -1339,26 +1337,26 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
                 kart->mAirTiltAngle = -5000;
             }
         }
-        MTX_RotAxis33(&m2.mAxes, &kart->mUnk_120, FX_SinIdx((u16) kart->mAirTiltAngle),
+        MTX_RotAxis33(&placementMatrix.mAxes, &kart->mUnk_120, FX_SinIdx((u16) kart->mAirTiltAngle),
                       FX_CosIdx((u16) kart->mAirTiltAngle));
-        MTX_MultVec33(&groundNormal, &m2.mAxes, &groundNormal);
+        MTX_MultVec33(&groundNormal, &placementMatrix.mAxes, &groundNormal);
         kart->mGroundNormal = groundNormal;
         AdvanceKartOrientation(kart, &groundNormal);
     }
 
     kart->mForwardSpeed = 0x1e000;
-    t = kart->mForwardSpeed;
-    m2.mRows[3].x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, t);
-    m2.mRows[3].y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, t);
-    m2.mRows[3].z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, t);
+    speed = kart->mForwardSpeed;
+    placementMatrix.mRows[3].x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, speed);
+    placementMatrix.mRows[3].y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, speed);
+    placementMatrix.mRows[3].z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, speed);
     kart->mEasedTurnedForward = kart->mTurnedForward;
     if (distance < 0x3e8000) {
-        t = MUL_FIXED12_NO_ROUND(distance, 0x29) + 0x14000;
-        if (kart->mForwardSpeed > t) {
-            kart->mForwardSpeed = t;
+        speed = MUL_FIXED12_NO_ROUND(distance, 0x29) + 0x14000;
+        if (kart->mForwardSpeed > speed) {
+            kart->mForwardSpeed = speed;
         }
     }
-    kart->mVelocity = m2.mRows[3];
+    kart->mVelocity = placementMatrix.mRows[3];
     VEC_Add(&kart->mPos, &kart->mVelocity, &kart->mPos);
 }
 
@@ -1464,7 +1462,7 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     }
 }
 
-BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
+BOOL TryHoldKartStill(Kart *kart, u32 collisionBits, void *hitListPtr) {
     u32 flags;
 
     flags = kart->mUnk_44;
@@ -1474,7 +1472,7 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
             kart->mPos.x = kart->mPrevPos.x;
             kart->mPos.z = kart->mPrevPos.z;
         } else {
-            UpdateCollisionHitLink(c, b, kart->mCollisionHitLink, &kart->mPos, NULL);
+            UpdateCollisionHitLink(hitListPtr, collisionBits, kart->mCollisionHitLink, &kart->mPos, NULL);
         }
         kart->mVelocity = gKartVec3Zero;
         kart->mVelocityLength = 0;

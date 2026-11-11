@@ -4,4 +4,4 @@
 
 typedef struct Kart Kart;
 
-void CollideKartWithKarts(Kart *p);
+void CollideKartWithKarts(Kart *kart);

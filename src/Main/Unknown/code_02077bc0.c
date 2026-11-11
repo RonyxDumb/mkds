@@ -125,7 +125,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "code_021471bc.h"
 
-void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 b, u32 c) {
+void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2) {
     if ((shadowModel->mFlags & 1) != 0) {
         SetNsbmdFirstDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha);
         gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
@@ -135,7 +135,7 @@ void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 b, u32 c) {
 }
 
 void InitKarts(u32 kartCount) {
-    u16 i;
+    u16 kartIndex;
     void *heap = GetHeap(GetCurrentHeapCall());
     EntryKartCounters *entryKartCounters;
     gKarts = HeapAlloc(heap, kartCount * 0x5a8);
@@ -162,31 +162,31 @@ void InitKarts(u32 kartCount) {
             gMissionRunKind2ShapesPresent = 1;
         }
     }
-    for (i = 0; i < kartCount; i++) {
-        gKarts[i].mIndex = i;
-        gKarts[i].mEntryIndex = gRaceSetup->mCurrentEntries[i].mPlayer.mIndex;
-        InitKart(&gKarts[i], gKartDefaultSlotFunctions);
+    for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+        gKarts[kartIndex].mIndex = kartIndex;
+        gKarts[kartIndex].mEntryIndex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mIndex;
+        InitKart(&gKarts[kartIndex], gKartDefaultSlotFunctions);
     }
     gKartKind3ShapeListMask = 0;
 }
 
 void UpdateKarts(void) {
-    s32 i;
+    s32 kartIndex;
     Kart *kart = gKarts;
     gMinKartDistanceSquaredPresent = 0;
     gMinKartDistanceSquared = -1;
-    for (i = 0; i < gKartCount; i++) {
+    for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
         UpdateKartPrevValuesAndClearFlags(kart);
         kart++;
     }
     SetKartNearPlayerRankBits();
     kart = gKarts;
-    for (i = 0; i < gKartCount; i++) {
+    for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
         kart->mSlotFunctions[3](kart);
         kart++;
     }
     kart = gKarts;
-    for (i = 0; i < gKartCount; i++) {
+    for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
         kart->mSlotFunctions[4](kart);
         kart++;
     }
@@ -194,27 +194,27 @@ void UpdateKarts(void) {
 
 void UpdateKartSoundDistancesSquared(void) {
     Kart *kart = gKarts;
-    s16 i;
-    for (i = 0; i < gKartCount; i++) {
+    s16 kartIndex;
+    for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
         kart->mSlotFunctions[2](kart);
         kart++;
     }
 }
 
 void DrawKarts(void) {
-    s32 i = 0;
+    s32 drawOrderIndex = 0;
     u16 *kartIndices = GetKartIndicesByDistance();
     (gKarts[gRaceSetup->mEntryIndex].mKartModelsEntry)->mFarFromCamera = TRUE;
-    for (; i < gKartCount; i++) {
+    for (; drawOrderIndex < gKartCount; drawOrderIndex++) {
         DrawKart(&gKarts[*kartIndices]);
         kartIndices++;
     }
 }
 
 void CallKartSlot8AndClearKarts(void) {
-    s32 i;
-    for (i = 0; i < gKartCount; i++) {
-        CallKartSlot8(&gKarts[i]);
+    s32 kartIndex;
+    for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
+        CallKartSlot8(&gKarts[kartIndex]);
     }
     gKarts = NULL;
 }
@@ -269,12 +269,12 @@ u32 GetKartForwardSpeedRatio(void) {
 
 // Sets bit i when the kart is inside kind 3 shape list i.
 void SetKartKind3ShapeListMask(s32 kartIndex) {
-    u16 i;
+    u16 shapeListIndex;
 
     gKartKind3ShapeListMask = 0;
-    for (i = 0; i < 8; i++) {
-        if (IsKartInCourseMapKind3ShapeList(kartIndex, i) != 0) {
-            gKartKind3ShapeListMask |= 1 << i;
+    for (shapeListIndex = 0; shapeListIndex < 8; shapeListIndex++) {
+        if (IsKartInCourseMapKind3ShapeList(kartIndex, shapeListIndex) != 0) {
+            gKartKind3ShapeListMask |= 1 << shapeListIndex;
         }
     }
 }
@@ -319,10 +319,10 @@ u32 GetKartCourseHitAttributeBitWrapper(int kartIndex) {
 }
 
 void SetKartModelsFogEnable(s32 fogEnableFlag) {
-    s32 i;
+    s32 kartIndex;
     Kart *kart = gKarts;
     KartModelsEntry *entry;
-    for (i = 0; i < gKartCount; i++) {
+    for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
         entry = kart->mKartModelsEntry;
         NNS_G3dMdlSetMdlFogEnableFlagAll(entry->mModels[1]->mResMdl, fogEnableFlag);
         NNS_G3dMdlSetMdlFogEnableFlagAll(entry->mModels[0]->mResMdl, fogEnableFlag);
@@ -356,13 +356,13 @@ BOOL IsEntryKartFlag1000Set(void) {
 void SetKartNearPlayerRankBits(void) {
     s32 kartIndices[3];
     u32 kartRank = GetKartRank((u16) gRaceSetup->mEntryIndex);
-    u16 i;
-    u16 k;
+    u16 nearSlotIndex;
+    u16 awardKartIndex;
     s32 kartIndex;
     Kart *kart;
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        for (k = 0; k < 3; k++) {
-            gKarts[k].mUnk_4c |= KART_4C_NEAR_PLAYER_RANK;
+        for (awardKartIndex = 0; awardKartIndex < 3; awardKartIndex++) {
+            gKarts[awardKartIndex].mUnk_4c |= KART_4C_NEAR_PLAYER_RANK;
         }
         return;
     }
@@ -389,8 +389,8 @@ void SetKartNearPlayerRankBits(void) {
             }
         }
     }
-    for (i = 0; i < data_usa_021658bc; i++) {
-        kartIndex = kartIndices[i];
+    for (nearSlotIndex = 0; nearSlotIndex < data_usa_021658bc; nearSlotIndex++) {
+        kartIndex = kartIndices[nearSlotIndex];
         if (kartIndex >= 0) {
             kart = &gKarts[kartIndex];
             if ((kart->mUnk_4c & 0x10000000) == 0) {
@@ -560,15 +560,16 @@ s32 AdvanceKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, s32 blen
             NNS_G3dMdlSetMdlEmiAll(kartModelsEntry->mModels[2]->mResMdl, blend->mEmiColor);
         }
         {
-            s16 x = blend->mAmbStartR + MUL_FIXED12_ROUNDED(blend->mAmbDeltaR, blend->mBlendProgress);
-            s16 y = blend->mAmbStartG + MUL_FIXED12_ROUNDED(blend->mAmbDeltaG, blend->mBlendProgress);
-            s16 z = blend->mAmbStartB + MUL_FIXED12_ROUNDED(blend->mAmbDeltaB, blend->mBlendProgress);
+            s16 ambientRed = blend->mAmbStartR + MUL_FIXED12_ROUNDED(blend->mAmbDeltaR, blend->mBlendProgress);
+            s16 ambientGreen = blend->mAmbStartG + MUL_FIXED12_ROUNDED(blend->mAmbDeltaG, blend->mBlendProgress);
+            s16 ambientBlue = blend->mAmbStartB + MUL_FIXED12_ROUNDED(blend->mAmbDeltaB, blend->mBlendProgress);
             NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[0]->mResMdl, blend->mAmbColor);
             NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[1]->mResMdl, blend->mAmbColor);
             if (kartModelsEntry->mModels[2] != NULL) {
                 NNS_G3dMdlSetMdlAmbAll(kartModelsEntry->mModels[2]->mResMdl, blend->mAmbColor);
             }
-            blend->mAmbColor = x + (y << KART_MODEL_COLOR_BLEND_GREEN_SHIFT) + (z << KART_MODEL_COLOR_BLEND_BLUE_SHIFT);
+            blend->mAmbColor = ambientRed + (ambientGreen << KART_MODEL_COLOR_BLEND_GREEN_SHIFT) +
+                               (ambientBlue << KART_MODEL_COLOR_BLEND_BLUE_SHIFT);
         }
     } else {
         finished = TRUE;
@@ -630,135 +631,135 @@ u32 GetKartVariant(u32 kartIndex) {
 
 #pragma thumb on
 void InitKartModelsEntry(void *entry) {
-    u32 value0 = (u32) entry;
-    u32 value1;
-    u32 value2;
+    u32 fieldValue = (u32) entry;
+    u32 scratchValue;
+    u32 copiedValue;
     u32 entryAddress;
-    entryAddress = (value0) + (0u);
-    value0 = 0u;
-    value1 = ~(value0);
-    *(u32 *) ((entryAddress) + 0u) = value1;
-    *(u32 *) ((entryAddress) + 4u) = value1;
-    *(u32 *) ((entryAddress) + 8u) = value0;
-    *(u32 *) ((entryAddress) + 12u) = value0;
-    *(u32 *) ((entryAddress) + 16u) = value0;
-    *(u32 *) ((entryAddress) + 20u) = value0;
-    *(u32 *) ((entryAddress) + 24u) = value0;
-    *(u32 *) ((entryAddress) + 28u) = value0;
-    *(u32 *) ((entryAddress) + 32u) = value0;
-    value0 = (entryAddress) + (0u);
-    value0 = (value0) + 36u;
-    InitCharacterAnimationState(value0);
-    value0 = 0u;
-    *(u32 *) ((entryAddress) + 84u) = value0;
-    *(u32 *) ((entryAddress) + 88u) = value0;
-    *(u32 *) ((entryAddress) + 92u) = value0;
-    *(u32 *) ((entryAddress) + 96u) = value0;
-    *(u32 *) ((entryAddress) + 100u) = value0;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 104u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 172u;
-    *(u32 *) ((value1) + 0u) = value0;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 176u;
-    *(u32 *) ((value1) + 0u) = value0;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 110u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 110u;
-    value2 = *(const u16 *) ((value1) + 0u);
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 108u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 108u;
-    value2 = *(const u16 *) ((value1) + 0u);
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 106u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 116u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = 116u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 114u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = 114u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 112u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 122u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = 122u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 120u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = 120u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 118u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 128u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = 128u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 126u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = 126u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 124u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 134u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = 134u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 132u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = 132u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 130u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 140u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = 140u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 138u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = 138u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 136u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 146u;
-    *(u16 *) ((value1) + 0u) = value0;
-    value1 = 146u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 144u;
-    *(u16 *) ((value1) + 0u) = value2;
-    value1 = 144u;
-    value2 = *(const s16 *) ((entryAddress) + (value1));
-    value1 = (entryAddress) + (0u);
-    value1 = (value1) + 142u;
-    *(u16 *) ((value1) + 0u) = value2;
+    entryAddress = (fieldValue) + (0u);
+    fieldValue = 0u;
+    scratchValue = ~(fieldValue);
+    *(u32 *) ((entryAddress) + 0u) = scratchValue;
+    *(u32 *) ((entryAddress) + 4u) = scratchValue;
+    *(u32 *) ((entryAddress) + 8u) = fieldValue;
+    *(u32 *) ((entryAddress) + 12u) = fieldValue;
+    *(u32 *) ((entryAddress) + 16u) = fieldValue;
+    *(u32 *) ((entryAddress) + 20u) = fieldValue;
+    *(u32 *) ((entryAddress) + 24u) = fieldValue;
+    *(u32 *) ((entryAddress) + 28u) = fieldValue;
+    *(u32 *) ((entryAddress) + 32u) = fieldValue;
+    fieldValue = (entryAddress) + (0u);
+    fieldValue = (fieldValue) + 36u;
+    InitCharacterAnimationState(fieldValue);
+    fieldValue = 0u;
+    *(u32 *) ((entryAddress) + 84u) = fieldValue;
+    *(u32 *) ((entryAddress) + 88u) = fieldValue;
+    *(u32 *) ((entryAddress) + 92u) = fieldValue;
+    *(u32 *) ((entryAddress) + 96u) = fieldValue;
+    *(u32 *) ((entryAddress) + 100u) = fieldValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 104u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 172u;
+    *(u32 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 176u;
+    *(u32 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 110u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 110u;
+    copiedValue = *(const u16 *) ((scratchValue) + 0u);
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 108u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 108u;
+    copiedValue = *(const u16 *) ((scratchValue) + 0u);
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 106u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 116u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = 116u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 114u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = 114u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 112u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 122u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = 122u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 120u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = 120u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 118u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 128u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = 128u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 126u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = 126u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 124u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 134u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = 134u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 132u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = 132u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 130u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 140u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = 140u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 138u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = 138u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 136u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 146u;
+    *(u16 *) ((scratchValue) + 0u) = fieldValue;
+    scratchValue = 146u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 144u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
+    scratchValue = 144u;
+    copiedValue = *(const s16 *) ((entryAddress) + (scratchValue));
+    scratchValue = (entryAddress) + (0u);
+    scratchValue = (scratchValue) + 142u;
+    *(u16 *) ((scratchValue) + 0u) = copiedValue;
     entryAddress = (entryAddress) + 148u;
-    *(u16 *) ((entryAddress) + 0u) = value0;
+    *(u16 *) ((entryAddress) + 0u) = fieldValue;
 }
 #pragma thumb off
 
@@ -827,7 +828,7 @@ void SetKartModelsEntryVariant(KartModelsEntry *kartModelsEntry, int kartIndex) 
 
 void InitKartModels(void *heap, u32 kartCount) {
     u8 *kartOffsetFile;
-    u16 i;
+    u16 kartIndex;
     KartModelsEntry *entry;
     KartModelsEntry *entries;
     kartOffsetFile = FindKartModelFile("kartoffsetdata.bin");
@@ -845,25 +846,25 @@ void InitKartModels(void *heap, u32 kartCount) {
     CreateKartPhysicalParamTable(heap, kartCount);
     SetKartAiParamRow();
     CreateKillerItem(heap);
-    for (i = 0; i < gKartModels->mKartCount; i++) {
+    for (kartIndex = 0; kartIndex < gKartModels->mKartCount; kartIndex++) {
         entries = gKartModels->mKartModelsEntries;
-        entry = &entries[i];
+        entry = &entries[kartIndex];
         InitKartModelsEntry(entry);
-        entry->mRegion = gRaceSetup->mCurrentEntries[i].mPlayer.mRegion;
+        entry->mRegion = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mRegion;
         ResetKartKillerAnimationLooping(entry);
-        entries[i].mCharacterIndex = gRaceSetup->mCurrentEntries[i].mCharacterIndex;
-        entry->mKartIndex = gRaceSetup->mCurrentEntries[i].mKartIndex;
+        entries[kartIndex].mCharacterIndex = gRaceSetup->mCurrentEntries[kartIndex].mCharacterIndex;
+        entry->mKartIndex = gRaceSetup->mCurrentEntries[kartIndex].mKartIndex;
         SetKartModelsEntryVariant(entry, entry->mKartIndex);
         entry->mKartOffsetData = HeapAlloc(heap, 0xe0);
         MI_CpuCopy8(kartOffsetFile + entry->mKartIndex * 0xe0, entry->mKartOffsetData, 0xe0);
-        CopyKartPhysicalParams(i, (u16) entry->mKartIndex, (u16) entries[i].mCharacterIndex);
+        CopyKartPhysicalParams(kartIndex, (u16) entry->mKartIndex, (u16) entries[kartIndex].mCharacterIndex);
     }
     CreateKartModelsEntryModels(heap, 1);
     ReplaceKm1ArchiveWithKm2();
     CreateKartModelsEntryModels(heap, 0);
-    for (i = 0; i < gKartModels->mKartCount; i++) {
-        entry = &gKartModels->mKartModelsEntries[i];
-        UploadKartModelsEntryPalettes(entry, IsCharacterPNameUsed(i));
+    for (kartIndex = 0; kartIndex < gKartModels->mKartCount; kartIndex++) {
+        entry = &gKartModels->mKartModelsEntries[kartIndex];
+        UploadKartModelsEntryPalettes(entry, IsCharacterPNameUsed(kartIndex));
     }
     {
         Nclr *nclr;
@@ -876,10 +877,10 @@ void CreateKartModelsEntryModels(void *heap, s32 firstPass) {
     BOOL isVariantZero;
     KartModelsEntry *entry;
     s32 pNameUsed;
-    u16 j;
-    BOOL f;
-    s32 g;
-    u16 i;
+    u16 tireIndex;
+    BOOL skipKart;
+    s32 entryGate;
+    u16 kartIndex;
     s32 characterRangeStart;
     s32 characterRangeEnd;
     s32 kartRangeStart;
@@ -897,22 +898,22 @@ void CreateKartModelsEntryModels(void *heap, s32 firstPass) {
         kartRangeStart = 0x15;
         kartRangeEnd = 0x25;
     }
-    i = 0;
-    if (i < gKartModels->mKartCount) {
-        g = (firstPass == 0) ? 1 : i;
+    kartIndex = 0;
+    if (kartIndex < gKartModels->mKartCount) {
+        entryGate = (firstPass == 0) ? 1 : kartIndex;
         do {
-            entry = &gKartModels->mKartModelsEntries[i];
-            pNameUsed = IsCharacterPNameUsed(i);
+            entry = &gKartModels->mKartModelsEntries[kartIndex];
+            pNameUsed = IsCharacterPNameUsed(kartIndex);
             if ((u16) entry->mKartIndex % 3 == 0) {
                 isVariantZero = TRUE;
             } else {
                 isVariantZero = FALSE;
             }
-            f = (isVariantZero != FALSE && g != 0) ? TRUE : FALSE;
+            skipKart = (isVariantZero != FALSE && entryGate != 0) ? TRUE : FALSE;
             if (entry->mCharacterIndex >= characterRangeStart && entry->mCharacterIndex < characterRangeEnd) {
                 CreateCharacter(entry, heap, pNameUsed);
             }
-            if (f == FALSE) {
+            if (skipKart == FALSE) {
                 if ((isVariantZero != FALSE && firstPass != 0) ||
                     (entry->mKartIndex >= kartRangeStart && entry->mKartIndex < kartRangeEnd)) {
                     CreateKart(entry, heap, pNameUsed);
@@ -920,16 +921,16 @@ void CreateKartModelsEntryModels(void *heap, s32 firstPass) {
             }
             if (firstPass != 0) {
                 if (pNameUsed != 0) {
-                    j = 0;
+                    tireIndex = 0;
                     entry->mTireTranslations = HeapAlloc(heap, sizeof(KartTireTranslations));
                     do {
-                        dst = &entry->mTireTranslations->mTranslations[j];
-                        src = &entry->mKartOffsetData->mTireOffsets[j];
+                        dst = &entry->mTireTranslations->mTranslations[tireIndex];
+                        src = &entry->mKartOffsetData->mTireOffsets[tireIndex];
                         dst->x = src->x >> 4;
                         dst->y = src->y >> 4;
                         dst->z = src->z >> 4;
-                        j++;
-                    } while (j < KART_TIRE_COUNT);
+                        tireIndex++;
+                    } while (tireIndex < KART_TIRE_COUNT);
                     entry->mTireTranslations->mTranslations[1].x = FX_Div(
                         -entry->mTireTranslations->mTranslations[0].x * 2, entry->mKartOffsetData->mFirstTiresScale);
                     entry->mTireTranslations->mTranslations[3].x = -entry->mTireTranslations->mTranslations[2].x * 2;
@@ -937,13 +938,13 @@ void CreateKartModelsEntryModels(void *heap, s32 firstPass) {
                 }
                 CreateKartShadow(entry, heap);
             }
-            i++;
-        } while (i < gKartModels->mKartCount);
+            kartIndex++;
+        } while (kartIndex < gKartModels->mKartCount);
     }
 }
 
 void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
-    u16 i;
+    u16 animationIndex;
     u16 characterIndex;
     BOOL hasFirstAnimation;
     void *nsbmdFile;
@@ -958,22 +959,22 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[0], 3);
     SetKartModelMaterialColors(mdl, 0);
     if (pNameUsed != 0) {
-        i = 0;
+        animationIndex = 0;
         hasFirstAnimation = FALSE;
         kartModelsEntry->mCharacterAnimation = HeapAlloc(heap, 0x38);
         InitModelAnimation(0, kartModelsEntry->mCharacterAnimation, kartModelsEntry->mModels[0], 4, heap, NULL);
         do {
-            animationFile = GetKartModelFile(BuildCharacterNsbcaPath(characterIndex, i));
+            animationFile = GetKartModelFile(BuildCharacterNsbcaPath(characterIndex, animationIndex));
             if (animationFile != NULL) {
                 void *jointAnimation = NNS_G3dGetJntAnmByIdx(NNS_G3dGetJntAnmSet(animationFile), 0);
-                InitModelAnimationEntry(kartModelsEntry->mCharacterAnimation, i, jointAnimation,
-                                        GetCharacterAnimationLoopFlag(i), heap);
-                if (i == 0) {
+                InitModelAnimationEntry(kartModelsEntry->mCharacterAnimation, animationIndex, jointAnimation,
+                                        GetCharacterAnimationLoopFlag(animationIndex), heap);
+                if (animationIndex == 0) {
                     hasFirstAnimation = TRUE;
                 }
             }
-            i++;
-        } while (i < 4);
+            animationIndex++;
+        } while (animationIndex < 4);
         if (hasFirstAnimation != FALSE) {
             SetModelAnimation(kartModelsEntry->mCharacterAnimation, 0);
             kartModelsEntry->mAnimationState.mMiddleFrame =
@@ -1250,7 +1251,7 @@ void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot) {
     slot->mCharacterAnimation = HeapAlloc(heap, 0x38);
 }
 
-void InitKartModelMenuView(KartModelMenuView *view, int b) {
+void InitKartModelMenuView(KartModelMenuView *view, int flag) {
     u32 bg0Offset;
     bg0Offset = 0;
     view->mCharacterIndex = 0xffffffff;
@@ -1261,7 +1262,7 @@ void InitKartModelMenuView(KartModelMenuView *view, int b) {
     view->mTiltAngle = 0;
     view->mUnk_0c = 0;
     view->mUnk_10 = 0xffffff88;
-    if (b != 0) {
+    if (flag != 0) {
         bg0Offset = 0xffffff06;
     }
     view->mBg0Offset = bg0Offset;
@@ -1296,7 +1297,7 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
 }
 
 void InitKartModelMenuWithParamFiles(void *heap) {
-    u32 i;
+    u32 fileIndex;
     SetHeapGroupId(1);
     Init3dEngine();
     NNS_G3dGeUseFastDma(0);
@@ -1309,8 +1310,8 @@ void InitKartModelMenuWithParamFiles(void *heap) {
     LoadKartModelMenuFile(heap, data_usa_02165738, (void **) &gKartModelMenu->mCharMenuParams);
     LoadKartModelMenuFile(heap, data_usa_0216574c, (void **) &gKartModelMenu->mKartMenuParams);
     LoadKartModelMenuSelectModel(heap);
-    for (i = 0; i < 2; i = (u16) (i + 1)) {
-        InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[i]);
+    for (fileIndex = 0; fileIndex < 2; fileIndex = (u16) (fileIndex + 1)) {
+        InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[fileIndex]);
     }
     if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
         gKartModelMenu->mEmblemData = gBackupBuffers->mEmblemRecord->mEmblemData;
@@ -1320,7 +1321,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
 }
 
 void InitKartModelMenuWithKartList(void *heap) {
-    u32 i;
+    u32 fileIndex;
     enum { K0 } kartIndex;
     s32 characterIndex;
     SetHeapGroupId(1);
@@ -1343,8 +1344,8 @@ void InitKartModelMenuWithKartList(void *heap) {
         kartIndex++;
     }
     gKartModelMenu->mView.mScale = data_usa_021656e0;
-    for (i = 0; i < 2; i = (u16) (i + 1)) {
-        InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[i]);
+    for (fileIndex = 0; fileIndex < 2; fileIndex = (u16) (fileIndex + 1)) {
+        InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[fileIndex]);
     }
     gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested = TRUE;
     gKartModelMenu->mView.mCharacterIndex = 0;
@@ -1359,7 +1360,7 @@ void InitKartModelMenuWithKartList(void *heap) {
 }
 
 void InitKartModelMenu(void *heap) {
-    u32 i;
+    u32 slotIndex;
     gKartModels = NULL;
     gKartModelMenu = HeapAlloc(heap, 0x26c);
     gKartModelMenu->mShownSlotIndex = -1;
@@ -1379,8 +1380,8 @@ void InitKartModelMenu(void *heap) {
     gKartModelMenu->mEmblemData = gKartModelMenu->mEmblemPalette;
     LoadEmblemSBNclr(heap);
     LoadKartModelMenuFile(heap, data_usa_02165724, (void **) &gKartModelMenu->mKartOffsetTable);
-    for (i = 0; i < 2; i = (u16) (i + 1)) {
-        InitKartModelMenuSlot(heap, &gKartModelMenu->mSlots[i]);
+    for (slotIndex = 0; slotIndex < 2; slotIndex = (u16) (slotIndex + 1)) {
+        InitKartModelMenuSlot(heap, &gKartModelMenu->mSlots[slotIndex]);
     }
     InitKartModelMenuView(&gKartModelMenu->mView, 1);
     SetHeapGroupId(9);
@@ -1490,11 +1491,11 @@ void SetFrustumProjection(s32 mirrored) {
     NNS_G3dGlbFlushP();
 }
 
-void SetupLightFrustumAndLookAt(s32 param_1, s32 yOffset) {
+void SetupLightFrustumAndLookAt(s32 unusedArg1, s32 yOffset) {
     Vec3 lightDirection;
     Vec3 camUp;
     Vec3 viewDirection;
-    Vec3 b;
+    Vec3 referenceAxis;
     Vec3 target;
     NNS_G3dGlbFlushP();
     lightDirection = data_usa_02165708;
@@ -1506,11 +1507,11 @@ void SetupLightFrustumAndLookAt(s32 param_1, s32 yOffset) {
     NNS_G3dGlbLightVector(0, (s16) lightDirection.x, (s16) lightDirection.y, (s16) lightDirection.z);
     NNS_G3dGlbLightColor(0, (u16) (data_usa_021656d8 | (data_usa_021656d8 << 5) | (data_usa_021656d8 << 10)));
     SetFrustumProjection(0);
-    b = data_usa_02155188;
+    referenceAxis = data_usa_02155188;
     target = data_usa_021656f0;
     target.y += yOffset;
     VEC_Subtract(&target, &data_usa_021656fc, &viewDirection);
-    VEC_CrossProduct(&b, &viewDirection, &camUp);
+    VEC_CrossProduct(&referenceAxis, &viewDirection, &camUp);
     data_021704dc[0] = data_usa_021656fc;
     data_021704dc[1] = camUp;
     data_021704dc[2] = target;
@@ -1529,7 +1530,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     Vec3 tireScale;
     Vec3 *tireOffsets;
     s32 scaleValue;
-    u16 i;
+    u16 tireIndex;
 
     NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
     translation.x = data_usa_021656f0.x;
@@ -1581,8 +1582,8 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             NNS_G3dDraw(&slot->mKartNsbmd->mRenderObj);
         }
         if (slot->mTireNsbmd != NULL) {
-            for (i = 0; i < 4; i++) {
-                if (i < 2) {
+            for (tireIndex = 0; tireIndex < 4; tireIndex++) {
+                if (tireIndex < 2) {
                     scaleValue = slot->mKartOffsetData->mTireScale;
                     tireScale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleValue);
                     tireScale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleValue);
@@ -1590,8 +1591,8 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
                 } else {
                     tireScale = scale;
                 }
-                if (i != 1 || slot->mKartOffsetData->mTireOffsets[0].x != 0) {
-                    tireOffsets = &slot->mKartOffsetData->mTireOffsets[i];
+                if (tireIndex != 1 || slot->mKartOffsetData->mTireOffsets[0].x != 0) {
+                    tireOffsets = &slot->mKartOffsetData->mTireOffsets[tireIndex];
                     tireOffset.x = tireOffsets->x >> 4;
                     tireOffset.y = tireOffsets->y >> 4;
                     tireOffset.z = tireOffsets->z >> 4;
@@ -1681,40 +1682,40 @@ void AdvanceShownSlotAndQueueEmblem(void) {
 
 void AdvanceKartModelMenuInput(void) {
     KartModelMenuView *view = &gKartModelMenu->mView;
-    s32 a = 0;
+    s32 value = 0;
     BOOL yawChanged;
-    s32 d;
+    s32 changed;
     s32 characterIndex;
     u16 buttons;
     InputSlotIndex inputSlot;
-    s32 v = 2;
+    s32 scaleInputKind = 2;
     KartModelMenuFiles *files;
 
     files = &gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex];
     if (gThreadFunctionQueue->mRunRequested == 0 && files->mLoadRequested == FALSE) {
-        characterIndex = ~a;
+        characterIndex = ~value;
         inputSlot = UNK_02175628_INDEX_8;
         buttons = gInputSlots[inputSlot].mPressedBits;
         if ((u16) (buttons & PAD_KEY_R) != 0) {
-            d = a;
+            changed = value;
             do {
                 gKartModelMenu->mKartIndex++;
                 if (gKartModelMenu->mKartIndex > 0x23) {
-                    gKartModelMenu->mKartIndex = a;
+                    gKartModelMenu->mKartIndex = value;
                 }
                 if (FindKartModelMenuCharacter(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
                     RequestKartModelMenuCharacter(characterIndex);
                     RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
-                    d = 1;
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, a, 0x1fd);
+                    changed = 1;
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, value, 0x1fd);
                 }
-            } while (d == 0);
+            } while (changed == 0);
             gKartModelMenu->mKartListPos++;
             if (gKartModelMenu->mKartListPos >= gKartModelMenu->mKartListCount) {
                 gKartModelMenu->mKartListPos = 0;
             }
         } else if ((u16) (buttons & PAD_KEY_L) != 0) {
-            d = a;
+            changed = value;
             do {
                 gKartModelMenu->mKartIndex--;
                 if (gKartModelMenu->mKartIndex < 0) {
@@ -1723,10 +1724,10 @@ void AdvanceKartModelMenuInput(void) {
                 if (FindKartModelMenuCharacter(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
                     RequestKartModelMenuCharacter(characterIndex);
                     RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
-                    d = 1;
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, a, 0x1fe);
+                    changed = 1;
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, value, 0x1fe);
                 }
-            } while (d == 0);
+            } while (changed == 0);
             gKartModelMenu->mKartListPos--;
             if (gKartModelMenu->mKartListPos < 0) {
                 gKartModelMenu->mKartListPos = gKartModelMenu->mKartListCount - 1;
@@ -1734,7 +1735,7 @@ void AdvanceKartModelMenuInput(void) {
         }
     }
     yawChanged = FALSE;
-    d = yawChanged;
+    changed = yawChanged;
     GetSndHandleSlot(2);
     inputSlot = UNK_02175628_INDEX_8;
     buttons = gInputSlots[inputSlot].mBits;
@@ -1752,18 +1753,18 @@ void AdvanceKartModelMenuInput(void) {
         if (view->mTiltAngle > 0x1b58) {
             view->mTiltAngle = 0x1b58;
         } else {
-            d = 1;
+            changed = 1;
         }
     } else if ((u16) (buttons & PAD_KEY_UP) != 0) {
         view->mTiltAngle -= 0x1c2;
         if (view->mTiltAngle < -0x1388) {
             view->mTiltAngle = -0x1388;
         } else {
-            d = 1;
+            changed = 1;
         }
     }
-    if (d != 0 || yawChanged != FALSE) {
-        a = 1;
+    if (changed != 0 || yawChanged != FALSE) {
+        value = 1;
     }
     GetSndHandleSlot(1);
     inputSlot = UNK_02175628_INDEX_8;
@@ -1773,7 +1774,7 @@ void AdvanceKartModelMenuInput(void) {
         if (view->mScale > data_usa_021656e0) {
             view->mScale = data_usa_021656e0;
         } else {
-            v = 0;
+            scaleInputKind = 0;
         }
     } else {
         inputSlot = UNK_02175628_INDEX_8;
@@ -1783,12 +1784,12 @@ void AdvanceKartModelMenuInput(void) {
             if (view->mScale < 0x800) {
                 view->mScale = 0x800;
             } else {
-                v = 1;
+                scaleInputKind = 1;
             }
         }
     }
     view->mDrawnTiltAngle = view->mTiltAngle;
-    SetKartModelMenuInputSeqs(v, a);
+    SetKartModelMenuInputSeqs(scaleInputKind, value);
     QueueKartModelMenuLoad();
     ClearKartModelMenuRequests();
 }
@@ -1818,19 +1819,19 @@ void DrawKartModelMenuUnmirrored(void) {
 }
 
 void CopyHeyhoPaletteIndices(void) {
-    u16 i;
-    for (i = 0; i < 8; i++) {
-        gKartModels->mHeyhoPaletteIndices[i] = gMenuShared->mShuffledIndices[i];
+    u16 paletteIndex;
+    for (paletteIndex = 0; paletteIndex < 8; paletteIndex++) {
+        gKartModels->mHeyhoPaletteIndices[paletteIndex] = gMenuShared->mShuffledIndices[paletteIndex];
     }
 }
 
 void SetupHeyhoPalettes(void) {
-    u32 i;
+    u32 kartIndex;
     if (gKartModels->mHeyhoPalettes != NULL) {
         CopyHeyhoPaletteIndices();
-        for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
-            if (gKartModels->mKartModelsEntries[i].mCharacterIndex == 0xc) {
-                UploadHeyhoPalette(i, &gKartModels->mKartModelsEntries[i], GetHeyhoPalette(i));
+        for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
+            if (gKartModels->mKartModelsEntries[kartIndex].mCharacterIndex == 0xc) {
+                UploadHeyhoPalette(kartIndex, &gKartModels->mKartModelsEntries[kartIndex], GetHeyhoPalette(kartIndex));
             }
         }
     }

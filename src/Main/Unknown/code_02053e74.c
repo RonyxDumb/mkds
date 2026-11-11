@@ -71,20 +71,20 @@ static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRec
 
 static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, SharingReceiveRecord *receiveRecords) {
     u8 mask = gConnectionWork->mChildren.mChildMask;
-    u8 i;
+    u8 childIndex;
     BOOL result = FALSE;
     u16 toggleBit;
 
-    for (i = 1; i < 8; i++) {
-        if (mask & (1 << i)) {
-            if (dataSharing->mSharedDataCopied[i] == 0) {
+    for (childIndex = 1; childIndex < 8; childIndex++) {
+        if (mask & (1 << childIndex)) {
+            if (dataSharing->mSharedDataCopied[childIndex] == 0) {
                 result = FALSE;
-                i = 8;
+                childIndex = 8;
             } else {
                 toggleBit = gConnectionWork->mSyncToggle == 0 ? 1 : 2;
-                if ((toggleBit & receiveRecords[i].mUnk_06_0) == 0) {
+                if ((toggleBit & receiveRecords[childIndex].mUnk_06_0) == 0) {
                     result = FALSE;
-                    i = 8;
+                    childIndex = 8;
                 } else {
                     result = TRUE;
                 }
@@ -102,7 +102,7 @@ static inline u32 GetWorkConnectionMode(ConnectionWork *connectionWork) {
 }
 
 // Returns 1 once the last step is issued, 2 on failure, 3 when an error has been recorded, 0 otherwise.
-s32 AdvanceConnectionSetup(s32 isParent, void *b) {
+s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
     BOOL finished;
 
     finished = FALSE;
@@ -147,7 +147,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             break;
         case 4:
             SetParentChannelLowestSum();
-            FillGhostParentParameter(b);
+            FillGhostParentParameter(ghostSource);
             SetParentParameter();
             break;
         case 5:
@@ -422,19 +422,19 @@ void FinishConnectionEnd(void) {
 }
 
 void ResetDataSharing(DataSharing *dataSharing) {
-    ParticipantTablesView *q;
-    s32 i;
-    s32 j;
+    ParticipantTablesView *tables;
+    s32 index;
+    s32 valueIndex;
 
     dataSharing->mParticipantMask = 0;
     MI_CpuFill8(gConnectionWork->mSharingSendRecord, 0, 8);
-    for (i = 0; i < 8; i++) {
-        dataSharing->mSharedDataCopied[i] = 0;
-        MI_CpuFill8(&dataSharing->mReceivedRecords[i], 0, 8);
+    for (index = 0; index < 8; index++) {
+        dataSharing->mSharedDataCopied[index] = 0;
+        MI_CpuFill8(&dataSharing->mReceivedRecords[index], 0, 8);
     }
     dataSharing->mUnk_3c[0] = 0;
-    for (i = 0; i < 7; i++) {
-        dataSharing->mUnk_3c[i] = 0;
+    for (index = 0; index < 7; index++) {
+        dataSharing->mUnk_3c[index] = 0;
     }
     dataSharing->mUnk_4a = 0;
     dataSharing->mUnk_34 = 5;
@@ -442,29 +442,29 @@ void ResetDataSharing(DataSharing *dataSharing) {
     dataSharing->mUnk_30 = 0;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
     gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
-    q = &gConnectionWork->mUnk_1e4c_view;
-    q->mLeftParticipantMask = 0;
-    q->mUnk_68 = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 3; j++) {
-            q->mUnk_00[i].mUnk_00[j] = 0;
+    tables = &gConnectionWork->mUnk_1e4c_view;
+    tables->mLeftParticipantMask = 0;
+    tables->mUnk_68 = 0;
+    for (index = 0; index < 8; index++) {
+        for (valueIndex = 0; valueIndex < 3; valueIndex++) {
+            tables->mUnk_00[index].mUnk_00[valueIndex] = 0;
         }
     }
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
 }
 
 void ResetConnectionData(void) {
-    u8 *q;
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 l;
+    u8 *bytes;
+    s32 childIndex;
+    s32 innerIndex;
+    s32 byteIndex;
+    s32 targetByteIndex;
 
-    for (i = 0; i < 7; i++) {
-        gConnectionWork->mChildren.mEntries[i].mAid = 0xffff;
-        q = gConnectionWork->mChildren.mEntries[i].mUnk_00;
-        for (j = 0; j < 6; j++) {
-            q[j] = 0;
+    for (childIndex = 0; childIndex < 7; childIndex++) {
+        gConnectionWork->mChildren.mEntries[childIndex].mAid = 0xffff;
+        bytes = gConnectionWork->mChildren.mEntries[childIndex].mUnk_00;
+        for (innerIndex = 0; innerIndex < 6; innerIndex++) {
+            bytes[innerIndex] = 0;
         }
     }
     gConnectionWork->mChildren.mExpectedRecordMask = 0;
@@ -479,12 +479,12 @@ void ResetConnectionData(void) {
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, 0x14);
     gConnectionWork->mChildren.mGameInfo->mUnk_0e.mLanguageIndex = gStartupWork->mLanguageIndex;
     gConnectionWork->mChildren.mGameInfo->mUnk_0e.mChildCount = 0;
-    for (j = 0; j < 4; j++) {
-        gConnectionWork->mScanSlots[j].mInUse = 0;
-        gConnectionWork->mScanSlots[j].mAge = 0;
-        q = gConnectionWork->mScanSlots[j].mKey.mUnk_00;
-        for (k = 0; k < 6; k++) {
-            q[k] = 0;
+    for (innerIndex = 0; innerIndex < 4; innerIndex++) {
+        gConnectionWork->mScanSlots[innerIndex].mInUse = 0;
+        gConnectionWork->mScanSlots[innerIndex].mAge = 0;
+        bytes = gConnectionWork->mScanSlots[innerIndex].mKey.mUnk_00;
+        for (byteIndex = 0; byteIndex < 6; byteIndex++) {
+            bytes[byteIndex] = 0;
         }
     }
     gConnectionWork->mOwnIndex = 0xffff;
@@ -496,9 +496,9 @@ void ResetConnectionData(void) {
     gConnectionWork->mLanguageIndex = 0;
     gConnectionWork->mReceivedNameMask = 0;
     gConnectionWork->mKeepScanning = 0;
-    q = gConnectionWork->mUnk_00ac_view.mTargetAddress;
-    for (l = 0; l < 6; l++) {
-        q[l] = 0;
+    bytes = gConnectionWork->mUnk_00ac_view.mTargetAddress;
+    for (targetByteIndex = 0; targetByteIndex < 6; targetByteIndex++) {
+        bytes[targetByteIndex] = 0;
     }
     gConnectionWork->mGroupSendMask = 0;
     gConnectionWork->mUnk_0458 = 0;
@@ -509,44 +509,44 @@ void ResetConnectionData(void) {
 }
 
 void InitRaceConnection(void) {
-    ParticipantTablesView *q;
+    ParticipantTablesView *tables;
     ConnectionWork *connection;
     RandomState *random;
-    s32 i;
-    s32 j;
-    s32 a;
-    s32 b;
+    s32 index;
+    s32 valueIndex;
+    s32 shiftedValue;
+    s32 addedValue;
 
-    q = &gConnectionWork->mUnk_1e4c_view;
-    q->mLeftParticipantMask = 0;
-    q->mUnk_68 = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 3; j++) {
-            q->mUnk_00[i].mUnk_00[j] = 0;
+    tables = &gConnectionWork->mUnk_1e4c_view;
+    tables->mLeftParticipantMask = 0;
+    tables->mUnk_68 = 0;
+    for (index = 0; index < 8; index++) {
+        for (valueIndex = 0; valueIndex < 3; valueIndex++) {
+            tables->mUnk_00[index].mUnk_00[valueIndex] = 0;
         }
     }
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
     gConnectionWork->mFlags |= CONNECTION_FLAG_RACE;
     connection = gConnectionWork;
-    a = 0;
+    shiftedValue = 0;
     switch (ConnectionGetConnectionMode()) {
         case 1:
-            a = connection->mParentParameter->mUnk_0c;
+            shiftedValue = connection->mParentParameter->mUnk_0c;
             break;
         case 2:
-            a = connection->mParentBssDesc->mGameInfo.mTgid;
+            shiftedValue = connection->mParentBssDesc->mGameInfo.mTgid;
             break;
     }
-    b = 0;
+    addedValue = 0;
     switch (ConnectionGetConnectionMode()) {
         case 1:
-            b = connection->mParentParameter->mUnk_0c;
+            addedValue = connection->mParentParameter->mUnk_0c;
             break;
         case 2:
-            b = connection->mParentBssDesc->mGameInfo.mTgid;
+            addedValue = connection->mParentBssDesc->mGameInfo.mTgid;
             break;
     }
-    connection->mRandom.mStateLow = b + (a << 10);
+    connection->mRandom.mStateLow = addedValue + (shiftedValue << 10);
     random = &connection->mRandom;
     random->mStateHigh = 0;
     random->mMultiplierLow = 0x6c078965;

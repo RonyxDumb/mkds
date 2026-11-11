@@ -9,4 +9,4 @@ typedef struct ShadowModel ShadowModel;
 // slots 2 to 5 are zero here and always replaced by InitKart.
 extern void (*gKartDefaultSlotFunctions[])(Kart *a);
 
-void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 b, u32 c);
+void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2);

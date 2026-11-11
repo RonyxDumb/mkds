@@ -14,11 +14,11 @@ typedef struct SoundFalloffSettings {
     /* 10 */ s32 mMaxVolume;
 } SoundFalloffSettings;
 
-void StopKartSoundWhileRequested(Kart *a);
+void StopKartSoundWhileRequested(Kart *kart);
 void InitSoundFalloffs(void);
 // Returns the volume of a source from the distance in the mUnk_10 member of p and the forward distance in its mUnk_08
 // member, by the SoundFalloff of the source: the maximum up to the inner distance, falling to 0 at the outer distance.
 // Writes nothing.
-s32 ComputeSoundVolume(SoundParams *p);
-s32 ComputeSoundPan(SoundParams *p);
-u32 ComputeSoundDistanceAndOffsets(SoundParams *p);
+s32 ComputeSoundVolume(SoundParams *soundParams);
+s32 ComputeSoundPan(SoundParams *soundParams);
+u32 ComputeSoundDistanceAndOffsets(SoundParams *soundParams);

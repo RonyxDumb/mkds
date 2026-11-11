@@ -5,10 +5,11 @@
 typedef struct MapObjectModel MapObjectModel;
 typedef struct MapObjectList MapObjectList;
 
-void CreateMapObjectModelNsbcaAnimation(MapObjectModel *a, const char *b);
-MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *a, const char *b);
-MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *a, const char *b, const char *c);
-MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b);
-MapObjectModel *CreateMapObjectModelShadow(MapObjectList *a, const char *b);
-void CreateMapObjectModelNsbtpAnimation(MapObjectModel *a, const char *b);
-void CreateMapObjectModelNsbtaAnimation(MapObjectModel *a, const char *b);
+void CreateMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, const char *name);
+MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const char *name);
+MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *mapObjectList, const char *modelName,
+                                               const char *animationName);
+MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const char *name);
+MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const char *name);
+void CreateMapObjectModelNsbtpAnimation(MapObjectModel *mapObjectModel, const char *name);
+void CreateMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, const char *name);

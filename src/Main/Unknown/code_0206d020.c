@@ -34,8 +34,8 @@
 
 static inline s32 IsKartPushFlipAllowed(Kart *kart) {
     BOOL canStart;
-    BOOL t;
-    BOOL u;
+    BOOL value;
+    BOOL check;
     int kartState;
     u32 bits4c;
 
@@ -49,159 +49,159 @@ static inline s32 IsKartPushFlipAllowed(Kart *kart) {
             canStart = FALSE;
         }
     } else {
-        t = TRUE;
+        value = TRUE;
         if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
-            u = FALSE;
+            check = FALSE;
             kartState = kart->mState;
             if (kartState != KART_STATE_NORMAL && kartState != KART_STATE_1 && kartState != KART_STATE_SPIN) {
-                u = TRUE;
+                check = TRUE;
             }
-            if (u == FALSE) {
-                t = FALSE;
+            if (check == FALSE) {
+                value = FALSE;
             }
         }
-        canStart = t == FALSE;
+        canStart = value == FALSE;
     }
     return canStart;
 }
 
-BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
-    BOOL r;
+BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirection) {
+    BOOL started;
     s32 canStart;
-    u32 w;
+    u32 flagBits;
 
-    r = FALSE;
+    started = FALSE;
     canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
-        StartKartState4(hitKart, v, 1);
+        StartKartState4(hitKart, pushDirection, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mUnk_7c & 0x200) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
         }
-        r = TRUE;
-        w = starKart->mUnk_7c & 0x200;
-        if (w != 0) {
+        started = TRUE;
+        flagBits = starKart->mUnk_7c & 0x200;
+        if (flagBits != 0) {
             switch (hitKart->mIndex) {
                 case 0:
-                    if (w) {
+                    if (flagBits) {
                         starKart->mParticipantRecordData->mEventToggleFlags ^= 0x200;
                     }
                     break;
                 case 1:
-                    if (w) {
+                    if (flagBits) {
                         starKart->mParticipantRecordData->mEventToggleFlags ^= 0x400;
                     }
                     break;
                 case 2:
-                    if (w) {
+                    if (flagBits) {
                         starKart->mParticipantRecordData->mEventToggleFlags ^= 0x800;
                     }
                     break;
                 case 3:
-                    if (w) {
+                    if (flagBits) {
                         starKart->mParticipantRecordData->mEventToggleFlags ^= 0x1000;
                     }
                     break;
             }
         }
     }
-    return r;
+    return started;
 }
 
 BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
-    Vec3 a;
-    Vec3 b;
-    Vec3 v1;
-    BOOL r;
+    Vec3 flipAxis;
+    Vec3 offsetToHit;
+    Vec3 crossProduct;
+    BOOL started;
     s32 canStart;
-    u32 w;
+    u32 flagBits;
 
-    r = FALSE;
+    started = FALSE;
     canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
-        a = killerKart->mUnk_120;
-        VEC_Subtract(&hitKart->mPos, &killerKart->mPos, &b);
-        VEC_CrossProduct(&killerKart->mUnk_138, &b, &v1);
-        if (VEC_DotProduct(&v1, &killerKart->mUnk_12c) < 0) {
-            a.x = -a.x;
-            a.y = -a.y;
-            a.z = -a.z;
+        flipAxis = killerKart->mUnk_120;
+        VEC_Subtract(&hitKart->mPos, &killerKart->mPos, &offsetToHit);
+        VEC_CrossProduct(&killerKart->mUnk_138, &offsetToHit, &crossProduct);
+        if (VEC_DotProduct(&crossProduct, &killerKart->mUnk_12c) < 0) {
+            flipAxis.x = -flipAxis.x;
+            flipAxis.y = -flipAxis.y;
+            flipAxis.z = -flipAxis.z;
         }
-        StartKartState5(hitKart, &a, 1);
+        StartKartState5(hitKart, &flipAxis, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mUnk_7c & 0x200) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
         }
-        r = TRUE;
-        w = killerKart->mUnk_7c & 0x200;
-        if (w != 0) {
+        started = TRUE;
+        flagBits = killerKart->mUnk_7c & 0x200;
+        if (flagBits != 0) {
             switch (hitKart->mIndex) {
                 case 0:
-                    if (w) {
+                    if (flagBits) {
                         killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x400000;
                     }
                     break;
                 case 1:
-                    if (w) {
+                    if (flagBits) {
                         killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x800000;
                     }
                     break;
                 case 2:
-                    if (w) {
+                    if (flagBits) {
                         killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x1000000;
                     }
                     break;
                 case 3:
-                    if (w) {
+                    if (flagBits) {
                         killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x2000000;
                     }
                     break;
             }
         }
     }
-    return r;
+    return started;
 }
 
 void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirection, s32 storeDirection,
                    Vec3 *sharedDirection) {
     s32 pushingWeight;
-    s32 b;
-    s32 v2;
-    s32 v3;
-    s32 v4;
-    s32 t;
-    s32 v5 = -1;
-    s32 v6;
-    s32 v7;
-    s32 v8;
+    s32 weight;
+    s32 pushScale;
+    s32 dotProduct;
+    s32 sidewaysLength;
+    s32 value;
+    s32 sign = -1;
+    s32 slideX;
+    s32 slideZ;
+    s32 slideY;
     Vec3 scaledPush;
     Vec3 sidewaysPush;
     Vec3 pushedForward;
     Vec3 sidewaysDirection;
     Vec3 pushVector;
-    Vec3 v10;
+    Vec3 crossDirection;
 
     pushingWeight = pushingKart->mPhysicalParam->mWeight + pushingKart->mCharPhysicalParam[1];
-    b = pushedKart->mPhysicalParam->mWeight + pushedKart->mCharPhysicalParam[1];
-    v2 = pushingKart->mVelocityLengthRatio;
+    weight = pushedKart->mPhysicalParam->mWeight + pushedKart->mCharPhysicalParam[1];
+    pushScale = pushingKart->mVelocityLengthRatio;
     if (pushingKart->mUnk_7c & 0x600) {
-        if (v2 > 4.8828125e-05f) {
-            v2 = 0x333;
+        if (pushScale > 4.8828125e-05f) {
+            pushScale = 0x333;
         }
-    } else if (v2 > 0x800) {
-        v2 = 0x1000;
+    } else if (pushScale > 0x800) {
+        pushScale = 0x1000;
     } else {
-        v2 = v2 * 2;
-        if (v2 < 0x333) {
-            v2 = 0x333;
+        pushScale = pushScale * 2;
+        if (pushScale < 0x333) {
+            pushScale = 0x333;
         }
     }
-    t = pushingKart->mUnk_4c & KART_4C_THUNDER_SHRINK;
-    if (t) {
+    value = pushingKart->mUnk_4c & KART_4C_THUNDER_SHRINK;
+    if (value) {
         pushingWeight >>= 3;
     }
-    if (t) {
-        b >>= 3;
+    if (value) {
+        weight >>= 3;
     }
     if (pushingKart->mUnk_48 & 0x100000) {
         pushingWeight <<= 1;
@@ -209,30 +209,30 @@ void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirec
     if (pushedKart->mUnk_48 & 0x100000) {
         pushingWeight >>= 2;
     }
-    t = FX_Div(pushingWeight, b);
-    if (t > 0x5000) {
-        t = 0x5000;
+    value = FX_Div(pushingWeight, weight);
+    if (value > 0x5000) {
+        value = 0x5000;
     }
-    b = MUL_FIXED12_NO_ROUND(pushingWeight, t);
-    v2 = MUL_FIXED12_NO_ROUND(b, v2);
+    weight = MUL_FIXED12_NO_ROUND(pushingWeight, value);
+    pushScale = MUL_FIXED12_NO_ROUND(weight, pushScale);
     pushedForward = pushedKart->mTurnedForward;
     if (pushedKart->mUnk_44 & KART_44_REVERSING) {
         pushedForward.x = -pushedForward.x;
         pushedForward.y = -pushedForward.y;
         pushedForward.z = -pushedForward.z;
     }
-    scaledPush.x = MUL_FIXED12_NO_ROUND(contactDirection->x, v2);
-    scaledPush.y = MUL_FIXED12_NO_ROUND(contactDirection->y, v2);
-    scaledPush.z = MUL_FIXED12_NO_ROUND(contactDirection->z, v2);
-    v3 = VEC_DotProduct(&pushedForward, &scaledPush);
-    sidewaysPush.x = scaledPush.x - MUL_FIXED12_NO_ROUND(pushedForward.x, v3);
-    sidewaysPush.y = scaledPush.y - MUL_FIXED12_NO_ROUND(pushedForward.y, v3);
-    sidewaysPush.z = scaledPush.z - MUL_FIXED12_NO_ROUND(pushedForward.z, v3);
-    v4 = 0;
+    scaledPush.x = MUL_FIXED12_NO_ROUND(contactDirection->x, pushScale);
+    scaledPush.y = MUL_FIXED12_NO_ROUND(contactDirection->y, pushScale);
+    scaledPush.z = MUL_FIXED12_NO_ROUND(contactDirection->z, pushScale);
+    dotProduct = VEC_DotProduct(&pushedForward, &scaledPush);
+    sidewaysPush.x = scaledPush.x - MUL_FIXED12_NO_ROUND(pushedForward.x, dotProduct);
+    sidewaysPush.y = scaledPush.y - MUL_FIXED12_NO_ROUND(pushedForward.y, dotProduct);
+    sidewaysPush.z = scaledPush.z - MUL_FIXED12_NO_ROUND(pushedForward.z, dotProduct);
+    sidewaysLength = 0;
     if (LENGTH_SQUARED(sidewaysPush) >= 16) {
-        v4 = Vec3NormalizeAndGetLengthUnchecked(&sidewaysPush, &sidewaysDirection);
+        sidewaysLength = Vec3NormalizeAndGetLengthUnchecked(&sidewaysPush, &sidewaysDirection);
     }
-    if (v4 <= 0) {
+    if (sidewaysLength <= 0) {
         return;
     }
     if (storeDirection != 0) {
@@ -242,59 +242,59 @@ void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirec
             sidewaysDirection = gKartVec3Zero;
         }
     }
-    pushVector.x = MUL_FIXED12_NO_ROUND(sidewaysDirection.x, v2);
-    pushVector.y = MUL_FIXED12_NO_ROUND(sidewaysDirection.y, v2);
-    pushVector.z = MUL_FIXED12_NO_ROUND(sidewaysDirection.z, v2);
+    pushVector.x = MUL_FIXED12_NO_ROUND(sidewaysDirection.x, pushScale);
+    pushVector.y = MUL_FIXED12_NO_ROUND(sidewaysDirection.y, pushScale);
+    pushVector.z = MUL_FIXED12_NO_ROUND(sidewaysDirection.z, pushScale);
     if (pushVector.y > 0) {
         pushVector.y = 0;
     }
-    v3 = VEC_DotProduct(&pushedKart->mGroundNormal, &pushVector);
-    v6 = pushVector.x - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.x, v3);
-    v8 = pushVector.y - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.y, v3);
-    v7 = pushVector.z - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.z, v3);
-    pushedKart->mHitVelocity.x += v6;
-    pushedKart->mHitVelocity.z += v7;
-    pushedKart->mVerticalSpeed += v8;
-    v2 = MUL_FIXED12_ROUNDED(v2, 0xaab);
-    if (v2 > 0x1000) {
-        v2 = 0x1000;
+    dotProduct = VEC_DotProduct(&pushedKart->mGroundNormal, &pushVector);
+    slideX = pushVector.x - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.x, dotProduct);
+    slideY = pushVector.y - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.y, dotProduct);
+    slideZ = pushVector.z - MUL_FIXED12_NO_ROUND(pushedKart->mGroundNormal.z, dotProduct);
+    pushedKart->mHitVelocity.x += slideX;
+    pushedKart->mHitVelocity.z += slideZ;
+    pushedKart->mVerticalSpeed += slideY;
+    pushScale = MUL_FIXED12_ROUNDED(pushScale, 0xaab);
+    if (pushScale > 0x1000) {
+        pushScale = 0x1000;
     }
-    VEC_CrossProduct(&sidewaysDirection, &pushedKart->mForward, &v10);
-    if (v10.y < 0) {
-        v2 = v2 * v5;
+    VEC_CrossProduct(&sidewaysDirection, &pushedKart->mForward, &crossDirection);
+    if (crossDirection.y < 0) {
+        pushScale = pushScale * sign;
     }
     if (pushedKart->mKartModelsEntry->mKartModelHidden != 0) {
         return;
     }
-    t = pushedKart->mForwardSpeed;
-    if (t <= 0) {
-        t = -t;
+    value = pushedKart->mForwardSpeed;
+    if (value <= 0) {
+        value = -value;
     }
-    if (t <= 0x3000) {
+    if (value <= 0x3000) {
         return;
     }
-    if (v2 > 0) {
-        t = v2;
+    if (pushScale > 0) {
+        value = pushScale;
     } else {
-        t = -v2;
+        value = -pushScale;
     }
     pushedKart->mUnk_4c |= 0x2000000;
-    if (t <= pushedKart->mWobbleAmplitude) {
+    if (value <= pushedKart->mWobbleAmplitude) {
         return;
     }
-    pushedKart->mWobbleAmplitude = t;
-    if (v2 > 0) {
-        t = 1;
+    pushedKart->mWobbleAmplitude = value;
+    if (pushScale > 0) {
+        value = 1;
     } else {
-        t = -1;
+        value = -1;
     }
-    pushedKart->mWobbleDirection = t;
+    pushedKart->mWobbleDirection = value;
 }
 
 void UpdateKartAheadEffect(Kart *kart) {
     s32 distance;
     BOOL aheadFound;
-    s32 i;
+    s32 slotIndex;
     Kart *otherKart;
     Vec3 offset;
 
@@ -305,9 +305,9 @@ void UpdateKartAheadEffect(Kart *kart) {
                 &kart->mSecondCollisionCenter);
     if (kart->mIndex == GetRaceUpdateFramesMod8() && !(kart->mUnk_4c & (0x10000000 | KART_4C_AHEAD_BOOST))) {
         if (kart->mVelocityLength > 0x4000 && kart->mState == KART_STATE_NORMAL) {
-            for (i = 0; i < gFoundCollisionSlotCount; i++) {
-                otherKart = gFoundCollisionSlotObjects[i];
-                if (otherKart->mVelocityLength >= 0x2000 && (gFoundCollisionSlotFlags[i] & 0x800) &&
+            for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
+                otherKart = gFoundCollisionSlotObjects[slotIndex];
+                if (otherKart->mVelocityLength >= 0x2000 && (gFoundCollisionSlotFlags[slotIndex] & 0x800) &&
                     otherKart != kart && !(otherKart->mUnk_7c & 0x402000)) {
                     VEC_Subtract(&otherKart->mPos, &kart->mPos, &offset);
                     distance = VEC_Mag(&offset);
@@ -349,7 +349,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
     ItemObject *itemObject;
     Kart *ownerKart;
     u32 kartIndex;
-    u32 t;
+    u32 flagBits;
     u32 ownerBits7c;
 
     if (kart->mUnk_7c & 0x400400) {
@@ -410,9 +410,9 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             kartIndex = hitResult;
             StartFadeFog();
             StartEffectsAtOtherKarts(kart->mIndex);
-            t = kart->mUnk_7c & 0x200;
-            if (t) {
-                if (t) {
+            flagBits = kart->mUnk_7c & 0x200;
+            if (flagBits) {
+                if (flagBits) {
                     kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
                 }
             } else {
@@ -487,15 +487,15 @@ void StartKartSoundAndCharacterAnimation(Kart *kart) {
 }
 
 void StartKartBoost(Kart *kart, KartBoostKind boostKind, int boostFrames) {
-    s32 c;
-    u32 d;
+    s32 clearMask;
+    u32 flagBits;
     s16 currentTimer;
-    enum { K0 } f;
+    enum { K0 } value;
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    d = kart->mUnk_48 & 0x1000;
-    if (d) {
+    flagBits = kart->mUnk_48 & 0x1000;
+    if (flagBits) {
         return;
     }
     if (kart->mUnk_4c & 0x10000000) {
@@ -510,15 +510,15 @@ void StartKartBoost(Kart *kart, KartBoostKind boostKind, int boostFrames) {
         kart->mUnk_48 |= 0x20000000;
     }
     StopKartSoundWhileRequested(kart);
-    c = ~0x8000;
-    kart->mUnk_48 &= c;
+    clearMask = ~0x8000;
+    kart->mUnk_48 &= clearMask;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         if (!boostKind) {
-            f = 0;
+            value = 0;
         } else {
-            f = 1;
+            value = 1;
         }
-        StartKartBoostCameraEffect(f, kart);
+        StartKartBoostCameraEffect(value, kart);
         SetCameraHalfFovAngleGoal(0x1770);
         StartDispCapBlend(5);
         if (boostKind != KART_BOOST_RESPAWN) {

@@ -83,19 +83,20 @@ void RefreshSelectCupGridCupsEnabled(void) {
 #pragma thumb on
 void InitSelectCupGridCells(void) {
     s32 cupCellIndex;
-    s32 i;
+    s32 index;
     u16 mainCellCount;
     u16 *cellIndices;
     SelectCupGrid *grid;
 
     if (gBootInfo->mUnk_00 != 2) {
         mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
-        for (i = 0; i < 4; i++) {
-            gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mVisible = 0;
-            gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[i]].mVisible = 1;
+        for (index = 0; index < 4; index++) {
+            gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[index]].mVisible = 0;
+            gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[index]].mVisible = 1;
         }
-        for (i = 0; i < 8; i++) {
-            for (cupCellIndex = 0, cellIndices = gSelectCupGridCupCellIndices[i]; cupCellIndex < 6; cupCellIndex++) {
+        for (index = 0; index < 8; index++) {
+            for (cupCellIndex = 0, cellIndices = gSelectCupGridCupCellIndices[index]; cupCellIndex < 6;
+                 cupCellIndex++) {
                 gSelectCupGrid->mSelectCupSTable[cellIndices[cupCellIndex]].mVisible = 0;
             }
         }
@@ -103,37 +104,37 @@ void InitSelectCupGridCells(void) {
         gSelectCupGrid->mSelectCupMTable[0x13].mVisible = 1;
         gSelectCupGrid->mSelectCupSTable[2].mVisible = 1;
         gSelectCupGrid->mSelectCupSTable[3].mVisible = 1;
-        for (i = 0; i < 8; i++) {
-            gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[i][0]].mVisible = 1;
+        for (index = 0; index < 8; index++) {
+            gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][0]].mVisible = 1;
         }
-        for (i = 0; i < 8; i++) {
+        for (index = 0; index < 8; index++) {
             grid = gSelectCupGrid;
-            QueueCupMark(
-                i, grid->mSelectCupSNcer, grid->mSelectCupSBncl, gSelectCupGridCupCellIndices[i][4],
-                GetCellPaletteIndex(gSelectCupGridCupCellIndices[i][4], grid->mSelectCupSNcer, grid->mSelectCupSBncl),
-                1);
+            QueueCupMark(index, grid->mSelectCupSNcer, grid->mSelectCupSBncl, gSelectCupGridCupCellIndices[index][4],
+                         GetCellPaletteIndex(gSelectCupGridCupCellIndices[index][4], grid->mSelectCupSNcer,
+                                             grid->mSelectCupSBncl),
+                         1);
         }
     }
 }
 
 void UpdateSelectCupGridCupCells(void) {
-    s32 i;
+    s32 cupIndex;
     BOOL visible;
 
     if (gBootInfo->mUnk_00 != 2) {
         visible = FALSE;
-        for (i = 0; i < 8; i++) {
-            u16 *cellIndices = gSelectCupGridCupCellIndices[i];
+        for (cupIndex = 0; cupIndex < 8; cupIndex++) {
+            u16 *cellIndices = gSelectCupGridCupCellIndices[cupIndex];
             gSelectCupGrid->mSelectCupSTable[cellIndices[1]].mVisible = 0;
             gSelectCupGrid->mSelectCupSTable[cellIndices[2]].mVisible = 0;
             gSelectCupGrid->mSelectCupSTable[cellIndices[3]].mVisible = 0;
             gSelectCupGrid->mSelectCupSTable[cellIndices[4]].mVisible = 0;
             gSelectCupGrid->mSelectCupSTable[cellIndices[5]].mVisible = 0;
-            if (gSelectCupGrid->mCupsEnabled[i] == 0) {
+            if (gSelectCupGrid->mCupsEnabled[cupIndex] == 0) {
                 gSelectCupGrid->mSelectCupSTable[cellIndices[3]].mVisible = 1;
                 gSelectCupGrid->mSelectCupSTable[cellIndices[5]].mVisible = 1;
             } else {
-                if (gSelectCupGrid->mIndex == i && gSelectCupGrid->mHighlightShown != FALSE) {
+                if (gSelectCupGrid->mIndex == cupIndex && gSelectCupGrid->mHighlightShown != FALSE) {
                     gSelectCupGrid->mSelectCupSTable[cellIndices[2]].mVisible = 1;
                 } else {
                     gSelectCupGrid->mSelectCupSTable[cellIndices[1]].mVisible = 1;
@@ -156,34 +157,34 @@ void RequestSelectCupGridCupPicture(void) {
 }
 
 void SetupSelectCupGridIndex(void) {
-    u32 a;
+    u32 value;
     s32 recordSlot;
-    s32 c;
-    s32 i;
+    s32 grade;
+    s32 courseIndex;
     u16 *cellIndexCursor;
-    s32 j;
+    s32 cellIndex;
     SelectCupGrid *grid;
     u32 engineOrMirrorSlot;
 
-    a = 0;
+    value = 0;
     if (gBootInfo->mUnk_00 == 2) {
         return;
     }
     QueueSelectCupNameM(gSelectCupGrid->mIndex, gSelectCupGrid->mSelectCupMNcer, gSelectCupGrid->mSelectCupMBncl, 0x13,
-                        a);
-    j = 0;
-    for (i = 0; i < 4; i++) {
+                        value);
+    cellIndex = 0;
+    for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         grid = gSelectCupGrid;
         PrintLabelLayoutTextNoFixedAdvance(
-            j, gSelectCupGridCourseLabelIndices[i], gSelectCupGrid->mSelectCupMBnll,
-            GetBmgEntry(grid->mCommonMessages, gSelectCupGridCupMessageIndices[grid->mIndex][i]), grid->mSelectCupMBncl,
-            grid->mSelectCupMTable);
+            cellIndex, gSelectCupGridCourseLabelIndices[courseIndex], gSelectCupGrid->mSelectCupMBnll,
+            GetBmgEntry(grid->mCommonMessages, gSelectCupGridCupMessageIndices[grid->mIndex][courseIndex]),
+            grid->mSelectCupMBncl, grid->mSelectCupMTable);
     }
-    for (j = 0, cellIndexCursor = gSelectCupGridRecordCells; j < 8; cellIndexCursor++, j++) {
+    for (cellIndex = 0, cellIndexCursor = gSelectCupGridRecordCells; cellIndex < 8; cellIndexCursor++, cellIndex++) {
         gSelectCupGrid->mSelectCupMTable[*cellIndexCursor].mVisible = 0;
     }
-    for (i = 0; i < 4; i++) {
-        gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[i]].mVisible = 0;
+    for (courseIndex = 0; courseIndex < 4; courseIndex++) {
+        gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[courseIndex]].mVisible = 0;
     }
     if (gSelectCupGrid->mMode == 0) {
         if (GetMirrorMode() != 0) {
@@ -193,31 +194,32 @@ void SetupSelectCupGridIndex(void) {
         }
         recordSlot = gSelectCupGridRecordEngineClasses[engineOrMirrorSlot];
         if (IsGrandPrixRecordFilled(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot) != 0) {
-            c = GetGrandPrixRecordGrade(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot);
-            gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[gSelectCupGridRecordCellSlots[c]]].mVisible = 1;
-            switch (c) {
+            grade = GetGrandPrixRecordGrade(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot);
+            gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[gSelectCupGridRecordCellSlots[grade]]].mVisible =
+                1;
+            switch (grade) {
                 case 0:
                 case 1:
                 case 2:
                 case 3:
                 case 4:
-                    a = gSelectCupGridTrophyCells[0];
+                    value = gSelectCupGridTrophyCells[0];
                     break;
                 case 5:
-                    a = gSelectCupGridTrophyCells[1];
+                    value = gSelectCupGridTrophyCells[1];
                     break;
                 case 6:
-                    a = gSelectCupGridTrophyCells[2];
+                    value = gSelectCupGridTrophyCells[2];
                     break;
                 case 7:
-                    a = gSelectCupGridTrophyCells[3];
+                    value = gSelectCupGridTrophyCells[3];
                     break;
             }
-            gSelectCupGrid->mSelectCupMTable[a].mVisible = 1;
-            c = GetGrandPrixRecordCupRank(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot);
+            gSelectCupGrid->mSelectCupMTable[value].mVisible = 1;
+            grade = GetGrandPrixRecordCupRank(gSelectCupGridCupIndices[gSelectCupGrid->mIndex], recordSlot);
             grid = gSelectCupGrid;
-            QueueTrophyIcon(gSelectCupGridCupIndices[grid->mIndex], c, grid->mSelectCupMNcer, grid->mSelectCupMBncl, a,
-                            4, 0);
+            QueueTrophyIcon(gSelectCupGridCupIndices[grid->mIndex], grade, grid->mSelectCupMNcer, grid->mSelectCupMBncl,
+                            value, 4, 0);
         }
     }
     RequestSelectCupGridCupPicture();
@@ -246,7 +248,7 @@ u32 IsSelectCupGridIndexChangeRunning(void) {
 void AdvanceSelectCupGridIndexChange(void) {
     u16 mainCellCount;
     s16 offsetY;
-    int i;
+    int index;
 
     if (IsSelectCupGridIndexChangeRunning() != 0) {
         if (gSelectCupGrid->mIndexChangeTimer == 7) {
@@ -260,15 +262,15 @@ void AdvanceSelectCupGridIndexChange(void) {
             gSelectCupGrid->mSelectCupMTable[2].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[1].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[0].mOffsetY = offsetY;
-            for (i = 0; i < 8; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 8; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mOffsetY = offsetY;
-                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[i]].mOffsetY =
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[index]].mOffsetY = offsetY;
+                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[index]].mOffsetY =
                     offsetY;
             }
         }
@@ -279,18 +281,20 @@ void AdvanceSelectCupGridIndexChange(void) {
 }
 
 void UpdateSelectCupGridCourseCells(void) {
-    int i;
+    int courseIndex;
 
     if (gBootInfo->mUnk_00 != 2) {
-        for (i = 0; i < 4; i++) {
-            if (gSelectCupGrid->mShownCourseIndex == i) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mVisible = 1;
-                SetLabelPaletteIndex(gSelectCupGridCourseLabelIndices[i], 0xe, gSelectCupGrid->mSelectCupMBnll,
-                                     gSelectCupGrid->mSelectCupMTable, gSelectCupGrid->mSelectCupMBncl);
+        for (courseIndex = 0; courseIndex < 4; courseIndex++) {
+            if (gSelectCupGrid->mShownCourseIndex == courseIndex) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[courseIndex]].mVisible = 1;
+                SetLabelPaletteIndex(gSelectCupGridCourseLabelIndices[courseIndex], 0xe,
+                                     gSelectCupGrid->mSelectCupMBnll, gSelectCupGrid->mSelectCupMTable,
+                                     gSelectCupGrid->mSelectCupMBncl);
             } else {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mVisible = 0;
-                SetLabelPaletteIndex(gSelectCupGridCourseLabelIndices[i], 0xf, gSelectCupGrid->mSelectCupMBnll,
-                                     gSelectCupGrid->mSelectCupMTable, gSelectCupGrid->mSelectCupMBncl);
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[courseIndex]].mVisible = 0;
+                SetLabelPaletteIndex(gSelectCupGridCourseLabelIndices[courseIndex], 0xf,
+                                     gSelectCupGrid->mSelectCupMBnll, gSelectCupGrid->mSelectCupMTable,
+                                     gSelectCupGrid->mSelectCupMBncl);
             }
         }
     }
@@ -317,8 +321,8 @@ void RequestSelectCupGridState0(void) {
     u16 mainCellCount;
     s32 offsetY;
     s32 offsetX;
-    int i;
-    int j;
+    int index;
+    int cellIndex;
 
     gSelectCupGrid->mNextState = 0;
     gSelectCupGrid->mStateFrames = 0;
@@ -332,15 +336,15 @@ void RequestSelectCupGridState0(void) {
             gSelectCupGrid->mSelectCupMTable[2].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[1].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[0].mOffsetY = offsetY;
-            for (i = 0; i < 8; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 8; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mOffsetY = offsetY;
-                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[i]].mOffsetY =
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[index]].mOffsetY = offsetY;
+                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[index]].mOffsetY =
                     offsetY;
             }
         } else {
@@ -351,15 +355,15 @@ void RequestSelectCupGridState0(void) {
             gSelectCupGrid->mSelectCupMTable[2].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[1].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[0].mOffsetY = offsetY;
-            for (i = 0; i < 8; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 8; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mOffsetY = offsetY;
-                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[i]].mOffsetY =
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[index]].mOffsetY = offsetY;
+                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[index]].mOffsetY =
                     offsetY;
             }
         }
@@ -370,14 +374,14 @@ void RequestSelectCupGridState0(void) {
         gSelectCupGrid->mSelectCupSTable[1].mOffsetX = 0xe0;
         gSelectCupGrid->mSelectCupSTable[2].mOffsetX = offsetX;
         gSelectCupGrid->mSelectCupSTable[3].mOffsetX = 0xe0;
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 6; j++) {
-                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[i][j]].mOffsetX = offsetX;
+        for (index = 0; index < 4; index++) {
+            for (cellIndex = 0; cellIndex < 6; cellIndex++) {
+                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = offsetX;
             }
         }
-        for (i = 4; i < 8; i++) {
-            for (j = 0; j < 6; j++) {
-                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[i][j]].mOffsetX = 0xe0;
+        for (index = 4; index < 8; index++) {
+            for (cellIndex = 0; cellIndex < 6; cellIndex++) {
+                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = 0xe0;
             }
         }
     }
@@ -481,7 +485,7 @@ void RequestSelectCupGridState11(void) {
 
 void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     s32 remainingSize;
-    int i;
+    int index;
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
@@ -515,12 +519,12 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
         InitLayoutTable(gSelectCupGrid->mHeap, gSelectCupGrid->mSelectCupSBncl, NULL,
                         &gSelectCupGrid->mSelectCupSTable);
         remainingSize = 0x8000;
-        for (i = 0; i < 4; i++) {
-            remainingSize -= InitLabelCanvas(gSelectCupGrid->mHeap, gSelectCupGridCourseLabelIndices[i],
-                                             gSelectCupGrid->mSelectCupMBnll, gSelectCupGridCourseLabelWidths[i],
-                                             gSelectCupGridCourseLabelHeights[i], gSelectCupGridCourseLabelCells[i],
-                                             gSelectCupGrid->mSelectCupMNcer, gSelectCupGrid->mSelectCupMBncl,
-                                             gSelectCupGrid->mSelectCupMTable, remainingSize);
+        for (index = 0; index < 4; index++) {
+            remainingSize -= InitLabelCanvas(
+                gSelectCupGrid->mHeap, gSelectCupGridCourseLabelIndices[index], gSelectCupGrid->mSelectCupMBnll,
+                gSelectCupGridCourseLabelWidths[index], gSelectCupGridCourseLabelHeights[index],
+                gSelectCupGridCourseLabelCells[index], gSelectCupGrid->mSelectCupMNcer, gSelectCupGrid->mSelectCupMBncl,
+                gSelectCupGrid->mSelectCupMTable, remainingSize);
         }
         CreateSelectCupNameM(gSelectCupGrid->mHeap);
         CreateCommonCupMark(gSelectCupGrid->mHeap);
@@ -578,8 +582,8 @@ void AdvanceSelectCupGridState1(void) {
     s16 offsetX;
     s16 offsetY;
     s16 negatedOffsetX;
-    int i;
-    int j;
+    int index;
+    int cellIndex;
 
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gBootInfo->mUnk_00 != 2) {
@@ -592,15 +596,15 @@ void AdvanceSelectCupGridState1(void) {
             gSelectCupGrid->mSelectCupMTable[2].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[1].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[0].mOffsetY = offsetY;
-            for (i = 0; i < 8; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 8; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mOffsetY = offsetY;
-                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[i]].mOffsetY =
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[index]].mOffsetY = offsetY;
+                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[index]].mOffsetY =
                     offsetY;
             }
         }
@@ -610,14 +614,14 @@ void AdvanceSelectCupGridState1(void) {
         gSelectCupGrid->mSelectCupSTable[1].mOffsetX = offsetX;
         gSelectCupGrid->mSelectCupSTable[2].mOffsetX = negatedOffsetX;
         gSelectCupGrid->mSelectCupSTable[3].mOffsetX = offsetX;
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 6; j++) {
-                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[i][j]].mOffsetX = -offsetX;
+        for (index = 0; index < 4; index++) {
+            for (cellIndex = 0; cellIndex < 6; cellIndex++) {
+                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = -offsetX;
             }
         }
-        for (i = 4; i < 8; i++) {
-            for (j = 0; j < 6; j++) {
-                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[i][j]].mOffsetX = offsetX;
+        for (index = 4; index < 8; index++) {
+            for (cellIndex = 0; cellIndex < 6; cellIndex++) {
+                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = offsetX;
             }
         }
     }
@@ -647,27 +651,27 @@ void AdvanceSelectCupGridState3(void) {
     s32 touchedRectIndex;
     s32 neighborIndex;
     s32 touchedCupIndex;
-    int b;
-    int a;
-    u16 x;
-    InputSlot *p;
+    int pressedFlag;
+    int releasedFlag;
+    u16 pressedBits;
+    InputSlot *hasPairSlot;
     InputSlot *inputSlot;
 
     touchedRectIndex = -1;
     inputIndex = UNK_02175628_INDEX_8;
     AdvanceSelectCupGridIndexChange();
     AdvanceSelectCupGridShownCourse();
-    b = 0;
-    a = 0;
-    p = &gInputHasPairs[inputIndex];
-    x = gInputHasPairs[inputIndex].mPressedBits;
-    if (x == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
-        a = 1;
+    pressedFlag = 0;
+    releasedFlag = 0;
+    hasPairSlot = &gInputHasPairs[inputIndex];
+    pressedBits = gInputHasPairs[inputIndex].mPressedBits;
+    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
+        releasedFlag = 1;
     }
-    if (a == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && x != 0) {
-        b = 1;
+    if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && pressedBits != 0) {
+        pressedFlag = 1;
     }
-    if (b != 0) {
+    if (pressedFlag != 0) {
         touchedRectIndex =
             RectTableFindContaining(gSelectCupGrid->mSelectCupSBnbl, gInputPairXs[inputIndex].mPressedBits,
                                     gInputPairYs[inputIndex].mPressedBits);
@@ -676,16 +680,16 @@ void AdvanceSelectCupGridState3(void) {
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0) {
         goto L1;
     }
-    b = 0;
-    a = 0;
-    x = p->mPressedBits;
-    if (x == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
-        a = 1;
+    pressedFlag = 0;
+    releasedFlag = 0;
+    pressedBits = hasPairSlot->mPressedBits;
+    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
+        releasedFlag = 1;
     }
-    if (a == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && x != 0) {
-        b = 1;
+    if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && pressedBits != 0) {
+        pressedFlag = 1;
     }
-    if (b == 0) {
+    if (pressedFlag == 0) {
         goto L2;
     }
     if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPressedBits,
@@ -750,10 +754,10 @@ L2:
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
-        a = gSelectCupGrid->mIndex;
-        b = gSelectCupGridUpOffsets[a];
-        if (b != 0) {
-            neighborIndex = a + b;
+        releasedFlag = gSelectCupGrid->mIndex;
+        pressedFlag = gSelectCupGridUpOffsets[releasedFlag];
+        if (pressedFlag != 0) {
+            neighborIndex = releasedFlag + pressedFlag;
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
@@ -763,10 +767,10 @@ L2:
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
-        a = gSelectCupGrid->mIndex;
-        b = gSelectCupGridDownOffsets[a];
-        if (b != 0) {
-            neighborIndex = a + b;
+        releasedFlag = gSelectCupGrid->mIndex;
+        pressedFlag = gSelectCupGridDownOffsets[releasedFlag];
+        if (pressedFlag != 0) {
+            neighborIndex = releasedFlag + pressedFlag;
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
@@ -776,10 +780,10 @@ L2:
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
-        a = gSelectCupGrid->mIndex;
-        b = gSelectCupGridLeftOffsets[a];
-        if (b != 0) {
-            neighborIndex = a + b;
+        releasedFlag = gSelectCupGrid->mIndex;
+        pressedFlag = gSelectCupGridLeftOffsets[releasedFlag];
+        if (pressedFlag != 0) {
+            neighborIndex = releasedFlag + pressedFlag;
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
@@ -789,10 +793,10 @@ L2:
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
-        a = gSelectCupGrid->mIndex;
-        b = gSelectCupGridRightOffsets[a];
-        if (b != 0) {
-            neighborIndex = a + b;
+        releasedFlag = gSelectCupGrid->mIndex;
+        pressedFlag = gSelectCupGridRightOffsets[releasedFlag];
+        if (pressedFlag != 0) {
+            neighborIndex = releasedFlag + pressedFlag;
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
@@ -933,9 +937,9 @@ void AdvanceSelectCupGridState11(void) {
     s16 offsetY;
     s16 negatedOffsetX;
     u16 mainCellCount;
-    int i;
-    int j;
-    int k;
+    int index;
+    int cellIndex;
+    int labelIndex;
 
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gBootInfo->mUnk_00 != 2) {
@@ -948,15 +952,15 @@ void AdvanceSelectCupGridState11(void) {
             gSelectCupGrid->mSelectCupMTable[2].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[1].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[0].mOffsetY = offsetY;
-            for (i = 0; i < 8; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 8; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridRecordCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[i]].mOffsetY = offsetY;
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridTrophyCells[index]].mOffsetY = offsetY;
             }
-            for (i = 0; i < 4; i++) {
-                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[i]].mOffsetY = offsetY;
-                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[i]].mOffsetY =
+            for (index = 0; index < 4; index++) {
+                gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[index]].mOffsetY = offsetY;
+                gSelectCupGrid->mSelectCupMTable[mainCellCount + gSelectCupGridCourseLabelIndices[index]].mOffsetY =
                     offsetY;
             }
         }
@@ -966,21 +970,21 @@ void AdvanceSelectCupGridState11(void) {
         gSelectCupGrid->mSelectCupSTable[1].mOffsetX = offsetX;
         gSelectCupGrid->mSelectCupSTable[2].mOffsetX = negatedOffsetX;
         gSelectCupGrid->mSelectCupSTable[3].mOffsetX = offsetX;
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 6; j++) {
-                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[i][j]].mOffsetX = -offsetX;
+        for (index = 0; index < 4; index++) {
+            for (cellIndex = 0; cellIndex < 6; cellIndex++) {
+                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = -offsetX;
             }
         }
-        for (i = 4; i < 8; i++) {
-            for (j = 0; j < 6; j++) {
-                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[i][j]].mOffsetX = offsetX;
+        for (index = 4; index < 8; index++) {
+            for (cellIndex = 0; cellIndex < 6; cellIndex++) {
+                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = offsetX;
             }
         }
     }
 }
 
 s32 AdvanceSelectCupGrid(void) {
-    int i;
+    int rowIndex;
     int screenMapIndex;
     u16 *screenMap;
 
@@ -1030,8 +1034,8 @@ s32 AdvanceSelectCupGrid(void) {
             screenMap = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);
             NNS_GfdRegisterNewVramTransferTask(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
-            for (i = 0; i < 11; i++) {
-                screenMapIndex = (i + 8) * 0x20 + 0x16;
+            for (rowIndex = 0; rowIndex < 11; rowIndex++) {
+                screenMapIndex = (rowIndex + 8) * 0x20 + 0x16;
                 NNS_GfdRegisterNewVramTransferTask(8, screenMapIndex * 2, screenMap + screenMapIndex, 0x14);
             }
             gSelectCupGrid->mCupPicturePending = FALSE;
@@ -1053,20 +1057,20 @@ s32 AdvanceSelectCupGrid(void) {
 
 #pragma thumb on
 void WriteSelectCupGridRegisters(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value0 = gSelectCupGrid->mBg0Offset;
-    value0 = 0u - (value0);
-    value1 = (value0 << 16);
-    value0 = 0x1ff0000u;
-    value1 = (value1) & (value0);
-    value0 = 0x4000010u;
-    *(u32 *) ((value0) + 0u) = value1;
-    value1 = 0x4000000u;
-    value2 = *(const u32 *) ((value1) + 0u);
-    value0 = 0xffff1fffu;
-    value2 = (value2) & (value0);
-    *(u32 *) ((value1) + 0u) = value2;
+    u32 scratchValue;
+    u32 registerValue;
+    u32 controlValue;
+    scratchValue = gSelectCupGrid->mBg0Offset;
+    scratchValue = 0u - (scratchValue);
+    registerValue = (scratchValue << 16);
+    scratchValue = 0x1ff0000u;
+    registerValue = (registerValue) & (scratchValue);
+    scratchValue = 0x4000010u;
+    *(u32 *) ((scratchValue) + 0u) = registerValue;
+    registerValue = 0x4000000u;
+    controlValue = *(const u32 *) ((registerValue) + 0u);
+    scratchValue = 0xffff1fffu;
+    controlValue = (controlValue) & (scratchValue);
+    *(u32 *) ((registerValue) + 0u) = controlValue;
 }
 #pragma thumb off

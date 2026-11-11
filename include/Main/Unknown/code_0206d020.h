@@ -22,4 +22,4 @@ void ApplyItemObjectHitToKart(Kart *kart);
 void UpdateKartAheadEffect(Kart *kart);
 void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirection, s32 storeDirection, Vec3 *out);
 BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart);
-BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v);
+BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirection);

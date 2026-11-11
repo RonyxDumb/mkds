@@ -70,21 +70,21 @@ void InitBouncingItemBoxMapObjects(void) {
 #pragma thumb on
 
 void InitBouncingItemBoxTimers(void) {
-    s32 i;
+    s32 timerIndex;
     u32 *timerCursor;
     u32 *runningFlagCursor;
 
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
-    i = 0;
+    timerIndex = 0;
     timerCursor = gBouncingItemBoxTimers;
     runningFlagCursor = gBouncingItemBoxTimerRunning;
     do {
         *timerCursor++ = -1;
         *runningFlagCursor++ = 0;
-        i++;
-    } while (i < 8);
+        timerIndex++;
+    } while (timerIndex < 8);
 }
 
 #pragma thumb off
@@ -92,18 +92,18 @@ void InitBouncingItemBoxTimers(void) {
 void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     s16(*velocities)[2];
     s32 framesFromMoveStart;
-    s32 i;
-    s32 k;
+    s32 cornerIndex;
+    s32 fallSpeed;
     NNSSndSeqPlayer **sndHandle;
-    s16 x;
-    s16 y;
-    s32 b;
+    s16 coordX;
+    s16 coordY;
+    s32 fallDistance;
 
     velocities = quad->mCornerVelocities;
     framesFromMoveStart = gOrthoQuadFrames - gOrthoQuadMoveStartFrameCount;
     if (framesFromMoveStart < 0) {
-        for (i = 0; i < 4; i++) {
-            quad->mCorners[i][1] -= 2;
+        for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+            quad->mCorners[cornerIndex][1] -= 2;
         }
         return;
     }
@@ -121,73 +121,73 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
         }
     }
     if (quad->mVelocityMode != 0) {
-        for (i = 0; i < 4; i++) {
-            quad->mCorners[i][0] += velocities[i][0];
-            quad->mCorners[i][1] += velocities[i][1];
-            velocities[i][0] = MUL_FIXED12_NO_ROUND(velocities[i][0], 0x10cd);
-            velocities[i][1] = MUL_FIXED12_NO_ROUND(velocities[i][1], 0x10cd);
-            x = quad->mCorners[i][0];
-            if (x > 0x3ccd) {
-                quad->mCorners[i][0] = 0x3ccd;
-            } else if (x < -0x3ccd) {
-                quad->mCorners[i][0] = -0x3ccd;
+        for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+            quad->mCorners[cornerIndex][0] += velocities[cornerIndex][0];
+            quad->mCorners[cornerIndex][1] += velocities[cornerIndex][1];
+            velocities[cornerIndex][0] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][0], 0x10cd);
+            velocities[cornerIndex][1] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][1], 0x10cd);
+            coordX = quad->mCorners[cornerIndex][0];
+            if (coordX > 0x3ccd) {
+                quad->mCorners[cornerIndex][0] = 0x3ccd;
+            } else if (coordX < -0x3ccd) {
+                quad->mCorners[cornerIndex][0] = -0x3ccd;
             }
-            y = quad->mCorners[i][1];
-            if (y > 0x3ccd) {
-                quad->mCorners[i][1] = 0x3ccd;
-            } else if (y < -0x3ccd) {
-                quad->mCorners[i][1] = -0x3ccd;
+            coordY = quad->mCorners[cornerIndex][1];
+            if (coordY > 0x3ccd) {
+                quad->mCorners[cornerIndex][1] = 0x3ccd;
+            } else if (coordY < -0x3ccd) {
+                quad->mCorners[cornerIndex][1] = -0x3ccd;
             }
         }
     } else {
-        i = 0;
-        if (i < 4) {
+        cornerIndex = 0;
+        if (cornerIndex < 4) {
             do {
-                x = velocities[i][0];
-                y = velocities[i][1];
-                if (y < 0) {
-                    k = y * y > x * x ? 7 : 5;
-                    if (i == quad->mPickedCornerIndex) {
-                        k += (k << 1) + ((k * framesFromMoveStart) >> 9);
+                coordX = velocities[cornerIndex][0];
+                coordY = velocities[cornerIndex][1];
+                if (coordY < 0) {
+                    fallSpeed = coordY * coordY > coordX * coordX ? 7 : 5;
+                    if (cornerIndex == quad->mPickedCornerIndex) {
+                        fallSpeed += (fallSpeed << 1) + ((fallSpeed * framesFromMoveStart) >> 9);
                     }
                 } else {
-                    k = y * y > x * x ? 2 : 3;
+                    fallSpeed = coordY * coordY > coordX * coordX ? 2 : 3;
                 }
-                b = k;
-                b += (k * framesFromMoveStart) >> 8;
-                quad->mCorners[i][1] = quad->mCorners[i][1] - b;
-                if (quad->mCorners[i][1] < -0x3ccd) {
-                    quad->mCorners[i][1] = -0x3ccd;
+                fallDistance = fallSpeed;
+                fallDistance += (fallSpeed * framesFromMoveStart) >> 8;
+                quad->mCorners[cornerIndex][1] = quad->mCorners[cornerIndex][1] - fallDistance;
+                if (quad->mCorners[cornerIndex][1] < -0x3ccd) {
+                    quad->mCorners[cornerIndex][1] = -0x3ccd;
                 }
-                i++;
-            } while (i < 4);
+                cornerIndex++;
+            } while (cornerIndex < 4);
         }
     }
     quad->mTimer = quad->mTimer - 1;
     if ((quad->mTimer & 0xf) == 0) {
-        RandomState64 *a = &gRaceProgress->mLocalRandom;
+        RandomState64 *random = &gRaceProgress->mLocalRandom;
 
-        a->mValue = a->mMultiplier * a->mValue + a->mIncrement;
-        quad->mPickedCornerIndex = (u16) (((u64) (u32) (a->mValue >> 32) * 6) >> 32);
+        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        quad->mPickedCornerIndex = (u16) (((u64) (u32) (random->mValue >> 32) * 6) >> 32);
     }
 }
 
 void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad) {
     s16(*velocities)[2] = quad->mCornerVelocities;
-    s32 i;
+    s32 cornerIndex;
     s32 tableScale;
     s16 startX;
     s16 startY;
-    s32 v;
+    s32 velocity;
 
     tableScale = data_0215a48c[-quad->mTimer];
     startX = quad->mStartPair[0];
     startY = quad->mStartPair[1];
-    for (i = 0; i < 4; i++) {
-        v = velocities[i][0];
-        quad->mCorners[i][0] = startX + MUL_FIXED12_NO_ROUND(v, tableScale);
-        v = velocities[i][1];
-        quad->mCorners[i][1] = startY + MUL_FIXED12_NO_ROUND(v, tableScale);
+    for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+        velocity = velocities[cornerIndex][0];
+        quad->mCorners[cornerIndex][0] = startX + MUL_FIXED12_NO_ROUND(velocity, tableScale);
+        velocity = velocities[cornerIndex][1];
+        quad->mCorners[cornerIndex][1] = startY + MUL_FIXED12_NO_ROUND(velocity, tableScale);
     }
     quad->mTimer = quad->mTimer - 1;
     if (quad->mTimer == -13) {
@@ -228,7 +228,7 @@ void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad) {
 }
 
 void UpdateOrthoQuads(void) {
-    s32 i;
+    s32 quadIndex;
     OrthoQuadModel *model;
     s32 frames;
     u16 alpha;
@@ -236,10 +236,10 @@ void UpdateOrthoQuads(void) {
     if (gOrthoQuadCount == 0) {
         return;
     }
-    for (i = 0; i < gOrthoQuadCount; i++) {
-        OrthoQuad *e = &gOrthoQuads[i];
+    for (quadIndex = 0; quadIndex < gOrthoQuadCount; quadIndex++) {
+        OrthoQuad *quad = &gOrthoQuads[quadIndex];
 
-        e->mUpdateFunction(e);
+        quad->mUpdateFunction(quad);
     }
     frames = gOrthoQuadFrames + 1;
     gOrthoQuadFrames = frames;
@@ -264,7 +264,7 @@ void UpdateOrthoQuads(void) {
 }
 
 void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
-    s32 i;
+    s32 quadIndex;
 
     if (gOrthoQuadCount == 0) {
         return;
@@ -286,27 +286,27 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     reg_G3_MTX_SCALE = 0x64000;
     reg_G3_MTX_SCALE = 0x64000;
     reg_G3_MTX_SCALE = 0x64000;
-    i = 0;
+    quadIndex = 0;
     if (gOrthoQuadCount <= 0) {
         return;
     }
     do {
-        OrthoQuad *e = &gOrthoQuads[i];
+        OrthoQuad *quad = &gOrthoQuads[quadIndex];
 
-        reg_G3_POLYGON_ATTR = model->mPolygonAttr | (gOrthoQuadFirstPolygonId + i) << 24;
+        reg_G3_POLYGON_ATTR = model->mPolygonAttr | (gOrthoQuadFirstPolygonId + quadIndex) << 24;
         reg_G3_BEGIN_VTXS = 1;
         reg_G3_TEXCOORD = 0;
-        reg_G3_VTX_16 = *(u32 *) &e->mCorners[0];
+        reg_G3_VTX_16 = *(u32 *) &quad->mCorners[0];
         reg_G3_VTX_16 = 0;
         reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16;
-        reg_G3_VTX_DIFF = *(u32 *) &e->mCorners[1];
+        reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[1];
         reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16) | ((u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16);
-        reg_G3_VTX_DIFF = *(u32 *) &e->mCorners[2];
+        reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[2];
         reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16);
-        reg_G3_VTX_DIFF = *(u32 *) &e->mCorners[3];
+        reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[3];
         reg_G3_END_VTXS = 0;
-        i++;
-    } while (i < gOrthoQuadCount);
+        quadIndex++;
+    } while (quadIndex < gOrthoQuadCount);
 }
 
 void DrawOrthoQuads(void) {
@@ -349,10 +349,10 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     RandomState64 *random;
     OrthoQuad *quad;
     s16(*velocities)[2];
-    s32 i;
-    s16 c;
-    s16 s;
-    s32 t;
+    s32 cornerIndex;
+    s16 cosResult;
+    s16 sinResult;
+    s32 value;
     s16 velocityX;
     s16 velocityY;
 
@@ -361,35 +361,35 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     random = &raceProgress->mLocalRandom;
     velocities = quad->mCornerVelocities;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    t = (s32) (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32) >> 4;
-    c = FX_SinCosTable_[2 * t];
-    s = FX_SinCosTable_[2 * t + 1];
+    value = (s32) (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32);
+    cosResult = SIN_OF_ANGLE(value);
+    sinResult = COS_OF_ANGLE(value);
     if (overlap != 0) {
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        t = (s16) (((u64) (u32) (random->mValue >> 32) * 0xcd) >> 32) + 0x800;
+        value = (s16) (((u64) (u32) (random->mValue >> 32) * 0xcd) >> 32) + 0x800;
     } else {
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        t = 0xa66 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x52) >> 32);
+        value = 0xa66 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x52) >> 32);
     }
-    t = (s16) t;
+    value = (s16) value;
     if (gOrthoQuadUseCreamEffect != 0) {
-        t = (s16) MUL_FIXED12_NO_ROUND(t, 0x800);
+        value = (s16) MUL_FIXED12_NO_ROUND(value, 0x800);
     }
     quad->mTimer = data_0215a47c[index];
-    velocities[0][0] = -t;
-    velocities[0][1] = -t;
-    velocities[1][0] = -t;
-    velocities[1][1] = t;
-    velocities[2][0] = t;
-    velocities[2][1] = t;
-    velocities[3][0] = t;
-    velocities[3][1] = -t;
-    for (i = 0; i < 4; i++) {
-        velocityY = velocities[i][1];
-        velocityX = velocities[i][0];
-        velocities[i][0] = (s * velocityX - c * velocityY) >> 12;
-        velocities[i][1] = (c * velocityX + s * velocityY) >> 12;
-        *(HalfwordPair *) quad->mCorners[(u32) i] = startPair;
+    velocities[0][0] = -value;
+    velocities[0][1] = -value;
+    velocities[1][0] = -value;
+    velocities[1][1] = value;
+    velocities[2][0] = value;
+    velocities[2][1] = value;
+    velocities[3][0] = value;
+    velocities[3][1] = -value;
+    for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+        velocityY = velocities[cornerIndex][1];
+        velocityX = velocities[cornerIndex][0];
+        velocities[cornerIndex][0] = (sinResult * velocityX - cosResult * velocityY) >> 12;
+        velocities[cornerIndex][1] = (cosResult * velocityX + sinResult * velocityY) >> 12;
+        *(HalfwordPair *) GetOrthoQuadCorner(quad, cornerIndex) = startPair;
     }
     *(HalfwordPair *) quad->mStartPair = startPair;
     quad->mUpdateFunction = AdvanceOrthoQuadDelayAndStartSound;
@@ -400,9 +400,9 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
 // Local entry only: places up to count quads at random cells; the cream effect does not restart while quads show.
 void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     HalfwordPair startPair;
-    s32 i;
+    s32 cellIndex;
     s32 placedCount;
-    s32 m;
+    s32 cellBit;
     s32 column;
     s32 row;
     RandomState64 *random;
@@ -422,11 +422,11 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     gOrthoQuadUseCreamEffect = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
     gOrthoQuadUseCreamEffect = useCreamEffect;
-    for (i = 0; i < 8; i++) {
-        gOrthoQuadCells[i] = 0;
+    for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+        gOrthoQuadCells[cellIndex] = 0;
     }
-    m = 1;
-    for (i = 0, placedCount = 0; i < 0x10 && placedCount < count; i++) {
+    cellBit = 1;
+    for (cellIndex = 0, placedCount = 0; cellIndex < 0x10 && placedCount < count; cellIndex++) {
         if (gOrthoQuadUseCreamEffect != 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             startPair.mHalf.mUnk_00 = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
@@ -452,12 +452,12 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
         column = startPair.mHalf.mUnk_00 >> 10;
         row = startPair.mHalf.mUnk_02 >> 10;
         if (row >= 3 || column < 3 || column > 4) {
-            if ((gOrthoQuadCells[row] & (m << column)) == 0) {
-                s32 r = MarkOrthoQuadCellsAndGetOverlap(column, row);
+            if ((gOrthoQuadCells[row] & (cellBit << column)) == 0) {
+                s32 overlap = MarkOrthoQuadCellsAndGetOverlap(column, row);
 
                 startPair.mHalf.mUnk_00 -= 0x1000;
                 startPair.mHalf.mUnk_02 -= 0x600;
-                SetupOrthoQuad(placedCount, startPair, r);
+                SetupOrthoQuad(placedCount, startPair, overlap);
                 placedCount++;
             }
         }
@@ -511,21 +511,21 @@ u32 SkipOrthoQuadsHold(u32 kartIndex) {
 
 // Derives the corner velocities from the corner positions and switches the quad to velocity mode.
 void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
-    s32 i;
+    s32 cornerIndex;
     s32 cornerX;
     s32 cornerY;
     s32 pushY;
     s32 pushX;
-    s32 j;
+    s32 otherCornerIndex;
     s16(*velocities)[2] = quad->mCornerVelocities;
 
-    for (i = 0; i < 4; i++) {
-        velocities[i][0] = 0;
-        velocities[i][1] = 0;
+    for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+        velocities[cornerIndex][0] = 0;
+        velocities[cornerIndex][1] = 0;
     }
-    for (i = 0; i < 4; i++) {
-        cornerX = quad->mCorners[i][0];
-        cornerY = quad->mCorners[i][1];
+    for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+        cornerX = quad->mCorners[cornerIndex][0];
+        cornerY = quad->mCorners[cornerIndex][1];
         if (cornerX > 0) {
             if (cornerX > 0x4cd) {
                 pushX = MUL_FIXED12_NO_ROUND(cornerX, cornerX);
@@ -552,19 +552,19 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
                 pushY = -0x171;
             }
         }
-        for (j = 0; j < 4; j++) {
-            if (i == j) {
-                velocities[j][0] += MUL_FIXED12_NO_ROUND(pushX, 12);
-                velocities[j][1] += MUL_FIXED12_NO_ROUND(pushY, 12);
+        for (otherCornerIndex = 0; otherCornerIndex < 4; otherCornerIndex++) {
+            if (cornerIndex == otherCornerIndex) {
+                velocities[otherCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 12);
+                velocities[otherCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 12);
             } else {
-                velocities[j][0] += MUL_FIXED12_NO_ROUND(pushX, 8);
-                velocities[j][1] += MUL_FIXED12_NO_ROUND(pushY, 8);
+                velocities[otherCornerIndex][0] += MUL_FIXED12_NO_ROUND(pushX, 8);
+                velocities[otherCornerIndex][1] += MUL_FIXED12_NO_ROUND(pushY, 8);
             }
         }
     }
-    for (i = 0; i < 4; i++) {
-        if (velocities[i][1] < 0) {
-            velocities[i][1] = 0;
+    for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
+        if (velocities[cornerIndex][1] < 0) {
+            velocities[cornerIndex][1] = 0;
         }
     }
     quad->mVelocityMode = 1;
@@ -572,7 +572,7 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
 
 void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex) {
     OrthoQuad *quad;
-    s32 i;
+    s32 quadIndex;
     s32 quadCount;
     s32 holdFrameCount;
     s32 frames;
@@ -589,17 +589,17 @@ void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex) {
     if (frames < holdFrameCount) {
         gOrthoQuadFrames = holdFrameCount;
     }
-    i = 0;
+    quadIndex = 0;
     if (quadCount <= 0) {
         return;
     }
     do {
-        quad = &gOrthoQuads[i];
+        quad = &gOrthoQuads[quadIndex];
         if (quad->mVelocityMode == 0 && quad->mUpdateFunction == AdvanceOrthoQuadCornersByVelocity) {
             SetOrthoQuadVelocitiesFromCorners(quad);
         }
-        i++;
-    } while (i < gOrthoQuadCount);
+        quadIndex++;
+    } while (quadIndex < gOrthoQuadCount);
 }
 
 OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void) {
@@ -622,7 +622,7 @@ void StartOrthoQuadsCreamEffect(u32 kartIndex, u32 count) {
 #pragma thumb on
 void InitOrthoQuads(void) {
     NsbmdModel *model;
-    s32 i;
+    s32 index;
 
     gOrthoQuads = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xd0);
     data_0217c638 = 0xffff;
@@ -632,7 +632,7 @@ void InitOrthoQuads(void) {
     model = CreateItemModel(data_0216c7b4, NULL, data_0216c7c4);
     SetupOrthoQuadModel(&gOrthoQuadGesoSumi, model);
     gOrthoQuadFirstPolygonId = AllocPolygonId();
-    for (i = 0; i < 3; i++) {
+    for (index = 0; index < 3; index++) {
         AllocPolygonId();
     }
     reg_G3_MTX_MODE = 0;
@@ -661,7 +661,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
     s32 kartCount;
     s32 entryIndex;
     s32 ownerIndex;
-    s32 i;
+    s32 candidateIndex;
     RaceProgress *raceProgress;
     RandomState64 *random;
     Kart *kart;
@@ -675,11 +675,11 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
     entryIndex = gRaceSetup->mEntryIndex;
     if (gRaceSetup->mMode == MODE_BATTLE) {
         kartCount = gRaceSetup->mKartCount;
-        for (i = 0; i < kartCount; i++) {
-            if (i == ownerIndex) {
+        for (candidateIndex = 0; candidateIndex < kartCount; candidateIndex++) {
+            if (candidateIndex == ownerIndex) {
                 continue;
             }
-            kart = GetKart(i);
+            kart = GetKart(candidateIndex);
             if (kart->mUnk_7c & 0x402020) {
                 continue;
             }
@@ -692,7 +692,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
             raceProgress = gRaceProgress;
             random = &raceProgress->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            gesso->mOrthoQuadCounts[i] = (u16) (((random->mValue >> 32) * 4) >> 32) + 1;
+            gesso->mOrthoQuadCounts[candidateIndex] = (u16) (((random->mValue >> 32) * 4) >> 32) + 1;
         }
     } else {
         rank = 1;

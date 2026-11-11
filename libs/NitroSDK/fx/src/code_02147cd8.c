@@ -2,70 +2,70 @@
 #include "registers.h"
 
 // Adds two vectors component by component: sum = a + b.
-void VEC_Add(const Vec3 *a, const Vec3 *b, Vec3 *sum) {
-    sum->x = a->x + b->x;
-    sum->y = a->y + b->y;
-    sum->z = a->z + b->z;
+void VEC_Add(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *sum) {
+    sum->x = firstVec->x + secondVec->x;
+    sum->y = firstVec->y + secondVec->y;
+    sum->z = firstVec->z + secondVec->z;
 }
 
 // Subtracts two vectors component by component: difference = a - b.
-void VEC_Subtract(const Vec3 *a, const Vec3 *b, Vec3 *difference) {
-    difference->x = a->x - b->x;
-    difference->y = a->y - b->y;
-    difference->z = a->z - b->z;
+void VEC_Subtract(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *difference) {
+    difference->x = firstVec->x - secondVec->x;
+    difference->y = firstVec->y - secondVec->y;
+    difference->z = firstVec->z - secondVec->z;
 }
 
 // Dot product of two 20.12 vectors, rounded to 20.12.
-s32 VEC_DotProduct(const Vec3 *a, const Vec3 *b) {
-    return ((s64) a->x * b->x + (s64) a->y * b->y + (s64) a->z * b->z + 0x800) >> 12;
+s32 VEC_DotProduct(const Vec3 *firstVec, const Vec3 *secondVec) {
+    return DOT3_FIXED12_ROUNDED(firstVec->x, secondVec->x, firstVec->y, secondVec->y, firstVec->z, secondVec->z);
 }
 
 // Dot product of two 4.12 halfword vectors, rounded to 20.12.
-s32 VEC_Fx16DotProduct(const Vec3s16 *a, const Vec3s16 *b) {
+s32 VEC_Fx16DotProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec) {
     s32 sum;
     s32 last;
 
-    sum = a->x * b->x;
-    sum += a->y * b->y;
-    last = a->z * b->z;
+    sum = firstVec->x * secondVec->x;
+    sum += firstVec->y * secondVec->y;
+    last = firstVec->z * secondVec->z;
     return ((s64) sum + (last + 0x800)) >> 12;
 }
 
 // Cross product of two 20.12 vectors, rounded to 20.12.
-void VEC_CrossProduct(const Vec3 *a, const Vec3 *b, Vec3 *result) {
-    s32 x;
-    s32 y;
-    s32 z;
+void VEC_CrossProduct(const Vec3 *firstVec, const Vec3 *secondVec, Vec3 *result) {
+    s32 resultX;
+    s32 resultY;
+    s32 resultZ;
 
-    x = ((s64) a->y * b->z - (s64) a->z * b->y + 0x800) >> 12;
-    y = ((s64) a->z * b->x - (s64) a->x * b->z + 0x800) >> 12;
-    z = ((s64) a->x * b->y - (s64) a->y * b->x + 0x800) >> 12;
-    result->x = x;
-    result->y = y;
-    result->z = z;
+    resultX = CROSS2_FIXED12_ROUNDED(firstVec->y, secondVec->z, firstVec->z, secondVec->y);
+    resultY = CROSS2_FIXED12_ROUNDED(firstVec->z, secondVec->x, firstVec->x, secondVec->z);
+    resultZ = CROSS2_FIXED12_ROUNDED(firstVec->x, secondVec->y, firstVec->y, secondVec->x);
+    result->x = resultX;
+    result->y = resultY;
+    result->z = resultZ;
 }
 
 // Cross product of two 4.12 halfword vectors.
-void VEC_Fx16CrossProduct(const Vec3s16 *a, const Vec3s16 *b, Vec3s16 *result) {
-    s32 x;
-    s32 y;
-    s32 z;
+void VEC_Fx16CrossProduct(const Vec3s16 *firstVec, const Vec3s16 *secondVec, Vec3s16 *result) {
+    s32 resultX;
+    s32 resultY;
+    s32 resultZ;
 
-    x = (a->y * b->z - a->z * b->y + 0x800) >> 12;
-    y = (a->z * b->x - a->x * b->z + 0x800) >> 12;
-    z = (a->x * b->y - a->y * b->x + 0x800) >> 12;
-    result->x = x;
-    result->y = y;
-    result->z = z;
+    resultX = (firstVec->y * secondVec->z - firstVec->z * secondVec->y + 0x800) >> 12;
+    resultY = (firstVec->z * secondVec->x - firstVec->x * secondVec->z + 0x800) >> 12;
+    resultZ = (firstVec->x * secondVec->y - firstVec->y * secondVec->x + 0x800) >> 12;
+    result->x = resultX;
+    result->y = resultY;
+    result->z = resultZ;
 }
 
 // Length of a vector, from the square root coprocessor.
-s32 VEC_Mag(const Vec3 *v) {
+s32 VEC_Mag(const Vec3 *vec) {
     s64 squared;
 
-    squared = (s64) v->x * v->x;
-    squared += (s64) v->y * v->y;
-    squared += (s64) v->z * v->z;
+    squared = (s64) vec->x * vec->x;
+    squared += (s64) vec->y * vec->y;
+    squared += (s64) vec->z * vec->z;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = squared << 2;
     while (reg_CP_SQRTCNT & 0x8000) {
@@ -131,18 +131,18 @@ void VEC_MultAdd(s32 scale, const Vec3 *vector, const Vec3 *base, Vec3 *result) 
 }
 
 // Distance between two points, from the square root coprocessor.
-s32 VEC_Distance(const Vec3 *a, const Vec3 *b) {
-    s32 x;
-    s32 y;
-    s32 z;
+s32 VEC_Distance(const Vec3 *firstVec, const Vec3 *secondVec) {
+    s32 deltaX;
+    s32 deltaY;
+    s32 deltaZ;
     s64 squared;
 
-    x = a->x - b->x;
-    squared = (s64) x * x;
-    y = a->y - b->y;
-    squared += (s64) y * y;
-    z = a->z - b->z;
-    squared += (s64) z * z;
+    deltaX = firstVec->x - secondVec->x;
+    squared = (s64) deltaX * deltaX;
+    deltaY = firstVec->y - secondVec->y;
+    squared += (s64) deltaY * deltaY;
+    deltaZ = firstVec->z - secondVec->z;
+    squared += (s64) deltaZ * deltaZ;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = squared << 2;
     while (reg_CP_SQRTCNT & 0x8000) {
@@ -171,10 +171,10 @@ s64 FX_InvFx64c(s32 denom) {
 }
 
 // Square root of a 20.12 value, 0 for values that are not positive.
-s32 FX_Sqrt(s32 x) {
-    if (x > 0) {
+s32 FX_Sqrt(s32 value) {
+    if (value > 0) {
         reg_CP_SQRTCNT = 1;
-        reg_CP_SQRT_PARAM = (u64) x << 32;
+        reg_CP_SQRT_PARAM = (u64) value << 32;
         return FX_GetSqrtResult();
     }
     return 0;

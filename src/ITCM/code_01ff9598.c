@@ -134,19 +134,19 @@ BOOL StartKartRespawnWaitIfBelowZero(Kart *kart) {
     return FALSE;
 }
 
-void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *a) {
-    s32 d = Vec3DotUnrounded(&kart->mGroundNormal, a);
-    s32 m;
+void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
+    s32 dot = Vec3DotUnrounded(&kart->mGroundNormal, direction);
+    s32 maxFactor;
 
     if (kart->mUnk_48 & KART_48_ON_BOOST_SURFACE) {
-        m = 0x4cd;
+        maxFactor = 0x4cd;
     } else {
-        m = 0x1ec;
+        maxFactor = 0x1ec;
     }
-    if (d < 0) {
-        d = 0;
+    if (dot < 0) {
+        dot = 0;
     }
-    if (d >= 0xe66) {
+    if (dot >= 0xe66) {
         if (kart->mUnk_44 & 0x1000) {
             if (kart->mCollisionHitLink->mObject == NULL && kart->mPointMotion.x == 0 && kart->mPointMotion.y == 0 &&
                 kart->mPointMotion.z == 0 && kart->mCollisionStepFrames > 100) {
@@ -154,100 +154,100 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *a) {
                 return;
             }
         }
-        if (kart->mQuaternionBlendFactor >= m) {
+        if (kart->mQuaternionBlendFactor >= maxFactor) {
             return;
         }
         kart->mQuaternionBlendFactor = kart->mQuaternionBlendFactor + 0x14;
-        if (kart->mQuaternionBlendFactor > m) {
-            kart->mQuaternionBlendFactor = m;
+        if (kart->mQuaternionBlendFactor > maxFactor) {
+            kart->mQuaternionBlendFactor = maxFactor;
         }
     } else {
-        kart->mQuaternionBlendFactor = MUL_FIXED12_NO_ROUND(m, kart->mVelocityLengthRatio);
+        kart->mQuaternionBlendFactor = MUL_FIXED12_NO_ROUND(maxFactor, kart->mVelocityLengthRatio);
     }
 }
 
 // Counts mAirborneFrames, also clears mUnk_234, sets or clears bit 0x4000 and stores mLastGroundY. Not run while the
 // kart is below y = 0.
-void UpdateKartAirborne(Kart *p) {
-    if (p->mUnk_44 & KART_44_ON_GROUND) {
-        p->mAirborneFrames = 0;
-        p->mAirTiltAngle = 0;
-        p->mUnk_44 = p->mUnk_44 & ~0x4000;
-        p->mLastGroundY = p->mPos.y;
+void UpdateKartAirborne(Kart *kart) {
+    if (kart->mUnk_44 & KART_44_ON_GROUND) {
+        kart->mAirborneFrames = 0;
+        kart->mAirTiltAngle = 0;
+        kart->mUnk_44 = kart->mUnk_44 & ~0x4000;
+        kart->mLastGroundY = kart->mPos.y;
         return;
     }
-    p->mAirborneFrames = p->mAirborneFrames + 1;
-    if (p->mAirborneFrames > 5) {
-        p->mUnk_44 = p->mUnk_44 | 0x4000;
+    kart->mAirborneFrames = kart->mAirborneFrames + 1;
+    if (kart->mAirborneFrames > 5) {
+        kart->mUnk_44 = kart->mUnk_44 | 0x4000;
     }
 }
 
-void AdvanceKartOrientation(Kart *p, Vec3 *a) {
-    Vec4 v;
-    u32 t;
+void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
+    Vec4 tiltQuaternion;
+    u32 value;
 
-    p->mVelocityScaleFactor = 0x1000;
-    if (p->mAirborneFrames > 5) {
-        p->mQuaternionBlendFactor = 0xf6;
-        ComputeKartAirTiltQuaternion(p, &p->mUnk_100_q);
+    kart->mVelocityScaleFactor = 0x1000;
+    if (kart->mAirborneFrames > 5) {
+        kart->mQuaternionBlendFactor = 0xf6;
+        ComputeKartAirTiltQuaternion(kart, &kart->mUnk_100_q);
     } else {
-        AdvanceKartQuaternionFromVector(p, a);
+        AdvanceKartQuaternionFromVector(kart, direction);
     }
-    QuaternionBlend(&p->mUnk_f0_q, &p->mUnk_100_q, &p->mUnk_f0_q, p->mQuaternionBlendFactor);
-    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (p->mHeadingAngle + p->mHeadingAngleOffset), &p->mUnk_e0_m);
-    QuaternionMultiply(&p->mUnk_f0_q, &p->mUnk_e0_m, &p->mUnk_110_q);
-    if (p->mUnk_44 & 2) {
-        if (p->mHopSpeed > 0) {
-            p->mHopTiltAngle = 0x9c4 - (u16) MUL_FIXED12_NO_ROUND(p->mHopHeight, 500);
-            if (p->mHopTiltAngle > 0x6a4) {
-                p->mHopTiltAngle = 0x352;
+    QuaternionBlend(&kart->mUnk_f0_q, &kart->mUnk_100_q, &kart->mUnk_f0_q, kart->mQuaternionBlendFactor);
+    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
+    QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
+    if (kart->mUnk_44 & 2) {
+        if (kart->mHopSpeed > 0) {
+            kart->mHopTiltAngle = 0x9c4 - (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 500);
+            if (kart->mHopTiltAngle > 0x6a4) {
+                kart->mHopTiltAngle = 0x352;
             }
         } else {
-            p->mHopTiltAngle = 0;
+            kart->mHopTiltAngle = 0;
         }
-        QuaternionFromAxisAngle(&data_02154f88, (u16) -p->mHopTiltAngle, &v);
-        QuaternionMultiply(&p->mUnk_110_q, &v, &p->mUnk_110_q);
+        QuaternionFromAxisAngle(&data_02154f88, (u16) -kart->mHopTiltAngle, &tiltQuaternion);
+        QuaternionMultiply(&kart->mUnk_110_q, &tiltQuaternion, &kart->mUnk_110_q);
     } else {
-        p->mHopTiltAngle = 0;
+        kart->mHopTiltAngle = 0;
     }
-    QuaternionNormalize(&p->mUnk_110_q, &p->mUnk_110_q);
+    QuaternionNormalize(&kart->mUnk_110_q, &kart->mUnk_110_q);
 }
 
 // Runs only on a step with a ground hit (non-zero normal).
-void RefreshKartSurface(Kart *p) {
-    s32 r = PickCollisionHitValue(0x1e34ef);
-    s32 k;
-    s32 a;
-    s32 b;
-    s32 c;
+void RefreshKartSurface(Kart *kart) {
+    s32 hitValue = PickCollisionHitValue(0x1e34ef);
+    s32 surfaceGroup;
+    s32 targetFactor;
+    s32 currentFactor;
+    s32 easeIndex;
 
-    p->mSurfaceKind = (r & 0x1f00) >> 8;
-    p->mSurfaceVariant = (u32) ((r & 0xe0) << 11) >> 16;
-    a = 0x1000;
-    k = gKartSurfaceFunctions[p->mSurfaceKind](p);
-    if (k != 0) {
-        a = p->mPhysicalParam->mSurfaceSpeedLimitFactors[k];
+    kart->mSurfaceKind = (hitValue & 0x1f00) >> 8;
+    kart->mSurfaceVariant = (u32) ((hitValue & 0xe0) << 11) >> 16;
+    targetFactor = 0x1000;
+    surfaceGroup = gKartSurfaceFunctions[kart->mSurfaceKind](kart);
+    if (surfaceGroup != 0) {
+        targetFactor = kart->mPhysicalParam->mSurfaceSpeedLimitFactors[surfaceGroup];
     }
-    b = p->mSpeedLimitFactor;
-    if (a >= b) {
-        p->mSpeedLimitFactor = a;
+    currentFactor = kart->mSpeedLimitFactor;
+    if (targetFactor >= currentFactor) {
+        kart->mSpeedLimitFactor = targetFactor;
     } else {
-        p->mSpeedLimitFactor = b + MUL_FIXED12_ROUNDED(a - b, 0x4cd);
+        kart->mSpeedLimitFactor = currentFactor + MUL_FIXED12_ROUNDED(targetFactor - currentFactor, 0x4cd);
     }
-    if (p->mUnk_4c & 0x10000040) {
-        c = 0;
+    if (kart->mUnk_4c & 0x10000040) {
+        easeIndex = 0;
     } else {
-        c = k;
+        easeIndex = surfaceGroup;
     }
-    p->mTurnedForwardEaseFactor = p->mPhysicalParam->mUnk_38[c];
-    if (p->mUnk_48 & 0x40000000) {
-        if (p->mUnk_44 & KART_44_ON_GROUND) {
-            if (k != 0xb) {
-                p->mUnk_48 = p->mUnk_48 & ~0x40000000;
+    kart->mTurnedForwardEaseFactor = kart->mPhysicalParam->mUnk_38[easeIndex];
+    if (kart->mUnk_48 & 0x40000000) {
+        if (kart->mUnk_44 & KART_44_ON_GROUND) {
+            if (surfaceGroup != 0xb) {
+                kart->mUnk_48 = kart->mUnk_48 & ~0x40000000;
             }
         }
     }
-    p->mSurfaceGroup = k;
+    kart->mSurfaceGroup = surfaceGroup;
 }
 
 void AdvanceKartBoosts(Kart *kart) {
@@ -322,44 +322,44 @@ void SetKartCourseHitAttributeBit(Kart *kart, u32 hitValue) {
     }
 }
 
-void AdvanceKartHop(Kart *p) {
-    if (!(p->mUnk_44 & 4)) {
+void AdvanceKartHop(Kart *kart) {
+    if (!(kart->mUnk_44 & 4)) {
         return;
     }
-    p->mHopSpeed = p->mHopSpeed + p->mGravity;
-    p->mHopHeight = p->mHopHeight + p->mHopSpeed;
-    if (p->mHopHeight < 0) {
-        p->mHopHeight = 0;
-        p->mHopSpeed = 0;
-        p->mUnk_44 = p->mUnk_44 & ~0x804;
+    kart->mHopSpeed = kart->mHopSpeed + kart->mGravity;
+    kart->mHopHeight = kart->mHopHeight + kart->mHopSpeed;
+    if (kart->mHopHeight < 0) {
+        kart->mHopHeight = 0;
+        kart->mHopSpeed = 0;
+        kart->mUnk_44 = kart->mUnk_44 & ~0x804;
     }
 }
 
-void AdvanceKartEffects(Kart *p) {
-    KartTurnEffects *a;
-    KartEffects *b;
-    u32 f;
+void AdvanceKartEffects(Kart *kart) {
+    KartTurnEffects *turnEffects;
+    KartEffects *effects;
+    u32 kartFlags;
 
-    if (p->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
-        a = GetKartTurnEffects(p->mIndex);
-        b = GetKartEffects(p->mIndex);
-        AdvanceKartLevel4Effects(a, p);
-        AdvanceKartTurnStartEffects(a, p);
-        AdvanceKartLevel3Effects(a, b->mSideDirections, b->mSidePositions);
-        AdvanceKartLevel2Effects(a, b->mSideDirections, b->mSidePositions);
+    if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
+        turnEffects = GetKartTurnEffects(kart->mIndex);
+        effects = GetKartEffects(kart->mIndex);
+        AdvanceKartLevel4Effects(turnEffects, kart);
+        AdvanceKartTurnStartEffects(turnEffects, kart);
+        AdvanceKartLevel3Effects(turnEffects, effects->mSideDirections, effects->mSidePositions);
+        AdvanceKartLevel2Effects(turnEffects, effects->mSideDirections, effects->mSidePositions);
     } else {
-        StopKartTurnEffects(GetKartTurnEffects(p->mIndex));
+        StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     }
-    p->mEffectVelocity = p->mVelocity;
-    f = p->mUnk_44;
-    if (f & KART_44_ON_GROUND) {
-        if (!(f & 0x1000)) {
-            p->mEffectVelocity.y = p->mEffectVelocity.y - p->mVerticalSpeed;
+    kart->mEffectVelocity = kart->mVelocity;
+    kartFlags = kart->mUnk_44;
+    if (kartFlags & KART_44_ON_GROUND) {
+        if (!(kartFlags & 0x1000)) {
+            kart->mEffectVelocity.y = kart->mEffectVelocity.y - kart->mVerticalSpeed;
         }
     }
-    p->mEffectVelocity.x = p->mEffectVelocity.x >> 4;
-    p->mEffectVelocity.y = p->mEffectVelocity.y >> 4;
-    p->mEffectVelocity.z = p->mEffectVelocity.z >> 4;
+    kart->mEffectVelocity.x = kart->mEffectVelocity.x >> 4;
+    kart->mEffectVelocity.y = kart->mEffectVelocity.y >> 4;
+    kart->mEffectVelocity.z = kart->mEffectVelocity.z >> 4;
 }
 
 void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {

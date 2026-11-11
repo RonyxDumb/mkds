@@ -92,10 +92,10 @@ void AdvanceRecordVSEraseIndexChange(void) {
 }
 
 void RequestRecordVSEraseState0(void) {
-    s32 i;
+    s32 rowIndex;
     u16 eraseCellCount;
 
-    i = 0;
+    rowIndex = 0;
     gRecordVSErase->mNextState = 0;
     gRecordVSErase->mStateFrames = 0;
     gRecordVSErase->mBg3Offset = ~0xbf;
@@ -103,20 +103,20 @@ void RequestRecordVSEraseState0(void) {
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = 0x100;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = 0x100;
     gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + 5].mOffsetY = ~0xbf;
-    for (; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mOffsetX = 0x100;
+    for (; rowIndex < 5; rowIndex++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mOffsetX = 0x100;
     }
     PrintRecordVSEraseShownRecord();
     SetupTxtSystemSubTextButtonEx(GetBmgEntry(gRecordVSErase->mRecordMessages, 4),
                                   GetBmgEntry(gRecordVSErase->mCommonMessages, 6), 0, 1, 1, 1);
-    for (i = 0; i < 2; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[i]].mVisible = 0;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[rowIndex]].mVisible = 0;
     }
 }
 
@@ -214,13 +214,13 @@ void InitRecordVSErase(void *heap) {
     s32 remainingSubSize;
     u16 mainCellCount;
     u16 cellIndex;
-    s32 j;
-    s32 i;
-    u32 p0;
-    u32 p1;
-    u32 p2;
-    u32 p3;
-    u32 p4;
+    s32 columnIndex;
+    s32 index;
+    u32 unhighlightedMode;
+    u32 highlightMode;
+    u32 flaggedRowMode;
+    u32 flaggedHighlightMode;
+    u32 rowLabelMode;
 
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0x1018;
@@ -237,8 +237,8 @@ void InitRecordVSErase(void *heap) {
     gRecordVSErase->mErased = 0;
     gRecordVSErase->mPageDecrementRepeat = FALSE;
     gRecordVSErase->mPageIncrementRepeat = FALSE;
-    for (i = 0; i < 2; i++) {
-        gRecordVSErase->mOffsetTimers[i] = 0;
+    for (index = 0; index < 2; index++) {
+        gRecordVSErase->mOffsetTimers[index] = 0;
     }
     LoadEmblemSBNclr(heap);
     LocateAndQueueRecordVSErase();
@@ -271,18 +271,19 @@ void InitRecordVSErase(void *heap) {
                         gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
     cellIndex = 4;
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
+    for (index = 0; index < 3; index++) {
+        for (columnIndex = 0; columnIndex < 3; columnIndex++) {
             remainingSize -=
-                InitLabelCanvas(heap, gRecordVSEraseGridLabelIndices[i][j], gRecordVSErase->mRecordVSMBnll,
-                                data_0215c544[i][j], data_0215c558[i][j], cellIndex, gRecordVSErase->mRecordVSMNcer,
+                InitLabelCanvas(heap, gRecordVSEraseGridLabelIndices[index][columnIndex],
+                                gRecordVSErase->mRecordVSMBnll, data_0215c544[index][columnIndex],
+                                data_0215c558[index][columnIndex], cellIndex, gRecordVSErase->mRecordVSMNcer,
                                 gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
-            cellIndex = mainCellCount + gRecordVSEraseGridLabelIndices[i][j];
+            cellIndex = mainCellCount + gRecordVSEraseGridLabelIndices[index][columnIndex];
         }
     }
-    for (i = 0; i < 3; i++) {
-        PrintLabelLayoutTextNoFixedAdvance(0, gRecordVSEraseGridLabelIndices[0][i], gRecordVSErase->mRecordVSMBnll,
-                                           GetBmgEntry(gRecordVSErase->mRecordMessages, data_0215c4b0[i]),
+    for (index = 0; index < 3; index++) {
+        PrintLabelLayoutTextNoFixedAdvance(0, gRecordVSEraseGridLabelIndices[0][index], gRecordVSErase->mRecordVSMBnll,
+                                           GetBmgEntry(gRecordVSErase->mRecordMessages, data_0215c4b0[index]),
                                            gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
     }
     remainingSize -= InitLabelCanvas(heap, 0, gRecordVSErase->mRecordVSMTransientBnll, 0x8c, 0x10, 0,
@@ -300,18 +301,18 @@ void InitRecordVSErase(void *heap) {
     PrintLabelLayoutTextNoFixedAdvance(
         0, 0xe, gRecordVSErase->mRecordVSMTransientBnll, GetBmgEntry(gRecordVSErase->mRecordMessages, 0xc),
         gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
-    for (i = 0; i < 12; i++) {
-        remainingSize -= InitLabelCanvas(heap, gRecordVSEraseFriendKeyLabelIndices[i],
-                                         gRecordVSErase->mRecordVSMTransientBnll, data_0215c59c[i], data_0215c56c[i],
-                                         i + 3, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl,
-                                         gRecordVSErase->mRecordVSMTransientTable, remainingSize);
+    for (index = 0; index < 12; index++) {
+        remainingSize -= InitLabelCanvas(
+            heap, gRecordVSEraseFriendKeyLabelIndices[index], gRecordVSErase->mRecordVSMTransientBnll,
+            data_0215c59c[index], data_0215c56c[index], index + 3, gRecordVSErase->mRecordVSMNcer,
+            gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable, remainingSize);
     }
     remainingSubSize = GX_GetSizeOfSubOBJ();
-    for (i = 0, cellIndexCursor = gRecordVSEraseFlaggedHighlightIndices; i < 5; i++) {
-        remainingSubSize -= InitLabelCanvas(heap, gRecordVSEraseRowLabelIndices[i], gRecordVSErase->mRecordVSSEraseBnll,
-                                            data_0215c4c4[i], data_0215c4dc[i], *cellIndexCursor,
-                                            gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl,
-                                            gRecordVSErase->mRecordVSSEraseTable, remainingSubSize);
+    for (index = 0, cellIndexCursor = gRecordVSEraseFlaggedHighlightIndices; index < 5; index++) {
+        remainingSubSize -= InitLabelCanvas(
+            heap, gRecordVSEraseRowLabelIndices[index], gRecordVSErase->mRecordVSSEraseBnll, data_0215c4c4[index],
+            data_0215c4dc[index], *cellIndexCursor, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl,
+            gRecordVSErase->mRecordVSSEraseTable, remainingSubSize);
         cellIndexCursor++;
     }
     InitLabelCanvas(heap, 5, gRecordVSErase->mRecordVSSEraseBnll, 0xfa, 0x10, 5, gRecordVSErase->mRecordVSSNcer,
@@ -319,21 +320,21 @@ void InitRecordVSErase(void *heap) {
     PrintLabelLayoutTextNoFixedAdvance(1, 5, gRecordVSErase->mRecordVSSEraseBnll,
                                        GetBmgEntry(gRecordVSErase->mRecordMessages, 2),
                                        gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseTable);
-    p0 = 0;
-    p1 = 0;
-    p2 = 0;
-    p3 = 0;
-    p4 = 0;
-    for (i = 0; i < 5; i++) {
-        SetCellOamModeXlu(gRecordVSEraseUnhighlightedIndices[i], p0, gRecordVSErase->mRecordVSSNcer,
+    unhighlightedMode = 0;
+    highlightMode = 0;
+    flaggedRowMode = 0;
+    flaggedHighlightMode = 0;
+    rowLabelMode = 0;
+    for (index = 0; index < 5; index++) {
+        SetCellOamModeXlu(gRecordVSEraseUnhighlightedIndices[index], unhighlightedMode, gRecordVSErase->mRecordVSSNcer,
                           gRecordVSErase->mRecordVSSEraseBncl);
-        SetCellOamModeXlu(gRecordVSEraseHighlightIndices[i], p1, gRecordVSErase->mRecordVSSNcer,
+        SetCellOamModeXlu(gRecordVSEraseHighlightIndices[index], highlightMode, gRecordVSErase->mRecordVSSNcer,
                           gRecordVSErase->mRecordVSSEraseBncl);
-        SetCellOamModeXlu(gRecordVSEraseFlaggedRowIndices[i], p2, gRecordVSErase->mRecordVSSNcer,
+        SetCellOamModeXlu(gRecordVSEraseFlaggedRowIndices[index], flaggedRowMode, gRecordVSErase->mRecordVSSNcer,
                           gRecordVSErase->mRecordVSSEraseBncl);
-        SetCellOamModeXlu(gRecordVSEraseFlaggedHighlightIndices[i], p3, gRecordVSErase->mRecordVSSNcer,
-                          gRecordVSErase->mRecordVSSEraseBncl);
-        SetLabelOamModeXlu(gRecordVSEraseRowLabelIndices[i], p4, gRecordVSErase->mRecordVSSEraseBnll,
+        SetCellOamModeXlu(gRecordVSEraseFlaggedHighlightIndices[index], flaggedHighlightMode,
+                          gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
+        SetLabelOamModeXlu(gRecordVSEraseRowLabelIndices[index], rowLabelMode, gRecordVSErase->mRecordVSSEraseBnll,
                            gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
     }
     SetLabelOamModeXlu(5, 0, gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
@@ -390,7 +391,7 @@ void AdvanceRecordVSEraseState3(void) {
     s16 offsetX;
     u32 offsetY;
     u16 eraseCellCount;
-    s32 i;
+    s32 rowIndex;
 
     AdvanceRecordVSEraseOffsetTimers();
     gRecordVSErase->mStateFrames++;
@@ -401,14 +402,15 @@ void AdvanceRecordVSEraseState3(void) {
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + 5].mOffsetY = offsetY;
-    for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mOffsetX = offsetX;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mOffsetX =
+            offsetX;
     }
     if (gRecordVSErase->mStateFrames >= 0xa) {
         if (IsSelectReturnState2NoState3Or4Request() != 0) {
@@ -421,26 +423,30 @@ void AdvanceRecordVSEraseState4(void) {
     s32 firstRecordIndex;
     s32 downRectIndex;
     u32 pressedRectIndex;
-    InputSlotIndex i;
-    BOOL n;
+    InputSlotIndex inputSlotIndex;
+    BOOL condition;
 
     downRectIndex = -1;
     pressedRectIndex = downRectIndex;
-    i = UNK_02175628_INDEX_8;
+    inputSlotIndex = UNK_02175628_INDEX_8;
     AdvanceRecordVSEraseOffsetTimers();
     AdvanceRecordVSEraseIndexChange();
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
-    n = (gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) ||
-        gInputSlots[i].mPair.mHasPair != 0;
-    if (n) {
-        downRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputSlots[i].mPair.mPairX,
-                                                gInputSlots[i].mPair.mPairY);
+    condition =
+        (gInputSlots[inputSlotIndex].mPair.mHasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) ||
+        gInputSlots[inputSlotIndex].mPair.mHasPair != 0;
+    if (condition) {
+        downRectIndex =
+            RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputSlots[inputSlotIndex].mPair.mPairX,
+                                    gInputSlots[inputSlotIndex].mPair.mPairY);
     }
-    n = !(gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) &&
-        (gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0);
-    if (n) {
-        pressedRectIndex = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputSlots[i].mPair.mPairX,
-                                                   gInputSlots[i].mPair.mPairY);
+    condition =
+        !(gInputSlots[inputSlotIndex].mPair.mHasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) &&
+        (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && gInputSlots[inputSlotIndex].mPair.mHasPair != 0);
+    if (condition) {
+        pressedRectIndex =
+            RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, gInputSlots[inputSlotIndex].mPair.mPairX,
+                                    gInputSlots[inputSlotIndex].mPair.mPairY);
     }
     if (downRectIndex != 5) {
         gRecordVSErase->mPageDecrementRepeat = FALSE;
@@ -448,11 +454,13 @@ void AdvanceRecordVSEraseState4(void) {
     if (downRectIndex != 6) {
         gRecordVSErase->mPageIncrementRepeat = FALSE;
     }
-    if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_B) != 0 ||
-        ((n = !(gInputSlots[i].mPair.mHasPair == 0 && gInputSlots[i].mPair.mNoPairCount < 5) &&
-              (gInputSlots[i].mPair.mPrevHasPair == 0 && gInputSlots[i].mPair.mHasPair != 0)) &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[i].mPair.mPairX, gInputSlots[i].mPair.mPairY) !=
-             FALSE)) {
+    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) != 0 ||
+        ((condition = !(gInputSlots[inputSlotIndex].mPair.mHasPair == 0 &&
+                        gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) &&
+                      (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 &&
+                       gInputSlots[inputSlotIndex].mPair.mHasPair != 0)) &&
+         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,
+                                                         gInputSlots[inputSlotIndex].mPair.mPairY) != FALSE)) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
@@ -463,7 +471,7 @@ void AdvanceRecordVSEraseState4(void) {
     }
     if ((downRectIndex == 5 && gRecordVSErase->mPageDecrementRepeat != FALSE) ||
         (pressedRectIndex == 5 && gRecordVSErase->mPageDecrementRepeat == FALSE) ||
-        (u16) (gInputSlots[i].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
@@ -479,7 +487,7 @@ void AdvanceRecordVSEraseState4(void) {
     }
     if ((downRectIndex == 6 && gRecordVSErase->mPageIncrementRepeat != FALSE) ||
         (pressedRectIndex == 6 && gRecordVSErase->mPageIncrementRepeat == FALSE) ||
-        (u16) (gInputSlots[i].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
@@ -494,9 +502,9 @@ void AdvanceRecordVSEraseState4(void) {
         return;
     }
     if (pressedRectIndex <= 4) {
-        i = data_0215c4d0[pressedRectIndex];
-        if (i == gRecordVSErase->mIndex) {
-            if (IsRecordFlagged(firstRecordIndex + i) == 0) {
+        inputSlotIndex = data_0215c4d0[pressedRectIndex];
+        if (inputSlotIndex == gRecordVSErase->mIndex) {
+            if (IsRecordFlagged(firstRecordIndex + inputSlotIndex) == 0) {
                 if (IsRecordVSEraseIndexChangeRunning() == 0) {
                     RequestRecordVSEraseState7();
                 }
@@ -507,12 +515,12 @@ void AdvanceRecordVSEraseState4(void) {
             }
             return;
         }
-        if (IsRecordVSEraseRowFilled(i) != 0) {
-            gRecordVSErase->mIndex = i;
+        if (IsRecordVSEraseRowFilled(inputSlotIndex) != 0) {
+            gRecordVSErase->mIndex = inputSlotIndex;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else {
-        if ((u16) (gInputSlots[i].mPressedBits & PAD_KEY_A) != 0) {
+        if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
             if (IsRecordFlagged(firstRecordIndex + gRecordVSErase->mIndex) == 0) {
                 if (IsRecordVSEraseIndexChangeRunning() == 0) {
                     RequestRecordVSEraseState7();
@@ -537,10 +545,10 @@ void AdvanceRecordVSEraseState4(void) {
 void AdvanceRecordVSEraseState5(void) {
     s16 targetOffsetX;
     u16 mainCellCount;
-    s32 i;
+    s32 index;
     u16 transientCellCount;
     u16 eraseCellCount;
-    s32 j;
+    s32 columnIndex;
     s16 offsetX;
 
     targetOffsetX = 0;
@@ -567,27 +575,28 @@ void AdvanceRecordVSEraseState5(void) {
     gRecordVSErase->mRecordVSMTable[mainCellCount + 1].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTable[mainCellCount + 0xb].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTable[mainCellCount + 0xc].mOffsetX = offsetX;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[i][j]].mOffsetX = offsetX;
+    for (index = 0; index < 3; index++) {
+        for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+            gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[index][columnIndex]]
+                .mOffsetX = offsetX;
         }
     }
     gRecordVSErase->mRecordVSMTransientTable[1].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTransientTable[transientCellCount].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 1].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 0xe].mOffsetX = offsetX;
-    for (i = 0; i < 0xc; i++) {
-        gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[i]].mOffsetX =
-            offsetX;
+    for (index = 0; index < 0xc; index++) {
+        gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[index]]
+            .mOffsetX = offsetX;
     }
-    for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mOffsetX = offsetX;
+    for (index = 0; index < 5; index++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[index]].mOffsetX = offsetX;
     }
     if (gRecordVSErase->mStateFrames >= 0xa) {
         RequestRecordVSEraseState6();
@@ -597,10 +606,10 @@ void AdvanceRecordVSEraseState5(void) {
 void AdvanceRecordVSEraseState6(void) {
     s16 startOffsetX;
     u16 mainCellCount;
-    s32 i;
+    s32 index;
     u16 transientCellCount;
     u16 eraseCellCount;
-    s32 j;
+    s32 columnIndex;
     s16 offsetX;
 
     startOffsetX = 0;
@@ -627,27 +636,28 @@ void AdvanceRecordVSEraseState6(void) {
     gRecordVSErase->mRecordVSMTable[mainCellCount + 1].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTable[mainCellCount + 0xb].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTable[mainCellCount + 0xc].mOffsetX = offsetX;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[i][j]].mOffsetX = offsetX;
+    for (index = 0; index < 3; index++) {
+        for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+            gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[index][columnIndex]]
+                .mOffsetX = offsetX;
         }
     }
     gRecordVSErase->mRecordVSMTransientTable[1].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTransientTable[transientCellCount].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 1].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 0xe].mOffsetX = offsetX;
-    for (i = 0; i < 0xc; i++) {
-        gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[i]].mOffsetX =
-            offsetX;
+    for (index = 0; index < 0xc; index++) {
+        gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[index]]
+            .mOffsetX = offsetX;
     }
-    for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mOffsetX = offsetX;
+    for (index = 0; index < 5; index++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[index]].mOffsetX = offsetX;
     }
     if (gRecordVSErase->mStateFrames >= 0xa) {
         RequestRecordVSEraseState4();
@@ -658,7 +668,7 @@ void AdvanceRecordVSEraseState7(void) {
     s16 offsetX;
     u32 offsetY;
     u16 eraseCellCount;
-    s32 i;
+    s32 rowIndex;
 
     gRecordVSErase->mStateFrames++;
     offsetX = InterpolateS16(1, 0, 0x100, gRecordVSErase->mStateFrames, 0xa);
@@ -668,14 +678,15 @@ void AdvanceRecordVSEraseState7(void) {
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + 5].mOffsetY = offsetY;
-    for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mOffsetX = offsetX;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mOffsetX =
+            offsetX;
     }
     if (gRecordVSErase->mStateFrames > 0xa) {
         if (IsSelectReturnState0NoState1Request() != 0) {
@@ -689,9 +700,9 @@ void AdvanceRecordVSEraseState7(void) {
 #pragma thumb on
 
 void AdvanceRecordVSEraseState8(void) {
-    int v1;
-    v1 = IsTxtSystemState2NoCloseRequest();
-    if (v1 != 0) {
+    int noCloseRequest;
+    noCloseRequest = IsTxtSystemState2NoCloseRequest();
+    if (noCloseRequest != 0) {
         RequestRecordVSEraseState9();
     }
 }
@@ -716,8 +727,8 @@ void AdvanceRecordVSEraseState9(void) {
 }
 
 void AdvanceRecordVSEraseState10(void) {
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 columnIndex;
     s16 offsetX;
     u16 mainCellCount;
     u16 transientCellCount;
@@ -736,18 +747,18 @@ void AdvanceRecordVSEraseState10(void) {
         gRecordVSErase->mRecordVSMTable[mainCellCount + 1].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTable[mainCellCount + 0xb].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTable[mainCellCount + 0xc].mOffsetX = offsetX;
-        for (i = 0; i < 3; i++) {
-            for (j = 0; j < 3; j++) {
-                gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[i][j]].mOffsetX =
-                    offsetX;
+        for (index = 0; index < 3; index++) {
+            for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+                gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[index][columnIndex]]
+                    .mOffsetX = offsetX;
             }
         }
         gRecordVSErase->mRecordVSMTransientTable[1].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTransientTable[transientCellCount].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 1].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 0xe].mOffsetX = offsetX;
-        for (i = 0; i < 12; i++) {
-            gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[i]]
+        for (index = 0; index < 12; index++) {
+            gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[index]]
                 .mOffsetX = offsetX;
         }
     }
@@ -766,8 +777,8 @@ void AdvanceRecordVSEraseState10(void) {
 }
 
 void AdvanceRecordVSEraseState11(void) {
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 columnIndex;
     s16 offsetX;
     s16 offsetY;
     u16 mainCellCount;
@@ -789,18 +800,18 @@ void AdvanceRecordVSEraseState11(void) {
         gRecordVSErase->mRecordVSMTable[mainCellCount + 1].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTable[mainCellCount + 0xb].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTable[mainCellCount + 0xc].mOffsetX = offsetX;
-        for (i = 0; i < 3; i++) {
-            for (j = 0; j < 3; j++) {
-                gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[i][j]].mOffsetX =
-                    offsetX;
+        for (index = 0; index < 3; index++) {
+            for (columnIndex = 0; columnIndex < 3; columnIndex++) {
+                gRecordVSErase->mRecordVSMTable[mainCellCount + gRecordVSEraseGridLabelIndices[index][columnIndex]]
+                    .mOffsetX = offsetX;
             }
         }
         gRecordVSErase->mRecordVSMTransientTable[1].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTransientTable[transientCellCount].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 1].mOffsetX = offsetX;
         gRecordVSErase->mRecordVSMTransientTable[transientCellCount + 0xe].mOffsetX = offsetX;
-        for (i = 0; i < 12; i++) {
-            gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[i]]
+        for (index = 0; index < 12; index++) {
+            gRecordVSErase->mRecordVSMTransientTable[transientCellCount + gRecordVSEraseFriendKeyLabelIndices[index]]
                 .mOffsetX = offsetX;
         }
     }
@@ -808,14 +819,14 @@ void AdvanceRecordVSEraseState11(void) {
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + 5].mOffsetY = offsetY;
-    for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mOffsetX = offsetX;
+    for (index = 0; index < 5; index++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[index]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[index]].mOffsetX = offsetX;
     }
     if (gRecordVSErase->mStateFrames > 10) {
         if (IsSelectReturnState2NoState3Or4Request()) {
@@ -825,7 +836,7 @@ void AdvanceRecordVSEraseState11(void) {
 }
 
 void AdvanceRecordVSEraseState12(void) {
-    s32 i;
+    s32 rowIndex;
     s16 offsetX;
     s16 offsetY;
     u16 eraseCellCount;
@@ -838,14 +849,15 @@ void AdvanceRecordVSEraseState12(void) {
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = offsetX;
     gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + 5].mOffsetY = offsetY;
-    for (i = 0; i < 5; i++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[i]].mOffsetX = offsetX;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[i]].mOffsetX = offsetX;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mOffsetX = offsetX;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mOffsetX =
+            offsetX;
     }
     if (gRecordVSErase->mStateFrames >= 10) {
         RequestRecordScreen(gRecordVSErase->mNextScreen);

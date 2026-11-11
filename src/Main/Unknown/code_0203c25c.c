@@ -7,61 +7,61 @@
 #include "Main/Unknown/code_02068eac.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u16 LookupRankPoints(u8 a) {
-    u16 r = 0;
-    RankPointRow *t = gRaceProgress->mRankPointFile;
-    if (t != NULL) {
+u16 LookupRankPoints(u8 rank) {
+    u16 rowOffset = 0;
+    RankPointRow *rows = gRaceProgress->mRankPointFile;
+    if (rows != NULL) {
         switch (gRaceSetup->mMode) {
             case MODE_GRAND_PRIX:
                 break;
             case MODE_VS: {
-                u16 k = 1;
+                u16 baseRow = 1;
                 if (gRaceSetup->mUseTeams != 0) {
                     if (gRaceSetup->mKartCount > 3) {
                         if (gRaceSetup->mTeamKartCounts[0] <= 1 || gRaceSetup->mTeamKartCounts[1] <= 1) {
-                            k = 8;
+                            baseRow = 8;
                         } else {
-                            k = 0xf;
+                            baseRow = 0xf;
                         }
                     } else {
-                        k = 8;
+                        baseRow = 8;
                     }
                 }
-                r = k + 8 - gRaceSetup->mKartCount;
+                rowOffset = baseRow + 8 - gRaceSetup->mKartCount;
                 break;
             }
             case MODE_WIFI:
-                r = 9 - gRaceSetup->mKartCount;
+                rowOffset = 9 - gRaceSetup->mKartCount;
                 break;
         }
-        r = (t + r + 1)->mPoints[a - 1];
+        rowOffset = (rows + rowOffset + 1)->mPoints[rank - 1];
     }
-    return r;
+    return rowOffset;
 }
 
 void RemoveRaceProgressKart(u16 kartIndex) {
-    u32 o;
-    RaceProgressKart *p = &gRaceProgress->mKarts[kartIndex];
-    BOOL f = FALSE;
-    switch (p->mStatus) {
+    u32 oldRank;
+    RaceProgressKart *progressKart = &gRaceProgress->mKarts[kartIndex];
+    BOOL hasEnded = FALSE;
+    switch (progressKart->mStatus) {
         case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
-            f = TRUE;
+            hasEnded = TRUE;
             break;
     }
-    if (f == FALSE) {
-        u32 v;
-        s32 i;
-        o = p->mRank;
-        v = (u16) (gRaceSetup->mKartCount - gRaceProgress->mHeader.mRemovedCount);
-        p->mRank = gRaceSetup->mKartCount - gRaceProgress->mHeader.mRemovedCount;
-        for (i = 0; i < gRaceSetup->mKartCount; i++) {
-            RaceProgressKart *q = &gRaceProgress->mKarts[i];
-            if (i != kartIndex) {
-                u32 m = q->mRank;
-                if (m > o && m <= v) {
-                    q->mRank--;
+    if (hasEnded == FALSE) {
+        u32 lastRank;
+        s32 otherIndex;
+        oldRank = progressKart->mRank;
+        lastRank = (u16) (gRaceSetup->mKartCount - gRaceProgress->mHeader.mRemovedCount);
+        progressKart->mRank = gRaceSetup->mKartCount - gRaceProgress->mHeader.mRemovedCount;
+        for (otherIndex = 0; otherIndex < gRaceSetup->mKartCount; otherIndex++) {
+            RaceProgressKart *otherKart = &gRaceProgress->mKarts[otherIndex];
+            if (otherIndex != kartIndex) {
+                u32 otherRank = otherKart->mRank;
+                if (otherRank > oldRank && otherRank <= lastRank) {
+                    otherKart->mRank--;
                 }
             }
         }
@@ -70,7 +70,7 @@ void RemoveRaceProgressKart(u16 kartIndex) {
     if (gRaceSetup->mMode == MODE_BATTLE) {
         EliminateKartAndCheckWinner(kartIndex);
     }
-    p->mStatus = RACE_PROGRESS_KART_STATUS_REMOVED;
+    progressKart->mStatus = RACE_PROGRESS_KART_STATUS_REMOVED;
     StartKartRemovalFromProgress(GetKart(kartIndex));
     SetRaceHudKartRemoved(kartIndex, 1);
     if (IsRaceEndConditionMet() != 0) {
@@ -93,19 +93,19 @@ void RemoveRaceProgressKart(u16 kartIndex) {
     }
 }
 
-BOOL IsKartOnLastLap(u16 a) {
-    BOOL f = FALSE;
-    BOOL r;
-    switch (gRaceProgress->mKarts[a].mStatus) {
+BOOL IsKartOnLastLap(u16 kartIndex) {
+    BOOL hasEnded = FALSE;
+    BOOL result;
+    switch (gRaceProgress->mKarts[kartIndex].mStatus) {
         case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
         case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
         case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
-            f = TRUE;
+            hasEnded = TRUE;
             break;
     }
-    r = f == FALSE;
-    if (r != FALSE) {
-        r = GetLapCount() == gRaceProgress->mKarts[a].mLap;
+    result = hasEnded == FALSE;
+    if (result != FALSE) {
+        result = GetLapCount() == gRaceProgress->mKarts[kartIndex].mLap;
     }
-    return r != FALSE;
+    return result != FALSE;
 }

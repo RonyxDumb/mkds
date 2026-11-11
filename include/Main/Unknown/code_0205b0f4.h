@@ -49,7 +49,7 @@ typedef struct WiFiRaceSyncPacket {
 
 void RemoveDroppedParticipants(void);
 void UpdateParticipantElos(void);
-void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size, u32 d);
+void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size, u32 unusedArg1);
 void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size);
 void ReceiveWiFiRaceSyncRecord(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size);
 void AddWiFiRaceSyncRoundTrip(const u64 *ticks, s32 participant);

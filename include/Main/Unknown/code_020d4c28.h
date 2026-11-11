@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_020e6fd4.h"
 
 void UpdateViewFrustum(MtxFx43 *viewMatrix);
-u32 ComputeDistanceViewTest(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared);
+u32 ComputeDistanceViewTest(Vec3 *position, s32 unusedArg1, s32 unusedArg2, s32 distanceLimitSquared);
 s32 GetHorizontalCameraDistanceSquared(Vec3 *position);
 void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);
 BOOL IsMapObjectOutOfRange(MapObject *mapObject);

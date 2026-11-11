@@ -28,20 +28,22 @@ typedef struct NsKiller1 {
     /* ac */ GroupFollower mFollower;
 } NsKiller1;
 
-void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle);
+void StartNsKiller2(Vec3 *startPos, Vec3 *direction, u16 angle);
 void CreateNsKiller2UpdateList(void);
 void CreateNsKiller2DrawList(void);
 void CreateNsKiller2KindData(void);
-void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawNsKiller2(void *a, NsKiller2 *nsKiller2);
-void CreateNsKiller2AndNsKiller2S(void *a);
-u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d);
+void UpdateNsKiller2(void *mapObjectList,
+                     NsKiller2 *nsKiller2); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2);
+void CreateNsKiller2AndNsKiller2S(void *mapObjectList);
+u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *resultPtr);
 /* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
  * UnparkFirstParkedMapObject */
 void InitNsKiller2(NsKiller2 *nsKiller2);
 void CreateNsKiller1UpdateList(void);
 void CreateNsKiller1DrawList(void);
-void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateNsKiller1(void *mapObjectList,
+                     NsKiller1 *nsKiller1); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitNsKiller1Objects(MapObjectList *mapObjectList);
-void DrawNsKiller1(void *a, NsKiller1 *nsKiller1);
-void CreateNsKiller1(void *a);
+void DrawNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1);
+void CreateNsKiller1(void *mapObjectList);

@@ -10510,23 +10510,23 @@ data_usa_0216c898 kind:data(any) addr:0x0216c898
 data_usa_0216c8a0 kind:data(any) addr:0x0216c8a0
 data_usa_0216c8a8 kind:data(any) addr:0x0216c8a8
 gSoundDataSdatPath kind:data(any) addr:0x0216c8b0
-s0$1377 kind:data(any) addr:0x0216c8cc local
-s16$1376 kind:data(any) addr:0x0216c8e0 local
-s15$1375 kind:data(any) addr:0x0216c8f4 local
-s12$1374 kind:data(any) addr:0x0216c908 local
-s13$1373 kind:data(any) addr:0x0216c91c local
-s2$1372 kind:data(any) addr:0x0216c930 local
-s11$1371 kind:data(any) addr:0x0216c944 local
-s10$1370 kind:data(any) addr:0x0216c958 local
-s9$1369 kind:data(any) addr:0x0216c96c local
-s8$1368 kind:data(any) addr:0x0216c980 local
-s7$1367 kind:data(any) addr:0x0216c994 local
-s5$1366 kind:data(any) addr:0x0216c9a8 local
-s6$1365 kind:data(any) addr:0x0216c9bc local
-s4$1364 kind:data(any) addr:0x0216c9d0 local
-s3$1363 kind:data(any) addr:0x0216c9e4 local
-s14$1362 kind:data(any) addr:0x0216c9f8 local
-s1$1378 kind:data(any) addr:0x0216ca0c local
+defaultSettings0$2503 kind:data(any) addr:0x0216c8cc local
+defaultSettings16$2502 kind:data(any) addr:0x0216c8e0 local
+defaultSettings15$2501 kind:data(any) addr:0x0216c8f4 local
+defaultSettings12$2500 kind:data(any) addr:0x0216c908 local
+defaultSettings13$2499 kind:data(any) addr:0x0216c91c local
+defaultSettings2$2498 kind:data(any) addr:0x0216c930 local
+defaultSettings11$2497 kind:data(any) addr:0x0216c944 local
+defaultSettings10$2496 kind:data(any) addr:0x0216c958 local
+defaultSettings9$2495 kind:data(any) addr:0x0216c96c local
+defaultSettings8$2494 kind:data(any) addr:0x0216c980 local
+defaultSettings7$2493 kind:data(any) addr:0x0216c994 local
+defaultSettings5$2492 kind:data(any) addr:0x0216c9a8 local
+defaultSettings6$2491 kind:data(any) addr:0x0216c9bc local
+defaultSettings4$2490 kind:data(any) addr:0x0216c9d0 local
+defaultSettings3$2489 kind:data(any) addr:0x0216c9e4 local
+defaultSettings14$2488 kind:data(any) addr:0x0216c9f8 local
+defaultSettings1$2504 kind:data(any) addr:0x0216ca0c local
 gKartFullVolumeSoundSortOffset kind:data(any) addr:0x0216ca20
 gKartSoundRequestSortOffset kind:data(any) addr:0x0216ca24
 gBalloonSoundStartParams kind:data(any) addr:0x0216ca28

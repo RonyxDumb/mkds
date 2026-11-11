@@ -1,76 +1,79 @@
 #include "code_020169a4.h"
 
-NNSiGfdLnkVramBlock *NNSi_GfdInitLnkVramBlockPool(NNSiGfdLnkVramBlock *p, u32 n) {
-    u32 i;
-    NNSiGfdLnkVramBlock *q;
-    u32 m;
+NNSiGfdLnkVramBlock *NNSi_GfdInitLnkVramBlockPool(NNSiGfdLnkVramBlock *blocks, u32 count) {
+    u32 index;
+    NNSiGfdLnkVramBlock *prevBlock;
+    u32 lastIndex;
 
-    m = n - 1;
-    i = 0;
-    if (m != 0) {
-        q = p;
+    lastIndex = count - 1;
+    index = 0;
+    if (lastIndex != 0) {
+        prevBlock = blocks;
         do {
-            p[i].mPBlkNext = &p[i + 1];
-            p[i + 1].mPBlkPrev = q;
-            i++;
-            q++;
-        } while (i < m);
+            blocks[index].mPBlkNext = &blocks[index + 1];
+            blocks[index + 1].mPBlkPrev = prevBlock;
+            index++;
+            prevBlock++;
+        } while (index < lastIndex);
     }
-    p->mPBlkPrev = 0;
-    (p + n)[-1].mPBlkNext = 0;
-    return p;
+    blocks->mPBlkPrev = 0;
+    (blocks + count)[-1].mPBlkNext = 0;
+    return blocks;
 }
 
-s32 NNSi_GfdAddNewFreeBlock(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 c, u32 d) {
-    NNSiGfdLnkVramBlock *n;
+s32 NNSi_GfdAddNewFreeBlock(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 addr,
+                            u32 size) {
+    NNSiGfdLnkVramBlock *block;
 
-    n = *b;
-    if (n != 0) {
-        *b = n->mPBlkNext;
+    block = *spareListHead;
+    if (block != 0) {
+        *spareListHead = block->mPBlkNext;
     }
-    if (n != 0) {
-        n->mAddr = c;
-        n->mSzByte = d;
-        n->mPBlkPrev = 0;
-        n->mPBlkNext = 0;
-        if (*a != 0) {
-            (*a)->mPBlkPrev = n;
+    if (block != 0) {
+        block->mAddr = addr;
+        block->mSzByte = size;
+        block->mPBlkPrev = 0;
+        block->mPBlkNext = 0;
+        if (*freeListHead != 0) {
+            (*freeListHead)->mPBlkPrev = block;
         }
-        n->mPBlkNext = *a;
-        n->mPBlkPrev = 0;
-        *a = n;
+        block->mPBlkNext = *freeListHead;
+        block->mPBlkPrev = 0;
+        *freeListHead = block;
         return 1;
     }
     return 0;
 }
 
-s32 NNSi_GfdAllocLnkVram(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 *c, u32 d) {
-    return NNSi_GfdAllocLnkVramAligned(a, b, c, d, 0);
+s32 NNSi_GfdAllocLnkVram(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 *outAddr,
+                         u32 size) {
+    return NNSi_GfdAllocLnkVramAligned(freeListHead, spareListHead, outAddr, size, 0);
 }
 
-s32 NNSi_GfdAllocLnkVramAligned(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 *c, u32 d, u32 e) {
+s32 NNSi_GfdAllocLnkVramAligned(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 *outAddr,
+                                u32 size, u32 alignment) {
     u32 addr;
     u32 need;
     u32 pad;
     NNSiGfdLnkVramBlock *best;
-    NNSiGfdLnkVramBlock *n;
-    NNSiGfdLnkVramBlock *t;
+    NNSiGfdLnkVramBlock *block;
+    NNSiGfdLnkVramBlock *spareBlock;
     NNSiGfdLnkVramBlock *prev;
     NNSiGfdLnkVramBlock *next;
 
     best = 0;
-    for (n = *a; n != 0; n = n->mPBlkNext) {
-        if (e > 1) {
-            addr = (n->mAddr + (e - 1)) & ~(e - 1);
-            pad = addr - n->mAddr;
-            need = d + pad;
+    for (block = *freeListHead; block != 0; block = block->mPBlkNext) {
+        if (alignment > 1) {
+            addr = (block->mAddr + (alignment - 1)) & ~(alignment - 1);
+            pad = addr - block->mAddr;
+            need = size + pad;
         } else {
-            addr = n->mAddr;
+            addr = block->mAddr;
             pad = 0;
-            need = d;
+            need = size;
         }
-        if (n->mSzByte >= need) {
-            best = n;
+        if (block->mSzByte >= need) {
+            best = block;
             break;
         }
     }
@@ -78,23 +81,23 @@ s32 NNSi_GfdAllocLnkVramAligned(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b
         goto fail;
     }
     if (pad != 0) {
-        t = *b;
-        if (t != 0) {
-            *b = t->mPBlkNext;
+        spareBlock = *spareListHead;
+        if (spareBlock != 0) {
+            *spareListHead = spareBlock->mPBlkNext;
         }
-        if (t == 0) {
+        if (spareBlock == 0) {
             goto fail;
         }
-        t->mAddr = best->mAddr;
-        t->mSzByte = pad;
-        t->mPBlkPrev = 0;
-        t->mPBlkNext = 0;
-        if (*a != 0) {
-            (*a)->mPBlkPrev = t;
+        spareBlock->mAddr = best->mAddr;
+        spareBlock->mSzByte = pad;
+        spareBlock->mPBlkPrev = 0;
+        spareBlock->mPBlkNext = 0;
+        if (*freeListHead != 0) {
+            (*freeListHead)->mPBlkPrev = spareBlock;
         }
-        t->mPBlkNext = *a;
-        t->mPBlkPrev = 0;
-        *a = t;
+        spareBlock->mPBlkNext = *freeListHead;
+        spareBlock->mPBlkPrev = 0;
+        *freeListHead = spareBlock;
     }
     best->mSzByte -= need;
     best->mAddr += need;
@@ -104,97 +107,97 @@ s32 NNSi_GfdAllocLnkVramAligned(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b
         if (prev != 0) {
             prev->mPBlkNext = next;
         } else {
-            *a = next;
+            *freeListHead = next;
         }
         if (next != 0) {
             next->mPBlkPrev = prev;
         }
-        if (*b != 0) {
-            (*b)->mPBlkPrev = best;
+        if (*spareListHead != 0) {
+            (*spareListHead)->mPBlkPrev = best;
         }
-        best->mPBlkNext = *b;
+        best->mPBlkNext = *spareListHead;
         best->mPBlkPrev = 0;
-        *b = best;
+        *spareListHead = best;
     }
-    *c = addr;
+    *outAddr = addr;
     return 1;
 fail:
-    *c = 0;
+    *outAddr = 0;
     return 0;
 }
 
-s32 NNSi_GfdFreeLnkVram(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 c, u32 d) {
-    u32 r[4];
+s32 NNSi_GfdFreeLnkVram(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 addr, u32 size) {
+    u32 range[4];
     u32 *rp;
-    NNSiGfdLnkVramBlock *n;
+    NNSiGfdLnkVramBlock *block;
     NNSiGfdLnkVramBlock *next;
-    NNSiGfdLnkVramBlock *t;
+    NNSiGfdLnkVramBlock *spareBlock;
     NNSiGfdLnkVramBlock *prev;
 
-    r[0] = c;
-    r[1] = c + d;
-    r[2] = c;
-    r[3] = c + d;
-    rp = r;
-    for (n = *a; n != 0; n = next) {
-        next = n->mPBlkNext;
-        if (n->mAddr == rp[1]) {
-            r[3] = n->mAddr + n->mSzByte;
-            prev = n->mPBlkPrev;
+    range[0] = addr;
+    range[1] = addr + size;
+    range[2] = addr;
+    range[3] = addr + size;
+    rp = range;
+    for (block = *freeListHead; block != 0; block = next) {
+        next = block->mPBlkNext;
+        if (block->mAddr == rp[1]) {
+            range[3] = block->mAddr + block->mSzByte;
+            prev = block->mPBlkPrev;
             if (prev != 0) {
                 prev->mPBlkNext = next;
             } else {
-                *a = next;
+                *freeListHead = next;
             }
             if (next != 0) {
                 next->mPBlkPrev = prev;
             }
-            if (*b != 0) {
-                (*b)->mPBlkPrev = n;
+            if (*spareListHead != 0) {
+                (*spareListHead)->mPBlkPrev = block;
             }
-            n->mPBlkNext = *b;
-            n->mPBlkPrev = 0;
-            *b = n;
+            block->mPBlkNext = *spareListHead;
+            block->mPBlkPrev = 0;
+            *spareListHead = block;
         }
-        if (n->mAddr + n->mSzByte == rp[0]) {
-            NNSiGfdLnkVramBlock *p2;
-            NNSiGfdLnkVramBlock *q2;
+        if (block->mAddr + block->mSzByte == rp[0]) {
+            NNSiGfdLnkVramBlock *innerPrev;
+            NNSiGfdLnkVramBlock *innerNext;
 
-            r[2] = n->mAddr;
-            p2 = n->mPBlkPrev;
-            q2 = n->mPBlkNext;
-            if (p2 != 0) {
-                p2->mPBlkNext = q2;
+            range[2] = block->mAddr;
+            innerPrev = block->mPBlkPrev;
+            innerNext = block->mPBlkNext;
+            if (innerPrev != 0) {
+                innerPrev->mPBlkNext = innerNext;
             } else {
-                *a = q2;
+                *freeListHead = innerNext;
             }
-            if (q2 != 0) {
-                q2->mPBlkPrev = p2;
+            if (innerNext != 0) {
+                innerNext->mPBlkPrev = innerPrev;
             }
-            if (*b != 0) {
-                (*b)->mPBlkPrev = n;
+            if (*spareListHead != 0) {
+                (*spareListHead)->mPBlkPrev = block;
             }
-            n->mPBlkNext = *b;
-            n->mPBlkPrev = 0;
-            *b = n;
+            block->mPBlkNext = *spareListHead;
+            block->mPBlkPrev = 0;
+            *spareListHead = block;
         }
     }
-    t = *b;
-    if (t != 0) {
-        *b = t->mPBlkNext;
+    spareBlock = *spareListHead;
+    if (spareBlock != 0) {
+        *spareListHead = spareBlock->mPBlkNext;
     }
-    if (t == 0) {
+    if (spareBlock == 0) {
         return 0;
     }
-    t->mAddr = r[2];
-    t->mSzByte = r[3] - r[2];
-    t->mPBlkPrev = 0;
-    t->mPBlkNext = 0;
-    if (*a != 0) {
-        (*a)->mPBlkPrev = t;
+    spareBlock->mAddr = range[2];
+    spareBlock->mSzByte = range[3] - range[2];
+    spareBlock->mPBlkPrev = 0;
+    spareBlock->mPBlkNext = 0;
+    if (*freeListHead != 0) {
+        (*freeListHead)->mPBlkPrev = spareBlock;
     }
-    t->mPBlkNext = *a;
-    t->mPBlkPrev = 0;
-    *a = t;
+    spareBlock->mPBlkNext = *freeListHead;
+    spareBlock->mPBlkPrev = 0;
+    *freeListHead = spareBlock;
     return 1;
 }

@@ -36,37 +36,39 @@
 #include "code_02147cd8.h"
 #include "code_0212bcac.h"
 
-void CreateNsKiller1(void *a) {
-    gNsKiller1 = CreateMapObjectModelAnimated(a, gNsKiller1NsbmdName);
+void CreateNsKiller1(void *mapObjectList) {
+    gNsKiller1 = CreateMapObjectModelAnimated(mapObjectList, gNsKiller1NsbmdName);
 }
 
-void DrawNsKiller1(void *a, NsKiller1 *nsKiller1) {
-    s32 t;
+void DrawNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
+    s32 gxParam;
 
-    t = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x1b, &nsKiller1->mMapObject.mScale, 3);
     nsKiller1->mMapObject.mMatrix.mRows[3].x = nsKiller1->mMapObject.mPos.x >> 4;
     nsKiller1->mMapObject.mMatrix.mRows[3].y = nsKiller1->mMapObject.mPos.y >> 4;
     nsKiller1->mMapObject.mMatrix.mRows[3].z = nsKiller1->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &nsKiller1->mMapObject.mMatrix, 12);
-    DrawMapObjectModel(a, gNsKiller1, nsKiller1);
+    DrawMapObjectModel(mapObjectList, gNsKiller1, nsKiller1);
 }
 
 void InitNsKiller1Objects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 objectIndex;
     NsKiller1 *nsKiller1;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (nsKiller1 = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (objectIndex = 0;
+         objectIndex < mapObjectList->mMapObjectCount && (nsKiller1 = mapObjectList->mMapObjects[objectIndex]) != NULL;
+         objectIndex++) {
         nsKiller1->mStateTimer = 0;
     }
 }
 
-void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
-    SoundStartParams s;
+void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
+    SoundStartParams soundParams;
 
     switch (nsKiller1->mState) {
         case 0:
@@ -91,10 +93,10 @@ void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
             if (nsKiller1->mStateTimer == 0x2d) {
                 if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
-                    s = data_0216676c;
-                    s.mPositionSource = &nsKiller1->mMapObject.mPos;
-                    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&nsKiller1->mMapObject.mPos);
-                    StartSndHandleSoundEx(&s, GetSndHandleSlot(8));
+                    soundParams = data_0216676c;
+                    soundParams.mPositionSource = &nsKiller1->mMapObject.mPos;
+                    soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&nsKiller1->mMapObject.mPos);
+                    StartSndHandleSoundEx(&soundParams, GetSndHandleSlot(8));
                 }
             } else if (nsKiller1->mStateTimer <= 0) {
                 nsKiller1->mStateTimer = 0;
@@ -133,13 +135,13 @@ void InitNsKiller2(NsKiller2 *nsKiller2) {
         (void (*)(void *, void *, void *)) SetNsKiller2SoundTrackParams;
 }
 
-u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d) {
-    u8 x;
-    u8 v;
+u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *resultPtr) {
+    u8 flag;
+    u8 result;
 
-    x = *c;
-    v = *d;
-    if (x == 1) {
+    flag = *flagPtr;
+    result = *resultPtr;
+    if (flag == 1) {
         nsKiller2->mParkTimer = 0x78;
         nsKiller2->mMode = 1;
         nsKiller2->mMapObject.mPosStep.x = ((s64) nsKiller2->mMapObject.mPosStep.x << 10) >> 12;
@@ -152,34 +154,34 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d) {
         }
         StartSoundIfKartStarOrKiller(&nsKiller2->mMapObject, kart);
     }
-    return v;
+    return result;
 }
 
-void CreateNsKiller2AndNsKiller2S(void *a) {
-    gNsKiller2 = CreateMapObjectModelAnimated(a, gNsKiller2NsbmdName);
-    gNsKiller2S = CreateMapObjectModelShadow(a, gNsKiller2SNsbmdName);
+void CreateNsKiller2AndNsKiller2S(void *mapObjectList) {
+    gNsKiller2 = CreateMapObjectModelAnimated(mapObjectList, gNsKiller2NsbmdName);
+    gNsKiller2S = CreateMapObjectModelShadow(mapObjectList, gNsKiller2SNsbmdName);
     SetMapObjectModelPolygonId(gNsKiller2S, 0x3f);
 }
 
-void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
-    s32 t;
+void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
+    s32 gxParam;
     MtxFx33 rotationMatrix;
 
     if (nsKiller2->mParkTimer <= 0) {
         return;
     }
-    t = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetTranslationMatrixPos(&nsKiller2->mMapObject.mPos), 12);
     MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(nsKiller2->mMapObject.mAngle),
                 COS_OF_ANGLE(nsKiller2->mMapObject.mAngle));
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->mMapObject.mScale, 3);
-    DrawMapObjectModel(a, gNsKiller2S, nsKiller2);
-    DrawMapObjectModel(a, gNsKiller2, nsKiller2);
+    DrawMapObjectModel(mapObjectList, gNsKiller2S, nsKiller2);
+    DrawMapObjectModel(mapObjectList, gNsKiller2, nsKiller2);
 }
 
-void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2) {
+void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
     if ((GetKartKind3ShapeListMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
         nsKiller2->mMapObject.mFlags |= data_021564a8;
     } else {
@@ -216,11 +218,11 @@ void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2) {
 }
 
 void CreateNsKiller2KindData(void) {
-    MapObjectKindData *o;
+    MapObjectKindData *mapObjectKindDataWithSound;
 
-    o = CreateMapObjectKindDataWithSound(CollideKartWithNsKiller2, NULL, NULL, 1, 1, 0x17b);
-    o->mUnk_38 = 0x32000;
-    o->mUnk_3c = -0x64000;
+    mapObjectKindDataWithSound = CreateMapObjectKindDataWithSound(CollideKartWithNsKiller2, NULL, NULL, 1, 1, 0x17b);
+    mapObjectKindDataWithSound->mUnk_38 = 0x32000;
+    mapObjectKindDataWithSound->mUnk_3c = -0x64000;
 }
 
 void CreateNsKiller2DrawList(void) {
@@ -232,7 +234,7 @@ void CreateNsKiller2UpdateList(void) {
 }
 
 // Starts a parked NsKiller2 at a (raised), flying along b with angle c.
-void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle) {
+void StartNsKiller2(Vec3 *startPos, Vec3 *direction, u16 angle) {
     NsKiller2 *nsKiller2;
 
     nsKiller2 = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_NS_KILLER2));
@@ -243,12 +245,12 @@ void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle) {
     nsKiller2->mMapObject.mPos.x = startPos->x;
     nsKiller2->mMapObject.mPos.y = startPos->y + 0x2a000;
     nsKiller2->mMapObject.mPos.z = startPos->z;
-    nsKiller2->mMapObject.mMatrix.mRows[2].x = b->x;
+    nsKiller2->mMapObject.mMatrix.mRows[2].x = direction->x;
     nsKiller2->mMapObject.mMatrix.mRows[2].y = 0;
-    nsKiller2->mMapObject.mMatrix.mRows[2].z = b->z;
-    nsKiller2->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(b->x, 0x6000);
+    nsKiller2->mMapObject.mMatrix.mRows[2].z = direction->z;
+    nsKiller2->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(direction->x, 0x6000);
     nsKiller2->mMapObject.mPosStep.y = 0;
-    nsKiller2->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(b->z, 0x6000);
+    nsKiller2->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(direction->z, 0x6000);
     nsKiller2->mMapObject.mAngle = angle;
     nsKiller2->mMode = 0;
 }

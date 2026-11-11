@@ -7,29 +7,29 @@
 #include "Main/Unknown/code_02133000.h"
 #include "Main/Unknown/code_02142000.h"
 
-WordPair FloatTrapDispatch(WordPair a, WordPair b, u32 c) {
-    FloatTrapTable *t;
+WordPair FloatTrapDispatch(WordPair firstPair, WordPair secondPair, u32 statusFlags) {
+    FloatTrapTable *floatTrapTable;
     Unk02134008Func fn;
 
-    t = GetFloatTrapTable();
-    if ((c & 0xc00000) == 0) {
-        c |= FloatStatusClearXor(0, 0) & 0xc00000;
+    floatTrapTable = GetFloatTrapTable();
+    if ((statusFlags & 0xc00000) == 0) {
+        statusFlags |= FloatStatusClearXor(0, 0) & 0xc00000;
     }
-    switch (c & 0x7c000000) {
+    switch (statusFlags & 0x7c000000) {
         case 0x40000000:
-            fn = t->mHandlers[4];
+            fn = floatTrapTable->mHandlers[4];
             break;
         case 0x04000000:
-            fn = t->mHandlers[0];
+            fn = floatTrapTable->mHandlers[0];
             break;
         case 0x10000000:
-            fn = t->mHandlers[2];
+            fn = floatTrapTable->mHandlers[2];
             break;
         case 0x20000000:
-            fn = t->mHandlers[3];
+            fn = floatTrapTable->mHandlers[3];
             break;
         case 0x08000000:
-            fn = t->mHandlers[1];
+            fn = floatTrapTable->mHandlers[1];
             break;
         default:
             fn = 0;
@@ -38,80 +38,80 @@ WordPair FloatTrapDispatch(WordPair a, WordPair b, u32 c) {
     if (fn == 0) {
         raise(2);
     }
-    return fn(a, b, c);
+    return fn(firstPair, secondPair, statusFlags);
 }
 
-u32 FloatTrapWordToWord(u32 a, u32 b) {
-    WordPair s;
-    WordPair r;
+u32 FloatTrapWordToWord(u32 word, u32 statusFlags) {
+    WordPair operand;
+    WordPair result;
 
-    s.mLow = a;
-    r = FloatTrapDispatch(s, s, b);
-    return r.mLow;
+    operand.mLow = word;
+    result = FloatTrapDispatch(operand, operand, statusFlags);
+    return result.mLow;
 }
 
-u32 FloatTrapPairToWord(u32 a, u32 b, u32 c) {
-    WordPair s;
-    WordPair r;
+u32 FloatTrapPairToWord(u32 low, u32 high, u32 statusFlags) {
+    WordPair operand;
+    WordPair result;
 
-    s.mLow = a;
-    s.mHigh = b;
-    r = FloatTrapDispatch(s, s, c);
-    return r.mLow;
+    operand.mLow = low;
+    operand.mHigh = high;
+    result = FloatTrapDispatch(operand, operand, statusFlags);
+    return result.mLow;
 }
 
-u64 FloatTrapWordToPair(u32 a, u32 b) {
-    WordPair s;
-    WordPair r;
+u64 FloatTrapWordToPair(u32 word, u32 statusFlags) {
+    WordPair operand;
+    WordPair result;
 
-    s.mLow = a;
-    r = FloatTrapDispatch(s, s, b);
-    return *(u64 *) &r;
+    operand.mLow = word;
+    result = FloatTrapDispatch(operand, operand, statusFlags);
+    return *(u64 *) &result;
 }
 
-u64 FloatTrapPairToPair(u32 a, u32 b, u32 c) {
-    WordPair s;
-    WordPair r;
+u64 FloatTrapPairToPair(u32 low, u32 high, u32 statusFlags) {
+    WordPair operand;
+    WordPair result;
 
-    s.mLow = a;
-    s.mHigh = b;
-    r = FloatTrapDispatch(s, s, c);
-    return *(u64 *) &r;
+    operand.mLow = low;
+    operand.mHigh = high;
+    result = FloatTrapDispatch(operand, operand, statusFlags);
+    return *(u64 *) &result;
 }
 
-u32 FloatTrapWordWordToWord(u32 a, u32 b, u32 c) {
-    WordPair s;
-    WordPair t;
-    WordPair r;
+u32 FloatTrapWordWordToWord(u32 firstWord, u32 secondWord, u32 statusFlags) {
+    WordPair firstOperand;
+    WordPair secondOperand;
+    WordPair result;
 
-    s.mLow = a;
-    t.mLow = b;
-    r = FloatTrapDispatch(s, t, c);
-    return r.mLow;
+    firstOperand.mLow = firstWord;
+    secondOperand.mLow = secondWord;
+    result = FloatTrapDispatch(firstOperand, secondOperand, statusFlags);
+    return result.mLow;
 }
 
-u64 FloatTrapPairPairToPair(u32 a, u32 b, u32 c, u32 d, u32 e) {
-    WordPair s;
-    WordPair t;
-    WordPair r;
+u64 FloatTrapPairPairToPair(u32 firstLow, u32 firstHigh, u32 secondLow, u32 secondHigh, u32 statusFlags) {
+    WordPair firstOperand;
+    WordPair secondOperand;
+    WordPair result;
 
-    s.mLow = a;
-    s.mHigh = b;
-    t.mLow = c;
-    t.mHigh = d;
-    r = FloatTrapDispatch(s, t, e);
-    return *(u64 *) &r;
+    firstOperand.mLow = firstLow;
+    firstOperand.mHigh = firstHigh;
+    secondOperand.mLow = secondLow;
+    secondOperand.mHigh = secondHigh;
+    result = FloatTrapDispatch(firstOperand, secondOperand, statusFlags);
+    return *(u64 *) &result;
 }
 
-u32 FloatTrapPairPairToWord(u32 a, u32 b, u32 c, u32 d, u32 e) {
-    WordPair s;
-    WordPair t;
-    WordPair r;
+u32 FloatTrapPairPairToWord(u32 firstLow, u32 firstHigh, u32 secondLow, u32 secondHigh, u32 statusFlags) {
+    WordPair firstOperand;
+    WordPair secondOperand;
+    WordPair result;
 
-    s.mLow = a;
-    s.mHigh = b;
-    t.mLow = c;
-    t.mHigh = d;
-    r = FloatTrapDispatch(s, t, e);
-    return r.mLow;
+    firstOperand.mLow = firstLow;
+    firstOperand.mHigh = firstHigh;
+    secondOperand.mLow = secondLow;
+    secondOperand.mHigh = secondHigh;
+    result = FloatTrapDispatch(firstOperand, secondOperand, statusFlags);
+    return result.mLow;
 }

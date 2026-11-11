@@ -15,4 +15,4 @@ BOOL FinishDataSharingSync(void);
 s32 AdvanceBlockReceive(void);
 void UpdateConnectionSendTimer(void);
 s32 AdvanceBlockCountRequest(void);
-s32 AdvanceConnectionSetup(s32 isParent, void *b);
+s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource);

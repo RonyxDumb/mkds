@@ -1,115 +1,115 @@
 #include "code_020205b0.h"
 
-void Crc8InitTable(u8 *a, u32 b) {
-    u32 v;
-    u32 i;
-    u32 j;
+void Crc8InitTable(u8 *table, u32 polynomial) {
+    u32 entry;
+    u32 index;
+    u32 bitIndex;
 
-    for (i = 0; i < 0x100; i++) {
-        v = i;
-        for (j = 0; j < 8; j++) {
-            if (v & 0x80) {
-                v = b ^ (v << 1);
+    for (index = 0; index < 0x100; index++) {
+        entry = index;
+        for (bitIndex = 0; bitIndex < 8; bitIndex++) {
+            if (entry & 0x80) {
+                entry = polynomial ^ (entry << 1);
             } else {
-                v = v << 1;
+                entry = entry << 1;
             }
         }
-        a[i] = v;
+        table[index] = entry;
     }
 }
 
-void Crc8Continue(const u8 *a, u8 *b, const u8 *c, u32 d) {
-    u32 v;
-    u32 i;
+void Crc8Continue(const u8 *table, u8 *crc, const u8 *data, u32 length) {
+    u32 crcValue;
+    u32 index;
 
-    v = *b;
-    for (i = 0; i < d; i++) {
-        v = a[(v ^ *c) & 0xff];
-        c++;
+    crcValue = *crc;
+    for (index = 0; index < length; index++) {
+        crcValue = table[(crcValue ^ *data) & 0xff];
+        data++;
     }
-    *b = v;
+    *crc = crcValue;
 }
 
-void Crc16InitTable(u16 *a, u32 b) {
-    u32 v;
-    u32 i;
-    u32 j;
+void Crc16InitTable(u16 *table, u32 polynomial) {
+    u32 entry;
+    u32 index;
+    u32 bitIndex;
 
-    for (i = 0; i < 0x100; i++) {
-        v = i;
-        for (j = 0; j < 8; j++) {
-            if (v & 1) {
-                v = b ^ (v >> 1);
+    for (index = 0; index < 0x100; index++) {
+        entry = index;
+        for (bitIndex = 0; bitIndex < 8; bitIndex++) {
+            if (entry & 1) {
+                entry = polynomial ^ (entry >> 1);
             } else {
-                v = v >> 1;
+                entry = entry >> 1;
             }
         }
-        a[i] = v;
+        table[index] = entry;
     }
 }
 
-void Crc16Continue(const u16 *a, u16 *b, const u8 *c, u32 d) {
-    u32 v;
-    u32 i;
+void Crc16Continue(const u16 *table, u16 *crc, const u8 *data, u32 length) {
+    u32 crcValue;
+    u32 index;
 
-    v = *b;
-    for (i = 0; i < d; i++) {
-        v = a[(v ^ *c) & 0xff] ^ (v >> 8);
-        c++;
+    crcValue = *crc;
+    for (index = 0; index < length; index++) {
+        crcValue = table[(crcValue ^ *data) & 0xff] ^ (crcValue >> 8);
+        data++;
     }
-    *b = v;
+    *crc = crcValue;
 }
 
-void Crc32InitTable(u32 *a, u32 b) {
-    u32 v;
-    u32 i;
-    u32 j;
+void Crc32InitTable(u32 *table, u32 polynomial) {
+    u32 entry;
+    u32 index;
+    u32 bitIndex;
 
-    for (i = 0; i < 0x100; i++) {
-        v = i;
-        for (j = 0; j < 8; j++) {
-            if (v & 1) {
-                v = b ^ (v >> 1);
+    for (index = 0; index < 0x100; index++) {
+        entry = index;
+        for (bitIndex = 0; bitIndex < 8; bitIndex++) {
+            if (entry & 1) {
+                entry = polynomial ^ (entry >> 1);
             } else {
-                v = v >> 1;
+                entry = entry >> 1;
             }
         }
-        a[i] = v;
+        table[index] = entry;
     }
 }
 
-void Crc32Continue(const u32 *a, u32 *b, const u8 *c, u32 d) {
-    u32 v;
-    u32 i;
+void Crc32Continue(const u32 *table, u32 *crc, const u8 *data, u32 length) {
+    u32 crcValue;
+    u32 index;
 
-    v = *b;
-    for (i = 0; i < d; i++) {
-        v = a[(v ^ *c) & 0xff] ^ (v >> 8);
-        c++;
+    crcValue = *crc;
+    for (index = 0; index < length; index++) {
+        crcValue = table[(crcValue ^ *data) & 0xff] ^ (crcValue >> 8);
+        data++;
     }
-    *b = v;
+    *crc = crcValue;
 }
 
-u8 Crc8(const u8 *a, const void *b, u32 c) {
-    u8 v;
+u8 Crc8(const u8 *table, const void *data, u32 length) {
+    u8 crc;
 
-    v = 0;
-    Crc8Continue(a, &v, b, c);
-    return v;
+    crc = 0;
+    Crc8Continue(table, &crc, data, length);
+    return crc;
 }
 
-u16 Crc16(const u16 *a, const u8 *b, u32 c) {
-    u16 v;
+u16 Crc16(const u16 *table, const u8 *data, u32 length) {
+    u16 crc;
 
-    v = 0;
-    Crc16Continue(a, &v, b, c);
-    return v;
+    crc = 0;
+    Crc16Continue(table, &crc, data, length);
+    return crc;
 }
 
-u32 Crc32(const u32 *a, const void *b, u32 c) {
-    u32 v;
+u32 Crc32(const u32 *table, const void *data, u32 length) {
+    u32 crc;
 
-    v = -1;
-    Crc32Continue(a, &v, b, c);
-    return ~v;
+    crc = -1;
+    Crc32Continue(table, &crc, data, length);
+    return ~crc;
 }

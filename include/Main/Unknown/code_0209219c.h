@@ -30,17 +30,18 @@ typedef struct Basabasa {
 
 typedef struct Basabasa Basabasa;
 
-void CreateBasabasa(void *a);
+void CreateBasabasa(void *mapObjectList);
 
 void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
-                   s32 soundRequested, u16 f);
+                   s32 soundRequested, u16 subScreenCellKind);
 void CreateBasabasaUpdateList(void);
 void CreateBasabasaDrawList(void);
 void CreateBasabasaKindData(void);
-void UpdateBasabasa(void *a, Basabasa *basabasa); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawBasabasa(void *a, Basabasa *basabasa);
-void SetupDrawBasabasa(void *a);
-u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *c, u8 *d);
+void UpdateBasabasa(void *mapObjectList,
+                    Basabasa *basabasa); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void DrawBasabasa(void *mapObjectList, Basabasa *basabasa);
+void SetupDrawBasabasa(void *mapObjectList);
+u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 *inOutResult);
 /* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
  * UnparkFirstParkedMapObject */
 void InitBasabasa(MapObject *mapObject);

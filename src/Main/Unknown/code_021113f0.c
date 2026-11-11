@@ -73,8 +73,8 @@ void AdvanceRecordVSState0(void) {
 void AdvanceRecordVSState1(void) {
     u16 transientBase;
     u16 mainBase;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 labelIndex;
     s16 offset;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, -192, 0, gRecordVS->mStateFrames, 10);
@@ -89,9 +89,9 @@ void AdvanceRecordVSState1(void) {
     gRecordVS->mRecordVSMTable[mainBase + 1].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[mainBase + 11].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[mainBase + 12].mOffsetY = offset;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetY = offset;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (labelIndex = 0; labelIndex < 3; labelIndex++) {
+            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[rowIndex][labelIndex]].mOffsetY = offset;
         }
     }
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
@@ -100,8 +100,9 @@ void AdvanceRecordVSState1(void) {
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 1].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 14].mOffsetY = offset;
-    for (j = 0; j < 12; j++) {
-        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[j]].mOffsetY = offset;
+    for (labelIndex = 0; labelIndex < 12; labelIndex++) {
+        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY =
+            offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
         RequestRecordVSState2AndRefreshPage();
@@ -110,7 +111,7 @@ void AdvanceRecordVSState1(void) {
 
 void AdvanceRecordVSState2(void) {
     s16 offset;
-    s32 i;
+    s32 rowIndex;
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
@@ -122,12 +123,12 @@ void AdvanceRecordVSState2(void) {
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = offset;
-    for (i = 0; i < 5; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = offset;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
         RequestRecordVSState3();
@@ -158,9 +159,9 @@ void AdvanceRecordVSState4(void) {
     s32 downRectIndex;
     s32 pressedRectIndex;
     InputSlotIndex inputSlotIndex;
-    BOOL g;
-    BOOL f;
-    u16 x;
+    BOOL pressedFlag;
+    BOOL releasedFlag;
+    u16 pressedBits;
     InputSlot *touchSlot;
     InputSlot *keySlot;
     s16 rowIndex;
@@ -169,30 +170,30 @@ void AdvanceRecordVSState4(void) {
     inputSlotIndex = UNK_02175628_INDEX_8;
     AdvanceRecordVSOffsetTimers();
     AdvanceRecordVSIndexChange();
-    g = TRUE;
-    f = FALSE;
+    pressedFlag = TRUE;
+    releasedFlag = FALSE;
     touchSlot = &gInputHasPairs[inputSlotIndex];
-    x = gInputHasPairs[inputSlotIndex].mPressedBits;
-    if (x == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
-        f = TRUE;
+    pressedBits = gInputHasPairs[inputSlotIndex].mPressedBits;
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+        releasedFlag = TRUE;
     }
-    if (f == FALSE && x == 0) {
-        g = FALSE;
+    if (releasedFlag == FALSE && pressedBits == 0) {
+        pressedFlag = FALSE;
     }
-    if (g != FALSE) {
+    if (pressedFlag != FALSE) {
         downRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPressedBits,
                                                 gInputPairYs[inputSlotIndex].mPressedBits);
     }
-    g = FALSE;
-    f = FALSE;
-    x = touchSlot->mPressedBits;
-    if (x == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
-        f = TRUE;
+    pressedFlag = FALSE;
+    releasedFlag = FALSE;
+    pressedBits = touchSlot->mPressedBits;
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+        releasedFlag = TRUE;
     }
-    if (f == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && x != 0) {
-        g = TRUE;
+    if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && pressedBits != 0) {
+        pressedFlag = TRUE;
     }
-    if (g != FALSE) {
+    if (pressedFlag != FALSE) {
         pressedRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPressedBits,
                                                    gInputPairYs[inputSlotIndex].mPressedBits);
     }
@@ -204,16 +205,16 @@ void AdvanceRecordVSState4(void) {
     }
     keySlot = &gInputSlots[inputSlotIndex];
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
-        g = FALSE;
-        f = FALSE;
-        x = touchSlot->mPressedBits;
-        if (x == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
-            f = TRUE;
+        pressedFlag = FALSE;
+        releasedFlag = FALSE;
+        pressedBits = touchSlot->mPressedBits;
+        if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+            releasedFlag = TRUE;
         }
-        if (f == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && x != 0) {
-            g = TRUE;
+        if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && pressedBits != 0) {
+            pressedFlag = TRUE;
         }
-        if (g == FALSE ||
+        if (pressedFlag == FALSE ||
             IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputSlotIndex].mPressedBits,
                                                             gInputPairYs[inputSlotIndex].mPressedBits) == FALSE) {
             goto l1;
@@ -305,12 +306,12 @@ l1:
 }
 
 void AdvanceRecordVSState5(void) {
-    s32 i;
+    s32 rowIndex;
     u16 transientBase;
     u16 subBase;
-    s32 l;
+    s32 objectRowIndex;
     u16 mainBase;
-    s32 j;
+    s32 labelIndex;
     s16 endOffset;
     s16 offset;
     endOffset = 0;
@@ -337,24 +338,25 @@ void AdvanceRecordVSState5(void) {
     gRecordVS->mRecordVSMTable[mainBase + 1].mOffsetX = offset;
     gRecordVS->mRecordVSMTable[mainBase + 11].mOffsetX = offset;
     gRecordVS->mRecordVSMTable[mainBase + 12].mOffsetX = offset;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetX = offset;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (labelIndex = 0; labelIndex < 3; labelIndex++) {
+            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[rowIndex][labelIndex]].mOffsetX = offset;
         }
     }
     gRecordVS->mRecordVSMTransientTable[1].mOffsetX = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetX = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 1].mOffsetX = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 14].mOffsetX = offset;
-    for (j = 0; j < 12; j++) {
-        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[j]].mOffsetX = offset;
+    for (labelIndex = 0; labelIndex < 12; labelIndex++) {
+        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetX =
+            offset;
     }
-    for (l = 0; l < 5; l++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[l]].mOffsetX = offset;
+    for (objectRowIndex = 0; objectRowIndex < 5; objectRowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
         RequestRecordVSState6AndChangePage();
@@ -362,12 +364,12 @@ void AdvanceRecordVSState5(void) {
 }
 
 void AdvanceRecordVSState6(void) {
-    s32 i;
+    s32 rowIndex;
     u16 transientBase;
     u16 subBase;
-    s32 l;
+    s32 objectRowIndex;
     u16 mainBase;
-    s32 j;
+    s32 labelIndex;
     s16 startOffset;
     s16 offset;
     startOffset = 0;
@@ -394,24 +396,25 @@ void AdvanceRecordVSState6(void) {
     gRecordVS->mRecordVSMTable[mainBase + 1].mOffsetX = offset;
     gRecordVS->mRecordVSMTable[mainBase + 11].mOffsetX = offset;
     gRecordVS->mRecordVSMTable[mainBase + 12].mOffsetX = offset;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetX = offset;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (labelIndex = 0; labelIndex < 3; labelIndex++) {
+            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[rowIndex][labelIndex]].mOffsetX = offset;
         }
     }
     gRecordVS->mRecordVSMTransientTable[1].mOffsetX = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetX = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 1].mOffsetX = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 14].mOffsetX = offset;
-    for (j = 0; j < 12; j++) {
-        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[j]].mOffsetX = offset;
+    for (labelIndex = 0; labelIndex < 12; labelIndex++) {
+        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetX =
+            offset;
     }
-    for (l = 0; l < 5; l++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[l]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[l]].mOffsetX = offset;
+    for (objectRowIndex = 0; objectRowIndex < 5; objectRowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
         RequestRecordVSState4();
@@ -420,7 +423,7 @@ void AdvanceRecordVSState6(void) {
 
 void AdvanceRecordVSState7(void) {
     s16 offset;
-    s32 i;
+    s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, 10);
@@ -431,12 +434,12 @@ void AdvanceRecordVSState7(void) {
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = offset;
-    for (i = 0; i < 5; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = offset;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
         RequestRecordVSState8();
@@ -450,8 +453,8 @@ void AdvanceRecordVSState7(void) {
 void AdvanceRecordVSState8(void) {
     u16 transientBase;
     u16 mainBase;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 labelIndex;
     s16 offset;
     if (GetRecordNextScene() == -1 && gRecordVS->mNextScreen == 6) {
         SetRecordNextScene(12);
@@ -469,9 +472,9 @@ void AdvanceRecordVSState8(void) {
     gRecordVS->mRecordVSMTable[mainBase + 1].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[mainBase + 11].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[mainBase + 12].mOffsetY = offset;
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetY = offset;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (labelIndex = 0; labelIndex < 3; labelIndex++) {
+            gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[rowIndex][labelIndex]].mOffsetY = offset;
         }
     }
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
@@ -480,8 +483,9 @@ void AdvanceRecordVSState8(void) {
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 1].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase + 14].mOffsetY = offset;
-    for (j = 0; j < 12; j++) {
-        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[j]].mOffsetY = offset;
+    for (labelIndex = 0; labelIndex < 12; labelIndex++) {
+        gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY =
+            offset;
     }
     if (gRecordVS->mStateFrames >= 10 && gRecordVS->mNextScreen != 6) {
         RequestRecordScreen(gRecordVS->mNextScreen);
@@ -505,7 +509,7 @@ void AdvanceRecordVSState9(void) {
 
 void AdvanceRecordVSState10(void) {
     s16 offset;
-    s32 i;
+    s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, 10);
@@ -516,12 +520,12 @@ void AdvanceRecordVSState10(void) {
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = offset;
-    for (i = 0; i < 5; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = offset;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
         RequestRecordScreen(gRecordVS->mNextScreen);
@@ -534,7 +538,7 @@ void AdvanceRecordVSState10(void) {
 
 void AdvanceRecordVSState11(void) {
     s16 offset;
-    s32 i;
+    s32 rowIndex;
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
@@ -546,12 +550,12 @@ void AdvanceRecordVSState11(void) {
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = offset;
-    for (i = 0; i < 5; i++) {
-        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[i]].mOffsetX = offset;
-        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = offset;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
+        gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
         RequestRecordVSState4();

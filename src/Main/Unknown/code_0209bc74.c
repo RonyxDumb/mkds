@@ -11,117 +11,121 @@
 #include "Main/Unknown/code_020e6fd4.h" // MapObjectList
 
 #pragma thumb on
-MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *a, const char *b) {
-    MapObjectModel *o;
+MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const char *name) {
+    MapObjectModel *mapObjectModel;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    if (a != NULL) {
-        a->mUnk_18 = 1;
+    mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    if (mapObjectList != NULL) {
+        mapObjectList->mUnk_18 = 1;
     }
-    o->mNsbmdFile = FindCourseMapObjFile(b);
-    o->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
-    InitNsbmd(o->mAnimatedModel, o->mNsbmdFile);
-    SetNsbmdEmiAll(o->mAnimatedModel, 0x294a);
-    SetNsbmdLightEnableFlagAll(o->mAnimatedModel, 2);
-    o->mScale = data_021565c4;
-    return o;
+    mapObjectModel->mNsbmdFile = FindCourseMapObjFile(name);
+    mapObjectModel->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
+    InitNsbmd(mapObjectModel->mAnimatedModel, mapObjectModel->mNsbmdFile);
+    SetNsbmdEmiAll(mapObjectModel->mAnimatedModel, 0x294a);
+    SetNsbmdLightEnableFlagAll(mapObjectModel->mAnimatedModel, 2);
+    mapObjectModel->mScale = data_021565c4;
+    return mapObjectModel;
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateMapObjectModelNsbcaAnimation(MapObjectModel *a, const char *b) {
-    void *x;
+void CreateMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, const char *name) {
+    void *courseMapObjFile;
 
-    x = FindCourseMapObjFile(b);
-    a->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(0, a->mAnimatedModel, a->mAnimations[0], a->mNsbmdFile, x);
+    courseMapObjFile = FindCourseMapObjFile(name);
+    mapObjectModel->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    InitModelAnimationWithEntries(0, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[0],
+                                  mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateMapObjectModelNsbtaAnimation(MapObjectModel *a, const char *b) {
-    void *x;
+void CreateMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, const char *name) {
+    void *courseMapObjFile;
 
-    x = FindCourseMapObjFile(b);
-    a->mAnimations[3] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(1, a->mAnimatedModel, a->mAnimations[3], a->mNsbmdFile, x);
+    courseMapObjFile = FindCourseMapObjFile(name);
+    mapObjectModel->mAnimations[3] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    InitModelAnimationWithEntries(1, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[3],
+                                  mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateMapObjectModelNsbtpAnimation(MapObjectModel *a, const char *b) {
-    void *x;
+void CreateMapObjectModelNsbtpAnimation(MapObjectModel *mapObjectModel, const char *name) {
+    void *courseMapObjFile;
 
-    x = FindCourseMapObjFile(b);
-    a->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(2, a->mAnimatedModel, a->mAnimations[1], a->mNsbmdFile, x);
+    courseMapObjFile = FindCourseMapObjFile(name);
+    mapObjectModel->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    InitModelAnimationWithEntries(2, mapObjectModel->mAnimatedModel, mapObjectModel->mAnimations[1],
+                                  mapObjectModel->mNsbmdFile, courseMapObjFile);
 }
 #pragma thumb off
 
 #pragma thumb on
-MapObjectModel *CreateMapObjectModelShadow(MapObjectList *a, const char *b) {
-    MapObjectModel *o;
-    void *x;
+MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const char *name) {
+    MapObjectModel *mapObjectModel;
+    void *courseMapObjFile;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    x = FindCourseMapObjFile(b);
-    if (a != NULL) {
-        a->mUnk_18 = 1;
+    mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    courseMapObjFile = FindCourseMapObjFile(name);
+    if (mapObjectList != NULL) {
+        mapObjectList->mUnk_18 = 1;
     }
-    o->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
-    InitShadowModel(o->mShadowModel, x, 0x3f);
-    o->mScale = data_021565b8;
-    return o;
+    mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
+    InitShadowModel(mapObjectModel->mShadowModel, courseMapObjFile, 0x3f);
+    mapObjectModel->mScale = data_021565b8;
+    return mapObjectModel;
 }
 #pragma thumb off
 
 #pragma thumb on
-MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *a, const char *b) {
-    MapObjectModel *o;
-    void *x;
-    NsbmdModel *m;
+MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const char *name) {
+    MapObjectModel *mapObjectModel;
+    void *courseMapObjFile;
+    NsbmdModel *nsbmdModel;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    x = FindCourseMapObjFile(b);
-    if (a != NULL) {
-        a->mUnk_18 = 2;
+    mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    courseMapObjFile = FindCourseMapObjFile(name);
+    if (mapObjectList != NULL) {
+        mapObjectList->mUnk_18 = 2;
     }
-    o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    InitNsbmdModel(o->mNsbmdModel, x, NULL, 0);
-    m = o->mNsbmdModel;
-    m->mSpecEmi &= 0x8000ffff;
-    m->mSpecEmi |= 0x294a0000;
-    m = o->mNsbmdModel;
-    m->mPolygonAttributes &= ~0xf;
-    m->mPolygonAttributes |= 2;
-    o->mScale = data_021565ac;
-    return o;
+    mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    InitNsbmdModel(mapObjectModel->mNsbmdModel, courseMapObjFile, NULL, 0);
+    nsbmdModel = mapObjectModel->mNsbmdModel;
+    nsbmdModel->mSpecEmi &= 0x8000ffff;
+    nsbmdModel->mSpecEmi |= 0x294a0000;
+    nsbmdModel = mapObjectModel->mNsbmdModel;
+    nsbmdModel->mPolygonAttributes &= ~0xf;
+    nsbmdModel->mPolygonAttributes |= 2;
+    mapObjectModel->mScale = data_021565ac;
+    return mapObjectModel;
 }
 #pragma thumb off
 
 #pragma thumb on
 // Like CreateMapObjectModelNsbmd with a second file, the .nsbtp (named like Init<Kind><Kind>).
-MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *a, const char *b, const char *c) {
-    MapObjectModel *o;
-    void *x;
-    void *y;
-    NsbmdModel *m;
+MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *mapObjectList, const char *modelName,
+                                               const char *animationName) {
+    MapObjectModel *mapObjectModel;
+    void *modelFile;
+    void *animationFile;
+    NsbmdModel *nsbmdModel;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    x = FindCourseMapObjFile(b);
-    y = FindCourseMapObjFile(c);
-    if (a != NULL) {
-        a->mUnk_18 = 2;
+    mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    modelFile = FindCourseMapObjFile(modelName);
+    animationFile = FindCourseMapObjFile(animationName);
+    if (mapObjectList != NULL) {
+        mapObjectList->mUnk_18 = 2;
     }
-    o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    InitNsbmdModel(o->mNsbmdModel, x, y, 0);
-    m = o->mNsbmdModel;
-    m->mSpecEmi &= 0x8000ffff;
-    m->mSpecEmi |= 0x294a0000;
-    m = o->mNsbmdModel;
-    m->mPolygonAttributes &= ~0xf;
-    m->mPolygonAttributes |= 2;
-    o->mScale = data_021565a0;
-    return o;
+    mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    InitNsbmdModel(mapObjectModel->mNsbmdModel, modelFile, animationFile, 0);
+    nsbmdModel = mapObjectModel->mNsbmdModel;
+    nsbmdModel->mSpecEmi &= 0x8000ffff;
+    nsbmdModel->mSpecEmi |= 0x294a0000;
+    nsbmdModel = mapObjectModel->mNsbmdModel;
+    nsbmdModel->mPolygonAttributes &= ~0xf;
+    nsbmdModel->mPolygonAttributes |= 2;
+    mapObjectModel->mScale = data_021565a0;
+    return mapObjectModel;
 }
 #pragma thumb off

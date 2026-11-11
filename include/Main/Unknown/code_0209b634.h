@@ -7,22 +7,22 @@
 
 typedef struct MapObjectList MapObjectList;
 
-u16 GetMapObjectModelNsbtpFrameCount(MapObjectModel *o);
-void SetMapObjectModelNsbtpFrameIndex(MapObjectModel *o, u16 frameIndex);
-void SetMapObjectModelNsbtaFrameIndex(MapObjectModel *o, s32 frameIndex);
+u16 GetMapObjectModelNsbtpFrameCount(MapObjectModel *mapObjectModel);
+void SetMapObjectModelNsbtpFrameIndex(MapObjectModel *mapObjectModel, u16 frameIndex);
+void SetMapObjectModelNsbtaFrameIndex(MapObjectModel *mapObjectModel, s32 frameIndex);
 u16 GetMapObjectModelNsbtaFrameCount(MapObjectModel *mapObjectModel);
-s32 GetMapObjectModelNsbmaFrameCount(MapObjectModel *o);
-void SetMapObjectModelNsbmaFrameIndex(MapObjectModel *o, u32 frameIndex);
+s32 GetMapObjectModelNsbmaFrameCount(MapObjectModel *mapObjectModel);
+void SetMapObjectModelNsbmaFrameIndex(MapObjectModel *mapObjectModel, u32 frameIndex);
 u16 GetMapObjectModelNsbcaFrameCount(MapObjectModel *mapObjectModel);
 void SetMapObjectModelNsbcaFrameIndex(MapObjectModel *mapObjectModel, u16 frameIndex);
-void SetMapObjectModelMirror(MapObjectModel *mapObjectModel, s32 b, s32 c);
+void SetMapObjectModelMirror(MapObjectModel *mapObjectModel, s32 mirrorX, s32 mirrorY);
 void SetMapObjectModelFogEnabled(MapObjectModel *mapObjectModel, u32 fogEnabled);
 void SetMapObjectModelMaterialPolygonId(MapObjectModel *mapObjectModel, u32 polygonId, u16 matId);
 void SetMapObjectModelPolygonId(MapObjectModel *mapObjectModel, u32 polygonId);
 void SetMapObjectModelAlpha(MapObjectModel *mapObjectModel, u16 alpha);
 void SetMapObjectModelLightEnableFlag(MapObjectModel *mapObjectModel, u32 light);
-void DrawMapObjectModel1Mat1Shp(void *a, MapObjectModel *mapObjectModel, void *c);
-void DrawMapObjectModelWithPos(u32 a, MapObjectModel *mapObjectModel, MapObject *mapObject);
-void DrawMapObjectModel(MapObjectList *mapObjectList, MapObjectModel *mapObjectModel, void *d);
-void QueueMapObjectModelMaterial(void *a, MapObjectModel *mapObjectModel);
+void DrawMapObjectModel1Mat1Shp(void *mapObjectList, MapObjectModel *mapObjectModel, void *rawMapObject);
+void DrawMapObjectModelWithPos(u32 unusedArg1, MapObjectModel *mapObjectModel, MapObject *mapObject);
+void DrawMapObjectModel(MapObjectList *mapObjectList, MapObjectModel *mapObjectModel, void *rawMapObject);
+void QueueMapObjectModelMaterial(void *mapObjectList, MapObjectModel *mapObjectModel);
 void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList);

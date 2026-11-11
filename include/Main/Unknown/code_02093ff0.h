@@ -47,13 +47,13 @@ void StartTeresa(Vec3 *startPos);
 void ClearTeresaTimers(void);
 void CreateTeresaUpdateList(void);
 void CreateTeresaDrawList(void);
-void UpdateTeresa(void *a, Teresa *teresa); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateTeresa(void *mapObjectList, Teresa *teresa); /* skipped for objects with mFlags & 4 (parked pool objects) */
 s16 TeresaFX_CosIdx(s32 angle);
 s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier);
 s16 TeresaFX_SinIdx(s32 angle);
 void InitTeresaObjects(MapObjectList *mapObjectList);
-void DrawTeresa(void *a, Teresa *teresa);
-void SetupDrawTeresa(void *a);
-void CreateTeresa(MapObjectList *a); /* also sets word +0x1c of the group record to 1 */
+void DrawTeresa(void *mapObjectList, Teresa *teresa);
+void SetupDrawTeresa(void *mapObjectList);
+void CreateTeresa(MapObjectList *mapObjectList); /* also sets word +0x1c of the group record to 1 */
 void InitTeresa(MapObject *mapObject); /* parks the pooled object (ParkMapObject) and zeroes the live-Teresa count
                                           gUnparkedTeresaCount */

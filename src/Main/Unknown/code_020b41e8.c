@@ -13,31 +13,34 @@ void InitFontIfLoaded(void *font, void *fontData) {
 
 void CopyCharsBlock(void *source, s32 sourceTileX, s32 sourceTileY, s32 tileWidth, s32 tileHeight, void *destination,
                     s32 destinationTileX, s32 destinationTileY) {
-    s32 i;
-    s32 j;
+    s32 columnIndex;
+    s32 rowIndex;
 
-    for (i = 0; i < tileWidth; i++) {
-        for (j = 0; j < tileHeight; j++) {
-            MIi_CpuCopy16((u8 *) source + (sourceTileX + i) * 32 + (sourceTileY + j) * 1024,
-                          (u8 *) destination + (destinationTileX + i) * 32 + (destinationTileY + j) * 1024, 0x20);
+    for (columnIndex = 0; columnIndex < tileWidth; columnIndex++) {
+        for (rowIndex = 0; rowIndex < tileHeight; rowIndex++) {
+            MIi_CpuCopy16((u8 *) source + (sourceTileX + columnIndex) * 32 + (sourceTileY + rowIndex) * 1024,
+                          (u8 *) destination + (destinationTileX + columnIndex) * 32 +
+                              (destinationTileY + rowIndex) * 1024,
+                          0x20);
         }
     }
 }
 
 void CopyCharsBlockFlippedVertically(u16 *source, s32 sourceTileX, s32 sourceTileY, s32 tileWidth, s32 tileHeight,
                                      u16 *destination, s32 destinationTileX, s32 destinationTileY) {
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 l;
+    s32 columnIndex;
+    s32 rowIndex;
+    s32 pixelRow;
+    s32 byteIndex;
 
-    for (i = 0; i < tileWidth; i++) {
-        for (j = 0; j < tileHeight; j++) {
-            for (k = 0; k < 8; k++) {
-                for (l = 0; l < 2; l++) {
-                    (destination + (destinationTileX + i) * 16 +
-                     (destinationTileY + (tileHeight - j - 1)) * 512)[(7 - k) * 2 + l] =
-                        (source + (sourceTileX + i) * 16 + (sourceTileY + j) * 512)[k * 2 + l];
+    for (columnIndex = 0; columnIndex < tileWidth; columnIndex++) {
+        for (rowIndex = 0; rowIndex < tileHeight; rowIndex++) {
+            for (pixelRow = 0; pixelRow < 8; pixelRow++) {
+                for (byteIndex = 0; byteIndex < 2; byteIndex++) {
+                    (destination + (destinationTileX + columnIndex) * 16 +
+                     (destinationTileY + (tileHeight - rowIndex - 1)) * 512)[(7 - pixelRow) * 2 + byteIndex] =
+                        (source + (sourceTileX + columnIndex) * 16 +
+                         (sourceTileY + rowIndex) * 512)[pixelRow * 2 + byteIndex];
                 }
             }
         }
@@ -47,36 +50,37 @@ void CopyCharsBlockFlippedVertically(u16 *source, s32 sourceTileX, s32 sourceTil
 void CopyScreenMapBlock(u16 *source, s32 sourceColumn, s32 sourceRow, s32 columnCount, s32 rowCount, u16 *destination,
                         s32 destinationColumn, s32 destinationRow) {
     u16 *destinationMap;
-    s32 j;
-    s32 i;
+    s32 columnIndex;
+    s32 rowIndex;
 
     destinationMap = destination;
-    for (i = 0; i < rowCount; i++) {
-        for (j = 0; j < columnCount; j++) {
-            destinationMap[(destinationColumn + j) + (destinationRow + i) * 32] =
-                source[(sourceColumn + j) + (sourceRow + i) * 32];
+    for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+        for (columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+            destinationMap[(destinationColumn + columnIndex) + (destinationRow + rowIndex) * 32] =
+                source[(sourceColumn + columnIndex) + (sourceRow + rowIndex) * 32];
         }
     }
 }
 
 void SetScreenMapBlockTopBits(u16 *screenMap, s32 column, s32 row, s32 columnCount, s32 rowCount, u16 topBits) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 columnIndex;
 
-    for (i = row; i < row + rowCount; i++) {
-        for (j = column; j < column + columnCount; j++) {
-            screenMap[i * 32 + j] = (topBits << 12) | (u16) (screenMap[i * 32 + j] & 0xfff);
+    for (rowIndex = row; rowIndex < row + rowCount; rowIndex++) {
+        for (columnIndex = column; columnIndex < column + columnCount; columnIndex++) {
+            screenMap[rowIndex * 32 + columnIndex] =
+                (topBits << 12) | (u16) (screenMap[rowIndex * 32 + columnIndex] & 0xfff);
         }
     }
 }
 
 void SetScreenMapBlockLowBits(u16 *screenMap, s32 column, s32 row, s32 columnCount, s32 rowCount, s32 lowBits) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 columnIndex;
 
-    for (i = row; i < row + rowCount; i++) {
-        for (j = column; j < column + columnCount; j++) {
-            screenMap[i * 32 + j] = lowBits | (u16) (screenMap[i * 32 + j] & 0xfc00);
+    for (rowIndex = row; rowIndex < row + rowCount; rowIndex++) {
+        for (columnIndex = column; columnIndex < column + columnCount; columnIndex++) {
+            screenMap[rowIndex * 32 + columnIndex] = lowBits | (u16) (screenMap[rowIndex * 32 + columnIndex] & 0xfc00);
         }
     }
 }
@@ -95,12 +99,12 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
     u16 *paletteColors;
     s32 characterIndex;
     s32 paletteCharacterIndex;
-    s32 y;
-    s32 j;
-    s32 x;
+    s32 rightTileIndex;
+    s32 tileIndex;
+    s32 colorIndex;
     u16 entryIndex;
     u16 *charsBottomRow;
-    s32 w;
+    s32 bottomTileIndex;
 
     entryIndex = raceSetup->mRaceKind == RACE_KIND_DEMO ? raceSetup->mFollowedKartIndex : raceSetup->mEntryIndex;
     characterIndex = raceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
@@ -117,23 +121,23 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
     } else {
         paletteCharacterIndex = characterIndex;
     }
-    for (x = 0; x < 16; x++) {
-        paletteDestination[paletteRow * 16 + x] = paletteColors[paletteCharacterIndex * 16 + x];
+    for (colorIndex = 0; colorIndex < 16; colorIndex++) {
+        paletteDestination[paletteRow * 16 + colorIndex] = paletteColors[paletteCharacterIndex * 16 + colorIndex];
     }
     charsBlock = chars->mData;
-    for (j = 0; j < 16; j++) {
-        MIi_CpuCopy16(charsBlock + (characterIndex * 25 + j) * 16,
-                      GetCharsBlockTile(charsDestination, column + row * 32, j), 0x20);
+    for (tileIndex = 0; tileIndex < 16; tileIndex++) {
+        MIi_CpuCopy16(charsBlock + (characterIndex * 25 + tileIndex) * 16,
+                      GetCharsBlockTile(charsDestination, column + row * 32, tileIndex), 0x20);
     }
     charsRightColumn = chars->mData;
-    for (y = 0; y < 4; y++) {
-        MIi_CpuCopy16(charsRightColumn + (characterIndex * 25 + 16 + y) * 16,
-                      charsDestination + (column + 4 + row * 32) * 16 + y * 512, 0x20);
+    for (rightTileIndex = 0; rightTileIndex < 4; rightTileIndex++) {
+        MIi_CpuCopy16(charsRightColumn + (characterIndex * 25 + 16 + rightTileIndex) * 16,
+                      charsDestination + (column + 4 + row * 32) * 16 + rightTileIndex * 512, 0x20);
     }
     charsBottomRow = chars->mData;
-    for (w = 0; w < 4; w++) {
-        MIi_CpuCopy16(charsBottomRow + (characterIndex * 25 + 20 + w) * 16,
-                      GetCharsBlockTile(charsDestination, column + (row + 4) * 32, w), 0x20);
+    for (bottomTileIndex = 0; bottomTileIndex < 4; bottomTileIndex++) {
+        MIi_CpuCopy16(charsBottomRow + (characterIndex * 25 + 20 + bottomTileIndex) * 16,
+                      GetCharsBlockTile(charsDestination, column + (row + 4) * 32, bottomTileIndex), 0x20);
     }
     MIi_CpuCopy16(chars->mData + (characterIndex * 25 + 24) * 16, charsDestination + (column + 4 + (row + 4) * 32) * 16,
                   0x20);

@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_020ac524.h" // ShineBalloonObject
 
 /* skipped for objects with mFlags & 4 (parked pool objects) */
-void UpdateShineBalloon(void *a, ShineBalloonObject *b);
-void DrawShineBalloon(void *a, ShineBalloonObject *b);
-void SetupDrawShineBalloon(void *a);
-void CreateShineBalloon(void *a);
+void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
+void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
+void SetupDrawShineBalloon(void *mapObjectList);
+void CreateShineBalloon(void *mapObjectList);

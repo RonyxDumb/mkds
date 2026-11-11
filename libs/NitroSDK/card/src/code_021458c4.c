@@ -29,81 +29,81 @@ CARDRomStat gRomReadState;
 
 // Worker thread: sleeps until CARDiCommon.mFlag has the task bit, then runs CARDiCommon.mTaskFunc.
 void CARDi_TaskThread(void *arg) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     u32 enabled;
 
-    p = &gAccessState;
+    common = &gAccessState;
     for (;;) {
         enabled = OS_DisableInterrupts();
-        while ((p->mFlag & 8) == 0) {
-            p->mCurTh = &p->mThread;
+        while ((common->mFlag & 8) == 0) {
+            common->mCurTh = &common->mThread;
             OS_SleepThread(0);
         }
         OS_RestoreInterrupts(enabled);
-        p->mTaskFunc(p);
+        common->mTaskFunc(common);
     }
 }
 
 // Sends a request on tag 11 and waits for the reply, trying again while the result is 4. The first call sends the init
 // request with the address of CARDiCommon.mCmd. Returns 1 when CARDiCommandArg.mResult is 0.
-int CARDi_Request(CARDiCommon *p, int reqType, int retryCount) {
+int CARDi_Request(CARDiCommon *common, int reqType, int retryCount) {
     u32 enabled;
     s32 result;
     CARDiCommandArg *cmd;
 
-    if (!(p->mFlag & 2)) {
-        p->mFlag |= 2;
+    if (!(common->mFlag & 2)) {
+        common->mFlag |= 2;
         if (PXI_IsCallbackReady(11, 1) == 0) {
             do {
                 OS_SpinWait(100);
             } while (PXI_IsCallbackReady(11, 1) == 0);
         }
-        CARDi_Request(p, 0, 1);
+        CARDi_Request(common, 0, 1);
     }
-    DC_FlushRange(p->mCmd, 0x40);
+    DC_FlushRange(common->mCmd, 0x40);
     DC_WaitWriteBufferEmpty();
     do {
-        p->mCommand = reqType;
-        p->mFlag |= 0x20;
+        common->mCommand = reqType;
+        common->mFlag |= 0x20;
         while (PXI_SendWordByFifo(11, reqType, 1) < 0) {
         }
         if (reqType == 0) {
-            cmd = p->mCmd;
+            cmd = common->mCmd;
             while (PXI_SendWordByFifo(11, (u32) cmd, 1) < 0) {
             }
         }
         enabled = OS_DisableInterrupts();
-        while (p->mFlag & 0x20) {
+        while (common->mFlag & 0x20) {
             OS_SleepThread(0);
         }
         OS_RestoreInterrupts(enabled);
-        result = p->mCmd->mResult;
+        result = common->mCmd->mResult;
     } while (result == 4 && --retryCount > 0);
     return result == 0;
 }
 
 // Copies from CARDRomStat.mCacheBuf to the destination when the buffered page is the one at CARDiCommon.mSrc. Returns 1
 // while CARDiCommon.mLen is not 0.
-int CARDi_ReadFromCache(CARDRomStat *p) {
-    CARDiCommon *c;
+int CARDi_ReadFromCache(CARDRomStat *romStat) {
+    CARDiCommon *common;
     u32 curPage;
     u32 len;
     u32 offset;
 
-    c = &gAccessState;
-    curPage = c->mSrc & -0x200;
-    if (curPage == p->mCachePage) {
-        offset = c->mSrc - curPage;
+    common = &gAccessState;
+    curPage = common->mSrc & -0x200;
+    if (curPage == romStat->mCachePage) {
+        offset = common->mSrc - curPage;
         len = 0x200 - offset;
-        if (len > c->mLen) {
-            len = c->mLen;
+        if (len > common->mLen) {
+            len = common->mLen;
         }
-        MI_CpuCopy8((u8 *) p->mCacheBuf + offset, (void *) c->mDst, len);
-        c->mSrc += len;
-        c->mDst += len;
-        c->mLen -= len;
+        MI_CpuCopy8((u8 *) romStat->mCacheBuf + offset, (void *) common->mDst, len);
+        common->mSrc += len;
+        common->mDst += len;
+        common->mLen -= len;
     }
-    return c->mLen != 0;
+    return common->mLen != 0;
 }
 
 // Waits for the card to be idle, then writes the 8 command bytes of a ROM operation, high byte first.
@@ -123,17 +123,17 @@ void CARDi_SetRomOp(u32 cmd1, u32 cmd2) {
 
 // Starts a DMA of one ROM page into CARDiCommon.mDst and the read command for CARDiCommon.mSrc.
 void CARDi_SetCardDma(void) {
-    CARDiCommon *c;
+    CARDiCommon *common;
 
-    c = (CARDiCommon *) (u32) &gAccessState;
-    MIi_CardDmaCopy32(c->mDma, (void *) &reg_MI_MCD1, (void *) c->mDst, 0x200);
-    CARDi_SetRomOp((c->mSrc >> 8) | 0xb7000000, c->mSrc << 24);
+    common = (CARDiCommon *) (u32) &gAccessState;
+    MIi_CardDmaCopy32(common->mDma, (void *) &reg_MI_MCD1, (void *) common->mDst, 0x200);
+    CARDi_SetRomOp((common->mSrc >> 8) | 0xb7000000, common->mSrc << 24);
     reg_MI_MCCNT1 = gRomReadState.mCtrl;
 }
 
 // Card DMA interrupt handler: advances one page, then starts the next page or finishes the transfer.
 void CARDi_OnReadCard(void) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     UnkFunc *callback;
     u32 callbackArg;
     u32 enabled;
@@ -145,15 +145,15 @@ void CARDi_OnReadCard(void) {
     if (gAccessState.mLen == 0) {
         OS_DisableIrqMask(0x80000);
         OS_ResetRequestIrqMask(0x80000);
-        p = (CARDiCommon *) (u32) &gAccessState;
-        p->mCmd->mResult = 0;
-        callback = p->mCallback;
-        callbackArg = p->mCallbackArg;
+        common = (CARDiCommon *) (u32) &gAccessState;
+        common->mCmd->mResult = 0;
+        callback = common->mCallback;
+        callbackArg = common->mCallbackArg;
         enabled = OS_DisableInterrupts();
-        p->mFlag &= ~0x4c;
-        OS_WakeupThread(&p->mBusyQ);
-        if (p->mFlag & 0x10) {
-            OS_WakeupThreadDirect(&p->mThread);
+        common->mFlag &= ~0x4c;
+        OS_WakeupThread(&common->mBusyQ);
+        if (common->mFlag & 0x10) {
+            OS_WakeupThreadDirect(&common->mThread);
         }
         OS_RestoreInterrupts(enabled);
         if (callback != 0) {
@@ -166,10 +166,10 @@ void CARDi_OnReadCard(void) {
 
 // Starts a ROM read by DMA when the channel, alignment, destination and length allow it and returns 1; returns 0
 // otherwise. Always sets CARDRomStat.mCtrl.
-int CARDi_TryReadCardDma(CARDRomStat *p) {
+int CARDi_TryReadCardDma(CARDRomStat *romStat) {
     u32 dtcm;
     int inTcm;
-    CARDiCommon *c;
+    CARDiCommon *common;
     u32 dst;
     u32 len;
     int isAsync;
@@ -179,13 +179,13 @@ int CARDi_TryReadCardDma(CARDRomStat *p) {
     u32 enabled;
     u32 mod;
 
-    c = &gAccessState;
+    common = &gAccessState;
     isAsync = 0;
     aligned = 0;
     dmaUsable = 0;
-    dst = c->mDst;
-    len = c->mLen;
-    if ((dst & 3) == 0 && c->mDma <= 3) {
+    dst = common->mDst;
+    len = common->mLen;
+    if ((dst & 3) == 0 && common->mDma <= 3) {
         int inMainRam;
         dtcm = OS_GetDTCMAddress();
         end = dst + len;
@@ -208,14 +208,14 @@ int CARDi_TryReadCardDma(CARDRomStat *p) {
         }
     }
     if (dmaUsable != 0) {
-        if (((c->mSrc | len) & 0x1ff) == 0) {
+        if (((common->mSrc | len) & 0x1ff) == 0) {
             aligned = 1;
         }
     }
     if (aligned != 0 && len != 0) {
         isAsync = 1;
     }
-    p->mCtrl = (SYSTEM_WORK->mRomHeader.mUnk_60 & ~0x07000000) | 0xa1000000;
+    romStat->mCtrl = (SYSTEM_WORK->mRomHeader.mUnk_60 & ~0x07000000) | 0xa1000000;
     if (isAsync != 0) {
         enabled = OS_DisableInterrupts();
         IC_InvalidateRange((void *) dst, len);
@@ -239,8 +239,8 @@ int CARDi_TryReadCardDma(CARDRomStat *p) {
 
 // Reads 0x200-byte ROM pages with the CPU, straight into the destination when it is aligned and big enough, otherwise
 // through CARDRomStat.mCacheBuf.
-void CARDi_ReadCard(CARDRomStat *p) {
-    CARDiCommon *c;
+void CARDi_ReadCard(CARDRomStat *romStat) {
+    CARDiCommon *common;
     u32 *dst;
     u32 *cacheBuf;
     u32 page;
@@ -248,16 +248,16 @@ void CARDi_ReadCard(CARDRomStat *p) {
     u32 ctrl;
     u32 data;
 
-    c = &gAccessState;
-    cacheBuf = p->mCacheBuf;
+    common = &gAccessState;
+    cacheBuf = romStat->mCacheBuf;
     for (;;) {
-        page = c->mSrc & -0x200;
-        if (page != c->mSrc || (((u32) (dst = (u32 *) c->mDst)) & 3) != 0 || c->mLen < 0x200) {
+        page = common->mSrc & -0x200;
+        if (page != common->mSrc || (((u32) (dst = (u32 *) common->mDst)) & 3) != 0 || common->mLen < 0x200) {
             dst = cacheBuf;
-            p->mCachePage = page;
+            romStat->mCachePage = page;
         }
         CARDi_SetRomOp((page >> 8) | 0xb7000000, page << 24);
-        reg_MI_MCCNT1 = p->mCtrl;
+        reg_MI_MCCNT1 = romStat->mCtrl;
         pos = 0;
         do {
             ctrl = reg_MI_MCCNT1;
@@ -269,14 +269,14 @@ void CARDi_ReadCard(CARDRomStat *p) {
                 }
             }
         } while (ctrl & 0x80000000);
-        if ((u32) dst == c->mDst) {
+        if ((u32) dst == common->mDst) {
             gAccessState.mSrc += 0x200;
             gAccessState.mDst += 0x200;
             gAccessState.mLen -= 0x200;
             if (gAccessState.mLen == 0) {
                 return;
             }
-        } else if (CARDi_ReadFromCache(p) == 0) {
+        } else if (CARDi_ReadFromCache(romStat) == 0) {
             return;
         }
     }
@@ -284,8 +284,8 @@ void CARDi_ReadCard(CARDRomStat *p) {
 
 // Task for a ROM read the DMA path did not take: reads the rest through CARDRomStat.mReadFunc, then ends the transfer
 // and calls the callback.
-void CARDi_ReadRomSyncCore(CARDiCommon *c) {
-    CARDiCommon *p;
+void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
+    CARDiCommon *common;
     CARDRomStat *romStat;
     UnkFunc *callback;
     u32 callbackArg;
@@ -295,15 +295,15 @@ void CARDi_ReadRomSyncCore(CARDiCommon *c) {
     if (CARDi_ReadFromCache(romStat) != 0) {
         romStat->mReadFunc(romStat);
     }
-    p = (CARDiCommon *) (u32) &gAccessState;
-    p->mCmd->mResult = 0;
-    callback = p->mCallback;
-    callbackArg = p->mCallbackArg;
+    common = (CARDiCommon *) (u32) &gAccessState;
+    common->mCmd->mResult = 0;
+    callback = common->mCallback;
+    callbackArg = common->mCallbackArg;
     enabled = OS_DisableInterrupts();
-    p->mFlag &= ~0x4c;
-    OS_WakeupThread(&p->mBusyQ);
-    if (p->mFlag & 0x10) {
-        OS_WakeupThreadDirect(&p->mThread);
+    common->mFlag &= ~0x4c;
+    OS_WakeupThread(&common->mBusyQ);
+    if (common->mFlag & 0x10) {
+        OS_WakeupThreadDirect(&common->mThread);
     }
     OS_RestoreInterrupts(enabled);
     if (callback != 0) {
@@ -314,25 +314,25 @@ void CARDi_ReadRomSyncCore(CARDiCommon *c) {
 // Starts a ROM read of the given channel, offset, destination and length. Waits for the previous transfer first and
 // adds gRomBaseOffset to the offset. Reads by DMA when possible, otherwise on the worker thread or the calling thread.
 void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, UnkFunc *callback, u32 callbackArg, u32 isAsync) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     CARDRomStat *romStat;
     u32 enabled;
 
-    p = (CARDiCommon *) (u32) &gAccessState;
+    common = (CARDiCommon *) (u32) &gAccessState;
     romStat = &gRomReadState;
     CARD_CheckEnabled();
     enabled = OS_DisableInterrupts();
-    while (p->mFlag & 4) {
-        OS_SleepThread(&p->mBusyQ);
+    while (common->mFlag & 4) {
+        OS_SleepThread(&common->mBusyQ);
     }
-    p->mFlag |= 4;
-    p->mCallback = callback;
-    p->mCallbackArg = callbackArg;
+    common->mFlag |= 4;
+    common->mCallback = callback;
+    common->mCallbackArg = callbackArg;
     OS_RestoreInterrupts(enabled);
-    p->mDma = dma;
-    p->mSrc = src + gRomBaseOffset;
-    p->mDst = dst;
-    p->mLen = len;
+    common->mDma = dma;
+    common->mSrc = src + gRomBaseOffset;
+    common->mDst = dst;
+    common->mLen = len;
     if (dma <= 3) {
         MI_StopDma(dma);
     }
@@ -343,25 +343,25 @@ void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, UnkFunc *callback, u32 ca
     } else if (isAsync != 0) {
         CARDi_SetTask(CARDi_ReadRomSyncCore);
     } else {
-        p->mCurTh = OSi_ThreadInfo.mCurrentThread;
-        CARDi_ReadRomSyncCore(p);
+        common->mCurTh = OSi_ThreadInfo.mCurrentThread;
+        CARDi_ReadRomSyncCore(common);
     }
 }
 
 // Sets up the card state once: clears the transfer words, CARDi_InitCommon, stores the page reader in gRomReadState and
 // installs the pull-out callback.
 void CARD_Init(void) {
-    CARDiCommon *p;
+    CARDiCommon *common;
 
-    p = &gAccessState;
-    if (p->mFlag != 0) {
+    common = &gAccessState;
+    if (common->mFlag != 0) {
         return;
     }
-    p->mFlag = 1;
-    p->mSrc = p->mDst = p->mLen = 0;
-    p->mDma = -1;
-    p->mCallback = 0;
-    p->mCallbackArg = 0;
+    common->mFlag = 1;
+    common->mSrc = common->mDst = common->mLen = 0;
+    common->mDma = -1;
+    common->mCallback = 0;
+    common->mCallbackArg = 0;
     gRomBaseOffset = 0;
     CARDi_InitCommon();
     gRomReadState.mReadFunc = CARDi_GetRomAccessor();
@@ -380,7 +380,7 @@ UnkFunc *CARDi_GetRomAccessor(void) {
 
 // Task that sends the backup transfer in pieces of at most 0x100 bytes through CARDiCommon.mBackupCachePageBuf, then
 // ends the transfer and calls the callback.
-void CARDi_RequestStreamCommandCore(CARDiCommon *p) {
+void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
     u32 reqType;
     u32 reqMode;
     u32 retryCount;
@@ -390,53 +390,53 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *p) {
     u32 callbackArg;
     u32 enabled;
 
-    reqType = p->mReqType;
-    reqMode = p->mReqMode;
-    retryCount = p->mReqRetry;
+    reqType = common->mReqType;
+    reqMode = common->mReqMode;
+    retryCount = common->mReqRetry;
     OSi_ReferSymbol((u32) (BuildInfo + 0x24));
     do {
-        len = p->mLen;
+        len = common->mLen;
         if (len > 0x100) {
             len = 0x100;
         }
-        p->mCmd->mLen = len;
-        if (p->mFlag & 0x40) {
-            p->mFlag &= ~0x40;
-            p->mCmd->mResult = 7;
+        common->mCmd->mLen = len;
+        if (common->mFlag & 0x40) {
+            common->mFlag &= ~0x40;
+            common->mCmd->mResult = 7;
             break;
         }
         if (reqMode == 0) {
-            DC_InvalidateRange(p->mBackupCachePageBuf, len);
-            p->mCmd->mSrc = p->mSrc;
-            p->mCmd->mDst = (u32) p->mBackupCachePageBuf;
+            DC_InvalidateRange(common->mBackupCachePageBuf, len);
+            common->mCmd->mSrc = common->mSrc;
+            common->mCmd->mDst = (u32) common->mBackupCachePageBuf;
         } else {
-            MI_CpuCopy8((void *) p->mSrc, p->mBackupCachePageBuf, len);
-            DC_FlushRange(p->mBackupCachePageBuf, len);
+            MI_CpuCopy8((void *) common->mSrc, common->mBackupCachePageBuf, len);
+            DC_FlushRange(common->mBackupCachePageBuf, len);
             DC_WaitWriteBufferEmpty();
-            p->mCmd->mSrc = (s32) p->mBackupCachePageBuf;
-            p->mCmd->mDst = p->mDst;
+            common->mCmd->mSrc = (s32) common->mBackupCachePageBuf;
+            common->mCmd->mDst = common->mDst;
         }
-        if (CARDi_Request(p, reqType, retryCount) == 0) {
+        if (CARDi_Request(common, reqType, retryCount) == 0) {
             break;
         }
         if (reqMode == 2) {
-            if (CARDi_Request(p, 9, 1) == 0) {
+            if (CARDi_Request(common, 9, 1) == 0) {
                 break;
             }
         } else if (reqMode == 0) {
-            MI_CpuCopy8(p->mBackupCachePageBuf, (void *) p->mDst, len);
+            MI_CpuCopy8(common->mBackupCachePageBuf, (void *) common->mDst, len);
         }
-        p->mSrc += len;
-        p->mDst += len;
-        p->mLen -= len;
-    } while (p->mLen != 0);
-    callback = p->mCallback;
-    callbackArg = p->mCallbackArg;
+        common->mSrc += len;
+        common->mDst += len;
+        common->mLen -= len;
+    } while (common->mLen != 0);
+    callback = common->mCallback;
+    callbackArg = common->mCallbackArg;
     enabled = OS_DisableInterrupts();
-    p->mFlag &= ~0x4c;
-    OS_WakeupThread(&p->mBusyQ);
-    if (p->mFlag & 0x10) {
-        OS_WakeupThreadDirect(&p->mThread);
+    common->mFlag &= ~0x4c;
+    OS_WakeupThread(&common->mBusyQ);
+    if (common->mFlag & 0x10) {
+        OS_WakeupThreadDirect(&common->mThread);
     }
     OS_RestoreInterrupts(enabled);
     if (callback != 0) {
@@ -448,75 +448,75 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *p) {
 // game always passes isAsync 1, which queues CARDi_RequestStreamCommandCore on the worker thread.
 int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, void *callbackArg, u32 isAsync,
                                u32 reqType, u32 reqRetry, u32 reqMode) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     u32 enabled;
 
-    p = (CARDiCommon *) (u32) &gAccessState;
+    common = (CARDiCommon *) (u32) &gAccessState;
     OSi_ReferSymbol((u32) (BuildInfo + 0x24));
     enabled = OS_DisableInterrupts();
-    while (p->mFlag & 4) {
-        OS_SleepThread(&p->mBusyQ);
+    while (common->mFlag & 4) {
+        OS_SleepThread(&common->mBusyQ);
     }
-    p->mFlag |= 4;
-    p->mCallback = callback;
-    p->mCallbackArg = (u32) callbackArg;
+    common->mFlag |= 4;
+    common->mCallback = callback;
+    common->mCallbackArg = (u32) callbackArg;
     OS_RestoreInterrupts(enabled);
-    p->mSrc = src;
-    p->mDst = dst;
-    p->mLen = len;
-    p->mReqType = reqType;
-    p->mReqRetry = reqRetry;
-    p->mReqMode = reqMode;
+    common->mSrc = src;
+    common->mDst = dst;
+    common->mLen = len;
+    common->mReqType = reqType;
+    common->mReqRetry = reqRetry;
+    common->mReqMode = reqMode;
     if (isAsync != 0) {
         CARDi_SetTask(CARDi_RequestStreamCommandCore);
         return 1;
     }
     gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
-    CARDi_RequestStreamCommandCore(p);
-    return p->mCmd->mResult == 0;
+    CARDi_RequestStreamCommandCore(common);
+    return common->mCmd->mResult == 0;
 }
 
 // Sets the backup type, then reads one byte of the backup to identify it. Returns 1 when CARDiCommandArg.mResult is 0.
 int CARD_IdentifyBackup(s32 type) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     UnkFunc *callback;
     u32 callbackArg;
     u32 enabled;
 
-    p = &gAccessState;
+    common = &gAccessState;
     OSi_ReferSymbol((u32) (BuildInfo + 0x24));
     if (type == 0) {
         OS_Terminate();
     }
     CARD_CheckEnabled();
     enabled = OS_DisableInterrupts();
-    while (p->mFlag & 4) {
-        OS_SleepThread(&p->mBusyQ);
+    while (common->mFlag & 4) {
+        OS_SleepThread(&common->mBusyQ);
     }
-    p->mFlag |= 4;
-    p->mCallback = 0;
-    p->mCallbackArg = 0;
+    common->mFlag |= 4;
+    common->mCallback = 0;
+    common->mCallbackArg = 0;
     OS_RestoreInterrupts(enabled);
     CARDi_IdentifyBackupCore(type);
     gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
-    CARDi_Request(p, 2, 1);
-    p->mCmd->mSrc = 0;
-    p->mCmd->mDst = (u32) p->mBackupCachePageBuf;
-    p->mCmd->mLen = 1;
-    CARDi_Request(p, 6, 1);
-    callback = p->mCallback;
-    callbackArg = p->mCallbackArg;
+    CARDi_Request(common, 2, 1);
+    common->mCmd->mSrc = 0;
+    common->mCmd->mDst = (u32) common->mBackupCachePageBuf;
+    common->mCmd->mLen = 1;
+    CARDi_Request(common, 6, 1);
+    callback = common->mCallback;
+    callbackArg = common->mCallbackArg;
     enabled = OS_DisableInterrupts();
-    p->mFlag &= ~0x4c;
-    OS_WakeupThread(&p->mBusyQ);
-    if (p->mFlag & 0x10) {
-        OS_WakeupThreadDirect(&p->mThread);
+    common->mFlag &= ~0x4c;
+    OS_WakeupThread(&common->mBusyQ);
+    if (common->mFlag & 0x10) {
+        OS_WakeupThreadDirect(&common->mThread);
     }
     OS_RestoreInterrupts(enabled);
     if (callback != 0) {
         callback(callbackArg);
     }
-    return p->mCmd->mResult == 0;
+    return common->mCmd->mResult == 0;
 }
 
 // Waits for the running transfer to end.
@@ -532,69 +532,69 @@ int CARD_TryWaitBackupAsync(void) {
 // Fills CARDiCommandArg.mType and the device description (size, page size, address width, timings) for a backup type.
 // An unknown type clears them and stores 3 in CARDiCommandArg.mResult.
 void CARDi_IdentifyBackupCore(s32 type) {
-    CARDiCommandArg *p;
+    CARDiCommandArg *commandArg;
     u32 size;
-    u32 device;
+    u32 typeLow;
 
-    p = gAccessState.mCmd;
-    MI_CpuFill8(&p->mTotalSize, 0, 0x28);
-    p->mType = type;
+    commandArg = gAccessState.mCmd;
+    MI_CpuFill8(&commandArg->mTotalSize, 0, 0x28);
+    commandArg->mType = type;
     if (type == 0) {
         return;
     }
     size = 1 << ((type >> 8) & 0xff);
-    p->mTotalSize = size;
-    device = type & 0xff;
-    if (device == 1) {
+    commandArg->mTotalSize = size;
+    typeLow = type & 0xff;
+    if (typeLow == 1) {
         switch (size) {
             case 0x200:
-                p->mPageSize = 0x10;
-                p->mAddrWidth = 1;
-                p->mProgramPage = 0x4f;
+                commandArg->mPageSize = 0x10;
+                commandArg->mAddrWidth = 1;
+                commandArg->mProgramPage = 0x4f;
                 break;
             case 0x2000:
-                p->mPageSize = 0x20;
-                p->mAddrWidth = 2;
-                p->mProgramPage = 0x4f;
+                commandArg->mPageSize = 0x20;
+                commandArg->mAddrWidth = 2;
+                commandArg->mProgramPage = 0x4f;
                 break;
             case 0x10000:
-                p->mPageSize = 0x80;
-                p->mAddrWidth = 2;
-                p->mProgramPage = 0x9e;
+                commandArg->mPageSize = 0x80;
+                commandArg->mAddrWidth = 2;
+                commandArg->mProgramPage = 0x9e;
                 break;
             default:
                 goto fail;
         }
-    } else if (device == 2) {
+    } else if (typeLow == 2) {
         switch (size) {
             case 0x40000:
-                p->mWritePage = 0x18b;
-                p->mWritePageTotal = 0x127f;
-                p->mUnk_3c = 0x127f;
-                p->mUnk_38 = 0x13435;
-                p->mUnk_34 = 0x13435;
+                commandArg->mWritePage = 0x18b;
+                commandArg->mWritePageTotal = 0x127f;
+                commandArg->mUnk_3c = 0x127f;
+                commandArg->mUnk_38 = 0x13435;
+                commandArg->mUnk_34 = 0x13435;
                 break;
             case 0x80000:
             case 0x100000:
-                p->mWritePage = 0x18b;
-                p->mWritePageTotal = 0;
-                p->mUnk_3c = 0x127f;
-                p->mUnk_38 = 0x13435;
+                commandArg->mWritePage = 0x18b;
+                commandArg->mWritePageTotal = 0;
+                commandArg->mUnk_3c = 0x127f;
+                commandArg->mUnk_38 = 0x13435;
                 break;
             default:
                 goto fail;
         }
-        p->mSectSize = 0x10000;
-        p->mPageSize = 0x100;
-        p->mAddrWidth = 3;
-        p->mProgramPage = 0x4f;
-    } else if (device == 3 && (size == 0x2000 || size == 0x8000)) {
-        p->mPageSize = size;
-        p->mAddrWidth = 2;
+        commandArg->mSectSize = 0x10000;
+        commandArg->mPageSize = 0x100;
+        commandArg->mAddrWidth = 3;
+        commandArg->mProgramPage = 0x4f;
+    } else if (typeLow == 3 && (size == 0x2000 || size == 0x8000)) {
+        commandArg->mPageSize = size;
+        commandArg->mAddrWidth = 2;
     } else {
     fail:
-        p->mType = 0;
-        p->mTotalSize = 0;
+        commandArg->mType = 0;
+        commandArg->mTotalSize = 0;
         gAccessState.mCmd->mResult = 3;
         return;
     }
@@ -603,87 +603,87 @@ void CARDi_IdentifyBackupCore(s32 type) {
 // Makes the worker thread run the task: sets its priority, CARDiCommon.mCurTh and CARDiCommon.mTaskFunc, sets the task
 // bit of CARDiCommon.mFlag and wakes the thread.
 void CARDi_SetTask(void (*task)(CARDiCommon *)) {
-    CARDiCommon *p;
+    CARDiCommon *common;
 
-    p = (CARDiCommon *) (u32) &gAccessState;
-    OS_SetThreadPriority(&p->mThread, p->mPriority);
-    p->mCurTh = &p->mThread;
-    p->mTaskFunc = task;
-    p->mFlag |= 8;
-    OS_WakeupThreadDirect(&p->mThread);
+    common = (CARDiCommon *) (u32) &gAccessState;
+    OS_SetThreadPriority(&common->mThread, common->mPriority);
+    common->mCurTh = &common->mThread;
+    common->mTaskFunc = task;
+    common->mFlag |= 8;
+    OS_WakeupThreadDirect(&common->mThread);
 }
 
 // Takes the lock for the owner and target, waiting while another owner holds it. Reusing an owner with a different
 // target ends in OS_Terminate.
 void CARDi_LockResource(u32 owner, u32 target) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     u32 enabled;
 
-    p = (CARDiCommon *) (u32) &gAccessState;
+    common = (CARDiCommon *) (u32) &gAccessState;
     enabled = OS_DisableInterrupts();
-    if (p->mLockOwner == owner) {
-        if (p->mLockTarget != target) {
+    if (common->mLockOwner == owner) {
+        if (common->mLockTarget != target) {
             OS_Terminate();
         }
     } else {
-        while (p->mLockOwner != -3) {
-            OS_SleepThread(&p->mLockQueue);
+        while (common->mLockOwner != -3) {
+            OS_SleepThread(&common->mLockQueue);
         }
-        p->mLockOwner = owner;
-        p->mLockTarget = target;
+        common->mLockOwner = owner;
+        common->mLockTarget = target;
     }
-    p->mLockRef++;
-    p->mCmd->mResult = 0;
+    common->mLockRef++;
+    common->mCmd->mResult = 0;
     OS_RestoreInterrupts(enabled);
 }
 
 // Gives the lock back. At a count of 0 the owner becomes -3 and the waiting threads wake up. A wrong owner or target
 // ends in OS_Terminate.
 void CARDi_UnlockResource(u32 owner, u32 target) {
-    CARDiCommon *p;
+    CARDiCommon *common;
     u32 enabled;
 
-    p = &gAccessState;
+    common = &gAccessState;
     enabled = OS_DisableInterrupts();
-    if (p->mLockOwner != owner || p->mLockRef == 0) {
+    if (common->mLockOwner != owner || common->mLockRef == 0) {
         OS_Terminate();
     } else {
-        if (p->mLockTarget != target) {
+        if (common->mLockTarget != target) {
             OS_Terminate();
         }
-        p->mLockRef--;
-        if (p->mLockRef == 0) {
-            p->mLockOwner = -3;
-            p->mLockTarget = 0;
-            OS_WakeupThread(&p->mLockQueue);
+        common->mLockRef--;
+        if (common->mLockRef == 0) {
+            common->mLockOwner = -3;
+            common->mLockTarget = 0;
+            OS_WakeupThread(&common->mLockQueue);
         }
     }
-    p->mCmd->mResult = 0;
+    common->mCmd->mResult = 0;
     OS_RestoreInterrupts(enabled);
 }
 
 // Sets up the lock and the command block, creates the worker thread and installs the tag 11 reply callback. Enables
 // card access unless the halfword at 0x027ffc40 is 2.
 void CARDi_InitCommon(void) {
-    CARDiCommon *p;
+    CARDiCommon *common;
 
-    p = &gAccessState;
-    p->mLockOwner = -3;
-    p->mLockRef = 0;
-    p->mLockTarget = 0;
-    p->mCmd = &gRequestBlock;
+    common = &gAccessState;
+    common->mLockOwner = -3;
+    common->mLockRef = 0;
+    common->mLockTarget = 0;
+    common->mCmd = &gRequestBlock;
     MemFillWordsByBlock_inline(&gRequestBlock, 0x40);
     DC_FlushRange(&gRequestBlock, 0x40);
     if (SYSTEM_WORK->mWmBootBuf.mUnk_00 != 2) {
         MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, HW_CARD_ROM_HEADER, 0x160);
     }
-    p->mLockQueue.mTail = 0;
-    p->mLockQueue.mHead = p->mLockQueue.mTail;
-    p->mBusyQ.mTail = 0;
-    p->mBusyQ.mHead = p->mBusyQ.mTail;
-    p->mPriority = 4;
-    OS_CreateThread(&p->mThread, CARDi_TaskThread, 0, (u8 *) &gRomBaseOffset, 0x400, p->mPriority);
-    OS_WakeupThreadDirect(&p->mThread);
+    common->mLockQueue.mTail = 0;
+    common->mLockQueue.mHead = common->mLockQueue.mTail;
+    common->mBusyQ.mTail = 0;
+    common->mBusyQ.mHead = common->mBusyQ.mTail;
+    common->mPriority = 4;
+    OS_CreateThread(&common->mThread, CARDi_TaskThread, 0, (u8 *) &gRomBaseOffset, 0x400, common->mPriority);
+    OS_WakeupThreadDirect(&common->mThread);
     PXI_SetFifoRecvCallback(11, CARDi_OnFifoRecv);
     if (SYSTEM_WORK->mWmBootBuf.mUnk_00 != 2) {
         CARD_Enable(1);

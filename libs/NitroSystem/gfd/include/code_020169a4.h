@@ -11,8 +11,11 @@ typedef struct NNSiGfdLnkVramBlock {
     /* 0c */ struct NNSiGfdLnkVramBlock *mPBlkNext;
 } NNSiGfdLnkVramBlock;
 
-s32 NNSi_GfdFreeLnkVram(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 c, u32 d);
-s32 NNSi_GfdAllocLnkVramAligned(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 *c, u32 d, u32 e);
-s32 NNSi_GfdAllocLnkVram(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 *c, u32 d);
-s32 NNSi_GfdAddNewFreeBlock(NNSiGfdLnkVramBlock **a, NNSiGfdLnkVramBlock **b, u32 c, u32 d);
-NNSiGfdLnkVramBlock *NNSi_GfdInitLnkVramBlockPool(NNSiGfdLnkVramBlock *p, u32 n);
+s32 NNSi_GfdFreeLnkVram(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 addr, u32 size);
+s32 NNSi_GfdAllocLnkVramAligned(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 *outAddr,
+                                u32 size, u32 alignment);
+s32 NNSi_GfdAllocLnkVram(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 *outAddr,
+                         u32 size);
+s32 NNSi_GfdAddNewFreeBlock(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 addr,
+                            u32 size);
+NNSiGfdLnkVramBlock *NNSi_GfdInitLnkVramBlockPool(NNSiGfdLnkVramBlock *blocks, u32 count);

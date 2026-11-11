@@ -63,13 +63,13 @@ void SetEntryTargetSlot(s32 entryIndex, s32 slot) {
 }
 
 void ResetEntrySlots(void) {
-    s32 i;
-    i = 0;
+    s32 slotIndex;
+    slotIndex = 0;
     do {
-        SetEntrySlot(i, 0);
-        SetEntryTargetSlot(i, 1);
-        i++;
-    } while (i < 8);
+        SetEntrySlot(slotIndex, 0);
+        SetEntryTargetSlot(slotIndex, 1);
+        slotIndex++;
+    } while (slotIndex < 8);
 }
 
 #pragma thumb off
@@ -78,10 +78,10 @@ void ResetEntrySlots(void) {
 
 // Moves each entry toward its target slot one slot at a time, each move taking 10 frames.
 void AdvanceEntrySlots(void) {
-    s32 i;
+    s32 entryIndex;
     EntrySlotMove *move;
-    for (i = 0; i < 8; i++) {
-        move = &gPlayerEntryList->mEntries[i].mSlotMove;
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        move = &gPlayerEntryList->mEntries[entryIndex].mSlotMove;
         if (move->mMoveFrames < 10) {
             move->mMoveFrames++;
         } else if (move->mTargetSlot != move->mToSlot) {
@@ -129,10 +129,10 @@ static inline s32 GetMenuSharedShuffledIndex(s32 index) {
 void AdvancePlayerEntryListOffsets(void) {
     PlayerEntryList *entryList = gPlayerEntryList;
     CellFileSet *fileSet = &entryList->mParts;
-    s32 i;
+    s32 entryIndex;
     s32 cellCount = fileSet->mCellLayout->mCount;
     s32 onesCell;
-    s32 d;
+    s32 value;
     s16 offsetX;
     if (gBootInfo->mUnk_00 != 2) {
         AdvanceInterpolation(&gPlayerEntryList->mInterpolations[0]);
@@ -152,18 +152,18 @@ void AdvancePlayerEntryListOffsets(void) {
     fileSet->mCellTable[GetTimerTensCellIndex()].mOffsetX = fileSet->mCellTable[onesCell].mOffsetX;
     AdvanceInterpolation(&gPlayerEntryList->mInterpolations[2]);
     AdvanceEntrySlots();
-    for (i = 0; i < 8; i++) {
-        offsetX = InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[i].mSlotMove.mFromSlot],
-                                 gEntrySlotOffsetsX[gPlayerEntryList->mEntries[i].mSlotMove.mToSlot],
-                                 gPlayerEntryList->mEntries[i].mSlotMove.mMoveFrames, 10);
-        fileSet->mCellTable[cellCount + gEntryLabelTextRows[i].mLabelIndex].mOffsetX = offsetX;
-        fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mOffsetX =
-            fileSet->mCellTable[cellCount + gEntryLabelTextRows[i].mLabelIndex].mOffsetX;
-        fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mOffsetX =
-            fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mOffsetX;
-        fileSet->mCellTable[gEntryCellIndices[i].mUnk_00].mOffsetX =
-            fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mOffsetX;
-        if (i == gPlayerEntryList->mEntryIndex) {
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        offsetX = InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mFromSlot],
+                                 gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot],
+                                 gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames, 10);
+        fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX = offsetX;
+        fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mOffsetX =
+            fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX;
+        fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mOffsetX =
+            fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mOffsetX;
+        fileSet->mCellTable[gEntryCellIndices[entryIndex].mUnk_00].mOffsetX =
+            fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mOffsetX;
+        if (entryIndex == gPlayerEntryList->mEntryIndex) {
             fileSet->mCellTable[GetOwnEntryPositionCopyCellIndex()].mOffsetX = offsetX;
         }
     }
@@ -177,15 +177,15 @@ void SetExtraEntryNames(void) {
     void *text = GetBmgEntry(FindFileInLoadedArchivesWrapper(data_usa_02162c58), 0x72);
     u16 digitBuffer[3];
     u16 *digitText = &digitBuffer[1];
-    s32 i;
+    s32 entryIndex;
     digitText[0] = 0;
     digitText[1] = 0;
-    for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
+    for (entryIndex = gPlayerEntryList->mPlayerCount; entryIndex < 8; entryIndex++) {
         digitBuffer[0] = 0;
-        MIi_CpuClear16(digitBuffer[0], gPlayerEntryList->mEntries[i].mName, 0x16);
-        MIi_CpuCopy16(text, gPlayerEntryList->mEntries[i].mName, 0x14);
-        digitBuffer[1] = i + 0x31 - gPlayerEntryList->mPlayerCount;
-        wcsncat(gPlayerEntryList->mEntries[i].mName, digitText, 1);
+        MIi_CpuClear16(digitBuffer[0], gPlayerEntryList->mEntries[entryIndex].mName, 0x16);
+        MIi_CpuCopy16(text, gPlayerEntryList->mEntries[entryIndex].mName, 0x14);
+        digitBuffer[1] = entryIndex + 0x31 - gPlayerEntryList->mPlayerCount;
+        wcsncat(gPlayerEntryList->mEntries[entryIndex].mName, digitText, 1);
     }
 }
 
@@ -204,7 +204,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     void *heap = CreateFrmHeapFromMaxFree(parentHeap);
     s32 objSizeLeft;
     CellFileSet *fileSet;
-    s32 i;
+    s32 entryIndex;
     gPlayerEntryList = HeapAlloc(heap, 0x258);
     MemFillWordsByBlock_inline(gPlayerEntryList, 0x258);
     gPlayerEntryList->mHeap = heap;
@@ -230,13 +230,14 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
                           gSelectMenuEtcMBnllName, NULL, FindFileInLoadedArchives);
     }
     InitLayoutTable(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
-    for (i = 0; i < 8; i++) {
-        objSizeLeft -= SetupLabelCanvas(0, gPlayerEntryList->mHeap, fileSet, &gEntryLabelTextRows[i], objSizeLeft);
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        objSizeLeft -=
+            SetupLabelCanvas(0, gPlayerEntryList->mHeap, fileSet, &gEntryLabelTextRows[entryIndex], objSizeLeft);
     }
-    for (i = 0; i < 8; i++) {
-        fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
-        fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible =
-            fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible;
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
+        fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible =
+            fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible;
     }
     ResetEntrySlots();
     SetupInterpolation(&gPlayerEntryList->mInterpolations[0], 0, 10, -0x40, 0);
@@ -254,10 +255,10 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     PlayerEntryList *entryList = gPlayerEntryList;
     CellFileSet *fileSet = &entryList->mParts;
     CellFileSet *titleFileSet = &entryList->mTitleParts;
-    s32 n;
-    s32 i;
-    s32 j;
-    BOOL t;
+    s32 count;
+    s32 index;
+    s32 secondIndex;
+    BOOL stateActive;
     s32 onesCell;
     vu16 clearValue;
     vu16 secondClearValue;
@@ -277,74 +278,75 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 SetExtraEntryNames();
                 break;
             case 1:
-                t = TRUE;
+                stateActive = TRUE;
                 if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
-                    t = FALSE;
+                    stateActive = FALSE;
                 }
-                if (t != FALSE) {
-                    i = CountSetBits(gConnectionWork->mParticipantMask);
+                if (stateActive != FALSE) {
+                    index = CountSetBits(gConnectionWork->mParticipantMask);
                 } else {
-                    i = 0;
+                    index = 0;
                 }
-                gPlayerEntryList->mPlayerCount = (u8) i;
+                gPlayerEntryList->mPlayerCount = (u8) index;
                 if (gConnectionWork->mConnectionMode == 2) {
-                    i = gConnectionWork->mOwnIndex;
+                    index = gConnectionWork->mOwnIndex;
                 } else {
-                    i = 0;
+                    index = 0;
                 }
-                gPlayerEntryList->mEntryIndex = GetParticipantPosByIndex(i)->mEntryIndex;
-                for (j = 0; j < (n = gPlayerEntryList->mPlayerCount); j++) {
-                    GetRaceSetupCopy()->mEntries[j].mPlayerKind = PLAYER_KIND_HUMAN;
+                gPlayerEntryList->mEntryIndex = GetParticipantPosByIndex(index)->mEntryIndex;
+                for (secondIndex = 0; secondIndex < (count = gPlayerEntryList->mPlayerCount); secondIndex++) {
+                    GetRaceSetupCopy()->mEntries[secondIndex].mPlayerKind = PLAYER_KIND_HUMAN;
                     clearValue = 0;
-                    MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[j].mName, 0x16);
-                    PlayerEntryListMI_CpuCopy16(GetParticipantIndexByPos(j) == 0xffff
-                                                    ? (void *) 0
-                                                    : &gConnectionWork->mPlayerRecords[GetParticipantIndexByPos(j)],
-                                                gPlayerEntryList->mEntries[j].mName, 0x14);
+                    MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[secondIndex].mName, 0x16);
+                    PlayerEntryListMI_CpuCopy16(
+                        GetParticipantIndexByPos(secondIndex) == 0xffff
+                            ? (void *) 0
+                            : &gConnectionWork->mPlayerRecords[GetParticipantIndexByPos(secondIndex)],
+                        gPlayerEntryList->mEntries[secondIndex].mName, 0x14);
                 }
-                for (; n < 8; n++) {
-                    SetEntryTargetSlot(n, 0);
+                for (; count < 8; count++) {
+                    SetEntryTargetSlot(count, 0);
                 }
                 SetExtraEntryNames();
-                for (i = 0; i < 8; i++) {
-                    gPlayerEntryList->mKartShown[i] = 0;
-                    gPlayerEntryList->mCharacterShown[i] = gPlayerEntryList->mKartShown[i];
+                for (index = 0; index < 8; index++) {
+                    gPlayerEntryList->mKartShown[index] = 0;
+                    gPlayerEntryList->mCharacterShown[index] = gPlayerEntryList->mKartShown[index];
                 }
                 break;
             case 2:
                 gPlayerEntryList->mPlayerCount = GetSessionKartCount();
                 gPlayerEntryList->mEntryIndex = GetRaceSetupCopyEntryIndex();
-                for (i = 0; i < (n = gPlayerEntryList->mPlayerCount); i++) {
+                for (index = 0; index < (count = gPlayerEntryList->mPlayerCount); index++) {
                     secondClearValue = 0;
-                    MIi_CpuClear16(secondClearValue, gPlayerEntryList->mEntries[i].mName, 0x16);
-                    if (GetIndexOfPackedIndex(i) >= 0) {
-                        PlayerEntryListMI_CpuCopy16(GetPlayerRecordName((u8) GetIndexOfPackedIndex(i)),
-                                                    gPlayerEntryList->mEntries[i].mName, 0x14);
+                    MIi_CpuClear16(secondClearValue, gPlayerEntryList->mEntries[index].mName, 0x16);
+                    if (GetIndexOfPackedIndex(index) >= 0) {
+                        PlayerEntryListMI_CpuCopy16(GetPlayerRecordName((u8) GetIndexOfPackedIndex(index)),
+                                                    gPlayerEntryList->mEntries[index].mName, 0x14);
                     }
                 }
-                for (; n < 8; n++) {
-                    SetEntryTargetSlot(n, 0);
+                for (; count < 8; count++) {
+                    SetEntryTargetSlot(count, 0);
                 }
-                for (i = 0; i < 4; i++) {
-                    gPlayerEntryList->mEmptySlotSoundPlayed[i] = 0;
+                for (index = 0; index < 4; index++) {
+                    gPlayerEntryList->mEmptySlotSoundPlayed[index] = 0;
                 }
-                for (i = 0; i < 8; i++) {
-                    gPlayerEntryList->mKartShown[i] = 0;
-                    gPlayerEntryList->mCharacterShown[i] = gPlayerEntryList->mKartShown[i];
+                for (index = 0; index < 8; index++) {
+                    gPlayerEntryList->mKartShown[index] = 0;
+                    gPlayerEntryList->mCharacterShown[index] = gPlayerEntryList->mKartShown[index];
                 }
                 break;
         }
     }
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
-        for (i = 0; i < 8; i++) {
-            fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
+        for (index = 0; index < 8; index++) {
+            fileSet->mCellTable[gEntryCellIndices[index].mKartCellIndex].mVisible = 0;
         }
         if (gPlayerEntryList->mMode == 1) {
-            for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
-                j = GetRaceSetupCopy()->mEntries[i].mCharacterIndex;
-                CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[j],
-                                             fileSet->mCellLayout);
-                fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
+            for (index = gPlayerEntryList->mPlayerCount; index < 8; index++) {
+                secondIndex = GetRaceSetupCopy()->mEntries[index].mCharacterIndex;
+                CopyCellLayoutEntryCellIndex(gEntryCellIndices[index].mCharacterCellIndex,
+                                             gCharacterCellIndices[secondIndex], fileSet->mCellLayout);
+                fileSet->mCellTable[gEntryCellIndices[index].mCharacterCellIndex].mVisible = 1;
             }
         }
         reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
@@ -364,9 +366,9 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 0);
     }
     if (gPlayerEntryList->mMoveInnerPending != FALSE) {
-        for (i = 0; i < 8; i++) {
-            if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
-                SetEntryTargetInnerSlot(i);
+        for (index = 0; index < 8; index++) {
+            if (index < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
+                SetEntryTargetInnerSlot(index);
             }
         }
         gPlayerEntryList->mMoveInnerPending = FALSE;
@@ -382,16 +384,16 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     }
     CopyCellLayoutEntryPosition(GetOwnEntryPositionCopyCellIndex(),
                                 gEntryCellIndices[gPlayerEntryList->mEntryIndex].mUnk_00, fileSet->mCellLayout);
-    for (i = 0; i < 8; i++) {
-        PrintEntryName(i, gPlayerEntryList->mEntries[i].mName);
+    for (index = 0; index < 8; index++) {
+        PrintEntryName(index, gPlayerEntryList->mEntries[index].mName);
     }
     SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
     gPlayerEntryList->mUseTeams = 0;
-    n = 0;
+    count = 0;
     if (gPlayerEntryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE && gPlayerEntryList->mMode != 0) {
-        n = 1;
+        count = 1;
     }
-    gPlayerEntryList->mTimerEnabled = n;
+    gPlayerEntryList->mTimerEnabled = count;
     onesCell = GetTimerOnesCellIndex();
     fileSet->mCellTable[onesCell].mVisible = gPlayerEntryList->mTimerEnabled;
     fileSet->mCellTable[GetTimerTensCellIndex()].mVisible = fileSet->mCellTable[onesCell].mVisible;
@@ -401,156 +403,160 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
 void AdvancePlayerEntryList(void) {
     CellFileSet *fileSet = &gPlayerEntryList->mParts;
     PlayerEntryList *entryList;
-    s32 i;
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
-    s32 e;
+    s32 entryIndex;
+    s32 frames;
+    s32 framesAhead;
+    s32 counter;
+    s32 value;
+    s32 kartIndex;
     s32 wiFiSessionKartIndex;
-    BOOL g;
+    BOOL hasKart;
     if (AreBrightnessFadesClear() == 0) {
         return;
     }
     if (gPlayerEntryList->mTimerEnabled != 0) {
         if (gPlayerEntryList->mTimer != 0) {
             gPlayerEntryList->mTimer--;
-            a = gPlayerEntryList->mTimer;
-            b = a + 0x3c;
-            c = b / 0x3c;
-            if (a == 0) {
+            frames = gPlayerEntryList->mTimer;
+            framesAhead = frames + 0x3c;
+            counter = framesAhead / 0x3c;
+            if (frames == 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
-            } else if (b % 0x3c == 0 && c <= 4) {
+            } else if (framesAhead % 0x3c == 0 && counter <= 4) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
             }
         } else {
-            c = 0;
+            counter = 0;
         }
-        d = GetTimerTensCellIndex();
-        fileSet->mCellTable[d].mVisible = c >= 10 ? 1 : 0;
-        d = GetTimerTensCellIndex();
-        CopyCellLayoutEntryCellIndex(d, gTimerDigitCellIndices[c / 10 % 10], fileSet->mCellLayout);
-        d = GetTimerOnesCellIndex();
-        CopyCellLayoutEntryCellIndex(d, gTimerDigitCellIndices[c % 10], fileSet->mCellLayout);
+        value = GetTimerTensCellIndex();
+        fileSet->mCellTable[value].mVisible = counter >= 10 ? 1 : 0;
+        value = GetTimerTensCellIndex();
+        CopyCellLayoutEntryCellIndex(value, gTimerDigitCellIndices[counter / 10 % 10], fileSet->mCellLayout);
+        value = GetTimerOnesCellIndex();
+        CopyCellLayoutEntryCellIndex(value, gTimerDigitCellIndices[counter % 10], fileSet->mCellLayout);
     }
     entryList = gPlayerEntryList;
     if (entryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE) {
         switch (entryList->mMode) {
             case 0: {
-                s32 a;
-                s32 b;
+                s32 entryCharacter;
+                s32 kartStored;
 
-                for (i = 0; i < 8; i++) {
-                    a = GetRaceSetupCopy()->mEntries[i].mCharacterIndex;
-                    if (a == -1) {
-                        d = 0;
+                for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+                    entryCharacter = GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex;
+                    if (entryCharacter == -1) {
+                        value = 0;
                     } else {
-                        d = 1;
+                        value = 1;
                     }
-                    b = GetRaceSetupCopy()->mEntries[i].mKartStored;
-                    if (d != 0) {
-                        CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[a],
-                                                     fileSet->mCellLayout);
+                    kartStored = GetRaceSetupCopy()->mEntries[entryIndex].mKartStored;
+                    if (value != 0) {
+                        CopyCellLayoutEntryCellIndex(gEntryCellIndices[entryIndex].mCharacterCellIndex,
+                                                     gCharacterCellIndices[entryCharacter], fileSet->mCellLayout);
                     }
-                    fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = d;
-                    fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = b;
+                    fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible = value;
+                    fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = kartStored;
                 }
             } break;
             case 1: {
-                s32 d;
+                s32 sharedCharacter;
 
-                for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
+                for (entryIndex = 0; entryIndex < gPlayerEntryList->mPlayerCount; entryIndex++) {
                     if (gConnectionWork->mState == 8 &&
-                        (gConnectionWork->mParticipantMask & (1 << GetParticipantIndexByPos(i))) != 0) {
-                        c = gConnectionWork->mSharingReceiveRecords[GetParticipantIndexByPos(i)].mUnk_00[5];
+                        (gConnectionWork->mParticipantMask & (1 << GetParticipantIndexByPos(entryIndex))) != 0) {
+                        counter =
+                            gConnectionWork->mSharingReceiveRecords[GetParticipantIndexByPos(entryIndex)].mUnk_00[5];
                     } else {
-                        c = 0;
+                        counter = 0;
                     }
-                    if (c == 0xff) {
-                        fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
-                        fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible =
-                            fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible;
-                        GetRaceSetupCopy()->mEntries[i].mCharacterIndex = -1;
-                        GetRaceSetupCopy()->mEntries[i].mKartIndex = -1;
-                        GetRaceSetupCopy()->mEntries[i].mKartStored = 0;
-                        gPlayerEntryList->mKartShown[i] = 0;
-                        gPlayerEntryList->mCharacterShown[i] = gPlayerEntryList->mKartShown[i];
-                    } else if ((c & 0x40) != 0) {
-                        d = c & 0x3f;
-                        if (d == 0xc) {
-                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,
-                                                         gCharacterCellIndices[d] + GetMenuSharedShuffledIndex(i),
+                    if (counter == 0xff) {
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible =
+                            fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible;
+                        GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex = -1;
+                        GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = -1;
+                        GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 0;
+                        gPlayerEntryList->mKartShown[entryIndex] = 0;
+                        gPlayerEntryList->mCharacterShown[entryIndex] = gPlayerEntryList->mKartShown[entryIndex];
+                    } else if ((counter & 0x40) != 0) {
+                        sharedCharacter = counter & 0x3f;
+                        if (sharedCharacter == 0xc) {
+                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[entryIndex].mCharacterCellIndex,
+                                                         gCharacterCellIndices[sharedCharacter] +
+                                                             GetMenuSharedShuffledIndex(entryIndex),
                                                          fileSet->mCellLayout);
                         } else {
-                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,
-                                                         gCharacterCellIndices[d], fileSet->mCellLayout);
+                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[entryIndex].mCharacterCellIndex,
+                                                         gCharacterCellIndices[sharedCharacter], fileSet->mCellLayout);
                         }
-                        fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
-                        GetRaceSetupCopy()->mEntries[i].mCharacterIndex = d;
-                        if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mCharacterShown[i] == 0) {
-                            AddCharacterSeqQueueEntry(d, 0);
-                            gPlayerEntryList->mCharacterShown[i] = 1;
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible = 1;
+                        GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex = sharedCharacter;
+                        if (gPlayerEntryList->mEntryIndex != entryIndex &&
+                            gPlayerEntryList->mCharacterShown[entryIndex] == 0) {
+                            AddCharacterSeqQueueEntry(sharedCharacter, 0);
+                            gPlayerEntryList->mCharacterShown[entryIndex] = 1;
                         }
-                        if ((c & 0x80) != 0) {
-                            e = GetCharacterKartIndexByMode(d);
-                            fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
-                            GetRaceSetupCopy()->mEntries[i].mKartIndex = e;
-                            GetRaceSetupCopy()->mEntries[i].mKartStored = 1;
+                        if ((counter & 0x80) != 0) {
+                            kartIndex = GetCharacterKartIndexByMode(sharedCharacter);
+                            fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 1;
+                            GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = kartIndex;
+                            GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 1;
                         }
-                    } else if ((c & 0x80) != 0) {
-                        fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
-                        GetRaceSetupCopy()->mEntries[i].mKartIndex = c & 0x3f;
-                        GetRaceSetupCopy()->mEntries[i].mKartStored = 1;
-                        if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mKartShown[i] == 0) {
-                            AddCharacterSeqQueueEntry(GetRaceSetupCopy()->mEntries[i].mCharacterIndex, 1);
-                            gPlayerEntryList->mKartShown[i] = 1;
+                    } else if ((counter & 0x80) != 0) {
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 1;
+                        GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = counter & 0x3f;
+                        GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 1;
+                        if (gPlayerEntryList->mEntryIndex != entryIndex &&
+                            gPlayerEntryList->mKartShown[entryIndex] == 0) {
+                            AddCharacterSeqQueueEntry(GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex, 1);
+                            gPlayerEntryList->mKartShown[entryIndex] = 1;
                         }
                     }
                 }
             } break;
             case 2: {
-                s32 e;
+                s32 wifiCharacter;
 
-                for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
-                    if (GetKartMaskBitOfPackedIndex(i) == 0) {
-                        CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex, 0x2e,
+                for (entryIndex = 0; entryIndex < gPlayerEntryList->mPlayerCount; entryIndex++) {
+                    if (GetKartMaskBitOfPackedIndex(entryIndex) == 0) {
+                        CopyCellLayoutEntryCellIndex(gEntryCellIndices[entryIndex].mCharacterCellIndex, 0x2e,
                                                      fileSet->mCellLayout);
-                        fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
-                        fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
-                        if (gPlayerEntryList->mEmptySlotSoundPlayed[i] == 0) {
-                            gPlayerEntryList->mEmptySlotSoundPlayed[i] = 1;
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible = 1;
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
+                        if (gPlayerEntryList->mEmptySlotSoundPlayed[entryIndex] == 0) {
+                            gPlayerEntryList->mEmptySlotSoundPlayed[entryIndex] = 1;
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x52);
                         }
                     } else {
-                        e = GetWiFiSessionCharacterIndex((u8) GetIndexOfPackedIndex(i));
-                        wiFiSessionKartIndex = GetWiFiSessionKartIndex((u8) GetIndexOfPackedIndex(i));
-                        if (e == -1) {
-                            d = 0;
+                        wifiCharacter = GetWiFiSessionCharacterIndex((u8) GetIndexOfPackedIndex(entryIndex));
+                        wiFiSessionKartIndex = GetWiFiSessionKartIndex((u8) GetIndexOfPackedIndex(entryIndex));
+                        if (wifiCharacter == -1) {
+                            value = 0;
                         } else {
-                            d = 1;
+                            value = 1;
                         }
                         if (wiFiSessionKartIndex == -1) {
-                            g = FALSE;
+                            hasKart = FALSE;
                         } else {
-                            g = TRUE;
+                            hasKart = TRUE;
                         }
-                        if (d != 0) {
-                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[i].mCharacterCellIndex,
-                                                         gCharacterCellIndices[e], fileSet->mCellLayout);
+                        if (value != 0) {
+                            CopyCellLayoutEntryCellIndex(gEntryCellIndices[entryIndex].mCharacterCellIndex,
+                                                         gCharacterCellIndices[wifiCharacter], fileSet->mCellLayout);
                         }
-                        fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = d;
-                        fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = g;
-                        if (gPlayerEntryList->mEntryIndex != i) {
-                            if (gPlayerEntryList->mCharacterShown[i] == 0 && d != 0) {
-                                AddCharacterSeqQueueEntry(e, 0);
-                                if (g != FALSE) {
-                                    gPlayerEntryList->mKartShown[i] = 1;
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible = value;
+                        fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = hasKart;
+                        if (gPlayerEntryList->mEntryIndex != entryIndex) {
+                            if (gPlayerEntryList->mCharacterShown[entryIndex] == 0 && value != 0) {
+                                AddCharacterSeqQueueEntry(wifiCharacter, 0);
+                                if (hasKart != FALSE) {
+                                    gPlayerEntryList->mKartShown[entryIndex] = 1;
                                 }
-                            } else if (gPlayerEntryList->mKartShown[i] == 0 && g != FALSE) {
-                                AddCharacterSeqQueueEntry(e, 1);
+                            } else if (gPlayerEntryList->mKartShown[entryIndex] == 0 && hasKart != FALSE) {
+                                AddCharacterSeqQueueEntry(wifiCharacter, 1);
                             }
-                            gPlayerEntryList->mCharacterShown[i] = d;
-                            gPlayerEntryList->mKartShown[i] = g;
+                            gPlayerEntryList->mCharacterShown[entryIndex] = value;
+                            gPlayerEntryList->mKartShown[entryIndex] = hasKart;
                         }
                     }
                 }

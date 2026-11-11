@@ -10,377 +10,429 @@
 #include "code_02148538.h"
 #include "registers.h"
 
-void StopKartSoundWhileRequested(Kart *a) {
-    if (a->mSound.mWhileRequestedSoundId == 0xffff) {
+void StopKartSoundWhileRequested(Kart *kart) {
+    if (kart->mSound.mWhileRequestedSoundId == 0xffff) {
         return;
     }
-    StopSoundEx(&a->mSoundSource, 0, a->mSound.mWhileRequestedSoundId, 0);
-    a->mSound.mWhileRequestedSoundId = 0xffff;
+    StopSoundEx(&kart->mSoundSource, 0, kart->mSound.mWhileRequestedSoundId, 0);
+    kart->mSound.mWhileRequestedSoundId = 0xffff;
 }
 
 void InitSoundFalloffs(void) {
-    BOOL f;
-    SoundFalloffSettings t0;
-    SoundFalloffSettings t1;
-    SoundFalloffSettings t2;
-    SoundFalloffSettings t3;
-    SoundFalloffSettings t4;
-    SoundFalloffSettings b0;
-    SoundFalloffSettings c0;
-    SoundFalloffSettings b1;
-    SoundFalloffSettings c1;
-    SoundFalloffSettings b2;
-    SoundFalloffSettings c2;
-    SoundFalloffSettings b3;
-    SoundFalloffSettings c3;
-    SoundFalloffSettings b4;
-    SoundFalloffSettings c4;
-    SoundFalloffSettings w5;
-    SoundFalloffSettings w6;
-    SoundFalloffSettings w7;
-    SoundFalloffSettings w8;
-    SoundFalloffSettings w9;
-    SoundFalloffSettings w10;
-    SoundFalloffSettings w11;
-    SoundFalloffSettings w12;
-    SoundFalloffSettings w13;
-    SoundFalloffSettings w14;
-    SoundFalloffSettings w15;
-    SoundFalloffSettings w16;
-    static SoundFalloffSettings s14 = {1400, 750, 55, 100, 110};
-    static SoundFalloffSettings s3 = {380, 304, 66, 150, 95};
-    static SoundFalloffSettings s4 = {800, 500, 57, 150, 95};
-    static SoundFalloffSettings s6 = {3000, 1500, 52, 150, 95};
-    static SoundFalloffSettings s5 = {1100, 550, 47, 150, 95};
-    static SoundFalloffSettings s7 = {600, 400, 47, 150, 95};
-    static SoundFalloffSettings s8 = {1500, 900, 69, 150, 115};
-    static SoundFalloffSettings s9 = {1200, 600, 47, 150, 95};
-    static SoundFalloffSettings s10 = {5000, 4000, 88, 150, 127};
-    static SoundFalloffSettings s11 = {1100, 550, 62, 150, 95};
-    static SoundFalloffSettings s2 = {1100, 500, 71, 150, 95};
-    static SoundFalloffSettings s13 = {1000, 650, 55, 300, 110};
-    static SoundFalloffSettings s12 = {800, 400, 47, 54, 95};
-    static SoundFalloffSettings s15 = {1100, 600, 55, 100, 110};
-    static SoundFalloffSettings s16 = {950, 525, 55, 100, 110};
-    static SoundFalloffSettings s0 = {800, 500, 47, 150, 127};
-    static SoundFalloffSettings s1 = {800, 500, 47, 150, 95};
+    BOOL isReplayScene;
+    SoundFalloffSettings workSettings0;
+    SoundFalloffSettings workSettings1;
+    SoundFalloffSettings workSettings2;
+    SoundFalloffSettings workSettings3;
+    SoundFalloffSettings workSettings4;
+    SoundFalloffSettings replaySettings0;
+    SoundFalloffSettings copiedSettings0;
+    SoundFalloffSettings replaySettings1;
+    SoundFalloffSettings copiedSettings1;
+    SoundFalloffSettings replaySettings2;
+    SoundFalloffSettings copiedSettings2;
+    SoundFalloffSettings replaySettings3;
+    SoundFalloffSettings copiedSettings3;
+    SoundFalloffSettings replaySettings4;
+    SoundFalloffSettings copiedSettings4;
+    SoundFalloffSettings copiedSettings5;
+    SoundFalloffSettings copiedSettings6;
+    SoundFalloffSettings copiedSettings7;
+    SoundFalloffSettings copiedSettings8;
+    SoundFalloffSettings copiedSettings9;
+    SoundFalloffSettings copiedSettings10;
+    SoundFalloffSettings copiedSettings11;
+    SoundFalloffSettings copiedSettings12;
+    SoundFalloffSettings copiedSettings13;
+    SoundFalloffSettings copiedSettings14;
+    SoundFalloffSettings copiedSettings15;
+    SoundFalloffSettings copiedSettings16;
+    static SoundFalloffSettings defaultSettings14 = {1400, 750, 55, 100, 110};
+    static SoundFalloffSettings defaultSettings3 = {380, 304, 66, 150, 95};
+    static SoundFalloffSettings defaultSettings4 = {800, 500, 57, 150, 95};
+    static SoundFalloffSettings defaultSettings6 = {3000, 1500, 52, 150, 95};
+    static SoundFalloffSettings defaultSettings5 = {1100, 550, 47, 150, 95};
+    static SoundFalloffSettings defaultSettings7 = {600, 400, 47, 150, 95};
+    static SoundFalloffSettings defaultSettings8 = {1500, 900, 69, 150, 115};
+    static SoundFalloffSettings defaultSettings9 = {1200, 600, 47, 150, 95};
+    static SoundFalloffSettings defaultSettings10 = {5000, 4000, 88, 150, 127};
+    static SoundFalloffSettings defaultSettings11 = {1100, 550, 62, 150, 95};
+    static SoundFalloffSettings defaultSettings2 = {1100, 500, 71, 150, 95};
+    static SoundFalloffSettings defaultSettings13 = {1000, 650, 55, 300, 110};
+    static SoundFalloffSettings defaultSettings12 = {800, 400, 47, 54, 95};
+    static SoundFalloffSettings defaultSettings15 = {1100, 600, 55, 100, 110};
+    static SoundFalloffSettings defaultSettings16 = {950, 525, 55, 100, 110};
+    static SoundFalloffSettings defaultSettings0 = {800, 500, 47, 150, 127};
+    static SoundFalloffSettings defaultSettings1 = {800, 500, 47, 150, 95};
 
     if (GetCurrentSceneNumber() == 2 && gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
-        f = TRUE;
+        isReplayScene = TRUE;
     } else {
-        f = FALSE;
+        isReplayScene = FALSE;
     }
-    t0 = s0;
-    if (f != FALSE) {
-        b0 = t0;
-        b0.mOuterDistance = 0x44c;
-        b0.mUnk_04 = 0x226;
-        b0.mUnk_08 = 0x2f;
-        b0.mMaxVolume = 0x5f;
-        t0 = b0;
+    workSettings0 = defaultSettings0;
+    if (isReplayScene != FALSE) {
+        replaySettings0 = workSettings0;
+        replaySettings0.mOuterDistance = 0x44c;
+        replaySettings0.mUnk_04 = 0x226;
+        replaySettings0.mUnk_08 = 0x2f;
+        replaySettings0.mMaxVolume = 0x5f;
+        workSettings0 = replaySettings0;
     }
-    c0 = t0;
-    gSoundFalloffs[0].mMaxVolume = c0.mMaxVolume;
-    gSoundFalloffs[0].mOuterDistance = c0.mOuterDistance;
-    gSoundFalloffs[0].mUnk_04 = c0.mUnk_04;
-    gSoundFalloffs[0].mUnk_08 = c0.mUnk_08;
-    gSoundFalloffs[0].mInnerDistance = c0.mInnerDistance;
-    gSoundFalloffs[0].mUnk_14 = FX_Div((c0.mUnk_08 - c0.mMaxVolume) << 12, (c0.mUnk_04 - c0.mInnerDistance) << 12);
-    gSoundFalloffs[0].mUnk_18 = FX_Div(c0.mUnk_08 << 12, (c0.mUnk_04 - c0.mOuterDistance) << 12);
+    copiedSettings0 = workSettings0;
+    gSoundFalloffs[0].mMaxVolume = copiedSettings0.mMaxVolume;
+    gSoundFalloffs[0].mOuterDistance = copiedSettings0.mOuterDistance;
+    gSoundFalloffs[0].mUnk_04 = copiedSettings0.mUnk_04;
+    gSoundFalloffs[0].mUnk_08 = copiedSettings0.mUnk_08;
+    gSoundFalloffs[0].mInnerDistance = copiedSettings0.mInnerDistance;
+    gSoundFalloffs[0].mUnk_14 = FX_Div((copiedSettings0.mUnk_08 - copiedSettings0.mMaxVolume) << 12,
+                                       (copiedSettings0.mUnk_04 - copiedSettings0.mInnerDistance) << 12);
+    gSoundFalloffs[0].mUnk_18 =
+        FX_Div(copiedSettings0.mUnk_08 << 12, (copiedSettings0.mUnk_04 - copiedSettings0.mOuterDistance) << 12);
     gSoundFalloffs[0].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[0].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[0].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c0.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(c0.mOuterDistance << 12, 0x16a1)) >> 12);
-    t1 = s1;
-    if (f != FALSE) {
-        b1 = t1;
-        b1.mOuterDistance = 0x44c;
-        b1.mUnk_04 = 0x226;
-        b1.mUnk_08 = 0x2f;
-        b1.mMaxVolume = 0x5f;
-        t1 = b1;
+    gSoundFalloffs[0].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings0.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings0.mOuterDistance << 12, 0x16a1)) >> 12);
+    workSettings1 = defaultSettings1;
+    if (isReplayScene != FALSE) {
+        replaySettings1 = workSettings1;
+        replaySettings1.mOuterDistance = 0x44c;
+        replaySettings1.mUnk_04 = 0x226;
+        replaySettings1.mUnk_08 = 0x2f;
+        replaySettings1.mMaxVolume = 0x5f;
+        workSettings1 = replaySettings1;
     }
-    c1 = t1;
-    gOtherKartSoundFalloff.mMaxVolume = c1.mMaxVolume;
-    gOtherKartSoundFalloff.mOuterDistance = c1.mOuterDistance;
-    gOtherKartSoundFalloff.mUnk_04 = c1.mUnk_04;
-    gOtherKartSoundFalloff.mUnk_08 = c1.mUnk_08;
-    gOtherKartSoundFalloff.mInnerDistance = c1.mInnerDistance;
-    gOtherKartSoundFalloff.mUnk_14 = FX_Div((c1.mUnk_08 - c1.mMaxVolume) << 12, (c1.mUnk_04 - c1.mInnerDistance) << 12);
-    gOtherKartSoundFalloff.mUnk_18 = FX_Div(c1.mUnk_08 << 12, (c1.mUnk_04 - c1.mOuterDistance) << 12);
+    copiedSettings1 = workSettings1;
+    gOtherKartSoundFalloff.mMaxVolume = copiedSettings1.mMaxVolume;
+    gOtherKartSoundFalloff.mOuterDistance = copiedSettings1.mOuterDistance;
+    gOtherKartSoundFalloff.mUnk_04 = copiedSettings1.mUnk_04;
+    gOtherKartSoundFalloff.mUnk_08 = copiedSettings1.mUnk_08;
+    gOtherKartSoundFalloff.mInnerDistance = copiedSettings1.mInnerDistance;
+    gOtherKartSoundFalloff.mUnk_14 = FX_Div((copiedSettings1.mUnk_08 - copiedSettings1.mMaxVolume) << 12,
+                                            (copiedSettings1.mUnk_04 - copiedSettings1.mInnerDistance) << 12);
+    gOtherKartSoundFalloff.mUnk_18 =
+        FX_Div(copiedSettings1.mUnk_08 << 12, (copiedSettings1.mUnk_04 - copiedSettings1.mOuterDistance) << 12);
     gOtherKartSoundFalloff.mUnk_1c = FX_Div(0x666, (gOtherKartSoundFalloff.mInnerDistance << 12) + 0x36000);
-    gOtherKartSoundFalloff.mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c1.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                                 ((MUL_FIXED12_ROUNDED(c1.mOuterDistance << 12, 0x16a1)) >> 12);
-    t2 = s2;
-    if (f != FALSE) {
-        b2 = t2;
-        b2.mOuterDistance = 0x514;
-        b2.mUnk_04 = 0x28a;
-        b2.mUnk_08 = 0x2f;
-        b2.mMaxVolume = 0x5f;
-        t2 = b2;
+    gOtherKartSoundFalloff.mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings1.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings1.mOuterDistance << 12, 0x16a1)) >> 12);
+    workSettings2 = defaultSettings2;
+    if (isReplayScene != FALSE) {
+        replaySettings2 = workSettings2;
+        replaySettings2.mOuterDistance = 0x514;
+        replaySettings2.mUnk_04 = 0x28a;
+        replaySettings2.mUnk_08 = 0x2f;
+        replaySettings2.mMaxVolume = 0x5f;
+        workSettings2 = replaySettings2;
     }
-    c2 = t2;
-    gSoundFalloffs[1].mMaxVolume = c2.mMaxVolume;
-    gSoundFalloffs[1].mOuterDistance = c2.mOuterDistance;
-    gSoundFalloffs[1].mUnk_04 = c2.mUnk_04;
-    gSoundFalloffs[1].mUnk_08 = c2.mUnk_08;
-    gSoundFalloffs[1].mInnerDistance = c2.mInnerDistance;
-    gSoundFalloffs[1].mUnk_14 = FX_Div((c2.mUnk_08 - c2.mMaxVolume) << 12, (c2.mUnk_04 - c2.mInnerDistance) << 12);
-    gSoundFalloffs[1].mUnk_18 = FX_Div(c2.mUnk_08 << 12, (c2.mUnk_04 - c2.mOuterDistance) << 12);
+    copiedSettings2 = workSettings2;
+    gSoundFalloffs[1].mMaxVolume = copiedSettings2.mMaxVolume;
+    gSoundFalloffs[1].mOuterDistance = copiedSettings2.mOuterDistance;
+    gSoundFalloffs[1].mUnk_04 = copiedSettings2.mUnk_04;
+    gSoundFalloffs[1].mUnk_08 = copiedSettings2.mUnk_08;
+    gSoundFalloffs[1].mInnerDistance = copiedSettings2.mInnerDistance;
+    gSoundFalloffs[1].mUnk_14 = FX_Div((copiedSettings2.mUnk_08 - copiedSettings2.mMaxVolume) << 12,
+                                       (copiedSettings2.mUnk_04 - copiedSettings2.mInnerDistance) << 12);
+    gSoundFalloffs[1].mUnk_18 =
+        FX_Div(copiedSettings2.mUnk_08 << 12, (copiedSettings2.mUnk_04 - copiedSettings2.mOuterDistance) << 12);
     gSoundFalloffs[1].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[1].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[1].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c2.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(c2.mOuterDistance << 12, 0x16a1)) >> 12);
-    t3 = s3;
-    if (f != FALSE) {
-        b3 = t3;
-        b3.mOuterDistance = 0x44c;
-        b3.mUnk_04 = 0x226;
-        b3.mUnk_08 = 0x2f;
-        b3.mMaxVolume = 0x5f;
-        t3 = b3;
+    gSoundFalloffs[1].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings2.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings2.mOuterDistance << 12, 0x16a1)) >> 12);
+    workSettings3 = defaultSettings3;
+    if (isReplayScene != FALSE) {
+        replaySettings3 = workSettings3;
+        replaySettings3.mOuterDistance = 0x44c;
+        replaySettings3.mUnk_04 = 0x226;
+        replaySettings3.mUnk_08 = 0x2f;
+        replaySettings3.mMaxVolume = 0x5f;
+        workSettings3 = replaySettings3;
     }
-    c3 = t3;
-    gSoundFalloffs[2].mMaxVolume = c3.mMaxVolume;
-    gSoundFalloffs[2].mOuterDistance = c3.mOuterDistance;
-    gSoundFalloffs[2].mUnk_04 = c3.mUnk_04;
-    gSoundFalloffs[2].mUnk_08 = c3.mUnk_08;
-    gSoundFalloffs[2].mInnerDistance = c3.mInnerDistance;
-    gSoundFalloffs[2].mUnk_14 = FX_Div((c3.mUnk_08 - c3.mMaxVolume) << 12, (c3.mUnk_04 - c3.mInnerDistance) << 12);
-    gSoundFalloffs[2].mUnk_18 = FX_Div(c3.mUnk_08 << 12, (c3.mUnk_04 - c3.mOuterDistance) << 12);
+    copiedSettings3 = workSettings3;
+    gSoundFalloffs[2].mMaxVolume = copiedSettings3.mMaxVolume;
+    gSoundFalloffs[2].mOuterDistance = copiedSettings3.mOuterDistance;
+    gSoundFalloffs[2].mUnk_04 = copiedSettings3.mUnk_04;
+    gSoundFalloffs[2].mUnk_08 = copiedSettings3.mUnk_08;
+    gSoundFalloffs[2].mInnerDistance = copiedSettings3.mInnerDistance;
+    gSoundFalloffs[2].mUnk_14 = FX_Div((copiedSettings3.mUnk_08 - copiedSettings3.mMaxVolume) << 12,
+                                       (copiedSettings3.mUnk_04 - copiedSettings3.mInnerDistance) << 12);
+    gSoundFalloffs[2].mUnk_18 =
+        FX_Div(copiedSettings3.mUnk_08 << 12, (copiedSettings3.mUnk_04 - copiedSettings3.mOuterDistance) << 12);
     gSoundFalloffs[2].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[2].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[2].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c3.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(c3.mOuterDistance << 12, 0x16a1)) >> 12);
-    t4 = s4;
-    if (f != FALSE) {
-        b4 = t4;
-        b4.mOuterDistance = 0x44c;
-        b4.mUnk_04 = 0x226;
-        b4.mUnk_08 = 0x2f;
-        b4.mMaxVolume = 0x5f;
-        t4 = b4;
+    gSoundFalloffs[2].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings3.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings3.mOuterDistance << 12, 0x16a1)) >> 12);
+    workSettings4 = defaultSettings4;
+    if (isReplayScene != FALSE) {
+        replaySettings4 = workSettings4;
+        replaySettings4.mOuterDistance = 0x44c;
+        replaySettings4.mUnk_04 = 0x226;
+        replaySettings4.mUnk_08 = 0x2f;
+        replaySettings4.mMaxVolume = 0x5f;
+        workSettings4 = replaySettings4;
     }
-    c4 = t4;
-    gSoundFalloffs[3].mMaxVolume = c4.mMaxVolume;
-    gSoundFalloffs[3].mOuterDistance = c4.mOuterDistance;
-    gSoundFalloffs[3].mUnk_04 = c4.mUnk_04;
-    gSoundFalloffs[3].mUnk_08 = c4.mUnk_08;
-    gSoundFalloffs[3].mInnerDistance = c4.mInnerDistance;
-    gSoundFalloffs[3].mUnk_14 = FX_Div((c4.mUnk_08 - c4.mMaxVolume) << 12, (c4.mUnk_04 - c4.mInnerDistance) << 12);
-    gSoundFalloffs[3].mUnk_18 = FX_Div(c4.mUnk_08 << 12, (c4.mUnk_04 - c4.mOuterDistance) << 12);
+    copiedSettings4 = workSettings4;
+    gSoundFalloffs[3].mMaxVolume = copiedSettings4.mMaxVolume;
+    gSoundFalloffs[3].mOuterDistance = copiedSettings4.mOuterDistance;
+    gSoundFalloffs[3].mUnk_04 = copiedSettings4.mUnk_04;
+    gSoundFalloffs[3].mUnk_08 = copiedSettings4.mUnk_08;
+    gSoundFalloffs[3].mInnerDistance = copiedSettings4.mInnerDistance;
+    gSoundFalloffs[3].mUnk_14 = FX_Div((copiedSettings4.mUnk_08 - copiedSettings4.mMaxVolume) << 12,
+                                       (copiedSettings4.mUnk_04 - copiedSettings4.mInnerDistance) << 12);
+    gSoundFalloffs[3].mUnk_18 =
+        FX_Div(copiedSettings4.mUnk_08 << 12, (copiedSettings4.mUnk_04 - copiedSettings4.mOuterDistance) << 12);
     gSoundFalloffs[3].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[3].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[3].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(c4.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(c4.mOuterDistance << 12, 0x16a1)) >> 12);
-    w5 = s5;
-    gSoundFalloffs[4].mMaxVolume = w5.mMaxVolume;
-    gSoundFalloffs[4].mOuterDistance = w5.mOuterDistance;
-    gSoundFalloffs[4].mUnk_04 = w5.mUnk_04;
-    gSoundFalloffs[4].mUnk_08 = w5.mUnk_08;
-    gSoundFalloffs[4].mInnerDistance = w5.mInnerDistance;
-    gSoundFalloffs[4].mUnk_14 = FX_Div((w5.mUnk_08 - w5.mMaxVolume) << 12, (w5.mUnk_04 - w5.mInnerDistance) << 12);
-    gSoundFalloffs[4].mUnk_18 = FX_Div(w5.mUnk_08 << 12, (w5.mUnk_04 - w5.mOuterDistance) << 12);
+    gSoundFalloffs[3].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings4.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings4.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings5 = defaultSettings5;
+    gSoundFalloffs[4].mMaxVolume = copiedSettings5.mMaxVolume;
+    gSoundFalloffs[4].mOuterDistance = copiedSettings5.mOuterDistance;
+    gSoundFalloffs[4].mUnk_04 = copiedSettings5.mUnk_04;
+    gSoundFalloffs[4].mUnk_08 = copiedSettings5.mUnk_08;
+    gSoundFalloffs[4].mInnerDistance = copiedSettings5.mInnerDistance;
+    gSoundFalloffs[4].mUnk_14 = FX_Div((copiedSettings5.mUnk_08 - copiedSettings5.mMaxVolume) << 12,
+                                       (copiedSettings5.mUnk_04 - copiedSettings5.mInnerDistance) << 12);
+    gSoundFalloffs[4].mUnk_18 =
+        FX_Div(copiedSettings5.mUnk_08 << 12, (copiedSettings5.mUnk_04 - copiedSettings5.mOuterDistance) << 12);
     gSoundFalloffs[4].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[4].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[4].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w5.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(w5.mOuterDistance << 12, 0x16a1)) >> 12);
-    w6 = s6;
-    gSoundFalloffs[5].mMaxVolume = w6.mMaxVolume;
-    gSoundFalloffs[5].mOuterDistance = w6.mOuterDistance;
-    gSoundFalloffs[5].mUnk_04 = w6.mUnk_04;
-    gSoundFalloffs[5].mUnk_08 = w6.mUnk_08;
-    gSoundFalloffs[5].mInnerDistance = w6.mInnerDistance;
-    gSoundFalloffs[5].mUnk_14 = FX_Div((w6.mUnk_08 - w6.mMaxVolume) << 12, (w6.mUnk_04 - w6.mInnerDistance) << 12);
-    gSoundFalloffs[5].mUnk_18 = FX_Div(w6.mUnk_08 << 12, (w6.mUnk_04 - w6.mOuterDistance) << 12);
+    gSoundFalloffs[4].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings5.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings5.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings6 = defaultSettings6;
+    gSoundFalloffs[5].mMaxVolume = copiedSettings6.mMaxVolume;
+    gSoundFalloffs[5].mOuterDistance = copiedSettings6.mOuterDistance;
+    gSoundFalloffs[5].mUnk_04 = copiedSettings6.mUnk_04;
+    gSoundFalloffs[5].mUnk_08 = copiedSettings6.mUnk_08;
+    gSoundFalloffs[5].mInnerDistance = copiedSettings6.mInnerDistance;
+    gSoundFalloffs[5].mUnk_14 = FX_Div((copiedSettings6.mUnk_08 - copiedSettings6.mMaxVolume) << 12,
+                                       (copiedSettings6.mUnk_04 - copiedSettings6.mInnerDistance) << 12);
+    gSoundFalloffs[5].mUnk_18 =
+        FX_Div(copiedSettings6.mUnk_08 << 12, (copiedSettings6.mUnk_04 - copiedSettings6.mOuterDistance) << 12);
     gSoundFalloffs[5].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[5].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[5].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w6.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(w6.mOuterDistance << 12, 0x16a1)) >> 12);
-    w7 = s7;
-    gSoundFalloffs[6].mMaxVolume = w7.mMaxVolume;
-    gSoundFalloffs[6].mOuterDistance = w7.mOuterDistance;
-    gSoundFalloffs[6].mUnk_04 = w7.mUnk_04;
-    gSoundFalloffs[6].mUnk_08 = w7.mUnk_08;
-    gSoundFalloffs[6].mInnerDistance = w7.mInnerDistance;
-    gSoundFalloffs[6].mUnk_14 = FX_Div((w7.mUnk_08 - w7.mMaxVolume) << 12, (w7.mUnk_04 - w7.mInnerDistance) << 12);
-    gSoundFalloffs[6].mUnk_18 = FX_Div(w7.mUnk_08 << 12, (w7.mUnk_04 - w7.mOuterDistance) << 12);
+    gSoundFalloffs[5].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings6.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings6.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings7 = defaultSettings7;
+    gSoundFalloffs[6].mMaxVolume = copiedSettings7.mMaxVolume;
+    gSoundFalloffs[6].mOuterDistance = copiedSettings7.mOuterDistance;
+    gSoundFalloffs[6].mUnk_04 = copiedSettings7.mUnk_04;
+    gSoundFalloffs[6].mUnk_08 = copiedSettings7.mUnk_08;
+    gSoundFalloffs[6].mInnerDistance = copiedSettings7.mInnerDistance;
+    gSoundFalloffs[6].mUnk_14 = FX_Div((copiedSettings7.mUnk_08 - copiedSettings7.mMaxVolume) << 12,
+                                       (copiedSettings7.mUnk_04 - copiedSettings7.mInnerDistance) << 12);
+    gSoundFalloffs[6].mUnk_18 =
+        FX_Div(copiedSettings7.mUnk_08 << 12, (copiedSettings7.mUnk_04 - copiedSettings7.mOuterDistance) << 12);
     gSoundFalloffs[6].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[6].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[6].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w7.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(w7.mOuterDistance << 12, 0x16a1)) >> 12);
-    w8 = s8;
-    gSoundFalloffs[7].mMaxVolume = w8.mMaxVolume;
-    gSoundFalloffs[7].mOuterDistance = w8.mOuterDistance;
-    gSoundFalloffs[7].mUnk_04 = w8.mUnk_04;
-    gSoundFalloffs[7].mUnk_08 = w8.mUnk_08;
-    gSoundFalloffs[7].mInnerDistance = w8.mInnerDistance;
-    gSoundFalloffs[7].mUnk_14 = FX_Div((w8.mUnk_08 - w8.mMaxVolume) << 12, (w8.mUnk_04 - w8.mInnerDistance) << 12);
-    gSoundFalloffs[7].mUnk_18 = FX_Div(w8.mUnk_08 << 12, (w8.mUnk_04 - w8.mOuterDistance) << 12);
+    gSoundFalloffs[6].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings7.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings7.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings8 = defaultSettings8;
+    gSoundFalloffs[7].mMaxVolume = copiedSettings8.mMaxVolume;
+    gSoundFalloffs[7].mOuterDistance = copiedSettings8.mOuterDistance;
+    gSoundFalloffs[7].mUnk_04 = copiedSettings8.mUnk_04;
+    gSoundFalloffs[7].mUnk_08 = copiedSettings8.mUnk_08;
+    gSoundFalloffs[7].mInnerDistance = copiedSettings8.mInnerDistance;
+    gSoundFalloffs[7].mUnk_14 = FX_Div((copiedSettings8.mUnk_08 - copiedSettings8.mMaxVolume) << 12,
+                                       (copiedSettings8.mUnk_04 - copiedSettings8.mInnerDistance) << 12);
+    gSoundFalloffs[7].mUnk_18 =
+        FX_Div(copiedSettings8.mUnk_08 << 12, (copiedSettings8.mUnk_04 - copiedSettings8.mOuterDistance) << 12);
     gSoundFalloffs[7].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[7].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[7].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w8.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(w8.mOuterDistance << 12, 0x16a1)) >> 12);
-    w9 = s9;
-    gSoundFalloffs[8].mMaxVolume = w9.mMaxVolume;
-    gSoundFalloffs[8].mOuterDistance = w9.mOuterDistance;
-    gSoundFalloffs[8].mUnk_04 = w9.mUnk_04;
-    gSoundFalloffs[8].mUnk_08 = w9.mUnk_08;
-    gSoundFalloffs[8].mInnerDistance = w9.mInnerDistance;
-    gSoundFalloffs[8].mUnk_14 = FX_Div((w9.mUnk_08 - w9.mMaxVolume) << 12, (w9.mUnk_04 - w9.mInnerDistance) << 12);
-    gSoundFalloffs[8].mUnk_18 = FX_Div(w9.mUnk_08 << 12, (w9.mUnk_04 - w9.mOuterDistance) << 12);
+    gSoundFalloffs[7].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings8.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings8.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings9 = defaultSettings9;
+    gSoundFalloffs[8].mMaxVolume = copiedSettings9.mMaxVolume;
+    gSoundFalloffs[8].mOuterDistance = copiedSettings9.mOuterDistance;
+    gSoundFalloffs[8].mUnk_04 = copiedSettings9.mUnk_04;
+    gSoundFalloffs[8].mUnk_08 = copiedSettings9.mUnk_08;
+    gSoundFalloffs[8].mInnerDistance = copiedSettings9.mInnerDistance;
+    gSoundFalloffs[8].mUnk_14 = FX_Div((copiedSettings9.mUnk_08 - copiedSettings9.mMaxVolume) << 12,
+                                       (copiedSettings9.mUnk_04 - copiedSettings9.mInnerDistance) << 12);
+    gSoundFalloffs[8].mUnk_18 =
+        FX_Div(copiedSettings9.mUnk_08 << 12, (copiedSettings9.mUnk_04 - copiedSettings9.mOuterDistance) << 12);
     gSoundFalloffs[8].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[8].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[8].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w9.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(w9.mOuterDistance << 12, 0x16a1)) >> 12);
-    w10 = s10;
-    gSoundFalloffs[9].mMaxVolume = w10.mMaxVolume;
-    gSoundFalloffs[9].mOuterDistance = w10.mOuterDistance;
-    gSoundFalloffs[9].mUnk_04 = w10.mUnk_04;
-    gSoundFalloffs[9].mUnk_08 = w10.mUnk_08;
-    gSoundFalloffs[9].mInnerDistance = w10.mInnerDistance;
-    gSoundFalloffs[9].mUnk_14 = FX_Div((w10.mUnk_08 - w10.mMaxVolume) << 12, (w10.mUnk_04 - w10.mInnerDistance) << 12);
-    gSoundFalloffs[9].mUnk_18 = FX_Div(w10.mUnk_08 << 12, (w10.mUnk_04 - w10.mOuterDistance) << 12);
+    gSoundFalloffs[8].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings9.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings9.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings10 = defaultSettings10;
+    gSoundFalloffs[9].mMaxVolume = copiedSettings10.mMaxVolume;
+    gSoundFalloffs[9].mOuterDistance = copiedSettings10.mOuterDistance;
+    gSoundFalloffs[9].mUnk_04 = copiedSettings10.mUnk_04;
+    gSoundFalloffs[9].mUnk_08 = copiedSettings10.mUnk_08;
+    gSoundFalloffs[9].mInnerDistance = copiedSettings10.mInnerDistance;
+    gSoundFalloffs[9].mUnk_14 = FX_Div((copiedSettings10.mUnk_08 - copiedSettings10.mMaxVolume) << 12,
+                                       (copiedSettings10.mUnk_04 - copiedSettings10.mInnerDistance) << 12);
+    gSoundFalloffs[9].mUnk_18 =
+        FX_Div(copiedSettings10.mUnk_08 << 12, (copiedSettings10.mUnk_04 - copiedSettings10.mOuterDistance) << 12);
     gSoundFalloffs[9].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[9].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[9].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w10.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                            ((MUL_FIXED12_ROUNDED(w10.mOuterDistance << 12, 0x16a1)) >> 12);
-    w11 = s11;
-    gSoundFalloffs[10].mMaxVolume = w11.mMaxVolume;
-    gSoundFalloffs[10].mOuterDistance = w11.mOuterDistance;
-    gSoundFalloffs[10].mUnk_04 = w11.mUnk_04;
-    gSoundFalloffs[10].mUnk_08 = w11.mUnk_08;
-    gSoundFalloffs[10].mInnerDistance = w11.mInnerDistance;
-    gSoundFalloffs[10].mUnk_14 = FX_Div((w11.mUnk_08 - w11.mMaxVolume) << 12, (w11.mUnk_04 - w11.mInnerDistance) << 12);
-    gSoundFalloffs[10].mUnk_18 = FX_Div(w11.mUnk_08 << 12, (w11.mUnk_04 - w11.mOuterDistance) << 12);
+    gSoundFalloffs[9].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings10.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings10.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings11 = defaultSettings11;
+    gSoundFalloffs[10].mMaxVolume = copiedSettings11.mMaxVolume;
+    gSoundFalloffs[10].mOuterDistance = copiedSettings11.mOuterDistance;
+    gSoundFalloffs[10].mUnk_04 = copiedSettings11.mUnk_04;
+    gSoundFalloffs[10].mUnk_08 = copiedSettings11.mUnk_08;
+    gSoundFalloffs[10].mInnerDistance = copiedSettings11.mInnerDistance;
+    gSoundFalloffs[10].mUnk_14 = FX_Div((copiedSettings11.mUnk_08 - copiedSettings11.mMaxVolume) << 12,
+                                        (copiedSettings11.mUnk_04 - copiedSettings11.mInnerDistance) << 12);
+    gSoundFalloffs[10].mUnk_18 =
+        FX_Div(copiedSettings11.mUnk_08 << 12, (copiedSettings11.mUnk_04 - copiedSettings11.mOuterDistance) << 12);
     gSoundFalloffs[10].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[10].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[10].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w11.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                             ((MUL_FIXED12_ROUNDED(w11.mOuterDistance << 12, 0x16a1)) >> 12);
-    w12 = s12;
-    gSoundFalloffs[11].mMaxVolume = w12.mMaxVolume;
-    gSoundFalloffs[11].mOuterDistance = w12.mOuterDistance;
-    gSoundFalloffs[11].mUnk_04 = w12.mUnk_04;
-    gSoundFalloffs[11].mUnk_08 = w12.mUnk_08;
-    gSoundFalloffs[11].mInnerDistance = w12.mInnerDistance;
-    gSoundFalloffs[11].mUnk_14 = FX_Div((w12.mUnk_08 - w12.mMaxVolume) << 12, (w12.mUnk_04 - w12.mInnerDistance) << 12);
-    gSoundFalloffs[11].mUnk_18 = FX_Div(w12.mUnk_08 << 12, (w12.mUnk_04 - w12.mOuterDistance) << 12);
+    gSoundFalloffs[10].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings11.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings11.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings12 = defaultSettings12;
+    gSoundFalloffs[11].mMaxVolume = copiedSettings12.mMaxVolume;
+    gSoundFalloffs[11].mOuterDistance = copiedSettings12.mOuterDistance;
+    gSoundFalloffs[11].mUnk_04 = copiedSettings12.mUnk_04;
+    gSoundFalloffs[11].mUnk_08 = copiedSettings12.mUnk_08;
+    gSoundFalloffs[11].mInnerDistance = copiedSettings12.mInnerDistance;
+    gSoundFalloffs[11].mUnk_14 = FX_Div((copiedSettings12.mUnk_08 - copiedSettings12.mMaxVolume) << 12,
+                                        (copiedSettings12.mUnk_04 - copiedSettings12.mInnerDistance) << 12);
+    gSoundFalloffs[11].mUnk_18 =
+        FX_Div(copiedSettings12.mUnk_08 << 12, (copiedSettings12.mUnk_04 - copiedSettings12.mOuterDistance) << 12);
     gSoundFalloffs[11].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[11].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[11].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w12.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                             ((MUL_FIXED12_ROUNDED(w12.mOuterDistance << 12, 0x16a1)) >> 12);
-    w13 = s13;
-    gSoundFalloffs[12].mMaxVolume = w13.mMaxVolume;
-    gSoundFalloffs[12].mOuterDistance = w13.mOuterDistance;
-    gSoundFalloffs[12].mUnk_04 = w13.mUnk_04;
-    gSoundFalloffs[12].mUnk_08 = w13.mUnk_08;
-    gSoundFalloffs[12].mInnerDistance = w13.mInnerDistance;
-    gSoundFalloffs[12].mUnk_14 = FX_Div((w13.mUnk_08 - w13.mMaxVolume) << 12, (w13.mUnk_04 - w13.mInnerDistance) << 12);
-    gSoundFalloffs[12].mUnk_18 = FX_Div(w13.mUnk_08 << 12, (w13.mUnk_04 - w13.mOuterDistance) << 12);
+    gSoundFalloffs[11].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings12.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings12.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings13 = defaultSettings13;
+    gSoundFalloffs[12].mMaxVolume = copiedSettings13.mMaxVolume;
+    gSoundFalloffs[12].mOuterDistance = copiedSettings13.mOuterDistance;
+    gSoundFalloffs[12].mUnk_04 = copiedSettings13.mUnk_04;
+    gSoundFalloffs[12].mUnk_08 = copiedSettings13.mUnk_08;
+    gSoundFalloffs[12].mInnerDistance = copiedSettings13.mInnerDistance;
+    gSoundFalloffs[12].mUnk_14 = FX_Div((copiedSettings13.mUnk_08 - copiedSettings13.mMaxVolume) << 12,
+                                        (copiedSettings13.mUnk_04 - copiedSettings13.mInnerDistance) << 12);
+    gSoundFalloffs[12].mUnk_18 =
+        FX_Div(copiedSettings13.mUnk_08 << 12, (copiedSettings13.mUnk_04 - copiedSettings13.mOuterDistance) << 12);
     gSoundFalloffs[12].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[12].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[12].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w13.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                             ((MUL_FIXED12_ROUNDED(w13.mOuterDistance << 12, 0x16a1)) >> 12);
-    w14 = s14;
-    gSoundFalloffs[13].mMaxVolume = w14.mMaxVolume;
-    gSoundFalloffs[13].mOuterDistance = w14.mOuterDistance;
-    gSoundFalloffs[13].mUnk_04 = w14.mUnk_04;
-    gSoundFalloffs[13].mUnk_08 = w14.mUnk_08;
-    gSoundFalloffs[13].mInnerDistance = w14.mInnerDistance;
-    gSoundFalloffs[13].mUnk_14 = FX_Div((w14.mUnk_08 - w14.mMaxVolume) << 12, (w14.mUnk_04 - w14.mInnerDistance) << 12);
-    gSoundFalloffs[13].mUnk_18 = FX_Div(w14.mUnk_08 << 12, (w14.mUnk_04 - w14.mOuterDistance) << 12);
+    gSoundFalloffs[12].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings13.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings13.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings14 = defaultSettings14;
+    gSoundFalloffs[13].mMaxVolume = copiedSettings14.mMaxVolume;
+    gSoundFalloffs[13].mOuterDistance = copiedSettings14.mOuterDistance;
+    gSoundFalloffs[13].mUnk_04 = copiedSettings14.mUnk_04;
+    gSoundFalloffs[13].mUnk_08 = copiedSettings14.mUnk_08;
+    gSoundFalloffs[13].mInnerDistance = copiedSettings14.mInnerDistance;
+    gSoundFalloffs[13].mUnk_14 = FX_Div((copiedSettings14.mUnk_08 - copiedSettings14.mMaxVolume) << 12,
+                                        (copiedSettings14.mUnk_04 - copiedSettings14.mInnerDistance) << 12);
+    gSoundFalloffs[13].mUnk_18 =
+        FX_Div(copiedSettings14.mUnk_08 << 12, (copiedSettings14.mUnk_04 - copiedSettings14.mOuterDistance) << 12);
     gSoundFalloffs[13].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[13].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[13].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w14.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                             ((MUL_FIXED12_ROUNDED(w14.mOuterDistance << 12, 0x16a1)) >> 12);
-    w15 = s15;
-    gSoundFalloffs[14].mMaxVolume = w15.mMaxVolume;
-    gSoundFalloffs[14].mOuterDistance = w15.mOuterDistance;
-    gSoundFalloffs[14].mUnk_04 = w15.mUnk_04;
-    gSoundFalloffs[14].mUnk_08 = w15.mUnk_08;
-    gSoundFalloffs[14].mInnerDistance = w15.mInnerDistance;
-    gSoundFalloffs[14].mUnk_14 = FX_Div((w15.mUnk_08 - w15.mMaxVolume) << 12, (w15.mUnk_04 - w15.mInnerDistance) << 12);
-    gSoundFalloffs[14].mUnk_18 = FX_Div(w15.mUnk_08 << 12, (w15.mUnk_04 - w15.mOuterDistance) << 12);
+    gSoundFalloffs[13].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings14.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings14.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings15 = defaultSettings15;
+    gSoundFalloffs[14].mMaxVolume = copiedSettings15.mMaxVolume;
+    gSoundFalloffs[14].mOuterDistance = copiedSettings15.mOuterDistance;
+    gSoundFalloffs[14].mUnk_04 = copiedSettings15.mUnk_04;
+    gSoundFalloffs[14].mUnk_08 = copiedSettings15.mUnk_08;
+    gSoundFalloffs[14].mInnerDistance = copiedSettings15.mInnerDistance;
+    gSoundFalloffs[14].mUnk_14 = FX_Div((copiedSettings15.mUnk_08 - copiedSettings15.mMaxVolume) << 12,
+                                        (copiedSettings15.mUnk_04 - copiedSettings15.mInnerDistance) << 12);
+    gSoundFalloffs[14].mUnk_18 =
+        FX_Div(copiedSettings15.mUnk_08 << 12, (copiedSettings15.mUnk_04 - copiedSettings15.mOuterDistance) << 12);
     gSoundFalloffs[14].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[14].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[14].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w15.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                             ((MUL_FIXED12_ROUNDED(w15.mOuterDistance << 12, 0x16a1)) >> 12);
-    w16 = s16;
-    gSoundFalloffs[15].mMaxVolume = w16.mMaxVolume;
-    gSoundFalloffs[15].mOuterDistance = w16.mOuterDistance;
-    gSoundFalloffs[15].mUnk_04 = w16.mUnk_04;
-    gSoundFalloffs[15].mUnk_08 = w16.mUnk_08;
-    gSoundFalloffs[15].mInnerDistance = w16.mInnerDistance;
-    gSoundFalloffs[15].mUnk_14 = FX_Div((w16.mUnk_08 - w16.mMaxVolume) << 12, (w16.mUnk_04 - w16.mInnerDistance) << 12);
-    gSoundFalloffs[15].mUnk_18 = FX_Div(w16.mUnk_08 << 12, (w16.mUnk_04 - w16.mOuterDistance) << 12);
+    gSoundFalloffs[14].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings15.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings15.mOuterDistance << 12, 0x16a1)) >> 12);
+    copiedSettings16 = defaultSettings16;
+    gSoundFalloffs[15].mMaxVolume = copiedSettings16.mMaxVolume;
+    gSoundFalloffs[15].mOuterDistance = copiedSettings16.mOuterDistance;
+    gSoundFalloffs[15].mUnk_04 = copiedSettings16.mUnk_04;
+    gSoundFalloffs[15].mUnk_08 = copiedSettings16.mUnk_08;
+    gSoundFalloffs[15].mInnerDistance = copiedSettings16.mInnerDistance;
+    gSoundFalloffs[15].mUnk_14 = FX_Div((copiedSettings16.mUnk_08 - copiedSettings16.mMaxVolume) << 12,
+                                        (copiedSettings16.mUnk_04 - copiedSettings16.mInnerDistance) << 12);
+    gSoundFalloffs[15].mUnk_18 =
+        FX_Div(copiedSettings16.mUnk_08 << 12, (copiedSettings16.mUnk_04 - copiedSettings16.mOuterDistance) << 12);
     gSoundFalloffs[15].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[15].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[15].mFarDistanceSquared = ((MUL_FIXED12_ROUNDED(w16.mOuterDistance << 12, 0x16a1)) >> 12) *
-                                             ((MUL_FIXED12_ROUNDED(w16.mOuterDistance << 12, 0x16a1)) >> 12);
+    gSoundFalloffs[15].mFarDistanceSquared =
+        ((MUL_FIXED12_ROUNDED(copiedSettings16.mOuterDistance << 12, 0x16a1)) >> 12) *
+        ((MUL_FIXED12_ROUNDED(copiedSettings16.mOuterDistance << 12, 0x16a1)) >> 12);
 }
 
-s32 ComputeSoundVolume(SoundParams *p) {
-    Kart *k;
-    SoundFalloff *e;
-    s32 v;
-    s32 a;
+s32 ComputeSoundVolume(SoundParams *soundParams) {
+    Kart *kart;
+    SoundFalloff *falloff;
+    s32 volume;
+    s32 value;
 
-    k = (Kart *) p->mSource;
-    v = 0;
-    if (k != NULL) {
-        if (k != NULL && k->mSoundSource.mFalloffIndex == 0 && k->mIndex != gRaceSetup->mEntryIndex) {
-            e = &gOtherKartSoundFalloff;
+    kart = (Kart *) soundParams->mSource;
+    volume = 0;
+    if (kart != NULL) {
+        if (kart != NULL && kart->mSoundSource.mFalloffIndex == 0 && kart->mIndex != gRaceSetup->mEntryIndex) {
+            falloff = &gOtherKartSoundFalloff;
         } else {
-            e = &gSoundFalloffs[k->mSoundSource.mFalloffIndex];
+            falloff = &gSoundFalloffs[kart->mSoundSource.mFalloffIndex];
         }
     } else {
-        e = &gSoundFalloffs[p->mStartParams->mFalloffIndex];
+        falloff = &gSoundFalloffs[soundParams->mStartParams->mFalloffIndex];
     }
-    a = p->mDistance;
-    if (a <= e->mInnerDistance) {
-        v = e->mMaxVolume;
-    } else if (a <= e->mUnk_04) {
-        v = e->mMaxVolume + ((MUL_FIXED12_ROUNDED(e->mUnk_14, (a - e->mInnerDistance) << 12)) >> 12);
-    } else if (a < e->mOuterDistance) {
-        v = (MUL_FIXED12_ROUNDED(e->mUnk_18, (a - e->mOuterDistance) << 12)) >> 12;
+    value = soundParams->mDistance;
+    if (value <= falloff->mInnerDistance) {
+        volume = falloff->mMaxVolume;
+    } else if (value <= falloff->mUnk_04) {
+        volume = falloff->mMaxVolume +
+                 ((MUL_FIXED12_ROUNDED(falloff->mUnk_14, (value - falloff->mInnerDistance) << 12)) >> 12);
+    } else if (value < falloff->mOuterDistance) {
+        volume = (MUL_FIXED12_ROUNDED(falloff->mUnk_18, (value - falloff->mOuterDistance) << 12)) >> 12;
     }
-    a = p->mUnk_08;
-    if (a < 0x36) {
-        if (a > -e->mInnerDistance) {
-            a = (MUL_FIXED12_ROUNDED(e->mUnk_1c, (a - 0x36) << 12)) + 0x1000;
-            v = (MUL_FIXED12_ROUNDED(a, v << 12)) >> 12;
+    value = soundParams->mUnk_08;
+    if (value < 0x36) {
+        if (value > -falloff->mInnerDistance) {
+            value = (MUL_FIXED12_ROUNDED(falloff->mUnk_1c, (value - 0x36) << 12)) + 0x1000;
+            volume = (MUL_FIXED12_ROUNDED(value, volume << 12)) >> 12;
         } else {
-            v = (MUL_FIXED12_ROUNDED(v << 12, 0x99a)) >> 12;
+            volume = (MUL_FIXED12_ROUNDED(volume << 12, 0x99a)) >> 12;
         }
     }
-    if (v < 0) {
+    if (volume < 0) {
         return 0;
     }
-    if (v > e->mMaxVolume) {
-        return e->mMaxVolume;
+    if (volume > falloff->mMaxVolume) {
+        return falloff->mMaxVolume;
     }
-    return v;
+    return volume;
 }
 
 // Returns the pan, from -0x80 to 0x7f.
-s32 ComputeSoundPan(SoundParams *p) {
-    u32 a;
-    s32 v;
+s32 ComputeSoundPan(SoundParams *soundParams) {
+    u32 angle;
+    s32 pan;
 
-    a = FX_Atan2Idx(p->mUnk_08 << 12, -p->mUnk_0c << 12);
-    if (a > 0x7fff) {
-        a = (u16) (0xffff - a);
+    angle = FX_Atan2Idx(soundParams->mUnk_08 << 12, -soundParams->mUnk_0c << 12);
+    if (angle > 0x7fff) {
+        angle = (u16) (0xffff - angle);
     }
-    v = (MUL_FIXED12_ROUNDED((s32) (a << 12), -32)) >> 12;
-    v += 0x7f;
-    if (v < -0x80) {
-        v = -0x80;
-    } else if (v > 0x7f) {
-        v = 0x7f;
+    pan = (MUL_FIXED12_ROUNDED((s32) (angle << 12), -32)) >> 12;
+    pan += 0x7f;
+    if (pan < -0x80) {
+        pan = -0x80;
+    } else if (pan > 0x7f) {
+        pan = 0x7f;
     }
-    return v;
+    return pan;
 }
 
 // Returns the distance to the camera; also stores the forward and side distance in the record.
-u32 ComputeSoundDistanceAndOffsets(SoundParams *p) {
-    u32 a;
-    Vec3 *b;
+u32 ComputeSoundDistanceAndOffsets(SoundParams *soundParams) {
+    u32 distanceSquared;
+    Vec3 *positionSource;
 
-    if (p->mSource != NULL) {
-        a = ((Kart *) p->mSource)->mSoundSource.mDistanceSquared;
+    if (soundParams->mSource != NULL) {
+        distanceSquared = ((Kart *) soundParams->mSource)->mSoundSource.mDistanceSquared;
     } else {
-        a = p->mStartParams->mDistanceSquared;
+        distanceSquared = soundParams->mStartParams->mDistanceSquared;
     }
     reg_CP_SQRTCNT = 0;
-    reg_CP_SQRT_PARAM_LO = a;
-    b = p->mPositionSource;
-    p->mUnk_08 = GetCameraForwardDistance(b) >> 12;
-    p->mUnk_0c = GetCameraSideDistance(b) >> 12;
+    reg_CP_SQRT_PARAM_LO = distanceSquared;
+    positionSource = soundParams->mPositionSource;
+    soundParams->mUnk_08 = GetCameraForwardDistance(positionSource) >> 12;
+    soundParams->mUnk_0c = GetCameraSideDistance(positionSource) >> 12;
     while (reg_CP_SQRTCNT & 0x8000) {
     }
     return reg_CP_SQRT_RESULT;

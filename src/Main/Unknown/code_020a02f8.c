@@ -66,12 +66,12 @@ void SetStandingsKartsHitEachOtherCallback(void (*callback)(s32, s32)) {
     gStandings->mKartsHitEachOtherCallback = callback;
 }
 
-void SetStandingsKartHitCallback(s32 (*callback)(u16 a, u16 b)) {
+void SetStandingsKartHitCallback(s32 (*callback)(u16 kartIndex, u16 hitByKartIndex)) {
     gStandings->mKartHitCallback = callback;
 }
 
 // Stores the kart-eliminated callback.
-void SetStandingsKartEliminatedCallback(void (*callback)(u16 a)) {
+void SetStandingsKartEliminatedCallback(void (*callback)(u16 kartIndex)) {
     gStandings->mKartEliminatedCallback = callback;
 }
 
@@ -120,12 +120,12 @@ u32 IsKartInflatingBalloon(u16 kartIndex) {
     return gStandings->mKarts[kartIndex].mInflatingBalloon;
 }
 
-void CallStandingsKartOffsetCallback(u16 a, Vec3 *b) {
-    if (b == 0) {
+void CallStandingsKartOffsetCallback(u16 kartIndex, Vec3 *offset) {
+    if (offset == 0) {
         return;
     }
     if (gStandings->mKartOffsetCallback != NULL) {
-        gStandings->mKartOffsetCallback(a, b);
+        gStandings->mKartOffsetCallback(kartIndex, offset);
     }
 }
 
@@ -135,7 +135,7 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
     KartStanding *firstStanding;
     KartStanding *secondStanding;
     BOOL firstHitsSecond;
-    s32 f4;
+    s32 result;
     BOOL firstGuarded;
     BOOL secondGuarded;
 
@@ -152,10 +152,10 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             firstHitsSecond = TRUE;
         }
     }
-    f4 = 0;
+    result = 0;
     if (firstStanding->mHitSeenFromKart[secondKartIndex] == 0) {
         if ((secondKart->mUnk_48 & 0x100000) != 0) {
-            f4 = 1;
+            result = 1;
         }
     }
     firstGuarded = TRUE;
@@ -170,51 +170,51 @@ s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex) {
             secondGuarded = FALSE;
         }
     }
-    if (f4 != 0) {
+    if (result != 0) {
         firstStanding->mHitSeenFromKart[secondKartIndex] = 1;
     }
     if (firstHitsSecond != FALSE) {
         secondStanding->mHitSeenFromKart[firstKartIndex] = 1;
     }
-    if (firstGuarded == FALSE && secondGuarded == FALSE && firstHitsSecond != FALSE && f4 != 0) {
+    if (firstGuarded == FALSE && secondGuarded == FALSE && firstHitsSecond != FALSE && result != 0) {
         if (gStandings->mKartsHitEachOtherCallback != NULL) {
             gStandings->mKartsHitEachOtherCallback(firstKartIndex, secondKartIndex);
             return 1;
         }
-    } else if (firstGuarded == FALSE && f4 != 0) {
-        f4 = 0;
+    } else if (firstGuarded == FALSE && result != 0) {
+        result = 0;
         if (GetKartItemEffect(secondKartIndex) == 1) {
             firstStanding->mSkipNotNormalEnd = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
-                f4 = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
+                result = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
                 if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                     StartKartBlink(firstKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
-            f4 = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
+            result = gStandings->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
             if ((firstKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                 StartKartBlink(firstKart);
             }
         }
-        return f4;
+        return result;
     } else if (secondGuarded == FALSE && firstHitsSecond != FALSE) {
-        f4 = 0;
+        result = 0;
         if (GetKartItemEffect(firstKartIndex) == 1) {
             secondStanding->mSkipNotNormalEnd = TRUE;
             if (gStandings->mKartHitByKartCallback != NULL) {
-                f4 = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
+                result = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
                 if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                     StartKartBlink(secondKart);
                 }
             }
         } else if (gStandings->mKartHitByKartCallback != NULL) {
-            f4 = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
+            result = gStandings->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
             if ((secondKart->mUnk_4c & KART_4C_BLINK_GUARD) == 0) {
                 StartKartBlink(secondKart);
             }
         }
-        return f4;
+        return result;
     }
     return 0;
 }
@@ -243,21 +243,21 @@ u32 StandingsReturnArgument(u32 value) {
 }
 
 void ClearStandingsHitSeenFromKart(s32 kartIndex) {
-    s32 i;
+    s32 otherKartIndex;
     s32 kartCount;
 
     kartCount = gRaceSetup->mKartCount;
-    for (i = 0; i < kartCount; i++) {
-        gStandings->mKarts[i].mHitSeenFromKart[kartIndex] = 0;
+    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
+        gStandings->mKarts[otherKartIndex].mHitSeenFromKart[kartIndex] = 0;
     }
 }
 
 static inline u16 FindStandingsKartIndexByRankIndex(Standings *standings, s32 rankIndex) {
-    s32 j;
+    s32 kartIndex;
 
-    for (j = 0; j < 8; j++) {
-        if ((u16) rankIndex == standings->mKarts[j].mRankIndex) {
-            return j;
+    for (kartIndex = 0; kartIndex < 8; kartIndex++) {
+        if ((u16) rankIndex == standings->mKarts[kartIndex].mRankIndex) {
+            return kartIndex;
         }
     }
     return 0;
@@ -265,7 +265,7 @@ static inline u16 FindStandingsKartIndexByRankIndex(Standings *standings, s32 ra
 
 u16 GetBattleItemRank(s32 kartIndex) {
     s32 rank;
-    s32 i;
+    s32 otherKartIndex;
     s32 highestCount;
 
     if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -274,9 +274,9 @@ u16 GetBattleItemRank(s32 kartIndex) {
             rank += 1;
         } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
             highestCount = 1;
-            for (i = 0; i < gRaceSetup->mKartCount; i++) {
-                if (gStandings->mKarts[i].mBalloonOrShineCount > highestCount) {
-                    highestCount = gStandings->mKarts[i].mBalloonOrShineCount;
+            for (otherKartIndex = 0; otherKartIndex < gRaceSetup->mKartCount; otherKartIndex++) {
+                if (gStandings->mKarts[otherKartIndex].mBalloonOrShineCount > highestCount) {
+                    highestCount = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
                 }
             }
             rank = (highestCount + 1 - gStandings->mKarts[kartIndex].mBalloonOrShineCount) / 2 + 1;
@@ -296,8 +296,8 @@ u16 GetBattleItemRank(s32 kartIndex) {
 }
 
 void MoveKartTowardFirstRank(u16 kartIndex) {
-    s32 i;
-    s32 j;
+    s32 rankIndex;
+    s32 otherKartIndex;
     s32 kartCount;
     s32 count;
     KartStanding *ownStanding;
@@ -305,8 +305,8 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
     u16 ownRankIndex;
     KartStanding *otherStanding;
 
-    for (i = gStandings->mKarts[kartIndex].mRankIndex - 1; i >= 0; i--) {
-        otherStanding = &gStandings->mKarts[FindStandingsKartIndexByRankIndex(gStandings, i)];
+    for (rankIndex = gStandings->mKarts[kartIndex].mRankIndex - 1; rankIndex >= 0; rankIndex--) {
+        otherStanding = &gStandings->mKarts[FindStandingsKartIndexByRankIndex(gStandings, rankIndex)];
         otherRankIndex = otherStanding->mRankIndex;
         ownRankIndex = gStandings->mKarts[kartIndex].mRankIndex;
         ownStanding = &gStandings->mKarts[kartIndex];
@@ -321,20 +321,20 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
     kartCount = gRaceSetup->mKartCount;
     gStandings->mLowestBalloonOrShineCount = 0xffff;
     gStandings->mHighestBalloonOrShineCount = 0;
-    for (j = 0; j < kartCount; j++) {
-        count = gStandings->mKarts[j].mBalloonOrShineCount;
+    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
+        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
         gStandings->mLowestBalloonOrShineCount = (count < gStandings->mLowestBalloonOrShineCount && count >= 0)
                                                      ? count
                                                      : gStandings->mLowestBalloonOrShineCount;
-        count = gStandings->mKarts[j].mBalloonOrShineCount;
+        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
         gStandings->mHighestBalloonOrShineCount =
             (count > gStandings->mHighestBalloonOrShineCount) ? count : gStandings->mHighestBalloonOrShineCount;
     }
 }
 
 void MoveKartTowardLastRank(u16 kartIndex) {
-    s32 i;
-    s32 j;
+    s32 rankIndex;
+    s32 otherKartIndex;
     s32 kartCount;
     s32 count;
     KartStanding *ownStanding;
@@ -342,8 +342,8 @@ void MoveKartTowardLastRank(u16 kartIndex) {
     u16 ownRankIndex;
     KartStanding *otherStanding;
 
-    for (i = gStandings->mKarts[kartIndex].mRankIndex + 1; i < 8; i++) {
-        otherStanding = &gStandings->mKarts[FindStandingsKartIndexByRankIndex(gStandings, i)];
+    for (rankIndex = gStandings->mKarts[kartIndex].mRankIndex + 1; rankIndex < 8; rankIndex++) {
+        otherStanding = &gStandings->mKarts[FindStandingsKartIndexByRankIndex(gStandings, rankIndex)];
         otherRankIndex = otherStanding->mRankIndex;
         ownRankIndex = gStandings->mKarts[kartIndex].mRankIndex;
         ownStanding = &gStandings->mKarts[kartIndex];
@@ -358,12 +358,12 @@ void MoveKartTowardLastRank(u16 kartIndex) {
     kartCount = gRaceSetup->mKartCount;
     gStandings->mLowestBalloonOrShineCount = 0xffff;
     gStandings->mHighestBalloonOrShineCount = 0;
-    for (j = 0; j < kartCount; j++) {
-        count = gStandings->mKarts[j].mBalloonOrShineCount;
+    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
+        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
         gStandings->mLowestBalloonOrShineCount = (count < gStandings->mLowestBalloonOrShineCount && count >= 0)
                                                      ? count
                                                      : gStandings->mLowestBalloonOrShineCount;
-        count = gStandings->mKarts[j].mBalloonOrShineCount;
+        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
         gStandings->mHighestBalloonOrShineCount =
             (count > gStandings->mHighestBalloonOrShineCount) ? count : gStandings->mHighestBalloonOrShineCount;
     }
@@ -399,10 +399,10 @@ void EliminateKart(u16 kartIndex) {
 void SetWinnerIfOneTeamLeft(void) {
     s32 kartCount;
     s32 teamId;
-    s32 i;
-    s32 j;
+    s32 kartIndex;
+    s32 standingIndex;
     s32 entryIndex;
-    s32 k;
+    s32 scanIndex;
     u16 firstRankKartIndex;
     Standings *standings;
     KartStanding *kartStanding;
@@ -410,9 +410,9 @@ void SetWinnerIfOneTeamLeft(void) {
 
     kartCount = gRaceSetup->mKartCount;
     standings = gStandings;
-    for (k = 0; k < 8; k++) {
-        if (standings->mKarts[k].mRankIndex == 0) {
-            firstRankKartIndex = k;
+    for (scanIndex = 0; scanIndex < 8; scanIndex++) {
+        if (standings->mKarts[scanIndex].mRankIndex == 0) {
+            firstRankKartIndex = scanIndex;
             goto found;
         }
     }
@@ -420,15 +420,15 @@ void SetWinnerIfOneTeamLeft(void) {
 found:
     teamId = standings->mKarts[firstRankKartIndex].mTeamId;
     kartStanding = standings->mKarts;
-    for (j = 0; j < 8; j++, kartStanding++) {
+    for (standingIndex = 0; standingIndex < 8; standingIndex++, kartStanding++) {
         if (kartStanding->mEliminationStatus == 0) {
             if (teamId != kartStanding->mTeamId) {
                 return;
             }
         }
     }
-    for (i = 0; i < kartCount; i++) {
-        kart = GetKart((u16) i);
+    for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+        kart = GetKart((u16) kartIndex);
         kart->mUnk_48 |= 0x2000;
         kart->mUnk_7c |= 8;
     }
@@ -464,11 +464,11 @@ void ClearStandingEliminationStatus(int kartIndex) {
 }
 
 static inline u16 FindKartIndexByRankIndex(s32 rankIndex) {
-    s32 j;
+    s32 kartIndex;
 
-    for (j = 0; j < 8; j++) {
-        if ((u16) rankIndex == gStandings->mKarts[j].mRankIndex) {
-            return j;
+    for (kartIndex = 0; kartIndex < 8; kartIndex++) {
+        if ((u16) rankIndex == gStandings->mKarts[kartIndex].mRankIndex) {
+            return kartIndex;
         }
     }
     return 0;
@@ -489,29 +489,29 @@ void EliminateKartAndCheckWinner(u16 kartIndex) {
 // returns the new limit in seconds; 0 when a winner is decided.
 u16 AdvanceShineBattleTimeLimit(void) {
     NNSSndSeqPlayer **seqPlayerHandle;
-    s32 v;
+    s32 timeLimitIndex;
     u16 kartIndex;
-    s32 i;
-    s32 m;
+    s32 rankIndex;
+    s32 targetCount;
     s32 kartCount;
     s32 lowestCount;
 
     if (gStandings->mWinnerTeamId >= 0) {
         return 0;
     }
-    v = gStandings->mTimeLimitIndex + 1;
-    if (v >= 3) {
-        v = 3;
+    timeLimitIndex = gStandings->mTimeLimitIndex + 1;
+    if (timeLimitIndex >= 3) {
+        timeLimitIndex = 3;
     }
-    gStandings->mTimeLimitIndex = v;
+    gStandings->mTimeLimitIndex = timeLimitIndex;
     gStandings->mTimeLimitSeconds = gShineBattleTimeLimits[gStandings->mTimeLimitIndex];
     lowestCount = gStandings->mLowestBalloonOrShineCount;
     if (lowestCount != gStandings->mHighestBalloonOrShineCount) {
         kartCount = gRaceSetup->mKartCount;
-        for (m = 0; m <= lowestCount; m++) {
-            for (i = kartCount - 1; i >= 0; i--) {
-                kartIndex = FindKartIndexByRankIndex(i);
-                if (m == gStandings->mKarts[kartIndex].mBalloonOrShineCount) {
+        for (targetCount = 0; targetCount <= lowestCount; targetCount++) {
+            for (rankIndex = kartCount - 1; rankIndex >= 0; rankIndex--) {
+                kartIndex = FindKartIndexByRankIndex(rankIndex);
+                if (targetCount == gStandings->mKarts[kartIndex].mBalloonOrShineCount) {
                     EliminateKart(kartIndex);
                 }
             }
@@ -538,7 +538,7 @@ u16 AdvanceShineBattleTimeLimit(void) {
 
 void EliminateKartsUntilWinnerDecided(void) {
     s32 kartCount;
-    s32 i;
+    s32 rankIndex;
     u16 kartIndex;
     s32 randomKartIndex;
     u16 randomLimit;
@@ -573,9 +573,9 @@ void EliminateKartsUntilWinnerDecided(void) {
                 }
             } while (gStandings->mWinnerTeamId < 0);
         } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
-            for (i = kartCount - 1; i >= 0; i--) {
+            for (rankIndex = kartCount - 1; rankIndex >= 0; rankIndex--) {
                 if (gStandings->mWinnerTeamId < 0) {
-                    kartIndex = FindKartIndexByRankIndex(i);
+                    kartIndex = FindKartIndexByRankIndex(rankIndex);
                     if (gStandings->mKarts[kartIndex].mEliminationStatus == 0) {
                         EliminateKartAndCheckWinner(kartIndex);
                         gStandings->mKarts[kartIndex].mEliminationStatus = 2;
@@ -584,8 +584,8 @@ void EliminateKartsUntilWinnerDecided(void) {
             }
         }
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        for (i = 7; i >= 0; i--) {
-            kartIndex = FindKartIndexByRankIndex(i);
+        for (rankIndex = 7; rankIndex >= 0; rankIndex--) {
+            kartIndex = FindKartIndexByRankIndex(rankIndex);
             if (kartIndex != gRaceSetup->mEntryIndex && gStandings->mWinnerTeamId < 0) {
                 EliminateKartAndCheckWinner(kartIndex);
             }
@@ -630,15 +630,15 @@ void AddShineCount(short amount) {
 }
 
 u16 GetTotalBalloonOrShineCount(void) {
-    s32 i;
+    s32 kartIndex;
     s32 total;
     s32 kartCount;
     s32 count;
 
     total = 0;
     kartCount = gRaceSetup->mKartCount;
-    for (i = 0; i < kartCount; i++) {
-        count = gStandings->mKarts[(u16) i].mBalloonOrShineCount;
+    for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+        count = GetStandingsKart(kartIndex)->mBalloonOrShineCount;
         if (count <= 0) {
             count = 0;
         }
@@ -742,18 +742,18 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void) {
 // Allocates the Standings object and fills every entry (rank = own index, side id, status, count; the real karts first,
 // then the unused slots) and sets the winner to -1. Called from InitRace in modes 2 and 4.
 void InitStandings(void) {
-    s32 i;
+    s32 kartIndex;
     KartStanding *kartStanding;
 
     gStandings = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x3c0);
-    for (i = 0; i < 8; i++) {
-        kartStanding = &gStandings->mKarts[i];
+    for (kartIndex = 0; kartIndex < 8; kartIndex++) {
+        kartStanding = &gStandings->mKarts[kartIndex];
         kartStanding->mObjectsSkipEndPending = KART_STANDING_HIT_END_NONE;
         kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
-        kartStanding->mHitByKartIndex = i;
-        kartStanding->mRankIndex = i;
-        if (i < gRaceSetup->mKartCount) {
-            switch (GetCurrentEntry(i)->mPlayer.mTeamIndex) {
+        kartStanding->mHitByKartIndex = kartIndex;
+        kartStanding->mRankIndex = kartIndex;
+        if (kartIndex < gRaceSetup->mKartCount) {
+            switch (GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex) {
                 case 0:
                     kartStanding->mTeamId = 1;
                     break;
@@ -761,7 +761,7 @@ void InitStandings(void) {
                     kartStanding->mTeamId = 3;
                     break;
                 default:
-                    kartStanding->mTeamId = i;
+                    kartStanding->mTeamId = kartIndex;
                     break;
             }
             kartStanding->mEliminationStatus = 0;
@@ -790,7 +790,7 @@ void UpdateStandings(void) {
     BOOL notNormalOrFlagged;
     s32 nextMicInflateTimer;
     u32 kartFlags;
-    s32 i;
+    s32 kartIndex;
     s32 kartCount;
     KartStanding *kartStanding = gStandings->mKarts;
 
@@ -805,39 +805,39 @@ void UpdateStandings(void) {
                 }
             }
         }
-        for (i = 0; i < kartCount; i++) {
-            if (gStandings->mKarts[i].mEliminationStatus == 1) {
-                if (i != gRaceSetup->mEntryIndex) {
-                    QueueKartOwnSoundIndex(GetKart((u16) i));
+        for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
+            if (gStandings->mKarts[kartIndex].mEliminationStatus == 1) {
+                if (kartIndex != gRaceSetup->mEntryIndex) {
+                    QueueKartOwnSoundIndex(GetKart((u16) kartIndex));
                 }
-                gStandings->mKarts[i].mEliminationStatus = 2;
+                gStandings->mKarts[kartIndex].mEliminationStatus = 2;
             }
         }
         return;
     }
-    for (i = kartCount - 1; i >= 0; i--) {
-        kartStanding = &gStandings->mKarts[i];
+    for (kartIndex = kartCount - 1; kartIndex >= 0; kartIndex--) {
+        kartStanding = &gStandings->mKarts[kartIndex];
         if (kartStanding->mEliminationStatus == 1) {
-            QueueKartOwnSoundIndex(GetKart((u16) i));
-            gStandings->mKarts[i].mEliminationStatus = 2;
+            QueueKartOwnSoundIndex(GetKart((u16) kartIndex));
+            gStandings->mKarts[kartIndex].mEliminationStatus = 2;
         } else if (gStandings->mWinnerTeamId < 0 && kartStanding->mBalloonOrShineCount > 0) {
-            kart = GetKart((u16) i);
-            kartStanding = &gStandings->mKarts[i];
+            kart = GetKart((u16) kartIndex);
+            kartStanding = &gStandings->mKarts[kartIndex];
             nextMicInflateTimer = kartStanding->mMicInflateTimer - 1;
             if (nextMicInflateTimer <= 0) {
                 nextMicInflateTimer = 0;
             }
             kartStanding->mMicInflateTimer = nextMicInflateTimer;
-            gStandings->mKarts[i].mSelectKeyInflate = -(gStandings->mKarts[i].mSelectKeyInflate <= 0);
+            gStandings->mKarts[kartIndex].mSelectKeyInflate = -(gStandings->mKarts[kartIndex].mSelectKeyInflate <= 0);
             if (IsKartNotNormalOrFlagged(kart) != FALSE ||
                 (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
-                gStandings->mKarts[i].mSelectKeyInflate = -1;
-                gStandings->mKarts[i].mMicInflateTimer = -1;
+                gStandings->mKarts[kartIndex].mSelectKeyInflate = -1;
+                gStandings->mKarts[kartIndex].mMicInflateTimer = -1;
             } else if (IsRaceStarted() == 1) {
                 if ((u16) (GetInputSlot(kart->mEntryIndex)->mBits & 4) != 0) {
-                    gStandings->mKarts[i].mSelectKeyInflate = 1;
+                    gStandings->mKarts[kartIndex].mSelectKeyInflate = 1;
                 } else if (gInputSlots[kart->mEntryIndex].mPair.mMicOverThreshold[0] != 0) {
-                    gStandings->mKarts[i].mMicInflateTimer = 10;
+                    gStandings->mKarts[kartIndex].mMicInflateTimer = 10;
                 }
             }
             if (gStandings->mKartHitCallback != NULL) {
@@ -852,7 +852,7 @@ void UpdateStandings(void) {
                     kartStanding->mObjectsSkipSeen = TRUE;
                     kartStanding->mNotNormalOrFlaggedSeen = FALSE;
                     kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
-                    kartStanding->mHitByKartIndex = i;
+                    kartStanding->mHitByKartIndex = kartIndex;
                     kartStanding->mSkipNotNormalEnd = FALSE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) ||
@@ -870,8 +870,8 @@ void UpdateStandings(void) {
                 }
                 if (kartStanding->mObjectsSkipEndPending == 0) {
                     kartStanding->mObjectsSkipEndPending = KART_STANDING_HIT_END_NONE;
-                    gStandings->mKartHitCallback(i, 8);
-                    kartStanding->mHitByKartIndex = i;
+                    gStandings->mKartHitCallback(kartIndex, 8);
+                    kartStanding->mHitByKartIndex = kartIndex;
                 } else if (kartStanding->mObjectsSkipEndPending >= 0) {
                     kartStanding->mObjectsSkipEndPending = kartStanding->mObjectsSkipEndPending + 1;
                 }
@@ -898,8 +898,8 @@ void UpdateStandings(void) {
                 }
                 if (kartStanding->mNotNormalEndPending == 0) {
                     kartStanding->mNotNormalEndPending = KART_STANDING_HIT_END_NONE;
-                    gStandings->mKartHitCallback(i, kartStanding->mHitByKartIndex);
-                    kartStanding->mHitByKartIndex = i;
+                    gStandings->mKartHitCallback(kartIndex, kartStanding->mHitByKartIndex);
+                    kartStanding->mHitByKartIndex = kartIndex;
                 } else if (kartStanding->mNotNormalEndPending >= 0) {
                     kartStanding->mNotNormalEndPending = kartStanding->mNotNormalEndPending + 1;
                 }
@@ -924,14 +924,16 @@ void InitDistanceSound(DistanceSound *mapObject) {
 }
 
 void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 objectIndex;
     DistanceSound *mapObject;
     RandomState64 *randomState;
 
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+    for (objectIndex = 0;
+         objectIndex < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
+         objectIndex++) {
         if (gRaceSetup->mCourseId == COURSE_ID_MANSION) {
             mapObject->mRadius = 0xa28;
             mapObject->mCenterX = mapObject->mMapObject.mPos.x + 0x73a000;
@@ -967,7 +969,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
     RandomState64 *randomState;
     SoundStartParams slot8Request;
     SoundStartParams slot9Request;
-    s32 v;
+    s32 value;
     s32 halfRadius;
     s32 radius;
     s32 deltaZ;
@@ -983,13 +985,13 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
         deltaZ = kart->mPos.z - mapObject->mCenterZ;
         distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
         if (distanceSquared < (s64) halfRadius * halfRadius) {
-            v = 2;
+            value = 2;
         } else if (distanceSquared < (s64) (radius << 12) * (radius << 12)) {
-            v = 1;
+            value = 1;
         } else {
-            v = 0;
+            value = 0;
         }
-        mapObject->mDistanceLevel = v;
+        mapObject->mDistanceLevel = value;
         if (mapObject->mDistanceLevelInverted != FALSE) {
             mapObject->mDistanceLevel = mapObject->mDistanceLevel == 0;
         }
@@ -1032,9 +1034,10 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
             mapObject->mSoundTimer = mapObject->mSoundTimer - 1;
         }
         if (*GetSndHandleSlot(8) != NULL) {
-            v = mapObject->mDistanceVolumeFixed12 < mapObject->mSoundVolumeFixed12 ? mapObject->mDistanceVolumeFixed12
-                                                                                   : mapObject->mSoundVolumeFixed12;
-            SetSndHandleTrackVolume(GetSndHandleSlot(8), v >> 12);
+            value = mapObject->mDistanceVolumeFixed12 < mapObject->mSoundVolumeFixed12
+                        ? mapObject->mDistanceVolumeFixed12
+                        : mapObject->mSoundVolumeFixed12;
+            SetSndHandleTrackVolume(GetSndHandleSlot(8), value >> 12);
         }
     }
     if (mapObject->mSecondSoundId == 0) {

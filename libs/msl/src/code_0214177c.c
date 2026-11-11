@@ -5,76 +5,76 @@
 
 // Compares the byte strings a and b, mapping each byte below 0x80 through gLowerCaseMap first: -1 or 1 at the first
 // difference, 0 when both end together.
-int StrcmpMapped(const char *a, const char *b) {
-    int x;
-    u8 c1;
-    u8 c2;
+int StrcmpMapped(const char *firstString, const char *secondString) {
+    int charCode;
+    u8 firstChar;
+    u8 secondChar;
 
     for (;;) {
-        x = *a++;
-        c1 = (x < 0 || x >= 0x80) ? x : gLowerCaseMap[x];
-        x = *b++;
-        c2 = (x < 0 || x >= 0x80) ? x : gLowerCaseMap[x];
-        if (c1 < c2) {
+        charCode = *firstString++;
+        firstChar = (charCode < 0 || charCode >= 0x80) ? charCode : gLowerCaseMap[charCode];
+        charCode = *secondString++;
+        secondChar = (charCode < 0 || charCode >= 0x80) ? charCode : gLowerCaseMap[charCode];
+        if (firstChar < secondChar) {
             return -1;
         }
-        if (c1 > c2) {
+        if (firstChar > secondChar) {
             return 1;
         }
-        if (c1 == 0) {
+        if (firstChar == 0) {
             return 0;
         }
     }
 }
 
-int CompareStringsMapped(const char *a, const char *b) {
-    return StrcmpMapped(a, b);
+int CompareStringsMapped(const char *firstString, const char *secondString) {
+    return StrcmpMapped(firstString, secondString);
 }
 
 // Number of 0 bits below the lowest 1 bit of a, its bytes read from the lowest address up; 32 when a is 0.
-int CountLowZeroBits(u32 a) {
-    u8 *p;
-    int n;
+int CountLowZeroBits(u32 value) {
+    u8 *bytePointer;
+    int count;
 
-    if (a != 0) {
-        p = (u8 *) &a;
-        n = 0;
-        while (*p == 0) {
-            p++;
-            n += 8;
+    if (value != 0) {
+        bytePointer = (u8 *) &value;
+        count = 0;
+        while (*bytePointer == 0) {
+            bytePointer++;
+            count += 8;
         }
-        *p = ~*p;
-        while (*p & 1) {
-            *p >>= 1;
-            n++;
+        *bytePointer = ~*bytePointer;
+        while (*bytePointer & 1) {
+            *bytePointer >>= 1;
+            count++;
         }
-        return n;
+        return count;
     }
     return 32;
 }
 
 // Compares the digits from index n on with 5 followed by 0s: 1 when above, -1 when below; when equal, 1 if the digit
 // before index n is odd, else -1.
-int DigitsRoundCompare(const DigitRecord *a, int n) {
-    const char *p;
+int DigitsRoundCompare(const DigitRecord *digitRecord, int digitIndex) {
+    const char *digitPointer;
     const char *end;
-    u8 c;
+    u8 digit;
 
-    p = a->mDigits + n;
-    c = a->mDigits[n];
-    if (c > 5) {
+    digitPointer = digitRecord->mDigits + digitIndex;
+    digit = digitRecord->mDigits[digitIndex];
+    if (digit > 5) {
         return 1;
     }
-    if (c < 5) {
+    if (digit < 5) {
         return -1;
     }
-    end = a->mDigits + a->mDigitCount;
-    for (p++; p < end; p++) {
-        if (*p != 0) {
+    end = digitRecord->mDigits + digitRecord->mDigitCount;
+    for (digitPointer++; digitPointer < end; digitPointer++) {
+        if (*digitPointer != 0) {
             return 1;
         }
     }
-    if (a->mDigits[n - 1] & 1) {
+    if (digitRecord->mDigits[digitIndex - 1] & 1) {
         return 1;
     }
     return -1;
@@ -82,61 +82,62 @@ int DigitsRoundCompare(const DigitRecord *a, int n) {
 
 // Adds 1 to the digit at index n - 1, carrying into the digits before it; a carry out of the first digit sets it to 1
 // and adds 1 to mUnk_02.
-void DigitsIncrement(DigitRecord *a, int n) {
+void DigitsIncrement(DigitRecord *digitRecord, int digitCount) {
     char *base;
-    char *p;
+    char *digitPointer;
 
-    base = a->mDigits;
-    p = base + n - 1;
+    base = digitRecord->mDigits;
+    digitPointer = base + digitCount - 1;
     for (;;) {
-        if (*p < 9) {
-            (*p)++;
+        if (*digitPointer < 9) {
+            (*digitPointer)++;
             return;
         }
-        if (p == base) {
-            *p = 1;
-            a->mExponent++;
+        if (digitPointer == base) {
+            *digitPointer = 1;
+            digitRecord->mExponent++;
             return;
         }
-        *p-- = 0;
+        *digitPointer-- = 0;
     }
 }
 
 // For 0 < n < mUnk_04: keeps the first n digits and adds 1 to the last one (DigitsIncrement) when DigitsRoundCompare is
 // not negative.
-void DigitsRoundTo(DigitRecord *a, int n) {
-    int r;
+void DigitsRoundTo(DigitRecord *digitRecord, int digitCount) {
+    int comparison;
 
-    if (n <= 0) {
+    if (digitCount <= 0) {
         return;
     }
-    if (n >= a->mDigitCount) {
+    if (digitCount >= digitRecord->mDigitCount) {
         return;
     }
-    r = DigitsRoundCompare(a, n);
-    a->mDigitCount = n;
-    if (r < 0) {
+    comparison = DigitsRoundCompare(digitRecord, digitCount);
+    digitRecord->mDigitCount = digitCount;
+    if (comparison < 0) {
         return;
     }
-    DigitsIncrement(a, n);
+    DigitsIncrement(digitRecord, digitCount);
 }
 
 // Writes the decimal digits of v, most significant first, with mUnk_02 = digit count - 1.
-void DigitsFromU64(DigitRecord *out, u64 v) {
-    char *p;
-    char *q;
-    u8 t;
+void DigitsFromU64(DigitRecord *out, u64 value) {
+    char *leftDigit;
+    char *rightDigit;
+    u8 swapDigit;
 
     out->mNegative = 0;
     out->mDigitCount = 0;
-    while (v != 0) {
-        out->mDigits[out->mDigitCount++] = v % 10;
-        v /= 10;
+    while (value != 0) {
+        out->mDigits[out->mDigitCount++] = value % 10;
+        value /= 10;
     }
-    for (p = out->mDigits, q = p + out->mDigitCount - 1; p < q; p++, q--) {
-        t = *p;
-        *p = *q;
-        *q = t;
+    for (leftDigit = out->mDigits, rightDigit = leftDigit + out->mDigitCount - 1; leftDigit < rightDigit;
+         leftDigit++, rightDigit--) {
+        swapDigit = *leftDigit;
+        *leftDigit = *rightDigit;
+        *rightDigit = swapDigit;
     }
     out->mExponent = out->mDigitCount - 1;
 }
@@ -144,65 +145,65 @@ void DigitsFromU64(DigitRecord *out, u64 v) {
 // Multiplies the digits of a and b (mUnk_02 = the sum of theirs), keeps the first 32 and adds 1 to the last kept one
 // (DigitsIncrement) when the digits after them are above 5 followed by 0s, or equal to it and the last kept digit is
 // odd.
-void DigitsMultiply(DigitRecord *out, const DigitRecord *a, const DigitRecord *b) {
+void DigitsMultiply(DigitRecord *out, const DigitRecord *firstRecord, const DigitRecord *secondRecord) {
     char buf[64];
-    int k;
+    int firstIndex;
     u32 carry;
-    int i;
-    char *p;
+    int columnIndex;
+    char *resultPointer;
     char *end;
-    int j;
-    int n;
+    int secondIndex;
+    int termCount;
     const char *pa;
     const char *pb;
 
     carry = 0;
-    i = a->mDigitCount + b->mDigitCount - 1;
-    p = buf + i + 1;
-    end = p;
+    columnIndex = firstRecord->mDigitCount + secondRecord->mDigitCount - 1;
+    resultPointer = buf + columnIndex + 1;
+    end = resultPointer;
     out->mNegative = 0;
-    while (i > 0) {
-        j = b->mDigitCount - 1;
-        k = i - j - 1;
-        if (k < 0) {
-            k = 0;
-            j = i - 1;
+    while (columnIndex > 0) {
+        secondIndex = secondRecord->mDigitCount - 1;
+        firstIndex = columnIndex - secondIndex - 1;
+        if (firstIndex < 0) {
+            firstIndex = 0;
+            secondIndex = columnIndex - 1;
         }
-        pa = a->mDigits + k;
-        pb = b->mDigits + j;
-        n = j + 1;
-        if (n > a->mDigitCount - k) {
-            n = a->mDigitCount - k;
+        pa = firstRecord->mDigits + firstIndex;
+        pb = secondRecord->mDigits + secondIndex;
+        termCount = secondIndex + 1;
+        if (termCount > firstRecord->mDigitCount - firstIndex) {
+            termCount = firstRecord->mDigitCount - firstIndex;
         }
-        for (; n > 0; n--, pa++, pb--) {
+        for (; termCount > 0; termCount--, pa++, pb--) {
             carry += *pa * *pb;
         }
-        *--p = carry % 10;
+        *--resultPointer = carry % 10;
         carry /= 10;
-        i--;
+        columnIndex--;
     }
-    out->mExponent = a->mExponent + b->mExponent;
+    out->mExponent = firstRecord->mExponent + secondRecord->mExponent;
     if (carry != 0) {
-        *--p = carry;
+        *--resultPointer = carry;
         out->mExponent++;
     }
-    for (i = 0; i < 32 && p < end; i++, p++) {
-        out->mDigits[i] = *p;
+    for (columnIndex = 0; columnIndex < 32 && resultPointer < end; columnIndex++, resultPointer++) {
+        out->mDigits[columnIndex] = *resultPointer;
     }
-    out->mDigitCount = i;
-    if (p >= end) {
+    out->mDigitCount = columnIndex;
+    if (resultPointer >= end) {
         return;
     }
-    if (*p < 5) {
+    if (*resultPointer < 5) {
         return;
     }
-    if (*p == 5) {
-        for (pa = p + 1; pa < end; pa++) {
+    if (*resultPointer == 5) {
+        for (pa = resultPointer + 1; pa < end; pa++) {
             if (*pa != 0) {
                 goto round;
             }
         }
-        if (!(p[-1] & 1)) {
+        if (!(resultPointer[-1] & 1)) {
             return;
         }
     }
@@ -212,29 +213,29 @@ round:
 
 // Reads up to 32 digit characters of s into out with mUnk_02 = n. Then adds 1 to the last digit (DigitsIncrement) when
 // the next byte is above 5, or is 5 with only '0' bytes after it and the last digit odd.
-void DigitsFromString(DigitRecord *out, const char *s, int n) {
-    int i;
-    const char *p;
+void DigitsFromString(DigitRecord *out, const char *text, int exponent) {
+    int digitIndex;
+    const char *scanPointer;
 
-    out->mExponent = n;
+    out->mExponent = exponent;
     out->mNegative = 0;
-    for (i = 0; i < 32 && *s != 0; i++) {
-        out->mDigits[i] = *s++ - '0';
+    for (digitIndex = 0; digitIndex < 32 && *text != 0; digitIndex++) {
+        out->mDigits[digitIndex] = *text++ - '0';
     }
-    out->mDigitCount = i;
-    if (*s == 0) {
+    out->mDigitCount = digitIndex;
+    if (*text == 0) {
         return;
     }
-    if (*s < 5) {
+    if (*text < 5) {
         return;
     }
-    if (*s <= 5) {
-        for (p = s + 1; *p != 0; p++) {
-            if (*p != '0') {
+    if (*text <= 5) {
+        for (scanPointer = text + 1; *scanPointer != 0; scanPointer++) {
+            if (*scanPointer != '0') {
                 goto round;
             }
         }
-        if (!(out->mDigits[i - 1] & 1)) {
+        if (!(out->mDigits[digitIndex - 1] & 1)) {
             return;
         }
     }
@@ -245,11 +246,11 @@ round:
 // For n of -64, -53, -32, -16 and -8 to 8, passes a digit string and a count to DigitsFromString. Otherwise calls
 // itself for n / 2 (the sign bit added by hand) and combines the result with itself through DigitsMultiply, then with a
 // one-digit string when n is odd.
-void DigitsPowerOfTwo(DigitRecord *out, int n) {
-    DigitRecord a;
-    DigitRecord b;
+void DigitsPowerOfTwo(DigitRecord *out, int power) {
+    DigitRecord halfPower;
+    DigitRecord savedResult;
 
-    switch (n) {
+    switch (power) {
         case -64:
             DigitsFromString(out, "542101086242752217003726400434970855712890625", -20);
             return;
@@ -314,15 +315,15 @@ void DigitsPowerOfTwo(DigitRecord *out, int n) {
             DigitsFromString(out, "256", 2);
             return;
     }
-    DigitsPowerOfTwo(&a, (n + (int) ((u32) (n & 0x80000000) >> 31)) >> 1);
-    DigitsMultiply(out, &a, &a);
-    if (n & 1) {
-        b = *out;
-        if (n > 0) {
-            DigitsFromString(&a, "2", 0);
+    DigitsPowerOfTwo(&halfPower, (power + (int) ((u32) (power & 0x80000000) >> 31)) >> 1);
+    DigitsMultiply(out, &halfPower, &halfPower);
+    if (power & 1) {
+        savedResult = *out;
+        if (power > 0) {
+            DigitsFromString(&halfPower, "2", 0);
         } else {
-            DigitsFromString(&a, "5", -1);
+            DigitsFromString(&halfPower, "5", -1);
         }
-        DigitsMultiply(out, &b, &a);
+        DigitsMultiply(out, &savedResult, &halfPower);
     }
 }

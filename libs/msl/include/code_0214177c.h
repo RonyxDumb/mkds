@@ -6,13 +6,13 @@
 // Byte table indexed by bytes below 0x80; read by StrcmpMapped.
 extern const u8 gLowerCaseMap[];
 
-void DigitsPowerOfTwo(DigitRecord *out, int n);
-void DigitsFromString(DigitRecord *out, const char *s, int n);
-void DigitsMultiply(DigitRecord *out, const DigitRecord *a, const DigitRecord *b);
-void DigitsFromU64(DigitRecord *out, u64 v);
-void DigitsRoundTo(DigitRecord *a, int n);
-void DigitsIncrement(DigitRecord *a, int n);
-int DigitsRoundCompare(const DigitRecord *a, int n);
-int CountLowZeroBits(u32 a);
-int CompareStringsMapped(const char *a, const char *b);
-int StrcmpMapped(const char *a, const char *b);
+void DigitsPowerOfTwo(DigitRecord *out, int power);
+void DigitsFromString(DigitRecord *out, const char *text, int exponent);
+void DigitsMultiply(DigitRecord *out, const DigitRecord *firstRecord, const DigitRecord *secondRecord);
+void DigitsFromU64(DigitRecord *out, u64 value);
+void DigitsRoundTo(DigitRecord *digitRecord, int digitCount);
+void DigitsIncrement(DigitRecord *digitRecord, int digitCount);
+int DigitsRoundCompare(const DigitRecord *digitRecord, int digitIndex);
+int CountLowZeroBits(u32 value);
+int CompareStringsMapped(const char *firstString, const char *secondString);
+int StrcmpMapped(const char *firstString, const char *secondString);

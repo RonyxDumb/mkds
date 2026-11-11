@@ -25,9 +25,9 @@ typedef struct LayoutEntryTable {
     /* 06 */ u16 mCount;
 } LayoutEntryTable;
 
-void *GetLabelLayoutEntry(LayoutEntryTable *a, s32 b);
-s32 RectTableFindContaining(LayoutEntryTable *a, s32 b, s32 c);
-RectTableEntry *RectTableGetEntry(LayoutEntryTable *a, s32 b);
-u16 RectTableGetCount(LayoutEntryTable *a);
-s32 GetLayoutAxisStartY(LayoutAxis a, s32 b);
-s32 GetLayoutAxisStartX(LayoutAxis a, s32 b);
+void *GetLabelLayoutEntry(LayoutEntryTable *table, s32 index);
+s32 RectTableFindContaining(LayoutEntryTable *table, s32 pointX, s32 pointY);
+RectTableEntry *RectTableGetEntry(LayoutEntryTable *table, s32 index);
+u16 RectTableGetCount(LayoutEntryTable *table);
+s32 GetLayoutAxisStartY(LayoutAxis axis, s32 size);
+s32 GetLayoutAxisStartX(LayoutAxis axis, s32 size);

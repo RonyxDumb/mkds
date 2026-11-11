@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void srand(u32 arg0);
+void srand(u32 seed);
 
 // 0x28 bytes. Filled by ScanParseSpec from the text at its first argument, starting from a local copy with every
 // byte zero and mMaxLength = 0x7fffffff; ScanWithSourceFunc reads mCharSet one bit per byte value.
@@ -16,13 +16,13 @@ typedef struct ScanSpec {
 } ScanSpec;
 
 u32 rand(void);
-int sscanf(const char *a, const char *b, ...);
-int vsscanf(const char *a, const char *b, char *c);
+int sscanf(const char *text, const char *format, ...);
+int vsscanf(const char *text, const char *format, char *args);
 
 #include "code_0213a460.h"
 
 typedef struct ScanStringSource ScanStringSource;
 
-int ScanStringSourceOp(void *a, int b, int c);
-int ScanWithSourceFunc(Unk02138618Func f, ScanStringSource *a, const char *s, char *b);
-const char *ScanParseSpec(const char *a, ScanSpec *b);
+int ScanStringSourceOp(void *context, int character, int operation);
+int ScanWithSourceFunc(Unk02138618Func f, ScanStringSource *source, const char *format, char *b);
+const char *ScanParseSpec(const char *format, ScanSpec *outSpec);

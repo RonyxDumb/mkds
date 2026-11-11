@@ -11,13 +11,13 @@ typedef struct PointLink PointLink;
 
 #include "Main/Unknown/code_0206bcb0.h"
 
-BOOL TryHoldKartStill(Kart *kart, u32 b, void *c);
+BOOL TryHoldKartStill(Kart *kart, u32 collisionBits, void *hitListPtr);
 void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion);
 void PlaceKartAtKeyedPlacement(Kart *kart, u32 key);
 void AdvanceKartToKeyedPlacement(Kart *kart);
 void StartFixedPositionEffects(Kart *kart);
-void ResetKartMotionState(Kart *kart, s32 b);
-void StartKartModelScaleAnimation(Kart *kart, s32 a);
+void ResetKartMotionState(Kart *kart, s32 flag);
+void StartKartModelScaleAnimation(Kart *kart, s32 mode);
 void AdvanceKartHeadingSwing(Kart *kart);
 void AdvanceKartOffsetCycle(Kart *kart);
 void AdvanceKartModelScaleAnimation(Kart *kart);
@@ -41,7 +41,7 @@ void InitKartPhysicalParams(Kart *kart);
 void ResetKartToStartPlacement(Kart *kart);
 void StopKartItemsAndEffects(Kart *kart);
 void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, PointLink *link);
-s32 AdvanceKartRespawnWait(Kart *kart, s32 *a);
+s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale);
 // Slot 6 of Kart.mSlotFunctions: puts the Kart back on the course at the respawn place of Kart.mRespawnSlot (chosen
 // first when -1; in battle the course hands out its next respawn slot), starts the respawn effect and counts the
 // respawn of the selected entry's Kart.

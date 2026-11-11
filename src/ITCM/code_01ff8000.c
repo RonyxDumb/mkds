@@ -12,20 +12,20 @@
 #include "cp_context.h"
 #include "registers.h"
 
-void NNS_G3dGeSetBuffer(GxCommandBuffer *a) {
+void NNS_G3dGeSetBuffer(GxCommandBuffer *commandBuffer) {
     if (NNS_G3dGeBuffer == 0) {
-        a->mWordCount = 0;
-        NNS_G3dGeBuffer = a;
+        commandBuffer->mWordCount = 0;
+        NNS_G3dGeBuffer = commandBuffer;
     }
 }
 
 GxCommandBuffer *NNS_G3dGeReleaseBuffer(void) {
-    GxCommandBuffer *p;
+    GxCommandBuffer *commandBuffer;
 
     NNS_G3dGeFlushBuffer();
-    p = NNS_G3dGeBuffer;
+    commandBuffer = NNS_G3dGeBuffer;
     NNS_G3dGeBuffer = 0;
-    return p;
+    return commandBuffer;
 }
 // clang-format on
 
@@ -48,8 +48,8 @@ void NNS_G3dGeWaitSendDL(void) {
     }
 }
 
-void simpleUnlock_(u32 *a) {
-    *a = 0;
+void simpleUnlock_(u32 *target) {
+    *target = 0;
 }
 
 void NNS_G3dGeSendDL(const void *commands, u32 commandLength) {
@@ -149,15 +149,15 @@ void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj) {
 }
 
 void SbcUpdateHintVec_(u32 *hintVector, NNSG3dAnmObj *animObj) {
-    s32 i;
+    s32 mapIndex;
 
     if (animObj == 0) {
         return;
     }
     do {
-        for (i = 0; i < animObj->mNumMapData; i++) {
-            if (animObj->mMapData[i] & 0x100) {
-                hintVector[i >> 5] |= 1 << (i & 0x1f);
+        for (mapIndex = 0; mapIndex < animObj->mNumMapData; mapIndex++) {
+            if (animObj->mMapData[mapIndex] & 0x100) {
+                hintVector[mapIndex >> 5] |= 1 << (mapIndex & 0x1f);
             }
         }
         animObj = animObj->mNext;
@@ -265,14 +265,14 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     u32 cachedBit;
     u32 *texMtxData;
     NNSG3dMatAnmResult *result;
-    NNSG3dMatAnmResult *v1;
+    NNSG3dMatAnmResult *matAnm;
     u8 *resMat;
-    u8 *t;
+    u8 *dictBase;
     s32 matFlags;
-    u32 x;
-    u32 y;
+    u32 mask;
+    u32 secondMask;
     u32 commandWords[8];
-    s32 c;
+    s32 entrySize;
 
     renderState->mCurrentMat = materialIndex;
     renderState->mFlag |= 8;
@@ -282,23 +282,23 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     } else {
         callbackTiming = 0;
     }
-    v1 = renderState->mRenderObj->mRecMatAnm;
-    if (v1 != 0 && !(renderState->mFlag & 0x80)) {
-        result = v1 + materialIndex;
+    matAnm = renderState->mRenderObj->mRecMatAnm;
+    if (matAnm != 0 && !(renderState->mFlag & 0x80)) {
+        result = matAnm + materialIndex;
         goto done;
     }
     if (option == 0x20 || option == 0x40) {
         cachedBit = 1 << (materialIndex & 0x1f);
         if (renderState->mIsMatCached[materialIndex >> 5] & cachedBit) {
-            if (v1 != 0) {
-                result = v1 + materialIndex;
+            if (matAnm != 0) {
+                result = matAnm + materialIndex;
             } else {
                 result = NNS_G3dRSOnGlb + materialIndex;
             }
             goto done;
         }
     }
-    if (v1 != 0) {
+    if (matAnm != 0) {
         renderState->mIsMatCached[materialIndex >> 5] |= 1 << (materialIndex & 0x1f);
         result = renderState->mRenderObj->mRecMatAnm + materialIndex;
     } else if (option == 0x40) {
@@ -309,18 +309,19 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     }
     result->mUnk_00 = 0;
     resMat = (u8 *) renderState->mResMat;
-    t = resMat + 4;
-    c = *(u16 *) (t + *(u16 *) (resMat + 0xa));
-    if (*(u16 *) (resMat + *(u32 *) (t + *(u16 *) (resMat + 0xa) + c * materialIndex + 4) + 0x1e) & 0x20) {
+    dictBase = resMat + 4;
+    entrySize = *(u16 *) (dictBase + *(u16 *) (resMat + 0xa));
+    if (*(u16 *) (resMat + *(u32 *) (dictBase + *(u16 *) (resMat + 0xa) + entrySize * materialIndex + 4) + 0x1e) &
+        0x20) {
         result->mUnk_00 |= 0x20;
     }
     matFlags = *OFFSET_PTR(u16, matData, 0x1e);
-    x = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
-    result->mUnk_04 = (NNS_G3dGlb.mPrmMatColor0 & ~x) | (*OFFSET_PTR(u32, matData, 4) & x);
-    y = ((u32 *) matColorMask_)[(*OFFSET_PTR(u16, matData, 0x1e) >> 9) & 7];
-    result->mUnk_08 = (NNS_G3dGlb.mPrmMatColor1 & ~y) | (*OFFSET_PTR(u32, matData, 8) & y);
-    x = *OFFSET_PTR(u32, matData, 0x10);
-    result->mUnk_0c = (NNS_G3dGlb.mPrmPolygonAttr & ~x) | (*OFFSET_PTR(u32, matData, 0xc) & x);
+    mask = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
+    result->mUnk_04 = (NNS_G3dGlb.mPrmMatColor0 & ~mask) | (*OFFSET_PTR(u32, matData, 4) & mask);
+    secondMask = ((u32 *) matColorMask_)[(*OFFSET_PTR(u16, matData, 0x1e) >> 9) & 7];
+    result->mUnk_08 = (NNS_G3dGlb.mPrmMatColor1 & ~secondMask) | (*OFFSET_PTR(u32, matData, 8) & secondMask);
+    mask = *OFFSET_PTR(u32, matData, 0x10);
+    result->mUnk_0c = (NNS_G3dGlb.mPrmPolygonAttr & ~mask) | (*OFFSET_PTR(u32, matData, 0xc) & mask);
     result->mUnk_10 = *OFFSET_PTR(u32, matData, 0x14);
     result->mUnk_14 = *OFFSET_PTR(u16, matData, 0x1c);
     matFlags = *OFFSET_PTR(u16, matData, 0x1e);
@@ -360,23 +361,23 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     }
 done:
     renderState->mMatAnmResult = result;
-    v1 = renderState->mMatAnmResult;
-    if (v1->mUnk_0c & 0x1f0000) {
-        if (v1->mUnk_00 & 0x20) {
-            v1->mUnk_0c &= ~0x1f0000;
+    matAnm = renderState->mMatAnmResult;
+    if (matAnm->mUnk_0c & 0x1f0000) {
+        if (matAnm->mUnk_00 & 0x20) {
+            matAnm->mUnk_0c &= ~0x1f0000;
         }
         renderState->mFlag &= ~2;
         if (!(renderState->mFlag & 0x100)) {
             commandWords[0] = 0x293130;
-            commandWords[1] = v1->mUnk_04;
-            commandWords[2] = v1->mUnk_08;
-            commandWords[3] = v1->mUnk_0c;
+            commandWords[1] = matAnm->mUnk_04;
+            commandWords[2] = matAnm->mUnk_08;
+            commandWords[3] = matAnm->mUnk_0c;
             commandWords[4] = 0x2b2a;
-            commandWords[5] = v1->mUnk_10;
-            commandWords[6] = v1->mUnk_14;
+            commandWords[5] = matAnm->mUnk_10;
+            commandWords[6] = matAnm->mUnk_14;
             NNS_G3dGeBufferOP_N(commandWords[0], &commandWords[1], 6);
-            if (v1->mUnk_00 & 0x18) {
-                renderState->mUnk_f0(v1);
+            if (matAnm->mUnk_00 & 0x18) {
+                renderState->mUnk_f0(matAnm);
             }
         }
     } else {
@@ -393,17 +394,17 @@ void NNSi_G3dFuncSbc_MAT(NNSG3dRS *renderState, u32 option) {
     u8 *resMat;
     u8 *matData;
     u32 materialIndex;
-    u8 *t;
-    s32 b;
+    u8 *dictBase;
+    s32 entrySize;
 
     stateFlags = renderState->mFlag;
     if (!(stateFlags & 0x200)) {
         materialIndex = renderState->mC[1];
         if ((stateFlags & 1) || !(stateFlags & 8) || materialIndex != renderState->mCurrentMat) {
             resMat = (u8 *) renderState->mResMat;
-            t = resMat + 4;
-            b = *(u16 *) (t + *(u16 *) (resMat + 0xa));
-            matData = resMat + *(u32 *) (t + *(u16 *) (resMat + 0xa) + b * materialIndex + 4);
+            dictBase = resMat + 4;
+            entrySize = *(u16 *) (dictBase + *(u16 *) (resMat + 0xa));
+            matData = resMat + *(u32 *) (dictBase + *(u16 *) (resMat + 0xa) + entrySize * materialIndex + 4);
             NNS_G3dFuncSbcMatTable[*(u16 *) matData](renderState, option, matData, materialIndex);
         }
     }
@@ -431,41 +432,41 @@ void NNSi_G3dFuncSbc_SHP(NNSG3dRS *renderState, u32 option) {
     u32 stateFlags;
     Unk02170500_d4 *resShp;
     u8 *shpData;
-    u8 *t;
+    u8 *dictBase;
     u32 shapeIndex;
 
     stateFlags = renderState->mFlag;
     if (!(stateFlags & 0x200) && (stateFlags & 1) && !(stateFlags & 2)) {
         resShp = renderState->mResShp;
         shapeIndex = renderState->mC[1];
-        t = (u8 *) resShp + resShp->mUnk_06;
-        shpData = (u8 *) resShp + *(u32 *) (t + *(u16 *) t * shapeIndex + 4);
+        dictBase = (u8 *) resShp + resShp->mUnk_06;
+        shpData = (u8 *) resShp + *(u32 *) (dictBase + *(u16 *) dictBase * shapeIndex + 4);
         NNS_G3dFuncSbcShpTable[*(u16 *) shpData](renderState, option, shpData, shapeIndex);
     }
     renderState->mC += 2;
 }
 
 void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
-    s32 b0;
-    s32 b1;
+    s32 firstValue;
+    s32 secondValue;
     enum { K0 } callbackTiming;
-    u32 t;
-    u32 q;
-    u32 t2;
+    u32 restoreIndexSkip;
+    u32 restoreIndex;
+    u32 storeIndex;
     u32 commandLength;
     NNSG3dJntAnmResult *jntAnmResult;
-    u16 *r;
-    s32 k;
+    u16 *dataPointer;
+    s32 pivotIndex;
     u32 nodeDescIndex;
     u32 stateFlags;
-    u32 c;
-    s32 v2;
-    s32 m;
-    u16 *p;
+    u32 flag;
+    s32 flags;
+    s32 pivotValue;
+    u16 *nodeHeader;
     u8 *resNodeInfo;
     u8 *nodeData;
     NNSG3dRenderObj *renderObj;
-    u32 b;
+    u32 entrySize;
 
     nodeDescIndex = renderState->mC[1];
     commandLength = 4;
@@ -479,8 +480,8 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
         if (option == 0x20 || option == 0x60) {
             commandLength += 1;
             if (!(stateFlags & 0x100)) {
-                t = renderState->mC[4];
-                NNS_G3dGeBufferOP_N(0x14, &t, 1);
+                restoreIndexSkip = renderState->mC[4];
+                NNS_G3dGeBufferOP_N(0x14, &restoreIndexSkip, 1);
             }
         }
         renderState->mC += commandLength;
@@ -489,12 +490,12 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
     if (option == 0x40 || option == 0x60) {
         commandLength += 1;
         if (option == 0x40) {
-            q = renderState->mC[4];
+            restoreIndex = renderState->mC[4];
         } else {
-            q = renderState->mC[5];
+            restoreIndex = renderState->mC[5];
         }
         if (!(renderState->mFlag & 0x100)) {
-            NNS_G3dGeBufferOP_N(0x14, &q, 1);
+            NNS_G3dGeBufferOP_N(0x14, &restoreIndex, 1);
         }
     }
     renderState->mJntAnmResult = &renderState->mUnk_12c;
@@ -505,12 +506,12 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
     }
     if (renderState->mRenderObj->mRecJntAnm != 0) {
         jntAnmResult = renderState->mRenderObj->mRecJntAnm + nodeDescIndex;
-        c = (renderState->mFlag & 0x80) == 0;
+        flag = (renderState->mFlag & 0x80) == 0;
     } else {
         jntAnmResult = &renderState->mUnk_12c;
-        c = 0;
+        flag = 0;
     }
-    if (c == 0) {
+    if (flag == 0) {
         jntAnmResult->mFlag = 0;
         renderObj = renderState->mRenderObj;
         if (renderObj->mAnmJnt != 0) {
@@ -519,70 +520,70 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
             }
         }
         resNodeInfo = renderState->mResNodeInfo;
-        b = *(u16 *) (resNodeInfo + *(u16 *) (resNodeInfo + 6));
-        nodeData = resNodeInfo + *(u32 *) (resNodeInfo + *(u16 *) (resNodeInfo + 6) + b * nodeDescIndex + 4);
-        p = (u16 *) nodeData;
-        r = OFFSET_PTR(u16, nodeData, 4);
-        if (!(*p & 1)) {
-            jntAnmResult->mTrans.x = ((s32 *) r)[0];
-            jntAnmResult->mTrans.y = ((s32 *) r)[1];
-            jntAnmResult->mTrans.z = ((s32 *) r)[2];
-            r += 6;
+        entrySize = *(u16 *) (resNodeInfo + *(u16 *) (resNodeInfo + 6));
+        nodeData = resNodeInfo + *(u32 *) (resNodeInfo + *(u16 *) (resNodeInfo + 6) + entrySize * nodeDescIndex + 4);
+        nodeHeader = (u16 *) nodeData;
+        dataPointer = OFFSET_PTR(u16, nodeData, 4);
+        if (!(*nodeHeader & 1)) {
+            jntAnmResult->mTrans.x = ((s32 *) dataPointer)[0];
+            jntAnmResult->mTrans.y = ((s32 *) dataPointer)[1];
+            jntAnmResult->mTrans.z = ((s32 *) dataPointer)[2];
+            dataPointer += 6;
         } else {
             jntAnmResult->mFlag |= 4;
         }
-        v2 = *p;
-        if (v2 & 2) {
+        flags = *nodeHeader;
+        if (flags & 2) {
             jntAnmResult->mFlag |= 2;
-        } else if (v2 & 8) {
-            k = (v2 & 0xf0) >> 4;
-            b1 = ((s16 *) r)[1];
-            b0 = ((s16 *) r)[0];
+        } else if (flags & 8) {
+            pivotIndex = (flags & 0xf0) >> 4;
+            secondValue = ((s16 *) dataPointer)[1];
+            firstValue = ((s16 *) dataPointer)[0];
             MI_Zero36B(&jntAnmResult->mRot);
-            r += 2;
-            m = (*p & 0x100) ? -0x1000 : 0x1000;
-            jntAnmResult->mRot.a[k] = m;
-            jntAnmResult->mRot.a[pivotUtil_[k][0]] = b0;
-            jntAnmResult->mRot.a[pivotUtilSecondColumn_[k][0]] = b1;
-            if (*p & 0x200) {
-                b1 = -b1;
+            dataPointer += 2;
+            pivotValue = (*nodeHeader & 0x100) ? -0x1000 : 0x1000;
+            jntAnmResult->mRot.a[pivotIndex] = pivotValue;
+            jntAnmResult->mRot.a[pivotUtil_[pivotIndex][0]] = firstValue;
+            jntAnmResult->mRot.a[pivotUtilSecondColumn_[pivotIndex][0]] = secondValue;
+            if (*nodeHeader & 0x200) {
+                secondValue = -secondValue;
             }
-            jntAnmResult->mRot.a[pivotUtilThirdColumn_[k][0]] = b1;
-            if (*p & 0x400) {
-                b0 = -b0;
+            jntAnmResult->mRot.a[pivotUtilThirdColumn_[pivotIndex][0]] = secondValue;
+            if (*nodeHeader & 0x400) {
+                firstValue = -firstValue;
             }
-            jntAnmResult->mRot.a[pivotUtilFourthColumn_[k][0]] = b0;
+            jntAnmResult->mRot.a[pivotUtilFourthColumn_[pivotIndex][0]] = firstValue;
         } else {
-            jntAnmResult->mRot.a[0] = ((s16 *) p)[1];
-            jntAnmResult->mRot.a[1] = ((s16 *) r)[0];
-            jntAnmResult->mRot.a[2] = ((s16 *) r)[1];
-            jntAnmResult->mRot.a[3] = ((s16 *) r)[2];
-            jntAnmResult->mRot.a[4] = ((s16 *) r)[3];
-            jntAnmResult->mRot.a[5] = ((s16 *) r)[4];
-            jntAnmResult->mRot.a[6] = ((s16 *) r)[5];
-            jntAnmResult->mRot.a[7] = ((s16 *) r)[6];
-            jntAnmResult->mRot.a[8] = ((s16 *) r)[7];
-            r += 8;
+            jntAnmResult->mRot.a[0] = ((s16 *) nodeHeader)[1];
+            jntAnmResult->mRot.a[1] = ((s16 *) dataPointer)[0];
+            jntAnmResult->mRot.a[2] = ((s16 *) dataPointer)[1];
+            jntAnmResult->mRot.a[3] = ((s16 *) dataPointer)[2];
+            jntAnmResult->mRot.a[4] = ((s16 *) dataPointer)[3];
+            jntAnmResult->mRot.a[5] = ((s16 *) dataPointer)[4];
+            jntAnmResult->mRot.a[6] = ((s16 *) dataPointer)[5];
+            jntAnmResult->mRot.a[7] = ((s16 *) dataPointer)[6];
+            jntAnmResult->mRot.a[8] = ((s16 *) dataPointer)[7];
+            dataPointer += 8;
         }
-        renderState->mUnk_e8(jntAnmResult, r, renderState->mC, *p);
+        renderState->mUnk_e8(jntAnmResult, dataPointer, renderState->mC, *nodeHeader);
     }
 done:
     renderState->mJntAnmResult = jntAnmResult;
     if (!(renderState->mFlag & 0x100)) {
         renderState->mUnk_ec(renderState->mJntAnmResult);
     }
-    c = 0;
+    flag = 0;
     renderState->mJntAnmResult = 0;
     if (callbackTiming == 3) {
         renderState->mFlag &= ~0x40;
         renderState->mCbVecFunc[6](renderState);
-        c = renderState->mFlag & 0x40;
+        flag = renderState->mFlag & 0x40;
     }
     if (option == 0x20 || option == 0x60) {
         commandLength += 1;
-        if (c == 0 && !(renderState->mFlag & 0x100)) {
-            t2 = renderState->mC[4];
-            NNS_G3dGeBufferOP_N(0x13, &t2, 1);
+        if (flag == 0 && !(renderState->mFlag & 0x100)) {
+            storeIndex = renderState->mC[4];
+            NNS_G3dGeBufferOP_N(0x13, &storeIndex, 1);
         }
     }
     renderState->mC += commandLength;

@@ -6,8 +6,8 @@
 
 void SetStandingsKartOffsetCallback(void (*callback)(u16, Vec3 *));
 void SetStandingsEndCallback(void (*callback)(void));
-void SetStandingsKartEliminatedCallback(void (*callback)(u16 a));
-void SetStandingsKartHitCallback(s32 (*callback)(u16 a, u16 b));
+void SetStandingsKartEliminatedCallback(void (*callback)(u16 kartIndex));
+void SetStandingsKartHitCallback(s32 (*callback)(u16 kartIndex, u16 hitByKartIndex));
 void SetStandingsKartsHitEachOtherCallback(void (*callback)(s32, s32));
 void SetStandingsKartHitByKartCallback(s32 (*callback)(s32, s32));
 // Returns Standings.mKartBalloons, the pointer stored by SetStandingsKartBalloons.

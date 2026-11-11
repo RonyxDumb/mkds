@@ -24,68 +24,67 @@
 #include "code_02147cd8.h"
 
 void InitBasabasa(MapObject *mapObject) {
-    MapObject *value0 = mapObject;
-    MapObject *value4;
-    value4 = value0;
-    ParkMapObject(value0);
-    value0 = value4;
-    CreateMapObjectSoundSourceFalloff2(value0);
+    MapObject *mapObjectArg = mapObject;
+    MapObject *mapObjectCopy;
+    mapObjectCopy = mapObjectArg;
+    ParkMapObject(mapObjectArg);
+    mapObjectArg = mapObjectCopy;
+    CreateMapObjectSoundSourceFalloff2(mapObjectArg);
 }
 
-u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
-    Vec3 u;
+u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 *inOutResult) {
+    Vec3 sideDirection;
     Vec3 offsetToKart;
-    s32 k;
-    s32 x;
-    s32 z;
-    u8 r;
+    s32 forwardDot;
+    s32 sideX;
+    s32 sideZ;
+    u8 result;
     u8 kartBit;
     s64 lengthSquared;
 
     kartBit = 1 << kart->mIndex;
-    r = *d;
+    result = *inOutResult;
     if ((basabasa->mHitKartMask & kartBit) == 0) {
         VEC_Subtract(&kart->mPos, &basabasa->mMapObject.mPos, &offsetToKart);
-        k = ((s64) basabasa->mMapObject.mMatrix.mRows[2].x * offsetToKart.x +
-             (s64) basabasa->mMapObject.mMatrix.mRows[2].z * offsetToKart.z) >>
-            12;
-        x = offsetToKart.x - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, k);
-        z = offsetToKart.z - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, k);
-        lengthSquared = (s64) x * x + (s64) u.y * u.y + (s64) z * z;
-        u.x = x;
-        u.z = z;
+        forwardDot = DOT2_FIXED12(basabasa->mMapObject.mMatrix.mRows[2].x, offsetToKart.x,
+                                  basabasa->mMapObject.mMatrix.mRows[2].z, offsetToKart.z);
+        sideX = offsetToKart.x - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, forwardDot);
+        sideZ = offsetToKart.z - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, forwardDot);
+        lengthSquared = (s64) sideX * sideX + (s64) sideDirection.y * sideDirection.y + (s64) sideZ * sideZ;
+        sideDirection.x = sideX;
+        sideDirection.z = sideZ;
         if (lengthSquared < 0x10) {
             basabasa->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0x1333);
             basabasa->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].y, 0x1333);
             basabasa->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x1333);
         } else {
-            Vec3NormalizeAndGetLengthUnchecked(&u, &u);
-            basabasa->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(u.x, 0x1333);
-            basabasa->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(u.y, 0x1333);
-            basabasa->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(u.z, 0x1333);
+            Vec3NormalizeAndGetLengthUnchecked(&sideDirection, &sideDirection);
+            basabasa->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(sideDirection.x, 0x1333);
+            basabasa->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(sideDirection.y, 0x1333);
+            basabasa->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(sideDirection.z, 0x1333);
         }
         basabasa->mHitKartMask |= kartBit;
     }
-    return r;
+    return result;
 }
 
-void CreateBasabasa(void *a) {
-    gBasabasa = CreateMapObjectModelNsbmdNsbtp(a, gBasabasaNsbmdName, gBasabasaNsbtpName);
+void CreateBasabasa(void *mapObjectList) {
+    gBasabasa = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gBasabasaNsbmdName, gBasabasaNsbtpName);
     SetMapObjectModelPolygonId(gBasabasa, 0x3f);
 }
 
-void SetupDrawBasabasa(void *a) {
-    QueueMapObjectModelMaterial(a, gBasabasa);
+void SetupDrawBasabasa(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gBasabasa);
 }
 
-void DrawBasabasa(void *a, Basabasa *basabasa) {
-    s32 s;
+void DrawBasabasa(void *mapObjectList, Basabasa *basabasa) {
+    s32 gxParam;
     MtxFx33 rotationMatrix;
     s32 drawAngle;
 
     drawAngle = 0x1fe0 - basabasa->mUnk_c4;
-    s = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &s, 1);
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&basabasa->mMapObject.mPos), 0xc);
     if (basabasa->mRotateZNegated != 0) {
         MTX_RotZ33_(&rotationMatrix, FX_SinIdx((u16) -drawAngle), FX_CosIdx((u16) -drawAngle));
@@ -95,10 +94,10 @@ void DrawBasabasa(void *a, Basabasa *basabasa) {
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1b, &basabasa->mMapObject.mScale, 3);
     SetMapObjectModelNsbtpFrameIndex(gBasabasa, basabasa->mNsbtpFrameIndex);
-    DrawMapObjectModel(a, gBasabasa, basabasa);
+    DrawMapObjectModel(mapObjectList, gBasabasa, basabasa);
 }
 
-void UpdateBasabasa(void *a, Basabasa *basabasa) {
+void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
     s32 nextFrameIndex;
 
     basabasa->mUnk_c4 += basabasa->mUnk_c8;
@@ -207,11 +206,11 @@ void CreateBasabasaUpdateList(void) {
 }
 
 void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
-                   s32 soundRequested, u16 f) {
+                   s32 soundRequested, u16 subScreenCellKind) {
     Basabasa *basabasa;
     RandomState64 *mapObjectRandom;
-    u32 n;
-    u16 w;
+    u32 timerRange;
+    u16 randomOffset;
 
     basabasa = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BASABASA));
     if (basabasa == NULL) {
@@ -221,16 +220,16 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     basabasa->mMapObject.mFlags |= data_usa_02156464;
     basabasa->mMapObject.mFlags |= data_usa_02156468;
     basabasa->mSoundRequested = soundRequested;
-    basabasa->mRaceHudSubScreenCellKind = f;
+    basabasa->mRaceHudSubScreenCellKind = subScreenCellKind;
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);
-    n = (state0TimerBase << 12) >> 16;
-    w = BasabasaMapObjectRandomBelowU16(n);
-    basabasa->mState0Timer = state0TimerBase + w;
-    n = (state2TimerBase << 12) >> 16;
-    w = BasabasaMapObjectRandomBelowU16(n);
-    basabasa->mState2Timer = state2TimerBase + w;
+    timerRange = (state0TimerBase << 12) >> 16;
+    randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);
+    basabasa->mState0Timer = state0TimerBase + randomOffset;
+    timerRange = (state2TimerBase << 12) >> 16;
+    randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);
+    basabasa->mState2Timer = state2TimerBase + randomOffset;
     basabasa->mMapObject.mPos = *startPos;
     basabasa->mVelocity = *velocity;
     basabasa->mState = 0;

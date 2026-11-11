@@ -1,79 +1,79 @@
 #include "Main/Unknown/code_0201ea58.h"
 
-s32 GetLayoutAxisStartX(LayoutAxis a, s32 b) {
-    s32 v;
+s32 GetLayoutAxisStartX(LayoutAxis axis, s32 size) {
+    s32 start;
 
-    v = a.mUnk_00_0;
-    switch (a.mUnk_00_12) {
+    start = axis.mUnk_00_0;
+    switch (axis.mUnk_00_12) {
         case 1:
-            v -= (b + 1) / 2;
+            start -= (size + 1) / 2;
             break;
         case 2:
-            v -= b;
+            start -= size;
             break;
     }
-    return v;
+    return start;
 }
 
-s32 GetLayoutAxisStartY(LayoutAxis a, s32 b) {
-    s32 v;
+s32 GetLayoutAxisStartY(LayoutAxis axis, s32 size) {
+    s32 start;
 
-    v = a.mUnk_00_0;
-    switch (a.mUnk_00_12) {
+    start = axis.mUnk_00_0;
+    switch (axis.mUnk_00_12) {
         case 1:
-            v -= (b + 1) / 2;
+            start -= (size + 1) / 2;
             break;
         case 2:
-            v -= b;
+            start -= size;
             break;
     }
-    return v;
+    return start;
 }
 
-u16 RectTableGetCount(LayoutEntryTable *a) {
-    return a->mCount;
+u16 RectTableGetCount(LayoutEntryTable *table) {
+    return table->mCount;
 }
 
-RectTableEntry *RectTableGetEntry(LayoutEntryTable *a, s32 b) {
-    RectTableEntry *p;
+RectTableEntry *RectTableGetEntry(LayoutEntryTable *table, s32 index) {
+    RectTableEntry *entries;
 
-    p = (RectTableEntry *) (a + 1);
-    if (b < 0 || b >= RectTableGetCount(a)) {
+    entries = (RectTableEntry *) (table + 1);
+    if (index < 0 || index >= RectTableGetCount(table)) {
         return 0;
     }
-    return p + b;
+    return entries + index;
 }
 
-s32 RectTableFindContaining(LayoutEntryTable *a, s32 b, s32 c) {
-    s32 i;
-    RectTableEntry *p;
-    s32 x;
-    s32 y;
-    s32 x2;
-    s32 y2;
+s32 RectTableFindContaining(LayoutEntryTable *table, s32 pointX, s32 pointY) {
+    s32 entryIndex;
+    RectTableEntry *entry;
+    s32 left;
+    s32 top;
+    s32 right;
+    s32 bottom;
 
-    p = (RectTableEntry *) (a + 1);
-    for (i = 0; i < RectTableGetCount(a); i++) {
-        x = GetLayoutAxisStartX(p->mAxisX, p->mWidth);
-        y = GetLayoutAxisStartY(p->mAxisY, p->mHeight);
-        x2 = x + p->mWidth;
-        y2 = y + p->mHeight;
-        if (x <= b && b <= x2 && y <= c && c <= y2) {
-            return i;
+    entry = (RectTableEntry *) (table + 1);
+    for (entryIndex = 0; entryIndex < RectTableGetCount(table); entryIndex++) {
+        left = GetLayoutAxisStartX(entry->mAxisX, entry->mWidth);
+        top = GetLayoutAxisStartY(entry->mAxisY, entry->mHeight);
+        right = left + entry->mWidth;
+        bottom = top + entry->mHeight;
+        if (left <= pointX && pointX <= right && top <= pointY && pointY <= bottom) {
+            return entryIndex;
         }
-        p++;
+        entry++;
     }
     return -1;
 }
 
-void *GetLabelLayoutEntry(LayoutEntryTable *a, s32 b) {
-    u8 *p;
-    s32 n;
+void *GetLabelLayoutEntry(LayoutEntryTable *table, s32 index) {
+    u8 *entries;
+    s32 count;
 
-    p = (u8 *) (a + 1);
-    n = a->mCount;
-    if (b < 0 || b >= n) {
+    entries = (u8 *) (table + 1);
+    count = table->mCount;
+    if (index < 0 || index >= count) {
         return 0;
     }
-    return p + b * 12;
+    return entries + index * 12;
 }
