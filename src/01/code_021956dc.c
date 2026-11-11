@@ -151,7 +151,7 @@ void SetupRecordTAttRowValues(u16 row) {
             0x1e, gRecordTAttCharacterPaletteSlots[row] << 5,
             palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
         result = GetTimeRecordKartIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex);
-        slot = data_ov001_021a6852[row][0];
+        slot = gRecordTAttKartIconCellIndices[row][0];
         gRecordTAtt->mRecordTAttSTable[slot].mVisible = 1;
         QueueKartIcon(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, slot,
                       data_ov001_021a6846[row], 1);
@@ -185,7 +185,7 @@ void SetupRecordTAttRowDashes(u16 row) {
         gRecordTAtt->mRecordTAttMTable[layoutCount + gRecordTAttNameLabelIndices[0]].mVisible = 0;
     } else {
         gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[row][0]].mVisible = 0;
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a6852[row][0]].mVisible = 0;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttKartIconCellIndices[row][0]].mVisible = 0;
         layoutCount = gRecordTAtt->mRecordTAttSBncl->mCount;
         gRecordTAtt->mRecordTAttSTable[layoutCount + gRecordTAttTimeLabelIndices[row]].mVisible = 1;
         PrintLabelLayoutTextFixedDigits(1, gRecordTAttTimeLabelIndices[row], gRecordTAtt->mRecordTAttSBnll,

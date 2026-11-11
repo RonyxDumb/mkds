@@ -29,11 +29,11 @@ extern const u8 gSelectBattleStageSTableIndices[6][3];
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_02175628.h"
 
-extern const u8 data_ov001_021a6bc4[];
-extern const u8 data_ov001_021a6bc8[];
+extern const u8 gSelectBattleStageNegatedYCells[];
+extern const u8 gSelectBattleStageSecondXCells[];
 extern const u8 gSelectBattleStageMNscrCopyDestination[];
-extern const u8 data_ov001_021a6bd0[];
-extern const u8 data_ov001_021a6bd4[];
+extern const u8 gSelectBattleStageOffsetYCells[];
+extern const u8 gSelectBattleStageXCells[];
 extern const s8 gSelectBattleStageOffsets[];
 extern const u8 gSelectBattleStageMNscrIndices[];
 extern const u8 gSelectBattleStageBnblRectIndices[6];

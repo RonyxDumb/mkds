@@ -40,7 +40,7 @@ void InitDwcArchive(void) {
     FS_ReadFile(&file, fatRegion, 8);
     FS_CloseFile(&file);
     FS_InitArchive(&gDwcArchive->mArchive);
-    if (FS_RegisterArchiveName(&gDwcArchive->mArchive, data_ov003_021d67d8, 3) == 0) {
+    if (FS_RegisterArchiveName(&gDwcArchive->mArchive, gDwcArchiveName, 3) == 0) {
         OS_Terminate();
     }
     FS_SetArchiveProc(&gDwcArchive->mArchive, DwcArchiveProc, 0x602);
@@ -53,7 +53,7 @@ void InitDwcArchive(void) {
     gDwcArchive->mTables = AllocExpHeapBlock(tablesSize, 4);
     FS_LoadArchiveTables(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
     gDwcArchive->mUnk_84 = CreateFilledPointerStack(0x20, gDwcArchive->mUnk_04, 4);
-    OS_SPrintf(dirPath, data_ov003_021d7bf8, data_ov003_021d67d8);
+    OS_SPrintf(dirPath, data_ov003_021d7bf8, gDwcArchiveName);
     FS_ChangeDir((u8 *) dirPath);
 }
 

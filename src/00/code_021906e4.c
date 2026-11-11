@@ -38,7 +38,7 @@ u32 GpiAppendBufferByte(void *a, GpiBuffer *outputBuffer, s32 c) {
     s32 f;
 
     if (outputBuffer == NULL) {
-        AssertionFailed(data_ov000_021b2890, data_ov000_021b28a8, NULL, 0x25);
+        AssertionFailed(gOutputBufferAssertText, data_ov000_021b28a8, NULL, 0x25);
     }
     e = outputBuffer->mLength;
     f = outputBuffer->mCapacity;
@@ -71,7 +71,7 @@ u32 GpiAppendBufferBytes(void *a, GpiBuffer *outputBuffer, const void *string, s
         AssertionFailed(data_ov000_021b2a28, data_ov000_021b28a8, NULL, 0x52);
     }
     if (outputBuffer == NULL) {
-        AssertionFailed(data_ov000_021b2890, data_ov000_021b28a8, NULL, 0x53);
+        AssertionFailed(gOutputBufferAssertText, data_ov000_021b28a8, NULL, 0x53);
     }
     if (string == NULL) {
         return 0;
@@ -271,7 +271,7 @@ u32 GpiSendBuffer(GpConnection *a, s32 sock, GpiBuffer *outputBuffer, u32 *d, s3
     u32 r;
 
     if (outputBuffer == NULL) {
-        AssertionFailed(data_ov000_021b2890, data_ov000_021b28a8, NULL, 0x1b9);
+        AssertionFailed(gOutputBufferAssertText, data_ov000_021b28a8, NULL, 0x1b9);
     }
     i = outputBuffer->mBuffer;
     len = outputBuffer->mLength;

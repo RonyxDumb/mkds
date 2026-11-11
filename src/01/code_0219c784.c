@@ -19,11 +19,11 @@
 #include "code_0214a390.h"
 #include "registers.h"
 
-const u8 data_ov001_021a6bc4[] = {0};
-const u8 data_ov001_021a6bc8[] = {0, 1};
+const u8 gSelectBattleStageNegatedYCells[] = {0};
+const u8 gSelectBattleStageSecondXCells[] = {0, 1};
 const u8 gSelectBattleStageMNscrCopyDestination[] = {9, 7};
-const u8 data_ov001_021a6bd0[] = {1, 2, 3};
-const u8 data_ov001_021a6bd4[] = {4, 5, 6};
+const u8 gSelectBattleStageOffsetYCells[] = {1, 2, 3};
+const u8 gSelectBattleStageXCells[] = {4, 5, 6};
 const u8 gSelectBattleStageBnblRectIndices[6] = {0, 1, 2, 3, 4, 5};
 const s8 gSelectBattleStageOffsets[] = {0, -2, -3, -4, -3, -2};
 const u8 gSelectBattleStageMNscrIndices[] = {0, 0, 1, 1, 2, 2};
@@ -173,17 +173,19 @@ void UpdateSelectBattleStageCellOffsets(void) {
     u16 layoutCount = gSelectBattleStage->mSelectBattleStageBncls[0]->mCount;
 
     for (i = 0; i < 1; i++) {
-        gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bc4[i]].mOffsetY = -gSelectBattleStage->mUnk_14;
+        gSelectBattleStage->mSelectBattleStageTables[0][gSelectBattleStageNegatedYCells[i]].mOffsetY =
+            -gSelectBattleStage->mUnk_14;
     }
     for (i = 0; i < 3; i++) {
-        gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bd0[i]].mOffsetY =
+        gSelectBattleStage->mSelectBattleStageTables[0][gSelectBattleStageOffsetYCells[i]].mOffsetY =
             gSelectBattleStage->mOffset - gSelectBattleStage->mUnk_14;
     }
     for (i = 0; i < 3; i++) {
-        gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bd4[i]].mOffsetX = gSelectBattleStage->mUnk_18;
+        gSelectBattleStage->mSelectBattleStageTables[0][gSelectBattleStageXCells[i]].mOffsetX =
+            gSelectBattleStage->mUnk_18;
     }
     for (i = 0; i < 2; i++) {
-        (gSelectBattleStage->mSelectBattleStageTables[0] + layoutCount)[data_ov001_021a6bc8[i]].mOffsetX =
+        (gSelectBattleStage->mSelectBattleStageTables[0] + layoutCount)[gSelectBattleStageSecondXCells[i]].mOffsetX =
             gSelectBattleStage->mUnk_18;
     }
 }

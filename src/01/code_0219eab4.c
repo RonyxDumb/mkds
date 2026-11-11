@@ -448,8 +448,8 @@ next:
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
-        if (data_ov001_021a6ca0[gMissionRunLVsel->mIndex] != 0) {
-            targetIndex = gMissionRunLVsel->mIndex + data_ov001_021a6ca0[gMissionRunLVsel->mIndex];
+        if (gMissionRunLVselUpIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
+            targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselUpIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mUnk_28[gMissionRunLVsel->mIndex] = 5;
@@ -457,8 +457,8 @@ next:
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
-        if (data_ov001_021a6cb0[gMissionRunLVsel->mIndex] != 0) {
-            targetIndex = gMissionRunLVsel->mIndex + data_ov001_021a6cb0[gMissionRunLVsel->mIndex];
+        if (gMissionRunLVselDownIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
+            targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselDownIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mUnk_28[gMissionRunLVsel->mIndex] = 5;
@@ -466,8 +466,8 @@ next:
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
-        if (data_ov001_021a6cc0[gMissionRunLVsel->mIndex] != 0) {
-            targetIndex = gMissionRunLVsel->mIndex + data_ov001_021a6cc0[gMissionRunLVsel->mIndex];
+        if (gMissionRunLVselLeftIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
+            targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselLeftIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mUnk_28[gMissionRunLVsel->mIndex] = 5;
@@ -475,8 +475,8 @@ next:
             }
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
-        if (data_ov001_021a6cd0[gMissionRunLVsel->mIndex] != 0) {
-            targetIndex = gMissionRunLVsel->mIndex + data_ov001_021a6cd0[gMissionRunLVsel->mIndex];
+        if (gMissionRunLVselRightIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
+            targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselRightIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
                 gMissionRunLVsel->mIndex = targetIndex;
                 gMissionRunLVsel->mUnk_28[gMissionRunLVsel->mIndex] = 5;

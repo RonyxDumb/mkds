@@ -243,8 +243,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
         loop = FALSE;
     }
     do {
-        result = GpiSendBuffer(connection, data->mSocket, (GpiBuffer *) &data->mOutputBuffer, &socketGone, 1,
-                               data_ov000_021b3634);
+        result =
+            GpiSendBuffer(connection, data->mSocket, (GpiBuffer *) &data->mOutputBuffer, &socketGone, 1, gSmString);
         if (result != 0) {
             return result;
         }
@@ -365,7 +365,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
             }
         } else if (operation->mUnk_14 == 4) {
             result = GpiReceiveBuffer(connection, data->mSocket, (GpiBuffer *) &data->mInputBuffer, (s32 *) &j,
-                                      &socketGone, data_ov000_021b3634);
+                                      &socketGone, gSmString);
             if (result != 0) {
                 if (result != 3) {
                     return result;
@@ -392,7 +392,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, data_ov000_021b37ac) == 0) {
+                        if (strcmp(key, gBsrdoneKey) == 0) {
                             result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                             if (result != 0) {
                                 return result;
@@ -401,7 +401,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 e.mUnk_08 = 0x600;
                             }
                             d = TRUE;
-                        } else if (strcmp(key, data_ov000_021b37bc) == 0) {
+                        } else if (strcmp(key, gBsrKey) == 0) {
                             q1 = DWCi_GsRealloc(e.mUnk_0c, ++e.mUnk_04 * 0xac);
                             e.mUnk_0c = q1;
                             if (q1 == NULL) {
@@ -427,10 +427,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     GpiCopyString(t1->mUnk_38, value, 0x1f);
                                 } else if (strcmp(key, data_ov000_021b37e0) == 0) {
                                     GpiCopyString(t1->mUnk_57, value, 0x1f);
-                                } else if (strcmp(key, data_ov000_021b37ec) == 0) {
+                                } else if (strcmp(key, gSearchEmailKey) == 0) {
                                     GpiCopyString(t1->mUnk_76, value, 0x33);
-                                } else if (strcmp(key, data_ov000_021b37bc) == 0 ||
-                                           strcmp(key, data_ov000_021b37ac) == 0) {
+                                } else if (strcmp(key, gBsrKey) == 0 || strcmp(key, gBsrdoneKey) == 0) {
                                     f = TRUE;
                                     n = g;
                                 }
@@ -576,9 +575,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, data_ov000_021b382c) == 0) {
+                            if (strcmp(key, gPsrdoneKey) == 0) {
                                 d = TRUE;
-                            } else if (strcmp(key, data_ov000_021b3834) == 0) {
+                            } else if (strcmp(key, gPsrKey) == 0) {
                                 u4->mUnk_08++;
                                 u4->mUnk_0c = DWCi_GsRealloc(u4->mUnk_0c, u4->mUnk_08 * 0x128);
                                 q4 = u4->mUnk_0c;
@@ -606,8 +605,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     }
                                     if (strcmp(key, data_ov000_021b3840) == 0) {
                                         t4->mUnk_024 = StrtolBase10(value);
-                                    } else if (strcmp(key, data_ov000_021b3834) == 0 ||
-                                               strcmp(key, data_ov000_021b382c) == 0) {
+                                    } else if (strcmp(key, gPsrKey) == 0 || strcmp(key, gPsrdoneKey) == 0) {
                                         f = TRUE;
                                         n = g;
                                     }
@@ -723,9 +721,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, data_ov000_021b3864) == 0) {
+                            if (strcmp(key, gOdoneKey) == 0) {
                                 d = TRUE;
-                            } else if (strcmp(key, data_ov000_021b386c) == 0) {
+                            } else if (strcmp(key, gOKey) == 0) {
                                 q1 = DWCi_GsRealloc(u7->mUnk_08, (u7->mUnk_04 + 1) * 0xac);
                                 if (q1 == NULL) {
                                     GpiSetErrorMessage(connection, data_ov000_021b35f8);
@@ -754,10 +752,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                         GpiCopyString(t1->mUnk_38, value, 0x1f);
                                     } else if (strcmp(key, data_ov000_021b3878) == 0) {
                                         GpiCopyString(t1->mUnk_57, value, 0x1f);
-                                    } else if (strcmp(key, data_ov000_021b37ec) == 0) {
+                                    } else if (strcmp(key, gSearchEmailKey) == 0) {
                                         GpiCopyString(t1->mUnk_76, value, 0x33);
-                                    } else if (strcmp(key, data_ov000_021b386c) == 0 ||
-                                               strcmp(key, data_ov000_021b3864) == 0) {
+                                    } else if (strcmp(key, gOKey) == 0 || strcmp(key, gOdoneKey) == 0) {
                                         f = TRUE;
                                         n = g;
                                     }

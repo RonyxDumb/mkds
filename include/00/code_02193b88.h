@@ -92,13 +92,13 @@ extern u8 data_ov000_021b3494[];
 extern char data_ov000_021b34a4[];
 extern char data_ov000_021b34a8[];
 extern char data_ov000_021b34c8[];
-extern char data_ov000_021b34d0[];
+extern char gAuthStatement[];
 extern char data_ov000_021b34d8[];
 extern char data_ov000_021b34e0[];
 extern char data_ov000_021b34e8[];
 extern char data_ov000_021b34f0[];
-extern char data_ov000_021b34f8[];
-extern char data_ov000_021b3500[];
+extern char gAnackStatement[];
+extern char gAackStatement[];
 extern u8 data_ov000_021b3508[];
 extern u8 data_ov000_021b352c[];
 

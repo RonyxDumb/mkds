@@ -1268,7 +1268,7 @@ gMessageBoxSizes kind:data(any) addr:0x021d6758
 data_ov003_021d679a kind:data(any) addr:0x021d675a
 gMessageBoxButtonPositions kind:data(any) addr:0x021d6770
 data_ov003_021d67b2 kind:data(any) addr:0x021d6772
-data_ov003_021d67d8 kind:data(any) addr:0x021d6798
+gDwcArchiveName kind:data(any) addr:0x021d6798
 data_ov003_021d67dc kind:data(any) addr:0x021d679c
 data_ov003_021d67e0 kind:data(any) addr:0x021d67a0
 data_ov003_021d67e2 kind:data(any) addr:0x021d67a2

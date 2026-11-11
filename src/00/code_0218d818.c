@@ -34,7 +34,7 @@ void DarraySetElement(Darray *a, const void *b, s32 c) {
 void *DarrayCreate(s32 elemSize, s32 c, void (*d)(void *)) {
     Darray *array = DWCi_GsMalloc(0x18);
     if (array == NULL) {
-        AssertionFailed(data_ov000_021b2334, data_ov000_021b22dc, NULL, 0x52);
+        AssertionFailed(gArrayAssertText, data_ov000_021b22dc, NULL, 0x52);
     }
     if (elemSize == 0) {
         AssertionFailed(data_ov000_021b233c, data_ov000_021b22dc, NULL, 0x53);
@@ -62,7 +62,7 @@ void DarrayDelete(void *c) {
     Darray *array = c;
     s32 b;
     if (array == NULL) {
-        AssertionFailed(data_ov000_021b2334, data_ov000_021b22dc, NULL, 0x69);
+        AssertionFailed(gArrayAssertText, data_ov000_021b22dc, NULL, 0x69);
     }
     b = 0;
     if (0 < array->mCount) {
@@ -94,7 +94,7 @@ void *DarrayGetElement(void *param_1, s32 n) {
 void DarrayAppend(void *param_1, void *param_2) {
     Darray *array = param_1;
     if (array == NULL) {
-        AssertionFailed(data_ov000_021b2334, data_ov000_021b22dc, NULL, 0xa0);
+        AssertionFailed(gArrayAssertText, data_ov000_021b22dc, NULL, 0xa0);
     }
     if (array != NULL) {
         DarrayInsert(array, param_2, array->mCount);

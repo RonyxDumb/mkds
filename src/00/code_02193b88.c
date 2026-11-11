@@ -75,7 +75,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                     GpiSetErrorMessage(connection, data_ov000_021b33a0);
                     return 3;
                 }
-                GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34d0);
+                GpiAppendBufferString(connection, peer->mOutputBuffer, gAuthStatement);
                 GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34d8);
                 GpiAppendBufferNumber(connection, peer->mOutputBuffer, gpState->mProfileId);
                 GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34e0);
@@ -110,7 +110,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             }
             *end = 0;
             input = peer->mInputBuffer;
-            if (strncmp(input, data_ov000_021b34f8, 7) == 0) {
+            if (strncmp(input, gAnackStatement, 7) == 0) {
                 peer->mUnk_14 = peer->mUnk_14 + 1;
                 if (peer->mUnk_14 > 1) {
                     GpiSetErrorMessage(connection, data_ov000_021b3508);
@@ -120,7 +120,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                 if (result != 0) {
                     return result;
                 }
-            } else if (strncmp(input, data_ov000_021b3500, 6) != 0) {
+            } else if (strncmp(input, gAackStatement, 6) != 0) {
                 GpiSetErrorMessage(connection, data_ov000_021b352c);
                 return 3;
             }
@@ -172,7 +172,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
     if (end != NULL) {
         *end = 0;
         input = peer->mInputBuffer;
-        if (strncmp(input, data_ov000_021b34d0, 6) == 0) {
+        if (strncmp(input, gAuthStatement, 6) == 0) {
             if (GpiGetValue(input, data_ov000_021b34d8, intText, 0x10) == FALSE) {
                 peer->mState = 0x6a;
                 return 0;
@@ -189,12 +189,12 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
             sprintf(buffer, data_ov000_021b34f0, gpState->mPassword, gpState->mProfileId, pid);
             MD5Digest(buffer, strlen(buffer), sigDigest);
             if (strcmp(sig, sigDigest) != 0) {
-                GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34f8);
+                GpiAppendBufferString(connection, peer->mOutputBuffer, gAnackStatement);
                 GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34c8);
                 peer->mState = 0x6a;
                 return 0;
             }
-            GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b3500);
+            GpiAppendBufferString(connection, peer->mOutputBuffer, gAackStatement);
             GpiAppendBufferString(connection, peer->mOutputBuffer, data_ov000_021b34c8);
             peer->mState = 0x69;
             peer->mProfileId = pid;
@@ -360,7 +360,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
     s32 e;
 
     if (peer == NULL) {
-        AssertionFailed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x213);
+        AssertionFailed(gPeerAssertText, data_ov000_021b333c, NULL, 0x213);
     }
     previous = gpState->mPeerList;
     if (previous == peer) {
@@ -529,7 +529,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
     s32 result;
 
     if (peer == NULL) {
-        AssertionFailed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x340);
+        AssertionFailed(gPeerAssertText, data_ov000_021b333c, NULL, 0x340);
     }
     if (message == NULL) {
         AssertionFailed(data_ov000_021b337c, data_ov000_021b333c, NULL, 0x341);
@@ -591,7 +591,7 @@ s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *messa
     s32 result;
 
     if (peer == NULL) {
-        AssertionFailed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x389);
+        AssertionFailed(gPeerAssertText, data_ov000_021b333c, NULL, 0x389);
     }
     if (message == NULL) {
         message = data_ov000_021b3348;

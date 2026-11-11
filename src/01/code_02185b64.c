@@ -64,7 +64,7 @@ u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart,
         return 0;
     }
     if (firstResponse == 1) {
-        missionGateObject->mMapObject.mFlags |= data_ov001_021a6580;
+        missionGateObject->mMapObject.mFlags |= gMissionGateMapObjectFlag;
         missionGateObject->mState = 2;
     }
     return response;
@@ -105,7 +105,7 @@ void InitMissionGateObjects(MapObjectList *missionGateList) {
                             (missionGateObject = missionGateList->mMapObjects[gateIndex]) != NULL;
              gateIndex++) {
             if (missionGateObject->mMapObject.mCourseMapRow->mSettings[0] != 0) {
-                missionGateObject->mMapObject.mFlags |= data_ov001_021a6580;
+                missionGateObject->mMapObject.mFlags |= gMissionGateMapObjectFlag;
                 missionGateObject->mState = 0;
             } else {
                 missionGateObject->mMapObject.mFlags &= ~1;
