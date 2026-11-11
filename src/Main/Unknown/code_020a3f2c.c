@@ -181,8 +181,8 @@ void DrawShine16Shadow(void *a, Shine16 *shine16, void *b, s32 c) {
     MtxFx33 rotateYMatrix;
     Vec3 drawScaleVector;
     Vec3 shadowScaleVector;
-    s32 drawScale;
     s32 pairIndex;
+    s32 drawScale;
 
     if (shine16->mDrawScale <= 0) {
         return;

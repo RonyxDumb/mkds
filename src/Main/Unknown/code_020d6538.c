@@ -48,14 +48,14 @@ BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightL
     s32 v;
     segmentProgress->mProgress = segmentProgress->mProgress - 0x1000000;
     segmentProgress->mProgress =
-        ((s64) segmentProgress->mProgress * (s64) segmentProgress->mSegment.mProgressLength) >> 12;
+        MUL_FIXED12_NO_ROUND(segmentProgress->mProgress, segmentProgress->mSegment.mProgressLength);
     BuildSegment(&segmentProgress->mSegment, useStraightLength, 0, points[0], points[1], points[2], points[3]);
     v = segmentProgress->mSegment.mInverseProgressLength;
     if (v != 0) {
         segmentProgress->mProgress = ((s64) segmentProgress->mProgress * (s64) v) >> 24;
     }
     if (v != 0) {
-        v = ((s64) segmentProgress->mRate * (s64) v) >> 12;
+        v = MUL_FIXED12_NO_ROUND(segmentProgress->mRate, v);
     } else {
         v = 0x1000000;
     }
@@ -553,8 +553,8 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
     if (GetChoisesSOpenDuringRace() == 0) {
         xAxis = rock->mMapObject.mMatrix.mUnk_00[0];
         yAxis = rock->mMapObject.mMatrix.mUnk_00[1];
-        tiltAxis.x = ((s64) rock->mMapObject.mPosStep.z * (s64) rock->mBottomOffsetReciprocal) >> 12;
-        tiltAxis.z = -(s32) (((s64) rock->mMapObject.mPosStep.x * (s64) rock->mBottomOffsetReciprocal) >> 12);
+        tiltAxis.x = MUL_FIXED12_NO_ROUND(rock->mMapObject.mPosStep.z, rock->mBottomOffsetReciprocal);
+        tiltAxis.z = -MUL_FIXED12_NO_ROUND(rock->mMapObject.mPosStep.x, rock->mBottomOffsetReciprocal);
         tiltAxis.y = 0;
         Vec3CrossUnrounded(&tiltAxis, &xAxis, &crossProduct);
         VEC_Add(&xAxis, &crossProduct, &xAxis);
@@ -562,9 +562,9 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
         Vec3CrossUnrounded(&tiltAxis, &yAxis, &crossProduct);
         VEC_Add(&yAxis, &crossProduct, &yAxis);
         dot = VEC_DotProduct(&rock->mMapObject.mMatrix.mUnk_00[0], &yAxis);
-        yAxis.x = yAxis.x - (s32) (((s64) rock->mMapObject.mMatrix.mUnk_00[0].x * (s64) dot) >> 12);
-        yAxis.y = yAxis.y - (s32) (((s64) rock->mMapObject.mMatrix.mUnk_00[0].y * (s64) dot) >> 12);
-        yAxis.z = yAxis.z - (s32) (((s64) rock->mMapObject.mMatrix.mUnk_00[0].z * (s64) dot) >> 12);
+        yAxis.x = yAxis.x - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mUnk_00[0].x, dot);
+        yAxis.y = yAxis.y - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mUnk_00[0].y, dot);
+        yAxis.z = yAxis.z - MUL_FIXED12_NO_ROUND(rock->mMapObject.mMatrix.mUnk_00[0].z, dot);
         Vec3NormalizeAndGetLengthUnchecked(&yAxis, &rock->mMapObject.mMatrix.mUnk_00[1]);
         Vec3CrossUnrounded(&rock->mMapObject.mMatrix.mUnk_00[0], &rock->mMapObject.mMatrix.mUnk_00[1],
                            &rock->mMapObject.mMatrix.mUnk_00[2]);

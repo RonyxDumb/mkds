@@ -60,6 +60,7 @@ MapObjectDrawList *CreateDramDrawList(void) {
 void DrawDram(void *unusedFirst, Dram *dram, void *unusedThird, s32 maxAlpha) {
     MtxFx43 *matrix;
     s32 angleIndex;
+    s32 angle;
 
     matrix = &dram->mMapObject.mMatrix;
     angleIndex = (u16) (-(s32) dram->mAngleX) >> 4;

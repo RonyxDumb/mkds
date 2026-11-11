@@ -36,11 +36,11 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
         }
     }
     g = p->mMapObjectVectorLength +
-        (b + (s32) ((s64) c * (s32) ((s64) p->mSpeedLimitHitFactor * p->mShrinkFactor >> 12) >> 12));
+        (b + MUL_FIXED12_NO_ROUND(c, MUL_FIXED12_NO_ROUND(p->mSpeedLimitHitFactor, p->mShrinkFactor)));
     if (a > g) {
         p->mForwardSpeed = g;
     } else {
-        if (a <= (s32) (p->mSpeedLimitHitFactor * (s64) 0x19a >> 12) && !(p->mUnk_44 & 0x80000) && !(f & 6)) {
+        if (a <= MUL_FIXED12_NO_ROUND(0x19a, p->mSpeedLimitHitFactor) && !(p->mUnk_44 & 0x80000) && !(f & 6)) {
             p->mForwardSpeed = 0;
         } else {
             p->mForwardSpeed = a;
@@ -81,16 +81,16 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
             }
         }
     }
-    return ((s64) p->mForwardSpeed * (0x1000 - (p->mAttractorPullSpeed >> 3)) + 0x800) >> 12;
+    return MUL_FIXED12_ROUNDED(p->mForwardSpeed, 0x1000 - (p->mAttractorPullSpeed >> 3));
 }
 
 void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a) {
     s32 r;
 
-    p->mVelocity.x = (s64) p->mVelocity.x * a >> 12;
+    p->mVelocity.x = MUL_FIXED12_NO_ROUND(p->mVelocity.x, a);
     r = 0;
-    p->mVelocity.y = (s64) p->mVelocity.y * a >> 12;
-    p->mVelocity.z = (s64) p->mVelocity.z * a >> 12;
+    p->mVelocity.y = MUL_FIXED12_NO_ROUND(p->mVelocity.y, a);
+    p->mVelocity.z = MUL_FIXED12_NO_ROUND(p->mVelocity.z, a);
     if ((s64) p->mVelocity.x * p->mVelocity.x + (s64) p->mVelocity.y * p->mVelocity.y +
             (s64) p->mVelocity.z * p->mVelocity.z >=
         0x10) {
@@ -99,9 +99,9 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a) {
     p->mVelocityLength = r;
     if (p->mVelocityLength > 0xd000) {
         p->mVelocityLength = 0xd000;
-        p->mVelocity.x = (s64) p->mVelocityDirection.x * 0xd000 >> 12;
-        p->mVelocity.y = (s64) p->mVelocityDirection.y * 0xd000 >> 12;
-        p->mVelocity.z = (s64) p->mVelocityDirection.z * 0xd000 >> 12;
+        p->mVelocity.x = MUL_FIXED12_NO_ROUND(p->mVelocityDirection.x, 0xd000);
+        p->mVelocity.y = MUL_FIXED12_NO_ROUND(p->mVelocityDirection.y, 0xd000);
+        p->mVelocity.z = MUL_FIXED12_NO_ROUND(p->mVelocityDirection.z, 0xd000);
     }
 }
 

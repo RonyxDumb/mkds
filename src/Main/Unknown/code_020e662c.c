@@ -276,9 +276,9 @@ void DrawNsbmdModelWithMatrixAndMaxAlpha(NsbmdModel *model, MtxFx43 *matrix, Vec
 
 void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 angle, Vec3 *scale, s32 usePosition,
                                       u16 maxAlpha) {
+    s32 angleIndex;
     u32 commandArg;
     Vec3 scaleCopy;
-    s32 angleIndex;
     s32 scaleX;
     s32 scaleZ;
     s32 scaleY;

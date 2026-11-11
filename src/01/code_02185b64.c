@@ -38,8 +38,8 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
                 gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2 + 1]);
     MTX_Concat33(&mtx, &missionGateObject->mMapObject.mMatrix.mUnk_00_m,
                  &missionGateObject->mMapObject.mMatrix.mUnk_00_m);
-    sideExtentX = (missionGateObject->mMapObject.mScale.x * 0xA000LL) >> 12;
-    sideExtentY = (missionGateObject->mMapObject.mScale.y * 0xF000LL) >> 12;
+    sideExtentX = MUL_FIXED12_NO_ROUND(0xA000, missionGateObject->mMapObject.mScale.x);
+    sideExtentY = MUL_FIXED12_NO_ROUND(0xF000, missionGateObject->mMapObject.mScale.y);
     saved = missionGateObject->mMapObject.mCourseMapRow->mUnk_28;
     missionGateObject->mMapObject.mCourseMapRow->mUnk_28 = 0x12;
     missionGateObject->mNegativeSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);

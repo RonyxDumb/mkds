@@ -4,12 +4,12 @@
 
 void ScaleKartForwardSpeed(Kart *kart) {
     if ((kart->mUnk_44 & 0x400) || kart->mState != KART_STATE_NORMAL) {
-        kart->mForwardSpeed = (s64) kart->mForwardSpeed * kart->mPhysicalParam->mUnk_2c >> 12;
+        kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, kart->mPhysicalParam->mUnk_2c);
     }
     if (!(kart->mUnk_48 & 0x2000)) {
         return;
     }
-    kart->mForwardSpeed = (s64) kart->mForwardSpeed * 0xe66 >> 12;
+    kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, 0xe66);
 }
 
 void ApplyKartGravity(Kart *p) {
@@ -38,6 +38,6 @@ void ReduceKartSpeedByTurnRatio(s32 *a, Kart *p) {
     if (b <= 0) {
         b = -b;
     }
-    c = (s64) *a * gSpeedReductionAtFullTurnRatio >> 12;
-    *a -= (s32) ((s64) c * b >> 12);
+    c = MUL_FIXED12_NO_ROUND(*a, gSpeedReductionAtFullTurnRatio);
+    *a -= MUL_FIXED12_NO_ROUND(c, b);
 }

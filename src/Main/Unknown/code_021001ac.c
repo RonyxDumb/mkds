@@ -373,7 +373,7 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     }
     delta[0] -= position->x;
     delta[2] -= position->z;
-    sideDistance = ((s64) cameraSide->x * delta[0] + (s64) cameraSide->z * delta[2]) >> 12;
+    sideDistance = DOT2_FIXED12(cameraSide->x, delta[0], cameraSide->z, delta[2]);
     delta[0] = MUL_FIXED12_NO_ROUND(cameraSide->x, sideDistance);
     delta[2] = MUL_FIXED12_NO_ROUND(cameraSide->z, sideDistance);
     delta[0] = MUL_FIXED12_NO_ROUND(delta[0], easeFactor);

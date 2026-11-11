@@ -211,9 +211,9 @@ void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
             Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
         }
         scale = mapObject->mPrm->mUnk_16c;
-        velocity.x = (s64) velocity.x * scale >> 12;
-        velocity.y = (s64) velocity.y * scale >> 12;
-        velocity.z = (s64) velocity.z * scale >> 12;
+        velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
+        velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, scale);
+        velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, scale);
         velocity.y = mapObject->mPrm->mUnk_170;
         SetVelocity(mapObject, &velocity);
         func_ov001_0218a41c(mapObject);

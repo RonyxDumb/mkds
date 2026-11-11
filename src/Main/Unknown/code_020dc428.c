@@ -339,7 +339,7 @@ void UpdateWanwanState0(Wanwan *wanwan) {
                 if ((s64) (s32) offsetX * offsetX + (s64) (s32) offsetZ * offsetZ < 0x7e9000000LL) {
                     continue;
                 }
-                dot = ((s64) offsetX * lastStepX + (s64) offsetZ * lastStepZ) >> 12;
+                dot = DOT2_FIXED12(offsetX, lastStepX, offsetZ, lastStepZ);
                 if (dot < 0) {
                     dot = -dot;
                     e = (-(s64) offsetX * lastStepZ + (s64) offsetZ * lastStepX) >> 12;

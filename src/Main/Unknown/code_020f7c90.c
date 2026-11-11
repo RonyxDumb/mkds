@@ -143,6 +143,7 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     RandomState64 *random;
     s64 distanceSquared;
     s32 angleIndex;
+    s32 angle;
 
     if (item->mFlags & 0x2000000) {
         if (LENGTH_SQUARED(*normal) >= 0x10) {

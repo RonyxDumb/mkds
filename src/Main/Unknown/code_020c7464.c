@@ -412,6 +412,7 @@ static inline void func_020c8dbc_inline2(RaceHudOamBuffer *oamBuffer, Unk020224e
 static inline void func_020c8dbc_inline3(RaceHudOamBuffer *oamBuffer, s32 kartIndex, s32 frame) {
     s32 j;
     s32 angleIndex;
+    s32 angle;
     s32 offsetX;
     s32 offsetY;
     Unk020224e0_c *cell;

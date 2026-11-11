@@ -196,6 +196,7 @@ void CreateJg(void) {
     void *file;
     s32 n;
     s32 angleIndex;
+    s32 tableAngle;
 
     heap = GetHeap(GetCurrentHeapCall());
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {

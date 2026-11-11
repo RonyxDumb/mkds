@@ -55,9 +55,9 @@ void func_ov001_02183ff4(Unk02188950 *donketu) {
         Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
     }
     scale = donketu->mPrm->mUnk_204;
-    velocity.x = (s64) velocity.x * scale >> 12;
-    velocity.y = (s64) velocity.y * scale >> 12;
-    velocity.z = (s64) velocity.z * scale >> 12;
+    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
+    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, scale);
+    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, scale);
     velocity.y = -donketu->mPrm->mUnk_208;
     func_ov001_02187218(donketu, 8, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_1fc, donketu->mPrm->mUnk_200);

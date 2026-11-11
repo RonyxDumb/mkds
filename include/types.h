@@ -31,6 +31,28 @@ typedef s32 BOOL;
 #define MUL_FIXED12_ROUNDED(a, b) ((s32) (((s64) (a) * (b) + 0x800) >> 12))
 #define MUL_FIXED12_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 12))
 #define MUL_FIXED24_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 24))
+
+// Sum of two, three or four fixed-point products, shifted down to 12 fractional bits.
+#define DOT2_FIXED12(a0, b0, a1, b1) (((s64) (a0) * (b0) + (s64) (a1) * (b1)) >> 12)
+#define DOT3_FIXED12(a0, b0, a1, b1, a2, b2) (((s64) (a0) * (b0) + (s64) (a1) * (b1) + (s64) (a2) * (b2)) >> 12)
+#define DOT4_FIXED12(a0, b0, a1, b1, a2, b2, a3, b3) \
+    (((s64) (a0) * (b0) + (s64) (a1) * (b1) + (s64) (a2) * (b2) + (s64) (a3) * (b3)) >> 12)
+// The same sums, rounded.
+#define DOT2_FIXED12_ROUNDED(a0, b0, a1, b1) (((s64) (a0) * (b0) + (s64) (a1) * (b1) + 0x800) >> 12)
+#define DOT3_FIXED12_ROUNDED(a0, b0, a1, b1, a2, b2) \
+    (((s64) (a0) * (b0) + (s64) (a1) * (b1) + (s64) (a2) * (b2) + 0x800) >> 12)
+// Difference of two fixed-point products (one component of a cross product), shifted down to 12 fractional bits.
+#define CROSS2_FIXED12(a0, b0, a1, b1) (((s64) (a0) * (b0) - (s64) (a1) * (b1)) >> 12)
+// The same difference, rounded.
+#define CROSS2_FIXED12_ROUNDED(a0, b0, a1, b1) (((s64) (a0) * (b0) - (s64) (a1) * (b1) + 0x800) >> 12)
+
+// Degrees (fx32) to a 16-bit angle, rounded.
+#define DEG_TO_ANGLE(deg) ((u16) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000000LL) >> 44))
+// Degrees (fx32) to a 16-bit angle, truncated (rounds differently from DEG_TO_ANGLE).
+#define DEG_TO_ANGLE_TRUNCATED(deg) ((u16) ((s32) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12))
+// Sine and cosine fx32 of a 16-bit angle, read from the sine table.
+#define SIN_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2]
+#define COS_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2 + 1]
 #define LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).y * (v).y + (s64) (v).z * (v).z)
 #define HORIZONTAL_LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).z * (v).z)
 
