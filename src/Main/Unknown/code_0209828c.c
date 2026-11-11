@@ -86,19 +86,19 @@ void InitPakkun(Pakkun *pakkun) {
     }
     for (i = 0; i < 7; i++) {
         if (i == 0) {
-            v = pakkun->mMapObject.mCourseMapRow->mSetting0;
+            v = pakkun->mMapObject.mCourseMapRow->mSettings[0];
         } else if (i == 1) {
-            v = pakkun->mMapObject.mCourseMapRow->mSetting1;
+            v = pakkun->mMapObject.mCourseMapRow->mSettings[1];
         } else if (i == 2) {
-            v = pakkun->mMapObject.mCourseMapRow->mSetting2;
+            v = pakkun->mMapObject.mCourseMapRow->mSettings[2];
         } else if (i == 3) {
-            v = pakkun->mMapObject.mCourseMapRow->mSetting3;
+            v = pakkun->mMapObject.mCourseMapRow->mSettings[3];
         } else if (i == 4) {
-            v = pakkun->mMapObject.mCourseMapRow->mSetting4;
+            v = pakkun->mMapObject.mCourseMapRow->mSettings[4];
         } else if (i == 5) {
-            v = pakkun->mMapObject.mCourseMapRow->mSetting5;
+            v = pakkun->mMapObject.mCourseMapRow->mSettings[5];
         } else {
-            v = pakkun->mMapObject.mCourseMapRow->mSetting6;
+            v = pakkun->mMapObject.mCourseMapRow->mSettings[6];
         }
         if (v >= 0) {
             InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], v, 100);

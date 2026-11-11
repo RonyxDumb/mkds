@@ -91,11 +91,11 @@ typedef struct ItemObject {
     /* 0e4 */ Vec3 mPrevPos;
     /* 0f0 */ Vec3 mNormal;
     /* fc */ u32 mCollisionBits;
-    /* 100 */ s32 mUnk_100;
+    /* 100 */ s32 mScaleTargetOrSpeed;
     /* 104 */ struct CollisionHitLink *mCollisionHitLink;
-    /* 108 */ Vec3 mUnk_108;
+    /* 108 */ Vec3 mCoursePointOrParams;
     /* 114 */ s16 mFramesSinceCourseHit;
-    /* 116 */ s16 mUnk_116;
+    /* 116 */ s16 mFramesSinceReset;
     /* 118 */ s16 mCourseReleaseTimer;
     /* 11a */ s16 mHitLinkTimer;
     // Frames since the object was taken by a kart or started, counted per UpdateItemObject call (several per frame in
@@ -154,7 +154,7 @@ typedef struct RaceProgressKart {
     /* 38 */ u16 mRoute;
     /* 3a */ u16 mHighestLap;
     /* 3c */ union {
-        u16 mUnk_3c;
+        u16 mRankIndexRequestBits;
         struct {
             u16 mRank : 4;
             u16 mIndex : 4;
@@ -346,13 +346,13 @@ typedef struct ItemKind {
     // Called with the object right after a buffer was read into it (see mCopyData); every entry starts with
     // SetupItemObjectFromData.
     /* 50 */ void (*mInitFromData)(void *);
-    /* 54 */ s32 mUnk_54;
+    /* 54 */ s32 mSkipsStartCollisionSlot;
     // Returns the kind's far distance squared; when NULL the value of gSoundFalloffs[1].mUnk_20 is used.
     /* 58 */ u32 mGetFarDistanceSquared;
     /* 5c */ s32 mDrawDistance;
-    /* 60 */ s32 mUnk_60;
+    /* 60 */ s32 mViewRadiusScale;
     /* 64 */ s32 mCourseRadius;
-    /* 68 */ s32 mUnk_68;
+    /* 68 */ s32 mSetupRadius;
     /* 6c */ s32 mRadius;
     /* 70 */ s32 mScaleLimit;
     /* 74 */ s32 mTargetScale;
@@ -493,11 +493,11 @@ typedef struct ItemPool {
     /* 20 */ s32 mLimit;
     /* 24 */ void (*mDraw)(void *, void *, void *);
     /* 28 */ s32 (*mViewTest)(Vec3 *, s32, s32, s32, u16);
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
+    /* 2c */ s32 mScaleLimit;
+    /* 30 */ s32 mTargetScale;
+    /* 34 */ s32 mScaleStep;
+    /* 38 */ s32 mDrawDistance;
+    /* 3c */ s32 mFarDistanceSquared;
     /* 40 */ s32 mDrawnByMapObjects;
 } ItemPool;
 

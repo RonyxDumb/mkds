@@ -10,14 +10,7 @@ typedef struct CourseMapRow {
     /* 18 */ Vec3 mScale;
     /* 24 */ u16 mKind;
     /* 26 */ s16 mGroupIndex;
-    /* 28 */ s16 mSetting0;
-    /* 2a */ s16 mSetting1;
-    /* 2c */ s16 mSetting2;
-    /* 2e */ s16 mSetting3;
-    /* 30 */ s16 mSetting4;
-    /* 32 */ s16 mSetting5;
-    /* 34 */ s16 mSetting6;
-    /* 36 */ s16 mSetting7;
+    /* 28 */ s16 mSettings[8];
     /* 38 */ u16 mTimeAttackFlags;
     /* 3a */ u8 mUnk_3a[2];
 } CourseMapRow;

@@ -372,7 +372,7 @@ void RefreshCameraProjection(Camera *camera) {
     }
     camera->mFrustumRight = -camera->mFrustumLeft;
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL && camera->mCourseMapCamera != NULL) {
-        staffRollShift = MUL_FIXED12_ROUNDED(camera->mFrustumTop, camera->mCourseMapCamera->mUnk_00.y);
+        staffRollShift = MUL_FIXED12_ROUNDED(camera->mFrustumTop, camera->mCourseMapCamera->mPosOrParams.y);
         camera->mFrustumBottom += staffRollShift;
         camera->mFrustumTop += staffRollShift;
     }

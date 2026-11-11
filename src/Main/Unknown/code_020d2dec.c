@@ -250,8 +250,8 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mDigitMask = source->mDigitMask;
                 object->mFlags |= source->mFlags & 0x80;
             } else if (courseRow != NULL) {
-                if (courseRow->mSetting7 != 0) {
-                    SetMapObjectMaskAndFlagFromNumber(courseRow->mSetting7, object);
+                if (courseRow->mSettings[7] != 0) {
+                    SetMapObjectMaskAndFlagFromNumber(courseRow->mSettings[7], object);
                 }
             }
             if (descriptor->mLists[3] != NULL && descriptor->mLists[3]->mForEachObject != NULL) {

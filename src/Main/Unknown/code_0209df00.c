@@ -37,15 +37,15 @@ void *CreatePuddleDrawList(void) {
     return CreateMapObjectDrawList2(CreatePuddle, DrawPuddle, SetupDrawPuddle);
 }
 
-void InitFireball2(Fireball2 *a) {
-    a->mMapObject.mFlags |= data_usa_021565ec;
-    a->mRowCount = a->mMapObject.mCourseMapRow->mSetting0;
-    a->mRowElementCount = a->mMapObject.mCourseMapRow->mSetting3 + 1;
-    CreateMapObjectSoundSourceFalloff2(&a->mMapObject);
-    a->mMapObject.mFlags &= ~1;
-    a->mMapObject.mFlags &= ~2;
-    a->mMapObject.mFlags &= ~8;
-    a->mMapObject.mAlpha = 0x1f;
+void InitFireball2(Fireball2 *fireball2) {
+    fireball2->mMapObject.mFlags |= data_usa_021565ec;
+    fireball2->mRowCount = fireball2->mMapObject.mCourseMapRow->mSettings[0];
+    fireball2->mRowElementCount = fireball2->mMapObject.mCourseMapRow->mSettings[3] + 1;
+    CreateMapObjectSoundSourceFalloff2(&fireball2->mMapObject);
+    fireball2->mMapObject.mFlags &= ~1;
+    fireball2->mMapObject.mFlags &= ~2;
+    fireball2->mMapObject.mFlags &= ~8;
+    fireball2->mMapObject.mAlpha = 0x1f;
 }
 
 u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d) {
@@ -193,7 +193,7 @@ void DrawFireball2(void *a, Fireball2 *b) {
     }
 }
 
-void InitFireball2Objects(MapObjectList *p) {
+void InitFireball2Objects(MapObjectList *mapObjectList) {
     s32 i;
     s32 j;
     s32 k;
@@ -201,31 +201,32 @@ void InitFireball2Objects(MapObjectList *p) {
     float f;
     u64 t;
     Fireball2 *e;
-    RandomState64 *r;
+    RandomState64 *mapObjectRandom;
 
-    if (p == NULL) {
+    if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < p->mMapObjectCount && (e = p->mMapObjects[i]) != NULL; i++) {
-        v = e->mMapObject.mCourseMapRow->mSetting1;
+    for (i = 0; i < mapObjectList->mMapObjectCount && (e = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        v = e->mMapObject.mCourseMapRow->mSettings[1];
         if (v > 0) {
             f = 0.5f + (v << 12);
         } else {
             f = (v << 12) - 0.5f;
         }
         e->mRadius = f;
-        e->mRowAnglePerFrame = (e->mMapObject.mCourseMapRow->mSetting2 * 0x16c) / 100;
+        e->mRowAnglePerFrame = (e->mMapObject.mCourseMapRow->mSettings[2] * 0x16c) / 100;
         e->mRowAngleSpacing = 0x10000 / e->mRowCount;
         e->mElementRadiusSpacing = e->mRadius / e->mRowElementCount;
-        r = GetMapObjectRandom();
-        r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
-        t = r->mValue >> 32;
+        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+        t = mapObjectRandom->mValue >> 32;
         e->mCenterRotationAngle = (t * 0x10000) >> 32;
         for (j = 0; j < e->mRowElementCount; j++) {
             for (k = 0; k < e->mRowCount; k++) {
-                r = GetMapObjectRandom();
-                r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
-                t = r->mValue >> 32;
+                mapObjectRandom = GetMapObjectRandom();
+                mapObjectRandom->mValue =
+                    mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+                t = mapObjectRandom->mValue >> 32;
                 e->mElements[k][j].mUnk_0e = (t * 0x10000) >> 32;
             }
         }

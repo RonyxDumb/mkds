@@ -252,11 +252,11 @@ void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     InitStateMachine(&secondHand->mMapObject.mStateMachine, data_0216c240, 4, secondHand);
     QuaternionFromVec3Degrees(&courseRow->mRotationDegrees, &secondHand->mRotationQuaternion);
     secondHand->mInitialRotationQuaternion = secondHand->mRotationQuaternion;
-    secondHand->mRampFrameCount = courseRow->mSetting2;
-    secondHand->mSteadyFrameCount = courseRow->mSetting1;
-    secondHand->mPauseFrameCount = courseRow->mSetting3;
-    secondHand->mAnglePerFrame = (courseRow->mSetting0 << 7) / 0x64;
-    if (courseRow->mSetting4 != 0) {
+    secondHand->mRampFrameCount = courseRow->mSettings[2];
+    secondHand->mSteadyFrameCount = courseRow->mSettings[1];
+    secondHand->mPauseFrameCount = courseRow->mSettings[3];
+    secondHand->mAnglePerFrame = (courseRow->mSettings[0] << 7) / 0x64;
+    if (courseRow->mSettings[4] != 0) {
         secondHand->mAnglePerFrame = -secondHand->mAnglePerFrame;
     }
     secondHand->mMapObject.mAngle = 0;

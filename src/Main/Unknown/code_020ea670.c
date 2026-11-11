@@ -229,7 +229,7 @@ void UpdateWoodbox1State1(Woodbox1 *woodbox) {
     if (woodbox->mMapObject.mStateMachine.mStateFrames < 900) {
         return;
     }
-    if (woodbox->mMapObject.mCourseMapRow->mSetting2 != 0) {
+    if (woodbox->mMapObject.mCourseMapRow->mSettings[2] != 0) {
         return;
     }
     if (data_0217bbf0 == NULL) {
@@ -458,8 +458,8 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mUnk_100.y = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.y, 0x800);
     woodbox->mUnk_100.z = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.z, 0x800);
     woodbox->mUnk_10c = 0x1555;
-    woodbox->mItemRowHandle = courseRow->mSetting0;
-    woodbox->mItemChancePercent = courseRow->mSetting1;
+    woodbox->mItemRowHandle = courseRow->mSettings[0];
+    woodbox->mItemChancePercent = courseRow->mSettings[1];
     InitStateMachine(&woodbox->mMapObject.mStateMachine, gWoodbox1StateTable, 4, woodbox);
     woodbox->mMapObject.mStateMachine.mNextState = 0;
     woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;

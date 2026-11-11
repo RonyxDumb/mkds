@@ -78,7 +78,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
             usesGroupShadow = FALSE;
         }
         itemBox->mUsesGroupShadow = usesGroupShadow;
-        itemBox->mShortSpin = row->mSetting6;
+        itemBox->mShortSpin = row->mSettings[6];
         itemBox->mNoCourseRow = 0;
     } else {
         itemBox->mUsesGroupShadow = 1;
@@ -90,13 +90,13 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mForcedRowHumanGhostPeer = 0;
         itemBox->mForcedRowCpu = 0;
     } else {
-        itemBox->mForcedRowHumanGhostPeer = row->mSetting1;
-        itemBox->mForcedRowCpu = row->mSetting2;
+        itemBox->mForcedRowHumanGhostPeer = row->mSettings[1];
+        itemBox->mForcedRowCpu = row->mSettings[2];
     }
     if (itemBox->mNoCourseRow != 0) {
         itemBox->mShadowMode = 1;
     } else {
-        itemBox->mShadowMode = row->mSetting3;
+        itemBox->mShadowMode = row->mSettings[3];
         if (itemBox->mShadowMode == 0) {
             shadowPos = row->mPosition;
             if (itemBox->mUsesGroupShadow != 0) {

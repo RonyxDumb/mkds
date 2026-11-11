@@ -221,7 +221,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         if (object->mCollisionSlotIndex == -1) {
             if (IsItemObjectScaleAtSetupSize(object) != FALSE) {
                 idx = object->mKind;
-                if (gItemKinds[idx].mUnk_68 != 0) {
+                if (gItemKinds[idx].mSetupRadius != 0) {
                     CreateItemObjectCollisionSlot(object);
                 }
             }

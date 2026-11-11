@@ -13,10 +13,10 @@ typedef struct Camera Camera;
 // ends in some kinds, angles or a kart index in others), blend steps, a kind (mKind), a duration (mFrameCount), the
 // next entry (mNextIndex).
 typedef struct CourseMapCamera {
-    /* 00 */ Vec3 mUnk_00;
+    /* 00 */ Vec3 mPosOrParams;
     /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ Vec3 mUnk_18;
-    /* 24 */ Vec3 mUnk_24;
+    /* 18 */ Vec3 mLookAtStartOrParams;
+    /* 24 */ Vec3 mLookAtEndOrParams;
     /* 30 */ u8 mUnk_30[0x2];
     /* 32 */ s16 mHalfFovPairFirst;
     /* 34 */ s16 mHalfFovPairSecond;

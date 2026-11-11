@@ -194,13 +194,14 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mFlags = 0;
     raceProgressKart->mInOrderCheckpointNumber = gCourseMap->mNumberedCheckpointCount - 1;
     raceProgressKart->mCheckpointNumber = gCourseMap->mNumberedCheckpointCount - 1;
-    raceProgressKart->mUnk_3c = (raceProgressKart->mUnk_3c & ~0xf0) | (((u16) kartIndex & 0xf) << 4);
+    raceProgressKart->mRankIndexRequestBits =
+        (raceProgressKart->mRankIndexRequestBits & ~0xf0) | (((u16) kartIndex & 0xf) << 4);
     raceProgressKart->mRaceProgress = 0;
     raceProgressKart->mLapProgress = 0;
     raceProgressKart->mScore = 0;
     raceProgressKart->mFirstPlaceFrames = 0;
     raceProgressKart->mCheckpointProgress = 0;
-    raceProgressKart->mUnk_3c = raceProgressKart->mUnk_3c & ~0x300;
+    raceProgressKart->mRankIndexRequestBits = raceProgressKart->mRankIndexRequestBits & ~0x300;
     lapTime = raceProgressKart->mLapTimes;
     for (i = 0; i < 5; i++) {
         ComputeRaceTime(&lapTime->mMinute, &lapTime->mSecond, &lapTime->mMillisecond, 0,
@@ -212,7 +213,8 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     if (kartIndex == gRaceSetup->mEntryIndex) {
         raceProgressKart->mFlags = raceProgressKart->mFlags | RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY;
     }
-    raceProgressKart->mUnk_3c = (raceProgressKart->mUnk_3c & ~0xf) | ((u16) (kartIndex + 1) & 0xf);
+    raceProgressKart->mRankIndexRequestBits =
+        (raceProgressKart->mRankIndexRequestBits & ~0xf) | ((u16) (kartIndex + 1) & 0xf);
 }
 
 static inline u32 RaceProgressGetWorkConnectionMode(ConnectionWork *connectionWork) {

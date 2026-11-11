@@ -602,7 +602,7 @@ void EnterItemKouraWState5(ItemKouraW *item) {
     item->mLift = 0x28000;
     item->mUnk_264 = 0x333;
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mUnk_100 = gItemKinds[kind].mTargetScale;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = gItemKinds[kind].mTargetScale;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x800000;
     item->mEasedDirection = item->mPreviousDirection;
     item->mSpeed = 0x3000;
@@ -651,8 +651,8 @@ void EnterItemKouraWState6(ItemKouraW *item) {
 
     item->mLift = 0x28000;
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mUnk_100 = gItemKinds[kind].mTargetScale;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mUnk_100 += 0x800;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = gItemKinds[kind].mTargetScale;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed += 0x800;
     CreateItemObjectCollisionSlotExact(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
 }
 
@@ -704,7 +704,7 @@ void EnterItemKouraWState7(ItemKouraW *item) {
     s32 *effectScale;
 
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x800000;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mUnk_100 = 0;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = 0;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWState7StartScale;
     item->mModelEffect = StartModelEffect(
         1, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
@@ -1245,7 +1245,7 @@ void StartCourseMapItemObjects(void) {
     for (i = 0; i < rowCount; i++) {
         row = &gCourseMap->mRows[i];
         if (row->mKind == 0x6d) {
-            kind = row->mSetting0;
+            kind = row->mSettings[0];
             if (CollideSphereWithCourse(&row->mPosition, 0, 0, 0xa000, 8, -2, 0, &normal, 0, 0, 0, 0, 0, &v) == 0) {
                 normal = gCourseMapItemVec3UnitY;
             }
@@ -1383,7 +1383,7 @@ void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio)
     s32 m;
 
     kind = item->mKind;
-    m = gItemKinds[kind].mUnk_68;
+    m = gItemKinds[kind].mSetupRadius;
     item->mScale.x = MUL_FIXED12_NO_ROUND(item->mScale.z, xRatio);
     item->mScale.y = MUL_FIXED12_NO_ROUND(item->mScale.z, yRatio);
     item->mCourseRadius = MUL_FIXED12_NO_ROUND(item->mScale.y, gItemKinds[kind].mCourseRadius);
@@ -1396,13 +1396,13 @@ BOOL SwingItemObjectScale(ItemObject *item) {
     enum { K0 } kind;
     s32 radiusRatio;
 
-    if (item->mUnk_100 <= -0x29 || item->mUnk_100 >= 0x29 || item->mScale.x - item->mScale.y <= -0x29 ||
-        item->mScale.x - item->mScale.y >= 0x29) {
+    if (item->mScaleTargetOrSpeed <= -0x29 || item->mScaleTargetOrSpeed >= 0x29 ||
+        item->mScale.x - item->mScale.y <= -0x29 || item->mScale.x - item->mScale.y >= 0x29) {
         kind = item->mKind;
         item->mFlags |= 0x40;
-        item->mScale.y += item->mUnk_100;
-        item->mUnk_100 += MUL_FIXED12_NO_ROUND(item->mScale.z - item->mScale.y, 0x333);
-        item->mUnk_100 = MUL_FIXED12_NO_ROUND(item->mUnk_100, 0xc00);
+        item->mScale.y += item->mScaleTargetOrSpeed;
+        item->mScaleTargetOrSpeed += MUL_FIXED12_NO_ROUND(item->mScale.z - item->mScale.y, 0x333);
+        item->mScaleTargetOrSpeed = MUL_FIXED12_NO_ROUND(item->mScaleTargetOrSpeed, 0xc00);
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &gItemKinds[kind];
         radiusRatio = kindInfo->mRadius;
@@ -1411,7 +1411,7 @@ BOOL SwingItemObjectScale(ItemObject *item) {
         SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
         return 1;
     }
-    item->mUnk_100 = 0;
+    item->mScaleTargetOrSpeed = 0;
     return 0;
 }
 
@@ -1420,10 +1420,10 @@ BOOL EaseItemObjectScale(ItemObject *item) {
     enum { K0 } kind;
     s32 radiusRatio;
 
-    if (item->mUnk_100 != 0) {
+    if (item->mScaleTargetOrSpeed != 0) {
         kind = item->mKind;
         item->mFlags |= 0x40;
-        item->mScale.y += MUL_FIXED12_NO_ROUND(item->mUnk_100 - item->mScale.y, 0x333);
+        item->mScale.y += MUL_FIXED12_NO_ROUND(item->mScaleTargetOrSpeed - item->mScale.y, 0x333);
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &gItemKinds[kind];
         radiusRatio = kindInfo->mRadius;

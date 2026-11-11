@@ -274,18 +274,18 @@ void FinishRemainingMissionRunKarts(void) {
                     }
                     break;
                 case 6:
-                    if (((u32) (raceProgressKart->mUnk_3c << 28) >> 28) != 1) {
+                    if (((u32) (raceProgressKart->mRankIndexRequestBits << 28) >> 28) != 1) {
                         succeeded = 0;
                     }
                     break;
             }
             if (succeeded != 0) {
-                u32 storedKartIndex = (u32) (raceProgressKart->mUnk_3c << 24) >> 28;
+                u32 storedKartIndex = (u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28;
                 if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                     FinishRaceProgressKartWithEndKind(storedKartIndex, 0);
                 }
             } else {
-                FinishRaceProgressKartWithEndKind((u32) (raceProgressKart->mUnk_3c << 24) >> 28, 4);
+                FinishRaceProgressKartWithEndKind((u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28, 4);
             }
         }
     }
@@ -297,7 +297,8 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
     s32 inputSlotIndex;
     s32 mode;
     s16 score;
-    inputSlotIndex = gRaceSetup->mCurrentEntries[(u32) (raceProgressKart->mUnk_3c << 24) >> 28].mPlayer.mIndex;
+    inputSlotIndex =
+        gRaceSetup->mCurrentEntries[(u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28].mPlayer.mIndex;
     if (finished != 0) {
         raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_GOAL_REACHED;
     } else {
@@ -326,7 +327,8 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
     mode = gRaceSetup->mMode;
     if (mode == MODE_GRAND_PRIX || mode == MODE_MISSION_RUN) {
         if ((raceProgressKart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
-            raceProgressKart->mScore = ComputeRaceProgressKartScore((u32) (raceProgressKart->mUnk_3c << 24) >> 28);
+            raceProgressKart->mScore =
+                ComputeRaceProgressKartScore((u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28);
             score = raceProgressKart->mScore;
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 gCupRecords->mScore = score;

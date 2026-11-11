@@ -34,7 +34,7 @@ void CreateMkdEfBubble(void) {
 
 void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
     InitStateMachine(&bubble->mMapObject.mStateMachine, gMkdEfBubbleStateTable, 2, bubble);
-    bubble->mDelayFrameCount = row->mSetting0;
+    bubble->mDelayFrameCount = row->mSettings[0];
     bubble->mInitialY = bubble->mMapObject.mPos.y;
     bubble->mBottomY = bubble->mMapObject.mPos.y - 0x10000;
     bubble->mMapObject.mPosStep.x = 0;

@@ -34,12 +34,12 @@ void CreateDram(void) {
 
 void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
     InitStateMachine(&dram->mMapObject.mStateMachine, gDramStateTable, 6, dram);
-    dram->mAnglePerFrameChoices[0] = courseRow->mSetting0 * 0x80 / 100;
-    dram->mAnglePerFrameChoices[2] = courseRow->mSetting4 * 0x80 / 100;
+    dram->mAnglePerFrameChoices[0] = courseRow->mSettings[0] * 0x80 / 100;
+    dram->mAnglePerFrameChoices[2] = courseRow->mSettings[4] * 0x80 / 100;
     dram->mAnglePerFrameChoices[1] = (dram->mAnglePerFrameChoices[0] + dram->mAnglePerFrameChoices[2]) / 2;
-    dram->mSteadyFrameCount = courseRow->mSetting1;
-    dram->mRampFrameCount = courseRow->mSetting2;
-    dram->mDelayFrameCount = courseRow->mSetting3;
+    dram->mSteadyFrameCount = courseRow->mSettings[1];
+    dram->mRampFrameCount = courseRow->mSettings[2];
+    dram->mDelayFrameCount = courseRow->mSettings[3];
     dram->mAngleX = 0;
     if (dram->mRampFrameCount != 0) {
         dram->mRampPerFrame = 0x1000 / dram->mRampFrameCount;

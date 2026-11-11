@@ -968,8 +968,8 @@ void InitKartBalloons(KartBalloonsObject *kartBalloonsObject) {
         }
         for (i = 0; i < kartCount; i++) {
             kartBalloons = &kartBalloonsObject->mKartBalloons[i];
-            if (kartBalloonsObject->mMapObject.mCourseMapRow->mSetting2 != 0) {
-                kartBalloons->mBalloonNsbtpFrameIndex = kartBalloonsObject->mMapObject.mCourseMapRow->mSetting2;
+            if (kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[2] != 0) {
+                kartBalloons->mBalloonNsbtpFrameIndex = kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[2];
             } else {
                 switch (GetCurrentEntry(i)->mPlayer.mTeamIndex) {
                     case 0:
@@ -1033,11 +1033,11 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
             KartBalloons *kartBalloons = &kartBalloonsObject->mKartBalloons[i];
             GetKart((u16) i);
             kartBalloons->mState = 1;
-            if (kartBalloonsObject->mMapObject.mCourseMapRow->mSetting0 != 0 ||
-                kartBalloonsObject->mMapObject.mCourseMapRow->mSetting1 != 0) {
-                kartBalloons->mRemainingSpawnCount = kartBalloonsObject->mMapObject.mCourseMapRow->mSetting0;
-                AddBalloonsLeftToMake(i, kartBalloonsObject->mMapObject.mCourseMapRow->mSetting0 +
-                                             kartBalloonsObject->mMapObject.mCourseMapRow->mSetting1);
+            if (kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[0] != 0 ||
+                kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[1] != 0) {
+                kartBalloons->mRemainingSpawnCount = kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[0];
+                AddBalloonsLeftToMake(i, kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[0] +
+                                             kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[1]);
             } else {
                 kartBalloons->mRemainingSpawnCount = 1;
                 AddBalloonsLeftToMake(i, 5);

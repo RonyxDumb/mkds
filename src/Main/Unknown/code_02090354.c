@@ -130,7 +130,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
             if (sman->mTopHeightPerFrame < -0x6000) {
                 sman->mTopHeightPerFrame = -0x6000;
             }
-            if (sman->mMapObject.mCourseMapRow->mSetting0 > 0) {
+            if (sman->mMapObject.mCourseMapRow->mSettings[0] > 0) {
                 if (sman->mTopHeight < 0) {
                     ParkMapObject(&sman->mMapObject);
                 }

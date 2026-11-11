@@ -95,21 +95,21 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
             mkdEfBurner->mFollower.mGroupIndex = 0xffff;
         } else {
             InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mMapObject.mCourseMapRow, z);
-            speed = (mkdEfBurner->mMapObject.mCourseMapRow->mSetting3 << 12) / 100;
+            speed = (mkdEfBurner->mMapObject.mCourseMapRow->mSettings[3] << 12) / 100;
             mkdEfBurner->mFollower.mSpeed = speed;
             mkdEfBurner->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 speed,
                 mkdEfBurner->mFollower.mPath->mSegments[mkdEfBurner->mFollower.mSegmentIndex].mInverseProgressLength);
         }
-        if (mkdEfBurner->mMapObject.mCourseMapRow->mSetting0 == 0 &&
-            mkdEfBurner->mMapObject.mCourseMapRow->mSetting1 == 0 &&
-            mkdEfBurner->mMapObject.mCourseMapRow->mSetting2 == 0) {
+        if (mkdEfBurner->mMapObject.mCourseMapRow->mSettings[0] == 0 &&
+            mkdEfBurner->mMapObject.mCourseMapRow->mSettings[1] == 0 &&
+            mkdEfBurner->mMapObject.mCourseMapRow->mSettings[2] == 0) {
             mkdEfBurner->mScaleFixed12 = 0x1000;
             mkdEfBurner->mState = 4;
             mkdEfBurner->mMapObject.mFlags &= ~1;
         } else {
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSetting2) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSettings[2]) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 1;
                 mkdEfBurner->mMapObject.mFlags |= f;
@@ -127,7 +127,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
     switch (mkdEfBurner->mState) {
         case 0:
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSetting1) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSettings[1]) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 1;
                 mkdEfBurner->mMapObject.mFlags &= ~1;
@@ -144,7 +144,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
             break;
         case 2:
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSetting0) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSettings[0]) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 3;
             }

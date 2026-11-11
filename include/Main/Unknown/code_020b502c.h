@@ -47,7 +47,7 @@ typedef struct {
 // One entry of the table at CourseMap.mEntryGroups.
 typedef struct CourseMapEntryGroup {
     /* 00 */ u8 mUnk_00[1];
-    /* 01 */ u8 mUnk_01;
+    /* 01 */ u8 mWraps;
     /* 02 */ u16 mEntryCount;
 } CourseMapEntryGroup;
 
@@ -59,7 +59,7 @@ typedef struct CourseMapSettings {
     // Lap count; in battle mode the same halfword is the time limit in seconds (times 60 frames into
     // RaceProgress.mTimeLimitFrameCount when RaceSetup.mUnk_18 is 1).
     /* 02 */ u16 mLapCountOrBattleSeconds;
-    /* 04 */ u8 mUnk_04;
+    /* 04 */ u8 mStartSideFlipped;
     /* 05 */ u8 mFogEnabled;
     // 0, 1 or 2: which of three formulas fills the 32-entry table (8 words) loaded to 0x04000360 (next to
     // reg_G3X_FOG_COLOR and reg_G3X_FOG_OFFSET); other values leave it unfilled.
@@ -90,7 +90,7 @@ typedef struct CourseMapShape {
     /* 18 */ Vec3 mAxisX;
     /* 24 */ Vec3 mAxisY;
     /* 30 */ Vec3 mAxisZ;
-    /* 3c */ u16 mUnk_3c;
+    /* 3c */ u16 mKindValue;
     /* 3e */ s16 mIncreaseCountLimit;
     // For a shape of mKind 4: index of the point link that belongs to it, in CourseMap.mRacePointLinks (races) or
     // CourseMap.mBattlePointLinks (battles).
@@ -412,7 +412,7 @@ typedef struct RaceHudSubScreenProjection {
     /* 1e */ s16 mAnglePairFirst;
     /* 20 */ s32 mAnglePairSecondScaled;
     /* 24 */ s32 mAnglePairFirstScaled;
-    /* 28 */ s32 mUnk_28;
+    /* 28 */ s32 mCourseWidthScaled;
     /* 2c */ UnkPair020b502c mState0Min;
     /* 34 */ UnkPair020b502c mState0Max;
     /* 3c */ s64 mState0InverseX;

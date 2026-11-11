@@ -489,11 +489,11 @@ void UpdateCameraByEntryKind(Camera *camera) {
     s32 secondOffset;
     switch (camera->mCourseMapCamera->mKind) {
         case 0:
-            camera->mPos = camera->mCourseMapCamera->mUnk_00;
+            camera->mPos = camera->mCourseMapCamera->mPosOrParams;
             if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-                camera->mFollowedKartIndex = (camera->mCourseMapCamera->mUnk_24.z >> 12) - 1;
+                camera->mFollowedKartIndex = (camera->mCourseMapCamera->mLookAtEndOrParams.z >> 12) - 1;
                 GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
-                camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mUnk_18.y;
+                camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mLookAtStartOrParams.y;
             } else {
                 GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
                 camera->mLookAt.y = camera->mLookAt.y + 0x6000;
@@ -508,7 +508,7 @@ void UpdateCameraByEntryKind(Camera *camera) {
             UpdateCameraAngleEntry(camera);
             break;
         case 2:
-            camera->mPos = camera->mCourseMapCamera->mUnk_00;
+            camera->mPos = camera->mCourseMapCamera->mPosOrParams;
             UpdateCameraLookAtBlend(camera);
             UpdateCameraViewWithWorldUp(camera);
             break;
@@ -657,9 +657,9 @@ void UpdateCameraEntry(Camera *camera) {
 void UpdateCameraPosCurveLookAtKart(Camera *camera) {
     UpdateCameraPosCurve(camera, camera->mCourseMapCamera->mPosCurvePerFrame);
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        camera->mFollowedKartIndex = (camera->mCourseMapCamera->mUnk_24.z >> 12) - 1;
+        camera->mFollowedKartIndex = (camera->mCourseMapCamera->mLookAtEndOrParams.z >> 12) - 1;
         GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
-        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mUnk_18.y;
+        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mLookAtStartOrParams.y;
     } else {
         GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
         camera->mLookAt.y = camera->mLookAt.y + 0x6000;
@@ -693,32 +693,32 @@ void UpdateCameraAngleEntry(Camera *camera) {
     s32 l;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        camera->mFollowedKartIndex = (courseMapCamera->mUnk_24.z >> 12) - 1;
+        camera->mFollowedKartIndex = (courseMapCamera->mLookAtEndOrParams.z >> 12) - 1;
         GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
-        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mUnk_18.y;
+        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mLookAtStartOrParams.y;
     } else {
         GetKartPos(&camera->mLookAt, camera->mFollowedKartIndex);
         camera->mLookAt.y = camera->mLookAt.y + 0x6000;
     }
     kart = GetKart(camera->mFollowedKartIndex);
     a = kart->mUnk_138;
-    i = (u16) ((s32) (((s64) courseMapCamera->mUnk_18.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    j = (u16) ((s32) (((s64) courseMapCamera->mUnk_18.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    k = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    l = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    i = (u16) ((s32) (((s64) courseMapCamera->mLookAtStartOrParams.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    j = (u16) ((s32) (((s64) courseMapCamera->mLookAtStartOrParams.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    k = (u16) ((s32) (((s64) courseMapCamera->mLookAtEndOrParams.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    l = (u16) ((s32) (((s64) courseMapCamera->mLookAtEndOrParams.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
     MTX_RotAxis33(&m0, &kart->mUnk_120, FX_SinIdx(kart->mHopTiltAngle), FX_CosIdx(kart->mHopTiltAngle));
     MTX_MultVec33(&a, &m0, &a);
     b = a;
     c = b;
     d = b;
-    MulVec3Fixed12NoRound(&n, &d, -courseMapCamera->mUnk_18.z);
+    MulVec3Fixed12NoRound(&n, &d, -courseMapCamera->mLookAtStartOrParams.z);
     Vec3CrossUnrounded(&data_usa_02154fc4, &a, &f);
     Vec3CrossUnrounded(&c, &f, &g);
     MTX_RotAxis33(&m2, &g, FX_SinIdx(i), FX_CosIdx(i));
     MTX_RotAxis33(&m3, &f, FX_SinIdx(j), FX_CosIdx(j));
     MTX_Concat33(&m3, &m2, &m4);
     MTX_MultVec33(&d, &m4, &d);
-    MulVec3Fixed12NoRound(&t, &d, courseMapCamera->mUnk_18.z);
+    MulVec3Fixed12NoRound(&t, &d, courseMapCamera->mLookAtStartOrParams.z);
     VEC_Add(&camera->mLookAt, &t, &camera->mPos);
     f.x = -f.x;
     f.y = -f.y;
@@ -761,7 +761,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
 
     camera->mLookAtOffset = camera->mLookAt;
     newLookAt = kart->mPos;
-    VEC_MultAdd(courseMapCamera->mUnk_00.z, &kart->mUnk_120, &kart->mPos, &newPos);
+    VEC_MultAdd(courseMapCamera->mPosOrParams.z, &kart->mUnk_120, &kart->mPos, &newPos);
     newPos.y = 0x1f4000;
     newLookAt.y = 0x1f4000;
     offset = kart->mUnk_138;
@@ -769,7 +769,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     if (LENGTH_SQUARED(offset) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
     }
-    MulVec3Fixed12NoRound(&offset, &offset, courseMapCamera->mUnk_00.x);
+    MulVec3Fixed12NoRound(&offset, &offset, courseMapCamera->mPosOrParams.x);
     VEC_Add(&newPos, &offset, &newPos);
     VEC_Add(&newLookAt, &offset, &newLookAt);
     if (GetRaceUpdateFrames() < courseMapCamera->mFrameCount) {
@@ -873,14 +873,14 @@ void UpdateCameraLookAtBlend(Camera *camera) {
 
     if (courseMapCamera->mLookAtBlendPerFrame != 0) {
         blend = camera->mLookAtBlend;
-        startX = courseMapCamera->mUnk_18.x;
-        deltaX = courseMapCamera->mUnk_24.x - startX;
+        startX = courseMapCamera->mLookAtStartOrParams.x;
+        deltaX = courseMapCamera->mLookAtEndOrParams.x - startX;
         scaledDeltaX = (deltaX * blend) >> 12;
-        startY = courseMapCamera->mUnk_18.y;
-        deltaY = courseMapCamera->mUnk_24.y - startY;
+        startY = courseMapCamera->mLookAtStartOrParams.y;
+        deltaY = courseMapCamera->mLookAtEndOrParams.y - startY;
         scaledDeltaY = (deltaY * blend) >> 12;
-        startZ = courseMapCamera->mUnk_18.z;
-        deltaZ = courseMapCamera->mUnk_24.z - startZ;
+        startZ = courseMapCamera->mLookAtStartOrParams.z;
+        deltaZ = courseMapCamera->mLookAtEndOrParams.z - startZ;
         scaledDeltaZ = (deltaZ * blend) >> 12;
         camera->mLookAt.x = startX + scaledDeltaX;
         camera->mLookAt.y = startY + scaledDeltaY;
@@ -890,9 +890,9 @@ void UpdateCameraLookAtBlend(Camera *camera) {
             camera->mLookAtBlend = 0x1000;
         }
     } else {
-        camera->mLookAt.x = courseMapCamera->mUnk_18.x;
-        camera->mLookAt.y = courseMapCamera->mUnk_18.y;
-        camera->mLookAt.z = courseMapCamera->mUnk_18.z;
+        camera->mLookAt.x = courseMapCamera->mLookAtStartOrParams.x;
+        camera->mLookAt.y = courseMapCamera->mLookAtStartOrParams.y;
+        camera->mLookAt.z = courseMapCamera->mLookAtStartOrParams.z;
     }
 }
 

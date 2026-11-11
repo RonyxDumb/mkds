@@ -261,20 +261,20 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     s32 rowValue;
     float scaledValue;
 
-    InitGroupFollowerWithSpeeds(&rock->mUnk_0a4, courseRow, 0x3000, courseRow->mSetting1);
-    rock->mUnk_0dc = courseRow->mSetting0;
+    InitGroupFollowerWithSpeeds(&rock->mUnk_0a4, courseRow, 0x3000, courseRow->mSettings[1]);
+    rock->mUnk_0dc = courseRow->mSettings[0];
     rock->mSideVectors = CreateCourseMapGroupSideVectors(courseRow);
     startEntry = GetCourseMapGroupEntry(courseRow->mGroupIndex, 0);
     rock->mStartY = startEntry->mPos.y;
     rock->mStartScale = rock->mMapObject.mScale.y;
-    rowValue = courseRow->mSetting3;
+    rowValue = courseRow->mSettings[3];
     if (rowValue > 0) {
         scaledValue = 0.5f + (rowValue << 12);
     } else {
         scaledValue = (rowValue << 12) - 0.5f;
     }
     rock->mScalePerFrame = (s32) scaledValue / 60000;
-    rowValue = courseRow->mSetting4;
+    rowValue = courseRow->mSettings[4];
     if (rowValue > 0) {
         scaledValue = 0.5f + (rowValue << 12);
     } else {
@@ -283,7 +283,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     rock->mScaleLimit = (s32) scaledValue / 1000 + 0x1000;
     ResetRock(rock);
     rock->mSinceGroundFrames = 0;
-    rock->mUnk_0e0 = courseRow->mSetting5;
+    rock->mUnk_0e0 = courseRow->mSettings[5];
     if (rock->mUnk_0e0 != 0) {
         rock->mMapObject.mFlags |= data_0215691c;
         rock->mMapObject.mFlags |= data_02156914;
@@ -292,7 +292,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
         rock->mMapObject.mFlags &= ~8;
         rock->mMapObject.mAlpha = 0x1f;
     }
-    rock->mBounceRatio = (courseRow->mSetting2 << 12) / 100;
+    rock->mBounceRatio = (courseRow->mSettings[2] << 12) / 100;
     if (rock->mMapObject.mKind == 0x192) {
         CreateMapObjectSoundSourceFalloff4(&rock->mMapObject);
     } else {

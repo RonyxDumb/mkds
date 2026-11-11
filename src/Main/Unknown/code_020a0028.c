@@ -53,7 +53,7 @@ void InitAirshipObjects(AirshipObjectList *list) {
     z = FALSE;
     for (i = 0; i < list->mUnk_04 && (airship = list->mUnk_00[i]) != NULL; i++) {
         InitGroupFollower(&airship->mUnk_c8, airship->mMapObject.mCourseMapRow, z);
-        airship->mUnk_a4 = (airship->mMapObject.mCourseMapRow->mSetting0 * 0x5000L) / 100;
+        airship->mUnk_a4 = (airship->mMapObject.mCourseMapRow->mSettings[0] * 0x5000L) / 100;
         speed = airship->mUnk_a4;
         airship->mUnk_c8.mSpeed = speed;
         airship->mUnk_c8.mProgressStep = MUL_FIXED12_NO_ROUND(
@@ -67,7 +67,7 @@ void InitAirshipObjects(AirshipObjectList *list) {
         airship->mWobbleAmplitudePerFrame = 0;
         airship->mWobbleAnglePerFrame = 0xb6;
         airship->mUnk_c4 = 0;
-        if (airship->mMapObject.mCourseMapRow->mSetting1 != 0) {
+        if (airship->mMapObject.mCourseMapRow->mSettings[1] != 0) {
             airship->mState = 0;
         } else {
             airship->mState = 2;

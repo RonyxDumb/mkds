@@ -69,7 +69,7 @@ void CreatePooledMapObjects(void) {
     gPooledMapObjectRow.mRotationDegrees = buf;
     gPooledMapObjectRow.mScale = gVec3Ones;
     gPooledMapObjectRow.mKind = 0x6f;
-    gPooledMapObjectRow.mSetting3 = 1;
+    gPooledMapObjectRow.mSettings[3] = 1;
     for (i = 0; i < gPooledMapObjectCount; i++) {
         gPooledMapObjects[i] = CreateMapObjectFromCourseMapRow(&gPooledMapObjectRow, 0x6f);
     }

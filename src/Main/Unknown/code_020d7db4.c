@@ -139,7 +139,7 @@ void BuildGroupPath(u32 groupIndex, CourseMapEntryGroup *entryGroup) {
     }
     entryCount = entryGroup->mEntryCount;
     path->mSegmentCount = entryCount;
-    path->mWraps = entryGroup->mUnk_01;
+    path->mWraps = entryGroup->mWraps;
     if (path->mWraps == 0) {
         path->mSegmentCount = path->mSegmentCount - 1;
     }

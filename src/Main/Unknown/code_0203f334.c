@@ -190,7 +190,7 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *b, Ve
                         if (gRaceSetup->mMode == MODE_WIFI) {
                             *b = 0x1000 - (GetOwnParticipantIndex() + 1) * 0x190;
                         } else {
-                            *b = 0x1000 - ((u32) (raceProgressKart->mUnk_3c << 28) >> 28) * 0x190;
+                            *b = 0x1000 - ((u32) (raceProgressKart->mRankIndexRequestBits << 28) >> 28) * 0x190;
                         }
                     }
                     r = TRUE;
@@ -202,7 +202,7 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *b, Ve
         *b = ComputeProgressBetweenCheckpoints(c, e, e + 1);
         if (*b >= -2 && *b <= 0x1002) {
             if ((gCourseMap->mCheckpoints[e].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
-                *b = 0x1000 - ((u32) (raceProgressKart->mUnk_3c << 28) >> 28) * 0x190;
+                *b = 0x1000 - ((u32) (raceProgressKart->mRankIndexRequestBits << 28) >> 28) * 0x190;
             }
             if (*b < 0) {
                 *b = 0;
@@ -387,8 +387,8 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *a, s32 b) {
     if (a->mLap <= 1) {
         return;
     }
-    GetKartPos(&u, (u32) (a->mUnk_3c << 24) >> 28);
-    GetKartPrevPos(&v, (u32) (a->mUnk_3c << 24) >> 28);
+    GetKartPos(&u, (u32) (a->mRankIndexRequestBits << 24) >> 28);
+    GetKartPrevPos(&v, (u32) (a->mRankIndexRequestBits << 24) >> 28);
     VEC_Subtract(&u, &v, &w);
     w.x = MUL_FIXED12_NO_ROUND(w.x, -240);
     w.y = MUL_FIXED12_NO_ROUND(w.y, -240);

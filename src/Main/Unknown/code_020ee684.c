@@ -604,11 +604,11 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
     }
     pool->mDraw = gItemKinds[kind].mDraw;
     pool->mViewTest = gItemKinds[kind].mViewTest;
-    pool->mUnk_2c = gItemKinds[kind].mScaleLimit;
-    pool->mUnk_30 = gItemKinds[kind].mTargetScale;
-    pool->mUnk_34 = gItemKinds[kind].mScaleStep;
-    pool->mUnk_38 = gItemKinds[kind].mDrawDistance;
-    pool->mUnk_3c = gItemKinds[kind].mFarDistanceSquared;
+    pool->mScaleLimit = gItemKinds[kind].mScaleLimit;
+    pool->mTargetScale = gItemKinds[kind].mTargetScale;
+    pool->mScaleStep = gItemKinds[kind].mScaleStep;
+    pool->mDrawDistance = gItemKinds[kind].mDrawDistance;
+    pool->mFarDistanceSquared = gItemKinds[kind].mFarDistanceSquared;
     *objectIdCounter = objectId;
 }
 

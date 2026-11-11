@@ -259,8 +259,8 @@ void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
     pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
     pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
-    amplitudeSetting = courseRow->mSetting1;
-    pendulum->mSwingAnglePerFrame = 0x640000u / (u32) courseRow->mSetting0 / 0xf0u;
+    amplitudeSetting = courseRow->mSettings[1];
+    pendulum->mSwingAnglePerFrame = 0x640000u / (u32) courseRow->mSettings[0] / 0xf0u;
     pendulum->mSwingAmplitude = (u32) (amplitudeSetting * 0x1111) / 0x64u;
     pendulum->mRadius = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.x, 0x64000);
     pendulum->mHalfSizeZ = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.z, 0x32000);

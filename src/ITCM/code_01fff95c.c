@@ -84,15 +84,15 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     if (p->mFramesSinceCourseHit <= 5) {
         p->mFramesSinceCourseHit += 1;
     }
-    if (p->mUnk_116 <= 5) {
-        p->mUnk_116 += 1;
+    if (p->mFramesSinceReset <= 5) {
+        p->mFramesSinceReset += 1;
     }
     if (!(p->mFlags & 0x8000)) {
         p->mCollisionBits = 0;
     }
     if (!(p->mFlags & 0x800000)) {
-        if (p->mUnk_100 == 0) {
-            if (GrowItemObjectScale(p, a->mUnk_2c, 0x2e1) != 0) {
+        if (p->mScaleTargetOrSpeed == 0) {
+            if (GrowItemObjectScale(p, a->mScaleLimit, 0x2e1) != 0) {
                 RefreshItemObjectScale(p);
             } else {
                 goto L_a20;
@@ -100,11 +100,11 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         } else {
         L_a20:
             if (p->mFlags & 0xc000) {
-                r = GrowItemObjectScale(p, a->mUnk_30, 0x19a);
+                r = GrowItemObjectScale(p, a->mTargetScale, 0x19a);
                 if (SwingItemObjectScale(p) == 0 && r != 0) {
                     RefreshItemObjectScale(p);
                 }
-            } else if (GrowItemObjectScale(p, a->mUnk_30, a->mUnk_34) != 0) {
+            } else if (GrowItemObjectScale(p, a->mTargetScale, a->mScaleStep) != 0) {
                 RefreshItemObjectScale(p);
             }
         }
@@ -144,7 +144,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     if (v & 0x1e34ef) {
         p->mFramesSinceCourseHit = 0;
         if (v & 0x1000000) {
-            p->mUnk_116 = 0;
+            p->mFramesSinceReset = 0;
         }
         if (v & 0x80400) {
             if (v & 0x400) {
@@ -182,14 +182,15 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
             BlendDirectionTowardUp(&p->mNormal, 0xcd);
         }
     }
-    if (p->mUnk_116 < 5) {
+    if (p->mFramesSinceReset < 5) {
         p->mFlags |= 0x40000;
     } else {
         p->mFlags &= ~0x40000;
     }
     k = p->mKind;
-    m = gItemKinds[k].mUnk_60;
-    p->mDistanceSquaredAndFlags = a->mViewTest(p->mPosPointer, p->mRadius * m, a->mUnk_38, a->mUnk_3c, 0x1f);
+    m = gItemKinds[k].mViewRadiusScale;
+    p->mDistanceSquaredAndFlags =
+        a->mViewTest(p->mPosPointer, p->mRadius * m, a->mDrawDistance, a->mFarDistanceSquared, 0x1f);
     if (p->mDistanceSquaredAndFlags & 3) {
         p->mFlags |= 0x10000;
     } else {

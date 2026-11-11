@@ -143,14 +143,13 @@ u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
 void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     RandomState64 *random;
     s64 distanceSquared;
-    s32 angleIndex;
     s32 angle;
 
     if (item->mFlags & 0x2000000) {
         if (LENGTH_SQUARED(*normal) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(normal, normal);
         }
-        if (Vec3DotUnrounded(normal, &item->mUnk_108) > 0x800) {
+        if (Vec3DotUnrounded(normal, &item->mCoursePointOrParams) > 0x800) {
             item->mVelocity.z = MUL_FIXED12_NO_ROUND(normal->z, 0x14cd);
             item->mVelocity.x = MUL_FIXED12_NO_ROUND(normal->x, 0x14cd);
         }
@@ -170,10 +169,10 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     }
     random = &gRaceProgress->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    angleIndex = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32)) >> 4;
-    item->mUnk_108.z = FX_SinCosTable_[angleIndex * 2 + 1];
-    item->mUnk_108.x = FX_SinCosTable_[angleIndex * 2];
-    item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mUnk_108.z, 0x14cd);
-    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mUnk_108.x, 0x14cd);
+    angle = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32));
+    item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
+    item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);
+    item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.z, 0x14cd);
+    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.x, 0x14cd);
     item->mFlags |= 0x2000000;
 }

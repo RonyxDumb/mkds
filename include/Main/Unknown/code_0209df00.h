@@ -36,11 +36,11 @@ void *CreateFireball2UpdateList(void);
 void *CreateFireball2DrawList(void);
 void CreateFireball2KindData(void);
 void UpdateFireball2(void *a, Fireball2 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitFireball2Objects(MapObjectList *p);
+void InitFireball2Objects(MapObjectList *mapObjectList);
 void DrawFireball2(void *a, Fireball2 *b);
 void SetupDrawFireball2(void *a);
 void CreateFireball2(MapObjectList *a); /* also sets word +0x1c of the group record to 1 */
 BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c);
 u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d);
-void InitFireball2(Fireball2 *a);
+void InitFireball2(Fireball2 *fireball2);
 void *CreatePuddleDrawList(void);

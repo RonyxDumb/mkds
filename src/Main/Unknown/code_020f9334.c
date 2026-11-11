@@ -65,7 +65,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mScale.x = 0;
     item->mScale.y = 0;
     item->mScale.z = 0;
-    item->mUnk_100 = 0;
+    item->mScaleTargetOrSpeed = 0;
     item->mCourseRadius = 0x7b;
     item->mRadius = 0x7b;
     item->mAlpha = 0x1f;
@@ -126,7 +126,7 @@ void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, 
         InitCourseColorBlend(&item->mColorBlend, 1);
     }
     item->mNormal = *normal;
-    item->mUnk_116 = param_5 != 0 ? 0 : 5;
+    item->mFramesSinceReset = param_5 != 0 ? 0 : 5;
 }
 
 s32 DoesItemObjectHurtKart(ItemObject *item) {

@@ -51,13 +51,13 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
         }
     }
     if (variant != 0) {
-        item->mUnk_108.y = 0x266;
+        item->mCoursePointOrParams.y = 0x266;
     } else {
-        item->mUnk_108.y = 0x333;
+        item->mCoursePointOrParams.y = 0x333;
         if (!(item->mFlags & 0x8000)) {
-            item->mUnk_108.y += MUL_FIXED12_NO_ROUND(VEC_Mag(velocity), 0x15c);
-            if (item->mUnk_108.y > 0x5c3) {
-                item->mUnk_108.y = 0x5c3;
+            item->mCoursePointOrParams.y += MUL_FIXED12_NO_ROUND(VEC_Mag(velocity), 0x15c);
+            if (item->mCoursePointOrParams.y > 0x5c3) {
+                item->mCoursePointOrParams.y = 0x5c3;
             }
         }
     }
@@ -79,9 +79,9 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     FreeItemObjectCollisionSlot(item);
     r = Vec3DotUnrounded(velocity, GetViewTransposeMatrixAxis0());
     if (r > 1) {
-        item->mUnk_108.x = 1;
+        item->mCoursePointOrParams.x = 1;
     } else {
-        item->mUnk_108.x = 0;
+        item->mCoursePointOrParams.x = 0;
     }
     return 0;
 }
@@ -180,8 +180,8 @@ void AdvanceItemObjectFadeOut(ItemObject *item) {
     Vec3 direction;
 
     Vec3CrossUnrounded(&item->mNormal, GetViewTransposeMatrixAxis2(), &direction);
-    VEC_MultAdd(item->mUnk_108.x != 0 ? item->mUnk_108.y : -item->mUnk_108.y, &direction, &item->mNormal,
-                &item->mNormal);
+    VEC_MultAdd(item->mCoursePointOrParams.x != 0 ? item->mCoursePointOrParams.y : -item->mCoursePointOrParams.y,
+                &direction, &item->mNormal, &item->mNormal);
     item->mFlags |= 0x80;
     item->mVelocity.y -= 0x400;
     VEC_Add(&item->mPos, &item->mVelocity, &item->mPos);

@@ -54,7 +54,7 @@ void InitRaceHudSubScreenProjection(void) {
     gRaceHudSubScreenProjection->mCourseMax = courseMax;
     gRaceHudSubScreenProjection->mCourseInverseX = FX_InvFx64c(courseMax.mFirst - courseMin.mFirst);
     gRaceHudSubScreenProjection->mCourseInverseZ = FX_InvFx64c(courseMax.mSecond - courseMin.mSecond);
-    gRaceHudSubScreenProjection->mUnk_28 =
+    gRaceHudSubScreenProjection->mCourseWidthScaled =
         MulFixed12NoRound(FX_Div(courseMax.mFirst - courseMin.mFirst, 0x200000), 0xb0000);
     GetRaceHudSubScreenBg3MinMax(&bg3Min, &bg3Max);
     gRaceHudSubScreenProjection->mBg3Min = bg3Min;

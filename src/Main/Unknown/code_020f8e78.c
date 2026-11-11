@@ -24,7 +24,8 @@
 #include "Main/Unknown/code_020e337c.h"
 
 BOOL TryFadeOutDeflectedItemObject(ItemObject *item, Vec3 *normal) {
-    if ((item->mFlags & 0x2000000) != 0 && Vec3DotUnrounded(normal, &item->mUnk_108) < 0 && (item->mFlags & 8) == 0) {
+    if ((item->mFlags & 0x2000000) != 0 && Vec3DotUnrounded(normal, &item->mCoursePointOrParams) < 0 &&
+        (item->mFlags & 8) == 0) {
         FadeOutUsedUpItemObject(item, 1);
         return TRUE;
     }
@@ -136,13 +137,13 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mKartLightColor = NULL;
     item->mNormal = gItemVec3UnitY;
     item->mCollisionBits = 0;
-    item->mUnk_100 = 0;
+    item->mScaleTargetOrSpeed = 0;
     item->mCollisionHitLink->mObject = NULL;
-    item->mUnk_108.x = 0;
-    item->mUnk_108.y = 0;
-    item->mUnk_108.z = 0;
+    item->mCoursePointOrParams.x = 0;
+    item->mCoursePointOrParams.y = 0;
+    item->mCoursePointOrParams.z = 0;
     item->mFramesSinceCourseHit = 5;
-    item->mUnk_116 = 0;
+    item->mFramesSinceReset = 0;
     item->mCourseReleaseTimer = 0;
     item->mHitLinkTimer = 0;
     item->mAgeFrames = 1;
@@ -161,7 +162,7 @@ void SetupItemObjectFromData(ItemObject *item) {
         return;
     }
     kind = item->mKind;
-    if (gItemKinds[kind].mUnk_54 != 0) {
+    if (gItemKinds[kind].mSkipsStartCollisionSlot != 0) {
         return;
     }
     hasCollisionSlot = item->mCollisionSlotIndex != -1;

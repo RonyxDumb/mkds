@@ -126,7 +126,7 @@ void InitJg(void) {
     data_0217b8f0 = flag;
     data_0217b8bc = flag;
     data_0217b894 = 0;
-    if (gCourseMap->mSettings->mUnk_04 != 0) {
+    if (gCourseMap->mSettings->mStartSideFlipped != 0) {
         flag = FALSE;
     }
     data_0217b8f8 = flag;
@@ -314,16 +314,16 @@ void BuildAttractorTables(void) {
 }
 
 void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *courseRow) {
-    object->mTableIndex = courseRow->mSetting0;
+    object->mTableIndex = courseRow->mSettings[0];
     switch (gRaceSetup->mEngineIndex) {
         case 0:
-            object->mStrength = courseRow->mSetting1;
+            object->mStrength = courseRow->mSettings[1];
             break;
         case 1:
-            object->mStrength = courseRow->mSetting2;
+            object->mStrength = courseRow->mSettings[2];
             break;
         case 2:
-            object->mStrength = courseRow->mSetting3;
+            object->mStrength = courseRow->mSettings[3];
             break;
     }
 }

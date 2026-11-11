@@ -348,7 +348,7 @@ void UpdateRaceProgress(void) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
             u16 *q;
             u8 standingRank = GetKartStandingRankIndexPlusOne(kartIndex);
-            q = &gRaceProgress->mKarts[kartIndex].mUnk_3c;
+            q = &gRaceProgress->mKarts[kartIndex].mRankIndexRequestBits;
             *q = (*q & ~0xf) | (standingRank & 0xf);
         }
         for (kartIndex = 0; kartIndex < 8; kartIndex = (u16) (kartIndex + 1)) {

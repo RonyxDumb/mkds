@@ -78,8 +78,9 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     enum { K0 } kind;
     s32 k;
 
-    VEC_MultAdd(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mUnk_108);
-    UpdateCollisionHitLink(b, item->mCollisionBits, item->mCollisionHitLink, &item->mUnk_108, &item->mNormal);
+    VEC_MultAdd(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mCoursePointOrParams);
+    UpdateCollisionHitLink(b, item->mCollisionBits, item->mCollisionHitLink, &item->mCoursePointOrParams,
+                           &item->mNormal);
     if (item->mCollisionHitLink->mObject != NULL &&
         IsHitLinkOutsideGearRadiusOrFlagged((Unk020e0448 *) item->mCollisionHitLink) != 0) {
         item->mHitLinkTimer = ITEM_OBJECT_HIT_LINK_TIMER_FRAMES;
@@ -100,9 +101,9 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     if (fallSpeed <= 0) {
         fallSpeed = -fallSpeed;
     }
-    item->mUnk_100 = -MUL_FIXED12_NO_ROUND(fallSpeed, k);
-    if (item->mUnk_100 < -0x5c3) {
-        item->mUnk_100 = -0x5c3;
+    item->mScaleTargetOrSpeed = -MUL_FIXED12_NO_ROUND(fallSpeed, k);
+    if (item->mScaleTargetOrSpeed < -0x5c3) {
+        item->mScaleTargetOrSpeed = -0x5c3;
     }
     item->mVelocity.x = 0;
     item->mVelocity.y = 0;
@@ -117,7 +118,8 @@ void AdvanceRestingItemObject(ItemObject *item) {
     u32 w;
 
     if (item->mCollisionHitLink->mObject != NULL) {
-        if (GetCollisionHitLinkPosAndVelocity(item->mCollisionHitLink, &item->mUnk_108, &item->mNormal) != FALSE) {
+        if (GetCollisionHitLinkPosAndVelocity(item->mCollisionHitLink, &item->mCoursePointOrParams, &item->mNormal) !=
+            FALSE) {
             StartFallingItemObject(item);
         }
         if (item->mCollisionHitLink->mObject->mCollisionData.mUnk_130 != FALSE) {
@@ -125,7 +127,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
                 item->mFlags |= 0x80;
             }
         }
-        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mUnk_108, &item->mPos);
+        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
         if (item->mHitLinkTimer > 0) {
             item->mHitLinkTimer -= 1;
             if ((item->mCreationNumber & 7) != GetRaceUpdateFramesMod8()) {
@@ -152,7 +154,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
         if (!(item->mFlags & 0x40)) {
             return;
         }
-        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mUnk_108, &item->mPos);
+        VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
     }
 }
 
@@ -170,8 +172,8 @@ void BounceRestingItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal
         dot = -dot;
     }
     kind = *(vs32 *) &item->mKind;
-    item->mUnk_100 = MUL_FIXED12_NO_ROUND(dot, gItemKinds[kind].mBounceFactor);
-    item->mUnk_100 = item->mUnk_100 >> 1;
+    item->mScaleTargetOrSpeed = MUL_FIXED12_NO_ROUND(dot, gItemKinds[kind].mBounceFactor);
+    item->mScaleTargetOrSpeed = item->mScaleTargetOrSpeed >> 1;
 }
 
 void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 *fromVelocity, Vec3 *normal) {
@@ -290,9 +292,9 @@ void FallingBounceItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal
         return;
     }
     item->mFlags |= 0x1000000;
-    item->mUnk_108.x = 0;
-    item->mUnk_108.y = 0;
-    item->mUnk_108.z = 0;
+    item->mCoursePointOrParams.x = 0;
+    item->mCoursePointOrParams.y = 0;
+    item->mCoursePointOrParams.z = 0;
 }
 
 void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {

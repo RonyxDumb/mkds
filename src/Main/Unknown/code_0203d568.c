@@ -211,7 +211,7 @@ void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 b) {
 
     kart = &gRaceProgress->mKarts[kartIndex];
     finishRequest = b != 0 ? 1 : 2;
-    kart->mUnk_3c = (kart->mUnk_3c & ~0x300) | ((finishRequest & 3) << 8);
+    kart->mRankIndexRequestBits = (kart->mRankIndexRequestBits & ~0x300) | ((finishRequest & 3) << 8);
     if (gRaceProgress->mHeader.mFinishedCount + gRaceProgress->mHeader.mRemovedCount >= gRaceSetup->mKartCount) {
         FinishRaceProgress();
     }

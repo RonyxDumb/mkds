@@ -232,7 +232,7 @@ void UpdatePukupukuState1(Pukupuku *pukupuku) {
     if (AdvancePushedMotion(&pukupuku->mPushedObject) == FALSE) {
         return;
     }
-    if (pukupuku->mPushedObject.mMapObject.mCourseMapRow->mSetting0 == 0) {
+    if (pukupuku->mPushedObject.mMapObject.mCourseMapRow->mSettings[0] == 0) {
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 2;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
         return;

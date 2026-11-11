@@ -264,7 +264,7 @@ void DrawCow(void *mapObjectList, MapObject *mapObject) {
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&mapObject->mPos), 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gCow, mapObject->mCourseMapRow->mSetting0);
+    SetMapObjectModelNsbtpFrameIndex(gCow, mapObject->mCourseMapRow->mSettings[0]);
     DrawMapObjectModel(mapObjectList, gCow, mapObject);
 }
 

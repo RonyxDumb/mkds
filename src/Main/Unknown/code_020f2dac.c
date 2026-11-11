@@ -847,7 +847,7 @@ void BounceItemObject(ItemObject *item, Vec3 *b, Vec3 *awayDirection) {
         return;
     }
     item->mFlags |= 0x1000000;
-    item->mUnk_108.x = 0;
-    item->mUnk_108.y = 0;
-    item->mUnk_108.z = 0;
+    item->mCoursePointOrParams.x = 0;
+    item->mCoursePointOrParams.y = 0;
+    item->mCoursePointOrParams.z = 0;
 }

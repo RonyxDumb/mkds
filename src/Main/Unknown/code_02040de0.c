@@ -33,7 +33,7 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     s32 negatedThirdAxisY;
     s32 negatedThirdAxisZ;
 
-    if (gCourseMap->mSettings->mUnk_04 != 0) {
+    if (gCourseMap->mSettings->mStartSideFlipped != 0) {
         firstAxisOffset = 0x1000 - firstAxisOffset;
     }
     if (gCourseMap->mStartPlacementCount > 1) {
@@ -212,7 +212,7 @@ s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag) {
                     break;
             }
             if (inside != 0) {
-                if ((s16) shape->mUnk_3c == 0) {
+                if ((s16) shape->mKindValue == 0) {
                     *outFlag = 1;
                 } else {
                     *outFlag = 0;

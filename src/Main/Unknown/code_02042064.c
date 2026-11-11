@@ -692,7 +692,7 @@ void BuildCourseMapKind3ShapeLists(void) {
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_3) {
-            nodeSlot = &gCourseMap->mKind3ShapeLists[(s16) shape->mUnk_3c];
+            nodeSlot = &gCourseMap->mKind3ShapeLists[(s16) shape->mKindValue];
             while (*nodeSlot != NULL) {
                 nodeSlot = &(*nodeSlot)->mNext;
             }

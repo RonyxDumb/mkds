@@ -375,7 +375,7 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mSetting0 +
+        coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mSettings[0] +
                                       (u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) - 30);
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = 3;
@@ -605,7 +605,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
                 coverPooHole->mPooHeight = coverPooHole->mCoverHeight - 0xf000;
                 return;
             }
-            coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mSetting0 +
+            coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mSettings[0] +
                                           CoverPooHoleMapObjectRandomBelowU16(60) - 30);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 coverPooHole->mState = 3;

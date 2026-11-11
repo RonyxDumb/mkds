@@ -154,7 +154,7 @@ void EnterItemBombState2(ItemBomb *bomb) {
     ModelEffect *modelEffect;
 
     bomb->mBouncingItemObject.mItemObject.mFlags |= 0x800000;
-    bomb->mBouncingItemObject.mItemObject.mUnk_100 = 0;
+    bomb->mBouncingItemObject.mItemObject.mScaleTargetOrSpeed = 0;
     bomb->mBouncingItemObject.mItemObject.mScale = gItemBombState2StartScale;
     bomb->mModelEffect =
         StartModelEffect(0, &bomb->mBouncingItemObject.mItemObject.mPos,
