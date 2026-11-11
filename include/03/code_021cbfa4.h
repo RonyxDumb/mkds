@@ -2,12 +2,12 @@
 
 #include "types.h"
 
-void func_ov003_021cbfa4(void);
-void func_ov003_021cbfcc(void);
-void func_ov003_021cc020(void);
-void func_ov003_021cc04c(void);
-void func_ov003_021cc050(void);
-void func_ov003_021cc064(void);
-void func_ov003_021cc084(void);
-void func_ov003_021cc0ac(void);
-void func_ov003_021cc110(void);
+void UpdateUsbNextFrames(void);
+void UpdateUsbNextRelease(void);
+void StartUsbNextFadeOut(void);
+void UpdateUsbNextNop(void);
+void UpdateUsbNext(void);
+void UpdateUsbNextFadeIn(void);
+void StartUsbNextFadeIn(void);
+void LoadUsbNextFileAndSetBgCnt(void);
+void SetupUsbNext(void);

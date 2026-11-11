@@ -30,8 +30,8 @@
 #include "registers.h"
 
 void SetupWay(void) {
-    Unk021cd5e0_400 *a = func_ov003_021cdb6c();
-    data_ov003_021da240[0] = 0;
+    Unk021cd5e0_400 *record = func_ov003_021cdb6c();
+    gWayChosen[0] = 0;
     if (gWaySavedIndex == 0) {
         gWaySavedIndex = 1;
     }
@@ -45,45 +45,45 @@ void SetupWay(void) {
     }
     LoadWayFilesAndSetBgCnt();
     LoadHlSetScr();
-    ShowSubScreenMessage(0x7e, data_ov003_021d6578[GetLanguageIndex()], a->mUnk_f4 + 1);
+    ShowSubScreenMessage(0x7e, gWayMessageDigitColumns[GetLanguageIndex()], record->mUnk_f4 + 1);
     CreateObjectsForMenuPair(1);
-    PlaceSelectionCorners(data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
-                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
-                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
-                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
-    SetUpdateFunction(func_ov003_021cb71c);
+    PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
+    SetUpdateFunction(StartWayFadeIn);
 }
 
 void LoadWayFilesAndSetBgCnt(void) {
-    Unk021d7654 a = gYbBgStep21NclName2;
+    Unk021d7654 ybBgStep21NclName = gYbBgStep21NclName2;
     LoadFileToVram(gJbBgStep2NcgName2, GX_LoadBG2Char);
     LoadFileToVram(gYbBgStep2NclName2, GX_LoadBGPltt);
     LoadFileToVram(gJb3WayNscName, GX_LoadBG2Scr);
-    gYbBgStep21Ncl = LoadFile(BuildFilePathWithLanguage((u8 *) &a), NULL, 4);
+    gYbBgStep21Ncl = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep21NclName), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 3;
 }
 
-void func_ov003_021cb71c(void) {
+void StartWayFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x14, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x14);
-    SetUpdateFunction(func_ov003_021cb6ec);
+    SetUpdateFunction(UpdateWayFadeIn);
 }
 
-void func_ov003_021cb6ec(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateWayFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         CreateSlideButtonsForMenuPair(0);
-        SetUpdateFunction(func_ov003_021cb6c8);
+        SetUpdateFunction(UpdateWayButtonsIn);
     }
 }
 
-void func_ov003_021cb6c8(void) {
+void UpdateWayButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateWay);
@@ -92,8 +92,8 @@ void func_ov003_021cb6c8(void) {
 
 void UpdateWay(void) {
     UpdateWayInput();
-    func_ov003_021cb57c();
-    func_ov003_021cb538();
+    UpdateWayNop();
+    UpdateWayResult();
 }
 
 void UpdateWayInput(void) {
@@ -102,10 +102,10 @@ void UpdateWayInput(void) {
         if (IsTouchPressedInRect(&gWayRects[HasModeFlag(1)][i]) != 0) {
             SetButtonResultIfNone(1);
             gWaySelectedIndex = i;
-            PlaceSelectionCorners(data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
-                                  data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
-                                  data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
-                                  data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
+            PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
             return;
         }
     }
@@ -124,39 +124,39 @@ void UpdateWayInput(void) {
     }
 }
 
-void func_ov003_021cb57c(void) {}
+void UpdateWayNop(void) {}
 
-void func_ov003_021cb538(void) {
+void UpdateWayResult(void) {
     switch (GetButtonResult()) {
         case 0:
             StartSoundSeq(7);
             break;
         case 1:
             StartSoundSeq(6);
-            func_ov003_021cb2e0();
-            data_ov003_021da240[0] = 1;
+            RequestWayPaletteRowCopy();
+            gWayChosen[0] = 1;
             break;
         default:
             return;
     }
-    SetUpdateFunction(func_ov003_021cb518);
+    SetUpdateFunction(StartWayClose);
 }
 
-void func_ov003_021cb518(void) {
+void StartWayClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021cb4d0);
+    SetUpdateFunction(UpdateWayFadeOut);
 }
 
-void func_ov003_021cb4d0(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
-        if ((*(u8 *) &data_ov003_021da240) != 0) {
+void UpdateWayFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
+        if ((*(u8 *) &gWayChosen) != 0) {
             StartSlideButtonsOut();
         }
         StartBlendBrightnessFade(3, 1, 1, 8);
         StartBlendBrightnessFade(3, 0, 0x14, 8);
-        SetUpdateFunction(func_ov003_021cb3d8);
+        SetUpdateFunction(UpdateWayRelease);
     }
 }

@@ -37,7 +37,7 @@
 #include "03/code_021cc8d4.h"
 #include "registers.h"
 
-void func_ov003_021cb3d8(void) {
+void UpdateWayRelease(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
         IsSlideButtonsNotSlidingOut() != 0) {
         ReleaseSelectionObjectSlots();
@@ -45,14 +45,14 @@ void func_ov003_021cb3d8(void) {
         DeleteLoadedFile(gYbBgStep21Ncl);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
-        if (data_ov003_021da240[0] == 0) {
+        if (gWayChosen[0] == 0) {
             SetPrimaryMenuPair(2, 0);
             SetUpdateFunction(CreateAp);
         } else {
             switch (gWaySelectedIndex) {
                 case 0:
                     SetPrimaryMenuPair(2, 1);
-                    SetUpdateFunction(func_ov003_021ca8e8);
+                    SetUpdateFunction(SetupApScan);
                     break;
                 case 1:
                     SetPrimaryMenuPair(2, 1);
@@ -73,52 +73,53 @@ void func_ov003_021cb3d8(void) {
     }
 }
 
-void MoveWaySelection(int param_1) {
-    s32 a = gWaySelectedIndex;
-    s32 b = gWayMoveTargets[HasModeFlag(1)][a][param_1];
-    if (b == -1) {
+void MoveWaySelection(int direction) {
+    s32 selectedIndex = gWaySelectedIndex;
+    s32 moveTarget = gWayMoveTargets[HasModeFlag(1)][selectedIndex][direction];
+    if (moveTarget == -1) {
         return;
     }
-    if (b == 0) {
-        gWaySavedIndex = a;
+    if (moveTarget == 0) {
+        gWaySavedIndex = selectedIndex;
     }
-    if (b == -2) {
+    if (moveTarget == -2) {
         gWaySelectedIndex = gWaySavedIndex;
     } else {
-        gWaySelectedIndex = b;
+        gWaySelectedIndex = moveTarget;
     }
     StartSoundSeq(8);
-    PlaceSelectionCorners(data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
-                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
-                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
-                          data_ov003_021d65e0[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
+    PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_00,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_02,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
 }
 
-void func_ov003_021cb2e0(void) {
-    Unk021d7650 a = data_ov003_021d7650;
-    func_ov003_021cc948(gYbBgStep21Ncl, a.mUnk_00[gWaySelectedIndex], a.mUnk_00[gWaySelectedIndex]);
+void RequestWayPaletteRowCopy(void) {
+    WayPaletteRows paletteRows = gWayPaletteRows;
+    RequestBgPaletteRowCopy(gYbBgStep21Ncl, paletteRows.mUnk_00[gWaySelectedIndex],
+                            paletteRows.mUnk_00[gWaySelectedIndex]);
 }
 
 void CreateAp(void) {
-    Ap *a = AllocZeroedExpHeapBlock(0x20, 4);
-    gAp = a;
-    a->mUnk_1d = 0;
+    Ap *apObject = AllocZeroedExpHeapBlock(0x20, 4);
+    gAp = apObject;
+    apObject->mUnk_1d = 0;
     LoadApFilesAndSetBgCnt();
     LoadHlScr(1);
     ShowSubScreenMessage(0x7b, -1, 0);
     CreateObjectsForMenuPair(0);
-    func_ov003_021cb11c();
-    func_ov003_021caca8();
-    SetUpdateFunction(func_ov003_021cb0e0);
+    CreateApEntryObjects();
+    PlaceApSelection();
+    SetUpdateFunction(StartApFadeIn);
 }
 
 void LoadApFilesAndSetBgCnt(void) {
-    Unk021d75c8 a = gYbBgStep11NclName2;
+    Unk021d75c8 ybBgStep11NclName = gYbBgStep11NclName2;
     LoadFileToVram(gYbObjWayNclName, GX_LoadOBJPltt);
     LoadFileToVram(gJbBgStep1NcgName3, GX_LoadBG2Char);
     LoadFileToVram(gJbBgStep1NclName3, GX_LoadBGPltt);
     LoadFileToVram(gJb2ApNscName, GX_LoadBG2Scr);
-    gAp->mYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage((u8 *) &a), NULL, 4);
+    gAp->mYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep11NclName), NULL, 4);
     CombineDispcntBits(1, 0x10);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
@@ -126,21 +127,20 @@ void LoadApFilesAndSetBgCnt(void) {
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 3;
 }
 
-void func_ov003_021cb11c(void) {
+void CreateApEntryObjects(void) {
     s32 i;
-    u32 a;
+    u32 entryStatus;
     for (i = 0; i < 3; i++) {
-        a = func_ov003_021cd844(i);
-        if (a == 0xff) {
-            a = 3;
+        entryStatus = func_ov003_021cd844(i);
+        if (entryStatus == 0xff) {
+            entryStatus = 3;
         } else {
             gAp->mUnk_10[i] = CreateOamRangeFromNceImage(0, 0x11, 1);
-            SetOamRangePosition(gAp->mUnk_10[i], -1, data_ov003_021d64f0[i + 3].mUnk_00,
-                                data_ov003_021d64f0[i + 3].mUnk_02);
+            SetOamRangePosition(gAp->mUnk_10[i], -1, gApObjectPositions[i + 3].mX, gApObjectPositions[i + 3].mY);
             func_ov003_021d1790(gAp->mUnk_10[i], -1, 3);
         }
-        gAp->mUnk_04[i] = CreateOamRangeFromNceImage(0, data_ov003_021d64e4[a], 1);
-        SetOamRangePosition(gAp->mUnk_04[i], -1, data_ov003_021d64f0[i].mUnk_00, data_ov003_021d64f0[i].mUnk_02);
+        gAp->mUnk_04[i] = CreateOamRangeFromNceImage(0, gApEntryImageIndices[entryStatus], 1);
+        SetOamRangePosition(gAp->mUnk_04[i], -1, gApObjectPositions[i].mX, gApObjectPositions[i].mY);
         func_ov003_021d1790(gAp->mUnk_04[i], -1, 3);
     }
 }

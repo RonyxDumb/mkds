@@ -34,10 +34,10 @@
 #include "03/code_021bf810.h"
 #include "03/code_021be610.h"
 
-void func_ov003_021ca8e8(void) {
-    data_ov003_021da22c = 0;
-    *(u8 *) &data_ov003_021da228 = 0;
-    func_ov003_021ca864();
+void SetupApScan(void) {
+    gApScanFrames = 0;
+    *(u8 *) &gApScanKind = 0;
+    LoadApScanFilesAndSetBgCnt();
     ShowSubScreenMessage(0x7f, -1, 0);
     LoadHlSetScr();
     CreateObjectsForMenuPair(2);
@@ -46,167 +46,167 @@ void func_ov003_021ca8e8(void) {
     func_ov003_021cd2a4();
     func_ov003_021cd1c4();
     StartSoundSeq(0xa);
-    SetUpdateFunction(func_ov003_021ca828);
+    SetUpdateFunction(StartApScanFadeIn);
 }
 
-void func_ov003_021ca864(void) {
-    void *v2 = &gJbBgStep3NcgName6;
-    void *v3 = &GX_LoadBG2Char;
-    u32 v4 = LoadFileToVram(v2, v3);
-    void *v5 = &gYbBgStep3NclName6;
-    void *v6 = &GX_LoadBGPltt;
-    u32 v7 = LoadFileToVram(v5, v6);
-    void *v8 = &gXb4MultiNscName7;
-    void *v9 = &GX_LoadBG2Scr;
-    u32 v10 = LoadFileToVram(v8, v9);
-    u32 v11 = 0x4001008u;
-    u32 v12 = (*(u16 *) ((v11) + (0)));
-    u32 v14 = ((v12) & ~(0x3u));
-    u32 v15 = ((v14) | (0x3u));
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v20;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v25;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    u32 v30;
-    u32 v32;
-    u32 v33;
-    u32 v34;
-    u32 v35;
-    *(u16 *) ((v11) + (0)) = v15;
-    v17 = 0x400100au;
-    v18 = (*(u16 *) ((v17) + (0)));
-    v19 = ((v18) & ~(0x3u));
-    v20 = ((v19) | (0x3u));
-    *(u16 *) ((v17) + (0)) = v20;
-    v22 = 0x4000008u;
-    v23 = (*(u16 *) ((v22) + (0)));
-    v24 = ((v23) & ~(0x3u));
-    v25 = ((v24) | (0x3u));
-    *(u16 *) ((v22) + (0)) = v25;
-    v27 = 0x400000au;
-    v28 = (*(u16 *) ((v27) + (0)));
-    v29 = ((v28) & ~(0x3u));
-    v30 = ((v29) | (0x3u));
-    *(u16 *) ((v27) + (0)) = v30;
-    v32 = 0x400000cu;
-    v33 = (*(u16 *) ((v32) + (0)));
-    v34 = ((v33) & ~(0x3u));
-    v35 = ((v34) | (0x3u));
-    *(u16 *) ((v32) + (0)) = v35;
+void LoadApScanFilesAndSetBgCnt(void) {
+    void *ncgName = &gJbBgStep3NcgName6;
+    void *loadBg2CharFunc = &GX_LoadBG2Char;
+    u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
+    void *nclName = &gYbBgStep3NclName6;
+    void *loadBgPlttFunc = &GX_LoadBGPltt;
+    u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
+    void *nscName = &gXb4MultiNscName7;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg0CntAddr;
+    u32 g2Bg0CntOld;
+    u32 g2Bg0CntCleared;
+    u32 g2Bg0CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg0CntAddr = 0x4000008u;
+    g2Bg0CntOld = (*(u16 *) ((g2Bg0CntAddr) + (0)));
+    g2Bg0CntCleared = ((g2Bg0CntOld) & ~(0x3u));
+    g2Bg0CntNew = ((g2Bg0CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg0CntAddr) + (0)) = g2Bg0CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021ca828(void) {
+void StartApScanFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021ca7f8);
+    SetUpdateFunction(UpdateApScanFadeIn);
 }
 
-void func_ov003_021ca7f8(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateApScanFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         CreateSlideButtonsForMenuPair(1);
-        SetUpdateFunction(func_ov003_021ca7d4);
+        SetUpdateFunction(UpdateApScanButtonsIn);
     }
 }
 
-void func_ov003_021ca7d4(void) {
+void UpdateApScanButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
-        SetUpdateFunction(func_ov003_021ca7b8);
+        SetUpdateFunction(UpdateApScan);
     }
 }
 
-void func_ov003_021ca7b8(void) {
-    func_ov003_021ca6d4();
-    func_ov003_021ca6d0();
-    func_ov003_021ca6a8();
-    func_ov003_021ca6f4();
+void UpdateApScan(void) {
+    UpdateApScanInput();
+    UpdateApScanNop();
+    UpdateApScanResult();
+    UpdateApScanFrames();
 }
 
-void func_ov003_021ca6f4(void) {
-    int a;
-    int b;
+void UpdateApScanFrames(void) {
+    int entryCount;
+    int entries;
     int i;
-    data_ov003_021da22c++;
-    if (data_ov003_021da22c >= 0x12c) {
+    gApScanFrames++;
+    if (gApScanFrames >= 0x12c) {
         StopSoundSeq();
-        a = func_ov003_021cd0d0(&b);
-        if (a == 0) {
-            *(u8 *) &data_ov003_021da228 = 2;
+        entryCount = func_ov003_021cd0d0(&entries);
+        if (entryCount == 0) {
+            *(u8 *) &gApScanKind = 2;
             func_ov003_021cefc0(0x43, 1, 1, -1, 0);
             StartSoundSeq(0x12);
             DisableButtonTouch();
-            SetUpdateFunction(func_ov003_021ca588);
+            SetUpdateFunction(UpdateApScanMessageResult);
             return;
         }
-        for (i = 0; i < a; i++) {
-            if (*(u8 *) (b + i * 0x2a + 0x28) != 2) {
+        for (i = 0; i < entryCount; i++) {
+            if (*(u8 *) (entries + i * 0x2a + 0x28) != 2) {
                 break;
             }
         }
-        if (i == a) {
-            *(u8 *) &data_ov003_021da228 = 3;
+        if (i == entryCount) {
+            *(u8 *) &gApScanKind = 3;
             func_ov003_021cefc0(0x42, 1, 1, -1, 0);
             StartSoundSeq(0x12);
             DisableButtonTouch();
-            SetUpdateFunction(func_ov003_021ca588);
+            SetUpdateFunction(UpdateApScanMessageResult);
         } else {
-            *(u8 *) &data_ov003_021da228 = 1;
+            *(u8 *) &gApScanKind = 1;
             StartSoundSeq(0xf);
-            SetUpdateFunction(func_ov003_021ca688);
+            SetUpdateFunction(StartApScanClose);
         }
     }
 }
 
-void func_ov003_021ca6d4(void) {
-    int v1;
-    v1 = AreKeysPressed(2);
-    if (v1 != 0) {
+void UpdateApScanInput(void) {
+    int keysPressed;
+    keysPressed = AreKeysPressed(2);
+    if (keysPressed != 0) {
         StopSoundSeq();
         SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021ca6d0(void) {}
+void UpdateApScanNop(void) {}
 
-void func_ov003_021ca6a8(void) {
-    int v1;
-    v1 = GetButtonResult();
-    if (v1 == 0) {
+void UpdateApScanResult(void) {
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult == 0) {
         StopSoundSeq();
         StartSoundSeq(7);
-        SetUpdateFunction(func_ov003_021ca688);
+        SetUpdateFunction(StartApScanClose);
     }
 }
 
-void func_ov003_021ca688(void) {
+void StartApScanClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021ca64c);
+    SetUpdateFunction(UpdateApScanFadeOut);
 }
 
-void func_ov003_021ca64c(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateApScanFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartSlideButtonsOut();
         StartBlendBrightnessFade(3, 1, 1, 8);
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021ca5b0);
+        SetUpdateFunction(UpdateApScanRelease);
     }
 }
 
-void func_ov003_021ca5b0(void) {
+void UpdateApScanRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
@@ -219,7 +219,7 @@ void func_ov003_021ca5b0(void) {
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        if ((*(u8 *) &data_ov003_021da228) != 1) {
+        if ((*(u8 *) &gApScanKind) != 1) {
             func_ov003_021cd27c();
             func_ov003_021cd790(func_ov003_021cdb6c()->mUnk_f4);
             SetPrimaryMenuPair(2, 1);
@@ -232,20 +232,20 @@ void func_ov003_021ca5b0(void) {
     }
 }
 
-void func_ov003_021ca588(void) {
-    int v1;
-    v1 = func_ov003_021cef80();
-    if (v1 == 0) {
+void UpdateApScanMessageResult(void) {
+    int messageAnswer;
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
-        SetUpdateFunction(func_ov003_021ca56c);
+        SetUpdateFunction(UpdateApScanMessageClose);
     }
 }
 
-void func_ov003_021ca56c(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
-        SetUpdateFunction(func_ov003_021ca688);
+void UpdateApScanMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
+        SetUpdateFunction(StartApScanClose);
     }
 }

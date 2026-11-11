@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov003_021cbf60(void);
+void SetupConnectMessage(void);

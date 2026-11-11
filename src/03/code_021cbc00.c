@@ -27,120 +27,120 @@
 #include "03/code_021d1f70.h"
 #include "03/code_021cea3c.h"
 
-void func_ov003_021cbe44(void) {
-    int v1;
-    func_ov003_021cbe40();
-    func_ov003_021cbe3c();
-    v1 = func_ov003_021cef80();
-    if (v1 == 0) {
+void UpdateConnectMessage(void) {
+    int messageAnswer;
+    UpdateConnectMessageInputNop();
+    UpdateConnectMessageNop();
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
         StartSoundSeq(6);
-        SetUpdateFunction(func_ov003_021cbe14);
+        SetUpdateFunction(UpdateConnectMessageClose);
     }
 }
 
-void func_ov003_021cbe40(void) {}
+void UpdateConnectMessageInputNop(void) {}
 
-void func_ov003_021cbe3c(void) {}
+void UpdateConnectMessageNop(void) {}
 
-void func_ov003_021cbe14(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
+void UpdateConnectMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
         StartBlendBrightnessFade(3, 0, 0x14, 8);
-        SetUpdateFunction(func_ov003_021cbde4);
+        SetUpdateFunction(UpdateConnectMessageFadeOut);
     }
 }
 
-void func_ov003_021cbde4(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if (v1 == 0) {
+void UpdateConnectMessageFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
+    if (fadeSlotBusy == 0) {
         ClearDispcntBits(0, 0x14);
         SetPrimaryMenuPair(0, 1);
-        SetUpdateFunction(func_ov003_021cbb98);
+        SetUpdateFunction(SetupConnect);
     }
 }
 
-void func_ov003_021cbdbc(void) {
-    *(u8 *) &data_ov003_021da24c = 0;
-    func_ov003_021cbd68();
+void SetupConnectDone(void) {
+    *(u8 *) &gConnectDoneFrames = 0;
+    LoadConnectDoneFileAndSetBgCnt();
     PrintMessage(0x77);
-    SetUpdateFunction(func_ov003_021cbd40);
+    SetUpdateFunction(StartConnectDoneFadeIn);
 }
 
-void func_ov003_021cbd68(void) {
-    void *v2 = &gXb4MultiNscName9;
-    void *v3 = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(v2, v3);
-    u32 v5 = 0x4001008u;
-    u32 v6 = (*(u16 *) ((v5) + (0)));
-    u32 v8 = ((v6) & ~(0x3u));
-    u32 v9 = ((v8) | (0x3u));
-    u32 v11;
-    u32 v12;
-    u32 v13;
-    u32 v14;
-    u32 v16;
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    *(u16 *) ((v5) + (0)) = v9;
-    v11 = 0x400100au;
-    v12 = (*(u16 *) ((v11) + (0)));
-    v13 = ((v12) & ~(0x3u));
-    v14 = ((v13) | (0x3u));
-    *(u16 *) ((v11) + (0)) = v14;
-    v16 = 0x400000au;
-    v17 = (*(u16 *) ((v16) + (0)));
-    v18 = ((v17) & ~(0x3u));
-    v19 = ((v18) | (0x3u));
-    *(u16 *) ((v16) + (0)) = v19;
-    v21 = 0x400000cu;
-    v22 = (*(u16 *) ((v21) + (0)));
-    v23 = ((v22) & ~(0x3u));
-    v24 = ((v23) | (0x3u));
-    *(u16 *) ((v21) + (0)) = v24;
+void LoadConnectDoneFileAndSetBgCnt(void) {
+    void *nscName = &gXb4MultiNscName9;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021cbd40(void) {
+void StartConnectDoneFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021cbd20);
+    SetUpdateFunction(UpdateConnectDoneFadeIn);
 }
 
-void func_ov003_021cbd20(void) {
+void UpdateConnectDoneFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
-        SetUpdateFunction(func_ov003_021cbd0c);
+        SetUpdateFunction(UpdateConnectDone);
     }
 }
 
-void func_ov003_021cbd0c(void) {
-    func_ov003_021cbc00();
-    func_ov003_021cbd08();
+void UpdateConnectDone(void) {
+    UpdateConnectDoneFrames();
+    UpdateConnectDoneNop();
 }
 
-void func_ov003_021cbd08(void) {}
+void UpdateConnectDoneNop(void) {}
 
-void func_ov003_021cbcc8(void) {
-    int v1[1];
-    GetSecondaryMenuPair(NULL, v1);
-    if (v1[0] != 0) {
+void StartConnectDoneFadeOut(void) {
+    int secondaryPairSecond[1];
+    GetSecondaryMenuPair(NULL, secondaryPairSecond);
+    if (secondaryPairSecond[0] != 0) {
         func_ov003_021ce0c4();
     }
     StartBlendBrightnessFade(3, 1, 1, 8);
     StartBlendBrightnessFade(3, 0, 0x15, 8);
-    SetUpdateFunction(func_ov003_021cbc50);
+    SetUpdateFunction(UpdateConnectDoneRelease);
 }
 
-void func_ov003_021cbc50(void) {
+void UpdateConnectDoneRelease(void) {
     int v1;
-    int v2[1];
+    int secondaryPairSecond[1];
     v1 = IsBlendBrightnessFadeSlotBusy(1);
     if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) && (v1 = func_ov003_021cdd28(), v1 != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
@@ -148,8 +148,8 @@ void func_ov003_021cbc50(void) {
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
         SetPrimaryMenuPair(2, 1);
-        GetSecondaryMenuPair(NULL, v2);
-        if (v2[0] == 0) {
+        GetSecondaryMenuPair(NULL, secondaryPairSecond);
+        if (secondaryPairSecond[0] == 0) {
             SetSecondaryMenuPair(0, 0);
             SetUpdateFunction(CreateJb3List);
             return;
@@ -158,21 +158,21 @@ void func_ov003_021cbc50(void) {
     }
 }
 
-void func_ov003_021cbc00(void) {
-    s32 a;
-    data_ov003_021da24c[0]++;
-    if (data_ov003_021da24c[0] >= 0xb4) {
-        GetSecondaryMenuPair(NULL, &a);
+void UpdateConnectDoneFrames(void) {
+    s32 secondaryPairSecond;
+    gConnectDoneFrames[0]++;
+    if (gConnectDoneFrames[0] >= 0xb4) {
+        GetSecondaryMenuPair(NULL, &secondaryPairSecond);
         switch (GetMode()) {
             case 0:
                 break;
             case 1:
-                if (a != 0) {
+                if (secondaryPairSecond != 0) {
                     SetUpdateFunction(StartMainFadeOut);
                     return;
                 }
                 break;
         }
-        SetUpdateFunction(func_ov003_021cbcc8);
+        SetUpdateFunction(StartConnectDoneFadeOut);
     }
 }

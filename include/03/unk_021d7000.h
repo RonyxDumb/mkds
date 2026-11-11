@@ -33,14 +33,14 @@ typedef struct Unk021d7654 {
 } Unk021d7654;
 
 // Four bytes moved as one value.
-typedef struct Unk021d7650 {
+typedef struct WayPaletteRows {
     /* 0 */ u8 mUnk_00[4];
-} Unk021d7650;
+} WayPaletteRows;
 
 // Three words moved as one value.
-typedef struct Unk021d7708 {
+typedef struct ConnectMessageIds {
     /* 00 */ u32 mUnk_00[3];
-} Unk021d7708;
+} ConnectMessageIds;
 
 // Objects whose layout isn't known yet.
 extern Unk021d7864 data_ov003_021d7864;
@@ -53,8 +53,8 @@ extern u8 gJbBgStep21NcgName[];
 extern u8 gJb3ListNscName[];
 extern u16 gDotSeparatedBytesFormat[];
 extern u8 gYbObjMainNclName4[];
-extern Bytes4 data_ov003_021d75c0;
-extern Bytes4 data_ov003_021d75c4;
+extern Bytes4 gApPaletteRows;
+extern Bytes4 gApEntryIconPalettes;
 extern u8 gYb5MultiNscName[];
 extern u8 gYb5MultiNscName2[];
 extern u8 gJb5InfoNscName[];
@@ -94,7 +94,7 @@ extern u8 gYbObjWayNclName[];
 extern u8 gJbBgStep1NcgName3[];
 extern u8 gJbBgStep1NclName3[];
 extern u8 gJb2ApNscName[];
-extern Unk021d7650 data_ov003_021d7650;
+extern WayPaletteRows gWayPaletteRows;
 extern Unk021d7654 gYbBgStep21NclName2;
 extern u8 gJbBgStep2NcgName2[];
 extern u8 gYbBgStep2NclName2[];
@@ -103,7 +103,7 @@ extern u8 gJbBgStep3NcgName7[];
 extern u8 gYbBgStep3NclName7[];
 extern u8 gXb4MultiNscName8[];
 extern u8 gXb4MultiNscName9[];
-extern Unk021d7708 data_ov003_021d7708;
+extern ConnectMessageIds gConnectMessageIds;
 extern u8 gXb4NoneNscName2[];
 extern u8 gXb4MultiNscName10[];
 extern u8 gJbBgStep2NcgName3[];

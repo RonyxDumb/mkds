@@ -21,104 +21,104 @@
 #include "03/code_021d254c.h"
 #include "03/code_021d1f70.h"
 
-void func_ov003_021cc110(void) {
-    data_ov003_021da250 = 0;
-    func_ov003_021cc0ac();
+void SetupUsbNext(void) {
+    gUsbNextFrames = 0;
+    LoadUsbNextFileAndSetBgCnt();
     LoadHlScr(8);
     PrintMessage(0x6f);
     StartSoundSeq(0x10);
-    SetUpdateFunction(func_ov003_021cc084);
+    SetUpdateFunction(StartUsbNextFadeIn);
 }
 
-void func_ov003_021cc0ac(void) {
-    void *v2 = &gXb4MultiNscName10;
-    void *v3 = &GX_LoadBG2Scr;
-    u32 v4 = LoadFileToVram(v2, v3);
-    u32 v5 = 0x4001008u;
-    u32 v6 = (*(u16 *) ((v5) + (0)));
-    u32 v8 = ((v6) & ~(0x3u));
-    u32 v9 = ((v8) | (0x3u));
-    u32 v11;
-    u32 v12;
-    u32 v13;
-    u32 v14;
-    u32 v16;
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v26;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    *(u16 *) ((v5) + (0)) = v9;
-    v11 = 0x400100au;
-    v12 = (*(u16 *) ((v11) + (0)));
-    v13 = ((v12) & ~(0x3u));
-    v14 = ((v13) | (0x3u));
-    *(u16 *) ((v11) + (0)) = v14;
-    v16 = 0x4000008u;
-    v17 = (*(u16 *) ((v16) + (0)));
-    v18 = ((v17) & ~(0x3u));
-    v19 = ((v18) | (0x3u));
-    *(u16 *) ((v16) + (0)) = v19;
-    v21 = 0x400000au;
-    v22 = (*(u16 *) ((v21) + (0)));
-    v23 = ((v22) & ~(0x3u));
-    v24 = ((v23) | (0x3u));
-    *(u16 *) ((v21) + (0)) = v24;
-    v26 = 0x400000cu;
-    v27 = (*(u16 *) ((v26) + (0)));
-    v28 = ((v27) & ~(0x3u));
-    v29 = ((v28) | (0x3u));
-    *(u16 *) ((v26) + (0)) = v29;
+void LoadUsbNextFileAndSetBgCnt(void) {
+    void *nscName = &gXb4MultiNscName10;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg0CntAddr;
+    u32 g2Bg0CntOld;
+    u32 g2Bg0CntCleared;
+    u32 g2Bg0CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg0CntAddr = 0x4000008u;
+    g2Bg0CntOld = (*(u16 *) ((g2Bg0CntAddr) + (0)));
+    g2Bg0CntCleared = ((g2Bg0CntOld) & ~(0x3u));
+    g2Bg0CntNew = ((g2Bg0CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg0CntAddr) + (0)) = g2Bg0CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021cc084(void) {
+void StartUsbNextFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021cc064);
+    SetUpdateFunction(UpdateUsbNextFadeIn);
 }
 
-void func_ov003_021cc064(void) {
+void UpdateUsbNextFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
-        SetUpdateFunction(func_ov003_021cc050);
+        SetUpdateFunction(UpdateUsbNext);
     }
 }
 
-void func_ov003_021cc050(void) {
-    func_ov003_021cbfa4();
-    func_ov003_021cc04c();
+void UpdateUsbNext(void) {
+    UpdateUsbNextFrames();
+    UpdateUsbNextNop();
 }
 
-void func_ov003_021cc04c(void) {}
+void UpdateUsbNextNop(void) {}
 
-void func_ov003_021cc020(void) {
+void StartUsbNextFadeOut(void) {
     StartBlendBrightnessFade(3, 1, 1, 8);
     StartBlendBrightnessFade(3, 0, 0x15, 8);
-    SetUpdateFunction(func_ov003_021cbfcc);
+    SetUpdateFunction(UpdateUsbNextRelease);
 }
 
-void func_ov003_021cbfcc(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateUsbNextRelease(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
         SetPrimaryMenuPair(0, 0);
         SetSecondaryMenuPair(0, 2);
-        SetUpdateFunction(func_ov003_021cbf60);
+        SetUpdateFunction(SetupConnectMessage);
     }
 }
 
-void func_ov003_021cbfa4(void) {
-    data_ov003_021da250++;
-    if (data_ov003_021da250 >= 120) {
-        SetUpdateFunction(func_ov003_021cc020);
+void UpdateUsbNextFrames(void) {
+    gUsbNextFrames++;
+    if (gUsbNextFrames >= 120) {
+        SetUpdateFunction(StartUsbNextFadeOut);
     }
 }

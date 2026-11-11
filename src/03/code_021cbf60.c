@@ -13,17 +13,17 @@
 #include "03/code_021cd000.h"
 #include "03/code_021cd0d0.h"
 
-void func_ov003_021cbf60(void) {
-    s32 a;
+void SetupConnectMessage(void) {
+    s32 secondaryPairSecond;
     func_ov003_021cd27c();
-    GetSecondaryMenuPair(NULL, &a);
-    func_ov003_021cbf0c();
+    GetSecondaryMenuPair(NULL, &secondaryPairSecond);
+    LoadConnectMessageFileAndSetBgCnt();
     ShowSubScreenMessage(0x7d, -1, 0);
-    if (a != 2) {
+    if (secondaryPairSecond != 2) {
         LoadHlSetScr();
     }
-    if (a == 1) {
+    if (secondaryPairSecond == 1) {
         func_ov003_021cd6d0();
     }
-    SetUpdateFunction(func_ov003_021cbed0);
+    SetUpdateFunction(StartConnectMessageFadeIn);
 }

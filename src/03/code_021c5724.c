@@ -79,8 +79,8 @@ void LoadApListFilesAndSetBgCnt(void) {
     u8 ybBgStep31NclName[0x16] = "char/ybBgStep31.ncl.l";
     LoadFileToVram(gJb4ApListNscName, GX_LoadBG3Scr);
     gApList->mXb4ApListBackNsc = LoadFile(BuildFilePathWithLanguage(xb4ApListBackNscName), NULL, 4);
-    func_ov003_021cca30(gApList->mXb4ApListBackNsc);
-    func_ov003_021cc9fc();
+    CreateBg2ScrBuffer(gApList->mXb4ApListBackNsc);
+    RequestBg2ScrUpload();
     gApList->mYbBgStep31Ncl = LoadFile(BuildFilePathWithLanguage(ybBgStep31NclName), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
@@ -407,7 +407,7 @@ void UpdateApListRelease(void) {
     func_ov003_021cce78();
     ReleaseSelectionObjectSlots();
     HideSubScreenMessage();
-    func_ov003_021cca10();
+    ReleaseBg2ScrBuffer();
     DeleteLoadedFile(gApList->mXb4ApListBackNsc);
     DeleteLoadedFile(gApList->mYbBgStep31Ncl);
     ClearDispcntBits(1, 1);
@@ -423,7 +423,7 @@ void UpdateApListRelease(void) {
     } else if (gApListSelectedRow == 4) {
         func_ov003_021cd27c();
         SetPrimaryMenuPair(0, 1);
-        SetUpdateFunction(func_ov003_021ca8e8);
+        SetUpdateFunction(SetupApScan);
     } else {
         func_ov003_021cdb14(apList->mEntries + apList->mEntryIndex * 0x2a);
         SetPrimaryMenuPair(0, 0);
@@ -434,7 +434,7 @@ void UpdateApListRelease(void) {
         } else {
             SetPrimaryMenuPair(0, 1);
             SetSecondaryMenuPair(0, 1);
-            SetUpdateFunction(func_ov003_021cbf60);
+            SetUpdateFunction(SetupConnectMessage);
         }
     }
     FreeExpHeapBlockAndClearPointer(&gApList);
@@ -701,5 +701,5 @@ void RequestApListPaletteRowCopy(void) {
     u8 paletteRow;
     tableByte = gApListPaletteRow[0];
     paletteRow = tableByte;
-    func_ov003_021cc948(gApList->mYbBgStep31Ncl, paletteRow, paletteRow);
+    RequestBgPaletteRowCopy(gApList->mYbBgStep31Ncl, paletteRow, paletteRow);
 }

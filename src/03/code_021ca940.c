@@ -43,24 +43,24 @@
 #include "03/unk_021d6000.h"
 #include "03/code_021cc8d4.h"
 
-void func_ov003_021cb0e0(void) {
+void StartApFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x14, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x14);
-    SetUpdateFunction(func_ov003_021cb0b0);
+    SetUpdateFunction(UpdateApFadeIn);
 }
 
-void func_ov003_021cb0b0(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateApFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         CreateSlideButtonsForMenuPair(0);
-        SetUpdateFunction(func_ov003_021cb084);
+        SetUpdateFunction(UpdateApButtonsIn);
     }
 }
 
-void func_ov003_021cb084(void) {
+void UpdateApButtonsIn(void) {
     if (GetButtonResult() != -2 && func_ov003_021ce00c() != 1) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateAp);
@@ -69,64 +69,64 @@ void func_ov003_021cb084(void) {
 
 void UpdateAp(void) {
     UpdateApInput();
-    func_ov003_021cafa0();
-    func_ov003_021caeb8();
+    UpdateApNop();
+    UpdateApResult();
 }
 
 void UpdateApInput(void) {
-    int v1;
-    u32 v2;
-    int v3;
-    u8 *v4;
-    v2 = 0;
-    v4 = gApRects;
+    int touchPressed;
+    u32 rectIndex;
+    int keysPressed;
+    u8 *rect;
+    rectIndex = 0;
+    rect = gApRects;
     do {
-        v1 = IsTouchPressedInRect((const Rect *) v4);
-        if (v1 != 0) {
+        touchPressed = IsTouchPressedInRect((const Rect *) rect);
+        if (touchPressed != 0) {
             SetButtonResultIfNone((u8) 1);
-            *(u8 *) &gApSelectedIndex = (s8) v2;
-            func_ov003_021caca8();
+            *(u8 *) &gApSelectedIndex = (s8) rectIndex;
+            PlaceApSelection();
             return;
         }
-        v4 = v4 + 8;
-        v2 = v2 + 1;
-    } while (v2 < 7);
-    v3 = AreKeysPressed(1);
-    if (v3 != 0) {
+        rect = rect + 8;
+        rectIndex = rectIndex + 1;
+    } while (rectIndex < 7);
+    keysPressed = AreKeysPressed(1);
+    if (keysPressed != 0) {
         SetButtonResultIfNone((u8) 1);
         return;
     }
-    v3 = AreKeysPressed(2);
-    if (v3 != 0) {
+    keysPressed = AreKeysPressed(2);
+    if (keysPressed != 0) {
         SetButtonResultIfNone((u8) 0);
         return;
     }
-    v3 = AreKeysPressedOrRepeated(0x40);
-    if (v3 != 0) {
+    keysPressed = AreKeysPressedOrRepeated(0x40);
+    if (keysPressed != 0) {
         MoveApSelection(1);
         return;
     }
-    v3 = AreKeysPressedOrRepeated(0x80);
-    if (v3 != 0) {
+    keysPressed = AreKeysPressedOrRepeated(0x80);
+    if (keysPressed != 0) {
         MoveApSelection(3);
         return;
     }
-    v3 = AreKeysPressedOrRepeated(0x20);
-    if (v3 != 0) {
+    keysPressed = AreKeysPressedOrRepeated(0x20);
+    if (keysPressed != 0) {
         MoveApSelection(0);
         return;
     }
-    v3 = AreKeysPressedOrRepeated(0x10);
-    if (v3 != 0) {
+    keysPressed = AreKeysPressedOrRepeated(0x10);
+    if (keysPressed != 0) {
         MoveApSelection(2);
     }
 }
 
-void func_ov003_021cafa0(void) {}
+void UpdateApNop(void) {}
 
-void func_ov003_021caeb8(void) {
-    s32 a;
-    u8 s;
+void UpdateApResult(void) {
+    s32 entryIndex;
+    u8 selectedIndex;
     switch (GetButtonResult()) {
         case 0:
             switch (GetMode()) {
@@ -142,43 +142,43 @@ void func_ov003_021caeb8(void) {
             break;
         case 1:
             gAp->mUnk_1d = 1;
-            s = gApSelectedIndex[0];
-            if (s >= 4) {
-                a = s - 4;
-                if (func_ov003_021cd844(a) == 0xff) {
+            selectedIndex = gApSelectedIndex[0];
+            if (selectedIndex >= 4) {
+                entryIndex = selectedIndex - 4;
+                if (func_ov003_021cd844(entryIndex) == 0xff) {
                     StartSoundSeq(9);
                     SetButtonResult(-1);
                     return;
                 }
                 StartSoundSeq(6);
-                func_ov003_021cefc0(0x98, 0, 1, data_ov003_021d64e8[GetLanguageIndex()], a + 1);
-                func_ov003_021caae0();
+                func_ov003_021cefc0(0x98, 0, 1, gApMessageDigitColumns[GetLanguageIndex()], entryIndex + 1);
+                SetApSelectedButtonImage();
                 DisableButtonTouch();
-                SetUpdateFunction(func_ov003_021ca9e8);
+                SetUpdateFunction(UpdateApMessageResult);
                 return;
             }
-            if (s <= 2) {
-                func_ov003_021cd790(s);
+            if (selectedIndex <= 2) {
+                func_ov003_021cd790(selectedIndex);
             }
             StartSoundSeq(6);
-            func_ov003_021ca940();
+            RequestApSelectionPalette();
             break;
         default:
             return;
     }
-    SetUpdateFunction(func_ov003_021cae88);
+    SetUpdateFunction(StartApClose);
 }
 
-void func_ov003_021cae88(void) {
+void StartApClose(void) {
     if (gAp->mUnk_1d == 2) {
         func_ov003_021ce0c4();
     }
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021cae28);
+    SetUpdateFunction(UpdateApFadeOut);
 }
 
-void func_ov003_021cae28(void) {
+void UpdateApFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
         if (gAp->mUnk_1d == 1) {
             if (gApSelectedIndex[0] == 3 || func_ov003_021cdb6c()->mUnk_00.mUnk_e7 != 0xff) {
@@ -187,11 +187,11 @@ void func_ov003_021cae28(void) {
         }
         StartBlendBrightnessFade(3, 1, 1, 8);
         StartBlendBrightnessFade(3, 0, 0x14, 8);
-        SetUpdateFunction(func_ov003_021cacfc);
+        SetUpdateFunction(UpdateApRelease);
     }
 }
 
-void func_ov003_021cacfc(void) {
+void UpdateApRelease(void) {
     u32 i;
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021cdd28() != 0 &&
         IsSlideButtonsNotSlidingOut() != 0) {
@@ -238,27 +238,27 @@ void func_ov003_021cacfc(void) {
     }
 }
 
-void func_ov003_021caca8(void) {
-    u8 a = gApSelectedIndex[0];
-    if (a < 4) {
-        PlaceSelectionCorners(data_ov003_021d6540[a].mUnk_00, data_ov003_021d6540[a].mUnk_04,
-                              data_ov003_021d6540[a].mUnk_02, data_ov003_021d6540[a].mUnk_06);
+void PlaceApSelection(void) {
+    u8 selectedIndex = gApSelectedIndex[0];
+    if (selectedIndex < 4) {
+        PlaceSelectionCorners(gApSelectionRects[selectedIndex].mUnk_00, gApSelectionRects[selectedIndex].mUnk_04,
+                              gApSelectionRects[selectedIndex].mUnk_02, gApSelectionRects[selectedIndex].mUnk_06);
     } else {
-        PlaceSelectionPair(0, data_ov003_021d6540[a].mUnk_00, data_ov003_021d6540[a].mUnk_04,
-                           data_ov003_021d6540[a].mUnk_02);
+        PlaceSelectionPair(0, gApSelectionRects[selectedIndex].mUnk_00, gApSelectionRects[selectedIndex].mUnk_04,
+                           gApSelectionRects[selectedIndex].mUnk_02);
     }
 }
 
-void MoveApSelection(int a) {
-    u32 b = 1;
+void MoveApSelection(int direction) {
+    u32 moved = 1;
     switch (gApSelectedIndex[0]) {
         case 0:
             gAp->mUnk_1c = 0;
-            if (a == 0) {
+            if (direction == 0) {
                 gApSelectedIndex[0] = 2;
-            } else if (a == 2) {
+            } else if (direction == 2) {
                 gApSelectedIndex[0] = 1;
-            } else if (a == 1) {
+            } else if (direction == 1) {
                 gApSelectedIndex[0] = 3;
             } else {
                 gApSelectedIndex[0] = 4;
@@ -266,11 +266,11 @@ void MoveApSelection(int a) {
             break;
         case 1:
             gAp->mUnk_1c = 1;
-            if (a == 0) {
+            if (direction == 0) {
                 gApSelectedIndex[0] = 0;
-            } else if (a == 2) {
+            } else if (direction == 2) {
                 gApSelectedIndex[0] = 2;
-            } else if (a == 1) {
+            } else if (direction == 1) {
                 gApSelectedIndex[0] = 3;
             } else {
                 gApSelectedIndex[0] = 5;
@@ -278,35 +278,35 @@ void MoveApSelection(int a) {
             break;
         case 2:
             gAp->mUnk_1c = 2;
-            if (a == 0) {
+            if (direction == 0) {
                 gApSelectedIndex[0] = 1;
-            } else if (a == 2) {
+            } else if (direction == 2) {
                 gApSelectedIndex[0] = 0;
-            } else if (a == 1) {
+            } else if (direction == 1) {
                 gApSelectedIndex[0] = 3;
             } else {
                 gApSelectedIndex[0] = 6;
             }
             break;
         case 3: {
-            u8 c = gAp->mUnk_1c;
-            s32 d = c + 4;
-            if (a == 1) {
+            u8 rememberedIndex = gAp->mUnk_1c;
+            s32 d = rememberedIndex + 4;
+            if (direction == 1) {
                 gApSelectedIndex[0] = d;
-            } else if (a == 3) {
-                gApSelectedIndex[0] = c;
+            } else if (direction == 3) {
+                gApSelectedIndex[0] = rememberedIndex;
             } else {
-                b = 0;
+                moved = 0;
             }
             break;
         }
         case 4:
             gAp->mUnk_1c = 0;
-            if (a == 0) {
+            if (direction == 0) {
                 gApSelectedIndex[0] = 6;
-            } else if (a == 2) {
+            } else if (direction == 2) {
                 gApSelectedIndex[0] = 5;
-            } else if (a == 1) {
+            } else if (direction == 1) {
                 gApSelectedIndex[0] = 0;
             } else {
                 gApSelectedIndex[0] = 3;
@@ -314,11 +314,11 @@ void MoveApSelection(int a) {
             break;
         case 5:
             gAp->mUnk_1c = 1;
-            if (a == 0) {
+            if (direction == 0) {
                 gApSelectedIndex[0] = 4;
-            } else if (a == 2) {
+            } else if (direction == 2) {
                 gApSelectedIndex[0] = 6;
-            } else if (a == 1) {
+            } else if (direction == 1) {
                 gApSelectedIndex[0] = 1;
             } else {
                 gApSelectedIndex[0] = 3;
@@ -326,80 +326,82 @@ void MoveApSelection(int a) {
             break;
         case 6:
             gAp->mUnk_1c = 2;
-            if (a == 0) {
+            if (direction == 0) {
                 gApSelectedIndex[0] = 5;
-            } else if (a == 2) {
+            } else if (direction == 2) {
                 gApSelectedIndex[0] = 4;
-            } else if (a == 1) {
+            } else if (direction == 1) {
                 gApSelectedIndex[0] = 2;
             } else {
                 gApSelectedIndex[0] = 3;
             }
             break;
     }
-    if (b != 0) {
+    if (moved != 0) {
         StartSoundSeq(8);
-        func_ov003_021caca8();
+        PlaceApSelection();
     }
 }
 
-void func_ov003_021caae0(void) {
-    s32 a = gApSelectedIndex[0] - 4;
-    CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mUnk_10[a], 0));
-    SetOamRangePosition(gAp->mUnk_10[a], -1, data_ov003_021d64f0[a + 3].mUnk_00, data_ov003_021d64f0[a + 3].mUnk_02);
-    func_ov003_021d1790(gAp->mUnk_10[a], -1, 3);
+void SetApSelectedButtonImage(void) {
+    s32 entryIndex = gApSelectedIndex[0] - 4;
+    CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mUnk_10[entryIndex], 0));
+    SetOamRangePosition(gAp->mUnk_10[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
+                        gApObjectPositions[entryIndex + 3].mY);
+    func_ov003_021d1790(gAp->mUnk_10[entryIndex], -1, 3);
 }
 
-void func_ov003_021ca9e8(void) {
-    s32 a = gApSelectedIndex[0] - 4;
+void UpdateApMessageResult(void) {
+    s32 entryIndex = gApSelectedIndex[0] - 4;
     switch (func_ov003_021cef80()) {
         case 1:
             StartSoundSeq(0xe);
-            func_ov003_021cd4ac(a);
-            CopyNceImageToOamEntries(0, data_ov003_021d64e4[3], GetOamRangeEntry(gAp->mUnk_04[a], 0));
-            SetOamRangePosition(gAp->mUnk_04[a], -1, data_ov003_021d64f0[a].mUnk_00, data_ov003_021d64f0[a].mUnk_02);
-            func_ov003_021d1790(gAp->mUnk_04[a], -1, 3);
-            DeleteOamRange(gAp->mUnk_10[a]);
-            gAp->mUnk_10[a] = NULL;
+            func_ov003_021cd4ac(entryIndex);
+            CopyNceImageToOamEntries(0, gApEntryImageIndices[3], GetOamRangeEntry(gAp->mUnk_04[entryIndex], 0));
+            SetOamRangePosition(gAp->mUnk_04[entryIndex], -1, gApObjectPositions[entryIndex].mX,
+                                gApObjectPositions[entryIndex].mY);
+            func_ov003_021d1790(gAp->mUnk_04[entryIndex], -1, 3);
+            DeleteOamRange(gAp->mUnk_10[entryIndex]);
+            gAp->mUnk_10[entryIndex] = NULL;
             break;
         case 0:
             StartSoundSeq(7);
-            CopyNceImageToOamEntries(0, 0x11, GetOamRangeEntry(gAp->mUnk_10[a], 0));
-            SetOamRangePosition(gAp->mUnk_10[a], -1, data_ov003_021d64f0[a + 3].mUnk_00,
-                                data_ov003_021d64f0[a + 3].mUnk_02);
-            func_ov003_021d1790(gAp->mUnk_10[a], -1, 3);
+            CopyNceImageToOamEntries(0, 0x11, GetOamRangeEntry(gAp->mUnk_10[entryIndex], 0));
+            SetOamRangePosition(gAp->mUnk_10[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
+                                gApObjectPositions[entryIndex + 3].mY);
+            func_ov003_021d1790(gAp->mUnk_10[entryIndex], -1, 3);
             break;
         default:
             return;
     }
     func_ov003_021cef90();
-    SetUpdateFunction(func_ov003_021ca9c8);
+    SetUpdateFunction(UpdateApMessageClose);
 }
 
-void func_ov003_021ca9c8(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
+void UpdateApMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateAp);
     }
 }
 
-void func_ov003_021ca940(void) {
-    Bytes4 a;
-    Bytes4 b;
-    int c;
-    a = data_ov003_021d75c0;
-    b = data_ov003_021d75c4;
+void RequestApSelectionPalette(void) {
+    Bytes4 paletteRows;
+    Bytes4 iconPalettes;
+    int statusIndex;
+    paletteRows = gApPaletteRows;
+    iconPalettes = gApEntryIconPalettes;
     if (*(u8 *) &gApSelectedIndex <= 3) {
-        func_ov003_021cc948(gAp->mYbBgStep11Ncl, a.mUnk_00[*(u8 *) &gApSelectedIndex],
-                            a.mUnk_00[*(u8 *) &gApSelectedIndex]);
+        RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mUnk_00[*(u8 *) &gApSelectedIndex],
+                                paletteRows.mUnk_00[*(u8 *) &gApSelectedIndex]);
         if (*(u8 *) &gApSelectedIndex != 3) {
-            c = func_ov003_021cd844(*(u8 *) &gApSelectedIndex);
-            if (c > 2) {
-                c = 3;
+            statusIndex = func_ov003_021cd844(*(u8 *) &gApSelectedIndex);
+            if (statusIndex > 2) {
+                statusIndex = 3;
             }
-            func_ov003_021d1890(gAp->mUnk_04[*(u8 *) &gApSelectedIndex], -1, 0, b.mUnk_00[c]);
+            func_ov003_021d1890(gAp->mUnk_04[*(u8 *) &gApSelectedIndex], -1, 0, iconPalettes.mUnk_00[statusIndex]);
         }
     }
 }

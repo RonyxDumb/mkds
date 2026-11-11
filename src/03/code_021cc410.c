@@ -36,92 +36,92 @@
 #include "code_0214cfe4.h"
 
 void SetupUsb(void) {
-    u16 a[12];
-    Unk0200fddc b;
-    data_ov003_021da258 = 0;
+    u16 ownerText[12];
+    Unk0200fddc ownerInfo;
+    gUsbExitKind = 0;
     LoadUsbFilesAndSetBgCnt();
     LoadHlScr(8);
     CreateObjectsForMenuPair(2);
-    OS_GetOwnerInfo(&b);
-    a[0] = 0;
-    MIi_CpuClear16(a[0], &a[1], 0x16);
-    MIi_CpuCopy16(b.mUnk_04, &a[1], b.mUnk_18 * 2);
-    PrintMessageAndText((u32) &a[1], 0x6d);
+    OS_GetOwnerInfo(&ownerInfo);
+    ownerText[0] = 0;
+    MIi_CpuClear16(ownerText[0], &ownerText[1], 0x16);
+    MIi_CpuCopy16(ownerInfo.mUnk_04, &ownerText[1], ownerInfo.mUnk_18 * 2);
+    PrintMessageAndText((u32) &ownerText[1], 0x6d);
     CreateAnimatedIcon(0);
-    func_ov003_021ce920(func_ov003_021cc4ec);
+    func_ov003_021ce920(UsbEventCallback);
     StartSoundSeq(0xb);
-    SetUpdateFunction(func_ov003_021cc790);
+    SetUpdateFunction(StartUsbFadeIn);
 }
 
 void LoadUsbFilesAndSetBgCnt(void) {
-    void *v2 = &gJbBgStep3NcgName8;
-    void *v3 = &GX_LoadBG2Char;
-    u32 v4 = LoadFileToVram(v2, v3);
-    void *v5 = &gYbBgStep3NclName8;
-    void *v6 = &GX_LoadBGPltt;
-    u32 v7 = LoadFileToVram(v5, v6);
-    void *v8 = &gJb4UsbNscName;
-    void *v9 = &GX_LoadBG2Scr;
-    u32 v10 = LoadFileToVram(v8, v9);
-    u32 v11 = 0x4001008u;
-    u32 v12 = (*(u16 *) ((v11) + (0)));
-    u32 v14 = ((v12) & ~(0x3u));
-    u32 v15 = ((v14) | (0x3u));
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v20;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v25;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    u32 v30;
-    u32 v32;
-    u32 v33;
-    u32 v34;
-    u32 v35;
-    *(u16 *) ((v11) + (0)) = v15;
-    v17 = 0x400100au;
-    v18 = (*(u16 *) ((v17) + (0)));
-    v19 = ((v18) & ~(0x3u));
-    v20 = ((v19) | (0x3u));
-    *(u16 *) ((v17) + (0)) = v20;
-    v22 = 0x4000008u;
-    v23 = (*(u16 *) ((v22) + (0)));
-    v24 = ((v23) & ~(0x3u));
-    v25 = ((v24) | (0x3u));
-    *(u16 *) ((v22) + (0)) = v25;
-    v27 = 0x400000au;
-    v28 = (*(u16 *) ((v27) + (0)));
-    v29 = ((v28) & ~(0x3u));
-    v30 = ((v29) | (0x3u));
-    *(u16 *) ((v27) + (0)) = v30;
-    v32 = 0x400000cu;
-    v33 = (*(u16 *) ((v32) + (0)));
-    v34 = ((v33) & ~(0x3u));
-    v35 = ((v34) | (0x3u));
-    *(u16 *) ((v32) + (0)) = v35;
+    void *ncgName = &gJbBgStep3NcgName8;
+    void *loadBg2CharFunc = &GX_LoadBG2Char;
+    u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
+    void *nclName = &gYbBgStep3NclName8;
+    void *loadBgPlttFunc = &GX_LoadBGPltt;
+    u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
+    void *nscName = &gJb4UsbNscName;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg0CntAddr;
+    u32 g2Bg0CntOld;
+    u32 g2Bg0CntCleared;
+    u32 g2Bg0CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg0CntAddr = 0x4000008u;
+    g2Bg0CntOld = (*(u16 *) ((g2Bg0CntAddr) + (0)));
+    g2Bg0CntCleared = ((g2Bg0CntOld) & ~(0x3u));
+    g2Bg0CntNew = ((g2Bg0CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg0CntAddr) + (0)) = g2Bg0CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021cc790(void) {
+void StartUsbFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021cc76c);
+    SetUpdateFunction(UpdateUsbFadeIn);
 }
 
-void func_ov003_021cc76c(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if (v1 == 0) {
+void UpdateUsbFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
+    if (fadeSlotBusy == 0) {
         CreateSlideButtonsForMenuPair(2);
-        SetUpdateFunction(func_ov003_021cc748);
+        SetUpdateFunction(UpdateUsbButtonsIn);
     }
 }
 
-void func_ov003_021cc748(void) {
+void UpdateUsbButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateUsb);
@@ -129,157 +129,157 @@ void func_ov003_021cc748(void) {
 }
 
 void UpdateUsb(void) {
-    func_ov003_021cc700();
-    func_ov003_021cc6fc();
-    func_ov003_021cc6c4();
+    UpdateUsbInput();
+    UpdateUsbNop();
+    UpdateUsbResult();
 }
 
-void func_ov003_021cc700(void) {
+void UpdateUsbInput(void) {
     int v1;
     v1 = AreKeysPressed(2);
     if (v1 != 0) {
         SetButtonResultIfNone(0);
         return;
     }
-    v1 = func_ov003_021cc8b4();
+    v1 = UsbPAD_DetectFold();
     if (v1 != 0) {
         SetButtonResultIfNone(0);
     }
 }
 
-void func_ov003_021cc6fc(void) {}
+void UpdateUsbNop(void) {}
 
-void func_ov003_021cc6c4(void) {
-    int v1;
-    if ((data_ov003_021da258 == 0) && (v1 = GetButtonResult(), v1 == 0)) {
-        data_ov003_021da258 = 2;
+void UpdateUsbResult(void) {
+    int buttonResult;
+    if ((gUsbExitKind == 0) && (buttonResult = GetButtonResult(), buttonResult == 0)) {
+        gUsbExitKind = 2;
         StopSoundSeq();
         StartSoundSeq(7);
-        SetUpdateFunction(func_ov003_021cc6a4);
+        SetUpdateFunction(StartUsbClose);
     }
 }
 
-void func_ov003_021cc6a4(void) {
+void StartUsbClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021cc658);
+    SetUpdateFunction(UpdateUsbFadeOut);
 }
 
-void func_ov003_021cc658(void) {
+void UpdateUsbFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
         StartSlideButtonsOut();
-        if ((u8) (data_ov003_021da258 + 0xfe) <= 1) {
+        if ((u8) (gUsbExitKind + 0xfe) <= 1) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021cc5a8);
+        SetUpdateFunction(UpdateUsbRelease);
     }
 }
 
-void func_ov003_021cc5a8(void) {
-    if (IsBlendBrightnessFadeSlotBusy(0) == 0 && (data_ov003_021da258 != 2 || IsBlendBrightnessFadeSlotBusy(1) == 0) &&
+void UpdateUsbRelease(void) {
+    if (IsBlendBrightnessFadeSlotBusy(0) == 0 && (gUsbExitKind != 2 || IsBlendBrightnessFadeSlotBusy(1) == 0) &&
         IsSlideButtonsNotSlidingOut() != 0) {
         func_ov003_021ce848();
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
-        if (data_ov003_021da258 == 2 || data_ov003_021da258 == 3) {
+        if (gUsbExitKind == 2 || gUsbExitKind == 3) {
             HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da258 == 2) {
+        if (gUsbExitKind == 2) {
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(CreateAp);
-        } else if (data_ov003_021da258 == 3) {
+        } else if (gUsbExitKind == 3) {
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(SetupXb3Multi);
         } else {
             SetPrimaryMenuPair(0, 0);
-            SetUpdateFunction(func_ov003_021cc110);
+            SetUpdateFunction(SetupUsbNext);
         }
     }
 }
 
-void func_ov003_021cc4ec(u32 a) {
-    if (data_ov003_021da258 == 0) {
-        switch (a) {
+void UsbEventCallback(u32 eventCode) {
+    if (gUsbExitKind == 0) {
+        switch (eventCode) {
             case 0:
-                data_ov003_021da258 = 3;
+                gUsbExitKind = 3;
                 StopSoundSeq();
                 StartSoundSeq(0x12);
                 func_ov003_021cefc0(0x45, 1, 1, -1, 0);
                 DisableButtonTouch();
-                SetUpdateFunction(func_ov003_021cc4c4);
+                SetUpdateFunction(UpdateUsbMessageResult);
                 break;
             case 1:
-                data_ov003_021da258 = 1;
+                gUsbExitKind = 1;
                 StopSoundSeq();
-                SetUpdateFunction(func_ov003_021cc6a4);
+                SetUpdateFunction(StartUsbClose);
                 break;
             case 2:
                 StopSoundSeq();
                 func_ov003_021ce834(0);
                 func_ov003_021cefc0(0x47, 0, 1, -1, 0);
                 DisableButtonTouch();
-                SetUpdateFunction(func_ov003_021cc464);
+                SetUpdateFunction(UpdateUsbChoiceMessageResult);
                 break;
             case 3:
-                data_ov003_021da258 = 2;
+                gUsbExitKind = 2;
                 StopSoundSeq();
                 StartSoundSeq(9);
-                SetUpdateFunction(func_ov003_021cc6a4);
+                SetUpdateFunction(StartUsbClose);
                 break;
         }
     }
 }
 
-void func_ov003_021cc4c4(void) {
-    int v1;
-    v1 = func_ov003_021cef80();
-    if (v1 == 0) {
+void UpdateUsbMessageResult(void) {
+    int messageAnswer;
+    messageAnswer = func_ov003_021cef80();
+    if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
-        SetUpdateFunction(func_ov003_021cc4a8);
+        SetUpdateFunction(UpdateUsbMessageClose);
     }
 }
 
-void func_ov003_021cc4a8(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
-        SetUpdateFunction(func_ov003_021cc6a4);
+void UpdateUsbMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
+        SetUpdateFunction(StartUsbClose);
     }
 }
 
-void func_ov003_021cc464(void) {
+void UpdateUsbChoiceMessageResult(void) {
     switch (func_ov003_021cef80()) {
         case 1:
-            data_ov003_021da258 = 3;
+            gUsbExitKind = 3;
             StartSoundSeq(6);
             break;
         case 0:
-            data_ov003_021da258 = 1;
+            gUsbExitKind = 1;
             StartSoundSeq(7);
             break;
         default:
             return;
     }
     func_ov003_021cef90();
-    SetUpdateFunction(func_ov003_021cc410);
+    SetUpdateFunction(UpdateUsbChoiceMessageClose);
 }
 
-void func_ov003_021cc410(void) {
-    int v1;
-    v1 = func_ov003_021cef6c();
-    if (v1 == 0) {
-        if (data_ov003_021da258 == 1) {
-            SetUpdateFunction(func_ov003_021cc6a4);
+void UpdateUsbChoiceMessageClose(void) {
+    int messageOpen;
+    messageOpen = func_ov003_021cef6c();
+    if (messageOpen == 0) {
+        if (gUsbExitKind == 1) {
+            SetUpdateFunction(StartUsbClose);
             return;
         }
         StartSoundSeq(0xb);
         EnableButtonTouch();
-        data_ov003_021da258 = 0;
-        func_ov003_021ce834((u32) &func_ov003_021cc4ec);
+        gUsbExitKind = 0;
+        func_ov003_021ce834((u32) &UsbEventCallback);
         SetUpdateFunction(UpdateUsb);
     }
 }

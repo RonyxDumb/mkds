@@ -2,19 +2,19 @@
 
 #include "types.h"
 
-// Object behind data_ov003_021da25c.
-typedef struct Unk021da25c {
-    /* 000 */ u32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x600];
-    /* 604 */ u8 mUnk_604;
-} Unk021da25c;
+// Object behind gBg2ScrBuffer.
+typedef struct Bg2ScrBuffer {
+    /* 000 */ u32 mTask;
+    /* 004 */ u8 mScr[0x600];
+    /* 604 */ u8 mUploadRequested;
+} Bg2ScrBuffer;
 
-void func_ov003_021cc8d4(u32 a);
-void func_ov003_021cc900(u32 a);
-void func_ov003_021cc924(u32 a);
-void func_ov003_021cc948(u8 *a, u32 b, u32 c);
-void func_ov003_021cc97c(void);
-void func_ov003_021cc9c0(int a, int b, int c, int d);
-void func_ov003_021cc9fc(void);
-void func_ov003_021cca10(void);
-void func_ov003_021cca30(const void *b);
+void AdvanceBgPaletteCopy(u32 entry);
+void RequestBgPaletteCopy(u32 palette);
+void AdvanceBgPaletteRowCopy(u32 entry);
+void RequestBgPaletteRowCopy(u8 *palette, u32 srcRow, u32 dstRow);
+void AdvanceBg2ScrUpload(void);
+void CopyBg2ScrBufferRect(int source, int destOffset, int width, int rowCount);
+void RequestBg2ScrUpload(void);
+void ReleaseBg2ScrBuffer(void);
+void CreateBg2ScrBuffer(const void *scr);

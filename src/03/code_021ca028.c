@@ -138,7 +138,7 @@ void UpdateExchangeResultRelease(void) {
         ClearDispcntBits(0, 0x15);
         SetPrimaryMenuPair(0, 0);
         SetSecondaryMenuPair(0, 1);
-        SetUpdateFunction(func_ov003_021cbf60);
+        SetUpdateFunction(SetupConnectMessage);
     }
 }
 

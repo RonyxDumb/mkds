@@ -177,5 +177,5 @@ void RequestJb2MenuPaletteRowCopy(void) {
     u8 tableByte;
     paletteRows = gJb2MenuPaletteRows;
     tableByte = paletteRows.mUnk_00[gJb2MenuSelectedIndex];
-    func_ov003_021cc948(gYbBgStep11Ncl, tableByte, tableByte);
+    RequestBgPaletteRowCopy(gYbBgStep11Ncl, tableByte, tableByte);
 }

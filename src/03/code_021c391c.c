@@ -231,5 +231,5 @@ void MoveOptMenuSelection(s32 direction) {
 
 void RequestOptMenuPaletteRowCopy(void) {
     u8 tableByte = gOptMenuPaletteRows[gOptMenuSelectedIndex];
-    func_ov003_021cc948(gYbBgOption1Ncl, tableByte, tableByte);
+    RequestBgPaletteRowCopy(gYbBgOption1Ncl, tableByte, tableByte);
 }

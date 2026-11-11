@@ -12,12 +12,12 @@
 #include "code_0214b824.h"
 #include "03/code_021cbc00.h"
 
-void func_ov003_021cbe78(void) {
-    Unk021d7708 a = data_ov003_021d7708;
-    s32 b;
+void UpdateConnectMessageFadeIn(void) {
+    ConnectMessageIds messageIds = gConnectMessageIds;
+    s32 secondaryPairSecond;
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
-        GetSecondaryMenuPair(NULL, &b);
-        func_ov003_021cefc0(a.mUnk_00[b], 1, 1, -1, 0);
-        SetUpdateFunction(func_ov003_021cbe44);
+        GetSecondaryMenuPair(NULL, &secondaryPairSecond);
+        func_ov003_021cefc0(messageIds.mUnk_00[secondaryPairSecond], 1, 1, -1, 0);
+        SetUpdateFunction(UpdateConnectMessage);
     }
 }

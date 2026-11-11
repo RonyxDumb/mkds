@@ -27,86 +27,86 @@
 #include "03/code_021bf410.h"
 
 void SetupXb3Multi(void) {
-    data_ov003_021da254 = 0;
+    gXb3MultiChosen = 0;
     LoadXb3MultiFilesAndSetBgCnt();
     LoadHlScr(8);
     ShowSubScreenMessage(0x85, -1, 0);
     CreateObjectsForMenuPair(1);
     PrintMessage(0x6c);
-    SetUpdateFunction(func_ov003_021cc310);
+    SetUpdateFunction(StartXb3MultiFadeIn);
 }
 
 void LoadXb3MultiFilesAndSetBgCnt(void) {
-    void *v2 = &gJbBgStep2NcgName3;
-    void *v3 = &GX_LoadBG2Char;
-    u32 v4 = LoadFileToVram(v2, v3);
-    void *v5 = &gYbBgStep2NclName3;
-    void *v6 = &GX_LoadBGPltt;
-    u32 v7 = LoadFileToVram(v5, v6);
-    void *v8 = &gXb3MultiNscName;
-    void *v9 = &GX_LoadBG2Scr;
-    u32 v10 = LoadFileToVram(v8, v9);
-    u32 v11 = 0x4001008u;
-    u32 v12 = (*(u16 *) ((v11) + (0)));
-    u32 v14 = ((v12) & ~(0x3u));
-    u32 v15 = ((v14) | (0x3u));
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v20;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v25;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    u32 v30;
-    u32 v32;
-    u32 v33;
-    u32 v34;
-    u32 v35;
-    *(u16 *) ((v11) + (0)) = v15;
-    v17 = 0x400100au;
-    v18 = (*(u16 *) ((v17) + (0)));
-    v19 = ((v18) & ~(0x3u));
-    v20 = ((v19) | (0x3u));
-    *(u16 *) ((v17) + (0)) = v20;
-    v22 = 0x4000008u;
-    v23 = (*(u16 *) ((v22) + (0)));
-    v24 = ((v23) & ~(0x3u));
-    v25 = ((v24) | (0x3u));
-    *(u16 *) ((v22) + (0)) = v25;
-    v27 = 0x400000au;
-    v28 = (*(u16 *) ((v27) + (0)));
-    v29 = ((v28) & ~(0x3u));
-    v30 = ((v29) | (0x3u));
-    *(u16 *) ((v27) + (0)) = v30;
-    v32 = 0x400000cu;
-    v33 = (*(u16 *) ((v32) + (0)));
-    v34 = ((v33) & ~(0x3u));
-    v35 = ((v34) | (0x3u));
-    *(u16 *) ((v32) + (0)) = v35;
+    void *ncgName = &gJbBgStep2NcgName3;
+    void *loadBg2CharFunc = &GX_LoadBG2Char;
+    u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
+    void *nclName = &gYbBgStep2NclName3;
+    void *loadBgPlttFunc = &GX_LoadBGPltt;
+    u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
+    void *nscName = &gXb3MultiNscName;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg0CntAddr;
+    u32 g2Bg0CntOld;
+    u32 g2Bg0CntCleared;
+    u32 g2Bg0CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg0CntAddr = 0x4000008u;
+    g2Bg0CntOld = (*(u16 *) ((g2Bg0CntAddr) + (0)));
+    g2Bg0CntCleared = ((g2Bg0CntOld) & ~(0x3u));
+    g2Bg0CntNew = ((g2Bg0CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg0CntAddr) + (0)) = g2Bg0CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
-void func_ov003_021cc310(void) {
+void StartXb3MultiFadeIn(void) {
     StartBlendBrightnessFade(2, 1, 1, 8);
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(1, 1);
     CombineDispcntBits(0, 0x15);
-    SetUpdateFunction(func_ov003_021cc2e0);
+    SetUpdateFunction(UpdateXb3MultiFadeIn);
 }
 
-void func_ov003_021cc2e0(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+void UpdateXb3MultiFadeIn(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
         CreateSlideButtonsForMenuPair(6);
-        SetUpdateFunction(func_ov003_021cc2bc);
+        SetUpdateFunction(UpdateXb3MultiButtonsIn);
     }
 }
 
-void func_ov003_021cc2bc(void) {
+void UpdateXb3MultiButtonsIn(void) {
     if (GetButtonResult() != -2) {
         EnableButtonTouch();
         SetUpdateFunction(UpdateXb3Multi);
@@ -115,70 +115,70 @@ void func_ov003_021cc2bc(void) {
 
 void UpdateXb3Multi(void) {
     UpdateXb3MultiInput();
-    func_ov003_021cc274();
-    func_ov003_021cc234();
+    UpdateXb3MultiNop();
+    UpdateXb3MultiResult();
 }
 
 void UpdateXb3MultiInput(void) {
-    int v1;
-    v1 = AreKeysPressed(1);
-    if (v1 != 0) {
+    int keysPressed;
+    keysPressed = AreKeysPressed(1);
+    if (keysPressed != 0) {
         SetButtonResultIfNone((u8) 1);
     }
-    v1 = AreKeysPressed(2);
-    if (v1 != 0) {
+    keysPressed = AreKeysPressed(2);
+    if (keysPressed != 0) {
         SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021cc274(void) {}
+void UpdateXb3MultiNop(void) {}
 
-void func_ov003_021cc234(void) {
+void UpdateXb3MultiResult(void) {
     switch (GetButtonResult()) {
         case 0:
             StartSoundSeq(7);
             break;
         case 1:
             StartSoundSeq(6);
-            data_ov003_021da254 = 1;
+            gXb3MultiChosen = 1;
             break;
         default:
             return;
     }
-    SetUpdateFunction(func_ov003_021cc214);
+    SetUpdateFunction(StartXb3MultiClose);
 }
 
-void func_ov003_021cc214(void) {
+void StartXb3MultiClose(void) {
     DisableButtonTouch();
     StartBlendBrightnessFadeWait(8);
-    SetUpdateFunction(func_ov003_021cc1cc);
+    SetUpdateFunction(UpdateXb3MultiFadeOut);
 }
 
-void func_ov003_021cc1cc(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (v1 == 0) {
+void UpdateXb3MultiFadeOut(void) {
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
         StartSlideButtonsOut();
-        if (data_ov003_021da254 == 0) {
+        if (gXb3MultiChosen == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);
-        SetUpdateFunction(func_ov003_021cc144);
+        SetUpdateFunction(UpdateXb3MultiRelease);
     }
 }
 
-void func_ov003_021cc144(void) {
+void UpdateXb3MultiRelease(void) {
     int v1;
     v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((data_ov003_021da254 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
+    if ((v1 == 0) && (((gXb3MultiChosen != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
                        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
         ReleaseBgTextCanvasOfScreen(0);
-        if (data_ov003_021da254 == 0) {
+        if (gXb3MultiChosen == 0) {
             HideSubScreenMessage();
             ClearDispcntBits(1, 1);
         }
         ClearDispcntBits(0, 0x15);
-        if (data_ov003_021da254 == 0) {
+        if (gXb3MultiChosen == 0) {
             SetPrimaryMenuPair(2, 1);
             SetUpdateFunction(CreateAp);
             return;

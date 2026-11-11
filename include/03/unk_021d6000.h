@@ -10,11 +10,11 @@ typedef struct Bytes7 {
     /* 0 */ u8 mBytes[7];
 } Bytes7;
 
-// Entry of data_ov003_021d64f0, two halfwords.
-typedef struct Unk021d64f0 {
-    /* 0 */ u16 mUnk_00;
-    /* 2 */ u16 mUnk_02;
-} Unk021d64f0;
+// Entry of gApObjectPositions, two halfwords.
+typedef struct ApObjectPosition {
+    /* 0 */ u16 mX;
+    /* 2 */ u16 mY;
+} ApObjectPosition;
 
 // Four bytes moved as one value.
 typedef struct Bytes4 {
@@ -35,16 +35,16 @@ extern u8 gJb3ListIdByEntryIndex[];
 extern const u8 gJb3ListCellImageIds[][3];
 extern u8 gJb3ListEntryIndexById[];
 extern u16 gJb3ListBackNscOffsets[];
-extern u8 data_ov003_021d64e4[];
-extern s8 data_ov003_021d64e8[];
-extern Unk021d64f0 data_ov003_021d64f0[];
+extern u8 gApEntryImageIndices[];
+extern s8 gApMessageDigitColumns[];
+extern ApObjectPosition gApObjectPositions[];
 extern u8 gApRects[];
-extern Rect data_ov003_021d6540[];
-extern s8 data_ov003_021d6578[];
+extern Rect gApSelectionRects[];
+extern s8 gWayMessageDigitColumns[];
 extern s8 gWayMoveTargets[][4][4];
 extern Rect gWayRects[][4];
-extern Rect data_ov003_021d65e0[][4];
-extern u8 data_ov003_021d6620[];
+extern Rect gWaySelectionRects[][4];
+extern u8 gConnectParamsTemplate[];
 extern u8 data_ov003_021d6630[];
 extern u8 data_ov003_021d6638[];
 extern u8 data_ov003_021d66bc[];

@@ -27,30 +27,30 @@ typedef struct {
     unsigned char mUnk_f6;
 } Obj021cdb2c;
 
-extern Obj021da228 *data_ov003_021da228;
+extern Obj021da228 *gApScanKind;
 extern unsigned char data_ov003_021d65f0[];
 Obj021cdb2c *func_ov003_021cdb2c(void);
 
 // PROBE: func_ov003_021cca5c ov003 0x021cca5c
 void func_ov003_021cca5c(int kind, Rect021cca5c *rect) {
-    rect->mUnk_00 = data_ov003_021da228->mUnk_10;
+    rect->mUnk_00 = gApScanKind->mUnk_10;
     rect->mUnk_04 = rect->mUnk_00 + 12;
     switch (kind) {
         case 1:
-            rect->mUnk_02 = data_ov003_021da228->mUnk_12 + data_ov003_021da228->mUnk_1a;
-            rect->mUnk_06 = rect->mUnk_02 + data_ov003_021d65f0[data_ov003_021da228->mUnk_1b];
+            rect->mUnk_02 = gApScanKind->mUnk_12 + gApScanKind->mUnk_1a;
+            rect->mUnk_06 = rect->mUnk_02 + data_ov003_021d65f0[gApScanKind->mUnk_1b];
             break;
         case 2:
-            rect->mUnk_02 = data_ov003_021da228->mUnk_12 - 13;
-            rect->mUnk_06 = data_ov003_021da228->mUnk_12;
+            rect->mUnk_02 = gApScanKind->mUnk_12 - 13;
+            rect->mUnk_06 = gApScanKind->mUnk_12;
             break;
         case 3:
-            rect->mUnk_02 = data_ov003_021da228->mUnk_12 + data_ov003_021da228->mUnk_19;
+            rect->mUnk_02 = gApScanKind->mUnk_12 + gApScanKind->mUnk_19;
             rect->mUnk_06 = rect->mUnk_02 + 13;
             break;
         case 4:
-            rect->mUnk_02 = data_ov003_021da228->mUnk_12;
-            rect->mUnk_06 = rect->mUnk_02 + data_ov003_021da228->mUnk_19;
+            rect->mUnk_02 = gApScanKind->mUnk_12;
+            rect->mUnk_06 = rect->mUnk_02 + gApScanKind->mUnk_19;
             break;
     }
 }

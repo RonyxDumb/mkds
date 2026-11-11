@@ -114,8 +114,8 @@ void LoadJb3ListFilesAndSetBgCnt(void) {
     LoadFileToVram(&ybBgStep2NclName, GX_LoadBGPltt);
     LoadFileToVram(gJb3ListNscName, GX_LoadBG3Scr);
     gJb3List->mJb3ListBackNsc = LoadFile(BuildFilePathWithLanguage((u8 *) &jb3ListBackNscName), NULL, 4);
-    func_ov003_021cca30(gJb3List->mJb3ListBackNsc);
-    func_ov003_021cc9fc();
+    CreateBg2ScrBuffer(gJb3List->mJb3ListBackNsc);
+    RequestBg2ScrUpload();
     gJb3List->mYbBgStep2NclFiles[0] = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep2NclName), NULL, 4);
     gJb3List->mYbBgStep2NclFiles[1] = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep21NclName), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~0x3) | 0x3;
@@ -450,7 +450,7 @@ void UpdateJb3ListRelease(void) {
     if (gJb3List->mUnk_40 != 0xc) {
         HideSubScreenMessage();
     }
-    func_ov003_021cca10();
+    ReleaseBg2ScrBuffer();
     DeleteLoadedFile(gJb3List->mJb3ListBackNsc);
     for (i = 0; i < 2; i++) {
         DeleteLoadedFile(gJb3List->mYbBgStep2NclFiles[i]);
@@ -496,7 +496,7 @@ void UpdateJb3ListRelease(void) {
             }
             SetPrimaryMenuPair(2, 0);
             SetSecondaryMenuPair(0, 0);
-            SetUpdateFunction(func_ov003_021cbb98);
+            SetUpdateFunction(SetupConnect);
             break;
         case 12:
             SetPrimaryMenuPair(0, 0);
@@ -525,11 +525,11 @@ void RefreshJb3List(void) {
     for (i = 0, entryIndex = firstEntryIndex; i < 5; i++, entryIndex++) {
         PrintJb3ListEntryText(entryIndex, i);
     }
-    func_ov003_021cc9c0((s32) (gJb3List->mJb3ListBackNsc + gJb3ListBackNscOffsets[firstEntryIndex]), 0, 0x1e, 0x13);
+    CopyBg2ScrBufferRect((s32) (gJb3List->mJb3ListBackNsc + gJb3ListBackNscOffsets[firstEntryIndex]), 0, 0x1e, 0x13);
     for (i = 0; i < 5; i++, firstEntryIndex++) {
         SetupJb3ListEntryCells(firstEntryIndex, i);
     }
-    func_ov003_021cc9fc();
+    RequestBg2ScrUpload();
     RequestBgTextCanvasUpload(gJb3List->mUnk_14);
     RefreshJb3ListRowPositions();
 }
@@ -1148,7 +1148,7 @@ void MoveJb3ListSelection(s32 direction) {
 void RequestJb3ListPaletteRowCopy(void) {
     u8 paletteRow;
     paletteRow = gJb3ListPaletteRows[gJb3ListSelectedId - 0xb];
-    func_ov003_021cc948(gJb3List->mYbBgStep2NclFiles[1], paletteRow, paletteRow);
+    RequestBgPaletteRowCopy(gJb3List->mYbBgStep2NclFiles[1], paletteRow, paletteRow);
 }
 
 void AdvanceJb3ListIdTimers(void) {
@@ -1221,7 +1221,7 @@ void UpdateJb3ListMessageResult(void) {
     if (messageAnswer == 0) {
         StartSoundSeq(6);
         func_ov003_021cef90();
-        func_ov003_021cc900((u32) gJb3List->mYbBgStep2NclFiles[0]);
+        RequestBgPaletteCopy((u32) gJb3List->mYbBgStep2NclFiles[0]);
         SetUpdateFunction(UpdateJb3ListMessageClose);
     }
 }
