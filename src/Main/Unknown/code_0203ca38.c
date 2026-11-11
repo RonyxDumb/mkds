@@ -175,8 +175,8 @@ void UpdateBattleKartStatuses(void) {
     }
 }
 
-static inline u16 func_0203cd14_inline(s32 v) {
-    return (u16) v;
+static inline u16 KartStandingReturnArgumentAsU16(s32 entryIndex) {
+    return (u16) entryIndex;
 }
 
 // TRUE once no kart is still racing in battle, until the race is marked done.
@@ -234,7 +234,7 @@ void AdvanceMissionRunEnd(void) {
                 return;
             }
             FinishKartAtMissionRunEnd(GetKart((u16) entryIndex));
-            StartKartRaceEndWrapper(func_0203cd14_inline(entryIndex));
+            StartKartRaceEndWrapper(KartStandingReturnArgumentAsU16(entryIndex));
             RequestRaceEndStemSet();
             StartRaceEndSeq(0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {

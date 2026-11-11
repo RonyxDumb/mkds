@@ -310,7 +310,7 @@ void StopItemSlot(KartItems *slot) {
     slot->mResultPending = FALSE;
 }
 
-static inline u16 func_020f830c_inline(RandomState64 *random, u32 limit) {
+static inline u16 ItemSlotNextRandomBelowU16(RandomState64 *random, u32 limit) {
     u32 value;
     if (limit == 0) {
         value = 0;
@@ -343,7 +343,7 @@ void PickItemSlotShownItem(KartItems *slot) {
                 items = gItemSlotPossibleItems;
             }
             random = &gRaceProgress->mLocalRandom;
-            index = func_020f830c_inline(random, itemCount);
+            index = ItemSlotNextRandomBelowU16(random, itemCount);
             if (slot->mSlotShownItem == items[index]) {
                 index = (u16) (index + 1);
                 if (index >= itemCount) {

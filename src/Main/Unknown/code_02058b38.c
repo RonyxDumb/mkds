@@ -26,28 +26,28 @@ static inline void MPStatesRequestMPState(u16 nextState) {
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
-static inline s32 func_02058cac_inline2(void) {
-    BOOL r = FALSE;
+static inline s32 MPStatesIsConnectionActive(void) {
+    BOOL result = FALSE;
     if (MPStatesGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02058cac_inline3(void) {
-    BOOL r = FALSE;
-    if (func_02058cac_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
+static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
+    BOOL result = FALSE;
+    if (MPStatesIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02058cac_inline4(void) {
-    BOOL r = FALSE;
-    if (func_02058cac_inline3() && gConnectionWork->mErrorCode != 9) {
-        r = TRUE;
+static inline s32 MPStatesIsConnectionActiveNotEndingWithError(void) {
+    BOOL result = FALSE;
+    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 #pragma thumb on
@@ -117,7 +117,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     u16 ownIndex;
 
     finished = FALSE;
-    if (!func_02058cac_inline2()) {
+    if (!MPStatesIsConnectionActive()) {
         return 1;
     }
     ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
@@ -129,7 +129,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
         return 2;
     }
     AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
-    if (!func_02058cac_inline4()) {
+    if (!MPStatesIsConnectionActiveNotEndingWithError()) {
         if (MPStatesGetConnectionMode() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
             SetRequestErrorCode(7);
         }

@@ -46,7 +46,7 @@ static inline s32 CameraNormalizeLengthOrZero(Vec3 *src, Vec3 *dst) {
     return Vec3NormalizeAndGetLengthUnchecked(src, dst);
 }
 
-static inline void func_02076528_inline(Vec3 *vec, s32 scale) {
+static inline void MulVec3Fixed12NoRoundInPlace(Vec3 *vec, s32 scale) {
     vec->x = MUL_FIXED12_NO_ROUND(vec->x, scale);
     vec->y = MUL_FIXED12_NO_ROUND(vec->y, scale);
     vec->z = MUL_FIXED12_NO_ROUND(vec->z, scale);
@@ -129,10 +129,10 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     }
     if (kart->mUnk_4c & KART_4C_HEADING_SWING) {
         forward = camera->mSavedKartForward;
-        func_02076528_inline(&forward, camera->mFollowDirectionSign);
+        MulVec3Fixed12NoRoundInPlace(&forward, camera->mFollowDirectionSign);
     } else {
         GetKartForward(kart, &forward);
-        func_02076528_inline(&forward, camera->mFollowDirectionSign);
+        MulVec3Fixed12NoRoundInPlace(&forward, camera->mFollowDirectionSign);
     }
     if (kart->mUnk_7c & KART_7C_REMOVED) {
         if (IsWaterPresent() == FALSE) {
@@ -414,10 +414,10 @@ void DisableEntryCameraUpdate(void) {
     gEntryCamera->mEntryUpdateDisabled = 1;
 }
 
-static inline void func_02074b00_inline(Vec3 *v, const Vec3 *u, s32 s) {
-    v->x = MUL_FIXED12_NO_ROUND(u->x, s);
-    v->y = MUL_FIXED12_NO_ROUND(u->y, s);
-    v->z = MUL_FIXED12_NO_ROUND(u->z, s);
+static inline void MulVec3Fixed12NoRound(Vec3 *destination, const Vec3 *source, s32 scale) {
+    destination->x = MUL_FIXED12_NO_ROUND(source->x, scale);
+    destination->y = MUL_FIXED12_NO_ROUND(source->y, scale);
+    destination->z = MUL_FIXED12_NO_ROUND(source->z, scale);
 }
 
 BOOL TryUpdateEntryCamera(Camera *camera) {
@@ -711,14 +711,14 @@ void UpdateCameraAngleEntry(Camera *camera) {
     b = a;
     c = b;
     d = b;
-    func_02074b00_inline(&n, &d, -courseMapCamera->mUnk_18.z);
+    MulVec3Fixed12NoRound(&n, &d, -courseMapCamera->mUnk_18.z);
     Vec3CrossUnrounded(&data_usa_02154fc4, &a, &f);
     Vec3CrossUnrounded(&c, &f, &g);
     MTX_RotAxis33(&m2, &g, FX_SinIdx(i), FX_CosIdx(i));
     MTX_RotAxis33(&m3, &f, FX_SinIdx(j), FX_CosIdx(j));
     MTX_Concat33(&m3, &m2, &m4);
     MTX_MultVec33(&d, &m4, &d);
-    func_02074b00_inline(&t, &d, courseMapCamera->mUnk_18.z);
+    MulVec3Fixed12NoRound(&t, &d, courseMapCamera->mUnk_18.z);
     VEC_Add(&camera->mLookAt, &t, &camera->mPos);
     f.x = -f.x;
     f.y = -f.y;
@@ -769,7 +769,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     if (LENGTH_SQUARED(offset) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
     }
-    func_02074b00_inline(&offset, &offset, courseMapCamera->mUnk_00.x);
+    MulVec3Fixed12NoRound(&offset, &offset, courseMapCamera->mUnk_00.x);
     VEC_Add(&newPos, &offset, &newPos);
     VEC_Add(&newLookAt, &offset, &newLookAt);
     if (GetRaceUpdateFrames() < courseMapCamera->mFrameCount) {

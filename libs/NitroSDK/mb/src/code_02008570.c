@@ -12,12 +12,12 @@
 
 #pragma thumb on
 
-static inline u32 func_02008570_inline(CARDRomHeader *a) {
-    u32 b = a->mUnk_80;
-    if (b == 0) {
-        b = 0x01000000;
+static inline u32 GetRomSizeOrDefault(CARDRomHeader *header) {
+    u32 value = header->mRomSize;
+    if (value == 0) {
+        value = 0x01000000;
     }
-    return b;
+    return value;
 }
 
 int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
@@ -52,9 +52,9 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             if (FS_ReadFile(activeFile, header, 0x160) < 0x160) {
                 remaining = 0;
             }
-            seekOffset = func_02008570_inline(header);
+            seekOffset = GetRomSizeOrDefault(header);
         } else {
-            seekOffset = func_02008570_inline(&SYSTEM_WORK->mRomHeader);
+            seekOffset = GetRomSizeOrDefault(&SYSTEM_WORK->mRomHeader);
             openedHere = TRUE;
             FS_InitFile(&openedFile);
             FS_OpenFileDirect(&openedFile, FS_FindArchive(data_usa_0216178c, 3), 0, seekOffset + 0x88, -1);

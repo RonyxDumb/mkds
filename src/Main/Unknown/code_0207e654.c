@@ -36,7 +36,7 @@
 #include "Main/Unknown/code_020681f0.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-static inline BOOL func_0207f600_inline(s32 kartIndex) {
+static inline BOOL IsKartFlagMaskClear(s32 kartIndex) {
     return (GetKart(kartIndex)->mUnk_7c & 0x402020) == 0;
 }
 
@@ -44,7 +44,7 @@ static inline s32 KartAiGetCurrentTeamIndex(u32 entryIndex) {
     return *(vs32 *) &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
 }
 
-static inline s32 func_0207f554_inline(u32 kartIndex, u32 targetIndex) {
+static inline s32 IsKartAiTargetAllowed(u32 kartIndex, u32 targetIndex) {
     BOOL result = FALSE;
     s32 playerKind;
     BOOL isHumanGhostOrPeer;
@@ -59,7 +59,7 @@ static inline s32 func_0207f554_inline(u32 kartIndex, u32 targetIndex) {
             }
         }
         if (isHumanGhostOrPeer != FALSE || GetNonCpuKartCountOutsideKartTeam(kartIndex) <= 0) {
-            if (func_0207f600_inline(targetIndex)) {
+            if (IsKartFlagMaskClear(targetIndex)) {
                 result = TRUE;
             }
         }
@@ -365,7 +365,7 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     foundAhead = FALSE;
     if (aheadKartIndex >= 0) {
         aheadKartIndex = gRaceProgress->mKartAtRank[(u8) (a - 1) - 1];
-        if (func_0207f554_inline(kartAi->mIndex, (u16) aheadKartIndex) != 0) {
+        if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) aheadKartIndex) != 0) {
             kartAi->mTargetKart = GetKart(aheadKartIndex);
             foundAhead = TRUE;
             kartAi->mTargetAhead = 1;
@@ -382,7 +382,7 @@ void PickKartAiTargetKart(KartAi *kartAi) {
         return;
     }
     behindKartIndex = gRaceProgress->mKartAtRank[(u8) (a + 1) - 1];
-    if (func_0207f554_inline(kartAi->mIndex, (u16) behindKartIndex) != 0) {
+    if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) behindKartIndex) != 0) {
         kartAi->mTargetKart = GetKart(behindKartIndex);
     }
 }

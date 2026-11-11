@@ -209,7 +209,7 @@ s32 GetConnectionMode(void) {
     return gConnectionWork->mConnectionMode;
 }
 
-static inline u32 func_02050ec0_inline(void) {
+static inline u32 IsMultiBootSetupStartedModeOneOrChild(void) {
     return IsMultiBootSetupStarted() != FALSE && (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE);
 }
 
@@ -237,7 +237,7 @@ void End(void) {
     if ((flags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
         connection->mStep = 0x26;
         gConnectionWork->mRequestPending = 1;
-        if (func_02050ec0_inline() != 0) {
+        if (IsMultiBootSetupStartedModeOneOrChild() != 0) {
             StopRomArchive();
             gConnectionWork->mFlags &= ~CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
         }
@@ -341,12 +341,12 @@ static inline void SetGroupSendMaskIfMultiBootMode1(u8 groupSendMask) {
     SetRomArchiveGroupSendMask(groupSendMask);
 }
 
-static inline void func_02050b88_inline(u16 v1) {
+static inline void RemoveChildrenInMask(u16 removeMask) {
     u16 i;
     u32 f;
 
     for (i = 0; i < 8; i++) {
-        if ((v1 & (1 << i)) != 0) {
+        if ((removeMask & (1 << i)) != 0) {
             f = gConnectionWork->mState == 9 ? 1 : 0;
             if (DisconnectGetConnectionMode() == 1) {
                 gConnectionWork->mChildren.mChildMask &= ~(1 << i);
@@ -375,7 +375,7 @@ void RemoveChild(u32 aid) {
     }
     children->mEntries[aid - 1].mAid = 0xffff;
     children->mChildCount -= 1;
-    func_02050b88_inline(1 << aid);
+    RemoveChildrenInMask(1 << aid);
     gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     switch (gConnectionWork->mState) {
         case 9:
@@ -436,7 +436,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             gConnectionWork->mBitsReceivedMask |= 1 << message->mUnk_0a;
             break;
         case 7:
-            func_02050b88_inline(message->mUnk_04);
+            RemoveChildrenInMask(message->mUnk_04);
             break;
         case 8:
             gConnectionWork->mRaceSeed = message->mUnk_04;

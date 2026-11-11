@@ -89,7 +89,7 @@ typedef struct SceneRunState {
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
     // Passes of RunScene's update loop and fade-out loop since they began (RunScene zeroes it at
-    // :192 and :376); not counted while func_020487fc_inline6 is true (mode 5 with a flag, or the
+    // :192 and :376); not counted while RunSceneIsDataSharingIncomplete is true (mode 5 with a flag, or the
     // gConnectionWork flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
     // thresholds 0x5a ...).
     /* 0e4 */ s32 mSceneFrames;

@@ -38,7 +38,7 @@
 #include "registers.h"
 #include "code_0200fe74.h"
 
-static inline void func_02043a34_inline(void) {
+static inline void ReadPadKeysAndUpdateTouchMic(void) {
     if ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15) {
         data_02175624->mPadKeys = 0;
     } else {
@@ -47,7 +47,7 @@ static inline void func_02043a34_inline(void) {
     UpdateTouchMicInput();
 }
 
-static inline void func_02043c14_inline(void) {
+static inline void ResetInputSlotsAndRepeat(void) {
     s32 slotIndex;
     s32 resetIndex;
     InputSlot *inputSlot;
@@ -244,13 +244,13 @@ void InitInputSlotsAndTouchMic(void *heap) {
         ClearKeyRecordingBufferPointer(&gInputSlots[i].mUnk_28);
     }
     data_02175624 = HeapAlloc(heap, 0x10);
-    func_02043c14_inline();
-    func_02043a34_inline();
-    func_02043a34_inline();
+    ResetInputSlotsAndRepeat();
+    ReadPadKeysAndUpdateTouchMic();
+    ReadPadKeysAndUpdateTouchMic();
 }
 
 void ResetInputSlots(void) {
-    func_02043c14_inline();
+    ResetInputSlotsAndRepeat();
 }
 
 void StartInputSlots(void) {
@@ -312,19 +312,19 @@ void SetLeftRightKeysSwapped(u32 mirrorMode) {
 }
 
 void UpdatePadKeysAndTouchMic(void) {
-    func_02043a34_inline();
+    ReadPadKeysAndUpdateTouchMic();
 }
 
 u32 GetPadKeys(void) {
     return (data_02175624->mPadKeys);
 }
 
-static inline s32 func_02043648_inline(ConnectionWork *p) {
-    BOOL r = FALSE;
-    if ((p == NULL ? 0 : p->mConnectionMode) != 0 && p->mState != 13) {
-        r = TRUE;
+static inline s32 InputSlotsIsConnectionActive(ConnectionWork *connectionWork) {
+    BOOL result = FALSE;
+    if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 void UpdateInputSlots(void) {
@@ -350,7 +350,7 @@ void UpdateInputSlots(void) {
     padOrParticipantKeys = padKeys;
     padOrParticipantTouchPoint = packedTouchPoint;
     micOverThreshold = gTouchMicInput->mMicOverThreshold;
-    if (func_02043648_inline(gConnectionWork) != 0) {
+    if (InputSlotsIsConnectionActive(gConnectionWork) != 0) {
         padOrParticipantKeys = GetParticipantPadKeys(GetParticipantIndex(data_02175624->mParticipantPosition));
         padOrParticipantTouchPoint =
             gConnectionWork->mUnk_15bc_view.mReceivedRecords[GetParticipantIndex(data_02175624->mParticipantPosition)]

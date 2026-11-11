@@ -18,20 +18,20 @@ PointLink *GetKeyedPlacementBattlePointLink(u32 key) {
 }
 
 s32 ComputeDotOfPairsRounded(const UnkPair020b502c *first, const UnkPair020b502c *second) {
-    return ((s64) first->mFirst * second->mFirst + (s64) first->mSecond * second->mSecond + 0x800) >> 12;
+    return DOT2_FIXED12_ROUNDED(first->mFirst, second->mFirst, first->mSecond, second->mSecond);
 }
 
 s64 ComputeDotOfPairsRoundedS64(const UnkPair020b502c *first, const UnkPair020b502c *second) {
-    return ((s64) first->mFirst * second->mFirst + (s64) first->mSecond * second->mSecond + 0x800) >> 12;
+    return DOT2_FIXED12_ROUNDED(first->mFirst, second->mFirst, first->mSecond, second->mSecond);
 }
 
-static inline s32 func_02040bc0_inline(s8 entryIndex) {
-    BOOL f = FALSE;
+static inline s32 IsEntryHumanGhostOrPeer(s8 entryIndex) {
+    BOOL isHumanGhostOrPeer = FALSE;
     if (GetCurrentEntry(entryIndex)->mPlayer.mKind <= 3 &&
         ((1 << GetCurrentEntry(entryIndex)->mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
-        f = TRUE;
+        isHumanGhostOrPeer = TRUE;
     }
-    return f;
+    return isHumanGhostOrPeer;
 }
 
 BOOL IsEntryRaceEnded(void) {
@@ -39,7 +39,7 @@ BOOL IsEntryRaceEnded(void) {
     BOOL ended;
     s8 entryIndex = gRaceSetup->mEntryIndex;
 
-    if (entryIndex == -1 || func_02040bc0_inline(entryIndex) == 0) {
+    if (entryIndex == -1 || IsEntryHumanGhostOrPeer(entryIndex) == 0) {
         result = TRUE;
     }
     if (result != FALSE) {
@@ -215,7 +215,7 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mUnk_3c = (raceProgressKart->mUnk_3c & ~0xf) | ((u16) (kartIndex + 1) & 0xf);
 }
 
-static inline u32 func_020401ac_inline(ConnectionWork *connectionWork) {
+static inline u32 RaceProgressGetWorkConnectionMode(ConnectionWork *connectionWork) {
     return connectionWork == NULL ? 0 : connectionWork->mConnectionMode;
 }
 
@@ -224,7 +224,7 @@ static inline void ResetRaceProgressClock(RaceProgressHeader *raceProgressHeader
     raceProgressHeader->mClockEnabled = 0;
 }
 
-static inline void func_020401ac_inline3(MinuteSecondMillisecondTime *time, u32 frames) {
+static inline void RaceProgressComputeTimeFromFrames(MinuteSecondMillisecondTime *time, u32 frames) {
     ComputeRaceTime(&time->mMinute, &time->mSecond, &time->mMillisecond, 0, frames);
 }
 
@@ -260,7 +260,7 @@ void InitRaceProgress(void) {
     CourseMapCheckpoint *checkpoint;
 
     ResetRaceProgressClock(&gRaceProgress->mHeader);
-    func_020401ac_inline3(&gRaceProgress->mHeader.mClockTime, gRaceProgress->mHeader.mElapsedFrames);
+    RaceProgressComputeTimeFromFrames(&gRaceProgress->mHeader.mClockTime, gRaceProgress->mHeader.mElapsedFrames);
     entryRaceEnded = FALSE;
     gRaceProgress->mHeader.mFinishedCount = 0;
     gRaceProgress->mHeader.mRemovedCount = 0;
@@ -325,7 +325,7 @@ void InitRaceProgress(void) {
                 default:
                     connectionWork = gConnectionWork;
                     v = 0;
-                    if (func_020401ac_inline(connectionWork) != 0) {
+                    if (RaceProgressGetWorkConnectionMode(connectionWork) != 0) {
                         if (connectionWork->mState != 0xd) {
                             v = 1;
                         }

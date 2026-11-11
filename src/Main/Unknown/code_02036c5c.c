@@ -113,7 +113,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
         case 1:
             records->mBg2.mFields.mBgCntLow2 = 2;
             records->mBg2.mFields.mBgCntVal14 = 0;
-            records->mBg2.mFields.mUnk_06 = 0;
+            records->mBg2.mFields.mBgCntVal7Or13 = 0;
             records->mBg2.mFields.mBgCntBit6 = 0;
             records->mBg2.mFields.mBgCntVal8 = 0;
             records->mBg2.mFields.mBgCntVal2 = 0;
@@ -122,7 +122,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntLow2 = 2;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntBit6 = 0;
-            records->mBg2.mFields.mUnk_06 = 0;
+            records->mBg2.mFields.mBgCntVal7Or13 = 0;
             records->mBg2.mFields.mBgCntVal8 = 0;
             records->mBg2.mFields.mBgCntVal2 = 0;
             break;
@@ -130,7 +130,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntLow2 = 2;
             records->mBg2.mFields.mBgCntBit6 = 0;
             records->mBg2.mFields.mBgCntVal14 = 0;
-            records->mBg2.mFields.mUnk_06 = 0;
+            records->mBg2.mFields.mBgCntVal7Or13 = 0;
             records->mBg2.mFields.mBgCntVal8 = 0;
             break;
     }
@@ -156,7 +156,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
         case 1:
             records->mBg3.mFields.mBgCntLow2 = 2;
             records->mBg3.mFields.mBgCntVal14 = 0;
-            records->mBg3.mFields.mUnk_06 = 0;
+            records->mBg3.mFields.mBgCntVal7Or13 = 0;
             records->mBg3.mFields.mBgCntBit6 = 0;
             records->mBg3.mFields.mBgCntVal8 = 0;
             records->mBg3.mFields.mBgCntVal2 = 0;
@@ -165,7 +165,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntLow2 = 2;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntBit6 = 0;
-            records->mBg3.mFields.mUnk_06 = 0;
+            records->mBg3.mFields.mBgCntVal7Or13 = 0;
             records->mBg3.mFields.mBgCntVal8 = 0;
             records->mBg3.mFields.mBgCntVal2 = 0;
             break;
@@ -173,7 +173,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntLow2 = 2;
             records->mBg3.mFields.mBgCntBit6 = 0;
             records->mBg3.mFields.mBgCntVal14 = 0;
-            records->mBg3.mFields.mUnk_06 = 0;
+            records->mBg3.mFields.mBgCntVal7Or13 = 0;
             records->mBg3.mFields.mBgCntVal8 = 0;
             break;
     }
@@ -238,7 +238,7 @@ void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
     records->mBg2.mFields.mBgCntBit6 = cntBit6;
     records->mBg2.mFields.mBgCntVal14 = cntVal14;
-    records->mBg2.mFields.mUnk_06 = e;
+    records->mBg2.mFields.mBgCntVal7Or13 = e;
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
     records->mBg2.mFields.mBgCntVal2 = cntVal2;
 }
@@ -248,7 +248,7 @@ void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32
     records->mBg3.mFields.mBgCntLow2 = cntLow2;
     records->mBg3.mFields.mBgCntBit6 = cntBit6;
     records->mBg3.mFields.mBgCntVal14 = cntVal14;
-    records->mBg3.mFields.mUnk_06 = e;
+    records->mBg3.mFields.mBgCntVal7Or13 = e;
     records->mBg3.mFields.mBgCntVal8 = cntVal8;
     records->mBg3.mFields.mBgCntVal2 = cntVal2;
 }
@@ -258,7 +258,7 @@ void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
     records->mBg2.mFields.mBgCntBit6 = cntBit6;
     records->mBg2.mFields.mBgCntVal14 = cntVal14;
-    records->mBg2.mFields.mUnk_06 = e;
+    records->mBg2.mFields.mBgCntVal7Or13 = e;
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
 }
 
@@ -274,7 +274,7 @@ void SetSubObjVRamModeBmp(DisplaySettings *settings, u32 value) {
 // Enum-typed parameters of the inlines below: their values are read before the register.
 typedef enum { UNK_0203810C_ARG_0 } Unk0203810c_Arg;
 
-// Sets the low two bits of the halfword register r and its bit 6 from the first two halfwords of q.
+// Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of fields.
 static inline void SetBg3PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) {
     *cntReg = (*cntReg & ~3) | fields->mBgCntLow2;
     if (fields->mBgCntBit6 != 0) {
@@ -284,37 +284,37 @@ static inline void SetBg3PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) 
     }
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r and sets the rest from four values.
-static inline void func_0203810c_inline2(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val7,
-                                         Unk0203810c_Arg val8, Unk0203810c_Arg val2) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
+static inline void SetBg3ControlText(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val7, Unk0203810c_Arg val8,
+                                     Unk0203810c_Arg val2) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r and sets the rest from four values.
-static inline void func_0203810c_inline3(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val8,
-                                         Unk0203810c_Arg val2, Unk0203810c_Arg val13) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
+static inline void SetBg3ControlAffine(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val8, Unk0203810c_Arg val2,
+                                       Unk0203810c_Arg val13) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val2 << 2) | (val13 << 13);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r and sets the rest from three values.
-static inline void func_0203810c_inline4(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
-                                         Unk0203810c_Arg val8) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from three values.
+static inline void SetBg3ControlWithoutCharBase(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
+                                                Unk0203810c_Arg val8) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val13 << 13);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r, sets bit 7 and the rest from three values.
-static inline void func_0203810c_inline5(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
-                                         Unk0203810c_Arg val8) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bit 7 and the rest from three values.
+static inline void SetBg3Control256Bmp(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
+                                       Unk0203810c_Arg val8) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x80 | (val8 << 8) | (val13 << 13);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r, sets bits 2 and 7 and the rest from three values.
-static inline void func_0203810c_inline6(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
-                                         Unk0203810c_Arg val8) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bits 2 and 7 and the rest from three values.
+static inline void SetBg3ControlDCBmp(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
+                                      Unk0203810c_Arg val8) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x84 | (val8 << 8) | (val13 << 13);
 }
 
-// Sets the low two bits of the halfword register r and its bit 6 from the first two halfwords of q.
+// Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of fields.
 static inline void SetBg2PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) {
     *cntReg = (*cntReg & ~3) | fields->mBgCntLow2;
     if (fields->mBgCntBit6 != 0) {
@@ -324,33 +324,33 @@ static inline void SetBg2PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) 
     }
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r and sets the rest from four values.
-static inline void func_020386d0_inline2(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val7,
-                                         Unk0203810c_Arg val8, Unk0203810c_Arg val2) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
+static inline void SetBg2ControlText(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val7, Unk0203810c_Arg val8,
+                                     Unk0203810c_Arg val2) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r and sets the rest from four values.
-static inline void func_020386d0_inline3(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val8,
-                                         Unk0203810c_Arg val2, Unk0203810c_Arg val13) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
+static inline void SetBg2ControlAffine(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val8, Unk0203810c_Arg val2,
+                                       Unk0203810c_Arg val13) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val2 << 2) | (val13 << 13);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r and sets the rest from three values.
-static inline void func_020386d0_inline4(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
-                                         Unk0203810c_Arg val8) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from three values.
+static inline void SetBg2ControlWithoutCharBase(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
+                                                Unk0203810c_Arg val8) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val13 << 13);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r, sets bit 7 and the rest from three values.
-static inline void func_020386d0_inline5(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
-                                         Unk0203810c_Arg val8) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bit 7 and the rest from three values.
+static inline void SetBg2Control256Bmp(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
+                                       Unk0203810c_Arg val8) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x80 | (val8 << 8) | (val13 << 13);
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r, sets bits 2 and 7 and the rest from three values.
-static inline void func_020386d0_inline6(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
-                                         Unk0203810c_Arg val8) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bits 2 and 7 and the rest from three values.
+static inline void SetBg2ControlDCBmp(vu16 *cntReg, Unk0203810c_Arg val14, Unk0203810c_Arg val13,
+                                      Unk0203810c_Arg val8) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x84 | (val8 << 8) | (val13 << 13);
 }
 
@@ -368,69 +368,71 @@ void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
             if (isMainScreen != 0) {
                 reg_G2_BG2OFS = 0;
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
-                func_020386d0_inline2(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8,
-                                      (Unk0203810c_Arg) fields->mBgCntVal2);
+                SetBg2ControlText(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                  (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8,
+                                  (Unk0203810c_Arg) fields->mBgCntVal2);
             } else {
                 reg_G2S_DB_BG2OFS = 0;
                 SetBg2PriorityAndMosaic(&reg_G2S_DB_BG2CNT, fields);
-                func_020386d0_inline2(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8,
-                                      (Unk0203810c_Arg) fields->mBgCntVal2);
+                SetBg2ControlText(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                  (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8,
+                                  (Unk0203810c_Arg) fields->mBgCntVal2);
             }
             break;
         case 2:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
-                func_020386d0_inline3(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
-                                      (Unk0203810c_Arg) fields->mUnk_06);
+                SetBg2ControlAffine(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2S_DB_BG2CNT, fields);
-                func_020386d0_inline3(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
-                                      (Unk0203810c_Arg) fields->mUnk_06);
+                SetBg2ControlAffine(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13);
             }
             break;
         case 3:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
-                func_020386d0_inline4(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg2ControlWithoutCharBase(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                             (Unk0203810c_Arg) fields->mBgCntVal7Or13,
+                                             (Unk0203810c_Arg) fields->mBgCntVal8);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2S_DB_BG2CNT, fields);
-                func_020386d0_inline4(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg2ControlWithoutCharBase(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                             (Unk0203810c_Arg) fields->mBgCntVal7Or13,
+                                             (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
         case 4:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
-                func_020386d0_inline5(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg2Control256Bmp(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2S_DB_BG2CNT, fields);
-                func_020386d0_inline5(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg2Control256Bmp(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
         case 5:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
-                func_020386d0_inline6(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg2ControlDCBmp(&reg_G2_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                   (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2S_DB_BG2CNT, fields);
-                func_020386d0_inline6(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg2ControlDCBmp(&reg_G2S_DB_BG2CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                   (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
         default:
@@ -452,69 +454,71 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
             if (isMainScreen != 0) {
                 reg_G2_BG3OFS = 0;
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
-                func_0203810c_inline2(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8,
-                                      (Unk0203810c_Arg) fields->mBgCntVal2);
+                SetBg3ControlText(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                  (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8,
+                                  (Unk0203810c_Arg) fields->mBgCntVal2);
             } else {
                 reg_G2S_DB_BG3OFS = 0;
                 SetBg3PriorityAndMosaic(&reg_G2S_DB_BG3CNT, fields);
-                func_0203810c_inline2(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8,
-                                      (Unk0203810c_Arg) fields->mBgCntVal2);
+                SetBg3ControlText(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                  (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8,
+                                  (Unk0203810c_Arg) fields->mBgCntVal2);
             }
             break;
         case 2:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
-                func_0203810c_inline3(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
-                                      (Unk0203810c_Arg) fields->mUnk_06);
+                SetBg3ControlAffine(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2S_DB_BG3CNT, fields);
-                func_0203810c_inline3(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
-                                      (Unk0203810c_Arg) fields->mUnk_06);
+                SetBg3ControlAffine(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal8, (Unk0203810c_Arg) fields->mBgCntVal2,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13);
             }
             break;
         case 3:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
-                func_0203810c_inline4(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg3ControlWithoutCharBase(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                             (Unk0203810c_Arg) fields->mBgCntVal7Or13,
+                                             (Unk0203810c_Arg) fields->mBgCntVal8);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2S_DB_BG3CNT, fields);
-                func_0203810c_inline4(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg3ControlWithoutCharBase(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                             (Unk0203810c_Arg) fields->mBgCntVal7Or13,
+                                             (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
         case 4:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
-                func_0203810c_inline5(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg3Control256Bmp(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2S_DB_BG3CNT, fields);
-                func_0203810c_inline5(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg3Control256Bmp(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                    (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
         case 5:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
-                func_0203810c_inline6(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg3ControlDCBmp(&reg_G2_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                   (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             } else {
                 G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2S_DB_BG3CNT, fields);
-                func_0203810c_inline6(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
-                                      (Unk0203810c_Arg) fields->mUnk_06, (Unk0203810c_Arg) fields->mBgCntVal8);
+                SetBg3ControlDCBmp(&reg_G2S_DB_BG3CNT, (Unk0203810c_Arg) fields->mBgCntVal14,
+                                   (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
         default:
@@ -531,7 +535,7 @@ static inline void DisplayFillMemoryFast(u32 fillValue, void *destination, u32 s
     MIi_CpuClearFast(fillValueCopy, destination, size);
 }
 
-// Sets the low two bits of the halfword register r and its bit 6 from the first two halfwords of q.
+// Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of q.
 static inline void SetBg01PriorityAndMosaic(vu16 *cntReg, Bg01Cnt *cnt) {
     *cntReg = (*cntReg & ~3) | cnt->mBgCntLow2;
     if (cnt->mBgCntBit6 != 0) {
@@ -556,9 +560,9 @@ static inline void DisplayGXS_SetOBJVRamModeBmp(Unk02037abc_Arg bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x60) | bits;
 }
 
-// Keeps bits 0, 1 and 6 of the halfword register r and sets the rest from five values.
-static inline void func_02037abc_inline6(vu16 *cntReg, Unk02037abc_Arg val14, Unk02037abc_Arg val7,
-                                         Unk02037abc_Arg val8, Unk02037abc_Arg val2, Unk02037abc_Arg val13) {
+// Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from five values.
+static inline void SetBg01Control(vu16 *cntReg, Unk02037abc_Arg val14, Unk02037abc_Arg val7, Unk02037abc_Arg val8,
+                                  Unk02037abc_Arg val2, Unk02037abc_Arg val13) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2) | (val13 << 13);
 }
 
@@ -637,34 +641,34 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
             G2Bg0OfsWrite(0);
         } else {
             reg_G2_BG0OFS = 0;
-            func_02037abc_inline6(&reg_G2_BG0CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                                  (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                                  (Unk02037abc_Arg) cnt->mBgCntVal13);
+            SetBg01Control(&reg_G2_BG0CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
+                           (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
+                           (Unk02037abc_Arg) cnt->mBgCntVal13);
         }
     }
     if (settings->mSubDisplayMask & 1) {
         reg_G2S_DB_BG0OFS = 0;
         cnt = &settings->mSubBgRecords.mBg0;
         SetBg01PriorityAndMosaic(&reg_G2S_DB_BG0CNT, cnt);
-        func_02037abc_inline6(&reg_G2S_DB_BG0CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                              (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                              (Unk02037abc_Arg) cnt->mBgCntVal13);
+        SetBg01Control(&reg_G2S_DB_BG0CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
+                       (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
+                       (Unk02037abc_Arg) cnt->mBgCntVal13);
     }
     if (settings->mMainDisplayMask & 2) {
         reg_G2_BG1OFS = 0;
         cnt = &settings->mMainBgRecords.mBg1;
         SetBg01PriorityAndMosaic(&reg_G2_BG1CNT, cnt);
-        func_02037abc_inline6(&reg_G2_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                              (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                              (Unk02037abc_Arg) cnt->mBgCntVal13);
+        SetBg01Control(&reg_G2_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
+                       (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
+                       (Unk02037abc_Arg) cnt->mBgCntVal13);
     }
     if (settings->mSubDisplayMask & 2) {
         reg_G2S_DB_BG1OFS = 0;
         cnt = &settings->mSubBgRecords.mBg1;
         SetBg01PriorityAndMosaic(&reg_G2S_DB_BG1CNT, cnt);
-        func_02037abc_inline6(&reg_G2S_DB_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                              (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                              (Unk02037abc_Arg) cnt->mBgCntVal13);
+        SetBg01Control(&reg_G2S_DB_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
+                       (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
+                       (Unk02037abc_Arg) cnt->mBgCntVal13);
     }
     if (settings->mMainDisplayMask & 4) {
         ApplyBg2Cnt(&settings->mMainBgRecords.mBg2, 1);
@@ -719,7 +723,7 @@ void ClearFrameFinishedFlag(void) {
     gDisplaySettings->mFrameFlags = value0;
 }
 
-static inline void func_02036d3c_inline(BrightnessFade *fade, s16 frameCount) {
+static inline void StartBrightnessFadeToFadedPositive(BrightnessFade *fade, s16 frameCount) {
     if (fade->mState == 0 || (fade->mState == 3 && fade->mPositive == 1)) {
         return;
     }
@@ -733,7 +737,7 @@ static inline void func_02036d3c_inline(BrightnessFade *fade, s16 frameCount) {
     fade->mFadeFrameCount = frameCount;
 }
 
-static inline void func_02036f10_inline(BrightnessFade *fade, s16 frameCount) {
+static inline void StartBrightnessFadeToFadedNegative(BrightnessFade *fade, s16 frameCount) {
     if (fade->mState == 0 || (fade->mState == 3 && fade->mPositive == 0)) {
         return;
     }
@@ -747,7 +751,7 @@ static inline void func_02036f10_inline(BrightnessFade *fade, s16 frameCount) {
     fade->mFadeFrameCount = frameCount;
 }
 
-static inline void func_020370d4_inline(BrightnessFade *fade, s16 frameCount) {
+static inline void StartBrightnessFadeToClearNegative(BrightnessFade *fade, s16 frameCount) {
     if (fade->mState == 2 || fade->mState == 1) {
         return;
     }
@@ -764,7 +768,7 @@ static inline void func_020370d4_inline(BrightnessFade *fade, s16 frameCount) {
     fade->mFadeFrameCount = frameCount;
 }
 
-static inline void func_02037288_inline(BrightnessFade *fade, s16 frameCount) {
+static inline void StartBrightnessFadeToClear(BrightnessFade *fade, s16 frameCount) {
     if (fade->mState == 2 || fade->mState == 1) {
         return;
     }
@@ -929,54 +933,54 @@ void RecordFrameTimes(void) {
 
 void StartFadeToClearOneScreen(s16 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        func_02037288_inline(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToClear(&gMainBrightnessFade, frameCount);
     } else {
-        func_02037288_inline(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToClear(&gSubBrightnessFade, frameCount);
     }
 }
 
 void StartFadeToClear(s16 frameCount) {
-    func_02037288_inline(&gMainBrightnessFade, frameCount);
-    func_02037288_inline(&gSubBrightnessFade, frameCount);
+    StartBrightnessFadeToClear(&gMainBrightnessFade, frameCount);
+    StartBrightnessFadeToClear(&gSubBrightnessFade, frameCount);
 }
 
 void StartFadeToClearNegativeOneScreen(s32 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        func_020370d4_inline(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToClearNegative(&gMainBrightnessFade, frameCount);
     } else {
-        func_020370d4_inline(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToClearNegative(&gSubBrightnessFade, frameCount);
     }
 }
 
 void StartFadeToClearNegative(s16 frameCount) {
-    func_020370d4_inline(&gMainBrightnessFade, frameCount);
-    func_020370d4_inline(&gSubBrightnessFade, frameCount);
+    StartBrightnessFadeToClearNegative(&gMainBrightnessFade, frameCount);
+    StartBrightnessFadeToClearNegative(&gSubBrightnessFade, frameCount);
 }
 
 void StartFadeToFadedNegativeOneScreen(s32 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        func_02036f10_inline(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedNegative(&gMainBrightnessFade, frameCount);
     } else {
-        func_02036f10_inline(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedNegative(&gSubBrightnessFade, frameCount);
     }
 }
 
 void StartFadeToFadedNegative(s16 frameCount) {
-    func_02036f10_inline(&gMainBrightnessFade, frameCount);
-    func_02036f10_inline(&gSubBrightnessFade, frameCount);
+    StartBrightnessFadeToFadedNegative(&gMainBrightnessFade, frameCount);
+    StartBrightnessFadeToFadedNegative(&gSubBrightnessFade, frameCount);
 }
 
 void StartFadeToFadedPositiveOneScreen(s16 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        func_02036d3c_inline(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedPositive(&gMainBrightnessFade, frameCount);
     } else {
-        func_02036d3c_inline(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedPositive(&gSubBrightnessFade, frameCount);
     }
 }
 
 void StartFadeToFadedPositive(s16 frameCount) {
-    func_02036d3c_inline(&gMainBrightnessFade, frameCount);
-    func_02036d3c_inline(&gSubBrightnessFade, frameCount);
+    StartBrightnessFadeToFadedPositive(&gMainBrightnessFade, frameCount);
+    StartBrightnessFadeToFadedPositive(&gSubBrightnessFade, frameCount);
 }
 
 u32 AreBrightnessFadesFaded(void) {

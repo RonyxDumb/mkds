@@ -155,14 +155,14 @@ s32 FSi_ReadDirCommand(FSFile *dir) {
     return 0;
 }
 
-static inline int func_02003670_inline(u32 c) {
-    int r;
+static inline int IsPathNameChar(u32 character) {
+    int result;
 
-    r = 0;
-    if (c != 0 && c != 0x2f && c != 0x5c) {
-        r = 1;
+    result = 0;
+    if (character != 0 && character != 0x2f && character != 0x5c) {
+        result = 1;
     }
-    return r;
+    return result;
 }
 
 // Path search command: walks the path through the directory entries and stores the file or directory found.
@@ -181,7 +181,7 @@ s32 FSi_FindPathCommand(FSFile *dir) {
     ch = *path;
     if (ch != 0) {
         do {
-            for (nameLen = 0; isDirName = path[nameLen], func_02003670_inline(isDirName); nameLen++) {
+            for (nameLen = 0; isDirName = path[nameLen], IsPathNameChar(isDirName); nameLen++) {
             }
             if (isDirName != 0 || wantsDir != 0) {
                 isDirName = 1;

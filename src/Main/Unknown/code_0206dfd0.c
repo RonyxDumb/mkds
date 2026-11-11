@@ -23,26 +23,26 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_02147cd8.h"
 
-static inline BOOL func_0206dfd0_inline(Kart *p, Kart *q, s32 r) {
+static inline BOOL AreKartSpheresOverlapping(Kart *kart, Kart *otherKart, s32 radiusSum) {
     s32 x;
     s32 y;
     s32 z;
-    s32 m;
+    s32 negativeRadius;
 
-    m = -r;
-    z = p->mPointAlongUp.z - q->mPointAlongUp.z;
-    if (z > r || z < m) {
+    negativeRadius = -radiusSum;
+    z = kart->mPointAlongUp.z - otherKart->mPointAlongUp.z;
+    if (z > radiusSum || z < negativeRadius) {
         return FALSE;
     }
-    x = p->mPointAlongUp.x - q->mPointAlongUp.x;
-    if (x > r || x < m) {
+    x = kart->mPointAlongUp.x - otherKart->mPointAlongUp.x;
+    if (x > radiusSum || x < negativeRadius) {
         return FALSE;
     }
-    y = p->mPointAlongUp.y - q->mPointAlongUp.y;
-    if (y > r || y < m) {
+    y = kart->mPointAlongUp.y - otherKart->mPointAlongUp.y;
+    if (y > radiusSum || y < negativeRadius) {
         return FALSE;
     }
-    if ((s64) x * x + (s64) y * y + (s64) z * z < (s64) r * r) {
+    if ((s64) x * x + (s64) y * y + (s64) z * z < (s64) radiusSum * radiusSum) {
         return TRUE;
     }
     return FALSE;
@@ -106,7 +106,7 @@ void CollideKartWithKarts(Kart *p) {
         r = p->mRadius + q->mRadius;
         q->mTestedKartMask |= 1 << p->mIndex;
         p->mTestedKartMask |= 1 << q->mIndex;
-        if (func_0206dfd0_inline(p, q, r) == FALSE) {
+        if (AreKartSpheresOverlapping(p, q, r) == FALSE) {
             continue;
         }
         ComputeSphereOverlapOffset(&p->mPointAlongUp, &q->mPointAlongUp, r, &v);

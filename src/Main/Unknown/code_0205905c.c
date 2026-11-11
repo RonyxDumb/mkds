@@ -15,28 +15,28 @@ static inline u32 MPStateMachineGetConnectionMode(void) {
     return gConnectionWork->mConnectionMode;
 }
 
-static inline s32 func_0205905c_inline2(void) {
-    BOOL r = FALSE;
+static inline s32 MPStateMachineIsConnectionActive(void) {
+    BOOL result = FALSE;
     if (MPStateMachineGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_0205905c_inline3(void) {
-    BOOL r = FALSE;
-    if (func_0205905c_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
+static inline s32 MPStateMachineIsConnectionActiveNotEnding(void) {
+    BOOL result = FALSE;
+    if (MPStateMachineIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_0205905c_inline4(void) {
-    BOOL r = FALSE;
-    if (func_0205905c_inline3() && gConnectionWork->mErrorCode != 9) {
-        r = TRUE;
+static inline s32 MPStateMachineIsConnectionActiveNotEndingWithError(void) {
+    BOOL result = FALSE;
+    if (MPStateMachineIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 #pragma thumb on
@@ -45,11 +45,11 @@ BOOL AdvanceMPStateMachine(void) {
     BOOL finished;
 
     finished = FALSE;
-    if (!func_0205905c_inline2()) {
+    if (!MPStateMachineIsConnectionActive()) {
         return TRUE;
     }
     AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
-    if (!func_0205905c_inline4()) {
+    if (!MPStateMachineIsConnectionActiveNotEndingWithError()) {
         if (MPStateMachineGetConnectionMode() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
             SetRequestErrorCode(7);
         }
@@ -69,10 +69,10 @@ s32 WLMenuToMenuAdvanceMPStateMachineWrapper(void) {
 }
 
 u32 AdvanceMenuDLArchives(void) {
-    if (func_0205905c_inline4()) {
+    if (MPStateMachineIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    if (!func_0205905c_inline2()) {
+    if (!MPStateMachineIsConnectionActive()) {
         return 1;
     }
     switch (MPStateMachineGetConnectionMode()) {
@@ -86,10 +86,10 @@ u32 AdvanceMenuDLArchives(void) {
 }
 
 u32 AdvanceResultDLArchives(void) {
-    if (func_0205905c_inline4()) {
+    if (MPStateMachineIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    if (!func_0205905c_inline2()) {
+    if (!MPStateMachineIsConnectionActive()) {
         return 1;
     }
     switch (MPStateMachineGetConnectionMode()) {

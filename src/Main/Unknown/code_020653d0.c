@@ -33,7 +33,7 @@
 #include "Main/Unknown/code_0206a354.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-static inline void func_020653d0_inline(Kart *entryKart, Kart *sourceKart, Vec3 *direction) {
+static inline void SetSideSignedDirection(Kart *entryKart, Kart *sourceKart, Vec3 *direction) {
     Vec3 offset;
     Vec3 crossProduct;
 
@@ -354,7 +354,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         } else if (o->mState == KART_STATE_PUSH_FLIP) {
             goto l3;
         }
-        func_020653d0_inline(o, sourceKart, &direction);
+        SetSideSignedDirection(o, sourceKart, &direction);
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(o, &direction, 0);
     l3:
@@ -374,7 +374,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         } else if (o->mState == KART_STATE_PUSH_FLIP) {
             goto l4;
         }
-        func_020653d0_inline(o, sourceKart, &direction);
+        SetSideSignedDirection(o, sourceKart, &direction);
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(o, &direction, 0);
     l4:
@@ -394,7 +394,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         } else if (o->mState == KART_STATE_PUSH_FLIP) {
             goto l5;
         }
-        func_020653d0_inline(o, sourceKart, &direction);
+        SetSideSignedDirection(o, sourceKart, &direction);
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(o, &direction, 0);
     l5:
@@ -414,7 +414,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         } else if (o->mState == KART_STATE_PUSH_FLIP) {
             goto l6;
         }
-        func_020653d0_inline(o, sourceKart, &direction);
+        SetSideSignedDirection(o, sourceKart, &direction);
         StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(o, &direction, 0);
     l6:

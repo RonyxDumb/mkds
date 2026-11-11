@@ -47,21 +47,21 @@
 #include "Main/Unknown/code_0211d4a8.h"
 
 #pragma thumb on
-static inline s32 func_02119340_inline(InputSlotIndex inputIndex) {
-    BOOL g;
-    BOOL f;
-    u16 v;
+static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) {
+    BOOL result;
+    BOOL recentlyLost;
+    u16 hasPair;
 
-    g = FALSE;
-    f = FALSE;
-    v = data_02175674[inputIndex].mPressedBits;
-    if (v == 0 && data_02175680[inputIndex].mPressedBits < 5) {
-        f = TRUE;
+    result = FALSE;
+    recentlyLost = FALSE;
+    hasPair = data_02175674[inputIndex].mPressedBits;
+    if (hasPair == 0 && data_02175680[inputIndex].mPressedBits < 5) {
+        recentlyLost = TRUE;
     }
-    if (f == FALSE && data_0217567c[inputIndex].mPressedBits == 0 && v != 0) {
-        g = TRUE;
+    if (recentlyLost == FALSE && data_0217567c[inputIndex].mPressedBits == 0 && hasPair != 0) {
+        result = TRUE;
     }
-    return g;
+    return result;
 }
 
 void AdvanceSelectCupCourseState3(void) {
@@ -72,13 +72,13 @@ void AdvanceSelectCupCourseState3(void) {
     touchedRectIndex = -1;
     inputIndex = UNK_02175628_INDEX_8;
     AdvanceSelectCupCourseIndexChange();
-    if (func_02119340_inline(inputIndex) != 0) {
+    if (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0) {
         touchedRectIndex =
             RectTableFindContaining(gSelectCupCourse->mSelectCupMBnbl, data_02175670[inputIndex].mPressedBits,
                                     data_02175672[inputIndex].mPressedBits + 0x20);
     }
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
-        (func_02119340_inline(inputIndex) != 0 &&
+        (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0 &&
          IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputIndex].mPressedBits,
                                                          data_02175672[inputIndex].mPressedBits) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {

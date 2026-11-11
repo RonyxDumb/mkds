@@ -19,28 +19,28 @@ static inline u32 ConnectGetConnectionMode(void) {
     return gConnectionWork->mConnectionMode;
 }
 
-static inline s32 func_02055030_inline2(void) {
-    BOOL r = FALSE;
+static inline s32 ConnectIsConnectionActive(void) {
+    BOOL result = FALSE;
     if (ConnectGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02055030_inline3(void) {
-    BOOL r = FALSE;
-    if (func_02055030_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
+static inline s32 ConnectIsConnectionActiveNotEnding(void) {
+    BOOL result = FALSE;
+    if (ConnectIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02055030_inline4(void) {
-    BOOL r = FALSE;
-    if (func_02055030_inline3() && gConnectionWork->mErrorCode != 9) {
-        r = TRUE;
+static inline s32 ConnectIsConnectionActiveNotEndingWithError(void) {
+    BOOL result = FALSE;
+    if (ConnectIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
@@ -55,7 +55,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
         }
         return 0;
     }
-    if (func_02055030_inline4()) {
+    if (ConnectIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
     switch (gConnectionWork->mStep) {
@@ -109,7 +109,7 @@ void AdvanceConnection(void) {
     u8 childMask;
     u8 participantIndex;
 
-    if (!func_02055030_inline2()) {
+    if (!ConnectIsConnectionActive()) {
         return;
     }
     switch (gConnectionWork->mState) {
@@ -186,7 +186,7 @@ s32 AdvanceConnectionEnd(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    if (func_02055030_inline4()) {
+    if (ConnectIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
     switch (gConnectionWork->mStep) {

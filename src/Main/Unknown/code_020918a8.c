@@ -125,7 +125,7 @@ static inline s64 XzDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos)
     return (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
 }
 
-static inline BOOL func_020919e8_inline_4(Kanoke64 *kanoke64, s32 objectAngle) {
+static inline BOOL Kanoke64IsKartNearInAngle(Kanoke64 *kanoke64, s32 objectAngle) {
     s32 i;
     BOOL isHumanGhostOrPeer;
     s32 angleDifference;
@@ -157,7 +157,7 @@ static inline BOOL func_020919e8_inline_4(Kanoke64 *kanoke64, s32 objectAngle) {
     return FALSE;
 }
 
-static inline void func_020919e8_inline_6(Vec3 *outPos, s32 baseX, s32 baseY, s32 baseZ) {
+static inline void Kanoke64SetRandomPos(Vec3 *outPos, s32 baseX, s32 baseY, s32 baseZ) {
     outPos->x = baseX - 0x5000 + MapObjectRandomBelow(0xa000);
     GetMapObjectRandom();
     outPos->y = baseY;
@@ -189,7 +189,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
                 }
                 return;
             }
-            if (func_020919e8_inline_4(kanoke64, kanoke64->mMapObject.mAngle) != FALSE) {
+            if (Kanoke64IsKartNearInAngle(kanoke64, kanoke64->mMapObject.mAngle) != FALSE) {
                 kanoke64->mTimer = 8;
                 kanoke64->mState = 1;
             }
@@ -201,8 +201,8 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
     }
     if (kanoke64->mNsbcaFrameIndex == 10) {
         for (i = 0; i < 3; i++) {
-            func_020919e8_inline_6(&basabasaPos, kanoke64->mMapObject.mPos.x, kanoke64->mMapObject.mPos.y + 0x19000,
-                                   kanoke64->mMapObject.mPos.z);
+            Kanoke64SetRandomPos(&basabasaPos, kanoke64->mMapObject.mPos.x, kanoke64->mMapObject.mPos.y + 0x19000,
+                                 kanoke64->mMapObject.mPos.z);
             angle = kanoke64->mMapObject.mAngle;
             horizontalSpeed = NextRandomBelow(GetMapObjectRandom(), 0x1000) + 0x800;
             angle = angle - 0x3e8 + NextRandomBelowU16(GetMapObjectRandom(), 0x7d0);

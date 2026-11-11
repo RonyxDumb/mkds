@@ -43,11 +43,11 @@
 
 #pragma thumb on
 
-static inline GrpconfTblRow *func_020d34e4_inline(u16 kind) {
-    s32 j;
-    for (j = 0; j < 1000; j++) {
-        if (kind == gGrpconfTbl[j].mKind) {
-            return &gGrpconfTbl[j];
+static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
+    s32 rowIndex;
+    for (rowIndex = 0; rowIndex < 1000; rowIndex++) {
+        if (kind == gGrpconfTbl[rowIndex].mKind) {
+            return &gGrpconfTbl[rowIndex];
         }
     }
     return NULL;
@@ -141,7 +141,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                         }
                     }
                 }
-                grpconfRow = func_020d34e4_inline(row->mKind);
+                grpconfRow = FindGrpconfTblRowByKind(row->mKind);
                 if (grpconfRow->mViewTestKind != 0) {
                     descriptor->mKindData->mUnk_34 = grpconfRow->mViewTestKind >= 2 ? 1 : 0;
                     tableValue = grpconfRow->mViewRadius;

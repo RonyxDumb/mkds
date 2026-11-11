@@ -62,26 +62,26 @@ u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d) {
     return v;
 }
 
-static inline BOOL func_0209df84_inline(Kart *p, Fireball2 *b, s32 t) {
+static inline BOOL IsKartWithinFireball2Range(Kart *kart, Fireball2 *fireball, s32 radius) {
     s32 y;
     s32 x;
     s32 z;
-    s32 u;
+    s32 negativeRadius;
 
-    u = -t;
-    z = p->mPos.z - b->mMapObject.mPos.z;
-    if (z > t || z < u) {
+    negativeRadius = -radius;
+    z = kart->mPos.z - fireball->mMapObject.mPos.z;
+    if (z > radius || z < negativeRadius) {
         return FALSE;
     }
-    x = p->mPos.x - b->mMapObject.mPos.x;
-    if (x > t || x < u) {
+    x = kart->mPos.x - fireball->mMapObject.mPos.x;
+    if (x > radius || x < negativeRadius) {
         return FALSE;
     }
-    y = p->mPos.y - b->mMapObject.mPos.y;
-    if (y > t || y < u) {
+    y = kart->mPos.y - fireball->mMapObject.mPos.y;
+    if (y > radius || y < negativeRadius) {
         return FALSE;
     }
-    return (s64) x * x + (s64) y * y + (s64) z * z < (s64) t * t;
+    return (s64) x * x + (s64) y * y + (s64) z * z < (s64) radius * radius;
 }
 
 BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c) {
@@ -246,7 +246,7 @@ void UpdateFireball2(void *a, Fireball2 *b) {
     b->mCenterPos = b->mMapObject.mPos;
     if (b->mRowElementCount == 1) {
         p = GetKart((u16) gRaceSetup->mEntryIndex);
-        if (func_0209df84_inline(p, b, n - 0xf000) != FALSE) {
+        if (IsKartWithinFireball2Range(p, b, n - 0xf000) != FALSE) {
             VEC_Subtract(&p->mPos, &b->mMapObject.mPos, &v);
             d = Vec3DotUnrounded(&v, &b->mMapObject.mMatrix.mRows[2]);
             if ((b->mEntryKartAxisDistance < 0 && d > 0) || (b->mEntryKartAxisDistance > 0 && d < 0)) {

@@ -7,7 +7,7 @@ typedef struct Bg23CntFields {
     /* 00 */ u16 mBgCntLow2;
     /* 02 */ u16 mBgCntBit6;
     /* 04 */ u16 mBgCntVal14;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mBgCntVal7Or13;
     /* 08 */ u16 mBgCntVal8;
     /* 0a */ u16 mBgCntVal2;
 } Bg23CntFields;

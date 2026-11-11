@@ -69,40 +69,41 @@ static inline s64 BasabasaBurstXzDistanceSquared(const Vec3 *firstPos, const Vec
     return (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
 }
 
-static inline BOOL func_02092b5c_inline_3(BasabasaBurst *p, s32 k) {
+static inline BOOL BasabasaBurstIsKartNearInAngle(BasabasaBurst *burst, s32 burstAngle) {
     s32 i;
-    BOOL f;
-    s32 d;
+    BOOL isHumanGhostOrPeer;
+    s32 angleDifference;
     Kart *kart;
 
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
-        f = FALSE;
+        isHumanGhostOrPeer = FALSE;
         if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind <= 3 &&
             ((1 << gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
-            f = TRUE;
+            isHumanGhostOrPeer = TRUE;
         }
-        if (f == FALSE && i != gRaceSetup->mEntryIndex) {
+        if (isHumanGhostOrPeer == FALSE && i != gRaceSetup->mEntryIndex) {
             continue;
         }
         kart = GetKart((u16) i);
-        if (BasabasaBurstXzDistanceSquared(&kart->mPos, &p->mMapObject.mPos) >= 0x15f900000000LL) {
+        if (BasabasaBurstXzDistanceSquared(&kart->mPos, &burst->mMapObject.mPos) >= 0x15f900000000LL) {
             continue;
         }
-        d = FX_Atan2Idx(kart->mPos.x - p->mMapObject.mPos.x, kart->mPos.z - p->mMapObject.mPos.z) - k;
-        if (d < -0x1f40) {
+        angleDifference =
+            FX_Atan2Idx(kart->mPos.x - burst->mMapObject.mPos.x, kart->mPos.z - burst->mMapObject.mPos.z) - burstAngle;
+        if (angleDifference < -0x1f40) {
             continue;
         }
-        if (d <= 0x1f40) {
+        if (angleDifference <= 0x1f40) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-static inline void func_02092b5c_inline_5(Vec3 *v, s32 x, s32 y, s32 z) {
-    v->x = x - 0x5000 + BasabasaBurstMapObjectRandomBelow(0xa000);
-    v->y = y - 0x5000 + BasabasaBurstMapObjectRandomBelow(0xa000);
-    v->z = z - 0x28000 + BasabasaBurstMapObjectRandomBelow(0x50000);
+static inline void BasabasaBurstSetRandomPos(Vec3 *outPos, s32 baseX, s32 baseY, s32 baseZ) {
+    outPos->x = baseX - 0x5000 + BasabasaBurstMapObjectRandomBelow(0xa000);
+    outPos->y = baseY - 0x5000 + BasabasaBurstMapObjectRandomBelow(0xa000);
+    outPos->z = baseZ - 0x28000 + BasabasaBurstMapObjectRandomBelow(0x50000);
 }
 
 s16 BasabasaBurstFX_SinIdx(s32 angle) {
@@ -138,7 +139,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
                 }
                 return;
             }
-            if (func_02092b5c_inline_3(burstObject, burstObject->mMapObject.mAngle) != FALSE) {
+            if (BasabasaBurstIsKartNearInAngle(burstObject, burstObject->mMapObject.mAngle) != FALSE) {
                 burstObject->mTimer = 4;
                 burstObject->mState = 1;
             }
@@ -150,8 +151,8 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
     }
     if (burstObject->mCycleFrames == 0x14) {
         for (i = 0; i < 2; i++) {
-            func_02092b5c_inline_5(&basabasaPos, burstObject->mMapObject.mPos.x,
-                                   burstObject->mMapObject.mPos.y + 0x23000, burstObject->mMapObject.mPos.z);
+            BasabasaBurstSetRandomPos(&basabasaPos, burstObject->mMapObject.mPos.x,
+                                      burstObject->mMapObject.mPos.y + 0x23000, burstObject->mMapObject.mPos.z);
             angle = burstObject->mMapObject.mAngle;
             horizontalSpeed = NextRandomBelow(GetMapObjectRandom(), 0x1000) + 0x2000;
             angle = angle - 0xbb8 + NextRandomBelowU16(GetMapObjectRandom(), 0x1770);

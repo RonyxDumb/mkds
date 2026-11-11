@@ -32,37 +32,37 @@
 #include "Main/Unknown/code_0206a354.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-static inline s32 func_0206dbf8_inline(Kart *kart) {
-    BOOL c;
+static inline s32 IsKartPushFlipAllowed(Kart *kart) {
+    BOOL canStart;
     BOOL t;
     BOOL u;
-    int v;
+    int kartState;
     u32 bits4c;
 
     bits4c = kart->mUnk_4c;
     if (bits4c & KART_4C_BLINK_GUARD) {
-        c = FALSE;
+        canStart = FALSE;
     } else if (kart->mUnk_7c & 0x200) {
         if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(bits4c & 0x10000040)) {
-            c = TRUE;
+            canStart = TRUE;
         } else {
-            c = FALSE;
+            canStart = FALSE;
         }
     } else {
         t = TRUE;
         if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
             u = FALSE;
-            v = kart->mState;
-            if (v != KART_STATE_NORMAL && v != KART_STATE_1 && v != KART_STATE_SPIN) {
+            kartState = kart->mState;
+            if (kartState != KART_STATE_NORMAL && kartState != KART_STATE_1 && kartState != KART_STATE_SPIN) {
                 u = TRUE;
             }
             if (u == FALSE) {
                 t = FALSE;
             }
         }
-        c = t == FALSE;
+        canStart = t == FALSE;
     }
-    return c;
+    return canStart;
 }
 
 BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
@@ -71,7 +71,7 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
     u32 w;
 
     r = FALSE;
-    canStart = func_0206dbf8_inline(hitKart);
+    canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
         StartKartState4(hitKart, v, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
@@ -117,7 +117,7 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
     u32 w;
 
     r = FALSE;
-    canStart = func_0206dbf8_inline(hitKart);
+    canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
         a = killerKart->mUnk_120;
         VEC_Subtract(&hitKart->mPos, &killerKart->mPos, &b);

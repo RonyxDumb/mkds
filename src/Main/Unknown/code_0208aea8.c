@@ -12,12 +12,12 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_0214d018.h"
 
-static inline u32 func_0208b190_inline(RandomState64 *b, u32 n) {
-    b->mValue = b->mMultiplier * b->mValue + b->mIncrement;
-    if (n == 0) {
-        return b->mValue >> 32;
+static inline u32 StadiumEmittersNextRandomBelow(RandomState64 *randomState, u32 limit) {
+    randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+    if (limit == 0) {
+        return randomState->mValue >> 32;
     }
-    return ((b->mValue >> 32) * n) >> 32;
+    return ((randomState->mValue >> 32) * limit) >> 32;
 }
 
 // Ids from 1000 up belong to the second manager (Mission Run); the id inside the manager goes to *a.
@@ -107,7 +107,7 @@ void AdvanceStadiumEmitters(void) {
         }
         data_0217b048->mEmitters[emitterIndex] = emitter;
     }
-    randomDraw = func_0208b190_inline(&gRaceProgress->mLocalRandom, 0x19);
+    randomDraw = StadiumEmittersNextRandomBelow(&gRaceProgress->mLocalRandom, 0x19);
     data_0217b048->mEmitterTimer = (u16) randomDraw + 0x14;
 }
 

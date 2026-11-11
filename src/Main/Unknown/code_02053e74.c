@@ -30,75 +30,75 @@ static inline u32 ConnectionGetConnectionMode(void) {
     return gConnectionWork->mConnectionMode;
 }
 
-static inline s32 func_02053e74_inline2(void) {
-    BOOL r = FALSE;
+static inline s32 IsConnectionActive(void) {
+    BOOL result = FALSE;
     if (ConnectionGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02053e74_inline3(void) {
-    BOOL r = FALSE;
-    if (func_02053e74_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
+static inline s32 IsConnectionActiveNotEnding(void) {
+    BOOL result = FALSE;
+    if (IsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02053e74_inline4(void) {
-    BOOL r = FALSE;
-    if (func_02053e74_inline3() && gConnectionWork->mErrorCode != 9) {
-        r = TRUE;
+static inline s32 IsConnectionActiveNotEndingWithError(void) {
+    BOOL result = FALSE;
+    if (IsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02054754_inline(SharingReceiveRecord *e) {
-    BOOL r = FALSE;
-    u8 f = e->mUnk_06_0;
+static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRecord) {
+    BOOL result = FALSE;
+    u8 toggleBits = receiveRecord->mUnk_06_0;
     if (gConnectionWork->mSyncToggle == 0) {
-        if (f & 1) {
-            r = TRUE;
+        if (toggleBits & 1) {
+            result = TRUE;
         }
     } else {
-        if (f & 2) {
-            r = TRUE;
+        if (toggleBits & 2) {
+            result = TRUE;
         }
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_02054754_inline2(DataSharing *dataSharing, SharingReceiveRecord *e) {
+static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, SharingReceiveRecord *receiveRecords) {
     u8 mask = gConnectionWork->mChildren.mChildMask;
     u8 i;
-    BOOL ok = FALSE;
-    u16 m;
+    BOOL result = FALSE;
+    u16 toggleBit;
 
     for (i = 1; i < 8; i++) {
         if (mask & (1 << i)) {
             if (dataSharing->mSharedDataCopied[i] == 0) {
-                ok = FALSE;
+                result = FALSE;
                 i = 8;
             } else {
-                m = gConnectionWork->mSyncToggle == 0 ? 1 : 2;
-                if ((m & e[i].mUnk_06_0) == 0) {
-                    ok = FALSE;
+                toggleBit = gConnectionWork->mSyncToggle == 0 ? 1 : 2;
+                if ((toggleBit & receiveRecords[i].mUnk_06_0) == 0) {
+                    result = FALSE;
                     i = 8;
                 } else {
-                    ok = TRUE;
+                    result = TRUE;
                 }
             }
         }
     }
-    return ok;
+    return result;
 }
 
-static inline u32 func_0205465c_inline(ConnectionWork *p) {
-    if (p == NULL) {
+static inline u32 GetWorkConnectionMode(ConnectionWork *connectionWork) {
+    if (connectionWork == NULL) {
         return 0;
     }
-    return p->mConnectionMode;
+    return connectionWork->mConnectionMode;
 }
 
 // Returns 1 once the last step is issued, 2 on failure, 3 when an error has been recorded, 0 otherwise.
@@ -114,7 +114,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             return 2;
         }
     }
-    if (func_02053e74_inline4()) {
+    if (IsConnectionActiveNotEndingWithError()) {
         return 3;
     }
     if (gConnectionWork->mRequestPending != 0) {
@@ -192,7 +192,7 @@ s32 AdvanceBlockCountRequest(void) {
     BOOL finished;
 
     finished = FALSE;
-    if (func_02053e74_inline4()) {
+    if (IsConnectionActiveNotEndingWithError()) {
         return 3;
     }
     if (gConnectionWork->mMPSetupActive != 0) {
@@ -255,7 +255,7 @@ s32 AdvanceBlockReceive(void) {
     BOOL finished;
 
     finished = FALSE;
-    if (func_02053e74_inline4()) {
+    if (IsConnectionActiveNotEndingWithError()) {
         return 3;
     }
     if (gConnectionWork->mMPSetupActive != 0) {
@@ -300,7 +300,7 @@ BOOL FinishDataSharingSync(void) {
 
     finished = FALSE;
     dataSharing = &gConnectionWork->mUnk_15bc_view;
-    if (!func_02053e74_inline2()) {
+    if (!IsConnectionActive()) {
         return TRUE;
     }
     if (!(gConnectionWork->mFlags & CONNECTION_FLAG_SCENE_RUNNING)) {
@@ -313,7 +313,7 @@ BOOL FinishDataSharingSync(void) {
         ConnectionWork *connection;
 
         connection = gConnectionWork;
-        if (func_02054754_inline(dataSharing->mReceivedRecords) != 0) {
+        if (HasSharingRecordSyncToggleBit(dataSharing->mReceivedRecords) != 0) {
             if ((connection->mFlags & CONNECTION_FLAG_RACE) != 0) {
                 connection->mState = 9;
             } else {
@@ -322,7 +322,7 @@ BOOL FinishDataSharingSync(void) {
             finished = TRUE;
             gConnectionWork->mUnk_15f4 = 0;
         } else if (ConnectionGetConnectionMode() == 1) {
-            if (func_02054754_inline2(dataSharing, dataSharing->mReceivedRecords) != 0) {
+            if (AreChildSharingRecordsSynced(dataSharing, dataSharing->mReceivedRecords) != 0) {
                 connection->mStatusFlags |= CONNECTION_STATUS_SHARING_SYNCED;
             }
         }
@@ -332,7 +332,7 @@ BOOL FinishDataSharingSync(void) {
 
 // Starts the wait that FinishDataSharingSync completes; always returns 1.
 s32 StartDataSharingSync(void) {
-    if (func_02053e74_inline2()) {
+    if (IsConnectionActive()) {
         gConnectionWork->mState = 7;
         gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
         if (gConnectionWork->mSyncToggle == 0) {
@@ -351,10 +351,10 @@ s32 GetZeroWordResult(void) {
 
     result = 0;
     connection = gConnectionWork;
-    if (func_0205465c_inline(connection) != 1) {
+    if (GetWorkConnectionMode(connection) != 1) {
         result = 2;
     } else {
-        if (func_0205465c_inline(connection) == 1) {
+        if (GetWorkConnectionMode(connection) == 1) {
             if ((connection->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 count = connection->mWaitToSendCount;
             } else {

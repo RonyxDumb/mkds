@@ -31,7 +31,7 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline BOOL func_0205f218_inline(void) {
+static inline BOOL BuddyRecordIsConnectionActive(void) {
     ConnectionWork *connectionWork;
 
     connectionWork = gConnectionWork;
@@ -131,7 +131,7 @@ BOOL IsKartAppearWithinParticipantLimit(KartAppear *kartAppear, u32 characterInd
     u8 limit;
     u8 appearValue;
 
-    if (func_0205f218_inline() != FALSE) {
+    if (BuddyRecordIsConnectionActive() != FALSE) {
         limit = data_0217aa08->mParticipantMinValue;
     } else {
         limit = GetKartAppearLimit();
@@ -144,14 +144,14 @@ BOOL IsKartAppearWithinParticipantLimit(KartAppear *kartAppear, u32 characterInd
 }
 
 s32 IsBitSetInAllParticipants(s32 bitIndex) {
-    if (func_0205f218_inline() == FALSE) {
+    if (BuddyRecordIsConnectionActive() == FALSE) {
         return IsBackupFlagSet(bitIndex);
     }
     return IsBitSetInBytes(bitIndex, data_0217aa08->mParticipantAndBits);
 }
 
 s32 IsBitSetInAnyParticipant(s32 bitIndex) {
-    if (func_0205f218_inline() == FALSE) {
+    if (BuddyRecordIsConnectionActive() == FALSE) {
         return IsBackupFlagSet(bitIndex);
     }
     return IsBitSetInBytes(bitIndex, data_0217aa08->mParticipantOrBits);
@@ -237,7 +237,7 @@ void AddVSBuddyRecordResults(void) {
 
     countsChanged = FALSE;
     teamIndex = -1;
-    if (func_0205f218_inline() == FALSE) {
+    if (BuddyRecordIsConnectionActive() == FALSE) {
         return;
     }
     if (gRaceSetup->mEntryIndex == -1) {
@@ -323,7 +323,7 @@ void AddBattleBuddyRecordResults(void) {
     s32 date[5];
 
     countsChanged = FALSE;
-    if (func_0205f218_inline() == FALSE) {
+    if (BuddyRecordIsConnectionActive() == FALSE) {
         return;
     }
     if (gRaceSetup->mEntryIndex == -1) {
@@ -392,7 +392,7 @@ void AddShineBattleBuddyRecordResults(void) {
     s32 date[5];
 
     countsChanged = FALSE;
-    if (func_0205f218_inline() == FALSE) {
+    if (BuddyRecordIsConnectionActive() == FALSE) {
         return;
     }
     if (gRaceSetup->mEntryIndex == -1) {
@@ -452,7 +452,7 @@ void AddShineBattleBuddyRecordResults(void) {
     }
 }
 
-static inline u16 func_0205ef70_inline(u16 entryIndex) {
+static inline u16 GetCupKartTotalPoints(u16 entryIndex) {
     s32 lowByte;
     s32 courseIndexInCup;
     s32 lowByteAgain;
@@ -491,7 +491,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
     }
     GetClockDateOrDefault(date);
     ownCupRank = GetKartCupRank((u16) gRaceSetup->mEntryIndex);
-    ownPoints = func_0205ef70_inline(gRaceSetup->mEntryIndex);
+    ownPoints = GetCupKartTotalPoints(gRaceSetup->mEntryIndex);
     otherKartCount = gWiFiSession->mKartCountCopy - 1;
     kartCountCopy = gWiFiSession->mKartCountCopy;
     if (otherKartCount > 0) {
@@ -515,7 +515,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
             } else if (ownCupRank > GetKartCupRank(entryIndex)) {
                 outcome = 1;
             }
-            if (ownPoints == func_0205ef70_inline(entryIndex)) {
+            if (ownPoints == GetCupKartTotalPoints(entryIndex)) {
                 outcome = 2;
             }
             AddBuddyRecordResult(entryIndex, date, 2, outcome);

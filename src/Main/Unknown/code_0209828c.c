@@ -120,30 +120,30 @@ void CreatePakkunMouth(void *a) {
     SetMapObjectModelAlpha(gPakkunMouth, 0x1f);
 }
 
-static inline u32 func_020983c4_inline(u32 n) {
+static inline u32 PakkunMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
-    u32 t;
-    u32 m;
-    if (n == 0x10000) {
+    u32 value;
+    u32 limitU16;
+    if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             mapObjectRandom->mIncrement + (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue;
         return (u16) ((mapObjectRandom->mValue >> 32) * 0x10000 >> 32);
     }
     mapObjectRandom = GetMapObjectRandom();
-    m = (u16) n;
-    if (m == 0) {
-        t = 0;
+    limitU16 = (u16) limit;
+    if (limitU16 == 0) {
+        value = 0;
     } else {
         mapObjectRandom->mValue =
             mapObjectRandom->mIncrement + (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue;
-        if (m == 0) {
-            t = mapObjectRandom->mValue >> 32;
+        if (limitU16 == 0) {
+            value = mapObjectRandom->mValue >> 32;
         } else {
-            t = ((mapObjectRandom->mValue >> 32) * m) >> 32;
+            value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
         }
     }
-    return (u16) t;
+    return (u16) value;
 }
 
 void DrawPakkunMouth(void *a, Pakkun *pakkun) {
@@ -271,7 +271,7 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
     SoundStartParams s;
     switch (pakkun->mState) {
         case 0:
-            pakkun->mFollowerIndex += func_020983c4_inline((u16) (pakkun->mFollowerCount - 1)) + 1;
+            pakkun->mFollowerIndex += PakkunMapObjectRandomBelowU16((u16) (pakkun->mFollowerCount - 1)) + 1;
             if (pakkun->mFollowerIndex >= pakkun->mFollowerCount) {
                 pakkun->mFollowerIndex -= pakkun->mFollowerCount;
             }
@@ -290,7 +290,7 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
                 }
             }
             if (f != FALSE) {
-                if (func_020983c4_inline(2) == 0) {
+                if (PakkunMapObjectRandomBelowU16(2) == 0) {
                     pakkun->mState = 2;
                 } else {
                     pakkun->mState = 0;

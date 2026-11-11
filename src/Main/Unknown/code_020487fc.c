@@ -48,51 +48,51 @@ static inline u32 RunSceneGetConnectionMode(void) {
     return gConnectionWork->mConnectionMode;
 }
 
-static inline s32 func_020487fc_inline2(void) {
-    BOOL r = FALSE;
+static inline s32 RunSceneIsConnectionActive(void) {
+    BOOL result = FALSE;
     if (RunSceneGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_020487fc_inline3(void) {
-    BOOL r = FALSE;
-    if (func_020487fc_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
-        r = TRUE;
+static inline s32 RunSceneIsConnectionActiveNotEnding(void) {
+    BOOL result = FALSE;
+    if (RunSceneIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_020487fc_inline4(void) {
-    BOOL r = FALSE;
-    if (func_020487fc_inline3() && (gConnectionWork->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
-        r = TRUE;
+static inline s32 RunSceneIsSharingNotUpdatedWhileActive(void) {
+    BOOL result = FALSE;
+    if (RunSceneIsConnectionActiveNotEnding() && (gConnectionWork->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_020487fc_inline5(void) {
-    BOOL r = FALSE;
+static inline s32 RunSceneIsWiFiRaceSyncFlagSet(void) {
+    BOOL result = FALSE;
     if (gWiFiRaceSync != NULL && (gWiFiRaceSync->mFlags & 0x10)) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline s32 func_020487fc_inline6(void) {
-    BOOL r = FALSE;
-    if (gRaceSetup->mMode == MODE_WIFI && func_020487fc_inline5()) {
-        r = TRUE;
+static inline s32 RunSceneIsDataSharingIncomplete(void) {
+    BOOL result = FALSE;
+    if (gRaceSetup->mMode == MODE_WIFI && RunSceneIsWiFiRaceSyncFlagSet()) {
+        result = TRUE;
     }
-    if (func_020487fc_inline4()) {
-        r = TRUE;
+    if (RunSceneIsSharingNotUpdatedWhileActive()) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline void func_020487fc_inline7(void) {
-    u32 t;
+static inline void RunSceneUpdateInputAndLcdPower(void) {
+    u32 savedInterrupts;
     if (CARD_IsPulledOut()) {
         if (SceneRunPAD_DetectFold() == 1) {
             PM_ForceToPowerOff();
@@ -106,45 +106,45 @@ static inline void func_020487fc_inline7(void) {
     if (SceneRunPAD_DetectFold() == 1) {
         if (!ShouldGoSleepMode()) {
             if (PM_GetLCDPower() == 1) {
-                t = OS_DisableInterrupts();
+                savedInterrupts = OS_DisableInterrupts();
                 gSceneRunState->mLcdOff = TRUE;
                 PM_SetLCDPower(0);
-                OS_RestoreInterrupts(t);
+                OS_RestoreInterrupts(savedInterrupts);
             }
         } else {
             PM_GoSleepMode(12, 0, 0);
         }
     } else {
         if (PM_GetLCDPower() == 0) {
-            t = OS_DisableInterrupts();
+            savedInterrupts = OS_DisableInterrupts();
             PM_SetLCDPower(1);
             if (AreBrightnessFadesClear()) {
                 SetMainMasterBrightness(0);
                 SetSubMasterBrightness(0);
             }
             gSceneRunState->mLcdOff = FALSE;
-            OS_RestoreInterrupts(t);
+            OS_RestoreInterrupts(savedInterrupts);
         }
     }
 }
 
-static inline u32 func_020487fc_inline8(void) {
+static inline u32 RunSceneGetHalfwordIndex39OrZero(void) {
     if (IsVolatileHalfwordIndex39Ignored()) {
         return 0;
     }
     return GetVolatileHalfwordIndex39();
 }
 
-static inline BOOL func_020487fc_inline12(void) {
+static inline BOOL RunSceneHasActiveConnection(void) {
     return RunSceneGetConnectionMode() != 0 && gConnectionWork->mState != 13;
 }
 
-static inline void func_020487fc_inline9(const SceneCallbacks *b) {
-    int v = GetCurrentSceneNumber();
-    if (v == 1 || v == 10) {
-        FinishDisplayFrameSwapIf(!func_020487fc_inline12() || !func_020487fc_inline6());
+static inline void RunSceneFinishDisplayFrame(const SceneCallbacks *sceneCallbacks) {
+    int currentSceneNumber = GetCurrentSceneNumber();
+    if (currentSceneNumber == 1 || currentSceneNumber == 10) {
+        FinishDisplayFrameSwapIf(!RunSceneHasActiveConnection() || !RunSceneIsDataSharingIncomplete());
     } else {
-        FinishDisplayFrameUnlessSpanned(b->mSkipWhenSpanned);
+        FinishDisplayFrameUnlessSpanned(sceneCallbacks->mSkipWhenSpanned);
     }
 }
 
@@ -155,16 +155,16 @@ static inline s32 RunSceneIsBackupCommandRunning(void) {
     return 0;
 }
 
-static inline s32 func_020487fc_inline11(void) {
-    BOOL r = FALSE;
+static inline s32 RunSceneIsWiFiSessionHeapCreated(void) {
+    BOOL result = FALSE;
     if (gWiFiSession != NULL && gWiFiSession->mHeapCreated != FALSE) {
-        r = TRUE;
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
-static inline BOOL func_020487fc_inline13(void) {
-    if (func_020487fc_inline11()) {
+static inline BOOL RunSceneIsWiFiSessionStateZero(void) {
+    if (RunSceneIsWiFiSessionHeapCreated()) {
         if (gWiFiSession->mStateMachine.mState != 0) {
             return FALSE;
         }
@@ -214,7 +214,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     }
     InitSceneSounds(0);
     ResetInputSlotsFromParticipants();
-    if (func_020487fc_inline2()) {
+    if (RunSceneIsConnectionActive()) {
         gConnectionWork->mFlags |= CONNECTION_FLAG_SCENE_RUNNING;
     }
     LoadFontAndPlayerCharacterData();
@@ -232,10 +232,10 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     gSceneRunState->mRunStep = SCENE_RUN_STEP_SYNC_WAIT;
     do {
         PrepareDisplayFrame();
-        func_020487fc_inline7();
+        RunSceneUpdateInputAndLcdPower();
         UpdateSounds();
-        func_020487fc_inline8();
-        func_020487fc_inline9(b);
+        RunSceneGetHalfwordIndex39OrZero();
+        RunSceneFinishDisplayFrame(b);
         r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
         NNS_GfdDoVramTransfer();
         if (r) {
@@ -251,13 +251,13 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     gSceneRunState->mRunStep = SCENE_RUN_STEP_RUNNING;
     do {
         PrepareDisplayFrame();
-        func_020487fc_inline7();
+        RunSceneUpdateInputAndLcdPower();
         if (b->mUpdate != NULL) {
             b->mUpdate(a, gSceneRunState->mSceneFrames);
         }
         UpdateSounds();
-        v = func_020487fc_inline8();
-        func_020487fc_inline9(b);
+        v = RunSceneGetHalfwordIndex39OrZero();
+        RunSceneFinishDisplayFrame(b);
         r = RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
         NNS_GfdDoVramTransfer();
         if (r) {
@@ -268,7 +268,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
             b->mPostUpdate(a, gSceneRunState->mSceneFrames);
         }
         UpdateWiFiSession();
-        if (!func_020487fc_inline6()) {
+        if (!RunSceneIsDataSharingIncomplete()) {
             gSceneRunState->mSceneFrames++;
         }
         gSceneRunState->mPassCount++;
@@ -291,20 +291,20 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     }
     do {
         PrepareDisplayFrame();
-        func_020487fc_inline7();
+        RunSceneUpdateInputAndLcdPower();
         if (b->mUpdate != NULL) {
             b->mUpdate(0, gSceneRunState->mSceneFrames);
         }
         UpdateSounds();
-        func_020487fc_inline8();
-        func_020487fc_inline9(b);
+        RunSceneGetHalfwordIndex39OrZero();
+        RunSceneFinishDisplayFrame(b);
         RunMessageScreenOnDisconnect(a, gSceneRunState->mRunStep != SCENE_RUN_STEP_CARD_PULLED_OUT);
         NNS_GfdDoVramTransfer();
         if (b->mPostUpdate != NULL) {
             b->mPostUpdate(0, gSceneRunState->mSceneFrames);
         }
         UpdateWiFiSession();
-        if (!func_020487fc_inline6()) {
+        if (!RunSceneIsDataSharingIncomplete()) {
             gSceneRunState->mSceneFrames++;
         }
         gSceneRunState->mPassCount++;
@@ -312,7 +312,7 @@ void RunScene(SceneNumbers *a, const SceneCallbacks *b) {
     } while (!AreBrightnessFadesFaded());
 end:
     SetNoKeysAndUpdateInputSlots();
-    if (func_020487fc_inline13() && (v != 0 || GetNextSceneNumber() == 0)) {
+    if (RunSceneIsWiFiSessionStateZero() && (v != 0 || GetNextSceneNumber() == 0)) {
         gSceneRunState->mRunStep = SCENE_RUN_STEP_CARD_PULLED_OUT;
         gStartupWork->mConnectionKind = 0;
         c = FALSE;
@@ -320,8 +320,8 @@ end:
         do {
             PrepareDisplayFrame();
             UpdateSounds();
-            func_020487fc_inline8();
-            func_020487fc_inline9(b);
+            RunSceneGetHalfwordIndex39OrZero();
+            RunSceneFinishDisplayFrame(b);
             if (AdvanceConnectionEndStopOnError() == 1) {
                 if (!RunSceneIsBackupBusy()) {
                     c = TRUE;
@@ -335,7 +335,7 @@ end:
     }
     gSceneRunState->mRunStep = SCENE_RUN_STEP_RELEASE;
     gDisplaySettings->mIrqCallback = NULL;
-    if (func_020487fc_inline2()) {
+    if (RunSceneIsConnectionActive()) {
         gConnectionWork->mFlags &= ~CONNECTION_FLAG_SCENE_RUNNING;
     }
     StartDataSharingSync();

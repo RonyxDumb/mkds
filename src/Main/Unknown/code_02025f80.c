@@ -378,7 +378,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
 
 #pragma thumb on
 
-static inline s32 func_02026120_inline(u16 inputSlot) {
+static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
     BOOL result = FALSE;
     if (data_02175674[inputSlot].mPressedBits == 0 && data_02175680[inputSlot].mPressedBits < 5) {
         result = TRUE;
@@ -386,9 +386,9 @@ static inline s32 func_02026120_inline(u16 inputSlot) {
     return result;
 }
 
-static inline s32 func_02026120_inline_2(u16 inputSlot) {
+static inline s32 SelectCharacterIsPairNewUnlessLost(u16 inputSlot) {
     BOOL result = FALSE;
-    if (func_02026120_inline(inputSlot) == 0 && data_0217567c[inputSlot].mPressedBits == 0 &&
+    if (SelectCharacterIsPairRecentlyLost(inputSlot) == 0 && data_0217567c[inputSlot].mPressedBits == 0 &&
         data_02175674[inputSlot].mPressedBits != 0) {
         result = TRUE;
     }
@@ -464,7 +464,7 @@ int AdvanceSelectCharacter(void) {
             break;
         case 3:
             previousTableIndex = selectCharacter->mTableIndex;
-            if (func_02026120_inline_2(inputSlot) != 0) {
+            if (SelectCharacterIsPairNewUnlessLost(inputSlot) != 0) {
                 pointX = data_02175670[inputSlot].mPressedBits;
                 pointY = data_02175672[inputSlot].mPressedBits;
                 rectEntryId = RectTableFindContaining(sParts->mRects, pointX, pointY);

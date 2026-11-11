@@ -43,7 +43,7 @@ static inline u32 SceneGetConnectionMode(void) {
     return gConnectionWork->mConnectionMode;
 }
 
-static inline s32 func_0204984c_inline2(void) {
+static inline s32 SceneIsConnectionActive(void) {
     BOOL result = FALSE;
     if (SceneGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
         result = TRUE;
@@ -51,23 +51,23 @@ static inline s32 func_0204984c_inline2(void) {
     return result;
 }
 
-static inline s32 func_0204984c_inline3(void) {
+static inline s32 SceneIsConnectionActiveNotEnding(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline2() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+    if (SceneIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
 }
 
-static inline s32 func_0204984c_inline4(void) {
+static inline s32 SceneIsSharingNotUpdatedWhileActive(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && (gConnectionWork->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
+    if (SceneIsConnectionActiveNotEnding() && (gConnectionWork->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
         result = TRUE;
     }
     return result;
 }
 
-static inline s32 func_0204984c_inline5(void) {
+static inline s32 SceneIsWiFiRaceSyncFlagSet(void) {
     BOOL result = FALSE;
     if (gWiFiRaceSync != NULL && (gWiFiRaceSync->mFlags & 0x10)) {
         result = TRUE;
@@ -75,7 +75,7 @@ static inline s32 func_0204984c_inline5(void) {
     return result;
 }
 
-static inline s32 func_0204984c_inline6(void) {
+static inline s32 SceneIsWiFiSessionHeapCreated(void) {
     BOOL result = FALSE;
     if (gWiFiSession != NULL && gWiFiSession->mHeapCreated != FALSE) {
         result = TRUE;
@@ -97,9 +97,9 @@ static inline s32 SceneIsBackupBusy(void) {
     return 1;
 }
 
-static inline s32 func_0204984c_inline9(void) {
+static inline s32 SceneIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && gConnectionWork->mErrorCode != 9) {
+    if (SceneIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
         result = TRUE;
     }
     return result;
@@ -114,7 +114,7 @@ static inline void SceneSetSleepCallbackInfoNullArg(PMSleepCallbackInfo *callbac
     callbackInfo->mArg = NULL;
 }
 
-static inline void func_02049e38_inline(SceneNumbers *sceneNumbers) {
+static inline void StopSceneSoundSetSeqIfShouldEnd(SceneNumbers *sceneNumbers) {
     if (sceneNumbers == 0 || ShouldEndSceneSoundSet(sceneNumbers->mScene, sceneNumbers->mNextScene)) {
         StopSceneSoundSetSeq();
     }
@@ -233,7 +233,7 @@ void RunMessageScreenThread(void *unused) {
         ResetKeysInputSlot();
         ReadKeysIntoInputSlot();
         VBlankIntrWait();
-        if (func_0204984c_inline6()) {
+        if (SceneIsWiFiSessionHeapCreated()) {
             sessionHeapCreated = TRUE;
         }
         OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
@@ -309,7 +309,7 @@ void RunMessageScreen(void) {
     ResetKeysInputSlot();
     ReadKeysIntoInputSlot();
     VBlankIntrWait();
-    if (func_0204984c_inline6()) {
+    if (SceneIsWiFiSessionHeapCreated()) {
         sessionHeapCreated = TRUE;
     }
     if (gBootInfo->mUnk_00 != 2) {
@@ -398,7 +398,7 @@ void RunMessageScreenOfKind(s32 kind) {
     RunMessageScreen();
     StopSceneSounds();
     if (gStartupWork->mSoundSetSeqPlaying) {
-        func_02049e38_inline(0);
+        StopSceneSoundSetSeqIfShouldEnd(0);
     }
     if (hasDisplaySettings != FALSE) {
         SetBrightnessFadesClear();
@@ -462,17 +462,17 @@ void InitSceneRunState(void *heap) {
 u32 IsDataSharingIncomplete(void) {
     u32 result = 0;
 
-    if (gRaceSetup->mMode == MODE_WIFI && func_0204984c_inline5()) {
+    if (gRaceSetup->mMode == MODE_WIFI && SceneIsWiFiRaceSyncFlagSet()) {
         result = 1;
     }
-    if (func_0204984c_inline4()) {
+    if (SceneIsSharingNotUpdatedWhileActive()) {
         result = 1;
     }
     return result;
 }
 
 BOOL ShouldGoSleepMode(void) {
-    if (gBootInfo->mUnk_00 == 2 || func_0204984c_inline2() ||
+    if (gBootInfo->mUnk_00 == 2 || SceneIsConnectionActive() ||
         (GetCurrentSceneNumber() == 12 && func_ov000_02180600() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0) || GetCurrentSceneNumber() == 13 ||
         GetCurrentSceneNumber() == 6) {
@@ -484,7 +484,7 @@ BOOL ShouldGoSleepMode(void) {
 u32 IsVolatileHalfwordIndex39Ignored(void) {
     s32 unused;
 
-    if (gBootInfo->mUnk_00 == 2 || func_0204984c_inline2() || GetCurrentSceneNumber() == 6 ||
+    if (gBootInfo->mUnk_00 == 2 || SceneIsConnectionActive() || GetCurrentSceneNumber() == 6 ||
         GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && func_ov000_02180608() == FALSE) ||
         (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0)) {
         return 1;
@@ -511,7 +511,7 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 b) {
     s32 v;
 
     result = FALSE;
-    if (func_0204984c_inline6()) {
+    if (SceneIsWiFiSessionHeapCreated()) {
         v = CheckWiFiSessionDisconnect();
         if (b != 0 && v != 0) {
             switch (v) {
@@ -529,7 +529,7 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 b) {
             RunMessageScreenOfKind(v);
             result = TRUE;
         }
-    } else if (b != 0 && func_0204984c_inline9()) {
+    } else if (b != 0 && SceneIsConnectionActiveNotEndingWithError()) {
         RunMessageScreenOfKind(0);
         result = TRUE;
         gConnectionWork->mErrorCode = 9;

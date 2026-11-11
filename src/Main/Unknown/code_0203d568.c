@@ -34,19 +34,20 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline s32 func_0203d568_inline(ConnectionWork *p) {
-    BOOL r = FALSE;
-    if ((p == NULL ? 0 : p->mConnectionMode) != 0 && p->mState != 13) {
-        r = TRUE;
+static inline s32 RaceProgressKartIsConnectionActive(ConnectionWork *connectionWork) {
+    BOOL result = FALSE;
+    if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 static inline void func_0203d568_b_inline(void) {
     u16 entryIndex;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && GetNextSceneNumber() != 10 &&
-        (GetNextSceneNumber() != 6 || gMenuShared->mWLMenuKind != 2) && func_0203d568_inline(gConnectionWork) != 0) {
+        (GetNextSceneNumber() != 6 || gMenuShared->mWLMenuKind != 2) &&
+        RaceProgressKartIsConnectionActive(gConnectionWork) != 0) {
         for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
             if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&
                 (gConnectionWork->mParticipantMask & (1 << gConnectionWork->mParticipantIndexByPos[entryIndex])) == 0) {
@@ -66,7 +67,7 @@ static inline s32 func_0203d568_c_inline(void) {
     return r;
 }
 
-static inline u16 func_0203df74_inline(u16 checkpoint) {
+static inline u16 GetCheckpointRouteIndex(u16 checkpoint) {
     u16 routeIndex;
     u16 firstEntry;
     u16 endEntry;
@@ -236,7 +237,7 @@ void EnterRaceProgressKartCheckpoint(RaceProgressKart *kart, s32 checkpoint) {
         kart->mInOrderCheckpointNumber = gCourseMap->mNumberedCheckpointCount - 1;
     }
     kart->mCheckpoint = checkpoint;
-    kart->mRoute = func_0203df74_inline(checkpoint);
+    kart->mRoute = GetCheckpointRouteIndex(checkpoint);
 }
 
 void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
@@ -273,7 +274,7 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
         if (p == -1) {
             return;
         }
-        routeIndex = func_0203df74_inline(p);
+        routeIndex = GetCheckpointRouteIndex(p);
     }
     route = &gCourseMap->mCheckpointRoutes[routeIndex];
     lapProgress = func_0203df74_c_inline(route, p, checkpointProgress);

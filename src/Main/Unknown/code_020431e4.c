@@ -20,12 +20,12 @@
 
 #pragma opt_rebuildconditionals off
 
-static inline s32 func_020431e4_inline(ConnectionWork *p) {
-    BOOL r = FALSE;
-    if ((p == NULL ? 0 : p->mConnectionMode) != 0 && p->mState != 13) {
-        r = TRUE;
+static inline s32 RaceKeysIsConnectionActive(ConnectionWork *connectionWork) {
+    BOOL result = FALSE;
+    if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
+        result = TRUE;
     }
-    return r;
+    return result;
 }
 
 u16 GetPadInputSlot(void) {
@@ -62,7 +62,7 @@ void ResetInputSlotsFromParticipants(void) {
         ResetInputSlotPair(&inputSlot->mPair);
     }
     connectionWork = gConnectionWork;
-    if (func_020431e4_inline(connectionWork) != 0) {
+    if (RaceKeysIsConnectionActive(connectionWork) != 0) {
         for (j = 0; j < 8; j++) {
             if (connectionWork->mParticipantMask & (1 << connectionWork->mParticipantIndexByPos[j])) {
                 gInputSlots[j].mSourceKind = 4;
@@ -117,7 +117,7 @@ void ResetInputSlotsFromRaceSetup(void) {
         }
         if (isNonCpu != FALSE) {
             if (entryIndex == raceSetup->mEntryIndex) {
-                if (func_020431e4_inline(connectionWork) != 0) {
+                if (RaceKeysIsConnectionActive(connectionWork) != 0) {
                     gInputSlots[inputSlotIndex].mSourceKind = 4;
                 } else if (raceSetup->mRaceKind == RACE_KIND_REPLAY) {
                     gInputSlots[inputSlotIndex].mSourceKind = 1;

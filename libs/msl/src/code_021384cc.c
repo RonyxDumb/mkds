@@ -172,7 +172,7 @@ const char *ScanParseSpec(const char *a, ScanSpec *b) {
     return p + 1;
 }
 
-static inline int func_02138618_inline(int c) {
+static inline int IsScanSkippedChar(int c) {
     return (c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 0x100);
 }
 
@@ -199,12 +199,12 @@ int ScanWithSourceFunc(Unk02138618Func fn, ScanStringSource *a, const char *s, c
     r = 0;
     m = 0;
     while ((c = *s) != 0) {
-        if (func_02138618_inline(c)) {
+        if (IsScanSkippedChar(c)) {
             do {
                 s++;
                 c = *s;
-            } while (func_02138618_inline(c));
-            while (chb = fn(a, 0, 0), func_02138618_inline(chb)) {
+            } while (IsScanSkippedChar(c));
+            while (chb = fn(a, 0, 0), IsScanSkippedChar(chb)) {
                 k++;
             }
             fn(a, chb, 1);
@@ -414,7 +414,7 @@ int ScanWithSourceFunc(Unk02138618Func fn, ScanStringSource *a, const char *s, c
                 m++;
                 break;
             case '%':
-                while (chb = fn(a, 0, 0), func_02138618_inline(chb)) {
+                while (chb = fn(a, 0, 0), IsScanSkippedChar(chb)) {
                     k++;
                 }
                 if (chb != '%') {
@@ -425,7 +425,7 @@ int ScanWithSourceFunc(Unk02138618Func fn, ScanStringSource *a, const char *s, c
                 break;
             case 's':
                 chb = fn(a, 0, 0);
-                while (func_02138618_inline(chb)) {
+                while (IsScanSkippedChar(chb)) {
                     k++;
                     chb = fn(a, 0, 0);
                 }

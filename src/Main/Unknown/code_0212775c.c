@@ -597,15 +597,15 @@ static inline BOOL SelectChoisesIsPointInByteRect(u16 pointX, u16 pointY, u8 min
     return FALSE;
 }
 
-static inline s32 func_02127a84_inline2(u32 inputSlotIndex) {
+static inline s32 SelectChoisesIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
-    BOOL s = FALSE;
-    u16 c = data_02175674[inputSlotIndex].mPressedBits;
+    BOOL recentlyLost = FALSE;
+    u16 hasPair = data_02175674[inputSlotIndex].mPressedBits;
 
-    if (c == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
-        s = TRUE;
+    if (hasPair == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
+        recentlyLost = TRUE;
     }
-    if (s == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && c != 0) {
+    if (recentlyLost == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 && hasPair != 0) {
         result = TRUE;
     }
     return result;
@@ -627,7 +627,7 @@ void AdvanceSelectChoisesState1(void) {
         return;
     }
     hit = -1;
-    if (func_02127a84_inline2(inputSlotIndex) != 0) {
+    if (SelectChoisesIsPairNewUnlessLost(inputSlotIndex) != 0) {
         if (SelectChoisesIsPointInByteRect(touchX, touchY, gSelectChoisesHitRects[0].mMinX,
                                            gSelectChoisesHitRects[0].mMaxX, gSelectChoisesHitRects[0].mMinY,
                                            gSelectChoisesHitRects[0].mMaxY) != FALSE) {

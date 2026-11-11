@@ -666,19 +666,19 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
     }
 }
 
-static inline s32 func_0201c74c_inline(s32 k0, Unk0201e3c8 *a) {
-    return MUL_FIXED12_ROUNDED(a->mUnk_14.z, k0);
+static inline s32 GetScaledParticleZ(s32 k0, Unk0201e3c8 *particle) {
+    return MUL_FIXED12_ROUNDED(particle->mUnk_14.z, k0);
 }
 
-static inline s32 func_0201c74c_inline2(s32 k0, Unk0201e3c8 *a) {
-    return MUL_FIXED12_ROUNDED(a->mUnk_14.y, k0);
+static inline s32 GetScaledParticleY(s32 k0, Unk0201e3c8 *particle) {
+    return MUL_FIXED12_ROUNDED(particle->mUnk_14.y, k0);
 }
 
-static inline s32 func_0201c74c_inline3(s32 k0, Unk0201e3c8 *a) {
-    return MUL_FIXED12_ROUNDED(a->mUnk_14.x, k0);
+static inline s32 GetScaledParticleX(s32 k0, Unk0201e3c8 *particle) {
+    return MUL_FIXED12_ROUNDED(particle->mUnk_14.x, k0);
 }
 
-static inline s32 func_0201c74c_inline4(Unk0201ca6c_20_14 *e) {
+static inline s32 AddOneToChildValue(Unk0201ca6c_20_14 *e) {
     return e->mUnk_09 + 1;
 }
 
@@ -701,20 +701,20 @@ void SPLEmitter_EmitChildren(Unk0201e3c8 *ptcl, Unk0201ca6c *emtr, Unk0201e494 *
             SPLList_PushFront(&emtr->mUnk_14, n);
             d = &n->mUnk_38;
             n->mUnk_08 = ptcl->mUnk_08;
-            n->mUnk_14.x = func_0201c74c_inline3(k0, ptcl) +
+            n->mUnk_14.x = GetScaledParticleX(k0, ptcl) +
                            ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
                              (e->mUnk_02 << 8)) >>
                             8);
-            n->mUnk_14.y = func_0201c74c_inline2(k0, ptcl) +
+            n->mUnk_14.y = GetScaledParticleY(k0, ptcl) +
                            ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
                              (e->mUnk_02 << 8)) >>
                             8);
-            n->mUnk_14.z = func_0201c74c_inline(k0, ptcl) +
+            n->mUnk_14.z = GetScaledParticleZ(k0, ptcl) +
                            ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
                              (e->mUnk_02 << 8)) >>
                             8);
             *d = ptcl->mUnk_38;
-            n->mUnk_30 = (((ptcl->mUnk_30 * ptcl->mUnk_34) >> 12) * func_0201c74c_inline4(e)) >> 6;
+            n->mUnk_30 = (((ptcl->mUnk_30 * ptcl->mUnk_34) >> 12) * AddOneToChildValue(e)) >> 6;
             n->mUnk_34 = 0x1000;
             if (e->mUnk_00_6) {
                 n->mUnk_36 = e->mUnk_0a;
@@ -1631,8 +1631,8 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
 
 typedef enum { UNK_02019DF8_KIND_0 } Unk02019df8_Kind;
 
-static inline void func_02019df8_inline(u32 addr, Unk02019df8_Kind b0, Unk02019df8_Kind b4, Unk02019df8_Kind b8,
-                                        Unk02019df8_Kind b12, Unk02019df8_Kind b14, Unk02019df8_Kind b16) {
+static inline void SetTexImageParam(u32 addr, Unk02019df8_Kind b0, Unk02019df8_Kind b4, Unk02019df8_Kind b8,
+                                    Unk02019df8_Kind b12, Unk02019df8_Kind b14, Unk02019df8_Kind b16) {
     reg_G3_TEXIMAGE_PARAM =
         (addr >> 3) | (b0 << 26) | 0x40000000 | (b4 << 20) | (b8 << 23) | (b12 << 16) | (b14 << 18) | (b16 << 29);
 }
@@ -1643,7 +1643,7 @@ void SPLUtil_SetTexture(Unk020184e4_2c *tex) {
     u32 sy;
 
     w = tex->mUnk_0c;
-    func_02019df8_inline(tex->mUnk_04, w.mUnk_00_0, w.mUnk_00_4, w.mUnk_00_8, w.mUnk_00_12, w.mUnk_00_14, w.mUnk_00_16);
+    SetTexImageParam(tex->mUnk_04, w.mUnk_00_0, w.mUnk_00_4, w.mUnk_00_8, w.mUnk_00_12, w.mUnk_00_14, w.mUnk_00_16);
     reg_G3_PLTT_BASE = tex->mUnk_08 >> (4 - (w.mUnk_00_0 == 2 ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;

@@ -171,10 +171,10 @@ void CreateBasabasaKindData(void) {
     CreateMapObjectKindData(&CollideKartWithBasabasa, NULL, NULL, 1, 0);
 }
 
-static inline u16 func_0209219c_inline(u32 limit) {
+static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
-    u32 m;
-    u32 r;
+    u32 limitU16;
+    u32 value;
 
     if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
@@ -182,20 +182,20 @@ static inline u16 func_0209219c_inline(u32 limit) {
         return ((mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
     } else {
         mapObjectRandom = GetMapObjectRandom();
-        m = (u16) limit;
-        if (m == 0) {
-            r = 0;
+        limitU16 = (u16) limit;
+        if (limitU16 == 0) {
+            value = 0;
         } else {
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-            if (m == 0) {
-                r = mapObjectRandom->mValue >> 32;
+            if (limitU16 == 0) {
+                value = mapObjectRandom->mValue >> 32;
             } else {
-                r = ((mapObjectRandom->mValue >> 32) * m) >> 32;
+                value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
             }
         }
     }
-    return r;
+    return value;
 }
 
 void CreateBasabasaDrawList(void) {
@@ -226,10 +226,10 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);
     n = (state0TimerBase << 12) >> 16;
-    w = func_0209219c_inline(n);
+    w = BasabasaMapObjectRandomBelowU16(n);
     basabasa->mState0Timer = state0TimerBase + w;
     n = (state2TimerBase << 12) >> 16;
-    w = func_0209219c_inline(n);
+    w = BasabasaMapObjectRandomBelowU16(n);
     basabasa->mState2Timer = state2TimerBase + w;
     basabasa->mMapObject.mPos = *startPos;
     basabasa->mVelocity = *velocity;

@@ -259,7 +259,7 @@ void StartCopyOtherEmblems(s32 useConnection) {
     gThreadFunctionQueue->mRunRequested = 1;
 }
 
-static inline u8 func_0205e548_inline(void *recordOut) {
+static inline u8 CopyBuddyRecordsAndCountFilled(void *recordOut) {
     u8 filledCount = 0;
     u8 recordIndex = 0;
     do {
@@ -275,7 +275,7 @@ static inline u8 func_0205e548_inline(void *recordOut) {
 }
 
 u8 CountEmblemEntries(void) {
-    return func_0205e548_inline(0);
+    return CopyBuddyRecordsAndCountFilled(0);
 }
 
 #pragma thumb on

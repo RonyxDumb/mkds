@@ -68,7 +68,8 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
     return FALSE;
 }
 
-static inline BOOL func_02121f4c_inline(const WiFiSessionMessage *message, u32 fromIndex, u32 size, u8 toIndex) {
+static inline BOOL IsWiFiSessionMessageMatching(const WiFiSessionMessage *message, u32 fromIndex, u32 size,
+                                                u8 toIndex) {
     if (message->mKind < 10) {
         if (message->mSize == size) {
             if (message->mFromIndex == fromIndex) {
@@ -92,7 +93,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
     }
     gWiFiSession->mSinceCallbackFrames[fromIndex] = 0;
     ownIndex = GetOwnParticipantIndex();
-    if (func_02121f4c_inline(message, fromIndex, size, ownIndex) == FALSE) {
+    if (IsWiFiSessionMessageMatching(message, fromIndex, size, ownIndex) == FALSE) {
         return;
     }
     if (IsWiFiSessionMessageKindAllowed(message->mKind) == FALSE) {

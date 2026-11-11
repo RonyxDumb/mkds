@@ -965,12 +965,12 @@ void StartRomArchive(int isParent, u32 port, u32 parentPacketSize, void (*stateC
     StartRomArchiveChild(port, stateCallback, allocFunc, allocFuncArg);
 }
 
-static inline void func_0204bcec_inline(RomArchiveTransfer *a, void *p) {
-    u32 t;
-    if (p != NULL) {
-        t = OS_DisableInterrupts();
-        a->mAllocFunc(a->mAllocFuncArg, 0, p);
-        OS_RestoreInterrupts(t);
+static inline void RomArchiveCallAllocFuncOnBlock(RomArchiveTransfer *transfer, void *block) {
+    u32 savedInterrupts;
+    if (block != NULL) {
+        savedInterrupts = OS_DisableInterrupts();
+        transfer->mAllocFunc(transfer->mAllocFuncArg, 0, block);
+        OS_RestoreInterrupts(savedInterrupts);
     }
 }
 
@@ -1025,7 +1025,7 @@ void StopRomArchive(void) {
     if (gRomArchiveStarted != 0) {
         block = transfer->mArchiveBlock;
         if (block != NULL) {
-            func_0204bcec_inline(&gRomArchiveTransfer, block);
+            RomArchiveCallAllocFuncOnBlock(&gRomArchiveTransfer, block);
             transfer->mArchiveBlock = NULL;
             transfer->mArchiveBlockSize = 0;
         }
@@ -1037,7 +1037,7 @@ void StopRomArchive(void) {
                 transfer->mPendingFile = NULL;
                 FS_NotifyArchiveAsyncEnd(archive, 5);
             }
-            func_0204bcec_inline(&gRomArchiveTransfer, view->mUnk_0afc);
+            RomArchiveCallAllocFuncOnBlock(&gRomArchiveTransfer, view->mUnk_0afc);
         } else {
             StopFileReadThread();
         }

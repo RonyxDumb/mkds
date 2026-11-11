@@ -14,7 +14,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02090354.h"
 
-static inline u32 func_02046524_inline(RandomState64 *randomState64, u32 limit) {
+static inline u32 BuildCourseListNextRandomBelowU16(RandomState64 *randomState64, u32 limit) {
     u64 result;
     if (limit == 0) {
         result = 0;
@@ -240,7 +240,7 @@ void BuildCourseList(s32 isVersus) {
                     for (; k < n; k++) {
                         u8 w;
                         u8 y;
-                        w = func_02046524_inline(g, m);
+                        w = BuildCourseListNextRandomBelowU16(g, m);
                         y = gRaceSetup->mCourseList[k];
                         if (w >= k) {
                             w = w + 1;

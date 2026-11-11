@@ -376,8 +376,8 @@ void UpdateRaceHudSubScreenKarts(void) {
     SortIndicesByKey(gRaceHudSubScreenKarts->mDrawOrder, sortKeys, gRaceSetup->mKartCount);
 }
 
-static inline void func_020c8dbc_inline(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, MtxFx22 *matrix, s32 x, s32 y,
-                                        u16 v, s32 s, s32 g) {
+static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, MtxFx22 *matrix, s32 x,
+                                               s32 y, u16 v, s32 s, s32 g) {
     s32 position[2];
     s32 oamIndex;
     RaceHudOamBits *oam;
@@ -399,7 +399,7 @@ static inline void func_020c8dbc_inline(RaceHudOamBuffer *oamBuffer, Unk020224e0
     }
 }
 
-static inline void func_020c8dbc_inline2(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, s32 x, s32 y) {
+static inline void AddRaceHudSubScreenCellOamsNoMatrix(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, s32 x, s32 y) {
     s32 position[2];
     s32 oamIndex;
 
@@ -410,7 +410,7 @@ static inline void func_020c8dbc_inline2(RaceHudOamBuffer *oamBuffer, Unk020224e
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
 }
 
-static inline void func_020c8dbc_inline3(RaceHudOamBuffer *oamBuffer, s32 kartIndex, s32 frame) {
+static inline void AddRaceHudSubScreenKartStarCells(RaceHudOamBuffer *oamBuffer, s32 kartIndex, s32 frame) {
     s32 j;
     s32 angleIndex;
     s32 angle;
@@ -423,8 +423,9 @@ static inline void func_020c8dbc_inline3(RaceHudOamBuffer *oamBuffer, s32 kartIn
         offsetX = (s16) FX_SinCosTable_[angleIndex * 2 + 1] * 11 >> 12;
         offsetY = (s16) FX_SinCosTable_[angleIndex * 2] * 11 >> 12;
         cell = GetRaceSNcerEntry(frame % 12 < 6 ? 93 + j * 2 : 94 + j * 2);
-        func_020c8dbc_inline2(oamBuffer, cell, gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst + offsetX,
-                              gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond + offsetY);
+        AddRaceHudSubScreenCellOamsNoMatrix(oamBuffer, cell,
+                                            gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst + offsetX,
+                                            gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond + offsetY);
     }
 }
 
@@ -462,10 +463,10 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                             } else {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
-                            func_020c8dbc_inline(oamBuffer, cell, &rotationMatrix,
-                                                 gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst,
-                                                 gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond, rotationSlot,
-                                                 f != 0 ? 1 : -1, -1);
+                            AddRaceHudSubScreenCellOams(oamBuffer, cell, &rotationMatrix,
+                                                        gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst,
+                                                        gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond,
+                                                        rotationSlot, f != 0 ? 1 : -1, -1);
                             oamBuffer->mMatrices[rotationSlot].mPA = rotationMatrix.mUnk_00[0] >> 4;
                             oamBuffer->mMatrices[rotationSlot].mPB = rotationMatrix.mUnk_00[1] >> 4;
                             oamBuffer->mMatrices[rotationSlot].mPC = rotationMatrix.mUnk_00[2] >> 4;
@@ -476,13 +477,14 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                             } else {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
-                            func_020c8dbc_inline(
+                            AddRaceHudSubScreenCellOams(
                                 oamBuffer, cell, NULL, gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst,
                                 gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond, 0, f != 0 ? 1 : -1, -1);
                         }
                     }
                     if (gRaceHudSubScreenKarts->mStarFrames[kartIndex] != 0) {
-                        func_020c8dbc_inline3(oamBuffer, kartIndex, gRaceHudSubScreenKarts->mStarFrames[kartIndex]);
+                        AddRaceHudSubScreenKartStarCells(oamBuffer, kartIndex,
+                                                         gRaceHudSubScreenKarts->mStarFrames[kartIndex]);
                     }
                 }
             }
@@ -514,7 +516,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                             } else {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
-                            func_020c8dbc_inline(oamBuffer, cell, &r1, screenX, screenY, n, b != 0 ? 1 : -1, g);
+                            AddRaceHudSubScreenCellOams(oamBuffer, cell, &r1, screenX, screenY, n, b != 0 ? 1 : -1, g);
                             oamBuffer->mMatrices[n].mPA = r1.mUnk_00[0] >> 4;
                             oamBuffer->mMatrices[n].mPB = r1.mUnk_00[1] >> 4;
                             oamBuffer->mMatrices[n].mPC = r1.mUnk_00[2] >> 4;
@@ -525,11 +527,12 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                             } else {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
-                            func_020c8dbc_inline(oamBuffer, cell, NULL, screenX, screenY, 0, b != 0 ? 1 : -1, g);
+                            AddRaceHudSubScreenCellOams(oamBuffer, cell, NULL, screenX, screenY, 0, b != 0 ? 1 : -1, g);
                         }
                     }
                     if (gRaceHudSubScreenKarts->mStarFrames[kartIndex] != 0) {
-                        func_020c8dbc_inline3(oamBuffer, kartIndex, gRaceHudSubScreenKarts->mStarFrames[kartIndex]);
+                        AddRaceHudSubScreenKartStarCells(oamBuffer, kartIndex,
+                                                         gRaceHudSubScreenKarts->mStarFrames[kartIndex]);
                     }
                 }
             }

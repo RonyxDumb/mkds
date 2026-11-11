@@ -37,9 +37,9 @@
 
 #pragma opt_loop_invariants off
 
-static inline void func_0205dee0_inline(void *c, void *overlayId) {
+static inline void LoadOverlayAndRunDWCUtility(void *utilityWork, void *overlayId) {
     u8 languageIndex;
-    u32 f;
+    u32 languageValue;
     if (FS_LoadOverlay(0, (u32) overlayId) != 0) {
         OS_SetIrqFunction(1, NULL);
         OS_DisableIrqMask(1);
@@ -48,12 +48,12 @@ static inline void func_0205dee0_inline(void *c, void *overlayId) {
         OS_DisableInterrupts();
         GX_VBlankIntr(0);
         func_ov000_021a397c(2);
-        f = 1;
+        languageValue = 1;
         languageIndex = gStartupWork->mLanguageIndex;
         if (languageIndex < 6) {
-            f = gDWCUtilityLanguageTable[languageIndex];
+            languageValue = gDWCUtilityLanguageTable[languageIndex];
         }
-        func_ov003_021c2494(c, f, 0x20);
+        func_ov003_021c2494(utilityWork, languageValue, 0x20);
         EnableVBlankIrq();
         FS_UnloadOverlay(0, (u32) overlayId);
     }
@@ -77,7 +77,7 @@ void RunDWCUtility(void) {
     RunScenesSoundNop();
     expHeapFromMaxFree = CreateExpHeapFromMaxFree(a);
     utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, 0x20);
-    func_0205dee0_inline(utilityWork, SDK_OVERLAY_OV003_ID);
+    LoadOverlayAndRunDWCUtility(utilityWork, SDK_OVERLAY_OV003_ID);
     HeapDestroy(expHeapFromMaxFree);
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
@@ -88,7 +88,7 @@ void RunDWCUtility(void) {
     gRunScenesState->mSndHeapsBuffer = a;
 }
 
-static inline BOOL func_0205dd38_inline(void) {
+static inline BOOL IsRunScenesNextKindSameOrKindThree(void) {
     if (gRunScenesState->mNextKind == 3 || gRunScenesState->mNextKind == gRunScenesState->mKind) {
         return TRUE;
     }
@@ -99,7 +99,7 @@ s32 RunScenes(s16 *sceneNumber) {
     HeapCall heapCall;
     void *heap;
     InitRunScenesKind();
-    while (func_0205dd38_inline()) {
+    while (IsRunScenesNextKindSameOrKindThree()) {
         gRunScenesState->mNextKind = 3;
         gSceneNumbers[0] = gSceneNumbers[1];
         gSceneNumbers[1] = *sceneNumber;

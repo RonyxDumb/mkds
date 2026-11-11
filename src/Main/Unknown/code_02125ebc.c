@@ -416,14 +416,14 @@ static inline BOOL IsPointInByteRect(u16 pointX, u16 pointY, u8 minX, u8 maxX, u
     return FALSE;
 }
 
-static inline s32 func_02126a00_inline2(u32 inputSlotIndex) {
+static inline s32 TxtSystemIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
-    BOOL s = FALSE;
+    BOOL recentlyLost = FALSE;
 
     if (data_02175674[inputSlotIndex].mPressedBits == 0 && data_02175680[inputSlotIndex].mPressedBits < 5) {
-        s = TRUE;
+        recentlyLost = TRUE;
     }
-    if (s == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 &&
+    if (recentlyLost == FALSE && data_0217567c[inputSlotIndex].mPressedBits == 0 &&
         data_02175674[inputSlotIndex].mPressedBits != 0) {
         result = TRUE;
     }
@@ -469,7 +469,7 @@ void AdvanceTxtSystemState2(void) {
     }
     hit = -1;
     if (buttonCount == 2) {
-        if (func_02126a00_inline2(inputSlotIndex) != 0) {
+        if (TxtSystemIsPairNewUnlessLost(inputSlotIndex) != 0) {
             if (IsPointInByteRect(touchX, clampedTouchY, gTxtSystemHitRects[5].mMinX, gTxtSystemHitRects[5].mMaxX,
                                   gTxtSystemHitRects[5].mMinY, gTxtSystemHitRects[5].mMaxY) != FALSE) {
                 hit = 0;
@@ -482,7 +482,7 @@ void AdvanceTxtSystemState2(void) {
     }
     keys = gInputSlots[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) == 0) {
-        if (func_02126a00_inline2(inputSlotIndex) == 0 || buttonCount != 1 ||
+        if (TxtSystemIsPairNewUnlessLost(inputSlotIndex) == 0 || buttonCount != 1 ||
             IsPointInByteRect(touchX, clampedTouchY, gTxtSystemHitRects[4].mMinX, gTxtSystemHitRects[4].mMaxX,
                               gTxtSystemHitRects[4].mMinY, gTxtSystemHitRects[4].mMaxY) == FALSE) {
             if (hit == -1) {

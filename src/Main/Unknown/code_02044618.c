@@ -26,19 +26,19 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_0214d018.h"
 
-static inline void func_020446e0_inline(s32 f, u32 teamIndex, s32 playerKind, u32 kartIndex, u32 characterIndex,
-                                        s32 entryIndex) {
-    SetNextRaceEntry(entryIndex, characterIndex, kartIndex, playerKind, teamIndex, f);
+static inline void SetNextRaceEntryWrapper(s32 listedCpuSlot, u32 teamIndex, s32 playerKind, u32 kartIndex,
+                                           u32 characterIndex, s32 entryIndex) {
+    SetNextRaceEntry(entryIndex, characterIndex, kartIndex, playerKind, teamIndex, listedCpuSlot);
 }
 
-static inline PlayerRecord *func_02045084_inline(ConnectionWork *q, s32 entryIndex) {
+static inline PlayerRecord *GetPlayerRecordByEntryIndex(ConnectionWork *connectionWork, s32 entryIndex) {
     u16 participantIndex;
 
-    participantIndex = q->mParticipantIndexByPos[entryIndex];
-    return participantIndex == 0xffff ? 0 : &q->mPlayerRecords[participantIndex];
+    participantIndex = connectionWork->mParticipantIndexByPos[entryIndex];
+    return participantIndex == 0xffff ? 0 : &connectionWork->mPlayerRecords[participantIndex];
 }
 
-static inline BOOL func_02045084_inline2(void) {
+static inline BOOL IsBootInfoFirstWordTwo(void) {
     if (gBootInfo->mUnk_00 == 2) {
         return TRUE;
     }
@@ -171,19 +171,20 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             if (t == FALSE) {
                 return;
             }
-            if (func_02045084_inline(connectionWork, entryIndex) == NULL) {
+            if (GetPlayerRecordByEntryIndex(connectionWork, entryIndex) == NULL) {
                 return;
             }
-            *nameSlot = func_02045084_inline(connectionWork, entryIndex);
-            *emblemDataSlot = &func_02045084_inline(gConnectionWork, entryIndex)->mEmblem[0];
-            *hasEmblemSlot = func_02045084_inline(gConnectionWork, entryIndex)->mHasEmblem;
-            *regionSlot = func_02045084_inline(gConnectionWork, entryIndex)->mRegion;
+            *nameSlot = GetPlayerRecordByEntryIndex(connectionWork, entryIndex);
+            *emblemDataSlot = &GetPlayerRecordByEntryIndex(gConnectionWork, entryIndex)->mEmblem[0];
+            *hasEmblemSlot = GetPlayerRecordByEntryIndex(gConnectionWork, entryIndex)->mHasEmblem;
+            *regionSlot = GetPlayerRecordByEntryIndex(gConnectionWork, entryIndex)->mRegion;
             *exchangeTokenSlot =
-                func_02045084_inline2() || (gConnectionWork->mGroupSendMask &
-                                            (1 << gConnectionWork->mParticipantIndexByPos[entryIndex])) != 0
+                IsBootInfoFirstWordTwo() || (gConnectionWork->mGroupSendMask &
+                                             (1 << gConnectionWork->mParticipantIndexByPos[entryIndex])) != 0
                     ? 0
-                    : &func_02045084_inline(gConnectionWork, entryIndex)->mFriendData;
-            *lowestRecordValueSlot = func_02045084_inline(gConnectionWork, entryIndex)->mLowestGrandPrixRecordValue;
+                    : &GetPlayerRecordByEntryIndex(gConnectionWork, entryIndex)->mFriendData;
+            *lowestRecordValueSlot =
+                GetPlayerRecordByEntryIndex(gConnectionWork, entryIndex)->mLowestGrandPrixRecordValue;
             break;
         case PLAYER_KIND_GHOST:
             switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
@@ -447,7 +448,7 @@ void SetNextRaceByMode(void) {
                     }
                     kartIndex = rankIndex * 3;
                     if (gRaceSetup->mNextHeader.mCourseId != COURSE_ID_STAFFROLLTRUE) {
-                        func_020446e0_inline(3, -1, 1, kartIndex, rankIndex, rankIndex);
+                        SetNextRaceEntryWrapper(3, -1, 1, kartIndex, rankIndex, rankIndex);
                     }
                 }
                 gRaceSetup->mNextHeader.mFollowedKartIndex = 0;

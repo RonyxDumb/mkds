@@ -150,7 +150,7 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, u32 *kindWord, MbSegmentInfo *ran
     }
 }
 
-static inline struct MB_CommPWork *func_0200806c_inline(void) {
+static inline struct MB_CommPWork *GetMbCommPWork(void) {
     return mbc;
 }
 
@@ -204,7 +204,7 @@ BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *b, u16 chunk, void *d) {
     if (i < 0) {
         return FALSE;
     }
-    offset = (chunk - chunkTable->mChunkStarts[i]) * func_0200806c_inline()->mBlockSizeMax;
+    offset = (chunk - chunkTable->mChunkStarts[i]) * GetMbCommPWork()->mBlockSizeMax;
     range = &record->mSeg[i];
     result->mSize = range->mSize - offset;
     if (result->mSize > mbc->mBlockSizeMax) {

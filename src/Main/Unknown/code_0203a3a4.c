@@ -46,7 +46,7 @@
 #include "Main/Unknown/code_02046740.h"
 #include "registers.h"
 
-static inline u32 func_0203a908_inline(void) {
+static inline u32 IsSlot8PairPresentOrRecentlyLost(void) {
     InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
     u32 result = 1;
     u32 briefNoPair = 0;
@@ -279,7 +279,7 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     result = 0;
     if (IsBackupFlagSet(flagIndex) != 0 && sceneFrames > 0xb4) {
         InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
-        if ((u16) (gInputSlots[slotIndex].mBits & 0xc0f) != 0 || func_0203a908_inline() != 0) {
+        if ((u16) (gInputSlots[slotIndex].mBits & 0xc0f) != 0 || IsSlot8PairPresentOrRecentlyLost() != 0) {
             result = 1;
         }
     }

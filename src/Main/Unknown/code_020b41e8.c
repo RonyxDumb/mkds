@@ -81,7 +81,7 @@ void SetScreenMapBlockLowBits(u16 *screenMap, s32 column, s32 row, s32 columnCou
     }
 }
 
-static inline u16 *func_020b41e8_inline(u16 *chars, s32 firstTile, s32 tileIndex) {
+static inline u16 *GetCharsBlockTile(u16 *chars, s32 firstTile, s32 tileIndex) {
     return chars + (firstTile + tileIndex % 4) * 16 + tileIndex / 4 * 512;
 }
 
@@ -123,7 +123,7 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
     charsBlock = chars->mData;
     for (j = 0; j < 16; j++) {
         MIi_CpuCopy16(charsBlock + (characterIndex * 25 + j) * 16,
-                      func_020b41e8_inline(charsDestination, column + row * 32, j), 0x20);
+                      GetCharsBlockTile(charsDestination, column + row * 32, j), 0x20);
     }
     charsRightColumn = chars->mData;
     for (y = 0; y < 4; y++) {
@@ -133,7 +133,7 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
     charsBottomRow = chars->mData;
     for (w = 0; w < 4; w++) {
         MIi_CpuCopy16(charsBottomRow + (characterIndex * 25 + 20 + w) * 16,
-                      func_020b41e8_inline(charsDestination, column + (row + 4) * 32, w), 0x20);
+                      GetCharsBlockTile(charsDestination, column + (row + 4) * 32, w), 0x20);
     }
     MIi_CpuCopy16(chars->mData + (characterIndex * 25 + 24) * 16, charsDestination + (column + 4 + (row + 4) * 32) * 16,
                   0x20);

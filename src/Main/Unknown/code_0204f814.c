@@ -20,11 +20,11 @@ static inline u32 ParticipantGetConnectionMode(void) {
     return gConnectionWork->mConnectionMode;
 }
 
-static inline u32 func_0204ff14_inline(ConnectionWork *p) {
-    if (p == NULL) {
+static inline u32 ParticipantGetWorkConnectionMode(ConnectionWork *connectionWork) {
+    if (connectionWork == NULL) {
         return 0;
     }
-    return p->mConnectionMode;
+    return connectionWork->mConnectionMode;
 }
 
 u16 GetParticipantPadKeys(u32 participantIndex) {
@@ -65,7 +65,7 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
 
     connectionWork = gConnectionWork;
     result = FALSE;
-    if (func_0204ff14_inline(connectionWork) != 2) {
+    if (ParticipantGetWorkConnectionMode(connectionWork) != 2) {
         return FALSE;
     }
     if (gBootInfo->mUnk_00 == 2) {

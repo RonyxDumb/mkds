@@ -22,31 +22,31 @@
 
 u16 FX_Atan2Idx(s32 a, s32 b);
 
-static inline u16 func_0209f800_inline(u32 n) {
+static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
-    u32 m;
-    u32 r;
+    u32 limitU16;
+    u32 value;
 
-    if (n == 0x10000) {
+    if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         return ((mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
     } else {
         mapObjectRandom = GetMapObjectRandom();
-        m = (u16) n;
-        if (m == 0) {
-            r = 0;
+        limitU16 = (u16) limit;
+        if (limitU16 == 0) {
+            value = 0;
         } else {
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-            if (m == 0) {
-                r = mapObjectRandom->mValue >> 32;
+            if (limitU16 == 0) {
+                value = mapObjectRandom->mValue >> 32;
             } else {
-                r = ((mapObjectRandom->mValue >> 32) * m) >> 32;
+                value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
             }
         }
     }
-    return r;
+    return value;
 }
 
 static inline void AdvanceTownMonteBounce(TownMonte *townMonte) {
@@ -98,7 +98,7 @@ static inline void AdvanceAirshipWobble(Airship *airship) {
     }
 }
 
-static inline BOOL func_0209fdb4_inline_b(void) {
+static inline BOOL IsAnyKartHighestLapAtLeastTwo(void) {
     s32 i;
 
     for (i = 0; i < gRaceSetup->mKartCount; i++) {
@@ -112,7 +112,7 @@ static inline BOOL func_0209fdb4_inline_b(void) {
 void UpdateAirship(void *a, Airship *airship) {
     switch (airship->mState) {
         case 0:
-            if (func_0209fdb4_inline_b() != FALSE) {
+            if (IsAnyKartHighestLapAtLeastTwo() != FALSE) {
                 airship->mState = 1;
             }
             break;
@@ -221,7 +221,7 @@ void InitTownMonteObjects(Unk0209f800 *a) {
         townMonte->mUnk_a4 = 0;
         townMonte->mUnk_a8 = 0;
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gTownMonte);
-        townMonte->mNsbtpFrameIndex = func_0209f800_inline(nsbtpFrameCount);
+        townMonte->mNsbtpFrameIndex = TownMonteMapObjectRandomBelowU16(nsbtpFrameCount);
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         m = ((mapObjectRandom->mValue >> 32) * 0x1a) >> 32;

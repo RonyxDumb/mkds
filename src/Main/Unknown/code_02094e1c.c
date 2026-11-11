@@ -30,28 +30,28 @@ static inline u32 TeresaSpawnerNextRandomBelow(RandomState64 *randomState64, u32
     return ((randomState64->mValue >> 32) * limit) >> 32;
 }
 
-static inline u16 func_020952dc_inline(u32 n) {
+static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
     RandomState64 *randomState64;
-    u32 t;
-    u32 m;
-    if (n == 0x10000) {
+    u32 value;
+    u32 limitU16;
+    if (limit == 0x10000) {
         randomState64 = &gRaceProgress->mLocalRandom;
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
         return (randomState64->mValue >> 32) * 0x10000 >> 32;
     }
     randomState64 = &gRaceProgress->mLocalRandom;
-    m = (u16) n;
-    if (m == 0) {
-        t = 0;
+    limitU16 = (u16) limit;
+    if (limitU16 == 0) {
+        value = 0;
     } else {
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-        if (m == 0) {
-            t = randomState64->mValue >> 32;
+        if (limitU16 == 0) {
+            value = randomState64->mValue >> 32;
         } else {
-            t = ((randomState64->mValue >> 32) * m) >> 32;
+            value = ((randomState64->mValue >> 32) * limitU16) >> 32;
         }
     }
-    return t;
+    return value;
 }
 
 void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit,
@@ -84,7 +84,7 @@ void StartTeresasAtRandomPositions(TeresaSpawner *spawner, s32 teresaCountLimit,
             position.z = baseZ + TeresaSpawnerMulFixed12NoRound(distance, TeresaSpawnerFX_CosIdx(angle));
             StartTeresa(&position);
         }
-        spawner->mSpawnTimer = func_020952dc_inline((u16) timerLimit);
+        spawner->mSpawnTimer = TeresaSpawnerLocalRandomBelowU16((u16) timerLimit);
     }
 }
 

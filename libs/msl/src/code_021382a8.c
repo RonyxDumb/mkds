@@ -3,19 +3,19 @@
 #include "code_021382a8.h"
 
 // Swaps size bytes between a and b.
-static inline void func_021382a8_inline(u8 *a, u8 *b, u32 size) {
+static inline void SwapElements(u8 *first, u8 *second, u32 size) {
     u8 *p;
     u8 *q;
-    u8 t;
+    u8 temp;
     u32 i;
 
     i = size;
-    p = a;
-    q = b;
+    p = first;
+    q = second;
     for (; i != 0; i--) {
-        t = *q;
+        temp = *q;
         *q++ = *p;
-        *p++ = t;
+        *p++ = temp;
     }
 }
 
@@ -39,7 +39,7 @@ void qsort(u8 *base, u32 n, u32 size, int (*cmp)(void *, void *)) {
             l--;
             lo -= size;
         } else {
-            func_021382a8_inline(hi, lo, size);
+            SwapElements(hi, lo, size);
             n--;
             if (n == 1) {
                 return;
@@ -62,7 +62,7 @@ void qsort(u8 *base, u32 n, u32 size, int (*cmp)(void *, void *)) {
             if (cmp(c, b) >= 0) {
                 break;
             }
-            func_021382a8_inline(b, c, size);
+            SwapElements(b, c, size);
         }
     }
 }

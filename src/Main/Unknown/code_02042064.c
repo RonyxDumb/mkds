@@ -470,7 +470,7 @@ s32 LoadCourseMapRespawnsData(void *section, ...) {
     return 1;
 }
 
-static inline u16 func_020427d4_inline(RandomState64 *randomState64, u16 limit) {
+static inline u16 CourseMapNextRandomBelowU16(RandomState64 *randomState64, u16 limit) {
     u32 value;
     if (limit == 0) {
         value = 0;
@@ -495,8 +495,8 @@ void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64) {
 
     respawnCount = gCourseMap->mRespawnCount;
     for (i = 0; i < 100; i++) {
-        firstSlot = func_020427d4_inline(randomState64, respawnCount);
-        secondSlot = func_020427d4_inline(randomState64, respawnCount);
+        firstSlot = CourseMapNextRandomBelowU16(randomState64, respawnCount);
+        secondSlot = CourseMapNextRandomBelowU16(randomState64, respawnCount);
         t = gCourseMap->mRespawnIndexBySlot[secondSlot];
         gCourseMap->mRespawnIndexBySlot[secondSlot] = gCourseMap->mRespawnIndexBySlot[firstSlot];
         gCourseMap->mRespawnIndexBySlot[firstSlot] = t;
