@@ -318,7 +318,7 @@ void ResetRecordTAtt(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = 0x100;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = 0x100;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = 0x100;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = 0x100;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = 0x100;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = 0x100;
         for (j = 0; j < 2; j++) {
@@ -649,7 +649,7 @@ void AdvanceRecordTAttState1(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {
@@ -786,7 +786,7 @@ void AdvanceRecordTAttState3(void) {
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 3].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {
@@ -835,7 +835,7 @@ void AdvanceRecordTAttState4(void) {
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 3].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {
@@ -879,7 +879,7 @@ void AdvanceRecordTAttState5(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {
@@ -937,7 +937,7 @@ void AdvanceRecordTAttState8(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {
@@ -1041,7 +1041,7 @@ void AdvanceRecordTAttState12(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {
@@ -1075,7 +1075,7 @@ void AdvanceRecordTAttState13(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {
@@ -1150,7 +1150,7 @@ void AdvanceRecordTAttState17(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[data_ov001_021a67f8[i]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
         for (j = 0; j < 2; j++) {

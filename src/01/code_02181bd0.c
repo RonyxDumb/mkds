@@ -36,7 +36,7 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "ITCM/code_01ff8000.h"
 
-MapObjectModel *data_ov001_021a9b98;
+MapObjectModel *gCoinModel;
 
 void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
     coin->mTimer = 0x1e;
@@ -47,7 +47,7 @@ void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
     coin->mState = 1;
     coin->mScaleFactor = 0x99a;
     coin->mModelAlpha = 0x1f;
-    coin->mUnk_000.mFlags = coin->mUnk_000.mFlags | data_ov001_021a6574;
+    coin->mUnk_000.mFlags = coin->mUnk_000.mFlags | gCoinHiddenFlag;
     coin->mEffect = StartEffect(0x3f5, &coin->mUnk_000.mPos);
     coin->mEffectTimer = 0xd;
 }
@@ -57,8 +57,8 @@ void AdvanceCoinNsbtpFrame(Coin *coin, s32 counterAdd) {
     if (coin->mUnk_0a8 >= 5) {
         coin->mUnk_0a8 -= 5;
         coin->mNsbtpFrameIndex += 1;
-        if (coin->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(data_ov001_021a9b98)) {
-            coin->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(data_ov001_021a9b98);
+        if (coin->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gCoinModel)) {
+            coin->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gCoinModel);
         }
     }
 }
@@ -255,7 +255,7 @@ void StartCoinsFadeOut(void) {
                 coin->mUnk_000.mPosStep.y = 0x5000;
                 coin->mModelAlpha = 0x32;
                 coin->mState = 8;
-                coin->mUnk_000.mFlags |= data_ov001_021a6574;
+                coin->mUnk_000.mFlags |= gCoinHiddenFlag;
             }
         }
     }
@@ -339,11 +339,11 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondR
 }
 
 void LoadCoin(MapObjectList *drawList) {
-    data_ov001_021a9b98 = LoadMapObjectModelAnimated(drawList, data_ov001_021a78c0);
-    LoadMapObjectModelNsbtpAnimation(data_ov001_021a9b98, data_ov001_021a78cc);
-    SetMapObjectModelPolygonId(data_ov001_021a9b98, 0x3f);
-    SetMapObjectModelLightEnableFlag(data_ov001_021a9b98, 2);
-    SetNsbmdEmiAll(data_ov001_021a9b98->mAnimatedModel, 0x294a);
+    gCoinModel = LoadMapObjectModelAnimated(drawList, data_ov001_021a78c0);
+    LoadMapObjectModelNsbtpAnimation(gCoinModel, data_ov001_021a78cc);
+    SetMapObjectModelPolygonId(gCoinModel, 0x3f);
+    SetMapObjectModelLightEnableFlag(gCoinModel, 2);
+    SetNsbmdEmiAll(gCoinModel->mAnimatedModel, 0x294a);
     drawList->mSortByDistance = 1;
 }
 
@@ -365,15 +365,15 @@ void DrawCoin(void *mapObjectList, Coin *coin) {
             NNS_G3dGeBufferOP_N(0x1b, (&scale), 3);
         }
         NNS_G3dGeBufferOP_N(0x1b, (&coin->mUnk_000.mScale), 3);
-        SetMapObjectModelPolygonId(data_ov001_021a9b98, AllocPolygonIdWrapping());
+        SetMapObjectModelPolygonId(gCoinModel, AllocPolygonIdWrapping());
         alpha = coin->mModelAlpha;
         if (alpha >= 0x1f) {
             alpha = 0x1f;
         }
-        SetMapObjectModelAlpha(data_ov001_021a9b98, alpha);
-        SetMapObjectModelNsbtpFrameIndex(data_ov001_021a9b98, coin->mNsbtpFrameIndex);
-        QueueMapObjectModelMaterial(mapObjectList, data_ov001_021a9b98);
-        DrawMapObjectModel(mapObjectList, data_ov001_021a9b98, coin);
+        SetMapObjectModelAlpha(gCoinModel, alpha);
+        SetMapObjectModelNsbtpFrameIndex(gCoinModel, coin->mNsbtpFrameIndex);
+        QueueMapObjectModelMaterial(mapObjectList, gCoinModel);
+        DrawMapObjectModel(mapObjectList, gCoinModel, coin);
     }
 }
 
@@ -600,7 +600,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 coin->mState = 7;
                 coin->mScaleFactor = 0x1000;
                 coin->mModelAlpha = 0;
-                coin->mUnk_000.mFlags |= data_ov001_021a6574;
+                coin->mUnk_000.mFlags |= gCoinHiddenFlag;
                 if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                     AddMissionRunBossCount(1);
                 }
@@ -673,7 +673,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     coin->mScaleFactor = 0x1000;
                     coin->mModelAlpha = 0;
                     coin->mTargetPos = NULL;
-                    coin->mUnk_000.mFlags |= data_ov001_021a6574;
+                    coin->mUnk_000.mFlags |= gCoinHiddenFlag;
                 }
             }
             break;

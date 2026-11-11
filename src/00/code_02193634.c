@@ -44,13 +44,13 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     s32 result;
 
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b32f0, data_ov000_021b32b0, NULL, 0x22);
+        AssertionFailed(data_ov000_021b32f0, gGpiOperationFileName, NULL, 0x22);
     }
     if (connection->mGpiConnection == NULL) {
-        AssertionFailed(data_ov000_021b3304, data_ov000_021b32b0, NULL, 0x23);
+        AssertionFailed(data_ov000_021b3304, gGpiOperationFileName, NULL, 0x23);
     }
     if (operation == NULL) {
-        AssertionFailed(data_ov000_021b3318, data_ov000_021b32b0, NULL, 0x24);
+        AssertionFailed(data_ov000_021b3318, gGpiOperationFileName, NULL, 0x24);
     }
     callback = operation->mUnk_0c;
     if (callback.mCallback != NULL) {
@@ -126,7 +126,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             default:
-                AssertionFailed(data_ov000_021b32ac, data_ov000_021b32b0, NULL, 0x6b);
+                AssertionFailed(data_ov000_021b32ac, gGpiOperationFileName, NULL, 0x6b);
                 break;
         }
     }
@@ -171,7 +171,7 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
         searchData = (Unk02193858 *) operation->mUnk_04;
         gpState->mSearchCount--;
         if (gpState->mSearchCount < 0) {
-            AssertionFailed(data_ov000_021b32c0, data_ov000_021b32b0, NULL, 0xb6);
+            AssertionFailed(data_ov000_021b32c0, gGpiOperationFileName, NULL, 0xb6);
         }
         shutdown(searchData->mUnk_04, 2);
         closesocket(searchData->mUnk_04);
@@ -252,7 +252,7 @@ s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const
             break;
         default:
             gpiDebug(connection, data_ov000_021b3264, type);
-            AssertionFailed(data_ov000_021b32ac, data_ov000_021b32b0, NULL, 0x146);
+            AssertionFailed(data_ov000_021b32ac, gGpiOperationFileName, NULL, 0x146);
             break;
     }
     if (result != 0) {

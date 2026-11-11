@@ -86,7 +86,7 @@ void DeleteObjTextCanvas(void *canvas) {
 BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     BgTextCanvas *canvas = &gTextCanvases->mBgTextCanvases[screen];
     u32 areaHeight = data_ov003_021d67e2[screen * 2];
-    u32 areaWidth = data_ov003_021d67e0[screen * 2];
+    u32 areaWidth = gBgTextCanvasSizes[screen * 2];
     vu16 *bgControl;
     u32 screenBase;
     u8 *font;
@@ -112,7 +112,8 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     } else {
         screenBase = G2_GetBG0ScrPtr();
     }
-    NNS_G2dMapScrToCharText((u16 *) screenBase, areaWidth, areaHeight, 0, 0, 0x20, data_ov003_021d67dc[screen], 0xf);
+    NNS_G2dMapScrToCharText((u16 *) screenBase, areaWidth, areaHeight, 0, 0, 0x20, gBgTextCanvasCharOffsets[screen],
+                            0xf);
     ClearBgTextCanvas(canvas, 0);
     canvas->mUploadTask = AddTask(1, AdvanceBgTextCanvasUpload, &gTextCanvases->mBgUploadPending[screen], 200);
     return canvas;
@@ -125,13 +126,13 @@ void AdvanceBgTextCanvasUpload(u32 task, u8 *flag) {
     if (*flag != 0) {
         canvases = gTextCanvases;
         if (flag == &canvases->mBgUploadPending[0]) {
-            size = (data_ov003_021d67e0[0] * data_ov003_021d67e0[1]) << 5;
+            size = (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5;
             DC_FlushRange(canvases->mBgTextCanvases[0].mChars, size);
-            GX_LoadBG0Char(gTextCanvases->mBgTextCanvases[0].mChars, data_ov003_021d67dc[0] << 5, size);
+            GX_LoadBG0Char(gTextCanvases->mBgTextCanvases[0].mChars, gBgTextCanvasCharOffsets[0] << 5, size);
         } else {
-            size = (data_ov003_021d67e0[2] * data_ov003_021d67e0[3]) << 5;
+            size = (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5;
             DC_FlushRange(canvases->mBgTextCanvases[1].mChars, size);
-            GXS_LoadBG0Char(gTextCanvases->mBgTextCanvases[1].mChars, data_ov003_021d67dc[1] << 5, size);
+            GXS_LoadBG0Char(gTextCanvases->mBgTextCanvases[1].mChars, gBgTextCanvasCharOffsets[1] << 5, size);
         }
         *flag = 0;
     }
@@ -146,11 +147,11 @@ void ReleaseBgTextCanvas(BgTextCanvas *canvas) {
     if (canvas == gTextCanvases->mBgTextCanvases) {
         charBase = (void *) G2_GetBG0CharPtr();
         a = 0;
-        MIi_CpuClear16(a, charBase, (data_ov003_021d67e0[0] * data_ov003_021d67e0[1]) << 5);
+        MIi_CpuClear16(a, charBase, (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5);
     } else {
         charBase = (void *) G2_GetBG0CharPtr();
         b = 0;
-        MIi_CpuClear16(b, charBase, (data_ov003_021d67e0[2] * data_ov003_021d67e0[3]) << 5);
+        MIi_CpuClear16(b, charBase, (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5);
     }
     FreeExpHeapBlockAndClearPointer(&canvas->mChars);
 }

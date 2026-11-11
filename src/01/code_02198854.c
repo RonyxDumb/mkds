@@ -43,14 +43,14 @@ void InitOptionSelectMenuTexts(void) {
         s32 c[2] = {0xb, 0xc};
 
         for (i = 0; i < 2; i++) {
-            v0 -= InitLabelCanvas(gOptionSelectMenu->mHeap, data_ov001_021a6a24[i],
+            v0 -= InitLabelCanvas(gOptionSelectMenu->mHeap, gOptionSelectMenuMLabelIndices[i],
                                   gOptionSelectMenu->mOptionSelectMenuMBnll, a[i][0], a[i][1], i,
                                   gOptionSelectMenu->mOptionSelectMenuMNcer, gOptionSelectMenu->mOptionSelectMenuMBncl,
                                   gOptionSelectMenu->mOptionSelectMenuMTable, v0);
-            PrintLabelLayoutTextNoFixedAdvance(0, data_ov001_021a6a24[i], gOptionSelectMenu->mOptionSelectMenuMBnll,
-                                               GetBmgEntry(gOptionSelectMenu->mOptionMessages, c[i]),
-                                               gOptionSelectMenu->mOptionSelectMenuMBncl,
-                                               gOptionSelectMenu->mOptionSelectMenuMTable);
+            PrintLabelLayoutTextNoFixedAdvance(
+                0, gOptionSelectMenuMLabelIndices[i], gOptionSelectMenu->mOptionSelectMenuMBnll,
+                GetBmgEntry(gOptionSelectMenu->mOptionMessages, c[i]), gOptionSelectMenu->mOptionSelectMenuMBncl,
+                gOptionSelectMenu->mOptionSelectMenuMTable);
         }
     }
     {
@@ -64,13 +64,13 @@ void InitOptionSelectMenuTexts(void) {
             if (i == 2) {
                 v1 = gOptionSelectMenu->mCommonMessages;
             }
-            v2 -= InitLabelCanvas(gOptionSelectMenu->mHeap, data_ov001_021a6a34[i],
-                                  gOptionSelectMenu->mOptionSelectMenuSBnll, b[i][0], b[i][1], data_ov001_021a6a30[i],
-                                  gOptionSelectMenu->mOptionSelectMenuSNcer, gOptionSelectMenu->mOptionSelectMenuSBncl,
-                                  gOptionSelectMenu->mOptionSelectMenuSTable, v2);
-            PrintLabelLayoutTextNoFixedAdvance(1, data_ov001_021a6a34[i], gOptionSelectMenu->mOptionSelectMenuSBnll,
-                                               GetBmgEntry(v1, d[i]), gOptionSelectMenu->mOptionSelectMenuSBncl,
-                                               gOptionSelectMenu->mOptionSelectMenuSTable);
+            v2 -= InitLabelCanvas(
+                gOptionSelectMenu->mHeap, gOptionSelectMenuSLabelIndices[i], gOptionSelectMenu->mOptionSelectMenuSBnll,
+                b[i][0], b[i][1], gOptionSelectMenuRowSTableIndices[i], gOptionSelectMenu->mOptionSelectMenuSNcer,
+                gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSTable, v2);
+            PrintLabelLayoutTextNoFixedAdvance(
+                1, gOptionSelectMenuSLabelIndices[i], gOptionSelectMenu->mOptionSelectMenuSBnll, GetBmgEntry(v1, d[i]),
+                gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSTable);
         }
     }
 }
@@ -480,7 +480,7 @@ void WriteOptionSelectMenuTableOffsets(void) {
         gOptionSelectMenu->mOptionSelectMenuMTable[data_ov001_021a6a20[i]].mOffsetY = gOptionSelectMenu->mBg0Bg1Offset;
     }
     for (i = 0; i < 2; i++) {
-        (gOptionSelectMenu->mOptionSelectMenuMTable + a)[data_ov001_021a6a24[i]].mOffsetY =
+        (gOptionSelectMenu->mOptionSelectMenuMTable + a)[gOptionSelectMenuMLabelIndices[i]].mOffsetY =
             gOptionSelectMenu->mBg0Bg1Offset;
     }
     for (i = 0; i < 3; i++) {
@@ -490,9 +490,9 @@ void WriteOptionSelectMenuTableOffsets(void) {
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuGroupSTableIndices[i][j]].mOffsetY =
                 gOptionSelectMenu->mGroupOffsets[i].mOffsetY;
         }
-        (gOptionSelectMenu->mOptionSelectMenuSTable + b)[data_ov001_021a6a34[i]].mOffsetX =
+        (gOptionSelectMenu->mOptionSelectMenuSTable + b)[gOptionSelectMenuSLabelIndices[i]].mOffsetX =
             gOptionSelectMenu->mGroupOffsets[i].mOffsetX;
-        (gOptionSelectMenu->mOptionSelectMenuSTable + b)[data_ov001_021a6a34[i]].mOffsetY =
+        (gOptionSelectMenu->mOptionSelectMenuSTable + b)[gOptionSelectMenuSLabelIndices[i]].mOffsetY =
             gOptionSelectMenu->mGroupOffsets[i].mOffsetY;
     }
     for (i = 0; i < 2; i++) {
@@ -526,8 +526,8 @@ void SetOptionSelectMenuRowsOnOff(void) {
 
     for (i = 0; i < 3; i++) {
         if (i == gOptionSelectMenu->mIndex && gOptionSelectMenu->mUnk_38 != FALSE) {
-            gOptionSelectMenu->mOptionSelectMenuSTable[data_ov001_021a6a30[i]].mVisible = 1;
-            SetLabelPaletteIndex(data_ov001_021a6a34[i], 14, gOptionSelectMenu->mOptionSelectMenuSBnll,
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuRowSTableIndices[i]].mVisible = 1;
+            SetLabelPaletteIndex(gOptionSelectMenuSLabelIndices[i], 14, gOptionSelectMenu->mOptionSelectMenuSBnll,
                                  gOptionSelectMenu->mOptionSelectMenuSTable, gOptionSelectMenu->mOptionSelectMenuSBncl);
             for (k = 0; k < gOptionSelectMenuValueCounts[i]; k++) {
                 SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[i][k], 14,
@@ -535,8 +535,8 @@ void SetOptionSelectMenuRowsOnOff(void) {
                                     gOptionSelectMenu->mOptionSelectMenuSBncl);
             }
         } else {
-            gOptionSelectMenu->mOptionSelectMenuSTable[data_ov001_021a6a30[i]].mVisible = 0;
-            SetLabelPaletteIndex(data_ov001_021a6a34[i], 15, gOptionSelectMenu->mOptionSelectMenuSBnll,
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuRowSTableIndices[i]].mVisible = 0;
+            SetLabelPaletteIndex(gOptionSelectMenuSLabelIndices[i], 15, gOptionSelectMenu->mOptionSelectMenuSBnll,
                                  gOptionSelectMenu->mOptionSelectMenuSTable, gOptionSelectMenu->mOptionSelectMenuSBncl);
             for (k = 0; k < gOptionSelectMenuValueCounts[i]; k++) {
                 SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[i][k], 15,

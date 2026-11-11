@@ -51,7 +51,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 }
                 VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
                 if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
-                    donketu->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a657c;
+                    donketu->mUnk_000.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
                     StopSound(&donketu->mUnk_000.mSound->mSoundSource, 0x214);
                     StartMapObjectSound(&donketu->mUnk_000, 0x211);
                     StartEffect(0x3e9, &effectPosition);
@@ -60,7 +60,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                     StartEffectAtRowHeight(donketu, 0x99a, 0, 0x75c, 0x3f3, 0);
                     StartEffectAtRowHeight(donketu, -0x99a, 0, 0x75c, 0x3f3, 0);
                 } else if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
-                    donketu->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a657c;
+                    donketu->mUnk_000.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
                     StopSound(&donketu->mUnk_000.mSound->mSoundSource, 0x245);
                     StartMapObjectSound(&donketu->mUnk_000, 0x23f);
                     StartEffect(0x3fa, &effectPosition);

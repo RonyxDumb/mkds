@@ -14,15 +14,15 @@
 #include "code_02147cd8.h"
 
 void ResetCoinShadowRotationIndex(void) {
-    data_ov001_021a9b94 = 0;
+    gCoinShadowRotationIndex = 0;
 }
 
 void AdvanceCoinShadowRotationIndex(void) {
-    s32 nextIndex = data_ov001_021a9b94 + 1;
+    s32 nextIndex = gCoinShadowRotationIndex + 1;
     if (nextIndex >= 3) {
         nextIndex = 0;
     }
-    data_ov001_021a9b94 = nextIndex;
+    gCoinShadowRotationIndex = nextIndex;
 }
 
 void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapObjectAlpha) {
@@ -49,8 +49,8 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
             NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         }
         NNS_G3dGeBufferOP_N(0x1b, &coin->mUnk_000.mScale, 3);
-        MTX_RotY33_(&rotationMatrix, FX_CosIdx(gCoinShadowRotationAngles[data_ov001_021a9b94]),
-                    FX_SinIdx(gCoinShadowRotationAngles[data_ov001_021a9b94]));
+        MTX_RotY33_(&rotationMatrix, FX_CosIdx(gCoinShadowRotationAngles[gCoinShadowRotationIndex]),
+                    FX_SinIdx(gCoinShadowRotationAngles[gCoinShadowRotationIndex]));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
         shadowScale.x = 0x199a;
         shadowScale.y = 0x2000;

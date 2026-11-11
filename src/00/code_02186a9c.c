@@ -49,7 +49,7 @@ BOOL DWC_Http_Add_HeaderItem(Http *a, const char *b, const char *c) {
             return TRUE;
         }
     }
-    p = (s8 *) strstr(d->mStart, data_ov000_021b1230);
+    p = (s8 *) strstr(d->mStart, gHttpHeaderEndMarker);
     g = (char *) p + 2;
     h = p[2];
     memmove(g + e, g, strlen(g) + 1);

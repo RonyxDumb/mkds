@@ -85,17 +85,17 @@ void AdvanceEmblemGridScreen(void) {
                     switch (GetEmblemCursorMode()) {
                         case 0:
                             gEmblem->mUnk_107c =
-                                GetEmblemCursorSizeIndex() + data_ov001_021a6fc8[GetEmblemCursorMode()];
+                                GetEmblemCursorSizeIndex() + gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 1:
                             gEmblem->mUnk_107c =
-                                GetEmblemCursorSizeIndex() + data_ov001_021a6fc8[GetEmblemCursorMode()];
+                                GetEmblemCursorSizeIndex() + gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 2:
-                            gEmblem->mUnk_107c = data_ov001_021a6fc8[GetEmblemCursorMode()];
+                            gEmblem->mUnk_107c = gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 3:
-                            gEmblem->mUnk_107c = data_ov001_021a6fc8[GetEmblemCursorMode()];
+                            gEmblem->mUnk_107c = gEmblemLPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
@@ -146,17 +146,17 @@ void AdvanceEmblemGridScreen(void) {
                     switch (GetEmblemCursorMode()) {
                         case 0:
                             gEmblem->mUnk_107c =
-                                GetEmblemCursorSizeIndex() + data_ov001_021a6fb8[GetEmblemCursorMode()];
+                                GetEmblemCursorSizeIndex() + gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 1:
                             gEmblem->mUnk_107c =
-                                GetEmblemCursorSizeIndex() + data_ov001_021a6fb8[GetEmblemCursorMode()];
+                                GetEmblemCursorSizeIndex() + gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 2:
-                            gEmblem->mUnk_107c = data_ov001_021a6fb8[GetEmblemCursorMode()];
+                            gEmblem->mUnk_107c = gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                         case 3:
-                            gEmblem->mUnk_107c = data_ov001_021a6fb8[GetEmblemCursorMode()];
+                            gEmblem->mUnk_107c = gEmblemRPressButtonCursorIndices[GetEmblemCursorMode()];
                             break;
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);

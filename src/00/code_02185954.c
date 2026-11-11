@@ -132,7 +132,7 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     results.mCapacity = labelValueCount;
     results.mCount = 0;
     MI_CpuFill8(labelValues, 0, labelValueCount * 8);
-    headerEnd = strstr(reply, data_ov000_021b1230);
+    headerEnd = strstr(reply, gHttpHeaderEndMarker);
     if (headerEnd == NULL) {
         return FALSE;
     }
@@ -152,7 +152,7 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
         }
         return TRUE;
     }
-    delimiter = (s8 *) strstr((const char *) (statusText + 4), data_ov000_021b1258);
+    delimiter = (s8 *) strstr((const char *) (statusText + 4), gHttpLineEndMarker);
     if (delimiter == NULL) {
         return FALSE;
     }
@@ -164,7 +164,7 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
         }
         delimiter[0] = delimiter[1] = 0;
         j = (char *) (delimiter + 2);
-        delimiter = (s8 *) strstr(j, data_ov000_021b1258);
+        delimiter = (s8 *) strstr(j, gHttpLineEndMarker);
         if (delimiter == NULL) {
             break;
         }
@@ -185,7 +185,7 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
             h = delimiter + 1;
             delimiter = (s8 *) strstr((const char *) h, data_ov000_021b1264);
             if (delimiter == NULL) {
-                delimiter = (s8 *) strstr((const char *) h, data_ov000_021b1258);
+                delimiter = (s8 *) strstr((const char *) h, gHttpLineEndMarker);
             }
             if (delimiter != NULL) {
                 delimiter[0] = 0;

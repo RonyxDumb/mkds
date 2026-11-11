@@ -20,8 +20,8 @@ void PrintJb5Info(void) {
     a = InitBgTextCanvas(0, 0);
     OS_GetMacAddress(b);
     swprintf(f, 0x14, gMacAddressFormat, b[0], b[1], b[2], b[3], b[4], b[5]);
-    DrawCanvasTextRect(a, data_ov003_021d6338.mUnk_00, data_ov003_021d6338.mUnk_02, data_ov003_021d6338.mUnk_04,
-                       data_ov003_021d6338.mUnk_06, 2, 0x480, f);
+    DrawCanvasTextRect(a, gJb5InfoMacAddressRect.mUnk_00, gJb5InfoMacAddressRect.mUnk_02,
+                       gJb5InfoMacAddressRect.mUnk_04, gJb5InfoMacAddressRect.mUnk_06, 2, 0x480, f);
     DWCi_BM_GetWiFiInfo(&c);
     g = c.mAttestedUserId;
     if (g != 0) {
@@ -35,7 +35,7 @@ void PrintJb5Info(void) {
     } else {
         swprintf(f, 0x14, gDashesFormat);
     }
-    DrawCanvasTextRect(a, data_ov003_021d6340.mUnk_00, data_ov003_021d6340.mUnk_02, data_ov003_021d6340.mUnk_04,
-                       data_ov003_021d6340.mUnk_06, 2, 0x480, f);
+    DrawCanvasTextRect(a, gJb5InfoUserIdRect.mUnk_00, gJb5InfoUserIdRect.mUnk_02, gJb5InfoUserIdRect.mUnk_04,
+                       gJb5InfoUserIdRect.mUnk_06, 2, 0x480, f);
     RequestBgTextCanvasUpload(a);
 }

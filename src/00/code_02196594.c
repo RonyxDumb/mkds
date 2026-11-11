@@ -13,10 +13,10 @@
 
 void GpiCopyString(char *dest, const char *src, s32 len) {
     if (dest == NULL) {
-        AssertionFailed(data_ov000_021b3b10, data_ov000_021b3a1c, NULL, 0x2f);
+        AssertionFailed(data_ov000_021b3b10, gGpiUtilityFileName, NULL, 0x2f);
     }
     if (src == NULL) {
-        AssertionFailed(data_ov000_021b3b20, data_ov000_021b3a1c, NULL, 0x30);
+        AssertionFailed(data_ov000_021b3b20, gGpiUtilityFileName, NULL, 0x30);
     }
     strncpy(dest, src, len);
     *(dest + len + -1) = 0;
@@ -54,16 +54,16 @@ BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
     s8 character;
 
     if (command == NULL) {
-        AssertionFailed(data_ov000_021b3ad4, data_ov000_021b3a1c, NULL, 0x10d);
+        AssertionFailed(data_ov000_021b3ad4, gGpiUtilityFileName, NULL, 0x10d);
     }
     if (key == NULL) {
-        AssertionFailed(gKeyAssertText, data_ov000_021b3a1c, NULL, 0x10e);
+        AssertionFailed(gKeyAssertText, gGpiUtilityFileName, NULL, 0x10e);
     }
     if (value == NULL) {
-        AssertionFailed(gValueAssertText, data_ov000_021b3a1c, NULL, 0x10f);
+        AssertionFailed(gValueAssertText, gGpiUtilityFileName, NULL, 0x10f);
     }
     if (len <= 0) {
-        AssertionFailed(data_ov000_021b3ae4, data_ov000_021b3a1c, NULL, 0x110);
+        AssertionFailed(data_ov000_021b3ae4, gGpiUtilityFileName, NULL, 0x110);
     }
     stopChar = *key;
     keyStart = strstr(command, key);
@@ -113,17 +113,17 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, s8 *key, s
     s32 length;
 
     if (buffer == NULL) {
-        AssertionFailed(data_ov000_021b3a0c, data_ov000_021b3a1c, NULL, 0x199);
+        AssertionFailed(data_ov000_021b3a0c, gGpiUtilityFileName, NULL, 0x199);
     }
     if (key == NULL) {
-        AssertionFailed(gKeyAssertText, data_ov000_021b3a1c, NULL, 0x19a);
+        AssertionFailed(gKeyAssertText, gGpiUtilityFileName, NULL, 0x19a);
     }
     if (value == NULL) {
-        AssertionFailed(gValueAssertText, data_ov000_021b3a1c, NULL, 0x19b);
+        AssertionFailed(gValueAssertText, gGpiUtilityFileName, NULL, 0x19b);
     }
     start = buffer + *index;
     if (*start != 0x5c) {
-        GpiSetError(connection, 1, data_ov000_021b3a48);
+        GpiSetError(connection, 1, gParseErrorString);
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
@@ -133,12 +133,12 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, s8 *key, s
     if (character != 0x5c) {
         do {
             if (character == 0) {
-                GpiSetError(connection, 1, data_ov000_021b3a48);
+                GpiSetError(connection, 1, gParseErrorString);
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
             if (length == 0x1ff) {
-                GpiSetError(connection, 1, data_ov000_021b3a48);
+                GpiSetError(connection, 1, gParseErrorString);
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
@@ -153,7 +153,7 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, s8 *key, s
     length = 0;
     while ((character = *buffer++) != 0x5c && character != 0) {
         if (length == 0x1ff) {
-            GpiSetError(connection, 1, data_ov000_021b3a48);
+            GpiSetError(connection, 1, gParseErrorString);
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;
         }

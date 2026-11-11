@@ -115,7 +115,7 @@ void ResetRecordTopMenu(void) {
         }
     }
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = 0xe0;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX = 0xe0;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = 0xe0;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = 0xe0;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = 0xe0;
@@ -368,7 +368,7 @@ void AdvanceRecordTopMenuState1(void) {
         }
     }
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
@@ -385,7 +385,7 @@ void AdvanceRecordTopMenuState2(void) {
     gRecordTopMenu->mStateFrames++;
     offsetX = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
@@ -486,7 +486,7 @@ void AdvanceRecordTopMenuState5(void) {
 
     gRecordTopMenu->mStateFrames++;
     offsetX = GetSelectedPressOffset(gRecordTopMenu->mStateFrames);
-    gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
+    gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
     gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
     gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
     gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[gRecordTopMenu->mIndex]].mOffsetX = offsetX;
@@ -532,7 +532,7 @@ void AdvanceRecordTopMenuState6(void) {
         }
     }
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
@@ -549,7 +549,7 @@ void AdvanceRecordTopMenuState7(void) {
     gRecordTopMenu->mStateFrames++;
     offsetX = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;
@@ -611,7 +611,7 @@ void AdvanceRecordTopMenuState11(void) {
     gRecordTopMenu->mStateFrames++;
     offsetX = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
     for (i = 0; i < 3; i++) {
-        gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = offsetX;
+        gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowSTableIndices[i]].mOffsetX = offsetX;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[i]].mOffsetX = offsetX;

@@ -7,7 +7,7 @@ typedef struct Rect Rect;
 extern u16 gMacAddressFormat[];
 extern u16 gDashSeparatedNumbersFormat[];
 extern u16 gDashesFormat[];
-extern Rect data_ov003_021d6338;
-extern Rect data_ov003_021d6340;
+extern Rect gJb5InfoMacAddressRect;
+extern Rect gJb5InfoUserIdRect;
 
 void PrintJb5Info(void);

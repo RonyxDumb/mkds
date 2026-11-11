@@ -61,15 +61,15 @@ void DWCi_Netcheck_Thread(void) {
     dataText = NULL;
     waitText = NULL;
     for (;;) {
-        data_ov000_021b4cb4.mUnk_00 = data_ov000_021b1384;
-        data_ov000_021b4cb4.mUnk_04 = TRUE;
-        data_ov000_021b4cb4.mUnk_08 = NULL;
-        data_ov000_021b4cb4.mUnk_0c = 0x1000;
-        data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-        data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-        data_ov000_021b4cb4.mUnk_1c = 20000;
+        gHttpParam.mUnk_00 = data_ov000_021b1384;
+        gHttpParam.mUnk_04 = TRUE;
+        gHttpParam.mUnk_08 = NULL;
+        gHttpParam.mUnk_0c = 0x1000;
+        gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
+        gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
+        gHttpParam.mUnk_1c = 20000;
         gNetcheck->mUnk_04 = -2;
-        if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
+        if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
             break;
@@ -110,17 +110,17 @@ void DWCi_Netcheck_Thread(void) {
                 if (netcheck->mBodyWayport != NULL) {
                     netcheck->mUnk_04 = -6;
                     ReleaseHttp(gHttp);
-                    data_ov000_021b4cb4.mUnk_00 = DWCauthhttpparam.mUnk_00;
-                    data_ov000_021b4cb4.mUnk_04 = FALSE;
-                    data_ov000_021b4cb4.mUnk_08 = NULL;
-                    data_ov000_021b4cb4.mUnk_0c = 0x200;
-                    data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-                    data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-                    data_ov000_021b4cb4.mUnk_1c = 20000;
-                    if (strcmp(data_ov000_021b4cb4.mUnk_00, data_ov000_021b1400) != 0) {
-                        data_ov000_021b4cb4.mUnk_18 = TRUE;
+                    gHttpParam.mUnk_00 = DWCauthhttpparam.mUnk_00;
+                    gHttpParam.mUnk_04 = FALSE;
+                    gHttpParam.mUnk_08 = NULL;
+                    gHttpParam.mUnk_0c = 0x200;
+                    gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
+                    gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
+                    gHttpParam.mUnk_1c = 20000;
+                    if (strcmp(gHttpParam.mUnk_00, data_ov000_021b1400) != 0) {
+                        gHttpParam.mUnk_18 = TRUE;
                     }
-                    if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
+                    if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(1);
                         break;
@@ -202,11 +202,11 @@ void DWCi_Netcheck_Thread(void) {
         DWCi_BM_GetWiFiInfo(&wiFiInfo);
         if (wiFiInfo.mAttestedUserId == 0) {
             gNetcheck->mUnk_04 = -3;
-            data_ov000_021b4cd4.mIngamesn[0] = 0;
-            data_ov000_021b4cd4.mGsbrcd[0] = 0;
-            data_ov000_021b4cd4.mAlloc = gNetcheck->mParam.mAlloc;
-            data_ov000_021b4cd4.mFree = gNetcheck->mParam.mFree;
-            if (DWC_Auth_Create(&data_ov000_021b4cd4, gHttp) != 0) {
+            gAuthParam.mIngamesn[0] = 0;
+            gAuthParam.mGsbrcd[0] = 0;
+            gAuthParam.mAlloc = gNetcheck->mParam.mAlloc;
+            gAuthParam.mFree = gNetcheck->mParam.mFree;
+            if (DWC_Auth_Create(&gAuthParam, gHttp) != 0) {
                 DWCi_Netcheck_SetError(5);
                 break;
             }
@@ -229,17 +229,17 @@ void DWCi_Netcheck_Thread(void) {
             break;
         }
         gNetcheck->mUnk_04 = -4;
-        data_ov000_021b4cb4.mUnk_00 = DWCauthhttpparam.mUnk_00;
-        data_ov000_021b4cb4.mUnk_04 = FALSE;
-        data_ov000_021b4cb4.mUnk_08 = NULL;
-        data_ov000_021b4cb4.mUnk_0c = 0x1000;
-        data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-        data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-        data_ov000_021b4cb4.mUnk_1c = 40000;
-        if (strcmp(data_ov000_021b4cb4.mUnk_00, data_ov000_021b1400) != 0) {
-            data_ov000_021b4cb4.mUnk_18 = TRUE;
+        gHttpParam.mUnk_00 = DWCauthhttpparam.mUnk_00;
+        gHttpParam.mUnk_04 = FALSE;
+        gHttpParam.mUnk_08 = NULL;
+        gHttpParam.mUnk_0c = 0x1000;
+        gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
+        gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
+        gHttpParam.mUnk_1c = 40000;
+        if (strcmp(gHttpParam.mUnk_00, data_ov000_021b1400) != 0) {
+            gHttpParam.mUnk_18 = TRUE;
         }
-        if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
+        if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
             break;
@@ -399,14 +399,14 @@ void DWCi_Netcheck_Thread(void) {
         }
         ReleaseHttp(gHttp);
         gNetcheck->mUnk_04 = -5;
-        data_ov000_021b4cb4.mUnk_00 = urlText;
-        data_ov000_021b4cb4.mUnk_04 = FALSE;
-        data_ov000_021b4cb4.mUnk_08 = NULL;
-        data_ov000_021b4cb4.mUnk_0c = 0x1000;
-        data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-        data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-        data_ov000_021b4cb4.mUnk_1c = 40000;
-        if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
+        gHttpParam.mUnk_00 = urlText;
+        gHttpParam.mUnk_04 = FALSE;
+        gHttpParam.mUnk_08 = NULL;
+        gHttpParam.mUnk_0c = 0x1000;
+        gHttpParam.mUnk_10 = gNetcheck->mParam.mAlloc;
+        gHttpParam.mUnk_14 = gNetcheck->mParam.mFree;
+        gHttpParam.mUnk_1c = 40000;
+        if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
             break;
@@ -516,7 +516,7 @@ u32 DWC_Http_FinishHeader(Http *http) {
     if (DWC_Http_Add_HeaderItem(http, data_ov000_021b135c, data_ov000_021b1368) != FALSE) {
         return 1;
     }
-    contentLength = strlen(strstr(http->mSendBuffer.mStart, data_ov000_021b1230) + 4);
+    contentLength = strlen(strstr(http->mSendBuffer.mStart, gHttpHeaderEndMarker) + 4);
     if (contentLength != 0) {
         OS_SNPrintf(contentLengthText, 7, data_ov000_021b1370, contentLength);
         if (DWC_Http_Add_HeaderItem(http, data_ov000_021b1374, contentLengthText) != FALSE) {
@@ -711,13 +711,13 @@ void DWCi_Http_Thread(void *argument) {
             *receiveBuffer->mCursor = 0;
             if (headerReceived != 1) {
                 s = receiveBuffer->mStart;
-                if (strstr(s, data_ov000_021b1230) != NULL) {
+                if (strstr(s, gHttpHeaderEndMarker) != NULL) {
                     headerReceived = 1;
-                    http->mBodyStart = strstr(s, data_ov000_021b1230) + 4;
+                    http->mBodyStart = strstr(s, gHttpHeaderEndMarker) + 4;
                     contentLengthText = strstr(receiveBuffer->mStart, data_ov000_021b1348);
                     if (contentLengthText != NULL) {
                         contentLengthText = contentLengthText + strlen(data_ov000_021b1348);
-                        lengthEnd = (s8 *) strstr(contentLengthText, data_ov000_021b1258);
+                        lengthEnd = (s8 *) strstr(contentLengthText, gHttpLineEndMarker);
                         savedByte = *lengthEnd;
                         *lengthEnd = 0;
                         http->mContentLength = StrtolBase10(contentLengthText);

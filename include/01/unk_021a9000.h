@@ -243,7 +243,7 @@ typedef struct TimeAttackTopMenu {
 } TimeAttackTopMenu;
 
 extern RaceHudSubScreenCells *gRaceHudSubScreenKurikingCells;
-extern u16 data_ov001_021a9b94;
+extern u16 gCoinShadowRotationIndex;
 extern const char *gMissionRunLVselGradeStrings[5];
 extern const char *data_ov001_021a92c8[5];
 

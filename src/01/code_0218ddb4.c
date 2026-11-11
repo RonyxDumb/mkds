@@ -77,7 +77,7 @@ void HideKingTeresaWithEffects(MissionRunMapObject *mapObject) {
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41f, 0);
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x420, 0);
     StartMapObjectSound(&mapObject->mUnk_000, 0x22d);
-    mapObject->mUnk_000.mFlags = mapObject->mUnk_000.mFlags | data_ov001_021a65bc;
+    mapObject->mUnk_000.mFlags = mapObject->mUnk_000.mFlags | gKingTeresaHiddenFlag;
 }
 
 void SetKingTeresaVelocityWithKartTurn(MissionRunMapObject *mapObject) {
@@ -221,7 +221,7 @@ void StartKingTeresaMoveToForwardPoint(MissionRunMapObject *mapObject) {
     }
     gKingTeresaState = 2;
     SetKartCollisionCallback(mapObject, KingTeresaBossTransferCallback);
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+    mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
 }
 
 s32 AdvanceKingTeresaApproachKart(MissionRunMapObject *mapObject) {
@@ -286,7 +286,7 @@ s32 AdvanceKingTeresaWaitToApproach(MissionRunMapObject *mapObject) {
     if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <= mapObject->mPrm->mUnk_1d0 &&
         GetEntryKartFacingObject(mapObject, 0, mapObject->mPrm->mUnk_0bc) != NULL) {
         SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-        mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+        mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
         StartKingTeresaApproachKart(mapObject);
     } else if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > mapObject->mPrm->mUnk_1cc) {
         StopMapObjectState(mapObject);
@@ -441,7 +441,7 @@ void StartKingTeresaShowBossCoins(MissionRunMapObject *mapObject) {
     }
     gKingTeresaState = 4;
     SetKartCollisionCallback(mapObject, KingTeresaParkBossCoinsCallback);
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+    mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
     SetBossCoinShownCount(mapObject->mPrm->mUnk_18c <
                                   (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
                               ? mapObject->mPrm->mUnk_18c
@@ -488,7 +488,7 @@ void HideKingTeresaWithoutEffects(MissionRunMapObject *mapObject) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 3;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65bc;
+    mapObject->mUnk_000.mFlags |= gKingTeresaHiddenFlag;
 }
 
 void StartKingTeresaState1ShadowOffset(MissionRunMapObject *mapObject) {
@@ -529,7 +529,7 @@ void HideKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
     gKingTeresaState = 7;
     mapObject->mUnk_000.mFlags |= data_ov001_021a65b4;
     mapObject->mUnk_000.mFlags |= data_ov001_021a65b8;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a65bc;
+    mapObject->mUnk_000.mFlags |= gKingTeresaHiddenFlag;
 }
 
 s32 AdvanceKingTeresaEndReachedSound(MissionRunMapObject *mapObject) {
@@ -715,7 +715,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                 }
                 if ((mapObject->mUnk_000.mFlags & 1) == 0) {
                     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                    mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                    mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
                     HideKingTeresaWithoutEffects(mapObject);
                 }
             }
@@ -725,16 +725,16 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                         mapObject->mPrm->mUnk_1c8) {
                         if (mapObject->mUnk_000.mFlags & 1) {
                             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                            mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                            mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
                             ShowKingTeresaNearKart(mapObject);
                         } else {
                             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                            mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                            mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
                             StartKingTeresaWaitToApproach(mapObject);
                         }
                     } else if ((mapObject->mUnk_000.mFlags & 1) == 0) {
                         SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                        mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+                        mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
                         HideKingTeresaWithoutEffects(mapObject);
                     }
                 }
@@ -769,7 +769,7 @@ void InitKingTeresa(MapObjectList *mapObjectList) {
             SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
             SetNodePositionSource(mapObject, 0);
-            mapObject->mUnk_000.mFlags |= data_ov001_021a65b0;
+            mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
             mapObject->mUnk_2b8 = 3;
         }
     }

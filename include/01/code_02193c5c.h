@@ -101,8 +101,8 @@ extern const u16 gRecordGpxCharacterKartCellIndices[4][2];
 extern const u16 gRecordGpxTimeLabelIndices[4];
 extern const u16 gRecordGpxTotalPointsLabelIndices[4];
 extern const u16 gRecordGpxGradeLabelIndices[4];
-extern const u16 data_ov001_021a6654[4];
-extern const u16 data_ov001_021a665c[4];
+extern const u16 gRecordGpxLowSTableIndices[4];
+extern const u16 gRecordGpxHighSTableIndices[4];
 extern const u16 gRecordGpxTrophyCellIndices[4];
 // Objects whose layout isn't known yet.
 extern const RecordScreenCallbacks gRecordGpxCallbacks;

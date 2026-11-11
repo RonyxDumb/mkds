@@ -29,7 +29,7 @@ void StartDonketuWaterJumpState(MissionRunMapObject *donketu) {
     StopTurningMoveFollowsAngle(donketu);
     SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mUnk_230, donketu->mPrm->mUnk_234);
     SetCourseCollisionCallback(donketu, StartDonketuWaterLandState);
-    donketu->mUnk_000.mFlags |= data_ov001_021a6578;
+    donketu->mUnk_000.mFlags |= gDonketuWaterFlag;
 }
 
 void StartDonketuWaterWalkState(MissionRunMapObject *donketu) {
@@ -70,7 +70,7 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x425, 0);
     StartModelEffectAtWaterHeight(donketu, 4, 0);
     StartMapObjectSound(&donketu->mUnk_000, 0x244);
-    donketu->mUnk_000.mFlags |= data_ov001_021a6578;
+    donketu->mUnk_000.mFlags |= gDonketuWaterFlag;
 }
 
 void StartDonketuKartNotEliminatedState(MissionRunMapObject *donketu) {
@@ -96,7 +96,7 @@ void StartDonketuKartNotEliminatedState(MissionRunMapObject *donketu) {
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&donketu->mUnk_000.mPos);
         StartSndHandleSoundUnchecked(&soundRequest, GetSecondSndHandleSlot());
     }
-    donketu->mUnk_000.mFlags |= data_ov001_021a6578;
+    donketu->mUnk_000.mFlags |= gDonketuWaterFlag;
 }
 
 void StartDonketuJumpLandState(MissionRunMapObject *donketu) {

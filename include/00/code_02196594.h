@@ -17,7 +17,7 @@ void GpiCopyString(char *dest, const char *src, s32 len);
 extern char data_ov000_021b3a0c[];
 extern char gKeyAssertText[];
 extern char gValueAssertText[];
-extern char data_ov000_021b3a48[];
+extern char gParseErrorString[];
 extern char data_ov000_021b3ad4[];
 extern char data_ov000_021b3ae4[];
 extern char data_ov000_021b3aec[];

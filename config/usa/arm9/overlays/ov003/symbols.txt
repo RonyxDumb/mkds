@@ -1179,8 +1179,8 @@ gJb2MenuSelectionLeft kind:data(any) addr:0x021d62e8
 gJb2MenuSelectionTop kind:data(any) addr:0x021d62ea
 gJb2MenuSelectionRight kind:data(any) addr:0x021d62ec
 gJb2MenuSelectionBottom kind:data(any) addr:0x021d62ee
-data_ov003_021d6338 kind:data(any) addr:0x021d62f8
-data_ov003_021d6340 kind:data(any) addr:0x021d6300
+gJb5InfoMacAddressRect kind:data(any) addr:0x021d62f8
+gJb5InfoUserIdRect kind:data(any) addr:0x021d6300
 gOptMenuPaletteRows kind:data(any) addr:0x021d6308
 gOptMenuOamEntryPosition kind:data(any) addr:0x021d630c
 gOptMenuRects kind:data(any) addr:0x021d6310
@@ -1269,8 +1269,8 @@ data_ov003_021d679a kind:data(any) addr:0x021d675a
 gMessageBoxButtonPositions kind:data(any) addr:0x021d6770
 data_ov003_021d67b2 kind:data(any) addr:0x021d6772
 gDwcArchiveName kind:data(any) addr:0x021d6798
-data_ov003_021d67dc kind:data(any) addr:0x021d679c
-data_ov003_021d67e0 kind:data(any) addr:0x021d67a0
+gBgTextCanvasCharOffsets kind:data(any) addr:0x021d679c
+gBgTextCanvasSizes kind:data(any) addr:0x021d67a0
 data_ov003_021d67e2 kind:data(any) addr:0x021d67a2
 gTouchScreenRect kind:data(any) addr:0x021d67a8
 data_ov003_021d67f0 kind:data(any) addr:0x021d67b0

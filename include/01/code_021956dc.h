@@ -109,7 +109,7 @@ extern u16 gRecordTAttTimeLabelWidths[];
 extern u16 gRecordTAttTimeLabelIndices[];
 extern u16 gRecordTAttTimeLabelHeights[];
 extern u16 gRecordTAttNameLabelHeights[];
-extern u16 data_ov001_021a67f8[];
+extern u16 gRecordTAttOffsetSTableIndices[];
 extern u16 gRecordTAttNameLabelWidths[];
 extern u16 gRecordTAttNameLabelIndices[];
 extern u16 gRecordTAttButtonSequence[];
