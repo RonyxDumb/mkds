@@ -5,15 +5,15 @@
 #include "01/code_021956dc.h"
 
 void ReadCourseGhostRecords(void) {
-    u8 i;
+    u8 ghostIndex;
     GhostRecordHead *records;
     GhostRecordHead *record;
 
     records = gBackupBuffers->mReadDestination;
-    for (i = 0; i < 0x20; i++) {
-        record = records + i;
-        if (IsCourseGhostBitSet(i) != 0) {
-            ReadBackupGhostRecordHead(1, i, record);
+    for (ghostIndex = 0; ghostIndex < 0x20; ghostIndex++) {
+        record = records + ghostIndex;
+        if (IsCourseGhostBitSet(ghostIndex) != 0) {
+            ReadBackupGhostRecordHead(1, ghostIndex, record);
             if (gBackupAccess->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }

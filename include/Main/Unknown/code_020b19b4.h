@@ -6,4 +6,4 @@
 
 // Stores in *a the address of the mTimeDifferenceSign member of gRaceHud and in *b the address of its
 // mTimeDifferenceDigits member.
-void GetRaceHudTimeDifference(s32 **a, TimeDigits **b);
+void GetRaceHudTimeDifference(s32 **outSign, TimeDigits **outDigits);

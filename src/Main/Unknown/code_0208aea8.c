@@ -32,7 +32,7 @@ SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId) {
 }
 
 void AdvanceStadiumEmitters(void) {
-    s16 i;
+    s16 slotIndex;
     s32 bestIndex;
     Vec3 cameraForward;
     s32 effectIds[6];
@@ -53,20 +53,20 @@ void AdvanceStadiumEmitters(void) {
     bestIndex = -1;
     camera = GetCurrentCamera();
     cameraForward = camera->mForward;
-    for (i = 0; i < 6; i++) {
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         StadiumEmitters *stadiumEmitters = data_0217b048;
-        if (stadiumEmitters->mEmitters[i] != NULL) {
+        if (stadiumEmitters->mEmitters[slotIndex] != NULL) {
             s32 effectIndex;
-            Unk0201ca6c **emitterSlot = &stadiumEmitters->mEmitters[i];
+            Unk0201ca6c **emitterSlot = &stadiumEmitters->mEmitters[slotIndex];
             SPLManager_DeleteEmitter(gGetSPLManagerFunction(&effectIndex, 0), *emitterSlot);
             *emitterSlot = NULL;
         }
     }
-    for (i = 0; i < 6; i++) {
-        s32 dot = VEC_DotProduct(&cameraForward, &data_0217b048->mDirections[i]);
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        s32 dot = VEC_DotProduct(&cameraForward, &data_0217b048->mDirections[slotIndex]);
         if (dot >= bestDot) {
             bestDot = dot;
-            bestIndex = i;
+            bestIndex = slotIndex;
         }
     }
     previousIndex = bestIndex - 1;

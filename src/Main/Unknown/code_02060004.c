@@ -400,7 +400,7 @@ s32 IsCourseCupMessageFlagSet(s32 courseId) {
 void ClearCourseTimeRecords(s32 courseId) {
     u8 recordIndex;
     BOOL ghostBitCleared;
-    u8 e;
+    u8 ghostCourseIndex;
     s32 cupCourseIndex;
     TimeRecord timeRecord;
 
@@ -409,9 +409,9 @@ void ClearCourseTimeRecords(s32 courseId) {
     if (cupCourseIndex == -1) {
         return;
     }
-    e = cupCourseIndex;
-    if (IsCourseGhostBitSet(e) != 0) {
-        ClearCourseGhostBit(e);
+    ghostCourseIndex = cupCourseIndex;
+    if (IsCourseGhostBitSet(ghostCourseIndex) != 0) {
+        ClearCourseGhostBit(ghostCourseIndex);
         ghostBitCleared = TRUE;
     }
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {

@@ -48,11 +48,11 @@ void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
     kart->mUnk_48 |= 0x400;
 }
 
-void AdvanceKartContactEffect(Unk0201ca6c *effect, s32 a) {
+void AdvanceKartContactEffect(Unk0201ca6c *effect, s32 flag) {
     Kart *kart;
     KartEffects *kartEffects;
 
-    if (a != 0) {
+    if (flag != 0) {
         return;
     }
     kart = effect->mUnk_94;

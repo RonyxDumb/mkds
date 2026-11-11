@@ -38,5 +38,5 @@ extern u32 data_usa_02156594;
 
 void CreatePakkunSpitKindData(void);
 void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit);
-u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *c, u8 *d);
+u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstResponse, u8 *response);
 void InitPakkunSpit(MapObject *mapObject);

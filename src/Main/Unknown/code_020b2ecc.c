@@ -32,10 +32,10 @@ void *GetChoisesSValueMessage(s32 listIndex, s32 value) {
 }
 
 void ClearChoisesSListValueCounts(void) {
-    s32 i;
+    s32 listIndex;
 
-    for (i = 0; i < 4; i++) {
-        gChoisesS->mLists[i].mValueCount = 0;
+    for (listIndex = 0; listIndex < 4; listIndex++) {
+        gChoisesS->mLists[listIndex].mValueCount = 0;
     }
 }
 

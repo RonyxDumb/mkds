@@ -12,7 +12,7 @@
 
 // Sets up the sound parts of each object per course and camera mode.
 void InitCourseSoundObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 mapObjectIndex;
     CourseSoundObject *courseSoundObject;
     CourseMapRow *courseMapRow;
     s32 crossFirstX;
@@ -35,8 +35,9 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
     if (mapObjectList == NULL) {
         return;
     }
-    for (i = 0; i < mapObjectList->mMapObjectCount && (courseSoundObject = mapObjectList->mMapObjects[i]) != NULL;
-         i++) {
+    for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
+                             (courseSoundObject = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
+         mapObjectIndex++) {
         if (GetRaceUseChainCameras() != 0) {
             switch (gRaceSetup->mCourseId) {
                 case COURSE_ID_CROSS:
@@ -76,9 +77,9 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 4;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
                         &courseSoundObject->mFirstPart.mSourcePos;
-                    if (i == 0) {
+                    if (mapObjectIndex == 0) {
                         handleSlotIndex = 8;
-                    } else if (i == 1) {
+                    } else if (mapObjectIndex == 1) {
                         handleSlotIndex = 9;
                     } else {
                         handleSlotIndex = 10;

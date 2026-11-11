@@ -56,7 +56,7 @@ void QueuePacketToPort(void) {
 
 void PacketPortCallback(Unk021425e8 *result) {
     u8 packet[0x192];
-    u32 v;
+    u32 connectionMode;
     if (result->mResultCode == 0 && result->mUnk_0c != NULL && result->mUnk_10 <= 0x192) {
         DC_InvalidateRange(result->mUnk_0c, result->mUnk_10);
         MI_CpuCopy8(result->mUnk_0c, packet, result->mUnk_10);
@@ -68,11 +68,11 @@ void PacketPortCallback(Unk021425e8 *result) {
         }
         if (result->mUnk_04 == 0x15) {
             if (gConnectionWork == NULL) {
-                v = 0;
+                connectionMode = 0;
             } else {
-                v = gConnectionWork->mConnectionMode;
+                connectionMode = gConnectionWork->mConnectionMode;
             }
-            switch (v) {
+            switch (connectionMode) {
                 case 1:
                     WBT_MpParentRecvHook(packet, result->mUnk_10, result->mUnk_12);
                     break;

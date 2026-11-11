@@ -27,13 +27,13 @@ s32 IsKartEnded(u32 kartIndex) {
 
 void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     RaceProgressKart *kart = &gRaceProgress->mKarts[kartIndex];
-    BOOL g = TRUE;
+    BOOL enabled = TRUE;
     if (gRaceSetup->mMode == MODE_BATTLE) {
         if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
-            g = FALSE;
+            enabled = FALSE;
         }
     }
-    if (g != FALSE) {
+    if (enabled != FALSE) {
         BOOL ended = FALSE;
         switch (kart->mStatus) {
             case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:

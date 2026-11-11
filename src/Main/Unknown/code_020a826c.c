@@ -48,7 +48,7 @@ static inline void StartCourseSoundPartIfInRange(CourseSoundObjectPart *soundPar
     }
 }
 
-void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject) {
+void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSoundObject) {
     s32 soundId;
 
     switch (courseSoundObject->mState) {

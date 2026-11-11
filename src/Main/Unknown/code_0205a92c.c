@@ -194,7 +194,7 @@ void StoreReceivedItemDataSlots(void) {
 void ProcessOtherParticipantItemData(void) {
     u8 participantIndex;
     u16 slotIndex;
-    WiFiRaceSync *p;
+    WiFiRaceSync *wiFiRaceSync;
     ItemDataSlot *slot;
     u8 *handledFlag;
     u8 *data;
@@ -204,9 +204,9 @@ void ProcessOtherParticipantItemData(void) {
             (gWiFiRaceSync->mParticipantMask & (1 << participantIndex)) != 0 &&
             gWiFiRaceSync->mEntries[participantIndex].mRecordReceived != 0) {
             for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
-                p = gWiFiRaceSync;
-                slot = &p->mReceivedItemDataSlots[slotIndex][participantIndex];
-                handledFlag = &p->mItemDataHandled[slotIndex][participantIndex];
+                wiFiRaceSync = gWiFiRaceSync;
+                slot = &wiFiRaceSync->mReceivedItemDataSlots[slotIndex][participantIndex];
+                handledFlag = &wiFiRaceSync->mItemDataHandled[slotIndex][participantIndex];
                 if (slot->mItemKind == ITEM_DATA_KIND_NONE) {
                     *handledFlag = 0;
                 } else if (*handledFlag == 0) {

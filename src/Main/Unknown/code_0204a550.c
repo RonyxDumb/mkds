@@ -122,10 +122,10 @@ void WriteEmblemSceneRegistersCallback(void) {
 }
 
 void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
-    s32 r;
+    s32 emblemDone;
 
-    r = AdvanceEmblemAndCheckDone();
-    if (sceneNumbers != NULL && r != 0) {
+    emblemDone = AdvanceEmblemAndCheckDone();
+    if (sceneNumbers != NULL && emblemDone != 0) {
         switch (sceneNumbers->mUnk_00) {
             case 7:
                 sceneNumbers->mNextScene = 7;

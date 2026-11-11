@@ -213,7 +213,7 @@ void SetKartPrevCollisionCenterFromPrevPos(Kart *kart) {
 
 void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     u32 isPeer;
-    u16 i;
+    u16 slotIndex;
     ModelAnimation *characterAnimation;
 
     GetHeap(GetCurrentHeapCall());
@@ -221,29 +221,30 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     kart->mKartModelsEntry = GetKartModelsEntry(kart->mIndex);
     InitCourseColorBlend(&kart->mKartModelsEntry->mCourseColorBlend, 1);
     if (gRaceSetup->mMode == MODE_WIFI) {
-        for (i = 0; i < 9; i++) {
-            if (i == 3) {
-                kart->mSlotFunctions[i] = isPeer != 0 ? AdvancePeerKartMotionSlot : AdvanceLocalKartMotionSlot;
-            } else if (i == 4) {
-                kart->mSlotFunctions[i] = isPeer != 0 ? AdvancePeerKartCollisionSlot : AdvanceLocalKartCollisionSlot;
-            } else if (i == 5) {
-                kart->mSlotFunctions[i] =
+        for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+            if (slotIndex == 3) {
+                kart->mSlotFunctions[slotIndex] = isPeer != 0 ? AdvancePeerKartMotionSlot : AdvanceLocalKartMotionSlot;
+            } else if (slotIndex == 4) {
+                kart->mSlotFunctions[slotIndex] =
+                    isPeer != 0 ? AdvancePeerKartCollisionSlot : AdvanceLocalKartCollisionSlot;
+            } else if (slotIndex == 5) {
+                kart->mSlotFunctions[slotIndex] =
                     isPeer != 0 ? SetKartPrevCollisionCenterFromPrevPos : SetKartPrevCollisionCenter;
             } else {
-                kart->mSlotFunctions[i] = *slotFunctions;
+                kart->mSlotFunctions[slotIndex] = *slotFunctions;
             }
             slotFunctions++;
         }
     } else {
-        for (i = 0; i < 9; i++) {
-            if (i == 3) {
-                kart->mSlotFunctions[i] = AdvanceKartMotionSlot;
-            } else if (i == 4) {
-                kart->mSlotFunctions[i] = AdvanceKartCollisionSlot;
-            } else if (i == 5) {
-                kart->mSlotFunctions[i] = SetKartPrevCollisionCenter;
+        for (slotIndex = 0; slotIndex < 9; slotIndex++) {
+            if (slotIndex == 3) {
+                kart->mSlotFunctions[slotIndex] = AdvanceKartMotionSlot;
+            } else if (slotIndex == 4) {
+                kart->mSlotFunctions[slotIndex] = AdvanceKartCollisionSlot;
+            } else if (slotIndex == 5) {
+                kart->mSlotFunctions[slotIndex] = SetKartPrevCollisionCenter;
             } else {
-                kart->mSlotFunctions[i] = *slotFunctions;
+                kart->mSlotFunctions[slotIndex] = *slotFunctions;
             }
             slotFunctions++;
         }

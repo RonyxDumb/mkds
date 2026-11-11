@@ -30,18 +30,18 @@
 #include "Main/Unknown/code_0203c5f8.h"
 
 void DrawRaceHud(void) {
-    u32 v;
+    u32 raceKindOrMode;
     s32 subScreenState;
 
-    v = gRaceSetup->mRaceKind;
-    if (v == RACE_KIND_START_GP) {
+    raceKindOrMode = gRaceSetup->mRaceKind;
+    if (raceKindOrMode == RACE_KIND_START_GP) {
         DrawRaceStartGp();
         return;
     }
-    if (v == RACE_KIND_AWARD) {
+    if (raceKindOrMode == RACE_KIND_AWARD) {
         return;
     }
-    if (v == RACE_KIND_STAFF_ROLL) {
+    if (raceKindOrMode == RACE_KIND_STAFF_ROLL) {
         DrawEndingStaffRoll();
         return;
     }
@@ -55,9 +55,9 @@ void DrawRaceHud(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         DrawRaceStartBattle(&gRaceHud->mMainOam);
     }
-    v = gRaceSetup->mMode;
-    if ((v == MODE_BATTLE ? gRaceProgress->mRaceDone
-         : v == MODE_MISSION_RUN
+    raceKindOrMode = gRaceSetup->mMode;
+    if ((raceKindOrMode == MODE_BATTLE ? gRaceProgress->mRaceDone
+         : raceKindOrMode == MODE_MISSION_RUN
              ? IsFramesSinceFinishPastWait()
              : (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0)) == 0) {
         DrawRaceItemSlot(&gRaceHud->mMainOam);

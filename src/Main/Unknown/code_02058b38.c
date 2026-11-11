@@ -167,13 +167,13 @@ void UpdateMPState0(void) {
 }
 
 void EnterMPState22(void) {
-    u64 v;
+    u64 randomState;
 
-    v = (u32) OS_GetTick() << 8;
-    v = (u32) v & ~(u32) (v >> 32);
+    randomState = (u32) OS_GetTick() << 8;
+    randomState = (u32) randomState & ~(u32) (randomState >> 32);
     if (gBootInfo->mUnk_00 == 2) {
-        v = v * 0x5d588b656c078965ull + 0x269ec3;
-        gConnectionWork->mMPStateMachine.mDelayTimer = (u16) (((v >> 32) * 0xb4) >> 32) + 0x78;
+        randomState = randomState * 0x5d588b656c078965ull + 0x269ec3;
+        gConnectionWork->mMPStateMachine.mDelayTimer = (u16) (((randomState >> 32) * 0xb4) >> 32) + 0x78;
     } else {
         gConnectionWork->mMPStateMachine.mDelayTimer = 0xb4;
     }

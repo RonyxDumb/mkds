@@ -34,7 +34,7 @@ u32 ChoisesSDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 c
 void InitChoisesS(void) {
     ChoisesS *choisesS;
     u32 charCount;
-    s32 i;
+    s32 index;
 
     gChoisesS = HeapAlloc(ChoisesSGetCurrentHeap(), 0x1a4);
     gChoisesS->mOpenDuringRace = 0;
@@ -156,8 +156,8 @@ void InitChoisesS(void) {
 
         LoadNclrData(&gChoisesS->mChoisesSBNclr, FindSceneFileWrapper("choises_s_b.NCLR"));
         LoadNcgrData(&gChoisesS->mChoisesSBNcgr, FindSceneFileWrapper("choises_s_b.NCGR"));
-        for (i = 0; i < 6; i++) {
-            LoadNscrData(&gChoisesS->mChoisesSNscrs[i], FindSceneFileWrapper(nscrNames[i]));
+        for (index = 0; index < 6; index++) {
+            LoadNscrData(&gChoisesS->mChoisesSNscrs[index], FindSceneFileWrapper(nscrNames[index]));
         }
         gChoisesS->mList0Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[0].mValueCount - 1];
         gChoisesS->mList1Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[1].mValueCount - 1];
@@ -183,8 +183,8 @@ void InitChoisesS(void) {
         ChoisesSInitTextCanvas(&choisesS->mTextCanvases[1], choisesS->mCharCanvases[1], choisesS->mFont, IsLanguageJa(),
                                0);
         charCount = GetChoisesSListCharsSize(gChoisesS->mLists[1].mValueCount) >> 1;
-        for (i = 0; i < charCount; i++) {
-            gChoisesS->mList1Chars[i] = GetChoisesSBNcgrWithListChars()->mData[i];
+        for (index = 0; index < charCount; index++) {
+            gChoisesS->mList1Chars[index] = GetChoisesSBNcgrWithListChars()->mData[index];
         }
         if (gChoisesS->mList2Chars != NULL) {
             NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[2], gChoisesS->mList2Chars, 0x20, 0xc, 4);
@@ -192,8 +192,8 @@ void InitChoisesS(void) {
             ChoisesSInitTextCanvas(&choisesS->mTextCanvases[2], choisesS->mCharCanvases[2], choisesS->mFont,
                                    IsLanguageJa(), 0);
             charCount = GetChoisesSListCharsSize(gChoisesS->mLists[2].mValueCount) >> 1;
-            for (i = 0; i < charCount; i++) {
-                gChoisesS->mList2Chars[i] = GetChoisesSBNcgrWithListChars()->mData[i];
+            for (index = 0; index < charCount; index++) {
+                gChoisesS->mList2Chars[index] = GetChoisesSBNcgrWithListChars()->mData[index];
             }
         }
         NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[3], GetChoisesSBNcgrWithListChars()->mData, 0x20, 0xc, 4);
@@ -201,23 +201,23 @@ void InitChoisesS(void) {
         ChoisesSInitTextCanvas(&choisesS->mTextCanvases[3], choisesS->mCharCanvases[3], choisesS->mFont, IsLanguageJa(),
                                0);
         if (ChoisesSGetCurrentRaceKind() != RACE_KIND_REPLAY) {
-            for (i = 0; i < gChoisesS->mLists[0].mValueCount; i++) {
-                ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[0], 0x90, i * 16 + 9, 0xc, 0x412,
-                                         GetChoisesSValueMessage(0, gChoisesS->mLists[0].mValues[i]));
+            for (index = 0; index < gChoisesS->mLists[0].mValueCount; index++) {
+                ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[0], 0x90, index * 16 + 9, 0xc, 0x412,
+                                         GetChoisesSValueMessage(0, gChoisesS->mLists[0].mValues[index]));
             }
         } else {
-            for (i = 0; i < gChoisesS->mLists[3].mValueCount; i++) {
-                ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[3], 0x90, i * 16 + 9, 0xc, 0x412,
-                                         GetChoisesSValueMessage(3, gChoisesS->mLists[3].mValues[i]));
+            for (index = 0; index < gChoisesS->mLists[3].mValueCount; index++) {
+                ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[3], 0x90, index * 16 + 9, 0xc, 0x412,
+                                         GetChoisesSValueMessage(3, gChoisesS->mLists[3].mValues[index]));
             }
         }
-        for (i = 0; i < gChoisesS->mLists[1].mValueCount; i++) {
-            ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[1], 0x90, i * 16 + 9, 0xc, 0x412,
-                                     GetChoisesSValueMessage(1, gChoisesS->mLists[1].mValues[i]));
+        for (index = 0; index < gChoisesS->mLists[1].mValueCount; index++) {
+            ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[1], 0x90, index * 16 + 9, 0xc, 0x412,
+                                     GetChoisesSValueMessage(1, gChoisesS->mLists[1].mValues[index]));
         }
-        for (i = 0; i < gChoisesS->mLists[2].mValueCount; i++) {
-            ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[2], 0x90, i * 16 + 9, 0xc, 0x412,
-                                     GetChoisesSValueMessage(2, gChoisesS->mLists[2].mValues[i]));
+        for (index = 0; index < gChoisesS->mLists[2].mValueCount; index++) {
+            ChoisesSDrawTextOnCanvas(&gChoisesS->mTextCanvases[2], 0x90, index * 16 + 9, 0xc, 0x412,
+                                     GetChoisesSValueMessage(2, gChoisesS->mLists[2].mValues[index]));
         }
     } else {
         gChoisesS->mChoisesSBNclr = NULL;

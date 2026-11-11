@@ -156,7 +156,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
     return result;
 }
 
-void FillParentParameter(s32 a) {
+void FillParentParameter(s32 flag) {
     Unk02143c30 *parentParameter;
     UserGameInfo *gameInfo;
     RTCTime time;
@@ -195,7 +195,7 @@ void FillParentParameter(s32 a) {
     parentParameter->mUnk_00 = gConnectionWork->mChildren.mGameInfo;
     parentParameter->mUnk_04 = 0x1c;
     parentParameter->mUnk_10 = 7;
-    parentParameter->mUnk_0e = a != 0 ? 1 : 0;
+    parentParameter->mUnk_0e = flag != 0 ? 1 : 0;
 }
 
 void FillGhostParentParameter(GhostRecordHead *ghostRecord) {

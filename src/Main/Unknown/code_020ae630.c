@@ -42,24 +42,24 @@ void HideUnusedOams(void *mainOam, void *subOam) {
     Unk020ae630 *mainOamList = mainOam;
     Unk020ae630 *subOamList = subOam;
     u16 usedEntryCount;
-    s32 i;
+    s32 hiddenIndex;
 
     if (mainOamList != NULL) {
         usedEntryCount = mainOamList->mOamCount;
         DC_FlushRange(mainOamList, 0x400);
-        for (i = 0; i < 0x80 - usedEntryCount; i++) {
-            mainOamList->mUnk_00[usedEntryCount + i].mUnk_00 =
-                (mainOamList->mUnk_00[usedEntryCount + i].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            mainOamList->mUnk_00[usedEntryCount + i].mUnk_00_0 = 0xe0;
+        for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
+            mainOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 =
+                (mainOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
+            mainOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
         }
     }
     if (subOamList != NULL) {
         usedEntryCount = subOamList->mOamCount;
         DC_FlushRange(subOamList, 0x400);
-        for (i = 0; i < 0x80 - usedEntryCount; i++) {
-            subOamList->mUnk_00[usedEntryCount + i].mUnk_00 =
-                (subOamList->mUnk_00[usedEntryCount + i].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            subOamList->mUnk_00[usedEntryCount + i].mUnk_00_0 = 0xe0;
+        for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
+            subOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 =
+                (subOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
+            subOamList->mUnk_00[usedEntryCount + hiddenIndex].mUnk_00_0 = 0xe0;
         }
     }
 }

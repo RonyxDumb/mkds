@@ -26,7 +26,7 @@ BOOL LoadPendingFiles(void) {
     u16 nextIndex = gConnectionWork->mNextLoadIndex;
     s16 previousIndex = nextIndex - 1;
     FSFile *file = &gConnectionWork->mFile;
-    void *q;
+    void *workOrPath;
     s32 size;
     u32 *buffer;
     if (((file->mStat & 1) ? 1 : 0) != 0) {
@@ -43,15 +43,15 @@ BOOL LoadPendingFiles(void) {
     if (nextIndex >= 12 || gConnectionWork->mBlockEntries[nextIndex].mPath == 0) {
         return TRUE;
     }
-    q = &gConnectionWork->mBlockEntries[nextIndex].mPath;
+    workOrPath = &gConnectionWork->mBlockEntries[nextIndex].mPath;
     if (((file->mStat & 0x10) ? 1 : 0) != 0) {
         FS_CloseFile(file);
     }
     FS_InitFile(file);
-    if (FS_OpenFile(file, q) != 0) {
-        q = gConnectionWork;
+    if (FS_OpenFile(file, workOrPath) != 0) {
+        workOrPath = gConnectionWork;
         size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
-        buffer = ((ConnectionWork *) q)->mBlockEntries[nextIndex].mBuffer;
+        buffer = ((ConnectionWork *) workOrPath)->mBlockEntries[nextIndex].mBuffer;
         if (buffer == NULL) {
             buffer = HeapAllocAligned(gConnectionWork->mBlockEntries[nextIndex].mHeap, size, 0x20);
             *gConnectionWork->mBlockEntries[nextIndex].mDataOutput = buffer;

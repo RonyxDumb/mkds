@@ -23,7 +23,7 @@
 #pragma thumb on
 #pragma optimize_for_size on
 void UpdateChoisesS(void) {
-    s32 a;
+    s32 frames;
 
     gChoisesS->mPrevOpenDuringRace = gChoisesS->mOpenDuringRace;
     gChoisesS->mCycleFrames = gChoisesS->mCycleFrames + 1;
@@ -133,9 +133,9 @@ void UpdateChoisesS(void) {
             }
         }
     }
-    a = gChoisesS->mPickFrames;
-    if (a != 0) {
-        gChoisesS->mPickFrames = a + 1;
+    frames = gChoisesS->mPickFrames;
+    if (frames != 0) {
+        gChoisesS->mPickFrames = frames + 1;
         if (gChoisesS->mPickFrames > 0xf) {
             if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
@@ -152,9 +152,9 @@ void UpdateChoisesS(void) {
             gChoisesS->mPickStartedOnSelected = FALSE;
         }
     }
-    a = gChoisesS->mCloseFrames;
-    if (a != 0) {
-        gChoisesS->mCloseFrames = a + 1;
+    frames = gChoisesS->mCloseFrames;
+    if (frames != 0) {
+        gChoisesS->mCloseFrames = frames + 1;
         if (gChoisesS->mCloseFrames > 4) {
             if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
@@ -175,9 +175,9 @@ void UpdateChoisesS(void) {
         }
     }
     if (GetChoisesSOpenDuringRace() != 0) {
-        a = gChoisesS->mUnk_030;
-        gChoisesS->mUnk_030 = a + 1;
-        if (a >= 1) {
+        frames = gChoisesS->mUnk_030;
+        gChoisesS->mUnk_030 = frames + 1;
+        if (frames >= 1) {
             gChoisesS->mUnk_02c = 2;
             gChoisesS->mUnk_030 = 1;
         }

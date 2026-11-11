@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void AdvanceTitleStates(s32 a);
+void AdvanceTitleStates(s32 flag);

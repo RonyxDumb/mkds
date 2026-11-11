@@ -14,24 +14,24 @@
 
 void UpdateTitleState1(void) {
     u32 subBase;
-    s32 i;
+    s32 entryIndex;
     LayoutTableEntry *titleTable;
 
     titleTable = gTitleScene->mTitleTable;
     subBase = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
     if (GetTitleStateFrames() < 10) {
-        for (i = 0; i <= 14; i++) {
-            titleTable[i].mOffsetX = InterpolateS16(1, 0xf8, 0, GetTitleStateFrames(), 10);
+        for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
+            titleTable[entryIndex].mOffsetX = InterpolateS16(1, 0xf8, 0, GetTitleStateFrames(), 10);
         }
-        for (i = 0; i <= 1; i++) {
-            titleTable[i + subBase].mOffsetX = InterpolateS16(1, 0xe4, 0, GetTitleStateFrames(), 10);
+        for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
+            titleTable[entryIndex + subBase].mOffsetX = InterpolateS16(1, 0xe4, 0, GetTitleStateFrames(), 10);
         }
     } else {
-        for (i = 0; i <= 14; i++) {
-            titleTable[i].mOffsetX = 0;
+        for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
+            titleTable[entryIndex].mOffsetX = 0;
         }
-        for (i = 0; i <= 1; i++) {
-            titleTable[i + subBase].mOffsetX = 0;
+        for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
+            titleTable[entryIndex + subBase].mOffsetX = 0;
         }
         SetTitleState(2, 8);
         gTitleScene->mStartedOnSelected = FALSE;

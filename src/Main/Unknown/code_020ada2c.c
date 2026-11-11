@@ -6,11 +6,11 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void AdvanceTitleStates(s32 a) {
-    enum { K0 } i;
+void AdvanceTitleStates(s32 flag) {
+    enum { K0 } stateIndex;
     ClearOamListCounts(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
-    i = gTitleScene->mState;
-    gTitleScene->mStateHandlers[i].mUpdate(a);
+    stateIndex = gTitleScene->mState;
+    gTitleScene->mStateHandlers[stateIndex].mUpdate(flag);
     IncrementCounterSaturating((s32 *) gTitleScene);
     AdvanceSceneText();
     HideUnusedOams(&gTitleScene->mMainOam, &gTitleScene->mSubOam);

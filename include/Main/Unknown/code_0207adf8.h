@@ -15,4 +15,4 @@ typedef struct ShadowModel {
     /* 72 */ u8 mUnk_72[2];
 } ShadowModel;
 
-void DrawShadowModel(ShadowModel *shadowModel, u32 b, u32 c);
+void DrawShadowModel(ShadowModel *shadowModel, u32 unusedParam1, u32 unusedParam2);

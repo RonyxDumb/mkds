@@ -6,15 +6,15 @@
 #include "Main/Unknown/unk_0217a000.h" // GhostListEntry
 
 void ReadSlotGhostRecords(void) {
-    u8 i;
+    u8 slotIndex;
     GhostListEntry *records;
     GhostRecordHead *record;
 
     records = gBackupBuffers->mReadDestination;
-    for (i = 0; i < 10; i++) {
-        record = &records[i].mHead;
-        if (IsSlotGhostBitSet(i) != 0) {
-            ReadBackupGhostListEntry(0, i, record);
+    for (slotIndex = 0; slotIndex < 10; slotIndex++) {
+        record = &records[slotIndex].mHead;
+        if (IsSlotGhostBitSet(slotIndex) != 0) {
+            ReadBackupGhostListEntry(0, slotIndex, record);
             if (gBackupAccess->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }

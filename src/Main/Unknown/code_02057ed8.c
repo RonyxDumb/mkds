@@ -32,7 +32,7 @@ void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void) {
 
 void InitThreadFunctionQueue(void *heap) {
     ThreadFunctionQueue *queue;
-    s32 i;
+    s32 functionIndex;
     gThreadFunctionQueue = HeapAlloc(heap, 0xfc);
     gThreadFunctionQueue->mThreadStack = HeapAllocAligned(heap, 0x800, 0x20);
     OS_CreateThread(&gThreadFunctionQueue->mThread, RunQueuedThreadFunctions, NULL,
@@ -40,8 +40,8 @@ void InitThreadFunctionQueue(void *heap) {
     OS_WakeupThreadDirect(&gThreadFunctionQueue->mThread);
     gThreadFunctionQueue->mRunRequested = 0;
     queue = gThreadFunctionQueue;
-    for (i = 0; i < 10; i++) {
-        queue->mFunctions[i] = NULL;
+    for (functionIndex = 0; functionIndex < 10; functionIndex++) {
+        queue->mFunctions[functionIndex] = NULL;
     }
     queue->mNewestIndex = 0;
 }

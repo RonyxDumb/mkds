@@ -336,7 +336,7 @@ s32 AdvanceMultiBootScanSetup(void) {
     return result;
 }
 
-s32 AdvanceMultiBootSetup(s32 a) {
+s32 AdvanceMultiBootSetup(s32 isParent) {
     s32 result = 0;
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
@@ -349,7 +349,7 @@ s32 AdvanceMultiBootSetup(s32 a) {
             result = AdvanceMultiBootScanSetup();
             break;
         case 0:
-            if (a != 0) {
+            if (isParent != 0) {
                 gConnectionWork->mConnectionMode = 1;
             } else {
                 gConnectionWork->mConnectionMode = 2;

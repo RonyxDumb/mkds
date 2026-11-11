@@ -4,7 +4,7 @@
 #pragma thumb on
 
 void ResetPendingFiles(void) {
-    int i;
+    int entryIndex;
     BlockTransferView *view;
     BlockEntry *entry;
     u32 flagBitsMask;
@@ -12,7 +12,7 @@ void ResetPendingFiles(void) {
     flagBitsMask = (0xe0000000u);
     clearPendingMask = (0xdfffffffu);
     view = &gConnectionWork->mUnk_16a0_view;
-    i = 0;
+    entryIndex = 0;
     entry = view->mBlockEntries;
     do {
         entry->mPath = 0;
@@ -21,8 +21,8 @@ void ResetPendingFiles(void) {
         entry->mUnk_84 = entry->mUnk_84 & clearPendingMask;
         entry->mUnk_84 = entry->mUnk_84 & flagBitsMask;
         entry = entry + 1;
-        i = i + 1;
-    } while (i < 0xc);
+        entryIndex = entryIndex + 1;
+    } while (entryIndex < 0xc);
     view->mNextLoadIndex = 0xc;
 }
 

@@ -25,10 +25,10 @@ void InitPakkunSpit(MapObject *mapObject) {
     CreateMapObjectSoundSourceFalloff2(mapObject);
 }
 
-u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *c, u8 *d) {
-    u32 v1 = *c;
-    u8 result = *d;
-    if (v1 == 1) {
+u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstResponse, u8 *response) {
+    u32 firstResponseValue = *firstResponse;
+    u8 result = *response;
+    if (firstResponseValue == 1) {
         pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags | data_usa_02156590;
         pakkunSpit->mState = 1;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {

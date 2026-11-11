@@ -63,19 +63,19 @@ static inline void LoadOverlayAndRunDWCUtility(void *utilityWork, void *overlayI
 void RunDWCUtility(void) {
     void *expHeapFromMaxFree;
     void *utilityWork;
-    void *a;
-    a = GetHeap(GetCurrentHeapCall());
+    void *heap;
+    heap = GetHeap(GetCurrentHeapCall());
     WaitThreadFunctionsDone();
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBootInfo->mUnk_00 != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
-        HeapFree(a, gRunScenesState->mSndHeapsBuffer);
+        HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
         gRunScenesState->mSndHeapsBuffer = NULL;
     }
     RunScenesSoundNop();
-    expHeapFromMaxFree = CreateExpHeapFromMaxFree(a);
+    expHeapFromMaxFree = CreateExpHeapFromMaxFree(heap);
     utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, 0x20);
     LoadOverlayAndRunDWCUtility(utilityWork, SDK_OVERLAY_OV003_ID);
     HeapDestroy(expHeapFromMaxFree);
@@ -83,9 +83,9 @@ void RunDWCUtility(void) {
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
     WaitIrqAndTurnOnDisplays();
     SetCurrentSndArc();
-    a = HeapAlloc(a, GetSndHeapsBufferSize(1));
-    CreateSndHeaps(1, (u32) a);
-    gRunScenesState->mSndHeapsBuffer = a;
+    heap = HeapAlloc(heap, GetSndHeapsBufferSize(1));
+    CreateSndHeaps(1, (u32) heap);
+    gRunScenesState->mSndHeapsBuffer = heap;
 }
 
 static inline BOOL IsRunScenesNextKindSameOrKindThree(void) {

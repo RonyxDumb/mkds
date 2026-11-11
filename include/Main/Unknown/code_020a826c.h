@@ -27,4 +27,4 @@ typedef struct CourseSoundObject {
     /* 0f0 */ s32 mState;
 } CourseSoundObject;
 
-void UpdateCourseSoundObject(void *a, CourseSoundObject *courseSoundObject);
+void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSoundObject);

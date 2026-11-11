@@ -149,20 +149,20 @@ void *LoadFileAligned(const char *path, s32 alignment) {
 }
 
 void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
-    BOOL d;
+    BOOL useDSuffix;
     const char *textureSuffix;
     const char *dSuffix;
 
-    d = FALSE;
+    useDSuffix = FALSE;
     if (gBootInfo->mUnk_00 == 2 && data_usa_02154228[courseId].mUnk_04 == 1) {
-        d = TRUE;
+        useDSuffix = TRUE;
     }
     if (useTexture != 0) {
         textureSuffix = data_usa_02165164;
     } else {
         textureSuffix = data_usa_02165168;
     }
-    if (d != FALSE) {
+    if (useDSuffix != FALSE) {
         dSuffix = data_usa_0216516c;
     } else {
         dSuffix = data_usa_02165170;

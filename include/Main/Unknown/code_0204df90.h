@@ -24,7 +24,7 @@ void StartRequestEndScan(void);
 void StartEndToIdle(void);
 void StartBootRequestToAllChildren(void);
 void StartSendingToAllChildren(void);
-s32 AdvanceMultiBootSetup(s32 a);
+s32 AdvanceMultiBootSetup(s32 isParent);
 s32 AdvanceMultiBootScanSetup(void);
 s32 AdvanceMultiBootParentSetup(void);
 void ScanConnectStateCallback(u32 state);

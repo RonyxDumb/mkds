@@ -132,11 +132,11 @@ s32 AdvanceScanConnect(u16 entryIndex) {
 
 u8 CompactMaskBits(u8 mask) {
     u8 packed = mask & 1;
-    u32 i = 1;
+    u32 bitIndex = 1;
     u32 nextBit = 1;
 
-    for (; i < 8; i++) {
-        if (((1 << i) & mask) != 0) {
+    for (; bitIndex < 8; bitIndex++) {
+        if (((1 << bitIndex) & mask) != 0) {
             packed = packed | (1 << nextBit);
             nextBit++;
         }
