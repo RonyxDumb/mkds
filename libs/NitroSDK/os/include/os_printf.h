@@ -15,5 +15,5 @@ int OS_SNPrintf(char *dst, size_t len, const char *fmt, ...);
 int OS_VSPrintf(char *dst, const char *fmt, char *args);
 int OS_SPrintf(char *dst, const char *fmt, ...);
 void string_put_string(dst_string *str, const char *src, int len);
-void string_fill_char(dst_string *str, char c, int len);
-void string_put_char(dst_string *str, char c);
+void string_fill_char(dst_string *str, char character, int len);
+void string_put_char(dst_string *str, char character);

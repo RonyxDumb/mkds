@@ -25,14 +25,14 @@ typedef struct DirectedItemObject {
 } DirectedItemObject;
 
 void SetItemObjectDirection(void *objectParam, const Vec3 *direction);
-void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 d);
+void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 unused);
 void DeflectItemObjectOnHit(DirectedItemObject *object, Vec3 *otherVelocity, Vec3 *awayDirection);
 void ApplyItemObjectGravityWithGroundPull(ItemObject *object);
 void ApplyItemObjectGravity(void *objectParam);
 void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed);
-void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *c);
+void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *unused);
 void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3 *hitNormal);
 void SetItemObjectDirectionFromVelocity(ItemKouraR *item);
 void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result);
-void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 e,
+void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 unused,
                          s32 baseSpeed);

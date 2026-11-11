@@ -217,7 +217,7 @@ s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
 }
 
 void RunMessageScreenThread(void *unused) {
-    s32 d;
+    s32 status;
     BOOL sessionHeapCreated;
     BOOL hasDisplaySettings;
 
@@ -258,26 +258,26 @@ void RunMessageScreenThread(void *unused) {
             if (hasDisplaySettings != FALSE) {
                 PrepareDisplayFrame();
             }
-            d = sessionHeapCreated == FALSE ? AdvanceConnectionEndStopOnError() == 1 : 1;
+            status = sessionHeapCreated == FALSE ? AdvanceConnectionEndStopOnError() == 1 : 1;
             UpdateSounds();
             VBlankIntrWait();
             if (hasDisplaySettings != FALSE) {
                 RecordFrameTimes();
             }
-        } while (d == 0);
+        } while (status == 0);
         do {
             if (hasDisplaySettings != FALSE) {
                 PrepareDisplayFrame();
             }
             ReadKeysIntoInputSlot();
-            d = UpdateMessageScreen();
+            status = UpdateMessageScreen();
             UpdateSounds();
             VBlankIntrWait();
             if (hasDisplaySettings != FALSE) {
                 RecordFrameTimes();
             }
-        } while (d == -1);
-        switch (d) {
+        } while (status == -1);
+        switch (status) {
             case 1:
                 gSceneRunState->mNextScene = 12;
                 break;
@@ -415,15 +415,15 @@ void RunMessageScreenOfKind(s32 kind) {
 }
 
 void ScenePreSleepCallback(void *arg) {
-    BOOL b;
-    s32 c;
+    BOOL connectionNotDone;
+    s32 backupBusy;
     BOOL done;
 
     do {
         PrepareDisplayFrame();
-        b = AdvanceConnectionEndStopOnError() != 1;
-        c = SceneIsBackupBusy();
-        if (b == FALSE && c == 0) {
+        connectionNotDone = AdvanceConnectionEndStopOnError() != 1;
+        backupBusy = SceneIsBackupBusy();
+        if (connectionNotDone == FALSE && backupBusy == 0) {
             done = TRUE;
         } else {
             done = FALSE;
@@ -506,30 +506,30 @@ void RunMessageScreenOfKindWrapper(s32 kind) {
     RunMessageScreenOfKind(kind);
 }
 
-s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 b) {
+s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
     BOOL result;
-    s32 v;
+    s32 value;
 
     result = FALSE;
     if (SceneIsWiFiSessionHeapCreated()) {
-        v = CheckWiFiSessionDisconnect();
-        if (b != 0 && v != 0) {
-            switch (v) {
+        value = CheckWiFiSessionDisconnect();
+        if (flag != 0 && value != 0) {
+            switch (value) {
                 case 1:
-                    v = 5;
+                    value = 5;
                     break;
                 case 2:
-                    v = 6;
+                    value = 6;
                     break;
                 case 3:
                 default:
-                    v = 4;
+                    value = 4;
                     break;
             }
-            RunMessageScreenOfKind(v);
+            RunMessageScreenOfKind(value);
             result = TRUE;
         }
-    } else if (b != 0 && SceneIsConnectionActiveNotEndingWithError()) {
+    } else if (flag != 0 && SceneIsConnectionActiveNotEndingWithError()) {
         RunMessageScreenOfKind(0);
         result = TRUE;
         gConnectionWork->mErrorCode = 9;

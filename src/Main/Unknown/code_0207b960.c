@@ -33,7 +33,7 @@ void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
     s32 turnSpeedLimit;
     s32 turnAngle;
     s32 limit;
-    s32 x;
+    s32 ratio;
 
     if (GetRaceUpdateFramesMod8() == kartAi->mIndex) {
         raceSpeedLimit->mSpeedLimitAddition = 0;
@@ -44,12 +44,12 @@ void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         raceSpeedLimit->mTurnSpeedLimit = limit;
         turnAngle = kartAi->mTurnAngleDegrees;
         if (turnAngle > 0x5000) {
-            x = MUL_FIXED12_NO_ROUND(turnAngle - 0x5000, 0x5b);
-            if (x > 0x1000) {
-                x = 0x1000;
+            ratio = MUL_FIXED12_NO_ROUND(turnAngle - 0x5000, 0x5b);
+            if (ratio > 0x1000) {
+                ratio = 0x1000;
             }
-            x = MUL_FIXED12_NO_ROUND(x, 0x668);
-            raceSpeedLimit->mTurnSpeedLimit = MUL_FIXED12_NO_ROUND(0x1000 - x, 0xa000);
+            ratio = MUL_FIXED12_NO_ROUND(ratio, 0x668);
+            raceSpeedLimit->mTurnSpeedLimit = MUL_FIXED12_NO_ROUND(0x1000 - ratio, 0xa000);
         }
         turnSpeedLimit = raceSpeedLimit->mTurnSpeedLimit;
         if (turnSpeedLimit < limit) {
@@ -66,8 +66,8 @@ void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
     if ((kartAi->mKart->mUnk_48 & 0x10000020) != 0) {
         return;
     }
-    x = GetPointLinkSpeedRatio(&kartAi->mPointLinkCursor);
-    kartAi->mKart->mSpeedLimitGoal = MUL_FIXED12_ROUNDED(raceSpeedLimit->mSpeedLimit, x);
+    ratio = GetPointLinkSpeedRatio(&kartAi->mPointLinkCursor);
+    kartAi->mKart->mSpeedLimitGoal = MUL_FIXED12_ROUNDED(raceSpeedLimit->mSpeedLimit, ratio);
 }
 
 void TrailOrCircleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
@@ -845,7 +845,7 @@ void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
 
 void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
-    u16 i;
+    u16 pointIndex;
 
     posCurve->mParam = 0;
     posCurve->mEntryIndex = 0;
@@ -853,15 +853,15 @@ void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     if (entryGroup->mEntryCount < 4) {
         return;
     }
-    for (i = 0; i < 4; i++) {
-        posCurve->mPoints[i] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, i)->mPos;
-        posCurve->mEntryIndex = i;
+    for (pointIndex = 0; pointIndex < 4; pointIndex++) {
+        posCurve->mPoints[pointIndex] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, pointIndex)->mPos;
+        posCurve->mEntryIndex = pointIndex;
     }
 }
 
 void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     s16 entryIndex;
-    s16 i;
+    s16 pointIndex;
     CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
 
     posCurve->mParam = 0;
@@ -873,8 +873,8 @@ void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera)
     posCurve->mUnk_38 = entryGroup->mEntryCount - 1;
     posCurve->mEntryIndex = 2;
     entryIndex = 2;
-    for (i = 0; i < 3; i++) {
-        posCurve->mPoints[(u16) i] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
+    for (pointIndex = 0; pointIndex < 3; pointIndex++) {
+        *GetPosCurvePoint(posCurve, pointIndex) = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
         entryIndex--;
     }
     posCurve->mPoints[3] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryGroup->mEntryCount - 1)->mPos;
@@ -883,7 +883,7 @@ void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera)
 void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep) {
     CourseMapEntryGroup *entryGroup;
     CourseMapGroupEntry *groupEntry;
-    u16 i;
+    u16 pointIndex;
 
     entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
     posCurve->mParam += paramStep;
@@ -894,8 +894,8 @@ void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *map
             posCurve->mParam = 0x1000;
         } else {
             groupEntry = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, posCurve->mEntryIndex);
-            for (i = 0; i < 3; i++) {
-                posCurve->mPoints[i] = posCurve->mPoints[i + 1];
+            for (pointIndex = 0; pointIndex < 3; pointIndex++) {
+                posCurve->mPoints[pointIndex] = posCurve->mPoints[pointIndex + 1];
             }
             posCurve->mPoints[3] = groupEntry->mPos;
             posCurve->mParam -= 0x1000;
@@ -914,7 +914,7 @@ void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve) {
     s32 weight2;
     s32 weight3;
     Vec3 *controlPoints[4];
-    s32 i;
+    s32 pointIndex;
 
     param = posCurve->mParam;
     paramRemaining = 0x1000 - param;
@@ -926,8 +926,8 @@ void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve) {
         MUL_FIXED12_ROUNDED(paramCubed, 0x3000) - MUL_FIXED12_ROUNDED(0x6000, paramSquared) + 0x4000, 0x2ab);
     weight2 = MUL_FIXED12_ROUNDED(MUL_FIXED12_ROUNDED(param + (paramSquared - paramCubed), 0x3000) + 0x1000, 0x2ab);
     weight3 = MUL_FIXED12_ROUNDED(paramCubed, 0x2ab);
-    for (i = 0; i < 4; i++) {
-        controlPoints[i] = &posCurve->mPoints[i];
+    for (pointIndex = 0; pointIndex < 4; pointIndex++) {
+        controlPoints[pointIndex] = &posCurve->mPoints[pointIndex];
     }
     point->x = MUL_FIXED12_ROUNDED(controlPoints[0]->x, weight0) + MUL_FIXED12_ROUNDED(controlPoints[1]->x, weight1) +
                MUL_FIXED12_ROUNDED(controlPoints[2]->x, weight2) + MUL_FIXED12_ROUNDED(controlPoints[3]->x, weight3);

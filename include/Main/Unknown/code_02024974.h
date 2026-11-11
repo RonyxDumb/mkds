@@ -46,11 +46,11 @@ typedef struct KartSound {
 typedef struct Kart Kart;
 typedef struct KartSound KartSound;
 
-s32 GetShine16SoundId(s32 a, s32 isEntryKart, u32 highestBalloonOrShineCount, u32 balloonOrShineCount);
+s32 GetShine16SoundId(s32 value, s32 isEntryKart, u32 highestBalloonOrShineCount, u32 balloonOrShineCount);
 void StartBalloonScaleSound(Kart *kart, s32 scale, s32 scalePerFrame);
-void StartSoundVolumeFromFractionIfTwo(SoundSource *soundSource, u16 soundId, s32 fraction, s32 c);
+void StartSoundVolumeFromFractionIfTwo(SoundSource *soundSource, u16 soundId, s32 fraction, s32 value);
 void UpdateKartSound(Kart *kart);
-s32 AdvanceKartSoundPitch(KartSound *soundRecord, s32 b, s32 aboveSpeedLimit);
+s32 AdvanceKartSoundPitch(KartSound *soundRecord, s32 pitch, s32 aboveSpeedLimit);
 void StartKartClampedPitchSound(Kart *kart, KartSound *soundRecord);
 void StartKartSurfaceSoundWithPitch(Kart *kart, KartSound *soundRecord);
 void StartKartLowRatioSound(Kart *kart, KartSound *soundRecord);

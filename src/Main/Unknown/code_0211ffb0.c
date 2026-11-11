@@ -6,23 +6,23 @@
 #include "code_0200fc8c.h"
 
 // Allocator registered with the net layer; the first argument is unused; interrupts off.
-void *WiFiSessionHeapAlloc(u32 a, u32 b, s32 c) {
-    u32 v;
-    void *p;
+void *WiFiSessionHeapAlloc(u32 unused, u32 size, s32 alignment) {
+    u32 enabled;
+    void *memory;
 
-    v = OS_DisableInterrupts();
-    p = HeapAllocAligned(gWiFiSession->mHeap, b, c);
-    OS_RestoreInterrupts(v);
-    return p;
+    enabled = OS_DisableInterrupts();
+    memory = HeapAllocAligned(gWiFiSession->mHeap, size, alignment);
+    OS_RestoreInterrupts(enabled);
+    return memory;
 }
 
-void WiFiSessionHeapFree(u32 a, void *b) {
-    u32 v;
+void WiFiSessionHeapFree(u32 unused, void *memory) {
+    u32 enabled;
 
-    if (b == NULL) {
+    if (memory == NULL) {
         return;
     }
-    v = OS_DisableInterrupts();
-    HeapFree(gWiFiSession->mHeap, b);
-    OS_RestoreInterrupts(v);
+    enabled = OS_DisableInterrupts();
+    HeapFree(gWiFiSession->mHeap, memory);
+    OS_RestoreInterrupts(enabled);
 }

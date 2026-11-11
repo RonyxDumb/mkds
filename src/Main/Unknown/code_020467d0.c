@@ -77,28 +77,28 @@ void CreateRaceSetupObjects(void *heap) {
 
 void RefreshRaceSetupKartCounts(s32 entryCount) {
     u8 teamCounts[2] = {0};
-    s32 i;
+    s32 entryIndex;
     u8 humanAndPeerCount;
     u8 kartCount;
 
     humanAndPeerCount = 0;
     kartCount = 0;
-    for (i = 0; i < entryCount; i++) {
-        if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind != PLAYER_KIND_NONE) {
-            if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_HUMAN ||
-                gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_PEER) {
+    for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
+        if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind != PLAYER_KIND_NONE) {
+            if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN ||
+                gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_PEER) {
                 humanAndPeerCount++;
             }
             kartCount++;
             if (gRaceSetup->mUseTeams != 0) {
-                teamCounts[gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex]++;
+                teamCounts[gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex]++;
             }
         }
     }
     gRaceSetup->mKartCount = kartCount;
     gRaceSetup->mHumanAndPeerKartCount = humanAndPeerCount;
-    for (i = 0; i < 2; i++) {
-        gRaceSetup->mTeamKartCounts[i] = teamCounts[i];
+    for (entryIndex = 0; entryIndex < 2; entryIndex++) {
+        gRaceSetup->mTeamKartCounts[entryIndex] = teamCounts[entryIndex];
     }
 }
 
@@ -118,15 +118,15 @@ void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int pla
 }
 
 s32 FindCupCourseIndex(s32 courseId) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 columnIndex;
     s8 courseIndex;
 
     courseIndex = -1;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 4; j++) {
-            if (courseId == gCupCourseIdTable[i][j]) {
-                courseIndex = j + i * 4;
+    for (rowIndex = 0; rowIndex < 8; rowIndex++) {
+        for (columnIndex = 0; columnIndex < 4; columnIndex++) {
+            if (courseId == gCupCourseIdTable[rowIndex][columnIndex]) {
+                courseIndex = columnIndex + rowIndex * 4;
                 break;
             }
         }
@@ -140,14 +140,14 @@ u32 GetCupCourseIdAtIndex(s32 courseIndex) {
 
 s32 FindCupIndexOfCourse(s32 courseId) {
     s32 cupIndex;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 columnIndex;
 
     cupIndex = 9;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 4; j++) {
-            if (courseId == gCupCourseIdTable[i][j]) {
-                cupIndex = i;
+    for (rowIndex = 0; rowIndex < 8; rowIndex++) {
+        for (columnIndex = 0; columnIndex < 4; columnIndex++) {
+            if (courseId == gCupCourseIdTable[rowIndex][columnIndex]) {
+                cupIndex = rowIndex;
             }
         }
     }

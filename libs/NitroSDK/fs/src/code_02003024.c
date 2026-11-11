@@ -9,21 +9,21 @@
 
 // Compares two names for len characters, ignoring case; returns the difference of the first pair that differs.
 s32 FSi_StrNICmp(const u8 *str1, const u8 *str2, u32 len) {
-    u32 i;
-    u32 c;
-    u32 d;
+    u32 charIndex;
+    u32 firstChar;
+    u32 secondChar;
 
-    for (i = 0; i < len; i++) {
-        c = str1[i] - 0x41;
-        d = str2[i] - 0x41;
-        if (c <= 0x19) {
-            c += 0x20;
+    for (charIndex = 0; charIndex < len; charIndex++) {
+        firstChar = str1[charIndex] - 0x41;
+        secondChar = str2[charIndex] - 0x41;
+        if (firstChar <= 0x19) {
+            firstChar += 0x20;
         }
-        if (d <= 0x19) {
-            d += 0x20;
+        if (secondChar <= 0x19) {
+            secondChar += 0x20;
         }
-        if (c != d) {
-            return c - d;
+        if (firstChar != secondChar) {
+            return firstChar - secondChar;
         }
     }
     return 0;
@@ -245,14 +245,14 @@ s32 FSi_GetPathCommand(FSFile *file) {
     Unk02003024U *arg;
     u32 dirId;
     u32 fileId;
-    u32 i;
+    u32 dirIndex;
     u32 dirCount;
     u32 parent;
     u32 totalLen;
     u8 *buf;
     u32 len;
     u32 off;
-    u32 n;
+    u32 byteCount;
 
     archive = file->mArc;
     arg = &file->mArg;
@@ -266,12 +266,12 @@ s32 FSi_GetPathCommand(FSFile *file) {
         if (arg->b.mUnk_08 != 0) {
             dirId = arg->b.mUnk_0a;
         } else {
-            i = 0;
+            dirIndex = 0;
             dirCount = 0;
             dirId = 0x10000;
             do {
-                FSi_SeekDirDirect(&tmp, i);
-                if (i == 0) {
+                FSi_SeekDirDirect(&tmp, dirIndex);
+                if (dirIndex == 0) {
                     dirCount = tmp.mUnk_2c;
                 }
                 tmp.mArg.e.mUnk_00 = &entry;
@@ -287,8 +287,8 @@ s32 FSi_GetPathCommand(FSFile *file) {
                 if (dirId != 0x10000) {
                     break;
                 }
-                i++;
-            } while (i < dirCount);
+                dirIndex++;
+            } while (dirIndex < dirCount);
         }
     }
     if (dirId == 0x10000) {
@@ -339,14 +339,14 @@ s32 FSi_GetPathCommand(FSFile *file) {
     }
     off = 0;
     if (archive->mName <= 0xff) {
-        n = 1;
+        byteCount = 1;
     } else if (archive->mName <= 0xff00) {
-        n = 2;
+        byteCount = 2;
     } else {
-        n = 3;
+        byteCount = 3;
     }
-    MI_CpuCopy8(archive, buf, n);
-    off += n;
+    MI_CpuCopy8(archive, buf, byteCount);
+    off += byteCount;
     MI_CpuCopy8(":/", buf + off, 2);
     FSi_SeekDirDirect(&tmp, dirId);
     if (fileId != 0x10000) {
@@ -359,9 +359,9 @@ s32 FSi_GetPathCommand(FSFile *file) {
                 }
             } while (FSi_TranslateCommand(&tmp, 3) == 0);
         }
-        n = entry.mUnk_10 + 1;
-        MI_CpuCopy8(entry.mUnk_14, buf + len - n, n);
-        len -= n;
+        byteCount = entry.mUnk_10 + 1;
+        MI_CpuCopy8(entry.mUnk_14, buf + len - byteCount, byteCount);
+        len -= byteCount;
     } else {
         *(buf + len - 1) = 0;
         len--;
@@ -376,9 +376,9 @@ s32 FSi_GetPathCommand(FSFile *file) {
             if (FSi_TranslateCommand(&tmp, 3) == 0) {
                 do {
                     if (entry.mUnk_0c != 0 && entry.mUnk_00.h.mUnk_04 == dirId) {
-                        n = entry.mUnk_10;
-                        MI_CpuCopy8(entry.mUnk_14, buf + len - n, n);
-                        len -= n;
+                        byteCount = entry.mUnk_10;
+                        MI_CpuCopy8(entry.mUnk_14, buf + len - byteCount, byteCount);
+                        len -= byteCount;
                         break;
                     }
                 } while (FSi_TranslateCommand(&tmp, 3) == 0);

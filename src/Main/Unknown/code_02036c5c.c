@@ -233,32 +233,33 @@ void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVa
     records->mBg1.mBgCntVal13 = cntVal13;
 }
 
-void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
                         u32 cntVal2) {
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
     records->mBg2.mFields.mBgCntBit6 = cntBit6;
     records->mBg2.mFields.mBgCntVal14 = cntVal14;
-    records->mBg2.mFields.mBgCntVal7Or13 = e;
+    records->mBg2.mFields.mBgCntVal7Or13 = cntVal7Or13;
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
     records->mBg2.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
                         u32 cntVal2) {
     records->mBg3.mFields.mBgCntLow2 = cntLow2;
     records->mBg3.mFields.mBgCntBit6 = cntBit6;
     records->mBg3.mFields.mBgCntVal14 = cntVal14;
-    records->mBg3.mFields.mBgCntVal7Or13 = e;
+    records->mBg3.mFields.mBgCntVal7Or13 = cntVal7Or13;
     records->mBg3.mFields.mBgCntVal8 = cntVal8;
     records->mBg3.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8) {
+void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13,
+                       u32 cntVal8) {
     records->mBg2.mMode = 5;
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
     records->mBg2.mFields.mBgCntBit6 = cntBit6;
     records->mBg2.mFields.mBgCntVal14 = cntVal14;
-    records->mBg2.mFields.mBgCntVal7Or13 = e;
+    records->mBg2.mFields.mBgCntVal7Or13 = cntVal7Or13;
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
 }
 
@@ -717,10 +718,10 @@ u32 IsFrameSpanningVBlank(void) {
 }
 
 void ClearFrameFinishedFlag(void) {
-    u32 value0;
-    value0 = gDisplaySettings->mFrameFlags;
-    value0 = (value0) & ~(1u);
-    gDisplaySettings->mFrameFlags = value0;
+    u32 frameFlags;
+    frameFlags = gDisplaySettings->mFrameFlags;
+    frameFlags = (frameFlags) & ~(1u);
+    gDisplaySettings->mFrameFlags = frameFlags;
 }
 
 static inline void StartBrightnessFadeToFadedPositive(BrightnessFade *fade, s16 frameCount) {
@@ -786,7 +787,7 @@ void FinishDisplayFrame(void) {
     u64 tick;
     s16 prevMainBrightness;
     s16 prevSubBrightness;
-    u16 i;
+    u16 waitIndex;
     prevMainBrightness = gMainBrightnessFade.mBrightness;
     prevSubBrightness = gSubBrightnessFade.mBrightness;
     if (gFrameCallback != NULL) {
@@ -808,7 +809,7 @@ void FinishDisplayFrame(void) {
     settings = gDisplaySettings;
     tick = OS_GetTick();
     settings->mTimeBeforeWait = (tick - settings->mFrameStartTick) * 0xfa00 / 0x82ea;
-    for (i = 0; i < gDisplaySettings->mWaitIrqCount; i++) {
+    for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
         OS_WaitIrq(1, 1);
     }
     gDisplaySettings->mFrameFlags |= 1;
@@ -828,7 +829,7 @@ void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
     u64 tick;
     s16 prevMainBrightness;
     s16 prevSubBrightness;
-    u16 i;
+    u16 waitIndex;
     BOOL swapAndWait;
     DisplaySettings *settings;
     prevMainBrightness = gMainBrightnessFade.mBrightness;
@@ -858,7 +859,7 @@ void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
     tick = OS_GetTick();
     settings->mTimeBeforeWait = (tick - settings->mFrameStartTick) * 0xfa00 / 0x82ea;
     if (swapAndWait != FALSE) {
-        for (i = 0; i < gDisplaySettings->mWaitIrqCount; i++) {
+        for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
             OS_WaitIrq(1, 1);
         }
     }
@@ -880,7 +881,7 @@ void FinishDisplayFrameSwapIf(s32 doSwap) {
     u64 tick;
     s16 prevMainBrightness;
     s16 prevSubBrightness;
-    u16 i;
+    u16 waitIndex;
     prevMainBrightness = gMainBrightnessFade.mBrightness;
     prevSubBrightness = gSubBrightnessFade.mBrightness;
     if (gFrameCallback != NULL) {
@@ -902,7 +903,7 @@ void FinishDisplayFrameSwapIf(s32 doSwap) {
     settings = gDisplaySettings;
     tick = OS_GetTick();
     settings->mTimeBeforeWait = (tick - settings->mFrameStartTick) * 0xfa00 / 0x82ea;
-    for (i = 0; i < gDisplaySettings->mWaitIrqCount; i++) {
+    for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
         OS_WaitIrq(1, 1);
     }
     gDisplaySettings->mFrameFlags |= 1;

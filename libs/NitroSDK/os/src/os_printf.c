@@ -1,17 +1,17 @@
 #include "os_printf.h"
 
 // Stores c at dst_string.mCur while dst_string.mLen is nonzero, and always advances dst_string.mCur.
-void string_put_char(dst_string *str, char c) {
+void string_put_char(dst_string *str, char character) {
     if (str->mLen != 0) {
-        str->mCur[0] = c;
+        str->mCur[0] = character;
         str->mLen = str->mLen - 1;
     }
     str->mCur = str->mCur + 1;
 }
 
 // Stores len copies of c at dst_string.mCur as far as dst_string.mLen allows, and advances dst_string.mCur by len.
-void string_fill_char(dst_string *str, char c, int len) {
-    size_t i;
+void string_fill_char(dst_string *str, char character, int len) {
+    size_t index;
     size_t count;
 
     if (len <= 0) {
@@ -21,8 +21,8 @@ void string_fill_char(dst_string *str, char c, int len) {
     if (count > len) {
         count = len;
     }
-    for (i = 0; i < count; i++) {
-        str->mCur[i] = c;
+    for (index = 0; index < count; index++) {
+        str->mCur[index] = character;
     }
     str->mLen = str->mLen - count;
     str->mCur = str->mCur + len;
@@ -30,7 +30,7 @@ void string_fill_char(dst_string *str, char c, int len) {
 
 // Copies len bytes of src to dst_string.mCur as far as dst_string.mLen allows, and advances dst_string.mCur by len.
 void string_put_string(dst_string *str, const char *src, int len) {
-    size_t i;
+    size_t index;
     size_t count;
 
     if (len <= 0) {
@@ -40,8 +40,8 @@ void string_put_string(dst_string *str, const char *src, int len) {
     if (count > len) {
         count = len;
     }
-    for (i = 0; i < count; i++) {
-        str->mCur[i] = src[i];
+    for (index = 0; index < count; index++) {
+        str->mCur[index] = src[index];
     }
     str->mLen = str->mLen - count;
     str->mCur = str->mCur + len;

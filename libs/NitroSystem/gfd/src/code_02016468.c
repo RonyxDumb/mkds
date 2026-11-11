@@ -15,32 +15,32 @@ void NNS_GfdInitVramTransferManager(NNSGfdVramTransferTask *pTaskArray, u32 leng
 }
 
 void NNS_GfdDoVramTransfer(void) {
-    NNSGfdVramTransferTaskQueue *p;
-    NNSGfdVramTransferTask *e;
+    NNSGfdVramTransferTaskQueue *queue;
+    NNSGfdVramTransferTask *task;
 
-    p = &data_02173220;
-    e = NNSi_GfdGetFrontVramTransferTaskQueue(p);
-    while (NNSi_GfdPopVramTransferTaskQueue(p) != 0) {
-        DoTransfer_(e);
-        p->mTotalSize -= e->mSzByte;
-        e = NNSi_GfdGetFrontVramTransferTaskQueue(p);
+    queue = &data_02173220;
+    task = NNSi_GfdGetFrontVramTransferTaskQueue(queue);
+    while (NNSi_GfdPopVramTransferTaskQueue(queue) != 0) {
+        DoTransfer_(task);
+        queue->mTotalSize -= task->mSzByte;
+        task = NNSi_GfdGetFrontVramTransferTaskQueue(queue);
     }
 }
 
-s32 NNS_GfdRegisterNewVramTransferTask(u32 a, u32 b, void *c, u32 d) {
-    NNSGfdVramTransferTaskQueue *p;
-    NNSGfdVramTransferTask *e;
+s32 NNS_GfdRegisterNewVramTransferTask(u32 type, u32 dstAddr, void *pSrc, u32 szByte) {
+    NNSGfdVramTransferTaskQueue *queue;
+    NNSGfdVramTransferTask *task;
 
-    p = &data_02173220;
-    if (IsVramTransferTaskQueueFull_(p) != 0) {
+    queue = &data_02173220;
+    if (IsVramTransferTaskQueueFull_(queue) != 0) {
         return 0;
     }
-    e = NNSi_GfdGetEndVramTransferTaskQueue(p);
-    e->mType = a;
-    e->mPSrc = c;
-    e->mDstAddr = b;
-    e->mSzByte = d;
-    NNSi_GfdPushVramTransferTaskQueue(p);
-    p->mTotalSize = p->mTotalSize + e->mSzByte;
+    task = NNSi_GfdGetEndVramTransferTaskQueue(queue);
+    task->mType = type;
+    task->mPSrc = pSrc;
+    task->mDstAddr = dstAddr;
+    task->mSzByte = szByte;
+    NNSi_GfdPushVramTransferTaskQueue(queue);
+    queue->mTotalSize = queue->mTotalSize + task->mSzByte;
     return 1;
 }

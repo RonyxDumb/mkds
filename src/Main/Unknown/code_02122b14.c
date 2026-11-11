@@ -22,7 +22,7 @@
 // Sets the session up for variant a (0 to 3): case 0 resets masks, records and picks and sets mStep 0, case 1 only
 // packs the indices and counts the karts, cases 2 and 3 reset the picks and set mStep 7 and 3.
 void SetupWiFiSession(u32 mode) {
-    u8 i;
+    u8 participantIndex;
     u8 ownIndex;
     WriteChangedWiFiBuddies();
     switch (mode) {
@@ -30,24 +30,26 @@ void SetupWiFiSession(u32 mode) {
             MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
             MI_CpuFill8(gWiFiSession->mIndexMessages, 0, 0x110);
             MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, 0x110);
-            for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-                if (i != GetOwnParticipantIndex()) {
-                    SetPeerReceiveBuffer(i, &gWiFiSession->mPlayerRecords[i], 0x244);
-                    GetRaceSetupCopy()->mEntries[i].mPlayerKind = 3;
+            for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+                if (participantIndex != GetOwnParticipantIndex()) {
+                    SetPeerReceiveBuffer(participantIndex, &gWiFiSession->mPlayerRecords[participantIndex], 0x244);
+                    GetRaceSetupCopy()->mEntries[participantIndex].mPlayerKind = 3;
                 } else {
-                    gWiFiSession->mPlayerRecords[i].mFirstTotal = gBackupBuffers->mFirstBlock->mTotals[4];
-                    gWiFiSession->mPlayerRecords[i].mSecondTotal = gBackupBuffers->mFirstBlock->mTotals[5];
-                    GetRaceSetupCopy()->mEntries[i].mPlayerKind = 0;
+                    gWiFiSession->mPlayerRecords[participantIndex].mFirstTotal =
+                        gBackupBuffers->mFirstBlock->mTotals[4];
+                    gWiFiSession->mPlayerRecords[participantIndex].mSecondTotal =
+                        gBackupBuffers->mFirstBlock->mTotals[5];
+                    GetRaceSetupCopy()->mEntries[participantIndex].mPlayerKind = 0;
                 }
-                GetRaceSetupCopy()->mEntries[i].mCharacterIndex = -1;
-                GetRaceSetupCopy()->mEntries[i].mKartIndex = -1;
+                GetRaceSetupCopy()->mEntries[participantIndex].mCharacterIndex = -1;
+                GetRaceSetupCopy()->mEntries[participantIndex].mKartIndex = -1;
                 GetRaceSetupCopy()->mCourseId = 0;
-                gWiFiSession->mIndexMessages[i].mCharacterIndex = -1;
-                gWiFiSession->mIndexMessages[i].mKartIndex = -1;
-                gWiFiSession->mIndexMessages[i].mPickedCourseId = 0;
-                gWiFiSession->mReceiveBuffers[i].mCharacterIndex = -1;
-                gWiFiSession->mReceiveBuffers[i].mKartIndex = -1;
-                gWiFiSession->mReceiveBuffers[i].mPickedCourseId = 0;
+                gWiFiSession->mIndexMessages[participantIndex].mCharacterIndex = -1;
+                gWiFiSession->mIndexMessages[participantIndex].mKartIndex = -1;
+                gWiFiSession->mIndexMessages[participantIndex].mPickedCourseId = 0;
+                gWiFiSession->mReceiveBuffers[participantIndex].mCharacterIndex = -1;
+                gWiFiSession->mReceiveBuffers[participantIndex].mKartIndex = -1;
+                gWiFiSession->mReceiveBuffers[participantIndex].mPickedCourseId = 0;
             }
             gWiFiSession->mStepFrames = 0;
             gWiFiSession->mSendRecordMask = 0;
@@ -63,8 +65,8 @@ void SetupWiFiSession(u32 mode) {
         case 1:
             PackWiFiSessionIndices();
             gWiFiSession->mKartCount = 0;
-            for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-                if ((gWiFiSession->mKartMask & (1 << i)) != 0) {
+            for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+                if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
                     gWiFiSession->mKartCount++;
                 }
             }
@@ -72,13 +74,14 @@ void SetupWiFiSession(u32 mode) {
             SetSessionKartCount(gWiFiSession->mKartCount);
             break;
         case 2:
-            for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-                if (i != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << i)) != 0) {
-                    SetPeerReceiveBuffer(i, &gWiFiSession->mReceiveBuffers[i], 0x44);
+            for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+                if (participantIndex != GetOwnParticipantIndex() &&
+                    (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                    SetPeerReceiveBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex], 0x44);
                 }
                 GetRaceSetupCopy()->mCourseId = 0;
-                gWiFiSession->mIndexMessages[i].mPickedCourseId = 0;
-                gWiFiSession->mReceiveBuffers[i].mPickedCourseId = 0;
+                gWiFiSession->mIndexMessages[participantIndex].mPickedCourseId = 0;
+                gWiFiSession->mReceiveBuffers[participantIndex].mPickedCourseId = 0;
             }
             func_ov000_021a323c(ReceiveWiFiSessionMessage);
             gWiFiSession->mStep = 7;
@@ -87,8 +90,8 @@ void SetupWiFiSession(u32 mode) {
             gWiFiSession->mReceivedMask = 0;
             PackWiFiSessionIndices();
             gWiFiSession->mKartCount = 0;
-            for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-                if ((gWiFiSession->mKartMask & (1 << i)) != 0) {
+            for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+                if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
                     gWiFiSession->mKartCount++;
                 }
             }
@@ -96,24 +99,25 @@ void SetupWiFiSession(u32 mode) {
             SetSessionKartCount(gWiFiSession->mKartCount);
             break;
         case 3:
-            for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-                if (i != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << i)) != 0) {
-                    SetPeerReceiveBuffer(i, &gWiFiSession->mReceiveBuffers[i], 0x44);
+            for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+                if (participantIndex != GetOwnParticipantIndex() &&
+                    (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                    SetPeerReceiveBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex], 0x44);
                 }
                 gWiFiSession->mStepFrames = 0;
                 gWiFiSession->mSendRecordMask = 0;
                 gWiFiSession->mReceivedMask = 0;
-                GetRaceSetupCopy()->mEntries[i].mCharacterIndex = -1;
-                GetRaceSetupCopy()->mEntries[i].mKartIndex = -1;
+                GetRaceSetupCopy()->mEntries[participantIndex].mCharacterIndex = -1;
+                GetRaceSetupCopy()->mEntries[participantIndex].mKartIndex = -1;
                 GetRaceSetupCopy()->mCourseId = 0;
-                gWiFiSession->mIndexMessages[i].mCharacterIndex = -1;
-                gWiFiSession->mIndexMessages[i].mKartIndex = -1;
-                gWiFiSession->mIndexMessages[i].mPickedCourseId = 0;
-                gWiFiSession->mIndexMessages[i].mContinueChoice = 0;
-                gWiFiSession->mReceiveBuffers[i].mCharacterIndex = -1;
-                gWiFiSession->mReceiveBuffers[i].mKartIndex = -1;
-                gWiFiSession->mReceiveBuffers[i].mPickedCourseId = 0;
-                gWiFiSession->mReceiveBuffers[i].mContinueChoice = 0;
+                gWiFiSession->mIndexMessages[participantIndex].mCharacterIndex = -1;
+                gWiFiSession->mIndexMessages[participantIndex].mKartIndex = -1;
+                gWiFiSession->mIndexMessages[participantIndex].mPickedCourseId = 0;
+                gWiFiSession->mIndexMessages[participantIndex].mContinueChoice = 0;
+                gWiFiSession->mReceiveBuffers[participantIndex].mCharacterIndex = -1;
+                gWiFiSession->mReceiveBuffers[participantIndex].mKartIndex = -1;
+                gWiFiSession->mReceiveBuffers[participantIndex].mPickedCourseId = 0;
+                gWiFiSession->mReceiveBuffers[participantIndex].mContinueChoice = 0;
             }
             func_ov000_021a323c(ReceiveWiFiSessionMessage);
             gWiFiSession->mStep = 3;
@@ -275,7 +279,7 @@ void AdvanceWiFiSessionStep1(void) {
     u8 toIndex;
     u8 fromIndex;
     u8 ownIndex;
-    u8 i;
+    u8 participantIndex;
     u32 toBit;
     u32 seedSum;
     WiFiSession *session;
@@ -312,8 +316,8 @@ void AdvanceWiFiSessionStep1(void) {
     }
     session = gWiFiSession;
     seedSum = 0;
-    for (i = 0; i < session->mStartKartCount; i++) {
-        seedSum += session->mPlayerRecords[i].mSeed;
+    for (participantIndex = 0; participantIndex < session->mStartKartCount; participantIndex++) {
+        seedSum += session->mPlayerRecords[participantIndex].mSeed;
     }
     generator = &session->mRandom;
     generator->mValue = seedSum;
@@ -442,7 +446,7 @@ void AdvanceWiFiSessionStep8(void) {
     u8 toIndex;
     u8 fromIndex;
     u8 ownIndex;
-    u8 i;
+    u8 participantIndex;
     WiFiSessionMessage *ownRecord;
     UpdateWiFiSessionStepTimeout(0x1c20);
     toIndex = PickNextToIndex();
@@ -464,11 +468,13 @@ void AdvanceWiFiSessionStep8(void) {
     gWiFiSession->mReceivedMask = 0;
     CombineKartRemoveMask();
     TallyPickedCourse();
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
         ownIndex = GetOwnParticipantIndex();
-        gWiFiSession->mIndexMessages[ownIndex].mKartIndices[i] = gWiFiSession->mIndexMessages[i].mKartIndex;
+        gWiFiSession->mIndexMessages[ownIndex].mKartIndices[participantIndex] =
+            gWiFiSession->mIndexMessages[participantIndex].mKartIndex;
         ownIndex = GetOwnParticipantIndex();
-        gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[i] = gWiFiSession->mIndexMessages[i].mCharacterIndex;
+        gWiFiSession->mIndexMessages[ownIndex].mCharacterIndices[participantIndex] =
+            gWiFiSession->mIndexMessages[participantIndex].mCharacterIndex;
     }
     ownIndex = GetOwnParticipantIndex();
     gWiFiSession->mIndexMessages[ownIndex].mTalliedCourseId = GetRaceSetupCopy()->mCourseId;
@@ -480,7 +486,7 @@ void AdvanceWiFiSessionStep9(void) {
     u8 toIndex;
     u8 fromIndex;
     u8 ownIndex;
-    u8 i;
+    u8 participantIndex;
     WiFiSessionMessage *ownRecord;
     toIndex = PickNextToIndex();
     if (toIndex < gWiFiSession->mStartKartCount) {
@@ -497,9 +503,9 @@ void AdvanceWiFiSessionStep9(void) {
     if (UpdateWiFiSessionStepTimeout(0x78) == FALSE) {
         return;
     }
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if (i != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << i)) != 0) {
-            if (SetPeerReceiveBuffer(i, gWiFiSession->mUnk_001c[i], 0x80) == FALSE) {
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        if (participantIndex != GetOwnParticipantIndex() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+            if (SetPeerReceiveBuffer(participantIndex, gWiFiSession->mUnk_001c[participantIndex], 0x80) == FALSE) {
                 return;
             }
         }
@@ -513,7 +519,7 @@ void AdvanceWiFiSessionStep9(void) {
 // Only while 5 <= mStep < 9: ORs into mKartRemoveMask every kart in mKartMask that some stored mask (own included) does
 // not list.
 void CombineKartRemoveMask(void) {
-    u8 i;
+    u8 participantIndex;
     u8 commonMask = 0xff;
     if (gWiFiSession->mStep < 5) {
         return;
@@ -521,15 +527,15 @@ void CombineKartRemoveMask(void) {
     if (gWiFiSession->mStep >= 9) {
         return;
     }
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if ((gWiFiSession->mKartMask & (1 << i)) != 0) {
-            commonMask &= gWiFiSession->mIndexMessages[i].mKartMask;
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+            commonMask &= gWiFiSession->mIndexMessages[participantIndex].mKartMask;
         }
     }
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if ((gWiFiSession->mKartMask & (1 << i)) != 0) {
-            if ((commonMask & (1 << i)) == 0) {
-                gWiFiSession->mKartRemoveMask |= 1 << i;
+    for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
+        if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+            if ((commonMask & (1 << participantIndex)) == 0) {
+                gWiFiSession->mKartRemoveMask |= 1 << participantIndex;
             }
         }
     }

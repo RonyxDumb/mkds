@@ -4,4 +4,4 @@
 
 typedef struct PlayingSound PlayingSound;
 
-void SetPlayingSoundTrackParams(u32 a, PlayingSound *sound);
+void SetPlayingSoundTrackParams(u32 unused, PlayingSound *sound);

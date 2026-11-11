@@ -128,19 +128,19 @@ static inline s32 KartAnimationGetCurrentTeamIndex(u32 entryIndex) {
 // Starts the win or lose animation of a kart that has finished, from the race result; nothing for the middle results.
 void StartKartWinOrLoseAnimation(Kart *kart) {
     u32 finishResult;
-    u16 b;
+    u16 value;
     s32 isRuleKindWinner;
     s32 mode;
-    BOOL c;
+    BOOL flag;
     s32 normalizedResult;
     CharacterAnimationState *animationState;
     RandomState64 *localRandom;
     u32 bits7c;
 
-    c = TRUE;
-    finishResult = c;
+    flag = TRUE;
+    finishResult = flag;
     isRuleKindWinner = 0;
-    b = gRaceSetup->mKartCount;
+    value = gRaceSetup->mKartCount;
 
     bits7c = kart->mUnk_7c;
     if ((bits7c & 0x10) == 0) {
@@ -154,21 +154,21 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         return;
     }
     if (mode != MODE_BATTLE && gRaceSetup->mRuleKind == 1) {
-        b = gRaceProgress->mKartAtRank[0];
+        value = gRaceProgress->mKartAtRank[0];
         if (gRaceSetup->mUseTeams != 0) {
-            if (KartAnimationGetCurrentTeamIndex(b) != KartAnimationGetCurrentTeamIndex(kart->mIndex)) {
+            if (KartAnimationGetCurrentTeamIndex(value) != KartAnimationGetCurrentTeamIndex(kart->mIndex)) {
                 finishResult = 2;
             } else {
                 finishResult = 0;
                 kart->mUnk_7c |= 0x2000000;
-                isRuleKindWinner = c;
+                isRuleKindWinner = flag;
             }
-        } else if (kart->mIndex != b) {
+        } else if (kart->mIndex != value) {
             finishResult = 2;
         } else {
             finishResult = 0;
             kart->mUnk_7c |= 0x2000000;
-            isRuleKindWinner = c;
+            isRuleKindWinner = flag;
         }
     } else if (mode == MODE_TIME_ATTACK) {
         if ((bits7c & 4) == 0) {
@@ -178,8 +178,8 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
                 finishResult = 2;
             }
         }
-    } else if (b > 1) {
-        finishResult = ((s16 *) &gFinishResultByRank[(b - 2) * 4])[GetKartRank(kart->mIndex) - 1];
+    } else if (value > 1) {
+        finishResult = ((s16 *) &gFinishResultByRank[(value - 2) * 4])[GetKartRank(kart->mIndex) - 1];
     }
     if (finishResult == 0) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
@@ -366,22 +366,22 @@ NNSG3dResMdl *InitShadowModel(ShadowModel *shadowModel, NNSG3dResFileHeader *res
 
 // Draws the shadow with matrix b; when c is not NULL its three words are sent after the matrix.
 void DrawShadowWithMatrix(ShadowModel *shadowModel, const void *matrix, Vec3 *extraVector) {
-    s32 v;
+    s32 value;
     Vec3 copiedVector;
 
     if ((shadowModel->mFlags & 1) == 0) {
         return;
     }
-    v = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &v, 1);
+    value = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &value, 1);
     NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     if (extraVector != NULL) {
-        s32 z = extraVector->z;
-        s32 y = extraVector->y;
-        s32 x = extraVector->x;
-        copiedVector.x = x;
-        copiedVector.y = y;
-        copiedVector.z = z;
+        s32 vectorZ = extraVector->z;
+        s32 vectorY = extraVector->y;
+        s32 vectorX = extraVector->x;
+        copiedVector.x = vectorX;
+        copiedVector.y = vectorY;
+        copiedVector.z = vectorZ;
         NNS_G3dGeBufferOP_N(0x1b, &copiedVector, 3);
     }
     SetNsbmdFirstDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha);

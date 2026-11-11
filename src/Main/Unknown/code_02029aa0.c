@@ -66,10 +66,10 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     u32 characterIndex;
     u32 labelTableIndex;
     u32 cellFlag;
-    s32 i;
+    s32 index;
     void *message;
     s32 courseIndex;
-    s32 j;
+    s32 loopIndex;
     Unk02153918 *tableEntry;
 
     labelTableIndex = 0;
@@ -120,21 +120,21 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     PrintLabelLayoutTextNoFixedAdvance(0, 0, mainFileSet->mLabelLayout, playerName, mainFileSet->mCellLayout,
                                        mainFileSet->mCellTable);
     SetLabelPriority(0, 1, mainFileSet->mLabelLayout, mainFileSet->mCellTable, mainFileSet->mCellLayout);
-    for (i = 0; i < 8; i++) {
-        if (i == gResultsGp->mCupRankIndex) {
+    for (index = 0; index < 8; index++) {
+        if (index == gResultsGp->mCupRankIndex) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
         }
-        mainFileSet->mCellTable[gCupRankCellIndexTable[i]].mVisible = cellFlag;
+        mainFileSet->mCellTable[gCupRankCellIndexTable[index]].mVisible = cellFlag;
     }
-    for (i = 0; i < 8; i++) {
-        if (i == gResultsGp->mUnk_44) {
+    for (index = 0; index < 8; index++) {
+        if (index == gResultsGp->mUnk_44) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
         }
-        mainFileSet->mCellTable[data_usa_02153888[i]].mVisible = cellFlag;
+        mainFileSet->mCellTable[data_usa_02153888[index]].mVisible = cellFlag;
     }
     if (gResultsGp->mCupRankIndex >= 3) {
         cellFlag = 1;
@@ -157,21 +157,21 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     LoadCellFileSet(subFileSet, gResultsGpSNcgrName, gResultsGpSNcerName, gResultsGpSONclrName, gResultsGpSBnclName,
                     gResultsGpSBnllName, NULL, FindSceneFile);
     SetupCellFileSet(1, heap, subFileSet);
-    j = 0;
+    loopIndex = 0;
     tableEntry = data_usa_02153918;
-    for (; j < 16; j++) {
+    for (; loopIndex < 16; loopIndex++) {
         subObjSizeLeft -= SetupLabelCanvas(1, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
     }
     message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[gMenuShared->mEngineIndex]);
-    for (j = 0; j < 2; j++) {
+    for (loopIndex = 0; loopIndex < 2; loopIndex++) {
         PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
                                            message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     if (gMenuShared->mMirrorMode != 0) {
         message = GetBmgEntry(gResultsGp->mCommonMessages, 0x71);
-        for (j = 0; j < 2; j++) {
+        for (loopIndex = 0; loopIndex < 2; loopIndex++) {
             PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
                                                message, subFileSet->mCellLayout, subFileSet->mCellTable);
             labelTableIndex++;
@@ -186,8 +186,8 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
                                            message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
-    for (j = 0; j < 4; j++) {
-        WriteCourseTimeText(timeText, j);
+    for (loopIndex = 0; loopIndex < 4; loopIndex++) {
+        WriteCourseTimeText(timeText, loopIndex);
         PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout,
                                         timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
         PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout,
@@ -201,20 +201,20 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
     InitFrmVramManagers();
     InitTrophy(gResultsGp->mCupIndex, (u16) gResultsGp->mCupRankIndex);
-    i = -1;
+    index = -1;
     switch (gResultsGp->mUnk_44) {
         case 5:
-            i = 0x1e;
+            index = 0x1e;
             break;
         case 6:
-            i = 0x1f;
+            index = 0x1f;
             break;
         case 7:
-            i = 0x20;
+            index = 0x20;
             break;
     }
-    if (i >= 0) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) i);
+    if (index >= 0) {
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) index);
     }
     if (TrySetGrandPrixRecord()) {
         WaitThreadFunctionsDone();
@@ -230,13 +230,14 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
 void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
     u32 inputSlotIndex;
     void *secretMessage;
-    s32 i;
+    s32 screenIndex;
     inputSlotIndex = GetPadInputSlot();
     secretMessage = NULL;
-    for (i = 0; i < 2; i++) {
-        DrawLayoutTable(gResultsGp->mCellFileSets[i].mCellLayout, gResultsGp->mCellFileSets[i].mCells,
-                        gResultsGp->mCellFileSets[i].mLabelLayout, gResultsGp->mOamLists[i],
-                        gResultsGp->mCellFileSets[i].mCellTable);
+    for (screenIndex = 0; screenIndex < 2; screenIndex++) {
+        DrawLayoutTable(gResultsGp->mCellFileSets[screenIndex].mCellLayout,
+                        gResultsGp->mCellFileSets[screenIndex].mCells,
+                        gResultsGp->mCellFileSets[screenIndex].mLabelLayout, gResultsGp->mOamLists[screenIndex],
+                        gResultsGp->mCellFileSets[screenIndex].mCellTable);
     }
     if (gResultsGp->mCupRankIndex < 3) {
         AdvanceTrophy();
@@ -253,25 +254,25 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                 void *commonMessage;
                 u32 messageMask;
                 if (!(u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A)) {
-                    BOOL y;
-                    BOOL x;
-                    u16 z;
-                    y = FALSE;
-                    x = FALSE;
-                    z = gInputSlots[inputSlotIndex].mPair.mHasPair;
-                    if (z == 0) {
+                    BOOL newlyPaired;
+                    BOOL recentlyUnpaired;
+                    u16 hasPair;
+                    newlyPaired = FALSE;
+                    recentlyUnpaired = FALSE;
+                    hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
+                    if (hasPair == 0) {
                         if (gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
-                            x = TRUE;
+                            recentlyUnpaired = TRUE;
                         }
                     }
-                    if (x == FALSE) {
+                    if (recentlyUnpaired == FALSE) {
                         if (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0) {
-                            if (z != 0) {
-                                y = TRUE;
+                            if (hasPair != 0) {
+                                newlyPaired = TRUE;
                             }
                         }
                     }
-                    if (y == FALSE) {
+                    if (newlyPaired == FALSE) {
                         break;
                     }
                 }

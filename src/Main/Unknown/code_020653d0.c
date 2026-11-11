@@ -60,14 +60,14 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     u32 recordFlags;
     ParticipantKartRecordState *state;
     s32 wasOnGround;
-    u16 i;
-    u16 s;
+    u16 index;
+    u16 value;
     ParticipantKartRecordState *stateAgain;
-    s32 k;
+    s32 scale;
     s32 startedState;
-    Kart *o;
+    Kart *otherKart;
     Kart *sourceKart;
-    s32 e;
+    s32 flag;
     u8 byte;
     Vec3 *axis;
 
@@ -106,9 +106,9 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         kart->mUnk_44 &= ~KART_44_DRIFTING;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x10000) != 0) != ((recordFlags & 0x10000) != 0)) {
-        s = kart->mHeadingAngle;
+        value = kart->mHeadingAngle;
         ResetKartAndSetPos(kart, &newPos, 0, 0);
-        kart->mHeadingAngle = s;
+        kart->mHeadingAngle = value;
         headingAxis = data_02165530;
         QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         kart->mUnk_110_q = kart->mUnk_e0_m;
@@ -170,11 +170,11 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         prevPos = kart->mPrevPos;
         VEC_Add(&newPos, &state->mPosOffset, &newPos);
         FindCollisionSlotsAroundPos(&newPos, stepCount * 0xd000 + kart->mRadius, 0x8000);
-        for (i = 0; i < stepCount; i++) {
+        for (index = 0; index < stepCount; index++) {
             if (kart->mUnk_48 & KART_48_SINKING) {
                 kart->mPos.y -= 0x19a;
             } else {
-                if (i < 3 && i < stepCount / 2) {
+                if (index < 3 && index < stepCount / 2) {
                     AdvanceKartTurnHeading(kart, ApplyKartTurnInput(kart, 0));
                 }
                 QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mUnk_e0_m);
@@ -192,20 +192,20 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                     MTX_Concat33(&fixedAngleMatrix, &turnMatrix, &turnMatrix);
                 }
                 MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);
-                k = kart->mForwardSpeed;
-                moveStep.x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, k);
-                moveStep.y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, k);
-                moveStep.z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, k);
+                scale = kart->mForwardSpeed;
+                moveStep.x = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.x, scale);
+                moveStep.y = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.y, scale);
+                moveStep.z = MUL_FIXED12_NO_ROUND(kart->mTurnedForward.z, scale);
                 VEC_Add(&newPos, &moveStep, &newPos);
                 VEC_Add(&newPos, &kart->mHitVelocity, &newPos);
                 VEC_Add(&kart->mVelocity, &kart->mHitVelocity, &kart->mVelocity);
                 if (kart->mParticipantRecordData->mRecordBits & 1) {
                     kart->mVerticalSpeed = 0;
                 }
-                k = (kart->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
-                kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, k);
-                kart->mHitVelocity.y = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.y, k);
-                kart->mHitVelocity.z = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.z, k);
+                scale = (kart->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
+                kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, scale);
+                kart->mHitVelocity.y = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.y, scale);
+                kart->mHitVelocity.z = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.z, scale);
                 if ((s64) kart->mHitVelocity.x * kart->mHitVelocity.x +
                         (s64) kart->mHitVelocity.y * kart->mHitVelocity.y +
                         (s64) kart->mHitVelocity.z * kart->mHitVelocity.z >=
@@ -256,18 +256,18 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartStar(kart);
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x4000) != 0) != ((recordFlags & 0x4000) != 0)) {
-        i = 0;
+        index = 0;
         StartFadeFog();
         StartEffectsAtOtherKarts(kart->mIndex);
-        e = kart->mUnk_7c & 0x200;
-        if (e) {
-            if (e) {
+        flag = kart->mUnk_7c & 0x200;
+        if (flag) {
+            if (flag) {
                 kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
             }
         } else {
-            for (; i < (u32) gRaceSetup->mKartCount; i++) {
-                if (i != kart->mIndex) {
-                    StartKartThunderShrink(GetKart(i));
+            for (; index < (u32) gRaceSetup->mKartCount; index++) {
+                if (index != kart->mIndex) {
+                    StartKartThunderShrink(GetKart(index));
                 }
             }
         }
@@ -333,182 +333,182 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartOrthoQuadsGesoSumi(kart->mIndex, 0);
     }
     if (startedState) {
-        o = GetKart((u16) ((recordFlags & 0x60000000) >> 29));
-        if (o != kart) {
-            o->mUnk_4c |= 0x1000;
+        otherKart = GetKart((u16) ((recordFlags & 0x60000000) >> 29));
+        if (otherKart != kart) {
+            otherKart->mUnk_4c |= 0x1000;
         }
     }
-    o = GetKart(gRaceSetup->mEntryIndex);
-    e = 0;
+    otherKart = GetKart(gRaceSetup->mEntryIndex);
+    flag = 0;
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x400000) != 0) != ((recordFlags & 0x400000) != 0) &&
-        o->mIndex == 0) {
+        otherKart->mIndex == 0) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l3;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l3;
         }
-        SetSideSignedDirection(o, sourceKart, &direction);
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(o, &direction, 0);
+        SetSideSignedDirection(otherKart, sourceKart, &direction);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState5(otherKart, &direction, 0);
     l3:
-        e = 1;
+        flag = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x800000) != 0) != ((recordFlags & 0x800000) != 0) &&
-        o->mIndex == 1) {
+        otherKart->mIndex == 1) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l4;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l4;
         }
-        SetSideSignedDirection(o, sourceKart, &direction);
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(o, &direction, 0);
+        SetSideSignedDirection(otherKart, sourceKart, &direction);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState5(otherKart, &direction, 0);
     l4:
-        e = 1;
+        flag = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000000) != 0) != ((recordFlags & 0x1000000) != 0) &&
-        o->mIndex == 2) {
+        otherKart->mIndex == 2) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l5;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l5;
         }
-        SetSideSignedDirection(o, sourceKart, &direction);
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(o, &direction, 0);
+        SetSideSignedDirection(otherKart, sourceKart, &direction);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState5(otherKart, &direction, 0);
     l5:
-        e = 1;
+        flag = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x2000000) != 0) != ((recordFlags & 0x2000000) != 0) &&
-        o->mIndex == 3) {
+        otherKart->mIndex == 3) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l6;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l6;
         }
-        SetSideSignedDirection(o, sourceKart, &direction);
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(o, &direction, 0);
+        SetSideSignedDirection(otherKart, sourceKart, &direction);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState5(otherKart, &direction, 0);
     l6:
-        e = 1;
+        flag = 1;
     }
-    if (e) {
+    if (flag) {
         goto l0;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x200) != 0) != ((recordFlags & 0x200) != 0) &&
-        o->mIndex == 0) {
+        otherKart->mIndex == 0) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l7;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l7;
         }
-        VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
+        VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(o, &direction, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState4(otherKart, &direction, 0);
     l7:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x400) != 0) != ((recordFlags & 0x400) != 0) &&
-        o->mIndex == 1) {
+        otherKart->mIndex == 1) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l8;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l8;
         }
-        VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
+        VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(o, &direction, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState4(otherKart, &direction, 0);
     l8:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x800) != 0) != ((recordFlags & 0x800) != 0) &&
-        o->mIndex == 2) {
+        otherKart->mIndex == 2) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l9;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l9;
         }
-        VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
+        VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(o, &direction, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState4(otherKart, &direction, 0);
     l9:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000) != 0) != ((recordFlags & 0x1000) != 0) &&
-        o->mIndex == 3) {
+        otherKart->mIndex == 3) {
         Vec3 direction;
 
-        s = kart->mIndex;
+        value = kart->mIndex;
         direction = data_02154f88;
-        sourceKart = GetKart(s);
-        if (o->mUnk_7c & 0x200) {
-            if ((o->mUnk_4c & 0x10000040) || o->mState == KART_STATE_PUSH_FLIP) {
+        sourceKart = GetKart(value);
+        if (otherKart->mUnk_7c & 0x200) {
+            if ((otherKart->mUnk_4c & 0x10000040) || otherKart->mState == KART_STATE_PUSH_FLIP) {
                 goto l10;
             }
-        } else if (o->mState == KART_STATE_PUSH_FLIP) {
+        } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
             goto l10;
         }
-        VEC_Subtract(&o->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
+        VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
-        StartSound(&o->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(o, &direction, 0);
+        StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
+        StartKartState4(otherKart, &direction, 0);
     l10:
     }
 l0:

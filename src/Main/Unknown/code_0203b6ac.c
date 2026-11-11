@@ -99,13 +99,13 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     u16 cupIndex;
     u16 courseIndexInCup;
     u16 swapIndex;
-    u16 g;
-    u16 i;
-    u16 j;
-    u16 k;
+    u16 shuffleIndex;
+    u16 entryIndex;
+    u16 candidateIndex;
+    u16 otherIndex;
     u16 followedKartIndex;
     u32 swapTemp;
-    u32 l;
+    u32 listedCpuSlot;
 
     if (RTC_GetTime(&time) != 0) {
         time.mHour = 0;
@@ -131,18 +131,18 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
     followedKartIndex = (u64) (u32) (random.mValue >> 32) * 8 >> 32;
     gRaceSetup->mNextHeader.mFollowedKartIndex = followedKartIndex;
-    for (k = 0; k < 2; k++) {
-        for (j = 0; j < 8; j++) {
-            if (j != followedKartIndex) {
-                otherKartIndices[k] = j;
+    for (otherIndex = 0; otherIndex < 2; otherIndex++) {
+        for (candidateIndex = 0; candidateIndex < 8; candidateIndex++) {
+            if (candidateIndex != followedKartIndex) {
+                otherKartIndices[otherIndex] = candidateIndex;
                 break;
             }
         }
     }
-    for (i = 0; i < 8; i++) {
-        shuffledIndices[i] = i;
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        shuffledIndices[entryIndex] = entryIndex;
     }
-    for (g = 0; g < 1000; g++) {
+    for (shuffleIndex = 0; shuffleIndex < 1000; shuffleIndex++) {
         random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
         swapIndex = (u64) (u32) (random.mValue >> 32) * 7 >> 32;
         random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
@@ -152,16 +152,16 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     }
     SetGivenCharacterAndKart(picks, 0, 0, 0);
     PickRandomCharactersAndKarts(picks);
-    for (i = 0; i < 8; i++) {
-        l = 3;
-        if (otherKartIndices[0] == i) {
-            l = 0;
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        listedCpuSlot = 3;
+        if (otherKartIndices[0] == entryIndex) {
+            listedCpuSlot = 0;
         }
-        if (otherKartIndices[1] == i) {
-            l = 1;
+        if (otherKartIndices[1] == entryIndex) {
+            listedCpuSlot = 1;
         }
-        GetEntryCharacterAndKart(picks, i, &characterIndex, &kartIndex);
-        SetNextRaceEntry(i, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, l);
+        GetEntryCharacterAndKart(picks, entryIndex, &characterIndex, &kartIndex);
+        SetNextRaceEntry(entryIndex, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, listedCpuSlot);
     }
     ResetCupToFirstCourse();
 }

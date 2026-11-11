@@ -13,7 +13,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     u32 entryOffset;
     MB_CommPWork *work;
     MBDownloadFileInfo *record;
-    u8 i;
+    u8 slotIndex;
     entryIndex = 0xff;
     savedInterrupts = OS_DisableInterrupts();
     if (MBi_IsStarted() == 0) {
@@ -25,17 +25,17 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    for (i = 0; i < 0x10; i++) {
-        if ((OFFSET_PTR(MB_CommPWork, work, i * 0x5d4))->mGameReg == rangeTable) {
+    for (slotIndex = 0; slotIndex < 0x10; slotIndex++) {
+        if ((OFFSET_PTR(MB_CommPWork, work, slotIndex * 0x5d4))->mGameReg == rangeTable) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
-        if ((OFFSET_PTR(MB_CommPWork, work, i * 0x5d4))->mEntryUsed == 0) {
-            entryIndex = i;
+        if ((OFFSET_PTR(MB_CommPWork, work, slotIndex * 0x5d4))->mEntryUsed == 0) {
+            entryIndex = slotIndex;
             break;
         }
     }
-    if (i == 0x10) {
+    if (slotIndex == 0x10) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -73,14 +73,14 @@ void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source)
     u8 *headerTail;
     u32 *kinds;
     MbSegmentInfo *range;
-    s32 i;
+    s32 rangeIndex;
     nextAddress = 0x022c0000;
     headerTail = source->mUnk_160;
     record->mArm9EntryAddr = source->mUnk_024;
     record->mArm7EntryAddr = source->mUnk_034;
     range = record->mSeg;
     kinds = MBi_defaultLoadSegList;
-    for (i = 0; i < 3; i++) {
+    for (rangeIndex = 0; rangeIndex < 3; rangeIndex++) {
         MBi_SetSegmentInfo(source, kinds, range, &nextAddress);
         range++;
         kinds++;
@@ -157,7 +157,7 @@ static inline struct MB_CommPWork *GetMbCommPWork(void) {
 u32 MBi_MakeBlockInfoTable(MB_BlockInfoTable *chunkTable, MBDownloadFileInfo *record) {
     u32 offset;
     u16 nextChunk;
-    u8 i;
+    u8 rangeIndex;
     MbSegmentInfo *range;
     u16 *chunkStarts;
     chunkStarts = chunkTable->mChunkStarts;
@@ -165,19 +165,19 @@ u32 MBi_MakeBlockInfoTable(MB_BlockInfoTable *chunkTable, MBDownloadFileInfo *re
     if (record == NULL) {
         return 0;
     }
-    for (i = 0; i < 3; i++) {
-        chunkTable->mRangeOffsets[i] = offset;
-        offset += record->mSeg[i].mSize;
+    for (rangeIndex = 0; rangeIndex < 3; rangeIndex++) {
+        chunkTable->mRangeOffsets[rangeIndex] = offset;
+        offset += record->mSeg[rangeIndex].mSize;
     }
     chunkStarts[0] = 0;
-    for (i = 0; i < 3; i++) {
-        range = &record->mSeg[i];
-        nextChunk = chunkStarts[i] + (u16) ((range->mSize + mbc->mBlockSizeMax - 1) / mbc->mBlockSizeMax);
-        if (IsAbleToLoad(i, range->mLoadAddr, range->mSize) == 0) {
+    for (rangeIndex = 0; rangeIndex < 3; rangeIndex++) {
+        range = &record->mSeg[rangeIndex];
+        nextChunk = chunkStarts[rangeIndex] + (u16) ((range->mSize + mbc->mBlockSizeMax - 1) / mbc->mBlockSizeMax);
+        if (IsAbleToLoad(rangeIndex, range->mLoadAddr, range->mSize) == 0) {
             return 0;
         }
-        if (i < 2) {
-            chunkStarts[i + 1] = nextChunk;
+        if (rangeIndex < 2) {
+            chunkStarts[rangeIndex + 1] = nextChunk;
         } else {
             chunkTable->mChunkStarts[3] = nextChunk;
         }
@@ -185,34 +185,34 @@ u32 MBi_MakeBlockInfoTable(MB_BlockInfoTable *chunkTable, MBDownloadFileInfo *re
     return 1;
 }
 
-BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *b, u16 chunk, void *d) {
+BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *chunkTableData, u16 chunk, void *recordData) {
     u32 offset;
     MBDownloadFileInfo *record;
     MbSegmentInfo *range;
     MB_BlockInfoTable *chunkTable;
-    s8 i;
-    chunkTable = b;
-    record = d;
+    s8 rangeIndex;
+    chunkTable = chunkTableData;
+    record = recordData;
     if (chunk >= chunkTable->mChunkStarts[3]) {
         return FALSE;
     }
-    for (i = 2; i >= 0; i--) {
-        if (chunk >= chunkTable->mChunkStarts[i]) {
+    for (rangeIndex = 2; rangeIndex >= 0; rangeIndex--) {
+        if (chunk >= chunkTable->mChunkStarts[rangeIndex]) {
             break;
         }
     }
-    if (i < 0) {
+    if (rangeIndex < 0) {
         return FALSE;
     }
-    offset = (chunk - chunkTable->mChunkStarts[i]) * GetMbCommPWork()->mBlockSizeMax;
-    range = &record->mSeg[i];
+    offset = (chunk - chunkTable->mChunkStarts[rangeIndex]) * GetMbCommPWork()->mBlockSizeMax;
+    range = &record->mSeg[rangeIndex];
     result->mSize = range->mSize - offset;
     if (result->mSize > mbc->mBlockSizeMax) {
         result->mSize = mbc->mBlockSizeMax;
     }
-    result->mOffset = offset + chunkTable->mRangeOffsets[i];
+    result->mOffset = offset + chunkTable->mRangeOffsets[rangeIndex];
     result->mChildAddress = offset + range->mRecvAddr;
-    result->mSegmentNo = i;
+    result->mSegmentNo = rangeIndex;
     return TRUE;
 }
 

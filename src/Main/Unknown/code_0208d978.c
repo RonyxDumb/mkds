@@ -100,10 +100,10 @@ void SetAwardPosStripDrawEnabled(s32 drawEnabled) {
 
 void InitModelEffects(void *heap) {
     u16 kindIndex;
-    void *c;
-    void *d;
-    void *e;
-    void *f;
+    void *modelFile;
+    void *nsbcaFile;
+    void *nsbmaFile;
+    void *nsbtaFile;
     ModelEffectKind *firstKind;
     ModelEffectKind *secondKind;
 
@@ -131,16 +131,16 @@ void InitModelEffects(void *heap) {
     SetupWaterEfctKindRow(&data_0216623c, 2);
     SetupBkWaveKind();
     InitModelEffectObjects(heap);
-    c = FindMainRaceOrMainEffectFile(gBombcoreNsbmdName);
-    d = FindMainRaceOrMainEffectFile(gBombcoreNsbcaName);
-    e = FindMainRaceOrMainEffectFile(gBombcoreNsbmaName);
-    f = FindMainRaceOrMainEffectFile(gBombcoreNsbtaName);
-    SetupModelEffectKind(heap, 0, c, d, e, f);
-    c = FindMainRaceOrMainEffectFile(gBombcore2NsbmdName);
-    d = FindMainRaceOrMainEffectFile(gBombcore2NsbcaName);
-    e = FindMainRaceOrMainEffectFile(gBombcore2NsbmaName);
-    f = FindMainRaceOrMainEffectFile(gBombcore2NsbtaName);
-    SetupModelEffectKind(heap, 1, c, d, e, f);
+    modelFile = FindMainRaceOrMainEffectFile(gBombcoreNsbmdName);
+    nsbcaFile = FindMainRaceOrMainEffectFile(gBombcoreNsbcaName);
+    nsbmaFile = FindMainRaceOrMainEffectFile(gBombcoreNsbmaName);
+    nsbtaFile = FindMainRaceOrMainEffectFile(gBombcoreNsbtaName);
+    SetupModelEffectKind(heap, 0, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
+    modelFile = FindMainRaceOrMainEffectFile(gBombcore2NsbmdName);
+    nsbcaFile = FindMainRaceOrMainEffectFile(gBombcore2NsbcaName);
+    nsbmaFile = FindMainRaceOrMainEffectFile(gBombcore2NsbmaName);
+    nsbtaFile = FindMainRaceOrMainEffectFile(gBombcore2NsbtaName);
+    SetupModelEffectKind(heap, 1, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
     SetupModelEffectKind(heap, 2, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(), GetWaterEfctNsbmaFile(), NULL);
     SetupModelEffectKind(heap, 4, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(), GetWaterEfctNsbmaFile(), NULL);
     if (gRaceSetup->mCourseId == COURSE_ID_OLD_HYUDORO_64) {
@@ -321,7 +321,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
                           void *nsbtaFile) {
     u16 objectIndex;
     u8 *modelSet;
-    ModelAnimation *o;
+    ModelAnimation *animation;
     NNSG3dResMdl *resMdl;
     ModelEffect *modelEffect;
     ModelEffectKind *kindRow;
@@ -347,13 +347,13 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
         modelEffect = gModelEffects->mObjects[kind][objectIndex];
         InitNsbmdRenderObjWrapper(&modelEffect->mNsbmd, resMdl);
         NNS_G3dMdlSetMdlFogEnableFlagAll(modelEffect->mNsbmd.mResMdl, fogEnabled);
-        o = modelEffect->mAnimations[0];
-        if (o != NULL) {
+        animation = modelEffect->mAnimations[0];
+        if (animation != NULL) {
             if (nsbcaFile != NULL) {
-                InitModelAnimation(0, o, &modelEffect->mNsbmd, 1, heap, modelFile);
-                InitModelAnimationEntries(o, nsbcaFile, heap);
+                InitModelAnimation(0, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimationEntries(animation, nsbcaFile, heap);
             } else {
-                o->mAnmObjCount = 0;
+                animation->mAnmObjCount = 0;
             }
             if (kind == 2) {
                 if (GetModelAnimationFrameCountFixed(modelEffect->mAnimations[0]) >> 12 == 0x20) {
@@ -365,22 +365,22 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
                 }
             }
         }
-        o = modelEffect->mAnimations[1];
-        if (o != NULL) {
+        animation = modelEffect->mAnimations[1];
+        if (animation != NULL) {
             if (nsbmaFile != NULL) {
-                InitModelAnimation(4, o, &modelEffect->mNsbmd, 1, heap, modelFile);
-                InitModelAnimationEntries(o, nsbmaFile, heap);
+                InitModelAnimation(4, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimationEntries(animation, nsbmaFile, heap);
             } else {
-                o->mAnmObjCount = 0;
+                animation->mAnmObjCount = 0;
             }
         }
-        o = modelEffect->mAnimations[2];
-        if (o != NULL) {
+        animation = modelEffect->mAnimations[2];
+        if (animation != NULL) {
             if (nsbtaFile == NULL) {
-                o->mAnmObjCount = 0;
+                animation->mAnmObjCount = 0;
             } else {
-                InitModelAnimation(1, o, &modelEffect->mNsbmd, 1, heap, modelFile);
-                InitModelAnimationEntries(o, nsbtaFile, heap);
+                InitModelAnimation(1, animation, &modelEffect->mNsbmd, 1, heap, modelFile);
+                InitModelAnimationEntries(animation, nsbtaFile, heap);
             }
         }
     }

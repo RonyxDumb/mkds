@@ -60,7 +60,7 @@ typedef struct SegmentBuffer {
 void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo);
 u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size);
 u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size);
-BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *b, u16 chunk, void *d);
+BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *chunkTableData, u16 chunk, void *recordData);
 u32 MBi_MakeBlockInfoTable(MB_BlockInfoTable *chunkTable, MBDownloadFileInfo *record);
 void MBi_SetSegmentInfo(SegmentBuffer *source, u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress);
 void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source);

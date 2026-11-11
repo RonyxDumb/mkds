@@ -29,7 +29,7 @@ void StartRaceGoalS(void) {
     s32 zero;
     s32 isHumanGhostOrPeer;
     s32 humanGhostPeerFlag;
-    u16 i;
+    u16 rowIndex;
 
     if (gRaceProgress->mRaceDone == 0) {
         return;
@@ -46,22 +46,22 @@ void StartRaceGoalS(void) {
     minusOne = -1;
     falseValue = FALSE;
     zero = 0;
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        gRaceGoalS->mRowKartIndex[i] = i;
+    for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+        gRaceGoalS->mRowKartIndex[rowIndex] = rowIndex;
         if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
             isHumanGhostOrPeer = falseValue;
-            if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3 &&
-                ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+            if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= 3 &&
+                ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isHumanGhostOrPeer = 1;
             }
             humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zero;
-            sortKeys[i] = humanGhostPeerFlag * 8 + 8 - GetKartRank(i);
-            if (GetKartRank(i) == 1) {
-                sortKeys[i] += 0x20;
+            sortKeys[rowIndex] = humanGhostPeerFlag * 8 + 8 - GetKartRank(rowIndex);
+            if (GetKartRank(rowIndex) == 1) {
+                sortKeys[rowIndex] += 0x20;
             }
-            sortKeys[i] = sortKeys[i] * minusOne;
+            sortKeys[rowIndex] = sortKeys[rowIndex] * minusOne;
         } else {
-            sortKeys[i] = GetKartRank(i);
+            sortKeys[rowIndex] = GetKartRank(rowIndex);
         }
     }
     SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, gRaceSetup->mKartCount);
@@ -108,7 +108,7 @@ void HoldRaceGoalSPreviousNumbers(void) {
 void CountUpRaceGoalSNumbers(void) {
     s32 frame;
     u16 keyABits;
-    u16 i;
+    u16 rowIndex;
     BOOL allReached;
     s32 target;
     u32 kartIndex;
@@ -119,20 +119,20 @@ void CountUpRaceGoalSNumbers(void) {
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame % 5 == 0) {
         allReached = TRUE;
-        for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+        for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
             if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
-                kartIndex = GetLowByte(i);
+                kartIndex = GetLowByte(rowIndex);
                 courseIndex = GetCourseIndexInCup();
                 target = gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)].mWinCount;
             } else {
-                kartIndex = GetLowByte(i);
+                kartIndex = GetLowByte(rowIndex);
                 courseIndex = GetCourseIndexInCup();
                 record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
                 target = record->mTotalPoints;
             }
-            if (gRaceGoalS->mShownNumbers[i] < target) {
-                if (gRaceGoalS->mShownNumbers[i] < 0x3e8) {
-                    gRaceGoalS->mShownNumbers[i]++;
+            if (gRaceGoalS->mShownNumbers[rowIndex] < target) {
+                if (gRaceGoalS->mShownNumbers[rowIndex] < 0x3e8) {
+                    gRaceGoalS->mShownNumbers[rowIndex]++;
                     allReached = FALSE;
                 }
             }
@@ -159,7 +159,7 @@ void CountUpRaceGoalSNumbers(void) {
 void HoldRaceGoalSNumbers(void) {
     s32 frame;
     u16 keyABits;
-    u16 i;
+    u16 rowIndex;
     u32 kartIndex;
     u32 courseIndex;
     KartCourseResult *record;
@@ -167,16 +167,17 @@ void HoldRaceGoalSNumbers(void) {
 
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame < 0x5a) {
-        for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+        for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
             if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
-                kartIndex = GetLowByte(i);
+                kartIndex = GetLowByte(rowIndex);
                 courseIndex = GetCourseIndexInCup();
-                gRaceGoalS->mShownNumbers[i] = gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)].mWinCount;
+                gRaceGoalS->mShownNumbers[rowIndex] =
+                    gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)].mWinCount;
             } else {
-                kartIndex = GetLowByte(i);
+                kartIndex = GetLowByte(rowIndex);
                 courseIndex = GetCourseIndexInCup();
                 record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
-                gRaceGoalS->mShownNumbers[i] = record->mTotalPoints;
+                gRaceGoalS->mShownNumbers[rowIndex] = record->mTotalPoints;
             }
         }
     } else {
@@ -211,7 +212,7 @@ void HideRaceGoalSRows(void) {
     s32 frame;
     s32 hiddenRows;
     u16 keyABits;
-    u16 j;
+    u16 rowIndex;
     InputSlotIndex inputSlot;
 
     frame = gRaceGoalS->mUpdateFrames++;
@@ -256,8 +257,8 @@ void HideRaceGoalSRows(void) {
     inputSlot = UNK_02175628_INDEX_8;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= 0x2d) {
-        for (j = 0; j < (u32) gRaceSetup->mKartCount; j++) {
-            gRaceGoalS->mRowVisible[j] = 0;
+        for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+            gRaceGoalS->mRowVisible[rowIndex] = 0;
         }
         gRaceGoalS->mHiddenRowCount = gRaceSetup->mKartCount;
         RefreshRaceGoalSRows();
@@ -323,15 +324,15 @@ static inline CourseTeamResult *RaceGoalSGetCourseTeamResult(s32 teamIndex) {
 
 void HoldRaceGoalSRows(void) {
     s32 frame;
-    s32 i;
+    s32 rowIndex;
     s32 bestValue;
     s32 teamOneValue;
 
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame < 0x3c) {
         RefreshRaceGoalSRows();
-        for (i = 0; i < gRaceSetup->mKartCount; i++) {
-            gRaceGoalS->mRowVisible[i] = 1;
+        for (rowIndex = 0; rowIndex < gRaceSetup->mKartCount; rowIndex++) {
+            gRaceGoalS->mRowVisible[rowIndex] = 1;
         }
     } else {
         if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {

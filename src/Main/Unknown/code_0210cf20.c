@@ -25,10 +25,10 @@
 
 // Builds the pool of sounds, resets each one, empties the three source lists and zeroes the two pass counters.
 void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
-    s32 i;
+    s32 index;
 
     InitSoundHandlePool(&data_0217d034, sounds, count, 0x1c);
-    for (i = 0; i < count; i++) {
+    for (index = 0; index < count; index++) {
         ResetPlayingSoundHandle(sounds);
         ClearThreeWords(&sounds->mUnk_08);
         sounds->mSeqArcNo = 0;
@@ -39,8 +39,8 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
         sounds++;
     }
     NNS_FndInitList(&gSoundSources, 0);
-    for (i = 0; i < 2; i++) {
-        NNS_FndInitList(&gSoundSourceUpdateLists[i], 0x1c);
+    for (index = 0; index < 2; index++) {
+        NNS_FndInitList(&gSoundSourceUpdateLists[index], 0x1c);
     }
     data_0217d010[0] = 0;
     data_0217d024[0] = 0;
@@ -138,10 +138,10 @@ void StopSoundsOnAllSources(u32 fadeSteps) {
 // Fades every sound in the pool to the volume over the given number of steps.
 void StartPlayingSoundsFade(s32 volume, s32 steps) {
     u8 *entryAddress;
-    s32 i;
+    s32 soundIndex;
 
     entryAddress = data_0217d034.mEntries;
-    for (i = 0; i < data_0217d034.mCount; i++) {
+    for (soundIndex = 0; soundIndex < data_0217d034.mCount; soundIndex++) {
         NNS_SndPlayerMoveVolume(&((PlayingSound *) entryAddress)->mSeqPlayer, volume, steps);
         entryAddress += data_0217d034.mEntrySize;
     }
@@ -149,10 +149,10 @@ void StartPlayingSoundsFade(s32 volume, s32 steps) {
 
 void StopAllPlayingSounds(u32 fadeSteps) {
     u8 *entryAddress;
-    s32 i;
+    s32 soundIndex;
 
     entryAddress = data_0217d034.mEntries;
-    for (i = 0; i < data_0217d034.mCount; i++) {
+    for (soundIndex = 0; soundIndex < data_0217d034.mCount; soundIndex++) {
         NNS_SndPlayerStopSeq(&((PlayingSound *) entryAddress)->mSeqPlayer, fadeSteps);
         ((PlayingSound *) entryAddress)->mFlags &= ~4;
         ((PlayingSound *) entryAddress)->mFlags &= ~8;
@@ -168,12 +168,12 @@ void ReleaseAllSoundSources(void) {
 }
 
 // Start slot of a source (offset 0x2c): starts the library sequence of the entry at the given priority.
-void StartPlayingSoundSeqArc(u32 a, PlayingSound *sound, u32 priority) {
+void StartPlayingSoundSeqArc(u32 unused, PlayingSound *sound, u32 priority) {
     NNS_SndArcPlayerStartSeqArcEx(&sound->mSeqPlayer, -1, -1, priority, sound->mSeqArcNo, sound->mSoundId);
 }
 
 // Per-entry slot of a source (offset 0x30): sets track volume and pitch of a started sound.
-void SetPlayingSoundTrackParams(u32 a, PlayingSound *sound) {
+void SetPlayingSoundTrackParams(u32 unused, PlayingSound *sound) {
     NNS_SndPlayerSetTrackVolume(&sound->mSeqPlayer, data_0216cb20, sound->mVolume);
     NNS_SndPlayerSetTrackPitch(&sound->mSeqPlayer, data_0216cb20, sound->mPitch);
 }

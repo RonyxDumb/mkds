@@ -80,51 +80,52 @@ void AdvanceSelectRaceRuleState7(void) {
 
 void AdvanceSelectRaceRuleState8(void) {
     SelectRaceRule *selectRaceRule;
-    s32 i;
+    s32 rowIndex;
     s16 returnOffsetY;
     s16 rowsOffsetY;
-    s32 j;
-    s32 c;
+    s32 cellIndex;
+    s32 value;
     gSelectRaceRule->mStateFrames++;
     selectRaceRule = gSelectRaceRule;
-    c = InterpolateS16(1, 0, -192, selectRaceRule->mStateFrames, 10);
-    rowsOffsetY = selectRaceRule->mOffsetY + c;
+    value = InterpolateS16(1, 0, -192, selectRaceRule->mStateFrames, 10);
+    rowsOffsetY = selectRaceRule->mOffsetY + value;
     returnOffsetY = -LookupSelectReturnState4Bg2Offset(selectRaceRule->mStateFrames);
     gSelectRaceRule->mBg3Offset = rowsOffsetY;
-    c = gSelectRaceRule->mBncl->mCount;
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < 2; j++) {
-            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[i][j]].mOffsetY = rowsOffsetY;
-            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[i][j]].mOffsetY = rowsOffsetY;
-            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsPlain[i][j]].mOffsetY = rowsOffsetY;
+    value = gSelectRaceRule->mBncl->mCount;
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
+            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
+            gSelectRaceRule->mTable[gSelectRaceRuleStepCellsPlain[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
         }
-        for (j = 0; j < 2; j++) {
-            gSelectRaceRule->mTable[c + gSelectRaceRuleRowEntries[i].mEntryIndices[j]].mOffsetY = rowsOffsetY;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gSelectRaceRule->mTable[value + gSelectRaceRuleRowEntries[rowIndex].mEntryIndices[cellIndex]].mOffsetY =
+                rowsOffsetY;
         }
     }
-    gSelectRaceRule->mTable[c + 10].mOffsetY = rowsOffsetY;
-    gSelectRaceRule->mTable[c + 12].mOffsetY = rowsOffsetY;
+    gSelectRaceRule->mTable[value + 10].mOffsetY = rowsOffsetY;
+    gSelectRaceRule->mTable[value + 12].mOffsetY = rowsOffsetY;
     gSelectRaceRule->mTable[34].mOffsetY = rowsOffsetY;
     gSelectRaceRule->mTable[37].mOffsetY = rowsOffsetY;
     gSelectRaceRule->mTable[35].mOffsetY = rowsOffsetY;
     gSelectRaceRule->mTable[38].mOffsetY = rowsOffsetY;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            gSelectRaceRule->mTable[gSelectRaceRuleCountTeamChangeCells[i][j]].mOffsetY = rowsOffsetY;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gSelectRaceRule->mTable[gSelectRaceRuleCountTeamChangeCells[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
         }
     }
     if (gStartupWork->mConnectionKind != 2) {
         gSelectRaceRule->mTable[40].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[41].mOffsetY = returnOffsetY;
-        gSelectRaceRule->mTable[c + 13].mOffsetY = returnOffsetY;
-        c += 8;
-        gSelectRaceRule->mTable[c].mOffsetY = rowsOffsetY;
+        gSelectRaceRule->mTable[value + 13].mOffsetY = returnOffsetY;
+        value += 8;
+        gSelectRaceRule->mTable[value].mOffsetY = rowsOffsetY;
         gSelectRaceRule->mTable[30].mOffsetY = rowsOffsetY;
         gSelectRaceRule->mTable[31].mOffsetY = rowsOffsetY;
     } else {
         gSelectRaceRule->mTable[42].mOffsetY = returnOffsetY;
-        c += 14;
-        gSelectRaceRule->mTable[c].mOffsetY = returnOffsetY;
+        value += 14;
+        gSelectRaceRule->mTable[value].mOffsetY = returnOffsetY;
     }
 }
 
@@ -155,7 +156,7 @@ void DrawSelectRaceRuleRowOffsetLabels(s32 row) {
 
 s32 AdvanceSelectRaceRule(void) {
     SelectRaceRule *selectRaceRule;
-    s32 i;
+    s32 rowIndex;
     gSelectRaceRule->mState = gSelectRaceRule->mNextState;
     gSelectRaceRule->mPrevRow = gSelectRaceRule->mRow;
     gSelectRaceRule->mPrevOnButton = gSelectRaceRule->mOnButton;
@@ -210,8 +211,8 @@ s32 AdvanceSelectRaceRule(void) {
     selectRaceRule = gSelectRaceRule;
     DrawLayoutTable(selectRaceRule->mBncl, selectRaceRule->mNcer, selectRaceRule->mBnll, selectRaceRule->mOamList,
                     selectRaceRule->mTable);
-    for (i = 0; i < 5; i++) {
-        DrawSelectRaceRuleRowOffsetLabels(i);
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        DrawSelectRaceRuleRowOffsetLabels(rowIndex);
     }
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mState == 8) {
@@ -315,22 +316,22 @@ void LocateAndQueueSelectCupCourse(void) {
 }
 
 void SetupSelectCupCourseObjects(void) {
-    s32 i;
+    s32 cellIndex;
     u32 courseEntryCount;
     u32 cupEntryCount;
     SelectCupCourse *selectCupCourse;
     if (gBootInfo->mUnk_00 != 2) {
         courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
         cupEntryCount = gSelectCupCourse->mSelectCupMBncl->mCount;
-        for (i = 0; i < 8; i++) {
-            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[i]].mVisible = 0;
+        for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[cellIndex]].mVisible = 0;
         }
-        for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseTrophyCells[i]].mVisible = 0;
+        for (cellIndex = 0; cellIndex < 4; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseTrophyCells[cellIndex]].mVisible = 0;
         }
-        for (i = 0; i < 4; i++) {
-            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mVisible = 0;
-            gSelectCupCourse->mSelectCupMTable[cupEntryCount + gSelectCupCourseLabelIndices[i]].mVisible = 1;
+        for (cellIndex = 0; cellIndex < 4; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[cellIndex]].mVisible = 0;
+            gSelectCupCourse->mSelectCupMTable[cupEntryCount + gSelectCupCourseLabelIndices[cellIndex]].mVisible = 1;
         }
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mVisible = 1;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mVisible = 1;
@@ -353,18 +354,18 @@ void SetupSelectCupCourseObjects(void) {
         QueueSelectCupNameM(gCupRowsByCupIndex[GetCupIndex()], selectCupCourse->mSelectCupMNcer,
                             selectCupCourse->mSelectCupMBncl, 0x13, 1);
         selectCupCourse = gSelectCupCourse;
-        i = GetCupIndex();
-        QueueCupMark(gCupRowsByCupIndex[i], selectCupCourse->mSelectCupCourseMNcer,
+        cellIndex = GetCupIndex();
+        QueueCupMark(gCupRowsByCupIndex[cellIndex], selectCupCourse->mSelectCupCourseMNcer,
                      selectCupCourse->mSelectCupCourseTaOrVsMBncl, 5,
                      GetCellPaletteIndex(5, selectCupCourse->mSelectCupCourseMNcer,
                                          selectCupCourse->mSelectCupCourseTaOrVsMBncl),
                      0);
-        for (i = 0; i < 4; i++) {
+        for (cellIndex = 0; cellIndex < 4; cellIndex++) {
             selectCupCourse = gSelectCupCourse;
             PrintLabelLayoutTextNoFixedAdvance(
-                1, gSelectCupCourseLabelIndices[i], gSelectCupCourse->mSelectCupMBnll,
+                1, gSelectCupCourseLabelIndices[cellIndex], gSelectCupCourse->mSelectCupMBnll,
                 GetBmgEntry(gSelectCupCourse->mCommonMessages,
-                            gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][i]),
+                            gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][cellIndex]),
                 selectCupCourse->mSelectCupMBncl, selectCupCourse->mSelectCupMTable);
         }
         selectCupCourse = gSelectCupCourse;
@@ -402,16 +403,16 @@ void SetupSelectCupCourseObjects(void) {
 }
 
 void AdvanceSelectCupCourseHighlight(void) {
-    s32 i;
+    s32 labelIndex;
     if (gBootInfo->mUnk_00 != 2) {
-        for (i = 0; i < 4; i++) {
-            if (gSelectCupCourse->mIndex == i && gSelectCupCourse->mHighlightShown != FALSE) {
-                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mVisible = 1;
-                SetLabelPaletteIndex(gSelectCupCourseLabelIndices[i], 0xe, gSelectCupCourse->mSelectCupMBnll,
+        for (labelIndex = 0; labelIndex < 4; labelIndex++) {
+            if (gSelectCupCourse->mIndex == labelIndex && gSelectCupCourse->mHighlightShown != FALSE) {
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[labelIndex]].mVisible = 1;
+                SetLabelPaletteIndex(gSelectCupCourseLabelIndices[labelIndex], 0xe, gSelectCupCourse->mSelectCupMBnll,
                                      gSelectCupCourse->mSelectCupMTable, gSelectCupCourse->mSelectCupMBncl);
             } else {
-                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[i]].mVisible = 0;
-                SetLabelPaletteIndex(gSelectCupCourseLabelIndices[i], 0xf, gSelectCupCourse->mSelectCupMBnll,
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[labelIndex]].mVisible = 0;
+                SetLabelPaletteIndex(gSelectCupCourseLabelIndices[labelIndex], 0xf, gSelectCupCourse->mSelectCupMBnll,
                                      gSelectCupCourse->mSelectCupMTable, gSelectCupCourse->mSelectCupMBncl);
             }
         }

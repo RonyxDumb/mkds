@@ -7,7 +7,7 @@
 #include "code_0212d214.h"
 
 void InitSoundHandlePool(SoundHandlePool *pool, void *entries, s32 count, s32 entrySize) {
-    s32 i;
+    s32 handleIndex;
     u8 *entryAddress;
 
     pool->mEntries = entries;
@@ -16,7 +16,7 @@ void InitSoundHandlePool(SoundHandlePool *pool, void *entries, s32 count, s32 en
     pool->mNextEntry = pool->mEntries;
     pool->mEntrySize = entrySize;
     entryAddress = pool->mNextEntry;
-    for (i = 0; i < count; i++) {
+    for (handleIndex = 0; handleIndex < count; handleIndex++) {
         ((SoundHandleEntry *) entryAddress)->mAge = 0;
         NNS_SndHandleInit(&((SoundHandleEntry *) entryAddress)->mSeqPlayer);
         entryAddress += pool->mEntrySize;
@@ -24,10 +24,10 @@ void InitSoundHandlePool(SoundHandlePool *pool, void *entries, s32 count, s32 en
 }
 
 void IncrementSoundHandleAges(SoundHandlePool *pool) {
-    s32 i;
+    s32 handleIndex;
     u8 *entryAddress;
 
-    for (i = 0, entryAddress = pool->mEntries; i < pool->mCount; i++) {
+    for (handleIndex = 0, entryAddress = pool->mEntries; handleIndex < pool->mCount; handleIndex++) {
         if (((SoundHandleEntry *) entryAddress)->mSeqPlayer != NULL) {
             ((SoundHandleEntry *) entryAddress)->mAge++;
         }
@@ -36,7 +36,7 @@ void IncrementSoundHandleAges(SoundHandlePool *pool) {
 }
 
 void *TakeSoundHandleEntry(SoundHandlePool *pool) {
-    s32 i;
+    s32 entryIndex;
     s32 oldestAge;
     s32 oldestIndex;
     u8 *entryAddress;
@@ -56,38 +56,38 @@ void *TakeSoundHandleEntry(SoundHandlePool *pool) {
         takenIndex = -1;
         oldestEntry = NULL;
         entryAddress = pool->mNextEntry;
-        for (i = startIndex; i < count; i++) {
+        for (entryIndex = startIndex; entryIndex < count; entryIndex++) {
             if (((SoundHandleEntry *) entryAddress)->mSeqPlayer == NULL) {
                 takenEntry = entryAddress;
             } else {
                 if (oldestAge < ((SoundHandleEntry *) entryAddress)->mAge) {
                     oldestAge = ((SoundHandleEntry *) entryAddress)->mAge;
-                    oldestIndex = i;
+                    oldestIndex = entryIndex;
                     oldestEntry = entryAddress;
                 }
                 takenEntry = NULL;
             }
             if (takenEntry != NULL) {
-                takenIndex = i;
+                takenIndex = entryIndex;
                 break;
             }
             entryAddress += pool->mEntrySize;
         }
         if (takenEntry == NULL) {
             entryAddress = pool->mEntries;
-            for (i = 0; i < startIndex; i++) {
+            for (entryIndex = 0; entryIndex < startIndex; entryIndex++) {
                 if (((SoundHandleEntry *) entryAddress)->mSeqPlayer == NULL) {
                     takenEntry = entryAddress;
                 } else {
                     takenEntry = NULL;
                     if (oldestAge < ((SoundHandleEntry *) entryAddress)->mAge) {
                         oldestAge = ((SoundHandleEntry *) entryAddress)->mAge;
-                        oldestIndex = i;
+                        oldestIndex = entryIndex;
                         oldestEntry = entryAddress;
                     }
                 }
                 if (takenEntry != NULL) {
-                    takenIndex = i;
+                    takenIndex = entryIndex;
                     break;
                 }
                 entryAddress += pool->mEntrySize;
@@ -112,26 +112,26 @@ void *TakeSoundHandleEntry(SoundHandlePool *pool) {
 }
 
 void InitSoundRequestQueue(SoundRequestQueue *queue, s32 count, NNSSndHeap *heap) {
-    s32 i;
+    s32 requestIndex;
 
     queue->mCapacity = count;
     queue->mRequests = NNS_SndHeapAlloc(heap, count << 4, NULL, NULL, 0);
-    for (i = 0; i < queue->mCapacity; i++) {
-        queue->mRequests[i].mSortKey = -1;
-        queue->mRequests[i].mFunction = NULL;
-        queue->mRequests[i].mFirstArgument = NULL;
-        queue->mRequests[i].mSecondArgument = 0;
+    for (requestIndex = 0; requestIndex < queue->mCapacity; requestIndex++) {
+        queue->mRequests[requestIndex].mSortKey = -1;
+        queue->mRequests[requestIndex].mFunction = NULL;
+        queue->mRequests[requestIndex].mFirstArgument = NULL;
+        queue->mRequests[requestIndex].mSecondArgument = 0;
     }
 }
 
 void ResetSoundRequestQueue(SoundRequestQueue *queue) {
-    s32 i;
+    s32 requestIndex;
 
-    for (i = 0; i < queue->mCapacity; i++) {
-        queue->mRequests[i].mSortKey = -1;
-        queue->mRequests[i].mFunction = NULL;
-        queue->mRequests[i].mFirstArgument = NULL;
-        queue->mRequests[i].mSecondArgument = 0;
+    for (requestIndex = 0; requestIndex < queue->mCapacity; requestIndex++) {
+        queue->mRequests[requestIndex].mSortKey = -1;
+        queue->mRequests[requestIndex].mFunction = NULL;
+        queue->mRequests[requestIndex].mFirstArgument = NULL;
+        queue->mRequests[requestIndex].mSecondArgument = 0;
     }
 }
 
@@ -164,19 +164,20 @@ void AddSoundRequest(SoundRequestQueue *queue, int sortKey, void (*function)(voi
 }
 
 void RunSoundRequests(SoundRequestQueue *queue) {
-    s32 i;
+    s32 requestIndex;
 
-    for (i = 0; i < queue->mCapacity; i++) {
-        if (queue->mRequests[i].mFunction == NULL) {
+    for (requestIndex = 0; requestIndex < queue->mCapacity; requestIndex++) {
+        if (queue->mRequests[requestIndex].mFunction == NULL) {
             break;
         }
-        queue->mRequests[i].mFunction(queue->mRequests[i].mFirstArgument, queue->mRequests[i].mSecondArgument);
+        queue->mRequests[requestIndex].mFunction(queue->mRequests[requestIndex].mFirstArgument,
+                                                 queue->mRequests[requestIndex].mSecondArgument);
     }
-    for (i = 0; i < queue->mCapacity; i++) {
-        queue->mRequests[i].mSortKey = -1;
-        queue->mRequests[i].mFunction = NULL;
-        queue->mRequests[i].mFirstArgument = NULL;
-        queue->mRequests[i].mSecondArgument = 0;
+    for (requestIndex = 0; requestIndex < queue->mCapacity; requestIndex++) {
+        queue->mRequests[requestIndex].mSortKey = -1;
+        queue->mRequests[requestIndex].mFunction = NULL;
+        queue->mRequests[requestIndex].mFirstArgument = NULL;
+        queue->mRequests[requestIndex].mSecondArgument = 0;
     }
 }
 

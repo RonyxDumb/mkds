@@ -62,7 +62,7 @@ void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed) {
 void InitKartNameTagsAndDistanceOrder(void) {
     void *heap;
     BOOL isGrandPrix;
-    u16 i;
+    u16 kartIndex;
     s32 objectCount;
     BOOL createsObject;
     BOOL isEntryIndexHumanGhostOrPeer;
@@ -83,9 +83,9 @@ void InitKartNameTagsAndDistanceOrder(void) {
         gKartNameTags->mNameTagCount = 0;
     } else if (isGrandPrix == FALSE) {
         gKartNameTags->mNameTagCount = gRaceSetup->mKartCount - 1;
-        for (i = 0; (u32) i < gRaceSetup->mKartCount; i++) {
-            if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_GHOST &&
-                gRaceSetup->mCurrentEntries[i].mPlayer.mGhostRecordIndex == 0) {
+        for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind == PLAYER_KIND_GHOST &&
+                gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mGhostRecordIndex == 0) {
                 gKartNameTags->mNameTagCount = gKartNameTags->mNameTagCount - 1;
             }
         }
@@ -105,49 +105,49 @@ void InitKartNameTagsAndDistanceOrder(void) {
     }
     gKartDistanceLimitsSquared = &gOtherCameraDistanceLimitsSquared;
     InitKartEmblemPointers();
-    for (i = 0; (u32) i < gRaceSetup->mKartCount; i++) {
-        gKartNameTags->mStartOrderIndex[i] = i;
-        gKartNameTags->mKartIndicesByDistanceAlongView[i] = i;
-        gKartNameTags->mKartIndicesByDistance[i] = i;
-        gKartNameTags->mAlongViewOrderOffset[i] = 0;
-        gKartNameTags->mDistanceSquaredOrderOffset[i] = 0;
-        gKartNameTags->mSortedDistanceAlongView[i] = 0;
-        gKartNameTags->mSortedDistanceSquared[i] = 0;
-        gKartNameTags->mAlongViewOrderIndex[i] = i;
-        gKartNameTags->mKartIndicesByDistance[i] = i;
-        gKartNameTags->mDistanceAlongViewWithMargin[i] = 0;
-        gKartNameTags->mNameTagByKart[i] = NULL;
-        gKartNameTags->mNameTagBeyondTwoNearest[i] = 0;
+    for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+        gKartNameTags->mStartOrderIndex[kartIndex] = kartIndex;
+        gKartNameTags->mKartIndicesByDistanceAlongView[kartIndex] = kartIndex;
+        gKartNameTags->mKartIndicesByDistance[kartIndex] = kartIndex;
+        gKartNameTags->mAlongViewOrderOffset[kartIndex] = 0;
+        gKartNameTags->mDistanceSquaredOrderOffset[kartIndex] = 0;
+        gKartNameTags->mSortedDistanceAlongView[kartIndex] = 0;
+        gKartNameTags->mSortedDistanceSquared[kartIndex] = 0;
+        gKartNameTags->mAlongViewOrderIndex[kartIndex] = kartIndex;
+        gKartNameTags->mKartIndicesByDistance[kartIndex] = kartIndex;
+        gKartNameTags->mDistanceAlongViewWithMargin[kartIndex] = 0;
+        gKartNameTags->mNameTagByKart[kartIndex] = NULL;
+        gKartNameTags->mNameTagBeyondTwoNearest[kartIndex] = 0;
     }
     if (gKartNameTags->mNameTagCount > 0) {
         objectCount = 0;
-        for (i = 0; (u32) i < gRaceSetup->mKartCount; i++) {
+        for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
             createsObject = FALSE;
             if (isGrandPrix == FALSE) {
-                if (i != gRaceSetup->mEntryIndex) {
-                    if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind != PLAYER_KIND_GHOST ||
-                        gRaceSetup->mCurrentEntries[i].mPlayer.mGhostRecordIndex != 0) {
+                if (kartIndex != gRaceSetup->mEntryIndex) {
+                    if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind != PLAYER_KIND_GHOST ||
+                        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mGhostRecordIndex != 0) {
                         createsObject = TRUE;
                     }
                 }
             } else {
                 isEntryHumanGhostOrPeer = FALSE;
-                playerKind = gRaceSetup->mCurrentEntries[i].mPlayer.mKind;
+                playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
                 if (playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                     isEntryHumanGhostOrPeer = TRUE;
                 }
-                if (isEntryHumanGhostOrPeer != FALSE && i != gRaceSetup->mEntryIndex) {
+                if (isEntryHumanGhostOrPeer != FALSE && kartIndex != gRaceSetup->mEntryIndex) {
                     createsObject = TRUE;
                 }
             }
             if (createsObject != FALSE) {
-                gKartNameTags->mNameTagByKart[i] = HeapAlloc(heap, 0x28);
-                kartObject = gKartNameTags->mNameTagByKart[i];
-                InitKartNameTag(kartObject, i, heap);
+                gKartNameTags->mNameTagByKart[kartIndex] = HeapAlloc(heap, 0x28);
+                kartObject = gKartNameTags->mNameTagByKart[kartIndex];
+                InitKartNameTag(kartObject, kartIndex, heap);
                 gKartNameTags->mNameTags[objectCount] = kartObject;
                 objectCount++;
             } else {
-                gKartNameTags->mNameTagByKart[i] = NULL;
+                gKartNameTags->mNameTagByKart[kartIndex] = NULL;
             }
         }
     }
@@ -249,7 +249,7 @@ u16 GetKartPaletteColor(int kartIndex) {
 }
 
 void UploadKartNameTagTextures(void) {
-    u16 i;
+    u16 nameTagIndex;
     void *heap;
     KartNameTag *kartObject;
     KartNameTagTexPlttEntries *texPlttEntries;
@@ -262,8 +262,8 @@ void UploadKartNameTagTextures(void) {
     gKartEntryNameTexBuffer = HeapAllocAligned(heap, 0x100, -4);
     gKartEntryNamePlltBuffer = HeapAllocAligned(heap, 8, -4);
     gKartNameTagMaskedTexBuffer = HeapAllocAligned(heap, 0x200, -4);
-    for (i = 0; i < gKartNameTags->mNameTagCount; i++) {
-        kartObject = gKartNameTags->mNameTags[i];
+    for (nameTagIndex = 0; nameTagIndex < gKartNameTags->mNameTagCount; nameTagIndex++) {
+        kartObject = gKartNameTags->mNameTags[nameTagIndex];
         texPlttEntries = kartObject->mTexPlttEntries;
         entryNameTexPltt = &texPlttEntries->mEntries[1];
         fourthTexPltt = &texPlttEntries->mEntries[3];
@@ -345,7 +345,7 @@ void SetPaletteKartColor(TexPlttEntry *texPlttEntry, u32 kartIndex) {
 void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     u8 *pixels;
     s32 nibbleLimit;
-    u32 i;
+    u32 pixelIndex;
     TexPlttEntry *texPlttEntryAlias;
     u8 pixelPair;
     u32 highNibbleBits;
@@ -365,8 +365,8 @@ void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
         }
         MI_CpuCopy8(texPlttEntryAlias->mTexData, pixels, texPlttEntryAlias->mTexByteCount);
         if (nibbleLimit > 0) {
-            for (i = 0; i < texPlttEntryAlias->mTexByteCount; i++) {
-                pixelPair = pixels[i];
+            for (pixelIndex = 0; pixelIndex < texPlttEntryAlias->mTexByteCount; pixelIndex++) {
+                pixelPair = pixels[pixelIndex];
                 highNibbleBits = pixelPair & 0xf0;
                 highNibble = highNibbleBits >> 4;
                 lowNibble = pixelPair & 0xf;
@@ -376,7 +376,7 @@ void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
                 if (highNibble < nibbleLimit) {
                     pixelPair = pixelPair & 0xf;
                 }
-                pixels[i] = pixelPair;
+                pixels[pixelIndex] = pixelPair;
             }
         }
         DC_FlushRange(pixels, texPlttEntryAlias->mTexByteCount);
@@ -387,40 +387,40 @@ void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
 }
 
 void InitKartEmblemPointers(void) {
-    u16 i;
+    u16 kartIndex;
     Nclr *nclr;
     NNSG3dResTex *texture;
     char *path;
     u8 *emblemPltt;
     u8 *emblemTex;
-    for (i = 0; (u32) i < gRaceSetup->mKartCount; i++) {
-        gKartNameTags->mEmblemTex[i] = NULL;
-        gKartNameTags->mEmblemPltt[i] = NULL;
-        if (gRaceSetup->mCurrentEntries[i].mPlayer.mHasEmblem == 0 || gRaceSetup->mUseTeams != 0) {
+    for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+        gKartNameTags->mEmblemTex[kartIndex] = NULL;
+        gKartNameTags->mEmblemPltt[kartIndex] = NULL;
+        if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mHasEmblem == 0 || gRaceSetup->mUseTeams != 0) {
             if (gRaceSetup->mUseTeams != 0) {
-                path = BuildTeamEmblemNsbtxPath(gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex == 1 ? 1 : 0);
+                path = BuildTeamEmblemNsbtxPath(gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex == 1 ? 1 : 0);
             } else {
-                path = BuildEmblemNsbtxPath(gRaceSetup->mCurrentEntries[i].mCharacterIndex);
+                path = BuildEmblemNsbtxPath(gRaceSetup->mCurrentEntries[kartIndex].mCharacterIndex);
             }
             texture = NNS_G3dGetTex(GetKartModelFile(path));
             emblemPltt = OFFSET_PTR(u8, texture, texture->mPlttInfo.mOfsPlttData);
             emblemTex = OFFSET_PTR(u8, texture, texture->mTexInfo.mOfsTex);
-            gKartNameTags->mEmblemTex[i] = emblemTex;
-            gKartNameTags->mEmblemPltt[i] = emblemPltt;
+            gKartNameTags->mEmblemTex[kartIndex] = emblemTex;
+            gKartNameTags->mEmblemPltt[kartIndex] = emblemPltt;
         } else {
-            emblemTex = (void *) gRaceSetup->mCurrentEntries[i].mPlayer.mEmblemData;
+            emblemTex = (void *) gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mEmblemData;
             LoadNclrData(&nclr, GetKartModelFile(gEmblemSBNclrName));
             emblemPltt = (u8 *) nclr->mData;
-            gKartNameTags->mEmblemTex[i] = emblemTex;
-            gKartNameTags->mEmblemPltt[i] = emblemPltt;
+            gKartNameTags->mEmblemTex[kartIndex] = emblemTex;
+            gKartNameTags->mEmblemPltt[kartIndex] = emblemPltt;
         }
     }
 }
 
 void UploadKartEmblems(void) {
-    u16 i;
-    for (i = 0; (u32) i < gRaceSetup->mKartCount; i++) {
-        UploadKartEmblem(i, gKartNameTags->mEmblemTex[i], gKartNameTags->mEmblemPltt[i]);
+    u16 kartIndex;
+    for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+        UploadKartEmblem(kartIndex, gKartNameTags->mEmblemTex[kartIndex], gKartNameTags->mEmblemPltt[kartIndex]);
     }
 }
 

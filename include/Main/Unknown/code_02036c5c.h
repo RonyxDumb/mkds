@@ -88,10 +88,10 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen);
 void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen);
 void SetSubObjVRamModeBmp(DisplaySettings *settings, unsigned int value);
 void SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1);
-void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8);
-void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8);
+void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
                         u32 cntVal2);
-void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
+void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
                         u32 cntVal2);
 void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13);

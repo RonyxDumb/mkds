@@ -13,7 +13,7 @@
 #include "code_02142eac.h"
 
 void QueueStateMessage(void);
-void ReceivePortMessage(Unk021425e8 *a);
-void MPLinkCallback(s32 a, Unk021425e8 *b);
+void ReceivePortMessage(Unk021425e8 *info);
+void MPLinkCallback(s32 eventKind, Unk021425e8 *info);
 u32 StartConnectToEntry(u32 entryIndex);
-void ScanConnectEndScanCallback(Unk021425e8 *a);
+void ScanConnectEndScanCallback(Unk021425e8 *info);

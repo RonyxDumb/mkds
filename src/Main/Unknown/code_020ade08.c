@@ -337,12 +337,12 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 fullName) {
     u16 numberText[2];
     u16 numberedName[10];
     u16 nameChars[12];
-    u16 i;
+    u16 charIndex;
     u32 charCount;
     u16 *source;
 
-    for (i = 0; i < 11; i++) {
-        nameOut[i] = 0;
+    for (charIndex = 0; charIndex < 11; charIndex++) {
+        nameOut[charIndex] = 0;
     }
     if (IsKartEntryHumanGhostOrPeer(entryIndex) != 0) {
         source = GetKartEntryName(entryIndex);
@@ -393,21 +393,21 @@ void RenderKartEntryName(u32 entryIndex) {
     u16 name[22];
     void *font;
     u16 *messageScreenCharBuffer;
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 offsetX;
 
     font = GetFontByIndex(0);
     messageScreenCharBuffer = GetMessageScreenCharBuffer();
     ClearMessageScreenChars();
-    for (i = 0; i < 0x100; i++) {
-        messageScreenCharBuffer[i] = 0;
+    for (index = 0; index < 0x100; index++) {
+        messageScreenCharBuffer[index] = 0;
     }
     NNS_G2dCharCanvasInitForBG(&charCanvas, messageScreenCharBuffer, 8, 2, 4);
     InitTextCanvas(&textCanvas, &charCanvas, font, 2, 0);
     CopyKartEntryName(entryIndex, name, 0);
-    for (j = -1; j < 2; j++) {
-        for (i = -1; i < 2; i++) {
-            DrawTextOnCanvas(&textCanvas, j + 0x20, i + 8, 2, 0x412, name);
+    for (offsetX = -1; offsetX < 2; offsetX++) {
+        for (index = -1; index < 2; index++) {
+            DrawTextOnCanvas(&textCanvas, offsetX + 0x20, index + 8, 2, 0x412, name);
         }
     }
     DrawTextOnCanvas(&textCanvas, 0x20, 8, 1, 0x412, name);
@@ -428,31 +428,33 @@ void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value) {
 
 void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 colorForValue1, s32 colorForValue2,
                       PixelSetFunc *pixelSetFunc) {
-    s32 i;
-    s32 j;
-    s32 k;
+    s32 tileIndex;
+    s32 rowHalfIndex;
+    s32 nibbleIndex;
     s32 tileRow;
     s32 tileColumn;
     s32 rowInTile;
     s32 halfOfRow;
     u16 nibbles;
 
-    for (i = 0; i < 16; i++) {
-        tileRow = i / 8;
-        tileColumn = i % 8;
-        for (j = 0; j < 16; j++) {
-            rowInTile = j / 2;
-            halfOfRow = j % 2;
-            nibbles = sourcePixels[i * 16 + j];
-            for (k = 0; k < 4; k++) {
-                switch ((u8) ((nibbles >> (k * 4)) % 16)) {
+    for (tileIndex = 0; tileIndex < 16; tileIndex++) {
+        tileRow = tileIndex / 8;
+        tileColumn = tileIndex % 8;
+        for (rowHalfIndex = 0; rowHalfIndex < 16; rowHalfIndex++) {
+            rowInTile = rowHalfIndex / 2;
+            halfOfRow = rowHalfIndex % 2;
+            nibbles = sourcePixels[tileIndex * 16 + rowHalfIndex];
+            for (nibbleIndex = 0; nibbleIndex < 4; nibbleIndex++) {
+                switch ((u8) ((nibbles >> (nibbleIndex * 4)) % 16)) {
                     case 0:
                         break;
                     case 1:
-                        pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + k, tileRow * 8 + rowInTile, colorForValue1);
+                        pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + nibbleIndex, tileRow * 8 + rowInTile,
+                                     colorForValue1);
                         break;
                     case 2:
-                        pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + k, tileRow * 8 + rowInTile, colorForValue2);
+                        pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + nibbleIndex, tileRow * 8 + rowInTile,
+                                     colorForValue2);
                         break;
                 }
             }

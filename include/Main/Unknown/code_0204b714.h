@@ -11,4 +11,4 @@ void CreateBackupAccess(void *heap);
 void ClearBackupAccessStatus(void);
 void StopFileReadThread(void);
 void StartFileReadThread(void);
-void RunFileReadThread(void *a);
+void RunFileReadThread(void *unused);

@@ -12,46 +12,46 @@
 #pragma thumb on
 
 void CreateItemKinds(void) {
-    ItemKind *p;
-    enum { K0 } i;
-    enum { K1 } j;
-    s32 m;
-    u32 v;
+    ItemKind *kinds;
+    enum { K0 } kindIndex;
+    enum { K1 } limitKindIndex;
+    s32 mode;
+    u32 value;
 
-    p = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x930);
-    gItemKinds = p;
-    p[0] = gItemKindKouraG;
-    p[1] = gItemKindKouraR;
-    p[2] = gItemKindBanana;
-    p[3] = gItemKindKinoko;
-    p[4] = gItemKindStar;
-    p[5] = gItemKindKouraW;
-    p[6] = gItemKindThunder;
-    p[7] = gItemKindFBox;
-    p[8] = data_0215a4dc;
-    p[9] = gItemKindBomb;
-    p[10] = gItemKindGesso;
-    p[11] = gItemKindTeresa;
-    p[12] = gItemKindKinokoP;
-    p[13] = gItemKindKiller;
-    for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mDataSize = GetItemKindCopyDataSize(i);
-        v = gItemKinds[i].mGetFarDistanceSquared;
-        if (v != 0) {
-            v = ((u32(*)(void)) v)();
+    kinds = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x930);
+    gItemKinds = kinds;
+    kinds[0] = gItemKindKouraG;
+    kinds[1] = gItemKindKouraR;
+    kinds[2] = gItemKindBanana;
+    kinds[3] = gItemKindKinoko;
+    kinds[4] = gItemKindStar;
+    kinds[5] = gItemKindKouraW;
+    kinds[6] = gItemKindThunder;
+    kinds[7] = gItemKindFBox;
+    kinds[8] = data_0215a4dc;
+    kinds[9] = gItemKindBomb;
+    kinds[10] = gItemKindGesso;
+    kinds[11] = gItemKindTeresa;
+    kinds[12] = gItemKindKinokoP;
+    kinds[13] = gItemKindKiller;
+    for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+        gItemKinds[kindIndex].mDataSize = GetItemKindCopyDataSize(kindIndex);
+        value = gItemKinds[kindIndex].mGetFarDistanceSquared;
+        if (value != 0) {
+            value = ((u32(*)(void)) value)();
         } else {
-            v = gSoundFalloffs[1].mFarDistanceSquared;
+            value = gSoundFalloffs[1].mFarDistanceSquared;
         }
-        gItemKinds[i].mFarDistanceSquared = v;
+        gItemKinds[kindIndex].mFarDistanceSquared = value;
     }
-    m = gRaceSetup->mMode;
-    switch (m) {
+    mode = gRaceSetup->mMode;
+    switch (mode) {
         case MODE_BATTLE:
             gItemKinds[8].mLimit = 8;
             break;
         case MODE_MISSION_RUN:
-            for (j = 0; j < 0xe; j++) {
-                gItemKinds[j].mLimit = gItemKinds[j].mMissionRunLimit;
+            for (limitKindIndex = 0; limitKindIndex < 0xe; limitKindIndex++) {
+                gItemKinds[limitKindIndex].mLimit = gItemKinds[limitKindIndex].mMissionRunLimit;
             }
             break;
         case 5:
@@ -61,31 +61,31 @@ void CreateItemKinds(void) {
 }
 
 void ComputeItemKindObjectCounts(void) {
-    s32 a[14];
-    enum { K0 } i;
-    enum { K1 } j;
-    s32 n;
+    s32 maxObjectCounts[14];
+    enum { K0 } kindIndex;
+    enum { K1 } itemInfoIndex;
+    s32 objectCount;
 
-    for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mObjectBudget = gItemKinds[i].mLimit - 1;
-        a[i] = 1;
+    for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+        gItemKinds[kindIndex].mObjectBudget = gItemKinds[kindIndex].mLimit - 1;
+        maxObjectCounts[kindIndex] = 1;
     }
-    for (j = 0; j < 0x12; j++) {
-        if (gItemInfos[j].mEnabled != FALSE) {
-            i = gItemInfos[j].mObjectKind;
-            n = gItemInfos[j].mObjectCount;
-            if (a[i] < n) {
-                a[i] = n;
+    for (itemInfoIndex = 0; itemInfoIndex < 0x12; itemInfoIndex++) {
+        if (gItemInfos[itemInfoIndex].mEnabled != FALSE) {
+            kindIndex = gItemInfos[itemInfoIndex].mObjectKind;
+            objectCount = gItemInfos[itemInfoIndex].mObjectCount;
+            if (maxObjectCounts[kindIndex] < objectCount) {
+                maxObjectCounts[kindIndex] = objectCount;
             }
         }
     }
-    for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mObjectBudget = gItemKinds[i].mObjectBudget + a[i];
-        gItemKinds[i].mObjectCount = gItemKinds[i].mObjectBudget;
+    for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+        gItemKinds[kindIndex].mObjectBudget = gItemKinds[kindIndex].mObjectBudget + maxObjectCounts[kindIndex];
+        gItemKinds[kindIndex].mObjectCount = gItemKinds[kindIndex].mObjectBudget;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
-        for (i = 0; i < 0xe; i++) {
-            gItemKinds[i].mObjectCount = gItemKinds[i].mObjectCount + 3;
+        for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
+            gItemKinds[kindIndex].mObjectCount = gItemKinds[kindIndex].mObjectCount + 3;
         }
     } else {
         gItemKinds[2].mObjectCount = gItemKinds[2].mObjectCount + 0x10;

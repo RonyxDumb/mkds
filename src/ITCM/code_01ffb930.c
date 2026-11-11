@@ -12,32 +12,32 @@ void ScaleKartForwardSpeed(Kart *kart) {
     kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, 0xe66);
 }
 
-void ApplyKartGravity(Kart *p) {
-    p->mVerticalSpeed = p->mVerticalSpeed + p->mGravity;
+void ApplyKartGravity(Kart *kart) {
+    kart->mVerticalSpeed = kart->mVerticalSpeed + kart->mGravity;
 }
 
-void ReduceKartSpeedByTurnRatio(s32 *a, Kart *p) {
-    s32 b;
-    u32 f;
-    s32 c;
+void ReduceKartSpeedByTurnRatio(s32 *speed, Kart *kart) {
+    s32 turnRatio;
+    u32 flags;
+    s32 reduction;
 
-    if (p->mState != KART_STATE_NORMAL) {
+    if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    f = p->mUnk_44;
-    if (f & KART_44_DRIFTING) {
+    flags = kart->mUnk_44;
+    if (flags & KART_44_DRIFTING) {
         return;
     }
-    if (!(f & KART_44_ON_GROUND)) {
+    if (!(flags & KART_44_ON_GROUND)) {
         return;
     }
-    if (*a <= 0x3000) {
+    if (*speed <= 0x3000) {
         return;
     }
-    b = p->mTurnRatio;
-    if (b <= 0) {
-        b = -b;
+    turnRatio = kart->mTurnRatio;
+    if (turnRatio <= 0) {
+        turnRatio = -turnRatio;
     }
-    c = MUL_FIXED12_NO_ROUND(*a, gSpeedReductionAtFullTurnRatio);
-    *a -= MUL_FIXED12_NO_ROUND(c, b);
+    reduction = MUL_FIXED12_NO_ROUND(*speed, gSpeedReductionAtFullTurnRatio);
+    *speed -= MUL_FIXED12_NO_ROUND(reduction, turnRatio);
 }

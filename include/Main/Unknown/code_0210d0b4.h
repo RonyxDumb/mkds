@@ -7,5 +7,5 @@
 #include "Main/Unknown/unk_0217d000.h"
 #include "code_0212df7c.h"
 
-void StartPlayingSoundSeqArc(u32 a, PlayingSound *sound, u32 priority);
+void StartPlayingSoundSeqArc(u32 unused, PlayingSound *sound, u32 priority);
 void ReleaseAllSoundSources(void);

@@ -15,54 +15,55 @@
 #include "code_021457ec.h"
 #include "01/code_021956dc.h"
 
-void RunFileReadThread(void *a) {
+void RunFileReadThread(void *unused) {
     FSArchive *archive;
-    RomArchiveTransfer *g;
-    Unk021762e0 *b;
-    s32 i;
-    RomArchiveFileNode *r;
+    RomArchiveTransfer *romArchiveTransfer;
+    Unk021762e0 *archiveState;
+    s32 chunkIndex;
+    RomArchiveFileNode *node;
     u32 waitIrqState;
     u32 updateIrqState;
     s32 offset;
     u8 *chunk;
     archive = FS_FindArchive(gRomArchiveName, 3);
-    g = &gRomArchiveTransfer;
+    romArchiveTransfer = &gRomArchiveTransfer;
     while (1) {
         waitIrqState = OS_DisableInterrupts();
-        b = (Unk021762e0 *) &data_usa_021762e0;
-        r = b->mUnk_46c8;
-        if (r == NULL) {
+        archiveState = (Unk021762e0 *) &data_usa_021762e0;
+        node = archiveState->mUnk_46c8;
+        if (node == NULL) {
             do {
-                if (g->mState == 0) {
+                if (romArchiveTransfer->mState == 0) {
                     OS_RestoreInterrupts(waitIrqState);
                     return;
                 }
                 OS_SleepThread(NULL);
-                r = b->mUnk_46c8;
-            } while (r == NULL);
+                node = archiveState->mUnk_46c8;
+            } while (node == NULL);
         }
         OS_RestoreInterrupts(waitIrqState);
-        if (r->mState == 1) {
-            FS_OpenFileDirect(&r->mFile, archive, r->mFileStart, r->mFileStart + r->mFileLength, r->mBlockId);
-            i = 0;
+        if (node->mState == 1) {
+            FS_OpenFileDirect(&node->mFile, archive, node->mFileStart, node->mFileStart + node->mFileLength,
+                              node->mBlockId);
+            chunkIndex = 0;
             offset = 0;
-            chunk = r->mBuffers[0];
-            for (; i < 2; i++) {
-                r->mBufferOffsets[i] = offset;
-                FS_ReadFile(&r->mFile, chunk, 0x400);
+            chunk = node->mBuffers[0];
+            for (; chunkIndex < 2; chunkIndex++) {
+                node->mBufferOffsets[chunkIndex] = offset;
+                FS_ReadFile(&node->mFile, chunk, 0x400);
                 offset += 0x400;
                 chunk += 0x400;
             }
-            r->mUnk_098 = 0;
-            r->mUnk_0a0 = 1;
-            r->mUnk_09c = 2;
+            node->mUnk_098 = 0;
+            node->mUnk_0a0 = 1;
+            node->mUnk_09c = 2;
             updateIrqState = OS_DisableInterrupts();
-            ActivateRomArchiveNode(&data_usa_021762e0, r, 1);
+            ActivateRomArchiveNode(&data_usa_021762e0, node, 1);
             OS_RestoreInterrupts(updateIrqState);
         } else {
-            FS_CloseFile(&r->mFile);
+            FS_CloseFile(&node->mFile);
             updateIrqState = OS_DisableInterrupts();
-            FreeRomArchiveNode(&data_usa_021762e0, r);
+            FreeRomArchiveNode(&data_usa_021762e0, node);
             OS_RestoreInterrupts(updateIrqState);
         }
     }
@@ -143,7 +144,7 @@ BOOL CheckBackupBlockPrefix(u8 *cursor) {
 }
 
 void FinishBackupRead(void (*callback)(u32 *, u32)) {
-    u32 *p;
+    u32 *readWords;
     u32 xorByteCount;
     s32 result;
     BOOL finished;
@@ -159,22 +160,22 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
         case 0:
             DC_StoreRange(gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
             if (gBackupAccess->mReadHasPrefix != 0) {
-                p = OFFSET_PTR(u32, gBackupAccess->mReadDestination, 8);
+                readWords = OFFSET_PTR(u32, gBackupAccess->mReadDestination, 8);
                 xorByteCount = gBackupAccess->mReadSize - 8;
                 if (CheckBackupBlockPrefix((u8 *) gBackupAccess->mReadDestination) == 0) {
                     result = 4;
                 }
             } else {
-                p = gBackupAccess->mReadDestination;
+                readWords = gBackupAccess->mReadDestination;
                 xorByteCount = gBackupAccess->mReadSize;
             }
             if (result == 0) {
-                if (TryXorBackupWordsAtFoundIndex(p, xorByteCount, gBackupAccess->mExpectedFirstWord) == 0) {
+                if (TryXorBackupWordsAtFoundIndex(readWords, xorByteCount, gBackupAccess->mExpectedFirstWord) == 0) {
                     result = 3;
                 } else if (ClearTickBytesAndCheckBlockCrc((u8 *) gBackupAccess->mReadDestination,
                                                           gBackupAccess->mReadSize, 0) == 0) {
                     result = 3;
-                } else if (gBackupAccess->mExpectedFirstWord != 0 && *p != gBackupAccess->mExpectedFirstWord) {
+                } else if (gBackupAccess->mExpectedFirstWord != 0 && *readWords != gBackupAccess->mExpectedFirstWord) {
                     result = 3;
                 }
             }
@@ -192,8 +193,8 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
             result = 1;
             break;
     }
-    p = gBackupAccess->mReadDestination;
-    tailHalfword = *(u16 *) ((u8 *) p + gBackupAccess->mReadSize - 4);
+    readWords = gBackupAccess->mReadDestination;
+    tailHalfword = *(u16 *) ((u8 *) readWords + gBackupAccess->mReadSize - 4);
     switch (gBackupAccess->mCopyPass) {
         case 0:
             break;
@@ -202,8 +203,8 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
                 gBackupAccess->mFirstPassResult = result;
                 gBackupAccess->mFirstPassBuffer = gBackupAccess->mReadDestination;
                 gBackupAccess->mFirstPassTailHalfword = tailHalfword;
-                p = OFFSET_PTR(u32, gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
-                StartBackupRead(gBackupAccess->mSecondPassAddress, p, gBackupAccess->mReadSize, callback, 2,
+                readWords = OFFSET_PTR(u32, gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
+                StartBackupRead(gBackupAccess->mSecondPassAddress, readWords, gBackupAccess->mReadSize, callback, 2,
                                 gBackupAccess->mExpectedFirstWord, gBackupAccess->mReadHasPrefix);
                 finished = FALSE;
             } else {
@@ -216,13 +217,13 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
                     firstPassTailHalfword = gBackupAccess->mFirstPassTailHalfword;
                     if ((firstPassTailHalfword == 0 && tailHalfword == 0xffff) ||
                         firstPassTailHalfword >= tailHalfword) {
-                        p = gBackupAccess->mFirstPassBuffer;
+                        readWords = gBackupAccess->mFirstPassBuffer;
                     }
                 }
             } else {
                 if (gBackupAccess->mFirstPassResult == 0) {
                     result = 0;
-                    p = gBackupAccess->mFirstPassBuffer;
+                    readWords = gBackupAccess->mFirstPassBuffer;
                 } else if (result == 2 || gBackupAccess->mFirstPassResult == 2) {
                     result = 2;
                 } else if (result != 1 && gBackupAccess->mFirstPassResult != 1) {
@@ -240,7 +241,7 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
     if (finished != FALSE) {
         if (result == 0) {
             if (callback != NULL) {
-                callback(p, gBackupAccess->mReadSize);
+                callback(readWords, gBackupAccess->mReadSize);
             }
             ClearBackupAccessStatus();
             return;

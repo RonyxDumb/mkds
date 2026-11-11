@@ -11,19 +11,19 @@ u16 data_02180328;
 // PXIi_HandlerRecvFifoNotEmpty, then handshakes with the other processor through the PXI interrupt flags.
 void PXI_InitFifo(void) {
     u32 enabled;
-    s32 i;
-    s32 timeout;
-    u32 c;
+    s32 index;
+    s32 retriesLeft;
+    u32 received;
     s32 count;
-    OSSystemWork *p;
+    OSSystemWork *systemWork;
 
     enabled = OS_DisableInterrupts();
     if (data_02180328 == 0) {
         data_02180328 = 1;
-        p = SYSTEM_WORK;
-        p->mPxiHandleChecker[0] = 0;
-        for (i = 0; i < 32; i++) {
-            data_0218032c[i] = 0;
+        systemWork = SYSTEM_WORK;
+        systemWork->mPxiHandleChecker[0] = 0;
+        for (index = 0; index < 32; index++) {
+            data_0218032c[index] = 0;
         }
         reg_PXI_SUBP_FIFO_CNT = 0xc408;
         OS_ResetRequestIrqMask(0x40000);
@@ -31,18 +31,18 @@ void PXI_InitFifo(void) {
         OS_EnableIrqMask(0x40000);
         count = 0;
         for (;;) {
-            c = reg_PXI_SUBPINTF & 0xf;
-            reg_PXI_SUBPINTF = c << 8;
-            if (c == 0 && count > 4) {
+            received = reg_PXI_SUBPINTF & 0xf;
+            reg_PXI_SUBPINTF = received << 8;
+            if (received == 0 && count > 4) {
                 break;
             }
-            timeout = 1000;
-            while ((reg_PXI_SUBPINTF & 0xf) == c) {
-                if (timeout <= 0) {
+            retriesLeft = 1000;
+            while ((reg_PXI_SUBPINTF & 0xf) == received) {
+                if (retriesLeft <= 0) {
                     count = 0;
                     break;
                 }
-                timeout--;
+                retriesLeft--;
             }
             count++;
         }
@@ -53,25 +53,25 @@ void PXI_InitFifo(void) {
 // Stores callback for fifotag and sets or clears its bit in the ARM9 handle checker word.
 void PXI_SetFifoRecvCallback(s32 fifotag, PXIFifoCallback callback) {
     u32 enabled;
-    OSSystemWork *p;
+    OSSystemWork *systemWork;
 
     enabled = OS_DisableInterrupts();
     data_0218032c[fifotag] = callback;
-    p = SYSTEM_WORK;
+    systemWork = SYSTEM_WORK;
     if (callback != 0) {
-        p->mPxiHandleChecker[0] |= 1 << fifotag;
+        systemWork->mPxiHandleChecker[0] |= 1 << fifotag;
     } else {
-        p->mPxiHandleChecker[0] &= ~(1 << fifotag);
+        systemWork->mPxiHandleChecker[0] &= ~(1 << fifotag);
     }
     OS_RestoreInterrupts(enabled);
 }
 
 // Returns whether the handle checker word of processor proc has the bit of fifotag set.
 s32 PXI_IsCallbackReady(s32 fifotag, s32 proc) {
-    OSSystemWork *p;
+    OSSystemWork *systemWork;
 
-    p = SYSTEM_WORK;
-    return (p->mPxiHandleChecker[proc] & (1 << fifotag)) != 0;
+    systemWork = SYSTEM_WORK;
+    return (systemWork->mPxiHandleChecker[proc] & (1 << fifotag)) != 0;
 }
 
 // Packs fifotag (5 bits), err (1 bit) and data (26 bits) into one word and writes it to the send FIFO.

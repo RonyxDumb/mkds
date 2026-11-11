@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void *WiFiSessionHeapAlloc(u32 a, u32 b, s32 c);
-void WiFiSessionHeapFree(u32 a, void *b);
+void *WiFiSessionHeapAlloc(u32 unused, u32 size, s32 alignment);
+void WiFiSessionHeapFree(u32 unused, void *memory);

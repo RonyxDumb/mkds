@@ -18,31 +18,31 @@
 #include "Main/Unknown/code_021000d0.h"
 
 void UpdateRaceHudSubScreenShine16Cells(void) {
-    s32 i;
-    s32 n;
-    u32 v;
+    s32 objectIndex;
+    s32 cellCount;
+    u32 scale;
 
-    n = 0;
-    v = GetRaceHudSubScreenScale();
-    for (i = 0; i < gRaceHudSubScreenShine16Cells->mObjectCount; i++) {
-        MapObject *p;
+    cellCount = 0;
+    scale = GetRaceHudSubScreenScale();
+    for (objectIndex = 0; objectIndex < gRaceHudSubScreenShine16Cells->mObjectCount; objectIndex++) {
+        MapObject *mapObject;
 
-        p = gRaceHudSubScreenShine16Cells->mObjects[i];
-        if (!(p->mFlags & 1)) {
-            if (ComputeRaceHudSubScreenPosition(&p->mPos, &gRaceHudSubScreenShine16Cells->mCells[n].mDrawPos, v, 1,
-                                                1)) {
-                gRaceHudSubScreenShine16Cells->mCells[n].mCell = GetRaceSNcerEntry(0xb6);
-                gRaceHudSubScreenShine16Cells->mCells[n].mPriority = (p->mFlags & 0x20) ? 2 : 1;
-                gRaceHudSubScreenShine16Cells->mCells[n].mUnk_0e = p->mFlags & 0x20;
-                n++;
+        mapObject = gRaceHudSubScreenShine16Cells->mObjects[objectIndex];
+        if (!(mapObject->mFlags & 1)) {
+            if (ComputeRaceHudSubScreenPosition(
+                    &mapObject->mPos, &gRaceHudSubScreenShine16Cells->mCells[cellCount].mDrawPos, scale, 1, 1)) {
+                gRaceHudSubScreenShine16Cells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb6);
+                gRaceHudSubScreenShine16Cells->mCells[cellCount].mPriority = (mapObject->mFlags & 0x20) ? 2 : 1;
+                gRaceHudSubScreenShine16Cells->mCells[cellCount].mUnk_0e = mapObject->mFlags & 0x20;
+                cellCount++;
             }
         }
     }
-    gRaceHudSubScreenShine16Cells->mCellCount = n;
+    gRaceHudSubScreenShine16Cells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenShine16Cells(RaceHudOamBuffer *a) {
-    DrawRaceHudSubScreenCells(a, gRaceHudSubScreenShine16Cells, 0);
+void DrawRaceHudSubScreenShine16Cells(RaceHudOamBuffer *oamBuffer) {
+    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenShine16Cells, 0);
 }
 
 s32 CreateRaceHudSubScreenCrabCells(void) {

@@ -160,17 +160,17 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
     Vec3 *direction;
     Vec3 *surfaceDirection;
     Vec3 *sideDirection;
-    s32 n;
-    s32 s;
+    s32 value;
+    s32 scalar;
 
     AdvanceItemObjectMotion(&follower->mDirectedItemObject, targetSpeed);
     if (follower->mDirectedItemObject.mUnk_158 != 0 &&
         (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
-        n = GetKart((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00))
-                ->mDrawMatrixPos.y +
-            0x1e000;
-        if (follower->mDirectedItemObject.mItemObject.mPos.y < n) {
-            follower->mDirectedItemObject.mItemObject.mPos.y = n;
+        value = GetKart((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00))
+                    ->mDrawMatrixPos.y +
+                0x1e000;
+        if (follower->mDirectedItemObject.mItemObject.mPos.y < value) {
+            follower->mDirectedItemObject.mItemObject.mPos.y = value;
         }
     }
     if (follower->mDirectedItemObject.mItemObject.mFlags & 1) {
@@ -189,14 +189,14 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
     }
     VEC_Subtract(follower->mTargetLink.mLink->mPointPos, &follower->mDirectedItemObject.mItemObject.mPos, &toLink);
     if (follower->mDirectedItemObject.mItemObject.mFlags & 0x40000000) {
-        s = VEC_DotProduct(surfaceDirection, &toLink);
-        toLink.x -= MUL_FIXED12_NO_ROUND(surfaceDirection->x, s);
-        toLink.y -= MUL_FIXED12_NO_ROUND(surfaceDirection->y, s);
-        toLink.z -= MUL_FIXED12_NO_ROUND(surfaceDirection->z, s);
-        s = VEC_DotProduct(&follower->mDirectedItemObject.mItemObject.mNormal, &toLink);
-        toLink.x -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.x, s);
-        toLink.y -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.y, s);
-        toLink.z -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.z, s);
+        scalar = VEC_DotProduct(surfaceDirection, &toLink);
+        toLink.x -= MUL_FIXED12_NO_ROUND(surfaceDirection->x, scalar);
+        toLink.y -= MUL_FIXED12_NO_ROUND(surfaceDirection->y, scalar);
+        toLink.z -= MUL_FIXED12_NO_ROUND(surfaceDirection->z, scalar);
+        scalar = VEC_DotProduct(&follower->mDirectedItemObject.mItemObject.mNormal, &toLink);
+        toLink.x -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.x, scalar);
+        toLink.y -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.y, scalar);
+        toLink.z -= MUL_FIXED12_NO_ROUND(follower->mDirectedItemObject.mItemObject.mNormal.z, scalar);
         VEC_MultAdd(0x29, &toLink, &follower->mDirectedItemObject.mItemObject.mPos,
                     &follower->mDirectedItemObject.mItemObject.mPos);
         VEC_MultAdd(0x3, &toLink, surfaceDirection, surfaceDirection);
@@ -217,9 +217,9 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
     if (LENGTH_SQUARED(toLink) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&toLink, &toLink);
     }
-    s = 0x1000 - follower->mRampTimer * follower->mRampWeightPerCount;
-    n = (follower->mLinkWasBehind != 0) ? 0x266 : 0x148;
-    BlendDirectionTowardVector(direction, MUL_FIXED12_NO_ROUND(n, s), &toLink, &toLink);
+    scalar = 0x1000 - follower->mRampTimer * follower->mRampWeightPerCount;
+    value = (follower->mLinkWasBehind != 0) ? 0x266 : 0x148;
+    BlendDirectionTowardVector(direction, MUL_FIXED12_NO_ROUND(value, scalar), &toLink, &toLink);
     SetItemObjectDirection(follower, &toLink);
 }
 
@@ -228,11 +228,11 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
     SegmentPoints *segmentPoints;
     Vec3 *pos;
     Vec3 *velocity;
-    Vec3 v28;
+    Vec3 vector;
     Vec3 hitNormal;
     Vec3 wallNormal;
-    Vec3 v4c;
-    s32 s;
+    Vec3 prevPos;
+    s32 value;
     BOOL hasFlag40000000;
     s32 alongNormal;
 
@@ -251,12 +251,12 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         } while (PushSegmentPoint(segmentPoints, follower->mTargetLink.mLink->mPointPos) != 0);
     }
     if (hasFlag40000000) {
-        v4c = *pos;
+        prevPos = *pos;
         GetSegmentProgressPoint(segmentPoints, pos);
         velocity->y = 0;
         if (follower->mDirectedItemObject.mUnk_158 == 0) {
-            VEC_Subtract(pos, &v4c, &v4c);
-            alongNormal = Vec3DotUnrounded(&v4c, &follower->mDirectedItemObject.mItemObject.mNormal);
+            VEC_Subtract(pos, &prevPos, &prevPos);
+            alongNormal = Vec3DotUnrounded(&prevPos, &follower->mDirectedItemObject.mItemObject.mNormal);
             if (alongNormal > 0) {
                 VEC_MultAdd(-alongNormal, &follower->mDirectedItemObject.mItemObject.mNormal, pos, pos);
             }
@@ -264,10 +264,10 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
     } else {
         if (follower->mDirectedItemObject.mUnk_158 != 0 &&
             (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
-            v28.y = pos->y;
+            vector.y = pos->y;
             GetSegmentProgressPointXzLinearY(&segmentPoints->mSegmentProgress, pos);
-            if (pos->y < v28.y) {
-                pos->y = v28.y;
+            if (pos->y < vector.y) {
+                pos->y = vector.y;
             }
         } else {
             GetSegmentProgressPointXz(&segmentPoints->mSegmentProgress, pos);
@@ -276,41 +276,41 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
     }
     if (CollideSphereWithCourse(pos, &follower->mDirectedItemObject.mItemObject.mPrevPos, 0,
                                 follower->mDirectedItemObject.mItemObject.mCourseRadius, 4,
-                                follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &v28, &hitNormal,
+                                follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &vector, &hitNormal,
                                 &wallNormal, &follower->mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL,
                                 NULL, NULL) != 0) {
         if (follower->mDirectedItemObject.mUnk_158 != 0) {
-            if (v28.y > 0) {
-                pos->y = pos->y + v28.y;
+            if (vector.y > 0) {
+                pos->y = pos->y + vector.y;
             }
         } else {
-            VEC_Add(&v28, pos, pos);
+            VEC_Add(&vector, pos, pos);
         }
         if (follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x1e34ef) {
-            s = VEC_DotProduct(&hitNormal, velocity);
-            velocity->x -= MUL_FIXED12_NO_ROUND(hitNormal.x, s);
-            velocity->y -= MUL_FIXED12_NO_ROUND(hitNormal.y, s);
-            velocity->z -= MUL_FIXED12_NO_ROUND(hitNormal.z, s);
-            s = (hitNormal.x == follower->mDirectedItemObject.mItemObject.mNormal.x &&
-                 hitNormal.y == follower->mDirectedItemObject.mItemObject.mNormal.y &&
-                 hitNormal.z == follower->mDirectedItemObject.mItemObject.mNormal.z)
-                    ? 1
-                    : 0;
-            if (s == 0) {
+            value = VEC_DotProduct(&hitNormal, velocity);
+            velocity->x -= MUL_FIXED12_NO_ROUND(hitNormal.x, value);
+            velocity->y -= MUL_FIXED12_NO_ROUND(hitNormal.y, value);
+            velocity->z -= MUL_FIXED12_NO_ROUND(hitNormal.z, value);
+            value = (hitNormal.x == follower->mDirectedItemObject.mItemObject.mNormal.x &&
+                     hitNormal.y == follower->mDirectedItemObject.mItemObject.mNormal.y &&
+                     hitNormal.z == follower->mDirectedItemObject.mItemObject.mNormal.z)
+                        ? 1
+                        : 0;
+            if (value == 0) {
                 follower->mDirectedItemObject.mItemObject.mNormal = hitNormal;
                 follower->mDirectedItemObject.mItemObject.mFlags |= 0x100;
             }
         }
         if ((follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x214300) != 0 &&
             follower->mDirectedItemObject.mHasHitLimit != FALSE) {
-            s = VEC_DotProduct(&wallNormal, velocity);
-            v28.x = MUL_FIXED12_NO_ROUND(wallNormal.x, s);
-            v28.y = MUL_FIXED12_NO_ROUND(wallNormal.y, s);
-            v28.z = MUL_FIXED12_NO_ROUND(wallNormal.z, s);
-            velocity->x -= v28.x;
-            velocity->y -= v28.y;
-            velocity->z -= v28.z;
-            VEC_Subtract(velocity, &v28, velocity);
+            value = VEC_DotProduct(&wallNormal, velocity);
+            vector.x = MUL_FIXED12_NO_ROUND(wallNormal.x, value);
+            vector.y = MUL_FIXED12_NO_ROUND(wallNormal.y, value);
+            vector.z = MUL_FIXED12_NO_ROUND(wallNormal.z, value);
+            velocity->x -= vector.x;
+            velocity->y -= vector.y;
+            velocity->z -= vector.z;
+            VEC_Subtract(velocity, &vector, velocity);
             velocity->x = MUL_FIXED12_NO_ROUND(velocity->x, 0x23d);
             velocity->y = MUL_FIXED12_NO_ROUND(velocity->y, 0x23d);
             velocity->z = MUL_FIXED12_NO_ROUND(velocity->z, 0x23d);
@@ -350,9 +350,9 @@ void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed
     }
 }
 
-void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 c,
+void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 unused,
                            s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 flag) {
-    InitItemObjectMotion(follower, (endsOnFirstHit == 0) ? -1 : 0, reverse, c);
+    InitItemObjectMotion(follower, (endsOnFirstHit == 0) ? -1 : 0, reverse, unused);
     follower->mRampTimer = rampCount;
     follower->mRampWeightPerCount = rampWeightPerCount;
     PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);

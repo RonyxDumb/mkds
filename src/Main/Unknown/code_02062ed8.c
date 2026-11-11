@@ -103,7 +103,7 @@ void InitCourseModels(void *heap) {
     NNSG3dResMdl *resMdl;
     s32 materialIndex;
     s32 shdwOffMaterialIndices[6];
-    s32 i;
+    s32 slotIndex;
 
     nsbmdFile = FindCourseFile(data_usa_02165404);
     nsbtxFile = FindCourseFile(data_usa_02165418);
@@ -153,9 +153,9 @@ void InitCourseModels(void *heap) {
     shdwOffMaterialIndices[3] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549e0);
     shdwOffMaterialIndices[4] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549b0);
     shdwOffMaterialIndices[5] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549a0);
-    for (i = 0; i < 6; i++) {
-        if (shdwOffMaterialIndices[i] >= 0) {
-            NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[i], 7);
+    for (slotIndex = 0; slotIndex < 6; slotIndex++) {
+        if (shdwOffMaterialIndices[slotIndex] >= 0) {
+            NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[slotIndex], 7);
         }
     }
     MTX_Identity43_(&data_usa_0217abac);
@@ -197,9 +197,9 @@ void SetKoopaCourseLight2(void) {
 }
 
 void InitCourseModelsFogEnableFlags(void) {
-    u32 i;
+    u32 materialIndex;
     NNSG3dResMdl *courseResMdl;
-    u32 j;
+    u32 vMaterialIndex;
     NNSG3dResMdl *vResMdl;
 
     gCourseModels.mRestoreFogEnableFlags = FALSE;
@@ -218,9 +218,9 @@ void InitCourseModelsFogEnableFlags(void) {
     }
     if (gCourseModels.mRestoreFogEnableFlags != FALSE) {
         courseResMdl = gCourseModels.mNsbmd->mResMdl;
-        for (i = 0; i < courseResMdl->mInfo.mNumMat; i++) {
-            if (NNS_G3dMdlGetMdlFogEnableFlag(courseResMdl, i) != 0) {
-                gCourseModels.mSavedFogEnableFlags |= (s64) (1 << i);
+        for (materialIndex = 0; materialIndex < courseResMdl->mInfo.mNumMat; materialIndex++) {
+            if (NNS_G3dMdlGetMdlFogEnableFlag(courseResMdl, materialIndex) != 0) {
+                gCourseModels.mSavedFogEnableFlags |= (s64) (1 << materialIndex);
             }
         }
     } else {
@@ -233,23 +233,24 @@ void InitCourseModelsFogEnableFlags(void) {
         return;
     }
     vResMdl = gCourseModels.mVNsbmd->mResMdl;
-    for (j = 0; j < vResMdl->mInfo.mNumMat; j++) {
-        if (NNS_G3dMdlGetMdlFogEnableFlag(vResMdl, j) != 0) {
-            gCourseModels.mSavedVFogEnableFlags |= 1 << j;
+    for (vMaterialIndex = 0; vMaterialIndex < vResMdl->mInfo.mNumMat; vMaterialIndex++) {
+        if (NNS_G3dMdlGetMdlFogEnableFlag(vResMdl, vMaterialIndex) != 0) {
+            gCourseModels.mSavedVFogEnableFlags |= 1 << vMaterialIndex;
         }
     }
 }
 
 void SetCourseModelsFogEnableFlags(u32 flag) {
-    u32 i;
+    u32 vMaterialIndex;
     NNSG3dResMdl *resMdl;
-    u32 j;
+    u32 materialIndex;
 
     if (gCourseModels.mVNsbmd != NULL) {
         if (gCourseModels.mRestoreVFogEnableFlags != FALSE && flag == 0) {
             resMdl = gCourseModels.mVNsbmd->mResMdl;
-            for (i = 0; i < resMdl->mInfo.mNumMat; i++) {
-                NNS_G3dMdlSetMdlFogEnableFlag(resMdl, i, (gCourseModels.mSavedVFogEnableFlags & (1 << i)) != 0 ? 1 : 0);
+            for (vMaterialIndex = 0; vMaterialIndex < resMdl->mInfo.mNumMat; vMaterialIndex++) {
+                NNS_G3dMdlSetMdlFogEnableFlag(
+                    resMdl, vMaterialIndex, (gCourseModels.mSavedVFogEnableFlags & (1 << vMaterialIndex)) != 0 ? 1 : 0);
             }
         } else {
             NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mVNsbmd->mResMdl, flag);
@@ -263,9 +264,9 @@ void SetCourseModelsFogEnableFlags(u32 flag) {
         return;
     }
     resMdl = gCourseModels.mNsbmd->mResMdl;
-    for (j = 0; j < resMdl->mInfo.mNumMat; j++) {
-        if ((gCourseModels.mSavedFogEnableFlags & (s64) (1 << j)) == 0) {
-            NNS_G3dMdlSetMdlFogEnableFlag(resMdl, j, 0);
+    for (materialIndex = 0; materialIndex < resMdl->mInfo.mNumMat; materialIndex++) {
+        if ((gCourseModels.mSavedFogEnableFlags & (s64) (1 << materialIndex)) == 0) {
+            NNS_G3dMdlSetMdlFogEnableFlag(resMdl, materialIndex, 0);
         }
     }
 }

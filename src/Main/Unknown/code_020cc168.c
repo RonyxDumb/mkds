@@ -39,19 +39,19 @@ s32 GetRaceSetupMissionTableColumn(void) {
 #pragma optimize_for_size on
 // Fills the race setup copy from the current setup; some modes are remapped and the course can be forced.
 void CopyCurrentToRaceSetupCopy(void) {
-    u16 i;
+    u16 entryIndex;
 
-    for (i = 0; i < 8; i++) {
-        GetRaceSetupCopy()->mEntries[i].mCharacterIndex = GetCurrentCharacterIndex(i);
-        GetRaceSetupCopy()->mEntries[i].mKartIndex = GetCurrentKartIndex(i);
-        GetRaceSetupCopy()->mEntries[i].mPlayerKind = GetCurrentPlayerKind(i);
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex = GetCurrentCharacterIndex(entryIndex);
+        GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = GetCurrentKartIndex(entryIndex);
+        GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = GetCurrentPlayerKind(entryIndex);
         if (GetCurrentUseTeams() != 0) {
-            GetRaceSetupCopy()->mEntries[i].mTeamIndex = GetCurrentTeamIndex(i);
+            GetRaceSetupCopy()->mEntries[entryIndex].mTeamIndex = GetCurrentTeamIndex(entryIndex);
         } else {
-            GetRaceSetupCopy()->mEntries[i].mTeamIndex = -1;
+            GetRaceSetupCopy()->mEntries[entryIndex].mTeamIndex = -1;
         }
-        GetRaceSetupCopy()->mEntries[i].mListedCpuSlot = GetCurrentListedCpuSlot(i);
-        GetRaceSetupCopy()->mEntries[i].mKartStored = 0;
+        GetRaceSetupCopy()->mEntries[entryIndex].mListedCpuSlot = GetCurrentListedCpuSlot(entryIndex);
+        GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 0;
     }
     GetRaceSetupCopy()->mCupIndex = GetCurrentCupIndex();
     GetRaceSetupCopy()->mCpuDifficulty = GetCurrentCpuDifficulty();
@@ -94,11 +94,11 @@ void CopyCurrentToRaceSetupCopy(void) {
 }
 
 void CopyMenuScreenCallbacks(void) {
-    s32 i;
+    s32 screenIndex;
 
-    for (i = 0; i < 0x1e; i++) {
-        gMenuScene->mScreenCallbacks[i].mWriteRegisters = gMenuScreenCallbacks[i].mWriteRegisters;
-        gMenuScene->mScreenCallbacks[i].mUpdate = gMenuScreenCallbacks[i].mUpdate;
+    for (screenIndex = 0; screenIndex < 0x1e; screenIndex++) {
+        gMenuScene->mScreenCallbacks[screenIndex].mWriteRegisters = gMenuScreenCallbacks[screenIndex].mWriteRegisters;
+        gMenuScene->mScreenCallbacks[screenIndex].mUpdate = gMenuScreenCallbacks[screenIndex].mUpdate;
     }
 }
 
@@ -123,14 +123,14 @@ void SetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6
     SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void SetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+void SetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13,
                             u32 cntVal8, u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void SetMainBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e,
+void SetMainBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13,
                             u32 cntVal8, u32 cntVal2) {
-    SetBg3RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+    SetBg3RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
 void SetSubBg0Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
@@ -143,14 +143,14 @@ void SetSubBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6,
     SetBg1Record(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void SetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
-                           u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+void SetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13,
+                           u32 cntVal8, u32 cntVal2) {
+    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8,
-                           u32 cntVal2) {
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, e, cntVal8, cntVal2);
+void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13,
+                           u32 cntVal8, u32 cntVal2) {
+    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
 void MenuGX_SetOBJVRamModeChar(u32 bits) {

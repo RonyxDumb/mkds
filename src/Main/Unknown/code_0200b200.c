@@ -6,9 +6,9 @@
 
 #pragma thumb on
 
-void ScanConnectEndScanCallback(Unk021425e8 *a) {
-    if (a->mResultCode != 0) {
-        ReportScanError(0xb, a->mResultCode);
+void ScanConnectEndScanCallback(Unk021425e8 *info) {
+    if (info->mResultCode != 0) {
+        ReportScanError(0xb, info->mResultCode);
         return;
     }
     gScanConnectWork->mEndScanRequested = 0;
@@ -20,26 +20,26 @@ void ScanConnectEndScanCallback(Unk021425e8 *a) {
 }
 
 u32 StartConnectToEntry(u32 entryIndex) {
-    MBGameInfoRecvList *v1;
-    v1 = MB_GetGameInfoRecvList(entryIndex);
-    if (v1 == NULL) {
+    MBGameInfoRecvList *entry;
+    entry = MB_GetGameInfoRecvList(entryIndex);
+    if (entry == NULL) {
         return 0;
     }
-    gScanConnectWork->mUnk_5f08 = v1->mUnk_4b8;
-    gScanConnectWork->mUnk_5f0c = v1->mUnk_4b5;
+    gScanConnectWork->mUnk_5f08 = entry->mUnk_4b8;
+    gScanConnectWork->mUnk_5f0c = entry->mUnk_4b5;
     SetupMPLink(&gScanConnectWork->mMPLink);
     SetMPLinkCallback(MPLinkCallback);
     SetScanConnectStateAndNotify(1, 0);
-    MI_CpuCopy8(v1->mScanBuffer, &gScanConnectWork->mScanBuffer, 0xc0);
+    MI_CpuCopy8(entry->mScanBuffer, &gScanConnectWork->mScanBuffer, 0xc0);
     ScanConnectStartConnect(&gScanConnectWork->mScanBuffer);
     return 1;
 }
 
-void MPLinkCallback(s32 a, Unk021425e8 *b) {
-    u16 v1;
-    u16 v2;
-    u16 t;
-    switch (a) {
+void MPLinkCallback(s32 eventKind, Unk021425e8 *info) {
+    u16 resultCode;
+    u16 commandCode;
+    u16 code;
+    switch (eventKind) {
         case 7:
         case 8:
             break;
@@ -47,17 +47,17 @@ void MPLinkCallback(s32 a, Unk021425e8 *b) {
             SetScanConnectStateAndNotify(3, 0);
             break;
         case 6:
-            SetScanConnectStateAndNotify(2, b);
+            SetScanConnectStateAndNotify(2, info);
             SetPortCallbackAndStartMP(gScanConnectWork, gScanConnectWork->mReceiveBuffer);
             break;
         case 10:
-            SetScanConnectStateAndNotify(4, b);
+            SetScanConnectStateAndNotify(4, info);
             break;
         case 25:
             QueueStateMessage();
             break;
         case 9:
-            ReceivePortMessage(b);
+            ReceivePortMessage(info);
             break;
         case 15:
             if (gScanConnectWork->mState == 10) {
@@ -70,30 +70,30 @@ void MPLinkCallback(s32 a, Unk021425e8 *b) {
             }
             break;
         case 0xff:
-            t = b->mResultCode;
+            code = info->mResultCode;
             if (gScanConnectWork->mStateCallback != NULL) {
-                switch (t) {
+                switch (code) {
                     case 1:
                     case 4:
                     case 5:
                     case 6:
                     case 8:
                     case 9:
-                        t = 9;
+                        code = 9;
                         break;
                     case 15:
                     default:
-                        t = 8;
+                        code = 8;
                         break;
                 }
-                v1 = t;
-                gScanConnectWork->mStateCallback(0x13, &v1);
+                resultCode = code;
+                gScanConnectWork->mStateCallback(0x13, &resultCode);
             }
             break;
         case 0x100:
-            t = b->mCommand;
+            code = info->mCommand;
             if (gScanConnectWork->mStateCallback != NULL) {
-                switch (t) {
+                switch (code) {
                     case 0:
                     case 7:
                     case 8:
@@ -105,15 +105,15 @@ void MPLinkCallback(s32 a, Unk021425e8 *b) {
                     case 21:
                     case 25:
                     case 29:
-                        t = 9;
+                        code = 9;
                         break;
                     case 1:
                     default:
-                        t = 8;
+                        code = 8;
                         break;
                 }
-                v2 = t;
-                gScanConnectWork->mStateCallback(0x13, &v2);
+                commandCode = code;
+                gScanConnectWork->mStateCallback(0x13, &commandCode);
             }
             break;
         case 0x29:
@@ -121,10 +121,10 @@ void MPLinkCallback(s32 a, Unk021425e8 *b) {
     }
 }
 
-void ReceivePortMessage(Unk021425e8 *a) {
-    ParentMessage v1;
-    MBi_SetRecvBufferFromParent(&v1, a->mUnk_0c);
-    switch (v1.mKind) {
+void ReceivePortMessage(Unk021425e8 *info) {
+    ParentMessage parentMessage;
+    MBi_SetRecvBufferFromParent(&parentMessage, info->mUnk_0c);
+    switch (parentMessage.mKind) {
         case 1:
             if (gScanConnectWork->mState == 2) {
                 SetScanConnectStateAndNotify(5, 0);
@@ -164,43 +164,43 @@ void ReceivePortMessage(Unk021425e8 *a) {
 }
 
 void QueueStateMessage(void) {
-    ChildMessage v1;
-    Unk0200c12c v2;
-    u8 *p;
+    ChildMessage childMessage;
+    Unk0200c12c requestData;
+    u8 *payload;
     switch (gScanConnectWork->mState) {
         case 5:
-            v2.mUnk_00 = gScanConnectWork->mUnk_5f08;
-            v2.mUnk_1a = 1;
-            v2.mUnk_1c = gScanConnectWork->mUnk_5f0c;
-            MI_CpuCopy8(gScanConnectWork->mUnk_05c4, v2.mUnk_04, 0x16);
-            v1.mKind = 7;
-            p = &v1.mKind;
-            p += 3;
-            *(u8 *) &v1.mUnk_02 = MBi_SendRequestDataPiece(p, &v2);
-            if (MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer) != NULL) {
+            requestData.mUnk_00 = gScanConnectWork->mUnk_5f08;
+            requestData.mUnk_1a = 1;
+            requestData.mUnk_1c = gScanConnectWork->mUnk_5f0c;
+            MI_CpuCopy8(gScanConnectWork->mUnk_05c4, requestData.mUnk_04, 0x16);
+            childMessage.mKind = 7;
+            payload = &childMessage.mKind;
+            payload += 3;
+            *(u8 *) &childMessage.mUnk_02 = MBi_SendRequestDataPiece(payload, &requestData);
+            if (MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer) != NULL) {
                 QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             }
             break;
         case 7:
-            v1.mKind = 8;
-            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
+            childMessage.mKind = 8;
+            MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
         case 8:
             break;
         case 9:
-            v1.mKind = 10;
-            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
+            childMessage.mKind = 10;
+            MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
         case 10:
-            v1.mKind = 11;
-            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
+            childMessage.mKind = 11;
+            MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
         default:
-            v1.mKind = 0;
-            MBi_MakeChildSendBuffer(&v1, gScanConnectWork->mMessageBuffer);
+            childMessage.mKind = 0;
+            MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
     }

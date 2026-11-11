@@ -4,7 +4,7 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 b);
+s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag);
 void RunMessageScreenOfKindWrapper(s32 kind);
 u32 IsVolatileHalfwordIndex39Ignored(void);
 BOOL ShouldGoSleepMode(void);

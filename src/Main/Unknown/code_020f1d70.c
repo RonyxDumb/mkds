@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_02109054.h"
 #include "code_02147cd8.h"
 
-void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 e,
+void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 unused,
                          s32 baseSpeed) {
     DirectedItemObject *object;
     ItemInUse *inUse;
@@ -72,15 +72,15 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     }
     object->mItemObject.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
     object->mUnk_160 = TRUE;
-    object->mUnk_158 = e;
+    object->mUnk_158 = unused;
     object->mUnk_164 = 4;
 }
 
 void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {
-    s32 n;
+    s32 value;
 
-    n = normal->y * normal->y;
-    if (n < 0x10) {
+    value = normal->y * normal->y;
+    if (value < 0x10) {
         result->x = -direction->x;
         result->y = -direction->y;
         result->z = -direction->z;
@@ -91,8 +91,8 @@ void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {
     result->z = normal->z >> 2;
     result->x = direction->x - result->x;
     result->z = direction->z - result->z;
-    n = MUL_FIXED12_NO_ROUND(direction->x, normal->x) + MUL_FIXED12_NO_ROUND(direction->z, normal->z);
-    result->y = -(n + result->y);
+    value = MUL_FIXED12_NO_ROUND(direction->x, normal->x) + MUL_FIXED12_NO_ROUND(direction->z, normal->z);
+    result->y = -(value + result->y);
     result->y = FX_Div(result->y, normal->y);
     if (LENGTH_SQUARED(*result) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(result, result);
@@ -123,14 +123,14 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
     Vec3 along;
     Vec3 *velocityDirection;
     Vec3 *flatDirection;
-    s32 n;
+    s32 value;
 
     velocityDirection = &object->mSurfaceDirection;
     flatDirection = &object->mDirection;
-    n = VEC_DotProduct(hitNormal, velocityDirection);
-    along.x = MUL_FIXED12_NO_ROUND(hitNormal->x, n);
-    along.y = MUL_FIXED12_NO_ROUND(hitNormal->y, n);
-    along.z = MUL_FIXED12_NO_ROUND(hitNormal->z, n);
+    value = VEC_DotProduct(hitNormal, velocityDirection);
+    along.x = MUL_FIXED12_NO_ROUND(hitNormal->x, value);
+    along.y = MUL_FIXED12_NO_ROUND(hitNormal->y, value);
+    along.z = MUL_FIXED12_NO_ROUND(hitNormal->z, value);
     object->mSurfaceDirection.x -= along.x;
     velocityDirection->y -= along.y;
     velocityDirection->z -= along.z;
@@ -142,10 +142,10 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(velocityDirection, velocityDirection);
     }
-    n = velocityDirection->z;
+    value = velocityDirection->z;
     flatDirection->x = velocityDirection->x;
     flatDirection->y = 0;
-    flatDirection->z = n;
+    flatDirection->z = value;
     if ((s64) flatDirection->x * flatDirection->x + (s64) flatDirection->y * flatDirection->y +
             (s64) flatDirection->z * flatDirection->z >=
         0x10) {
@@ -155,7 +155,7 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
     StartSound(&object->mItemObject.mSoundSource, 0xd5, 0x7f, 0);
 }
 
-void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *c) {
+void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *unused) {
     Vec3 along;
     Vec3 *direction;
     s32 normalDot;
@@ -181,15 +181,15 @@ void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal,
 }
 
 void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
-    Vec3 v1;
+    Vec3 pushOut;
     Vec3 hitNormal;
-    Vec3 v3;
+    Vec3 unusedOut;
     Vec3 normalPart;
     Vec3 *pos;
     Vec3 *velocity;
     Vec3 *direction;
     s32 flag80000;
-    s32 n;
+    s32 value;
     BOOL sameNormal;
     Vec3 *velocityAlias;
 
@@ -197,17 +197,17 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
     velocity = &object->mItemObject.mVelocity;
     direction = &object->mDirection;
     VEC_Add(velocity, pos, pos);
-    n = CollideSphereWithCourse(pos, &object->mItemObject.mPrevPos, 0, object->mItemObject.mCourseRadius, object->mUnk_164,
-                                object->mItemObject.mCollisionSlotIndex, &v1, &hitNormal, &v3,
-                                &object->mItemObject.mCollisionBits, NULL, NULL, NULL, NULL);
-    if (n != 0) {
+    value = CollideSphereWithCourse(pos, &object->mItemObject.mPrevPos, 0, object->mItemObject.mCourseRadius,
+                                    object->mUnk_164, object->mItemObject.mCollisionSlotIndex, &pushOut, &hitNormal,
+                                    &unusedOut, &object->mItemObject.mCollisionBits, NULL, NULL, NULL, NULL);
+    if (value != 0) {
         flag80000 = object->mItemObject.mCollisionBits & 0x80000;
         if (object->mUnk_158 != 0) {
-            if (v1.y > 0) {
-                pos->y += v1.y;
+            if (pushOut.y > 0) {
+                pos->y += pushOut.y;
             }
         } else {
-            VEC_Add(&v1, pos, pos);
+            VEC_Add(&pushOut, pos, pos);
         }
         if (object->mItemObject.mCollisionBits & 0x1e34ef) {
             sameNormal = hitNormal.x == object->mItemObject.mNormal.x && hitNormal.y == object->mItemObject.mNormal.y &&
@@ -216,11 +216,11 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                 object->mItemObject.mNormal = hitNormal;
                 object->mItemObject.mFlags |= 0x100;
                 if (flag80000 != 0) {
-                    n = VEC_DotProduct(&hitNormal, &object->mSurfaceDirection);
+                    value = VEC_DotProduct(&hitNormal, &object->mSurfaceDirection);
                     object->mSurfaceDirection.x =
-                        (s32) (object->mSurfaceDirection.x - MUL_FIXED12_NO_ROUND(hitNormal.x, n));
-                    object->mSurfaceDirection.y -= MUL_FIXED12_NO_ROUND(hitNormal.y, n);
-                    object->mSurfaceDirection.z -= MUL_FIXED12_NO_ROUND(hitNormal.z, n);
+                        (s32) (object->mSurfaceDirection.x - MUL_FIXED12_NO_ROUND(hitNormal.x, value));
+                    object->mSurfaceDirection.y -= MUL_FIXED12_NO_ROUND(hitNormal.y, value);
+                    object->mSurfaceDirection.z -= MUL_FIXED12_NO_ROUND(hitNormal.z, value);
                     if ((s64) object->mSurfaceDirection.x * object->mSurfaceDirection.x +
                             (s64) object->mSurfaceDirection.y * object->mSurfaceDirection.y +
                             (s64) object->mSurfaceDirection.z * object->mSurfaceDirection.z >=
@@ -236,15 +236,15 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
         }
         if (object->mItemObject.mCollisionBits & 0x214300) {
             if (object->mUnk_158 != 0) {
-                pos->x += v1.x;
-                pos->z += v1.z;
+                pos->x += pushOut.x;
+                pos->z += pushOut.z;
             }
             if (flag80000 != 0) {
-                VEC_Subtract(&v3, &object->mItemObject.mNormal, &v3);
-                DeflectItemObjectAlongSurfaceAndStartSound(object, &v3);
+                VEC_Subtract(&unusedOut, &object->mItemObject.mNormal, &unusedOut);
+                DeflectItemObjectAlongSurfaceAndStartSound(object, &unusedOut);
             } else {
-                v3.y = 0;
-                DeflectItemObjectAndStartSound(object, &v3, NULL);
+                unusedOut.y = 0;
+                DeflectItemObjectAndStartSound(object, &unusedOut, NULL);
             }
             object->mItemObject.mOwnerKartIndexAndFlags &= ~0x4000;
             if (object->mHasHitLimit != FALSE) {
@@ -252,17 +252,17 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                 object->mHitsRemaining -= 1;
             }
         }
-        n = object->mSpeed;
-        velocity->x = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.x, n);
-        velocity->y = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.y, n);
-        velocity->z = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.z, n);
+        value = object->mSpeed;
+        velocity->x = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.x, value);
+        velocity->y = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.y, value);
+        velocity->z = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.z, value);
         if (object->mItemObject.mCollisionBits & 0x1e34ef) {
-            v1.y = pos->y - object->mItemObject.mPrevPos.y;
-            if (v1.y > 0x5000 && flag80000 == 0) {
-                v1.y = 0x5000;
+            pushOut.y = pos->y - object->mItemObject.mPrevPos.y;
+            if (pushOut.y > 0x5000 && flag80000 == 0) {
+                pushOut.y = 0x5000;
             }
-            if (v1.y > velocity->y) {
-                velocity->y = v1.y;
+            if (pushOut.y > velocity->y) {
+                velocity->y = pushOut.y;
             }
         }
         if (object->mHitsRemaining < 0) {
@@ -286,18 +286,18 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
         VEC_Subtract(velocityAlias, &normalPart, velocityAlias);
         return;
     }
-    n = velocityAlias->y;
-    if (n > 0) {
+    value = velocityAlias->y;
+    if (value > 0) {
         velocityAlias->y -= 0x6b8;
         if (!(object->mItemObject.mFlags & 0x20000)) {
             return;
         }
-        n = velocityAlias->y;
-        if (n > 0xa000) {
+        value = velocityAlias->y;
+        if (value > 0xa000) {
             velocityAlias->y = velocityAlias->y >> 3;
             return;
         }
-        velocityAlias->y = MUL_FIXED12_NO_ROUND(n, 0xe66);
+        velocityAlias->y = MUL_FIXED12_NO_ROUND(value, 0xe66);
     } else {
         velocityAlias->y -= 0x333;
         if (velocityAlias->y >= -0xa000) {
@@ -392,7 +392,7 @@ void DeflectItemObjectOnHit(DirectedItemObject *object, Vec3 *otherVelocity, Vec
     object->mItemObject.mVelocity.z = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.z, speed);
 }
 
-void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 d) {
+void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 unused) {
     DirectedItemObject *object;
     s32 speed;
     s32 negatedZ;
@@ -428,7 +428,7 @@ void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 d) {
     }
     object->mItemObject.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
     object->mUnk_160 = TRUE;
-    object->mUnk_158 = d;
+    object->mUnk_158 = unused;
 }
 
 void SetItemObjectDirection(void *objectParam, const Vec3 *direction) {

@@ -18,7 +18,7 @@ typedef struct LinkFollowingItemObject {
     /* 224 */ s32 mLinkWasBehind;
 } LinkFollowingItemObject;
 
-void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 c,
+void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 unused,
                            s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 flag);
 void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex,
                               s32 flag);

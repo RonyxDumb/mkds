@@ -79,28 +79,28 @@ void NothingProc(s16 *bufferL, s16 *bufferR, u32 len, CallbackInfo *info) {}
 // the rest from the end, with 16-bit clamping, and keeps the two delayed values in CallbackInfo.mBuffer.
 void SurroundProc(s16 *bufferL, s16 *bufferR, u32 len, CallbackInfo *info) {
     s16 saved[2];
-    u32 samples;
-    s32 i;
-    s32 j;
-    s32 k;
+    u32 sampleCount;
+    s32 savedIndex;
+    s32 tailIndex;
+    s32 delayIndex;
     s32 newLeft;
     s32 newRight;
     s32 diff;
     s16 *leftPtr;
     s16 *rightPtr;
 
-    samples = len >> 1;
-    for (i = 0; i < 2; i++) {
-        diff = *(bufferL + samples + i - 2) - *(bufferR + samples + i - 2);
+    sampleCount = len >> 1;
+    for (savedIndex = 0; savedIndex < 2; savedIndex++) {
+        diff = *(bufferL + sampleCount + savedIndex - 2) - *(bufferR + sampleCount + savedIndex - 2);
         if (diff < -32768) {
             diff = -32768;
         } else if (diff > 32767) {
             diff = 32767;
         }
-        saved[i] = diff;
+        saved[savedIndex] = diff;
     }
-    leftPtr = bufferL + (samples - 1);
-    rightPtr = bufferR + (samples - 1);
+    leftPtr = bufferL + (sampleCount - 1);
+    rightPtr = bufferR + (sampleCount - 1);
     for (; leftPtr >= bufferL + 2; leftPtr--, rightPtr--) {
         diff = leftPtr[-2] - rightPtr[-2];
         newLeft = leftPtr[0] + diff;
@@ -129,104 +129,104 @@ void SurroundProc(s16 *bufferL, s16 *bufferR, u32 len, CallbackInfo *info) {
             }
         }
     }
-    for (j = 1; j >= 0; j--) {
-        newLeft = bufferL[j] + info->mBuffer.surround[j];
+    for (tailIndex = 1; tailIndex >= 0; tailIndex--) {
+        newLeft = bufferL[tailIndex] + info->mBuffer.surround[tailIndex];
         if (newLeft < -32768) {
             newLeft = -32768;
         } else if (newLeft > 32767) {
             newLeft = 32767;
         }
-        bufferL[j] = newLeft;
-        newRight = bufferR[j] - info->mBuffer.surround[j];
+        bufferL[tailIndex] = newLeft;
+        newRight = bufferR[tailIndex] - info->mBuffer.surround[tailIndex];
         if (newRight < -32768) {
             newRight = -32768;
         } else if (newRight > 32767) {
             newRight = 32767;
         }
-        bufferR[j] = newRight;
+        bufferR[tailIndex] = newRight;
     }
-    for (k = 0; k < 2; k++) {
-        info->mBuffer.surround[k] = saved[k];
+    for (delayIndex = 0; delayIndex < 2; delayIndex++) {
+        info->mBuffer.surround[delayIndex] = saved[delayIndex];
     }
 }
 
 // Adds the pairs in CallbackInfo.mBuffer to the buffers in blocks of 24 entries with 16-bit clamping and stores new
 // pairs.
 void HeadphoneProc(s16 *bufferL, s16 *bufferR, u32 len, CallbackInfo *info) {
-    u32 samples;
+    u32 sampleCount;
     u32 rest;
-    s32 i;
-    s32 j;
+    s32 sampleIndex;
+    s32 restLeft;
     s32 left;
     s32 right;
     u32 offset;
     s32 clampedLeft;
     s32 clampedRight;
 
-    samples = len >> 1;
+    sampleCount = len >> 1;
     offset = 0;
-    while (samples > offset + 24) {
-        for (i = 0; i < 24; i++) {
-            left = bufferL[i + offset];
-            left += info->mBuffer.headphone[i][0];
-            right = bufferR[i + offset];
-            right += info->mBuffer.headphone[i][1];
+    while (sampleCount > offset + 24) {
+        for (sampleIndex = 0; sampleIndex < 24; sampleIndex++) {
+            left = bufferL[sampleIndex + offset];
+            left += info->mBuffer.headphone[sampleIndex][0];
+            right = bufferR[sampleIndex + offset];
+            right += info->mBuffer.headphone[sampleIndex][1];
             clampedLeft = left;
             if (left < -32768) {
                 clampedLeft = -32768;
             } else if (left > 32767) {
                 clampedLeft = 32767;
             }
-            bufferL[i + offset] = clampedLeft;
+            bufferL[sampleIndex + offset] = clampedLeft;
             clampedRight = right;
             if (right < -32768) {
                 clampedRight = -32768;
             } else if (right > 32767) {
                 clampedRight = 32767;
             }
-            bufferR[i + offset] = clampedRight;
-            info->mBuffer.headphone[i][0] = (right + 1) >> 2;
-            info->mBuffer.headphone[i][1] = (left + 1) >> 2;
+            bufferR[sampleIndex + offset] = clampedRight;
+            info->mBuffer.headphone[sampleIndex][0] = (right + 1) >> 2;
+            info->mBuffer.headphone[sampleIndex][1] = (left + 1) >> 2;
         }
         offset += 24;
     }
-    rest = samples - offset;
-    for (i = 0; i < rest; i++) {
-        j = bufferL[i + offset];
-        j += info->mBuffer.headphone[i][0];
-        right = bufferR[i + offset];
-        right += info->mBuffer.headphone[i][1];
-        if (j < -32768) {
-            j = -32768;
-        } else if (j > 32767) {
-            j = 32767;
+    rest = sampleCount - offset;
+    for (sampleIndex = 0; sampleIndex < rest; sampleIndex++) {
+        restLeft = bufferL[sampleIndex + offset];
+        restLeft += info->mBuffer.headphone[sampleIndex][0];
+        right = bufferR[sampleIndex + offset];
+        right += info->mBuffer.headphone[sampleIndex][1];
+        if (restLeft < -32768) {
+            restLeft = -32768;
+        } else if (restLeft > 32767) {
+            restLeft = 32767;
         }
-        bufferL[i + offset] = j;
+        bufferL[sampleIndex + offset] = restLeft;
         if (right < -32768) {
             right = -32768;
         } else if (right > 32767) {
             right = 32767;
         }
-        bufferR[i + offset] = right;
+        bufferR[sampleIndex + offset] = right;
     }
-    for (i = 0; i < 24 - rest; i++) {
-        info->mBuffer.headphone[i][0] = (info->mBuffer.headphone + rest)[i][0];
-        info->mBuffer.headphone[i][1] = (info->mBuffer.headphone + rest)[i][1];
+    for (sampleIndex = 0; sampleIndex < 24 - rest; sampleIndex++) {
+        info->mBuffer.headphone[sampleIndex][0] = (info->mBuffer.headphone + rest)[sampleIndex][0];
+        info->mBuffer.headphone[sampleIndex][1] = (info->mBuffer.headphone + rest)[sampleIndex][1];
     }
-    for (i = 0; i < rest; i++) {
-        info->mBuffer.headphone[24 + i - rest][0] = (bufferR[i + offset] + 1) >> 2;
-        info->mBuffer.headphone[24 + i - rest][1] = (bufferL[i + offset] + 1) >> 2;
+    for (sampleIndex = 0; sampleIndex < rest; sampleIndex++) {
+        info->mBuffer.headphone[24 + sampleIndex - rest][0] = (bufferR[sampleIndex + offset] + 1) >> 2;
+        info->mBuffer.headphone[24 + sampleIndex - rest][1] = (bufferL[sampleIndex + offset] + 1) >> 2;
     }
 }
 
 // Replaces the left buffer with the rounded average of both channels, then copies it over the right buffer.
 void MonoProc(s16 *bufferL, s16 *bufferR, u32 len, CallbackInfo *info) {
-    u32 samples;
-    u32 i;
+    u32 sampleCount;
+    u32 sampleIndex;
 
-    samples = len >> 1;
-    for (i = 0; i < samples; i++) {
-        bufferL[i] = (bufferL[i] + bufferR[i] + 1) >> 1;
+    sampleCount = len >> 1;
+    for (sampleIndex = 0; sampleIndex < sampleCount; sampleIndex++) {
+        bufferL[sampleIndex] = (bufferL[sampleIndex] + bufferR[sampleIndex] + 1) >> 1;
     }
     MIi_CpuCopyFast(bufferL, bufferR, len);
 }
