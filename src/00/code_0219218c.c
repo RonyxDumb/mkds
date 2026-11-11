@@ -86,34 +86,34 @@ void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg) {
     } else {
         arg->mUnk_0ad[0] = 0;
     }
-    arg->mUnk_0fc = cache->mUnk_18;
-    GpiCopyString(arg->mUnk_100, cache->mUnk_1c, 0xb);
-    GpiCopyString(arg->mUnk_10b, cache->mUnk_27, 3);
-    arg->mUnk_110 = cache->mUnk_2c;
-    arg->mUnk_114 = cache->mUnk_30;
-    if (cache->mUnk_34 != NULL) {
-        GpiCopyString(arg->mUnk_118, cache->mUnk_34, 0x80);
+    arg->mUnk_0fc = cache->mIcquin;
+    GpiCopyString(arg->mUnk_100, cache->mZipcode, 0xb);
+    GpiCopyString(arg->mUnk_10b, cache->mCountrycode, 3);
+    arg->mUnk_110 = cache->mLongitude;
+    arg->mUnk_114 = cache->mLatitude;
+    if (cache->mPlace != NULL) {
+        GpiCopyString(arg->mUnk_118, cache->mPlace, 0x80);
     } else {
         arg->mUnk_118[0] = 0;
     }
-    arg->mUnk_198 = cache->mUnk_b4;
-    arg->mUnk_19c = cache->mUnk_b8;
-    arg->mUnk_1a0 = cache->mUnk_bc;
-    arg->mUnk_1a4 = cache->mUnk_c0;
-    arg->mUnk_1a8 = cache->mUnk_c4;
-    if (cache->mUnk_c8 != NULL) {
-        GpiCopyString(arg->mUnk_1ac, cache->mUnk_c8, 0x33);
+    arg->mUnk_198 = cache->mBirthday;
+    arg->mUnk_19c = cache->mBirthmonth;
+    arg->mUnk_1a0 = cache->mBirthyear;
+    arg->mUnk_1a4 = cache->mSex;
+    arg->mUnk_1a8 = cache->mPmask;
+    if (cache->mAimName != NULL) {
+        GpiCopyString(arg->mUnk_1ac, cache->mAimName, 0x33);
     } else {
         arg->mUnk_1ac[0] = 0;
     }
-    arg->mUnk_0fc = cache->mUnk_18;
-    arg->mUnk_110 = cache->mUnk_2c;
-    arg->mUnk_114 = cache->mUnk_30;
-    arg->mUnk_198 = cache->mUnk_b4;
-    arg->mUnk_19c = cache->mUnk_b8;
-    arg->mUnk_1a0 = cache->mUnk_bc;
-    arg->mUnk_1a4 = cache->mUnk_c0;
-    arg->mUnk_1a8 = cache->mUnk_c4;
+    arg->mUnk_0fc = cache->mIcquin;
+    arg->mUnk_110 = cache->mLongitude;
+    arg->mUnk_114 = cache->mLatitude;
+    arg->mUnk_198 = cache->mBirthday;
+    arg->mUnk_19c = cache->mBirthmonth;
+    arg->mUnk_1a0 = cache->mBirthyear;
+    arg->mUnk_1a4 = cache->mSex;
+    arg->mUnk_1a8 = cache->mPmask;
     arg->mUnk_1e0 = cache->mUnk_cc[0];
     arg->mUnk_1e4 = cache->mUnk_cc[1];
     arg->mUnk_1e8 = cache->mUnk_cc[2];
@@ -170,7 +170,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
         infoRecord.mUnk_00[3] = givenName;
         infoRecord.mUnk_00[4] = familyName;
         infoRecord.mUnk_00[5] = aimHandleBuf;
-        infoRecord.mUnk_c8 = webPage;
+        infoRecord.mAimName = webPage;
         if (GpiGetValue(input, data_ov000_021b2fcc, infoRecord.mUnk_00[0], 0x1f) == FALSE) {
             infoRecord.mUnk_00[0][0] = 0;
         }
@@ -187,59 +187,59 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             infoRecord.mUnk_00[4][0] = 0;
         }
         if (GpiGetValue(input, gIcquinKey, buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_18 = -1;
+            infoRecord.mIcquin = -1;
         } else {
-            infoRecord.mUnk_18 = StrtolBase10(buffer);
+            infoRecord.mIcquin = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, gHomepageKey, infoRecord.mUnk_00[5], 0x4c) == FALSE) {
             infoRecord.mUnk_00[5][0] = 0;
         }
-        if (GpiGetValue(input, gZipcodeKey, infoRecord.mUnk_1c, 0xb) == FALSE) {
-            infoRecord.mUnk_1c[0] = 0;
+        if (GpiGetValue(input, gZipcodeKey, infoRecord.mZipcode, 0xb) == FALSE) {
+            infoRecord.mZipcode[0] = 0;
         }
-        if (GpiGetValue(input, gCountrycodeKey, infoRecord.mUnk_27, 3) == FALSE) {
-            infoRecord.mUnk_27[0] = 0;
+        if (GpiGetValue(input, gCountrycodeKey, infoRecord.mCountrycode, 3) == FALSE) {
+            infoRecord.mCountrycode[0] = 0;
         }
         if (GpiGetValue(input, gLonKey, buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_2c = 0;
+            infoRecord.mLongitude = 0;
         } else {
-            infoRecord.mUnk_2c = atof(buffer);
+            infoRecord.mLongitude = atof(buffer);
         }
         if (GpiGetValue(input, gLatKey, buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_30 = 0;
+            infoRecord.mLatitude = 0;
         } else {
-            infoRecord.mUnk_30 = atof(buffer);
+            infoRecord.mLatitude = atof(buffer);
         }
-        if (GpiGetValue(input, gLocKey, infoRecord.mUnk_34, 0x80) == FALSE) {
-            infoRecord.mUnk_34[0] = 0;
+        if (GpiGetValue(input, gLocKey, infoRecord.mPlace, 0x80) == FALSE) {
+            infoRecord.mPlace[0] = 0;
         }
         if (GpiGetValue(input, gBirthdayKey, buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_b4 = 0;
-            infoRecord.mUnk_b8 = 0;
-            infoRecord.mUnk_bc = 0;
+            infoRecord.mBirthday = 0;
+            infoRecord.mBirthmonth = 0;
+            infoRecord.mBirthyear = 0;
         } else {
-            result = GpiUnpackDate((u32 *) connection, StrtolBase10(buffer), &infoRecord.mUnk_b4, &infoRecord.mUnk_b8,
-                                   &infoRecord.mUnk_bc);
+            result = GpiUnpackDate((u32 *) connection, StrtolBase10(buffer), &infoRecord.mBirthday,
+                                   &infoRecord.mBirthmonth, &infoRecord.mBirthyear);
             if (result != 0) {
                 return result;
             }
         }
         if (GpiGetValue(input, gSexKey, buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_c0 = 0x502;
+            infoRecord.mSex = 0x502;
         } else if ((s8) buffer[0] == 0x30) {
-            infoRecord.mUnk_c0 = 0x500;
+            infoRecord.mSex = 0x500;
         } else if ((s8) buffer[0] == 0x31) {
-            infoRecord.mUnk_c0 = 0x501;
+            infoRecord.mSex = 0x501;
         } else {
-            infoRecord.mUnk_c0 = 0x502;
+            infoRecord.mSex = 0x502;
         }
         if (GpiGetValue(input, gPmaskKey, buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_c4 = -1;
+            infoRecord.mPmask = -1;
         } else {
-            infoRecord.mUnk_c4 = StrtolBase10(buffer);
+            infoRecord.mPmask = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gAimKey, infoRecord.mUnk_c8, 0x33) == FALSE) {
-            infoRecord.mUnk_c8[0] = 0;
+        if (GpiGetValue(input, gAimKey, infoRecord.mAimName, 0x33) == FALSE) {
+            infoRecord.mAimName[0] = 0;
         }
         if (GpiGetValue(input, gPicKey, buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[0] = 0;
@@ -884,7 +884,7 @@ u32 gpiSetInfoCache(GpConnection *connection, GpiProfile *profile, GPIInfoCache 
         profile->mUnk_0c->mUnk_00[3] = goastrdup(cache->mUnk_00[3]);
         profile->mUnk_0c->mUnk_00[4] = goastrdup(cache->mUnk_00[4]);
         profile->mUnk_0c->mUnk_00[5] = goastrdup(cache->mUnk_00[5]);
-        profile->mUnk_0c->mUnk_c8 = goastrdup(cache->mUnk_c8);
+        profile->mUnk_0c->mAimName = goastrdup(cache->mAimName);
     }
     if (profile->mUnk_0c != NULL) {
         return 1;

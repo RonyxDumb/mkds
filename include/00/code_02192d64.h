@@ -6,19 +6,19 @@
 // buffers of its own; 0x1c, 0x27 and 0x34 are arrays inside.
 typedef struct GPIInfoCache {
     /* 00 */ char *mUnk_00[6];
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ char mUnk_1c[0xb];
-    /* 27 */ char mUnk_27[3];
+    /* 18 */ s32 mIcquin;
+    /* 1c */ char mZipcode[0xb];
+    /* 27 */ char mCountrycode[3];
     /* 2a */ u8 mUnk_2a[2];
-    /* 2c */ float mUnk_2c;
-    /* 30 */ float mUnk_30;
-    /* 34 */ char mUnk_34[0x80];
-    /* b4 */ u32 mUnk_b4;
-    /* b8 */ u32 mUnk_b8;
-    /* bc */ u32 mUnk_bc;
-    /* c0 */ s32 mUnk_c0;
-    /* c4 */ s32 mUnk_c4;
-    /* c8 */ char *mUnk_c8;
+    /* 2c */ float mLongitude;
+    /* 30 */ float mLatitude;
+    /* 34 */ char mPlace[0x80];
+    /* b4 */ u32 mBirthday;
+    /* b8 */ u32 mBirthmonth;
+    /* bc */ u32 mBirthyear;
+    /* c0 */ s32 mSex;
+    /* c4 */ s32 mPmask;
+    /* c8 */ char *mAimName;
     /* cc */ s32 mUnk_cc[9];
 } GPIInfoCache;
 

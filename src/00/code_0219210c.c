@@ -16,8 +16,8 @@ void gpiFreeInfoCache(GpiProfile *profile) {
         profile->mUnk_0c->mUnk_00[4] = NULL;
         DWCi_GsFree(profile->mUnk_0c->mUnk_00[5]);
         profile->mUnk_0c->mUnk_00[5] = NULL;
-        DWCi_GsFree(profile->mUnk_0c->mUnk_c8);
-        profile->mUnk_0c->mUnk_c8 = NULL;
+        DWCi_GsFree(profile->mUnk_0c->mAimName);
+        profile->mUnk_0c->mAimName = NULL;
         DWCi_GsFree(profile->mUnk_0c);
         profile->mUnk_0c = NULL;
     }

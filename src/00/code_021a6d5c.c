@@ -148,7 +148,7 @@ s32 SOC_GetSockName(u32 socketHandle, void *sockAddr) {
     }
     ownAddr = SOCL_GetHostID();
     if (socket != NULL) {
-        ownPort = socket->mUnk_74;
+        ownPort = socket->mLocalPort;
     } else {
         ownPort = 0;
     }
@@ -240,15 +240,15 @@ s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode) {
     }
     switch (command) {
         case 3:
-            if (socket->mUnk_72 == 1) {
+            if (socket->mFlagBlock == 1) {
                 return 0;
             }
             return 4;
         case 4:
             if (mode & 4) {
-                socket->mUnk_72 = 0;
+                socket->mFlagBlock = 0;
             } else {
-                socket->mUnk_72 = 1;
+                socket->mFlagBlock = 1;
             }
             break;
     }
@@ -461,10 +461,10 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
     if (SOCL_SocketIsInvalid(socket) != 0) {
         status |= 0x80;
     } else {
-        if ((volatileSocket->mUnk_70 & 0x40) != 0) {
+        if ((volatileSocket->mStatusFlags & 0x40) != 0) {
             status |= 0x20;
         }
-        if (socket->mUnk_73 == 1 || (volatileSocket->mUnk_70 & 4) != 0) {
+        if (socket->mFlagMode == 1 || (volatileSocket->mStatusFlags & 4) != 0) {
             interruptState = OS_DisableInterrupts();
             if (SOCLi_GetReadBufferOccpiedSize(socket) > 0) {
                 status |= 1;
@@ -475,14 +475,14 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
             OS_RestoreInterrupts(interruptState);
         }
         isTcp = TRUE;
-        if (socket->mUnk_73 != 0 && socket->mUnk_73 != 4) {
+        if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
             isTcp = FALSE;
         }
         if (isTcp != FALSE) {
-            if ((volatileSocket->mUnk_70 & 4) != 0 && socket->mState != 4 && (status & 1) == 0) {
-                volatileSocket->mUnk_70 &= ~6;
+            if ((volatileSocket->mStatusFlags & 4) != 0 && socket->mState != 4 && (status & 1) == 0) {
+                volatileSocket->mStatusFlags &= ~6;
             }
-            if ((volatileSocket->mUnk_70 & 2) == 0 && (volatileSocket->mUnk_70 & 4) == 0) {
+            if ((volatileSocket->mStatusFlags & 2) == 0 && (volatileSocket->mStatusFlags & 4) == 0) {
                 status |= 0x40;
             }
         }
@@ -497,7 +497,7 @@ s32 SOCLi_GetReadBufferOccpiedSize(SOCLSocket *socket) {
     inPipe = socket->mReceiveBlock;
     size = 0;
     if (inPipe != NULL) {
-        kind = socket->mUnk_73;
+        kind = socket->mFlagMode;
         if (kind == 1) {
             if (inPipe->mUnk_104 != NULL) {
                 size = inPipe->mUnk_104->mUnk_04;
@@ -603,7 +603,7 @@ s32 SOCL_CloseAll(void) {
         if (sockObj != NULL) {
             udpSendSocket = SOCLiUDPSendSocket;
             do {
-                if (sockObj != udpSendSocket && (sockObj->mUnk_70 & 0x10) == 0) {
+                if (sockObj != udpSendSocket && (sockObj->mStatusFlags & 0x10) == 0) {
                     break;
                 }
                 sockObj = sockObj->mNext;
@@ -657,7 +657,7 @@ BOOL SOCL_IsClosed(SOCLSocket *socket) {
 
 static inline s32 SOCL_SocketIsTCP(SOCLSocket *socket) {
     BOOL isTcp = TRUE;
-    if (socket->mUnk_73 != 0 && socket->mUnk_73 != 4) {
+    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
         isTcp = FALSE;
     }
     return isTcp;
@@ -666,7 +666,7 @@ static inline s32 SOCL_SocketIsTCP(SOCLSocket *socket) {
 static inline s32 SOCL_SocketIsCreated(SOCLSocket *socket) {
     BOOL isCreated = FALSE;
     if (socket != NULL) {
-        isCreated = (socket->mUnk_70 & 1) != 0;
+        isCreated = (socket->mStatusFlags & 1) != 0;
     }
     return isCreated;
 }
@@ -688,10 +688,10 @@ s32 SOCL_Close(s32 socketHandle) {
     if (SOCL_SocketIsCreated(sockObj) == 0) {
         return -0x27;
     }
-    if ((volatileSocket->mUnk_70 & 0x10) != 0) {
+    if ((volatileSocket->mStatusFlags & 0x10) != 0) {
         return -0x1a;
     }
-    volatileSocket->mUnk_70 |= 0x18;
+    volatileSocket->mStatusFlags |= 0x18;
     if (SOCL_SocketIsTCP(sockObj) != 0) {
         SOCLi_SendCommandPacket(&sockObj->mSendBlock->mUnk_00, NULL);
     }
@@ -711,8 +711,8 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
         CPS_SocRelease();
     }
     CPS_SocUnRegister();
-    sockObj->mUnk_70 &= ~6;
-    if (sockObj->mUnk_73 == 2) {
+    sockObj->mStatusFlags &= ~6;
+    if (sockObj->mFlagMode == 2) {
         block = sockObj->mSendBlock;
     } else {
         block = sockObj->mReceiveBlock;
@@ -722,7 +722,7 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
     SOCLi_SocketUnregister(sockObj);
     SOCLi_SocketRegisterTrash(sockObj);
     OS_RestoreInterrupts(interruptState);
-    sockObj->mUnk_70 |= 0x20;
+    sockObj->mStatusFlags |= 0x20;
     return 0;
 }
 
@@ -731,11 +731,11 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
     SOCLiSocketUdpData *nextDatagram;
     u32 interruptState;
     if (socket != NULL) {
-        socket->mUnk_70 = 0;
+        socket->mStatusFlags = 0;
         if (SOCL_SocketIsTCP(socket) != 0) {
             SOCLi_FreeCommandPipe(&socket->mSendBlock->mUnk_00);
             SOCLi_FreeCommandPipe(&socket->mReceiveBlock->mUnk_00);
-        } else if (socket->mUnk_73 == 1) {
+        } else if (socket->mFlagMode == 1) {
             datagram = socket->mReceiveBlock->mUnk_104;
             while (datagram != NULL) {
                 nextDatagram = datagram->mUnk_00;
@@ -747,7 +747,7 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
             socket->mReceiveBlock->mUnk_104 = NULL;
             OS_WakeupThread(&socket->mReceiveBlock->mUnk_10c);
             SOCLi_FreeCommandPipe(&socket->mReceiveBlock->mUnk_00);
-        } else if (socket->mUnk_73 == 2) {
+        } else if (socket->mFlagMode == 2) {
             SOCLi_FreeCommandPipe(&socket->mSendBlock->mUnk_00);
         }
         interruptState = OS_DisableInterrupts();
@@ -801,13 +801,13 @@ s32 SOCL_Shutdown(s32 socketHandle) {
     if (SOCL_SocketIsCreated(sockObj) == 0) {
         return -0x27;
     }
-    if ((volatileSocket->mUnk_70 & 4) == 0 || (volatileSocket->mUnk_70 & 8) != 0) {
+    if ((volatileSocket->mStatusFlags & 4) == 0 || (volatileSocket->mStatusFlags & 8) != 0) {
         return -0x38;
     }
-    volatileSocket->mUnk_70 |= 8;
+    volatileSocket->mStatusFlags |= 8;
     outPipe = sockObj->mSendBlock;
     if (outPipe != NULL && outPipe->mUnk_10c != NULL) {
-        cmdPacket = SOCLi_CreateCommandPacket(SOCLi_ShutdownCallBack, outPipe->mUnk_10c, sockObj->mUnk_72);
+        cmdPacket = SOCLi_CreateCommandPacket(SOCLi_ShutdownCallBack, outPipe->mUnk_10c, sockObj->mFlagBlock);
         if (cmdPacket == NULL) {
             return -0x21;
         }
@@ -837,12 +837,12 @@ s32 SOCL_WriteTo(u32 socketHandle, void *buffer, u32 length, u16 remotePort, u32
         return -0x27;
     }
     if (SOCL_SocketIsTCP(sockObj) != 0) {
-        if ((volatileSocket->mUnk_70 & 4) == 0 || (volatileSocket->mUnk_70 & 8) != 0) {
+        if ((volatileSocket->mStatusFlags & 4) == 0 || (volatileSocket->mStatusFlags & 8) != 0) {
             return -0x38;
         }
     }
     outPipe = sockObj->mSendBlock;
-    if ((flags & 4) != 0 || sockObj->mUnk_72 == 0) {
+    if ((flags & 4) != 0 || sockObj->mFlagBlock == 0) {
         if (OS_TryLockMutex(&outPipe->mUnk_00.mUnk_e0) == 0) {
             return -6;
         }
@@ -863,7 +863,7 @@ s32 SOCLi_WriteBuffer(SOCLSocket *socket, u8 *buffer, s32 length, u16 remotePort
     u32 ringIn;
     copiedLength = 0;
     chunkLimit = socket->mSendBlock->mUnk_10c->mSendBuffer.mSize;
-    if (socket->mUnk_73 == 1) {
+    if (socket->mFlagMode == 1) {
         chunkLimit -= 0x2a;
         if (length > chunkLimit) {
             return -0x23;
@@ -967,18 +967,18 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
     MI_CpuCopy8(buffer, writePacket->mUnk_10, writePacket->mUnk_14);
     writePacket->mUnk_20 = ringIn;
     outPipe->mUnk_100 = writePacket->mUnk_20;
-    if (socket->mUnk_73 == 1) {
-        if (socket->mUnk_74 == 0) {
-            socket->mUnk_74 = CPS_SocGetEport();
-            socket->mUnk_0a = socket->mUnk_74;
+    if (socket->mFlagMode == 1) {
+        if (socket->mLocalPort == 0) {
+            socket->mLocalPort = CPS_SocGetEport();
+            socket->mCpsLocalPort = socket->mLocalPort;
         }
-        writePacket->mUnk_24 = socket->mUnk_74;
-        if (socket->mUnk_78 == NULL || peerAddr != NULL) {
+        writePacket->mUnk_24 = socket->mLocalPort;
+        if (socket->mRemoteIp == NULL || peerAddr != NULL) {
             writePacket->mUnk_28 = peerAddr;
             writePacket->mUnk_26 = remotePort;
         } else {
-            writePacket->mUnk_28 = socket->mUnk_78;
-            writePacket->mUnk_26 = socket->mUnk_76;
+            writePacket->mUnk_28 = socket->mRemoteIp;
+            writePacket->mUnk_26 = socket->mRemotePort;
         }
     } else {
         writePacket->mUnk_28 = NULL;
@@ -998,7 +998,7 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
     s32 written = 0;
     s32 sendCapacity;
     s32 chunkLength;
-    if (SOCL_SocketIsTCP(sockObj) == 0 || (sockObj->mUnk_70 & 4) != 0) {
+    if (SOCL_SocketIsTCP(sockObj) == 0 || (sockObj->mStatusFlags & 4) != 0) {
         if (command->mUnk_28 != NULL) {
             CPS_SocBind(command->mUnk_24, command->mUnk_26, (s32) command->mUnk_28);
         }
@@ -1017,7 +1017,7 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
             chunkLength = CPS_SocWrite(sendBuffer, chunkLength);
             if (chunkLength <= 0) {
                 if (SOCL_SocketIsTCP(sockObj) != 0) {
-                    sockObj->mUnk_70 &= ~0xe;
+                    sockObj->mStatusFlags &= ~0xe;
                 }
                 written = -0x4c;
                 break;
@@ -1063,8 +1063,8 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
     if (SOCL_SocketIsInvalid(sockObj) != 0) {
         return -0x1c;
     }
-    if ((flags & 4) != 0 || sockObj->mUnk_72 == 0) {
-        if (sockObj->mUnk_73 == 4) {
+    if ((flags & 4) != 0 || sockObj->mFlagBlock == 0) {
+        if (sockObj->mFlagMode == 4) {
             return -0x1c;
         }
         i = 0;
@@ -1078,7 +1078,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
         return -0x27;
     }
     if (SOCL_SocketIsTCP(sockObj) != 0) {
-        if ((volatileSocket->mUnk_70 & 4) == 0 || (volatileSocket->mUnk_70 & 8) != 0) {
+        if ((volatileSocket->mStatusFlags & 4) == 0 || (volatileSocket->mStatusFlags & 8) != 0) {
             return -0x38;
         }
     }
@@ -1110,7 +1110,7 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
         savedNoConsume = inPipe->mUnk_fe;
         inPipe->mUnk_fe = 1;
     }
-    if (socket->mUnk_73 == 1) {
+    if (socket->mFlagMode == 1) {
         result = SOCLi_ReadUdpBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
     } else {
         result = SOCLi_ReadBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
@@ -1126,7 +1126,7 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
 
 s32 SOCLi_ReadBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr, s32 isBlocking) {
     s32 result;
-    if (socket->mUnk_73 == 4) {
+    if (socket->mFlagMode == 4) {
         return SOCLi_ExecReadCommand(socket, (u32) buffer, length, (u32) remotePort, (u32) peerAddr);
     }
     result = SOCLi_CopyCPSBuffer(socket, buffer, length, remotePort, peerAddr);
@@ -1166,15 +1166,15 @@ s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
         } else {
             result = -0x1c;
         }
-        socket->mUnk_70 &= ~6;
+        socket->mStatusFlags &= ~6;
     }
     if (result >= 0) {
         if (remotePort != NULL && peerAddr != NULL) {
             *remotePort = ports[1];
             *peerAddr = remoteAddress;
         }
-        if (socket->mUnk_74 == 0) {
-            socket->mUnk_74 = ports[0];
+        if (socket->mLocalPort == 0) {
+            socket->mLocalPort = ports[0];
         }
     }
     OS_RestoreInterrupts(interruptState);
@@ -1187,9 +1187,9 @@ u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u
     s32 used = inPipe->mUnk_f8;
     s32 available = cpsSocket->mReceiveBufferLength - used;
     if (available >= 0) {
-        *localPortOut = cpsSocket->mUnk_0a;
-        *remotePortOut = cpsSocket->mUnk_18;
-        *remoteIpOut = cpsSocket->mUnk_1c;
+        *localPortOut = cpsSocket->mCpsLocalPort;
+        *remotePortOut = cpsSocket->mCpsRemotePort;
+        *remoteIpOut = cpsSocket->mCpsRemoteIp;
         *lengthOut = available;
         if (available == 0 && cpsSocket->mState != 4) {
             return NULL;
@@ -1240,7 +1240,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
             break;
         }
         isTcp = TRUE;
-        if (sockObj->mUnk_73 != 0 && sockObj->mUnk_73 != 4) {
+        if (sockObj->mFlagMode != 0 && sockObj->mFlagMode != 4) {
             isTcp = FALSE;
         }
         if (isTcp != FALSE && sockObj->mState != 4) {
@@ -1249,7 +1249,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         }
         OS_Sleep(10);
     }
-    if (sockObj->mUnk_73 == 4) {
+    if (sockObj->mFlagMode == 4) {
         if (gotData == NULL) {
             return 0;
         }
@@ -1277,7 +1277,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
 static inline s32 ReadUdpSOCL_SocketIsCreated(SOCLSocket *socket) {
     BOOL isCreated = FALSE;
     if (socket != NULL) {
-        isCreated = (socket->mUnk_70 & 1) != 0;
+        isCreated = (socket->mStatusFlags & 1) != 0;
     }
     return isCreated;
 }
@@ -1365,14 +1365,14 @@ s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket) {
             inPipe->mUnk_108 += length;
             datagram->mUnk_00 = NULL;
             datagram->mUnk_04 = length;
-            datagram->mUnk_06 = socket->mUnk_18;
-            datagram->mUnk_08 = socket->mUnk_1c;
+            datagram->mUnk_06 = socket->mCpsRemotePort;
+            datagram->mUnk_08 = socket->mCpsRemoteIp;
             MI_CpuCopy8(data, datagram->mUnk_0c, length);
-            if (socket->mUnk_74 == 0) {
-                socket->mUnk_74 = socket->mUnk_0a;
+            if (socket->mLocalPort == 0) {
+                socket->mLocalPort = socket->mCpsLocalPort;
             }
-            socket->mUnk_18 = socket->mUnk_1a;
-            socket->mUnk_1c = socket->mUnk_20;
+            socket->mCpsRemotePort = socket->mCpsRemotePortBound;
+            socket->mCpsRemoteIp = socket->mCpsRemoteIpBound;
             if (((const SOCLiSocketRecvCommandPipe *) inPipe)->mUnk_100 != NULL) {
                 inPipe->mUnk_100->mUnk_00 = datagram;
             }
@@ -1398,16 +1398,16 @@ s32 SOCL_Bind(SOCLSocket *socket, u16 ownPort) {
     }
     isCreated = FALSE;
     if (socket != NULL) {
-        isCreated = (socket->mUnk_70 & 1) != 0;
+        isCreated = (socket->mStatusFlags & 1) != 0;
     }
     if (isCreated == FALSE) {
         return -39;
     }
-    if (socket->mUnk_70 & 2) {
+    if (socket->mStatusFlags & 2) {
         return -7;
     }
-    socket->mUnk_74 = ownPort;
-    if (socket->mUnk_73 == 1) {
+    socket->mLocalPort = ownPort;
+    if (socket->mFlagMode == 1) {
         return SOCLi_ExecBindCommand(socket);
     }
     return 0;
@@ -1418,57 +1418,57 @@ s32 SOCL_Connect(SOCLSocket *socket, u16 remotePort, u16 *peerAddr) {
     BOOL condition;
     volatile SOCLSocket *volatileSocket = socket;
 
-    if (SOCL_SocketIsInvalid(socket) != 0 || (volatileSocket->mUnk_70 & 8)) {
+    if (SOCL_SocketIsInvalid(socket) != 0 || (volatileSocket->mStatusFlags & 8)) {
         return -28;
     }
     condition = FALSE;
     if (socket != NULL) {
-        condition = (socket->mUnk_70 & 1) != 0;
+        condition = (socket->mStatusFlags & 1) != 0;
     }
     if (condition == FALSE) {
         return -39;
     }
     condition = TRUE;
-    if (socket->mUnk_73 != 0 && socket->mUnk_73 != 4) {
+    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
         condition = FALSE;
     }
     if (condition != FALSE) {
-        if (volatileSocket->mUnk_70 & 4) {
-            if (socket->mUnk_72 == 1) {
+        if (volatileSocket->mStatusFlags & 4) {
+            if (socket->mFlagBlock == 1) {
                 return -30;
             }
             return 0;
         }
-        if (volatileSocket->mUnk_70 & 2) {
-            if (volatileSocket->mUnk_70 & 0x40) {
+        if (volatileSocket->mStatusFlags & 2) {
+            if (volatileSocket->mStatusFlags & 0x40) {
                 return socket->mEntryResult;
             }
             return SOCLiResultCodeInConnecting;
         }
-        socket->mUnk_76 = remotePort;
-        socket->mUnk_78 = peerAddr;
+        socket->mRemotePort = remotePort;
+        socket->mRemoteIp = peerAddr;
         result = SOCLi_ExecBindCommand(socket);
-        if (socket->mUnk_72 == 1) {
+        if (socket->mFlagBlock == 1) {
             return result;
         }
         return -26;
     }
-    socket->mUnk_76 = remotePort;
-    socket->mUnk_78 = peerAddr;
+    socket->mRemotePort = remotePort;
+    socket->mRemoteIp = peerAddr;
     return 0;
 }
 
 s32 SOCLi_ExecBindCommand(SOCLSocket *socket) {
     SOCLiCommandPacket *cmdPacket;
 
-    cmdPacket = SOCLi_CreateCommandPacket(SOCLi_BindCallBack, socket, socket->mUnk_72);
+    cmdPacket = SOCLi_CreateCommandPacket(SOCLi_BindCallBack, socket, socket->mFlagBlock);
     if (cmdPacket == NULL) {
         return -33;
     }
-    cmdPacket->mUnk_10 = socket->mUnk_74;
-    cmdPacket->mUnk_12 = socket->mUnk_76;
-    cmdPacket->mUnk_14 = socket->mUnk_78;
-    socket->mUnk_70 |= 2;
+    cmdPacket->mUnk_10 = socket->mLocalPort;
+    cmdPacket->mUnk_12 = socket->mRemotePort;
+    cmdPacket->mUnk_14 = socket->mRemoteIp;
+    socket->mStatusFlags |= 2;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, cmdPacket);
 }
 
@@ -1488,10 +1488,10 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     }
     OS_UnlockMutex(&inPipe->mUnk_00.mUnk_e0);
     if (connectResult != 0) {
-        sockObj->mUnk_70 |= 0x40;
+        sockObj->mStatusFlags |= 0x40;
         return -76;
     }
-    sockObj->mUnk_70 |= 4;
+    sockObj->mStatusFlags |= 4;
     return 0;
 }
 
@@ -1504,22 +1504,22 @@ s32 SOCL_Listen(s32 socketHandle) {
     }
     condition = FALSE;
     if (sockObj != NULL) {
-        condition = (sockObj->mUnk_70 & 1) != 0;
+        condition = (sockObj->mStatusFlags & 1) != 0;
     }
     if (condition == FALSE) {
         return -39;
     }
-    if (sockObj->mUnk_70 & 2) {
+    if (sockObj->mStatusFlags & 2) {
         return -28;
     }
     condition = TRUE;
-    if (sockObj->mUnk_73 != 0 && sockObj->mUnk_73 != 4) {
+    if (sockObj->mFlagMode != 0 && sockObj->mFlagMode != 4) {
         condition = FALSE;
     }
     if (condition == FALSE) {
         return -28;
     }
-    if (sockObj->mUnk_72 == 1) {
+    if (sockObj->mFlagBlock == 1) {
         return 0;
     }
     return -6;
@@ -1535,29 +1535,29 @@ s32 SOCL_Accept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) {
     }
     condition = FALSE;
     if (socket != NULL) {
-        condition = (socket->mUnk_70 & 1) != 0;
+        condition = (socket->mStatusFlags & 1) != 0;
     }
     if (condition == FALSE) {
         return -39;
     }
-    if (socket->mUnk_70 & 2) {
+    if (socket->mStatusFlags & 2) {
         return -28;
     }
     condition = TRUE;
-    if (socket->mUnk_73 != 0 && socket->mUnk_73 != 4) {
+    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
         condition = FALSE;
     }
     if (condition == FALSE) {
         return -28;
     }
-    if (socket->mUnk_72 != 1) {
+    if (socket->mFlagBlock != 1) {
         return -6;
     }
     acceptSocket = SOCL_CreateSocket(&SOCLSocketParamTCP);
     if (acceptSocket < 0) {
         return acceptSocket;
     }
-    result = SOCL_Bind((SOCLSocket *) acceptSocket, socket->mUnk_74);
+    result = SOCL_Bind((SOCLSocket *) acceptSocket, socket->mLocalPort);
     if (result < 0) {
         return result;
     }
@@ -1578,32 +1578,32 @@ s32 SOCL_ListenAccept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) 
     }
     condition = FALSE;
     if (socket != NULL) {
-        condition = (socket->mUnk_70 & 1) != 0;
+        condition = (socket->mStatusFlags & 1) != 0;
     }
     if (condition == FALSE) {
         return -39;
     }
-    if (socket->mUnk_70 & 2) {
+    if (socket->mStatusFlags & 2) {
         return -28;
     }
     condition = TRUE;
-    if (socket->mUnk_73 != 0 && socket->mUnk_73 != 4) {
+    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
         condition = FALSE;
     }
     if (condition == FALSE) {
         return -28;
     }
-    if (socket->mUnk_72 != 1) {
+    if (socket->mFlagBlock != 1) {
         return -6;
     }
-    if (socket->mUnk_74 == 0) {
+    if (socket->mLocalPort == 0) {
         return -28;
     }
-    cmdPacket = SOCLi_CreateCommandPacket(SOCLi_ListenAcceptCallBack, socket, socket->mUnk_72);
-    cmdPacket->mUnk_10 = socket->mUnk_74;
+    cmdPacket = SOCLi_CreateCommandPacket(SOCLi_ListenAcceptCallBack, socket, socket->mFlagBlock);
+    cmdPacket->mUnk_10 = socket->mLocalPort;
     cmdPacket->mUnk_14 = remotePortOut;
     cmdPacket->mUnk_18 = remoteIpOut;
-    socket->mUnk_70 |= 2;
+    socket->mStatusFlags |= 2;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, cmdPacket);
 }
 
@@ -1623,7 +1623,7 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     peerAddr = CPS_SocWho(&remotePort, &ownAddr);
     *packet->mUnk_14 = remotePort;
     *packet->mUnk_18 = peerAddr;
-    sockObj->mUnk_70 |= 4;
+    sockObj->mStatusFlags |= 4;
     OS_UnlockMutex(&inPipe->mUnk_00.mUnk_e0);
     return 0;
 }
@@ -1647,7 +1647,7 @@ s32 SOCLi_CreateSocketCallBack(SOCLiCommandPacket *command) {
     sockObj = command->mUnk_04;
     CPS_SocRegister(sockObj);
     outPipe = &sockObj->mSendBlock->mUnk_00;
-    switch (sockObj->mUnk_73) {
+    switch (sockObj->mFlagMode) {
         case 0:
         case 4:
             CPS_SocDup(&outPipe->mUnk_20);
@@ -1664,7 +1664,7 @@ s32 SOCLi_CreateSocketCallBack(SOCLiCommandPacket *command) {
         case 3:
             break;
     }
-    sockObj->mUnk_70 = 1;
+    sockObj->mStatusFlags = 1;
     return 0;
 }
 
@@ -1717,8 +1717,8 @@ u8 *SOCLi_InitSocket(SOCLSocket *socket, SOCLSocketParam *param) {
     SOCLiSocketRecvCommandPipe *inPipe;
     SOCLiSocketSendCommandPipe *outPipe;
 
-    socket->mUnk_73 = param->mUnk_00;
-    socket->mUnk_72 = param->mUnk_01;
+    socket->mFlagMode = param->mUnk_00;
+    socket->mFlagBlock = param->mUnk_01;
     cursor = (u8 *) &socket->mUnk_80;
     if (param->mUnk_02 != 0) {
         inPipe = &socket->mUnk_80;
@@ -1821,7 +1821,7 @@ SOCLiCommandPacket *SOCLi_CreateCommandPacket(Unk021a7064Func handler, SOCLSocke
         packet->mUnk_00 = handler;
         packet->mUnk_04 = socket;
         packet->mUnk_0d = flag;
-        packet->mUnk_0c = socket->mUnk_73;
+        packet->mUnk_0c = socket->mFlagMode;
     }
     return packet;
 }
