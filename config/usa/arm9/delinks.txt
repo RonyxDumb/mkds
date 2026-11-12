@@ -2020,12 +2020,7 @@ src/Main/Unknown/code_02088338.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020888b4.c:
     complete
-    .text       start:0x020888b4 end:0x02089ce4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02089ce4.c:
-    complete
-    .text       start:0x02089ce4 end:0x02089d14
+    .text       start:0x020888b4 end:0x02089d14
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02089d14.c:

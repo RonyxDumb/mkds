@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020888b4.h"
+#include "Main/Unknown/code_02089ce4.h"
 #include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/code_020435c4.h"
 #include "Main/Unknown/code_0207d814.h"
@@ -48,6 +49,14 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 #include "Main/Unknown/code_02077bc0.h"
+
+void SetupBattleKartAiSpeedLimit(KartAiSpeedLimit *speedLimit, KartAi *kartAi) {
+    speedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;
+    speedLimit->mSpeedLimit = speedLimit->mBaseSpeedLimit;
+    speedLimit->mUnk_08 = 0x5000;
+    speedLimit->mUnk_0c = FALSE;
+    speedLimit->mTurnSpeedLimit = 0;
+}
 
 static inline s32 BattleKartAiXzIntDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos) {
     s32 xDifference = FROM_FIXED12(firstPos->x - secondPos->x);
