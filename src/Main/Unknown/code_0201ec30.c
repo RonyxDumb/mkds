@@ -1,11 +1,22 @@
 #include "Main/Unknown/code_0201ec30.h"
-
+#include "Main/Unknown/code_020204b4.h"
 #include "code_0200eddc.h"
 #include "Main/Unknown/unk_02173000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_020204b4.h"
 #include "mic.h"
+
+u32 ClampMicSample(u32 arg0) {
+    u32 value0 = arg0;
+    u32 compareLeft0;
+    u32 compareRight0;
+    compareLeft0 = value0;
+    compareRight0 = 0xffu;
+    if (compareLeft0 == compareRight0) {
+        value0 = 0xfeu;
+    }
+    return value0;
+}
 
 u8 data_02161ad8 = 1;
 
