@@ -1,9 +1,41 @@
 #include "Main/Unknown/code_020d0f78.h"
+#include "Main/Unknown/code_020d113c.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_020d1108.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020d0efc.h"
+#include "Main/Unknown/code_020d1158.h"
+#include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020483e4.h"
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_02048000.h"
 #include "code_02134398.h"
 #include "Main/Unknown/unk_0216a000.h"
+
+u32 CupPictureGetCurrentHeap(void) {
+    u32 value0;
+    value0 = (u32) GetCurrentHeapCall();
+    value0 = (u32) GetHeap((void *) value0);
+    return value0;
+}
+
+#pragma thumb on
+
+void InitCupPicture(void) {
+    int result;
+    CupPicture *cupPicture;
+    u32 heap;
+    result = CupPictureMB_IsMultiBootChildWrapper();
+    if (result == 0) {
+        heap = CupPictureGetCurrentHeap();
+        cupPicture = HeapAlloc((void *) heap, (0x0000185cu));
+        gCupPicture = cupPicture;
+        cupPicture->mCupPictureIndex = 0;
+        TrySetCupPictureIndexAndQueueLoads(0x14);
+    }
+}
+
+#pragma thumb off
 
 #pragma opt_propagation off
 
