@@ -277,9 +277,9 @@ void LocateAndQueueSelectCupCourse(void) {
         LocateNclr(&modePalette, FindSceneFile(gSelectCupCourseVsMBNclrName));
         LocateNscr(&modeScreenMap, FindSceneFile(gSelectCupCourseVsMNscrName));
     }
-    LocateNcgr(&fixedChars, FindSceneFile(data_0216d874));
-    LocateNclr(&fixedPalette, FindSceneFile(data_0216d854));
-    LocateNscr(&fixedScreenMap, FindSceneFile(data_0216d858));
+    LocateNcgr(&fixedChars, FindSceneFile(gSelectCupMBNcgrName));
+    LocateNclr(&fixedPalette, FindSceneFile(gSelectCupMBNclrName));
+    LocateNscr(&fixedScreenMap, FindSceneFile(gSelectCupMNscrName));
     gSelectCupCourse->mSecondScreenMapBuffer = HeapAlloc(gSelectCupCourse->mHeap, 0x800);
     if (gSelectCupCourse->mMode == 0) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(data_0216d880);
@@ -291,12 +291,12 @@ void LocateAndQueueSelectCupCourse(void) {
     LocateNcgr2(&courseCellChars, FindSceneFile(gSelectCupCourseMNcgrName));
     LocateNcer(&gSelectCupCourse->mSelectCupCourseMNcer, FindSceneFile(data_0216d890));
     LocateNclr(&courseCellPalette, FindSceneFile(gSelectCupCourseMONclrName));
-    gSelectCupCourse->mSelectCupMBncl = FindSceneFile(data_0216d888);
+    gSelectCupCourse->mSelectCupMBncl = FindSceneFile(gSelectCupMBnclName);
     gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(gSelectCupCourseCupMBnblName);
-    gSelectCupCourse->mSelectCupMBnll = FindSceneFile(data_0216d860);
-    LocateNcgr2(&cupCellChars, FindSceneFile(data_0216d898));
-    LocateNcer(&gSelectCupCourse->mSelectCupMNcer, FindSceneFile(data_0216d8a8));
-    LocateNclr(&cupCellPalette, FindSceneFile(data_0216d85c));
+    gSelectCupCourse->mSelectCupMBnll = FindSceneFile(gSelectCupMBnllName);
+    LocateNcgr2(&cupCellChars, FindSceneFile(gSelectCupMNcgrName));
+    LocateNcer(&gSelectCupCourse->mSelectCupMNcer, FindSceneFile(gSelectCupMNcerName));
+    LocateNclr(&cupCellPalette, FindSceneFile(gSelectCupMONclrName));
     courseCellPaletteData = courseCellPalette->mData;
     NNS_GfdRegisterNewVramTransferTask(4, 0, modeChars->mData, modeChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, modePalette->mData, 0x140);

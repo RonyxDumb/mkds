@@ -86,7 +86,7 @@ void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mo
     if (*sceneName != 0) {
         languageCode = GetLanguageCode();
         OS_SNPrintf(path, 0x80, gSceneModeLanguageArchivePathFormat, sceneName, gModeArchiveNames[mode], languageCode,
-                    data_02165098);
+                    gCarcName);
     }
 }
 

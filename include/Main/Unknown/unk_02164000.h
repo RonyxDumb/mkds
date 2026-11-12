@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/unk_02175000.h" // SceneCallbacks
 
-extern const char data_0216416c[];
+extern const char gCommonBmgName[];
 extern const char gResultsBattleSBNcgrName[];
 extern const char gResultsBattleSBNclrName[];
 extern const char gResultsBattleSBgNscrName[];

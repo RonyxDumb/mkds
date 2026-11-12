@@ -87,9 +87,12 @@ void SetupTrophy(void) {
         MTX_Identity43_(&gTrophy->mEffectMatrix);
         if (gTrophy->mRankIndex == 0) {
             gTrophy->mEffect0->mRadius = gTrophy->mUnk_114;
-            gTrophy->mEffect0->mPosition.x = gTrophy->mEffectOffset.x + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.x;
-            gTrophy->mEffect0->mPosition.y = gTrophy->mEffectOffset.y + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.y;
-            gTrophy->mEffect0->mPosition.z = gTrophy->mEffectOffset.z + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.z;
+            gTrophy->mEffect0->mPosition.x =
+                gTrophy->mEffectOffset.x + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.x;
+            gTrophy->mEffect0->mPosition.y =
+                gTrophy->mEffectOffset.y + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.y;
+            gTrophy->mEffect0->mPosition.z =
+                gTrophy->mEffectOffset.z + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.z;
             gTrophy->mEffect4->mPosition.x = gTrophy->mEffect4->mResource->mHeader->mPositionOffset.x;
             gTrophy->mEffect4->mPosition.y = gTrophy->mEffect4->mResource->mHeader->mPositionOffset.y - 0xcd;
             gTrophy->mEffect4->mPosition.z = gTrophy->mEffect4->mResource->mHeader->mPositionOffset.z - 0x21ec;
@@ -98,9 +101,12 @@ void SetupTrophy(void) {
             gTrophy->mEffect5->mPosition.z = gTrophy->mEffect5->mResource->mHeader->mPositionOffset.z - 0x21ec;
         } else if (gTrophy->mRankIndex == 1) {
             gTrophy->mEffect0->mRadius = gTrophy->mUnk_114;
-            gTrophy->mEffect0->mPosition.x = gTrophy->mEffectOffset.x + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.x;
-            gTrophy->mEffect0->mPosition.y = gTrophy->mEffectOffset.y + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.y;
-            gTrophy->mEffect0->mPosition.z = gTrophy->mEffectOffset.z + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.z;
+            gTrophy->mEffect0->mPosition.x =
+                gTrophy->mEffectOffset.x + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.x;
+            gTrophy->mEffect0->mPosition.y =
+                gTrophy->mEffectOffset.y + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.y;
+            gTrophy->mEffect0->mPosition.z =
+                gTrophy->mEffectOffset.z + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.z;
         }
     }
 }
@@ -117,8 +123,8 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
     gTrophy->mRankIndex = rankIndex;
     gTrophy->mModelIndex = modelIndex;
     if (modelIndex < 9 && rankIndex < 3) {
-        modelFile = FindSceneFile(data_021677fc[modelIndex]);
-        animationFile = FindSceneFile(data_02167820[modelIndex]);
+        modelFile = FindSceneFile(gTKinoNsbmdName[modelIndex]);
+        animationFile = FindSceneFile(gTKinoNsbtpName[modelIndex]);
         gTrophy->mLight0X = data_02156640[modelIndex];
         gTrophy->mLight0Y = data_02156654[modelIndex];
         gTrophy->mLight0Z = data_02156668[modelIndex];

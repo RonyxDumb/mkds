@@ -105,14 +105,14 @@ void InitCourseModels(void *heap) {
     s32 shdwOffMaterialIndices[6];
     s32 slotIndex;
 
-    nsbmdFile = FindCourseFile(data_usa_02165404);
-    nsbtxFile = FindCourseFile(data_usa_02165418);
+    nsbmdFile = FindCourseFile(gCourseModelNsbmdName);
+    nsbtxFile = FindCourseFile(gCourseModelNsbtxName);
     gCourseModels.mNsbmd = HeapAlloc(heap, 0x6c);
     resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, nsbmdFile, nsbtxFile);
-    animationFile = FindCourseFile(data_usa_0216542c);
+    animationFile = FindCourseFile(gCourseModelNsbtpName);
     InitModelAnimationFromFile(2, &data_usa_0217ab04, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
                                &gCourseModels.mNsbtpAnmObjCount);
-    animationFile = FindCourseFile(data_usa_02165440);
+    animationFile = FindCourseFile(gCourseModelNsbtaName);
     InitModelAnimationFromFile(1, &data_0217ab5c, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
                                &gCourseModels.mNsbtaAnmObjCount);
     SetNsbmdPolygonIdAll(gCourseModels.mNsbmd, 8);
@@ -137,13 +137,13 @@ void InitCourseModels(void *heap) {
             break;
     }
     gCourseModels.mVNsbmd = NULL;
-    nsbmdFile = FindCourseFile(data_usa_02165454);
-    nsbtxFile = FindCourseFile(data_usa_0216546c);
+    nsbmdFile = FindCourseFile(gCourseModelVNsbmdName);
+    nsbtxFile = FindCourseFile(gCourseModelVNsbtxName);
     if (nsbmdFile != NULL) {
         gCourseModels.mVNsbmd = HeapAlloc(heap, 0x6c);
         InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, nsbmdFile, nsbtxFile);
         SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
-        animationFile = FindCourseFile(data_usa_02165484);
+        animationFile = FindCourseFile(gCourseModelVNsbtaName);
         InitModelAnimationFromFile(1, &data_usa_0217ab74, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
                                    &gCourseModels.mVNsbtaAnmObjCount);
     }

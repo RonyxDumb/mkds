@@ -26,8 +26,8 @@ typedef SPLManager *GetSPLManagerFunc(s32 *a, s32 b);
 extern GetSPLManagerFunc *gGetSPLManagerFunction;
 
 extern StadiumEmitters *gStadiumEmitters;
-extern char data_usa_021660c8[];
-extern char data_usa_021660e0[];
+extern char gKartphysicalparamBinName[];
+extern char gCharphysicalparamBinName[];
 extern AwardFirstEffectIds data_usa_021660f8;
 extern AwardEmitterEffectIds data_usa_02166108;
 extern s32 data_usa_02155f48[];

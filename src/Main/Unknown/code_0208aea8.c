@@ -162,8 +162,8 @@ void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
     gKartPhysicalParamTable = HeapAlloc(heap, 0x14);
     gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * sizeof(KartPhysicalParam));
     gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
-    gKartPhysicalParamTable->mKartParamFile = FindKartModelFile(data_usa_021660c8);
-    gKartPhysicalParamTable->mCharParamFile = FindKartModelFile(data_usa_021660e0);
+    gKartPhysicalParamTable->mKartParamFile = FindKartModelFile(gKartphysicalparamBinName);
+    gKartPhysicalParamTable->mCharParamFile = FindKartModelFile(gCharphysicalparamBinName);
     gKartPhysicalParamTable->mFirstBaseSpeedLimit = *OFFSET_PTR(s32, gKartPhysicalParamTable->mKartParamFile, 0x10);
 }
 

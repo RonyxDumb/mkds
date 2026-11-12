@@ -37,7 +37,7 @@ void ResetRaceSetupCopy(void) {
     gRaceSetupCopy->mMissionTableColumn = 1;
     if (RaceSetupCopyGetConnectionKind() == 0) {
         if (RaceSetupCopyMB_IsMultiBootChildWrapper() == 0) {
-            gRaceSetupCopy->mMissionFile = FindSceneFile(data_usa_0216212c);
+            gRaceSetupCopy->mMissionFile = FindSceneFile(gMissionMrName);
         } else {
             gRaceSetupCopy->mMissionFile = NULL;
         }

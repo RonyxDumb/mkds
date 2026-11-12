@@ -249,7 +249,7 @@ void InitRecordVSErase(void *heap) {
     InitLayoutTable(heap, gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseBnll,
                     &gRecordVSErase->mRecordVSSEraseTable);
     gRecordVSErase->mCommonMessages = FindFileInLoadedArchives(data_0216d4a4);
-    gRecordVSErase->mRecordMessages = FindSceneFile(data_0216d4b0);
+    gRecordVSErase->mRecordMessages = FindSceneFile(gRecordBmgName);
     remainingSize = 0x8000;
     remainingSize -=
         InitLabelCanvas(heap, 0, gRecordVSErase->mRecordVSMBnll, 0x8c, 0x10, 0, gRecordVSErase->mRecordVSMNcer,

@@ -127,4 +127,4 @@ extern const char gSelectKartSBnclName[];
 extern const char gSelectKartSBnllName[];
 extern const char gSelectKartSBnblName[];
 extern const char gCommonBmgName2[];
-extern const char data_usa_0216212c[];
+extern const char gMissionMrName[];

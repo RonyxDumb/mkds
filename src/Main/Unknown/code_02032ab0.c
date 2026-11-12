@@ -130,7 +130,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &sceneTextInitParams);
     InitFrmVramManagers();
-    gResultsBattle->mCommonMessages = FindFileInLoadedArchives(data_0216416c);
+    gResultsBattle->mCommonMessages = FindFileInLoadedArchives(gCommonBmgName);
     switch (gResultsBattle->mMode) {
         case 0:
             gResultsBattle->mOwnEntryIndex = 0;
@@ -191,19 +191,21 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     gResultsBattle->mCellFileSet2ShyguyPalette = GetPlayerCharacterShyguyNclr(1);
     gResultsBattle->mCellFileSet3ShyguyPalette = GetPlayerCharacterShyguyNclr(0);
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
-    LoadScreenMapFileSet(screenMapFileSet, data_02153f80[gResultsBattle->mFileSetKind][0],
-                         data_02153f84[gResultsBattle->mFileSetKind][0], data_02153f8c[gResultsBattle->mFileSetKind][0],
-                         3, FindSceneFile);
-    LoadNscrData(&screenMapFileSet->mScreenMaps[2], FindSceneFile(data_02153f88[gResultsBattle->mFileSetKind][0]));
+    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleVictoryMBNcgrName[gResultsBattle->mFileSetKind][0],
+                         gResultsBattleVictoryMBNclrName[gResultsBattle->mFileSetKind][0],
+                         gResultsBattleVictoryMLowerNscrName[gResultsBattle->mFileSetKind][0], 3, FindSceneFile);
+    LoadNscrData(&screenMapFileSet->mScreenMaps[2],
+                 FindSceneFile(gResultsBattleVictoryMUpperNscrName[gResultsBattle->mFileSetKind][0]));
     GX_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
     GX_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
     GX_LoadBG2Scr(screenMapFileSet->mScreenMaps[2]->mData, 0, screenMapFileSet->mScreenMaps[2]->mDataSize);
     GX_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    LoadCellFileSet(mainCellFileSet, data_02153f90[gResultsBattle->mFileSetKind][0],
-                    data_02153f94[gResultsBattle->mFileSetKind][0], data_02153f98[gResultsBattle->mFileSetKind][0],
-                    data_02153f9c[gResultsBattle->mFileSetKind][0], data_02153fa0[gResultsBattle->mFileSetKind][0],
-                    NULL, FindSceneFile);
+    LoadCellFileSet(mainCellFileSet, gResultsBattleVictoryMNcgrName[gResultsBattle->mFileSetKind][0],
+                    gResultsBattleVictoryMNcerName[gResultsBattle->mFileSetKind][0],
+                    gResultsBattleVictoryMONclrName[gResultsBattle->mFileSetKind][0],
+                    gResultsBattleVictoryMBnclName[gResultsBattle->mFileSetKind][0],
+                    gResultsBattleVictoryMBnllName[gResultsBattle->mFileSetKind][0], NULL, FindSceneFile);
     SetupCellFileSet(0, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
         case 0:

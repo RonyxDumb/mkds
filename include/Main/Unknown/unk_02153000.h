@@ -55,15 +55,15 @@ extern MemberRowCellIndices gMemberRowCellIndices[];
 extern u16 gMemberRowRectIndices[][3];
 
 // Rows of nine words; each name starts at one word of the first row.
-extern const char *data_02153f80[][9];
-extern const char *data_02153f84[][9];
-extern const char *data_02153f88[][9];
-extern const char *data_02153f8c[][9];
-extern const char *data_02153f90[][9];
-extern const char *data_02153f94[][9];
-extern const char *data_02153f98[][9];
-extern const char *data_02153f9c[][9];
-extern const char *data_02153fa0[][9];
+extern const char *gResultsBattleVictoryMBNcgrName[][9];
+extern const char *gResultsBattleVictoryMBNclrName[][9];
+extern const char *gResultsBattleVictoryMUpperNscrName[][9];
+extern const char *gResultsBattleVictoryMLowerNscrName[][9];
+extern const char *gResultsBattleVictoryMNcgrName[][9];
+extern const char *gResultsBattleVictoryMNcerName[][9];
+extern const char *gResultsBattleVictoryMONclrName[][9];
+extern const char *gResultsBattleVictoryMBnclName[][9];
+extern const char *gResultsBattleVictoryMBnllName[][9];
 extern u16 data_02153f00[][4];
 extern SoundRow gSoundRowTable[];
 

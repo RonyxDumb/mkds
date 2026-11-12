@@ -251,8 +251,8 @@ void SetupBkWaveKind(void) {
 
     kindRow = &data_02166210;
     if (GetWaterEfctNsbmdFile() != 0) {
-        bkWaveNsbcaFile = FindCourseFile(data_02166268);
-        bkWaveNsbmaFile = FindCourseFile(data_02166280);
+        bkWaveNsbcaFile = FindCourseFile(gBkWaveNsbcaName);
+        bkWaveNsbmaFile = FindCourseFile(gBkWaveNsbmaName);
         kindRow->mObjectCount = 1;
         if (bkWaveNsbcaFile != NULL) {
             kindRow->mUseNsbca = TRUE;
