@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "snd_bank.h"
 #include "code_0212df7c.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212c7a0.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "code_020218f4.h"

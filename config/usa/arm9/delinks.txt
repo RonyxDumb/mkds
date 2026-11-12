@@ -3829,15 +3829,10 @@ libs/NitroSystem/snd/src/resource_mgr.c:
     .bss        start:0x0217d418 end:0x0217d424
 
 // provisional: file name and boundaries
-libs/NitroSystem/snd/src/code_0212bcac.c:
+libs/NitroSystem/snd/src/player.c:
     complete
-    .text       start:0x0212bcac end:0x0212c7a0
+    .text       start:0x0212bcac end:0x0212c7f0
     .bss        start:0x0217d424 end:0x0217d43c
-
-// provisional: file name and boundaries
-libs/NitroSystem/snd/src/code_0212c7a0.c:
-    complete
-    .text       start:0x0212c7a0 end:0x0212c7f0
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/stream.c:

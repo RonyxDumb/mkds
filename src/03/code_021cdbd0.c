@@ -1,5 +1,5 @@
 #include "03/code_021cdbd0.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "03/code_021d3000.h"
 
 #include "03/unk_021da000.h"

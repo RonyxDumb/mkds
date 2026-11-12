@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Unknown/unk_0217c000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0214a748.h"
 #include "Main/Unknown/code_02103598.h"
 #include "Main/Unknown/code_021035ac.h"

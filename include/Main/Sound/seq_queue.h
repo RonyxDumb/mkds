@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212bcac.h"
+#include "player.h"
 
 // Object gSeqVariableReadings: a signed halfword at 0x00, a signed halfword at 0x02, a signed word at 0x04 and four
 // bytes at 0x08; GetSeqVariableSinceChangeFrames and IsSeqVariableChanged read the word at 0x04,

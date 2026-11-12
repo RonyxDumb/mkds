@@ -1,10 +1,10 @@
-#include "code_0212bcac.h"
-
+#include "player.h"
+#include "code_0212c7a0.h"
+#include "Main/Unknown/unk_0217d000.h"
 #include "code_020172d0.h"
 #include "snd_interface.h"
 #include "snd_command.h"
 #include "snd_work.h"
-#include "code_0212c7a0.h"
 #include "code_0212d214.h"
 #include "code_0212f788.h"
 #include "code_0201750c.h"
@@ -12,10 +12,21 @@
 #include "Main/Unknown/code_02021000.h"
 #include "code_0212f864.h"
 #include "Main/Unknown/unk_02152000.h"
-#include "Main/Unknown/unk_0217d000.h"
 
-// Allocates a player heap of size bytes from heap, sets up its own heap on it and adds it to the heap list of player
-// index.
+void NNS_SndPlayerSetPlayerVolume(u32 index, u32 volume) {
+    sPlayer[index].mVolume = volume;
+}
+
+// Sets NNSSndPlayer.mPlayableSeqCount.
+void NNS_SndPlayerSetPlayableSeqCount(u32 index, u32 seqCount) {
+    sPlayer[index].mPlayableSeqCount = (u16) seqCount;
+}
+
+// Sets NNSSndPlayer.mAllocChBitFlag.
+void NNS_SndPlayerSetAllocatableChannel(u32 index, u32 channels) {
+    sPlayer[index].mAllocChBitFlag = channels;
+}
+
 BOOL NNS_SndPlayerCreateHeap(int index, NNSSndHeap *heap, u32 size) {
     NNSSndPlayerHeap *block;
     NNSSndHeap *inner;

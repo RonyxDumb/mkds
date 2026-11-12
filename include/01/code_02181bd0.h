@@ -46,7 +46,7 @@ typedef struct Coin {
 #include "Main/Unknown/code_02100000.h"
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020b1dbc.h"

@@ -16,7 +16,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 
 void StartMissionRunCountSeq(s32 count, s32 countLimit) {

@@ -29,7 +29,7 @@
 #include "Main/Unknown/code_020d8000.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/group_follower_init.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_020a1000.h"
 #include "Main/Unknown/code_020e5000.h"

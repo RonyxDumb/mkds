@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_0210d078.h"
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/Unknown/unk_0216c000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Unknown/code_0210d0b4.h"
 #include "Main/Unknown/code_0210d120.h"
 #include "Main/Sound/surface_sound_ids.h"

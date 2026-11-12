@@ -3,7 +3,7 @@
 #include "snd_main.h"
 #include "snd_command.h"
 #include "code_0212b9ec.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212c9d4.h"
 #include "sndarc_stream.h"
 #include "pm.h"

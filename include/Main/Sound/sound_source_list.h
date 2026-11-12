@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212d214.h"
 
 // Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.mUnk_94 embed it as

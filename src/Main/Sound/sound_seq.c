@@ -4,7 +4,7 @@
 #include "Main/Race/race_entries.h"
 #include "Main/Scene/scene_connection.h"
 
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Unknown/code_021055b0.h"
 #include "Main/Unknown/code_0210d120.h"
 #include "Main/Unknown/code_0210d590.h"

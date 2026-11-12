@@ -2,7 +2,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Unknown/code_0210d000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Sound/sound_set_load.h"
 #include "code_0212d214.h"
 

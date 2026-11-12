@@ -7,7 +7,7 @@
 #include "Main/Sound/playing_sounds.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Unknown/code_0210cfe8.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "code_020172d0.h"
 #include "Main/Sound/three_words_clear.h"

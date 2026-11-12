@@ -39,7 +39,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Item/item_kinoko.h"

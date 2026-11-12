@@ -3,7 +3,7 @@
 #include "Main/Unknown/code_021059e0.h"
 #include "Main/Sound/snd_handle_slots.h"
 #include "Main/Unknown/code_02108000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_02105000.h"
 #include "Main/Sound/sound_handle_pool.h"

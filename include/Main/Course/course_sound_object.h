@@ -4,7 +4,7 @@
 #include "code_02146d78.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Unknown/code_0210b000.h" // SoundStartParams
-#include "code_0212bcac.h"
+#include "player.h"
 
 // 0x28-byte part at 0xa0 and 0xc8 of CourseSoundObject: the four words at 0x00 go to StartSndHandleSoundUnchecked or
 // StartSndHandleSound with the value at 0x1c, 0x0c holds GetHorizontalCameraDistanceSquared's result for the vector at

@@ -31,7 +31,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Unknown/code_020e6000.h"
 #include "Main/Unknown/code_020ea000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Unknown/code_02044000.h"
 #include "Main/Unknown/code_02046000.h"
 #include "Main/System/state_machine_init.h"

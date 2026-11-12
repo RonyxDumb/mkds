@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_0210b760.h"
 #include "Main/Sound/race_end_seq.h"
 #include "Main/Unknown/unk_0217c000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Race/race_progress_rank.h"
 #include "Main/Race/kart.h"
 

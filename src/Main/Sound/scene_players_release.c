@@ -4,7 +4,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Unknown/code_0210d0b4.h"
 
 void UpdateScenePlayersNop(ScenePlayers *p0) {}

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_02146d78.h"
 #include "Main/MapObjects/attractor.h" // MapObjectSound
-#include "code_0212bcac.h"
+#include "player.h"
 
 void InitVolumeFade(void);
 void StartKingTeresaAlphaSound(MapObjectSound *mapSound);

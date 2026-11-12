@@ -9,7 +9,7 @@
 #include "03/code_021cdbd0.h"
 #include "03/unk_021d7000.h"
 #include "code_02147cd8.h"
-#include "code_0212bcac.h"
+#include "player.h"
 
 u8 GetScrollBarOffset(void) {
     return gScrollBar->mOffset;

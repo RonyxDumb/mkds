@@ -43,7 +43,7 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Course/course_map_shapes.h"
 #include "code_0212df7c.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0217d000.h"

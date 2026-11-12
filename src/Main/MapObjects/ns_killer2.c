@@ -34,7 +34,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_02146cbc.h"
 #include "code_02147cd8.h"
-#include "code_0212bcac.h"
+#include "player.h"
 
 void InitNsKiller2(NsKiller2 *nsKiller2) {
     nsKiller2->mMapObject.mFlags |= data_021564b4;

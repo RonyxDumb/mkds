@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212bcac.h"
+#include "player.h"
 
 void LowerSndHandleVolumes(void);
 void RaiseSndHandleVolumes(void);

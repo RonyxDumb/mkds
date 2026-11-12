@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_02079b40.h"
 #include "Main/Unknown/code_0210f000.h"
 #include "Main/Unknown/code_0210faac.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_0210ab30.h"
 #include "Main/Unknown/code_0210ab48.h"

@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_0210d000.h"
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Unknown/code_021059e0.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Race/race_clock.h"
 

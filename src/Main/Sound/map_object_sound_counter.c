@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Sound/map_start_sound_full_volume.h"
 #include "Main/Unknown/unk_0217c000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 
 void ResetMapObjectSoundCounter(void) {
     gMapObjectSoundCounter = 0;

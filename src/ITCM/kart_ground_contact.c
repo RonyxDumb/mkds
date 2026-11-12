@@ -36,7 +36,7 @@
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02147cd8.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_0206d020.h"
 #include "Main/Kart/kart_contact.h"

@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_0210d120.h"
 #include "Main/Unknown/code_0210d960.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 
 // Switches to sound mode b (0 to 5): 0, 1, 3 and 4 stop the sounds, 5 fades them out and keeps the old mode, 1 and 2
 // fade back in from 5.

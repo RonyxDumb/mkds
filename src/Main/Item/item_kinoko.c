@@ -75,7 +75,7 @@
 #include "Main/Unknown/code_020f92e8.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"

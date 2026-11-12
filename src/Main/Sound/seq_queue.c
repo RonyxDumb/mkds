@@ -2,7 +2,7 @@
 #include "Main/Sound/sound_start.h"
 
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_0212bcac.h"
+#include "player.h"
 #include "Main/Unknown/code_0210f858.h"
 #include "Main/Unknown/code_0210f868.h"
 #include "Main/Sound/sound_set_load.h"
