@@ -41,6 +41,10 @@
 #include "code_0212df7c.h"
 #include "registers.h"
 
+u8 gValueRecordsShowNext;
+u16 gValueRecordsFrames;
+u32 gValueRecordsRequestTask;
+
 BOOL ValueRecordsPAD_DetectFold(void) {
     if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
         return 1;
@@ -62,9 +66,9 @@ void SetupValueRecords(void) {
 }
 
 void LoadValueRecordsFilesAndSetBgCnt(void) {
-    LoadFileToVram(gJbBgStep3NcgName, GX_LoadBG2Char);
-    LoadFileToVram(gYbBgStep3NclName, GX_LoadBGPltt);
-    LoadFileToVram(gXb4MultiNscName, GX_LoadBG2Scr);
+    LoadFileToVram("char/jbBgStep3.ncg.l", GX_LoadBG2Char);
+    LoadFileToVram("char/ybBgStep3.ncl.l", GX_LoadBGPltt);
+    LoadFileToVram("char/xb4Multi.nsc.l", GX_LoadBG2Scr);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;

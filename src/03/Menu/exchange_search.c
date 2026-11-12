@@ -38,6 +38,8 @@
 #include "03/Graphics/hl_scr.h"
 #include "03/code_021be610.h"
 
+u8 gExchangeSearchShowNext;
+
 u32 ExchangeSearchPAD_DetectFold(void) {
     if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
         return 1;
@@ -58,13 +60,13 @@ void SetupExchangeSearch(void) {
 }
 
 void LoadExchangeSearchFilesAndSetBgCnt(void) {
-    void *jbBgStep3NcgName = &gJbBgStep3NcgName5;
+    void *jbBgStep3NcgName = &"char/jbBgStep3.ncg.l";
     void *bg2CharLoader = &GX_LoadBG2Char;
     u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, bg2CharLoader);
-    void *ybBgStep3NclName = &gYbBgStep3NclName5;
+    void *ybBgStep3NclName = &"char/ybBgStep3.ncl.l";
     void *bgPlttLoader = &GX_LoadBGPltt;
     u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, bgPlttLoader);
-    void *xb4MultiNscName = &gXb4MultiNscName6;
+    void *xb4MultiNscName = &"char/xb4Multi.nsc.l";
     void *bg2ScrLoader = &GX_LoadBG2Scr;
     u32 bg2ScrLoadResult = LoadFileToVram(xb4MultiNscName, bg2ScrLoader);
     u32 subBg0CntAddress = 0x4001008u;

@@ -2,12 +2,6 @@
 
 #include "types.h"
 
-extern u8 gJbBgStep3NcgName[];
-extern u8 gYbBgStep3NclName[];
-extern u8 gXb4MultiNscName[];
-extern u16 gValueRecordsFrames;
-extern u32 gValueRecordsRequestTask;
-
 void StartValueRecordsCloseWithoutNext(void);
 void UpdateValueRecordsFrames(void);
 void UpdateValueRecordsMessageClose(void);
@@ -24,3 +18,7 @@ void UpdateValueRecordsFadeIn(void);
 void StartValueRecordsFadeIn(void);
 void LoadValueRecordsFilesAndSetBgCnt(void);
 void SetupValueRecords(void);
+
+extern u8 gValueRecordsShowNext;
+extern u16 gValueRecordsFrames;
+extern u32 gValueRecordsRequestTask;

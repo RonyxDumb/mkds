@@ -14,11 +14,6 @@ typedef struct Edit {
     /* 2a */ u8 mResult;
 } Edit;
 
-extern u8 gEditLineY[];
-extern u16 gEditCharSize[];
-extern u8 gEditColumnX[];
-extern u8 gEditSubScreenMessages[];
-
 BOOL IsEditTextValid(void);
 void UpdateEditMessageClose(void);
 void UpdateEditMessageResult(void);

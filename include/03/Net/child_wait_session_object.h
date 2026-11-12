@@ -15,15 +15,14 @@ typedef struct ChildWaitParams {
     /* 00 */ void *mRomFilePathp;
     /* 04 */ void *mGameNamep;
     /* 08 */ void *mGameIntroductionp;
-    /* 0c */ u8 pad_0c[0xc];
+    /* 0c */ void *mBannerCharFilePathp;
+    /* 10 */ void *mBannerPaletteFilePathp;
+    /* 14 */ u32 mUnk_14;
     /* 18 */ u8 mHandshakeByte;
     /* 19 */ u8 pad_19[3];
 } ChildWaitParams;
 
 #include "03/unk_021da000.h"
-
-extern ChildWaitParams gChildWaitParams;
-extern ChildWaitSession *gChildWaitSession;
 
 void AdvanceChildWaitSession(u32 task);
 u8 *GetChildUserBuffer(void);
@@ -33,3 +32,6 @@ BOOL IsChildWaitSessionReleased(void);
 void AdvanceChildWaitStop(u32 task);
 void StartChildWaitStop(void);
 void CreateChildWaitSession(u32 callback);
+
+extern ChildWaitParams gChildWaitParams;
+extern ChildWaitSession *gChildWaitSession;

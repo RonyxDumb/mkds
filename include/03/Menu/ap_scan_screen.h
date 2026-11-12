@@ -18,3 +18,6 @@ void UpdateApScanFadeIn(void);
 void StartApScanFadeIn(void);
 void LoadApScanFilesAndSetBgCnt(void);
 void SetupApScan(void);
+
+extern u8 gApScanKind[1];
+extern u16 gApScanFrames;

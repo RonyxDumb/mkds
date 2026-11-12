@@ -35,6 +35,9 @@
 #include "os_thread.h"
 #include "code_0200fc8c.h"
 
+void *gLanguageBmgNames[6] = {"msg/jap.bmg.l", "msg/eng.bmg.l", "msg/fre.bmg.l", "msg/ger.bmg.l", "msg/ita.bmg.l", "msg/spa.bmg.l"};
+ExchangeStatus *gExchangeStatusRecord;
+
 void LoadMainFilesAndSetBgCnt(void) {
     CreateApStore();
     InitMessagesPool();
@@ -42,26 +45,26 @@ void LoadMainFilesAndSetBgCnt(void) {
     InitHlScr();
     ClearSubScreenMessageShown();
     if (GetLanguageIndex() == 1 && HasModeFlag(2) != 0) {
-        gMessages = LoadMessages(gUsaBmgName);
+        gMessages = LoadMessages("msg/usa.bmg.l");
     } else {
         gMessages = LoadMessages(gLanguageBmgNames[GetLanguageIndex()]);
     }
-    LoadNceFile(1, BuildFilePathWithLanguage(gJtMainNceName));
-    LoadNceFile(0, BuildFilePathWithLanguage(gJbMainNceName));
-    LoadFileToVram(gJtBgMainNcgName, GXS_LoadBG1Char);
-    LoadFileToVram(gJtBgMainNclName, GXS_LoadBGPltt);
-    LoadFileToVram(gJtObjMainNcgName, GXS_LoadOBJ);
-    LoadFileToVram(gXtObjMainNclName, GXS_LoadOBJPltt);
-    LoadFileToVram(gJbBgStep1NcgName, GX_LoadBG2Char);
-    LoadFileToVram(gJbBgStep1NclName, GX_LoadBGPltt);
-    LoadFileToVram(gJbObjMainNcgName, GX_LoadOBJ);
-    LoadFileToVram(gYbObjMainNclName, GX_LoadOBJPltt);
+    LoadNceFile(1, BuildFilePathWithLanguage((u8 *) "char/jtMain.nce.l"));
+    LoadNceFile(0, BuildFilePathWithLanguage((u8 *) "char/jbMain.nce.l"));
+    LoadFileToVram("char/jtBgMain.ncg.l", GXS_LoadBG1Char);
+    LoadFileToVram("char/jtBgMain.ncl.l", GXS_LoadBGPltt);
+    LoadFileToVram("char/jtObjMain.ncg.l", GXS_LoadOBJ);
+    LoadFileToVram("char/xtObjMain.ncl.l", GXS_LoadOBJPltt);
+    LoadFileToVram("char/jbBgStep1.ncg.l", GX_LoadBG2Char);
+    LoadFileToVram("char/jbBgStep1.ncl.l", GX_LoadBGPltt);
+    LoadFileToVram("char/jbObjMain.ncg.l", GX_LoadOBJ);
+    LoadFileToVram("char/ybObjMain.ncl.l", GX_LoadOBJPltt);
     switch (GetMode()) {
         case 0:
-            LoadFileToVram(gJtTopNscName, GXS_LoadBG1Scr);
+            LoadFileToVram("char/jtTop.nsc.l", GXS_LoadBG1Scr);
             break;
         case 1:
-            LoadFileToVram(gJtStep1NscName, GXS_LoadBG1Scr);
+            LoadFileToVram("char/jtStep1.nsc.l", GXS_LoadBG1Scr);
             break;
     }
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;

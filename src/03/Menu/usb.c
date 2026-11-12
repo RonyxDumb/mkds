@@ -35,6 +35,8 @@
 #include "code_0200fc8c.h"
 #include "code_0214cfe4.h"
 
+u8 gUsbExitKind;
+
 BOOL UsbPAD_DetectFold(void) {
     s32 flags = (*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15;
     if (flags != 0) {
@@ -62,13 +64,13 @@ void SetupUsb(void) {
 }
 
 void LoadUsbFilesAndSetBgCnt(void) {
-    void *ncgName = &gJbBgStep3NcgName8;
+    void *ncgName = &"char/jbBgStep3.ncg.l";
     void *loadBg2CharFunc = &GX_LoadBG2Char;
     u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
-    void *nclName = &gYbBgStep3NclName8;
+    void *nclName = &"char/ybBgStep3.ncl.l";
     void *loadBgPlttFunc = &GX_LoadBGPltt;
     u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
-    void *nscName = &gJb4UsbNscName;
+    void *nscName = &"char/jb4Usb.nsc.l";
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
     u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;

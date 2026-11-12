@@ -15,6 +15,9 @@
 #include "03/Menu/sub_screen_message.h"
 #include "code_0200fc8c.h"
 
+ChildWaitParams gChildWaitParams = {"dwc:/move/child.srl", NULL, NULL, "dwc:/move/banner.char", "dwc:/move/banner.plt", 0x159, 0, {0, 0, 0}};
+ChildWaitSession *gChildWaitSession;
+
 void CreateChildWaitSession(u32 callback) {
     ChildWaitParams params;
     gChildWaitSession = AllocExpHeapBlock(0x1e2a4, 0x20);

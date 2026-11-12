@@ -14,3 +14,5 @@ void UpdateXb3MultiFadeIn(void);
 void StartXb3MultiFadeIn(void);
 void LoadXb3MultiFilesAndSetBgCnt(void);
 void SetupXb3Multi(void);
+
+extern u8 gXb3MultiChosen;

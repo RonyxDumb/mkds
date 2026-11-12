@@ -26,6 +26,8 @@
 #include "03/unk_021d5000.h"
 #include "03/Menu/sub_screen_message.h"
 
+u8 gXb3MultiChosen;
+
 void SetupXb3Multi(void) {
     gXb3MultiChosen = 0;
     LoadXb3MultiFilesAndSetBgCnt();
@@ -37,13 +39,13 @@ void SetupXb3Multi(void) {
 }
 
 void LoadXb3MultiFilesAndSetBgCnt(void) {
-    void *ncgName = &gJbBgStep2NcgName3;
+    void *ncgName = &"char/jbBgStep2.ncg.l";
     void *loadBg2CharFunc = &GX_LoadBG2Char;
     u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
-    void *nclName = &gYbBgStep2NclName3;
+    void *nclName = &"char/ybBgStep2.ncl.l";
     void *loadBgPlttFunc = &GX_LoadBGPltt;
     u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
-    void *nscName = &gXb3MultiNscName;
+    void *nscName = &"char/xb3Multi.nsc.l";
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
     u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;

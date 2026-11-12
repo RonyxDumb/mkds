@@ -18,15 +18,6 @@ typedef struct EditAddrTextFuncs {
     /* 00 */ void (*mUnk_00[5])(u8 *);
 } EditAddrTextFuncs;
 
-extern u16 gEditAddrCharSize[];
-extern u8 gEditAddrCharX[];
-extern u8 gEditAddrGroupMax[];
-extern u8 gEditAddrSubScreenMessageIndices[];
-extern u16 gEditAddrCharRect[];
-extern EditAddrTextFuncs gEditAddrFormatFuncs;
-extern EditAddrTextFuncs gEditAddrStoreFuncs;
-extern u8 gEditAddrZeroGroupText[];
-
 void UpdateEditAddrInvalidMessageClose(void);
 void UpdateEditAddrInvalidMessageResult(void);
 BOOL IsEditAddrTextValid(void);
@@ -48,3 +39,12 @@ void UpdateEditAddrFadeIn(void);
 void StartEditAddrFadeIn(void);
 void LoadEditAddrFilesAndSetBgCnt(void);
 void CreateEditAddr(void);
+
+extern const u16 gEditAddrCharSize[2];
+extern const u8 gEditAddrCharX[12];
+extern u8 gEditAddrGroupMax[3];
+extern u8 gEditAddrSubScreenMessageIndices[5];
+extern u16 gEditAddrCharRect[3];
+extern EditAddrTextFuncs gEditAddrFormatFuncs;
+extern EditAddrTextFuncs gEditAddrStoreFuncs;
+extern struct EditAddr *gEditAddr;

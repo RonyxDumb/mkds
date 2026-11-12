@@ -82,6 +82,8 @@ src/03/Graphics/messages.c:
 src/03/Net/child_wait_session_object.c:
     complete
     .text       start:0x021c25a0 end:0x021c28b0
+    .data       start:0x021d6da0 end:0x021d6e00
+    .bss        start:0x021da154 end:0x021da158
 
 // provisional: file name and boundaries
 src/03/System/free_exp_heap_block.c:
@@ -97,6 +99,8 @@ src/03/System/alloc_exp_heap_block.c:
 src/03/Menu/main_menu.c:
     complete
     .text       start:0x021c28c4 end:0x021c2c54
+    .data       start:0x021d6e00 end:0x021d6f90
+    .bss        start:0x021da158 end:0x021da15c
 
 // provisional: file name and boundaries
 src/03/Menu/jb2_menu.c:
@@ -198,6 +202,8 @@ src/03/Menu/child_wait.c:
 src/03/Menu/value_records.c:
     complete
     .text       start:0x021c50b8 end:0x021c5508
+    .data       start:0x021d7190 end:0x021d71d4
+    .bss        start:0x021da19c end:0x021da1a8
 
 // provisional: file name and boundaries
 src/03/Menu/value_records_next.c:
@@ -216,12 +222,17 @@ src/03/Menu/ap_list.c:
 src/03/Menu/edit.c:
     complete
     .text       start:0x021c66c8 end:0x021c6ec8
-    .data       start:0x021d723c end:0x021d724c
+    .rodata     start:0x021d63a0 end:0x021d63b8
+    .data       start:0x021d7238 end:0x021d72bc
+    .bss        start:0x021da1b8 end:0x021da1bc
 
 // provisional: file name and boundaries
 src/03/Menu/edit_addr.c:
     complete
     .text       start:0x021c6ec8 end:0x021c7804
+    .rodata     start:0x021d63b8 end:0x021d63c8
+    .data       start:0x021d72bc end:0x021d7370
+    .bss        start:0x021da1bc end:0x021da1c0
 
 // provisional: file name and boundaries
 src/03/Menu/jb4_error.c:
@@ -237,6 +248,7 @@ src/03/Menu/jb3_list.c:
 src/03/Menu/record_saved.c:
     complete
     .text       start:0x021c9780 end:0x021c9968
+    .data       start:0x021d7478 end:0x021d74bc
 
 // provisional: file name and boundaries
 src/03/Menu/exchange_entry.c:
@@ -263,11 +275,15 @@ src/03/Menu/exchange_result.c:
 src/03/Menu/exchange_search.c:
     complete
     .text       start:0x021ca1cc end:0x021ca52c
+    .data       start:0x021d74f8 end:0x021d753c
+    .bss        start:0x021da1e4 end:0x021da1e8
 
 // provisional: file name and boundaries
 src/03/Menu/ap_scan_screen.c:
     complete
     .text       start:0x021ca52c end:0x021ca900
+    .data       start:0x021d753c end:0x021d7580
+    .bss        start:0x021da1e8 end:0x021da1f0
 
 // provisional: file name and boundaries
 src/03/Menu/ap_screen.c:
@@ -308,11 +324,15 @@ src/03/Menu/usb_next.c:
 src/03/Menu/xb3_multi.c:
     complete
     .text       start:0x021cc104 end:0x021cc3d0
+    .data       start:0x021d76fc end:0x021d7740
+    .bss        start:0x021da214 end:0x021da218
 
 // provisional: file name and boundaries
 src/03/Menu/usb.c:
     complete
     .text       start:0x021cc3d0 end:0x021cc894
+    .data       start:0x021d7740 end:0x021d7784
+    .bss        start:0x021da218 end:0x021da21c
 
 // provisional: file name and boundaries
 src/03/Graphics/bg2_scr_buffer.c:

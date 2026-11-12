@@ -19,3 +19,5 @@ void UpdateUsbFadeIn(void);
 void StartUsbFadeIn(void);
 void LoadUsbFilesAndSetBgCnt(void);
 void SetupUsb(void);
+
+extern u8 gUsbExitKind;

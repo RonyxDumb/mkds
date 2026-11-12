@@ -15,3 +15,5 @@ void UpdateExchangeSearchFadeIn(void);
 void StartExchangeSearchFadeIn(void);
 void LoadExchangeSearchFilesAndSetBgCnt(void);
 void SetupExchangeSearch(void);
+
+extern u8 gExchangeSearchShowNext;

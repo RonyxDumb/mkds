@@ -38,6 +38,12 @@
 #include "03/Menu/ap_list.h"
 #include "03/Menu/jb3_list.h"
 
+const u8 gEditLineY[2] = {0x20, 0x31};
+const u16 gEditCharSize[2] = {0xe, 0x10};
+const u8 gEditColumnX[16] = {8, 0x17, 0x26, 0x35, 0x44, 0x53, 0x62, 0x71, 0x80, 0x8f, 0x9e, 0xad, 0xbc, 0xcb, 0xda, 0xe9};
+u8 gEditSubScreenMessages[2] = {0x90, 0x8f};
+struct Edit *gEdit;
+
 void CreateEdit(void) {
     u8 subScreenMessages[2];
     s32 secondaryPairFirst;
@@ -67,16 +73,16 @@ void CreateEdit(void) {
 }
 
 void LoadEditFilesAndSetBgCnt(void) {
-    void *ybObjKbNclName = &gYbObjKbNclName;
+    void *ybObjKbNclName = &"char/ybObjKb.ncl.l";
     void *loadObjPlttFunc = &GX_LoadOBJPltt;
     u32 objPlttLoadResult = LoadFileToVram(ybObjKbNclName, loadObjPlttFunc);
-    void *jbBgStep3NcgName = &gJbBgStep3NcgName2;
+    void *jbBgStep3NcgName = &"char/jbBgStep3.ncg.l";
     void *loadBg2CharFunc = &GX_LoadBG2Char;
     u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, loadBg2CharFunc);
-    void *ybBgStep3NclName = &gYbBgStep3NclName2;
+    void *ybBgStep3NclName = &"char/ybBgStep3.ncl.l";
     void *loadBgPlttFunc = &GX_LoadBGPltt;
     u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, loadBgPlttFunc);
-    void *xb4EditNscName = &gXb4EditNscName;
+    void *xb4EditNscName = &"char/xb4Edit.nsc.l";
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
     u32 bg2ScrLoadResult = LoadFileToVram(xb4EditNscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
@@ -254,7 +260,7 @@ void UpdateEditRelease(void) {
     HideSubScreenMessage();
     DeleteOamEntry((u32 *) (u32) gEdit->mOamEntry);
     ReleaseBgTextCanvasOfScreen(0);
-    LoadFileToVram(&gYbObjMainNclName2, &GX_LoadOBJPltt);
+    LoadFileToVram(&"char/ybObjMain.ncl.l", &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x15);
     GetSecondaryMenuPair(&secondaryPairFirst, secondaryPairSecond);

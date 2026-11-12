@@ -8,11 +8,12 @@ typedef struct ExchangeStatus {
     /* 08 */ u32 mResultCode;
 } ExchangeStatus;
 
-extern ExchangeStatus *gExchangeStatusRecord;
-
 void StoreExchangeStatus(const ExchangeStatus *status);
 void StoreExchangeResultForAp(void);
 u32 GetExchangeOutcome(void);
 void StopExchangeWithStatusRecord(void);
 void StartExchangeWithStatusRecord(void);
 void ReleaseMainAndQuit(void);
+
+extern void *gLanguageBmgNames[6];
+extern ExchangeStatus *gExchangeStatusRecord;

@@ -1332,30 +1332,30 @@ gEditAddrKeyboardRow4KeyCounts kind:data(any) addr:0x021d6d80
 gEditAddrKeyboardDigitKeyCounts kind:data(any) addr:0x021d6d88
 gEditAddrKeyboardExtraKeyCounts kind:data(any) addr:0x021d6d90
 gEditAddrKeyboardTextRectStart kind:data(any) addr:0x021d6d98
-data_usa_ov003_021d6da0 kind:data(any) addr:0x021d6da0
-data_usa_ov003_021d6db4 kind:data(any) addr:0x021d6db4
-data_usa_ov003_021d6dcc kind:data(any) addr:0x021d6dcc
+@779 kind:data(any) addr:0x021d6da0 local
+@781 kind:data(any) addr:0x021d6db4 local
+@780 kind:data(any) addr:0x021d6dcc local
 gChildWaitParams kind:data(any) addr:0x021d6de4
-data_usa_ov003_021d6e00 kind:data(any) addr:0x021d6e00
-data_usa_ov003_021d6e10 kind:data(any) addr:0x021d6e10
-data_usa_ov003_021d6e20 kind:data(any) addr:0x021d6e20
-data_usa_ov003_021d6e30 kind:data(any) addr:0x021d6e30
-data_usa_ov003_021d6e40 kind:data(any) addr:0x021d6e40
-data_usa_ov003_021d6e50 kind:data(any) addr:0x021d6e50
+@1779 kind:data(any) addr:0x021d6e00 local
+@1774 kind:data(any) addr:0x021d6e10 local
+@1777 kind:data(any) addr:0x021d6e20 local
+@1776 kind:data(any) addr:0x021d6e30 local
+@1775 kind:data(any) addr:0x021d6e40 local
+@1778 kind:data(any) addr:0x021d6e50 local
 gLanguageBmgNames kind:data(any) addr:0x021d6e60
-gUsaBmgName kind:data(any) addr:0x021d6e78
-gJtMainNceName kind:data(any) addr:0x021d6e88
-gJbMainNceName kind:data(any) addr:0x021d6e9c
-gJtBgMainNcgName kind:data(any) addr:0x021d6eb0
-gJtBgMainNclName kind:data(any) addr:0x021d6ec4
-gJtObjMainNcgName kind:data(any) addr:0x021d6ed8
-gXtObjMainNclName kind:data(any) addr:0x021d6ef0
-gJbBgStep1NcgName kind:data(any) addr:0x021d6f08
-gJbBgStep1NclName kind:data(any) addr:0x021d6f20
-gJbObjMainNcgName kind:data(any) addr:0x021d6f38
-gYbObjMainNclName kind:data(any) addr:0x021d6f50
-gJtTopNscName kind:data(any) addr:0x021d6f68
-gJtStep1NscName kind:data(any) addr:0x021d6f7c
+@1917 kind:data(any) addr:0x021d6e78 local
+@1918 kind:data(any) addr:0x021d6e88 local
+@1919 kind:data(any) addr:0x021d6e9c local
+@1920 kind:data(any) addr:0x021d6eb0 local
+@1921 kind:data(any) addr:0x021d6ec4 local
+@1922 kind:data(any) addr:0x021d6ed8 local
+@1923 kind:data(any) addr:0x021d6ef0 local
+@1924 kind:data(any) addr:0x021d6f08 local
+@1925 kind:data(any) addr:0x021d6f20 local
+@1926 kind:data(any) addr:0x021d6f38 local
+@1927 kind:data(any) addr:0x021d6f50 local
+@1928 kind:data(any) addr:0x021d6f68 local
+@1929 kind:data(any) addr:0x021d6f7c local
 gJb2MenuPaletteRows kind:data(any) addr:0x021d6f90
 gYbBgStep11NclName kind:data(any) addr:0x021d6f94
 gJbBgStep1NcgName2 kind:data(any) addr:0x021d6fac
@@ -1377,9 +1377,9 @@ gYb5MultiNscName5 kind:data(any) addr:0x021d7140
 gYb5MultiNscName6 kind:data(any) addr:0x021d7154
 gJb5MoveNscName kind:data(any) addr:0x021d7168
 gYb5MultiNscName7 kind:data(any) addr:0x021d717c
-gJbBgStep3NcgName kind:data(any) addr:0x021d7190
-gYbBgStep3NclName kind:data(any) addr:0x021d71a8
-gXb4MultiNscName kind:data(any) addr:0x021d71c0
+@2003 kind:data(any) addr:0x021d7190 local
+@2004 kind:data(any) addr:0x021d71a8 local
+@2005 kind:data(any) addr:0x021d71c0 local
 gXb4MultiNscName2 kind:data(any) addr:0x021d71d4
 gApListPaletteRow kind:data(any) addr:0x021d71e8
 @1367 kind:data(any) addr:0x021d71ec local
@@ -1388,22 +1388,22 @@ gJb4ApListNscName kind:data(any) addr:0x021d7220
 gEditSubScreenMessages kind:data(any) addr:0x021d7238
 @1213 kind:data(any) addr:0x021d723c local
 @1732 kind:data(any) addr:0x021d7244 local
-gYbObjMainNclName2 kind:data(any) addr:0x021d724c
-gYbObjKbNclName kind:data(any) addr:0x021d7264
-gJbBgStep3NcgName2 kind:data(any) addr:0x021d7278
-gYbBgStep3NclName2 kind:data(any) addr:0x021d7290
-gXb4EditNscName kind:data(any) addr:0x021d72a8
+@2181 kind:data(any) addr:0x021d724c local
+@2262 kind:data(any) addr:0x021d7264 local
+@2263 kind:data(any) addr:0x021d7278 local
+@2264 kind:data(any) addr:0x021d7290 local
+@2265 kind:data(any) addr:0x021d72a8 local
 gEditAddrGroupMax kind:data(any) addr:0x021d72bc
 gEditAddrSubScreenMessageIndices kind:data(any) addr:0x021d72c0
 gEditAddrCharRect kind:data(any) addr:0x021d72c8
 gEditAddrFormatFuncs kind:data(any) addr:0x021d72d0
 gEditAddrStoreFuncs kind:data(any) addr:0x021d72e4
-gYbObjMainNclName3 kind:data(any) addr:0x021d72f8
-gYbObjKbNclName2 kind:data(any) addr:0x021d7310
-gJbBgStep3NcgName3 kind:data(any) addr:0x021d7324
-gYbBgStep3NclName3 kind:data(any) addr:0x021d733c
-gXb4EditAddrNscName kind:data(any) addr:0x021d7354
-gEditAddrZeroGroupText kind:data(any) addr:0x021d736c
+@1655 kind:data(any) addr:0x021d72f8 local
+@1843 kind:data(any) addr:0x021d7310 local
+@1844 kind:data(any) addr:0x021d7324 local
+@1845 kind:data(any) addr:0x021d733c local
+@1846 kind:data(any) addr:0x021d7354 local
+@1863 kind:data(any) addr:0x021d736c local
 gDecimalFormat kind:data(any) addr:0x021d7370
 gJb4ErrorNscName kind:data(any) addr:0x021d7378
 gJb3ListTimerIds kind:data(any) addr:0x021d738c
@@ -1417,18 +1417,18 @@ gYbObjKbNclName3 kind:data(any) addr:0x021d7420
 gJbBgStep2NcgName kind:data(any) addr:0x021d7434
 gJbBgStep21NcgName kind:data(any) addr:0x021d744c
 gJb3ListNscName kind:data(any) addr:0x021d7464
-gJbBgStep3NcgName4 kind:data(any) addr:0x021d7478
-gYbBgStep3NclName4 kind:data(any) addr:0x021d7490
-gXb4NoneNscName kind:data(any) addr:0x021d74a8
+@1102 kind:data(any) addr:0x021d7478 local
+@1103 kind:data(any) addr:0x021d7490 local
+@1104 kind:data(any) addr:0x021d74a8 local
 gXb4MultiNscName3 kind:data(any) addr:0x021d74bc
 gXb4MultiNscName4 kind:data(any) addr:0x021d74d0
 gXb4MultiNscName5 kind:data(any) addr:0x021d74e4
-gJbBgStep3NcgName5 kind:data(any) addr:0x021d74f8
-gYbBgStep3NclName5 kind:data(any) addr:0x021d7510
-gXb4MultiNscName6 kind:data(any) addr:0x021d7528
-gJbBgStep3NcgName6 kind:data(any) addr:0x021d753c
-gYbBgStep3NclName6 kind:data(any) addr:0x021d7554
-gXb4MultiNscName7 kind:data(any) addr:0x021d756c
+@1951 kind:data(any) addr:0x021d74f8 local
+@1952 kind:data(any) addr:0x021d7510 local
+@1953 kind:data(any) addr:0x021d7528 local
+@1908 kind:data(any) addr:0x021d753c local
+@1909 kind:data(any) addr:0x021d7554 local
+@1910 kind:data(any) addr:0x021d756c local
 gApPaletteRows kind:data(any) addr:0x021d7580
 gApEntryIconPalettes kind:data(any) addr:0x021d7584
 gYbBgStep11NclName2 kind:data(any) addr:0x021d7588
@@ -1449,12 +1449,12 @@ gXb4MultiNscName9 kind:data(any) addr:0x021d76b4
 gConnectMessageIds kind:data(any) addr:0x021d76c8
 gXb4NoneNscName2 kind:data(any) addr:0x021d76d4
 gXb4MultiNscName10 kind:data(any) addr:0x021d76e8
-gJbBgStep2NcgName3 kind:data(any) addr:0x021d76fc
-gYbBgStep2NclName3 kind:data(any) addr:0x021d7714
-gXb3MultiNscName kind:data(any) addr:0x021d772c
-gJbBgStep3NcgName8 kind:data(any) addr:0x021d7740
-gYbBgStep3NclName8 kind:data(any) addr:0x021d7758
-gJb4UsbNscName kind:data(any) addr:0x021d7770
+@1223 kind:data(any) addr:0x021d76fc local
+@1224 kind:data(any) addr:0x021d7714 local
+@1225 kind:data(any) addr:0x021d772c local
+@1341 kind:data(any) addr:0x021d7740 local
+@1342 kind:data(any) addr:0x021d7758 local
+@1343 kind:data(any) addr:0x021d7770 local
 gAddressTextFormat kind:data(any) addr:0x021d7784
 gSoundDataSdatName kind:data(any) addr:0x021d7794
 data_usa_ov003_021d77ac kind:data(any) addr:0x021d77ac

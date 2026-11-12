@@ -40,13 +40,13 @@ void SetupRecordSaved(void) {
 }
 
 void LoadRecordSavedFilesAndSetBgCnt(void) {
-    void *jbBgStep3NcgName = &gJbBgStep3NcgName4;
+    void *jbBgStep3NcgName = &"char/jbBgStep3.ncg.l";
     void *bg2CharLoader = &GX_LoadBG2Char;
     u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, bg2CharLoader);
-    void *ybBgStep3NclName = &gYbBgStep3NclName4;
+    void *ybBgStep3NclName = &"char/ybBgStep3.ncl.l";
     void *bgPlttLoader = &GX_LoadBGPltt;
     u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, bgPlttLoader);
-    void *xb4NoneNscName = &gXb4NoneNscName;
+    void *xb4NoneNscName = &"char/xb4None.nsc.l";
     void *bg2ScrLoader = &GX_LoadBG2Scr;
     u32 bg2ScrLoadResult = LoadFileToVram(xb4NoneNscName, bg2ScrLoader);
     u32 subBg0CntAddress = 0x4001008u;

@@ -37,6 +37,15 @@
 #include "string.h"
 #include "code_02134398.h"
 
+const u16 gEditAddrCharSize[2] = {0xb, 0x10};
+const u8 gEditAddrCharX[12] = {0x31, 0x3d, 0x49, 0x5a, 0x66, 0x72, 0x83, 0x8f, 0x9b, 0xac, 0xb8, 0xc4};
+u8 gEditAddrGroupMax[3] = {0x32, 0x35, 0x35};
+u8 gEditAddrSubScreenMessageIndices[5] = {0x91, 0x92, 0x93, 0x94, 0x95};
+u16 gEditAddrCharRect[3] = {0, 0x29, 0};
+EditAddrTextFuncs gEditAddrFormatFuncs = {{(void (*)(u8 *)) FormatApWorkIpText, (void (*)(u8 *)) FormatApWorkNetmaskText, (void (*)(u8 *)) FormatApWorkGatewayText, (void (*)(u8 *)) FormatApWorkDnsFirstText, (void (*)(u8 *)) FormatApWorkDnsSecondText}};
+EditAddrTextFuncs gEditAddrStoreFuncs = {{(void (*)(u8 *)) StoreApWorkIpText, (void (*)(u8 *)) StoreApWorkNetmaskText, (void (*)(u8 *)) StoreApWorkGatewayText, (void (*)(u8 *)) StoreApWorkDnsFirstText, (void (*)(u8 *)) StoreApWorkDnsSecondText}};
+struct EditAddr *gEditAddr;
+
 void CreateEditAddr(void) {
     EditAddrTextFuncs textFuncs;
     u8 subScreenMessageIndices[5];
@@ -52,7 +61,7 @@ void CreateEditAddr(void) {
     GetSecondaryMenuPair(&secondaryPairFirst, NULL);
     textFuncs.mUnk_00[secondaryPairFirst](gEditAddr->mText);
     editAddr = gEditAddr;
-    if (memcmp(editAddr->mText, gEditAddrZeroGroupText, 3) != 0) {
+    if (memcmp(editAddr->mText, "  0", 3) != 0) {
         editAddr->mGroupIndex = 3;
     } else {
         MI_CpuFill8(editAddr->mText, 0, 0xc);
@@ -71,16 +80,16 @@ void CreateEditAddr(void) {
 }
 
 void LoadEditAddrFilesAndSetBgCnt(void) {
-    void *ybObjKbNclName = &gYbObjKbNclName2;
+    void *ybObjKbNclName = &"char/ybObjKb.ncl.l";
     void *objPlttLoader = &GX_LoadOBJPltt;
     u32 objPlttLoadResult = LoadFileToVram(ybObjKbNclName, objPlttLoader);
-    void *jbBgStep3NcgName = &gJbBgStep3NcgName3;
+    void *jbBgStep3NcgName = &"char/jbBgStep3.ncg.l";
     void *bg2CharLoader = &GX_LoadBG2Char;
     u32 bg2CharLoadResult = LoadFileToVram(jbBgStep3NcgName, bg2CharLoader);
-    void *ybBgStep3NclName = &gYbBgStep3NclName3;
+    void *ybBgStep3NclName = &"char/ybBgStep3.ncl.l";
     void *bgPlttLoader = &GX_LoadBGPltt;
     u32 bgPlttLoadResult = LoadFileToVram(ybBgStep3NclName, bgPlttLoader);
-    void *xb4EditAddrNscName = &gXb4EditAddrNscName;
+    void *xb4EditAddrNscName = &"char/xb4EditAddr.nsc.l";
     void *bg2ScrLoader = &GX_LoadBG2Scr;
     u32 bg2ScrLoadResult = LoadFileToVram(xb4EditAddrNscName, bg2ScrLoader);
     u32 subBg0CntAddress = 0x4001008u;
@@ -336,7 +345,7 @@ void ReleaseEditAddr(void) {
     HideSubScreenMessage();
     DeleteOamEntry((u32 *) (u32) (gEditAddr->mOamEntry));
     ReleaseBgTextCanvasOfScreen(0);
-    LoadFileToVram(&gYbObjMainNclName3, &GX_LoadOBJPltt);
+    LoadFileToVram(&"char/ybObjMain.ncl.l", &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x15);
     GetSecondaryMenuPair(secondaryPair, NULL);
@@ -352,7 +361,7 @@ void ReleaseEditAddr(void) {
 void PrintEditAddrText(void) {
     u16 rectAndChar[6];
     s32 charIndex;
-    u8 *charX;
+    const u8 *charX;
     EditAddr *editAddr;
     u16 charXPosition;
     rectAndChar[0] = gEditAddrCharRect[0];
