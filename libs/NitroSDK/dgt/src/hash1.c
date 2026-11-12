@@ -1,6 +1,14 @@
-#include "code_02150228.h"
+#include "hash1.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0214d000.h"
+
+void DGT_Hash1Reset(DGTHash1Context *ctx) {
+    ctx->mState[0] = 0x67452301;
+    ctx->mState[1] = 0xefcdab89;
+    ctx->mState[2] = 0x98badcfe;
+    ctx->mState[3] = 0x10325476;
+    ctx->mLength = 0;
+}
 
 u8 data_0216f0a8 = 0x80;
 u32 data_0216f0ac[48] = {

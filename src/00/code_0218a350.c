@@ -1,8 +1,7 @@
 #include "00/code_0218a350.h"
-#include "code_02150228.h"
+#include "hash1.h"
 #include "code_02133048.h"
 #include "code_0214d018.h"
-#include "code_021507c8.h"
 
 void DecodeSsid(const u8 *ssid, u8 *decoded) {
     SsidOrderTable order = gSsidOrderTable;

@@ -6,7 +6,7 @@
 #include "00/unk_021b0000.h"
 #include "00/unk_021b2000.h"
 #include "code_02134398.h"
-#include "code_02150228.h"
+#include "hash1.h"
 
 s32 Util_RandInt(s32 low, s32 high) {
     s32 range = high - low;
