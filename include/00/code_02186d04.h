@@ -4,17 +4,17 @@
 #include "os_thread.h"
 
 #include "00/Lib/DWC/code_02185954.h"
-#include "00/Lib/DWC/ca_info_021b1490.h"
-#include "00/Lib/DWC/ca_info_021b15dc.h"
-#include "00/Lib/DWC/ca_info_021b172c.h"
-#include "00/Lib/DWC/ca_info_021b1814.h"
-#include "00/Lib/DWC/ca_info_021b18d8.h"
-#include "00/Lib/DWC/ca_info_021b19c0.h"
-#include "00/Lib/DWC/ca_info_021b1ae0.h"
-#include "00/Lib/DWC/ca_info_021b1bf8.h"
-#include "00/Lib/DWC/ca_info_021b1d24.h"
-#include "00/Lib/DWC/ca_info_021b1ed8.h"
-#include "00/Lib/DWC/ca_info_021b1fb4.h"
+#include "00/Lib/DWC/ca_info_globalsign_root.h"
+#include "00/Lib/DWC/ca_info_baltimore_root.h"
+#include "00/Lib/DWC/ca_info_gte_global_root.h"
+#include "00/Lib/DWC/ca_info_gte_root.h"
+#include "00/Lib/DWC/ca_info_nintendo.h"
+#include "00/Lib/DWC/ca_info_thawte_premium_server.h"
+#include "00/Lib/DWC/ca_info_thawte_server.h"
+#include "00/Lib/DWC/ca_info_verisign_class3_g2.h"
+#include "00/Lib/DWC/ca_info_verisign_class3_g3.h"
+#include "00/Lib/DWC/ca_info_verisign_class3.h"
+#include "00/Lib/DWC/ca_info_rsa_secure_server.h"
 
 extern CPSCaInfo *gCaInfoTable[11];
 extern u32 DWChttpignoreca;

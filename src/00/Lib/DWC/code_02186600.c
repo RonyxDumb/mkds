@@ -38,10 +38,10 @@
 #include "code_0214d93c.h"
 #include "Main/Save/nvram_new_wifi_info.h"
 
-CPSCaInfo *gCaInfoTable[11] = {&data_usa_ov000_021b1d28, &data_usa_ov000_021b1bfc, &data_usa_ov000_021b1edc,
-                               &data_usa_ov000_021b1fb8, &data_usa_ov000_021b1494, &data_usa_ov000_021b1730,
-                               &data_usa_ov000_021b1818, &data_usa_ov000_021b15e0, &data_usa_ov000_021b1ae4,
-                               &data_usa_ov000_021b19c4, &data_usa_ov000_021b18dc};
+CPSCaInfo *gCaInfoTable[11] = {&gVeriSignClass3G3CaInfo, &gVeriSignClass3G2CaInfo, &gVeriSignClass3CaInfo,
+                               &gRsaSecureServerCaInfo, &gGlobalSignRootCaInfo, &gGteGlobalRootCaInfo,
+                               &gGteRootCaInfo, &gBaltimoreRootCaInfo, &gThawteServerCaInfo,
+                               &gThawtePremiumServerCaInfo, &gNintendoCaInfo};
 
 s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {
     MI_CpuFill8(http, 0, 0x1a60);

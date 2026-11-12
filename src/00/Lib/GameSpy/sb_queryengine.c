@@ -1,5 +1,5 @@
 #include "00/Lib/GameSpy/sb_queryengine.h"
-#include "00/Lib/GameSpy/code_0218aea4.h"
+#include "00/Lib/GameSpy/sb_serverlist.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "03/Net/exchange_essid.h"
 #include "00/unk_021b4000.h"
@@ -11,6 +11,40 @@
 #include "code_02139f70.h"
 #include "00/Lib/GameSpy/code_021a3a18.h"
 #include "00/Lib/GameSpy/code_0218d488.h"
+
+void FIFOAddRear(SBServerFIFO *fifo, SbServer *server) {
+    if (fifo->mLast != NULL) {
+        fifo->mLast->mNext = server;
+    }
+    fifo->mLast = server;
+    server->mNext = NULL;
+    if (fifo->mFirst == NULL) {
+        fifo->mFirst = server;
+    }
+    fifo->mCount = fifo->mCount + 1;
+}
+
+void FIFOAddFront(SBServerFIFO *fifo, SbServer *server) {
+    server->mNext = fifo->mFirst;
+    fifo->mFirst = server;
+    if (fifo->mLast == NULL) {
+        fifo->mLast = server;
+    }
+    fifo->mCount = fifo->mCount + 1;
+}
+
+SbServer *FIFOGetFirst(SBServerFIFO *fifo) {
+    SbServer *server;
+    server = fifo->mFirst;
+    if (server != NULL) {
+        fifo->mFirst = server->mNext;
+        if (fifo->mFirst == NULL) {
+            fifo->mLast = NULL;
+        }
+        fifo->mCount = fifo->mCount + -1;
+    }
+    return server;
+}
 
 BOOL FIFORemove(SBServerFIFO *fifo, SbServer *server) {
     SbServer *current;

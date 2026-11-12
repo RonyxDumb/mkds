@@ -78,6 +78,9 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server);
 typedef struct SBServerFIFO SBServerFIFO;
 
 void FIFOClear(SBServerFIFO *fifo);
+void FIFOAddRear(SBServerFIFO *fifo, SbServer *server);
+void FIFOAddFront(SBServerFIFO *fifo, SbServer *server);
+SbServer *FIFOGetFirst(SBServerFIFO *fifo);
 
 typedef struct SbServer SbServer;
 typedef struct SBServerFIFO SBServerFIFO;

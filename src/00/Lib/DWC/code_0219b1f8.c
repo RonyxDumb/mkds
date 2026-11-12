@@ -48,7 +48,7 @@
 #include "00/code_0218b000.h"
 #include "00/code_0218c000.h"
 #include "00/code_021a3000.h"
-#include "00/Lib/GameSpy/code_0218aea4.h"
+#include "00/Lib/GameSpy/sb_serverlist.h"
 #include "00/Lib/DWC/code_0219caac.h"
 #include "00/Lib/GameSpy/code_02196960.h"
 #include "00/Lib/DWC/dwc_match.h"

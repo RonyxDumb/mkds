@@ -1686,50 +1686,50 @@ gHttpName kind:data(any) addr:0x021b1434
 gNetcheckName kind:data(any) addr:0x021b143c
 gBase64Alphabet kind:data(any) addr:0x021b1448
 @1516 kind:data(any) addr:0x021b144c local
-data_usa_ov000_021b1490 kind:data(any) addr:0x021b1490
-data_usa_ov000_021b1494 kind:data(any) addr:0x021b1494
+gGlobalSignRootCaExponent kind:data(any) addr:0x021b1490
+gGlobalSignRootCaInfo kind:data(any) addr:0x021b1494
 @1 kind:data(any) addr:0x021b14a8 local
-data_usa_ov000_021b14dc kind:data(any) addr:0x021b14dc
-data_usa_ov000_021b15dc kind:data(any) addr:0x021b15dc
-data_usa_ov000_021b15e0 kind:data(any) addr:0x021b15e0
+gGlobalSignRootCaModulus kind:data(any) addr:0x021b14dc
+gBaltimoreRootCaExponent kind:data(any) addr:0x021b15dc
+gBaltimoreRootCaInfo kind:data(any) addr:0x021b15e0
 @1 kind:data(any) addr:0x021b15f4 local
-data_usa_ov000_021b162c kind:data(any) addr:0x021b162c
-data_usa_ov000_021b172c kind:data(any) addr:0x021b172c
-data_usa_ov000_021b1730 kind:data(any) addr:0x021b1730
+gBaltimoreRootCaModulus kind:data(any) addr:0x021b162c
+gGteGlobalRootCaExponent kind:data(any) addr:0x021b172c
+gGteGlobalRootCaInfo kind:data(any) addr:0x021b1730
 @1 kind:data(any) addr:0x021b1744 local
-data_usa_ov000_021b1794 kind:data(any) addr:0x021b1794
-data_usa_ov000_021b1814 kind:data(any) addr:0x021b1814
-data_usa_ov000_021b1818 kind:data(any) addr:0x021b1818
+gGteGlobalRootCaModulus kind:data(any) addr:0x021b1794
+gGteRootCaExponent kind:data(any) addr:0x021b1814
+gGteRootCaInfo kind:data(any) addr:0x021b1818
 @1 kind:data(any) addr:0x021b182c local
-data_usa_ov000_021b1858 kind:data(any) addr:0x021b1858
-data_usa_ov000_021b18d8 kind:data(any) addr:0x021b18d8
-data_usa_ov000_021b18dc kind:data(any) addr:0x021b18dc
+gGteRootCaModulus kind:data(any) addr:0x021b1858
+gNintendoCaExponent kind:data(any) addr:0x021b18d8
+gNintendoCaInfo kind:data(any) addr:0x021b18dc
 @1 kind:data(any) addr:0x021b18f0 local
-data_usa_ov000_021b1940 kind:data(any) addr:0x021b1940
-data_usa_ov000_021b19c0 kind:data(any) addr:0x021b19c0
-data_usa_ov000_021b19c4 kind:data(any) addr:0x021b19c4
-data_usa_ov000_021b19d8 kind:data(any) addr:0x021b19d8
+gNintendoCaModulus kind:data(any) addr:0x021b1940
+gThawtePremiumServerCaExponent kind:data(any) addr:0x021b19c0
+gThawtePremiumServerCaInfo kind:data(any) addr:0x021b19c4
+gThawtePremiumServerCaModulus kind:data(any) addr:0x021b19d8
 @1 kind:data(any) addr:0x021b1a58 local
-data_usa_ov000_021b1ae0 kind:data(any) addr:0x021b1ae0
-data_usa_ov000_021b1ae4 kind:data(any) addr:0x021b1ae4
+gThawteServerCaExponent kind:data(any) addr:0x021b1ae0
+gThawteServerCaInfo kind:data(any) addr:0x021b1ae4
 @1 kind:data(any) addr:0x021b1af8 local
-data_usa_ov000_021b1b78 kind:data(any) addr:0x021b1b78
-data_usa_ov000_021b1bf8 kind:data(any) addr:0x021b1bf8
-data_usa_ov000_021b1bfc kind:data(any) addr:0x021b1bfc
-data_usa_ov000_021b1c10 kind:data(any) addr:0x021b1c10
+gThawteServerCaModulus kind:data(any) addr:0x021b1b78
+gVeriSignClass3G2CaExponent kind:data(any) addr:0x021b1bf8
+gVeriSignClass3G2CaInfo kind:data(any) addr:0x021b1bfc
+gVeriSignClass3G2CaModulus kind:data(any) addr:0x021b1c10
 @1 kind:data(any) addr:0x021b1c90 local
-data_usa_ov000_021b1d24 kind:data(any) addr:0x021b1d24
-data_usa_ov000_021b1d28 kind:data(any) addr:0x021b1d28
+gVeriSignClass3G3CaExponent kind:data(any) addr:0x021b1d24
+gVeriSignClass3G3CaInfo kind:data(any) addr:0x021b1d28
 @1 kind:data(any) addr:0x021b1d3c local
-data_usa_ov000_021b1dd8 kind:data(any) addr:0x021b1dd8
-data_usa_ov000_021b1ed8 kind:data(any) addr:0x021b1ed8
-data_usa_ov000_021b1edc kind:data(any) addr:0x021b1edc
+gVeriSignClass3G3CaModulus kind:data(any) addr:0x021b1dd8
+gVeriSignClass3CaExponent kind:data(any) addr:0x021b1ed8
+gVeriSignClass3CaInfo kind:data(any) addr:0x021b1edc
 @1 kind:data(any) addr:0x021b1ef0 local
-data_usa_ov000_021b1f34 kind:data(any) addr:0x021b1f34
-data_usa_ov000_021b1fb4 kind:data(any) addr:0x021b1fb4
-data_usa_ov000_021b1fb8 kind:data(any) addr:0x021b1fb8
+gVeriSignClass3CaModulus kind:data(any) addr:0x021b1f34
+gRsaSecureServerCaExponent kind:data(any) addr:0x021b1fb4
+gRsaSecureServerCaInfo kind:data(any) addr:0x021b1fb8
 @1 kind:data(any) addr:0x021b1fcc local
-data_usa_ov000_021b2010 kind:data(any) addr:0x021b2010
+gRsaSecureServerCaModulus kind:data(any) addr:0x021b2010
 data_ov000_021b20d0 kind:data(any) addr:0x021b2090
 @676 kind:data(any) addr:0x021b209c local
 gSsidDecodeSecondXorKey kind:data(any) addr:0x021b20a8

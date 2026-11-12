@@ -11,7 +11,7 @@
 #include "00/code_0218b000.h"
 #include "00/code_0218c000.h"
 #include "00/code_021a3000.h"
-#include "00/Lib/GameSpy/code_0218aea4.h"
+#include "00/Lib/GameSpy/sb_serverlist.h"
 #include "00/Lib/GameSpy/code_0219887c.h"
 #include "00/code_0219a000.h"
 #include "00/Lib/DWC/code_0219b1f8.h"

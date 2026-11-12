@@ -1,6 +1,6 @@
 #include "00/Lib/DWC/dwc_match.h"
 #include "00/code_0219eaf4.h"
-#include "00/Lib/GameSpy/code_0218aea4.h"
+#include "00/Lib/GameSpy/sb_serverlist.h"
 #include "00/code_0218b000.h"
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
