@@ -198,10 +198,10 @@ Registers:
 
 Data:
 - A function that copies an initialised table matches whatever the values are. Check them against the ROM.
-- A file's objects (data, local initialisers, `.rodata`, `.bss`) are sorted by size, smallest first
-  (`tools/data_order.py` models ties). Uninitialised file-scope definitions follow in reverse order, then each
-  function's strings by ascending function address. An object after strings, or a smaller one after a bigger one,
-  starts a new file. A `.bss` pointer used by one run of consecutive units marks one file.
+- A file's objects (data, local initialisers, `.rodata`, `.bss`) are sorted by size in one list, smallest first,
+  then each function's strings follow (1.11 says what goes into the list and in which order). An object after
+  strings, or a smaller one after a bigger one, starts a new file. Which units use an object proves nothing about its
+  file; only strings, local initialisers and statics do.
 
 Other:
 - A `for` clause runs after the body: an increment that comes first in the original goes after `i++` in the clause.
@@ -964,19 +964,27 @@ Placement:
 - A constant member offset into an object the file defines is addressed from the section base plus an anchor
   offset; taking the address or a variable index uses the object's own symbol. A pool word that names no object
   start is an anchor: find the object it belongs to before declaring it.
-- Shared `.bss` order: ascending size; on a tie, definition order except that the first-defined object goes last.
-  A smaller object after a bigger one starts a new file. Objects of 64 bytes or more get their own sections,
-  smallest first.
 
 Ordering objects within a file:
-- `.bss`, `.data` and `.rodata` objects are ordered as one list, smallest first. Ties depend on the whole list.
-- File-level statics enter where defined, after the string literals of their initialiser. Strings used inside
-  functions don't join. Function-local static tables and a local array initialiser's rodata object enter at their
-  function's position.
-- Header include order and static definition order (including statics placed between includes) decide all three
-  sections. `tools/layout_search.py <unit>` searches static order and where statics sit among the headers; `tools/fix_layout.py` tries header orders; `tools/fix_static_order.py` applies a static order;
-  `tools/data_order.py` works out a declaration order for one section. `.clang-format` must keep include order
-  (`SortIncludes: Never`).
+- The rules in this section are for 1.2, the game's compiler.
+- A file's `.bss`, `.data` and `.rodata` objects form one list, sorted once by size, smallest first; each section
+  receives its objects in list order. Ties depend on the whole list, not on names or sections.
+- The list is built in file order: each definition with an initialiser where it stands, its string literals just
+  before it; `= 0` and `= NULL` definitions the same way; a local array initialiser or local static where its
+  function is defined; then every definition without an initialiser (`T *gX;`), in reverse definition order.
+- An `extern` declaration before or after a definition changes nothing. A file with no function is sorted the same
+  way.
+- Strings used inside functions don't join the list: they follow it, function by function, in ascending function
+  address.
+- Header include order and definition order (including definitions placed between includes) decide all three
+  sections. `tools/data_order.py` holds this model (`--check` compares it with every compiled unit);
+  `tools/layout_search.py <unit>` searches definition order and where definitions sit among the headers;
+  `tools/fix_static_order.py` applies a definition order; `tools/fix_layout.py` tries header orders. `.clang-format`
+  must keep include order (`SortIncludes: Never`).
+- Prefer a plain order: tables in one block and names in another, each in address or use order. Many orders give
+  the same layout; a scrambled one that matches says nothing about the order in the ROM.
+- A string pointer with its own pool word is `const char *gX = "...";`. A table of pointers (`const char *t[N]`)
+  has one pool word and sorts as one big object.
 - Define every table in the range: `.rodata` tables take part in the same ordering as `.data` ones.
 - Merging tables into one struct changes what the ordering can reach (a 60-byte struct of position+order tables; a
   struct of two tables to put a 10-byte table before an 8-byte one). Byte tables indexed by a variable stay
@@ -985,11 +993,8 @@ Ordering objects within a file:
   them as separate copies).
 
 Objects that get their own section (addressed through their own symbol):
-- Objects the file never references (inline accessors in included headers count as references); byte-aligned const
-  tables whose size is a multiple of 4; function-local mutable statics; every string literal; arrays of
-  `char`/`u8`/`s8` (1-D always; 2-D char arrays and same-size structs stay shared); `extern` objects; weak objects
-  (statics of inline functions); objects under `#pragma section npdata begin/end`. Nothing else (size,
-  alignment, order, static vs global, opt level) changes this.
+- Every file-level object and every string literal: static or global, with or without an `extern` declaration,
+  tables, structs, 2-D char arrays, file-level and function-local statics, and `.bss` objects of any size.
 - `const` always wins: a const object goes to `.rodata`. Wrong const-ness shows as a section landing in the other
   kind.
 - To give a table its own pool word or `.data` section, make it a function-local static of an inline accessor
@@ -1004,13 +1009,18 @@ Objects that get their own section (addressed through their own symbol):
 - Byte-identical code addressing the wrong `.bss` offset means wrong static definition order.
 
 Unit boundaries:
-- A smaller object between two larger ones means a boundary. Another unit's data on both sides means a shared file.
-  An object in a neighbour's block means the code using it belongs to that file.
-- When no include order works, look for a boundary problem first.
+- Within each section a file's objects ascend by size. A smaller object after a bigger one starts a new file.
+- Ascending neighbours prove nothing: two files can continue one ascending run.
+- Globals prove nothing about membership: any file may use them. Literals, local initialisers and statics do.
+- A string used by one function sits after its file's run; it ties the run to that function's file. A file with no
+  sorted `.data` objects puts its strings right after the previous file's run, so such a string ties nothing on its
+  own.
+- When no definition order works, look for a boundary problem first.
 
 Link order and linking:
-- Function order is definition order. A function defined before its caller is emitted first: use a prototype and
-  define after.
+- Function order: 1.2 emits a file's functions in reverse definition order, so write them from the highest address
+  down; 2.0 emits them in definition order (`tools/project.py` `emits_reversed`; `tools/reorder_functions.py` puts
+  a file's definitions in order). A caller defined before its callee needs the callee's prototype.
 - `-dead` strips unreferenced data once a unit links from source, though the original link kept it: list
   such objects in `config/<ver>/arm9/force_active.txt` (the `-force_active` flag segfaults under wibo).
   Unreferenced statics are dropped by the compiler; unreferenced globals still take part in the ordering.
