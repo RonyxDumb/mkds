@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Race/data_020f36d8.h"
 
 typedef struct ItemKouraW ItemKouraW;
 
@@ -16,3 +17,6 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
 void SteerItemKouraWAtAngleZero(ItemKouraW *item, u32 gain, u32 maxStep, u32 radius);
 
 void ClearItemKouraWKartItemsAndAngle(ItemKouraW *item);
+
+extern const ItemInfo data_02159e54;
+extern const ItemKind gItemKindBomb;

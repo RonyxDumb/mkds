@@ -373,8 +373,6 @@ extern ItemKind gItemKindTeresa;
 
 extern ItemKind gItemKindGesso;
 
-extern ItemKind gItemKindBomb;
-
 extern ItemKind data_0215a4dc;
 
 extern ItemKind gItemKindFBox;
@@ -421,8 +419,6 @@ extern ItemInfo data_0215a4c0;
 extern ItemInfo data_0215a2ec;
 
 extern ItemInfo data_02159f4c;
-
-extern ItemInfo data_02159e54;
 
 extern ItemInfo data_02159f68;
 

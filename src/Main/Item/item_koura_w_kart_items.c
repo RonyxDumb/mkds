@@ -8,6 +8,52 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Item/data_027e0000.h"
 #include "Main/Kart/karts.h"
+#include "Main/Item/item_bomb.h"
+#include "ITCM/collision_slots.h"
+
+const ItemInfo data_02159e54 = {1, 1, 9, 1, 0, 1, NULL};
+const ItemKind gItemKindBomb = {0x1a4,
+                                1,
+                                0x18,
+                                -1,
+                                -1,
+                                SetupItemBombKind,
+                                (void (*)(void *)) ResetItemBomb,
+                                NULL,
+                                NULL,
+                                (s32(*)(void *, void *)) InitItemBomb,
+                                (void (*)(ItemObject *)) AdvanceItemBomb,
+                                (void (*)(void *, void *, void *)) DrawItemBomb,
+                                ComputeViewTest,
+                                (UnkWordFunc *) RequestItemBombState2,
+                                (void (*)(void *)) RequestItemBombState1,
+                                (void (*)(void *)) ParkItemBombMapObject,
+                                0,
+                                1,
+                                (void *(*) (void *, void *, s32)) CopyItemBombData,
+                                0,
+                                (void (*)(void *)) InitItemBombFromData,
+                                0,
+                                NULL,
+                                0x4b0000,
+                                2,
+                                0x319a,
+                                0x5000,
+                                0x2e66,
+                                0x14cd,
+                                0x2333,
+                                0x19a,
+                                0xa4,
+                                1,
+                                1,
+                                1,
+                                {1, 0, 0, 0},
+                                1,
+                                1,
+                                1,
+                                0xe5,
+                                1,
+                                0};
 
 void ClearItemKouraWKartItemsAndAngle(ItemKouraW *item) {
     item->mKartItems = NULL;

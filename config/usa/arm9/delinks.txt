@@ -3648,6 +3648,7 @@ src/Main/Item/item_kinoko_p_boost.c:
 src/Main/Item/item_koura_w_kart_items.c:
     complete
     .text       start:0x020fcb9c end:0x020fd264
+    .rodata     start:0x02159e54 end:0x02159f18
 
 // provisional: file name and boundaries
 src/Main/Item/item_bomb.c:

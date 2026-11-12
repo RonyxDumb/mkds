@@ -23,6 +23,7 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_kinoko_p_boost.h"
+#include "Main/Item/item_koura_w_kart_items.h"
 
 #pragma thumb on
 
