@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-#include "code_020169a4.h" // NNSiGfdLnkVramBlock
+#include "gfdi_LinkedListVramMan_Common.h" // NNSiGfdLnkVramBlock
 
 typedef struct NNS_GfdLnkTexVramManager {
     /* 00 */ NNSiGfdLnkVramBlock *mMgrNrm;

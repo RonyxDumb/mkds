@@ -360,14 +360,9 @@ libs/NitroSystem/gfd/src/gfd_VramTransferManager.c:
     .bss        start:0x02173200 end:0x02173214
 
 // provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_020169a4.c:
+libs/NitroSystem/gfd/src/gfdi_LinkedListVramMan_Common.c:
     complete
-    .text       start:0x020169a4 end:0x02016d28
-
-// provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_02016d28.c:
-    complete
-    .text       start:0x02016d28 end:0x02016d34
+    .text       start:0x020169a4 end:0x02016d34
 
 // provisional: file name and boundaries
 libs/NitroSystem/gfd/src/gfd_LinkedListTexVramMan.c:

@@ -3,7 +3,7 @@
 #include "code_02012b30.h" // NNSG3dResFileHeader
 
 #include "Main/System/heap.h"
-#include "code_020169a4.h"
+#include "gfdi_LinkedListVramMan_Common.h"
 #include "gfd_LinkedListTexVramMan.h"
 #include "gfd_LinkedListPlttVramMan.h"
 #include "code_020172d0.h"

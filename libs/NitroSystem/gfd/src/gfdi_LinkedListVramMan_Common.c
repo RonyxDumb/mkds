@@ -1,4 +1,8 @@
-#include "code_020169a4.h"
+#include "gfdi_LinkedListVramMan_Common.h"
+
+void NNSi_GfdInitLnkVramMan(NNSiGfdLnkVramBlock **blockList) {
+    *blockList = 0;
+}
 
 NNSiGfdLnkVramBlock *NNSi_GfdInitLnkVramBlockPool(NNSiGfdLnkVramBlock *blocks, u32 count) {
     u32 index;

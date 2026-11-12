@@ -1,7 +1,6 @@
 #include "gfd_LinkedListPlttVramMan.h"
 
-#include "code_020169a4.h"
-#include "code_02016d28.h"
+#include "gfdi_LinkedListVramMan_Common.h"
 #include "gfd_FrameTexVramMan.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/unk_02173000.h"

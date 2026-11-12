@@ -2,8 +2,6 @@
 
 #include "types.h"
 
-// 16 bytes: an address and a size, linked through two pointers to other NNSiGfdLnkVramBlock (NNSi_GfdFreeLnkVram and
-// NNSi_GfdAllocLnkVramAligned unlink and relink them).
 typedef struct NNSiGfdLnkVramBlock {
     /* 00 */ u32 mAddr;
     /* 04 */ u32 mSzByte;
@@ -19,3 +17,5 @@ s32 NNSi_GfdAllocLnkVram(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock
 s32 NNSi_GfdAddNewFreeBlock(NNSiGfdLnkVramBlock **freeListHead, NNSiGfdLnkVramBlock **spareListHead, u32 addr,
                             u32 size);
 NNSiGfdLnkVramBlock *NNSi_GfdInitLnkVramBlockPool(NNSiGfdLnkVramBlock *blocks, u32 count);
+
+void NNSi_GfdInitLnkVramMan(NNSiGfdLnkVramBlock **blockList);
