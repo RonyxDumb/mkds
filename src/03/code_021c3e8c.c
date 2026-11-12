@@ -1,4 +1,11 @@
 #include "03/code_021c3e8c.h"
+#include "03/code_021c3fa0.h"
+#include "03/code_021c209c.h"
+#include "03/code_021d1000.h"
+#include "03/code_021d3000.h"
+#include "03/code_021d3488.h"
+#include "03/code_021c25e0.h"
+#include "03/code_021d1f70.h"
 #include "03/code_021bf8c0.h"
 #include "03/code_021c4220.h"
 #include "03/code_021c46a8.h"
@@ -6,9 +13,15 @@
 #include "03/code_021cd2e0.h"
 #include "03/code_021cdbd0.h"
 #include "03/code_021d1dd0.h"
-#include "03/code_021d1f70.h"
 #include "03/code_021d1fd0.h"
 #include "03/code_021d254c.h"
+
+void UpdateLinkMessageFadeIn(void) {
+    if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
+        SetChildWaitCallback(LinkMessageResultCallback);
+        SetUpdateFunction(UpdateLinkMessage);
+    }
+}
 
 void UpdateLinkMessage(void) {
     UpdateLinkMessageInputNop();
