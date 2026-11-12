@@ -1,4 +1,5 @@
 #include "03/code_021c99a8.h"
+#include "03/code_021c9c90.h"
 #include "03/code_021bf810.h"
 #include "03/code_021c2904.h"
 #include "03/code_021be000.h"
@@ -6,7 +7,6 @@
 #include "03/code_021bf410.h"
 #include "03/code_021c2000.h"
 #include "03/code_021c9000.h"
-#include "03/code_021c9c90.h"
 #include "03/code_021cb4d0.h"
 #include "03/code_021cef90.h"
 #include "03/code_021d1dd0.h"
@@ -22,7 +22,6 @@
 #include "03/code_021c9cf4.h"
 #include "03/code_021cb000.h"
 #include "03/code_021d2940.h"
-
 #include "03/code_021c2938.h"
 #include "03/code_021c97c0.h"
 #include "03/code_021cd000.h"
@@ -31,6 +30,13 @@
 #include "03/code_021d1fd0.h"
 #include "03/code_021d254c.h"
 #include "os_thread.h"
+
+u32 ExchangeEntryPAD_DetectFold(void) {
+    if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
+        return 1;
+    }
+    return 0;
+}
 
 void SetupExchangeEntry(void) {
     *(u8 *) &gExchangeEntryShowNext = 0;
