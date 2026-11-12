@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/Graphics/font_and_player_character.h"
 
 typedef struct KeyboardRect KeyboardRect;
 

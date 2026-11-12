@@ -27,7 +27,7 @@ typedef struct ItemObject ItemObject;
 #include "01/code_0218f000.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_02061654.h"
+#include "Main/Race/race.h"
 
 void *CreateIwanteHandsUpdateList(void);
 void *CreateIwanteUpdateList(void);

@@ -3,24 +3,24 @@
 #include "types.h"
 #include "code_02012b30.h" // MtxFx22, NNSG3dResMatData
 #include "Main/Unknown/unk_02165000.h" // BattleKartAiParams
-#include "Main/Unknown/code_020846c0.h" // ResFileEntry
+#include "Main/Graphics/nsbmd_render_obj.h" // ResFileEntry
 #include "code_0212d214.h"
-#include "Main/Unknown/code_020ae770.h"
+#include "Main/System/time_digits.h"
 #include "Main/Unknown/code_020c06c4.h" // RaceHudOamBuffer
-#include "Main/Unknown/code_020e5d0c.h"
-#include "Main/Unknown/code_020e516c.h"
+#include "Main/MapObjects/pendulum.h"
+#include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/Unknown/code_020e6b58.h"
-#include "ITCM/code_01ffdee4.h" // CourseCollision
+#include "ITCM/sphere_collision.h" // CourseCollision
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h"
-#include "Main/Unknown/code_020467d0.h" // StateMachine
+#include "Main/MapObjects/attractor.h"
+#include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/Unknown/code_0209bc74.h" // MapObjectModel
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/code_0208fd8c.h"
 #include "Main/Unknown/unk_0217d000.h" // Unk02023374
 #include "Main/Unknown/types_02180728.h" // TextCanvas
 #include "Main/Unknown/code_020ae000.h"
-#include "Main/Unknown/code_020ae630.h"
+#include "Main/Graphics/oam_lists.h"
 #include "Main/Unknown/code_02089fa0.h" // StemSet
 #include "code_0214a748.h" // MtxFx44
 

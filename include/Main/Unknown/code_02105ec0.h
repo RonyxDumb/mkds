@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0210e33c.h"
+#include "Main/Sound/sound_set_load.h"
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 

@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02100084.h"
+#include "Main/MapObjects/map_objects_get.h"
 
 void *GetMapObjectFromList(MapObjectList *list, s32 index);

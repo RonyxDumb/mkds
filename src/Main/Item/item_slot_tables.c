@@ -1,0 +1,621 @@
+#include "Main/Item/item_slot_tables.h"
+#include "Main/Unknown/code_020f813c.h"
+#include "Main/System/heap.h"
+#include "Main/System/heap_call.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Item/item_pool.h"
+#include "Main/Unknown/code_020f81c0.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Race/race_item_slot_sound.h"
+#include "Main/Unknown/code_020f82c4.h"
+#include "Main/Net/slot_result_sync.h"
+#include "Main/Unknown/code_0205a548.h"
+#include "Main/Unknown/code_0205a000.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/code_02079b40.h"
+#include "Main/Unknown/code_020be930.h"
+#include "code_02012b30.h"
+#include "Main/Item/item_koura_w.h"
+#include "Main/Unknown/unk_02159000.h"
+#include "Main/Unknown/unk_0216c000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Kart/kart_drift.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02047000.h"
+#include "Main/Unknown/unk_02164000.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Unknown/code_020f6be8.h"
+#include "code_02147cd8.h"
+
+static inline u32 ItemSlotNextRandomBelow(RandomState64 *random, u32 limit) {
+    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    if (limit == 0) {
+        return random->mValue >> 32;
+    } else {
+        return ((random->mValue >> 32) * limit) >> 32;
+    }
+}
+
+s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGhostOrPeer, s32 isEntryKart,
+             s32 itemCount) {
+    ItemSlotTable *table;
+    RandomState64 *random;
+    u16 *row;
+    s32 variant;
+    s32 poolIndex;
+    u16 acc;
+    s32 itemIndex;
+    s32 value;
+    s32 sel;
+    s32 usedObjectCost;
+    u16 roll;
+    s32 objectKind;
+    enum { K0 } spinItem;
+
+    sel = 0x13;
+    if (forcedRowHandle != 0) {
+        rankOrRow = (u16) (forcedRowHandle - 1);
+        variant = 0;
+        table = &gItemSlotForcedTable;
+    } else {
+        table = isHumanGhostOrPeer != 0 ? &gItemSlotHumanGhostPeerTable : &gItemSlotCpuTable;
+        rankOrRow = (u16) (rankOrRow - 1);
+        variant = kartVariant;
+    }
+    row = table->mRows[rankOrRow];
+    acc = 0;
+    usedObjectCost = 0;
+    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+        for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
+            usedObjectCost +=
+                (u16) (gItemKinds[(s32) poolIndex].mObjectCapCost *
+                       (gItemPools[(s32) poolIndex].mReservedCount - gItemPools[(s32) poolIndex].mRestingCount));
+        }
+    }
+    for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
+        objectKind = GetItemInfo(itemIndex)->mObjectKind;
+        if (!((itemIndex == 8 && gThunderBlockTimer > 0) || (itemIndex == 7 && gKouraWBlockTimer > 0) ||
+              (itemIndex == 0xf && gGessoBlockTimer > 0))) {
+            if (gItemPools[objectKind].mLimit - gItemPools[objectKind].mReservedCount > 0 &&
+                GetItemInfo(itemIndex)->mEnabled != FALSE) {
+                value = gItemKinds[objectKind].mObjectCapCost * GetItemInfo(itemIndex)->mObjectCount;
+                if (value == 0 || value + usedObjectCost <= 0x28) {
+                    if (itemIndex >= 9 && variant != 0) {
+                        if (variant == 1) {
+                            acc = acc + (row[itemIndex] >> 2);
+                        } else {
+                            acc = 3 * row[itemIndex] + acc;
+                        }
+                    } else {
+                        acc = acc + row[itemIndex];
+                    }
+                }
+            }
+        }
+        gItemWeightSums[itemIndex] = acc;
+    }
+    random = &gRaceProgress->mRandom;
+    if (acc == 0) {
+        value = 0;
+    } else {
+        value = ItemSlotNextRandomBelow(random, acc);
+    }
+    roll = value;
+    for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
+        if (roll < gItemWeightSums[itemIndex]) {
+            sel = itemIndex;
+            break;
+        }
+    }
+    if (ReplaceUnavailableItem(&sel) != FALSE) {
+        TryReleaseItemObjectsForItemInfo(sel);
+    }
+    if (isEntryKart != 0) {
+        if (forcedRowHandle != 0) {
+            gItemSlotSpinItemCount = 0;
+            for (spinItem = 0; spinItem < itemCount; spinItem++) {
+                if (spinItem == sel || row[spinItem] != 0) {
+                    gItemSlotSpinItems[gItemSlotSpinItemCount++] = spinItem;
+                }
+            }
+        } else {
+            gItemSlotSpinItemCount = 0;
+        }
+    }
+    return sel;
+}
+
+void InitItemSlot(KartItems *slot, KartItems *kartItems) {
+    slot->mSelf = kartItems;
+    slot->mSlotState = 0;
+    slot->mSlotFrames = 0;
+    slot->mSlotShownItem = 0x13;
+    slot->mSlotResult = 0x13;
+    slot->mActiveItem = 0x13;
+    slot->mResultPending = FALSE;
+    slot->mIsPeer = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
+}
+
+void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGhostOrPeer, s32 shortSpin) {
+    KartItems *kartItems;
+    ItemInfo *itemInfo;
+    ItemPool *pool;
+    enum { K0 } itemIndex, objectKind;
+    BOOL isWiFiRace;
+    BOOL isEntryKart;
+
+    kartItems = slot->mSelf;
+    isWiFiRace = gRaceSetup->mMode == MODE_WIFI;
+    if (slot->mSlotState != 0) {
+        return;
+    }
+    if (slot->mActiveItem != 0x13) {
+        return;
+    }
+    slot->mSlotState = 1;
+    slot->mSlotShownItem = 0x13;
+    if (!isWiFiRace) {
+        StopRaceRankListItemInUse(slot->mSelf->mKartIndex);
+    }
+    if (isWiFiRace) {
+        slot->mIsShortSpin = FALSE;
+        slot->mSlotFrames = 0;
+        slot->mSlotFrameCount = 0x85;
+        slot->mSlotFinalScrollFrameCount = 0x10;
+        slot->mSlotFinalScrollFrameShift = 4;
+    } else if (shortSpin != 0) {
+        slot->mIsShortSpin = TRUE;
+        slot->mSlotFrames = 0x4d;
+        slot->mSlotFrameCount = 0x65;
+        slot->mSlotFinalScrollFrameCount = 8;
+        slot->mSlotFinalScrollFrameShift = 3;
+    } else {
+        slot->mIsShortSpin = FALSE;
+        slot->mSlotFrames = 0;
+        slot->mSlotFrameCount = 0xd5;
+        slot->mSlotFinalScrollFrameCount = 0x10;
+        slot->mSlotFinalScrollFrameShift = 4;
+    }
+    isEntryKart = kartItems->mKartIndex == gRaceSetup->mEntryIndex;
+    if (kartItems->mItemInUse.mObjectKind != 0xf && kartItems->mItemInUse.mItemInfoIndex >= 9) {
+        slot->mSlotResult = PickItem(0, forcedRowHandle, rank, isHumanGhostOrPeer, isEntryKart, 9);
+    } else {
+        slot->mSlotResult = PickItem(GetKartVariant(kartItems->mKartIndex), forcedRowHandle, rank, isHumanGhostOrPeer,
+                                     isEntryKart, 0x12);
+    }
+    if (isWiFiRace) {
+        StartOwnSlotResultSync(slot->mSlotResult);
+        slot->mResultPending = TRUE;
+        return;
+    }
+    itemIndex = slot->mSlotResult;
+    itemInfo = &gItemInfos[itemIndex];
+    objectKind = itemInfo->mObjectKind;
+    pool = &gItemPools[objectKind];
+    pool->mReservedCount += itemInfo->mObjectCount;
+}
+
+void StartItemSlotResultPending(KartItems *slot) {
+    KartItems *kartItems;
+    ItemInfo *itemInfo;
+    ItemPool *pool;
+    enum { K0 } itemIndex, objectKind;
+
+    kartItems = slot->mSelf;
+    if (kartItems->mActiveItem != 0x13) {
+        kartItems->mActiveItem = 0x13;
+    }
+    if (slot->mSlotState != 0) {
+        if (kartItems->mResultPending == FALSE) {
+            itemIndex = kartItems->mSlotResult;
+            itemInfo = &gItemInfos[itemIndex];
+            objectKind = itemInfo->mObjectKind;
+            pool = &gItemPools[objectKind];
+            pool->mReservedCount -= itemInfo->mObjectCount;
+        }
+        kartItems->mSlotState = 0;
+        kartItems->mSlotFrames = 0;
+        kartItems->mSlotShownItem = 0x13;
+        kartItems->mSlotResult = 0x13;
+        kartItems->mActiveItem = 0x13;
+        kartItems->mResultPending = FALSE;
+    } else {
+        if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
+            ReleaseHeldItem(&kartItems->mHeldItem, 1);
+        }
+    }
+    slot->mSlotState = 1;
+    slot->mSlotFrames = 0;
+    slot->mSlotFrameCount = 0x85;
+    slot->mSlotShownItem = 0x13;
+    slot->mActiveItem = 0x13;
+    slot->mSlotResult = 0x13;
+    slot->mResultPending = TRUE;
+}
+
+BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
+    ItemInfo *itemInfo;
+    ItemPool *pool;
+    enum { K0 } objectKind;
+    s32 mode;
+    u32 value;
+
+    switch (slot->mSlotState) {
+        case 1:
+            slot->mSlotFrames++;
+            mode = gRaceSetup->mMode;
+            if (mode == MODE_WIFI && slot->mResultPending != FALSE) {
+                value = kartItems->mKartIndex & 0xff;
+                if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[value]) == 0) {
+                    value = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[value]);
+                    if (IsItemInfoObjectCountFree(value) != FALSE) {
+                        TryReleaseItemObjectsForItemInfo(value);
+                    }
+                    itemInfo = &gItemInfos[value];
+                    objectKind = itemInfo->mObjectKind;
+                    pool = &gItemPools[objectKind];
+                    pool->mReservedCount += itemInfo->mObjectCount;
+                    slot->mSlotResult = value;
+                    slot->mResultPending = FALSE;
+                    slot->mSlotFrameCount += slot->mSlotFrames - 0x6f;
+                } else if (slot->mSlotFrames > 0x6e) {
+                    slot->mSlotFrames = 0x67;
+                }
+                return FALSE;
+            }
+            if (slot->mSlotFrames > 0x3c &&
+                (((kartItems->mFlags & 0x241) == 0x241 && mode != MODE_WIFI && slot->mIsShortSpin == FALSE) ||
+                 slot->mSlotFrames > slot->mSlotFrameCount)) {
+                slot->mSlotFrames = 0;
+                slot->mSlotState = 2;
+            }
+            break;
+        case 2:
+            slot->mSlotFrames++;
+            if (slot->mSlotFrames > slot->mSlotFinalScrollFrameCount * 2) {
+                return TRUE;
+            }
+            break;
+    }
+    return FALSE;
+}
+
+void FinishItemSlot(KartItems *slot) {
+    ItemInfo *itemInfo;
+    ItemPool *pool;
+    enum { K0 } itemIndex, objectKind;
+
+    itemIndex = slot->mSlotResult;
+    itemInfo = &gItemInfos[itemIndex];
+    objectKind = itemInfo->mObjectKind;
+    pool = &gItemPools[objectKind];
+    pool->mReservedCount -= itemInfo->mObjectCount;
+    slot->mSlotState = 0;
+    slot->mSlotFrames = 0;
+    slot->mSlotShownItem = 0x13;
+    slot->mSlotResult = 0x13;
+    slot->mActiveItem = 0x13;
+    slot->mResultPending = FALSE;
+}
+
+void StopItemSlot(KartItems *slot) {
+    ItemInfo *itemInfo;
+    ItemPool *pool;
+    enum { K0 } itemIndex, objectKind;
+
+    if (slot->mResultPending == FALSE) {
+        itemIndex = slot->mSlotResult;
+        itemInfo = &gItemInfos[itemIndex];
+        objectKind = itemInfo->mObjectKind;
+        pool = &gItemPools[objectKind];
+        pool->mReservedCount -= itemInfo->mObjectCount;
+    }
+    slot->mSlotState = 0;
+    slot->mSlotFrames = 0;
+    slot->mSlotShownItem = 0x13;
+    slot->mSlotResult = 0x13;
+    slot->mActiveItem = 0x13;
+    slot->mResultPending = FALSE;
+}
+
+static inline u16 ItemSlotNextRandomBelowU16(RandomState64 *random, u32 limit) {
+    u32 value;
+    if (limit == 0) {
+        value = 0;
+    } else {
+        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        if (limit == 0) {
+            value = random->mValue >> 32;
+        } else {
+            value = ((random->mValue >> 32) * limit) >> 32;
+        }
+    }
+    return value;
+}
+
+void PickItemSlotShownItem(KartItems *slot) {
+    RandomState64 *random;
+    s32 *items;
+    u16 itemCount;
+    u16 index;
+
+    switch (slot->mSlotState) {
+        case 0:
+            return;
+        case 1:
+            if (gItemSlotSpinItemCount != 0) {
+                itemCount = gItemSlotSpinItemCount;
+                items = gItemSlotSpinItems;
+            } else {
+                itemCount = gItemSlotPossibleItemCount;
+                items = gItemSlotPossibleItems;
+            }
+            random = &gRaceProgress->mLocalRandom;
+            index = ItemSlotNextRandomBelowU16(random, itemCount);
+            if (slot->mSlotShownItem == items[index]) {
+                index++;
+                if (index >= itemCount) {
+                    index = 0;
+                }
+            }
+            slot->mSlotShownItem = items[index];
+            break;
+        case 2:
+            slot->mSlotShownItem = slot->mSlotResult;
+            break;
+    }
+}
+
+void StartThunderBlockTimer(s32 isRaceStart) {
+    gThunderBlockTimer = 1800;
+    if (isRaceStart != 0) {
+        gThunderBlockTimer += 300;
+    }
+}
+
+void StartKouraWBlockTimer(s32 isRaceStart) {
+    gKouraWBlockTimer = 1800;
+    if (isRaceStart != 0) {
+        gKouraWBlockTimer += 300;
+    }
+}
+
+void StartGessoBlockTimer(s32 isRaceStart) {
+    gGessoBlockTimer = 0x384;
+    if (isRaceStart != 0) {
+        gGessoBlockTimer += 0x12c;
+    }
+}
+
+void AdvanceItemBlockTimers(void) {
+    if (gThunderBlockTimer > 0) {
+        gThunderBlockTimer = gThunderBlockTimer - 1;
+    }
+    if (gKouraWBlockTimer > 0) {
+        gKouraWBlockTimer = gKouraWBlockTimer - 1;
+    }
+    if (gGessoBlockTimer > 0) {
+        gGessoBlockTimer = gGessoBlockTimer - 1;
+    }
+}
+
+void FinishItemSlotAndStopSound(KartItems *slot) {
+    ItemInfo *itemInfo;
+    ItemPool *pool;
+    enum { K0 } itemIndex, objectKind;
+
+    if (slot->mSelf->mKartIndex == gRaceSetup->mEntryIndex) {
+        StopRaceItemSlotSound();
+    }
+    itemIndex = slot->mSlotResult;
+    itemInfo = &gItemInfos[itemIndex];
+    objectKind = itemInfo->mObjectKind;
+    pool = &gItemPools[objectKind];
+    pool->mReservedCount -= itemInfo->mObjectCount;
+    slot->mSlotState = 0;
+    slot->mSlotFrames = 0;
+    slot->mSlotShownItem = 0x13;
+    slot->mSlotResult = 0x13;
+    slot->mActiveItem = 0x13;
+    slot->mResultPending = FALSE;
+}
+
+void SetActiveItem(KartItems *kartItems, u32 itemIndex) {
+    kartItems->mActiveItem = itemIndex;
+}
+
+#pragma thumb on
+
+u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
+    s32 rowCount;
+    s32 columnCount;
+    s32 columnIndex;
+    s32 rowIndex;
+    u16(*tab)[0x12];
+
+    rowCount = *data++;
+    columnCount = *data++;
+    table->mRowCount = rowCount;
+    table->mRows = HeapAlloc(GetHeap(GetCurrentHeapCall()), (rowCount + 1) * 0x24);
+    tab = table->mRows;
+    for (columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+        for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            tab[rowIndex][columnIndex] = *data++;
+        }
+        tab[rowIndex][columnIndex] = 0xffff;
+    }
+    return data;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+u8 *ComputeItemSlotTableDataEnd(u8 *data) {
+    return data + 2 + data[1] * data[0];
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
+    u16(*tab)[0x12];
+    s32 rowIndex;
+    s32 columnIndex;
+    u16 sourceRow;
+    u16 *sourceRows;
+
+    sourceRows = (u16 *) &gItemSlotRowRemaps[kartCount - 1];
+    tab = table->mRows;
+    if (kartCount == 8) {
+        return;
+    }
+    for (rowIndex = 0; rowIndex < kartCount; rowIndex++) {
+        sourceRow = sourceRows[rowIndex] - 1;
+        for (columnIndex = 0; columnIndex < 0x12; columnIndex++) {
+            tab[rowIndex][columnIndex] = tab[sourceRow][columnIndex];
+        }
+    }
+    for (; rowIndex < 8; rowIndex++) {
+        for (columnIndex = 0; columnIndex < 0x12; columnIndex++) {
+            tab[rowIndex][columnIndex] = 0;
+        }
+    }
+}
+
+void CreateItemSlotTables(void) {
+    u8 *data;
+    enum { K0 } itemIndex;
+    s32 rowIndex;
+    s32 rowCount;
+    s32 *entry;
+    enum { K1 } compactIndex;
+
+    data = FindMainRaceOrMainEffectFile(gItemSlotListDatName);
+    switch (gRaceSetup->mMode) {
+        case MODE_GRAND_PRIX:
+        case MODE_TIME_ATTACK:
+        case MODE_MISSION_RUN:
+            data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data + 1);
+            data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
+            break;
+        case MODE_BATTLE:
+            data = ComputeItemSlotTableDataEnd(data + 1);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
+            switch (gRaceSetup->mBattleKind) {
+                case BATTLE_KIND_BALLOON:
+                default:
+                    data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+                    data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
+                    break;
+                case BATTLE_KIND_SHINE:
+                    data = ComputeItemSlotTableDataEnd(data);
+                    data = ComputeItemSlotTableDataEnd(data);
+                    data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+                    data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
+                    break;
+            }
+            break;
+        case MODE_VS:
+            data = ComputeItemSlotTableDataEnd(data + 1);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+            data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
+            if (gRaceSetup->mCpuDifficulty == 0) {
+                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, gRaceSetup->mKartCount);
+                RemapItemSlotRows(&gItemSlotCpuTable, gRaceSetup->mKartCount);
+            }
+            break;
+        case 5:
+            data = ComputeItemSlotTableDataEnd(data + 1);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&gItemSlotHumanGhostPeerTable, data);
+            data = LoadItemSlotTableData(&gItemSlotCpuTable, data);
+            data = LoadItemSlotTableData(&gItemSlotForcedTable, data);
+            if (gRaceSetup->mCpuDifficulty == 0) {
+                RemapItemSlotRows(&gItemSlotHumanGhostPeerTable, gRaceSetup->mKartCount);
+                RemapItemSlotRows(&gItemSlotCpuTable, gRaceSetup->mKartCount);
+            }
+            break;
+    }
+    rowCount = gItemSlotHumanGhostPeerTable.mRowCount;
+    for (itemIndex = 0; itemIndex < 0x12; itemIndex++) {
+        gItemSlotPossibleItems[itemIndex] = 0x12;
+        for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            if (gItemSlotHumanGhostPeerTable.mRows[rowIndex][itemIndex] != 0 ||
+                gItemSlotCpuTable.mRows[rowIndex][itemIndex] != 0) {
+                gItemSlotPossibleItems[itemIndex] = itemIndex;
+            }
+        }
+    }
+    gItemSlotPossibleItemCount = 0;
+    for (compactIndex = 0; compactIndex < 0x12; compactIndex++) {
+        entry = &gItemSlotPossibleItems[compactIndex];
+        if (gItemSlotPossibleItems[compactIndex] != 0x12) {
+            gItemSlotPossibleItems[gItemSlotPossibleItemCount++] = *entry;
+        }
+    }
+    gItemSlotSpinItemCount = 0;
+}
+
+#pragma thumb off
+
+u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
+    ItemObject *item = itemParam;
+    ItemObject *other = otherParam;
+
+    return (gItemHitTypes + item->mKind * 0xe)[other->mKind];
+}
+
+void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
+    RandomState64 *random;
+    s64 distanceSquared;
+    s32 angle;
+
+    if (item->mFlags & 0x2000000) {
+        if (LENGTH_SQUARED(*normal) >= 0x10) {
+            Vec3NormalizeAndGetLengthUnchecked(normal, normal);
+        }
+        if (Vec3DotUnrounded(normal, &item->mCoursePointOrParams) > 0x800) {
+            item->mVelocity.z = MUL_FIXED12_NO_ROUND(normal->z, 0x14cd);
+            item->mVelocity.x = MUL_FIXED12_NO_ROUND(normal->x, 0x14cd);
+        }
+    }
+    distanceSquared = (s64) (item->mPos.x - otherPos->x) * (item->mPos.x - otherPos->x) +
+                      (s64) (item->mPos.y - otherPos->y) * (item->mPos.y - otherPos->y) +
+                      (s64) (item->mPos.z - otherPos->z) * (item->mPos.z - otherPos->z);
+    if (distanceSquared >= (s64) item->mRadius * item->mRadius) {
+        return;
+    }
+    item->mFlags |= 0x4000000;
+    if (item->mFlags & 0x2000000) {
+        return;
+    }
+    if (Vec3DotUnrounded(&item->mVelocity, normal) >= 0) {
+        return;
+    }
+    random = &gRaceProgress->mRandom;
+    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    angle = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32));
+    item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
+    item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);
+    item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.z, 0x14cd);
+    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.x, 0x14cd);
+    item->mFlags |= 0x2000000;
+}

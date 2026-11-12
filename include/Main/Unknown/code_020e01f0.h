@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e0680.h"
+#include "Main/MapObjects/choropu.h"
 
 // Object holding a pointer at 0x0 and two vectors.
 typedef struct CollisionHitLink {

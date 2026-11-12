@@ -10,7 +10,7 @@
 #include "string.h"
 #include "code_02134398.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/code_02151708.h"
+#include "Main/Save/nvram_entries.h"
 #include "Main/Unknown/code_02151718.h"
 
 #pragma thumb on

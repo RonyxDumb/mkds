@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/code_020b4000.h" // Ncgr
+#include "Main/Graphics/font_and_player_character.h" // Ncgr
 
 void SetupKeyboardLayoutHiragana(KeyboardRect *rects, Ncgr *ncgr, u32 rectCount);
 void SetupKeyboardLayout(KeyboardRect *rects, Ncgr *ncgr, void (*callback)(KeyboardKeys *), s32 fixedCount,

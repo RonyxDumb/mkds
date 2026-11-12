@@ -14,8 +14,8 @@ typedef struct OptionStateCallbackTable {
 #include "01/code_0219e824.h"
 #include "Main/Unknown/code_02124000.h"
 #include "Main/Unknown/code_020ae4c0.h"
-#include "Main/Unknown/code_020b3f7c.h"
-#include "Main/Unknown/code_02125ebc.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Menu/txt_system.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_02126230.h"
 #include "Main/Unknown/code_02128210.h"
@@ -27,11 +27,11 @@ typedef struct OptionStateCallbackTable {
 #include "Main/Unknown/code_020ae408.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "01/unk_021a6000.h"
-#include "Main/Unknown/code_02036c5c.h"
+#include "Main/Scene/display_settings.h"
 #include "01/unk_021a8000.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/System/result_archive_path.h"
 
 extern const OptionStateCallbackTable gOptionEmbremSelectCallbacks;
 

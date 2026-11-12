@@ -1,7 +1,7 @@
 #include "01/code_0219d50c.h"
 #include "01/unk_021a8000.h"
-#include "Main/Unknown/code_02047104.h"
-#include "Main/Unknown/code_020b47d8.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Race/followed_kart_or.h"
 
 void LoadSelectBattleStageData(void) {
     void *v1;

@@ -1,5 +1,5 @@
 #include "code_021526bc.h"
-#include "Main/Unknown/code_021526c8.h"
+#include "Main/Net/friend_data_login_id.h"
 
 #pragma thumb on
 

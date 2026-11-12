@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // Kart
+#include "Main/Kart/kart_drift.h" // Kart
 
 typedef struct SoundSetPlayer SoundSetPlayer;
 

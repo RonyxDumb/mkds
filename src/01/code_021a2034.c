@@ -1,19 +1,19 @@
 #include "01/code_021a2034.h"
 
 #include "Main/Unknown/code_02056000.h"
-#include "Main/Unknown/code_0208aea8.h"
-#include "Main/Unknown/code_0208b484.h"
+#include "Main/Graphics/emitters.h"
+#include "Main/Graphics/effects.h"
 #include "Main/Unknown/code_0209b000.h"
-#include "Main/Unknown/code_020e6fd4.h"
-#include "Main/Unknown/code_020f9c6c.h"
+#include "Main/MapObjects/attractor.h"
+#include "Main/Item/item_koura_w.h"
 #include "Main/Unknown/code_0208b000.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/Graphics/font_and_player_character.h"
 #include "00/code_02181f98.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0209bef0.h"
-#include "Main/Unknown/code_02029440.h"
+#include "Main/Race/race_setup.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_02061654.h"
+#include "Main/Race/race.h"
 
 void InitPeriodicEffectObjects(MapObjectList *objectList) {
     s32 objectIndex;

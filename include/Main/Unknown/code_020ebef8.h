@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject
-#include "Main/Unknown/code_020e516c.h" // ShadowMatrix
+#include "Main/MapObjects/attractor.h" // MapObject
+#include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 
 // First argument of StartWoodbox1ItemObject.
 typedef struct Woodbox1 {

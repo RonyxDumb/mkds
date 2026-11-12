@@ -4,7 +4,7 @@
 
 extern u8 gWiFiAikotobaOffsetTableIndices[2][4];
 
-#include "Main/Unknown/code_02124094.h" // LayoutTableEntry
+#include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 
 struct Unk02021dc8;
 struct Ncgr;
@@ -33,7 +33,7 @@ typedef struct WiFiAikotoba {
 
 #include "00/code_02180608.h"
 #include "00/code_02181f98.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/System/result_archive_path.h"
 
 extern u8 gWiFiAikotobaCellIndices[2];
 extern u8 gWiFiAikotobaXluCellIndices[2];

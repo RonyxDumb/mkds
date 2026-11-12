@@ -1,0 +1,54 @@
+#pragma once
+
+#include "types.h"
+#include "Main/MapObjects/attractor.h" // MapObjectList
+
+typedef struct Wanwan Wanwan;
+
+// Object of CreateWanwanDrawList: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
+// it at 0x28.
+typedef struct WanwanDrawList {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ void (*mInit)(void);
+    /* 0c */ u8 mUnk_0c[4];
+    /* 10 */ void (*mForEachObject)(void *, Wanwan *, void *, u32);
+    /* 14 */ u8 mUnk_14[4];
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ u8 mUnk_1c[0xc];
+    /* 28 */ struct WanwanDrawList **mListSlot;
+} WanwanDrawList;
+
+// Object of CreateWanwanKindData: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
+typedef struct Unk020dd860 {
+    /* 00 */ u8 (*mUnk_00)(Wanwan *, void *, u8 *, u8 *);
+    /* 04 */ u8 (*mUnk_04)(Wanwan *, void *, u8 *, u8 *);
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[0xc];
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ u8 mUnk_28[0x18];
+} Unk020dd860;
+
+extern const MapObjectList data_02158334;
+extern const WanwanDrawList data_0215835c;
+extern const Unk020dd860 data_02158388;
+extern MapObjectList *gWanwanUpdateList;
+extern WanwanDrawList *gWanwanDrawList;
+
+void EnterWanwanState5(Wanwan *wanwan);
+void UpdateWanwanState4Nop(Wanwan *wanwan);
+void UpdateWanwanState2(Wanwan *wanwan);
+void EnterWanwanState2(Wanwan *wanwan);
+void UpdateWanwanState1(Wanwan *wanwan);
+void EnterWanwanState1(Wanwan *wanwan);
+void UpdateWanwanState0(Wanwan *wanwan);
+void EnterWanwanState0(Wanwan *wanwan);
+u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
+void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
+MapObjectList *CreateWanwanUpdateList(void);
+WanwanDrawList *CreateWanwanDrawList(void);
+Unk020dd860 *CreateWanwanKindData(void);

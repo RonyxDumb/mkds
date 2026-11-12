@@ -1,7 +1,7 @@
 #include "01/code_021830b4.h"
 
-#include "Main/Unknown/code_02036820.h"
-#include "Main/Unknown/code_0209b60c.h"
+#include "Main/System/heap.h"
+#include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Unknown/code_0209bef0.h"
 #include "01/code_02184274.h"
 #include "01/code_02184cc8.h"
@@ -14,10 +14,10 @@
 #include "Main/Unknown/code_020a126c.h"
 #include "Main/Unknown/code_020d4c28.h"
 #include "Main/Unknown/code_020e5000.h"
-#include "Main/Unknown/code_020f9c6c.h"
-#include "Main/Unknown/code_02109110.h"
+#include "Main/Item/item_koura_w.h"
+#include "Main/Sound/sound_source_init.h"
 #include "Main/Unknown/code_0210b000.h"
-#include "Main/Unknown/code_021000d0.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 void StartDonketuWaterJumpState(MissionRunMapObject *donketu) {
     Vec3 velocity = {0, 0, 0};

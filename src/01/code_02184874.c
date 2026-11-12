@@ -6,12 +6,12 @@
 #include "01/code_02188cd8.h"
 #include "01/code_02188da4.h"
 #include "01/unk_021a6000.h"
-#include "Main/Unknown/code_0208b484.h"
-#include "Main/Unknown/code_020d275c.h"
+#include "Main/Graphics/effects.h"
+#include "Main/MapObjects/map_object_sound.h"
 #include "Main/Unknown/code_02109000.h"
-#include "Main/Unknown/code_02109054.h"
+#include "Main/Sound/sound_start.h"
 #include "code_02147cd8.h"
-#include "Main/Unknown/code_021000d0.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;

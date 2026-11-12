@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_0207ffa4.h"
+#include "Main/Kart/kart_drift.h"
+#include "Main/Kart/kart_effects_ahead.h"
 
 void ResetPointLinkCursor(PointLinkCursor *linkCursor, RacePointLink *pointLink);
 void InitRacePointLinkCursor(PointLinkCursor *racePointLinkCursor, u16 kartIndex);

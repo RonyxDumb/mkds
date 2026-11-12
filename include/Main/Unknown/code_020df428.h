@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-#include "Main/Unknown/code_020f9c6c.h" // CourseMapRow
+#include "Main/Item/item_koura_w.h" // CourseMapRow
 
 typedef struct ItemBox ItemBox;
 

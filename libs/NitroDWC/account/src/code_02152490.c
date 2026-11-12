@@ -3,7 +3,7 @@
 #include "code_021526bc.h"
 #include "code_02152a7c.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/code_021529e0.h"
+#include "Main/Net/friend_data_type_set.h"
 
 #pragma thumb on
 

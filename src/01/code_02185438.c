@@ -1,5 +1,5 @@
 #include "01/code_02185438.h"
-#include "Main/Unknown/code_020ccc74.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Unknown/code_02117000.h"
 #include "Main/Unknown/code_020cc000.h"
 #include "01/code_0218547c.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0208b484.h"
+#include "Main/Graphics/effects.h"
 
 void AdvanceKartSpinSideEffect(ParticleEmitter *effect, s32 phase);
 void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase);

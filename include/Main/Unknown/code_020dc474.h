@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject
-#include "Main/Unknown/code_020d849c.h"
+#include "Main/MapObjects/attractor.h" // MapObject
+#include "Main/MapObjects/group_follower_advance.h"
 #include "Main/Unknown/code_020d6dc0.h"
 
 // Object of kinds 0x196 (with chain post kind 0x197) and 0x1a5 (mUnk_fc is 0 or 1) of Wanwan; UpdateWanwanState3,

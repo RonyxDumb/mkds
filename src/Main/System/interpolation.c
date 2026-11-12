@@ -1,0 +1,49 @@
+#include "Main/System/interpolation.h"
+#include "Main/System/interpolation_value.h"
+#include "Main/System/interpolation_state.h"
+
+#pragma thumb on
+
+// Takes state 0 only from state 2 or 3 and state 2 only from state 0 or 1; any other state is set at once.
+void SetInterpolationStateIfOpposite(Interpolation *interpolation, s32 requestedState) {
+    switch (requestedState) {
+        case 0:
+            switch (interpolation->mState) {
+                case 2:
+                case 3:
+                    SetInterpolationState(interpolation, requestedState);
+            }
+            break;
+        case 2:
+            switch (interpolation->mState) {
+                case 0:
+                case 1:
+                    SetInterpolationState(interpolation, requestedState);
+            }
+            break;
+        default:
+            SetInterpolationState(interpolation, requestedState);
+            break;
+    }
+}
+
+void AdvanceInterpolation(Interpolation *interpolation) {
+    switch (interpolation->mState) {
+        case 0:
+            interpolation->mCounter++;
+            if (interpolation->mCounter > interpolation->mCounterLimit) {
+                interpolation->mCounter = interpolation->mCounterLimit;
+                interpolation->mState = 1;
+            }
+            break;
+        case 2:
+            interpolation->mCounter--;
+            if (interpolation->mCounter < 0) {
+                interpolation->mCounter = 0;
+                interpolation->mState = 3;
+            }
+            break;
+    }
+}
+
+#pragma thumb off

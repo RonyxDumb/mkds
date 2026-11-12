@@ -7,10 +7,10 @@
 #include "01/code_0218b298.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_02073eb8.h"
-#include "Main/Unknown/code_020b4000.h"
-#include "Main/Unknown/code_020d275c.h"
-#include "Main/Unknown/code_020fd264.h"
+#include "Main/Kart/camera.h"
+#include "Main/Graphics/font_and_player_character.h"
+#include "Main/MapObjects/map_object_sound.h"
+#include "Main/Item/item_bomb.h"
 #include "code_02147cd8.h"
 
 void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {

@@ -2,14 +2,14 @@
 
 #include "01/code_021956dc.h"
 #include "00/code_02181f98.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/heap.h"
 #include "Main/Unknown/code_020ae408.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/unk_0216c000.h"
 #include "01/code_02198000.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_0201ea58.h"
+#include "Main/Graphics/layout_rect_table.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020ccc9c.h"
@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_02060000.h"
 #include "Main/Unknown/code_02116000.h"
 #include "code_0212df7c.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/System/result_archive_path.h"
 #include "registers.h"
 
 TimeAttackTopMenu *gTimeAttackTopMenu;

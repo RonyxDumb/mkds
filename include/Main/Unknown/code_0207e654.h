@@ -5,7 +5,7 @@
 typedef struct Kart Kart;
 typedef struct KartAi KartAi;
 
-#include "Main/Unknown/code_020888b4.h"
+#include "Main/Kart/kart_ai_battle.h"
 #include "Main/Unknown/code_02080b1c.h"
 
 BOOL IsTargetKartSet(KartAi *kartAi);

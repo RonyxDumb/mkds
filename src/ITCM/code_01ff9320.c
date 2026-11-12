@@ -1,6 +1,6 @@
 #include "ITCM/code_01ff9320.h"
 #include "ITCM/code_01ff8000.h"
-#include "ITCM/code_01ff9598.h"
+#include "ITCM/kart_ground_contact.h"
 #include "code_02010c84.h"
 #include "code_02147cd8.h"
 

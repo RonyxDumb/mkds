@@ -1,6 +1,6 @@
 #include "01/code_02188158.h"
 #include "01/code_02188e88.h"
-#include "Main/Unknown/code_020fd264.h"
+#include "Main/Item/item_bomb.h"
 #include "Main/Unknown/code_020fd83c.h"
 #include "Main/Unknown/code_020fd7f0.h"
 

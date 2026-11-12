@@ -2,7 +2,7 @@
 #include "registers.h"
 #include "01/code_02180ce8.h"
 #include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_020ae5e4.h"
+#include "Main/Graphics/oam_upload.h"
 #include "Main/Unknown/code_020ca9e4.h"
 #include "Main/Unknown/code_021108ac.h"
 #include "Main/Unknown/code_02148000.h"

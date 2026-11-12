@@ -1,19 +1,19 @@
 #include "00/code_021857b8.h"
 
-#include "Main/Unknown/code_02036c5c.h"
+#include "Main/Scene/display_settings.h"
 #include "00/code_02180608.h"
 #include "00/code_021832d8.h"
 #include "code_02148950.h"
 #include "code_021458c4.h"
 #include "Main/Unknown/code_02037000.h"
-#include "Main/Unknown/code_02056d40.h"
-#include "Main/Unknown/code_02057d10.h"
+#include "Main/Save/backup_first_block_write_wrapper.h"
+#include "Main/System/thread_function_queue.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "registers.h"
 #include "code_0200e77c.h"
 #include "01/code_021956dc.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/heap.h"
 
 void InitWiFiConnectionLost(void *heap) {
     gWiFiConnectionLost = HeapAlloc(heap, 8);

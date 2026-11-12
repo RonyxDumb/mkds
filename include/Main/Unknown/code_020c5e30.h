@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02056b30.h"
+#include "Main/Save/course_time_record.h"
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 

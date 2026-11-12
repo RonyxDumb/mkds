@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0210e33c.h" // LoadedSoundSet
+#include "Main/Sound/sound_set_load.h" // LoadedSoundSet
 
 LoadedSoundSet *GetLoadedSoundSet(void);

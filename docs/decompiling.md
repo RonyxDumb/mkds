@@ -127,7 +127,7 @@ Run these from the repository root after `python3 tools/configure.py` (the ones 
   file (the longest matching path wins), `PATH_COMPILERS` for another compiler version. The overlays (`src/00/`,
   `src/01/`, `src/03/`) get `-thumb`; `libs/` gets `-char signed` instead of `-char unsigned`.
 - The main module's units are ARM by default. A Thumb function there sits after `#pragma thumb on`, an ARM one in a
-  Thumb file between `#pragma thumb off` and `#pragma thumb on` (`src/Main/Unknown/code_020ae730.c`).
+  Thumb file between `#pragma thumb off` and `#pragma thumb on` (`src/Main/System/heap_array_alloc.c`).
 - `#pragma optimize_for_size on` goes after the includes of a unit compiled for size (1.00, 1.6).
   `#pragma avoid_byte all` is on a few library files (`libs/msl/src/code_0214177c.c`).
 - Adding per-file flags to `PATH_ADD_FLAGS` changes the build for that file only; probe with

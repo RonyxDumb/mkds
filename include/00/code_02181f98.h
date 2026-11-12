@@ -12,13 +12,13 @@ extern WiFiStateCallbacks gWiFiVSSettingCallbacks;
 void RegisterWiFiVSSettingCallbacks(void);
 void AdvanceWiFiVSSetting(void);
 
-#include "Main/Unknown/code_0205e2cc.h"
-#include "Main/Unknown/code_020d22c0.h" // RandomState64
+#include "Main/Save/emblem_block.h"
+#include "Main/MapObjects/map_object_park.h" // RandomState64
 #include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_020b4000.h"
-#include "Main/Unknown/code_02077bc0.h"
-#include "Main/Unknown/code_02124094.h" // LayoutTableEntry
-#include "Main/Unknown/code_020467d0.h" // StateMachine
+#include "Main/Graphics/font_and_player_character.h"
+#include "Main/Kart/karts.h"
+#include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
+#include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "code_02152490.h" // DWCAccFriendData
 
 // Allocated by InitWiFiVSSetting and held in gWiFiVSSetting.
@@ -280,32 +280,32 @@ void InitWiFiVSSetting(void *heap);
 void RegisterWiFiVSMatchingCallbacks(void);
 void AdvanceWiFiVSMatching(void);
 
-#include "Main/Unknown/code_020ac2fc.h"
+#include "Main/Graphics/nibble_tiles.h"
 #include "Main/Unknown/code_0210895c.h"
 #include "Main/Unknown/code_02108a40.h"
 #include "Main/Unknown/code_02120294.h"
 #include "Main/Unknown/code_02120610.h"
 #include "Main/Unknown/code_02124bf0.h"
-#include "Main/Unknown/code_02124f4c.h"
+#include "Main/Graphics/text_draw.h"
 #include "Main/Unknown/code_0212658c.h"
 #include "Main/Unknown/code_02128274.h"
 #include "Main/Unknown/code_0212b928.h"
 
-#include "Main/Unknown/code_0202b604.h"
+#include "Main/Menu/player_entry_list.h"
 #include "Main/Unknown/code_02120240.h"
-#include "Main/Unknown/code_0212775c.h"
-#include "Main/Unknown/code_0212a910.h"
+#include "Main/Menu/select_return.h"
+#include "Main/Menu/message_screen.h"
 #include "code_0212df7c.h"
-#include "Main/Unknown/code_02036c5c.h"
+#include "Main/Scene/display_settings.h"
 
 #include "00/code_ov000_021804e0.h"
 #include "00/unk_021b4000.h"
 #include "00/code_02180608.h"
 #include "00/code_0219b580.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/System/result_archive_path.h"
 #include "Main/Unknown/code_020ae4c0.h"
-#include "Main/Unknown/code_020b3f7c.h"
+#include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_02128210.h"
 #include "code_0214cfe4.h"

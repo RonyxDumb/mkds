@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020a2e4c.h" // Balloon
+#include "Main/MapObjects/balloon.h" // Balloon
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/MapObjects/attractor.h" // MapObject
 
 // The balloons of one kart (0x38 bytes, one per kart index in the kind 0x69 object; Standings.mKartBalloons points at
 // the first): the list of its Balloon objects with the state that makes, inflates and holds them.

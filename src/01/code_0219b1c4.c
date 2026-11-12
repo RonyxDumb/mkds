@@ -4,7 +4,7 @@
 #include "01/code_0219c000.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_0212b000.h"
-#include "Main/Unknown/code_02087cfc.h"
+#include "Main/Graphics/model_animation_loop_mode.h"
 
 void StartMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, s32 entryIndex, s32 frameStep, s32 clampLoop) {
     StartModelAnimationBlend(mapObjectModel->mAnimations[0], entryIndex);

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020d22c0.h" // RandomState64
+#include "Main/MapObjects/map_object_park.h" // RandomState64
 #include "code_02004dc0.h" // FSOverlayInfo, FSFile
 #include "code_0212d214.h"
 #include "os_thread.h"
@@ -10,15 +10,15 @@
 #include "code_02147cd8.h" // Vec3s16
 #include "code_0214a748.h" // MtxFx44
 #include "code_02012b30.h" // MtxFx43
-#include "Main/Unknown/code_02006954.h"
-#include "Main/Unknown/code_0207b960.h" // PosCurve
-#include "Main/Unknown/code_0207adf8.h" // ShadowModel
-#include "Main/Unknown/code_020846c0.h" // Nsbmd
-#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
+#include "Main/Net/wbt_requests.h"
+#include "Main/Kart/point_link_cursor.h" // PosCurve
+#include "Main/Kart/shadow_model.h" // ShadowModel
+#include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
+#include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "code_02003024.h"
-#include "Main/Unknown/code_020653d0.h" // ParticipantKartRecord
+#include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
 #include "code_02152490.h" // DWCAccFriendData, DWCAccUserData
-#include "Main/Unknown/code_020467d0.h" // StateMachine
+#include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
 #include "Main/Unknown/code_0205b0f4.h" // WiFiRaceSyncPacket
 

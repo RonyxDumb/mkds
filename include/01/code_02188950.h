@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/MapObjects/attractor.h" // MapObject
 
 // Object behind StopTurningMoveFollowsAngle and the per-state functions around StartIwanteHandsHitReaction.
 typedef struct MissionRunPrm {

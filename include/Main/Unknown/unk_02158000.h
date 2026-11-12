@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObjectList, MapObjectKindData
+#include "Main/MapObjects/attractor.h" // MapObjectList, MapObjectKindData
 
 extern Vec3 data_0215807c;
 extern Vec3 data_02158088;

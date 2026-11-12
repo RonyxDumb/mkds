@@ -1,16 +1,16 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020a2e4c.h" // Balloon
+#include "Main/MapObjects/balloon.h" // Balloon
 
 #include "01/code_02181000.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_02100000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_020364e0.h"
-#include "Main/Unknown/code_02061654.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/System/heap_call.h"
+#include "Main/Race/race.h"
+#include "Main/Kart/kart_drift.h"
 #include "Main/Unknown/code_020a1000.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "01/code_02188950.h"

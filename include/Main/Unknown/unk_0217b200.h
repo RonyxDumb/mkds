@@ -3,9 +3,9 @@
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
 #include "code_0201c528.h" // ParticleEmitter
-#include "Main/Unknown/code_020846c0.h" // Nsbmd
-#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
-#include "Main/Unknown/code_02093ff0.h" // TeresaWobble
+#include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
+#include "Main/Graphics/model_animation.h" // ModelAnimation
+#include "Main/MapObjects/teresa.h" // TeresaWobble
 
 // Object behind gTrophy (a 0x124-byte allocation).
 typedef struct Trophy {

@@ -4,8 +4,8 @@
 
 extern u8 gWiFiTopMenuOffsetTableIndices[][5];
 
-#include "Main/Unknown/code_0201ea58.h"
-#include "Main/Unknown/code_02124094.h"
+#include "Main/Graphics/layout_rect_table.h"
+#include "Main/Graphics/layout_entry_angle.h"
 
 struct Unk02021dc8;
 struct Ncgr;
@@ -36,8 +36,8 @@ typedef struct WiFiTopMenu {
 #include "00/unk_021b4000.h"
 #include "00/code_02181f98.h"
 #include "g2d_NAN_load.h"
-#include "Main/Unknown/code_020b4000.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/Graphics/font_and_player_character.h"
+#include "Main/System/result_archive_path.h"
 
 // Objects whose layout isn't known yet.
 extern u8 gWiFiTopMenuXluCellIndices[];

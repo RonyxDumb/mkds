@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020467d0.h" // StateMachine
-#include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Menu/second_menu_scene.h" // StateMachine
+#include "Main/Kart/kart_drift.h"
+#include "Main/Item/item_in_use.h"
 #include "Main/Unknown/code_020f36d8.h"
 
 // Object of item kind 11, element of gItemPools[11].

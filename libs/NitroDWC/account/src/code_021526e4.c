@@ -9,8 +9,8 @@
 #include "os_printf.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/code_02152000.h"
-#include "Main/Unknown/code_021529e0.h"
-#include "Main/Unknown/code_02152ac4.h"
+#include "Main/Net/friend_data_type_set.h"
+#include "Main/Net/friend_data_player_id.h"
 #include "code_0200f5ac.h"
 #include "Main/Unknown/unk_0216f000.h"
 

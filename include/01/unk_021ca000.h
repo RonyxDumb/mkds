@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0203b680.h"
+#include "Main/Race/mission_table_value.h"
 #include "00/code_02181f98.h"
 #include "Main/Unknown/unk_02029930.h" // MissionFileRow
 

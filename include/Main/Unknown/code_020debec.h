@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020de588.h"
-#include "Main/Unknown/code_020de214.h"
+#include "Main/MapObjects/earthen_pipe_create.h"
+#include "Main/MapObjects/wanwan_chain.h"
 
 void InitGroupItemBoxObjects(void);
 MapObjectKindData *CreateItemBoxKindData(void);

@@ -1,6 +1,6 @@
 #include "00/code_02184aa4.h"
 #include "Main/Unknown/code_0202a000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/heap.h"
 #include "Main/Unknown/code_02036bec.h"
 
 #include "00/code_02180608.h"
@@ -9,12 +9,12 @@
 #include "00/unk_021b4000.h"
 #include "Main/Unknown/code_02029758.h"
 #include "Main/Unknown/code_02045000.h"
-#include "Main/Unknown/code_02060cb4.h"
+#include "Main/Save/ghost_file_records.h"
 #include "Main/Unknown/code_02121e84.h"
-#include "Main/Unknown/code_02122ae4.h"
+#include "Main/Net/wifi_connection_lost.h"
 #include "Main/Unknown/code_02029890.h"
 #include "Main/Unknown/code_020296f4.h"
-#include "Main/Unknown/code_02045874.h"
+#include "Main/Race/course_list.h"
 
 void InitWiFiVSCourseSelectState(u32 heap) {
     int recordAddress;

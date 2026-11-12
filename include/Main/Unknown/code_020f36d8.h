@@ -2,23 +2,23 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020b1dbc.h"
-#include "Main/Unknown/code_0208ab98.h" // CourseColorBlend
-#include "Main/Unknown/code_0207b960.h"
-#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Course/course_color_blend.h" // CourseColorBlend
+#include "Main/Kart/point_link_cursor.h"
+#include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_020b47d8.h"
-#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Unknown/code_0207a880.h"
-#include "Main/Unknown/code_020b502c.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Race/race_hud_sub_screen_projection.h"
+#include "Main/Kart/kart_drift.h"
 #include "code_02146d78.h"
 #include "code_0212d214.h"
-#include "Main/Unknown/code_0210bcf4.h"
-#include "Main/Unknown/code_020d849c.h"
-#include "Main/Unknown/code_020d22c0.h" // RandomState64
+#include "Main/Sound/sound_source_list.h"
+#include "Main/MapObjects/group_follower_advance.h"
+#include "Main/MapObjects/map_object_park.h" // RandomState64
 #include "Main/Unknown/unk_0217a000.h" // MinuteSecondMillisecondTime
 
 // Item point links with at least this radius (1000.0) are entered in gItemPointLinksByIndex.

@@ -39,42 +39,42 @@ libs/NitroSDK/init/src/code_02000b4c.s:
     .text       start:0x02000b4c end:0x02001000
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02001000.c:
+src/Main/Net/multiboot_parent_finish.c:
     complete
     .text       start:0x02001000 end:0x02001080
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02001080.c:
+src/Main/Menu/logo_state.c:
     complete
     .text       start:0x02001080 end:0x02001290
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02001290.c:
+src/Main/Menu/logo_state_8_nop.c:
     complete
     .text       start:0x02001290 end:0x02001294
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02001294.c:
+src/Main/Menu/logo_state_2.c:
     complete
     .text       start:0x02001294 end:0x020019ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020019ac.c:
+src/Main/Menu/logo_state_1_nop.c:
     complete
     .text       start:0x020019ac end:0x020019b0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020019b0.c:
+src/Main/Menu/logo_scene.c:
     complete
     .text       start:0x020019b0 end:0x02001e54
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02001e54.c:
+src/Main/System/empty_02001e54.c:
     complete
     .text       start:0x02001e54 end:0x02003000
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02003000.c:
+src/Main/System/main.c:
     complete
     .text       start:0x02003000 end:0x02003024
 
@@ -103,32 +103,32 @@ libs/NitroSDK/fs/src/code_02004dc0.c:
     .bss        start:0x0216f330 end:0x0216f3a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200589c.c:
+src/Main/Net/wbt_block_transfer.c:
     complete
     .text       start:0x0200589c end:0x0200635c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200635c.c:
+src/Main/Net/mark_chunk_received.c:
     complete
     .text       start:0x0200635c end:0x02006380
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02006380.c:
+src/Main/Net/append_bytes.c:
     complete
     .text       start:0x02006380 end:0x0200692c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200692c.c:
+src/Main/Net/wbt_mp_parent_recv.c:
     complete
     .text       start:0x0200692c end:0x02006954
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02006954.c:
+src/Main/Net/wbt_requests.c:
     complete
     .text       start:0x02006954 end:0x020070f0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020070f0.c:
+src/Main/Net/request_id.c:
     complete
     .text       start:0x020070f0 end:0x02007148
 
@@ -228,12 +228,12 @@ libs/NitroSDK/mb/src/code_0200b1b0.c:
     .text       start:0x0200b1b0 end:0x0200b200
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200b200.c:
+src/Main/Net/scan_connect_callbacks.c:
     complete
     .text       start:0x0200b200 end:0x0200b6e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200b6e8.c:
+src/Main/Net/mp_link.c:
     complete
     .text       start:0x0200b6e8 end:0x0200c0d8
 
@@ -591,24 +591,24 @@ libs/NitroSDK/wvr/src/wvr.c:
     .text       start:0x0201e5a8 end:0x0201ea30
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0201ea30.c:
+src/Main/Graphics/cell_layout.c:
     complete
     .text       start:0x0201ea30 end:0x0201ea58
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0201ea58.c:
+src/Main/Graphics/layout_rect_table.c:
     complete
     .text       start:0x0201ea58 end:0x0201ec30
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0201ec30.c:
+src/Main/Sound/mic_sample_analysis.c:
     complete
     .text       start:0x0201ec30 end:0x020204c0
     .data       start:0x02161ad8 end:0x02161adc
     .bss        start:0x02173268 end:0x0217328c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020204c0.c:
+src/Main/Net/scan_game_info.c:
     complete
     .text       start:0x020204c0 end:0x0202056c
 
@@ -746,1325 +746,1325 @@ libs/NitroSystem/g2d/src/code_020245a4.c:
     .text       start:0x020245a4 end:0x02024974
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02024974.c:
+src/Main/Sound/kart_sound.c:
     complete
     .text       start:0x02024974 end:0x0202511c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202511c.c:
+src/Main/Sound/sound_row.c:
     complete
     .text       start:0x0202511c end:0x0202578c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202578c.c:
+src/Main/Graphics/cell_file_set.c:
     complete
     .text       start:0x0202578c end:0x02025b84
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025b84.c:
+src/Main/Graphics/player_character_cell_file_set.c:
     complete
     .text       start:0x02025b84 end:0x02025bb4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025bb4.c:
+src/Main/Graphics/cell_layout_entry.c:
     complete
     .text       start:0x02025bb4 end:0x02025cd0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025cd0.c:
+src/Main/Graphics/minute_second_millisecond_text.c:
     complete
     .text       start:0x02025cd0 end:0x02025d5c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025d5c.c:
+src/Main/Graphics/message_index.c:
     complete
     .text       start:0x02025d5c end:0x02025da4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025da4.c:
+src/Main/Race/kart_appear_limit.c:
     complete
     .text       start:0x02025da4 end:0x02025df4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025df4.c:
+src/Main/Race/kart_appear_limit_count.c:
     complete
     .text       start:0x02025df4 end:0x02025e28
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025e28.c:
+src/Main/Kart/kart_table_index.c:
     complete
     .text       start:0x02025e28 end:0x02025eb0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025eb0.c:
+src/Main/Sound/character_seq_pair.c:
     complete
     .text       start:0x02025eb0 end:0x02025ebc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025ebc.c:
+src/Main/System/interpolation_value.c:
     complete
     .text       start:0x02025ebc end:0x02025edc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025edc.c:
+src/Main/System/interpolation.c:
     complete
     .text       start:0x02025edc end:0x02025f54
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025f54.c:
+src/Main/System/interpolation_state.c:
     complete
     .text       start:0x02025f54 end:0x02025f80
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02025f80.c:
+src/Main/Menu/select_character.c:
     complete
     .text       start:0x02025f80 end:0x02027df8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02027df8.c:
+src/Main/Menu/select_kart_data.c:
     complete
     .text       start:0x02027df8 end:0x020291c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020291c4.c:
+src/Main/Graphics/rect_containing_point.c:
     complete
     .text       start:0x020291c4 end:0x020291f0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020291f0.c:
+src/Main/Menu/select_kart_entry_list.c:
     complete
     .text       start:0x020291f0 end:0x02029440
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02029440.c:
+src/Main/Race/race_setup.c:
     complete
     .text       start:0x02029440 end:0x02029a90
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02029a90.c:
+src/Main/Graphics/scene_text_wrapper.c:
     complete
     .text       start:0x02029a90 end:0x02029aa0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02029aa0.c:
+src/Main/Race/results_gp.c:
     complete
     .text       start:0x02029aa0 end:0x0202a340
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202a340.c:
+src/Main/Race/course_time_text.c:
     complete
     .text       start:0x0202a340 end:0x0202a360
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202a360.c:
+src/Main/Race/results_team.c:
     complete
     .text       start:0x0202a360 end:0x0202a5a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202a5a0.c:
+src/Main/Race/results_by_mode.c:
     complete
     .text       start:0x0202a5a0 end:0x0202a734
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202a734.c:
+src/Main/Menu/wifi_vs_course_select_files.c:
     complete
     .text       start:0x0202a734 end:0x0202b604
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202b604.c:
+src/Main/Menu/player_entry_list.c:
     complete
     .text       start:0x0202b604 end:0x0202cc78
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202cc78.c:
+src/Main/Graphics/timer_cell_index.c:
     complete
     .text       start:0x0202cc78 end:0x0202cca0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202cca0.c:
+src/Main/Menu/own_entry_position_copy_cell.c:
     complete
     .text       start:0x0202cca0 end:0x0202ccc0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202ccc0.c:
+src/Main/Menu/ghost_send.c:
     complete
     .text       start:0x0202ccc0 end:0x0202d990
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202d990.c:
+src/Main/Race/ghost_list.c:
     complete
     .text       start:0x0202d990 end:0x0202dd9c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202dd9c.c:
+src/Main/Menu/ghost_scene.c:
     complete
     .text       start:0x0202dd9c end:0x0202e468
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202e468.c:
+src/Main/Menu/scroll_list_state.c:
     complete
     .text       start:0x0202e468 end:0x0202f14c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202f14c.c:
+src/Main/Menu/wl_menu_scene.c:
     complete
     .text       start:0x0202f14c end:0x0202f498
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202f498.c:
+src/Main/Menu/wl_menu_kind.c:
     complete
     .text       start:0x0202f498 end:0x0202f4ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202f4ac.c:
+src/Main/Menu/wl_menu_bg.c:
     complete
     .text       start:0x0202f4ac end:0x0202f554
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202f554.c:
+src/Main/Menu/multi_select_files.c:
     complete
     .text       start:0x0202f554 end:0x0202f688
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202f688.c:
+src/Main/Menu/multi_select_member_group.c:
     complete
     .text       start:0x0202f688 end:0x020302a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020302a0.c:
+src/Main/Menu/multi_select_ns_registers.c:
     complete
     .text       start:0x020302a0 end:0x0203033c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203033c.c:
+src/Main/Menu/multi_select_ns_input.c:
     complete
     .text       start:0x0203033c end:0x02030708
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02030708.c:
+src/Main/Menu/multi_select_ns_pair_new.c:
     complete
     .text       start:0x02030708 end:0x020307b0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020307b0.c:
+src/Main/Menu/multi_select_ns_has_pair.c:
     complete
     .text       start:0x020307b0 end:0x020307b8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020307b8.c:
+src/Main/Menu/multi_select_ns.c:
     complete
     .text       start:0x020307b8 end:0x02030a10
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02030a10.c:
+src/Main/Menu/multi_select_ns_layout_count.c:
     complete
     .text       start:0x02030a10 end:0x0203206c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203206c.c:
+src/Main/Menu/select_game.c:
     complete
     .text       start:0x0203206c end:0x02032aa8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02032aa8.c:
+src/Main/Race/results_battle_registers.c:
     complete
     .text       start:0x02032aa8 end:0x0203434c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203434c.c:
+src/Main/Menu/time_attack_ghost_get_scan.c:
     complete
     .text       start:0x0203434c end:0x02035d18
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02035d18.c:
+src/Main/Menu/wl_menu_message.c:
     complete
     .text       start:0x02035d18 end:0x0203606c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203606c.c:
+src/Main/Save/backup_command.c:
     complete
     .text       start:0x0203606c end:0x020360d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020360d0.c:
+src/Main/Save/backup_enabled.c:
     complete
     .text       start:0x020360d0 end:0x020360e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020360e4.c:
+src/Main/Menu/wl_menu_common_message.c:
     complete
     .text       start:0x020360e4 end:0x02036258
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02036258.c:
+src/Main/Sound/seq_zero_loop_wrapper.c:
     complete
     .text       start:0x02036258 end:0x02036264
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02036264.c:
+src/Main/Menu/wl_menu_mb_child_message.c:
     complete
     .text       start:0x02036264 end:0x020364a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020364a8.c:
+src/Main/Graphics/sub_bg1_cnt.c:
     complete
     .text       start:0x020364a8 end:0x020364e0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020364e0.c:
+src/Main/System/heap_call.c:
     complete
     .text       start:0x020364e0 end:0x020365ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020365ac.c:
+src/Main/System/startup.c:
     complete
     .text       start:0x020365ac end:0x02036820
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02036820.c:
+src/Main/System/heap.c:
     complete
     .text       start:0x02036820 end:0x02036c4c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02036c4c.c:
+src/Main/System/heap_exp_over_block.c:
     complete
     .text       start:0x02036c4c end:0x02036c5c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02036c5c.c:
+src/Main/Scene/display_settings.c:
     complete
     .text       start:0x02036c5c end:0x02039230
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02039230.c:
+src/Main/System/input_keys.c:
     complete
     .text       start:0x02039230 end:0x02039520
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02039520.c:
+src/Main/System/input_slot_repeat.c:
     complete
     .text       start:0x02039520 end:0x02039774
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02039774.c:
+src/Main/System/wvr_state.c:
     complete
     .text       start:0x02039774 end:0x02039c98
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02039c98.c:
+src/Main/Scene/scene_run_forever.c:
     complete
     .text       start:0x02039c98 end:0x02039cbc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02039cbc.c:
+src/Main/System/init_after_startup.c:
     complete
     .text       start:0x02039cbc end:0x02039e00
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02039e00.c:
+src/Main/Scene/return_terminate_for_pulled_out.c:
     complete
     .text       start:0x02039e00 end:0x02039e08
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02039e08.c:
+src/Main/Scene/menu_scene.c:
     complete
     .text       start:0x02039e08 end:0x0203a3a4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203a3a4.c:
+src/Main/Race/race_scene.c:
     complete
     .text       start:0x0203a3a4 end:0x0203b070
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203b070.c:
+src/Main/Save/ghost_file_path.c:
     complete
     .text       start:0x0203b070 end:0x0203b0a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203b0a0.c:
+src/Main/Race/grand_prix_record.c:
     complete
     .text       start:0x0203b0a0 end:0x0203b680
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203b680.c:
+src/Main/Race/mission_table_value.c:
     complete
     .text       start:0x0203b680 end:0x0203b6ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203b6ac.c:
+src/Main/Race/demo_race.c:
     complete
     .text       start:0x0203b6ac end:0x0203ba70
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203ba70.c:
+src/Main/Race/random_pick.c:
     complete
     .text       start:0x0203ba70 end:0x0203be48
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203be48.c:
+src/Main/Race/entry_character_kart.c:
     complete
     .text       start:0x0203be48 end:0x0203be88
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203be88.c:
+src/Main/Menu/title_scene.c:
     complete
     .text       start:0x0203be88 end:0x0203c240
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c240.c:
+src/Main/Race/kart_finish_time.c:
     complete
     .text       start:0x0203c240 end:0x0203c25c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c25c.c:
+src/Main/Race/race_progress_rank.c:
     complete
     .text       start:0x0203c25c end:0x0203c598
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c598.c:
+src/Main/Race/race_elapsed_frames.c:
     complete
     .text       start:0x0203c598 end:0x0203c5ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c5ac.c:
+src/Main/Race/race_progress_lap.c:
     complete
     .text       start:0x0203c5ac end:0x0203c5e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c5e4.c:
+src/Main/Race/entry_race_ended.c:
     complete
     .text       start:0x0203c5e4 end:0x0203c5f8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c5f8.c:
+src/Main/Race/kart.c:
     complete
     .text       start:0x0203c5f8 end:0x0203c8c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c8c0.c:
+src/Main/Race/kart_highest_lap.c:
     complete
     .text       start:0x0203c8c0 end:0x0203c8dc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c8dc.c:
+src/Main/Race/race_clock.c:
     complete
     .text       start:0x0203c8dc end:0x0203ca38
 
-src/Main/Unknown/code_0203ca38.c:
+src/Main/Race/kart_standing_rank.c:
     complete
     .text       start:0x0203ca38 end:0x0203d568
 
-src/Main/Unknown/code_0203d568.c:
+src/Main/Race/race_progress_kart.c:
     complete
     .text       start:0x0203d568 end:0x0203e74c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203e74c.c:
+src/Main/Race/race_end_condition.c:
     complete
     .text       start:0x0203e74c end:0x0203f280
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203f280.c:
+src/Main/Race/race_progress_rule.c:
     complete
     .text       start:0x0203f280 end:0x0203f334
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203f334.c:
+src/Main/Race/race_checkpoint_progress.c:
     complete
     .text       start:0x0203f334 end:0x020401ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020401ac.c:
+src/Main/Race/race_score.c:
     complete
     .text       start:0x020401ac end:0x02040de0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02040de0.c:
+src/Main/Course/course_map_shapes.c:
     complete
     .text       start:0x02040de0 end:0x020431cc
     .data       start:0x021647d8 end:0x02164838
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020431cc.c:
+src/Main/MapObjects/shape_map_object_count.c:
     complete
     .text       start:0x020431cc end:0x020431e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020431e4.c:
+src/Main/Race/race_keys.c:
     complete
     .text       start:0x020431e4 end:0x020435c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020435c4.c:
+src/Main/Race/race_setup_input.c:
     complete
     .text       start:0x020435c4 end:0x020445f8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020445f8.c:
+src/Main/Net/race_mp_state16.c:
     complete
     .text       start:0x020445f8 end:0x02044618
 
-src/Main/Unknown/code_02044618.c:
+src/Main/Race/race_entries.c:
     complete
     .text       start:0x02044618 end:0x02045874
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02045874.c:
+src/Main/Race/course_list.c:
     complete
     .text       start:0x02045874 end:0x0204673c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204673c.c:
+src/Main/Race/time_attack_next_scene.c:
     complete
     .text       start:0x0204673c end:0x02046740
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02046740.c:
+src/Main/Race/grand_prix_next_course.c:
     complete
     .text       start:0x02046740 end:0x020467a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020467a0.c:
+src/Main/Race/cup_reset.c:
     complete
     .text       start:0x020467a0 end:0x020467d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020467d0.c:
+src/Main/Menu/second_menu_scene.c:
     complete
     .text       start:0x020467d0 end:0x02046be8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02046be8.c:
+src/Main/System/state_machine_init.c:
     complete
     .text       start:0x02046be8 end:0x02046c10
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02046c10.c:
+src/Main/System/touch_mic_input.c:
     complete
     .text       start:0x02046c10 end:0x020470c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020470c4.c:
+src/Main/System/input_slot_pair_reset.c:
     complete
     .text       start:0x020470c4 end:0x02047104
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02047104.c:
+src/Main/System/result_archive_path.c:
     complete
     .text       start:0x02047104 end:0x020483e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020483e4.c:
+src/Main/System/archive_slots.c:
     complete
     .text       start:0x020483e4 end:0x020487a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020487a0.c:
+src/Main/System/archive_buffer.c:
     complete
     .text       start:0x020487a0 end:0x020487fc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020487fc.c:
+src/Main/Scene/run_scene_connection.c:
     complete
     .text       start:0x020487fc end:0x020497f0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020497f0.c:
+src/Main/Scene/scene_run_step.c:
     complete
     .text       start:0x020497f0 end:0x0204984c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204984c.c:
+src/Main/Scene/scene_connection.c:
     complete
     .text       start:0x0204984c end:0x0204a52c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204a52c.c:
+src/Main/Scene/scene_frames.c:
     complete
     .text       start:0x0204a52c end:0x0204a550
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204a550.c:
+src/Main/System/key_recording.c:
     complete
     .text       start:0x0204a550 end:0x0204a904
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204a904.c:
+src/Main/System/key_recording_read.c:
     complete
     .text       start:0x0204a904 end:0x0204a928
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204a928.c:
+src/Main/System/key_recording_finish.c:
     complete
     .text       start:0x0204a928 end:0x0204a978
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204a978.c:
+src/Main/System/key_recording_start.c:
     complete
     .text       start:0x0204a978 end:0x0204a9e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204a9e4.c:
+src/Main/System/key_recording_reset.c:
     complete
     .text       start:0x0204a9e4 end:0x0204aa04
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204aa04.c:
+src/Main/System/key_recording_buffer.c:
     complete
     .text       start:0x0204aa04 end:0x0204aa60
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204aa60.c:
+src/Main/Sound/scene_sound_set.c:
     complete
     .text       start:0x0204aa60 end:0x0204ad24
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204ad24.c:
+src/Main/System/frm_heap_reset.c:
     complete
     .text       start:0x0204ad24 end:0x0204ad44
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204ad44.c:
+src/Main/Scene/wl_menu_scene_callback.c:
     complete
     .text       start:0x0204ad44 end:0x0204b03c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204b03c.c:
+src/Main/Save/backup_access.c:
     complete
     .text       start:0x0204b03c end:0x0204b418
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204b418.c:
+src/Main/Save/backup_write_copies.c:
     complete
     .text       start:0x0204b418 end:0x0204b6cc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204b6cc.c:
+src/Main/Save/backup_read_copies.c:
     complete
     .text       start:0x0204b6cc end:0x0204bca0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204bca0.c:
+src/Main/Net/rom_archive.c:
     complete
     .text       start:0x0204bca0 end:0x0204db48
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204db48.c:
+src/Main/Net/multiboot_parent.c:
     complete
     .text       start:0x0204db48 end:0x0204df5c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204df5c.c:
+src/Main/Net/connect_failed_callback.c:
     complete
     .text       start:0x0204df5c end:0x0204df90
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204df90.c:
+src/Main/Net/multiboot_connect.c:
     complete
     .text       start:0x0204df90 end:0x0204ea14
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204ea14.c:
+src/Main/Net/multiboot_registry.c:
     complete
     .text       start:0x0204ea14 end:0x0204ea94
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204ea94.c:
+src/Main/Net/scan_ghost_info.c:
     complete
     .text       start:0x0204ea94 end:0x0204ece0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204ece0.c:
+src/Main/Net/scan_selected_entry.c:
     complete
     .text       start:0x0204ece0 end:0x0204ed04
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204ed04.c:
+src/Main/Net/packet_port.c:
     complete
     .text       start:0x0204ed04 end:0x0204ee64
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204ee64.c:
+src/Main/Net/block.c:
     complete
     .text       start:0x0204ee64 end:0x0204f198
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204f198.c:
+src/Main/Net/child_block_transfer.c:
     complete
     .text       start:0x0204f198 end:0x0204f19c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204f19c.c:
+src/Main/Net/parent_block_transfer.c:
     complete
     .text       start:0x0204f19c end:0x0204f220
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204f220.c:
+src/Main/Net/zero_word_received.c:
     complete
     .text       start:0x0204f220 end:0x0204f240
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204f240.c:
+src/Main/Net/pending_files.c:
     complete
     .text       start:0x0204f240 end:0x0204f7f4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204f7f4.c:
+src/Main/Net/led_pattern.c:
     complete
     .text       start:0x0204f7f4 end:0x0204f814
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0204f814.c:
+src/Main/Net/participant_get_connection.c:
     complete
     .text       start:0x0204f814 end:0x02050034
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02050034.c:
+src/Main/Net/participant_index.c:
     complete
     .text       start:0x02050034 end:0x02050080
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02050080.c:
+src/Main/Net/scan_slot.c:
     complete
     .text       start:0x02050080 end:0x02050300
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02050300.c:
+src/Main/Net/disconnect.c:
     complete
     .text       start:0x02050300 end:0x02051640
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02051640.c:
+src/Main/Net/request_pending.c:
     complete
     .text       start:0x02051640 end:0x02051658
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02051658.c:
+src/Main/Net/scan.c:
     complete
     .text       start:0x02051658 end:0x020529b8
 
-src/Main/Unknown/code_020529b8.c:
+src/Main/Net/connection.c:
     complete
     .text       start:0x020529b8 end:0x02053e54
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02053e54.c:
+src/Main/Net/race_connection_flag.c:
     complete
     .text       start:0x02053e54 end:0x02053e74
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02053e74.c:
+src/Main/Net/connection_sharing.c:
     complete
     .text       start:0x02053e74 end:0x02054f38
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02054f38.c:
+src/Main/Net/own_index.c:
     complete
     .text       start:0x02054f38 end:0x02054f58
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02054f58.c:
+src/Main/Net/connect_non_multiboot.c:
     complete
     .text       start:0x02054f58 end:0x02055710
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02055710.c:
+src/Main/Net/non_multiboot_own_index.c:
     complete
     .text       start:0x02055710 end:0x02055730
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02055730.c:
+src/Main/Graphics/disp_cap.c:
     complete
     .text       start:0x02055730 end:0x02056284
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056284.c:
+src/Main/Save/ghost_record_file.c:
     complete
     .text       start:0x02056284 end:0x020562b4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020562b4.c:
+src/Main/Net/participant_bits.c:
     complete
     .text       start:0x020562b4 end:0x020563d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020563d8.c:
+src/Main/Save/backup_mission_records.c:
     complete
     .text       start:0x020563d8 end:0x020563ec
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020563ec.c:
+src/Main/Save/course_time_records_and_first.c:
     complete
     .text       start:0x020563ec end:0x02056408
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056408.c:
+src/Main/Save/backup_records_write.c:
     complete
     .text       start:0x02056408 end:0x02056444
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056444.c:
+src/Main/Kart/kart_appear.c:
     complete
     .text       start:0x02056444 end:0x02056464
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056464.c:
+src/Main/Save/ghost_record.c:
     complete
     .text       start:0x02056464 end:0x02056700
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056700.c:
+src/Main/Save/mission_record.c:
     complete
     .text       start:0x02056700 end:0x02056a7c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056a7c.c:
+src/Main/Save/grand_prix_record_get.c:
     complete
     .text       start:0x02056a7c end:0x02056b30
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056b30.c:
+src/Main/Save/course_time_record.c:
     complete
     .text       start:0x02056b30 end:0x02056d40
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056d40.c:
+src/Main/Save/backup_first_block_write_wrapper.c:
     complete
     .text       start:0x02056d40 end:0x02056d54
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056d54.c:
+src/Main/Save/backup_reset.c:
     complete
     .text       start:0x02056d54 end:0x02057174
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057174.c:
+src/Main/Save/backup_first_block_records.c:
     complete
     .text       start:0x02057174 end:0x02057244
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057244.c:
+src/Main/Save/buddy_record_clear.c:
     complete
     .text       start:0x02057244 end:0x02057260
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057260.c:
+src/Main/Save/ghost_clear.c:
     complete
     .text       start:0x02057260 end:0x02057294
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057294.c:
+src/Main/Save/emblem_record.c:
     complete
     .text       start:0x02057294 end:0x02057304
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057304.c:
+src/Main/Save/backup_bit_array.c:
     complete
     .text       start:0x02057304 end:0x02057498
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057498.c:
+src/Main/Save/bit_array_byte.c:
     complete
     .text       start:0x02057498 end:0x020574a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020574a0.c:
+src/Main/Save/backup_first_block_start_write.c:
     complete
     .text       start:0x020574a0 end:0x020574c8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020574c8.c:
+src/Main/Save/backup_busy.c:
     complete
     .text       start:0x020574c8 end:0x02057524
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057524.c:
+src/Main/Save/backup_buffers.c:
     complete
     .text       start:0x02057524 end:0x02057624
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057624.c:
+src/Main/Save/buddy_record_reset.c:
     complete
     .text       start:0x02057624 end:0x020576b8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020576b8.c:
+src/Main/Save/backup_emblem_block.c:
     complete
     .text       start:0x020576b8 end:0x02057764
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057764.c:
+src/Main/Save/backup_buddy_record_block.c:
     complete
     .text       start:0x02057764 end:0x02057800
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057800.c:
+src/Main/Save/backup_ghost_head.c:
     complete
     .text       start:0x02057800 end:0x02057a18
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057a18.c:
+src/Main/Save/backup.c:
     complete
     .text       start:0x02057a18 end:0x02057ca4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057ca4.c:
+src/Main/Save/backup_first_block.c:
     complete
     .text       start:0x02057ca4 end:0x02057cfc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057cfc.c:
+src/Main/Save/backup_read_copy.c:
     complete
     .text       start:0x02057cfc end:0x02057d10
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057d10.c:
+src/Main/System/thread_function_queue.c:
     complete
     .text       start:0x02057d10 end:0x02057ed4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057ed4.c:
+src/Main/System/init_after_startup_nop.c:
     complete
     .text       start:0x02057ed4 end:0x02057ed8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057ed8.c:
+src/Main/System/thread_function_queue_init.c:
     complete
     .text       start:0x02057ed8 end:0x02057fe4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057fe4.c:
+src/Main/Net/mp_states.c:
     complete
     .text       start:0x02057fe4 end:0x02058b38
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02058b38.c:
+src/Main/Net/mp_states_connection.c:
     complete
     .text       start:0x02058b38 end:0x02058efc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02058efc.c:
+src/Main/Net/mp_state.c:
     complete
     .text       start:0x02058efc end:0x0205905c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205905c.c:
+src/Main/Net/mp_state_machine.c:
     complete
     .text       start:0x0205905c end:0x0205928c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205928c.c:
+src/Main/Net/mp.c:
     complete
     .text       start:0x0205928c end:0x02059878
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02059878.c:
+src/Main/Net/mp_chunk_state_machine.c:
     complete
     .text       start:0x02059878 end:0x02059bc0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02059bc0.c:
+src/Main/Net/slot_result_sync.c:
     complete
     .text       start:0x02059bc0 end:0x0205a4e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205a4e8.c:
+src/Main/Net/slot_result_sync_halfword.c:
     complete
     .text       start:0x0205a4e8 end:0x0205a50c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205a50c.c:
+src/Main/Net/participant_mask.c:
     complete
     .text       start:0x0205a50c end:0x0205a534
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205a534.c:
+src/Main/Net/slot_result_pending.c:
     complete
     .text       start:0x0205a534 end:0x0205a908
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205a908.c:
+src/Main/Item/item_data_slots_update.c:
     complete
     .text       start:0x0205a908 end:0x0205af90
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205af90.c:
+src/Main/Net/wifi_race_sync_finish.c:
     complete
     .text       start:0x0205af90 end:0x0205afa8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205afa8.c:
+src/Main/Net/kart_progress_pack.c:
     complete
     .text       start:0x0205afa8 end:0x0205b0b4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205b0b4.c:
+src/Main/Net/wifi_race_sync_advance.c:
     complete
     .text       start:0x0205b0b4 end:0x0205d0bc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205d0bc.c:
+src/Main/Net/participant_kart_map.c:
     complete
     .text       start:0x0205d0bc end:0x0205d0e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205d0e8.c:
+src/Main/Race/cup_records.c:
     complete
     .text       start:0x0205d0e8 end:0x0205dc7c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205dc7c.c:
+src/Main/System/low_byte.c:
     complete
     .text       start:0x0205dc7c end:0x0205dc84
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205dc84.c:
+src/Main/Scene/run_scenes.c:
     complete
     .text       start:0x0205dc84 end:0x0205e2cc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205e2cc.c:
+src/Main/Save/emblem_block.c:
     complete
     .text       start:0x0205e2cc end:0x0205edcc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205edcc.c:
+src/Main/Save/buddy_records_write.c:
     complete
     .text       start:0x0205edcc end:0x0205ee14
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0205ee14.c:
+src/Main/Save/buddy_record_time.c:
     complete
     .text       start:0x0205ee14 end:0x02060004
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02060004.c:
+src/Main/Save/buddy_record.c:
     complete
     .text       start:0x02060004 end:0x02060c38
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02060c38.c:
+src/Main/Save/buddy_friend_data_list.c:
     complete
     .text       start:0x02060c38 end:0x02060c68
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02060c68.c:
+src/Main/Save/buddy_record_from_player.c:
     complete
     .text       start:0x02060c68 end:0x02060cb4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02060cb4.c:
+src/Main/Save/ghost_file_records.c:
     complete
     .text       start:0x02060cb4 end:0x02061418
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02061418.c:
+src/Main/Save/ghost_file_records_create.c:
     complete
     .text       start:0x02061418 end:0x02061428
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02061428.c:
+src/Main/Save/slot_ghost_records.c:
     complete
     .text       start:0x02061428 end:0x02061540
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02061540.c:
+src/Main/Save/course_ghost_records.c:
     complete
     .text       start:0x02061540 end:0x02061654
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02061654.c:
+src/Main/Race/race.c:
     complete
     .text       start:0x02061654 end:0x02062ed8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02062ed8.c:
+src/Main/Kart/course_models.c:
     complete
     .text       start:0x02062ed8 end:0x020638c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020638c0.c:
+src/Main/Kart/kart_killer_render.c:
     complete
     .text       start:0x020638c0 end:0x0206390c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0206390c.c:
+src/Main/Kart/kart_call.c:
     complete
     .text       start:0x0206390c end:0x02063b50
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02063b50.c:
+src/Main/Kart/kart_matrix.c:
     complete
     .text       start:0x02063b50 end:0x02063b70
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02063b70.c:
+src/Main/Kart/kart_draw.c:
     complete
     .text       start:0x02063b70 end:0x020641b8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020641b8.c:
+src/Main/Kart/kart_sound_distance.c:
     complete
     .text       start:0x020641b8 end:0x020641d4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020641d4.c:
+src/Main/Kart/kart_draw_state.c:
     complete
     .text       start:0x020641d4 end:0x020646c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020646c0.c:
+src/Main/Kart/kart_motion_slot.c:
     complete
     .text       start:0x020646c0 end:0x020646f0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020646f0.c:
+src/Main/Kart/kart_start_placement.c:
     complete
     .text       start:0x020646f0 end:0x020649e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020649e8.c:
+src/Main/Kart/kart_chain_camera_nop.c:
     complete
     .text       start:0x020649e8 end:0x020649ec
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020649ec.c:
+src/Main/Kart/kart_peer.c:
     complete
     .text       start:0x020649ec end:0x020653d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020653d0.c:
+src/Main/Kart/kart_participant_record.c:
     complete
     .text       start:0x020653d0 end:0x0206bcb0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0206bcb0.c:
+src/Main/Kart/kart_drift.c:
     complete
     .text       start:0x0206bcb0 end:0x0206f04c
     .data       start:0x0216558c end:0x0216559c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0206f04c.c:
+src/Main/Kart/kart_contact.c:
     complete
     .text       start:0x0206f04c end:0x02070398
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02070398.c:
+src/Main/Kart/kart_reset.c:
     complete
     .text       start:0x02070398 end:0x020733e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020733e8.c:
+src/Main/Kart/kart_slot8_return.c:
     complete
     .text       start:0x020733e8 end:0x020733ec
 
-src/Main/Unknown/code_020733ec.c:
+src/Main/Kart/kart_resources.c:
     complete
     .text       start:0x020733ec end:0x020738f4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020738f4.c:
+src/Main/Kart/kart_state0_return.c:
     complete
     .text       start:0x020738f4 end:0x02073904
 
-src/Main/Unknown/code_02073904.c:
+src/Main/Kart/camera_shake.c:
     complete
     .text       start:0x02073904 end:0x02073e04
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02073e04.c:
+src/Main/Kart/camera_entry.c:
     complete
     .text       start:0x02073e04 end:0x02073e98
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02073e98.c:
+src/Main/Kart/camera_entry_flags.c:
     complete
     .text       start:0x02073e98 end:0x02073eb8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02073eb8.c:
+src/Main/Kart/camera.c:
     complete
     .text       start:0x02073eb8 end:0x02076cd0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02076cd0.c:
+src/Main/Kart/kart_model_menu.c:
     complete
     .text       start:0x02076cd0 end:0x02077bc0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02077bc0.c:
+src/Main/Kart/karts.c:
     complete
     .text       start:0x02077bc0 end:0x0207adf8
     .data       start:0x02165798 end:0x021658bc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0207adf8.c:
+src/Main/Kart/shadow_model.c:
     complete
     .text       start:0x0207adf8 end:0x0207ae58
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0207ae58.c:
+src/Main/Kart/character_animation.c:
     complete
     .text       start:0x0207ae58 end:0x0207b960
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0207b960.c:
+src/Main/Kart/point_link_cursor.c:
     complete
     .text       start:0x0207b960 end:0x0207ffa4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0207ffa4.c:
+src/Main/Kart/kart_effects_ahead.c:
     complete
     .text       start:0x0207ffa4 end:0x020810e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020810e4.c:
+src/Main/Kart/kart_spin_follow_effect_release.c:
     complete
     .text       start:0x020810e4 end:0x02081338
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02081338.c:
+src/Main/Kart/kart_contact_effect_release.c:
     complete
     .text       start:0x02081338 end:0x020815a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020815a0.c:
+src/Main/Kart/kart_killer_effect.c:
     complete
     .text       start:0x020815a0 end:0x02081618
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02081618.c:
+src/Main/Kart/kart_effects.c:
     complete
     .text       start:0x02081618 end:0x020846c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020846c0.c:
+src/Main/Graphics/nsbmd_render_obj.c:
     complete
     .text       start:0x020846c0 end:0x0208533c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208533c.c:
+src/Main/Graphics/res_file_entries_reset.c:
     complete
     .text       start:0x0208533c end:0x02085354
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02085354.c:
+src/Main/Graphics/nsbmd_draw.c:
     complete
     .text       start:0x02085354 end:0x0208537c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208537c.c:
+src/Main/Kart/kart_ai.c:
     complete
     .text       start:0x0208537c end:0x02086058
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02086058.c:
+src/Main/Kart/kart_name_tags.c:
     complete
     .text       start:0x02086058 end:0x02086e8c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02086e8c.c:
+src/Main/Kart/kart_name_tag_draw.c:
     complete
     .text       start:0x02086e8c end:0x02087918
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02087918.c:
+src/Main/Kart/kart_name_tag_colored.c:
     complete
     .text       start:0x02087918 end:0x02087934
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02087934.c:
+src/Main/Graphics/model_animation_loop.c:
     complete
     .text       start:0x02087934 end:0x02087cd0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02087cd0.c:
+src/Main/Graphics/model_animation_looping.c:
     complete
     .text       start:0x02087cd0 end:0x02087cfc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02087cfc.c:
+src/Main/Graphics/model_animation_loop_mode.c:
     complete
     .text       start:0x02087cfc end:0x02087d0c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02087d0c.c:
+src/Main/Graphics/model_animation.c:
     complete
     .text       start:0x02087d0c end:0x02088338
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02088338.c:
+src/Main/Kart/kart_model_path.c:
     complete
     .text       start:0x02088338 end:0x020888b4
     .data       start:0x02165f0c end:0x02165fd4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020888b4.c:
+src/Main/Kart/kart_ai_battle.c:
     complete
     .text       start:0x020888b4 end:0x02089d14
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02089d14.c:
+src/Main/Graphics/stem_sets.c:
     complete
     .text       start:0x02089d14 end:0x0208ab00
     .data       start:0x02166098 end:0x021660c8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208ab00.c:
+src/Main/Graphics/light_color.c:
     complete
     .text       start:0x0208ab00 end:0x0208ab98
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208ab98.c:
+src/Main/Course/course_color_blend.c:
     complete
     .text       start:0x0208ab98 end:0x0208ae60
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208ae60.c:
+src/Main/Kart/first_base_speed_limit.c:
     complete
     .text       start:0x0208ae60 end:0x0208aea8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208aea8.c:
+src/Main/Graphics/emitters.c:
     complete
     .text       start:0x0208aea8 end:0x0208b484
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208b484.c:
+src/Main/Graphics/effects.c:
     complete
     .text       start:0x0208b484 end:0x0208bd20
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208bd20.c:
+src/Main/Kart/kart_ai_staff_roll_advance.c:
     complete
     .text       start:0x0208bd20 end:0x0208c4e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208c4e8.c:
+src/Main/Kart/kart_level.c:
     complete
     .text       start:0x0208c4e8 end:0x0208d978
 
-src/Main/Unknown/code_0208d978.c:
+src/Main/Graphics/model_effects.c:
     complete
     .text       start:0x0208d978 end:0x0208eb10
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208eb10.c:
+src/Main/Kart/kart_ai_item_throw.c:
     complete
     .text       start:0x0208eb10 end:0x020901a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020901a0.c:
+src/Main/Kart/use_item.c:
     complete
     .text       start:0x020901a0 end:0x02090348
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02090348.c:
+src/Main/Kart/kart_ai_item_clear.c:
     complete
     .text       start:0x02090348 end:0x02090354
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02090354.c:
+src/Main/MapObjects/sman.c:
     complete
     .text       start:0x02090354 end:0x020911f4
 
@@ -2074,12 +2074,12 @@ src/Main/Unknown/code_020911f4.c:
     .text       start:0x020911f4 end:0x020917d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020917d0.c:
+src/Main/MapObjects/sman_with.c:
     complete
     .text       start:0x020917d0 end:0x020918a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020918a8.c:
+src/Main/MapObjects/kanoke64.c:
     complete
     .text       start:0x020918a8 end:0x020919a8
 
@@ -2089,32 +2089,32 @@ src/Main/Unknown/code_020919a8.c:
     .text       start:0x020919a8 end:0x02092178
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02092178.c:
+src/Main/MapObjects/kanoke64_init.c:
     complete
     .text       start:0x02092178 end:0x02092194
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02092194.c:
+src/Main/MapObjects/basabasa_hud_cell_kind.c:
     complete
     .text       start:0x02092194 end:0x0209219c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209219c.c:
+src/Main/MapObjects/basabasa.c:
     complete
     .text       start:0x0209219c end:0x02092b3c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02092b3c.c:
+src/Main/MapObjects/basabasa_burst.c:
     complete
     .text       start:0x02092b3c end:0x020931ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020931ac.c:
+src/Main/MapObjects/mkd_ef_burner.c:
     complete
     .text       start:0x020931ac end:0x020937c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020937c4.c:
+src/Main/MapObjects/ns_killer.c:
     complete
     .text       start:0x020937c4 end:0x02093cb4
 
@@ -2124,22 +2124,22 @@ src/Main/Unknown/code_02093cb4.c:
     .text       start:0x02093cb4 end:0x02093fa4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02093fa4.c:
+src/Main/MapObjects/ns_killer1_init.c:
     complete
     .text       start:0x02093fa4 end:0x02093ff0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02093ff0.c:
+src/Main/MapObjects/teresa.c:
     complete
     .text       start:0x02093ff0 end:0x02094e1c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02094e1c.c:
+src/Main/MapObjects/teresa_spawner.c:
     complete
     .text       start:0x02094e1c end:0x02095504
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02095504.c:
+src/Main/MapObjects/move_tree.c:
     complete
     .text       start:0x02095504 end:0x020959bc
 
@@ -2149,46 +2149,46 @@ src/Main/Unknown/code_020959bc.c:
     .text       start:0x020959bc end:0x02095f30
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02095f30.c:
+src/Main/MapObjects/cover_poo_hole_cover_height.c:
     complete
     .text       start:0x02095f30 end:0x0209756c
     .data       start:0x02166928 end:0x02166958
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209756c.c:
+src/Main/MapObjects/flipper.c:
     complete
     .text       start:0x0209756c end:0x0209828c
 
-src/Main/Unknown/code_0209828c.c:
+src/Main/MapObjects/pakkun.c:
     complete
     .text       start:0x0209828c end:0x02099020
     .data       start:0x021669f0 end:0x02166a40
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02099020.c:
+src/Main/MapObjects/pakkun_spit.c:
     complete
     .text       start:0x02099020 end:0x020992ac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020992ac.c:
+src/Main/MapObjects/empty_kind_data.c:
     complete
     .text       start:0x020992ac end:0x0209a748
     .data       start:0x02166a74 end:0x021671f4
     .bss        start:0x0217b0f8 end:0x0217b154
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209a748.c:
+src/Main/MapObjects/crab.c:
     complete
     .text       start:0x0209a748 end:0x0209b60c
     .data       start:0x02167228 end:0x02167260
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209b60c.c:
+src/Main/MapObjects/map_object_model_frame.c:
     complete
     .text       start:0x0209b60c end:0x0209bf70
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209bf70.c:
+src/Main/MapObjects/sun.c:
     complete
     .text       start:0x0209bf70 end:0x0209cef0
 
@@ -2198,22 +2198,22 @@ src/Main/Unknown/code_0209cef0.c:
     .text       start:0x0209cef0 end:0x0209d694
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209d694.c:
+src/Main/MapObjects/sun_fireball.c:
     complete
     .text       start:0x0209d694 end:0x0209df00
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209df00.c:
+src/Main/MapObjects/fireball2.c:
     complete
     .text       start:0x0209df00 end:0x0209eb28
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209eb28.c:
+src/Main/MapObjects/puddle_kind_data.c:
     complete
     .text       start:0x0209eb28 end:0x0209eb54
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209eb54.c:
+src/Main/MapObjects/picture_puddle.c:
     complete
     .text       start:0x0209eb54 end:0x0209ec44
 
@@ -2223,22 +2223,22 @@ src/Main/Unknown/code_0209ec44.c:
     .text       start:0x0209ec44 end:0x0209f124
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209f124.c:
+src/Main/MapObjects/picture_init.c:
     complete
     .text       start:0x0209f124 end:0x0209f13c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209f13c.c:
+src/Main/MapObjects/chandelier_rain_star.c:
     complete
     .text       start:0x0209f13c end:0x0209f5cc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209f5cc.c:
+src/Main/MapObjects/chandelier_draw.c:
     complete
     .text       start:0x0209f5cc end:0x0209f650
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209f650.c:
+src/Main/MapObjects/chandelier.c:
     complete
     .text       start:0x0209f650 end:0x0209f698
 
@@ -2248,1776 +2248,1776 @@ src/Main/Unknown/code_0209f698.c:
     .text       start:0x0209f698 end:0x020a0028
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a0028.c:
+src/Main/MapObjects/airship_draw.c:
     complete
     .text       start:0x020a0028 end:0x020a02c8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a02c8.c:
+src/Main/Sound/distance_sound_volume.c:
     complete
     .text       start:0x020a02c8 end:0x020a02f8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a02f8.c:
+src/Main/Race/standings_balloons.c:
     complete
     .text       start:0x020a02f8 end:0x020a23a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a23a0.c:
+src/Main/MapObjects/trophy.c:
     complete
     .text       start:0x020a23a0 end:0x020a2e4c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a2e4c.c:
+src/Main/MapObjects/balloon.c:
     complete
     .text       start:0x020a2e4c end:0x020a2e74
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a2e74.c:
+src/Main/MapObjects/balloon_velocity.c:
     complete
     .text       start:0x020a2e74 end:0x020a2e88
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a2e88.c:
+src/Main/MapObjects/balloon_target.c:
     complete
     .text       start:0x020a2e88 end:0x020a2f0c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a2f0c.c:
+src/Main/MapObjects/balloon_park.c:
     complete
     .text       start:0x020a2f0c end:0x020a2f30
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a2f30.c:
+src/Main/MapObjects/balloon_draw.c:
     complete
     .text       start:0x020a2f30 end:0x020a3f2c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a3f2c.c:
+src/Main/MapObjects/shine16.c:
     complete
     .text       start:0x020a3f2c end:0x020a6cb4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a6cb4.c:
+src/Main/MapObjects/shine_battle.c:
     complete
     .text       start:0x020a6cb4 end:0x020a71c8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a71c8.c:
+src/Main/MapObjects/sanbo.c:
     complete
     .text       start:0x020a71c8 end:0x020a8098
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a8098.c:
+src/Main/MapObjects/sanbo_launch.c:
     complete
     .text       start:0x020a8098 end:0x020a826c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a826c.c:
+src/Main/Course/course_sound_object.c:
     complete
     .text       start:0x020a826c end:0x020a8ed8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a8ed8.c:
+src/Main/MapObjects/iron_ball.c:
     complete
     .text       start:0x020a8ed8 end:0x020a9cd4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a9cd4.c:
+src/Main/MapObjects/iron_ball_kart.c:
     complete
     .text       start:0x020a9cd4 end:0x020a9ed8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020a9ed8.c:
+src/Main/Menu/keyboard_keys.c:
     complete
     .text       start:0x020a9ed8 end:0x020ac2c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ac2c4.c:
+src/Main/Graphics/nibbles_join.c:
     complete
     .text       start:0x020ac2c4 end:0x020ac2fc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ac2fc.c:
+src/Main/Graphics/nibble_tiles.c:
     complete
     .text       start:0x020ac2fc end:0x020ac524
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ac524.c:
+src/Main/MapObjects/shine_balloon.c:
     complete
     .text       start:0x020ac524 end:0x020aca08
     .data       start:0x02167e14 end:0x02167e28
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020aca08.c:
+src/Main/Menu/title_state6.c:
     complete
     .text       start:0x020aca08 end:0x020aca24
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020aca24.c:
+src/Main/Menu/title_state5.c:
     complete
     .text       start:0x020aca24 end:0x020acaa4
     .data       start:0x02167e28 end:0x02167e34
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020acaa4.c:
+src/Main/Menu/title_state4.c:
     complete
     .text       start:0x020acaa4 end:0x020acb08
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020acb08.c:
+src/Main/Menu/title_state3.c:
     complete
     .text       start:0x020acb08 end:0x020acbe8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020acbe8.c:
+src/Main/Menu/title_state2.c:
     complete
     .text       start:0x020acbe8 end:0x020ace14
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ace14.c:
+src/Main/Menu/title_pair_new.c:
     complete
     .text       start:0x020ace14 end:0x020acebc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020acebc.c:
+src/Main/Menu/title_input.c:
     complete
     .text       start:0x020acebc end:0x020acf04
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020acf04.c:
+src/Main/Menu/title_state1.c:
     complete
     .text       start:0x020acf04 end:0x020acfec
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020acfec.c:
+src/Main/Menu/title_table_draw.c:
     complete
     .text       start:0x020acfec end:0x020ad230
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ad230.c:
+src/Main/Menu/title_state0.c:
     complete
     .text       start:0x020ad230 end:0x020ad268
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ad268.c:
+src/Main/Menu/title_blend.c:
     complete
     .text       start:0x020ad268 end:0x020ad2dc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ad2dc.c:
+src/Main/Menu/title_bg.c:
     complete
     .text       start:0x020ad2dc end:0x020ada2c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ada2c.c:
+src/Main/Menu/title_states.c:
     complete
     .text       start:0x020ada2c end:0x020ada7c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ada7c.c:
+src/Main/Menu/title_registers.c:
     complete
     .text       start:0x020ada7c end:0x020adad0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020adad0.c:
+src/Main/Menu/title_state_set.c:
     complete
     .text       start:0x020adad0 end:0x020adaf8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020adaf8.c:
+src/Main/Menu/title_state_frames.c:
     complete
     .text       start:0x020adaf8 end:0x020adb04
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020adb04.c:
+src/Main/Graphics/font_glyph_text.c:
     complete
     .text       start:0x020adb04 end:0x020add18
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020add18.c:
+src/Main/Graphics/font_glyph.c:
     complete
     .text       start:0x020add18 end:0x020add50
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020add50.c:
+src/Main/Graphics/font_glyph_image.c:
     complete
     .text       start:0x020add50 end:0x020add80
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020add80.c:
+src/Main/Graphics/font_glyph_image_stride.c:
     complete
     .text       start:0x020add80 end:0x020add90
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020add90.c:
+src/Main/Graphics/font_glyph_index.c:
     complete
     .text       start:0x020add90 end:0x020adddc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020adddc.c:
+src/Main/Graphics/kart_entry_name_texture.c:
     complete
     .text       start:0x020adddc end:0x020ade08
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ade08.c:
+src/Main/Graphics/oam.c:
     complete
     .text       start:0x020ade08 end:0x020ae5d4
     .data       start:0x02167fac end:0x0216812c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae5d4.c:
+src/Main/Graphics/oam_matrix_count.c:
     complete
     .text       start:0x020ae5d4 end:0x020ae5e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae5e4.c:
+src/Main/Graphics/oam_upload.c:
     complete
     .text       start:0x020ae5e4 end:0x020ae630
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae630.c:
+src/Main/Graphics/oam_lists.c:
     complete
     .text       start:0x020ae630 end:0x020ae718
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae718.c:
+src/Main/System/last_tick.c:
     complete
     .text       start:0x020ae718 end:0x020ae730
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae730.c:
+src/Main/System/heap_array_alloc.c:
     complete
     .text       start:0x020ae730 end:0x020ae754
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae754.c:
+src/Main/System/current_heap.c:
     complete
     .text       start:0x020ae754 end:0x020ae770
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae770.c:
+src/Main/System/time_digits.c:
     complete
     .text       start:0x020ae770 end:0x020ae824
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ae824.c:
+src/Main/Race/race_hud_draw.c:
     complete
     .text       start:0x020ae824 end:0x020b1a34
     .data       start:0x0216812c end:0x0216835c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b1a34.c:
+src/Main/Race/race_hud_lap_time.c:
     complete
     .text       start:0x020b1a34 end:0x020b1cdc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b1cdc.c:
+src/Main/Race/race_hud_kart_removed.c:
     complete
     .text       start:0x020b1cdc end:0x020b1de4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b1de4.c:
+src/Main/Menu/choises_s.c:
     .text       start:0x020b1de4 end:0x020b24e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b24e4.c:
+src/Main/Menu/choises_s_course.c:
     complete
     .text       start:0x020b24e4 end:0x020b250c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b250c.c:
+src/Main/Race/grand_prix_last_course.c:
     complete
     .text       start:0x020b250c end:0x020b252c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b252c.c:
+src/Main/Menu/choises_s_screen_map.c:
     complete
     .text       start:0x020b252c end:0x020b2d90
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b2d90.c:
+src/Main/Race/entry_index.c:
     complete
     .text       start:0x020b2d90 end:0x020b2da4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b2da4.c:
+src/Main/Menu/choises_s_tiles.c:
     complete
     .text       start:0x020b2da4 end:0x020b2ecc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b2ecc.c:
+src/Main/Menu/choises_s_select.c:
     .text       start:0x020b2ecc end:0x020b3260
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b3260.c:
+src/Main/Menu/choises_s_list_chars.c:
     complete
     .text       start:0x020b3260 end:0x020b33d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b33d8.c:
+src/Main/Race/race_start_sequence.c:
     complete
     .text       start:0x020b33d8 end:0x020b3724
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b3724.c:
+src/Main/Race/race_hud_draw_nop.c:
     complete
     .text       start:0x020b3724 end:0x020b3728
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b3728.c:
+src/Main/Race/race_end.c:
     complete
     .text       start:0x020b3728 end:0x020b3f7c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b3f7c.c:
+src/Main/Graphics/locate_bmg_sections.c:
     complete
     .text       start:0x020b3f7c end:0x020b4000
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b4000.c:
+src/Main/Graphics/font_and_player_character.c:
     complete
     .text       start:0x020b4000 end:0x020b41d4
     .data       start:0x0216844c end:0x0216859c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b41d4.c:
+src/Main/System/archive_slot_loaded.c:
     complete
     .text       start:0x020b41d4 end:0x020b41e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b41e8.c:
+src/Main/Graphics/chars_block.c:
     complete
     .text       start:0x020b41e8 end:0x020b47b4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b47b4.c:
+src/Main/System/file_in_loaded.c:
     complete
     .text       start:0x020b47b4 end:0x020b47d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b47d8.c:
+src/Main/Race/followed_kart_or.c:
     complete
     .text       start:0x020b47d8 end:0x020b4dc4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b4dc4.c:
+src/Main/Race/race_hud_sub_screen_mode.c:
     complete
     .text       start:0x020b4dc4 end:0x020b4e0c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b4e0c.c:
+src/Main/Race/followed_kart_outside_box.c:
     complete
     .text       start:0x020b4e0c end:0x020b4e5c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b4e5c.c:
+src/Main/Race/race_hud_sub_screen_course_id.c:
     complete
     .text       start:0x020b4e5c end:0x020b4e70
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b4e70.c:
+src/Main/Race/point_along_line.c:
     complete
     .text       start:0x020b4e70 end:0x020b502c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b502c.c:
+src/Main/Race/race_hud_sub_screen_projection.c:
     complete
     .text       start:0x020b502c end:0x020b6800
     .rodata     start:0x02156874 end:0x02156880
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b6800.c:
+src/Main/Race/race_hud_sub_screen_heap.c:
     complete
     .text       start:0x020b6800 end:0x020b681c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b681c.c:
+src/Main/Race/race_hud_sub_screen_bg3.c:
     complete
     .text       start:0x020b681c end:0x020b6a18
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b6a18.c:
+src/Main/Race/race_hud_sub_screen_min_max.c:
     complete
     .text       start:0x020b6a18 end:0x020b6d98
     .data       start:0x0216859c end:0x02168ac4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b6d98.c:
+src/Main/Race/race_goal_player_character.c:
     complete
     .text       start:0x020b6d98 end:0x020b6e00
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b6e00.c:
+src/Main/Race/race_ncer_tables.c:
     complete
     .text       start:0x020b6e00 end:0x020b9994
     .data       start:0x02168ac4 end:0x02169104
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b9994.c:
+src/Main/Race/race_item_slot.c:
     complete
     .text       start:0x020b9994 end:0x020bb5cc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020bb5cc.c:
+src/Main/Race/race_item_slot_sound.c:
     complete
     .text       start:0x020bb5cc end:0x020bb5ec
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020bb5ec.c:
+src/Main/Race/race_time_digits.c:
     complete
     .text       start:0x020bb5ec end:0x020bc11c
     .data       start:0x02169104 end:0x0216912c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020bc11c.c:
+src/Main/Race/race_rank_list.c:
     complete
     .text       start:0x020bc11c end:0x020be950
     .data       start:0x0216912c end:0x021691e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020be950.c:
+src/Main/Race/race_hud_sub_screen_cells.c:
     complete
     .text       start:0x020be950 end:0x020c0dd8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c0dd8.c:
+src/Main/Race/race_goal_s_rows.c:
     complete
     .text       start:0x020c0dd8 end:0x020c13d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c13d0.c:
+src/Main/Race/race_goal_s_finish.c:
     complete
     .text       start:0x020c13d0 end:0x020c13e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c13e8.c:
+src/Main/Race/race_goal_s_numbers.c:
     complete
     .text       start:0x020c13e8 end:0x020c2118
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c2118.c:
+src/Main/Race/race_goal_s_draw.c:
     complete
     .text       start:0x020c2118 end:0x020c214c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c214c.c:
+src/Main/Race/race_goal_s.c:
     complete
     .text       start:0x020c214c end:0x020c3da0
     .data       start:0x021694f4 end:0x02169624
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c3da0.c:
+src/Main/Race/race_goal_s_running.c:
     complete
     .text       start:0x020c3da0 end:0x020c3db4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c3db4.c:
+src/Main/Race/race_goal_s_rule.c:
     complete
     .text       start:0x020c3db4 end:0x020c3e00
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c3e00.c:
+src/Main/Race/race_goal_s_sb.c:
     complete
     .text       start:0x020c3e00 end:0x020c3e44
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c3e44.c:
+src/Main/Race/race_goal_m.c:
     complete
     .text       start:0x020c3e44 end:0x020c5dd8
     .rodata     start:0x02156880 end:0x0215688c
     .data       start:0x02169624 end:0x02169684
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c5dd8.c:
+src/Main/Race/race_new_record_ta.c:
     complete
     .text       start:0x020c5dd8 end:0x020c70ec
     .data       start:0x02169684 end:0x021696a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c70ec.c:
+src/Main/Race/race_hud_sub_screen_item_box_cells.c:
     complete
     .text       start:0x020c70ec end:0x020c7450
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c7450.c:
+src/Main/Race/race_hud_sub_screen_item_box_cells_clear.c:
     complete
     .text       start:0x020c7450 end:0x020c7464
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c7464.c:
+src/Main/Race/race_hud_sub_screen_item_cells.c:
     complete
     .text       start:0x020c7464 end:0x020ca520
     .data       start:0x021696a8 end:0x02169708
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ca520.c:
+src/Main/Race/race_hud_sub_screen_crab_cells_clear.c:
     complete
     .text       start:0x020ca520 end:0x020ca534
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ca534.c:
+src/Main/Race/race_hud_sub_screen_shine16_cells.c:
     complete
     .text       start:0x020ca534 end:0x020ca65c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ca65c.c:
+src/Main/Race/race_hud_sub_screen_shine16_cells_clear.c:
     complete
     .text       start:0x020ca65c end:0x020ca670
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ca670.c:
+src/Main/Menu/emblem_choises_shown.c:
     complete
     .text       start:0x020ca670 end:0x020cade8
     .data       start:0x02169708 end:0x0216975c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cade8.c:
+src/Main/System/compressed_archive.c:
     complete
     .text       start:0x020cade8 end:0x020cadf4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cadf4.c:
+src/Main/Scene/request_race_or_wl_menu.c:
     complete
     .text       start:0x020cadf4 end:0x020cae24
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae24.c:
+src/Main/Menu/wl_menu_kind_set.c:
     complete
     .text       start:0x020cae24 end:0x020cae38
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae38.c:
+src/Main/Menu/multi_simple.c:
     complete
     .text       start:0x020cae38 end:0x020cae54
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae54.c:
+src/Main/Menu/menu_connection_kind.c:
     complete
     .text       start:0x020cae54 end:0x020cae68
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae68.c:
+src/Main/Menu/menu_screen29_return.c:
     complete
     .text       start:0x020cae68 end:0x020cae6c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae6c.c:
+src/Main/Scene/request_ghost_scene.c:
     complete
     .text       start:0x020cae6c end:0x020cae78
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae78.c:
+src/Main/Menu/menu_screen28_return.c:
     complete
     .text       start:0x020cae78 end:0x020cae7c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae7c.c:
+src/Main/Scene/request_title_scene.c:
     complete
     .text       start:0x020cae7c end:0x020cae88
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae88.c:
+src/Main/Menu/menu_screen27_return.c:
     complete
     .text       start:0x020cae88 end:0x020cae8c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cae8c.c:
+src/Main/Menu/single_play_select_screen3.c:
     complete
     .text       start:0x020cae8c end:0x020cb0cc
     .data       start:0x0216aaec end:0x0216ab14
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb0cc.c:
+src/Main/Menu/is.c:
     complete
     .text       start:0x020cb0cc end:0x020cb1c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb1c4.c:
+src/Main/Menu/menu_sound.c:
     complete
     .text       start:0x020cb1c4 end:0x020cb1f4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb1f4.c:
+src/Main/Menu/menu_new_bits.c:
     complete
     .text       start:0x020cb1f4 end:0x020cb224
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb224.c:
+src/Main/Menu/single_play_select_screen1_registers.c:
     complete
     .text       start:0x020cb224 end:0x020cb4c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb4c0.c:
+src/Main/Menu/menu_screen_update.c:
     complete
     .text       start:0x020cb4c0 end:0x020cb600
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb600.c:
+src/Main/Menu/menu_counter.c:
     complete
     .text       start:0x020cb600 end:0x020cb618
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb618.c:
+src/Main/Menu/menu_screen_init.c:
     complete
     .text       start:0x020cb618 end:0x020cb99c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb99c.c:
+src/Main/Menu/menu_heap.c:
     complete
     .text       start:0x020cb99c end:0x020cb9b8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cb9b8.c:
+src/Main/Menu/menu_release.c:
     complete
     .text       start:0x020cb9b8 end:0x020cba30
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cba30.c:
+src/Main/Menu/menu_entry_kind.c:
     complete
     .text       start:0x020cba30 end:0x020cbad0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cbad0.c:
+src/Main/Menu/menu.c:
     complete
     .text       start:0x020cbad0 end:0x020cc5d8
     .data       start:0x0216ac04 end:0x0216ad7c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cc5d8.c:
+src/Main/Menu/current.c:
     complete
     .text       start:0x020cc5d8 end:0x020cc744
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cc744.c:
+src/Main/Menu/next.c:
     complete
     .text       start:0x020cc744 end:0x020ccc74
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ccc74.c:
+src/Main/Menu/menu_screen_switch.c:
     complete
     .text       start:0x020ccc74 end:0x020cccd8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cccd8.c:
+src/Main/Race/race_hud_sub_screen_rain_star_cells.c:
     complete
     .text       start:0x020cccd8 end:0x020ce6a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ce6a8.c:
+src/Main/Menu/vs_select_cup_m.c:
     complete
     .text       start:0x020ce6a8 end:0x020cea60
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cea60.c:
+src/Main/Menu/select_battle_stage.c:
     complete
     .text       start:0x020cea60 end:0x020ceaf8
     .data       start:0x0216ad7c end:0x0216ad94
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ceaf8.c:
+src/Main/Menu/battle_stage_entry.c:
     complete
     .text       start:0x020ceaf8 end:0x020ceb54
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ceb54.c:
+src/Main/Menu/battle_gx_set_visible_plane.c:
     complete
     .text       start:0x020ceb54 end:0x020ceb88
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ceb88.c:
+src/Main/Menu/battle_select_race_rule.c:
     complete
     .text       start:0x020ceb88 end:0x020cebe4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cebe4.c:
+src/Main/Menu/select_race_rule_multi_simple.c:
     complete
     .text       start:0x020cebe4 end:0x020cec00
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cec00.c:
+src/Main/Menu/battle_select_race_rule_registers.c:
     complete
     .text       start:0x020cec00 end:0x020cec88
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cec88.c:
+src/Main/Menu/select_game_update.c:
     complete
     .text       start:0x020cec88 end:0x020ced10
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ced10.c:
+src/Main/Race/race_hud_sub_screen_pakkun_spit_cells.c:
     complete
     .text       start:0x020ced10 end:0x020cee0c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cee0c.c:
+src/Main/Menu/shuffled_indices.c:
     complete
     .text       start:0x020cee0c end:0x020cef1c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cef1c.c:
+src/Main/Menu/menu_shared_clear.c:
     complete
     .text       start:0x020cef1c end:0x020cef68
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cef68.c:
+src/Main/Menu/menu_mi_fill.c:
     complete
     .text       start:0x020cef68 end:0x020cefa0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cefa0.c:
+src/Main/Menu/menu_shared_create.c:
     complete
     .text       start:0x020cefa0 end:0x020cefc0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cefc0.c:
+src/Main/Race/race_hud_sub_screen_bomb_koura_w_cells.c:
     complete
     .text       start:0x020cefc0 end:0x020cffd0
     .data       start:0x0216ad94 end:0x0216ae34
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cffd0.c:
+src/Main/Race/race_goal_times.c:
     complete
     .text       start:0x020cffd0 end:0x020d0e3c
     .data       start:0x0216ae34 end:0x0216ae58
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d0e3c.c:
+src/Main/Menu/cup_picture.c:
     complete
     .text       start:0x020d0e3c end:0x020d0ee8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d0ee8.c:
+src/Main/System/thread_function_queue_run.c:
     complete
     .text       start:0x020d0ee8 end:0x020d0f78
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d0f78.c:
+src/Main/Menu/cup_picture_load.c:
     complete
     .text       start:0x020d0f78 end:0x020d1158
     .data       start:0x0216afd0 end:0x0216b01c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d1158.c:
+src/Main/Race/race_start_battle.c:
     complete
     .text       start:0x020d1158 end:0x020d12e0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d12e0.c:
+src/Main/Race/ending_staff_roll.c:
     complete
     .text       start:0x020d12e0 end:0x020d1630
     .data       start:0x0216b01c end:0x0216b07c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d1630.c:
+src/Main/Net/multiboot_child_files.c:
     complete
     .text       start:0x020d1630 end:0x020d1640
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d1640.c:
+src/Main/Net/search_icon_mb_child_and.c:
     complete
     .text       start:0x020d1640 end:0x020d18d4
     .data       start:0x0216b07c end:0x0216b1cc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d18d4.c:
+src/Main/Race/race_m_number_pair.c:
     complete
     .text       start:0x020d18d4 end:0x020d2090
     .data       start:0x0216b1cc end:0x0216b23c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d2090.c:
+src/Main/MapObjects/does_map_object.c:
     complete
     .text       start:0x020d2090 end:0x020d22c0
     .data       start:0x0216b23c end:0x0216b254
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d22c0.c:
+src/Main/MapObjects/map_object_park.c:
     complete
     .text       start:0x020d22c0 end:0x020d2450
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d2450.c:
+src/Main/MapObjects/map_object_matrix.c:
     complete
     .text       start:0x020d2450 end:0x020d24d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d24d8.c:
+src/Main/MapObjects/map_object.c:
     complete
     .text       start:0x020d24d8 end:0x020d26e0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d26e0.c:
+src/Main/MapObjects/while_requested_full_volume_wrapper.c:
     complete
     .text       start:0x020d26e0 end:0x020d26f8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d26f8.c:
+src/Main/MapObjects/sound_if_kart_star_or.c:
     complete
     .text       start:0x020d26f8 end:0x020d275c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d275c.c:
+src/Main/MapObjects/map_object_sound.c:
     complete
     .text       start:0x020d275c end:0x020d278c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d278c.c:
+src/Main/MapObjects/map_object_scale_sound_source.c:
     complete
     .text       start:0x020d278c end:0x020d2b78
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d2b78.c:
+src/Main/MapObjects/map_object_list.c:
     complete
     .text       start:0x020d2b78 end:0x020d2dec
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d2dec.c:
+src/Main/MapObjects/map_object_create.c:
     complete
     .text       start:0x020d2dec end:0x020d3ae0
     .data       start:0x0216b254 end:0x0216b268
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d3ae0.c:
+src/Main/MapObjects/view_frustum.c:
     complete
     .text       start:0x020d3ae0 end:0x020d50ec
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d50ec.c:
+src/Main/MapObjects/rock.c:
     complete
     .text       start:0x020d50ec end:0x020d6538
     .data       start:0x0216b8f4 end:0x0216b94c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d6538.c:
+src/Main/MapObjects/group_follower.c:
     complete
     .text       start:0x020d6538 end:0x020d7d80
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d7d80.c:
+src/Main/MapObjects/straight_segment_lengths.c:
     complete
     .text       start:0x020d7d80 end:0x020d7da8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d7da8.c:
+src/Main/MapObjects/group_follower_init.c:
     complete
     .text       start:0x020d7da8 end:0x020d7db4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d7db4.c:
+src/Main/MapObjects/group_paths.c:
     complete
     .text       start:0x020d7db4 end:0x020d8474
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d8474.c:
+src/Main/MapObjects/segment_progress_point.c:
     complete
     .text       start:0x020d8474 end:0x020d849c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d849c.c:
+src/Main/MapObjects/group_follower_advance.c:
     complete
     .text       start:0x020d849c end:0x020d8cac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d8cac.c:
+src/Main/MapObjects/segment_curve.c:
     complete
     .text       start:0x020d8cac end:0x020d9340
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d9340.c:
+src/Main/MapObjects/curve_point_xz.c:
     complete
     .text       start:0x020d9340 end:0x020d939c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d939c.c:
+src/Main/MapObjects/segment_curve_pos_step.c:
     complete
     .text       start:0x020d939c end:0x020d9480
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d9480.c:
+src/Main/MapObjects/curve_point.c:
     complete
     .text       start:0x020d9480 end:0x020d94dc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d94dc.c:
+src/Main/MapObjects/water.c:
     complete
     .text       start:0x020d94dc end:0x020da414
     .data       start:0x0216bcac end:0x0216be08
     .bss        start:0x0217b654 end:0x0217b660
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020da414.c:
+src/Main/MapObjects/kuribo_init.c:
     complete
     .text       start:0x020da414 end:0x020da5f0
     .data       start:0x0216be08 end:0x0216be48
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020da5f0.c:
+src/Main/MapObjects/kuribo.c:
     complete
     .text       start:0x020da5f0 end:0x020daf20
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020daf20.c:
+src/Main/MapObjects/dossun.c:
     complete
     .text       start:0x020daf20 end:0x020dbf7c
     .data       start:0x0216be98 end:0x0216bebc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020dbf7c.c:
+src/Main/MapObjects/wanwan_reset.c:
     complete
     .text       start:0x020dbf7c end:0x020dc428
     .data       start:0x0216bebc end:0x0216bf30
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020dc428.c:
+src/Main/MapObjects/wanwan.c:
     complete
     .text       start:0x020dc428 end:0x020dd8b0
     .rodata     start:0x02158334 end:0x021583c8
     .bss        start:0x0217b6b4 end:0x0217b6bc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020dd8b0.c:
+src/Main/MapObjects/wanwan_chain_init.c:
     complete
     .text       start:0x020dd8b0 end:0x020dda2c
     .rodata     start:0x021583c8 end:0x021583d4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020dda2c.c:
+src/Main/MapObjects/wanwan_chain_flag.c:
     complete
     .text       start:0x020dda2c end:0x020dda38
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020dda38.c:
+src/Main/MapObjects/wanwan_chain_object.c:
     complete
     .text       start:0x020dda38 end:0x020de214
     .rodata     start:0x021583d4 end:0x021583d8
     .data       start:0x0216bf30 end:0x0216bf5c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020de214.c:
+src/Main/MapObjects/wanwan_chain.c:
     complete
     .text       start:0x020de214 end:0x020de438
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020de438.c:
+src/Main/MapObjects/earthen_pipe.c:
     complete
     .text       start:0x020de438 end:0x020de588
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020de588.c:
+src/Main/MapObjects/earthen_pipe_create.c:
     complete
     .text       start:0x020de588 end:0x020de9ec
     .data       start:0x0216bf84 end:0x0216bfa0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020de9ec.c:
+src/Main/MapObjects/item_box.c:
     complete
     .text       start:0x020de9ec end:0x020df48c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020df48c.c:
+src/Main/MapObjects/group_item_box.c:
     complete
     .text       start:0x020df48c end:0x020df7d0
     .data       start:0x0216bfb0 end:0x0216bfd8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020df7d0.c:
+src/Main/MapObjects/mkd_ef_bubble.c:
     complete
     .text       start:0x020df7d0 end:0x020df890
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020df890.c:
+src/Main/MapObjects/koopa_block.c:
     complete
     .text       start:0x020df890 end:0x020e0058
     .data       start:0x0216bff0 end:0x0216c004
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e0058.c:
+src/Main/MapObjects/collision_hit_link.c:
     complete
     .text       start:0x020e0058 end:0x020e0650
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e0650.c:
+src/Main/MapObjects/collision_hit_link_create.c:
     complete
     .text       start:0x020e0650 end:0x020e0680
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e0680.c:
+src/Main/MapObjects/choropu.c:
     complete
     .text       start:0x020e0680 end:0x020e2fac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e2fac.c:
+src/Main/MapObjects/choropu_state.c:
     complete
     .text       start:0x020e2fac end:0x020e3618
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e3618.c:
+src/Main/MapObjects/bridge.c:
     complete
     .text       start:0x020e3618 end:0x020e3b08
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e3b08.c:
+src/Main/MapObjects/bridge_animation_frame.c:
     complete
     .text       start:0x020e3b08 end:0x020e3b28
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e3b28.c:
+src/Main/MapObjects/rotary.c:
     complete
     .text       start:0x020e3b28 end:0x020e43a4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e43a4.c:
+src/Main/MapObjects/rotary_state.c:
     complete
     .text       start:0x020e43a4 end:0x020e44e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e44e4.c:
+src/Main/MapObjects/pukupuku_init.c:
     complete
     .text       start:0x020e44e4 end:0x020e48b4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e48b4.c:
+src/Main/MapObjects/pukupuku.c:
     complete
     .text       start:0x020e48b4 end:0x020e512c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e512c.c:
+src/Main/Course/course_triangle_flag.c:
     complete
     .text       start:0x020e512c end:0x020e516c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e516c.c:
+src/Main/MapObjects/send_obj_shadow.c:
     complete
     .text       start:0x020e516c end:0x020e5634
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e5634.c:
+src/Main/MapObjects/shadow_position_raised.c:
     complete
     .text       start:0x020e5634 end:0x020e5684
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e5684.c:
+src/Main/MapObjects/ob_pakkun_sf.c:
     complete
     .text       start:0x020e5684 end:0x020e5d0c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e5d0c.c:
+src/Main/MapObjects/pendulum.c:
     complete
     .text       start:0x020e5d0c end:0x020e662c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e662c.c:
+src/Main/MapObjects/view_matrices.c:
     complete
     .text       start:0x020e662c end:0x020e6f50
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e6f50.c:
+src/Main/MapObjects/update_list_slot.c:
     complete
     .text       start:0x020e6f50 end:0x020e6fc4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e6fc4.c:
+src/Main/MapObjects/map_object_list_count.c:
     complete
     .text       start:0x020e6fc4 end:0x020e6fd4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e6fd4.c:
+src/Main/MapObjects/attractor.c:
     complete
     .text       start:0x020e6fd4 end:0x020e7a84
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020e7a84.c:
+src/Main/MapObjects/jg.c:
     complete
     .text       start:0x020e7a84 end:0x020ea514
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ea514.c:
+src/Main/MapObjects/model_animation_entries.c:
     complete
     .text       start:0x020ea514 end:0x020ea55c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ea55c.c:
+src/Main/MapObjects/shadow_model_create.c:
     complete
     .text       start:0x020ea55c end:0x020ea588
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ea588.c:
+src/Main/MapObjects/nsbmd_model_draw.c:
     complete
     .text       start:0x020ea588 end:0x020ea618
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ea618.c:
+src/Main/MapObjects/shadow_model_alpha.c:
     complete
     .text       start:0x020ea618 end:0x020ea670
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ea670.c:
+src/Main/MapObjects/woodbox.c:
     complete
     .text       start:0x020ea670 end:0x020ec484
     .rodata     start:0x021594e4 end:0x02159578
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ec484.c:
+src/Main/MapObjects/pushed_object_state_1.c:
     complete
     .text       start:0x020ec484 end:0x020ec538
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ec538.c:
+src/Main/MapObjects/pushed_motion.c:
     complete
     .text       start:0x020ec538 end:0x020ec884
     .rodata     start:0x0215957c end:0x021595a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ec884.c:
+src/Main/MapObjects/pushed_object_states_init.c:
     complete
     .text       start:0x020ec884 end:0x020ec8bc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ec8bc.c:
+src/Main/Item/item_link_following.c:
     complete
     .text       start:0x020ec8bc end:0x020ed578
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ed578.c:
+src/Main/Item/item_model.c:
     complete
     .text       start:0x020ed578 end:0x020ed5c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ed5c0.c:
+src/Main/Item/item_in_use.c:
     complete
     .text       start:0x020ed5c0 end:0x020ee684
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ee684.c:
+src/Main/Item/item_pool.c:
     complete
     .text       start:0x020ee684 end:0x020f1104
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f1104.c:
+src/Main/Item/item_koura_r_kart_items.c:
     complete
     .text       start:0x020f1104 end:0x020f1a24
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f1a24.c:
+src/Main/Item/item_kinds_init.c:
     complete
     .text       start:0x020f1a24 end:0x020f1a38
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f1a38.c:
+src/Main/Item/item_kinds.c:
     complete
     .text       start:0x020f1a38 end:0x020f1d40
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f1d40.c:
+src/Main/Item/item_kind_copy_size.c:
     complete
     .text       start:0x020f1d40 end:0x020f1d70
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f1d70.c:
+src/Main/Item/item_object_throw.c:
     complete
     .text       start:0x020f1d70 end:0x020f2d98
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f2d98.c:
+src/Main/Item/item_object_bouncing.c:
     complete
     .text       start:0x020f2d98 end:0x020f2dac
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f2dac.c:
+src/Main/Item/held_item.c:
     complete
     .text       start:0x020f2dac end:0x020f49bc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f49bc.c:
+src/Main/Item/item_kinoko.c:
     complete
     .text       start:0x020f49bc end:0x020f7c90
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f7c90.c:
+src/Main/Item/item_slot_tables.c:
     complete
     .text       start:0x020f7c90 end:0x020f8d9c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f8d9c.c:
+src/Main/Item/item_object_init.c:
     complete
     .text       start:0x020f8d9c end:0x020f8ddc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f8ddc.c:
+src/Main/Item/mission_run_koura_effects.c:
     complete
     .text       start:0x020f8ddc end:0x020f8e3c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f8e3c.c:
+src/Main/Item/entry_kart_sound.c:
     complete
     .text       start:0x020f8e3c end:0x020f8e78
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f8e78.c:
+src/Main/Item/item_object.c:
     complete
     .text       start:0x020f8e78 end:0x020f9c6c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020f9c6c.c:
+src/Main/Item/item_koura_w.c:
     complete
     .text       start:0x020f9c6c end:0x020fcb3c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020fcb3c.c:
+src/Main/Item/item_koura_w_far.c:
     complete
     .text       start:0x020fcb3c end:0x020fcb4c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020fcb4c.c:
+src/Main/Item/item_kinoko_p_boost.c:
     complete
     .text       start:0x020fcb4c end:0x020fcb9c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020fcb9c.c:
+src/Main/Item/item_koura_w_kart_items.c:
     complete
     .text       start:0x020fcb9c end:0x020fd264
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020fd264.c:
+src/Main/Item/item_bomb.c:
     complete
     .text       start:0x020fd264 end:0x020fe450
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020fe450.c:
+src/Main/Item/item_links.c:
     complete
     .text       start:0x020fe450 end:0x020fe4b4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020fe4b4.c:
+src/Main/Item/item_f_box.c:
     complete
     .text       start:0x020fe4b4 end:0x020ff334
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ff334.c:
+src/Main/Item/item_f_box_park.c:
     complete
     .text       start:0x020ff334 end:0x020ff344
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ff344.c:
+src/Main/Item/dram_box.c:
     complete
     .text       start:0x020ff344 end:0x020ffc08
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ffc08.c:
+src/Main/MapObjects/dram.c:
     complete
     .text       start:0x020ffc08 end:0x02100084
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02100084.c:
+src/Main/MapObjects/map_objects_get.c:
     complete
     .text       start:0x02100084 end:0x02100094
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02100094.c:
+src/Main/MapObjects/pooled_tail_count.c:
     complete
     .text       start:0x02100094 end:0x021000c8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021000c8.c:
+src/Main/MapObjects/map_object_list_count_get.c:
     complete
     .text       start:0x021000c8 end:0x021000d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021000d0.c:
+src/Main/MapObjects/map_object_kind_update_list.c:
     complete
     .text       start:0x021000d0 end:0x021001a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021001a0.c:
+src/Main/Item/item_teresa_offset.c:
     complete
     .text       start:0x021001a0 end:0x02102674
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02102674.c:
+src/Main/Item/item_gesso.c:
     complete
     .text       start:0x02102674 end:0x021031f4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021031f4.c:
+src/Main/Item/bouncing_item_box.c:
     complete
     .text       start:0x021031f4 end:0x02104a0c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02104a0c.c:
+src/Main/Item/pooled_item_box.c:
     complete
     .text       start:0x02104a0c end:0x021052f0
     .rodata     start:0x0215a584 end:0x0215a64c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021052f0.c:
+src/Main/Item/pooled_map_object.c:
     complete
     .text       start:0x021052f0 end:0x021053e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021053e4.c:
+src/Main/Item/pooled_item_box_init.c:
     complete
     .text       start:0x021053e4 end:0x02105550
     .rodata     start:0x0215a64c end:0x0215a6c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02105550.c:
+src/Main/Sound/sound_seq.c:
     complete
     .text       start:0x02105550 end:0x02108e38
     .rodata     start:0x0215a6c0 end:0x0215a6d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02108e38.c:
+src/Main/Sound/snd_handle_slots.c:
     complete
     .text       start:0x02108e38 end:0x02108e6c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02108e6c.c:
+src/Main/Sound/sound_handle_pool.c:
     complete
     .text       start:0x02108e6c end:0x02109038
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02109038.c:
+src/Main/Sound/item_object_sound_source_9038.c:
     complete
     .text       start:0x02109038 end:0x02109054
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02109054.c:
+src/Main/Sound/sound_start.c:
     complete
     .text       start:0x02109054 end:0x02109110
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02109110.c:
+src/Main/Sound/sound_source_init.c:
     complete
     .text       start:0x02109110 end:0x0210912c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210912c.c:
+src/Main/Sound/sound_falloffs_init.c:
     complete
     .text       start:0x0210912c end:0x02109178
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02109178.c:
+src/Main/Sound/sound_return_argument.c:
     complete
     .text       start:0x02109178 end:0x02109184
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02109184.c:
+src/Main/Sound/sound_falloffs.c:
     complete
     .text       start:0x02109184 end:0x0210a578
     .data       start:0x0216c8cc end:0x0216ca20
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210a578.c:
+src/Main/Sound/kart_full_volume_sort.c:
     complete
     .text       start:0x0210a578 end:0x0210a588
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210a588.c:
+src/Main/Sound/kart_request_sort.c:
     complete
     .text       start:0x0210a588 end:0x0210a598
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210a598.c:
+src/Main/Sound/kart_sound_callbacks.c:
     complete
     .text       start:0x0210a598 end:0x0210a63c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210a63c.c:
+src/Main/Sound/sound_distance_change.c:
     complete
     .text       start:0x0210a63c end:0x0210a644
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210a644.c:
+src/Main/Sound/kart_thunder_track_params.c:
     complete
     .text       start:0x0210a644 end:0x0210a664
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210a664.c:
+src/Main/Sound/kart_track_params_reset.c:
     complete
     .text       start:0x0210a664 end:0x0210a67c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210a67c.c:
+src/Main/Sound/kart_surface_sound.c:
     complete
     .text       start:0x0210a67c end:0x0210b708
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210b708.c:
+src/Main/Sound/snd_handle_start.c:
     complete
     .text       start:0x0210b708 end:0x0210b850
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210b850.c:
+src/Main/Sound/sound_distance_change_reset.c:
     complete
     .text       start:0x0210b850 end:0x0210b870
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210b870.c:
+src/Main/Sound/map_object_sound_counter.c:
     complete
     .text       start:0x0210b870 end:0x0210bad4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210bad4.c:
+src/Main/Sound/map_start_sound_full_volume.c:
     complete
     .text       start:0x0210bad4 end:0x0210bae8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210bae8.c:
+src/Main/Sound/shine16_track_params.c:
     complete
     .text       start:0x0210bae8 end:0x0210bafc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210bafc.c:
+src/Main/Sound/surface_sound_ids.c:
     complete
     .text       start:0x0210bafc end:0x0210bce0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210bce0.c:
+src/Main/Sound/three_words_clear.c:
     complete
     .text       start:0x0210bce0 end:0x0210bcf4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210bcf4.c:
+src/Main/Sound/sound_source_list.c:
     complete
     .text       start:0x0210bcf4 end:0x0210c1b0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210c1b0.c:
+src/Main/Sound/playing_sounds.c:
     complete
     .text       start:0x0210c1b0 end:0x0210cf20
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210cf20.c:
+src/Main/Sound/sound_sources.c:
     complete
     .text       start:0x0210cf20 end:0x0210d570
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210d570.c:
+src/Main/Sound/scene_players_release.c:
     complete
     .text       start:0x0210d570 end:0x0210d740
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210d740.c:
+src/Main/Sound/sound_system.c:
     complete
     .text       start:0x0210d740 end:0x0210d9a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210d9a0.c:
+src/Main/Sound/sound_mode.c:
     complete
     .text       start:0x0210d9a0 end:0x0210dc48
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210dc48.c:
+src/Main/Sound/end_race_fade_steps.c:
     complete
     .text       start:0x0210dc48 end:0x0210dc50
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210dc50.c:
+src/Main/Sound/sound_mode_restore.c:
     complete
     .text       start:0x0210dc50 end:0x0210dc7c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210dc7c.c:
+src/Main/Sound/sound_request_queue.c:
     complete
     .text       start:0x0210dc7c end:0x0210e328
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210e328.c:
+src/Main/Sound/playing_sound_handle_reset.c:
     complete
     .text       start:0x0210e328 end:0x0210e33c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210e33c.c:
+src/Main/Sound/sound_set_load.c:
     complete
     .text       start:0x0210e33c end:0x0210ef50
     .rodata     start:0x0215c380 end:0x0215c3a4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210ef50.c:
+src/Main/Sound/sound_file_id_list.c:
     complete
     .text       start:0x0210ef50 end:0x0210ef68
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210ef68.c:
+src/Main/Sound/snd_arc_setup.c:
     complete
     .text       start:0x0210ef68 end:0x0210f068
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f068.c:
+src/Main/Sound/mic_buffer_sleep.c:
     complete
     .text       start:0x0210f068 end:0x0210f0d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f0d8.c:
+src/Main/Sound/mic_auto_sampling.c:
     complete
     .text       start:0x0210f0d8 end:0x0210f130
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f130.c:
+src/Main/Sound/mic_init.c:
     complete
     .text       start:0x0210f130 end:0x0210f208
     .bss        start:0x0217d19c end:0x0217d1a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f208.c:
+src/Main/Course/course_sound_slot.c:
     complete
     .text       start:0x0210f208 end:0x0210f714
     .data       start:0x0216cb2c end:0x0216cb80
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f714.c:
+src/Main/Race/results_battle_frame_limit.c:
     complete
     .text       start:0x0210f714 end:0x0210f71c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f71c.c:
+src/Main/Race/results_gp_frame_limit.c:
     complete
     .text       start:0x0210f71c end:0x0210f72c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f72c.c:
+src/Main/Scene/title_no_input_frame_limit.c:
     complete
     .text       start:0x0210f72c end:0x0210f744
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0210f744.c:
+src/Main/Sound/seq_queue.c:
     complete
     .text       start:0x0210f744 end:0x021108bc
     .data       start:0x0216cb84 end:0x0216cba0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021108bc.c:
+src/Main/Sound/race_end_seq.c:
     complete
     .text       start:0x021108bc end:0x02111118
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02111118.c:
+src/Main/Sound/seq_row.c:
     complete
     .text       start:0x02111118 end:0x0211130c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211130c.c:
+src/Main/Menu/record_scene.c:
     complete
     .text       start:0x0211130c end:0x021113f0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021113f0.c:
+src/Main/Menu/record_vs.c:
     complete
     .text       start:0x021113f0 end:0x02112b48
     .data       start:0x0216d30c end:0x0216d320
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02112b48.c:
+src/Main/Menu/record_list.c:
     complete
     .text       start:0x02112b48 end:0x021145b4
     .data       start:0x0216d3b8 end:0x0216d3c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021145b4.c:
+src/Main/Menu/record_vs_erase.c:
     complete
     .text       start:0x021145b4 end:0x02116a4c
     .rodata     start:0x0215c4ac end:0x0215c4b0
     .data       start:0x0216d410 end:0x0216d424
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02116a4c.c:
+src/Main/Graphics/time_format.c:
     complete
     .text       start:0x02116a4c end:0x02116d24
     .rodata     start:0x0215c5b4 end:0x0215c5d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02116d24.c:
+src/Main/Menu/wait.c:
     complete
     .text       start:0x02116d24 end:0x02116dc8
     .rodata     start:0x0215c5d0 end:0x0215c5d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02116dc8.c:
+src/Main/Menu/wait_load.c:
     complete
     .text       start:0x02116dc8 end:0x02116ec0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02116ec0.c:
+src/Main/Menu/picks_holder.c:
     complete
     .text       start:0x02116ec0 end:0x021171a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021171a0.c:
+src/Main/Menu/kart_icon.c:
     complete
     .text       start:0x021171a0 end:0x021173e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021173e4.c:
+src/Main/Menu/select_cup_grid.c:
     complete
     .text       start:0x021173e4 end:0x021189f4
     .data       start:0x0216d81c end:0x0216d834
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021189f4.c:
+src/Main/Menu/select_cup_course.c:
     complete
     .text       start:0x021189f4 end:0x0211952c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211952c.c:
+src/Main/Menu/select_cup_course_index.c:
     complete
     .text       start:0x0211952c end:0x02119e14
     .data       start:0x0216db74 end:0x0216db8c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02119e14.c:
+src/Main/Menu/select_race_rule.c:
     complete
     .text       start:0x02119e14 end:0x0211ac70
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211ac70.c:
+src/Main/Menu/select_race_rule_state.c:
     complete
     .text       start:0x0211ac70 end:0x0211db90
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211db90.c:
+src/Main/Menu/select_race_rule_load.c:
     complete
     .text       start:0x0211db90 end:0x0211de00
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211de00.c:
+src/Main/Menu/cup_mark.c:
     complete
     .text       start:0x0211de00 end:0x0211e0c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211e0c4.c:
+src/Main/Race/ghost_record_set.c:
     complete
     .text       start:0x0211e0c4 end:0x0211e4e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211e4e8.c:
+src/Main/Menu/select_cup_m.c:
     complete
     .text       start:0x0211e4e8 end:0x0211f240
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211f240.c:
+src/Main/Menu/trophy_icon.c:
     complete
     .text       start:0x0211f240 end:0x0211f378
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211f378.c:
+src/Main/Menu/select_race_rule_wait_slide_out.c:
     complete
     .text       start:0x0211f378 end:0x0211f6b0
     .data       start:0x0216e1c4 end:0x0216e1d0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211f6b0.c:
+src/Main/Net/buddy_changed_callback.c:
     complete
     .text       start:0x0211f6b0 end:0x0211f6cc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211f6cc.c:
+src/Main/Net/wifi_session_login.c:
     complete
     .text       start:0x0211f6cc end:0x0211ff74
     .data       start:0x0216e1d0 end:0x0216e1e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211ff74.c:
+src/Main/Net/wifi_race_sync_send.c:
     complete
     .text       start:0x0211ff74 end:0x0211ffb0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211ffb0.c:
+src/Main/Net/wifi_session_heap.c:
     complete
     .text       start:0x0211ffb0 end:0x02120044
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02120044.c:
+src/Main/Net/player_record.c:
     complete
     .text       start:0x02120044 end:0x0212030c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0212030c.c:
+src/Main/Net/wifi_session.c:
     complete
     .text       start:0x0212030c end:0x02122734
     .data       start:0x0216e1fc end:0x0216e30c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02122734.c:
+src/Main/Net/packed_index.c:
     complete
     .text       start:0x02122734 end:0x02122794
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02122794.c:
+src/Main/Net/wifi_session_karts.c:
     complete
     .text       start:0x02122794 end:0x02122ae4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02122ae4.c:
+src/Main/Net/wifi_connection_lost.c:
     complete
     .text       start:0x02122ae4 end:0x02122b14
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02122b14.c:
+src/Main/Net/wi_fi_session_step.c:
     complete
     .text       start:0x02122b14 end:0x02124094
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02124094.c:
+src/Main/Graphics/layout_entry_angle.c:
     complete
     .text       start:0x02124094 end:0x02124bc8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02124bc8.c:
+src/Main/Graphics/layout_table_entry.c:
     complete
     .text       start:0x02124bc8 end:0x02124f4c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02124f4c.c:
+src/Main/Graphics/text_draw.c:
     complete
     .text       start:0x02124f4c end:0x021258f0
     .data       start:0x0216e30c end:0x0216e35c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021258f0.c:
+src/Main/Graphics/scene_text.c:
     complete
     .text       start:0x021258f0 end:0x02125960
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02125960.c:
+src/Main/Graphics/back_screen.c:
     .text       start:0x02125960 end:0x02125da0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02125da0.c:
+src/Main/Graphics/scene_text_init.c:
     complete
     .text       start:0x02125da0 end:0x02125ebc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02125ebc.c:
+src/Main/Menu/txt_system.c:
     complete
     .text       start:0x02125ebc end:0x0212775c
     .data       start:0x0216e6dc end:0x0216e6e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0212775c.c:
+src/Main/Menu/select_return.c:
     complete
     .text       start:0x0212775c end:0x02128884
     .data       start:0x0216e86c end:0x0216e8c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02128884.c:
+src/Main/Menu/keyboard_scene.c:
     complete
     .text       start:0x02128884 end:0x0212898c
     .data       start:0x0216e8c0 end:0x0216e8e0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0212898c.c:
+src/Main/Menu/keyboard_buttons.c:
     complete
     .text       start:0x0212898c end:0x0212a910
     .data       start:0x0216e8e0 end:0x0216e920
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0212a910.c:
+src/Main/Menu/message_screen.c:
     complete
     .text       start:0x0212a910 end:0x0212b1a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0212b1a8.c:
+src/Main/Graphics/palette_blend.c:
     complete
     .text       start:0x0212b1a8 end:0x0212b9ec
 
@@ -4583,7 +4583,7 @@ libs/NitroSDK/dgt/src/code_02150e1c.s:
     .text       start:0x02150e08 end:0x0215109c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0215109c.c:
+src/Main/Save/packed_wifi_info.c:
     complete
     .text       start:0x0215109c end:0x021510a4
 
@@ -4593,7 +4593,7 @@ libs/NitroDWC/bm/src/code_021510a4.c:
     .text       start:0x021510a4 end:0x02151708
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02151708.c:
+src/Main/Save/nvram_entries.c:
     complete
     .text       start:0x02151708 end:0x02151868
 
@@ -4603,7 +4603,7 @@ libs/NitroDWC/bm/src/code_02151868.c:
     .text       start:0x02151868 end:0x021519a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021519a8.c:
+src/Main/Save/nvram_first_three.c:
     complete
     .text       start:0x021519a8 end:0x021519d4
 
@@ -4613,7 +4613,7 @@ libs/NitroDWC/bm/src/code_021519d4.c:
     .text       start:0x021519d4 end:0x02151f88
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02151f88.c:
+src/Main/Save/nvram_new_wifi_info.c:
     complete
     .text       start:0x02151f88 end:0x02151fc4
 
@@ -4633,7 +4633,7 @@ libs/NitroDWC/account/src/code_021522a0.c:
     .text       start:0x021522a0 end:0x02152468
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152468.c:
+src/Main/Net/friend_data_from_profile.c:
     complete
     .text       start:0x02152468 end:0x02152490
 
@@ -4643,7 +4643,7 @@ libs/NitroDWC/account/src/code_02152490.c:
     .text       start:0x02152490 end:0x021524d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021524d8.c:
+src/Main/Net/friend_data_from_key.c:
     complete
     .text       start:0x021524d8 end:0x02152500
 
@@ -4653,12 +4653,12 @@ libs/NitroDWC/account/src/code_02152500.c:
     .text       start:0x02152500 end:0x02152698
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152698.c:
+src/Main/Net/friend_data_type_wrapper.c:
     complete
     .text       start:0x02152698 end:0x021526a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021526a0.c:
+src/Main/Net/friend_data_type_non_zero.c:
     complete
     .text       start:0x021526a0 end:0x021526bc
 
@@ -4668,7 +4668,7 @@ libs/NitroDWC/account/src/code_021526bc.c:
     .text       start:0x021526bc end:0x021526c8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021526c8.c:
+src/Main/Net/friend_data_login_id.c:
     complete
     .text       start:0x021526c8 end:0x021526e4
 
@@ -4678,7 +4678,7 @@ libs/NitroDWC/account/src/code_021526e4.c:
     .text       start:0x021526e4 end:0x02152918
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152918.c:
+src/Main/Net/friend_key_format.c:
     complete
     .text       start:0x02152918 end:0x02152934
 
@@ -4688,17 +4688,17 @@ libs/NitroDWC/account/src/code_02152934.c:
     .text       start:0x02152934 end:0x021529e0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021529e0.c:
+src/Main/Net/friend_data_type_set.c:
     complete
     .text       start:0x021529e0 end:0x02152a04
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152a04.c:
+src/Main/Net/friend_data_flags_set.c:
     complete
     .text       start:0x02152a04 end:0x02152a1c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152a1c.c:
+src/Main/Net/friend_data_type_get.c:
     complete
     .text       start:0x02152a1c end:0x02152a24
 
@@ -4708,7 +4708,7 @@ libs/NitroDWC/account/src/code_02152a24.c:
     .text       start:0x02152a24 end:0x02152a6c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152a6c.c:
+src/Main/Net/friend_data_flags_get.c:
     complete
     .text       start:0x02152a6c end:0x02152a7c
 
@@ -4718,7 +4718,7 @@ libs/NitroDWC/account/src/code_02152a7c.c:
     .text       start:0x02152a7c end:0x02152ab0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152ab0.c:
+src/Main/Net/friend_data_gs_profile_id.c:
     complete
     .text       start:0x02152ab0 end:0x02152ab4
 
@@ -4728,7 +4728,7 @@ libs/NitroDWC/account/src/code_02152ab4.c:
     .text       start:0x02152ab4 end:0x02152ac4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02152ac4.c:
+src/Main/Net/friend_data_player_id.c:
     complete
     .text       start:0x02152ac4 end:0x02152ac8
 

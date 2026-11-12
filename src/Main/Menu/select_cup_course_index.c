@@ -1,0 +1,400 @@
+#include "Main/Menu/select_cup_course_index.h"
+#include "Main/System/heap.h"
+#include "Main/Scene/display_settings.h"
+#include "Main/Graphics/oam.h"
+
+#include "Main/Unknown/code_02119544.h"
+#include "Main/Unknown/code_020ae4c0.h"
+#include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Unknown/code_02119ac4.h"
+#include "Main/Unknown/code_0211f4b0.h"
+#include "Main/Unknown/code_02125f6c.h"
+#include "Main/Unknown/code_021277ac.h"
+#include "Main/Unknown/unk_0215c000.h"
+#include "Main/Unknown/unk_0217d000.h"
+#include "Main/Unknown/code_021196dc.h"
+#include "Main/Menu/select_race_rule.h"
+#include "Main/Unknown/code_021196f4.h"
+#include "00/code_02181f98.h"
+#include "Main/Unknown/code_02036000.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_0211de34.h"
+#include "Main/Menu/cup_mark.h"
+#include "Main/Unknown/code_0211df44.h"
+#include "Main/Race/ghost_record_set.h"
+#include "Main/Unknown/code_0211f000.h"
+#include "Main/Unknown/code_0211f380.h"
+#include "Main/Unknown/code_0211f498.h"
+#include "Main/Unknown/code_0212426c.h"
+#include "Main/Unknown/code_02125f88.h"
+#include "Main/Unknown/code_02127000.h"
+#include "Main/Menu/select_return.h"
+#include "code_02148950.h"
+#include "registers.h"
+#include "Main/Unknown/code_02119a90.h"
+#include "Main/Graphics/time_format.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Unknown/code_02125000.h"
+#include "Main/Menu/txt_system.h"
+#include "Main/Unknown/code_02119dfc.h"
+#include "Main/Unknown/code_021266e4.h"
+#include "Main/Unknown/unk_0217d068.h"
+#include "code_0212df7c.h"
+#include "Main/Race/race_setup.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Menu/menu_screen_switch.h"
+#include "Main/Unknown/code_0211d4a8.h"
+
+#pragma thumb on
+
+u32 IsSelectCupCourseIndexChangeRunning(void) {
+    if (gSelectCupCourse->mIndexChangeTimer != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+void AdvanceSelectCupCourseIndexChange(void) {
+    s32 taOrVsCellCount;
+    s16 offsetY;
+
+    if (IsSelectCupCourseIndexChangeRunning() != 0) {
+        if (gSelectCupCourse->mIndexChangeTimer == 7) {
+            gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
+            RefreshSelectCupCourseForIndex();
+        } else if (gBootInfo->mBootType != 2) {
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
+            offsetY = LookupIndexChangeOffset(7 - gSelectCupCourse->mIndexChangeTimer, 1);
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 1].mOffsetY = offsetY;
+        }
+        gSelectCupCourse->mIndexChangeTimer--;
+    } else if (gSelectCupCourse->mIndex != gSelectCupCourse->mShownIndex) {
+        gSelectCupCourse->mIndexChangeTimer = 7;
+    }
+}
+
+void RequestSelectCupCourseState0(void) {
+    s16 subOffsetY;
+    s32 taOrVsCellCount;
+    s32 cellIndex;
+    s32 selectCupMCellCount;
+
+    gSelectCupCourse->mNextState = 0;
+    gSelectCupCourse->mStateFrames = 0;
+    if (gBootInfo->mBootType != 2) {
+        if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
+            gSelectCupCourse->mBg0Offset = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[1].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[4].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[3].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[5].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 1].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 2].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 3].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 4].mOffsetY = -0xc0;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 5].mOffsetY = -0xc0;
+        }
+        if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
+            subOffsetY = -0x20;
+        } else {
+            subOffsetY = -0xe0;
+        }
+        selectCupMCellCount = gSelectCupCourse->mSelectCupMBncl->mCount;
+        gSelectCupCourse->mBg3Offset = subOffsetY;
+        gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = subOffsetY;
+        gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = subOffsetY;
+        gSelectCupCourse->mSelectCupMTable[2].mOffsetY = subOffsetY;
+        gSelectCupCourse->mSelectCupMTable[1].mOffsetY = subOffsetY;
+        gSelectCupCourse->mSelectCupMTable[0].mOffsetY = subOffsetY;
+        for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[cellIndex]].mOffsetY = subOffsetY;
+        }
+        for (cellIndex = 0; cellIndex < 4; cellIndex++) {
+            gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[cellIndex]].mOffsetY = subOffsetY;
+            gSelectCupCourse->mSelectCupMTable[selectCupMCellCount + gSelectCupCourseLabelIndices[cellIndex]].mOffsetY =
+                subOffsetY;
+        }
+    }
+}
+
+// Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
+// mState and runs AdvanceSelectCupCourseState1.
+void RequestSelectCupCourseState1(void) {
+    gSelectCupCourse->mNextState = 1;
+    gSelectCupCourse->mStateFrames = 0;
+}
+
+void RequestSelectCupCourseState2(void) {
+    gSelectCupCourse->mNextState = 2;
+    gSelectCupCourse->mStateFrames = 0;
+    RequestSelectReturnState1();
+}
+
+// Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
+// mState and runs AdvanceSelectCupCourseState3.
+void RequestSelectCupCourseState3(void) {
+    gSelectCupCourse->mNextState = 3;
+    gSelectCupCourse->mStateFrames = 0;
+}
+
+void RequestSelectCupCourseState4(void) {
+    gSelectCupCourse->mNextState = 4;
+    gSelectCupCourse->mStateFrames = 0;
+    if (gBootInfo->mBootType != 2) {
+        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    }
+}
+
+void RequestSelectCupCourseState5(void) {
+    u16 messageText[0x100];
+    SelectCupCourse *selectCupCourse;
+
+    gSelectCupCourse->mNextState = 5;
+    gSelectCupCourse->mStateFrames = 0;
+    selectCupCourse = gSelectCupCourse;
+    switch (selectCupCourse->mMode) {
+        case 0:
+        case 1:
+        case 3:
+            StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
+                               GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
+            break;
+        case 2:
+            StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
+                               GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
+            if (gBootInfo->mBootType == 2) {
+                FormatMessageWithText(
+                    GetBmgEntry(gSelectCupCourse->mGhostMessages,
+                                data_0215cb3c[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
+                    GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
+                SetTxtSystemOpenSoundId(0x23);
+                SetupTxtSystemMainText(messageText);
+            }
+            break;
+    }
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void RequestSelectCupCourseState6(void) {
+    gSelectCupCourse->mNextState = 6;
+    gSelectCupCourse->mStateFrames = 0;
+    SetSelectChoisesSoundId(0, 7);
+    SetSelectChoisesSoundId(1, 0x10);
+    SetSelectChoisesSoundId(0xffffffff, 0x10);
+}
+
+#pragma thumb off
+
+#pragma thumb on
+void RequestSelectCupCourseState7(void) {
+    gSelectCupCourse->mNextState = 7;
+    gSelectCupCourse->mStateFrames = 0;
+    switch (gSelectCupCourse->mMode) {
+        case 0:
+        case 1:
+        case 3:
+            RequestSelectChoisesState0();
+            break;
+        case 2:
+            RequestSelectChoisesState0();
+            if (gBootInfo->mBootType == 2) {
+                RequestTxtSystemClose();
+            }
+            break;
+    }
+}
+
+void RequestSelectCupCourseState8(void) {
+    gSelectCupCourse->mNextState = 8;
+    gSelectCupCourse->mStateFrames = 0;
+    if (gSelectCupCourse->mMode == 0) {
+        if (gSelectCupCourse->mResult == 1) {
+            if (HasNoSelectableGhost() != FALSE) {
+                RequestSelectReturnState4();
+            }
+        }
+    } else {
+        RequestSelectReturnState4();
+    }
+}
+
+void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode) {
+    void *heap;
+    s32 remainingSize;
+    s32 labelIndex;
+    u32 remainingSubSize;
+
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8300;
+    heap = CreateFrmHeapFromMaxFree(parentHeap);
+    gSelectCupCourse = HeapAlloc(heap, 0x70);
+    gSelectCupCourse->mHeap = heap;
+    gSelectCupCourse->mState = 0;
+    gSelectCupCourse->mIndex = data_0215cb7c[GetCourseId()];
+    gSelectCupCourse->mHighlightShown = TRUE;
+    gSelectCupCourse->mIndexChangeTimer = 0;
+    gSelectCupCourse->mMode = mode;
+    gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
+    gSelectCupCourse->mCupPicturePending = FALSE;
+    gSelectCupCourse->mMainOam = mainOam;
+    gSelectCupCourse->mSubOam = subOam;
+    gSelectCupCourse->mResult = 0;
+    LocateAndQueueSelectCupCourse();
+    gSelectCupCourse->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    if (gBootInfo->mBootType != 2) {
+        InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                        gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, &gSelectCupCourse->mSelectCupCourseTaOrVsMTable);
+        InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMBnll,
+                        &gSelectCupCourse->mSelectCupMTable);
+        remainingSize = 0x8000;
+        remainingSize -=
+            InitLabelCanvas(gSelectCupCourse->mHeap, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0xb4, 0xd, 0,
+                            gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                            gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
+        remainingSize -=
+            InitLabelCanvas(gSelectCupCourse->mHeap, 1, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0xb4, 0xd, 1,
+                            gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                            gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
+        remainingSize -=
+            InitLabelCanvas(gSelectCupCourse->mHeap, 2, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x96, 0xd, 2,
+                            gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                            gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
+        remainingSize -=
+            InitLabelCanvas(gSelectCupCourse->mHeap, 3, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x50, 0xd, 3,
+                            gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                            gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
+        remainingSize -=
+            InitLabelCanvas(gSelectCupCourse->mHeap, 4, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x96, 0xd, 4,
+                            gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                            gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
+        InitLabelCanvas(gSelectCupCourse->mHeap, 5, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x50, 0xd, 5,
+                        gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+                        gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
+        remainingSubSize = GX_GetSizeOfSubOBJ();
+        for (labelIndex = 0; labelIndex < 4; labelIndex++) {
+            remainingSubSize -= InitLabelCanvas(
+                gSelectCupCourse->mHeap, gSelectCupCourseLabelIndices[labelIndex], gSelectCupCourse->mSelectCupMBnll,
+                gSelectCupCourseLabelWidths[labelIndex], gSelectCupCourseLabelHeights[labelIndex],
+                gSelectCupCourseLabelCells[labelIndex], gSelectCupCourse->mSelectCupMNcer,
+                gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMTable, remainingSubSize);
+        }
+        CreateSelectCupNameM(gSelectCupCourse->mHeap);
+        CreateCommonCupMark(gSelectCupCourse->mHeap);
+    } else {
+        gSelectCupCourse->mGhostMessages = FindSceneFile("ghost.bmg");
+        InitSelectRaceRuleWait(gSelectCupCourse->mHeap, gSelectCupCourse->mSubOam);
+        PlaceSelectRaceRuleWait();
+    }
+    SetupSelectCupCourseObjects();
+    RefreshSelectCupCourseForIndex();
+    RequestSelectCupCourseState0();
+    FrmHeapShrinkInParent(gSelectCupCourse->mHeap);
+}
+
+void ReleaseSelectCupCourse(void) {
+    if (gSelectCupCourse->mResult == 1) {
+        if (gSelectCupCourse->mMode == 0) {
+            if (HasNoSelectableGhost() != FALSE) {
+                reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
+            }
+        } else {
+            reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
+        }
+    }
+    if (gBootInfo->mBootType != 2) {
+        ClearSelectCupNameMPointer();
+        ClearCupMarkPointer();
+    } else {
+        ClearSelectRaceRuleWaitPointer();
+    }
+    HeapDestroy(gSelectCupCourse->mHeap);
+    gSelectCupCourse = NULL;
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void AdvanceSelectCupCourseState0(void) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
+        RequestSelectCupCourseState1();
+    }
+}
+
+#pragma thumb off
+
+#pragma thumb on
+void AdvanceSelectCupCourseState1(void) {
+    s16 offsetY;
+    s32 taOrVsCellCount;
+    s32 cellIndex;
+
+    gSelectCupCourse->mStateFrames++;
+    if (gBootInfo->mBootType != 2) {
+        InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
+        offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
+        if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
+            gSelectCupCourse->mBg0Offset = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[1].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[4].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[3].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[5].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 1].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 2].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 3].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 4].mOffsetY = offsetY;
+            gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 5].mOffsetY = offsetY;
+        }
+        if (GetPreviousMenuScreenNumber() == SCREEN_SELECT_GHOST) {
+            taOrVsCellCount = gSelectCupCourse->mSelectCupMBncl->mCount;
+            gSelectCupCourse->mBg3Offset = offsetY - 0x20;
+            gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;
+            gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = offsetY - 0x20;
+            gSelectCupCourse->mSelectCupMTable[2].mOffsetY = offsetY - 0x20;
+            gSelectCupCourse->mSelectCupMTable[1].mOffsetY = offsetY - 0x20;
+            gSelectCupCourse->mSelectCupMTable[0].mOffsetY = offsetY - 0x20;
+            for (cellIndex = 0; cellIndex < 8; cellIndex++) {
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseRecordCells[cellIndex]].mOffsetY = offsetY - 0x20;
+            }
+            offsetY -= 0x20;
+            for (cellIndex = 0; cellIndex < 4; cellIndex++) {
+                gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[cellIndex]].mOffsetY = offsetY;
+                gSelectCupCourse->mSelectCupMTable[taOrVsCellCount + gSelectCupCourseLabelIndices[cellIndex]].mOffsetY =
+                    offsetY;
+            }
+        }
+    }
+    if (gSelectCupCourse->mStateFrames >= 10) {
+        RequestSelectCupCourseState2();
+    }
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void AdvanceSelectCupCourseState2(void) {
+    int returnRequested;
+    returnRequested = IsSelectReturnState2NoState3Or4Request();
+    if (returnRequested != 0) {
+        RequestSelectCupCourseState3();
+    }
+}
+
+#pragma thumb off

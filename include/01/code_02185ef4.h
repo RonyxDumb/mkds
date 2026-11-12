@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h"
+#include "Main/MapObjects/attractor.h"
 
 typedef struct ParticleEmitter ParticleEmitter;
 typedef struct Kart Kart;
@@ -23,17 +23,17 @@ typedef struct MissionGateObject {
 #include "01/code_0218155c.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_020b1dbc.h"
-#include "Main/Unknown/code_0207b960.h"
-#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Kart/point_link_cursor.h"
+#include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_020b47d8.h"
-#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Unknown/code_0207a880.h"
-#include "Main/Unknown/code_020b502c.h"
-#include "Main/Unknown/code_020d2450.h"
+#include "Main/Race/race_hud_sub_screen_projection.h"
+#include "Main/MapObjects/map_object_matrix.h"
 #include "Main/Unknown/code_0209b000.h"
 
 void InitMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject, const char *nsbmdName,
@@ -45,7 +45,7 @@ void StartEffectInSlot(MissionRunMapObject *mapObject, s32 effectIndex, s32 offs
                        u32 effectId, s32 timer);
 
 #include "01/code_02188950.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Kart/kart_drift.h"
 #include "01/code_02187000.h"
 
 void *CreateEmptyMapObjectUpdateList(void);

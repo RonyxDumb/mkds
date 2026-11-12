@@ -3,9 +3,9 @@
 
 #include "01/unk_021a6000.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/code_0209bef0.h"
-#include "Main/Unknown/code_020d275c.h"
+#include "Main/MapObjects/map_object_sound.h"
 
 u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject) {
     return GetAbsoluteCounter(mapObject);

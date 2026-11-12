@@ -1,20 +1,20 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02029440.h"
+#include "Main/Race/race_setup.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/code_02117224.h"
 #include "Main/Unknown/code_02124000.h"
 #include "Main/Unknown/code_02127000.h"
-#include "Main/Unknown/code_02047104.h"
-#include "Main/Unknown/code_020b3f7c.h"
-#include "Main/Unknown/code_0211de00.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Menu/cup_mark.h"
 #include "Main/Unknown/code_0211df44.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "Main/Unknown/code_0201ea58.h"
+#include "Main/Graphics/layout_rect_table.h"
 #include "code_0212df7c.h"
 
 // Object behind gSelectGhost.
@@ -53,7 +53,7 @@ typedef struct SelectGhost {
 } SelectGhost;
 
 #include "01/code_0219c000.h"
-#include "Main/Unknown/code_0212775c.h"
+#include "Main/Menu/select_return.h"
 #include "01/code_021956dc.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_0211d000.h"

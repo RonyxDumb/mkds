@@ -1,5 +1,5 @@
 #include "code_02152a24.h"
-#include "Main/Unknown/code_02152a6c.h"
+#include "Main/Net/friend_data_flags_get.h"
 
 #pragma thumb on
 

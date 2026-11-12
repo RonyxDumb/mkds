@@ -5,12 +5,12 @@
 #include "00/code_02180608.h"
 #include "Main/Unknown/code_02077000.h"
 #include "Main/Unknown/unk_02175000.h"
-#include "Main/Unknown/code_020487fc.h"
-#include "Main/Unknown/code_020ae5e4.h"
-#include "Main/Unknown/code_020ae630.h"
-#include "Main/Unknown/code_020364e0.h"
-#include "Main/Unknown/code_02036820.h"
-#include "Main/Unknown/code_02077bc0.h"
+#include "Main/Scene/run_scene_connection.h"
+#include "Main/Graphics/oam_upload.h"
+#include "Main/Graphics/oam_lists.h"
+#include "Main/System/heap_call.h"
+#include "Main/System/heap.h"
+#include "Main/Kart/karts.h"
 
 void InitWiFiMenuScene(s16 *sceneNumbers) {
     void *heap;

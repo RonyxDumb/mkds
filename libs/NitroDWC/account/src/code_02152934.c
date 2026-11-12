@@ -2,8 +2,8 @@
 #include "code_02152a24.h"
 #include "code_020205b0.h"
 #include "Main/Unknown/code_02152000.h"
-#include "Main/Unknown/code_02152a04.h"
-#include "Main/Unknown/code_02152a6c.h"
+#include "Main/Net/friend_data_flags_set.h"
+#include "Main/Net/friend_data_flags_get.h"
 
 #pragma thumb on
 

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // Kart
-#include "Main/Unknown/code_0209d694.h" // SunFireball
+#include "Main/Kart/kart_drift.h" // Kart
+#include "Main/MapObjects/sun_fireball.h" // SunFireball
 
 typedef struct ItemObject ItemObject;
 

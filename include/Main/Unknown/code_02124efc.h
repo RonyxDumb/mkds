@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02124094.h" // LayoutTableEntry
+#include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 
 void InitLayoutTableEntries(LayoutTableEntry *entry, s32 count);

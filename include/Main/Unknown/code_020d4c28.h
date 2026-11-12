@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_020e6b58.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h"
+#include "Main/MapObjects/attractor.h"
 
 void UpdateViewFrustum(MtxFx43 *viewMatrix);
 u32 ComputeDistanceViewTest(Vec3 *position, s32 unusedArg1, s32 unusedArg2, s32 distanceLimitSquared);

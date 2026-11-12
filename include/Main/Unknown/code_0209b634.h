@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_0209bc74.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/MapObjects/attractor.h" // MapObject
 
 typedef struct MapObjectList MapObjectList;
 

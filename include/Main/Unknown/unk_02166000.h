@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_02165000.h" // BattleKartAiParams
-#include "Main/Unknown/code_020846c0.h" // ResFileEntry
+#include "Main/Graphics/nsbmd_render_obj.h" // ResFileEntry
 #include "Main/Unknown/code_0210b000.h" // SoundStartParams
 
 struct ModelEffect;

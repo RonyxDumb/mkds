@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // Kart
+#include "Main/Kart/kart_drift.h" // Kart
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
 
 // 0x48-byte entries from 0xb0 of Sanbo; StartSanboLaunch writes the first mUnk_1d0 of them.
@@ -46,5 +46,5 @@ typedef struct Sanbo {
     /* 1fc */ s32 mState;
 } Sanbo;
 
-#include "Main/Unknown/code_020a71c8.h"
+#include "Main/MapObjects/sanbo.h"
 #include "Main/Unknown/code_020a7eb4.h"

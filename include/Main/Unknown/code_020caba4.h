@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020ade08.h"
+#include "Main/Graphics/oam.h"
 
 s32 MoveEmblemChoisesIndex(s32 step);
 s32 MoveEmblemChoisesIndexByTouch(void);

@@ -1,7 +1,7 @@
 #include "01/code_021854a4.h"
 #include "01/code_021854d8.h"
 #include "Main/Unknown/code_020ccc9c.h"
-#include "Main/Unknown/code_021173e4.h"
+#include "Main/Menu/select_cup_grid.h"
 #include "gx.h"
 #include "code_02148950.h"
 

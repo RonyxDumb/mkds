@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020a2e4c.h" // Balloon
+#include "Main/MapObjects/balloon.h" // Balloon
 
 void FollowBalloonTarget(Balloon *balloon);

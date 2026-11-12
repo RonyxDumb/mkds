@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObjectSound
+#include "Main/MapObjects/attractor.h" // MapObjectSound
 #include "code_0212bcac.h"
 
 void InitVolumeFade(void);

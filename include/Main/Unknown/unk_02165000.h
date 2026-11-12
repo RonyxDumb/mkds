@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020467d0.h" // StateCallbacks
+#include "Main/Menu/second_menu_scene.h" // StateCallbacks
 #include "Main/Unknown/unk_02175000.h" // SceneCallbacks
-#include "Main/Unknown/code_02086058.h"
+#include "Main/Kart/kart_name_tags.h"
 
 extern const char gArchiveColonFormat[];
 extern const char gCharacterNsbcaFormat[];

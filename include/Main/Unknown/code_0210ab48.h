@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Kart/kart_drift.h"
 
 // Object behind gKartSoundQueue: eight objects, a value for each of them, eight words, then four words.
 typedef struct KartSoundQueue {

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_02174000.h"
-#include "Main/Unknown/code_020d22c0.h"
+#include "Main/MapObjects/map_object_park.h"
 
 // Object behind gWiFiVSCourseSelect, 0x158 bytes (InitWiFiVSCourseSelect allocates it).
 typedef struct WiFiVSCourseSelect {

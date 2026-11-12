@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020a7000.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObjectList
+#include "Main/MapObjects/attractor.h" // MapObjectList
 
 void UpdateSanbo(void *mapObjectList, Sanbo *sanbo); /* skipped for objects with mFlags & 4 (parked pool objects) */
 s32 SanboFX_MulInline(s32 value, s32 scale);

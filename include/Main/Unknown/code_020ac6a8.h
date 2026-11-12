@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020ac524.h" // ShineBalloonObject
+#include "Main/MapObjects/shine_balloon.h" // ShineBalloonObject
 
 /* skipped for objects with mFlags & 4 (parked pool objects) */
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);

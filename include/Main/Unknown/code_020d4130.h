@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Kart/kart_drift.h"
 #include "Main/Unknown/code_020e6b58.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h"
+#include "Main/MapObjects/attractor.h"
 #include "Main/Unknown/unk_0217a000.h" // Camera
 
 void UpdateMapObjectViewTests(void);

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020846c0.h" // Nsbmd
-#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
+#include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
+#include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "Main/Unknown/unk_02155000.h" // StemSetParams
 
 // 0x14 bytes: a table of 0x6c-byte objects at 0x00, three tables of 0x38-byte objects at 0x04, 0x08 and 0x0c, and the

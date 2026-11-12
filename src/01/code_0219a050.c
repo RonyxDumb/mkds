@@ -1,7 +1,7 @@
 #include "01/code_0219a050.h"
 
 #include "01/unk_021a6000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/heap.h"
 #include "Main/Unknown/code_02111428.h"
 #include "Main/Unknown/code_02111494.h"
 #include "Main/Unknown/code_02114158.h"
@@ -10,7 +10,7 @@
 #include "01/code_021956dc.h"
 #include "Main/Unknown/code_02128210.h"
 #include "01/code_0219c000.h"
-#include "Main/Unknown/code_0201ea58.h"
+#include "Main/Graphics/layout_rect_table.h"
 #include "Main/Unknown/code_020ae408.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_02111450.h"
@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_02124000.h"
 #include "01/code_0219a000.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_020b3f7c.h"
+#include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_0212426c.h"
@@ -32,7 +32,7 @@
 #include "01/code_0219b540.h"
 #include "Main/Unknown/code_02087000.h"
 #include "Main/Unknown/code_0212b000.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/System/result_archive_path.h"
 #include "registers.h"
 
 RecordTopMenu *gRecordTopMenu;

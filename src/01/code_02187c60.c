@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_020da000.h"
 #include "Main/Unknown/code_020f4000.h"
 #include "Main/Unknown/code_020fd000.h"
-#include "Main/Unknown/code_020fd264.h"
+#include "Main/Item/item_bomb.h"
 #include "Main/Unknown/code_02147000.h"
 
 void SetNodePositionSourceAndBombOffset(MissionRunMapObject *mapObject, s32 matchValue, const Vec3 *offset) {

@@ -10,7 +10,7 @@
 #include "code_020205b0.h"
 #include "code_02000b44.h"
 #include "Main/Unknown/code_02152000.h"
-#include "Main/Unknown/code_02152ab0.h"
+#include "Main/Net/friend_data_gs_profile_id.h"
 
 #pragma thumb on
 

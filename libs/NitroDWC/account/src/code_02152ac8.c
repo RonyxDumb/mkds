@@ -2,7 +2,7 @@
 #include "code_021519d4.h"
 #include "code_02152490.h"
 #include "code_02000b44.h"
-#include "Main/Unknown/code_02151f88.h"
+#include "Main/Save/nvram_new_wifi_info.h"
 #include "Main/Unknown/code_02152000.h"
 
 #pragma thumb on

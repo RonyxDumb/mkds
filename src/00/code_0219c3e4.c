@@ -24,7 +24,7 @@
 #include "code_021526bc.h"
 #include "code_021526e4.h"
 #include "code_02152a7c.h"
-#include "Main/Unknown/code_021526c8.h"
+#include "Main/Net/friend_data_login_id.h"
 #include "00/code_0218f000.h"
 #include "00/code_0219b000.h"
 #include "00/code_0219d000.h"

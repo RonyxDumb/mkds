@@ -3,14 +3,14 @@
 
 #include "00/code_02180608.h"
 #include "00/unk_021b4000.h"
-#include "Main/Unknown/code_02025f80.h"
-#include "Main/Unknown/code_02036820.h"
-#include "Main/Unknown/code_02122ae4.h"
+#include "Main/Menu/select_character.h"
+#include "Main/System/heap.h"
+#include "Main/Net/wifi_connection_lost.h"
 #include "00/code_021832d8.h"
-#include "Main/Unknown/code_02029440.h"
+#include "Main/Race/race_setup.h"
 #include "Main/Unknown/code_02121e84.h"
-#include "Main/Unknown/code_02122734.h"
-#include "Main/Unknown/code_0212a910.h"
+#include "Main/Net/packed_index.h"
+#include "Main/Menu/message_screen.h"
 
 void InitWiFiSelectCharacterState(void *heap) {
     void *firstOamList;

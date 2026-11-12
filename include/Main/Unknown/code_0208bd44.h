@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020888b4.h"
+#include "Main/Kart/kart_ai_battle.h"
 
 void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex);
 void AdvanceKartAiForAwardMissionRun(KartAi *kartAi);

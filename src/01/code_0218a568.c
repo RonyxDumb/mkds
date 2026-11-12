@@ -13,13 +13,13 @@
 #include "01/code_0218b000.h"
 #include "01/code_0218b034.h"
 #include "01/code_0218b278.h"
-#include "Main/Unknown/code_020d22c0.h"
-#include "Main/Unknown/code_020d275c.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "Main/MapObjects/map_object_sound.h"
 #include "Main/Unknown/code_02042044.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Kart/kart_drift.h"
 #include "Main/Unknown/code_020fd83c.h"
 #include "Main/Unknown/code_020fd000.h"
-#include "Main/Unknown/code_020fd264.h"
+#include "Main/Item/item_bomb.h"
 
 void StartBombKingJumpWaitState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);

@@ -3,7 +3,7 @@
 #include "code_0200c914.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "ITCM/code_01fff000.h"
-#include "ITCM/code_01fff95c.h"
+#include "ITCM/dma_transfer.h"
 #include "registers.h"
 
 MIiGXDmaParams MIi_GXDmaParams;

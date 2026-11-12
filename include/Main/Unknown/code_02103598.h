@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_021031f4.h"
+#include "Main/Item/bouncing_item_box.h"
 
 OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void);

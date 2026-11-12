@@ -1,0 +1,9 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Kart/kart_drift.h" // Kart
+
+extern const Vec3 data_02154a3c;
+extern const Vec3 data_0216549c[];
+
+void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord);

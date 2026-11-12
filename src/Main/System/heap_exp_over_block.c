@@ -1,0 +1,6 @@
+#include "Main/System/heap_exp_over_block.h"
+#include "code_020176c0.h"
+
+void *CreateExpHeapOverBlock(void *start, u32 size) {
+    return NNS_FndCreateExpHeapEx(start, size, 1);
+}

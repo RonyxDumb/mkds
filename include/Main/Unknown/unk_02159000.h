@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e5684.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObjectList, MapObjectKindData
+#include "Main/MapObjects/ob_pakkun_sf.h"
+#include "Main/MapObjects/attractor.h" // MapObjectList, MapObjectKindData
 
 // Objects whose layout isn't known yet.
 extern u16 data_021594d8;

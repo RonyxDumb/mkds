@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Unknown/code_020e005c.h"
 
 // Object updated by UpdateCoin, one state per value of mUnk_0f8.
@@ -30,9 +30,9 @@ typedef struct Coin {
 #include "01/unk_021a6000.h"
 #include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Kart/kart_drift.h"
 #include "Main/Unknown/code_0208b000.h"
-#include "Main/Unknown/code_0208b484.h"
+#include "Main/Graphics/effects.h"
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020ea000.h"
 #include "Main/Unknown/code_020f36d8.h"
@@ -44,20 +44,20 @@ typedef struct Coin {
 #include "Main/Unknown/code_020e6000.h"
 #include "Main/Unknown/code_02084000.h"
 #include "Main/Unknown/code_02100000.h"
-#include "Main/Unknown/code_02108e6c.h"
-#include "Main/Unknown/code_020d22c0.h"
+#include "Main/Sound/sound_handle_pool.h"
+#include "Main/MapObjects/map_object_park.h"
 #include "code_0212bcac.h"
 #include "code_0212df7c.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020b1dbc.h"
-#include "Main/Unknown/code_0207b960.h"
-#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Kart/point_link_cursor.h"
+#include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_0215d000.h"
-#include "Main/Unknown/code_020b47d8.h"
-#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Unknown/code_0207a880.h"
-#include "Main/Unknown/code_020b502c.h"
+#include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Unknown/code_020d4000.h"
 
 void *CreateCoinUpdateList(void);
@@ -84,4 +84,4 @@ void StartCoinRiseOverKart(Coin *coin, Kart *kart);
 
 #include "01/code_0219b540.h"
 #include "Main/Unknown/code_02081000.h"
-#include "Main/Unknown/code_02081618.h"
+#include "Main/Kart/kart_effects.h"

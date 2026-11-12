@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020467d0.h" // StateCallbacks
+#include "Main/Menu/second_menu_scene.h" // StateCallbacks
 
 // Objects whose layout isn't known yet.
 extern const char gChoropuNsbmdName[];

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02025ebc.h"
-#include "Main/Unknown/code_0202f688.h"
-#include "Main/Unknown/code_02124094.h"
-#include "Main/Unknown/code_020b3f7c.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/System/interpolation_value.h"
+#include "Main/Menu/multi_select_member_group.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Graphics/font_and_player_character.h"
 
 // 0xc-byte elements from 0xe0 of MultiSelectMember.
 typedef struct MultiSelectMemberRow {

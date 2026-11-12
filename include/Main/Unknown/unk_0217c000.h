@@ -5,8 +5,8 @@
 #include "code_0212d214.h"
 #include "code_021479b4.h" // MtxFx44
 #include "Main/Unknown/code_021035ac.h"
-#include "Main/Unknown/code_0210bafc.h"
-#include "Main/Unknown/code_0210bcf4.h"
+#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/sound_source_list.h"
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 typedef struct NNSSndHeap NNSSndHeap;

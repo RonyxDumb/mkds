@@ -1,12 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Kart/kart_drift.h"
+#include "Main/Item/item_in_use.h"
 #include "Main/Unknown/code_020f36d8.h"
 
 
 #include "Main/Unknown/code_020f9c40.h"
-#include "Main/Unknown/code_020f9c6c.h"
-#include "Main/Unknown/code_020f8e78.h"
+#include "Main/Item/item_koura_w.h"
+#include "Main/Item/item_object.h"
 #include "Main/Unknown/code_020f9334.h"

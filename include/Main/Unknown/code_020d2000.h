@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "Main/Unknown/code_021052fc.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/item_in_use.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h"
+#include "Main/MapObjects/attractor.h"
 #include "Main/Unknown/code_020f36d8.h"
 
 // 0x2bc bytes.
@@ -33,11 +33,11 @@ typedef struct MapObjects {
     /* 2b8 */ s32 mRunUpdateLists;
 } MapObjects;
 
-#include "Main/Unknown/code_020d2090.h"
-#include "Main/Unknown/code_020d275c.h"
-#include "Main/Unknown/code_020d26e0.h"
-#include "Main/Unknown/code_020d22c0.h"
-#include "Main/Unknown/code_020d26f8.h"
-#include "Main/Unknown/code_020d278c.h"
+#include "Main/MapObjects/does_map_object.h"
+#include "Main/MapObjects/map_object_sound.h"
+#include "Main/MapObjects/while_requested_full_volume_wrapper.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "Main/MapObjects/sound_if_kart_star_or.h"
+#include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/Unknown/code_020d2c2c.h"
-#include "Main/Unknown/code_020d24d8.h"
+#include "Main/MapObjects/map_object.h"

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02057d10.h"
+#include "Main/System/thread_function_queue.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02047104.h"
-#include "Main/Unknown/code_020adb04.h"
-#include "Main/Unknown/code_020ade08.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Graphics/font_glyph_text.h"
+#include "Main/Graphics/oam.h"
 #include "Main/Unknown/code_020ae4c0.h"
-#include "Main/Unknown/code_020b3f7c.h"
+#include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_02128210.h"
 #include "Main/Unknown/unk_0217d068.h"
@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_0212426c.h"
 #include "00/code_02181f98.h"
 #include "code_0212df7c.h"
-#include "Main/Unknown/code_02060004.h"
+#include "Main/Save/buddy_record.h"
 
 typedef struct RecordTAtt {
     /* 00 */ Ncgr *mRecordTAttMNcgr;
@@ -98,7 +98,7 @@ typedef struct BackupAccess {
 extern u16 gRecordTAttCharacterKartCellIndices[][2];
 
 #include "Main/Unknown/code_021172a8.h"
-#include "Main/Unknown/code_0211130c.h"
+#include "Main/Menu/record_scene.h"
 
 #include "code_021458c4.h"
 

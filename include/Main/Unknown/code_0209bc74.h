@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e5d0c.h" // NsbmdModel
-#include "Main/Unknown/code_020ea670.h" // Nsbmd
-#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
-#include "Main/Unknown/code_0207adf8.h" // ShadowModel
+#include "Main/MapObjects/pendulum.h" // NsbmdModel
+#include "Main/MapObjects/woodbox.h" // Nsbmd
+#include "Main/Graphics/model_animation.h" // ModelAnimation
+#include "Main/Kart/shadow_model.h" // ShadowModel
 
 // The model bundle of one map object kind: one per kind (the global g<Stem> that Create<Stem> stores), shared by every
 // object of the kind; 0x2c bytes, the allocation size. A creator builds exactly one of mNsbmdModel / mAnimatedModel /

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/code_020c06c4.h"
 
 // Object behind gRaceStartGp, 0x41c bytes, allocated by InitRaceStartGp.

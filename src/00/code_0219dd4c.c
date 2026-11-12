@@ -52,7 +52,7 @@
 #include "00/code_0218e8d4.h"
 #include "00/code_0218a000.h"
 #include "00/code_0218c000.h"
-#include "Main/Unknown/code_02152698.h"
+#include "Main/Net/friend_data_type_wrapper.h"
 #include "code_0213a460.h"
 #include "code_02152500.h"
 #include "00/code_0219dabc.h"

@@ -3,15 +3,15 @@
 #include "01/code_0218155c.h"
 #include "01/code_02188e88.h"
 #include "Main/Unknown/code_020a100c.h"
-#include "Main/Unknown/code_020a2f30.h"
+#include "Main/MapObjects/balloon_draw.h"
 #include "Main/Unknown/code_02100000.h"
 #include "Main/Unknown/code_020a1000.h"
-#include "Main/Unknown/code_021000d0.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "01/code_0218c000.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020a3000.h"
-#include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Item/item_koura_w.h"
 
 void ResetMissionRunMapObjects(void) {
     u16 i;

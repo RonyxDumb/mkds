@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020f6be8.h"
-#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Kart/kart_drift.h"
 
 typedef struct MapObject MapObject;
 typedef struct CourseColorBlend CourseColorBlend;

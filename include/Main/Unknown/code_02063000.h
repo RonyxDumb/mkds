@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02062ed8.h"
-#include "Main/Unknown/code_0206390c.h"
-#include "Main/Unknown/code_0206bcb0.h" // Kart
+#include "Main/Kart/course_models.h"
+#include "Main/Kart/kart_call.h"
+#include "Main/Kart/kart_drift.h" // Kart

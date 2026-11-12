@@ -96,7 +96,7 @@ extern const u16 gRecordGpxCharacterKartCellIndices[4][2];
 #include "Main/Unknown/code_0212426c.h"
 #include "code_0214cfe4.h"
 #include "Main/Unknown/code_0211d000.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/System/result_archive_path.h"
 
 extern const u16 gRecordGpxTimeLabelIndices[4];
 extern const u16 gRecordGpxTotalPointsLabelIndices[4];

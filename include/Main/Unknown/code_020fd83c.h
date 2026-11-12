@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020467d0.h" // StateMachine
-#include "Main/Unknown/code_020f2dac.h" // BouncingItemObject
-#include "Main/Unknown/code_020e5d0c.h"
+#include "Main/Menu/second_menu_scene.h" // StateMachine
+#include "Main/Item/held_item.h" // BouncingItemObject
+#include "Main/MapObjects/pendulum.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_021052fc.h"
 

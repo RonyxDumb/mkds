@@ -5,7 +5,7 @@
 #include "Main/Unknown/unk_02170000.h"
 #include "Main/Unknown/unk_02173000.h"
 #include "Main/Unknown/unk_0216f000.h"
-#include "Main/Unknown/code_020846c0.h" // NNSG3dRenderObj
+#include "Main/Graphics/nsbmd_render_obj.h" // NNSG3dRenderObj
 #include "code_0200c914.h"
 #include "code_02010c84.h"
 #include "code_0214c778.h"

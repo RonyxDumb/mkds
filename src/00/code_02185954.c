@@ -12,7 +12,7 @@
 #include "00/code_02181f98.h"
 #include "code_0200e77c.h"
 #include "00/code_021857b8.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/heap.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "00/code_021ad734.h"
 #include "03/code_021b94b8.h"
@@ -28,7 +28,7 @@
 #include "code_0214d018.h"
 #include "code_0214d93c.h"
 #include "code_0200edc0.h"
-#include "Main/Unknown/code_02151f88.h"
+#include "Main/Save/nvram_new_wifi_info.h"
 
 u32 DWCi_Http_CPSCallback(u32 flags) {
     if (flags & 0x8000) {

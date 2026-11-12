@@ -2,15 +2,15 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_02029930.h" // MissionFileRow
-#include "Main/Unknown/code_02025ebc.h" // Interpolation
+#include "Main/System/interpolation_value.h" // Interpolation
 #include "Main/Unknown/code_02036588.h" // HeapCall
 #include "Main/Unknown/unk_02153000.h" // SelectCharacterRow
-#include "Main/Unknown/code_020b4000.h" // Ncgr, Nscr, Nclr
-#include "Main/Unknown/code_02124094.h" // LayoutTableEntry, LayoutEntryTable
-#include "Main/Unknown/code_020b3f7c.h" // Bmg
-#include "Main/Unknown/code_0202f688.h"
+#include "Main/Graphics/font_and_player_character.h" // Ncgr, Nscr, Nclr
+#include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry, LayoutEntryTable
+#include "Main/Graphics/locate_bmg_sections.h" // Bmg
+#include "Main/Menu/multi_select_member_group.h"
 #include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
-#include "Main/Unknown/code_0205ee14.h" // KartAppear
+#include "Main/Save/buddy_record_time.h" // KartAppear
 #include "code_02022a90.h" // NNSG2dCellTransferState
 
 typedef struct GhostRecord GhostRecord;

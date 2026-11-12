@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02146d78.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObject, MapObjectList
+#include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 
 typedef struct ItemObject ItemObject;
 
@@ -45,7 +45,7 @@ typedef struct CoverPooHole {
     /* 108 */ u8 mKartHitMask;
 } CoverPooHole;
 
-#include "Main/Unknown/code_0206bcb0.h" // Kart
+#include "Main/Kart/kart_drift.h" // Kart
 
 BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole);
 void *CreateCoverPooHoleUpdateList(void);

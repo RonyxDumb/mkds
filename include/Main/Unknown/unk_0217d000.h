@@ -6,8 +6,8 @@
 #include "code_0212c7a0.h" // NNSSndPlayer
 #include "stream.h" // NNSSndStrmChannel
 #include "code_0212c9d4.h" // CaptureParam, EffectInfo
-#include "Main/Unknown/code_0201ea58.h" // LayoutEntryTable
-#include "Main/Unknown/code_02124094.h" // LayoutTableEntry
+#include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
+#include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/code_020c06c4.h" // RaceHudOamBuffer
 #include "code_0212d214.h"

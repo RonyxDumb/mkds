@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02124094.h" // LayoutTableEntry, LayoutEntryTable
+#include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry, LayoutEntryTable
 
 struct Unk02021dc8;
 struct Ncgr;
@@ -31,7 +31,7 @@ typedef struct WiFiAikotobaCheck {
 
 #include "00/code_02180608.h"
 #include "00/code_02181f98.h"
-#include "Main/Unknown/code_02047104.h"
+#include "Main/System/result_archive_path.h"
 
 extern WiFiStateCallbacks gWiFiAikotobaCheckCallbacks;
 extern char data_ov000_021b0fc0[];

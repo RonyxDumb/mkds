@@ -1,0 +1,136 @@
+#include "Main/Menu/multi_select_ns.h"
+#include "Main/Menu/multi_select_ns_registers.h"
+#include "Main/Menu/multi_select_member_group.h"
+#include "Main/Menu/multi_select_ns_layout_count.h"
+#include "Main/Unknown/code_02036000.h"
+#include "Main/System/heap.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Race/followed_kart_or.h"
+#include "Main/Net/led_pattern.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Unknown/code_02124bf0.h"
+#include "Main/Unknown/code_02128274.h"
+#include "Main/Menu/select_return.h"
+#include "code_02148950.h"
+#include "Main/Unknown/code_0214d000.h"
+#include "Main/Unknown/unk_02153000.h"
+#include "Main/Unknown/unk_02163000.h"
+#include "Main/Unknown/unk_02174000.h"
+#include "code_02016468.h"
+#include "code_0214d018.h"
+
+#pragma optimize_for_size on
+
+#pragma thumb on
+
+void SetMultiSelectNSCellTableOffsetY(void) {
+    MultiSelectNS *multiSelectNS;
+    s32 cellIndex;
+    s32 entryCount;
+
+    multiSelectNS = gMultiSelectNS;
+    entryCount =
+        MultiSelectNSGetCellLayoutCount(multiSelectNS->mBncl) + MultiSelectNSGetLabelLayoutCount(multiSelectNS->mBnll);
+    for (cellIndex = 0; cellIndex < entryCount; cellIndex++) {
+        multiSelectNS->mCellTable[cellIndex].mOffsetY = gMultiSelectNS->mOffset;
+    }
+}
+
+void RefreshMultiSelectNS(s32 showSelected) {
+    u32 valueTable[2];
+    s32 rowIndex;
+    MultiSelectNS *multiSelectNS;
+    s32 rowSelected;
+    s32 rowNotSelected;
+    BOOL rowSelectedDefault;
+    BOOL rowNotSelectedDefault;
+    u16 *rowCellIndices;
+    u32 firstValue;
+    u32 secondValue;
+
+    multiSelectNS = gMultiSelectNS;
+    firstValue = *(volatile u32 *) &gMultiSelectNSLabelValues[0];
+    secondValue = *(volatile u32 *) &gMultiSelectNSLabelValues[1];
+    valueTable[0] = firstValue;
+    valueTable[1] = secondValue;
+    rowSelectedDefault = FALSE;
+    rowNotSelectedDefault = FALSE;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        if (gMultiSelectNS->mIndex == rowIndex && showSelected != 0) {
+            rowSelected = 1;
+        } else {
+            rowSelected = rowSelectedDefault;
+        }
+        rowCellIndices = gMultiSelectNSRowCellIndices[rowIndex];
+        multiSelectNS->mCellTable[rowCellIndices[0]].mVisible = rowSelected;
+        if (rowSelected == 0) {
+            rowNotSelected = 1;
+        } else {
+            rowNotSelected = rowNotSelectedDefault;
+        }
+        multiSelectNS->mCellTable[rowCellIndices[1]].mVisible = rowNotSelected;
+        SetLabelPaletteIndex(rowCellIndices[2], valueTable[rowSelected], multiSelectNS->mBnll,
+                             multiSelectNS->mCellTable, multiSelectNS->mBncl);
+    }
+}
+
+#pragma thumb off
+
+void MultiSelectNSMI_CpuFillFast(void *destination, u32 value, u32 size) {
+    volatile u32 valueCopy = value;
+    MIi_CpuClearFast(valueCopy, destination, size);
+}
+
+void MultiSelectNSMI_CpuClearFast(void *destination, u32 size) {
+    MultiSelectNSMI_CpuFillFast(destination, 0, size);
+}
+
+#pragma thumb on
+
+void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
+    void *heap;
+    MultiSelectNS *multiSelectNS;
+    MultiSelectNSLabelMessageRow *labelMessageRow;
+    s32 labelRowIndex;
+    u32 subObjSizeLeft;
+    s32 labelIndex;
+
+    heap = CreateFrmHeapFromMaxFree(parentHeap);
+    gMultiSelectNS = HeapAlloc(heap, 0x40);
+    MultiSelectNSMI_CpuClearFast(gMultiSelectNS, 0x40);
+    gMultiSelectNS->mHeap = heap;
+    gMultiSelectNS->mUnk_1c = scene;
+    gMultiSelectNS->mOamList = oamList;
+    gMultiSelectNS->mBannerMessages = FindSceneFile(data_0216362c);
+    gMultiSelectNS->mOffset = -0xc0;
+    subObjSizeLeft = GX_GetSizeOfSubOBJ();
+    multiSelectNS = gMultiSelectNS;
+    LocateNcgr2(&multiSelectNS->mNcgr, FindSceneFile(data_02163638));
+    LocateNcer(&multiSelectNS->mNcer, FindSceneFile(data_02163654));
+    LocateNclr(&multiSelectNS->mNclr, FindSceneFile(data_02163670));
+    multiSelectNS->mBncl = FindSceneFile(gMultiSelectNSSBnclName);
+    multiSelectNS->mBnbl = FindSceneFile(gMultiSelectNSSBnblName);
+    multiSelectNS->mBnll = FindSceneFile(gMultiSelectNSSBnllName);
+    InitLayoutTable(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
+    for (labelRowIndex = 0; labelRowIndex < 2; labelRowIndex++) {
+        labelMessageRow = &gMultiSelectNSLabelMessageRows[labelRowIndex];
+        labelIndex = labelMessageRow->mLabelIndex;
+        subObjSizeLeft -=
+            InitLabelCanvas(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mWidth,
+                            labelMessageRow->mHeight, labelMessageRow->mEntryIndex, multiSelectNS->mNcer,
+                            multiSelectNS->mBncl, multiSelectNS->mCellTable, subObjSizeLeft);
+        PrintLabelLayoutTextNoFixedAdvance(1, labelIndex, multiSelectNS->mBnll,
+                                           GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mMessageIndex),
+                                           multiSelectNS->mBncl, multiSelectNS->mCellTable);
+    }
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, multiSelectNS->mNcgr->mData, multiSelectNS->mNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, multiSelectNS->mNclr->mData, multiSelectNS->mNclr->mDataSize);
+    RefreshMultiSelectNS(1);
+    SetSelectReturnSoundId(0xe);
+    SendLedPatternWireless();
+    FrmHeapShrinkInParent(gMultiSelectNS->mHeap);
+}
+
+#pragma thumb off

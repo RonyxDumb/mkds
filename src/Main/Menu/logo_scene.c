@@ -1,0 +1,148 @@
+#include "Main/Menu/logo_scene.h"
+#include "registers.h"
+#include "Main/Net/multiboot_parent_finish.h"
+#include "Main/Menu/logo_state.h"
+#include "Main/System/heap.h"
+#include "Main/Scene/display_settings.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/System/state_machine_init.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Save/backup_reset.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Kart/point_link_cursor.h"
+#include "Main/Race/race_hud_sub_screen_course_id.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/race_hud_sub_screen_min_max.h"
+#include "Main/Unknown/code_0207a880.h"
+#include "Main/Race/race_hud_sub_screen_projection.h"
+#include "Main/Unknown/code_02108e94.h"
+#include "Main/Graphics/scene_text.h"
+#include "Main/Graphics/back_screen.h"
+#include "Main/Graphics/scene_text_init.h"
+#include "Main/Unknown/code_02125de0.h"
+#include "Main/Unknown/unk_02154000.h"
+#include "code_0200eddc.h"
+#include "code_0214a390.h"
+#include "code_0214b824.h"
+
+void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
+                           const char *screenMapFileName) {
+    LoadNclrData(&files->mPalette, FindSceneFile(paletteFileName));
+    DC_StoreRange(files->mPalette->mData, files->mPalette->mDataSize);
+    if (mainScreen != 0) {
+        GX_LoadBGPltt(files->mPalette->mData, 0, files->mPalette->mDataSize);
+    } else {
+        GXS_LoadBGPltt(files->mPalette->mData, 0, files->mPalette->mDataSize);
+    }
+    LoadNcgrData2(&files->mChars, FindSceneFile(charsFileName));
+    DC_StoreRange(files->mChars->mData, files->mChars->mDataSize);
+    if (mainScreen != 0) {
+        GX_LoadBG1Char(files->mChars->mData, 0, files->mChars->mDataSize);
+    } else {
+        GXS_LoadBG1Char(files->mChars->mData, 0, files->mChars->mDataSize);
+    }
+    LoadNscrData(&files->mScreenMap, FindSceneFile(screenMapFileName));
+    DC_StoreRange(files->mScreenMap->mData, files->mScreenMap->mDataSize);
+    if (mainScreen != 0) {
+        GX_LoadBG1Scr(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
+    } else {
+        GXS_LoadBG1Scr(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
+    }
+}
+
+void InitLogoScene(void *heap) {
+    SceneTextInitParams arg;
+    DisplaySettings *displaySettings;
+    gLogoScene = HeapAlloc(heap, 60);
+    displaySettings = CreateDisplaySettings(heap, data_usa_021547c8);
+    SetBg1Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
+    SetBg1Record(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0, 2, 0);
+    InitDisplayFromSettings(displaySettings);
+    LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, data_usa_ov001_021a768c, data_usa_ov001_021a76a8,
+                          data_usa_ov001_021a76c4);
+    LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, data_usa_ov001_021a76dc, data_usa_ov001_021a76f4,
+                          data_usa_ov001_021a770c);
+    InitStateMachine(&gLogoScene->mStateMachine, gLogoStateTable, 12, NULL);
+    gLogoScene->mUnk_2c_0 = 0;
+    gLogoScene->mState0Frames = 0;
+    gLogoScene->mCommonMessages = FindFileInLoadedArchives(data_usa_ov001_021a7720);
+    arg.mUseTxtSystem = TRUE;
+    arg.mTxtSystemFont = GetFontByIndex(1);
+    arg.mUseCanvas1 = 0;
+    arg.mUseCanvas3 = 0;
+    arg.mUseSelectChoises = FALSE;
+    arg.mSelectChoisesFont = NULL;
+    arg.mUseSelectReturn = FALSE;
+    arg.mUseBackScreen = FALSE;
+    arg.mBackScreenKind = 0;
+    arg.mUseCanvas2 = 1;
+    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    InitSceneText(heap, &arg);
+}
+
+void ApplySavedSoundMode(void) {
+    s32 outputEffect;
+    s32 soundMode;
+    outputEffect = 0;
+    gLogoScene = NULL;
+    soundMode = gBackupBuffers->mFirstBlock->mSoundMode;
+    switch (soundMode) {
+        case SOUND_MODE_STEREO:
+            break;
+        case SOUND_MODE_HEADPHONES:
+            outputEffect = 2;
+            break;
+        case SOUND_MODE_SURROUND:
+        default:
+            outputEffect = 1;
+            break;
+    }
+    SetSoundOutputEffect(outputEffect);
+    ReleaseSceneText();
+}
+
+void WriteLogoSceneRegisters(void) {
+    s32 brightness;
+    s32 frames;
+    brightness = 0;
+    WriteSceneTextRegisters();
+    frames = gLogoScene->mState0Frames;
+    if (frames > 90) {
+        brightness = (-(frames - 90) * 16) / 30;
+    }
+    G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 2, brightness);
+    G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 2, brightness);
+}
+
+void UpdateLogoScene(SceneNumbers *sceneNumbers) {
+    AdvanceStateMachine(&gLogoScene->mStateMachine);
+    if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == 11) {
+        sceneNumbers->mNextScene = 0;
+    }
+    AdvanceSceneText();
+}
+
+void EnterLogoState0(void) {
+    StartReadBackupFirstBlockAndRecords();
+    gLogoScene->mUnk_2c_1 = 0;
+}
+
+void UpdateLogoState0(void) {
+    s32 slotIndex;
+    StateMachine *stateMachine;
+    gLogoScene->mState0Frames = gLogoScene->mState0Frames + 1;
+    if (gLogoScene->mState0Frames > 120) {
+        stateMachine = &gLogoScene->mStateMachine;
+        stateMachine->mNextState = 1;
+        stateMachine->mNextStateRequested = 1;
+    }
+    slotIndex = GetPadInputSlot();
+    if ((gInputSlots[slotIndex].mBits & 0xf03) != 0xf03) {
+        return;
+    }
+    gLogoScene->mUnk_2c_0 = 1;
+}

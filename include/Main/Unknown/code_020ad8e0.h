@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02036c5c.h" // DisplaySettings
+#include "Main/Scene/display_settings.h" // DisplaySettings
 
 void TitleGXS_SetOBJVRamModeChar(u32 bits);
 void TitleGX_SetOBJVRamModeChar(u32 bits);

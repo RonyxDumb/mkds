@@ -1,12 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02036c5c.h"
+#include "Main/Scene/display_settings.h"
 #include "code_020182c0.h" // NNSFndArchive
 #include "Main/Unknown/unk_02175628.h" // InputSlot
 #include "frameheap.h" // NNSiFndHeapHead
 #include "os_thread.h"
-#include "Main/Unknown/code_020d22c0.h" // RandomState64
+#include "Main/MapObjects/map_object_park.h" // RandomState64
 #include "pm.h" // PMSleepCallbackInfo
 #include "Main/Unknown/code_02105ec0.h" // SoundSetPlayer
 

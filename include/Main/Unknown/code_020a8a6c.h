@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // MapObjectList
+#include "Main/MapObjects/attractor.h" // MapObjectList
 
 void InitCourseSoundObjects(MapObjectList *mapObjectList);
