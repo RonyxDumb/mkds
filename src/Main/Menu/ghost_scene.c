@@ -42,6 +42,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/minute_second_millisecond_text.h"
 #include "registers.h"
+#include "Main/Race/race_setup_input.h"
 
 GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &gTimeAttackGhostGetScanCallbacks, &data_usa_02164460};
 GhostScene *gGhostScene;

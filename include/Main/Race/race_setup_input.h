@@ -68,3 +68,5 @@ extern const u16 gCharacterSndBankMasks[13];
 extern const u32 gCupIndicesEightCups[8];
 
 extern vu16 gInputSlot8PairWords[75];
+
+extern const u32 gCupCourseIdTable[8][4];

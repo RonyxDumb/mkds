@@ -2,6 +2,7 @@
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
+#include "Main/Race/race_setup_input.h"
 
 void SetNextGrandPrixCourse(void) {
     gRaceSetup->mNextHeader.mCourseNumber = gRaceSetup->mCourseNumber + 1;

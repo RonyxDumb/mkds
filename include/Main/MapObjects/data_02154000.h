@@ -15,8 +15,6 @@ extern u8 data_021547f0[];
 // (data_usa_021541a8).
 extern const u32 gSceneFuncs[16];
 
-extern u32 gCupCourseIdTable[][4];
-
 extern const s32 gKartScaleFactorXTable[25];
 
 extern const s32 gKartScaleFactorYTable[25];

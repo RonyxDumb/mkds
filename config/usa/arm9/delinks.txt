@@ -1071,7 +1071,7 @@ src/Main/Race/race_keys.c:
 src/Main/Race/race_setup_input.c:
     complete
     .text       start:0x020435c4 end:0x0204673c
-    .rodata     start:0x021540c0 end:0x02154128
+    .rodata     start:0x021540c0 end:0x021541a8
     .bss        start:0x02175908 end:0x021759a0
 
 // provisional: file name and boundaries
