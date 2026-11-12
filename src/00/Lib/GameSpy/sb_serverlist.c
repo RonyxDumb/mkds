@@ -46,7 +46,7 @@
 #include "00/code_021919ac.h"
 #include "code_021382a8.h"
 #include "00/Lib/GameSpy/code_0218d488.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 
 char *gSBOverrideMasterServer;
 

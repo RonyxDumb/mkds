@@ -31,7 +31,7 @@
 #include "00/Lib/GameSpy/code_02196590.h"
 #include "00/Lib/GameSpy/code_02196594.h"
 #include "00/unk_021b23b0.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 #include "code_0213a460.h"
 
 static char *aliases = NULL;

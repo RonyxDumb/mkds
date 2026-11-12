@@ -34,7 +34,7 @@
 #include "code_021384cc.h"
 #include "00/unk_021b4000.h"
 #include "00/Lib/GameSpy/code_02190cd4.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 #include "00/Lib/GameSpy/code_0218d488.h"
 
 char gSearchManagerName[0x40] = "gpsp.gs.nintendowifi.net";

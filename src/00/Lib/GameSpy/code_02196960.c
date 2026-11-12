@@ -16,7 +16,7 @@
 #include "code_0213a460.h"
 #include "00/Lib/GameSpy/code_021a3a18.h"
 #include "code_021382a8.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 
 s8 *GenerateAuthA(const char *challenge, const char *password, s8 *response) {
     u32 passwordLen;

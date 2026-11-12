@@ -28,10 +28,6 @@ typedef struct SOCLSocketParam {
     /* 14 */ SOCLSocketCommandPipeParam mSendPipe;
 } SOCLSocketParam;
 
-// Objects whose layout isn't known yet.
-extern u32 SOCLiResultCodeInConnecting;
-extern SOCLSocketParam SOCLSocketParamTCP;
-extern SOCLSocketParam SOCLSocketParamUDPSend;
 extern u32 gSslLowThreadPriority;
 extern NatnegMagic gNatnegMagicBytes;
 extern QueryRecord *gCurrentQr2Rec;
@@ -43,8 +39,6 @@ extern u8 gLabelAText[];
 extern u8 gLabelBBText[];
 extern u8 gLabelCCCText[];
 extern u8 gSha1PaddingBytes[];
-extern Http *gHttp;
-extern DWCNetcheck *gNetcheck;
 extern ACWORK *gAcWork;
 extern void *gWcmBuffer;
 extern void *gSocConfig;
@@ -106,6 +100,5 @@ typedef struct GsiAvailableCheck {
 
 extern u8 gInternalInit[];
 extern u8 NNMagicData[];
-
 
 #include "00/Lib/DWC/dwc_connectinet.h"

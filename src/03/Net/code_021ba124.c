@@ -25,7 +25,7 @@
 #include "00/code_021a8aa8.h"
 #include "00/unk_021b6000.h"
 #include "03/unk_021d7000.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 #include "03/code_021b7ba8.h"
 
 MaskCodeEntry gMaskCodeTable[12] = {{1, 2, 0}, {2, 4, 0}, {4, 0xb, 0}, {8, 0xc, 0}, {0x10, 0x12, 0}, {0x20, 0x16, 0}, {0x40, 0x18, 0}, {0x80, 0x24, 0}, {0x100, 0x30, 0}, {0x200, 0x48, 0}, {0x400, 0x60, 0}, {0x800, 0x6c, 0}};

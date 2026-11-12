@@ -17,7 +17,6 @@
 #include "00/Lib/DWC/ca_info_rsa_secure_server.h"
 
 extern CPSCaInfo *gCaInfoTable[11];
-extern u32 DWChttpignoreca;
 
 void ReleaseHttp(Http *a);
 void DWCi_Http_Thread(void *argument);

@@ -10,21 +10,12 @@ typedef struct SocketPollEntry {
     /* 06 */ u16 mRevents;
 } SocketPollEntry;
 
-extern void *(*AllocFunc_SOC)(u32 a, u32 b);
-
 typedef struct SOCSockAddrIn SOCSockAddrIn;
 
 #include "00/unk_021b5000.h"
 #include "00/unk_021b4000.h"
 
 extern SOCLSocketParam SOCLSocketParamUDP;
-extern const char gInetNtoPFormat[];
-extern u32 hostip;
-extern u32 *hostAddrList[2];
-extern SOCHostEnt hostent;
-extern char sInetNtoABuffer[16];
-extern SOCLConfig soclConfig;
-extern s8 entName[0x104];
 
 void SOCLi_SocketUnregisterTrash(SOCLSocket *socket);
 SOCLSocket **SOCLi_SocketGetNextPtr(SOCLSocket **head, SOCLSocket *node);

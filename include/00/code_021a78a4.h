@@ -31,8 +31,6 @@ typedef struct SOCLiCommandRead {
     /* 1c */ u32 *mRemoteIp;
 } SOCLiCommandRead;
 
-extern s32 SOCLi_CheckCount[2];
-
 s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket);
 s32 SOCLi_ReadUdpBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr, s32 isBlocking);
 s32 SOCLi_ConsumeCPSBuffer(SOCLSocket *socket);

@@ -54,8 +54,6 @@ extern char gHttpbodyPairName2[];
 extern char gParsePairValue[];
 extern char gHtmlPairName[];
 extern char gReturncdPairName2[];
-extern DWCHttpParam gHttpParam;
-extern AuthCreateParams gAuthParam;
 
 u32 DWC_Netcheck_GetReturnCode(void);
 void DWCi_Netcheck_SetError(u32 error);

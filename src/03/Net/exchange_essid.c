@@ -39,7 +39,7 @@
 #include "00/code_021a86bc.h"
 #include "code_0200f790.h"
 #include "00/unk_021b6000.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 #include "03/Net/call_status_callback.h"
 
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size);

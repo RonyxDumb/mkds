@@ -7,7 +7,7 @@
 #include "00/code_021a8aa8.h"
 #include "code_02139f70.h"
 #include "code_0213a460.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 
 u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
     SOCInAddr inAddress;

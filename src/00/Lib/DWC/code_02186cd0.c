@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/code_02186cd0.h"
 #include "00/Lib/DWC/code_02188008.h"
 #include "00/code_02186000.h"
 #include "00/unk_021b1000.h"
@@ -27,6 +28,11 @@
 #include "code_0200fc8c.h"
 #include "dwc_backup.h"
 #include "code_02134008.h"
+
+Http *gHttp;
+DWCNetcheck *gNetcheck;
+DWCHttpParam gHttpParam;
+AuthCreateParams gAuthParam;
 
 u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
     if (gNetcheck != NULL) {

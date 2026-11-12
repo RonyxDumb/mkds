@@ -15,7 +15,7 @@
 #include "00/unk_021b5000.h"
 #include "code_02139f70.h"
 #include "code_0213a460.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 #include "00/Lib/GameSpy/code_0218d488.h"
 
 u8 NNMagicData[6] = {0xfd, 0xfc, 0x1e, 0x66, 0x6a, 0xb2};

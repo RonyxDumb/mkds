@@ -30,7 +30,7 @@
 #include "code_02133048.h"
 #include "00/Lib/GameSpy/code_02193b88.h"
 #include "00/Lib/GameSpy/code_02190cd4.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 #include "00/Lib/GameSpy/code_0218d488.h"
 
 char gConnectionManagerName[0x40] = "gpcm.gs.nintendowifi.net";

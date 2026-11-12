@@ -15,7 +15,7 @@
 #include "code_021384cc.h"
 #include "code_02139f70.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 
 NatnegMagic gNatnegMagicBytes = {{0xfd, 0xfc, 0x1e, 0x66, 0x6a, 0xb2}};
 QueryRecord gStaticQr2Rec = {-1};

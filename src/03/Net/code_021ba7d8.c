@@ -25,7 +25,7 @@
 #include "00/code_021a8aa8.h"
 #include "00/unk_021b6000.h"
 #include "03/unk_021d7000.h"
-#include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/NitroWiFi/socl_startup.h"
 #include "03/code_021b7ba8.h"
 
 u32 gEssidSearchOption;

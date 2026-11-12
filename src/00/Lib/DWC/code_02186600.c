@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/code_02186600.h"
 #include "00/code_02186d04.h"
 #include "00/unk_021b1000.h"
 #include "03/Net/essid_packet_steps.h"
@@ -37,6 +38,8 @@
 #include "00/code_021a6000.h"
 #include "code_0214d93c.h"
 #include "Main/Save/nvram_new_wifi_info.h"
+
+u32 DWChttpignoreca;
 
 CPSCaInfo *gCaInfoTable[11] = {&gVeriSignClass3G3CaInfo, &gVeriSignClass3G2CaInfo, &gVeriSignClass3CaInfo,
                                &gRsaSecureServerCaInfo, &gGlobalSignRootCaInfo, &gGteGlobalRootCaInfo,
