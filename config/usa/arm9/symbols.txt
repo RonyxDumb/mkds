@@ -10537,58 +10537,58 @@ gRecordTrophyONcerName kind:data(any) addr:0x0216cd08
 gRecordTAttMBNcgrName kind:data(any) addr:0x0216cd0c
 gRecordTopMenuMNcerName kind:data(any) addr:0x0216cd10
 gRecordGpxSBnblName kind:data(any) addr:0x0216cd14
-data_usa_0216cd18 kind:data(any) addr:0x0216cd18
-data_usa_0216cd2c kind:data(any) addr:0x0216cd2c
-data_usa_0216cd40 kind:data(any) addr:0x0216cd40
-data_usa_0216cd54 kind:data(any) addr:0x0216cd54
-data_usa_0216cd68 kind:data(any) addr:0x0216cd68
-data_usa_0216cd7c kind:data(any) addr:0x0216cd7c
-data_usa_0216cd90 kind:data(any) addr:0x0216cd90
-data_usa_0216cda4 kind:data(any) addr:0x0216cda4
-data_usa_0216cdb8 kind:data(any) addr:0x0216cdb8
-data_usa_0216cdcc kind:data(any) addr:0x0216cdcc
-data_usa_0216cde0 kind:data(any) addr:0x0216cde0
-data_usa_0216cdf4 kind:data(any) addr:0x0216cdf4
-data_usa_0216ce08 kind:data(any) addr:0x0216ce08
-data_usa_0216ce1c kind:data(any) addr:0x0216ce1c
-data_usa_0216ce30 kind:data(any) addr:0x0216ce30
-data_usa_0216ce44 kind:data(any) addr:0x0216ce44
-data_usa_0216ce58 kind:data(any) addr:0x0216ce58
-data_usa_0216ce6c kind:data(any) addr:0x0216ce6c
-data_usa_0216ce80 kind:data(any) addr:0x0216ce80
-data_usa_0216ce94 kind:data(any) addr:0x0216ce94
-data_usa_0216cea8 kind:data(any) addr:0x0216cea8
-data_usa_0216cec0 kind:data(any) addr:0x0216cec0
-data_usa_0216ced8 kind:data(any) addr:0x0216ced8
-data_usa_0216cef0 kind:data(any) addr:0x0216cef0
-data_usa_0216cf08 kind:data(any) addr:0x0216cf08
-data_usa_0216cf20 kind:data(any) addr:0x0216cf20
-data_usa_0216cf38 kind:data(any) addr:0x0216cf38
-data_usa_0216cf50 kind:data(any) addr:0x0216cf50
-data_usa_0216cf68 kind:data(any) addr:0x0216cf68
-data_usa_0216cf80 kind:data(any) addr:0x0216cf80
-data_usa_0216cf98 kind:data(any) addr:0x0216cf98
-data_usa_0216cfb0 kind:data(any) addr:0x0216cfb0
-data_usa_0216cfc8 kind:data(any) addr:0x0216cfc8
-data_usa_0216cfe0 kind:data(any) addr:0x0216cfe0
-data_usa_0216cff8 kind:data(any) addr:0x0216cff8
-data_usa_0216d010 kind:data(any) addr:0x0216d010
-data_usa_0216d028 kind:data(any) addr:0x0216d028
-data_usa_0216d040 kind:data(any) addr:0x0216d040
-data_usa_0216d058 kind:data(any) addr:0x0216d058
-data_usa_0216d070 kind:data(any) addr:0x0216d070
-data_usa_0216d088 kind:data(any) addr:0x0216d088
-data_usa_0216d0a0 kind:data(any) addr:0x0216d0a0
-data_usa_0216d0bc kind:data(any) addr:0x0216d0bc
-data_usa_0216d0d8 kind:data(any) addr:0x0216d0d8
-data_usa_0216d0f4 kind:data(any) addr:0x0216d0f4
-data_usa_0216d110 kind:data(any) addr:0x0216d110
-data_usa_0216d12c kind:data(any) addr:0x0216d12c
-data_usa_0216d148 kind:data(any) addr:0x0216d148
-data_usa_0216d164 kind:data(any) addr:0x0216d164
-data_usa_0216d180 kind:data(any) addr:0x0216d180
-data_usa_0216d19c kind:data(any) addr:0x0216d19c
-data_usa_0216d1b8 kind:data(any) addr:0x0216d1b8
+sRecordGpxSBnclName kind:data(any) addr:0x0216cd18 local
+sRecordGpxSBnblName kind:data(any) addr:0x0216cd2c local
+sRecordGpxSBnllName kind:data(any) addr:0x0216cd40 local
+sRecordGpxSNscrName kind:data(any) addr:0x0216cd54 local
+sRecordGpxMBnclName kind:data(any) addr:0x0216cd68 local
+sRecordGpxMBnllName kind:data(any) addr:0x0216cd7c local
+sRecordGpxMNscrName kind:data(any) addr:0x0216cd90 local
+sRecordTAttMBnclName kind:data(any) addr:0x0216cda4 local
+sRecordGpxSONclrName kind:data(any) addr:0x0216cdb8 local
+sRecordTAttMBnllName kind:data(any) addr:0x0216cdcc local
+sRecordGpxSBNcgrName kind:data(any) addr:0x0216cde0 local
+sRecordTAttSBnclName kind:data(any) addr:0x0216cdf4 local
+sRecordTAttMNscrName kind:data(any) addr:0x0216ce08 local
+sRecordTAttSNscrName kind:data(any) addr:0x0216ce1c local
+sRecordGpxSBNclrName kind:data(any) addr:0x0216ce30 local
+sRecordTAttSBnblName kind:data(any) addr:0x0216ce44 local
+sRecordGpxMONclrName kind:data(any) addr:0x0216ce58 local
+sRecordTAttSBnllName kind:data(any) addr:0x0216ce6c local
+sRecordGpxMBNcgrName kind:data(any) addr:0x0216ce80 local
+sRecordGpxMBNclrName kind:data(any) addr:0x0216ce94 local
+sRecordGpxSNcgrName kind:data(any) addr:0x0216cea8 local
+sRecordGpxSNcerName kind:data(any) addr:0x0216cec0 local
+sRecordTAttSONclrName kind:data(any) addr:0x0216ced8 local
+sRecordTAttSBNcgrName kind:data(any) addr:0x0216cef0 local
+sRecordTAttMBNcgrName kind:data(any) addr:0x0216cf08 local
+sRecordTAttMBNclrName kind:data(any) addr:0x0216cf20 local
+sRecordTAttSBNclrName kind:data(any) addr:0x0216cf38 local
+sRecordGpxMNcgrName kind:data(any) addr:0x0216cf50 local
+sRecordGpxMNcerName kind:data(any) addr:0x0216cf68 local
+sRecordTAttMONclrName kind:data(any) addr:0x0216cf80 local
+sRecordTopMenuMNscrName kind:data(any) addr:0x0216cf98 local
+sRecordTopMenuMBnclName kind:data(any) addr:0x0216cfb0 local
+sRecordTopMenuMBnllName kind:data(any) addr:0x0216cfc8 local
+sRecordTopMenuSBnclName kind:data(any) addr:0x0216cfe0 local
+sRecordTrophySONclrName kind:data(any) addr:0x0216cff8 local
+sRecordTopMenuSBnblName kind:data(any) addr:0x0216d010 local
+sRecordTrophySOBnclName kind:data(any) addr:0x0216d028 local
+sRecordTAttSNcgrName kind:data(any) addr:0x0216d040 local
+sRecordTAttMNcgrName kind:data(any) addr:0x0216d058 local
+sRecordTAttMNcerName kind:data(any) addr:0x0216d070 local
+sRecordTAttSNcerName kind:data(any) addr:0x0216d088 local
+sRecordTopMenuMBNcgrName kind:data(any) addr:0x0216d0a0 local
+sRecordTopMenuMBNclrName kind:data(any) addr:0x0216d0bc local
+sRecordTopMenuMONclrName kind:data(any) addr:0x0216d0d8 local
+sRecordTrophyONcgrName kind:data(any) addr:0x0216d0f4 local
+sRecordTrophyONcerName kind:data(any) addr:0x0216d110 local
+sRecordTopMenuSONclrName kind:data(any) addr:0x0216d12c local
+sRecordTAttMScoreNscrName kind:data(any) addr:0x0216d148 local
+sRecordTopMenuMNcgrName kind:data(any) addr:0x0216d164 local
+sRecordTopMenuMNcerName kind:data(any) addr:0x0216d180 local
+sRecordTopMenuSNcgrName kind:data(any) addr:0x0216d19c local
+sRecordTopMenuSNcerName kind:data(any) addr:0x0216d1b8 local
 gRecordVSMBnclName kind:data(any) addr:0x0216d1d4
 gRecordVSMONclrName kind:data(any) addr:0x0216d1d8
 gRecordVSMTransientBnllName kind:data(any) addr:0x0216d1dc

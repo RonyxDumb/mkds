@@ -1,4 +1,5 @@
 #include "01/Menu/record_top_menu.h"
+#include "Main/Menu/record_scene.h"
 
 #include "01/unk_021a6000.h"
 #include "Main/System/heap.h"

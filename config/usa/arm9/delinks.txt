@@ -4007,6 +4007,7 @@ src/Main/Sound/seq_row.c:
 src/Main/Menu/record_scene.c:
     complete
     .text       start:0x0211130c end:0x021113f0
+    .data       start:0x0216cc48 end:0x0216d1d4
     .bss        start:0x0217d31c end:0x0217d324
 
 // provisional: file name and boundaries

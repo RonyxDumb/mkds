@@ -1,4 +1,5 @@
 #include "01/Menu/record_gpx.h"
+#include "Main/Menu/record_scene.h"
 
 #include "Main/System/heap.h"
 #include "Main/Save/backup_reset.h"

@@ -25,6 +25,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/record_scene.h"
 
 // Defined const in record_time_attack.c; declared non-const here.
 extern s32 gRecordTAttRecordIndices[];
