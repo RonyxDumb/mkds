@@ -1,30 +1,40 @@
 #include "Main/Unknown/code_020f49bc.h"
-
-#include "Main/Unknown/code_02036820.h"
-#include "Main/Unknown/code_0208ab98.h"
-#include "Main/Unknown/code_020f73fc.h"
+#include "Main/Unknown/code_020f7c60.h"
 #include "Main/Unknown/code_02109054.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_020f73fc.h"
+#include "Main/Unknown/code_020fe4b4.h"
 #include "Main/Unknown/unk_02159000.h"
+#include "Main/Unknown/code_020fe000.h"
+#include "Main/Unknown/unk_027e0000.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Unknown/code_020ee684.h"
+#include "Main/Unknown/code_020f6be8.h"
+#include "Main/Unknown/code_020f73a4.h"
+#include "Main/Unknown/code_020f7c90.h"
+#include "Main/Unknown/code_020f8e78.h"
+#include "Main/Unknown/code_020f9c40.h"
+#include "code_02147cd8.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_020e6a74.h"
+#include "Main/Unknown/code_020f6be4.h"
+#include "Main/Unknown/code_0208ab98.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_0208a000.h"
 #include "Main/Unknown/code_020f7000.h"
 #include "Main/Unknown/code_020f9000.h"
-#include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_020ed5c0.h"
-#include "Main/Unknown/code_020ee684.h"
 #include "Main/Unknown/code_020f2dac.h"
-#include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02104a0c.h"
 #include "Main/Unknown/code_020f4000.h"
 #include "Main/Unknown/code_020f6000.h"
-#include "Main/Unknown/code_020f9c40.h"
 #include "Main/Unknown/code_020fa000.h"
 #include "Main/Unknown/code_02109000.h"
-#include "code_02147cd8.h"
 #include "Main/Unknown/code_02068eac.h"
-#include "Main/Unknown/code_020fe4b4.h"
 #include "Main/Unknown/code_0210a598.h"
 #include "Main/Unknown/code_0210a67c.h"
 #include "Main/Unknown/unk_0216c000.h"
@@ -39,7 +49,6 @@
 #include "Main/Unknown/code_0210b850.h"
 #include "Main/Unknown/code_02046be8.h"
 #include "Main/Unknown/code_020ec8bc.h"
-#include "Main/Unknown/code_020fe000.h"
 #include "Main/Unknown/code_020f8000.h"
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_020467d0.h"
@@ -56,7 +65,6 @@
 #include "Main/Unknown/code_020d3000.h"
 #include "Main/Unknown/code_020d5000.h"
 #include "ITCM/code_01ffd000.h"
-#include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_02108ea0.h"
 #include "Main/Unknown/code_0210b000.h"
@@ -72,7 +80,499 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-// The object has landed: it stops and is held at its rest point.
+void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId) {
+    SoundSource *sourceCopy = &item->mSoundSource;
+    s32 soundIdCopy = soundId;
+    u32 volume;
+    u32 zero;
+    s32 soundIdCompared;
+    u32 skipId;
+    soundIdCompared = soundIdCopy;
+    skipId = 1u;
+    if (soundIdCompared == skipId) {
+    }
+    if (soundIdCompared == skipId) {
+    }
+    if (soundIdCompared == skipId) {
+        return;
+    }
+    volume = 0x7fu;
+    zero = 0u;
+    StartSound(sourceCopy, soundIdCopy, volume, zero);
+}
+
+void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherVelocity,
+                            MapObject *mapObject) {
+    ItemObject *item = itemParam;
+    Vec3 offset;
+    Vec3 direction;
+    Vec3 push;
+    s32 soundId;
+    s32 value;
+    s32 radius;
+    void (*soundCallback)(ItemObject *, s32);
+
+    if (item->mFlags & 0x80000) {
+        return;
+    }
+    soundId = mapObject ? mapObject->mKindData->mCollideItemObjectSoundId : -1;
+    switch (hitType) {
+        case 1:
+            if (item->mFlags & 0x1000) {
+                break;
+            }
+            VEC_Subtract(&item->mPrevPos, otherPos, &offset);
+            if (!(item->mFlags & 0x8000) && (item->mFlags & 0x1000000)) {
+                DeflectItemObjectRandomly(item, otherPos, &offset);
+                break;
+            }
+            item->mFlags |= 0x4000000;
+            if (Vec3DotUnrounded(&item->mVelocity, &offset) <= 0) {
+                if (LENGTH_SQUARED(offset) >= 0x10) {
+                    Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+                }
+                item->mBounce(item, otherVelocity, &offset);
+                if (item->mFlags & 0x8000) {
+                    break;
+                }
+                radius = item->mRadius;
+                if ((s64) (otherPos->x - item->mPos.x) * (otherPos->x - item->mPos.x) +
+                        (s64) (otherPos->y - item->mPos.y) * (otherPos->y - item->mPos.y) +
+                        (s64) (otherPos->z - item->mPos.z) * (otherPos->z - item->mPos.z) >=
+                    (s64) radius * radius) {
+                    break;
+                }
+                item->mPos.x = otherPos->x + MUL_FIXED12_NO_ROUND(radius, offset.x);
+                item->mPos.z = otherPos->z + MUL_FIXED12_NO_ROUND(radius, offset.z);
+                break;
+            }
+            if (item->mFlags & 0x8000) {
+                break;
+            }
+            radius = item->mRadius;
+            if ((s64) (otherPos->x - item->mPos.x) * (otherPos->x - item->mPos.x) +
+                    (s64) (otherPos->y - item->mPos.y) * (otherPos->y - item->mPos.y) +
+                    (s64) (otherPos->z - item->mPos.z) * (otherPos->z - item->mPos.z) >=
+                (s64) radius * radius) {
+                break;
+            }
+            if (LENGTH_SQUARED(offset) >= 0x10) {
+                Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+            }
+            radius = item->mRadius;
+            item->mPos.x = otherPos->x + MUL_FIXED12_NO_ROUND(radius, offset.x);
+            item->mPos.z = otherPos->z + MUL_FIXED12_NO_ROUND(radius, offset.z);
+            break;
+        case 2:
+            if (item->mFlags & 0x1000) {
+                RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~0xff00)->mItemInUse, item);
+            }
+            value = 0;
+            if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +
+                    (s64) otherVelocity->z * otherVelocity->z >=
+                0x10) {
+                value = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
+            }
+            if (value != 0) {
+                ApplyItemObjectPush(item, otherPos, otherVelocity, &direction);
+            } else {
+                VEC_Subtract(&item->mPos, otherPos, &direction);
+                if (direction.y < 0) {
+                    direction.y = 0;
+                }
+                if ((s64) direction.x * direction.x + (s64) direction.y * direction.y +
+                        (s64) direction.z * direction.z >=
+                    0x10) {
+                    Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
+                }
+                push.x = MUL_FIXED12_NO_ROUND(direction.x, 0x1800);
+                push.y = MUL_FIXED12_NO_ROUND(direction.y, 0x1800);
+                push.z = MUL_FIXED12_NO_ROUND(direction.z, 0x1800);
+                ApplyItemObjectPush(item, otherPos, &push, &direction);
+            }
+            if (soundId == -1 || (item->mFlags & 0x8000000)) {
+                FadeOutUsedUpItemObject(item, 1);
+            } else {
+                value = item->mKind;
+                FadeOutEndedItemObject(item, 1);
+                if (value == 5 || value == 9) {
+                    soundId = -1;
+                }
+            }
+    }
+    if (soundId == -1) {
+        return;
+    }
+    soundCallback = (item->mFlags & 0x400000) ? StartItemObjectSoundOnSource : StartItemObjectSoundIfNear;
+    soundCallback(item, soundId);
+}
+
+void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
+    BOOL started;
+    enum { K0 } kind;
+
+    if (!(item->mFlags & 0x8000000)) {
+        if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+            if (item->mOwnerKartIndexAndFlags & 0xf00) {
+                return;
+            }
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleaseTimerPendingBit;
+            item->mAdvance = NULL;
+            return;
+        }
+        if (item->mFlags & 0x180000) {
+            return;
+        }
+        kind = item->mKind;
+        if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
+            item->mAdvance = AdvanceItemObjectReleaseTimer;
+        }
+        item->mFlags |= 0x100002;
+        return;
+    }
+    if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+        if (item->mOwnerKartIndexAndFlags & 0xf00) {
+            started = FALSE;
+        } else {
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleaseTimerPendingBit;
+            item->mAdvance = NULL;
+            started = TRUE;
+        }
+    } else {
+        if (item->mFlags & 0x180000) {
+            started = FALSE;
+        } else {
+            kind = item->mKind;
+            if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
+                item->mAdvance = AdvanceItemObjectReleaseTimer;
+            }
+            item->mFlags |= 0x100002;
+            started = TRUE;
+        }
+    }
+    if (started == FALSE) {
+        return;
+    }
+    if (sendEvent == 0) {
+        return;
+    }
+    AddItemDataItemIdAndParts(item->mKind, 4, 8, item->mId);
+}
+
+void StartItemObjectReleaseTimer(ItemObject *item) {
+    enum { K0 } kind;
+
+    if (item->mFlags & 0x180000) {
+        return;
+    }
+    kind = item->mKind;
+    if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
+        item->mAdvance = AdvanceItemObjectReleaseTimer;
+    }
+    item->mFlags |= 0x100002;
+}
+
+void AdvanceItemObjectReleaseTimer(ItemObject *item) {
+    if (item->mFlags & 0x8000) {
+        AdvanceRestingItemObject(item);
+    }
+    item->mAlpha--;
+    if (item->mAlpha <= 0) {
+        ReleaseItemPoolObject(&gItemPools[item->mKind], item);
+    } else {
+        if (item->mAlpha < 0xa) {
+            FreeItemObjectCollisionSlot(item);
+        }
+    }
+}
+
+void StartItemObjectReleaseSynced(ItemObject *item, s32 sendEvent) {
+    BOOL started;
+
+    if (!(item->mFlags & 0x8000000)) {
+        if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+            if (item->mOwnerKartIndexAndFlags & 0xf00) {
+                return;
+            }
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleasePendingBit;
+            item->mAdvance = NULL;
+            return;
+        }
+        if (item->mFlags & 0x180000) {
+            return;
+        }
+        if (!(item->mFlags & 0x180000)) {
+            item->mAdvance = ReleaseItemObjectToItsPool;
+        }
+        item->mFlags |= 0x100002;
+        return;
+    }
+    if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+        if (item->mOwnerKartIndexAndFlags & 0xf00) {
+            started = FALSE;
+        } else {
+            item->mOwnerKartIndexAndFlags |= gItemObjectReleasePendingBit;
+            item->mAdvance = NULL;
+            started = TRUE;
+        }
+    } else {
+        if (item->mFlags & 0x180000) {
+            started = FALSE;
+        } else {
+            if (!(item->mFlags & 0x180000)) {
+                item->mAdvance = ReleaseItemObjectToItsPool;
+            }
+            item->mFlags |= 0x100002;
+            started = TRUE;
+        }
+    }
+    if (started == FALSE) {
+        return;
+    }
+    if (sendEvent == 0) {
+        return;
+    }
+    AddItemDataItemIdAndParts(item->mKind, 5, 8, item->mId);
+}
+
+void StartItemObjectRelease(ItemObject *item) {
+    if (item->mFlags & 0x180000) {
+        return;
+    }
+    if (!(item->mFlags & 0x180000)) {
+        item->mAdvance = ReleaseItemObjectToItsPool;
+    }
+    item->mFlags |= 0x100002;
+}
+
+void ReleaseItemObjectToItsPool(ItemObject *item) {
+    ReleaseItemPoolObject(&gItemPools[item->mKind], item);
+}
+
+Vec3 *CreateItemPushVector(void) {
+    void *heap = GetHeap(GetCurrentHeapCall());
+    gItemPushVector = HeapAlloc(heap, 0xc);
+    return gItemPushVector;
+}
+
+s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
+    Vec3 *velocity = &item->mVelocity;
+    ItemKind *kindInfo;
+    s32 value;
+    enum { K0 } kind;
+
+    if (item->mFlags & 0x80000) {
+        return 2;
+    }
+    if (skipPending == 0 && (item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) &&
+        !(item->mFlags & 0x20000000)) {
+        if (item->mOwnerKartIndexAndFlags & 0xf00) {
+            return 2;
+        }
+        if (variant == 0) {
+            item->mOwnerKartIndexAndFlags |= gItemObjectFadeOutPendingBit;
+        } else {
+            item->mOwnerKartIndexAndFlags |= gItemObjectNoCallbackFadeOutPendingBit;
+            FreeItemObjectCollisionSlot(item);
+        }
+        item->mAdvance = NULL;
+        return 1;
+    }
+    if (variant == 0) {
+        kind = item->mKind;
+        kindInfo = &gItemKinds[kind];
+        if (kindInfo->mFadeOutCallback != NULL) {
+            value = kindInfo->mFadeOutCallback(item);
+            if (value == 0) {
+                return 2;
+            }
+            if (value == 1) {
+                return 0;
+            }
+        }
+    }
+    if (variant != 0) {
+        item->mCoursePointOrParams.y = 0x266;
+    } else {
+        item->mCoursePointOrParams.y = 0x333;
+        if (!(item->mFlags & 0x8000)) {
+            item->mCoursePointOrParams.y += MUL_FIXED12_NO_ROUND(VEC_Mag(velocity), 0x15c);
+            if (item->mCoursePointOrParams.y > 0x5c3) {
+                item->mCoursePointOrParams.y = 0x5c3;
+            }
+        }
+    }
+    kind = item->mKind;
+    kindInfo = &gItemKinds[kind];
+    if (kindInfo->mKeepsAdvanceAtEnd == 0) {
+        item->mAdvance = AdvanceItemObjectFadeOut;
+    }
+    item->mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) ItemObjectBounceReturnArgument;
+    if (item->mNormal.y != 0) {
+        Vec3 *normal = &item->mNormal;
+
+        value = Vec3DotUnrounded(velocity, normal);
+        if (value < 0x3000) {
+            VEC_MultAdd(0x3000 - value, normal, velocity, velocity);
+        }
+    }
+    item->mFlags |= 0x80001;
+    FreeItemObjectCollisionSlot(item);
+    value = Vec3DotUnrounded(velocity, GetViewTransposeMatrixAxis0());
+    if (value > 1) {
+        item->mCoursePointOrParams.x = 1;
+    } else {
+        item->mCoursePointOrParams.x = 0;
+    }
+    return 0;
+}
+
+void FadeOutEndedItemObject(ItemObject *item, s32 sendEvent) {
+    s32 result;
+
+    if (!(item->mFlags & 0x8000000)) {
+        StartItemObjectFadeOut(item, 0, 0);
+        return;
+    }
+    result = StartItemObjectFadeOut(item, 0, 0);
+    if (result != 0) {
+        return;
+    }
+    if (sendEvent == 0) {
+        return;
+    }
+    AddItemDataItemIdAndParts(item->mKind, 0, 8, item->mId);
+}
+
+void ReplayPendingFadeOut(ItemObject *item) {
+    StartItemObjectFadeOut(item, 0, 1);
+}
+
+void FadeOutItemObjectNoCallback(ItemObject *item, s32 sendEvent) {
+    s32 result;
+
+    if (!(item->mFlags & 0x8000000)) {
+        StartItemObjectFadeOut(item, 1, 0);
+        return;
+    }
+    result = StartItemObjectFadeOut(item, 1, 0);
+    if (result != 0) {
+        return;
+    }
+    if (sendEvent == 0) {
+        return;
+    }
+    AddItemDataItemIdAndParts(item->mKind, 1, 8, item->mId);
+}
+
+void ReplayPendingNoCallbackFadeOut(ItemObject *item) {
+    StartItemObjectFadeOut(item, 1, 1);
+}
+
+void FadeOutUsedUpItemObject(ItemObject *item, s32 sendEvent) {
+    s32 result;
+    enum { K0 } kind;
+
+    result = StartItemObjectFadeOut(item, 0, 0);
+    if (result <= 1) {
+        kind = item->mKind;
+        StartItemObjectSoundIfNear(item, gItemKinds[kind].mUsedUpSoundId);
+    }
+    if (result != 0) {
+        return;
+    }
+    if (!(item->mFlags & 0x8000000)) {
+        return;
+    }
+    if (sendEvent == 0) {
+        return;
+    }
+    if (item->mKind == 5) {
+        return;
+    }
+    AddItemDataItemIdAndParts(item->mKind, 2, 8, item->mId);
+}
+
+void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
+    s32 result;
+    enum { K0 } kind;
+
+    result = StartItemObjectFadeOut(item, 0, 0);
+    if (result <= 1) {
+        kind = item->mKind;
+        StartItemObjectSoundIfNear(item, gItemKinds[kind].mKartHitSoundId);
+    }
+    if (result != 0) {
+        return;
+    }
+    if (!(item->mFlags & 0x8000000)) {
+        return;
+    }
+    if (sendEvent == 0) {
+        return;
+    }
+    if (item->mKind == 5) {
+        return;
+    }
+    AddItemDataItemIdAndParts(item->mKind, 3, highPart, item->mId);
+}
+
+void AdvanceItemObjectFadeOut(ItemObject *item) {
+    Vec3 direction;
+
+    Vec3CrossUnrounded(&item->mNormal, GetViewTransposeMatrixAxis2(), &direction);
+    VEC_MultAdd(item->mCoursePointOrParams.x != 0 ? item->mCoursePointOrParams.y : -item->mCoursePointOrParams.y,
+                &direction, &item->mNormal, &item->mNormal);
+    item->mFlags |= 0x80;
+    item->mVelocity.y -= 0x400;
+    VEC_Add(&item->mPos, &item->mVelocity, &item->mPos);
+    item->mAlpha--;
+    if (item->mAlpha > 0) {
+        return;
+    }
+    ReleaseItemPoolObject(&gItemPools[item->mKind], item);
+}
+
+void ApplyItemObjectPush(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *normal) {
+    Vec3 away;
+    Vec3 relativeVelocity;
+    Vec3 *push;
+    s32 dot;
+    s64 lengthSquared;
+
+    VEC_Subtract(otherVelocity, &item->mVelocity, &relativeVelocity);
+    VEC_Subtract(&item->mPos, otherPos, &away);
+    dot = VEC_DotProduct(normal, &away);
+    away.x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
+    away.y -= MUL_FIXED12_NO_ROUND(normal->y, dot);
+    away.z -= MUL_FIXED12_NO_ROUND(normal->z, dot);
+    lengthSquared = LENGTH_SQUARED(away);
+    if (lengthSquared >= 0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(&away, &away);
+    }
+    if (item->mFlags & 0x8000) {
+        VEC_MultAdd(0x666, &relativeVelocity, &item->mVelocity, &item->mVelocity);
+        push = gItemPushVector;
+        push->x = MUL_FIXED12_NO_ROUND(away.x, 0xccd);
+        push->y = MUL_FIXED12_NO_ROUND(away.y, 0xccd);
+        push->z = MUL_FIXED12_NO_ROUND(away.z, 0xccd);
+        VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
+    } else {
+        item->mVelocity.x = MUL_FIXED12_NO_ROUND(otherVelocity->x, 0x8cd);
+        item->mVelocity.y = MUL_FIXED12_NO_ROUND(otherVelocity->y, 0x8cd);
+        item->mVelocity.z = MUL_FIXED12_NO_ROUND(otherVelocity->z, 0x8cd);
+        push = gItemPushVector;
+        push->x = MUL_FIXED12_NO_ROUND(away.x, 0x1800);
+        push->y = MUL_FIXED12_NO_ROUND(away.y, 0x1800);
+        push->z = MUL_FIXED12_NO_ROUND(away.z, 0x1800);
+        VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
+    }
+}
+
+u32 ItemObjectBounceReturnArgument(u32 value) {
+    return value;
+}
+
 void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     s32 fallSpeed;
     enum { K0 } kind;
