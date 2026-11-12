@@ -13,7 +13,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "code_0200eddc.h"
 #include "g2d_CharCanvas.h"
-#include "code_02149fe0.h"
+#include "gx_bgcnt.h"
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/unk_02164000.h"
 #include "Main/Unknown/unk_0217a000.h"

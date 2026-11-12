@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "code_0200eddc.h"
 #include "g2d_CharCanvas.h"
-#include "code_02149fe0.h"
+#include "gx_bgcnt.h"
 #include "code_0214d018.h"
 
 #pragma thumb on

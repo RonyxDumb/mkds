@@ -1,7 +1,7 @@
 #include "code_0214b338.h"
 #include "Main/Unknown/code_02148000.h"
 #include "code_02148950.h"
-#include "code_02149e90.h"
+#include "gx_bgcnt.h"
 #include "code_0214c778.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0214d000.h"

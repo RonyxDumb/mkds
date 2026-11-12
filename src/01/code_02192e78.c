@@ -12,8 +12,7 @@
 #include "Main/Menu/message_screen.h"
 #include "Main/Unknown/code_0214a000.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "code_0214a2a0.h"
-#include "code_0214a2f4.h"
+#include "gx_bgcnt.h"
 #include "code_0214d018.h"
 #include "registers.h"
 

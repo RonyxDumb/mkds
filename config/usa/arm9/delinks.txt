@@ -4120,49 +4120,9 @@ libs/NitroSDK/gx/src/code_02148950.c:
     .data       start:0x0216f050 end:0x0216f054
 
 // provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_02149e90.c:
+libs/NitroSDK/gx/src/gx_bgcnt.c:
     complete
-    .text       start:0x02149e90 end:0x02149fe0
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_02149fe0.c:
-    complete
-    .text       start:0x02149fe0 end:0x0214a000
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a000.c:
-    complete
-    .text       start:0x0214a000 end:0x0214a034
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a034.c:
-    complete
-    .text       start:0x0214a034 end:0x0214a054
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a054.c:
-    complete
-    .text       start:0x0214a054 end:0x0214a2a0
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a2a0.c:
-    complete
-    .text       start:0x0214a2a0 end:0x0214a2c0
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a2c0.c:
-    complete
-    .text       start:0x0214a2c0 end:0x0214a2f4
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a2f4.c:
-    complete
-    .text       start:0x0214a2f4 end:0x0214a314
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a314.c:
-    complete
-    .text       start:0x0214a314 end:0x0214a348
+    .text       start:0x02149e90 end:0x0214a348
 
 // provisional: file name and boundaries
 libs/NitroSDK/gx/src/code_0214a348.c:

@@ -62,7 +62,7 @@
 #include "code_0200eddc.h"
 #include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_021262f0.h"
-#include "code_0214a054.h"
+#include "gx_bgcnt.h"
 #include "code_0214b824.h"
 #include "Main/Unknown/code_020ab848.h"
 #include "Main/Unknown/code_0212a1c4.h"
