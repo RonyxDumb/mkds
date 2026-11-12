@@ -8,7 +8,7 @@
 #include "types.h"
 #include "00/code_021a4b98.h"
 #include "00/code_021a2ccc.h"
-#include "00/code_021a3760.h"
+#include "00/dwc_connectinet.h"
 #include "code_02142eac.h" // ScanExParam
 #include "code_0200f790.h"
 #include "00/code_021a6fa8.h"

@@ -22,7 +22,7 @@
 #include "00/code_02194000.h"
 #include "00/code_0218e8d4.h"
 #include "00/code_0219c93c.h"
-#include "00/code_021a3760.h"
+#include "00/dwc_connectinet.h"
 #include "00/code_0219cc00.h"
 #include "Main/Unknown/code_02152000.h"
 #include "code_02139f70.h"

@@ -556,14 +556,9 @@ src/00/dwc_memfunc.c:
     .text       start:0x021a3634 end:0x021a3724
 
 // provisional: file name and boundaries
-src/00/code_021a3758.c:
+src/00/dwc_connectinet.c:
     complete
-    .text       start:0x021a3724 end:0x021a372c
-
-// provisional: file name and boundaries
-src/00/code_021a3760.c:
-    complete
-    .text       start:0x021a372c end:0x021a39e4
+    .text       start:0x021a3724 end:0x021a39e4
 
 // provisional: file name and boundaries
 src/00/code_021a3a18.c:

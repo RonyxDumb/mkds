@@ -1,5 +1,4 @@
-#include "00/code_021a3760.h"
-
+#include "00/dwc_connectinet.h"
 #include "00/code_02188720.h"
 #include "00/code_02188000.h"
 #include "00/code_021a6fa8.h"
@@ -21,6 +20,7 @@
 #include "00/code_021a8aa8.h"
 #include "string.h"
 #include "code_02134398.h"
+#include "00/code_021a6ce4.h"
 
 void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslThreadPriority) {
     if (gInetControl == NULL) {
@@ -160,4 +160,8 @@ u32 DWCi_CheckDisconnected(void) {
         return 1;
     }
     return 0;
+}
+
+u32 DWC_GetLinkLevel(void) {
+    return WCM_GetLinkLevel();
 }

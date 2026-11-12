@@ -2,7 +2,7 @@
 
 #include "00/code_0218e2dc.h"
 #include "00/code_021a3000.h"
-#include "00/code_021a3760.h"
+#include "00/dwc_connectinet.h"
 #include "00/code_021a4000.h"
 #include "00/code_021a88a8.h"
 #include "00/code_021a8aa8.h"

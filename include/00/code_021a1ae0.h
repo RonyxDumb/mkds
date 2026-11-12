@@ -53,4 +53,4 @@ u32 DWCi_QR2Startup(u32 profileId);
 void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void **connectionSocket,
                     void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
 
-#include "00/code_021a3760.h"
+#include "00/dwc_connectinet.h"

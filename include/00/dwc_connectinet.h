@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+u32 DWC_GetLinkLevel(void);
+
 typedef struct DWCInetControl {
     /* 00 */ s32 mAcState;
     /* 04 */ u16 mState;
