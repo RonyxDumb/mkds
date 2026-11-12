@@ -21,6 +21,7 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/seq_queue.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Race/results_battle_frame_limit.h"
 
 s32 gRaceEndSeqCallCount;
 s32 gRaceEndNextSeqPending;

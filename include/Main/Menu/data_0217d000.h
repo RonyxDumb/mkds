@@ -745,10 +745,6 @@ extern EffectInfo sEffectInfoBuffer[8];
 
 extern struct NNSSndArc *sCurrent;
 
-extern u8 gEmblemSoundPlayCount;
-
-extern u8 gEmblemSoundPitchCounter;
-
 extern SeqQueue gSeqQueue;
 
 extern s32 gSeqQueuePairSides[];
