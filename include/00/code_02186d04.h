@@ -17,11 +17,6 @@
 #include "00/Lib/DWC/ca_info_021b1fb4.h"
 
 extern CPSCaInfo *gCaInfoTable[11];
-extern char gContentLengthHeaderText[];
-extern char gConnectionHeaderName[];
-extern char gConnectionCloseValue[];
-extern const char gContentLengthFormat[];
-extern char gContentLengthHeaderName[];
 extern u32 DWChttpignoreca;
 
 void ReleaseHttp(Http *a);

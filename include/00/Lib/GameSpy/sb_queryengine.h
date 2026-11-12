@@ -58,8 +58,6 @@ BOOL ParseSingleICMPReply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 
 typedef struct SbServer SbServer;
 typedef struct SBQueryEngine SBQueryEngine;
 
-extern char gGoaFinalMarker[];
-
 void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 length);
 void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 length);
 void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFront, s32 updateKind);
@@ -72,18 +70,6 @@ void SBQueryEngineSetPublicIP(MatchingServerList *matchingServerList, u32 public
 
 typedef struct SbServer SbServer;
 typedef struct SBQueryEngine SBQueryEngine;
-
-typedef struct BasicGoaQuery {
-    /* 00 */ u8 mUnk_00[13];
-} BasicGoaQuery;
-
-typedef struct FullGoaQuery {
-    /* 0 */ u8 mUnk_00[8];
-} FullGoaQuery;
-
-
-extern BasicGoaQuery gBasicGoaQuery;
-extern FullGoaQuery gFullGoaQuery;
 
 void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse, UnkFunc *callback,
                        void *instance);

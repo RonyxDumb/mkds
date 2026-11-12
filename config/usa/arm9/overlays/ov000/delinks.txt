@@ -96,24 +96,25 @@ src/00/Menu/wi_fi_connection_lost.c:
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_02185954.c:
     complete
-    .text       start:0x02185920 end:0x02186a68
+    .text       start:0x02185920 end:0x02186600
     .data       start:0x021b0fa8 end:0x021b11c4
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/code_02186a9c.c:
+src/00/Lib/DWC/code_02186600.c:
     complete
-    .text       start:0x02186a68 end:0x02186cd0
-    .data       start:0x021b1250 end:0x021b12e0
+    .text       start:0x02186600 end:0x02187450
+    .data       start:0x021b11c4 end:0x021b1344
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_02186cd0.c:
     complete
-    .text       start:0x02186cd0 end:0x02187fd4
+    .text       start:0x02187450 end:0x0218819c
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/code_02188008.c:
+src/00/Lib/DWC/code_0218819c.c:
     complete
-    .text       start:0x02187fd4 end:0x021884a4
+    .text       start:0x0218819c end:0x021884a4
+    .data       start:0x021b1448 end:0x021b1490
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/ca_info_021b1490.c:
@@ -333,6 +334,7 @@ src/00/Lib/GameSpy/code_0218a71c.c:
 src/00/Lib/GameSpy/sb_queryengine.c:
     complete
     .text       start:0x0218a8e4 end:0x0218ae70
+    .data       start:0x021b2140 end:0x021b2164
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218aea4.c:

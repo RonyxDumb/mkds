@@ -12,6 +12,8 @@
 #include "code_0214d018.h"
 #include "code_0200edc0.h"
 
+const s8 *gBase64Alphabet = (const s8 *) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-";
+
 void FreeDisused(void) {
     DWCi_AC_Free(8, gNetCheck, 0xc);
     DWCi_AC_Free(0x10, gAcWork, 0xd18);
@@ -165,56 +167,4 @@ s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, u8 *dst, u32 dstLength) 
         dstCursor += 3;
     } while (dstCursor - dst < decodedLength);
     return dstCursor - dst;
-}
-
-u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
-    if (gNetcheck != NULL) {
-        return 4;
-    }
-    gNetcheck = param->mAlloc(gNetcheckName, 0x1200);
-    if (gNetcheck == NULL) {
-        return 4;
-    }
-    MI_CpuFill8(gNetcheck, 0, 0x1200);
-    gNetcheck->mReturnCode = -99999;
-    gNetcheck->mParam = *param;
-    if (gHttp != NULL) {
-        return 4;
-    }
-    gHttp = gNetcheck->mParam.mAlloc(gHttpName, 0x1a60);
-    if (gHttp == NULL) {
-        return 4;
-    }
-    OS_InitMutex(&gNetcheck->mMutex);
-    DWCi_Netcheck_StartThread();
-    return 0;
-}
-
-void DWC_Netcheck_Destroy(void) {
-    if (gHttp != NULL) {
-        ReleaseHttp((Http *) gHttp);
-        gNetcheck->mParam.mFree(gHttpName, gHttp, 0);
-        gHttp = NULL;
-    }
-    DWC_Auth_Destroy();
-    if (gNetcheck != NULL) {
-        if (gNetcheck->mBody302 != NULL) {
-            gNetcheck->mParam.mFree(gNetcheckBody302Name, gNetcheck->mBody302, 0);
-            gNetcheck->mBody302 = NULL;
-        }
-        if (gNetcheck->mBodyWayport != NULL) {
-            gNetcheck->mParam.mFree(gNetcheckBodyWayportName, gNetcheck->mBodyWayport, 0);
-            gNetcheck->mBodyWayport = NULL;
-        }
-        gNetcheck->mParam.mFree(gNetcheckName, gNetcheck, 0);
-        gNetcheck = NULL;
-    }
-}
-
-void DWCi_Netcheck_StartThread(void) {
-    if (gNetcheck->mThread.mId == 0 || OS_IsThreadTerminated(&gNetcheck->mThread) != 0) {
-        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck,
-                        gNetcheck->mThreadStack, 0x1000, 0x10);
-        OS_WakeupThreadDirect(&gNetcheck->mThread);
-    }
 }

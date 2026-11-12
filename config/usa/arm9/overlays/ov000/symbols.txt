@@ -1638,32 +1638,32 @@ DWCauthhttpparam kind:data(any) addr:0x021b1000
 @5966 kind:data(any) addr:0x021b11b4 local
 @6016 kind:data(any) addr:0x021b11bc local
 gCaInfoTable kind:data(any) addr:0x021b11c4
-gHttpHeaderEndMarker kind:data(any) addr:0x021b11f0
-gHttpStatusSeparator kind:data(any) addr:0x021b11f8
-gHttpresultPairName kind:data(any) addr:0x021b11fc
-gHttpOkStatusText kind:data(any) addr:0x021b1208
-gHttpbodyPairName kind:data(any) addr:0x021b120c
-gHttpLineEndMarker kind:data(any) addr:0x021b1218
-gHeaderValueSeparator kind:data(any) addr:0x021b121c
-gPairValueSeparator kind:data(any) addr:0x021b1220
-gPairSeparator kind:data(any) addr:0x021b1224
-gHttpUrlPrefix kind:data(any) addr:0x021b1228
-gHttpsUrlPrefix kind:data(any) addr:0x021b1230
-gUrlPathSeparator kind:data(any) addr:0x021b123c
-gHttpBufferName kind:data(any) addr:0x021b1240
+@5968 kind:data(any) addr:0x021b11f0 local
+@5969 kind:data(any) addr:0x021b11f8 local
+@5970 kind:data(any) addr:0x021b11fc local
+@5971 kind:data(any) addr:0x021b1208 local
+@5972 kind:data(any) addr:0x021b120c local
+@5973 kind:data(any) addr:0x021b1218 local
+@5974 kind:data(any) addr:0x021b121c local
+@5975 kind:data(any) addr:0x021b1220 local
+@5976 kind:data(any) addr:0x021b1224 local
+@6006 kind:data(any) addr:0x021b1228 local
+@6007 kind:data(any) addr:0x021b1230 local
+@6008 kind:data(any) addr:0x021b123c local
+@6024 kind:data(any) addr:0x021b1240 local
 @1484 kind:data(any) addr:0x021b1250 local
 @1511 kind:data(any) addr:0x021b1254 local
 @1512 kind:data(any) addr:0x021b1258 local
 @1531 kind:data(any) addr:0x021b1260 local
 @1547 kind:data(any) addr:0x021b126c local
 @1548 kind:data(any) addr:0x021b12c0 local
-gHttpLowReceiveBufferName kind:data(any) addr:0x021b12e0
-gHttpLowSendBufferName kind:data(any) addr:0x021b12f4
-gContentLengthHeaderText kind:data(any) addr:0x021b1308
-gConnectionHeaderName kind:data(any) addr:0x021b131c
-gConnectionCloseValue kind:data(any) addr:0x021b1328
-gContentLengthFormat kind:data(any) addr:0x021b1330
-gContentLengthHeaderName kind:data(any) addr:0x021b1334
+@6130 kind:data(any) addr:0x021b12e0 local
+@6131 kind:data(any) addr:0x021b12f4 local
+@6256 kind:data(any) addr:0x021b1308 local
+@6288 kind:data(any) addr:0x021b131c local
+@6289 kind:data(any) addr:0x021b1328 local
+@6290 kind:data(any) addr:0x021b1330 local
+@6291 kind:data(any) addr:0x021b1334 local
 gConnTestUrl kind:data(any) addr:0x021b1344
 data_usa_ov000_021b1348 kind:data(any) addr:0x021b1348
 gNetcheckBody302Name kind:data(any) addr:0x021b136c
@@ -1685,7 +1685,7 @@ gReturncdPairName2 kind:data(any) addr:0x021b1428
 gHttpName kind:data(any) addr:0x021b1434
 gNetcheckName kind:data(any) addr:0x021b143c
 gBase64Alphabet kind:data(any) addr:0x021b1448
-data_usa_ov000_021b144c kind:data(any) addr:0x021b144c
+@1516 kind:data(any) addr:0x021b144c local
 data_usa_ov000_021b1490 kind:data(any) addr:0x021b1490
 data_usa_ov000_021b1494 kind:data(any) addr:0x021b1494
 @1 kind:data(any) addr:0x021b14a8 local
@@ -1743,9 +1743,9 @@ gSsidOrderTable kind:data(any) addr:0x021b20d8
 @66 kind:data(any) addr:0x021b210c local
 gNintendoUsbApSsid kind:data(any) addr:0x021b2128
 gShopSsidPrefix kind:data(any) addr:0x021b2134
-gGoaFinalMarker kind:data(any) addr:0x021b2140
-gBasicGoaQuery kind:data(any) addr:0x021b2148
-gFullGoaQuery kind:data(any) addr:0x021b2158
+@2290 kind:data(any) addr:0x021b2140 local
+@2371 kind:data(any) addr:0x021b2148 local
+@2372 kind:data(any) addr:0x021b2158 local
 data_usa_ov000_021b2164 kind:data(any) addr:0x021b2164
 gInvalidKeys kind:data(any) addr:0x021b216c
 data_usa_ov000_021b2174 kind:data(any) addr:0x021b2174

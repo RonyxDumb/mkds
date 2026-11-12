@@ -72,10 +72,10 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
                 queryLength = 10;
             }
         } else if ((server->mStateFlags & 4) != 0) {
-            __memcpy(query, &gBasicGoaQuery, 13);
+            __memcpy(query, "\\basic\\\\info\\", 13);
             queryLength = 13;
         } else {
-            __memcpy(query, &gFullGoaQuery, 8);
+            __memcpy(query, "\\status\\", 8);
             queryLength = 8;
         }
         if (server->mPublicIp == engine->mMyPublicIp && (server->mFlags & 2) != 0) {
@@ -178,7 +178,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
 
 void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 length) {
     BOOL isFinal;
-    if (strstr((const char *) data, gGoaFinalMarker) != NULL) {
+    if (strstr((const char *) data, "\\final\\") != NULL) {
         isFinal = TRUE;
     } else {
         isFinal = FALSE;

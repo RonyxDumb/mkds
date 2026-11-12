@@ -1,28 +1,84 @@
-#include "00/code_02186d04.h"
+#include "00/Lib/DWC/code_02188008.h"
+#include "00/code_02186000.h"
 #include "00/unk_021b1000.h"
 #include "03/Net/essid_packet_steps.h"
+#include "00/code_02186d04.h"
+#include "00/Lib/DWC/code_02188694.h"
+#include "00/unk_021b4000.h"
+#include "os_thread.h"
+#include "code_02133048.h"
+#include "code_02133274.h"
+#include "code_02139f70.h"
+#include "code_0214d018.h"
+#include "code_0200edc0.h"
 #include "00/Lib/CPS/network.h"
 #include "00/Lib/DWC/code_02186a9c.h"
-#include "00/code_02186000.h"
 #include "00/Lib/DWC/code_02185954.h"
 #include "00/Lib/CPS/code_021a9200.h"
 #include "00/Lib/CPS/code_021a9228.h"
 #include "os_printf.h"
-#include "os_thread.h"
 #include "os_tick.h"
 #include "code_0200fe74.h"
 #include "code_0213a460.h"
-#include "code_02139f70.h"
-#include "code_0214d018.h"
 #include "Main/Net/data_0216f000.h"
 #include "mb_data.h"
-#include "code_0200edc0.h"
 #include "code_0200e77c.h"
 #include "00/code_02187484.h"
-#include "00/unk_021b4000.h"
 #include "code_0200fc8c.h"
 #include "dwc_backup.h"
 #include "code_02134008.h"
+
+u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
+    if (gNetcheck != NULL) {
+        return 4;
+    }
+    gNetcheck = param->mAlloc(gNetcheckName, 0x1200);
+    if (gNetcheck == NULL) {
+        return 4;
+    }
+    MI_CpuFill8(gNetcheck, 0, 0x1200);
+    gNetcheck->mReturnCode = -99999;
+    gNetcheck->mParam = *param;
+    if (gHttp != NULL) {
+        return 4;
+    }
+    gHttp = gNetcheck->mParam.mAlloc(gHttpName, 0x1a60);
+    if (gHttp == NULL) {
+        return 4;
+    }
+    OS_InitMutex(&gNetcheck->mMutex);
+    DWCi_Netcheck_StartThread();
+    return 0;
+}
+
+void DWC_Netcheck_Destroy(void) {
+    if (gHttp != NULL) {
+        ReleaseHttp((Http *) gHttp);
+        gNetcheck->mParam.mFree(gHttpName, gHttp, 0);
+        gHttp = NULL;
+    }
+    DWC_Auth_Destroy();
+    if (gNetcheck != NULL) {
+        if (gNetcheck->mBody302 != NULL) {
+            gNetcheck->mParam.mFree(gNetcheckBody302Name, gNetcheck->mBody302, 0);
+            gNetcheck->mBody302 = NULL;
+        }
+        if (gNetcheck->mBodyWayport != NULL) {
+            gNetcheck->mParam.mFree(gNetcheckBodyWayportName, gNetcheck->mBodyWayport, 0);
+            gNetcheck->mBodyWayport = NULL;
+        }
+        gNetcheck->mParam.mFree(gNetcheckName, gNetcheck, 0);
+        gNetcheck = NULL;
+    }
+}
+
+void DWCi_Netcheck_StartThread(void) {
+    if (gNetcheck->mThread.mId == 0 || OS_IsThreadTerminated(&gNetcheck->mThread) != 0) {
+        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck,
+                        gNetcheck->mThreadStack, 0x1000, 0x10);
+        OS_WakeupThreadDirect(&gNetcheck->mThread);
+    }
+}
 
 void DWC_Netcheck_Abort(void) {
     if (gNetcheck != NULL) {
@@ -487,306 +543,4 @@ void DWCi_Netcheck_SetError(u32 error) {
 
 u32 DWC_Netcheck_GetReturnCode(void) {
     return gNetcheck->mReturnCode;
-}
-
-s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {
-    MI_CpuFill8(http, 0, 0x1a60);
-    http->mContentLength = -1;
-    http->mParam = *param;
-    http->mLowReceiveBuffer = http->mParam.mAlloc(gHttpLowReceiveBufferName, 0xb68);
-    if (http->mLowReceiveBuffer == NULL) {
-        http->mResult = 1;
-        return 1;
-    }
-    http->mLowSendBuffer = http->mParam.mAlloc(gHttpLowSendBufferName, 0x5ea);
-    if (http->mLowSendBuffer == NULL) {
-        http->mResult = 1;
-        return 1;
-    }
-    DWCi_Http_SetHostinfo(http, param->mUrl);
-    http->mResult = DWCi_Http_WriteBasicHeader(http);
-    if (http->mResult == 0) {
-        http->mInitFlag = 0xff;
-    }
-    return http->mResult;
-}
-
-u32 DWC_Http_FinishHeader(Http *http) {
-    char contentLengthText[8];
-    u32 contentLength;
-    if (DWC_Http_Add_HeaderItem(http, gConnectionHeaderName, gConnectionCloseValue) != FALSE) {
-        return 1;
-    }
-    contentLength = strlen(strstr(http->mSendBuffer.mStart, gHttpHeaderEndMarker) + 4);
-    if (contentLength != 0) {
-        OS_SNPrintf(contentLengthText, 7, gContentLengthFormat, contentLength);
-        if (DWC_Http_Add_HeaderItem(http, gContentLengthHeaderName, contentLengthText) != FALSE) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void DWC_Http_StartThread(Http *http) {
-    u32 priority;
-    priority = OS_GetThreadPriority(OSi_ThreadInfo.mCurrentThread);
-    http->mAbort = FALSE;
-    OS_InitMutex(&http->mAbortMutex);
-    OS_InitMutex(&http->mReceiveMutex);
-    if (http->mParam.mIgnoreCa == 1) {
-        DWChttpignoreca = 1;
-    } else {
-        DWChttpignoreca = 0;
-    }
-    if (http->mThread.mId == 0 || OS_IsThreadTerminated(&http->mThread) != 0) {
-        OS_CreateThread(&http->mThread, DWCi_Http_Thread, http, http->mThreadStackBottom, 0x1000, priority - 1);
-        OS_WakeupThreadDirect(&http->mThread);
-    }
-}
-
-void DWC_Http_Abort(Http *http) {
-    if (http->mInitFlag == 0xff) {
-        OS_LockMutex(&http->mAbortMutex);
-        http->mAbort = TRUE;
-        OS_UnlockMutex(&http->mAbortMutex);
-        if (http->mThread.mId != 0) {
-            OS_JoinThread(&http->mThread);
-        }
-    }
-}
-
-u32 SleepUnlessHttpAborted(Http *http) {
-    OS_LockMutex(&http->mAbortMutex);
-    if (http->mAbort == TRUE) {
-        OS_UnlockMutex(&http->mAbortMutex);
-        return 0;
-    }
-    OS_UnlockMutex(&http->mAbortMutex);
-    OS_Sleep(10);
-    return 1;
-}
-
-void DWCi_Http_Thread(void *argument) {
-    Http *http = argument;
-    HttpB4 *socketBuffers;
-    Http118 *sslInfo;
-    HttpBuffer *receiveBuffer;
-    const u8 *receivedData;
-    s32 timeoutMillis;
-    int hostAddress;
-    u64 startTick;
-    u64 entropyTick;
-    u8 headerReceived;
-    int port;
-    u32 copyLength;
-    s32 bufferSpace;
-    u64 nowTick;
-    s8 *lengthEnd;
-    s8 savedByte;
-    s32 n;
-    LowEntropyData entropyData;
-    char *s;
-    const char *contentLengthText;
-
-    headerReceived = 0;
-    socketBuffers = &http->mSoc;
-    sslInfo = &http->mHttpsState;
-    receiveBuffer = &http->mReceiveBuffer;
-    timeoutMillis = http->mParam.mTimeoutMillis;
-    if (timeoutMillis <= 0) {
-        timeoutMillis = 60000;
-    }
-    MI_CpuFill8(socketBuffers, 0, 0x64);
-    socketBuffers->mReceiveBufferSize = 0xb68;
-    socketBuffers->mReceiveBuffer = http->mLowReceiveBuffer;
-    socketBuffers->mSendBufferSize = 0x5ea;
-    socketBuffers->mSendBuffer = http->mLowSendBuffer;
-    CPS_SocRegister(socketBuffers);
-    hostAddress = CPS_Resolve(http->mHost);
-    if (hostAddress == 0) {
-        http->mResult = 2;
-        return;
-    }
-    CPS_SocUse();
-    if (http->mUseHttps == 1) {
-        MI_CpuFill8(sslInfo, 0, 0x804);
-        sslInfo->mUnk_7e4 = DWCi_Http_CPSCallback;
-        sslInfo->mUnk_7d4 = http->mHost;
-        socketBuffers->mUnk_0c = sslInfo;
-        SetAuthorityTable((u32) gCaInfoTable, 0xb);
-        CPS_SetSsl(1);
-        port = 0x1bb;
-    } else {
-        port = 0x50;
-    }
-    CPS_SocBind(0, port, hostAddress);
-    startTick = OS_GetTick();
-    if (http->mUseHttps == 1) {
-        OS_GetLowEntropyData(&entropyData);
-        MixBytesIntoRandomState(&entropyData, 0x20);
-        entropyTick = startTick;
-    }
-    if (CPS_TcpConnect() != 0) {
-        http->mResult = 3;
-        CPS_SocRelease();
-        CPS_SocUnRegister();
-        return;
-    }
-    http->mSendBuffer.mCursor = http->mSendBuffer.mStart;
-    s = http->mSendBuffer.mStart;
-    http->mSendBuffer.mEnd = s + strlen(s);
-    while (http->mSendBuffer.mCursor < http->mSendBuffer.mEnd) {
-        if (CPSMyIp == 0) {
-            http->mResult = 5;
-            goto fail;
-        }
-        n = http->mSendBuffer.mEnd - http->mSendBuffer.mCursor;
-        if (n > 0x238) {
-            n = 0x238;
-        }
-        n = CPS_SocWrite((const u8 *) http->mSendBuffer.mCursor, n);
-        if (n <= 0) {
-            http->mResult = 5;
-            goto fail;
-        }
-        CPS_SocFlush();
-        nowTick = OS_GetTick();
-        if ((u64) timeoutMillis < (nowTick - startTick) * 64 / 0x82ea) {
-            http->mResult = 4;
-            goto fail;
-        }
-        if (http->mUseHttps == 1) {
-            if (1000 < (nowTick - entropyTick) * 64 / 0x82ea) {
-                OS_GetLowEntropyData(&entropyData);
-                MixBytesIntoRandomState(&entropyData, 0x20);
-                entropyTick = nowTick;
-            }
-        }
-        http->mSendBuffer.mCursor += n;
-        if (SleepUnlessHttpAborted(http) == 0) {
-            http->mResult = 7;
-            goto fail;
-        }
-    }
-    FreeHttpBuffer(http, &http->mSendBuffer);
-    OS_LockMutex(&http->mReceiveMutex);
-    if (http->mParam.mReceiveBufferStart == NULL) {
-        if (InitHttpBuffer(http, &http->mReceiveBuffer, http->mParam.mReceiveBufferSize) == 0) {
-            http->mResult = 1;
-            OS_UnlockMutex(&http->mReceiveMutex);
-            goto fail;
-        }
-    } else {
-        http->mReceiveBuffer.mStart = http->mParam.mReceiveBufferStart;
-        http->mReceiveBuffer.mCursor = http->mReceiveBuffer.mStart;
-        http->mReceiveBuffer.mEnd = http->mReceiveBuffer.mStart + http->mParam.mReceiveBufferSize;
-        http->mReceiveBuffer.mSize = http->mParam.mReceiveBufferSize;
-    }
-    receiveBuffer->mCursor = receiveBuffer->mStart;
-    receiveBuffer->mEnd = receiveBuffer->mStart + receiveBuffer->mSize;
-    OS_UnlockMutex(&http->mReceiveMutex);
-    while (1) {
-        if (CPSMyIp == 0) {
-            http->mResult = 5;
-            goto fail;
-        }
-        OS_LockMutex(&http->mReceiveMutex);
-        if (receiveBuffer->mCursor >= receiveBuffer->mEnd - 1) {
-            OS_UnlockMutex(&http->mReceiveMutex);
-            break;
-        }
-        n = CPS_SocGetLength();
-        if (n > 0) {
-            receivedData = CPS_SocRead((u32 *) &n);
-            if (receivedData == NULL) {
-                OS_UnlockMutex(&http->mReceiveMutex);
-                break;
-            }
-            bufferSpace = receiveBuffer->mEnd - 1 - receiveBuffer->mCursor;
-            copyLength = n;
-            if ((s32) copyLength >= bufferSpace) {
-                copyLength = bufferSpace;
-            }
-            MI_CpuCopy8(receivedData, receiveBuffer->mCursor, copyLength);
-            receiveBuffer->mCursor += copyLength;
-            *receiveBuffer->mCursor = 0;
-            if (headerReceived != 1) {
-                s = receiveBuffer->mStart;
-                if (strstr(s, gHttpHeaderEndMarker) != NULL) {
-                    headerReceived = 1;
-                    http->mBodyStart = strstr(s, gHttpHeaderEndMarker) + 4;
-                    contentLengthText = strstr(receiveBuffer->mStart, gContentLengthHeaderText);
-                    if (contentLengthText != NULL) {
-                        contentLengthText = contentLengthText + strlen(gContentLengthHeaderText);
-                        lengthEnd = (s8 *) strstr(contentLengthText, gHttpLineEndMarker);
-                        savedByte = *lengthEnd;
-                        *lengthEnd = 0;
-                        http->mContentLength = StrtolBase10(contentLengthText);
-                        *lengthEnd = savedByte;
-                    }
-                }
-            }
-            if (n > copyLength) {
-                CPS_SocConsume(n);
-                OS_UnlockMutex(&http->mReceiveMutex);
-                break;
-            }
-            CPS_SocConsume(copyLength);
-        }
-        if (n < 0) {
-            OS_UnlockMutex(&http->mReceiveMutex);
-            break;
-        }
-        if (http->mContentLength > 0 && n > 0 && http->mBodyStart + http->mContentLength <= receiveBuffer->mCursor) {
-            OS_UnlockMutex(&http->mReceiveMutex);
-            break;
-        }
-        nowTick = OS_GetTick();
-        if ((u64) timeoutMillis < (nowTick - startTick) * 64 / 0x82ea) {
-            http->mResult = 6;
-            OS_UnlockMutex(&http->mReceiveMutex);
-            goto fail;
-        }
-        if (http->mUseHttps == 1) {
-            if (1000 < (nowTick - entropyTick) * 64 / 0x82ea) {
-                OS_GetLowEntropyData(&entropyData);
-                MixBytesIntoRandomState(&entropyData, 0x20);
-                entropyTick = nowTick;
-            }
-        }
-        OS_UnlockMutex(&http->mReceiveMutex);
-        if (SleepUnlessHttpAborted(http) == 0) {
-            http->mResult = 7;
-            goto fail;
-        }
-    }
-    CPS_TcpShutdown();
-    CPS_TcpClose();
-    CPS_SocRelease();
-    CPS_SocUnRegister();
-    http->mResult = 8;
-    return;
-fail:
-    CPS_TcpShutdown();
-    CPS_TcpClose();
-    CPS_SocRelease();
-    CPS_SocUnRegister();
-}
-
-void ReleaseHttp(Http *a) {
-    if (a != NULL) {
-        if (a->mParam.mReceiveBufferStart == NULL) {
-            FreeHttpBuffer(a, &a->mReceiveBuffer);
-        }
-        FreeHttpBuffer(a, &a->mSendBuffer);
-        if (a->mLowReceiveBuffer != NULL) {
-            a->mParam.mFree(gHttpLowReceiveBufferName, a->mLowReceiveBuffer, 0);
-            a->mLowReceiveBuffer = NULL;
-        }
-        if (a->mLowSendBuffer != NULL) {
-            a->mParam.mFree(gHttpLowSendBufferName, a->mLowSendBuffer, 0);
-            a->mLowSendBuffer = NULL;
-        }
-        MI_CpuFill8(a, 0, 0x1a60);
-    }
 }
