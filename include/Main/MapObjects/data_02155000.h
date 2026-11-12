@@ -18,7 +18,9 @@ struct Vec4;
 
 extern const struct Vec4 data_usa_02155194;
 
-extern const u16 gKartPaletteColors[];
+extern const u16 gKartPaletteColors[8];
+
+extern const char gKartEmblemTextureName[16];
 
 extern const u16 gTeamPaletteColors[];
 
@@ -33,8 +35,6 @@ typedef struct OtherKartEffectKind {
     /* 00 */ s32 mEffectId;
     /* 04 */ void (*mAdvance)(struct ParticleEmitter *p, s32 a);
 } OtherKartEffectKind;
-
-extern Vec3 gOtherCameraDistanceLimitsSquared;
 
 // 12-byte entry: four bytes and two string pointers.
 typedef struct StemSetParams {
@@ -61,8 +61,6 @@ extern const StemSetParams gLoseStems;
 extern const StemSetParams gCompleteStems;
 
 extern const StemSetParams gFailedStems;
-
-extern const u32 data_02155a54;
 
 extern const Vec3 data_usa_021557c4;
 

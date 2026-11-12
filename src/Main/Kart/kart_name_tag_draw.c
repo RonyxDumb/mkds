@@ -34,6 +34,9 @@
 #include "registers.h"
 #include "Main/Graphics/model_animation_looping.h"
 
+const char gKartEmblemTextureName[16] = "kart_emblem";
+const u16 gKartPaletteColors[8] = {0x280, 0x7d48, 0x35f, 0x1f, 0x48cc, 0x7ac0, 0x11be, 0x6c1b};
+
 void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed) {
     u16 heightTexCoord;
     u16 widthTexCoord;
@@ -436,8 +439,8 @@ void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData) {
     u32 texOffset;
     u32 plttOffset;
     kartModelResMdl = GetKartModelResMdl((u16) kartIndex);
-    textureIndex =
-        NNS_G3dGetResDictIdxByName(kartModelResMdl + *OFFSET_PTR(u32, kartModelResMdl, 8) + 4, &data_02155a54);
+    textureIndex = NNS_G3dGetResDictIdxByName(kartModelResMdl + *OFFSET_PTR(u32, kartModelResMdl, 8) + 4,
+                                              (const u32 *) gKartEmblemTextureName);
     texBlock = kartModelResMdl + *OFFSET_PTR(u32, kartModelResMdl, 8);
     texDict = texBlock + 4;
     dictEntrySize = *(u16 *) (texDict + *OFFSET_PTR(u16, texBlock, 0xa));

@@ -1901,7 +1901,7 @@ src/Main/Kart/kart_ai.c:
 src/Main/Kart/kart_name_tags.c:
     complete
     .text       start:0x02086058 end:0x02086e8c
-    .rodata     start:0x02155a28 end:0x02155a48
+    .rodata     start:0x02155a28 end:0x02155a54
     .data       start:0x021659a0 end:0x021659d4
     .bss        start:0x0217aea4 end:0x0217af00
 
@@ -1909,6 +1909,7 @@ src/Main/Kart/kart_name_tags.c:
 src/Main/Kart/kart_name_tag_draw.c:
     complete
     .text       start:0x02086e8c end:0x02087918
+    .rodata     start:0x02155a54 end:0x02155a74
     .data       start:0x02165a7c end:0x02165a8c
 
 // provisional: file name and boundaries

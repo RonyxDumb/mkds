@@ -8018,7 +8018,7 @@ gRegionPaletteColors kind:data(any) addr:0x02155a2c
 gUnusedPaletteColors kind:data(any) addr:0x02155a34
 gChaseDistanceLimitsSquared kind:data(any) addr:0x02155a3c
 gOtherCameraDistanceLimitsSquared kind:data(any) addr:0x02155a48
-data_02155a54 kind:data(any) addr:0x02155a54
+gKartEmblemTextureName kind:data(any) addr:0x02155a54
 gKartPaletteColors kind:data(any) addr:0x02155a64
 gKartNameTagQuadVertices kind:data(any) addr:0x02155a74
 data_usa_02155a8c kind:data(any) addr:0x02155a8c

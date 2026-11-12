@@ -68,6 +68,7 @@ extern s32 gKartNameTagEntry3ScaleY;
 extern s32 gKartNameTagEntry2XOffset;
 
 extern const Vec3 gChaseDistanceLimitsSquared;
+extern const Vec3 gOtherCameraDistanceLimitsSquared;
 
 extern u8 *gKartEntryNameTexBuffer;
 extern u16 *gKartEntryNamePlltBuffer;
