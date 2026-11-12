@@ -926,7 +926,7 @@ void RequestKartSound(void *kart, int soundId) {
     int sortKeyBase;
 
     sortKeyBase = GetKartCameraDistanceSquared(((Kart *) kart)->mIndex);
-    AddSoundRequest(&data_0217d284, sortKeyBase + GetKartSoundRequestSortOffset(), StartKartSoundWhileRequested, kart,
+    AddSoundRequest(&gSoundRequestQueues[3], sortKeyBase + GetKartSoundRequestSortOffset(), StartKartSoundWhileRequested, kart,
                     soundId);
 }
 

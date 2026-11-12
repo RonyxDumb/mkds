@@ -110,7 +110,7 @@ void AdvanceItemKouraG(ItemKouraG *koura) {
     if (koura->mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
-    AddSoundRequest(&gKouraSoundRequestQueue,
+    AddSoundRequest(&gSoundRequestQueues[5],
                     (koura->mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f) + 0x9c40,
                     StartItemKouraGSound, koura, 0);
 }

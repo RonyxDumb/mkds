@@ -163,7 +163,7 @@ void UpdateItemKouraRState0And1(ItemKouraR *kouraR) {
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
-    AddSoundRequest(&gKouraSoundRequestQueue,
+    AddSoundRequest(&gSoundRequestQueues[5],
                     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                         ~0xc000001f,
                     StartItemKouraRSound, kouraR, 0);
@@ -194,7 +194,7 @@ void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex) {
 void UpdateItemKouraRState2(ItemKouraR *kouraR) {
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0x8800);
     if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
-        AddSoundRequest(&gKouraSoundRequestQueue,
+        AddSoundRequest(&gSoundRequestQueues[5],
                         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                             ~0xc000001f,
                         StartItemKouraRSound, kouraR, 0);
@@ -254,7 +254,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
     }
     AdvanceLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0xd000, 0x29, targetKartIndex, 0);
     if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
-        AddSoundRequest(&gKouraSoundRequestQueue,
+        AddSoundRequest(&gSoundRequestQueues[5],
                         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                             ~0xc000001f,
                         StartItemKouraRSound, kouraR, 0);
@@ -344,7 +344,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
-    AddSoundRequest(&gKouraSoundRequestQueue,
+    AddSoundRequest(&gSoundRequestQueues[5],
                     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                         ~0xc000001f,
                     StartItemKouraRSound, kouraR, 0);
@@ -367,7 +367,7 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
         SteerItemKouraRToKart(kouraR, 0x10000, 0x333, 0);
     }
     if ((kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) == 0) {
-        AddSoundRequest(&gKouraSoundRequestQueue,
+        AddSoundRequest(&gSoundRequestQueues[5],
                         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                             ~0xc000001f,
                         StartItemKouraRSound, kouraR, 0);
@@ -390,7 +390,7 @@ void UpdateItemKouraRState6(ItemKouraR *kouraR) {
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
-    AddSoundRequest(&gKouraSoundRequestQueue,
+    AddSoundRequest(&gSoundRequestQueues[5],
                     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                         ~0xc000001f,
                     StartItemKouraRSound, kouraR, 0);

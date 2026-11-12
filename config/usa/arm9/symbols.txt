@@ -11886,13 +11886,7 @@ gSeqVariableEnabled kind:bss addr:0x0217d21c
 gSeqPlayerControl kind:bss addr:0x0217d224
 gSeqVariableReadings kind:bss addr:0x0217d234
 gSoundRequestQueues kind:bss addr:0x0217d24c
-gKartSoundUpdateRequestQueue kind:bss addr:0x0217d254
-data_0217d284 kind:bss addr:0x0217d264
-gThunderShrinkSoundRequestQueue kind:bss addr:0x0217d26c
-gKouraSoundRequestQueue kind:bss addr:0x0217d274
-data_0217d29c kind:bss addr:0x0217d27c
 gSeqQueue kind:bss addr:0x0217d284
-gSeqQueuePairSides kind:bss addr:0x0217d2bc
 gRaceEndSeqCallCount kind:bss addr:0x0217d300
 gRaceEndSeqStarted kind:bss addr:0x0217d304
 gRaceEndNextSeqPending kind:bss addr:0x0217d308

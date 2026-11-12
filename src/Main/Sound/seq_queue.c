@@ -34,19 +34,19 @@
 
 const s32 gLapProgressSoundGapDividends[2] = {0x14000, 0x10000};
 u16 gLapProgressSoundIds[2] = {0x7e, 0x7c};
-u32 gEmblemSoundCallsSincePlay;
 u32 gThunderShrinkSoundCounter;
-s32 gKingTeresaStateLastFrame;
-u32 gAnySeqVariableEnabled;
 s32 gKartNearPlayerVolumeFactor;
+s32 gKingTeresaSeqVolumeFactor;
+u32 gAnySeqVariableEnabled;
+s32 gKingTeresaStateFrames;
 s32 gKingTeresaState;
-s32 gInitialVolumePerFrame;
+s32 gKingTeresaStateLastFrame;
 s32 gPreviousKingTeresaState;
 s32 gUseKingTeresaSeqVolume;
 s32 gKartNearSeqVolumeFactor;
-s32 gKingTeresaStateFrames;
+s32 gInitialVolumePerFrame;
 s32 gEmblemSoundValue;
-s32 gKingTeresaSeqVolumeFactor;
+u32 gEmblemSoundCallsSincePlay;
 s32 gKingTeresaSoundVolumeFactor;
 volatile s32 gReachedSeqVolume;
 u32 gSeqVariableEnabled[2];
@@ -55,6 +55,8 @@ s32 gLapProgressSoundGaps[2];
 s32 gKingTeresaVolumePerFrame[2];
 SeqPlayerControl gSeqPlayerControl;
 SeqVariableReading gSeqVariableReadings[2];
+SoundRequestQueue gSoundRequestQueues[7];
+SeqQueue gSeqQueue;
 
 void SetEmblemSoundValue(u32 value) {
     gEmblemSoundValue = value;
@@ -112,7 +114,7 @@ void UpdateSeqQueue(void) {
                 SetSndHandleTrackVolume(&gSharedSeqHandle, 0x3c);
             }
             gSeqQueue.mPairNo[queue->mReadIndex] = 13;
-            gSeqQueuePairSides[queue->mReadIndex] = 2;
+            gSeqQueue.mPairSide[queue->mReadIndex] = 2;
             queue->mNextStartTimer = 0x19;
             queue->mReadIndex = queue->mReadIndex + 1;
             readIndex = queue->mReadIndex;
@@ -636,7 +638,7 @@ void StartThunderShrinkSound(void *kartAddress, int secondArgument) {
 }
 
 void RequestThunderShrinkSound(Kart *kart) {
-    AddSoundRequest(&gThunderShrinkSoundRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+    AddSoundRequest(&gSoundRequestQueues[4], GetKartCameraDistanceSquared(kart->mIndex),
                     StartThunderShrinkSound, kart, 0);
 }
 

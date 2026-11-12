@@ -183,21 +183,21 @@ void UpdateKartSound(Kart *kart) {
                 pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
                 soundRecord->mVolume = 0x7f;
                 soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_04;
-                AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+                AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) StartKartClampedPitchSound, kart, (s32) soundRecord);
             } else {
                 targetPitch = MUL_FIXED12_ROUNDED(value, 0x480000);
                 pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
                 soundRecord->mVolume = 0x46;
                 soundRecord->mSoundId = soundRecord->mSoundRow.mUnk_04;
-                AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+                AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) StartKartClampedPitchSound, kart, (s32) soundRecord);
             }
         } else {
             soundRecord->mTargetPitch = 0;
             soundRecord->mPitchPerCall = 0;
             soundRecord->mVolume = 0x3c;
-            AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+            AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                             (void (*)(void *, int)) StartKartLowRatioSound, kart, (s32) soundRecord);
             pitch = -1;
         }
@@ -215,7 +215,7 @@ void UpdateKartSound(Kart *kart) {
             pitch = 0x280000;
         }
         soundRecord->mVolume = gSurfaceSoundVolumeByRatio[(kart->mVelocityLengthRatio >> 8) & 0xff];
-        AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+        AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) StartKartSurfaceSoundWithPitch, kart, (s32) soundRecord);
     } else if (kartFlag2Set != 0 || (pitch != 0 && kart->mForwardSpeed < 0)) {
         if (aboveSpeedLimit != 0) {
@@ -229,7 +229,7 @@ void UpdateKartSound(Kart *kart) {
             soundRecord->mSoundId = kart->mVelocityLengthRatio < 0x333 ? soundRecord->mSoundRow.mKeyALowRatioSoundId
                                                                        : soundRecord->mSoundRow.mKeyAHighRatioSoundId;
         }
-        AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+        AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) StartKartSound, kart, (s32) soundRecord);
     } else {
         if (aboveSpeedLimit != 0) {
@@ -246,7 +246,7 @@ void UpdateKartSound(Kart *kart) {
         } else {
             soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
         }
-        AddSoundRequest(&gKartSoundUpdateRequestQueue, GetKartCameraDistanceSquared(kart->mIndex),
+        AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) StartKartSound, kart, (s32) soundRecord);
     }
     soundRecord->mPitch = pitch;

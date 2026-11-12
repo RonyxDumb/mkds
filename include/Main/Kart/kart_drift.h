@@ -80,9 +80,6 @@ typedef struct SoundRequestQueue {
     /* 4 */ SoundRequest *mRequests;
 } SoundRequestQueue;
 
-extern SoundRequestQueue gKouraSoundRequestQueue;
-extern SoundRequestQueue data_0217d29c;
-
 // Frames before the Killer effect may end early because of the kart's rank.
 #define KART_KILLER_RANK_END_FRAMES 0xb4
 // Frames after which the Killer effect ends.
@@ -786,9 +783,6 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn);
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);
 extern SoundRequestQueue gSoundRequestQueues[7];
-extern SoundRequestQueue gKartSoundUpdateRequestQueue;
-extern SoundRequestQueue data_0217d284;
-extern SoundRequestQueue gThunderShrinkSoundRequestQueue;
 #include "Main/Sound/sound_request_queue.h"
 void RequestKartSound(void *kart, int arg);
 void KartStartSoundFullVolume(void *soundSource, int arg);

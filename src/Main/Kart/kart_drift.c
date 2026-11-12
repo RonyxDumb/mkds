@@ -1336,7 +1336,7 @@ recheck:
     }
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-        AddSoundRequest(&data_0217d284, distanceSquared + GetKartFullVolumeSoundSortOffset(), KartStartSoundFullVolume,
+        AddSoundRequest(&gSoundRequestQueues[3], distanceSquared + GetKartFullVolumeSoundSortOffset(), KartStartSoundFullVolume,
                         kart, 0xcf);
     }
     kart->mMotionFlags |= KART_MOTION_HOPPING | KART_MOTION_HOP_ACTIVE | KART_MOTION_HOP_STEER;

@@ -30,7 +30,7 @@ void StartMapObjectCounterSound(void *mapSound, s32 baseSoundId) {
 }
 
 void QueueShine16SoundWhileRequested(struct MapObjectSound *mapSound, s32 soundId) {
-    AddSoundRequest(&data_0217d29c, mapSound->mSoundSource.mDistanceSquared + 0x15f90,
+    AddSoundRequest(&gSoundRequestQueues[6], mapSound->mSoundSource.mDistanceSquared + 0x15f90,
                     MapStartSoundWhileRequestedFullVolume, mapSound, soundId);
 }
 
@@ -61,7 +61,7 @@ void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId) {
             distanceOffset = 0x19;
             break;
     }
-    AddSoundRequest(&data_0217d29c, mapSound->mSoundSource.mDistanceSquared + distanceOffset,
+    AddSoundRequest(&gSoundRequestQueues[6], mapSound->mSoundSource.mDistanceSquared + distanceOffset,
                     StartMapObjectCounterSound, mapSound, soundId);
 }
 
@@ -79,7 +79,7 @@ void StartBalloonSound(void *position, s32 distanceSquared) {
 }
 
 void QueueBalloonSound(void *position, s32 distanceSquared) {
-    AddSoundRequest(&data_0217d29c, distanceSquared, StartBalloonSound, position, distanceSquared);
+    AddSoundRequest(&gSoundRequestQueues[6], distanceSquared, StartBalloonSound, position, distanceSquared);
 }
 
 void StartIronBallBounceSound(struct MapObjectSound *soundSource, s32 fixedValue) {

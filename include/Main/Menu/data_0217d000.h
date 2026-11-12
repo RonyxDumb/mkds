@@ -747,8 +747,6 @@ extern struct NNSSndArc *sCurrent;
 
 extern SeqQueue gSeqQueue;
 
-extern s32 gSeqQueuePairSides[];
-
 extern ScenePlayers gScenePlayers;
 
 extern SoundModeHolder gSoundModeHolder;
