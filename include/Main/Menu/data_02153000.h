@@ -80,7 +80,6 @@ extern const char *gResultsBattleVictoryMBnclName[][9];
 
 extern const char *gResultsBattleVictoryMBnllName[][9];
 
-extern u16 data_02153f00[][4];
 
 
 // Objects whose layout isn't known yet.

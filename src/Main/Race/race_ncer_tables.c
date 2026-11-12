@@ -35,6 +35,8 @@
 #include "g2d_CharCanvas.h"
 #include "code_0214cfe4.h"
 
+struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;
+
 void InitRaceNcerNclrNcgrTables(void) {
     Unk02021dc8 *raceMCells;
     Unk02021dc8 *raceGoalMCells;

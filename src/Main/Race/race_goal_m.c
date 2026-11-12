@@ -61,6 +61,12 @@
 #include "registers.h"
 #include "code_02147cd8.h"
 
+const Vec3 gVec3Zero = {0, 0, 0};
+struct RaceTaPositions *gRaceTaPositions;
+struct RaceGoalM *gRaceGoalM;
+struct RaceStartGp *gRaceStartGp;
+struct RaceLinkLevel *gRaceLinkLevel;
+
 BOOL IsRaceGoalMReady(void) {
     return (gRaceGoalM->mReady);
 }
@@ -513,8 +519,6 @@ u16 UpdateRaceStartGp(void) {
     gRaceStartGp->mUpdateFrames = gRaceStartGp->mUpdateFrames + 1;
     return reg_GX_POWCNT;
 }
-
-const Vec3 gVec3Zero = {0, 0, 0};
 
 void DrawRaceStartGp(void) {
     RaceHudOamBuffer *oamBuffer;

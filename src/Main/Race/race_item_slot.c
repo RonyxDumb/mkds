@@ -59,6 +59,9 @@
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
 
+RaceItemSlot *gRaceItemSlot;
+RaceModeCount *gRaceModeCount;
+
 void InitRaceItemSlot(void) {
     RaceItemSlot *itemSlot;
 

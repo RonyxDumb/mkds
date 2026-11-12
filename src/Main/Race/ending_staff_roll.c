@@ -14,6 +14,8 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "registers.h"
 
+struct EndingStaffRollObject *gEndingStaffRoll;
+
 void UploadEndingStaffRollOam(void) {
     DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
     GX_LoadOAM(&gEndingStaffRoll->mOamBuffer, 0, 0x400);

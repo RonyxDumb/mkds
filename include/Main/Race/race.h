@@ -10,9 +10,6 @@ typedef struct Race Race;
 
 #include "code_02012b30.h" // MtxFx43
 
-extern u16 data_021653e8;
-extern s16 data_021653ec;
-extern Vec3 data_021653f0;
 
 u32 GetGhostRecordCourseId(GhostRecordHead *ghostRecord);
 s32 GetGhostRecordKartIndex(GhostRecordHead *ghostRecord);
@@ -65,3 +62,9 @@ unsigned int IsRaceAwardOrStaffRoll(void);
 // Returns Race.mUseChainCameras: 1 for the kinds 3 to 5 of RaceSetup.mUnk_00c, which other code also uses to tell
 // those kinds apart; changes nothing.
 unsigned int GetRaceUseChainCameras(void);
+
+extern u16 gFadeFogRemaining;
+extern s16 gToonTableFramesLimit;
+extern Vec3 gRaceLightVector;
+extern const u16 gToonTableFirstColors[8];
+extern const u16 gToonTableSecondColors[8];

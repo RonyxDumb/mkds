@@ -61,6 +61,8 @@
 #include "Main/Race/race_goal_s_draw.h"
 #include "Main/Race/race_m_number_pair.h"
 
+u16 *gRaceHudSubScreenPalettes;
+
 BOOL GetShowLapTime(void) {
     return (gRaceHud->mShowLapTime);
 }

@@ -137,7 +137,6 @@ extern const char gMoveTreeNsbmdName[];
 
 extern const char gMoveTreeNsbcaName[];
 
-extern char gStaffGhostTimeBinName[];
 
 extern char gSmanBottomNsbmdName[];
 

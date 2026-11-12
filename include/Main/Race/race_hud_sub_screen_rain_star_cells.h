@@ -72,3 +72,20 @@ void UpdateRaceHudSubScreenRainStarCells(void);
 void ClearRaceHudSubScreenRainStarCells(void);
 
 void ClearRaceHudSubScreenPendulumCells(void);
+
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenBasabasaCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenPendulumCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenNsKiller2Cells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenFlipperCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenWoodbox1Cells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenRockCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenSanboCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenRock2Cells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenCoverPooHoleCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenObPakkunSfCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenKuriboCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenIronBallCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenSunFireballCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBurnerCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenBoundCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBubbleCells;

@@ -7814,11 +7814,11 @@ data_usa_021537dc kind:data(any) addr:0x021537dc
 data_usa_021537f4 kind:data(any) addr:0x021537f4
 data_usa_02153834 kind:data(any) addr:0x02153834
 gEngineMessageIndexTable kind:data(any) addr:0x02153860
-data_usa_02153868 kind:data(any) addr:0x02153868
+gCupNameLeftCharIndices kind:data(any) addr:0x02153868
 gCupRankCellIndexTable kind:data(any) addr:0x02153878
-data_usa_02153888 kind:data(any) addr:0x02153888
-data_usa_02153898 kind:data(any) addr:0x02153898
-data_usa_02153918 kind:data(any) addr:0x02153918
+gResultsGpGradeCellIndices kind:data(any) addr:0x02153888
+gResultsGpCupCourseIds kind:data(any) addr:0x02153898
+gResultsGpSubLabelCanvasEntries kind:data(any) addr:0x02153918
 gCourseRowCellIndices kind:data(any) addr:0x021539d8
 gCourseTimerDigitCellIndices kind:data(any) addr:0x021539e0
 gWiFiVSCourseSelectMLabelTextRows kind:data(any) addr:0x021539f4
@@ -7857,7 +7857,7 @@ gResultsBattleOwnEntryLabelTextRows kind:data(any) addr:0x02153e98
 gResultsBattleKartFirstCellIndices kind:data(any) addr:0x02153ea0
 gResultsBattleTeamFirstCellIndices kind:data(any) addr:0x02153eb0
 gResultsBattleRankZeroLabelTextRows kind:data(any) addr:0x02153ec0
-data_02153f00 kind:data(any) addr:0x02153f00
+gResultsBattleSubLabelCanvasEntries kind:data(any) addr:0x02153f00
 gResultsBattleVictoryMBNcgrName kind:data(any) addr:0x02153f80
 gResultsBattleVictoryMBNclrName kind:data(any) addr:0x02153f84
 gResultsBattleVictoryMUpperNscrName kind:data(any) addr:0x02153f88
@@ -7908,8 +7908,8 @@ gEloChangeTable kind:data(any) addr:0x021548e0
 gDWCUtilityLanguageTable kind:data(any) addr:0x02154904
 gSceneFuncs kind:data(any) addr:0x0215490c
 gTimeRecordCharTable kind:data(any) addr:0x0215494c
-data_02154970 kind:data(any) addr:0x02154970
-data_02154980 kind:data(any) addr:0x02154980
+gToonTableFirstColors kind:data(any) addr:0x02154970
+gToonTableSecondColors kind:data(any) addr:0x02154980
 data_usa_02154990 kind:data(any) addr:0x02154990
 data_usa_021549a0 kind:data(any) addr:0x021549a0
 data_usa_021549b0 kind:data(any) addr:0x021549b0
@@ -8986,29 +8986,29 @@ gSelectKartSBnclName kind:data(any) addr:0x021620e4
 gSelectKartSBnllName kind:data(any) addr:0x021620f8
 gSelectKartSBnblName kind:data(any) addr:0x0216210c
 gCommonBmgName2 kind:data(any) addr:0x02162120
-gMissionMrName kind:data(any) addr:0x0216212c
-data_usa_02162138 kind:data(any) addr:0x02162138
-gSecretBmgName kind:data(any) addr:0x02162144
-gResultsGpMBNcgrName kind:data(any) addr:0x02162150
-gResultsGpMBNclrName kind:data(any) addr:0x02162164
-gResultsGpM1NscrName kind:data(any) addr:0x02162178
-gResultsGpM2NscrName kind:data(any) addr:0x0216218c
-gResultsGpMNcgrName kind:data(any) addr:0x021621a0
-gResultsGpMNcerName kind:data(any) addr:0x021621b8
-gResultsGpMONclrName kind:data(any) addr:0x021621d0
-gResultsGpMBnclName kind:data(any) addr:0x021621e4
-gResultsGpMBnllName kind:data(any) addr:0x021621f8
-gResultsGpSBNcgrName kind:data(any) addr:0x0216220c
-gResultsGpSBNclrName kind:data(any) addr:0x02162220
-gResultsGpSNscrName kind:data(any) addr:0x02162234
-gResultsGpSNcgrName kind:data(any) addr:0x02162248
-gResultsGpSNcerName kind:data(any) addr:0x02162260
-gResultsGpSONclrName kind:data(any) addr:0x02162278
-gResultsGpSBnclName kind:data(any) addr:0x0216228c
-gResultsGpSBnllName kind:data(any) addr:0x021622a0
-gCupNameLeftNcgrName kind:data(any) addr:0x021622b4
-gCupNameLeftNcerName kind:data(any) addr:0x021622cc
-gCupNameLeftBnclName kind:data(any) addr:0x021622e4
+@5369 kind:data(any) addr:0x0216212c local
+@6237 kind:data(any) addr:0x02162138 local
+@6238 kind:data(any) addr:0x02162144 local
+@6239 kind:data(any) addr:0x02162150 local
+@6240 kind:data(any) addr:0x02162164 local
+@6241 kind:data(any) addr:0x02162178 local
+@6242 kind:data(any) addr:0x0216218c local
+@6243 kind:data(any) addr:0x021621a0 local
+@6244 kind:data(any) addr:0x021621b8 local
+@6245 kind:data(any) addr:0x021621d0 local
+@6246 kind:data(any) addr:0x021621e4 local
+@6247 kind:data(any) addr:0x021621f8 local
+@6248 kind:data(any) addr:0x0216220c local
+@6249 kind:data(any) addr:0x02162220 local
+@6250 kind:data(any) addr:0x02162234 local
+@6251 kind:data(any) addr:0x02162248 local
+@6252 kind:data(any) addr:0x02162260 local
+@6253 kind:data(any) addr:0x02162278 local
+@6254 kind:data(any) addr:0x0216228c local
+@6255 kind:data(any) addr:0x021622a0 local
+@6256 kind:data(any) addr:0x021622b4 local
+@6257 kind:data(any) addr:0x021622cc local
+@6258 kind:data(any) addr:0x021622e4 local
 data_021622f8 kind:data(any) addr:0x021622f8
 data_02162318 kind:data(any) addr:0x02162318
 data_02162338 kind:data(any) addr:0x02162338
@@ -9256,15 +9256,15 @@ data_usa_021640dc kind:data(any) addr:0x021640dc
 data_usa_02164100 kind:data(any) addr:0x02164100
 data_usa_02164124 kind:data(any) addr:0x02164124
 data_usa_02164148 kind:data(any) addr:0x02164148
-gCommonBmgName kind:data(any) addr:0x0216416c
-gResultsBattleSBNcgrName kind:data(any) addr:0x02164178
-gResultsBattleSBNclrName kind:data(any) addr:0x02164190
-gResultsBattleSBgNscrName kind:data(any) addr:0x021641a8
-gResultsBattleSNcgrName kind:data(any) addr:0x021641c4
-gResultsBattleSNcerName kind:data(any) addr:0x021641e0
-gResultsBattleSONclrName kind:data(any) addr:0x021641fc
-gResultsBattleSBnclName kind:data(any) addr:0x02164214
-gResultsBattleSBnllName kind:data(any) addr:0x0216422c
+@6958 kind:data(any) addr:0x0216416c local
+@6959 kind:data(any) addr:0x02164178 local
+@6960 kind:data(any) addr:0x02164190 local
+@6961 kind:data(any) addr:0x021641a8 local
+@6962 kind:data(any) addr:0x021641c4 local
+@6963 kind:data(any) addr:0x021641e0 local
+@6964 kind:data(any) addr:0x021641fc local
+@6965 kind:data(any) addr:0x02164214 local
+@6966 kind:data(any) addr:0x0216422c local
 data_usa_02164244 kind:data(any) addr:0x02164244
 gTimeAttackGhostGetScanSSelLabelTextRows kind:data(any) addr:0x02164254
 data_usa_0216425a kind:data(any) addr:0x0216425a
@@ -9315,8 +9315,8 @@ gGhostPathFormat kind:data(any) addr:0x02164754
 @643 kind:data(any) addr:0x02164770 local
 data_usa_0216478c kind:data(any) addr:0x0216478c
 gTitleSceneCallbacks kind:data(any) addr:0x02164798
-gRankPointRptName kind:data(any) addr:0x021647b8
-gRankTimeGpRttName kind:data(any) addr:0x021647c8
+@5588 kind:data(any) addr:0x021647b8 local
+@5589 kind:data(any) addr:0x021647c8 local
 @2330 kind:data(any) addr:0x021647d8 local
 @2331 kind:data(any) addr:0x021647e8 local
 @2332 kind:data(any) addr:0x02164800 local
@@ -9529,9 +9529,9 @@ gSceneNumbers kind:data(any) addr:0x021653b8
 gRunGhostSceneCallbacks kind:data(any) addr:0x021653c0
 gResultTotalMax kind:data(any) addr:0x021653e0
 gSecondTotalLimitBase kind:data(any) addr:0x021653e4
-data_021653e8 kind:data(any) addr:0x021653e8
-data_021653ec kind:data(any) addr:0x021653ec
-data_021653f0 kind:data(any) addr:0x021653f0
+gFadeFogRemaining kind:data(any) addr:0x021653e8
+gToonTableFramesLimit kind:data(any) addr:0x021653ec
+gRaceLightVector kind:data(any) addr:0x021653f0
 data_usa_021653fc kind:data(any) addr:0x021653fc
 gCourseModelNsbmdName kind:data(any) addr:0x02165404
 gCourseModelNsbtxName kind:data(any) addr:0x02165418
@@ -9878,7 +9878,7 @@ gAwardStripCharacterZOffsets kind:data(any) addr:0x0216641c
 gAwardStripKartYOffsets kind:data(any) addr:0x02166480
 gAwardTrackNsbtxName kind:data(any) addr:0x02166514
 gHanegameNsbtxName kind:data(any) addr:0x02166530
-gStaffGhostTimeBinName kind:data(any) addr:0x02166548
+@6050 kind:data(any) addr:0x02166548 local
 data_usa_0216656c kind:data(any) addr:0x0216656c
 gSmanBottomNsbmdName kind:data(any) addr:0x021665a0
 gSmanTopNsbmdName kind:data(any) addr:0x021665b4
@@ -11282,30 +11282,30 @@ gParticipantKartMap kind:bss addr:0x0217a9f8
 gCupRecords kind:bss addr:0x0217a9fc
 gRunScenesState kind:bss addr:0x0217aa00
 gShapeMapObjectCountList kind:bss addr:0x0217aa04
-data_0217aa28 kind:bss addr:0x0217aa08
+gFadeFogColor kind:bss addr:0x0217aa08
 gFadeFogHoldFrames kind:bss addr:0x0217aa0c
-data_0217aa30 kind:bss addr:0x0217aa10
-data_0217aa34 kind:bss addr:0x0217aa14
-data_0217aa38 kind:bss addr:0x0217aa18
-data_0217aa3c kind:bss addr:0x0217aa1c
-data_0217aa40 kind:bss addr:0x0217aa20
-data_0217aa44 kind:bss addr:0x0217aa24
+gFadeFogFullColor kind:bss addr:0x0217aa10
+gCourseFogGreen kind:bss addr:0x0217aa14
+gCourseFogColor kind:bss addr:0x0217aa18
+gCourseFogBlue kind:bss addr:0x0217aa1c
+gCourseFogRed kind:bss addr:0x0217aa20
+gFadeFogByteBoost kind:bss addr:0x0217aa24
 gCourseFogOffset kind:bss addr:0x0217aa28
 gFadeFogStepping kind:bss addr:0x0217aa2c
-data_0217aa50 kind:bss addr:0x0217aa30
+gCourseFogAlpha kind:bss addr:0x0217aa30
 gRace kind:bss addr:0x0217aa34
-data_0217aa58 kind:bss addr:0x0217aa38
+gCourseFogLastEntry kind:bss addr:0x0217aa38
 gRaceEntryCamera kind:bss addr:0x0217aa3c
-data_0217aa60 kind:bss addr:0x0217aa40
+gFadeFogFullAlpha kind:bss addr:0x0217aa40
 gFadeFogActive kind:bss addr:0x0217aa44
-data_0217aa68 kind:bss addr:0x0217aa48
+gFadeFogAlpha kind:bss addr:0x0217aa48
 gCurrentCamera kind:bss addr:0x0217aa4c
 gFadeFogOffset kind:bss addr:0x0217aa50
-data_0217aa74 kind:bss addr:0x0217aa54
-data_0217aa78 kind:bss addr:0x0217aa58
+gGeBuffer kind:bss addr:0x0217aa54
+gFadeFogWeight kind:bss addr:0x0217aa58
 gCurrentViewMatrix kind:bss addr:0x0217aa5c
-data_0217aa80 kind:bss addr:0x0217aa60
-data_0217aa84 kind:bss addr:0x0217aa64
+gCourseFogSlope kind:bss addr:0x0217aa60
+gCourseFogWeight kind:bss addr:0x0217aa64
 gRaceChaseCamera kind:bss addr:0x0217aa68
 gFadeFogEntryBytes kind:bss addr:0x0217aa6c
 gFadeFogTable kind:bss addr:0x0217aa7c

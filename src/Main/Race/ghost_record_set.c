@@ -25,6 +25,8 @@
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 
+GhostRecordSet *gGhostRecordSet;
+
 #pragma thumb on
 
 void InitGhostRecordSet(void *heap) {

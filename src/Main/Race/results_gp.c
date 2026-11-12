@@ -42,6 +42,14 @@
 #include "Main/Race/gp_records_killer.h"
 #include "Main/MapObjects/data_02154000.h"
 
+const u16 gEngineMessageIndexTable[4] = {0x6e, 0x6f, 0x70, 0};
+const u16 gCupNameLeftCharIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+const u16 gCupRankCellIndexTable[8] = {0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13};
+const u16 gResultsGpGradeCellIndices[8] = {0xb, 0xa, 9, 8, 7, 6, 5, 4};
+const u32 gResultsGpCupCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13}, {0x22, 0x1a, 0x20, 0x1d}, {0xa, 0xb, 0xd, 0xe}, {0x23, 0x10, 0xc, 9}, {0xf, 0x24, 0x25, 0x26}, {0x27, 0x17, 0x28, 1}};
+const LabelCanvasEntry gResultsGpSubLabelCanvasEntries[16] = {{0, 0x2a, 0xd, 1, -1}, {1, 0x2a, 0xd, 2, -1}, {2, 0x37, 0xd, 3, -1}, {3, 0x37, 0xd, 4, -1}, {4, 0xaf, 0xd, 5, -1}, {5, 0xaf, 0xd, 6, -1}, {6, 0xaf, 0xd, 7, -1}, {7, 0xaf, 0xd, 8, -1}, {8, 0x40, 0xd, 9, -1}, {9, 0x40, 0xd, 0xa, -1}, {0xa, 0x40, 0xd, 0xb, -1}, {0xb, 0x40, 0xd, 0xc, -1}, {0xc, 0x40, 0xd, 0xd, -1}, {0xd, 0x40, 0xd, 0xe, -1}, {0xe, 0x40, 0xd, 0xf, -1}, {0xf, 0x40, 0xd, 0x10, -1}};
+ResultsGp *gResultsGp;
+
 #pragma thumb on
 
 // Sets up the Grand Prix results screen: loads its files and lays out the cup, course and time texts.
@@ -72,8 +80,8 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     MemFillWordsByBlock_inline(gResultsGp, 0x60);
     gResultsGp->mOamLists[0] = firstOamList;
     gResultsGp->mOamLists[1] = secondOamList;
-    gResultsGp->mCommonMessages = FindFileInLoadedArchives(data_usa_02162138);
-    gResultsGp->mSecretMessages = FindSceneFile(gSecretBmgName);
+    gResultsGp->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gResultsGp->mSecretMessages = FindSceneFile("secret.bmg");
     gResultsGp->mCupIndex = gMenuShared->mCupIndex;
     gResultsGp->mCupRankIndex = gMenuShared->mCupRankIndex;
     if (gResultsGp->mCupRankIndex < 0) {
@@ -98,15 +106,15 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &config);
-    LoadAndQueueScreenMapFileSet(0, &mainScreenMapFileSet, gResultsGpMBNcgrName, gResultsGpMBNclrName,
-                                 gResultsGpM1NscrName, 1, FindSceneFile);
-    LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile(gResultsGpM2NscrName));
+    LoadAndQueueScreenMapFileSet(0, &mainScreenMapFileSet, "results_gp_m_b.NCGR", "results_gp_m_b.NCLR",
+                                 "results_gp_m1.NSCR", 1, FindSceneFile);
+    LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile("results_gp_m2.NSCR"));
     NNS_GfdRegisterNewVramTransferTask(0xb, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
                                        mainScreenMapFileSet.mScreenMaps[3]->mDataSize);
     mainObjSize = GX_GetSizeOfOBJ();
     mainFileSet = &gResultsGp->mCellFileSets[0];
-    LoadCellFileSet(mainFileSet, gResultsGpMNcgrName, gResultsGpMNcerName, gResultsGpMONclrName, gResultsGpMBnclName,
-                    gResultsGpMBnllName, NULL, FindSceneFile);
+    LoadCellFileSet(mainFileSet, "results_gp_m.nce.ncgr", "results_gp_m.nce.ncer", "results_gp_m_o.NCLR", "results_gp_m.bncl",
+                    "results_gp_m.bnll", NULL, FindSceneFile);
     SetupCellFileSet(0, heap, mainFileSet);
     MIi_CpuCopy16(&gBackupBuffers->mFirstBlock->mPlayerName, playerName, 0x14);
     playerName[10] = 0;
@@ -129,7 +137,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         } else {
             cellFlag = 0;
         }
-        mainFileSet->mCellTable[data_usa_02153888[index]].mVisible = cellFlag;
+        mainFileSet->mCellTable[gResultsGpGradeCellIndices[index]].mVisible = cellFlag;
     }
     if (gResultsGp->mCupRankIndex >= 3) {
         cellFlag = 1;
@@ -145,29 +153,29 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     SetPlayerCharacterCellFileSet(1, &cellFileSet);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet.mCells, cellFileSet.mChars, cellFileSet.mPalette,
                                   cellFileSet.mCellLayout, 0, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout);
-    LoadAndQueueScreenMapFileSet(1, &subScreenMapFileSet, gResultsGpSBNcgrName, gResultsGpSBNclrName,
-                                 gResultsGpSNscrName, 3, FindSceneFile);
+    LoadAndQueueScreenMapFileSet(1, &subScreenMapFileSet, "results_gp_s_b.NCGR", "results_gp_s_b.NCLR",
+                                 "results_gp_s.NSCR", 3, FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     subFileSet = &gResultsGp->mCellFileSets[1];
-    LoadCellFileSet(subFileSet, gResultsGpSNcgrName, gResultsGpSNcerName, gResultsGpSONclrName, gResultsGpSBnclName,
-                    gResultsGpSBnllName, NULL, FindSceneFile);
+    LoadCellFileSet(subFileSet, "results_gp_s.nce.ncgr", "results_gp_s.nce.ncer", "results_gp_s_o.NCLR", "results_gp_s.bncl",
+                    "results_gp_s.bnll", NULL, FindSceneFile);
     SetupCellFileSet(1, heap, subFileSet);
     loopIndex = 0;
-    tableEntry = data_usa_02153918;
+    tableEntry = (LabelCanvasEntry *) gResultsGpSubLabelCanvasEntries;
     for (; loopIndex < 16; loopIndex++) {
         subObjSizeLeft -= SetupLabelCanvas(1, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
     }
     message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[gMenuShared->mEngineIndex]);
     for (loopIndex = 0; loopIndex < 2; loopIndex++) {
-        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
+        PrintLabelLayoutTextNoFixedAdvance(1, gResultsGpSubLabelCanvasEntries[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
                                            message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     if (gMenuShared->mMirrorMode != 0) {
         message = GetBmgEntry(gResultsGp->mCommonMessages, 0x71);
         for (loopIndex = 0; loopIndex < 2; loopIndex++) {
-            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mLabelIndex,
+            PrintLabelLayoutTextNoFixedAdvance(1, gResultsGpSubLabelCanvasEntries[labelTableIndex].mLabelIndex,
                                                subFileSet->mLabelLayout, message, subFileSet->mCellLayout,
                                                subFileSet->mCellTable);
             labelTableIndex++;
@@ -177,23 +185,23 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     }
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         message = GetBmgEntry(gResultsGp->mCommonMessages,
-                              GetCourseMessageIndex(data_usa_02153898[gResultsGp->mCupIndex][courseIndex]));
-        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153918[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
+                              GetCourseMessageIndex(gResultsGpCupCourseIds[gResultsGp->mCupIndex][courseIndex]));
+        PrintLabelLayoutTextNoFixedAdvance(1, gResultsGpSubLabelCanvasEntries[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
                                            message, subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     for (loopIndex = 0; loopIndex < 4; loopIndex++) {
         WriteCourseTimeText(timeText, loopIndex);
-        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
+        PrintLabelLayoutTextFixedDigits(1, gResultsGpSubLabelCanvasEntries[labelTableIndex].mLabelIndex, subFileSet->mLabelLayout,
                                         timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
-        PrintLabelLayoutTextFixedDigits(1, data_usa_02153918[labelTableIndex + 4].mLabelIndex, subFileSet->mLabelLayout,
+        PrintLabelLayoutTextFixedDigits(1, gResultsGpSubLabelCanvasEntries[labelTableIndex + 4].mLabelIndex, subFileSet->mLabelLayout,
                                         timeText, subFileSet->mCellLayout, subFileSet->mCellTable, 7);
         labelTableIndex++;
     }
     subFileSet = &gResultsGp->mCellFileSets[1];
-    LoadCellFileSet(&cupNameFileSet, gCupNameLeftNcgrName, gCupNameLeftNcerName, NULL, gCupNameLeftBnclName, NULL, NULL,
+    LoadCellFileSet(&cupNameFileSet, "cup_name_left.nce.ncgr", "cup_name_left.nce.ncer", NULL, "cup_name_left.bncl", NULL, NULL,
                     FindSceneFile);
-    QueueCellChars(data_usa_02153868[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
+    QueueCellChars(gCupNameLeftCharIndices[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
     InitFrmVramManagers();
     InitTrophy(gResultsGp->mCupIndex, (u16) gResultsGp->mCupRankIndex);

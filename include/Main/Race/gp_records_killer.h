@@ -6,6 +6,7 @@
 #include "Main/Kart/code_02080b1c.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
+#include "Main/Kart/code_0208fd8c.h"
 
 // Sman: a map object of kind 0x19d in two parts (top and bottom models); state 1 sends the top up and down while the
 // bottom part's scale drops to 0, and later both parts come back.
@@ -62,3 +63,11 @@ void CreateSmanBottom(void *mapObjectList);
 void DrawSmanTop(void *mapObjectList, Sman *sman);
 void SetupDrawSmanTop(void *mapObjectList);
 void CreateSmanTop(void *mapObjectList);
+
+extern const KartAiItemUseEntry gBattleNormalHeldItemEntries[18];
+extern const KartAiItemUseEntry gBattleEasyHeldItemEntries[18];
+extern const KartAiItemUseEntry gBattleNormalItemInUseEntries[14];
+extern const KartAiItemUseEntry gBattleHardItemInUseEntries[14];
+extern const KartAiItemUseEntry gBattleHardHeldItemEntries[18];
+extern const KartAiItemUseEntry gBattleEasyItemInUseEntries[14];
+extern s32 *gStaffGhostTime;

@@ -51,3 +51,5 @@ BOOL CreateRaceHudSubScreenCellsWithCount(RaceHudSubScreenCells **outCells, s32 
 unsigned int GetRaceHudSubScreenInverseScale(void);
 unsigned int GetRaceHudSubScreenScale(void);
 unsigned int GetRaceHudSubScreenMinDrawValue(void);
+
+extern struct RaceHudSubScreenCellGroups *gRaceHudSubScreenCellGroups;

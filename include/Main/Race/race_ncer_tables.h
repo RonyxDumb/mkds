@@ -45,3 +45,5 @@ typedef struct RaceNcerNclrNcgrTables {
 void InitRaceNcerNclrNcgrTables(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;

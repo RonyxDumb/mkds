@@ -109,3 +109,7 @@ void SetStandingsKartHitByKartCallback(s32 (*callback)(s32, s32));
 KartBalloons *GetStandingsKartBalloons(void);
 // Stores the pointer to the KartBalloons array of the balloon object in Standings.mKartBalloons.
 void SetStandingsKartBalloons(KartBalloons *kartBalloons);
+
+extern const u32 gShineBattleTimeLimits[4];
+// The Standings object, allocated by InitStandings in modes 2 and 4.
+extern Standings *gStandings;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02174000.h"
 
 void ResultsBattleWriteSceneTextRegistersWrapper(void);
 
@@ -10,12 +11,6 @@ void ReleaseResultsBattle(void);
 void AdvanceResultsBattle(SceneNumbers *sceneNumbers);
 void InitResultsBattle(void *heap, void *mainOam, void *subOam);
 
-// Halfwords the first three functions index with a count minus one or two.
-extern u16 gResultsBattleKartFirstCellIndices[];
-extern u16 gResultsBattleTeamFirstCellIndices[];
-// 8-byte entries.
-extern u8 gResultsBattleOwnEntryLabelTextRows[];
-extern u8 gResultsBattleRankZeroLabelTextRows[];
 
 void SetupResultsBattleTeamIcons(void *heap);
 void SetupResultsBattleKartIcons(void *heap);
@@ -34,3 +29,12 @@ void FillResultsBattleEntries(void);
 void AssignResultsBattleTeamOrderByScore(void);
 void AssignResultsBattleTeamOrder(void);
 void WriteGhostGetScanRegisters(void);
+
+extern const u16 gResultsBattleSubLabelCanvasEntries[16][4];
+extern const u8 gResultsBattleRankZeroLabelTextRows[64];
+extern const u16 gResultsBattleTeamFirstCellIndices[8];
+// Halfwords the first three functions index with a count minus one or two.
+extern const u16 gResultsBattleKartFirstCellIndices[8];
+// 8-byte entries.
+extern const u8 gResultsBattleOwnEntryLabelTextRows[8];
+extern struct ResultsBattle *gResultsBattle;

@@ -15,6 +15,8 @@
 #include "registers.h"
 #include "Main/Menu/data_02174000.h"
 
+struct ResultScene *gResultScene;
+
 #pragma thumb on
 
 void InitResultsByMode(void *heap) {

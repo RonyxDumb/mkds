@@ -755,7 +755,6 @@ extern SelectCupNameM *gSelectCupNameM;
 
 extern CupMark *gCupMark;
 
-extern GhostRecordSet *gGhostRecordSet;
 
 extern SelectCupM *gSelectCupM;
 

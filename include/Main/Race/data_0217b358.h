@@ -20,4 +20,3 @@ typedef struct RaceStartSequence {
     /* 08 */ s32 mSequenceFrames;
 } RaceStartSequence;
 
-extern RaceStartSequence *gRaceStartSequence;

@@ -32,6 +32,8 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Race/data_0217b358.h"
 
+RaceStartSequence *gRaceStartSequence;
+
 void InitRaceStartSequence(void) {
     gRaceStartSequence = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xc);
     gRaceStartSequence->mCounting = FALSE;

@@ -196,4 +196,3 @@ extern const char gSelectKartSBnblName[];
 
 extern const char gCommonBmgName2[];
 
-extern const char gMissionMrName[];

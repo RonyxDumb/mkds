@@ -31,6 +31,9 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_bomb.h"
 
+RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;
+RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;
+
 void InitRaceHudSubScreenBgColors(void) {
     gRaceHudSubScreenBgColors = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
 }

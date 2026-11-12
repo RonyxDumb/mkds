@@ -10,4 +10,3 @@ typedef struct RaceEnd {
     /* 0c */ BOOL mResultsSet;
 } RaceEnd;
 
-extern RaceEnd *gRaceEnd;

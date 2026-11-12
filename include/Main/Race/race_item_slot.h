@@ -16,3 +16,6 @@ void ClearRaceItemSlotPointer(void);
 void ClearRaceModeCountPointer(void);
 
 void InitRaceItemSlot(void);
+
+extern struct RaceItemSlot *gRaceItemSlot;
+extern struct RaceModeCount *gRaceModeCount;

@@ -25,6 +25,8 @@ void SetupGhostRecordSetForCourse(u32 courseId);
 void ClearGhostRecordSetPointer(void);
 void InitGhostRecordSet(void *heap);
 
+extern struct GhostRecordSet *gGhostRecordSet;
+
 static inline GhostRecordHead *GetGhostRecordSetSlotHead(u8 slotIndex) {
     return &gGhostRecordSet->mSlotGhostRecords[slotIndex].mHead;
 }

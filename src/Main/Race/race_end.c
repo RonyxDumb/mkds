@@ -37,6 +37,8 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
 
+RaceEnd *gRaceEnd;
+
 void RequestRaceEndStemSet(void) {
     gRaceEnd->mStemSetRequested = TRUE;
 }

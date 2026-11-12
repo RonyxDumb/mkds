@@ -31,6 +31,8 @@
 #include "Main/Net/pending_files.h"
 #include "Main/Race/kart.h"
 
+const u8 gCupRankTable[8] = {0, 1, 2, 3, 3, 3, 3, 3};
+
 void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum) {
     u16 milliseconds = firstTime->mMillisecond + secondTime->mMillisecond;
     u16 minutes = firstTime->mMinute + secondTime->mMinute;

@@ -8,7 +8,6 @@ typedef struct Kart Kart;
 extern void *gGameRegistry[];
 
 
-extern const u8 gCupRankTable[];
 
 
 extern const u32 data_usa_02154ff8[];
@@ -21,9 +20,7 @@ extern const u32 data_usa_021540d4[];
 
 extern const u32 data_usa_02154108[];
 
-extern const u16 data_02154970[8];
 
-extern const u16 data_02154980[8];
 
 extern u8 data_usa_021547c8[];
 

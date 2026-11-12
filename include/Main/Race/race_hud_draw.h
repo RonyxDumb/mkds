@@ -27,3 +27,5 @@ void GetRaceHudTimeDifference(s32 **outSign, TimeDigits **outDigits);
 unsigned int GetUseTimeDifference(void);
 unsigned int GetShowLapTimeFrames(void);
 BOOL GetShowLapTime(void);
+
+extern u16 *gRaceHudSubScreenPalettes;

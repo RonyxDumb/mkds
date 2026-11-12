@@ -34,6 +34,7 @@
 #include "code_021458c4.h"
 #include "Main/Race/kart_standing_rank.h"
 
+
 #pragma opt_rebuildconditionals off
 
 static inline s32 RaceProgressKartIsConnectionActive(ConnectionWork *connectionWork) {
@@ -485,8 +486,8 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
 void CreateRaceProgress(void *heap) {
     gRaceProgress = HeapAlloc(heap, 0x524);
     gRaceProgress->mCheckpointLapProgress = HeapAlloc(heap, (gCourseMap->mNumberedCheckpointCount + 1) << 2);
-    gRaceProgress->mRankPointFile = FindMainRaceOrMainEffectFile(gRankPointRptName);
-    gRaceProgress->mRankTimeGpFile = FindMainRaceOrMainEffectFile(gRankTimeGpRttName);
+    gRaceProgress->mRankPointFile = FindMainRaceOrMainEffectFile("/rankpoint.rpt");
+    gRaceProgress->mRankTimeGpFile = FindMainRaceOrMainEffectFile("/ranktimeGP.rtt");
     SetRankTimeFromRankTimeGp(gRaceProgress->mRankTimeGpFile);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         CreateShapeMapObjectCountList(heap);

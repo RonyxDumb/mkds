@@ -58,3 +58,16 @@ void DrawRaceHudSubScreenCrabCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCrabCells(void);
 
 extern s32 gRaceHudSubScreenItemPoolIndices[10];
+
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenCarCells;
+extern struct RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
+extern struct RaceHudSubScreenKarts *gRaceHudSubScreenKarts;

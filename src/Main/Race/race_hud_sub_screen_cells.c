@@ -38,6 +38,8 @@
 #include "01/Race/race_hud_coin_cells.h"
 #include "Main/Kart/karts.h"
 
+RaceHudSubScreenCellGroups *gRaceHudSubScreenCellGroups;
+
 u32 GetRaceHudSubScreenMinDrawValue(void) {
     return (gRaceHudSubScreenCellGroups->mMinDrawValue);
 }

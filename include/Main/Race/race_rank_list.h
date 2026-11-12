@@ -24,3 +24,6 @@ void InitRaceRankList(void);
 void StartRaceRankListItemInUse(s32 kartIndex, s32 itemId, s32 objectCount);
 
 void StopRaceRankListItemInUse(int kartIndex);
+
+extern struct RaceRankList *gRaceRankList;
+extern struct RaceLapNumber *gRaceLapNumber;

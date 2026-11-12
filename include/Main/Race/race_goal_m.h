@@ -18,7 +18,6 @@ typedef struct RaceStartGp {
 
 void InitRaceStartGp(void);
 
-extern const Vec3 gVec3Zero;
 
 void ClearRaceTaPositionsPointer(void);
 void InitRaceTaPositions(void);
@@ -64,3 +63,9 @@ void InitRaceGoalM(void);
 
 unsigned int GetRaceGoalMUpdateFrames(void);
 BOOL IsRaceGoalMReady(void);
+
+extern const Vec3 gVec3Zero;
+extern struct RaceTaPositions *gRaceTaPositions;
+extern struct RaceGoalM *gRaceGoalM;
+extern struct RaceStartGp *gRaceStartGp;
+extern struct RaceLinkLevel *gRaceLinkLevel;

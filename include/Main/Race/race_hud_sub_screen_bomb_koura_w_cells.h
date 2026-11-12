@@ -14,3 +14,6 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette);
 void CopyRaceHudSubScreenBgColors(void);
 
 void InitRaceHudSubScreenBgColors(void);
+
+extern struct RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;

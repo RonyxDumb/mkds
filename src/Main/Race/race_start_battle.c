@@ -11,6 +11,8 @@
 #include "registers.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+void *gRaceStartBattle;
+
 void InitRaceStartBattle(void) {
     gRaceStartBattle = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
 }

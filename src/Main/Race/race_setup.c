@@ -24,6 +24,8 @@
 #include "Main/Net/wifi_session_karts.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 
+RaceSetupCopy *gRaceSetupCopy;
+
 #pragma thumb on
 
 void CreateRaceSetupCopy(void *heap) {
@@ -80,7 +82,7 @@ void ResetRaceSetupCopy(void) {
     gRaceSetupCopy->mMissionTableColumn = 1;
     if (RaceSetupCopyGetConnectionKind() == 0) {
         if (RaceSetupCopyMB_IsMultiBootChildWrapper() == 0) {
-            gRaceSetupCopy->mMissionFile = FindSceneFile(gMissionMrName);
+            gRaceSetupCopy->mMissionFile = FindSceneFile("mission.mr");
         } else {
             gRaceSetupCopy->mMissionFile = NULL;
         }

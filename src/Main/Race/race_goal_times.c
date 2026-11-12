@@ -26,6 +26,11 @@
 #include "Main/Race/kart.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+
+struct RaceHudSubScreenCells *gRaceHudSubScreenCreamCells;
+struct RaceGoalTimes *gRaceGoalTimes;
+struct RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
+
 void ClearRaceHudSubScreenFireball2Cells(void) {
     ClearRaceHudSubScreenCells(&gRaceHudSubScreenFireball2Cells);
 }

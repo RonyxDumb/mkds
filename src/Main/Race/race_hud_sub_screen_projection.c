@@ -21,6 +21,8 @@
 #include "Main/Race/race_hud_sub_screen_heap.h"
 #include "Main/Kart/karts.h"
 
+RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
+
 const Vec3 data_02156874 = {0, 0, 0};
 
 void InitRaceHudSubScreenProjection(void) {

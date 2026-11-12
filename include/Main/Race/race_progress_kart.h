@@ -15,3 +15,5 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart);
 void EnterRaceProgressKartCheckpoint(RaceProgressKart *kart, s32 checkpoint);
 void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 flag);
 void CompleteRaceProgressKartLap(RaceProgressKart *kart);
+
+

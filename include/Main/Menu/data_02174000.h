@@ -76,7 +76,6 @@ typedef struct RaceSetupCopy {
     /* 10d */ u8 mSessionKartCount;
 } RaceSetupCopy;
 
-extern RaceSetupCopy *gRaceSetupCopy;
 
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
@@ -222,7 +221,6 @@ typedef struct ResultsBattle {
     /* 150 */ s32 mState;
 } ResultsBattle;
 
-extern ResultsBattle *gResultsBattle;
 
 // 0x28-byte part of the entries from 0x9c of TimeAttackGhostGetScan; AdvanceTimeAttackGhostGetScan fills one on the
 // stack through TryGetScanGhostInfo and AreGhostRecordInfosDifferent compares two.
@@ -269,8 +267,6 @@ typedef struct TimeAttackGhostGetScan {
 
 extern TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
 
-// Objects whose layout isn't known yet.
-extern struct ResultScene *gResultScene;
 
 extern struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
 

@@ -25,6 +25,23 @@
 #include "Main/MapObjects/ob_pakkun_sf.h" // ObPakkunSf
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+RaceHudSubScreenCells *gRaceHudSubScreenBasabasaCells;
+RaceHudSubScreenCells *gRaceHudSubScreenPendulumCells;
+RaceHudSubScreenCells *gRaceHudSubScreenNsKiller2Cells;
+RaceHudSubScreenCells *gRaceHudSubScreenFlipperCells;
+RaceHudSubScreenCells *gRaceHudSubScreenWoodbox1Cells;
+RaceHudSubScreenCells *gRaceHudSubScreenRockCells;
+RaceHudSubScreenCells *gRaceHudSubScreenSanboCells;
+RaceHudSubScreenCells *gRaceHudSubScreenRock2Cells;
+RaceHudSubScreenCells *gRaceHudSubScreenCoverPooHoleCells;
+RaceHudSubScreenCells *gRaceHudSubScreenObPakkunSfCells;
+RaceHudSubScreenCells *gRaceHudSubScreenKuriboCells;
+RaceHudSubScreenCells *gRaceHudSubScreenIronBallCells;
+RaceHudSubScreenCells *gRaceHudSubScreenSunFireballCells;
+RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBurnerCells;
+RaceHudSubScreenCells *gRaceHudSubScreenBoundCells;
+RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBubbleCells;
+
 void ClearRaceHudSubScreenRainStarCells(void) {
     ClearRaceHudSubScreenCells(&gRaceHudSubScreenRainStarCells);
 }

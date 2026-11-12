@@ -34,3 +34,7 @@ void UpdateRaceHudSubScreenFireball2Cells(void);
 void ClearRaceHudSubScreenFireball2Cells(void);
 
 void ClearRaceHudSubScreenCreamCells(void);
+
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenCreamCells;
+extern struct RaceGoalTimes *gRaceGoalTimes;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;

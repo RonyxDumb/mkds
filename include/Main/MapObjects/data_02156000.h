@@ -27,7 +27,6 @@ extern u16 data_02156598;
 
 extern u16 data_021565e4;
 
-extern u32 gShineBattleTimeLimits[];
 
 extern u16 data_021568e8;
 
@@ -200,17 +199,11 @@ extern u32 data_021564b0;
 
 extern u16 data_021564b4;
 
-extern KartAiItemUseEntry gBattleEasyItemInUseEntries[];
 
-extern KartAiItemUseEntry gBattleHardItemInUseEntries[];
 
-extern KartAiItemUseEntry gBattleNormalItemInUseEntries[];
 
-extern KartAiItemUseEntry gBattleEasyHeldItemEntries[];
 
-extern KartAiItemUseEntry gBattleNormalHeldItemEntries[];
 
-extern KartAiItemUseEntry gBattleHardHeldItemEntries[];
 
 extern Vec3 data_usa_021564c4[];
 

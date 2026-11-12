@@ -32,36 +32,15 @@ typedef struct ResultsGp {
     /* 5c */ s32 mState0Frames;
 } ResultsGp;
 
-extern ResultsGp *gResultsGp;
 
-extern const char data_usa_02162138[];
-extern const char gSecretBmgName[];
-extern const char gResultsGpMBNcgrName[];
-extern const char gResultsGpMBNclrName[];
-extern const char gResultsGpM1NscrName[];
-extern const char gResultsGpM2NscrName[];
-extern const char gResultsGpMNcgrName[];
-extern const char gResultsGpMNcerName[];
-extern const char gResultsGpMONclrName[];
-extern const char gResultsGpMBnclName[];
-extern const char gResultsGpMBnllName[];
-extern const char gResultsGpSBNcgrName[];
-extern const char gResultsGpSBNclrName[];
-extern const char gResultsGpSNscrName[];
-extern const char gResultsGpSNcgrName[];
-extern const char gResultsGpSNcerName[];
-extern const char gResultsGpSONclrName[];
-extern const char gResultsGpSBnclName[];
-extern const char gResultsGpSBnllName[];
-extern const char gCupNameLeftNcgrName[];
-extern const char gCupNameLeftNcerName[];
-extern const char gCupNameLeftBnclName[];
-extern u16 gEngineMessageIndexTable[];
-extern u16 data_usa_02153868[];
-extern u16 gCupRankCellIndexTable[];
-extern u16 data_usa_02153888[];
-extern u32 data_usa_02153898[][4];
-extern LabelCanvasEntry data_usa_02153918[];
 
 void AdvanceResultsGp(SceneNumbers *sceneNumbers);
 void InitResultsGp(void *heap, void *firstOamList, void *secondOamList);
+
+extern const u16 gEngineMessageIndexTable[4];
+extern const u16 gCupNameLeftCharIndices[8];
+extern const u16 gCupRankCellIndexTable[8];
+extern const u16 gResultsGpGradeCellIndices[8];
+extern const u32 gResultsGpCupCourseIds[8][4];
+extern const LabelCanvasEntry gResultsGpSubLabelCanvasEntries[16];
+extern ResultsGp *gResultsGp;

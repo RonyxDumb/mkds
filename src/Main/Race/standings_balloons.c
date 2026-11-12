@@ -43,6 +43,9 @@
 #include "Main/Race/kart_standing_rank.h"
 #include "Main/Kart/karts.h"
 
+const u32 gShineBattleTimeLimits[4] = {0xffff, 0x1e, 0x1e, 0x1e};
+Standings *gStandings;
+
 void SetStandingsKartBalloons(KartBalloons *kartBalloons) {
     gStandings->mKartBalloons = kartBalloons;
 }

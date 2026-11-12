@@ -445,7 +445,6 @@ static inline CourseMapCamera *GetCourseMapCamera(u16 cameraIndex) {
 
 #include "Main/Menu/data_02175628.h"
 
-extern RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
 
 extern u16 GetPadInputSlot(void);
 s32 MulFixed12NoRound(s32 multiplicand, s32 multiplier);
@@ -476,3 +475,5 @@ void ClearRaceHudSubScreenProjection(void);
 
 void InitRaceHudSubScreenProjection(void);
 extern const Vec3 data_02156874;
+
+extern RaceHudSubScreenProjection *gRaceHudSubScreenProjection;

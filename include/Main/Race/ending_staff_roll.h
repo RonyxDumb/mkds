@@ -22,3 +22,5 @@ void ClearEndingStaffRollPointer(void);
 
 void UploadEndingStaffRollOam(void);
 void InitEndingStaffRoll(void);
+
+extern struct EndingStaffRollObject *gEndingStaffRoll;

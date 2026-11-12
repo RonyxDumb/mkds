@@ -15,3 +15,6 @@ void WriteResultsByMode(void);
 void ReleaseResultsByMode(void);
 void AdvanceResultsByMode(SceneNumbers *sceneNumbers);
 void InitResultsByMode(void *heap);
+
+// Objects whose layout isn't known yet.
+extern struct ResultScene *gResultScene;

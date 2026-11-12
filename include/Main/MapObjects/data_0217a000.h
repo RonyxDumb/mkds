@@ -1036,14 +1036,14 @@ typedef struct Race {
     // reader uses it as a kart index.
     /* 14 */ s32 mUpdateFramesModKartCount;
     // Start index (0 to 7) of the 32 entries of gToonTable that UpdateRace gives to G3X_SetToonTable on each call;
-    // it advances by 1 each time mToonTableFrames passes data_021653ec and wraps back to 0 after 7.
+    // it advances by 1 each time mToonTableFrames passes gToonTableFramesLimit and wraps back to 0 after 7.
     /* 18 */ s32 mToonTableOffset;
-    // Counts calls of UpdateRace since mToonTableOffset last changed; when it exceeds data_021653ec (2) it restarts at
+    // Counts calls of UpdateRace since mToonTableOffset last changed; when it exceeds gToonTableFramesLimit (2) it restarts at
     // 0 and mToonTableOffset advances (every third call).
     /* 1c */ s32 mToonTableFrames;
     // 1 from the start of a fog fade (StartFadeFog) until UpdateRace ends it, else 0: while it is 1 DrawRace writes
     // the fade fog into the fog registers instead of the course fog. UpdateRace holds it for 72 calls, then steps
-    // data_021653e8 from 72 down to 0 in steps of 4 and clears it. DrawRace compares it with mDrawnFadeFog.
+    // gFadeFogRemaining from 72 down to 0 in steps of 4 and clears it. DrawRace compares it with mDrawnFadeFog.
     /* 20 */ s32 mFadeFog;
     // The value of mFadeFog that DrawRace last handled; DrawRace writes the fog registers when it differs from
     // mFadeFog, then copies mFadeFog here. StartFadeFog sets it to 0 when it is 1 so that the next DrawRace writes the
@@ -1068,13 +1068,13 @@ typedef struct Race {
     // ran, stored by SetRaceUpdateFramesAtEntryEnd (in mission run mode that is after the end wait); 0 until then.
     /* 3c */ s32 mUpdateFramesAtEntryEnd;
     // x component of the direction of light 0, the vector DrawRaceWorld gives to NNS_G3dGlbLightVector; set at InitRace
-    // from data_021653f0 and by SetRaceLightVector.
+    // from gRaceLightVector and by SetRaceLightVector.
     /* 40 */ s16 mLightVectorX;
     // y component of the direction of light 0, the vector DrawRaceWorld gives to NNS_G3dGlbLightVector; set at InitRace
-    // from data_021653f0 and by SetRaceLightVector.
+    // from gRaceLightVector and by SetRaceLightVector.
     /* 42 */ s16 mLightVectorY;
     // z component of the direction of light 0, the vector DrawRaceWorld gives to NNS_G3dGlbLightVector; set at InitRace
-    // from data_021653f0 and by SetRaceLightVector.
+    // from gRaceLightVector and by SetRaceLightVector.
     /* 44 */ s16 mLightVectorZ;
 } Race;
 
@@ -1243,25 +1243,25 @@ typedef struct Camera {
 } Camera;
 
 extern Camera *gCurrentCamera;
-extern u16 data_0217aa28;
-extern u16 data_0217aa30;
-extern s16 data_0217aa34;
-extern u16 data_0217aa38;
-extern s16 data_0217aa3c;
-extern s16 data_0217aa40;
-extern s32 data_0217aa44;
+extern u16 gFadeFogColor;
+extern u16 gFadeFogFullColor;
+extern s16 gCourseFogGreen;
+extern u16 gCourseFogColor;
+extern s16 gCourseFogBlue;
+extern s16 gCourseFogRed;
+extern s32 gFadeFogByteBoost;
 extern s32 gCourseFogOffset;
 extern s32 gFadeFogStepping;
-extern s32 data_0217aa50;
-extern s32 data_0217aa58;
+extern s32 gCourseFogAlpha;
+extern s32 gCourseFogLastEntry;
 extern Camera *gRaceEntryCamera;
-extern s32 data_0217aa60;
-extern s32 data_0217aa68;
+extern s32 gFadeFogFullAlpha;
+extern s32 gFadeFogAlpha;
 extern s32 gFadeFogOffset;
-extern void *data_0217aa74;
-extern s32 data_0217aa78;
-extern s32 data_0217aa80;
-extern s32 data_0217aa84;
+extern void *gGeBuffer;
+extern s32 gFadeFogWeight;
+extern s32 gCourseFogSlope;
+extern s32 gCourseFogWeight;
 extern Camera *gRaceChaseCamera;
 extern u32 gFadeFogEntryBytes[4];
 extern u32 gFadeFogTable[8];

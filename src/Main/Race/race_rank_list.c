@@ -52,6 +52,9 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
 
+RaceLapNumber *gRaceLapNumber;
+RaceRankList *gRaceRankList;
+
 void StopRaceRankListItemInUse(int kartIndex) {
     gRaceRankList->mItemsInUse[kartIndex].mInUseFrames = 0;
 }

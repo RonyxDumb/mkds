@@ -9,23 +9,14 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 
-extern const char gCommonBmgName[];
 
-extern const char gResultsBattleSBNcgrName[];
 
-extern const char gResultsBattleSBNclrName[];
 
-extern const char gResultsBattleSBgNscrName[];
 
-extern const char gResultsBattleSNcgrName[];
 
-extern const char gResultsBattleSNcerName[];
 
-extern const char gResultsBattleSONclrName[];
 
-extern const char gResultsBattleSBnclName[];
 
-extern const char gResultsBattleSBnllName[];
 
 extern s16 gTimeAttackGhostGetScanSSelLabelTextRows[][4];
 
@@ -136,6 +127,4 @@ extern const SceneCallbacks gRaceSceneCallbacks;
 
 extern const SceneCallbacks gTitleSceneCallbacks;
 
-extern const char gRankPointRptName[];
 
-extern const char gRankTimeGpRttName[];

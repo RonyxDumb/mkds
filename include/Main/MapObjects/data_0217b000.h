@@ -256,7 +256,6 @@ extern void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struc
 extern void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern KartAiItemUseEntry *gBattleHeldItemEntries;
-extern s32 *gStaffGhostTime;
 extern MapObjectModel *gSmanBottom;
 extern MapObjectModel *gSmanTop;
 
@@ -568,7 +567,6 @@ typedef struct TitleScene {
 extern TitleScene *gTitleScene;
 extern const TitleStateHandlers gTitleStateHandlers[7];
 extern u64 gLastTick;
-extern u16 *gRaceHudSubScreenPalettes;
 typedef struct RaceHudSubScreenBgAffine {
     /* 00 */ s32 mMatrix0;
     /* 04 */ s32 mMatrix1;
@@ -645,7 +643,6 @@ extern RaceHud *gRaceHud;
 struct ChoisesS;
 extern struct ChoisesS *gChoisesS;
 struct RaceNcerNclrNcgrTables;
-extern struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;
 // 8-byte elements at the start of RaceRankList.
 typedef struct RaceRankListPos {
     /* 00 */ s32 mX;
@@ -676,7 +673,6 @@ typedef struct RaceRankList {
     /* 0fc */ RaceRankListItemInUse mItemsInUse[8];
 } RaceRankList;
 
-extern RaceRankList *gRaceRankList;
 // Object behind gRaceHudSubScreenCellGroups, 0x25c bytes, allocated by InitRaceHudSubScreenCellGroups.
 typedef struct RaceHudSubScreenCellGroups {
     /* 000 */ u16 mMinDrawValue;
@@ -688,7 +684,6 @@ typedef struct RaceHudSubScreenCellGroups {
     /* 198 */ void (*mDrawFunctions[49])(void *);
 } RaceHudSubScreenCellGroups;
 
-extern RaceHudSubScreenCellGroups *gRaceHudSubScreenCellGroups;
 // Object behind gRaceGoalS, 0x20e4 bytes, allocated by InitRaceGoalS.
 typedef struct RaceGoalS {
     /* 0000 */ s32 mRowVisible[8];
@@ -713,8 +708,6 @@ typedef struct RaceGoalS {
 } RaceGoalS;
 
 extern RaceGoalS *gRaceGoalS;
-extern struct RaceStartGp *gRaceStartGp;
-extern struct RaceGoalM *gRaceGoalM;
 extern struct RaceNewRecordTa *gRaceNewRecordTa;
 extern s32 data_0217b3f8;
 extern EmblemChoises *gEmblemChoises;
@@ -811,7 +804,6 @@ typedef struct RaceModeCount {
     /* 08 */ s32 mKeyRecordingNotFull;
 } RaceModeCount;
 
-extern RaceModeCount *gRaceModeCount;
 // Scale spring of the item cells: frame counter, x and y scale, y-scale per-frame increment and target (fx32).
 typedef struct RaceItemSlotScale {
     /* 00 */ s32 mScaleFrames;
@@ -832,7 +824,6 @@ typedef struct RaceItemSlot {
     /* 18 */ RaceItemSlotScale mScale;
 } RaceItemSlot;
 
-extern RaceItemSlot *gRaceItemSlot;
 // Object behind gRaceTimeDigits, 0x38 bytes, allocated by InitRaceTimeDigits.
 typedef struct RaceTimeDigits {
     /* 00 */ TimeDigits mTime;
@@ -868,7 +859,6 @@ typedef struct RaceTaPositions {
     /* 810 */ MtxFx22 mRotations[16];
 } RaceTaPositions;
 
-extern RaceTaPositions *gRaceTaPositions;
 // Object behind gRaceLinkLevel.
 typedef struct RaceLinkLevel {
     /* 00 */ s32 mLinkLevel;
@@ -887,8 +877,6 @@ typedef struct RaceLapNumber {
     /* 10 */ s32 mBlinkShown;
 } RaceLapNumber;
 
-extern RaceLinkLevel *gRaceLinkLevel;
-extern RaceLapNumber *gRaceLapNumber;
 // Object behind gRaceHudSubScreenSecondHand, 0x44 bytes allocated by CreateRaceHudSubScreenSecondHand: a table of
 // object pointers and two counts (as in RaceHudSubScreenCells), three halfwords and two arrays of three pairs.
 typedef struct RaceHudSubScreenSecondHand {
@@ -917,11 +905,6 @@ typedef struct RaceHudSubScreenKarts {
     /* 190 */ RaceHudSubScreenCells *mCells;
 } RaceHudSubScreenKarts;
 
-extern RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
-extern RaceHudSubScreenKarts *gRaceHudSubScreenKarts;
-extern struct RaceGoalTimes *gRaceGoalTimes;
-extern void *gRaceStartBattle;
-extern struct EndingStaffRollObject *gEndingStaffRoll;
 extern RaceMNumberPair *gRaceMNumberPair;
 extern u16 data_0217b4c0;
 extern u16 gWrappingPolygonId;
@@ -974,44 +957,15 @@ extern struct Unk02022aa8 gLCFontS;
 extern struct Unk02022aa8 gLCFontM;
 extern struct Unk02022aa8 gMarioFont;
 extern RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 
 static inline RaceHudSubScreenCell *GetRaceHudSubScreenDossunCell(u32 cellIndex) {
     return &gRaceHudSubScreenDossunCells->mCells[cellIndex];
 }
-extern RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenCarCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenCrabCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenShine16Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenPendulumCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenNsKiller2Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenFlipperCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenWoodbox1Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenRockCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenSanboCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenRock2Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenCoverPooHoleCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenObPakkunSfCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenKuriboCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenIronBallCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenSunFireballCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBurnerCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBoundCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBubbleCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBasabasaCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenRainStarCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenPakkunSpitCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;
-extern RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;
-extern RaceHudSubScreenCells *gRaceHudSubScreenCreamCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
 // Which model the Jg shows and its row in gJgKindRows: 0 lap_count, 1 lap_final, 2 jg_reverse, 3 jg_flag, 4 none.
 extern s32 gJgKind;

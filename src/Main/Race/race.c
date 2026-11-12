@@ -93,6 +93,12 @@
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/kart_standing_rank.h"
 
+u16 gFadeFogRemaining = 0x48;
+s16 gToonTableFramesLimit = 2;
+Vec3 gRaceLightVector = {0, -4095, 0};
+const u16 gToonTableFirstColors[8] = {0x35bf, 0x36df, 0x37ff, 0x37ed, 0x7fed, 0x7ecd, 0x7dad, 0x7dbf};
+const u16 gToonTableSecondColors[8] = {0x4e73, 0x56b5, 0x5ef7, 0x6739, 0x6f7b, 0x7fff, 0x7fff, 0x7fff};
+
 u32 GetRaceUseChainCameras(void) {
     return (gRace->mUseChainCameras);
 }
@@ -184,8 +190,8 @@ void InitRace(void) {
     reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT & 0xffffcffd;
     G3X_SetToonTable(gToonTable);
     for (index = 0; index < 8; index++) {
-        gToonTable[index] = data_02154970[index];
-        gToonTable[index + 16] = data_02154980[index];
+        gToonTable[index] = gToonTableFirstColors[index];
+        gToonTable[index + 16] = gToonTableSecondColors[index];
     }
     for (index = 0; index < 8; index++) {
         gToonTable[index + 8] = gToonTable[index];
@@ -214,7 +220,7 @@ void InitRaceFields(void) {
     gRace->mUpdateFramesLimitReached = FALSE;
     gRace->mUpdateFramesUnlimited = FALSE;
     gRace->mUpdateFramesAtEntryEnd = 0;
-    lightVector = data_021653f0;
+    lightVector = gRaceLightVector;
     gRace->mLightVectorX = lightVector.x;
     gRace->mLightVectorY = lightVector.y;
     gRace->mLightVectorZ = lightVector.z;
@@ -252,8 +258,8 @@ void Init3dEngine(void) {
     NNS_G3dGlbMaterialColorDiffAmb(0x5294, 0x5294, 0);
     NNS_G3dGlbMaterialColorSpecEmi(0, 0, 1);
     NNS_G3dGlbPolygonAttr(15, 0, 2, 0, 31, 0);
-    data_0217aa74 = HeapAlloc(gStartupWork->mHeap, 772);
-    NNS_G3dGeSetBuffer(data_0217aa74);
+    gGeBuffer = HeapAlloc(gStartupWork->mHeap, 772);
+    NNS_G3dGeSetBuffer(gGeBuffer);
 }
 
 // Advances the race one frame. Skipped while IsDataSharingIncomplete or IsInputOpenDuringRace refuse (the draw is not),
@@ -320,16 +326,16 @@ void UpdateRace(void) {
     UpdateEffects();
     if (gFadeFogActive != 0) {
         if (gFadeFogStepping != 0) {
-            if (data_021653e8 == 0) {
+            if (gFadeFogRemaining == 0) {
                 gRace->mFadeFog = 0;
                 SetKartModelsFogEnable(1);
                 SetCourseModelsFogEnableFlags(0);
                 gFadeFogActive = 0;
                 gFadeFogStepping = 0;
             } else {
-                BuildFadeFog(data_021653e8, 0);
+                BuildFadeFog(gFadeFogRemaining, 0);
             }
-            data_021653e8 -= 4;
+            gFadeFogRemaining -= 4;
         } else {
             gFadeFogHoldFrames++;
             if (gFadeFogHoldFrames >= 72) {
@@ -360,7 +366,7 @@ void UpdateRace(void) {
     gRace->mUpdateFramesModKartCount = (u32) gRace->mUpdateFrames % gRaceSetup->mKartCount;
     G3X_SetToonTable(&gToonTable[gRace->mToonTableOffset]);
     gRace->mToonTableFrames++;
-    if ((u32) gRace->mToonTableFrames > data_021653ec) {
+    if ((u32) gRace->mToonTableFrames > gToonTableFramesLimit) {
         gRace->mToonTableFrames = 0;
         gRace->mToonTableOffset++;
     }
@@ -373,21 +379,21 @@ void UpdateRace(void) {
 // in the scene slot; the HUD draw is in the scene slot too.
 void DrawRace(void) {
     if (gFadeFogStepping != 0) {
-        G3X_SetFog(1, 0, data_0217aa80, gFadeFogOffset);
+        G3X_SetFog(1, 0, gCourseFogSlope, gFadeFogOffset);
         G3X_SetFogTable(gFadeFogTable);
-        reg_G3X_FOG_COLOR = data_0217aa28 | (data_0217aa68 << 16);
+        reg_G3X_FOG_COLOR = gFadeFogColor | (gFadeFogAlpha << 16);
     } else if (gRace->mFadeFog != gRace->mDrawnFadeFog) {
         if (gRace->mFadeFog == 0) {
             if (gCourseMap->mSettings->mFogEnabled != 0) {
-                G3X_SetFog(1, 0, data_0217aa80, gCourseFogOffset);
-                reg_G3X_FOG_COLOR = data_0217aa38 | (data_0217aa50 << 16);
+                G3X_SetFog(1, 0, gCourseFogSlope, gCourseFogOffset);
+                reg_G3X_FOG_COLOR = gCourseFogColor | (gCourseFogAlpha << 16);
                 G3X_SetFogTable(gCourseFogTable);
             } else {
                 G3X_SetFog(0, 0, 5, 0);
             }
         } else {
-            G3X_SetFog(1, 0, data_0217aa80, 0);
-            reg_G3X_FOG_COLOR = data_0217aa30 | (data_0217aa60 << 16);
+            G3X_SetFog(1, 0, gCourseFogSlope, 0);
+            reg_G3X_FOG_COLOR = gFadeFogFullColor | (gFadeFogFullAlpha << 16);
             G3X_SetFogTable(gFadeFogTable);
         }
     }
@@ -442,7 +448,7 @@ void DrawRaceWorld(void) {
     DrawCourseModelV();
     ApplyCameraFrustum(gCurrentCamera, 0);
     NNS_G3dGlbFlushP();
-    NNS_G3dGeSetBuffer(data_0217aa74);
+    NNS_G3dGeSetBuffer(gGeBuffer);
     DrawCourseModel();
     DrawKoopaBlocksKind203AndBridges(gCurrentCamera);
     NNS_G3dGeReleaseBuffer();
@@ -508,7 +514,7 @@ void InitRaceFog(void) {
     u8 fogTableMode;
 
     BuildFadeFog(72, 1);
-    data_021653e8 = 72;
+    gFadeFogRemaining = 72;
     gFadeFogStepping = 0;
     gFadeFogActive = 0;
     gFadeFogHoldFrames = 0;
@@ -546,17 +552,17 @@ void InitRaceFog(void) {
                                          (fogCurve[index * 4 + 2] << 16) | (fogCurve[index * 4 + 3] << 24);
             }
         }
-        data_0217aa38 = gCourseMap->mSettings->mColorAndFogAlpha & 0x7fff;
-        data_0217aa50 = ((u32) gCourseMap->mSettings->mColorAndFogAlpha >> 15) & 31;
-        data_0217aa80 = gCourseMap->mSettings->mFogSlope;
+        gCourseFogColor = gCourseMap->mSettings->mColorAndFogAlpha & 0x7fff;
+        gCourseFogAlpha = ((u32) gCourseMap->mSettings->mColorAndFogAlpha >> 15) & 31;
+        gCourseFogSlope = gCourseMap->mSettings->mFogSlope;
         gCourseFogOffset = gCourseMap->mSettings->mFogOffset / 512;
-        data_0217aa40 = data_0217aa38 & 31;
-        data_0217aa34 = (data_0217aa38 >> 5) & 31;
-        data_0217aa3c = (data_0217aa38 >> 10) & 31;
+        gCourseFogRed = gCourseFogColor & 31;
+        gCourseFogGreen = (gCourseFogColor >> 5) & 31;
+        gCourseFogBlue = (gCourseFogColor >> 10) & 31;
     }
     if (gCourseMap->mSettings->mFogEnabled != 0) {
-        G3X_SetFog(1, 0, data_0217aa80, gCourseFogOffset);
-        reg_G3X_FOG_COLOR = data_0217aa38 | (data_0217aa50 << 16);
+        G3X_SetFog(1, 0, gCourseFogSlope, gCourseFogOffset);
+        reg_G3X_FOG_COLOR = gCourseFogColor | (gCourseFogAlpha << 16);
         G3X_SetFogTable(gCourseFogTable);
     } else {
         G3X_SetFog(0, 0, 5, 0);
@@ -573,15 +579,15 @@ void BuildFadeFog(s32 fadeLevel, s32 flag) {
 
     if (gCourseMap->mSettings->mFogEnabled != 0 && flag == 0) {
         fadeWeight = MUL_FIXED12_ROUNDED(57, TO_FIXED12(fadeLevel));
-        data_0217aa78 = fadeWeight;
+        gFadeFogWeight = fadeWeight;
         courseWeight = 4096 - fadeWeight;
-        data_0217aa84 = courseWeight;
-        data_0217aa44 = MUL_FIXED12_ROUNDED(fadeWeight, 72);
-        data_0217aa28 = MUL_FIXED12_ROUNDED(data_0217aa40, courseWeight) +
-                        (MUL_FIXED12_ROUNDED(data_0217aa34, courseWeight) << 5) +
-                        (MUL_FIXED12_ROUNDED(data_0217aa3c, courseWeight) << 10);
-        data_0217aa68 =
-            MUL_FIXED12_ROUNDED(courseWeight, data_0217aa50) + MUL_FIXED12_ROUNDED(fadeWeight, data_0217aa60);
+        gCourseFogWeight = courseWeight;
+        gFadeFogByteBoost = MUL_FIXED12_ROUNDED(fadeWeight, 72);
+        gFadeFogColor = MUL_FIXED12_ROUNDED(gCourseFogRed, courseWeight) +
+                        (MUL_FIXED12_ROUNDED(gCourseFogGreen, courseWeight) << 5) +
+                        (MUL_FIXED12_ROUNDED(gCourseFogBlue, courseWeight) << 10);
+        gFadeFogAlpha =
+            MUL_FIXED12_ROUNDED(courseWeight, gCourseFogAlpha) + MUL_FIXED12_ROUNDED(fadeWeight, gFadeFogFullAlpha);
         gFadeFogOffset = MUL_FIXED12_ROUNDED(courseWeight, gCourseFogOffset);
         for (index = 0; index < 8; index++) {
             tableEntry = gCourseFogTable[index];
@@ -591,12 +597,12 @@ void BuildFadeFog(s32 fadeLevel, s32 flag) {
             gFadeFogEntryBytes[3] = (tableEntry & 0xff000000) >> 24;
             for (byteIndex = 0; byteIndex < 4; byteIndex++) {
                 fogByte = gFadeFogEntryBytes[byteIndex];
-                gFadeFogEntryBytes[byteIndex] = MUL_FIXED12_ROUNDED(fogByte, (s32) courseWeight) + data_0217aa44;
+                gFadeFogEntryBytes[byteIndex] = MUL_FIXED12_ROUNDED(fogByte, (s32) courseWeight) + gFadeFogByteBoost;
             }
             gFadeFogTable[index] = gFadeFogEntryBytes[0] | (gFadeFogEntryBytes[1] << 8) |
                                    (gFadeFogEntryBytes[2] << 16) | (gFadeFogEntryBytes[3] << 24);
         }
-        data_0217aa58 = tableEntry;
+        gCourseFogLastEntry = tableEntry;
     } else {
         for (index = 0; index < 8; index++) {
             gFadeFogTable[index] = fadeLevel | (fadeLevel << 8) | (fadeLevel << 16) | (fadeLevel << 24);
@@ -611,14 +617,14 @@ void StartFadeFog(void) {
     gRace->mFadeFog = 1;
     SetKartModelsFogEnable(0);
     SetCourseModelsFogEnableFlags(1);
-    data_021653e8 = 72;
+    gFadeFogRemaining = 72;
     BuildFadeFog(72, 1);
     gFadeFogStepping = 0;
     gFadeFogActive = 1;
     gFadeFogHoldFrames = 0;
     gFadeFogOffset = 0;
-    data_0217aa28 = data_0217aa30;
-    data_0217aa68 = data_0217aa60;
+    gFadeFogColor = gFadeFogFullColor;
+    gFadeFogAlpha = gFadeFogFullAlpha;
 }
 
 void ClearFadeFogHoldFrames(void) {

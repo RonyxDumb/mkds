@@ -20,3 +20,5 @@ void UpdateRaceStartBattleNop(void);
 void ClearRaceStartBattlePointer(void);
 
 void InitRaceStartBattle(void);
+
+extern void *gRaceStartBattle;
