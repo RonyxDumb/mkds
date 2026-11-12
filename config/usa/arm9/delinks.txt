@@ -1525,17 +1525,7 @@ src/Main/Unknown/code_02056700.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_02056a7c.c:
     complete
-    .text       start:0x02056a7c end:0x02056aa4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02056aa4.c:
-    complete
-    .text       start:0x02056aa4 end:0x02056b08
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02056b08.c:
-    complete
-    .text       start:0x02056b08 end:0x02056b30
+    .text       start:0x02056a7c end:0x02056b30
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02056b30.c:
