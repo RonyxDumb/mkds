@@ -7,17 +7,7 @@
 // provisional: file name and boundaries
 src/03/code_021b7ba0.c:
     complete
-    .text       start:0x021b7b60 end:0x021b7b68
-
-// provisional: file name and boundaries
-src/03/code_021b7ba8.c:
-    complete
-    .text       start:0x021b7b68 end:0x021b7b74
-
-// provisional: file name and boundaries
-src/03/code_021b7bb4.c:
-    complete
-    .text       start:0x021b7b74 end:0x021b9478
+    .text       start:0x021b7b60 end:0x021b9478
 
 // provisional: file name and boundaries
 src/03/code_021b94b8.c:
