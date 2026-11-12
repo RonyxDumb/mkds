@@ -23,8 +23,6 @@ extern Vec3 gJgMatrixRow1Source;
 
 extern u16 gItemObjectOwnerExcludedBit;
 
-extern const u16 gItemObjectNoOwnerBit;
-
 extern Vec3 gKouraWState7StartScale;
 
 extern u8 gItemBombVec3UnitY[];

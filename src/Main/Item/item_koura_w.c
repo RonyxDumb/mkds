@@ -84,15 +84,68 @@
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
 #include "fx_mtx43.h"
+#include "Main/Item/item_koura_w_far.h"
+#include "ITCM/collision_slots.h"
 
+const u16 gItemObjectNoOwnerBit = 0x8000;
+const ItemInfo data_02159cc0 = {1, 1, 5, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
+const ItemKind gItemKindKouraW = {0x31c,
+                                  1,
+                                  1,
+                                  -1,
+                                  -1,
+                                  SetupItemKouraWKind,
+                                  (void (*)(void *)) ResetItemKouraW,
+                                  NULL,
+                                  NULL,
+                                  (s32(*)(void *, void *)) InitItemKouraW,
+                                  (void (*)(ItemObject *)) AdvanceItemKouraW,
+                                  (void (*)(void *, void *, void *)) DrawItemKouraW,
+                                  ComputeTwoPlaneViewTest,
+                                  (UnkWordFunc *) RequestItemKouraWState7,
+                                  NULL,
+                                  NULL,
+                                  0,
+                                  0,
+                                  (void *(*) (void *, void *, s32)) CopyItemKouraWData,
+                                  0,
+                                  (void (*)(void *)) InitItemKouraWFromData,
+                                  1,
+                                  GetItemKouraWFarDistanceSquared,
+                                  0x960000,
+                                  2,
+                                  0x319a,
+                                  0x6000,
+                                  0x2e66,
+                                  0x1000,
+                                  0x1ccd,
+                                  0x52,
+                                  0xa4,
+                                  0,
+                                  1,
+                                  1,
+                                  {1, 0, 0, 0},
+                                  3,
+                                  1,
+                                  1,
+                                  1,
+                                  7,
+                                  0};
 Vec3 gKouraWVec3UnitY = {0, 0x1000, 0};
-StateCallbacks gItemKouraWStateTable[8] = {{NULL, UpdateItemKouraWState0}, {NULL, UpdateItemKouraWState1}, {NULL, UpdateItemKouraWState2}, {EnterItemKouraWState3, UpdateItemKouraWState3}, {EnterItemKouraWState4, UpdateItemKouraWState4}, {EnterItemKouraWState5, UpdateItemKouraWState5}, {EnterItemKouraWState6, UpdateItemKouraWState6}, {EnterItemKouraWState7, UpdateItemKouraWState7}};
-volatile s32 gKouraWState7MaxRadiusSquared;
+StateCallbacks gItemKouraWStateTable[8] = {{NULL, UpdateItemKouraWState0},
+                                           {NULL, UpdateItemKouraWState1},
+                                           {NULL, UpdateItemKouraWState2},
+                                           {EnterItemKouraWState3, UpdateItemKouraWState3},
+                                           {EnterItemKouraWState4, UpdateItemKouraWState4},
+                                           {EnterItemKouraWState5, UpdateItemKouraWState5},
+                                           {EnterItemKouraWState6, UpdateItemKouraWState6},
+                                           {EnterItemKouraWState7, UpdateItemKouraWState7}};
 Nsbmd *gKouraW;
 s32 gKouraWState7ScaleStep;
-struct ItemObject **gCollidedItemObjects;
-s32 gKouraWState7ScaleLimit;
 s32 gKouraWState7InverseLimit;
+s32 gKouraWState7ScaleLimit;
+volatile s32 gKouraWState7MaxRadiusSquared;
+struct ItemObject **gCollidedItemObjects;
 
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;

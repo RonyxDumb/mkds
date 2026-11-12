@@ -21,6 +21,7 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Item/item_pool.h"
+#include "Main/Item/item_koura_w.h"
 
 #pragma thumb on
 
@@ -30,6 +31,7 @@ void CreateItemKinds(void) {
     enum { K1 } limitKindIndex;
     s32 mode;
     u32 value;
+    u32 (*getFar)(void);
 
     kinds = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x930);
     gItemKinds = kinds;
@@ -49,9 +51,9 @@ void CreateItemKinds(void) {
     kinds[13] = gItemKindKiller;
     for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
         gItemKinds[kindIndex].mDataSize = GetItemKindCopyDataSize(kindIndex);
-        value = gItemKinds[kindIndex].mGetFarDistanceSquared;
-        if (value != 0) {
-            value = ((u32(*)(void)) value)();
+        getFar = gItemKinds[kindIndex].mGetFarDistanceSquared;
+        if (getFar != NULL) {
+            value = getFar();
         } else {
             value = gSoundFalloffs[1].mFarDistanceSquared;
         }

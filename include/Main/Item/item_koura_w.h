@@ -136,3 +136,7 @@ extern s32 gKouraWState7ScaleStep;
 extern struct ItemObject **gCollidedItemObjects;
 extern s32 gKouraWState7ScaleLimit;
 extern s32 gKouraWState7InverseLimit;
+
+extern const u16 gItemObjectNoOwnerBit;
+extern const ItemInfo data_02159cc0;
+extern const ItemKind gItemKindKouraW;

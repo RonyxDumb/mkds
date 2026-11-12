@@ -347,7 +347,7 @@ typedef struct ItemKind {
     /* 50 */ void (*mInitFromData)(void *);
     /* 54 */ s32 mSkipsStartCollisionSlot;
     // Returns the kind's far distance squared; when NULL the value of gSoundFalloffs[1].mUnk_20 is used.
-    /* 58 */ u32 mGetFarDistanceSquared;
+    /* 58 */ u32 (*mGetFarDistanceSquared)(void);
     /* 5c */ s32 mDrawDistance;
     /* 60 */ s32 mViewRadiusScale;
     /* 64 */ s32 mCourseRadius;
@@ -381,8 +381,6 @@ extern ItemKind gItemKindBomb;
 extern ItemKind data_0215a4dc;
 
 extern ItemKind gItemKindFBox;
-
-extern ItemKind gItemKindKouraW;
 
 // Two words of a row of gItemSpreadRows.
 typedef struct {
@@ -428,8 +426,6 @@ extern ItemInfo data_0215a2ec;
 extern ItemInfo data_02159d90;
 
 extern ItemInfo data_02159f4c;
-
-extern ItemInfo data_02159cc0;
 
 extern ItemInfo data_02159e54;
 

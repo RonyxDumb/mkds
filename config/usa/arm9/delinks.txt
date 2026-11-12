@@ -3629,6 +3629,7 @@ src/Main/Item/item_object.c:
 src/Main/Item/item_koura_w.c:
     complete
     .text       start:0x020f9c6c end:0x020fcb3c
+    .rodata     start:0x02159cbc end:0x02159d84
     .data       start:0x0216c688 end:0x0216c6f4
     .bss        start:0x0217bd10 end:0x0217bd28
 
