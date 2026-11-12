@@ -18,9 +18,8 @@
 #include "registers.h"
 #include "card_pullOut.h"
 
-CARDiCommandArg gRequestBlock;
 u32 gRomBaseOffset;
-CARDRomStat gRomReadState;
+CARDRomStat gRomReadState __attribute__((aligned(32)));
 
 // Worker thread: sleeps until CARDiCommon.mFlag has the task bit, then runs CARDiCommon.mTaskFunc.
 void CARDi_TaskThread(void *arg) {
