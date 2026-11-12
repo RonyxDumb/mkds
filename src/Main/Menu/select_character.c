@@ -26,7 +26,7 @@
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Menu/select_race_rule_wait_slide_out.h"
 #include "g2.h"
-#include "Main/Sound/character_seq_pair.h"
+#include "Main/Graphics/message_index.h"
 #include "Main/Menu/data_0202bb80.h"
 #include "Main/Save/backup_reset.h"
 #include "Main/Scene/display_settings.h"
@@ -50,7 +50,6 @@
 #include "Main/Kart/data_02161000.h"
 #include "Main/System/interpolation_state.h"
 #include "code_0214d018.h"
-#include "Main/Kart/kart_table_index.h"
 #include "Main/Menu/select_kart_data.h"
 
 SelectCharacter *gSelectCharacter;

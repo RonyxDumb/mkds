@@ -1,5 +1,5 @@
 #include "Main/Menu/own_entry_position_copy_cell.h"
-#include "Main/Sound/character_seq_pair.h"
+#include "Main/Graphics/message_index.h"
 #include "Main/Sound/seq_queue.h"
 
 #pragma thumb on

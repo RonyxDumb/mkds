@@ -55,17 +55,6 @@ extern SelectCharacterRowPosition gSelectCharacterPositions11Rows[];
 
 extern SelectCharacterRow gSelectCharacterRows[];
 
-// Objects whose layout isn't known yet.
-extern s32 gCourseMessageIndexTable[];
-
-extern u32 gKartMessageIndexTable[];
-
-extern u32 gKartIndexTable[];
-
-extern s32 gCharacterKartIndexTableBattle[];
-
-extern s32 gCharacterKartIndexTable[];
-
 typedef struct MultiSelectNSLabelMessageRow {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;

@@ -41,7 +41,7 @@
 #include "code_0202056c.h"
 #include "registers.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Kart/kart_table_index.h"
+#include "Main/Graphics/message_index.h"
 #include "Main/System/interpolation.h"
 #include "Main/Menu/select_character.h"
 #include "Main/MapObjects/map_object_park.h"
