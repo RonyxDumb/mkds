@@ -876,7 +876,7 @@ src/Main/Graphics/sub_bg1_cnt.c:
 src/Main/System/heap_call.c:
     complete
     .text       start:0x020364e0 end:0x020365ac
-    .bss        start:0x02174e50 end:0x02174e54
+    .bss        start:0x02174e50 end:0x02175580
 
 // provisional: file name and boundaries
 src/Main/System/startup.c:

@@ -124,8 +124,6 @@ typedef struct PlayerEntryRow {
     /* 14 */ u16 mName[0xc];
 } PlayerEntryRow;
 
-extern HeapCall gRootHeapCall;
-
 // Object behind gPlayerEntryList.
 // Object behind gSelectCharacter.
 typedef struct SelectCharacter {
@@ -363,14 +361,14 @@ typedef struct TimeAttackGhostGetSlot {
 
 struct WLMenuMessage;
 
-// Object at data_02174e78: mUnk_0c is the pointer GetArenaHeap returns; mUnk_10 overlaps the first member of
-// gRootHeapCall.
+// Object at data_02174e78: mHeap is the pointer GetArenaHeap returns.
 typedef struct StartupMemory {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mArm9TextStart;
     /* 08 */ void *mArenaLo;
     /* 0c */ void *mHeap;
-    /* 10 */ const char *mUnk_10;
+    /* 10 */ HeapCall mRootHeapCall;
+    /* 24 */ u32 mUnk_24;
 } StartupMemory;
 
 extern StartupMemory data_02174e78;

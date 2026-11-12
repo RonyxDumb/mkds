@@ -11185,7 +11185,6 @@ gWLMenuMessage kind:bss addr:0x02174e4c
 gCurrentHeapCall kind:bss addr:0x02174e50
 data_usa_02174e54 kind:bss addr:0x02174e54
 data_02174e78 kind:bss addr:0x02174e58
-gRootHeapCall kind:bss addr:0x02174e68
 data_usa_02174e80 kind:bss addr:0x02174e80
 gDisplaySettings kind:bss addr:0x02175580
 gFrameCallback kind:bss addr:0x02175584

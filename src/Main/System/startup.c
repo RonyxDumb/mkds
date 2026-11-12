@@ -99,14 +99,14 @@ void InitStartup(void) {
     GetArenaLoHiNop();
     arenaLo = OS_GetArenaLo(0);
     data_02174e78.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
-    InitHeapCall(&gRootHeapCall, 0);
-    data_02174e78.mUnk_10 = "MainProc";
+    InitHeapCall(&data_02174e78.mRootHeapCall, 0);
+    data_02174e78.mRootHeapCall.mUnk_00 = "MainProc";
     StartupResetKeysInputSlot();
 }
 
 void RunRootHeapCall(u32 func) {
-    SetHeapCallFunc(&gRootHeapCall, func);
-    RunHeapCall(&gRootHeapCall, 0xbeef);
+    SetHeapCallFunc(&data_02174e78.mRootHeapCall, func);
+    RunHeapCall(&data_02174e78.mRootHeapCall, 0xbeef);
 }
 
 void *GetArenaHeap(void) {
