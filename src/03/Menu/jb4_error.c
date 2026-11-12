@@ -27,6 +27,12 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Menu/slide_buttons.h"
 
+const u8 gJb4ErrorFontIndices[6] = {0, 1, 1, 1, 1, 1};
+const u16 gJb4ErrorMessageRect[4] = {0xd, 0x3c, 0xe6, 0x5e};
+const u16 gJb4ErrorCodePositions[12] = {0x62, 0x22, 0x62, 0x22, 0x3d, 0x22, 0x65, 0x22, 0x6c, 0x22, 0x34, 0x22};
+u16 gDecimalFormat[3] = {0x25, 0x64, 0};
+u8 gJb4ErrorCode[1];
+
 void SetupJb4Error(void) {
     LoadJb4ErrorFileAndSetBgCnt();
     PrintJb4Error();
@@ -34,7 +40,7 @@ void SetupJb4Error(void) {
 }
 
 void LoadJb4ErrorFileAndSetBgCnt(void) {
-    void *v2 = &gJb4ErrorNscName;
+    void *v2 = &"char/jb4Error.nsc.l";
     void *v3 = &GX_LoadBG2Scr;
     u32 v4 = LoadFileToVram(v2, v3);
     u32 v5 = 0x4001008u;
@@ -173,8 +179,8 @@ void PrintJb4Error(void) {
     canvas = InitBgTextCanvas(0, gJb4ErrorFontIndices[GetLanguageIndex()]);
     messageEntry = GetMessageEntry(gMessages, messageIndex);
     swprintf(codeText, 8, gDecimalFormat, -*(s32 *) gJb4ErrorCode);
-    codeY = gJb4ErrorCodeYPositions[GetLanguageIndex() * 2];
-    codeX = gJb4ErrorCodeXPositions[GetLanguageIndex() * 2];
+    codeY = (gJb4ErrorCodePositions + 1)[GetLanguageIndex() * 2];
+    codeX = gJb4ErrorCodePositions[GetLanguageIndex() * 2];
     DrawCharsCentered(canvas, codeX, codeY, 2, 0xa, codeText, 0);
     DrawCanvasTextRect(canvas, gJb4ErrorMessageRect[0], gJb4ErrorMessageRect[1], gJb4ErrorMessageRect[2],
                        gJb4ErrorMessageRect[3], 2, GetLanguageTextFlags(), messageEntry);

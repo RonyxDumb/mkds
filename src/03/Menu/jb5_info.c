@@ -23,6 +23,9 @@
 #include "03/Menu/slide_buttons.h"
 #include "03/Menu/yb5_multi_next_setup.h"
 
+const Rect gJb5InfoMacAddressRect = {8, 0x40, 0xf0, 0x1c};
+const Rect gJb5InfoUserIdRect = {8, 0x78, 0xf0, 0x1c};
+
 void SetupJb5Info(void) {
     LoadJb5InfoFileAndSetBgCnt();
     LoadHlScr(0x11);
@@ -32,7 +35,7 @@ void SetupJb5Info(void) {
 }
 
 void LoadJb5InfoFileAndSetBgCnt(void) {
-    void *v2 = &gJb5InfoNscName;
+    void *v2 = &"char/jb5Info.nsc.l";
     void *v3 = &GX_LoadBG2Scr;
     u32 v4 = LoadFileToVram(v2, v3);
     u32 v5 = 0x4001008u;
@@ -88,7 +91,7 @@ void PrintJb5Info(void) {
     s32 i;
     a = InitBgTextCanvas(0, 0);
     OS_GetMacAddress(b);
-    swprintf(f, 0x14, gMacAddressFormat, b[0], b[1], b[2], b[3], b[4], b[5]);
+    swprintf(f, 0x14, L"%02X-%02X-%02X-%02X-%02X-%02X", b[0], b[1], b[2], b[3], b[4], b[5]);
     DrawCanvasTextRect(a, gJb5InfoMacAddressRect.mX, gJb5InfoMacAddressRect.mY, gJb5InfoMacAddressRect.mUnk_04,
                        gJb5InfoMacAddressRect.mUnk_06, 2, 0x480, f);
     DWCi_BM_GetWiFiInfo(&c);
@@ -100,9 +103,9 @@ void PrintJb5Info(void) {
             d[2 - i] = g % 10000;
             g = g / 10000;
         }
-        swprintf(f, 0x14, gDashSeparatedNumbersFormat, d[0], d[1], d[2], d[3]);
+        swprintf(f, 0x14, L"%04d-%04d-%04d-%04d", d[0], d[1], d[2], d[3]);
     } else {
-        swprintf(f, 0x14, gDashesFormat);
+        swprintf(f, 0x14, L"-------------------");
     }
     DrawCanvasTextRect(a, gJb5InfoUserIdRect.mX, gJb5InfoUserIdRect.mY, gJb5InfoUserIdRect.mUnk_04,
                        gJb5InfoUserIdRect.mUnk_06, 2, 0x480, f);

@@ -52,6 +52,15 @@
 #include "03/Menu/ap_scan_screen.h"
 #include "03/Net/ap_scan_callback.h"
 
+const u8 gApListRowLeftImageIndices[3] = {0x2e, 0x2d, 0x33};
+const u8 gApListRowRightImageIndices[4] = {0x18, 0x17, 0x16, 0x15};
+const Rect gApListSelectionRects[5] = {{4, 0x2e, 0xdb, 0x3f}, {4, 0x4a, 0xdb, 0x5b}, {4, 0x66, 0xdb, 0x77}, {4, 0x82, 0xdb, 0x93}, {0x82, 0x18, 0xf0, 0x2c}};
+const Rect gApListRowRects[5] = {{7, 0x32, 0xd0, 0x4c}, {7, 0x4e, 0xd0, 0x68}, {7, 0x6a, 0xd0, 0x84}, {7, 0x86, 0xd0, 0xa0}, {0x85, 0x1b, 0xfd, 0x2c}};
+u8 gApListPaletteRow[1] = {2};
+u8 gApListSelectedRow;
+u16 gApListScrollY;
+struct ApList *gApList;
+
 void CreateApList(void) {
     s32 secondaryPairFirst;
     gApList = AllocZeroedExpHeapBlock(0x5c, 4);
@@ -77,7 +86,7 @@ void CreateApList(void) {
 void LoadApListFilesAndSetBgCnt(void) {
     u8 xb4ApListBackNscName[0x19] = "char/xb4ApListBack.nsc.l";
     u8 ybBgStep31NclName[0x16] = "char/ybBgStep31.ncl.l";
-    LoadFileToVram(gJb4ApListNscName, GX_LoadBG3Scr);
+    LoadFileToVram("char/jb4ApList.nsc.l", GX_LoadBG3Scr);
     gApList->mXb4ApListBackNsc = LoadFile(BuildFilePathWithLanguage(xb4ApListBackNscName), NULL, 4);
     CreateBg2ScrBuffer(gApList->mXb4ApListBackNsc);
     RequestBg2ScrUpload();
@@ -172,7 +181,7 @@ void UpdateApList(void) {
 
 void UpdateApListInput(void) {
     int row;
-    Rect *rowRect;
+    const Rect *rowRect;
     if (gApList->mScrollTask != 0) {
         return;
     }
@@ -610,8 +619,8 @@ void PlaceApListSelection(void) {
     } else {
         pairIndex = 3;
     }
-    PlaceSelectionPair(pairIndex, gApListSelectionLeftX[selectedRow * 4], gApListSelectionRightX[selectedRow * 4],
-                       gApListSelectionYPos[selectedRow * 4]);
+    PlaceSelectionPair(pairIndex, gApListSelectionRects[selectedRow].mX, gApListSelectionRects[selectedRow].mUnk_04,
+                       gApListSelectionRects[selectedRow].mY);
 }
 
 void MoveApListSelectedRow(int direction) {

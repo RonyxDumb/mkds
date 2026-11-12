@@ -6,7 +6,6 @@
 #include "03/code_021d1d4c.h"
 #include "03/System/pointer_stack.h"
 #include "03/System/exp_heap.h"
-#include "03/unk_021d7bd4.h"
 #include "fs_file.h"
 #include "code_02003be0.h"
 #include "string.h"
@@ -19,6 +18,11 @@
 #include "os_spinLock.h"
 #include "os_printf.h"
 #include "card_common.h"
+
+const u8 gDwcArchiveName[3] = {0x64, 0x77, 0x63};
+char gLzFileSuffix[3] = ".l";
+u8 gRomDir[5] = {0x72, 0x6f, 0x6d, 0x3a, 0x2f};
+u8 gDwcUtilityBinName[21] = {0x72, 0x6f, 0x6d, 0x3a, 0x2f, 0x64, 0x77, 0x63, 0x2f, 0x75, 0x74, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x2e, 0x62, 0x69, 0x6e, 0};
 
 void InitDwcArchive(void) {
     FSFile file;
@@ -52,7 +56,7 @@ void InitDwcArchive(void) {
     gDwcArchive->mTables = AllocExpHeapBlock(tablesSize, 4);
     FS_LoadArchiveTables(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
     gDwcArchive->mUnk_84 = CreateFilledPointerStack(0x20, gDwcArchive->mStackStorage, 4);
-    OS_SPrintf(dirPath, gDwcArchiveRootFormat, gDwcArchiveName);
+    OS_SPrintf(dirPath, "%s:/", gDwcArchiveName);
     FS_ChangeDir((u8 *) dirPath);
 }
 

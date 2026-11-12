@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "03/types_021d299c.h"
+#include "00/Lib/DWC/code_02188720.h"
 
 typedef struct Rect Rect;
 
@@ -44,7 +45,6 @@ extern s8 gWayMessageDigitColumns[];
 extern s8 gWayMoveTargets[][4][4];
 extern Rect gWayRects[][4];
 extern Rect gWaySelectionRects[][4];
-extern u8 gConnectParamsTemplate[];
 extern u8 gApScanEmptyBssid[];
 extern u8 gUsbScanEmptyBssid[];
 extern u8 gMessageBoxButtonCounts[];

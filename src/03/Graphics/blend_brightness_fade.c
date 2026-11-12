@@ -8,6 +8,8 @@
 #include "03/System/tasks.h"
 #include "code_02147cd8.h"
 
+BlendBrightnessFadeSlot *gBlendBrightnessFadeSlots;
+
 void InitBlendBrightnessFadeSlotsFaded(void) {
     gBlendBrightnessFadeSlots = AllocZeroedExpHeapBlock(0x18, 4);
     G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 0x3f, 0x10);

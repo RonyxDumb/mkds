@@ -17,6 +17,13 @@
 #include "code_0200eddc.h"
 #include "code_02139f70.h"
 
+const u8 gLanguagePathLetters[6] = {0x6a, 0x65, 0x66, 0x67, 0x69, 0x73};
+const u16 gPrintMessageRect[4] = {0xd, 0x28, 0xe6, 0x70};
+const u16 gPrintMessageAndTextRect[4] = {0xd, 0x3c, 0xe6, 0x5e};
+const u8 gLanguageTextFlags[22] = {0x80, 4, 0, 0, 0x80, 2, 0, 0, 0x80, 2, 0, 0, 0x80, 2, 0, 0, 0x80, 2, 0, 0, 0x80, 2};
+const u16 gPrintMessageTextXPositions[12] = {0x6b, 0x22, 0x6c, 0x22, 0x7c, 0x22, 0x5d, 0x22, 0x5f, 0x22, 0x7d, 0x22};
+u8 gLanguagePathBuffer[64];
+
 u8 *BuildFilePathWithLanguage(const u8 *path) {
     u32 language;
 
@@ -82,7 +89,7 @@ void PrintMessageAndText(u32 text, u32 messageIndex) {
     DrawCanvasTextRect(canvas, gPrintMessageAndTextRect[0], gPrintMessageAndTextRect[1], gPrintMessageAndTextRect[2],
                        gPrintMessageAndTextRect[3], 2, GetLanguageTextFlags(), message);
     DrawCanvasText((u32) canvas, gPrintMessageTextXPositions[GetLanguageIndex() * 2],
-                   gPrintMessageTextYPositions[GetLanguageIndex() * 2], 2, 0x209, text);
+                   (gPrintMessageTextXPositions + 1)[GetLanguageIndex() * 2], 2, 0x209, text);
     RequestBgTextCanvasUpload(canvas);
 }
 

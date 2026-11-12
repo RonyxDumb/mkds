@@ -38,6 +38,17 @@
 #include "03/Menu/menu_pair_objects.h"
 #include "registers.h"
 
+YbBgOption1NclName gYbBgOption1NclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
+YbBgOptionNclName gYbBgOptionNclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
+const Rect gOptMenuSelectionRects[3] = {{6, 0x22, 0xea, 0x36}, {6, 0x4e, 0xea, 0x62}, {6, 0x7a, 0xea, 0x8e}};
+const Rect gOptMenuRects[3] = {{8, 0x24, 0xf8, 0x44}, {8, 0x50, 0xf8, 0x70}, {8, 0x7c, 0xf8, 0x9c}};
+const u16 gOptMenuOamEntryPosition[2] = {0xe0, 0x84};
+const u8 gOptMenuPaletteRows[3] = {1, 2, 3};
+u8 gOptMenuSelectedIndex;
+u8 gOptMenuEntryChosen[4];
+OamEntry *gOptMenuOamEntry;
+void *gYbBgOption1Ncl;
+
 void SetupOptMenu(void) {
     OamEntry *oamEntry;
     gOptMenuEntryChosen[0] = 0;
@@ -51,9 +62,8 @@ void SetupOptMenu(void) {
                         ((oamEntry->mAttr01 & 0xfe00ff00) | (gOptMenuOamEntryPosition[1] & 0xff));
     oamEntry = gOptMenuOamEntry;
     oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
-    PlaceSelectionCorners(
-        gOptMenuSelectionLeft[gOptMenuSelectedIndex * 4], gOptMenuSelectionRight[gOptMenuSelectedIndex * 4],
-        gOptMenuSelectionTop[gOptMenuSelectedIndex * 4], gOptMenuSelectionBottom[gOptMenuSelectedIndex * 4]);
+    PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
+                          gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
     SetUpdateFunction(StartOptMenuFadeIn);
 }
 
@@ -67,8 +77,8 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     s32 i;
     ybBgOptionNclName = gYbBgOptionNclName;
     ybBgOption1NclName = gYbBgOption1NclName;
-    LoadFileToVram(gJbBgOptionNcgName, GX_LoadBG2Char);
-    LoadFileToVram(gJb5OptMenuNscName, GX_LoadBG2Scr);
+    LoadFileToVram("char/jbBgOption.ncg.l", GX_LoadBG2Char);
+    LoadFileToVram("char/jb5OptMenu.nsc.l", GX_LoadBG2Scr);
     gYbBgOption1Ncl = LoadFile(BuildFilePathWithLanguage(ybBgOption1NclName.mText), NULL, 4);
     palette = LoadFile(BuildFilePathWithLanguage(ybBgOptionNclName.mText), NULL, 4);
     DWCi_BM_GetWiFiInfo(&wifiInfo);
@@ -124,9 +134,8 @@ void UpdateOptMenuInput(void) {
         if (IsTouchPressedInRect(&gOptMenuRects[i]) != 0) {
             SetButtonResultIfNone(1);
             gOptMenuSelectedIndex = i;
-            PlaceSelectionCorners(
-                gOptMenuSelectionLeft[gOptMenuSelectedIndex * 4], gOptMenuSelectionRight[gOptMenuSelectedIndex * 4],
-                gOptMenuSelectionTop[gOptMenuSelectedIndex * 4], gOptMenuSelectionBottom[gOptMenuSelectedIndex * 4]);
+            PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
+                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
             return;
         }
     }
@@ -223,9 +232,8 @@ void MoveOptMenuSelection(s32 direction) {
         gOptMenuSelectedIndex = FX_ModS32(gOptMenuSelectedIndex + 1, 3);
     }
     StartSoundSeq(8);
-    PlaceSelectionCorners(
-        gOptMenuSelectionLeft[gOptMenuSelectedIndex * 4], gOptMenuSelectionRight[gOptMenuSelectedIndex * 4],
-        gOptMenuSelectionTop[gOptMenuSelectedIndex * 4], gOptMenuSelectionBottom[gOptMenuSelectedIndex * 4]);
+    PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
+                          gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
 }
 
 void RequestOptMenuPaletteRowCopy(void) {

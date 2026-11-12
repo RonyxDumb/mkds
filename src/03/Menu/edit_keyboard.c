@@ -586,8 +586,8 @@ void PlaceEditKeyboardCursor(void) {
     }
     CopyNceImageToOamEntries(0, imageIndex, GetOamRangeEntry(gEditKeyboard->mCursor, 0));
     SetOamRangePriority(gEditKeyboard->mCursor, -1, 2);
-    SetOamRangePosition(gEditKeyboard->mCursor, -1, gEditKeyboardCursorXPositions[gEditKeyboard->mCursorKeyIndex][0],
-                        gEditKeyboardCursorYPositions[gEditKeyboard->mCursorKeyIndex][0]);
+    SetOamRangePosition(gEditKeyboard->mCursor, -1, gEditKeyboardCursorPositions[gEditKeyboard->mCursorKeyIndex][0],
+                        gEditKeyboardCursorPositions[gEditKeyboard->mCursorKeyIndex][1]);
 }
 
 void MoveEditKeyboardCursor(int direction) {

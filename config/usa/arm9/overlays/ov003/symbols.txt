@@ -1129,7 +1129,6 @@ gPrintMessageRect kind:data(any) addr:0x021d5ecc
 gPrintMessageAndTextRect kind:data(any) addr:0x021d5ed4
 gLanguageTextFlags kind:data(any) addr:0x021d5edc
 gPrintMessageTextXPositions kind:data(any) addr:0x021d5ef4
-gPrintMessageTextYPositions kind:data(any) addr:0x021d5ef6
 gSelectionPairImages kind:data(any) addr:0x021d5f0c
 gLinkLevelPosition kind:data(any) addr:0x021d5f14
 gLinkLevelImages kind:data(any) addr:0x021d5f18
@@ -1152,8 +1151,7 @@ gEditKeyboardLastExtraKeySizes kind:data(any) addr:0x021d5f68
 gEditKeyboardKeyPositions kind:data(any) addr:0x021d5f70
 gEditKeyboardKeyPositionsSecond kind:data(any) addr:0x021d5fb0
 gEditKeyboardKeyPositionsThird kind:data(any) addr:0x021d5ff0
-gEditKeyboardCursorXPositions kind:data(any) addr:0x021d602c
-gEditKeyboardCursorYPositions kind:data(any) addr:0x021d602e
+gEditKeyboardCursorPositions kind:data(any) addr:0x021d602c
 gEditKeyboardCursorMoves kind:data(any) addr:0x021d6100
 gEditAddrKeyboardRow4HighlightValues kind:data(any) addr:0x021d61d4
 gEditAddrKeyboardExtraKeyImages kind:data(any) addr:0x021d61d8
@@ -1175,26 +1173,18 @@ gEditAddrKeyboardCursorY kind:data(any) addr:0x021d625e
 gEditAddrKeyboardCursorMoves kind:data(any) addr:0x021d6294
 gNintendoDsItemBytes kind:data(any) addr:0x021d62cc
 gJb2MenuRects kind:data(any) addr:0x021d62d8
-gJb2MenuSelectionLeft kind:data(any) addr:0x021d62e8
-gJb2MenuSelectionTop kind:data(any) addr:0x021d62ea
-gJb2MenuSelectionRight kind:data(any) addr:0x021d62ec
-gJb2MenuSelectionBottom kind:data(any) addr:0x021d62ee
+gJb2MenuSelectionRects kind:data(any) addr:0x021d62e8
 gJb5InfoMacAddressRect kind:data(any) addr:0x021d62f8
 gJb5InfoUserIdRect kind:data(any) addr:0x021d6300
 gOptMenuPaletteRows kind:data(any) addr:0x021d6308
 gOptMenuOamEntryPosition kind:data(any) addr:0x021d630c
 gOptMenuRects kind:data(any) addr:0x021d6310
-gOptMenuSelectionLeft kind:data(any) addr:0x021d6328
-gOptMenuSelectionTop kind:data(any) addr:0x021d632a
-gOptMenuSelectionRight kind:data(any) addr:0x021d632c
-gOptMenuSelectionBottom kind:data(any) addr:0x021d632e
+gOptMenuSelectionRects kind:data(any) addr:0x021d6328
 gJb5MoveTextRect kind:data(any) addr:0x021d6340
 gApListRowLeftImageIndices kind:data(any) addr:0x021d6348
 gApListRowRightImageIndices kind:data(any) addr:0x021d634c
 gApListRowRects kind:data(any) addr:0x021d6350
-gApListSelectionLeftX kind:data(any) addr:0x021d6378
-gApListSelectionYPos kind:data(any) addr:0x021d637a
-gApListSelectionRightX kind:data(any) addr:0x021d637c
+gApListSelectionRects kind:data(any) addr:0x021d6378
 gEditLineY kind:data(any) addr:0x021d63a0
 gEditCharSize kind:data(any) addr:0x021d63a4
 gEditColumnX kind:data(any) addr:0x021d63a8
@@ -1202,8 +1192,7 @@ gEditAddrCharSize kind:data(any) addr:0x021d63b8
 gEditAddrCharX kind:data(any) addr:0x021d63bc
 gJb4ErrorFontIndices kind:data(any) addr:0x021d63c8
 gJb4ErrorMessageRect kind:data(any) addr:0x021d63d0
-gJb4ErrorCodeXPositions kind:data(any) addr:0x021d63d8
-gJb4ErrorCodeYPositions kind:data(any) addr:0x021d63da
+gJb4ErrorCodePositions kind:data(any) addr:0x021d63d8
 gJb3ListPaletteRows kind:data(any) addr:0x021d63f0
 gJb3ListDigitColumns kind:data(any) addr:0x021d63f4
 gJb3ListCellRect kind:data(any) addr:0x021d63fc
@@ -1358,19 +1347,19 @@ gLanguageBmgNames kind:data(any) addr:0x021d6e60
 @1929 kind:data(any) addr:0x021d6f7c local
 gJb2MenuPaletteRows kind:data(any) addr:0x021d6f90
 gYbBgStep11NclName kind:data(any) addr:0x021d6f94
-gJbBgStep1NcgName2 kind:data(any) addr:0x021d6fac
-gJbBgStep1NclName2 kind:data(any) addr:0x021d6fc4
-gJb2MenuNscName kind:data(any) addr:0x021d6fdc
+@1292 kind:data(any) addr:0x021d6fac local
+@1293 kind:data(any) addr:0x021d6fc4 local
+@1294 kind:data(any) addr:0x021d6fdc local
 gYb5MultiNscName kind:data(any) addr:0x021d6ff0
 gYb5MultiNscName2 kind:data(any) addr:0x021d7004
-gMacAddressFormat kind:data(any) addr:0x021d7018
-gDashSeparatedNumbersFormat kind:data(any) addr:0x021d7054
-gDashesFormat kind:data(any) addr:0x021d707c
-gJb5InfoNscName kind:data(any) addr:0x021d70a4
+@1011 kind:data(any) addr:0x021d7018 local
+@1017 kind:data(any) addr:0x021d7054 local
+@1018 kind:data(any) addr:0x021d707c local
+@1021 kind:data(any) addr:0x021d70a4 local
 gYbBgOptionNclName kind:data(any) addr:0x021d70b8
 gYbBgOption1NclName kind:data(any) addr:0x021d70d0
-gJbBgOptionNcgName kind:data(any) addr:0x021d70e8
-gJb5OptMenuNscName kind:data(any) addr:0x021d7100
+@1462 kind:data(any) addr:0x021d70e8 local
+@1463 kind:data(any) addr:0x021d7100 local
 gYb5MultiNscName3 kind:data(any) addr:0x021d7118
 gYb5MultiNscName4 kind:data(any) addr:0x021d712c
 gYb5MultiNscName5 kind:data(any) addr:0x021d7140
@@ -1384,7 +1373,7 @@ gXb4MultiNscName2 kind:data(any) addr:0x021d71d4
 gApListPaletteRow kind:data(any) addr:0x021d71e8
 @1367 kind:data(any) addr:0x021d71ec local
 @1365 kind:data(any) addr:0x021d7204 local
-gJb4ApListNscName kind:data(any) addr:0x021d7220
+@3358 kind:data(any) addr:0x021d7220 local
 gEditSubScreenMessages kind:data(any) addr:0x021d7238
 @1213 kind:data(any) addr:0x021d723c local
 @1732 kind:data(any) addr:0x021d7244 local
@@ -1405,7 +1394,7 @@ gEditAddrStoreFuncs kind:data(any) addr:0x021d72e4
 @1846 kind:data(any) addr:0x021d7354 local
 @1863 kind:data(any) addr:0x021d736c local
 gDecimalFormat kind:data(any) addr:0x021d7370
-gJb4ErrorNscName kind:data(any) addr:0x021d7378
+@1367 kind:data(any) addr:0x021d7378 local
 gJb3ListTimerIds kind:data(any) addr:0x021d738c
 gJb3ListSelectionRectIndices kind:data(any) addr:0x021d7390
 gYbBgStep2NclName kind:data(any) addr:0x021d73a0
@@ -1442,9 +1431,9 @@ gYbBgStep21NclName2 kind:data(any) addr:0x021d7614
 gJbBgStep2NcgName2 kind:data(any) addr:0x021d762c
 gYbBgStep2NclName2 kind:data(any) addr:0x021d7644
 gJb3WayNscName kind:data(any) addr:0x021d765c
-gJbBgStep3NcgName7 kind:data(any) addr:0x021d7670
-gYbBgStep3NclName7 kind:data(any) addr:0x021d7688
-gXb4MultiNscName8 kind:data(any) addr:0x021d76a0
+@2102 kind:data(any) addr:0x021d7670 local
+@2103 kind:data(any) addr:0x021d7688 local
+@2104 kind:data(any) addr:0x021d76a0 local
 gXb4MultiNscName9 kind:data(any) addr:0x021d76b4
 gConnectMessageIds kind:data(any) addr:0x021d76c8
 gXb4NoneNscName2 kind:data(any) addr:0x021d76d4
@@ -1494,7 +1483,7 @@ gWhStateToFormat kind:data(any) addr:0x021d7b90
 gLzFileSuffix kind:data(any) addr:0x021d7b94
 gRomDir kind:data(any) addr:0x021d7b98
 gDwcUtilityBinName kind:data(any) addr:0x021d7ba0
-gDwcArchiveRootFormat kind:data(any) addr:0x021d7bb8
+@1137 kind:data(any) addr:0x021d7bb8 local
 @784 kind:data(any) addr:0x021d7bc0 local
 @782 kind:data(any) addr:0x021d7bc4 local
 @721 kind:data(any) addr:0x021d7bc8 local

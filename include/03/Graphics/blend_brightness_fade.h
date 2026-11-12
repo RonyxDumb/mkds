@@ -11,3 +11,5 @@ typedef struct BlendBrightnessFadeSlot {
 } BlendBrightnessFadeSlot;
 
 void AdvanceBlendBrightnessFadeWait(u32 task, BlendBrightnessFadeSlot *state);
+
+extern BlendBrightnessFadeSlot *gBlendBrightnessFadeSlots;

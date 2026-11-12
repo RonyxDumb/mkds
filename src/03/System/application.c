@@ -31,6 +31,13 @@
 #include "code_021519d4.h"
 #include "03/System/lcd_power.h"
 
+u8 gQuitFlag[4];
+u8 gLanguageIndex[4];
+void (*gUpdateFunction)(void);
+void *gHeapMemoryBlock;
+ModeAndFlags gModeAndFlags;
+s32 gMenuPairs[4];
+
 s32 RunMainLoop(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) {
     gHeapMemoryBlock = memoryBlock;
     if (InitLanguageAndMode(languageIndex, modeAndFlags) == 0) {

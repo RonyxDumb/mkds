@@ -37,6 +37,8 @@ src/03/Menu/sub_screen_message.c:
 src/03/Menu/menu_pair_loading.c:
     complete
     .text       start:0x021bf49c end:0x021bf658
+    .rodata     start:0x021d5ec4 end:0x021d5f0c
+    .bss        start:0x021da0d0 end:0x021da110
 
 // provisional: file name and boundaries
 src/03/Menu/selection_objects.c:
@@ -71,6 +73,7 @@ src/03/Net/value_records_request.c:
 src/03/System/application.c:
     complete
     .text       start:0x021c205c end:0x021c24cc
+    .bss        start:0x021da12c end:0x021da150
 
 // provisional: file name and boundaries
 src/03/Graphics/messages.c:
@@ -106,6 +109,9 @@ src/03/Menu/main_menu.c:
 src/03/Menu/jb2_menu.c:
     complete
     .text       start:0x021c2c54 end:0x021c3094
+    .rodata     start:0x021d62d8 end:0x021d62f8
+    .data       start:0x021d6f90 end:0x021d6ff0
+    .bss        start:0x021da160 end:0x021da168
 
 // provisional: file name and boundaries
 src/03/Menu/yb5_multi.c:
@@ -129,11 +135,16 @@ src/03/Menu/yb5_multi_next_setup.c:
 src/03/Menu/jb5_info.c:
     complete
     .text       start:0x021c3670 end:0x021c38dc
+    .rodata     start:0x021d62f8 end:0x021d6308
+    .data       start:0x021d7018 end:0x021d70b8
 
 // provisional: file name and boundaries
 src/03/Menu/opt_menu.c:
     complete
     .text       start:0x021c38dc end:0x021c3e4c
+    .rodata     start:0x021d6308 end:0x021d6340
+    .data       start:0x021d70b8 end:0x021d7118
+    .bss        start:0x021da16c end:0x021da17c
 
 // provisional: file name and boundaries
 src/03/Menu/link_message_update.c:
@@ -216,7 +227,9 @@ src/03/Menu/value_records_next.c:
 src/03/Menu/ap_list.c:
     complete
     .text       start:0x021c56e4 end:0x021c66c8
-    .data       start:0x021d71ec end:0x021d7220
+    .rodata     start:0x021d6348 end:0x021d63a0
+    .data       start:0x021d71e8 end:0x021d7238
+    .bss        start:0x021da1ac end:0x021da1b8
 
 // provisional: file name and boundaries
 src/03/Menu/edit.c:
@@ -238,6 +251,9 @@ src/03/Menu/edit_addr.c:
 src/03/Menu/jb4_error.c:
     complete
     .text       start:0x021c7804 end:0x021c7cf0
+    .rodata     start:0x021d63c8 end:0x021d63f0
+    .data       start:0x021d7370 end:0x021d738c
+    .bss        start:0x021da1c0 end:0x021da1c4
 
 // provisional: file name and boundaries
 src/03/Menu/jb3_list.c:
@@ -299,6 +315,9 @@ src/03/Menu/way.c:
 src/03/Menu/connect.c:
     complete
     .text       start:0x021cb898 end:0x021cbbc0
+    .rodata     start:0x021d65e0 end:0x021d65ec
+    .data       start:0x021d7670 end:0x021d76b4
+    .bss        start:0x021da208 end:0x021da20c
 
 // provisional: file name and boundaries
 src/03/Menu/connect_done.c:
@@ -414,6 +433,8 @@ src/03/Net/child_wait_session.c:
 src/03/System/dwc_archive.c:
     complete
     .text       start:0x021d1400 end:0x021d1730
+    .rodata     start:0x021d6798 end:0x021d679c
+    .data       start:0x021d7b94 end:0x021d7bc0
 
 // provisional: file name and boundaries
 src/03/Graphics/nce_oam.c:
@@ -431,6 +452,7 @@ src/03/Graphics/blend_brightness_fade.c:
     complete
     .text       start:0x021d1d68 end:0x021d1f90
     .data       start:0x021d7bc0 end:0x021d7bcc
+    .bss        start:0x021da280 end:0x021da284
 
 // provisional: file name and boundaries
 src/03/Graphics/text_canvas.c:

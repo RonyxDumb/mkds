@@ -32,16 +32,6 @@ typedef struct ApList {
     /* 59 */ u8 mKeyBlockedSoundPlayed;
 } ApList;
 
-extern const u8 gApListRowLeftImageIndices[];
-extern const u8 gApListRowRightImageIndices[];
-extern Rect gApListRowRects[];
-extern u16 gApListSelectionLeftX[];
-extern u16 gApListSelectionYPos[];
-extern u16 gApListSelectionRightX[];
-extern u8 gApListPaletteRow[];
-extern u8 gJb4ApListNscName[];
-extern u8 gApListSelectedRow;
-
 void RequestApListPaletteRowCopy(void);
 void StartApListScrollYIncrease(void);
 void StartApListScrollYDecrease(void);
@@ -68,3 +58,12 @@ void CreateApListRowObjects(void);
 void SetupApListScroll(void);
 void LoadApListFilesAndSetBgCnt(void);
 void CreateApList(void);
+
+extern const u8 gApListRowLeftImageIndices[3];
+extern const u8 gApListRowRightImageIndices[4];
+extern const Rect gApListRowRects[5];
+extern const Rect gApListSelectionRects[5];
+extern u8 gApListPaletteRow[1];
+extern u8 gApListSelectedRow;
+extern u16 gApListScrollY;
+extern struct ApList *gApList;
