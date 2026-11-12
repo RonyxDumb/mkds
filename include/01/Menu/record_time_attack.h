@@ -129,6 +129,7 @@ BOOL AdvanceRecordTAttButtonSequence(void);
 void AdvanceRecordTAttOffsetTimers(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+#include "Main/Menu/record_vs.h"
 
 extern const u16 gRecordTAttRunningSTableIndices[2];
 extern const u16 gRecordTAttNameLabelIndices[5];
@@ -140,3 +141,5 @@ extern const u16 gRecordTAttTimeLabelIndices[5];
 extern const u16 gRecordTAttOffsetSTableIndices[5];
 extern const u16 gRecordTAttTimeLabelWidths[5];
 extern const u16 gRecordTAttTimerZeroSTableIndices[2];
+
+extern RecordScreenCallbacks gRecordTAttCallbacks;

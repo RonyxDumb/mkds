@@ -26,17 +26,23 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Sound/sound_system.h"
 
+void AdvanceRecordTAtt(void);
+void InitRecordTAtt(void *heap);
+void ReleaseRecordTAtt(void);
+void WriteRecordTAttBgOffsets(void);
+void WriteRecordTAttRegisters(void);
 const u16 gRecordTAttRunningSTableIndices[2] = {0x11, 0x12};
 const u16 gRecordTAttNameLabelIndices[5] = {3, 4, 5, 6, 7};
-const u16 gRecordTAttNameLabelWidths[5] = {0x7c, 0x68, 0x68, 0x68, 0x68};
-const u16 gRecordTAttNameLabelHeights[5] = {0x10, 0x10, 0x10, 0x10, 0x10};
 const u16 gRecordTAttButtonSequence[6] = {0x40, 0x80, 0x200, 0x100, 0x800, 1};
-const u16 gRecordTAttTimeLabelHeights[5] = {0x10, 0x10, 0x10, 0x10, 0x10};
+const u16 gRecordTAttNameLabelHeights[5] = {0x10, 0x10, 0x10, 0x10, 0x10};
 const s32 gRecordTAttRecordIndices[5] = {0, 1, 2, 3, 4};
-const u16 gRecordTAttTimeLabelIndices[5] = {1, 0, 1, 2, 3};
 const u16 gRecordTAttOffsetSTableIndices[5] = {0, 0, 1, 2, 3};
-const u16 gRecordTAttTimeLabelWidths[5] = {0x46, 0x46, 0x46, 0x46, 0x46};
+const u16 gRecordTAttTimeLabelHeights[5] = {0x10, 0x10, 0x10, 0x10, 0x10};
+const u16 gRecordTAttTimeLabelIndices[5] = {1, 0, 1, 2, 3};
+RecordScreenCallbacks gRecordTAttCallbacks = {InitRecordTAtt, ReleaseRecordTAtt, AdvanceRecordTAtt, WriteRecordTAttBgOffsets, WriteRecordTAttRegisters};
 const u16 gRecordTAttTimerZeroSTableIndices[2] = {0xf, 0x10};
+const u16 gRecordTAttTimeLabelWidths[5] = {0x46, 0x46, 0x46, 0x46, 0x46};
+const u16 gRecordTAttNameLabelWidths[5] = {0x7c, 0x68, 0x68, 0x68, 0x68};
 RecordTAtt *gRecordTAtt;
 
 void AdvanceRecordTAttOffsetTimers(void) {

@@ -198,7 +198,7 @@ src/01/Menu/record_time_attack.c:
     complete
     .text       start:0x021956bc end:0x02196d58
     .rodata     start:0x021a67a0 end:0x021a681c
-    .data       start:0x021a82b8 end:0x021a82dc
+    .data       start:0x021a82a4 end:0x021a82dc
     .bss        start:0x021a9bbc end:0x021a9bc0
 
 src/01/Menu/code_02196d58.c:
