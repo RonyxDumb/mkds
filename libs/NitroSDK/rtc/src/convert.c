@@ -1,8 +1,6 @@
-#include "code_0214e274.h"
+#include "convert.h"
 #include "Main/Unknown/unk_0216f000.h"
 
-// Returns the number of days from 2000-01-01 to date, or -1 when a field is out of range. The leap day counts from
-// March on in years divisible by 4.
 s32 RTC_ConvertDateToDay(const RTCDate *date) {
     s32 dayNum;
 
@@ -19,4 +17,23 @@ s32 RTC_ConvertDateToDay(const RTCDate *date) {
     dayNum += date->mYear * 365;
     dayNum += (date->mYear + 3) / 4;
     return dayNum;
+}
+
+s32 RTCi_ConvertTimeToSecond(const RTCTime *time) {
+    return (time->mHour * 60 + time->mMinute) * 60 + time->mSecond;
+}
+
+s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time) {
+    s32 day;
+    s32 sec;
+
+    day = RTC_ConvertDateToDay(date);
+    if (day == -1) {
+        return -1;
+    }
+    sec = RTCi_ConvertTimeToSecond(time);
+    if (sec == -1) {
+        return -1;
+    }
+    return (s64) day * 86400 + sec;
 }

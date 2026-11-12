@@ -22,7 +22,7 @@
 #include "code_0214d93c.h"
 #include "Main/Unknown/unk_0216f000.h"
 #include "os_tick.h"
-#include "code_0214e1e0.h"
+#include "convert.h"
 
 HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes) {
     s32 i;
