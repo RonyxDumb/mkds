@@ -64,7 +64,6 @@ typedef struct CPSConfig {
 // Objects whose layout isn't known yet.
 extern u8 gFreeFunc[];
 extern u8 gAllocFunc[];
-extern WCMWork *gWcmWork;
 extern u8 SOCLiYieldWait[];
 
 extern u8 gMatchingMaskedParticipantIndices[0x20];
@@ -93,8 +92,6 @@ typedef struct DWCMatchOptMinCompleteIn {
 extern DWCMatchOptMinCompleteIn *gOptMinComp;
 extern void *gMatchingFilterText;
 extern WCMCpsifWork gWcmCpsifWork;
-extern u8 gWcmRssiIndex;
-extern u8 gWcmRssi[16];
 extern SOCLConfig *SOCLiConfigPtr;
 extern u32 SOCLiRequestedIP;
 extern SOCLSocket *SOCLiUDPSendSocket;

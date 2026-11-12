@@ -327,8 +327,3 @@ extern const u8 gWiFiVSSettingKartTypes[4];
 extern const u8 gWiFiVSSettingIndexByKartType[5];
 extern const s32 gWiFiVSSettingMessageIndices[3][4];
 extern WiFiVSSetting *gWiFiVSSetting;
-extern u8 gWiFiVSMatchingTotalLabelIndices[3][2];
-extern u8 gWiFiVSMatchingTotalCellIndices[3][2];
-extern u8 gWiFiVSMatchingOffsetTableIndices[3][5];
-extern WiFiVSMatching *gWiFiVSMatching;
-extern u8 gWiFiVSMatchingNameCellIndices[3];

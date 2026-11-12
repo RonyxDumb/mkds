@@ -8,8 +8,6 @@
 
 BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex);
 
-extern OSMutex gWcmCpsifSendMutex;
-
 void WcmCpsifKACallback(void);
 void WcmCpsifWmCallback(Unk021425e8 *callback);
 s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len);

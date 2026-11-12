@@ -9,6 +9,9 @@
 #include "code_0200edc0.h"
 #include "code_02142eac.h"
 
+u8 gWcmRssiIndex;
+u8 gWcmRssi[16];
+
 u32 WCM_GetLinkLevel(void) {
     u32 enabled;
     WCMWork *work;

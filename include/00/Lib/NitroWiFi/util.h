@@ -16,3 +16,6 @@ s32 WcmGetLinkLevel(void);
 u8 WCMi_GetRssiAverage(void);
 
 u32 WCM_GetLinkLevel(void);
+
+extern u8 gWcmRssiIndex;
+extern u8 gWcmRssi[16];

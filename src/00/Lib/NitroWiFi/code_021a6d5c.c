@@ -126,7 +126,7 @@ SOCHostEnt *SOC_GetHostByName(const char *hostname) {
         return NULL;
     }
     STD_CopyLStringZeroFill((char *) entName, hostname, 0x101);
-    hostent.mName = (u8 *) entName;
+    hostent.mName = (char *) entName;
     hostent.mAliases = NULL;
     hostent.mAddrType = 2;
     hostent.mLength = 4;

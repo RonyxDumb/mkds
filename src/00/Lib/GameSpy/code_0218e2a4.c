@@ -2,6 +2,8 @@
 
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 
+u32 gRandomNum = 1;
+
 s32 longrand(void) {
     gRandomNum = nextlongrand(gRandomNum);
     return gRandomNum;

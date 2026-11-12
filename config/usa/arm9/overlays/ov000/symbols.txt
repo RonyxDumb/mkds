@@ -1788,7 +1788,7 @@ gCompFnAssertText kind:data(any) addr:0x021b2334
 gHashtableElemSizeAssertText kind:data(any) addr:0x021b233c
 gNBucketsAssertText kind:data(any) addr:0x021b2348
 gTableBucketsAssertText kind:data(any) addr:0x021b2354
-gHexByteFormat kind:data(any) addr:0x021b2364
+@188 kind:data(any) addr:0x021b2364 local
 gRandomNum kind:data(any) addr:0x021b236c
 gTickAvailableAssertion kind:data(any) addr:0x021b2370
 gNonportFileName kind:data(any) addr:0x021b2390
@@ -2419,8 +2419,6 @@ gQr2Hostname kind:bss addr:0x021b5dd0
 gQr2Indata kind:bss addr:0x021b5e10
 gWcmWork kind:bss addr:0x021b5f10
 gWcmCpsifWork kind:bss addr:0x021b5f14
-data_ov000_021b5f58 kind:bss addr:0x021b5f18
-gWcmCpsifSendMutex kind:bss addr:0x021b5f20
 gWcmRssiIndex kind:bss addr:0x021b5f40
 gWcmRssi kind:bss addr:0x021b5f44
 SOCLiConfigPtr kind:bss addr:0x021b5f54

@@ -37,13 +37,6 @@ void InitWiFiVSMatching(void *heap);
 
 extern MenuShared *gMenuShared;
 extern WiFiSession *gWiFiSession;
-extern u8 gWiFiVSMatchingBlendColorOffsets[2];
-extern u8 gWiFiVSMatchingOtherCellIndices[3];
-extern u8 gWiFiVSMatchingSearchLabelIndices[3];
-extern u8 gWiFiVSMatchingNameLabelIndices[3];
-extern u8 gWiFiVSMatchingEmblemCellIndices[3];
-extern s32 gWiFiVSMatchingResultWaitFrames[3];
-extern s8 gWiFiVSMatchingNameSlideOffsets[30];
 extern u8 gWiFiVSMatchingTotalScalePercents[30];
 extern u8 gWiFiVSMatchingEmblemScalePercents[40];
 extern char gWiFiBmgName2[];
@@ -68,3 +61,17 @@ void LocateAndQueueWiFiVSMatching(void);
 void ReleaseWiFiVSMatching(void);
 void InitWiFiVSMatchingEntryMatrices(void);
 void InitWiFiVSMatchingLabels(void);
+
+extern const s8 gWiFiVSMatchingNameSlideOffsets[30];
+extern const u8 gWiFiVSMatchingOffsetTableIndices[3][5];
+extern const u8 gWiFiVSMatchingTotalCellIndices[3][2];
+extern const u8 gWiFiVSMatchingNameLabelIndices[3];
+extern const u8 gWiFiVSMatchingOtherCellIndices[3];
+extern const u8 gWiFiVSMatchingNameCellIndices[3];
+extern const u8 gWiFiVSMatchingSearchLabelIndices[3];
+extern const u8 gWiFiVSMatchingTotalLabelIndices[3][2];
+extern const u8 gWiFiVSMatchingBlendColorOffsets[2];
+extern const u8 gWiFiVSMatchingEmblemCellIndices[3];
+extern const s32 gWiFiVSMatchingResultWaitFrames[3];
+
+extern struct WiFiVSMatching *gWiFiVSMatching;

@@ -9,6 +9,7 @@ src/00/Scene/wi_fi_menu_scene.c:
     complete
     .text       start:0x021804c0 end:0x021805e0
     .data       start:0x021b07c0 end:0x021b07e0
+    .bss        start:0x021b4c20 end:0x021b4c24
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_states.c:
@@ -44,7 +45,9 @@ src/00/Menu/wi_fi_vs_setting.c:
 src/00/Menu/wi_fi_vs_matching.c:
     complete
     .text       start:0x021832d8 end:0x02184894
+    .rodata     start:0x021b0624 end:0x021b0688
     .data       start:0x021b0c74 end:0x021b0dd8
+    .bss        start:0x021b4c34 end:0x021b4c38
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_select_character.c:
@@ -299,11 +302,14 @@ src/00/Lib/GameSpy/code_0218e0e0.c:
 src/00/Lib/GameSpy/code_0218e0fc.c:
     complete
     .text       start:0x0218e0c8 end:0x0218e270
+    .rodata     start:0x021b077c end:0x021b0788
+    .data       start:0x021b2364 end:0x021b236c
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218e2a4.c:
     complete
     .text       start:0x0218e270 end:0x0218e2a8
+    .data       start:0x021b236c end:0x021b2370
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218e2dc.c:
@@ -592,6 +598,7 @@ src/00/Lib/GameSpy/code_021a4b84.c:
 src/00/Lib/NitroWiFi/code_021a4b98.c:
     complete
     .text       start:0x021a4b64 end:0x021a6638
+    .bss        start:0x021b5f10 end:0x021b5f14
 
 // provisional: file name and boundaries
 src/00/Lib/NitroWiFi/code_021a666c.c:
@@ -607,11 +614,13 @@ src/00/Lib/NitroWiFi/code_021a669c.c:
 src/00/Lib/NitroWiFi/cpsif.c:
     complete
     .text       start:0x021a68d4 end:0x021a6bd4
+    .bss        start:0x021b5f14 end:0x021b5f40
 
 // provisional: file name and boundaries
 src/00/Lib/NitroWiFi/util.c:
     complete
     .text       start:0x021a6bd4 end:0x021a6ce8
+    .bss        start:0x021b5f40 end:0x021b5f54
 
 // provisional: file name and boundaries
 src/00/Lib/NitroWiFi/code_021a6d1c.c:

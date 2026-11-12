@@ -13,6 +13,8 @@
 #include "code_02142eac.h"
 #include "ITCM/code_01ff8000.h"
 
+WCMCpsifWork gWcmCpsifWork;
+
 void WCMi_InitCpsif(void) {
     if (gWcmCpsifWork.mInitialized == 0) {
         gWcmCpsifWork.mInitialized = 1;
@@ -153,7 +155,7 @@ void WcmCpsifWmCallback(Unk021425e8 *callback) {
 }
 
 void WcmCpsifKACallback(void) {
-    WcmCpsifUnlockMutexInIRQ(&gWcmCpsifSendMutex);
+    WcmCpsifUnlockMutexInIRQ(&gWcmCpsifWork.mSendMutex);
 }
 
 BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex) {

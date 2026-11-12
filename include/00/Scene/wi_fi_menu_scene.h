@@ -4,8 +4,6 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-extern u8 *gWiFiMenuOamLists;
-
 void *GetWiFiMenuSubOamList(void);
 void *GetWiFiMenuMainOamList(void);
 // Scene function of gSceneFuncs[12] (scene 'WiFiMenu' in gSceneNames): copies the callbacks and
@@ -17,3 +15,5 @@ void WriteWiFiMenuSceneRegisters(void);
 // ReleasePlayerEntryList and clears gWiFiStates and the list block.
 void ReleaseWiFiMenuScene(void);
 void InitWiFiMenuScene(s16 *sceneNumbers);
+
+extern u8 *gWiFiMenuOamLists;

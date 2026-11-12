@@ -11,6 +11,20 @@
 #include "00/code_02180608.h"
 #include "Main/Sound/sound_system.h"
 
+WiFiVSMatching *gWiFiVSMatching;
+
+const s8 gWiFiVSMatchingNameSlideOffsets[30] = {0xa, 8, 6, 4, 2, 0, -2, -3, -4, -4, -4, -3, -3, -2, -2, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const u8 gWiFiVSMatchingOffsetTableIndices[3][5] = {{0, 3, 6, 7, 0xc}, {1, 4, 8, 9, 0xd}, {2, 5, 0xa, 0xb, 0xe}};
+const u8 gWiFiVSMatchingTotalCellIndices[3][2] = {{6, 7}, {8, 9}, {0xa, 0xb}};
+const u8 gWiFiVSMatchingNameCellIndices[3] = {0, 1, 2};
+const u8 gWiFiVSMatchingOtherCellIndices[3] = {3, 4, 5};
+const u8 gWiFiVSMatchingEmblemCellIndices[3] = {0xc, 0xd, 0xe};
+const u8 gWiFiVSMatchingNameLabelIndices[3] = {0, 1, 2};
+const u8 gWiFiVSMatchingTotalLabelIndices[3][2] = {{3, 4}, {5, 6}, {7, 8}};
+const u8 gWiFiVSMatchingBlendColorOffsets[2] = {0xb, 6};
+const u8 gWiFiVSMatchingSearchLabelIndices[3] = {9, 0xa, 0xb};
+const s32 gWiFiVSMatchingResultWaitFrames[3] = {0xf0, 0x12c, 0x168};
+
 void InitWiFiVSMatchingLabels(void) {
     s32 subObjSizeLeft;
     u32 settingMessageIndex;
@@ -20,8 +34,8 @@ void InitWiFiVSMatchingLabels(void) {
     {
         u8 nameLabelSizes[3][2] = {{0x78, 0x10}, {0x78, 0x10}, {0x78, 0x10}};
         u8 *nameSizePointer = &nameLabelSizes[0][0];
-        u8 *nameCellPointer;
-        u8 *nameLabelPointer;
+        const u8 *nameCellPointer;
+        const u8 *nameLabelPointer;
 
         for (i = 0, nameCellPointer = gWiFiVSMatchingNameCellIndices,
             nameLabelPointer = gWiFiVSMatchingNameLabelIndices;
@@ -55,8 +69,8 @@ void InitWiFiVSMatchingLabels(void) {
         WiFiVSMatching *wiFiVSMatching;
         u8 searchLabelSizes[3][2] = {{0x78, 0x20}, {0x78, 0x20}, {0x78, 0x20}};
         u8 *searchSizePointer = &searchLabelSizes[0][0];
-        u8 *emblemCellPointer;
-        u8 *searchLabelPointer;
+        const u8 *emblemCellPointer;
+        const u8 *searchLabelPointer;
 
         for (i = 0, emblemCellPointer = gWiFiVSMatchingEmblemCellIndices,
             searchLabelPointer = gWiFiVSMatchingSearchLabelIndices;
@@ -92,10 +106,10 @@ void InitWiFiVSMatchingLabels(void) {
 void InitWiFiVSMatchingEntryMatrices(void) {
     s32 i;
     s32 j;
-    u8 *totalLabelIndices;
-    u8 *emblemCellIndices;
+    const u8 *totalLabelIndices;
+    const u8 *emblemCellIndices;
     s32 cellCount;
-    u8 *totalCellIndices;
+    const u8 *totalCellIndices;
 
     cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
     i = 0;
@@ -120,11 +134,11 @@ void InitWiFiVSMatching(void *heap) {
     s32 i;
     s32 k;
     void *oamList;
-    u8 *offsetTableIndices;
-    u8 *emblemCellIndices;
-    u8 *nameLabelIndices;
-    u8 *totalLabelIndices;
-    u8 *nameCellIndices;
+    const u8 *offsetTableIndices;
+    const u8 *emblemCellIndices;
+    const u8 *nameLabelIndices;
+    const u8 *totalLabelIndices;
+    const u8 *nameCellIndices;
     u8 totalLabelIndex;
 
     GetRaceSetupCopy();

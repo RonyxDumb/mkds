@@ -19,7 +19,7 @@ typedef struct SOCSockAddrIn {
 
 // Object SOC_GetHostByName returns; mUnk_0c points at a table of pointers to a word.
 typedef struct SOCHostEnt {
-    /* 00 */ u8 *mName;
+    /* 00 */ char *mName;
     /* 04 */ u8 *mAliases;
     /* 08 */ s16 mAddrType;
     /* 0a */ s16 mLength;

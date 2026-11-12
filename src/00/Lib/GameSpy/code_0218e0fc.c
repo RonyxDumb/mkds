@@ -8,6 +8,10 @@
 #include "code_02134398.h"
 #include "hash1.h"
 
+const s8 gUrlSafeEncodeing[3] = {0x2d, 0x5f, 0x3d};
+const s8 gAlternateEncoding[3] = {0x5b, 0x5d, 0x5f};
+const s8 gDefaultEncoding[3] = {0x2b, 0x2f, 0x3d};
+
 s32 Util_RandInt(s32 low, s32 high) {
     s32 range = high - low;
     s32 num;
@@ -92,7 +96,7 @@ void MD5Print(const u8 *digest, char *output) {
     count = 0;
     offset = 0;
     for (; count < 16; count++) {
-        sprintf(output + offset, gHexByteFormat, digest[count]);
+        sprintf(output + offset, "%02x", digest[count]);
         offset += 2;
     }
 }

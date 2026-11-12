@@ -26,6 +26,8 @@
 #include "00/unk_021b0000.h"
 #include "03/Net/ap_scan_callback.h"
 
+WCMWork *gWcmWork;
+
 WCMApList *WcmSearchApList(const u8 *bssid) {
     WCMWork *work;
     WCMApListHeader *aplistHeader;

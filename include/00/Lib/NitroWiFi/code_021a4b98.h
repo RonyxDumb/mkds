@@ -84,3 +84,5 @@ u32 WCM_GetPhase(void);
 s32 WCM_DisconnectAsync(void);
 s32 WCM_EndSearchAsync(void);
 s32 WCM_CleanupAsync(void);
+
+extern WCMWork *gWcmWork;

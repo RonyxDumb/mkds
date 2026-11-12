@@ -18,6 +18,8 @@
 #include "Main/System/heap.h"
 #include "Main/Kart/karts.h"
 
+u8 *gWiFiMenuOamLists;
+
 void InitWiFiMenuScene(s16 *sceneNumbers) {
     void *heap;
     heap = GetHeap(GetCurrentHeapCall());

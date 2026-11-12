@@ -7,3 +7,7 @@ void MD5Print(const u8 *digest, char *output);
 void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType);
 void TripToQuart(const s8 *trip, u8 *quart, s32 inlen);
 s32 Util_RandInt(s32 low, s32 high);
+
+extern const s8 gUrlSafeEncodeing[3];
+extern const s8 gAlternateEncoding[3];
+extern const s8 gDefaultEncoding[3];
