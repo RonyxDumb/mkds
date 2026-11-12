@@ -810,11 +810,6 @@ extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
 struct ItemObject;
 
-extern s32 gKeyboardOffsetX;
-extern s32 gKeyboardOffsetY;
-extern u16 *gCharTablePair3[2];
-extern u16 *gCharTablePair2[2];
-extern u16 *gCharTablePair1[2];
 // Object at gKeyboardCanvas, 0x24 bytes.
 typedef struct KeyboardCanvas {
     /* 00 */ struct Unk02022aa8 *mFont;
@@ -828,7 +823,6 @@ typedef struct KeyboardCanvas {
     /* 20 */ s32 mGlyphColor;
 } KeyboardCanvas;
 
-extern KeyboardCanvas gKeyboardCanvas;
 struct BmgEntryOffsetSection;
 struct BmgBodySection;
 struct Nclr;

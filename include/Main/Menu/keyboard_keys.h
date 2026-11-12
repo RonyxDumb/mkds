@@ -123,3 +123,10 @@ void SelectKeyboardLayout(u32 layoutIndex);
 void SetKeyboardScreenMapTopBitsWrapper(u32 topBits);
 
 void UploadKeyboardBg2Data(void);
+
+extern s32 gKeyboardOffsetX;
+extern s32 gKeyboardOffsetY;
+extern u16 *gCharTablePair3[2];
+extern u16 *gCharTablePair1[2];
+extern u16 *gCharTablePair2[2];
+extern KeyboardCanvas gKeyboardCanvas;
