@@ -145,7 +145,7 @@ BOOL TryGetMinKartDistanceSquared(s32 *distanceSquared);
 void SetKillerItemKartIndex(unsigned int kartIndex);
 unsigned int GetKillerItemKartIndex(void);
 
-extern s32 data_usa_021658bc;
+extern s32 gNearPlayerRankKartCount;
 extern u16 gKartCount;
 
 void SetKartNearPlayerRankBits(void);

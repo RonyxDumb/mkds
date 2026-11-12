@@ -340,7 +340,7 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
         }
     }
     if (kartAi->mTurnAngleDegrees > 0x2000) {
-        speedFactor = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, *data_usa_0217ae40);
+        speedFactor = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, *gKartAiVelocityFactorScale);
         if (speedFactor > 0x1000) {
             speedFactor = 0x1000;
         }

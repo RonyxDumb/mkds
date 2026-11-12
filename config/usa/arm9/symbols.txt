@@ -7994,12 +7994,12 @@ data_usa_021555a4 kind:data(any) addr:0x021555a4
 data_usa_021555b8 kind:data(any) addr:0x021555b8
 data_usa_021555d0 kind:data(any) addr:0x021555d0
 data_usa_021555ec kind:data(any) addr:0x021555ec
-data_usa_0215560c kind:data(any) addr:0x0215560c
+gKartAiRaceStartHeadingSwingRandomLimitsIndex2 kind:data(any) addr:0x0215560c
 gKartAiRaceStartBoostRandomLimitsIndex0 kind:data(any) addr:0x02155630
 gKartAiRaceStartBoostRandomLimitsIndex1 kind:data(any) addr:0x02155654
 gKartAiRaceStartBoostRandomLimitsIndex2 kind:data(any) addr:0x02155678
-data_usa_0215569c kind:data(any) addr:0x0215569c
-data_usa_021556c0 kind:data(any) addr:0x021556c0
+gKartAiRaceStartHeadingSwingRandomLimitsIndex0 kind:data(any) addr:0x0215569c
+gKartAiRaceStartHeadingSwingRandomLimitsIndex1 kind:data(any) addr:0x021556c0
 gKartAiDriftChargeRandomLimitsIndex1 kind:data(any) addr:0x021556e4
 gKartAiDriftChargeRandomLimitsIndex2 kind:data(any) addr:0x02155708
 gKartAiDriftStartRandomLimitsIndex0 kind:data(any) addr:0x0215572c
@@ -9593,7 +9593,7 @@ data_usa_0216577c kind:data(any) addr:0x0216577c
 @3080 kind:data(any) addr:0x02165878 local
 @3081 kind:data(any) addr:0x0216588c local
 @3082 kind:data(any) addr:0x0216589c local
-data_usa_021658bc kind:data(any) addr:0x021658bc
+gNearPlayerRankKartCount kind:data(any) addr:0x021658bc
 gMinKartDistanceSquared kind:data(any) addr:0x021658c0
 @4876 kind:data(any) addr:0x021658e0 local
 data_usa_021658f0 kind:data(any) addr:0x021658f0
@@ -9605,17 +9605,17 @@ data_usa_02165910 kind:data(any) addr:0x02165910
 gOldLuigiAgbFirstChaseEffectHeightDrop kind:data(any) addr:0x02165934
 gOldLuigiAgbFirstChaseEffectBaseDistance kind:data(any) addr:0x02165938
 gKartStarEffectAxisSpeedMin kind:data(any) addr:0x0216593c
-data_02165940 kind:data(any) addr:0x02165940
+gOldFrappe64FirstCameraEffectForwardYScale kind:data(any) addr:0x02165940
 gKartStarEffectDirectionSpeedMin kind:data(any) addr:0x02165944
 gStarEffectEngineScale kind:data(any) addr:0x02165948
 gKartStarEffectDirectionSpeedMax kind:data(any) addr:0x0216594c
 gKartStarEffectAxisSpeedMax kind:data(any) addr:0x02165950
 gOldLuigiAgbFirstChaseEffectDistanceSlope kind:data(any) addr:0x02165954
-data_02165958 kind:data(any) addr:0x02165958
-data_0216595c kind:data(any) addr:0x0216595c
-data_02165960 kind:data(any) addr:0x02165960
-data_02165964 kind:data(any) addr:0x02165964
-data_02165968 kind:data(any) addr:0x02165968
+gKartCameraEffectForwardDistance kind:data(any) addr:0x02165958
+gOldFrappe64FirstCameraEffectHeightOffset kind:data(any) addr:0x0216595c
+gOldLuigiAgbFirstCameraEffectForwardYScale kind:data(any) addr:0x02165960
+gOldLuigiAgbFirstCameraEffectForwardDistance kind:data(any) addr:0x02165964
+gOldLuigiAgbFirstCameraEffectHeightOffset kind:data(any) addr:0x02165968
 gKartEffectVelocityFactors kind:data(any) addr:0x0216596c
 gKartStarEffectIds kind:data(any) addr:0x02165978
 gOldLuigiAgbFirstChaseEffectDirection kind:data(any) addr:0x02165984
@@ -11287,12 +11287,12 @@ gUseItemTrailKindCallback kind:bss addr:0x0217ae1c
 gUseItemNotTrailKindCallback kind:bss addr:0x0217ae20
 gUseItemWhenNotCircleKindCallback kind:bss addr:0x0217ae24
 gUseItemWhenCircleKindCallback kind:bss addr:0x0217ae28
-data_usa_0217ae2c kind:bss addr:0x0217ae2c
+gKartAiRaceStartHeadingSwingRandomLimits kind:bss addr:0x0217ae2c
 gKartAiRaceStartBoostRandomLimits kind:bss addr:0x0217ae30
-data_usa_0217ae34 kind:bss addr:0x0217ae34
+gKartAiGapLimitsByRank kind:bss addr:0x0217ae34
 gKartAiDriftStartRandomLimits kind:bss addr:0x0217ae38
 gAdvanceKartAiPointLinkCursor kind:bss addr:0x0217ae3c
-data_usa_0217ae40 kind:bss addr:0x0217ae40
+gKartAiVelocityFactorScale kind:bss addr:0x0217ae40
 gSetKartAiLinkPos kind:bss addr:0x0217ae44
 gKartAiDriftChargeRandomLimits kind:bss addr:0x0217ae48
 gKartEffectColor kind:bss addr:0x0217ae4c

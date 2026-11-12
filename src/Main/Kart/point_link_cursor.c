@@ -58,16 +58,16 @@ const s32 gKartAiRaceStartBoostRandomLimitsIndex0[9] = {0xb33, 0, 0, 0, 0, 0, 0,
 const s32 gKartAiRaceStartBoostRandomLimitsIndex1[9] = {0x1000, 0x1000, 0xe66, 0x800, 0x333, 0, 0, 0, 0};
 const s32 gKartAiRaceStartBoostRandomLimitsIndex2[9] = {0x1000, 0x1000, 0x1000, 0x1000, 0xccd, 0x99a, 0x4cd, 0, 0};
 const s32 gKartAiDriftChargeRandomLimitsIndex2[9] = {0x1000, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd};
-const s32 data_usa_0215569c[9] = {0, 0, 0, 0, 0, 0x19a, 0x4cd, 0x99a, 0xb33};
-const s32 data_usa_021556c0[9] = {0, 0, 0, 0, 0, 0, 0, 0x333, 0x4cd};
+const s32 gKartAiRaceStartHeadingSwingRandomLimitsIndex0[9] = {0, 0, 0, 0, 0, 0x19a, 0x4cd, 0x99a, 0xb33};
+const s32 gKartAiRaceStartHeadingSwingRandomLimitsIndex1[9] = {0, 0, 0, 0, 0, 0, 0, 0x333, 0x4cd};
 const s32 gKartAiDriftChargeRandomLimitsIndex1[9] = {0xb33, 0x666, 0x666, 0x666, 0x666, 0x666, 0x666, 0x666, 0x666};
 const s32 gKartAiDriftStartRandomLimitsIndex0[9] = {0xb33, 0x800, 0x59a, 0x333, 0x19a, 0, 0, 0, 0};
 const s32 gKartAiDriftStartRandomLimitsIndex1[9] = {0x1000, 0xe66, 0xccd, 0xa66, 0x800, 0x4cd, 0x19a, 0, 0};
 const s32 gKartAiDriftStartRandomLimitsIndex2[9] = {0x1000, 0x1000, 0xe66, 0xccd, 0xa66, 0x800, 0x666, 0x4cd, 0x333};
 const s32 gKartAiDriftChargeRandomLimitsIndex0[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-const s32 data_usa_0215560c[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-const s32 *data_usa_0217ae40;
-const s32 *data_usa_0217ae2c;
+const s32 gKartAiRaceStartHeadingSwingRandomLimitsIndex2[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+const s32 *gKartAiVelocityFactorScale;
+const s32 *gKartAiRaceStartHeadingSwingRandomLimits;
 void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *p);
 void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
 void (*gUseItemNotTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
@@ -77,7 +77,7 @@ const struct KartAiItemUseEntry *gCurrentHeldItemEntries;
 void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
 const struct KartAiItemUseEntry *gCurrentItemInUseEntries;
 const s32 *gKartAiDriftStartRandomLimits;
-const s32 *data_usa_0217ae34;
+const s32 *gKartAiGapLimitsByRank;
 const s32 *gKartAiRaceStartBoostRandomLimits;
 void (*gSetKartAiLinkPos)(struct KartAi *p, struct PointLinkCursor *q, struct Kart *r);
 
@@ -177,7 +177,7 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
 }
 
 void SetupKartAiGlobals(void) {
-    data_usa_0217ae40 = gRaceSetup->mMode == MODE_BATTLE ? &data_usa_021557bc : &data_usa_021557c0;
+    gKartAiVelocityFactorScale = gRaceSetup->mMode == MODE_BATTLE ? &data_usa_021557bc : &data_usa_021557c0;
     switch (GetKartAiEngineOrDifficultyIndex()) {
         case 0:
             gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex0;
@@ -908,16 +908,16 @@ void InitKartAiTables(void) {
     switch (GetKartAiEngineOrDifficultyIndex()) {
         case 0:
             gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex0;
-            data_usa_0217ae2c = data_usa_0215569c;
+            gKartAiRaceStartHeadingSwingRandomLimits = gKartAiRaceStartHeadingSwingRandomLimitsIndex0;
             break;
         case 1:
             gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex1;
-            data_usa_0217ae2c = data_usa_021556c0;
+            gKartAiRaceStartHeadingSwingRandomLimits = gKartAiRaceStartHeadingSwingRandomLimitsIndex1;
             break;
         case 2:
         default:
             gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex2;
-            data_usa_0217ae2c = data_usa_0215560c;
+            gKartAiRaceStartHeadingSwingRandomLimits = gKartAiRaceStartHeadingSwingRandomLimitsIndex2;
             break;
     }
     data_usa_021658f0 = 3;
@@ -927,7 +927,7 @@ void InitKartAiTables(void) {
             data_usa_021658f0 = cpuAndGhostKartCount - 1;
         }
     }
-    data_usa_0217ae34 = data_usa_02165910[cpuAndGhostKartCount];
+    gKartAiGapLimitsByRank = data_usa_02165910[cpuAndGhostKartCount];
 }
 
 u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
@@ -992,7 +992,7 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
     if (boostChosen != FALSE) {
         return;
     }
-    randomLimit = data_usa_0217ae2c[tableIndex];
+    randomLimit = gKartAiRaceStartHeadingSwingRandomLimits[tableIndex];
     if (randomValue >= randomLimit) {
         if (!(randomLimit >= 1.0f)) {
             return;
@@ -1131,7 +1131,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
     if (IsKartEnded(kartIndex) != 0) {
         limitTable = data_usa_021658f4;
     } else {
-        limitTable = data_usa_0217ae34;
+        limitTable = gKartAiGapLimitsByRank;
     }
     value = limitTable[rank - 1];
     tableIndices[2] = MUL_FIXED12_NO_ROUND(value, kartAiParamRow->mGapTableScale);
@@ -1144,7 +1144,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             if (IsKartEnded(kartAi->mIndex) != 0) {
                 limitTable = data_usa_021658f4;
             } else {
-                limitTable = data_usa_0217ae34;
+                limitTable = gKartAiGapLimitsByRank;
             }
             value = limitTable[GetKartRank((s32) (u16) otherKartIndex)];
             if (gap > MUL_FIXED12_NO_ROUND(value, rank)) {

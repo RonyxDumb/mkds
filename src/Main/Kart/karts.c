@@ -126,7 +126,7 @@ void InitKarts(u32 kartCount) {
     entryKartCounters->mCourseContactCount = 0;
     entryKartCounters->mMapObjectHitCount = 0;
     entryKartCounters->mRespawnCount = 0;
-    data_usa_021658bc = gRaceSetup->mMode == MODE_BATTLE ? 1 : 2;
+    gNearPlayerRankKartCount = gRaceSetup->mMode == MODE_BATTLE ? 1 : 2;
     InitKartMapObjectResponses();
     RegisterKartAiCallbacks();
     InitKartEffects(kartCount);
@@ -366,7 +366,7 @@ void SetKartNearPlayerRankBits(void) {
             }
         }
     }
-    for (nearSlotIndex = 0; nearSlotIndex < data_usa_021658bc; nearSlotIndex++) {
+    for (nearSlotIndex = 0; nearSlotIndex < gNearPlayerRankKartCount; nearSlotIndex++) {
         kartIndex = kartIndices[nearSlotIndex];
         if (kartIndex >= 0) {
             kart = &gKarts[kartIndex];
