@@ -1,7 +1,11 @@
 #include "01/code_021804e0.h"
-#include "01/code_02180af8.h"
-#include "01/code_02180b14.h"
 #include "01/code_02180c88.h"
+#include "Main/Unknown/unk_02175000.h"
+#include "01/code_02180b14.h"
+#include "01/unk_021a9000.h"
+#include "Main/Unknown/code_0214d000.h"
+#include "registers.h"
+#include "01/code_02180af8.h"
 #include "01/code_02180cb4.h"
 #include "01/code_021a5140.h"
 #include "Main/System/heap.h"
@@ -24,12 +28,84 @@
 #include "gx_load2d.h"
 #include "Main/Unknown/code_020ca000.h"
 #include "01/code_02180000.h"
-#include "01/unk_021a9000.h"
 #include "Main/Unknown/code_02023000.h"
 #include "Main/Unknown/code_02048000.h"
 #include "Main/System/last_tick.h"
 #include "01/code_0219e824.h"
 #include "Main/Unknown/code_020ca820.h"
+
+#pragma thumb off
+
+u32 GetDisplaySettings(void) {
+    return ((u32) gDisplaySettings);
+}
+
+void TestSceneMTX_Identity22_(s32 *matrix) {
+    matrix[0] = 0x1000u;
+    matrix[1] = 0x0u;
+    matrix[2] = 0x0u;
+    matrix[3] = 0x1000u;
+}
+
+#pragma thumb off
+
+void TestSceneGXS_SetVisiblePlane(u32 bits) {
+    vu32 *reg = &reg_GXS_DB_DISPCNT;
+    *reg = (*reg & ~0x1f00) | (bits << 8);
+}
+
+void WriteSubBg0Offset(u32 offsetX, u32 offsetY) {
+    reg_G2S_DB_BG0OFS = (offsetX & 0x1ff) | ((offsetY << 16) & 0x1ff0000);
+}
+
+void WriteSubBg0CntBits(u32 bits) {
+    vu16 *reg = &reg_G2S_DB_BG0CNT;
+    *reg = (*reg & ~3) | bits;
+}
+
+void WriteSubBg0CntBit6(u32 bit6Value) {
+    vu16 *reg = &reg_G2S_DB_BG0CNT;
+    if (bit6Value != 0) {
+        *reg |= 0x40;
+    } else {
+        *reg &= ~0x40;
+    }
+}
+
+void SetSubBg0Cnt(u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+    vu16 *reg = &reg_G2S_DB_BG0CNT;
+    *reg = (*reg & 0x43) | (cntVal14 << 14) | (cntVal7 << 7) | (cntVal8 << 8) | (cntVal2 << 2) | (cntVal13 << 13);
+}
+
+void WriteSubBg1Offset(u32 offsetX, u32 offsetY) {
+    reg_G2S_DB_BG1OFS = (offsetX & 0x1ff) | ((offsetY << 16) & 0x1ff0000);
+}
+
+void WriteSubBg1CntBits(u32 bits) {
+    vu16 *reg = &reg_G2S_DB_BG1CNT;
+    *reg = (*reg & ~3) | bits;
+}
+
+void WriteSubBg1CntBit6(u32 bit6Value) {
+    vu16 *reg = &reg_G2S_DB_BG1CNT;
+    if (bit6Value != 0) {
+        *reg |= 0x40;
+    } else {
+        *reg &= ~0x40;
+    }
+}
+
+void TestSceneSetSubBg1Cnt(u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2, u32 cntVal13) {
+    vu16 *reg = &reg_G2S_DB_BG1CNT;
+    *reg = (*reg & 0x43) | (cntVal14 << 14) | (cntVal7 << 7) | (cntVal8 << 8) | (cntVal2 << 2) | (cntVal13 << 13);
+}
+
+#pragma thumb off
+
+void ClearCharCanvas(u8 *charCanvas, u32 color) {
+    u32 clearFunction = (*(u32 *) (((u32) charCanvas) + (24)));
+    u32 v3 = ((u32(*)(u32, u32))(clearFunction))((u32) charCanvas, color);
+}
 
 #pragma optimize_for_size on
 #pragma thumb off
