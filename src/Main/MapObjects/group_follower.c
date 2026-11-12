@@ -28,6 +28,15 @@
 #include "registers.h"
 #include "code_0201c528.h"
 
+const struct MapObjectList gRockUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateRock, NULL, 0, NULL, 0, NULL};
+const struct RockDrawList gRock2DrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRock2, (void (*)(MapObjectList *)) SetupDrawRock, DrawRock, NULL, 1, NULL, 0, NULL}, NULL, {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
+const struct RockDrawList gRockDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRock, (void (*)(MapObjectList *)) SetupDrawRock, DrawRock, NULL, 1, NULL, 0, NULL}, NULL, {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
+struct ShadowModel *gRockShadow;
+struct MapObjectList *gRockUpdateList;
+struct RockDrawList *gRockDrawList;
+struct Quaternion gViewYawQuaternion;
+struct Nsbmd *gRock;
+
 #pragma thumb on
 
 void InitGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, struct CourseMapRow *courseRow, s32 speed,
@@ -501,7 +510,7 @@ MapObjectKindData *CreateRockKindData(void) {
 RockDrawList *CreateRockDrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
     gRockDrawList = drawList;
-    *drawList = data_02156a80;
+    *drawList = gRockDrawListData;
     SetDrawListSlot(&gRockDrawList);
     return gRockDrawList;
 }
@@ -509,7 +518,7 @@ RockDrawList *CreateRockDrawList(void) {
 RockDrawList *CreateRock2DrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
     gRockDrawList = drawList;
-    *drawList = data_02156a24;
+    *drawList = gRock2DrawListData;
     SetDrawListSlot(&gRockDrawList);
     return gRockDrawList;
 }
@@ -517,7 +526,7 @@ RockDrawList *CreateRock2DrawList(void) {
 MapObjectList *CreateRockUpdateList(void) {
     MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gRockUpdateList = updateList;
-    *updateList = data_021569fc;
+    *updateList = gRockUpdateListData;
     SetUpdateListSlot(&gRockUpdateList);
     return gRockUpdateList;
 }

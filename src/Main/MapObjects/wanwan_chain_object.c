@@ -27,6 +27,7 @@
 #include "Main/System/result_archive_path.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/MapObjects/wanwan_chain.h"
 
 u32 CollideKartWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
     return (*OFFSET_PTR(const u8, bytePointer, 0));

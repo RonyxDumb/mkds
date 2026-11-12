@@ -3,13 +3,8 @@
 #include "types.h"
 #include "Main/MapObjects/attractor.h" // MapObjectList, MapObjectKindData
 
-extern Vec3 data_0215807c;
-extern Vec3 data_02158088;
 extern struct Quaternion data_02158140;
 extern struct Quaternion data_02158150;
-extern MapObjectList data_02158164;
-extern struct KuriboDrawList data_0215818c;
-extern MapObjectKindData data_021581b8;
 extern Vec3 data_021581f8;
 extern MapObjectList data_02158238;
 extern struct DossunDrawList data_02158260;
@@ -26,9 +21,6 @@ typedef struct MkdEfBubbleUpdateList {
     /* 28 */ s32 mAngleScale;
 } MkdEfBubbleUpdateList;
 
-extern MapObjectList data_0215840c;
-extern MapObjectDrawList data_02158434;
-extern MapObjectKindData data_02158460;
 extern MapObjectList data_021584d4;
 extern MapObjectDrawList data_021584fc;
 extern MapObjectKindData data_02158528;
@@ -41,9 +33,6 @@ extern MapObjectDrawList data_021585fc;
 extern MapObjectDrawList data_02158628;
 extern MapObjectKindData data_02158654;
 extern Vec3 data_02158694;
-extern u16 data_021586d4;
-extern MapObjectList data_021586d8;
-extern MapObjectKindData data_02158700;
 extern u16 data_02158740;
 extern u32 data_02158778;
 extern MkdEfBubbleUpdateList data_02158784;
@@ -60,9 +49,6 @@ extern u16 data_02158780;
 extern s32 data_02158908;
 extern u16 data_02158bb4;
 extern u16 data_02158bb8;
-extern u16 data_02158fe4;
-extern u16 data_02158fe8;
-extern u16 data_02158fec;
 extern u16 data_02158c88;
 extern u16 data_021588e8;
 extern u16 data_021588ec;
@@ -71,4 +57,3 @@ extern Vec3 data_021588fc;
 extern const u16 data_02158b7c;
 extern Vec3 data_02158c7c;
 extern u16 data_02158d58;
-extern struct MapObjectList data_02158ff0;

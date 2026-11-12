@@ -51,6 +51,12 @@
 #include "Main/MapObjects/code_020e66e4.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/code_020e6b58.h"
+#include "Main/MapObjects/group_follower.h"
+#include "Main/MapObjects/kuribo.h"
+
+const MapObjectList gKuriboUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateKuribo, NULL, 0, NULL, 0, NULL};
+const struct KuriboDrawList gKuriboDrawListData = {{0, 0, 0, 0, 0, 0, 0, 0}, CreateKuribo, SetupDrawKuribo, DrawKuribo, {0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+const MapObjectKindData gKuriboKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithKuribo, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithKuribo, 2, 0x8000, 0xa000, 0, NULL, 1, 1, 0x184, 0x185, 0, 0, 0, 0, 0};
 
 #pragma thumb off
 
@@ -422,7 +428,7 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
 MapObjectKindData *CreateKuriboKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_021581b8;
+    *kindData = gKuriboKindData;
     return kindData;
 }
 
@@ -430,7 +436,7 @@ KuriboDrawList *CreateKuriboDrawList(void) {
     KuriboDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gKuriboDrawList = drawList;
-    *drawList = data_0215818c;
+    *drawList = gKuriboDrawListData;
     SetDrawListSlot(&gKuriboDrawList);
     return gKuriboDrawList;
 }
@@ -439,7 +445,7 @@ MapObjectList *CreateKuriboUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gKuriboUpdateList = updateList;
-    *updateList = data_02158164;
+    *updateList = gKuriboUpdateListData;
     SetUpdateListSlot(&gKuriboUpdateList);
     return gKuriboUpdateList;
 }

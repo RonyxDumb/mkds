@@ -325,7 +325,7 @@ from:0x01ffd4a4 kind:arm_call to:0x02039828 module:main
 from:0x01ffd634 kind:load to:0x0217ae40 module:main
 from:0x01ffd644 kind:load to:0x0215d4b4 module:main
 from:0x01ffd670 kind:arm_call to:0x021484d0 module:main
-from:0x01ffd768 kind:load to:0x0217b4e0 module:main
+from:0x01ffd768 kind:load to:0x0217b4d8 add:0x8 module:main
 from:0x01ffd76c kind:load to:0x0217b4d8 module:main
 from:0x01ffd770 kind:load to:0x021568f4 module:main
 from:0x01ffd774 kind:load to:0x021568f8 module:main

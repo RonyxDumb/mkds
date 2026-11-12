@@ -7,7 +7,6 @@ extern const char gChoropuNsbmdName[];
 
 extern const char gChoropuNsbtpName[];
 
-extern const char gPukupukuNsbmdName[];
 
 extern const char gObPakkunSfNsbmdName[];
 
@@ -177,9 +176,7 @@ extern const StateCallbacks gItemKouraRStateTable[];
 
 extern const StateCallbacks data_0216c1ec[];
 
-extern const char gObjShadowNsbmdName[];
 
-extern const char gJgShadowNsbmdName[];
 
 extern const StateCallbacks data_0216c240[];
 

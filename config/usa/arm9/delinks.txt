@@ -3042,6 +3042,8 @@ src/Main/MapObjects/does_map_object.c:
 src/Main/MapObjects/map_object_park.c:
     complete
     .text       start:0x020d22c0 end:0x020d2450
+    .rodata     start:0x021568b4 end:0x021568c8
+    .bss        start:0x0217b498 end:0x0217b4a0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/map_object_matrix.c:
@@ -3088,6 +3090,8 @@ src/Main/MapObjects/map_object_create.c:
 src/Main/MapObjects/view_frustum.c:
     complete
     .text       start:0x020d3ae0 end:0x020d50ec
+    .rodata     start:0x021568e8 end:0x021568f8
+    .bss        start:0x0217b4d4 end:0x0217b588
 
 // provisional: file name and boundaries
 src/Main/MapObjects/rock.c:
@@ -3099,6 +3103,8 @@ src/Main/MapObjects/rock.c:
 src/Main/MapObjects/group_follower.c:
     complete
     .text       start:0x020d6538 end:0x020d7d80
+    .rodata     start:0x021569fc end:0x02156adc
+    .bss        start:0x0217b630 end:0x0217b650
 
 // provisional: file name and boundaries
 src/Main/MapObjects/straight_segment_lengths.c:
@@ -3114,6 +3120,8 @@ src/Main/MapObjects/group_follower_init.c:
 src/Main/MapObjects/group_paths.c:
     complete
     .text       start:0x020d7db4 end:0x020d8474
+    .rodata     start:0x0215807c end:0x02158094
+    .bss        start:0x0217b650 end:0x0217b654
 
 // provisional: file name and boundaries
 src/Main/MapObjects/segment_progress_point.c:
@@ -3167,6 +3175,7 @@ src/Main/MapObjects/kuribo.c:
 src/Main/MapObjects/dossun.c:
     complete
     .text       start:0x020daf20 end:0x020dbf7c
+    .rodata     start:0x02158164 end:0x021581f8
     .data       start:0x0216be98 end:0x0216bebc
 
 // provisional: file name and boundaries
@@ -3204,11 +3213,15 @@ src/Main/MapObjects/wanwan_chain_object.c:
 src/Main/MapObjects/wanwan_chain.c:
     complete
     .text       start:0x020de214 end:0x020de438
+    .rodata     start:0x0215840c end:0x021584a0
+    .bss        start:0x0217b6bc end:0x0217b6cc
 
 // provisional: file name and boundaries
 src/Main/MapObjects/earthen_pipe.c:
     complete
     .text       start:0x020de438 end:0x020de588
+    .data       start:0x0216bf5c end:0x0216bf84
+    .bss        start:0x0217b6d4 end:0x0217b6d8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/earthen_pipe_create.c:
@@ -3225,7 +3238,8 @@ src/Main/MapObjects/item_box.c:
 src/Main/MapObjects/group_item_box.c:
     complete
     .text       start:0x020df48c end:0x020df7d0
-    .data       start:0x0216bfb0 end:0x0216bfd8
+    .rodata     start:0x021586d4 end:0x02158740
+    .data       start:0x0216bfa0 end:0x0216bfd8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/mkd_ef_bubble.c:
@@ -3236,12 +3250,14 @@ src/Main/MapObjects/mkd_ef_bubble.c:
 src/Main/MapObjects/koopa_block.c:
     complete
     .text       start:0x020df890 end:0x020e0058
-    .data       start:0x0216bff0 end:0x0216c004
+    .data       start:0x0216bfd8 end:0x0216c004
 
 // provisional: file name and boundaries
 src/Main/MapObjects/collision_hit_link.c:
     complete
     .text       start:0x020e0058 end:0x020e0650
+    .rodata     start:0x02158854 end:0x021588e8
+    .bss        start:0x0217b760 end:0x0217b768
 
 // provisional: file name and boundaries
 src/Main/MapObjects/collision_hit_link_create.c:
@@ -3287,6 +3303,9 @@ src/Main/MapObjects/pukupuku_init.c:
 src/Main/MapObjects/pukupuku.c:
     complete
     .text       start:0x020e48b4 end:0x020e512c
+    .rodata     start:0x02158fe4 end:0x021590b0
+    .data       start:0x0216c1ec end:0x0216c1fc
+    .bss        start:0x0217b7d0 end:0x0217b7ec
 
 // provisional: file name and boundaries
 src/Main/Course/course_triangle_flag.c:
@@ -3297,6 +3316,8 @@ src/Main/Course/course_triangle_flag.c:
 src/Main/MapObjects/send_obj_shadow.c:
     complete
     .text       start:0x020e516c end:0x020e5634
+    .data       start:0x0216c1fc end:0x0216c220
+    .bss        start:0x0217b7ec end:0x0217b7fc
 
 // provisional: file name and boundaries
 src/Main/MapObjects/shadow_position_raised.c:
@@ -3317,6 +3338,7 @@ src/Main/MapObjects/pendulum.c:
 src/Main/MapObjects/view_matrices.c:
     complete
     .text       start:0x020e662c end:0x020e6f50
+    .bss        start:0x0217b824 end:0x0217b844
 
 // provisional: file name and boundaries
 src/Main/MapObjects/update_list_slot.c:

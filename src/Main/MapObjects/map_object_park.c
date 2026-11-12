@@ -8,19 +8,22 @@
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
 
+struct RandomState64 *gMapObjectRandom;
+struct RandomState64 *gRaceRandom;
+
 // Puts a pooled map object aside: saves the low flag nibble in the high nibble, sets flags 1, 2, 8 and 4 (the update
 // walk skips flag 4) and the parked bit 0x100, and disables its collision slot if it has one.
 void ParkMapObject(MapObject *mapObject) {
     mapObject->mFlags &= ~0xf000;
     mapObject->mFlags |= (mapObject->mFlags & 0xf) << 12;
-    mapObject->mFlags |= data_021568b4;
-    mapObject->mFlags |= data_021568b8;
-    mapObject->mFlags |= data_021568bc;
-    mapObject->mFlags |= data_021568c0;
+    mapObject->mFlags |= gParkMapObjectFlag;
+    mapObject->mFlags |= gParkMapObjectSecondFlag;
+    mapObject->mFlags |= gParkMapObjectThirdFlag;
+    mapObject->mFlags |= gParkMapObjectFourthFlag;
     if (mapObject->mCollisionSlotIndex != -1) {
         DisableCollisionSlot(mapObject->mCollisionSlotIndex);
     }
-    mapObject->mFlags |= data_021568c4;
+    mapObject->mFlags |= gParkMapObjectLastFlag;
 }
 
 // Brings a parked map object back: restores the low flag nibble from the high one, sets mUnk_66 to 0x1f unless the
@@ -49,3 +52,9 @@ RandomState64 *GetMapObjectRandom(void) {
 RandomState64 *GetRaceRandom(void) {
     return gRaceRandom;
 }
+
+const u16 gParkMapObjectFlag = 1;
+const u16 gParkMapObjectLastFlag = 0x100;
+const u16 gParkMapObjectFourthFlag = 4;
+const u16 gParkMapObjectThirdFlag = 8;
+const u16 gParkMapObjectSecondFlag = 2;

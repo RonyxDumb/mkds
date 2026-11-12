@@ -43,7 +43,7 @@
 MapObjectKindData *CreatePukupukuKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02159070;
+    *kindData = gPukupukuKindData;
     return kindData;
 }
 
@@ -51,7 +51,7 @@ PukupukuDrawList *CreatePukupukuDrawList(void) {
     PukupukuDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuDrawList = drawList;
-    *drawList = data_02159044;
+    *drawList = gPukupukuDrawListData;
     SetDrawListSlot(&gPukupukuDrawList);
     return gPukupukuDrawList;
 }
@@ -60,7 +60,7 @@ PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void) {
     PukupukuShadowDrawList *shadowDrawList;
     shadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuShadowDrawList = shadowDrawList;
-    *shadowDrawList = data_02159018;
+    *shadowDrawList = gPukupukuShadowDrawListData;
     SetDrawListSlot(&gPukupukuShadowDrawList);
     return gPukupukuShadowDrawList;
 }
@@ -69,7 +69,7 @@ MapObjectList *CreatePukupukuUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gPukupukuUpdateList = updateList;
-    *updateList = data_02158ff0;
+    *updateList = gPukupukuUpdateListData;
     SetUpdateListSlot(&gPukupukuUpdateList);
     return gPukupukuUpdateList;
 }
@@ -222,7 +222,7 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
 }
 
 void EnterPukupukuState1(Pukupuku *pukupuku) {
-    pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) | ((data_02158fe4)));
+    pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) | ((gPukupukuPushedFlag)));
 }
 
 void UpdatePukupukuState1(Pukupuku *pukupuku) {
@@ -238,8 +238,8 @@ void UpdatePukupukuState1(Pukupuku *pukupuku) {
 }
 
 void EnterPukupukuState2(Pukupuku *pukupuku) {
-    pukupuku->mPushedObject.mMapObject.mFlags |= data_02158fe8;
-    pukupuku->mPushedObject.mMapObject.mFlags |= data_02158fec;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuState2Flag;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuState2SecondFlag;
 }
 
 void UpdatePukupukuState2(Pukupuku *pukupuku) {
@@ -275,7 +275,7 @@ u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *firstResponse, u8
         SetPushedMotionFromKart(&pukupuku->mPushedObject, kart);
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 1;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
-        pukupuku->mPushedObject.mMapObject.mFlags = pukupuku->mPushedObject.mMapObject.mFlags | (data_02158fe4);
+        pukupuku->mPushedObject.mMapObject.mFlags = pukupuku->mPushedObject.mMapObject.mFlags | (gPukupukuPushedFlag);
         StartSoundIfKartStarOrKiller(&pukupuku->mPushedObject.mMapObject, kart);
     }
     return *response;
@@ -284,7 +284,7 @@ u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *firstResponse, u8
 s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 1) {
         SetPushedMotionFromItemObject(&pukupuku->mPushedObject, itemObject);
-        pukupuku->mPushedObject.mMapObject.mFlags |= data_02158fe4;
+        pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuPushedFlag;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 1;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -295,9 +295,22 @@ s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *firs
 
 void CreatePukupuku(void) {
     void *nsbmdFile;
-    nsbmdFile = FindCourseMapObjFile(gPukupukuNsbmdName);
+    nsbmdFile = FindCourseMapObjFile("pukupuku.nsbmd");
     CreateNsbmdModel(&gPukupuku, nsbmdFile, 0, 0);
     SetNsbmdModelFixedAttributes(gPukupuku);
 }
 
 #pragma thumb off
+
+const u16 gPukupukuState2Flag = 2;
+const u16 gPukupukuState2SecondFlag = 8;
+const struct MapObjectList gPukupukuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePukupuku, NULL, 0, NULL, 0, NULL};
+const struct PukupukuShadowDrawList gPukupukuShadowDrawListData = {NULL, 0, {0, 0}, NULL, (void (*)(MapObjectList *)) SetupDrawPukupukuShadow, DrawPukupukuShadow, NULL, 1, 0, 1, NULL, 0};
+const struct PukupukuDrawList gPukupukuDrawListData = {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreatePukupuku, (void (*)(MapObjectList *)) SetupDrawPukupuku, (UnkFunc *) DrawPukupuku, NULL, 2, 0, 0, NULL, 0};
+const u16 gPukupukuPushedFlag = 1;
+const struct MapObjectKindData gPukupukuKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithPukupuku, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithPukupuku, 1, 0xa000, 0, 0, NULL, 1, 1, 0x10c, 0x10d, 0, 0, 0, 0, 0};
+NsbmdModel *gPukupuku;
+PukupukuShadowDrawList *gPukupukuShadowDrawList;
+MapObjectList *gPukupukuUpdateList;
+Vec3 gPukupukuDrawScale;
+PukupukuDrawList *gPukupukuDrawList;

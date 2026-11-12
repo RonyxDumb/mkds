@@ -15,6 +15,15 @@
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
 
+MtxFx43 *gViewRotatedMatrix;
+MtxFx43 *gTranslationMatrix;
+MtxFx43 *gViewTransposeMatrix;
+MtxFx43 *gYAxisMatrix;
+MtxFx43 *gViewRotationXMatrix;
+MtxFx43 *gViewMatrix;
+MtxFx33 *gRotationZMatrix;
+MtxFx43 *gViewAxis2Matrix;
+
 // Copies the view matrix and builds its transposed rotation and three more matrices from it.
 void SetViewMatrices(MtxFx43 *viewMatrix) {
     gViewRotationXMatrix->mRows[0].x = 0x1000;

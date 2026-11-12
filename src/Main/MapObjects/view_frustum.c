@@ -38,6 +38,10 @@
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_sources.h"
 
+ViewFrustum gViewFrustumBeforeRotation;
+ViewFrustum gViewFrustum;
+s32 gItemSoundCameraHeightLimit;
+
 ViewFrustum *GetViewFrustum(void) {
     return &gViewFrustum;
 }
@@ -90,7 +94,7 @@ u32 ComputeDistanceViewTest(Vec3 *position, s32 unusedArg1, s32 unusedArg2, s32 
     distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
     result = distanceSquared & ~0xc000001f;
     if (distanceSquared > distanceLimitSquared) {
-        result |= data_021568f4;
+        result |= gViewTestDistanceLimitFlag;
     }
     return result | 3;
 }
@@ -361,8 +365,8 @@ void UpdateMapObjectViewTests(void) {
     if (mapObjectCount <= 0) {
         return;
     }
-    extraFlags = data_021568ec;
-    extraViewFlags = data_021568f0;
+    extraFlags = gViewTestPassedFlag;
+    extraViewFlags = gViewTestResultFlag;
     do {
         mapObject = mapObjects[objectIndex];
         mapObject->mDistanceSquaredAndFlags &= ~8;
@@ -420,8 +424,8 @@ void RefreshMapObjectViewTests(void) {
     if (mapObjectCount <= 0) {
         return;
     }
-    extraFlags = data_021568ec;
-    extraViewFlags = data_021568f0;
+    extraFlags = gViewTestPassedFlag;
+    extraViewFlags = gViewTestResultFlag;
     do {
         mapObject = mapObjects[objectIndex];
         mapObject->mDistanceSquaredAndFlags &= ~8;
@@ -892,7 +896,7 @@ void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject) {
     u32 digitMask;
     limit = 0x2710;
     if (0x2710 <= number) {
-        mapObject->mFlags = mapObject->mFlags | data_021568e8;
+        mapObject->mFlags = mapObject->mFlags | gMapObjectNumberOverflowFlag;
         number = (number - limit) * 0x10000 >> 0x10;
     }
     digitMask = DecimalNonZeroDigitsToBitMask(number);
@@ -900,3 +904,8 @@ void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject) {
 }
 
 #pragma thumb off
+
+const u16 gViewTestPassedFlag = 0x10;
+const u16 gMapObjectNumberOverflowFlag = 0x80;
+const u32 gViewTestResultFlag = 8;
+const u32 gViewTestDistanceLimitFlag = 4;

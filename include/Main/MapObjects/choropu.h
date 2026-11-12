@@ -14,7 +14,6 @@
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 
 extern const MapObjectList data_02158a54;
-extern const MapObjectList data_02158854;
 extern const MapObjectList data_02158bbc;
 extern const MapObjectList data_02158cc0;
 
@@ -44,7 +43,6 @@ extern const MapObjectList data_02158cc0;
 #define ROTARY_STATE_PAUSE 3
 
 extern const u16 data_02158a50;
-extern const MapObjectKindData data_021588a8;
 extern const MapObjectKindData data_02158c3c;
 extern const MapObjectKindData data_02158d18;
 extern const MapObjectKindData data_02158abc;

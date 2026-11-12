@@ -26,6 +26,9 @@ typedef struct RockDrawList {
 
 #include "Main/MapObjects/rock.h" // EmitterParams, RockObject
 #include "code_0201c528.h"
+#include "Main/Kart/shadow_model.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
+#include "Main/MapObjects/code_020d6dc0.h"
 
 void CopyEmitterParams(ParticleEmitter *emitter, EmitterParams *params);
 void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha);
@@ -47,3 +50,12 @@ s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject,
 s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject);
 u32 GetItemObjectResponseByKind(s32 flagBit, s32 itemKind, s32 kindHundreds, s32 kindRemainder, s32 kindDataValue);
 u32 GetItemObjectFirstResponseByKind(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder);
+
+extern const struct MapObjectList gRockUpdateListData;
+extern const struct RockDrawList gRock2DrawListData;
+extern const struct RockDrawList gRockDrawListData;
+extern struct ShadowModel *gRockShadow;
+extern struct Nsbmd *gRock;
+extern struct RockDrawList *gRockDrawList;
+extern struct Quaternion gViewYawQuaternion;
+extern struct MapObjectList *gRockUpdateList;

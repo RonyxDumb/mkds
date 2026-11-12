@@ -24,6 +24,13 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
+#include "Main/MapObjects/koopa_block.h"
+
+const MapObjectList gKoopaBlockUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateKoopaBlock, NULL, 0, NULL, 0, NULL};
+const MapObjectDrawList gKoopaBlockDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateKoopaBlock, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0};
+const MapObjectKindData gKoopaBlockKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0};
+void *gKoopaBlockDrawList;
+struct MapObjectList *gKoopaBlockUpdateList;
 
 void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *velocity, CollisionHitLink *link) {
     Vec3 offset;
@@ -94,7 +101,7 @@ s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link) {
 void *CreateKoopaBlockKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
-    *kindData = data_021588a8;
+    *kindData = gKoopaBlockKindData;
     return kindData;
 }
 
@@ -102,7 +109,7 @@ void *CreateKoopaBlockDrawList(void) {
     MapObjectDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
 
     gKoopaBlockDrawList = drawList;
-    *drawList = data_0215887c;
+    *drawList = gKoopaBlockDrawListData;
     SetDrawListSlot(&gKoopaBlockDrawList);
     return gKoopaBlockDrawList;
 }
@@ -111,7 +118,7 @@ void *CreateKoopaBlockUpdateList(void) {
     MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
 
     gKoopaBlockUpdateList = updateList;
-    *updateList = data_02158854;
+    *updateList = gKoopaBlockUpdateListData;
     SetUpdateListSlot(&gKoopaBlockUpdateList);
     return gKoopaBlockUpdateList;
 }

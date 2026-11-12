@@ -17,3 +17,11 @@ RandomState64 *GetMapObjectRandom(void);
 void SetRaceRandomPointers(void);
 void UnparkMapObject(MapObject *mapObject);
 void ParkMapObject(MapObject *mapObject);
+
+extern const u16 gParkMapObjectFlag;
+extern const u16 gParkMapObjectLastFlag;
+extern const u16 gParkMapObjectFourthFlag;
+extern const u16 gParkMapObjectThirdFlag;
+extern const u16 gParkMapObjectSecondFlag;
+extern struct RandomState64 *gMapObjectRandom;
+extern struct RandomState64 *gRaceRandom;

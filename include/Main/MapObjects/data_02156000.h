@@ -19,17 +19,11 @@ extern u16 data_02156598;
 
 
 
-extern u16 data_021568e8;
 
-extern const u16 data_021568b4;
 
-extern const u16 data_021568b8;
 
-extern const u16 data_021568bc;
 
-extern const u16 data_021568c0;
 
-extern const u16 data_021568c4;
 
 extern const u16 data_021568c8;
 
@@ -47,11 +41,8 @@ extern const u16 data_021568e0;
 
 extern const u16 data_021568e4;
 
-extern u16 data_021568ec;
 
-extern u32 data_021568f0;
 
-extern u32 data_021568f4;
 
 extern u32 data_usa_021568f8;
 
@@ -95,11 +86,8 @@ extern Vec3 data_021569e4;
 
 extern Vec3 data_021569f0;
 
-extern struct MapObjectList data_021569fc;
 
-extern struct RockDrawList data_02156a24;
 
-extern struct RockDrawList data_02156a80;
 
 extern struct MapObjectKindData data_02156adc;
 

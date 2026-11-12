@@ -3,6 +3,7 @@
 #include "Main/Kart/kart_ai_battle.h"
 #include "Main/Kart/kart_ai_staff_roll_advance.h"
 #include "Main/MapObjects/rock.h"
+#include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/data_02155000.h"
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
@@ -207,7 +208,7 @@ s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDistSq, u16 
     distSq = offsetZ * offsetZ + xSquared;
     result = distSq & ~0xc000001f;
     if (distSq > nearDistSq) {
-        result |= data_021568f4;
+        result |= gViewTestDistanceLimitFlag;
     }
     if (distSq > maxDistance * maxDistance) {
         if (level <= 1) {
@@ -260,7 +261,7 @@ s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDist
     distSq = offset.x * offset.x + offset.z * offset.z;
     result = distSq & ~0xc000001f;
     if (distSq > nearDistSq) {
-        result |= data_021568f4;
+        result |= gViewTestDistanceLimitFlag;
     }
     if (distSq > maxDistance * maxDistance) {
         if (level <= 1) {

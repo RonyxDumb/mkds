@@ -44,6 +44,9 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/collision_hit_link.h"
+
+StateCallbacks gKoopaBlockStateTable[3] = {{(UnkFunc *) KoopaBlockState0ReturnArgument, UpdateKoopaBlockState0}, {EnterKoopaBlockState1, UpdateKoopaBlockState1}, {(UnkFunc *) KoopaBlockState2ReturnArgument, UpdateKoopaBlockState2}};
 
 #pragma thumb off
 

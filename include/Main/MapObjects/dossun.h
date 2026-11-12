@@ -74,3 +74,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo); /* skipped for objects with mFl
 void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha);
 u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void UpdateDossun(void *unused, Dossun *dossun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+
+extern const MapObjectList gKuriboUpdateListData;
+extern const struct KuriboDrawList gKuriboDrawListData;
+extern const MapObjectKindData gKuriboKindData;

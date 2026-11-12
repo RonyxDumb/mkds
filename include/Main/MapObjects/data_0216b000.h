@@ -10,18 +10,17 @@ extern CollisionHitRecord data_0216b8ec;
 
 extern const StateCallbacks gKuriboStateTable[];
 
-extern const StateCallbacks gMkdEfBubbleStateTable[];
 
-extern const StateCallbacks gKoopaBlockStateTable[];
 
 // Objects whose layout isn't known yet.
 extern const char gKuriboNsbmdName[];
 
 extern const char gKuriboNsbtpName[];
 
-extern const char gEarthenPipe1NsbmdName[];
 
-extern const char gEarthenPipe2NsbmdName[];
+
+
+
 
 extern u8 *gKartResponsesByKind[][4];
 

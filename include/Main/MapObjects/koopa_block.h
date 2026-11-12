@@ -5,6 +5,7 @@
 #include "Main/MapObjects/group_item_box.h"
 #include "Main/MapObjects/code_020e005c.h"
 #include "Main/MapObjects/data_02158000.h"
+#include "Main/Menu/second_menu_scene.h"
 
 void UpdateKoopaBlockState2(KoopaBlock *koopaBlock);
 void DrawAllKoopaBlocks(void *viewMatrix);
@@ -22,3 +23,5 @@ void UpdateMkdEfBubble(void *unused,
                        MkdEfBubbleObject *bubble); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble);
 void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble);
+
+extern StateCallbacks gKoopaBlockStateTable[3];

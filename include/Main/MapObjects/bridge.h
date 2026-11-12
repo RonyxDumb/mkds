@@ -6,7 +6,6 @@
 #include "Main/MapObjects/choropu.h"
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 
-extern const MapObjectDrawList data_0215887c;
 extern const MapObjectDrawList data_02158be4;
 extern const MapObjectDrawList data_02158c10;
 

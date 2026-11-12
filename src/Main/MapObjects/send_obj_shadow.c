@@ -28,6 +28,11 @@
 #include "tp.h"
 #include "Main/MapObjects/data_0217b000.h"
 
+NNSG3dResShpData *gObjShadowShape;
+Nsbmd *gObjShadow;
+ShadowModel *gJgShadow;
+NNSG3dResMatData *gObjShadowMaterial;
+
 void SendObjShadowMaterial(void) {
     u32 plttBase;
     plttBase = gObjShadowMaterial->mTexPlttBase;
@@ -108,7 +113,7 @@ void CreateObjShadowAndJgShadow(void) {
     NNSG3dResMat *resMat;
     NNSG3dResShp *resShp;
 
-    CreateNsbmd(&gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
+    CreateNsbmd(&gObjShadow, FindMainRaceOrMainEffectMapObjFile("obj_shadow.nsbmd"), NULL);
     SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
     SetNsbmdLightEnableFlagAll(gObjShadow, 0);
     resMdl = gObjShadow->mResMdl;
@@ -120,7 +125,7 @@ void CreateObjShadowAndJgShadow(void) {
     gObjShadowShape =
         OFFSET_PTR(NNSG3dResShpData, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        CreateShadowModel(&gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
+        CreateShadowModel(&gJgShadow, FindSceneFile("jg_shadow.nsbmd"), 0x3f);
     }
 }
 

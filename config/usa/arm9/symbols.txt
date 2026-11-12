@@ -8155,11 +8155,11 @@ gFrameOffsets kind:data(any) addr:0x02156868
 data_02156874 kind:data(any) addr:0x02156874
 gVec3Zero kind:data(any) addr:0x02156880
 gMenuDisplaySettingsDesc kind:data(any) addr:0x0215688c
-data_021568b4 kind:data(any) addr:0x021568b4
-data_021568b8 kind:data(any) addr:0x021568b8
-data_021568bc kind:data(any) addr:0x021568bc
-data_021568c0 kind:data(any) addr:0x021568c0
-data_021568c4 kind:data(any) addr:0x021568c4
+gParkMapObjectFlag kind:data(any) addr:0x021568b4
+gParkMapObjectSecondFlag kind:data(any) addr:0x021568b8
+gParkMapObjectThirdFlag kind:data(any) addr:0x021568bc
+gParkMapObjectFourthFlag kind:data(any) addr:0x021568c0
+gParkMapObjectLastFlag kind:data(any) addr:0x021568c4
 data_021568c8 kind:data(any) addr:0x021568c8
 data_021568cc kind:data(any) addr:0x021568cc
 data_021568d0 kind:data(any) addr:0x021568d0
@@ -8168,10 +8168,10 @@ data_021568d8 kind:data(any) addr:0x021568d8
 data_021568dc kind:data(any) addr:0x021568dc
 data_021568e0 kind:data(any) addr:0x021568e0
 data_021568e4 kind:data(any) addr:0x021568e4
-data_021568e8 kind:data(any) addr:0x021568e8
-data_021568ec kind:data(any) addr:0x021568ec
-data_021568f0 kind:data(any) addr:0x021568f0
-data_021568f4 kind:data(any) addr:0x021568f4
+gMapObjectNumberOverflowFlag kind:data(any) addr:0x021568e8
+gViewTestPassedFlag kind:data(any) addr:0x021568ec
+gViewTestResultFlag kind:data(any) addr:0x021568f0
+gViewTestDistanceLimitFlag kind:data(any) addr:0x021568f4
 data_usa_021568f8 kind:data(any) addr:0x021568f8
 data_021568fc kind:data(any) addr:0x021568fc
 data_02156900 kind:data(any) addr:0x02156900
@@ -8195,9 +8195,9 @@ data_usa_021569a4 kind:data(any) addr:0x021569a4
 data_021569d8 kind:data(any) addr:0x021569d8
 data_021569e4 kind:data(any) addr:0x021569e4
 data_021569f0 kind:data(any) addr:0x021569f0
-data_021569fc kind:data(any) addr:0x021569fc
-data_02156a24 kind:data(any) addr:0x02156a24
-data_02156a80 kind:data(any) addr:0x02156a80
+gRockUpdateListData kind:data(any) addr:0x021569fc
+gRock2DrawListData kind:data(any) addr:0x02156a24
+gRockDrawListData kind:data(any) addr:0x02156a80
 data_02156adc kind:data(any) addr:0x02156adc
 data_usa_02156b1c kind:data(any) addr:0x02156b1c
 data_usa_02156b28 kind:data(any) addr:0x02156b28
@@ -8415,8 +8415,8 @@ data_usa_02157fbc kind:data(any) addr:0x02157fbc
 data_usa_02157fec kind:data(any) addr:0x02157fec
 data_usa_0215801c kind:data(any) addr:0x0215801c
 data_usa_0215804c kind:data(any) addr:0x0215804c
-data_0215807c kind:data(any) addr:0x0215807c
-data_02158088 kind:data(any) addr:0x02158088
+gGroupPathZeroLengthUp kind:data(any) addr:0x0215807c
+gGroupPathUpAxis kind:data(any) addr:0x02158088
 data_02158094 kind:data(any) addr:0x02158094
 data_usa_021580a4 kind:data(any) addr:0x021580a4
 data_usa_021580d8 kind:data(any) addr:0x021580d8
@@ -8424,9 +8424,9 @@ data_usa_0215810c kind:data(any) addr:0x0215810c
 data_02158140 kind:data(any) addr:0x02158140
 data_02158150 kind:data(any) addr:0x02158150
 data_02158160 kind:data(any) addr:0x02158160
-data_02158164 kind:data(any) addr:0x02158164
-data_0215818c kind:data(any) addr:0x0215818c
-data_021581b8 kind:data(any) addr:0x021581b8
+gKuriboUpdateListData kind:data(any) addr:0x02158164
+gKuriboDrawListData kind:data(any) addr:0x0215818c
+gKuriboKindData kind:data(any) addr:0x021581b8
 data_021581f8 kind:data(any) addr:0x021581f8
 data_usa_02158204 kind:data(any) addr:0x02158204
 data_02158238 kind:data(any) addr:0x02158238
@@ -8440,9 +8440,9 @@ data_02158388 kind:data(any) addr:0x02158388
 data_021583c8 kind:data(any) addr:0x021583c8
 data_021583d4 kind:data(any) addr:0x021583d4
 data_usa_021583d8 kind:data(any) addr:0x021583d8
-data_0215840c kind:data(any) addr:0x0215840c
-data_02158434 kind:data(any) addr:0x02158434
-data_02158460 kind:data(any) addr:0x02158460
+gWanwanChainUpdateListData kind:data(any) addr:0x0215840c
+gWanwanChainDrawListData kind:data(any) addr:0x02158434
+gWanwanChainKindData kind:data(any) addr:0x02158460
 data_usa_021584a0 kind:data(any) addr:0x021584a0
 data_021584d4 kind:data(any) addr:0x021584d4
 data_021584fc kind:data(any) addr:0x021584fc
@@ -8458,9 +8458,9 @@ data_02158628 kind:data(any) addr:0x02158628
 data_02158654 kind:data(any) addr:0x02158654
 data_02158694 kind:data(any) addr:0x02158694
 data_usa_021586a0 kind:data(any) addr:0x021586a0
-data_021586d4 kind:data(any) addr:0x021586d4
-data_021586d8 kind:data(any) addr:0x021586d8
-data_02158700 kind:data(any) addr:0x02158700
+gGroupItemBoxEntryFlag kind:data(any) addr:0x021586d4
+gGroupItemBoxUpdateListData kind:data(any) addr:0x021586d8
+gGroupItemBoxKindData kind:data(any) addr:0x02158700
 data_02158740 kind:data(any) addr:0x02158740
 data_usa_02158744 kind:data(any) addr:0x02158744
 data_02158778 kind:data(any) addr:0x02158778
@@ -8471,9 +8471,9 @@ data_021587b0 kind:data(any) addr:0x021587b0
 data_021587dc kind:data(any) addr:0x021587dc
 data_0215881c kind:data(any) addr:0x0215881c
 data_usa_02158820 kind:data(any) addr:0x02158820
-data_02158854 kind:data(any) addr:0x02158854
-data_0215887c kind:data(any) addr:0x0215887c
-data_021588a8 kind:data(any) addr:0x021588a8
+gKoopaBlockUpdateListData kind:data(any) addr:0x02158854
+gKoopaBlockDrawListData kind:data(any) addr:0x0215887c
+gKoopaBlockKindData kind:data(any) addr:0x021588a8
 data_021588e8 kind:data(any) addr:0x021588e8
 data_021588ec kind:data(any) addr:0x021588ec
 data_021588f0 kind:data(any) addr:0x021588f0
@@ -8520,13 +8520,13 @@ data_02158ef0 kind:data(any) addr:0x02158ef0
 data_02158f30 kind:data(any) addr:0x02158f30
 data_02158f70 kind:data(any) addr:0x02158f70
 data_usa_02158fb0 kind:data(any) addr:0x02158fb0
-data_02158fe4 kind:data(any) addr:0x02158fe4
-data_02158fe8 kind:data(any) addr:0x02158fe8
-data_02158fec kind:data(any) addr:0x02158fec
-data_02158ff0 kind:data(any) addr:0x02158ff0
-data_02159018 kind:data(any) addr:0x02159018
-data_02159044 kind:data(any) addr:0x02159044
-data_02159070 kind:data(any) addr:0x02159070
+gPukupukuPushedFlag kind:data(any) addr:0x02158fe4
+gPukupukuState2Flag kind:data(any) addr:0x02158fe8
+gPukupukuState2SecondFlag kind:data(any) addr:0x02158fec
+gPukupukuUpdateListData kind:data(any) addr:0x02158ff0
+gPukupukuShadowDrawListData kind:data(any) addr:0x02159018
+gPukupukuDrawListData kind:data(any) addr:0x02159044
+gPukupukuKindData kind:data(any) addr:0x02159070
 data_021590b0 kind:data(any) addr:0x021590b0
 data_usa_021590b4 kind:data(any) addr:0x021590b4
 data_021590e8 kind:data(any) addr:0x021590e8
@@ -10374,8 +10374,8 @@ gWanwanStateTable kind:data(any) addr:0x0216bedc
 @3128 kind:data(any) addr:0x0216bf1c local
 @3023 kind:data(any) addr:0x0216bf30 local
 @3024 kind:data(any) addr:0x0216bf44 local
-gEarthenPipe1NsbmdName kind:data(any) addr:0x0216bf5c
-gEarthenPipe2NsbmdName kind:data(any) addr:0x0216bf70
+@3683 kind:data(any) addr:0x0216bf5c local
+@3684 kind:data(any) addr:0x0216bf70 local
 @2766 kind:data(any) addr:0x0216bf84 local
 @2767 kind:data(any) addr:0x0216bf90 local
 gMkdEfBubbleStateTable kind:data(any) addr:0x0216bfa0
@@ -10408,9 +10408,9 @@ gGearWhiteNsbmdName kind:data(any) addr:0x0216c190
 gRotaryRoomNsbmdName kind:data(any) addr:0x0216c1a4
 gRotaryBridgeNsbmdName kind:data(any) addr:0x0216c1b8
 data_0216c1ec kind:data(any) addr:0x0216c1cc
-gPukupukuNsbmdName kind:data(any) addr:0x0216c1ec
-gObjShadowNsbmdName kind:data(any) addr:0x0216c1fc
-gJgShadowNsbmdName kind:data(any) addr:0x0216c210
+@3932 kind:data(any) addr:0x0216c1ec local
+@4721 kind:data(any) addr:0x0216c1fc local
+@4722 kind:data(any) addr:0x0216c210 local
 data_0216c240 kind:data(any) addr:0x0216c220
 gSecondHandNsbmdName kind:data(any) addr:0x0216c240
 gObPakkunSfNsbmdName kind:data(any) addr:0x0216c254
@@ -11624,16 +11624,7 @@ gMapObjectKindCount kind:bss addr:0x0217b4cc
 gMapObjects kind:bss addr:0x0217b4d0
 gItemSoundCameraHeightLimit kind:bss addr:0x0217b4d4
 gViewFrustum kind:bss addr:0x0217b4d8
-data_usa_0217b4e0 kind:bss addr:0x0217b4e0
-data_usa_0217b4f8 kind:bss addr:0x0217b4f8
-data_usa_0217b504 kind:bss addr:0x0217b504
-data_usa_0217b510 kind:bss addr:0x0217b510
-data_usa_0217b51c kind:bss addr:0x0217b51c
 gViewFrustumBeforeRotation kind:bss addr:0x0217b530
-data_usa_0217b550 kind:bss addr:0x0217b550
-data_usa_0217b55c kind:bss addr:0x0217b55c
-data_usa_0217b568 kind:bss addr:0x0217b568
-data_usa_0217b574 kind:bss addr:0x0217b574
 gFoundCollisionSlotCount kind:bss addr:0x0217b588
 gFirstFreeCollisionSlot kind:bss addr:0x0217b58c
 gCollisionSlotCount kind:bss addr:0x0217b590
@@ -11668,8 +11659,8 @@ gWanwan kind:bss addr:0x0217b6ac
 gWanwanRockShadow kind:bss addr:0x0217b6b0
 gWanwanUpdateList kind:bss addr:0x0217b6b4
 gWanwanDrawList kind:bss addr:0x0217b6b8
-data_0217b6dc kind:bss addr:0x0217b6bc
-data_0217b6e0 kind:bss addr:0x0217b6c0
+gWanwanChainDrawList kind:bss addr:0x0217b6bc
+gWanwanChainUpdateList kind:bss addr:0x0217b6c0
 gWanwanKui kind:bss addr:0x0217b6c4
 gWanwanChain kind:bss addr:0x0217b6c8
 gEarthenPipeUpdateList kind:bss addr:0x0217b6cc

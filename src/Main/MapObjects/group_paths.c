@@ -20,6 +20,10 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "code_02147cd8.h"
 
+const Vec3 gGroupPathZeroLengthUp = {0, 0x1000, 0};
+const Vec3 gGroupPathUpAxis = {0, 0x1000, 0};
+struct GroupPath *gGroupPaths;
+
 #pragma thumb off
 
 void GetSegmentProgressPointXzLinearY(SegmentProgress *segmentProgress, Vec3 *position) {
@@ -52,7 +56,7 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
         segment->mProgressLength = 0;
         segment->mInverseProgressLength = 0;
         if (computeUp != 0) {
-            segment->mUp = data_0215807c;
+            segment->mUp = gGroupPathZeroLengthUp;
         }
         return;
     }
@@ -107,10 +111,10 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
     segment->mProgressLength = segment->mCurveLength;
     segment->mInverseProgressLength = segment->mInverseCurveLength;
     if (computeUp != 0) {
-        value = VEC_DotProduct(&direction, &data_02158088);
-        segment->mUp.x = data_02158088.x - MUL_FIXED12_NO_ROUND(direction.x, value);
-        segment->mUp.y = data_02158088.y - MUL_FIXED12_NO_ROUND(direction.y, value);
-        segment->mUp.z = data_02158088.z - MUL_FIXED12_NO_ROUND(direction.z, value);
+        value = VEC_DotProduct(&direction, &gGroupPathUpAxis);
+        segment->mUp.x = gGroupPathUpAxis.x - MUL_FIXED12_NO_ROUND(direction.x, value);
+        segment->mUp.y = gGroupPathUpAxis.y - MUL_FIXED12_NO_ROUND(direction.y, value);
+        segment->mUp.z = gGroupPathUpAxis.z - MUL_FIXED12_NO_ROUND(direction.z, value);
         squaredUpLength = (s64) segment->mUp.x * segment->mUp.x + (s64) segment->mUp.y * segment->mUp.y +
                           (s64) segment->mUp.z * segment->mUp.z;
         if (squaredUpLength < 16) {
@@ -119,7 +123,7 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
             value = Vec3NormalizeAndGetLengthUnchecked(&segment->mUp, &segment->mUp);
         }
         if (value == 0) {
-            segment->mUp = data_02158088;
+            segment->mUp = gGroupPathUpAxis;
         }
     }
 }

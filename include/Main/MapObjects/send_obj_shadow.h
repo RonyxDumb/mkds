@@ -5,11 +5,8 @@
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/Kart/shadow_model.h" // ShadowModel
 
-extern ShadowModel *gJgShadow;
 
-extern Nsbmd *gObjShadow;
 
-extern NNSG3dResShpData *gObjShadowShape;
 
 // Destination of RefreshShadowMatrix.
 typedef struct ShadowMatrix {
@@ -25,3 +22,8 @@ s32 RefreshShadowMatrix(ShadowMatrix *shadowCopy, Vec3 *position, s32 scale, u32
 void CreateObjShadowAndJgShadow(void);
 
 void SendObjShadowMaterial(void);
+
+extern NNSG3dResShpData *gObjShadowShape;
+extern Nsbmd *gObjShadow;
+extern ShadowModel *gJgShadow;
+extern struct NNSG3dResMatData *gObjShadowMaterial;

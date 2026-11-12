@@ -29,6 +29,12 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/koopa_block.h"
+#include "Main/MapObjects/mkd_ef_bubble.h"
+
+const MapObjectList gGroupItemBoxUpdateListData = {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitGroupItemBoxObjects, (void (*)(MapObjectList *)) UpdateGroupItemBoxHeightOffset, UpdateGroupItemBox, NULL, 0, NULL, 0, NULL};
+const MapObjectKindData gGroupItemBoxKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox, NULL, 1, 0xf000, 0, 0, NULL, 0, 2, 0, 0, 0, 0, 0, 0, 0};
+StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleState0, UpdateMkdEfBubbleState0}, {EnterMkdEfBubbleState1, UpdateMkdEfBubbleState1}};
 
 #pragma thumb on
 void CreateMkdEfBubble(void) {
@@ -64,13 +70,13 @@ MapObjectKindData *CreateGroupItemBoxKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158700;
+    *kindData = gGroupItemBoxKindData;
     return kindData;
 }
 
 MapObjectList *CreateGroupItemBoxUpdateList(void) {
     gGroupItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    *gGroupItemBoxUpdateList = data_021586d8;
+    *gGroupItemBoxUpdateList = gGroupItemBoxUpdateListData;
     SetUpdateListSlot(&gGroupItemBoxUpdateList);
     return gGroupItemBoxUpdateList;
 }
@@ -97,7 +103,7 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
         GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
         if (itemBox->mFollower.mGroupFollower.mFromEntry->mUnk_0d != 0 &&
             itemBox->mFollower.mGroupFollower.mToEntry->mUnk_0d != 0) {
-            itemBox->mMapObject.mFlags |= data_021586d4;
+            itemBox->mMapObject.mFlags |= gGroupItemBoxEntryFlag;
         } else {
             itemBox->mMapObject.mFlags &= ~0x20;
         }
@@ -109,3 +115,5 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
     }
     UpdateItemBox(unused, itemBox);
 }
+
+const u16 gGroupItemBoxEntryFlag = 0x20;

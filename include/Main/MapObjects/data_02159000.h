@@ -41,11 +41,8 @@ extern MapObjectDrawList data_02159114;
 
 extern MapObjectKindData data_02159140;
 
-extern struct PukupukuShadowDrawList data_02159018;
 
-extern struct PukupukuDrawList data_02159044;
 
-extern struct MapObjectKindData data_02159070;
 
 extern u16 data_021590b0;
 

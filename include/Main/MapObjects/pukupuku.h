@@ -17,6 +17,7 @@
 #include "Main/MapObjects/pukupuku_init.h"
 #include "Main/MapObjects/pushed_motion.h"
 #include "Main/MapObjects/data_02158000.h"
+#include "Main/MapObjects/pendulum.h"
 
 void CreatePukupuku(void);
 
@@ -56,7 +57,6 @@ void SetupDrawPukupukuShadow(void);
 
 typedef struct MapObjectKindData MapObjectKindData;
 
-extern MapObjectList *gPukupukuUpdateList;
 
 // 0x2c-byte object built from a table: a MapObjectList followed by the slot.
 typedef struct PukupukuShadowDrawList {
@@ -74,7 +74,6 @@ typedef struct PukupukuShadowDrawList {
     /* 28 */ u32 mListSlot;
 } PukupukuShadowDrawList;
 
-extern PukupukuShadowDrawList *gPukupukuShadowDrawList;
 
 // 0x2c-byte object built from a table: a MapObjectList followed by the slot.
 typedef struct PukupukuDrawList {
@@ -92,7 +91,6 @@ typedef struct PukupukuDrawList {
     /* 28 */ u32 mListSlot;
 } PukupukuDrawList;
 
-extern PukupukuDrawList *gPukupukuDrawList;
 
 MapObjectKindData *CreatePukupukuKindData(void);
 PukupukuDrawList *CreatePukupukuDrawList(void);
@@ -100,3 +98,16 @@ PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void);
 MapObjectList *CreatePukupukuUpdateList(void);
 void SetupDrawPukupuku(void);
 void DrawPukupuku(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u16 alpha);
+
+extern const u16 gPukupukuState2Flag;
+extern const u16 gPukupukuState2SecondFlag;
+extern const struct MapObjectList gPukupukuUpdateListData;
+extern const struct PukupukuShadowDrawList gPukupukuShadowDrawListData;
+extern const struct PukupukuDrawList gPukupukuDrawListData;
+extern const u16 gPukupukuPushedFlag;
+extern const struct MapObjectKindData gPukupukuKindData;
+extern struct NsbmdModel *gPukupuku;
+extern PukupukuShadowDrawList *gPukupukuShadowDrawList;
+extern MapObjectList *gPukupukuUpdateList;
+extern Vec3 gPukupukuDrawScale;
+extern PukupukuDrawList *gPukupukuDrawList;

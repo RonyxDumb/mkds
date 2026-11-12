@@ -22,6 +22,8 @@
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/data_0210b000.h"
 
+NsbmdModel *gEarthenPipe2;
+
 void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 maxAlpha) {
     MtxFx43 *matrix;
     if (pipe->mMapObject.mStateMachine.mState == 0) {
@@ -56,9 +58,9 @@ u8 CollideItemObjectWithEarthenPipe(PushedObject *pipe, void *itemObject, u8 *fi
 
 void CreateEarthenPipe1AndEarthenPipe2(void) {
     void *nsbmdFile;
-    nsbmdFile = FindCourseMapObjFile(gEarthenPipe1NsbmdName);
+    nsbmdFile = FindCourseMapObjFile("earthen_pipe1.nsbmd");
     CreateNsbmdModel(&gEarthenPipe1, nsbmdFile, 0, 0);
-    nsbmdFile = FindCourseMapObjFile(gEarthenPipe2NsbmdName);
+    nsbmdFile = FindCourseMapObjFile("earthen_pipe2.nsbmd");
     CreateNsbmdModel(&gEarthenPipe2, nsbmdFile, 0, 0);
     SetNsbmdModelFixedAttributes(gEarthenPipe1);
     SetNsbmdModelFixedAttributes(gEarthenPipe2);

@@ -7,6 +7,7 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/MapObjects/data_0217a000.h" // Camera
 #include "Main/Race/data_020f36d8.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 typedef struct MapObject MapObject;
 
@@ -85,3 +86,11 @@ void RequestViewTestRefresh(void);
 typedef struct ViewFrustum ViewFrustum;
 
 ViewFrustum *GetViewFrustum(void);
+
+extern const u16 gViewTestPassedFlag;
+extern const u16 gMapObjectNumberOverflowFlag;
+extern const u32 gViewTestResultFlag;
+extern const u32 gViewTestDistanceLimitFlag;
+extern ViewFrustum gViewFrustumBeforeRotation;
+extern ViewFrustum gViewFrustum;
+extern s32 gItemSoundCameraHeightLimit;

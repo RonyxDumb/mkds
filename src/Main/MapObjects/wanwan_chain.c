@@ -10,6 +10,14 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/data_0217b000.h"
 
+const MapObjectList gWanwanChainUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateWanwanChain, NULL, 0, NULL, 0, NULL};
+const MapObjectDrawList gWanwanChainDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateWanwanChainAndWanwanKui, NULL, (UnkFunc *) DrawWanwanChain, NULL, 2, NULL, 0, NULL}, 0};
+const MapObjectKindData gWanwanChainKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithWanwanChain, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithWanwanChain, 2, 0x5000, 0xa000, 0, NULL, 1, 0, 0x12f, 0, 0, 0, 0, 0, 0};
+MapObjectDrawList *gWanwanChainDrawList;
+NsbmdModel *gWanwanChain;
+MapObjectList *gWanwanChainUpdateList;
+NsbmdModel *gWanwanKui;
+
 #pragma thumb on
 void InitEarthenPipe(PushedObject *pipe) {
     pipe->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(pipe->mMapObject.mScale.y, 0xd000);
@@ -22,22 +30,22 @@ MapObjectKindData *CreateWanwanChainKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158460;
+    *kindData = gWanwanChainKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreateWanwanChainDrawList(void) {
-    data_0217b6dc = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *data_0217b6dc = data_02158434;
-    SetDrawListSlot(&data_0217b6dc);
-    return data_0217b6dc;
+    gWanwanChainDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    *gWanwanChainDrawList = gWanwanChainDrawListData;
+    SetDrawListSlot(&gWanwanChainDrawList);
+    return gWanwanChainDrawList;
 }
 
 MapObjectList *CreateWanwanChainUpdateList(void) {
-    data_0217b6e0 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    *data_0217b6e0 = data_0215840c;
-    SetUpdateListSlot(&data_0217b6e0);
-    return data_0217b6e0;
+    gWanwanChainUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    *gWanwanChainUpdateList = gWanwanChainUpdateListData;
+    SetUpdateListSlot(&gWanwanChainUpdateList);
+    return gWanwanChainUpdateList;
 }
 
 void DrawWanwanChain(void *unused, WanwanChainObject *chainObject, s32 unusedValue, u16 maxAlpha) {
