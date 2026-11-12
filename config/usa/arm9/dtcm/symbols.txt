@@ -1,6 +1,5 @@
 gDtcmData kind:data(any) addr:0x027e0000
 OS_IRQTable kind:data(any) addr:0x027e0008
-data_usa_027e0021 kind:data(any) addr:0x027e0021
 gCollisionHitCount kind:data(any) addr:0x027e0060
 gCollisionHitValues kind:data(any) addr:0x027e0064
 gCollisionHitBits kind:data(any) addr:0x027e0084

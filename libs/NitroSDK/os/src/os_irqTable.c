@@ -1,0 +1,26 @@
+#include "code_0200c914.h"
+
+OSIrqFunction OS_IRQTable[22] = {
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OSi_IrqTimer0,
+    OSi_IrqTimer1,
+    OSi_IrqTimer2,
+    OSi_IrqTimer3,
+    OS_IrqDummy,
+    OSi_IrqDma0,
+    OSi_IrqDma1,
+    OSi_IrqDma2,
+    OSi_IrqDma3,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+    OS_IrqDummy,
+};

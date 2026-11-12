@@ -10,7 +10,7 @@ from:0x020008ec kind:arm_call to:0x02142540 module:main
 from:0x020008fc kind:load to:0x027e0000 module:dtcm
 from:0x02000914 kind:load to:0x01ff8000 module:itcm
 from:0x02000918 kind:load to:0x02003000 module:main
-from:0x02000b20 kind:load to:0x027e0021 module:dtcm
+from:0x02000b20 kind:load to:0x027e0008 add:0x19 module:dtcm
 from:0x02000b28 kind:load to:0x027e0000 module:dtcm
 from:0x02000b4c kind:load to:0x021773a0 module:main
 from:0x02000b50 kind:load to:0x021773b8 module:main
