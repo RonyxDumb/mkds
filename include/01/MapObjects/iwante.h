@@ -41,6 +41,11 @@ typedef struct ItemObject ItemObject;
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 
+#include "01/code_0218b9b4.h"
+#include "Main/Sound/sound_source_list.h"
+
+extern Unk021a7b64 gIwanteHandsKindDescriptor;
+
 void *CreateIwanteHandsUpdateList(void);
 void *CreateIwanteUpdateList(void);
 void *CreateIwanteDrawList(void);
@@ -135,3 +140,10 @@ void IwanteKartResponse11Callback(MissionRunMapObject *mapObject);
 void IwanteKartHitCallback(MissionRunMapObject *mapObject);
 void IwanteKartResponse2Callback(MissionRunMapObject *mapObject);
 void InitIwanteSoundSource(MissionRunMapObject *mapObject);
+
+extern Unk021a7b64 gIwanteKindDescriptor;
+extern SoundStartParams gIwanteEndSoundParams;
+extern const u32 gIwanteSkipKindSoundFlag;
+extern const u16 gIwanteDisabledFlag;
+extern const u16 gIwanteSkipListCallbackFlag;
+extern const u16 gIwanteSkipViewTestFlag;

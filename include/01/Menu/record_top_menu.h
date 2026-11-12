@@ -74,3 +74,15 @@ void SetRecordTopMenuRowOn(s32 row);
 void LocateAndQueueRecordTopMenu(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u16 gRecordTopMenuGradeSTableIndices[3];
+extern const u16 gRecordTopMenuRowCellIndices[3];
+extern const u16 gRecordTopMenuLabelWidths[3][3];
+extern const s32 gRecordTopMenuTouchRowIndices[3];
+extern const u16 gRecordTopMenuLabelHeights[3][3];
+extern const s32 gRecordTopMenuRowRecordScreens[3];
+extern const u16 gRecordTopMenuRecordMessageIndices[3];
+extern const u16 gRecordTopMenuOffsetSTableIndices[3];
+extern const u16 gRecordTopMenuRowSTableIndices[3];
+extern const u16 gRecordTopMenuXluCellIndices[3];
+extern const u16 gRecordTopMenuLabelIndices[3][3];

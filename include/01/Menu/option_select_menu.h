@@ -52,17 +52,6 @@ typedef struct OptionSelectMenu {
     /* 8c */ void *mCommonMessages;
 } OptionSelectMenu;
 
-// Object behind gBackupBuffers; the byte at 0x31 of the object at its first member holds flags.
-extern u8 gOptionSelectMenuOffsetMIndices[];
-extern u8 gOptionSelectMenuMLabelIndices[];
-extern u8 gOptionSelectMenuValueCounts[];
-extern u8 gOptionSelectMenuRowSTableIndices[];
-extern u8 gOptionSelectMenuSLabelIndices[];
-extern u8 gOptionSelectMenuValueSTableIndices[][3];
-extern s32 gOptionSelectMenuGroupSTableCounts[];
-extern u8 gOptionSelectMenuTimerSTableIndices[][3][2];
-extern u8 gOptionSelectMenuGroupSTableIndices[][12];
-
 void RegisterOptionSelectMenuCallbacks(void);
 void WriteOptionSelectMenuRegisters(void);
 void AdvanceOptionSelectMenu(void);
@@ -87,3 +76,15 @@ void InitOptionSelectMenu(void *a);
 void InitOptionSelectMenuTexts(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u8 gOptionSelectMenuMLabelIndices[2];
+extern const u8 gOptionSelectMenuXluCellIndices[2];
+extern const u8 gOptionSelectMenuValueCounts[2];
+// Object behind gBackupBuffers; the byte at 0x31 of the object at its first member holds flags.
+extern const u8 gOptionSelectMenuOffsetMIndices[1];
+extern const u8 gOptionSelectMenuRowSTableIndices[3];
+extern const u8 gOptionSelectMenuSLabelIndices[3];
+extern const u8 gOptionSelectMenuValueSTableIndices[3][3];
+extern const s32 gOptionSelectMenuGroupSTableCounts[3];
+extern const u8 gOptionSelectMenuTimerSTableIndices[2][3][2];
+extern const u8 gOptionSelectMenuGroupSTableIndices[3][12];

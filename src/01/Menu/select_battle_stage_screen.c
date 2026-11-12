@@ -18,27 +18,27 @@
 void LoadSelectBattleStageData(void) {
     void *v1;
     LoadedPartPointer v;
-    v1 = FindSceneFile(gSelectBattleStageMBNcgrName);
+    v1 = FindSceneFile("mg/select_battle_stage_m_b.ncgr");
     LoadNcgrData(&v.mNcgr, v1);
-    v1 = FindSceneFile(gSelectBattleStageM00NscrName);
+    v1 = FindSceneFile("mg/select_battle_stage_m_00.nscr");
     LoadNscrData(&v.mNscr, v1);
-    v1 = FindSceneFile(gSelectBattleStageM01NscrName);
+    v1 = FindSceneFile("mg/select_battle_stage_m_01.nscr");
     LoadNscrData(&v.mNscr, v1);
-    v1 = FindSceneFile(gSelectBattleStageM02NscrName);
+    v1 = FindSceneFile("mg/select_battle_stage_m_02.nscr");
     LoadNscrData(&v.mNscr, v1);
-    v1 = FindSceneFile(gSelectBattleStageMBNclrName);
+    v1 = FindSceneFile("mg/select_battle_stage_m_b.nclr");
     LoadNclrData(&v.mNclr, v1);
-    v1 = FindSceneFile(gSelectBattleStageMNcgrName);
+    v1 = FindSceneFile("mg/select_battle_stage_m.nce.ncgr");
     LoadNcgrData2(&v.mNcgr, v1);
-    v1 = FindSceneFile(gSelectBattleStageMNcerName);
+    v1 = FindSceneFile("mg/select_battle_stage_m.nce.ncer");
     LoadNcerData(&v.mNcer, v1);
-    v1 = FindSceneFile(gSelectBattleStageMONclrName);
+    v1 = FindSceneFile("mg/select_battle_stage_m_o.nclr");
     LoadNclrData(&v.mNclr, v1);
-    v1 = FindSceneFile(gSelectBattleStageSNcgrName);
+    v1 = FindSceneFile("mg/select_battle_stage_s.nce.ncgr");
     LoadNcgrData2(&v.mNcgr, v1);
-    v1 = FindSceneFile(gSelectBattleStageSNcerName);
+    v1 = FindSceneFile("mg/select_battle_stage_s.nce.ncer");
     LoadNcerData(&v.mNcer, v1);
-    v1 = FindSceneFile(gSelectBattleStageSONclrName);
+    v1 = FindSceneFile("mg/select_battle_stage_s_o.nclr");
     LoadNclrData(&v.mNclr, v1);
 }
 

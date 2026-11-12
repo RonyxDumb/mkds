@@ -22,3 +22,16 @@ void RequestTimeAttackTopMenuState1(void);
 void RequestTimeAttackTopMenuState0(void);
 void LocateAndQueueTimeAttackTopMenu(void);
 void LoadTimeAttackTopMenuData(void);
+
+extern char *gTimeAttackTopMenuSNcgrName;
+extern char *gTimeAttackTopMenuSNcerName;
+extern const u16 gTimeAttackTopMenuPaletteCellIndices[3];
+extern char *gTimeAttackTopMenuMNscrName;
+extern char *gTimeAttackTopMenuSBnblName;
+extern const u16 gTimeAttackTopMenuOffsetIndices[3];
+extern char *gTimeAttackTopMenuMBNcgrName;
+extern char *gTimeAttackTopMenuMBNclrName;
+extern const u16 gTimeAttackTopMenuVisibleTableIndices[3];
+extern char *gTimeAttackTopMenuSONclrName;
+extern char *gTimeAttackTopMenuSBnclName;
+extern const u16 gTimeAttackTopMenuXluCellIndices[3];

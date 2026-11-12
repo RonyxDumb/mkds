@@ -17,3 +17,9 @@ void LocateAndQueueOptionHensyuMenu(void);
    AdvanceOptionStates after it returns */
 void ReleaseOptionHensyuMenu(void);
 void InitOptionHensyuMenu(void *heap);
+
+extern const u8 gOptionHensyuMenuSTableIndices[2];
+extern const u8 gOptionHensyuMenuXluCellIndices[2];
+extern const u8 gOptionHensyuMenuCellIndices[2];
+extern const u8 gOptionHensyuMenuOffsetTableIndices[2][4];
+extern const s32 gOptionHensyuMenuOffsetCellCounts[2];

@@ -29,3 +29,18 @@ void UpdateSelectEngineIndexCells(void);
 void InitSelectEngineCells(void);
 void LocateAndQueueSelectEngine(void);
 void LoadSelectEngineData(void);
+
+extern const s16 gSelectEngineDownStepsFlagClear[4];
+extern const s16 gSelectEngineRightStepsFlagSet[4];
+extern const s16 gSelectEngineDownStepsFlagSet[4];
+extern const s16 gSelectEngineLeftStepsFlagClear[4];
+extern const u16 gSelectEngineFixedMTableIndices[6];
+extern const s16 gSelectEngineRightStepsFlagClear[4];
+extern const u16 gSelectEngineAOrBSTableIndices[4][3];
+extern const u32 gSelectEngineEngineIndices[4];
+extern const s16 gSelectEngineUpStepsFlagClear[4];
+extern const s16 gSelectEngineLeftStepsFlagSet[4];
+extern const u32 gSelectEngineIndicesByEngineIndex[3];
+extern const s32 gSelectEngineRectIndices[4];
+extern const s16 gSelectEngineUpStepsFlagSet[4];
+extern const u16 gSelectEngineMTableIndices[4];

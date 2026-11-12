@@ -76,7 +76,6 @@ typedef struct RecordGpx {
     /* 90 */ s32 mNextScreen;
 } RecordGpx;
 
-extern u8 gOptionTopMenuOffsetTableIndices[][4];
 extern const u16 gRecordGpxTotalPointsCellIndices[4][3];
 extern const u16 gRecordGpxGradeCellIndices[4][3];
 extern const u16 gRecordGpxCharacterKartCellIndices[4][2];

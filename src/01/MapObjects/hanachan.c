@@ -72,6 +72,11 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 
+const u32 gHanachanSkipKindSoundFlag = 0x40000000;
+SoundStartParams gHanachanEndSoundParams = {0x250, NULL, 0xd, 0};
+Unk021a7b64 gHanachanKindDescriptor = {0, 0x30c, InitHanachanMapObject, CreateHanachanKindData, CreateHanachanDrawList, NULL, 0, CreateHanachanUpdateList, {0, 0, 0, 0, 0}};
+Unk021a7b64 gHanachanFollowerKindDescriptor = {0, 0x30c, InitHanachanFollowerMapObject, CreateHanachanFollowerKindData, CreateHanachanFollowerDrawList, NULL, 0, CreateHanachanFollowerUpdateList, {0, 0, 0, 0, 0}};
+
 void HanachanItemHitCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2e0 = 0;
     SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
@@ -682,9 +687,9 @@ void InitHanachan(MapObjectList *mapObjectList) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
-            InitMissionRunMapObject(mapObjectList, obj, gHanachanNsbmdName, gHanachanNsbcaName, gHanachanPrmName);
-            LoadMissionRunMapObjectShadow(mapObjectList, obj, gHanachanShadowNsbmdName);
-            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, gHanachanNsbtpName);
+            InitMissionRunMapObject(mapObjectList, obj, "hanachan.nsbmd", "hanachan.nsbca", "hanachan.prm");
+            LoadMissionRunMapObjectShadow(mapObjectList, obj, "sh_circle.nsbmd");
+            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, "hanachan.nsbtp");
             SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_008, obj->mPrm->mUnk_00c, obj->mPrm->mUnk_00c);
             SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
             SetKartCollisionCallback(obj, HanachanKartHitCallback);
@@ -701,9 +706,9 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     MissionRunMapObject *obj;
     MissionRunMapObject *sourceObject;
 
-    firstNsbca = LoadMissionRunFile(gHanachan1NsbcaName);
-    secondNsbca = LoadMissionRunFile(gHanachan2NsbcaName);
-    firstNsbtp = LoadMissionRunFile(gHanachan1NsbtpName);
+    firstNsbca = LoadMissionRunFile("hanachan_1.nsbca");
+    secondNsbca = LoadMissionRunFile("hanachan_2.nsbca");
+    firstNsbtp = LoadMissionRunFile("hanachan_1.nsbtp");
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         sourceObject =
             GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
@@ -717,7 +722,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(mapObjectList, obj, gHanachan1NsbmdName, NULL, NULL);
+    InitMissionRunMapObject(mapObjectList, obj, "hanachan_1.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 1;
@@ -732,7 +737,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(mapObjectList, obj, gHanachan2NsbmdName, NULL, NULL);
+    InitMissionRunMapObject(mapObjectList, obj, "hanachan_2.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 2;
@@ -747,7 +752,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(mapObjectList, obj, gHanachan3NsbmdName, NULL, NULL);
+    InitMissionRunMapObject(mapObjectList, obj, "hanachan_3.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 3;
@@ -762,7 +767,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
-    InitMissionRunMapObject(mapObjectList, obj, gHanachan4NsbmdName, NULL, NULL);
+    InitMissionRunMapObject(mapObjectList, obj, "hanachan_4.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 4;

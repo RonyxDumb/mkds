@@ -19,8 +19,6 @@ typedef struct OptionStateCallbacks {
     /* 0c */ UnkFunc *mPostUpdate;
 } OptionStateCallbacks;
 
-extern const OptionStateCallbacks gOptionTopMenuCallbacks;
-
 // Object behind gOptionHensyuMenu.
 typedef struct OptionHensyuMenu {
     /* 00 */ s32 mState;
@@ -158,7 +156,6 @@ extern const char *gMissionRunBossIconSNcgrName;
 extern const char *gMissionRunBossIconSBnclName;
 extern const char *gMissionRunBossIconSONclrName;
 extern TestScene *gTestScene;
-extern u16 gShadowScaleToggle;
 extern SelectBattleStage *gSelectBattleStage;
 // One pair of halfwords of the object behind gOptionEmbremSelect.
 typedef struct OptionEmbremSelectOffset {
@@ -220,7 +217,7 @@ extern const char *gSelectEngineMONclrName;
 extern const char *gSelectEngineBSBnblName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
-extern char data_ov001_021a94a4[];
+extern char gMissionRunMSselCommonBmgName[];
 extern char gMissionRunMSselMissionBmgName[];
 extern char gMissionRunMSselMtblName[];
 extern char gMissionRunMSselMissionMrName[];

@@ -18,6 +18,18 @@
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
 
+char *gTimeAttackTopMenuSNcgrName = "ta/TimeAttack_top_menu_s.nce.ncgr";
+char *gTimeAttackTopMenuSNcerName = "ta/TimeAttack_top_menu_s.nce.ncer";
+const u16 gTimeAttackTopMenuPaletteCellIndices[3] = {9, 0xa, 0xb};
+char *gTimeAttackTopMenuMNscrName = "ta/TimeAttack_top_menu_m.nscr";
+char *gTimeAttackTopMenuSBnblName = "ta/TimeAttack_top_menu_s.bnbl";
+const u16 gTimeAttackTopMenuOffsetIndices[3] = {3, 4, 5};
+char *gTimeAttackTopMenuMBNcgrName = "ta/TimeAttack_top_menu_m_b.ncgr";
+char *gTimeAttackTopMenuMBNclrName = "ta/TimeAttack_top_menu_m_b.nclr";
+const u16 gTimeAttackTopMenuVisibleTableIndices[3] = {6, 7, 8};
+char *gTimeAttackTopMenuSONclrName = "ta/TimeAttack_top_menu_s_o.nclr";
+char *gTimeAttackTopMenuSBnclName = "ta/TimeAttack_top_menu_s.bncl";
+const u16 gTimeAttackTopMenuXluCellIndices[3] = {0, 1, 2};
 TimeAttackTopMenu *gTimeAttackTopMenu;
 
 void LoadTimeAttackTopMenuData(void) {

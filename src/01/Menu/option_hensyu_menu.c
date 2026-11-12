@@ -14,6 +14,11 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
 
+const u8 gOptionHensyuMenuSTableIndices[2] = {4, 5};
+const u8 gOptionHensyuMenuXluCellIndices[2] = {0, 1};
+const u8 gOptionHensyuMenuCellIndices[2] = {6, 7};
+const u8 gOptionHensyuMenuOffsetTableIndices[2][4] = {{0, 2, 4, 6}, {1, 3, 5, 7}};
+const s32 gOptionHensyuMenuOffsetCellCounts[2] = {4, 4};
 OptionHensyuMenu *gOptionHensyuMenu;
 
 void InitOptionHensyuMenu(void *heap) {
@@ -65,14 +70,14 @@ void LocateAndQueueOptionHensyuMenu(void) {
     Nscr *nscr;
     Nclr *nclr;
 
-    LocateNcgr(&ncgr, FindSceneFile(gHensyuOptionTopMenuMBNcgrName));
-    LocateNscr(&nscr, FindSceneFile(gHensyuOptionTopMenuMNscrName));
-    LocateNclr(&nclr, FindSceneFile(gHensyuOptionTopMenuMBNclrName));
-    gOptionHensyuMenu->mOptionHensyuMenuSBncl = FindSceneFile(gOptionHensyuMenuSBnclName);
-    gOptionHensyuMenu->mOptionHensyuMenuSBnbl = FindSceneFile(gOptionHensyuMenuSBnblName);
-    LocateNcgr2(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindSceneFile(gOptionHensyuMenuSNcgrName));
-    LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindSceneFile(gOptionHensyuMenuSNcerName));
-    LocateNclr(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindSceneFile(gOptionHensyuMenuSONclrName));
+    LocateNcgr(&ncgr, FindSceneFile("Option_top_menu_m_b.ncgr"));
+    LocateNscr(&nscr, FindSceneFile("Option_top_menu_m.nscr"));
+    LocateNclr(&nclr, FindSceneFile("Option_top_menu_m_b.nclr"));
+    gOptionHensyuMenu->mOptionHensyuMenuSBncl = FindSceneFile("option_hensyu_menu_s.bncl");
+    gOptionHensyuMenu->mOptionHensyuMenuSBnbl = FindSceneFile("option_hensyu_menu_s.bnbl");
+    LocateNcgr2(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindSceneFile("Option_hensyu_menu_s.nce.ncgr"));
+    LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindSceneFile("Option_hensyu_menu_s.nce.ncer"));
+    LocateNclr(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindSceneFile("Option_hensyu_menu_s_o.nclr"));
     NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(15, 0, nclr->mData, 0x100);

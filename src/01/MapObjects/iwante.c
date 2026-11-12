@@ -74,6 +74,12 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 #include "code_02147cd8.h"
+#include "01/MapObjects/king_teresa.h"
+#include "Main/MapObjects/bound.h"
+
+Unk021a7b64 gIwanteKindDescriptor = {0, 0x30c, InitIwanteSoundSource, CreateIwanteKindData, CreateIwanteDrawList, NULL, 0, CreateIwanteUpdateList, {0, 0, 0, 0, 0}};
+SoundStartParams gIwanteEndSoundParams = {0x217, NULL, 0xc, 0};
+Unk021a7b64 gIwanteHandsKindDescriptor = {0, 0x30c, NULL, (void (*)(void)) CreateEmptyMapObjectKindData, NULL, NULL, 0, CreateIwanteHandsUpdateList, {0, 0, 0, 0, 0}};
 
 void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
@@ -106,7 +112,7 @@ void IwanteKartResponse11Callback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2d8 = 0xb;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
     mapObject->mUnk_000.mDistanceSquaredAndFlags =
-        mapObject->mUnk_000.mDistanceSquaredAndFlags | (*(u32 *) &gIwanteSkipKindSoundFlag);
+        mapObject->mUnk_000.mDistanceSquaredAndFlags | gIwanteSkipKindSoundFlag;
 }
 
 void SetIwanteHandsApproachPoint(void) {
@@ -1313,7 +1319,7 @@ void InitIwanteHandsObjects(MapObjectList *mapObjectList) {
     if (mapObjectList != NULL) {
         zero = 0;
         for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
-            InitMissionRunMapObject((void *) zero, obj, (const char *) zero, (const char *) zero, data_ov001_021a7eb0);
+            InitMissionRunMapObject((void *) zero, obj, (const char *) zero, (const char *) zero, "iwante_l.prm");
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
@@ -1395,9 +1401,9 @@ void InitIwante(MapObjectList *mapObjectList) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
-            InitMissionRunMapObject(mapObjectList, obj, gIwanteLNsbmdName, gIwanteLNsbcaName, gIwanteLPrmName);
-            LoadMissionRunMapObjectShadow(mapObjectList, obj, gShIwanteNsbmdName);
-            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, gIwanteLNsbtpName);
+            InitMissionRunMapObject(mapObjectList, obj, "iwante_l.nsbmd", "iwante_l.nsbca", "iwante_l.prm");
+            LoadMissionRunMapObjectShadow(mapObjectList, obj, "sh_iwante.nsbmd");
+            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, "iwante_l.nsbtp");
             obj->mCollisionShape = 1;
             if (i == 0) {
                 obj->mUnk_000.mFlags |= gMapObjectMirrorFlag;
@@ -1434,3 +1440,8 @@ void *CreateIwanteUpdateList(void) {
 void *CreateIwanteHandsUpdateList(void) {
     return CreateMapObjectUpdateList(InitIwanteHandsObjects, UpdateIwanteHands, NULL);
 }
+
+const u32 gIwanteSkipKindSoundFlag = 0x40000000;
+const u16 gIwanteSkipListCallbackFlag = 8;
+const u16 gIwanteSkipViewTestFlag = 2;
+const u16 gIwanteDisabledFlag = 1;

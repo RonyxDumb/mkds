@@ -80,6 +80,8 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/data_0217a000.h"
 
+Unk021a7b64 gKingTeresaKindDescriptor = {0, 0x30c, InitKingTeresaMapObject, CreateKingTeresaKindData, CreateKingTeresaDrawList, NULL, 0, CreateKingTeresaUpdateList, {0, 0, 0, 0, 0}};
+
 u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
     return mapObject->mUnk_0a8 == 2;
 }
@@ -793,9 +795,9 @@ void InitKingTeresa(MapObjectList *mapObjectList) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }
-            InitMissionRunMapObject(mapObjectList, mapObject, gKingTeresaNsbmdName, gKingTeresaNsbcaName,
-                                    gKingTeresaPrmName);
-            LoadMissionRunMapObjectShadow(mapObjectList, mapObject, data_ov001_021a7dd8);
+            InitMissionRunMapObject(mapObjectList, mapObject, "king_teresa.nsbmd", "king_teresa.nsbca",
+                                    "king_teresa.prm");
+            LoadMissionRunMapObjectShadow(mapObjectList, mapObject, "sh_circle.nsbmd");
             prm = mapObject->mPrm;
             SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_240);
             SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
@@ -831,3 +833,10 @@ void *CreateKingTeresaDrawList(void) {
 void *CreateKingTeresaUpdateList(void) {
     return CreateMapObjectUpdateList(InitKingTeresaObjects, UpdateKingTeresa, NULL);
 }
+
+const u16 gMapObjectMirrorFlag = 0x400;
+const u32 gMapObjectItemHitReportFlag = 0x80000000;
+const u16 gKingTeresaSkipViewTestFlag = 2;
+const u16 gKingTeresaNoPushOutFlag = 0x40;
+const u16 gKingTeresaSkipListCallbackFlag = 8;
+const u16 gKingTeresaHiddenFlag = 1;

@@ -22,6 +22,16 @@
 #include "g2.h"
 #include "registers.h"
 
+const u8 gOptionSelectMenuMLabelIndices[2] = {0, 1};
+const u8 gOptionSelectMenuXluCellIndices[2] = {0, 1};
+const u8 gOptionSelectMenuValueCounts[2] = {3, 2};
+const u8 gOptionSelectMenuOffsetMIndices[1] = {0};
+const u8 gOptionSelectMenuRowSTableIndices[3] = {5, 6, 7};
+const u8 gOptionSelectMenuSLabelIndices[3] = {0, 1, 2};
+const u8 gOptionSelectMenuValueSTableIndices[3][3] = {{0x14, 0x15, 0x16}, {0x17, 0x18, 0}, {0, 0, 0}};
+const s32 gOptionSelectMenuGroupSTableCounts[3] = {0xc, 0xb, 2};
+const u8 gOptionSelectMenuTimerSTableIndices[2][3][2] = {{{0x10, 0x11}, {0xc, 0xd}, {8, 9}}, {{0x12, 0x13}, {0xe, 0xf}, {0xa, 0xb}}};
+const u8 gOptionSelectMenuGroupSTableIndices[3][12] = {{0, 2, 5, 0xc, 0xd, 8, 9, 0x10, 0x11, 0x14, 0x15, 0x16}, {1, 3, 6, 0xe, 0xf, 0xa, 0xb, 0x12, 0x13, 0x17, 0x18, 0}, {4, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 OptionSelectMenu *gOptionSelectMenu;
 
 void InitOptionSelectMenuTexts(void) {
@@ -86,8 +96,8 @@ void InitOptionSelectMenu(void *a) {
                     &gOptionSelectMenu->mOptionSelectMenuMTable);
     InitLayoutTable(a, gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSBnll,
                     &gOptionSelectMenu->mOptionSelectMenuSTable);
-    gOptionSelectMenu->mOptionMessages = FindSceneFile(data_ov001_021a8644);
-    gOptionSelectMenu->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a8650);
+    gOptionSelectMenu->mOptionMessages = FindSceneFile("option.bmg");
+    gOptionSelectMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     InitOptionSelectMenuTexts();
     gOptionSelectMenu->mBg0Bg1Offset = -140;
     for (i = 0; i < 3; i++) {
@@ -138,20 +148,20 @@ void LocateAndQueueOptionSelectMenu(void) {
     Nscr *b;
     Nclr *c;
 
-    LocateNcgr(&a, FindSceneFile(gOptionSelectMenuMBNcgrName));
-    LocateNscr(&b, FindSceneFile(gOptionSelectMenuMNscrName));
-    LocateNclr(&c, FindSceneFile(gOptionSelectMenuMBNclrName));
-    gOptionSelectMenu->mOptionSelectMenuMBncl = FindSceneFile(gOptionSelectMenuMBnclName);
-    gOptionSelectMenu->mOptionSelectMenuSBncl = FindSceneFile(gOptionSelectMenuSBnclName);
-    gOptionSelectMenu->mOptionSelectMenuSBnbl = FindSceneFile(gOptionSelectMenuSBnblName);
-    gOptionSelectMenu->mOptionSelectMenuMBnll = FindSceneFile(gOptionSelectMenuMBnllName);
-    gOptionSelectMenu->mOptionSelectMenuSBnll = FindSceneFile(gOptionSelectMenuSBnllName);
-    LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuMNcgr, FindSceneFile(gOptionSelectMenuMNcgrName));
-    LocateNcer(&gOptionSelectMenu->mOptionSelectMenuMNcer, FindSceneFile(gOptionSelectMenuMNcerName));
-    LocateNclr(&gOptionSelectMenu->mOptionSelectMenuMONclr, FindSceneFile(gOptionSelectMenuMONclrName));
-    LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuSNcgr, FindSceneFile(gOptionSelectMenuSNcgrName));
-    LocateNcer(&gOptionSelectMenu->mOptionSelectMenuSNcer, FindSceneFile(gOptionSelectMenuSNcerName));
-    LocateNclr(&gOptionSelectMenu->mOptionSelectMenuSONclr, FindSceneFile(gOptionSelectMenuSONclrName));
+    LocateNcgr(&a, FindSceneFile("Option_select_menu_m_b.ncgr"));
+    LocateNscr(&b, FindSceneFile("Option_select_menu_m.nscr"));
+    LocateNclr(&c, FindSceneFile("Option_select_menu_m_b.nclr"));
+    gOptionSelectMenu->mOptionSelectMenuMBncl = FindSceneFile("Option_select_menu_m.bncl");
+    gOptionSelectMenu->mOptionSelectMenuSBncl = FindSceneFile("Option_select_menu_s.bncl");
+    gOptionSelectMenu->mOptionSelectMenuSBnbl = FindSceneFile("Option_select_menu_s.bnbl");
+    gOptionSelectMenu->mOptionSelectMenuMBnll = FindSceneFile("Option_select_menu_m.bnll");
+    gOptionSelectMenu->mOptionSelectMenuSBnll = FindSceneFile("Option_select_menu_s.bnll");
+    LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuMNcgr, FindSceneFile("Option_select_menu_m.nce.ncgr"));
+    LocateNcer(&gOptionSelectMenu->mOptionSelectMenuMNcer, FindSceneFile("Option_select_menu_m.nce.ncer"));
+    LocateNclr(&gOptionSelectMenu->mOptionSelectMenuMONclr, FindSceneFile("Option_select_menu_m_o.nclr"));
+    LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuSNcgr, FindSceneFile("Option_select_menu_s.nce.ncgr"));
+    LocateNcer(&gOptionSelectMenu->mOptionSelectMenuSNcer, FindSceneFile("Option_select_menu_s.nce.ncer"));
+    LocateNclr(&gOptionSelectMenu->mOptionSelectMenuSONclr, FindSceneFile("Option_select_menu_s_o.nclr"));
     NNS_GfdRegisterNewVramTransferTask(5, 0, a->mData, a->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(9, 0, b->mData, b->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0x20, c->mData + 0x10, 0x20);

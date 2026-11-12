@@ -16,6 +16,7 @@
 #include "01/code_021a6000.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a7000.h"
+#include "01/Menu/emblem_cursor.h"
 #include "code_0212df7c.h"
 
 void AdvanceEmblemGridScreen(void) {

@@ -29,6 +29,18 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/result_archive_path.h"
 
+const u16 gMissionRunMSselValueMTableIndices[6] = {0x15, 0x14, 0x13, 0x16, 0x17, 0x18};
+const s16 gMissionRunMSselRightSteps[9] = {1, 1, 0, 5, 0, 1, 1, 0, -4};
+const u16 gMissionRunMSselLabelWidths[9][2] = {{0xe, 0x28}, {0xe, 0x28}, {0xe, 0x28}, {0xe, 0x28}, {0xe, 0x28}, {0xe, 0x28}, {0xe, 0x28}, {0xe, 0x28}, {0xe, 0x28}};
+const u16 gMissionRunMSselIndexMTableIndices[9] = {0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0xa};
+const u16 gMissionRunMSselLabelHeights[9][2] = {{0xe, 0xe}, {0xe, 0xe}, {0xe, 0xe}, {0xe, 0xe}, {0xe, 0xe}, {0xe, 0xe}, {0xe, 0xe}, {0xe, 0xe}, {0xe, 0xe}};
+const s16 gMissionRunMSselUpSteps[9] = {0, 0, 0, -3, -2, -2, 2, -3, -7};
+const s16 gMissionRunMSselLeftSteps[9] = {0, -1, -1, 0, 4, 0, -1, -1, -5};
+const s16 gMissionRunMSselDownSteps[9] = {3, 7, 2, 2, 3, 0, 0, 0, -2};
+const u16 gMissionRunMSselIndexSTableIndices[9][9] = {{0, 9, 0x12, 0x1b, 0x2c, 0x2e, 0x37, 0x38, 0x39}, {1, 0xa, 0x13, 0x1c, 0x25, 0x2f, 0x3a, 0x3b, 0x3c}, {2, 0xb, 0x14, 0x1d, 0x26, 0x30, 0x3d, 0x3e, 0x3f}, {3, 0xc, 0x15, 0x1e, 0x27, 0x31, 0x40, 0x41, 0x42}, {4, 0xd, 0x16, 0x1f, 0x28, 0x32, 0x43, 0x44, 0x45}, {5, 0xe, 0x17, 0x20, 0x29, 0x33, 0x46, 0x47, 0x48}, {6, 0xf, 0x18, 0x21, 0x2a, 0x34, 0x49, 0x4a, 0x4b}, {7, 0x10, 0x19, 0x22, 0x2b, 0x35, 0x4c, 0x4d, 0x4e}, {8, 0x11, 0x1a, 0x23, 0x24, 0x36, 0x4f, 0x50, 0x51}};
+const u16 gMissionRunMSselRowMTableIndices[7] = {2, 3, 4, 5, 6, 7, 8};
+const u16 gMissionRunMSselLabelSTableIndices[9][2] = {{0, 9}, {1, 0xa}, {2, 0xb}, {3, 0xc}, {4, 0xd}, {5, 0xe}, {6, 0xf}, {7, 0x10}, {8, 0x11}};
+const s16 gMissionRunMSselRectIndices[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
 MissionRunMSsel *gMissionRunMSsel;
 
 void LoadMissionRunMSselAndBossIconData(void) {
@@ -557,7 +569,7 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
                     gMissionRunMSsel->mMissionRunMSselMBnll, &gMissionRunMSsel->mMissionRunMSselMTable);
     InitLayoutTable(gMissionRunMSsel->mHeap, gMissionRunMSsel->mMissionRunMSselSBncl,
                     gMissionRunMSsel->mMissionRunMSselSBnll, &gMissionRunMSsel->mMissionRunMSselSTable);
-    gMissionRunMSsel->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a94a4);
+    gMissionRunMSsel->mCommonMessages = FindFileInLoadedArchives(gMissionRunMSselCommonBmgName);
     gMissionRunMSsel->mMissionMessages = FindSceneFile(gMissionRunMSselMissionBmgName);
     gMissionRunMSsel->mMissionTableMtbl = FindFileInLoadedArchives(gMissionRunMSselMtblName);
     gMissionRunMSsel->mMissionFileRows = (MissionFileRow *) ((u8 *) FindSceneFile(gMissionRunMSselMissionMrName) + 8);

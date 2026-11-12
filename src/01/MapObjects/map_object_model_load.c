@@ -21,6 +21,9 @@
 #include "01/code_0219c000.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
 
+const Vec3 gMapObjectModelShadowScale = {0x1000, 0x1000, 0x1000};
+const Vec3 gMapObjectModelAnimatedScale = {0x1000, 0x1000, 0x1000};
+
 void *CreateMapObjectKindDataWithSoundIds(void *collideKartCallback, void *collideItemObjectCallback,
                                           void *sphereHitCallback, u32 p3, u16 p4, u16 soundId,
                                           u16 collideItemObjectSoundId) {

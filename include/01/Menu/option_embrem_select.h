@@ -23,8 +23,6 @@ typedef struct OptionStateCallbackTable {
 #include "01/unk_021a8000.h"
 #include "Main/System/result_archive_path.h"
 
-extern const OptionStateCallbackTable gOptionEmbremSelectCallbacks;
-
 void RegisterOptionEmbremSelectCallbacks(void);
 void WriteOptionEmbremSelectRegisters(void);
 void AdvanceOptionEmbremSelect(void);
@@ -47,3 +45,10 @@ void ReleaseOptionEmbremSelect(void);
 void InitOptionEmbremSelect(void *heap);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const s32 gOptionEmbremSelectCellCounts[2];
+extern const s32 gOptionEmbremSelectSTableCounts[2];
+extern OptionStateCallbackTable gOptionEmbremSelectCallbacks;
+extern const u8 gOptionEmbremSelectSTableIndices[2][11];
+extern const u8 gOptionEmbremSelectTimerCellIndices[3][2];
+extern const u8 gOptionEmbremSelectCellIndices[2][2];

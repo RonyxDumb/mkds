@@ -58,6 +58,8 @@ typedef struct Coin {
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 
+typedef struct Unk021a7b64 Unk021a7b64;
+
 void *CreateCoinUpdateList(void);
 void *CreateCoinShadowDrawList(void);
 void *CreateCoinDrawList(void);
@@ -82,3 +84,7 @@ void StartCoinRiseOverKart(Coin *coin, Kart *kart);
 
 #include "01/Menu/select_ghost.h"
 #include "Main/Kart/kart_effects.h"
+#include "01/code_0218b9b4.h"
+
+extern Unk021a7b64 gCoinKindDescriptor;
+extern const u16 gCoinShadowRotationAngles[3];

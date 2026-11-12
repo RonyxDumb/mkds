@@ -14,6 +14,9 @@
 #include "01/unk_021a7000.h"
 #include "code_0212df7c.h"
 
+const u16 gMissionRunBossIconCellIndices[7] = {0, 1, 2, 3, 4, 5, 6};
+const u16 gMissionRunBossIconPaletteIndices[7] = {0, 1, 2, 3, 4, 5, 6};
+
 void LoadMissionRunBossIconData(void) {
     void *sceneFile;
     Ncgr *ncgr;

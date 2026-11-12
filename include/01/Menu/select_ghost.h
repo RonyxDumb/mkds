@@ -62,17 +62,6 @@ typedef struct SelectGhost {
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 
-extern u16 gSelectGhostRunningSTableIndices[];
-extern u16 gSelectGhostTimerZeroSTableIndices[];
-extern u16 gSelectGhostMenuMessageIndices[];
-extern u16 gSelectGhostSLabelWidths[];
-extern u16 gSelectGhostSBnllIndices[];
-extern u16 gSelectGhostSLabelHeights[];
-extern u16 gSelectGhostSTableIndices[];
-extern u32 gSelectGhostRecordKinds[];
-extern u16 gSelectGhostCharacterCells[];
-extern u32 gSelectGhostCupIndices[];
-
 void WriteSelectGhostRegisters(void);
 int AdvanceSelectGhost(void);
 void AdvanceSelectGhostState7(void);
@@ -104,3 +93,26 @@ void LocateAndQueueSelectGhost(void);
 void LoadSelectGhostAndKartIconData(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u16 gSelectGhostSTableIndices[6];
+extern char *gSelectGhostSONcerName;
+extern char *gSelectGhostSBnllName;
+extern const u16 gSelectGhostTimerZeroSTableIndices[2];
+extern const u16 gSelectGhostCharacterCells[13];
+extern const u16 gSelectGhostRunningSTableIndices[2];
+extern const u32 gSelectGhostCupIndices[8];
+extern char *gSelectGhostSBNclrName;
+extern char *gSelectGhostSONcgrName;
+extern char *gSelectGhostSONclrName;
+extern const u16 gSelectGhostSBnllIndices[5];
+extern char *gSelectGhostSBnblName;
+extern const u16 gSelectGhostSLabelHeights[5];
+extern char *gSelectGhostSBNcgrName;
+extern const u32 gSelectGhostRecordKinds[4];
+extern const u16 gSelectGhostSLabelWidths[5];
+extern const u16 gSelectGhostMenuMessageIndices[4];
+extern char *gSelectCupCourseTaMBnclName;
+extern char *gSelectCupCourseTaMBnllName;
+extern char *gSelectCupCourseMNcerName;
+extern char *gSelectGhostSBnclName;
+extern char *gSelectGhostSNscrName;

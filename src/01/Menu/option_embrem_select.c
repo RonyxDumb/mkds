@@ -10,6 +10,12 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
 
+const s32 gOptionEmbremSelectCellCounts[2] = {1, 2};
+const s32 gOptionEmbremSelectSTableCounts[2] = {4, 0xb};
+OptionStateCallbackTable gOptionEmbremSelectCallbacks = {{InitOptionEmbremSelect, ReleaseOptionEmbremSelect, AdvanceOptionEmbremSelect, WriteOptionEmbremSelectRegisters}};
+const u8 gOptionEmbremSelectSTableIndices[2][11] = {{0, 8, 2, 0xc, 0, 0, 0, 0, 0, 0, 0}, {1, 9, 3, 4, 5, 6, 7, 0xa, 0xb, 0xd, 0xe}};
+const u8 gOptionEmbremSelectTimerCellIndices[3][2] = {{0xa, 0xb}, {6, 7}, {4, 5}};
+const u8 gOptionEmbremSelectCellIndices[2][2] = {{0xc, 0}, {0xd, 0xe}};
 OptionEmbremSelect *gOptionEmbremSelect;
 
 void InitOptionEmbremSelect(void *heap) {
@@ -64,15 +70,15 @@ void LocateAndQueueOptionEmbremSelect(void) {
     Nscr *nscr;
     Nclr *nclr;
 
-    LocateNcgr(&ncgr, FindSceneFile(gOptionTopMenuMBNcgrName));
-    LocateNscr(&nscr, FindSceneFile(gOptionTopMenuMNscrName));
-    LocateNclr(&nclr, FindSceneFile(gOptionTopMenuMBNclrName));
-    gOptionEmbremSelect->mOptionEmbremSelectSBncl = FindSceneFile(gOptionEmbremSelectSBnclName);
-    gOptionEmbremSelect->mOptionEmbremSelectSBnbl = FindSceneFile(gOptionEmbremSelectSBnblName);
-    gOptionEmbremSelect->mOptionEmbremSelectSBnll = FindSceneFile(gOptionEmbremSelectSBnllName);
-    LocateNcgr2(&gOptionEmbremSelect->mOptionEmbremSelectSNcgr, FindSceneFile(gOptionEmbremSelectSNcgrName));
-    LocateNcer(&gOptionEmbremSelect->mOptionEmbremSelectSNcer, FindSceneFile(gOptionEmbremSelectSNcerName));
-    LocateNclr(&gOptionEmbremSelect->mOptionEmbremSelectSONclr, FindSceneFile(gOptionEmbremSelectSONclrName));
+    LocateNcgr(&ncgr, FindSceneFile("Option_top_menu_m_b.ncgr"));
+    LocateNscr(&nscr, FindSceneFile("Option_top_menu_m.nscr"));
+    LocateNclr(&nclr, FindSceneFile("Option_top_menu_m_b.nclr"));
+    gOptionEmbremSelect->mOptionEmbremSelectSBncl = FindSceneFile("Option_embrem_select_s.bncl");
+    gOptionEmbremSelect->mOptionEmbremSelectSBnbl = FindSceneFile("Option_embrem_select_s.bnbl");
+    gOptionEmbremSelect->mOptionEmbremSelectSBnll = FindSceneFile("Option_embrem_select_s.bnll");
+    LocateNcgr2(&gOptionEmbremSelect->mOptionEmbremSelectSNcgr, FindSceneFile("Option_embrem_select_s.nce.ncgr"));
+    LocateNcer(&gOptionEmbremSelect->mOptionEmbremSelectSNcer, FindSceneFile("Option_embrem_select_s.nce.ncer"));
+    LocateNclr(&gOptionEmbremSelect->mOptionEmbremSelectSONclr, FindSceneFile("Option_embrem_select_s_o.nclr"));
     NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, nclr->mData, 0x100);

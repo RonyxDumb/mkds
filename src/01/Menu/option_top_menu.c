@@ -15,6 +15,12 @@
 #include "Main/Menu/record_vs.h"
 #include "Main/Menu/data_0217d068.h"
 
+const u8 gOptionTopMenuOffsetTableIndices[3][4] = {{0, 3, 6, 9}, {1, 4, 7, 0xa}, {2, 5, 8, 0xb}};
+const s32 gOptionTopMenuOffsetCellCounts[3] = {4, 4, 4};
+OptionStateCallbacks gOptionTopMenuCallbacks = {InitOptionTopMenu, ReleaseOptionTopMenu, AdvanceOptionTopMenu, WriteOptionTopMenuRegisters};
+const u8 gOptionTopMenuSTableIndices[3] = {6, 7, 8};
+const u8 gOptionTopMenuXluCellIndices[3] = {0, 1, 2};
+const u8 gOptionTopMenuCellIndices[3] = {9, 0xa, 0xb};
 OptionTopMenu *gOptionTopMenu;
 
 void InitOptionTopMenu(void *heap) {
@@ -36,8 +42,8 @@ void InitOptionTopMenu(void *heap) {
     }
     gOptionTopMenu->mStateFrames = 0;
     gOptionTopMenu->mHighlightVisible = TRUE;
-    gOptionTopMenu->mOptionMessages = FindSceneFile(gOptionBmgName);
-    gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives(gOptionTopMenuCommonBmgName);
+    gOptionTopMenu->mOptionMessages = FindSceneFile("option.bmg");
+    gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     if (GetOptionPrevState() == 1) {
         gOptionTopMenu->mBg0Offset = 0x32;
     } else {
@@ -71,14 +77,14 @@ void LocateAndQueueOptionTopMenu(void) {
     Nscr *nscr;
     Nclr *nclr;
 
-    LocateNcgr(&ncgr, FindSceneFile(gTopMenuOptionTopMenuMBNcgrName));
-    LocateNscr(&nscr, FindSceneFile(gTopMenuOptionTopMenuMNscrName));
-    LocateNclr(&nclr, FindSceneFile(gTopMenuOptionTopMenuMBNclrName));
-    gOptionTopMenu->mOptionTopMenuSBncl = FindSceneFile(gOptionTopMenuSBnclName);
-    gOptionTopMenu->mOptionTopMenuSBnbl = FindSceneFile(gOptionTopMenuSBnblName);
-    LocateNcgr2(&gOptionTopMenu->mOptionTopMenuSNcgr, FindSceneFile(gOptionTopMenuSNcgrName));
-    LocateNcer(&gOptionTopMenu->mOptionTopMenuSNcer, FindSceneFile(gOptionTopMenuSNcerName));
-    LocateNclr(&gOptionTopMenu->mOptionTopMenuSONclr, FindSceneFile(gOptionTopMenuSONclrName));
+    LocateNcgr(&ncgr, FindSceneFile("Option_top_menu_m_b.ncgr"));
+    LocateNscr(&nscr, FindSceneFile("Option_top_menu_m.nscr"));
+    LocateNclr(&nclr, FindSceneFile("Option_top_menu_m_b.nclr"));
+    gOptionTopMenu->mOptionTopMenuSBncl = FindSceneFile("Option_top_menu_s.bncl");
+    gOptionTopMenu->mOptionTopMenuSBnbl = FindSceneFile("Option_top_menu_s.bnbl");
+    LocateNcgr2(&gOptionTopMenu->mOptionTopMenuSNcgr, FindSceneFile("Option_top_menu_s.nce.ncgr"));
+    LocateNcer(&gOptionTopMenu->mOptionTopMenuSNcer, FindSceneFile("Option_top_menu_s.nce.ncer"));
+    LocateNclr(&gOptionTopMenu->mOptionTopMenuSONclr, FindSceneFile("Option_top_menu_s_o.nclr"));
     NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(15, 0, nclr->mData, 0x100);

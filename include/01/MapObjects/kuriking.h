@@ -32,3 +32,8 @@ s32 KurikingStopStateWhenRaceStarted(MissionRunMapObject *mapObject);
 void KurikingStandingsEndCallback(void);
 void StartKurikingKartNotEliminatedState(MissionRunMapObject *mapObject);
 void StartKurikingEndEffects(MissionRunMapObject *mapObject);
+
+extern const u16 gKurikingSkipViewTestFlag;
+extern const u16 gKurikingJumpFlag;
+extern const u16 gKurikingDisabledFlag;
+extern const u16 gKurikingSkipListCallbackFlag;

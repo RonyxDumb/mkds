@@ -40,6 +40,10 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/group_follower_init.h"
 
+Unk021a7b64 gCoinKindDescriptor = {0, 0x104, (void (*)(MissionRunMapObject *)) SetMissionRunCoinCallbacks, CreateCoinKindData, CreateCoinDrawList, CreateCoinShadowDrawList, 0, CreateCoinUpdateList, {0, 0, 0, 0, 0}};
+const u16 gCoinShadowRotationAngles[3] = {0, 0xe38, 0x1c71};
+MapObjectModel *gCoinModel;
+
 void ResetCoinShadowRotationIndex(void) {
     gCoinShadowRotationIndex = 0;
 }
@@ -86,8 +90,6 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
         DrawJgShadow(8, mapObjectAlpha);
     }
 }
-
-MapObjectModel *gCoinModel;
 
 void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
     coin->mTimer = 0x1e;
@@ -390,8 +392,8 @@ u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *firstResponsePtr, u8 *secondR
 }
 
 void LoadCoin(MapObjectList *drawList) {
-    gCoinModel = LoadMapObjectModelAnimated(drawList, gCoinNsbmdName);
-    LoadMapObjectModelNsbtpAnimation(gCoinModel, gCoinNsbtpName);
+    gCoinModel = LoadMapObjectModelAnimated(drawList, "coin.nsbmd");
+    LoadMapObjectModelNsbtpAnimation(gCoinModel, "coin.nsbtp");
     SetMapObjectModelPolygonId(gCoinModel, 0x3f);
     SetMapObjectModelLightEnableFlag(gCoinModel, 2);
     SetNsbmdEmiAll(gCoinModel->mAnimatedModel, 0x294a);

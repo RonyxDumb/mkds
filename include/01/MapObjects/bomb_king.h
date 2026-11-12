@@ -8,6 +8,9 @@ typedef struct MapObjectList MapObjectList;
 typedef struct ParticleEmitter ParticleEmitter;
 typedef struct ItemObject ItemObject;
 
+#include "01/code_0218b9b4.h"
+#include "Main/Sound/sound_source_list.h"
+
 void *CreateBombKingUpdateList(void);
 void *CreateBombKingDrawList(void);
 void CreateBombKingKindData(void);
@@ -28,3 +31,12 @@ s32 StopStateWhenRaceStarted(MissionRunMapObject *mapObject);
 void BombKingStandingsEndCallback(void);
 void StartBombKingKartNotEliminatedState(MissionRunMapObject *mapObject);
 void StartBombKingNotEliminatedEffects(MissionRunMapObject *mapObject);
+
+extern SoundStartParams gBombKingEndSoundParams;
+extern Unk021a7b64 gBombKingKindDescriptor;
+
+extern const u32 gBombKingSkipKindSoundFlag;
+extern const u16 gBombKingSkipListCallbackFlag;
+extern const u16 gBombKingJumpFlag;
+extern const u16 gBombKingDisabledFlag;
+extern const u16 gBombKingSkipViewTestFlag;

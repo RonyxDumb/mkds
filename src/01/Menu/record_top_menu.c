@@ -24,6 +24,17 @@
 #include "registers.h"
 #include "Main/Sound/data_0216c000.h"
 
+const u16 gRecordTopMenuGradeSTableIndices[3] = {2, 3, 4};
+const u16 gRecordTopMenuRowCellIndices[3] = {9, 0xa, 0xb};
+const u16 gRecordTopMenuLabelWidths[3][3] = {{0x70, 0x70, 0x70}, {0x20, 0x20, 0x20}, {0x20, 0x20, 0x20}};
+const s32 gRecordTopMenuTouchRowIndices[3] = {0, 1, 2};
+const u16 gRecordTopMenuLabelHeights[3][3] = {{0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}};
+const s32 gRecordTopMenuRowRecordScreens[3] = {1, 2, 3};
+const u16 gRecordTopMenuRecordMessageIndices[3] = {6, 7, 8};
+const u16 gRecordTopMenuOffsetSTableIndices[3] = {3, 4, 5};
+const u16 gRecordTopMenuRowSTableIndices[3] = {6, 7, 8};
+const u16 gRecordTopMenuXluCellIndices[3] = {0, 1, 2};
+const u16 gRecordTopMenuLabelIndices[3][3] = {{1, 2, 3}, {4, 6, 8}, {5, 7, 9}};
 RecordTopMenu *gRecordTopMenu;
 
 void LocateAndQueueRecordTopMenu(void) {
@@ -84,7 +95,7 @@ void SetRecordTopMenuRowOff(s32 row) {
 void ResetRecordTopMenu(void) {
     s32 i;
     s32 j;
-    u16 *labelRow;
+    const u16 *labelRow;
     s32 mainLayoutCount;
 
     gRecordTopMenu->mNextState = 0;
@@ -336,7 +347,7 @@ void AdvanceRecordTopMenuState1(void) {
     s32 i;
     s32 j;
     s16 offsetY;
-    u16 *p;
+    const u16 *p;
     s32 mainLayoutCount;
 
     gRecordTopMenu->mStateFrames++;
@@ -497,7 +508,7 @@ void AdvanceRecordTopMenuState6(void) {
     s32 i;
     s32 j;
     s16 offsetY;
-    u16 *labelRow;
+    const u16 *labelRow;
     s32 mainLayoutCount;
 
     if (GetRecordNextScene() == -1 && gRecordTopMenu->mRecordScreen == 5) {

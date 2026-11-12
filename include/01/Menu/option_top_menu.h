@@ -3,11 +3,7 @@
 #include "types.h"
 
 typedef struct OptionTopMenu OptionTopMenu;
-
-extern u8 gOptionTopMenuXluCellIndices[];
-extern s32 gOptionTopMenuOffsetCellCounts[];
-extern const char gOptionBmgName[];
-extern const char gOptionTopMenuCommonBmgName[];
+typedef struct OptionStateCallbacks OptionStateCallbacks;
 
 void RegisterOptionTopMenuCallbacks(void);
 void WriteOptionTopMenuRegisters(void);
@@ -28,3 +24,10 @@ void LocateAndQueueOptionTopMenu(void);
    AdvanceOptionStates after it returns */
 void ReleaseOptionTopMenu(void);
 void InitOptionTopMenu(void *heap);
+
+extern const u8 gOptionTopMenuOffsetTableIndices[3][4];
+extern const s32 gOptionTopMenuOffsetCellCounts[3];
+extern OptionStateCallbacks gOptionTopMenuCallbacks;
+extern const u8 gOptionTopMenuSTableIndices[3];
+extern const u8 gOptionTopMenuXluCellIndices[3];
+extern const u8 gOptionTopMenuCellIndices[3];

@@ -27,3 +27,13 @@ u32 IsMissionRunLVselLevelReached(int levelIndex);
 s32 GetMissionRunLVselMinRecordValue(s16 levelIndex);
 void LocateAndQueueMissionRunLVsel(void);
 void LoadMissionRunLVselData(void);
+
+extern const s16 gMissionRunLVselRightIndexOffsets[7];
+extern const s16 gMissionRunLVselLeftIndexOffsets[7];
+extern const s16 gMissionRunLVselDownIndexOffsets[7];
+extern const s16 gMissionRunLVselUpIndexOffsets[7];
+extern const u16 gMissionRunLVselGradeLabelIndices[7];
+extern const u16 gMissionRunLVselGradeLabelHeights[7];
+extern const u16 gMissionRunLVselGradeLabelWidths[7];
+extern const u16 gMissionRunLVselLevelCellIndices[7][11];
+extern const s16 gMissionRunLVselTouchLevelIndices[7];

@@ -6,6 +6,8 @@ typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct MapObjectList MapObjectList;
 typedef struct Kart Kart;
 
+#include "01/code_0218b9b4.h"
+
 void *CreateKingTeresaUpdateList(void);
 void *CreateKingTeresaDrawList(void);
 void CreateKingTeresaKindData(void);
@@ -56,3 +58,12 @@ s32 AdvanceKingTeresaFollowKart(MissionRunMapObject *mapObject);
 void SetKingTeresaVelocityToKartStep(MissionRunMapObject *mapObject);
 void SetKingTeresaVelocityWithKartTurn(MissionRunMapObject *mapObject);
 void HideKingTeresaWithEffects(MissionRunMapObject *mapObject);
+
+extern Unk021a7b64 gKingTeresaKindDescriptor;
+extern const u16 gKingTeresaHiddenFlag;
+extern const u16 gKingTeresaSkipListCallbackFlag;
+extern const u16 gKingTeresaSkipViewTestFlag;
+extern const u16 gKingTeresaNoPushOutFlag;
+
+extern const u16 gMapObjectMirrorFlag;
+extern const u32 gMapObjectItemHitReportFlag;

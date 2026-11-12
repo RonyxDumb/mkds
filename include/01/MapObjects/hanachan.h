@@ -7,6 +7,9 @@ typedef struct MissionRunPrm MissionRunPrm;
 typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct MapObjectList MapObjectList;
 
+#include "01/code_0218b9b4.h"
+#include "Main/Sound/sound_source_list.h"
+
 void *CreateHanachanFollowerUpdateList(void);
 void *CreateHanachanFollowerDrawList(void);
 void CreateHanachanFollowerKindData(void);
@@ -39,3 +42,8 @@ void StartHanachanWaitForRaceStart(MissionRunMapObject *mapObject);
 s32 UpdateHanachanWaitForRaceStart(MissionRunMapObject *mapObject);
 void HanachanStandingsEndCallback(void);
 void StartHanachanKartNotEliminatedState(MissionRunMapObject *mapObject);
+
+extern const u32 gHanachanSkipKindSoundFlag;
+extern SoundStartParams gHanachanEndSoundParams;
+extern Unk021a7b64 gHanachanKindDescriptor;
+extern Unk021a7b64 gHanachanFollowerKindDescriptor;

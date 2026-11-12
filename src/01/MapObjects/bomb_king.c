@@ -77,6 +77,14 @@
 #include "Main/Sound/snd_handle_start.h"
 #include "Main/Sound/data_0210b000.h"
 
+const u32 gBombKingSkipKindSoundFlag = 0x40000000;
+const u16 gBombKingSkipListCallbackFlag = 8;
+const u16 gBombKingJumpFlag = 0x20;
+const u16 gBombKingDisabledFlag = 1;
+const u16 gBombKingSkipViewTestFlag = 2;
+SoundStartParams gBombKingEndSoundParams = {0x23d, NULL, 0xc, 0};
+Unk021a7b64 gBombKingKindDescriptor = {0, 0x30c, InitBombKingMapObject, CreateBombKingKindData, CreateBombKingDrawList, NULL, 0, CreateBombKingUpdateList, {0, 0, 0, 0, 0}};
+
 u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject) {
     return GetAbsoluteCounter(mapObject);
 }
@@ -656,8 +664,8 @@ void InitBombKing(MapObjectList *list) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }
-            InitMissionRunMapObject(list, mapObject, gBombKingNsbmdName, gBombKingNsbcaName, gBombKingPrmName);
-            LoadMissionRunMapObjectShadow(list, mapObject, gBombKingShadowNsbmdName);
+            InitMissionRunMapObject(list, mapObject, "bomb_king.nsbmd", "bomb_king.nsbca", "bomb_king.prm");
+            LoadMissionRunMapObjectShadow(list, mapObject, "sh_circle.nsbmd");
             prm = mapObject->mPrm;
             SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_20c);
             SetShadowOffsetYAndScale(mapObject, 0, 0x23000);

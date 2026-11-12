@@ -21,3 +21,5 @@ void QueueEndingSceneNcgrNscrNclr(int param_1);
 void InitEndingSceneDisplay(void);
 void ClearEndingScenePointer(void);
 void CreateEndingScene(void *heap);
+
+extern const u16 gEndingSceneStateTable[8];

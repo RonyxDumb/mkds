@@ -77,6 +77,15 @@
 #include "Main/Sound/sound_source_init.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+const u16 gKurikingSkipViewTestFlag = 2;
+const u16 gKurikingJumpFlag = 0x20;
+const u16 gKurikingDisabledFlag = 1;
+const u16 gKurikingSkipListCallbackFlag = 8;
+Unk021a7b64 gKurikingKindDescriptor = {
+    0, 0x30c, InitKurikingMapObject,    CreateKurikingKindData, CreateKurikingDrawList,
+    0, 0,     CreateKurikingUpdateList, {0, 0, 0, 0, 0},
+};
+
 void SetKurikingCollisionAndShadow(MissionRunMapObject *mapObject) {
     s32 *shadowScaleTarget;
     MissionRunPrm *prm;
@@ -428,11 +437,6 @@ void StartKurikingChaseKartState(MissionRunMapObject *mapObject) {
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_204, mapObject->mPrm->mUnk_208);
 }
-
-Unk021a7b64 gKurikingKindDescriptor = {
-    0, 0x30c, InitKurikingMapObject,    CreateKurikingKindData, CreateKurikingDrawList,
-    0, 0,     CreateKurikingUpdateList, {0, 0, 0, 0, 0},
-};
 
 void StartKurikingEndEffects(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));

@@ -66,6 +66,8 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 
+#include "01/code_0218b9b4.h"
+
 void *CreateDonketuUpdateList(void);
 void *CreateKingIceDonketuDrawList(void);
 void *CreateBossDonketuDrawList(void);
@@ -103,3 +105,6 @@ void StartDonketuKartNotEliminatedState(MissionRunMapObject *donketu);
 void StartDonketuWaterSinkState(MissionRunMapObject *donketu);
 void StartDonketuWaterWalkState(MissionRunMapObject *donketu);
 void StartDonketuWaterJumpState(MissionRunMapObject *donketu);
+
+extern Unk021a7b64 gBossDonketuKindDescriptor;
+extern Unk021a7b64 gKingIceDonketuKindDescriptor;

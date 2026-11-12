@@ -11,6 +11,7 @@
 #include "g2.h"
 #include "gx_load2d.h"
 #include "01/unk_021a6000.h"
+#include "01/Menu/emblem_cursor.h"
 #include "registers.h"
 
 void UploadEmblemMainScreen(void) {

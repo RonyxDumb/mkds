@@ -9,3 +9,14 @@ data_0216fe1c
 FloatFlagsClearXor
 data_02001e54
 OSi_IdleThreadStack
+gCoinKindDescriptor
+gBossDonketuKindDescriptor
+gKingIceDonketuKindDescriptor
+gMissionGateKindDescriptor
+gEmptyMapObjectKindDescriptor
+gBombKingKindDescriptor
+gHanachanKindDescriptor
+gHanachanFollowerKindDescriptor
+gKingTeresaKindDescriptor
+gIwanteKindDescriptor
+gStopSignKindDescriptor

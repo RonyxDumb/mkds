@@ -46,6 +46,10 @@ void StartEffectInSlot(MissionRunMapObject *mapObject, s32 effectIndex, s32 offs
 #include "Main/Kart/kart_drift.h"
 #include "01/code_02187000.h"
 
+typedef struct Unk021a7b64 Unk021a7b64;
+
+extern Unk021a7b64 gEmptyMapObjectKindDescriptor;
+
 void *CreateEmptyMapObjectUpdateList(void);
 s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
                                        u8 *responsePointer);
@@ -81,3 +85,7 @@ void ThrowItemKinokoFromPosition(void *kinoko, Vec3 *position, Vec3 *velocity, s
 void ThrowItemBombFromPosition(void *bomb, Vec3 *position, Vec3 *velocity, s32 timer);
 
 #include "01/Menu/select_ghost.h"
+
+extern Vec3 gItemBombUpNormal;
+extern Vec3 gItemKinokoUpNormal;
+extern u16 gShadowScaleToggle;

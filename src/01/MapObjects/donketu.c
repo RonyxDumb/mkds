@@ -58,6 +58,9 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217c000.h"
 
+Unk021a7b64 gBossDonketuKindDescriptor = {0, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateBossDonketuDrawList, NULL, 0, CreateDonketuUpdateList, {0, 0, 0, 0, 0}};
+Unk021a7b64 gKingIceDonketuKindDescriptor = {0, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateKingIceDonketuDrawList, NULL, 0, CreateDonketuUpdateList, {0, 0, 0, 0, 0}};
+
 void StartBossDonketuStepEffectFirst(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x0000020fu);
     ReleaseEffects(mapObject);
@@ -760,8 +763,8 @@ void InitBossDonketu(MapObjectList *list) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
-            InitMissionRunMapObject(list, donketu, gBossDonketuNsbmdName, gBossDonketuNsbcaName, gBossDonketuPrmName);
-            LoadMissionRunMapObjectShadow(list, donketu, data_ov001_021a79e4);
+            InitMissionRunMapObject(list, donketu, "boss_donketu.nsbmd", "boss_donketu.nsbca", "boss_donketu.prm");
+            LoadMissionRunMapObjectShadow(list, donketu, "sh_circle.nsbmd");
             SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mUnk_008, donketu->mPrm->mUnk_00c, 0);
             SetShadowOffsetYAndScale(donketu, 0, 0x11000);
             SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
@@ -780,9 +783,9 @@ void InitKingIceDonketu(MapObjectList *list) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
-            InitMissionRunMapObject(list, donketu, gKingIceDonketuNsbmdName, gKingIceDonketuNsbcaName,
-                                    gKingIceDonketuPrmName);
-            LoadMissionRunMapObjectShadow(list, donketu, data_ov001_021a7998);
+            InitMissionRunMapObject(list, donketu, "king_ice_donketu.nsbmd", "king_ice_donketu.nsbca",
+                                    "king_ice_donketu.prm");
+            LoadMissionRunMapObjectShadow(list, donketu, "sh_circle.nsbmd");
             SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mUnk_008, donketu->mPrm->mUnk_00c, 0);
             SetShadowOffsetYAndScale(donketu, 0, 0x21000);
             SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
@@ -815,3 +818,7 @@ void *CreateKingIceDonketuDrawList(void) {
 void *CreateDonketuUpdateList(void) {
     return CreateMapObjectUpdateList(InitDonketuObjects, UpdateDonketu, NULL);
 }
+
+const u16 gDonketuWaterFlag = 0x20;
+const u16 gCoinHiddenFlag = 1;
+const u32 gDonketuSkipKindSoundFlag = 0x40000000;

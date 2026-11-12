@@ -35,3 +35,16 @@ void FormatMissionRunMissionNumber(s32 missionIndex, u16 *text);
 void SetMissionRunMSselAllRecorded(void);
 void LocateAndQueueMissionRunMSsel(void);
 void LoadMissionRunMSselAndBossIconData(void);
+
+extern const u16 gMissionRunMSselValueMTableIndices[6];
+extern const s16 gMissionRunMSselRightSteps[9];
+extern const u16 gMissionRunMSselLabelWidths[9][2];
+extern const u16 gMissionRunMSselIndexMTableIndices[9];
+extern const u16 gMissionRunMSselLabelHeights[9][2];
+extern const s16 gMissionRunMSselUpSteps[9];
+extern const s16 gMissionRunMSselLeftSteps[9];
+extern const s16 gMissionRunMSselDownSteps[9];
+extern const u16 gMissionRunMSselIndexSTableIndices[9][9];
+extern const u16 gMissionRunMSselRowMTableIndices[7];
+extern const u16 gMissionRunMSselLabelSTableIndices[9][2];
+extern const s16 gMissionRunMSselRectIndices[9];

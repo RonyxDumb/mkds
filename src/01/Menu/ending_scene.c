@@ -10,6 +10,7 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 
+const u16 gEndingSceneStateTable[8] = {0, 0xf0, 0x78, 0x1e, 0x3c, 0xb4, 0x78, 0x3c};
 EndingScene *gEndingScene;
 
 void CreateEndingScene(void *heap) {

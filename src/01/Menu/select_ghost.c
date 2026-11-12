@@ -27,6 +27,28 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 
+const u16 gSelectGhostSTableIndices[6] = {0, 1, 2, 4, 3, 5};
+char *gSelectGhostSONcerName = "ta/select_ghost_s_o.nce.ncer";
+char *gSelectGhostSBnllName = "ta/select_ghost_s.bnll";
+const u16 gSelectGhostTimerZeroSTableIndices[2] = {6, 8};
+const u16 gSelectGhostCharacterCells[13] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc};
+const u16 gSelectGhostRunningSTableIndices[2] = {7, 9};
+const u32 gSelectGhostCupIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+char *gSelectGhostSBNclrName = "ta/select_ghost_s_b.nclr";
+char *gSelectGhostSONcgrName = "ta/select_ghost_s_o.nce.ncgr";
+char *gSelectGhostSONclrName = "ta/select_ghost_s_o.nclr";
+const u16 gSelectGhostSBnllIndices[5] = {0, 1, 2, 3, 4};
+char *gSelectGhostSBnblName = "ta/select_ghost_s.bnbl";
+const u16 gSelectGhostSLabelHeights[5] = {0xd, 0xd, 0xd, 0xd, 0xf};
+char *gSelectGhostSBNcgrName = "ta/select_ghost_s_b.ncgr";
+const u32 gSelectGhostRecordKinds[4] = {4, 0, 1, 2};
+const u16 gSelectGhostSLabelWidths[5] = {0x3c, 0x50, 0x82, 0xba, 0xba};
+const u16 gSelectGhostMenuMessageIndices[4] = {0xa, 0xb, 0xc, 0xd};
+char *gSelectCupCourseTaMBnclName = "common/select_cup_course_ta_m.bncl";
+char *gSelectCupCourseTaMBnllName = "common/select_cup_course_ta_m.bnll";
+char *gSelectCupCourseMNcerName = "common/select_cup_course_m.nce.ncer";
+char *gSelectGhostSBnclName = "ta/select_ghost_s.bncl";
+char *gSelectGhostSNscrName = "ta/select_ghost_s.nscr";
 SelectGhost *gSelectGhost;
 
 void LoadSelectGhostAndKartIconData(void) {

@@ -10,7 +10,7 @@ typedef struct Unk021a7b64 {
     /* 08 */ void (*mInitObject)(MissionRunMapObject *);
     /* 0c */ void (*mCreateKindData)(void);
     /* 10 */ void *(*mUnk_10)(void);
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ void *(*mUnk_14)(void);
     /* 18 */ s32 mUnk_18;
     /* 1c */ void *(*mUnk_1c)(void);
     /* 20 */ s32 mUnk_20[5];

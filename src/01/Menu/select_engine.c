@@ -28,6 +28,20 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/race_setup.h"
 
+const s16 gSelectEngineDownStepsFlagClear[4] = {1, 1, -2, 0};
+const s16 gSelectEngineRightStepsFlagSet[4] = {1, 0, 1, 0};
+const s16 gSelectEngineDownStepsFlagSet[4] = {2, 2, 0, 0};
+const s16 gSelectEngineLeftStepsFlagClear[4] = {0, 0, 0, 0};
+const u16 gSelectEngineFixedMTableIndices[6] = {0, 1, 2, 3, 4, 5};
+const s16 gSelectEngineRightStepsFlagClear[4] = {0, 0, 0, 0};
+const u16 gSelectEngineAOrBSTableIndices[4][3] = {{3, 7, 0xb}, {2, 6, 0xa}, {1, 5, 9}, {0, 4, 8}};
+const u32 gSelectEngineEngineIndices[4] = {0, 1, 2, 1};
+const s16 gSelectEngineUpStepsFlagClear[4] = {2, -1, -1, 0};
+const s16 gSelectEngineLeftStepsFlagSet[4] = {0, -1, 0, -1};
+const u32 gSelectEngineIndicesByEngineIndex[3] = {0, 1, 2};
+const s32 gSelectEngineRectIndices[4] = {3, 2, 1, 0};
+const s16 gSelectEngineUpStepsFlagSet[4] = {0, 0, -2, -2};
+const u16 gSelectEngineMTableIndices[4] = {7, 8, 9, 0xa};
 SelectEngine *gSelectEngine;
 
 void LoadSelectEngineData(void) {

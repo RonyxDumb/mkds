@@ -32,6 +32,8 @@ typedef struct StopSignObject {
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 
+#include "01/code_0218b9b4.h"
+
 void *CreateStopSignDrawList(void);
 void CreateStopSignKindData(void);
 void DrawStopSign(void *mapObjectList, StopSignObject *mapObject);
@@ -40,3 +42,5 @@ void InitStopSign(
     MissionRunMapObject *mapObject); /* object is MapObject-sized; MissionRunMapObject is only the prefix view */
 
 #include "01/Menu/select_ghost.h"
+
+extern Unk021a7b64 gStopSignKindDescriptor;
