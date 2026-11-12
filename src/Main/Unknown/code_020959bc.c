@@ -1,3 +1,5 @@
+#include "Main/Unknown/code_02095f18.h"
+#include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_02095504.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
@@ -28,6 +30,10 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 #include "Main/Unknown/code_02077bc0.h"
+
+void InitMoveTree(MoveTree *moveTree) {
+    InitGroupFollower(&moveTree->mFollower, moveTree->mMapObject.mCourseMapRow, 0);
+}
 
 u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8 *response) {
     u8 responseValue;
