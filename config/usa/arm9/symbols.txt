@@ -8074,7 +8074,7 @@ gFlipperSecondBoxHalfSizesPositive kind:data(any) addr:0x02156554
 gFlipperFourthBoxHalfSizesPositive kind:data(any) addr:0x0215656c
 gFlipperMirrorFlag kind:data(any) addr:0x02156584
 gFlipperSkipSoundFlag kind:data(any) addr:0x02156588
-data_usa_0215658c kind:data(any) addr:0x0215658c
+gFlipperInitMapObjectFlag kind:data(any) addr:0x0215658c
 data_usa_02156590 kind:data(any) addr:0x02156590
 data_usa_02156594 kind:data(any) addr:0x02156594
 data_02156598 kind:data(any) addr:0x02156598

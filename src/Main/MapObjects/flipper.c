@@ -37,6 +37,7 @@
 #include "code_02148538.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/pakkun.h"
+#include "Main/MapObjects/pakkun_spit.h"
 
 const Vec3 gFlipperFourthBoxHalfSizesPositive[2] = {{0, 0x3c000, 0x32000}, {0xc8000, 0x3c000, 0x32000}};
 const Vec3 gFlipperSecondBoxHalfSizesPositive[2] = {{0, 0x3c000, 0}, {0xc8000, 0x3c000, 0}};
@@ -59,7 +60,7 @@ const Vec3 gFlipperSecondBoxHalfSizesNegative[2] = {{0xc8000, 0, 0x32000}, {0, 0
 struct MapObjectModel *gFlipper;
 
 void InitFlipper(Flipper *flipper) {
-    flipper->mMapObject.mFlags = flipper->mMapObject.mFlags | data_usa_0215658c;
+    flipper->mMapObject.mFlags = flipper->mMapObject.mFlags | gFlipperInitMapObjectFlag;
     RefreshMapObjectMatrixFromHitNormal(&flipper->mMapObject);
 }
 

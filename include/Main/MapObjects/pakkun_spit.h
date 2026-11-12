@@ -25,3 +25,5 @@ MapObjectKindData *CreatePakkunSpitKindData(void);
 void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit);
 u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstResponse, u8 *response);
 void InitPakkunSpit(MapObject *mapObject);
+
+extern const u16 gFlipperInitMapObjectFlag;

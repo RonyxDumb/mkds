@@ -37,5 +37,3 @@ typedef struct KeyboardCursorTargets {
 extern const KeyboardCursorTargets gKeyboardCursorTargets[6];
 
 extern const u16 gKeyboardLayoutRectCounts[6];
-
-extern u16 data_usa_0215658c;

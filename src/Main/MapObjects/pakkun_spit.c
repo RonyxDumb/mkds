@@ -25,6 +25,8 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/pakkun.h"
 
+const u16 gFlipperInitMapObjectFlag = 0x200;
+
 MapObjectKindDescriptor gPakkunSpitKindDescriptor = {0,
                                                      {0, 0},
                                                      0xd4,
