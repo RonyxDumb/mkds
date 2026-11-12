@@ -101,7 +101,6 @@ data_usa_ov002_021a9159 kind:bss addr:0x021a9159 ambiguous
 data_usa_ov002_021a9664 kind:bss addr:0x021a9664 ambiguous
 data_usa_ov002_021a9698 kind:bss addr:0x021a9698 ambiguous
 data_usa_ov002_021a99c0 kind:bss addr:0x021a99c0 ambiguous
-gOverlayExpHeapBuffer kind:bss addr:0x021a9be0 ambiguous
 data_usa_ov002_021ac7f4 kind:bss addr:0x021ac7f4 ambiguous
 data_usa_ov002_021b0788 kind:bss addr:0x021b0788 ambiguous
 data_usa_ov002_021b0790 kind:bss addr:0x021b0790 ambiguous

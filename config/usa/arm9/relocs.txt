@@ -9938,7 +9938,7 @@ from:0x0205a138 kind:load to:0x021804e0 module:overlay(2)
 from:0x0205a13c kind:load to:0x0217a9f0 module:main
 from:0x0205a14c kind:arm_call to:0x02036bec module:main
 from:0x0205a284 kind:load to:0x0217a9f0 module:main
-from:0x0205a290 kind:load to:0x021b7b60 module:overlays(1,2)
+from:0x0205a290 kind:load to:0x021a9be0 add:0xdf80 module:overlays(1,2)
 from:0x0205a29c kind:load to:0x021ca420 module:overlay(2)
 from:0x0205a308 kind:load to:0x0217a9f4 module:main
 from:0x0205a348 kind:load to:0x0217a9f4 module:main

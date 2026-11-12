@@ -272,7 +272,7 @@ src/01/Menu/option_embrem_select.c:
     .text       start:0x0219d5bc end:0x0219e088
     .rodata     start:0x021a6bfc end:0x021a6c30
     .data       start:0x021a8ca0 end:0x021a8dcc
-    .bss        start:0x021a9bdc end:0x021a9be0
+    .bss        start:0x021a9bdc end:0x021ca3e0
 
 src/01/Menu/ending_scene.c:
     complete

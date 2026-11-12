@@ -9,6 +9,7 @@
 #include "Main/Save/backup_first_block_write_wrapper.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
+#include "02/unk_02180500.h"
 #include "Main/Menu/menu_shared_clear.h"
 
 const s32 gOptionEmbremSelectCellCounts[2] = {1, 2};
@@ -18,6 +19,7 @@ const u8 gOptionEmbremSelectSTableIndices[2][11] = {{0, 8, 2, 0xc, 0, 0, 0, 0, 0
 const u8 gOptionEmbremSelectTimerCellIndices[3][2] = {{0xa, 0xb}, {6, 7}, {4, 5}};
 const u8 gOptionEmbremSelectCellIndices[2][2] = {{0xc, 0}, {0xd, 0xe}};
 OptionEmbremSelect *gOptionEmbremSelect;
+u8 gOverlayExpHeapBuffer[0x20800];
 
 void InitOptionEmbremSelect(void *heap) {
     s32 i;
