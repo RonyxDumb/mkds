@@ -4,6 +4,7 @@
 #include "code_0200fc8c.h"
 
 u16 gMicrophoneInitialized;
+MICWork gMicrophoneCommand;
 
 // Sets up the microphone channel on the first call only.
 void MIC_Init(void) {

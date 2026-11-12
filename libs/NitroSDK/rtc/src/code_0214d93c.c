@@ -5,6 +5,7 @@
 #include "code_0214d5b8.h"
 
 u16 gClockInitialized;
+RTCWork gClockRequest;
 
 // Sends the command that reads the date word.
 BOOL RTCi_ReadRawDateAsync(void) {

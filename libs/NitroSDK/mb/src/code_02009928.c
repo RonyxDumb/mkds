@@ -13,6 +13,14 @@
 #include "code_0214d5b8.h"
 #include "code_0214d018.h"
 
+u16 mbi_life_frame = 0xffff;
+u16 mbi_life_cam = 0x28;
+u16 mbi_life_table_no = 0xffff;
+u16 mbi_life_mp = 0x28;
+u16 *gMultibootGameNameCursor = gMultibootGameName;
+u32 mbi_power_save_mode = 1;
+u16 gMultibootGameName[10] = {0x6d, 0x75, 0x6c, 0x74, 0x69, 0x62, 0x6f, 0x6f, 0x74, 0};
+
 #pragma thumb on
 
 // Stores one block (offset, size, buffer, state) in the first free entry.
@@ -156,7 +164,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
-            MBi_CheckWmErrcode(8, WMi_StartParentEx(MBi_ParentCallback, data_usa_021617a4));
+            MBi_CheckWmErrcode(8, WMi_StartParentEx(MBi_ParentCallback, mbi_power_save_mode));
             return;
         case 8:
             if (result->mResultCode != 0) {
@@ -576,10 +584,10 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     }
     cursor = wirelessWork->mUnk_538;
     for (index = 0; index < 16; index++) {
-        if (*data_usa_021617a0 == 0) {
+        if (*gMultibootGameNameCursor == 0) {
             break;
         }
-        *cursor = *data_usa_021617a0++;
+        *cursor = *gMultibootGameNameCursor++;
         cursor++;
     }
     MI_CpuCopy8(user, &parentWork->mUser, 0x16);

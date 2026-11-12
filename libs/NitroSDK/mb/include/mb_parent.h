@@ -76,7 +76,6 @@ typedef struct DataRangeLoadJob {
     /* 14 */ MBiCacheList *mDataRangeTable;
 } DataRangeLoadJob;
 
-extern u8 data_usa_02161784;
 
 void MBi_ReloadCache(DataRangeLoadJob *job);
 u32 MBi_CommParentSendDLFileInfo(void);
@@ -95,3 +94,5 @@ void MBi_CommCallParentError(u32 aid, u16 errcode);
 u32 IsChildAidValid(u32 aid);
 
 void MB_CommSetParentStateCallback(UnkFunc *p0);
+
+extern u8 prev_fid;

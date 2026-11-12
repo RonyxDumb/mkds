@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "mb_data.h"
 
 typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 
@@ -40,3 +41,7 @@ u8 *MBi_MakeParentSendBuffer(u8 *input, u8 *output);
 void MBi_ClearParentPieceBuffer(s32 child);
 void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer);
 void MBi_SetChildMPMaxSize(s32 packetSize);
+
+extern u8 gLastPieceIndex;
+extern struct MbRequestPieceBuf *gPieceBuffer;
+extern PieceSizes gPieceSizes;

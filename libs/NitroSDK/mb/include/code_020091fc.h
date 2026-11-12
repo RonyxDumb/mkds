@@ -87,13 +87,11 @@ typedef struct MBGameRegistry {
     /* 18 */ u8 mMaxPlayerNum;
 } MBGameRegistry;
 
-extern u8 data_0216fc30;
 extern u32 sSendVolatCallbackTimming;
 extern void (*sSendVolatCallback)(u32 a);
 extern GameInfoList mbss;
 extern GameInfoBlock gGameInfoBlock;
-extern WMBssDesc data_0216fce0;
-extern MbBeacon data_0216fd30[1];
+extern WMBssDesc bssDescbuf;
 
 u32 MBi_CheckMBParent(WMBssDesc *scanBlock);
 u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scanBlock);

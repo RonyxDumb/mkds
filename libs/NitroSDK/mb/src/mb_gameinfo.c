@@ -5,6 +5,17 @@
 #include "code_02009908.h"
 #include "code_0214cfe4.h"
 
+GameInfoList mbss;
+MbBeaconRecvStatus mbrs;
+MbBeaconRecvStatus *mbrsp = NULL;
+void (*gSetBssidCallback)(const u8 *) = NULL;
+void (*gClearBssidCallback)(void) = NULL;
+GameInfoBlock gGameInfoBlock __attribute__((aligned(32)));
+MbBeacon *gReceivedGameInfo;
+WMBssDesc bssDescbuf __attribute__((aligned(32)));
+void (*sSendVolatCallback)(u32 a) = NULL;
+u32 sSendVolatCallbackTimming;
+
 #pragma thumb on
 
 void MBi_SetBeaconRecvStatusBuffer(void *entryTable) {
@@ -310,9 +321,9 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scan
     if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
     }
-    MIi_CpuCopy16(scanBlock, &data_0216fce0, 0xc0);
-    scanBlock = &data_0216fce0;
-    gReceivedGameInfo = data_0216fd30;
+    MIi_CpuCopy16(scanBlock, &bssDescbuf, 0xc0);
+    scanBlock = &bssDescbuf;
+    gReceivedGameInfo = (MbBeacon *) &bssDescbuf.mGameInfo.mUserGameInfo;
     if (MBi_calc_cksum(OFFSET_PTR(u16, gReceivedGameInfo, 8), 0x68) != 0) {
         return 0;
     }

@@ -22,8 +22,4 @@ extern struct MBiParam *gWirelessWork;
 struct MB_CommPWork;
 extern struct MB_CommPWork *mbc;
 struct WorkerQueue;
-extern struct WorkerQueue *gWorkerQueue;
-extern struct MbRequestPieceBuf *gPieceBuffer;
-extern u8 gLastPieceIndex;
-extern PieceSizes gPieceSizes;
 extern ScanParam gScanParams;

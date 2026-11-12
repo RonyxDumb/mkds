@@ -334,3 +334,5 @@ u16 WM_GetDispersionBeaconPeriod(void);
 u16 WM_GetDispersionScanPeriod(void);
 WMOtherElements WM_GetOtherElements(const u16 *bssDesc);
 u16 WM_GetNextTgid(void);
+
+extern u32 tgid_bak;

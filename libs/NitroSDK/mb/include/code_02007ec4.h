@@ -7,7 +7,6 @@
 #include "code_0200fc8c.h"
 #include "code_02142eac.h"
 
-extern u32 MBi_defaultLoadSegList[];
 
 // Filled by MBi_get_blockinfo.
 typedef struct MB_BlockInfo {
@@ -62,6 +61,9 @@ u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size);
 u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size);
 BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *chunkTableData, u16 chunk, void *recordData);
 u32 MBi_MakeBlockInfoTable(MB_BlockInfoTable *chunkTable, MBDownloadFileInfo *record);
-void MBi_SetSegmentInfo(SegmentBuffer *source, u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress);
+void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress);
 void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source);
 u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source);
+
+extern const u32 MBi_defaultLoadSegList[3];
+extern u8 gNextSeqNoFixed;

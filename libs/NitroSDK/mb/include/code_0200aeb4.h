@@ -36,3 +36,5 @@ void MBi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize);
 void MBi_TaskThread(void *argument);
 u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,
                              u32 flagTwo);
+
+extern struct WorkerQueue *gWorkerQueue;

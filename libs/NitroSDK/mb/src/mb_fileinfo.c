@@ -9,6 +9,10 @@
 #include "code_0214d018.h"
 #include "code_021458c4.h"
 
+const u32 mbi_seg_header_default[6] = {0x4000, 0x1000, 0x7000, 0x1000, 0, 0};
+u32 *mbi_seg_header = (u32 *) mbi_seg_header_default;
+u8 gSegmentRomArchiveName[4] = {0x72, 0x6f, 0x6d, 0};
+
 #pragma thumb on
 
 static inline u32 GetRomSizeOrDefault(CARDRomHeader *header) {
@@ -56,7 +60,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             seekOffset = GetRomSizeOrDefault(&SYSTEM_WORK->mRomHeader);
             openedHere = TRUE;
             FS_InitFile(&openedFile);
-            FS_OpenFileDirect(&openedFile, FS_FindArchive(data_usa_0216178c, 3), 0, seekOffset + 0x88, -1);
+            FS_OpenFileDirect(&openedFile, FS_FindArchive(gSegmentRomArchiveName, 3), 0, seekOffset + 0x88, -1);
             activeFile = &openedFile;
             basePosition = openedFile.mUnk_2c - openedFile.mProp.w.mUnk_04;
             MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, header, 0x160);

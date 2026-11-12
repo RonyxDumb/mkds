@@ -3,6 +3,10 @@
 #include "mb_data.h"
 #include "code_0214d018.h"
 
+u8 gLastPieceIndex;
+struct MbRequestPieceBuf *gPieceBuffer;
+PieceSizes gPieceSizes;
+
 #pragma thumb on
 
 void MBi_SetChildMPMaxSize(s32 packetSize) {

@@ -7720,7 +7720,7 @@ DWC_Init kind:function(thumb,size=0x54) addr:0x02152b08
 fsi_default_command kind:data(any) addr:0x02152b5c
 fsi_def_digest_key kind:data(any) addr:0x02152b80
 MBi_defaultLoadSegList kind:data(any) addr:0x02152bc0
-data_usa_02152bcc kind:data(any) addr:0x02152bcc
+mbi_seg_header_default kind:data(any) addr:0x02152bcc
 gDefaultScanBssid kind:data(any) addr:0x02152be4
 matColorMask_ kind:data(any) addr:0x02152bec
 pivotUtil_ kind:data(any) addr:0x02152c0c
@@ -7733,7 +7733,7 @@ data_02152c32 kind:data(any) addr:0x02152c32
 data_02152c33 kind:data(any) addr:0x02152c33
 data_02152c54 kind:data(any) addr:0x02152c54
 data_02152ce4 kind:data(any) addr:0x02152ce4
-data_02152de4 kind:data(any) addr:0x02152de4
+VolumeTable kind:data(any) addr:0x02152de4
 data_021530b8 kind:data(any) addr:0x021530b8
 data_021530d0 kind:data(any) addr:0x021530d0
 data_021530e8 kind:data(any) addr:0x021530e8
@@ -8869,16 +8869,16 @@ gLastSentBlockId kind:data(any) addr:0x02161774
 gPrevSentChunkIndex kind:data(any) addr:0x02161778
 gLastReplyIndex kind:data(any) addr:0x0216177c
 gOwnIndex kind:data(any) addr:0x02161780
-data_usa_02161784 kind:data(any) addr:0x02161784
+prev_fid kind:data(any) addr:0x02161784
 mbi_seg_header kind:data(any) addr:0x02161788
-data_usa_0216178c kind:data(any) addr:0x0216178c
+gSegmentRomArchiveName kind:data(any) addr:0x0216178c
 mbi_life_frame kind:data(any) addr:0x02161790
 mbi_life_cam kind:data(any) addr:0x02161794
 mbi_life_mp kind:data(any) addr:0x02161798
 mbi_life_table_no kind:data(any) addr:0x0216179c
-data_usa_021617a0 kind:data(any) addr:0x021617a0
-data_usa_021617a4 kind:data(any) addr:0x021617a4
-data_usa_021617a8 kind:data(any) addr:0x021617a8
+gMultibootGameNameCursor kind:data(any) addr:0x021617a0
+mbi_power_save_mode kind:data(any) addr:0x021617a4
+gMultibootGameName kind:data(any) addr:0x021617a8
 OSi_IrqCallbackInfoIndex kind:data(any) addr:0x021617bc
 gConsoleType kind:data(any) addr:0x021617cc
 data_021617d0 kind:data(any) addr:0x021617d0
@@ -11056,7 +11056,7 @@ data_0216ef70 kind:data(any) addr:0x0216ef50
 @315 kind:data(any) addr:0x0216f040 local
 @316 kind:data(any) addr:0x0216f044 local
 @317 kind:data(any) addr:0x0216f048 local
-data_0216f06c kind:data(any) addr:0x0216f04c
+tgid_bak kind:data(any) addr:0x0216f04c
 gDispOn kind:data(any) addr:0x0216f050
 GXi_DmaId kind:data(any) addr:0x0216f054
 sDayOfYear kind:data(any) addr:0x0216f058
@@ -11084,7 +11084,7 @@ gReceiveChunkSize kind:bss addr:0x0216f3b0
 gSendChunkSize kind:bss addr:0x0216f3b4
 gBlockListHead kind:bss addr:0x0216f3b8
 gBlockTransfer kind:bss addr:0x0216f3bc
-data_0216fc30 kind:bss addr:0x0216fc10
+gNextSeqNoFixed kind:bss addr:0x0216fc10
 gClearBssidCallback kind:bss addr:0x0216fc14
 gSetBssidCallback kind:bss addr:0x0216fc18
 gReceivedGameInfo kind:bss addr:0x0216fc1c
@@ -11093,11 +11093,7 @@ sSendVolatCallbackTimming kind:bss addr:0x0216fc24
 sSendVolatCallback kind:bss addr:0x0216fc28
 mbss kind:bss addr:0x0216fc2c
 gGameInfoBlock kind:bss addr:0x0216fc40
-data_usa_0216fc48 kind:bss addr:0x0216fc48
-data_usa_0216fc4e kind:bss addr:0x0216fc4e
-data_usa_0216fc50 kind:bss addr:0x0216fc50
-data_0216fce0 kind:bss addr:0x0216fcc0
-data_0216fd30 kind:bss addr:0x0216fd10
+bssDescbuf kind:bss addr:0x0216fcc0
 gWirelessDmaNo kind:bss addr:0x0216fd80
 gWMSysBuf kind:bss addr:0x0216fd84
 gWirelessWork kind:bss addr:0x0216fd88
@@ -12135,7 +12131,6 @@ gClockInitialized kind:bss addr:0x0218038c
 gClockRequest kind:bss addr:0x02180390
 gTouchPanelInitialized kind:bss addr:0x021803b4
 gTouchPanelState kind:bss addr:0x021803b8
-data_usa_021803d0 kind:bss addr:0x021803d0
 gMicrophoneInitialized kind:bss addr:0x021803f0
 gMicrophoneCommand kind:bss addr:0x021803f4
 gPowerInitialized kind:bss addr:0x02180410

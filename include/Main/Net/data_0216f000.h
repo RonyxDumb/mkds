@@ -5,7 +5,6 @@
 #include "Main/Net/wbt_block_transfer.h"
 
 // Objects whose layout isn't known yet.
-extern u32 data_0216f06c;
 
 extern char data_0216f2a0[];
 

@@ -8,6 +8,8 @@
 #include "Main/Net/data_0216f000.h"
 #include "mb_data.h"
 
+u32 tgid_bak = 0x10000;
+
 // Starts DCF reception into recvBuf (command 17). Needs state 8 and DCF not running; recvBufSize must be at least 0x10.
 s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {
     WMArm9Buf *work;
@@ -843,12 +845,12 @@ WMOtherElements WM_GetOtherElements(const u16 *bssDesc) {
 u16 WM_GetNextTgid(void) {
     RTCTime time;
 
-    if (data_0216f06c == 0x10000) {
+    if (tgid_bak == 0x10000) {
         RTC_Init();
         if (RTC_GetTime(&time) == 0) {
-            data_0216f06c = (u16) (time.mSecond + (time.mMinute << 8));
+            tgid_bak = (u16) (time.mSecond + (time.mMinute << 8));
         }
     }
-    data_0216f06c = (u16) (data_0216f06c + 1);
-    return data_0216f06c;
+    tgid_bak = (u16) (tgid_bak + 1);
+    return tgid_bak;
 }

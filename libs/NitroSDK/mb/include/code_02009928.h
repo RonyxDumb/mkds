@@ -4,14 +4,8 @@
 #include "mb_parent.h"
 #include "code_02142eac.h"
 
-extern u16 mbi_life_frame;
-extern u16 mbi_life_cam;
-extern u16 mbi_life_mp;
-extern u16 mbi_life_table_no;
 extern u16 gWirelessDmaNo;
 extern void *gWMSysBuf;
-extern u16 *data_usa_021617a0;
-extern u32 data_usa_021617a4;
 
 s32 MB_StartParentFromIdle(u16 channel);
 s32 MBi_StartParentCore(u16 channel);
@@ -34,3 +28,11 @@ u32 MBi_IsStarted(void);
 u8 MBi_GetAttribute(void);
 u16 MBi_GetTgid(void);
 unsigned int MBi_GetGgid(void);
+
+extern u16 mbi_life_frame;
+extern u16 mbi_life_cam;
+extern u16 mbi_life_table_no;
+extern u16 mbi_life_mp;
+extern u16 *gMultibootGameNameCursor;
+extern u32 mbi_power_save_mode;
+extern u16 gMultibootGameName[10];

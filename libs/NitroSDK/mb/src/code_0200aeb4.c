@@ -4,6 +4,8 @@
 #include "code_02007ec4.h"
 #include "code_0200b1b0.h"
 
+struct WorkerQueue *gWorkerQueue;
+
 #pragma thumb on
 
 u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag,

@@ -5,6 +5,7 @@
 #include "code_0214d5b8.h"
 
 u16 gTouchPanelInitialized;
+TouchPanelState gTouchPanelState;
 
 // Handles a word from the other processor: stores automatic samples, finishes requests and reports errors.
 void TPi_TpCallback(u32 tag, u32 data, BOOL err) {

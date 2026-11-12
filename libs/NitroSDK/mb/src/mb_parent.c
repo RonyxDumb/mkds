@@ -8,6 +8,8 @@
 #include "code_02007ec4.h"
 #include "code_0214cfe4.h"
 
+u8 prev_fid = 0xff;
+
 #pragma thumb on
 
 void MB_CommSetParentStateCallback(UnkFunc *p0) {
@@ -390,7 +392,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
             requestCounts[work->mChildEntryIndex[child - 1]]++;
         }
     }
-    fid = data_usa_02161784;
+    fid = prev_fid;
     v8 = 0;
     do {
         fid = (fid + 1) % 16;
@@ -403,7 +405,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     if (candidateFile == -1) {
         return 21;
     }
-    data_usa_02161784 = candidateFile;
+    prev_fid = candidateFile;
     for (child = 1; child <= 15; child++) {
         if (work->mPCommState[child - 1] == 5 && candidateFile == work->mChildEntryIndex[child - 1]) {
             childMask |= 1 << child;

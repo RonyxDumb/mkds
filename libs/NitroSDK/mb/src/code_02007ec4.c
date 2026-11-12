@@ -5,6 +5,9 @@
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 
+const u32 MBi_defaultLoadSegList[3] = {2, 0, 1};
+u8 gNextSeqNoFixed;
+
 #pragma thumb on
 
 u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
@@ -51,7 +54,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     MBi_MakeGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset), rangeTable, (const u8 *) &mbc->mUser);
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mUnk_1d21 = entryIndex;
     MB_AddGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset));
-    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mUnk_1d1f = data_0216fc30++;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mUnk_1d1f = gNextSeqNoFixed++;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mGameinfoChildBmp = 1;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mSrcAdr = source;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList = &source->mUnk_1e8;
@@ -71,7 +74,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
 void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source) {
     u32 nextAddress;
     u8 *headerTail;
-    u32 *kinds;
+    const u32 *kinds;
     MbSegmentInfo *range;
     s32 rangeIndex;
     nextAddress = 0x022c0000;
@@ -88,7 +91,7 @@ void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source)
     MI_CpuCopy8(headerTail, record->mAuthCode, 0x88);
 }
 
-void MBi_SetSegmentInfo(SegmentBuffer *source, u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress) {
+void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress) {
     u32 outOfBounds;
     u32 useNextAddress;
     u32 *pair;

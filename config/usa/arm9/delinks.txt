@@ -134,16 +134,21 @@ src/Main/Net/request_id.c:
 libs/NitroSDK/mb/src/mb_parent.c:
     complete
     .text       start:0x02007148 end:0x02007ec4
+    .data       start:0x02161784 end:0x02161788
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_02007ec4.c:
     complete
     .text       start:0x02007ec4 end:0x0200850c
+    .rodata     start:0x02152bc0 end:0x02152bcc
+    .bss        start:0x0216fc10 end:0x0216fc14
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/mb_fileinfo.c:
     complete
     .text       start:0x0200850c end:0x02008880
+    .rodata     start:0x02152bcc end:0x02152be4
+    .data       start:0x02161788 end:0x02161790
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_02008880.c:
@@ -159,11 +164,13 @@ libs/NitroSDK/mb/src/code_02008908.c:
 libs/NitroSDK/mb/src/mb_gameinfo.c:
     complete
     .text       start:0x02008934 end:0x02009928
+    .bss        start:0x0216fc14 end:0x0216fd80
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_02009928.c:
     complete
     .text       start:0x02009928 end:0x0200aea8
+    .data       start:0x02161790 end:0x021617bc
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_0200aea8.c:
@@ -174,6 +181,7 @@ libs/NitroSDK/mb/src/code_0200aea8.c:
 libs/NitroSDK/mb/src/code_0200aeb4.c:
     complete
     .text       start:0x0200aeb4 end:0x0200b1b0
+    .bss        start:0x0216fdc0 end:0x0216fdc4
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_0200b1b0.c:
@@ -196,6 +204,7 @@ src/Main/Net/mp_link.c:
 libs/NitroSDK/mb/src/code_0200c0d8.c:
     complete
     .text       start:0x0200c0d8 end:0x0200c46c
+    .bss        start:0x0216fdd0 end:0x0216fde4
 
 // provisional: file name and boundaries
 libs/NitroSDK/ctrdg/src/ctrdg.c:
@@ -482,6 +491,7 @@ libs/NitroSDK/snd/src/snd_work.c:
 libs/NitroSDK/snd/src/code_020218f4.c:
     complete
     .text       start:0x020218f4 end:0x020219b0
+    .rodata     start:0x02152de4 end:0x021530b8
 
 // provisional: file name and boundaries
 libs/NitroSDK/snd/src/snd_bank.c:
@@ -4077,6 +4087,7 @@ libs/NitroSDK/wm/src/wm_system.c:
 libs/NitroSDK/wm/src/code_02142eac.c:
     complete
     .text       start:0x02142eac end:0x021445e0
+    .data       start:0x0216f04c end:0x0216f050
 
 // provisional: file name and boundaries
 libs/NitroSDK/wm/src/code_021445e0.c:
@@ -4247,7 +4258,7 @@ libs/NitroSDK/pxi/src/code_0214d5b8.c:
 libs/NitroSDK/rtc/src/code_0214d93c.c:
     complete
     .text       start:0x0214d93c end:0x0214e1e0
-    .bss        start:0x0218038c end:0x02180390
+    .bss        start:0x0218038c end:0x021803b4
 
 // provisional: file name and boundaries
 libs/NitroSDK/rtc/src/convert.c:
@@ -4258,13 +4269,13 @@ libs/NitroSDK/rtc/src/convert.c:
 libs/NitroSDK/spi/src/tp.c:
     complete
     .text       start:0x0214e308 end:0x0214eed8
-    .bss        start:0x021803b4 end:0x021803b8
+    .bss        start:0x021803b4 end:0x021803f0
 
 // provisional: file name and boundaries
 libs/NitroSDK/spi/src/mic.c:
     complete
     .text       start:0x0214eed8 end:0x0214f4a4
-    .bss        start:0x021803f0 end:0x021803f4
+    .bss        start:0x021803f0 end:0x02180410
 
 // provisional: file name and boundaries
 libs/NitroSDK/spi/src/pm.c:
