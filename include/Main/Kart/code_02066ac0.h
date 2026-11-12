@@ -16,22 +16,9 @@ typedef struct KartSurfaceSoundIds {
     /* 00 */ u32 mSoundIds[3];
 } KartSurfaceSoundIds;
 
-extern const u32 gKartSurfaceKind6Effects[];
-extern const u32 gKartSurfaceStopEffects[];
-extern const u32 gKartSurfaceKind17Effects[];
-extern const u32 gKartSurfaceKind20Effects[];
-extern const u32 gKartSurfaceKind1Effects[];
-extern const u32 gKartSurfaceKind10Effects[];
-extern const u32 gKartSurfaceKind2Effects[];
-extern const u32 gKartSurfaceKind3Effects[];
-extern const u32 gKartSurfaceKind5Effects[];
-extern const u16 gKartWobbleAnglePerCall;
-extern const s32 gKartWobbleAngleFactor;
-extern const s32 gKartWobbleEaseFactor;
-extern const s32 gKartWobbleAmplitudeDecay;
-extern const KartSurfaceSoundIds gKartSurfaceSoundIds;
-extern const s32 data_0216559c[];
-extern const s32 gKartSurfaceKind12VerticalSpeeds[];
+extern KartSurfaceSoundIds gKartSurfaceSoundIds;
+extern s32 gKartSurfaceKind12SpeedLimitGoals[5];
+extern s32 gKartSurfaceKind12VerticalSpeeds[5];
 
 void AdvanceParticipantKartRecords(Kart *kart);
 void AdvanceKartWobble(Kart *kart);
@@ -61,7 +48,7 @@ s32 ApplyKartSurfaceKind15(Kart *kart);
 // KART_DRIVE_BOOST_SPEED_FLOOR in mDriveFlags; returns surface group 8.
 s32 ApplyKartSurfaceKind18(Kart *kart);
 // Surface kind 12 (entry 12 of gKartSurfaceFunctions): sets KART_DRIVE_JUMP_PAD in mDriveFlags, sets mVerticalSpeed
-// from gKartSurfaceKind12VerticalSpeeds and mUnk_4c4 from data_0216559c by mSurfaceVariant, runs StopKartCurrentEffects
+// from gKartSurfaceKind12VerticalSpeeds and mUnk_4c4 from gKartSurfaceKind12SpeedLimitGoals by mSurfaceVariant, runs StopKartCurrentEffects
 // and returns surface group 8; on course 0xc or 0x28, when mSurfaceGroup was not already 8 or KART_MOTION_STATE_RESET
 // is set in mMotionFlags, it first calls StartSound with 0x15e.
 s32 ApplyKartSurfaceKind12(Kart *kart);

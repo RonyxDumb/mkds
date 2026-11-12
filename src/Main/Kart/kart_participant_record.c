@@ -107,6 +107,28 @@
 #include "ITCM/sphere_collision.h"
 #include "Main/MapObjects/data_0206b000.h"
 
+const u32 gKartSurfaceKind1Effects[8] = {0, 0, 0, 4, 0, 0, 0, 0};
+const s32 gKartOffsetCycleY[8] = {0x1000, 0x100e, 0x102d, 0x104c, 0x105b, 0x104c, 0x102d, 0x100e};
+const Vec3 gKartStartPlacementHeadingAxis = {0, 0x1000, 0};
+const s32 gKartModelScaleYKind1Table[15] = {0xccd, 0xe9f, 0x1072, 0x119a, 0x120c, 0x1239, 0x122d, 0x11f4, 0x119a, 0x10a7, 0xf42, 0xe66, 0xe94, 0xf4a, 0x1000};
+const s32 gKartModelOffsetYKind1Table[15] = {-77, -94, -117, -137, -144, -128, -59, 0x34, 0x9c, 0xcd, 0x3f, -102, -102, -51, 0};
+const s32 gKartModelScaleXKind2Table[15] = {0x1400, 0x12a9, 0x112d, 0xfc3, 0xea5, 0xe0b, 0xe67, 0xf91, 0x10da, 0x1193, 0x119a, 0x1154, 0x10e3, 0x1066, 0x1000};
+const s16 gThunderShrinkTimerByRank[8] = {0x1fe, 0x1c2, 0x186, 0x14a, 0x10e, 0xd2, 0x96, 0x5a};
+const s16 gKartRaceStartBoostFrameCounts[6] = {8, 0xf, 0x1e, 0x32, 0x64, 0};
+const s32 gKartModelScaleYKind0Table[15] = {0xd9a, 0xed1, 0x1008, 0x10cd, 0x1117, 0x112f, 0x1123, 0x10fe, 0x10cd, 0x1053, 0xfa1, 0xf33, 0xf4a, 0xfa5, 0x1000};
+const u32 gKartSurfaceKind3Effects[8] = {1, 5, 3, 2, 6, 7, 0, 0};
+const u32 gKartSurfaceKind2Effects[8] = {2, 4, 7, 1, 0, 0, 0, 0};
+const s32 gKartModelOffsetYKind0And2Table[15] = {-77, -80, -86, -91, -90, -77, -38, 0x15, 0x4c, 0x66, 0x20, -51, -51, -25, 0};
+const s32 gKartOffsetCycleZ[8] = {0x26, 0x20, 0x13, 6, 0, 6, 0x13, 0x20};
+const u32 gKartSurfaceKind5Effects[8] = {1, 5, 3, 2, 8, 0, 0, 0};
+const u32 gKartSurfaceKind17Effects[8] = {4, 4, 4, 0, 0, 0, 0, 0};
+const s32 gKartOffsetCycleX[8] = {0x1052, 0x103d, 0x1015, 0x1000, 0x1009, 0x101d, 0x1035, 0x1049};
+const u32 gKartSurfaceKind20Effects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+const u32 gKartSurfaceKind6Effects[8] = {0, 5, 0, 0, 0, 0, 0, 0};
+const u32 gKartSurfaceStopEffects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+const u32 gKartSurfaceKind10Effects[8] = {1, 2, 0, 7, 0, 0, 0, 0};
+const s32 gKartModelScaleZKind2Table[15] = {0xccd, 0xdfa, 0xf4a, 0x1088, 0x1182, 0x1205, 0x11a9, 0x1093, 0xf61, 0xeb2, 0xea5, 0xede, 0xf3f, 0xfa9, 0x1000};
+
 void StartKartState2(Kart *kart, int spinCount, int skipSound) {
     int direction = 1;
 
@@ -257,7 +279,7 @@ void AdvanceKartState6(Kart *kart) {
     } else {
         Vec4 targetQuaternion;
 
-        targetQuaternion = data_usa_0216556c;
+        targetQuaternion = gKartState6TargetQuaternion;
         QuaternionBlend(&kart->mRotationQuaternion, &targetQuaternion, &kart->mRotationQuaternion, 0x266);
     }
     QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
@@ -374,14 +396,14 @@ void AdvanceKartState3(Kart *kart) {
     s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
-        kart->mVerticalSpeed = data_usa_021654e8;
+        kart->mVerticalSpeed = gKartState3StartVerticalSpeed;
     } else if (kart->mMotionFlags & KART_MOTION_LANDED) {
         switch (kart->mVerticalSpeedStepCount) {
             case 0:
-                kart->mVerticalSpeed = data_usa_021654f0;
+                kart->mVerticalSpeed = gKartState3FirstLandVerticalSpeed;
                 break;
             case 1:
-                kart->mVerticalSpeed = data_usa_02165508;
+                kart->mVerticalSpeed = gKartState3SecondLandVerticalSpeed;
                 break;
         }
         kart->mVerticalSpeedStepCount++;
@@ -405,7 +427,7 @@ void AdvanceKartState3(Kart *kart) {
         kart->mEffectFlags &= ~KART_EFFECT_TUMBLING;
     }
     kart->mRotationEndFrames++;
-    if (kart->mRotationEndFrames < data_usa_021654c4) {
+    if (kart->mRotationEndFrames < gKartState3EndFrameCount) {
         return;
     }
     kart->mState = KART_STATE_NORMAL;
@@ -478,7 +500,7 @@ void StartKartState4(Kart *kart, const Vec3 *pushDirection, s32 record) {
     kart->mEffectFlags |= KART_EFFECT_TUMBLING;
     kart->mRotationAngle = 0;
     kart->mRotationAngleSum = 0;
-    kart->mRotationAnglePerFrame = data_usa_021654d4;
+    kart->mRotationAnglePerFrame = gKartState4StartAnglePerFrame;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
     unitY = gKartVec3UnitY;
@@ -527,7 +549,7 @@ void AdvanceKartState4(Kart *kart) {
     s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
-        kart->mVerticalSpeed = data_usa_0216550c;
+        kart->mVerticalSpeed = gKartPushFlipStartVerticalSpeed;
     }
     if ((kart->mRotationAngleSum > 0 ? kart->mRotationAngleSum : -kart->mRotationAngleSum) <= 0xffff) {
         kart->mRotationAngleSum = kart->mRotationAngleSum + kart->mRotationAnglePerFrame;
@@ -538,7 +560,7 @@ void AdvanceKartState4(Kart *kart) {
             kart->mRotationAngle = kart->mRotationAngle + kart->mRotationAnglePerFrame;
         }
         kart->mRotationAnglePerFrame =
-            kart->mRotationAnglePerFrame - (kart->mRotationAnglePerFrame > 0 ? data_usa_021654d0 : -data_usa_021654d0);
+            kart->mRotationAnglePerFrame - (kart->mRotationAnglePerFrame > 0 ? gKartPushFlipAngleDecay : -gKartPushFlipAngleDecay);
         QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
         QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
         return;
@@ -589,7 +611,7 @@ s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record) {
     kart->mEffectFlags |= KART_EFFECT_TUMBLING;
     kart->mRotationAngle = 0;
     kart->mRotationAngleSum = 0;
-    kart->mRotationAnglePerFrame = data_usa_021654e0;
+    kart->mRotationAnglePerFrame = gKartState5StartAnglePerFrame;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
     unitY = gKartVec3UnitY;
@@ -638,10 +660,10 @@ void AdvanceKartState5(Kart *kart) {
     s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
-        kart->mVerticalSpeed = data_usa_0216550c;
+        kart->mVerticalSpeed = gKartPushFlipStartVerticalSpeed;
     } else if (kart->mMotionFlags & KART_MOTION_LANDED) {
         if (kart->mVerticalSpeedStepCount == 0) {
-            kart->mVerticalSpeed = data_usa_021654e4;
+            kart->mVerticalSpeed = gKartState5LandVerticalSpeed;
         }
         kart->mVerticalSpeedStepCount++;
     }
@@ -654,7 +676,7 @@ void AdvanceKartState5(Kart *kart) {
             kart->mRotationAngle = kart->mRotationAngle + kart->mRotationAnglePerFrame;
         }
         kart->mRotationAnglePerFrame =
-            kart->mRotationAnglePerFrame - (kart->mRotationAnglePerFrame > 0 ? data_usa_021654d0 : -data_usa_021654d0);
+            kart->mRotationAnglePerFrame - (kart->mRotationAnglePerFrame > 0 ? gKartPushFlipAngleDecay : -gKartPushFlipAngleDecay);
         QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
         QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
         return;
@@ -695,7 +717,7 @@ void StartKartThunderShrink(Kart *kart) {
     if (kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_KEYED_PLACEMENT)) {
         return;
     }
-    itemEffect->mThunderShrinkTimer = data_usa_02154a54[GetKartRank(kart->mIndex) - 1];
+    itemEffect->mThunderShrinkTimer = gThunderShrinkTimerByRank[GetKartRank(kart->mIndex) - 1];
     itemEffect->mThunderShrinkFrameIndex = 0;
     kart->mShrinkFactor = 0xb33;
     kart->mEffectFlags |= KART_EFFECT_THUNDER_SHRINK;
@@ -1106,7 +1128,7 @@ void StartKartKiller(Kart *kart) {
     s32 effectIndex;
     u8 kartCount;
 
-    rankOffsets = data_usa_0216557c;
+    rankOffsets = gKartKillerEndRankOffsets;
     effectState = &kart->mItemEffectData;
     effectState->mKillerFrames = 0;
     effectState->mUnk_20 = 0;
@@ -1326,7 +1348,7 @@ void StartKartAheadBoost(Kart *kart) {
     effectState = &kart->mItemEffectData;
     effectState->mAheadBoostFrames = 0;
     effectState->mAheadCount = 0;
-    kart->mAheadSpeedLimitFactor = data_usa_021654dc;
+    kart->mAheadSpeedLimitFactor = gKartAheadSpeedLimitStartFactor;
     kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BUILD_UP;
     if (!(kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
         kart->mEffectFlags |= KART_EFFECT_AHEAD_BOOST;
@@ -2176,7 +2198,7 @@ s32 ApplyKartSurfaceKind12(Kart *kart) {
     }
     kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_JUMP_PAD;
     kart->mVerticalSpeed = gKartSurfaceKind12VerticalSpeeds[kart->mSurfaceVariant];
-    kart->mSurfaceSpeedLimitGoal = data_0216559c[kart->mSurfaceVariant];
+    kart->mSurfaceSpeedLimitGoal = gKartSurfaceKind12SpeedLimitGoals[kart->mSurfaceVariant];
     StopKartCurrentEffects(kart);
     return 8;
 }
@@ -2646,7 +2668,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         value = kart->mHeadingAngle;
         ResetKartAndSetPos(kart, &newPos, 0, 0);
         kart->mHeadingAngle = value;
-        headingAxis = data_02165530;
+        headingAxis = gParticipantRecordHeadingAxis;
         QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         kart->mUnk_110_q = kart->mUnk_e0_m;
         if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {

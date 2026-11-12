@@ -17,6 +17,8 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_in_use.h"
 #include "code_02147cd8.h"
+#include "Main/Kart/course_models.h"
+#include "Main/Kart/kart_participant_record.h"
 
 void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
     MtxFx43 *rotationMatrix;
@@ -35,7 +37,7 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
     if (useCourseMapRecord == 0) {
         GetCourseMapKartStartPlacement(&kart->mPos, &startRotation, kart->mIndex);
         if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-            kart->mPos = data_0216549c[kart->mIndex];
+            kart->mPos = gKartAwardStartPositions[kart->mIndex];
         }
     } else {
         courseMap = gCourseMap;
@@ -68,7 +70,7 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
     }
     kart->mPos.y = kart->mPos.y - 0x1000;
     kart->mHeadingAngle = (u32) (startRotation.y * 0xb6) >> 12;
-    QuaternionFromAxisAngle(&data_02154a3c, kart->mHeadingAngle, &kart->mUnk_e0_m);
+    QuaternionFromAxisAngle(&gKartStartPlacementHeadingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     kart->mUnk_110_q = kart->mUnk_e0_m;
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
     kart->mUnk_150_m = kart->mUnk_120_m;

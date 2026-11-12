@@ -59,6 +59,7 @@
 #include "code_0201c528.h"
 #include "Main/Kart/kart_ai_staff_roll_advance.h"
 #include "Main/Kart/kart_level.h"
+#include "Main/Kart/kart_resources.h"
 
 static inline s32 KartMapObjectNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalized) {
     if (LENGTH_SQUARED(*vector) < 0x10) {
@@ -248,7 +249,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                         value = 0x1000;
                     } else {
                         value = MUL_FIXED12_NO_ROUND(0x1000 - factor,
-                                                     MUL_FIXED12_NO_ROUND(kart->mVelocityLength, data_usa_021654ec));
+                                                     MUL_FIXED12_NO_ROUND(kart->mVelocityLength, gFirstBaseSpeedLimitReciprocal));
                     }
                     if (kart->mVelocityLength > 0x2000 || flagBits != 0) {
                         if (touchedCount < 2) {
@@ -499,7 +500,7 @@ void CollideKartWithKarts(Kart *kart) {
                     }
                 }
             }
-            if (overlapLength > data_021654f4) {
+            if (overlapLength > gKartOverlapLengthLimit) {
                 kart->mEffectFlags |= KART_EFFECT_KART_OVERLAP;
                 otherKart->mEffectFlags |= KART_EFFECT_KART_OVERLAP;
             }
@@ -1383,7 +1384,7 @@ BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int 
         int fourEffectIds[4] = {0x77, 0x76, 0x78, 0x79};
         u16 effectIndex = 0;
         u32 effectCount = 1;
-        int *effectIds = data_02154f10;
+        const int *effectIds = gKartCollisionSingleEffectIds;
         Vec3 contactPoint;
 
         if (flag) {

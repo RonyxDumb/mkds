@@ -35,6 +35,9 @@
 #include "code_0214a748.h"
 #include "fx_mtx43.h"
 #include "registers.h"
+#include "Main/Kart/camera.h"
+
+const s32 gCameraDefaultRows[2][3] = {{0x3a000, 0x22000, 0x14000}, {0x62000, 0x37000, 0x22000}};
 
 #pragma thumb on
 
@@ -120,9 +123,9 @@ void InitCameraGlobals(void) {
         tableIndex = (u16) tableIndex;
         tableIndex = (u16) tableIndex;
     }
-    gDefaultFollowDistance = data_usa_02154fa0[tableIndex][0];
-    gFollowHeight = data_usa_02154fa4[tableIndex][0];
-    gDefaultLookAtHeight = data_usa_02154fa8[tableIndex][0];
+    gDefaultFollowDistance = gCameraDefaultRows[tableIndex][0];
+    gFollowHeight = gCameraDefaultRows[tableIndex][1];
+    gDefaultLookAtHeight = gCameraDefaultRows[tableIndex][2];
     if (gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
         gCourseWobbleAmplitude = 0xa000;
     } else {
@@ -364,14 +367,14 @@ void RefreshCameraProjection(Camera *camera) {
         case 1:
             top <<= 1;
             bottom = -top;
-            camera->mFrustumTop = MUL_FIXED12_NO_ROUND(top, data_usa_021656b8 + 0x1000);
-            camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(top, data_usa_021656b8);
+            camera->mFrustumTop = MUL_FIXED12_NO_ROUND(top, gCameraFrustumShiftScale + 0x1000);
+            camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(top, gCameraFrustumShiftScale);
             break;
         case 2:
             bottom <<= 1;
             top = -bottom;
-            camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(bottom, data_usa_021656b8 + 0x1000);
-            camera->mFrustumTop = MUL_FIXED12_NO_ROUND(bottom, data_usa_021656b8);
+            camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(bottom, gCameraFrustumShiftScale + 0x1000);
+            camera->mFrustumTop = MUL_FIXED12_NO_ROUND(bottom, gCameraFrustumShiftScale);
             break;
     }
     if (gRaceSetup->mMirrorMode != 0) {

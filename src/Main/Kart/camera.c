@@ -38,6 +38,19 @@
 #include "data_02170000.h"
 #include "code_02010c84.h"
 #include "Main/Race/kart.h"
+#include "Main/Kart/camera_shake.h"
+
+Camera *gEntryCamera;
+struct Camera *gChaseCamera;
+s32 gDefaultLookAtHeight;
+s32 gFollowHeight;
+s32 data_usa_0217ac80;
+Camera *gSecondChainCamera;
+s32 gCameraEntryChanged;
+s32 gEntryCameraUpdateRan;
+s32 gDefaultFollowDistance;
+Camera *gCurrentChainCamera;
+Camera *gFirstChainCamera;
 
 MtxFx44 *GetProjectionMatrix(void) {
     return &data_0217acc0;
@@ -187,7 +200,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     kartMatrixRow = &kart->mUnk_120;
     value = 0;
     if (kart->mMotionFlags & KART_MOTION_DRIFTING) {
-        value = data_usa_021656c4;
+        value = gChaseCameraDriftOffsetScale;
         if (kart->mTurnDirection > 0) {
             value *= -1;
         }
@@ -238,7 +251,7 @@ void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
 
     data_usa_0217ac80 = 0;
     camera->mCollisionActive = FALSE;
-    if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, data_usa_021656c0, 2, -2, &pushOut, &firstNormal,
+    if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius, 2, -2, &pushOut, &firstNormal,
                                 &secondNormal, &flags, NULL, NULL, NULL, NULL) != 0 &&
         (flags & 0xc00) == 0) {
         if (flags & 0x214300) {
@@ -740,7 +753,7 @@ void UpdateCameraAngleEntry(Camera *camera) {
     camera->mLookAt.y = camera->mLookAt.y - kart->mHopHeight;
     camera->mPos.y = camera->mPos.y - kart->mHopHeight;
     if (gRaceSetup->mMode != MODE_MISSION_RUN && gRaceSetup->mMode != MODE_BATTLE) {
-        if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, data_usa_021656c0 >> 1, 2, -2, &pushOut, NULL,
+        if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius >> 1, 2, -2, &pushOut, NULL,
                                     NULL, NULL, NULL, NULL, NULL, NULL) != 0) {
             kart = GetKart(camera->mFollowedKartIndex);
             axis = &kart->mUnk_120;
@@ -795,7 +808,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }
-    MTX_RotAxis33(&rotation, &gCameraVec3UnitY, FX_SinIdx(data_usa_021656a0), FX_CosIdx(data_usa_021656a0));
+    MTX_RotAxis33(&rotation, &gCameraVec3UnitY, FX_SinIdx(gStaffRollLightRotationAngle), FX_CosIdx(gStaffRollLightRotationAngle));
     MTX_MultVec33(&lightDirection, &rotation, &lightDirection);
     lightDirection.x = MUL_FIXED12_NO_ROUND(lightDirection.x, 0xfae);
     lightDirection.y = MUL_FIXED12_NO_ROUND(lightDirection.y, 0xfae);

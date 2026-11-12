@@ -1268,22 +1268,6 @@ extern u32 gFadeFogTable[8];
 extern u32 gCourseFogTable[8];
 extern u16 gToonTable[32];
 extern MtxFx43 *gCurrentViewMatrix;
-extern u32 data_0217ac10;
-extern void *data_0217ac14;
-extern void *gCollideKartWithMapObjectResponses[15];
-extern void *gKartMapObjectSecondResponses[15];
-extern struct Camera *gChaseCamera;
-// Set to 1 at race set-up and when a camera entry is started or advanced; cleared once per UpdateRace call by
-// ClearCameraEntryFlags. UpdateRace calls RequestViewTestRefresh when it is set.
-extern s32 gCameraEntryChanged;
-// The chain camera whose view matrix the last chain step returned; UpdateRace stores it as the camera in use. Not
-// written in races without chain cameras.
-extern Camera *gCurrentChainCamera;
-// The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
-// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstKind7EntryInMode2 is set. The
-// Kart code starts its kind 6 and kind 8 entries (StartEntryCameraKind6Entry, StartEntryCameraKind8Entry). The chain
-// cameras also run entries but never pick by position.
-extern Camera *gEntryCamera;
 extern MtxFx44 data_0217acc0;
 // 0x20-byte entries behind member 0x014 of KartModels.
 typedef struct HeyhoPalette {
@@ -1632,9 +1616,6 @@ typedef struct ShapeMapObjectCountList {
 
 extern ShapeMapObjectCountList *gShapeMapObjectCountList;
 extern u16 gFadeFogHoldFrames;
-// Set to 1 when TryUpdateEntryCamera is entered; cleared once per UpdateRace call by ClearCameraEntryFlags.
-// RefreshCameraProjection does not skip the chase camera's projection while it is 1.
-extern s32 gEntryCameraUpdateRan;
 
 // Ten bytes: bytes 6 to 9 are signed values read in rows of four.
 typedef struct ParticipantKartMap {
@@ -1709,16 +1690,5 @@ extern NNSFndList gResFileEntries;
 struct EntryKartCounters;
 extern struct EntryKartCounters *gEntryKartCounters;
 
-// The Camera (mKind 2) that starts at CourseMap.mSecondChainStartEntry; NULL when only the first chain camera exists.
-// While its entry is of kind 4 it is not stepped itself: it copies the field of view, mPos and mLookAt of
-// gFirstChainCamera, and its entry advances together with the first one's. Its view is the one used on odd frames.
-extern Camera *gSecondChainCamera;
-// The Camera (mKind 2) that starts at CourseMap.mFirstChainStartEntry and follows mNextIndex through its entries; the
-// only chain camera when gRaceSetup.mUnk_00c is 4. Created by CreateFirstChainCamera or CreateChainCameraPair. With
-// two chain cameras its view is the one used on even frames of gRace.mUpdateFrames.
-extern Camera *gFirstChainCamera;
 extern void *data_usa_0217aa68;
-extern s32 gFollowHeight;
-extern s32 gDefaultFollowDistance;
-extern s32 gDefaultLookAtHeight;
 extern u16 gKind7EntryCount;

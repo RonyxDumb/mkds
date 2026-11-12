@@ -44,10 +44,8 @@ typedef struct CourseMapCamera {
 
 #include "code_02012b30.h" // MtxFx43
 
-extern s32 data_usa_021656c4;
 extern MtxFx44 data_usa_02170284;
 extern MtxFx43 data_usa_021702c8;
-extern s32 data_usa_0217ac80;
 
 void UpdateCameraWobble(Camera *camera);
 void StartCameraWobbleByCourse(void);
@@ -147,3 +145,31 @@ void SetupCameraBehindKart(void);
 void ApplyCameraLookAt(Camera *camera);
 void ApplyCameraFrustum(Camera *camera, s32 useSecondFar);
 MtxFx44 *GetProjectionMatrix(void);
+
+// The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
+// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstKind7EntryInMode2 is set. The
+// Kart code starts its kind 6 and kind 8 entries (StartEntryCameraKind6Entry, StartEntryCameraKind8Entry). The chain
+// cameras also run entries but never pick by position.
+extern Camera *gEntryCamera;
+extern struct Camera *gChaseCamera;
+extern s32 gDefaultLookAtHeight;
+extern s32 gFollowHeight;
+extern s32 data_usa_0217ac80;
+// The Camera (mKind 2) that starts at CourseMap.mSecondChainStartEntry; NULL when only the first chain camera exists.
+// While its entry is of kind 4 it is not stepped itself: it copies the field of view, mPos and mLookAt of
+// gFirstChainCamera, and its entry advances together with the first one's. Its view is the one used on odd frames.
+extern Camera *gSecondChainCamera;
+// Set to 1 at race set-up and when a camera entry is started or advanced; cleared once per UpdateRace call by
+// ClearCameraEntryFlags. UpdateRace calls RequestViewTestRefresh when it is set.
+extern s32 gCameraEntryChanged;
+// Set to 1 when TryUpdateEntryCamera is entered; cleared once per UpdateRace call by ClearCameraEntryFlags.
+// RefreshCameraProjection does not skip the chase camera's projection while it is 1.
+extern s32 gEntryCameraUpdateRan;
+extern s32 gDefaultFollowDistance;
+// The chain camera whose view matrix the last chain step returned; UpdateRace stores it as the camera in use. Not
+// written in races without chain cameras.
+extern Camera *gCurrentChainCamera;
+// The Camera (mKind 2) that starts at CourseMap.mFirstChainStartEntry and follows mNextIndex through its entries; the
+// only chain camera when gRaceSetup.mUnk_00c is 4. Created by CreateFirstChainCamera or CreateChainCameraPair. With
+// two chain cameras its view is the one used on even frames of gRace.mUpdateFrames.
+extern Camera *gFirstChainCamera;

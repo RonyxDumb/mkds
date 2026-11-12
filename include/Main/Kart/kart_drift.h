@@ -765,7 +765,6 @@ typedef struct Kart {
 // Jg: the object built from the jg_* files plus lap_count and lap_final; this is the kart it follows.
 extern Kart *gJgKart;
 
-extern int data_02154f10[];
 
 void StartKartState(Kart *kart, KartState mode);
 BOOL IsKartOutOfView(Kart *kart);
@@ -803,6 +802,7 @@ void GetKartUp(const Kart *p, Vec3 *out);
 
 #include "Main/Kart/character_animation.h"
 #include "Main/Kart/code_02079c0c.h"
+#include "Main/MapObjects/data_02165000.h"
 
 typedef struct Kart Kart;
 
@@ -830,3 +830,41 @@ void CollideKartWithKarts(Kart *kart);
 
 void CollideKartWithMapObjects(Kart *kart);
 void ApplyKartLanding(Kart *kart, Vec3 *groundNormal);
+
+extern s32 gKartWobbleAmplitudeDecay;
+extern s32 gKartAheadSpeedLimitStartFactor;
+extern KartKillerEndRankOffsets gKartKillerEndRankOffsets;
+extern s32 gKartRespawnOffsetScale;
+extern KartFollowEffectIds gKartFollowEffectIds;
+extern const Vec4 gKartResetHeadingQuaternion;
+extern const Vec4 data_usa_02154f24;
+extern const int gKartCollisionSingleEffectIds[1];
+extern s16 gKartState3EndFrameCount;
+extern Vec3 gKartPlacementHeadingAxis;
+extern s32 gKartState3StartVerticalSpeed;
+extern Vec3 gParticipantRecordHeadingAxis;
+extern s32 gKartState5LandVerticalSpeed;
+extern const Vec4 gKartResetRotationQuaternion;
+extern s32 gKartPushFlipStartVerticalSpeed;
+extern s32 gKartState5StartAnglePerFrame;
+extern Vec3 gFixedPositionSelectedEffectIds;
+extern s32 gTurnHeadingEaseFactor;
+extern Vec3 gKartPointMotionDecayFactors;
+extern s32 gKartPushFlipAngleDecay;
+extern u16 gKartWobbleAnglePerCall;
+extern void (*gKartStateFunctions[8])(struct Kart *);
+extern KartEffectScales gKartRaceStartEffectOffsets;
+extern s32 gKartState4StartAnglePerFrame;
+extern s32 gKartState3SecondLandVerticalSpeed;
+extern s32 gKartState3FirstLandVerticalSpeed;
+extern s32 gKartWobbleAngleFactor;
+extern Vec4 gKartState6TargetQuaternion;
+extern s16 gTurnHeadingReductionAtSpeedLimit;
+extern s32 gFirstBaseSpeedLimitReciprocal;
+extern s32 gFixedPositionOtherEffectIds[2];
+extern const Vec4 data_usa_02154f34;
+extern s32 gSpeedReductionAtFullTurnRatio;
+extern s32 gKartOverlapLengthLimit;
+extern const Vec4 data_usa_02154f44;
+extern s32 gKartWobbleEaseFactor;
+extern Vec3 gFixedPositionEffectPos;

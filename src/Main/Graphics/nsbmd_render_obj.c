@@ -330,7 +330,7 @@ void SetNsbmdSecondDrawMaterial(Nsbmd *nsbmd, u8 alpha, u8 polygonId) {
 }
 
 // Draws with matrix b; when c is not NULL its three words (a scale, 0x1000 = 1.0) are sent first.
-void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, u32 *scale) {
+void DrawNsbmdWithMatrix(Nsbmd *object, MtxFx43 *matrix, const u32 *scale) {
     s32 commandParam = 30;
     u32 scaleCopy[3];
 

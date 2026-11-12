@@ -3,6 +3,7 @@
 #include "Main/Race/race.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_02147cd8.h"
+#include "Main/Kart/camera.h"
 
 u32 GetCameraEntryChanged(void) {
     return gCameraEntryChanged;

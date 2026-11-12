@@ -26,6 +26,26 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "fx_mtx43.h"
+#include "Main/Kart/kart_call.h"
+
+char gCourseModelNsbtaName[20] = "/course_model.nsbta";
+Vec3s16 gKoopaCourseLight2Vector = {0, -4095, 0};
+const u32 gCourseModelShdwOff3MaterialName[4] = {0x77646853, 0x3366664f, 0, 0};
+const u32 gCourseModelShdwOff1MaterialName[4] = {0x77646853, 0x3166664f, 0, 0};
+char gCourseModelNsbtpName[20] = "/course_model.nsbtp";
+const u32 gCourseModelShdwOff2MaterialName[4] = {0x77646853, 0x3266664f, 0, 0};
+char gCourseModelVNsbmdName[22] = "/course_model_V.nsbmd";
+char gCourseModelVNsbtxName[22] = "/course_model_V.nsbtx";
+const u32 gCourseModelYoganMaterialName[4] = {0x61676f79, 0x6e, 0, 0};
+const u32 gCourseModelShdwOff4MaterialName[4] = {0x77646853, 0x3466664f, 0, 0};
+const u32 gCourseModelShdwOff5MaterialName[4] = {0x77646853, 0x3566664f, 0, 0};
+char gCourseModelNsbmdName[20] = "/course_model.nsbmd";
+Vec3 gKartAwardStartPositions[3] = {{-5795840, 0x305000, 0}, {-6082560, 0x305000, -286720}, {-6082560, 0x305000, 0x46000}};
+const u32 gCourseModelFalls02MaterialName[4] = {0x6c6c6166, 0x32305f73, 0, 0};
+char gCourseModelVNsbtaName[22] = "/course_model_V.nsbta";
+const u32 gCourseModelFalls01MaterialName[4] = {0x6c6c6166, 0x31305f73, 0, 0};
+const u32 gCourseModelShdwOffMaterialName[4] = {0x77646853, 0x66664f, 0, 0};
+char gCourseModelNsbtxName[20] = "/course_model.nsbtx";
 
 static inline void InitModelAnimationFromFile(u32 animationKind, ModelAnimation *animation, Nsbmd *nsbmd, void *heap,
                                               void *modelFile, const char *animationFile, u16 *animationCount) {
@@ -120,18 +140,18 @@ void InitCourseModels(void *heap) {
     NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_OLD_KOOPA_AGB:
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_02154a00);
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelYoganMaterialName);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlAlpha(resMdl, materialIndex, 0x1e);
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
             break;
         case COURSE_ID_BANK:
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_02154990);
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls01MaterialName);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_02154a10);
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls02MaterialName);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
@@ -148,12 +168,12 @@ void InitCourseModels(void *heap) {
         InitModelAnimationFromFile(1, &data_usa_0217ab74, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
                                    &gCourseModels.mVNsbtaAnmObjCount);
     }
-    shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549f0);
-    shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549c0);
-    shdwOffMaterialIndices[2] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549d0);
-    shdwOffMaterialIndices[3] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549e0);
-    shdwOffMaterialIndices[4] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549b0);
-    shdwOffMaterialIndices[5] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_usa_021549a0);
+    shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOffMaterialName);
+    shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff1MaterialName);
+    shdwOffMaterialIndices[2] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff2MaterialName);
+    shdwOffMaterialIndices[3] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff3MaterialName);
+    shdwOffMaterialIndices[4] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff4MaterialName);
+    shdwOffMaterialIndices[5] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff5MaterialName);
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         if (shdwOffMaterialIndices[slotIndex] >= 0) {
             NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[slotIndex], 7);
@@ -176,14 +196,14 @@ void UpdateCourseModels(void) {
 }
 
 void DrawCourseModel(void) {
-    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &data_usa_0217abac, data_usa_02154a20);
+    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &data_usa_0217abac, gCourseModelDrawScale);
 }
 
 void DrawCourseModelV(void) {
     if (gCourseModels.mVNsbmd == NULL) {
         return;
     }
-    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &data_usa_0217abac, data_usa_02154a20);
+    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &data_usa_0217abac, gCourseModelDrawScale);
 }
 
 void SetKoopaCourseLight2(void) {
@@ -192,7 +212,7 @@ void SetKoopaCourseLight2(void) {
     if (gRaceSetup->mCourseId != COURSE_ID_KOOPA) {
         return;
     }
-    lightVector = data_usa_021653fc;
+    lightVector = gKoopaCourseLight2Vector;
     NNS_G3dGlbLightVector(2, lightVector.x, lightVector.y, lightVector.z);
     NNS_G3dGlbLightColor(2, 0x7fff);
 }

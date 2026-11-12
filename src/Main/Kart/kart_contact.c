@@ -69,6 +69,7 @@
 #include "code_02147cd8.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Kart/karts.h"
+#include "Main/Kart/kart_resources.h"
 
 #pragma opt_arithtransformation off
 
@@ -270,7 +271,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     kart->mEffectFlags |= KART_EFFECT_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
                     SetKartCharacterAnimation(kart, 1, 1);
-                    firstOffsets = data_usa_02165608;
+                    firstOffsets = gKartRaceStartEffectOffsets;
                     bits7c = kart->mEntryFlags;
                     if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
                         kart->mKartModelsEntry->mKartModelHidden == 0) {
@@ -289,7 +290,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 }
             } else if (GetKartAiBoostsAtRaceStart(kart->mAi) != 0) {
                 boostIndex = GetKartAiRaceStartBoostChoice(kart->mAi);
-                kart->mRaceStartFrameCount = data_usa_02154a48[boostIndex - 1];
+                kart->mRaceStartFrameCount = gKartRaceStartBoostFrameCounts[boostIndex - 1];
                 kart->mMotionFlags |= KART_MOTION_RACE_START_BOOSTED | KART_MOTION_START_DONE;
                 StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
                 if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
@@ -309,7 +310,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     kart->mEffectFlags |= KART_EFFECT_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
                     SetKartCharacterAnimation(kart, 1, 1);
-                    secondOffsets = data_usa_02165608;
+                    secondOffsets = gKartRaceStartEffectOffsets;
                     bits7c = kart->mEntryFlags;
                     if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
                         kart->mKartModelsEntry->mKartModelHidden == 0) {
@@ -337,7 +338,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 } else if (revLevel < 0xf0a) {
                     boostIndex = 4;
                 }
-                kart->mRaceStartFrameCount = data_usa_02154a48[boostIndex - 1];
+                kart->mRaceStartFrameCount = gKartRaceStartBoostFrameCounts[boostIndex - 1];
                 kart->mMotionFlags |= KART_MOTION_RACE_START_BOOSTED | KART_MOTION_START_DONE;
                 StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
                 if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
@@ -408,7 +409,7 @@ void AdvanceKartPointMotion(Kart *kart, u32 collisionFlags, Vec3 *targetPointMot
         kart->mVerticalSpeed = kart->mVerticalSpeed + kart->mPointMotion.y;
         kart->mPointMotion.y = 0;
     } else {
-        decayFactors = data_usa_02165554;
+        decayFactors = gKartPointMotionDecayFactors;
         kart->mPointMotion.x = MUL_FIXED12_NO_ROUND(kart->mPointMotion.x, decayFactors.x);
         kart->mPointMotion.y = MUL_FIXED12_NO_ROUND(kart->mPointMotion.y, decayFactors.y);
         kart->mPointMotion.z = MUL_FIXED12_NO_ROUND(kart->mPointMotion.z, decayFactors.z);
@@ -448,7 +449,7 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
     if (!(collisionFlags & 0x2000000)) {
         return;
     }
-    if (data_0217ac10 == 0) {
+    if (gCoursePushStrongEnabled == 0) {
         return;
     }
     if (collisionFlags & 0x10000) {

@@ -5,6 +5,8 @@
 #include "ITCM/code_01ffd000.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/data_02154000.h"
+#include "Main/Kart/kart_participant_record.h"
+#include "Main/Kart/kart_reset.h"
 
 void AdvanceKartOffsetCycleIndex(Kart *kart) {
     kart->mOffsetCycleIndex = kart->mOffsetCycleIndex + 1;

@@ -11,6 +11,9 @@
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
 
+const u32 gCourseModelDrawScale[3] = {0x1000, 0x1000, 0x1000};
+const u32 gKillerItemNodeName[4] = {0x6c6c694b, 0x74497265, 0x6d65, 0};
+
 // Copies row 1 of the matrix at 0x120 (mUnk_120_m), the kart's up direction, to the out vector. The camera takes it as
 // its up while KART_DRIVE_BOOST_SURFACE_HELD is set in mDriveFlags and the world up (0, 0x1000, 0) otherwise; the
 // steering code removes this component from vectors. The kart has two more matrices (0x150 and 0x184), built from this
@@ -77,7 +80,7 @@ void PlaceKartKillerEffectCallback(NNSG3dRS *renderState) {
     s32 killerItemDictIndex;
 
     killerItemKartIndex = GetKillerItemKartIndex();
-    killerItemDictIndex = NNS_G3dGetResDictIdxByName(&renderState->mRenderObj->mResMdl->mNodeInfo, data_02154a2c);
+    killerItemDictIndex = NNS_G3dGetResDictIdxByName(&renderState->mRenderObj->mResMdl->mNodeInfo, gKillerItemNodeName);
     if (killerItemDictIndex != ((renderState->mFlag & 0x10) != 0 ? renderState->mCurrentNodeDesc : -1)) {
         return;
     }

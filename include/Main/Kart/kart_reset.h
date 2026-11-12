@@ -48,3 +48,9 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale);
 // respawn of the selected entry's Kart.
 void ResetKartToRespawnPoint(Kart *kart);
 void AdvanceKartScaleFactor(Kart *kart);
+
+extern const Vec3 gKartVec3UnitX;
+extern const Vec3 gKartVec3UnitY;
+extern const Vec3 gKartVec3UnitZ;
+extern const Vec3 gKartOffsetCycleStartAmount;
+extern const Vec3 gKartVec3Zero;

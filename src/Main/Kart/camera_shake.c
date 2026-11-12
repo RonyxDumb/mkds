@@ -3,6 +3,20 @@
 #include "Main/Race/data_020f36d8.h"
 #include "code_02147cd8.h"
 
+s32 gCameraShakeLookAtScaleFactor = 0x9000;
+s32 gCameraShakeCounterScales[3] = {0x1400, 0x2000, 0x2c00};
+s32 gCameraCollisionRadius = 0xa000;
+s32 gCameraShakeCounterOffsetScale = 0x800;
+u16 gStaffRollLightRotationAngle = 0x2ee0;
+s32 gCourseWobbleAmplitude = 0x5000;
+s32 gCameraShakePosOffsetStepScale = 0x52;
+s32 gCameraShakeLookAtDistanceScale = 0x21;
+s32 gCameraShakePosScale = 0x2000;
+s32 gCameraFrustumShiftScale = 0x266;
+s32 gCameraShakeLookAtStepScale = 0x52;
+s32 gChaseCameraDriftOffsetScale = 0x19000;
+u16 gDefaultHalfFovAngle = 0x157c;
+
 static inline s32 CameraShakeNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalized) {
     if (LENGTH_SQUARED(*vector) < 0x10) {
         return 0;
@@ -29,12 +43,12 @@ void UpdateCameraShake(Camera *camera) {
         VEC_Subtract(&camera->mPos, &camera->mLookAt, &lookDirection);
         lookDistance = CameraShakeNormalizeLengthOrZero(&lookDirection, &lookDirection);
         if (lookDistance != 0) {
-            posShakeScale = data_usa_021656a8;
+            posShakeScale = gCameraShakePosScale;
             random = &gRaceProgress->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            scale = MUL_FIXED12_NO_ROUND(data_usa_021656ac, lookDistance);
+            scale = MUL_FIXED12_NO_ROUND(gCameraShakeLookAtDistanceScale, lookDistance);
             randomValue = (s16) (u16) (random->mValue >> 52);
-            scale = MUL_FIXED12_NO_ROUND(scale + 0x1000, data_usa_021656c8);
+            scale = MUL_FIXED12_NO_ROUND(scale + 0x1000, gCameraShakeLookAtScaleFactor);
             offsetScale = MUL_FIXED12_NO_ROUND(scale, (randomValue - 0x800) * 2);
             sideOffset.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, offsetScale);
             sideOffset.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, offsetScale);
@@ -64,24 +78,24 @@ void UpdateCameraShake(Camera *camera) {
             VEC_Add(&sideOffset, &upOffset, &camera->mShakePosOffsetGoal);
         }
     }
-    scale = data_usa_021656b0;
+    scale = gCameraShakePosOffsetStepScale;
     VEC_Subtract(&camera->mShakePosOffsetGoal, &camera->mShakePosOffset, &posOffsetStep);
     posOffsetStep.x = MUL_FIXED12_NO_ROUND(posOffsetStep.x, scale);
     posOffsetStep.y = MUL_FIXED12_NO_ROUND(posOffsetStep.y, scale);
     posOffsetStep.z = MUL_FIXED12_NO_ROUND(posOffsetStep.z, scale);
     VEC_Add(&camera->mShakePosOffset, &posOffsetStep, &camera->mShakePosOffset);
-    scale = data_usa_021656a4;
+    scale = gCameraShakeLookAtStepScale;
     VEC_Subtract(&camera->mShakeLookAtOffsetGoal, &camera->mShakeLookAtOffset, &lookAtOffsetStep);
     lookAtOffsetStep.x = MUL_FIXED12_NO_ROUND(lookAtOffsetStep.x, scale);
     lookAtOffsetStep.y = MUL_FIXED12_NO_ROUND(lookAtOffsetStep.y, scale);
     lookAtOffsetStep.z = MUL_FIXED12_NO_ROUND(lookAtOffsetStep.z, scale);
     VEC_Add(&camera->mShakeLookAtOffset, &lookAtOffsetStep, &camera->mShakeLookAtOffset);
-    counterScale = -data_usa_021656cc[camera->mShakeKind - 1];
+    counterScale = -gCameraShakeCounterScales[camera->mShakeKind - 1];
     counterStep.x = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtOffset.x, counterScale);
     counterStep.y = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtOffset.y, counterScale);
     counterStep.z = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtOffset.z, counterScale);
     VEC_Add(&counterStep, &camera->mShakeLookAtCounterOffset, &camera->mShakeLookAtCounterOffset);
-    scale = data_usa_021656bc;
+    scale = gCameraShakeCounterOffsetScale;
     camera->mShakeLookAtCounterOffset.x = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtCounterOffset.x, scale);
     camera->mShakeLookAtCounterOffset.y = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtCounterOffset.y, scale);
     camera->mShakeLookAtCounterOffset.z = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtCounterOffset.z, scale);

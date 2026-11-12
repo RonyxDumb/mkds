@@ -5,8 +5,10 @@
 
 typedef struct NNSG3dRS NNSG3dRS;
 
-extern const u32 data_02154a2c[];
 
 void PlaceKartKillerEffectCallback(NNSG3dRS *renderState);
 void KartAiCallKartSlot6AndToggleFlag(Kart *kart);
 void CallKartSlot6AndToggleFlag(Kart *kart);
+
+extern const u32 gCourseModelDrawScale[3];
+extern const u32 gKillerItemNodeName[4];

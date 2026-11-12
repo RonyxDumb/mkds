@@ -1656,6 +1656,8 @@ src/Main/Race/race.c:
 src/Main/Kart/course_models.c:
     complete
     .text       start:0x02062ed8 end:0x020638c0
+    .rodata     start:0x02154990 end:0x02154a20
+    .data       start:0x021653fc end:0x021654c0
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_killer_render.c:
@@ -1666,6 +1668,7 @@ src/Main/Kart/kart_killer_render.c:
 src/Main/Kart/kart_call.c:
     complete
     .text       start:0x0206390c end:0x02063b50
+    .rodata     start:0x02154a20 end:0x02154a3c
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_matrix.c:
@@ -1711,6 +1714,7 @@ src/Main/Kart/kart_peer.c:
 src/Main/Kart/kart_participant_record.c:
     complete
     .text       start:0x020653d0 end:0x0206bcb0
+    .rodata     start:0x02154a3c end:0x02154d4c
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_drift.c:
@@ -1727,6 +1731,7 @@ src/Main/Kart/kart_contact.c:
 src/Main/Kart/kart_reset.c:
     complete
     .text       start:0x02070398 end:0x020733e8
+    .rodata     start:0x02154f64 end:0x02154fa0
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_slot8_return.c:
@@ -1736,6 +1741,7 @@ src/Main/Kart/kart_slot8_return.c:
 src/Main/Kart/kart_resources.c:
     complete
     .text       start:0x020733ec end:0x020738f4
+    .bss        start:0x0217abf0 end:0x0217ac70
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_state0_return.c:
@@ -1745,6 +1751,7 @@ src/Main/Kart/kart_state0_return.c:
 src/Main/Kart/camera_shake.c:
     complete
     .text       start:0x02073904 end:0x02073e04
+    .data       start:0x0216569c end:0x021656d8
 
 // provisional: file name and boundaries
 src/Main/Kart/camera_entry.c:
@@ -1760,11 +1767,13 @@ src/Main/Kart/camera_entry_flags.c:
 src/Main/Kart/camera.c:
     complete
     .text       start:0x02073eb8 end:0x02076cd0
+    .bss        start:0x0217ac74 end:0x0217aca0
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_model_menu.c:
     complete
     .text       start:0x02076cd0 end:0x02077bc0
+    .rodata     start:0x02154fa0 end:0x02154fb8
 
 // provisional: file name and boundaries
 src/Main/Kart/karts.c:

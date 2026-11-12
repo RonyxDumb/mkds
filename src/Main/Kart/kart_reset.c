@@ -101,6 +101,12 @@
 #include "Main/Kart/kart_call.h"
 #include "Main/Kart/karts.h"
 
+const Vec3 gKartVec3UnitX = {0x1000, 0, 0};
+const Vec3 gKartVec3UnitY = {0, 0x1000, 0};
+const Vec3 gKartVec3UnitZ = {0, 0, 0x1000};
+const Vec3 gKartOffsetCycleStartAmount = {0x1000, 0x1000, 0x1000};
+const Vec3 gKartVec3Zero = {0, 0, 0};
+
 void AdvanceKartScaleFactor(Kart *kart) {
     s32 frameIndex;
     enum { K0 } entryIndex;
@@ -156,7 +162,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     }
     index = DEG_TO_ANGLE_TRUNCATED(respawnAngles.y);
     MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(index), COS_OF_ANGLE(index));
-    MTX_MultVec33(&data_02154f70, &rotationMatrix, &respawnForward);
+    MTX_MultVec33(&gKartVec3UnitZ, &rotationMatrix, &respawnForward);
     if (gRaceSetup->mMode != MODE_BATTLE && gCourseMap->mItemRouteCount != 0) {
         (kartItems = &gKartItems[kart->mIndex])->mItemLink.mLink =
             GetCourseMapRespawnItemPointLink((u16) kart->mRespawnSlot);
@@ -166,17 +172,17 @@ void ResetKartToRespawnPoint(Kart *kart) {
         value = data_usa_02154d4c[kart->mIndex][0];
         forwardOffset = data_usa_02154d50[kart->mIndex][0];
         Vec3CrossUnrounded(&gKartVec3UnitY, &respawnForward, &sideDirection);
-        VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, value), &sideDirection, &respawnPos, &respawnPos);
-        VEC_MultAdd(MUL_FIXED12_NO_ROUND(data_usa_02165504, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(gKartRespawnOffsetScale, value), &sideDirection, &respawnPos, &respawnPos);
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(gKartRespawnOffsetScale, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
         if (respawnAngles.x != 0 && forwardOffset != 0) {
             sinValue = SIN_OF_ANGLE(DEG_TO_ANGLE_TRUNCATED(respawnAngles.x));
             index = (sinValue * -forwardOffset + 0x800) >> 12;
-            respawnPos.y += MUL_FIXED12_ROUNDED(index, data_usa_02165504);
+            respawnPos.y += MUL_FIXED12_ROUNDED(index, gKartRespawnOffsetScale);
         }
         if (respawnAngles.z != 0 && value != 0) {
             sinValue = SIN_OF_ANGLE(DEG_TO_ANGLE_TRUNCATED(respawnAngles.z));
             index = (sinValue * value + 0x800) >> 12;
-            respawnPos.y += MUL_FIXED12_ROUNDED(index, data_usa_02165504);
+            respawnPos.y += MUL_FIXED12_ROUNDED(index, gKartRespawnOffsetScale);
         }
     }
     respawnPos.y += 0x28000;
@@ -255,7 +261,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
     }
     if (forward != NULL) {
         kart->mHeadingAngle = FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(forward->x, forward->z), 0x28be60dLL));
-        axis = data_02165524;
+        axis = gKartPlacementHeadingAxis;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     }
     Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
@@ -481,7 +487,7 @@ void ResetKart(Kart *kart) {
     kart->mSecondCollisionCenter = zeroVector;
     kart->mPointMotion = zeroVector;
     kart->mSpeedLimitFactor = 0x1000;
-    kart->mUnk_e0_m = data_usa_02154f14;
+    kart->mUnk_e0_m = gKartResetHeadingQuaternion;
     kart->mUnk_f0_q = data_usa_02154f24;
     kart->mUnk_100_q = data_usa_02154f34;
     kart->mUnk_110_q = data_usa_02154f44;
@@ -529,7 +535,7 @@ void ResetKart(Kart *kart) {
     kart->mRotationAngle = 0;
     kart->mRotationAngleSum = 0;
     kart->mRotationAxis = zeroVector;
-    kart->mRotationQuaternion = data_usa_02154f54;
+    kart->mRotationQuaternion = gKartResetRotationQuaternion;
     kart->mRotationEndFrames = 0;
     kart->mRotationAnglePerFrame = 0;
     kart->mYRotationAngle = 0;
@@ -595,7 +601,7 @@ void ResetKart(Kart *kart) {
     kart->mHeadingAngleOffsetCount = 0;
     kart->mOffsetCyclePhase = 0;
     kart->mOffsetCyclePhaseStep = 0x1000;
-    kart->mOffsetCycleAmount = data_usa_02154f64;
+    kart->mOffsetCycleAmount = gKartOffsetCycleStartAmount;
     kart->mOffsetCycleAmount.z = 0;
     kart->mOffsetCycleIndex = 0;
     kart->mWaterDepth = 0;
@@ -1162,7 +1168,7 @@ void StartFixedPositionEffects(Kart *kart) {
     s32 *nextEffectId;
     s32 *effectIdsOtherPtr;
 
-    effectPos = data_0216553c;
+    effectPos = gFixedPositionEffectPos;
     cameraOutsideBox = TRUE;
     currentCamera = GetCurrentCamera();
     cameraPos = &currentCamera->mPos;
@@ -1176,10 +1182,10 @@ void StartFixedPositionEffects(Kart *kart) {
         }
     }
     if (cameraOutsideBox != FALSE) {
-        effectIdsSelected = data_02165548;
+        effectIdsSelected = gFixedPositionSelectedEffectIds;
         effectIdsOtherPtr = effectIdsOther;
-        effectIdsOther[0] = data_02165510[0];
-        effectIdsOther[1] = data_02165510[1];
+        effectIdsOther[0] = gFixedPositionOtherEffectIds[0];
+        effectIdsOther[1] = gFixedPositionOtherEffectIds[1];
         effectCount = 3;
         nextEffectId = (s32 *) &effectIdsSelected;
         if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
@@ -1232,7 +1238,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     placementAngles.z = gCourseMap->mKeyedPlacements[*gCourseMap->mKeyedPlacementIndexByKey].mRotation.z;
     angleIndex = (u16) (((s64) placementAngles.y * 0xb60b60b60bLL + 0x80000000LL) >> 44) >> 4;
     MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
-    MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
+    MTX_MultVec33(&gKartVec3UnitZ, &rotationMatrix, &placementForward);
     SkipOrthoQuadsHoldAndSetVelocities(kart->mIndex);
 
     flags = kart->mEffectFlags;
@@ -1331,7 +1337,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         kart->mQuaternionBlendFactor = 0x1000;
         NormalizeLengthOrZero(&flatForward, &flatForward);
         kart->mHeadingAngle = FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d));
-        axis = data_02165524;
+        axis = gKartPlacementHeadingAxis;
         QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
         Vec3CrossUnrounded(&gKartVec3UnitY, &kart->mTurnedForward, &sideVector);
         Vec3CrossUnrounded(&kart->mTurnedForward, &sideVector, &groundNormal);
@@ -1386,7 +1392,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
                         44) >>
                  4;
     MTX_RotY33_(&rotationMatrix, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
-    MTX_MultVec33(&data_02154f70, &rotationMatrix, &placementForward);
+    MTX_MultVec33(&gKartVec3UnitZ, &rotationMatrix, &placementForward);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         VEC_Subtract(&placementPos, &kart->mPos, &offset);
         CallStandingsKartOffsetCallback(kart->mIndex, &offset);
@@ -1399,7 +1405,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     kart->mEasedTurnedForward = kart->mTurnedForward;
     kart->mHeadingAngle =
         FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(placementForward.x, placementForward.z), 0x28be60dLL));
-    axis = data_02165524;
+    axis = gKartPlacementHeadingAxis;
     QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         SetupCameraBehindKart();

@@ -33,6 +33,12 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "code_02147cd8.h"
 #include "ITCM/kart_ground_contact.h"
+#include "Main/Kart/kart_drift.h"
+
+u32 gCoursePushStrongEnabled;
+void *gLowestOffsetFarCheck;
+void *gCollideKartWithMapObjectResponses[15];
+void *gKartMapObjectSecondResponses[15];
 
 void InitKartMapObjectResponses(void) {
     RaceSetup *raceSetup;
@@ -40,21 +46,21 @@ void InitKartMapObjectResponses(void) {
     void **responseSlot;
     void **secondResponseSlot;
 
-    data_0217ac14 = IsLowestOffsetFarOnHitBit;
+    gLowestOffsetFarCheck = IsLowestOffsetFarOnHitBit;
     raceSetup = gRaceSetup;
     responseIndex = 0;
     responseSlot = gCollideKartWithMapObjectResponses;
     secondResponseSlot = gKartMapObjectSecondResponses;
     if (raceSetup->mCourseId == COURSE_ID_RAINBOW || raceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
-        data_0217ac14 = IsLowestOffsetFarOnHitBitOrYAbove;
+        gLowestOffsetFarCheck = IsLowestOffsetFarOnHitBitOrYAbove;
     }
-    data_0217ac10 = 0;
+    gCoursePushStrongEnabled = 0;
     if (raceSetup->mMode == MODE_BATTLE) {
         switch (raceSetup->mCourseId) {
             case COURSE_ID_MINI_BLOCK_64:
             case COURSE_ID_MINI_DOKAN_GC:
-                data_0217ac10 = 1;
-                data_0217ac14 = IsLowestOffsetFarOnHitBitOrKartBit;
+                gCoursePushStrongEnabled = 1;
+                gLowestOffsetFarCheck = IsLowestOffsetFarOnHitBitOrKartBit;
                 break;
         }
     }
@@ -122,7 +128,7 @@ void InitKartMapObjectResponses(void) {
                 break;
         }
     }
-    data_usa_021654ec = FX_Div(0x1000, MUL_FIXED12_NO_ROUND(GetFirstBaseSpeedLimit(), 0xd9aLL));
+    gFirstBaseSpeedLimitReciprocal = FX_Div(0x1000, MUL_FIXED12_NO_ROUND(GetFirstBaseSpeedLimit(), 0xd9aLL));
 }
 
 void InitKartResources(Kart *kart) {

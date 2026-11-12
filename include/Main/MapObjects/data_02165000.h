@@ -55,13 +55,9 @@ typedef struct QueueMPDataToPortParams {
 } QueueMPDataToPortParams;
 
 
-extern const s32 data_02165510[2];
 
-extern const Vec3 data_02165524;
 
-extern const Vec3 data_0216553c;
 
-extern const Vec3 data_02165548;
 
 
 extern const SceneCallbacks gSecondMenuSceneCallbacks;
@@ -75,7 +71,6 @@ extern const SceneCallbacks gSecondMenuSceneCallbacks;
 
 struct Kart;
 
-extern void (*const gKartStateFunctions[])(struct Kart *);
 
 
 
@@ -116,15 +111,10 @@ extern const char gKartModelSlashPrefix[];
 
 
 
-extern u16 gDefaultHalfFovAngle;
 
-extern u16 data_usa_021656a0;
 
-extern s32 gCourseWobbleAmplitude;
 
-extern s32 data_usa_021656c0;
 
-extern Vec3 data_02165530;
 
 extern s32 gStarEffectEngineScale;
 
@@ -190,40 +180,30 @@ extern s32 data_021659d0;
 
 extern const char gEmblemSBNclrName[];
 
-extern s32 data_usa_021654ec;
 
-extern s32 data_021654f4;
 
 // Three words.
 typedef struct KartFollowEffectIds {
     /* 00 */ u32 mEffectIds[3];
 } KartFollowEffectIds;
 
-extern const KartFollowEffectIds gKartFollowEffectIds;
 
 // Eight halfwords.
 typedef struct KartKillerEndRankOffsets {
     /* 00 */ s16 mOffsets[8];
 } KartKillerEndRankOffsets;
 
-extern const KartKillerEndRankOffsets data_usa_0216557c;
 
-extern s32 data_usa_021654dc;
 
-extern const Vec3 data_usa_02165554;
 
 // 37 words.
 typedef struct KartEffectScales {
     /* 00 */ s32 mScales[37];
 } KartEffectScales;
 
-extern const KartEffectScales data_usa_02165608;
 
-extern s32 data_usa_02165504;
 
-extern const s32 gTurnHeadingEaseFactor;
 
-extern const s16 gTurnHeadingReductionAtSpeedLimit;
 
 extern u16 data_usa_021658f0;
 
@@ -237,4 +217,3 @@ extern const u16 data_usa_02165908[3];
 
 extern const s32 *const data_usa_02165910[];
 
-extern s32 gSpeedReductionAtFullTurnRatio;

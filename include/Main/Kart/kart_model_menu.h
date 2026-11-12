@@ -21,6 +21,7 @@ typedef struct Kind7CameraEntry {
 } Kind7CameraEntry;
 
 extern const char data_usa_02165714[];
+extern const s32 gCameraDefaultRows[2][3];
 
 void UpdateCameraView(Camera *camera);
 void UpdateCameraViewWithWorldUp(Camera *camera);

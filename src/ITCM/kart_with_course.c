@@ -26,6 +26,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_02147cd8.h"
 #include "Main/Kart/kart_drift.h"
+#include "Main/Kart/kart_resources.h"
 
 void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     u16 headingDelta;
@@ -76,7 +77,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 kart->mPrevHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, dot);
             }
             kart->mCourseHitTimer = 3;
-            if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(kart, collisionFlags, &lowestOffset) != 0 ||
+            if (((s32(*)(Kart *, u32, Vec3 *)) gLowestOffsetFarCheck)(kart, collisionFlags, &lowestOffset) != 0 ||
                 (kart->mMotionFlags & KART_MOTION_COURSE_PUSH_STRONG)) {
                 lowestOffsetLength = 0;
                 if (LENGTH_SQUARED(lowestOffset) >= 0x10) {
@@ -157,7 +158,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 kart->mMotionFlags |= KART_MOTION_ON_GROUND;
                 if (kart->mForwardSpeed != 0 || TryHoldKartStill(kart, collisionFlags, &hitObjects) == FALSE) {
                     StopKartStillHold(kart);
-                    if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(kart, collisionFlags, &lowestOffset) != 0) {
+                    if (((s32(*)(Kart *, u32, Vec3 *)) gLowestOffsetFarCheck)(kart, collisionFlags, &lowestOffset) != 0) {
                         lowestOffsetLength = 0;
                         if (LENGTH_SQUARED(lowestOffset) >= 0x10) {
                             lowestOffsetLength = Vec3NormalizeAndGetLengthUnchecked(&lowestOffset, &landingPushVector);
