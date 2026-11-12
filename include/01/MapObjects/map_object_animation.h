@@ -46,11 +46,11 @@ void StartEffectInSlot(MissionRunMapObject *mapObject, s32 effectIndex, s32 offs
 #include "Main/Kart/kart_drift.h"
 #include "01/code_02187000.h"
 
-typedef struct Unk021a7b64 Unk021a7b64;
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
-extern Unk021a7b64 gEmptyMapObjectKindDescriptor;
+extern MapObjectKindDescriptor gEmptyMapObjectKindDescriptor;
 
-void *CreateEmptyMapObjectUpdateList(void);
+MapObjectList *CreateEmptyMapObjectUpdateList(void);
 s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
                                        u8 *responsePointer);
 s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kart, u8 *firstResponsePointer,

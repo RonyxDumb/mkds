@@ -42,17 +42,17 @@ void LoadSelectBattleStageData(void) {
     LoadNclrData(&v.mNclr, v1);
 }
 
-const u8 gSelectBattleStageNegatedYCells[] = {0};
-const u8 gSelectBattleStageSecondXCells[] = {0, 1};
-const u8 gSelectBattleStageMNscrCopyDestination[] = {9, 7};
-const u8 gSelectBattleStageOffsetYCells[] = {1, 2, 3};
-const u8 gSelectBattleStageXCells[] = {4, 5, 6};
+const u8 gSelectBattleStageNegatedYCells[1] = {0};
+const u8 gSelectBattleStageSecondXCells[2] = {0, 1};
+const u8 gSelectBattleStageMNscrCopyDestination[2] = {9, 7};
+const u8 gSelectBattleStageOffsetYCells[3] = {1, 2, 3};
+const u8 gSelectBattleStageXCells[3] = {4, 5, 6};
 const u8 gSelectBattleStageBnblRectIndices[6] = {0, 1, 2, 3, 4, 5};
-const s8 gSelectBattleStageOffsets[] = {0, -2, -3, -4, -3, -2};
-const u8 gSelectBattleStageMNscrIndices[] = {0, 0, 1, 1, 2, 2};
+const s8 gSelectBattleStageOffsets[6] = {0, -2, -3, -4, -3, -2};
+const u8 gSelectBattleStageMNscrIndices[6] = {0, 0, 1, 1, 2, 2};
 const u8 gSelectBattleStageSTableIndices[6][3] = {{0, 12, 6}, {1, 13, 7},  {2, 14, 8},
                                                   {3, 15, 9}, {4, 16, 10}, {5, 17, 11}};
-const SelectBattleStageNscrRect gSelectBattleStageNscrRects[] = {
+const SelectBattleStageNscrRect gSelectBattleStageNscrRects[6] = {
     {2, 15, 7, 16}, {16, 29, 7, 16}, {2, 15, 7, 16}, {16, 29, 7, 16}, {2, 15, 7, 16}, {16, 29, 7, 16},
 };
 SelectBattleStage *gSelectBattleStage;

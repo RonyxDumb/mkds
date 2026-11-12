@@ -1,10 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 typedef struct Camera Camera;
-typedef struct CourseMapRow CourseMapRow;
-typedef struct MapObjectList MapObjectList;
 
 typedef struct EffectMapObject {
     /* 00 */ u8 mUnk_00[2];
@@ -18,11 +17,14 @@ typedef struct EffectMapObject {
     /* a4 */ void *mEffectHandle;
 } EffectMapObject;
 
-void *CreateCameraEffectUpdateList(void);
+MapObjectList *CreateCameraEffectUpdateList(void);
 void UpdateCameraEffect(void *p0, EffectMapObject *object);
 // Writes into out the point 0x58000 (88.0) ahead of the camera along its forward x and z, at the height of
 // the object's mUnk_04.y.
 void ComputePointAheadOfCamera(EffectMapObject *object, Camera *camera, Vec3 *out);
-void *CreatePeriodicEffectUpdateList(void);
+MapObjectList *CreatePeriodicEffectUpdateList(void);
 void UpdatePeriodicEffect(void *p0, EffectMapObject *object);
 void InitPeriodicEffectObjects(MapObjectList *objectList);
+
+extern MapObjectKindDescriptor gCameraEffectKindDescriptor;
+extern MapObjectKindDescriptor gPeriodicEffectKindDescriptor;

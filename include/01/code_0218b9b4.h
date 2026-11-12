@@ -2,19 +2,7 @@
 
 #include "types.h"
 #include "01/code_02188950.h"
-
-// 0x34 bytes: two words, then four function pointers among zero words. Referenced only from main-module data.
-typedef struct Unk021a7b64 {
-    /* 00 */ s32 mObjectCount;
-    /* 04 */ s32 mObjectSize;
-    /* 08 */ void (*mInitObject)(MissionRunMapObject *);
-    /* 0c */ void (*mCreateKindData)(void);
-    /* 10 */ void *(*mUnk_10)(void);
-    /* 14 */ void *(*mUnk_14)(void);
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ void *(*mUnk_1c)(void);
-    /* 20 */ s32 mUnk_20[5];
-} Unk021a7b64;
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 #include "01/code_02187000.h"
 #include "01/code_02188000.h"

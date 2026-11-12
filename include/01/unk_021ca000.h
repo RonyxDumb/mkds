@@ -165,6 +165,5 @@ typedef struct MissionRunBossIcon {
 
 extern u8 *gNicknameBuffers;
 extern u8 *gOptionBuffers;
-extern MissionRunBossIcon *gMissionRunBossIcon;
 
 #include "00/Menu/wi_fi_vs_matching.h"

@@ -4,13 +4,14 @@
 #include "01/code_02188950.h"
 
 typedef struct MissionRunMapObject MissionRunMapObject;
-typedef struct Unk021a7b64 Unk021a7b64;
 typedef struct MapObjectList MapObjectList;
 
-extern Unk021a7b64 gKurikingKindDescriptor;
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
-void *CreateKurikingUpdateList(void);
-void *CreateKurikingDrawList(void);
+extern MapObjectKindDescriptor gKurikingKindDescriptor;
+
+MapObjectList *CreateKurikingUpdateList(void);
+MapObjectList *CreateKurikingDrawList(void);
 void CreateKurikingKindData(void);
 void DrawKuriking(
     void *mapObjectList,

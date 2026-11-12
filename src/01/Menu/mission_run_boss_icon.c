@@ -14,8 +14,13 @@
 #include "01/unk_021a7000.h"
 #include "code_0212df7c.h"
 
+const char *gMissionRunBossIconSNcgrName = "mr/Mission_run_BOSS_icon_s.nce.ncgr";
+const char *gMissionRunBossIconSNcerName = "mr/Mission_run_BOSS_icon_s.nce.ncer";
+const char *gMissionRunBossIconSONclrName = "mr/Mission_run_BOSS_icon_s_o.nclr";
+const char *gMissionRunBossIconSBnclName = "mr/Mission_run_BOSS_icon_s.bncl";
 const u16 gMissionRunBossIconCellIndices[7] = {0, 1, 2, 3, 4, 5, 6};
 const u16 gMissionRunBossIconPaletteIndices[7] = {0, 1, 2, 3, 4, 5, 6};
+MissionRunBossIcon *gMissionRunBossIcon;
 
 void LoadMissionRunBossIconData(void) {
     void *sceneFile;

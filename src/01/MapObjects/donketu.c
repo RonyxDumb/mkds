@@ -58,8 +58,8 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217c000.h"
 
-Unk021a7b64 gBossDonketuKindDescriptor = {0, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateBossDonketuDrawList, NULL, 0, CreateDonketuUpdateList, {0, 0, 0, 0, 0}};
-Unk021a7b64 gKingIceDonketuKindDescriptor = {0, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateKingIceDonketuDrawList, NULL, 0, CreateDonketuUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gBossDonketuKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitDonketuSoundSource, (MapObjectKindData *(*)(void)) CreateDonketuKindData, CreateBossDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gKingIceDonketuKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitDonketuSoundSource, (MapObjectKindData *(*)(void)) CreateDonketuKindData, CreateKingIceDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 void StartBossDonketuStepEffectFirst(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x0000020fu);
@@ -807,15 +807,15 @@ void CreateDonketuKindData(void) {
                                                          sphereHitCallback, 0x2u, 0x1u, v4, 0x0u);
 }
 
-void *CreateBossDonketuDrawList(void) {
+MapObjectList *CreateBossDonketuDrawList(void) {
     return CreateMapObjectDrawList1(InitBossDonketu, DrawDonketu, ToggleShadowScale);
 }
 
-void *CreateKingIceDonketuDrawList(void) {
+MapObjectList *CreateKingIceDonketuDrawList(void) {
     return CreateMapObjectDrawList1(InitKingIceDonketu, DrawDonketu, ToggleShadowScale);
 }
 
-void *CreateDonketuUpdateList(void) {
+MapObjectList *CreateDonketuUpdateList(void) {
     return CreateMapObjectUpdateList(InitDonketuObjects, UpdateDonketu, NULL);
 }
 

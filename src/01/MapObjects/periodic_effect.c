@@ -11,6 +11,10 @@
 #include "Main/Race/race_setup.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectKindDescriptor gCameraEffectKindDescriptor = {0, {0, 0}, 0xa8, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateCameraEffectUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gPeriodicEffectKindDescriptor = {0, {0, 0}, 0xa0, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreatePeriodicEffectUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 void InitPeriodicEffectObjects(MapObjectList *objectList) {
     s32 objectIndex;
@@ -49,7 +53,7 @@ void UpdatePeriodicEffect(void *p0, EffectMapObject *object) {
     }
 }
 
-void *CreatePeriodicEffectUpdateList(void) {
+MapObjectList *CreatePeriodicEffectUpdateList(void) {
     return CreateMapObjectUpdateList(InitPeriodicEffectObjects, UpdatePeriodicEffect, NULL);
 }
 
@@ -115,6 +119,6 @@ void UpdateCameraEffect(void *p0, EffectMapObject *object) {
     }
 }
 
-void *CreateCameraEffectUpdateList(void) {
+MapObjectList *CreateCameraEffectUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateCameraEffect, NULL);
 }

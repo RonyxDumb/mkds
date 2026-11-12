@@ -89,7 +89,7 @@
 
 Vec3 gItemKinokoUpNormal = {0, 0x1000, 0};
 Vec3 gItemBombUpNormal = {0, 0x1000, 0};
-Unk021a7b64 gEmptyMapObjectKindDescriptor = {0, 0xa0, NULL, (void (*)(void)) CreateEmptyMapObjectKindData, NULL, NULL, 0, CreateEmptyMapObjectUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gEmptyMapObjectKindDescriptor = {0, {0, 0}, 0xa0, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateEmptyMapObjectUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 u16 gShadowScaleToggle;
 
 void SetAnimationFrameCallback(MissionRunMapObject *mapObject, s32 frameIndex, UnkFunc *callback) {
@@ -1821,7 +1821,7 @@ s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObjec
     return mapObject->mUnk_2e0;
 }
 
-void *CreateEmptyMapObjectUpdateList(void) {
+MapObjectList *CreateEmptyMapObjectUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, NULL, NULL);
 }
 

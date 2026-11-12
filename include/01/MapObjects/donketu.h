@@ -68,9 +68,9 @@
 
 #include "01/code_0218b9b4.h"
 
-void *CreateDonketuUpdateList(void);
-void *CreateKingIceDonketuDrawList(void);
-void *CreateBossDonketuDrawList(void);
+MapObjectList *CreateDonketuUpdateList(void);
+MapObjectList *CreateKingIceDonketuDrawList(void);
+MapObjectList *CreateBossDonketuDrawList(void);
 void CreateDonketuKindData(void);
 void DrawDonketu(void *mapObjectList, MissionRunMapObject *donketu);
 void InitKingIceDonketu(MapObjectList *list);
@@ -106,5 +106,5 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu);
 void StartDonketuWaterWalkState(MissionRunMapObject *donketu);
 void StartDonketuWaterJumpState(MissionRunMapObject *donketu);
 
-extern Unk021a7b64 gBossDonketuKindDescriptor;
-extern Unk021a7b64 gKingIceDonketuKindDescriptor;
+extern MapObjectKindDescriptor gBossDonketuKindDescriptor;
+extern MapObjectKindDescriptor gKingIceDonketuKindDescriptor;

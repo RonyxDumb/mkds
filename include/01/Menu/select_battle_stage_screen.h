@@ -27,15 +27,15 @@ extern const u8 gSelectBattleStageSTableIndices[6][3];
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 
-extern const u8 gSelectBattleStageNegatedYCells[];
-extern const u8 gSelectBattleStageSecondXCells[];
-extern const u8 gSelectBattleStageMNscrCopyDestination[];
-extern const u8 gSelectBattleStageOffsetYCells[];
-extern const u8 gSelectBattleStageXCells[];
-extern const s8 gSelectBattleStageOffsets[];
-extern const u8 gSelectBattleStageMNscrIndices[];
+extern const u8 gSelectBattleStageNegatedYCells[1];
+extern const u8 gSelectBattleStageSecondXCells[2];
+extern const u8 gSelectBattleStageMNscrCopyDestination[2];
+extern const u8 gSelectBattleStageOffsetYCells[3];
+extern const u8 gSelectBattleStageXCells[3];
+extern const s8 gSelectBattleStageOffsets[6];
+extern const u8 gSelectBattleStageMNscrIndices[6];
 extern const u8 gSelectBattleStageBnblRectIndices[6];
-extern const SelectBattleStageNscrRect gSelectBattleStageNscrRects[];
+extern const SelectBattleStageNscrRect gSelectBattleStageNscrRects[6];
 
 void WriteSelectBattleStageRegisters(void);
 s32 AdvanceSelectBattleStage(void);

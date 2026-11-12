@@ -28,20 +28,34 @@
 #include "Main/Race/race_setup.h"
 #include "Main/Sound/sound_system.h"
 
-const s16 gSelectEngineDownStepsFlagClear[4] = {1, 1, -2, 0};
-const s16 gSelectEngineRightStepsFlagSet[4] = {1, 0, 1, 0};
-const s16 gSelectEngineDownStepsFlagSet[4] = {2, 2, 0, 0};
-const s16 gSelectEngineLeftStepsFlagClear[4] = {0, 0, 0, 0};
-const u16 gSelectEngineFixedMTableIndices[6] = {0, 1, 2, 3, 4, 5};
-const s16 gSelectEngineRightStepsFlagClear[4] = {0, 0, 0, 0};
+const char *gSelectEngineMBNclrName = "gp/select_engine_m_b.nclr";
 const u16 gSelectEngineAOrBSTableIndices[4][3] = {{3, 7, 0xb}, {2, 6, 0xa}, {1, 5, 9}, {0, 4, 8}};
+const s16 gSelectEngineRightStepsFlagSet[4] = {1, 0, 1, 0};
+const char *gSelectEngineBSBnclName = "gp/select_engine_B_s.bncl";
+const char *gSelectEngineBSBnblName = "gp/select_engine_B_s.bnbl";
+const char *gSelectEngineMNscrName = "gp/select_engine_m.nscr";
 const u32 gSelectEngineEngineIndices[4] = {0, 1, 2, 1};
-const s16 gSelectEngineUpStepsFlagClear[4] = {2, -1, -1, 0};
-const s16 gSelectEngineLeftStepsFlagSet[4] = {0, -1, 0, -1};
 const u32 gSelectEngineIndicesByEngineIndex[3] = {0, 1, 2};
-const s32 gSelectEngineRectIndices[4] = {3, 2, 1, 0};
-const s16 gSelectEngineUpStepsFlagSet[4] = {0, 0, -2, -2};
+const char *gSelectEngineSNcgrName = "gp/select_engine_s.nce.ncgr";
+const char *gSelectEngineMBNcgrName = "gp/select_engine_m_b.ncgr";
+const char *gSelectEngineMBnclName = "gp/select_engine_m.bncl";
 const u16 gSelectEngineMTableIndices[4] = {7, 8, 9, 0xa};
+const s16 gSelectEngineDownStepsFlagSet[4] = {2, 2, 0, 0};
+const s16 gSelectEngineUpStepsFlagClear[4] = {2, -1, -1, 0};
+const s16 gSelectEngineDownStepsFlagClear[4] = {1, 1, -2, 0};
+const u16 gSelectEngineFixedMTableIndices[6] = {0, 1, 2, 3, 4, 5};
+const s32 gSelectEngineRectIndices[4] = {3, 2, 1, 0};
+const s16 gSelectEngineLeftStepsFlagClear[4] = {0, 0, 0, 0};
+const s16 gSelectEngineRightStepsFlagClear[4] = {0, 0, 0, 0};
+const char *gSelectEngineMNcerName = "gp/select_engine_m.nce.ncer";
+const char *gSelectEngineSNcerName = "gp/select_engine_s.nce.ncer";
+const s16 gSelectEngineUpStepsFlagSet[4] = {0, 0, -2, -2};
+const s16 gSelectEngineLeftStepsFlagSet[4] = {0, -1, 0, -1};
+const char *gSelectEngineMNcgrName = "gp/select_engine_m.nce.ncgr";
+const char *gSelectEngineMONclrName = "gp/select_engine_m_o.nclr";
+const char *gSelectEngineSONclrName = "gp/select_engine_s_o.nclr";
+const char *gSelectEngineASBnblName = "gp/select_engine_A_s.bnbl";
+const char *gSelectEngineASBnclName = "gp/select_engine_A_s.bncl";
 SelectEngine *gSelectEngine;
 
 void LoadSelectEngineData(void) {

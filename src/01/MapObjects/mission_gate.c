@@ -28,7 +28,7 @@
 #include "code_02147cd8.h"
 #include "ITCM/code_01ff8000.h"
 
-Unk021a7b64 gMissionGateKindDescriptor = {0, 0xcc, (void (*)(MissionRunMapObject *)) InitMissionGate, CreateMissionGateKindData, CreateMissionGateDrawList, NULL, 0, CreateMissionGateUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gMissionGateKindDescriptor = {0, {0, 0}, 0xcc, (void (*)(void *, CourseMapRow *, void *)) InitMissionGate, (MapObjectKindData *(*)(void)) CreateMissionGateKindData, CreateMissionGateDrawList, NULL, NULL, CreateMissionGateUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 MapObjectModel *gMissionGate;
 
 void InitMissionGate(MissionGateObject *missionGateObject) {
@@ -147,11 +147,11 @@ void CreateMissionGateKindData(void) {
     CreateMapObjectKindData(&CollideKartWithMissionGate, NULL, NULL, 0, 1);
 }
 
-void *CreateMissionGateDrawList(void) {
+MapObjectList *CreateMissionGateDrawList(void) {
     return CreateMapObjectDrawList1(LoadMissionGate, DrawMissionGate, MissionGateNop);
 }
 
-void *CreateMissionGateUpdateList(void) {
+MapObjectList *CreateMissionGateUpdateList(void) {
     return CreateMapObjectUpdateList(InitMissionGateObjects, UpdateMissionGate, NULL);
 }
 

@@ -12,7 +12,7 @@
 #include "ITCM/code_01ff8000.h"
 #include "code_02147cd8.h"
 
-Unk021a7b64 gStopSignKindDescriptor = {0, 0xa0, InitStopSign, CreateStopSignKindData, CreateStopSignDrawList, NULL, 0, NULL, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gStopSignKindDescriptor = {0, {0, 0}, 0xa0, (void (*)(void *, CourseMapRow *, void *)) InitStopSign, (MapObjectKindData *(*)(void)) CreateStopSignKindData, CreateStopSignDrawList, NULL, NULL, NULL, NULL, {NULL, NULL, NULL, NULL}};
 MapObjectModel *gStopSign;
 
 void InitStopSign(MissionRunMapObject *mapObject) {
@@ -45,6 +45,6 @@ void CreateStopSignKindData(void) {
     CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
 }
 
-void *CreateStopSignDrawList(void) {
+MapObjectList *CreateStopSignDrawList(void) {
     return CreateMapObjectDrawList1(LoadStopSign, DrawStopSign, NULL);
 }

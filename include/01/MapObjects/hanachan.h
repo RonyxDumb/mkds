@@ -10,11 +10,11 @@ typedef struct MapObjectList MapObjectList;
 #include "01/code_0218b9b4.h"
 #include "Main/Sound/sound_source_list.h"
 
-void *CreateHanachanFollowerUpdateList(void);
-void *CreateHanachanFollowerDrawList(void);
+MapObjectList *CreateHanachanFollowerUpdateList(void);
+MapObjectList *CreateHanachanFollowerDrawList(void);
 void CreateHanachanFollowerKindData(void);
-void *CreateHanachanUpdateList(void);
-void *CreateHanachanDrawList(void);
+MapObjectList *CreateHanachanUpdateList(void);
+MapObjectList *CreateHanachanDrawList(void);
 void CreateHanachanKindData(void);
 void DrawHanachan(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitHanachanFollower(MapObjectList *mapObjectList);
@@ -45,5 +45,5 @@ void StartHanachanKartNotEliminatedState(MissionRunMapObject *mapObject);
 
 extern const u32 gHanachanSkipKindSoundFlag;
 extern SoundStartParams gHanachanEndSoundParams;
-extern Unk021a7b64 gHanachanKindDescriptor;
-extern Unk021a7b64 gHanachanFollowerKindDescriptor;
+extern MapObjectKindDescriptor gHanachanKindDescriptor;
+extern MapObjectKindDescriptor gHanachanFollowerKindDescriptor;

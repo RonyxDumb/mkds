@@ -83,7 +83,7 @@ const u16 gBombKingJumpFlag = 0x20;
 const u16 gBombKingDisabledFlag = 1;
 const u16 gBombKingSkipViewTestFlag = 2;
 SoundStartParams gBombKingEndSoundParams = {0x23d, NULL, 0xc, 0};
-Unk021a7b64 gBombKingKindDescriptor = {0, 0x30c, InitBombKingMapObject, CreateBombKingKindData, CreateBombKingDrawList, NULL, 0, CreateBombKingUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gBombKingKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitBombKingMapObject, (MapObjectKindData *(*)(void)) CreateBombKingKindData, CreateBombKingDrawList, NULL, NULL, CreateBombKingUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject) {
     return GetAbsoluteCounter(mapObject);
@@ -688,10 +688,10 @@ void CreateBombKingKindData(void) {
                                                          sphereHitCallback, 0x2u, 0x1u, soundId, 0x0u);
 }
 
-void *CreateBombKingDrawList(void) {
+MapObjectList *CreateBombKingDrawList(void) {
     return CreateMapObjectDrawList1(InitBombKing, DrawBombKing, ToggleShadowScale);
 }
 
-void *CreateBombKingUpdateList(void) {
+MapObjectList *CreateBombKingUpdateList(void) {
     return CreateMapObjectUpdateList(InitBombKingObjects, UpdateBombKing, NULL);
 }

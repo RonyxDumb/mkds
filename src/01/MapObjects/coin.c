@@ -40,7 +40,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/group_follower_init.h"
 
-Unk021a7b64 gCoinKindDescriptor = {0, 0x104, (void (*)(MissionRunMapObject *)) SetMissionRunCoinCallbacks, CreateCoinKindData, CreateCoinDrawList, CreateCoinShadowDrawList, 0, CreateCoinUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gCoinKindDescriptor = {0, {0, 0}, 0x104, (void (*)(void *, CourseMapRow *, void *)) SetMissionRunCoinCallbacks, (MapObjectKindData *(*)(void)) CreateCoinKindData, CreateCoinDrawList, CreateCoinShadowDrawList, NULL, CreateCoinUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 const u16 gCoinShadowRotationAngles[3] = {0, 0xe38, 0x1c71};
 MapObjectModel *gCoinModel;
 
@@ -769,14 +769,14 @@ void CreateCoinKindData(void) {
     CreateMapObjectKindData(&CollideKartWithCoin, NULL, NULL, 1, 1);
 }
 
-void *CreateCoinDrawList(void) {
+MapObjectList *CreateCoinDrawList(void) {
     return CreateMapObjectDrawList1(LoadCoin, DrawCoin, NULL);
 }
 
-void *CreateCoinShadowDrawList(void) {
+MapObjectList *CreateCoinShadowDrawList(void) {
     return CreateMapObjectDrawList1(ResetCoinShadowRotationIndex, DrawCoinShadow, AdvanceCoinShadowRotationIndex);
 }
 
-void *CreateCoinUpdateList(void) {
+MapObjectList *CreateCoinUpdateList(void) {
     return CreateMapObjectUpdateList(InitCoinObjects, UpdateCoin, CoinBeforeObjectsNop);
 }

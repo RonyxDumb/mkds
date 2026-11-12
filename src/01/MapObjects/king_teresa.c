@@ -80,7 +80,7 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/data_0217a000.h"
 
-Unk021a7b64 gKingTeresaKindDescriptor = {0, 0x30c, InitKingTeresaMapObject, CreateKingTeresaKindData, CreateKingTeresaDrawList, NULL, 0, CreateKingTeresaUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gKingTeresaKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitKingTeresaMapObject, (MapObjectKindData *(*)(void)) CreateKingTeresaKindData, CreateKingTeresaDrawList, NULL, NULL, CreateKingTeresaUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
     return mapObject->mUnk_0a8 == 2;
@@ -826,11 +826,11 @@ void CreateKingTeresaKindData(void) {
         CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x0u, 0x0u, 0x0u);
 }
 
-void *CreateKingTeresaDrawList(void) {
+MapObjectList *CreateKingTeresaDrawList(void) {
     return CreateMapObjectDrawList1(InitKingTeresa, DrawKingTeresa, ToggleShadowScale);
 }
 
-void *CreateKingTeresaUpdateList(void) {
+MapObjectList *CreateKingTeresaUpdateList(void) {
     return CreateMapObjectUpdateList(InitKingTeresaObjects, UpdateKingTeresa, NULL);
 }
 

@@ -76,10 +76,6 @@ typedef struct RecordGpx {
     /* 90 */ s32 mNextScreen;
 } RecordGpx;
 
-extern const u16 gRecordGpxTotalPointsCellIndices[4][3];
-extern const u16 gRecordGpxGradeCellIndices[4][3];
-extern const u16 gRecordGpxCharacterKartCellIndices[4][2];
-
 #include "01/Menu/option_states.h"
 #include "01/Menu/option_top_menu.h"
 #include "01/Menu/record_time_attack.h"
@@ -91,12 +87,7 @@ extern const u16 gRecordGpxCharacterKartCellIndices[4][2];
 #include "code_0214cfe4.h"
 #include "Main/System/result_archive_path.h"
 
-extern const u16 gRecordGpxTimeLabelIndices[4];
-extern const u16 gRecordGpxTotalPointsLabelIndices[4];
-extern const u16 gRecordGpxGradeLabelIndices[4];
-extern const u16 gRecordGpxLowSTableIndices[4];
-extern const u16 gRecordGpxHighSTableIndices[4];
-extern const u16 gRecordGpxTrophyCellIndices[4];
+extern RecordGpx *gRecordGpx;
 // Objects whose layout isn't known yet.
 extern const RecordScreenCallbacks gRecordGpxCallbacks;
 extern const RecordScreenCallbacks gRecordTAttCallbacks;
@@ -132,3 +123,21 @@ void SetupRecordGpxValues(s32 row);
 void LocateAndQueueRecordGpx(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u16 gRecordGpxRunningSTableIndices[2];
+extern const u16 gRecordGpxTotalPointsLabelWidths[4];
+extern const u16 gRecordGpxTotalPointsLabelIndices[4];
+extern const u16 gRecordGpxCharacterKartCellIndices[4][2];
+extern const u16 gRecordGpxGradeLabelHeights[4];
+extern const u16 gRecordGpxGradeLabelWidths[4];
+extern const u16 gRecordGpxTrophyNclrPaletteIndices[4];
+extern const u16 gRecordGpxTotalPointsLabelHeights[4];
+extern const u16 gRecordGpxTimeLabelWidths[4];
+extern const u16 gRecordGpxTimeLabelHeights[4];
+extern const u16 gRecordGpxGradeLabelIndices[4];
+extern const u16 gRecordGpxLowSTableIndices[4];
+extern const u16 gRecordGpxTrophyPaletteIndices[4];
+extern const u16 gRecordGpxTimerZeroSTableIndices[2];
+extern const u16 gRecordGpxHighSTableIndices[4];
+extern const u16 gRecordGpxTimeLabelIndices[4];
+extern const u16 gRecordGpxTrophyCellIndices[4];

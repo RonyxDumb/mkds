@@ -44,3 +44,18 @@ extern const u32 gSelectEngineIndicesByEngineIndex[3];
 extern const s32 gSelectEngineRectIndices[4];
 extern const s16 gSelectEngineUpStepsFlagSet[4];
 extern const u16 gSelectEngineMTableIndices[4];
+
+extern const char *gSelectEngineMBNclrName;
+extern const char *gSelectEngineBSBnclName;
+extern const char *gSelectEngineBSBnblName;
+extern const char *gSelectEngineMNscrName;
+extern const char *gSelectEngineSNcgrName;
+extern const char *gSelectEngineMBNcgrName;
+extern const char *gSelectEngineMBnclName;
+extern const char *gSelectEngineMNcerName;
+extern const char *gSelectEngineSNcerName;
+extern const char *gSelectEngineMNcgrName;
+extern const char *gSelectEngineMONclrName;
+extern const char *gSelectEngineSONclrName;
+extern const char *gSelectEngineASBnblName;
+extern const char *gSelectEngineASBnclName;

@@ -9,8 +9,8 @@ typedef struct MapObjectModel MapObjectModel;
 
 #include "01/code_0218b9b4.h"
 
-void *CreateMissionGateUpdateList(void);
-void *CreateMissionGateDrawList(void);
+MapObjectList *CreateMissionGateUpdateList(void);
+MapObjectList *CreateMissionGateDrawList(void);
 void CreateMissionGateKindData(void);
 void UpdateMissionGate(
     void *unused, MissionGateObject *missionGateObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
@@ -22,4 +22,4 @@ u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart,
                                u8 *responsePointer);
 void InitMissionGate(MissionGateObject *missionGateObject);
 
-extern Unk021a7b64 gMissionGateKindDescriptor;
+extern MapObjectKindDescriptor gMissionGateKindDescriptor;

@@ -20,3 +20,5 @@ gHanachanFollowerKindDescriptor
 gKingTeresaKindDescriptor
 gIwanteKindDescriptor
 gStopSignKindDescriptor
+gCameraEffectKindDescriptor
+gPeriodicEffectKindDescriptor

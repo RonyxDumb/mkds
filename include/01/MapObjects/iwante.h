@@ -44,11 +44,11 @@ typedef struct ItemObject ItemObject;
 #include "01/code_0218b9b4.h"
 #include "Main/Sound/sound_source_list.h"
 
-extern Unk021a7b64 gIwanteHandsKindDescriptor;
+extern MapObjectKindDescriptor gIwanteHandsKindDescriptor;
 
-void *CreateIwanteHandsUpdateList(void);
-void *CreateIwanteUpdateList(void);
-void *CreateIwanteDrawList(void);
+MapObjectList *CreateIwanteHandsUpdateList(void);
+MapObjectList *CreateIwanteUpdateList(void);
+MapObjectList *CreateIwanteDrawList(void);
 void CreateIwanteKindData(void);
 void DrawIwante(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitIwante(MapObjectList *mapObjectList);
@@ -141,7 +141,7 @@ void IwanteKartHitCallback(MissionRunMapObject *mapObject);
 void IwanteKartResponse2Callback(MissionRunMapObject *mapObject);
 void InitIwanteSoundSource(MissionRunMapObject *mapObject);
 
-extern Unk021a7b64 gIwanteKindDescriptor;
+extern MapObjectKindDescriptor gIwanteKindDescriptor;
 extern SoundStartParams gIwanteEndSoundParams;
 extern const u32 gIwanteSkipKindSoundFlag;
 extern const u16 gIwanteDisabledFlag;

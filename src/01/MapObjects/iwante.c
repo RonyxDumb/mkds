@@ -77,9 +77,9 @@
 #include "01/MapObjects/king_teresa.h"
 #include "Main/MapObjects/bound.h"
 
-Unk021a7b64 gIwanteKindDescriptor = {0, 0x30c, InitIwanteSoundSource, CreateIwanteKindData, CreateIwanteDrawList, NULL, 0, CreateIwanteUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gIwanteKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitIwanteSoundSource, (MapObjectKindData *(*)(void)) CreateIwanteKindData, CreateIwanteDrawList, NULL, NULL, CreateIwanteUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 SoundStartParams gIwanteEndSoundParams = {0x217, NULL, 0xc, 0};
-Unk021a7b64 gIwanteHandsKindDescriptor = {0, 0x30c, NULL, (void (*)(void)) CreateEmptyMapObjectKindData, NULL, NULL, 0, CreateIwanteHandsUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gIwanteHandsKindDescriptor = {0, {0, 0}, 0x30c, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateIwanteHandsUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
@@ -1429,15 +1429,15 @@ void CreateIwanteKindData(void) {
                                                          collideItemSoundId);
 }
 
-void *CreateIwanteDrawList(void) {
+MapObjectList *CreateIwanteDrawList(void) {
     return CreateMapObjectDrawList1(InitIwante, DrawIwante, ToggleShadowScale);
 }
 
-void *CreateIwanteUpdateList(void) {
+MapObjectList *CreateIwanteUpdateList(void) {
     return CreateMapObjectUpdateList(InitIwanteObjects, UpdateIwante, NULL);
 }
 
-void *CreateIwanteHandsUpdateList(void) {
+MapObjectList *CreateIwanteHandsUpdateList(void) {
     return CreateMapObjectUpdateList(InitIwanteHandsObjects, UpdateIwanteHands, NULL);
 }
 

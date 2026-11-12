@@ -74,8 +74,8 @@
 
 const u32 gHanachanSkipKindSoundFlag = 0x40000000;
 SoundStartParams gHanachanEndSoundParams = {0x250, NULL, 0xd, 0};
-Unk021a7b64 gHanachanKindDescriptor = {0, 0x30c, InitHanachanMapObject, CreateHanachanKindData, CreateHanachanDrawList, NULL, 0, CreateHanachanUpdateList, {0, 0, 0, 0, 0}};
-Unk021a7b64 gHanachanFollowerKindDescriptor = {0, 0x30c, InitHanachanFollowerMapObject, CreateHanachanFollowerKindData, CreateHanachanFollowerDrawList, NULL, 0, CreateHanachanFollowerUpdateList, {0, 0, 0, 0, 0}};
+MapObjectKindDescriptor gHanachanKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitHanachanMapObject, (MapObjectKindData *(*)(void)) CreateHanachanKindData, CreateHanachanDrawList, NULL, NULL, CreateHanachanUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gHanachanFollowerKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitHanachanFollowerMapObject, (MapObjectKindData *(*)(void)) CreateHanachanFollowerKindData, CreateHanachanFollowerDrawList, NULL, NULL, CreateHanachanFollowerUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 void HanachanItemHitCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2e0 = 0;
@@ -790,11 +790,11 @@ void CreateHanachanKindData(void) {
         CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
-void *CreateHanachanDrawList(void) {
+MapObjectList *CreateHanachanDrawList(void) {
     return CreateMapObjectDrawList1(InitHanachan, DrawHanachan, NULL);
 }
 
-void *CreateHanachanUpdateList(void) {
+MapObjectList *CreateHanachanUpdateList(void) {
     return CreateMapObjectUpdateList(InitHanachanObjects, UpdateHanachan, NULL);
 }
 
@@ -806,10 +806,10 @@ void CreateHanachanFollowerKindData(void) {
         CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
-void *CreateHanachanFollowerDrawList(void) {
+MapObjectList *CreateHanachanFollowerDrawList(void) {
     return CreateMapObjectDrawList1(InitHanachanFollower, DrawHanachan, ToggleShadowScale);
 }
 
-void *CreateHanachanFollowerUpdateList(void) {
+MapObjectList *CreateHanachanFollowerUpdateList(void) {
     return CreateMapObjectUpdateList(InitHanachanFollowerObjects, UpdateHanachanFollower, NULL);
 }

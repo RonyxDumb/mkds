@@ -34,7 +34,7 @@ typedef struct StopSignObject {
 
 #include "01/code_0218b9b4.h"
 
-void *CreateStopSignDrawList(void);
+MapObjectList *CreateStopSignDrawList(void);
 void CreateStopSignKindData(void);
 void DrawStopSign(void *mapObjectList, StopSignObject *mapObject);
 void LoadStopSign(MapObjectList *mapObjectList);
@@ -43,4 +43,4 @@ void InitStopSign(
 
 #include "01/Menu/select_ghost.h"
 
-extern Unk021a7b64 gStopSignKindDescriptor;
+extern MapObjectKindDescriptor gStopSignKindDescriptor;

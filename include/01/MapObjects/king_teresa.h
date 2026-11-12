@@ -8,8 +8,8 @@ typedef struct Kart Kart;
 
 #include "01/code_0218b9b4.h"
 
-void *CreateKingTeresaUpdateList(void);
-void *CreateKingTeresaDrawList(void);
+MapObjectList *CreateKingTeresaUpdateList(void);
+MapObjectList *CreateKingTeresaDrawList(void);
 void CreateKingTeresaKindData(void);
 void DrawKingTeresa(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitKingTeresa(MapObjectList *mapObjectList);
@@ -59,7 +59,7 @@ void SetKingTeresaVelocityToKartStep(MissionRunMapObject *mapObject);
 void SetKingTeresaVelocityWithKartTurn(MissionRunMapObject *mapObject);
 void HideKingTeresaWithEffects(MissionRunMapObject *mapObject);
 
-extern Unk021a7b64 gKingTeresaKindDescriptor;
+extern MapObjectKindDescriptor gKingTeresaKindDescriptor;
 extern const u16 gKingTeresaHiddenFlag;
 extern const u16 gKingTeresaSkipListCallbackFlag;
 extern const u16 gKingTeresaSkipViewTestFlag;

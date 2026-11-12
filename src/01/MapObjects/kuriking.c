@@ -81,9 +81,13 @@ const u16 gKurikingSkipViewTestFlag = 2;
 const u16 gKurikingJumpFlag = 0x20;
 const u16 gKurikingDisabledFlag = 1;
 const u16 gKurikingSkipListCallbackFlag = 8;
-Unk021a7b64 gKurikingKindDescriptor = {
-    0, 0x30c, InitKurikingMapObject,    CreateKurikingKindData, CreateKurikingDrawList,
-    0, 0,     CreateKurikingUpdateList, {0, 0, 0, 0, 0},
+MapObjectKindDescriptor gKurikingKindDescriptor = {
+    0,    {0, 0},
+    0x30c, (void (*)(void *, CourseMapRow *, void *)) InitKurikingMapObject,
+    (MapObjectKindData *(*)(void)) CreateKurikingKindData, CreateKurikingDrawList,
+    NULL, NULL,
+    CreateKurikingUpdateList, NULL,
+    {NULL, NULL, NULL, NULL},
 };
 
 void SetKurikingCollisionAndShadow(MissionRunMapObject *mapObject) {
@@ -660,10 +664,10 @@ void CreateKurikingKindData(void) {
         CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
-void *CreateKurikingDrawList(void) {
+MapObjectList *CreateKurikingDrawList(void) {
     return CreateMapObjectDrawList1(InitKuriking, DrawKuriking, ToggleShadowScale);
 }
 
-void *CreateKurikingUpdateList(void) {
+MapObjectList *CreateKurikingUpdateList(void) {
     return CreateMapObjectUpdateList(InitKurikingObjects, UpdateKuriking, NULL);
 }

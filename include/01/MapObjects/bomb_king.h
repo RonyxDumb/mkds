@@ -11,8 +11,8 @@ typedef struct ItemObject ItemObject;
 #include "01/code_0218b9b4.h"
 #include "Main/Sound/sound_source_list.h"
 
-void *CreateBombKingUpdateList(void);
-void *CreateBombKingDrawList(void);
+MapObjectList *CreateBombKingUpdateList(void);
+MapObjectList *CreateBombKingDrawList(void);
 void CreateBombKingKindData(void);
 void DrawBombKing(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitBombKing(MapObjectList *list);
@@ -33,7 +33,7 @@ void StartBombKingKartNotEliminatedState(MissionRunMapObject *mapObject);
 void StartBombKingNotEliminatedEffects(MissionRunMapObject *mapObject);
 
 extern SoundStartParams gBombKingEndSoundParams;
-extern Unk021a7b64 gBombKingKindDescriptor;
+extern MapObjectKindDescriptor gBombKingKindDescriptor;
 
 extern const u32 gBombKingSkipKindSoundFlag;
 extern const u16 gBombKingSkipListCallbackFlag;

@@ -1203,15 +1203,12 @@ gRecordGpxHighSTableIndices kind:data(any) addr:0x021a663c
 gRecordGpxTotalPointsLabelWidths kind:data(any) addr:0x021a6644
 gRecordGpxTrophyCellIndices kind:data(any) addr:0x021a664c
 gRecordGpxCharacterKartCellIndices kind:data(any) addr:0x021a6654
-data_usa_ov001_021a6656 kind:data(any) addr:0x021a6656
 gRecordGpxCharacterPaletteSlots kind:data(any) addr:0x021a6664
 gRecordGpxKartPaletteSlots kind:data(any) addr:0x021a666c
 gRecordGpxRecordIndices kind:data(any) addr:0x021a6674
 gRecordGpxCupTrophyCells kind:data(any) addr:0x021a6684
 gRecordGpxGradeCellIndices kind:data(any) addr:0x021a6694
 gRecordGpxTotalPointsCellIndices kind:data(any) addr:0x021a66ac
-data_usa_ov001_021a66ae kind:data(any) addr:0x021a66ae
-data_usa_ov001_021a66b0 kind:data(any) addr:0x021a66b0
 gRecordGpxCharacterCells kind:data(any) addr:0x021a66c4
 gRecordGpxCupFlagIndices kind:data(any) addr:0x021a66e0
 gRecordGpxCupMessageIndices kind:data(any) addr:0x021a6700
@@ -1708,22 +1705,22 @@ gSelectEngineMBnclName kind:data(any) addr:0x021a94d4
 gSelectEngineMBNclrName kind:data(any) addr:0x021a94d8
 gSelectEngineMONclrName kind:data(any) addr:0x021a94dc
 gSelectEngineBSBnblName kind:data(any) addr:0x021a94e0
-data_usa_ov001_021a94e4 kind:data(any) addr:0x021a94e4
-data_usa_ov001_021a94fc kind:data(any) addr:0x021a94fc
-data_usa_ov001_021a9514 kind:data(any) addr:0x021a9514
-data_usa_ov001_021a9530 kind:data(any) addr:0x021a9530
-data_usa_ov001_021a954c kind:data(any) addr:0x021a954c
-data_usa_ov001_021a9568 kind:data(any) addr:0x021a9568
-data_usa_ov001_021a9584 kind:data(any) addr:0x021a9584
-data_usa_ov001_021a95a0 kind:data(any) addr:0x021a95a0
-data_usa_ov001_021a95bc kind:data(any) addr:0x021a95bc
-data_usa_ov001_021a95d8 kind:data(any) addr:0x021a95d8
-data_usa_ov001_021a95f4 kind:data(any) addr:0x021a95f4
-data_usa_ov001_021a9610 kind:data(any) addr:0x021a9610
-data_usa_ov001_021a962c kind:data(any) addr:0x021a962c
-data_usa_ov001_021a9648 kind:data(any) addr:0x021a9648
-data_usa_ov001_021a9664 kind:data(any) addr:0x021a9664 ambiguous
-data_usa_ov001_021a9698 kind:data(any) addr:0x021a9698 ambiguous
+@6206 kind:data(any) addr:0x021a94e4 local
+@6203 kind:data(any) addr:0x021a94fc local
+@6211 kind:data(any) addr:0x021a9514 local
+@6213 kind:data(any) addr:0x021a9530 local
+@6205 kind:data(any) addr:0x021a954c local
+@6212 kind:data(any) addr:0x021a9568 local
+@6200 kind:data(any) addr:0x021a9584 local
+@6201 kind:data(any) addr:0x021a95a0 local
+@6202 kind:data(any) addr:0x021a95bc local
+@6210 kind:data(any) addr:0x021a95d8 local
+@6204 kind:data(any) addr:0x021a95f4 local
+@6208 kind:data(any) addr:0x021a9610 local
+@6209 kind:data(any) addr:0x021a962c local
+@6207 kind:data(any) addr:0x021a9648 local
+gCameraEffectKindDescriptor kind:data(any) addr:0x021a9664 ambiguous
+gPeriodicEffectKindDescriptor kind:data(any) addr:0x021a9698 ambiguous
 @5890 kind:data(any) addr:0x021a96cc local
 @5891 kind:data(any) addr:0x021a96dc local
 @5892 kind:data(any) addr:0x021a96ec local
@@ -1757,10 +1754,10 @@ gMissionRunBossIconSNcerName kind:data(any) addr:0x021a9908
 gMissionRunBossIconSNcgrName kind:data(any) addr:0x021a990c
 gMissionRunBossIconSBnclName kind:data(any) addr:0x021a9910
 gMissionRunBossIconSONclrName kind:data(any) addr:0x021a9914
-data_usa_ov001_021a9918 kind:data(any) addr:0x021a9918
-data_usa_ov001_021a9938 kind:data(any) addr:0x021a9938
-data_usa_ov001_021a995c kind:data(any) addr:0x021a995c
-data_usa_ov001_021a9980 kind:data(any) addr:0x021a9980
+@6179 kind:data(any) addr:0x021a9918 local
+@6178 kind:data(any) addr:0x021a9938 local
+@6176 kind:data(any) addr:0x021a995c local
+@6177 kind:data(any) addr:0x021a9980 local
 gLogoScene kind:bss addr:0x021a99c0 ambiguous
 gTestScene kind:bss addr:0x021a99c4
 gTestSceneCharTableIndex kind:bss addr:0x021a99c8
