@@ -20,7 +20,6 @@
 #include "00/Lib/GameSpy/code_0219a61c.h"
 #include "00/code_02197000.h"
 #include "00/code_02199000.h"
-#include "00/Lib/GameSpy/gt2Message.h"
 #include "00/Lib/GameSpy/code_02197ddc.h"
 #include "code_021382a8.h"
 

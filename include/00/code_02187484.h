@@ -39,24 +39,10 @@ typedef struct DWCAuthResult {
 
 #include "os_thread.h"
 
-extern char *gConnTestUrl;
-extern char gUrlPairName[];
-extern char gDataPairName[];
-extern char gWaitPairName[];
-extern char gHttpresultPairName3[];
-extern char data_ov000_021b1400[];
-extern char data_ov000_021b1420[];
-extern char gActionPairName2[];
-extern char gMessagePairValue[];
-extern char gSsidPairName[];
-extern char gHotSpotResponsePairName[];
-extern char gHttpbodyPairName2[];
-extern char gParsePairValue[];
-extern char gHtmlPairName[];
-extern char gReturncdPairName2[];
 
 u32 DWC_Netcheck_GetReturnCode(void);
 void DWCi_Netcheck_SetError(u32 error);
 u32 DWC_Netcheck_GetError(void);
 void DWCi_Netcheck_Thread(void);
+void UnusedAllocLiterals(void);
 void DWC_Netcheck_Abort(void);

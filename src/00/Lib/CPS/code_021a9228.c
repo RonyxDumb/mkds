@@ -31,6 +31,16 @@ u8 gRandomByteState[0x14];
 HttpsEntry gUncachedHttpsEntry;
 HttpsEntry gHttpsEntries[4];
 
+static char sPrefixNone[] = "\xff\xff\xff";
+static char sPrefixCommonName[] = "\x55\x04\x03";
+u32 gSslLowThreadPriority = 0xffffffff;
+static char sPrefixRsaEncryption[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01";
+static char sPrefixRsaAlgorithm[] = "\x55\x08\x01\x01";
+static char sPrefixMd5WithRsa[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x04";
+static char sPrefixSha1WithRsa[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x05";
+u16 gOfferedValues[2] = {4, 5};
+const char *gTaggedItemPrefixes[6] = {sPrefixNone,        sPrefixRsaEncryption, sPrefixRsaAlgorithm,
+                                      sPrefixMd5WithRsa, sPrefixSha1WithRsa,    sPrefixCommonName};
 
 HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes) {
     s32 i;
@@ -783,9 +793,9 @@ void ReplaceEntryBytesWithLabeledDigests(HttpsState *httpsState) {
     u8 firstDigest[16];
     u8 secondDigest[16];
     u8 thirdDigest[16];
-    ComputeLabeledDigest16(firstDigest, gLabelAText, httpsState);
-    ComputeLabeledDigest16(secondDigest, gLabelBBText, httpsState);
-    ComputeLabeledDigest16(thirdDigest, gLabelCCCText, httpsState);
+    ComputeLabeledDigest16(firstDigest, (const u8 *) "A", httpsState);
+    ComputeLabeledDigest16(secondDigest, (const u8 *) "BB", httpsState);
+    ComputeLabeledDigest16(thirdDigest, (const u8 *) "CCC", httpsState);
     MI_CpuCopy8(firstDigest, httpsState->mEntry->mMasterSecret, 0x30);
 }
 
@@ -868,9 +878,9 @@ void ComputeLabeledMessageDigest16(HttpsState *httpsState, u8 *digest, u32 fromO
     CPSMd5Ctx *messageHash;
     messageHash = &httpsState->mMessageHash16;
     if ((httpsState->mReceivesKind1Record ^ fromOtherSide) != 0) {
-        CPSi_md5_calc(messageHash, gSrvrText, 4);
+        CPSi_md5_calc(messageHash, (const u8 *) "SRVR", 4);
     } else {
-        CPSi_md5_calc(messageHash, gClntText, 4);
+        CPSi_md5_calc(messageHash, (const u8 *) "CLNT", 4);
     }
     CPSi_md5_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x36, 0x30);
@@ -889,9 +899,9 @@ void ComputeLabeledMessageDigest20(HttpsState *httpsState, u8 *digest, u32 fromO
     Hash20Context *messageHash;
     messageHash = &httpsState->mMessageHash20;
     if ((httpsState->mReceivesKind1Record ^ fromOtherSide) != 0) {
-        CPSi_sha1_calc(messageHash, gSrvrText, 4);
+        CPSi_sha1_calc(messageHash, (const u8 *) "SRVR", 4);
     } else {
-        CPSi_sha1_calc(messageHash, gClntText, 4);
+        CPSi_sha1_calc(messageHash, (const u8 *) "CLNT", 4);
     }
     CPSi_sha1_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
     MI_CpuFill8(padBytes, 0x36, 0x28);

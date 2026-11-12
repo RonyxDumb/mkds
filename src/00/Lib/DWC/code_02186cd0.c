@@ -33,12 +33,13 @@ Http *gHttp;
 DWCNetcheck *gNetcheck;
 DWCHttpParam gHttpParam;
 AuthCreateParams gAuthParam;
+char *gConnTestUrl = "http://conntest.nintendowifi.net/";
 
 u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
     if (gNetcheck != NULL) {
         return 4;
     }
-    gNetcheck = param->mAlloc(gNetcheckName, 0x1200);
+    gNetcheck = param->mAlloc("DWCnetcheck", 0x1200);
     if (gNetcheck == NULL) {
         return 4;
     }
@@ -48,7 +49,7 @@ u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
     if (gHttp != NULL) {
         return 4;
     }
-    gHttp = gNetcheck->mParam.mAlloc(gHttpName, 0x1a60);
+    gHttp = gNetcheck->mParam.mAlloc("DWChttp", 0x1a60);
     if (gHttp == NULL) {
         return 4;
     }
@@ -60,20 +61,20 @@ u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
 void DWC_Netcheck_Destroy(void) {
     if (gHttp != NULL) {
         ReleaseHttp((Http *) gHttp);
-        gNetcheck->mParam.mFree(gHttpName, gHttp, 0);
+        gNetcheck->mParam.mFree("DWChttp", gHttp, 0);
         gHttp = NULL;
     }
     DWC_Auth_Destroy();
     if (gNetcheck != NULL) {
         if (gNetcheck->mBody302 != NULL) {
-            gNetcheck->mParam.mFree(gNetcheckBody302Name, gNetcheck->mBody302, 0);
+            gNetcheck->mParam.mFree("DWCnetcheck->body_302", gNetcheck->mBody302, 0);
             gNetcheck->mBody302 = NULL;
         }
         if (gNetcheck->mBodyWayport != NULL) {
-            gNetcheck->mParam.mFree(gNetcheckBodyWayportName, gNetcheck->mBodyWayport, 0);
+            gNetcheck->mParam.mFree("DWCnetcheck->body_wayport", gNetcheck->mBodyWayport, 0);
             gNetcheck->mBodyWayport = NULL;
         }
-        gNetcheck->mParam.mFree(gNetcheckName, gNetcheck, 0);
+        gNetcheck->mParam.mFree("DWCnetcheck", gNetcheck, 0);
         gNetcheck = NULL;
     }
 }
@@ -162,7 +163,7 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        r = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, gHttpresultPairName3));
+        r = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
         if (gLibErrorCode == 0x22) {
             DWCi_Netcheck_SetError(2);
             break;
@@ -180,7 +181,7 @@ void DWCi_Netcheck_Thread(void) {
                     gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
                     gHttpParam.mFree = gNetcheck->mParam.mFree;
                     gHttpParam.mTimeoutMillis = 20000;
-                    if (strcmp(gHttpParam.mUrl, data_ov000_021b1400) != 0) {
+                    if (strcmp(gHttpParam.mUrl, "https://nas.nintendowifi.net/ac") != 0) {
                         gHttpParam.mIgnoreCa = TRUE;
                     }
                     if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
@@ -188,13 +189,13 @@ void DWCi_Netcheck_Thread(void) {
                         DWCi_Netcheck_SetError(1);
                         break;
                     }
-                    if (DWCi_Auth_Prepare_FirstPost(gHttp, data_ov000_021b1420, data_ov000_021b1420,
+                    if (DWCi_Auth_Prepare_FirstPost(gHttp, "", "",
                                                     gNetcheck->mHttpLabelvalue, 0x20, 1) != 0) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(8);
                         break;
                     }
-                    if (DWC_Http_Add_PostBase64Item(gHttp, gActionPairName2, gMessagePairValue, 7) != FALSE) {
+                    if (DWC_Http_Add_PostBase64Item(gHttp, "action", "message", 7) != FALSE) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(8);
                         break;
@@ -204,19 +205,19 @@ void DWCi_Netcheck_Thread(void) {
                     WCM_GetApEssid(&ssidLength);
                     MI_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
                     OS_RestoreInterrupts(interruptState);
-                    if (DWC_Http_Add_PostBase64Item(gHttp, gSsidPairName, ssidText, strlen(ssidText)) != FALSE) {
+                    if (DWC_Http_Add_PostBase64Item(gHttp, "ssid", ssidText, strlen(ssidText)) != FALSE) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(8);
                         break;
                     }
                     s = gNetcheck->mBodyWayport;
-                    if (DWC_Http_Add_PostBase64Item(gHttp, gHotSpotResponsePairName, s, strlen(s)) != FALSE) {
+                    if (DWC_Http_Add_PostBase64Item(gHttp, "HotSpotResponse", s, strlen(s)) != FALSE) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(8);
                         break;
                     }
                     netcheck = gNetcheck;
-                    netcheck->mParam.mFree(gNetcheckBodyWayportName, netcheck->mBodyWayport, 0);
+                    netcheck->mParam.mFree("DWCnetcheck->body_wayport", netcheck->mBodyWayport, 0);
                     gNetcheck->mBodyWayport = NULL;
                     if (DWC_Http_FinishHeader(gHttp) != 0) {
                         ReleaseHttp(gHttp);
@@ -241,13 +242,13 @@ void DWCi_Netcheck_Thread(void) {
                             goto end;
                     }
                 }
-                s = DWC_Http_GetResult(netcheck->mHttpLabelvalue, 0x20, gHttpbodyPairName2);
+                s = DWC_Http_GetResult(netcheck->mHttpLabelvalue, 0x20, "httpbody");
                 if (s == NULL) {
                     ReleaseHttp(gHttp);
                     DWCi_Netcheck_SetError(2);
                     break;
                 }
-                gNetcheck->mBody302 = gNetcheck->mParam.mAlloc(gNetcheckBody302Name, strlen(s) + 1);
+                gNetcheck->mBody302 = gNetcheck->mParam.mAlloc("DWCnetcheck->body_302", strlen(s) + 1);
                 t = gNetcheck->mBody302;
                 if (t == NULL) {
                     ReleaseHttp(gHttp);
@@ -299,7 +300,7 @@ void DWCi_Netcheck_Thread(void) {
         gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
         gHttpParam.mFree = gNetcheck->mParam.mFree;
         gHttpParam.mTimeoutMillis = 40000;
-        if (strcmp(gHttpParam.mUrl, data_ov000_021b1400) != 0) {
+        if (strcmp(gHttpParam.mUrl, "https://nas.nintendowifi.net/ac") != 0) {
             gHttpParam.mIgnoreCa = TRUE;
         }
         if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
@@ -307,13 +308,13 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(1);
             break;
         }
-        if (DWCi_Auth_Prepare_FirstPost(gHttp, data_ov000_021b1420, data_ov000_021b1420, gNetcheck->mHttpLabelvalue,
+        if (DWCi_Auth_Prepare_FirstPost(gHttp, "", "", gNetcheck->mHttpLabelvalue,
                                         0x20, 1) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(8);
             break;
         }
-        if (DWC_Http_Add_PostBase64Item(gHttp, gActionPairName2, gParsePairValue, 5) != FALSE) {
+        if (DWC_Http_Add_PostBase64Item(gHttp, "action", "parse", 5) != FALSE) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(8);
             break;
@@ -323,19 +324,19 @@ void DWCi_Netcheck_Thread(void) {
         WCM_GetApEssid(&ssidLength);
         MI_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
         OS_RestoreInterrupts(interruptState);
-        if (DWC_Http_Add_PostBase64Item(gHttp, gSsidPairName, ssidText, strlen(ssidText)) != FALSE) {
+        if (DWC_Http_Add_PostBase64Item(gHttp, "ssid", ssidText, strlen(ssidText)) != FALSE) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(8);
             break;
         }
         s = gNetcheck->mBody302;
-        if (DWC_Http_Add_PostBase64Item(gHttp, gHtmlPairName, s, strlen(s)) != FALSE) {
+        if (DWC_Http_Add_PostBase64Item(gHttp, "HTML", s, strlen(s)) != FALSE) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(8);
             break;
         }
         netcheck = gNetcheck;
-        netcheck->mParam.mFree(gNetcheckBody302Name, netcheck->mBody302, 0);
+        netcheck->mParam.mFree("DWCnetcheck->body_302", netcheck->mBody302, 0);
         gNetcheck->mBody302 = NULL;
         if (DWC_Http_FinishHeader(gHttp) != 0) {
             ReleaseHttp(gHttp);
@@ -362,7 +363,7 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        r = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, gHttpresultPairName3));
+        r = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
         if (gLibErrorCode == 0x22) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(2);
@@ -373,7 +374,7 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        if (DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, gReturncdPairName2, retcodeText, 4) <=
+        if (DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "returncd", retcodeText, 4) <=
             0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
@@ -390,33 +391,33 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(6);
             break;
         }
-        urlLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, gUrlPairName, NULL, 0);
+        urlLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "url", NULL, 0);
         if (urlLength <= 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
             break;
         }
-        dataLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, gDataPairName, NULL, 0);
+        dataLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "data", NULL, 0);
         if (dataLength <= 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
             break;
         }
-        waitLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, gWaitPairName, NULL, 0);
-        urlText = gNetcheck->mParam.mAlloc(gUrlPairName, urlLength + 1);
+        waitLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "wait", NULL, 0);
+        urlText = gNetcheck->mParam.mAlloc("url", urlLength + 1);
         if (urlText == NULL) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(4);
             break;
         }
-        dataText = gNetcheck->mParam.mAlloc(gDataPairName, dataLength + 1);
+        dataText = gNetcheck->mParam.mAlloc("data", dataLength + 1);
         if (dataText == NULL) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(4);
             break;
         }
         if (waitLength > 0) {
-            waitText = gNetcheck->mParam.mAlloc(gWaitPairName, waitLength + 1);
+            waitText = gNetcheck->mParam.mAlloc("wait", waitLength + 1);
             if (waitText == NULL) {
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(4);
@@ -424,7 +425,7 @@ void DWCi_Netcheck_Thread(void) {
             }
         }
         decodedLength =
-            DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, gUrlPairName, urlText, urlLength + 1);
+            DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "url", urlText, urlLength + 1);
         if (decodedLength < 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
@@ -432,7 +433,7 @@ void DWCi_Netcheck_Thread(void) {
         }
         urlText[decodedLength] = 0;
         decodedLength =
-            DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, gDataPairName, dataText, dataLength + 1);
+            DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "data", dataText, dataLength + 1);
         if (decodedLength < 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
@@ -441,7 +442,7 @@ void DWCi_Netcheck_Thread(void) {
         dataText[decodedLength] = 0;
         waitMillis = 0;
         if (waitLength > 0) {
-            decodedLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, gWaitPairName, waitText,
+            decodedLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "wait", waitText,
                                                             waitLength + 1);
             if (decodedLength < 0) {
                 ReleaseHttp(gHttp);
@@ -504,13 +505,13 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        s = DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, gHttpbodyPairName2);
+        s = DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpbody");
         if (s == NULL) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(2);
             break;
         }
-        gNetcheck->mBodyWayport = gNetcheck->mParam.mAlloc(gNetcheckBodyWayportName, strlen(s) + 1);
+        gNetcheck->mBodyWayport = gNetcheck->mParam.mAlloc("DWCnetcheck->body_wayport", strlen(s) + 1);
         t = gNetcheck->mBodyWayport;
         if (t == NULL) {
             ReleaseHttp(gHttp);
@@ -523,14 +524,30 @@ void DWCi_Netcheck_Thread(void) {
     }
 end:
     if (urlText != NULL) {
-        gNetcheck->mParam.mFree(gUrlPairName, urlText, 0);
+        gNetcheck->mParam.mFree("url", urlText, 0);
     }
     if (dataText != NULL) {
-        gNetcheck->mParam.mFree(gDataPairName, dataText, 0);
+        gNetcheck->mParam.mFree("data", dataText, 0);
     }
     if (waitText != NULL) {
-        gNetcheck->mParam.mFree(gWaitPairName, waitText, 0);
+        gNetcheck->mParam.mFree("wait", waitText, 0);
     }
+}
+
+// Not in the ROM, but its literals are still part of this file.
+void UnusedAllocLiterals(void) {
+    DWCNetcheck *netcheck = gNetcheck;
+    void *urlText;
+    void *dataText;
+    void *waitText;
+    netcheck->mBody302 = netcheck->mParam.mAlloc("DWCnetcheck->body_302", 1);
+    urlText = netcheck->mParam.mAlloc("url", 1);
+    dataText = netcheck->mParam.mAlloc("data", 1);
+    waitText = netcheck->mParam.mAlloc("wait", 1);
+    netcheck->mBodyWayport = netcheck->mParam.mAlloc("DWCnetcheck->body_wayport", 1);
+    netcheck->mParam.mFree("url", urlText, 0);
+    netcheck->mParam.mFree("data", dataText, 0);
+    netcheck->mParam.mFree("wait", waitText, 0);
 }
 
 u32 DWC_Netcheck_GetError(void) {

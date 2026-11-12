@@ -19,5 +19,3 @@ extern DWCHttpParam DWCauthhttpparam;
 
 // Strings.
 extern char gNasAuthUrl[];
-extern char gNetcheckBody302Name[];
-extern char gNetcheckBodyWayportName[];

@@ -13,8 +13,6 @@ typedef struct DWCNetcheckParam {
 } DWCNetcheckParam;
 
 extern const s8 *gBase64Alphabet;
-extern u8 gHttpName[];
-extern u8 gNetcheckName[];
 
 void DWCi_Netcheck_StartThread(void);
 void DWC_Netcheck_Destroy(void);

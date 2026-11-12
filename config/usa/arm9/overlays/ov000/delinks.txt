@@ -111,6 +111,7 @@ src/00/Lib/DWC/code_02186600.c:
 src/00/Lib/DWC/code_02186cd0.c:
     complete
     .text       start:0x02187450 end:0x0218819c
+    .data       start:0x021b1344 end:0x021b1448
     .bss        start:0x021b4c6c end:0x021b4cc0
 
 // provisional: file name and boundaries
@@ -579,18 +580,8 @@ src/00/Lib/GameSpy/gt2Main.c:
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02198a8c.c:
     complete
-    .text       start:0x02198a58 end:0x02198cd0
-
-// provisional: file name and boundaries
-src/00/Lib/GameSpy/code_02198d04.c:
-    complete
-    .text       start:0x02198cd0 end:0x02199008
-    .data       start:0x021b3f70 end:0x021b3f88
-
-// provisional: file name and boundaries
-src/00/Lib/GameSpy/gt2Message.c:
-    complete
-    .text       start:0x02199008 end:0x0219a010
+    .text       start:0x02198a58 end:0x0219a010
+    .data       start:0x021b3f64 end:0x021b3f88
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/gt2Socket.c:
@@ -794,6 +785,7 @@ src/00/Lib/CPS/code_021a9200.c:
 src/00/Lib/CPS/code_021a9228.c:
     complete
     .text       start:0x021a91f4 end:0x021ab6a0
+    .data       start:0x021b49b4 end:0x021b4a24
     .bss        start:0x021b613c end:0x021b6324
 
 // provisional: file name and boundaries

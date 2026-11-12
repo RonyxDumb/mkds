@@ -1665,25 +1665,25 @@ gCaInfoTable kind:data(any) addr:0x021b11c4
 @6290 kind:data(any) addr:0x021b1330 local
 @6291 kind:data(any) addr:0x021b1334 local
 gConnTestUrl kind:data(any) addr:0x021b1344
-data_usa_ov000_021b1348 kind:data(any) addr:0x021b1348
-gNetcheckBody302Name kind:data(any) addr:0x021b136c
-gUrlPairName kind:data(any) addr:0x021b1384
-gDataPairName kind:data(any) addr:0x021b1388
-gWaitPairName kind:data(any) addr:0x021b1390
-gNetcheckBodyWayportName kind:data(any) addr:0x021b1398
-gHttpresultPairName3 kind:data(any) addr:0x021b13b4
-data_ov000_021b1400 kind:data(any) addr:0x021b13c0
-data_ov000_021b1420 kind:data(any) addr:0x021b13e0
-gActionPairName2 kind:data(any) addr:0x021b13e4
-gMessagePairValue kind:data(any) addr:0x021b13ec
-gSsidPairName kind:data(any) addr:0x021b13f4
-gHotSpotResponsePairName kind:data(any) addr:0x021b13fc
-gHttpbodyPairName2 kind:data(any) addr:0x021b140c
-gParsePairValue kind:data(any) addr:0x021b1418
-gHtmlPairName kind:data(any) addr:0x021b1420
-gReturncdPairName2 kind:data(any) addr:0x021b1428
-gHttpName kind:data(any) addr:0x021b1434
-gNetcheckName kind:data(any) addr:0x021b143c
+@2470 kind:data(any) addr:0x021b1348 local
+@2706 kind:data(any) addr:0x021b136c local
+@2707 kind:data(any) addr:0x021b1384 local
+@2708 kind:data(any) addr:0x021b1388 local
+@2709 kind:data(any) addr:0x021b1390 local
+@2710 kind:data(any) addr:0x021b1398 local
+@2992 kind:data(any) addr:0x021b13b4 local
+@2993 kind:data(any) addr:0x021b13c0 local
+@2994 kind:data(any) addr:0x021b13e0 local
+@2995 kind:data(any) addr:0x021b13e4 local
+@2996 kind:data(any) addr:0x021b13ec local
+@2997 kind:data(any) addr:0x021b13f4 local
+@2998 kind:data(any) addr:0x021b13fc local
+@2999 kind:data(any) addr:0x021b140c local
+@3000 kind:data(any) addr:0x021b1418 local
+@3001 kind:data(any) addr:0x021b1420 local
+@3002 kind:data(any) addr:0x021b1428 local
+@3085 kind:data(any) addr:0x021b1434 local
+@3086 kind:data(any) addr:0x021b143c local
 gBase64Alphabet kind:data(any) addr:0x021b1448
 @1516 kind:data(any) addr:0x021b144c local
 gGlobalSignRootCaExponent kind:data(any) addr:0x021b1490
@@ -1957,6 +1957,66 @@ gConnectionManagerName kind:data(any) addr:0x021b2aa8
 @2428 kind:data(any) addr:0x021b3000 local
 @2429 kind:data(any) addr:0x021b3010 local
 @2430 kind:data(any) addr:0x021b3014 local
+@2431 kind:data(any) addr:0x021b3018 local
+@2432 kind:data(any) addr:0x021b301c local
+@2433 kind:data(any) addr:0x021b3024 local
+@2434 kind:data(any) addr:0x021b3030 local
+@2435 kind:data(any) addr:0x021b3044 local
+@2436 kind:data(any) addr:0x021b3058 local
+@2437 kind:data(any) addr:0x021b3064 local
+@2438 kind:data(any) addr:0x021b306c local
+@2439 kind:data(any) addr:0x021b3074 local
+@2440 kind:data(any) addr:0x021b307c local
+@2441 kind:data(any) addr:0x021b3084 local
+@2442 kind:data(any) addr:0x021b308c local
+@2443 kind:data(any) addr:0x021b3094 local
+@2444 kind:data(any) addr:0x021b309c local
+@2573 kind:data(any) addr:0x021b30a4 local
+@2574 kind:data(any) addr:0x021b30b8 local
+@2575 kind:data(any) addr:0x021b30c8 local
+@2576 kind:data(any) addr:0x021b30d8 local
+@2578 kind:data(any) addr:0x021b30e4 local
+@2580 kind:data(any) addr:0x021b30f0 local
+@2582 kind:data(any) addr:0x021b3100 local
+@2583 kind:data(any) addr:0x021b3110 local
+@2584 kind:data(any) addr:0x021b3120 local
+@2585 kind:data(any) addr:0x021b3134 local
+@2615 kind:data(any) addr:0x021b3144 local
+@2616 kind:data(any) addr:0x021b315c local
+@2784 kind:data(any) addr:0x021b3170 local
+@2785 kind:data(any) addr:0x021b3178 local
+@2786 kind:data(any) addr:0x021b31a8 local
+@2787 kind:data(any) addr:0x021b31b8 local
+@2788 kind:data(any) addr:0x021b31c4 local
+@2790 kind:data(any) addr:0x021b31cc local
+@2792 kind:data(any) addr:0x021b31d4 local
+@2793 kind:data(any) addr:0x021b31dc local
+@2794 kind:data(any) addr:0x021b31e4 local
+@2795 kind:data(any) addr:0x021b31ec local
+@2796 kind:data(any) addr:0x021b31f4 local
+@2851 kind:data(any) addr:0x021b31fc local
+@2852 kind:data(any) addr:0x021b3214 local
+@2221 kind:data(any) addr:0x021b2f18 local
+@2224 kind:data(any) addr:0x021b2f28 local
+@2225 kind:data(any) addr:0x021b2f40 local
+@2226 kind:data(any) addr:0x021b2f4c local
+@2227 kind:data(any) addr:0x021b2f54 local
+@2235 kind:data(any) addr:0x021b2f5c local
+@2246 kind:data(any) addr:0x021b2f60 local
+@2247 kind:data(any) addr:0x021b2f70 local
+@2445 kind:data(any) addr:0x021b2f7c local
+@2446 kind:data(any) addr:0x021b2f8c local
+@2447 kind:data(any) addr:0x021b2f94 local
+@2448 kind:data(any) addr:0x021b2fa4 local
+@2449 kind:data(any) addr:0x021b2fac local
+@2450 kind:data(any) addr:0x021b2fb8 local
+@2451 kind:data(any) addr:0x021b2fc4 local
+@2452 kind:data(any) addr:0x021b2fd0 local
+@2453 kind:data(any) addr:0x021b2fdc local
+@2454 kind:data(any) addr:0x021b2fe8 local
+@2455 kind:data(any) addr:0x021b3000 local
+@2456 kind:data(any) addr:0x021b3010 local
+@2457 kind:data(any) addr:0x021b3014 local
 @2431 kind:data(any) addr:0x021b3018 local
 @2432 kind:data(any) addr:0x021b301c local
 @2433 kind:data(any) addr:0x021b3024 local
@@ -2298,19 +2358,19 @@ SOCLSocketParamTCP kind:data(any) addr:0x021b4978
 SOCLSocketParamUDPSend kind:data(any) addr:0x021b4990
 @2098 kind:data(any) addr:0x021b49a8 local
 gSslLowThreadPriority kind:data(any) addr:0x021b49b4
-data_usa_ov000_021b49b8 kind:data(any) addr:0x021b49b8
-data_usa_ov000_021b49bc kind:data(any) addr:0x021b49bc
+sPrefixNone kind:data(any) addr:0x021b49b8 local
+sPrefixCommonName kind:data(any) addr:0x021b49bc local
 gOfferedValues kind:data(any) addr:0x021b49c0
-data_usa_ov000_021b49c4 kind:data(any) addr:0x021b49c4
-data_usa_ov000_021b49cc kind:data(any) addr:0x021b49cc
-data_usa_ov000_021b49d8 kind:data(any) addr:0x021b49d8
-data_usa_ov000_021b49e4 kind:data(any) addr:0x021b49e4
+sPrefixRsaAlgorithm kind:data(any) addr:0x021b49c4 local
+sPrefixRsaEncryption kind:data(any) addr:0x021b49cc local
+sPrefixMd5WithRsa kind:data(any) addr:0x021b49d8 local
+sPrefixSha1WithRsa kind:data(any) addr:0x021b49e4 local
 gTaggedItemPrefixes kind:data(any) addr:0x021b49f0
-gSrvrText kind:data(any) addr:0x021b4a08
-gClntText kind:data(any) addr:0x021b4a10
-gLabelAText kind:data(any) addr:0x021b4a18
-gLabelBBText kind:data(any) addr:0x021b4a1c
-gLabelCCCText kind:data(any) addr:0x021b4a20
+@3422 kind:data(any) addr:0x021b4a08 local
+@3423 kind:data(any) addr:0x021b4a10 local
+@3462 kind:data(any) addr:0x021b4a18 local
+@3463 kind:data(any) addr:0x021b4a1c local
+@3464 kind:data(any) addr:0x021b4a20 local
 gMd5WordIndexes kind:data(any) addr:0x021b4a24
 gMd5PaddingBytes kind:data(any) addr:0x021b4a64
 gMd5StepConstants kind:data(any) addr:0x021b4aa4

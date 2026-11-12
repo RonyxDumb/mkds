@@ -31,13 +31,6 @@ typedef struct SOCLSocketParam {
 extern u32 gSslLowThreadPriority;
 extern NatnegMagic gNatnegMagicBytes;
 extern QueryRecord *gCurrentQr2Rec;
-extern u8 gSrvrText[];
-extern u8 gClntText[];
-extern u16 gOfferedValues[2];
-extern const char *gTaggedItemPrefixes[6];
-extern u8 gLabelAText[];
-extern u8 gLabelBBText[];
-extern u8 gLabelCCCText[];
 extern u8 gSha1PaddingBytes[];
 extern ACWORK *gAcWork;
 extern void *gWcmBuffer;

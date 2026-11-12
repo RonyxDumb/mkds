@@ -1,6 +1,6 @@
 #include "00/Lib/GameSpy/gt2Connection.h"
 #include "00/Lib/GameSpy/code_02197b34.h"
-#include "00/Lib/GameSpy/code_02198d04.h"
+#include "00/Lib/GameSpy/code_02198a8c.h"
 #include "00/Lib/GameSpy/gt2Socket.h"
 #include "00/Lib/GameSpy/code_0219a61c.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
@@ -12,7 +12,6 @@
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
 #include "00/unk_021b2000.h"
-#include "00/Lib/GameSpy/code_02198a8c.h"
 
 int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
     int result = gti2NewSocketConnection(socket, connection, address, port);

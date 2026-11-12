@@ -8,7 +8,6 @@
 #include "00/code_021a3000.h"
 #include "00/unk_021b2000.h"
 #include "00/Lib/GameSpy/code_02198a8c.h"
-#include "00/Lib/GameSpy/code_02198d04.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/unk_021b3000.h"
 

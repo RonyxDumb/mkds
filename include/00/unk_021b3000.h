@@ -13,4 +13,3 @@ extern char gPauthrStatement[];
 extern char gGetpidrStatement[];
 extern char gGetpdrStatement[];
 extern char gSetpdrStatement[];
-extern u8 gGti2MagicString[];
