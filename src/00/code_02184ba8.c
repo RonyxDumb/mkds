@@ -5,7 +5,7 @@
 #include "00/unk_021b0000.h"
 #include "Main/Scene/display_settings.h"
 #include "g2.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 #include "00/code_02180608.h"
 #include "00/unk_021b4000.h"

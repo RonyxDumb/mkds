@@ -24,7 +24,7 @@
 #include "code_0200eddc.h"
 #include "code_02148950.h"
 #include "g2.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "code_0214d018.h"
 #include "registers.h"
 #include "Main/System/heap.h"

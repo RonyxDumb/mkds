@@ -1,6 +1,6 @@
 #include "00/code_02185344.h"
 #include "00/unk_021b0000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 #include "00/code_02180608.h"
 #include "00/code_02184ba8.h"

@@ -11,7 +11,7 @@
 #include "code_0200eddc.h"
 #include "gx.h"
 #include "g2.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Unknown/code_020ca000.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_02077000.h"

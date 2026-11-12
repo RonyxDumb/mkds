@@ -47,7 +47,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "gx_bgcnt.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "code_0214cfe4.h"
 #include "Main/Unknown/code_021274e0.h"
 #include "Main/Unknown/code_02036bec.h"

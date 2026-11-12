@@ -33,7 +33,7 @@
 #include "03/code_021bf810.h"
 #include "03/code_021d1c18.h"
 #include "code_0200eddc.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "code_0214d018.h"
 #include "03/code_021cc8d4.h"
 #include "03/code_021cdcb8.h"

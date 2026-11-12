@@ -6,7 +6,7 @@
 #include "03/code_021d2940.h"
 #include "03/code_021c2000.h"
 #include "03/unk_021d7000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 #include "03/code_021cea3c.h"
 #include "03/code_021c209c.h"

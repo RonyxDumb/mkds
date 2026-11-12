@@ -13,7 +13,7 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/System/file_in_loaded.h"
 #include "g2d_NOB_load.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02037000.h"

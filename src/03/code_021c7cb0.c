@@ -3,7 +3,7 @@
 #include "03/code_021c209c.h"
 #include "03/code_021c7844.h"
 #include "03/unk_021d7000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 void SetupJb4Error(void) {
     LoadJb4ErrorFileAndSetBgCnt();

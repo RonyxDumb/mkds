@@ -72,7 +72,7 @@
 #include "Main/Unknown/unk_02164000.h"
 #include "01/code_021804e0.h"
 #include "Main/Graphics/cell_layout.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "code_0214d018.h"
 
 // Reads the table of gCupRecords, a row chosen by one call and a column by another.

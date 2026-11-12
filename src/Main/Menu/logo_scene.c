@@ -27,7 +27,7 @@
 #include "Main/Unknown/unk_02154000.h"
 #include "code_0200eddc.h"
 #include "g2.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName) {

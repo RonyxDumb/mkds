@@ -4145,14 +4145,9 @@ libs/NitroSDK/gx/src/code_0214a748.c:
     .text       start:0x0214a748 end:0x0214b338
 
 // provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214b338.c:
+libs/NitroSDK/gx/src/gx_load2d.c:
     complete
-    .text       start:0x0214b338 end:0x0214b824
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214b824.c:
-    complete
-    .text       start:0x0214b824 end:0x0214c1bc
+    .text       start:0x0214b338 end:0x0214c1bc
 
 // provisional: file name and boundaries
 libs/NitroSDK/gx/src/gx_load3d.c:

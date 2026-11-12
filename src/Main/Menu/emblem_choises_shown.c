@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_020cab74.h"
 #include "Main/Unknown/code_020cab8c.h"
 #include "Main/Unknown/code_020ca9e4.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Unknown/code_020ca994.h"
 #include "Main/Unknown/code_020ca9ac.h"
 #include "Main/Unknown/unk_02175628.h"

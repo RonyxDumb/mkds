@@ -36,7 +36,7 @@
 #include "Main/Unknown/code_020aba94.h"
 #include "Main/Unknown/code_020aba9c.h"
 #include "code_0200eddc.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/System/heap.h"
 #include "Main/Unknown/code_020aa810.h"
 #include "Main/System/heap_call.h"

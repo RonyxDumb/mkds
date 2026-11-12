@@ -34,7 +34,7 @@
 #include "Main/Unknown/code_020c4bd8.h"
 #include "Main/Unknown/code_0212a724.h"
 #include "g2d_CharCanvas.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/System/file_in_loaded.h"
 #include "g2d_NOB_load.h"
 #include "Main/Unknown/code_02023000.h"

@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_02148000.h"
 #include "g2d_CharCanvas.h"
 #include "gx.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Unknown/code_020ca000.h"
 #include "01/code_02180000.h"
 #include "01/unk_021a9000.h"

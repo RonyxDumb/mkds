@@ -4,7 +4,7 @@
 #include "03/unk_021da000.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "code_0200eddc.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 #include "03/code_021d1440.h"
 #include "03/unk_021d5000.h"

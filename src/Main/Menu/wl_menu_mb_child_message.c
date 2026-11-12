@@ -7,7 +7,7 @@
 #include "Main/Net/multiboot_child_files.h"
 #include "Main/Net/search_icon_mb_child_and.h"
 #include "Main/Unknown/unk_02174000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Unknown/code_02023000.h"
 #include "Main/Unknown/code_02024000.h"
 #include "Main/Unknown/code_0200e000.h"

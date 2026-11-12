@@ -32,7 +32,7 @@
 #include "code_0200eddc.h"
 #include "g2d_CharCanvas.h"
 #include "g2.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/unk_0216e000.h"
 #include "Main/Unknown/code_0212b0b8.h"

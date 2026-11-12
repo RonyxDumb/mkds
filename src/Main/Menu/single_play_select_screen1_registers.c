@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_020ccc9c.h"
 #include "gx.h"
 #include "code_02148950.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "registers.h"
 #include "Main/Unknown/code_020cb340.h"
 #include "Main/Unknown/unk_0217b000.h"

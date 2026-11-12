@@ -1,4 +1,4 @@
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "code_0214c778.h"
 #include "code_0214cfe4.h"
 #include "code_02148950.h"
@@ -6,6 +6,8 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0216f000.h"
+#include "Main/Unknown/code_02148000.h"
+#include "Main/Unknown/unk_02180000.h"
 
 void GX_LoadBGPltt(const void *src, u32 offset, u32 size) {
     if (GXi_DmaId != -1 && size > 0x1c) {
@@ -217,4 +219,127 @@ void GXS_LoadBG3Char(const void *src, u32 offset, u32 size) {
     } else {
         MIi_CpuCopy32(src, (void *) (ptr + offset), size);
     }
+}
+
+void GX_BeginLoadBGExtPltt(void) {
+    s32 mask;
+
+    mask = GX_ResetBankForBGExtPltt();
+    gBgExtPaletteLoadBankMask = mask;
+    switch (mask) {
+        case 0:
+            break;
+        case 0x10:
+            gBgExtPaletteLoadBase = 0x6880000;
+            gBgExtPaletteLoadBaseOffset = 0;
+            break;
+        case 0x40:
+            gBgExtPaletteLoadBase = 0x6894000;
+            gBgExtPaletteLoadBaseOffset = 0x4000;
+            break;
+        case 0x20:
+        case 0x60:
+            gBgExtPaletteLoadBase = 0x6890000;
+            gBgExtPaletteLoadBaseOffset = 0;
+            break;
+    }
+}
+
+void GX_LoadBGExtPltt(const void *src, u32 offset, u32 size) {
+    u32 dest;
+
+    dest = gBgExtPaletteLoadBase + offset - gBgExtPaletteLoadBaseOffset;
+    if (GXi_DmaId != -1) {
+        MI_DmaCopy32Async(GXi_DmaId, src, (void *) dest, size, 0, 0);
+    } else {
+        MIi_CpuCopy32(src, (void *) dest, size);
+    }
+}
+
+void GX_EndLoadBGExtPltt(void) {
+    if (GXi_DmaId != -1) {
+        MI_WaitDma(GXi_DmaId);
+    }
+    GX_SetBankForBGExtPltt(gBgExtPaletteLoadBankMask);
+    gBgExtPaletteLoadBankMask = 0;
+    gBgExtPaletteLoadBase = 0;
+    gBgExtPaletteLoadBaseOffset = 0;
+}
+
+void GX_BeginLoadOBJExtPltt(void) {
+    s32 mask;
+
+    mask = GX_ResetBankForOBJExtPltt();
+    gObjExtPaletteLoadBankMask = mask;
+    if (mask == 0) {
+        return;
+    }
+    switch (mask) {
+        case 0x20:
+            gObjExtPaletteLoadBase = 0x6890000;
+            break;
+        case 0x40:
+            gObjExtPaletteLoadBase = 0x6894000;
+            break;
+    }
+}
+
+void GX_LoadOBJExtPltt(const void *src, u32 offset, u32 size) {
+    u32 dest;
+
+    dest = gObjExtPaletteLoadBase + offset;
+    if (GXi_DmaId != -1) {
+        MI_DmaCopy32Async(GXi_DmaId, src, (void *) dest, size, 0, 0);
+    } else {
+        MIi_CpuCopy32(src, (void *) dest, size);
+    }
+}
+
+void GX_EndLoadOBJExtPltt(void) {
+    if (GXi_DmaId != -1) {
+        MI_WaitDma(GXi_DmaId);
+    }
+    GX_SetBankForOBJExtPltt(gObjExtPaletteLoadBankMask);
+    gObjExtPaletteLoadBankMask = 0;
+    gObjExtPaletteLoadBase = 0;
+}
+
+void GXS_BeginLoadBGExtPltt(void) {
+    gSubBgExtPaletteLoadBankMask = GX_ResetBankForSubBGExtPltt();
+}
+
+void GXS_LoadBGExtPltt(const void *src, u32 offset, u32 size) {
+    if (GXi_DmaId != -1) {
+        MI_DmaCopy32Async(GXi_DmaId, src, (void *) (offset + 0x6898000), size, 0, 0);
+    } else {
+        MIi_CpuCopy32(src, (void *) (offset + 0x6898000), size);
+    }
+}
+
+void GXS_EndLoadBGExtPltt(void) {
+    if (GXi_DmaId != -1) {
+        MI_WaitDma(GXi_DmaId);
+    }
+    GX_SetBankForSubBGExtPltt(gSubBgExtPaletteLoadBankMask);
+    gSubBgExtPaletteLoadBankMask = 0;
+}
+
+void GXS_BeginLoadOBJExtPltt(void) {
+    gSubObjExtPaletteLoadBankMask = GX_ResetBankForSubOBJExtPltt();
+}
+
+void GXS_LoadOBJExtPltt(const void *src, u32 offset, u32 size) {
+    if (GXi_DmaId != -1) {
+        MI_DmaCopy32Async(GXi_DmaId, src, (void *) (offset + 0x68a0000), size, 0, 0);
+    } else {
+        MIi_CpuCopy32(src, (void *) (offset + 0x68a0000), size);
+    }
+}
+
+void GXS_EndLoadOBJExtPltt(void) {
+    if (GXi_DmaId != -1) {
+        MI_WaitDma(GXi_DmaId);
+    }
+    GX_SetBankForSubOBJExtPltt(gSubObjExtPaletteLoadBankMask);
+    gSubObjExtPaletteLoadBankMask = 0;
 }

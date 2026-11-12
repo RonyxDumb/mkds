@@ -24,7 +24,7 @@
 #include "03/code_021d1770.h"
 #include "03/unk_021d5f00.h"
 #include "code_02142eac.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "03/unk_021d67d8.h"
 #include "registers.h"
 

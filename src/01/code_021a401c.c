@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_02078000.h"
 #include "Main/Unknown/code_02110000.h"
 #include "Main/Unknown/code_0214a000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 void AdvanceEmblemKartList(void) {
     int kartListNumber;

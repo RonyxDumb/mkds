@@ -12,7 +12,7 @@
 #include "code_0200c914.h"
 #include "code_0200eddc.h"
 #include "code_0200fc8c.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "code_0214d018.h"
 
 void InitObjCharRanges(void) {

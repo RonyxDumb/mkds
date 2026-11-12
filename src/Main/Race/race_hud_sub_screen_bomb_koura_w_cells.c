@@ -18,7 +18,7 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_0200eddc.h"
-#include "code_0214b338.h"
+#include "gx_load2d.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_020c0b84.h"

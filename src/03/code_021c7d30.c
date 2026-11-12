@@ -17,7 +17,7 @@
 #include "03/code_021cd000.h"
 #include "03/unk_021d7000.h"
 #include "03/unk_021da000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "03/code_021d1fd0.h"
 #include "03/unk_021d5000.h"
 #include "03/code_021bf410.h"

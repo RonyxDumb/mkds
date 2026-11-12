@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_0216e000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Unknown/code_0212802c.h"
 #include "Main/Unknown/code_02128058.h"
 #include "Main/Unknown/code_02023000.h"

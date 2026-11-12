@@ -36,7 +36,7 @@
 #include "03/code_021d1f70.h"
 #include "03/code_021d254c.h"
 #include "03/code_021d27d8.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "03/code_021c2a74.h"
 #include "03/code_021ca000.h"
 #include "03/code_021cd000.h"

@@ -34,7 +34,7 @@
 #include "Main/Unknown/code_02077000.h"
 #include "Main/Unknown/code_02110000.h"
 #include "Main/Unknown/code_0214a000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Unknown/code_020aa81c.h"
 #include "01/code_02181000.h"
 #include "Main/Unknown/code_0200e000.h"

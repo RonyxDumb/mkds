@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020c06c4.h"
 #include "Main/Graphics/oam_upload.h"
 #include "code_0200eddc.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 #pragma thumb on
 

@@ -63,7 +63,7 @@
 #include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_021262f0.h"
 #include "gx_bgcnt.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Unknown/code_020ab848.h"
 #include "Main/Unknown/code_0212a1c4.h"
 #include "Main/Unknown/unk_0216e000.h"

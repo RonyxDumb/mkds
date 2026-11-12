@@ -42,8 +42,7 @@
 #include "Main/Unknown/unk_02167000.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "g2.h"
-#include "code_0214b338.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "Main/Race/race_entries.h"
 
 void *TitleGetCurrentHeap(void) {

@@ -4,7 +4,7 @@
 #include "03/code_021d1dd0.h"
 #include "03/code_021d254c.h"
 #include "03/unk_021d7000.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 
 void LoadConnectMessageFileAndSetBgCnt(void) {
     void *nscName = &gXb4NoneNscName2;

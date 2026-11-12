@@ -26,7 +26,7 @@
 #include "03/code_021b94b8.h"
 #include "03/code_021cd2e0.h"
 #include "03/code_021bf810.h"
-#include "code_0214b824.h"
+#include "gx_load2d.h"
 #include "registers.h"
 
 void SetupWay(void) {
