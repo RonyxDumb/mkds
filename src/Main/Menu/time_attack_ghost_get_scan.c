@@ -81,6 +81,9 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Sound/sound_system.h"
 
+#pragma thumb on
+
+const s16 gTimeAttackGhostGetSlotMLabelTextRows[3][4] = {{0, 0xdc, 0x10, 0}, {1, 0x50, 0xc, 1}, {2, 0x82, 0x10, 2}};
 const s16 gTimeAttackGhostGetScanMLabelTextRows[3][4] = {{0, 0xdc, 0x10, 0}, {1, 0x50, 0xc, 1}, {2, 0x82, 0x10, 2}};
 GhostSceneCallbacks gTimeAttackGhostGetScanCallbacks = {InitTimeAttackGhostGetScan, AdvanceTimeAttackGhostGetScan,
                                                         ReleaseTimeAttackGhostGetScan, WriteGhostGetScanRegisters};
@@ -88,8 +91,6 @@ s16 gTimeAttackGhostGetScanSSelLabelTextRows[8][4] = {{0, 0x64, 0xd, 0},  {1, 0x
                                                       {3, 0x64, 0xd, 3},  {4, 0x86, 0xd, -1}, {5, 0x86, 0xd, -1},
                                                       {6, 0x86, 0xd, -1}, {7, 0x86, 0xd, -1}};
 TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
-
-#pragma thumb on
 
 void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedSlot) {
     CellFileSet *subCellFileSet;

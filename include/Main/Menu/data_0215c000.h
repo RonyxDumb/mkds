@@ -37,8 +37,6 @@ extern u32 gSelectRaceRuleEngineIndexValues[];
 
 extern u32 gSelectRaceRuleCpuDifficultyValues[];
 
-extern u32 gSelectRaceRuleEngineIndices[];
-
 extern u32 data_0215cd24[];
 
 extern u32 gSelectRaceRuleCpuDifficulties[];

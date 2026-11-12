@@ -47,3 +47,5 @@ extern const s16 gTimeAttackGhostGetScanMLabelTextRows[3][4];
 extern GhostSceneCallbacks gTimeAttackGhostGetScanCallbacks;
 extern s16 gTimeAttackGhostGetScanSSelLabelTextRows[8][4];
 extern struct TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
+
+extern const s16 gTimeAttackGhostGetSlotMLabelTextRows[3][4];

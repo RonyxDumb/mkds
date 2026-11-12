@@ -10948,9 +10948,9 @@ gKeyboardSceneCallbacks kind:data(any) addr:0x0216e8c0
 @1160 kind:data(any) addr:0x0216e8e0 local
 @1162 kind:data(any) addr:0x0216e8e8 local
 @1164 kind:data(any) addr:0x0216e8f0 local
-gKeyboardS10KeyBnblName kind:data(any) addr:0x0216e920
-gKeyboardS10KeyBnclName kind:data(any) addr:0x0216e938
-gKeyboardS10KeyBnllName kind:data(any) addr:0x0216e950
+@6805 kind:data(any) addr:0x0216e920 local
+@6806 kind:data(any) addr:0x0216e938 local
+@6807 kind:data(any) addr:0x0216e950 local
 gKeyboardSBnblName kind:data(any) addr:0x0216e968
 gKeyboardSBnclName kind:data(any) addr:0x0216e978
 gKeyboardSBnllName kind:data(any) addr:0x0216e988

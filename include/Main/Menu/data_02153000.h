@@ -63,8 +63,6 @@ typedef struct MultiSelectNSLabelMessageRow {
     /* 08 */ s32 mMessageIndex;
 } MultiSelectNSLabelMessageRow;
 
-extern s16 gTimeAttackGhostGetSlotMLabelTextRows[][4];
-
 // Tables of 12-byte entries (data_usa_02153d7c is the third entry of data_usa_02153d64) and of u16 pairs.
 extern LabelMessageRow data_usa_02153d64[];
 
@@ -77,6 +75,4 @@ extern u16 gMultiSelectMemberCycleCells[][2];
 extern u16 gMultiSelectMemberCycleFrameLimits[][2];
 
 extern u16 gMultiSelectMemberCountCellIndices[];
-
-extern s16 data_usa_02153dbc[];
 

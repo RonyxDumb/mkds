@@ -805,6 +805,7 @@ src/Main/Menu/multi_select_ns.c:
 src/Main/Menu/multi_select_ns_layout_count.c:
     complete
     .text       start:0x02030a10 end:0x0203206c
+    .rodata     start:0x02153dbc end:0x02153de8
     .data       start:0x021636d4 end:0x021638ec
     .bss        start:0x02174e38 end:0x02174e3c
 
@@ -812,6 +813,7 @@ src/Main/Menu/multi_select_ns_layout_count.c:
 src/Main/Menu/select_game.c:
     complete
     .text       start:0x0203206c end:0x02032aa8
+    .rodata     start:0x02153de8 end:0x02153e08
     .data       start:0x021639b8 end:0x02163c28
     .bss        start:0x02174e3c end:0x02174e40
 
@@ -827,7 +829,7 @@ src/Main/Race/results_battle_registers.c:
 src/Main/Menu/time_attack_ghost_get_scan.c:
     complete
     .text       start:0x0203434c end:0x02035d18
-    .rodata     start:0x02154034 end:0x0215404c
+    .rodata     start:0x02154034 end:0x02154064
     .data       start:0x02164244 end:0x02164460
     .bss        start:0x02174e44 end:0x02174e48
 
@@ -2540,6 +2542,7 @@ src/Main/Race/race_hud_kart_removed.c:
 // provisional: file name and boundaries
 src/Main/Menu/choises_s.c:
     .text       start:0x020b1de4 end:0x020b24e4
+    .data       start:0x02168418 end:0x02168440
 
 // provisional: file name and boundaries
 src/Main/Menu/choises_s_course.c:
@@ -2569,6 +2572,7 @@ src/Main/Menu/choises_s_tiles.c:
 // provisional: file name and boundaries
 src/Main/Menu/choises_s_select.c:
     .text       start:0x020b2ecc end:0x020b3260
+    .data       start:0x02168440 end:0x0216844c
 
 // provisional: file name and boundaries
 src/Main/Menu/choises_s_list_chars.c:
@@ -2920,6 +2924,7 @@ src/Main/Menu/menu_entry_kind.c:
 src/Main/Menu/menu.c:
     complete
     .text       start:0x020cbad0 end:0x020cc5d8
+    .rodata     start:0x0215688c end:0x021568b4
     .data       start:0x0216ac04 end:0x0216ad7c
 
 // provisional: file name and boundaries
@@ -4091,6 +4096,7 @@ src/Main/Menu/select_race_rule.c:
 src/Main/Menu/select_race_rule_state.c:
     complete
     .text       start:0x0211ac70 end:0x0211db90
+    .rodata     start:0x0215cd18 end:0x0215cd24
     .bss        start:0x0217d348 end:0x0217d34c
 
 // provisional: file name and boundaries
@@ -4248,7 +4254,7 @@ src/Main/Menu/keyboard_scene.c:
 src/Main/Menu/keyboard_buttons.c:
     complete
     .text       start:0x0212898c end:0x0212a910
-    .data       start:0x0216e8e0 end:0x0216e920
+    .data       start:0x0216e8e0 end:0x0216e968
     .bss        start:0x0217d3e0 end:0x0217d3e4
 
 // provisional: file name and boundaries
@@ -4256,7 +4262,7 @@ src/Main/Menu/message_screen.c:
     complete
     .text       start:0x0212a910 end:0x0212b1a8
     .rodata     start:0x0215d164 end:0x0215d184
-    .data       start:0x0216ea4c end:0x0216ea58
+    .data       start:0x0216ea40 end:0x0216ea58
     .bss        start:0x0217d3e4 end:0x0217d3ec
 
 // provisional: file name and boundaries

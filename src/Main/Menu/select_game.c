@@ -33,9 +33,11 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 
-SelectGame *gSelectGame;
-
 #pragma thumb on
+
+const SelectGameRow gSelectGameMultiRows[3] = {{6, 0, 0}, {7, 1, 1}, {8, 2, 2}};
+const SelectGameRow gSelectGameBattleRows[2] = {{4, 0, 0}, {5, 1, 1}};
+SelectGame *gSelectGame;
 
 void WriteSelectGameRowToRaceSetupCopy(void) {
     BOOL battleKind;

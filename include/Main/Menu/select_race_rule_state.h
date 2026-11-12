@@ -87,3 +87,5 @@ void MoveSelectRaceRuleRowNext(void);
 unsigned short GetSelectRaceRuleCpuCount(void);
 
 extern struct SelectRaceRule *gSelectRaceRule;
+
+extern const u32 gSelectRaceRuleEngineIndices[3];

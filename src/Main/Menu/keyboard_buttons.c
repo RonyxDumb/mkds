@@ -401,11 +401,11 @@ void LoadKeyboardFiles(void) {
     void *file;
     Ncgr *chars;
     Nclr *palette;
-    file = FindSceneFile(gKeyboardS10KeyBnblName);
+    file = FindSceneFile("Keyboard_s_10key.bnbl");
     gKeyboard->mBnbls[0] = file;
-    file = FindSceneFile(gKeyboardS10KeyBnclName);
+    file = FindSceneFile("Keyboard_s_10key.bncl");
     gKeyboard->mBncls[0] = file;
-    file = FindSceneFile(gKeyboardS10KeyBnllName);
+    file = FindSceneFile("Keyboard_s_10key.bnll");
     gKeyboard->mBnlls[0] = file;
     file = FindSceneFile(gKeyboardSBnblName);
     gKeyboard->mBnbls[1] = file;

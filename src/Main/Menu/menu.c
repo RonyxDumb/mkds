@@ -59,6 +59,8 @@
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+const u8 gMenuDisplaySettingsDesc[37] = {1, 0, 0x1f, 0, 0x1f, 0, 1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0x60, 0, 0, 0, 0, 0, 3, 0, 0x10, 0, 0, 0, 0x80, 0, 0, 1, 0, 0, 0, 0, 8};
+
 // Returns the mission table row, or -1 outside Mission Run.
 s32 GetRaceSetupMissionTableRow(void) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {

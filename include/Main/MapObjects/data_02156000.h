@@ -2,9 +2,6 @@
 #include "types.h"
 #include "Main/Kart/code_0208fd8c.h" // KartAiItemUseEntry
 
-// Objects whose layout isn't known yet.
-extern u8 gMenuDisplaySettingsDesc[];
-
 extern u16 data_02156598;
 
 extern u32 data_usa_021568f8;

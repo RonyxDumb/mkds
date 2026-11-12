@@ -29,3 +29,5 @@ extern const u8 gLinkLevelIconCharCounts[8];
 extern const u8 gLinkLevelIconCharCellEntryIndices[5][4];
 extern struct LinkLevelIcons *gLinkLevelIcons;
 extern struct MessageScreen *gMessageScreen;
+
+extern char gKeyboardCommonBmgName[11];

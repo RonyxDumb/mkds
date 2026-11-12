@@ -56,9 +56,10 @@
 #include "gfd_VramTransferManager.h"
 #include "Main/Sound/sound_system.h"
 
-SelectRaceRule *gSelectRaceRule;
-
 #pragma thumb on
+
+const u32 gSelectRaceRuleEngineIndices[3] = {0, 1, 2};
+SelectRaceRule *gSelectRaceRule;
 
 // Copies the rectangle of row b; which table is read depends on the mode's screen file.
 void LookupSelectRaceRuleNscrRect(SelectRaceRuleNscrRect *outRect, s32 row) {

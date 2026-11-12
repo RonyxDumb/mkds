@@ -70,11 +70,12 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 
+#pragma thumb on
+
+const s16 gMultiSelectKeyStartLabelData[21] = {0xd, 0xa, -1, -1, 6, 0x82, 0xd, 0xc, -1, -1, 7, 0x82, 0xd, 0xe, -1, -1, 8, 0x78, 0xd, 0x11, 6};
 struct WLMenuCallbacks gMemberKeyStartCallbacks = {InitMultiSelectMemberKeyStart, AdvanceMultiSelectMemberKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
 struct WLMenuCallbacks gMemberNoKeyStartCallbacks = {InitMultiSelectMemberNoKeyStart, AdvanceMultiSelectMemberNoKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
 struct MultiSelectMember *gMultiSelectMember;
-
-#pragma thumb on
 
 void SetupMultiSelectMemberSubTextButton(void) {
     void *bannerMessage;
@@ -538,7 +539,7 @@ void InitMultiSelectMemberKeyStart(void *parentHeap, void *mainOam, void *subOam
     PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout, nameBuffer,
                                        subFileSet->mCellLayout, subFileSet->mCellTable);
     PrintLabelLayoutTextNoFixedAdvance(
-        1, data_usa_02153dbc[16], subFileSet->mLabelLayout,
+        1, gMultiSelectKeyStartLabelData[16], subFileSet->mLabelLayout,
         GetBmgEntry(gMultiSelectMember->mBannerMessages, data_usa_02153d7c[8].mMessageIndex), subFileSet->mCellLayout,
         subFileSet->mCellTable);
     gStartupWork->mConnectionKind = 1;

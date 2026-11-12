@@ -48,8 +48,6 @@ typedef struct SelectGameFileNames {
     /* 08 */ const char *mUnk_08;
 } SelectGameFileNames;
 
-extern const SelectGameRow gSelectGameBattleRows[2];
-extern const SelectGameRow gSelectGameMultiRows[3];
 extern const SelectGameFileNames gSelectGameFileNames[2];
 extern const LabelMessageRow gSelectGameLabelMessageRows[10];
 
@@ -64,3 +62,6 @@ void SetSelectGameCellTableOffsets(void);
 void SetSelectGameRowOffsetX(void);
 void SetSelectGameRowCellsVisible(s32 visible);
 void WriteSelectGameRowToRaceSetupCopy(void);
+
+extern const SelectGameRow gSelectGameMultiRows[3];
+extern const SelectGameRow gSelectGameBattleRows[2];

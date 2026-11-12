@@ -14,6 +14,7 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
+
 void *GetChoisesSValueMessage(s32 listIndex, s32 value) {
     s32 entryNumbers[11] = {0x5d, 0x67, 0x62, 0x64, 0x65, 0x66, 0x69, 0x62, 0x61, 0x5f, 0x75};
 
