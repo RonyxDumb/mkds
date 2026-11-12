@@ -43,7 +43,7 @@ void SetupWLMenuCommonMessage(void *heap) {
 
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = 9;
-    gWLMenuMessage->mCommonMessages = FindFileInLoadedArchives(data_021646e0);
+    gWLMenuMessage->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     gWLMenuMessage->mFont = GetFontByIndex(0);
     charBase = G2S_GetBG1CharPtr();
     text = GetBmgEntry(gWLMenuMessage->mCommonMessages, 0x79);

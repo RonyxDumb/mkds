@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Menu/data_02180728.h"
+#include "Main/Menu/wl_menu_scene.h"
 
 // Object behind gWLMenuMessage, 0x654 bytes: the halfwords from 0x34 are 32 per row.
 typedef struct WLMenuMessage {
@@ -32,3 +33,8 @@ s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers);
 s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers);
 void WLMenuSetMenuEntryKind(unsigned int value);
 void WLMenuSetRaceSetupRequested(unsigned int value);
+
+extern struct WLMenuCallbacks gWLMenuMessageToResultCallbacks;
+extern struct WLMenuCallbacks gWLMenuMBChildMessageCallbacks;
+extern struct WLMenuCallbacks gWLMenuMessageToMenuCallbacks;
+extern struct WLMenuCallbacks gWLMenuMessageToRaceCallbacks;

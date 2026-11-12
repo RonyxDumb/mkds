@@ -11,7 +11,6 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 
-
 extern const char gCharacterNsbcaFormat[];
 
 extern u16 data_usa_021656d8;
@@ -42,8 +41,6 @@ extern u8 data_usa_02165760[];
 
 extern u8 data_usa_0216577c[];
 
-
-
 // Objects whose layout isn't known yet.
 typedef struct QueueMPDataToPortParams {
     /* 00 */ void (*mCallback)();
@@ -54,36 +51,7 @@ typedef struct QueueMPDataToPortParams {
     /* 0e */ u8 mUnk_0e[2];
 } QueueMPDataToPortParams;
 
-
-
-
-
-
-
-extern const SceneCallbacks gSecondMenuSceneCallbacks;
-
-
-
-
-
-
-
-
 struct Kart;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 extern const char gKartAppearFileName[];
 
@@ -109,13 +77,6 @@ extern const char gKartModelMenuPrefix[];
 
 extern const char gKartModelSlashPrefix[];
 
-
-
-
-
-
-
-
 extern s32 gStarEffectEngineScale;
 
 extern s32 data_0216593c;
@@ -138,11 +99,9 @@ typedef struct BattleKartAiParams {
 
 extern BattleKartAiParams data_02165ff0;
 
-
 extern const s32 data_02166048;
 
 extern const Vec3 data_0216608c;
-
 
 extern const char gKartAIparamBinName[];
 
@@ -180,30 +139,20 @@ extern s32 data_021659d0;
 
 extern const char gEmblemSBNclrName[];
 
-
-
 // Three words.
 typedef struct KartFollowEffectIds {
     /* 00 */ u32 mEffectIds[3];
 } KartFollowEffectIds;
-
 
 // Eight halfwords.
 typedef struct KartKillerEndRankOffsets {
     /* 00 */ s16 mOffsets[8];
 } KartKillerEndRankOffsets;
 
-
-
-
 // 37 words.
 typedef struct KartEffectScales {
     /* 00 */ s32 mScales[37];
 } KartEffectScales;
-
-
-
-
 
 extern u16 data_usa_021658f0;
 

@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_0214d93c.h" // RTCTime
+#include "Main/Menu/data_02175000.h"
 
 typedef struct Vec3 Vec3;
 
@@ -29,3 +30,5 @@ void InitTitleScene(void);
 u32 ShouldEndReplayRace(void);
 BOOL IsFramesSinceFinishPastWait(void);
 void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex);
+
+extern SceneCallbacks gTitleSceneCallbacks;

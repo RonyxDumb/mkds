@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175000.h"
 
 // Pair of callbacks at an element of the table behind the first word of StateMachine.
 typedef struct StateCallbacks {
@@ -33,3 +34,5 @@ void SetNextRaceByModeWrapper(void);
 void InitSecondMenuScene(void);
 void AdvanceStateMachine(StateMachine *stateMachine);
 void SetStateMachineState(StateMachine *stateMachine, u16 state);
+
+extern SceneCallbacks gSecondMenuSceneCallbacks;

@@ -11,7 +11,6 @@ void ReleaseResultsBattle(void);
 void AdvanceResultsBattle(SceneNumbers *sceneNumbers);
 void InitResultsBattle(void *heap, void *mainOam, void *subOam);
 
-
 void SetupResultsBattleTeamIcons(void *heap);
 void SetupResultsBattleKartIcons(void *heap);
 void SetupResultsBattleRankZeroNames(void *heap);
@@ -30,6 +29,20 @@ void AssignResultsBattleTeamOrderByScore(void);
 void AssignResultsBattleTeamOrder(void);
 void WriteGhostGetScanRegisters(void);
 
+// The files the main screens load, one row per result (victory, lose, draw, VS blue, VS red).
+typedef struct ResultsBattleVictoryFileNames {
+    /* 00 */ const char *mBNcgrName;
+    /* 04 */ const char *mBNclrName;
+    /* 08 */ const char *mUpperNscrName;
+    /* 0c */ const char *mLowerNscrName;
+    /* 10 */ const char *mNcgrName;
+    /* 14 */ const char *mNcerName;
+    /* 18 */ const char *mONclrName;
+    /* 1c */ const char *mBnclName;
+    /* 20 */ const char *mBnllName;
+} ResultsBattleVictoryFileNames;
+
+extern const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5];
 extern const u16 gResultsBattleSubLabelCanvasEntries[16][4];
 extern const u8 gResultsBattleRankZeroLabelTextRows[64];
 extern const u16 gResultsBattleTeamFirstCellIndices[8];

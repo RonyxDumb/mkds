@@ -36,6 +36,9 @@
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/race_end_condition.h"
 
+SceneCallbacks gTitleSceneCallbacks = {
+    InitTitleScene, UpdateTitleScene, ReleaseTitleScene, WriteTitleSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+
 void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex) {
     s32 shapeFlag;
     if (IsPosInCourseMapKind2Shape(position, &shapeFlag) == 0) {

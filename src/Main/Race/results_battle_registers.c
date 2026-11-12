@@ -69,9 +69,17 @@
 #include "Main/Graphics/cell_layout.h"
 #include "gx_load2d.h"
 #include "code_0214d018.h"
+#include "Main/Menu/time_attack_ghost_get_scan.h"
 
-const u16 gResultsBattleSubLabelCanvasEntries[16][4] = {{0, 0x30, 0x10, 0}, {1, 0x30, 0x10, 1}, {2, 0x30, 0x10, 2}, {3, 0x30, 0x10, 3}, {4, 0x30, 0x10, 4}, {5, 0x30, 0x10, 5}, {6, 0x30, 0x10, 6}, {7, 0x30, 0x10, 7}, {8, 0x18, 0xb, 0x30}, {9, 0x18, 0xb, 0x31}, {0xa, 0x18, 0xb, 0x32}, {0xb, 0x18, 0xb, 0x33}, {0xc, 0x18, 0xb, 0x34}, {0xd, 0x18, 0xb, 0x35}, {0xe, 0x18, 0xb, 0x36}, {0xf, 0x18, 0xb, 0x37}};
-const u8 gResultsBattleRankZeroLabelTextRows[64] = {0, 0, 0xb0, 0, 0x10, 0, 0, 0, 1, 0, 0x96, 0, 0x10, 0, 1, 0, 2, 0, 0x96, 0, 0x10, 0, 2, 0, 3, 0, 0x96, 0, 0x10, 0, 3, 0, 4, 0, 0x96, 0, 0x10, 0, 4, 0, 5, 0, 0x96, 0, 0x10, 0, 5, 0, 6, 0, 0x96, 0, 0x10, 0, 6, 0, 7, 0, 0x96, 0, 0x10, 0, 7, 0};
+const u16 gResultsBattleSubLabelCanvasEntries[16][4] = {
+    {0, 0x30, 0x10, 0},     {1, 0x30, 0x10, 1},     {2, 0x30, 0x10, 2},     {3, 0x30, 0x10, 3},
+    {4, 0x30, 0x10, 4},     {5, 0x30, 0x10, 5},     {6, 0x30, 0x10, 6},     {7, 0x30, 0x10, 7},
+    {8, 0x18, 0xb, 0x30},   {9, 0x18, 0xb, 0x31},   {0xa, 0x18, 0xb, 0x32}, {0xb, 0x18, 0xb, 0x33},
+    {0xc, 0x18, 0xb, 0x34}, {0xd, 0x18, 0xb, 0x35}, {0xe, 0x18, 0xb, 0x36}, {0xf, 0x18, 0xb, 0x37}};
+const u8 gResultsBattleRankZeroLabelTextRows[64] = {0, 0, 0xb0, 0, 0x10, 0, 0, 0, 1, 0, 0x96, 0, 0x10, 0, 1, 0,
+                                                    2, 0, 0x96, 0, 0x10, 0, 2, 0, 3, 0, 0x96, 0, 0x10, 0, 3, 0,
+                                                    4, 0, 0x96, 0, 0x10, 0, 4, 0, 5, 0, 0x96, 0, 0x10, 0, 5, 0,
+                                                    6, 0, 0x96, 0, 0x10, 0, 6, 0, 7, 0, 0x96, 0, 0x10, 0, 7, 0};
 const u16 gResultsBattleTeamFirstCellIndices[8] = {0, 2, 6, 0xc, 0x14, 0x1e, 0x2a, 0};
 const u16 gResultsBattleKartFirstCellIndices[8] = {0, 4, 0xa, 0x12, 0x1c, 0x28, 0x36, 0};
 const u8 gResultsBattleOwnEntryLabelTextRows[8] = {0, 0, 0x8c, 0, 0x10, 0, 0, 0};
@@ -737,21 +745,21 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     gResultsBattle->mCellFileSet2ShyguyPalette = GetPlayerCharacterShyguyNclr(1);
     gResultsBattle->mCellFileSet3ShyguyPalette = GetPlayerCharacterShyguyNclr(0);
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
-    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleVictoryMBNcgrName[gResultsBattle->mFileSetKind][0],
-                         gResultsBattleVictoryMBNclrName[gResultsBattle->mFileSetKind][0],
-                         gResultsBattleVictoryMLowerNscrName[gResultsBattle->mFileSetKind][0], 3, FindSceneFile);
+    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNcgrName,
+                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNclrName,
+                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mLowerNscrName, 3, FindSceneFile);
     LoadNscrData(&screenMapFileSet->mScreenMaps[2],
-                 FindSceneFile(gResultsBattleVictoryMUpperNscrName[gResultsBattle->mFileSetKind][0]));
+                 FindSceneFile(gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mUpperNscrName));
     GX_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
     GX_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
     GX_LoadBG2Scr(screenMapFileSet->mScreenMaps[2]->mData, 0, screenMapFileSet->mScreenMaps[2]->mDataSize);
     GX_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    LoadCellFileSet(mainCellFileSet, gResultsBattleVictoryMNcgrName[gResultsBattle->mFileSetKind][0],
-                    gResultsBattleVictoryMNcerName[gResultsBattle->mFileSetKind][0],
-                    gResultsBattleVictoryMONclrName[gResultsBattle->mFileSetKind][0],
-                    gResultsBattleVictoryMBnclName[gResultsBattle->mFileSetKind][0],
-                    gResultsBattleVictoryMBnllName[gResultsBattle->mFileSetKind][0], NULL, FindSceneFile);
+    LoadCellFileSet(mainCellFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcgrName,
+                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcerName,
+                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mONclrName,
+                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnclName,
+                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
     SetupCellFileSet(0, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
         case 0:
@@ -787,7 +795,8 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     GXS_LoadOBJ(results->mCellFileSets[1].mChars->mData, 0, results->mCellFileSets[1].mChars->mDataSize);
     GXS_LoadOBJPltt(subCellFileSet->mPalette->mData, 0, subCellFileSet->mPalette->mDataSize);
     for (itemIndex = 0; itemIndex < subCellFileSet->mLabelLayout->mCount; itemIndex++) {
-        remainingObjSize -= SetupLabelCanvas(1, heap, subCellFileSet, gResultsBattleSubLabelCanvasEntries[itemIndex], remainingObjSize);
+        remainingObjSize -=
+            SetupLabelCanvas(1, heap, subCellFileSet, gResultsBattleSubLabelCanvasEntries[itemIndex], remainingObjSize);
     }
     for (itemIndex = 0; itemIndex < subCellFileSet->mCellLayout->mCount; itemIndex++) {
         SetCellPriority(itemIndex, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);

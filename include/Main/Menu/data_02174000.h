@@ -76,7 +76,6 @@ typedef struct RaceSetupCopy {
     /* 10d */ u8 mSessionKartCount;
 } RaceSetupCopy;
 
-
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
@@ -158,7 +157,6 @@ typedef struct SelectCharacter {
     /* 128 */ BOOL mUsePlayerEntryList;
 } SelectCharacter;
 
-
 // Object behind gPlayerEntryList, 0x258 bytes (InitPlayerEntryList allocates it).
 typedef struct PlayerEntryList {
     /* 000 */ CellFileSet mParts;
@@ -220,7 +218,6 @@ typedef struct ResultsBattle {
     /* 150 */ s32 mState;
 } ResultsBattle;
 
-
 // 0x28-byte part of the entries from 0x9c of TimeAttackGhostGetScan; AdvanceTimeAttackGhostGetScan fills one on the
 // stack through TryGetScanGhostInfo and AreGhostRecordInfosDifferent compares two.
 typedef struct GhostRecordInfo {
@@ -263,10 +260,6 @@ typedef struct TimeAttackGhostGetScan {
     /* 194 */ Interpolation mInterpolation;
     /* 1a4 */ void *mHeap;
 } TimeAttackGhostGetScan;
-
-extern TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
-
-
 
 // 0xe0 bytes.
 typedef struct TimeAttackGhostSend {
@@ -380,7 +373,6 @@ struct WLMenuMessage;
 
 extern struct WLMenuMessage *gWLMenuMessage;
 
-
 // Object at data_02174e78: mUnk_0c is the pointer GetArenaHeap returns; mUnk_10 overlaps the first member of
 // gRootHeapCall.
 typedef struct StartupMemory {
@@ -395,7 +387,5 @@ extern StartupMemory data_02174e78;
 
 extern u8 data_usa_02174e80[];
 
-
  // first word of the cell transfer state manager
-
 

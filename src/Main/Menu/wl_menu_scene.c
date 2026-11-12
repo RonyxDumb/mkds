@@ -29,10 +29,11 @@
 #include "Main/Graphics/back_screen.h"
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/Menu/data_02163000.h"
+#include "Main/Menu/wl_menu_message.h"
 #include "registers.h"
 #include "Main/Menu/select_race_rule_state.h"
 
-struct WLMenuCallbacks *gWLMenuCallbacks[8] = {&gMultiSelectMemberGroupCallbacks, &gMultiSelectNSCallbacks, &gMemberKeyStartCallbacks, &gMemberNoKeyStartCallbacks, &data_usa_021646b0, &data_usa_021646d0, &data_usa_021646c0, &data_usa_021646a0};
+struct WLMenuCallbacks *gWLMenuCallbacks[8] = {&gMultiSelectMemberGroupCallbacks, &gMultiSelectNSCallbacks, &gMemberKeyStartCallbacks, &gMemberNoKeyStartCallbacks, &gWLMenuMBChildMessageCallbacks, &gWLMenuMessageToRaceCallbacks, &gWLMenuMessageToResultCallbacks, &gWLMenuMessageToMenuCallbacks};
 struct WLMenuScene *gWLMenuScene;
 
 void WLMenuGX_SetOBJVRamModeChar(u32 bits) {

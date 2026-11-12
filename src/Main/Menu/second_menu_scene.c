@@ -20,6 +20,16 @@
 #include "Main/Race/race_entries.h"
 #include "Main/System/heap_call.h"
 
+SceneCallbacks gSecondMenuSceneCallbacks = {InitSecondMenuScene,
+                                            (void (*)()) SecondMenuUpdateReturnArgument,
+                                            SetNextRaceByModeWrapper,
+                                            (void (*)()) SecondMenuAfterUpdateReturnArgument,
+                                            NULL,
+                                            NULL,
+                                            0xa,
+                                            0xa,
+                                            0};
+
 void SetStateMachineState(StateMachine *stateMachine, u16 state) {
     stateMachine->mStateFrames = 0;
     stateMachine->mNextStateRequested = 1;

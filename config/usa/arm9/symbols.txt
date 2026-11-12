@@ -7846,9 +7846,9 @@ data_usa_02153d64 kind:data(any) addr:0x02153d64
 data_usa_02153d7c kind:data(any) addr:0x02153d7c
 data_usa_02153d88 kind:data(any) addr:0x02153d88
 data_usa_02153dbc kind:data(any) addr:0x02153dbc
-data_02153de8 kind:data(any) addr:0x02153de8
-data_02153df4 kind:data(any) addr:0x02153df4
-data_02153e08 kind:data(any) addr:0x02153e08
+gSelectGameBattleRows kind:data(any) addr:0x02153de8
+gSelectGameMultiRows kind:data(any) addr:0x02153df4
+gSelectGameFileNames kind:data(any) addr:0x02153e08
 data_02153e0c kind:data(any) addr:0x02153e0c
 data_02153e10 kind:data(any) addr:0x02153e10
 gSelectGameLabelMessageRows kind:data(any) addr:0x02153e20
@@ -7857,7 +7857,7 @@ gResultsBattleKartFirstCellIndices kind:data(any) addr:0x02153ea0
 gResultsBattleTeamFirstCellIndices kind:data(any) addr:0x02153eb0
 gResultsBattleRankZeroLabelTextRows kind:data(any) addr:0x02153ec0
 gResultsBattleSubLabelCanvasEntries kind:data(any) addr:0x02153f00
-gResultsBattleVictoryMBNcgrName kind:data(any) addr:0x02153f80
+gResultsBattleVictoryFileNames kind:data(any) addr:0x02153f80
 gResultsBattleVictoryMBNclrName kind:data(any) addr:0x02153f84
 gResultsBattleVictoryMUpperNscrName kind:data(any) addr:0x02153f88
 gResultsBattleVictoryMLowerNscrName kind:data(any) addr:0x02153f8c
@@ -9188,29 +9188,29 @@ data_usa_0216392c kind:data(any) addr:0x0216392c
 data_usa_0216394c kind:data(any) addr:0x0216394c
 data_usa_02163970 kind:data(any) addr:0x02163970
 data_usa_02163994 kind:data(any) addr:0x02163994
-gSelectGameMBNcgrName kind:data(any) addr:0x021639b8
-gSelectGameMNceNcgrName kind:data(any) addr:0x021639d4
-gSelectGameMNceNcerName kind:data(any) addr:0x021639f4
-gSelectGameMBNclrName kind:data(any) addr:0x02163a14
-gSelectGameMONclrName kind:data(any) addr:0x02163a30
-gSelectGameMMultiNscrName kind:data(any) addr:0x02163a4c
-gSelectGameMSingleNscrName kind:data(any) addr:0x02163a6c
-gSelectGameSNceNcgrName kind:data(any) addr:0x02163a90
-gSelectGameSNceNcerName kind:data(any) addr:0x02163ab0
-gSelectGameSONclrName kind:data(any) addr:0x02163ad0
-data_02163aec kind:data(any) addr:0x02163aec
-data_02163af0 kind:data(any) addr:0x02163af0
-gMenuBmgName kind:data(any) addr:0x02163af4
-gSelectGameMBNcgrName2 kind:data(any) addr:0x02163b00
-gSelectGameMBNclrName2 kind:data(any) addr:0x02163b1c
-gSelectGameMNceNcgrName2 kind:data(any) addr:0x02163b38
-gSelectGameMNceNcerName2 kind:data(any) addr:0x02163b58
-gSelectGameMONclrName2 kind:data(any) addr:0x02163b78
-gSelectGameMBnclName kind:data(any) addr:0x02163b94
-gSelectGameMBnllName kind:data(any) addr:0x02163bb0
-gSelectGameSNceNcgrName2 kind:data(any) addr:0x02163bcc
-gSelectGameSNceNcerName2 kind:data(any) addr:0x02163bec
-gSelectGameSONclrName2 kind:data(any) addr:0x02163c0c
+@5303 kind:data(any) addr:0x021639b8 local
+@5304 kind:data(any) addr:0x021639d4 local
+@5305 kind:data(any) addr:0x021639f4 local
+@5306 kind:data(any) addr:0x02163a14 local
+@5307 kind:data(any) addr:0x02163a30 local
+@5308 kind:data(any) addr:0x02163a4c local
+@5309 kind:data(any) addr:0x02163a6c local
+@5310 kind:data(any) addr:0x02163a90 local
+@5311 kind:data(any) addr:0x02163ab0 local
+@5312 kind:data(any) addr:0x02163ad0 local
+@5517 kind:data(any) addr:0x02163aec local
+@5518 kind:data(any) addr:0x02163af0 local
+@5590 kind:data(any) addr:0x02163af4 local
+@5591 kind:data(any) addr:0x02163b00 local
+@5592 kind:data(any) addr:0x02163b1c local
+@5593 kind:data(any) addr:0x02163b38 local
+@5594 kind:data(any) addr:0x02163b58 local
+@5595 kind:data(any) addr:0x02163b78 local
+@5596 kind:data(any) addr:0x02163b94 local
+@5597 kind:data(any) addr:0x02163bb0 local
+@5598 kind:data(any) addr:0x02163bcc local
+@5599 kind:data(any) addr:0x02163bec local
+@5600 kind:data(any) addr:0x02163c0c local
 data_usa_02163c28 kind:data(any) addr:0x02163c28
 data_usa_02163c44 kind:data(any) addr:0x02163c44
 data_usa_02163c60 kind:data(any) addr:0x02163c60
@@ -9262,25 +9262,24 @@ data_usa_02164148 kind:data(any) addr:0x02164148
 @6964 kind:data(any) addr:0x021641fc local
 @6965 kind:data(any) addr:0x02164214 local
 @6966 kind:data(any) addr:0x0216422c local
-data_usa_02164244 kind:data(any) addr:0x02164244
+gTimeAttackGhostGetScanCallbacks kind:data(any) addr:0x02164244
 gTimeAttackGhostGetScanSSelLabelTextRows kind:data(any) addr:0x02164254
-data_usa_0216425a kind:data(any) addr:0x0216425a
-data_02164294 kind:data(any) addr:0x02164294
-data_021642a0 kind:data(any) addr:0x021642a0
-data_021642ac kind:data(any) addr:0x021642ac
-data_021642cc kind:data(any) addr:0x021642cc
-data_021642ec kind:data(any) addr:0x021642ec
-data_02164308 kind:data(any) addr:0x02164308
-data_02164328 kind:data(any) addr:0x02164328
-data_02164348 kind:data(any) addr:0x02164348
-gTimeAttackGhostGetMBnclName kind:data(any) addr:0x02164368
-gTimeAttackGhostGetMBnllName kind:data(any) addr:0x02164384
-data_021643a0 kind:data(any) addr:0x021643a0
-data_021643c0 kind:data(any) addr:0x021643c0
-data_021643e0 kind:data(any) addr:0x021643e0
-gTimeAttackGhostGetSSelBnclName kind:data(any) addr:0x02164400
-gTimeAttackGhostGetSSelBnllName kind:data(any) addr:0x02164420
-gTimeAttackGhostGetSSelBnblName kind:data(any) addr:0x02164440
+@6258 kind:data(any) addr:0x02164294 local
+@6259 kind:data(any) addr:0x021642a0 local
+@6260 kind:data(any) addr:0x021642ac local
+@6261 kind:data(any) addr:0x021642cc local
+@6262 kind:data(any) addr:0x021642ec local
+@6263 kind:data(any) addr:0x02164308 local
+@6264 kind:data(any) addr:0x02164328 local
+@6265 kind:data(any) addr:0x02164348 local
+@6266 kind:data(any) addr:0x02164368 local
+@6267 kind:data(any) addr:0x02164384 local
+@6268 kind:data(any) addr:0x021643a0 local
+@6269 kind:data(any) addr:0x021643c0 local
+@6270 kind:data(any) addr:0x021643e0 local
+@6271 kind:data(any) addr:0x02164400 local
+@6272 kind:data(any) addr:0x02164420 local
+@6273 kind:data(any) addr:0x02164440 local
 data_usa_02164460 kind:data(any) addr:0x02164460
 gTimeAttackGhostGetSlotSLabelTextRows kind:data(any) addr:0x02164470
 data_021644e0 kind:data(any) addr:0x021644e0
@@ -9299,11 +9298,11 @@ data_0216462c kind:data(any) addr:0x0216462c
 gTimeAttackGhostGetSBnclName kind:data(any) addr:0x0216464c
 gTimeAttackGhostGetSBnllName kind:data(any) addr:0x02164668
 gTimeAttackGhostGetSBnblName kind:data(any) addr:0x02164684
-data_usa_021646a0 kind:data(any) addr:0x021646a0
-data_usa_021646b0 kind:data(any) addr:0x021646b0
-data_usa_021646c0 kind:data(any) addr:0x021646c0
-data_usa_021646d0 kind:data(any) addr:0x021646d0
-data_021646e0 kind:data(any) addr:0x021646e0
+gWLMenuMessageToMenuCallbacks kind:data(any) addr:0x021646a0
+gWLMenuMBChildMessageCallbacks kind:data(any) addr:0x021646b0
+gWLMenuMessageToResultCallbacks kind:data(any) addr:0x021646c0
+gWLMenuMessageToRaceCallbacks kind:data(any) addr:0x021646d0
+@3411 kind:data(any) addr:0x021646e0 local
 @3213 kind:data(any) addr:0x021646ec local
 gMenuSceneCallbacks kind:data(any) addr:0x021646f8
 gRaceDisplaySettingsDescs kind:data(any) addr:0x02164718

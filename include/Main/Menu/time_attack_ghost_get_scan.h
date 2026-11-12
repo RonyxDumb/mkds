@@ -42,3 +42,8 @@ void UpdateSlotSlideOffsets(void);
 void SetupGhostNameSubTextTwoButtons(void);
 void SetupGhostMainTextEx(void);
 void RefreshSlotGhostListRows(s32 action, s32 slot, s32 listIndex, s32 selectedSlot);
+
+extern const s16 gTimeAttackGhostGetScanMLabelTextRows[3][4];
+extern GhostSceneCallbacks gTimeAttackGhostGetScanCallbacks;
+extern s16 gTimeAttackGhostGetScanSSelLabelTextRows[8][4];
+extern struct TimeAttackGhostGetScan *gTimeAttackGhostGetScan;

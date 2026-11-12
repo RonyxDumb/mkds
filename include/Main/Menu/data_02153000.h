@@ -55,35 +55,8 @@ extern SelectCharacterRowPosition gSelectCharacterPositions11Rows[];
 
 extern SelectCharacterRow gSelectCharacterRows[];
 
-
-
-
-
-// Rows of nine words; each name starts at one word of the first row.
-extern const char *gResultsBattleVictoryMBNcgrName[][9];
-
-extern const char *gResultsBattleVictoryMBNclrName[][9];
-
-extern const char *gResultsBattleVictoryMUpperNscrName[][9];
-
-extern const char *gResultsBattleVictoryMLowerNscrName[][9];
-
-extern const char *gResultsBattleVictoryMNcgrName[][9];
-
-extern const char *gResultsBattleVictoryMNcerName[][9];
-
-extern const char *gResultsBattleVictoryMONclrName[][9];
-
-extern const char *gResultsBattleVictoryMBnclName[][9];
-
-extern const char *gResultsBattleVictoryMBnllName[][9];
-
-
-
 // Objects whose layout isn't known yet.
 extern s32 gCourseMessageIndexTable[];
-
-
 
 extern u32 gKartMessageIndexTable[];
 
@@ -93,12 +66,6 @@ extern s32 gCharacterKartIndexTableBattle[];
 
 extern s32 gCharacterKartIndexTable[];
 
-
-
-
-
-
-
 typedef struct MultiSelectNSLabelMessageRow {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;
@@ -106,8 +73,6 @@ typedef struct MultiSelectNSLabelMessageRow {
     /* 06 */ s16 mEntryIndex;
     /* 08 */ s32 mMessageIndex;
 } MultiSelectNSLabelMessageRow;
-
-extern s16 gTimeAttackGhostGetScanMLabelTextRows[][4];
 
 extern s16 gTimeAttackGhostGetSlotMLabelTextRows[][4];
 
@@ -125,60 +90,4 @@ extern u16 gMultiSelectMemberCycleFrameLimits[][2];
 extern u16 gMultiSelectMemberCountCellIndices[];
 
 extern s16 data_usa_02153dbc[];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

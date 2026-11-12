@@ -1,4 +1,5 @@
 #include "Main/Menu/time_attack_ghost_get_scan.h"
+#include "Main/Race/results_battle_registers.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Graphics/layout_entry_angle.h"
@@ -79,6 +80,14 @@
 #include "Main/Net/connection_sharing.h"
 #include "Main/Net/connect_non_multiboot.h"
 #include "Main/Graphics/oam.h"
+
+const s16 gTimeAttackGhostGetScanMLabelTextRows[3][4] = {{0, 0xdc, 0x10, 0}, {1, 0x50, 0xc, 1}, {2, 0x82, 0x10, 2}};
+GhostSceneCallbacks gTimeAttackGhostGetScanCallbacks = {InitTimeAttackGhostGetScan, AdvanceTimeAttackGhostGetScan,
+                                                        ReleaseTimeAttackGhostGetScan, WriteGhostGetScanRegisters};
+s16 gTimeAttackGhostGetScanSSelLabelTextRows[8][4] = {{0, 0x64, 0xd, 0},  {1, 0x64, 0xd, 1},  {2, 0x64, 0xd, 2},
+                                                      {3, 0x64, 0xd, 3},  {4, 0x86, 0xd, -1}, {5, 0x86, 0xd, -1},
+                                                      {6, 0x86, 0xd, -1}, {7, 0x86, 0xd, -1}};
+TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
 
 #pragma thumb on
 
@@ -765,19 +774,20 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackGhostGetScan->mHeap = heap;
     gTimeAttackGhostGetScan->mOamLists[0] = mainOam;
     gTimeAttackGhostGetScan->mOamLists[1] = subOam;
-    gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives(data_02164294);
-    gTimeAttackGhostGetScan->mGhostMessages = FindSceneFile(data_021642a0);
+    gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gTimeAttackGhostGetScan->mGhostMessages = FindSceneFile("ghost.bmg");
     InitBlockEntries(gTimeAttackGhostGetScan->mHeap, 2);
     gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex = -1;
     for (index = 0; index < 4; index++) {
         SetupInterpolation(&gTimeAttackGhostGetScan->mGhostInfoEntries[index].mInterpolation, 3, 10, 0x100, 0);
     }
-    LocateAndQueueScreenMapFileSet(0, gTimeAttackGhostGetScan, data_021642ac, data_021642cc, data_021642ec, 0,
-                                   FindSceneFile);
+    LocateAndQueueScreenMapFileSet(0, gTimeAttackGhostGetScan, "TimeAttack_ghost_get_m_b.NCGR",
+                                   "TimeAttack_ghost_get_m_b.NCLR", "TimeAttack_ghost_get_m.NSCR", 0, FindSceneFile);
     cellFileSet = &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
-    LocateCellFileSet(cellFileSet, data_02164308, data_02164328, data_02164348, gTimeAttackGhostGetMBnclName,
-                      gTimeAttackGhostGetMBnllName, NULL, FindSceneFile);
+    LocateCellFileSet(cellFileSet, "TimeAttack_ghost_get_m.nce.ncgr", "TimeAttack_ghost_get_m.nce.ncer",
+                      "TimeAttack_ghost_get_m_o.NCLR", "TimeAttack_ghost_get_m.bncl", "TimeAttack_ghost_get_m.bnll",
+                      NULL, FindSceneFile);
     screen = FALSE;
     SetupCellFileSet(0, gTimeAttackGhostGetScan->mHeap, cellFileSet);
     index = 0;
@@ -797,8 +807,9 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     cellFileSet = &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[1];
     remainingObjSize = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
-    LocateCellFileSet(cellFileSet, data_021643a0, data_021643c0, data_021643e0, gTimeAttackGhostGetSSelBnclName,
-                      gTimeAttackGhostGetSSelBnllName, gTimeAttackGhostGetSSelBnblName, FindSceneFile);
+    LocateCellFileSet(cellFileSet, "TimeAttack_ghost_get_s.nce.ncgr", "TimeAttack_ghost_get_s.nce.ncer",
+                      "TimeAttack_ghost_get_s_o.NCLR", "TimeAttack_ghost_get_s_sel.bncl",
+                      "TimeAttack_ghost_get_s_sel.bnll", "TimeAttack_ghost_get_s_sel.bnbl", FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostGetScan->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mCount;
     index = 0;

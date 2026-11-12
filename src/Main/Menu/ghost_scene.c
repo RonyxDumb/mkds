@@ -37,13 +37,14 @@
 #include "Main/Menu/message_screen.h"
 #include "Main/Menu/data_02153bec.h"
 #include "Main/Menu/data_02162c74.h"
+#include "Main/Menu/time_attack_ghost_get_scan.h"
 #include "Main/Menu/ghost_send.h"
 #include "code_0214d018.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/minute_second_millisecond_text.h"
 #include "registers.h"
 
-GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &data_usa_02164244, &data_usa_02164460};
+GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &gTimeAttackGhostGetScanCallbacks, &data_usa_02164460};
 GhostScene *gGhostScene;
 
 #pragma thumb on

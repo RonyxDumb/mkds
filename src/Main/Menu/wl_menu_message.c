@@ -1,4 +1,5 @@
 #include "Main/Menu/wl_menu_message.h"
+#include "Main/Menu/wl_menu_mb_child_message.h"
 
 #include "registers.h"
 #include "Main/System/heap.h"
@@ -25,6 +26,15 @@
 #include "Main/System/key_recording_buffer.h"
 #include "Main/Save/emblem_block.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+
+struct WLMenuCallbacks gWLMenuMessageToResultCallbacks = {SetupWLMenuCommonMessage, AdvanceWLMenuMessageToResult,
+                                                          ReleaseWLMenuMessage, WriteWLMenuMessageRegisters};
+struct WLMenuCallbacks gWLMenuMBChildMessageCallbacks = {SetupWLMenuMBChildMessage, AdvanceWLMenuMBChildMessage,
+                                                         ReleaseWLMenuMessage, WriteWLMenuMessageRegistersWrapper};
+struct WLMenuCallbacks gWLMenuMessageToMenuCallbacks = {SetupWLMenuCommonMessage, AdvanceWLMenuMessageToMenu,
+                                                        ReleaseWLMenuMessage, WriteWLMenuMessageRegisters};
+struct WLMenuCallbacks gWLMenuMessageToRaceCallbacks = {SetupWLMenuCommonMessage, AdvanceWLMenuMessageToRace,
+                                                        ReleaseWLMenuMessage, WriteWLMenuMessageRegisters};
 
 void WLMenuSetRaceSetupRequested(u32 value) {
     gMenuShared->mRaceSetupRequested = value;
