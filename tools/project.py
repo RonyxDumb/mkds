@@ -89,6 +89,7 @@ PATH_DROP_FLAGS = {
     "libs/": ["-char unsigned"],  # verified: libs/NitroSDK/os/src/os_printf.c matches with plain char only signed
     "libs/msl/": [],  # verified: libs/msl/src/code_02139f70.c matches with plain char only unsigned
     "src/00/Lib/GameSpy/": ["-str noreuse"],
+    "src/00/Lib/DWC/": ["-str noreuse"],
 }
 # Flags added for sources under these paths. A game with Thumb code: "src/": ["-thumb"], with an empty list for an
 # ARM-only folder or file. An ARM function inside a Thumb file can be written between `#pragma thumb off` and
@@ -102,6 +103,7 @@ PATH_ADD_FLAGS = {
     # the overlays are Thumb game code (an ARM file in them gets a per-file entry with an empty list)
     "src/00/": ["-thumb"],
     "src/00/Lib/GameSpy/": ["-thumb", "-str reuse"],
+    "src/00/Lib/DWC/": ["-thumb", "-str reuse"],
     "src/01/": ["-thumb"],
     "src/03/": ["-thumb"],
 }

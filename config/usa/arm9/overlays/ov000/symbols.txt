@@ -2214,28 +2214,28 @@ gDwcPidKey kind:data(any) addr:0x021b4084
 gDwcEvalKey kind:data(any) addr:0x021b408c
 @5682 kind:data(any) addr:0x021b4098 local
 @5683 kind:data(any) addr:0x021b40a4 local
-gDwcMtypeKey kind:data(any) addr:0x021b40b0
-gDwcMresvKey kind:data(any) addr:0x021b40bc
-gDwcMverKey kind:data(any) addr:0x021b40c8
-gEmptyString kind:data(any) addr:0x021b40d4
-gVerKey kind:data(any) addr:0x021b40d8
-gFmeKey kind:data(any) addr:0x021b40dc
-gMdfKey kind:data(any) addr:0x021b40e0
-gGpMessagePrefixFormat kind:data(any) addr:0x021b40e4
-gGpcmPrefix kind:data(any) addr:0x021b40ec
-gMatTag kind:data(any) addr:0x021b40f4
-gSlashUnsignedFormat kind:data(any) addr:0x021b40f8
-gMatchingFilterFormat kind:data(any) addr:0x021b40fc
-gAndParenFormat kind:data(any) addr:0x021b4154
-gKeyEqualsUnsignedFormat kind:data(any) addr:0x021b4160
-gScmKey kind:data(any) addr:0x021b4168
-gScnKey kind:data(any) addr:0x021b416c
-gInitStateString kind:data(any) addr:0x021b4170
-gServerFullString kind:data(any) addr:0x021b417c
-gUnexpectedConnectAttemptString kind:data(any) addr:0x021b4188
-gYString kind:data(any) addr:0x021b41a0
-gNString kind:data(any) addr:0x021b41a4
-gAndEmptyParensString kind:data(any) addr:0x021b41a8
+@5705 kind:data(any) addr:0x021b40b0 local
+@5706 kind:data(any) addr:0x021b40bc local
+@5707 kind:data(any) addr:0x021b40c8 local
+@6112 kind:data(any) addr:0x021b40d4 local
+@6618 kind:data(any) addr:0x021b40d8 local
+@6619 kind:data(any) addr:0x021b40dc local
+@6620 kind:data(any) addr:0x021b40e0 local
+@7168 kind:data(any) addr:0x021b40e4 local
+@7169 kind:data(any) addr:0x021b40ec local
+@7170 kind:data(any) addr:0x021b40f4 local
+@7233 kind:data(any) addr:0x021b40f8 local
+@7325 kind:data(any) addr:0x021b40fc local
+@7381 kind:data(any) addr:0x021b4154 local
+@7382 kind:data(any) addr:0x021b4160 local
+@7502 kind:data(any) addr:0x021b4168 local
+@7503 kind:data(any) addr:0x021b416c local
+@7913 kind:data(any) addr:0x021b4170 local
+@7914 kind:data(any) addr:0x021b417c local
+@7915 kind:data(any) addr:0x021b4188 local
+@8232 kind:data(any) addr:0x021b41a0 local
+@8233 kind:data(any) addr:0x021b41a4 local
+@8283 kind:data(any) addr:0x021b41a8 local
 gDwcMagicStrings kind:data(any) addr:0x021b41b0
 @1447 kind:data(any) addr:0x021b41b4 local
 @1800 kind:data(any) addr:0x021b41c0 local
