@@ -3071,17 +3071,7 @@ src/Main/Unknown/code_020cebe4.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020cec00.c:
     complete
-    .text       start:0x020cec00 end:0x020cec24
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020cec24.c:
-    complete
-    .text       start:0x020cec24 end:0x020cec50
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020cec50.c:
-    complete
-    .text       start:0x020cec50 end:0x020cec88
+    .text       start:0x020cec00 end:0x020cec88
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020cec88.c:
