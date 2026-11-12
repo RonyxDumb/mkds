@@ -4,6 +4,7 @@
 #include "code_02003024.h" // FSFile
 #include "code_0212f788.h" // NNSSndFader
 #include "pm.h" // PMSleepCallbackInfo
+#include "code_0212d214.h"
 
 // 0x5c bytes: a stream. mActiveFlag is set while it is set up, mStartFlag while its timers run.
 typedef struct NNSSndStrm {
@@ -51,7 +52,7 @@ typedef struct Unk0212c7f0 {
     /* 15c */ u8 mUnk_15c[4];
 } Unk0212c7f0;
 
-// 8 bytes; NNS_SndStrmSetVolume reads mVolume of the element a byte of NNSSndStrm.mChannelNo selects in data_0217dd28.
+// 8 bytes; NNS_SndStrmSetVolume reads mVolume of the element a byte of NNSSndStrm.mChannelNo selects in sStrmChannel.
 typedef struct NNSSndStrmChannel {
     /* 00 */ void *mBuffer;
     /* 04 */ s32 mVolume;
@@ -63,3 +64,6 @@ void NNS_SndStrmSetVolume(NNSSndStrm *stream, s32 volume);
 void NNS_SndStrmStop(NNSSndStrm *stream);
 void NNS_SndStrmStart(NNSSndStrm *stream);
 void NNS_SndStrmFreeChannel(NNSSndStrm *stream);
+
+extern NNSFndList sStrmList;
+extern NNSSndStrmChannel sStrmChannel[16];

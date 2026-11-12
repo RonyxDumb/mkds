@@ -64,15 +64,15 @@ extern u8 data_02161afc[];
 
 extern u8 data_02161b00[];
 
-extern u32 data_021617d0;
+extern u32 NNS_G3dAnmFmtNum;
 
-extern NNSG3dAnmObjInitFunc data_021617f4[];
+extern NNSG3dAnmObjInitFunc NNS_G3dAnmObjInitFuncArray[];
 
-extern BOOL (*data_021617f0)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32);
+extern BOOL (*NNS_G3dFuncBlendMatDefault)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32);
 
-extern BOOL (*data_021617ec)(NNSG3dJntAnmResult *, const NNSG3dAnmObj *, u32);
+extern BOOL (*NNS_G3dFuncBlendJntDefault)(NNSG3dJntAnmResult *, const NNSG3dAnmObj *, u32);
 
-extern BOOL (*data_021617e8)(NNSG3dVisAnmResult *, const NNSG3dAnmObj *, u32);
+extern BOOL (*NNS_G3dFuncBlendVisDefault)(NNSG3dVisAnmResult *, const NNSG3dAnmObj *, u32);
 
 extern void (*NNS_G3dSendTexSRT_FuncArray[])(NNSG3dMatAnmResult *);
 
@@ -106,15 +106,15 @@ extern s32 (*NNS_GfdDefaultFuncFreeTexVram)(u32);
 
 extern s32 (*data_021619f8)(u32);
 
-extern void (*data_021617d4)(void *, NNSG3dAnmObj *, u32);
+extern void (*NNS_G3dFuncAnmVisNsBvaDefault)(void *, NNSG3dAnmObj *, u32);
 
-extern void (*data_021617d8)(void *, NNSG3dAnmObj *, u32);
+extern void (*NNS_G3dFuncAnmJntNsBcaDefault)(void *, NNSG3dAnmObj *, u32);
 
-extern void (*data_021617dc)(void *, NNSG3dAnmObj *, u32);
+extern void (*NNS_G3dFuncAnmMatNsBtaDefault)(void *, NNSG3dAnmObj *, u32);
 
-extern void (*data_021617e0)(void *, NNSG3dAnmObj *, u32);
+extern void (*NNS_G3dFuncAnmMatNsBtpDefault)(void *, NNSG3dAnmObj *, u32);
 
-extern void (*data_021617e4)(void *, NNSG3dAnmObj *, u32);
+extern void (*NNS_G3dFuncAnmMatNsBmaDefault)(void *, NNSG3dAnmObj *, u32);
 
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)();
 

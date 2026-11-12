@@ -27,6 +27,7 @@
 #include "code_0212df7c.h"
 #include "code_020218f4.h"
 
+NNSSndArc *sCurrent;
 SNDWaveArc data_0217dec8;
 
 // Sets each player's sequence count and channels and creates its heaps.

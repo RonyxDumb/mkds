@@ -2,6 +2,9 @@
 #include "code_020172d0.h"
 #include "code_0201750c.h"
 
+u32 gHeapListInitialized;
+NNSFndList gHeapList;
+
 // Returns the innermost heap in list whose memory contains memBlock, looking into the child lists first.
 NNSiFndHeapHead *FindContainHeap(NNSFndList *list, const void *memBlock) {
     NNSiFndHeapHead *candidate;

@@ -11,7 +11,7 @@
 void NNSi_G3dAnmObjInitNsBva(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     u32 mapIndex;
 
-    pAnmObj->mFuncAnm = data_021617d4;
+    pAnmObj->mFuncAnm = NNS_G3dFuncAnmVisNsBvaDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumNode;
     pAnmObj->mResAnm = pResAnm;
     for (mapIndex = 0; mapIndex < pAnmObj->mNumMapData; mapIndex++) {
@@ -38,7 +38,7 @@ void NNSi_G3dAnmObjInitNsBtp(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 
     patAnim = pResAnm;
     matBlock = (u8 *) pResMdl + pResMdl->mOfsMat;
-    pAnmObj->mFuncAnm = data_021617e0;
+    pAnmObj->mFuncAnm = NNS_G3dFuncAnmMatNsBtpDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     pAnmObj->mResAnm = patAnim;
     zero = 0;
@@ -298,7 +298,7 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 
     srtAnim = pResAnm;
     matBlock = (u8 *) pResMdl + pResMdl->mOfsMat;
-    pAnmObj->mFuncAnm = data_021617dc;
+    pAnmObj->mFuncAnm = NNS_G3dFuncAnmMatNsBtaDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
@@ -428,7 +428,7 @@ void NNSi_G3dAnmObjInitNsBma(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 
     colorAnim = pResAnm;
     matBlock = (u8 *) pResMdl + pResMdl->mOfsMat;
-    pAnmObj->mFuncAnm = data_021617e4;
+    pAnmObj->mFuncAnm = NNS_G3dFuncAnmMatNsBmaDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumMat;
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
@@ -470,7 +470,7 @@ void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 
     anim = pResAnm;
     pAnmObj->mResAnm = pResAnm;
-    pAnmObj->mFuncAnm = data_021617d8;
+    pAnmObj->mFuncAnm = NNS_G3dFuncAnmJntNsBcaDefault;
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumNode;
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);

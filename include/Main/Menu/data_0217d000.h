@@ -790,23 +790,21 @@ extern s32 gRaceEndSeqStarted;
 extern s32 gRaceEndNextSeqPending;
 
 
-extern u32 data_0217dda8;
+extern u32 sIsThreadCreated;
 
 extern CaptureParam sCapParam;
 
-extern NNSSndSeqPlayer data_0217d45c[16];
+extern NNSSndSeqPlayer sSeqPlayer[16];
 
-extern NNSSndPlayer sPlayer[];
+extern NNSSndPlayer sPlayer[32];
 
-extern NNSFndList data_0217dd1c;
 
-extern NNSSndStrmChannel data_0217dd28[];
 
-extern s32 data_0217ddac;
+extern s32 sCurEffectInfo;
 
-extern OSMessageQueue data_0217ddb0;
+extern OSMessageQueue sMesgQ;
 
-extern EffectInfo data_0217de24[8];
+extern EffectInfo sEffectInfoBuffer[8];
 
 extern struct NNSSndArc *sCurrent;
 

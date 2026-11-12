@@ -15,6 +15,24 @@
 #include "ITCM/data_02171000.h"
 #include "registers.h"
 #include "fx_mtx44.h"
+#include "code_02013bdc.h"
+
+BOOL (*NNS_G3dFuncBlendMatDefault)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendMat;
+BOOL (*NNS_G3dFuncBlendJntDefault)(NNSG3dJntAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendJnt;
+BOOL (*NNS_G3dFuncBlendVisDefault)(NNSG3dVisAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendVis;
+void (*NNS_G3dFuncAnmMatNsBmaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBma;
+void (*NNS_G3dFuncAnmMatNsBtpDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBtp;
+void (*NNS_G3dFuncAnmMatNsBtaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBta;
+void (*NNS_G3dFuncAnmJntNsBcaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBca;
+void (*NNS_G3dFuncAnmVisNsBvaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBva;
+u32 NNS_G3dAnmFmtNum = 5;
+NNSG3dAnmObjInitFunc NNS_G3dAnmObjInitFuncArray[10] = {
+    {'M', 0, 'MA', NNSi_G3dAnmObjInitNsBma},
+    {'M', 0, 'TP', NNSi_G3dAnmObjInitNsBtp},
+    {'M', 0, 'TA', NNSi_G3dAnmObjInitNsBta},
+    {'V', 0, 'VA', NNSi_G3dAnmObjInitNsBva},
+    {'J', 0, 'CA', NNSi_G3dAnmObjInitNsBca},
+};
 
 // Draws one shape of the model, first sending the material and the texture matrix when sendMat is set.
 void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMat) {
@@ -870,10 +888,10 @@ void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *r
     anmObj->mRatio = 0x1000;
     anmObj->mResTex = resTex;
     animHeader = resAnm;
-    for (funcIndex = 0; funcIndex < data_021617d0; funcIndex++) {
-        if (animHeader->mCategory0 == data_021617f4[funcIndex].mCategory0 &&
-            animHeader->mCategory1 == data_021617f4[funcIndex].mCategory1) {
-            data_021617f4[funcIndex].mFunc(anmObj, resAnm, resMdl);
+    for (funcIndex = 0; funcIndex < NNS_G3dAnmFmtNum; funcIndex++) {
+        if (animHeader->mCategory0 == NNS_G3dAnmObjInitFuncArray[funcIndex].mCategory0 &&
+            animHeader->mCategory1 == NNS_G3dAnmObjInitFuncArray[funcIndex].mCategory1) {
+            NNS_G3dAnmObjInitFuncArray[funcIndex].mFunc(anmObj, resAnm, resMdl);
             return;
         }
     }
@@ -884,8 +902,8 @@ void NNS_G3dRenderObjInit(NNSG3dRenderObj *renderObj, NNSG3dResMdl *resMdl) {
     volatile u32 zero = 0;
 
     MIi_CpuClear32(zero, renderObj, 0x54);
-    renderObj->mFuncBlendMat = data_021617f0;
-    renderObj->mFuncBlendJnt = data_021617ec;
-    renderObj->mFuncBlendVis = data_021617e8;
+    renderObj->mFuncBlendMat = NNS_G3dFuncBlendMatDefault;
+    renderObj->mFuncBlendJnt = NNS_G3dFuncBlendJntDefault;
+    renderObj->mFuncBlendVis = NNS_G3dFuncBlendVisDefault;
     renderObj->mResMdl = resMdl;
 }

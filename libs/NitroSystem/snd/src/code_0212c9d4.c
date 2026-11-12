@@ -20,6 +20,12 @@
 #include "Main/Sound/sound_seq.h"
 #include "00/Lib/DWC/code_02188720.h"
 
+CaptureParam sCapParam;
+OSMessageQueue sMesgQ;
+s32 sCurEffectInfo;
+EffectInfo sEffectInfoBuffer[8];
+u32 sIsThreadCreated;
+
 // Stops any running effect capture, clears the buffer and starts a mixer capture of type 1 with callback called on
 // every interval part of the buffer.
 s32 NNS_SndCaptureStartEffect(void *buffer, u32 bufSize, u32 format, u32 rate, u32 interval,
@@ -51,7 +57,7 @@ void NNS_SndCaptureStopEffect(void) {
 
 // Clears the thread flag and CaptureParam.mActiveFlag.
 void NNSi_SndCaptureInit(void) {
-    data_0217dda8 = 0;
+    sIsThreadCreated = 0;
     sCapParam.mActiveFlag = 0;
 }
 
@@ -205,7 +211,7 @@ void NNSi_SndCaptureStop(void) {
         tag = SND_GetCurrentCommandTag();
         SND_FlushCommand(1);
         SND_WaitForCommandProc(tag);
-        while (OS_ReceiveMessage(&data_0217ddb0, 0, 0) != 0) {
+        while (OS_ReceiveMessage(&sMesgQ, 0, 0) != 0) {
         }
     }
     if (capture->mCapBitMask != 0) {
@@ -272,17 +278,17 @@ void AlarmCallback(void *arg) {
     offset = blockSize * capture->mCurBuffer;
     left = capture->mBufferL + offset;
     right = capture->mBufferR + offset;
-    if (data_0217dda8 != 0) {
-        info = &data_0217de24[data_0217ddac];
+    if (sIsThreadCreated != 0) {
+        info = &sEffectInfoBuffer[sCurEffectInfo];
         info->mCap = capture;
         info->mBlockSize = blockSize;
         info->mOffset = offset;
         info->mBufferL = left;
         info->mBufferR = right;
-        OS_SendMessage(&data_0217ddb0, info, 0);
-        data_0217ddac++;
-        if (data_0217ddac >= 8) {
-            data_0217ddac = 0;
+        OS_SendMessage(&sMesgQ, info, 0);
+        sCurEffectInfo++;
+        if (sCurEffectInfo >= 8) {
+            sCurEffectInfo = 0;
         }
     } else {
         DC_InvalidateRange(left, blockSize);

@@ -4,6 +4,10 @@
 #include "code_02022aa8.h"
 #include "Main/Graphics/cell_file_set.h"
 
+SplitCharFunc *const spliterTable[4] = {NNSi_G2dSplitCharUTF8, NNSi_G2dSplitCharUTF16, NNSi_G2dSplitCharShiftJIS, NNSi_G2dSplitChar1Byte};
+const u8 objs[4][4][2] = {{{0, 0}, {1, 0}, {2, 0}, {2, 0}}, {{0, 1}, {1, 1}, {2, 1}, {2, 1}}, {{0, 2}, {1, 2}, {2, 2}, {3, 2}}, {{0, 2}, {1, 2}, {2, 3}, {3, 3}}};
+const u32 data_02153118[4][4] = {{0, 0x4000, 0x40004000, 0}, {0x8000, 0x40000000, 0x80004000, 0}, {0x40008000, 0x80008000, 0x80000000, 0xc0004000}, {0, 0, 0xc0008000, 0xc0000000}};
+
 u32 OBJSizeToShape(const u8 *pSize) {
     return data_02153118[pSize[1]][pSize[0]];
 }
@@ -588,7 +592,7 @@ asm void NNS_G2dCharCanvasInitForOBJ1D(void *pCC, void *charBase, s32 areaWidth,
     movge r6, #0x3
     clzlt r4, r4
     rsblt r6, r4, #0x1f
-    ldr r4, =data_usa_021530f8
+    ldr r4, =objs
     ldr r5, [sp, #0x28]
     add r4, r4, r6, lsl #0x3
     ldrb r6, [r4, ip, lsl #0x1]

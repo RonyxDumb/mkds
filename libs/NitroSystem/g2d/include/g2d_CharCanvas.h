@@ -59,3 +59,7 @@ u32 GetCharIndex1D(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32 objWidth, 
 void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, s32 areaHeight, s32 cl,
                                     u32 flags, u16 *txt);
 u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt);
+
+extern SplitCharFunc *const spliterTable[4];
+extern const u8 objs[4][4][2];
+extern const u32 data_02153118[4][4];

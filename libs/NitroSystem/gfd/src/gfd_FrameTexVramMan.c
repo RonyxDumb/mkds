@@ -1,12 +1,27 @@
 #include "gfd_FrameTexVramMan.h"
 #include "Main/Kart/data_02161000.h"
 
+u16 frmExVramMan_;
+
+NNSGfdFrmTexRegionState vramRegions_[5] = {
+    {0xffffffff, 0xffffffff, 0, 0, 0, 0xffff, 0},
+    {0xffffffff, 0xffffffff, 0, 1, 1, 0xffff, 0x20000},
+    {0xffffffff, 0xffffffff, 0, 1, 2, 0xffff, 0x30000},
+    {0xffffffff, 0xffffffff, 0, 0, 3, 0xffff, 0x40000},
+    {0xffffffff, 0xffffffff, 0, 0, 4, 0xffff, 0x60000},
+};
+
+NNSGfdFrmTexRegionState *texNrmSearchArray_[5] = {&vramRegions_[4], &vramRegions_[3], &vramRegions_[0], &vramRegions_[2],
+                                             &vramRegions_[1]};
+
+NNSGfdFrmTexRegionState *tex4x4SearchArray_[2] = {&vramRegions_[0], &vramRegions_[3]};
+
 void NNSi_GfdSetTexNrmSearchArray(int idx1st, int idx2nd, int idx3rd, int idx4th, int idx5th) {
-    data_02161a04[0] = &vramRegions_[idx1st];
-    data_02161a04[1] = &vramRegions_[idx2nd];
-    data_02161a04[2] = &vramRegions_[idx3rd];
-    data_02161a04[3] = &vramRegions_[idx4th];
-    data_02161a04[4] = &vramRegions_[idx5th];
+    texNrmSearchArray_[0] = &vramRegions_[idx1st];
+    texNrmSearchArray_[1] = &vramRegions_[idx2nd];
+    texNrmSearchArray_[2] = &vramRegions_[idx3rd];
+    texNrmSearchArray_[3] = &vramRegions_[idx4th];
+    texNrmSearchArray_[4] = &vramRegions_[idx5th];
 }
 
 void NNS_GfdInitFrmTexVramManager(u16 numBanks, BOOL useAsDefault) {
@@ -15,7 +30,7 @@ void NNS_GfdInitFrmTexVramManager(u16 numBanks, BOOL useAsDefault) {
     } else {
         NNSi_GfdSetTexNrmSearchArray(4, 3, 0, 2, 1);
     }
-    data_02173210 = numBanks;
+    frmExVramMan_ = numBanks;
     NNS_GfdResetFrmTexVramState();
     if (useAsDefault != 0) {
         NNS_GfdDefaultFuncAllocTexVram = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmTexVram;
@@ -28,7 +43,7 @@ void NNS_GfdResetFrmTexVramState(void) {
     s32 regionIndex;
     NNSGfdFrmTexRegionState *region;
 
-    numBanks = data_02173210;
+    numBanks = frmExVramMan_;
     region = vramRegions_;
     if (numBanks > 1) {
         numBanks++;
@@ -70,7 +85,7 @@ u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt) {
     if (is4x4comp != 0) {
         halfSize = size >> 1;
         for (regionIndex = 0; regionIndex < 2; regionIndex++) {
-            region = data_021619fc[regionIndex];
+            region = tex4x4SearchArray_[regionIndex];
             if (region->mBActive != 0 && region->mTail - region->mHead >= size) {
                 switch (region->mIndex) {
                     case 0:
@@ -99,7 +114,7 @@ u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt) {
         volatile NNSGfdFrmTexRegionState *normRegion;
 
         for (normRegionIndex = 0; normRegionIndex < 5; normRegionIndex++) {
-            normRegion = data_02161a04[normRegionIndex];
+            normRegion = texNrmSearchArray_[normRegionIndex];
             if (normRegion->mBActive != 0 && normRegion->mTail - normRegion->mHead >= size) {
                 normRegion->mTail -= size;
                 found = 1;

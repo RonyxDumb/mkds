@@ -7,6 +7,9 @@
 #include "code_02022aa8.h"
 #include "Main/Graphics/cell_file_set.h"
 
+const u16 data_021530b8[3][4] = {{8, 0x10, 0x20, 0x40}, {8, 8, 0x10, 0x20}, {0x10, 0x20, 0x20, 0x40}};
+const u16 data_021530d0[3][4] = {{8, 0x10, 0x20, 0x40}, {0x10, 0x20, 0x20, 0x40}, {8, 8, 0x10, 0x20}};
+
 static inline u32 NNSi_G2dIsCellAnimVramTransferHandleValid(const Unk02022030 *pCellAnim) {
     return pCellAnim->mCellTransferStateHandle != -1;
 }

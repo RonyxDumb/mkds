@@ -10,9 +10,7 @@ typedef struct NNSGfdFrmPlttVramManager NNSGfdFrmPlttVramManager;
 
 extern u32 gSplRandomState;
 
-extern BOOL NNS_G3dFlagUseFastDma;
 
-extern NNSGfdFrmPlttVramManager s_managerState_;
 
 extern NNS_GfdLnkTexVramManager gTexVramManager;
 
@@ -24,6 +22,4 @@ extern NNS_GfdLnkPlttVramManager gPlttVramManager;
 
 extern NNSiGfdLnkVramBlock *data_02173254;
 
-extern GxCommandBuffer *NNS_G3dGeBuffer;
 
-extern vu32 NNS_G3dFlagGXDmaAsync;

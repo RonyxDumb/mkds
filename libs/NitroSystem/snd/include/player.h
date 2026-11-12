@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_0212f788.h" // NNSSndFader
 
-// 0x44 bytes; sixteen of them in data_0217d45c. Most functions take a pointer to a pointer to one (the sound handle).
+// 0x44 bytes; sixteen of them in sSeqPlayer. Most functions take a pointer to a pointer to one (the sound handle).
 typedef struct NNSSndSeqPlayer {
     /* 00 */ struct NNSSndSeqPlayer **mHandle;
     /* 04 */ struct NNSSndPlayer *mPlayer;
@@ -44,7 +44,7 @@ typedef struct NNSSndPlayerHeap {
 
 typedef struct SNDBankData SNDBankData;
 
-extern NNSFndList data_0217d444;
+extern NNSFndList sFreeList;
 extern NNSFndList sPrioList;
 
 void SetPlayerPriority(NNSSndSeqPlayer *seq, int priority);

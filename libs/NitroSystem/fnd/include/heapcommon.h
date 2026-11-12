@@ -17,11 +17,12 @@ typedef struct NNSiFndHeapHead {
 
 typedef NNSiFndHeapHead *NNSFndHeapHandle;
 
-extern u32 gHeapListInitialized;
-extern NNSFndList gHeapList;
 
 NNSFndHeapHandle NNS_FndFindContainHeap(const void *memBlock);
 void NNSi_FndFinalizeHeap(NNSiFndHeapHead *heap);
 void NNSi_FndInitHeapHead(NNSiFndHeapHead *heap, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);
 NNSFndList *FindListContainHeap(NNSiFndHeapHead *heap);
 NNSiFndHeapHead *FindContainHeap(NNSFndList *list, const void *memBlock);
+
+extern u32 gHeapListInitialized;
+extern NNSFndList gHeapList;

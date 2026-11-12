@@ -92,7 +92,7 @@ static inline u32 clz_inline(u32 value) {
 s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s32 originY, s32 color, s32 charName,
                         s32 vramMode) {
     Unk02022eb0 *pObj;
-    u8 *sizeEntry;
+    const u8 *sizeEntry;
     s32 heightLog;
     s32 widthLog;
     s32 widthShift;
@@ -124,7 +124,7 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
     } else {
         heightLog = 31 - clz_inline(areaHeight);
     }
-    sizeEntry = data_usa_021530f8[heightLog][widthLog];
+    sizeEntry = objs[heightLog][widthLog];
     widthShift = sizeEntry[0];
     heightShift = sizeEntry[1];
     alignedWidth = areaWidth & (-1 << widthShift);
@@ -219,7 +219,7 @@ void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile) 
     encoding = pFont->mPRes->mEncoding;
     pFont->mUnk_08 = result - 1;
     pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
-    pFont->mCbCharSpliter = data_021530e8[encoding];
+    pFont->mCbCharSpliter = spliterTable[encoding];
 }
 
 void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile) {

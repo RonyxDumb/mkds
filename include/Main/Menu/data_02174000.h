@@ -411,7 +411,6 @@ extern StartupMemory data_02174e78;
 
 extern u8 data_usa_02174e80[];
 
-extern NNSG2dCellTransferState *data_02174e04;
 
  // first word of the cell transfer state manager
 extern s32 gPitchRiseFactorAboveLimit;

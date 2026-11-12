@@ -323,11 +323,13 @@ libs/NitroSystem/g3d/src/kernel.c:
 libs/NitroSystem/g3d/src/code_02010c84.c:
     complete
     .text       start:0x02010c84 end:0x02012b20
+    .data       start:0x021617d0 end:0x02161844
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/gecom.c:
     complete
     .text       start:0x02012b20 end:0x02012b30
+    .bss        start:0x021731e4 end:0x021731f0
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/code_02012b30.c:
@@ -363,16 +365,20 @@ libs/NitroSystem/gfd/src/code_02015eb8.c:
 libs/NitroSystem/gfd/src/gfd_FrameTexVramMan.c:
     complete
     .text       start:0x02015f98 end:0x020162b0
+    .data       start:0x021619fc end:0x02161a90
+    .bss        start:0x021731f0 end:0x021731f4
 
 // provisional: file name and boundaries
 libs/NitroSystem/gfd/src/gfd_FramePlttVramMan.c:
     complete
     .text       start:0x020162b0 end:0x02016468
+    .bss        start:0x021731f4 end:0x02173200
 
 // provisional: file name and boundaries
 libs/NitroSystem/gfd/src/gfd_VramTransferManager.c:
     complete
     .text       start:0x02016468 end:0x020169a4
+    .rodata     start:0x02152c54 end:0x02152ce4
     .bss        start:0x02173200 end:0x02173214
 
 // provisional: file name and boundaries
@@ -405,6 +411,7 @@ libs/NitroSystem/fnd/src/code_0201750c.c:
 libs/NitroSystem/fnd/src/heapcommon.c:
     complete
     .text       start:0x02017550 end:0x020176b0
+    .bss        start:0x02173244 end:0x02173254
 
 // provisional: file name and boundaries
 libs/NitroSystem/fnd/src/expheap.c:
@@ -527,11 +534,13 @@ libs/NitroSystem/g2d/src/g2d_Animation.c:
 libs/NitroSystem/g2d/src/code_020222ec.c:
     complete
     .text       start:0x020222ec end:0x02022a60
+    .rodata     start:0x021530b8 end:0x021530e8
 
 // provisional: file name and boundaries
 libs/NitroSystem/g2d/src/g2d_CellTransferManager.c:
     complete
     .text       start:0x02022a60 end:0x02022aa8
+    .bss        start:0x02174de4 end:0x02174de8
 
 // provisional: file name and boundaries
 libs/NitroSystem/g2d/src/code_02022aa8.c:
@@ -542,6 +551,7 @@ libs/NitroSystem/g2d/src/code_02022aa8.c:
 libs/NitroSystem/g2d/src/g2d_CharCanvas.c:
     complete
     .text       start:0x02023374 end:0x02024184
+    .rodata     start:0x021530e8 end:0x02153158
 
 // provisional: file name and boundaries
 libs/NitroSystem/g2d/src/code_02024184.c:
@@ -3899,23 +3909,25 @@ libs/NitroSystem/snd/src/resource_mgr.c:
 libs/NitroSystem/snd/src/player.c:
     complete
     .text       start:0x0212bcac end:0x0212c7f0
-    .bss        start:0x0217d424 end:0x0217d43c
+    .bss        start:0x0217d424 end:0x0217dcfc
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/stream.c:
     complete
     .text       start:0x0212c7f0 end:0x0212c9d4
+    .bss        start:0x0217dcfc end:0x0217dd88
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/code_0212c9d4.c:
     complete
     .text       start:0x0212c9d4 end:0x0212d214
+    .bss        start:0x0217dd88 end:0x0217dea4
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/code_0212d214.c:
     complete
     .text       start:0x0212d214 end:0x0212ee54
-    .bss        start:0x0217dea8 end:0x0217dee4
+    .bss        start:0x0217dea4 end:0x0217dee4
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/sndarc_stream.c:
@@ -3926,6 +3938,7 @@ libs/NitroSystem/snd/src/sndarc_stream.c:
 libs/NitroSystem/snd/src/output_effect.c:
     complete
     .text       start:0x0212f1ac end:0x0212f788
+    .data       start:0x0216ea84 end:0x0216eb5c
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/code_0212f788.c:

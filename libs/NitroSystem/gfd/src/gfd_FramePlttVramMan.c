@@ -5,6 +5,8 @@
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"
 
+NNSGfdFrmPlttVramManager s_managerState_;
+
 void NNS_GfdInitFrmPlttVramManager(u32 szByte, s32 useAsDefault) {
     s_managerState_.mSzTotal = szByte;
     NNS_GfdResetFrmPlttVramState();

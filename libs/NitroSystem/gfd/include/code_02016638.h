@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// 16 bytes: an index into data_02152c54 and three words passed to the function it selects.
+// 16 bytes: an index into transFunc and three words passed to the function it selects.
 typedef struct NNSGfdVramTransferTask {
     /* 00 */ u32 mType;
     /* 04 */ const void *mPSrc;
@@ -10,7 +10,7 @@ typedef struct NNSGfdVramTransferTask {
     /* 0c */ u32 mSzByte;
 } NNSGfdVramTransferTask;
 
-// Object at data_02173220: a pointer to an array of NNSGfdVramTransferTask, its length at 04, two indices at 08 and 0a
+// Object at s_VramTransferManager: a pointer to an array of NNSGfdVramTransferTask, its length at 04, two indices at 08 and 0a
 // that GetNextIndex_ advances modulo the length, and a count at 0c (IsVramTransferTaskQueueFull_ compares it with the
 // length, IsVramTransferTaskQueueEmpty_ tests it for zero).
 typedef struct NNSGfdVramTransferTaskQueue {
@@ -22,7 +22,7 @@ typedef struct NNSGfdVramTransferTaskQueue {
     /* 10 */ u32 mTotalSize;
 } NNSGfdVramTransferTaskQueue;
 
-extern void (*const data_02152c54[36])(const void *a, u32 b, u32 c);
+extern void (*const transFunc[36])(const void *a, u32 b, u32 c);
 
 void DoTransfer_(NNSGfdVramTransferTask *task);
 void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte);

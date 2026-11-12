@@ -28,7 +28,7 @@ typedef struct CaptureParam {
     /* 50 */ s32 mVolume;
 } CaptureParam;
 
-// 0x14 bytes; AlarmCallback fills the elements of data_0217de24 in turn.
+// 0x14 bytes; AlarmCallback fills the elements of sEffectInfoBuffer in turn.
 typedef struct EffectInfo {
     /* 00 */ CaptureParam *mCap;
     /* 04 */ u32 mBlockSize;

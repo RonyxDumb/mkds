@@ -99,7 +99,7 @@ void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 
 asm u32 GetCharIndex1D(u32 cx, u32 cy, u32 areaWidth, u32 areaHeight, u32 objWidth, u32 objHeight) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
     sub sp, sp, #0x4
-    ldr r11, =data_usa_021530f8
+    ldr r11, =objs
     mov r9, #0x0
     mov r10, #0x3
     mvn r7, #0x0

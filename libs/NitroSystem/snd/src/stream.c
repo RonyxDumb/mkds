@@ -16,6 +16,9 @@
 #include "Main/Sound/sound_seq.h"
 #include "code_020218f4.h"
 
+NNSFndList sStrmList;
+NNSSndStrmChannel sStrmChannel[16];
+
 // Unlocks the channels of the stream.
 void NNS_SndStrmFreeChannel(NNSSndStrm *stream) {
     if (stream->mChBitMask == 0) {
@@ -53,7 +56,7 @@ void NNS_SndStrmSetVolume(NNSSndStrm *stream, s32 volume) {
     stream->mVolume = volume;
     for (channelIndex = 0; channelIndex < stream->mNumChannels; channelIndex++) {
         channel = stream->mChannelNo[channelIndex];
-        level = SND_CalcChannelVolume(stream->mVolume + data_0217dd28[channel].mVolume);
+        level = SND_CalcChannelVolume(stream->mVolume + sStrmChannel[channel].mVolume);
         SND_SetChannelVolume(1 << channel, level & 0xff, level >> 8);
     }
 }
@@ -77,6 +80,6 @@ void ForceStopStrm(NNSSndStrm *stream) {
 // Frees the alarm of the stream, removes it from the stream list and marks it not set up.
 void ShutdownStrm(NNSSndStrm *stream) {
     NNS_SndFreeAlarm(stream->mAlarmNo);
-    NNS_FndRemoveListObject(&data_0217dd1c, stream);
+    NNS_FndRemoveListObject(&sStrmList, stream);
     stream->mActiveFlag = 0;
 }

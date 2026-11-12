@@ -9,13 +9,14 @@ typedef struct NNSGfdFrmTexRegionState {
     /* 08 */ u32 mBActive;
     /* 0c */ u32 mBHalfSize;
     /* 10 */ u16 mIndex;
+    /* 12 */ u16 mPad16;
     /* 14 */ u32 mBaseAddress;
 } NNSGfdFrmTexRegionState;
 
-extern NNSGfdFrmTexRegionState *data_021619fc[2];
-extern NNSGfdFrmTexRegionState *data_02161a04[5];
+extern NNSGfdFrmTexRegionState *tex4x4SearchArray_[2];
+extern NNSGfdFrmTexRegionState *texNrmSearchArray_[5];
 extern NNSGfdFrmTexRegionState vramRegions_[5];
-extern u16 data_02173210;
+extern u16 frmExVramMan_;
 
 s32 NNS_GfdFreeFrmTexVram(u32 texKey);
 u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt);

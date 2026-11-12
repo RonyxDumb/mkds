@@ -180,10 +180,49 @@ void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte) {
     GXS_LoadOBJ(pSrc, offset, szByte);
 }
 
+void (*const transFunc[36])(const void *a, u32 b, u32 c) = {
+    DoTransfer3dTex,
+    DoTransfer3dTexPltt,
+    DoTransfer3dClearImageColor,
+    DoTransfer3dClearImageDepth,
+    DoTransfer2dBG0CharMain,
+    DoTransfer2dBG1CharMain,
+    DoTransfer2dBG2CharMain,
+    DoTransfer2dBG3CharMain,
+    DoTransfer2dBG0ScrMain,
+    DoTransfer2dBG1ScrMain,
+    DoTransfer2dBG2ScrMain,
+    DoTransfer2dBG3ScrMain,
+    DoTransfer2dBG2BmpMain,
+    DoTransfer2dBG3BmpMain,
+    DoTransfer2dObjPlttMain,
+    DoTransfer2dBGPlttMain,
+    DoTransfer2dObjExtPlttMain,
+    DoTransfer2dBGExtPlttMain,
+    DoTransfer2dObjOamMain,
+    DoTransfer2dObjCharMain,
+    DoTransfer2dBG0CharSub,
+    DoTransfer2dBG1CharSub,
+    DoTransfer2dBG2CharSub,
+    DoTransfer2dBG3CharSub,
+    DoTransfer2dBG0ScrSub,
+    DoTransfer2dBG1ScrSub,
+    DoTransfer2dBG2ScrSub,
+    DoTransfer2dBG3ScrSub,
+    DoTransfer2dBG2BmpSub,
+    DoTransfer2dBG3BmpSub,
+    DoTransfer2dObjPlttSub,
+    DoTransfer2dBGPlttSub,
+    DoTransfer2dObjExtPlttSub,
+    DoTransfer2dBGExtPlttSub,
+    DoTransfer2dObjOamSub,
+    DoTransfer2dObjCharSub,
+};
+
 void DoTransfer_(NNSGfdVramTransferTask *task) {
     void (*f)(const void *, u32, u32);
 
-    f = data_02152c54[task->mType];
+    f = transFunc[task->mType];
     DC_FlushRange(task->mPSrc, task->mSzByte);
     f(task->mPSrc, task->mDstAddr, task->mSzByte);
 }
@@ -223,19 +262,19 @@ s32 NNSi_GfdPopVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue) {
     return 1;
 }
 
-NNSGfdVramTransferTaskQueue data_02173220;
+NNSGfdVramTransferTaskQueue s_VramTransferManager;
 
 void NNS_GfdInitVramTransferManager(NNSGfdVramTransferTask *pTaskArray, u32 lengthOfArray) {
-    data_02173220.mPTaskArray = pTaskArray;
-    data_02173220.mLengthOfArray = lengthOfArray;
-    ResetTaskQueue_(&data_02173220);
+    s_VramTransferManager.mPTaskArray = pTaskArray;
+    s_VramTransferManager.mLengthOfArray = lengthOfArray;
+    ResetTaskQueue_(&s_VramTransferManager);
 }
 
 void NNS_GfdDoVramTransfer(void) {
     NNSGfdVramTransferTaskQueue *queue;
     NNSGfdVramTransferTask *task;
 
-    queue = &data_02173220;
+    queue = &s_VramTransferManager;
     task = NNSi_GfdGetFrontVramTransferTaskQueue(queue);
     while (NNSi_GfdPopVramTransferTaskQueue(queue) != 0) {
         DoTransfer_(task);
@@ -248,7 +287,7 @@ s32 NNS_GfdRegisterNewVramTransferTask(u32 type, u32 dstAddr, void *pSrc, u32 sz
     NNSGfdVramTransferTaskQueue *queue;
     NNSGfdVramTransferTask *task;
 
-    queue = &data_02173220;
+    queue = &s_VramTransferManager;
     if (IsVramTransferTaskQueueFull_(queue) != 0) {
         return 0;
     }

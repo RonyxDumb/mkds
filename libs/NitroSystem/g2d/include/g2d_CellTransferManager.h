@@ -12,3 +12,5 @@ typedef struct NNSG2dCellTransferState {
 } NNSG2dCellTransferState;
 
 NNSG2dCellTransferState *NNSi_G2dGetCellTransferState(u32 handle);
+
+extern NNSG2dCellTransferState *s_pCellStateArray;

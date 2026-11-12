@@ -9,6 +9,8 @@
 #include "Main/Menu/data_0216e000.h"
 #include "code_02134398.h"
 
+CallbackInfo sCallbackInfo = {-1};
+
 // Sets the output effect to type, then starts an effect capture of 32000 Hz with two parts, handled by EffectCallback.
 void NNS_SndCaptureStartOutputEffect(void *buffer, u32 bufSize, s32 type) {
     NNS_SndCaptureChangeOutputEffect(type);

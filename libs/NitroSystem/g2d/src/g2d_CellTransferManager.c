@@ -11,8 +11,10 @@
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"
 
+NNSG2dCellTransferState *s_pCellStateArray;
+
 NNSG2dCellTransferState *NNSi_G2dGetCellTransferState(u32 handle) {
-    return data_02174e04 + handle;
+    return s_pCellStateArray + handle;
 }
 
 void NNS_G2dSetCellTransferStateRequested(u32 handle, u32 srcOffset, u32 szByte) {
