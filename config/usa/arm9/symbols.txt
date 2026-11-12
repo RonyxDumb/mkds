@@ -8145,7 +8145,7 @@ gShineBalloonEndFlag kind:data(any) addr:0x02156838
 gShineBalloonEndSecondFlag kind:data(any) addr:0x0215683c
 gTitleDisplaySettingsDesc kind:data(any) addr:0x02156840
 gFrameOffsets kind:data(any) addr:0x02156868
-data_02156874 kind:data(any) addr:0x02156874
+gRaceHudSubScreenInitialScrollPosition kind:data(any) addr:0x02156874
 gVec3Zero kind:data(any) addr:0x02156880
 gMenuDisplaySettingsDesc kind:data(any) addr:0x0215688c
 gParkMapObjectFlag kind:data(any) addr:0x021568b4

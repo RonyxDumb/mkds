@@ -23,7 +23,7 @@
 
 RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
 
-const Vec3 data_02156874 = {0, 0, 0};
+const Vec3 gRaceHudSubScreenInitialScrollPosition = {0, 0, 0};
 
 void InitRaceHudSubScreenProjection(void) {
     UnkPair020b502c state0Min;
@@ -61,7 +61,7 @@ void InitRaceHudSubScreenProjection(void) {
     gRaceHudSubScreenProjection->mBg3InverseX = FX_InvFx64c(bg3Max.mFirst - bg3Min.mFirst);
     gRaceHudSubScreenProjection->mBg3InverseZ = FX_InvFx64c(bg3Max.mSecond - bg3Min.mSecond);
     gRaceHudSubScreenProjection->mScrollTimer = 0;
-    gRaceHudSubScreenProjection->mScrollPosition = data_02156874;
+    gRaceHudSubScreenProjection->mScrollPosition = gRaceHudSubScreenInitialScrollPosition;
 }
 
 void ClearRaceHudSubScreenProjection(void) {

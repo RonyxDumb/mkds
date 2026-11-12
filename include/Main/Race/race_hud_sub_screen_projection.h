@@ -445,7 +445,6 @@ static inline CourseMapCamera *GetCourseMapCamera(u16 cameraIndex) {
 
 #include "Main/Menu/data_02175628.h"
 
-
 extern u16 GetPadInputSlot(void);
 s32 MulFixed12NoRound(s32 multiplicand, s32 multiplier);
 void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAffines, s32 scale);
@@ -474,6 +473,6 @@ BOOL IsCourseWithMap2DLocal3(void);
 void ClearRaceHudSubScreenProjection(void);
 
 void InitRaceHudSubScreenProjection(void);
-extern const Vec3 data_02156874;
+extern const Vec3 gRaceHudSubScreenInitialScrollPosition;
 
 extern RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
