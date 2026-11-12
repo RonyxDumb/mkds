@@ -17,10 +17,26 @@
 #include "Main/MapObjects/sound_if_kart_star_or.h"
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
+#include "Main/MapObjects/fireball2.h"
+
+const u32 gSunFireballSkipSoundFlag = 0x40000000;
+const u16 gSunFireballSecondHitFlag = 8;
+const u16 gSunFireballHitFlag = 1;
+const u16 gBoundInitMapObjectFlag = 0x200;
+
+MapObjectKindDescriptor gSunFireballKindDescriptor = {0,
+                                             {0, 0},
+                                             0xc4,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitSunFireball,
+                                             CreateSunFireballKindData,
+                                             0,
+                                             0,
+                                             0,
+                                             CreateSunFireballUpdateList};
 
 void InitSunFireball(MapObject *mapObject) {
     u32 flags = mapObject->mFlags;
-    u32 flagBits = data_021565e4;
+    u32 flagBits = gSunFireballInitMapObjectFlag;
     u32 newFlags = ((flags) | (flagBits));
     mapObject->mFlags = newFlags;
     ParkMapObject(mapObject);
@@ -34,8 +50,8 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag,
     hitFlagValue = *hitFlag;
     passedOnValue = *passedValue;
     if (hitFlagValue == 1 && sunFireball->mState <= 1) {
-        sunFireball->mMapObject.mFlags |= data_usa_021565d8;
-        sunFireball->mMapObject.mFlags |= data_usa_021565dc;
+        sunFireball->mMapObject.mFlags |= gSunFireballHitFlag;
+        sunFireball->mMapObject.mFlags |= gSunFireballSecondHitFlag;
         sunFireball->mState = 2;
         sunFireball->mTimer = 0x168;
         sunFireball->mMapObject.mPosStep.x = 0;
@@ -46,7 +62,7 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag,
         sunFireball->mUnk_bc->mEmitInterval = 5;
         sunFireball->mUnk_c0->mEmitInterval = 5;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            sunFireball->mMapObject.mDistanceSquaredAndFlags |= data_usa_021565e0;
+            sunFireball->mMapObject.mDistanceSquaredAndFlags |= gSunFireballSkipSoundFlag;
         }
         StartSoundIfKartStarOrKiller(&sunFireball->mMapObject, kart);
     }
@@ -60,8 +76,8 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
     hitFlagValue = *hitFlag;
     passedOnValue = *passedValue;
     if (hitFlagValue == 1 && sunFireball->mState <= 1) {
-        sunFireball->mMapObject.mFlags |= data_usa_021565d8;
-        sunFireball->mMapObject.mFlags |= data_usa_021565dc;
+        sunFireball->mMapObject.mFlags |= gSunFireballHitFlag;
+        sunFireball->mMapObject.mFlags |= gSunFireballSecondHitFlag;
         sunFireball->mState = 2;
         sunFireball->mTimer = 0x168;
         sunFireball->mMapObject.mPosStep.x = 0;
@@ -205,16 +221,17 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
     }
 }
 
-void CreateSunFireballKindData(void) {
+MapObjectKindData *CreateSunFireballKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindDataWithSound(&CollideKartWithSunFireball, &CollideItemObjectWithSunFireball, NULL, 1,
                                                 0, 0x18d);
     kindData->mCollideItemObjectSoundId = 0x196;
+    return kindData;
 }
 
-void CreateSunFireballUpdateList(void) {
-    CreateMapObjectUpdateList(&SunFireballInitReturnArgument, &UpdateSunFireball, NULL);
+MapObjectList *CreateSunFireballUpdateList(void) {
+    return CreateMapObjectUpdateList(&SunFireballInitReturnArgument, &UpdateSunFireball, NULL);
 }
 
 void StartSunFireball(Vec3 *startPos, Vec3 *direction) {

@@ -19,16 +19,10 @@ typedef struct TownMonte {
     /* ac */ s32 mMirror;
 } TownMonte;
 
-extern char gChandelierNsbmdName[];
-extern char gChandelierNsbcaName[];
-extern char gTownMonteNsbmdName[];
-extern char gTownMonteNsbtpName[];
-extern void *gTownMonte;
-extern MapObjectKindData *gCourseMapRowKindData[19];
 
 void CreateChandelier(void *mapObjectList);
-void *CreateTownMonteUpdateList(void);
-void *CreateTownMonteDrawList(void);
+MapObjectList *CreateTownMonteUpdateList(void);
+MapObjectList *CreateTownMonteDrawList(void);
 void UpdateTownMonte(void *mapObjectList,
                      TownMonte *townMonte); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitTownMonteObjects(MapObjectList *mapObjectList);
@@ -38,9 +32,11 @@ void DrawTownMonte(void *mapObjectList, TownMonte *townMonte);
 void CreateTownMonte(
     MapObjectList *mapObjectList); /* also stores the hook ResetViewRotatedMatrixAxis1Wrapper in the list */
 void ResetViewRotatedMatrixAxis1Wrapper(MapObjectList *mapObjectList);
-void CreateCourseMapRowKindData(void);
+MapObjectKindData *CreateCourseMapRowKindData(void);
 void InitCourseMapRowKindData(MapObject *mapObject);
-void *CreateAirshipUpdateList(void);
-void *CreateAirshipDrawList(void);
+MapObjectList *CreateAirshipUpdateList(void);
+MapObjectList *CreateAirshipDrawList(void);
 void UpdateAirship(void *mapObjectList,
                    Airship *airship); /* skipped for objects with mFlags & 4 (parked pool objects) */
+
+extern MapObjectModel *gChandelier;

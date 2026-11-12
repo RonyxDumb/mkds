@@ -4,6 +4,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of kinds 0x1a8, 0x1b4 and 0x1b5 (Bound, Cream, Berry); mWobbling is set while its scale wobbles.
 typedef struct Bound {
@@ -56,20 +57,7 @@ typedef struct Sun {
     /* 0dc */ s32 mState;
 } Sun;
 
-extern const char gBerryNsbmdName[];
-extern const char gCreamEffectNsbmdName[];
-extern const char gCreamNsbmdName[];
-extern const char gBoundNsbmdName[];
-extern const char gBoundNsbtpName[];
-extern const char gSunNsbmdName[];
-extern const char gSunNsbcaName[];
-extern const char gSunLODNsbmdName[];
-
 void CreateBound(void *mapObjectList);
-
-extern u32 data_usa_021565d0;
-extern u16 data_usa_021565d4;
-extern const char data_usa_02167328[];
 
 MapObjectKindData *CreateMapObjectKindDataWithSound(void *collideKartCallback, void *collideItemObjectCallback,
                                                     void *sphereHitCallback, u32 wordValue, u16 halfValue, u16 soundId);
@@ -77,13 +65,13 @@ MapObjectKindData *CreateEmptyMapObjectKindData(void);
 void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                               u32 wordValue, u16 halfValue);
 BOOL StartBoundWobble(s32 mapObjectIndex);
-void CreateBoundUpdateList(void);
-void CreateBerryDrawList(void);
-void CreateCreamDrawList(void);
-void CreateBoundDrawList(void);
-void CreateBerryKindData(void);
-void CreateCreamKindData(void);
-void CreateBoundKindData(void);
+MapObjectList *CreateBoundUpdateList(void);
+MapObjectList *CreateBerryDrawList(void);
+MapObjectList *CreateCreamDrawList(void);
+MapObjectList *CreateBoundDrawList(void);
+MapObjectKindData *CreateBerryKindData(void);
+MapObjectKindData *CreateCreamKindData(void);
+MapObjectKindData *CreateBoundKindData(void);
 void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound);
 s32 BoundFX_MulInline(s32 value, s32 scale);
 s16 BoundFX_SinIdx(s32 angle);
@@ -97,8 +85,13 @@ BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius,
 u8 CollideItemObjectWithBound(Bound *bound, void *itemObject, u8 *firstResponse, u8 *response);
 s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *response);
 void InitBound(Bound *bound);
-void CreateSunUpdateList(void);
-void CreateSunDrawList(void);
+MapObjectList *CreateSunUpdateList(void);
+MapObjectList *CreateSunDrawList(void);
 void UpdateSun(MapObjectList *mapObjectList, Sun *sun); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitSunObjects(MapObjectList *mapObjectList);
 void DrawSun(void *mapObjectList, Sun *sun);
+
+extern const u32 gBoundHitDistanceFlag;
+extern struct MapObjectModel *gBound;
+extern struct MapObjectModel *gBerry;
+extern struct MapObjectModel *gCream;

@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/MapObjects/attractor.h" // MapObjectKindData
 
-void CreatePuddleKindData(void);
+MapObjectKindData *CreatePuddleKindData(void);

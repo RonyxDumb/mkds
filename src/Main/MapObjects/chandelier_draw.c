@@ -2,6 +2,7 @@
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "ITCM/code_01ff8000.h"
+#include "Main/MapObjects/chandelier.h"
 
 void DrawChandelier(void *mapObjectList, Chandelier *chandelier) {
     MtxFx43 *viewMatrix;

@@ -4,6 +4,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
+#include "01/MapObjects/data_0209bc74.h"
 
 // Element of 0x10 bytes: a position, then two halfwords.
 typedef struct Fireball2Element {
@@ -32,9 +33,9 @@ typedef struct Fireball2 {
     /* 19e4 */ s32 mEntryKartAxisDistance;
 } Fireball2;
 
-void *CreateFireball2UpdateList(void);
-void *CreateFireball2DrawList(void);
-void CreateFireball2KindData(void);
+MapObjectList *CreateFireball2UpdateList(void);
+MapObjectList *CreateFireball2DrawList(void);
+MapObjectKindData *CreateFireball2KindData(void);
 void UpdateFireball2(void *mapObjectList,
                      Fireball2 *fireball2); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitFireball2Objects(MapObjectList *mapObjectList);
@@ -44,4 +45,8 @@ void CreateFireball2(MapObjectList *mapObjectList); /* also sets word +0x1c of t
 BOOL IsPosNearFireball2(Fireball2 *fireball2, Vec3 *pos, s32 radius);
 u8 CollideKartWithFireball2(Fireball2 *fireball2, Kart *kart, u8 *firstResponse, u8 *response);
 void InitFireball2(Fireball2 *fireball2);
-void *CreatePuddleDrawList(void);
+MapObjectList *CreatePuddleDrawList(void);
+
+extern const u16 gSunFireballInitMapObjectFlag;
+extern const u32 gFireball2SkipSoundFlag;
+extern struct MapObjectModel *gFireball2;

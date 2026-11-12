@@ -17,7 +17,6 @@ extern u16 data_usa_0215659c;
 
 extern u16 data_02156598;
 
-extern u16 data_021565e4;
 
 
 extern u16 data_021568e8;
@@ -104,55 +103,34 @@ extern struct RockDrawList data_02156a80;
 
 extern struct MapObjectKindData data_02156adc;
 
-extern u16 data_021567a0;
 
-extern u16 gShine16ShadowAngles[];
 
-extern u16 data_021567ac;
+extern u16 gShine16CollisionFlag;
 
-extern const u16 data_02156794;
 
-extern const u16 data_02156798;
 
-extern const u16 data_0215679c;
 
-extern u16 data_021567ec;
 
-extern u16 data_021567f0;
 
-extern u16 data_021567f4;
 
-extern u16 data_021567f8;
 
 extern s32 gCharacterBalloonOrShineHeights[];
 
-extern s16 data_02156640[];
 
-extern s16 data_02156654[];
 
-extern s16 data_02156668[];
 
-extern s16 data_0215667c[];
 
-extern s16 data_02156690[];
 
-extern s16 data_021566a4[];
 
-extern s32 data_021566b8[];
 
-extern s32 data_021566dc[];
 
-extern const u16 data_02156700[4][4];
 
-extern const s32 data_02156720[4][4];
 
 extern u16 data_02156838;
 
 extern u16 data_0215683c;
 
-extern u16 data_021567e4;
 
-extern u16 data_021567e8;
 
 // 8-byte entries of the table at data_02156808.
 typedef struct KeyboardCursorTargets {
@@ -171,15 +149,11 @@ extern const u16 data_02156840[20];
 
 
 
-extern u16 data_usa_021565d8;
 
-extern u16 data_usa_021565dc;
 
-extern u32 data_usa_021565e0;
 
-extern u32 data_usa_021565e8;
 
-extern u16 data_usa_021565ec;
+extern u16 gFireball2InitMapObjectFlag;
 
 
 

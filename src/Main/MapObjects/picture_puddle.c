@@ -15,9 +15,16 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/data_02167000.h"
+#include "Main/MapObjects/fireball2.h"
+#include "Main/MapObjects/puddle_kind_data.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+MapObjectModel *gPuddle;
+
+MapObjectKindDescriptor gPuddleKindDescriptor = {0, {0, 0}, 0xa0, 0, CreatePuddleKindData, CreatePuddleDrawList};
 
 void CreatePuddle(void *mapObjectList) {
-    gPuddle = CreateMapObjectModelNsbmd(mapObjectList, gPuddleNsbmdName);
+    gPuddle = CreateMapObjectModelNsbmd(mapObjectList, "puddle.nsbmd");
 }
 
 void SetupDrawPuddle(void *mapObjectList) {

@@ -18,6 +18,13 @@
 #include "Main/Race/data_020f36d8.h"
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectModel *gRainStar;
+
+MapObjectKindDescriptor gRainStarKindDescriptor = {
+    0, {0, 0}, 0xa4, 0, CreateEmptyMapObjectKindData, CreateRainStarDrawList, 0, 0, CreateRainStarUpdateList};
 
 void InitChandelierObjects(MapObjectList *objectList) {
     s32 objectIndex;
@@ -110,17 +117,17 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     }
 }
 
-void *CreateChandelierDrawList(void) {
+MapObjectList *CreateChandelierDrawList(void) {
     return CreateMapObjectDrawList1(CreateChandelier, DrawChandelier, NULL);
 }
 
-void *CreateChandelierUpdateList(void) {
+MapObjectList *CreateChandelierUpdateList(void) {
     return CreateMapObjectUpdateList(InitChandelierObjects, UpdateChandelier, NULL);
 }
 
 void CreateRainStar(void *mapObjectList) {
-    CreateMapObjectModelNsbtaAnimation(gRainStar = CreateMapObjectModelAnimated(mapObjectList, gRainStarNsbmdName),
-                                       gRainStarNsbtaName);
+    CreateMapObjectModelNsbtaAnimation(gRainStar = CreateMapObjectModelAnimated(mapObjectList, "RainStar.nsbmd"),
+                                       "RainStar.nsbta");
     SetMapObjectModelPolygonId(gRainStar, 0x3f);
 }
 
@@ -155,10 +162,10 @@ void UpdateRainStar(void *mapObjectList, RainStar *rainStar) {
     rainStar->mMapObject.mAngle += 0x111;
 }
 
-void *CreateRainStarDrawList(void) {
+MapObjectList *CreateRainStarDrawList(void) {
     return CreateMapObjectDrawList1(CreateRainStar, DrawRainStar, NULL);
 }
 
-void *CreateRainStarUpdateList(void) {
+MapObjectList *CreateRainStarUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateRainStar, NULL);
 }

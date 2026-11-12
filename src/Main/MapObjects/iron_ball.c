@@ -71,9 +71,9 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
     stateA = 0;
     stateB = 0;
     shadowAlphaCap = 0x1c;
-    firstFlag = data_021567ec;
-    secondFlag = data_021567f0;
-    thirdFlag = data_021567f4;
+    firstFlag = gIronBallInitFirstFlag;
+    secondFlag = gIronBallInitSecondFlag;
+    thirdFlag = gIronBallInitThirdFlag;
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (ironBall = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
@@ -179,9 +179,9 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                 fromEntry = ironBall->mFollower.mFromEntry;
             } else if (ironBall->mMapObject.mCourseMapRow->mSettings[2] != 0) {
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
-                ironBall->mMapObject.mFlags |= data_021567ec;
-                ironBall->mMapObject.mFlags |= data_021567f0;
-                ironBall->mMapObject.mFlags |= data_021567f4;
+                ironBall->mMapObject.mFlags |= gIronBallInitFirstFlag;
+                ironBall->mMapObject.mFlags |= gIronBallInitSecondFlag;
+                ironBall->mMapObject.mFlags |= gIronBallInitThirdFlag;
                 ironBall->mState = 0;
                 return;
             } else {
@@ -245,7 +245,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         }
     }
     if (ironBall->mFollower.mFromEntry->mUnk_0d != 0 && ironBall->mFollower.mToEntry->mUnk_0d != 0) {
-        ironBall->mMapObject.mFlags |= data_021567f8;
+        ironBall->mMapObject.mFlags |= gIronBallPathEntryFlag;
     } else {
         ironBall->mMapObject.mFlags &= ~0x20;
     }
@@ -319,27 +319,28 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         }
         ironBall->mMapObject.mFlags &= ~1;
     } else {
-        ironBall->mMapObject.mFlags |= data_021567ec;
+        ironBall->mMapObject.mFlags |= gIronBallInitFirstFlag;
     }
 }
 
-void CreateIronBallKindData(void) {
+MapObjectKindData *CreateIronBallKindData(void) {
     MapObjectKindData *mapObjectKindData;
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithIronBall, NULL, NULL, 1, 1);
     mapObjectKindData->mHeightRangeMax = 0x190000;
     mapObjectKindData->mHeightRangeMin = -0x1f4000;
+    return mapObjectKindData;
 }
 
-void *CreateIronBallShadowDrawList(void) {
+MapObjectList *CreateIronBallShadowDrawList(void) {
     return CreateMapObjectDrawList1(IronBallReturnArgument, DrawIronBallShadow, NULL);
 }
 
-void *CreateIronBallDrawList(void) {
+MapObjectList *CreateIronBallDrawList(void) {
     return CreateMapObjectDrawList2(CreateIronBall, DrawIronBall, SetupDrawIronBall);
 }
 
-void *CreateIronBallUpdateList(void) {
+MapObjectList *CreateIronBallUpdateList(void) {
     return CreateMapObjectUpdateList(InitIronBallObjects, UpdateIronBall, NULL);
 }
 
@@ -409,3 +410,8 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
             break;
     }
 }
+
+const u16 gIronBallInitThirdFlag = 8;
+const u16 gIronBallInitSecondFlag = 2;
+const u16 gIronBallInitFirstFlag = 1;
+const u16 gIronBallPathEntryFlag = 0x20;

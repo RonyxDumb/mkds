@@ -22,8 +22,8 @@ typedef struct SunFireball {
 } SunFireball;
 
 void StartSunFireball(Vec3 *startPos, Vec3 *direction);
-void CreateSunFireballUpdateList(void);
-void CreateSunFireballKindData(void);
+MapObjectList *CreateSunFireballUpdateList(void);
+MapObjectKindData *CreateSunFireballKindData(void);
 void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball);
 
 unsigned int SunFireballInitReturnArgument(unsigned int value);
@@ -36,3 +36,8 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag,
 typedef struct MapObject MapObject;
 
 void InitSunFireball(MapObject *mapObject);
+
+extern const u32 gSunFireballSkipSoundFlag;
+extern const u16 gSunFireballHitFlag;
+extern const u16 gSunFireballSecondHitFlag;
+extern const u16 gBoundInitMapObjectFlag;

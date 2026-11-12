@@ -21,11 +21,18 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/bound.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/chandelier_rain_star.h"
+
+MapObjectModel *gChandelier;
+
+MapObjectKindDescriptor gChandelierKindDescriptor = {
+    0, {0, 0}, 0xac, 0, CreateEmptyMapObjectKindData, CreateChandelierDrawList, 0, 0, CreateChandelierUpdateList};
 
 u16 FX_Atan2Idx(s32 a, s32 b);
 
 void CreateChandelier(void *mapObjectList) {
-    CreateMapObjectModelNsbcaAnimation(gChandelier = CreateMapObjectModelAnimated(mapObjectList, gChandelierNsbmdName),
-                                       gChandelierNsbcaName);
+    CreateMapObjectModelNsbcaAnimation(gChandelier = CreateMapObjectModelAnimated(mapObjectList, "chandelier.nsbmd"),
+                                       "chandelier.nsbca");
     SetMapObjectModelPolygonId(gChandelier, 0x3f);
 }

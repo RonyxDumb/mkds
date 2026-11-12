@@ -37,6 +37,16 @@
 #include "Main/MapObjects/teresa.h"
 #include "fx_mtx43.h"
 
+const s32 gTrophyModelEffectOffsetY[9] = {0x266, 0xcd, 0x1c3, 0x214, 0x214, 0x214, 0x214, 0x19a, 0x2b8};
+const s16 gTrophyModelLight0Y[10] = {0, 0, 0, -2048, 0, 0, 0, 0xfff, 0, 0};
+const s32 gTrophyModelEffectRadius[9] = {0x400, 0x5ec, 0x452, 0x452, 0x4a4, 0x400, 0x466, 0x4f6, 0x429};
+const s16 gTrophyModelLight1X[10] = {-4096, -4096, -4096, -2048, -4096, -4096, -4096, -4096, -4096, 0};
+const s16 gTrophyModelLight0Z[10] = {-4096, -4096, -4096, 0xfff, -4096, -2048, -4096, -4096, -1024, 0};
+const s16 gTrophyModelLight0X[10] = {0x400, 0x400, -1024, 0xfff, 0xfff, 0xfff, -4096, 0xfff, 0xfff, 0};
+const s16 gTrophyModelLight1Y[10] = {0, 0, 0, 0xc00, 0, 0, -2048, 0, 0, 0};
+const s16 gTrophyModelLight1Z[10] = {0xfff, 0xfff, 0xfff, -4096, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0};
+Trophy *gTrophy;
+
 void SetupTrophy(void) {
     s32 frustumTop;
     s32 frustumRight;
@@ -65,8 +75,8 @@ void SetupTrophy(void) {
         Vec3 cameraUp;
         Vec3 cameraTarget = {0, 0, 0};
 
-        cameraUp = data_021676d0;
-        cameraPos = data_021676c4;
+        cameraUp = gTrophyCameraUp;
+        cameraPos = gTrophyCameraPos;
         gCameraLookAtVectors[0] = cameraPos;
         gCameraLookAtVectors[1] = cameraUp;
         gCameraLookAtVectors[2] = cameraTarget;
@@ -129,16 +139,16 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
     if (modelIndex < 9 && rankIndex < 3) {
         modelFile = FindSceneFile(gTKinoNsbmdName[modelIndex]);
         animationFile = FindSceneFile(gTKinoNsbtpName[modelIndex]);
-        gTrophy->mLight0X = data_02156640[modelIndex];
-        gTrophy->mLight0Y = data_02156654[modelIndex];
-        gTrophy->mLight0Z = data_02156668[modelIndex];
-        gTrophy->mLight1X = data_0215667c[modelIndex];
-        gTrophy->mLight1Y = data_02156690[modelIndex];
-        gTrophy->mLight1Z = data_021566a4[modelIndex];
+        gTrophy->mLight0X = gTrophyModelLight0X[modelIndex];
+        gTrophy->mLight0Y = gTrophyModelLight0Y[modelIndex];
+        gTrophy->mLight0Z = gTrophyModelLight0Z[modelIndex];
+        gTrophy->mLight1X = gTrophyModelLight1X[modelIndex];
+        gTrophy->mLight1Y = gTrophyModelLight1Y[modelIndex];
+        gTrophy->mLight1Z = gTrophyModelLight1Z[modelIndex];
         gTrophy->mEffectOffset.x = 0;
-        gTrophy->mEffectOffset.y = data_021566dc[modelIndex];
+        gTrophy->mEffectOffset.y = gTrophyModelEffectOffsetY[modelIndex];
         gTrophy->mEffectOffset.z = -0x2000;
-        gTrophy->mUnk_114 = data_021566b8[modelIndex];
+        gTrophy->mUnk_114 = gTrophyModelEffectRadius[modelIndex];
         InitNsbmd(&gTrophy->mModel, modelFile);
         SetNsbmdLightEnableFlagAll(&gTrophy->mModel, 3);
         if (gRaceSetup->mMirrorMode != 0) {

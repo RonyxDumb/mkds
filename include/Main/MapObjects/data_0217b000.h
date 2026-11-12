@@ -279,7 +279,6 @@ typedef struct StemSets {
     /* 798 */ void (*mUpdateFunction)(TimedQuad *);
 } StemSets;
 
-extern MapObjectModel *gChandelier;
 // Value of KartStanding.mNotNormalEndPending and mObjectsSkipEndPending when no hit end is waiting (s32).
 #define KART_STANDING_HIT_END_NONE -2
 // One kart's entry of Standings (0x70 bytes, indexed by kart index): its count, rank, side id, elimination status and
@@ -378,9 +377,6 @@ extern Standings *gStandings;
 static inline KartStanding *GetStandingsKart(u16 kartIndex) {
     return &gStandings->mKarts[kartIndex];
 }
-extern MapObjectModel *gBalloon;
-extern Vec3 gBalloonCameraPosEighth;
-extern Vec3 gBalloonCameraPosHalf;
 // 8-byte entries of the tables KeyboardKeys points to (FindKeyboardRectByValue returns one).
 typedef struct KeyboardRect {
     /* 00 */ u8 mX;
@@ -784,7 +780,6 @@ extern u16 *gAttractorStrengths;
 extern s32 gKouraWBlockTimer;
 extern s32 gThunderBlockTimer;
 
-extern u16 gShine16ShadowAngleIndex;
 // Object behind gRaceModeCount, 0xc bytes, allocated by InitRaceModeCount. The word at 0 is also read and written as
 // two halfwords.
 typedef struct RaceModeCount {
@@ -1088,19 +1083,5 @@ extern u8 gItemDataDelayedLinks[][2];
 extern u8 gItemDataBuffer[];
 extern u8 data_0217bdc1[];
 extern u8 data_0217bd81[];
-extern MapObjectModel *gShine16;
-extern MapObjectModel *gAirship;
-extern MapObjectModel *gSanboH;
-extern MapObjectModel *gSanboB;
 extern MapObjectModel *gIronBall;
 
-extern MapObjectModel *gBerry;
-extern MapObjectModel *gCream;
-extern MapObjectModel *gBound;
-extern MapObjectModel *gSunLOD;
-extern MapObjectModel *gSun;
-extern MapObjectModel *gFireball2;
-extern MapObjectModel *gPuddle;
-extern MapObjectModel *gPicture1;
-extern MapObjectModel *gPicture2;
-extern MapObjectModel *gRainStar;

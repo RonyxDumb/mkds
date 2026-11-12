@@ -2117,21 +2117,31 @@ src/Main/MapObjects/map_object_model_frame.c:
 src/Main/MapObjects/bound.c:
     complete
     .text       start:0x0209bf70 end:0x0209cef0
+    .rodata     start:0x021565d0 end:0x021565d4
+    .data       start:0x02167260 end:0x02167354
+    .bss        start:0x0217b15c end:0x0217b168
 
 // provisional: file name and boundaries
 src/Main/MapObjects/sun.c:
     complete
     .text       start:0x0209cef0 end:0x0209d694
+    .data       start:0x02167354 end:0x021673b0
+    .bss        start:0x0217b168 end:0x0217b170
 
 // provisional: file name and boundaries
 src/Main/MapObjects/sun_fireball.c:
     complete
     .text       start:0x0209d694 end:0x0209df00
+    .rodata     start:0x021565d4 end:0x021565e4
+    .data       start:0x021673b0 end:0x021673e4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/fireball2.c:
     complete
     .text       start:0x0209df00 end:0x0209eb28
+    .rodata     start:0x021565e4 end:0x021565ec
+    .data       start:0x021673e4 end:0x02167428
+    .bss        start:0x0217b170 end:0x0217b174
 
 // provisional: file name and boundaries
 src/Main/MapObjects/puddle_kind_data.c:
@@ -2142,11 +2152,15 @@ src/Main/MapObjects/puddle_kind_data.c:
 src/Main/MapObjects/picture_puddle.c:
     complete
     .text       start:0x0209eb54 end:0x0209ec44
+    .data       start:0x02167428 end:0x0216746c
+    .bss        start:0x0217b174 end:0x0217b178
 
 // provisional: file name and boundaries
 src/Main/MapObjects/picture.c:
     complete
     .text       start:0x0209ec44 end:0x0209f124
+    .data       start:0x0216746c end:0x02167514
+    .bss        start:0x0217b178 end:0x0217b180
 
 // provisional: file name and boundaries
 src/Main/MapObjects/picture_init.c:
@@ -2157,6 +2171,8 @@ src/Main/MapObjects/picture_init.c:
 src/Main/MapObjects/chandelier_rain_star.c:
     complete
     .text       start:0x0209f13c end:0x0209f5cc
+    .data       start:0x02167514 end:0x02167568
+    .bss        start:0x0217b180 end:0x0217b184
 
 // provisional: file name and boundaries
 src/Main/MapObjects/chandelier_draw.c:
@@ -2167,16 +2183,22 @@ src/Main/MapObjects/chandelier_draw.c:
 src/Main/MapObjects/chandelier.c:
     complete
     .text       start:0x0209f650 end:0x0209f698
+    .data       start:0x02167568 end:0x021675c4
+    .bss        start:0x0217b184 end:0x0217b188
 
 // provisional: file name and boundaries
 src/Main/MapObjects/town_monte.c:
     complete
     .text       start:0x0209f698 end:0x020a0028
+    .data       start:0x021675c4 end:0x02167618
+    .bss        start:0x0217b188 end:0x0217b1d8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/airship_draw.c:
     complete
     .text       start:0x020a0028 end:0x020a02c8
+    .data       start:0x02167618 end:0x02167690
+    .bss        start:0x0217b1d8 end:0x0217b1dc
 
 // provisional: file name and boundaries
 src/Main/Sound/distance_sound_volume.c:
@@ -2194,6 +2216,8 @@ src/Main/Race/standings_balloons.c:
 src/Main/MapObjects/trophy.c:
     complete
     .text       start:0x020a23a0 end:0x020a2e4c
+    .rodata     start:0x02156640 end:0x02156700
+    .bss        start:0x0217b1e0 end:0x0217b1e4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/balloon.c:
@@ -2219,11 +2243,17 @@ src/Main/MapObjects/balloon_park.c:
 src/Main/MapObjects/balloon_draw.c:
     complete
     .text       start:0x020a2f30 end:0x020a3f2c
+    .rodata     start:0x02156700 end:0x02156760
+    .data       start:0x02167844 end:0x02167898
+    .bss        start:0x0217b1e4 end:0x0217b200
 
 // provisional: file name and boundaries
 src/Main/MapObjects/shine16.c:
     complete
     .text       start:0x020a3f2c end:0x020a6cb4
+    .rodata     start:0x02156794 end:0x021567ac
+    .data       start:0x02167898 end:0x021678ec
+    .bss        start:0x0217b200 end:0x0217b208
 
 // provisional: file name and boundaries
 src/Main/MapObjects/shine_battle.c:
@@ -2234,6 +2264,9 @@ src/Main/MapObjects/shine_battle.c:
 src/Main/MapObjects/sanbo.c:
     complete
     .text       start:0x020a71c8 end:0x020a8098
+    .rodata     start:0x021567e4 end:0x021567ec
+    .data       start:0x021678ec end:0x02167940
+    .bss        start:0x0217b208 end:0x0217b210
 
 // provisional: file name and boundaries
 src/Main/MapObjects/sanbo_launch.c:
@@ -2249,11 +2282,14 @@ src/Main/Course/course_sound_object.c:
 src/Main/MapObjects/iron_ball.c:
     complete
     .text       start:0x020a8ed8 end:0x020a9cd4
+    .rodata     start:0x021567ec end:0x021567fc
 
 // provisional: file name and boundaries
 src/Main/MapObjects/iron_ball_kart.c:
     complete
     .text       start:0x020a9cd4 end:0x020a9ed8
+    .data       start:0x02167974 end:0x021679f8
+    .bss        start:0x0217b210 end:0x0217b214
 
 // provisional: file name and boundaries
 src/Main/Menu/keyboard_keys.c:

@@ -1,28 +1,16 @@
 #pragma once
 #include "types.h"
 
-// Objects whose layout isn't known yet.
-extern const char gFireball2NsbmdName[];
 
-extern const char gPuddleNsbmdName[];
 
-extern const char gPicture1NsbmdName[];
 
-extern const char gPicture1NsbcaName[];
 
-extern const char gPicture2NsbmdName[];
 
-extern const char gPicture2NsbcaName[];
 
-extern const char gAirshipNsbmdName[];
 
-extern const char gBalloonNsbmdName[];
 
-extern const char gBalloonNsbtpName[];
 
-extern const char gShine16NsbmdName[];
 
-extern const char gShine16NsbtpName[];
 
 extern s32 data_usa_021679f8;
 
@@ -30,21 +18,17 @@ extern u16 gKeyboardInputMasks[3];
 
 extern u16 *gCharTables[4];
 
-extern Vec3 data_021676c4;
+extern Vec3 gTrophyCameraPos;
 
-extern Vec3 data_021676d0;
+extern Vec3 gTrophyCameraUp;
 
 extern char *gTKinoNsbmdName[];
 
 extern char *gTKinoNsbtpName[];
 
-extern const char gSanboHNsbmdName[];
 
-extern const char gSanboBNsbmdName[];
 
-extern Vec3 data_02167974;
-
-extern const char gIronBallNsbmdName[];
+extern Vec3 gIronBallInitialScale;
 
 extern const char gKeyboardSB10keyNcgrName[];
 

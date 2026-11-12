@@ -5,6 +5,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/Item/item_koura_w.h" // CourseMapRow
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).
 typedef struct Airship {
@@ -37,3 +38,5 @@ void DrawAirship(void *mapObjectList, Airship *airship);
 void InitAirshipObjects(AirshipObjectList *list);
 s32 AirshipFX_CosIdx(s32 angle);
 s32 AirshipFX_MulInline(s32 multiplicand, s32 multiplier);
+
+extern struct MapObjectModel *gAirship;

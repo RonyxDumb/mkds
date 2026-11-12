@@ -45,13 +45,46 @@
 #include "Main/MapObjects/code_020e6b58.h"
 #include "Main/Kart/karts.h"
 
+const u32 gBoundHitDistanceFlag = 0x80000000;
+MapObjectModel *gBound;
+MapObjectModel *gCream;
+MapObjectModel *gBerry;
+
+MapObjectKindDescriptor gBoundKindDescriptor = {0,
+                                             {0, 0},
+                                             0x140,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitBound,
+                                             CreateBoundKindData,
+                                             CreateBoundDrawList,
+                                             0,
+                                             0,
+                                             CreateBoundUpdateList};
+MapObjectKindDescriptor gCreamKindDescriptor = {0,
+                                             {0, 0},
+                                             0x140,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitBound,
+                                             CreateCreamKindData,
+                                             CreateCreamDrawList,
+                                             0,
+                                             0,
+                                             CreateBoundUpdateList};
+MapObjectKindDescriptor gBerryKindDescriptor = {0,
+                                             {0, 0},
+                                             0x140,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitBound,
+                                             CreateBerryKindData,
+                                             CreateBerryDrawList,
+                                             0,
+                                             0,
+                                             CreateBoundUpdateList};
+
 static inline u32 CollideKartWithBound_inline(RandomState64 *randomState64) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     return randomState64->mValue >> 32;
 }
 
 void InitBound(Bound *bound) {
-    bound->mMapObject.mFlags |= data_usa_021565d4;
+    bound->mMapObject.mFlags |= gBoundInitMapObjectFlag;
     RefreshMapObjectMatrixFromHitNormal(&bound->mMapObject);
     bound->mInitialScaleX = bound->mMapObject.mScale.x;
 }
@@ -176,7 +209,7 @@ u8 CollideItemObjectWithBound(Bound *bound, void *itemObject, u8 *firstResponse,
         bound->mWobbleYAnglePerFrame = 0x1000;
         bound->mUnk_0f4 = 0;
         bound->mWobbling = TRUE;
-        bound->mMapObject.mDistanceSquaredAndFlags |= data_usa_021565d0;
+        bound->mMapObject.mDistanceSquaredAndFlags |= gBoundHitDistanceFlag;
     }
     return responseValue;
 }
@@ -196,8 +229,8 @@ BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius,
 }
 
 void CreateBound(void *mapObjectList) {
-    gBound = CreateMapObjectModelAnimated(mapObjectList, gBoundNsbmdName);
-    CreateMapObjectModelNsbtpAnimation(gBound, gBoundNsbtpName);
+    gBound = CreateMapObjectModelAnimated(mapObjectList, "bound.nsbmd");
+    CreateMapObjectModelNsbtpAnimation(gBound, "bound.nsbtp");
 }
 
 void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
@@ -225,13 +258,13 @@ void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
 }
 
 void CreateCream(void *mapObjectList) {
-    gCream = CreateMapObjectModelAnimated(mapObjectList, gCreamNsbmdName);
-    CreateOrthoQuadCreamEffect(data_usa_02167328);
+    gCream = CreateMapObjectModelAnimated(mapObjectList, "cream.nsbmd");
+    CreateOrthoQuadCreamEffect("cream_effect.nsbmd");
 }
 
 void CreateBerry(void *mapObjectList) {
-    gBerry = CreateMapObjectModelAnimated(mapObjectList, gBerryNsbmdName);
-    CreateOrthoQuadCreamEffect(gCreamEffectNsbmdName);
+    gBerry = CreateMapObjectModelAnimated(mapObjectList, "berry.nsbmd");
+    CreateOrthoQuadCreamEffect("cream_effect.nsbmd");
 }
 
 void DrawCream(MapObjectList *mapObjectList, Bound *bound) {
@@ -407,41 +440,44 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
     }
 }
 
-void CreateBoundKindData(void) {
+MapObjectKindData *CreateBoundKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
     kindData->mCollideItemObjectSoundId = 0x1cf;
+    return kindData;
 }
 
-void CreateCreamKindData(void) {
+MapObjectKindData *CreateCreamKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
     kindData->mCollideItemObjectSoundId = 0x156;
+    return kindData;
 }
 
-void CreateBerryKindData(void) {
+MapObjectKindData *CreateBerryKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
     kindData->mCollideItemObjectSoundId = 0x155;
+    return kindData;
 }
 
-void CreateBoundDrawList(void) {
-    CreateMapObjectDrawList1(CreateBound, DrawBound, NULL);
+MapObjectList *CreateBoundDrawList(void) {
+    return CreateMapObjectDrawList1(CreateBound, DrawBound, NULL);
 }
 
-void CreateCreamDrawList(void) {
-    CreateMapObjectDrawList1(CreateCream, DrawCream, NULL);
+MapObjectList *CreateCreamDrawList(void) {
+    return CreateMapObjectDrawList1(CreateCream, DrawCream, NULL);
 }
 
-void CreateBerryDrawList(void) {
-    CreateMapObjectDrawList1(CreateBerry, DrawBerry, NULL);
+MapObjectList *CreateBerryDrawList(void) {
+    return CreateMapObjectDrawList1(CreateBerry, DrawBerry, NULL);
 }
 
-void CreateBoundUpdateList(void) {
-    CreateMapObjectUpdateList(InitBoundAndCreamAndBerryObjects, UpdateBoundAndCreamAndBerry, NULL);
+MapObjectList *CreateBoundUpdateList(void) {
+    return CreateMapObjectUpdateList(InitBoundAndCreamAndBerryObjects, UpdateBoundAndCreamAndBerry, NULL);
 }
 
 // Starts the wobble of object a of the 0x1a8 list, with a sound unless the object is far; FALSE if already wobbling.

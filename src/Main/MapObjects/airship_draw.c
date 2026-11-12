@@ -8,9 +8,22 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/chandelier.h"
+#include "Main/MapObjects/bound.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+MapObjectModel *gAirship;
+
+MapObjectKindDescriptor gCourseMapRowKindDescriptor = {0,
+                                             {0, 0},
+                                             0xa0,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitCourseMapRowKindData,
+                                             CreateCourseMapRowKindData};
+MapObjectKindDescriptor gAirshipKindDescriptor = {
+    0, {0, 0}, 0xf0, 0, CreateEmptyMapObjectKindData, CreateAirshipDrawList, 0, 0, CreateAirshipUpdateList};
 
 void CreateAirship(void *mapObjectList) {
-    gAirship = CreateMapObjectModelAnimated(mapObjectList, gAirshipNsbmdName);
+    gAirship = CreateMapObjectModelAnimated(mapObjectList, "airship.nsbmd");
     SetMapObjectModelPolygonId(gAirship, 0x3f);
 }
 

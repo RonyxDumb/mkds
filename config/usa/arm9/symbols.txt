@@ -8110,40 +8110,40 @@ data_021565a0 kind:data(any) addr:0x021565a0
 data_021565ac kind:data(any) addr:0x021565ac
 data_021565b8 kind:data(any) addr:0x021565b8
 data_021565c4 kind:data(any) addr:0x021565c4
-data_usa_021565d0 kind:data(any) addr:0x021565d0
-data_usa_021565d4 kind:data(any) addr:0x021565d4
-data_usa_021565d8 kind:data(any) addr:0x021565d8
-data_usa_021565dc kind:data(any) addr:0x021565dc
-data_usa_021565e0 kind:data(any) addr:0x021565e0
-data_021565e4 kind:data(any) addr:0x021565e4
-data_usa_021565e8 kind:data(any) addr:0x021565e8
-data_usa_021565ec kind:data(any) addr:0x021565ec
+gBoundHitDistanceFlag kind:data(any) addr:0x021565d0
+gBoundInitMapObjectFlag kind:data(any) addr:0x021565d4
+gSunFireballHitFlag kind:data(any) addr:0x021565d8
+gSunFireballSecondHitFlag kind:data(any) addr:0x021565dc
+gSunFireballSkipSoundFlag kind:data(any) addr:0x021565e0
+gSunFireballInitMapObjectFlag kind:data(any) addr:0x021565e4
+gFireball2SkipSoundFlag kind:data(any) addr:0x021565e8
+gFireball2InitMapObjectFlag kind:data(any) addr:0x021565ec
 gShineBattleTimeLimits kind:data(any) addr:0x021565f0
 gCharacterBalloonOrShineHeights kind:data(any) addr:0x02156600
-data_02156640 kind:data(any) addr:0x02156640
-data_02156654 kind:data(any) addr:0x02156654
-data_02156668 kind:data(any) addr:0x02156668
-data_0215667c kind:data(any) addr:0x0215667c
-data_02156690 kind:data(any) addr:0x02156690
-data_021566a4 kind:data(any) addr:0x021566a4
-data_021566b8 kind:data(any) addr:0x021566b8
-data_021566dc kind:data(any) addr:0x021566dc
-data_02156700 kind:data(any) addr:0x02156700
-data_02156720 kind:data(any) addr:0x02156720
+gTrophyModelLight0X kind:data(any) addr:0x02156640
+gTrophyModelLight0Y kind:data(any) addr:0x02156654
+gTrophyModelLight0Z kind:data(any) addr:0x02156668
+gTrophyModelLight1X kind:data(any) addr:0x0215667c
+gTrophyModelLight1Y kind:data(any) addr:0x02156690
+gTrophyModelLight1Z kind:data(any) addr:0x021566a4
+gTrophyModelEffectRadius kind:data(any) addr:0x021566b8
+gTrophyModelEffectOffsetY kind:data(any) addr:0x021566dc
+gBalloonDrawRotateZAngles kind:data(any) addr:0x02156700
+gBalloonDrawListIndices kind:data(any) addr:0x02156720
 data_usa_02156760 kind:data(any) addr:0x02156760
-data_02156794 kind:data(any) addr:0x02156794
-data_02156798 kind:data(any) addr:0x02156798
-data_0215679c kind:data(any) addr:0x0215679c
-data_021567a0 kind:data(any) addr:0x021567a0
+gBalloonHideFirstFlag kind:data(any) addr:0x02156794
+gBalloonHideSecondFlag kind:data(any) addr:0x02156798
+gBalloonHideThirdFlag kind:data(any) addr:0x0215679c
+gShine16HitFlag kind:data(any) addr:0x021567a0
 gShine16ShadowAngles kind:data(any) addr:0x021567a4
-data_021567ac kind:data(any) addr:0x021567ac
+gShine16CollisionFlag kind:data(any) addr:0x021567ac
 data_usa_021567b0 kind:data(any) addr:0x021567b0
-data_021567e4 kind:data(any) addr:0x021567e4
-data_021567e8 kind:data(any) addr:0x021567e8
-data_021567ec kind:data(any) addr:0x021567ec
-data_021567f0 kind:data(any) addr:0x021567f0
-data_021567f4 kind:data(any) addr:0x021567f4
-data_021567f8 kind:data(any) addr:0x021567f8
+gSanboHitFlag kind:data(any) addr:0x021567e4
+gSanboSecondHitFlag kind:data(any) addr:0x021567e8
+gIronBallInitFirstFlag kind:data(any) addr:0x021567ec
+gIronBallInitSecondFlag kind:data(any) addr:0x021567f0
+gIronBallInitThirdFlag kind:data(any) addr:0x021567f4
+gIronBallPathEntryFlag kind:data(any) addr:0x021567f8
 gKeyboardLayoutRectCounts kind:data(any) addr:0x021567fc
 data_02156808 kind:data(any) addr:0x02156808
 data_usa_0215680a kind:data(any) addr:0x0215680a
@@ -9980,45 +9980,45 @@ gCrabKindDescriptor kind:data(any) addr:0x021671f4
 @2303 kind:data(any) addr:0x02167234 local
 @2304 kind:data(any) addr:0x02167240 local
 @2305 kind:data(any) addr:0x02167250 local
-data_usa_02167260 kind:data(any) addr:0x02167260
-data_usa_02167294 kind:data(any) addr:0x02167294
-data_usa_021672c8 kind:data(any) addr:0x021672c8
-gBerryNsbmdName kind:data(any) addr:0x021672fc
-gCreamEffectNsbmdName kind:data(any) addr:0x02167308
-gCreamNsbmdName kind:data(any) addr:0x0216731c
-data_usa_02167328 kind:data(any) addr:0x02167328
-gBoundNsbmdName kind:data(any) addr:0x0216733c
-gBoundNsbtpName kind:data(any) addr:0x02167348
-data_usa_02167354 kind:data(any) addr:0x02167354
-gSunNsbmdName kind:data(any) addr:0x02167388
-gSunNsbcaName kind:data(any) addr:0x02167394
-gSunLODNsbmdName kind:data(any) addr:0x021673a0
-data_usa_021673b0 kind:data(any) addr:0x021673b0
-data_usa_021673e4 kind:data(any) addr:0x021673e4
-gFireball2NsbmdName kind:data(any) addr:0x02167418
-data_usa_02167428 kind:data(any) addr:0x02167428
-gPuddleNsbmdName kind:data(any) addr:0x0216745c
-data_usa_0216746c kind:data(any) addr:0x0216746c
-data_usa_021674a0 kind:data(any) addr:0x021674a0
-gPicture1NsbmdName kind:data(any) addr:0x021674d4
-gPicture1NsbcaName kind:data(any) addr:0x021674e4
-gPicture2NsbmdName kind:data(any) addr:0x021674f4
-gPicture2NsbcaName kind:data(any) addr:0x02167504
-data_usa_02167514 kind:data(any) addr:0x02167514
-gRainStarNsbmdName kind:data(any) addr:0x02167548
-gRainStarNsbtaName kind:data(any) addr:0x02167558
-data_usa_02167568 kind:data(any) addr:0x02167568
-gChandelierNsbmdName kind:data(any) addr:0x0216759c
-gChandelierNsbcaName kind:data(any) addr:0x021675b0
-data_usa_021675c4 kind:data(any) addr:0x021675c4
-gTownMonteNsbmdName kind:data(any) addr:0x021675f8
-gTownMonteNsbtpName kind:data(any) addr:0x02167608
-data_usa_02167618 kind:data(any) addr:0x02167618
-data_usa_0216764c kind:data(any) addr:0x0216764c
-gAirshipNsbmdName kind:data(any) addr:0x02167680
+gBoundKindDescriptor kind:data(any) addr:0x02167260
+gCreamKindDescriptor kind:data(any) addr:0x02167294
+gBerryKindDescriptor kind:data(any) addr:0x021672c8
+@5444 kind:data(any) addr:0x021672fc local
+@5445 kind:data(any) addr:0x02167308 local
+@5448 kind:data(any) addr:0x0216731c local
+@5449 kind:data(any) addr:0x02167328 local
+@5455 kind:data(any) addr:0x0216733c local
+@5456 kind:data(any) addr:0x02167348 local
+gSunKindDescriptor kind:data(any) addr:0x02167354
+@5338 kind:data(any) addr:0x02167388 local
+@5339 kind:data(any) addr:0x02167394 local
+@5340 kind:data(any) addr:0x021673a0 local
+gSunFireballKindDescriptor kind:data(any) addr:0x021673b0
+gFireball2KindDescriptor kind:data(any) addr:0x021673e4
+@5348 kind:data(any) addr:0x02167418 local
+gPuddleKindDescriptor kind:data(any) addr:0x02167428
+@4323 kind:data(any) addr:0x0216745c local
+gPicture2KindDescriptor kind:data(any) addr:0x0216746c
+gPicture1KindDescriptor kind:data(any) addr:0x021674a0
+@4544 kind:data(any) addr:0x021674d4 local
+@4545 kind:data(any) addr:0x021674e4 local
+@4546 kind:data(any) addr:0x021674f4 local
+@4547 kind:data(any) addr:0x02167504 local
+gRainStarKindDescriptor kind:data(any) addr:0x02167514
+@4676 kind:data(any) addr:0x02167548 local
+@4677 kind:data(any) addr:0x02167558 local
+gChandelierKindDescriptor kind:data(any) addr:0x02167568
+@4621 kind:data(any) addr:0x0216759c local
+@4622 kind:data(any) addr:0x021675b0 local
+gTownMonteKindDescriptor kind:data(any) addr:0x021675c4
+@4921 kind:data(any) addr:0x021675f8 local
+@4922 kind:data(any) addr:0x02167608 local
+gCourseMapRowKindDescriptor kind:data(any) addr:0x02167618
+gAirshipKindDescriptor kind:data(any) addr:0x0216764c
+@4554 kind:data(any) addr:0x02167680 local
 data_usa_02167690 kind:data(any) addr:0x02167690
-data_021676c4 kind:data(any) addr:0x021676c4
-data_021676d0 kind:data(any) addr:0x021676d0
+gTrophyCameraPos kind:data(any) addr:0x021676c4
+gTrophyCameraUp kind:data(any) addr:0x021676d0
 data_usa_021676dc kind:data(any) addr:0x021676dc
 data_usa_021676ec kind:data(any) addr:0x021676ec
 data_usa_021676fc kind:data(any) addr:0x021676fc
@@ -10039,20 +10039,20 @@ data_usa_021677dc kind:data(any) addr:0x021677dc
 data_usa_021677ec kind:data(any) addr:0x021677ec
 gTKinoNsbmdName kind:data(any) addr:0x021677fc
 gTKinoNsbtpName kind:data(any) addr:0x02167820
-data_usa_02167844 kind:data(any) addr:0x02167844
-gBalloonNsbmdName kind:data(any) addr:0x02167878
-gBalloonNsbtpName kind:data(any) addr:0x02167888
-data_usa_02167898 kind:data(any) addr:0x02167898
-gShine16NsbmdName kind:data(any) addr:0x021678cc
-gShine16NsbtpName kind:data(any) addr:0x021678dc
-data_usa_021678ec kind:data(any) addr:0x021678ec
-gSanboHNsbmdName kind:data(any) addr:0x02167920
-gSanboBNsbmdName kind:data(any) addr:0x02167930
+gBalloonKindDescriptor kind:data(any) addr:0x02167844
+@5141 kind:data(any) addr:0x02167878 local
+@5142 kind:data(any) addr:0x02167888 local
+gShine16KindDescriptor kind:data(any) addr:0x02167898
+@6861 kind:data(any) addr:0x021678cc local
+@6862 kind:data(any) addr:0x021678dc local
+gSanboKindDescriptor kind:data(any) addr:0x021678ec
+@5365 kind:data(any) addr:0x02167920 local
+@5366 kind:data(any) addr:0x02167930 local
 data_usa_02167940 kind:data(any) addr:0x02167940
-data_02167974 kind:data(any) addr:0x02167974
-data_usa_02167980 kind:data(any) addr:0x02167980
-data_usa_021679b4 kind:data(any) addr:0x021679b4
-gIronBallNsbmdName kind:data(any) addr:0x021679e8
+gIronBallInitialScale kind:data(any) addr:0x02167974
+gIronBallKindDescriptor kind:data(any) addr:0x02167980
+gIronBallDrawOnlyKindDescriptor kind:data(any) addr:0x021679b4
+@4737 kind:data(any) addr:0x021679e8 local
 data_usa_021679f8 kind:data(any) addr:0x021679f8
 gKeyboardInputMasks kind:data(any) addr:0x021679fc
 gCharTables kind:data(any) addr:0x02167a04

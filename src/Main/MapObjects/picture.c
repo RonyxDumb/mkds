@@ -1,3 +1,4 @@
+#include "Main/MapObjects/picture.h"
 #include "Main/MapObjects/picture_puddle.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "ITCM/code_01ff8000.h"
@@ -16,12 +17,37 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/data_02167000.h"
+#include "Main/MapObjects/picture_init.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectModel *gPicture1;
+MapObjectModel *gPicture2;
+
+MapObjectKindDescriptor gPicture1KindDescriptor = {0,
+                                             {0, 0},
+                                             0xb0,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitPicture1,
+                                             CreateEmptyMapObjectKindData,
+                                             CreatePictureDrawList,
+                                             0,
+                                             0,
+                                             CreatePictureUpdateList};
+MapObjectKindDescriptor gPicture2KindDescriptor = {0,
+                                             {0, 0},
+                                             0xb0,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitPicture2,
+                                             CreateEmptyMapObjectKindData,
+                                             CreatePictureDrawList,
+                                             0,
+                                             0,
+                                             CreatePictureUpdateList};
 
 void CreatePicture1AndPicture2(void *mapObjectList) {
-    gPicture1 = CreateMapObjectModelAnimated(mapObjectList, gPicture1NsbmdName);
-    CreateMapObjectModelNsbcaAnimation(gPicture1, gPicture1NsbcaName);
-    gPicture2 = CreateMapObjectModelAnimated(mapObjectList, gPicture2NsbmdName);
-    CreateMapObjectModelNsbcaAnimation(gPicture2, gPicture2NsbcaName);
+    gPicture1 = CreateMapObjectModelAnimated(mapObjectList, "picture1.nsbmd");
+    CreateMapObjectModelNsbcaAnimation(gPicture1, "picture1.nsbca");
+    gPicture2 = CreateMapObjectModelAnimated(mapObjectList, "picture2.nsbmd");
+    CreateMapObjectModelNsbcaAnimation(gPicture2, "picture2.nsbca");
     SetMapObjectModelPolygonId(gPicture1, 0x3f);
     SetMapObjectModelPolygonId(gPicture2, 0x3f);
 }
@@ -158,10 +184,10 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
     }
 }
 
-void *CreatePictureDrawList(void) {
+MapObjectList *CreatePictureDrawList(void) {
     return CreateMapObjectDrawList1(CreatePicture1AndPicture2, DrawPicture, NULL);
 }
 
-void *CreatePictureUpdateList(void) {
+MapObjectList *CreatePictureUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdatePicture, NULL);
 }

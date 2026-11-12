@@ -4,6 +4,6 @@
 #include "tp.h"
 #include "Main/MapObjects/bound.h"
 
-void CreatePuddleKindData(void) {
-    CreateMapObjectKindData(NULL, NULL, NULL, 0, 0);
+MapObjectKindData *CreatePuddleKindData(void) {
+    return CreateMapObjectKindData(NULL, NULL, NULL, 0, 0);
 }

@@ -3,6 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object with the MapObject base: two halfwords at 0xa0 and 0xa2, then two words (UpdateChandelier,
 // InitChandelierObjects, DrawChandelier).
@@ -23,17 +24,17 @@ typedef struct RainStar {
     /* a8 */ s32 mState;
 } RainStar;
 
-extern char gRainStarNsbmdName[];
-extern char gRainStarNsbtaName[];
 
-void *CreateRainStarUpdateList(void);
-void *CreateRainStarDrawList(void);
+MapObjectList *CreateRainStarUpdateList(void);
+MapObjectList *CreateRainStarDrawList(void);
 void UpdateRainStar(void *mapObjectList,
                     RainStar *rainStar); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawRainStar(void *mapObjectList, RainStar *rainStar);
 void CreateRainStar(void *mapObjectList);
-void *CreateChandelierUpdateList(void);
-void *CreateChandelierDrawList(void);
+MapObjectList *CreateChandelierUpdateList(void);
+MapObjectList *CreateChandelierDrawList(void);
 void UpdateChandelier(void *mapObjectList,
                       Chandelier *chandelier); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitChandelierObjects(MapObjectList *objectList);
+
+extern struct MapObjectModel *gRainStar;

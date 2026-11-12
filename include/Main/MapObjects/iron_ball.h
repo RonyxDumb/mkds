@@ -30,11 +30,18 @@ typedef struct IronBall {
 #include "Main/Course/course_sound_object.h" // CourseSoundObjectPart
 
 void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *position);
-void *CreateIronBallUpdateList(void);
-void *CreateIronBallDrawList(void);
-void *CreateIronBallShadowDrawList(void);
-void CreateIronBallKindData(void);
+typedef struct MapObjectList MapObjectList;
+
+MapObjectList *CreateIronBallUpdateList(void);
+MapObjectList *CreateIronBallDrawList(void);
+MapObjectList *CreateIronBallShadowDrawList(void);
+MapObjectKindData *CreateIronBallKindData(void);
 void UpdateIronBall(void *mapObjectList, IronBall *ironBall); /* kind 0x1b0 only */
 void InitIronBallObjects(MapObjectList *mapObjectList);
 void DrawIronBallShadow(void *mapObjectList, IronBall *ironBall, u32 unused, u32 alpha);
 unsigned int IronBallReturnArgument(unsigned int value);
+
+extern const u16 gIronBallInitThirdFlag;
+extern const u16 gIronBallInitSecondFlag;
+extern const u16 gIronBallInitFirstFlag;
+extern const u16 gIronBallPathEntryFlag;

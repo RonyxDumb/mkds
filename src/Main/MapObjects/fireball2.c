@@ -43,13 +43,28 @@
 #include "code_02147cd8.h"
 #include "code_0212df7c.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
-void *CreatePuddleDrawList(void) {
+const u16 gSunFireballInitMapObjectFlag = 0x200;
+const u32 gFireball2SkipSoundFlag = 0x40000000;
+MapObjectModel *gFireball2;
+
+MapObjectKindDescriptor gFireball2KindDescriptor = {0,
+                                             {0, 0},
+                                             0x19e8,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitFireball2,
+                                             CreateFireball2KindData,
+                                             CreateFireball2DrawList,
+                                             0,
+                                             0,
+                                             CreateFireball2UpdateList};
+
+MapObjectList *CreatePuddleDrawList(void) {
     return CreateMapObjectDrawList2(CreatePuddle, DrawPuddle, SetupDrawPuddle);
 }
 
 void InitFireball2(Fireball2 *fireball2) {
-    fireball2->mMapObject.mFlags |= data_usa_021565ec;
+    fireball2->mMapObject.mFlags |= gFireball2InitMapObjectFlag;
     fireball2->mRowCount = fireball2->mMapObject.mCourseMapRow->mSettings[0];
     fireball2->mRowElementCount = fireball2->mMapObject.mCourseMapRow->mSettings[3] + 1;
     CreateMapObjectSoundSourceFalloff2(&fireball2->mMapObject);
@@ -65,7 +80,7 @@ u8 CollideKartWithFireball2(Fireball2 *fireball2, Kart *kart, u8 *firstResponse,
     responseValue = *response;
     if (fireball2->mKartHitTimers[kart->mIndex] == 0) {
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            fireball2->mMapObject.mDistanceSquaredAndFlags |= data_usa_021565e8;
+            fireball2->mMapObject.mDistanceSquaredAndFlags |= gFireball2SkipSoundFlag;
         }
         StartSoundIfKartStarOrKiller(&fireball2->mMapObject, kart);
     }
@@ -114,7 +129,7 @@ BOOL IsPosNearFireball2(Fireball2 *fireball2, Vec3 *pos, s32 radius) {
 }
 
 void CreateFireball2(MapObjectList *mapObjectList) {
-    gFireball2 = CreateMapObjectModelNsbmd(mapObjectList, gFireball2NsbmdName);
+    gFireball2 = CreateMapObjectModelNsbmd(mapObjectList, "fireball2.nsbmd");
     SetMapObjectModelPolygonId(gFireball2, 0x3f);
     mapObjectList->mSortByDistance = 1;
 }
@@ -318,14 +333,14 @@ void UpdateFireball2(void *mapObjectList, Fireball2 *fireball2) {
     StartMapObjectSoundWhileRequested(&fireball2->mMapObject, 0x160);
 }
 
-void CreateFireball2KindData(void) {
-    CreateMapObjectKindDataWithSound(CollideKartWithFireball2, NULL, IsPosNearFireball2, 0, 0, 0x18d);
+MapObjectKindData *CreateFireball2KindData(void) {
+    return CreateMapObjectKindDataWithSound(CollideKartWithFireball2, NULL, IsPosNearFireball2, 0, 0, 0x18d);
 }
 
-void *CreateFireball2DrawList(void) {
+MapObjectList *CreateFireball2DrawList(void) {
     return CreateMapObjectDrawList2(CreateFireball2, DrawFireball2, SetupDrawFireball2);
 }
 
-void *CreateFireball2UpdateList(void) {
+MapObjectList *CreateFireball2UpdateList(void) {
     return CreateMapObjectUpdateList(InitFireball2Objects, UpdateFireball2, NULL);
 }

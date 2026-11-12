@@ -55,6 +55,20 @@
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Kart/karts.h"
 
+const u16 gShine16ShadowAngles[4] = {0, 0xe38, 0x1c71, 0};
+u16 gShine16ShadowAngleIndex;
+MapObjectModel *gShine16;
+
+MapObjectKindDescriptor gShine16KindDescriptor = {0,
+                                             {0, 0},
+                                             0xec,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitShine16,
+                                             CreateShine16KindData,
+                                             CreateShine16DrawList,
+                                             CreateShine16ShadowDrawList,
+                                             0,
+                                             CreateShine16UpdateList};
+
 void InitShine16(MapObject *mapObject) {
     ParkMapObject(mapObject);
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
@@ -83,7 +97,7 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *firstResponse, u8 *
         if (shine16->mPickupTimer > 0) {
             return responseValue;
         }
-        shine16->mMapObject.mFlags |= data_021567a0;
+        shine16->mMapObject.mFlags |= gShine16HitFlag;
         shine16->mPickupTimer = 0x19;
         shine16->mMapObject.mPos.x = kart->mPos.x;
         shine16->mMapObject.mPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) + 0x7800;
@@ -110,7 +124,7 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *firstResponse, u8 *
 }
 
 void CreateShine16(void *mapObjectList) {
-    gShine16 = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gShine16NsbmdName, gShine16NsbtpName);
+    gShine16 = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "shine16.nsbmd", "shine16.nsbtp");
     SetMapObjectModelPolygonId(gShine16, 0x3f);
 }
 
@@ -443,7 +457,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                 return;
             }
             shine16->mState = 6;
-            shine16->mMapObject.mFlags |= data_021567a0;
+            shine16->mMapObject.mFlags |= gShine16HitFlag;
             return;
         case 4:
             shine16->mNsbtpFrameStepProgress += 1;
@@ -519,7 +533,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                         QueueShine16Sound(shine16->mMapObject.mSound, 0x139);
                     }
                     if (hitFlags & 0x1000000) {
-                        shine16->mMapObject.mFlags |= data_021567ac;
+                        shine16->mMapObject.mFlags |= gShine16CollisionFlag;
                     } else {
                         shine16->mMapObject.mFlags &= ~0x20;
                     }
@@ -529,28 +543,29 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                 return;
             }
             shine16->mState = 6;
-            shine16->mMapObject.mFlags |= data_021567a0;
+            shine16->mMapObject.mFlags |= gShine16HitFlag;
             return;
     }
 }
 
-void CreateShine16KindData(void) {
+MapObjectKindData *CreateShine16KindData(void) {
     MapObjectKindData *mapObjectKindData;
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithShine16, NULL, NULL, 1, 0);
     mapObjectKindData->mHeightRangeMax = 0x190000;
     mapObjectKindData->mHeightRangeMin = -0x190000;
+    return mapObjectKindData;
 }
 
-void *CreateShine16DrawList(void) {
+MapObjectList *CreateShine16DrawList(void) {
     return CreateMapObjectDrawList2(CreateShine16, DrawShine16, SetupDrawShine16);
 }
 
-void *CreateShine16ShadowDrawList(void) {
+MapObjectList *CreateShine16ShadowDrawList(void) {
     return CreateMapObjectDrawList1(ResetShine16ShadowAngleIndex, DrawShine16Shadow, AdvanceShine16ShadowAngleIndex);
 }
 
-void *CreateShine16UpdateList(void) {
+MapObjectList *CreateShine16UpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateShine16, NULL);
 }
 
@@ -621,7 +636,7 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
     if (shine16 == NULL) {
         return;
     }
-    shine16->mMapObject.mFlags = shine16->mMapObject.mFlags | data_021567a0;
+    shine16->mMapObject.mFlags = shine16->mMapObject.mFlags | gShine16HitFlag;
     shine16->mMapObject.mFlags &= ~0x20;
     shine16->mMapObject.mPos.x = hitKart->mPos.x;
     shine16->mMapObject.mPos.y = hitKart->mPos.y;
@@ -1201,9 +1216,9 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                     balloon->mMapObject.mAlpha = 0x1f;
                 } else {
                     SetBalloonDrawCountAndList(balloon, 0, NULL);
-                    balloon->mMapObject.mFlags |= data_02156794;
-                    balloon->mMapObject.mFlags |= data_02156798;
-                    balloon->mMapObject.mFlags |= data_0215679c;
+                    balloon->mMapObject.mFlags |= gBalloonHideFirstFlag;
+                    balloon->mMapObject.mFlags |= gBalloonHideSecondFlag;
+                    balloon->mMapObject.mFlags |= gBalloonHideThirdFlag;
                 }
             }
         }
@@ -1228,3 +1243,8 @@ MapObjectKindData *CreateKartBalloonsKindData(void) {
 void *CreateKartBalloonsUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateKartBalloons, NULL);
 }
+
+const u16 gShine16HitFlag = 1;
+const u16 gBalloonHideThirdFlag = 8;
+const u16 gBalloonHideSecondFlag = 2;
+const u16 gBalloonHideFirstFlag = 4;

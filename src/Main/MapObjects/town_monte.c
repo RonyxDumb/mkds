@@ -1,3 +1,4 @@
+#include "Main/MapObjects/town_monte.h"
 #include "Main/MapObjects/chandelier.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
@@ -23,6 +24,13 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/bound.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+void *gTownMonte;
+MapObjectKindData *gCourseMapRowKindData[19];
+
+MapObjectKindDescriptor gTownMonteKindDescriptor = {
+    0, {0, 0}, 0xb0, 0, CreateEmptyMapObjectKindData, CreateTownMonteDrawList, 0, 0, CreateTownMonteUpdateList};
 
 u16 FX_Atan2Idx(s32 a, s32 b);
 
@@ -137,11 +145,11 @@ void UpdateAirship(void *mapObjectList, Airship *airship) {
     airship->mMapObject.mAngle = FX_Atan2Idx(airship->mMapObject.mPosStep.x, airship->mMapObject.mPosStep.z);
 }
 
-void *CreateAirshipDrawList(void) {
+MapObjectList *CreateAirshipDrawList(void) {
     return CreateMapObjectDrawList1(CreateAirship, DrawAirship, NULL);
 }
 
-void *CreateAirshipUpdateList(void) {
+MapObjectList *CreateAirshipUpdateList(void) {
     return CreateMapObjectUpdateList(InitAirshipObjects, UpdateAirship, NULL);
 }
 
@@ -170,13 +178,13 @@ void InitCourseMapRowKindData(MapObject *mapObject) {
     mapObject->mKindData = gCourseMapRowKindData[kindDataIndex];
 }
 
-void CreateCourseMapRowKindData(void) {
+MapObjectKindData *CreateCourseMapRowKindData(void) {
     s32 kindIndex;
 
     for (kindIndex = 0; kindIndex < 19; kindIndex++) {
         gCourseMapRowKindData[kindIndex] = NULL;
     }
-    gCourseMapRowKindData[0] = CreateEmptyMapObjectKindData();
+    return gCourseMapRowKindData[0] = CreateEmptyMapObjectKindData();
 }
 
 void ResetViewRotatedMatrixAxis1Wrapper(MapObjectList *mapObjectList) {
@@ -186,7 +194,7 @@ void ResetViewRotatedMatrixAxis1Wrapper(MapObjectList *mapObjectList) {
 void CreateTownMonte(MapObjectList *mapObjectList) {
     mapObjectList->mAfterObjects = ResetViewRotatedMatrixAxis1Wrapper;
     SetMapObjectModelPolygonId(
-        gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gTownMonteNsbmdName, gTownMonteNsbtpName), 0x3f);
+        gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "TownMonte.nsbmd", "TownMonte.nsbtp"), 0x3f);
 }
 
 void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
@@ -279,10 +287,10 @@ void UpdateTownMonte(void *mapObjectList, TownMonte *townMonte) {
     StartSoundFromParams(&soundStartParams);
 }
 
-void *CreateTownMonteDrawList(void) {
+MapObjectList *CreateTownMonteDrawList(void) {
     return CreateMapObjectDrawList2(CreateTownMonte, DrawTownMonte, NULL);
 }
 
-void *CreateTownMonteUpdateList(void) {
+MapObjectList *CreateTownMonteUpdateList(void) {
     return CreateMapObjectUpdateList(InitTownMonteObjects, UpdateTownMonte, NULL);
 }

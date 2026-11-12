@@ -44,6 +44,19 @@
 #include "Main/MapObjects/code_020e6b58.h"
 #include "Main/Kart/karts.h"
 
+MapObjectModel *gSun;
+MapObjectModel *gSunLOD;
+
+MapObjectKindDescriptor gSunKindDescriptor = {0,
+                                             {0, 0},
+                                             0xe0,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitSun,
+                                             CreateEmptyMapObjectKindData,
+                                             CreateSunDrawList,
+                                             0,
+                                             0,
+                                             CreateSunUpdateList};
+
 void InitSun(Sun *sun) {
     InitGroupFollower(&sun->mUnk_0b8, sun->mMapObject.mCourseMapRow, 0);
     CreateParkedMapObjects(MAP_OBJECT_KIND_SUN_FIREBALL, 0x1e, sun);
@@ -53,9 +66,9 @@ void InitSun(Sun *sun) {
 }
 
 void CreateSunAndSunLOD(void *mapObjectList) {
-    gSun = CreateMapObjectModelAnimated(mapObjectList, gSunNsbmdName);
-    CreateMapObjectModelNsbcaAnimation(gSun, gSunNsbcaName);
-    gSunLOD = CreateMapObjectModelAnimated(mapObjectList, gSunLODNsbmdName);
+    gSun = CreateMapObjectModelAnimated(mapObjectList, "sun.nsbmd");
+    CreateMapObjectModelNsbcaAnimation(gSun, "sun.nsbca");
+    gSunLOD = CreateMapObjectModelAnimated(mapObjectList, "sun_LOD.nsbmd");
     SetMapObjectModelPolygonId(gSun, AllocPolygonId());
 }
 
@@ -255,10 +268,10 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
     }
 }
 
-void CreateSunDrawList(void) {
-    CreateMapObjectDrawList1(CreateSunAndSunLOD, DrawSun, SunSetupDrawReturnArgument);
+MapObjectList *CreateSunDrawList(void) {
+    return CreateMapObjectDrawList1(CreateSunAndSunLOD, DrawSun, SunSetupDrawReturnArgument);
 }
 
-void CreateSunUpdateList(void) {
-    CreateMapObjectUpdateList(InitSunObjects, UpdateSun, NULL);
+MapObjectList *CreateSunUpdateList(void) {
+    return CreateMapObjectUpdateList(InitSunObjects, UpdateSun, NULL);
 }

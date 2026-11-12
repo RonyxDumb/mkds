@@ -28,4 +28,3 @@ typedef struct Trophy {
     /* 120 */ ParticleEmitter *mEffect5;
 } Trophy;
 
-extern Trophy *gTrophy;

@@ -31,9 +31,22 @@
 #include "Main/Kart/karts.h"
 #include "code_02147cd8.h"
 
+MapObjectModel *gSanboH;
+MapObjectModel *gSanboB;
+
 void InitSanbo(Sanbo *sanbo) {
     InitGroupFollower(&sanbo->mFollower, sanbo->mMapObject.mCourseMapRow, 0);
 }
+
+MapObjectKindDescriptor gSanboKindDescriptor = {0,
+                                             {0, 0},
+                                             0x200,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitSanbo,
+                                             CreateSanboKindData,
+                                             CreateSanboDrawList,
+                                             0,
+                                             0,
+                                             CreateSanboUpdateList};
 
 u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *firstResponse, u8 *response) {
     SoundStartParams soundStartParams;
@@ -42,8 +55,8 @@ u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *firstResponse, u8 *respons
     responseValue = *response;
     if (*firstResponse == 1) {
         StartSanboLaunch(sanbo);
-        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e4;
-        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e8;
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | gSanboHitFlag;
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | gSanboSecondHitFlag;
         StartSoundIfKartStarOrKiller(&sanbo->mMapObject, kart);
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
@@ -66,8 +79,8 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstRes
     responseValue = *response;
     if (*firstResponse == 1) {
         StartSanboLaunch(sanbo);
-        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e4;
-        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | data_021567e8;
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | gSanboHitFlag;
+        sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | gSanboSecondHitFlag;
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
             soundStartParams.mSoundId = 0x193;
@@ -83,8 +96,8 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstRes
 }
 
 void CreateSanboHAndSanboB(void *mapObjectList) {
-    gSanboH = CreateMapObjectModelNsbmd(mapObjectList, gSanboHNsbmdName);
-    gSanboB = CreateMapObjectModelNsbmd(mapObjectList, gSanboBNsbmdName);
+    gSanboH = CreateMapObjectModelNsbmd(mapObjectList, "sanbo_h.nsbmd");
+    gSanboB = CreateMapObjectModelNsbmd(mapObjectList, "sanbo_b.nsbmd");
     SetMapObjectModelPolygonId(gSanboH, 0x3f);
     SetMapObjectModelPolygonId(gSanboB, 0x3f);
 }
@@ -392,15 +405,15 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
     }
 }
 
-void CreateSanboKindData(void) {
-    CreateMapObjectKindData(&CollideKartWithSanbo, &CollideItemObjectWithSanbo, NULL, 1, 1);
+MapObjectKindData *CreateSanboKindData(void) {
+    return CreateMapObjectKindData(&CollideKartWithSanbo, &CollideItemObjectWithSanbo, NULL, 1, 1);
 }
 
-void *CreateSanboDrawList(void) {
+MapObjectList *CreateSanboDrawList(void) {
     return CreateMapObjectDrawList2(CreateSanboHAndSanboB, DrawSanbo, SanboSetupDrawReturnArgument);
 }
 
-void *CreateSanboUpdateList(void) {
+MapObjectList *CreateSanboUpdateList(void) {
     return CreateMapObjectUpdateList(InitSanboObjects, UpdateSanbo, NULL);
 }
 
@@ -451,3 +464,6 @@ void ShineEndCallback(void) {
     }
     ParkShine16Objects();
 }
+
+const u16 gSanboHitFlag = 1;
+const u16 gSanboSecondHitFlag = 8;

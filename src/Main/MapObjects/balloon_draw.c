@@ -25,6 +25,23 @@
 #include "Main/MapObjects/data_02167000.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/bound.h"
+
+const u16 gBalloonDrawRotateZAngles[4][4] = {{0x4000, 0, 0, 0}, {0x499a, 0x3666, 0, 0}, {0x527d, 0x4000, 0x2d83, 0}, {0, 0, 0, 0}};
+const s32 gBalloonDrawListIndices[4][4] = {{0, 0, 0, 0}, {1, 0, 0, 0}, {0, 2, 1, 0}, {0, 0, 0, 0}};
+MapObjectModel *gBalloon;
+Vec3 gBalloonCameraPosEighth;
+Vec3 gBalloonCameraPosHalf;
+
+MapObjectKindDescriptor gBalloonKindDescriptor = {0,
+                                             {0, 0},
+                                             0x100,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitBalloon,
+                                             CreateEmptyMapObjectKindData,
+                                             CreateBalloonDrawList,
+                                             0,
+                                             0,
+                                             CreateBalloonUpdateList};
 
 void InitBalloon(Balloon *balloon) {
     balloon->mKartIndex = -1;
@@ -32,7 +49,7 @@ void InitBalloon(Balloon *balloon) {
 }
 
 void CreateBalloon(MapObjectList *mapObjectList) {
-    gBalloon = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gBalloonNsbmdName, gBalloonNsbtpName);
+    gBalloon = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "balloon.nsbmd", "balloon.nsbtp");
     SetMapObjectModelPolygonId(gBalloon, 0x3f);
     SetMapObjectModelAlpha(gBalloon, 0x1a);
     SetMapObjectModelFogEnabled(gBalloon, 0);
@@ -145,10 +162,10 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
         listDrawScaleVector[2] = drawScale;
         NNS_G3dGeBufferOP_N(0x1b, listDrawScaleVector, 3);
         for (drawListIndex = 0; drawListIndex < drawCount; drawListIndex++) {
-            index = data_02156720[drawCount - 1][drawListIndex];
+            index = gBalloonDrawListIndices[drawCount - 1][drawListIndex];
             listBalloon = balloon->mDrawList[index];
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-            rotateZAngle = data_02156700[drawCount - 1][index];
+            rotateZAngle = gBalloonDrawRotateZAngles[drawCount - 1][index];
             MTX_RotZ33_(&listRotateZMatrix, FX_CosIdx(rotateZAngle), FX_SinIdx(rotateZAngle));
             NNS_G3dGeBufferOP_N(0x1a, &listRotateZMatrix, 9);
             scaleFactor = listBalloon->mScaleFactor;
@@ -401,11 +418,11 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
     }
 }
 
-void *CreateBalloonDrawList(void) {
+MapObjectList *CreateBalloonDrawList(void) {
     return CreateMapObjectDrawList2(CreateBalloon, DrawBalloon, SetupDrawBalloon);
 }
 
-void *CreateBalloonUpdateList(void) {
+MapObjectList *CreateBalloonUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateBalloon, NULL);
 }
 

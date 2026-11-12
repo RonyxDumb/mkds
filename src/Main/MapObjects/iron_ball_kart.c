@@ -20,6 +20,28 @@
 #include "Main/Sound/sound_source_list.h"
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectModel *gIronBall;
+
+Vec3 gIronBallInitialScale = {0x4000, 0x4000, 0x4000};
+
+MapObjectKindDescriptor gIronBallKindDescriptor = {0,
+                                             {0, 0},
+                                             0x134,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitIronBall,
+                                             CreateIronBallKindData,
+                                             CreateIronBallDrawList,
+                                             CreateIronBallShadowDrawList,
+                                             0,
+                                             CreateIronBallUpdateList};
+MapObjectKindDescriptor gIronBallDrawOnlyKindDescriptor = {0,
+                                             {0, 0},
+                                             0x134,
+                                             (void (*)(void *, CourseMapRow *, void *)) InitIronBall,
+                                             CreateEmptyMapObjectKindData,
+                                             CreateIronBallDrawList};
 
 #pragma opt_propagation off
 
@@ -52,7 +74,7 @@ s32 GetKeyboardChosenKeyValue(void) {
 #pragma thumb off
 
 void InitIronBall(IronBall *ironBall) {
-    Vec3 scale = data_02167974;
+    Vec3 scale = gIronBallInitialScale;
 
     SetMapObjectScale(&ironBall->mMapObject, &scale);
     ironBall->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
@@ -74,7 +96,7 @@ u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *firstResponse, u
 }
 
 void CreateIronBall(void *mapObjectList) {
-    gIronBall = CreateMapObjectModelNsbmd(mapObjectList, gIronBallNsbmdName);
+    gIronBall = CreateMapObjectModelNsbmd(mapObjectList, "IronBall.nsbmd");
     SetMapObjectModelPolygonId(gIronBall, 0x3f);
 }
 

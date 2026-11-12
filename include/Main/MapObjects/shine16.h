@@ -43,6 +43,7 @@ typedef struct Shine16 {
 } Shine16;
 
 #include "Main/MapObjects/balloon.h" // Balloon
+#include "01/MapObjects/data_0209bc74.h"
 
 // The balloons of one kart (0x38 bytes, one per kart index in the kind 0x69 object; Standings.mKartBalloons points at
 // the first): the list of its Balloon objects with the state that makes, inflates and holds them.
@@ -92,10 +93,12 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex);
 void StartShine16FromKart(Kart *hitKart, Kart *hitByKart);
 void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove);
 void ParkShine16Objects(void);
-void *CreateShine16UpdateList(void);
-void *CreateShine16ShadowDrawList(void);
-void *CreateShine16DrawList(void);
-void CreateShine16KindData(void);
+typedef struct MapObjectList MapObjectList;
+
+MapObjectList *CreateShine16UpdateList(void);
+MapObjectList *CreateShine16ShadowDrawList(void);
+MapObjectList *CreateShine16DrawList(void);
+MapObjectKindData *CreateShine16KindData(void);
 void UpdateShine16(void *mapObjectList,
                    Shine16 *shine16); /* skipped for objects with mFlags & 4 (parked pool objects) */
 
@@ -112,3 +115,11 @@ void DrawShine16(void *mapObjectList, Shine16 *shine16);
 typedef struct MapObject MapObject;
 
 void InitShine16(MapObject *mapObject); /* parks the pooled object, then allocates its 0x44 effect record */
+
+extern const u16 gShine16ShadowAngles[4];
+extern const u16 gShine16HitFlag;
+extern const u16 gBalloonHideThirdFlag;
+extern const u16 gBalloonHideSecondFlag;
+extern const u16 gBalloonHideFirstFlag;
+extern u16 gShine16ShadowAngleIndex;
+extern struct MapObjectModel *gShine16;
