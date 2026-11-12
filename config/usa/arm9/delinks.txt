@@ -1840,22 +1840,8 @@ src/Main/Unknown/code_020653d0.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0206bcb0.c:
     complete
-    .text       start:0x0206bcb0 end:0x0206d020
+    .text       start:0x0206bcb0 end:0x0206f04c
     .data       start:0x0216558c end:0x0216559c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0206d020.c:
-    complete
-    .text       start:0x0206d020 end:0x0206dfd0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0206dfd0.c:
-    complete
-    .text       start:0x0206dfd0 end:0x0206e874
-
-src/Main/Unknown/code_0206e874.c:
-    complete
-    .text       start:0x0206e874 end:0x0206f04c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0206f04c.c:
