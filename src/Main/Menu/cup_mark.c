@@ -18,6 +18,19 @@
 #include "Main/Menu/data_0216d000.h"
 #include "gfd_VramTransferManager.h"
 
+char *gCommonCupMarkNcerName = "common/cup_mark.nce.ncer";
+const u8 gCupMarkBnclIndices[16] = {0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0};
+char *gCommonCupMarkBnclName = "common/cup_mark.bncl";
+char *gCupMarkNcgrName = "cup_mark.nce.ncgr";
+char *gCupMarkNclrName = "cup_mark_o.nclr";
+char *gCommonCupMarkNcgrName = "common/cup_mark.nce.ncgr";
+char *gCupMarkNcerName = "cup_mark.nce.ncer";
+const u16 gSelectCupNameMBnclIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+char *gCommonCupMarkNclrName = "common/cup_mark_o.nclr";
+char *gCupMarkBnclName = "cup_mark.bncl";
+SelectCupNameM *gSelectCupNameM;
+CupMark *gCupMark;
+
 #pragma thumb on
 
 void LoadCupMarkData(void) {

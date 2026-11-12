@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0217d000.h"
 
 typedef struct LayoutEntryTable LayoutEntryTable;
 
@@ -20,3 +21,17 @@ void CreateCommonCupMark(void *heap);
 void CreateCupMark(void *heap);
 void LoadCommonCupMarkData(void);
 void LoadCupMarkData(void);
+
+extern char *gCommonCupMarkNcerName;
+// Objects whose layout isn't known yet.
+extern const u8 gCupMarkBnclIndices[16];
+extern char *gCommonCupMarkBnclName;
+extern char *gCupMarkNcgrName;
+extern char *gCupMarkNclrName;
+extern char *gCommonCupMarkNcgrName;
+extern char *gCupMarkNcerName;
+extern const u16 gSelectCupNameMBnclIndices[8];
+extern char *gCommonCupMarkNclrName;
+extern char *gCupMarkBnclName;
+extern struct SelectCupNameM *gSelectCupNameM;
+extern struct CupMark *gCupMark;

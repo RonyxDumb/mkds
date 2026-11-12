@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0215d000.h"
+#include "Main/Menu/data_0217d000.h"
 
 void SetSelectReturnDisplayBitOn(void);
 
@@ -61,3 +63,13 @@ void InitSelectReturnDisplay(void);
 void ClearSelectReturnPointer(void);
 
 s32 InitSelectReturn(void *heap, s32 subCharOffset);
+
+extern const u8 gSelectChoisesNscrOrigins[2][2];
+extern const ByteRect gSelectChoisesTileRect;
+extern const ByteRect gSelectChoisesPaletteRects[2];
+extern const s8 gSelectReturnState3Bg2Offsets[12];
+extern const s8 gSelectReturnState1Bg2Offsets[12];
+extern const s8 gSelectReturnState4Bg2Offsets[12];
+extern const ByteRect gSelectChoisesHitRects[2];
+extern struct SelectReturn *gSelectReturn;
+extern struct SelectChoises *gSelectChoises;

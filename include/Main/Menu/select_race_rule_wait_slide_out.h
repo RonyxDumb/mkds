@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0217d000.h"
 
 void SlideOutSelectRaceRuleWait(void);
 
@@ -19,3 +20,10 @@ void RequestSelectRaceRuleWaitState2(void);
 void InitSelectRaceRuleWait(void *heap, void *oamList);
 
 void LocateAndQueueSelectRaceRuleWait(void);
+
+extern char *gSelectRaceRuleWaitNcerName;
+extern char *gSelectRaceRuleWaitBnclName;
+extern char *gSelectRaceRuleWaitNclrName;
+extern char *gSelectRaceRuleWaitBnllName;
+extern char *gSelectRaceRuleWaitNcgrName;
+extern struct SelectRaceRuleWait *gSelectRaceRuleWait;

@@ -351,8 +351,6 @@ typedef struct ScrollList {
     /* 670 */ s32 mState;
 } ScrollList;
 
-extern ScrollList *gScrollList;
-
 struct MultiSelectMember;
 
 // Ghost scene part that lists the slot ghosts and saves the received ghost over the picked one.

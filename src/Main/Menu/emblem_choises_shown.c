@@ -18,6 +18,8 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+EmblemChoises *gEmblemChoises;
+
 #pragma thumb on
 #pragma optimize_for_size on
 s32 MoveEmblemChoisesIndex(s32 step) {

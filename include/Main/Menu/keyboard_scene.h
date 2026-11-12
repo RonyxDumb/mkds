@@ -10,6 +10,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
+#include "Main/Menu/data_0217d000.h"
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
@@ -29,3 +30,5 @@ void WriteKeyboardSceneRegistersCallback(void);
 void ReleaseKeyboardScene(void);
 
 void InitKeyboardScene(s16 *sceneNumbers);
+
+extern struct KeyboardScene *gKeyboardScene;

@@ -36,6 +36,7 @@
 #include "code_0212df7c.h"
 #include "registers.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Menu/select_cup_grid.h"
 
 #pragma thumb on
 static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) {

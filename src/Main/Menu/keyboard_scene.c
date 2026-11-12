@@ -18,6 +18,8 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/heap_call.h"
 
+KeyboardScene *gKeyboardScene;
+
 #pragma thumb on
 void InitKeyboardScene(s16 *sceneNumbers) {
     void *heap;

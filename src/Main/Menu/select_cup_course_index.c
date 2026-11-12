@@ -33,6 +33,41 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+char *gSelectCupMNcgrName = "common/select_cup_m.nce.ncgr";
+char *gSelectCupCourseMONclrName = "common/select_cup_course_m_o.nclr";
+char *gSelectCupMBnllName = "common/select_cup_m.bnll";
+char *gSelectCupCourseTaMBNcgrName = "common/select_cup_course_ta_m_b.ncgr";
+const u16 gSelectCupCourseLabelCells[4] = {0x12, 0x11, 0x10, 0xf};
+const s16 gCupCourseIndicesByCourse[56] = {-1, 3, -1, -1, -1, -1, -1, -1, -1, 3, 0, 1, 2, 2, 3, 0, 1, 1, 3, 3, 0, -1, 1, 1, 0, 2, 1, 0, 1, 3, 0, 2, 2, 2, 0, 0, 1, 2, 3, 0, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0};
+char *gSelectCupMNcerName = "common/select_cup_m.nce.ncer";
+const s16 gSelectCupCourseRectCourseIndices[4] = {3, 2, 1, 0};
+char *gSelectCupCourseTaMBnllName2 = "common/select_cup_course_ta_m.bnll";
+char *gSelectCupCourseVsMNscrName = "common/select_cup_course_vs_m.nscr";
+char *gSelectCupCourseVsMBnclName = "common/select_cup_course_vs_m.bncl";
+char *gSelectCupMBnclName = "common/select_cup_m.bncl";
+char *gSelectCupCourseVsMBNclrName = "common/select_cup_course_vs_m_b.nclr";
+char *gSelectCupCourseCupMBnblName = "common/select_cup_m.bnbl";
+const u16 gSelectCupCourseRecordCells[8] = {7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};
+char *gSelectCupMBNcgrName = "common/select_cup_m_b.ncgr";
+const u16 gCupCourseNameMessageIndices[8][4] = {{0x2d, 0x2e, 0x2f, 0x30}, {0x31, 0x32, 0x33, 0x34}, {0x35, 0x36, 0x37, 0x38}, {0x39, 0x3a, 0x3b, 0x3c}, {0x3d, 0x3e, 0x3f, 0x40}, {0x41, 0x42, 0x43, 0x44}, {0x45, 0x46, 0x47, 0x48}, {0x49, 0x4a, 0x4b, 0x4c}};
+char *gSelectCupCourseMNcgrName = "common/select_cup_course_m.nce.ncgr";
+const u16 gSelectCupCourseTrophyCells[4] = {3, 4, 5, 6};
+char *gSelectCupCourseTaMBNclrName = "common/select_cup_course_ta_m_b.nclr";
+char *gSelectCupCourseTaMNscrName = "common/select_cup_course_ta_m.nscr";
+const u16 gSelectCupCourseLabelIndices[4] = {3, 2, 1, 0};
+char *gSelectCupCourseVsMBnllName = "common/select_cup_course_vs_m.bnll";
+char *gSelectCupMONclrName = "common/select_cup_m_o.nclr";
+const u32 gCupRowsByCupIndex[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+const u16 gSelectCupCourseLabelHeights[4] = {0xd, 0xd, 0xd, 0xd};
+char *gSelectCupMNscrName = "common/select_cup_m.nscr";
+const u16 gSelectCupCourseLabelWidths[4] = {0xa3, 0xa3, 0xa3, 0xa3};
+char *gSelectCupCourseMNcerName2 = "common/select_cup_course_m.nce.ncer";
+const u16 gCupCourseGhostMessageIndices[8][4] = {{0x33, 0x34, 0x35, 0x36}, {0x37, 0x38, 0x39, 0x3a}, {0x3b, 0x3c, 0x3d, 0x3e}, {0x3f, 0x40, 0x41, 0x42}, {0x43, 0x44, 0x45, 0x46}, {0x47, 0x48, 0x49, 0x4a}, {0x4b, 0x4c, 0x4d, 0x4e}, {0x4f, 0x50, 0x51, 0x52}};
+char *gSelectCupMBNclrName = "common/select_cup_m_b.nclr";
+char *gSelectCupCourseTaMBnclName2 = "common/select_cup_course_ta_m.bncl";
+const u32 gCupRowCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13}, {0x22, 0x1a, 0x20, 0x1d}, {0xa, 0xb, 0xd, 0xe}, {0x23, 0x10, 0xc, 9}, {0xf, 0x24, 0x25, 0x26}, {0x27, 0x17, 0x28, 1}};
+char *gSelectCupCourseVsMBNcgrName = "common/select_cup_course_vs_m_b.ncgr";
+
 #pragma thumb on
 
 u32 IsSelectCupCourseIndexChangeRunning(void) {
@@ -161,7 +196,7 @@ void RequestSelectCupCourseState5(void) {
             if (gBootInfo->mBootType == 2) {
                 FormatMessageWithText(
                     GetBmgEntry(gSelectCupCourse->mGhostMessages,
-                                data_0215cb3c[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
+                                gCupCourseGhostMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
                     GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
                 SetTxtSystemOpenSoundId(0x23);
                 SetupTxtSystemMainText(messageText);
@@ -230,7 +265,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     gSelectCupCourse = HeapAlloc(heap, 0x70);
     gSelectCupCourse->mHeap = heap;
     gSelectCupCourse->mState = 0;
-    gSelectCupCourse->mIndex = data_0215cb7c[GetCourseId()];
+    gSelectCupCourse->mIndex = gCupCourseIndicesByCourse[GetCourseId()];
     gSelectCupCourse->mHighlightShown = TRUE;
     gSelectCupCourse->mIndexChangeTimer = 0;
     gSelectCupCourse->mMode = mode;

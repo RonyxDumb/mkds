@@ -20,6 +20,14 @@
 #include "Main/Sound/sound_seq.h"
 #include "gfd_VramTransferManager.h"
 
+char *gTrophyIconNcerName = "common/trophy_icon.nce.ncer";
+char *gTrophyIconBnclName = "common/trophy_icon.bncl";
+char *gTrophyIconNclrName = "common/trophy_icon_o.nclr";
+const u16 gTrophyIconNclrStarts[4] = {0, 1, 2, 0};
+const u16 gTrophyIconBnclIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+char *gTrophyIconNcgrName = "common/trophy_icon.nce.ncgr";
+TrophyIcon *gTrophyIcon;
+
 #pragma thumb on
 
 void LoadTrophyIconData(void) {

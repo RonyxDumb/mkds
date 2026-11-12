@@ -30,6 +30,8 @@
 #include "code_0214cfe4.h"
 #include "Main/System/heap.h"
 
+ScrollList *gScrollList;
+
 #pragma optimize_for_size on
 
 #pragma thumb on

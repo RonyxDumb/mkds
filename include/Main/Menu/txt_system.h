@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0215d000.h"
+#include "Main/Menu/data_0217d000.h"
 
 void SetTxtSystemOpenSoundId(unsigned int soundId);
 
@@ -76,3 +78,10 @@ typedef struct TxtSystemArgs {
 
 void ClearTxtSystemCanvasInUse(void);
 s32 InitTxtSystem(void *heap, TxtSystemArgs *args);
+
+extern const u8 gTxtSystemCanvasSizes[8][2];
+extern const s16 gTxtSystemBgOffsets[2];
+extern const u16 gTxtSystemCanvasCharOffsets[8];
+extern const ByteRect gTxtSystemHitRects[7];
+extern const ByteRect gTxtSystemNscrRects[7];
+extern struct TxtSystem *gTxtSystem;

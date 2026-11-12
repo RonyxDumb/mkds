@@ -32823,8 +32823,8 @@ from:0x0211efc8 kind:load to:0x0215cf04 module:main
 from:0x0211efcc kind:load to:0x0215cf0c module:main
 from:0x0211efd8 kind:load to:0x0215cf2c module:main
 from:0x0211efdc kind:load to:0x0215cf4c module:main
-from:0x0211efe0 kind:load to:0x0215cf06 module:main
-from:0x0211efe4 kind:load to:0x0215cf0e module:main
+from:0x0211efe0 kind:load to:0x0215cf04 add:0x2 module:main
+from:0x0211efe4 kind:load to:0x0215cf0c add:0x2 module:main
 from:0x0211efe8 kind:load to:0x0215cf8c module:main
 from:0x0211f014 kind:thumb_call to:0x0204799c module:main
 from:0x0211f01c kind:thumb_call_arm to:0x020b4934 module:main

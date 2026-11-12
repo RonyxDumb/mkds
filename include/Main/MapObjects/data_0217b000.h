@@ -684,7 +684,6 @@ typedef struct RaceGoalS {
 extern RaceGoalS *gRaceGoalS;
 extern struct RaceNewRecordTa *gRaceNewRecordTa;
 extern s32 data_0217b3f8;
-extern EmblemChoises *gEmblemChoises;
 extern struct MenuScene *gMenuScene;
 extern struct CupPicture *gCupPicture;
 extern struct DownloadScreenFiles *gDownloadScreenFiles;

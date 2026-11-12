@@ -22,6 +22,13 @@
 #include "code_02148950.h"
 #include "Main/System/result_archive_path.h"
 
+char *gSelectRaceRuleWaitNcerName = "common/select_race_rule_s.nce.ncer";
+char *gSelectRaceRuleWaitBnclName = "common/select_race_rule_s.bncl";
+char *gSelectRaceRuleWaitNclrName = "common/select_race_rule_s_o.nclr";
+char *gSelectRaceRuleWaitBnllName = "common/select_race_rule_s.bnll";
+char *gSelectRaceRuleWaitNcgrName = "common/select_race_rule_s.nce.ncgr";
+SelectRaceRuleWait *gSelectRaceRuleWait;
+
 #pragma thumb on
 
 void LocateAndQueueSelectRaceRuleWait(void) {

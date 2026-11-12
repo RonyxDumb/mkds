@@ -45,6 +45,13 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+const u8 gTxtSystemCanvasSizes[8][2] = {{0x16, 0xb}, {0x16, 7}, {0x16, 0xb}, {0x16, 7}, {0x16, 2}, {9, 2}, {9, 2}, {0, 0}};
+const s16 gTxtSystemBgOffsets[2] = {0xa0, -176};
+const u16 gTxtSystemCanvasCharOffsets[8] = {4, 4, 4, 4, 9, 9, 0x1b, 0};
+const ByteRect gTxtSystemNscrRects[7] = {{3, 0x1c, 2, 0xe}, {3, 0x1c, 4, 0xc}, {4, 0x1b, 0x10, 0x13}, {3, 0x1c, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13}};
+const ByteRect gTxtSystemHitRects[7] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0x20, 0xe0, 0x80, 0xa0}, {0x18, 0x70, 0x80, 0xa0}, {0x90, 0xe8, 0x80, 0xa0}};
+TxtSystem *gTxtSystem;
+
 #pragma thumb on
 
 void ClearTxtSystemCanvasInUse(void) {
@@ -166,20 +173,20 @@ s32 LoadTxtSystem(s32 subCharOffset) {
     Nclr *palette;
 
     if (gBootInfo->mBootType == 2) {
-        LocateNcgr(&firstChars, FindSceneFile(gTxtSystemB00NcgrName));
-        LocateNscr(&gTxtSystem->mBgNscrs[0], FindSceneFile(gTxtSystemBg00NscrName));
-        LocateNclr(&palette, FindSceneFile(gTxtSystemB00NclrName));
+        LocateNcgr(&firstChars, FindSceneFile("txt_system_b_00.ncgr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[0], FindSceneFile("txt_system_bg_00.nscr"));
+        LocateNclr(&palette, FindSceneFile("txt_system_b_00.nclr"));
     } else {
-        LocateNcgr(&firstChars, FindFileInLoadedArchives(data_0216e750));
-        LocateNcgr(&secondChars, FindFileInLoadedArchives(gTxtSystemB01NcgrName));
-        LocateNscr(&gTxtSystem->mBgNscrs[0], FindFileInLoadedArchives(data_0216e780));
-        LocateNscr(&gTxtSystem->mBgNscrs[1], FindFileInLoadedArchives(gTxtSystemBg002NscrName));
-        LocateNscr(&gTxtSystem->mBgNscrs[2], FindFileInLoadedArchives(gTxtSystemBg012NscrName));
-        LocateNscr(&gTxtSystem->mBgNscrs[3], FindFileInLoadedArchives(gTxtSystemBg01NscrName));
-        LocateNscr(&gTxtSystem->mBgNscrs[4], FindFileInLoadedArchives(gTxtSystemBg02NscrName));
-        LocateNscr(&gTxtSystem->mBgNscrs[5], FindFileInLoadedArchives(gTxtSystemBg022NscrName));
-        LocateNscr(&gTxtSystem->mBgNscrs[6], FindFileInLoadedArchives(gTxtSystemBg023NscrName));
-        LocateNclr(&palette, FindFileInLoadedArchives(data_0216e828));
+        LocateNcgr(&firstChars, FindFileInLoadedArchives("txt_system_b_00.ncgr"));
+        LocateNcgr(&secondChars, FindFileInLoadedArchives("txt_system_b_01.ncgr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[0], FindFileInLoadedArchives("txt_system_bg_00.nscr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[1], FindFileInLoadedArchives("txt_system_bg_00_2.nscr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[2], FindFileInLoadedArchives("txt_system_bg_01_2.nscr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[3], FindFileInLoadedArchives("txt_system_bg_01.nscr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[4], FindFileInLoadedArchives("txt_system_bg_02.nscr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[5], FindFileInLoadedArchives("txt_system_bg_02_2.nscr"));
+        LocateNscr(&gTxtSystem->mBgNscrs[6], FindFileInLoadedArchives("txt_system_bg_02_3.nscr"));
+        LocateNclr(&palette, FindFileInLoadedArchives("txt_system_b_00.nclr"));
     }
     gTxtSystem->mCanvasFileCharIndex[0] = 0;
     DC_FlushRange(firstChars->mData, firstChars->mDataSize);

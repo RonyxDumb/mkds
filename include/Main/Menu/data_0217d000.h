@@ -303,7 +303,7 @@ typedef struct SelectCupCourse {
     /* 44 */ s32 mBg0Offset;
     /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the main engine's */
     /* 4c */ u8 mUnk_4c[4];
-    /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is data_0215cbec[row][mIndex] */
+    /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is gCupRowCourseIds[row][mIndex] */
     /* 52 */ u8 mUnk_52[2];
     /* 54 */ BOOL mHighlightShown;
     // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupCourseIndexChange sets 7 when mIndex differs from
@@ -740,35 +740,11 @@ extern SeqPlayerControl gSeqPlayerControl;
 
 extern Wait *gWait;
 
-extern PicksHolder *gPicksHolder;
-
 extern KartIcon *gKartIcon;
 
 extern SelectRaceRule *gSelectRaceRule;
 
-extern SelectCupNameM *gSelectCupNameM;
-
-extern CupMark *gCupMark;
-
-extern SelectCupM *gSelectCupM;
-
-extern TrophyIcon *gTrophyIcon;
-
-extern SelectRaceRuleWait *gSelectRaceRuleWait;
-
 extern SceneText *gSceneText;
-
-extern TxtSystem *gTxtSystem;
-
-extern SelectChoises *gSelectChoises;
-
-extern SelectReturn *gSelectReturn;
-
-extern KeyboardScene *gKeyboardScene;
-
-extern Keyboard *gKeyboard;
-
-extern MessageScreen *gMessageScreen;
 
 extern s32 gLapProgressSoundGaps[];
 
@@ -813,8 +789,6 @@ extern s32 gKingTeresaVolumePerFrame[2];
 extern SeqQueue gSeqQueue;
 
 extern s32 gSeqQueuePairSides[];
-
-extern LinkLevelIcons *gLinkLevelIcons;
 
 extern struct NNSSndStrmThread *data_0217df04;
 

@@ -12,6 +12,7 @@
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
+#include "Main/Menu/data_02174000.h"
 
 unsigned int IsScrollListPickStarted(void);
 unsigned int IsScrollListPickFinished(void);
@@ -75,3 +76,5 @@ u32 ScrollListIsSlotPairNew(u32 slotIndex);
 u32 ScrollListIsPairNewUnlessLost(InputSlotPair *pair);
 u32 ScrollListIsPairNew(InputSlotPair *pair);
 void CallScrollListCallback(s32 action, s32 slot, s32 row, s32 selectedSlot);
+
+extern struct ScrollList *gScrollList;

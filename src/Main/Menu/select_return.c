@@ -32,6 +32,16 @@
 #include "Main/Menu/data_0217d068.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+const u8 gSelectChoisesNscrOrigins[2][2] = {{2, 8}, {2, 0xe}};
+const ByteRect gSelectChoisesTileRect = {1, 1, 1, 2};
+const ByteRect gSelectChoisesPaletteRects[2] = {{1, 0x1e, 7, 0xa}, {1, 0x1e, 0xd, 0x10}};
+const s8 gSelectReturnState3Bg2Offsets[12] = {4, 8, 0xb, 0xd, 0xc, 0xc, 0xa, 4, 0, 0, 0, 0};
+const s8 gSelectReturnState1Bg2Offsets[12] = {-40, -30, -22, -16, -10, -6, -4, -2, -1, 0, 0, 0};
+const s8 gSelectReturnState4Bg2Offsets[12] = {0, -6, -12, -18, -24, -30, -40, -40, -40, -40, 0, 0};
+const ByteRect gSelectChoisesHitRects[2] = {{8, 0xf8, 0x3c, 0x53}, {8, 0xf8, 0x6c, 0x83}};
+SelectReturn *gSelectReturn;
+SelectChoises *gSelectChoises;
+
 #pragma thumb on
 s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     u32 subDisplayBits;
@@ -443,11 +453,11 @@ s32 LoadSelectChoises(s32 subCharOffset) {
     s32 columnIndex;
     s32 tileColumn;
     s32 tileRowOffset;
-    ByteRect *tileRect;
+    const ByteRect *tileRect;
 
-    LocateNcgr(&chars, FindFileInLoadedArchives(gSelectChoisesSBNcgrName));
-    LocateNscr(&screenMap, FindFileInLoadedArchives(gSelectChoisesSBgNscrName));
-    LocateNclr(&palette, FindFileInLoadedArchives(gSelectChoisesSBNclrName));
+    LocateNcgr(&chars, FindFileInLoadedArchives("select_choises_s_b.ncgr"));
+    LocateNscr(&screenMap, FindFileInLoadedArchives("select_choises_s_bg.nscr"));
+    LocateNclr(&palette, FindFileInLoadedArchives("select_choises_s_b.nclr"));
     subCharOffset = subCharOffset - chars->mDataSize;
     firstTileIndex = subCharOffset >> 5;
     gSelectChoises->mFirstTileIndex = firstTileIndex;
@@ -476,10 +486,10 @@ void RefreshSelectChoisesNscrCopy(void) {
     s32 choiceIndex;
     s32 row;
     BOOL useToggleOnTiles;
-    ByteRect *tileRect;
+    const ByteRect *tileRect;
     s32 lastColumn;
     s32 tileIndex;
-    u8(*origin)[2];
+    const u8(*origin)[2];
     s32 lastRow;
     s32 screenMapIndex;
 

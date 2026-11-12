@@ -8746,9 +8746,9 @@ gSelectCupCourseLabelHeights kind:data(any) addr:0x0215cac4
 gSelectCupCourseRecordCells kind:data(any) addr:0x0215cacc
 gCupRowsByCupIndex kind:data(any) addr:0x0215cadc
 gCupCourseNameMessageIndices kind:data(any) addr:0x0215cafc
-data_0215cb3c kind:data(any) addr:0x0215cb3c
-data_0215cb7c kind:data(any) addr:0x0215cb7c
-data_0215cbec kind:data(any) addr:0x0215cbec
+gCupCourseGhostMessageIndices kind:data(any) addr:0x0215cb3c
+gCupCourseIndicesByCourse kind:data(any) addr:0x0215cb7c
+gCupRowCourseIds kind:data(any) addr:0x0215cbec
 gSelectRaceRuleTeamCellsHighlighted kind:data(any) addr:0x0215cc6c
 gSelectRaceRuleTeamCellsPlain kind:data(any) addr:0x0215cc70
 data_usa_0215cc74 kind:data(any) addr:0x0215cc74
@@ -8783,17 +8783,15 @@ gSelectRaceRuleSMenuNscrRects kind:data(any) addr:0x0215ce0c
 gSelectRaceRuleMultiSimpleNscrRects kind:data(any) addr:0x0215ce70
 gSelectCupNameMBnclIndices kind:data(any) addr:0x0215ced4
 gCupMarkBnclIndices kind:data(any) addr:0x0215cee4
-data_0215cef4 kind:data(any) addr:0x0215cef4
-data_0215cefc kind:data(any) addr:0x0215cefc
+gSelectCupMLabelWidths kind:data(any) addr:0x0215cef4
+gSelectCupMTrophyCells kind:data(any) addr:0x0215cefc
 gSelectCupMCourseCells kind:data(any) addr:0x0215cf04
-data_0215cf06 kind:data(any) addr:0x0215cf06
 gSelectCupMCourseLabels kind:data(any) addr:0x0215cf0c
-data_0215cf0e kind:data(any) addr:0x0215cf0e
-data_0215cf14 kind:data(any) addr:0x0215cf14
+gSelectCupMLabelHeights kind:data(any) addr:0x0215cf14
 gSelectCupMCellSlots kind:data(any) addr:0x0215cf1c
-data_0215cf2c kind:data(any) addr:0x0215cf2c
-data_0215cf4c kind:data(any) addr:0x0215cf4c
-data_0215cf8c kind:data(any) addr:0x0215cf8c
+gSelectCupMCupIndices kind:data(any) addr:0x0215cf2c
+gSelectCupMCupMessageIndices kind:data(any) addr:0x0215cf4c
+gSelectCupMCourseIds kind:data(any) addr:0x0215cf8c
 gTrophyIconNclrStarts kind:data(any) addr:0x0215d00c
 gTrophyIconBnclIndices kind:data(any) addr:0x0215d014
 gOamShapeSizeCharBlocks kind:data(any) addr:0x0215d024
@@ -8814,16 +8812,16 @@ gSelectChoisesPaletteRects kind:data(any) addr:0x0215d0ac
 gSelectReturnState3Bg2Offsets kind:data(any) addr:0x0215d0b4
 gSelectReturnState1Bg2Offsets kind:data(any) addr:0x0215d0c0
 gSelectReturnState4Bg2Offsets kind:data(any) addr:0x0215d0cc
-data_0215d0d8 kind:data(any) addr:0x0215d0d8
-data_0215d0dc kind:data(any) addr:0x0215d0dc
+gKeyboardKindEntryCounts kind:data(any) addr:0x0215d0d8
+gKeyboardKindEntryIndices kind:data(any) addr:0x0215d0dc
 gKeyboardTextLimits kind:data(any) addr:0x0215d0e0
 gKeyboardButtonLabelIndices kind:data(any) addr:0x0215d0e4
 gKeyboardLayoutEntryIndices kind:data(any) addr:0x0215d0e8
-data_0215d0f0 kind:data(any) addr:0x0215d0f0
+gKeyboardRemainingEntryIndices kind:data(any) addr:0x0215d0f0
 gKeyboardCursorCornerEntryIndices kind:data(any) addr:0x0215d0f8
 gKeyboardTextOffsetYTarget kind:data(any) addr:0x0215d100
 gKeyboardTextOffsetYInitial kind:data(any) addr:0x0215d108
-data_0215d110 kind:data(any) addr:0x0215d110
+gKeyboardTextSlotEntryIndices kind:data(any) addr:0x0215d110
 gKeyboardNextLayoutRegion0 kind:data(any) addr:0x0215d11c
 gKeyboardNextLayoutOtherRegion kind:data(any) addr:0x0215d122
 gKeyboardButtonEntryIndices kind:data(any) addr:0x0215d128
@@ -10269,7 +10267,6 @@ gRaceHudSubScreenItemPoolIndices kind:data(any) addr:0x021696b8
 @4237 kind:data(any) addr:0x02169728 local
 @4238 kind:data(any) addr:0x0216973c local
 @4239 kind:data(any) addr:0x02169750 local
-data_usa_0216975c kind:data(any) addr:0x0216975c
 gCompressedArchive kind:data(any) addr:0x02169760
 @3718 kind:data(any) addr:0x0216aaec local
 gMenuScreenCallbacks kind:data(any) addr:0x0216ab14
@@ -10728,19 +10725,19 @@ gSelectCupGridSBnclName kind:data(any) addr:0x0216d690
 gSelectCupGridSNcerName kind:data(any) addr:0x0216d694
 gSelectCupGridMBNclrName kind:data(any) addr:0x0216d698
 gSelectCupGridMNscrName kind:data(any) addr:0x0216d69c
-data_usa_0216d6a0 kind:data(any) addr:0x0216d6a0
-data_usa_0216d6bc kind:data(any) addr:0x0216d6bc
-data_usa_0216d6d8 kind:data(any) addr:0x0216d6d8
-data_usa_0216d6f4 kind:data(any) addr:0x0216d6f4
-data_usa_0216d710 kind:data(any) addr:0x0216d710
-data_usa_0216d72c kind:data(any) addr:0x0216d72c
-data_usa_0216d748 kind:data(any) addr:0x0216d748
-data_usa_0216d764 kind:data(any) addr:0x0216d764
-data_usa_0216d780 kind:data(any) addr:0x0216d780
-data_usa_0216d79c kind:data(any) addr:0x0216d79c
-data_usa_0216d7bc kind:data(any) addr:0x0216d7bc
-data_usa_0216d7dc kind:data(any) addr:0x0216d7dc
-data_usa_0216d7fc kind:data(any) addr:0x0216d7fc
+@5063 kind:data(any) addr:0x0216d6a0 local
+@5069 kind:data(any) addr:0x0216d6bc local
+@5066 kind:data(any) addr:0x0216d6d8 local
+@5072 kind:data(any) addr:0x0216d6f4 local
+@5065 kind:data(any) addr:0x0216d710 local
+@5068 kind:data(any) addr:0x0216d72c local
+@5064 kind:data(any) addr:0x0216d748 local
+@5060 kind:data(any) addr:0x0216d764 local
+@5067 kind:data(any) addr:0x0216d780 local
+@5062 kind:data(any) addr:0x0216d79c local
+@5070 kind:data(any) addr:0x0216d7bc local
+@5071 kind:data(any) addr:0x0216d7dc local
+@5061 kind:data(any) addr:0x0216d7fc local
 @3026 kind:data(any) addr:0x0216d81c local
 @3027 kind:data(any) addr:0x0216d828 local
 gSelectCupMBNclrName kind:data(any) addr:0x0216d834
@@ -10754,43 +10751,43 @@ gSelectCupCourseVsMBnllName kind:data(any) addr:0x0216d850
 gSelectCupMBNcgrName kind:data(any) addr:0x0216d854
 gSelectCupCourseMONclrName kind:data(any) addr:0x0216d858
 gSelectCupCourseVsMBNcgrName kind:data(any) addr:0x0216d85c
-data_0216d880 kind:data(any) addr:0x0216d860
+gSelectCupCourseTaMBnclName2 kind:data(any) addr:0x0216d860
 gSelectCupCourseVsMNscrName kind:data(any) addr:0x0216d864
 gSelectCupMBnclName kind:data(any) addr:0x0216d868
 gSelectCupCourseTaMBNclrName kind:data(any) addr:0x0216d86c
-data_0216d890 kind:data(any) addr:0x0216d870
+gSelectCupCourseMNcerName2 kind:data(any) addr:0x0216d870
 gSelectCupCourseTaMBNcgrName kind:data(any) addr:0x0216d874
 gSelectCupMNcgrName kind:data(any) addr:0x0216d878
-data_0216d89c kind:data(any) addr:0x0216d87c
+gSelectCupCourseTaMBnllName2 kind:data(any) addr:0x0216d87c
 gSelectCupCourseMNcgrName kind:data(any) addr:0x0216d880
 gSelectCupCourseTaMNscrName kind:data(any) addr:0x0216d884
 gSelectCupMNcerName kind:data(any) addr:0x0216d888
-data_usa_0216d88c kind:data(any) addr:0x0216d88c
-data_usa_0216d8a8 kind:data(any) addr:0x0216d8a8
-data_usa_0216d8c4 kind:data(any) addr:0x0216d8c4
-data_usa_0216d8e0 kind:data(any) addr:0x0216d8e0
-data_usa_0216d8fc kind:data(any) addr:0x0216d8fc
-data_usa_0216d918 kind:data(any) addr:0x0216d918
-data_usa_0216d934 kind:data(any) addr:0x0216d934
-data_usa_0216d950 kind:data(any) addr:0x0216d950
-data_usa_0216d970 kind:data(any) addr:0x0216d970
-data_usa_0216d990 kind:data(any) addr:0x0216d990
-data_usa_0216d9b4 kind:data(any) addr:0x0216d9b4
-data_usa_0216d9d8 kind:data(any) addr:0x0216d9d8
-data_usa_0216d9fc kind:data(any) addr:0x0216d9fc
-data_usa_0216da20 kind:data(any) addr:0x0216da20
-data_usa_0216da44 kind:data(any) addr:0x0216da44
-data_usa_0216da68 kind:data(any) addr:0x0216da68
-data_usa_0216da8c kind:data(any) addr:0x0216da8c
-data_usa_0216dab0 kind:data(any) addr:0x0216dab0
-data_usa_0216dad4 kind:data(any) addr:0x0216dad4
-data_usa_0216dafc kind:data(any) addr:0x0216dafc
-data_usa_0216db24 kind:data(any) addr:0x0216db24
-data_usa_0216db4c kind:data(any) addr:0x0216db4c
+@5039 kind:data(any) addr:0x0216d88c local
+@5054 kind:data(any) addr:0x0216d8a8 local
+@5045 kind:data(any) addr:0x0216d8c4 local
+@5047 kind:data(any) addr:0x0216d8e0 local
+@5048 kind:data(any) addr:0x0216d8fc local
+@5056 kind:data(any) addr:0x0216d918 local
+@5053 kind:data(any) addr:0x0216d934 local
+@5037 kind:data(any) addr:0x0216d950 local
+@5041 kind:data(any) addr:0x0216d970 local
+@5038 kind:data(any) addr:0x0216d990 local
+@5051 kind:data(any) addr:0x0216d9b4 local
+@5057 kind:data(any) addr:0x0216d9d8 local
+@5042 kind:data(any) addr:0x0216d9fc local
+@5043 kind:data(any) addr:0x0216da20 local
+@5044 kind:data(any) addr:0x0216da44 local
+@5052 kind:data(any) addr:0x0216da68 local
+@5049 kind:data(any) addr:0x0216da8c local
+@5055 kind:data(any) addr:0x0216dab0 local
+@5040 kind:data(any) addr:0x0216dad4 local
+@5050 kind:data(any) addr:0x0216dafc local
+@5058 kind:data(any) addr:0x0216db24 local
+@5046 kind:data(any) addr:0x0216db4c local
 @3024 kind:data(any) addr:0x0216db74 local
 @3025 kind:data(any) addr:0x0216db80 local
-gNoRecordTimeFullWidth kind:data(any) addr:0x0216db8c
-gNoRecordTimeAscii kind:data(any) addr:0x0216dba0
+@5335 kind:data(any) addr:0x0216db8c local
+@5336 kind:data(any) addr:0x0216dba0 local
 gSelectRaceRuleSBnblName kind:data(any) addr:0x0216dbb4
 gSelectRaceRuleSBNclrName kind:data(any) addr:0x0216dbb8
 gSelectRaceRuleMultiSimpleSNscrName kind:data(any) addr:0x0216dbbc
@@ -10836,14 +10833,14 @@ gCupMarkNcgrName kind:data(any) addr:0x0216deb4
 gCupMarkNcerName kind:data(any) addr:0x0216deb8
 gCommonCupMarkNcgrName kind:data(any) addr:0x0216debc
 gCommonCupMarkNclrName kind:data(any) addr:0x0216dec0
-data_usa_0216dec4 kind:data(any) addr:0x0216dec4
-data_usa_0216ded4 kind:data(any) addr:0x0216ded4
-data_usa_0216dee4 kind:data(any) addr:0x0216dee4
-data_usa_0216def8 kind:data(any) addr:0x0216def8
-data_usa_0216df0c kind:data(any) addr:0x0216df0c
-data_usa_0216df24 kind:data(any) addr:0x0216df24
-data_usa_0216df3c kind:data(any) addr:0x0216df3c
-data_usa_0216df58 kind:data(any) addr:0x0216df58
+@3287 kind:data(any) addr:0x0216dec4 local
+@3283 kind:data(any) addr:0x0216ded4 local
+@3282 kind:data(any) addr:0x0216dee4 local
+@3285 kind:data(any) addr:0x0216def8 local
+@3281 kind:data(any) addr:0x0216df0c local
+@3286 kind:data(any) addr:0x0216df24 local
+@3284 kind:data(any) addr:0x0216df3c local
+@3280 kind:data(any) addr:0x0216df58 local
 gSelectCupMBnclName3 kind:data(any) addr:0x0216df74
 gSelectCupMNscrName3 kind:data(any) addr:0x0216df78
 gSelectCupMNcgrName3 kind:data(any) addr:0x0216df7c
@@ -10852,33 +10849,33 @@ gSelectCupMBnllName3 kind:data(any) addr:0x0216df84
 gSelectCupMONclrName3 kind:data(any) addr:0x0216df88
 gSelectCupMBNclrName3 kind:data(any) addr:0x0216df8c
 gSelectCupMBNcgrName3 kind:data(any) addr:0x0216df90
-data_usa_0216df94 kind:data(any) addr:0x0216df94
-data_usa_0216dfb0 kind:data(any) addr:0x0216dfb0
-data_usa_0216dfcc kind:data(any) addr:0x0216dfcc
-data_usa_0216dfe8 kind:data(any) addr:0x0216dfe8
-data_usa_0216e004 kind:data(any) addr:0x0216e004
-data_usa_0216e020 kind:data(any) addr:0x0216e020
-data_usa_0216e03c kind:data(any) addr:0x0216e03c
-data_usa_0216e05c kind:data(any) addr:0x0216e05c
-data_0216e09c kind:data(any) addr:0x0216e07c
+@5086 kind:data(any) addr:0x0216df94 local
+@5089 kind:data(any) addr:0x0216dfb0 local
+@5088 kind:data(any) addr:0x0216dfcc local
+@5085 kind:data(any) addr:0x0216dfe8 local
+@5083 kind:data(any) addr:0x0216e004 local
+@5090 kind:data(any) addr:0x0216e020 local
+@5084 kind:data(any) addr:0x0216e03c local
+@5087 kind:data(any) addr:0x0216e05c local
+@5606 kind:data(any) addr:0x0216e07c local
 gTrophyIconNcgrName kind:data(any) addr:0x0216e088
 gTrophyIconNcerName kind:data(any) addr:0x0216e08c
 gTrophyIconBnclName kind:data(any) addr:0x0216e090
 gTrophyIconNclrName kind:data(any) addr:0x0216e094
-data_usa_0216e098 kind:data(any) addr:0x0216e098
-data_usa_0216e0b0 kind:data(any) addr:0x0216e0b0
-data_usa_0216e0cc kind:data(any) addr:0x0216e0cc
-data_usa_0216e0e8 kind:data(any) addr:0x0216e0e8
+@3357 kind:data(any) addr:0x0216e098 local
+@3358 kind:data(any) addr:0x0216e0b0 local
+@3359 kind:data(any) addr:0x0216e0cc local
+@3356 kind:data(any) addr:0x0216e0e8 local
 gSelectRaceRuleWaitBnclName kind:data(any) addr:0x0216e104
 gSelectRaceRuleWaitNcerName kind:data(any) addr:0x0216e108
 gSelectRaceRuleWaitBnllName kind:data(any) addr:0x0216e10c
 gSelectRaceRuleWaitNclrName kind:data(any) addr:0x0216e110
 gSelectRaceRuleWaitNcgrName kind:data(any) addr:0x0216e114
-data_usa_0216e118 kind:data(any) addr:0x0216e118
-data_usa_0216e138 kind:data(any) addr:0x0216e138
-data_usa_0216e158 kind:data(any) addr:0x0216e158
-data_usa_0216e17c kind:data(any) addr:0x0216e17c
-data_usa_0216e1a0 kind:data(any) addr:0x0216e1a0
+@4950 kind:data(any) addr:0x0216e118 local
+@4948 kind:data(any) addr:0x0216e138 local
+@4949 kind:data(any) addr:0x0216e158 local
+@4951 kind:data(any) addr:0x0216e17c local
+@4947 kind:data(any) addr:0x0216e1a0 local
 @2880 kind:data(any) addr:0x0216e1c4 local
 @4989 kind:data(any) addr:0x0216e1d0 local
 @4990 kind:data(any) addr:0x0216e1dc local
@@ -10938,22 +10935,22 @@ data_usa_0216e688 kind:data(any) addr:0x0216e688
 data_usa_0216e6a4 kind:data(any) addr:0x0216e6a4
 data_usa_0216e6c0 kind:data(any) addr:0x0216e6c0
 @1994 kind:data(any) addr:0x0216e6dc local
-gTxtSystemB00NcgrName kind:data(any) addr:0x0216e6e8
-gTxtSystemBg00NscrName kind:data(any) addr:0x0216e700
-gTxtSystemB00NclrName kind:data(any) addr:0x0216e718
-data_0216e750 kind:data(any) addr:0x0216e730
-gTxtSystemB01NcgrName kind:data(any) addr:0x0216e748
-data_0216e780 kind:data(any) addr:0x0216e760
-gTxtSystemBg002NscrName kind:data(any) addr:0x0216e778
-gTxtSystemBg012NscrName kind:data(any) addr:0x0216e790
-gTxtSystemBg01NscrName kind:data(any) addr:0x0216e7a8
-gTxtSystemBg02NscrName kind:data(any) addr:0x0216e7c0
-gTxtSystemBg022NscrName kind:data(any) addr:0x0216e7d8
-gTxtSystemBg023NscrName kind:data(any) addr:0x0216e7f0
-data_0216e828 kind:data(any) addr:0x0216e808
-gSelectChoisesSBNcgrName kind:data(any) addr:0x0216e820
-gSelectChoisesSBgNscrName kind:data(any) addr:0x0216e838
-gSelectChoisesSBNclrName kind:data(any) addr:0x0216e854
+@5267 kind:data(any) addr:0x0216e6e8 local
+@5268 kind:data(any) addr:0x0216e700 local
+@5269 kind:data(any) addr:0x0216e718 local
+@5270 kind:data(any) addr:0x0216e730 local
+@5271 kind:data(any) addr:0x0216e748 local
+@5272 kind:data(any) addr:0x0216e760 local
+@5273 kind:data(any) addr:0x0216e778 local
+@5274 kind:data(any) addr:0x0216e790 local
+@5275 kind:data(any) addr:0x0216e7a8 local
+@5276 kind:data(any) addr:0x0216e7c0 local
+@5277 kind:data(any) addr:0x0216e7d8 local
+@5278 kind:data(any) addr:0x0216e7f0 local
+@5279 kind:data(any) addr:0x0216e808 local
+@4603 kind:data(any) addr:0x0216e820 local
+@4604 kind:data(any) addr:0x0216e838 local
+@4605 kind:data(any) addr:0x0216e854 local
 @1972 kind:data(any) addr:0x0216e86c local
 @1973 kind:data(any) addr:0x0216e888 local
 @1974 kind:data(any) addr:0x0216e8a4 local
@@ -10974,8 +10971,8 @@ gKeyboardSBFlameNcgrName kind:data(any) addr:0x0216e9dc
 gKeyboardSBFlame02NscrName kind:data(any) addr:0x0216e9f4
 gKeyboardSBFlame01NscrName kind:data(any) addr:0x0216ea10
 gKeyboardSBNclrName kind:data(any) addr:0x0216ea2c
-data_0216ea60 kind:data(any) addr:0x0216ea40
-data_0216ea6c kind:data(any) addr:0x0216ea4c
+gKeyboardCommonBmgName kind:data(any) addr:0x0216ea40
+gMessageScreenCommonBmgName kind:data(any) addr:0x0216ea4c
 gEndingStaffRollB00NclrName kind:data(any) addr:0x0216ea58
 gStaffRollBmgName kind:data(any) addr:0x0216ea74
 sCallbackInfo kind:data(any) addr:0x0216ea84

@@ -27,6 +27,9 @@
 #include "code_0202056c.h"
 #include "Main/System/heap.h"
 
+const u32 gCharacterKartIndices[13] = {0, 3, 6, 9, 0xc, 0xf, 0x12, 0x15, 0x18, 0x1b, 0x1e, 0x21, 0x24};
+PicksHolder *gPicksHolder;
+
 #pragma thumb on
 
 void CreatePicksHolder(void *heap) {

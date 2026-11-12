@@ -4,6 +4,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/Menu/data_02180728.h"
 #include "Main/Graphics/oam.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 void SetEmblemChoisesShownAndReset(u32 shown);
 s32 CreateRaceHudSubScreenShine16Cells(void);
@@ -54,3 +55,5 @@ void ResetEmblemChoisesState(void);
 void WriteEmblemChoisesChoiceTiles(u16 *mapData, s32 column, s32 row);
 void WriteEmblemChoisesTiles(void);
 void WriteEmblemChoisesSelectedTiles(s32 choiceIndex);
+
+extern struct EmblemChoises *gEmblemChoises;

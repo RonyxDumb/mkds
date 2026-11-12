@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Graphics/scene_text_init.h"
+#include "Main/Menu/data_0217d000.h"
 
 // Returns the scene number the Keyboard screen asks for (-1 = none yet); UpdateKeyboardScene copies it into
 // SceneNumbers.mNextScene when it is not -1.
@@ -70,3 +71,16 @@ void SetKeyboardButtonCorners(void);
 
 BOOL IsLocateFriendOnWithBuddyStatus4(void);
 void InitKeyboardLabelCanvases(void);
+
+extern const u8 gKeyboardKindEntryCounts[2];
+extern const u8 gKeyboardKindEntryIndices[2][1];
+extern const u8 gKeyboardTextLimits[2];
+extern const u8 gKeyboardButtonLabelIndices[2][2];
+extern const u8 gKeyboardLayoutEntryIndices[6];
+extern const u8 gKeyboardCursorCornerEntryIndices[2][4];
+extern const s16 gKeyboardTextOffsetYTarget[2][2];
+extern const s16 gKeyboardTextOffsetYInitial[2][2];
+extern const u8 gKeyboardRemainingEntryIndices[6];
+extern const u8 gKeyboardTextSlotEntryIndices[10];
+
+extern Keyboard *gKeyboard;

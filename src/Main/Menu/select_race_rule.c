@@ -42,6 +42,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "code_0212df7c.h"
 #include "Main/Menu/player_entry_list.h"
+#include "Main/Menu/select_cup_course_index.h"
 
 #pragma thumb on
 
@@ -246,7 +247,7 @@ void LoadSelectCupCourseData(void) {
         LoadNclrData(&bgPalette, FindSceneFile(gSelectCupCourseVsMBNclrName));
         LoadNscrData(&screenMap, FindSceneFile(gSelectCupCourseVsMNscrName));
         LoadNcgrData2(&cellChars, FindSceneFile(gSelectCupCourseMNcgrName));
-        LoadNcerData(&cells, FindSceneFile(data_0216d890));
+        LoadNcerData(&cells, FindSceneFile(gSelectCupCourseMNcerName2));
         LoadNclrData(&cellPalette, FindSceneFile(gSelectCupCourseMONclrName));
     }
 }
@@ -281,14 +282,14 @@ void LocateAndQueueSelectCupCourse(void) {
     LocateNscr(&fixedScreenMap, FindSceneFile(gSelectCupMNscrName));
     gSelectCupCourse->mSecondScreenMapBuffer = HeapAlloc(gSelectCupCourse->mHeap, 0x800);
     if (gSelectCupCourse->mMode == 0) {
-        gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(data_0216d880);
-        gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(data_0216d89c);
+        gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(gSelectCupCourseTaMBnclName2);
+        gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(gSelectCupCourseTaMBnllName2);
     } else {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(gSelectCupCourseVsMBnclName);
         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(gSelectCupCourseVsMBnllName);
     }
     LocateNcgr2(&courseCellChars, FindSceneFile(gSelectCupCourseMNcgrName));
-    LocateNcer(&gSelectCupCourse->mSelectCupCourseMNcer, FindSceneFile(data_0216d890));
+    LocateNcer(&gSelectCupCourse->mSelectCupCourseMNcer, FindSceneFile(gSelectCupCourseMNcerName2));
     LocateNclr(&courseCellPalette, FindSceneFile(gSelectCupCourseMONclrName));
     gSelectCupCourse->mSelectCupMBncl = FindSceneFile(gSelectCupMBnclName);
     gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(gSelectCupCourseCupMBnblName);
@@ -435,8 +436,8 @@ void RefreshSelectCupCourseForIndex(void) {
             GetBmgEntry(gSelectCupCourse->mCommonMessages,
                         gCupCourseNameMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][selectCupCourse->mIndex]),
             selectCupCourse->mSelectCupCourseTaOrVsMBncl, selectCupCourse->mSelectCupCourseTaOrVsMTable);
-        if (IsTimeRecordFilled(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 0)) {
-            GetTimeRecordTime(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 0,
+        if (IsTimeRecordFilled(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 0)) {
+            GetTimeRecordTime(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 0,
                               &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
@@ -445,12 +446,12 @@ void RefreshSelectCupCourseForIndex(void) {
                                             selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         } else {
             selectCupCourse = gSelectCupCourse;
-            PrintLabelLayoutTextFixedDigits(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeFullWidth,
+            PrintLabelLayoutTextFixedDigits(0, 3, selectCupCourse->mSelectCupCourseTaOrVsMBnll, L"--\xff1a--\xff1a---",
                                             selectCupCourse->mSelectCupCourseTaOrVsMBncl,
                                             selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         }
-        if (IsTimeRecordFilled(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
-            GetTimeRecordTime(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5,
+        if (IsTimeRecordFilled(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
+            GetTimeRecordTime(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5,
                               &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
@@ -459,21 +460,21 @@ void RefreshSelectCupCourseForIndex(void) {
                                             selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         } else {
             selectCupCourse = gSelectCupCourse;
-            PrintLabelLayoutTextFixedDigits(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, gNoRecordTimeAscii,
+            PrintLabelLayoutTextFixedDigits(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, L"--:--:---",
                                             selectCupCourse->mSelectCupCourseTaOrVsMBncl,
                                             selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         }
-        TrySetCupPictureIndexAndQueueLoads(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
+        TrySetCupPictureIndexAndQueueLoads(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
         gSelectCupCourse->mCupPicturePending = TRUE;
     }
 }
 
 void SetCourseIdFromSelectCupCourse(void) {
-    SetCourseId(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
+    SetCourseId(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
 }
 
 void SetupGhostRecordSetForCupCourse(void) {
-    SetupGhostRecordSetForCourse(data_0215cbec[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
+    SetupGhostRecordSetForCourse(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
     SetRaceSetupCopyGhostRecordIndex(0);
 }
 

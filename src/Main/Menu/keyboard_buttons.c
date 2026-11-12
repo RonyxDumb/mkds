@@ -52,6 +52,8 @@
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
 
+Keyboard *gKeyboard;
+
 BOOL IsLocateFriendOnWithBuddyStatus4(void) {
     BOOL result = FALSE;
     if (!gBackupBuffers->mFirstBlock->mLocateFriendOff) {
@@ -166,7 +168,7 @@ void HideKeyboardFirstBufferObjects(void) {
         }
     }
     for (itemIndex = 0; itemIndex < 10; itemIndex++) {
-        gKeyboard->mTables[1][0][data_0215d110[itemIndex]].mVisible = 0;
+        gKeyboard->mTables[1][0][gKeyboardTextSlotEntryIndices[itemIndex]].mVisible = 0;
     }
 }
 
@@ -277,7 +279,7 @@ void InitKeyboard(void *heap, s32 mode) {
             gKeyboard->mTextOffsetY[index][screenIndex] = gKeyboardTextOffsetYInitial[index][screenIndex];
         }
     }
-    gKeyboard->mCommonMessages = FindFileInLoadedArchives(data_0216ea60);
+    gKeyboard->mCommonMessages = FindFileInLoadedArchives(gKeyboardCommonBmgName);
     for (index = 0; index < 2; index++) {
         for (screenIndex = 0; screenIndex < 2; screenIndex++) {
             InitLayoutTable(heap, gKeyboard->mBncls[index], gKeyboard->mBnlls[index],
@@ -326,8 +328,8 @@ void WriteKeyboardObjectOffsets(void) {
             if (kindIndex == 1 || gKeyboard->mRecords[2].mMode == 0xc) {
                 offsetY = gKeyboard->mTextOffsetY[kindIndex][screenIndex];
             }
-            for (entryIndex = 0; entryIndex < data_0215d0d8[kindIndex]; entryIndex++) {
-                gKeyboard->mTables[kindIndex][screenIndex][data_0215d0dc[kindIndex][entryIndex]].mOffsetY = offsetY;
+            for (entryIndex = 0; entryIndex < gKeyboardKindEntryCounts[kindIndex]; entryIndex++) {
+                gKeyboard->mTables[kindIndex][screenIndex][gKeyboardKindEntryIndices[kindIndex][entryIndex]].mOffsetY = offsetY;
             }
             for (entryIndex = 0; entryIndex < gKeyboardTextLimits[kindIndex]; entryIndex++) {
                 gKeyboard->mTables[kindIndex][screenIndex][gKeyboardTextIndexEntryIndices[kindIndex][entryIndex]]
@@ -374,14 +376,14 @@ void WriteKeyboardObjectOffsets(void) {
             offsetY = gKeyboard->mOffsetY;
         }
         for (entryIndex = 0; entryIndex < 10; entryIndex++) {
-            gKeyboard->mTables[1][kindIndex][data_0215d110[entryIndex]].mOffsetY = offsetY;
+            gKeyboard->mTables[1][kindIndex][gKeyboardTextSlotEntryIndices[entryIndex]].mOffsetY = offsetY;
         }
         offsetY = -500;
         if (gKeyboard->mKind == 1) {
             offsetY = gKeyboard->mTextOffsetY[1][kindIndex];
         }
         for (entryIndex = 0; entryIndex < 6; entryIndex++) {
-            gKeyboard->mTables[1][kindIndex][data_0215d0f0[entryIndex]].mOffsetY = offsetY;
+            gKeyboard->mTables[1][kindIndex][gKeyboardRemainingEntryIndices[entryIndex]].mOffsetY = offsetY;
         }
     }
 }
@@ -1044,7 +1046,7 @@ void ShowKeyboardRemainingCharObjects(void) {
     s32 firstShown;
     s32 slotIndex;
     s32 screenIndex;
-    u8 *entryIndexPointer;
+    const u8 *entryIndexPointer;
     if (gKeyboard->mKind == 1) {
         charCount = CopyTextWithinWidth(gKeyboard->mRecords[1].mChars, nameChars);
         remaining = 6;
@@ -1052,7 +1054,7 @@ void ShowKeyboardRemainingCharObjects(void) {
             remaining = 10 - charCount;
         }
         slotIndex = 0;
-        entryIndexPointer = data_0215d0f0;
+        entryIndexPointer = gKeyboardRemainingEntryIndices;
         firstShown = 6 - remaining;
         for (; slotIndex < 6; slotIndex++) {
             for (screenIndex = 0; screenIndex < 2; screenIndex++) {
@@ -1070,7 +1072,7 @@ void ShowKeyboardRemainingCharObjects(void) {
 void ShowKeyboardLayoutObject(void) {
     s32 layoutIndex;
     BOOL hiddenValue;
-    u8 *entryIndexPointer;
+    const u8 *entryIndexPointer;
     u8 entryIndex;
     layoutIndex = 0;
     entryIndexPointer = gKeyboardLayoutEntryIndices;
