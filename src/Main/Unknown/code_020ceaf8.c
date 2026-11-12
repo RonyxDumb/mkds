@@ -1,5 +1,24 @@
 #include "Main/Unknown/code_020ceaf8.h"
+#include "Main/Unknown/code_020ceb20.h"
+#include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Unknown/code_020ceb54.h"
+#include "01/code_0219c784.h"
+#include "code_02148950.h"
+#include "gx.h"
 #include "00/code_02181f98.h"
+
+#pragma optimize_for_size on
+#pragma thumb on
+void WriteBattleStageScreenRegisters(void) {
+    if (GetMenuScreenSwitched() != 0) {
+        BattleGX_SetVisiblePlane(0x1e);
+        GX_SetGraphicsMode(1, 0, 0);
+        BattleGXS_SetVisiblePlane(0x1f);
+        GXS_SetGraphicsMode(0);
+    }
+    WriteSelectBattleStageRegisters();
+}
+#pragma thumb off
 
 void BattleStageSetMenuEntryKind(u32 entryKind) {
     gMenuShared->mMenuEntryKind = entryKind;
