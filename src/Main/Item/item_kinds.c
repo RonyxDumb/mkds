@@ -27,6 +27,7 @@
 #include "Main/Item/item_teresa_offset.h"
 #include "Main/Item/item_gesso.h"
 #include "Main/Item/item_f_box.h"
+#include "Main/Item/bouncing_item_box_kind.h"
 
 #pragma thumb on
 

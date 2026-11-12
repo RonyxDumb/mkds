@@ -72,6 +72,7 @@
 #include "Main/Item/item_kinoko_p_boost.h"
 #include "Main/Item/item_koura_w_kart_items.h"
 #include "Main/Item/item_gesso.h"
+#include "Main/Item/bouncing_item_box_kind.h"
 
 Vec3 *gItemPushVector;
 
