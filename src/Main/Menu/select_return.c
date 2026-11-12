@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_02125000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "code_0200eddc.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "g2d_CharCanvas.h"
 #include "code_0214a390.h"
 #include "Main/Unknown/unk_02175628.h"

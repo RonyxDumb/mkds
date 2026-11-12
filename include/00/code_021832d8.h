@@ -42,7 +42,7 @@ void InitWiFiVSMatching(void *heap);
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 
 extern MenuShared *gMenuShared;
 extern WiFiSession *gWiFiSession;

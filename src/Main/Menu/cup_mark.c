@@ -8,7 +8,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/unk_0216d000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_0211df44.h"
 
 #pragma thumb on

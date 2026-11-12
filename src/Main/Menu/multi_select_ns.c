@@ -18,7 +18,7 @@
 #include "Main/Unknown/unk_02153000.h"
 #include "Main/Unknown/unk_02163000.h"
 #include "Main/Unknown/unk_02174000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "code_0214d018.h"
 
 #pragma optimize_for_size on

@@ -12,7 +12,7 @@
 
 #include "00/code_02181f98.h"
 #include "Main/System/result_archive_path.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Race/race_setup.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02056000.h"

@@ -6,7 +6,7 @@
 #include "g2d_CharCanvas.h"
 #include "code_0214a034.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0212b5d8.h"
 #include "Main/System/heap.h"

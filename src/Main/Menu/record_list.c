@@ -32,7 +32,7 @@
 #include "Main/Unknown/code_02113f1c.h"
 #include "Main/Unknown/code_021138e4.h"
 #include "Main/Unknown/code_02113ef0.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_0205e000.h"
 #include "Main/Unknown/code_02060000.h"
 #include "Main/Unknown/code_02114504.h"

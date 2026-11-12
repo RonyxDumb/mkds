@@ -23,7 +23,7 @@
 #include "Main/Unknown/code_0202ee68.h"
 #include "Main/Unknown/code_0202ee3c.h"
 #include "Main/Unknown/code_0202ecd4.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_0202ecac.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "code_0212df7c.h"

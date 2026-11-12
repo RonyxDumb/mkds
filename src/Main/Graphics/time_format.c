@@ -3,7 +3,7 @@
 #include "Main/Graphics/text_draw.h"
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "code_0214cfe4.h"
 
 #pragma thumb on

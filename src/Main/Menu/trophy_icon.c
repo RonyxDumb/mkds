@@ -8,7 +8,7 @@
 #include "Main/Unknown/unk_0216e000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/code_0211f2b8.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 
 #pragma thumb on
 

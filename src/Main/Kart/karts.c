@@ -45,7 +45,7 @@
 #include "gx_load3d.h"
 #include "code_0200fe74.h"
 #include "code_02010c84.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "code_02147288.h"
 #include "code_0214a748.h"
 #include "code_0214d018.h"

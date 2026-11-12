@@ -38,7 +38,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Unknown/code_02126f78.h"
 #include "code_0200eddc.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "g2d_CharCanvas.h"
 #include "code_0214a390.h"
 #include "code_0212df7c.h"

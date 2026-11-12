@@ -4,7 +4,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/code_02116dd4.h"
 #include "Main/Unknown/unk_0216d000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 
 #pragma thumb on
 

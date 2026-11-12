@@ -11,7 +11,7 @@
 #include "Main/Net/search_icon_mb_child_and.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "code_02142eac.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "code_0214cfe4.h"
 #include "Main/Graphics/cell_layout.h"
 #include "Main/Unknown/code_0212abd0.h"

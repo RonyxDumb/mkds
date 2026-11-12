@@ -354,35 +354,10 @@ libs/NitroSystem/gfd/src/gfd_FramePlttVramMan.c:
     .text       start:0x020162b0 end:0x02016468
 
 // provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_02016468.c:
+libs/NitroSystem/gfd/src/gfd_VramTransferManager.c:
     complete
-    .text       start:0x02016468 end:0x02016574
+    .text       start:0x02016468 end:0x020169a4
     .bss        start:0x02173200 end:0x02173214
-
-// provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_02016574.c:
-    complete
-    .text       start:0x02016574 end:0x020165b8
-
-// provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_020165b8.c:
-    complete
-    .text       start:0x020165b8 end:0x020165d8
-
-// provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_020165d8.c:
-    complete
-    .text       start:0x020165d8 end:0x0201661c
-
-// provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_0201661c.c:
-    complete
-    .text       start:0x0201661c end:0x02016638
-
-// provisional: file name and boundaries
-libs/NitroSystem/gfd/src/code_02016638.c:
-    complete
-    .text       start:0x02016638 end:0x020169a4
 
 // provisional: file name and boundaries
 libs/NitroSystem/gfd/src/code_020169a4.c:

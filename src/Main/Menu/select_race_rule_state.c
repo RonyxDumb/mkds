@@ -62,7 +62,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/code_02124000.h"
 #include "Main/Unknown/code_02125000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 
 #pragma thumb on
 

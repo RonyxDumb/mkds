@@ -6,7 +6,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0200fc8c.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/System/heap_call.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "00/code_021832d8.h"

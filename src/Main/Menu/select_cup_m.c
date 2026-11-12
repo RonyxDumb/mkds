@@ -30,7 +30,7 @@
 #include "Main/Unknown/code_0212426c.h"
 #include "code_02148950.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 
 #pragma thumb on
 

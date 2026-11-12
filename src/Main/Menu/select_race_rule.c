@@ -15,7 +15,7 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Race/race_setup.h"
 #include "Main/Unknown/code_0202b000.h"
 #include "Main/Unknown/code_02036bec.h"

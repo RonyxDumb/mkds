@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0211d4a8.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "registers.h"
 
 const char *gBackScreenSNclrNames[1] = {"back_screen_s_b_00.nclr"};

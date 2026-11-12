@@ -60,7 +60,7 @@
 #include "Main/Unknown/code_02061000.h"
 #include "Main/Unknown/code_0212abd0.h"
 #include "code_0200eddc.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_021262f0.h"
 #include "code_0214a054.h"
 #include "code_0214b824.h"

@@ -29,7 +29,7 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "code_0212df7c.h"
 #include "code_0213ecf8.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 #include "code_0202056c.h"

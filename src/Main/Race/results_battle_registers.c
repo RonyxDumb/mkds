@@ -19,7 +19,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "code_02148950.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "code_0214cfe4.h"
 #include "Main/Unknown/code_02032ab0.h"
 #include "Main/Scene/run_scene_connection.h"

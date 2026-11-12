@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_02124000.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "00/code_02181f98.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_02116888.h"
 #include "Main/Unknown/code_02116084.h"
 #include "01/code_021956dc.h"

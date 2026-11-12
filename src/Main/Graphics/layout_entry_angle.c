@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_02023000.h"
 #include "Main/Graphics/text_draw.h"
 #include "Main/Unknown/code_02125000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Graphics/font_and_player_character.h"

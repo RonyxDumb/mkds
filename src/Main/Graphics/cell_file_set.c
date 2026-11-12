@@ -1,7 +1,7 @@
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/unk_02174000.h"
-#include "code_02016468.h"
+#include "gfd_VramTransferManager.h"
 
 #pragma thumb on
 
