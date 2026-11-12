@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "01/code_021956dc.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0214d018.h"
 
 // Sets the session up for variant a (0 to 3): case 0 resets masks, records and picks and sets mStep 0, case 1 only

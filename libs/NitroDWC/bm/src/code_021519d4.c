@@ -3,7 +3,7 @@
 #include "code_02151868.h"
 #include "code_02151fc4.h"
 #include "code_020205b0.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 #include "code_0214d93c.h"

@@ -20,7 +20,7 @@
 #include "03/code_021c2b28.h"
 #include "03/code_021d3278.h"
 #include "Main/Unknown/code_02000000.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0200f790.h"
 #include "code_0200fc8c.h"
 #include "code_02004dc0.h"

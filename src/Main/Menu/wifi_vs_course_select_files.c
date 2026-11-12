@@ -28,7 +28,7 @@
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "00/code_02181f98.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "Main/Graphics/cell_layout.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "code_0212df7c.h"

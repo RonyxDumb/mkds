@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/unk_02175000.h"
 #include "code_0200eddc.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "os_irqHandler.h"
 #include "gx.h"
 #include "Main/System/wvr_state.h"

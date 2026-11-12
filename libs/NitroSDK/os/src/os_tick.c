@@ -1,5 +1,4 @@
-#include "code_0200f5ac.h"
-
+#include "os_tick.h"
 #include "code_0200c914.h"
 #include "code_0200fc8c.h"
 #include "Main/Unknown/code_0200f000.h"
@@ -60,4 +59,10 @@ u64 OS_GetTick(void) {
     }
     OS_RestoreInterrupts(enabled);
     return (overflows << 16) | count;
+}
+
+u32 OS_GetTickLo(void) {
+    u32 value0;
+    value0 = reg_OS_TM0CNT_L;
+    return value0;
 }

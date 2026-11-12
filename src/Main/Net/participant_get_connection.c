@@ -1,6 +1,6 @@
 #include "Main/Net/participant_get_connection.h"
 #include "Main/Menu/title_scene.h"
-#include "code_0200f59c.h"
+#include "os_tick.h"
 #include "code_0214d018.h"
 #include "mb_parent.h"
 #include "Main/Unknown/code_0203b000.h"

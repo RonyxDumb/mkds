@@ -6,7 +6,7 @@
 #include "os_thread.h"
 #include "code_0214d018.h"
 #include "03/unk_021d8000.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_021329f8.h"
 #include "string.h"
 #include "code_02134398.h"

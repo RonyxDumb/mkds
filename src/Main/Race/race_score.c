@@ -9,7 +9,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "Main/Kart/karts.h"
 
 PointLink *GetKeyedPlacementBattlePointLink(u32 key) {

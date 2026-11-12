@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_02039530.h"
 #include "Main/System/input_keys.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 
 void ResetInputSlot(InputSlot *slot) {
     slot->mPressedBits = 0x0u;

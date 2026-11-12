@@ -9,7 +9,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_02133048.h"
 #include "code_0214d93c.h"
 

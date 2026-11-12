@@ -14,7 +14,7 @@
 #include "Main/Net/connection.h"
 #include "Main/Unknown/code_0211d4a8.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 
 #pragma thumb on
 

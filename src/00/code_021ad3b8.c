@@ -2,7 +2,7 @@
 #include "00/code_021a8878.h"
 #include "00/code_021ad734.h"
 #include "00/unk_021b6380.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 
 u32 dhcp_send_discover(void) {
     u32 queryId;

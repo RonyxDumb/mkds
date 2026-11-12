@@ -13,7 +13,7 @@
 #include "03/code_021d27d8.h"
 #include "string.h"
 #include "code_02134398.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "03/unk_021d6000.h"
 
 void AdvanceUsbScanReport(u32 task) {

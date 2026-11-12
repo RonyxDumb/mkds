@@ -16,7 +16,7 @@
 #include "00/code_0219b580.h"
 #include "00/code_021832d8.h"
 #include "01/code_021956dc.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0202056c.h"
 #include "code_021458c4.h"
 #include "code_0214d018.h"

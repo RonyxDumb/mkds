@@ -6,7 +6,7 @@
 #include "00/code_021884d8.h"
 #include "00/code_021894e4.h"
 #include "00/code_021a8aa8.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_02139f70.h"
 #include "code_0214d018.h"
 

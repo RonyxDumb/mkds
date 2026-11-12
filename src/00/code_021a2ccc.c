@@ -9,7 +9,7 @@
 #include "00/code_0219c384.h"
 #include "00/code_021a1000.h"
 #include "00/code_021a2000.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 #include "00/code_0219b000.h"

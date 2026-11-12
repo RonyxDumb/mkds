@@ -2,7 +2,7 @@
 #include "code_021510a4.h"
 #include "code_021519d4.h"
 #include "code_02151868.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0214d018.h"
 #include "code_0214d93c.h"
 #include "code_0200fc8c.h"

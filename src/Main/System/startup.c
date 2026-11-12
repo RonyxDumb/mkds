@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_02039000.h"
 #include "code_02148950.h"
 #include "Main/Unknown/unk_02175000.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0200f790.h"
 #include "gx.h"
 #include "code_0200c914.h"

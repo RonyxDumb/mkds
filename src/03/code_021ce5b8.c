@@ -12,7 +12,7 @@
 #include "code_0214d018.h"
 #include "03/code_021d3488.h"
 #include "03/code_021d27d8.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "registers.h"
 #include "03/code_021ce110.h"
 

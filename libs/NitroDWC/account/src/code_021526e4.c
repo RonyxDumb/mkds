@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_02152000.h"
 #include "Main/Net/friend_data_type_set.h"
 #include "Main/Net/friend_data_player_id.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "Main/Unknown/unk_0216f000.h"
 
 #pragma thumb on

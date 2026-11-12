@@ -1,7 +1,7 @@
 #include "00/code_0218e2dc.h"
 
 #include "00/unk_021b2000.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_02134398.h"
 #include "00/unk_021b4000.h"
 #include "00/code_021a88a8.h"

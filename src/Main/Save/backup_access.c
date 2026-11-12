@@ -4,7 +4,7 @@
 #include "Main/Net/slot_result_sync.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "os_spinLock.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0214578c.h"
 #include "01/code_021956dc.h"
 #include "Main/Scene/scene_connection.h"

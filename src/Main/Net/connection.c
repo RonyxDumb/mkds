@@ -4,7 +4,7 @@
 #include "Main/System/touch_mic_input.h"
 #include "Main/Net/participant_get_connection.h"
 #include "Main/Unknown/code_0200f000.h"
-#include "code_0200f59c.h"
+#include "os_tick.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_0203b000.h"
 #include "Main/Unknown/code_0203c000.h"

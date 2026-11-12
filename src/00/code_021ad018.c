@@ -2,7 +2,7 @@
 #include "00/code_021ad3b8.h"
 #include "00/code_021ad734.h"
 #include "00/unk_021b6380.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 
 BOOL dhcp_request_server(u32 *sleep, s32 mode) {
     s32 result;

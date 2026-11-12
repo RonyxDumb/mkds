@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "os_printf.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "string.h"
 #include "code_02134398.h"
 #include "code_0213a460.h"

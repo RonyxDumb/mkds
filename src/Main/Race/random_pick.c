@@ -3,7 +3,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0202056c.h"
 
 #pragma thumb on

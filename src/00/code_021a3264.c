@@ -7,7 +7,7 @@
 #include "00/unk_021b4000.h"
 #include "code_02139f70.h"
 #include "os_printf.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0200fc8c.h"
 #include "code_021329f8.h"
 #include "string.h"

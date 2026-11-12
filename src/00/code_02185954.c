@@ -22,7 +22,7 @@
 #include "00/code_021a6000.h"
 #include "os_printf.h"
 #include "os_thread.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_02139f70.h"
 #include "code_0213a460.h"
 #include "code_0214d018.h"

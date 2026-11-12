@@ -10,7 +10,7 @@
 #include "00/code_021a9228.h"
 #include "os_printf.h"
 #include "os_thread.h"
-#include "code_0200f5ac.h"
+#include "os_tick.h"
 #include "code_0200fe74.h"
 #include "code_0213a460.h"
 #include "code_02139f70.h"
