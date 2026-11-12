@@ -8618,10 +8618,10 @@ data_02159d90 kind:data(any) addr:0x02159d90
 gItemKindKinokoP kind:data(any) addr:0x02159dac
 data_02159e54 kind:data(any) addr:0x02159e54
 gItemKindBomb kind:data(any) addr:0x02159e70
-data_02159f18 kind:data(any) addr:0x02159f18
-data_02159f1c kind:data(any) addr:0x02159f1c
-data_02159f20 kind:data(any) addr:0x02159f20
-data_02159f24 kind:data(any) addr:0x02159f24
+gItemBombDisabledFlag kind:data(any) addr:0x02159f18
+gItemBombSkipViewTestFlag kind:data(any) addr:0x02159f1c
+gItemBombSkipListCallbackFlag kind:data(any) addr:0x02159f20
+gItemBombNoUpdateListFlag kind:data(any) addr:0x02159f24
 gItemBombNoOwnerBit kind:data(any) addr:0x02159f28
 gItemObjectDistanceSquaredMask kind:data(any) addr:0x02159f2c
 gItemBombState2StartScale kind:data(any) addr:0x02159f30
