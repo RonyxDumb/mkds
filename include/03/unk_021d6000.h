@@ -28,9 +28,9 @@ typedef struct Bytes68 {
     /* 00 */ u32 mUnk_00[0x11];
 } Bytes68;
 
-extern u8 gApScanEmptyBssid[];
+extern const u8 gApScanEmptyBssid[];
 extern u8 *gKind2ItemBuffer;
-extern Rect gTouchScreenRect;
+extern const Rect gTouchScreenRect;
 extern u16 gEditKeyboardPage0KeyTexts[50];
 extern u16 gEditKeyboardPage1KeyTexts[50];
 extern u16 gEditKeyboardPage2KeyTexts[50];

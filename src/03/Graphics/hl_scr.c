@@ -24,24 +24,25 @@ void *gHlNscNames[20] = {
 };
 char gJb4HlGatewayNscName[24] = "char/jb4HlGateway.nsc.l";
 char gJb5HlOptionNscName[23] = "char/jb5HlOption.nsc.l";
+char gJb3HlList1NscName[22] = "char/jb3HlList1.nsc.l";
 char gJb3HlList2NscName[22] = "char/jb3HlList2.nsc.l";
 char gJb3HlList3NscName[22] = "char/jb3HlList3.nsc.l";
 char gJb5HlEraseNscName[22] = "char/jb5HlErase.nsc.l";
-char gJb3HlList1NscName[22] = "char/jb3HlList1.nsc.l";
-char gJb4HlSsidNscName[21] = "char/jb4HlSsid.nsc.l";
-char gJb4HlDns0NscName[21] = "char/jb4HlDns0.nsc.l";
-char gJb4HlDns1NscName[21] = "char/jb4HlDns1.nsc.l";
-char gJb4HlMaskNscName[21] = "char/jb4HlMask.nsc.l";
-char gJb2HlWiFiNscName[21] = "char/jb2HlWiFi.nsc.l";
-char gJb4HlSet2NscName[21] = "char/jb4HlSet2.nsc.l";
 char gJb4HlSet3NscName[21] = "char/jb4HlSet3.nsc.l";
-char gJb4HlSet1NscName[21] = "char/jb4HlSet1.nsc.l";
-char gJb5HlMoveNscName[21] = "char/jb5HlMove.nsc.l";
+char gJb4HlDns0NscName[21] = "char/jb4HlDns0.nsc.l";
+char gJb4HlSet2NscName[21] = "char/jb4HlSet2.nsc.l";
+char gJb4HlSsidNscName[21] = "char/jb4HlSsid.nsc.l";
+char gJb2HlWiFiNscName[21] = "char/jb2HlWiFi.nsc.l";
 char gJb5HlInfoNscName[21] = "char/jb5HlInfo.nsc.l";
+char gJb4HlMaskNscName[21] = "char/jb4HlMask.nsc.l";
+char gJb4HlSet1NscName[21] = "char/jb4HlSet1.nsc.l";
+char gJb4HlDns1NscName[21] = "char/jb4HlDns1.nsc.l";
+char gJb5HlMoveNscName[21] = "char/jb5HlMove.nsc.l";
 char gJb4HlWepNscName[20] = "char/jb4HlWep.nsc.l";
 char gJb4HlUsbNscName[20] = "char/jb4HlUsb.nsc.l";
-char gJb2HlApNscName[19] = "char/jb2HlAp.nsc.l";
 char gJb4HlIpNscName[19] = "char/jb4HlIp.nsc.l";
+char gJb2HlApNscName[19] = "char/jb2HlAp.nsc.l";
+void *gHlScr;
 
 void InitHlScr(void) {
     gHlScr = AllocExpHeapBlock(0xc0, 4);

@@ -1,5 +1,8 @@
 #include "03/System/rect.h"
 #include "03/types_021d299c.h"
+#include "03/unk_021d6000.h"
+
+const Rect gTouchScreenRect = {0, 0, 0x100, 0xc0};
 
 void SetPosition(u16 positionX, u16 positionY, u16 *output) {
     *output = positionX;

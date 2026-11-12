@@ -22,10 +22,11 @@
 #include "03/unk_021d7000.h"
 #include "registers.h"
 
+void *gTextCanvasNftrNames[2] = {"msg/lc_m.NFTR.l", "msg/lc_s.NFTR.l"};
 const u16 gBgTextCanvasCharOffsets[2] = {0, 0x180};
 const u16 gBgTextCanvasSizes[4] = {0x20, 0x18, 0x20, 0xc};
 
-void *gTextCanvasNftrNames[2] = {"msg/lc_m.NFTR.l", "msg/lc_s.NFTR.l"};
+TextCanvases *gTextCanvases;
 
 void InitTextCanvases(void) {
     TextCanvases *canvases = AllocExpHeapBlock(0x798, 4);

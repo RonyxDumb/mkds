@@ -11,6 +11,8 @@
 #include "03/code_021d2e68.h"
 #include "code_0200c914.h"
 
+struct OamBuffers *gOamBuffers;
+
 void ReleaseOamBuffers(void) {
     RemoveTaskEntryWrapper(1, gOamBuffers->mUploadTask);
     FreeExpHeapBlockAndClearPointer(&gOamBuffers);

@@ -22,6 +22,7 @@
 #include "03/Net/wh.h"
 #include "mb_fileinfo.h"
 
+MultiBootParent *gMultiBootParent;
 u16 *gMultiBootMaskPointers[6];
 
 void InitMultiBootParent(u8 *object) {

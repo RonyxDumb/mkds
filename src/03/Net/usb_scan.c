@@ -20,6 +20,8 @@ const u8 gUsbScanEmptyBssid[6] = {0, 0, 0, 0, 0, 0};
 const u8 gUsbSsidPrefix[9] = {0x4e, 0x57, 0x43, 0x55, 0x53, 0x42, 0x41, 0x50, 0};
 const Bytes68 gUsbScanParamTemplate = {{0, 0x3fff0400, 0xffff0000, 0xffffffff, 0x200002, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}};
 
+UsbScan *gUsbScan;
+
 BOOL InitUsbScan(void (*callback)(u32)) {
     UsbScan *scan;
     OwnerInfo ownerInfo;
