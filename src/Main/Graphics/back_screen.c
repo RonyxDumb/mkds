@@ -20,12 +20,21 @@
 
 #pragma thumb on
 
-const char *gBackScreenSNclrNames[1] = {"back_screen_s_b_00.nclr"};
-const char *gBackScreenSNcgrNames[1] = {"back_screen_s_b_00.ncgr"};
-const char *gBackScreenSNscrNames[1] = {"back_screen_s_bg_00.nscr"};
-const char *gBackScreenMNscrNames[2] = {"back_screen_m_bg_00.nscr", "back_screen_m_bg_01.nscr"};
-const char *gBackScreenMNcgrNames[2] = {"back_screen_m_b_00.ncgr", "back_screen_m_b_01.ncgr"};
-const char *gBackScreenMNclrNames[2] = {"back_screen_m_b_00.nclr", "back_screen_m_b_01.nclr"};
+const char *gBackScreenSNclrNames[1] = {gBackScreenSNclr00Name};
+const char *gBackScreenSNcgrNames[1] = {gBackScreenSNcgr00Name};
+const char *gBackScreenSNscrNames[1] = {gBackScreenSNscrBg00Name};
+const char *gBackScreenMNcgrNames[2] = {gBackScreenMNcgr00Name, gBackScreenMNcgr01Name};
+const char *gBackScreenMNclrNames[2] = {gBackScreenMNclr00Name, gBackScreenMNclr01Name};
+const char *gBackScreenMNscrNames[2] = {gBackScreenMNscrBg00Name, gBackScreenMNscrBg01Name};
+char gBackScreenMNscrBg00Name[] = "back_screen_m_bg_00.nscr";
+char gBackScreenSNcgr00Name[] = "back_screen_s_b_00.ncgr";
+char gBackScreenSNclr00Name[] = "back_screen_s_b_00.nclr";
+char gBackScreenMNcgr00Name[] = "back_screen_m_b_00.ncgr";
+char gBackScreenMNcgr01Name[] = "back_screen_m_b_01.ncgr";
+char gBackScreenMNscrBg01Name[] = "back_screen_m_bg_01.nscr";
+char gBackScreenMNclr00Name[] = "back_screen_m_b_00.nclr";
+char gBackScreenSNscrBg00Name[] = "back_screen_s_bg_00.nscr";
+char gBackScreenMNclr01Name[] = "back_screen_m_b_01.nclr";
 
 void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void) {
     LoadedPartPointer loadedPartPointer;
