@@ -42,6 +42,7 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/ns_killer2.h"
 
 MapObjectModel *gMkdEfBurner;
 
@@ -244,3 +245,13 @@ u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner) {
 
 const u16 gMkdEfBurnerDisabledFlag = 1;
 const u32 gMkdEfBurnerSkipSoundFlag = 0x40000000;
+
+const MapObjectKindDescriptor gNsKiller2KindDescriptor = {0,
+                                                          {0, 0},
+                                                          0xac,
+                                                          (void (*)(void *, CourseMapRow *, void *)) InitNsKiller2,
+                                                          (MapObjectKindData * (*) (void) ) CreateNsKiller2KindData,
+                                                          (MapObjectList * (*) (void) ) CreateNsKiller2DrawList,
+                                                          0,
+                                                          0,
+                                                          (MapObjectList * (*) (void) ) CreateNsKiller2UpdateList};

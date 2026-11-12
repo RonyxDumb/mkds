@@ -8058,7 +8058,7 @@ gBasabasaSkipViewTestFlag kind:data(any) addr:0x02156464
 gBasabasaSkipListCallbackFlag kind:data(any) addr:0x02156468
 gMkdEfBurnerDisabledFlag kind:data(any) addr:0x0215646c
 gMkdEfBurnerSkipSoundFlag kind:data(any) addr:0x02156470
-data_usa_02156474 kind:data(any) addr:0x02156474
+gNsKiller2KindDescriptor kind:data(any) addr:0x02156474
 gNsKiller2SkipViewTestFlag kind:data(any) addr:0x021564a8
 gNsKiller2DisabledFlag kind:data(any) addr:0x021564ac
 gNsKiller2SkipSoundFlag kind:data(any) addr:0x021564b0

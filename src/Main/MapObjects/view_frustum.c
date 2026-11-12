@@ -1,6 +1,7 @@
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/System/heap.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/mkd_ef_burner.h"
 #include "Main/Race/race_start_sequence.h"
 
 #include "Main/MapObjects/woodbox.h"
@@ -95,7 +96,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {415, &gBasabasaKindDescriptor, NULL},
     {416, &gBasabasaBurstKindDescriptor, NULL},
     {420, &gMkdEfBurnerKindDescriptor, NULL},
-    {418, (MapObjectKindDescriptor *) &data_usa_02156474, NULL},
+    {418, (MapObjectKindDescriptor *) &gNsKiller2KindDescriptor, NULL},
     {417, &gNsKiller1KindDescriptor, NULL},
     {419, &gMoveTreeKindDescriptor, NULL},
     {315, &gTeresaKindDescriptor, NULL},

@@ -97,8 +97,6 @@ typedef struct MapObjectKindDescriptor {
 MapObjectList *FindMapObjectKindUpdateList(u32 kind);
 void *FindMapObjectKindDrawList0(u32 kind);
 
-// Kind descriptors that gMapObjectKindRows[].mDescriptor points at.
-extern const MapObjectKindDescriptor data_usa_02156474;
 extern const MapObjectKindDescriptor data_usa_021583d8;
 extern const MapObjectKindDescriptor gItemBoxKindDescriptor;
 extern const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor;

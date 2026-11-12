@@ -5,6 +5,7 @@
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "01/MapObjects/data_0209bc74.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 // Object of kind 0x1a4 (MkdEfBurner); the draw group record (word +0x1c) is not part of this
 // object. After the shared part, a counter at 0xa0, a halfword at 0xa4, a value at 0xa8, a
@@ -39,3 +40,4 @@ void InitMkdEfBurner(
 extern const u16 gMkdEfBurnerDisabledFlag;
 extern const u32 gMkdEfBurnerSkipSoundFlag;
 extern struct MapObjectModel *gMkdEfBurner;
+extern const MapObjectKindDescriptor gNsKiller2KindDescriptor;
