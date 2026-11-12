@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0204bca0.h"
-
+#include "Main/Unknown/code_0204db40.h"
 #include "03/code_021b94b8.h"
 #include "os_thread.h"
 #include "Main/Unknown/unk_02175000.h"
@@ -21,10 +21,13 @@
 #include "code_02004dc0.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0204db40.h"
 #include "Main/Unknown/code_0204db48.h"
 #include "Main/Unknown/unk_02165000.h"
 #include "code_021458c4.h"
+
+s32 RomArchiveWriteCallback(FSArchive *archive, const void *src, u32 dst, u32 length) {
+    return 1;
+}
 
 s32 RomArchiveChildProc(FSFile *file, u32 command) {
     switch (command) {
