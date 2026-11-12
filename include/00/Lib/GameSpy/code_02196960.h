@@ -22,55 +22,8 @@ typedef struct ServerReq {
     /* 18 */ ServerReqCallback mCallback;
 } ServerReq;
 
-typedef struct ConnErrorBytes {
-    /* 00 */ u8 mText[0x10];
-} ConnErrorBytes;
-
-typedef struct SetPersistRespformatText {
-    /* 00 */ s8 mText[0x3f];
-} SetPersistRespformatText;
-
-typedef struct ConnErrorText {
-    /* 00 */ s8 mText[0x10];
-} ConnErrorText;
-
-typedef struct KeyspecText {
-    /* 00 */ s8 mText[0x100];
-} KeyspecText;
-
-typedef struct ChallengeRespformatText {
-    /* 00 */ s8 mText[0x2c];
-} ChallengeRespformatText;
-
-extern s32 gSock;
-extern u8 *gEnc;
-extern char gSessKeyStr[];
-extern char gChallengeStr[];
-extern const ConnErrorText gConnErrorSendAuth;
-extern ConnErrorBytes gConnErrorClosePending;
-extern const ChallengeRespformatText gChallengeRespformat;
-extern const SetPersistRespformatText gSetPersistRespformat;
-extern const KeyspecText gValueForKeyKeyspec;
-extern char gSetpdrKey[];
-extern char gStatsPidKey[];
-extern const char gLidKey[];
-extern char gModKey[];
-extern char gGetpdrKey[];
-extern char gLengthKey[];
-extern char gDataMarker[];
-extern const s8 gEmptyValue[];
-extern char gGetpidrKey[];
-extern const char gPauthrKey[];
-extern const char gErrmsgKey[];
-extern const char gKeyspecDelimiter[];
-extern const char gCreateChallengeFormat[];
-extern const char gChallengeHashFormat[];
-extern u32 gConnId;
-extern void *gServerReqs;
-extern s32 gValueIndex;
 extern char gcd_gamename[];
 extern char gcd_secret_key[];
-extern s8 gValueForKeyValues[];
 
 void ClosePendingCallbacks(void);
 void CallReqCallback(s32 requestPos, s32 success, s32 modified, const u8 *data, s32 length);
@@ -98,36 +51,12 @@ s32 DoSend(s8 *data, s32 len);
 s32 RecvSessionKey(void);
 s32 SendChallengeResponse(const s8 *indata, u32 gameport);
 
-typedef struct PreAuthPMRespformatText {
-    /* 00 */ s8 mText[0x24];
-} PreAuthPMRespformatText;
-
-// 0x1d bytes written into the buffer of GenerateAuthA when the two strings are too long.
-typedef struct CdKeyTooLongText {
-    /* 00 */ s8 mUnk_00[0x1d];
-} CdKeyTooLongText;
-
-extern const PreAuthPMRespformatText gPreAuthPMRespformat;
-extern const char gStatsServerHostname[];
-extern const char gInitStatsThinkAssert[];
-extern const char gGstatsFileName[];
-extern const char gHostnameDot[];
-extern const CdKeyTooLongText gCdKeyTooLongText;
-extern const char gGenerateAuthFormat[];
-extern u32 gInitStart;
-extern s32 gRcvLen;
-extern s8 *gRcvBuffer;
-extern s32 gStatsInitState;
-extern u32 gSessKey;
-extern s32 gGamePort;
-extern s8 *gStatsGame;
-extern s32 gRcvMax;
-extern s8 gChallenge[];
+extern char gStatsServerHostname[];
 
 void InternalInit(void);
 BOOL PersistThink(void);
 void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, u32 valueString, u32 callback, u32 instance);
-void PreAuthenticatePlayerPartner(s32 localId, s32 profileId, s32 challengeResponse, UnkFunc *callback, s32 instance);
+void PreAuthenticatePlayerPartner(s32 ownId, s32 tokenText, s32 responseText, UnkFunc *callback, s32 instance);
 s8 *GetChallenge(s8 *game);
 void GstatsClose(void);
 s32 GstatsConnect(s32 gameport);

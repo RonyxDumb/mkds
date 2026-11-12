@@ -91,7 +91,6 @@ typedef struct GsiAvailableCheck {
     /* 54 */ s32 mRetryCount;
 } GsiAvailableCheck;
 
-extern u8 gInternalInit[];
 extern u8 NNMagicData[];
 
 #include "00/Lib/DWC/dwc_connectinet.h"

@@ -2191,46 +2191,46 @@ gSearchManagerName kind:data(any) addr:0x021b3578
 @1555 kind:data(any) addr:0x021b3ac8 local
 @1562 kind:data(any) addr:0x021b3ad0 local
 @1563 kind:data(any) addr:0x021b3ae0 local
-gSock kind:data(any) addr:0x021b3aec
-gEnc kind:data(any) addr:0x021b3af0
-gInitTimeout kind:data(any) addr:0x021b3af4
-gSessKeyStr kind:data(any) addr:0x021b3af8
-gChallengeStr kind:data(any) addr:0x021b3b00
-gFinalStr kind:data(any) addr:0x021b3b0c
-gEnc2 kind:data(any) addr:0x021b3b18
-gConnErrorSendAuth kind:data(any) addr:0x021b3b28
-gConnErrorClosePending kind:data(any) addr:0x021b3b38
-gEnc1 kind:data(any) addr:0x021b3b48
-gEnc3 kind:data(any) addr:0x021b3b58
-gStatsFile kind:data(any) addr:0x021b3b68
-gPreAuthPMRespformat kind:data(any) addr:0x021b3b78
-gChallengeRespformat kind:data(any) addr:0x021b3b9c
-gSetPersistRespformat kind:data(any) addr:0x021b3bc8
+gSock kind:data(any) addr:0x021b3aec local
+gEnc kind:data(any) addr:0x021b3af0 local
+gInitTimeout kind:data(any) addr:0x021b3af4 local
+gSessKeyStr kind:data(any) addr:0x021b3af8 local
+gChallengeStr kind:data(any) addr:0x021b3b00 local
+gFinalStr kind:data(any) addr:0x021b3b0c local
+gEnc2 kind:data(any) addr:0x021b3b18 local
+@1755 kind:data(any) addr:0x021b3b28 local
+@1959 kind:data(any) addr:0x021b3b38 local
+gEnc1 kind:data(any) addr:0x021b3b48 local
+gEnc3 kind:data(any) addr:0x021b3b58 local
+gStatsFile kind:data(any) addr:0x021b3b68 local
+@1552 kind:data(any) addr:0x021b3b78 local
+@1602 kind:data(any) addr:0x021b3b9c local
+@1776 kind:data(any) addr:0x021b3bc8 local
 gStatsServerHostname kind:data(any) addr:0x021b3c08
-gValueForKeyKeyspec kind:data(any) addr:0x021b3c48
-gPauthrStatement kind:data(any) addr:0x021b3d48
-gGetpidrStatement kind:data(any) addr:0x021b3d54
-gGetpdrStatement kind:data(any) addr:0x021b3d60
-gSetpdrStatement kind:data(any) addr:0x021b3d6c
-gSetpdrKey kind:data(any) addr:0x021b3d78
-gStatsPidKey kind:data(any) addr:0x021b3d80
-gLidKey kind:data(any) addr:0x021b3d84
-gModKey kind:data(any) addr:0x021b3d88
-gGetpdrKey kind:data(any) addr:0x021b3d8c
-gLengthKey kind:data(any) addr:0x021b3d94
-gDataMarker kind:data(any) addr:0x021b3d9c
-gEmptyValue kind:data(any) addr:0x021b3da4
-gGetpidrKey kind:data(any) addr:0x021b3da8
-gPauthrKey kind:data(any) addr:0x021b3db0
-gErrmsgKey kind:data(any) addr:0x021b3db8
-gKeyspecDelimiter kind:data(any) addr:0x021b3dc0
-gCreateChallengeFormat kind:data(any) addr:0x021b3dc4
-gChallengeHashFormat kind:data(any) addr:0x021b3dcc
-gInitStatsThinkAssert kind:data(any) addr:0x021b3dd4
-gGstatsFileName kind:data(any) addr:0x021b3df4
-gHostnameDot kind:data(any) addr:0x021b3e00
-gCdKeyTooLongText kind:data(any) addr:0x021b3e04
-gGenerateAuthFormat kind:data(any) addr:0x021b3e24
+@1693 kind:data(any) addr:0x021b3c48 local
+@2018 kind:data(any) addr:0x021b3d48 local
+@2019 kind:data(any) addr:0x021b3d54 local
+@2020 kind:data(any) addr:0x021b3d60 local
+@2021 kind:data(any) addr:0x021b3d6c local
+@2034 kind:data(any) addr:0x021b3d78 local
+@2035 kind:data(any) addr:0x021b3d80 local
+@2036 kind:data(any) addr:0x021b3d84 local
+@2037 kind:data(any) addr:0x021b3d88 local
+@2056 kind:data(any) addr:0x021b3d8c local
+@2057 kind:data(any) addr:0x021b3d94 local
+@2058 kind:data(any) addr:0x021b3d9c local
+@2059 kind:data(any) addr:0x021b3da4 local
+@2076 kind:data(any) addr:0x021b3da8 local
+@2094 kind:data(any) addr:0x021b3db0 local
+@2095 kind:data(any) addr:0x021b3db8 local
+@2210 kind:data(any) addr:0x021b3dc0 local
+@2219 kind:data(any) addr:0x021b3dc4 local
+@2291 kind:data(any) addr:0x021b3dcc local
+@2433 kind:data(any) addr:0x021b3dd4 local
+@2434 kind:data(any) addr:0x021b3df4 local
+@2473 kind:data(any) addr:0x021b3e00 local
+@2480 kind:data(any) addr:0x021b3e04 local
+@2481 kind:data(any) addr:0x021b3e24 local
 gGt2ChallengeKey kind:data(any) addr:0x021b3e2c
 @3301 kind:data(any) addr:0x021b3e50 local
 @3302 kind:data(any) addr:0x021b3e58 local
@@ -2415,33 +2415,33 @@ gGsiAcGamename kind:bss addr:0x021b4d2c
 gGsiAvailableCheck kind:bss addr:0x021b4d6c
 aliases kind:bss addr:0x021b4dc4 local
 GSINitroErrno kind:bss addr:0x021b4dc8 local
-localhost$2004 kind:bss addr:0x021b4dcc local
+loopbackEntry$2011 kind:bss addr:0x021b4dcc local
 ips$2006 kind:bss addr:0x021b4ddc local
-ipPtrs$2005 kind:bss addr:0x021b4df0 local
-gInitStart kind:bss addr:0x021b4e08
-gConnId kind:bss addr:0x021b4e0c
-gInternalInit kind:bss addr:0x021b4e10
-gRcvLen kind:bss addr:0x021b4e14
-gRcvBuffer kind:bss addr:0x021b4e18
-gServerReqs kind:bss addr:0x021b4e1c
-gStatsInitState kind:bss addr:0x021b4e20
-gSessKey kind:bss addr:0x021b4e24
-gGamePort kind:bss addr:0x021b4e28
-gStatsGame kind:bss addr:0x021b4e2c
-gValueIndex kind:bss addr:0x021b4e30
-gRcvMax kind:bss addr:0x021b4e34
-gChallenge kind:bss addr:0x021b4e38
+addrList$2012 kind:bss addr:0x021b4df0 local
+gInitStart kind:bss addr:0x021b4e08 local
+gConnId kind:bss addr:0x021b4e0c local
+gInternalInit kind:bss addr:0x021b4e10 local
+gRcvLen kind:bss addr:0x021b4e14 local
+gRcvBuffer kind:bss addr:0x021b4e18 local
+gServerReqs kind:bss addr:0x021b4e1c local
+gStatsInitState kind:bss addr:0x021b4e20 local
+gSessKey kind:bss addr:0x021b4e24 local
+gGamePort kind:bss addr:0x021b4e28 local
+gStatsGame kind:bss addr:0x021b4e2c local
+gValueIndex kind:bss addr:0x021b4e30 local
+gRcvMax kind:bss addr:0x021b4e34 local
+challenge$1538 kind:bss addr:0x021b4e38 local
 gcd_gamename kind:bss addr:0x021b4e44
 gcd_secret_key kind:bss addr:0x021b4f44
-gValueForKeyValues kind:bss addr:0x021b5044
-nIndex$1290 kind:bss addr:0x021b5244 local
+gValueForKeyValues$1694 kind:bss addr:0x021b5044 local
+slotIndex$1297 kind:bss addr:0x021b5244 local
 strAddressArray$1289 kind:bss addr:0x021b5248 local
 Matchup2Hostname kind:bss addr:0x021b5274
 Matchup1Hostname kind:bss addr:0x021b5278
 matchup2ip kind:bss addr:0x021b527c
 matchup1ip kind:bss addr:0x021b5280
 negotiateList kind:bss addr:0x021b5284
-indata$1570 kind:bss addr:0x021b5288 local
+receiveBuffer$1577 kind:bss addr:0x021b5288 local
 gWiFiConnection kind:bss addr:0x021b5488
 stLastSocketError kind:bss addr:0x021b548c
 stGt2ConnectionList kind:bss addr:0x021b5490
