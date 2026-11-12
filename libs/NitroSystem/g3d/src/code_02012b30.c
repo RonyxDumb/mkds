@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "registers.h"
-#include "code_02147954.h"
+#include "fx_mtx44.h"
 
 // Returns the texture block of a model or texture file, or NULL when the file has none.
 NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *file) {

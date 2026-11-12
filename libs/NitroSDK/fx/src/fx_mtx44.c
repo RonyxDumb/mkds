@@ -1,6 +1,6 @@
+#include "fx_mtx44.h"
 #include "code_021479b4.h"
 
-// Multiplies the 4x4 matrices a and b and writes the product to ab; ab may be the same as a or b.
 void MTX_Concat44(const MtxFx44 *lhs, const MtxFx44 *rhs, MtxFx44 *product) {
     MtxFx44 scratch;
     MtxFx44 *result;
@@ -81,3 +81,35 @@ void MTX_Concat44(const MtxFx44 *lhs, const MtxFx44 *rhs, MtxFx44 *product) {
         *product = scratch;
     }
 }
+
+asm void MTX_Identity44_(MtxFx44 *dst) {
+    mov r2, #0x1000
+    mov r3, #0
+    stmia r0!, {r2, r3}
+    mov r1, #0
+    stmia r0!, {r1, r3}
+    stmia r0!, {r1, r2, r3}
+    stmia r0!, {r1, r3}
+    stmia r0!, {r1, r2, r3}
+    stmia r0!, {r1, r3}
+    stmia r0!, {r1, r2}
+    bx lr
+}
+
+// Copies the first three words of each of the four rows of the 4x4 matrix at src to dst (a 4x3 matrix).
+asm void MTX_Copy44To43_(const MtxFx44 *src, MtxFx43 *dst) {
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    bx lr
+}
+// clang-format on

@@ -17,7 +17,7 @@
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_02171000.h"
 #include "registers.h"
-#include "code_02147954.h"
+#include "fx_mtx44.h"
 
 // Draws one shape of the model, first sending the material and the texture matrix when sendMat is set.
 void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMat) {

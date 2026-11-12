@@ -4094,14 +4094,9 @@ libs/NitroSDK/fx/src/fx_mtx43.c:
     .text       start:0x021471bc end:0x02147954
 
 // provisional: file name and boundaries
-libs/NitroSDK/fx/src/code_02147954.c:
+libs/NitroSDK/fx/src/fx_mtx44.c:
     complete
-    .text       start:0x02147954 end:0x021479b4
-
-// provisional: file name and boundaries
-libs/NitroSDK/fx/src/code_021479b4.c:
-    complete
-    .text       start:0x021479b4 end:0x02147cd8
+    .text       start:0x02147954 end:0x02147cd8
 
 // provisional: file name and boundaries
 libs/NitroSDK/fx/src/code_02147cd8.c:
