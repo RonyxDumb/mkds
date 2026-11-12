@@ -14,3 +14,5 @@ typedef struct WMDcfRecvBuf {
 void WCMi_ShelterRssi(u8 rssi);
 s32 WcmGetLinkLevel(void);
 u8 WCMi_GetRssiAverage(void);
+
+u32 WCM_GetLinkLevel(void);

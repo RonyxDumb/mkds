@@ -4,7 +4,7 @@
 #include "code_0200e77c.h"
 #include "code_02142eac.h"
 #include "00/unk_021b5000.h"
-#include "00/code_021a6c08.h"
+#include "00/util.h"
 
 BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex);
 

@@ -20,7 +20,7 @@
 #include "00/code_021a8aa8.h"
 #include "string.h"
 #include "code_02134398.h"
-#include "00/code_021a6ce4.h"
+#include "00/util.h"
 
 void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslThreadPriority) {
     if (gInetControl == NULL) {

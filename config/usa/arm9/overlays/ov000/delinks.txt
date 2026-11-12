@@ -591,14 +591,9 @@ src/00/cpsif.c:
     .text       start:0x021a68d4 end:0x021a6bd4
 
 // provisional: file name and boundaries
-src/00/code_021a6c08.c:
+src/00/util.c:
     complete
-    .text       start:0x021a6bd4 end:0x021a6cb0
-
-// provisional: file name and boundaries
-src/00/code_021a6ce4.c:
-    complete
-    .text       start:0x021a6cb0 end:0x021a6ce8
+    .text       start:0x021a6bd4 end:0x021a6ce8
 
 // provisional: file name and boundaries
 src/00/code_021a6d1c.c:
