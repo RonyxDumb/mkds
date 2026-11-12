@@ -81,9 +81,52 @@ const u8 gResultsBattleRankZeroLabelTextRows[64] = {0, 0, 0xb0, 0, 0x10, 0, 0, 0
                                                     2, 0, 0x96, 0, 0x10, 0, 2, 0, 3, 0, 0x96, 0, 0x10, 0, 3, 0,
                                                     4, 0, 0x96, 0, 0x10, 0, 4, 0, 5, 0, 0x96, 0, 0x10, 0, 5, 0,
                                                     6, 0, 0x96, 0, 0x10, 0, 6, 0, 7, 0, 0x96, 0, 0x10, 0, 7, 0};
-const u16 gResultsBattleTeamFirstCellIndices[8] = {0, 2, 6, 0xc, 0x14, 0x1e, 0x2a, 0};
 const u16 gResultsBattleKartFirstCellIndices[8] = {0, 4, 0xa, 0x12, 0x1c, 0x28, 0x36, 0};
+const u16 gResultsBattleTeamFirstCellIndices[8] = {0, 2, 6, 0xc, 0x14, 0x1e, 0x2a, 0};
 const u8 gResultsBattleOwnEntryLabelTextRows[8] = {0, 0, 0x8c, 0, 0x10, 0, 0, 0};
+char gResultsBattleVictoryBNcgrName[] = "results_battle_victory_m_b.NCGR";
+char gResultsBattleVictoryBNclrName[] = "results_battle_victory_m_b.NCLR";
+char gResultsBattleVictoryUpperNscrName[] = "results_battle_victory_m_upper.NSCR";
+char gResultsBattleVictoryLowerNscrName[] = "results_battle_victory_m_lower.NSCR";
+char gResultsBattleVictoryNcgrName[] = "results_battle_victory_m.nce.ncgr";
+char gResultsBattleVictoryNcerName[] = "results_battle_victory_m.nce.ncer";
+char gResultsBattleVictoryONclrName[] = "results_battle_victory_m_o.NCLR";
+char gResultsBattleVictoryBnclName[] = "Results_battle_victory_m.bncl";
+char gResultsBattleVictoryBnllName[] = "Results_battle_victory_m.bnll";
+char gResultsBattleVsRedNcerName[] = "results_battle_VS_m.nce.ncer";
+char gResultsBattleDrawONclrName[] = "results_battle_draw_m_o.NCLR";
+char gResultsBattleLoseUpperNscrName[] = "results_battle_lose_m_upper.NSCR";
+char gResultsBattleLoseLowerNscrName[] = "results_battle_lose_m_lower.NSCR";
+char gResultsBattleLoseNcgrName[] = "results_battle_lose_m.nce.ncgr";
+char gResultsBattleLoseNcerName[] = "results_battle_lose_m.nce.ncer";
+char gResultsBattleLoseONclrName[] = "results_battle_lose_m_o.NCLR";
+char gResultsBattleLoseBnclName[] = "Results_battle_lose_m.bncl";
+char gResultsBattleVsRedBNclrName[] = "results_battle_VS_m_b.NCLR";
+char gResultsBattleLoseBNclrName[] = "results_battle_lose_m_b.NCLR";
+char gResultsBattleDrawBNclrName[] = "results_battle_draw_m_b.NCLR";
+char gResultsBattleDrawUpperNscrName[] = "results_battle_draw_m_upper.NSCR";
+char gResultsBattleDrawLowerNscrName[] = "results_battle_draw_m_lower.NSCR";
+char gResultsBattleDrawNcgrName[] = "results_battle_draw_m.nce.ncgr";
+char gResultsBattleDrawNcerName[] = "results_battle_draw_m.nce.ncer";
+char gResultsBattleDrawBNcgrName[] = "results_battle_draw_m_b.NCGR";
+char gResultsBattleDrawBnclName[] = "Results_battle_draw_m.bncl";
+char gResultsBattleVsBlueBNclrName[] = "results_battle_VS_m_b.NCLR";
+char gResultsBattleVsBlueBNcgrName[] = "results_battle_VS_m_b.NCGR";
+char gResultsBattleVsBlueUpperNscrName[] = "results_battle_VS_m_upper_blue.NSCR";
+char gResultsBattleVsBlueLowerNscrName[] = "results_battle_VS_m_lower_blue.NSCR";
+char gResultsBattleVsBlueNcgrName[] = "results_battle_VS_m.nce.ncgr";
+char gResultsBattleVsBlueNcerName[] = "results_battle_VS_m.nce.ncer";
+char gResultsBattleVsRedONclrName[] = "results_battle_VS_m_o.NCLR";
+char gResultsBattleVsRedBnclName[] = "Results_battle_VS_m.bncl";
+char gResultsBattleLoseBnllName[] = "Results_battle_lose_m.bnll";
+char gResultsBattleVsRedBNcgrName[] = "results_battle_VS_m_b.NCGR";
+char gResultsBattleVsRedUpperNscrName[] = "results_battle_VS_m_upper_red.NSCR";
+char gResultsBattleVsRedLowerNscrName[] = "results_battle_VS_m_lower_red.NSCR";
+char gResultsBattleVsRedNcgrName[] = "results_battle_VS_m.nce.ncgr";
+char gResultsBattleLoseBNcgrName[] = "results_battle_lose_m_b.NCGR";
+char gResultsBattleVsBlueONclrName[] = "results_battle_VS_m_o.NCLR";
+char gResultsBattleVsBlueBnclName[] = "Results_battle_VS_m.bncl";
+const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {{gResultsBattleVictoryBNcgrName, gResultsBattleVictoryBNclrName, gResultsBattleVictoryUpperNscrName, gResultsBattleVictoryLowerNscrName, gResultsBattleVictoryNcgrName, gResultsBattleVictoryNcerName, gResultsBattleVictoryONclrName, gResultsBattleVictoryBnclName, gResultsBattleVictoryBnllName}, {gResultsBattleLoseBNcgrName, gResultsBattleLoseBNclrName, gResultsBattleLoseUpperNscrName, gResultsBattleLoseLowerNscrName, gResultsBattleLoseNcgrName, gResultsBattleLoseNcerName, gResultsBattleLoseONclrName, gResultsBattleLoseBnclName, gResultsBattleLoseBnllName}, {gResultsBattleDrawBNcgrName, gResultsBattleDrawBNclrName, gResultsBattleDrawUpperNscrName, gResultsBattleDrawLowerNscrName, gResultsBattleDrawNcgrName, gResultsBattleDrawNcerName, gResultsBattleDrawONclrName, gResultsBattleDrawBnclName, NULL}, {gResultsBattleVsBlueBNcgrName, gResultsBattleVsBlueBNclrName, gResultsBattleVsBlueUpperNscrName, gResultsBattleVsBlueLowerNscrName, gResultsBattleVsBlueNcgrName, gResultsBattleVsBlueNcerName, gResultsBattleVsBlueONclrName, gResultsBattleVsBlueBnclName, NULL}, {gResultsBattleVsRedBNcgrName, gResultsBattleVsRedBNclrName, gResultsBattleVsRedUpperNscrName, gResultsBattleVsRedLowerNscrName, gResultsBattleVsRedNcgrName, gResultsBattleVsRedNcerName, gResultsBattleVsRedONclrName, gResultsBattleVsRedBnclName, NULL}};
 ResultsBattle *gResultsBattle;
 
 // Reads the table of gCupRecords, a row chosen by one call and a column by another.

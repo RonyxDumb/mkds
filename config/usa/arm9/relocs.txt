@@ -5723,14 +5723,14 @@ from:0x0203337c kind:load to:0x0217d364 module:main
 from:0x02033390 kind:load to:0x0217a9fc module:main
 from:0x020333a0 kind:load to:0x0204799d module:main
 from:0x020333a4 kind:load to:0x02153f80 module:main
-from:0x020333a8 kind:load to:0x02153f84 module:main
-from:0x020333ac kind:load to:0x02153f8c module:main
-from:0x020333b0 kind:load to:0x02153f88 module:main
-from:0x020333b8 kind:load to:0x02153f9c module:main
-from:0x020333bc kind:load to:0x02153fa0 module:main
-from:0x020333c0 kind:load to:0x02153f90 module:main
-from:0x020333c4 kind:load to:0x02153f94 module:main
-from:0x020333c8 kind:load to:0x02153f98 module:main
+from:0x020333a8 kind:load to:0x02153f80 add:0x4 module:main
+from:0x020333ac kind:load to:0x02153f80 add:0xc module:main
+from:0x020333b0 kind:load to:0x02153f80 add:0x8 module:main
+from:0x020333b8 kind:load to:0x02153f80 add:0x1c module:main
+from:0x020333bc kind:load to:0x02153f80 add:0x20 module:main
+from:0x020333c0 kind:load to:0x02153f80 add:0x10 module:main
+from:0x020333c4 kind:load to:0x02153f80 add:0x14 module:main
+from:0x020333c8 kind:load to:0x02153f80 add:0x18 module:main
 from:0x020333ce kind:thumb_call to:0x02025abc module:main
 from:0x020333d8 kind:thumb_call to:0x02025a50 module:main
 from:0x02033402 kind:thumb_call to:0x02033a0c module:main
