@@ -1,6 +1,4 @@
-#include "code_0200ce60.h"
-#include "code_0200cdb0.h"
-#include "code_0200ce30.h"
+#include "os_spinLock.h"
 #include "Main/Unknown/code_02000000.h"
 #include "Main/Unknown/code_0200c000.h"
 #include "Main/Unknown/code_0200e000.h"
@@ -112,3 +110,89 @@ s32 OS_UnlockCartridge(u16 lockID) {
 s32 OS_TryLockCartridge(u16 lockID) {
     return OSi_DoTryLockByWord(lockID, &SYSTEM_WORK->mLockCartridge, OSi_AllocateCartridgeBus, 1);
 }
+
+void OSi_AllocateCartridgeBus(void) {
+    reg_MI_EXMEMCNT &= ~0x80;
+}
+
+void OSi_FreeCartridgeBus(void) {
+    reg_MI_EXMEMCNT |= 0x80;
+}
+
+s32 OS_LockCard(u16 lockID) {
+    return OS_LockByWord(lockID, &SYSTEM_WORK->mLockCard, OSi_AllocateCardBus);
+}
+
+s32 OS_UnlockCard(u16 lockID) {
+    return OS_UnlockByWord(lockID, &SYSTEM_WORK->mLockCard, OSi_FreeCardBus);
+}
+
+void OSi_AllocateCardBus(void) {
+    reg_MI_EXMEMCNT &= ~0x800;
+}
+
+void OSi_FreeCardBus(void) {
+    reg_MI_EXMEMCNT |= 0x800;
+}
+
+u16 OS_ReadOwnerOfLockWord(OSLockWord *lockp) {
+    return lockp->mOwnerID;
+}
+
+void OSi_WaitByLoop(void) {
+    OS_SpinWait(0x1000u);
+}
+
+asm s32 OS_UnLockCartridge(u16 lockID) {
+    ldr r1, =OS_UnlockCartridge
+    bx r1
+}
+// clang-format on
+
+// clang-format off
+// Takes the highest set bit out of the two words at 0x027fffb0 (first word, then the second) and returns its number:
+// 0x40 plus the bit position counted from the top for the first word, 0x60 plus it for the second, or -3 when both
+// words are zero.
+// Hand-written asm: counts leading zeros with clz.
+asm s32 OS_GetLockID(void) {
+    ldr r3, =0x27fffb0
+    ldr r1, [r3, #0x0]
+    clz r2, r1
+    cmp r2, #0x20
+    movne r0, #0x40
+    bne cd28_clear
+    add r3, r3, #0x4
+    ldr r1, [r3, #0x0]
+    clz r2, r1
+    cmp r2, #0x20
+    ldr r0, =0xfffffffd
+    bxeq lr
+    mov r0, #0x60
+cd28_clear:
+    add r0, r0, r2
+    mov r1, #0x80000000
+    mov r1, r1, lsr r2
+    ldr r2, [r3, #0x0]
+    bic r2, r2, r1
+    str r2, [r3, #0x0]
+    bx lr
+}
+// clang-format on
+
+// clang-format off
+// Hand-written asm: sets bit lockID of the two words at 0x027fffb0 (bits 0x40 to 0x5f in the first, 0x60 and up in the
+// second). It tests with pl/mi after a compare.
+asm void OS_ReleaseLockID(u16 lockID) {
+    ldr r3, =0x27fffb0
+    cmp r0, #0x60
+    addpl r3, r3, #0x4
+    subpl r0, r0, #0x60
+    submi r0, r0, #0x40
+    mov r1, #0x80000000
+    mov r1, r1, lsr r0
+    ldr r2, [r3, #0x0]
+    orr r2, r2, r1
+    str r2, [r3, #0x0]
+    bx lr
+}
+// clang-format on

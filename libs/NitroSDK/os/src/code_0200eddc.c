@@ -3,7 +3,7 @@
 #include "code_0200c4a4.h"
 #include "code_0200c914.h"
 #include "code_0200cd04.h"
-#include "code_0200ce60.h"
+#include "os_spinLock.h"
 #include "os_thread.h"
 #include "mi_init.h"
 #include "Main/Unknown/code_0200f000.h"

@@ -2,7 +2,7 @@
 
 #include "Main/Unknown/unk_0216f000.h"
 #include "Main/Unknown/unk_02180000.h"
-#include "code_0200cd1c.h"
+#include "os_spinLock.h"
 #include "code_0200fc8c.h"
 #include "code_0214c778.h"
 #include "Main/Unknown/code_0200c000.h"

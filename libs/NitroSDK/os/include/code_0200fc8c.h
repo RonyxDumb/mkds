@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_0200c4a4.h"
-#include "code_0200ce60.h"
+#include "os_spinLock.h"
 #include "code_0200eddc.h"
 #include "code_021458c4.h"
 #include "code_0214d93c.h"

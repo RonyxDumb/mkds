@@ -1,10 +1,8 @@
 #include "code_0200e6ec.h"
 
 #include "cp_context.h"
-#include "code_0200cd1c.h"
+#include "os_spinLock.h"
 #include "code_0200e77c.h"
-#include "code_0200cdc0.h"
-#include "code_0200ce60.h"
 #include "Main/Unknown/code_0200c000.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "os_thread.h"

@@ -1,5 +1,5 @@
 #include "code_0214578c.h"
-#include "code_0200cdf8.h"
+#include "os_spinLock.h"
 #include "code_021458c4.h"
 
 // Takes the ROM target for the lock id, then OS_LockCard.

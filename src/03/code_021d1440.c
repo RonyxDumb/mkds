@@ -17,7 +17,7 @@
 #include "code_0200fc8c.h"
 #include "03/code_021d1d60.h"
 #include "03/unk_021d67d8.h"
-#include "code_0200cd1c.h"
+#include "os_spinLock.h"
 #include "os_printf.h"
 #include "code_0214578c.h"
 

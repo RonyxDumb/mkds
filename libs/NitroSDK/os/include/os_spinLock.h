@@ -2,8 +2,35 @@
 
 #include "types.h"
 
-// Lock word at a fixed address: mLockFlag is swapped to take the lock, mOwnerID holds the id of the owner, mExtension
-// is used by OS_InitLock.
+s32 OS_UnLockCartridge(u16 lockID);
+// Takes a free lock id out of the lock id table and returns it, or -3 when none is left.
+s32 OS_GetLockID(void);
+// Puts a lock id back into the lock id table.
+void OS_ReleaseLockID(u16 lockID);
+
+void OSi_WaitByLoop(void);
+
+typedef struct OSLockWord OSLockWord;
+
+// Returns the owner id of a lock word.
+u16 OS_ReadOwnerOfLockWord(OSLockWord *lockp);
+
+void OSi_FreeCardBus(void);
+// Hands the card bus to the ARM9 (clears bit 0x800 of the halfword at 0x04000204). OS_LockCard runs it once the card
+// lock word is taken.
+void OSi_AllocateCardBus(void);
+
+s32 OS_UnlockCard(u16 lockID);
+// Takes the card lock word for lockID, retrying (with OSi_WaitByLoop between tries) until it succeeds, with IRQ
+// disabled during each try; gives the card bus to the ARM9 once it is taken. Returns the result of the last try, 0
+// when taken.
+s32 OS_LockCard(u16 lockID);
+
+void OSi_FreeCartridgeBus(void);
+// Hands the cartridge bus to the ARM9 (clears bit 0x80 of the halfword at 0x04000204). OS_TryLockCartridge runs it
+// once the cartridge lock word is taken.
+void OSi_AllocateCartridgeBus(void);
+
 typedef struct OSLockWord {
     /* 00 */ u32 mLockFlag;
     /* 04 */ u16 mOwnerID;

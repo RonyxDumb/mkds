@@ -1,5 +1,5 @@
 #include "wvr.h"
-#include "code_0200cd1c.h"
+#include "os_spinLock.h"
 #include "code_0200fc8c.h"
 #include "Main/Unknown/unk_02173000.h"
 #include "code_0214d5b8.h"
