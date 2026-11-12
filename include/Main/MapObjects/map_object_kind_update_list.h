@@ -94,3 +94,31 @@ typedef struct MapObjectKindDescriptor {
 
 MapObjectList *FindMapObjectKindUpdateList(u32 kind);
 void *FindMapObjectKindDrawList0(u32 kind);
+
+// Kind descriptors that gMapObjectKindRows[].mDescriptor points at.
+extern const MapObjectKindDescriptor data_usa_02156474;
+extern const MapObjectKindDescriptor data_usa_02156760;
+extern const MapObjectKindDescriptor data_usa_021567b0;
+extern const MapObjectKindDescriptor data_usa_02158204;
+extern const MapObjectKindDescriptor data_usa_021582cc;
+extern const MapObjectKindDescriptor data_usa_02158300;
+extern const MapObjectKindDescriptor data_usa_021583d8;
+extern const MapObjectKindDescriptor gEarthenPipeKindDescriptor;
+extern const MapObjectKindDescriptor gItemBoxKindDescriptor;
+extern const MapObjectKindDescriptor gGroupItemBoxKindDescriptor;
+extern const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor;
+extern const MapObjectKindDescriptor gKoopaBlockKindDescriptor;
+extern const MapObjectKindDescriptor data_usa_0215890c;
+extern const MapObjectKindDescriptor data_usa_02158940;
+extern const MapObjectKindDescriptor data_usa_02158974;
+extern const MapObjectKindDescriptor data_usa_02158b80;
+extern const MapObjectKindDescriptor data_usa_02158c8c;
+extern const MapObjectKindDescriptor data_usa_02158fb0;
+extern const MapObjectKindDescriptor gSecondHandKindDescriptor;
+extern const MapObjectKindDescriptor gObPakkunSfKindDescriptor;
+extern const MapObjectKindDescriptor gPendulumKindDescriptor;
+extern const MapObjectKindDescriptor data_usa_021594a0;
+extern const MapObjectKindDescriptor data_usa_0215a034;
+extern MapObjectKindDescriptor data_usa_02167690;
+extern MapObjectKindDescriptor data_usa_02167940;
+extern MapObjectKindDescriptor data_usa_02167de0;
