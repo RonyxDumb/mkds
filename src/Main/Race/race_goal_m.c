@@ -23,7 +23,7 @@
 #include "code_020222ec.h"
 #include "Main/Unknown/code_020b3000.h"
 #include "Main/Unknown/unk_0217b000.h"
-#include "code_02022030.h"
+#include "g2d_Animation.h"
 #include "Main/Unknown/code_020c476c.h"
 #include "Main/System/heap.h"
 #include "code_0200eddc.h"

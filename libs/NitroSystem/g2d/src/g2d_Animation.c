@@ -1,6 +1,10 @@
-#include "code_0202210c.h"
+#include "g2d_Animation.h"
 #include "code_020222ec.h"
 #include "code_02134398.h"
+
+NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(Unk02022030 *pAnimCtrl) {
+    return (NNSG2dAnimDataSRT *) pAnimCtrl->mPCurrent->mPContent;
+}
 
 static inline void CallbackFuncHandling_(const Unk02022030 *pAnimCtrl, u16 currentFrameIdx) {
     switch (pAnimCtrl->mCallbackFunctor.mType) {
@@ -69,4 +73,42 @@ u32 NNS_G2dSetAnimCtrlCurrentFrame(Unk02022030 *pAnimCtrl, u32 index) {
         pAnimCtrl->mCurrentTime = 0;
     }
     return result;
+}
+
+u16 NNS_G2dGetAnimCtrlCurrentFrame(const Unk02022030 *pAnimCtrl) {
+    return ((u32) pAnimCtrl->mPCurrent - (u32) pAnimCtrl->mPAnimSequence->mPAnmFrameArray) /
+           sizeof(NNSG2dAnimFrameData);
+}
+
+void NNS_G2dInitAnimCtrl(Unk02022030 *pAnimCtrl) {
+    NNS_G2dInitAnimCallBackFunctor(&pAnimCtrl->mCallbackFunctor);
+    pAnimCtrl->mPCurrent = 0;
+    pAnimCtrl->mReverse = 0;
+    pAnimCtrl->mActive = 1;
+    pAnimCtrl->mCurrentTime = 0;
+    pAnimCtrl->mSpeed = 0x1000;
+    pAnimCtrl->mOverriddenPlayMode = 0;
+    pAnimCtrl->mPAnimSequence = 0;
+}
+
+void NNS_G2dInitAnimCallBackFunctor(NNSG2dCallBackFunctor *pCallBack) {
+    pCallBack->mType = 0;
+    pCallBack->mParam = 0;
+    pCallBack->mFunc = 0;
+    pCallBack->mFrameIdx = 0;
+}
+
+void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl) {
+    if ((pAnimCtrl->mSpeed > 0) ^ pAnimCtrl->mReverse) {
+        pAnimCtrl->mPCurrent =
+            &pAnimCtrl->mPAnimSequence->mPAnmFrameArray[pAnimCtrl->mPAnimSequence->mLoopStartFrameIdx];
+    } else {
+        pAnimCtrl->mPCurrent = &pAnimCtrl->mPAnimSequence->mPAnmFrameArray[pAnimCtrl->mPAnimSequence->mNumFrames] - 1;
+    }
+    pAnimCtrl->mCurrentTime = 0;
+}
+
+void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, NNSG2dAnimSequenceData *pAnimSequence) {
+    pAnimCtrl->mPAnimSequence = pAnimSequence;
+    NNS_G2dResetAnimCtrlState(pAnimCtrl);
 }

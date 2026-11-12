@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/code_02181f98.h"
-#include "code_02022030.h" // NNSG2dCellDataWithBR
+#include "g2d_Animation.h" // NNSG2dCellDataWithBR
 
 // 16-byte element of the table at 0x7dc of an RaceNcerNclrNcgrTables.
 typedef struct RaceNclrNcgr {

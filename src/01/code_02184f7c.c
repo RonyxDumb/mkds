@@ -19,12 +19,11 @@
 #include "code_02012b30.h"
 #include "g2d_NAN_load.h"
 #include "Main/Unknown/code_02021000.h"
-#include "code_02022030.h"
+#include "g2d_Animation.h"
 #include "code_020222ec.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020e6000.h"
-#include "code_020220f0.h"
 #include "code_02147cd8.h"
 
 Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {

@@ -3,9 +3,6 @@
 #include "types.h"
 #include "g2d_NAN_load.h" // Unk02021dc8, NNSG2dCellVramTransferData
 
-// 0x1c bytes: NNSi_G2dSrtcSetInitialValue clears everything after the first word and sets mUnk_04 and mUnk_08 to
-// 0x1000. NNSi_G2dSrtcSetSRTScale, NNSi_G2dSrtcSetSRTRotZ and NNSi_G2dSrtcSetTrans set a member and a bit of mUnk_12
-// when mUnk_00 is 1.
 typedef struct NNSG2dSRTControl {
     /* 00 */ u32 mType;
     /* 04 */ s32 mScaleX;
@@ -93,3 +90,14 @@ typedef struct NNSG2dAnimDataT {
 
 void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, NNSG2dAnimSequenceData *pAnimSequence);
 void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl);
+
+void NNS_G2dInitAnimCallBackFunctor(NNSG2dCallBackFunctor *pCallBack);
+
+void NNS_G2dInitAnimCtrl(Unk02022030 *pAnimCtrl);
+
+u16 NNS_G2dGetAnimCtrlCurrentFrame(const Unk02022030 *pAnimCtrl);
+
+u32 NNS_G2dSetAnimCtrlCurrentFrame(Unk02022030 *pAnimCtrl, u32 index);
+u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames);
+
+NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(Unk02022030 *pAnimCtrl);

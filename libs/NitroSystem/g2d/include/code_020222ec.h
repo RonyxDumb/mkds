@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02022030.h" // Unk02022030, NNSG2dSRTControl, NNSG2dCellDataWithBR, GXOamAttr
+#include "g2d_Animation.h" // Unk02022030, NNSG2dSRTControl, NNSG2dCellDataWithBR, GXOamAttr
 #include "code_02012b30.h" // MtxFx22
 
 u32 SetAnimCtrlCurrentFrameImpl_(Unk02022030 *pAnimCtrl, u32 index);

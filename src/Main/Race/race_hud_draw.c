@@ -79,7 +79,7 @@
 #include "Main/Race/race_goal_player_character.h"
 #include "00/code_02181f98.h"
 #include "Main/Unknown/code_020beb9c.h"
-#include "code_02022030.h"
+#include "g2d_Animation.h"
 #include "Main/Unknown/code_020cffa0.h"
 #include "Main/Unknown/code_020d12b0.h"
 #include "Main/Unknown/code_020d1464.h"

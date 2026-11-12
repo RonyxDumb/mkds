@@ -4,7 +4,7 @@
 #include "code_02012b30.h" // MtxFx22
 #include "g2d_CharCanvas.h" // Unk02023374
 #include "g2d_NAN_load.h" // Unk02021dc8
-#include "code_02022030.h" // NNSG2dCellDataWithBR, NNSG2dCellOAMAttrData
+#include "g2d_Animation.h" // NNSG2dCellDataWithBR, NNSG2dCellOAMAttrData
 #include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
 
 typedef struct Ncgr Ncgr;
