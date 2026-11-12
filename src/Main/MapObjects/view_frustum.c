@@ -42,6 +42,7 @@
 #include "Main/MapObjects/earthen_pipe.h"
 #include "Main/MapObjects/dossun_kind_descriptor.h"
 #include "Main/MapObjects/wanwan_reset.h"
+#include "Main/MapObjects/model_animation_entries.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
 #include "Main/Item/dram_box.h"
@@ -68,7 +69,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {433, (MapObjectKindDescriptor *) &gRock2KindDescriptor, NULL},
     {205, (MapObjectKindDescriptor *) &gSecondHandKindDescriptor, NULL},
     {207, (MapObjectKindDescriptor *) &gPendulumKindDescriptor, NULL},
-    {103, (MapObjectKindDescriptor *) &data_usa_021594a0, NULL},
+    {103, (MapObjectKindDescriptor *) &gWoodbox1KindDescriptor, NULL},
     {2, (MapObjectKindDescriptor *) &gAttractorKindDescriptor, NULL},
     {12, (MapObjectKindDescriptor *) &gWaterKindDescriptor, (void *) CreateMiniStage3Water},
     {1, (MapObjectKindDescriptor *) &gWaterKindDescriptor, (void *) CreateBeachWater},

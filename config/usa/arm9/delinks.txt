@@ -3465,6 +3465,7 @@ src/Main/MapObjects/jg.c:
 src/Main/MapObjects/model_animation_entries.c:
     complete
     .text       start:0x020ea514 end:0x020ea55c
+    .rodata     start:0x02159494 end:0x021594d4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/shadow_model_create.c:

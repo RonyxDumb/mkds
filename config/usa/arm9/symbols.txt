@@ -8534,7 +8534,7 @@ gJgKind4BaseOffset kind:data(any) addr:0x02159428
 gJgKind2BaseOffset kind:data(any) addr:0x02159434
 gJgSourcePoints kind:data(any) addr:0x02159440
 gJgMatrixRow1Source kind:data(any) addr:0x02159494
-data_usa_021594a0 kind:data(any) addr:0x021594a0
+gWoodbox1KindDescriptor kind:data(any) addr:0x021594a0
 gWoodbox1HitFlag kind:data(any) addr:0x021594d4
 gWoodbox1Flag kind:data(any) addr:0x021594d8
 gWoodbox1SecondFlag kind:data(any) addr:0x021594dc

@@ -112,7 +112,6 @@ extern const MapObjectKindDescriptor data_usa_02158fb0;
 extern const MapObjectKindDescriptor gSecondHandKindDescriptor;
 extern const MapObjectKindDescriptor gObPakkunSfKindDescriptor;
 extern const MapObjectKindDescriptor gPendulumKindDescriptor;
-extern const MapObjectKindDescriptor data_usa_021594a0;
 extern MapObjectKindDescriptor data_usa_02167690;
 extern MapObjectKindDescriptor data_usa_02167940;
 extern MapObjectKindDescriptor data_usa_02167de0;
