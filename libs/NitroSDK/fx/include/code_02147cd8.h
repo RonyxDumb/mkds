@@ -10,7 +10,7 @@ typedef struct Vec3s16 {
 } Vec3s16;
 
 // Sine and cosine pairs: 4096 entries of (sin, cos) in 1.12 fixed point, indexed by angle >> 4.
-extern const s16 FX_SinCosTable_[];
+extern const s16 FX_SinCosTable_[8192];
 
 static inline s16 FX_SinIdx(int idx) {
     return SIN_OF_ANGLE(idx);

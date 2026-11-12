@@ -16,7 +16,6 @@
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Menu/data_0215d000.h"
-#include "Main/MapObjects/data_0215f000.h"
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/MapObjects/data_02166000.h"
@@ -203,14 +202,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 flipper->mMapObject.mFlags &= ~0x400;
                 flipper->mMapObject.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
-                MTX_RotY33_(&tiltMatrix, data_usa_02160fb4[0x74], data_usa_02160fb4[0x75]);
+                MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= data_usa_02156584;
                 flipper->mMapObject.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
-                MTX_RotY33_(&tiltMatrix, data_usa_0215d8b4[10], data_usa_0215d8b4[11]);
+                MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
                 break;
         }
         flipper->mUnk_ec8 = 0;

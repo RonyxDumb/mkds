@@ -60,7 +60,7 @@ void SetupTrophy(void) {
     NNS_G3dGlbLightVector(1, gTrophy->mLight1X, gTrophy->mLight1Y, gTrophy->mLight1Z);
     NNS_G3dGlbLightColor(0, 0x7fff);
     NNS_G3dGlbLightColor(1, 0x7fff);
-    frustumTop = MUL_FIXED12_NO_ROUND(FX_Div(data_0215d6b4[0x54], data_0215d6b4[0x55]), 0x19a);
+    frustumTop = MUL_FIXED12_NO_ROUND(FX_Div(SIN_OF_ANGLE(0xaa0), COS_OF_ANGLE(0xaa0)), 0x19a);
     frustumRight = MUL_FIXED12_NO_ROUND(-frustumTop, 0x1555);
     if (gRaceSetup->mMirrorMode != 0) {
         G3i_FrustumW_(frustumTop, -frustumTop, -frustumRight, frustumRight, 0x19a, 0x1388000, 0x200, 0,
@@ -271,7 +271,7 @@ void DrawTrophy(void) {
     translation[2] = -0x2000;
     NNS_G3dGeBufferOP_N(0x1c, translation, 3);
     rotateZAngle = gTrophy->mRotateZWobble.mValue;
-    MTX_RotX33_(&rotateXMatrix, data_0215d6b4[0x76], data_0215d6b4[0x77]);
+    MTX_RotX33_(&rotateXMatrix, SIN_OF_ANGLE(0xbb0), COS_OF_ANGLE(0xbb0));
     MTX_RotY33_(&rotateYMatrix, FX_SinIdx(gTrophy->mRotateYAngle), FX_CosIdx(gTrophy->mRotateYAngle));
     MTX_RotZ33_(&rotateZMatrix, FX_SinIdx(rotateZAngle), FX_CosIdx(rotateZAngle));
     NNS_G3dGeBufferOP_N(0x1a, &rotateXMatrix, 9);

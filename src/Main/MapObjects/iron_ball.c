@@ -27,7 +27,6 @@
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "code_02147cd8.h"
-#include "Main/MapObjects/data_0215f000.h"
 #include "Main/Race/race_progress_rank.h"
 
 u32 IronBallReturnArgument(u32 value) {
@@ -380,9 +379,9 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
                 soundPart->mSourcePos.x = scratch;
                 soundPart->mUnk_20 = TRUE;
             } else {
-                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(data_0215feb4[0x54], 0x5dc000);
+                soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE(0xaaa0), 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(data_0215feb4[0x55], 0x5dc000);
+                soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(COS_OF_ANGLE(0xaaa0), 0x5dc000);
                 soundPart->mUnk_20 = FALSE;
             }
             break;

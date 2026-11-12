@@ -8835,13 +8835,6 @@ data_0215d484 kind:data(any) addr:0x0215d484
 data_0215d494 kind:data(any) addr:0x0215d494
 data_0215d4a4 kind:data(any) addr:0x0215d4a4
 FX_SinCosTable_ kind:data(any) addr:0x0215d4b4
-data_usa_0215d5b4 kind:data(any) addr:0x0215d5b4
-data_0215d6b4 kind:data(any) addr:0x0215d6b4
-data_usa_0215d8b4 kind:data(any) addr:0x0215d8b4
-data_usa_0215f023 kind:data(any) addr:0x0215f023
-data_0215f4b4 kind:data(any) addr:0x0215f4b4
-data_0215feb4 kind:data(any) addr:0x0215feb4
-data_usa_02160fb4 kind:data(any) addr:0x02160fb4
 FX_AtanTable_ kind:data(any) addr:0x021614b4
 FX_AtanIdxTable_ kind:data(any) addr:0x021615b8
 gTexturePaletteBaseTable kind:data(any) addr:0x021616bc

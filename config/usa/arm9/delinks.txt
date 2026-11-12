@@ -4597,6 +4597,7 @@ libs/NitroSDK/fx/src/fx_mtx44.c:
 libs/NitroSDK/fx/src/code_02147cd8.c:
     complete
     .text       start:0x02147cd8 end:0x02148538
+    .rodata     start:0x0215d4b4 end:0x021614b4
 
 // provisional: file name and boundaries
 libs/NitroSDK/fx/src/code_02148538.c:

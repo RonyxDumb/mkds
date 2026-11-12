@@ -9,9 +9,6 @@ typedef struct ByteRect {
     /* 03 */ u8 mMaxY;
 } ByteRect;
 
-// Objects whose layout isn't known yet.
-extern s16 data_0215d6b4[];
-
 extern u8 gBackScreenSNclrStarts[];
 
 extern u8 gBackScreenMNclrStarts[];
@@ -31,5 +28,3 @@ extern u8 gKeyboardButtonEntryIndices[2][2][3];
 extern u8 gKeyboardTextCharLabelIndices[][12];
 
 extern u8 gKeyboardTextIndexEntryIndices[][12];
-
-extern const s16 data_usa_0215d8b4[];

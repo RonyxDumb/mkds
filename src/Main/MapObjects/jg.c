@@ -6,7 +6,6 @@
 #include "Main/MapObjects/data_02159000.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/data_0215f000.h"
 #include "Main/Sound/data_0210b000.h"
 #include "player.h"
 #include "code_0212df7c.h"
@@ -762,15 +761,15 @@ void EnterJgState1(void) {
     gJgPointPointers[3] = &gJgPoints[2];
     InitSegmentProgress(&gJgSegmentProgress, 0, gJgPointPointers, 0x1ec);
     gJgAngle = 0;
-    rotatedZ = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, data_0215f4b4[1]) -
-               MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, data_0215f4b4[0]);
+    rotatedZ = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, COS_OF_ANGLE(0x8000)) -
+               MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, SIN_OF_ANGLE(0x8000));
     gJgStateCounter = 0x8000;
     gJgTargetPos.z = rotatedZ;
     if (rotatedZ > 0) {
         gJgTargetPos.z = rotatedZ * 3;
     }
-    gJgTargetPos.x = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, data_0215f4b4[0]) +
-                     MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, data_0215f4b4[1]);
+    gJgTargetPos.x = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, SIN_OF_ANGLE(0x8000)) +
+                     MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, COS_OF_ANGLE(0x8000));
     gJgTargetPos.y = gJgKind2Offset.y;
     MTX_MultVec43(&gJgTargetPos, &gJgMatrix, &gJgTargetPos);
     gJgProbeCenter = gJgTargetPos;
