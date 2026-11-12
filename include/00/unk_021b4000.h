@@ -32,12 +32,6 @@ typedef struct SOCLSocketParam {
 extern u32 SOCLiResultCodeInConnecting;
 extern SOCLSocketParam SOCLSocketParamTCP;
 extern SOCLSocketParam SOCLSocketParamUDPSend;
-extern char gDwcMtypeKey[];
-extern char gDwcMresvKey[];
-extern char gDwcMverKey[];
-extern char gVerKey[];
-extern u8 gScmKey[];
-extern u8 gScnKey[];
 extern u32 gSslLowThreadPriority;
 extern char gLocalIpKeyFormat[];
 extern char gLocalportKey[];
@@ -130,15 +124,6 @@ typedef struct GsiAvailableCheck {
 
 extern u8 gInternalInit[];
 extern u8 NNMagicData[];
-extern u8 gEmptyString[];
-extern char gFmeKey[];
-extern char gMdfKey[];
-extern u8 gInitStateString[];
-extern u8 gServerFullString[];
-extern u8 gUnexpectedConnectAttemptString[];
-extern u8 gYString[];
-extern u8 gNString[];
-extern char gAndEmptyParensString[];
 extern char gGt2HostLengthAssert[];
 extern char gGt2UtilityFileName[];
 extern char gAddressPortFormat[];
@@ -148,8 +133,21 @@ extern char gMatchup1HostnameDefault[];
 extern char gMatchup2HostnameDefault[];
 extern char gGamenameHostnameFormat[];
 extern char data_ov000_021b4054[];
-extern char gDwcGpCommandMatchString[];
-
+extern char gDwcMtypeKey[];
+extern char gDwcMresvKey[];
+extern char gDwcMverKey[];
+extern char gVerKey[];
+extern u8 gScmKey[];
+extern u8 gScnKey[];
+extern u8 gEmptyString[];
+extern char gFmeKey[];
+extern char gMdfKey[];
+extern u8 gInitStateString[];
+extern u8 gServerFullString[];
+extern u8 gUnexpectedConnectAttemptString[];
+extern u8 gYString[];
+extern u8 gNString[];
+extern char gAndEmptyParensString[];
 extern char gGpMessagePrefixFormat[];
 extern char gGpcmPrefix[];
 extern char gMatTag[];
@@ -157,5 +155,7 @@ extern char gSlashUnsignedFormat[];
 extern char gMatchingFilterFormat[];
 extern char gAndParenFormat[];
 extern char gKeyEqualsUnsignedFormat[];
+extern char gDwcGpCommandMatchString[];
+
 
 #include "00/Lib/DWC/dwc_connectinet.h"

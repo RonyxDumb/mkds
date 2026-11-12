@@ -39,8 +39,6 @@ extern MenuShared *gMenuShared;
 extern WiFiSession *gWiFiSession;
 extern u8 gWiFiVSMatchingTotalScalePercents[30];
 extern u8 gWiFiVSMatchingEmblemScalePercents[40];
-extern char gWiFiBmgName2[];
-extern char gCommonBmgName4[];
 
 void WriteWiFiVSMatchingRegisters(void);
 void UpdateWiFiVSMatchingPaletteBlend(void);

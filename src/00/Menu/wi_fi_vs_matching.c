@@ -160,8 +160,8 @@ void InitWiFiVSMatching(void *heap) {
     ResetOamLists(oamList, GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingBnll,
                     &gWiFiVSMatching->mWiFiVSMatchingTable);
-    gWiFiVSMatching->mWiFiMessages = FindSceneFile(gWiFiBmgName2);
-    gWiFiVSMatching->mCommonMessages = FindFileInLoadedArchives(gCommonBmgName4);
+    gWiFiVSMatching->mWiFiMessages = FindSceneFile("wifi.bmg");
+    gWiFiVSMatching->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     InitWiFiVSMatchingLabels();
     i = 0;
     offsetTableIndices = &gWiFiVSMatchingOffsetTableIndices[0][0];

@@ -1563,8 +1563,8 @@ gWiFiVSMatchingEmblemScalePercents kind:data(any) addr:0x021b0cc4
 @4016 kind:data(any) addr:0x021b0d84 local
 @4017 kind:data(any) addr:0x021b0da0 local
 @4018 kind:data(any) addr:0x021b0dbc local
-gWiFiBmgName2 kind:data(any) addr:0x021b0dd8
-gCommonBmgName4 kind:data(any) addr:0x021b0de4
+@6252 kind:data(any) addr:0x021b0dd8 local
+@6253 kind:data(any) addr:0x021b0de4 local
 gSelectCharacterCallbacks kind:data(any) addr:0x021b0df0
 gSelectKartCallbacks kind:data(any) addr:0x021b0e00
 gWiFiVSCourseSelectCallbacks kind:data(any) addr:0x021b0e10

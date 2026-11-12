@@ -46,7 +46,7 @@ src/00/Menu/wi_fi_vs_matching.c:
     complete
     .text       start:0x021832d8 end:0x02184894
     .rodata     start:0x021b0624 end:0x021b0688
-    .data       start:0x021b0c74 end:0x021b0dd8
+    .data       start:0x021b0c74 end:0x021b0df0
     .bss        start:0x021b4c34 end:0x021b4c38
 
 // provisional: file name and boundaries
