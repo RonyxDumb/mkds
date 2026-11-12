@@ -1,11 +1,17 @@
-#include "code_0214d464.h"
+#include "mi_uncomp_stream.h"
+#include "code_0214d564.h"
 
-// clang-format off
-// Resumable form of the expansion in MI_UncompressLZ8. context holds the output pointer, the number of bytes still to
-// write and the position inside the current flag byte and back copy (MIUncompContextLZ.mDestp, .mDestCount, .mFlags,
-// .mFlagIndex, .mLength, .mLengthFlg). Reads at most len bytes from data, writes every output byte with swpb, stores the
-// state back and returns the number of bytes still to write.
-// Hand-written asm: uses swpb, tst and a flag-setting add of an asr operand.
+void MI_InitUncompContextLZ(MIUncompContextLZ *context, u8 *dest, const MICompressionHeader *header) {
+    context->mDestp = dest;
+    context->mDestCount = header->mDestSize;
+    context->mFlags = 0;
+    context->mFlagIndex = 0;
+    context->mLength = 0;
+    context->mLengthFlg = 0;
+    context->mDestTmp = 0;
+    context->mDestTmpCnt = 0;
+}
+
 asm s32 MI_ReadUncompLZ8(MIUncompContextLZ *context, const u8 *data, u32 len) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10}
     ldr r3, [r0, #0x0]

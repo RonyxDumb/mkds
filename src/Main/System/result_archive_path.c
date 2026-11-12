@@ -34,7 +34,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "fs_file.h"
 #include "Main/Unknown/code_0211d4a8.h"
-#include "code_0214d464.h"
+#include "mi_uncomp_stream.h"
 #include "code_0214d564.h"
 #include "00/code_02181f98.h"
 
