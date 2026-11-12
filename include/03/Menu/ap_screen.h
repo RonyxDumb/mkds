@@ -2,6 +2,12 @@
 
 #include "types.h"
 #include "03/unk_021da000.h"
+#include "03/unk_021d6000.h"
+#include "03/types_021d299c.h"
+#include "03/Menu/jb2_menu.h"
+
+extern const ApObjectPosition gApObjectPositions[6];
+extern const Rect gApSelectionRects[7];
 
 typedef struct Ap {
     /* 00 */ void *mYbBgStep11Ncl;
@@ -27,3 +33,12 @@ void UpdateAp(void);
 void UpdateApButtonsIn(void);
 void UpdateApFadeIn(void);
 void StartApFadeIn(void);
+
+extern YbBgStep11NclName gYbBgStep11NclName2;
+extern Bytes4 gApEntryIconPalettes;
+extern Bytes4 gApPaletteRows;
+extern const u8 gApRects[55];
+extern const s8 gApMessageDigitColumns[6];
+extern const u8 gApEntryImageIndices[4];
+extern u8 gApSelectedIndex[1];
+extern struct Ap *gAp;

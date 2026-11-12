@@ -16,10 +16,21 @@
 #include "03/unk_021da000.h"
 #include "03/System/exp_heap.h"
 
+const u8 gAnimatedIconPalettes[3] = {0xe, 4, 5};
+const u16 gAnimatedIconPosition[2] = {0xe6, 0x8b};
+const u16 gSlideButtonsPosition[2] = {0, 0xa8};
+const u16 gSlideButtonSize[2] = {0x78, 0x10};
+const u16 gSlideButtonOrigins[4] = {8, 0xac, 0x84, 0xac};
+const u8 gSlideButtonImages[14] = {0x27, 0x1f, 0x25, 0, 0x27, 0, 0x23, 0x1d, 0x21, 0, 0x59, 0, 0x27, 0x21};
+const u8 gSlideButtonPositionIndices[14] = {0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1};
+const u8 gSlideButtonCounts[7] = {2, 1, 1, 2, 1, 1, 2};
+AnimatedIcon *gAnimatedIcon;
+SlideButtons *gSlideButtons;
+
 void CreateSlideButtons(u32 kind) {
     s32 buttonCount;
     s32 i;
-    u8 *imageCursor;
+    const u8 *imageCursor;
 
     buttonCount = gSlideButtonCounts[kind];
     gSlideButtons = AllocZeroedExpHeapBlock(0x1c, 4);
@@ -142,7 +153,7 @@ void AdvanceButtonTouch(void) {
                 CopyNceImageToOamEntries(0, touchedImage, GetOamRangeEntry(gSlideButtons->mButtons[i], 0));
                 positionIndex = (gSlideButtonPositionIndices + gSlideButtons->mKind * 2)[i];
                 SetOamRangePosition(gSlideButtons->mButtons[i], -1, gSlideButtonOrigins[positionIndex * 2],
-                                    gSlideButtonOriginYs[positionIndex * 2]);
+                                    (&gSlideButtonOrigins[1])[positionIndex * 2]);
                 SetOamRangePriority(gSlideButtons->mButtons[i], -1, 1);
                 gSlideButtons->mResetTask = AddTask(0, AdvanceButtonReset, NULL, 0x6e);
                 gSlideButtons->mButtonResult = i;
@@ -162,4 +173,98 @@ void AdvanceSlideButtonsOut(TaskEntry *task) {
     if (192 <= yPosition) {
         SetTaskCallback(task, ReleaseSlideButtons);
     }
+}
+
+void ReleaseSlideButtons(u32 task) {
+    SlideButtons *slideButtons;
+    s32 i;
+
+    RequestTaskRemoval(0, task);
+    slideButtons = gSlideButtons;
+    if (slideButtons->mResetTask != 0) {
+        RequestTaskRemoval(0, slideButtons->mResetTask);
+    }
+    for (i = 0; i < 2; i++) {
+        if (gSlideButtons->mButtons[i] != 0) {
+            DeleteOamRange(gSlideButtons->mButtons[i]);
+        }
+    }
+    DeleteOamRange(gSlideButtons->mUnk_08);
+    FreeExpHeapBlockAndClearPointer(&gSlideButtons);
+}
+
+void AdvanceButtonReset(u32 task) {
+    SlideButtons *slideButtons;
+    s32 i;
+    s32 buttonCount;
+    u32 imageIndex;
+    u32 c;
+    u32 d;
+
+    slideButtons = gSlideButtons;
+    slideButtons->mStepFrames = slideButtons->mStepFrames + 1;
+    if (gSlideButtons->mStepFrames >= 0x10) {
+        slideButtons = gSlideButtons;
+        buttonCount = gSlideButtonCounts[slideButtons->mKind];
+        for (i = 0; i < buttonCount; i++) {
+            slideButtons = gSlideButtons;
+            imageIndex = (gSlideButtonImages + slideButtons->mKind * 2)[i];
+            CopyNceImageToOamEntries(0, imageIndex, GetOamRangeEntry(slideButtons->mButtons[i], 0));
+            SetOamRangePriority(gSlideButtons->mButtons[i], -1, 1);
+        }
+        SetSlideButtonsY(gSlideButtonsPosition[1]);
+        gSlideButtons->mStepFrames = 0;
+        gSlideButtons->mButtonResult = -1;
+        slideButtons = gSlideButtons;
+        if (slideButtons->mResetTask != 0) {
+            slideButtons->mResetTask = 0;
+            RequestTaskRemoval(0, task);
+        }
+    }
+}
+
+void CreateAnimatedIcon(int index) {
+    AnimatedIcon *object;
+    OamEntry *innerObject;
+    u32 c;
+
+    object = AllocZeroedExpHeapBlock(0xc, 4);
+    gAnimatedIcon = object;
+    object->mPaletteIndex = index;
+    gAnimatedIcon->mOamEntry = CreateOamEntryFromNceImage(0, 0x47);
+    innerObject = gAnimatedIcon->mOamEntry;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xfffff3ff) | 0x400;
+    innerObject = gAnimatedIcon->mOamEntry;
+    innerObject->mAttr01 = innerObject->mAttr01 & 0xfffff3ff;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xffff0fff) | (gAnimatedIconPalettes[index] << 12);
+    innerObject = gAnimatedIcon->mOamEntry;
+    innerObject->mAttr01 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
+                           ((innerObject->mAttr01 & 0xfe00ff00) | (gAnimatedIconPosition[1] & 0xff));
+    gAnimatedIcon->mTask = AddTask(1, AdvanceAnimatedIcon, NULL, 0x78);
+}
+
+void ReleaseAnimatedIcon(void) {
+    RemoveTaskEntryWrapper(1, gAnimatedIcon->mTask);
+    DeleteOamEntry((u32 *) gAnimatedIcon->mOamEntry);
+    FreeExpHeapBlockAndClearPointer(&gAnimatedIcon);
+}
+
+void AdvanceAnimatedIcon(void) {
+    AnimatedIcon *object;
+    OamEntry *innerObject;
+    u32 c;
+
+    gAnimatedIcon->mStepFrames = FX_ModS32(gAnimatedIcon->mStepFrames + 1, 0x28);
+    c = FX_DivS32(gAnimatedIcon->mStepFrames, 5) + 0x47;
+    CopyNceImageToOamEntries(0, c, gAnimatedIcon->mOamEntry);
+    innerObject = gAnimatedIcon->mOamEntry;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xfffff3ff) | 0x400;
+    object = gAnimatedIcon;
+    c = gAnimatedIconPalettes[object->mPaletteIndex];
+    innerObject = object->mOamEntry;
+    innerObject->mAttr01 = innerObject->mAttr01 & 0xfffff3ff;
+    innerObject->mAttr2 = (innerObject->mAttr2 & 0xffff0fff) | (c << 12);
+    innerObject = gAnimatedIcon->mOamEntry;
+    innerObject->mAttr01 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
+                           ((innerObject->mAttr01 & 0xfe00ff00) | (gAnimatedIconPosition[1] & 0xff));
 }

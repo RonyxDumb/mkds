@@ -1120,7 +1120,6 @@ gSlideButtonsPosition kind:data(any) addr:0x021d5e84
 gSlideButtonSize kind:data(any) addr:0x021d5e88
 gSlideButtonCounts kind:data(any) addr:0x021d5e8c
 gSlideButtonOrigins kind:data(any) addr:0x021d5e94
-gSlideButtonOriginYs kind:data(any) addr:0x021d5e96
 gSlideButtonImages kind:data(any) addr:0x021d5e9c
 gSlideButtonPositionIndices kind:data(any) addr:0x021d5eac
 gSubScreenMessageRect kind:data(any) addr:0x021d5ebc
@@ -1207,19 +1206,12 @@ gJb3ListSelectionRects kind:data(any) addr:0x021d6474
 gApEntryImageIndices kind:data(any) addr:0x021d64a4
 gApMessageDigitColumns kind:data(any) addr:0x021d64a8
 gApObjectPositions kind:data(any) addr:0x021d64b0
-data_ov003_021d64f2 kind:data(any) addr:0x021d64b2
 gApRects kind:data(any) addr:0x021d64c8
 gApSelectionRects kind:data(any) addr:0x021d6500
-data_ov003_021d6542 kind:data(any) addr:0x021d6502
-data_ov003_021d6544 kind:data(any) addr:0x021d6504
-data_ov003_021d6546 kind:data(any) addr:0x021d6506
 gWayMessageDigitColumns kind:data(any) addr:0x021d6538
 gWayMoveTargets kind:data(any) addr:0x021d6540
 gWayRects kind:data(any) addr:0x021d6560
 gWaySelectionRects kind:data(any) addr:0x021d65a0
-data_ov003_021d65e2 kind:data(any) addr:0x021d65a2
-data_ov003_021d65e4 kind:data(any) addr:0x021d65a4
-data_ov003_021d65e6 kind:data(any) addr:0x021d65a6
 gConnectParamsTemplate kind:data(any) addr:0x021d65e0
 gScrollBarImageIds kind:data(any) addr:0x021d65ec
 gScrollBarLengths kind:data(any) addr:0x021d65f0
@@ -1239,17 +1231,12 @@ gMessageBoxButtonCounts kind:data(any) addr:0x021d66e0
 gMessageBoxWindowRect kind:data(any) addr:0x021d66e8
 gMessageBoxButtonSlots kind:data(any) addr:0x021d66f0
 gMessageBoxKeyResults kind:data(any) addr:0x021d66fc
-data_ov003_021d673d kind:data(any) addr:0x021d66fd
 gMessageBoxButtonImageIds kind:data(any) addr:0x021d6708
 gMessageBoxButtonSizes kind:data(any) addr:0x021d6714
 gMessageBoxTextSizes kind:data(any) addr:0x021d6728
-data_ov003_021d676a kind:data(any) addr:0x021d672a
 gMessageBoxPositions kind:data(any) addr:0x021d6740
-data_ov003_021d6782 kind:data(any) addr:0x021d6742
 gMessageBoxSizes kind:data(any) addr:0x021d6758
-data_ov003_021d679a kind:data(any) addr:0x021d675a
 gMessageBoxButtonPositions kind:data(any) addr:0x021d6770
-data_ov003_021d67b2 kind:data(any) addr:0x021d6772
 gDwcArchiveName kind:data(any) addr:0x021d6798
 gBgTextCanvasCharOffsets kind:data(any) addr:0x021d679c
 gBgTextCanvasSizes kind:data(any) addr:0x021d67a0
@@ -1413,16 +1400,16 @@ gXb4MultiNscName5 kind:data(any) addr:0x021d74e4
 gApPaletteRows kind:data(any) addr:0x021d7580
 gApEntryIconPalettes kind:data(any) addr:0x021d7584
 gYbBgStep11NclName2 kind:data(any) addr:0x021d7588
-gYbObjMainNclName5 kind:data(any) addr:0x021d75a0
-gYbObjWayNclName kind:data(any) addr:0x021d75b8
-gJbBgStep1NcgName3 kind:data(any) addr:0x021d75cc
-gJbBgStep1NclName3 kind:data(any) addr:0x021d75e4
-gJb2ApNscName kind:data(any) addr:0x021d75fc
+@2820 kind:data(any) addr:0x021d75a0 local
+@2941 kind:data(any) addr:0x021d75b8 local
+@2942 kind:data(any) addr:0x021d75cc local
+@2943 kind:data(any) addr:0x021d75e4 local
+@2944 kind:data(any) addr:0x021d75fc local
 gWayPaletteRows kind:data(any) addr:0x021d7610
 gYbBgStep21NclName2 kind:data(any) addr:0x021d7614
-gJbBgStep2NcgName2 kind:data(any) addr:0x021d762c
-gYbBgStep2NclName2 kind:data(any) addr:0x021d7644
-gJb3WayNscName kind:data(any) addr:0x021d765c
+@2600 kind:data(any) addr:0x021d762c local
+@2601 kind:data(any) addr:0x021d7644 local
+@2602 kind:data(any) addr:0x021d765c local
 @2102 kind:data(any) addr:0x021d7670 local
 @2103 kind:data(any) addr:0x021d7688 local
 @2104 kind:data(any) addr:0x021d76a0 local

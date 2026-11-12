@@ -1,117 +1,68 @@
 #include "03/Menu/ap_screen.h"
+#include "03/Menu/code_021cb2a0.h"
+#include "03/code_021bf000.h"
+#include "03/code_021cb000.h"
+#include "03/code_021d1000.h"
+#include "03/code_021d1dd0.h"
+#include "03/code_021d1f70.h"
+#include "03/unk_021da000.h"
+#include "03/Menu/slide_buttons.h"
+#include "03/System/application.h"
 #include "03/code_021cb11c.h"
+#include "code_0212df7c.h"
+#include "03/code_021cdbd0.h"
+#include "03/unk_021d6000.h"
+#include "03/code_021c2000.h"
+#include "03/code_021ce000.h"
+#include "03/Menu/menu_pair_loading.h"
+#include "03/Menu/selection_objects.h"
+#include "03/System/task_input.h"
+#include "03/Graphics/dispcnt_window.h"
+#include "03/System/dwc_archive.h"
+#include "03/unk_021d7000.h"
+#include "03/Graphics/text_canvas.h"
+#include "03/unk_021d5000.h"
+#include "03/Menu/sub_screen_message.h"
+#include "03/Net/essid_wcm.h"
+#include "03/code_021cd2e0.h"
+#include "03/Graphics/hl_scr.h"
+#include "gx_load2d.h"
+#include "registers.h"
 #include "03/Menu/jb3_list.h"
 #include "03/Menu/ap_scan_screen.h"
 #include "03/Menu/value_records.h"
 #include "03/Menu/exchange_search.h"
 #include "03/code_021d1790.h"
 #include "03/code_021d197c.h"
-#include "03/unk_021da000.h"
-#include "03/Menu/slide_buttons.h"
-#include "03/Menu/sub_screen_message.h"
-#include "03/code_021bf000.h"
-#include "03/code_021c2000.h"
-#include "03/code_021ce000.h"
-#include "03/Menu/menu_pair_loading.h"
-#include "03/Menu/selection_objects.h"
-#include "03/System/dwc_archive.h"
-#include "03/unk_021d5000.h"
-#include "03/Graphics/hl_scr.h"
-#include "03/System/application.h"
 #include "03/code_021c5000.h"
 #include "03/code_021c9000.h"
 #include "03/code_021ca000.h"
-#include "03/unk_021d6000.h"
-#include "03/unk_021d7000.h"
-#include "03/code_021cb000.h"
 #include "03/code_021cc000.h"
 #include "os_printf.h"
-#include "03/code_021cd2e0.h"
-#include "code_0212df7c.h"
-#include "03/code_021cdbd0.h"
-#include "03/code_021d1000.h"
-#include "03/code_021d1f70.h"
-#include "03/Graphics/dispcnt_window.h"
 #include "03/System/exp_heap.h"
-#include "gx_load2d.h"
 #include "03/Graphics/bg2_scr_buffer.h"
-#include "registers.h"
 #include "03/Menu/jb2_menu.h"
-#include "03/Menu/way.h"
 #include "03/code_021cdd28.h"
 #include "03/Menu/message_box_create.h"
 #include "03/code_021d1c18.h"
-#include "03/code_021d1dd0.h"
-#include "03/System/task_input.h"
-#include "03/Menu/message_box.h"
 #include "03/code_021c3000.h"
 #include "03/Menu/xb3_multi.h"
 #include "03/code_021d1970.h"
 #include "03/code_021c2a74.h"
 #include "03/code_021cd000.h"
 
-void UpdateWayRelease(void) {
-    if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
-        IsSlideButtonsNotSlidingOut() != 0) {
-        ReleaseSelectionObjectSlots();
-        HideSubScreenMessage();
-        DeleteLoadedFile(gYbBgStep21Ncl);
-        ClearDispcntBits(1, 1);
-        ClearDispcntBits(0, 0x14);
-        if (gWayChosen[0] == 0) {
-            SetPrimaryMenuPair(2, 0);
-            SetUpdateFunction(CreateAp);
-        } else {
-            switch (gWaySelectedIndex) {
-                case 0:
-                    SetPrimaryMenuPair(2, 1);
-                    SetUpdateFunction(SetupApScan);
-                    break;
-                case 1:
-                    SetPrimaryMenuPair(2, 1);
-                    SetUpdateFunction(SetupValueRecords);
-                    break;
-                case 2:
-                    SetPrimaryMenuPair(2, 1);
-                    SetUpdateFunction(SetupExchangeSearch);
-                    break;
-                case 3:
-                    SetPrimaryMenuPair(2, 0);
-                    SetSecondaryMenuPair(0, 0);
-                    SetJb3ListMode(1);
-                    SetUpdateFunction(CreateJb3List);
-                    break;
-            }
-        }
-    }
-}
-
-void MoveWaySelection(int direction) {
-    s32 selectedIndex = gWaySelectedIndex;
-    s32 moveTarget = gWayMoveTargets[HasModeFlag(1)][selectedIndex][direction];
-    if (moveTarget == -1) {
-        return;
-    }
-    if (moveTarget == 0) {
-        gWaySavedIndex = selectedIndex;
-    }
-    if (moveTarget == -2) {
-        gWaySelectedIndex = gWaySavedIndex;
-    } else {
-        gWaySelectedIndex = moveTarget;
-    }
-    StartSoundSeq(8);
-    PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mX,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mY,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
-}
-
-void RequestWayPaletteRowCopy(void) {
-    WayPaletteRows paletteRows = gWayPaletteRows;
-    RequestBgPaletteRowCopy(gYbBgStep21Ncl, paletteRows.mRowIndices[gWaySelectedIndex],
-                            paletteRows.mRowIndices[gWaySelectedIndex]);
-}
+YbBgStep11NclName gYbBgStep11NclName2 = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x53, 0x74, 0x65, 0x70, 0x31, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
+Bytes4 gApEntryIconPalettes = {{0xa, 9, 0xb, 6}};
+Bytes4 gApPaletteRows = {{3, 4, 5, 7}};
+const Rect gApSelectionRects[7] = {{6, 0x1e, 0x46, 0x48},  {0x58, 0x1e, 0x98, 0x48}, {0xaa, 0x1e, 0xea, 0x48},
+                                   {6, 0x76, 0xea, 0x92},  {9, 0x54, 0x43, 0x70},    {0x5b, 0x54, 0x95, 0x70},
+                                   {0xad, 0x54, 0xe7, 0x70}};
+const u8 gApRects[55] = {8, 0, 0x20, 0, 0x54, 0, 0x56, 0, 0x5a, 0, 0x20, 0, 0xa6, 0, 0x56, 0, 0xac, 0, 0x20, 0, 0xf8, 0, 0x56, 0, 8, 0, 0x78, 0, 0xf8, 0, 0xa0, 0, 8, 0, 0x54, 0, 0x54, 0, 0x70, 0, 0x5a, 0, 0x54, 0, 0xa6, 0, 0x70, 0, 0xac, 0, 0x54, 0, 0xf8, 0, 0x70};
+const ApObjectPosition gApObjectPositions[6] = {{8, 0x30}, {0x5a, 0x30}, {0xac, 0x30}, {0xc, 0x58}, {0x5e, 0x58}, {0xb0, 0x58}};
+const s8 gApMessageDigitColumns[6] = {3, 0x2d, 0x27, 0x1d, 0x32, 0x30};
+const u8 gApEntryImageIndices[4] = {0x13, 0x14, 0x12, 0x56};
+u8 gApSelectedIndex[1];
+struct Ap *gAp;
 
 void CreateAp(void) {
     Ap *apObject = AllocZeroedExpHeapBlock(0x20, 4);
@@ -128,10 +79,10 @@ void CreateAp(void) {
 
 void LoadApFilesAndSetBgCnt(void) {
     YbBgStep11NclName ybBgStep11NclName = gYbBgStep11NclName2;
-    LoadFileToVram(gYbObjWayNclName, GX_LoadOBJPltt);
-    LoadFileToVram(gJbBgStep1NcgName3, GX_LoadBG2Char);
-    LoadFileToVram(gJbBgStep1NclName3, GX_LoadBGPltt);
-    LoadFileToVram(gJb2ApNscName, GX_LoadBG2Scr);
+    LoadFileToVram("char/ybObjWay.ncl.l", GX_LoadOBJPltt);
+    LoadFileToVram("char/jbBgStep1.ncg.l", GX_LoadBG2Char);
+    LoadFileToVram("char/jbBgStep1.ncl.l", GX_LoadBGPltt);
+    LoadFileToVram("char/jb2Ap.nsc.l", GX_LoadBG2Scr);
     gAp->mYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep11NclName), NULL, 4);
     CombineDispcntBits(1, 0x10);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
@@ -193,7 +144,7 @@ void UpdateApInput(void) {
     int touchPressed;
     u32 rectIndex;
     int keysPressed;
-    u8 *rect;
+    const u8 *rect;
     rectIndex = 0;
     rect = gApRects;
     do {
@@ -324,7 +275,7 @@ void UpdateApRelease(void) {
         ReleaseSelectionObjectSlots();
         HideSubScreenMessage();
         DeleteLoadedFile(gAp->mYbBgStep11Ncl);
-        LoadFileToVram(gYbObjMainNclName5, GX_LoadOBJPltt);
+        LoadFileToVram("char/ybObjMain.ncl.l", GX_LoadOBJPltt);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
         if (gAp->mCloseKind == 2) {

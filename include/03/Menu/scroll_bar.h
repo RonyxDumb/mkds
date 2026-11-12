@@ -18,6 +18,8 @@ typedef struct ScrollBar {
     /* 1e */ u8 mInputDisabled;
 } ScrollBar;
 
+void ReleaseScrollBar(void);
+void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset);
 void PlaceScrollBar(s32 offset);
 void GetScrollBarPartRect(s32 part, u16 *rect);
 int GetTouchedScrollBarArrow(int a);
@@ -33,4 +35,5 @@ void PlaceScrollBarWrapper(s32 offset);
 u8 GetScrollBarEvent(void);
 u8 GetScrollBarOffset(void);
 
+extern const u8 gScrollBarImageIds[3];
 extern const u8 gScrollBarLengths[3];

@@ -27,28 +27,7 @@ typedef struct Bytes68 {
     /* 00 */ u32 mUnk_00[0x11];
 } Bytes68;
 
-extern u8 gApEntryImageIndices[];
-extern s8 gApMessageDigitColumns[];
-extern ApObjectPosition gApObjectPositions[];
-extern u8 gApRects[];
-extern Rect gApSelectionRects[];
-extern s8 gWayMessageDigitColumns[];
-extern s8 gWayMoveTargets[][4][4];
-extern Rect gWayRects[][4];
-extern Rect gWaySelectionRects[][4];
 extern u8 gApScanEmptyBssid[];
-extern u8 gMessageBoxButtonCounts[];
-extern u16 gMessageBoxTextOffset[2];
-extern u8 gMessageBoxImageIds[];
-extern u8 gMessageBoxWindowRect[];
-extern s8 gMessageBoxKeyResults[][2];
-extern u8 gMessageBoxButtonSlots[][2];
-extern u8 gMessageBoxButtonImageIds[][2];
-extern u16 gMessageBoxButtonSizes[][2];
-extern u16 gMessageBoxTextSizes[][2];
-extern u16 gMessageBoxPositions[][2];
-extern u16 gMessageBoxSizes[][2];
-extern u16 gMessageBoxButtonPositions[][2][2];
 extern u32 gThreadStackSize;
 extern s32 gTimeoutAtMs;
 extern s32 gStartEntryCount;

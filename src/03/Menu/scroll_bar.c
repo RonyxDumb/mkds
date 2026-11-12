@@ -3,6 +3,7 @@
 #include "03/code_021cc000.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d1790.h"
+#include "03/code_021d197c.h"
 #include "03/unk_021da000.h"
 #include "03/unk_021d6000.h"
 #include "03/System/task_input.h"
@@ -10,8 +11,29 @@
 #include "03/unk_021d7000.h"
 #include "code_02147cd8.h"
 #include "player.h"
+#include "03/System/rect.h"
+#include "03/System/exp_heap.h"
+#include "03/System/tasks.h"
 
+const u8 gScrollBarImageIds[3] = {0x10, 0xf, 0xe};
 const u8 gScrollBarLengths[3] = {0x55, 0x36, 0x1e};
+
+void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset) {
+    (gScrollBar = AllocZeroedExpHeapBlock(0x20, 4))->mSizeIndex = sizeIndex;
+    gScrollBar->mTrackLength = trackLength;
+    gScrollBar->mOffset = offset;
+    SetPosition(positionX, positionY, &gScrollBar->mX);
+    gScrollBar->mResource = CreateOamRangeFromNceImage(0, gScrollBarImageIds[sizeIndex], 1);
+    SetOamRangePosition(gScrollBar->mResource, -1, positionX, positionY + offset);
+    SetOamRangePriority(gScrollBar->mResource, -1, 1);
+    gScrollBar->mTask = AddTask(0, AdvanceScrollBar, NULL, 0x80);
+}
+
+void ReleaseScrollBar(void) {
+    RemoveTaskEntryWrapper(0, gScrollBar->mTask);
+    DeleteOamRange(gScrollBar->mResource);
+    FreeExpHeapBlockAndClearPointer(&gScrollBar);
+}
 
 u8 GetScrollBarOffset(void) {
     return gScrollBar->mOffset;

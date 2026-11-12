@@ -1,0 +1,29 @@
+#pragma once
+
+#include "types.h"
+#include "03/types_021d299c.h"
+#include "03/unk_021d7000.h"
+
+extern const Rect gWaySelectionRects[2][4];
+
+void UpdateWayFadeOut(void);
+void StartWayClose(void);
+void UpdateWayResult(void);
+void UpdateWayNop(void);
+void UpdateWayInput(void);
+void UpdateWay(void);
+void UpdateWayButtonsIn(void);
+void UpdateWayFadeIn(void);
+void StartWayFadeIn(void);
+void LoadWayFilesAndSetBgCnt(void);
+void SetupWay(void);
+
+extern const Rect gWayRects[2][4];
+extern Bytes22 gYbBgStep21NclName2;
+extern WayPaletteRows gWayPaletteRows;
+extern const s8 gWayMoveTargets[2][4][4];
+extern const s8 gWayMessageDigitColumns[6];
+extern u8 *gYbBgStep21Ncl;
+extern u8 gWayChosen[1];
+extern s8 gWaySelectedIndex;
+extern s8 gWaySavedIndex;

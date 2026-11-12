@@ -33,21 +33,6 @@ typedef struct ConnectMessageIds {
     /* 00 */ u32 mMessageIndices[3];
 } ConnectMessageIds;
 
-// Objects whose layout isn't known yet.
-extern Bytes6 gMessageBoxWindowExtraBitFlags;
-extern Bytes4 gApPaletteRows;
-extern Bytes4 gApEntryIconPalettes;
-extern YbBgStep11NclName gYbBgStep11NclName2;
-extern char gYbObjMainNclName5[];
-extern char gYbObjWayNclName[];
-extern char gJbBgStep1NcgName3[];
-extern char gJbBgStep1NclName3[];
-extern char gJb2ApNscName[];
-extern WayPaletteRows gWayPaletteRows;
-extern Bytes22 gYbBgStep21NclName2;
-extern char gJbBgStep2NcgName2[];
-extern char gYbBgStep2NclName2[];
-extern char gJb3WayNscName[];
 extern char *gWhStateNames[];
 extern u8 gWhAlreadyIdleText[];
 extern u8 gWhFinalizeStateFormat[];

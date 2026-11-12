@@ -95,20 +95,3 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
         }
     }
 }
-
-void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset) {
-    (gScrollBar = AllocZeroedExpHeapBlock(0x20, 4))->mSizeIndex = sizeIndex;
-    gScrollBar->mTrackLength = trackLength;
-    gScrollBar->mOffset = offset;
-    SetPosition(positionX, positionY, &gScrollBar->mX);
-    gScrollBar->mResource = CreateOamRangeFromNceImage(0, gScrollBarImageIds[sizeIndex], 1);
-    SetOamRangePosition(gScrollBar->mResource, -1, positionX, positionY + offset);
-    SetOamRangePriority(gScrollBar->mResource, -1, 1);
-    gScrollBar->mTask = AddTask(0, AdvanceScrollBar, NULL, 0x80);
-}
-
-void ReleaseScrollBar(void) {
-    RemoveTaskEntryWrapper(0, gScrollBar->mTask);
-    DeleteOamRange(gScrollBar->mResource);
-    FreeExpHeapBlockAndClearPointer(&gScrollBar);
-}

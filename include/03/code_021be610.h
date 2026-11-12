@@ -18,8 +18,6 @@ typedef struct WcmNoticeHead {
     /* 02 */ s16 mResult;
 } WcmNoticeHead;
 
-extern AnimatedIcon *gAnimatedIcon;
-
 BOOL InitExchangeWcm(void (*callback)(u32, u32), void *buffer, u32 size);
 BOOL ConnectExchangeToEntry(void *entry, void *optionalBytes, u32 option);
 BOOL CleanupExchangeWcm(void);

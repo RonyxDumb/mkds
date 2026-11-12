@@ -20,10 +20,7 @@ typedef struct WMStartScanExCallback {
     /* 50 */ u16 mLinkLevel[0x10];
 } WMStartScanExCallback;
 
-extern u8 gScrollBarImageIds[];
 extern u8 gOtherElementPrefix[];
 
-void ReleaseScrollBar(void);
-void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset);
 void StoreApScanEntries(WMStartScanExCallback *scanResult);
 void ApScanCallback(Unk021425e8 *message);

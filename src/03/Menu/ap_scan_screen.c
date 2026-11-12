@@ -5,7 +5,8 @@
 #include "03/code_021c2000.h"
 #include "03/code_021c6000.h"
 #include "03/code_021cb000.h"
-#include "03/Menu/way.h"
+#include "03/Menu/ap_screen.h"
+#include "03/Menu/code_021cb2a0.h"
 #include "03/code_021cd000.h"
 #include "03/Net/essid_wcm.h"
 #include "03/code_021cd2e0.h"
@@ -19,7 +20,6 @@
 #include "03/unk_021d7000.h"
 #include "gx_load2d.h"
 #include "03/unk_021d6000.h"
-#include "03/Menu/ap_screen.h"
 
 #include "03/Menu/message_box.h"
 #include "03/Graphics/text_canvas.h"

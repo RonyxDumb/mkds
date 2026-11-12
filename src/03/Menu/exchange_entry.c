@@ -8,7 +8,7 @@
 #include "03/Menu/sub_screen_message.h"
 #include "03/code_021c2000.h"
 #include "03/code_021c9000.h"
-#include "03/Menu/way.h"
+#include "03/Menu/code_021cb2a0.h"
 #include "03/Menu/message_box_create.h"
 #include "03/code_021d1dd0.h"
 #include "03/unk_021da000.h"

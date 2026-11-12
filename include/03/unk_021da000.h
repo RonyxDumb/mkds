@@ -40,7 +40,6 @@ typedef struct Jb3List {
 // Objects whose layout isn't known yet.
 typedef struct UsbScan UsbScan;
 typedef struct MultiBootParent MultiBootParent;
-extern SlideButtons *gSlideButtons;
 // Object behind gLinkLevel.
 typedef struct LinkLevel {
     /* 00 */ OamEntry *mOamEntry;
@@ -86,13 +85,7 @@ extern u8 gJb3ListMode;
 extern u8 gJb3ListSelectedRow;
 extern u16 gJb3ListScrollY;
 extern Jb3List *gJb3List;
-extern u8 gApSelectedIndex[];
 struct Ap;
-extern struct Ap *gAp;
-extern s8 gWaySavedIndex;
-extern s8 gWaySelectedIndex;
-extern u8 gWayChosen[];
-extern u8 *gYbBgStep21Ncl;
 struct Bg2ScrBuffer;
 struct ScrollBar;
 extern struct ScrollBar *gScrollBar;
@@ -120,7 +113,6 @@ typedef struct MessageBox {
     /* 1e */ u8 mAdjustBrightness;
 } MessageBox;
 
-extern MessageBox *gMessageBox;
 extern MultiBootParent *gMultiBootParent;
 extern UnkFunc *gWhPrintFunction;
 typedef struct ChildWaitSharedEntry {
