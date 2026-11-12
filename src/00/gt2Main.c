@@ -1,6 +1,5 @@
 #include "00/gt2Main.h"
-#include "00/code_0219a3f4.h"
-#include "00/code_0219a0d0.h"
+#include "00/gt2Socket.h"
 #include "00/code_0219a61c.h"
 #include "00/unk_021b2000.h"
 #include "code_02134398.h"

@@ -1,7 +1,7 @@
 #include "00/gt2Connection.h"
 #include "00/code_02197b34.h"
 #include "00/code_02198d04.h"
-#include "00/code_0219a0d0.h"
+#include "00/gt2Socket.h"
 #include "00/code_0219a61c.h"
 #include "00/code_021a3690.h"
 #include "string.h"

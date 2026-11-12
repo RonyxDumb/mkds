@@ -21,7 +21,7 @@
 #include "Main/Unknown/code_02133000.h"
 #include "00/code_02199000.h"
 #include "00/code_02197000.h"
-#include "00/code_0219a430.h"
+#include "00/gt2Socket.h"
 #include "00/unk_021b3000.h"
 #include "00/unk_021b4000.h"
 #include "00/code_021906e4.h"
@@ -43,7 +43,6 @@
 #include "00/code_02193b88.h"
 #include "00/code_021a3a18.h"
 #include "00/code_0219a000.h"
-#include "00/code_0219a044.h"
 
 u32 gti2UShortFromBuffer(const u8 *buffer, s32 offset) {
     u16 value = (buffer[offset] << 8) & 0xff00;
