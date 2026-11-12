@@ -54,6 +54,4 @@ u32 GpSetCallback(GpConnection *connection, s32 func, void (*callback)(void *con
 u32 GpUpdate(GpConnection *connection);
 void GpDestroy(GpConnection *connection);
 u32 GpInitialize(GpConnection *connection, s32 productID, s32 namespaceID);
-int GpiUpdateConnection(void *connectionArgument, int blockingOperationID);
-u32 gpiProcessConnectionManager(GpConnection *connection);
-u32 GpiResetConnection(GpConnection *connection);
+#include "00/Lib/GameSpy/code_0218f2b4.h"

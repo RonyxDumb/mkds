@@ -343,16 +343,19 @@ src/00/Lib/GameSpy/sb_queryengine.c:
 src/00/Lib/GameSpy/sb_server.c:
     complete
     .text       start:0x0218aec8 end:0x0218b424
+    .data       start:0x021b2164 end:0x021b21a8
     .bss        start:0x021b4cd4 end:0x021b4ce0
 
 src/00/Lib/GameSpy/sb_serverbrowsing.c:
     complete
     .text       start:0x0218b424 end:0x0218b8b0
+    .data       start:0x021b21a8 end:0x021b21ac
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/sb_serverlist.c:
     complete
     .text       start:0x0218b8b0 end:0x0218d454
+    .data       start:0x021b21ac end:0x021b2270
     .bss        start:0x021b4ce0 end:0x021b4ce4
 
 // provisional: file name and boundaries
@@ -402,7 +405,14 @@ src/00/Lib/GameSpy/code_0218e2dc.c:
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218e8d4.c:
     complete
-    .text       start:0x0218e8d4 end:0x0218f7c4
+    .text       start:0x0218e8d4 end:0x0218f2b4
+    .data       start:0x021b23a8 end:0x021b24e8
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/code_0218f2b4.c:
+    complete
+    .text       start:0x0218f2b4 end:0x0218f7c4
+    .data       start:0x021b24e8 end:0x021b26d8
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/gpi.c:
@@ -413,13 +423,20 @@ src/00/Lib/GameSpy/gpi.c:
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218f960.c:
     complete
-    .text       start:0x0218f92c end:0x021906b0
-    .data       start:0x021b26fc end:0x021b2818
+    .text       start:0x0218f92c end:0x021905a0
+    .data       start:0x021b26fc end:0x021b283c
+
+// provisional: file name and boundaries
+src/00/Lib/GameSpy/code_021905a0.c:
+    complete
+    .text       start:0x021905a0 end:0x021906b0
+    .data       start:0x021b283c end:0x021b2850
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_021906e4.c:
     complete
     .text       start:0x021906b0 end:0x02190ca0
+    .data       start:0x021b2850 end:0x021b29f8
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02190cd4.c:
@@ -442,6 +459,7 @@ src/00/Lib/GameSpy/code_0219210c.c:
 src/00/Lib/GameSpy/code_0219218c.c:
     complete
     .text       start:0x02192158 end:0x02193600
+    .data       start:0x021b2f18 end:0x021b3224
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02193634.c:

@@ -50,7 +50,8 @@
 
 struct SbServer *gSBNullServer;
 s8 *gMytokPosition;
-struct Hashtable *gSBRefStrList;
+struct Hashtable *gSBRefStrList = NULL;
+InvalidKeyNames gInvalidKeys = {{"queryid", "final"}};
 
 u32 RefStringHash(HashtableNameEntry *entry, u32 modulus) {
     return ServerStringHash(entry->mName, modulus);
@@ -100,7 +101,7 @@ void SbServerSetValue(SbServer *server, const char *key, const char *value) {
 
 void SbServerSetInt(SbServer *server, const char *key, u32 value) {
     char valueText[20];
-    sprintf(valueText, gIntValueFormat, value);
+    sprintf(valueText, "%d", value);
     SbServerSetValue(server, key, valueText);
 }
 
@@ -108,7 +109,7 @@ char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue) {
     KeyLookup probe;
     u32 *entry;
     if (server == NULL) {
-        AssertionFailed(gServerAssertText, gSBServerFileName, NULL, 0x97);
+        AssertionFailed("server", "sb_server.c", NULL, 0x97);
     }
     if (server == NULL) {
         return NULL;
@@ -124,7 +125,7 @@ char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue) {
 s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue) {
     char *text;
     s32 firstChar;
-    if (strcmp(key, gPingKey) == 0) {
+    if (strcmp(key, "ping") == 0) {
         return SBServerGetPing(server);
     }
     text = SbServerGetValue(server, key, NULL);
@@ -248,7 +249,7 @@ void SBServerParseKeyVals(SbServer *server, s8 *keyValues) {
     while (key != NULL) {
         value = mytok(NULL, 0x5c);
         if (value == NULL) {
-            value = data_ov000_021b21c4;
+            value = (s8 *) "";
         }
         if (CheckValidKey((const char *) key) != 0) {
             SbServerSetValue(server, (const char *) key, (const char *) value);
@@ -319,7 +320,7 @@ void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
                 if (valueLength < 0) {
                     return;
                 }
-                sprintf(scratch.mTempKey, gKeyIndexFormat, key, unitIndex);
+                sprintf(scratch.mTempKey, "%s%d", key, unitIndex);
                 SbServerSetValue(server, scratch.mTempKey, (const char *) data);
                 data += valueLength;
                 length -= valueLength;

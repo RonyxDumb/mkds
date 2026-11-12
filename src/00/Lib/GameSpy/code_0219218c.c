@@ -40,11 +40,11 @@ u32 GpiUnpackDate(u32 *connection, s32 date, u32 *day, u32 *month, u32 *year) {
     date = date & (0x0000ffffu);
     isValid = GpiIsValidDate(unpackedDay, unpackedMonth, date);
     if (isValid == 0) {
-        AssertionFailed(gIsValidDateAssertText, gGpiInfoFileName, NULL, 0xb7);
+        AssertionFailed("gpiIsValidDate(d, m, y)", "gpiInfo.c", NULL, 0xb7);
     }
     isValid = GpiIsValidDate(unpackedDay, unpackedMonth, date);
     if (isValid == 0) {
-        GpiSetErrorMessage((u32 *) (u32) connection, gInvalidDateErrorString);
+        GpiSetErrorMessage((u32 *) (u32) connection, "Invalid date.");
         return 2;
     }
     *day = unpackedDay;
@@ -144,19 +144,19 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
     if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
     }
-    if (strncmp(input, gPiKey, 4) != 0) {
-        GpiSetError(connection, 1, data_ov000_021b31b8);
+    if (strncmp(input, "\\pi\\", 4) != 0) {
+        GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    if (GpiGetValue(input, data_ov000_021b2f80, buffer, 0x40) == FALSE) {
-        GpiSetError(connection, 1, data_ov000_021b31b8);
+    if (GpiGetValue(input, "\\profileid\\", buffer, 0x40) == FALSE) {
+        GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
     profileid = StrtolBase10(buffer);
     if (profileid <= 0) {
-        AssertionFailed(gProfileidAssertion, gGpiInfoFileName, NULL, 0x15a);
+        AssertionFailed("profileid > 0", "gpiInfo.c", NULL, 0x15a);
     }
     GpiFindProfile(connection, profileid, &profileRec);
     {
@@ -169,49 +169,49 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
         infoRecord.mUnk_00[4] = familyName;
         infoRecord.mUnk_00[5] = aimHandleBuf;
         infoRecord.mAimName = webPage;
-        if (GpiGetValue(input, data_ov000_021b2fcc, infoRecord.mUnk_00[0], 0x1f) == FALSE) {
+        if (GpiGetValue(input, "\\nick\\", infoRecord.mUnk_00[0], 0x1f) == FALSE) {
             infoRecord.mUnk_00[0][0] = 0;
         }
-        if (GpiGetValue(input, data_ov000_021b2fd4, infoRecord.mUnk_00[1], 0x15) == FALSE) {
+        if (GpiGetValue(input, "\\uniquenick\\", infoRecord.mUnk_00[1], 0x15) == FALSE) {
             infoRecord.mUnk_00[1][0] = 0;
         }
-        if (GpiGetValue(input, data_ov000_021b2fe4, infoRecord.mUnk_00[2], 0x33) == FALSE) {
+        if (GpiGetValue(input, "\\email\\", infoRecord.mUnk_00[2], 0x33) == FALSE) {
             infoRecord.mUnk_00[2][0] = 0;
         }
-        if (GpiGetValue(input, gFirstnameKey, infoRecord.mUnk_00[3], 0x1f) == FALSE) {
+        if (GpiGetValue(input, "\\firstname\\", infoRecord.mUnk_00[3], 0x1f) == FALSE) {
             infoRecord.mUnk_00[3][0] = 0;
         }
-        if (GpiGetValue(input, gLastnameKey, infoRecord.mUnk_00[4], 0x1f) == FALSE) {
+        if (GpiGetValue(input, "\\lastname\\", infoRecord.mUnk_00[4], 0x1f) == FALSE) {
             infoRecord.mUnk_00[4][0] = 0;
         }
-        if (GpiGetValue(input, gIcquinKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\icquin\\", buffer, 0x40) == FALSE) {
             infoRecord.mIcquin = -1;
         } else {
             infoRecord.mIcquin = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gHomepageKey, infoRecord.mUnk_00[5], 0x4c) == FALSE) {
+        if (GpiGetValue(input, "\\homepage\\", infoRecord.mUnk_00[5], 0x4c) == FALSE) {
             infoRecord.mUnk_00[5][0] = 0;
         }
-        if (GpiGetValue(input, gZipcodeKey, infoRecord.mZipcode, 0xb) == FALSE) {
+        if (GpiGetValue(input, "\\zipcode\\", infoRecord.mZipcode, 0xb) == FALSE) {
             infoRecord.mZipcode[0] = 0;
         }
-        if (GpiGetValue(input, gCountrycodeKey, infoRecord.mCountrycode, 3) == FALSE) {
+        if (GpiGetValue(input, "\\countrycode\\", infoRecord.mCountrycode, 3) == FALSE) {
             infoRecord.mCountrycode[0] = 0;
         }
-        if (GpiGetValue(input, gLonKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\lon\\", buffer, 0x40) == FALSE) {
             infoRecord.mLongitude = 0;
         } else {
             infoRecord.mLongitude = atof(buffer);
         }
-        if (GpiGetValue(input, gLatKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\lat\\", buffer, 0x40) == FALSE) {
             infoRecord.mLatitude = 0;
         } else {
             infoRecord.mLatitude = atof(buffer);
         }
-        if (GpiGetValue(input, gLocKey, infoRecord.mPlace, 0x80) == FALSE) {
+        if (GpiGetValue(input, "\\loc\\", infoRecord.mPlace, 0x80) == FALSE) {
             infoRecord.mPlace[0] = 0;
         }
-        if (GpiGetValue(input, gBirthdayKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\birthday\\", buffer, 0x40) == FALSE) {
             infoRecord.mBirthday = 0;
             infoRecord.mBirthmonth = 0;
             infoRecord.mBirthyear = 0;
@@ -222,7 +222,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
                 return result;
             }
         }
-        if (GpiGetValue(input, gSexKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\sex\\", buffer, 0x40) == FALSE) {
             infoRecord.mSex = 0x502;
         } else if ((s8) buffer[0] == 0x30) {
             infoRecord.mSex = 0x500;
@@ -231,61 +231,61 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
         } else {
             infoRecord.mSex = 0x502;
         }
-        if (GpiGetValue(input, gPmaskKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\pmask\\", buffer, 0x40) == FALSE) {
             infoRecord.mPmask = -1;
         } else {
             infoRecord.mPmask = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gAimKey, infoRecord.mAimName, 0x33) == FALSE) {
+        if (GpiGetValue(input, "\\aim\\", infoRecord.mAimName, 0x33) == FALSE) {
             infoRecord.mAimName[0] = 0;
         }
-        if (GpiGetValue(input, gPicKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\pic\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[0] = 0;
         } else {
             infoRecord.mUnk_cc[0] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gOccKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\occ\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[1] = 0;
         } else {
             infoRecord.mUnk_cc[1] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gIndKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\ind\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[2] = 0;
         } else {
             infoRecord.mUnk_cc[2] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gIncKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\inc\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[3] = 0;
         } else {
             infoRecord.mUnk_cc[3] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gMarKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\mar\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[4] = 0;
         } else {
             infoRecord.mUnk_cc[4] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gChcKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\chc\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[5] = 0;
         } else {
             infoRecord.mUnk_cc[5] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gI1Key, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\i1\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[6] = 0;
         } else {
             infoRecord.mUnk_cc[6] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gO1Key, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\o1\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[7] = 0;
         } else {
             infoRecord.mUnk_cc[7] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, gConnKey, buffer, 0x40) == FALSE) {
+        if (GpiGetValue(input, "\\conn\\", buffer, 0x40) == FALSE) {
             infoRecord.mUnk_cc[8] = 0;
         } else {
             infoRecord.mUnk_cc[8] = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, data_ov000_021b3234, buffer, 0x40) == FALSE) {
-            GpiSetError(connection, 1, data_ov000_021b31b8);
+        if (GpiGetValue(input, "\\sig\\", buffer, 0x40) == FALSE) {
+            GpiSetError(connection, 1, "Unexpected data was received from the server.");
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;
         }
@@ -316,7 +316,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
         if (callback.mCallback != NULL) {
             arg = DWCi_GsMalloc(0x204);
             if (arg == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2f58);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             gpiInfoCacheToArg(&infoRecord, arg);
@@ -336,17 +336,17 @@ u32 GpiWriteUpdateBuffers(GpConnection *connection, GpiBuffer *buffer) {
     GpiConnection *gpState;
     gpState = connection->mGpiConnection;
     if (0 < gpState->mUpdateproBufferLength) {
-        GpiAppendBufferString(connection, buffer, gUpdateproKey);
+        GpiAppendBufferString(connection, buffer, "\\updatepro\\\\sesskey\\");
         GpiAppendBufferNumber(connection, buffer, gpState->mSesskey);
         GpiAppendBufferString(connection, buffer, gpState->mUpdateproBuffer);
-        GpiAppendBufferString(connection, buffer, data_ov000_021b2f94);
+        GpiAppendBufferString(connection, buffer, "\\final\\");
         gpState->mUpdateproBufferLength = 0;
     }
     if (0 < gpState->mUpdateuiBufferLength) {
-        GpiAppendBufferString(connection, buffer, gUpdateuiKey);
+        GpiAppendBufferString(connection, buffer, "\\updateui\\\\sesskey\\");
         GpiAppendBufferNumber(connection, buffer, gpState->mSesskey);
         GpiAppendBufferString(connection, buffer, gpState->mUpdateuiBuffer);
-        GpiAppendBufferString(connection, buffer, data_ov000_021b2f94);
+        GpiAppendBufferString(connection, buffer, "\\final\\");
         gpState->mUpdateuiBufferLength = 0;
     }
     return 0;
@@ -391,11 +391,11 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
     switch (info) {
         case 0x708:
             if (value < 0) {
-                GpiSetErrorMessage(connection, gInvalidZipcodeErrorString);
+                GpiSetErrorMessage(connection, "Invalid zipcode.");
                 return 2;
             }
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gZipcodeKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\zipcode\\", intText);
             if (result != 0) {
                 return result;
             }
@@ -403,80 +403,80 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
         case 0x70b:
             switch (value) {
                 case 0x500:
-                    result = gpiSendLocalInfo(connection, gSexKey, data_ov000_021b3050);
+                    result = gpiSendLocalInfo(connection, "\\sex\\", "0");
                     if (result != 0) {
                         return result;
                     }
                     break;
                 case 0x501:
-                    result = gpiSendLocalInfo(connection, gSexKey, data_ov000_021b3054);
+                    result = gpiSendLocalInfo(connection, "\\sex\\", "1");
                     if (result != 0) {
                         return result;
                     }
                     break;
                 case 0x502:
-                    result = gpiSendLocalInfo(connection, gSexKey, gSexOtherValue);
+                    result = gpiSendLocalInfo(connection, "\\sex\\", "2");
                     if (result != 0) {
                         return result;
                     }
                     break;
                 default:
-                    GpiSetErrorMessage(connection, gInvalidSexErrorString);
+                    GpiSetErrorMessage(connection, "Invalid sex.");
                     return 2;
             }
             break;
         case 0x706:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gIcquinKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\icquin\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x70c:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendUserInfo(connection, gCpubrandidKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendUserInfo(connection, "\\cpubrandid\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x70d:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendUserInfo(connection, gCpuspeedKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendUserInfo(connection, "\\cpuspeed\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x70e:
-            sprintf(intText, data_ov000_021b2f9c, value / 16);
-            result = gpiSendUserInfo(connection, gMemoryKey, intText);
+            sprintf(intText, "%d", value / 16);
+            result = gpiSendUserInfo(connection, "\\memory\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x710:
-            sprintf(intText, data_ov000_021b2f9c, value / 4);
-            result = gpiSendUserInfo(connection, gVideocard1ramKey, intText);
+            sprintf(intText, "%d", value / 4);
+            result = gpiSendUserInfo(connection, "\\videocard1ram\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x712:
-            sprintf(intText, data_ov000_021b2f9c, value / 4);
-            result = gpiSendUserInfo(connection, gVideocard2ramKey, intText);
+            sprintf(intText, "%d", value / 4);
+            result = gpiSendUserInfo(connection, "\\videocard2ram\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x713:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendUserInfo(connection, gConnectionidKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendUserInfo(connection, "\\connectionid\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x714:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendUserInfo(connection, gConnectionspeedKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendUserInfo(connection, "\\connectionspeed\\", intText);
             if (result != 0) {
                 return result;
             }
@@ -485,63 +485,63 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
             if (value != 0) {
                 value = 1;
             }
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendUserInfo(connection, gHasnetworkKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendUserInfo(connection, "\\hasnetwork\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x718:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gPicKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\pic\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x719:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gOccKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\occ\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71a:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gIndKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\ind\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71b:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gIncKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\inc\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71c:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gMarKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\mar\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71d:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gChcKey, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\chc\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71e:
-            sprintf(intText, data_ov000_021b2f9c, value);
-            result = gpiSendLocalInfo(connection, gI1Key, intText);
+            sprintf(intText, "%d", value);
+            result = gpiSendLocalInfo(connection, "\\i1\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         default:
-            GpiSetErrorMessage(connection, gInvalidInfoErrorString);
+            GpiSetErrorMessage(connection, "Invalid info.");
             return 2;
     }
     return 0;
@@ -554,94 +554,94 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
 
     gpState = connection->mGpiConnection;
     if (value == NULL) {
-        GpiSetErrorMessage(connection, gInvalidValueErrorString);
+        GpiSetErrorMessage(connection, "Invalid value.");
         return 2;
     }
     switch (info) {
         case 0x700:
             if (*value == 0) {
-                GpiSetErrorMessage(connection, gInvalidValueErrorString);
+                GpiSetErrorMessage(connection, "Invalid value.");
                 return 2;
             }
             GpiCopyString(valueCopy, (const char *) value, 0x1f);
             GpiCopyString(gpState->mNick, valueCopy, 0x1f);
-            result = gpiSendLocalInfo(connection, data_ov000_021b2fcc, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\nick\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x701:
             if (*value == 0) {
-                GpiSetErrorMessage(connection, gInvalidValueErrorString);
+                GpiSetErrorMessage(connection, "Invalid value.");
                 return 2;
             }
             GpiCopyString(valueCopy, (const char *) value, 0x15);
             GpiCopyString((char *) gpState->mUniquenick, valueCopy, 0x15);
-            result = gpiSendLocalInfo(connection, data_ov000_021b2fd4, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\uniquenick\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x702:
             if (*value == 0) {
-                GpiSetErrorMessage(connection, gInvalidValueErrorString);
+                GpiSetErrorMessage(connection, "Invalid value.");
                 return 2;
             }
             GpiCopyString(valueCopy, (const char *) value, 0x33);
             _strlwr((s8 *) valueCopy);
             GpiCopyString(gpState->mEmail, valueCopy, 0x33);
-            result = gpiSendUserInfo(connection, data_ov000_021b2fe4, valueCopy);
+            result = gpiSendUserInfo(connection, "\\email\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x703:
             if (*value == 0) {
-                GpiSetErrorMessage(connection, gInvalidValueErrorString);
+                GpiSetErrorMessage(connection, "Invalid value.");
                 return 2;
             }
             GpiCopyString(valueCopy, (const char *) value, 0x1f);
             GpiCopyString((char *) gpState->mPassword, valueCopy, 0x1f);
-            result = gpiSendUserInfo(connection, gPasswordKey, valueCopy);
+            result = gpiSendUserInfo(connection, "\\password\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x704:
             GpiCopyString(valueCopy, (const char *) value, 0x1f);
-            result = gpiSendLocalInfo(connection, gFirstnameKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\firstname\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x705:
             GpiCopyString(valueCopy, (const char *) value, 0x1f);
-            result = gpiSendLocalInfo(connection, gLastnameKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\lastname\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x707:
             GpiCopyString(valueCopy, (const char *) value, 0x4c);
-            result = gpiSendLocalInfo(connection, gHomepageKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\homepage\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x708:
             GpiCopyString(valueCopy, (const char *) value, 0xb);
-            result = gpiSendLocalInfo(connection, gZipcodeKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\zipcode\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x709:
             if (strlen((const char *) value) != 2) {
-                GpiSetErrorMessage(connection, gInvalidCountrycodeErrorString);
+                GpiSetErrorMessage(connection, "Invalid countrycode.");
                 return 2;
             }
             GpiCopyString(valueCopy, (const char *) value, 3);
-            result = gpiSendLocalInfo(connection, gCountrycodeKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\countrycode\\", valueCopy);
             if (result != 0) {
                 return result;
             }
@@ -654,13 +654,13 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
                 d = gUpperCaseMap[d];
             }
             if ((s8) d == 0x4d) {
-                __memcpy(valueCopy, data_ov000_021b3050, 2);
+                __memcpy(valueCopy, "0", 2);
             } else if ((s8) d == 0x46) {
-                __memcpy(valueCopy, data_ov000_021b3054, 2);
+                __memcpy(valueCopy, "1", 2);
             } else {
-                __memcpy(valueCopy, gSexOtherValue, 2);
+                __memcpy(valueCopy, "2", 2);
             }
-            result = gpiSendLocalInfo(connection, gSexKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\sex\\", valueCopy);
             if (result != 0) {
                 return result;
             }
@@ -668,7 +668,7 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
         }
         case 0x706:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gIcquinKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\icquin\\", valueCopy);
             if (result != 0) {
                 return result;
             }
@@ -687,7 +687,7 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
             break;
         case 0x70f:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gVideocard1stringKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\videocard1string\\", valueCopy);
             if (result != 0) {
                 return result;
             }
@@ -700,7 +700,7 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
             break;
         case 0x711:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gVideocard2stringKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\videocard2string\\", valueCopy);
             if (result != 0) {
                 return result;
             }
@@ -725,85 +725,93 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
             break;
         case 0x716:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gOsstringKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\osstring\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x717:
             GpiCopyString(valueCopy, (const char *) value, 0x33);
-            result = gpiSendLocalInfo(connection, gAimKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\aim\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x718:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gPicKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\pic\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x719:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gOccKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\occ\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71a:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gIndKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\ind\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71b:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gIncKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\inc\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71c:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gMarKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\mar\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71d:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gChcKey, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\chc\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         case 0x71e:
             GpiCopyString(valueCopy, (const char *) value, 0x100);
-            result = gpiSendLocalInfo(connection, gI1Key, valueCopy);
+            result = gpiSendLocalInfo(connection, "\\i1\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
         default:
-            GpiSetErrorMessage(connection, gInvalidInfoErrorString);
+            GpiSetErrorMessage(connection, "Invalid info.");
             return 2;
     }
     return 0;
+}
+
+static void UnusedLiteralsInfo(GpConnection *connection, s32 value) {
+    char intValue[0x10];
+
+    sprintf(intValue, "%d", value);
+    GpiSetErrorMessage(connection, "Invalid info.");
+    gpiSendLocalInfo(connection, "\\birthday\\", intValue);
 }
 
 u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
     GpiConnection *gpState;
 
     gpState = connection->mGpiConnection;
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gGetprofileKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\getprofile\\\\sesskey\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2f80);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\profileid\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profileid);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2f8c);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\id\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, operationid);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2f94);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
     return 0;
 }
 
@@ -830,7 +838,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
         profileEntry->mCache != 0) {
         arg = DWCi_GsMalloc(0x204);
         if (arg == NULL) {
-            GpiSetErrorMessage(connection, data_ov000_021b2f58);
+            GpiSetErrorMessage(connection, "Out of memory.");
             return 1;
         }
         gpiInfoCacheToArg(profileEntry->mCache, arg);

@@ -59,14 +59,6 @@ void RefStringFree(u32 element);
 s32 RefStringCompare(const char *const *first, const char *const *second);
 u32 RefStringHash(HashtableNameEntry *entry, u32 modulus);
 
-extern InvalidKeyNames gInvalidKeys;
-extern char gKeyIndexFormat[];
-extern s8 data_ov000_021b21c4[];
-extern char gPingKey[];
-extern char gServerAssertText[];
-extern char gSBServerFileName[];
-extern char gIntValueFormat[];
-
 extern s8 *gMytokPosition;
 extern struct Hashtable *gSBRefStrList;
 extern struct SbServer *gSBNullServer;
