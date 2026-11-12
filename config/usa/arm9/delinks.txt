@@ -5,7 +5,8 @@
     .bss        start:0x0216f320 end:0x021804c0 kind:bss align:32
 
 // provisional: file name and boundaries
-libs/NitroSDK/mi/src/code_0200007e.c:
+libs/NitroSDK/mi/src/code_0200007e.s:
+    complete
     .text       start:0x02000000 end:0x02000800
 
 // provisional: file name and boundaries
