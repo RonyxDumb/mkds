@@ -97,7 +97,7 @@
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;

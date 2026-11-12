@@ -61,7 +61,7 @@
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/Sound/sound_distance_change_reset.h"
 #include "Main/Unknown/code_020d9000.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 
 #pragma thumb on
 

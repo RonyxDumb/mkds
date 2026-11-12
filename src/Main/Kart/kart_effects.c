@@ -25,7 +25,7 @@
 #include "Main/Unknown/code_02067000.h"
 #include "Main/System/heap_call.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "Main/Kart/karts.h"
 
 KartEffects *GetKartEffects(int kartIndex) {

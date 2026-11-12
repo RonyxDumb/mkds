@@ -13,7 +13,7 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "player.h"
 #include "code_0212df7c.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "01/code_02187d14.h"
 #include "Main/Race/entry_race_ended.h"
 #include "Main/Unknown/code_02046000.h"

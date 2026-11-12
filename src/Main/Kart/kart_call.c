@@ -8,7 +8,7 @@
 #include "code_02010c84.h"
 #include "code_02013740.h"
 #include "fx_mtx33.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
 

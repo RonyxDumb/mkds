@@ -16,7 +16,7 @@
 #include "fx_mtx33.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Kart/kart_drift.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 
 // Copies the view matrix and builds its transposed rotation and three more matrices from it.

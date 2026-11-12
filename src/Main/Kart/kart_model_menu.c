@@ -26,7 +26,7 @@
 #include "code_02133048.h"
 #include "code_02147cd8.h"
 #include "code_0214a748.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 #include "registers.h"
 
 #pragma thumb on

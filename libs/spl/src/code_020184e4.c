@@ -1,7 +1,7 @@
 #include "code_020184e4.h"
 
 #include "fx_mtx33.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 #include "g3imm.h"
 #include "gx_load3d.h"
@@ -16,7 +16,6 @@
 #include "code_0201c4e8.h"
 #include "code_0201c528.h"
 #include "Main/Unknown/code_02146000.h"
-#include "code_021471bc.h"
 
 void SPLRandom_VecFx32(Vec3 *vec) {
     vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;

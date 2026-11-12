@@ -14,10 +14,9 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_02012b30.h"
 #include "code_0201750c.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "g3imm.h"
 #include "code_020172d0.h"
-#include "code_021471bc.h"
 #include "registers.h"
 
 void UpdatePosStrip(PosStrip *posStrip) {

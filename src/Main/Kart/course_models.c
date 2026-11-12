@@ -24,7 +24,7 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Unknown/code_02147000.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 
 static inline void InitModelAnimationFromFile(u32 animationKind, ModelAnimation *animation, Nsbmd *nsbmd, void *heap,
                                               void *modelFile, const char *animationFile, u16 *animationCount) {

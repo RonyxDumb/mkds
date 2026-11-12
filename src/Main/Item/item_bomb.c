@@ -54,7 +54,7 @@
 #include "Main/Unknown/code_020fe268.h"
 #include "Main/Unknown/code_020fe3d8.h"
 #include "Main/Kart/karts.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 // Reset hook of the bomb kind.

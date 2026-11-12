@@ -27,10 +27,9 @@
 #include "Main/Race/cup_records.h"
 #include "Main/Kart/kart_drift.h"
 #include "code_02012b30.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
-#include "code_021471bc.h"
 
 #pragma thumb on
 CourseMap *AllocCourseMap(void *heap) {

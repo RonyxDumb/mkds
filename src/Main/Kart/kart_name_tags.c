@@ -2,7 +2,7 @@
 
 #include "Main/Unknown/unk_02155000.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 #include "g3imm.h"
 #include "Main/Race/race_elapsed_frames.h"
@@ -20,7 +20,6 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Kart/karts.h"
-#include "code_021471bc.h"
 #include "registers.h"
 
 void UpdateKartViewDistancesAndOutOfView(void) {

@@ -16,10 +16,9 @@
 #include "Main/Unknown/code_0207b000.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Unknown/code_02147000.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Race/kart.h"
-#include "code_021471bc.h"
 #include "code_02147cd8.h"
 
 void AdvanceKartDrawState(Kart *kart) {

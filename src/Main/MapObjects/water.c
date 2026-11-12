@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_02046000.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/Unknown/code_020d8b88.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 
 // The map object InitWater last received; InitWaterFields reads its x/z and DrawWater its mFlags; one water map object

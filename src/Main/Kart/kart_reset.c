@@ -39,7 +39,7 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "player.h"
 #include "fx_mtx33.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 #include "code_0212df7c.h"
@@ -97,7 +97,6 @@
 #include "Main/Kart/kart_call.h"
 #include "Main/Unknown/code_0206a354.h"
 #include "Main/Kart/karts.h"
-#include "code_021471bc.h"
 
 void AdvanceKartScaleFactor(Kart *kart) {
     s32 frameIndex;

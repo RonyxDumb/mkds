@@ -1,6 +1,6 @@
 #include "code_02010c84.h"
 
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/unk_02170000.h"
@@ -17,7 +17,6 @@
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_02171000.h"
 #include "registers.h"
-#include "code_021471bc.h"
 #include "code_02147954.h"
 
 // Draws one shape of the model, first sending the material and the texture matrix when sendMat is set.

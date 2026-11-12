@@ -29,7 +29,7 @@
 #include "fx_mtx33.h"
 #include "g3imm.h"
 #include "code_0214a748.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 #include "Main/Unknown/code_02087000.h"
 
 void InitStemSets(void *heap) {

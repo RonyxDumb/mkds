@@ -46,7 +46,7 @@
 #include "code_0200fe74.h"
 #include "code_02010c84.h"
 #include "gfd_VramTransferManager.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "code_0214a748.h"
 #include "code_0214d018.h"
 #include "fx_mtx33.h"
@@ -122,7 +122,6 @@
 #include "Main/Kart/kart_resources.h"
 #include "ITCM/kart_motion.h"
 #include "Main/Race/race_clock.h"
-#include "code_021471bc.h"
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2) {
     if ((shadowModel->mFlags & 1) != 0) {

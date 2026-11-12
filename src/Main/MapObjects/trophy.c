@@ -31,7 +31,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b200.h"
 #include "Main/MapObjects/teresa.h"
-#include "code_021471bc.h"
+#include "fx_mtx43.h"
 
 void SetupTrophy(void) {
     s32 frustumTop;

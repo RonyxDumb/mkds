@@ -6,7 +6,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Race/race.h"
 #include "01/code_021a2034.h"
-#include "code_02147288.h"
+#include "fx_mtx43.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/item_box.h"
 #include "Main/MapObjects/earthen_pipe_create.h"
