@@ -4,6 +4,8 @@
 #include "tp.h"
 #include "Main/MapObjects/bound.h"
 
+const u16 gFireball2InitMapObjectFlag = 0x200;
+
 MapObjectKindData *CreatePuddleKindData(void) {
     return CreateMapObjectKindData(NULL, NULL, NULL, 0, 0);
 }

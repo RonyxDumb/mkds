@@ -45,6 +45,7 @@
 #include "code_0212df7c.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/puddle_kind_data.h"
 
 MapObjectKindDescriptor gFireball2KindDescriptor = {0,
                                              {0, 0},
