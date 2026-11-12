@@ -4,7 +4,6 @@
 #include "os_thread.h"
 #include "Main/Net/rom_archive.h"
 #include "Main/Menu/select_race_rule_state.h"
-#include "Main/Net/data_02176000.h"
 #include "Main/Menu/data_02175000.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
@@ -38,7 +37,7 @@ void RunFileReadThread(void *unused) {
     romArchiveTransfer = &gRomArchiveTransfer;
     while (1) {
         waitIrqState = OS_DisableInterrupts();
-        archiveState = (RomArchiveParentView *) &gRomArchiveParentView;
+        archiveState = &gRomArchiveTransfer.mParentView;
         node = archiveState->mPendingHead;
         if (node == NULL) {
             do {
@@ -67,12 +66,12 @@ void RunFileReadThread(void *unused) {
             node->mUnk_0a0 = 1;
             node->mUnk_09c = 2;
             updateIrqState = OS_DisableInterrupts();
-            ActivateRomArchiveNode(&gRomArchiveParentView, node, 1);
+            ActivateRomArchiveNode(&gRomArchiveTransfer.mParentView, node, 1);
             OS_RestoreInterrupts(updateIrqState);
         } else {
             FS_CloseFile(&node->mFile);
             updateIrqState = OS_DisableInterrupts();
-            FreeRomArchiveNode(&gRomArchiveParentView, node);
+            FreeRomArchiveNode(&gRomArchiveTransfer.mParentView, node);
             OS_RestoreInterrupts(updateIrqState);
         }
     }

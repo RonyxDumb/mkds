@@ -11216,11 +11216,10 @@ gBackupAccess kind:bss addr:0x021759b4
 gFileReadThread kind:bss addr:0x021759b8
 data_usa_02175e80 kind:bss addr:0x02175e80
 gRomArchiveStarted kind:bss addr:0x02175e84
+data_usa_02175e88 kind:bss addr:0x02175e88
 gRomArchiveTransfer kind:bss addr:0x02175ea0
-gRomArchiveParentView kind:bss addr:0x021762e0
 data_usa_021773a0 kind:bss addr:0x021773a0
 data_usa_021773b8 kind:bss addr:0x021773b8
-data_02179ec0 kind:bss addr:0x02179ea0
 gConnectionWork kind:bss addr:0x0217a9e0
 gDispCap kind:bss addr:0x0217a9e4
 gBackupBuffers kind:bss addr:0x0217a9e8

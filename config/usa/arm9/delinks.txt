@@ -1222,6 +1222,7 @@ src/Main/Net/rom_archive.c:
     .text       start:0x0204bca0 end:0x0204db48
     .rodata     start:0x0215470c end:0x0215472c
     .data       start:0x021651d4 end:0x021651dc
+    .bss        start:0x02175e80 end:0x0217a9e0
 
 // provisional: file name and boundaries
 src/Main/Net/multiboot_parent.c:

@@ -311,6 +311,7 @@ typedef struct RomArchiveParentView {
     /* 46e4 */ s32 mQueuedNodeCount;
     /* 46e8 */ s32 mPacketSizeMessageMask;
     /* 46ec */ s32 mNewParentPacketSize;
+    /* 46f0 */ u8 mUnk_46f0[0x10];
 } RomArchiveParentView;
 
 // Object at gRomArchiveTransfer.

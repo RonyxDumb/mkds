@@ -8,9 +8,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Net/data_02176000.h"
 #include "code_02003024.h"
-#include "Main/Net/data_02179000.h"
 #include "Main/Save/backup_read_copies.h"
 #include "Main/Net/append_bytes.h"
 #include "Main/Net/wbt_requests.h"
@@ -28,6 +26,11 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "code_021458c4.h"
+
+s32 data_usa_02175e80;
+s32 gRomArchiveStarted;
+u8 data_usa_02175e88[0x18];
+RomArchiveTransfer gRomArchiveTransfer;
 
 const u8 gEmptyBlockInfo[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -399,7 +402,7 @@ void RequestRomArchiveBytes(FSFile *file) {
     s32 requestedLength;
 
     readLength = file->mArg.p.mUnk_08;
-    childView = (RomArchiveChildView *) &gRomArchiveParentView;
+    childView = (RomArchiveChildView *) &gRomArchiveTransfer.mParentView;
     if (readLength < 0) {
         readLength = childView->mMaxReadSize;
         childView->mMaxReadSize = 0;
@@ -566,7 +569,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
         case 8:
             break;
         case 10:
-            view = &gRomArchiveParentView;
+            view = &gRomArchiveTransfer.mParentView;
             payload = &record->mData;
             view->mEntries[fromIndex] = payload->mUnk_0e;
             switch (record->mData.mUnk_m.mKind) {
@@ -641,7 +644,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
             commandData = &record->mData;
             identifier = commandData->mPrepareSendData.mBlockId;
             commandData->mUnk_0e.mUnk_08 = 0;
-            for (node = data_02179ec0.mUnk_b04; node != NULL; node = node->mNext) {
+            for (node = gRomArchiveTransfer.mParentView.mActiveHead; node != NULL; node = node->mNext) {
                 if (node->mState == 2 && node->mBlockNode.mDataInfo.mId == identifier) {
                     break;
                 }
@@ -724,7 +727,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
     void *newBuffer;
 
     fromIndex = WBT_AidbitmapToAid(record->mPeerBmp);
-    childView = (RomArchiveChildView *) &gRomArchiveParentView;
+    childView = (RomArchiveChildView *) &gRomArchiveTransfer.mParentView;
     switch (record->mCommand) {
         case 2:
             if (record->mTargetBmp != 0) {
@@ -993,7 +996,7 @@ void StartRomArchivePacketSend(void) {
     s32 isParent;
     gRomArchiveTransfer.mSendAllowed = TRUE;
     if (gRomArchiveTransfer.mIsParent == 0) {
-        childView = (RomArchiveChildView *) &gRomArchiveParentView;
+        childView = (RomArchiveChildView *) &gRomArchiveTransfer.mParentView;
         WM_ReadStatus(childView->mUnk_340);
         WBT_SetOwnAid(childView->mUnk_4c4);
         WBT_RequestSync(1, RomArchiveChildCallback);
@@ -1066,14 +1069,12 @@ u32 GetRomArchiveState(void) {
 
 u32 SetRomArchiveGroupSendMask(u32 value) {
     u32 interruptState = value;
-    Unk02179ec0 *unused;
     u32 valueWithoutBit0;
     u32 savedValue;
     savedValue = interruptState;
     interruptState = OS_DisableInterrupts();
-    unused = &data_02179ec0;
     valueWithoutBit0 = (savedValue) & ~(1u);
-    data_02179ec0.mGroupSendMask = valueWithoutBit0;
+    gRomArchiveTransfer.mParentView.mGroupSendMask = valueWithoutBit0;
     interruptState = OS_RestoreInterrupts(interruptState);
     return interruptState;
 }
