@@ -33,7 +33,7 @@
 #include "00/code_021a7000.h"
 #include "00/code_021ae1e4.h"
 #include "00/code_021a7bfc.h"
-#include "00/code_021acef8.h"
+#include "00/network.h"
 #include "00/code_02186d04.h"
 #include "00/code_021a7bc8.h"
 #include "00/code_021ae000.h"

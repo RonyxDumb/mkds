@@ -701,29 +701,9 @@ src/00/code_021acef0.c:
     .text       start:0x021acebc end:0x021acec4
 
 // provisional: file name and boundaries
-src/00/code_021acef8.c:
+src/00/network.c:
     complete
-    .text       start:0x021acec4 end:0x021acfa4
-
-// provisional: file name and boundaries
-src/00/code_021acfd8.c:
-    complete
-    .text       start:0x021acfa4 end:0x021acfe4
-
-// provisional: file name and boundaries
-src/00/code_021ad018.c:
-    complete
-    .text       start:0x021acfe4 end:0x021ad338
-
-// provisional: file name and boundaries
-src/00/code_021ad36c.c:
-    complete
-    .text       start:0x021ad338 end:0x021ad384
-
-// provisional: file name and boundaries
-src/00/code_021ad3b8.c:
-    complete
-    .text       start:0x021ad384 end:0x021ad700
+    .text       start:0x021acec4 end:0x021ad700
 
 // provisional: file name and boundaries
 src/00/code_021ad734.c:

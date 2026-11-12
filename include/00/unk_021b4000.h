@@ -1,7 +1,7 @@
 #pragma once
 
 #include "00/code_02180608.h"
-#include "00/code_021acef8.h"
+#include "00/network.h"
 #include "00/code_021ad734.h"
 #include "00/code_02186d04.h"
 #include "00/code_02187484.h"
