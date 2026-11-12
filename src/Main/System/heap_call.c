@@ -14,9 +14,9 @@
 #include "g2d_CellTransferManager.h"
 
 HeapCall *gCurrentHeapCall;
-s32 data_usa_02174e54;
-StartupMemory data_02174e78;
-u8 data_usa_02174e80[0x700];
+s32 gDwcInitResult;
+StartupMemory gStartupMemory;
+u8 gDwcInitWork[0x700];
 
 void InitHeapCall(HeapCall *call, u32 func) {
     call->mUnk_00 = NULL;

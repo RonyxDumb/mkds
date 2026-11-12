@@ -60,7 +60,7 @@ void EnableVBlankIrq(void) {
 void InitStartupLibraries(void) {
     OS_DisableMainExArena();
     OS_Init();
-    data_02174e78.mUnk_00 = 0;
+    gStartupMemory.mUnk_00 = 0;
     OS_InitTick();
     OS_InitAlarm();
     FX_Init();
@@ -77,7 +77,7 @@ void InitStartupLibraries(void) {
     GX_VBlankIntr(1);
     FS_Init(-1);
     InitUnreadHalfwordGroups();
-    data_usa_02174e54 = DWC_Init(data_usa_02174e80);
+    gDwcInitResult = DWC_Init(gDwcInitWork);
     ClearLcdcBankAndStartWvrAndWait();
 }
 
@@ -94,21 +94,21 @@ void InitStartup(void) {
     u8 *arenaLo;
     InitStartupLibraries();
     InitBrightnessFades();
-    data_02174e78.mArm9TextStart = (u32) ARM9_TEXT_START;
-    data_02174e78.mArenaLo = OS_GetArenaLo(0);
+    gStartupMemory.mArm9TextStart = (u32) ARM9_TEXT_START;
+    gStartupMemory.mArenaLo = OS_GetArenaLo(0);
     GetArenaLoHiNop();
     arenaLo = OS_GetArenaLo(0);
-    data_02174e78.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
-    InitHeapCall(&data_02174e78.mRootHeapCall, 0);
-    data_02174e78.mRootHeapCall.mUnk_00 = "MainProc";
+    gStartupMemory.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
+    InitHeapCall(&gStartupMemory.mRootHeapCall, 0);
+    gStartupMemory.mRootHeapCall.mUnk_00 = "MainProc";
     StartupResetKeysInputSlot();
 }
 
 void RunRootHeapCall(u32 func) {
-    SetHeapCallFunc(&data_02174e78.mRootHeapCall, func);
-    RunHeapCall(&data_02174e78.mRootHeapCall, 0xbeef);
+    SetHeapCallFunc(&gStartupMemory.mRootHeapCall, func);
+    RunHeapCall(&gStartupMemory.mRootHeapCall, 0xbeef);
 }
 
 void *GetArenaHeap(void) {
-    return data_02174e78.mHeap;
+    return gStartupMemory.mHeap;
 }

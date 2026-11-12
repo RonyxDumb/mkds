@@ -23,7 +23,7 @@ StateCallbacks gLogoStateTable[12] = {
 
 void UpdateLogoState8(void) {
     StateMachine *stateMachine;
-    if (data_usa_02174e54 == 3) {
+    if (gDwcInitResult == 3) {
         stateMachine = &gLogoScene->mStateMachine;
         stateMachine->mNextState = 9;
         stateMachine->mNextStateRequested = 1;

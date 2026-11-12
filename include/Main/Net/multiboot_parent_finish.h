@@ -34,7 +34,7 @@ typedef struct LogoScene {
 } LogoScene;
 
 extern LogoScene *gLogoScene;
-extern s32 data_usa_02174e54;
+extern s32 gDwcInitResult;
 
 void DisconnectRemovedChildren(void);
 void FinishMultiBootParentSetup(void);

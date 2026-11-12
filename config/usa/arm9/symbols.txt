@@ -11174,9 +11174,9 @@ gTimeAttackGhostGetScan kind:bss addr:0x02174e44
 gTimeAttackGhostGetSlot kind:bss addr:0x02174e48
 gWLMenuMessage kind:bss addr:0x02174e4c
 gCurrentHeapCall kind:bss addr:0x02174e50
-data_usa_02174e54 kind:bss addr:0x02174e54
-data_02174e78 kind:bss addr:0x02174e58
-data_usa_02174e80 kind:bss addr:0x02174e80
+gDwcInitResult kind:bss addr:0x02174e54
+gStartupMemory kind:bss addr:0x02174e58
+gDwcInitWork kind:bss addr:0x02174e80
 gDisplaySettings kind:bss addr:0x02175580
 gFrameCallback kind:bss addr:0x02175584
 gSubBrightnessFade kind:bss addr:0x02175588

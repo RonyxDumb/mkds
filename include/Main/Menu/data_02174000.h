@@ -361,7 +361,7 @@ typedef struct TimeAttackGhostGetSlot {
 
 struct WLMenuMessage;
 
-// Object at data_02174e78: mHeap is the pointer GetArenaHeap returns.
+// Object at gStartupMemory: mHeap is the pointer GetArenaHeap returns.
 typedef struct StartupMemory {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mArm9TextStart;
@@ -371,9 +371,8 @@ typedef struct StartupMemory {
     /* 24 */ u32 mUnk_24;
 } StartupMemory;
 
-extern StartupMemory data_02174e78;
+extern StartupMemory gStartupMemory;
 
-extern u8 data_usa_02174e80[];
+extern u8 gDwcInitWork[];
 
- // first word of the cell transfer state manager
-
+// first word of the cell transfer state manager
