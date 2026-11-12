@@ -10,8 +10,7 @@
 
 void WriteChoisesSListScreenMap(void) {
     WriteChoisesSListTiles();
-    MoveChoisesSSelectedValue(0);
-    WriteChoisesSSelectedValueTiles();
+    WriteChoisesSSelectedValueTiles(MoveChoisesSSelectedValue(0));
 }
 
 #pragma thumb off

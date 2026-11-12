@@ -4,4 +4,4 @@
 
 s32 GetEntryEndKind(void);
 u32 GetChoisesSListIndex(void);
-void WriteChoisesSSelectedValueTiles();
+void WriteChoisesSSelectedValueTiles(s32 selectedIndex);
