@@ -27,6 +27,7 @@
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "Main/Menu/data_02175628.h"
+#include "Main/System/input_keys.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"

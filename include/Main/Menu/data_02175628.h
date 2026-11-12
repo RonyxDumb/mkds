@@ -59,8 +59,8 @@ typedef struct InputSlotPair {
     /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
 
-// One 0x5c-byte element of the array at gInputSlots.
-typedef struct InputSlot {
+// The first 0x28 bytes of an InputSlot; gKeysInputSlot is only this part.
+typedef struct InputSlotHead {
     /* 00 */ u16 mPressedBits;
     /* 02 */ u16 mBits;
     /* 04 */ u16 mClearedBits;
@@ -80,6 +80,31 @@ typedef struct InputSlot {
     /* 18 */ u64 mHoldStartTick;
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
+} InputSlotHead;
+
+// One 0x5c-byte element of the array at gInputSlots.
+typedef struct InputSlot {
+    // The members of InputSlotHead, spelled out.
+    union {
+        InputSlotHead mHead;
+        struct {
+            /* 00 */ u16 mPressedBits;
+            /* 02 */ u16 mBits;
+            /* 04 */ u16 mClearedBits;
+            /* 06 */ u16 mRepeatBits;
+            /* 08 */ u16 mRepeatState;
+            /* 0a */ u16 mRepeatCallCount;
+            /* 0c */ u16 mRepeatMask;
+            /* 0e */ u16 mRepeatDelayLimit;
+            /* 10 */ u16 mRepeatIntervalLimit;
+            /* 12 */ u16 mHoldLong;
+            /* 14 */ u16 mUnk_14;
+            /* 16 */ u8 mUnk_16[0x2];
+            /* 18 */ u64 mHoldStartTick;
+            /* 20 */ s32 mUnk_20;
+            /* 24 */ s32 mUnk_24;
+        };
+    };
     /* 28 */ KeyRecording mUnk_28;
     /* 38 */ u8 mUnk_38[0x4];
     /* 3c */ s32 mSourceKind;

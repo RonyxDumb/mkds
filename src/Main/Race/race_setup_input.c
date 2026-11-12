@@ -1432,7 +1432,7 @@ void UpdateInputSlots(void) {
         }
         keys = slotKeys & inputSlot->mBitMask;
         if (skipUpdate == FALSE) {
-            UpdateInputSlot(keys, inputSlot);
+            UpdateInputSlot(keys, &inputSlot->mHead);
         }
         UpdateInputSlotPair(&inputSlot->mPair, touchPoint, micValue);
     }

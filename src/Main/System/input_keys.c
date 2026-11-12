@@ -14,6 +14,7 @@
 #include "registers.h"
 
 KeyStream gKeyStream;
+InputSlotHead gKeysInputSlot;
 
 void StartupResetKeysInputSlot(void) {
     gKeysInputSlot.mPressedBits = 0;

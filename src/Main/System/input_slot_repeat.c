@@ -29,7 +29,7 @@ void ClearInputSlotBitsAndRepeat(InputSlot *slot) {
     slot->mRepeatCallCount = 0x0u;
 }
 
-void UpdateInputSlot(u32 keys, InputSlot *slot) {
+void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
     u16 maskedBits;
     if (slot->mUnk_20 != 0) {
         WriteKeyBitsToStream(keys);
