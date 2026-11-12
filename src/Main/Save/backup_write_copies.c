@@ -3,7 +3,7 @@
 #include "Main/Save/backup_access.h"
 #include "Main/Unknown/code_0204b714.h"
 #include "code_0200eddc.h"
-#include "code_021457ec.h"
+#include "card_common.h"
 #include "01/code_021956dc.h"
 
 #pragma thumb on

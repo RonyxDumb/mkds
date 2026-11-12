@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_02000000.h"
-#include "code_021457ec.h"
+#include "card_common.h"
 #include "Main/Unknown/code_02145888.h"
 #include "Main/Unknown/code_02146000.h"
 #include "card_request.h"

@@ -4053,14 +4053,9 @@ libs/NitroSDK/wm/src/wm_etc.c:
     .bss        start:0x0217f940 end:0x0217f9c0
 
 // provisional: file name and boundaries
-libs/NitroSDK/card/src/code_0214578c.c:
+libs/NitroSDK/card/src/card_common.c:
     complete
-    .text       start:0x0214578c end:0x021457ec
-
-// provisional: file name and boundaries
-libs/NitroSDK/card/src/code_021457ec.c:
-    complete
-    .text       start:0x021457ec end:0x021458c4
+    .text       start:0x0214578c end:0x021458c4
     .bss        start:0x0217f9c0 end:0x0217f9e0
 
 // provisional: file name and boundaries

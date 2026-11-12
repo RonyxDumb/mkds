@@ -5,7 +5,7 @@
 #include "Main/Unknown/unk_02154000.h"
 #include "os_spinLock.h"
 #include "os_tick.h"
-#include "code_0214578c.h"
+#include "card_common.h"
 #include "01/code_021956dc.h"
 #include "Main/Scene/scene_connection.h"
 

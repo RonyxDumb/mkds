@@ -13,7 +13,7 @@
 #include "code_0200eddc.h"
 #include "code_0200fc8c.h"
 #include "code_02133458.h"
-#include "code_021457ec.h"
+#include "card_common.h"
 #include "01/code_021956dc.h"
 
 void RunFileReadThread(void *unused) {

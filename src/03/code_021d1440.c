@@ -19,7 +19,7 @@
 #include "03/unk_021d67d8.h"
 #include "os_spinLock.h"
 #include "os_printf.h"
-#include "code_0214578c.h"
+#include "card_common.h"
 
 void InitDwcArchive(void) {
     FSFile file;
