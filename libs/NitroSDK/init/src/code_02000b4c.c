@@ -1,4 +1,5 @@
 #include "types.h"
+#include "unk_02000000.h"
 
 extern u8 data_usa_021773a0[];
 extern u8 data_usa_021773b8[];
@@ -10,16 +11,7 @@ extern u8 data_0216f340[];
                                  ".bss" abs32 RWX
 #pragma section INIT_TEXT begin
 
-struct BuildInfoLayout {
-    // Start and end of the block list, the source of the copied words, then the start of the range of words to clear
-    // and its end.
-    void *mWords[9];
-    char mBackup[24];
-    char mDwc[52];
-    char mWifi[40];
-    char mSsl[24];
-    char mCps[1028];
-} BuildInfo = {
+BuildInfoLayout BuildInfo = {
     {data_usa_021773a0, data_usa_021773b8, data_0216f340, data_0216f340, (void *) 0x021804c0, 0, (void *) 0x030028a0,
      (void *) 0xdec00621, (void *) 0x2106c0de},
     "[SDK+NINTENDO:BACKUP]",
