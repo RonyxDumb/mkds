@@ -12,6 +12,7 @@
 #include "string.h"
 #include "code_02134398.h"
 #include "code_02133048.h"
+#include "code_021329f8.h"
 #include "00/Lib/NitroWiFi/code_021a669c.h"
 #include "00/Lib/NitroWiFi/cpsif.h"
 #include "00/code_021a8878.h"

@@ -1,24 +1,6 @@
 #include "code_02133048.h"
 
 // clang-format off
-// Multiplies the 64-bit integers r1:r0 and r3:r2 and returns the low 64 bits of the product in r1:r0.
-// Hand-written asm: it saves three registers (r4, r5, lr) with no padding word and keeps its values in r4 and r5
-// while ip is free.
-// The same routine is also `_ull_mul`: a second name at this address in
-// symbols.txt (after `_ll_mul`, so dsd keeps naming the original's calls `_ll_mul`). An asm function cannot export a
-// second name (a label in its body stays local), so the delinked object carries it.
-asm u64 _ll_mul(u64 lhs, u64 rhs) {
-    // Low words multiplied in full, plus the two cross products into the high word.
-    stmfd sp!, {r4, r5, lr}
-    umull r5, r4, r0, r2
-    mla r4, r0, r3, r4
-    mla r4, r2, r1, r4
-    mov r1, r4
-    mov r0, r5
-    ldmfd sp!, {r4, r5, lr}
-    bx lr
-}
-
 // Signed 32-bit division: r0 divided by r1 gives the quotient in r0 and the remainder in r1, both rounded toward zero
 // (the remainder takes the dividend's sign). Division by zero returns at once. It works on the magnitudes: the dividend
 // is shifted up by the number of leading quotient bits that must be zero (found four at a time), then a computed jump

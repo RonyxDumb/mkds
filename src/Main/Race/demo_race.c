@@ -10,6 +10,7 @@
 #include "tp.h"
 #include "os_tick.h"
 #include "code_02133048.h"
+#include "code_021329f8.h"
 #include "code_0214d93c.h"
 #include "Main/Race/race_setup_input.h"
 

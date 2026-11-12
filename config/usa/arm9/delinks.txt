@@ -4385,11 +4385,12 @@ libs/mathlib/src/code_021322c8.s:
 // provisional: file name and boundaries
 libs/mathlib/src/code_021329f8.s:
     complete
-    .text       start:0x021329f8 end:0x02133048
+    .text       start:0x021329f8 end:0x02133068
 
 // provisional: file name and boundaries
 libs/mathlib/src/code_02133048.c:
-    .text       start:0x02133048 end:0x02133274
+    complete
+    .text       start:0x02133068 end:0x02133274
 
 // provisional: file name and boundaries
 libs/mathlib/src/code_02133274.s:

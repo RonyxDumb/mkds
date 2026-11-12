@@ -5,7 +5,8 @@
 //
 // Hand-written asm: _fsub and _fadd (code_02130cb4.s) branch into each other past their first instructions,
 // and _fmul (code_021322c8.s) runs on into _fsub with no return; _ll_udiv has a second entry, _ull_mod,
-// in its middle, and branches into the middle of _ll_sdiv and of _u32_div_f (code_02133274.s). _fsub also uses tst
+// in its middle, and branches into the middle of _ll_sdiv and of _u32_div_f (code_02133274.s); _ll_mul has a second name,
+// _ull_mul, which only an assembler label can give.
 // The division routines save ip and an odd number of registers.
 
     .text
@@ -555,3 +556,22 @@ lldiv_high_zero:
     ldmfd sp!, {r4, r5, r6, r7, r11, ip, lr}
     bx lr
     .size _ll_sdiv, . - _ll_sdiv
+
+// Multiplies the 64-bit integers r1:r0 and r3:r2 and returns the low 64 bits of the product in r1:r0. The same code is
+// `_ull_mul`, its second name: `_ll_mul` is used for signed and `_ull_mul` for unsigned operands.
+    .global _ll_mul
+    .type _ll_mul, @function
+_ll_mul:
+    .global _ull_mul
+    .type _ull_mul, @function
+_ull_mul:
+    // Low words multiplied in full, plus the two cross products into the high word.
+    stmfd sp!, {r4, r5, lr}
+    umull r5, r4, r0, r2
+    mla r4, r0, r3, r4
+    mla r4, r2, r1, r4
+    mov r1, r4
+    mov r0, r5
+    ldmfd sp!, {r4, r5, lr}
+    bx lr
+    .size _ll_mul, . - _ll_mul
