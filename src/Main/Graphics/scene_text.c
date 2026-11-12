@@ -12,6 +12,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
+#include "Main/Graphics/scene_text_init.h"
 
 #pragma thumb on
 

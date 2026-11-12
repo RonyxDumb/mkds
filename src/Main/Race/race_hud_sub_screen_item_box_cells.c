@@ -14,6 +14,10 @@
 #include "Main/Race/data_020b837c.h"
 #include "g2d_Animation.h"
 #include "Main/Race/kart.h"
+#include "Main/Race/race_new_record_ta.h"
+
+RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
+s32 gRaceHudSubScreenItemBoxNearOnly;
 
 void UpdateRaceHudSubScreenItemBoxCells(void) {
     s32 objectIndex;
@@ -27,7 +31,7 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
     subScreenScale = GetRaceHudSubScreenScale();
     cellIndex = 0;
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenItemBoxCells->mObjectCount; objectIndex++) {
-        if (data_0217b3f8 == 0 ||
+        if (gRaceHudSubScreenItemBoxNearOnly == 0 ||
             IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mObjectPairs[objectIndex]) != FALSE) {
             mapObject = gRaceHudSubScreenItemBoxCells->mObjects[objectIndex];
             if ((mapObject->mFlags & 1) == 0) {

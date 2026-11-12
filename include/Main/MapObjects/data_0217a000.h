@@ -1268,7 +1268,6 @@ extern u32 gFadeFogTable[8];
 extern u32 gCourseFogTable[8];
 extern u16 gToonTable[32];
 extern MtxFx43 *gCurrentViewMatrix;
-extern MtxFx44 data_0217acc0;
 // 0x20-byte entries behind member 0x014 of KartModels.
 typedef struct HeyhoPalette {
     /* 00 */ u8 mUnk_00[4];
@@ -1600,7 +1599,6 @@ typedef struct ShapeMapObjectCountList {
     /* 06 */ u8 mUnk_06[2];
 } ShapeMapObjectCountList;
 
-extern ShapeMapObjectCountList *gShapeMapObjectCountList;
 extern u16 gFadeFogHoldFrames;
 
 // Ten bytes: bytes 6 to 9 are signed values read in rows of four.

@@ -390,7 +390,7 @@ void RefreshCameraProjection(Camera *camera) {
                                      camera->mFar);
     reg_G3_MTX_MODE = 0;
     G3i_FrustumW_(camera->mFrustumTop, camera->mFrustumBottom, camera->mFrustumLeft, camera->mFrustumRight,
-                  camera->mNear, camera->mFar, 0x1000, 1, &data_0217acc0);
+                  camera->mNear, camera->mFar, 0x1000, 1, &gProjectionMatrix);
 }
 
 void UpdateCameraViewWithWorldUp(Camera *camera) {

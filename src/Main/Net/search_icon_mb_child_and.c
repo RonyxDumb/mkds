@@ -15,6 +15,8 @@
 #include "code_020222ec.h"
 #include "Main/Graphics/font_and_player_character.h"
 
+struct DownloadScreenFiles *gDownloadScreenFiles;
+
 void CreateSearchIconMBChildAndMultiDownload(void *heap) {
     gDownloadScreenFiles = HeapAlloc(heap, 0x2c);
     gDownloadScreenFiles->mSearchIconCellLayout = FindFileInLoadedArchives("search_icon_00.bncl");

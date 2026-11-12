@@ -17,6 +17,7 @@
 #include "g2d_CharCanvas.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/Race/race_hud_sub_screen_shine16_cells.h"
 
 EmblemChoises *gEmblemChoises;
 

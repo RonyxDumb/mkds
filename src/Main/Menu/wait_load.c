@@ -5,6 +5,8 @@
 
 #include "Main/Menu/data_0216d000.h"
 
+Wait *gWait;
+
 #pragma thumb on
 
 void LoadWaitData(void) {

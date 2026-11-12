@@ -31,10 +31,13 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
-u8 gSoundSetSdatPath[28] = "/data/Sound/sound_data.sdat";
-const SoundSet gReleaseEmptySoundSet = {0xff, 0xff, 0xff};
-const SoundSet gResetEmptySoundSet = {0xff, 0xff, 0xff};
 const SoundSet gEmptySoundSet = {0xff, 0xff, 0xff};
+u8 gSoundSetSdatPath[28] = "/data/Sound/sound_data.sdat";
+const SoundSet gResetEmptySoundSet = {0xff, 0xff, 0xff};
+const SoundSet gReleaseEmptySoundSet = {0xff, 0xff, 0xff};
+NNSSndHeap *gCurrentSndHeap;
+SndFileIdList gSndDataFileIdList;
+SndFileIdList gSoundSetFileIdList;
 
 void ReleaseLoadedSoundSet(void) {
     ReleaseSoundSet(GetLoadedSoundSet());

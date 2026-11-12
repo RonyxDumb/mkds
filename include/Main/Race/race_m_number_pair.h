@@ -10,3 +10,5 @@ void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer);
 void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames);
 void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer);
 void DrawRaceMNumberPairOneDigit(RaceHudOamBuffer *oamBuffer);
+
+extern RaceMNumberPair *gRaceMNumberPair;

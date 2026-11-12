@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/System/time_digits.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 void DrawRaceHud(void);
 
@@ -29,3 +30,5 @@ unsigned int GetShowLapTimeFrames(void);
 BOOL GetShowLapTime(void);
 
 extern u16 *gRaceHudSubScreenPalettes;
+
+extern struct RaceHud *gRaceHud;

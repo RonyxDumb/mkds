@@ -56,6 +56,16 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/wanwan.h"
 
+StateCallbacks gWanwanStateTable[] = {
+    {EnterWanwanState0, UpdateWanwanState0},    {EnterWanwanState1, UpdateWanwanState1},
+    {EnterWanwanState2, UpdateWanwanState2},    {EnterWanwanState3, UpdateWanwanState3},
+    {EnterWanwanState4, UpdateWanwanState4Nop}, {EnterWanwanState5, UpdateWanwanState5},
+};
+Quaternion data_0216beec = {{0, 0, 0, 0x1000}};
+SoundStartParams data_0216bedc = {0x12d, NULL, 2, 0};
+struct ShadowModel *gWanwanRockShadow;
+struct Nsbmd *gWanwan;
+
 #pragma thumb off
 
 static inline s64 WanwanXzLengthSquared(const Vec3 *vector) {
@@ -172,13 +182,6 @@ void ResetWanwan(Wanwan *wanwan) {
 }
 #pragma thumb off
 
-Quaternion data_0216beec = {{0, 0, 0, 0x1000}};
-SoundStartParams data_0216bedc = {0x12d, NULL, 2, 0};
 // Shared by kinds 0x196 and 0x1a5 (class Wanwan). Only kind 0x196 objects reach states 0, 1, 3 and 4;
 // a kind 0x1a5 object starts in state 5 and moves between states 2 and 5.
 // State 4 has no update step.
-StateCallbacks gWanwanStateTable[] = {
-    {EnterWanwanState0, UpdateWanwanState0},    {EnterWanwanState1, UpdateWanwanState1},
-    {EnterWanwanState2, UpdateWanwanState2},    {EnterWanwanState3, UpdateWanwanState3},
-    {EnterWanwanState4, UpdateWanwanState4Nop}, {EnterWanwanState5, UpdateWanwanState5},
-};

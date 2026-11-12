@@ -71,8 +71,10 @@ extern u8 gPosStripAlphaDecreasePerFrame;
 extern u16 gPosStripMaxAgeFrames;
 extern u16 gPosStripPointsPerStrip;
 extern s32 gPosStripDrawEnabled;
-extern s32 (*gSetPosStripPointFunction)();
 extern s32 gPosStripHeightDecreasePerFrame;
 extern PosStripTexture gPosStripTexture;
 extern s32 gAwardStripCharacterYOffsets[13][2];
 extern s32 gAwardStripKartYOffsets[37];
+
+extern s32 (*gSetPosStripPointFunction)();
+extern struct PosStrips *gPosStrips;

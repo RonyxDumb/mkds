@@ -11307,7 +11307,7 @@ gDefaultFollowDistance kind:bss addr:0x0217ac90
 gCurrentChainCamera kind:bss addr:0x0217ac94
 gFirstChainCamera kind:bss addr:0x0217ac98
 gEntryCamera kind:bss addr:0x0217ac9c
-data_0217acc0 kind:bss addr:0x0217aca0
+gProjectionMatrix kind:bss addr:0x0217aca0
 gKartModels kind:bss addr:0x0217ace0
 gEmblemSBNclr kind:bss addr:0x0217ace4
 gKartModelMenu kind:bss addr:0x0217ace8
@@ -11533,7 +11533,7 @@ gRaceStartGp kind:bss addr:0x0217b3c8
 gRaceLinkLevel kind:bss addr:0x0217b3cc
 gRaceGoalM kind:bss addr:0x0217b3d0
 gRaceNewRecordTa kind:bss addr:0x0217b3d4
-data_0217b3f8 kind:bss addr:0x0217b3d8
+gRaceHudSubScreenItemBoxNearOnly kind:bss addr:0x0217b3d8
 gRaceHudSubScreenItemBoxCells kind:bss addr:0x0217b3dc
 gRaceHudSubScreenEarthenPipeCells kind:bss addr:0x0217b3e0
 gRaceHudSubScreenWanwanCells kind:bss addr:0x0217b3e4

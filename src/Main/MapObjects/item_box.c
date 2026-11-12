@@ -33,6 +33,7 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/group_item_box.h"
 
 const MapObjectList gItemBoxUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateItemBox, NULL, 0, 0, 0, NULL};
 const MapObjectDrawList gBoxDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateBoxAndQuestion, (void (*)(MapObjectList *)) SetupDrawBox, (UnkFunc *) DrawBox, NULL, 2, (s32 (*)(MapObject *, void *, void *, void *)) 1, 0, NULL}, 0};

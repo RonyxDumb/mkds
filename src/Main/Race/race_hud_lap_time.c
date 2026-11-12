@@ -12,6 +12,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "code_0214d018.h"
 #include "Main/Race/kart.h"
+#include "Main/Race/race_hud_draw.h"
 
 #pragma opt_arithtransformation off
 

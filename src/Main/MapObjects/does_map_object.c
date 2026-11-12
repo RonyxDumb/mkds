@@ -1,6 +1,7 @@
 #include "Main/MapObjects/does_map_object.h"
 
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_m_number_pair.h"
 #include "Main/System/heap.h"
 #include "Main/System/heap_call.h"
 #include "Main/MapObjects/woodbox.h"

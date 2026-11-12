@@ -16,6 +16,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "gfd_VramTransferManager.h"
 #include "registers.h"
+#include "Main/Graphics/scene_text_init.h"
 
 const char *gBackScreenSNclrNames[1] = {"back_screen_s_b_00.nclr"};
 const char *gBackScreenSNcgrNames[1] = {"back_screen_s_b_00.ncgr"};

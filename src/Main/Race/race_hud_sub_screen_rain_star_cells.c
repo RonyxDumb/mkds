@@ -25,7 +25,7 @@
 #include "Main/MapObjects/ob_pakkun_sf.h" // ObPakkunSf
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-RaceHudSubScreenCells *gRaceHudSubScreenBasabasaCells;
+RaceHudSubScreenCells *gRaceHudSubScreenRainStarCells;
 RaceHudSubScreenCells *gRaceHudSubScreenPendulumCells;
 RaceHudSubScreenCells *gRaceHudSubScreenNsKiller2Cells;
 RaceHudSubScreenCells *gRaceHudSubScreenFlipperCells;
@@ -41,6 +41,7 @@ RaceHudSubScreenCells *gRaceHudSubScreenSunFireballCells;
 RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBurnerCells;
 RaceHudSubScreenCells *gRaceHudSubScreenBoundCells;
 RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBubbleCells;
+RaceHudSubScreenCells *gRaceHudSubScreenBasabasaCells;
 
 void ClearRaceHudSubScreenRainStarCells(void) {
     ClearRaceHudSubScreenCells(&gRaceHudSubScreenRainStarCells);

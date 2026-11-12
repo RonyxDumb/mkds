@@ -38,20 +38,22 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
 #include "code_02147cd8.h"
+#include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 
 s32 gRaceHudSubScreenItemPoolIndices[10] = {0, 1, 2, 3, 4, 5, 9, 7, 8, 11};
-struct RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
-struct RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
-struct RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
+RaceHudSubScreenCells *gRaceHudSubScreenCrabCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
-struct RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
-struct RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
-struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenCarCells;
 struct RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
 struct RaceHudSubScreenKarts *gRaceHudSubScreenKarts;
+struct RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
 
 // Indices into gItemKinds and gItemPools.
 
@@ -1194,9 +1196,9 @@ s32 CreateRaceHudSubScreenItemBoxCells(void) {
                 }
             }
             if (highest < 0x3e8000) {
-                data_0217b3f8 = 1;
+                gRaceHudSubScreenItemBoxNearOnly = 1;
             } else {
-                data_0217b3f8 = 0;
+                gRaceHudSubScreenItemBoxNearOnly = 0;
             }
             return created;
         }

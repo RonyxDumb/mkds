@@ -64,6 +64,8 @@
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_teresa_offset.h"
 
+Vec3 *gItemPushVector;
+
 void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId) {
     SoundSource *sourceCopy = &item->mSoundSource;
     s32 soundIdCopy = soundId;

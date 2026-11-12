@@ -40,20 +40,21 @@
 #include "Main/Race/kart.h"
 #include "Main/Kart/camera_shake.h"
 
-Camera *gEntryCamera;
-struct Camera *gChaseCamera;
 s32 gDefaultLookAtHeight;
+struct Camera *gChaseCamera;
+Camera *gSecondChainCamera;
 s32 gFollowHeight;
 s32 data_usa_0217ac80;
-Camera *gSecondChainCamera;
+Camera *gEntryCamera;
 s32 gCameraEntryChanged;
 s32 gEntryCameraUpdateRan;
 s32 gDefaultFollowDistance;
 Camera *gCurrentChainCamera;
 Camera *gFirstChainCamera;
+MtxFx44 gProjectionMatrix;
 
 MtxFx44 *GetProjectionMatrix(void) {
-    return &data_0217acc0;
+    return &gProjectionMatrix;
 }
 
 static inline s32 CameraNormalizeLengthOrZero(Vec3 *src, Vec3 *dst) {

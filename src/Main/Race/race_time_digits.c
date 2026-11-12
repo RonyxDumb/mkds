@@ -40,6 +40,8 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Race/kart.h"
 
+RaceTimeDigits *gRaceTimeDigits;
+
 void ClearRaceTimeDigitsPointer(void) {
     gRaceTimeDigits = NULL;
 }

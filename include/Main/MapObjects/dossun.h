@@ -12,6 +12,10 @@
 #include "Main/MapObjects/code_020d6dc0.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/wanwan.h"
+#include "Main/Kart/shadow_model.h"
+#include "Main/MapObjects/pendulum.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
+#include "code_02012b30.h"
 
 // Object with the GroupFollower base at 0xc8 and its own fields from 0xec.
 typedef struct Dossun {
@@ -78,3 +82,12 @@ void UpdateDossun(void *unused, Dossun *dossun); /* skipped for objects with mFl
 extern const MapObjectList gKuriboUpdateListData;
 extern const struct KuriboDrawList gKuriboDrawListData;
 extern const MapObjectKindData gKuriboKindData;
+
+extern struct ShadowModel *gDossunShadow;
+extern MapObjectList *gKuriboUpdateList;
+extern struct KuriboDrawList *gKuriboDrawList;
+extern struct DossunDrawList *gDossunDrawList;
+extern struct NsbmdModel *gKuribo;
+extern struct Nsbmd *gDossun;
+extern MapObjectList *gDossunUpdateList;
+extern MtxFx43 gDossunDrawMatrix;

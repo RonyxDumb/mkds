@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
@@ -89,3 +90,5 @@ extern struct RaceHudSubScreenCells *gRaceHudSubScreenSunFireballCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBurnerCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenBoundCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBubbleCells;
+
+extern RaceHudSubScreenCells *gRaceHudSubScreenRainStarCells;

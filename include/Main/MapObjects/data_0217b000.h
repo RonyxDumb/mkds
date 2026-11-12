@@ -203,10 +203,6 @@ typedef struct KartPhysicalParamTable {
     /* 10 */ u8 *mCharParamFile;
 } KartPhysicalParamTable;
 
-extern KartPhysicalParamTable *gKartPhysicalParamTable;
-
-extern struct SPLManager *gMissionRunSPLManager;
-
 struct ModelEffect;
 
 // The ModelEffect pools: an active list, one free list per kind, and the next polygon id (10 to 13).
@@ -218,9 +214,6 @@ typedef struct ModelEffects {
     /* 5e */ u8 mUnk_5e[2];
 } ModelEffects;
 
-// Particle effect ids StartWaterEfctKind2Effects starts with a kind 2 object; -1 marks an unused entry.
-extern KartAiItemUseEntry *gBattleItemInUseEntries;
-
 // The strip pool, 0x38 bytes: the active strips, the free strips, the free points and the texture file.
 typedef struct PosStrips {
     // [0] active strips, [1] free strips, [2] free points.
@@ -228,15 +221,6 @@ typedef struct PosStrips {
     /* 24 */ ResFileEntry mEffectFileEntry;
     /* 34 */ s32 mPolygonAttrBits;
 } PosStrips;
-
-extern PosStrips *gPosStrips;
-extern void (*gUseItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-extern void (*gUseItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-extern void (*gThrowItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-extern void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-extern void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-extern void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-extern KartAiItemUseEntry *gBattleHeldItemEntries;
 
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
 typedef struct TimedQuad {
@@ -613,7 +597,6 @@ typedef struct RaceHud {
     /* 910 */ s32 mMissionRunRecordFilled;
 } RaceHud;
 
-extern RaceHud *gRaceHud;
 struct ChoisesS;
 extern struct ChoisesS *gChoisesS;
 struct RaceNcerNclrNcgrTables;
@@ -682,11 +665,7 @@ typedef struct RaceGoalS {
 } RaceGoalS;
 
 extern RaceGoalS *gRaceGoalS;
-extern struct RaceNewRecordTa *gRaceNewRecordTa;
-extern s32 data_0217b3f8;
 extern struct MenuScene *gMenuScene;
-extern struct CupPicture *gCupPicture;
-extern struct DownloadScreenFiles *gDownloadScreenFiles;
 // The same pointer as gWaterEfct, stored by SetCourseWaterEfct (the last call of CreateWaterEfct) and set to NULL in
 // InitMapObjects; the water_efct getters and the level getter read this one.
 extern WaterEfct *gCourseWaterEfct;
@@ -698,16 +677,6 @@ extern s32 gMapObjectsTimeAttackOrWiFi;
 extern struct Water *gCourseWater;
 extern s32 gMapObjectKindCount;
 extern struct MapObjects *gMapObjects;
-extern struct KuriboDrawList *gKuriboDrawList;
-extern MapObjectList *gKuriboUpdateList;
-extern NsbmdModel *gKuribo;
-extern struct Nsbmd *gDossun;
-extern MapObjectList *gDossunUpdateList;
-extern struct ShadowModel *gDossunShadow;
-extern struct DossunDrawList *gDossunDrawList;
-extern MtxFx43 gDossunDrawMatrix;
-extern struct Nsbmd *gWanwan;
-extern struct ShadowModel *gWanwanRockShadow;
 extern u16 gItemBoxShadowAngle;
 extern MapObjectDrawList *gQuestionDrawList;
 extern BoxRotation *gBoxRotations;
@@ -718,16 +687,6 @@ extern MapObjectDrawList *gItemBoxShadowDrawList;
 extern MapObjectList *gItemBoxUpdateList;
 extern NsbmdModel *gBox;
 extern MtxFx43 gItemBoxShadowMatrix;
-extern u16 gGroupItemBoxHeightAngle;
-extern s32 gGroupItemBoxHeightOffset;
-extern MapObjectList *gGroupItemBoxUpdateList;
-extern s32 gGroupItemBoxShadowScaleWord;
-extern Vec3 gGroupItemBoxShadowScale;
-extern MkdEfBubbleUpdateList *gMkdEfBubbleUpdateList;
-extern struct Nsbmd *gMkdEfBubble;
-extern MapObjectDrawList *gMkdEfBubbleDrawList;
-extern ModelAnimation *gMkdEfBubbleNsbta;
-extern struct Nsbmd *gKoopaBlock;
 extern NsbmdModel *gChoropu;
 extern s32 gKouraWBlockTimer;
 extern s32 gThunderBlockTimer;
@@ -772,7 +731,6 @@ typedef struct RaceTimeDigits {
     /* 20 */ s32 mLastSecondsReached[6];
 } RaceTimeDigits;
 
-extern RaceTimeDigits *gRaceTimeDigits;
 // 0x18-byte elements of the tables at member 0x10 of RaceTaPositions.
 typedef struct RaceTaPositionSample {
     /* 00 */ Vec3 mPos;
@@ -846,7 +804,6 @@ typedef struct RaceHudSubScreenKarts {
     /* 190 */ RaceHudSubScreenCells *mCells;
 } RaceHudSubScreenKarts;
 
-extern RaceMNumberPair *gRaceMNumberPair;
 extern u16 gMapObjectLastPolygonId;
 extern u16 gWrappingPolygonId;
 extern u16 gWrappingPolygonIdBase;
@@ -897,11 +854,6 @@ extern RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 static inline RaceHudSubScreenCell *GetRaceHudSubScreenDossunCell(u32 cellIndex) {
     return &gRaceHudSubScreenDossunCells->mCells[cellIndex];
 }
-extern RaceHudSubScreenCells *gRaceHudSubScreenCrabCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenShine16Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenRainStarCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenPakkunSpitCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
 // Which model the Jg shows and its row in gJgKindRows: 0 lap_count, 1 lap_final, 2 jg_reverse, 3 jg_flag, 4 none.
 extern s32 gJgKind;
 extern s32 gJgSnapUntilPushFlip;
@@ -910,7 +862,6 @@ extern s32 gJgVisible;
 extern s32 gJgSnapActive;
 
 extern StateMachine gJgStateMachine;
-extern Vec3 *gItemPushVector;
 extern struct Nsbmd *gBridge;
 extern ModelAnimation *gBridgeNsbca;
 extern struct MapObjectDrawList *data_0217b7c0;

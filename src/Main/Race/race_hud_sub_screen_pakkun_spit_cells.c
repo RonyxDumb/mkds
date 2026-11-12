@@ -13,6 +13,8 @@
 #include "Main/Race/data_020b837c.h"
 #include "g2d_Animation.h"
 
+RaceHudSubScreenCells *gRaceHudSubScreenPakkunSpitCells;
+
 void ClearRaceHudSubScreenPakkunSpitCells(void) {
     ClearRaceHudSubScreenCells(&gRaceHudSubScreenPakkunSpitCells);
 }

@@ -37,3 +37,9 @@ extern const u16 gGroupItemBoxEntryFlag;
 extern const MapObjectList gGroupItemBoxUpdateListData;
 extern const MapObjectKindData gGroupItemBoxKindData;
 extern StateCallbacks gMkdEfBubbleStateTable[2];
+
+extern u16 gGroupItemBoxHeightAngle;
+extern MapObjectList *gGroupItemBoxUpdateList;
+extern s32 gGroupItemBoxShadowScaleWord;
+extern s32 gGroupItemBoxHeightOffset;
+extern Vec3 gGroupItemBoxShadowScale;

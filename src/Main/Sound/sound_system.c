@@ -19,6 +19,7 @@
 #include "output_effect.h"
 #include "code_0212ba34.h"
 #include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_set_load.h"
 
 u16 gSeqTrackMask = 0xf;
 s32 gSoundOutputEffectType = -1;

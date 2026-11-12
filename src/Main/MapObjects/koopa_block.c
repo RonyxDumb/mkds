@@ -47,6 +47,11 @@
 #include "Main/MapObjects/collision_hit_link.h"
 
 StateCallbacks gKoopaBlockStateTable[3] = {{(UnkFunc *) KoopaBlockState0ReturnArgument, UpdateKoopaBlockState0}, {EnterKoopaBlockState1, UpdateKoopaBlockState1}, {(UnkFunc *) KoopaBlockState2ReturnArgument, UpdateKoopaBlockState2}};
+struct Nsbmd *gMkdEfBubble;
+MkdEfBubbleUpdateList *gMkdEfBubbleUpdateList;
+struct Nsbmd *gKoopaBlock;
+MapObjectDrawList *gMkdEfBubbleDrawList;
+ModelAnimation *gMkdEfBubbleNsbta;
 
 #pragma thumb off
 

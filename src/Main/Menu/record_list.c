@@ -33,6 +33,7 @@
 #include "01/Menu/record_time_attack.h"
 
 RecordList *gRecordList;
+RecordVS *gRecordVS;
 
 #pragma thumb on
 

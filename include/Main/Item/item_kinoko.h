@@ -111,3 +111,5 @@ Vec3 *CreateItemPushVector(void);
 void ReleaseItemObjectToItsPool(ItemObject *item);
 
 void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId);
+
+extern Vec3 *gItemPushVector;

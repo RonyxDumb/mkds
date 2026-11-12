@@ -21,6 +21,7 @@
 #include "code_0212d214.h"
 #include "gfd_VramTransferManager.h"
 #include "code_0214cfe4.h"
+#include "Main/Menu/wait_load.h"
 
 #pragma thumb on
 

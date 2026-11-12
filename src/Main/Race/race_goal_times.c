@@ -26,10 +26,10 @@
 #include "Main/Race/kart.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-
 struct RaceHudSubScreenCells *gRaceHudSubScreenCreamCells;
-struct RaceGoalTimes *gRaceGoalTimes;
+RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
 struct RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
+struct RaceGoalTimes *gRaceGoalTimes;
 
 void ClearRaceHudSubScreenFireball2Cells(void) {
     ClearRaceHudSubScreenCells(&gRaceHudSubScreenFireball2Cells);

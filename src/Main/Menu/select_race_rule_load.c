@@ -5,6 +5,7 @@
 #include "Main/Menu/wait_load.h"
 #include "Main/Menu/data_0216d000.h"
 #include "gfd_VramTransferManager.h"
+#include "Main/Menu/select_race_rule_state.h"
 
 #pragma thumb on
 

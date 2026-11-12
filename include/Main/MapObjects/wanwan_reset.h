@@ -5,6 +5,8 @@
 #include "Main/MapObjects/code_020d6dc0.h" // Quaternion
 #include "Main/Sound/data_0210b000.h" // SoundStartParams
 #include "Main/MapObjects/wanwan.h" // Wanwan
+#include "Main/Kart/shadow_model.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
 
 typedef struct CourseMapRow CourseMapRow;
 
@@ -17,3 +19,6 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row);
 void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row);
 void ResetWanwan(Wanwan *wanwan);
 void CreateWanwanAndRockShadow(void);
+
+extern struct ShadowModel *gWanwanRockShadow;
+extern struct Nsbmd *gWanwan;

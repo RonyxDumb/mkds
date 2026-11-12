@@ -21,3 +21,5 @@ typedef struct DownloadScreenFiles {
 } DownloadScreenFiles;
 
 void CreateSearchIconMBChildAndMultiDownload(void *heap);
+
+extern struct DownloadScreenFiles *gDownloadScreenFiles;

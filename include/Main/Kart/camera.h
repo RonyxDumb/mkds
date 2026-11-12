@@ -43,6 +43,7 @@ typedef struct CourseMapCamera {
 } CourseMapCamera;
 
 #include "code_02012b30.h" // MtxFx43
+#include "code_021479b4.h"
 
 extern MtxFx44 data_usa_02170284;
 extern MtxFx43 data_usa_021702c8;
@@ -173,3 +174,5 @@ extern Camera *gCurrentChainCamera;
 // only chain camera when gRaceSetup.mUnk_00c is 4. Created by CreateFirstChainCamera or CreateChainCameraPair. With
 // two chain cameras its view is the one used on even frames of gRace.mUpdateFrames.
 extern Camera *gFirstChainCamera;
+
+extern MtxFx44 gProjectionMatrix;

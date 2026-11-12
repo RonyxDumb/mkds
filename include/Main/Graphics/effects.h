@@ -30,4 +30,6 @@ extern AwardFirstEffectIds gAwardFirstEffectIds;
 extern AwardEmitterEffectIds gAwardEmitterEffectIds;
 
 extern Vec3 gAwardEmitterPosition;
+
 extern void (*gAdvanceEmittersFunction)(void);
+extern struct SPLManager *gMissionRunSPLManager;

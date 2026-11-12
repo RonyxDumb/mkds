@@ -180,8 +180,6 @@ typedef struct PlayerEntryList {
     /* 254 */ s32 mScreenKind; // PLAYER_ENTRY_LIST_CHARACTER / _KART / _RACE_RULE
 } PlayerEntryList;
 
-extern PlayerEntryList *gPlayerEntryList;
-
 // 0x24-byte part of ResultsBattle, at 0x00 and 0x24, filled by LoadScreenMapFileSet.
 typedef struct ScreenMapFileSet {
     /* 00 */ Ncgr *mChars[4];

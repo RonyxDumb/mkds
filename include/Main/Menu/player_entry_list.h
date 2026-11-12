@@ -52,3 +52,4 @@ extern const struct EntryLabelTextRow *gEntryLabelTextRows;
 extern const u16 *gCharacterCellIndices;
 extern const u16 *gTimerDigitCellIndices;
 extern const struct EntryCellIndices *gEntryCellIndices;
+extern struct PlayerEntryList *gPlayerEntryList;

@@ -22,6 +22,11 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/seq_queue.h"
 
+s32 gRaceEndSeqCallCount;
+s32 gRaceEndNextSeqPending;
+s32 gRaceEndSeqStarted;
+SeqRowState gSeqRowState;
+
 void UpdateRaceEndSeq(void) {
     s32 resultKind;
     s32 callCount;

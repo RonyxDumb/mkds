@@ -15,6 +15,7 @@
 #include "registers.h"
 #include "Main/Menu/select_cup_m.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
+#include "Main/Race/race_hud_sub_screen_rain_star_cells.h"
 #include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on

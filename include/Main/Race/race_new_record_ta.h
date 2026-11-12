@@ -50,3 +50,5 @@ void ShowRaceNewRecordTaSubScreen(void);
 void SlideInRaceNewRecordTa(void);
 
 unsigned int GetRaceNewRecordTaBestLapNumber(void);
+
+extern struct RaceNewRecordTa *gRaceNewRecordTa;

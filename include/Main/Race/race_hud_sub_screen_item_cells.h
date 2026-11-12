@@ -67,9 +67,10 @@ extern struct RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenCarCells;
 extern struct RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
 extern struct RaceHudSubScreenKarts *gRaceHudSubScreenKarts;
+
+extern RaceHudSubScreenCells *gRaceHudSubScreenCrabCells;

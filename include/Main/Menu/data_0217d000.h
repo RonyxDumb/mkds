@@ -738,21 +738,9 @@ extern u32 gAnySeqVariableEnabled;
 
 extern SeqPlayerControl gSeqPlayerControl;
 
-extern Wait *gWait;
-
 extern KartIcon *gKartIcon;
 
-extern SelectRaceRule *gSelectRaceRule;
-
-extern SceneText *gSceneText;
-
 extern s32 gLapProgressSoundGaps[];
-
-extern s32 gRaceEndSeqCallCount;
-
-extern s32 gRaceEndSeqStarted;
-
-extern s32 gRaceEndNextSeqPending;
 
 extern u32 sIsThreadCreated;
 
@@ -790,7 +778,6 @@ extern SeqQueue gSeqQueue;
 
 extern s32 gSeqQueuePairSides[];
 
-extern NNSSndHeap *gCurrentSndHeap;
 
 extern ScenePlayers gScenePlayers;
 
@@ -800,15 +787,6 @@ extern NNSSndSeqPlayer *gScenePlayersSeqPlayer;
 extern SoundModeHolder gSoundModeHolder;
 
 extern struct NNSSndArc gFileSndArc;
-
-extern SeqRowState gSeqRowState;
-
-extern RecordVS *gRecordVS;
-
-// Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
-extern SelectCupGrid *gSelectCupGrid;
-
-extern SelectCupCourse *gSelectCupCourse;
 
 extern u32 gSeqVariableEnabled[];
 
@@ -821,6 +799,11 @@ extern SoundHandlePool gPlayingSoundPool;
 extern NNSFndList gSoundSourceUpdateLists[];
 
 extern NNSFndList data_0217d054;
+
+// Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
+extern SelectCupGrid *gSelectCupGrid;
+
+extern SelectCupCourse *gSelectCupCourse;
 
 extern u32 data_0217d020;
 

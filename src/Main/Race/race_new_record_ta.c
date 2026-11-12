@@ -29,6 +29,8 @@
 #include "01/Menu/record_time_attack.h"
 #include "Main/Race/kart.h"
 
+struct RaceNewRecordTa *gRaceNewRecordTa;
+
 u32 GetRaceNewRecordTaBestLapNumber(void) {
     return (gRaceNewRecordTa->mBestLapNumber);
 }

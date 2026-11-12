@@ -2,6 +2,7 @@
 #include "Main/Race/code_020b1dbc.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/Race/code_020b1cf4.h"
+#include "Main/Race/race_hud_draw.h"
 
 s32 GetRaceHudUpdateFrames(void) {
     u32 value0;

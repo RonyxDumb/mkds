@@ -30,6 +30,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "01/Menu/record_time_attack.h"
+#include "Main/Scene/run_scenes.h"
 
 SceneCallbacks gRunGhostSceneCallbacks = {InitGhostSceneCallback, UpdateGhostSceneCallback, ReleaseGhostSceneCallback, WriteGhostSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 

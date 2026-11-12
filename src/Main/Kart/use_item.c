@@ -2,6 +2,7 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Item/data_027e0000.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/gp_records_killer.h"
 
 void AdvanceBattleItemBitRequests(KartAiItemUse *itemUse, KartAi *kartAi) {
     AdvanceItemBitRequests(itemUse, kartAi);

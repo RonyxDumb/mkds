@@ -9,6 +9,8 @@
 #include "code_02134398.h"
 #include "Main/Menu/data_0216a000.h"
 
+struct CupPicture *gCupPicture;
+
 u32 CupPictureGetCurrentHeap(void) {
     u32 value0;
     value0 = (u32) GetCurrentHeapCall();

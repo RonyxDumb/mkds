@@ -4,6 +4,7 @@
 #include "Main/Menu/data_02153000.h" // SoundRow
 #include "code_02022aa8.h"
 #include "Main/Graphics/cell_file_set.h"
+#include "code_0212d214.h"
 
 // Three words, at 0, 4 and 8: LoadSoundSet, IsSoundSetLoaded and ReleaseSoundSet take one by value.
 typedef struct SoundSet {
@@ -26,10 +27,6 @@ typedef struct SndFileIdList {
     /* 40 */ s32 mCount;
 } SndFileIdList;
 
-// Same layout as the list above and goes through the same functions.
-extern SndFileIdList gSoundSetFileIdList;
-extern SndFileIdList gSndDataFileIdList;
-
 extern const SoundSet gEmptySoundSet;
 extern const SoundSet gReleaseEmptySoundSet;
 extern const SoundSet gResetEmptySoundSet;
@@ -51,4 +48,7 @@ void ReleaseSoundSet(LoadedSoundSet *loadedSet);
 u32 IsSoundSetLoaded(LoadedSoundSet *loadedSet, SoundSet soundSet);
 u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet);
 
-extern u8 gSoundSetSdatPath[28];
+extern struct NNSSndHeap *gCurrentSndHeap;
+extern SndFileIdList gSndDataFileIdList;
+// Same layout as the list above and goes through the same functions.
+extern SndFileIdList gSoundSetFileIdList;

@@ -56,6 +56,8 @@
 #include "Main/Graphics/text_draw.h"
 #include "gfd_VramTransferManager.h"
 
+SelectRaceRule *gSelectRaceRule;
+
 #pragma thumb on
 
 // Copies the rectangle of row b; which table is read depends on the mode's screen file.

@@ -26,3 +26,5 @@ void LoadCupPictureNscr(void);
 void InitCupPicture(void);
 
 u32 CupPictureGetCurrentHeap(void);
+
+extern struct CupPicture *gCupPicture;

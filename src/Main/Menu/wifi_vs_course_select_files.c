@@ -1,6 +1,7 @@
 #include "Main/Menu/wifi_vs_course_select_files.h"
 #include "Main/Menu/data_0202a820.h"
 #include "Main/Menu/data_02174000.h"
+#include "Main/Menu/player_entry_list.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
 #include "code_02022aa8.h"

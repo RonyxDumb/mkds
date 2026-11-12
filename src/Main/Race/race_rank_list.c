@@ -51,6 +51,7 @@
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
+#include "Main/Race/race_time_digits.h"
 
 RaceLapNumber *gRaceLapNumber;
 RaceRankList *gRaceRankList;

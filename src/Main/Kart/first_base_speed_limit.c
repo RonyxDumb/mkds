@@ -1,6 +1,7 @@
 #include "Main/Kart/first_base_speed_limit.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/Kart/kart_drift.h"
+#include "Main/Graphics/emitters.h"
 
 struct KartPhysicalParam *GetKartPhysicalParam(u32 arg0) {
     return &gKartPhysicalParamTable->mKartParams[arg0];

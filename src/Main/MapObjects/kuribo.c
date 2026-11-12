@@ -39,6 +39,7 @@
 #include "ITCM/sphere_collision.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/segment_curve.h"
+#include "Main/MapObjects/dossun.h"
 
 StateCallbacks gKuriboStateTable[6] = {{EnterKuriboState0, UpdateKuriboState0},
                                        {EnterKuriboState1, UpdateKuriboState1},

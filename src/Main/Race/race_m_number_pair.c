@@ -16,6 +16,8 @@
 #include "code_020222ec.h"
 #include "Main/Graphics/font_and_player_character.h"
 
+RaceMNumberPair *gRaceMNumberPair;
+
 void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer) {
     s32 startFrames;
 

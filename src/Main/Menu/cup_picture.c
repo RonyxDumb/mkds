@@ -4,6 +4,7 @@
 #include "Main/System/thread_function_queue_run.h"
 #include "Main/Menu/cup_picture_load.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/Race/race_goal_times.h"
 
 #pragma optimize_for_size on
 

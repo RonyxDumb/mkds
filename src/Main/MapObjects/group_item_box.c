@@ -32,9 +32,15 @@
 #include "Main/MapObjects/koopa_block.h"
 #include "Main/MapObjects/mkd_ef_bubble.h"
 
+const u16 gGroupItemBoxEntryFlag = 0x20;
 const MapObjectList gGroupItemBoxUpdateListData = {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitGroupItemBoxObjects, (void (*)(MapObjectList *)) UpdateGroupItemBoxHeightOffset, UpdateGroupItemBox, NULL, 0, NULL, 0, NULL};
 const MapObjectKindData gGroupItemBoxKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox, NULL, 1, 0xf000, 0, 0, NULL, 0, 2, 0, 0, 0, 0, 0, 0, 0};
 StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleState0, UpdateMkdEfBubbleState0}, {EnterMkdEfBubbleState1, UpdateMkdEfBubbleState1}};
+u16 gGroupItemBoxHeightAngle;
+MapObjectList *gGroupItemBoxUpdateList;
+s32 gGroupItemBoxShadowScaleWord;
+s32 gGroupItemBoxHeightOffset;
+Vec3 gGroupItemBoxShadowScale;
 
 #pragma thumb on
 void CreateMkdEfBubble(void) {
@@ -116,4 +122,3 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
     UpdateItemBox(unused, itemBox);
 }
 
-const u16 gGroupItemBoxEntryFlag = 0x20;

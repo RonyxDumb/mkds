@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_0200fc8c.h"
+#include "Main/Menu/data_0217d000.h"
 
 // Rectangle of the ScreenMap behind one row, with the top bits it is filled with plain and highlighted.
 typedef struct SelectRaceRuleNscrRect {
@@ -84,3 +85,5 @@ void MoveSelectRaceRuleRowPrevious(void);
 void MoveSelectRaceRuleRowNext(void);
 
 unsigned short GetSelectRaceRuleCpuCount(void);
+
+extern struct SelectRaceRule *gSelectRaceRule;

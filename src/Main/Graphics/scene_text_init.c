@@ -17,6 +17,8 @@
 #include "Main/Sound/sound_seq.h"
 #include "01/Menu/option_select_menu.h"
 
+SceneText *gSceneText;
+
 #pragma thumb on
 
 void InitSceneText(void *heap, SceneTextInitParams *config) {

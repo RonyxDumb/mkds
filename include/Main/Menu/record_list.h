@@ -71,3 +71,5 @@ u16 GetRecordSortKey(u16 listIndex);
 void SortRecordRange(s32 first, u16 count);
 
 extern struct RecordList *gRecordList;
+
+extern struct RecordVS *gRecordVS;

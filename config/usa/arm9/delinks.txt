@@ -704,7 +704,7 @@ src/Main/Menu/player_entry_list.c:
     .text       start:0x0202b604 end:0x0202cc78
     .rodata     start:0x02153a9c end:0x02153bec
     .data       start:0x021626d0 end:0x02162c64
-    .bss        start:0x02174e0c end:0x02174e1c
+    .bss        start:0x02174e0c end:0x02174e20
 
 // provisional: file name and boundaries
 src/Main/Graphics/timer_cell_index.c:
@@ -1603,7 +1603,7 @@ src/Main/Scene/run_scenes.c:
     .text       start:0x0205dc84 end:0x0205e2cc
     .rodata     start:0x02154904 end:0x0215494c
     .data       start:0x021653b8 end:0x021653c0
-    .bss        start:0x0217aa00 end:0x0217aa04
+    .bss        start:0x0217aa00 end:0x0217aa08
 
 // provisional: file name and boundaries
 src/Main/Save/emblem_block.c:
@@ -1783,7 +1783,7 @@ src/Main/Kart/camera_entry_flags.c:
 src/Main/Kart/camera.c:
     complete
     .text       start:0x02073eb8 end:0x02076cd0
-    .bss        start:0x0217ac74 end:0x0217aca0
+    .bss        start:0x0217ac74 end:0x0217ace0
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_model_menu.c:
@@ -1944,13 +1944,14 @@ src/Main/Graphics/emitters.c:
     .text       start:0x0208aea8 end:0x0208b484
     .rodata     start:0x02155f48 end:0x02155fc0
     .data       start:0x021660c8 end:0x021660f8
+    .bss        start:0x0217b018 end:0x0217b01c
 
 // provisional: file name and boundaries
 src/Main/Graphics/effects.c:
     complete
     .text       start:0x0208b484 end:0x0208bd20
     .data       start:0x021660f8 end:0x02166138
-    .bss        start:0x0217b020 end:0x0217b038
+    .bss        start:0x0217b01c end:0x0217b038
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_ai_staff_roll_advance.c:
@@ -1976,6 +1977,7 @@ src/Main/Kart/kart_ai_item_throw.c:
     complete
     .text       start:0x0208eb10 end:0x020901a0
     .data       start:0x021663d8 end:0x02166548
+    .bss        start:0x0217b06c end:0x0217b070
 
 // provisional: file name and boundaries
 src/Main/Kart/use_item.c:
@@ -1993,7 +1995,7 @@ src/Main/Race/gp_records_killer.c:
     .text       start:0x02090354 end:0x020911f4
     .rodata     start:0x02155fd8 end:0x02156458
     .data       start:0x02166548 end:0x0216656c
-    .bss        start:0x0217b090 end:0x0217b094
+    .bss        start:0x0217b070 end:0x0217b094
 
 // provisional: file name and boundaries
 src/Main/MapObjects/sman.c:
@@ -2510,7 +2512,7 @@ src/Main/Race/race_hud_draw.c:
     complete
     .text       start:0x020ae824 end:0x020b1a34
     .data       start:0x0216812c end:0x0216835c
-    .bss        start:0x0217b32c end:0x0217b330
+    .bss        start:0x0217b32c end:0x0217b334
 
 // provisional: file name and boundaries
 src/Main/Race/race_hud_lap_time.c:
@@ -2681,6 +2683,7 @@ src/Main/Race/race_time_digits.c:
     complete
     .text       start:0x020bb5ec end:0x020bc11c
     .data       start:0x02169104 end:0x0216912c
+    .bss        start:0x0217b3b0 end:0x0217b3b4
 
 // provisional: file name and boundaries
 src/Main/Race/race_rank_list.c:
@@ -2749,11 +2752,13 @@ src/Main/Race/race_new_record_ta.c:
     complete
     .text       start:0x020c5dd8 end:0x020c70ec
     .data       start:0x02169684 end:0x021696a8
+    .bss        start:0x0217b3d4 end:0x0217b3d8
 
 // provisional: file name and boundaries
 src/Main/Race/race_hud_sub_screen_item_box_cells.c:
     complete
     .text       start:0x020c70ec end:0x020c7450
+    .bss        start:0x0217b3d8 end:0x0217b3e0
 
 // provisional: file name and boundaries
 src/Main/Race/race_hud_sub_screen_item_box_cells_clear.c:
@@ -2765,7 +2770,7 @@ src/Main/Race/race_hud_sub_screen_item_cells.c:
     complete
     .text       start:0x020c7464 end:0x020ca520
     .data       start:0x021696a8 end:0x02169708
-    .bss        start:0x0217b3e0 end:0x0217b410
+    .bss        start:0x0217b3e0 end:0x0217b414
 
 // provisional: file name and boundaries
 src/Main/Race/race_hud_sub_screen_crab_cells_clear.c:
@@ -2776,6 +2781,7 @@ src/Main/Race/race_hud_sub_screen_crab_cells_clear.c:
 src/Main/Race/race_hud_sub_screen_shine16_cells.c:
     complete
     .text       start:0x020ca534 end:0x020ca65c
+    .bss        start:0x0217b414 end:0x0217b418
 
 // provisional: file name and boundaries
 src/Main/Race/race_hud_sub_screen_shine16_cells_clear.c:
@@ -2921,7 +2927,7 @@ src/Main/Menu/menu_screen_switch.c:
 src/Main/Race/race_hud_sub_screen_rain_star_cells.c:
     complete
     .text       start:0x020cccd8 end:0x020ce6a8
-    .bss        start:0x0217b420 end:0x0217b460
+    .bss        start:0x0217b420 end:0x0217b464
 
 // provisional: file name and boundaries
 src/Main/Menu/vs_select_cup_m.c:
@@ -2968,6 +2974,7 @@ src/Main/Menu/select_game_update.c:
 src/Main/Race/race_hud_sub_screen_pakkun_spit_cells.c:
     complete
     .text       start:0x020ced10 end:0x020cee0c
+    .bss        start:0x0217b464 end:0x0217b468
 
 // provisional: file name and boundaries
 src/Main/Menu/shuffled_indices.c:
@@ -3001,7 +3008,7 @@ src/Main/Race/race_goal_times.c:
     complete
     .text       start:0x020cffd0 end:0x020d0e3c
     .data       start:0x0216ae34 end:0x0216ae58
-    .bss        start:0x0217b474 end:0x0217b480
+    .bss        start:0x0217b474 end:0x0217b484
 
 // provisional: file name and boundaries
 src/Main/Menu/cup_picture.c:
@@ -3018,6 +3025,7 @@ src/Main/Menu/cup_picture_load.c:
     complete
     .text       start:0x020d0f78 end:0x020d1158
     .data       start:0x0216afd0 end:0x0216b01c
+    .bss        start:0x0217b484 end:0x0217b488
 
 // provisional: file name and boundaries
 src/Main/Race/race_start_battle.c:
@@ -3042,12 +3050,14 @@ src/Main/Net/search_icon_mb_child_and.c:
     complete
     .text       start:0x020d1640 end:0x020d18d4
     .data       start:0x0216b07c end:0x0216b1cc
+    .bss        start:0x0217b490 end:0x0217b494
 
 // provisional: file name and boundaries
 src/Main/Race/race_m_number_pair.c:
     complete
     .text       start:0x020d18d4 end:0x020d2090
     .data       start:0x0216b1cc end:0x0216b23c
+    .bss        start:0x0217b494 end:0x0217b498
 
 // provisional: file name and boundaries
 src/Main/MapObjects/does_map_object.c:
@@ -3202,12 +3212,14 @@ src/Main/MapObjects/dossun.c:
     .text       start:0x020daf20 end:0x020dbf7c
     .rodata     start:0x02158160 end:0x021581f8
     .data       start:0x0216be98 end:0x0216bebc
+    .bss        start:0x0217b660 end:0x0217b6ac
 
 // provisional: file name and boundaries
 src/Main/MapObjects/wanwan_reset.c:
     complete
     .text       start:0x020dbf7c end:0x020dc428
     .data       start:0x0216bebc end:0x0216bf30
+    .bss        start:0x0217b6ac end:0x0217b6b4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/wanwan.c:
@@ -3268,6 +3280,7 @@ src/Main/MapObjects/group_item_box.c:
     .text       start:0x020df48c end:0x020df7d0
     .rodata     start:0x021586d4 end:0x02158740
     .data       start:0x0216bfa0 end:0x0216bfd8
+    .bss        start:0x0217b730 end:0x0217b74c
 
 // provisional: file name and boundaries
 src/Main/MapObjects/mkd_ef_bubble.c:
@@ -3280,6 +3293,7 @@ src/Main/MapObjects/koopa_block.c:
     complete
     .text       start:0x020df890 end:0x020e0058
     .data       start:0x0216bfd8 end:0x0216c004
+    .bss        start:0x0217b74c end:0x0217b760
 
 // provisional: file name and boundaries
 src/Main/MapObjects/collision_hit_link.c:
@@ -3518,6 +3532,7 @@ src/Main/Item/held_item.c:
 src/Main/Item/item_kinoko.c:
     complete
     .text       start:0x020f49bc end:0x020f7c90
+    .bss        start:0x0217bc2c end:0x0217bc30
 
 // provisional: file name and boundaries
 src/Main/Item/item_slot_tables.c:
@@ -3853,6 +3868,7 @@ src/Main/Sound/sound_set_load.c:
     .text       start:0x0210e33c end:0x0210ef50
     .rodata     start:0x0215c380 end:0x0215c3a4
     .data       start:0x0216cb10 end:0x0216cb2c
+    .bss        start:0x0217d110 end:0x0217d19c
 
 // provisional: file name and boundaries
 src/Main/Sound/sound_file_id_list.c:
@@ -3914,6 +3930,7 @@ src/Main/Sound/seq_queue.c:
 src/Main/Sound/race_end_seq.c:
     complete
     .text       start:0x021108bc end:0x02111118
+    .bss        start:0x0217d300 end:0x0217d31c
 
 // provisional: file name and boundaries
 src/Main/Sound/seq_row.c:
@@ -3940,7 +3957,7 @@ src/Main/Menu/record_list.c:
     complete
     .text       start:0x02112b48 end:0x021145b4
     .data       start:0x0216d3b8 end:0x0216d3d0
-    .bss        start:0x0217d32c end:0x0217d330
+    .bss        start:0x0217d328 end:0x0217d330
 
 // provisional: file name and boundaries
 src/Main/Menu/record_vs_erase.c:
@@ -3966,6 +3983,7 @@ src/Main/Menu/wait.c:
 src/Main/Menu/wait_load.c:
     complete
     .text       start:0x02116dc8 end:0x02116ec0
+    .bss        start:0x0217d334 end:0x0217d338
 
 // provisional: file name and boundaries
 src/Main/Menu/picks_holder.c:
@@ -4008,6 +4026,7 @@ src/Main/Menu/select_race_rule.c:
 src/Main/Menu/select_race_rule_state.c:
     complete
     .text       start:0x0211ac70 end:0x0211db90
+    .bss        start:0x0217d348 end:0x0217d34c
 
 // provisional: file name and boundaries
 src/Main/Menu/select_race_rule_load.c:
@@ -4134,6 +4153,7 @@ src/Main/Graphics/back_screen.c:
 src/Main/Graphics/scene_text_init.c:
     complete
     .text       start:0x02125da0 end:0x02125ebc
+    .bss        start:0x0217d3cc end:0x0217d3d0
 
 // provisional: file name and boundaries
 src/Main/Menu/txt_system.c:

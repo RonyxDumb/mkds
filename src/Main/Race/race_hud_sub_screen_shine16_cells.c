@@ -12,6 +12,9 @@
 #include "Main/Race/data_020b837c.h"
 #include "g2d_Animation.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/Race/race_hud_sub_screen_item_cells.h"
+
+RaceHudSubScreenCells *gRaceHudSubScreenShine16Cells;
 
 void UpdateRaceHudSubScreenShine16Cells(void) {
     s32 objectIndex;
