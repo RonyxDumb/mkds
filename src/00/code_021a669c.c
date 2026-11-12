@@ -5,7 +5,7 @@
 #include "code_0214d018.h"
 #include "code_02133274.h"
 #include "os_thread.h"
-#include "code_02000800.h"
+#include "crt0.h"
 
 void WcmCpsifUnlockMutexInIRQ(OSMutex *mutex) {
     if (mutex->mHolder == (struct OSThread *) OS_IrqHandler) {

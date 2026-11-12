@@ -9,14 +9,9 @@ libs/NitroSDK/mi/src/code_0200007e.c:
     .text       start:0x02000000 end:0x02000800
 
 // provisional: file name and boundaries
-libs/NitroSDK/init/src/code_02000800.c:
+libs/NitroSDK/init/src/crt0.c:
     complete
-    .text       start:0x02000800 end:0x02000920
-
-// provisional: file name and boundaries
-libs/NitroSDK/init/src/code_02000920.c:
-    complete
-    .text       start:0x02000920 end:0x02000a58
+    .text       start:0x02000800 end:0x02000a58
 
 // provisional: file name and boundaries
 libs/NitroSDK/init/src/code_02000a58.c:
