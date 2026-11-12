@@ -4068,14 +4068,9 @@ libs/NitroSDK/card/src/card_request.c:
     .text       start:0x02146a00 end:0x02146a50
 
 // provisional: file name and boundaries
-libs/NitroSDK/card/src/code_02146a50.c:
+libs/NitroSDK/card/src/card_pullOut.c:
     complete
-    .text       start:0x02146a50 end:0x02146af4
-
-// provisional: file name and boundaries
-libs/NitroSDK/card/src/code_02146af4.c:
-    complete
-    .text       start:0x02146af4 end:0x02146bb8
+    .text       start:0x02146a50 end:0x02146bb8
     .bss        start:0x02180280 end:0x02180288
 
 // provisional: file name and boundaries

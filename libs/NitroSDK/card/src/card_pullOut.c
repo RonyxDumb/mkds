@@ -1,9 +1,10 @@
-#include "code_02146af4.h"
-
+#include "card_pullOut.h"
 #include "Main/Unknown/unk_02180000.h"
 #include "code_0200fc8c.h"
-#include "code_02146a50.h"
 #include "code_0214d5b8.h"
+#include "pm.h"
+#include "Main/Unknown/code_02000000.h"
+#include "code_0200007e.h"
 
 UnkWordFunc *gRemovalCallback;
 u32 gRemovalSeen;
@@ -44,4 +45,19 @@ void CARD_SetPulledOutCallback(void *callback) {
 // Returns 1 once a card removal was reported.
 u32 CARD_IsPulledOut(void) {
     return gRemovalSeen;
+}
+
+void CARD_TerminateForPulledOut(void) {
+    if (((s32) (*(vu16 *) 0x027FFFA8 & 0x8000)) >> 15 != 0) {
+        PM_ForceToPowerOff();
+    }
+    CARDi_SendtoPxi(1, 1);
+    OS_Terminate();
+}
+
+// Sends the word on tag 14, waiting and trying again until it is accepted.
+void CARDi_SendtoPxi(u32 data, s32 wait) {
+    while (PXI_SendWordByFifo(14, data, 0) != 0) {
+        WaitByLoop(wait);
+    }
 }

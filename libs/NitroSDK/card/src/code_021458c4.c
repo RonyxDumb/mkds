@@ -21,7 +21,7 @@
 #include "mi_dma_card.h"
 #include "code_0214d5b8.h"
 #include "registers.h"
-#include "code_02146af4.h"
+#include "card_pullOut.h"
 
 CARDiCommandArg gRequestBlock;
 u32 gRomBaseOffset;

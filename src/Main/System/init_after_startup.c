@@ -2,7 +2,7 @@
 #include "Main/Scene/menu_scene.h"
 #include "Main/Scene/return_terminate_for_pulled_out.h"
 #include "Main/System/heap_call.h"
-#include "code_02146af4.h"
+#include "card_pullOut.h"
 #include "Main/Unknown/code_0205e090.h"
 #include "Main/Net/connection_sharing.h"
 #include "Main/Net/wifi_session.h"
