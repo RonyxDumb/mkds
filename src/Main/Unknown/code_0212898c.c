@@ -1,6 +1,10 @@
 #include "Main/Unknown/code_0212898c.h"
-
+#include "Main/Unknown/code_0212a724.h"
 #include "Main/Unknown/unk_0217d000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/code_02124094.h"
+#include "Main/Unknown/code_02120610.h"
 #include "Main/Unknown/code_02060cb4.h"
 #include "Main/Unknown/code_020ab748.h"
 #include "Main/Unknown/code_020ab758.h"
@@ -31,7 +35,6 @@
 #include "Main/Unknown/code_02129000.h"
 #include "Main/Unknown/code_0212a000.h"
 #include "Main/Unknown/code_02060000.h"
-#include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_020ab798.h"
@@ -40,7 +43,6 @@
 #include "code_0212df7c.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "Main/Unknown/unk_0217a000.h"
 #include "00/code_02181f98.h"
 #include "01/code_021956dc.h"
 #include "Main/Unknown/code_021258f0.h"
@@ -71,10 +73,53 @@
 #include "Main/Unknown/code_020aba94.h"
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/code_0212a700.h"
-#include "Main/Unknown/code_0212a724.h"
 #include "Main/Unknown/code_0212a910.h"
 #include "Main/Unknown/code_02047104.h"
 #include "registers.h"
+
+BOOL IsLocateFriendOnWithBuddyStatus4(void) {
+    BOOL result = FALSE;
+    if (!gBackupBuffers->mFirstBlock->mLocateFriendOff) {
+        if (HasWiFiBuddyStatus4() != FALSE) {
+            result = TRUE;
+        }
+    }
+    return result;
+}
+
+#pragma thumb on
+void InitKeyboardLabelCanvases(void) {
+    s32 remaining[2] = {0x4000, 0x4000};
+    u8 buttonSizes[2][2][2] = {{{0x50, 0x10}, {0x50, 0x10}}, {{0x50, 0x10}, {0x50, 0x10}}};
+    u8 charSizes[2][12][2] = {
+        {{8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}},
+        {{16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}}};
+    s32 i;
+    s32 j;
+    s32 bufferIndex;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            remaining[1] -=
+                InitLabelCanvas(gKeyboard->mHeap, gKeyboardButtonLabelIndices[i][j], gKeyboard->mBnlls[i],
+                                buttonSizes[i][j][0], buttonSizes[i][j][1], gKeyboardButtonEntryIndices[i][j][0],
+                                gKeyboard->mNcer, gKeyboard->mBncls[i], gKeyboard->mTables[i][1], remaining[1]);
+        }
+    }
+    for (j = 0; j < 2; j++) {
+        for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
+            for (i = 0; i < gKeyboardTextLimits[j]; i++) {
+                remaining[bufferIndex] -= InitLabelCanvas(
+                    gKeyboard->mHeap, gKeyboardTextCharLabelIndices[j][i], gKeyboard->mBnlls[j], charSizes[j][i][0],
+                    charSizes[j][i][1], gKeyboardTextIndexEntryIndices[j][i], gKeyboard->mNcer, gKeyboard->mBncls[j],
+                    gKeyboard->mTables[j][bufferIndex], remaining[bufferIndex]);
+            }
+        }
+    }
+}
+#pragma thumb off
+
+// Object not known yet; it only sets the order of the tables above
+u8 data_0212a724_pad[12];
 
 #pragma thumb on
 
