@@ -16,6 +16,18 @@
 #include "Main/MapObjects/bound.h"
 #include "Main/Kart/karts.h"
 
+const u16 gShine16CollisionFlag = 0x20;
+const MapObjectKindDescriptor gShineBattleKindDescriptor = {
+    0,
+    {0, 0},
+    0xac,
+    (void (*)(void *, CourseMapRow *, void *)) InitShineBattleObjects,
+    CreateShineBattleKindData,
+    0,
+    0,
+    0,
+    CreateShineBattleUpdateList};
+
 void InitShineBattleObjects(MapObject *mapObject) {
     if (CountMapObjectsOfKind(MAP_OBJECT_KIND_SHINE16) == 0) {
         CreateParkedMapObjects(MAP_OBJECT_KIND_SHINE16, 0x14, mapObject);
@@ -169,7 +181,7 @@ MapObjectKindData *CreateShineBattleKindData(void) {
     return 0;
 }
 
-void *CreateShineBattleUpdateList(void) {
+MapObjectList *CreateShineBattleUpdateList(void) {
     return CreateMapObjectUpdateList(StartShineBattle, UpdateShineBattle, NULL);
 }
 

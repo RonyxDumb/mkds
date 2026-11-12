@@ -39,6 +39,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/MapObjects/map_object_create.h"
+#include "Main/MapObjects/shine_battle.h"
 
 MapObjectKindRow gMapObjectKindRows[133] = {
     {101, (MapObjectKindDescriptor *) &gItemBoxKindDescriptor, NULL},
@@ -110,7 +111,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {8, &data_usa_02167940, NULL},
     {102, &gCourseMapRowKindDescriptor, NULL},
     {106, &gShine16KindDescriptor, NULL},
-    {107, (MapObjectKindDescriptor *) &data_usa_021567b0, NULL},
+    {107, (MapObjectKindDescriptor *) &gShineBattleKindDescriptor, NULL},
     {344, &gAirshipKindDescriptor, NULL},
     {10, &data_usa_02167690, NULL},
     {105, (MapObjectKindDescriptor *) &data_usa_02156760, NULL},

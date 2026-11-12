@@ -2322,6 +2322,7 @@ src/Main/MapObjects/shine16.c:
 src/Main/MapObjects/shine_battle.c:
     complete
     .text       start:0x020a6cb4 end:0x020a71c8
+    .rodata     start:0x021567ac end:0x021567e4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/sanbo.c:

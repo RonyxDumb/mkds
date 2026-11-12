@@ -17,6 +17,7 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "tp.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 // Object of the list FindMapObjectKindUpdateList(0x6b): the shared MapObject part, then three words.
 typedef struct ShineBattle {
@@ -27,10 +28,13 @@ typedef struct ShineBattle {
 } ShineBattle;
 
 void ClearShineBattleObjectShine(s32 spawnObjectIndex);
-void *CreateShineBattleUpdateList(void);
+MapObjectList *CreateShineBattleUpdateList(void);
 MapObjectKindData *CreateShineBattleKindData(void);
 void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle);
 void StartShineBattle(MapObjectList *mapObjectList);
 BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList);
 
 void InitShineBattleObjects(MapObject *mapObject);
+
+extern const u16 gShine16CollisionFlag;
+extern const MapObjectKindDescriptor gShineBattleKindDescriptor;

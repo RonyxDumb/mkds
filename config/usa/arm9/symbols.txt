@@ -8112,7 +8112,7 @@ gBalloonHideThirdFlag kind:data(any) addr:0x0215679c
 gShine16HitFlag kind:data(any) addr:0x021567a0
 gShine16ShadowAngles kind:data(any) addr:0x021567a4
 gShine16CollisionFlag kind:data(any) addr:0x021567ac
-data_usa_021567b0 kind:data(any) addr:0x021567b0
+gShineBattleKindDescriptor kind:data(any) addr:0x021567b0
 gSanboHitFlag kind:data(any) addr:0x021567e4
 gSanboSecondHitFlag kind:data(any) addr:0x021567e8
 gIronBallInitFirstFlag kind:data(any) addr:0x021567ec
