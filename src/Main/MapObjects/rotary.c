@@ -29,6 +29,7 @@
 #include "Main/MapObjects/pukupuku_init.h"
 #include "Main/MapObjects/rotary_state.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/bridge_animation_frame.h"
 
 #pragma thumb off
 

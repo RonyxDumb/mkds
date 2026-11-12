@@ -3363,6 +3363,7 @@ src/Main/MapObjects/bridge.c:
 src/Main/MapObjects/bridge_animation_frame.c:
     complete
     .text       start:0x020e3b08 end:0x020e3b28
+    .rodata     start:0x02158cc0 end:0x02158d58
 
 // provisional: file name and boundaries
 src/Main/MapObjects/rotary.c:
