@@ -1,9 +1,15 @@
 #include "Main/Unknown/code_0205d0e8.h"
+#include "Main/Unknown/code_0205dc54.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_0205d000.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/unk_0217a000.h"
 #include "code_0214d018.h"
+
+void CreateCupRecords(void *heap) {
+    gCupRecords = HeapAlloc(heap, sizeof(CupRecords));
+}
 
 // Zeroes the ten-byte records of the eight karts in the four courses and the team points and win counts.
 void ResetCupRecords(void) {
