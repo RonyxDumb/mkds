@@ -1,7 +1,6 @@
 #include "00/Lib/GameSpy/gpi.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/Lib/GameSpy/code_0218e8d4.h"
-#include "00/Lib/GameSpy/code_0218f15c.h"
 #include "00/Lib/GameSpy/code_021948f8.h"
 #include "00/Lib/GameSpy/code_02196594.h"
 #include "00/Lib/DWC/dwc_memfunc.h"

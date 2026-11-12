@@ -29,11 +29,9 @@
 #include "00/Lib/GameSpy/code_021965a0.h"
 #include "00/unk_021b4000.h"
 #include "00/unk_021b3000.h"
-#include "00/Lib/GameSpy/code_02190548.h"
 #include "00/Lib/GameSpy/code_0219218c.h"
 #include "00/code_02192000.h"
 #include "00/Lib/GameSpy/code_0218e8d4.h"
-#include "00/Lib/GameSpy/code_0218f15c.h"
 #include "code_021382a8.h"
 #include "00/Lib/GameSpy/code_02190cd4.h"
 

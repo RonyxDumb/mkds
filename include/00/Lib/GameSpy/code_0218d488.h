@@ -19,3 +19,5 @@ extern s32 gGsiAcResult;
 extern char gGsiAcHostname[0x40];
 extern GsiAvailableCheck gGsiAvailableCheck;
 extern char gGsiAcGamename[0x40];
+
+extern u8 gAvailablePacketHeader[4];

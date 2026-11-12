@@ -100,22 +100,17 @@ typedef struct GameInviteData {
     /* 008 */ char mLocation[0x100];
 } GameInviteData;
 
-extern char gUnexpectedDataErrorString[];
-extern char gFKey[];
-extern char gDateKey[];
-extern u8 data_ov000_021b2814[];
-extern char gSignedKey[];
-extern char gPipeSKey[];
-extern char gPipeSsKey[];
-extern char gPipeLsKey[];
-extern char gPipeIpKey[];
-extern char gPipePKey[];
-extern char gPipeLKey[];
-extern char data_ov000_021b2854[];
-
 u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile);
 s32 GpiDecrementBuddyIndexAbove(void *unused, GpiProfile *profile, s32 minimum);
 u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile);
 u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);
 u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);
 s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input);
+
+typedef struct GpConnection GpConnection;
+typedef struct GpiProfile GpiProfile;
+typedef struct GpiBuffer GpiBuffer;
+
+u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile);
+u32 gpiClipBufferToPosition(GpConnection *connection, GpiBuffer *buffer);
+u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen);

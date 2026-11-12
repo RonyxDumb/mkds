@@ -42,7 +42,7 @@ static s32 GSINitroErrno;
 u32 GetElapsedMilliseconds(void) {
     u64 ticks;
     if (OS_IsTickAvailable() != 1) {
-        AssertionFailed(gTickAvailableAssertion, gNonportFileName, NULL, 0x109);
+        AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x109);
     }
     ticks = OS_GetTick();
     return (ticks << 6) / 0x82ea;
@@ -188,7 +188,7 @@ SOCHostEnt *getlocalhost(void) {
     static u32 *addrList[6];
     static u32 ips[5];
 
-    loopbackEntry.mName = gLocalhostName;
+    loopbackEntry.mName = "localhost";
     loopbackEntry.mAliases = (u8 *) &aliases;
     loopbackEntry.mAddrType = 2;
     loopbackEntry.mLength = 0;
@@ -349,7 +349,7 @@ u32 GOAGetLastError(s32 sock) {
 u32 GetUnixTime(u32 *timer) {
     u32 seconds;
     if (OS_IsTickAvailable() != 1) {
-        AssertionFailed(gTickAvailableAssertion, gNonportFileName, NULL, 0x667);
+        AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x667);
     }
     seconds = (OS_GetTick() << 6) / 0x1ff6210;
     if (timer != NULL) {

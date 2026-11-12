@@ -26,7 +26,6 @@
 #include "code_02139f70.h"
 #include "00/Lib/DWC/code_0219d128.h"
 #include "00/code_0218d000.h"
-#include "00/Lib/GameSpy/code_0218f15c.h"
 #include "00/Lib/DWC/code_0219c384.h"
 #include "00/code_0219d000.h"
 #include "00/unk_021b4000.h"

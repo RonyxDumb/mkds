@@ -20,7 +20,7 @@ void DarrayGrow(Darray *a) {
     a->mCapacity = a->mCapacity + a->mGrowCount;
     a->mList = DWCi_GsRealloc(a->mList, a->mCapacity * a->mElemSize);
     if (a->mList == NULL) {
-        AssertionFailed(gArrayListAssertText, gDarrayFileName, NULL, 0x41);
+        AssertionFailed("array->list", "darray.c", NULL, 0x41);
     }
 }
 
@@ -31,10 +31,10 @@ void DarraySetElement(Darray *a, const void *b, s32 c) {
 void *DarrayCreate(s32 elemSize, s32 c, void (*d)(void *)) {
     Darray *array = DWCi_GsMalloc(0x18);
     if (array == NULL) {
-        AssertionFailed(gArrayAssertText, gDarrayFileName, NULL, 0x52);
+        AssertionFailed("array", "darray.c", NULL, 0x52);
     }
     if (elemSize == 0) {
-        AssertionFailed(gDarrayElemSizeAssertText, gDarrayFileName, NULL, 0x53);
+        AssertionFailed("elemSize", "darray.c", NULL, 0x53);
     }
     if (c == 0) {
         c = 8;
@@ -47,7 +47,7 @@ void *DarrayCreate(s32 elemSize, s32 c, void (*d)(void *)) {
     if (array->mCapacity != 0) {
         array->mList = DWCi_GsMalloc(array->mCapacity * array->mElemSize);
         if (array->mList == NULL) {
-            AssertionFailed(gArrayListAssertText, gDarrayFileName, NULL, 0x5e);
+            AssertionFailed("array->list", "darray.c", NULL, 0x5e);
         }
     } else {
         array->mList = NULL;
@@ -59,7 +59,7 @@ void DarrayDelete(void *c) {
     Darray *array = c;
     s32 b;
     if (array == NULL) {
-        AssertionFailed(gArrayAssertText, gDarrayFileName, NULL, 0x69);
+        AssertionFailed("array", "darray.c", NULL, 0x69);
     }
     b = 0;
     if (0 < array->mCount) {
@@ -80,7 +80,7 @@ s32 DarrayGetCount(void *b) {
 void *DarrayGetElement(void *param_1, s32 n) {
     Darray *array = param_1;
     if (n < 0 || n >= array->mCount) {
-        AssertionFailed(gArrayIndexAssertText, gDarrayFileName, NULL, 0x94);
+        AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0x94);
     }
     if (n < 0 || n >= array->mCount) {
         return NULL;
@@ -91,7 +91,7 @@ void *DarrayGetElement(void *param_1, s32 n) {
 void DarrayAppend(void *param_1, void *param_2) {
     Darray *array = param_1;
     if (array == NULL) {
-        AssertionFailed(gArrayAssertText, gDarrayFileName, NULL, 0xa0);
+        AssertionFailed("array", "darray.c", NULL, 0xa0);
     }
     if (array != NULL) {
         DarrayInsert(array, param_2, array->mCount);
@@ -102,7 +102,7 @@ void DarrayInsert(void *param_1, void *param_2, s32 n) {
     Darray *array = param_1;
     s32 b;
     if (n < 0 || n > array->mCount) {
-        AssertionFailed(gArrayInsertIndexAssertText, gDarrayFileName, NULL, 0xa7);
+        AssertionFailed("(n >= 0) && (n <= array->count)", "darray.c", NULL, 0xa7);
     }
     if (array->mCount == array->mCapacity) {
         DarrayGrow(array);
@@ -120,7 +120,7 @@ void DarrayInsertSorted(Darray *array, void *b, UnkCompare *comparator) {
     u32 v2;
     s32 v3[2];
     if (comparator == NULL) {
-        AssertionFailed(gComparatorAssertText, gDarrayFileName, NULL, 0xb7);
+        AssertionFailed("comparator", "darray.c", NULL, 0xb7);
     }
     v1 = DarraySearchSorted(b, array->mList, array->mCount, array->mElemSize, comparator, v3);
     v2 = _s32_div_f(v1 - array->mList, array->mElemSize);
@@ -130,7 +130,7 @@ void DarrayInsertSorted(Darray *array, void *b, UnkCompare *comparator) {
 void DarrayRemoveWithoutCallback(Darray *array, int n) {
     s32 v1;
     if (n < 0 || n >= array->mCount) {
-        AssertionFailed(gArrayIndexAssertText, gDarrayFileName, NULL, 0xc0);
+        AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0xc0);
     }
     v1 = array->mCount - 1;
     if (n < v1) {
@@ -141,7 +141,7 @@ void DarrayRemoveWithoutCallback(Darray *array, int n) {
 
 void DarrayRemove(Darray *array, s32 n) {
     if ((n < 0) || (n >= array->mCount)) {
-        AssertionFailed(gArrayIndexAssertText, gDarrayFileName, NULL, 0xca);
+        AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0xca);
     }
     DarrayCallElemCallback(array, n);
     DarrayRemoveWithoutCallback(array, n);
@@ -149,7 +149,7 @@ void DarrayRemove(Darray *array, s32 n) {
 
 void DarrayReplace(Darray *array, const void *b, s32 n) {
     if ((n < 0) || (n >= array->mCount)) {
-        AssertionFailed(gArrayIndexAssertText, gDarrayFileName, NULL, 0xd3);
+        AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0xd3);
     }
     DarrayCallElemCallback(array, n);
     DarraySetElement(array, b, n);
@@ -180,7 +180,7 @@ s32 DarrayFindIndex(Darray *a, const void *b, UnkCompare *c, s32 d, s32 e) {
 void DarrayForEachReverse(Darray *array, UnkCompare *fn, const void *c) {
     s32 i;
     if (fn == NULL) {
-        AssertionFailed(gDarrayFnAssertText, gDarrayFileName, NULL, 0x104);
+        AssertionFailed("fn", "darray.c", NULL, 0x104);
     }
     for (i = array->mCount - 1; i >= 0; i--) {
         fn(DarrayGetElement(array, i), c);
@@ -191,7 +191,7 @@ void *DarrayFindByFnReverse(Darray *array, UnkCompare *fn, const void *c) {
     s32 i;
     void *e;
     if (fn == NULL) {
-        AssertionFailed(gDarrayFnAssertText, gDarrayFileName, NULL, 0x121);
+        AssertionFailed("fn", "darray.c", NULL, 0x121);
     }
     for (i = array->mCount - 1; i >= 0; i--) {
         e = DarrayGetElement(array, i);

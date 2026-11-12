@@ -35,13 +35,13 @@ void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
 
     iconnection = a->mGpiConnection;
     if (iconnection == NULL) {
-        AssertionFailed(gIconnectionAssertText, gGpiCallbackFileName, NULL, 0x23);
+        AssertionFailed("iconnection != NULL", "gpiCallback.c", NULL, 0x23);
     }
     if (result == 0) {
-        AssertionFailed(gResultNotNoErrorAssertion, gGpiCallbackFileName, NULL, 0x24);
+        AssertionFailed("result != GP_NO_ERROR", "gpiCallback.c", NULL, 0x24);
     }
     if (fatal != 1 && fatal != 0) {
-        AssertionFailed(gFatalOrNonFatalAssertion, gGpiCallbackFileName, NULL, 0x25);
+        AssertionFailed("(fatal == GP_FATAL) || (fatal == GP_NON_FATAL)", "gpiCallback.c", NULL, 0x25);
     }
     if (fatal == 1) {
         iconnection->mFatal = TRUE;
@@ -66,7 +66,7 @@ u32 GpiQueueCallback(GpConnection *a, GpiCallback b, void *c, GpiOperation *d, s
     f = a->mGpiConnection;
     g = DWCi_GsMalloc(0x18);
     if (g == NULL) {
-        GpiSetErrorMessage(a, data_ov000_021b2a7c);
+        GpiSetErrorMessage(a, "Out of memory.");
         return 1;
     }
     g->mCallback = b;
@@ -94,10 +94,10 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
     s32 d;
 
     if (data->mCallback.mCallback == NULL) {
-        AssertionFailed(gDataCallbackAssertText, gGpiCallbackFileName, NULL, 0x6e);
+        AssertionFailed("data->callback.callback != NULL", "gpiCallback.c", NULL, 0x6e);
     }
     if (data->mArg == NULL) {
-        AssertionFailed(gDataArgAssertText, gGpiCallbackFileName, NULL, 0x6f);
+        AssertionFailed("data->arg != NULL", "gpiCallback.c", NULL, 0x6f);
     }
     data->mCallback.mCallback(a, data->mArg, data->mCallback.mParam);
     if (data->mType == 2) {

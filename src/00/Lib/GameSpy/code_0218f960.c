@@ -1,10 +1,7 @@
 #include "00/Lib/GameSpy/code_0218f960.h"
-
-#include "00/Lib/GameSpy/code_0218f15c.h"
 #include "00/code_02190000.h"
 #include "code_02139f70.h"
 #include "00/code_0218d000.h"
-#include "00/Lib/GameSpy/gpiProfile.h"
 #include "00/code_021a3000.h"
 #include "00/unk_021b2000.h"
 #include "string.h"
@@ -12,27 +9,94 @@
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/Lib/GameSpy/code_021965a0.h"
-#include "00/Lib/GameSpy/code_02190cd4.h"
+#include "00/Lib/GameSpy/code_02190ff8.h"
 #include "00/code_02196000.h"
 #include "00/Lib/GameSpy/code_021906e4.h"
+#include "00/Lib/GameSpy/code_02196594.h"
+#include "00/unk_021b23b0.h"
+#include "code_0213a460.h"
+#include "00/Lib/GameSpy/code_0218e8d4.h"
+#include "00/Lib/GameSpy/gpiProfile.h"
+#include "00/Lib/GameSpy/code_02190cd4.h"
 #include "00/code_02194000.h"
 #include "00/Lib/GameSpy/code_021947e4.h"
-#include "00/Lib/GameSpy/code_02190548.h"
 #include "00/Lib/GameSpy/code_021948f8.h"
-#include "00/Lib/GameSpy/code_02196594.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/Lib/GameSpy/code_02196590.h"
-#include "code_0213a460.h"
 #include "00/Lib/GameSpy/code_0218e0fc.h"
 #include "00/code_02191200.h"
 #include "00/Lib/GameSpy/code_02196480.h"
-#include "00/Lib/GameSpy/code_02190ff8.h"
 #include "00/code_02192d64.h"
 #include "00/Lib/GameSpy/code_02194bb8.h"
 #include "00/code_02193000.h"
 #include "00/Lib/GameSpy/code_02193b88.h"
 #include "00/code_02192000.h"
-#include "00/unk_021b23b0.h"
+
+u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen) {
+    char intText[0x10];
+    u8 *str;
+    s32 bodyLength;
+    s32 len;
+    *message = 0;
+    if (inputBuffer->mLength < 5) {
+        return 0;
+    }
+    str = (u8 *) strchr((const char *) inputBuffer->mBuffer, 10);
+    if (str != NULL) {
+        if (strncmp((const char *) (str - 5), data_ov000_021b287c, 5) != 0) {
+            return 3;
+        }
+        *str = 0;
+        if (GpiGetValue((const char *) inputBuffer->mBuffer, gMKey, intText, 0x10) == FALSE) {
+            return 3;
+        }
+        *type = StrtolBase10(intText);
+        if (GpiGetValue((const char *) inputBuffer->mBuffer, gLenKey, intText, 0x10) == FALSE) {
+            return 3;
+        }
+        bodyLength = StrtolBase10(intText);
+        len = bodyLength + 1;
+        if (inputBuffer->mLength > len + (str - inputBuffer->mBuffer)) {
+            if (*(s8 *) (str + len) != 0) {
+                return 3;
+            }
+            *message = (s32) (str + 1);
+            *plen = bodyLength;
+            inputBuffer->mPos = len + (str - inputBuffer->mBuffer) + 1;
+        } else {
+            *str = 10;
+        }
+    }
+    return 0;
+}
+
+u32 gpiClipBufferToPosition(GpConnection *connection, GpiBuffer *buffer) {
+    s32 position;
+    if (buffer == NULL || buffer->mBuffer == NULL || (position = buffer->mPos) == 0) {
+        return 0;
+    }
+    buffer->mLength = buffer->mLength - position;
+    if (buffer->mLength != 0) {
+        memmove(buffer->mBuffer, buffer->mBuffer + buffer->mPos, buffer->mLength);
+    }
+    buffer->mBuffer[buffer->mLength] = 0;
+    buffer->mPos = 0;
+    return 0;
+}
+
+u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile) {
+    GpiConnection *gpState;
+    gpState = connection->mGpiConnection;
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gAuthaddKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\sesskey\\");
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gFromprofileidKey);
+    GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profile->mProfileId);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gSigKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, profile->mAuthSig);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
+    return 0;
+}
 
 s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
     char buffer[0x1000];
@@ -59,19 +123,19 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
     GpiBuddyStatus *buddyInfo;
 
     gpState = connection->mGpiConnection;
-    if (GpiGetValue(input, data_ov000_021b27c4, buffer, 0x1000) == FALSE) {
-        GpiSetError(connection, 1, gUnexpectedDataErrorString);
+    if (GpiGetValue(input, "\\bm\\", buffer, 0x1000) == FALSE) {
+        GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
     type = StrtolBase10(buffer);
-    if (GpiGetValue(input, gFKey, buffer, 0x1000) == FALSE) {
-        GpiSetError(connection, 1, gUnexpectedDataErrorString);
+    if (GpiGetValue(input, "\\f\\", buffer, 0x1000) == FALSE) {
+        GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
     profileNumber = StrtolBase10(buffer);
-    if (GpiGetValue(input, gDateKey, buffer, 0x1000) != FALSE) {
+    if (GpiGetValue(input, "\\date\\", buffer, 0x1000) != FALSE) {
         date = StrtolBase10(buffer);
     } else {
         date = GetUnixTime(NULL);
@@ -84,17 +148,17 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             }
             messageArg = DWCi_GsMalloc(0xc);
             if (messageArg == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
-            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+            if (GpiGetValue(input, "\\msg\\", buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
             messageArg->mUnk_08 = DWCi_GsMalloc(strlen(buffer) + 1);
             if (messageArg->mUnk_08 == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             strcpy(messageArg->mUnk_08, buffer);
@@ -108,23 +172,23 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
         case 2:
             profileRec = GpiFindOrAddProfile(connection, profileNumber);
             if (profileRec == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
-            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+            if (GpiGetValue(input, "\\msg\\", buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            str = strstr(buffer, gSignedKey);
+            str = strstr(buffer, "|signed|");
             if (str == NULL) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
             *str = 0;
             if (strlen(str + 8) != 0x20) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
@@ -139,7 +203,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             }
             requestArg = DWCi_GsMalloc(0x40c);
             if (requestArg == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             GpiCopyString(requestArg->mReason, buffer, 0x401);
@@ -153,13 +217,13 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
         case 100:
             profileRec = GpiFindOrAddProfile(connection, profileNumber);
             if (profileRec == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             if (profileRec->mBuddyStatus == NULL) {
                 profileRec->mBuddyStatus = DWCi_GsMalloc(0x18);
                 if (profileRec->mBuddyStatus == NULL) {
-                    GpiSetErrorMessage(connection, data_ov000_021b2814);
+                    GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
                 cursor = (u8 *) profileRec->mBuddyStatus;
@@ -170,45 +234,45 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 profileRec->mBuddyStatus->mIndex = gpState->mBuddyCount++;
             }
             buddyInfo = profileRec->mBuddyStatus;
-            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+            if (GpiGetValue(input, "\\msg\\", buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if (GpiGetValue(buffer, gPipeSKey, intText, 0x10) == FALSE) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+            if (GpiGetValue(buffer, "|s|", intText, 0x10) == FALSE) {
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
             buddyInfo->mStatus = StrtolBase10(intText);
             DWCi_GsFree(buddyInfo->mStatusString);
             buddyInfo->mStatusString = NULL;
-            if (GpiGetValue(buffer, gPipeSsKey, replyValue, 0x100) == FALSE) {
+            if (GpiGetValue(buffer, "|ss|", replyValue, 0x100) == FALSE) {
                 replyValue[0] = 0;
             }
             buddyInfo->mStatusString = goastrdup(replyValue);
             if (buddyInfo->mStatusString == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             DWCi_GsFree(buddyInfo->mLocationString);
             buddyInfo->mLocationString = NULL;
-            if (GpiGetValue(buffer, gPipeLsKey, replyValue, 0x100) == FALSE) {
+            if (GpiGetValue(buffer, "|ls|", replyValue, 0x100) == FALSE) {
                 replyValue[0] = 0;
             }
             buddyInfo->mLocationString = goastrdup(replyValue);
             if (buddyInfo->mLocationString == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
-            if (GpiGetValue(buffer, gPipeIpKey, intText, 0x10) == FALSE) {
+            if (GpiGetValue(buffer, "|ip|", intText, 0x10) == FALSE) {
                 buddyInfo->mIp = 0;
             } else {
                 buddyInfo->mIp =
                     (((u32) StrtolBase10(intText) >> 24) & 0xff) | (((u32) StrtolBase10(intText) >> 8) & 0xff00) |
                     ((StrtolBase10(intText) << 8) & 0xff0000) | ((StrtolBase10(intText) << 24) & 0xff000000);
             }
-            if (GpiGetValue(buffer, gPipePKey, intText, 0x10) == FALSE) {
+            if (GpiGetValue(buffer, "|p|", intText, 0x10) == FALSE) {
                 buddyInfo->mPort = 0;
             } else {
                 netPort = StrtolBase10(intText);
@@ -220,7 +284,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             }
             messageArg = DWCi_GsMalloc(0xc);
             if (messageArg == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             messageArg->mProfile = profileNumber;
@@ -232,24 +296,24 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             }
             break;
         case 101:
-            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+            if (GpiGetValue(input, "\\msg\\", buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            str = strstr(buffer, gPipePKey);
+            str = strstr(buffer, "|p|");
             if (str == NULL) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
             if ((s8) str[3] == 0) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
             productNumber = StrtolBase10(str + 3);
-            str = strstr(buffer, gPipeLKey);
+            str = strstr(buffer, "|l|");
             if (str != NULL) {
                 GpiCopyString(replyValue, (str + 3), 0x100);
             } else {
@@ -261,7 +325,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             }
             inviteArg = DWCi_GsMalloc(0x108);
             if (inviteArg == NULL) {
-                GpiSetErrorMessage(connection, data_ov000_021b2814);
+                GpiSetErrorMessage(connection, "Out of memory.");
                 return 1;
             }
             inviteArg->mProfile = profileNumber;
@@ -273,12 +337,12 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             }
             break;
         case 102:
-            if (GpiGetValue(input, gMsgKey, buffer, 0x1000) == FALSE) {
-                GpiSetError(connection, 1, gUnexpectedDataErrorString);
+            if (GpiGetValue(input, "\\msg\\", buffer, 0x1000) == FALSE) {
+                GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            gpiSendBuddyMessage(connection, profileNumber, 0x67, data_ov000_021b2854);
+            gpiSendBuddyMessage(connection, profileNumber, 0x67, "1");
             break;
     }
     return 0;
@@ -289,15 +353,15 @@ u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type,
     char buffer[0xdad];
     gpState = connection->mGpiConnection;
     GpiCopyString(buffer, message, 0xdad);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b27c4);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\bm\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, type);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b275c);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\sesskey\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gTKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\t\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profileid);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gMsgKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\msg\\");
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, buffer);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2778);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
     return 0;
 }
 
@@ -340,11 +404,11 @@ u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
     u32 result;
     gpState = connection->mGpiConnection;
     if (GpiFindProfile(connection, profile, &profileEntry) == 0) {
-        GpiSetErrorMessage(connection, gInvalidProfileErrorString);
+        GpiSetErrorMessage(connection, "Invalid profile.");
         return 2;
     }
     if (profileEntry->mAuthSig == NULL) {
-        GpiSetErrorMessage(connection, gInvalidProfileErrorString);
+        GpiSetErrorMessage(connection, "Invalid profile.");
         return 2;
     }
     result = gpiSendAuthBuddyRequest(connection, profileEntry);
@@ -376,19 +440,19 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile) {
 
     gpState = connection->mGpiConnection;
     if (GpiFindProfile(connection, profile, &profileEntry) == 0) {
-        GpiSetErrorMessage(connection, gInvalidProfileErrorString);
+        GpiSetErrorMessage(connection, "Invalid profile.");
         return 2;
     }
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gDelbuddyKey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b275c);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\delbuddy\\");
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\sesskey\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, gDelprofileidKey);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\delprofileid\\");
     GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, profileEntry->mProfileId);
-    GpiAppendBufferString(connection, &gpState->mOutputBuffer, data_ov000_021b2778);
+    GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
     if (profileEntry->mBuddyStatus != NULL) {
         buddyIndex = profileEntry->mBuddyStatus->mIndex;
         if (buddyIndex < 0) {
-            AssertionFailed(gIndexNotNegativeAssertion, gGpiBuddyFileName, NULL, 0x1fd);
+            AssertionFailed("index >= 0", "gpiBuddy.c", NULL, 0x1fd);
         }
         DWCi_GsFree(profileEntry->mBuddyStatus->mStatusString);
         profileEntry->mBuddyStatus->mStatusString = NULL;
@@ -401,7 +465,7 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile) {
         }
         gpState->mBuddyCount--;
         if (gpState->mBuddyCount < 0) {
-            AssertionFailed(gNumBuddiesAssertion, gGpiBuddyFileName, NULL, 0x204);
+            AssertionFailed("iconnection->profileList.numBuddies >= 0", "gpiBuddy.c", NULL, 0x204);
         }
         GpiForEachProfileWhileNonZero(connection, GpiDecrementBuddyIndexAbove, (void *) buddyIndex);
     }

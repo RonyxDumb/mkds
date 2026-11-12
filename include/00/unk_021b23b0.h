@@ -3,8 +3,6 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern char gTickAvailableAssertion[];
-extern char gNonportFileName[];
 extern u8 gSesskeyKey[];
 extern u8 gFinalKey[];
 extern u8 gInvalidMessageErrorString[];
@@ -44,6 +42,3 @@ extern u8 gSigKey[];
 extern char data_ov000_021b287c[];
 extern char gMKey[];
 extern char gLenKey[];
-extern char data_ov000_021b27c4[];
-extern u8 gTKey[];
-extern char gMsgKey[];

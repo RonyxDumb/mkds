@@ -13,6 +13,7 @@
 
 #pragma opt_propagation off
 
+u8 gAvailablePacketHeader[4] = {0xfe, 0xfd, 9, 0};
 SbServerList *gSortServerList;
 s32 gGsiAcResult;
 char gGsiAcHostname[0x40];
@@ -48,7 +49,7 @@ void GSIStartAvailableCheckA(const char *gamename) {
     SocketStartUp();
     customHost = gGsiAcHostname[0];
     if (customHost == 0) {
-        sprintf(hostBuffer, gAvailableHostFormat, gamename);
+        sprintf(hostBuffer, "%s.available.gs.nintendowifi.net", gamename);
     }
     if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, 0x6cfc,
                        (SOCSockAddrIn *) gGsiAvailableCheck.mAddress) != FALSE) {
@@ -91,14 +92,14 @@ s32 GSIAvailableCheckThink(void) {
     SOCSockAddrIn address;
     s32 len;
     u32 disabledMask;
-    s8 packet[0x40];
+    s8 replyBuffer[0x40];
     len = 8;
     if (gGsiAvailableCheck.mSocket == -1) {
         gGsiAcResult = 1;
         return 1;
     }
     if (CanReceiveOnSocket(gGsiAvailableCheck.mSocket) != 0 &&
-        HandlePacket(packet, recvfrom(gGsiAvailableCheck.mSocket, packet, 0x40, 0, (u8 *) &address, &len),
+        HandlePacket(replyBuffer, recvfrom(gGsiAvailableCheck.mSocket, replyBuffer, 0x40, 0, (u8 *) &address, &len),
                      (u8 *) &address, &disabledMask) == FALSE) {
         closesocket(gGsiAvailableCheck.mSocket);
         if ((disabledMask & 1) != 0) {
@@ -124,13 +125,13 @@ s32 GSIAvailableCheckThink(void) {
 
 s32 IntKeyCompare(u32 *entry1, u32 *entry2) {
     u32 firstServer;
-    u32 server2;
+    u32 secondServer;
     s32 firstValue;
     s32 diff;
     firstServer = *entry1;
-    server2 = *entry2;
+    secondServer = *entry2;
     firstValue = SbServerGetInt((SbServer *) firstServer, gSortServerList->mSortKey, 0);
-    diff = firstValue - SbServerGetInt((SbServer *) server2, gSortServerList->mSortKey, 0);
+    diff = firstValue - SbServerGetInt((SbServer *) secondServer, gSortServerList->mSortKey, 0);
     if (gSortServerList->mSortAscending == 0) {
         diff = -diff;
     }
@@ -139,14 +140,14 @@ s32 IntKeyCompare(u32 *entry1, u32 *entry2) {
 
 s32 FloatKeyCompare(u32 *entry1, u32 *entry2) {
     u32 firstServer;
-    u32 server2;
+    u32 secondServer;
     double firstValue;
     double secondValue;
     double difference;
     firstServer = *entry1;
-    server2 = *entry2;
+    secondServer = *entry2;
     firstValue = SbServerGetDouble((SbServer *) firstServer, gSortServerList->mSortKey, 0);
-    secondValue = SbServerGetDouble((SbServer *) server2, gSortServerList->mSortKey, 0);
+    secondValue = SbServerGetDouble((SbServer *) secondServer, gSortServerList->mSortKey, 0);
     difference = firstValue - secondValue;
     if (gSortServerList->mSortAscending == 0) {
         difference = 0 - difference;

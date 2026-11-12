@@ -9,7 +9,6 @@
 #include "00/unk_021b5000.h"
 #include "00/code_0219c93c.h"
 #include "00/Lib/DWC/code_0219cc00.h"
-#include "00/Lib/GameSpy/code_0218f15c.h"
 #include "code_02139f70.h"
 #include "00/code_0219d934.h"
 #include "Main/Net/friend_data_from_profile.h"
