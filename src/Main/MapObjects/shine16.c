@@ -1239,7 +1239,7 @@ MapObjectKindData *CreateKartBalloonsKindData(void) {
     return CreateEmptyMapObjectKindData();
 }
 
-void *CreateKartBalloonsUpdateList(void) {
+MapObjectList *CreateKartBalloonsUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateKartBalloons, NULL);
 }
 

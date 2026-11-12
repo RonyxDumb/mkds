@@ -8105,7 +8105,7 @@ gTrophyModelEffectRadius kind:data(any) addr:0x021566b8
 gTrophyModelEffectOffsetY kind:data(any) addr:0x021566dc
 gBalloonDrawRotateZAngles kind:data(any) addr:0x02156700
 gBalloonDrawListIndices kind:data(any) addr:0x02156720
-data_usa_02156760 kind:data(any) addr:0x02156760
+gKartBalloonsKindDescriptor kind:data(any) addr:0x02156760
 gBalloonHideFirstFlag kind:data(any) addr:0x02156794
 gBalloonHideSecondFlag kind:data(any) addr:0x02156798
 gBalloonHideThirdFlag kind:data(any) addr:0x0215679c

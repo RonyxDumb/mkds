@@ -79,9 +79,11 @@ typedef struct KartBalloonsObject {
     /* 264 */ s32 mBalloonOffsets[8][8];
 } KartBalloonsObject;
 
+typedef struct MapObjectList MapObjectList;
+
 void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObject);
 
-void *CreateKartBalloonsUpdateList(void);
+MapObjectList *CreateKartBalloonsUpdateList(void);
 MapObjectKindData *CreateKartBalloonsKindData(void);
 void InitKartBalloons(KartBalloonsObject *kartBalloonsObject);
 void BalloonKartOffsetCallback(u16 kartIndex, Vec3 *offset);
@@ -93,8 +95,6 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex);
 void StartShine16FromKart(Kart *hitKart, Kart *hitByKart);
 void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove);
 void ParkShine16Objects(void);
-typedef struct MapObjectList MapObjectList;
-
 MapObjectList *CreateShine16UpdateList(void);
 MapObjectList *CreateShine16ShadowDrawList(void);
 MapObjectList *CreateShine16DrawList(void);

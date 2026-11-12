@@ -41,6 +41,7 @@
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/MapObjects/earthen_pipe.h"
 #include "Main/MapObjects/dossun_kind_descriptor.h"
+#include "Main/MapObjects/kart_balloons_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
 
 MapObjectKindRow gMapObjectKindRows[133] = {
@@ -116,7 +117,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {107, (MapObjectKindDescriptor *) &gShineBattleKindDescriptor, NULL},
     {344, &gAirshipKindDescriptor, NULL},
     {10, &data_usa_02167690, NULL},
-    {105, (MapObjectKindDescriptor *) &data_usa_02156760, NULL},
+    {105, (MapObjectKindDescriptor *) &gKartBalloonsKindDescriptor, NULL},
     {108, &gBalloonKindDescriptor, NULL},
     {434, &gSanboKindDescriptor, NULL},
     {432, &gIronBallKindDescriptor, NULL},

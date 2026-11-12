@@ -98,7 +98,6 @@ void *FindMapObjectKindDrawList0(u32 kind);
 
 // Kind descriptors that gMapObjectKindRows[].mDescriptor points at.
 extern const MapObjectKindDescriptor data_usa_02156474;
-extern const MapObjectKindDescriptor data_usa_02156760;
 extern const MapObjectKindDescriptor data_usa_021582cc;
 extern const MapObjectKindDescriptor data_usa_02158300;
 extern const MapObjectKindDescriptor data_usa_021583d8;
