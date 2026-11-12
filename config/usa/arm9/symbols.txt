@@ -10036,7 +10036,7 @@ gCharTablePair3Second kind:data(any) addr:0x02167b7c
 @6580 kind:data(any) addr:0x02167db0 local
 @6581 kind:data(any) addr:0x02167dc0 local
 @6582 kind:data(any) addr:0x02167dd0 local
-data_usa_02167de0 kind:data(any) addr:0x02167de0
+gShineBalloonKindDescriptor kind:data(any) addr:0x02167de0
 @4973 kind:data(any) addr:0x02167e14 local
 @2785 kind:data(any) addr:0x02167e28 local
 gTitleStateHandlers kind:data(any) addr:0x02167e34

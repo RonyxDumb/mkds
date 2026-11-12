@@ -26,6 +26,17 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 
+MapObjectKindDescriptor gShineBalloonKindDescriptor = {0,
+                                                       {0, 0},
+                                                       0xb4,
+                                                       (void (*)(void *, CourseMapRow *, void *)) InitShineBalloon,
+                                                       (MapObjectKindData * (*) (void) ) CreateShineBalloonKindData,
+                                                       CreateShineBalloonDrawList,
+                                                       NULL,
+                                                       NULL,
+                                                       CreateShineBalloonUpdateList,
+                                                       NULL,
+                                                       {NULL, NULL, NULL, NULL}};
 const u16 gShineBalloonEndSecondFlag = 8;
 const u16 gShineBalloonEndFlag = 2;
 MapObjectModel *gShineBalloon;
@@ -143,11 +154,11 @@ void CreateShineBalloonKindData(void) {
     CreateMapObjectKindData(NULL, NULL, NULL, 1, 0);
 }
 
-void *CreateShineBalloonDrawList(void) {
+MapObjectList *CreateShineBalloonDrawList(void) {
     return CreateMapObjectDrawList2(CreateShineBalloon, DrawShineBalloon, SetupDrawShineBalloon);
 }
 
-void *CreateShineBalloonUpdateList(void) {
+MapObjectList *CreateShineBalloonUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateShineBalloon, NULL);
 }
 

@@ -130,7 +130,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {435, &gIronBallDrawOnlyKindDescriptor, NULL},
     {436, &gCreamKindDescriptor, NULL},
     {437, &gBerryKindDescriptor, NULL},
-    {112, &data_usa_02167de0, NULL},
+    {112, &gShineBalloonKindDescriptor, NULL},
     {301, &gBeachTree1KindDescriptor, NULL},
     {302, &gBeachTree1SecondKindDescriptor, NULL},
     {304, &gOpaTree1KindDescriptor, NULL},

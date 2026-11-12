@@ -2404,7 +2404,7 @@ src/Main/MapObjects/shine_balloon.c:
     complete
     .text       start:0x020ac524 end:0x020aca08
     .rodata     start:0x02156838 end:0x02156840
-    .data       start:0x02167e14 end:0x02167e28
+    .data       start:0x02167de0 end:0x02167e28
     .bss        start:0x0217b31c end:0x0217b320
 
 // provisional: file name and boundaries

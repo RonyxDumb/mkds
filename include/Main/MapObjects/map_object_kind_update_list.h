@@ -109,7 +109,7 @@ extern const MapObjectKindDescriptor gObPakkunSfKindDescriptor;
 extern const MapObjectKindDescriptor gPendulumKindDescriptor;
 extern MapObjectKindDescriptor data_usa_02167690;
 extern MapObjectKindDescriptor data_usa_02167940;
-extern MapObjectKindDescriptor data_usa_02167de0;
+extern MapObjectKindDescriptor gShineBalloonKindDescriptor;
 extern const MapObjectKindDescriptor gKuriboKindDescriptor;
 extern const MapObjectKindDescriptor gAttractorKindDescriptor;
 extern const MapObjectKindDescriptor gWaterKindDescriptor;
