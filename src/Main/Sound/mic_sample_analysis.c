@@ -17,17 +17,17 @@ u32 ClampMicSample(u32 arg0) {
     return value0;
 }
 
-u8 data_02161ad8 = 1;
+u8 gMicSampleAnalysisMode = 1;
 
-u8 data_02173288;
-s32 data_021732a8;
-s32 data_0217328c;
-s32 data_021732a4;
+u8 gMicSampleAnalysisValue;
+s32 gMicMaxCrossingInterval;
+s32 gMicMaxAmplitude;
+s32 gMicNearMaxSampleCount;
 MICAutoParam *gMicSampleAnalysisParam;
-s32 data_02173294;
-s32 data_02173298;
+s32 gMicSampleAnalysisRunning;
+s32 gMicSampleAnalysisMatchCount;
 u8 gMicIntervalHistogram[4];
-s32 data_0217329c;
+s32 gMicCrossingLevel;
 
 s32 GetMicSampleAmplitude(s32 sample) {
     if (sample > 0x7f && sample <= 0xfe) {
@@ -40,29 +40,29 @@ void InitMicSampleAnalysis(MICAutoParam *autoParam) {
     s32 bucketIndex;
 
     gMicSampleAnalysisParam = autoParam;
-    data_02173294 = 1;
-    data_02173288 = 0;
-    data_02173298 = 0;
+    gMicSampleAnalysisRunning = 1;
+    gMicSampleAnalysisValue = 0;
+    gMicSampleAnalysisMatchCount = 0;
     for (bucketIndex = 0; bucketIndex < 4; bucketIndex++) {
         gMicIntervalHistogram[bucketIndex] = 0;
     }
 }
 
 void StartMicSampleAnalysis(void) {
-    data_02173294 = 1;
+    gMicSampleAnalysisRunning = 1;
 }
 
 void StopMicSampleAnalysis(void) {
-    if (data_02173294 == 0) {
+    if (gMicSampleAnalysisRunning == 0) {
         return;
     }
-    data_02173294 = 0;
-    data_02173288 = 0;
-    data_02173298 = 0;
+    gMicSampleAnalysisRunning = 0;
+    gMicSampleAnalysisValue = 0;
+    gMicSampleAnalysisMatchCount = 0;
 }
 
 void SetMicSampleAnalysisMode(u32 mode) {
-    data_02161ad8 = mode;
+    gMicSampleAnalysisMode = mode;
 }
 
 u8 UpdateMicSampleAnalysis(void) {
@@ -99,7 +99,7 @@ u8 UpdateMicSampleAnalysis(void) {
     cnt3 = 0;
     maxd = 0;
     cnt2 = 0;
-    if (data_02173294 == 0) {
+    if (gMicSampleAnalysisRunning == 0) {
         return 0;
     }
     mind = len;
@@ -242,12 +242,12 @@ u8 UpdateMicSampleAnalysis(void) {
     for (sampleIndex = 0; sampleIndex < 4; sampleIndex++) {
         gMicIntervalHistogram[sampleIndex] = gMicIntervalHistogram[sampleIndex] * scale / 10;
     }
-    data_0217328c = maxv;
-    data_0217329c = level;
-    data_021732a4 = cnt2;
-    data_021732a8 = maxd;
+    gMicMaxAmplitude = maxv;
+    gMicCrossingLevel = level;
+    gMicNearMaxSampleCount = cnt2;
+    gMicMaxCrossingInterval = maxd;
     ok = 0;
-    data_02173288 = 0;
+    gMicSampleAnalysisValue = 0;
     if (level > 99) {
         if (gMicSampleAnalysisParam->mType == 0) {
             GetMicSampleAmplitude(ClampMicSample(*samplePtr));
@@ -256,7 +256,7 @@ u8 UpdateMicSampleAnalysis(void) {
         if (level > 1883) {
             cappedLevel = 1883;
         }
-        switch (data_02161ad8) {
+        switch (gMicSampleAnalysisMode) {
             case 2:
                 if (level >= 100 && level < 200) {
                     if (maxv >= 70 && gMicIntervalHistogram[0] <= 9 && gMicIntervalHistogram[0] >= 5 &&
@@ -519,17 +519,17 @@ u8 UpdateMicSampleAnalysis(void) {
         }
     }
     if (ok == 1) {
-        if (data_02173298 >= lim) {
+        if (gMicSampleAnalysisMatchCount >= lim) {
             if (cappedLevel >= 1883) {
-                data_02173288 = 255;
+                gMicSampleAnalysisValue = 255;
             } else {
-                data_02173288 = cappedLevel / 7 - 13;
+                gMicSampleAnalysisValue = cappedLevel / 7 - 13;
             }
         } else {
-            data_02173298++;
+            gMicSampleAnalysisMatchCount++;
         }
     } else {
-        data_02173298 = 0;
+        gMicSampleAnalysisMatchCount = 0;
     }
-    return data_02173288;
+    return gMicSampleAnalysisValue;
 }

@@ -14,22 +14,22 @@ s32 GetMicSampleAmplitude(s32 sample);
 
 u32 ClampMicSample(u32 arg0);
 
-extern u8 data_02161ad8;
+extern u8 gMicSampleAnalysisMode;
 
-extern u8 data_02173288;
+extern u8 gMicSampleAnalysisValue;
 
-extern s32 data_0217328c;
+extern s32 gMicMaxAmplitude;
 
 extern MICAutoParam *gMicSampleAnalysisParam;
 
-extern s32 data_02173294;
+extern s32 gMicSampleAnalysisRunning;
 
-extern s32 data_02173298;
+extern s32 gMicSampleAnalysisMatchCount;
 
-extern s32 data_0217329c;
+extern s32 gMicCrossingLevel;
 
 extern u8 gMicIntervalHistogram[4];
 
-extern s32 data_021732a4;
+extern s32 gMicNearMaxSampleCount;
 
-extern s32 data_021732a8;
+extern s32 gMicMaxCrossingInterval;
