@@ -3707,6 +3707,7 @@ src/Main/MapObjects/dram.c:
     complete
     .text       start:0x020ffc08 end:0x02100084
     .rodata     start:0x0215a0a8 end:0x0215a100
+    .bss        start:0x0217c604 end:0x0217c610
 
 // provisional: file name and boundaries
 src/Main/MapObjects/map_objects_get.c:
@@ -3741,7 +3742,7 @@ src/Main/Item/item_gesso.c:
     complete
     .text       start:0x02102674 end:0x021031f4
     .rodata     start:0x0215a2ec end:0x0215a47c
-    .bss        start:0x0217c614 end:0x0217c618
+    .bss        start:0x0217c610 end:0x0217c618
 
 // provisional: file name and boundaries
 src/Main/Item/bouncing_item_box.c:

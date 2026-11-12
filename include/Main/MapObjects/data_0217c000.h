@@ -60,8 +60,6 @@ extern s32 gOrthoQuadHoldFrameCount;
 
 extern s32 gOrthoQuadFrames;
 
-extern u16 *gItemTeresaFrameScales;
-
 extern OrthoQuad *gOrthoQuads;
 
 extern u16 gOrthoQuadKartIndex;
@@ -113,5 +111,3 @@ extern u16 gMissionRunMSselSeqIndex;
 extern s32 gMissionRunMSselStep32Count;
 
 extern s32 gMissionRunMSselStep0Count;
-
-extern struct Nsbmd *gDram;

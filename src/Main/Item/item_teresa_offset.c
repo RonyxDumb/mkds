@@ -8,6 +8,7 @@
 #include "Main/MapObjects/code_020e66e4.h"
 #include "Main/Item/item_object.h"
 #include "Main/Item/item_f_box.h"
+#include "Main/Item/item_gesso.h"
 #include "Main/Item/item_pool.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"

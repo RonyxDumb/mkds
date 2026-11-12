@@ -66,6 +66,7 @@ void GessoMarkItemInUseAsActiveItem(ItemInUse *itemInUse);
 
 extern const ItemGessoStep gItemGessoSteps[17];
 extern s32 gItemGessoFrameCount;
+extern u16 *gItemTeresaFrameScales;
 
 extern const ItemKind gItemKindGesso;
 extern const ItemInfo data_0215a2ec;

@@ -52,6 +52,8 @@ extern MapObjectDrawList data_0215a100;
 
 extern MapObjectList *gDramUpdateList;
 
+extern struct Nsbmd *gDram;
+
 MapObjectKindData *CreateDramKindData(void);
 MapObjectDrawList *CreateDramDrawList(void);
 MapObjectList *CreateDramUpdateList(void);

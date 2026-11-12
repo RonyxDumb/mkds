@@ -83,6 +83,7 @@ const ItemGessoStep gItemGessoSteps[17] = {
     {0, -5734, 0, 0xe66, 2, 2},         {0, -5734, 0, 0xe66, 2, 2},          {0, 0x2666, 0x666, 0xe66, 3, 0xa},
     {0, -410, 0x666, 0x99a, 6, 0xa},    {0, 0x3000, 0x800, 0x1000, 6, 6}};
 s32 gItemGessoFrameCount;
+u16 *gItemTeresaFrameScales;
 
 void GessoMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;
