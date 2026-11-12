@@ -4,7 +4,7 @@
 #include "Main/Item/item_slot_tables.h"
 #include "Main/Item/data_027e0000.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "code_0214d018.h"
 
 void AddItemData(u32 itemKind, u32 messageKind, void *data, u8 size) {

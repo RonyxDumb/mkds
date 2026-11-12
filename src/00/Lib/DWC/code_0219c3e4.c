@@ -36,7 +36,7 @@
 #include "00/Lib/DWC/code_02185954.h"
 #include "00/Lib/DWC/code_0219c384.h"
 #include "00/Lib/GameSpy/code_02198a8c.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 
 void (*stRemoteAuthCallback)();
 void *pStRemoteAuthParam;

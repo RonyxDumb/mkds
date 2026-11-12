@@ -6,7 +6,7 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "code_0214d018.h"
 
 // Lowers the rank by one for each better-ranked kart whose participant dropped out of the race.

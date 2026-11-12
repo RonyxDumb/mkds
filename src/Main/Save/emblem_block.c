@@ -12,7 +12,7 @@
 #include "Main/Save/backup_emblem_block.h"
 #include "Main/Save/buddy_record_from_player.h"
 #include "Main/Net/wifi_session.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "code_021458c4.h"
 #include "code_02147cd8.h"
 #include "code_0214d018.h"

@@ -50,7 +50,7 @@ typedef struct HttpsState HttpsState;
 
 typedef struct HttpsEntry HttpsEntry;
 
-#include "00/Lib/CPS/code_021ad734.h"
+#include "00/Lib/CPS/network.h"
 #include "00/unk_021b6380.h"
 #include "00/Lib/CPS/code_021ac3e4.h"
 #include "00/types_021ab5e4.h"

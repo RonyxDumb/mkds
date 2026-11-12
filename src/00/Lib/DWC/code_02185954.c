@@ -13,7 +13,6 @@
 #include "code_0200e77c.h"
 #include "00/Menu/wi_fi_connection_lost.h"
 #include "Main/System/heap.h"
-#include "00/Lib/CPS/code_021ad734.h"
 #include "03/Net/essid_wcm.h"
 #include "00/code_02186d04.h"
 #include "00/Lib/DWC/code_02188008.h"
@@ -29,6 +28,21 @@
 #include "code_0200edc0.h"
 #include "Main/Save/nvram_new_wifi_info.h"
 #include "code_02134008.h"
+
+char gLangPairValue01[] = "01";
+char gLangPairValue03[] = "03";
+char gLangPairValue06[] = "06";
+char gLangPairValue00[] = "00";
+char gLangPairValue05[] = "05";
+char gLangPairValue02[] = "02";
+char gLangPairValue04[] = "04";
+
+char *gLangPairValues[7] = {gLangPairValue00, gLangPairValue01, gLangPairValue02,
+                            gLangPairValue03, gLangPairValue04, gLangPairValue05,
+                            gLangPairValue06};
+
+char gNasAuthUrl[32] = "https://nas.nintendowifi.net/ac";
+DWCHttpParam DWCauthhttpparam = {gNasAuthUrl, 0, NULL, 0x1000, NULL, NULL, 0, 0x4e20};
 
 u32 DWCi_Http_CPSCallback(u32 flags) {
     if (flags & 0x8000) {
@@ -337,7 +351,7 @@ void DWC_Auth_GetResult(s32 *result) {
 }
 
 s32 DWCi_Auth_Start(s32 getWiFiInfoFromFlash) {
-    if (strcmp(DWCauthhttpparam.mUrl, data_ov000_021b1020) != 0) {
+    if (strcmp(DWCauthhttpparam.mUrl, gNasAuthUrl) != 0) {
         DWCauthhttpparam.mIgnoreCa = TRUE;
     }
     if (DWC_Http_Create(gAuth->mHttp, &DWCauthhttpparam) != 0) {

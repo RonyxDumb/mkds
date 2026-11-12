@@ -55,7 +55,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "player.h"
 #include "code_0212df7c.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "Main/Graphics/player_character_cell_file_set.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/menu.h"

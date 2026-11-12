@@ -97,6 +97,7 @@ src/00/Menu/wi_fi_connection_lost.c:
 src/00/Lib/DWC/code_02185954.c:
     complete
     .text       start:0x02185920 end:0x02186a68
+    .data       start:0x021b0fa8 end:0x021b1020
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_02186a9c.c:
@@ -524,14 +525,9 @@ src/00/Lib/GameSpy/code_0219b1d4.c:
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_0219b1f8.c:
     complete
-    .text       start:0x0219b1c4 end:0x0219b54c
-    .bss        start:0x021b548c end:0x021b5490
-
-// provisional: file name and boundaries
-src/00/Lib/DWC/code_0219b580.c:
-    complete
-    .text       start:0x0219b54c end:0x0219c350
-    .bss        start:0x021b5510 end:0x021b5610
+    .text       start:0x0219b1c4 end:0x0219c350
+    .data       start:0x021b4018 end:0x021b4020
+    .bss      start:0x021b548c end:0x021b5610
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_0219c384.c:
@@ -759,9 +755,4 @@ src/00/Lib/CPS/code_021acef0.c:
 // provisional: file name and boundaries
 src/00/Lib/CPS/network.c:
     complete
-    .text       start:0x021acec4 end:0x021ad700
-
-// provisional: file name and boundaries
-src/00/Lib/CPS/code_021ad734.c:
-    complete
-    .text       start:0x021ad700 end:0x021b058c
+    .text       start:0x021acec4 end:0x021b058c

@@ -14,7 +14,7 @@
 #include "00/Lib/GameSpy/code_0218aea4.h"
 #include "00/Lib/GameSpy/code_0219887c.h"
 #include "00/code_0219a000.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/Lib/DWC/code_0219c384.h"
 #include "00/unk_021b5000.h"
 #include "00/code_0219d000.h"

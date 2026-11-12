@@ -9,7 +9,7 @@
 #include "00/Lib/DWC/code_0219cc00.h"
 #include "00/Lib/DWC/code_0219d128.h"
 #include "00/Lib/GameSpy/gt2Main.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/code_0219d000.h"
 #include "00/code_0219e000.h"
 #include "00/code_0219f000.h"

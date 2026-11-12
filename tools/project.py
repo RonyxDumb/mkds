@@ -82,7 +82,7 @@ PATH_COMPILERS = {
     "libs/": "1.2/base",  # verified: library code in main (docs/compiler.md, Libraries); sp2, sp2p3 identical
     # verified: four ov000 files whose switches end in `add pc, r0` (docs/compiler.md, Game code)
     "src/00/Lib/CPS/code_021a9228.c": "1.2/sp2p3",
-    "src/00/Lib/CPS/code_021ad734.c": "1.2/sp2p3",
+    "src/00/Lib/CPS/network.c": "1.2/sp2p3",
 }
 # Flags from CC_FLAGS that sources under these paths must not get.
 PATH_DROP_FLAGS = {

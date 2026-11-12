@@ -4,7 +4,7 @@
 #include "Main/Race/cup_records.h"
 #include "Main/Race/data_020f36d8.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "Main/Race/kart.h"
 
 s32 PackOwnKartProgress(void) {

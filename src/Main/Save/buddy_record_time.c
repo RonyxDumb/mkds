@@ -18,7 +18,7 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "00/Menu/wi_fi_vs_matching.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "code_0214d018.h"
 #include "Main/Race/race_clock.h"
 

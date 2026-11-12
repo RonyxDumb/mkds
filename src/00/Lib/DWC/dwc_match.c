@@ -8,7 +8,7 @@
 #include "code_02134398.h"
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "00/unk_021b5000.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/Lib/DWC/code_0219c384.h"
 #include "00/code_0219eac8.h"
 #include "00/code_021a1000.h"

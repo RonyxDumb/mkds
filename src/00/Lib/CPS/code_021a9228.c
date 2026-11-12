@@ -2,7 +2,7 @@
 
 #include "00/Lib/CPS/code_021ab6d4.h"
 #include "00/Lib/CPS/code_021abd2c.h"
-#include "00/Lib/CPS/code_021ad734.h"
+#include "00/Lib/CPS/network.h"
 #include "00/types_021a998c.h"
 #include "00/types_021ab5e4.h"
 #include "00/unk_021b6000.h"

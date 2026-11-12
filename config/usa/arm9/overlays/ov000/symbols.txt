@@ -1587,16 +1587,15 @@ gWiFiAikotobaCheckCallbacks kind:data(any) addr:0x021b0ed8
 @5152 kind:data(any) addr:0x021b0f80 local
 @5153 kind:data(any) addr:0x021b0f8c local
 gWiFiConnectionLostCallbacks kind:data(any) addr:0x021b0f98
-data_usa_ov000_021b0fa8 kind:data(any) addr:0x021b0fa8
-data_usa_ov000_021b0fac kind:data(any) addr:0x021b0fac
-data_usa_ov000_021b0fb0 kind:data(any) addr:0x021b0fb0
-data_usa_ov000_021b0fb4 kind:data(any) addr:0x021b0fb4
-data_usa_ov000_021b0fb8 kind:data(any) addr:0x021b0fb8
-data_usa_ov000_021b0fbc kind:data(any) addr:0x021b0fbc
-data_usa_ov000_021b0fc0 kind:data(any) addr:0x021b0fc0
+gLangPairValue01 kind:data(any) addr:0x021b0fa8
+gLangPairValue03 kind:data(any) addr:0x021b0fac
+gLangPairValue04 kind:data(any) addr:0x021b0fb0
+gLangPairValue02 kind:data(any) addr:0x021b0fb4
+gLangPairValue05 kind:data(any) addr:0x021b0fb8
+gLangPairValue00 kind:data(any) addr:0x021b0fbc
+gLangPairValue06 kind:data(any) addr:0x021b0fc0
 gLangPairValues kind:data(any) addr:0x021b0fc4
-data_usa_ov000_021b0fdc kind:data(any) addr:0x021b0fdc ambiguous
-data_ov000_021b1020 kind:data(any) addr:0x021b0fe0
+gNasAuthUrl kind:data(any) addr:0x021b0fe0
 DWCauthhttpparam kind:data(any) addr:0x021b1000
 data_ov000_021b1060 kind:data(any) addr:0x021b1020
 gBirthFormat kind:data(any) addr:0x021b1028

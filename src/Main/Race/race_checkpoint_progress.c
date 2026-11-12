@@ -15,7 +15,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "code_0212df7c.h"
 #include "code_02147cd8.h"
 #include "Main/Net/wifi_race_sync_finish.h"

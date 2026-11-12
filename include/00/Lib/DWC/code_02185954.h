@@ -123,7 +123,7 @@ typedef struct AuthFirstPostValues {
     /* 1b */ char mPassword[4];
 } AuthFirstPostValues;
 
-#include "00/Lib/CPS/code_021ad734.h"
+#include "00/Lib/CPS/network.h"
 
 extern DWCAuth *gAuth;
 extern DWCWiFiInfo gAuthWiFiInfo;

@@ -1,6 +1,6 @@
 #include "Main/Net/wi_fi_session_step.h"
 #include "00/code_0219b000.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/code_021a2000.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
 #include "00/code_021a3000.h"

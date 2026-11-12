@@ -287,7 +287,7 @@ void AdvanceWiFiVSMatching(void);
 #include "00/Scene/wi_fi_menu_scene.h"
 #include "00/unk_021b4000.h"
 #include "00/code_02180608.h"
-#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b1f8.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "code_0214cfe4.h"

@@ -2,7 +2,6 @@
 
 #include "00/code_02180608.h"
 #include "00/Lib/CPS/network.h"
-#include "00/Lib/CPS/code_021ad734.h"
 #include "00/code_02186d04.h"
 #include "00/code_02187484.h"
 #include "00/Lib/DWC/code_02188008.h"
@@ -149,7 +148,6 @@ extern char gMatchup1HostnameDefault[];
 extern char gMatchup2HostnameDefault[];
 extern char gGamenameHostnameFormat[];
 extern char data_ov000_021b4054[];
-extern char gDwcGpCommandString[];
 extern char gDwcGpCommandMatchString[];
 
 extern char gGpMessagePrefixFormat[];

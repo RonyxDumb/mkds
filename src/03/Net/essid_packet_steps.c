@@ -6,7 +6,7 @@
 #include "code_02133048.h"
 #include "code_0214d018.h"
 #include "code_0214d93c.h"
-#include "00/Lib/CPS/code_021ad734.h"
+#include "00/Lib/CPS/network.h"
 #include "03/Net/essid_wcm.h"
 #include "03/Net/exchange_essid.h"
 #include "00/code_021a8aa8.h"

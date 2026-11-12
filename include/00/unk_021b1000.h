@@ -21,7 +21,7 @@ extern u8 gHttpLowReceiveBufferName[];
 extern u8 gHttpLowSendBufferName[];
 
 // Strings.
-extern char data_ov000_021b1020[];
+extern char gNasAuthUrl[];
 extern char data_ov000_021b1060[];
 extern char gBirthFormat[];
 extern char gDevtimeFormat[];
