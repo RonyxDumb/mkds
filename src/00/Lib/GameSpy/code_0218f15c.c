@@ -38,6 +38,7 @@
 #include "00/unk_021b23b0.h"
 #include "00/unk_021b4000.h"
 #include "code_021384cc.h"
+#include "00/Lib/GameSpy/code_0218d488.h"
 
 u32 GpiResetConnection(GpConnection *connection) {
     GpiConnection *gpState;

@@ -32,6 +32,7 @@
 #include "00/Lib/GameSpy/code_02193b88.h"
 #include "00/Lib/GameSpy/code_02190cd4.h"
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/GameSpy/code_0218d488.h"
 
 void randomString(s8 *buffer, s32 numChars) {
     s32 index;

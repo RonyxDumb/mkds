@@ -63,6 +63,17 @@
 #include "00/Lib/GameSpy/code_02198a8c.h"
 #include "00/code_021a1ae0.h"
 
+char gMatchingSignature[5] = "SBCM";
+char gUnsignedFormat[3] = "%u";
+char gDwcPidKey[8] = "dwc_pid";
+char gDwcEvalKey[9] = "dwc_eval";
+MatchingKey gMatchingKeys[154];
+u8 gMatchingMaskedParticipantIndices[0x20];
+void *gMatchingFilterText;
+DWCMatchOptMinCompleteIn *gOptMinComp;
+WiFiMatching *gWiFiMatching;
+DWCMatchOptSCBlock gOptSCBlock;
+
 u32 DWC_CancelMatching(void) {
     int valid;
     valid = DWC_IsValidCancelMatching();
@@ -90,7 +101,7 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
     }
     if (keyId >= 100) {
         index = keyId - 100;
-        if (gMatchingKeys[index][0] != 0) {
+        if (gMatchingKeys[index].mKeyId != 0) {
             return keyId;
         }
     }
@@ -99,19 +110,19 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
         return 0;
     }
     index = keyId - 100;
-    gMatchingKeys[index][0] = keyId;
-    gMatchingKeyIsString[index * 12] = 0;
-    *(u16 *) &gMatchingKeyPad[index * 12] = 0;
-    if (*(void **) &gMatchingKeyString[index * 12] != NULL) {
-        DWC_Free(4, *(u32 *) &gMatchingKeyString[index * 12], 0);
+    gMatchingKeys[index].mKeyId = keyId;
+    gMatchingKeys[index].mIsString = 0;
+    gMatchingKeys[index].mPad = 0;
+    if (gMatchingKeys[index].mString != NULL) {
+        DWC_Free(4, (u32) gMatchingKeys[index].mString, 0);
     }
-    *(void **) &gMatchingKeyString[index * 12] = DWC_Alloc(4, strlen(keyString) + 1);
-    if (*(void **) &gMatchingKeyString[index * 12] == NULL) {
+    gMatchingKeys[index].mString = DWC_Alloc(4, strlen(keyString) + 1);
+    if (gMatchingKeys[index].mString == NULL) {
         DWCi_StopMatching(0xb, 0xfffec77f);
         return 0;
     }
-    strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);
-    *(void **) &gMatchingKeyValue[index * 12] = valueSrc;
+    strcpy(gMatchingKeys[index].mString, keyString);
+    gMatchingKeys[index].mValue = valueSrc;
     qr2_register_keyA(keyId, keyString);
     return keyId;
 }
@@ -123,7 +134,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
     }
     if (keyId >= 100) {
         index = keyId - 100;
-        if (gMatchingKeys[index][0] != 0) {
+        if (gMatchingKeys[index].mKeyId != 0) {
             return keyId;
         }
     }
@@ -132,19 +143,19 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
         return 0;
     }
     index = keyId - 100;
-    gMatchingKeys[index][0] = keyId;
-    gMatchingKeyIsString[index * 12] = 1;
-    *(u16 *) &gMatchingKeyPad[index * 12] = 0;
-    if (*(void **) &gMatchingKeyString[index * 12] != NULL) {
-        DWC_Free(4, *(u32 *) &gMatchingKeyString[index * 12], 0);
+    gMatchingKeys[index].mKeyId = keyId;
+    gMatchingKeys[index].mIsString = 1;
+    gMatchingKeys[index].mPad = 0;
+    if (gMatchingKeys[index].mString != NULL) {
+        DWC_Free(4, (u32) gMatchingKeys[index].mString, 0);
     }
-    *(void **) &gMatchingKeyString[index * 12] = DWC_Alloc(4, strlen(keyString) + 1);
-    if (*(void **) &gMatchingKeyString[index * 12] == NULL) {
+    gMatchingKeys[index].mString = DWC_Alloc(4, strlen(keyString) + 1);
+    if (gMatchingKeys[index].mString == NULL) {
         DWCi_StopMatching(0xb, 0xfffec77f);
         return 0;
     }
-    strcpy(*(char **) &gMatchingKeyString[index * 12], keyString);
-    *(void **) &gMatchingKeyValue[index * 12] = valueSrc;
+    strcpy(gMatchingKeys[index].mString, keyString);
+    gMatchingKeys[index].mValue = valueSrc;
     qr2_register_keyA(keyId, keyString);
     return keyId;
 }
@@ -1163,7 +1174,7 @@ u32 DWCi_SBUpdateAsync(u32 profileId) {
     char filterText[0x100];
     u8 fieldIds[0xa8];
     s32 i;
-    u8 *e;
+    MatchingKey *e;
     u8 *w;
     u32 fieldCount;
     u32 updateResult;
@@ -1178,15 +1189,15 @@ u32 DWCi_SBUpdateAsync(u32 profileId) {
     fieldIds[6] = 0x36;
     if (gWiFiMatching->mMode == 0 || gWiFiMatching->mMode == 1) {
         i = 0;
-        e = gMatchingKeys[0];
+        e = gMatchingKeys;
         w = fieldIds + 7;
         for (; i < 0x9a; i++) {
-            if (e[0] != 0) {
-                *w = e[0];
+            if (e->mKeyId != 0) {
+                *w = e->mKeyId;
                 w++;
                 fieldCount++;
             }
-            e += 12;
+            e++;
         }
     }
     switch (gWiFiMatching->mState) {
@@ -2734,7 +2745,7 @@ u32 DWCi_ProcessCancelMatchSynTimeout(void) {
 u8 DWCi_GetNewMatchKey(void) {
     u8 i = 0;
     do {
-        if (gMatchingKeys[i][0] == 0) {
+        if (gMatchingKeys[i].mKeyId == 0) {
             return i + 100;
         }
         i++;
@@ -2745,12 +2756,12 @@ u8 DWCi_GetNewMatchKey(void) {
 void DWCi_ClearGameMatchKeys(void) {
     s32 i;
     volatile u32 v;
-    u8(*e)[12];
+    MatchingKey *e;
     i = 0;
     e = gMatchingKeys;
     for (; i < 0x9a; i++) {
-        if (*(u32 *) &e[0][4] != 0) {
-            DWC_Free(4, *(u32 *) &e[0][4], 0);
+        if (e->mString != NULL) {
+            DWC_Free(4, (u32) e->mString, 0);
         }
         e++;
     }
@@ -2778,10 +2789,10 @@ u8 DWCi_GetAIDFromList(void) {
 }
 
 s32 DWCi_CheckDWCServer(u32 server) {
-    if (SbServerGetInt((SbServer *) server, gNumPlayersKey, -1) == -1) {
+    if (SbServerGetInt((SbServer *) server, "numplayers", -1) == -1) {
         return 0;
     }
-    if (SbServerGetInt((SbServer *) server, gMaxPlayersKey, -1) == -1) {
+    if (SbServerGetInt((SbServer *) server, "maxplayers", -1) == -1) {
         return 0;
     }
     if (SbServerGetInt((SbServer *) server, gDwcMtypeKey, -1) == -1) {
@@ -3323,11 +3334,11 @@ void DWCi_QR2ServerKeyCallback(s32 keyId, QueryBuffer *buffer, void *userdata) {
             return;
     }
     index = keyId - 100;
-    if (gMatchingKeys[index][0] != 0) {
-        if (gMatchingKeyIsString[index * 12] != 0) {
-            qr2_buffer_addA(buffer, *(const char **) &gMatchingKeyValue[index * 12]);
+    if (gMatchingKeys[index].mKeyId != 0) {
+        if (gMatchingKeys[index].mIsString != 0) {
+            qr2_buffer_addA(buffer, (const char *) gMatchingKeys[index].mValue);
         } else {
-            qr2_buffer_add_int(buffer, **(s32 **) &gMatchingKeyValue[index * 12]);
+            qr2_buffer_add_int(buffer, *(s32 *) gMatchingKeys[index].mValue);
         }
     }
 }
@@ -3338,7 +3349,7 @@ void DWCi_QR2TeamKeyCallback(void) {}
 
 void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata) {
     s32 i;
-    u8 *d;
+    MatchingKey *d;
     switch (keytype) {
         case 0:
             qr2_keybuffer_add(keyIds, 8);
@@ -3349,12 +3360,12 @@ void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata
             qr2_keybuffer_add(keyIds, 0x35);
             qr2_keybuffer_add(keyIds, 0x36);
             i = 0;
-            d = gMatchingKeys[0];
+            d = gMatchingKeys;
             for (; i < 0x9a; i++) {
-                if (d[0] != 0) {
-                    qr2_keybuffer_add(keyIds, d[0]);
+                if (d->mKeyId != 0) {
+                    qr2_keybuffer_add(keyIds, d->mKeyId);
                 }
-                d += 12;
+                d++;
             }
             break;
         case 1:

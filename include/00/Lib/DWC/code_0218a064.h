@@ -24,10 +24,17 @@ typedef struct SOCConfig {
     /* 18 */ u32 mRouter;
     /* 1c */ u32 mDns1;
     /* 20 */ u32 mDns2;
-    /* 24 */ u8 pad_24[8];
+    /* 24 */ s32 mTimeWaitBuffer;
+    /* 28 */ s32 mReassemblyBuffer;
     /* 2c */ s32 mMtu;
     /* 30 */ s32 mRwin;
-    /* 34 */ u8 pad_34[0x24];
+    /* 34 */ u8 pad_34[0x14];
+    /* 48 */ const char *mHostName;
+    /* 4c */ s32 mRdhcp;
+    /* 50 */ s32 mUdpSendBuff;
+    /* 54 */ s32 mUdpRecvBuff;
 } SOCConfig;
 
 void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *object, SOCConfig *out);
+
+extern const SOCConfig gAcSocConfig;

@@ -48,6 +48,11 @@
 #include "00/Lib/GameSpy/code_0218d488.h"
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
 
+char *gSBOverrideMasterServer;
+s8 *gMytokPosition;
+struct Hashtable *gSBRefStrList;
+struct SbServer *gSBNullServer;
+
 s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
     char *firstValue;
     char *secondValue;

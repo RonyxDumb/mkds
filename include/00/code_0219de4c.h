@@ -108,7 +108,4 @@ typedef struct WiFiMatching {
     /* 460 */ u32 mEvalCallbackArg;
 } WiFiMatching;
 
-// Points at WiFiConnection.mMatching: set by DWCi_MatchInit, set to NULL by DWCi_ShutdownMatch.
-extern WiFiMatching *gWiFiMatching;
-
 void DWCi_QR2PublicAddrCallback(void *address, u16 port);

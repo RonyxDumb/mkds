@@ -7,9 +7,9 @@ typedef struct SsidOrderTable {
 } SsidOrderTable;
 
 extern s8 *gUsbWepFirstXorKey;
-extern u8 gConvByteTable[];
+extern const u8 gConvByteTable[13];
 extern s8 *gUsbWepSecondXorKey;
-extern u8 gConv4BitTable[];
+extern const u8 gConv4BitTable[16];
 extern SsidOrderTable gSsidOrderTable;
 extern s8 *gSsidDecodeFirstXorKey;
 extern s8 *gSsidDecodeSecondXorKey;

@@ -2,9 +2,6 @@
 
 #include "types.h"
 
-extern char gNumPlayersKey[];
-extern char gMaxPlayersKey[];
-
 u32 DWCi_HandleQR2Error(u32 error);
 u32 DWCi_HandleSBError(u32 result);
 u32 ReportMatchingGpResult(u32 result);

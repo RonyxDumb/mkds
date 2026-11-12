@@ -14,7 +14,7 @@ typedef struct DWCHttpParam {
 } DWCHttpParam;
 
 // Objects whose layout isn't known yet.
-extern char *gLangPairValues[];
+extern char *gLangPairValues[7];
 extern DWCHttpParam DWCauthhttpparam;
 extern u8 gHttpBufferName[];
 extern u8 gHttpLowReceiveBufferName[];

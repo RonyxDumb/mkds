@@ -1732,16 +1732,16 @@ data_usa_ov000_021b1fb8 kind:data(any) addr:0x021b1fb8
 data_usa_ov000_021b1fcc kind:data(any) addr:0x021b1fcc
 data_usa_ov000_021b2010 kind:data(any) addr:0x021b2010
 data_ov000_021b20d0 kind:data(any) addr:0x021b2090
-data_usa_ov000_021b209c kind:data(any) addr:0x021b209c
+@676 kind:data(any) addr:0x021b209c local
 gSsidDecodeSecondXorKey kind:data(any) addr:0x021b20a8
 gUsbWepFirstXorKey kind:data(any) addr:0x021b20ac
 gUsbWepSecondXorKey kind:data(any) addr:0x021b20b0
 gSsidDecodeFirstXorKey kind:data(any) addr:0x021b20b4
-data_usa_ov000_021b20b8 kind:data(any) addr:0x021b20b8
-data_usa_ov000_021b20c8 kind:data(any) addr:0x021b20c8
+@65 kind:data(any) addr:0x021b20b8 local
+@63 kind:data(any) addr:0x021b20c8 local
 gSsidOrderTable kind:data(any) addr:0x021b20d8
-data_usa_ov000_021b20f0 kind:data(any) addr:0x021b20f0
-data_usa_ov000_021b210c kind:data(any) addr:0x021b210c
+@64 kind:data(any) addr:0x021b20f0 local
+@66 kind:data(any) addr:0x021b210c local
 gNintendoUsbApSsid kind:data(any) addr:0x021b2128
 gShopSsidPrefix kind:data(any) addr:0x021b2134
 gGoaFinalMarker kind:data(any) addr:0x021b2140
@@ -2213,8 +2213,8 @@ gUnsignedFormat kind:data(any) addr:0x021b4078
 gMatchingSignature kind:data(any) addr:0x021b407c
 gDwcPidKey kind:data(any) addr:0x021b4084
 gDwcEvalKey kind:data(any) addr:0x021b408c
-gNumPlayersKey kind:data(any) addr:0x021b4098
-gMaxPlayersKey kind:data(any) addr:0x021b40a4
+@5682 kind:data(any) addr:0x021b4098 local
+@5683 kind:data(any) addr:0x021b40a4 local
 gDwcMtypeKey kind:data(any) addr:0x021b40b0
 gDwcMresvKey kind:data(any) addr:0x021b40bc
 gDwcMverKey kind:data(any) addr:0x021b40c8
@@ -2354,10 +2354,6 @@ gGsiAcResult kind:bss addr:0x021b4ce8
 gGsiAcHostname kind:bss addr:0x021b4cec
 gGsiAcGamename kind:bss addr:0x021b4d2c
 gGsiAvailableCheck kind:bss addr:0x021b4d6c
-gGsiAvailableCheckAddress kind:bss addr:0x021b4d70
-gGsiAvailableCheckAddressIp kind:bss addr:0x021b4d74
-gGsiAvailableCheckPacket kind:bss addr:0x021b4d78
-gGsiAvailableCheckPacketGamename kind:bss addr:0x021b4d7d
 gAliases kind:bss addr:0x021b4dc4
 gGsiNitroErrno kind:bss addr:0x021b4dc8
 gLocalhost kind:bss addr:0x021b4dcc
@@ -2403,10 +2399,6 @@ gOptMinComp kind:bss addr:0x021b5630
 gMatchingFilterText kind:bss addr:0x021b5634
 gMatchingMaskedParticipantIndices kind:bss addr:0x021b5638
 gMatchingKeys kind:bss addr:0x021b5658
-gMatchingKeyIsString kind:bss addr:0x021b5659
-gMatchingKeyPad kind:bss addr:0x021b565a
-gMatchingKeyString kind:bss addr:0x021b565c
-gMatchingKeyValue kind:bss addr:0x021b5660
 gWiFiMessageLayer kind:bss addr:0x021b5d90
 gRandContext32 kind:bss addr:0x021b5d94
 gFreeFunc kind:bss addr:0x021b5dac
@@ -2442,7 +2434,6 @@ entName kind:bss addr:0x021b6038
 gRandomByteStateMixed kind:bss addr:0x021b613c
 gKind2NewEntryCount kind:bss addr:0x021b6140
 gRandomByteState kind:bss addr:0x021b6144
-gRandomByteStateLast kind:bss addr:0x021b6157
 gUncachedHttpsEntry kind:bss addr:0x021b6158
 gHttpsEntries kind:bss addr:0x021b61b4
 gSendFailed kind:bss addr:0x021b6324

@@ -53,14 +53,7 @@ typedef struct HttpsEntry HttpsEntry;
 #include "00/Lib/CPS/code_021ad734.h"
 #include "00/unk_021b6380.h"
 #include "00/Lib/CPS/code_021ac3e4.h"
-
-// Set to 1 once bytes have been mixed into gRandomByteState.
-extern u8 gRandomByteStateMixed;
-// Counts the entries made while sending the kind 2 record; its value is written as the last four bytes of each new
-// entry's first 0x20 bytes.
-extern u32 gKind2NewEntryCount;
-extern u8 gRandomByteState[0x14];
-extern u8 gRandomByteStateLast;
+#include "00/types_021ab5e4.h"
 
 void CPSi_SslShutdown(CPSSoc *connection);
 s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength, CPSSoc *connection);
@@ -113,3 +106,12 @@ u32 GetRtcSecondsPlusFixedOffset(void);
 HttpsEntry *AddEntryOrReplaceLongestUnused(const u8 *bytes);
 HttpsEntry *FindEntryByValuePairAndSetLastUseTime(u32 firstValue, u32 secondValue);
 HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes);
+
+// Set to 1 once bytes have been mixed into gRandomByteState.
+extern u8 gRandomByteStateMixed;
+// Counts the entries made while sending the kind 2 record; its value is written as the last four bytes of each new
+// entry's first 0x20 bytes.
+extern u32 gKind2NewEntryCount;
+extern u8 gRandomByteState[0x14];
+extern HttpsEntry gUncachedHttpsEntry;
+extern HttpsEntry gHttpsEntries[4];

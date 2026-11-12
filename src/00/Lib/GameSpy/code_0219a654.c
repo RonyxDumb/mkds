@@ -16,6 +16,7 @@
 #include "code_02139f70.h"
 #include "code_0213a460.h"
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/GameSpy/code_0218d488.h"
 
 NatTraversalEntry *AddNegotiator(void) {
     NatTraversalEntry negotiator = {0};

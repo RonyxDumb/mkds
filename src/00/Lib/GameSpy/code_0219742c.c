@@ -9,6 +9,7 @@
 #include "string.h"
 #include "code_02134398.h"
 #include "code_02139f70.h"
+#include "00/Lib/GameSpy/code_0218d488.h"
 
 s8 *GenerateAuthA(const char *challenge, const char *password, s8 *response) {
     u32 passwordLen;

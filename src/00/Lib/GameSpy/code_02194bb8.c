@@ -36,6 +36,7 @@
 #include "00/unk_021b4000.h"
 #include "00/Lib/GameSpy/code_02190cd4.h"
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
+#include "00/Lib/GameSpy/code_0218d488.h"
 
 void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type, const char *headers, s32 buffer,
                               s32 len) {

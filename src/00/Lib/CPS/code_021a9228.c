@@ -25,6 +25,13 @@
 #include "os_tick.h"
 #include "convert.h"
 
+u8 gRandomByteStateMixed;
+u32 gKind2NewEntryCount;
+u8 gRandomByteState[0x14];
+HttpsEntry gUncachedHttpsEntry;
+HttpsEntry gHttpsEntries[4];
+
+
 HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes) {
     s32 i;
     HttpsEntry *entry;
@@ -1226,7 +1233,7 @@ void FillNonzeroRandomBytes(u8 *out, s32 count) {
             carry = 1;
             byteIndex = 0x13;
             digestCursor = digest + 0x13;
-            stateCursor = &gRandomByteStateLast;
+            stateCursor = &gRandomByteState[0x13];
             for (; byteIndex >= 0; byteIndex--) {
                 sum = *stateCursor + *digestCursor + carry;
                 *stateCursor = sum;

@@ -63,16 +63,12 @@ typedef struct CPSConfig {
 
 extern u8 SOCLiYieldWait[];
 
-extern u8 gMatchingMaskedParticipantIndices[0x20];
-
 // Four bytes at gOptSCBlock.
 typedef struct DWCMatchOptSCBlock {
     /* 00 */ u8 mValid;
     /* 01 */ u8 mLock;
     /* 02 */ u16 mPad;
 } DWCMatchOptSCBlock;
-
-extern DWCMatchOptSCBlock gOptSCBlock;
 
 typedef struct DWCMatchOptMinCompleteIn {
     /* 00 */ u8 mValid;
@@ -86,8 +82,6 @@ typedef struct DWCMatchOptMinCompleteIn {
     /* 18 */ u64 mLastPollTime;
 } DWCMatchOptMinCompleteIn;
 
-extern DWCMatchOptMinCompleteIn *gOptMinComp;
-extern void *gMatchingFilterText;
 extern WCMCpsifWork gWcmCpsifWork;
 extern SOCLConfig *SOCLiConfigPtr;
 extern u32 SOCLiRequestedIP;

@@ -5,10 +5,12 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
+const SOCConfig gAcSocConfig = {{0, 0, 0, 1}, NULL, NULL, 1, 0, 0, 0, 0, 0, 0x1000, 0x1000, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "NINTENDO-DS", 4, 0, 0};
+
 void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *work, SOCConfig *config) {
     DWCMemPage *info;
 
-    MI_CpuCopy8(gAcSocConfig, config, 0x58);
+    MI_CpuCopy8(&gAcSocConfig, config, 0x58);
     config->mAlloc = hold->mAlloc;
     config->mFree = hold->mFree;
     if (work->mConnectApType < 6) {

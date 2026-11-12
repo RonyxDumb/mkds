@@ -33,10 +33,6 @@ typedef struct SOCLSocketParam {
 extern u32 SOCLiResultCodeInConnecting;
 extern SOCLSocketParam SOCLSocketParamTCP;
 extern SOCLSocketParam SOCLSocketParamUDPSend;
-extern char gMatchingSignature[];
-extern char gUnsignedFormat[];
-extern char gDwcPidKey[];
-extern char gDwcEvalKey[];
 extern char gDwcMtypeKey[];
 extern char gDwcMresvKey[];
 extern char gDwcMverKey[];
@@ -67,7 +63,7 @@ extern char gFinalQueryidText[];
 extern u8 gSrvrText[];
 extern u8 gClntText[];
 extern u16 gOfferedValues[2];
-extern const char *gTaggedItemPrefixes[];
+extern const char *gTaggedItemPrefixes[6];
 extern u8 gLabelAText[];
 extern u8 gLabelBBText[];
 extern u8 gLabelCCCText[];
@@ -79,8 +75,6 @@ extern void *gWcmBuffer;
 extern void *gSocConfig;
 extern DWCNetcheckParam *gNetCheck;
 extern ACHOLD *gAcHold;
-extern struct Hashtable *gSBRefStrList;
-extern struct SbServer *gSBNullServer;
 // Objects behind gWiFiSelectCharacterState and gWiFiSelectKartState.
 typedef struct WiFiSelectHeapHolder {
     /* 0 */ void *mHeap;
@@ -121,30 +115,20 @@ typedef struct SbServerList {
     /* 5d0 */ int mDeadList;
 } SbServerList;
 
-extern SbServerList *gSortServerList;
-extern s32 gGsiAcResult;
-extern const char *gSBOverrideMasterServer;
-extern char gGsiAcHostname[];
-
 // Object behind gGsiAvailableCheck.
 typedef struct GsiAvailableCheck {
     /* 00 */ s32 mSocket;
-    /* 04 */ u8 mUnk_04[2];
+    /* 04 */ u8 mAddress[2];
     /* 06 */ u16 mPort;
-    /* 08 */ u8 mUnk_08[4];
+    /* 08 */ u8 mAddressIp[4];
     /* 0c */ u8 mPacketType;
-    /* 0d */ u8 mUnk_0d[0x3f];
+    /* 0d */ u8 mUnk_0d[4];
+    /* 11 */ u8 mPacketGamename[0x3b];
     /* 4c */ s32 mPacketLength;
     /* 50 */ u32 mSendTime;
     /* 54 */ s32 mRetryCount;
 } GsiAvailableCheck;
 
-extern GsiAvailableCheck gGsiAvailableCheck;
-extern u8 gGsiAvailableCheckAddress[];
-extern u8 gGsiAvailableCheckAddressIp[];
-extern u8 gGsiAvailableCheckPacket[];
-extern u8 gGsiAvailableCheckPacketGamename[];
-extern char gGsiAcGamename[];
 extern u8 gInternalInit[];
 extern u8 NNMagicData[];
 extern u8 gEmptyString[];

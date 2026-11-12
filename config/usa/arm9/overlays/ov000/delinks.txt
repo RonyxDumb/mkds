@@ -206,6 +206,8 @@ src/00/Lib/DWC/code_0218a018.c:
 src/00/Lib/DWC/code_0218a064.c:
     complete
     .text       start:0x0218a030 end:0x0218a0c0
+    .rodata     start:0x021b0704 end:0x021b075c
+    .data       start:0x021b209c end:0x021b20a8
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_0218a0f4.c:
@@ -246,6 +248,8 @@ src/00/Lib/DWC/code_0218a294.c:
 src/00/Lib/DWC/code_0218a350.c:
     complete
     .text       start:0x0218a31c end:0x0218a618
+    .rodata     start:0x021b075c end:0x021b077c
+    .data       start:0x021b20a8 end:0x021b2128
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_0218a64c.c:
@@ -278,11 +282,13 @@ src/00/Lib/GameSpy/sb_queryengine.c:
 src/00/Lib/GameSpy/code_0218aea4.c:
     complete
     .text       start:0x0218ae70 end:0x0218d454
+    .bss        start:0x021b4cd4 end:0x021b4ce4
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218d488.c:
     complete
     .text       start:0x0218d454 end:0x0218d7e4
+    .bss        start:0x021b4ce4 end:0x021b4dc4
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218d818.c:
@@ -576,6 +582,8 @@ src/00/Lib/DWC/dwc_friend.c:
 src/00/Lib/DWC/dwc_match.c:
     complete
     .text       start:0x0219da88 end:0x021a2c98
+    .data       start:0x021b4078 end:0x021b40b0
+    .bss        start:0x021b5628 end:0x021b5d90
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_021a2ccc.c:
@@ -665,6 +673,7 @@ src/00/Lib/CPS/code_021a9200.c:
 src/00/Lib/CPS/code_021a9228.c:
     complete
     .text       start:0x021a91f4 end:0x021ab6a0
+    .bss        start:0x021b613c end:0x021b6324
 
 // provisional: file name and boundaries
 src/00/Lib/CPS/code_021ab6d4.c:

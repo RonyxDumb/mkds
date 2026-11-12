@@ -27,7 +27,6 @@ typedef struct KeyLookup {
     /* 0 */ const char *mKey;
 } KeyLookup;
 
-
 double SbServerGetDouble(SbServer *server, const char *key, double defaultValue);
 s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue);
 char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue);
@@ -61,7 +60,6 @@ typedef struct UnalignedWord {
 
 typedef struct SbServerList SbServerList;
 
-
 void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName,
                       const char *queryFromKey, u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance);
 
@@ -71,6 +69,7 @@ unsigned int ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u
 
 #include "00/unk_021b4000.h"
 #include "00/Lib/GameSpy/sb_queryengine.h"
+#include "00/Lib/GameSpy/code_0218dd8c.h"
 
 // Object of 0x638 bytes ServerBrowserNewA allocates. SBEngineCleanup passes 0x20 to closesocket and
 // the addresses of 0x14 and 0x08 to FIFOClear.
@@ -88,8 +87,6 @@ typedef struct MatchingServerList {
 
 struct MatchingServerList;
 
-
-
 extern InvalidKeyNames gInvalidKeys;
 extern char gKeyIndexFormat[];
 extern s8 data_ov000_021b21c4[];
@@ -97,7 +94,6 @@ extern char gPingKey[];
 extern char gServerAssertText[];
 extern char gSBServerFileName[];
 extern char gIntValueFormat[];
-extern s8 *gMytokPosition;
 
 SbServer *FIFOGetFirst(SBServerFIFO *fifo);
 void FIFOAddFront(SBServerFIFO *fifo, SbServer *server);
@@ -204,3 +200,8 @@ void SBServerListAppendServer(SbServerList *serverList, u32 server);
 void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind);
 s32 StrNoCaseKeyCompare(u32 *firstEntry, u32 *secondEntry);
 s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry);
+
+extern char *gSBOverrideMasterServer;
+extern s8 *gMytokPosition;
+extern struct Hashtable *gSBRefStrList;
+extern struct SbServer *gSBNullServer;

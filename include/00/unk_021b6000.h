@@ -16,5 +16,3 @@ extern void (*gScavengerCallback)(void);
 
 extern SOCLSocket *SOCLiSocketList;
 extern SOCLSocket *SOCLiSocketListTrash;
-extern HttpsEntry gHttpsEntries[];
-extern HttpsEntry gUncachedHttpsEntry;

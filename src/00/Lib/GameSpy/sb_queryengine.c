@@ -10,6 +10,7 @@
 #include "00/Lib/GameSpy/code_021a4b84.h"
 #include "code_02139f70.h"
 #include "00/Lib/GameSpy/code_021a3a18.h"
+#include "00/Lib/GameSpy/code_0218d488.h"
 
 BOOL FIFORemove(SBServerFIFO *fifo, SbServer *server) {
     SbServer *current;

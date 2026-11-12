@@ -3,6 +3,14 @@
 #include "code_02133048.h"
 #include "code_0214d018.h"
 
+SsidOrderTable gSsidOrderTable = {{0x17, 0x14, 0x11, 0xd, 0xb, 6, 0xf, 0xe, 9, 0x15, 0xc, 4, 2, 1, 0x12, 0x10, 5, 3, 0x13, 0xa, 7, 8, 0, 0x16}};
+const u8 gConv4BitTable[16] = {0xa, 0xd, 0xe, 8, 9, 3, 6, 0, 0xc, 5, 2, 7, 0xb, 1, 0xf, 4};
+s8 *gUsbWepSecondXorKey = (s8 *) "%(egEr)ag(s&m";
+const u8 gConvByteTable[13] = {5, 1, 0xc, 4, 2, 3, 0xa, 0, 0xb, 7, 9, 8, 6};
+s8 *gSsidDecodeSecondXorKey = (s8 *) "38g6zxjk20gvmv]6^=j&%vY1";
+s8 *gUsbWepFirstXorKey = (s8 *) "gwi'6&fs=0Nf~";
+s8 *gSsidDecodeFirstXorKey = (s8 *) "952uybjnpmu903bia@bk5m[-";
+
 void DecodeSsid(const u8 *ssid, u8 *decoded) {
     SsidOrderTable order = gSsidOrderTable;
     s32 i;

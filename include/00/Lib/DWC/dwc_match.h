@@ -1,6 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_0219eac8.h"
+#include "00/unk_021b5000.h"
+#include "00/code_0219de4c.h"
 
 typedef struct PeerAddress PeerAddress;
 
@@ -25,11 +28,6 @@ u32 DWCi_SendCancelMatchSynCommand(u32 profileId, u32 command);
 void DWCi_ShutdownMatch(void);
 void DWCi_StopMatching(s32 isServer, s32 isSelf);
 
-extern u8 gMatchingKeyIsString[];
-extern u8 gMatchingKeyPad[];
-extern u8 gMatchingKeyString[];
-extern u8 gMatchingKeyValue[];
-
 s32 DWC_GetMOMinCompState(u64 *time);
 u32 DWC_SetMatchingOption(u32 opttype, void *optval, u32 optlen);
 s32 DWC_GetMatchIntValue(u32 index, void *keyString, s32 idefault);
@@ -38,3 +36,15 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc);
 u32 DWC_IsValidCancelMatching(void);
 
 u32 DWC_CancelMatching(void);
+
+extern char gMatchingSignature[5];
+extern char gUnsignedFormat[3];
+extern char gDwcPidKey[8];
+extern char gDwcEvalKey[9];
+extern MatchingKey gMatchingKeys[154];
+extern u8 gMatchingMaskedParticipantIndices[0x20];
+extern void *gMatchingFilterText;
+extern struct DWCMatchOptMinCompleteIn *gOptMinComp;
+// Points at WiFiConnection.mMatching: set by DWCi_MatchInit, set to NULL by DWCi_ShutdownMatch.
+extern struct WiFiMatching *gWiFiMatching;
+extern DWCMatchOptSCBlock gOptSCBlock;

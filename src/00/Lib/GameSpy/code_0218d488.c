@@ -13,6 +13,12 @@
 
 #pragma opt_propagation off
 
+SbServerList *gSortServerList;
+s32 gGsiAcResult;
+char gGsiAcHostname[0x40];
+GsiAvailableCheck gGsiAvailableCheck;
+char gGsiAcGamename[0x40];
+
 BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
     SOCHostEnt *resolvedHost;
     address->mFamily = 2;
@@ -29,8 +35,8 @@ BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
 }
 
 void AvailableSendPacket(void) {
-    sendto(gGsiAvailableCheck.mSocket, gGsiAvailableCheckPacket, gGsiAvailableCheck.mPacketLength, 0,
-           gGsiAvailableCheckAddress, 8);
+    sendto(gGsiAvailableCheck.mSocket, &gGsiAvailableCheck.mPacketType, gGsiAvailableCheck.mPacketLength, 0,
+           gGsiAvailableCheck.mAddress, 8);
     gGsiAvailableCheck.mSendTime = GetElapsedMilliseconds();
 }
 
@@ -45,13 +51,13 @@ void GSIStartAvailableCheckA(const char *gamename) {
         sprintf(hostBuffer, gAvailableHostFormat, gamename);
     }
     if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, 0x6cfc,
-                       (SOCSockAddrIn *) gGsiAvailableCheckAddress) != FALSE) {
+                       (SOCSockAddrIn *) gGsiAvailableCheck.mAddress) != FALSE) {
         gGsiAvailableCheck.mSocket = OpenNetSocket(2, 2, 0);
         if (gGsiAvailableCheck.mSocket != -1) {
             u32 len;
             gGsiAvailableCheck.mPacketType = 9;
             len = strlen(gamename);
-            memcpy(gGsiAvailableCheckPacketGamename, gamename, len + 1);
+            memcpy(gGsiAvailableCheck.mPacketGamename, gamename, len + 1);
             gGsiAvailableCheck.mPacketLength = len + 6;
             AvailableSendPacket();
             gGsiAvailableCheck.mRetryCount = 0;
@@ -64,7 +70,7 @@ BOOL HandlePacket(const s8 *packet, s32 len, u8 *address, u32 *disabledservices)
     if (len < 7) {
         return TRUE;
     }
-    if (memcmp(address + 4, gGsiAvailableCheckAddressIp, 4) != 0) {
+    if (memcmp(address + 4, gGsiAvailableCheck.mAddressIp, 4) != 0) {
         return TRUE;
     }
     if (*OFFSET_PTR(u16, address, 2) != gGsiAvailableCheck.mPort) {

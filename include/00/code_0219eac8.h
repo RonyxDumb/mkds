@@ -2,6 +2,12 @@
 
 #include "types.h"
 
-extern u8 gMatchingKeys[][12];
+typedef struct MatchingKey {
+    /* 00 */ u8 mKeyId;
+    /* 01 */ u8 mIsString;
+    /* 02 */ u16 mPad;
+    /* 04 */ char *mString;
+    /* 08 */ void *mValue;
+} MatchingKey;
 
 u8 DWCi_GetNewMatchKey(void);

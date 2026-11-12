@@ -17,6 +17,7 @@
 #include "00/unk_021b4000.h"
 #include "string.h"
 #include "code_02134398.h"
+#include "00/Lib/DWC/dwc_match.h"
 
 char gDwcMagicStrings[3] = "DT";
 
