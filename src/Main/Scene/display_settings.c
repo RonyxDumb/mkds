@@ -596,10 +596,10 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
 
     gDisplaySettings = settings;
     ClearLcdcBanksByState();
-    DisplayFillMemoryFast(0xc0, (void *) 0x07000000, 0x400);
-    DisplayFillMemoryFast(0xc0, (void *) 0x07000400, 0x400);
-    DisplayFillMemoryFast(0, (void *) 0x05000000, 0x400);
-    DisplayFillMemoryFast(0, (void *) 0x05000400, 0x400);
+    DisplayFillMemoryFast(0xc0, HW_OAM, 0x400);
+    DisplayFillMemoryFast(0xc0, HW_DB_OAM, 0x400);
+    DisplayFillMemoryFast(0, HW_BG_PLTT, 0x400);
+    DisplayFillMemoryFast(0, HW_DB_BG_PLTT, 0x400);
     if (gDisplaySettings->mBankForBG != 0) {
         GX_SetBankForBG(gDisplaySettings->mBankForBG);
     }

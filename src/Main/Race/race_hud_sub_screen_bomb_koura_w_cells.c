@@ -1,4 +1,5 @@
 #include "Main/Race/race_hud_sub_screen_bomb_koura_w_cells.h"
+#include "registers.h"
 #include "Main/Unknown/code_020cffa0.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
@@ -56,7 +57,7 @@ void CopyRaceHudSubScreenBgColors(void) {
             for (rowIndex = 0; rowIndex < 9; rowIndex++) {
                 for (columnIndex = 0; columnIndex < 3; columnIndex++) {
                     gRaceHudSubScreenBgColors->mColors.mFrameColors[rowIndex][columnIndex] =
-                        ((u16 *) 0x05000400)[rowIndex * 16 + columnIndex + 0x40];
+                        HW_DB_BG_PLTT[rowIndex * 16 + columnIndex + 0x40];
                 }
             }
             break;
@@ -66,41 +67,41 @@ void CopyRaceHudSubScreenBgColors(void) {
             for (rowIndex = 0; rowIndex < 5; rowIndex++) {
                 for (columnIndex = 0; columnIndex < 4; columnIndex++) {
                     gRaceHudSubScreenBgColors->mColors.mGearColors[rowIndex][columnIndex] =
-                        ((u16 *) 0x05000400)[rowOffsets[rowIndex] + columnIndex + 0x80];
+                        HW_DB_BG_PLTT[rowOffsets[rowIndex] + columnIndex + 0x80];
                 }
             }
             break;
         }
         case COURSE_ID_TOWN:
             for (rowIndex = 0; rowIndex < 20; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = ((u16 *) 0x05000400)[0x78 + rowIndex];
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = HW_DB_BG_PLTT[0x78 + rowIndex];
             }
-            gRaceHudSubScreenBgColors->mColors.mUnk_00[20] = ((u16 *) 0x05000400)[0];
+            gRaceHudSubScreenBgColors->mColors.mUnk_00[20] = HW_DB_BG_PLTT[0];
             break;
         case COURSE_ID_BEACH:
             for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = ((u16 *) 0x05000400)[0x46 + rowIndex];
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = HW_DB_BG_PLTT[0x46 + rowIndex];
             }
             break;
         case COURSE_ID_KOOPA:
             for (rowIndex = 0; rowIndex < 6; rowIndex++) {
                 gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[rowIndex] =
-                    ((u16 *) 0x05000400)[0x54 + rowIndex];
+                    HW_DB_BG_PLTT[0x54 + rowIndex];
             }
             for (rowIndex = 0; rowIndex < 2; rowIndex++) {
                 for (columnIndex = 0; columnIndex < 3; columnIndex++) {
                     gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[rowIndex][columnIndex] =
-                        ((u16 *) 0x05000400)[rowIndex * 3 + columnIndex + 0x5a];
+                        HW_DB_BG_PLTT[rowIndex * 3 + columnIndex + 0x5a];
                 }
             }
             for (rowIndex = 0; rowIndex < 2; rowIndex++) {
                 gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[rowIndex] =
-                    ((u16 *) 0x05000400)[rowIndex];
+                    HW_DB_BG_PLTT[rowIndex];
             }
             break;
         case COURSE_ID_MINI_STAGE3:
             for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = ((u16 *) 0x05000400)[0xfb + rowIndex];
+                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = HW_DB_BG_PLTT[0xfb + rowIndex];
             }
             break;
     }

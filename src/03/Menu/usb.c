@@ -1,4 +1,5 @@
 #include "03/Menu/usb.h"
+#include "registers.h"
 #include "03/code_021cc8b4.h"
 #include "03/code_021cd000.h"
 #include "03/Menu/message_box_create.h"
@@ -35,7 +36,7 @@
 #include "code_0214cfe4.h"
 
 BOOL UsbPAD_DetectFold(void) {
-    s32 flags = (*(volatile u16 *) 0x027fffa8 & 0x8000) >> 15;
+    s32 flags = (*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15;
     if (flags != 0) {
         return 1;
     }

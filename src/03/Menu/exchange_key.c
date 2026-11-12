@@ -1,4 +1,5 @@
 #include "03/Menu/exchange_key.h"
+#include "registers.h"
 #include "03/code_021ca008.h"
 #include "03/code_021c9cf4.h"
 #include "03/Graphics/hl_scr.h"
@@ -35,7 +36,7 @@
 #include "03/Menu/message_box.h"
 
 u32 ExchangeKeyPAD_DetectFold(void) {
-    if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
+    if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
         return 1;
     }
     return 0;

@@ -160,7 +160,7 @@ void InitGraphics(void) {
 
 void ReleaseApplication(void) {
     GX_DispOff();
-    *((u32 *) 0x04001000u) = *((u32 *) 0x04001000u) & (0xfffeffffu);
+    reg_GXS_DB_DISPCNT &= 0xfffeffff;
     SendLedPatternOn();
     ReleaseKeyTouchInput();
     RestoreTaskVBlankIrq();

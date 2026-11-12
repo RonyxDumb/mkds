@@ -186,7 +186,7 @@ void InitRace(void) {
     InitModelEffects(heap);
     InitPosStrips(heap);
     SetHeapGroupId(9);
-    *(u16 *) 0x05000000 = 0xff00;
+    *HW_BG_PLTT = 0xff00;
     reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT & 0xffffcffd;
     G3X_SetToonTable(gToonTable);
     for (index = 0; index < 8; index++) {

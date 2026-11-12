@@ -1,4 +1,5 @@
 #include "code_0214d93c.h"
+#include "registers.h"
 
 #include "code_0200fc8c.h"
 #include "code_0214d5b8.h"
@@ -151,7 +152,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
                 break;
             case RTC_SEQ_GET_DATETIME:
                 date = gClockRequest.mBuffer[0];
-                date->mYear = RtcBCD2HEX(*(u32 *) 0x027ffde8 & 0xff);
+                date->mYear = RtcBCD2HEX(*(u32 *) HW_REAL_TIME_CLOCK_BUF & 0xff);
                 date->mMonth = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mDate.mMonth);
                 date->mDay = RtcBCD2HEX(SYSTEM_WORK->mRealTimeClock.mDate.mDay);
                 date->mWeek = SYSTEM_WORK->mRealTimeClock.mDate.mWeek;

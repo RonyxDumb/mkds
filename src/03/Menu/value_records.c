@@ -42,7 +42,7 @@
 #include "registers.h"
 
 BOOL ValueRecordsPAD_DetectFold(void) {
-    if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
+    if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
         return 1;
     }
     return 0;

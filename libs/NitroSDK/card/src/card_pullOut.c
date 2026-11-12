@@ -1,4 +1,5 @@
 #include "card_pullOut.h"
+#include "registers.h"
 #include "Main/Unknown/unk_02180000.h"
 #include "code_0200fc8c.h"
 #include "code_0214d5b8.h"
@@ -48,7 +49,7 @@ u32 CARD_IsPulledOut(void) {
 }
 
 void CARD_TerminateForPulledOut(void) {
-    if (((s32) (*(vu16 *) 0x027FFFA8 & 0x8000)) >> 15 != 0) {
+    if (((s32) (*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK)) >> 15 != 0) {
         PM_ForceToPowerOff();
     }
     CARDi_SendtoPxi(1, 1);

@@ -1,4 +1,5 @@
 #include "os_thread.h"
+#include "registers.h"
 
 #include "Main/Unknown/unk_0216f000.h"
 #include "code_0200fc8c.h"
@@ -168,7 +169,7 @@ void OS_InitThread(void) {
     OSi_IdleThread.mJoinQueue.mHead = 0;
     OSi_ThreadInfo.mIsNeedRescheduling = 0;
     OSi_ThreadInfo.mIrqDepth = 0;
-    *(ThreadSystem **) 0x027fffa0 = &OSi_ThreadInfo;
+    *(ThreadSystem **) HW_THREADINFO_MAIN = &OSi_ThreadInfo;
     OS_SetSwitchThreadCallback(0);
     OS_CreateThread(&data_0216ff6c, OSi_IdleThreadProc, 0, (u8 *) &data_021701b4, 0xc8, 0x1f);
     data_0216ff6c.mPriority = 0x20;

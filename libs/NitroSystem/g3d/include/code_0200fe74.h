@@ -7,7 +7,6 @@
 u32 OsCountZeroBits(u32 bitmap);
 
 #define HW_UNK_027FFC00_BUF ((u8 *) 0x027ffc00)
-#define HW_BUTTON_XY_BUF ((vu16 *) 0x27fffa8)
 
 // Filled by OS_GetLowEntropyData.
 typedef struct LowEntropyData {

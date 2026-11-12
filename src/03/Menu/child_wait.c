@@ -1,4 +1,5 @@
 #include "03/Menu/child_wait.h"
+#include "registers.h"
 #include "03/code_021c50d8.h"
 #include "03/Menu/opt_menu.h"
 #include "03/Menu/child_wait_message.h"
@@ -29,7 +30,7 @@
 #include "03/System/application.h"
 
 BOOL ChildWaitPAD_DetectFold(void) {
-    if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
+    if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
         return 1;
     }
     return 0;

@@ -124,3 +124,13 @@
 #define reg_EMU_PORT (*(vu32 *) 0x04fff200)
 #define reg_PXI_RECV_FIFO (*(vu32 *) 0x04100000)
 #define reg_MI_MCD1 (*(vu32 *) 0x04100010)
+
+// Memory map addresses.
+#define HW_BG_PLTT ((u16 *) 0x05000000)
+#define HW_DB_BG_PLTT ((u16 *) 0x05000400)
+#define HW_OAM ((u16 *) 0x07000000)
+#define HW_DB_OAM ((u16 *) 0x07000400)
+#define HW_THREADINFO_MAIN 0x027fffa0
+#define HW_BUTTON_XY_BUF ((vu16 *) 0x27fffa8)
+#define HW_REAL_TIME_CLOCK_BUF 0x027ffde8
+#define PAD_DETECT_FOLD_MASK 0x8000

@@ -180,7 +180,7 @@ void UploadRaceHud(void) {
         return;
     }
     if (kind == RACE_KIND_STAFF_ROLL) {
-        *(vu16 *) 0x05000000 = 0;
+        *(vu16 *) HW_BG_PLTT = 0;
         UploadEndingStaffRollOam();
         SetStaffRollScrollAndDrainQueue();
         return;
@@ -686,7 +686,7 @@ void SetupRaceHudScreens(void) {
         return;
     }
     value = gCourseMap->mSettings->mColorAndFogAlpha & 0x7fff;
-    *(vu16 *) 0x05000000 = value;
+    *(vu16 *) HW_BG_PLTT = value;
     gRaceHud->mNclrs[0]->mData[0] = value;
     DC_FlushRange(gRaceHud->mNclrs[0]->mData, gRaceHud->mNclrs[0]->mDataSize);
     GX_LoadBGPltt(gRaceHud->mNclrs[0]->mData, 0, gRaceHud->mNclrs[0]->mDataSize);

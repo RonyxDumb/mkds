@@ -1,4 +1,6 @@
 #include "os_exception.h"
+#include "registers.h"
+#include "code_0200c914.h"
 #include "code_0200f328.h"
 #include "Main/Unknown/unk_02170000.h"
 #include "code_0200e77c.h"
@@ -100,7 +102,7 @@ void OS_InitException(void) {
     } else {
         OSi_DebuggerHandler = 0;
     }
-    block = (DtcmTail *) 0x027e3000;
+    block = (DtcmTail *) ((u8 *) HW_DTCM + 0x3000);
     if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
         *HW_EXCP_VECTOR_MAIN = (u32) OSi_ExceptionHandler;
         block->mExceptionHandler = OSi_ExceptionHandler;
