@@ -110,7 +110,7 @@ char *BuildEmblemNsbtxPath(u16 characterIndex) {
 }
 
 char *BuildTeamEmblemNsbtxPath(s32 teamIndex) {
-    snprintf(gKartModelPathBuffer, 0x100, gTeamEmblemNsbtxFormat, gKartModelPathPrefix,
+    snprintf(gKartModelPathBuffer, 0x100, "%semblem/Team%s_emblem.nsbtx", gKartModelPathPrefix,
              gTeamEmblemNames[teamIndex == 0]);
     return gKartModelPathBuffer;
 }

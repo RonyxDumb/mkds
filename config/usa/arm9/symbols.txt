@@ -9787,7 +9787,7 @@ data_usa_02165e5c kind:data(any) addr:0x02165e5c
 data_usa_02165e68 kind:data(any) addr:0x02165e68
 data_usa_02165e74 kind:data(any) addr:0x02165e74
 gCharacterSubDirNames kind:data(any) addr:0x02165e80
-gTeamEmblemNsbtxFormat kind:data(any) addr:0x02165eb4
+@3342 kind:data(any) addr:0x02165eb4 local
 @3343 kind:data(any) addr:0x02165ed4 local
 @3345 kind:data(any) addr:0x02165ef0 local
 @926 kind:data(any) addr:0x02165f0c local

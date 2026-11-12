@@ -81,8 +81,6 @@ extern const Vec3 data_0216608c;
 
 extern const char *const gTeamEmblemNames[];
 
-extern const char gTeamEmblemNsbtxFormat[];
-
 // Three words.
 typedef struct KartFollowEffectIds {
     /* 00 */ u32 mEffectIds[3];
