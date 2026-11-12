@@ -18,15 +18,15 @@
 #include "code_0212d214.h"
 #include "Main/Net/friend_data_player_id.h"
 
-u32 data_0216f350;
-u32 data_0216f354;
-u32 data_0216f358;
-CARDRomRegion data_0216f364;
-CARDRomRegion data_0216f35c;
+u32 is_init;
+u32 fsi_card_lock_id;
+u32 fsi_default_dma_no;
+CARDRomRegion fsi_ovt7;
+CARDRomRegion fsi_ovt9;
 FSArchive fsi_arc_rom;
 
 void *fsi_digest_key_ptr = fsi_def_digest_key;
-u8 data_02161764[4] = "rom";
+u8 gRomArchiveLabel[4] = "rom";
 u32 fsi_digest_key_len = 0x40;
 
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
@@ -109,9 +109,9 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     CARDRomRegion *region1;
 
     if (selector == 0) {
-        table = &data_0216f35c;
+        table = &fsi_ovt9;
     } else {
-        table = &data_0216f364;
+        table = &fsi_ovt7;
     }
     if (table->mOffset != 0) {
         if (index * 32 >= table->mLength) {
@@ -203,7 +203,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
     if (SYSTEM_WORK->mWmBootBuf.mBootType == 2) {
         verified = 0;
         if (info->mUnk_1c.b[3] & 2) {
-            if (info->mId < ((u8 *) &data_0216f340 - (u8 *) OverlaySignatures) / 20) {
+            if (info->mId < ((u8 *) &arc_list - (u8 *) OverlaySignatures) / 20) {
                 verified = FSi_CompareDigest(OverlaySignatures[info->mId], info->mRamAddress, size);
             }
         }
@@ -251,7 +251,7 @@ void FS_EndOverlay(FSOverlayInfo *info) {
         removedLast = 0;
         enabled = OS_DisableInterrupts();
         prev = 0;
-        base = data_0217eeb0;
+        base = gGlobalDestructorChain;
         cur = base;
         if (base != 0) {
             do {
@@ -265,7 +265,7 @@ void FS_EndOverlay(FSOverlayInfo *info) {
                         first = cur;
                     }
                     if (base == cur) {
-                        data_0217eeb0 = next;
+                        gGlobalDestructorChain = next;
                         base = next;
                     }
                     cur->mNext = 0;
@@ -333,9 +333,9 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
         DGT_SetOverlayTableMode(saved);
     }
     if (selector == 0) {
-        table = &data_0216f35c;
+        table = &fsi_ovt9;
     } else {
-        table = &data_0216f364;
+        table = &fsi_ovt7;
     }
     saved = OS_DisableInterrupts();
     table->mOffset = data;
@@ -350,7 +350,7 @@ void FSi_OnRomReadDone(FSArchive *archive) {
 
 // Archive read callback that reads from the card in the background.
 s32 FSi_ReadRomCallback(FSArchive *archive, void *dst, u32 src, u32 len) {
-    CARDi_ReadRom(data_0216f358, src, (u32) dst, len, FSi_OnRomReadDone, (u32) archive, 1);
+    CARDi_ReadRom(fsi_default_dma_no, src, (u32) dst, len, FSi_OnRomReadDone, (u32) archive, 1);
     return 6;
 }
 
@@ -363,10 +363,10 @@ s32 FSi_WriteDummyCallback(FSArchive *archive, const void *src, u32 dst, u32 len
 s32 FSi_RomArchiveProc(FSFile *file, u32 command) {
     switch (command) {
         case 9:
-            CARD_LockRom(data_0216f354);
+            CARD_LockRom(fsi_card_lock_id);
             return 0;
         case 10:
-            CARD_UnlockRom(data_0216f354);
+            CARD_UnlockRom(fsi_card_lock_id);
             return 0;
         case 1:
             return 4;
@@ -389,20 +389,20 @@ s32 FSi_EmptyArchiveProc(FSFile *file, u32 command) {
 void FSi_InitRom(u32 dmaNo) {
     enum { K0 } fntRegion, fatRegion;
 
-    data_0216f358 = dmaNo;
-    data_0216f354 = OS_GetLockID();
-    data_0216f35c.mOffset = 0;
-    data_0216f35c.mLength = 0;
-    data_0216f364.mOffset = 0;
-    data_0216f364.mLength = 0;
+    fsi_default_dma_no = dmaNo;
+    fsi_card_lock_id = OS_GetLockID();
+    fsi_ovt9.mOffset = 0;
+    fsi_ovt9.mLength = 0;
+    fsi_ovt7.mOffset = 0;
+    fsi_ovt7.mLength = 0;
     CARD_Init();
     FS_InitArchive(&fsi_arc_rom);
-    FS_RegisterArchiveName(&fsi_arc_rom, data_02161764, 3);
+    FS_RegisterArchiveName(&fsi_arc_rom, gRomArchiveLabel, 3);
     if (SYSTEM_WORK->mWmBootBuf.mBootType == 2) {
-        data_0216f35c.mOffset = (u8 *) -1;
-        data_0216f35c.mLength = 0;
-        data_0216f364.mOffset = (u8 *) -1;
-        data_0216f364.mLength = 0;
+        fsi_ovt9.mOffset = (u8 *) -1;
+        fsi_ovt9.mLength = 0;
+        fsi_ovt7.mOffset = (u8 *) -1;
+        fsi_ovt7.mLength = 0;
         FS_SetArchiveProc(&fsi_arc_rom, FSi_EmptyArchiveProc, -1);
         FS_LoadArchive(&fsi_arc_rom, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
         return;
@@ -434,9 +434,9 @@ u32 FS_TryLoadTable(u32 mem, u32 size) {
 
 // Initializes the file system once.
 void FS_Init(u32 dmaNo) {
-    if (data_0216f350 != 0) {
+    if (is_init != 0) {
         return;
     }
-    data_0216f350 = 1;
+    is_init = 1;
     FSi_InitRom(dmaNo);
 }

@@ -5,7 +5,7 @@
 #include "wm_system.h"
 #include "code_0214cfe4.h"
 
-u8 data_0217f960[0x80];
+u8 tmpUserGameInfoBuf[0x80];
 
 // Sets the WEP mode (0 to 3) and key (command 20). Needs state 2 or later; the key is required for a mode above 0.
 int WM_SetWEPKey(Unk021425e8Func callback, u32 wepmode, void *wepkey) {
@@ -72,10 +72,10 @@ int WM_SetGameInfo(Unk021425e8Func callback, const void *userGameInfo, u16 userG
     if (userGameInfoSize > 0x70) {
         return 6;
     }
-    MIi_CpuCopy16(userGameInfo, data_0217f960, userGameInfoSize);
-    DC_StoreRange(data_0217f960, userGameInfoSize);
+    MIi_CpuCopy16(userGameInfo, tmpUserGameInfoBuf, userGameInfoSize);
+    DC_StoreRange(tmpUserGameInfoBuf, userGameInfoSize);
     WMi_SetCallbackTable(0x18, callback);
-    result = WMi_SendCommand(0x18, 5, data_0217f960, userGameInfoSize, ggid, tgid, attr);
+    result = WMi_SendCommand(0x18, 5, tmpUserGameInfoBuf, userGameInfoSize, ggid, tgid, attr);
     if (result == 0) {
         result = 2;
     }

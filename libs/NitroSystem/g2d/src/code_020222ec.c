@@ -7,8 +7,8 @@
 #include "code_02022aa8.h"
 #include "Main/Graphics/cell_file_set.h"
 
-const u16 data_021530b8[3][4] = {{8, 0x10, 0x20, 0x40}, {8, 8, 0x10, 0x20}, {0x10, 0x20, 0x20, 0x40}};
-const u16 data_021530d0[3][4] = {{8, 0x10, 0x20, 0x40}, {0x10, 0x20, 0x20, 0x40}, {8, 8, 0x10, 0x20}};
+const u16 gObjShapeHeight[3][4] = {{8, 0x10, 0x20, 0x40}, {8, 8, 0x10, 0x20}, {0x10, 0x20, 0x20, 0x40}};
+const u16 gObjShapeWidth[3][4] = {{8, 0x10, 0x20, 0x40}, {0x10, 0x20, 0x20, 0x40}, {8, 8, 0x10, 0x20}};
 
 static inline u32 NNSi_G2dIsCellAnimVramTransferHandleValid(const Unk02022030 *pCellAnim) {
     return pCellAnim->mCellTransferStateHandle != -1;
@@ -152,8 +152,8 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
                     sizeBits = attr & 0xc000c000;
                     shape = (sizeBits & 0xc000) >> 14;
                     size = (sizeBits & 0xc0000000) >> 30;
-                    oamOffset[0] += data_021530d0[shape][size] << 11;
-                    oamOffset[1] += data_021530b8[shape][size] << 11;
+                    oamOffset[0] += gObjShapeWidth[shape][size] << 11;
+                    oamOffset[1] += gObjShapeHeight[shape][size] << 11;
                 }
                 effectAfter = bDoubleAffine != 0 ? 0x300 : 0x100;
                 shouldAdjust = effectAfter == 0x300 ? 1 : 0;
@@ -167,8 +167,8 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
                 sizeBits = attr & 0xc000c000;
                 shape = (sizeBits & 0xc000) >> 14;
                 size = (sizeBits & 0xc0000000) >> 30;
-                halfWidth = data_021530d0[shape][size] >> 1;
-                halfHeight = data_021530b8[shape][size] >> 1;
+                halfWidth = gObjShapeWidth[shape][size] >> 1;
+                halfHeight = gObjShapeHeight[shape][size] >> 1;
                 oamOffset[0] +=
                     pMtxSR->mUnk_00[0] * halfWidth + (s32) -TO_FIXED12(halfWidth) + pMtxSR->mUnk_00[2] * halfHeight;
                 oamOffset[1] +=

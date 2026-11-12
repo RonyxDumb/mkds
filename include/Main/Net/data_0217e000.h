@@ -13,7 +13,7 @@ struct WMArm9Buf;
 
 struct WMPortRecvCallback;
 
-extern struct MWiDestructorChain *data_0217eeb0;
+extern struct MWiDestructorChain *gGlobalDestructorChain;
 
 // Word arrays; ExitTail uses entry 0 of each, fwrite entries 3-5, printf entry 3 and
 // raise entry 7.
@@ -29,4 +29,3 @@ extern u8 gLockMutexes[9][0x14];
 extern u8 data_usa_0217eb70[0x100];
 extern u8 data_usa_0217ec70[0x100];
 extern u8 data_usa_0217ed70[0x100];
-

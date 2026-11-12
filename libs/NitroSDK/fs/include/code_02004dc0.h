@@ -28,21 +28,21 @@ typedef struct FSOverlayInfo {
     /* 28 */ u32 mUnk_28;
 } FSOverlayInfo;
 
-// Node of the list at data_0217eeb0 that FS_EndOverlay walks.
+// Node of the list at gGlobalDestructorChain that FS_EndOverlay walks.
 typedef struct MWiDestructorChain {
     /* 00 */ struct MWiDestructorChain *mNext;
     /* 04 */ void (*mDtor)(void *);
     /* 08 */ void *mObj;
 } MWiDestructorChain;
 
-extern u32 data_0216f350;
-extern u32 data_0216f354;
-extern u32 data_0216f358;
-extern CARDRomRegion data_0216f35c;
-extern CARDRomRegion data_0216f364;
+extern u32 is_init;
+extern u32 fsi_card_lock_id;
+extern u32 fsi_default_dma_no;
+extern CARDRomRegion fsi_ovt9;
+extern CARDRomRegion fsi_ovt7;
 extern FSArchive fsi_arc_rom;
 extern u32 fsi_def_digest_key[];
-extern u8 data_02161764[];
+extern u8 gRomArchiveLabel[];
 extern void *fsi_digest_key_ptr;
 extern u32 fsi_digest_key_len;
 

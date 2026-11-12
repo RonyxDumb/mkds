@@ -3,8 +3,8 @@
 #include "code_0200c914.h"
 #include "registers.h"
 
-PXIFifoCallback data_0218032c[32];
-u16 data_02180328;
+PXIFifoCallback FifoRecvCallbackTable[32];
+u16 FifoCtrlInit;
 
 // Runs once: clears the handle checker word of the ARM9 and the callback table, sets up the receive interrupt for
 // PXIi_HandlerRecvFifoNotEmpty, then handshakes with the other processor through the PXI interrupt flags.
@@ -17,12 +17,12 @@ void PXI_InitFifo(void) {
     OSSystemWork *systemWork;
 
     enabled = OS_DisableInterrupts();
-    if (data_02180328 == 0) {
-        data_02180328 = 1;
+    if (FifoCtrlInit == 0) {
+        FifoCtrlInit = 1;
         systemWork = SYSTEM_WORK;
         systemWork->mPxiHandleChecker[0] = 0;
         for (index = 0; index < 32; index++) {
-            data_0218032c[index] = 0;
+            FifoRecvCallbackTable[index] = 0;
         }
         reg_PXI_SUBP_FIFO_CNT = 0xc408;
         OS_ResetRequestIrqMask(0x40000);
@@ -55,7 +55,7 @@ void PXI_SetFifoRecvCallback(s32 fifotag, PXIFifoCallback callback) {
     OSSystemWork *systemWork;
 
     enabled = OS_DisableInterrupts();
-    data_0218032c[fifotag] = callback;
+    FifoRecvCallbackTable[fifotag] = callback;
     systemWork = SYSTEM_WORK;
     if (callback != 0) {
         systemWork->mPxiHandleChecker[0] |= 1 << fifotag;
@@ -128,7 +128,7 @@ void PXIi_HandlerRecvFifoNotEmpty(void) {
         if (message.mTag == 0) {
             continue;
         }
-        callback = data_0218032c[message.mTag];
+        callback = FifoRecvCallbackTable[message.mTag];
         if (callback != 0) {
             callback(message.mTag, message.mData, message.mErr);
             continue;

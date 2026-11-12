@@ -13,8 +13,8 @@ typedef struct PxiWord {
 // callbacks declare fewer or different parameter types.
 typedef void (*PXIFifoCallback)();
 
-extern PXIFifoCallback data_0218032c[32];
-extern u16 data_02180328;
+extern PXIFifoCallback FifoRecvCallbackTable[32];
+extern u16 FifoCtrlInit;
 
 void PXI_Init(void);
 void PXIi_HandlerRecvFifoNotEmpty(void);

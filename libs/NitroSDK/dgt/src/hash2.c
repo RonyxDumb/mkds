@@ -5,15 +5,15 @@
 
 s32 sMonthStartDay[12] = {0, 0x1f, 0x3b, 0x5a, 0x78, 0x97, 0xb5, 0xd4, 0xf3, 0x111, 0x130, 0x14e};
 void (*DGTi_Hash2ProcessMessageBlockFunc)(DGTHash2Context *ctx, u8 *source, int length) = DGTi_hash2_arm4_small;
-u32 data_02180490;
+u32 DGTi_OverlayTableMode;
 
 // Selects the block routine DGT_Hash2SetSource and DGT_Hash2GetDigest call: the overlay-table one when flag is
 // nonzero. Returns the previous flag.
 u32 DGT_SetOverlayTableMode(u32 flag) {
     u32 prev;
 
-    prev = data_02180490;
-    data_02180490 = flag;
+    prev = DGTi_OverlayTableMode;
+    DGTi_OverlayTableMode = flag;
     if (flag != 0) {
         DGTi_Hash2ProcessMessageBlockFunc = DGTi_Hash2ProcessMessageBlock;
     } else {

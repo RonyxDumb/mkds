@@ -6,7 +6,7 @@
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 
-FSArchive *data_0216f340;
+FSArchive *arc_list;
 Unk02003024U current_dir_pos;
 
 // Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
@@ -464,7 +464,7 @@ FSArchive *FS_FindArchive(const u8 *name, s32 nameLen) {
 
     packed = FSi_GetPackedName(name, nameLen);
     enabled = OS_DisableInterrupts();
-    archive = data_0216f340;
+    archive = arc_list;
     while (archive != 0 && archive->mName != packed) {
         archive = archive->mNext;
     }
@@ -481,14 +481,14 @@ u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     result = 0;
     enabled = OS_DisableInterrupts();
     if (FS_FindArchive(name, nameLen) == 0) {
-        if (data_0216f340 == 0) {
-            data_0216f340 = archive;
+        if (arc_list == 0) {
+            arc_list = archive;
             current_dir_pos.h.mUnk_00 = archive;
             current_dir_pos.h.mUnk_08 = 0;
             current_dir_pos.h.mUnk_06 = 0;
             current_dir_pos.h.mUnk_04 = 0;
         } else {
-            tail = data_0216f340;
+            tail = arc_list;
             while (tail->mNext != 0) {
                 tail = tail->mNext;
             }
@@ -524,7 +524,7 @@ void FS_ReleaseArchiveName(FSArchive *archive) {
     if (current_dir_pos.h.mUnk_00 == archive) {
         current_dir_pos.h.mUnk_08 = 0;
         current_dir_pos.h.mUnk_06 = 0;
-        current_dir_pos.h.mUnk_00 = data_0216f340;
+        current_dir_pos.h.mUnk_00 = arc_list;
         current_dir_pos.h.mUnk_04 = 0;
     }
     OS_RestoreInterrupts(enabled);

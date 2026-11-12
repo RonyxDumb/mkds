@@ -62,4 +62,4 @@ u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u
 
 extern SplitCharFunc *const spliterTable[4];
 extern const u8 objs[4][4][2];
-extern const u32 data_02153118[4][4];
+extern const u32 objShapes[4][4];

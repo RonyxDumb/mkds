@@ -3,7 +3,7 @@
 #include "types.h"
 #include "os_thread.h"
 
-// Two words read as a pair: data_0216f35c, data_0216f364 and the tables in the ROM header.
+// Two words read as a pair: fsi_ovt9, fsi_ovt7 and the tables in the ROM header.
 typedef struct CARDRomRegion {
     /* 00 */ u8 *mOffset;
     /* 04 */ u32 mLength;

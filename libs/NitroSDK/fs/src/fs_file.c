@@ -3,7 +3,7 @@
 
 // Returns whether FS_Init has run.
 u32 FS_IsAvailable(void) {
-    return data_0216f350;
+    return is_init;
 }
 
 // Clears a file record so it is idle and not linked to an archive.

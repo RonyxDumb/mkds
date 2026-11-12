@@ -7727,15 +7727,15 @@ pivotUtil_ kind:data(any) addr:0x02152c0c
 pivotUtilSecondColumn_ kind:data(any) addr:0x02152c0d
 pivotUtilThirdColumn_ kind:data(any) addr:0x02152c0e
 pivotUtilFourthColumn_ kind:data(any) addr:0x02152c0f
-data_02152c30 kind:data(any) addr:0x02152c30
+gRotPivotIndices kind:data(any) addr:0x02152c30
 transFunc kind:data(any) addr:0x02152c54
 data_02152ce4 kind:data(any) addr:0x02152ce4
 VolumeTable kind:data(any) addr:0x02152de4
-data_021530b8 kind:data(any) addr:0x021530b8
-data_021530d0 kind:data(any) addr:0x021530d0
+gObjShapeHeight kind:data(any) addr:0x021530b8
+gObjShapeWidth kind:data(any) addr:0x021530d0
 spliterTable kind:data(any) addr:0x021530e8
 objs kind:data(any) addr:0x021530f8
-data_02153118 kind:data(any) addr:0x02153118
+objShapes kind:data(any) addr:0x02153118
 gSurfaceSoundVolumeByRatio kind:data(any) addr:0x02153158
 gSoundRowTable kind:data(any) addr:0x0215316c
 gCharacterKartIndexTableBattle kind:data(any) addr:0x02153240
@@ -8827,10 +8827,10 @@ gLinkLevelIconCharCellEntryIndices kind:data(any) addr:0x0215d170
 gLowerCaseMap kind:data(any) addr:0x0215d184
 gUpperCaseMap kind:data(any) addr:0x0215d204
 gCharClassFlags kind:data(any) addr:0x0215d284
-data_0215d384 kind:data(any) addr:0x0215d384
-data_0215d484 kind:data(any) addr:0x0215d484
-data_0215d494 kind:data(any) addr:0x0215d494
-data_0215d4a4 kind:data(any) addr:0x0215d4a4
+gCharFlags kind:data(any) addr:0x0215d384
+gPowLogAdjustHigh kind:data(any) addr:0x0215d484
+gPowBreakpoint kind:data(any) addr:0x0215d494
+gPowLogAdjustLow kind:data(any) addr:0x0215d4a4
 FX_SinCosTable_ kind:data(any) addr:0x0215d4b4
 FX_AtanTable_ kind:data(any) addr:0x021614b4
 FX_AtanIdxTable_ kind:data(any) addr:0x021615b8
@@ -8840,7 +8840,7 @@ DWCi_SETTING_NONE kind:data(any) addr:0x0216172c
 DWCi_util_wifiid_exctable kind:data(any) addr:0x02161730
 DWCi_util_wifiid_ttable kind:data(any) addr:0x02161738
 ARM9_DATA_START kind:data(any) addr:0x02161760
-data_02161764 kind:data(any) addr:0x02161764
+gRomArchiveLabel kind:data(any) addr:0x02161764
 fsi_digest_key_ptr kind:data(any) addr:0x02161768
 fsi_digest_key_len kind:data(any) addr:0x0216176c
 gLastSentChunkIndex kind:data(any) addr:0x02161770
@@ -10990,7 +10990,7 @@ gRandValue kind:data(any) addr:0x0216ee98
 @1178 kind:data(any) addr:0x0216eef8 local
 @1179 kind:data(any) addr:0x0216ef00 local
 @1180 kind:data(any) addr:0x0216ef08 local
-data_0216ef30 kind:data(any) addr:0x0216ef10
+gPowersOfTen kind:data(any) addr:0x0216ef10
 @1362 kind:data(any) addr:0x0216ef50 local
 @297 kind:data(any) addr:0x0216ef78 local
 @298 kind:data(any) addr:0x0216efa8 local
@@ -11017,9 +11017,9 @@ tgid_bak kind:data(any) addr:0x0216f04c
 gDispOn kind:data(any) addr:0x0216f050
 GXi_DmaId kind:data(any) addr:0x0216f054
 sDayOfYear kind:data(any) addr:0x0216f058
-data_0216f0a8 kind:data(any) addr:0x0216f088
-data_0216f0ac kind:data(any) addr:0x0216f08c
-data_0216f16c kind:data(any) addr:0x0216f14c
+gHash1Padding kind:data(any) addr:0x0216f088
+gHash1WordOrder kind:data(any) addr:0x0216f08c
+gHash1RoundConstants kind:data(any) addr:0x0216f14c
 DGTi_Hash2ProcessMessageBlockFunc kind:data(any) addr:0x0216f24c
 sMonthStartDay kind:data(any) addr:0x0216f250
 @1276 kind:data(any) addr:0x0216f280 local
@@ -11027,13 +11027,13 @@ sMonthStartDay kind:data(any) addr:0x0216f250
 @1304 kind:data(any) addr:0x0216f2b4 local
 SDK_OVERLAYTABLE_DIGEST kind:data(any) addr:0x0216f2bc
 OverlaySignatures kind:data(any) addr:0x0216f2d0
-data_0216f340 kind:bss addr:0x0216f320
+arc_list kind:bss addr:0x0216f320
 current_dir_pos kind:bss addr:0x0216f324
-data_0216f350 kind:bss addr:0x0216f330
-data_0216f354 kind:bss addr:0x0216f334
-data_0216f358 kind:bss addr:0x0216f338
-data_0216f35c kind:bss addr:0x0216f33c
-data_0216f364 kind:bss addr:0x0216f344
+is_init kind:bss addr:0x0216f330
+fsi_card_lock_id kind:bss addr:0x0216f334
+fsi_default_dma_no kind:bss addr:0x0216f338
+fsi_ovt9 kind:bss addr:0x0216f33c
+fsi_ovt7 kind:bss addr:0x0216f344
 fsi_arc_rom kind:bss addr:0x0216f34c
 wbt_initialize_flag kind:bss addr:0x0216f3a8
 gRequestId kind:bss addr:0x0216f3ac
@@ -11130,20 +11130,20 @@ data_0217329c kind:bss addr:0x0217327c
 gMicIntervalHistogram kind:bss addr:0x02173280
 data_021732a4 kind:bss addr:0x02173284
 data_021732a8 kind:bss addr:0x02173288
-data_021732ac kind:bss addr:0x0217328c
-data_021732b0 kind:bss addr:0x02173290
-data_021732c8 kind:bss addr:0x021732a8
-data_021732cc kind:bss addr:0x021732ac
+sSndInitialized kind:bss addr:0x0217328c
+sSndMutex kind:bss addr:0x02173290
+sCommandFreeList kind:bss addr:0x021732a8
+sFinishedTag kind:bss addr:0x021732ac
 sReserveList kind:bss addr:0x021732b0
-data_021732d4 kind:bss addr:0x021732b4
-data_021732d8 kind:bss addr:0x021732b8
-data_021732dc kind:bss addr:0x021732bc
-data_021732e0 kind:bss addr:0x021732c0
-data_021732e4 kind:bss addr:0x021732c4
-data_021732e8 kind:bss addr:0x021732c8
-data_021732ec kind:bss addr:0x021732cc
-data_02173320 kind:bss addr:0x02173300
-data_021735a0 kind:bss addr:0x02173580
+sReserveListEnd kind:bss addr:0x021732b4
+sCommandFreeListEnd kind:bss addr:0x021732b8
+sWaitingCommandListQueueRead kind:bss addr:0x021732bc
+sWaitingCommandListQueueWrite kind:bss addr:0x021732c0
+sWaitingCommandListCount kind:bss addr:0x021732c4
+sCurrentTag kind:bss addr:0x021732c8
+sWaitingCommandListQueue kind:bss addr:0x021732cc
+sSharedWork kind:bss addr:0x02173300
+sCommandArray kind:bss addr:0x02173580
 data_02174da0 kind:bss addr:0x02174d80
 SNDi_SharedWork kind:bss addr:0x02174de0
 s_pCellStateArray kind:bss addr:0x02174de4
@@ -11940,14 +11940,14 @@ gLinkLevelIcons kind:bss addr:0x0217d3e4
 gMessageScreen kind:bss addr:0x0217d3e8
 gStaffRollText kind:bss addr:0x0217d3ec
 gPaletteBlend kind:bss addr:0x0217d3f0
-data_0217d414 kind:bss addr:0x0217d3f4
-data_0217d418 kind:bss addr:0x0217d3f8
-data_0217d41c kind:bss addr:0x0217d3fc
-data_0217d420 kind:bss addr:0x0217d400
-data_0217d42c kind:bss addr:0x0217d40c
-data_0217d438 kind:bss addr:0x0217d418
-data_0217d43c kind:bss addr:0x0217d41c
-data_0217d440 kind:bss addr:0x0217d420
+sCurDriverInfo kind:bss addr:0x0217d3f4
+sDriverInfoFirstFlag kind:bss addr:0x0217d3f8
+sNnsSndInitialized kind:bss addr:0x0217d3fc
+sPreSleepCallback kind:bss addr:0x0217d400
+sPostSleepCallback kind:bss addr:0x0217d40c
+sCaptureLock kind:bss addr:0x0217d418
+sAlarmLock kind:bss addr:0x0217d41c
+sChannelLock kind:bss addr:0x0217d420
 sFreeList kind:bss addr:0x0217d424
 sPrioList kind:bss addr:0x0217d430
 sSeqPlayer kind:bss addr:0x0217d43c
@@ -11960,7 +11960,7 @@ sMesgQ kind:bss addr:0x0217dd90
 sCapParam kind:bss addr:0x0217ddb0
 sEffectInfoBuffer kind:bss addr:0x0217de04
 sCurrent kind:bss addr:0x0217dea4
-data_0217dec8 kind:bss addr:0x0217dea8
+sWaveArcHeader kind:bss addr:0x0217dea8
 sPrepareThread kind:bss addr:0x0217dee4
 sFreeCommandList kind:bss addr:0x0217dee8
 sStrmPlayer kind:bss addr:0x0217e3e4
@@ -11977,7 +11977,7 @@ data_usa_0217ec70 kind:bss addr:0x0217ec70
 data_usa_0217ed70 kind:bss addr:0x0217ed70
 gLibErrorCode kind:bss addr:0x0217ee70
 gRaiseHandlers kind:bss addr:0x0217ee74
-data_0217eeb0 kind:bss addr:0x0217ee90
+gGlobalDestructorChain kind:bss addr:0x0217ee90
 gFloatStatus kind:bss addr:0x0217ee94
 gFloatTrapTable kind:bss addr:0x0217ee98
 wmInitialized kind:bss addr:0x0217eeb0
@@ -11986,7 +11986,7 @@ bufMsgQ kind:bss addr:0x0217eeb8
 bufMsg kind:bss addr:0x0217eed8
 gPortCallbackEvent kind:bss addr:0x0217ef00
 fifoBuf kind:bss addr:0x0217ef40
-data_0217f960 kind:bss addr:0x0217f940
+tmpUserGameInfoBuf kind:bss addr:0x0217f940
 gAccessEnabled kind:bss addr:0x0217f9c0
 gRequestBlock kind:bss addr:0x0217f9e0
 gAccessState kind:bss addr:0x0217fa20
@@ -12013,8 +12013,8 @@ gTextureLoadBankMask kind:bss addr:0x021802dc
 gTextureLoadSecondBase kind:bss addr:0x021802e0
 gTextureLoadFirstSize kind:bss addr:0x021802e4
 MIi_GXDmaParams kind:bss addr:0x021802e8
-data_02180328 kind:bss addr:0x02180308
-data_0218032c kind:bss addr:0x0218030c
+FifoCtrlInit kind:bss addr:0x02180308
+FifoRecvCallbackTable kind:bss addr:0x0218030c
 gClockInitialized kind:bss addr:0x0218038c
 gClockRequest kind:bss addr:0x02180390
 gTouchPanelInitialized kind:bss addr:0x021803b4
@@ -12023,14 +12023,14 @@ gMicrophoneInitialized kind:bss addr:0x021803f0
 gMicrophoneCommand kind:bss addr:0x021803f4
 gPowerInitialized kind:bss addr:0x02180410
 gPowerSleepHandshakeReplyReceived kind:bss addr:0x02180414
-data_02180438 kind:bss addr:0x02180418
+PMi_SleepEndFlag kind:bss addr:0x02180418
 gPowerPreSleepCallbacks kind:bss addr:0x0218041c
-data_02180440 kind:bss addr:0x02180420
+PMi_LCDCount kind:bss addr:0x02180420
 gPowerPostSleepCallbacks kind:bss addr:0x02180424
 gPowerCommand kind:bss addr:0x02180428
-data_02180458 kind:bss addr:0x02180438
+PMi_Mutex kind:bss addr:0x02180438
 gPowerRegisterSlots kind:bss addr:0x02180450
-data_02180490 kind:bss addr:0x02180470
+DGTi_OverlayTableMode kind:bss addr:0x02180470
 nv_result kind:bss addr:0x02180474
 nv_cb_occurred kind:bss addr:0x02180478
 gNvramEntriesOffset kind:bss addr:0x0218047c

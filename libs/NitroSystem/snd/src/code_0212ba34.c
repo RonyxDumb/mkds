@@ -10,30 +10,30 @@
 #include "code_0212d214.h"
 #include "resource_mgr.h"
 
-PMSleepCallbackInfo data_0217d42c;
-PMSleepCallbackInfo data_0217d420;
-u32 data_0217d418;
-u32 data_0217d41c;
-s8 data_0217d414;
+PMSleepCallbackInfo sPostSleepCallback;
+PMSleepCallbackInfo sPreSleepCallback;
+u32 sDriverInfoFirstFlag;
+u32 sNnsSndInitialized;
+s8 sCurDriverInfo;
 
 // Sets up the sound driver, the sleep callbacks and the resource, capture and player state once.
 void NNS_SndInit(void) {
-    if (data_0217d41c != 0) {
+    if (sNnsSndInitialized != 0) {
         return;
     }
-    data_0217d41c = 1;
+    sNnsSndInitialized = 1;
     SND_Init();
-    data_0217d420.mCallback = BeginSleep;
-    data_0217d420.mArg = 0;
-    data_0217d42c.mCallback = EndSleep;
-    data_0217d42c.mArg = 0;
-    PM_PrependPreSleepCallback(&data_0217d420);
-    PM_AppendPostSleepCallback(&data_0217d42c);
+    sPreSleepCallback.mCallback = BeginSleep;
+    sPreSleepCallback.mArg = 0;
+    sPostSleepCallback.mCallback = EndSleep;
+    sPostSleepCallback.mArg = 0;
+    PM_PrependPreSleepCallback(&sPreSleepCallback);
+    PM_AppendPostSleepCallback(&sPostSleepCallback);
     NNSi_SndInitResourceMgr();
     NNSi_SndCaptureInit();
     NNSi_SndPlayerInit();
-    data_0217d414 = -1;
-    data_0217d418 = 1;
+    sCurDriverInfo = -1;
+    sDriverInfoFirstFlag = 1;
 }
 
 // Handles the driver replies, then runs the player and capture updates and sends the queued commands.

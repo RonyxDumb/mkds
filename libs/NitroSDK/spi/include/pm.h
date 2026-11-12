@@ -41,15 +41,15 @@ extern u16 gPowerInitialized;
 // Cleared before the handshake word is sent in PMi_SendSleepStart, set by PMi_CommonCallback when the reply (0x60)
 // arrives.
 extern vu32 gPowerSleepHandshakeReplyReceived;
-extern vu32 data_02180438;
+extern vu32 PMi_SleepEndFlag;
 // List of PMSleepCallbackInfo run first by PM_GoSleepMode.
 extern PMSleepCallbackInfo *gPowerPreSleepCallbacks;
-extern u32 data_02180440;
+extern u32 PMi_LCDCount;
 // List of PMSleepCallbackInfo run last by PM_GoSleepMode.
 extern PMSleepCallbackInfo *gPowerPostSleepCallbacks;
 // The command in flight.
 extern PMiWork gPowerCommand;
-extern OSMutex data_02180458;
+extern OSMutex PMi_Mutex;
 // The four register buffers.
 extern PMData16 gPMData16s[4];
 
@@ -128,7 +128,7 @@ u32 PM_SendUtilityCommandAsync(u32 number, PMCallback callback, void *arg);
 // then sends the sleep word (trigger) and the key word (keyIntrData). Returns 1 when busy.
 u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData);
 // Receive handler of the tag-8 channel. An error finishes the command with 2. Replies 0x70-0x73 store their byte
-// through PMData16.mBuffer (result 0); 0x60 sets gPowerSleepHandshakeReplyReceived; 0x62 sets data_02180438; 0x67
+// through PMData16.mBuffer (result 0); 0x60 sets gPowerSleepHandshakeReplyReceived; 0x62 sets PMi_SleepEndFlag; 0x67
 // stores through PMiWork.mWork (result 0). Then finishes the command with the result.
 void PMi_CommonCallback(u32 tag, u32 data, u32 err);
 // Runs once: opens the power-management channel (PXI tag 8), waits for the other processor, installs

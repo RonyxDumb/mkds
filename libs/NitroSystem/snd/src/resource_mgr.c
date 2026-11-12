@@ -12,20 +12,20 @@
 #include "Main/Sound/sound_seq.h"
 #include "snd_interface.h"
 
-u32 data_0217d440;
-u32 data_0217d438;
-u32 data_0217d43c;
+u32 sChannelLock;
+u32 sCaptureLock;
+u32 sAlarmLock;
 
 // Locks the channels in channels unless one of them is already locked.
 BOOL NNS_SndLockChannel(u32 channels) {
     if (channels == 0) {
         return 1;
     }
-    if (channels & data_0217d440) {
+    if (channels & sChannelLock) {
         return 0;
     }
     SND_LockChannel(channels, 0);
-    data_0217d440 |= channels;
+    sChannelLock |= channels;
     return 1;
 }
 
@@ -35,21 +35,21 @@ void NNS_SndUnlockChannel(u32 channels) {
         return;
     }
     SND_UnlockChannel(channels, 0);
-    data_0217d440 &= ~channels;
+    sChannelLock &= ~channels;
 }
 
 // Locks the capture units in captures unless one of them is already locked.
 BOOL NNS_SndLockCapture(u32 captures) {
-    if (captures & data_0217d438) {
+    if (captures & sCaptureLock) {
         return 0;
     }
-    data_0217d438 |= captures;
+    sCaptureLock |= captures;
     return 1;
 }
 
 // Unlocks the capture units in captures.
 void NNS_SndUnlockCapture(u32 captures) {
-    data_0217d438 &= ~captures;
+    sCaptureLock &= ~captures;
 }
 
 // Returns the number of the first free alarm and marks it used, or -1 when all eight are used.
@@ -59,8 +59,8 @@ s32 NNS_SndAllocAlarm(void) {
 
     bit = 1;
     for (alarm = 0; alarm < 8; alarm++) {
-        if ((data_0217d43c & bit) == 0) {
-            data_0217d43c |= bit;
+        if ((sAlarmLock & bit) == 0) {
+            sAlarmLock |= bit;
             return alarm;
         }
         bit <<= 1;
@@ -70,12 +70,12 @@ s32 NNS_SndAllocAlarm(void) {
 
 // Marks alarm number alarm free.
 void NNS_SndFreeAlarm(s32 alarm) {
-    data_0217d43c &= ~(1 << alarm);
+    sAlarmLock &= ~(1 << alarm);
 }
 
 // Clears the channel, capture and alarm locks.
 void NNSi_SndInitResourceMgr(void) {
-    data_0217d440 = 0;
-    data_0217d438 = 0;
-    data_0217d43c = 0;
+    sChannelLock = 0;
+    sCaptureLock = 0;
+    sAlarmLock = 0;
 }

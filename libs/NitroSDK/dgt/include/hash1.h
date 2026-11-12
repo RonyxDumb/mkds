@@ -10,8 +10,8 @@ typedef struct DGTHash1Context {
     /* 54 */ u32 mBitCountHigh;
 } DGTHash1Context;
 
-extern u32 data_0216f0ac[48];
-extern u32 data_0216f16c[64];
+extern u32 gHash1WordOrder[48];
+extern u32 gHash1RoundConstants[64];
 
 // Runs the 64 MD5 steps over the block in ctx and adds the result to the state.
 void ProcessBlock(DGTHash1Context *ctx);

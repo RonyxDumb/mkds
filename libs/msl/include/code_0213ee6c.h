@@ -25,11 +25,11 @@ extern float data_0216ec98;
 extern float data_0216ec9c;
 
 // Two doubles each, indexed 0/1 by PowBody.
-extern const double data_0215d484[2];
-extern const double data_0215d494[2];
-extern const double data_0215d4a4[2];
+extern const double gPowLogAdjustHigh[2];
+extern const double gPowBreakpoint[2];
+extern const double gPowLogAdjustLow[2];
 // Indexed 0-7 by DigitCharsToDouble.
-extern double data_0216ef30[];
+extern double gPowersOfTen[];
 
 double PowBody(double base, double power);
 double copysign(double magnitude, double sign);

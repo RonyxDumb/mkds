@@ -5,11 +5,11 @@
 
 void NNS_SndSetMonoFlag(BOOL mono);
 
-extern s8 data_0217d414;
-extern u32 data_0217d418;
-extern u32 data_0217d41c;
-extern PMSleepCallbackInfo data_0217d420;
-extern PMSleepCallbackInfo data_0217d42c;
+extern s8 sCurDriverInfo;
+extern u32 sDriverInfoFirstFlag;
+extern u32 sNnsSndInitialized;
+extern PMSleepCallbackInfo sPreSleepCallback;
+extern PMSleepCallbackInfo sPostSleepCallback;
 
 void NNS_SndSetMasterVolume(int volume);
 void NNS_SndMain(void);

@@ -8,7 +8,7 @@
 #include "Main/Kart/data_02161000.h"
 #include "data_02170000.h"
 
-const u8 data_02152c30[9][4] = {
+const u8 gRotPivotIndices[9][4] = {
     {4, 5, 7, 8}, {3, 5, 6, 8}, {3, 4, 6, 7}, {1, 2, 7, 8}, {0, 2, 6, 8},
     {0, 1, 6, 7}, {1, 2, 4, 5}, {0, 2, 3, 5}, {0, 1, 3, 4},
 };
@@ -458,13 +458,13 @@ void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     dictEntries = OFFSET_PTR(NNSG3dResDictEntryHeader, &colorAnim->mDict, colorAnim->mDict.mOfsEntry);
     colorData = DICT_ENTRY(NNSG3dResDictMatCAnmData, dictEntries, (u16) dataIdx);
     colorValue = GetMatColAnmValue_(colorAnim, colorData->mDiffuse, frame);
-    pResult->mPrmMatColor0 =
-        (pResult->mPrmMatColor0 & 0x8000) | colorValue | (GetMatColAnmValue_(colorAnim, colorData->mAmbient, frame) << 16);
+    pResult->mPrmMatColor0 = (pResult->mPrmMatColor0 & 0x8000) | colorValue |
+                             (GetMatColAnmValue_(colorAnim, colorData->mAmbient, frame) << 16);
     colorValue = GetMatColAnmValue_(colorAnim, colorData->mEmission, frame);
-    pResult->mPrmMatColor1 =
-        (pResult->mPrmMatColor1 & 0x8000) | GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (colorValue << 16);
-    pResult->mPrmPolygonAttr =
-        (pResult->mPrmPolygonAttr & ~0x1f0000) | (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
+    pResult->mPrmMatColor1 = (pResult->mPrmMatColor1 & 0x8000) |
+                             GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (colorValue << 16);
+    pResult->mPrmPolygonAttr = (pResult->mPrmPolygonAttr & ~0x1f0000) |
+                               (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
 }
 
 void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
@@ -576,16 +576,16 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             second = vals[1];
             MI_Zero36B(&out->mRot);
             out->mRot.a[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
-            out->mRot.a[data_02152c30[pivot][0]] = first;
-            out->mRot.a[data_02152c30[pivot][1]] = second;
+            out->mRot.a[gRotPivotIndices[pivot][0]] = first;
+            out->mRot.a[gRotPivotIndices[pivot][1]] = second;
             if (node->mFlag & 0x200) {
                 second = -second;
             }
-            out->mRot.a[data_02152c30[pivot][2]] = second;
+            out->mRot.a[gRotPivotIndices[pivot][2]] = second;
             if (node->mFlag & 0x400) {
                 first = -first;
             }
-            out->mRot.a[data_02152c30[pivot][3]] = first;
+            out->mRot.a[gRotPivotIndices[pivot][3]] = first;
         } else {
             out->mRot.a[0] = node->mUnk_02;
             out->mRot.a[1] = vals[0];
@@ -1332,16 +1332,16 @@ BOOL getRotDataByIdx_(MtxFx33 *out, const s16 *rot3, const s16 *rot5, u32 info) 
         valueX = rotEntry[1];
         valueY = rotEntry[2];
         out->a[axisIndex] = (header & 0x10) ? -0x1000 : 0x1000;
-        out->a[data_02152c30[axisIndex][0]] = valueX;
-        out->a[data_02152c30[axisIndex][1]] = valueY;
+        out->a[gRotPivotIndices[axisIndex][0]] = valueX;
+        out->a[gRotPivotIndices[axisIndex][1]] = valueY;
         if (rotEntry[0] & 0x20) {
             valueY = -valueY;
         }
-        out->a[data_02152c30[axisIndex][2]] = valueY;
+        out->a[gRotPivotIndices[axisIndex][2]] = valueY;
         if (rotEntry[0] & 0x40) {
             valueX = -valueX;
         }
-        out->a[data_02152c30[axisIndex][3]] = valueX;
+        out->a[gRotPivotIndices[axisIndex][3]] = valueX;
         return 0;
     }
     info = (info & 0x7fff) * 5;

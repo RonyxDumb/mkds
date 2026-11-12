@@ -5,7 +5,7 @@
 
 extern u32 gFloatStatus;
 extern FloatTrapTable gFloatTrapTable;
-extern void (*data_usa_02161748[])(void);
+extern void (*gStaticInitializers[])(void);
 
 void SwiWriteByte(const void *bytePtr);
 u32 SwiReadByte(void);

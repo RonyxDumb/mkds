@@ -7,13 +7,13 @@
 #include "registers.h"
 
 u16 gPowerInitialized;
-vu32 data_02180438;
+vu32 PMi_SleepEndFlag;
 PMSleepCallbackInfo *gPowerPostSleepCallbacks;
-u32 data_02180440;
+u32 PMi_LCDCount;
 PMSleepCallbackInfo *gPowerPreSleepCallbacks;
 vu32 gPowerSleepHandshakeReplyReceived;
 PMiWork gPowerCommand;
-OSMutex data_02180458;
+OSMutex PMi_Mutex;
 PMData16 gPowerRegisterSlots[4];
 
 // Marks a command as in flight and returns 1; returns 0 when one already is.
@@ -81,12 +81,12 @@ void PM_Init(void) {
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gPowerRegisterSlots[slotIndex].mFlag = 0;
     }
-    OS_InitMutex(&data_02180458);
-    data_02180440 = SYSTEM_WORK->mVblankCount;
+    OS_InitMutex(&PMi_Mutex);
+    PMi_LCDCount = SYSTEM_WORK->mVblankCount;
 }
 
 // Receive handler of the tag-8 channel. An error finishes the command with 2. Replies 0x70-0x73 store their byte
-// through PMData16.mBuffer (result 0); 0x60 sets gPowerSleepHandshakeReplyReceived; 0x62 sets data_02180438; 0x67
+// through PMData16.mBuffer (result 0); 0x60 sets gPowerSleepHandshakeReplyReceived; 0x62 sets PMi_SleepEndFlag; 0x67
 // stores through PMiWork.mWork (result 0). Then finishes the command with the result.
 void PMi_CommonCallback(u32 tag, u32 data, u32 err) {
     u16 reply;
@@ -113,7 +113,7 @@ void PMi_CommonCallback(u32 tag, u32 data, u32 err) {
     } else if (command == 0x60) {
         gPowerSleepHandshakeReplyReceived = 1;
     } else if (command == 0x62) {
-        data_02180438 = 1;
+        PMi_SleepEndFlag = 1;
     } else if (command == 0x67) {
         work = gPowerCommand.mWork;
         if (work != 0) {
@@ -135,7 +135,7 @@ u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData) {
     while (gPowerSleepHandshakeReplyReceived == 0) {
     }
     gPowerSleepHandshakeReplyReceived = 0;
-    data_02180438 = 0;
+    PMi_SleepEndFlag = 0;
     PMi_SetLCDPower(0, 2, 0, 0);
     PMi_SendPxiData((trigger & 0xff) | 0x2006100);
     PMi_SendPxiData((keyIntrData & 0xffff) | 0x1010000);
@@ -436,7 +436,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
     switch (sw) {
         case 1:
             if (skip == 0) {
-                if (SYSTEM_WORK->mVblankCount - data_02180440 <= 7) {
+                if (SYSTEM_WORK->mVblankCount - PMi_LCDCount <= 7) {
                     return 0;
                 }
             }
@@ -451,7 +451,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
             break;
         case 0:
             reg_GX_POWCNT &= ~1;
-            data_02180440 = SYSTEM_WORK->mVblankCount;
+            PMi_LCDCount = SYSTEM_WORK->mVblankCount;
             if (led != 0) {
                 if (isSync != 0) {
                     PMi_SetLED(led);

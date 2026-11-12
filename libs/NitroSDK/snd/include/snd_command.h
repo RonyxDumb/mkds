@@ -4,7 +4,7 @@
 
 typedef struct SNDSharedWork SNDSharedWork;
 
-// 0x18 bytes, linked through mNext. data_021735a0 holds 256 of them; SND_CommandInit chains them and SND_AllocCommand
+// 0x18 bytes, linked through mNext. sCommandArray holds 256 of them; SND_CommandInit chains them and SND_AllocCommand
 // takes one.
 typedef struct SNDCommand {
     /* 00 */ struct SNDCommand *mNext;
@@ -21,18 +21,18 @@ typedef struct AlarmCallbackInfo {
     /* 08 */ u8 mId;
 } AlarmCallbackInfo;
 
-extern SNDCommand *data_021732c8;
-extern u32 data_021732cc;
+extern SNDCommand *sCommandFreeList;
+extern u32 sFinishedTag;
 extern SNDCommand *sReserveList;
-extern SNDCommand *data_021732d4;
-extern SNDCommand *data_021732d8;
-extern s32 data_021732dc;
-extern s32 data_021732e0;
-extern s32 data_021732e4;
-extern u32 data_021732e8;
-extern SNDCommand *data_021732ec[13];
-extern SNDSharedWork data_02173320;
-extern SNDCommand data_021735a0[256];
+extern SNDCommand *sReserveListEnd;
+extern SNDCommand *sCommandFreeListEnd;
+extern s32 sWaitingCommandListQueueRead;
+extern s32 sWaitingCommandListQueueWrite;
+extern s32 sWaitingCommandListCount;
+extern u32 sCurrentTag;
+extern SNDCommand *sWaitingCommandListQueue[13];
+extern SNDSharedWork sSharedWork;
+extern SNDCommand sCommandArray[256];
 extern AlarmCallbackInfo data_02174da0[8];
 
 u32 IsCommandAvailable(void);

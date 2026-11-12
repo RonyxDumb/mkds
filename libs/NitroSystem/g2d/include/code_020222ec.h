@@ -20,5 +20,5 @@ void NNS_G2dSetCellAnimationSequence(Unk02022030 *pCellAnim, NNSG2dAnimSequenceD
 void NNS_G2dInitCellAnimation(Unk02022030 *pCellAnim, NNSG2dAnimSequenceData *pAnimSeq, Unk02021dc8 *pCellDataBank);
 void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim);
 
-extern const u16 data_021530b8[3][4];
-extern const u16 data_021530d0[3][4];
+extern const u16 gObjShapeHeight[3][4];
+extern const u16 gObjShapeWidth[3][4];

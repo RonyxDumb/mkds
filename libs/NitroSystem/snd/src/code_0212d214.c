@@ -28,7 +28,7 @@
 #include "code_020218f4.h"
 
 NNSSndArc *sCurrent;
-SNDWaveArc data_0217dec8;
+SNDWaveArc sWaveArcHeader;
 
 // Sets each player's sequence count and channels and creates its heaps.
 BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
@@ -444,10 +444,10 @@ SNDWaveArc *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
 
     waveArc = NNS_SndArcGetFileAddress(fileId);
     if (waveArc == 0) {
-        if (NNS_SndArcReadFile(fileId, &data_0217dec8, 0x3c, 0) != 0x3c) {
+        if (NNS_SndArcReadFile(fileId, &sWaveArcHeader, 0x3c, 0) != 0x3c) {
             return 0;
         }
-        tableSize = data_0217dec8.mWaveCount * 4;
+        tableSize = sWaveArcHeader.mWaveCount * 4;
         len = tableSize * 2 + 0x3c;
         if (heap == 0) {
             return 0;

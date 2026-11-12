@@ -7,7 +7,7 @@
 #include "code_0212d214.h"
 
 u32 gFloatStatus;
-struct MWiDestructorChain *data_0217eeb0;
+struct MWiDestructorChain *gGlobalDestructorChain;
 FloatTrapTable gFloatTrapTable;
 
 void ExitViaSwi(void) {
@@ -25,7 +25,7 @@ u32 *GetFloatStatus(void) {
 void __call_static_initializers(void) {
     void (**p)(void);
 
-    for (p = data_usa_02161748; p != 0 && *p != 0; p++) {
+    for (p = gStaticInitializers; p != 0 && *p != 0; p++) {
         (*p)();
     }
 }
@@ -33,14 +33,14 @@ void __call_static_initializers(void) {
 void RunListNodeCallbacks(void) {
     MWiDestructorChain *node;
 
-    node = data_0217eeb0;
+    node = gGlobalDestructorChain;
     if (node == 0) {
         return;
     }
     do {
-        data_0217eeb0 = node->mNext;
+        gGlobalDestructorChain = node->mNext;
         ((void (*)(void *, s32)) node->mDtor)(node->mObj, -1);
-        node = data_0217eeb0;
+        node = gGlobalDestructorChain;
     } while (node != 0);
 }
 

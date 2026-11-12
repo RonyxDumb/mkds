@@ -9,12 +9,12 @@ void DGT_Hash1Reset(DGTHash1Context *ctx) {
     ctx->mLength = 0;
 }
 
-u8 data_0216f0a8 = 0x80;
-u32 data_0216f0ac[48] = {
+u8 gHash1Padding = 0x80;
+u32 gHash1WordOrder[48] = {
     1,  6, 11, 0, 5, 10, 15, 4, 9, 14, 3,  8, 13, 2, 7,  12, 5, 8,  11, 14, 1, 4,  7, 10,
     13, 0, 3,  6, 9, 12, 15, 2, 0, 7,  14, 5, 12, 3, 10, 1,  8, 15, 6,  13, 4, 11, 2, 9,
 };
-u32 data_0216f16c[64] = {
+u32 gHash1RoundConstants[64] = {
     0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee, 0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
     0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be, 0x6b901122, 0xfd987193, 0xa679438e, 0x49b40821,
     0xf61e2562, 0xc040b340, 0x265e5a51, 0xe9b6c7aa, 0xd62f105d, 0x02441453, 0xd8a1e681, 0xe7d3fbc8,
@@ -70,7 +70,7 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     bits = ctx->mLength << 3;
     bitsLow = bits;
     bitsHigh = bits >> 32;
-    DGT_Hash1SetSource(ctx, &data_0216f0a8, 1);
+    DGT_Hash1SetSource(ctx, &gHash1Padding, 1);
     used = ctx->mLength & 0x3f;
     room = 0x40 - used;
     if (room < 8) {
@@ -107,7 +107,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
     hashB = ctx->mState[1];
     hashC = ctx->mState[2];
     hashD = ctx->mState[3];
-    constant = data_0216f16c;
+    constant = gHash1RoundConstants;
     for (roundIndex = 0, word = block; roundIndex < 4; roundIndex++) {
         sum = *constant++;
         sum += *word++ + (hashA + ((hashB & hashC) | (~hashB & hashD)));
@@ -122,7 +122,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
         sum += *word++ + (hashB + ((hashC & hashD) | (~hashC & hashA)));
         hashB = hashC + ((sum << 22) | (sum >> 10));
     }
-    for (roundIndex = 0, order = data_0216f0ac; roundIndex < 4; roundIndex++) {
+    for (roundIndex = 0, order = gHash1WordOrder; roundIndex < 4; roundIndex++) {
         sum = *constant++;
         sum += block[*order++] + (hashA + ((hashB & hashD) | (hashC & ~hashD)));
         hashA = hashB + ((sum << 5) | (sum >> 27));

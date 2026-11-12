@@ -4,7 +4,7 @@
 #include "code_02142eac.h" // Unk021425e8Func
 
 // Copy of the game info that WM_SetGameInfo sends.
-extern u8 data_0217f960[0x80];
+extern u8 tmpUserGameInfoBuf[0x80];
 
 int WM_SetEntry(Unk021425e8Func callback, BOOL enabled);
 int WM_MeasureChannel(Unk021425e8Func callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime);

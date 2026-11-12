@@ -7,10 +7,10 @@
 #include "code_0214177c.h"
 #include "code_02134008.h"
 
-double data_0216ef30[8] = {10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0, 100000000.0};
-const double data_0215d494[2] = {1.0, 1.5};
-const double data_0215d4a4[2] = {0.0, 1.350039202129749e-08};
-const double data_0215d484[2] = {0.0, 0.5849624872207642};
+double gPowersOfTen[8] = {10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0, 100000000.0};
+const double gPowBreakpoint[2] = {1.0, 1.5};
+const double gPowLogAdjustLow[2] = {0.0, 1.350039202129749e-08};
+const double gPowLogAdjustHigh[2] = {0.0, 0.5849624872207642};
 
 // 1 when left and right are equal.
 int DigitsEqual(const DigitRecord *left, const DigitRecord *right) {
@@ -400,7 +400,7 @@ double DigitCharsToDouble(const DigitRecord *record) {
             chunkValue = 10 * chunkValue + *cursor;
             cursor++;
         }
-        scaled = result * data_0216ef30[chunkLength - 1];
+        scaled = result * gPowersOfTen[chunkLength - 1];
         sum = scaled + chunkValue;
         if (chunkValue != 0 && scaled == sum) {
             break;
@@ -750,14 +750,14 @@ double PowBody(double base, double power) {
         }
         *(1 + (int *) &absBase) = ia;
 
-        highTerm = absBase - data_0215d494[expBits];
-        lowTerm = 1.0 / (absBase + data_0215d494[expBits]);
+        highTerm = absBase - gPowBreakpoint[expBits];
+        lowTerm = 1.0 / (absBase + gPowBreakpoint[expBits]);
         ratio = highTerm * lowTerm;
         ratioHigh = ratio;
         *(int *) &ratioHigh = 0;
         tHigh = 0.0;
         *(1 + (int *) &tHigh) = ((ia >> 1) | 0x20000000) + 0x00080000 + (expBits << 18);
-        tLow = absBase - (tHigh - data_0215d494[expBits]);
+        tLow = absBase - (tHigh - gPowBreakpoint[expBits]);
         ratioError = lowTerm * ((highTerm - ratioHigh * tHigh) - ratioHigh * tLow);
         ratioSquared = ratio * ratio;
         poly = ratioSquared * ratioSquared *
@@ -778,11 +778,11 @@ double PowBody(double base, double power) {
         *(int *) &logHigh = 0;
         logLow = lowTerm - (logHigh - highTerm);
         scaledHigh = 0.9617967009544373 * logHigh;
-        scaledLow = data_0215d4a4[expBits] + (-7.028461650952758e-09 * logHigh + logLow * 0.9617966939259756);
+        scaledLow = gPowLogAdjustLow[expBits] + (-7.028461650952758e-09 * logHigh + logLow * 0.9617966939259756);
         temp = baseExponent;
-        logProdHigh = ((scaledHigh + scaledLow) + data_0215d484[expBits]) + temp;
+        logProdHigh = ((scaledHigh + scaledLow) + gPowLogAdjustHigh[expBits]) + temp;
         *(int *) &logProdHigh = 0;
-        logProdLow = scaledLow - (((logProdHigh - temp) - data_0215d484[expBits]) - scaledHigh);
+        logProdLow = scaledLow - (((logProdHigh - temp) - gPowLogAdjustHigh[expBits]) - scaledHigh);
     }
 
     sign = 1.0;

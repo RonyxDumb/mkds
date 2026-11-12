@@ -26,4 +26,4 @@ u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec);
 const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec *specOut);
 
 // u16 table indexed by characters below 0x80; FormatWideParseSpec tests bit 3, FormatWideDouble bit 9.
-extern const u16 data_0215d384[128];
+extern const u16 gCharFlags[128];

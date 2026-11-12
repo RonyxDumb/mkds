@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-extern u32 data_0217d438;
-extern u32 data_0217d43c;
-extern u32 data_0217d440;
+extern u32 sCaptureLock;
+extern u32 sAlarmLock;
+extern u32 sChannelLock;
 
 void NNSi_SndInitResourceMgr(void);
 void NNS_SndFreeAlarm(s32 alarm);
