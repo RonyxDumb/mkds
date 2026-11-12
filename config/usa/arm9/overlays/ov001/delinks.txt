@@ -130,13 +130,8 @@ src/01/code_0218c7a0.c:
 // provisional: file name and boundaries
 src/01/code_0218ddb4.c:
     complete
-    .text       start:0x0218dd94 end:0x0218f8e0
+    .text       start:0x0218dd94 end:0x0218f9b4
     .data       start:0x021a7d2c end:0x021a7d3c
-
-// provisional: file name and boundaries
-src/01/code_0218f900.c:
-    complete
-    .text       start:0x0218f8e0 end:0x0218f9b4
 
 // provisional: file name and boundaries
 src/01/code_0218f9d4.c:

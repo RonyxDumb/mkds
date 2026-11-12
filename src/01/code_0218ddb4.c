@@ -1,19 +1,23 @@
 #include "01/code_0218ddb4.h"
+#include "01/code_0218f900.h"
+#include "01/code_02188cd8.h"
+#include "01/code_02185ef4.h"
+#include "01/code_02188000.h"
+#include "01/code_02188158.h"
+#include "Main/Unknown/code_0209b000.h"
+#include "Main/Unknown/code_020d2000.h"
+#include "01/code_0218f000.h"
+#include "Main/Unknown/code_0209bef0.h"
 #include "01/code_02187d14.h"
 #include "01/code_02188de0.h"
-
-#include "01/code_02185ef4.h"
 #include "01/code_0218d000.h"
 #include "01/code_0218e000.h"
 #include "Main/System/heap.h"
 #include "Main/Race/race.h"
 #include "Main/Unknown/code_020681f0.h"
-#include "Main/Unknown/code_0209bef0.h"
 #include "01/code_0218155c.h"
 #include "01/code_02187cd4.h"
-#include "01/code_02188158.h"
 #include "01/code_02188484.h"
-#include "01/code_0218f000.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_020a100c.h"
 #include "Main/Unknown/code_020a126c.h"
@@ -22,17 +26,13 @@
 #include "Main/Sound/sound_source_init.h"
 #include "Main/Unknown/code_02110100.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "01/code_02188000.h"
 #include "01/unk_021a7000.h"
-#include "Main/Unknown/code_0209b000.h"
 #include "01/code_02181bd0.h"
 #include "01/code_02187e78.h"
 #include "01/code_02187eb0.h"
-#include "01/code_0218f900.h"
 #include "Main/Unknown/code_020a1000.h"
 #include "Main/Unknown/code_020a2300.h"
 #include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_02073000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "01/code_02181000.h"
@@ -41,7 +41,6 @@
 #include "Main/Unknown/code_02110000.h"
 #include "Main/Unknown/code_020a128c.h"
 #include "01/code_021882b8.h"
-#include "01/code_02188cd8.h"
 #include "01/code_02188e24.h"
 #include "Main/System/heap_call.h"
 #include "Main/Unknown/code_02036bec.h"
@@ -67,6 +66,27 @@
 #include "01/code_02188950.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/unk_0217a000.h"
+
+u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
+    return mapObject->mUnk_0a8 == 2;
+}
+
+void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject) {
+    mapObject->mUnk_2d8 = 0;
+    SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
+}
+
+void ShowKingTeresaWithEffects(MissionRunMapObject *mapObject) {
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
+    SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1ac, mapObject->mPrm->mUnk_1b0);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StopTurningMoveFollowsAngle(mapObject);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x41b, 0);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x41c, 0);
+    StartEffectAtOffset(mapObject, 0, 0, 0, 0x41d, 0);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x22e);
+    mapObject->mUnk_000.mFlags &= ~1;
+}
 
 void HideKingTeresaWithEffects(MissionRunMapObject *mapObject) {
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
