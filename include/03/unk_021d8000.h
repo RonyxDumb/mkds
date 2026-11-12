@@ -62,58 +62,15 @@ typedef struct RawEntry {
     /* 38 */ u8 pad_38[0x88];
 } RawEntry;
 
-// Objects whose layout isn't known yet.
-extern UnkWordFunc *gAllocFunction;
-extern UnkFunc *gFreeFunction;
-extern s32 gStopRequested;
-extern u32 gExchangeWcmState;
-extern void *gThreadStack;
-extern s32 gThreadStarted;
-extern s32 gExchangeWiFiInitCalled;
-extern OSThread gExchangeThread;
-extern s32 gExchangeStatus;
-extern s32 gExchangeResultCode;
-extern UnkFunc *gStatusCallback;
-extern OSMutex gAllocMutex;
-extern ExchangeResult gExchangeResult;
-extern u8 gReceivedTextNonEmpty;
-extern u32 gPacketLength;
-extern u32 gSelectedEntryIndex;
-extern u32 gExchangeState;
-extern u32 gExchangeConnected;
-extern u32 gSocketsStarted;
-extern u32 gBodyLength;
-extern u32 gKind1Item5Flag;
-extern RawEntry *gRawEntries;
-extern s32 gEntryCountMax;
-extern MacAddress gMacAddress;
-extern MacAddress gSelectedEntryAddress;
-extern u8 gFirstKey[0x10];
-extern Bytes8 gSecondKeyReceivedPart;
-extern char gSelectedEntryName[];
-extern u8 gSecondKeyHashedPart[];
-extern u32 gKind5Words[0x95];
-extern Kind5Record gKind5Record;
-extern u8 gKind5Values[];
-extern Kind5Item20a gKind5Item20a;
-extern u8 gBodyBuffer[];
-extern u8 gPacketBuffer[0x800];
-
-extern WCMWepDesc *gExchangeConnectBlock;
-extern WCMConfig *gExchangeWcmConfig;
-extern void *gExchangeWcmWork;
-extern u8 *gExchangeSearchAddress;
-extern u8 *gExchangeSearchEssid;
-extern WMBssDesc *gExchangeConnectRecord;
-extern u32 gExchangeConnectOption;
-extern u32 gExchangeSearchOption;
-extern UnkFunc *gExchangeEventCallback;
-extern u8 gExchangeSearchAddressBytes[6];
-extern u8 gExchangeSearchEssidBytes[0x20];
-extern void *gAlignedBuffer;
-extern void *gAllocatedBuffer;
-extern s32 gEventWriteIndex;
-extern s32 gEventReadIndex;
-extern u32 gEvents[4];
+// The items of a kind 5 packet, 0x254 bytes. The words below the record are only cleared with the rest; the values are
+// four 0x28-byte slots (0x20 characters, then two words that items 0x203 and 0x204 store) addressed from the byte array.
+typedef struct Kind5Items {
+    /* 000 */ u32 mWords[0x40];
+    /* 100 */ Kind5Record mRecord;
+    /* 160 */ u8 mUnk_160[4];
+    /* 164 */ u8 mValues[0x98];
+    /* 1fc */ Kind5Item20a mItem20a;
+    /* 244 */ u8 mUnk_244[0x10];
+} Kind5Items;
 
 #include "03/Net/essid_packet_steps.h"

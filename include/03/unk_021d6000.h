@@ -3,6 +3,7 @@
 #include "types.h"
 #include "03/types_021d299c.h"
 #include "00/Lib/DWC/code_02188720.h"
+#include "00/Lib/DWC/code_0218a064.h"
 
 typedef struct Rect Rect;
 
@@ -28,15 +29,7 @@ typedef struct Bytes68 {
 } Bytes68;
 
 extern u8 gApScanEmptyBssid[];
-extern u32 gThreadStackSize;
-extern s32 gTimeoutAtMs;
-extern s32 gStartEntryCount;
 extern u8 *gKind2ItemBuffer;
-extern u32 gFormatAddressesFlag;
-extern char gSixAsterisksString[];
-extern Bytes7 gKind2Item3Bytes;
-extern Bytes4 gWarpString;
-extern u8 gExchangeSocketConfig[];
 extern Rect gTouchScreenRect;
 extern u16 gEditKeyboardPage0KeyTexts[50];
 extern u16 gEditKeyboardPage1KeyTexts[50];

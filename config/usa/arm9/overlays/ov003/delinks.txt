@@ -25,10 +25,18 @@ src/03/Net/code_021ba7d8.c:
     .bss        start:0x021d8b40 end:0x021d8b90
 
 // provisional: file name and boundaries
+src/03/Net/call_status_callback.c:
+    complete
+    .text       start:0x021baffc end:0x021bb128
+    .bss        start:0x021d8b90 end:0x021d8c64
+
+// provisional: file name and boundaries
 src/03/Net/exchange_essid.c:
     complete
-    .text       start:0x021baffc end:0x021bede4
+    .text       start:0x021bb128 end:0x021bede4
     .rodata     start:0x021d3654 end:0x021d5e7c
+    .data       start:0x021d686c end:0x021d693c
+    .bss        start:0x021d8c64 end:0x021da0c4
 
 // provisional: file name and boundaries
 src/03/Menu/slide_buttons.c:

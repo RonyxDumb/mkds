@@ -1257,10 +1257,10 @@ gTimeoutAtMs kind:data(any) addr:0x021d6878
 gStartEntryCount kind:data(any) addr:0x021d687c
 gSixAsterisksString kind:data(any) addr:0x021d6880
 gKind2Item3Bytes kind:data(any) addr:0x021d6888
-data_usa_ov003_021d6890 kind:data(any) addr:0x021d6890
+@2317 kind:data(any) addr:0x021d6890 local
 gHashPadding kind:data(any) addr:0x021d689c
 gExchangeSocketConfig kind:data(any) addr:0x021d68dc
-gWarpString kind:data(any) addr:0x021d6934
+@4641 kind:data(any) addr:0x021d6934 local
 gJtNullNscName kind:data(any) addr:0x021d693c
 gJb2HlApNscName kind:data(any) addr:0x021d6950
 gJb4HlIpNscName kind:data(any) addr:0x021d6964
@@ -1547,14 +1547,8 @@ gExchangeSearchEssidBytes kind:bss addr:0x021d8c84
 gSelectedEntryName kind:bss addr:0x021d8ca4
 gExchangeThread kind:bss addr:0x021d8cc8
 gExchangeResult kind:bss addr:0x021d8d88
-data_ov003_021d8df0 kind:bss addr:0x021d8db0
-data_ov003_021d8e70 kind:bss addr:0x021d8e30
-gKind5Words kind:bss addr:0x021d8e70
-gKind5Record kind:bss addr:0x021d8f70
-gKind5Values kind:bss addr:0x021d8fd4
-gKind5Item20a kind:bss addr:0x021d906c
+gKind5Items kind:bss addr:0x021d8e70
 gBodyBuffer kind:bss addr:0x021d90c4
-data_usa_ov003_021d90cc kind:bss addr:0x021d90cc
 gPacketBuffer kind:bss addr:0x021d98c4
 gAnimatedIcon kind:bss addr:0x021da0c4
 gSlideButtons kind:bss addr:0x021da0c8

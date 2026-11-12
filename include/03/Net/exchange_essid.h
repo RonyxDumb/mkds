@@ -28,6 +28,9 @@ typedef struct Bytes16 {
 } Bytes16;
 
 #include "03/unk_021d8000.h"
+#include "00/Lib/DWC/code_0218a064.h"
+#include "03/unk_021d6000.h"
+#include "os_thread.h"
 
 // Eight bytes passed by address.
 typedef struct SocketAddress {
@@ -50,8 +53,6 @@ typedef struct EntrySummaryList {
     /* 0 */ u32 mCount;
     /* 4 */ EntrySummary mEntries[1];
 } EntrySummaryList;
-
-extern u8 gHashPadding[];
 
 void CallStatusCallback(void);
 u32 CopyExchangeResult(ExchangeResult *output);
@@ -125,3 +126,21 @@ extern const u32 gTransformTableByte1[256];
 extern const u32 gReversedTableByte1[256];
 extern const u32 gReversedTableByte3[256];
 extern const u32 gReversedTableByte2[256];
+
+extern SOCConfig gExchangeSocketConfig;
+extern u32 gFormatAddressesFlag;
+extern u32 gThreadStackSize;
+extern s32 gTimeoutAtMs;
+extern s32 gStartEntryCount;
+extern char gSixAsterisksString[7];
+extern Bytes7 gKind2Item3Bytes;
+extern u8 gHashPadding[64];
+extern u8 gPacketBuffer[0x800];
+extern u8 gBodyBuffer[0x800];
+extern Kind5Items gKind5Items;
+extern ExchangeResult gExchangeResult;
+extern OSThread gExchangeThread;
+extern char gSelectedEntryName[36];
+extern u8 gExchangeSearchEssidBytes[0x20];
+extern u8 gSecondKeyHashedPart[24];
+extern Bytes8 gSecondKeyReceivedPart;
