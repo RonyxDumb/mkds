@@ -272,7 +272,6 @@ typedef struct UnreadHalfwordGroups {
     /* 0e */ u16 mUnk_0e;
 } UnreadHalfwordGroups;
 
-extern UnreadHalfwordGroups gUnreadHalfwordGroups;
 
 // Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
 // words.

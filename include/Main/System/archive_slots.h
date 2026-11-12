@@ -11,12 +11,6 @@ typedef struct CourseNameEntry {
     /* 05 */ u8 mUnk_05[0x3];
 } CourseNameEntry;
 
-extern CourseNameEntry data_usa_02154228[];
-extern const char data_usa_02165164[];
-extern const char data_usa_02165168[];
-extern const char data_usa_0216516c[];
-extern const char data_usa_02165170[];
-extern const char data_usa_02165174[];
 
 void BuildSceneArchivePath(char *path, const char *sceneName);
 void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName);
@@ -28,3 +22,5 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData);
 u32 ReadFileBytes(void *path, void *buffer, u32 size);
 int ReadWholeFile(const char *path, void *buffer, u32 maxSize);
 void InitArchiveSlots(void *heap);
+
+

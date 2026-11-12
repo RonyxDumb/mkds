@@ -13,6 +13,8 @@
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
 
+HeapCall *gCurrentHeapCall;
+
 void InitHeapCall(HeapCall *call, u32 func) {
     call->mUnk_00 = 0;
     call->mFunc = func;

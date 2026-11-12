@@ -19,3 +19,5 @@ typedef struct HeapCall {
 
 void SetHeapCallFunc(HeapCall *call, u32 func);
 void InitHeapCall(HeapCall *call, u32 func);
+
+extern HeapCall *gCurrentHeapCall;

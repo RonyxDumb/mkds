@@ -1604,7 +1604,6 @@ typedef struct DispCap {
     /* 0c */ s32 mBlendFactor;
 } DispCap;
 
-extern DispCap *gDispCap;
 // Object behind gRunScenesState, 0x10 bytes.
 typedef struct RunScenesState {
     /* 00 */ s32 mKind;

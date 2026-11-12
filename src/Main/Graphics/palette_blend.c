@@ -25,6 +25,9 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "registers.h"
 
+PaletteBlend *gPaletteBlend;
+StaffRollText *gStaffRollText;
+
 #pragma thumb on
 void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
     s32 colorIndex;

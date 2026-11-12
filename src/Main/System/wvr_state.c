@@ -13,6 +13,8 @@
 #include "code_0214d018.h"
 #include "registers.h"
 
+UnreadHalfwordGroups gUnreadHalfwordGroups;
+
 static inline u32 IsWvrStateBusy(void) {
     return gWvrState.mState == BANK_SHARE_CHANGING;
 }

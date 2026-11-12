@@ -22,6 +22,8 @@
 #include "Main/System/archive_buffer.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Race/data_02164000.h"
+#include "Main/System/result_archive_path.h"
+
 
 #pragma thumb on
 
@@ -159,20 +161,20 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
     const char *dSuffix;
 
     useDSuffix = FALSE;
-    if (gBootInfo->mBootType == 2 && data_usa_02154228[courseId].mUnk_04 == 1) {
+    if (gBootInfo->mBootType == 2 && gCourseArchiveNames[courseId].mUnk_04 == 1) {
         useDSuffix = TRUE;
     }
     if (useTexture != 0) {
-        textureSuffix = data_usa_02165164;
+        textureSuffix = "Tex";
     } else {
-        textureSuffix = data_usa_02165168;
+        textureSuffix = "";
     }
     if (useDSuffix != FALSE) {
-        dSuffix = data_usa_0216516c;
+        dSuffix = "D";
     } else {
-        dSuffix = data_usa_02165170;
+        dSuffix = "";
     }
-    OS_SNPrintf(path, 0x80, data_usa_02165174, data_usa_02154228[courseId].mName, dSuffix, textureSuffix);
+    OS_SNPrintf(path, 0x80, "/data/Course/%s%s%s.carc", gCourseArchiveNames[courseId].mName, dSuffix, textureSuffix);
 }
 
 u32 GetLanguageCode(void) {
@@ -182,7 +184,7 @@ u32 GetLanguageCode(void) {
     if (gStartupWork->mRegion == 2 && languageIndex == 1) {
         languageIndex += 5;
     }
-    return ((u32 *) data_02164dc8)[languageIndex];
+    return (u32) gLanguageCodes[languageIndex];
 }
 
 #pragma thumb off
@@ -195,20 +197,20 @@ u32 GetMPLanguageCode(void) {
     if ((gStartupWork->mRegion == 2) && (((s32 *) gStartupWork)[1] == 1)) {
         languageIndex = languageIndex + 5;
     }
-    return ((u32 *) &data_02164dc8)[languageIndex];
+    return (u32) gLanguageCodes[languageIndex];
 }
 
 void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName) {
     u32 languageCode;
     if (*sceneName != 0) {
         languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, data_02165148, sceneName, languageCode, data_0216515c);
+        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s%s", sceneName, languageCode, ".carc");
     }
 }
 
 void BuildSceneArchivePath(char *path, const char *sceneName) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, data_0216512c, sceneName, data_02165140);
+        OS_SNPrintf(path, 0x80, "/data/Scene/%s%s", sceneName, ".carc");
     }
 }
 

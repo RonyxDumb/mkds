@@ -7,7 +7,7 @@ void *FindKartModelFile(const char *path);
 void *FindCourseFile(const char *path);
 void *FindSceneFile(const char *name);
 void *FindMainRaceOrMainEffectFile(const char *path);
-void *FindArchiveFile(u32 archiveName, const char *path);
+void *FindArchiveFile(const char *archiveName, const char *path);
 
 // 0x18-byte entries.
 typedef struct ArchiveSlotInfo {
@@ -33,29 +33,11 @@ typedef struct SceneName {
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
+#include "Main/System/archive_slots.h"
 
 // The scene-name table, 16 rows indexed by scene number like gSceneFuncs: 0 'Title', 1 'Menu', 2 'Race', 3 'Emblem',
 // 4 'Menu', 5 'Test', 6 'WLMenu', 7 'Option', 8 'Record', 9 'Logo', 10 'Result', 11 'Nickname', 12 'WiFiMenu',
 // 13 'Ghost', 14 'Keyboard', 15 'Ending'.
-extern SceneName gSceneNames[];
-extern ArchiveSlotInfo gArchiveSlotInfos[];
-extern const char data_usa_02165008[];
-extern const char data_usa_02165010[];
-extern const char data_usa_02165018[];
-extern const char data_usa_02165020[];
-extern const char data_usa_02165028[];
-extern const char data_usa_02165030[];
-extern const char data_usa_02165038[];
-extern const char data_usa_02165040[];
-extern const char gStaffRollArchivePath[];
-extern const char data_usa_021650e0[];
-extern const char data_usa_021650e4[];
-extern const char gResultLanguageArchivePathFormat[];
-extern const char data_usa_02165100[];
-extern const char data_usa_02165108[];
-extern const char data_usa_0216510c[];
-extern const char gResultArchivePathFormat[];
-extern const char data_usa_02165124[];
 
 void InitTouchMicInput(void *heap);
 void InitTouchPanelAndSetCalibration(void);
@@ -94,3 +76,7 @@ void BuildSceneModeArchivePath(char *path, const char *sceneName, int mode);
 void BuildStaffRollArchivePath(char *path);
 void BuildResultArchivePathWithLanguage(char *path);
 void BuildResultArchivePath(char *path);
+
+extern const SceneName gSceneNames[16];
+extern const CourseNameEntry gCourseArchiveNames[55];
+extern const ArchiveSlotInfo gArchiveSlotInfos[21];

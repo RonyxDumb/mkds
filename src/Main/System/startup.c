@@ -36,6 +36,7 @@
 #include "code_02004dc0.h"
 #include "registers.h"
 
+
 void VBlankIrqHandler(void) {
     if (gDisplaySettings != NULL) {
         ClearFrameFinishedFlag();
@@ -98,7 +99,7 @@ void InitStartup(void) {
     arenaLo = OS_GetArenaLo(0);
     data_02174e78.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
     InitHeapCall(&gRootHeapCall, 0);
-    data_02174e78.mUnk_10 = data_usa_021646ec;
+    data_02174e78.mUnk_10 = "MainProc";
     StartupResetKeysInputSlot();
 }
 

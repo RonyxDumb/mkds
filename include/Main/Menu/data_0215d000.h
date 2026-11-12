@@ -34,7 +34,6 @@ extern u16 gTrophyIconNclrStarts[];
 
 extern u16 gTrophyIconBnclIndices[];
 
-extern u8 data_0215d024[];
 
 extern u8 gBackScreenSNclrStarts[];
 

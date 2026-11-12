@@ -16,7 +16,7 @@ typedef struct Bmg {
     /* 20 */ BmgSectionHeader mFirstSection;
 } Bmg;
 
-// Section of LocateBmgSections whose first word is 0x494e4631 (data_0217b360): words from 0x10.
+// Section of LocateBmgSections whose first word is 0x494e4631 (gBmgEntryOffsetSection): words from 0x10.
 typedef struct BmgEntryOffsetSection {
     /* 00 */ u32 mTag;
     /* 04 */ u32 mNextOffset;
@@ -24,7 +24,7 @@ typedef struct BmgEntryOffsetSection {
     /* 10 */ u32 mEntryOffsets[1];
 } BmgEntryOffsetSection;
 
-// Section of LocateBmgSections whose first word is 0x44415431 (data_0217b364): bytes from 8.
+// Section of LocateBmgSections whose first word is 0x44415431 (gBmgBodySection): bytes from 8.
 typedef struct BmgBodySection {
     /* 00 */ u32 mTag;
     /* 04 */ u32 mNextOffset;
@@ -33,3 +33,6 @@ typedef struct BmgBodySection {
 
 void LocateBmgSections(Bmg *bmg);
 void *GetBmgEntry(Bmg *bmg, s32 index);
+
+extern struct BmgBodySection *gBmgBodySection;
+extern struct BmgEntryOffsetSection *gBmgEntryOffsetSection;

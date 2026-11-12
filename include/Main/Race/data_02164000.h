@@ -97,49 +97,30 @@ extern const char gTimeAttackGhostGetSBnblName[];
 
 // Objects whose layout isn't known yet.
 
-extern const char *gModeArchiveNames[];
+extern const char *gModeArchiveNames[6];
 
-extern u8 data_02164dc8[];
+extern const char *gLanguageCodes[7];
 
-extern u32 gArchiveNames[];
+extern const char *gArchiveNames[20];
 
-extern u8 gResultDLArchivePath[];
 
-extern u8 gResultDLArchivePrefix[];
 
-extern u8 gRaceArchivePath[];
 
-extern u8 gRaceArchivePrefix[];
 
-extern u8 gRaceVsArchivePath[];
 
-extern u8 gRaceVsArchivePrefix[];
 
-extern u8 gRaceMgArchivePath[];
 
-extern u8 gRaceMgArchivePrefix[];
 
-extern u8 gMenuDLArchivePath[];
 
-extern u8 gMenuDLArchivePrefix[];
 
-extern u8 gKartModelMainAArchivePath[];
 
-extern u8 gKartModelMainBArchivePath[];
 
-extern u8 gMenuDLArchivePath2[];
 
-extern u8 gMenuDLArchivePrefix2[];
 
-extern u8 gMainRaceArchivePath[];
 
-extern u8 gMain2DArchivePath[];
 
-extern u8 gMain2DArchivePrefix[];
 
-extern u8 gMainEffectArchivePath[];
 
-extern const char gArchivePrefixFormat[];
 
 extern void *gRaceDisplaySettingsDescs[];
 
@@ -149,7 +130,6 @@ extern const char data_usa_0216478c[];
 
 extern const char data_021646e0[];
 
-extern const char data_usa_021646ec[];
 
 
 extern const SceneCallbacks gRaceSceneCallbacks;

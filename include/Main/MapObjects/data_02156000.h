@@ -175,7 +175,6 @@ extern KeyboardCursorTargets data_02156808[];
 
 extern u16 gKeyboardLayoutRectCounts[6];
 
-extern const s16 gFrameOffsets[6];
 
 extern const u16 data_02156840[20];
 

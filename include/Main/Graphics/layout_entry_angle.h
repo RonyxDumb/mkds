@@ -121,3 +121,5 @@ void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, LayoutEntryTable *lab
 u8 GetLabelPriority(s32 labelIndex, void *labelLayout, LayoutTableEntry *table, LayoutEntryTable *cellLayout);
 void SetLabelPriority(u32 labelIndex, u32 priority, LayoutEntryTable *labelLayout, LayoutTableEntry *table,
                       LayoutEntryTable *cellLayout);
+
+extern const u8 gOamShapeSizeCharBlocks[3][4];

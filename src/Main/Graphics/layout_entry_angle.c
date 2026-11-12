@@ -14,6 +14,8 @@
 #include "code_02147cd8.h"
 #include "gx.h"
 
+const u8 gOamShapeSizeCharBlocks[3][4] = {{1, 4, 0x10, 0x40}, {2, 4, 8, 0x20}, {2, 4, 8, 0x20}};
+
 #pragma thumb on
 
 void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) {
@@ -169,7 +171,7 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
         oamEntry = &cellData->mPOamAttrArray[oamIndex];
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
-        charBytes = (&data_0215d024[oamSize])[oamShape * 4] << 5;
+        charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
         charsSource = (u8 *) chars->mData + ((sourceAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
@@ -231,7 +233,7 @@ void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable
         oamEntry = &cellData->mPOamAttrArray[oamIndex];
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
-        charBytes = (&data_0215d024[oamSize])[oamShape * 4] << 5;
+        charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
         charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
@@ -273,7 +275,7 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
         oamEntry = &cellData->mPOamAttrArray[oamIndex];
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
-        charBytes = (&data_0215d024[oamSize])[oamShape * 4] << 5;
+        charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
         charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {

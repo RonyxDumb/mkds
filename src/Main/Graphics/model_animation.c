@@ -9,6 +9,8 @@
 #include "code_02013740.h"
 #include "code_02013bdc.h"
 
+u32 gAnmObjSizeRequired;
+
 u32 JointGetAnmObjFrameCount(Unk020882fc *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }

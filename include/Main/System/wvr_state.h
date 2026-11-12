@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175000.h"
 
 void InitUnreadHalfwordGroups(void);
 // Writes the cross product of a and b to axb (12 fractional bits); each component is shifted right by 12 without the
@@ -20,3 +21,5 @@ void DisableAllBanks(void);
 void SetBankForARM7ByState(u32 bank);
 void ClearLcdcBanksByState(void);
 void InitWvrState(void);
+
+extern UnreadHalfwordGroups gUnreadHalfwordGroups;

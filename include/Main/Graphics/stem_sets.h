@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 typedef struct TimedQuad TimedQuad;
 
@@ -17,3 +18,5 @@ void StartTimedQuad(TimedQuad *timedQuad);
 void SetStemSet(s32 setIndex);
 
 unsigned int ReturnArgument(unsigned int value);
+
+extern struct StemSets *gStemSets;

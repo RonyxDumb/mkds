@@ -14,6 +14,8 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "code_0214d018.h"
+#include "Main/Graphics/effects.h"
+
 
 static inline u32 StadiumEmittersNextRandomBelow(RandomState64 *randomState, u32 limit) {
     randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
@@ -165,8 +167,8 @@ void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
     gKartPhysicalParamTable = HeapAlloc(heap, 0x14);
     gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * sizeof(KartPhysicalParam));
     gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
-    gKartPhysicalParamTable->mKartParamFile = FindKartModelFile(gKartphysicalparamBinName);
-    gKartPhysicalParamTable->mCharParamFile = FindKartModelFile(gCharphysicalparamBinName);
+    gKartPhysicalParamTable->mKartParamFile = FindKartModelFile("kartphysicalparam.bin");
+    gKartPhysicalParamTable->mCharParamFile = FindKartModelFile("charphysicalparam.bin");
     gKartPhysicalParamTable->mFirstBaseSpeedLimit = *OFFSET_PTR(s32, gKartPhysicalParamTable->mKartParamFile, 0x10);
 }
 

@@ -63,3 +63,7 @@ void SetAwardPosStripDrawEnabled(s32 drawEnabled);
 void DrawPosStripQuad(const MtxFx43 *viewMatrix, PosStripPoint *firstPoint, PosStripPoint *secondPoint,
                       PosStripTexture *posStripTexture);
 void UpdatePosStrip(PosStrip *posStrip);
+
+extern s32 gKind2EffectsCreated;
+extern s32 gKind2EffectIds[2];
+extern struct ModelEffects *gModelEffects;

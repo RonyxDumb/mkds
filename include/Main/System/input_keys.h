@@ -15,7 +15,6 @@ typedef struct KeyStream {
     /* 18 */ u16 mKeyMask;
 } KeyStream;
 
-extern KeyStream gKeyStream;
 
 u32 ReadKeyBitsFromStream(void);
 void WriteKeyBitsToStream(u32 keys);
@@ -23,3 +22,5 @@ void SeekKeyStream(u32 count, u32 origin);
 void ReadKeysIntoInputSlot(void);
 void ResetKeysInputSlot(void);
 void StartupResetKeysInputSlot(void);
+
+extern KeyStream gKeyStream;

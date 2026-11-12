@@ -2,6 +2,9 @@
 #include "Main/Graphics/oam.h"
 #include "Main/MapObjects/data_0217b000.h"
 
+struct BmgBodySection *gBmgBodySection;
+struct BmgEntryOffsetSection *gBmgEntryOffsetSection;
+
 #pragma thumb on
 #pragma optimize_for_size on
 void LocateBmgSections(Bmg *bmg) {
@@ -17,10 +20,10 @@ void LocateBmgSections(Bmg *bmg) {
         tag = ReverseBytes32(section->mTag);
         switch (tag) {
             case 0x494e4631:
-                data_0217b360 = (BmgEntryOffsetSection *) section;
+                gBmgEntryOffsetSection = (BmgEntryOffsetSection *) section;
                 break;
             case 0x44415431:
-                data_0217b364 = (BmgBodySection *) section;
+                gBmgBodySection = (BmgBodySection *) section;
                 break;
         }
     }
@@ -28,6 +31,6 @@ void LocateBmgSections(Bmg *bmg) {
 
 void *GetBmgEntry(Bmg *bmg, s32 index) {
     LocateBmgSections(bmg);
-    return &data_0217b364->mBody[data_0217b360->mEntryOffsets[index % 0x10000]];
+    return &gBmgBodySection->mBody[gBmgEntryOffsetSection->mEntryOffsets[index % 0x10000]];
 }
 #pragma thumb off

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175000.h"
 
 typedef struct SceneNumbers SceneNumbers;
 
@@ -14,3 +15,5 @@ void InitLogoSceneCallback(void);
 void WaitThreadFunctionsDone(void);
 u32 QueueThreadFunction(void (*function)(void));
 void RunQueuedThreadFunctions(void *threadArgument);
+
+extern SceneCallbacks gLogoSceneCallbacks;

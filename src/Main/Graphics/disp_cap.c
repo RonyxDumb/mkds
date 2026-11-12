@@ -5,6 +5,7 @@
 #include "code_0200007e.h"
 #include "os_thread.h"
 #include "Main/Menu/data_02175000.h"
+#include "Main/Menu/record_scene.h"
 #include "code_020182c0.h"
 #include "frameheap.h"
 #include "Main/MapObjects/map_object_park.h"
@@ -37,6 +38,9 @@
 #include "Main/Save/buddy_record.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
+
+SceneCallbacks gRecordSceneCallbacks = {InitRecordScene, UpdateRecordScene, ReleaseRecordScene, WriteRecordSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+DispCap *gDispCap;
 
 #pragma thumb on
 

@@ -7880,7 +7880,7 @@ data_usa_02154108 kind:data(any) addr:0x02154108
 gCupCourseIdTable kind:data(any) addr:0x02154128
 gSceneNames kind:data(any) addr:0x021541a8
 data_usa_021541ac kind:data(any) addr:0x021541ac
-data_usa_02154228 kind:data(any) addr:0x02154228
+gCourseArchiveNames kind:data(any) addr:0x02154228
 data_usa_0215422c kind:data(any) addr:0x0215422c
 gArchiveSlotInfos kind:data(any) addr:0x021543e0
 data_usa_021543e4 kind:data(any) addr:0x021543e4
@@ -8802,7 +8802,7 @@ data_0215cf4c kind:data(any) addr:0x0215cf4c
 data_0215cf8c kind:data(any) addr:0x0215cf8c
 gTrophyIconNclrStarts kind:data(any) addr:0x0215d00c
 gTrophyIconBnclIndices kind:data(any) addr:0x0215d014
-data_0215d024 kind:data(any) addr:0x0215d024
+gOamShapeSizeCharBlocks kind:data(any) addr:0x0215d024
 gBackScreenSNclrStarts kind:data(any) addr:0x0215d030
 gBackScreenMNclrStarts kind:data(any) addr:0x0215d034
 gBackScreenInLoadedArchives kind:data(any) addr:0x0215d038
@@ -9312,7 +9312,7 @@ data_usa_021646b0 kind:data(any) addr:0x021646b0
 data_usa_021646c0 kind:data(any) addr:0x021646c0
 data_usa_021646d0 kind:data(any) addr:0x021646d0
 data_021646e0 kind:data(any) addr:0x021646e0
-data_usa_021646ec kind:data(any) addr:0x021646ec
+@3213 kind:data(any) addr:0x021646ec local
 gMenuSceneCallbacks kind:data(any) addr:0x021646f8
 gRaceDisplaySettingsDescs kind:data(any) addr:0x02164718
 gRaceSceneCallbacks kind:data(any) addr:0x02164734
@@ -9453,63 +9453,63 @@ data_usa_02164d58 kind:data(any) addr:0x02164d58
 data_usa_02164d74 kind:data(any) addr:0x02164d74
 data_usa_02164d90 kind:data(any) addr:0x02164d90
 data_usa_02164dac kind:data(any) addr:0x02164dac
-data_02164dc8 kind:data(any) addr:0x02164dc8
+gLanguageCodes kind:data(any) addr:0x02164dc8
 data_usa_02164de4 kind:data(any) addr:0x02164de4
 gArchiveNames kind:data(any) addr:0x02164e04
-gResultDLArchivePath kind:data(any) addr:0x02164e54
-gResultDLArchivePrefix kind:data(any) addr:0x02164e70
-gRaceArchivePath kind:data(any) addr:0x02164e88
-gRaceArchivePrefix kind:data(any) addr:0x02164ea0
-gRaceVsArchivePath kind:data(any) addr:0x02164eb4
-gRaceVsArchivePrefix kind:data(any) addr:0x02164ed0
-gRaceMgArchivePath kind:data(any) addr:0x02164ee8
-gRaceMgArchivePrefix kind:data(any) addr:0x02164f04
-gMenuDLArchivePath kind:data(any) addr:0x02164f1c
-gMenuDLArchivePrefix kind:data(any) addr:0x02164f34
-gKartModelMainAArchivePath kind:data(any) addr:0x02164f48
-gKartModelMainBArchivePath kind:data(any) addr:0x02164f64
-gMenuDLArchivePath2 kind:data(any) addr:0x02164f80
-gMenuDLArchivePrefix2 kind:data(any) addr:0x02164f98
-gMainRaceArchivePath kind:data(any) addr:0x02164fac
-gMain2DArchivePath kind:data(any) addr:0x02164fc0
-gMain2DArchivePrefix kind:data(any) addr:0x02164fd4
-gMainEffectArchivePath kind:data(any) addr:0x02164fe4
-gArchivePrefixFormat kind:data(any) addr:0x02164ffc
-data_usa_02165008 kind:data(any) addr:0x02165008
-data_usa_02165010 kind:data(any) addr:0x02165010
-data_usa_02165018 kind:data(any) addr:0x02165018
-data_usa_02165020 kind:data(any) addr:0x02165020
-data_usa_02165028 kind:data(any) addr:0x02165028
-data_usa_02165030 kind:data(any) addr:0x02165030
-data_usa_02165038 kind:data(any) addr:0x02165038
-data_usa_02165040 kind:data(any) addr:0x02165040
-gArchiveColonFormat kind:data(any) addr:0x02165048
-gArchiveColonSlashFormat kind:data(any) addr:0x02165050
-gStaffRollArchivePath kind:data(any) addr:0x02165058
-gLanguageArchivePathFormat kind:data(any) addr:0x02165074
-gSceneModeLanguageArchivePathFormat kind:data(any) addr:0x02165080
-gCarcName kind:data(any) addr:0x02165098
-gSceneModeArchivePathFormat kind:data(any) addr:0x021650a0
-data_021650b4 kind:data(any) addr:0x021650b4
-gStaffRollLanguageArchivePathFormat kind:data(any) addr:0x021650bc
-data_021650d8 kind:data(any) addr:0x021650d8
-data_usa_021650e0 kind:data(any) addr:0x021650e0
-data_usa_021650e4 kind:data(any) addr:0x021650e4
-gResultLanguageArchivePathFormat kind:data(any) addr:0x021650e8
-data_usa_02165100 kind:data(any) addr:0x02165100
-data_usa_02165108 kind:data(any) addr:0x02165108
-data_usa_0216510c kind:data(any) addr:0x0216510c
-gResultArchivePathFormat kind:data(any) addr:0x02165110
-data_usa_02165124 kind:data(any) addr:0x02165124
-data_0216512c kind:data(any) addr:0x0216512c
-data_02165140 kind:data(any) addr:0x02165140
-data_02165148 kind:data(any) addr:0x02165148
-data_0216515c kind:data(any) addr:0x0216515c
-data_usa_02165164 kind:data(any) addr:0x02165164
-data_usa_02165168 kind:data(any) addr:0x02165168
-data_usa_0216516c kind:data(any) addr:0x0216516c
-data_usa_02165170 kind:data(any) addr:0x02165170
-data_usa_02165174 kind:data(any) addr:0x02165174
+@5535 kind:data(any) addr:0x02164e54 local
+@5536 kind:data(any) addr:0x02164e70 local
+@5543 kind:data(any) addr:0x02164e88 local
+@5544 kind:data(any) addr:0x02164ea0 local
+@5545 kind:data(any) addr:0x02164eb4 local
+@5546 kind:data(any) addr:0x02164ed0 local
+@5547 kind:data(any) addr:0x02164ee8 local
+@5548 kind:data(any) addr:0x02164f04 local
+@5550 kind:data(any) addr:0x02164f1c local
+@5551 kind:data(any) addr:0x02164f34 local
+@5553 kind:data(any) addr:0x02164f48 local
+@5554 kind:data(any) addr:0x02164f64 local
+@5555 kind:data(any) addr:0x02164f80 local
+@5556 kind:data(any) addr:0x02164f98 local
+@5557 kind:data(any) addr:0x02164fac local
+@5558 kind:data(any) addr:0x02164fc0 local
+@5559 kind:data(any) addr:0x02164fd4 local
+@5560 kind:data(any) addr:0x02164fe4 local
+@5563 kind:data(any) addr:0x02164ffc local
+@5623 kind:data(any) addr:0x02165008 local
+@5624 kind:data(any) addr:0x02165010 local
+@5625 kind:data(any) addr:0x02165018 local
+@5626 kind:data(any) addr:0x02165020 local
+@5627 kind:data(any) addr:0x02165028 local
+@5628 kind:data(any) addr:0x02165030 local
+@5629 kind:data(any) addr:0x02165038 local
+@5630 kind:data(any) addr:0x02165040 local
+@5719 kind:data(any) addr:0x02165048 local
+@5720 kind:data(any) addr:0x02165050 local
+@5931 kind:data(any) addr:0x02165058 local
+@5934 kind:data(any) addr:0x02165074 local
+@5939 kind:data(any) addr:0x02165080 local
+@5940 kind:data(any) addr:0x02165098 local
+@5944 kind:data(any) addr:0x021650a0 local
+@5945 kind:data(any) addr:0x021650b4 local
+@5948 kind:data(any) addr:0x021650bc local
+@5949 kind:data(any) addr:0x021650d8 local
+@5958 kind:data(any) addr:0x021650e0 local
+@5959 kind:data(any) addr:0x021650e4 local
+@5960 kind:data(any) addr:0x021650e8 local
+@5961 kind:data(any) addr:0x02165100 local
+@5969 kind:data(any) addr:0x02165108 local
+@5970 kind:data(any) addr:0x0216510c local
+@5971 kind:data(any) addr:0x02165110 local
+@5972 kind:data(any) addr:0x02165124 local
+@2112 kind:data(any) addr:0x0216512c local
+@2113 kind:data(any) addr:0x02165140 local
+@2118 kind:data(any) addr:0x02165148 local
+@2119 kind:data(any) addr:0x0216515c local
+@2152 kind:data(any) addr:0x02165164 local
+@2153 kind:data(any) addr:0x02165168 local
+@2154 kind:data(any) addr:0x0216516c local
+@2155 kind:data(any) addr:0x02165170 local
+@2156 kind:data(any) addr:0x02165174 local
 gEmblemSceneCallbacks kind:data(any) addr:0x02165190
 gWLMenuSceneCallbacks kind:data(any) addr:0x021651b0
 gRomArchiveName kind:data(any) addr:0x021651d0
@@ -9845,8 +9845,8 @@ data_0216608c kind:data(any) addr:0x0216608c
 @2492 kind:data(any) addr:0x021660a4 local
 @2493 kind:data(any) addr:0x021660b0 local
 @2494 kind:data(any) addr:0x021660bc local
-gKartphysicalparamBinName kind:data(any) addr:0x021660c8
-gCharphysicalparamBinName kind:data(any) addr:0x021660e0
+@3719 kind:data(any) addr:0x021660c8 local
+@3720 kind:data(any) addr:0x021660e0 local
 data_usa_021660f8 kind:data(any) addr:0x021660f8
 data_usa_021660fc kind:data(any) addr:0x021660fc
 data_usa_02166108 kind:data(any) addr:0x02166108
@@ -11406,7 +11406,7 @@ gRaceEffectSPLManager kind:bss addr:0x0217b024
 gStadiumEmitters kind:bss addr:0x0217b028
 gRaceEffectFogOffSPLManager kind:bss addr:0x0217b02c
 gGetSPLManagerFunction kind:bss addr:0x0217b030
-data_0217b054 kind:bss addr:0x0217b034
+gAdvanceEmittersFunction kind:bss addr:0x0217b034
 gKartAiAdvanceCallback kind:bss addr:0x0217b038
 gKartAiSetupCallback kind:bss addr:0x0217b03c
 gKartAiResetCallback kind:bss addr:0x0217b040
@@ -11416,7 +11416,7 @@ gKartAiSetupItemInUseEntryCallback kind:bss addr:0x0217b04c
 gKartAiRequestLinkCallback kind:bss addr:0x0217b050
 gKartAiIsLinkRequestedCallback kind:bss addr:0x0217b054
 gKartTurnEffects kind:bss addr:0x0217b058
-data_0217b07c kind:bss addr:0x0217b05c
+gKind2EffectsCreated kind:bss addr:0x0217b05c
 gModelEffects kind:bss addr:0x0217b060
 gKind2EffectIds kind:bss addr:0x0217b064
 gPosStrips kind:bss addr:0x0217b06c
@@ -11539,8 +11539,8 @@ gRaceHud kind:bss addr:0x0217b330
 gChoisesS kind:bss addr:0x0217b334
 gRaceStartSequence kind:bss addr:0x0217b338
 gRaceEnd kind:bss addr:0x0217b33c
-data_0217b360 kind:bss addr:0x0217b340
-data_0217b364 kind:bss addr:0x0217b344
+gBmgEntryOffsetSection kind:bss addr:0x0217b340
+gBmgBodySection kind:bss addr:0x0217b344
 gPlayerCharacterNclr kind:bss addr:0x0217b348
 gPlayerCharacterLNclr kind:bss addr:0x0217b34c
 gPlayerCharacterNcgr kind:bss addr:0x0217b350

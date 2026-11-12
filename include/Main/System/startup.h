@@ -10,3 +10,5 @@ void GetArenaLoHiNop(void);
 void InitStartupLibraries(void);
 void EnableVBlankIrq(void);
 void VBlankIrqHandler(void);
+
+

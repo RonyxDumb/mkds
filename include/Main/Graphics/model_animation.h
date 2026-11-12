@@ -52,7 +52,6 @@ typedef struct Unk020882fc {
     /* 08 */ AnmResourceHead *mUnk_08;
 } Unk020882fc;
 
-extern u32 gAnmObjSizeRequired;
 
 s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation);
 void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation);
@@ -69,3 +68,5 @@ unsigned int VisGetAnmObjFrameCount(Unk020882fc *anmObj);
 unsigned int TexPatGetAnmObjFrameCount(Unk020882fc *anmObj);
 unsigned int TexSrtGetAnmObjFrameCount(Unk020882fc *anmObj);
 unsigned int JointGetAnmObjFrameCount(Unk020882fc *anmObj);
+
+extern u32 gAnmObjSizeRequired;

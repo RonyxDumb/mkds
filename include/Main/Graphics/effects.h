@@ -3,6 +3,7 @@
 #include "types.h"
 
 #include "code_020184e4.h"
+#include "Main/Graphics/emitters.h"
 
 extern Vec3 data_usa_021660fc;
 extern char gRaceEffectSpaName[];
@@ -22,3 +23,10 @@ void DrawEffects(MtxFx43 *viewMatrix);
 void UpdateEffects(void);
 void InitEffects(void *defaultHeap);
 void *HeapAllocForSPLManager(u32 size);
+
+extern void (*gAdvanceEmittersFunction)(void);
+extern void *gSPLManagerHeap;
+extern struct SPLManager *gRaceEffectSPLManager;
+extern struct StadiumEmitters *gStadiumEmitters;
+extern struct SPLManager *gRaceEffectFogOffSPLManager;
+extern GetSPLManagerFunc *gGetSPLManagerFunction;

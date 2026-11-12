@@ -214,9 +214,6 @@ extern KartPhysicalParamTable *gKartPhysicalParamTable;
 
 extern struct SPLManager *gMissionRunSPLManager;
 
-extern struct SPLManager *gRaceEffectSPLManager;
-extern struct SPLManager *gRaceEffectFogOffSPLManager;
-extern void (*data_0217b054)(void);
 
 // Function pointers set by RegisterKartAiCallbacks (the reset targets take different parameters).
 extern void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);
@@ -240,10 +237,7 @@ typedef struct ModelEffects {
     /* 5e */ u8 mUnk_5e[2];
 } ModelEffects;
 
-extern ModelEffects *gModelEffects;
-extern s32 data_0217b07c;
 // Particle effect ids StartWaterEfctKind2Effects starts with a kind 2 object; -1 marks an unused entry.
-extern s32 gKind2EffectIds[2];
 extern KartAiItemUseEntry *gBattleItemInUseEntries;
 
 // The strip pool, 0x38 bytes: the active strips, the free strips, the free points and the texture file.
@@ -291,7 +285,6 @@ typedef struct StemSets {
     /* 798 */ void (*mUpdateFunction)(TimedQuad *);
 } StemSets;
 
-extern StemSets *gStemSets;
 extern u32 gUnparkedTeresaCount;
 extern MapObjectModel *gChandelier;
 // Value of KartStanding.mNotNormalEndPending and mObjectsSkipEndPending when no hit end is waiting (s32).
@@ -574,7 +567,7 @@ typedef struct TitleScene {
 
 extern TitleScene *gTitleScene;
 extern const TitleStateHandlers gTitleStateHandlers[7];
-extern u8 gLastTick[];
+extern u64 gLastTick;
 extern u16 *gRaceHudSubScreenPalettes;
 typedef struct RaceHudSubScreenBgAffine {
     /* 00 */ s32 mMatrix0;
@@ -945,7 +938,6 @@ struct ItemObject;
 
 extern struct ItemObject **gCollidedItemObjects;
 
-extern void *gSPLManagerHeap;
 extern s32 gKeyboardOffsetX;
 extern s32 gKeyboardOffsetY;
 extern u16 *gCharTablePair3[2];
@@ -969,8 +961,6 @@ struct BmgEntryOffsetSection;
 struct BmgBodySection;
 struct Nclr;
 struct Unk02021dc8;
-extern struct BmgEntryOffsetSection *data_0217b360;
-extern struct BmgBodySection *data_0217b364;
 extern struct Nclr *gPlayerCharacterNclr[2];
 extern struct Nclr *gPlayerCharacterLNclr;
 extern struct Ncgr *gPlayerCharacterNcgr[2];

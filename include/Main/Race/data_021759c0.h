@@ -109,7 +109,7 @@ typedef struct KartEntry {
 // Staff roll: the course is COURSE_ID_STAFFROLL or COURSE_ID_STAFFROLLTRUE.
 #define RACE_KIND_STAFF_ROLL 6
 
-// setup. The value is the row of the course name table data_usa_02154228 (8 byte rows, the string pointer first):
+// setup. The value is the row of the course name table gCourseArchiveNames (8 byte rows, the string pointer first):
 // BuildCourseArchivePath formats the row's string as the first %s of "/data/Course/%s%s%s.carc". Each name below is
 // that row's string without a trailing "_course", upper-cased, and the comment after it quotes the row index and the
 // string. Only the values that occur at a compare, case label or store of the member are defined;

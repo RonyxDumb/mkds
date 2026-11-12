@@ -24,6 +24,13 @@
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
 
+void (*gAdvanceEmittersFunction)(void);
+void *gSPLManagerHeap;
+struct SPLManager *gRaceEffectSPLManager;
+struct StadiumEmitters *gStadiumEmitters;
+struct SPLManager *gRaceEffectFogOffSPLManager;
+GetSPLManagerFunc *gGetSPLManagerFunction;
+
 void *HeapAllocForSPLManager(u32 size) {
     return HeapAlloc(gSPLManagerHeap, size);
 }
@@ -68,7 +75,7 @@ void InitEffects(void *defaultHeap) {
     SPLManager_UploadTextures(gRaceEffectFogOffSPLManager);
     SPLManager_UploadPalettes(gRaceEffectFogOffSPLManager);
     gMissionRunSPLManager = NULL;
-    data_0217b054 = NULL;
+    gAdvanceEmittersFunction = NULL;
     gStadiumEmitters = NULL;
     if (GetCurrentSceneNumber() != 2) {
         return;
@@ -107,7 +114,7 @@ void InitEffects(void *defaultHeap) {
                 }
             }
             gStadiumEmitters->mEmitterTimer = 1;
-            data_0217b054 = AdvanceStadiumEmitters;
+            gAdvanceEmittersFunction = AdvanceStadiumEmitters;
             break;
         case COURSE_ID_AWARD:
             CreateAwardEmitters();
@@ -116,8 +123,8 @@ void InitEffects(void *defaultHeap) {
 }
 
 void UpdateEffects(void) {
-    if (data_0217b054 != NULL) {
-        data_0217b054();
+    if (gAdvanceEmittersFunction != NULL) {
+        gAdvanceEmittersFunction();
     }
     SPLManager_Update(gRaceEffectSPLManager);
     SPLManager_Update(gRaceEffectFogOffSPLManager);

@@ -2,6 +2,8 @@
 
 #include "types.h"
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
+#include "Main/Menu/data_02175000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 s32 AdvanceConnectByMultiBoot(u16 entryIndex);
 s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot);
@@ -26,3 +28,6 @@ void SetDispCapMode(s32 mode);
 void ClearDispCapPointer(void);
 void InitDispCap(void *heap);
 u8 GetLowestGrandPrixRecordValue(void);
+
+extern SceneCallbacks gRecordSceneCallbacks;
+extern struct DispCap *gDispCap;

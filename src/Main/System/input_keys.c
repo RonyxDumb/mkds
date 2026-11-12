@@ -13,6 +13,8 @@
 #include "code_0200fe74.h"
 #include "registers.h"
 
+KeyStream gKeyStream;
+
 void StartupResetKeysInputSlot(void) {
     gKeysInputSlot.mPressedBits = 0;
     gKeysInputSlot.mBits = 0;

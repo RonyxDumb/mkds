@@ -396,7 +396,6 @@ struct WLMenuMessage;
 
 extern struct WLMenuMessage *gWLMenuMessage;
 
-extern HeapCall *gCurrentHeapCall;
 
 // Object at data_02174e78: mUnk_0c is the pointer GetArenaHeap returns; mUnk_10 overlaps the first member of
 // gRootHeapCall.

@@ -16,3 +16,5 @@ BOOL IsTimeLessThan(MinuteSecondMillisecondTime *firstTime, MinuteSecondMillisec
 s16 LookupFrameOffset(s32 index);
 s32 CopyTextWithinWidth(const u16 *source, u16 *destination);
 void GetFontGlyphOfChar(NNSG2dGlyph *glyph, Unk02022aa8 *font, u32 code);
+
+extern const s16 gFrameOffsets[6];

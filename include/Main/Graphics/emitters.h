@@ -23,11 +23,7 @@ typedef struct AwardEmitterEffectIds {
 
 // Function stored at gGetSPLManagerFunction: writes a word to the first argument and returns the object.
 typedef SPLManager *GetSPLManagerFunc(s32 *a, s32 b);
-extern GetSPLManagerFunc *gGetSPLManagerFunction;
 
-extern StadiumEmitters *gStadiumEmitters;
-extern char gKartphysicalparamBinName[];
-extern char gCharphysicalparamBinName[];
 extern AwardFirstEffectIds data_usa_021660f8;
 extern AwardEmitterEffectIds data_usa_02166108;
 extern s32 data_usa_02155f48[];
@@ -39,3 +35,5 @@ void CreateKartPhysicalParamTable(void *heap, u32 entryCount);
 void CreateAwardEmitters(void);
 void AdvanceStadiumEmitters(void);
 SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId);
+
+

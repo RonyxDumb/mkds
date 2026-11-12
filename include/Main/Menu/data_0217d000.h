@@ -789,7 +789,6 @@ extern s32 gRaceEndSeqStarted;
 
 extern s32 gRaceEndNextSeqPending;
 
-extern StaffRollText *gStaffRollText;
 
 extern u32 data_0217dda8;
 
@@ -847,7 +846,6 @@ extern void *gRecordSubOam;
 
 extern LinkLevelIcons *gLinkLevelIcons;
 
-extern PaletteBlend *gPaletteBlend;
 
 extern struct NNSSndStrmThread *data_0217df04;
 

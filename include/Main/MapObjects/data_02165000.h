@@ -11,7 +11,6 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 
-extern const char gArchiveColonFormat[];
 
 extern const char gCharacterNsbcaFormat[];
 
@@ -43,7 +42,6 @@ extern u8 data_usa_02165760[];
 
 extern u8 data_usa_0216577c[];
 
-extern const char gArchiveColonSlashFormat[];
 
 
 // Objects whose layout isn't known yet.
@@ -65,13 +63,10 @@ extern const Vec3 data_0216553c;
 
 extern const Vec3 data_02165548;
 
-extern const SceneCallbacks gRecordSceneCallbacks;
 
 extern const SceneCallbacks gSecondMenuSceneCallbacks;
 
-extern const SceneCallbacks gEmblemSceneCallbacks;
 
-extern const SceneCallbacks gLogoSceneCallbacks;
 
 
 
@@ -84,27 +79,16 @@ extern void (*const gKartStateFunctions[])(struct Kart *);
 
 
 
-extern const char gLanguageArchivePathFormat[];
 
-extern const char gSceneModeLanguageArchivePathFormat[];
 
-extern const char gCarcName[];
 
-extern const char gSceneModeArchivePathFormat[];
 
-extern const char data_021650b4[];
 
-extern const char gStaffRollLanguageArchivePathFormat[];
 
-extern const char data_021650d8[];
 
-extern const char data_0216512c[];
 
-extern const char data_02165140[];
 
-extern const char data_02165148[];
 
-extern const char data_0216515c[];
 
 extern const char gKartAppearFileName[];
 

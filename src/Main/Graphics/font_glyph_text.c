@@ -10,6 +10,8 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02022aa8.h"
 
+const s16 gFrameOffsets[6] = {2, 4, 8, 4, 2, 0};
+
 #pragma optimize_for_size on
 
 void GetFontGlyphOfChar(NNSG2dGlyph *glyph, Unk02022aa8 *font, u32 code) {

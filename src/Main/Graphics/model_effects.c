@@ -21,6 +21,10 @@
 #include "code_020172d0.h"
 #include "registers.h"
 
+s32 gKind2EffectsCreated;
+s32 gKind2EffectIds[2];
+ModelEffects *gModelEffects;
+
 void UpdatePosStrip(PosStrip *posStrip) {
     PosStripPoint *point;
     PosStripPoint *nextPoint;
@@ -220,7 +224,7 @@ void SetupWaterEfctKindRow(ModelEffectKind *kindRow, s32 objectCount) {
     void *waterEfctNsbmaFile;
 
     waterEfctNsbmdFile = GetWaterEfctNsbmdFile();
-    data_0217b07c = 0;
+    gKind2EffectsCreated = 0;
     if (waterEfctNsbmdFile != 0) {
         waterEfctNsbcaFile = GetWaterEfctNsbcaFile();
         waterEfctNsbmaFile = GetWaterEfctNsbmaFile();
@@ -340,7 +344,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
         AddResFileEntry(&kindRow->mResFileEntry, modelFile, modelFile);
     }
     if (kind == 2) {
-        data_0217b07c = 1;
+        gKind2EffectsCreated = 1;
     }
     modelSet = (u8 *) NNS_G3dGetMdlSet(modelFile);
     resMdl = OFFSET_PTR(NNSG3dResMdl, modelSet, *OFFSET_PTR(u32, modelSet + *OFFSET_PTR(u16, modelSet, 0xe), 0xc));

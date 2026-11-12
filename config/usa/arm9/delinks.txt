@@ -822,11 +822,13 @@ src/Main/Graphics/sub_bg1_cnt.c:
 src/Main/System/heap_call.c:
     complete
     .text       start:0x020364e0 end:0x020365ac
+    .bss        start:0x02174e50 end:0x02174e54
 
 // provisional: file name and boundaries
 src/Main/System/startup.c:
     complete
     .text       start:0x020365ac end:0x02036820
+    .data       start:0x021646ec end:0x021646f8
 
 // provisional: file name and boundaries
 src/Main/System/heap.c:
@@ -848,6 +850,7 @@ src/Main/Scene/display_settings.c:
 src/Main/System/input_keys.c:
     complete
     .text       start:0x02039230 end:0x02039520
+    .bss        start:0x021755a0 end:0x021755bc
 
 // provisional: file name and boundaries
 src/Main/System/input_slot_repeat.c:
@@ -858,6 +861,7 @@ src/Main/System/input_slot_repeat.c:
 src/Main/System/wvr_state.c:
     complete
     .text       start:0x02039774 end:0x02039c98
+    .bss        start:0x021755e4 end:0x021755f4
 
 // provisional: file name and boundaries
 src/Main/Scene/scene_run_forever.c:
@@ -1064,11 +1068,13 @@ src/Main/System/input_slot_pair_reset.c:
 src/Main/System/result_archive_path.c:
     complete
     .text       start:0x02047104 end:0x020483e4
+    .data       start:0x02164e54 end:0x0216512c
 
 // provisional: file name and boundaries
 src/Main/System/archive_slots.c:
     complete
     .text       start:0x020483e4 end:0x020487a0
+    .data       start:0x0216512c end:0x02165190
 
 // provisional: file name and boundaries
 src/Main/System/archive_buffer.c:
@@ -1099,6 +1105,7 @@ src/Main/Scene/scene_frames.c:
 src/Main/System/key_recording.c:
     complete
     .text       start:0x0204a550 end:0x0204a904
+    .data       start:0x02165190 end:0x021651b0
 
 // provisional: file name and boundaries
 src/Main/System/key_recording_read.c:
@@ -1299,6 +1306,8 @@ src/Main/Net/non_multiboot_own_index.c:
 src/Main/Graphics/disp_cap.c:
     complete
     .text       start:0x02055730 end:0x02056284
+    .data       start:0x0216524c end:0x0216526c
+    .bss        start:0x0217a9e4 end:0x0217a9e8
 
 // provisional: file name and boundaries
 src/Main/Save/ghost_record_file.c:
@@ -1444,6 +1453,7 @@ src/Main/Save/backup_read_copy.c:
 src/Main/System/thread_function_queue.c:
     complete
     .text       start:0x02057d10 end:0x02057ed4
+    .data       start:0x02165280 end:0x021652a0
 
 // provisional: file name and boundaries
 src/Main/System/init_after_startup_nop.c:
@@ -1826,6 +1836,7 @@ src/Main/Graphics/model_animation_loop_mode.c:
 src/Main/Graphics/model_animation.c:
     complete
     .text       start:0x02087d0c end:0x02088338
+    .bss        start:0x0217af00 end:0x0217af04
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_model_path.c:
@@ -1843,6 +1854,7 @@ src/Main/Graphics/stem_sets.c:
     complete
     .text       start:0x02089d14 end:0x0208ab00
     .data       start:0x02166098 end:0x021660c8
+    .bss        start:0x0217b014 end:0x0217b018
 
 // provisional: file name and boundaries
 src/Main/Graphics/light_color.c:
@@ -1863,11 +1875,13 @@ src/Main/Kart/first_base_speed_limit.c:
 src/Main/Graphics/emitters.c:
     complete
     .text       start:0x0208aea8 end:0x0208b484
+    .data       start:0x021660c8 end:0x021660f8
 
 // provisional: file name and boundaries
 src/Main/Graphics/effects.c:
     complete
     .text       start:0x0208b484 end:0x0208bd20
+    .bss        start:0x0217b020 end:0x0217b038
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_ai_staff_roll_advance.c:
@@ -1882,6 +1896,7 @@ src/Main/Kart/kart_level.c:
 src/Main/Graphics/model_effects.c:
     complete
     .text       start:0x0208d978 end:0x0208eb10
+    .bss        start:0x0217b05c end:0x0217b06c
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_ai_item_throw.c:
@@ -2268,6 +2283,7 @@ src/Main/Menu/title_state_frames.c:
 src/Main/Graphics/font_glyph_text.c:
     complete
     .text       start:0x020adb04 end:0x020add18
+    .rodata     start:0x02156868 end:0x02156874
 
 // provisional: file name and boundaries
 src/Main/Graphics/font_glyph.c:
@@ -2319,6 +2335,7 @@ src/Main/Graphics/oam_lists.c:
 src/Main/System/last_tick.c:
     complete
     .text       start:0x020ae718 end:0x020ae730
+    .bss        start:0x0217b324 end:0x0217b32c
 
 // provisional: file name and boundaries
 src/Main/System/heap_array_alloc.c:
@@ -2408,6 +2425,7 @@ src/Main/Race/race_end.c:
 src/Main/Graphics/locate_bmg_sections.c:
     complete
     .text       start:0x020b3f7c end:0x020b4000
+    .bss        start:0x0217b340 end:0x0217b348
 
 // provisional: file name and boundaries
 src/Main/Graphics/font_and_player_character.c:
@@ -3798,6 +3816,7 @@ src/Main/Net/wi_fi_session_step.c:
 src/Main/Graphics/layout_entry_angle.c:
     complete
     .text       start:0x02124094 end:0x02124bc8
+    .rodata     start:0x0215d024 end:0x0215d030
 
 // provisional: file name and boundaries
 src/Main/Graphics/layout_table_entry.c:
@@ -3857,6 +3876,7 @@ src/Main/Menu/message_screen.c:
 src/Main/Graphics/palette_blend.c:
     complete
     .text       start:0x0212b1a8 end:0x0212b9ec
+    .bss        start:0x0217d3ec end:0x0217d3f4
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/code_0212b9ec.c:

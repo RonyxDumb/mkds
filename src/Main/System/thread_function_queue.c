@@ -18,6 +18,8 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/MapObjects/data_0217a000.h"
 
+SceneCallbacks gLogoSceneCallbacks = {InitLogoSceneCallback, UpdateLogoSceneCallback, ApplySavedSoundModeCallback, WriteLogoSceneRegistersCallback, NULL, NULL, 0x1e, 1, 0};
+
 void RunQueuedThreadFunctions(void *threadArgument) {
     for (;;) {
         if (gThreadFunctionQueue->mRunRequested != 0) {

@@ -37,17 +37,18 @@
 #include "code_0214d564.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 
+
 #pragma thumb on
 
 void BuildResultArchivePath(char *path) {
     const char *suffix;
 
     if (gMenuShared->mResultArchiveDl == 1) {
-        suffix = data_usa_02165108;
+        suffix = "DL";
     } else {
-        suffix = data_usa_0216510c;
+        suffix = "";
     }
-    OS_SNPrintf(path, 0x80, gResultArchivePathFormat, gSceneNames[10].mName, suffix, data_usa_02165124);
+    OS_SNPrintf(path, 0x80, "/data/Scene/%s%s%s", gSceneNames[10].mName, suffix, ".carc");
 }
 
 void BuildResultArchivePathWithLanguage(char *path) {
@@ -55,13 +56,13 @@ void BuildResultArchivePathWithLanguage(char *path) {
     u32 languageCode;
 
     if (gMenuShared->mResultArchiveDl == 1) {
-        suffix = data_usa_021650e0;
+        suffix = "DL";
     } else {
-        suffix = data_usa_021650e4;
+        suffix = "";
     }
     languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, gResultLanguageArchivePathFormat, gSceneNames[10].mName, suffix, languageCode,
-                data_usa_02165100);
+    OS_SNPrintf(path, 0x80, "/data/Scene/%s%s_%s%s", gSceneNames[10].mName, suffix, languageCode,
+                ".carc");
 }
 
 #pragma thumb off
@@ -71,12 +72,12 @@ void BuildResultArchivePathWithLanguage(char *path) {
 void BuildStaffRollArchivePath(char *path) {
     u32 languageCode;
     languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, gStaffRollLanguageArchivePathFormat, languageCode, data_021650d8);
+    OS_SNPrintf(path, 0x80, "/data/Scene/StaffRoll_%s%s", languageCode, ".carc");
 }
 
 void BuildSceneModeArchivePath(char *path, const char *sceneName, int mode) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, gSceneModeArchivePathFormat, sceneName, gModeArchiveNames[mode], data_021650b4);
+        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s%s", sceneName, gModeArchiveNames[mode], ".carc");
     }
 }
 
@@ -84,15 +85,15 @@ void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mo
     u32 languageCode;
     if (*sceneName != 0) {
         languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, gSceneModeLanguageArchivePathFormat, sceneName, gModeArchiveNames[mode], languageCode,
-                    gCarcName);
+        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s_%s%s", sceneName, gModeArchiveNames[mode], languageCode,
+                    ".carc");
     }
 }
 
 void BuildArchivePathWithLanguage(const char *prefix, char *path) {
     u32 languageCode;
     languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, gLanguageArchivePathFormat, prefix, languageCode);
+    OS_SNPrintf(path, 0x80, "%s_%s.carc", prefix, languageCode);
 }
 
 #pragma thumb off
@@ -141,7 +142,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
                     break;
                 case 2:
                     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                        OS_SNPrintf(path, 0x80, gStaffRollArchivePath);
+                        OS_SNPrintf(path, 0x80, "/data/Scene/StaffRoll.carc");
                     } else {
                         BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
                     }
@@ -415,13 +416,13 @@ void SetHeapGroupId(u32 groupId) {
 
 #pragma thumb on
 
-void *FindArchiveFile(u32 archiveName, const char *path) {
+void *FindArchiveFile(const char *archiveName, const char *path) {
     char fullPath[0x80];
 
     if (path[0] == '/') {
-        OS_SNPrintf(fullPath, 0x80, gArchiveColonFormat, archiveName, path);
+        OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
     } else {
-        OS_SNPrintf(fullPath, 0x80, gArchiveColonSlashFormat, archiveName, path);
+        OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
     }
     return ArchiveFileGetAddress((const u8 *) fullPath);
 }
@@ -541,43 +542,43 @@ void *LoadKartModelFile(const char *path) {
     void *file;
     s32 currentSceneNumber;
     char fullPath[0x80];
-    u32 archiveName;
+    const char *archiveName;
 
     file = NULL;
     currentSceneNumber = GetCurrentSceneNumber();
     if (currentSceneNumber == 1 || currentSceneNumber == 3 || currentSceneNumber == 0xc) {
         archiveName = gArchiveNames[10];
         if (path[0] == '/') {
-            OS_SNPrintf(fullPath, 0x80, data_usa_02165008, archiveName, path);
+            OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
         } else {
-            OS_SNPrintf(fullPath, 0x80, data_usa_02165010, archiveName, path);
+            OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
         }
         file = LoadFileAligned(fullPath, 8);
     } else {
         if (gArchiveSlots->mSlots[6].mLoaded != 0) {
             archiveName = gArchiveNames[6];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, data_usa_02165018, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, data_usa_02165020, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
             }
             file = LoadFileAligned(fullPath, 8);
         }
         if (file == NULL && gArchiveSlots->mSlots[7].mLoaded != 0) {
             archiveName = gArchiveNames[7];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, data_usa_02165028, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, data_usa_02165030, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
             }
             file = LoadFileAligned(fullPath, 8);
         }
         if (file == NULL && gArchiveSlots->mSlots[8].mLoaded != 0) {
             archiveName = gArchiveNames[8];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, data_usa_02165038, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, data_usa_02165040, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
             }
             file = LoadFileAligned(fullPath, 8);
         }
@@ -695,28 +696,28 @@ void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
     u32 languageCode;
     char path[128];
     languageCode = GetMPLanguageCode();
-    OS_SNPrintf(path, 0x80, gArchivePrefixFormat, prefix, languageCode);
+    OS_SNPrintf(path, 0x80, "%s%s.carc", prefix, languageCode);
     RequestArchiveLoad(path, bufferIndex);
 }
 
 void RequestMainAndMenuDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad(gKartModelMainAArchivePath, 0xb);
-    RequestArchiveLoad(gKartModelMainBArchivePath, 0xc);
-    RequestArchiveLoad(gMenuDLArchivePath2, 0);
-    RequestArchiveLoadWithLanguage(gMenuDLArchivePrefix2, 1);
-    RequestArchiveLoad(gMainRaceArchivePath, 8);
-    RequestArchiveLoad(gMain2DArchivePath, 9);
-    RequestArchiveLoadWithLanguage(gMain2DArchivePrefix, 10);
-    RequestArchiveLoad(gMainEffectArchivePath, 0xd);
+    RequestArchiveLoad("/data/KartModelMainA.carc", 0xb);
+    RequestArchiveLoad("/data/KartModelMainB.carc", 0xc);
+    RequestArchiveLoad("/data/Scene/MenuDL.carc", 0);
+    RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", 1);
+    RequestArchiveLoad("/data/MainRace.carc", 8);
+    RequestArchiveLoad("/data/Main2D.carc", 9);
+    RequestArchiveLoadWithLanguage("/data/Main2D_", 10);
+    RequestArchiveLoad("/data/MainEffect.carc", 0xd);
 }
 
 void RequestMenuDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad(gMenuDLArchivePath, 0);
-    RequestArchiveLoadWithLanguage(gMenuDLArchivePrefix, 1);
+    RequestArchiveLoad("/data/Scene/MenuDL.carc", 0);
+    RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", 1);
 }
 
 #pragma thumb off
@@ -727,14 +728,14 @@ void RequestRaceArchives(void *courseId, void *kind) {
     char path[128];
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad(gRaceArchivePath, 2);
-    RequestArchiveLoadWithLanguage(gRaceArchivePrefix, 3);
+    RequestArchiveLoad("/data/Scene/Race.carc", 2);
+    RequestArchiveLoadWithLanguage("/data/Scene/Race_", 3);
     if (kind == (void *) 3) {
-        RequestArchiveLoad(gRaceVsArchivePath, 4);
-        RequestArchiveLoadWithLanguage(gRaceVsArchivePrefix, 5);
+        RequestArchiveLoad("/data/Scene/Race_vs.carc", 4);
+        RequestArchiveLoadWithLanguage("/data/Scene/Race_vs_", 5);
     } else {
-        RequestArchiveLoad(gRaceMgArchivePath, 4);
-        RequestArchiveLoadWithLanguage(gRaceMgArchivePrefix, 5);
+        RequestArchiveLoad("/data/Scene/Race_mg.carc", 4);
+        RequestArchiveLoadWithLanguage("/data/Scene/Race_mg_", 5);
     }
     gArchiveSlots->mRaceKind = kind;
     NNS_FndFreeToFrmHeap(gArchiveSlots->mCourseBufferHeap, 3);
@@ -752,8 +753,8 @@ void RequestRaceArchives(void *courseId, void *kind) {
 void RequestResultDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad(gResultDLArchivePath, 0xe);
-    RequestArchiveLoadWithLanguage(gResultDLArchivePrefix, 0xf);
+    RequestArchiveLoad("/data/Scene/ResultDL.carc", 0xe);
+    RequestArchiveLoadWithLanguage("/data/Scene/ResultDL_", 0xf);
 }
 
 #pragma thumb off

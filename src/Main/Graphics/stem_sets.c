@@ -35,6 +35,8 @@
 #include "fx_mtx43.h"
 #include "Main/Graphics/data_02087000.h"
 
+StemSets *gStemSets;
+
 void InitStemSets(void *heap) {
     TimedQuad *timedQuad;
 

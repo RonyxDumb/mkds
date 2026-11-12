@@ -12,6 +12,7 @@ typedef struct SceneNumbers SceneNumbers;
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
+#include "Main/Menu/data_02175000.h"
 
 // Scene function of gSceneFuncs[3] (scene 'Emblem' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
@@ -26,3 +27,5 @@ BOOL IsKeyRecordingPlaybackNearBufferEnd(KeyRecording *keyRecording);
 BOOL IsKeyRecordingFull(KeyRecording *keyRecording);
 u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording);
 void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys);
+
+extern SceneCallbacks gEmblemSceneCallbacks;
