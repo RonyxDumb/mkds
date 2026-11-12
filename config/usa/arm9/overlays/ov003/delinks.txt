@@ -168,12 +168,7 @@ src/03/code_021c4ad4.c:
 // provisional: file name and boundaries
 src/03/code_021c4dd4.c:
     complete
-    .text       start:0x021c4d94 end:0x021c5098
-
-// provisional: file name and boundaries
-src/03/code_021c50d8.c:
-    complete
-    .text       start:0x021c5098 end:0x021c50b8
+    .text       start:0x021c4d94 end:0x021c50b8
 
 // provisional: file name and boundaries
 src/03/code_021c50f8.c:

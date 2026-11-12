@@ -1,10 +1,10 @@
 #include "03/code_021c4dd4.h"
+#include "03/code_021c50d8.h"
 #include "03/code_021c391c.h"
 #include "03/code_021c482c.h"
 #include "03/code_021be000.h"
 #include "03/code_021bf000.h"
 #include "03/code_021bf410.h"
-#include "03/code_021c50d8.h"
 #include "03/code_021cdbd0.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d1dd0.h"
@@ -23,11 +23,17 @@
 #include "03/code_021bf4dc.h"
 #include "03/unk_021d7000.h"
 #include "gx_load2d.h"
-
 #include "03/code_021d1fd0.h"
 #include "03/code_021d254c.h"
 #include "03/code_021bf098.h"
 #include "03/code_021c209c.h"
+
+BOOL ChildWaitPAD_DetectFold(void) {
+    if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
+        return 1;
+    }
+    return 0;
+}
 
 void SetupChildWait(void) {
     CreateChildWaitSession((u32) &ChildWaitResultCallback);
