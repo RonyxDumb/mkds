@@ -13,7 +13,7 @@ void SetRectCorners(s32 left, s32 top, s32 right, s32 bottom, u16 *corners) {
     corners[3] = bottom;
 }
 
-void ComputeRectFromOriginAndSize(u16 *origin, u16 *size, Rect *rect) {
+void ComputeRectFromOriginAndSize(const u16 *origin, const u16 *size, Rect *rect) {
     rect->mX = *origin;
     rect->mY = origin[1];
     rect->mUnk_04 = *origin + *size;

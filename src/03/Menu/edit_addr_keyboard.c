@@ -21,6 +21,28 @@
 #include "03/System/tasks.h"
 #include "03/code_021c04ec.h"
 
+const u16 gEditAddrKeyboardDigitKeyPositions[10][2] = {{0x52, 0x4c}, {0x72, 0x4c}, {0x92, 0x4c}, {0x52, 0x63}, {0x72, 0x63}, {0x92, 0x63}, {0x52, 0x7a}, {0x72, 0x7a}, {0x92, 0x7a}, {0x52, 0x91}};
+const u16 gEditAddrKeyboardKeyTexts[13] = {'7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ' ', ' ', 0};
+const u8 gEditAddrKeyboardRow4KeyInputs[2] = {0x12, 0x13};
+u8 gEditAddrKeyboardDigitKeyCounts[5] = {3, 3, 3, 1, 0};
+u8 gEditAddrKeyboardExtraKeyCounts[5] = {0, 0, 0, 2, 0};
+u16 gEditAddrKeyboardTextRectStart[4] = {0, 1, 0, 0};
+const u8 gEditAddrKeyboardKeyPalettes[2] = {2, 3};
+const u8 gEditAddrKeyboardRow4KeyImages[2] = {0x3c, 0x3d};
+const u16 gEditAddrKeyboardCursorX[28] = {0x50, 0x4a, 0x70, 0x4a, 0x90, 0x4a, 0x50, 0x61, 0x70, 0x61, 0x90, 0x61, 0x50, 0x78, 0x70, 0x78, 0x90, 0x78, 0x50, 0x8f, 0x70, 0x8f, 0x90, 0x8f, 2, 0xa8, 0x82, 0xa8};
+const u16 gEditAddrKeyboardRow4KeyPositions[2][2] = {{4, 0xaa}, {0x84, 0xaa}};
+const u16 gEditAddrKeyboardExtraKeySize[2] = {0x1c, 0x14};
+const s8 gEditAddrKeyboardCursorMoves[56] = {2, 0xc, 1, 3, 0, 0xd, 2, 4, 1, 0xd, 0, 5, 5, 0, 4, 6, 3, 1, 5, 7, 4, 2, 3, 8, 8, 3, 7, 9, 6, 4, 8, 0xa, 7, 5, 6, 0xb, 0xb, 6, 0xa, 0xc, 9, 7, 0xb, 0xd, 0xa, 8, 9, 0xd, 0xd, 9, 0xd, 0, 0xc, -1, 0xc, -2};
+const u8 gEditAddrKeyboardDigitInputs[10] = {0x37, 0x38, 0x39, 0x34, 0x35, 0x36, 0x31, 0x32, 0x33, 0x30};
+const u8 gEditAddrKeyboardExtraKeyInputs[2] = {0x10, 0x11};
+const u16 gEditAddrKeyboardExtraKeyPositions[2][2] = {{0x72, 0x91}, {0x92, 0x91}};
+const u8 gEditAddrKeyboardRow4HighlightValues[2] = {4, 5};
+const u16 gEditAddrKeyboardRowTextAreaSize[2] = {0xc, 4};
+const u8 gEditAddrKeyboardExtraKeyImages[2] = {0x37, 0x38};
+const u16 gEditAddrKeyboardDigitKeySize[2] = {0x1c, 0x14};
+const u16 gEditAddrKeyboardRow4KeySize[2] = {0x78, 0x12};
+u8 gEditAddrKeyboardRow4KeyCounts[5] = {0, 0, 0, 0, 2};
+
 void CreateEditAddrKeyboard(void) {
     EditAddrKeyboardTextArgs textArgs;
     EditAddrKeyboard *keyboard;
@@ -186,10 +208,10 @@ void AdvanceEditAddrKeyboardInput(void) {
 
 void AdvanceEditAddrKeyboardTouchPressed(void) {
     Rect keyRect;
-    u16 *extraKeyOrigin;
+    const u16 *extraKeyOrigin;
     int j;
     int i;
-    u16 *keyOrigin;
+    const u16 *keyOrigin;
     if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
         return;
     }
@@ -231,10 +253,10 @@ void AdvanceEditAddrKeyboardTouchPressed(void) {
 
 void AdvanceEditAddrKeyboardTouchReleased(void) {
     Rect keyRect;
-    u16 *extraKeyOrigin;
+    const u16 *extraKeyOrigin;
     int j;
     int i;
-    u16 *keyOrigin;
+    const u16 *keyOrigin;
     gEditAddrKeyboard->mInput = 0;
     if (IsTouchReleasedInRect(&gTouchScreenRect) == 0) {
         return;
@@ -279,10 +301,10 @@ void AdvanceEditAddrKeyboardTouchReleased(void) {
 
 void AdvanceEditAddrKeyboardTouchDown(void) {
     Rect keyRect;
-    u16 *extraKeyOrigin;
+    const u16 *extraKeyOrigin;
     int j;
     int i;
-    u16 *keyOrigin;
+    const u16 *keyOrigin;
     if (IsTouchDownInRect(&gTouchScreenRect) == 0) {
         goto label_1;
     }
@@ -470,7 +492,7 @@ void PlaceEditAddrKeyboardCursor(void) {
     SetOamRangePriority(gEditAddrKeyboard->mCursor, -1, 2);
     SetOamRangePosition(gEditAddrKeyboard->mCursor, -1,
                         gEditAddrKeyboardCursorX[gEditAddrKeyboard->mCursorKeyIndex * 2],
-                        gEditAddrKeyboardCursorY[gEditAddrKeyboard->mCursorKeyIndex * 2]);
+                        (gEditAddrKeyboardCursorX + 1)[gEditAddrKeyboard->mCursorKeyIndex * 2]);
 }
 
 void MoveEditAddrKeyboardCursor(u32 direction) {

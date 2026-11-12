@@ -1169,7 +1169,6 @@ gEditAddrKeyboardDigitInputs kind:data(any) addr:0x021d620c
 gEditAddrKeyboardKeyTexts kind:data(any) addr:0x021d6218
 gEditAddrKeyboardDigitKeyPositions kind:data(any) addr:0x021d6234
 gEditAddrKeyboardCursorX kind:data(any) addr:0x021d625c
-gEditAddrKeyboardCursorY kind:data(any) addr:0x021d625e
 gEditAddrKeyboardCursorMoves kind:data(any) addr:0x021d6294
 gNintendoDsItemBytes kind:data(any) addr:0x021d62cc
 gJb2MenuRects kind:data(any) addr:0x021d62d8
@@ -1205,8 +1204,6 @@ gJb3ListCellImageIds kind:data(any) addr:0x021d6438
 gJb3ListBackNscOffsets kind:data(any) addr:0x021d6448
 gJb3ListFixedRects kind:data(any) addr:0x021d645c
 gJb3ListSelectionRects kind:data(any) addr:0x021d6474
-data_ov003_021d64b6 kind:data(any) addr:0x021d6476
-data_ov003_021d64b8 kind:data(any) addr:0x021d6478
 gApEntryImageIndices kind:data(any) addr:0x021d64a4
 gApMessageDigitColumns kind:data(any) addr:0x021d64a8
 gApObjectPositions kind:data(any) addr:0x021d64b0
@@ -1233,10 +1230,6 @@ gSettingNone kind:data(any) addr:0x021d6644
 gMenuPairObjectImageIds kind:data(any) addr:0x021d6648
 gMenuPairObjectPaletteIds kind:data(any) addr:0x021d6658
 gMenuPairObjectPositions kind:data(any) addr:0x021d6668
-data_ov003_021d66ac kind:data(any) addr:0x021d666c
-data_ov003_021d66b0 kind:data(any) addr:0x021d6670
-data_ov003_021d66b4 kind:data(any) addr:0x021d6674
-data_ov003_021d66b8 kind:data(any) addr:0x021d6678
 gUsbScanEmptyBssid kind:data(any) addr:0x021d667c
 gUsbSsidPrefix kind:data(any) addr:0x021d6684
 gUsbScanParamTemplate kind:data(any) addr:0x021d6690
@@ -1260,7 +1253,6 @@ data_ov003_021d67b2 kind:data(any) addr:0x021d6772
 gDwcArchiveName kind:data(any) addr:0x021d6798
 gBgTextCanvasCharOffsets kind:data(any) addr:0x021d679c
 gBgTextCanvasSizes kind:data(any) addr:0x021d67a0
-gBgTextCanvasHeights kind:data(any) addr:0x021d67a2
 gTouchScreenRect kind:data(any) addr:0x021d67a8
 gTaskListCapacities kind:data(any) addr:0x021d67b0
 gItemTypesToFind kind:data(any) addr:0x021d67c0
@@ -1397,15 +1389,15 @@ gDecimalFormat kind:data(any) addr:0x021d7370
 @1367 kind:data(any) addr:0x021d7378 local
 gJb3ListTimerIds kind:data(any) addr:0x021d738c
 gJb3ListSelectionRectIndices kind:data(any) addr:0x021d7390
-gYbBgStep2NclName kind:data(any) addr:0x021d73a0
-gYbBgStep21NclName kind:data(any) addr:0x021d73b8
-gJb3ListBackNscName kind:data(any) addr:0x021d73d0
+@2562 kind:data(any) addr:0x021d73a0 local
+@2564 kind:data(any) addr:0x021d73b8 local
+@2560 kind:data(any) addr:0x021d73d0 local
 gDotSeparatedBytesFormat kind:data(any) addr:0x021d73e8
-gYbObjMainNclName4 kind:data(any) addr:0x021d7408
-gYbObjKbNclName3 kind:data(any) addr:0x021d7420
-gJbBgStep2NcgName kind:data(any) addr:0x021d7434
-gJbBgStep21NcgName kind:data(any) addr:0x021d744c
-gJb3ListNscName kind:data(any) addr:0x021d7464
+@3849 kind:data(any) addr:0x021d7408 local
+@4032 kind:data(any) addr:0x021d7420 local
+@4033 kind:data(any) addr:0x021d7434 local
+@4034 kind:data(any) addr:0x021d744c local
+@4035 kind:data(any) addr:0x021d7464 local
 @1102 kind:data(any) addr:0x021d7478 local
 @1103 kind:data(any) addr:0x021d7490 local
 @1104 kind:data(any) addr:0x021d74a8 local
@@ -1446,11 +1438,11 @@ gXb4MultiNscName10 kind:data(any) addr:0x021d76e8
 @1343 kind:data(any) addr:0x021d7770 local
 gAddressTextFormat kind:data(any) addr:0x021d7784
 gSoundDataSdatName kind:data(any) addr:0x021d7794
-data_usa_ov003_021d77ac kind:data(any) addr:0x021d77ac
-data_usa_ov003_021d77c0 kind:data(any) addr:0x021d77c0
-data_usa_ov003_021d77d4 kind:data(any) addr:0x021d77d4
-data_usa_ov003_021d77e8 kind:data(any) addr:0x021d77e8
-data_usa_ov003_021d77fc kind:data(any) addr:0x021d77fc
+@2087 kind:data(any) addr:0x021d77ac local
+@2083 kind:data(any) addr:0x021d77c0 local
+@2084 kind:data(any) addr:0x021d77d4 local
+@2085 kind:data(any) addr:0x021d77e8 local
+@2086 kind:data(any) addr:0x021d77fc local
 gMenuPairScreenMapPaths kind:data(any) addr:0x021d7810
 gMessageBoxWindowExtraBitFlags kind:data(any) addr:0x021d7824
 data_usa_ov003_021d782c kind:data(any) addr:0x021d782c
@@ -1488,8 +1480,8 @@ gDwcUtilityBinName kind:data(any) addr:0x021d7ba0
 @782 kind:data(any) addr:0x021d7bc4 local
 @721 kind:data(any) addr:0x021d7bc8 local
 gTextCanvasNftrNames kind:data(any) addr:0x021d7bcc
-data_usa_ov003_021d7bd4 kind:data(any) addr:0x021d7bd4
-data_usa_ov003_021d7be4 kind:data(any) addr:0x021d7be4
+@892 kind:data(any) addr:0x021d7bd4 local
+@893 kind:data(any) addr:0x021d7be4 local
 gFlagBit4OfKind1010Packet kind:bss addr:0x021d7c00
 gScannedEssidList kind:bss addr:0x021d7c04
 gRandomSeeded kind:bss addr:0x021d7c08

@@ -25,6 +25,11 @@
 #include "03/unk_021d5000.h"
 #include "03/Menu/menu_pair_loading.h"
 
+const MenuPairObjectPosition gMenuPairObjectPositions[5] = {{0x20, 0x21}, {0x50, 0x30}, {0x68, 0x21}, {0x98, 0x30}, {0xb0, 0x21}};
+const u8 gMenuPairObjectImageIds[3][5] = {{1, 0, 5, 0, 6}, {4, 0, 2, 0, 6}, {4, 0, 5, 0, 3}};
+const u8 gMenuPairObjectPaletteIds[3][5] = {{2, 1, 3, 1, 3}, {5, 1, 4, 1, 5}, {7, 1, 7, 1, 6}};
+char *gMenuPairScreenMapPaths[5] = {"char/jtStep1.nsc.l", "char/jtStep2.nsc.l", "char/jtStep3.nsc.l", "char/jtOption.nsc.l", "char/jtTop.nsc.l"};
+
 void AdvanceUsbScanReport(u32 task) {
     u32 flagSetFound;
     UsbScan *scan;
@@ -307,7 +312,7 @@ BOOL IsMenuPairObjectsNotSlidingOut(void) {
 }
 
 void LoadMenuPairScreenMap(u32 pathIndex) {
-    gMenuPairScreenMap = LoadFile(BuildFilePathWithLanguage(gMenuPairScreenMapPaths[pathIndex]), NULL, 4);
+    gMenuPairScreenMap = LoadFile(BuildFilePathWithLanguage((u8 *) gMenuPairScreenMapPaths[pathIndex]), NULL, 4);
     AddTask(1, AdvanceUploadMenuPairScreenMap, NULL, 0x78);
 }
 

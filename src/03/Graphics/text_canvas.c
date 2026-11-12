@@ -9,7 +9,6 @@
 #include "g2d_CharCanvas.h"
 #include "03/System/exp_heap.h"
 #include "03/System/tasks.h"
-#include "03/unk_021d67d8.h"
 #include "code_0200eddc.h"
 #include "gx_bgcnt.h"
 #include "gx_load2d.h"
@@ -22,6 +21,11 @@
 #include "03/code_021d1d60.h"
 #include "03/unk_021d7000.h"
 #include "registers.h"
+
+const u16 gBgTextCanvasCharOffsets[2] = {0, 0x180};
+const u16 gBgTextCanvasSizes[4] = {0x20, 0x18, 0x20, 0xc};
+
+void *gTextCanvasNftrNames[2] = {"msg/lc_m.NFTR.l", "msg/lc_s.NFTR.l"};
 
 void InitTextCanvases(void) {
     TextCanvases *canvases = AllocExpHeapBlock(0x798, 4);
@@ -81,7 +85,7 @@ void DeleteObjTextCanvas(void *canvas) {
 
 BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     BgTextCanvas *canvas = &gTextCanvases->mBgTextCanvases[screen];
-    u32 areaHeight = gBgTextCanvasHeights[screen * 2];
+    u32 areaHeight = (gBgTextCanvasSizes + 1)[screen * 2];
     u32 areaWidth = gBgTextCanvasSizes[screen * 2];
     vu16 *bgControl;
     u32 screenBase;

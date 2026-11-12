@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "03/types_021d299c.h"
+#include "03/unk_021d7000.h"
 
 typedef struct Rect Rect;
 
@@ -9,13 +10,6 @@ typedef struct Rect Rect;
 typedef struct Jb3ListSelectionRectIndices {
     /* 00 */ u8 mRectIndices[0xe];
 } Jb3ListSelectionRectIndices;
-
-extern u8 gJb3ListPaletteRows[];
-extern u8 gJb3ListBg2OffsetByEntry[];
-extern Rect gJb3ListFixedRects[];
-extern Rect gJb3ListSelectionRects[];
-extern u8 gJb3ListTimerIds[];
-extern Jb3ListSelectionRectIndices gJb3ListSelectionRectIndices;
 
 void SetJb3ListMode(u8 mode);
 void UpdateJb3ListMessageClose(void);
@@ -57,3 +51,20 @@ void StartJb3ListFadeIn(void);
 void ResetJb3ListScrollAndSelection(void);
 void LoadJb3ListFilesAndSetBgCnt(void);
 void CreateJb3List(void);
+
+extern u8 gJb3ListTimerIds[4];
+extern const u8 gJb3ListPaletteRows[3];
+extern const u8 gJb3ListEntryIndexById[11];
+extern const u8 gJb3ListIdByEntryIndex[9];
+extern const Rect gJb3ListSelectionRects[6];
+extern Jb3ListSelectionRectIndices gJb3ListSelectionRectIndices;
+extern const u8 gJb3ListBg2OffsetByEntry[9];
+extern const Rect gJb3ListCellRect;
+extern const Rect gJb3ListLeftButtonRect;
+extern const Rect gJb3ListRightButtonRect;
+extern const Rect gJb3ListFixedRects[3];
+extern u16 gDotSeparatedBytesFormat[15];
+extern const u8 gJb3ListCellImageIds[5][3];
+extern const u16 gJb3ListBackNscOffsets[9];
+// Objects whose layout isn't known yet.
+extern const s8 gJb3ListDigitColumns[6];

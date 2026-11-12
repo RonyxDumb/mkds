@@ -61,6 +61,8 @@ src/03/Menu/edit_keyboard.c:
 src/03/Menu/edit_addr_keyboard.c:
     complete
     .text       start:0x021c0f98 end:0x021c1ee0
+    .rodata     start:0x021d61d4 end:0x021d62cc
+    .data       start:0x021d6d80 end:0x021d6da0
 
 // provisional: file name and boundaries
 src/03/Net/value_records_request.c:
@@ -259,6 +261,8 @@ src/03/Menu/jb4_error.c:
 src/03/Menu/jb3_list.c:
     complete
     .text       start:0x021c7cf0 end:0x021c9780
+    .rodata     start:0x021d63f0 end:0x021d64a4
+    .data       start:0x021d738c end:0x021d7478
 
 // provisional: file name and boundaries
 src/03/Menu/record_saved.c:
@@ -395,12 +399,14 @@ src/03/Sound/sound_data.c:
 src/03/Menu/menu_pair_objects.c:
     complete
     .text       start:0x021cdc78 end:0x021ce578
+    .rodata     start:0x021d6648 end:0x021d667c
+    .data       start:0x021d77ac end:0x021d7824
 
 // provisional: file name and boundaries
 src/03/Net/usb_scan.c:
     complete
     .text       start:0x021ce578 end:0x021ce9fc
-    .rodata     start:0x021d6684 end:0x021d66d4
+    .rodata     start:0x021d667c end:0x021d66d4
 
 // provisional: file name and boundaries
 src/03/Menu/message_box.c:
@@ -458,6 +464,8 @@ src/03/Graphics/blend_brightness_fade.c:
 src/03/Graphics/text_canvas.c:
     complete
     .text       start:0x021d1f90 end:0x021d24cc
+    .rodata     start:0x021d679c end:0x021d67a8
+    .data       start:0x021d7bcc end:0x021d7c00
 
 // provisional: file name and boundaries
 src/03/System/rect.c:

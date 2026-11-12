@@ -59,6 +59,22 @@
 #include "03/Net/ap_scan_callback.h"
 #include "registers.h"
 
+u8 gJb3ListTimerIds[4] = {2, 3, 7, 8};
+const u8 gJb3ListPaletteRows[3] = {6, 8, 7};
+const u8 gJb3ListEntryIndexById[11] = {0, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8};
+const u8 gJb3ListIdByEntryIndex[9] = {0, 1, 0xe, 4, 5, 6, 0xe, 9, 0xa};
+const Rect gJb3ListSelectionRects[6] = {{0xc8, 0x31, 0xe0, 0x4d}, {0xbc, 0x31, 0xe0, 0x4d}, {0x8b, 0x31, 0xaf, 0x4d}, {0x82, 0x18, 0xee, 0x2c}, {0x82, 0xa9, 0xee, 0xbd}, {2, 0xa9, 0x6e, 0xbd}};
+Jb3ListSelectionRectIndices gJb3ListSelectionRectIndices = {{0, 0, 1, 2, 0, 0, 0, 1, 2, 0, 0, 3, 4, 5}};
+const u8 gJb3ListBg2OffsetByEntry[9] = {0, 5, 2, 7, 4, 1, 6, 3, 0};
+const Rect gJb3ListCellRect = {0xcc, 0x34, 0x1c, 0x18};
+const Rect gJb3ListLeftButtonRect = {0x8f, 0x34, 0x2c, 0x18};
+const Rect gJb3ListRightButtonRect = {0xc0, 0x34, 0x2c, 0x18};
+const Rect gJb3ListFixedRects[3] = {{0x84, 0x1b, 0xfc, 0x2c}, {0x84, 0xac, 0xfc, 0xbd}, {4, 0xac, 0x7c, 0xbd}};
+u16 gDotSeparatedBytesFormat[15] = {0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64};
+const u8 gJb3ListCellImageIds[5][3] = {{0, 0x29, 0x2c}, {0x52, 0x53, 0x30}, {0, 0x2a, 0x30}, {0x54, 0x55, 0}, {0, 0x2b, 0}};
+const u16 gJb3ListBackNscOffsets[9] = {0, 0x60, 0xe0, 0x140, 0x1c0, 0x240, 0x2a0, 0x320, 0x3a0};
+const s8 gJb3ListDigitColumns[6] = {-1, 0x23, 0x27, -1, 0x23, 0x2f};
+
 void CreateJb3List(void) {
     int a;
     ApWorkCopy *record;
@@ -101,23 +117,20 @@ void CreateJb3List(void) {
 }
 
 void LoadJb3ListFilesAndSetBgCnt(void) {
-    Bytes23 jb3ListBackNscName;
-    Bytes21 ybBgStep2NclName;
-    Bytes22 ybBgStep21NclName;
-    jb3ListBackNscName = gJb3ListBackNscName;
-    ybBgStep2NclName = gYbBgStep2NclName;
-    ybBgStep21NclName = gYbBgStep21NclName;
+    char jb3ListBackNscName[23] = "char/jb3ListBack.nsc.l";
+    char ybBgStep2NclName[21] = "char/ybBgStep2.ncl.l";
+    char ybBgStep21NclName[22] = "char/ybBgStep21.ncl.l";
     reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0xe18;
-    LoadFileToVram(gYbObjKbNclName3, GX_LoadOBJPltt);
-    LoadFileToVram(gJbBgStep2NcgName, GX_LoadBG3Char);
-    LoadFileToVram(gJbBgStep21NcgName, GX_LoadBG2Char);
-    LoadFileToVram(&ybBgStep2NclName, GX_LoadBGPltt);
-    LoadFileToVram(gJb3ListNscName, GX_LoadBG3Scr);
-    gJb3List->mJb3ListBackNsc = LoadFile(BuildFilePathWithLanguage((u8 *) &jb3ListBackNscName), NULL, 4);
+    LoadFileToVram("char/ybObjKb.ncl.l", GX_LoadOBJPltt);
+    LoadFileToVram("char/jbBgStep2.ncg.l", GX_LoadBG3Char);
+    LoadFileToVram("char/jbBgStep21.ncg.l", GX_LoadBG2Char);
+    LoadFileToVram(ybBgStep2NclName, GX_LoadBGPltt);
+    LoadFileToVram("char/jb3List.nsc.l", GX_LoadBG3Scr);
+    gJb3List->mJb3ListBackNsc = LoadFile(BuildFilePathWithLanguage((u8 *) jb3ListBackNscName), NULL, 4);
     CreateBg2ScrBuffer(gJb3List->mJb3ListBackNsc);
     RequestBg2ScrUpload();
-    gJb3List->mYbBgStep2NclFiles[0] = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep2NclName), NULL, 4);
-    gJb3List->mYbBgStep2NclFiles[1] = LoadFile(BuildFilePathWithLanguage((u8 *) &ybBgStep21NclName), NULL, 4);
+    gJb3List->mYbBgStep2NclFiles[0] = LoadFile(BuildFilePathWithLanguage((u8 *) ybBgStep2NclName), NULL, 4);
+    gJb3List->mYbBgStep2NclFiles[1] = LoadFile(BuildFilePathWithLanguage((u8 *) ybBgStep21NclName), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~0x3) | 0x3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~0x3) | 0x3;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~0x3) | 0x3;
@@ -455,7 +468,7 @@ void UpdateJb3ListRelease(void) {
     for (i = 0; i < 2; i++) {
         DeleteLoadedFile(gJb3List->mYbBgStep2NclFiles[i]);
     }
-    LoadFileToVram(gYbObjMainNclName4, GX_LoadOBJPltt);
+    LoadFileToVram("char/ybObjMain.ncl.l", GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
     ClearDispcntBits(0, 0x1d);
     reg_G2_BG0OFS = 0;
@@ -836,7 +849,7 @@ u32 GetJb3ListHitId(void) {
     s32 firstEntryIndex;
     s32 rowIndex;
     s32 searchEntryIndex;
-    Rect *fixedRect;
+    const Rect *fixedRect;
     if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
         return 0xe;
     }

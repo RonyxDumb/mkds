@@ -51,6 +51,10 @@ typedef struct TextCanvases {
 #include "g2d_NSC_load.h"
 #include "code_02022aa8.h"
 
+extern const u16 gBgTextCanvasCharOffsets[2];
+extern const u16 gBgTextCanvasSizes[4];
+extern void *gTextCanvasNftrNames[2];
+
 void RequestBgTextCanvasUpload(void *canvas);
 void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 f);
 void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color);

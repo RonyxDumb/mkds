@@ -3,6 +3,8 @@
 #include "types.h"
 #include "code_02142eac.h"
 
+extern const u8 gUsbScanEmptyBssid[6];
+
 typedef struct UsbScanEntry {
     /* 0 */ u8 mBssid[6];
     /* 6 */ u8 mFlag;

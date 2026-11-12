@@ -60,3 +60,26 @@ void SetEditAddrKeyboardRemoveCharEnabled(u8 canRemove);
 u8 GetEditAddrKeyboardInput(void);
 void StartEditAddrKeyboardSlideOut(void);
 void CreateEditAddrKeyboard(void);
+
+extern const u16 gEditAddrKeyboardDigitKeyPositions[10][2];
+extern const u16 gEditAddrKeyboardKeyTexts[13];
+extern const u8 gEditAddrKeyboardRow4KeyInputs[2];
+extern u8 gEditAddrKeyboardDigitKeyCounts[5];
+extern u8 gEditAddrKeyboardExtraKeyCounts[5];
+extern u16 gEditAddrKeyboardTextRectStart[4];
+extern const u8 gEditAddrKeyboardKeyPalettes[2];
+extern const u8 gEditAddrKeyboardRow4KeyImages[2];
+// Interleaved x and y positions of the cursor.
+extern const u16 gEditAddrKeyboardCursorX[28];
+extern const u16 gEditAddrKeyboardRow4KeyPositions[2][2];
+extern const u16 gEditAddrKeyboardExtraKeySize[2];
+extern const s8 gEditAddrKeyboardCursorMoves[56];
+extern const u8 gEditAddrKeyboardDigitInputs[10];
+extern const u8 gEditAddrKeyboardExtraKeyInputs[2];
+extern const u16 gEditAddrKeyboardExtraKeyPositions[2][2];
+extern const u8 gEditAddrKeyboardRow4HighlightValues[2];
+extern const u16 gEditAddrKeyboardRowTextAreaSize[2];
+extern const u8 gEditAddrKeyboardExtraKeyImages[2];
+extern const u16 gEditAddrKeyboardDigitKeySize[2];
+extern const u16 gEditAddrKeyboardRow4KeySize[2];
+extern u8 gEditAddrKeyboardRow4KeyCounts[5];

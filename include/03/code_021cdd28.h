@@ -17,8 +17,6 @@ typedef struct MenuPairObjects {
     /* 18 */ u8 mSlidingOut;
 } MenuPairObjects;
 
-extern MenuPairObjectPosition gMenuPairObjectPositions[];
-
 BOOL IsMenuPairObjectsNotSlidingOut(void);
 void AdvanceMenuPairObjectSlideOut0(TaskEntry *taskEntry);
 void AdvanceMenuPairObjectSlideOut1(TaskEntry *taskEntry);

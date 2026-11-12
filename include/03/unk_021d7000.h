@@ -35,15 +35,6 @@ typedef struct ConnectMessageIds {
 
 // Objects whose layout isn't known yet.
 extern Bytes6 gMessageBoxWindowExtraBitFlags;
-extern Bytes21 gYbBgStep2NclName;
-extern Bytes22 gYbBgStep21NclName;
-extern Bytes23 gJb3ListBackNscName;
-extern char gYbObjKbNclName3[];
-extern char gJbBgStep2NcgName[];
-extern char gJbBgStep21NcgName[];
-extern char gJb3ListNscName[];
-extern u16 gDotSeparatedBytesFormat[];
-extern char gYbObjMainNclName4[];
 extern Bytes4 gApPaletteRows;
 extern Bytes4 gApEntryIconPalettes;
 extern YbBgStep11NclName gYbBgStep11NclName2;
@@ -57,7 +48,7 @@ extern Bytes22 gYbBgStep21NclName2;
 extern char gJbBgStep2NcgName2[];
 extern char gYbBgStep2NclName2[];
 extern char gJb3WayNscName[];
-extern u8 *gWhStateNames[];
+extern char *gWhStateNames[];
 extern u8 gWhAlreadyIdleText[];
 extern u8 gWhFinalizeStateFormat[];
 extern u8 gWhNoChildText[];
@@ -66,7 +57,6 @@ extern u8 gWhRecvBufferSizeFormat[];
 extern u8 gWhSendBufferSizeFormat[];
 extern u8 gWhConnectModeFormat[];
 extern u8 gWhDecidedChannelFormat[];
-extern void *gTextCanvasNftrNames[];
 extern u8 gWhChannelBusyRatioFormat[];
 extern u8 gWhIndicateStateFormat[];
 extern u8 gWhEndParentFailedText[];

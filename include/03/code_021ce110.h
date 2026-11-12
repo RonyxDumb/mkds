@@ -5,9 +5,6 @@
 #include "03/unk_021da000.h"
 #include "03/System/tasks.h"
 
-extern u8 gMenuPairObjectImageIds[][5];
-extern u8 gMenuPairObjectPaletteIds[][5];
-
 void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry);
 void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry);
 void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry);
