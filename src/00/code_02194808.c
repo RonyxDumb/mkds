@@ -1,6 +1,5 @@
 #include "00/code_02194808.h"
-#include "00/code_02194828.h"
-#include "00/code_02194840.h"
+#include "00/gpiProfile.h"
 
 GpiProfile *GpiFindProfileByBuddyIndex(GpConnection *a, u32 b) {
     GpiProfileSearch s;

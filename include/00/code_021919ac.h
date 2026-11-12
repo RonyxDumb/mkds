@@ -27,7 +27,7 @@
 #include "00/code_0218f960.h"
 #include "00/code_0218e2dc.h"
 #include "00/code_021a3a18.h"
-#include "00/code_0219488c.h"
+#include "00/gpiProfile.h"
 
 // Object of 0x308 bytes that GpiStartConnect allocates and fills.
 typedef struct GPIConnectData {

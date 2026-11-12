@@ -1,7 +1,7 @@
 #include "00/code_02190ff8.h"
 
 #include "00/code_02193634.h"
-#include "00/code_02194840.h"
+#include "00/gpiProfile.h"
 #include "00/code_0218e2a4.h"
 #include "00/code_02191200.h"
 #include "00/code_021965a0.h"

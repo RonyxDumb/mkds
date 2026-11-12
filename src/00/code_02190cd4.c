@@ -28,7 +28,7 @@
 #include "00/code_0218f960.h"
 #include "00/code_02194bb8.h"
 #include "00/code_02193b88.h"
-#include "00/code_02194840.h"
+#include "00/gpiProfile.h"
 
 void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
     GpiConnection *iconnection;

@@ -363,29 +363,9 @@ src/00/code_02194808.c:
     .text       start:0x021947d4 end:0x021947f4
 
 // provisional: file name and boundaries
-src/00/code_02194828.c:
+src/00/gpiProfile.c:
     complete
-    .text       start:0x021947f4 end:0x0219480c
-
-// provisional: file name and boundaries
-src/00/code_02194840.c:
-    complete
-    .text       start:0x0219480c end:0x02194840
-
-// provisional: file name and boundaries
-src/00/code_02194874.c:
-    complete
-    .text       start:0x02194840 end:0x02194858
-
-// provisional: file name and boundaries
-src/00/code_0219488c.c:
-    complete
-    .text       start:0x02194858 end:0x02194888
-
-// provisional: file name and boundaries
-src/00/code_021948bc.c:
-    complete
-    .text       start:0x02194888 end:0x021948c4
+    .text       start:0x021947f4 end:0x021948c4
 
 // provisional: file name and boundaries
 src/00/code_021948f8.c:

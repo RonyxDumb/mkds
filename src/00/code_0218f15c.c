@@ -34,7 +34,7 @@
 #include "00/code_02196480.h"
 #include "00/code_02193000.h"
 #include "00/code_02193b88.h"
-#include "00/code_02194840.h"
+#include "00/gpiProfile.h"
 #include "00/code_02194bb8.h"
 #include "00/code_021a3668.h"
 #include "00/unk_021b23b0.h"
