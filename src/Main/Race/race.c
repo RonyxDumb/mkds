@@ -81,7 +81,7 @@
 #include "Main/Item/item_link_following.h"
 #include "Main/Item/bouncing_item_box.h"
 #include "Main/Unknown/code_02148d24.h"
-#include "code_0214a730.h"
+#include "g3x.h"
 #include "code_02010c84.h"
 #include "gecom.h"
 #include "Main/Unknown/code_02047000.h"

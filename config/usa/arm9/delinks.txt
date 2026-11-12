@@ -4135,24 +4135,9 @@ libs/NitroSDK/gx/src/g3imm.c:
     .text       start:0x0214a4dc end:0x0214a54c
 
 // provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a54c.c:
+libs/NitroSDK/gx/src/g3x.c:
     complete
-    .text       start:0x0214a54c end:0x0214a5e0
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a5e0.c:
-    complete
-    .text       start:0x0214a5e0 end:0x0214a5f0
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a5f0.c:
-    complete
-    .text       start:0x0214a5f0 end:0x0214a730
-
-// provisional: file name and boundaries
-libs/NitroSDK/gx/src/code_0214a730.c:
-    complete
-    .text       start:0x0214a730 end:0x0214a748
+    .text       start:0x0214a54c end:0x0214a748
 
 // provisional: file name and boundaries
 libs/NitroSDK/gx/src/code_0214a748.c:

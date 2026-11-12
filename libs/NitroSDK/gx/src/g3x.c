@@ -1,11 +1,15 @@
-#include "code_0214a5f0.h"
+#include "g3x.h"
+#include "code_0214cfe4.h"
 #include "code_0214c778.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0216f000.h"
 #include "00/code_02188720.h"
 #include "registers.h"
 
-// Sets the clear color register from the color, alpha, polygon ID and fog bit, and the clear depth register.
+void G3X_SetToonTable(const u16 *toonTable) {
+    MIi_CpuCopy16(toonTable, (void *) 0x4000380, 0x40);
+}
+
 void G3X_SetClearColor(u32 rgb, u32 alpha, u16 depth, u32 polygonID, s32 fog) {
     u32 value;
 
@@ -57,3 +61,48 @@ s32 G3X_GetMtxStackLevelPJ(s32 *level) {
     *level = (reg_G3X_GXSTAT & 0x2000) >> 13;
     return 0;
 }
+
+void G2Bg0OfsWrite(u32 offset) {
+    reg_G2_BG0OFS = offset;
+}
+
+asm void GXi_NopClearFifo128_(void *dest) {
+    mov r1, #0
+    mov r2, #0
+    mov r3, #0
+    mov ip, #0
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    stmia r0, {r1, r2, r3, ip}
+    bx lr
+}
+// clang-format on

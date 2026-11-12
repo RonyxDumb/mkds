@@ -1,6 +1,5 @@
 #include "code_0214a748.h"
-#include "code_0214a54c.h"
-#include "code_0214a5f0.h"
+#include "g3x.h"
 #include "code_02147cd8.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Unknown/code_0214a000.h"
