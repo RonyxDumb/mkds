@@ -113,6 +113,7 @@ extern s32 (*fsi_default_command[])(FSFile *a);
 
 s32 FSi_TranslateCommand(FSFile *file, u32 command);
 void FSi_ReleaseCommand(FSFile *file, s32 result);
+s32 FSi_OpenFileDirectCommand(FSFile *file);
 s32 FSi_CloseFileCommand(FSFile *file);
 
 // Two words FSi_OpenFileFastCommand reads into FSFile.mArg.
