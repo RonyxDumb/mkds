@@ -31240,8 +31240,8 @@ from:0x021171d6 kind:thumb_call to:0x02124748 module:main
 from:0x021171fc kind:thumb_call_arm to:0x02016468 module:main
 from:0x02117208 kind:load to:0x0217d33c module:main
 from:0x0211720c kind:load to:0x0215c60c module:main
-from:0x02117210 kind:load to:0x0215c610 module:main
-from:0x02117214 kind:load to:0x0215c614 module:main
+from:0x02117210 kind:load to:0x0215c60c add:0x4 module:main
+from:0x02117214 kind:load to:0x0215c60c add:0x8 module:main
 from:0x02117220 kind:load to:0x0217d33c module:main
 from:0x0211722a kind:thumb_call_arm to:0x02036bec module:main
 from:0x02117236 kind:thumb_call to:0x0204799c module:main

@@ -4040,6 +4040,9 @@ src/Main/Menu/picks_holder.c:
 src/Main/Menu/kart_icon.c:
     complete
     .text       start:0x021171a0 end:0x021173e4
+    .rodata     start:0x0215c60c end:0x0215c7c8
+    .data       start:0x0216d504 end:0x0216d66c
+    .bss        start:0x0217d33c end:0x0217d340
 
 // provisional: file name and boundaries
 src/Main/Menu/select_cup_grid.c:

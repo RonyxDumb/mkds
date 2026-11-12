@@ -9,20 +9,6 @@ extern const char *gWaitNcerName;
 
 extern const char *gWaitBnclName;
 
-extern const char *gCommonKartIconNcgrName;
-
-extern const char *gCommonKartIconNcerName;
-
-extern const char *gCommonKartIconBnclName;
-
-extern const char *gKartIconNcgrName;
-
-extern const char *gKartIconNcerName;
-
-extern const char *gKartIconNclrNames[];
-
-extern const char *gCommonKartIconNclrNames[];
-
 extern const char *gSelectRaceRuleSBnblName;
 
 extern const char *gSelectRaceRuleSBNclrName;
@@ -62,5 +48,3 @@ extern const char *gSelectCupNameMBnclName;
 extern const char *gSelectCupNameMNcgrName;
 
 extern const char *gSelectCupNameMNcerName;
-
-extern const char *gKartIconBnclName;

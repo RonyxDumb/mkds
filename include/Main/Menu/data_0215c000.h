@@ -66,6 +66,3 @@ extern u32 gSelectRaceRulePreviousRectRows[];
 extern u32 gSelectRaceRuleEntryInputSlots[];
 
 extern u32 gSelectCupGridCourseIds[8][4];
-
-extern KartIconRow gKartIconRows[37];
-

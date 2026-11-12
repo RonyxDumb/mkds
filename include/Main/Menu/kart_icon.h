@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0215c000.h"
+#include "Main/Menu/data_0217d000.h"
 
 typedef struct Unk02021dc8 Unk02021dc8;
 
@@ -17,3 +19,14 @@ void CreateKartIcon(void *heap);
 
 void LoadCommonKartIconData(void);
 void LoadKartIconData(void);
+
+extern const char *gKartIconNcgrName;
+extern const char *gKartIconNcerName;
+extern const char *gKartIconNclrNames[3];
+extern const char *gKartIconBnclName;
+extern const char *gCommonKartIconNcgrName;
+extern const char *gCommonKartIconNcerName;
+extern const char *gCommonKartIconNclrNames[3];
+extern const char *gCommonKartIconBnclName;
+extern const KartIconRow gKartIconRows[37];
+extern struct KartIcon *gKartIcon;

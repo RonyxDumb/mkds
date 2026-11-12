@@ -8709,8 +8709,6 @@ gIndexChangeOffsets kind:data(any) addr:0x0215c5b4
 gWaitBnclIndices kind:data(any) addr:0x0215c5d0
 gCharacterKartIndices kind:data(any) addr:0x0215c5d8
 gKartIconRows kind:data(any) addr:0x0215c60c
-data_usa_0215c610 kind:data(any) addr:0x0215c610
-data_usa_0215c614 kind:data(any) addr:0x0215c614
 gSelectCupGridTrophyCells kind:data(any) addr:0x0215c7c8
 gSelectCupGridCourseLabelCells kind:data(any) addr:0x0215c7d0
 gSelectCupGridCourseLabelIndices kind:data(any) addr:0x0215c7d8
@@ -10693,18 +10691,18 @@ gKartIconNcgrName kind:data(any) addr:0x0216d514
 gKartIconNcerName kind:data(any) addr:0x0216d518
 gKartIconNclrNames kind:data(any) addr:0x0216d51c
 gCommonKartIconNclrNames kind:data(any) addr:0x0216d528
-data_usa_0216d534 kind:data(any) addr:0x0216d534
-data_usa_0216d548 kind:data(any) addr:0x0216d548
-data_usa_0216d55c kind:data(any) addr:0x0216d55c
-data_usa_0216d570 kind:data(any) addr:0x0216d570
-data_usa_0216d584 kind:data(any) addr:0x0216d584
-data_usa_0216d5a0 kind:data(any) addr:0x0216d5a0
-data_usa_0216d5bc kind:data(any) addr:0x0216d5bc
-data_usa_0216d5d8 kind:data(any) addr:0x0216d5d8
-data_usa_0216d5f4 kind:data(any) addr:0x0216d5f4
-data_usa_0216d610 kind:data(any) addr:0x0216d610
-data_usa_0216d62c kind:data(any) addr:0x0216d62c
-data_usa_0216d64c kind:data(any) addr:0x0216d64c
+@3267 kind:data(any) addr:0x0216d534 local
+@3264 kind:data(any) addr:0x0216d548 local
+@3265 kind:data(any) addr:0x0216d55c local
+@3266 kind:data(any) addr:0x0216d570 local
+@3262 kind:data(any) addr:0x0216d584 local
+@3263 kind:data(any) addr:0x0216d5a0 local
+@3271 kind:data(any) addr:0x0216d5bc local
+@3272 kind:data(any) addr:0x0216d5d8 local
+@3270 kind:data(any) addr:0x0216d5f4 local
+@3273 kind:data(any) addr:0x0216d610 local
+@3268 kind:data(any) addr:0x0216d62c local
+@3269 kind:data(any) addr:0x0216d64c local
 gSelectCupGridSONclrName kind:data(any) addr:0x0216d66c
 gSelectCupGridMBNcgrName kind:data(any) addr:0x0216d670
 gSelectCupGridMNcerName kind:data(any) addr:0x0216d674

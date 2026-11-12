@@ -20,6 +20,26 @@
 
 #pragma thumb on
 
+const char *gKartIconNcgrName = "Kart_icon_o_all.nce.ncgr";
+const char *gKartIconNcerName = "Kart_icon_o_all.nce.ncer";
+const char *gKartIconNclrNames[3] = {"Kart_icon_o_A.nclr", "Kart_icon_o_B.nclr", "Kart_icon_o_C.nclr"};
+const char *gKartIconBnclName = "Kart_icon_all.bncl";
+const char *gCommonKartIconNcgrName = "common/Kart_icon_o_all.nce.ncgr";
+const char *gCommonKartIconNcerName = "common/Kart_icon_o_all.nce.ncer";
+const char *gCommonKartIconNclrNames[3] = {"common/Kart_icon_o_A.nclr", "common/Kart_icon_o_B.nclr",
+                                           "common/Kart_icon_o_C.nclr"};
+const char *gCommonKartIconBnclName = "common/Kart_icon_all.bncl";
+const KartIconRow gKartIconRows[37] = {
+    {0, 0, 0, 0, 0},      {1, 0, 1, 0, 0},      {2, 0, 2, 0, 0},      {3, 0, 0, 1, 0},      {4, 0, 1, 1, 0},
+    {5, 0, 2, 1, 0},      {6, 0, 0, 2, 0},      {7, 0, 1, 2, 0},      {8, 0, 2, 2, 0},      {9, 0, 0, 3, 0},
+    {0xa, 0, 1, 3, 0},    {0xb, 0, 2, 3, 0},    {0xc, 0, 0, 4, 0},    {0xd, 0, 1, 4, 0},    {0xe, 0, 2, 4, 0},
+    {0xf, 0, 0, 5, 0},    {0x10, 0, 1, 5, 0},   {0x11, 0, 2, 5, 0},   {0x12, 0, 0, 6, 0},   {0x13, 0, 1, 6, 0},
+    {0x14, 0, 2, 6, 0},   {0x15, 0, 0, 7, 0},   {0x16, 0, 1, 7, 0},   {0x17, 0, 2, 7, 0},   {0x18, 0, 0, 8, 0},
+    {0x19, 0, 1, 8, 0},   {0x1a, 0, 2, 8, 0},   {0x1b, 0, 0, 9, 0},   {0x1c, 0, 1, 9, 0},   {0x1d, 0, 2, 9, 0},
+    {0x1e, 0, 0, 0xa, 0}, {0x1f, 0, 1, 0xa, 0}, {0x20, 0, 2, 0xa, 0}, {0x21, 0, 0, 0xb, 0}, {0x22, 0, 1, 0xb, 0},
+    {0x23, 0, 2, 0xb, 0}, {0, 0, 0, 0, 0}};
+KartIcon *gKartIcon;
+
 void LoadKartIconData(void) {
     void *sceneFile;
     int paletteCount;
