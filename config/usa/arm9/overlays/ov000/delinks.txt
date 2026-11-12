@@ -536,29 +536,9 @@ src/00/dwc_friend.c:
     .text       start:0x0219d914 end:0x0219da88
 
 // provisional: file name and boundaries
-src/00/code_0219dabc.c:
+src/00/dwc_match.c:
     complete
-    .text       start:0x0219da88 end:0x0219dd14
-
-// provisional: file name and boundaries
-src/00/code_0219dd48.c:
-    complete
-    .text       start:0x0219dd14 end:0x0219dd18
-
-// provisional: file name and boundaries
-src/00/code_0219dd4c.c:
-    complete
-    .text       start:0x0219dd18 end:0x021a291c
-
-// provisional: file name and boundaries
-src/00/code_021a2950.c:
-    complete
-    .text       start:0x021a291c end:0x021a2c78
-
-// provisional: file name and boundaries
-src/00/code_021a2cac.c:
-    complete
-    .text       start:0x021a2c78 end:0x021a2c98
+    .text       start:0x0219da88 end:0x021a2c98
 
 // provisional: file name and boundaries
 src/00/code_021a2ccc.c:

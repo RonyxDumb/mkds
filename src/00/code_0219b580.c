@@ -54,7 +54,7 @@
 #include "00/code_0219caac.h"
 #include "00/code_0219742c.h"
 #include "00/code_02196960.h"
-#include "00/code_0219dd4c.h"
+#include "00/dwc_match.h"
 
 // Sets up the object at each login (the caller zeroes the 0xdb4 bytes first, code_0211f6cc.c): stores
 // gWiFiConnection, builds the login, buddy, matching and net-layer objects and copies the game name and key. Undone
