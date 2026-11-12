@@ -7,18 +7,28 @@
 // provisional: file name and boundaries
 src/03/Net/essid_packet_steps.c:
     complete
-    .text       start:0x021b7b60 end:0x021b9478
+    .text       start:0x021b7b60 end:0x021ba124
+    .data       start:0x021d67c0 end:0x021d6828
+    .bss        start:0x021d7c00 end:0x021d89cc
 
 // provisional: file name and boundaries
-src/03/Net/essid_wcm.c:
+src/03/Net/code_021ba124.c:
     complete
-    .text       start:0x021b9478 end:0x021baffc
-    .data       start:0x021d683c end:0x021d686c
+    .text       start:0x021ba124 end:0x021ba7d8
+    .data       start:0x021d6828 end:0x021d686c
+    .bss        start:0x021d89cc end:0x021d8b40
+
+// provisional: file name and boundaries
+src/03/Net/code_021ba7d8.c:
+    complete
+    .text       start:0x021ba7d8 end:0x021baffc
+    .bss        start:0x021d8b40 end:0x021d8b90
 
 // provisional: file name and boundaries
 src/03/Net/exchange_essid.c:
     complete
     .text       start:0x021baffc end:0x021bede4
+    .rodata     start:0x021d3654 end:0x021d5e7c
 
 // provisional: file name and boundaries
 src/03/Menu/slide_buttons.c:
@@ -52,12 +62,14 @@ src/03/Menu/selection_objects.c:
 // provisional: file name and boundaries
 src/03/Graphics/hl_scr.c:
     complete
-    .text       start:0x021bf7d0 end:0x021bf880
+    .text       start:0x021bf7d0 end:0x021bf8e0
+    .data       start:0x021d6950 end:0x021d6b84
 
 // provisional: file name and boundaries
 src/03/Menu/edit_keyboard.c:
     complete
-    .text       start:0x021bf880 end:0x021c0f98
+    .text       start:0x021bf8e0 end:0x021c0f98
+    .data       start:0x021d6b84 end:0x021d6d80
 
 // provisional: file name and boundaries
 src/03/Menu/edit_addr_keyboard.c:
@@ -438,9 +450,16 @@ src/03/Net/multiboot_parent_download.c:
     .bss        start:0x021da24c end:0x021da264
 
 // provisional: file name and boundaries
+src/03/Net/code_021cfa28.c:
+    complete
+    .text       start:0x021cfa28 end:0x021d00cc
+    .data       start:0x021d782c end:0x021d7ab8
+
+// provisional: file name and boundaries
 src/03/Net/wh.c:
     complete
-    .text       start:0x021cfa28 end:0x021d07fc
+    .text       start:0x021d00cc end:0x021d07fc
+    .data       start:0x021d7ab8 end:0x021d7b94
 
 // provisional: file name and boundaries
 src/03/Net/child_wait_session.c:

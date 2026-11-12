@@ -15,7 +15,7 @@
 #include "00/Lib/NitroWiFi/code_021a669c.h"
 #include "00/Lib/NitroWiFi/cpsif.h"
 #include "00/code_021a8878.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "02/unk_02180500.h"
 #include "code_02000b44.h"
 

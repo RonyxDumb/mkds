@@ -1262,40 +1262,40 @@ gHashPadding kind:data(any) addr:0x021d689c
 gExchangeSocketConfig kind:data(any) addr:0x021d68dc
 gWarpString kind:data(any) addr:0x021d6934
 gJtNullNscName kind:data(any) addr:0x021d693c
-data_usa_ov003_021d6950 kind:data(any) addr:0x021d6950
-data_usa_ov003_021d6964 kind:data(any) addr:0x021d6964
-data_usa_ov003_021d6978 kind:data(any) addr:0x021d6978
-data_usa_ov003_021d698c kind:data(any) addr:0x021d698c
-data_usa_ov003_021d69a0 kind:data(any) addr:0x021d69a0
-data_usa_ov003_021d69b8 kind:data(any) addr:0x021d69b8
-data_usa_ov003_021d69d0 kind:data(any) addr:0x021d69d0
-data_usa_ov003_021d69e8 kind:data(any) addr:0x021d69e8
-data_usa_ov003_021d6a00 kind:data(any) addr:0x021d6a00
-data_usa_ov003_021d6a18 kind:data(any) addr:0x021d6a18
-data_usa_ov003_021d6a30 kind:data(any) addr:0x021d6a30
-data_usa_ov003_021d6a48 kind:data(any) addr:0x021d6a48
-data_usa_ov003_021d6a60 kind:data(any) addr:0x021d6a60
-data_usa_ov003_021d6a78 kind:data(any) addr:0x021d6a78
-data_usa_ov003_021d6a90 kind:data(any) addr:0x021d6a90
-data_usa_ov003_021d6aa8 kind:data(any) addr:0x021d6aa8
-data_usa_ov003_021d6ac0 kind:data(any) addr:0x021d6ac0
-data_usa_ov003_021d6ad8 kind:data(any) addr:0x021d6ad8
-data_usa_ov003_021d6af0 kind:data(any) addr:0x021d6af0
-data_usa_ov003_021d6b08 kind:data(any) addr:0x021d6b08
+gJb2HlApNscName kind:data(any) addr:0x021d6950
+gJb4HlIpNscName kind:data(any) addr:0x021d6964
+gJb4HlWepNscName kind:data(any) addr:0x021d6978
+gJb4HlUsbNscName kind:data(any) addr:0x021d698c
+gJb4HlDns1NscName kind:data(any) addr:0x021d69a0
+gJb4HlSsidNscName kind:data(any) addr:0x021d69b8
+gJb5HlMoveNscName kind:data(any) addr:0x021d69d0
+gJb2HlWiFiNscName kind:data(any) addr:0x021d69e8
+gJb5HlInfoNscName kind:data(any) addr:0x021d6a00
+gJb4HlMaskNscName kind:data(any) addr:0x021d6a18
+gJb4HlSet2NscName kind:data(any) addr:0x021d6a30
+gJb4HlDns0NscName kind:data(any) addr:0x021d6a48
+gJb4HlSet3NscName kind:data(any) addr:0x021d6a60
+gJb4HlSet1NscName kind:data(any) addr:0x021d6a78
+gJb3HlList1NscName kind:data(any) addr:0x021d6a90
+gJb3HlList2NscName kind:data(any) addr:0x021d6aa8
+gJb3HlList3NscName kind:data(any) addr:0x021d6ac0
+gJb5HlEraseNscName kind:data(any) addr:0x021d6ad8
+gJb5HlOptionNscName kind:data(any) addr:0x021d6af0
+gJb4HlGatewayNscName kind:data(any) addr:0x021d6b08
 gHlNscNames kind:data(any) addr:0x021d6b20
-gJbBgHlNcgName kind:data(any) addr:0x021d6b70
+@2082 kind:data(any) addr:0x021d6b70 local
 gEditKeyboardRow4KeyCounts kind:data(any) addr:0x021d6b84
 gEditKeyboardKeyCounts kind:data(any) addr:0x021d6b8c
 gEditKeyboardExtraKeyCounts kind:data(any) addr:0x021d6b94
 gEditKeyboardPageInputs kind:data(any) addr:0x021d6b9c
 gEditKeyboardPageKeyTexts kind:data(any) addr:0x021d6ba8
 gEditKeyboardExtraKeySoundSeqs kind:data(any) addr:0x021d6bb4
-data_usa_ov003_021d6bc4 kind:data(any) addr:0x021d6bc4
-data_usa_ov003_021d6bf4 kind:data(any) addr:0x021d6bf4
-data_usa_ov003_021d6c24 kind:data(any) addr:0x021d6c24
-data_usa_ov003_021d6c54 kind:data(any) addr:0x021d6c54
-data_usa_ov003_021d6cb8 kind:data(any) addr:0x021d6cb8
-data_usa_ov003_021d6d1c kind:data(any) addr:0x021d6d1c
+gEditKeyboardPage1Inputs kind:data(any) addr:0x021d6bc4
+gEditKeyboardPage2Inputs kind:data(any) addr:0x021d6bf4
+gEditKeyboardPage0Inputs kind:data(any) addr:0x021d6c24
+gEditKeyboardPage0KeyTexts kind:data(any) addr:0x021d6c54
+gEditKeyboardPage1KeyTexts kind:data(any) addr:0x021d6cb8
+gEditKeyboardPage2KeyTexts kind:data(any) addr:0x021d6d1c
 gEditAddrKeyboardRow4KeyCounts kind:data(any) addr:0x021d6d80
 gEditAddrKeyboardDigitKeyCounts kind:data(any) addr:0x021d6d88
 gEditAddrKeyboardExtraKeyCounts kind:data(any) addr:0x021d6d90
@@ -1432,33 +1432,33 @@ gSoundDataSdatName kind:data(any) addr:0x021d7794
 @2086 kind:data(any) addr:0x021d77fc local
 gMenuPairScreenMapPaths kind:data(any) addr:0x021d7810
 gMessageBoxWindowExtraBitFlags kind:data(any) addr:0x021d7824
-data_usa_ov003_021d782c kind:data(any) addr:0x021d782c
-data_usa_ov003_021d7848 kind:data(any) addr:0x021d7848
-data_usa_ov003_021d7864 kind:data(any) addr:0x021d7864
-data_usa_ov003_021d7880 kind:data(any) addr:0x021d7880
-data_usa_ov003_021d789c kind:data(any) addr:0x021d789c
-data_usa_ov003_021d78bc kind:data(any) addr:0x021d78bc
-data_usa_ov003_021d78dc kind:data(any) addr:0x021d78dc
-data_usa_ov003_021d78fc kind:data(any) addr:0x021d78fc
-data_usa_ov003_021d7920 kind:data(any) addr:0x021d7920
-data_usa_ov003_021d7944 kind:data(any) addr:0x021d7944
+gWhStateStopName kind:data(any) addr:0x021d782c
+gWhStateIdleName kind:data(any) addr:0x021d7848
+gWhStateBusyName kind:data(any) addr:0x021d7864
+gWhStateErrorName kind:data(any) addr:0x021d7880
+gWhStateScanningName kind:data(any) addr:0x021d789c
+gWhStateConnectedName kind:data(any) addr:0x021d78bc
+gWhStateKeySharingName kind:data(any) addr:0x021d78dc
+gWhStateDataSharingName kind:data(any) addr:0x021d78fc
+gWhStateConnectFailName kind:data(any) addr:0x021d7920
+gWhStateMeasureChannelName kind:data(any) addr:0x021d7944
 gWhStateNames kind:data(any) addr:0x021d7968
-gWhAlreadyIdleText kind:data(any) addr:0x021d7990
-gWhFinalizeStateFormat kind:data(any) addr:0x021d79b4
-gWhNoChildText kind:data(any) addr:0x021d79d8
-gWhNoDataSetText kind:data(any) addr:0x021d7a08
-gWhRecvBufferSizeFormat kind:data(any) addr:0x021d7a3c
-gWhSendBufferSizeFormat kind:data(any) addr:0x021d7a54
-gWhConnectModeFormat kind:data(any) addr:0x021d7a6c
-gWhDecidedChannelFormat kind:data(any) addr:0x021d7a88
-gWhChannelBusyRatioFormat kind:data(any) addr:0x021d7aa0
+@1029 kind:data(any) addr:0x021d7990 local
+@1030 kind:data(any) addr:0x021d79b4 local
+@1059 kind:data(any) addr:0x021d79d8 local
+@1060 kind:data(any) addr:0x021d7a08 local
+@1102 kind:data(any) addr:0x021d7a3c local
+@1103 kind:data(any) addr:0x021d7a54 local
+@1104 kind:data(any) addr:0x021d7a6c local
+@1170 kind:data(any) addr:0x021d7a88 local
+@1204 kind:data(any) addr:0x021d7aa0 local
 gWhIndicateStateFormat kind:data(any) addr:0x021d7ab8
 gWhEndParentFailedText kind:data(any) addr:0x021d7ad8
 gWhStartKeySharingFailedText kind:data(any) addr:0x021d7b00
-gWhChildConnectedFormat kind:data(any) addr:0x021d7b30
-gWhChildDisconnectedFormat kind:data(any) addr:0x021d7b5c
-gWhStateFromFormat kind:data(any) addr:0x021d7b88
-gWhStateToFormat kind:data(any) addr:0x021d7b90
+@1214 kind:data(any) addr:0x021d7b30 local
+@1215 kind:data(any) addr:0x021d7b5c local
+@1278 kind:data(any) addr:0x021d7b88 local
+@1279 kind:data(any) addr:0x021d7b90 local
 gLzFileSuffix kind:data(any) addr:0x021d7b94
 gRomDir kind:data(any) addr:0x021d7b98
 gDwcUtilityBinName kind:data(any) addr:0x021d7ba0
@@ -1478,15 +1478,10 @@ gRequestPacketBuffer kind:bss addr:0x021d7c14
 gSavedTagBytes kind:bss addr:0x021d7c18
 gRandomState kind:bss addr:0x021d7c20
 gRequestState kind:bss addr:0x021d7c2c
-gKeyStreamKeyPrefix kind:bss addr:0x021d7c48
-gKeyStreamKeyTail kind:bss addr:0x021d7c4a
+gKeyStreamKey kind:bss addr:0x021d7c48
 gItemSlots kind:bss addr:0x021d7cac
 gCrcTable kind:bss addr:0x021d7f2c
 gParsedItems kind:bss addr:0x021d832c
-gParsedFourValueRecord0 kind:bss addr:0x021d8334
-gParsedFourValueRecord1 kind:bss addr:0x021d8464
-gParsedSingleValueRecord0 kind:bss addr:0x021d8594
-gParsedSingleValueRecord1 kind:bss addr:0x021d8604
 gEssidAllocFunction kind:bss addr:0x021d89cc
 gStateChangeCallback kind:bss addr:0x021d89d0
 gEssidWorkBuffer kind:bss addr:0x021d89d4
@@ -1494,7 +1489,6 @@ gEssidFreeFunction kind:bss addr:0x021d89d8
 gMessageQueueSlots kind:bss addr:0x021d89dc
 gMessageQueue kind:bss addr:0x021d89ec
 gMelcoBlock kind:bss addr:0x021d8a0c
-data_usa_ov003_021d8a0e kind:bss addr:0x021d8a0e
 gMelcoRecord kind:bss addr:0x021d8a80
 gEssidWcmWork kind:bss addr:0x021d8b40
 gEssidSearchOption kind:bss addr:0x021d8b44

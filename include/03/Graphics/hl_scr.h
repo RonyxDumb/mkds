@@ -4,6 +4,7 @@
 
 extern void *gHlScr;
 
+void InitHlScr(void);
 void UploadHlScr(u32 a);
 void LoadHlListScr(void);
 void LoadHlSetScr(void);

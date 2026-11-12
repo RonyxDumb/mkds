@@ -38,4 +38,7 @@ extern Bytes7 gKind2Item3Bytes;
 extern Bytes4 gWarpString;
 extern u8 gExchangeSocketConfig[];
 extern Rect gTouchScreenRect;
+extern u16 gEditKeyboardPage0KeyTexts[50];
+extern u16 gEditKeyboardPage1KeyTexts[50];
+extern u16 gEditKeyboardPage2KeyTexts[50];
 extern u16 *gEditKeyboardPageKeyTexts[3];

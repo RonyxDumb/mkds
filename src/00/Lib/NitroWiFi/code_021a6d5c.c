@@ -2,7 +2,7 @@
 #include "00/Lib/DWC/code_0218a064.h"
 
 #include "00/code_021a6d6c.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/code_021a6fb4.h"
 #include "00/Lib/NitroWiFi/code_021a6d1c.h"
 #include "00/Lib/NitroWiFi/code_021a669c.h"

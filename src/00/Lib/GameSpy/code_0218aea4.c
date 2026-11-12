@@ -20,7 +20,7 @@
 #include "00/code_0218c000.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/code_0218b000.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/GameSpy/code_021a4b84.h"
 #include "string.h"
 #include "00/Lib/DWC/code_0218a67c.h"

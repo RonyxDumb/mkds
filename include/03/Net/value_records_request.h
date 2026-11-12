@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 
 void EssidFreeExpHeapBlockWrapper(void *block);
 

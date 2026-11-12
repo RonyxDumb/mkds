@@ -43,7 +43,7 @@
 #include "03/code_021cb000.h"
 #include "os_thread.h"
 #include "code_0214cfe4.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "03/Graphics/dispcnt_window.h"
 #include "03/code_021d2ecc.h"
 #include "03/System/exp_heap.h"

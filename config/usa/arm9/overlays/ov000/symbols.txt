@@ -2431,7 +2431,7 @@ sInetNtoABuffer kind:bss addr:0x021b5ff0
 soclConfig kind:bss addr:0x021b6000
 entName kind:bss addr:0x021b6038
 gRandomByteStateMixed kind:bss addr:0x021b613c
-gKind2NewEntryCount kind:bss addr:0x021b6140
+gNewEntryIdCount kind:bss addr:0x021b6140
 gRandomByteState kind:bss addr:0x021b6144
 gUncachedHttpsEntry kind:bss addr:0x021b6158
 gHttpsEntries kind:bss addr:0x021b61b4

@@ -4,7 +4,7 @@
 #include "01/Race/race_hud_king_cells.h"
 #include "01/unk_021a9000.h"
 #include "01/code_02181000.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/Race/race_end_condition.h"

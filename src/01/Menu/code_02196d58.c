@@ -18,7 +18,7 @@
 #include "code_0214cfe4.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "01/unk_021a8000.h"
 #include "Main/Graphics/oam.h"
 #include "01/code_02198000.h"

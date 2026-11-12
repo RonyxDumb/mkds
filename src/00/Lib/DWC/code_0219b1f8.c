@@ -39,7 +39,7 @@
 #include "00/Lib/DWC/code_0218a67c.h"
 #include "00/Lib/NitroWiFi/cpsif.h"
 #include "00/Lib/DWC/code_02185954.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
 #include "00/Lib/GameSpy/code_021a3a18.h"

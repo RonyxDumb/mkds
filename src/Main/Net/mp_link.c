@@ -11,7 +11,7 @@
 #include "code_0214d018.h"
 #include "code_02009908.h"
 #include "code_0200c0d8.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 
 const u8 gDefaultScanBssid[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 u16 gScanConnectInitialized;

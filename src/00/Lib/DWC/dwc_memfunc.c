@@ -1,6 +1,6 @@
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/unk_021b5000.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "code_0214d018.h"
 
 u8 gAllocFunc[4];

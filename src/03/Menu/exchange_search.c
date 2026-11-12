@@ -33,7 +33,7 @@
 #include "03/code_021d1f70.h"
 #include "03/unk_021d5000.h"
 #include "03/Menu/sub_screen_message.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "03/code_021cd2e0.h"
 #include "03/Graphics/hl_scr.h"
 #include "03/code_021be610.h"

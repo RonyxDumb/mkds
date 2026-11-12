@@ -13,7 +13,7 @@
 #include "00/code_0219eac8.h"
 #include "00/code_021a1000.h"
 #include "00/Lib/DWC/code_021a3264.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/Lib/GameSpy/code_021a4b84.h"
 #include "code_02139f70.h"

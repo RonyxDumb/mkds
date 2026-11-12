@@ -111,7 +111,7 @@ HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes);
 extern u8 gRandomByteStateMixed;
 // Counts the entries made while sending the kind 2 record; its value is written as the last four bytes of each new
 // entry's first 0x20 bytes.
-extern u32 gKind2NewEntryCount;
+extern u32 gNewEntryIdCount;
 extern u8 gRandomByteState[0x14];
 extern HttpsEntry gUncachedHttpsEntry;
 extern HttpsEntry gHttpsEntries[4];

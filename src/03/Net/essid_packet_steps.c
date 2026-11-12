@@ -1,19 +1,601 @@
 #include "03/Net/essid_packet_steps.h"
-#include "03/code_021b7bb4.h"
-#include "03/code_021b7000.h"
-#include "00/Lib/DWC/code_0218a064.h"
-#include "03/unk_021d8000.h"
-#include "code_02133048.h"
+#include "03/code_021ba818.h"
+#include "00/code_021a5db0.h"
+#include "00/code_021a5e84.h"
+#include "00/code_021a61c4.h"
+#include "00/code_021a61e4.h"
+#include "00/code_021a629c.h"
+#include "00/code_021a6428.h"
+#include "00/code_021a6470.h"
+#include "00/Lib/NitroWiFi/code_021a669c.h"
+#include "00/code_021a6788.h"
+#include "00/code_021a67dc.h"
+#include "00/code_021a6844.h"
+#include "code_0200fc8c.h"
 #include "code_0214d018.h"
+#include "00/unk_021b0000.h"
+#include "03/code_021b7000.h"
+#include "03/unk_021d8000.h"
+#include "03/code_021b7bb4.h"
+#include "03/Net/exchange_essid.h"
+#include "00/Lib/DWC/code_0218a064.h"
+#include "code_02133048.h"
 #include "code_0214d93c.h"
 #include "00/Lib/CPS/network.h"
-#include "03/Net/essid_wcm.h"
 #include "03/Net/exchange_essid.h"
 #include "00/code_021a8aa8.h"
 #include "00/unk_021b6000.h"
 #include "03/unk_021d7000.h"
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
 #include "03/code_021b7ba8.h"
+#include "03/Net/code_021ba124.h"
+
+u32 AllocSocketMemory(u32 name, int size);
+void FreeSocketMemory(u32 name, u32 pointer);
+SOCConfig gEssidSocketConfig = {{0, 0, 0, 1}, (SocketAllocFn) AllocSocketMemory, (SocketFreeFn) FreeSocketMemory, 0, 0, 0, 0, 0, 0, 0x1000, 0x1000, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, NULL, 0, 0, 0};
+u8 gItemTypesToFind[2] = {9, 8};
+s32 gReportedState = -1;
+s32 gSocketDescriptor = -1;
+RetryLimit gRetryLimitTemplate = {-1, -1};
+s32 gRandomSeeded;
+EssidEntryList *gScannedEssidList;
+s32 gFlagBit4OfKind1010Packet;
+EssidEntryList *gRequestedEssidList;
+PacketBuffer *gRequestPacketBuffer;
+s32 gErrorCode;
+u8 gSavedTagBytes[8];
+u32 gRandomState[3];
+RequestState gRequestState;
+u8 gKeyStreamKey[0x64];
+u8 gItemSlots[0x280];
+u8 gCrcTable[0x400];
+ParsedItems gParsedItems[2];
+
+s32 RunValueRecordsRequest(ValueRecordsRequest *req) {
+    s32 status;
+    s32 ret;
+    if (req->mScanRetryLimit == 0 || req->mScanRetryLimit < -1 || req->mScanRetryDelayMs < -1 ||
+        req->mSendAttemptLimit == 0 || req->mSendAttemptLimit < -1 || req->mSendAttemptDelayMs < -1 ||
+        req->mReceiveTimeoutMs < -1 || req->mItemLength == 0 || req->mItemLength > 0x100 ||
+        req->mItemBytes[req->mItemLength - 1] != 0) {
+        status = -1;
+    } else {
+        status = 0;
+    }
+    if (gEssidAllocFunction == NULL || gEssidFreeFunction == NULL) {
+        status = -1;
+    }
+    if (status == -1) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    gRequestPacketBuffer = CallEssidAllocFunction(0x5f8);
+    if (gRequestPacketBuffer == NULL) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    ReportStateChange(-1);
+    ret = RunValueRecordsRequestSteps(req);
+    CallEssidFreeFunction(gRequestPacketBuffer);
+    ReleaseEssidEntryLists();
+    if (gSocketDescriptor != -1) {
+        CloseSocket(gSocketDescriptor);
+    }
+    return ret;
+}
+
+s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
+    s16 timeout;
+    s32 mode;
+    s32 state;
+    s32 addr;
+    PacketBuffer *buffer;
+    s32 scanResult;
+    s32 result;
+    RetryLimit scan = gRetryLimitTemplate;
+    RetryLimit limits = {0, 0};
+    s32 value = 1;
+    s32 attempts;
+    s32 ret;
+    u8 resultCode;
+    s16 retryCount;
+    s16 scanDelayMs;
+    SocketAddress senderAddress;
+    s32 srcLen;
+    s32 received;
+    PollEntry set;
+    WaitTimeout wait;
+    SocketAddress bindAddress;
+    PacketTag list[3];
+    EssidMelcoRequest request;
+    Unk021b86e4 buf;
+
+    mode = 0;
+    attempts = mode;
+    addr = mode;
+    FillBytes(list, 0, sizeof(list));
+    scan.mCount = req->mScanRetryLimit;
+    if (scan.mCount == -1) {
+        scan.mCount = 10;
+    }
+    limits.mCount = req->mSendAttemptLimit;
+    if (limits.mCount == -1) {
+        limits.mCount = 10;
+    }
+    scan.mDelayMs = req->mScanRetryDelayMs;
+    if (scan.mDelayMs == -1) {
+        scan.mDelayMs = 100;
+    }
+    limits.mDelayMs = req->mSendAttemptDelayMs;
+    if (limits.mDelayMs == -1) {
+        limits.mDelayMs = 100;
+    }
+    timeout = req->mReceiveTimeoutMs;
+    if (timeout == -1) {
+        timeout = 2000;
+    }
+    InitRequestState(req);
+    if ((gRequestState.mWantedRecordMask & 1) != 1) {
+        SetErrorCode(0x13);
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+
+    retryCount = 0;
+    ReportStateChange(0);
+    scanDelayMs = scan.mDelayMs;
+    while (1) {
+        if (gScannedEssidList != NULL) {
+            CallEssidFreeFunction(gScannedEssidList);
+            gScannedEssidList = NULL;
+        }
+        if (ScanEssidEntries(&gScannedEssidList) == -1) {
+            req->mResultCode = 0xf;
+            ReleaseEssidEntryLists();
+            return -1;
+        }
+        result = CheckSingleEssidAossEntry(gScannedEssidList);
+        if (result == 4) {
+            req->mResultCode = 2;
+            ReleaseEssidEntryLists();
+            return -1;
+        }
+        if (result == 0) {
+            break;
+        }
+        if (retryCount >= scan.mCount) {
+            req->mResultCode = 1;
+            ReleaseEssidEntryLists();
+            return -1;
+        }
+        EssidSleepWrapper(scanDelayMs);
+        retryCount++;
+    }
+
+    ReportStateChange(1);
+    FillBytes(&request, 0, 0x3c);
+    if (FillEssidAossAndMelcoRequest(&request) != 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    gRequestedEssidList = CallEssidAllocFunction(0x58);
+    if (gRequestedEssidList == NULL) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    FillBytes(gRequestedEssidList, 0, 0x58);
+    retryCount = 0;
+    if (scan.mCount > 0) {
+        do {
+            result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+            if (result == -1) {
+                req->mResultCode = 0xf;
+                ReleaseEssidEntryLists();
+                return -1;
+            }
+            if (result == 0) {
+                if (result != 0 || gRequestedEssidList->mCount == 1) {
+                    break;
+                }
+            }
+            EssidSleepWrapper(scanDelayMs);
+            retryCount++;
+        } while (retryCount < scan.mCount);
+    }
+    if (retryCount == scan.mCount) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (StartSocketsWithAddress(0xc0a80b65, 0xffffff00, 0xc0a80b65) != 0) {
+        SetErrorCode(0xc);
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    ReleaseEssidEntryLists();
+    FillPacketTags(3, list, req->mMacAddress);
+    gSocketDescriptor = OpenSocket(2, 2, 0);
+    if (gSocketDescriptor < 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
+        SetErrorCode(0xb);
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    FillBytes(&bindAddress, 0, 8);
+    bindAddress.mFamily = 2;
+    bindAddress.mAddress = SwapBytes32(0xc0a80b65);
+    bindAddress.mPort = PacketSwapBytes16(0x5790);
+    if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+
+    while (1) {
+        buffer = gRequestPacketBuffer;
+        FillBytes(&buf, 0, 0x14);
+        buf.mUnk_10 = 0xc0a80b65;
+        buf.mUnk_00 = 0xc0a80b01;
+        while (1) {
+            if (mode == 1 && gRequestState.mAddressApplied != 1) {
+                if (gSocketDescriptor != -1) {
+                    CloseSocket(gSocketDescriptor);
+                }
+                gSocketDescriptor = -1;
+                if (StopSocketsAndDisconnectEssid() != 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (gScannedEssidList != NULL) {
+                    CallEssidFreeFunction(gScannedEssidList);
+                    gScannedEssidList = NULL;
+                }
+                gScannedEssidList = CallEssidAllocFunction(0x58);
+                if (gScannedEssidList == NULL) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                while (1) {
+                    scanResult = ScanEssidEntries(&gScannedEssidList);
+                    if (scanResult == -1) {
+                        req->mResultCode = 0xf;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    result = CheckSingleEssidAossEntry(gScannedEssidList);
+                    if (result == 4) {
+                        req->mResultCode = 2;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    if (result == 0) {
+                        break;
+                    }
+                    if (retryCount >= scan.mCount) {
+                        req->mResultCode = 1;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    EssidSleepWrapper(scanDelayMs);
+                    retryCount++;
+                }
+                if (scanResult == -1) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                gRequestedEssidList = CallEssidAllocFunction(0x58);
+                if (gRequestedEssidList == NULL) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(gRequestedEssidList, 0, 0x58);
+                retryCount = 0;
+                if (scan.mCount > 0) {
+                    do {
+                        result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+                        if (result == -1) {
+                            req->mResultCode = 0xf;
+                            ReleaseEssidEntryLists();
+                            return -1;
+                        }
+                        if (result == 0) {
+                            if (result != 0 || gRequestedEssidList->mCount == 1) {
+                                break;
+                            }
+                        }
+                        EssidSleepWrapper(scanDelayMs);
+                        retryCount++;
+                    } while (retryCount < scan.mCount);
+                }
+                if (retryCount == scan.mCount) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                addr = GetNextAddressInMask(gRequestState.mDestinationAddress, gRequestState.mAddressMask);
+                if (StartSocketsWithAddress(addr, gRequestState.mAddressMask, addr) != 0) {
+                    SetErrorCode(0xc);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                gRequestState.mAddressApplied = 1;
+                ReleaseEssidEntryLists();
+                gSocketDescriptor = OpenSocket(2, 2, 0);
+                if (gSocketDescriptor < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
+                    SetErrorCode(0xb);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(&bindAddress, 0, 8);
+                bindAddress.mFamily = 2;
+                bindAddress.mAddress = SwapBytes32(addr);
+                bindAddress.mPort = PacketSwapBytes16(0x5790);
+                if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+            }
+            if (ReportStateAndSendPacketForMode(mode, &buf, list, gSocketDescriptor) == -1) {
+                SetErrorCode(mode + 0x1000);
+                req->mResultCode = 0xf;
+                ReleaseEssidEntryLists();
+                return -1;
+            }
+            FillBytes(buffer, 0, 0x5f8);
+            ClearPollEntry(&set);
+            SetPollEntryForRead(gSocketDescriptor, &set);
+            wait.mSeconds = timeout / 1000;
+            wait.mUnk_04 = timeout % 1000 * 1000;
+            if (PollSocketWithTimeout(gSocketDescriptor + 1, &set, NULL, NULL, &wait) > 0) {
+                break;
+            }
+            attempts++;
+            if (attempts > limits.mCount) {
+                if (mode == 0) {
+                    SetErrorCode(0xf);
+                } else if (mode == 1) {
+                    SetErrorCode(0x10);
+                } else {
+                    SetErrorCode(0x11);
+                }
+                ret = -1;
+                goto cleanup;
+            }
+            EssidSleepWrapper(limits.mDelayMs);
+        }
+        srcLen = 8;
+        received = RecvFromSocket(gSocketDescriptor, buffer->mBytes, 0x5dc, 0, &senderAddress, &srcLen);
+        buffer->mDescriptor = gSocketDescriptor;
+        buffer->mReceivedLength = SwapBytes16(received);
+        state = AdvanceStepByKind(mode, buffer, &attempts, list, gSocketDescriptor);
+        if (state == 0x64) {
+            ret = 0;
+            goto cleanup;
+        }
+        if (state == -1) {
+            ret = -1;
+            goto cleanup;
+        }
+        if (mode != state) {
+            if (state == 2) {
+                if (gSocketDescriptor != -1) {
+                    CloseSocket(gSocketDescriptor);
+                }
+                gSocketDescriptor = -1;
+                if (StopSocketsAndDisconnectEssid() != 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                retryCount = 0;
+                ReportStateChange(4);
+                while (1) {
+                    if (gScannedEssidList != NULL) {
+                        CallEssidFreeFunction(gScannedEssidList);
+                        gScannedEssidList = NULL;
+                    }
+                    if (ScanEssidEntries(&gScannedEssidList) == -1) {
+                        req->mResultCode = 0xf;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    result = CheckSingleEssidAossEntry(gScannedEssidList);
+                    if (result == 4) {
+                        req->mResultCode = 2;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    if (result == 0) {
+                        break;
+                    }
+                    if (retryCount >= scan.mCount) {
+                        req->mResultCode = 1;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    EssidSleepWrapper(scanDelayMs);
+                    retryCount++;
+                }
+                gRequestedEssidList = CallEssidAllocFunction(0x58);
+                if (gRequestedEssidList == NULL) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(gRequestedEssidList, 0, 0x58);
+                retryCount = 0;
+                if (scan.mCount > 0) {
+                    do {
+                        result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+                        if (result == -1) {
+                            req->mResultCode = 0xf;
+                            ReleaseEssidEntryLists();
+                            return -1;
+                        }
+                        if (result == 0) {
+                            if (result != 0 || gRequestedEssidList->mCount == 1) {
+                                break;
+                            }
+                        }
+                        EssidSleepWrapper(scanDelayMs);
+                        retryCount++;
+                    } while (retryCount < scan.mCount);
+                }
+                if (retryCount == scan.mCount) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (StartSocketsWithAddress(addr, gRequestState.mAddressMask, addr) != 0) {
+                    SetErrorCode(0xc);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                ReleaseEssidEntryLists();
+                gSocketDescriptor = OpenSocket(2, 2, 0);
+                if (gSocketDescriptor < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
+                    SetErrorCode(0xb);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(&bindAddress, 0, 8);
+                bindAddress.mFamily = 2;
+                bindAddress.mAddress = SwapBytes32(addr);
+                bindAddress.mPort = PacketSwapBytes16(0x5790);
+                if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+            }
+            mode = state;
+            continue;
+        }
+        mode = state;
+        if (attempts > limits.mCount) {
+            if (state == 0) {
+                SetErrorCode(0xf);
+            } else if (state == 1) {
+                SetErrorCode(0x10);
+            } else {
+                SetErrorCode(0x11);
+            }
+            ret = -1;
+            goto cleanup;
+        }
+        EssidSleepWrapper(limits.mDelayMs);
+        continue;
+    }
+
+cleanup:
+    if (gSocketDescriptor != -1) {
+        CloseSocket(gSocketDescriptor);
+    }
+    gSocketDescriptor = -1;
+    if (StopSocketsAndDisconnectEssid() != 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (ret != 0) {
+        switch (GetErrorCode()) {
+            case 0xf:
+                resultCode = 3;
+                break;
+            case 0x10:
+                resultCode = 4;
+                break;
+            case 0x11:
+                resultCode = 5;
+                break;
+            case 0x14:
+                resultCode = 7;
+                break;
+            case 0x15:
+                resultCode = 8;
+                break;
+            default:
+                resultCode = 0xf;
+                break;
+        }
+        req->mResultCode = resultCode;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (CheckAndCopyValueRecordsToRequest(req) != 0) {
+        req->mResultCode = 6;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    return 0;
+}
+
+u32 GetNextAddressInMask(u32 addr, u32 mask) {
+    u32 base = addr & mask;
+    u32 next = (addr & ~mask) + 1;
+    if ((base | next) < (base | ~mask)) {
+        return base | next;
+    }
+    return base | 1;
+}
+
+void ReleaseEssidEntryLists(void) {
+    if (gRequestedEssidList != NULL) {
+        CallEssidFreeFunction(gRequestedEssidList);
+        gRequestedEssidList = NULL;
+    }
+    if (gScannedEssidList != NULL) {
+        CallEssidFreeFunction(gScannedEssidList);
+        gScannedEssidList = NULL;
+    }
+}
+
+void InitRequestState(ValueRecordsRequest *req) {
+    FillBytes(gSavedTagBytes, 0, 8);
+    gErrorCode = 1;
+    FillBytes(&gRequestState, 0, 0x1c);
+    gRequestState.mItemBytes = req->mItemBytes;
+    gRequestState.mItemLength = req->mItemLength;
+    gRequestState.mWantedRecordMask = req->mWantedRecordMask & 0xf;
+    gRequestState.mItemType = req->mItemType;
+    gRequestState.mFoundRecordMask = 0;
+    gRequestState.mDestinationAddress = 0xc0a80b01;
+    gRequestState.mAddressApplied = 0;
+}
+
+void SetErrorCode(s32 code) {
+    gErrorCode = code;
+}
 
 s32 GetErrorCode(void) {
     u32 errorCode;
@@ -24,10 +606,10 @@ s32 GetErrorCode(void) {
 
 s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
     u8 *recordBytes = (u8 *) request + 0x117;
-    ParsedRecordView *fourValueRecord0 = &gParsedFourValueRecord0;
-    ParsedRecordView *fourValueRecord1 = &gParsedFourValueRecord1;
-    ParsedRecordView *singleValueRecord0 = &gParsedSingleValueRecord0;
-    ParsedRecordView *singleValueRecord1 = &gParsedSingleValueRecord1;
+    ParsedRecordView *fourValueRecord0 = (ParsedRecordView *) &gParsedItems[0].mFourValueRecord0;
+    ParsedRecordView *fourValueRecord1 = (ParsedRecordView *) &gParsedItems[0].mFourValueRecord1;
+    ParsedRecordView *singleValueRecord0 = (ParsedRecordView *) &gParsedItems[0].mSingleValueRecord0;
+    ParsedRecordView *singleValueRecord1 = (ParsedRecordView *) &gParsedItems[0].mSingleValueRecord1;
     if (recordBytes == NULL) {
         return -1;
     }
@@ -854,9 +1436,9 @@ s32 XorBytesWithRandomKeyStreamAndComputeCrc(const u8 *src, u8 *dst, s32 length,
     }
     random = NextRandomValue();
     CopyBytes(keyPrefix, &random, 2);
-    CopyBytes(gKeyStreamKeyPrefix, keyPrefix, 2);
-    CopyBytes(gKeyStreamKeyTail, keyTail, keyTailLength);
-    InitKeyStream(&state, gKeyStreamKeyPrefix, keyTailLength + 2, length);
+    CopyBytes(gKeyStreamKey, keyPrefix, 2);
+    CopyBytes(gKeyStreamKey + 2, keyTail, keyTailLength);
+    InitKeyStream(&state, gKeyStreamKey, keyTailLength + 2, length);
     XorWithKeyStream(&state, dst, src, length);
     CallEssidFreeFunction(state.mTable);
     return 0;
@@ -871,9 +1453,9 @@ s32 XorBytesWithKeyStreamAndCheckCrc(const u8 *src, u8 *dst, s32 length, u32 exp
         SetErrorCode(2);
         return -1;
     }
-    CopyBytes(gKeyStreamKeyPrefix, keyPrefix, 2);
-    CopyBytes(gKeyStreamKeyTail, keyTail, keyTailLength);
-    InitKeyStream(&state, gKeyStreamKeyPrefix, keyTailLength + 2, length);
+    CopyBytes(gKeyStreamKey, keyPrefix, 2);
+    CopyBytes(gKeyStreamKey + 2, keyTail, keyTailLength);
+    InitKeyStream(&state, gKeyStreamKey, keyTailLength + 2, length);
     XorWithKeyStream(&state, dst, src, length);
     crc = ComputeCrcLowByte(dst, length);
     if (crc != expectedCrc) {

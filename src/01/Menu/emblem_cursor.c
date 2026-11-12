@@ -23,7 +23,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/emblem_choises_shown.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "code_0214d018.h"
 #include "01/code_021a2a40.h"
 #include "Main/Save/mission_record.h"

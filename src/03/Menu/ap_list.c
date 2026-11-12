@@ -30,7 +30,7 @@
 #include "03/Graphics/bg2_scr_buffer.h"
 #include "03/code_021cd000.h"
 #include "03/Net/ap_scan.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "03/code_021cd2e0.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d1f70.h"

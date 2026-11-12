@@ -12,7 +12,7 @@
 #include "00/code_021a7000.h"
 #include "00/unk_021b5000.h"
 #include "code_0214d018.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/code_021a6fa8.h"
 #include "00/code_021a86bc.h"
 #include "00/Lib/DWC/dwc_memfunc.h"

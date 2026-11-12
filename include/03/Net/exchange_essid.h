@@ -112,3 +112,16 @@ void ClearEventQueue(void);
 void CallFreeFunctionWithMutex(u32 unused, s32 block, s32 size);
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size);
 u32 GetExchangeWcmState(void);
+
+// Objects whose layout isn't known yet.
+extern const u32 gKeyRoundConstants[10];
+extern const u32 gSubstitutionTable[256];
+extern const u32 gTransformTableByte0[256];
+extern const u32 gReversedTableByte0[256];
+extern const u32 gTransformTableByte2[256];
+extern const u32 gTransformTableByte3[256];
+extern const u32 gReversedSubstitutionTable[256];
+extern const u32 gTransformTableByte1[256];
+extern const u32 gReversedTableByte1[256];
+extern const u32 gReversedTableByte3[256];
+extern const u32 gReversedTableByte2[256];

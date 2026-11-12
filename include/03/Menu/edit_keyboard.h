@@ -3,7 +3,6 @@
 #include "types.h"
 #include "03/System/tasks.h"
 
-void InitHlScr(void);
 void UpdateLinkLevel(void);
 void ReleaseLinkLevel(void);
 void CreateLinkLevel(int row);

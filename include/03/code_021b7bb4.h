@@ -8,7 +8,7 @@ static inline u16 SwapBytes16_inline(u16 value) {
 
 typedef struct SOCConfig SOCConfig;
 
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 
 typedef struct SocketAddress SocketAddress;
 typedef struct PacketTag PacketTag;
@@ -122,24 +122,6 @@ typedef struct ParsedRecordView {
     /* b0 */ u8 mValue2[0x40];
     /* f0 */ u8 mValue3[0x40];
 } ParsedRecordView;
-
-extern u8 gItemTypesToFind[];
-extern s32 gReportedState;
-extern SOCConfig gEssidSocketConfig;
-extern s8 gMelcoString[];
-extern u8 gEssidAossString[];
-extern s32 gFlagBit4OfKind1010Packet;
-extern s32 gRandomSeeded;
-extern u32 gRandomState[3];
-extern u8 gKeyStreamKeyPrefix[2];
-extern u8 gKeyStreamKeyTail[];
-extern u8 gItemSlots[];
-extern ParsedItems gParsedItems[2];
-// The four records below are the parts of gParsedItems[0] at 0x8, 0x138, 0x268 and 0x2d8.
-extern ParsedRecordView gParsedFourValueRecord0;
-extern ParsedRecordView gParsedFourValueRecord1;
-extern ParsedRecordView gParsedSingleValueRecord0;
-extern ParsedRecordView gParsedSingleValueRecord1;
 
 u16 NextRandomValue(void);
 int GetStringLength(const void *string);

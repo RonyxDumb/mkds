@@ -8,7 +8,7 @@
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
 #include "00/Lib/GameSpy/code_0218d818.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/Lib/GameSpy/gt2Connection.h"
 #include "00/Lib/GameSpy/code_02198a8c.h"

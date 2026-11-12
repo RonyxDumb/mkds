@@ -1,5 +1,5 @@
 #include "00/Lib/GameSpy/code_0218f15c.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/Lib/GameSpy/code_0218f960.h"
 #include "00/code_02194000.h"

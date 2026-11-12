@@ -8,7 +8,7 @@
 #include "03/unk_021da000.h"
 #include "03/Menu/sub_screen_message.h"
 #include "03/System/application.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "03/code_021cd2e0.h"
 #include "code_0212df7c.h"
 #include "03/code_021cdbd0.h"

@@ -1,26 +1,13 @@
 #pragma once
 
 #include "types.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/unk_021b5000.h"
 #include "00/code_021a574c.h"
 #include "00/code_021a5b3c.h"
 #include "00/Lib/DWC/code_02188de4.h"
 
 typedef s32 Unk021ba818Func();
-
-extern u8 *gEssidWcmWork;
-extern u32 gEssidSearchOption;
-extern WCMConfig *gEssidWcmConfig;
-extern u32 gEssidConnectOption;
-extern const u8 *gEssidSearchAddress;
-extern const u8 *gEssidSearchEssid;
-extern s32 gEssidWcmState;
-extern Unk021ba818Func *gEssidEventCallback;
-extern WMBssDesc *gEssidConnectRecord;
-extern WCMWepDesc *gEssidConnectBlock;
-extern u8 gEssidSearchAddressBytes[6];
-extern u8 gEssidSearchEssidBytes[0x20];
 
 BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size);
 BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags);

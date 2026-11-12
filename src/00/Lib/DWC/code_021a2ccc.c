@@ -2,7 +2,7 @@
 
 #include "00/Lib/GameSpy/gt2Main.h"
 #include "00/code_021a1ae0.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/unk_021b5000.h"
 #include "00/Lib/DWC/code_0219c384.h"

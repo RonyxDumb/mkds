@@ -11,7 +11,7 @@
 #include "00/code_02194000.h"
 #include "00/Lib/GameSpy/code_0218e8d4.h"
 #include "00/code_02187484.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/code_021a1ae0.h"
 #include "os_tick.h"

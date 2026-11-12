@@ -7,7 +7,7 @@
 #include "03/code_021be000.h"
 #include "03/code_021bf000.h"
 #include "03/Menu/sub_screen_message.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "03/code_021c1f34.h"
 #include "03/Menu/message_box_create.h"
 #include "03/code_021d1dd0.h"

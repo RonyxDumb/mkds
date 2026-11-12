@@ -5,7 +5,7 @@
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "string.h"
 #include "code_02134398.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/code_02190000.h"
 #include "code_02139f70.h"

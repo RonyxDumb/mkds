@@ -26,7 +26,7 @@
 #include "convert.h"
 
 u8 gRandomByteStateMixed;
-u32 gKind2NewEntryCount;
+u32 gNewEntryIdCount;
 u8 gRandomByteState[0x14];
 HttpsEntry gUncachedHttpsEntry;
 HttpsEntry gHttpsEntries[4];
@@ -1304,14 +1304,14 @@ u8 SendKind2Record(CPSSoc *connection) {
         httpsState->mReusedEntry = 1;
     } else {
         FillNonzeroRandomBytes(cursor + 0x27, 0x1c);
-        seconds = gKind2NewEntryCount;
+        seconds = gNewEntryIdCount;
         cursor[0x43] = seconds >> 24;
         cursor[0x44] = seconds >> 16;
         cursor[0x45] = seconds >> 8;
         cursor += 0x46;
         *cursor++ = seconds;
         httpsState->mEntry = AddEntryOrReplaceLongestUnused(cursor - 0x20);
-        gKind2NewEntryCount = gKind2NewEntryCount + 1;
+        gNewEntryIdCount = gNewEntryIdCount + 1;
         httpsState->mReusedEntry = 0;
     }
     cursor[0] = httpsState->mCommonValue >> 8;

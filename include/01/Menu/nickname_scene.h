@@ -17,7 +17,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 
 // Object behind gNicknameScene.
 typedef struct NicknameScene {

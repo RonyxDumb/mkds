@@ -8,7 +8,7 @@
 #include "03/Menu/ap_screen.h"
 #include "03/Menu/code_021cb2a0.h"
 #include "03/code_021cd000.h"
-#include "03/Net/essid_wcm.h"
+#include "03/Net/essid_packet_steps.h"
 #include "03/code_021cd2e0.h"
 #include "03/Menu/message_box_create.h"
 #include "03/code_021d1000.h"
