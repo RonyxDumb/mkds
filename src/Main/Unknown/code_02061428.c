@@ -1,9 +1,15 @@
 #include "Main/Unknown/code_02061428.h"
+#include "Main/Unknown/code_0206152c.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02057304.h"
 #include "Main/Unknown/code_020574c8.h"
 #include "Main/Unknown/code_02057800.h"
 #include "01/code_021956dc.h"
-#include "Main/Unknown/unk_0217a000.h" // GhostListEntry
+#include "Main/Unknown/unk_0217a000.h"
+
+GhostListEntry *CreateSlotGhostRecords(void *heap) {
+    return HeapAlloc(heap, 0x15e0u);
+}
 
 void ReadSlotGhostRecords(void) {
     u8 slotIndex;
