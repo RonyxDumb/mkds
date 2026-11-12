@@ -3643,12 +3643,7 @@ src/Main/Unknown/code_020e516c.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020e5634.c:
     complete
-    .text       start:0x020e5634 end:0x020e5668
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020e5668.c:
-    complete
-    .text       start:0x020e5668 end:0x020e5684
+    .text       start:0x020e5634 end:0x020e5684
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020e5684.c:
