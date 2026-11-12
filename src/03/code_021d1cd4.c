@@ -1,8 +1,37 @@
 #include "03/code_021d1cd4.h"
 #include "03/code_021d1d88.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d1d60.h"
+#include "03/code_021d1d4c.h"
 #include "code_0200c914.h"
 #include "code_0200fc8c.h"
 #include "code_02147cd8.h"
+
+PointerStack *CreatePointerStack(u32 count) {
+    PointerStack *list = AllocExpHeapBlock((count + 1) * 4 + 8, 4);
+
+    list->mSlotCount = count + 1;
+    list->mBottomIndex = 0;
+    list->mTopIndex = 0;
+    return list;
+}
+
+PointerStack *CreateFilledPointerStack(s32 count, void *buffer, s32 stride) {
+    u8 *entry = buffer;
+    PointerStack *list = CreatePointerStack(count);
+    s32 i;
+
+    for (i = 0; i < count; i++) {
+        list->mPointers[i] = entry;
+        entry += stride;
+    }
+    list->mTopIndex = count;
+    return list;
+}
+
+void DeletePointerStack(void *block, ...) {
+    FreeExpHeapBlockAndClearPointer(&block);
+}
 
 void PushPointerStack(PointerStack *stack, void *pointer) {
     u32 interrupts = OS_DisableIrqMask(1);
