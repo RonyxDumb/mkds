@@ -6,6 +6,8 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "code_0201c528.h" // ParticleEmitter
 #include "code_02012b30.h" // MtxFx43
+#include "01/MapObjects/data_0209bc74.h"
+#include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
 // Object of kind 0x1a9 (Flipper), up to 0xed4 bytes plus a table of words from 0xed4.
 typedef struct Flipper {
@@ -29,9 +31,9 @@ typedef struct Flipper {
     /* ed4 */ s32 mUnk_ed4[1];
 } Flipper;
 
-void *CreateFlipperUpdateList(void);
-void *CreateFlipperDrawList(void);
-void CreateFlipperKindData(void);
+MapObjectList *CreateFlipperUpdateList(void);
+MapObjectList *CreateFlipperDrawList(void);
+MapObjectKindData *CreateFlipperKindData(void);
 void UpdateFlipper(void *mapObjectList,
                    Flipper *flipper); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitFlipperObjects(MapObjectList *mapObjectList);
@@ -40,3 +42,15 @@ void CreateFlipper(void *mapObjectList);
 BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut);
 u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *firstResponse, u8 *response);
 void InitFlipper(Flipper *flipper); /* sets flag 0x200 and the ground matrix (RefreshMapObjectMatrixFromHitNormal) */
+
+extern const Vec3 gFlipperFourthBoxHalfSizesPositive[2];
+extern const Vec3 gFlipperSecondBoxHalfSizesPositive[2];
+extern const Vec3 gFlipperFirstBoxHalfSizesNegative[2];
+extern const Vec3 gFlipperFourthBoxHalfSizesNegative[2];
+extern const Vec3 gFlipperFirstBoxHalfSizesPositive[2];
+extern const Vec3 gFlipperThirdBoxHalfSizesPositive[2];
+extern MapObjectKindDescriptor gFlipperKindDescriptor;
+extern const Vec3 gFlipperThirdBoxHalfSizesNegative[2];
+extern const u16 gCoverPooHoleInitMapObjectFlag;
+extern const Vec3 gFlipperSecondBoxHalfSizesNegative[2];
+extern struct MapObjectModel *gFlipper;

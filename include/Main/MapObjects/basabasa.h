@@ -4,6 +4,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Kart/kart_drift.h" // Kart
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of kind 0x19f (Basabasa), 0xd8 bytes: the MapObject it starts with, a vector at 0xa0 and words and halfwords
 // up to 0xd4.
@@ -34,9 +35,9 @@ void CreateBasabasa(void *mapObjectList);
 
 void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
                    s32 soundRequested, u16 subScreenCellKind);
-void CreateBasabasaUpdateList(void);
-void CreateBasabasaDrawList(void);
-void CreateBasabasaKindData(void);
+MapObjectList *CreateBasabasaUpdateList(void);
+MapObjectList *CreateBasabasaDrawList(void);
+MapObjectKindData *CreateBasabasaKindData(void);
 void UpdateBasabasa(void *mapObjectList,
                     Basabasa *basabasa); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawBasabasa(void *mapObjectList, Basabasa *basabasa);
@@ -45,3 +46,8 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 
 /* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
  * UnparkFirstParkedMapObject */
 void InitBasabasa(MapObject *mapObject);
+
+extern const u16 data_usa_02156468;
+extern const u16 data_usa_02156464;
+extern const u16 data_usa_02156460;
+extern struct MapObjectModel *gBasabasa;

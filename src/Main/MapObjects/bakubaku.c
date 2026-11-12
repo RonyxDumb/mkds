@@ -41,10 +41,17 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+MapObjectModel *gBakubaku;
+MapObjectModel *gBakuShadow;
+
+MapObjectKindDescriptor gBakubakuKindDescriptor = {
+    0, {0, 0}, 0xb8, 0, CreateEmptyMapObjectKindData, CreateBakubakuDrawList, 0, 0, CreateBakubakuUpdateList};
 
 void CreateBakubakuAndBakuShadow(void *mapObjectList) {
-    gBakubaku = CreateMapObjectModelAnimated(mapObjectList, gBakubakuNsbmdName);
-    gBakuShadow = CreateMapObjectModelShadow(mapObjectList, gBakuShadowNsbmdName);
+    gBakubaku = CreateMapObjectModelAnimated(mapObjectList, "bakubaku.nsbmd");
+    gBakuShadow = CreateMapObjectModelShadow(mapObjectList, "baku_shadow.nsbmd");
     SetMapObjectModelPolygonId(gBakubaku, 0x3f);
     SetMapObjectModelPolygonId(gBakuShadow, 0x3f);
 }
@@ -159,10 +166,10 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
     }
 }
 
-void CreateBakubakuDrawList(void) {
-    CreateMapObjectDrawList1(CreateBakubakuAndBakuShadow, DrawBakubaku, NULL);
+MapObjectList *CreateBakubakuDrawList(void) {
+    return CreateMapObjectDrawList1(CreateBakubakuAndBakuShadow, DrawBakubaku, NULL);
 }
 
-void CreateBakubakuUpdateList(void) {
-    CreateMapObjectUpdateList(InitBakubakuObjects, UpdateBakubaku, NULL);
+MapObjectList *CreateBakubakuUpdateList(void) {
+    return CreateMapObjectUpdateList(InitBakubakuObjects, UpdateBakubaku, NULL);
 }

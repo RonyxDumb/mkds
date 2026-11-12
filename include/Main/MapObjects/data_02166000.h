@@ -101,49 +101,26 @@ extern BattleKartAiParams data_0216600c;
 
 extern BattleKartAiParams data_02166028;
 
-extern const char gBasabasaNsbmdName[];
-
-extern const char gBasabasaNsbtpName[];
-
-extern const char gCowNsbmdName[];
-
-extern const char gCowNsbtpName[];
-
-extern const char gTeresaNsbmdName[];
-
-extern const char gTeresaNsbtpName[];
-
-extern const char gKanoke64NsbmdName[];
-
-extern const char gKanoke64NsbcaName[];
-
-extern const char gMkdEfBurnerNsbmdName[];
-
-extern const char gMkdEfBurnerNsbtaName[];
-
-extern const char gNsKiller2NsbmdName[];
-
-extern const char gNsKiller2SNsbmdName[];
-
-extern SoundStartParams data_0216676c;
-
-extern const char gNsKiller1NsbmdName[];
-
-extern const char gBakubakuNsbmdName[];
-
-extern const char gBakuShadowNsbmdName[];
-
-extern const char gMoveTreeNsbmdName[];
-
-extern const char gMoveTreeNsbcaName[];
 
 
-extern char gSmanBottomNsbmdName[];
 
-extern char gSmanTopNsbmdName[];
 
-extern char gFlipperNsbmdName[];
 
-extern char gFlipperNsbtpName[];
 
-extern char gFlipperNsbtaName[];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

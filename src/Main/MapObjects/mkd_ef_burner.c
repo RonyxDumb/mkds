@@ -41,6 +41,19 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+MapObjectModel *gMkdEfBurner;
+
+MapObjectKindDescriptor gMkdEfBurnerKindDescriptor = {0,
+                                                      {0, 0},
+                                                      0xf4,
+                                                      (void (*)(void *, CourseMapRow *, void *)) InitMkdEfBurner,
+                                                      CreateMkdEfBurnerKindData,
+                                                      CreateMkdEfBurnerDrawList,
+                                                      0,
+                                                      0,
+                                                      CreateMkdEfBurnerUpdateList};
 
 void InitMkdEfBurner(MapObject *mapObject) {
     MapObject *burnerMapObject = mapObject;
@@ -54,15 +67,15 @@ u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *firstRes
     responseValue = *response;
     if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 &&
         StartSoundIfKartStarOrKiller(&mkdEfBurner->mMapObject, kart) != 0) {
-        mkdEfBurner->mMapObject.mDistanceSquaredAndFlags |= data_usa_02156470;
+        mkdEfBurner->mMapObject.mDistanceSquaredAndFlags |= gMkdEfBurnerSkipSoundFlag;
         mkdEfBurner->mKartTimers[kart->mIndex] = 0x1f;
     }
     return responseValue;
 }
 
 void CreateMkdEfBurner(MapObjectList *mapObjectList) {
-    gMkdEfBurner = CreateMapObjectModelAnimated(mapObjectList, gMkdEfBurnerNsbmdName);
-    CreateMapObjectModelNsbtaAnimation(gMkdEfBurner, gMkdEfBurnerNsbtaName);
+    gMkdEfBurner = CreateMapObjectModelAnimated(mapObjectList, "mkd_ef_burner.nsbmd");
+    CreateMapObjectModelNsbtaAnimation(gMkdEfBurner, "mkd_ef_burner.nsbta");
     SetMapObjectModelPolygonId(gMkdEfBurner, 0x3f);
     mapObjectList->mSortByDistance = 1;
 }
@@ -207,16 +220,16 @@ void UpdateMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
     }
 }
 
-void CreateMkdEfBurnerKindData(void) {
-    CreateMapObjectKindDataWithSound(&CollideKartWithMkdEfBurner, NULL, NULL, 2, 0, (0x0000018du));
+MapObjectKindData *CreateMkdEfBurnerKindData(void) {
+    return CreateMapObjectKindDataWithSound(&CollideKartWithMkdEfBurner, NULL, NULL, 2, 0, (0x0000018du));
 }
 
-void CreateMkdEfBurnerDrawList(void) {
-    CreateMapObjectDrawList1(&CreateMkdEfBurner, &DrawMkdEfBurner, &SetupDrawMkdEfBurner);
+MapObjectList *CreateMkdEfBurnerDrawList(void) {
+    return CreateMapObjectDrawList1(&CreateMkdEfBurner, &DrawMkdEfBurner, &SetupDrawMkdEfBurner);
 }
 
-void CreateMkdEfBurnerUpdateList(void) {
-    CreateMapObjectUpdateList(&InitMkdEfBurnerObjects, &UpdateMkdEfBurner, NULL);
+MapObjectList *CreateMkdEfBurnerUpdateList(void) {
+    return CreateMapObjectUpdateList(&InitMkdEfBurnerObjects, &UpdateMkdEfBurner, NULL);
 }
 
 u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner) {
@@ -228,3 +241,6 @@ u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner) {
     }
     return burner->mScaleFixed12 >= 0x4cd;
 }
+
+const u16 data_usa_0215646c = 1;
+const u32 gMkdEfBurnerSkipSoundFlag = 0x40000000;

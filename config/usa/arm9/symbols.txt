@@ -8079,28 +8079,28 @@ gBattleEasyHeldItemEntries kind:data(any) addr:0x021561d0
 gBattleNormalHeldItemEntries kind:data(any) addr:0x021562a8
 gBattleHardHeldItemEntries kind:data(any) addr:0x02156380
 gSmanHitFlag kind:data(any) addr:0x02156458
-data_0215645c kind:data(any) addr:0x0215645c
+gSmanInitMapObjectFlag kind:data(any) addr:0x0215645c
 data_usa_02156460 kind:data(any) addr:0x02156460
 data_usa_02156464 kind:data(any) addr:0x02156464
 data_usa_02156468 kind:data(any) addr:0x02156468
 data_usa_0215646c kind:data(any) addr:0x0215646c
-data_usa_02156470 kind:data(any) addr:0x02156470
+gMkdEfBurnerSkipSoundFlag kind:data(any) addr:0x02156470
 data_usa_02156474 kind:data(any) addr:0x02156474
 data_021564a8 kind:data(any) addr:0x021564a8
 data_021564ac kind:data(any) addr:0x021564ac
-data_021564b0 kind:data(any) addr:0x021564b0
-data_021564b4 kind:data(any) addr:0x021564b4
+gNsKiller2SkipSoundFlag kind:data(any) addr:0x021564b0
+gNsKiller2InitMapObjectFlag kind:data(any) addr:0x021564b4
 data_021564b8 kind:data(any) addr:0x021564b8
-data_021564bc kind:data(any) addr:0x021564bc
-data_021564c0 kind:data(any) addr:0x021564c0
-data_usa_021564c4 kind:data(any) addr:0x021564c4
-data_usa_021564dc kind:data(any) addr:0x021564dc
-data_usa_021564f4 kind:data(any) addr:0x021564f4
-data_usa_0215650c kind:data(any) addr:0x0215650c
-data_usa_02156524 kind:data(any) addr:0x02156524
-data_usa_0215653c kind:data(any) addr:0x0215653c
-data_usa_02156554 kind:data(any) addr:0x02156554
-data_usa_0215656c kind:data(any) addr:0x0215656c
+gCoverPooHoleSkipSoundFlag kind:data(any) addr:0x021564bc
+gCoverPooHoleInitMapObjectFlag kind:data(any) addr:0x021564c0
+gFlipperThirdBoxHalfSizesPositive kind:data(any) addr:0x021564c4
+gFlipperSecondBoxHalfSizesNegative kind:data(any) addr:0x021564dc
+gFlipperFourthBoxHalfSizesNegative kind:data(any) addr:0x021564f4
+gFlipperFirstBoxHalfSizesPositive kind:data(any) addr:0x0215650c
+gFlipperThirdBoxHalfSizesNegative kind:data(any) addr:0x02156524
+gFlipperFirstBoxHalfSizesNegative kind:data(any) addr:0x0215653c
+gFlipperSecondBoxHalfSizesPositive kind:data(any) addr:0x02156554
+gFlipperFourthBoxHalfSizesPositive kind:data(any) addr:0x0215656c
 data_usa_02156584 kind:data(any) addr:0x02156584
 data_usa_02156588 kind:data(any) addr:0x02156588
 data_usa_0215658c kind:data(any) addr:0x0215658c
@@ -9879,52 +9879,52 @@ gAwardStripKartYOffsets kind:data(any) addr:0x02166480
 gAwardTrackNsbtxName kind:data(any) addr:0x02166514
 gHanegameNsbtxName kind:data(any) addr:0x02166530
 @6050 kind:data(any) addr:0x02166548 local
-data_usa_0216656c kind:data(any) addr:0x0216656c
-gSmanBottomNsbmdName kind:data(any) addr:0x021665a0
-gSmanTopNsbmdName kind:data(any) addr:0x021665b4
-data_usa_021665c4 kind:data(any) addr:0x021665c4
-gCowNsbmdName kind:data(any) addr:0x021665f8
-gCowNsbtpName kind:data(any) addr:0x02166604
-data_usa_02166610 kind:data(any) addr:0x02166610
-gKanoke64NsbmdName kind:data(any) addr:0x02166644
-gKanoke64NsbcaName kind:data(any) addr:0x02166654
-data_usa_02166664 kind:data(any) addr:0x02166664
-gBasabasaNsbmdName kind:data(any) addr:0x02166698
-gBasabasaNsbtpName kind:data(any) addr:0x021666a8
-data_usa_021666b8 kind:data(any) addr:0x021666b8
-data_usa_021666ec kind:data(any) addr:0x021666ec
-gMkdEfBurnerNsbmdName kind:data(any) addr:0x02166720
-gMkdEfBurnerNsbtaName kind:data(any) addr:0x02166734
-gNsKiller2NsbmdName kind:data(any) addr:0x02166748
-gNsKiller2SNsbmdName kind:data(any) addr:0x02166758
-data_0216676c kind:data(any) addr:0x0216676c
-data_usa_0216677c kind:data(any) addr:0x0216677c
-gNsKiller1NsbmdName kind:data(any) addr:0x021667b0
-data_usa_021667c0 kind:data(any) addr:0x021667c0
-gTeresaNsbmdName kind:data(any) addr:0x021667f4
-gTeresaNsbtpName kind:data(any) addr:0x02166804
-data_usa_02166814 kind:data(any) addr:0x02166814
-data_usa_02166848 kind:data(any) addr:0x02166848
-gBakubakuNsbmdName kind:data(any) addr:0x0216687c
-gBakuShadowNsbmdName kind:data(any) addr:0x0216688c
-data_usa_021668a0 kind:data(any) addr:0x021668a0
-gMoveTreeNsbmdName kind:data(any) addr:0x021668d4
-gMoveTreeNsbcaName kind:data(any) addr:0x021668e4
-data_usa_021668f4 kind:data(any) addr:0x021668f4
+gSmanKindDescriptor kind:data(any) addr:0x0216656c
+@5845 kind:data(any) addr:0x021665a0 local
+@5871 kind:data(any) addr:0x021665b4 local
+gCowKindDescriptor kind:data(any) addr:0x021665c4
+@4709 kind:data(any) addr:0x021665f8 local
+@4710 kind:data(any) addr:0x02166604 local
+gKanoke64KindDescriptor kind:data(any) addr:0x02166610
+@5053 kind:data(any) addr:0x02166644 local
+@5054 kind:data(any) addr:0x02166654 local
+gBasabasaKindDescriptor kind:data(any) addr:0x02166664
+@4795 kind:data(any) addr:0x02166698 local
+@4796 kind:data(any) addr:0x021666a8 local
+gBasabasaBurstKindDescriptor kind:data(any) addr:0x021666b8
+gMkdEfBurnerKindDescriptor kind:data(any) addr:0x021666ec
+@4815 kind:data(any) addr:0x02166720 local
+@4816 kind:data(any) addr:0x02166734 local
+@4863 kind:data(any) addr:0x02166748 local
+@4864 kind:data(any) addr:0x02166758 local
+gNsKiller1SoundStartParams kind:data(any) addr:0x0216676c
+gNsKiller1KindDescriptor kind:data(any) addr:0x0216677c
+@4809 kind:data(any) addr:0x021667b0 local
+gTeresaKindDescriptor kind:data(any) addr:0x021667c0
+@5185 kind:data(any) addr:0x021667f4 local
+@5186 kind:data(any) addr:0x02166804 local
+gTeresaSpawnerKindDescriptor kind:data(any) addr:0x02166814
+gBakubakuKindDescriptor kind:data(any) addr:0x02166848
+@4866 kind:data(any) addr:0x0216687c local
+@4867 kind:data(any) addr:0x0216688c local
+gMoveTreeKindDescriptor kind:data(any) addr:0x021668a0
+@4966 kind:data(any) addr:0x021668d4 local
+@4967 kind:data(any) addr:0x021668e4 local
+gCoverPooHoleKindDescriptor kind:data(any) addr:0x021668f4
 @5163 kind:data(any) addr:0x02166928 local
 @5164 kind:data(any) addr:0x02166934 local
 @5165 kind:data(any) addr:0x02166940 local
 @5166 kind:data(any) addr:0x0216694c local
-data_usa_02166958 kind:data(any) addr:0x02166958
-gFlipperNsbmdName kind:data(any) addr:0x0216698c
-gFlipperNsbtpName kind:data(any) addr:0x0216699c
-gFlipperNsbtaName kind:data(any) addr:0x021669ac
-data_usa_021669bc kind:data(any) addr:0x021669bc
+gFlipperKindDescriptor kind:data(any) addr:0x02166958
+@5025 kind:data(any) addr:0x0216698c local
+@5026 kind:data(any) addr:0x0216699c local
+@5027 kind:data(any) addr:0x021669ac local
+gPakkunKindDescriptor kind:data(any) addr:0x021669bc
 @3724 kind:data(any) addr:0x021669f0 local
 @3730 kind:data(any) addr:0x02166a04 local
 @3762 kind:data(any) addr:0x02166a18 local
 @3763 kind:data(any) addr:0x02166a2c local
-data_usa_02166a40 kind:data(any) addr:0x02166a40
+gPakkunSpitKindDescriptor kind:data(any) addr:0x02166a40
 gKinoHouse2KindDescriptor kind:data(any) addr:0x02166a74
 gKinoMount1KindDescriptor kind:data(any) addr:0x02166aa8
 gKinoMount2KindDescriptor kind:data(any) addr:0x02166adc
@@ -9977,7 +9977,7 @@ gKinoHouse1KindDescriptor kind:data(any) addr:0x02167024
 @4875 kind:data(any) addr:0x021671c0 local
 @4875 kind:data(any) addr:0x021671d0 local
 @4759 kind:data(any) addr:0x021671e0 local
-data_usa_021671f4 kind:data(any) addr:0x021671f4
+gCrabKindDescriptor kind:data(any) addr:0x021671f4
 @2302 kind:data(any) addr:0x02167228 local
 @2303 kind:data(any) addr:0x02167234 local
 @2304 kind:data(any) addr:0x02167240 local

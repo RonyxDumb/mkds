@@ -6,7 +6,7 @@
 #include "Main/Kart/code_0208fd8c.h"
 
 void InitSman(MapObject *mapObject) {
-    mapObject->mFlags = (((mapObject->mFlags)) | ((data_0215645c)));
+    mapObject->mFlags = (((mapObject->mFlags)) | ((gSmanInitMapObjectFlag)));
 }
 
 u8 CollideKartWithSman(Sman *sman, Kart *kart, u8 *firstResponse, u8 *secondResponse) {
@@ -17,7 +17,7 @@ u8 CollideKartWithSman(Sman *sman, Kart *kart, u8 *firstResponse, u8 *secondResp
         sman->mTopHeightPerFrame = 0x8000;
         sman->mTopRiseProgress = 0;
         sman->mBottomScale = 0;
-        sman->mMapObject.mFlags = sman->mMapObject.mFlags | *(u16 *) &gSmanHitFlag;
+        sman->mMapObject.mFlags = sman->mMapObject.mFlags | gSmanHitFlag;
         sman->mState = 1;
         StartSoundIfKartStarOrKiller(&sman->mMapObject, kart);
     }
@@ -32,8 +32,11 @@ u8 CollideItemObjectWithSman(Sman *sman, ItemObject *itemObject, u8 *firstRespon
         sman->mTopHeightPerFrame = 0x8000;
         sman->mTopRiseProgress = 0;
         sman->mBottomScale = 0;
-        sman->mMapObject.mFlags = sman->mMapObject.mFlags | *(u16 *) &gSmanHitFlag;
+        sman->mMapObject.mFlags = sman->mMapObject.mFlags | gSmanHitFlag;
         sman->mState = 1;
     }
     return response;
 }
+
+const u16 gSmanHitFlag = 1;
+const u16 gSmanInitMapObjectFlag = 0x200;

@@ -7,6 +7,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Kart/code_0208fd8c.h"
+#include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectList, MapObjectKindData
 
 // Sman: a map object of kind 0x19d in two parts (top and bottom models); state 1 sends the top up and down while the
 // bottom part's scale drops to 0, and later both parts come back.
@@ -51,10 +52,10 @@ u32 SetSecretMessageFlagsPerEngineClass(void);
 u32 SetSecretMessageFlags(void);
 u32 SetSecretMessageFlagsWrapper(void);
 u32 SetAndWriteSecretMessageFlags(void);
-void *CreateSmanUpdateList(void);
-void *CreateSmanBottomDrawList(void);
-void *CreateSmanTopDrawList(void);
-void CreateSmanKindData(void);
+MapObjectList *CreateSmanUpdateList(void);
+MapObjectList *CreateSmanBottomDrawList(void);
+MapObjectList *CreateSmanTopDrawList(void);
+MapObjectKindData *CreateSmanKindData(void);
 void UpdateSman(void *mapObjectList, Sman *sman); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitSmanObjects(SmanList *smanList);
 void DrawSmanBottom(void *mapObjectList, Sman *sman);

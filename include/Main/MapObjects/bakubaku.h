@@ -6,6 +6,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of kind 0x13c (Bakubaku): after the shared part, a counter at 0xa0, a vector at 0xa4 and a state at 0xb0.
 typedef struct Bakubaku {
@@ -34,19 +35,22 @@ typedef struct MoveTree {
     /* dc */ ShadowMatrix mUnk_dc;
 } MoveTree;
 
-void CreateBakubakuUpdateList(void);
-void CreateBakubakuDrawList(void);
+MapObjectList *CreateBakubakuUpdateList(void);
+MapObjectList *CreateBakubakuDrawList(void);
 void UpdateBakubaku(void *mapObjectList,
                     Bakubaku *bakubaku); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitBakubakuObjects(MapObjectList *mapObjectList);
 void DrawBakubaku(void *mapObjectList, Bakubaku *bakubaku);
 void CreateBakubakuAndBakuShadow(void *mapObjectList);
-void CreateMoveTreeUpdateList(void);
-void CreateMoveTreeDrawList(void);
-void CreateMoveTreeKindData(void);
+MapObjectList *CreateMoveTreeUpdateList(void);
+MapObjectList *CreateMoveTreeDrawList(void);
+MapObjectKindData *CreateMoveTreeKindData(void);
 void UpdateMoveTree(void *mapObjectList,
                     MoveTree *moveTree); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitMoveTreeObjects(MapObjectList *mapObjectList);
 void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha);
 void CreateMoveTree(void *mapObjectList);
 u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8 *response);
+
+extern struct MapObjectModel *gBakubaku;
+extern struct MapObjectModel *gBakuShadow;

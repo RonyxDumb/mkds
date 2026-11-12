@@ -50,11 +50,12 @@ typedef struct CoverPooHole {
 } CoverPooHole;
 
 #include "Main/Kart/kart_drift.h" // Kart
+#include "01/MapObjects/data_0209bc74.h"
 
 BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole);
-void *CreateCoverPooHoleUpdateList(void);
-void *CreateCoverPooHoleDrawList(void);
-void CreateCoverPooHoleKindData(void);
+MapObjectList *CreateCoverPooHoleUpdateList(void);
+MapObjectList *CreateCoverPooHoleDrawList(void);
+MapObjectKindData *CreateCoverPooHoleKindData(void);
 void UpdateCoverPooHole(void *mapObjectList,
                         CoverPooHole *coverPooHole); /* skipped for objects with mFlags & 4 (parked pool objects) */
 s32 CoverPooHoleFX_MulInline(s32 value, s32 scale);
@@ -68,3 +69,10 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
 u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void InitCoverPooHole(MapObject *mapObject);
 u32 SetFlipperState4TimerByIndex(u32 flipperIndex);
+
+extern const u32 gCoverPooHoleSkipSoundFlag;
+extern const u32 data_021564b8;
+extern const u16 gNsKiller2InitMapObjectFlag;
+extern struct MapObjectModel *gPoo;
+extern struct MapObjectModel *gCover;
+extern struct MapObjectModel *gHole;

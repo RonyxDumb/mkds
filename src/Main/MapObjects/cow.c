@@ -36,6 +36,12 @@
 #include "code_02148538.h"
 #include "Main/Race/course_list.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectModel *gCow;
+
+MapObjectKindDescriptor gCowKindDescriptor = {0, {0, 0}, 0xa0, 0, CreateEmptyMapObjectKindData, CreateCowDrawList};
 
 static inline u32 MapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
@@ -55,7 +61,7 @@ static inline s64 XzDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos)
 }
 
 void CreateCow(void *mapObjectList) {
-    gCow = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gCowNsbmdName, gCowNsbtpName);
+    gCow = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "cow.nsbmd", "cow.nsbtp");
     SetMapObjectModelPolygonId(gCow, 0x3f);
 }
 
@@ -74,6 +80,6 @@ void DrawCow(void *mapObjectList, MapObject *mapObject) {
     DrawMapObjectModel(mapObjectList, gCow, mapObject);
 }
 
-void CreateCowDrawList(void) {
-    CreateMapObjectDrawList2(CreateCow, DrawCow, SetupDrawCow);
+MapObjectList *CreateCowDrawList(void) {
+    return CreateMapObjectDrawList2(CreateCow, DrawCow, SetupDrawCow);
 }

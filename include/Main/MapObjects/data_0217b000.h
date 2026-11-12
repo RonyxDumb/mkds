@@ -188,9 +188,6 @@ typedef struct GrpconfTblRow {
     /* 0e */ u16 mExtentZ;
 } GrpconfTblRow;
 
-extern MapObjectModel *gHole;
-extern MapObjectModel *gCover;
-extern MapObjectModel *gPoo;
 extern u16 gSearchStartIndex;
 extern s32 gEntryYDifferenceLimit;
 extern BattleKartAiParams *gBattleKartAiParams;
@@ -256,8 +253,6 @@ extern void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struc
 extern void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern KartAiItemUseEntry *gBattleHeldItemEntries;
-extern MapObjectModel *gSmanBottom;
-extern MapObjectModel *gSmanTop;
 
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
 typedef struct TimedQuad {
@@ -284,7 +279,6 @@ typedef struct StemSets {
     /* 798 */ void (*mUpdateFunction)(TimedQuad *);
 } StemSets;
 
-extern u32 gUnparkedTeresaCount;
 extern MapObjectModel *gChandelier;
 // Value of KartStanding.mNotNormalEndPending and mObjectsSkipEndPending when no hit end is waiting (s32).
 #define KART_STANDING_HIT_END_NONE -2
@@ -1100,20 +1094,6 @@ extern MapObjectModel *gSanboH;
 extern MapObjectModel *gSanboB;
 extern MapObjectModel *gIronBall;
 
-extern MapObjectModel *gFlipper;
-extern MapObjectModel *gBasabasa;
-extern MapObjectModel *gMkdEfBurner;
-extern MapObjectModel *gCow;
-extern MapObjectModel *gKanoke64;
-extern MapObjectModel *gNsKiller2;
-extern MapObjectModel *gNsKiller2S;
-extern MapObjectModel *gNsKiller1;
-extern MapObjectModel *gTeresa;
-extern MapObjectModel *gBakuShadow;
-extern MapObjectModel *gBakubaku;
-extern MapObjectModel *gMoveTree;
-extern MapObjectModel *gCrabHand;
-extern MapObjectModel *gCrab;
 extern MapObjectModel *gBerry;
 extern MapObjectModel *gCream;
 extern MapObjectModel *gBound;

@@ -21,8 +21,8 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
 // Sphere (radius param_6) against the box at param_2 whose axes are the rows of param_3 and whose half sizes are
 // param_4 and param_5; returns 0 for no hit, 1 when the y axis (positive side) has the least overlap, else 3 (x axis)
 // or 4 (z axis), and writes the move out to param_7 unless it is NULL.
-s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, Vec3 *halfSizesPositive,
-                                 Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut);
+s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, const Vec3 *halfSizesPositive,
+                                 const Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut);
 void CreateWoodbox1(MapObjectList *list);
 
 void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha);

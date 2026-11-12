@@ -42,6 +42,20 @@
 #include "tp.h"
 #include "Main/Kart/karts.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectModel *gTeresa;
+u32 gUnparkedTeresaCount;
+
+MapObjectKindDescriptor gTeresaKindDescriptor = {0,
+                                                 {0, 0},
+                                                 0x114,
+                                                 (void (*)(void *, CourseMapRow *, void *)) InitTeresa,
+                                                 CreateEmptyMapObjectKindData,
+                                                 CreateTeresaDrawList,
+                                                 0,
+                                                 0,
+                                                 CreateTeresaUpdateList};
 
 void InitTeresa(MapObject *mapObject) {
     ParkMapObject(mapObject);
@@ -49,7 +63,7 @@ void InitTeresa(MapObject *mapObject) {
 }
 
 void CreateTeresa(MapObjectList *mapObjectList) {
-    gTeresa = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gTeresaNsbmdName, gTeresaNsbtpName);
+    gTeresa = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "teresa.nsbmd", "teresa.nsbtp");
     SetMapObjectModelPolygonId(gTeresa, 0x3f);
     mapObjectList->mSortByDistance = 1;
 }
@@ -213,12 +227,12 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
     }
 }
 
-void CreateTeresaDrawList(void) {
-    CreateMapObjectDrawList2(CreateTeresa, DrawTeresa, SetupDrawTeresa);
+MapObjectList *CreateTeresaDrawList(void) {
+    return CreateMapObjectDrawList2(CreateTeresa, DrawTeresa, SetupDrawTeresa);
 }
 
-void CreateTeresaUpdateList(void) {
-    CreateMapObjectUpdateList(InitTeresaObjects, UpdateTeresa, NULL);
+MapObjectList *CreateTeresaUpdateList(void) {
+    return CreateMapObjectUpdateList(InitTeresaObjects, UpdateTeresa, NULL);
 }
 
 void ClearTeresaTimers(void) {

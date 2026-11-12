@@ -37,7 +37,7 @@ u32 SetFlipperState4TimerByIndex(u32 flipperIndex) {
 }
 
 void InitCoverPooHole(MapObject *mapObject) {
-    mapObject->mFlags |= data_021564c0;
+    mapObject->mFlags |= gCoverPooHoleInitMapObjectFlag;
 }
 
 u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
@@ -83,7 +83,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                     }
                 }
                 coverPooHole->mMapObject.mDistanceSquaredAndFlags =
-                    coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564bc;
+                    coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleSkipSoundFlag;
                 return 0;
             }
             if (itemEffect == 1 && (state == 4 || (state == 5 && coverPooHole->mCoverHeight > 0x7800) || state == 1)) {
@@ -151,7 +151,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                     coverPooHole->mTiltWobbleAngleStep = 0x800;
                     coverPooHole->mTiltWobbleAngleStepChange = 0x100;
                     coverPooHole->mMapObject.mDistanceSquaredAndFlags =
-                        coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564bc;
+                        coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleSkipSoundFlag;
                     if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                         if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             falloffIndex = 2;
@@ -181,7 +181,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
         }
     }
     coverPooHole->mMapObject.mDistanceSquaredAndFlags =
-        coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564bc;
+        coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleSkipSoundFlag;
     coverPooHole->mMapObject.mPosStep.x = 0;
     coverPooHole->mMapObject.mPosStep.y = 0;
     coverPooHole->mMapObject.mPosStep.z = 0;
@@ -622,18 +622,19 @@ void UpdateCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
     }
 }
 
-void CreateCoverPooHoleKindData(void) {
+MapObjectKindData *CreateCoverPooHoleKindData(void) {
     MapObjectKindData *kindData;
     kindData = CreateMapObjectKindDataWithSound(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole,
                                                 TryGetCoverPooHolePushOut, 0, 1, 0x16d);
     kindData->mCollideItemObjectSoundId = 0x1b0;
+    return kindData;
 }
 
-void *CreateCoverPooHoleDrawList(void) {
+MapObjectList *CreateCoverPooHoleDrawList(void) {
     return CreateMapObjectDrawList2(CreateCoverPooHole, DrawCoverPooHole, NULL);
 }
 
-void *CreateCoverPooHoleUpdateList(void) {
+MapObjectList *CreateCoverPooHoleUpdateList(void) {
     return CreateMapObjectUpdateList(InitCoverPooHoleObjects, UpdateCoverPooHole, NULL);
 }
 
@@ -647,3 +648,20 @@ BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole) {
 s32 GetCoverPooHoleHitCoverHeight(CoverPooHole *object) {
     return object->mHitCoverHeight;
 }
+
+const u32 gCoverPooHoleSkipSoundFlag = 0x40000000;
+const u32 data_021564b8 = 0x80000000;
+const u16 gNsKiller2InitMapObjectFlag = 0x200;
+MapObjectModel *gPoo;
+MapObjectModel *gCover;
+MapObjectModel *gHole;
+
+MapObjectKindDescriptor gCoverPooHoleKindDescriptor = {0,
+                                                       {0, 0},
+                                                       0x10c,
+                                                       (void (*)(void *, CourseMapRow *, void *)) InitCoverPooHole,
+                                                       CreateCoverPooHoleKindData,
+                                                       CreateCoverPooHoleDrawList,
+                                                       0,
+                                                       0,
+                                                       CreateCoverPooHoleUpdateList};

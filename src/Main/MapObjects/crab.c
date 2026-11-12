@@ -22,6 +22,20 @@
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+MapObjectModel *gCrab;
+MapObjectModel *gCrabHand;
+
+MapObjectKindDescriptor gCrabKindDescriptor = {0,
+                                               {0, 0},
+                                               0x118,
+                                               (void (*)(void *, CourseMapRow *, void *)) InitCrab,
+                                               CreateCrabKindData,
+                                               CreateCrabDrawList,
+                                               0,
+                                               0,
+                                               CreateCrabUpdateList};
 
 void InitCrab(Crab *crab) {
     InitGroupFollower(&crab->mFollower, crab->mMapObject.mCourseMapRow, 0);
@@ -338,17 +352,18 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
     }
 }
 
-void CreateCrabKindData(void) {
+MapObjectKindData *CreateCrabKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindDataWithSound(CollideKartWithCrab, CollideItemObjectWithCrab, NULL, 2, 1, 0x10e);
     kindData->mCollideItemObjectSoundId = 0x10f;
+    return kindData;
 }
 
-void *CreateCrabDrawList(void) {
+MapObjectList *CreateCrabDrawList(void) {
     return CreateMapObjectDrawList2(CreateCrabAndCrabHand, DrawCrab, CrabSetupDrawReturnArgument);
 }
 
-void *CreateCrabUpdateList(void) {
+MapObjectList *CreateCrabUpdateList(void) {
     return CreateMapObjectUpdateList(InitCrabObjects, UpdateCrab, NULL);
 }

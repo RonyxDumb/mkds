@@ -6,6 +6,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of kind 0x1a2 (NsKiller2), pool objects: after the shared part, a counter at 0xa0, mMode at 0xa4 and an
 // object at 0xa8.
@@ -40,10 +41,16 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
 /* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
  * UnparkFirstParkedMapObject */
 void InitNsKiller2(NsKiller2 *nsKiller2);
-void CreateNsKiller1UpdateList(void);
-void CreateNsKiller1DrawList(void);
+MapObjectList *CreateNsKiller1UpdateList(void);
+MapObjectList *CreateNsKiller1DrawList(void);
 void UpdateNsKiller1(void *mapObjectList,
                      NsKiller1 *nsKiller1); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitNsKiller1Objects(MapObjectList *mapObjectList);
 void DrawNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1);
 void CreateNsKiller1(void *mapObjectList);
+
+extern const u16 data_021564a8;
+extern const u16 data_021564ac;
+extern const u32 gNsKiller2SkipSoundFlag;
+extern struct MapObjectModel *gNsKiller2S;
+extern struct MapObjectModel *gNsKiller2;

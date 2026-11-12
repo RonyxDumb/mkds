@@ -16,6 +16,17 @@
 #include "Main/Race/course_list.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectKindDescriptor gBasabasaBurstKindDescriptor = {0,
+                                                        {0, 0},
+                                                        0xb0,
+                                                        (void (*)(void *, CourseMapRow *, void *)) InitBasabasaBurst,
+                                                        CreateEmptyMapObjectKindData,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        CreateBasabasaBurstUpdateList};
 
 void InitBasabasaBurst(u32 mapObject) {
     u32 value = mapObject;
@@ -188,6 +199,6 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
     }
 }
 
-void CreateBasabasaBurstUpdateList(void) {
-    CreateMapObjectUpdateList(InitBasabasaBurstObjects, UpdateBasabasaBurst, NULL);
+MapObjectList *CreateBasabasaBurstUpdateList(void) {
+    return CreateMapObjectUpdateList(InitBasabasaBurstObjects, UpdateBasabasaBurst, NULL);
 }

@@ -42,9 +42,13 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02147cd8.h"
 #include "player.h"
+#include "Main/MapObjects/cover_poo_hole_cover_height.h"
+
+MapObjectModel *gNsKiller2S;
+MapObjectModel *gNsKiller2;
 
 void InitNsKiller2(NsKiller2 *nsKiller2) {
-    nsKiller2->mMapObject.mFlags |= data_021564b4;
+    nsKiller2->mMapObject.mFlags |= gNsKiller2InitMapObjectFlag;
     ParkMapObject(&nsKiller2->mMapObject);
     nsKiller2->mSoundDistanceSquaredChange = CreateVehicleSoundSource(&nsKiller2->mMapObject);
     ResetSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange);
@@ -67,7 +71,7 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
         nsKiller2->mMapObject.mPosStep.y = 0x4000;
         nsKiller2->mMapObject.mFlags |= data_021564ac;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            nsKiller2->mMapObject.mDistanceSquaredAndFlags |= data_021564b0;
+            nsKiller2->mMapObject.mDistanceSquaredAndFlags |= gNsKiller2SkipSoundFlag;
         }
         StartSoundIfKartStarOrKiller(&nsKiller2->mMapObject, kart);
     }
@@ -75,8 +79,8 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
 }
 
 void CreateNsKiller2AndNsKiller2S(void *mapObjectList) {
-    gNsKiller2 = CreateMapObjectModelAnimated(mapObjectList, gNsKiller2NsbmdName);
-    gNsKiller2S = CreateMapObjectModelShadow(mapObjectList, gNsKiller2SNsbmdName);
+    gNsKiller2 = CreateMapObjectModelAnimated(mapObjectList, "NsKiller2.nsbmd");
+    gNsKiller2S = CreateMapObjectModelShadow(mapObjectList, "NsKiller2_s.nsbmd");
     SetMapObjectModelPolygonId(gNsKiller2S, 0x3f);
 }
 
@@ -171,3 +175,7 @@ void StartNsKiller2(Vec3 *startPos, Vec3 *direction, u16 angle) {
     nsKiller2->mMapObject.mAngle = angle;
     nsKiller2->mMode = 0;
 }
+
+const u16 data_021564a8 = 2;
+const u16 data_021564ac = 1;
+const u32 gNsKiller2SkipSoundFlag = 0x40000000;

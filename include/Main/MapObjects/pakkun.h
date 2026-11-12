@@ -6,6 +6,7 @@
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 // Object up to 0x200 bytes: the shared part, a counter at 0xa4 that cycles between 0xac and 0xb0, a state at 0xb4,
 // seven GroupFollower from 0xb8, then a count and an index at 0x1b8 and 0x1ba and seven values at 0x1bc.
@@ -35,18 +36,11 @@ typedef struct Pakkun {
     /* 1fc */ s32 mHeightAboveFollowerPath;
 } Pakkun;
 
-extern MapObjectList *gPakkunUpdateList;
-extern MapObjectModel *gPakkunMouth;
-extern void *gPakkunZHead;
-extern void *gPakkunBodyDrawList;
-extern void *gPakkunBody;
-extern MapObjectList *gPakkunZHeadDrawList;
-extern MapObjectList *gPakkunMouthDrawList;
 
-void *CreatePakkunUpdateList(void);
-void *CreatePakkunZHeadDrawList(void);
-void *CreatePakkunBodyDrawList(void);
-void *CreatePakkunMouthDrawList(void);
+MapObjectList *CreatePakkunUpdateList(void);
+MapObjectList *CreatePakkunZHeadDrawList(void);
+MapObjectList *CreatePakkunBodyDrawList(void);
+MapObjectList *CreatePakkunMouthDrawList(void);
 void UpdatePakkun(void *mapObjectList, Pakkun *pakkun); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitPakkunObjects(void);
 void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun);
@@ -59,4 +53,13 @@ void DrawPakkunMouth(void *mapObjectList, Pakkun *pakkun);
 void CreatePakkunMouth(void *mapObjectList);
 void InitPakkun(Pakkun *pakkun);
 void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset);
-void *CreatePakkunSpitUpdateList(void);
+MapObjectList *CreatePakkunSpitUpdateList(void);
+
+extern MapObjectKindDescriptor gPakkunKindDescriptor;
+extern MapObjectList *gPakkunUpdateList;
+extern void *gPakkunZHead;
+extern MapObjectModel *gPakkunMouth;
+extern MapObjectList *gPakkunMouthDrawList;
+extern void *gPakkunBodyDrawList;
+extern void *gPakkunBody;
+extern MapObjectList *gPakkunZHeadDrawList;

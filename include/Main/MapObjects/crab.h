@@ -4,6 +4,7 @@
 #include "Main/MapObjects/teresa.h"
 #include "Main/MapObjects/code_020e005c.h"
 #include "Main/MapObjects/attractor.h"
+#include "01/MapObjects/data_0209bc74.h"
 
 typedef struct ItemObject ItemObject;
 
@@ -34,9 +35,9 @@ typedef struct Kart Kart;
 
 void CreateCrabAndCrabHand(void *mapObjectList);
 
-void *CreateCrabUpdateList(void);
-void *CreateCrabDrawList(void);
-void CreateCrabKindData(void);
+MapObjectList *CreateCrabUpdateList(void);
+MapObjectList *CreateCrabDrawList(void);
+MapObjectKindData *CreateCrabKindData(void);
 void UpdateCrab(void *mapObjectList, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
 s32 CrabFX_MulInline(s32 value, s32 factor);
 s16 CrabFX_SinIdx(s32 angle);
@@ -47,3 +48,6 @@ u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *hitFlag, u8
 u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *hitFlag, u8 *passedValue);
 void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity);
 void InitCrab(Crab *crab); /* starts the path follower (InitGroupFollower) */
+
+extern struct MapObjectModel *gCrab;
+extern struct MapObjectModel *gCrabHand;

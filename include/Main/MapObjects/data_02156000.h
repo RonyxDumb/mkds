@@ -5,23 +5,15 @@
 // Objects whose layout isn't known yet.
 extern u8 gMenuDisplaySettingsDesc[];
 
-extern u8 gSmanHitFlag[];
 
-extern u16 data_0215645c;
 
-extern u16 data_021564c0;
 
-extern u16 data_usa_02156460;
 
-extern u16 data_usa_02156464;
 
-extern u16 data_usa_02156468;
 
 extern u16 data_usa_0215659c;
 
-extern u32 data_021564b8;
 
-extern u32 data_021564bc;
 
 extern u16 data_02156598;
 
@@ -177,9 +169,7 @@ extern u16 gKeyboardLayoutRectCounts[6];
 
 extern const u16 data_02156840[20];
 
-extern u16 data_usa_0215646c;
 
-extern u32 data_usa_02156470;
 
 extern u16 data_usa_021565d8;
 
@@ -191,13 +181,6 @@ extern u32 data_usa_021565e8;
 
 extern u16 data_usa_021565ec;
 
-extern u16 data_021564a8;
-
-extern u16 data_021564ac;
-
-extern u32 data_021564b0;
-
-extern u16 data_021564b4;
 
 
 
@@ -205,21 +188,16 @@ extern u16 data_021564b4;
 
 
 
-extern Vec3 data_usa_021564c4[];
 
-extern Vec3 data_usa_021564dc[];
 
-extern Vec3 data_usa_021564f4[];
 
-extern Vec3 data_usa_0215650c[];
 
-extern Vec3 data_usa_02156524[];
 
-extern Vec3 data_usa_0215653c[];
 
-extern Vec3 data_usa_02156554[];
 
-extern Vec3 data_usa_0215656c[];
+
+
+
 
 extern const u16 data_usa_02156584;
 

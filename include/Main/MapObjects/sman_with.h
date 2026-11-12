@@ -10,3 +10,6 @@ typedef struct ItemObject ItemObject;
 u8 CollideItemObjectWithSman(Sman *sman, ItemObject *itemObject, u8 *firstResponse, u8 *secondResponse);
 u8 CollideKartWithSman(Sman *sman, Kart *kart, u8 *firstResponse, u8 *secondResponse);
 void InitSman(MapObject *mapObject);
+
+extern const u16 gSmanHitFlag;
+extern const u16 gSmanInitMapObjectFlag;

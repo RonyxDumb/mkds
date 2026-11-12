@@ -3,6 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
+#include "01/MapObjects/data_0209bc74.h"
 
 // 0x20-byte wobble of Teresa at 0xbc and 0xdc (written by StartTeresa), of Crab at 0xb0 and 0xd0 and of the trophy
 // at 0x08. For Teresa and the trophy, mAmplitudePerFrame and mUnk_1c are always 0 in this build; Crab's body wobble
@@ -45,8 +46,8 @@ typedef struct Teresa {
 s32 GetUnparkedTeresaCount(void);
 void StartTeresa(Vec3 *startPos);
 void ClearTeresaTimers(void);
-void CreateTeresaUpdateList(void);
-void CreateTeresaDrawList(void);
+MapObjectList *CreateTeresaUpdateList(void);
+MapObjectList *CreateTeresaDrawList(void);
 void UpdateTeresa(void *mapObjectList, Teresa *teresa); /* skipped for objects with mFlags & 4 (parked pool objects) */
 s16 TeresaFX_CosIdx(s32 angle);
 s32 TeresaFX_MulInline(s32 multiplicand, s32 multiplier);
@@ -57,3 +58,6 @@ void SetupDrawTeresa(void *mapObjectList);
 void CreateTeresa(MapObjectList *mapObjectList); /* also sets word +0x1c of the group record to 1 */
 void InitTeresa(MapObject *mapObject); /* parks the pooled object (ParkMapObject) and zeroes the live-Teresa count
                                           gUnparkedTeresaCount */
+
+extern struct MapObjectModel *gTeresa;
+extern u32 gUnparkedTeresaCount;

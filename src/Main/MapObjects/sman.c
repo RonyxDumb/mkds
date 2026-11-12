@@ -1,3 +1,4 @@
+#include "Main/MapObjects/sman.h"
 #include "Main/Race/gp_records_killer.h"
 #include "Main/System/archive_slots.h"
 #include "Main/Kart/kart_effects_ahead.h"
@@ -50,9 +51,22 @@
 #include "Main/Kart/code_0207e654.h"
 #include "code_02147cd8.h"
 
+MapObjectModel *gSmanTop;
+MapObjectModel *gSmanBottom;
+
+MapObjectKindDescriptor gSmanKindDescriptor = {0,
+                                               {0, 0},
+                                               0xcc,
+                                               (void (*)(void *, CourseMapRow *, void *)) InitSman,
+                                               CreateSmanKindData,
+                                               CreateSmanTopDrawList,
+                                               CreateSmanBottomDrawList,
+                                               0,
+                                               CreateSmanUpdateList};
+
 void CreateSmanTop(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, gSmanTopNsbmdName);
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, "sman_top.nsbmd");
     gSmanTop = mapObjectModelNsbmd;
     SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
 }
@@ -80,7 +94,7 @@ void DrawSmanTop(void *mapObjectList, Sman *sman) {
 
 void CreateSmanBottom(void *mapObjectList) {
     MapObjectModel *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, gSmanBottomNsbmdName);
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, "sman_bottom.nsbmd");
     gSmanBottom = mapObjectModelNsbmd;
     SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
 }
@@ -211,18 +225,18 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
 }
 
 // Creates the kind record of Sman with two functions that put it into state 1 when their third argument points to 1.
-void CreateSmanKindData(void) {
-    CreateMapObjectKindDataWithSound(CollideKartWithSman, CollideItemObjectWithSman, NULL, 0, 1, 0x161);
+MapObjectKindData *CreateSmanKindData(void) {
+    return CreateMapObjectKindDataWithSound(CollideKartWithSman, CollideItemObjectWithSman, NULL, 0, 1, 0x161);
 }
 
-void *CreateSmanTopDrawList(void) {
+MapObjectList *CreateSmanTopDrawList(void) {
     return CreateMapObjectDrawList2(CreateSmanTop, DrawSmanTop, SetupDrawSmanTop);
 }
 
-void *CreateSmanBottomDrawList(void) {
+MapObjectList *CreateSmanBottomDrawList(void) {
     return CreateMapObjectDrawList2(CreateSmanBottom, DrawSmanBottom, SetupDrawSmanBottom);
 }
 
-void *CreateSmanUpdateList(void) {
+MapObjectList *CreateSmanUpdateList(void) {
     return CreateMapObjectUpdateList(InitSmanObjects, UpdateSman, NULL);
 }

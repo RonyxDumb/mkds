@@ -40,9 +40,24 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02147cd8.h"
 #include "player.h"
+#include "Main/MapObjects/ns_killer1_init.h"
+
+SoundStartParams gNsKiller1SoundStartParams = {0x17c, NULL, 9, 0};
+
+MapObjectModel *gNsKiller1;
+
+MapObjectKindDescriptor gNsKiller1KindDescriptor = {0,
+                                                    {0, 0},
+                                                    0xd0,
+                                                    (void (*)(void *, CourseMapRow *, void *)) InitNsKiller1,
+                                                    CreateEmptyMapObjectKindData,
+                                                    CreateNsKiller1DrawList,
+                                                    0,
+                                                    0,
+                                                    CreateNsKiller1UpdateList};
 
 void CreateNsKiller1(void *mapObjectList) {
-    gNsKiller1 = CreateMapObjectModelAnimated(mapObjectList, gNsKiller1NsbmdName);
+    gNsKiller1 = CreateMapObjectModelAnimated(mapObjectList, "NsKiller1.nsbmd");
 }
 
 void DrawNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
@@ -98,7 +113,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
             if (nsKiller1->mStateTimer == 0x2d) {
                 if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
-                    soundParams = data_0216676c;
+                    soundParams = gNsKiller1SoundStartParams;
                     soundParams.mPositionSource = &nsKiller1->mMapObject.mPos;
                     soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&nsKiller1->mMapObject.mPos);
                     StartSndHandleSoundEx(&soundParams, GetSndHandleSlot(8));
@@ -123,10 +138,10 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
     }
 }
 
-void CreateNsKiller1DrawList(void) {
-    CreateMapObjectDrawList1(CreateNsKiller1, DrawNsKiller1, NULL);
+MapObjectList *CreateNsKiller1DrawList(void) {
+    return CreateMapObjectDrawList1(CreateNsKiller1, DrawNsKiller1, NULL);
 }
 
-void CreateNsKiller1UpdateList(void) {
-    CreateMapObjectUpdateList(InitNsKiller1Objects, UpdateNsKiller1, NULL);
+MapObjectList *CreateNsKiller1UpdateList(void) {
+    return CreateMapObjectUpdateList(InitNsKiller1Objects, UpdateNsKiller1, NULL);
 }

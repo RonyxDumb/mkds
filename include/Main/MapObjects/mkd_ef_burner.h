@@ -4,6 +4,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of kind 0x1a4 (MkdEfBurner); the draw group record (word +0x1c) is not part of this
 // object. After the shared part, a counter at 0xa0, a halfword at 0xa4, a value at 0xa8, a
@@ -22,9 +23,9 @@ typedef struct MkdEfBurner {
 } MkdEfBurner;
 
 u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner);
-void CreateMkdEfBurnerUpdateList(void);
-void CreateMkdEfBurnerDrawList(void);
-void CreateMkdEfBurnerKindData(void);
+MapObjectList *CreateMkdEfBurnerUpdateList(void);
+MapObjectList *CreateMkdEfBurnerDrawList(void);
+MapObjectKindData *CreateMkdEfBurnerKindData(void);
 void UpdateMkdEfBurner(void *mapObjectList,
                        MkdEfBurner *mkdEfBurner); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitMkdEfBurnerObjects(MapObjectList *mapObjectList);
@@ -34,3 +35,7 @@ void CreateMkdEfBurner(MapObjectList *mapObjectList); /* also sets word +0x1c of
 u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *firstResponse, u8 *response);
 void InitMkdEfBurner(
     MapObject *mapObject); /* allocates the object's sound source (CreateMapObjectSoundSourceFalloff2) */
+
+extern const u16 data_usa_0215646c;
+extern const u32 gMkdEfBurnerSkipSoundFlag;
+extern struct MapObjectModel *gMkdEfBurner;

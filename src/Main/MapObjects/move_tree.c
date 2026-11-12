@@ -43,6 +43,19 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+MapObjectModel *gMoveTree;
+
+MapObjectKindDescriptor gMoveTreeKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x110,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitMoveTree,
+                                                   CreateMoveTreeKindData,
+                                                   CreateMoveTreeDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateMoveTreeUpdateList};
 
 void InitMoveTree(MoveTree *moveTree) {
     InitGroupFollower(&moveTree->mFollower, moveTree->mMapObject.mCourseMapRow, 0);
@@ -59,8 +72,8 @@ u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8
 }
 
 void CreateMoveTree(void *mapObjectList) {
-    gMoveTree = CreateMapObjectModelAnimated(mapObjectList, gMoveTreeNsbmdName);
-    CreateMapObjectModelNsbcaAnimation(gMoveTree, gMoveTreeNsbcaName);
+    gMoveTree = CreateMapObjectModelAnimated(mapObjectList, "move_tree.nsbmd");
+    CreateMapObjectModelNsbcaAnimation(gMoveTree, "move_tree.nsbca");
     SetMapObjectModelPolygonId(gMoveTree, 0x3f);
 }
 
@@ -192,14 +205,14 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
     }
 }
 
-void CreateMoveTreeKindData(void) {
-    CreateMapObjectKindDataWithSound(CollideKartWithMoveTree, NULL, NULL, 2, 1, 0x125);
+MapObjectKindData *CreateMoveTreeKindData(void) {
+    return CreateMapObjectKindDataWithSound(CollideKartWithMoveTree, NULL, NULL, 2, 1, 0x125);
 }
 
-void CreateMoveTreeDrawList(void) {
-    CreateMapObjectDrawList1(CreateMoveTree, DrawMoveTree, NULL);
+MapObjectList *CreateMoveTreeDrawList(void) {
+    return CreateMapObjectDrawList1(CreateMoveTree, DrawMoveTree, NULL);
 }
 
-void CreateMoveTreeUpdateList(void) {
-    CreateMapObjectUpdateList(InitMoveTreeObjects, UpdateMoveTree, NULL);
+MapObjectList *CreateMoveTreeUpdateList(void) {
+    return CreateMapObjectUpdateList(InitMoveTreeObjects, UpdateMoveTree, NULL);
 }

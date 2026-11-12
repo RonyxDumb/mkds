@@ -516,8 +516,8 @@ void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 
     offset->y = 0;
 }
 
-s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, Vec3 *halfSizesPositive,
-                                 Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut) {
+s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, const Vec3 *halfSizesPositive,
+                                 const Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut) {
     Vec3 delta;
     s32 overlapY;
     Vec3 *axisY;

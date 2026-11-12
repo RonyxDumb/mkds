@@ -39,6 +39,21 @@
 #include "code_02148538.h"
 #include "Main/Race/course_list.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/kanoke64_init.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectModel *gKanoke64;
+
+MapObjectKindDescriptor gKanoke64KindDescriptor = {0,
+                                                   {0, 0},
+                                                   0xb0,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitKanoke64,
+                                                   CreateEmptyMapObjectKindData,
+                                                   CreateKanoke64DrawList,
+                                                   0,
+                                                   0,
+                                                   CreateKanoke64UpdateList};
 
 static inline u32 MapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
@@ -78,8 +93,8 @@ static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
 }
 
 void CreateKanoke64(void *mapObjectList) {
-    gKanoke64 = CreateMapObjectModelAnimated(mapObjectList, gKanoke64NsbmdName);
-    CreateMapObjectModelNsbcaAnimation(gKanoke64, gKanoke64NsbcaName);
+    gKanoke64 = CreateMapObjectModelAnimated(mapObjectList, "kanoke_64.nsbmd");
+    CreateMapObjectModelNsbcaAnimation(gKanoke64, "kanoke_64.nsbca");
 }
 
 void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
@@ -256,10 +271,10 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
     StartKanoke64Sound(kanoke64, 0x188);
 }
 
-void CreateKanoke64DrawList(void) {
-    CreateMapObjectDrawList1(CreateKanoke64, DrawKanoke64, NULL);
+MapObjectList *CreateKanoke64DrawList(void) {
+    return CreateMapObjectDrawList1(CreateKanoke64, DrawKanoke64, NULL);
 }
 
-void CreateKanoke64UpdateList(void) {
-    CreateMapObjectUpdateList(InitKanoke64Objects, UpdateKanoke64, NULL);
+MapObjectList *CreateKanoke64UpdateList(void) {
+    return CreateMapObjectUpdateList(InitKanoke64Objects, UpdateKanoke64, NULL);
 }

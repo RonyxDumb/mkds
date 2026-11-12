@@ -15,7 +15,7 @@ typedef struct TeresaSpawner {
 
 #include "Main/MapObjects/map_object_park.h"
 
-void CreateTeresaSpawnerUpdateList(void);
+MapObjectList *CreateTeresaSpawnerUpdateList(void);
 MapObjectKindData *CreateTeresaSpawnerKindData(void);
 void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner);
 s16 TeresaSpawnerFX_CosIdx(s32 angle);

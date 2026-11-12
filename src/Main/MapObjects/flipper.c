@@ -36,6 +36,27 @@
 #include "code_020184e4.h"
 #include "code_02147cd8.h"
 #include "code_02148538.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+const Vec3 gFlipperFourthBoxHalfSizesPositive[2] = {{0, 0x3c000, 0x32000}, {0xc8000, 0x3c000, 0x32000}};
+const Vec3 gFlipperSecondBoxHalfSizesPositive[2] = {{0, 0x3c000, 0}, {0xc8000, 0x3c000, 0}};
+const Vec3 gFlipperFirstBoxHalfSizesNegative[2] = {{0xc8000, 0, 0x32000}, {-40960, 0, 0x32000}};
+const Vec3 gFlipperFourthBoxHalfSizesNegative[2] = {{0xc8000, 0, 0}, {0, 0, 0}};
+const Vec3 gFlipperFirstBoxHalfSizesPositive[2] = {{-40960, 0x3c000, -133120}, {0xc8000, 0x3c000, -133120}};
+const Vec3 gFlipperThirdBoxHalfSizesPositive[2] = {{-40960, 0x3c000, 0x32000}, {0xc8000, 0x3c000, 0x32000}};
+MapObjectKindDescriptor gFlipperKindDescriptor = {0,
+                                                  {0, 0},
+                                                  0xef4,
+                                                  (void (*)(void *, CourseMapRow *, void *)) InitFlipper,
+                                                  CreateFlipperKindData,
+                                                  CreateFlipperDrawList,
+                                                  0,
+                                                  0,
+                                                  CreateFlipperUpdateList};
+const Vec3 gFlipperThirdBoxHalfSizesNegative[2] = {{0xc8000, 0, 0x20800}, {-40960, 0, 0x20800}};
+const u16 gCoverPooHoleInitMapObjectFlag = 0x200;
+const Vec3 gFlipperSecondBoxHalfSizesNegative[2] = {{0xc8000, 0, 0x32000}, {0, 0, 0x32000}};
+struct MapObjectModel *gFlipper;
 
 void InitFlipper(Flipper *flipper) {
     flipper->mMapObject.mFlags = flipper->mMapObject.mFlags | data_usa_0215658c;
@@ -92,12 +113,14 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
     s32 hitResult;
 
     flipper->mUnk_a0 = 0;
-    if (ComputeSphereHitOnRotatedBox(
-            sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0],
-            &data_usa_0215650c[flipper->mMirror], &data_usa_0215653c[flipper->mMirror], sphereRadius, NULL) != 0) {
+    if (ComputeSphereHitOnRotatedBox(sphereCenter, &flipper->mMapObject.mPos,
+                                     &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0],
+                                     &gFlipperFirstBoxHalfSizesPositive[flipper->mMirror],
+                                     &gFlipperFirstBoxHalfSizesNegative[flipper->mMirror], sphereRadius, NULL) != 0) {
         hitResult = ComputeSphereHitOnRotatedBox(
             sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0],
-            &data_usa_02156554[flipper->mMirror], &data_usa_021564dc[flipper->mMirror], sphereRadius, pushOut);
+            &gFlipperSecondBoxHalfSizesPositive[flipper->mMirror],
+            &gFlipperSecondBoxHalfSizesNegative[flipper->mMirror], sphereRadius, pushOut);
         if (hitResult == 4 || flipper->mState == 2) {
             flipper->mUnk_a0 = 1;
         } else if (flipper->mState == 3) {
@@ -106,10 +129,12 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
     } else {
         if (ComputeSphereHitOnRotatedBox(
                 sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mRows[0],
-                &data_usa_021564c4[flipper->mMirror], &data_usa_02156524[flipper->mMirror], sphereRadius, NULL) != 0) {
+                &gFlipperThirdBoxHalfSizesPositive[flipper->mMirror],
+                &gFlipperThirdBoxHalfSizesNegative[flipper->mMirror], sphereRadius, NULL) != 0) {
             hitResult = ComputeSphereHitOnRotatedBox(
                 sphereCenter, &flipper->mMapObject.mPos, &flipper->mUnk_648[flipper->mUnk_ec0].mRows[0],
-                &data_usa_0215656c[flipper->mMirror], &data_usa_021564f4[flipper->mMirror], sphereRadius, pushOut);
+                &gFlipperFourthBoxHalfSizesPositive[flipper->mMirror],
+                &gFlipperFourthBoxHalfSizesNegative[flipper->mMirror], sphereRadius, pushOut);
             if (hitResult == 4 || flipper->mState == 3) {
                 flipper->mUnk_a0 = -1;
             } else if (flipper->mState == 2) {
@@ -125,9 +150,9 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
 }
 
 void CreateFlipper(void *mapObjectList) {
-    gFlipper = CreateMapObjectModelAnimated(mapObjectList, gFlipperNsbmdName);
-    CreateMapObjectModelNsbtpAnimation(gFlipper, gFlipperNsbtpName);
-    CreateMapObjectModelNsbtaAnimation(gFlipper, gFlipperNsbtaName);
+    gFlipper = CreateMapObjectModelAnimated(mapObjectList, "flipper.nsbmd");
+    CreateMapObjectModelNsbtpAnimation(gFlipper, "flipper.nsbtp");
+    CreateMapObjectModelNsbtaAnimation(gFlipper, "flipper.nsbta");
 }
 
 void DrawFlipper(void *mapObjectList, Flipper *flipper) {
@@ -168,7 +193,7 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
     if (mapObjectList == NULL) {
         return;
     }
-    offsetDistance = data_usa_0215653c[0].x;
+    offsetDistance = gFlipperFirstBoxHalfSizesNegative[0].x;
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (flipper = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
@@ -341,14 +366,14 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
     }
 }
 
-void CreateFlipperKindData(void) {
-    CreateMapObjectKindDataWithSound(CollideKartWithFlipper, NULL, ComputeSphereHitOnFlipper, 0, 1, 0x1d0);
+MapObjectKindData *CreateFlipperKindData(void) {
+    return CreateMapObjectKindDataWithSound(CollideKartWithFlipper, NULL, ComputeSphereHitOnFlipper, 0, 1, 0x1d0);
 }
 
-void *CreateFlipperDrawList(void) {
+MapObjectList *CreateFlipperDrawList(void) {
     return CreateMapObjectDrawList1(CreateFlipper, DrawFlipper, NULL);
 }
 
-void *CreateFlipperUpdateList(void) {
+MapObjectList *CreateFlipperUpdateList(void) {
     return CreateMapObjectUpdateList(InitFlipperObjects, UpdateFlipper, NULL);
 }

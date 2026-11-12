@@ -22,6 +22,18 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/pakkun.h"
+
+MapObjectKindDescriptor gPakkunSpitKindDescriptor = {0,
+                                                     {0, 0},
+                                                     0xd4,
+                                                     (void (*)(void *, CourseMapRow *, void *)) InitPakkunSpit,
+                                                     CreatePakkunSpitKindData,
+                                                     0,
+                                                     0,
+                                                     0,
+                                                     CreatePakkunSpitUpdateList};
 
 void InitPakkunSpit(MapObject *mapObject) {
     u32 flags = mapObject->mFlags;
@@ -102,6 +114,6 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
     }
 }
 
-void CreatePakkunSpitKindData(void) {
-    CreateMapObjectKindDataWithSound(&CollideKartWithPakkunSpit, NULL, NULL, 1, 1, (0x0000018du));
+MapObjectKindData *CreatePakkunSpitKindData(void) {
+    return CreateMapObjectKindDataWithSound(&CollideKartWithPakkunSpit, NULL, NULL, 1, 1, (0x0000018du));
 }

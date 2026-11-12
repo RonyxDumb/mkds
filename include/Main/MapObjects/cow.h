@@ -4,6 +4,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.
 typedef struct Kanoke64 {
@@ -15,12 +16,12 @@ typedef struct Kanoke64 {
     /* ac */ s32 mState;
 } Kanoke64;
 
-void CreateCowDrawList(void);
+MapObjectList *CreateCowDrawList(void);
 void DrawCow(void *mapObjectList, MapObject *mapObject);
 void SetupDrawCow(void *mapObjectList);
 void CreateCow(void *mapObjectList);
-void CreateKanoke64UpdateList(void);
-void CreateKanoke64DrawList(void);
+MapObjectList *CreateKanoke64UpdateList(void);
+MapObjectList *CreateKanoke64DrawList(void);
 void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64);
 s16 Kanoke64FX_CosIdx(s32 angle);
 s32 Kanoke64MulFixed12NoRound(s32 multiplicand, s32 multiplier);
@@ -29,3 +30,5 @@ u32 NextRandomBelow(RandomState64 *randomState64, u32 limit);
 void InitKanoke64Objects(MapObjectList *mapObjectList);
 void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64);
 void CreateKanoke64(void *mapObjectList);
+
+extern struct MapObjectModel *gCow;

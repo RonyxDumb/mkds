@@ -16,7 +16,7 @@ typedef struct BasabasaBurst {
     /* ac */ s32 mState;
 } BasabasaBurst;
 
-void CreateBasabasaBurstUpdateList(void);
+MapObjectList *CreateBasabasaBurstUpdateList(void);
 void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject);
 s16 BasabasaBurstFX_CosIdx(s32 angle);
 s32 BasabasaBurstMulFixed12NoRound(s32 multiplicand, s32 multiplier);

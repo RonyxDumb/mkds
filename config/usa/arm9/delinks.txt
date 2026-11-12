@@ -1955,21 +1955,28 @@ src/Main/Race/gp_records_killer.c:
 src/Main/MapObjects/sman.c:
     complete
     .text       start:0x020911f4 end:0x020917d0
+    .data       start:0x0216656c end:0x021665c4
+    .bss        start:0x0217b094 end:0x0217b09c
 
 // provisional: file name and boundaries
 src/Main/MapObjects/sman_with.c:
     complete
     .text       start:0x020917d0 end:0x020918a8
+    .rodata     start:0x02156458 end:0x02156460
 
 // provisional: file name and boundaries
 src/Main/MapObjects/cow.c:
     complete
     .text       start:0x020918a8 end:0x020919a8
+    .data       start:0x021665c4 end:0x02166610
+    .bss        start:0x0217b09c end:0x0217b0a0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/kanoke64.c:
     complete
     .text       start:0x020919a8 end:0x02092178
+    .data       start:0x02166610 end:0x02166664
+    .bss        start:0x0217b0a0 end:0x0217b0a4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/kanoke64_init.c:
@@ -1985,26 +1992,38 @@ src/Main/MapObjects/basabasa_hud_cell_kind.c:
 src/Main/MapObjects/basabasa.c:
     complete
     .text       start:0x0209219c end:0x02092b3c
+    .rodata     start:0x02156460 end:0x0215646c
+    .data       start:0x02166664 end:0x021666b8
+    .bss        start:0x0217b0a4 end:0x0217b0a8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/basabasa_burst.c:
     complete
     .text       start:0x02092b3c end:0x020931ac
+    .data       start:0x021666b8 end:0x021666ec
 
 // provisional: file name and boundaries
 src/Main/MapObjects/mkd_ef_burner.c:
     complete
     .text       start:0x020931ac end:0x020937c4
+    .rodata     start:0x0215646c end:0x02156474
+    .data       start:0x021666ec end:0x02166748
+    .bss        start:0x0217b0a8 end:0x0217b0ac
 
 // provisional: file name and boundaries
 src/Main/MapObjects/ns_killer2.c:
     complete
     .text       start:0x020937c4 end:0x02093cb4
+    .rodata     start:0x021564a8 end:0x021564b4
+    .data       start:0x02166748 end:0x0216676c
+    .bss        start:0x0217b0ac end:0x0217b0b4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/ns_killer1.c:
     complete
     .text       start:0x02093cb4 end:0x02093fa4
+    .data       start:0x0216676c end:0x021667c0
+    .bss        start:0x0217b0b4 end:0x0217b0b8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/ns_killer1_init.c:
@@ -2015,42 +2034,56 @@ src/Main/MapObjects/ns_killer1_init.c:
 src/Main/MapObjects/teresa.c:
     complete
     .text       start:0x02093ff0 end:0x02094e1c
+    .data       start:0x021667c0 end:0x02166814
+    .bss        start:0x0217b0b8 end:0x0217b0c0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/teresa_spawner.c:
     complete
     .text       start:0x02094e1c end:0x02095504
+    .data       start:0x02166814 end:0x02166848
 
 // provisional: file name and boundaries
 src/Main/MapObjects/bakubaku.c:
     complete
     .text       start:0x02095504 end:0x020959bc
+    .data       start:0x02166848 end:0x021668a0
+    .bss        start:0x0217b0c0 end:0x0217b0c8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/move_tree.c:
     complete
     .text       start:0x020959bc end:0x02095f30
+    .data       start:0x021668a0 end:0x021668f4
+    .bss        start:0x0217b0c8 end:0x0217b0cc
 
 // provisional: file name and boundaries
 src/Main/MapObjects/cover_poo_hole_cover_height.c:
     complete
     .text       start:0x02095f30 end:0x0209756c
-    .data       start:0x02166928 end:0x02166958
+    .rodata     start:0x021564b4 end:0x021564c0
+    .data       start:0x021668f4 end:0x02166958
+    .bss        start:0x0217b0cc end:0x0217b0d8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/flipper.c:
     complete
     .text       start:0x0209756c end:0x0209828c
+    .rodata     start:0x021564c0 end:0x02156584
+    .data       start:0x02166958 end:0x021669bc
+    .bss        start:0x0217b0d8 end:0x0217b0dc
 
 src/Main/MapObjects/pakkun.c:
     complete
     .text       start:0x0209828c end:0x02099020
-    .data       start:0x021669f0 end:0x02166a40
+    .data       start:0x021669bc end:0x02166a40
+    .bss        start:0x0217b0dc end:0x0217b0f8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/pakkun_spit.c:
     complete
     .text       start:0x02099020 end:0x020992ac
+    .data       start:0x02166a40 end:0x02166a74
 
 // provisional: file name and boundaries
 src/Main/MapObjects/empty_kind_data.c:
@@ -2063,7 +2096,8 @@ src/Main/MapObjects/empty_kind_data.c:
 src/Main/MapObjects/crab.c:
     complete
     .text       start:0x0209a748 end:0x0209b60c
-    .data       start:0x02167228 end:0x02167260
+    .data       start:0x021671f4 end:0x02167260
+    .bss        start:0x0217b154 end:0x0217b15c
 
 // provisional: file name and boundaries
 src/Main/MapObjects/map_object_model_frame.c:

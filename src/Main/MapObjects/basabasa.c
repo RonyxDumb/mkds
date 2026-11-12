@@ -38,6 +38,18 @@
 #include "Main/Sound/data_0210b000.h"
 #include "code_02147cd8.h"
 
+MapObjectModel *gBasabasa;
+
+MapObjectKindDescriptor gBasabasaKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0xd8,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitBasabasa,
+                                                   CreateBasabasaKindData,
+                                                   CreateBasabasaDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateBasabasaUpdateList};
+
 void InitBasabasa(MapObject *mapObject) {
     MapObject *mapObjectArg = mapObject;
     MapObject *mapObjectCopy;
@@ -84,7 +96,7 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 
 }
 
 void CreateBasabasa(void *mapObjectList) {
-    gBasabasa = CreateMapObjectModelNsbmdNsbtp(mapObjectList, gBasabasaNsbmdName, gBasabasaNsbtpName);
+    gBasabasa = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "basabasa.nsbmd", "basabasa.nsbtp");
     SetMapObjectModelPolygonId(gBasabasa, 0x3f);
 }
 
@@ -181,8 +193,8 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
     StartMapObjectSoundWhileRequested(&basabasa->mMapObject, 0x165);
 }
 
-void CreateBasabasaKindData(void) {
-    CreateMapObjectKindData(&CollideKartWithBasabasa, NULL, NULL, 1, 0);
+MapObjectKindData *CreateBasabasaKindData(void) {
+    return CreateMapObjectKindData(&CollideKartWithBasabasa, NULL, NULL, 1, 0);
 }
 
 static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
@@ -212,12 +224,12 @@ static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
     return value;
 }
 
-void CreateBasabasaDrawList(void) {
-    CreateMapObjectDrawList2(CreateBasabasa, DrawBasabasa, SetupDrawBasabasa);
+MapObjectList *CreateBasabasaDrawList(void) {
+    return CreateMapObjectDrawList2(CreateBasabasa, DrawBasabasa, SetupDrawBasabasa);
 }
 
-void CreateBasabasaUpdateList(void) {
-    CreateMapObjectUpdateList(NULL, UpdateBasabasa, NULL);
+MapObjectList *CreateBasabasaUpdateList(void) {
+    return CreateMapObjectUpdateList(NULL, UpdateBasabasa, NULL);
 }
 
 void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
@@ -250,3 +262,7 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     basabasa->mState = 0;
     basabasa->mHitKartMask = 0;
 }
+
+const u16 data_usa_02156468 = 8;
+const u16 data_usa_02156464 = 2;
+const u16 data_usa_02156460 = 1;

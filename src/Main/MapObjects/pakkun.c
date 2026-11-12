@@ -35,8 +35,26 @@
 #include "fx_mtx33.h"
 #include "code_02148538.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/bound.h"
 
-void *CreatePakkunSpitUpdateList(void) {
+MapObjectKindDescriptor gPakkunKindDescriptor = {0,
+                                                 {0, 0},
+                                                 0x200,
+                                                 (void (*)(void *, CourseMapRow *, void *)) InitPakkun,
+                                                 CreateEmptyMapObjectKindData,
+                                                 CreatePakkunMouthDrawList,
+                                                 CreatePakkunBodyDrawList,
+                                                 CreatePakkunZHeadDrawList,
+                                                 CreatePakkunUpdateList};
+MapObjectList *gPakkunUpdateList;
+void *gPakkunZHead;
+MapObjectModel *gPakkunMouth;
+MapObjectList *gPakkunMouthDrawList;
+void *gPakkunBodyDrawList;
+void *gPakkunBody;
+MapObjectList *gPakkunZHeadDrawList;
+
+MapObjectList *CreatePakkunSpitUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdatePakkunSpit, NULL);
 }
 
@@ -339,7 +357,8 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                 pakkun->mMouthFrame = pakkun->mMouthLoopFrame;
             }
             if (FROM_FIXED12(pakkun->mMouthFrame) == 10) {
-                StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mHeightAboveFollowerPath + 0x46000);
+                StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex],
+                                pakkun->mHeightAboveFollowerPath + 0x46000);
                 if ((pakkun->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
@@ -380,27 +399,27 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
     pakkun->mHeadHeight = firstOffset + secondOffset;
 }
 
-void *CreatePakkunMouthDrawList(void) {
+MapObjectList *CreatePakkunMouthDrawList(void) {
     gPakkunMouthDrawList = CreateMapObjectDrawList1(CreatePakkunMouth, DrawPakkunMouth, NULL);
     gPakkunMouthDrawList->mSortByDistance = TRUE;
     SetDrawListSlot(&gPakkunMouthDrawList);
     return gPakkunMouthDrawList;
 }
 
-void *CreatePakkunBodyDrawList(void) {
+MapObjectList *CreatePakkunBodyDrawList(void) {
     gPakkunBodyDrawList = CreateMapObjectDrawList2(CreatePakkunBody, DrawPakkunBody, SetupDrawPakkunBody);
     SetDrawListSlot(&gPakkunBodyDrawList);
     return gPakkunBodyDrawList;
 }
 
-void *CreatePakkunZHeadDrawList(void) {
+MapObjectList *CreatePakkunZHeadDrawList(void) {
     gPakkunZHeadDrawList = CreateMapObjectDrawList2(CreatePakkunZHead, DrawPakkunZHead, SetupDrawPakkunZHead);
     gPakkunZHeadDrawList->mSortByDistance = TRUE;
     SetDrawListSlot(&gPakkunZHeadDrawList);
     return gPakkunZHeadDrawList;
 }
 
-void *CreatePakkunUpdateList(void) {
+MapObjectList *CreatePakkunUpdateList(void) {
     gPakkunUpdateList = CreateMapObjectUpdateList(InitPakkunObjects, UpdatePakkun, NULL);
     SetUpdateListSlot(&gPakkunUpdateList);
     return gPakkunUpdateList;

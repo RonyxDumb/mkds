@@ -17,6 +17,16 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "code_02147cd8.h"
 
+MapObjectKindDescriptor gTeresaSpawnerKindDescriptor = {0,
+                                                        {0, 0},
+                                                        0xb0,
+                                                        (void (*)(void *, CourseMapRow *, void *)) InitTeresaSpawner,
+                                                        CreateTeresaSpawnerKindData,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        CreateTeresaSpawnerUpdateList};
+
 void InitTeresaSpawner(TeresaSpawner *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_TERESA, mapObject->mMapObject.mCourseMapRow->mSettings[1], mapObject);
 }
@@ -227,6 +237,6 @@ MapObjectKindData *CreateTeresaSpawnerKindData(void) {
     return CreateEmptyMapObjectKindData();
 }
 
-void CreateTeresaSpawnerUpdateList(void) {
-    CreateMapObjectUpdateList(InitTeresaSpawnerObjects, UpdateTeresaSpawner, NULL);
+MapObjectList *CreateTeresaSpawnerUpdateList(void) {
+    return CreateMapObjectUpdateList(InitTeresaSpawnerObjects, UpdateTeresaSpawner, NULL);
 }
