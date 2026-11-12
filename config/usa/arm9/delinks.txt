@@ -329,19 +329,9 @@ libs/NitroSystem/g3d/src/code_02013740.c:
     .text       start:0x02013740 end:0x02013b20
 
 // provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_02013b20.c:
+libs/NitroSystem/g3d/src/res_struct_accessor_anm.c:
     complete
-    .text       start:0x02013b20 end:0x02013b3c
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_02013b3c.c:
-    complete
-    .text       start:0x02013b3c end:0x02013bbc
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_02013bbc.c:
-    complete
-    .text       start:0x02013bbc end:0x02013bdc
+    .text       start:0x02013b20 end:0x02013bdc
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/code_02013bdc.c:
