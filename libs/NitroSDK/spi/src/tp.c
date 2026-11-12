@@ -10,20 +10,20 @@ TouchPanelState gTouchPanelState;
 // Handles a word from the other processor: stores automatic samples, finishes requests and reports errors.
 void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
     u16 result = data;
-    u16 command = (result & 0x7f00) >> 8;
+    u16 tpCommand = (result & 0x7f00) >> 8;
     TPRequestResult callbackResult;
     SPITpData spiTp;
     SPITpData spiTpRaw;
     TPData *sample;
 
     if (err != 0) {
-        gTouchPanelState.mErrorFlags |= 1 << command;
+        gTouchPanelState.mErrorFlags |= 1 << tpCommand;
         if (gTouchPanelState.mCallback != 0) {
-            gTouchPanelState.mCallback(command, TP_RESULT_PXI_BUSY, 0);
+            gTouchPanelState.mCallback(tpCommand, TP_RESULT_PXI_BUSY, 0);
         }
         return;
     }
-    if (command == TP_REQUEST_COMMAND_AUTO_SAMPLING) {
+    if (tpCommand == TP_REQUEST_COMMAND_AUTO_SAMPLING) {
         gTouchPanelState.mAutoSampleIndex++;
         if (gTouchPanelState.mAutoSampleIndex >= gTouchPanelState.mAutoSampleBufferCount) {
             gTouchPanelState.mAutoSampleIndex = 0;
@@ -36,7 +36,7 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
         sample->mTouch = (u8) spiTp.e.mTouch;
         sample->mValidity = (u8) spiTp.e.mValidity;
         if (gTouchPanelState.mCallback != 0) {
-            gTouchPanelState.mCallback(command, TP_RESULT_SUCCESS, gTouchPanelState.mAutoSampleIndex);
+            gTouchPanelState.mCallback(tpCommand, TP_RESULT_SUCCESS, gTouchPanelState.mAutoSampleIndex);
         }
         return;
     }
@@ -45,7 +45,7 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
     }
     switch (result & 0xff) {
         case 0:
-            switch (command) {
+            switch (tpCommand) {
                 case TP_REQUEST_COMMAND_SAMPLING:
                     spiTpRaw.halfs[0] = SYSTEM_WORK->mTouchPanel[0];
                     spiTpRaw.halfs[1] = SYSTEM_WORK->mTouchPanel[1];
@@ -62,9 +62,9 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
                     gTouchPanelState.mState = TP_STATE_READY;
                     break;
             }
-            gTouchPanelState.mBusyFlags &= ~(1 << command);
+            gTouchPanelState.mBusyFlags &= ~(1 << tpCommand);
             if (gTouchPanelState.mCallback != 0) {
-                gTouchPanelState.mCallback(command, TP_RESULT_SUCCESS, 0);
+                gTouchPanelState.mCallback(tpCommand, TP_RESULT_SUCCESS, 0);
             }
             return;
         case 4:
@@ -79,10 +79,10 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
         default:
             goto fail;
     }
-    gTouchPanelState.mErrorFlags |= 1 << command;
-    gTouchPanelState.mBusyFlags &= ~(1 << command);
+    gTouchPanelState.mErrorFlags |= 1 << tpCommand;
+    gTouchPanelState.mBusyFlags &= ~(1 << tpCommand);
     if (gTouchPanelState.mCallback != 0) {
-        gTouchPanelState.mCallback(command, callbackResult, 0);
+        gTouchPanelState.mCallback(tpCommand, callbackResult, 0);
     }
     return;
 fail:

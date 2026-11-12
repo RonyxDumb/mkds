@@ -121,7 +121,7 @@ void *MIC_GetLastSamplingAddress(void) {
 // Handles a word from the other processor: turns it into a result, then finishes the command or reports a full buffer.
 void MicCommonCallback(u32 tag, u32 data, BOOL err) {
     u16 status;
-    u16 command;
+    u16 pxiCommand;
     MICResult result;
     MICCallback callback;
 
@@ -136,7 +136,7 @@ void MicCommonCallback(u32 tag, u32 data, BOOL err) {
         }
     }
     status = data & 0xff;
-    command = (data & 0x7f00) >> 8;
+    pxiCommand = (data & 0x7f00) >> 8;
     switch (status) {
         case 0:
             result = MIC_RESULT_SUCCESS;
@@ -157,13 +157,13 @@ void MicCommonCallback(u32 tag, u32 data, BOOL err) {
             result = MIC_RESULT_FATAL_ERROR;
             break;
     }
-    if (command == 0x51) {
+    if (pxiCommand == 0x51) {
         if (gMicrophoneCommand.mFull != 0) {
             gMicrophoneCommand.mFull(result, gMicrophoneCommand.mFullArg);
         }
         return;
     }
-    if (command == 0x40) {
+    if (pxiCommand == 0x40) {
         if (gMicrophoneCommand.mDstBuf != 0) {
             *gMicrophoneCommand.mDstBuf = SYSTEM_WORK->mMicSamplingData;
         }

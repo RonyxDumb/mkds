@@ -5,21 +5,21 @@
 #include "code_02148950.h"
 
 s32 RTC_ConvertDateToDay(const RTCDate *date) {
-    s32 dayNum;
+    s32 days;
 
     if (date->mYear >= 100 || date->mMonth < 1 || date->mMonth > 12 || date->mDay < 1 || date->mDay > 31 ||
         date->mWeek >= RTC_WEEK_MAX || date->mMonth < 1 || date->mMonth > 12) {
         return -1;
     }
-    dayNum = date->mDay - 1;
+    days = date->mDay - 1;
     // The month is 1-based.
-    dayNum += (sDayOfYear - 1)[date->mMonth];
+    days += (sDayOfYear - 1)[date->mMonth];
     if (date->mMonth >= 3 && (date->mYear & 3) == 0) {
-        dayNum++;
+        days++;
     }
-    dayNum += date->mYear * 365;
-    dayNum += (date->mYear + 3) / 4;
-    return dayNum;
+    days += date->mYear * 365;
+    days += (date->mYear + 3) / 4;
+    return days;
 }
 
 s32 RTCi_ConvertTimeToSecond(const RTCTime *time) {

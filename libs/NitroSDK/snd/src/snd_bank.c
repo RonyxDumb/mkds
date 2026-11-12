@@ -109,8 +109,8 @@ void SND_GetFirstInstDataPos(SNDInstPos *pos) {
 u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
     u32 entry;
     InstSimple *simple;
-    InstDrumSet *drumSet;
-    InstKeySplit *keySplit;
+    InstDrumSet *drumTable;
+    InstKeySplit *keyTable;
 
     while (pos->mPrgNo < bank->mInstCount) {
         entry = bank->mInstOffset[pos->mPrgNo];
@@ -128,20 +128,20 @@ u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
                 pos->mPrgNo++;
                 return 1;
             case 0x10:
-                drumSet = OFFSET_PTR(InstDrumSet, bank, (entry >> 8));
-                while (pos->mIndex < drumSet->mMax - drumSet->mMin + 1) {
-                    *inst = drumSet->mInstOffset[pos->mIndex];
+                drumTable = OFFSET_PTR(InstDrumSet, bank, (entry >> 8));
+                while (pos->mIndex < drumTable->mMax - drumTable->mMin + 1) {
+                    *inst = drumTable->mInstOffset[pos->mIndex];
                     pos->mIndex++;
                     return 1;
                 }
                 break;
             case 0x11:
-                keySplit = OFFSET_PTR(InstKeySplit, bank, (entry >> 8));
+                keyTable = OFFSET_PTR(InstKeySplit, bank, (entry >> 8));
                 while (pos->mIndex < 8) {
-                    if (keySplit->mKey[pos->mIndex] == 0) {
+                    if (keyTable->mKey[pos->mIndex] == 0) {
                         break;
                     }
-                    *inst = keySplit->mInstOffset[pos->mIndex];
+                    *inst = keyTable->mInstOffset[pos->mIndex];
                     pos->mIndex++;
                     return 1;
                 }

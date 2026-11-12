@@ -90,31 +90,31 @@ void PM_Init(void) {
 // stores through PMiWork.mWork (result 0). Then finishes the command with the result.
 void PMi_CommonCallback(u32 tag, u32 data, u32 err) {
     u16 reply;
-    u16 command;
+    u16 pxiCommand;
     u32 *work;
 
     if (err != 0) {
         PMi_CallCallbackAndUnlock(2);
         return;
     }
-    command = (data & 0x7f00) >> 8;
+    pxiCommand = (data & 0x7f00) >> 8;
     reply = data & 0xff;
-    if (command >= 0x70 && command <= 0x73) {
+    if (pxiCommand >= 0x70 && pxiCommand <= 0x73) {
         u16 *buffer;
         u16 value;
 
         value = reply & 0xff;
-        buffer = gPowerRegisterSlots[command - 0x70].mBuffer;
+        buffer = gPowerRegisterSlots[pxiCommand - 0x70].mBuffer;
         if (buffer != 0) {
             *buffer = value;
         }
-        gPowerRegisterSlots[command - 0x70].mFlag = 1;
+        gPowerRegisterSlots[pxiCommand - 0x70].mFlag = 1;
         reply = 0;
-    } else if (command == 0x60) {
+    } else if (pxiCommand == 0x60) {
         gPowerSleepHandshakeReplyReceived = 1;
-    } else if (command == 0x62) {
+    } else if (pxiCommand == 0x62) {
         PMi_SleepEndFlag = 1;
-    } else if (command == 0x67) {
+    } else if (pxiCommand == 0x67) {
         work = gPowerCommand.mWork;
         if (work != 0) {
             *work = reply;
@@ -169,15 +169,15 @@ u32 PMi_ReadRegisterAsync(u16 registerAddr, u16 *buffer, PMCallback callback, vo
 
 // PMi_ReadRegisterAsync, then waits; returns the result.
 u32 PMi_ReadRegister(u16 registerAddr, u16 *buffer) {
-    u32 commandResult;
-    u32 sendResult;
+    u32 replyCode;
+    u32 sendStatus;
 
-    sendResult = PMi_ReadRegisterAsync(registerAddr, buffer, PMi_DummyCallback, &commandResult);
-    if (sendResult != 0) {
-        return sendResult;
+    sendStatus = PMi_ReadRegisterAsync(registerAddr, buffer, PMi_DummyCallback, &replyCode);
+    if (sendStatus != 0) {
+        return sendStatus;
     }
     PMi_WaitBusy();
-    return commandResult;
+    return replyCode;
 }
 
 // Writes data to register registerAddr; callback is called with the result.
@@ -194,99 +194,99 @@ u32 PMi_WriteRegisterAsync(u16 registerAddr, u16 data, PMCallback callback, void
 
 // PMi_WriteRegisterAsync, then waits; returns the result.
 u32 PMi_WriteRegister(u16 registerAddr, u16 data) {
-    u32 commandResult;
-    u32 sendResult;
+    u32 replyCode;
+    u32 sendStatus;
 
-    sendResult = PMi_WriteRegisterAsync(registerAddr, data, PMi_DummyCallback, &commandResult);
-    if (sendResult != 0) {
-        return sendResult;
+    sendStatus = PMi_WriteRegisterAsync(registerAddr, data, PMi_DummyCallback, &replyCode);
+    if (sendStatus != 0) {
+        return sendStatus;
     }
     PMi_WaitBusy();
-    return commandResult;
+    return replyCode;
 }
 
 // status 1, 2, 3 sends utility command 1, 3, 2; any other value returns 0xffff.
 u32 PMi_SetLEDAsync(u32 status, PMCallback callback, void *arg) {
-    u32 command;
+    u32 utilityCommand;
 
     switch (status) {
         case 1:
-            command = 1;
+            utilityCommand = 1;
             break;
         case 3:
-            command = 2;
+            utilityCommand = 2;
             break;
         case 2:
-            command = 3;
+            utilityCommand = 3;
             break;
         default:
-            command = 0;
+            utilityCommand = 0;
             break;
     }
-    if (command == 0) {
+    if (utilityCommand == 0) {
         return 0xffff;
     }
-    return PM_SendUtilityCommandAsync(command, callback, arg);
+    return PM_SendUtilityCommandAsync(utilityCommand, callback, arg);
 }
 
 // PMi_SetLEDAsync, then waits; returns the result.
 u32 PMi_SetLED(u32 status) {
-    u32 commandResult;
-    u32 sendResult;
+    u32 replyCode;
+    u32 sendStatus;
 
-    sendResult = PMi_SetLEDAsync(status, PMi_DummyCallback, &commandResult);
-    if (sendResult != 0) {
-        return sendResult;
+    sendStatus = PMi_SetLEDAsync(status, PMi_DummyCallback, &replyCode);
+    if (sendStatus != 0) {
+        return sendStatus;
     }
     PMi_WaitBusy();
-    return commandResult;
+    return replyCode;
 }
 
 // target picks the screen (0, 1, or 2 for both), sw is 1 for on and 0 for off; sends utility command 6/7, 4/5 or 8/9.
 // Returns 0xffff for any other pair.
 u32 PM_SetBackLightAsync(u32 target, u32 sw, PMCallback callback, void *arg) {
-    u32 command;
+    u32 utilityCommand;
 
-    command = 0;
+    utilityCommand = 0;
     if (target == 0) {
         if (sw == 1) {
-            command = 6;
+            utilityCommand = 6;
         }
         if (sw == 0) {
-            command = 7;
+            utilityCommand = 7;
         }
     } else if (target == 1) {
         if (sw == 1) {
-            command = 4;
+            utilityCommand = 4;
         }
         if (sw == 0) {
-            command = 5;
+            utilityCommand = 5;
         }
     } else if (target == 2) {
         if (sw == 1) {
-            command = 8;
+            utilityCommand = 8;
         }
         if (sw == 0) {
-            command = 9;
+            utilityCommand = 9;
         }
     }
-    if (command == 0) {
+    if (utilityCommand == 0) {
         return 0xffff;
     }
-    return PM_SendUtilityCommandAsync(command, callback, arg);
+    return PM_SendUtilityCommandAsync(utilityCommand, callback, arg);
 }
 
 // PM_SetBackLightAsync, then waits for the reply and returns it.
 u32 PM_SetBackLight(u32 target, u32 sw) {
-    u32 commandResult;
-    u32 sendResult;
+    u32 replyCode;
+    u32 sendStatus;
 
-    sendResult = PM_SetBackLightAsync(target, sw, PMi_DummyCallback, &commandResult);
-    if (sendResult != 0) {
-        return sendResult;
+    sendStatus = PM_SetBackLightAsync(target, sw, PMi_DummyCallback, &replyCode);
+    if (sendStatus != 0) {
+        return sendStatus;
     }
     PMi_WaitBusy();
-    return commandResult;
+    return replyCode;
 }
 
 // Sends the power-off utility command (14) and returns.
@@ -296,15 +296,15 @@ u32 PM_ForceToPowerOffAsync(PMCallback callback, void *arg) {
 
 // Sends the power-off utility command (14) and waits for the reply.
 u32 PM_ForceToPowerOff(void) {
-    u32 commandResult;
-    u32 sendResult;
+    u32 replyCode;
+    u32 sendStatus;
 
-    sendResult = PM_ForceToPowerOffAsync(PMi_DummyCallback, &commandResult);
-    if (sendResult != 0) {
-        return sendResult;
+    sendStatus = PM_ForceToPowerOffAsync(PMi_DummyCallback, &replyCode);
+    if (sendStatus != 0) {
+        return sendStatus;
     }
     PMi_WaitBusy();
-    return commandResult;
+    return replyCode;
 }
 
 // Writes register 2 and waits for the reply; start-up code passes 1 after initialising the microphone.
@@ -356,14 +356,14 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     u32 topBacklightOn;
     u32 bottomBacklightOn;
     vu32 vblankCount;
-    u32 powerOffFlag;
+    u32 shutdownRequested;
     u32 savedMainDispCnt;
     u32 savedSubDispCnt;
     u16 param;
     u16 savedIme;
     u16 ime;
 
-    powerOffFlag = 0;
+    shutdownRequested = 0;
     PMi_ExecuteList(gPowerPreSleepCallbacks);
     savedIme = reg_OS_IME;
     reg_OS_IME = 0;
@@ -406,10 +406,10 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     OS_SpinWait(0x332340);
     if ((trigger & 8) != 0) {
         if ((reg_OS_IF & 0x100000) != 0) {
-            powerOffFlag = 1;
+            shutdownRequested = 1;
         }
     }
-    if (powerOffFlag == 0) {
+    if (shutdownRequested == 0) {
         if (lcdPower == 1) {
             PMi_SetLCDPower(1, 1, 1, 0);
         } else {
@@ -423,7 +423,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     OS_RestoreInterrupts(intrMode);
     ime = reg_OS_IME;
     reg_OS_IME = savedIme;
-    if (powerOffFlag != 0) {
+    if (shutdownRequested != 0) {
         PM_ForceToPowerOff();
     }
     PMi_ExecuteList(gPowerPostSleepCallbacks);
@@ -491,15 +491,15 @@ u32 PMi_SendLEDPatternCommandAsync(u32 pattern, PMCallback callback, void *arg) 
 
 // PMi_SendLEDPatternCommandAsync, then waits; returns the result.
 u32 PMi_SendLEDPatternCommand(u32 pattern) {
-    u32 commandResult;
-    u32 sendResult;
+    u32 replyCode;
+    u32 sendStatus;
 
-    sendResult = PMi_SendLEDPatternCommandAsync(pattern, PMi_DummyCallback, &commandResult);
-    if (sendResult != 0) {
-        return sendResult;
+    sendStatus = PMi_SendLEDPatternCommandAsync(pattern, PMi_DummyCallback, &replyCode);
+    if (sendStatus != 0) {
+        return sendStatus;
     }
     PMi_WaitBusy();
-    return commandResult;
+    return replyCode;
 }
 
 // Sends command 0x67; the reply byte is stored through patternBuf and callback is called with the result.
@@ -516,15 +516,15 @@ u32 PM_GetLEDPatternAsync(u32 *patternBuf, PMCallback callback, void *arg) {
 
 // PM_GetLEDPatternAsync, then waits for the reply; *patternBuf receives the pattern.
 u32 PM_GetLEDPattern(u32 *patternBuf) {
-    u32 commandResult;
-    u32 sendResult;
+    u32 replyCode;
+    u32 sendStatus;
 
-    sendResult = PM_GetLEDPatternAsync(patternBuf, PMi_DummyCallback, &commandResult);
-    if (sendResult != 0) {
-        return sendResult;
+    sendStatus = PM_GetLEDPatternAsync(patternBuf, PMi_DummyCallback, &replyCode);
+    if (sendStatus != 0) {
+        return sendStatus;
     }
     PMi_WaitBusy();
-    return commandResult;
+    return replyCode;
 }
 
 // Puts info first in *listp.

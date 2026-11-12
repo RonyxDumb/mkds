@@ -49,7 +49,7 @@ void SNDi_CallAlarmHandler(int alarmNo) {
 // counters and queues the command that hands over the shared work area.
 void SND_CommandInit(void) {
     s32 commandIndex;
-    SNDCommand *command;
+    SNDCommand *sharedCommand;
 
     InitPXI();
     sCommandFreeList = sCommandArray;
@@ -67,13 +67,13 @@ void SND_CommandInit(void) {
     sFinishedTag = 0;
     SNDi_SharedWork = &sSharedWork;
     SNDi_InitSharedWork(&sSharedWork);
-    command = SND_AllocCommand(1);
-    if (command == 0) {
+    sharedCommand = SND_AllocCommand(1);
+    if (sharedCommand == 0) {
         return;
     }
-    command->mId = 0x1d;
-    command->mArg[0] = (u32) SNDi_SharedWork;
-    SND_PushCommand(command);
+    sharedCommand->mId = 0x1d;
+    sharedCommand->mArg[0] = (u32) SNDi_SharedWork;
+    SND_PushCommand(sharedCommand);
     SND_FlushCommand(1);
 }
 
@@ -81,8 +81,8 @@ void SND_CommandInit(void) {
 // otherwise it returns 0 when none has come.
 const SNDCommand *SND_RecvCommandReply(u32 flags) {
     u32 enabled;
-    SNDCommand *commandList;
-    SNDCommand *commandListEnd;
+    SNDCommand *chain;
+    SNDCommand *chainEnd;
     s32 listIndex;
 
     enabled = OS_DisableInterrupts();
@@ -97,38 +97,38 @@ const SNDCommand *SND_RecvCommandReply(u32 flags) {
         return 0;
     }
     listIndex = sWaitingCommandListQueueRead;
-    commandList = sWaitingCommandListQueue[listIndex];
+    chain = sWaitingCommandListQueue[listIndex];
     sWaitingCommandListQueueRead = listIndex + 1;
     if (sWaitingCommandListQueueRead > 8) {
         sWaitingCommandListQueueRead = 0;
     }
-    commandListEnd = commandList;
-    while (commandListEnd->mNext != 0) {
-        commandListEnd = commandListEnd->mNext;
+    chainEnd = chain;
+    while (chainEnd->mNext != 0) {
+        chainEnd = chainEnd->mNext;
     }
     if (sCommandFreeListEnd != 0) {
-        sCommandFreeListEnd->mNext = commandList;
+        sCommandFreeListEnd->mNext = chain;
     } else {
-        sCommandFreeList = commandList;
+        sCommandFreeList = chain;
     }
-    sCommandFreeListEnd = commandListEnd;
+    sCommandFreeListEnd = chainEnd;
     sWaitingCommandListCount--;
     sFinishedTag++;
     OS_RestoreInterrupts(enabled);
-    return commandList;
+    return chain;
 }
 
 // Returns a record from the free list. When there is none and flags bit 0 is set, it flushes or collects replies until
 // one is free; without the bit it returns 0.
 SNDCommand *SND_AllocCommand(u32 flags) {
-    SNDCommand *command;
+    SNDCommand *allocated;
 
     if (IsCommandAvailable() == 0) {
         return 0;
     }
-    command = AllocCommand();
-    if (command != 0) {
-        return command;
+    allocated = AllocCommand();
+    if (allocated != 0) {
+        return allocated;
     }
     if ((flags & 1) == 0) {
         return 0;
@@ -136,9 +136,9 @@ SNDCommand *SND_AllocCommand(u32 flags) {
     if (SND_CountWaitingCommand() > 0) {
         while (SND_RecvCommandReply(0) != 0) {
         }
-        command = AllocCommand();
-        if (command != 0) {
-            return command;
+        allocated = AllocCommand();
+        if (allocated != 0) {
+            return allocated;
         }
     } else {
         SND_FlushCommand(1);
@@ -146,9 +146,9 @@ SNDCommand *SND_AllocCommand(u32 flags) {
     RequestCommandProc();
     do {
         SND_RecvCommandReply(1);
-        command = AllocCommand();
-    } while (command == 0);
-    return command;
+        allocated = AllocCommand();
+    } while (allocated == 0);
+    return allocated;
 }
 
 // Appends the record to the list of commands that wait to be sent.
@@ -281,12 +281,12 @@ u32 SND_IsFinishedCommandTag(u32 tag) {
 // Counts the records in the free list.
 s32 SND_CountFreeCommand(void) {
     u32 enabled;
-    SNDCommand *command;
+    SNDCommand *entry;
     s32 count;
 
     enabled = OS_DisableInterrupts();
     count = 0;
-    for (command = sCommandFreeList; command != 0; command = command->mNext) {
+    for (entry = sCommandFreeList; entry != 0; entry = entry->mNext) {
         count++;
     }
     OS_RestoreInterrupts(enabled);
@@ -296,12 +296,12 @@ s32 SND_CountFreeCommand(void) {
 // Counts the records in the list of commands that wait to be sent.
 s32 SND_CountReservedCommand(void) {
     u32 enabled;
-    SNDCommand *command;
+    SNDCommand *entry;
     s32 count;
 
     enabled = OS_DisableInterrupts();
     count = 0;
-    for (command = sReserveList; command != 0; command = command->mNext) {
+    for (entry = sReserveList; entry != 0; entry = entry->mNext) {
         count++;
     }
     OS_RestoreInterrupts(enabled);

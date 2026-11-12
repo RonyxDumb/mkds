@@ -103,7 +103,7 @@ RTCResult RTC_GetTime(RTCTime *time) {
 // Receives the reply of the other processor: decodes the shared date and time words into the buffer by mSequence,
 // then ends the request and calls its callback.
 void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
-    u8 command;
+    u8 pxiCommand;
     u32 status;
     RTCResult result;
     RTCDate *date;
@@ -126,9 +126,9 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
         }
         return;
     }
-    command = (data & 0x7f00) >> 8;
+    pxiCommand = (data & 0x7f00) >> 8;
     status = data & 0xff;
-    if (command == 0x30) {
+    if (pxiCommand == 0x30) {
         if (gClockRequest.mInterrupt != 0) {
             gClockRequest.mInterrupt();
         }

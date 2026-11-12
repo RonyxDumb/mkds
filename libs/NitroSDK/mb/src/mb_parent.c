@@ -98,7 +98,7 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
     u8 slotIndex;
     MB_CommPWork *work;
     u32 value;
-    u16 child;
+    u16 aid;
     u8 entryIndex;
     s32 childEntryIndex;
     void (*callback)(u32, u32, void *);
@@ -108,38 +108,38 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
             MBi_CommChangeParentState(0, 1, eventData);
             break;
         case 0:
-            child = eventData->mLength;
-            if (child != 0 && child < 16) {
-                MBi_CommChangeParentState(child, 2, eventData);
+            aid = eventData->mLength;
+            if (aid != 0 && aid < 16) {
+                MBi_CommChangeParentState(aid, 2, eventData);
             }
             break;
         case 1:
-            child = eventData->mLength;
-            if (child != 0 && child < 16) {
+            aid = eventData->mLength;
+            if (aid != 0 && aid < 16) {
                 mbc->mChildversion[eventData->mLength - 1] = 0;
                 MI_CpuFill8(mbc->mChildggid + (eventData->mLength - 1), 0, 4);
                 MI_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, 0x16);
                 MBi_ClearParentPieceBuffer(eventData->mLength);
                 value = 0;
                 mbc->mReq2child[eventData->mLength - 1] = value;
-                child = eventData->mLength;
-                childEntryIndex = mbc->mChildEntryIndex[(s32) child - 1];
+                aid = eventData->mLength;
+                childEntryIndex = mbc->mChildEntryIndex[(s32) aid - 1];
                 value = ~value;
                 if (childEntryIndex != value) {
-                    childBit = 1 << child;
+                    childBit = 1 << aid;
                     entryIndex = childEntryIndex;
                     (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp &= ~childBit;
                     (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= childBit;
-                    mbc->mChildEntryIndex[child - 1] = value;
+                    mbc->mChildEntryIndex[aid - 1] = value;
                     (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~childBit;
                 }
                 if ((mbc->mChildEntryBmp & (1 << eventData->mLength)) != 0) {
                     mbc->mChildNum--;
                     mbc->mChildEntryBmp &= ~(1 << eventData->mLength);
                 }
-                child = eventData->mLength;
-                if (mbc->mPCommState[child - 1] == 8) {
-                    MBi_CommChangeParentState(child, 9, NULL);
+                aid = eventData->mLength;
+                if (mbc->mPCommState[aid - 1] == 8) {
+                    MBi_CommChangeParentState(aid, 9, NULL);
                 }
                 MBi_CommChangeParentState(eventData->mLength, 3, eventData);
                 mbc->mPCommState[eventData->mLength - 1] = 0;
@@ -376,7 +376,7 @@ int MBi_CommParentSendMsg(u8 messageKind, u32 childMask) {
 u32 MBi_CommParentSendDLFileInfo(void) {
     ParentMessage message;
     u8 requestCounts[16];
-    u16 child;
+    u16 aid;
     u32 candidateFile;
     u16 childMask;
     u8 fid;
@@ -386,11 +386,11 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     childMask = 0;
     candidateFile = -1;
     MI_CpuFill8(requestCounts, 0, 16);
-    child = 1;
+    aid = 1;
     work = mbc;
-    for (; child <= 15; child++) {
-        if (work->mPCommState[child - 1] == 5) {
-            requestCounts[work->mChildEntryIndex[child - 1]]++;
+    for (; aid <= 15; aid++) {
+        if (work->mPCommState[aid - 1] == 5) {
+            requestCounts[work->mChildEntryIndex[aid - 1]]++;
         }
     }
     fid = prev_fid;
@@ -407,9 +407,9 @@ u32 MBi_CommParentSendDLFileInfo(void) {
         return 21;
     }
     prev_fid = candidateFile;
-    for (child = 1; child <= 15; child++) {
-        if (work->mPCommState[child - 1] == 5 && candidateFile == work->mChildEntryIndex[child - 1]) {
-            childMask |= 1 << child;
+    for (aid = 1; aid <= 15; aid++) {
+        if (work->mPCommState[aid - 1] == 5 && candidateFile == work->mChildEntryIndex[aid - 1]) {
+            childMask |= 1 << aid;
         }
     }
     message.mKind = 3;
