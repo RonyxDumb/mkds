@@ -514,7 +514,7 @@ u8 *arprequest(u32 address) {
 void reg_arpcache(u8 *mac, u32 address, u32 addedEntry) {
     u16 now;
     u16 maxAge;
-    u32 candidate;
+    u32 victimIndex;
     u32 index;
     CPSArpCache *entry;
 
@@ -531,21 +531,21 @@ void reg_arpcache(u8 *mac, u32 address, u32 addedEntry) {
     }
     if (addedEntry != 0) {
         maxAge = 0;
-        candidate = 0;
+        victimIndex = 0;
         for (index = 0, entry = gArpCache; index < 8; index++) {
             if (entry->mIp == 0) {
-                candidate = index;
+                victimIndex = index;
                 break;
             }
             if ((s16) (now - entry->mWhen) > maxAge) {
                 maxAge = now - entry->mWhen;
-                candidate = index;
+                victimIndex = index;
             }
             entry++;
         }
-        gArpCache[candidate].mIp = address;
-        MI_CpuCopy8(mac, gArpCache[candidate].mMac, 6);
-        gArpCache[candidate].mWhen = now;
+        gArpCache[victimIndex].mIp = address;
+        MI_CpuCopy8(mac, gArpCache[victimIndex].mMac, 6);
+        gArpCache[victimIndex].mWhen = now;
     }
 }
 
@@ -1856,8 +1856,8 @@ s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
     u32 window;
     u32 segmentLength;
     s32 ackCountSaved;
-    s32 limit;
-    s32 limitNow;
+    s32 sendBudget;
+    s32 sendBudgetNow;
 
     if (probeFlag != 0) {
         window = 1;
@@ -1865,7 +1865,7 @@ s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
         window = socket->mRemoteWin;
     }
     ackCountSaved = socket->mAckRcvd;
-    limit = ackCountSaved * 2 + 4;
+    sendBudget = ackCountSaved * 2 + 4;
     while (length != 0 && socket->mState == 4) {
         segmentLength = socket->mRemoteMss;
         if (segmentLength >= window) {
@@ -1880,10 +1880,10 @@ s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
         if (length < segmentLength) {
             segmentLength = length;
         }
-        limitNow = limit + (socket->mAckRcvd - ackCountSaved);
+        sendBudgetNow = sendBudget + (socket->mAckRcvd - ackCountSaved);
         ackCountSaved = socket->mAckRcvd;
-        limit = limitNow - 1;
-        if (limitNow == 0) {
+        sendBudget = sendBudgetNow - 1;
+        if (sendBudgetNow == 0) {
             segmentLength = 0;
         }
         if (segmentLength == 0) {
@@ -2074,7 +2074,7 @@ void scavenger(void) {
     u32 dhcpDelay;
     u32 dhcpPhase;
     u32 now;
-    BOOL first;
+    BOOL isFirstPass;
     s32 e;
     s32 i;
     OSThread *thread;
@@ -2090,7 +2090,7 @@ void scavenger(void) {
     gScavengerSoc.mSendBuffer = gScavengerSendBuffer;
     CPS_SocRegister(&gScavengerSoc);
     dhcpPhase = 0;
-    first = TRUE;
+    isFirstPass = TRUE;
     dhcpDelay = 1;
     CPSNoIpReason = 1;
     while (1) {
@@ -2110,9 +2110,9 @@ void scavenger(void) {
                 } else {
                     switch (dhcpPhase) {
                         case 0:
-                            if (first != FALSE) {
+                            if (isFirstPass != FALSE) {
                                 CPSNoIpReason = 2;
-                                first = FALSE;
+                                isFirstPass = FALSE;
                             }
                             if (dhcp_discover_server() == 0 || dhcp_request_server(&dhcpDelay, 0) == FALSE) {
                                 set_fixed_ip();
