@@ -115,6 +115,20 @@ struct NNSG3dRS {
     /* 184 */ NNSG3dVisAnmResult mTmpVisAnmResult;
 };
 
+// Caches of the SBC interpreter: material results, joint scale and inverse scale, and the envelope matrices with their
+// normal matrices, indexed by material or joint number below 64.
+typedef struct NNSG3dRSOnGlb {
+    /* 0000 */ NNSG3dMatAnmResult mMatCache[64];
+    struct {
+        /* 00 */ Vec3 mScale;
+        /* 0c */ Vec3 mInvScale;
+    } /* 0e00 */ mScaleCache[64];
+    struct {
+        /* 00 */ s32 mMtx[16];
+        /* 40 */ s32 mNrmMtx[9];
+    } /* 1400 */ mEvpCache[64];
+} NNSG3dRSOnGlb;
+
 // Entry of the table of animation formats (8 bytes).
 typedef struct NNSG3dAnmObjInitFunc {
     /* 00 */ u8 mCategory0;

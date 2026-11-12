@@ -300,7 +300,7 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
             if (matAnm != 0) {
                 result = matAnm + materialIndex;
             } else {
-                result = NNS_G3dRSOnGlb + materialIndex;
+                result = NNS_G3dRSOnGlb.mMatCache + materialIndex;
             }
             goto done;
         }
@@ -310,7 +310,7 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
         result = renderState->mRenderObj->mRecMatAnm + materialIndex;
     } else if (option == 0x40) {
         renderState->mIsMatCached[materialIndex >> 5] |= 1 << (materialIndex & 0x1f);
-        result = NNS_G3dRSOnGlb + materialIndex;
+        result = NNS_G3dRSOnGlb.mMatCache + materialIndex;
     } else {
         result = &renderState->mTmpMatAnmResult;
     }

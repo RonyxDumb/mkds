@@ -12,10 +12,12 @@
 #include "code_0214a748.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
-#include "ITCM/data_02171000.h"
 #include "registers.h"
 #include "fx_mtx44.h"
 #include "code_02013bdc.h"
+
+NNSG3dRS *NNS_G3dRS = NULL;
+NNSG3dRSOnGlb NNS_G3dRSOnGlb;
 
 BOOL (*NNS_G3dFuncBlendMatDefault)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendMat;
 BOOL (*NNS_G3dFuncBlendJntDefault)(NNSG3dJntAnmResult *, const NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmBlendJnt;
@@ -343,7 +345,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
     for (entryIndex = 0; entryIndex < count; entryIndex++) {
         jntIdx = commandBytes[1];
         cached = ((s32 *) state->mIsEvpCached)[jntIdx >> 5] & (1 << (jntIdx & 0x1f));
-        clip = data_02171904[jntIdx];
+        clip = NNS_G3dRSOnGlb.mEvpCache[jntIdx].mMtx;
         if (!cached) {
             state->mIsEvpCached[jntIdx >> 5] |= 1 << (jntIdx & 0x1f);
             reg_G3_MTX_RESTORE = commandBytes[0];
@@ -367,7 +369,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *state) {
             reg_G3_MTX_MODE = 2;
             G3_MultMtx33(invMtx + jntIdx * 0x54 + 0x30);
         }
-        vec = data_02171944[jntIdx];
+        vec = NNS_G3dRSOnGlb.mEvpCache[jntIdx].mNrmMtx;
         weight = commandBytes[2] << 4;
         sum.pos.mRows[0].x += (weight * clip[0]) >> 12;
         sum.pos.mRows[0].y += (weight * clip[1]) >> 12;

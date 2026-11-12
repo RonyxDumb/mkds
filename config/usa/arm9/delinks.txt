@@ -331,6 +331,7 @@ libs/NitroSystem/g3d/src/code_02010c84.c:
     complete
     .text       start:0x02010c84 end:0x02012b20
     .data       start:0x021617d0 end:0x02161844
+    .bss        start:0x021704e0 end:0x021731e4
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/gecom.c:

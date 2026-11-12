@@ -11122,9 +11122,6 @@ data_021704e8 kind:bss addr:0x021704c8
 data_021704f4 kind:bss addr:0x021704d4
 NNS_G3dRS kind:bss addr:0x021704e0
 NNS_G3dRSOnGlb kind:bss addr:0x021704e4
-data_usa_021712f0 kind:bss addr:0x021712f0
-data_02171904 kind:bss addr:0x021718e4
-data_02171944 kind:bss addr:0x02171924
 NNS_G3dGeBuffer kind:bss addr:0x021731e4
 NNS_G3dFlagGXDmaAsync kind:bss addr:0x021731e8
 NNS_G3dFlagUseFastDma kind:bss addr:0x021731ec

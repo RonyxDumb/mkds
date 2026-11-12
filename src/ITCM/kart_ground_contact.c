@@ -28,7 +28,6 @@
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/MapObjects/data_02154000.h"
 #include "data_02170000.h"
-#include "ITCM/data_02171000.h"
 #include "Main/Menu/data_02175628.h"
 #include "Main/MapObjects/data_0217c000.h"
 #include "player.h"
@@ -422,9 +421,9 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
         if (optionFlags & 2) {
             nodeIndex = command->mNodeId;
             NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] &= ~(1 << (nodeIndex & 0x1f));
-            data_usa_021712f0[nodeIndex].mUnk_00.x = scaleValues->mScaleInverse.x;
-            data_usa_021712f0[nodeIndex].mUnk_00.y = scaleValues->mScaleInverse.y;
-            data_usa_021712f0[nodeIndex].mUnk_00.z = scaleValues->mScaleInverse.z;
+            NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale.x = scaleValues->mScaleInverse.x;
+            NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale.y = scaleValues->mScaleInverse.y;
+            NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale.z = scaleValues->mScaleInverse.z;
         }
     }
     if (optionFlags & 1) {
@@ -433,7 +432,7 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
         if (NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] & (1 << (nodeIndex & 0x1f))) {
             jntAnmResult->mFlag |= 8;
         } else {
-            jntAnmResult->mScaleEx0 = data_usa_021712f0[nodeIndex].mUnk_00;
+            jntAnmResult->mScaleEx0 = NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale;
         }
     }
     jntAnmResult->mFlag |= 0x10;
