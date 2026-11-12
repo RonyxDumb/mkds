@@ -43,41 +43,42 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-char *gSelectCupGridMBNclrName = "common/select_cup_m_b.nclr";
-const u16 gSelectCupGridCupMessageIndices[8][4] = {{0x2d, 0x2e, 0x2f, 0x30}, {0x31, 0x32, 0x33, 0x34}, {0x35, 0x36, 0x37, 0x38}, {0x39, 0x3a, 0x3b, 0x3c}, {0x3d, 0x3e, 0x3f, 0x40}, {0x41, 0x42, 0x43, 0x44}, {0x45, 0x46, 0x47, 0x48}, {0x49, 0x4a, 0x4b, 0x4c}};
-const s32 gSelectCupGridRecordEngineClasses[4] = {0, 1, 2, 3};
+#pragma thumb on
+
 const s16 gSelectCupGridRightOffsets[8] = {1, 1, 1, 0, 1, 1, 1, 0};
-const s16 gSelectCupGridLeftOffsets[8] = {0, -1, -1, -1, 0, -1, -1, -1};
+char *gSelectCupGridMNcerName = "common/select_cup_m.nce.ncer";
+const s32 gSelectCupGridRecordEngineClasses[4] = {0, 1, 2, 3};
+char *gSelectCupGridSNcgrName = "common/select_cup_s.nce.ncgr";
 const u32 gSelectCupGridFirstCourseIds[8] = {0x14, 0x1b, 0x1e, 0x22, 0xa, 0x23, 0xf, 0x27};
-const u32 gSelectCupGridMirrorFlagIndices[8] = {0x10, 0x10, 3, 7, 0x10, 0x10, 0xb, 0xf};
-const u16 gSelectCupGridCourseLabelHeights[4] = {0xd, 0xd, 0xd, 0xd};
-const u32 gSelectCupGridRectCupIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-const u16 gSelectCupGridCourseLabelCells[4] = {0x12, 0x11, 0x10, 0xf};
-char *gSelectCupGridSNcerName = "common/select_cup_s.nce.ncer";
-const u16 gSelectCupGridRecordCells[8] = {7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};
-const u16 gSelectCupGridCourseLabelWidths[4] = {0xa3, 0xa3, 0xa3, 0xa3};
-const s16 gSelectCupGridDownOffsets[8] = {4, 4, 4, 4, 0, 0, 0, 0};
-char *gSelectCupGridMNcgrName = "common/select_cup_m.nce.ncgr";
-const u16 gSelectCupGridTrophyCells[4] = {3, 4, 5, 6};
-const u32 gSelectCupGridEngineSlots[3] = {0, 1, 2};
-char *gSelectCupGridSBnclName = "common/select_cup_s.bncl";
-char *gSelectCupGridMBNcgrName = "common/select_cup_m_b.ncgr";
 char *gSelectCupGridMBnllName = "common/select_cup_m.bnll";
-char *gSelectCupGridMNscrName = "common/select_cup_m.nscr";
-char *gSelectCupGridMONclrName = "common/select_cup_m_o.nclr";
+char *gSelectCupGridSNcerName = "common/select_cup_s.nce.ncer";
+const u16 gSelectCupGridCourseLabelWidths[4] = {0xa3, 0xa3, 0xa3, 0xa3};
+char *gSelectCupGridMBNclrName = "common/select_cup_m_b.nclr";
+const u16 gSelectCupGridCourseLabelHeights[4] = {0xd, 0xd, 0xd, 0xd};
 const s16 gSelectCupGridUpOffsets[8] = {0, 0, 0, 0, -4, -4, -4, -4};
-char *gSelectCupGridSONclrName = "common/select_cup_s_o.nclr";
-const u32 gSelectCupGridEngineFlagIndices[8][3] = {{0x1b, 0x1b, 0x1b}, {0x1b, 0x1b, 0x1b}, {0, 1, 2}, {4, 5, 6}, {0x1b, 0x1b, 0x1b}, {0x1b, 0x1b, 0x1b}, {8, 9, 0xa}, {0xc, 0xd, 0xe}};
 const u32 gSelectCupGridCupIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+const s16 gSelectCupGridDownOffsets[8] = {4, 4, 4, 4, 0, 0, 0, 0};
+char *gSelectCupGridSBnclName = "common/select_cup_s.bncl";
 char *gSelectCupGridSBnblName = "common/select_cup_s.bnbl";
+const s16 gSelectCupGridLeftOffsets[8] = {0, -1, -1, -1, 0, -1, -1, -1};
+char *gSelectCupGridMBNcgrName = "common/select_cup_m_b.ncgr";
+const u32 gSelectCupGridRecordCellSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+const u16 gSelectCupGridCupMessageIndices[8][4] = {{0x2d, 0x2e, 0x2f, 0x30}, {0x31, 0x32, 0x33, 0x34}, {0x35, 0x36, 0x37, 0x38}, {0x39, 0x3a, 0x3b, 0x3c}, {0x3d, 0x3e, 0x3f, 0x40}, {0x41, 0x42, 0x43, 0x44}, {0x45, 0x46, 0x47, 0x48}, {0x49, 0x4a, 0x4b, 0x4c}};
+char *gSelectCupGridMBnclName = "common/select_cup_m.bncl";
+const u32 gSelectCupGridEngineFlagIndices[8][3] = {{0x1b, 0x1b, 0x1b}, {0x1b, 0x1b, 0x1b}, {0, 1, 2}, {4, 5, 6}, {0x1b, 0x1b, 0x1b}, {0x1b, 0x1b, 0x1b}, {8, 9, 0xa}, {0xc, 0xd, 0xe}};
+char *gSelectCupGridMONclrName = "common/select_cup_m_o.nclr";
+const u32 gSelectCupGridEngineSlots[3] = {0, 1, 2};
+char *gSelectCupGridSONclrName = "common/select_cup_s_o.nclr";
+const u16 gSelectCupGridCourseLabelCells[4] = {0x12, 0x11, 0x10, 0xf};
+char *gSelectCupGridMNscrName = "common/select_cup_m.nscr";
+const u32 gSelectCupGridRectCupIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 const u32 gSelectCupGridIndicesByCup[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 const u16 gSelectCupGridCourseLabelIndices[4] = {3, 2, 1, 0};
-char *gSelectCupGridMNcerName = "common/select_cup_m.nce.ncer";
-char *gSelectCupGridSNcgrName = "common/select_cup_s.nce.ncgr";
-const u32 gSelectCupGridRecordCellSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-char *gSelectCupGridMBnclName = "common/select_cup_m.bncl";
-
-#pragma thumb on
+const u16 gSelectCupGridTrophyCells[4] = {3, 4, 5, 6};
+const u32 gSelectCupGridMirrorFlagIndices[8] = {0x10, 0x10, 3, 7, 0x10, 0x10, 0xb, 0xf};
+const u16 gSelectCupGridRecordCells[8] = {7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};
+char *gSelectCupGridMNcgrName = "common/select_cup_m.nce.ncgr";
+SelectCupGrid *gSelectCupGrid;
 
 void RefreshSelectCupGridCupsEnabled(void) {
     int cupIndex;

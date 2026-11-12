@@ -764,9 +764,6 @@ extern u32 data_0217d024[];
 
 extern SoundHandlePool gPlayingSoundPool;
 
-// Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
-extern SelectCupGrid *gSelectCupGrid;
-
 extern SelectCupCourse *gSelectCupCourse;
 
 extern u32 data_0217d020;

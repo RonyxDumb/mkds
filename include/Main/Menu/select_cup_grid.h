@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0217d000.h"
 
 void WriteSelectCupGridRegisters(void);
 void SetCupFromSelectCupGrid(void);
@@ -137,3 +138,6 @@ extern char *gSelectCupGridMNcerName;
 extern char *gSelectCupGridSNcgrName;
 extern const u32 gSelectCupGridRecordCellSlots[8];
 extern char *gSelectCupGridMBnclName;
+
+// Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
+extern struct SelectCupGrid *gSelectCupGrid;
