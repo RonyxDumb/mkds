@@ -8774,8 +8774,7 @@ gOamShapeSizeCharBlocks kind:data(any) addr:0x0215d024
 gBackScreenSNclrStarts kind:data(any) addr:0x0215d030
 gBackScreenMNclrStarts kind:data(any) addr:0x0215d034
 gBackScreenInLoadedArchives kind:data(any) addr:0x0215d038
-gBackScreenKindMIndices kind:data(any) addr:0x0215d03c
-gBackScreenKindSIndices kind:data(any) addr:0x0215d03d
+gBackScreenKindIndices kind:data(any) addr:0x0215d03c
 gTxtSystemBgOffsets kind:data(any) addr:0x0215d040
 gTxtSystemCanvasSizes kind:data(any) addr:0x0215d044
 gTxtSystemCanvasCharOffsets kind:data(any) addr:0x0215d054

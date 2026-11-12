@@ -20,12 +20,16 @@
 
 #pragma thumb on
 
+const u8 gBackScreenKindIndices[4] = {0, 0, 1, 0};
+const u8 gBackScreenMNclrStarts[4] = {0xc, 0xc, 0, 0};
+const u8 gBackScreenInLoadedArchives[4] = {1, 0, 0, 0};
+const u8 gBackScreenSNclrStarts[4] = {0xa, 0, 0, 0};
 const char *gBackScreenSNclrNames[1] = {gBackScreenSNclr00Name};
 const char *gBackScreenSNcgrNames[1] = {gBackScreenSNcgr00Name};
 const char *gBackScreenSNscrNames[1] = {gBackScreenSNscrBg00Name};
+const char *gBackScreenMNscrNames[2] = {gBackScreenMNscrBg00Name, gBackScreenMNscrBg01Name};
 const char *gBackScreenMNcgrNames[2] = {gBackScreenMNcgr00Name, gBackScreenMNcgr01Name};
 const char *gBackScreenMNclrNames[2] = {gBackScreenMNclr00Name, gBackScreenMNclr01Name};
-const char *gBackScreenMNscrNames[2] = {gBackScreenMNscrBg00Name, gBackScreenMNscrBg01Name};
 char gBackScreenMNscrBg00Name[] = "back_screen_m_bg_00.nscr";
 char gBackScreenSNcgr00Name[] = "back_screen_s_b_00.ncgr";
 char gBackScreenSNclr00Name[] = "back_screen_s_b_00.nclr";
@@ -95,8 +99,8 @@ s32 LoadBackScreen(s32 subCharOffset) {
     s32 nclrMSize;
 
     kind = gSceneText->mBackScreenKind;
-    indexM = gBackScreenKindMIndices[kind * 2];
-    indexS = gBackScreenKindSIndices[kind * 2];
+    indexM = gBackScreenKindIndices[kind * 2];
+    indexS = (gBackScreenKindIndices + 1)[kind * 2];
     nclrMOffset = gBackScreenMNclrStarts[indexM] << 5;
     nclrMSize = (0xe - gBackScreenMNclrStarts[indexM]) << 5;
     nclrSOffset = gBackScreenSNclrStarts[indexS] << 5;

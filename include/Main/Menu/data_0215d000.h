@@ -9,15 +9,14 @@ typedef struct ByteRect {
     /* 03 */ u8 mMaxY;
 } ByteRect;
 
-extern u8 gBackScreenSNclrStarts[];
+extern const u8 gBackScreenSNclrStarts[];
 
-extern u8 gBackScreenMNclrStarts[];
+extern const u8 gBackScreenMNclrStarts[];
 
-extern u8 gBackScreenInLoadedArchives[];
+extern const u8 gBackScreenInLoadedArchives[];
 
-extern u8 gBackScreenKindMIndices[];
-
-extern u8 gBackScreenKindSIndices[];
+// Pairs of indices per kind: the M index, then the S index.
+extern const u8 gBackScreenKindIndices[];
 
 extern u8 gKeyboardNextLayoutRegion0[6];
 
