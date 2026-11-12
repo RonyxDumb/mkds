@@ -12,7 +12,7 @@
 #include "code_0213a460.h"
 #include "code_02139f70.h"
 #include "code_0214d018.h"
-#include "Main/Net/friend_data_type_wrapper.h"
+#include "dwc_account.h"
 
 u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString) {
     char valueText[4];

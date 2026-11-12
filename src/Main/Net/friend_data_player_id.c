@@ -1,5 +1,5 @@
 #include "Main/Net/friend_data_player_id.h"
-#include "code_02152490.h"
+#include "dwc_account.h"
 
 #pragma thumb on
 

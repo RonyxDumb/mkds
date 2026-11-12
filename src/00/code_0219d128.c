@@ -14,7 +14,7 @@
 #include "00/code_0219d934.h"
 #include "Main/Unknown/code_02152000.h"
 #include "Main/Net/friend_data_from_profile.h"
-#include "Main/Net/friend_data_type_get.h"
+#include "dwc_account.h"
 #include "code_0214d018.h"
 #include "00/code_0219c954.h"
 #include "00/code_0219cfc0.h"
@@ -22,13 +22,11 @@
 #include "os_tick.h"
 #include "code_021329f8.h"
 #include "code_021522a0.h"
-#include "code_02152934.h"
 #include "00/code_0219daa8.h"
 #include "00/code_0219c000.h"
 #include "00/code_0219c384.h"
 #include "00/code_0219caac.h"
 #include "00/code_0219742c.h"
-#include "code_02152a24.h"
 
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
 // object exists.

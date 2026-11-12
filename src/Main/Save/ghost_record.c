@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_02057000.h"
 #include "Main/Save/backup.h"
 #include "Main/Unknown/unk_02175000.h"
-#include "code_02152490.h"
+#include "dwc_account.h"
 
 #pragma thumb on
 

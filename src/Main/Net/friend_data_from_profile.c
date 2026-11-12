@@ -1,7 +1,6 @@
 #include "Main/Net/friend_data_from_profile.h"
-#include "Main/Net/friend_data_type_set.h"
+#include "dwc_account.h"
 #include "code_0214d018.h"
-#include "code_02152a7c.h"
 
 #pragma thumb on
 

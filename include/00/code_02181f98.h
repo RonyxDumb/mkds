@@ -19,7 +19,7 @@ void AdvanceWiFiVSSetting(void);
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 #include "Main/Menu/second_menu_scene.h" // StateMachine
-#include "code_02152490.h" // DWCAccFriendData
+#include "dwc_account.h" // DWCAccFriendData
 
 // Allocated by InitWiFiVSSetting and held in gWiFiVSSetting.
 typedef struct WiFiVSSetting {

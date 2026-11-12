@@ -1,8 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02152490.h"
-#include "code_02152500.h"
+#include "dwc_account.h"
 #include "00/code_0218f960.h"
 
 // Login machine, embedded in WiFiConnection at 0x84 (0x264 bytes = the MI_CpuFill8 of InitWiFiLogin), reached through

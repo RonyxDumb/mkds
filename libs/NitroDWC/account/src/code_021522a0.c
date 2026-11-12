@@ -1,13 +1,8 @@
 #include "code_021522a0.h"
-#include "code_02152490.h"
-#include "code_021526e4.h"
-#include "code_02152ab4.h"
+#include "dwc_account.h"
 #include "code_02152ac8.h"
 #include "Main/Unknown/code_02152000.h"
-#include "Main/Net/friend_key_format.h"
-#include "Main/Net/friend_data_gs_profile_id.h"
 #include "Main/Net/friend_data_player_id.h"
-#include "code_02152a24.h"
 
 #pragma thumb on
 

@@ -22,11 +22,9 @@
 #include "os_printf.h"
 #include "code_02139f70.h"
 #include "Main/Unknown/code_02152000.h"
-#include "code_02152500.h"
-#include "code_02152934.h"
+#include "dwc_account.h"
 #include "code_021522a0.h"
 #include "Main/Net/friend_data_from_profile.h"
-#include "Main/Net/friend_data_type_get.h"
 
 void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *arg, u32 friendIdx) {
     s32 matchSlot;

@@ -10,11 +10,8 @@
 #include "Main/Save/buddy_record_reset.h"
 #include "Main/Save/buddy_records_write.h"
 #include "Main/Save/buddy_record_time.h"
-#include "Main/Net/friend_data_type_non_zero.h"
-#include "Main/Net/friend_key_format.h"
+#include "dwc_account.h"
 #include "code_0214d018.h"
-#include "code_02152500.h"
-#include "code_02152a24.h"
 #include "00/code_021832d8.h"
 #include "00/code_0219d948.h"
 

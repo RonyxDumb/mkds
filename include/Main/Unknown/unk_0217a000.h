@@ -17,7 +17,7 @@
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "code_02003024.h"
 #include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
-#include "code_02152490.h" // DWCAccFriendData, DWCAccUserData
+#include "dwc_account.h" // DWCAccFriendData, DWCAccUserData
 #include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
 #include "Main/Unknown/code_0205b0f4.h" // WiFiRaceSyncPacket

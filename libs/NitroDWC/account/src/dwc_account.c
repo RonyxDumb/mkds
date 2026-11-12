@@ -1,0 +1,398 @@
+#include "dwc_account.h"
+#include "code_02152ac8.h"
+#include "Main/Unknown/code_02152000.h"
+#include "code_020205b0.h"
+#include "Main/Unknown/unk_0216f000.h"
+#include "os_printf.h"
+#include "code_0214d018.h"
+#include "code_021519d4.h"
+#include "Main/Unknown/code_0214d000.h"
+#include "Main/Net/friend_data_player_id.h"
+#include "os_tick.h"
+#include "code_02000b44.h"
+
+#pragma thumb on
+
+u64 DWCi_Acc_GetFriendKey(const DWCAccFriendData *data) {
+    return (u64) data->mUnk_08 << 32 | data->mUnk_04;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+u32 GetFriendDataGsProfileId(const DWCAccFriendData *friendData) {
+    return friendData->mUnk_04;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void DWCi_Acc_SetUserId(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi) {
+    enum { K0 } shift = K0;
+    DWCi_Acc_SetMaskBits(&loginid->mUnk_00, useridHi, shift, 0x7ff);
+    loginid->mUnk_04 = useridLo;
+}
+
+void DWCi_Acc_SetPlayerId(DWCAccFriendData *loginid, u32 playerid) {
+    loginid->mUnk_08 = playerid;
+}
+
+void DWCi_Acc_SetFriendKey(DWCAccFriendData *data, u32 friendkeyLo, u32 friendkeyHi) {
+    data->mUnk_04 = friendkeyLo;
+    data->mUnk_08 = friendkeyHi;
+}
+
+void DWCi_Acc_SetGsProfileId(DWCAccFriendData *data, u32 gsProfileId) {
+    data->mUnk_04 = gsProfileId;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+u32 GetFriendDataFlags(const DWCAccFriendData *friendData) {
+    return (friendData->mUnk_00 >> 11) & 0x1fffff;
+}
+#pragma thumb off
+
+#pragma thumb on
+
+u32 DWCi_Acc_GetFlag_DataType(const DWCAccFriendData *frienddata) {
+    return GetFriendDataFlags(frienddata) & 3;
+}
+
+BOOL DWC_IsBuddyFriendData(const DWCAccFriendData *frienddata) {
+    if (DWCi_Acc_GetFlag_DataType(frienddata) == 3) {
+        if ((GetFriendDataFlags(frienddata) & 4) == 4) {
+            return 1;
+        }
+        return 0;
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+u32 GetFriendDataType(const DWCAccFriendData *friendData) {
+    return DWCi_Acc_GetFlag_DataType(friendData);
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void SetFriendDataFlags(DWCAccFriendData *friendData, u32 flags) {
+    DWCi_Acc_SetMaskBits(&friendData->mUnk_00, flags, 0xb, 0x1fffff);
+}
+
+#pragma thumb off
+
+#pragma thumb on
+void SetFriendDataType(DWCAccFriendData *friendData, u32 dataType) {
+    u32 flags;
+    u32 value;
+    flags = GetFriendDataFlags(friendData);
+    value = 3;
+    flags = flags & ~value;
+    value = flags;
+    value = value | dataType;
+    SetFriendDataFlags(friendData, value);
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void DWCi_SetBuddyFriendData(DWCAccFriendData *frienddata) {
+    u32 flags;
+    if (DWCi_Acc_GetFlag_DataType(frienddata) == 3) {
+        flags = GetFriendDataFlags(frienddata) | 4;
+        SetFriendDataFlags(frienddata, flags);
+    }
+}
+
+u64 DWC_Acc_CreateFriendKey(int gsProfileId, u32 gamecode) {
+    u32 code[2];
+    u8 table[0x100];
+    u64 crc;
+
+    code[0] = gsProfileId;
+    code[1] = gamecode;
+    Crc8InitTable(table, 7);
+    crc = Crc8(table, code, 8) & 0x7f;
+    crc <<= 32;
+    crc |= (u32) gsProfileId;
+    return crc;
+}
+
+BOOL DWC_Acc_CheckFriendKey(u64 friendkey, u32 gamecode) {
+    u32 code[2];
+    u8 table[0x100];
+    s32 crc;
+
+    code[0] = friendkey;
+    code[1] = gamecode;
+    Crc8InitTable(table, 7);
+    crc = Crc8(table, code, 8) & 0x7f;
+    return crc == (friendkey >> 32);
+}
+
+int DWC_Acc_FriendKeyToGsProfileId(u64 friendkey, u32 gamecode) {
+    u32 result;
+
+    if (DWC_Acc_CheckFriendKey(friendkey, gamecode) != 0) {
+        result = friendkey & ~0xffffffff00000000ull;
+    } else {
+        result = 0;
+    }
+    return result;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void FormatFriendKey(u32 low, u32 high, u32 buffer) {
+    OS_SNPrintf((char *) buffer, 0xd, data_0216f2d4, low, high);
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+u64 DWC_StringToFriendKey(const char *string) {
+    const s8 *chars = (const s8 *) string;
+    u64 result;
+    u64 dec;
+    s32 digitIndex;
+
+    result = 0;
+    dec = 1;
+    for (digitIndex = 0; digitIndex < 12; digitIndex++) {
+        result += dec * (s64) (*(chars + 11 - digitIndex) - 0x30);
+        dec *= 10;
+    }
+    return result;
+}
+
+void DWCi_Acc_U64ToString32(u64 num, s32 bitnum, char *result) {
+    s32 charIndex;
+    s32 len;
+    const s8 *table;
+
+    len = (bitnum + 4) / 5;
+    table = data_0216f2b0;
+    for (charIndex = 0; charIndex < len; charIndex++) {
+        *(result + len - 1 - charIndex) = table[num & 0x1f];
+        num = num >> 5;
+    }
+    result[len] = 0;
+}
+
+void DWCi_Acc_LoginIdToUserName(const DWCAccFriendData *loginid, u32 gamecode, char *username) {
+    char userid[0x15];
+    char playerid[0x15];
+
+    DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, userid);
+    DWCi_Acc_U64ToString32(GetFriendDataPlayerId(loginid), 0x20, playerid);
+    OS_SNPrintf(username, 0x15, data_0216f2a0, userid, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
+                (u8) (gamecode >> 8), (u8) gamecode, playerid);
+}
+
+void DWCi_Acc_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
+    u32 crcTable[0x100];
+
+    MI_CpuFill8(userdata, 0, 0x40);
+    userdata->mSize = 0x40;
+    userdata->mGsProfileId = 0;
+    userdata->mGamecode = gamecode;
+    DWCi_Acc_CreateTempLoginId(&userdata->mPseudo);
+    SetFriendDataType(&userdata->mAuthentic, 0);
+    Crc32InitTable(crcTable, 0xedb88320);
+    userdata->mCrc32 = Crc32(crcTable, userdata, 0x3c);
+    userdata->mFlag |= 1;
+}
+
+void DWCi_Acc_CreateTempLoginId(DWCAccFriendData *loginid) {
+    u64 tick;
+    u64 rand;
+    DWCAuthWiFiId id;
+
+    tick = OS_GetTick();
+    DWC_Auth_GetId(&id);
+    if (id.mFlag != 0) {
+        DWCi_Acc_SetUserId(loginid, ((u32 *) &id)[0], ((u32 *) &id)[1]);
+    } else {
+        DWCi_Acc_SetUserId(loginid, ((u32 *) &id)[2], ((u32 *) &id)[3]);
+    }
+    rand = tick * 0x5d588b656c078965ull + 0x269ec3;
+    DWCi_Acc_SetPlayerId(loginid, rand >> 32);
+    SetFriendDataType(loginid, 1);
+}
+
+BOOL DWCi_Acc_CheckConsoleUserId(const DWCAccFriendData *loginid) {
+    DWCAuthWiFiId id;
+
+    DWC_Auth_GetId(&id);
+    if (id.mFlag != 0) {
+        if (DWCi_Acc_GetUserId(loginid) == id.mUId) {
+            return 1;
+        }
+        return 0;
+    }
+    if (DWCi_Acc_GetUserId(loginid) == id.mNotAttestedId) {
+        return 1;
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+u32 IsFriendDataLoginId(const DWCAccFriendData *friendData) {
+    int dataType;
+    dataType = DWCi_Acc_GetFlag_DataType(friendData);
+    if (dataType == 1) {
+        return 1;
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+BOOL DWCi_Acc_IsAuthentic(const DWCAccUserData *userdata) {
+    return IsFriendDataLoginId(&userdata->mAuthentic);
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+u32 IsFriendDataTypeNonZero(const void *friendData) {
+    int dataType;
+    dataType = DWCi_Acc_GetFlag_DataType(friendData);
+    if (dataType != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+u32 IsFriendDataTypeNonZeroWrapper(const void *friendData) {
+    return IsFriendDataTypeNonZero(friendData);
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void DWC_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
+    DWCi_Acc_CreateUserData(userdata, gamecode);
+}
+
+BOOL DWC_CheckValidConsole(const DWCAccUserData *userdata) {
+    DWCAuthWiFiId id;
+
+    if (DWCi_Acc_GetFlag_DataType(&userdata->mAuthentic) == 0) {
+        return 1;
+    }
+    DWC_Auth_GetId(&id);
+    if (id.mFlag == 0) {
+        return 0;
+    }
+    if (id.mUId == DWCi_Acc_GetUserId(&userdata->mAuthentic)) {
+        return 1;
+    }
+    return 0;
+}
+
+void DWCi_Acc_SetLoginIdToUserData(DWCAccUserData *userdata, const DWCAccFriendData *loginid, int gsProfileId) {
+    u32 crcTable[0x100];
+
+    userdata->mAuthentic = *loginid;
+    userdata->mGsProfileId = gsProfileId;
+    Crc32InitTable(crcTable, 0xedb88320);
+    userdata->mCrc32 = Crc32(crcTable, userdata, 0x3c);
+    userdata->mFlag |= 1;
+}
+
+BOOL DWCi_Acc_IsDirty(const DWCAccUserData *userdata) {
+    if ((userdata->mFlag & 1) == 1) {
+        return 1;
+    }
+    return 0;
+}
+
+void DWCi_Acc_ClearDirty(DWCAccUserData *userdata) {
+    u32 crcTable[0x100];
+
+    userdata->mFlag &= ~1;
+    Crc32InitTable(crcTable, 0xedb88320);
+    userdata->mCrc32 = Crc32(crcTable, userdata, 0x3c);
+}
+
+u64 DWC_GetFriendKey(const DWCAccFriendData *frienddata) {
+    if (DWCi_Acc_GetFlag_DataType(frienddata) == 2) {
+        return DWCi_Acc_GetFriendKey(frienddata);
+    }
+    return 0;
+}
+
+int DWC_GetGsProfileId(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata) {
+    u64 friendKey;
+
+    switch (DWCi_Acc_GetFlag_DataType(frienddata)) {
+        case 2:
+            friendKey = DWCi_Acc_GetFriendKey(frienddata);
+            if (DWC_Acc_CheckFriendKey(friendKey, userdata->mGamecode) != 0) {
+                return DWC_Acc_FriendKeyToGsProfileId(friendKey, userdata->mGamecode);
+            }
+            return 0;
+        case 3:
+            return GetFriendDataGsProfileId(frienddata);
+        case 1:
+            return -1;
+        default:
+            return 0;
+    }
+}
+
+u64 DWC_CreateFriendKey(const DWCAccUserData *userdata) {
+    u64 friendKey;
+
+    friendKey = 0;
+    if (userdata->mGsProfileId != 0) {
+        friendKey = DWC_Acc_CreateFriendKey(userdata->mGsProfileId, userdata->mGamecode);
+    }
+    return friendKey;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void InitFriendDataFromFriendKey(void *friendData, u32 friendKeyLow, u32 friendKeyHigh) {
+    MI_CpuFill8(friendData, 0, 0xc);
+    DWCi_Acc_SetFriendKey(friendData, friendKeyLow, friendKeyHigh);
+    SetFriendDataType(friendData, 2);
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void DWC_CreateExchangeToken(const DWCAccUserData *userdata, DWCAccFriendData *token) {
+    MI_CpuFill8(token, 0, 12);
+    if (DWCi_Acc_IsAuthentic(userdata) != 0) {
+        DWCi_Acc_SetGsProfileId(token, userdata->mGsProfileId);
+        SetFriendDataType(token, 3);
+    } else {
+        *token = userdata->mPseudo;
+    }
+}
+
+#pragma thumb off

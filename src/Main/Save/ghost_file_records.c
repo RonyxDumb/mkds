@@ -7,16 +7,11 @@
 #include "Main/Save/buddy_record_reset.h"
 #include "Main/Save/backup_first_block.h"
 #include "Main/Save/buddy_record_time.h"
-#include "Main/Net/friend_data_from_key.h"
-#include "Main/Net/friend_data_type_wrapper.h"
-#include "Main/Net/friend_key_format.h"
+#include "dwc_account.h"
 #include "01/code_021956dc.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/unk_0217a000.h" // GhostListEntry
 #include "code_021522a0.h"
-#include "code_02152500.h"
-#include "code_021526e4.h"
-#include "code_02152934.h"
 
 #pragma opt_loop_invariants off
 

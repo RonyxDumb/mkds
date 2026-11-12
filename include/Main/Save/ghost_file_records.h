@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02152490.h" // DWCAccFriendData
+#include "dwc_account.h" // DWCAccFriendData
 
 extern u32 data_021653e4;
 
