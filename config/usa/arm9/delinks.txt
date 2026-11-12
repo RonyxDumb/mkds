@@ -881,6 +881,7 @@ src/Main/System/startup.c:
     complete
     .text       start:0x020365ac end:0x02036820
     .data       start:0x021646ec end:0x021646f8
+    .bss        start:0x02175580 end:0x02175584
 
 // provisional: file name and boundaries
 src/Main/System/heap.c:
@@ -3041,6 +3042,7 @@ src/Main/Menu/cup_picture.c:
 src/Main/System/thread_function_queue_run.c:
     complete
     .text       start:0x020d0ee8 end:0x020d0f78
+    .data       start:0x0216ae88 end:0x0216afd0
 
 // provisional: file name and boundaries
 src/Main/Menu/cup_picture_load.c:

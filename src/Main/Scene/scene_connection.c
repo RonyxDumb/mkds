@@ -27,6 +27,7 @@
 #include "Main/System/input_keys.h"
 #include "registers.h"
 #include "code_0200fe74.h"
+#include "Main/System/startup.h"
 
 #pragma opt_rebuildconditionals off
 

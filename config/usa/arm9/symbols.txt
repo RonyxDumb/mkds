@@ -10277,8 +10277,8 @@ gMenuScreenCallbacks kind:data(any) addr:0x0216ab14
 gCupPictureNitro kind:data(any) addr:0x0216ae58
 gCupPictureRetro kind:data(any) addr:0x0216ae60
 gCupPicturePrefix kind:data(any) addr:0x0216ae68
-data_0216aea8 kind:data(any) addr:0x0216ae88
-data_0216aeac kind:data(any) addr:0x0216ae8c
+gCupPictureNitroOrRetroTable kind:data(any) addr:0x0216ae88
+gCupPictureNumberTable kind:data(any) addr:0x0216ae8c
 @2062 kind:data(any) addr:0x0216afd0 local
 @2063 kind:data(any) addr:0x0216afdc local
 @2080 kind:data(any) addr:0x0216afec local

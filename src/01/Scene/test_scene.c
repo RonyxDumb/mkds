@@ -26,6 +26,7 @@
 #include "01/code_02180000.h"
 #include "Main/System/last_tick.h"
 #include "01/Menu/option_nickname_scenes.h"
+#include "Main/System/startup.h"
 
 #pragma thumb off
 

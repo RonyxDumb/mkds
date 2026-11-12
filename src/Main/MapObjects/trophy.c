@@ -36,6 +36,7 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/teresa.h"
 #include "fx_mtx43.h"
+#include "Main/System/startup.h"
 
 const s32 gTrophyModelEffectOffsetY[9] = {0x266, 0xcd, 0x1c3, 0x214, 0x214, 0x214, 0x214, 0x19a, 0x2b8};
 const s16 gTrophyModelLight0Y[10] = {0, 0, 0, -2048, 0, 0, 0, 0xfff, 0, 0};

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175000.h"
 
 
 void *GetArenaHeap(void);
@@ -11,4 +12,5 @@ void InitStartupLibraries(void);
 void EnableVBlankIrq(void);
 void VBlankIrqHandler(void);
 
-
+// Objects whose layout isn't known yet.
+extern struct DisplaySettings *gDisplaySettings;

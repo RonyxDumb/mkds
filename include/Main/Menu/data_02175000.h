@@ -151,9 +151,6 @@ typedef struct DisplaySettings {
     /* d8 */ u8 mFrameFlags;
 } DisplaySettings;
 
-// Objects whose layout isn't known yet.
-extern DisplaySettings *gDisplaySettings;
-
 extern InputSlot gKeysInputSlot;
 
 // Set from the start of a race; recording and playback slots read keys only while set.

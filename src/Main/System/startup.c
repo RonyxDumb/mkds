@@ -36,6 +36,7 @@
 #include "code_02004dc0.h"
 #include "registers.h"
 
+DisplaySettings *gDisplaySettings;
 
 void VBlankIrqHandler(void) {
     if (gDisplaySettings != NULL) {

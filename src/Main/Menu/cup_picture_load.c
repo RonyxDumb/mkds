@@ -50,8 +50,8 @@ void LoadCupPictureNclr(void) {
     s32 pictureNumber;
 
     pictureIndex = gCupPicture->mCupPictureIndex;
-    nitroOrRetro = data_0216aea8[pictureIndex * 2];
-    pictureNumber = data_0216aeac[pictureIndex * 2];
+    nitroOrRetro = gCupPictureNitroOrRetroTable[pictureIndex * 2];
+    pictureNumber = gCupPictureNumberTable[pictureIndex * 2];
     snprintf(buf, 0x100, "%s%s%02d%s", gCupPicturePrefix, nitroOrRetro == 0 ? gCupPictureNitro : gCupPictureRetro,
              pictureNumber, "_m_b.NCLR");
     ReadWholeFile(buf, gCupPicture->mCupPictureNclrFile, 0x228);
@@ -65,8 +65,8 @@ void LoadCupPictureNcgr(void) {
     s32 pictureNumber;
 
     pictureIndex = gCupPicture->mCupPictureIndex;
-    nitroOrRetro = data_0216aea8[pictureIndex * 2];
-    pictureNumber = data_0216aeac[pictureIndex * 2];
+    nitroOrRetro = gCupPictureNitroOrRetroTable[pictureIndex * 2];
+    pictureNumber = gCupPictureNumberTable[pictureIndex * 2];
     snprintf(buf, 0x100, "%s%s%02d%s", gCupPicturePrefix, nitroOrRetro == 0 ? gCupPictureNitro : gCupPictureRetro,
              pictureNumber, "_m_b.NCGR");
     ReadWholeFile(buf, gCupPicture->mCupPictureNcgrFile, 0xe00);
@@ -80,8 +80,8 @@ void LoadCupPictureNscr(void) {
     s32 pictureNumber;
 
     pictureIndex = gCupPicture->mCupPictureIndex;
-    nitroOrRetro = data_0216aea8[pictureIndex * 2];
-    pictureNumber = data_0216aeac[pictureIndex * 2];
+    nitroOrRetro = gCupPictureNitroOrRetroTable[pictureIndex * 2];
+    pictureNumber = gCupPictureNumberTable[pictureIndex * 2];
     snprintf(buf, 0x100, "%s%s%02d%s", gCupPicturePrefix, nitroOrRetro == 0 ? gCupPictureNitro : gCupPictureRetro,
              pictureNumber, "_m_picture.NSCR");
     ReadWholeFile(buf, gCupPicture->mCupPictureNscrFile, 0x824);
