@@ -50,6 +50,10 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Net/wifi_session.h"
+#include "Main/Scene/menu_scene.h"
+
+void *gRaceDisplaySettingsDescs[7] = {data_usa_021548b8, data_usa_021548b8, data_usa_021548b8, data_usa_02154890, data_usa_021548b8, data_usa_02154890, data_usa_021548b8};
+SceneCallbacks gRaceSceneCallbacks = {InitRaceScene, UpdateRaceScene, ReleaseRaceScene, AdvanceDispCapAndUploadRaceHud, PreSleepRaceScene, PostSleepRaceScene, 0x1e, 0x1e, 0};
 
 static inline u32 IsSlot8PairPresentOrRecentlyLost(void) {
     InputSlotIndex slotIndex = UNK_02175628_INDEX_8;

@@ -45,7 +45,11 @@ extern const char gTimeAttackGhostGetSBnblName[];
 
 // Objects whose layout isn't known yet.
 
-extern void *gRaceDisplaySettingsDescs[];
+extern u8 data_usa_02154890[];
 
-extern const SceneCallbacks gRaceSceneCallbacks;
+extern u8 data_usa_021548b8[];
+
+extern void *gRaceDisplaySettingsDescs[7];
+
+extern SceneCallbacks gRaceSceneCallbacks;
 

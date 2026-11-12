@@ -27,9 +27,9 @@
 
 s32 gKeyboardOffsetX;
 s32 gKeyboardOffsetY;
-u16 *gCharTablePair3[2];
-u16 *gCharTablePair1[2];
 u16 *gCharTablePair2[2];
+u16 *gCharTablePair1[2];
+u16 *gCharTablePair3[2];
 KeyboardCanvas gKeyboardCanvas;
 
 const u16 gKeyboardLayoutRectCounts[6] = {0xd, 0x3b, 0x32, 0x37, 0x3a, 0x3a};
@@ -37,9 +37,17 @@ const KeyboardCursorTargets gKeyboardCursorTargets[6] = {
     {0x30, 0x37, 8, 0x39},    {0x305d, 0x3055, 0xff1f, 0x3084}, {0x60, 0x34, 0x5b, 0x39},
     {0xa1, 0xe4, 0xa3, 0xec}, {0xff0f, 0x2033, 0x2122, 0x40},   {0xe01c, 0x34, 0x25b2, 0x39},
 };
+KeyboardKeys gKeyboardKeys;
 s32 gKeyboardWrapMargin = 0x20;
 u16 gKeyboardInputMasks[3] = {1, 2, 0x400};
 u16 *gCharTables[4] = {gCharTablePairFirst, gCharTablePair1Second, gCharTablePair2Second, gCharTablePair3Second};
+u16 gCharTablePairFirst[60] = {
+    0x3042, 0x3044, 0x3046, 0x3048, 0x304a, 0x304b, 0x304d, 0x304f, 0x3051, 0x3053, 0x3055, 0x3057,
+    0x3059, 0x305b, 0x305d, 0x305f, 0x3061, 0x3064, 0x3066, 0x3068, 0x306f, 0x3072, 0x3075, 0x3078,
+    0x307b, 0x3084, 0x3086, 0x3088, 0x308f, 0x30a2, 0x30a4, 0x30a6, 0x30a8, 0x30aa, 0x30ab, 0x30ad,
+    0x30af, 0x30b1, 0x30b3, 0x30b5, 0x30b7, 0x30b9, 0x30bb, 0x30bd, 0x30bf, 0x30c1, 0x30c4, 0x30c6,
+    0x30c8, 0x30cf, 0x30d2, 0x30d5, 0x30d8, 0x30db, 0x30e4, 0x30e6, 0x30e8, 0x30ef, 0,      0,
+};
 u16 gCharTablePair1Second[60] = {
     0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x304c, 0x304e, 0x3050, 0x3052, 0x3054, 0x3056, 0x3058,
     0x305a, 0x305c, 0x305e, 0x3060, 0x3062, 0x3065, 0x3067, 0x3069, 0x3070, 0x3073, 0x3076, 0x3079,
@@ -60,13 +68,6 @@ u16 gCharTablePair3Second[60] = {
     0x3000, 0x3083, 0x3085, 0x3087, 0x308e, 0x30a1, 0x30a3, 0x30a5, 0x30a7, 0x30a9, 0x30f5, 0x3000,
     0x3000, 0x30f6, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30c3, 0x3000,
     0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30e3, 0x30e5, 0x30e7, 0x30ee, 0,      0,
-};
-u16 gCharTablePairFirst[60] = {
-    0x3042, 0x3044, 0x3046, 0x3048, 0x304a, 0x304b, 0x304d, 0x304f, 0x3051, 0x3053, 0x3055, 0x3057,
-    0x3059, 0x305b, 0x305d, 0x305f, 0x3061, 0x3064, 0x3066, 0x3068, 0x306f, 0x3072, 0x3075, 0x3078,
-    0x307b, 0x3084, 0x3086, 0x3088, 0x308f, 0x30a2, 0x30a4, 0x30a6, 0x30a8, 0x30aa, 0x30ab, 0x30ad,
-    0x30af, 0x30b1, 0x30b3, 0x30b5, 0x30b7, 0x30b9, 0x30bb, 0x30bd, 0x30bf, 0x30c1, 0x30c4, 0x30c6,
-    0x30c8, 0x30cf, 0x30d2, 0x30d5, 0x30d8, 0x30db, 0x30e4, 0x30e6, 0x30e8, 0x30ef, 0,      0,
 };
 
 #pragma thumb on
@@ -969,7 +970,7 @@ void InitKeyboardKeysAndCanvas(struct Unk02022aa8 *font, void *bg2Char, u16 *bg2
     gKeyboardCanvas.mScreenMapHeight = screenMapHeight;
     gKeyboardCanvas.mScreenMapTileBase = screenMapTileBase;
     InitKeyboardInput();
-    SetupRepeatCounter(&data_0217b2ac, 0x28, 5);
+    SetupRepeatCounter(&gKeyboardKeys.mTouchRepeat, 0x28, 5);
     SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
     gCharTablePair1[0] = gCharTablePair2[0] = gCharTablePair3[0] = gCharTables[0];
     gCharTablePair1[1] = gCharTables[1];
@@ -1178,7 +1179,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
     }
     startRect = keyboardKeys->mCursorRect;
     if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= 0xff &&
-        startRect->mKeyId != gKeyboardLayoutKeyIds[1] && startRect->mKeyId != gKeyboardLayoutKeyIds[0] &&
+        startRect->mKeyId != gKeyboardKeys.mToggledKeyId && startRect->mKeyId != gKeyboardKeys.mChosenKeyId &&
         startRect != keyboardKeys->mTouchStartRect && startRect != keyboardKeys->mKeyDownRect) {
         ringRect = startRect;
         do {
@@ -1190,7 +1191,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
     }
     startRect = keyboardKeys->mKeyDownRect;
     if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= 0xff &&
-        startRect->mKeyId != gKeyboardLayoutKeyIds[1] && startRect->mKeyId != gKeyboardLayoutKeyIds[0]) {
+        startRect->mKeyId != gKeyboardKeys.mToggledKeyId && startRect->mKeyId != gKeyboardKeys.mChosenKeyId) {
         ringRect = startRect;
         do {
             AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
@@ -1201,7 +1202,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
     }
     startRect = keyboardKeys->mTouchStartRect;
     if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= 0xff &&
-        startRect->mKeyId != gKeyboardLayoutKeyIds[1] && startRect->mKeyId != gKeyboardLayoutKeyIds[0] &&
+        startRect->mKeyId != gKeyboardKeys.mToggledKeyId && startRect->mKeyId != gKeyboardKeys.mChosenKeyId &&
         startRect != keyboardKeys->mKeyDownRect) {
         if (keyboardKeys->mTouchRect != NULL && startRect->mKeyId == keyboardKeys->mTouchRect->mKeyId) {
             ringRect = startRect;
@@ -1273,7 +1274,7 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
                 if ((GetKeyboardKeysPressedOrRepeated() & keyMask) != 0) {
                     fn = gKeyboardKeys.mCurrentLayout->mCallback;
                     if (fn == AsciiLayoutCallback) {
-                        layoutKeyId = gKeyboardLayoutKeyIds[1];
+                        layoutKeyId = gKeyboardKeys.mToggledKeyId;
                         if (layoutKeyId == 0) {
                             gKeyboardKeys.mKeyId = 4;
                         } else if (layoutKeyId == 4) {
@@ -1317,23 +1318,23 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
             gKeyboardKeys.mTouchStartRect = NULL;
         }
         if (IsKeyboardTouchOnStartKeyId(&gKeyboardKeys) != 0) {
-            AdvanceRepeatCounter(&data_0217b2ac);
-            if (IsRepeatCounterFiring(&data_0217b2ac) != FALSE) {
+            AdvanceRepeatCounter(&gKeyboardKeys.mTouchRepeat);
+            if (IsRepeatCounterFiring(&gKeyboardKeys.mTouchRepeat) != FALSE) {
                 gKeyboardKeys.mKeyId = gKeyboardKeys.mTouchStartRect->mKeyId;
                 CallKeyboardKeyCallback(0);
             }
         } else {
-            ResetRepeatCounter(&data_0217b2ac);
+            ResetRepeatCounter(&gKeyboardKeys.mTouchRepeat);
         }
         gKeyboardKeys.mKeyValue = GetKeyboardValueForKeyId(gKeyboardKeys.mKeyId);
         if (gKeyboardKeys.mKeyValue >= 0x20) {
             fn = gKeyboardKeys.mCurrentLayout->mCallback;
             if (fn == AsciiLayoutCallback) {
-                if (gKeyboardLayoutKeyIds[1] == 4) {
-                    gKeyboardLayoutKeyIds[1] = 0;
+                if (gKeyboardKeys.mToggledKeyId == 4) {
+                    gKeyboardKeys.mToggledKeyId = 0;
                 }
             } else if (fn == HiraganaKatakanaLayoutCallback) {
-                gKeyboardLayoutKeyIds[1] = 0;
+                gKeyboardKeys.mToggledKeyId = 0;
             }
         }
         if (gKeyboardKeys.mKeyId != 0 && gKeyboardKeys.mCurrentLayout->mCallback != NULL) {
@@ -1741,7 +1742,7 @@ void SetupKeyboardLayout(KeyboardRect *rects, Ncgr *ncgr, void (*callback)(Keybo
     u32 touchX;
     u32 touchY;
 
-    gKeyboardKeys.mCurrentLayout = &data_0217b294;
+    gKeyboardKeys.mCurrentLayout = &gKeyboardKeys.mLayout;
     gKeyboardKeys.mCurrentLayout->mRects = rects;
     gKeyboardKeys.mCurrentLayout->mNcgr = ncgr;
     gKeyboardKeys.mCurrentLayout->mCallback = callback;
@@ -1760,8 +1761,8 @@ void SetupKeyboardLayout(KeyboardRect *rects, Ncgr *ncgr, void (*callback)(Keybo
 }
 
 void SetupKeyboardLayoutHiragana(KeyboardRect *rects, Ncgr *ncgr, u32 rectCount) {
-    gKeyboardLayoutKeyIds[0] = 4;
-    gKeyboardLayoutKeyIds[1] = 0;
+    gKeyboardKeys.mChosenKeyId = 4;
+    gKeyboardKeys.mToggledKeyId = 0;
     SetupKeyboardLayout(rects, ncgr, HiraganaKatakanaLayoutCallback, 9, rectCount, gKbdmapHiragana);
 }
 
@@ -1771,32 +1772,32 @@ void SetupKeyboardLayoutHiragana(KeyboardRect *rects, Ncgr *ncgr, u32 rectCount)
 
 void SetupKeyboardLayoutAscii(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
     u16 *keyIds;
-    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
-    *(u16 *) &gKeyboardLayoutKeyIds = 0;
+    keyIds = &gKeyboardKeys.mChosenKeyId;
+    gKeyboardKeys.mChosenKeyId = 0;
     keyIds[1] = 0;
     SetupKeyboardLayout(rects, ncgr, AsciiLayoutCallback, 6, rectCount, gKbdmapAscii);
 }
 
 void SetupKeyboardLayoutOther1(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
     u16 *keyIds;
-    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
-    *(u16 *) &gKeyboardLayoutKeyIds = 0;
+    keyIds = &gKeyboardKeys.mChosenKeyId;
+    gKeyboardKeys.mChosenKeyId = 0;
     keyIds[1] = 0;
     SetupKeyboardLayout(rects, ncgr, NULL, 4, rectCount, gKbdmapOther1);
 }
 
 void SetupKeyboardLayoutOther2(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
     u16 *keyIds;
-    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
-    *(u16 *) &gKeyboardLayoutKeyIds = 0;
+    keyIds = &gKeyboardKeys.mChosenKeyId;
+    gKeyboardKeys.mChosenKeyId = 0;
     keyIds[1] = 0;
     SetupKeyboardLayout(rects, ncgr, NULL, 4, rectCount, gKbdmapOther2);
 }
 
 void SetupKeyboardLayoutOther3(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount) {
     u16 *keyIds;
-    keyIds = (u16 *) &gKeyboardLayoutKeyIds;
-    *(u16 *) &gKeyboardLayoutKeyIds = 0;
+    keyIds = &gKeyboardKeys.mChosenKeyId;
+    gKeyboardKeys.mChosenKeyId = 0;
     keyIds[1] = 0;
     SetupKeyboardLayout(rects, ncgr, NULL, 4, rectCount, gKbdmapOther3);
 }

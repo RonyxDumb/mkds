@@ -10774,9 +10774,9 @@ gSelectRaceRuleMultiSimpleSBNcgrPath kind:data(any) addr:0x0216dde8
 gSelectCupNameMBnclName kind:data(any) addr:0x0216de30
 gSelectCupNameMNcgrName kind:data(any) addr:0x0216de34
 gSelectCupNameMNcerName kind:data(any) addr:0x0216de38
-data_usa_0216de3c kind:data(any) addr:0x0216de3c
-data_usa_0216de5c kind:data(any) addr:0x0216de5c
-data_usa_0216de80 kind:data(any) addr:0x0216de80
+@70011 kind:data(any) addr:0x0216de3c local
+@70012 kind:data(any) addr:0x0216de5c local
+@70013 kind:data(any) addr:0x0216de80 local
 gCupMarkNclrName kind:data(any) addr:0x0216dea4
 gCupMarkBnclName kind:data(any) addr:0x0216dea8
 gCommonCupMarkNcerName kind:data(any) addr:0x0216deac
@@ -10913,16 +10913,16 @@ gKeyboardSceneCallbacks kind:data(any) addr:0x0216e8c0
 @6805 kind:data(any) addr:0x0216e920 local
 @6806 kind:data(any) addr:0x0216e938 local
 @6807 kind:data(any) addr:0x0216e950 local
-gKeyboardSBnblName kind:data(any) addr:0x0216e968
-gKeyboardSBnclName kind:data(any) addr:0x0216e978
-gKeyboardSBnllName kind:data(any) addr:0x0216e988
-gKeyboardSONceNcgrName kind:data(any) addr:0x0216e998
-gKeyboardSONceNcerName kind:data(any) addr:0x0216e9b0
-gKeyboardSONclrName kind:data(any) addr:0x0216e9c8
-gKeyboardSBFlameNcgrName kind:data(any) addr:0x0216e9dc
-gKeyboardSBFlame02NscrName kind:data(any) addr:0x0216e9f4
-gKeyboardSBFlame01NscrName kind:data(any) addr:0x0216ea10
-gKeyboardSBNclrName kind:data(any) addr:0x0216ea2c
+@70001 kind:data(any) addr:0x0216e968 local
+@70002 kind:data(any) addr:0x0216e978 local
+@70003 kind:data(any) addr:0x0216e988 local
+@70004 kind:data(any) addr:0x0216e998 local
+@70005 kind:data(any) addr:0x0216e9b0 local
+@70006 kind:data(any) addr:0x0216e9c8 local
+@70007 kind:data(any) addr:0x0216e9dc local
+@70008 kind:data(any) addr:0x0216e9f4 local
+@70009 kind:data(any) addr:0x0216ea10 local
+@70010 kind:data(any) addr:0x0216ea2c local
 gKeyboardCommonBmgName kind:data(any) addr:0x0216ea40
 @1927 kind:data(any) addr:0x0216ea4c local
 @3688 kind:data(any) addr:0x0216ea58 local
@@ -11419,10 +11419,6 @@ gCharTablePair2 kind:bss addr:0x0217b224
 gCharTablePair1 kind:bss addr:0x0217b22c
 gKeyboardCanvas kind:bss addr:0x0217b234
 gKeyboardKeys kind:bss addr:0x0217b258
-data_0217b280 kind:bss addr:0x0217b260
-data_0217b294 kind:bss addr:0x0217b274
-data_0217b2ac kind:bss addr:0x0217b28c
-gKeyboardLayoutKeyIds kind:bss addr:0x0217b298
 gKeyboardKeyRepeat kind:bss addr:0x0217b2ac
 gKeyboardInput kind:bss addr:0x0217b2b8
 gKbdmapKatakana kind:bss addr:0x0217b2e0

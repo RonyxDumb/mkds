@@ -17,6 +17,8 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/sound_system.h"
 
+RaceGoalS *gRaceGoalS;
+
 void StartRaceGoalS(void) {
     s32 sortKeys[8];
     u32 framesSinceEntryEnd;

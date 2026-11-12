@@ -388,8 +388,7 @@ typedef struct KeyboardKeyRepeat {
     /* 0a */ u16 mRepeatKeys;
 } KeyboardKeyRepeat;
 
-// Object at gKeyboardKeys, 0x54 bytes. data_0217b280, data_0217b294, data_0217b2ac and gKeyboardLayoutKeyIds are the
-// addresses of its members at 0x08, 0x1c, 0x34 and 0x40.
+// Object at gKeyboardKeys, 0x54 bytes.
 typedef struct KeyboardKeys {
     /* 00 */ KeyboardRect mButton0Rect;
     /* 08 */ KeyboardRect mButton1Rect;
@@ -412,10 +411,6 @@ typedef struct KeyboardKeys {
 
 extern KeyboardKeys gKeyboardKeys;
 extern KeyboardKeyRepeat gKeyboardKeyRepeat;
-extern u8 data_0217b280[];
-extern u16 gKeyboardLayoutKeyIds[2];
-extern KeyboardLayout data_0217b294;
-extern RepeatCounter data_0217b2ac;
 // Object at gKeyboardInput, 0x28 bytes (AdvanceKeyboardInput updates it, ClearKeyboardInput clears it).
 typedef struct KeyboardInput {
     /* 00 */ s32 mCountedKeyFrames;
@@ -522,7 +517,6 @@ typedef struct TitleScene {
 } TitleScene;
 
 extern TitleScene *gTitleScene;
-extern const TitleStateHandlers gTitleStateHandlers[7];
 extern u64 gLastTick;
 typedef struct RaceHudSubScreenBgAffine {
     /* 00 */ s32 mMatrix0;

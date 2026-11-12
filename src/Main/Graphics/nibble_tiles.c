@@ -1,4 +1,21 @@
 #include "Main/Graphics/nibble_tiles.h"
+#include "Main/MapObjects/data_0217b000.h"
+
+u16 *gKbdmapHiragana;
+u16 *gKbdmapKatakana;
+u16 *gKbdmapAsciiShift;
+u16 *gKbdmapKatakanaDakuten;
+u16 *gKbdmapHiraganaDakuten;
+u16 *gKbdmapHiraganaHandaku;
+u16 *gKbdmapHiraganaSmall;
+u16 *gKbdmapAscii;
+u16 *gKbdmapAsciiCaps;
+u16 *gKbdmapKatakanaHandaku;
+u16 *gKbdmapKatakanaSmall;
+u16 *gKbdmapOther1;
+u16 *gKbdmapOther2;
+u16 *gKbdmapOther3;
+KeyboardTextEntry *gKeyboardTextEntry;
 
 #pragma thumb on
 

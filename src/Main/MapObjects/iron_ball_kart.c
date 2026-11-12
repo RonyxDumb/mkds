@@ -68,7 +68,7 @@ s32 GetKeyboardCursorValue(void) {
 }
 
 s32 GetKeyboardChosenKeyValue(void) {
-    return GetKeyboardValueForKeyId(gKeyboardLayoutKeyIds[0]);
+    return GetKeyboardValueForKeyId(gKeyboardKeys.mChosenKeyId);
 }
 
 #pragma thumb off

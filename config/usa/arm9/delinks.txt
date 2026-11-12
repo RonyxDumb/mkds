@@ -959,7 +959,7 @@ src/Main/Scene/menu_scene.c:
 src/Main/Race/race_scene.c:
     complete
     .text       start:0x0203a3a4 end:0x0203b070
-    .data       start:0x02164754 end:0x02164770
+    .data       start:0x02164718 end:0x02164770
 
 // provisional: file name and boundaries
 src/Main/Save/ghost_file_path.c:
@@ -1092,6 +1092,11 @@ src/Main/Race/race_setup_input.c:
     .text       start:0x020435c4 end:0x0204673c
     .rodata     start:0x021540c0 end:0x021541a8
     .bss        start:0x02175908 end:0x021759a0
+
+// provisional: file name and boundaries
+src/Main/System/shared_object_pointers.c:
+    complete
+    .bss        start:0x021759a0 end:0x021759b8
 
 // provisional: file name and boundaries
 src/Main/Race/time_attack_next_scene.c:
@@ -2293,7 +2298,7 @@ src/Main/Sound/distance_sound_volume.c:
 src/Main/Race/standings_balloons.c:
     complete
     .text       start:0x020a02f8 end:0x020a23a0
-    .rodata     start:0x021565f0 end:0x02156600
+    .rodata     start:0x021565f0 end:0x02156640
     .bss        start:0x0217b1dc end:0x0217b1e0
 
 // provisional: file name and boundaries
@@ -2388,17 +2393,19 @@ src/Main/Menu/keyboard_keys.c:
     .text       start:0x020a9ed8 end:0x020ac2c4
     .rodata     start:0x021567fc end:0x02156838
     .data       start:0x021679f8 end:0x02167de0
-    .bss        start:0x0217b214 end:0x0217b258
+    .bss        start:0x0217b214 end:0x0217b2ac
 
 // provisional: file name and boundaries
 src/Main/Graphics/nibbles_join.c:
     complete
     .text       start:0x020ac2c4 end:0x020ac2fc
+    .bss        start:0x0217b2ac end:0x0217b2e0
 
 // provisional: file name and boundaries
 src/Main/Graphics/nibble_tiles.c:
     complete
     .text       start:0x020ac2fc end:0x020ac524
+    .bss        start:0x0217b2e0 end:0x0217b31c
 
 // provisional: file name and boundaries
 src/Main/MapObjects/shine_balloon.c:
@@ -2418,6 +2425,11 @@ src/Main/Menu/title_state5.c:
     complete
     .text       start:0x020aca24 end:0x020acaa4
     .data       start:0x02167e28 end:0x02167e34
+
+// provisional: file name and boundaries
+src/Main/Menu/title_state_handlers.c:
+    complete
+    .data       start:0x02167e34 end:0x02167e6c
 
 // provisional: file name and boundaries
 src/Main/Menu/title_state4.c:
@@ -2744,6 +2756,7 @@ src/Main/Race/race_goal_s_finish.c:
 src/Main/Race/race_goal_s_numbers.c:
     complete
     .text       start:0x020c13e8 end:0x020c2118
+    .bss        start:0x0217b3c0 end:0x0217b3c4
 
 // provisional: file name and boundaries
 src/Main/Race/race_goal_s_draw.c:
@@ -2939,7 +2952,8 @@ src/Main/Menu/menu.c:
     complete
     .text       start:0x020cbad0 end:0x020cc5d8
     .rodata     start:0x0215688c end:0x021568b4
-    .data       start:0x0216ac04 end:0x0216ad7c
+    .data       start:0x0216ab14 end:0x0216ad7c
+    .bss        start:0x0217b41c end:0x0217b420
 
 // provisional: file name and boundaries
 src/Main/Menu/current.c:
@@ -4200,6 +4214,7 @@ src/Main/Menu/select_race_rule_load.c:
     complete
     .text       start:0x0211db90 end:0x0211de00
     .rodata     start:0x0215cdb0 end:0x0215ced4
+    .data       start:0x0216de30 end:0x0216dea4
 
 // provisional: file name and boundaries
 src/Main/Menu/cup_mark.c:
@@ -4355,6 +4370,8 @@ src/Main/Menu/keyboard_buttons.c:
     .text       start:0x0212898c end:0x0212a910
     .rodata     start:0x0215d0d8 end:0x0215d164
     .data       start:0x0216e8e0 end:0x0216e968
+    .rodata     start:0x0215d0d8 end:0x0215d11c
+    .data       start:0x0216e8e0 end:0x0216ea40
     .bss        start:0x0217d3e0 end:0x0217d3e4
 
 // provisional: file name and boundaries

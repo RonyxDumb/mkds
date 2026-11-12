@@ -59,7 +59,58 @@
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "01/Menu/mission_run_screen_registers.h"
+#include "01/Menu/select_cup_grid_registers.h"
+#include "01/Menu/select_cup_grid_update.h"
+#include "01/Menu/select_screen_registers.h"
+#include "Main/Menu/battle_select_race_rule.h"
+#include "Main/Menu/battle_select_race_rule_registers.h"
+#include "Main/Menu/battle_stage_entry.h"
+#include "Main/Menu/menu_screen27_return.h"
+#include "Main/Menu/menu_screen28_return.h"
+#include "Main/Menu/menu_screen29_return.h"
+#include "Main/Menu/select_battle_stage.h"
+#include "Main/Menu/select_game_update.h"
+#include "Main/Menu/single_play_select_screen1_registers.h"
+#include "Main/Menu/vs_select_cup_m.h"
+#include "Main/Scene/request_ghost_scene.h"
+#include "Main/Scene/request_race_or_wl_menu.h"
+#include "Main/Scene/request_title_scene.h"
 
+ScreenCallbacks gMenuScreenCallbacks[0x1e] = {
+    {WriteSinglePlaySelect0Registers, (void (*)(u32)) UpdateSinglePlaySelectMenuScreen0},
+    {WriteSinglePlaySelect1Registers, (void (*)(u32)) UpdateSinglePlaySelectInput},
+    {WriteSinglePlaySelect2Registers, (void (*)(u32)) UpdateSinglePlaySelectMenuScreen2},
+    {WriteSinglePlaySelect3Registers, (void (*)(u32)) UpdateSinglePlaySelectMenuScreen3},
+    {WriteSelectEngineScreenRegisters, (void (*)(u32)) UpdateSelectEngine},
+    {WriteSelectCharacterScreenRegisters, (void (*)(u32)) UpdateSelectCharacter},
+    {WriteSelectKartScreenRegisters, (void (*)(u32)) UpdateSelectKart},
+    {WriteSelectCupGridScreenRegisters, (void (*)(u32)) UpdateSelectCupGrid},
+    {WriteVsSelectCharacterRegisters, (void (*)(u32)) UpdateVsSelectCharacter},
+    {WriteVsSelectKartRegisters, (void (*)(u32)) UpdateVsSelectKart},
+    {WriteVsSelectRaceRuleRegisters, (void (*)(u32)) UpdateVsSelectRaceRule},
+    {WriteVsSelectCupGridRegisters, (void (*)(u32)) UpdateVsSelectCupGrid},
+    {WriteVsSelectCupMRegisters, (void (*)(u32)) UpdateVsSelectCupM},
+    {WriteVsSelectCupCourseRegisters, (void (*)(u32)) UpdateVsSelectCupCourse},
+    {WriteSelectGameRegisters, (void (*)(u32)) UpdateSelectGame},
+    {WriteBattleSelectCharacterRegisters, (void (*)(u32)) UpdateBattleSelectCharacter},
+    {WriteBattleSelectRaceRuleRegisters, (void (*)(u32)) UpdateBattleSelectRaceRule},
+    {WriteBattleStageScreenRegisters, (void (*)(u32)) UpdateSelectBattleStage},
+    {WriteMissionRunLVselScreenRegisters, (void (*)(u32)) UpdateMissionRunLVsel},
+    {WriteMissionRunMSselScreenRegisters, (void (*)(u32)) UpdateMissionRunMSsel},
+    {WriteTimeAttackTopMenuRegisters, (void (*)(u32)) UpdateTimeAttackTopMenu},
+    {WriteTimeAttackCharacterRegisters, (void (*)(u32)) UpdateTimeAttackSelectCharacter},
+    {WriteTimeAttackKartRegisters, (void (*)(u32)) UpdateTimeAttackSelectKart},
+    {WriteTimeAttackCupGridRegisters, (void (*)(u32)) UpdateTimeAttackSelectCupGrid},
+    {WriteSelectCupMScreenRegisters, (void (*)(u32)) UpdateSelectCupM},
+    {WriteTimeAttackCupCourseRegisters, (void (*)(u32)) UpdateTimeAttackSelectCupCourse},
+    {WriteSelectGhostScreenRegisters, (void (*)(u32)) UpdateSelectGhost},
+    {(void (*)(void)) MenuScreen27ReturnArgument, (void (*)(u32)) RequestTitleScene},
+    {(void (*)(void)) MenuScreen28ReturnArgument, (void (*)(u32)) RequestGhostScene},
+    {(void (*)(void)) MenuScreen29ReturnArgument, (void (*)(u32)) RequestRaceOrWLMenuScene},
+};
+
+struct MenuScene *gMenuScene;
 const u8 gMenuDisplaySettingsDesc[37] = {1, 0, 0x1f, 0, 0x1f, 0, 1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0x60, 0, 0, 0, 0, 0, 3, 0, 0x10, 0, 0, 0, 0x80, 0, 0, 1, 0, 0, 0, 0, 8};
 
 // Returns the mission table row, or -1 outside Mission Run.

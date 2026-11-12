@@ -11,10 +11,13 @@
 
 const u16 gSelectRaceRuleStepCellsChanging[5][2] = {{0xa, 0xf}, {0xb, 0x10}, {0xc, 0x11}, {0xd, 0x12}, {0xe, 0x13}};
 const u16 gSelectRaceRuleStepCellsPlain[5][2] = {{0x14, 0x19}, {0x15, 0x1a}, {0x16, 0x1b}, {0x17, 0x1c}, {0x18, 0x1d}};
+const char *gSelectCupNameMBnclName = "common/select_cup_name_m.bncl";
 const u32 gSelectRaceRulePreviousRectRows[5] = {0, 1, 2, 3, 4};
 const u32 gSelectRaceRuleEntryInputSlots[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 const SelectRaceRuleNscrRect gSelectRaceRuleSMenuNscrRects[5] = {{0, 0, 0x20, 4, 0, 1}, {0, 3, 0x20, 4, 0, 2}, {0, 7, 0x20, 4, 0, 1}, {0, 0xa, 0x20, 6, 0, 2}, {0, 0xf, 0x20, 5, 0, 1}};
 const SelectRaceRuleNscrRect gSelectRaceRuleMultiSimpleNscrRects[5] = {{0, 0, 0, 0, 0, 0}, {0, 0, 0x20, 5, 0, 1}, {0, 0, 0, 0, 0, 0}, {0, 4, 0x20, 8, 0, 2}, {0, 0xb, 0x20, 7, 0, 1}};
+const char *gSelectCupNameMNcgrName = "common/select_cup_name_m.nce.ncgr";
+const char *gSelectCupNameMNcerName = "common/select_cup_name_m.nce.ncer";
 
 void LoadSelectRaceRuleAndWaitData(void) {
     void *sceneFile;

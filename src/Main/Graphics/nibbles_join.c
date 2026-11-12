@@ -1,8 +1,16 @@
 #include "Main/Graphics/nibbles_join.h"
+#include "Main/MapObjects/data_0217b000.h"
+
+KeyboardKeyRepeat gKeyboardKeyRepeat;
+KeyboardInput gKeyboardInput;
 
 #pragma thumb on
 
 #include "Main/Graphics/nibbles_join.h"
+#include "Main/MapObjects/data_0217b000.h"
+
+KeyboardKeyRepeat gKeyboardKeyRepeat;
+KeyboardInput gKeyboardInput;
 
 #pragma thumb on
 
