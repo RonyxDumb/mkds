@@ -7,14 +7,6 @@ extern u16 gKeyboardInputMasks[3];
 
 extern u16 *gCharTables[4];
 
-extern Vec3 gTrophyCameraPos;
-
-extern Vec3 gTrophyCameraUp;
-
-extern char *gTKinoNsbmdName[];
-
-extern char *gTKinoNsbtpName[];
-
 extern Vec3 gIronBallInitialScale;
 
 extern u16 gCharTablePairFirst[60];

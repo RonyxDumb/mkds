@@ -38,14 +38,36 @@
 #include "fx_mtx43.h"
 #include "Main/System/startup.h"
 
+const s32 gTrophyModelEffectRadius[9] = {0x400, 0x5ec, 0x452, 0x452, 0x4a4, 0x400, 0x466, 0x4f6, 0x429};
+const s16 gTrophyModelLight0X[10] = {0x400, 0x400, -1024, 0xfff, 0xfff, 0xfff, -4096, 0xfff, 0xfff, 0};
 const s32 gTrophyModelEffectOffsetY[9] = {0x266, 0xcd, 0x1c3, 0x214, 0x214, 0x214, 0x214, 0x19a, 0x2b8};
 const s16 gTrophyModelLight0Y[10] = {0, 0, 0, -2048, 0, 0, 0, 0xfff, 0, 0};
-const s32 gTrophyModelEffectRadius[9] = {0x400, 0x5ec, 0x452, 0x452, 0x4a4, 0x400, 0x466, 0x4f6, 0x429};
-const s16 gTrophyModelLight1X[10] = {-4096, -4096, -4096, -2048, -4096, -4096, -4096, -4096, -4096, 0};
 const s16 gTrophyModelLight0Z[10] = {-4096, -4096, -4096, 0xfff, -4096, -2048, -4096, -4096, -1024, 0};
-const s16 gTrophyModelLight0X[10] = {0x400, 0x400, -1024, 0xfff, 0xfff, 0xfff, -4096, 0xfff, 0xfff, 0};
+const s16 gTrophyModelLight1X[10] = {-4096, -4096, -4096, -2048, -4096, -4096, -4096, -4096, -4096, 0};
 const s16 gTrophyModelLight1Y[10] = {0, 0, 0, 0xc00, 0, 0, -2048, 0, 0, 0};
 const s16 gTrophyModelLight1Z[10] = {0xfff, 0xfff, 0xfff, -4096, 0xfff, 0xfff, 0xfff, 0xfff, 0xfff, 0};
+Vec3 gTrophyCameraUp = {0, 0x1000, 0};
+Vec3 gTrophyCameraPos = {0, 0, 0x3e8000};
+char gTrophyTFlowNsbmd[] = "T_flow.nsbmd";
+char gTrophyTStarNsbmd[] = "T_star.nsbmd";
+char gTrophyTSpecNsbmd[] = "T_spec.nsbmd";
+char gTrophyTKoraNsbmd[] = "T_kora.nsbmd";
+char gTrophyTKinoNsbtp[] = "T_kino.nsbtp";
+char gTrophyTBanaNsbtp[] = "T_bana.nsbtp";
+char gTrophyTKonoNsbmd[] = "T_kono.nsbmd";
+char gTrophyTrophyNsbmd[] = "trophy.nsbmd";
+char gTrophyTKonoNsbtp[] = "T_kono.nsbtp";
+char *gTKinoNsbmdName[9] = {gTrophyTKinoNsbmd, gTrophyTFlowNsbmd, gTrophyTStarNsbmd, gTrophyTSpecNsbmd, gTrophyTKoraNsbmd, gTrophyTBanaNsbmd, gTrophyTKonoNsbmd, gTrophyTThunNsbmd, gTrophyTrophyNsbmd};
+char gTrophyTFlowNsbtp[] = "T_flow.nsbtp";
+char gTrophyTStarNsbtp[] = "T_star.nsbtp";
+char gTrophyTrophyNsbtp[] = "trophy.nsbtp";
+char gTrophyTBanaNsbmd[] = "T_bana.nsbmd";
+char gTrophyTKoraNsbtp[] = "T_kora.nsbtp";
+char gTrophyTThunNsbtp[] = "T_thun.nsbtp";
+char gTrophyTSpecNsbtp[] = "T_spec.nsbtp";
+char gTrophyTKinoNsbmd[] = "T_kino.nsbmd";
+char gTrophyTThunNsbmd[] = "T_thun.nsbmd";
+char *gTKinoNsbtpName[9] = {gTrophyTKinoNsbtp, gTrophyTFlowNsbtp, gTrophyTStarNsbtp, gTrophyTSpecNsbtp, gTrophyTKoraNsbtp, gTrophyTBanaNsbtp, gTrophyTKonoNsbtp, gTrophyTThunNsbtp, gTrophyTrophyNsbtp};
 Trophy *gTrophy;
 
 void SetupTrophy(void) {

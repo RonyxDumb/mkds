@@ -2275,6 +2275,7 @@ src/Main/MapObjects/trophy.c:
     complete
     .text       start:0x020a23a0 end:0x020a2e4c
     .rodata     start:0x02156640 end:0x02156700
+    .data       start:0x021676c4 end:0x02167844
     .bss        start:0x0217b1e0 end:0x0217b1e4
 
 // provisional: file name and boundaries
