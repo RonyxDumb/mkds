@@ -49,8 +49,8 @@ void InitNsKiller1Objects(MapObjectList *mapObjectList);
 void DrawNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1);
 void CreateNsKiller1(void *mapObjectList);
 
-extern const u16 data_021564a8;
-extern const u16 data_021564ac;
+extern const u16 gNsKiller2SkipViewTestFlag;
+extern const u16 gNsKiller2DisabledFlag;
 extern const u32 gNsKiller2SkipSoundFlag;
 extern struct MapObjectModel *gNsKiller2S;
 extern struct MapObjectModel *gNsKiller2;

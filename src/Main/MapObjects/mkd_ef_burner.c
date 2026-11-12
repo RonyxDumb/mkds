@@ -120,7 +120,7 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
         return;
     }
     followerSpeed = FALSE;
-    mapObjectFlag = data_usa_0215646c;
+    mapObjectFlag = gMkdEfBurnerDisabledFlag;
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (mkdEfBurner = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
@@ -190,7 +190,7 @@ void UpdateMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
             if (mkdEfBurner->mScaleFixed12 <= 0) {
                 mkdEfBurner->mScaleFixed12 = 0;
                 mkdEfBurner->mState = 0;
-                mkdEfBurner->mMapObject.mFlags |= data_usa_0215646c;
+                mkdEfBurner->mMapObject.mFlags |= gMkdEfBurnerDisabledFlag;
             }
             mkdEfBurner->mMapObject.mExtent.y =
                 MUL_FIXED12_NO_ROUND(mkdEfBurner->mMapObject.mKindData->mExtentY, mkdEfBurner->mScaleFixed12);
@@ -242,5 +242,5 @@ u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner) {
     return burner->mScaleFixed12 >= 0x4cd;
 }
 
-const u16 data_usa_0215646c = 1;
+const u16 gMkdEfBurnerDisabledFlag = 1;
 const u32 gMkdEfBurnerSkipSoundFlag = 0x40000000;

@@ -48,16 +48,16 @@
 MapObjectList *gWanwanUpdateList = 0;
 WanwanDrawList *gWanwanDrawList = 0;
 
-const Unk020dd860 data_02158388 = {
+const Unk020dd860 gWanwanKindData = {
     CollideKartWithWanwan, CollideItemObjectWithWanwan, 1, 0x1b000, {0}, 1, 1, 0x12e, {0}};
-const WanwanDrawList data_0215835c = {{0}, CreateWanwanAndRockShadow, {0}, DrawWanwan, {0}, 1, {0}, 0};
-const MapObjectList data_02158334 = {NULL, 0, {0}, NULL, NULL, UpdateWanwan, NULL, 0, NULL, 0, NULL};
+const WanwanDrawList gWanwanDrawListData = {{0}, CreateWanwanAndRockShadow, {0}, DrawWanwan, {0}, 1, {0}, 0};
+const MapObjectList gWanwanUpdateListData = {NULL, 0, {0}, NULL, NULL, UpdateWanwan, NULL, 0, NULL, 0, NULL};
 
 Unk020dd860 *CreateWanwanKindData(void) {
     Unk020dd860 *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158388;
+    *kindData = gWanwanKindData;
     return kindData;
 }
 
@@ -66,7 +66,7 @@ WanwanDrawList *CreateWanwanDrawList(void) {
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gWanwanDrawList = drawList;
-    *drawList = data_0215835c;
+    *drawList = gWanwanDrawListData;
     SetDrawListSlot(&gWanwanDrawList);
     return gWanwanDrawList;
 }
@@ -76,7 +76,7 @@ MapObjectList *CreateWanwanUpdateList(void) {
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gWanwanUpdateList = updateList;
-    *updateList = data_02158334;
+    *updateList = gWanwanUpdateListData;
     SetUpdateListSlot(&gWanwanUpdateList);
     return gWanwanUpdateList;
 }
@@ -213,7 +213,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             }
         }
         if (wanwan->mFollowsPath == 0 && !(wanwan->mMapObject.mDistanceSquaredAndFlags & 4) && touchesGround != FALSE) {
-            firstSoundParams = data_0216bedc;
+            firstSoundParams = gWanwanTouchGroundSoundParams;
             firstSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
             firstSoundParams.mDistanceSquared = wanwan->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
             StartSoundFromParams(&firstSoundParams);

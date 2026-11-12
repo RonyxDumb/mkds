@@ -21,7 +21,7 @@ typedef struct WanwanChain {
     /* 48 */ Vec3 *mVelocities;
 } WanwanChain;
 
-extern const Vec3 data_021583c8;
+extern const Vec3 gWanwanChainInitialPullScale;
 
 void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32 pointCount, s32 value,
                      Vec3 *modelScale);

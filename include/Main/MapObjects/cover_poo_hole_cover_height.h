@@ -71,7 +71,7 @@ void InitCoverPooHole(MapObject *mapObject);
 u32 SetFlipperState4TimerByIndex(u32 flipperIndex);
 
 extern const u32 gCoverPooHoleSkipSoundFlag;
-extern const u32 data_021564b8;
+extern const u32 gCoverPooHoleHitDistanceFlag;
 extern const u16 gNsKiller2InitMapObjectFlag;
 extern struct MapObjectModel *gPoo;
 extern struct MapObjectModel *gCover;

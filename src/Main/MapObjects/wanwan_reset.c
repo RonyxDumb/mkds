@@ -61,8 +61,8 @@ StateCallbacks gWanwanStateTable[] = {
     {EnterWanwanState2, UpdateWanwanState2},    {EnterWanwanState3, UpdateWanwanState3},
     {EnterWanwanState4, UpdateWanwanState4Nop}, {EnterWanwanState5, UpdateWanwanState5},
 };
-Quaternion data_0216beec = {{0, 0, 0, 0x1000}};
-SoundStartParams data_0216bedc = {0x12d, NULL, 2, 0};
+Quaternion gWanwanResetSurfaceOrientation = {{0, 0, 0, 0x1000}};
+SoundStartParams gWanwanTouchGroundSoundParams = {0x12d, NULL, 2, 0};
 struct ShadowModel *gWanwanRockShadow;
 struct Nsbmd *gWanwan;
 
@@ -144,7 +144,7 @@ void ResetWanwan(Wanwan *wanwan) {
     wanwan->mMapObject.mPosStep.x = 0;
     wanwan->mMapObject.mPosStep.y = 0;
     wanwan->mMapObject.mPosStep.z = 0;
-    wanwan->mSurfaceOrientation = data_0216beec;
+    wanwan->mSurfaceOrientation = gWanwanResetSurfaceOrientation;
     QuaternionFromAngleAroundY(
         (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) * 0x28be60db9391LL) +
                 0x80000000000LL) >>

@@ -36,6 +36,6 @@ u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *firstRes
 void InitMkdEfBurner(
     MapObject *mapObject); /* allocates the object's sound source (CreateMapObjectSoundSourceFalloff2) */
 
-extern const u16 data_usa_0215646c;
+extern const u16 gMkdEfBurnerDisabledFlag;
 extern const u32 gMkdEfBurnerSkipSoundFlag;
 extern struct MapObjectModel *gMkdEfBurner;

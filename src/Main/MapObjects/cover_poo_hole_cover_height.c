@@ -217,7 +217,7 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
         coverPooHole->mTiltWobbleAngleStep = 0x800;
         coverPooHole->mTiltWobbleAngleStepChange = 0x100;
         coverPooHole->mMapObject.mDistanceSquaredAndFlags =
-            coverPooHole->mMapObject.mDistanceSquaredAndFlags | data_021564b8;
+            coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleHitDistanceFlag;
         if ((coverPooHole->mMapObject.mFlags & 0x800) == 0) {
             coverPooHole->mState = 7;
         }
@@ -650,7 +650,7 @@ s32 GetCoverPooHoleHitCoverHeight(CoverPooHole *object) {
 }
 
 const u32 gCoverPooHoleSkipSoundFlag = 0x40000000;
-const u32 data_021564b8 = 0x80000000;
+const u32 gCoverPooHoleHitDistanceFlag = 0x80000000;
 const u16 gNsKiller2InitMapObjectFlag = 0x200;
 MapObjectModel *gPoo;
 MapObjectModel *gCover;

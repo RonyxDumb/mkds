@@ -69,7 +69,7 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
         nsKiller2->mMapObject.mPosStep.y = ((s64) nsKiller2->mMapObject.mPosStep.y << 10) >> 12;
         nsKiller2->mMapObject.mPosStep.z = ((s64) nsKiller2->mMapObject.mPosStep.z << 10) >> 12;
         nsKiller2->mMapObject.mPosStep.y = 0x4000;
-        nsKiller2->mMapObject.mFlags |= data_021564ac;
+        nsKiller2->mMapObject.mFlags |= gNsKiller2DisabledFlag;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
             nsKiller2->mMapObject.mDistanceSquaredAndFlags |= gNsKiller2SkipSoundFlag;
         }
@@ -104,7 +104,7 @@ void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
 
 void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
     if ((GetKartKind3ShapeListMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
-        nsKiller2->mMapObject.mFlags |= data_021564a8;
+        nsKiller2->mMapObject.mFlags |= gNsKiller2SkipViewTestFlag;
     } else {
         nsKiller2->mMapObject.mFlags &= ~2;
     }
@@ -176,6 +176,6 @@ void StartNsKiller2(Vec3 *startPos, Vec3 *direction, u16 angle) {
     nsKiller2->mMode = 0;
 }
 
-const u16 data_021564a8 = 2;
-const u16 data_021564ac = 1;
+const u16 gNsKiller2SkipViewTestFlag = 2;
+const u16 gNsKiller2DisabledFlag = 1;
 const u32 gNsKiller2SkipSoundFlag = 0x40000000;

@@ -8071,17 +8071,17 @@ gBattleNormalHeldItemEntries kind:data(any) addr:0x021562a8
 gBattleHardHeldItemEntries kind:data(any) addr:0x02156380
 gSmanHitFlag kind:data(any) addr:0x02156458
 gSmanInitMapObjectFlag kind:data(any) addr:0x0215645c
-data_usa_02156460 kind:data(any) addr:0x02156460
-data_usa_02156464 kind:data(any) addr:0x02156464
-data_usa_02156468 kind:data(any) addr:0x02156468
-data_usa_0215646c kind:data(any) addr:0x0215646c
+gBasabasaDisabledFlag kind:data(any) addr:0x02156460
+gBasabasaSkipViewTestFlag kind:data(any) addr:0x02156464
+gBasabasaSkipListCallbackFlag kind:data(any) addr:0x02156468
+gMkdEfBurnerDisabledFlag kind:data(any) addr:0x0215646c
 gMkdEfBurnerSkipSoundFlag kind:data(any) addr:0x02156470
 data_usa_02156474 kind:data(any) addr:0x02156474
-data_021564a8 kind:data(any) addr:0x021564a8
-data_021564ac kind:data(any) addr:0x021564ac
+gNsKiller2SkipViewTestFlag kind:data(any) addr:0x021564a8
+gNsKiller2DisabledFlag kind:data(any) addr:0x021564ac
 gNsKiller2SkipSoundFlag kind:data(any) addr:0x021564b0
 gNsKiller2InitMapObjectFlag kind:data(any) addr:0x021564b4
-data_021564b8 kind:data(any) addr:0x021564b8
+gCoverPooHoleHitDistanceFlag kind:data(any) addr:0x021564b8
 gCoverPooHoleSkipSoundFlag kind:data(any) addr:0x021564bc
 gCoverPooHoleInitMapObjectFlag kind:data(any) addr:0x021564c0
 gFlipperThirdBoxHalfSizesPositive kind:data(any) addr:0x021564c4
@@ -8427,10 +8427,10 @@ gDossunDrawListData kind:data(any) addr:0x02158260
 gDossunKindData kind:data(any) addr:0x0215828c
 data_usa_021582cc kind:data(any) addr:0x021582cc
 data_usa_02158300 kind:data(any) addr:0x02158300
-data_02158334 kind:data(any) addr:0x02158334
-data_0215835c kind:data(any) addr:0x0215835c
-data_02158388 kind:data(any) addr:0x02158388
-data_021583c8 kind:data(any) addr:0x021583c8
+gWanwanUpdateListData kind:data(any) addr:0x02158334
+gWanwanDrawListData kind:data(any) addr:0x0215835c
+gWanwanKindData kind:data(any) addr:0x02158388
+gWanwanChainInitialPullScale kind:data(any) addr:0x021583c8
 data_021583d4 kind:data(any) addr:0x021583d4
 data_usa_021583d8 kind:data(any) addr:0x021583d8
 gWanwanChainUpdateListData kind:data(any) addr:0x0215840c
@@ -8562,8 +8562,8 @@ gWoodbox1DrawListData kind:data(any) addr:0x0215950c
 gWoodbox1KindData kind:data(any) addr:0x02159538
 gPushedObjectState1Flag kind:data(any) addr:0x02159578
 gVec3UnitX kind:data(any) addr:0x0215957c
-data_02159588 kind:data(any) addr:0x02159588
-data_02159594 kind:data(any) addr:0x02159594
+gPushedMotionFallbackDirection kind:data(any) addr:0x02159588
+gPushedMotionDefaultVelocity kind:data(any) addr:0x02159594
 gItemInUseThrowForwardBit kind:data(any) addr:0x021595a0
 gItemInUseDownBit kind:data(any) addr:0x021595a4
 gItemInUseAdvancedBit kind:data(any) addr:0x021595a8
@@ -9898,9 +9898,9 @@ gKinoHouse2KindDescriptor kind:data(any) addr:0x02166a74
 gKinoMount1KindDescriptor kind:data(any) addr:0x02166aa8
 gKinoMount2KindDescriptor kind:data(any) addr:0x02166adc
 gOm6Tree1KindDescriptor kind:data(any) addr:0x02166b10
-data_usa_02166b44 kind:data(any) addr:0x02166b44
-data_usa_02166b78 kind:data(any) addr:0x02166b78
-data_usa_02166bac kind:data(any) addr:0x02166bac
+gOf6Tree1KindDescriptor kind:data(any) addr:0x02166b44
+gBeachTree1KindDescriptor kind:data(any) addr:0x02166b78
+gOf6Tree1SecondKindDescriptor kind:data(any) addr:0x02166bac
 gBankEgg1KindDescriptor kind:data(any) addr:0x02166be0
 gOlgMush1KindDescriptor kind:data(any) addr:0x02166c14
 gOlgPipe1KindDescriptor kind:data(any) addr:0x02166c48
@@ -9908,18 +9908,18 @@ gMiniDokanKindDescriptor kind:data(any) addr:0x02166c7c
 gNsCannon1KindDescriptor kind:data(any) addr:0x02166cb0
 gCrossTree1KindDescriptor kind:data(any) addr:0x02166ce4
 gBankTree1KindDescriptor kind:data(any) addr:0x02166d18
-data_usa_02166d4c kind:data(any) addr:0x02166d4c
-data_usa_02166d80 kind:data(any) addr:0x02166d80
-data_usa_02166db4 kind:data(any) addr:0x02166db4
-data_usa_02166de8 kind:data(any) addr:0x02166de8
+gGardenTree1KindDescriptor kind:data(any) addr:0x02166d4c
+gGardenTree1SecondKindDescriptor kind:data(any) addr:0x02166d80
+gTownTree1KindDescriptor kind:data(any) addr:0x02166db4
+gTownTree1SecondKindDescriptor kind:data(any) addr:0x02166de8
 gOf6yoshi1KindDescriptor kind:data(any) addr:0x02166e1c
 gMarioTree3KindDescriptor kind:data(any) addr:0x02166e50
-data_usa_02166e84 kind:data(any) addr:0x02166e84
+gSnowTree1KindDescriptor kind:data(any) addr:0x02166e84
 gOpaTree1KindDescriptor kind:data(any) addr:0x02166eb8
-data_usa_02166eec kind:data(any) addr:0x02166eec
-data_usa_02166f20 kind:data(any) addr:0x02166f20
-data_usa_02166f54 kind:data(any) addr:0x02166f54
-data_usa_02166f88 kind:data(any) addr:0x02166f88
+gBeachTree1SecondKindDescriptor kind:data(any) addr:0x02166eec
+gSnowTree1SecondKindDescriptor kind:data(any) addr:0x02166f20
+gDeTree1KindDescriptor kind:data(any) addr:0x02166f54
+gDeTree1SecondKindDescriptor kind:data(any) addr:0x02166f88
 gOlaTree1cKindDescriptor kind:data(any) addr:0x02166fbc
 gOsaTree1cKindDescriptor kind:data(any) addr:0x02166ff0
 gKinoHouse1KindDescriptor kind:data(any) addr:0x02167024
@@ -10333,8 +10333,8 @@ gKuriboStateTable kind:data(any) addr:0x0216be48
 @4120 kind:data(any) addr:0x0216be88 local
 @3439 kind:data(any) addr:0x0216be98 local
 @3440 kind:data(any) addr:0x0216bea8 local
-data_0216bedc kind:data(any) addr:0x0216bebc
-data_0216beec kind:data(any) addr:0x0216becc
+gWanwanTouchGroundSoundParams kind:data(any) addr:0x0216bebc
+gWanwanResetSurfaceOrientation kind:data(any) addr:0x0216becc
 gWanwanStateTable kind:data(any) addr:0x0216bedc
 @3127 kind:data(any) addr:0x0216bf0c local
 @3128 kind:data(any) addr:0x0216bf1c local

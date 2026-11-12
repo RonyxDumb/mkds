@@ -25,8 +25,8 @@ typedef struct PushedObject {
 } PushedObject;
 
 extern const Vec3 gVec3UnitX;
-extern const Vec3 data_02159588;
-extern const Vec3 data_02159594;
+extern const Vec3 gPushedMotionFallbackDirection;
+extern const Vec3 gPushedMotionDefaultVelocity;
 
 void SetPushedMotionFromItemObject(PushedObject *object, const ItemObject *other);
 void SetPushedMotionFromKart(PushedObject *object, Kart *other);

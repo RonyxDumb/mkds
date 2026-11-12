@@ -47,7 +47,7 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 
  * UnparkFirstParkedMapObject */
 void InitBasabasa(MapObject *mapObject);
 
-extern const u16 data_usa_02156468;
-extern const u16 data_usa_02156464;
-extern const u16 data_usa_02156460;
+extern const u16 gBasabasaSkipListCallbackFlag;
+extern const u16 gBasabasaSkipViewTestFlag;
+extern const u16 gBasabasaDisabledFlag;
 extern struct MapObjectModel *gBasabasa;

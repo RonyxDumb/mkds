@@ -243,9 +243,9 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     if (basabasa == NULL) {
         return;
     }
-    basabasa->mMapObject.mFlags |= data_usa_02156460;
-    basabasa->mMapObject.mFlags |= data_usa_02156464;
-    basabasa->mMapObject.mFlags |= data_usa_02156468;
+    basabasa->mMapObject.mFlags |= gBasabasaDisabledFlag;
+    basabasa->mMapObject.mFlags |= gBasabasaSkipViewTestFlag;
+    basabasa->mMapObject.mFlags |= gBasabasaSkipListCallbackFlag;
     basabasa->mSoundRequested = soundRequested;
     basabasa->mRaceHudSubScreenCellKind = subScreenCellKind;
     mapObjectRandom = GetMapObjectRandom();
@@ -263,6 +263,6 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     basabasa->mHitKartMask = 0;
 }
 
-const u16 data_usa_02156468 = 8;
-const u16 data_usa_02156464 = 2;
-const u16 data_usa_02156460 = 1;
+const u16 gBasabasaSkipListCallbackFlag = 8;
+const u16 gBasabasaSkipViewTestFlag = 2;
+const u16 gBasabasaDisabledFlag = 1;

@@ -5,9 +5,9 @@
 
 #include "code_02147cd8.h"
 
-const Vec3 data_02159588 = {0x1000, 0, 0};
+const Vec3 gPushedMotionFallbackDirection = {0x1000, 0, 0};
 const Vec3 gVec3UnitX = {0x1000, 0, 0};
-const Vec3 data_02159594 = {0, 0, 0};
+const Vec3 gPushedMotionDefaultVelocity = {0, 0, 0};
 
 void InitPushedMotion(PushedObject *object, s32 lowestY, u32 gravity, u16 angleStep, u32 upwardSpeed, s32 pushSpeed) {
     object->mMotion.mLowestY = lowestY;
@@ -66,7 +66,7 @@ void SetPushedMotionFromItemObject(PushedObject *object, const ItemObject *other
     s32 pushSpeed;
 
     otherPoint = other ? other->mPos : object->mMapObject.mPos;
-    otherVector = other ? other->mVelocity : data_02159594;
+    otherVector = other ? other->mVelocity : gPushedMotionDefaultVelocity;
     VEC_Subtract(&object->mMapObject.mPos, &otherPoint, &out);
     if ((s64) out.z * otherVector.x - (s64) out.x * otherVector.z < 0) {
         if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {
@@ -81,7 +81,7 @@ void SetPushedMotionFromItemObject(PushedObject *object, const ItemObject *other
         object->mMotion.mAngleIncreasing = 1;
     } else {
         if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {
-            out = data_02159588;
+            out = gPushedMotionFallbackDirection;
         } else {
             s32 directionX = out.x;
             s32 directionZ = -out.z;

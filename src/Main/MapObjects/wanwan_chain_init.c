@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-const Vec3 data_021583c8 = {0x100, 0x400, 0x100};
+const Vec3 gWanwanChainInitialPullScale = {0x100, 0x400, 0x100};
 
 void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32 pointCount, s32 value,
                      Vec3 *modelScale) {
@@ -28,7 +28,7 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
     chain->mMinY = start->y + chain->mUnk_40;
     chain->mDownwardStep = 0x599;
     chain->mDamping = 0x51;
-    chain->mPullScale = data_021583c8;
+    chain->mPullScale = gWanwanChainInitialPullScale;
     chain->mFirstLinkConstrained = 1;
 }
 

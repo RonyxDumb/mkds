@@ -10,8 +10,8 @@
 
 typedef struct CourseMapRow CourseMapRow;
 
-extern SoundStartParams data_0216bedc;
-extern Quaternion data_0216beec;
+extern SoundStartParams gWanwanTouchGroundSoundParams;
+extern Quaternion gWanwanResetSurfaceOrientation;
 extern StateCallbacks gWanwanStateTable[];
 
 void UpdateWanwanState5(Wanwan *wanwan);

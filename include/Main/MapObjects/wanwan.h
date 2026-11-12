@@ -34,9 +34,9 @@ typedef struct Unk020dd860 {
     /* 28 */ u8 mUnk_28[0x18];
 } Unk020dd860;
 
-extern const MapObjectList data_02158334;
-extern const WanwanDrawList data_0215835c;
-extern const Unk020dd860 data_02158388;
+extern const MapObjectList gWanwanUpdateListData;
+extern const WanwanDrawList gWanwanDrawListData;
+extern const Unk020dd860 gWanwanKindData;
 extern MapObjectList *gWanwanUpdateList;
 extern WanwanDrawList *gWanwanDrawList;
 
