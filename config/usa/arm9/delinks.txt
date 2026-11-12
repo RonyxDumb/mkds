@@ -4542,6 +4542,7 @@ libs/NitroSDK/card/src/card_common.c:
 
 // provisional: file name and boundaries
 libs/NitroSDK/card/src/code_021458c4.c:
+    complete
     .text       start:0x021458c4 end:0x02146a00
     .bss        start:0x02180040 end:0x02180280
 
