@@ -1840,55 +1840,7 @@ src/Main/Unknown/code_020649ec.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020653d0.c:
     complete
-    .text       start:0x020653d0 end:0x02066ac0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02066ac0.c:
-    complete
-    .text       start:0x02066ac0 end:0x02067c70
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02067c70.c:
-    complete
-    .text       start:0x02067c70 end:0x02067cb0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02067cb0.c:
-    complete
-    .text       start:0x02067cb0 end:0x02067f78
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02067f78.c:
-    complete
-    .text       start:0x02067f78 end:0x02067f94
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02067f94.c:
-    complete
-    .text       start:0x02067f94 end:0x020681e0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020681e0.c:
-    complete
-    .text       start:0x020681e0 end:0x020681e4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020681e4.c:
-    complete
-    .text       start:0x020681e4 end:0x020681f0
-
-src/Main/Unknown/code_020681f0.c:
-    complete
-    .text       start:0x020681f0 end:0x02068eac
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02068eac.c:
-    complete
-    .text       start:0x02068eac end:0x0206a354
-
-src/Main/Unknown/code_0206a354.c:
-    complete
-    .text       start:0x0206a354 end:0x0206bcb0
+    .text       start:0x020653d0 end:0x0206bcb0
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0206bcb0.c:
