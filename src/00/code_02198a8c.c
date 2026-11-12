@@ -2,9 +2,8 @@
 
 #include "00/gt2Connection.h"
 #include "00/code_02198d04.h"
-#include "00/code_0219903c.h"
+#include "00/gt2Message.h"
 #include "00/code_0219a000.h"
-#include "00/code_0219a01c.h"
 #include "00/code_0219a044.h"
 #include "00/code_0219a09c.h"
 #include "00/code_0219a0d0.h"

@@ -14,7 +14,7 @@
 #include "00/code_02197000.h"
 #include "00/code_02199000.h"
 #include "00/code_0219a000.h"
-#include "00/code_0219903c.h"
+#include "00/gt2Message.h"
 #include "00/code_02197ddc.h"
 #include "00/gt2Connection.h"
 #include "00/code_0219a044.h"

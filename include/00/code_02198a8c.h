@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/code_02197e58.h"
-#include "00/code_0219903c.h"
+#include "00/gt2Message.h"
 
 void gt2Think(Gt2Socket *socket);
 void gt2CloseSocket(Gt2Socket *socket);
