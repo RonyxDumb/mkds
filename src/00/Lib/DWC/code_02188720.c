@@ -16,6 +16,12 @@
 #include "code_0214d018.h"
 #include "Main/Save/nvram_first_three.h"
 
+ACHOLD *gAcHold;
+ACWORK *gAcWork;
+void *gWcmBuffer;
+void *gSocConfig;
+DWCNetcheckParam *gNetCheck;
+
 void DWCi_AC_CallBackWCM(Unk02188d78 *notice) {
     ACWORK *work;
 

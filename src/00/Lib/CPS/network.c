@@ -19,6 +19,54 @@
 #include "02/unk_02180500.h"
 #include "code_02000b44.h"
 
+u32 gIcmpEchoReplyEnabled = 1;
+u32 gHelperThreadsPriority = 16;
+u8 gMacBroadcast[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+u8 gDhcpHostname[] = "NintendoDS";
+u8 gIpv4LlcSnapHeader[12] = {0xaa, 0xaa, 0x03, 0x00, 0x00, 0x00, 0x08, 0x00};
+
+u8 gIpConflict;
+u8 gSendFailed;
+u16 gMyMss;
+u16 gIpId;
+u16 gEport;
+u16 gPingSequence;
+u32 gCPSMode;
+u32 CPSMyIp;
+u32 gSleepSave;
+u32 gWlanBufLen;
+void (*CPSiFree)(void *param_1);
+u32 CPSNetMask;
+u32 gYieldWait;
+u32 gWlanPutPnt;
+void (*gDhcpCallback)(void);
+u32 CPSNoIpReason;
+u32 (*gLinkIsOn)(void);
+u8 *(*CPSiAlloc)(u32 param_1);
+u32 gWlanGetPnt;
+u32 CPSGatewayIp;
+void (*gScavengerCallback)(void);
+u8 *gWlanBuf;
+u32 gScavengerForceExit;
+u32 CPSDhcpServerIp;
+u32 gLeaseTime;
+u32 gOfferedMyIp;
+OSThread *gReceiverThread;
+u16 CPSMyMac[3];
+u32 CPSDnsIp[2];
+u64 CPSiRand32ctx[3];
+u8 gTmpBuf[58];
+CPSArpCache gArpCache[8];
+CPSSoc gTmpSoc;
+CPSSoc gScavengerSoc;
+OSThread gTcpipThread;
+OSThread gScavengerThread;
+u8 gScavengerReceiveBuffer[384];
+u8 gScavengerSendBuffer[384];
+CPSFragTable gFragTable[8];
+u8 __attribute__((aligned(32))) gTcpipStack[2048];
+u8 __attribute__((aligned(32))) gScavengerStack[2048];
+
 void reset_network_vars(u32 reason) {
     u32 addressSeen;
     OSThread *thread;
@@ -128,7 +176,7 @@ void CPS_Startup(CPSConfig *config) {
     OS_GetMacAddress(CPSMyMac);
     gIpConflict = 0;
     OS_CreateThread(&gTcpipThread, (void (*)(void *)) tcpip, NULL, TCPIP_STACK_TOP, 0x800, gHelperThreadsPriority);
-    OS_CreateThread(&gScavengerThread, (void (*)(void *)) scavenger, NULL, gScavengerStackTop, 0x800,
+    OS_CreateThread(&gScavengerThread, (void (*)(void *)) scavenger, NULL, gScavengerStack + 0x800, 0x800,
                     gHelperThreadsPriority);
     OS_WakeupThreadDirect(&gTcpipThread);
     OS_WakeupThreadDirect(&gScavengerThread);
@@ -659,7 +707,7 @@ void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
         return;
     }
     if (OSi_ThreadInfo.mCurrentThread == &gTcpipThread) {
-        header = gTmpBufTcpHeader;
+        header = gTmpBuf + 0x22;
     } else {
         header = socket->mSendBuffer + 0x22;
     }
@@ -2191,7 +2239,7 @@ u32 dhcp_send_discover(void) {
     u8 *cursor;
     u8 *message;
 
-    message = gScavengerSendPayload;
+    message = gScavengerSendBuffer + 0x2a;
     cursor = dhcp_setcommon(message, 1, &queryId);
     if (gOfferedMyIp != 0) {
         cursor[0] = 0x32;
@@ -2214,7 +2262,7 @@ u32 dhcp_send_request(s32 mode) {
     u8 *cursor;
     u8 *message;
 
-    message = gScavengerSendPayload;
+    message = gScavengerSendBuffer + 0x2a;
     cursor = dhcp_setcommon(message, 3, &queryId);
     if (mode == 0) {
         cursor[0] = 0x32;
@@ -2398,7 +2446,7 @@ void dhcp_release_server(void) {
     CPS_SocUse();
     CPS_SocDatagramMode();
     CPS_SocBind(0x44, 0x43, CPSDhcpServerIp);
-    message = (u8 *) &gScavengerSendPayload;
+    message = gScavengerSendBuffer + 0x2a;
     cursor = dhcp_setcommon(message, 7, NULL);
     *cursor = 0xff;
     cursor++;

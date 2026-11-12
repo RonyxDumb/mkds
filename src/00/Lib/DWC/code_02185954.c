@@ -29,19 +29,21 @@
 #include "Main/Save/nvram_new_wifi_info.h"
 #include "code_02134008.h"
 
-char gLangPairValue01[] = "01";
 char gLangPairValue03[] = "03";
+char gLangPairValue04[] = "04";
+char gLangPairValue02[] = "02";
+char gLangPairValue01[] = "01";
 char gLangPairValue06[] = "06";
 char gLangPairValue00[] = "00";
 char gLangPairValue05[] = "05";
-char gLangPairValue02[] = "02";
-char gLangPairValue04[] = "04";
 
 char *gLangPairValues[7] = {gLangPairValue00, gLangPairValue01, gLangPairValue02,
                             gLangPairValue03, gLangPairValue04, gLangPairValue05,
                             gLangPairValue06};
-char gNasAuthUrl[32] = "https://nas.nintendowifi.net/ac";
 DWCHttpParam DWCauthhttpparam = {gNasAuthUrl, 0, NULL, 0x1000, NULL, NULL, 0, 0x4e20};
+char gNasAuthUrl[32] = "https://nas.nintendowifi.net/ac";
+DWCAuth *gAuth;
+DWCWiFiInfo gAuthWiFiInfo;
 
 void DWC_Auth_SetCustomNas(const void *nasAddress) {
     DWCauthhttpparam.mUrl = nasAddress;

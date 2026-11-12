@@ -20,6 +20,7 @@
 #include "00/Lib/DWC/dwc_match.h"
 
 char gDwcMagicStrings[3] = "DT";
+WiFiMessageLayer *gWiFiMessageLayer = NULL;
 
 void DWC_SetUserSendCallback(u32 (*callback)(void)) {
     u32 value0 = (u32) callback;

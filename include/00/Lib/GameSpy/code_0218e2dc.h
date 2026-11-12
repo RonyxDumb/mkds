@@ -33,11 +33,6 @@ typedef struct SOCPollFD {
     /* 06 */ s16 mRevents;
 } SOCPollFD;
 
-extern u8 gAliases[];
-extern s32 gGsiNitroErrno;
-extern SOCHostEnt gLocalhost;
-extern u32 gIps;
-extern u32 *gIpPtrs[2];
 
 u32 nextlongrand(u32 seed);
 u32 GetUnixTime(u32 *timer);

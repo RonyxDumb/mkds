@@ -60,6 +60,8 @@
 #include "os_printf.h"
 #include "code_0213a460.h"
 
+WiFiConnection *gWiFiConnection = NULL;
+s32 stLastSocketError = 0;
 DWCConnectionInfo stConnectionInfoList[32];
 void *stGt2ConnectionList[32];
 

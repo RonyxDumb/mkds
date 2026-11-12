@@ -12,11 +12,13 @@
 u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
     SOCInAddr inAddress;
     char *addressString;
+    static char strAddressArray[2][22];
+    static s32 slotIndex;
 
     addressString = buffer;
     if (addressString == NULL) {
-        nIndex ^= 1;
-        addressString = strAddressArray[nIndex];
+        slotIndex ^= 1;
+        addressString = strAddressArray[slotIndex];
     }
     if (ipAddress != 0) {
         inAddress.addr = ipAddress;

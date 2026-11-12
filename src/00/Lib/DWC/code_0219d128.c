@@ -27,6 +27,8 @@
 #include "00/Lib/DWC/code_0219caac.h"
 #include "00/Lib/GameSpy/code_02196960.h"
 
+WiFiBuddySync *gWiFiBuddySync = NULL;
+
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
 // object exists.
 void DWC_SetBuddyFriendCallback(void *callback, void *param) {

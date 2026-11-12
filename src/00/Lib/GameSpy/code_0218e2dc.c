@@ -34,6 +34,9 @@
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
 #include "code_0213a460.h"
 
+static char *aliases = NULL;
+static s32 GSINitroErrno;
+
 #pragma opt_propagation off
 
 u32 GetElapsedMilliseconds(void) {
@@ -181,20 +184,24 @@ u32 CanSendOnSocket(u32 sock) {
 }
 
 SOCHostEnt *getlocalhost(void) {
-    gLocalhost.mName = gLocalhostName;
-    gLocalhost.mAliases = gAliases;
-    gLocalhost.mAddrType = 2;
-    gLocalhost.mLength = 0;
-    gLocalhost.mAddrList = gIpPtrs;
-    gIps = 0;
-    SOC_U32to4U8(SOCL_GetHostID(), (u8 *) &gIps);
-    if (gIps == 0) {
+    static SOCHostEnt loopbackEntry;
+    static u32 *addrList[6];
+    static u32 ips[5];
+
+    loopbackEntry.mName = gLocalhostName;
+    loopbackEntry.mAliases = (u8 *) &aliases;
+    loopbackEntry.mAddrType = 2;
+    loopbackEntry.mLength = 0;
+    loopbackEntry.mAddrList = addrList;
+    ips[0] = 0;
+    SOC_U32to4U8(SOCL_GetHostID(), (u8 *) &ips[0]);
+    if (ips[0] == 0) {
         return NULL;
     }
-    gIpPtrs[0] = &gIps;
-    gLocalhost.mLength = 4;
-    gIpPtrs[1] = NULL;
-    return &gLocalhost;
+    addrList[0] = &ips[0];
+    loopbackEntry.mLength = 4;
+    addrList[1] = NULL;
+    return &loopbackEntry;
 }
 
 BOOL IsPrivateIP(u32 *addr) {
@@ -217,7 +224,7 @@ BOOL IsPrivateIP(u32 *addr) {
 
 s32 CheckRcode(s32 result, s32 fallback) {
     if (result < 0) {
-        gGsiNitroErrno = result;
+        GSINitroErrno = result;
         result = fallback;
     }
     return result;
@@ -336,7 +343,7 @@ u32 inet_addr(u32 name) {
 }
 
 u32 GOAGetLastError(s32 sock) {
-    return *(u32 *) &gGsiNitroErrno;
+    return GSINitroErrno;
 }
 
 u32 GetUnixTime(u32 *timer) {

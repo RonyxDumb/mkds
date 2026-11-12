@@ -130,7 +130,7 @@ typedef struct CPSConfig CPSConfig;
 extern u32 gIcmpEchoReplyEnabled;
 extern u32 gHelperThreadsPriority;
 extern u8 gMacBroadcast[6];
-extern u8 gIpv4LlcSnapHeader[8];
+extern u8 gIpv4LlcSnapHeader[12];
 extern u8 gSendFailed;
 extern u16 gPingSequence;
 extern u16 gMyMss;
@@ -147,11 +147,11 @@ extern u8 *gWlanBuf;
 extern u32 gWlanBufLen;
 extern u32 gWlanGetPnt;
 // Objects whose layout isn't known yet.
-extern u8 gTmpBufTcpHeader[];
+extern u8 gTmpBuf[58];
 extern CPSSoc gTmpSoc;
 extern OSThread gScavengerThread;
 extern OSThread gTcpipThread;
-extern u8 gScavengerStackTop[];
+extern u8 gScavengerStack[2048];
 
 u8 *pad_mem(u8 pattern, u32 minimum, u8 *position, u32 currentLength);
 u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut);

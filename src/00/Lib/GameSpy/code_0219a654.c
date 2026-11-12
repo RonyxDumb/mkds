@@ -19,6 +19,11 @@
 #include "00/Lib/GameSpy/code_0218d488.h"
 
 u8 NNMagicData[6] = {0xfd, 0xfc, 0x1e, 0x66, 0x6a, 0xb2};
+void *negotiateList = NULL;
+char *Matchup1Hostname;
+char *Matchup2Hostname;
+u32 matchup1ip = 0;
+u32 matchup2ip = 0;
 
 NatTraversalEntry *AddNegotiator(void) {
     NatTraversalEntry negotiator = {0};
@@ -294,6 +299,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
     s32 senderAddressLength;
     s32 receivedLength;
     SOCSockAddrIn resultAddress;
+    static u8 receiveBuffer[512];
 
     senderAddressLength = 8;
     if (negotiator->mState == 4) {
@@ -305,12 +311,12 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
             if (CanReceiveOnSocket(negotiator->mDescriptor) == 0) {
                 break;
             }
-            receivedLength = recvfrom(negotiator->mDescriptor, gNatNegReceiveBuffer, 0x200, 0, (u8 *) &senderAddress,
+            receivedLength = recvfrom(negotiator->mDescriptor, receiveBuffer, 0x200, 0, (u8 *) &senderAddress,
                                       &senderAddressLength);
             if (receivedLength == -1) {
                 break;
             }
-            NNProcessData(gNatNegReceiveBuffer, receivedLength, &senderAddress);
+            NNProcessData(receiveBuffer, receivedLength, &senderAddress);
             if (negotiator->mState == 4) {
                 break;
             }

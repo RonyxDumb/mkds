@@ -90,11 +90,8 @@ extern CPSConfig SOCLiCPSConfig;
 extern void *SOCLiCommandPackets;
 extern OSMessageQueue SOCLiCommandPacketQueue;
 
-extern s32 nIndex;
-extern char strAddressArray[2][0x16];
 extern char *Matchup2Hostname;
 extern char *Matchup1Hostname;
 extern u32 matchup2ip;
 extern u32 matchup1ip;
 extern void *negotiateList;
-extern u8 gNatNegReceiveBuffer[];

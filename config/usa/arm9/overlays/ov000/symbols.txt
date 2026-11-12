@@ -2353,11 +2353,11 @@ gGsiAcResult kind:bss addr:0x021b4ce8
 gGsiAcHostname kind:bss addr:0x021b4cec
 gGsiAcGamename kind:bss addr:0x021b4d2c
 gGsiAvailableCheck kind:bss addr:0x021b4d6c
-gAliases kind:bss addr:0x021b4dc4
-gGsiNitroErrno kind:bss addr:0x021b4dc8
-gLocalhost kind:bss addr:0x021b4dcc
-gIps kind:bss addr:0x021b4ddc
-gIpPtrs kind:bss addr:0x021b4df0
+aliases kind:bss addr:0x021b4dc4 local
+GSINitroErrno kind:bss addr:0x021b4dc8 local
+localhost$2004 kind:bss addr:0x021b4dcc local
+ips$2006 kind:bss addr:0x021b4ddc local
+ipPtrs$2005 kind:bss addr:0x021b4df0 local
 gInitStart kind:bss addr:0x021b4e08
 gConnId kind:bss addr:0x021b4e0c
 gInternalInit kind:bss addr:0x021b4e10
@@ -2374,14 +2374,14 @@ gChallenge kind:bss addr:0x021b4e38
 gcd_gamename kind:bss addr:0x021b4e44
 gcd_secret_key kind:bss addr:0x021b4f44
 gValueForKeyValues kind:bss addr:0x021b5044
-nIndex kind:bss addr:0x021b5244
-strAddressArray kind:bss addr:0x021b5248
+nIndex$1290 kind:bss addr:0x021b5244 local
+strAddressArray$1289 kind:bss addr:0x021b5248 local
 Matchup2Hostname kind:bss addr:0x021b5274
 Matchup1Hostname kind:bss addr:0x021b5278
 matchup2ip kind:bss addr:0x021b527c
 matchup1ip kind:bss addr:0x021b5280
 negotiateList kind:bss addr:0x021b5284
-gNatNegReceiveBuffer kind:bss addr:0x021b5288
+indata$1570 kind:bss addr:0x021b5288 local
 gWiFiConnection kind:bss addr:0x021b5488
 stLastSocketError kind:bss addr:0x021b548c
 stGt2ConnectionList kind:bss addr:0x021b5490
@@ -2465,15 +2465,14 @@ gWlanGetPnt kind:bss addr:0x021b638c
 CPSMyMac kind:bss addr:0x021b6390
 CPSDnsIp kind:bss addr:0x021b6398
 CPSiRand32ctx kind:bss addr:0x021b63a0
-gTmpBufTcpHeader kind:bss addr:0x021b63da
+gTmpBuf kind:bss addr:0x021b63b8
 gArpCache kind:bss addr:0x021b63f4
-data_ov000_021b643e kind:bss addr:0x021b63fe
 gScavengerSoc kind:bss addr:0x021b6454
 gTmpSoc kind:bss addr:0x021b64b8
 gScavengerThread kind:bss addr:0x021b651c
 gTcpipThread kind:bss addr:0x021b65dc
 gScavengerSendBuffer kind:bss addr:0x021b669c
-gScavengerSendPayload kind:bss addr:0x021b66c6
 gScavengerReceiveBuffer kind:bss addr:0x021b681c
 gFragTable kind:bss addr:0x021b699c
-gScavengerStackTop kind:bss addr:0x021b7360
+gScavengerStack kind:bss addr:0x021b6b60
+gTcpipStack kind:bss addr:0x021b7360

@@ -20,6 +20,10 @@
 NatnegMagic gNatnegMagicBytes = {{0xfd, 0xfc, 0x1e, 0x66, 0x6a, 0xb2}};
 QueryRecord gStaticQr2Rec = {-1};
 QueryRecord *gCurrentQr2Rec = &gStaticQr2Rec;
+char gQr2Hostname[64];
+s32 gNumLocalIps = 0;
+u8 gLocalIpList[5 * 4];
+s8 gQr2Indata[256];
 
 s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *gamename, const char *secretKey,
                      s32 isPublic, s32 natFlag, Unk021a4a08Func88 serverKeyFn,

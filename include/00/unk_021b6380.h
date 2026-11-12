@@ -32,7 +32,6 @@ extern u32 gCPSMode;
 extern u16 CPSMyMac[3];
 extern void (*gDhcpCallback)(void);
 extern u8 gDhcpHostname[];
-extern u8 gScavengerSendPayload[];
 extern u8 gScavengerReceiveBuffer[];
 extern u8 gScavengerSendBuffer[];
 extern CPSArpCache gArpCache[8];
