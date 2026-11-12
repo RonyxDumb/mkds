@@ -2,8 +2,6 @@
 #include "types.h"
 #include "Main/Kart/code_0208fd8c.h" // KartAiItemUseEntry
 
-extern u32 data_usa_021568f8;
-
 extern u16 gCollisionSlotDisabledFlag;
 
 extern u16 gCollisionSlotRadiusFlag;

@@ -8145,7 +8145,7 @@ gMapObjectNumberOverflowFlag kind:data(any) addr:0x021568e8
 gViewTestPassedFlag kind:data(any) addr:0x021568ec
 gViewTestResultFlag kind:data(any) addr:0x021568f0
 gViewTestDistanceLimitFlag kind:data(any) addr:0x021568f4
-data_usa_021568f8 kind:data(any) addr:0x021568f8
+gViewTestMaxDistanceFlag kind:data(any) addr:0x021568f8
 gCollisionSlotDisabledFlag kind:data(any) addr:0x021568fc
 gCollisionSlotRadiusFlag kind:data(any) addr:0x02156900
 data_02156904 kind:data(any) addr:0x02156904

@@ -1055,5 +1055,6 @@ void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject) {
 
 const u16 gViewTestPassedFlag = 0x10;
 const u16 gMapObjectNumberOverflowFlag = 0x80;
-const u32 gViewTestResultFlag = 8;
 const u32 gViewTestDistanceLimitFlag = 4;
+const u32 gViewTestResultFlag = 8;
+const u32 gViewTestMaxDistanceFlag = 1;

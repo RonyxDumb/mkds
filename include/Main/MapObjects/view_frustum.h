@@ -91,6 +91,7 @@ extern const u16 gViewTestPassedFlag;
 extern const u16 gMapObjectNumberOverflowFlag;
 extern const u32 gViewTestResultFlag;
 extern const u32 gViewTestDistanceLimitFlag;
+extern const u32 gViewTestMaxDistanceFlag;
 extern ViewFrustum gViewFrustumBeforeRotation;
 extern ViewFrustum gViewFrustum;
 extern s32 gItemSoundCameraHeightLimit;

@@ -214,7 +214,7 @@ s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDistSq, u16 
         if (level <= 1) {
             return result | 3;
         }
-        result |= data_usa_021568f8;
+        result |= gViewTestMaxDistanceFlag;
     }
     offsetY = FROM_FIXED12(pos->y - gViewFrustum.mCameraPos.y);
     if (offsetX * gViewFrustum.mViewDirection.x + offsetY * gViewFrustum.mViewDirection.y +
@@ -267,7 +267,7 @@ s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 nearDist
         if (level <= 1) {
             return result | 3;
         }
-        result |= data_usa_021568f8;
+        result |= gViewTestMaxDistanceFlag;
     }
     offset.y = FROM_FIXED12(pos->y - gViewFrustum.mCameraPos.y);
     offsetX = ((const Vec3 *) &offset)->x;
