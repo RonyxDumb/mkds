@@ -60,6 +60,44 @@
 #include "Main/Kart/kart_ai_staff_roll_advance.h"
 #include "Main/Kart/kart_level.h"
 #include "Main/Kart/kart_resources.h"
+#include "Main/Kart/kart_slot8_return.h"
+#include "Main/Kart/kart_state0_return.h"
+
+s32 gFirstBaseSpeedLimitReciprocal = 0x6000;
+Vec3 gKartPlacementHeadingAxis = {0, 0x1000, 0};
+Vec4 gKartState6TargetQuaternion = {0, 0, 0, 0x1000};
+Vec3 gFixedPositionSelectedEffectIds = {0x48, 0x49, 0x4a};
+KartKillerEndRankOffsets gKartKillerEndRankOffsets = {{1, 1, 1, 1, 2, 2, 3, 3}};
+s16 gKartState3EndFrameCount = 0x1e;
+s32 gKartAheadSpeedLimitStartFactor = 0x14cd;
+s16 gTurnHeadingReductionAtSpeedLimit = 0x96;
+s32 gKartWobbleAmplitudeDecay = 0xfae;
+void (*gKartDefaultSlotFunctions[9])(Kart *a) = {InitKartResources, ResetKart, NULL, NULL, NULL, NULL, ResetKartToRespawnPoint, ResetKartToStartPlacement, (void (*)(Kart *a)) KartSlot8ReturnArgument};
+Vec3 gFixedPositionEffectPos = {-5652480, 0x2f8000, -24412160};
+void (*gKartStateFunctions[8])(struct Kart *) = {(void (*)(struct Kart *)) KartState0ReturnArgument, AdvanceKartState1And2, AdvanceKartState1And2, AdvanceKartState3, AdvanceKartState4, AdvanceKartState5, AdvanceKartState6, NULL};
+s32 gKartState3StartVerticalSpeed = 0x24cd;
+s32 gKartWobbleAngleFactor = 0x2328;
+s32 gKartState3SecondLandVerticalSpeed = 0x1000;
+s32 gKartPushFlipStartVerticalSpeed = 0x3000;
+Vec3 gKartPointMotionDecayFactors = {0xf33, 0xe66, 0xf33};
+s32 gKartRespawnOffsetScale = 0x1e000;
+s32 gKartSurfaceKind12VerticalSpeeds[5] = {0x1800, 0x2000, 0x3000, 0x800, 0x4000};
+s32 gKartState3FirstLandVerticalSpeed = 0x1ccd;
+s32 gKartWobbleEaseFactor = 0x4cd;
+s32 gKartSurfaceKind12SpeedLimitGoals[5] = {0x7000, 0x6400, 0x4000, 0x6800, 0x3c00};
+s32 gKartState4StartAnglePerFrame = 0x708;
+Vec3 gParticipantRecordHeadingAxis = {0, 0x1000, 0};
+s32 gKartOverlapLengthLimit = 0x3000;
+s32 gKartState5LandVerticalSpeed = 0x2000;
+KartEffectScales gKartRaceStartEffectOffsets = {{-2458, -2458, -3482, -2458, -2253, -5325, -2458, -1843, -3482, -2458, -3277, -3277, -2458, -2048, -3891, -2458, -3891, -3686, -2458, -2662, -5530, -2458, -2458, -4301, -2458, -3482, -3277, -2458, -2048, -2867, -2458, -3277, -5530, -2458, -2458, -2867, -2458}};
+s32 gTurnHeadingEaseFactor = 0x666;
+KartFollowEffectIds gKartFollowEffectIds = {{0x61, 0x60, 0x62}};
+KartSurfaceSoundIds gKartSurfaceSoundIds = {{0x1b8, 0x1c9, 0x1c8}};
+u16 gKartWobbleAnglePerCall = 0x984;
+s32 gKartState5StartAnglePerFrame = 0x898;
+s32 gFixedPositionOtherEffectIds[2] = {0x51, 0x50};
+s32 gKartPushFlipAngleDecay = 5;
+s32 gSpeedReductionAtFullTurnRatio = 0x1ec;
 
 static inline s32 KartMapObjectNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalized) {
     if (LENGTH_SQUARED(*vector) < 0x10) {

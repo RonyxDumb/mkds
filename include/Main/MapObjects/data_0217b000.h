@@ -188,10 +188,6 @@ typedef struct GrpconfTblRow {
     /* 0e */ u16 mExtentZ;
 } GrpconfTblRow;
 
-extern u16 gSearchStartIndex;
-extern s32 gEntryYDifferenceLimit;
-extern BattleKartAiParams *gBattleKartAiParams;
-
 // Objects whose layout isn't known yet.
 struct SPLManager;
 struct KartAi;
@@ -211,17 +207,6 @@ extern KartPhysicalParamTable *gKartPhysicalParamTable;
 
 extern struct SPLManager *gMissionRunSPLManager;
 
-// Function pointers set by RegisterKartAiCallbacks (the reset targets take different parameters).
-extern void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);
-extern void (*gKartAiSetupCallback)(struct KartAi *kartAi, s32 kartIndex);
-extern UnkFunc *gKartAiResetCallback;
-extern void (*gKartAiLinkPosAndDirectionCallback)(Vec3 *position, Vec3 *direction, struct KartAi *kartAi);
-extern void (*gKartAiSetupHeldItemEntryCallback)(struct KartAi *kartAi);
-extern void (*gKartAiSetupItemInUseEntryCallback)(struct KartAi *kartAi);
-extern void (*gKartAiRequestLinkCallback)(struct KartAi *kartAi);
-extern s32 (*gKartAiIsLinkRequestedCallback)();
-// Table of KartTurnEffects, one per Kart, allocated by InitKartTurnEffects and indexed by Kart.mIndex.
-extern struct KartTurnEffects *gKartTurnEffects;
 struct ModelEffect;
 
 // The ModelEffect pools: an active list, one free list per kind, and the next polygon id (10 to 13).

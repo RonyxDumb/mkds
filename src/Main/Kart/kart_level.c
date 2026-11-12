@@ -7,6 +7,9 @@
 #include "tp.h"
 #include "code_02147cd8.h"
 
+const Vec3 gKartTurnEffectsStartPosition = {0, 0, 0};
+struct KartTurnEffects *gKartTurnEffects;
+
 void InitKartTurnEffects(void *heap) {
     u16 kartIndex;
     u16 sideIndex;
@@ -74,7 +77,7 @@ void StartKartTurnStartEffects(KartTurnEffects *turnEffects) {
     }
     turnEffects->mTurnStartPresent = 0;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mTurnStartEffects[sideIndex] = StartEffect(turnEffects->mTurnStartEffectId, &data_02155fcc);
+        turnEffects->mTurnStartEffects[sideIndex] = StartEffect(turnEffects->mTurnStartEffectId, &gKartTurnEffectsStartPosition);
         turnEffects->mTurnStartEffects[sideIndex]->mColor = 0x7fff;
         turnEffects->mTurnStartEffects[sideIndex]->mAlpha = 0x1c;
         turnEffects->mTurnStartEffects[sideIndex]->mSizeScale = 0x1000;
@@ -132,8 +135,8 @@ void StartKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &data_02155fcc);
-        turnEffects->mLevel4SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel4SecondEffectId, &data_02155fcc);
+        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mLevel4SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel4SecondEffectId, &gKartTurnEffectsStartPosition);
     }
 }
 
@@ -141,7 +144,7 @@ void StartKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &data_02155fcc);
+        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &gKartTurnEffectsStartPosition);
     }
 }
 
@@ -433,8 +436,8 @@ void StartKartLevel3Effects(KartTurnEffects *turnEffects, int enable) {
     turnEffects->mLevel3Present = 0;
     turnEffects->mLevel3Frames = 0;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel3FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel3FirstEffectId, &data_02155fcc);
-        turnEffects->mLevel3SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel3SecondEffectId, &data_02155fcc);
+        turnEffects->mLevel3FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel3FirstEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mLevel3SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel3SecondEffectId, &gKartTurnEffectsStartPosition);
     }
     turnEffects->mLevel3Present = 1;
 }
@@ -496,7 +499,7 @@ void StartKartLevel2Effects(KartTurnEffects *turnEffects, int enable) {
     turnEffects->mLevel2Present = FALSE;
     turnEffects->mLevel2Frames = 0;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel2Effects[sideIndex] = StartEffect(0x7e, &data_02155fcc);
+        turnEffects->mLevel2Effects[sideIndex] = StartEffect(0x7e, &gKartTurnEffectsStartPosition);
     }
     turnEffects->mLevel2Present = TRUE;
 }

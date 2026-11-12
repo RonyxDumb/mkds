@@ -50,3 +50,17 @@ void SortKartsByDistanceOnePass(void);
 void SortKartsByDistanceAlongViewOnePass(void);
 void UpdateKartNameTags(void);
 void UpdateKartViewDistancesAndOutOfView(void);
+
+extern s32 gKartNameTagEntry2ScaleX;
+extern s32 gKartNameTagEntry0ScaleX;
+extern s32 gKartNameTagEntry0ScaleY;
+extern s32 gKartNameTagColorQuadScaleX;
+extern s32 gKartNameTagEntry3XOffset;
+extern s32 gKartNameTagEntry0YOffset;
+extern s32 gKartNameTagColorQuadScaleY;
+extern s32 gKartNameTagEntry3YOffset;
+extern s32 gKartNameTagEntry0XOffset;
+extern s32 gKartNameTagEntry3ScaleX;
+extern s32 gKartNameTagEntry1XOffset;
+extern s32 gKartNameTagEntry3ScaleY;
+extern s32 gKartNameTagEntry2XOffset;

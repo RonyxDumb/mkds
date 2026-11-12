@@ -23,3 +23,5 @@ void AdvanceKartCharacterAnimation(Kart *animationState);
 void ClearCharacterTurnAndNextAnimation(struct KartModelsEntry *kartModelsEntry);
 u32 GetCharacterAnimationLoopFlag(int animationIndex);
 char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex);
+
+extern char gCharacterNsbcaPathBuffer[256];

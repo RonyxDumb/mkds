@@ -28,24 +28,25 @@
 #include "fx_mtx43.h"
 #include "Main/Kart/kart_call.h"
 
-char gCourseModelNsbtaName[20] = "/course_model.nsbta";
-Vec3s16 gKoopaCourseLight2Vector = {0, -4095, 0};
-const u32 gCourseModelShdwOff3MaterialName[4] = {0x77646853, 0x3366664f, 0, 0};
-const u32 gCourseModelShdwOff1MaterialName[4] = {0x77646853, 0x3166664f, 0, 0};
 char gCourseModelNsbtpName[20] = "/course_model.nsbtp";
+Vec3s16 gKoopaCourseLight2Vector = {0, -4095, 0};
+const u32 gCourseModelShdwOff1MaterialName[4] = {0x77646853, 0x3166664f, 0, 0};
 const u32 gCourseModelShdwOff2MaterialName[4] = {0x77646853, 0x3266664f, 0, 0};
+char gCourseModelNsbmdName[20] = "/course_model.nsbmd";
+const u32 gCourseModelShdwOff4MaterialName[4] = {0x77646853, 0x3466664f, 0, 0};
 char gCourseModelVNsbmdName[22] = "/course_model_V.nsbmd";
 char gCourseModelVNsbtxName[22] = "/course_model_V.nsbtx";
-const u32 gCourseModelYoganMaterialName[4] = {0x61676f79, 0x6e, 0, 0};
-const u32 gCourseModelShdwOff4MaterialName[4] = {0x77646853, 0x3466664f, 0, 0};
-const u32 gCourseModelShdwOff5MaterialName[4] = {0x77646853, 0x3566664f, 0, 0};
-char gCourseModelNsbmdName[20] = "/course_model.nsbmd";
-Vec3 gKartAwardStartPositions[3] = {{-5795840, 0x305000, 0}, {-6082560, 0x305000, -286720}, {-6082560, 0x305000, 0x46000}};
 const u32 gCourseModelFalls02MaterialName[4] = {0x6c6c6166, 0x32305f73, 0, 0};
-char gCourseModelVNsbtaName[22] = "/course_model_V.nsbta";
-const u32 gCourseModelFalls01MaterialName[4] = {0x6c6c6166, 0x31305f73, 0, 0};
+const u32 gCourseModelYoganMaterialName[4] = {0x61676f79, 0x6e, 0, 0};
 const u32 gCourseModelShdwOffMaterialName[4] = {0x77646853, 0x66664f, 0, 0};
+char gCourseModelNsbtaName[20] = "/course_model.nsbta";
+Vec3 gKartAwardStartPositions[3] = {{-5795840, 0x305000, 0}, {-6082560, 0x305000, -286720}, {-6082560, 0x305000, 0x46000}};
+const u32 gCourseModelFalls01MaterialName[4] = {0x6c6c6166, 0x31305f73, 0, 0};
+char gCourseModelVNsbtaName[22] = "/course_model_V.nsbta";
+const u32 gCourseModelShdwOff5MaterialName[4] = {0x77646853, 0x3566664f, 0, 0};
+const u32 gCourseModelShdwOff3MaterialName[4] = {0x77646853, 0x3366664f, 0, 0};
 char gCourseModelNsbtxName[20] = "/course_model.nsbtx";
+CourseModels gCourseModels;
 
 static inline void InitModelAnimationFromFile(u32 animationKind, ModelAnimation *animation, Nsbmd *nsbmd, void *heap,
                                               void *modelFile, const char *animationFile, u16 *animationCount) {
@@ -131,11 +132,11 @@ void InitCourseModels(void *heap) {
     gCourseModels.mNsbmd = HeapAlloc(heap, 0x6c);
     resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, nsbmdFile, nsbtxFile);
     animationFile = FindCourseFile(gCourseModelNsbtpName);
-    InitModelAnimationFromFile(2, &data_usa_0217ab04, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                               &gCourseModels.mNsbtpAnmObjCount);
+    InitModelAnimationFromFile(2, &gCourseModels.mNsbtpAnimation, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
+                               &gCourseModels.mNsbtpAnimation.mAnmObjCount);
     animationFile = FindCourseFile(gCourseModelNsbtaName);
-    InitModelAnimationFromFile(1, &data_0217ab5c, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                               &gCourseModels.mNsbtaAnmObjCount);
+    InitModelAnimationFromFile(1, &gCourseModels.mNsbtaAnimation, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
+                               &gCourseModels.mNsbtaAnimation.mAnmObjCount);
     SetNsbmdPolygonIdAll(gCourseModels.mNsbmd, 8);
     NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
     switch (gRaceSetup->mCourseId) {
@@ -165,8 +166,8 @@ void InitCourseModels(void *heap) {
         InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, nsbmdFile, nsbtxFile);
         SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
         animationFile = FindCourseFile(gCourseModelVNsbtaName);
-        InitModelAnimationFromFile(1, &data_usa_0217ab74, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
-                                   &gCourseModels.mVNsbtaAnmObjCount);
+        InitModelAnimationFromFile(1, &gCourseModels.mVNsbtaAnimation, gCourseModels.mVNsbmd, heap, nsbmdFile,
+                                   animationFile, &gCourseModels.mVNsbtaAnimation.mAnmObjCount);
     }
     shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOffMaterialName);
     shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff1MaterialName);
@@ -179,31 +180,31 @@ void InitCourseModels(void *heap) {
             NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[slotIndex], 7);
         }
     }
-    MTX_Identity43_(&data_usa_0217abac);
+    MTX_Identity43_(&gCourseModels.mMatrix);
     InitCourseModelsFogEnableFlags();
 }
 
 void UpdateCourseModels(void) {
-    if (gCourseModels.mNsbtpAnmObjCount != 0) {
-        AdvanceModelAnimation(&data_usa_0217ab04);
+    if (gCourseModels.mNsbtpAnimation.mAnmObjCount != 0) {
+        AdvanceModelAnimation(&gCourseModels.mNsbtpAnimation);
     }
-    if (gCourseModels.mNsbtaAnmObjCount != 0) {
-        AdvanceModelAnimation(&data_0217ab5c);
+    if (gCourseModels.mNsbtaAnimation.mAnmObjCount != 0) {
+        AdvanceModelAnimation(&gCourseModels.mNsbtaAnimation);
     }
-    if (gCourseModels.mVNsbmd != NULL && gCourseModels.mVNsbtaAnmObjCount != 0) {
-        AdvanceModelAnimation(&data_usa_0217ab74);
+    if (gCourseModels.mVNsbmd != NULL && gCourseModels.mVNsbtaAnimation.mAnmObjCount != 0) {
+        AdvanceModelAnimation(&gCourseModels.mVNsbtaAnimation);
     }
 }
 
 void DrawCourseModel(void) {
-    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &data_usa_0217abac, gCourseModelDrawScale);
+    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &gCourseModels.mMatrix, gCourseModelDrawScale);
 }
 
 void DrawCourseModelV(void) {
     if (gCourseModels.mVNsbmd == NULL) {
         return;
     }
-    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &data_usa_0217abac, gCourseModelDrawScale);
+    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &gCourseModels.mMatrix, gCourseModelDrawScale);
 }
 
 void SetKoopaCourseLight2(void) {
@@ -293,8 +294,8 @@ void SetCourseModelsFogEnableFlags(u32 flag) {
 }
 
 s32 GetCourseModelNsbtpFrame(void) {
-    if (gCourseModels.mNsbtpAnmObjCount != 0) {
-        return FROM_FIXED12(gCourseModels.mNsbtpFrameIndex);
+    if (gCourseModels.mNsbtpAnimation.mAnmObjCount != 0) {
+        return FROM_FIXED12(gCourseModels.mNsbtpAnimation.mHead.mFrameIndex);
     }
     return -1;
 }

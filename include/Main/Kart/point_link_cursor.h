@@ -8,6 +8,8 @@ typedef struct KartAiItemUse KartAiItemUse;
 struct CourseMapCamera;
 struct KartAiItemUse;
 struct KartAi;
+struct Kart;
+struct PointLinkCursor;
 struct KartAiItemUseEntry;
 
 // Four points, a parameter (0x1000 = one segment) and two words at 0x34 and 0x38. The camera position is blended from
@@ -18,15 +20,36 @@ typedef struct PosCurve {
     /* 34 */ s32 mEntryIndex;
     /* 38 */ s32 mUnk_38;
 } PosCurve;
+extern const s32 gKartAiRaceStartBoostRandomLimitsIndex0[9];
+extern const s32 gKartAiRaceStartBoostRandomLimitsIndex1[9];
+extern const s32 gKartAiRaceStartBoostRandomLimitsIndex2[9];
+extern const s32 gKartAiDriftChargeRandomLimitsIndex2[9];
+extern const s32 data_usa_0215569c[9];
+extern const s32 data_usa_021556c0[9];
+extern const s32 gKartAiDriftChargeRandomLimitsIndex1[9];
+extern const s32 gKartAiDriftStartRandomLimitsIndex0[9];
+extern const s32 gKartAiDriftStartRandomLimitsIndex1[9];
+extern const s32 gKartAiDriftStartRandomLimitsIndex2[9];
+extern const s32 gKartAiDriftChargeRandomLimitsIndex0[9];
+extern const s32 data_usa_0215560c[9];
+extern const s32 *data_usa_0217ae40;
+extern const s32 *data_usa_0217ae2c;
+extern void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *p);
+extern void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
+extern void (*gUseItemNotTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
+extern void (*gUseItemTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
+extern const s32 *gKartAiDriftChargeRandomLimits;
+extern struct KartAiItemUseEntry *gCurrentHeldItemEntries;
+extern void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
+extern struct KartAiItemUseEntry *gCurrentItemInUseEntries;
+extern const s32 *gKartAiDriftStartRandomLimits;
+extern const s32 *data_usa_0217ae34;
+extern const s32 *gKartAiRaceStartBoostRandomLimits;
+extern void (*gSetKartAiLinkPos)(struct KartAi *p, struct PointLinkCursor *q, struct Kart *r);
 
 static inline Vec3 *GetPosCurvePoint(PosCurve *posCurve, u16 pointIndex) {
     return &posCurve->mPoints[pointIndex];
 }
-
-extern void (*data_0217ae3c)(KartAiItemUse *a, struct KartAi *b);
-extern void (*data_0217ae40)(KartAiItemUse *a, struct KartAi *b);
-extern void (*data_0217ae44)(KartAiItemUse *a, struct KartAi *b);
-extern void (*data_0217ae48)(KartAiItemUse *a, struct KartAi *b);
 
 struct KartAiRaceSpeedLimit;
 

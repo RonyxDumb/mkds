@@ -1394,7 +1394,6 @@ typedef struct KartModelMenuData {
 
 extern KartModelMenuData *gKartModelMenu;
 extern u16 gKillerItemKartIndex;
-extern char gCharacterNsbcaPathBuffer[];
 // 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
 extern s32 gMissionRunKind2ShapesPresent;
 extern u32 gKartKind3ShapeListMask;
@@ -1449,20 +1448,10 @@ typedef struct KartEffects {
 
 // Per-Kart effect records, allocated for every Kart by InitKartEffects and indexed by Kart.mIndex.
 extern KartEffects *gKartEffects;
-extern struct KartAiItemUseEntry *gCurrentItemInUseEntries;
-extern struct KartAiItemUseEntry *gCurrentHeldItemEntries;
 struct PointLinkCursor;
 struct KartAi;
 struct LinkCursor;
 struct Kart;
-extern const s32 *data_usa_0217ae38;
-extern void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *p);
-extern const s32 *data_usa_0217ae40;
-extern void (*gSetKartAiLinkPos)(struct KartAi *p, struct PointLinkCursor *q, struct Kart *r);
-extern const s32 *gKartAiDriftChargeRandomLimits;
-extern const s32 *data_usa_0217ae2c;
-extern const s32 *gKartAiRaceStartBoostRandomLimits;
-extern const s32 *data_usa_0217ae34;
 extern u16 gKartEffectColor;
 // Written by InitKartEffects; nothing reads it.
 extern u16 gKartEffectsCount;
@@ -1525,9 +1514,6 @@ typedef struct KartAiShared {
     /* 13e */ s16 mTeamNonCpuKartCounts[3];
 } KartAiShared;
 
-extern KartAiShared *gKartAiShared;
-// The row of 'kartAIparam.bin' for this race; NULL in battle and when mUnk_00c is 5 or 6.
-extern KartAiParamRow *gKartAiParamRow;
 extern u8 *gKartEntryNameTexBuffer;
 extern u16 *gKartEntryNamePlltBuffer;
 extern u8 *gKartNameTagMaskedTexBuffer;

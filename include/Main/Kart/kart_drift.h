@@ -765,7 +765,6 @@ typedef struct Kart {
 // Jg: the object built from the jg_* files plus lap_count and lap_final; this is the kart it follows.
 extern Kart *gJgKart;
 
-
 void StartKartState(Kart *kart, KartState mode);
 BOOL IsKartOutOfView(Kart *kart);
 int GetKartCourseHitAttributeBit(Kart *kart);
@@ -831,40 +830,51 @@ void CollideKartWithKarts(Kart *kart);
 void CollideKartWithMapObjects(Kart *kart);
 void ApplyKartLanding(Kart *kart, Vec3 *groundNormal);
 
-extern s32 gKartWobbleAmplitudeDecay;
-extern s32 gKartAheadSpeedLimitStartFactor;
-extern KartKillerEndRankOffsets gKartKillerEndRankOffsets;
-extern s32 gKartRespawnOffsetScale;
-extern KartFollowEffectIds gKartFollowEffectIds;
 extern const Vec4 gKartResetHeadingQuaternion;
 extern const Vec4 data_usa_02154f24;
 extern const int gKartCollisionSingleEffectIds[1];
-extern s16 gKartState3EndFrameCount;
-extern Vec3 gKartPlacementHeadingAxis;
-extern s32 gKartState3StartVerticalSpeed;
-extern Vec3 gParticipantRecordHeadingAxis;
-extern s32 gKartState5LandVerticalSpeed;
 extern const Vec4 gKartResetRotationQuaternion;
-extern s32 gKartPushFlipStartVerticalSpeed;
-extern s32 gKartState5StartAnglePerFrame;
-extern Vec3 gFixedPositionSelectedEffectIds;
-extern s32 gTurnHeadingEaseFactor;
-extern Vec3 gKartPointMotionDecayFactors;
-extern s32 gKartPushFlipAngleDecay;
-extern u16 gKartWobbleAnglePerCall;
-extern void (*gKartStateFunctions[8])(struct Kart *);
-extern KartEffectScales gKartRaceStartEffectOffsets;
-extern s32 gKartState4StartAnglePerFrame;
-extern s32 gKartState3SecondLandVerticalSpeed;
-extern s32 gKartState3FirstLandVerticalSpeed;
-extern s32 gKartWobbleAngleFactor;
-extern Vec4 gKartState6TargetQuaternion;
-extern s16 gTurnHeadingReductionAtSpeedLimit;
-extern s32 gFirstBaseSpeedLimitReciprocal;
-extern s32 gFixedPositionOtherEffectIds[2];
 extern const Vec4 data_usa_02154f34;
-extern s32 gSpeedReductionAtFullTurnRatio;
-extern s32 gKartOverlapLengthLimit;
 extern const Vec4 data_usa_02154f44;
-extern s32 gKartWobbleEaseFactor;
+
+extern s32 gFirstBaseSpeedLimitReciprocal;
+extern Vec3 gKartPlacementHeadingAxis;
+extern Vec4 gKartState6TargetQuaternion;
+extern Vec3 gFixedPositionSelectedEffectIds;
+extern KartKillerEndRankOffsets gKartKillerEndRankOffsets;
+extern s16 gKartState3EndFrameCount;
+extern s32 gKartAheadSpeedLimitStartFactor;
+extern s16 gTurnHeadingReductionAtSpeedLimit;
+extern s32 gKartWobbleAmplitudeDecay;
+// The functions every Kart starts with, copied into Kart.mSlotFunctions by InitKart. Slots 0, 1, 6, 7 and 8 keep these;
+// slots 2 to 5 are zero here and always replaced by InitKart.
+extern void (*gKartDefaultSlotFunctions[9])(Kart *a);
 extern Vec3 gFixedPositionEffectPos;
+extern void (*gKartStateFunctions[8])(struct Kart *);
+extern s32 gKartState3StartVerticalSpeed;
+extern s32 gKartWobbleAngleFactor;
+extern s32 gKartState3SecondLandVerticalSpeed;
+extern s32 gKartPushFlipStartVerticalSpeed;
+extern Vec3 gKartPointMotionDecayFactors;
+extern s32 gKartRespawnOffsetScale;
+extern s32 gKartSurfaceKind12VerticalSpeeds[5];
+extern s32 gKartState3FirstLandVerticalSpeed;
+extern s32 gKartWobbleEaseFactor;
+extern s32 gKartSurfaceKind12SpeedLimitGoals[5];
+extern s32 gKartState4StartAnglePerFrame;
+extern Vec3 gParticipantRecordHeadingAxis;
+extern s32 gKartOverlapLengthLimit;
+extern s32 gKartState5LandVerticalSpeed;
+extern KartEffectScales gKartRaceStartEffectOffsets;
+extern s32 gTurnHeadingEaseFactor;
+extern KartFollowEffectIds gKartFollowEffectIds;
+typedef struct KartSurfaceSoundIds {
+    /* 00 */ u32 mSoundIds[3];
+} KartSurfaceSoundIds;
+
+extern KartSurfaceSoundIds gKartSurfaceSoundIds;
+extern u16 gKartWobbleAnglePerCall;
+extern s32 gKartState5StartAnglePerFrame;
+extern s32 gFixedPositionOtherEffectIds[2];
+extern s32 gKartPushFlipAngleDecay;
+extern s32 gSpeedReductionAtFullTurnRatio;

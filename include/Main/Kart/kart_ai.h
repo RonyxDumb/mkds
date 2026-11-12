@@ -26,3 +26,7 @@ void InitKartAiGrandPrixPoints(void);
 void InitKartAiNonCpuCounts(void);
 void InitKartAiShared(void);
 void SetKartAiParamRow(void);
+
+// The row of 'kartAIparam.bin' for this race; NULL in battle and when mUnk_00c is 5 or 6.
+extern KartAiParamRow *gKartAiParamRow;
+extern struct KartAiShared *gKartAiShared;

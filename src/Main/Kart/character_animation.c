@@ -29,11 +29,13 @@
 #include "code_02134398.h"
 #include "Main/Kart/kart_participant_record.h"
 
+char gCharacterNsbcaPathBuffer[256];
+
 char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex) {
     char *dirPath = BuildCharacterDirPath(characterIndex);
     const char *pName = LookupCharacterPOrEName(characterIndex, 1);
 
-    snprintf(gCharacterNsbcaPathBuffer, 0x100, gCharacterNsbcaFormat, dirPath, pName,
+    snprintf(gCharacterNsbcaPathBuffer, 0x100, "%s%s_%s.nsbca", dirPath, pName,
              gCharacterNsbcaStems[animationIndex].mStem);
     return gCharacterNsbcaPathBuffer;
 }

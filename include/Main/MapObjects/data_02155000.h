@@ -32,8 +32,6 @@ extern const u16 data_02155ed0[];
 
 extern const Vec3 gPointLinkVec3Zero;
 
-extern s32 data_02155854[];
-
 struct ParticleEmitter;
 
 struct Kart;
@@ -44,25 +42,11 @@ typedef struct OtherKartEffectKind {
     /* 04 */ void (*mAdvance)(struct ParticleEmitter *p, s32 a);
 } OtherKartEffectKind;
 
-extern OtherKartEffectKind gOtherKartEffectKinds[3];
-
 extern Vec3 data_02155a08;
-
-extern u32 gKartBoostCameraEffectIds[];
-
-extern s32 gKartSideOffsetsX[];
-
-extern Vec3 gKartSideDirectionVectors[];
-
-extern void (*gKartSurfaceEffectFunctions[])(struct Kart *p);
 
 extern Vec3 gKartEffectVec3Zero;
 
 extern Vec3 gOtherCameraDistanceLimitsSquared;
-
-extern Vec3 gVec3UnitY;
-
-extern Vec3 data_02155ebc;
 
 // 12-byte entries; BuildEmblemNsbtxPath reads the string pointer at 0x00.
 typedef struct CharacterName {
@@ -122,18 +106,6 @@ extern const Vec3 data_usa_021557c4;
 
 extern const Vec3 data_usa_021557d0;
 
-extern const s32 data_usa_021556e4[];
-
-extern const s32 data_usa_02155708[];
-
-extern const s32 data_usa_0215572c[];
-
-extern const s32 data_usa_02155750[];
-
-extern const s32 data_usa_02155774[];
-
-extern const s32 data_usa_02155798[];
-
 extern const s32 data_usa_021557bc;
 
 extern const s32 data_usa_021557c0;
@@ -153,14 +125,3 @@ extern const CharacterAnimationRow gCharacterNsbcaStems[];
 
 extern const s32 gFinishResultByRank[];
 
-extern const s32 data_usa_0215560c[];
-
-extern const s32 data_usa_02155630[];
-
-extern const s32 data_usa_02155654[];
-
-extern const s32 data_usa_02155678[];
-
-extern const s32 data_usa_0215569c[];
-
-extern const s32 data_usa_021556c0[];

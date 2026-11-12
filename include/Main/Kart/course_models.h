@@ -7,21 +7,15 @@
 #include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 
-// Object at gCourseModels: two Nsbmd pointers, then the words and halfwords the code tests. The flag halfwords
-// live inside the embedded animation objects.
+// Object at gCourseModels: two Nsbmd pointers, the three animation objects and the draw matrix, then the fog flags.
 typedef struct CourseModels {
     /* 00 */ Nsbmd *mNsbmd;
     // NULL when '/course_model_V.nsbmd' is absent; drawn before the main model under the other projection argument.
     /* 04 */ Nsbmd *mVNsbmd;
-    /* 08 */ u8 mUnk_08[0xc];
-    /* 14 */ s32 mNsbtpFrameIndex;
-    /* 18 */ u8 mUnk_18[8];
-    /* 20 */ u16 mNsbtpAnmObjCount;
-    /* 22 */ u8 mUnk_22[0x36];
-    /* 58 */ u16 mNsbtaAnmObjCount;
-    /* 5a */ u8 mUnk_5a[0x36];
-    /* 90 */ u16 mVNsbtaAnmObjCount;
-    /* 92 */ u8 mUnk_92[0x4e];
+    /* 08 */ ModelAnimation mNsbtpAnimation;
+    /* 40 */ ModelAnimation mNsbtaAnimation;
+    /* 78 */ ModelAnimation mVNsbtaAnimation;
+    /* b0 */ MtxFx43 mMatrix;
     /* e0 */ BOOL mRestoreFogEnableFlags;
     /* e4 */ u64 mSavedFogEnableFlags;
     /* ec */ BOOL mRestoreVFogEnableFlags;
@@ -29,10 +23,6 @@ typedef struct CourseModels {
 } CourseModels;
 
 extern CourseModels gCourseModels;
-extern ModelAnimation data_usa_0217ab04;
-extern ModelAnimation data_0217ab5c;
-extern ModelAnimation data_usa_0217ab74;
-extern MtxFx43 data_usa_0217abac;
 
 
 s32 GetCourseModelNsbtpFrame(void);

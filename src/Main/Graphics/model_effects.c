@@ -20,6 +20,7 @@
 #include "g3imm.h"
 #include "code_020172d0.h"
 #include "registers.h"
+#include "Main/Kart/kart_ai_item_throw.h"
 
 s32 gKind2EffectsCreated;
 s32 gKind2EffectIds[2];

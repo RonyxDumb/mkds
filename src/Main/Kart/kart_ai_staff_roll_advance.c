@@ -14,6 +14,15 @@
 #include "Main/Kart/use_item.h"
 #include "Main/Kart/data_02090000.h"
 
+s32 (*gKartAiIsLinkRequestedCallback)();
+void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);
+void (*gKartAiSetupCallback)(struct KartAi *kartAi, s32 kartIndex);
+UnkFunc *gKartAiResetCallback;
+void (*gKartAiLinkPosAndDirectionCallback)(Vec3 *position, Vec3 *direction, struct KartAi *kartAi);
+void (*gKartAiSetupHeldItemEntryCallback)(struct KartAi *kartAi);
+void (*gKartAiSetupItemInUseEntryCallback)(struct KartAi *kartAi);
+void (*gKartAiRequestLinkCallback)(struct KartAi *kartAi);
+
 // Stores the CPU kart callbacks for Award and Mission Run, Staff Roll, Battle, or else the race ones.
 void RegisterKartAiCallbacks(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD || gRaceSetup->mMode == MODE_MISSION_RUN) {

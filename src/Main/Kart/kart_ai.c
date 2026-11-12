@@ -23,6 +23,9 @@
 #include "code_0201750c.h"
 #include "Main/Race/race_clock.h"
 
+KartAiParamRow *gKartAiParamRow;
+KartAiShared *gKartAiShared;
+
 #pragma thumb on
 
 // Picks the row of 'kartAIparam.bin' for the course and the mode; no row in battle and when mUnk_00c is 5 or 6.

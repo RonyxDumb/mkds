@@ -38,6 +38,17 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 
+u8 gPosStripFirstPolygonId = 0xe;
+u8 gPosStripAlphaDecreasePerFrame = 3;
+u16 gPosStripMaxAgeFrames = 8;
+u16 gPosStripPointsPerStrip = 0xc;
+s32 gPosStripDrawEnabled = 1;
+s32 (*gSetPosStripPointFunction)() = (s32(*)()) SetPosStripPointFromPos;
+s32 gPosStripHeightDecreasePerFrame = 0x4d;
+PosStripTexture gPosStripTexture = {0x38100000, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0};
+s32 gAwardStripCharacterYOffsets[13][2] = {{0x7000, 0}, {0xa000, 0x333}, {0x7000, -819}, {0xd000, 0}, {0x5800, 0x4cd}, {0x8000, 0x333}, {0x7000, -1843}, {0x6800, -2458}, {0x6800, 0}, {0x5b33, -410}, {0x5ccd, -819}, {0xa000, 0}, {0x7000, 0}};
+s32 gAwardStripKartYOffsets[37] = {0x11f, 0x30a, 0x19a, 0x11f, 0x19a, 0x19a, 0x11f, 0x30a, 0x214, 0x11f, 0x30a, 0x266, 0x11f, 0x2cd, 0x214, 0x11f, 0x1ec, 0x333, 0x11f, 0x2b8, 0x148, 0x11f, 0x11f, 0x19a, 0x11f, 0x1ec, 0x51f, 0x11f, 0x214, 0x214, 0x11f, 0x1ec, 0x2e1, 0x11f, 0x148, 0x7ae, 0x11f};
+
 void HardSetItemBitsEveryCall(KartAiItemUse *itemUse) {
     itemUse->mItemBitsEveryCall = 0x1u;
 }
@@ -446,7 +457,7 @@ void InitPosStrips(void *heap) {
     s32 textureVramOffset;
 
     mainRaceOrMainEffectFile = FindMainRaceOrMainEffectFile(
-        gRaceSetup->mRaceKind == RACE_KIND_AWARD ? gAwardTrackNsbtxName : gHanegameNsbtxName);
+        gRaceSetup->mRaceKind == RACE_KIND_AWARD ? "/effect/award_track.nsbtx" : "/effect/hanegame.nsbtx");
     gPosStripHeightDecreasePerFrame = 0x4d;
     gPosStripMaxAgeFrames = 8;
     gPosStripAlphaDecreasePerFrame = 3;
@@ -633,7 +644,7 @@ PosStrip *StartAwardKartPosStrip(s32 kartIndex) {
             strip->mHeight = stripHeight;
             strip->mOffsetX = kartOffset.x << 4;
             strip->mOffsetY = (gAwardStripKartYOffsets[kartModelsEntry->mKartIndex] + stripHeight) << 4;
-            strip->mOffsetZ = gAwardStripCharacterZOffsets[kartModelsEntry->mCharacterIndex][0] + (kartOffset.z << 4);
+            strip->mOffsetZ = gAwardStripCharacterYOffsets[kartModelsEntry->mCharacterIndex][1] +(kartOffset.z << 4);
             NNS_FndRemoveListObject(&gPosStrips->mLists[1], strip);
             NNS_FndAppendListObject(&gPosStrips->mLists[0], strip);
         }

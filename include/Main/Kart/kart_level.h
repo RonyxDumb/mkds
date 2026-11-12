@@ -103,8 +103,6 @@ typedef struct KartTurnEffects {
     /* 84 */ void (*mPlaceLevel4Effects)(struct KartTurnEffects *, Vec3s16 *, Vec3 *);
 } KartTurnEffects;
 
-extern const Vec3 data_02155fcc;
-
 // Ends the turn effects of this Kart: when the level 4 group is present calls mStopLevel4Effects and sets
 // mLevel4StopRequested, otherwise clears it; clears both restart members; sets the remove bit of the turn start objects
 // and forgets them. The level 2 and level 3 groups end by their own counters.
@@ -170,3 +168,7 @@ void StartKartTurnStartEffects(KartTurnEffects *turnEffects);
 // object for the selected entry, in time trial and when RaceSetup.mUnk_00c is 5 and the set with the first object
 // only for the others, and clears every pointer and counter.
 void InitKartTurnEffects(void *heap);
+
+extern const Vec3 gKartTurnEffectsStartPosition;
+// Table of KartTurnEffects, one per Kart, allocated by InitKartTurnEffects and indexed by Kart.mIndex.
+extern struct KartTurnEffects *gKartTurnEffects;

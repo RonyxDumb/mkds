@@ -54,6 +54,33 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Item/data_027e0000.h"
 
+const s32 gKartAiRaceStartBoostRandomLimitsIndex0[9] = {0xb33, 0, 0, 0, 0, 0, 0, 0, 0};
+const s32 gKartAiRaceStartBoostRandomLimitsIndex1[9] = {0x1000, 0x1000, 0xe66, 0x800, 0x333, 0, 0, 0, 0};
+const s32 gKartAiRaceStartBoostRandomLimitsIndex2[9] = {0x1000, 0x1000, 0x1000, 0x1000, 0xccd, 0x99a, 0x4cd, 0, 0};
+const s32 gKartAiDriftChargeRandomLimitsIndex2[9] = {0x1000, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd, 0xccd};
+const s32 data_usa_0215569c[9] = {0, 0, 0, 0, 0, 0x19a, 0x4cd, 0x99a, 0xb33};
+const s32 data_usa_021556c0[9] = {0, 0, 0, 0, 0, 0, 0, 0x333, 0x4cd};
+const s32 gKartAiDriftChargeRandomLimitsIndex1[9] = {0xb33, 0x666, 0x666, 0x666, 0x666, 0x666, 0x666, 0x666, 0x666};
+const s32 gKartAiDriftStartRandomLimitsIndex0[9] = {0xb33, 0x800, 0x59a, 0x333, 0x19a, 0, 0, 0, 0};
+const s32 gKartAiDriftStartRandomLimitsIndex1[9] = {0x1000, 0xe66, 0xccd, 0xa66, 0x800, 0x4cd, 0x19a, 0, 0};
+const s32 gKartAiDriftStartRandomLimitsIndex2[9] = {0x1000, 0x1000, 0xe66, 0xccd, 0xa66, 0x800, 0x666, 0x4cd, 0x333};
+const s32 gKartAiDriftChargeRandomLimitsIndex0[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+const s32 data_usa_0215560c[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+const s32 *data_usa_0217ae40;
+const s32 *data_usa_0217ae2c;
+void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *p);
+void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
+void (*gUseItemNotTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
+void (*gUseItemTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
+const s32 *gKartAiDriftChargeRandomLimits;
+struct KartAiItemUseEntry *gCurrentHeldItemEntries;
+void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
+struct KartAiItemUseEntry *gCurrentItemInUseEntries;
+const s32 *gKartAiDriftStartRandomLimits;
+const s32 *data_usa_0217ae34;
+const s32 *gKartAiRaceStartBoostRandomLimits;
+void (*gSetKartAiLinkPos)(struct KartAi *p, struct PointLinkCursor *q, struct Kart *r);
+
 // Steps the cursor to the first next link without a choice; returns the length of the new direction.
 u32 AdvancePointLinkCursorToFirstNext(PointLinkCursor *cursor) {
     cursor->mPreviousLink = cursor->mLink;
@@ -153,20 +180,20 @@ void SetupKartAiGlobals(void) {
     data_usa_0217ae40 = gRaceSetup->mMode == MODE_BATTLE ? &data_usa_021557bc : &data_usa_021557c0;
     switch (GetKartAiEngineOrDifficultyIndex()) {
         case 0:
-            data_usa_0217ae38 = data_usa_0215572c;
-            gKartAiDriftChargeRandomLimits = data_usa_02155798;
+            gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex0;
+            gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex0;
             break;
         case 1:
-            data_usa_0217ae38 = data_usa_02155750;
-            gKartAiDriftChargeRandomLimits = data_usa_021556e4;
+            gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex1;
+            gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex1;
             break;
         case 2:
-            data_usa_0217ae38 = data_usa_02155774;
-            gKartAiDriftChargeRandomLimits = data_usa_02155708;
+            gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex2;
+            gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex2;
             break;
         default:
-            data_usa_0217ae38 = data_usa_02155774;
-            gKartAiDriftChargeRandomLimits = data_usa_02155708;
+            gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex2;
+            gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex2;
             break;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
@@ -193,7 +220,7 @@ void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 useDefaultTable) {
     } else {
         value = GetKartAiTableIndex(kartAi->mIndex);
     }
-    kartAi->mDriftStartRandomLimit = data_usa_0217ae38[value];
+    kartAi->mDriftStartRandomLimit = gKartAiDriftStartRandomLimits[value];
     kartAi->mDriftChargeRandomLimit = gKartAiDriftChargeRandomLimits[value];
     kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
     InitRacePointLinkCursor(&kartAi->mPointLinkCursor, kartAi->mIndex);
@@ -880,16 +907,16 @@ void InitKartAiTables(void) {
 
     switch (GetKartAiEngineOrDifficultyIndex()) {
         case 0:
-            gKartAiRaceStartBoostRandomLimits = data_usa_02155630;
+            gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex0;
             data_usa_0217ae2c = data_usa_0215569c;
             break;
         case 1:
-            gKartAiRaceStartBoostRandomLimits = data_usa_02155654;
+            gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex1;
             data_usa_0217ae2c = data_usa_021556c0;
             break;
         case 2:
         default:
-            gKartAiRaceStartBoostRandomLimits = data_usa_02155678;
+            gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex2;
             data_usa_0217ae2c = data_usa_0215560c;
             break;
     }
@@ -1661,17 +1688,17 @@ u32 RaceItemInUseReturnArgument(u32 value) {
 
 void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (gKartItems[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_CIRCLE) {
-        data_0217ae48(itemUse, kartAi);
+        gUseItemWhenCircleKindCallback(itemUse, kartAi);
     } else {
-        data_0217ae44(itemUse, kartAi);
+        gUseItemWhenNotCircleKindCallback(itemUse, kartAi);
     }
 }
 
 void UseItemAfterInUseByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (gKartItems[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_TRAIL) {
-        data_0217ae3c(itemUse, kartAi);
+        gUseItemTrailKindCallback(itemUse, kartAi);
     } else {
-        data_0217ae40(itemUse, kartAi);
+        gUseItemNotTrailKindCallback(itemUse, kartAi);
     }
 }
 
@@ -1768,27 +1795,27 @@ void SetupRaceItemEntries(void) {
         case CPU_DIFFICULTY_EASY:
             gCurrentHeldItemEntries = gRaceEasyHeldItemEntries;
             gCurrentItemInUseEntries = gRaceItemInUseEntries;
-            data_0217ae48 = UseItemByRankAfterInUse;
-            data_0217ae44 = UseItemByRankAfterEveryCall;
-            data_0217ae3c = UseItemByRankAfterInUse;
-            data_0217ae40 = UseItemByRankAfterEveryCall;
+            gUseItemWhenCircleKindCallback = UseItemByRankAfterInUse;
+            gUseItemWhenNotCircleKindCallback = UseItemByRankAfterEveryCall;
+            gUseItemTrailKindCallback = UseItemByRankAfterInUse;
+            gUseItemNotTrailKindCallback = UseItemByRankAfterEveryCall;
             break;
         case CPU_DIFFICULTY_NORMAL:
             gCurrentHeldItemEntries = gRaceNormalHeldItemEntries;
             gCurrentItemInUseEntries = gRaceItemInUseEntries;
-            data_0217ae48 = UseItemByRankAfterInUse;
-            data_0217ae44 = UseItemByRankAfterEveryCall;
-            data_0217ae3c = UseItemByRankAfterInUse;
-            data_0217ae40 = UseItemByRankAfterEveryCall;
+            gUseItemWhenCircleKindCallback = UseItemByRankAfterInUse;
+            gUseItemWhenNotCircleKindCallback = UseItemByRankAfterEveryCall;
+            gUseItemTrailKindCallback = UseItemByRankAfterInUse;
+            gUseItemNotTrailKindCallback = UseItemByRankAfterEveryCall;
             break;
         case CPU_DIFFICULTY_HARD:
         default:
             gCurrentHeldItemEntries = gRaceHardHeldItemEntries;
             gCurrentItemInUseEntries = gRaceItemInUseEntries;
-            data_0217ae48 = UseItemByTargetOrRankAfterInUse;
-            data_0217ae44 = UseItemByTargetOrRankAfterEveryCall;
-            data_0217ae3c = UseItemByTargetOrRankAfterInUse;
-            data_0217ae40 = UseItemByTargetOrRankAfterEveryCall;
+            gUseItemWhenCircleKindCallback = UseItemByTargetOrRankAfterInUse;
+            gUseItemWhenNotCircleKindCallback = UseItemByTargetOrRankAfterEveryCall;
+            gUseItemTrailKindCallback = UseItemByTargetOrRankAfterInUse;
+            gUseItemNotTrailKindCallback = UseItemByTargetOrRankAfterEveryCall;
             break;
     }
 }

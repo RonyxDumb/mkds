@@ -29,6 +29,7 @@ typedef struct PosStripPoint PosStripPoint;
 typedef struct PosStrip PosStrip;
 
 #include "code_02012b30.h" // MtxFx43
+#include "Main/MapObjects/data_02166000.h"
 
 typedef struct KartAiItemUse KartAiItemUse;
 
@@ -64,3 +65,14 @@ unsigned int BattleItemInUseReturnArgument(unsigned int value);
 void SetItemBitsEveryCall(KartAiItemUse *itemUse);
 
 void HardSetItemBitsEveryCall(KartAiItemUse *itemUse);
+
+extern u8 gPosStripFirstPolygonId;
+extern u8 gPosStripAlphaDecreasePerFrame;
+extern u16 gPosStripMaxAgeFrames;
+extern u16 gPosStripPointsPerStrip;
+extern s32 gPosStripDrawEnabled;
+extern s32 (*gSetPosStripPointFunction)();
+extern s32 gPosStripHeightDecreasePerFrame;
+extern PosStripTexture gPosStripTexture;
+extern s32 gAwardStripCharacterYOffsets[13][2];
+extern s32 gAwardStripKartYOffsets[37];

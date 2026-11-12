@@ -61,20 +61,6 @@ extern const char data_021663a8[];
 
 extern const char data_021663c0[];
 
-extern u8 gPosStripFirstPolygonId;
-
-extern u8 gPosStripAlphaDecreasePerFrame;
-
-extern u16 gPosStripMaxAgeFrames;
-
-extern u16 gPosStripPointsPerStrip;
-
-extern s32 gPosStripDrawEnabled;
-
-extern s32 (*gSetPosStripPointFunction)();
-
-extern s32 gPosStripHeightDecreasePerFrame;
-
 // Object at gPosStripTexture.
 typedef struct PosStripTexture {
     /* 00 */ u32 mTexImageParam;
@@ -83,44 +69,4 @@ typedef struct PosStripTexture {
     /* 1c */ s32 mLowHalfTexCoord;
     /* 20 */ s32 mHighHalfTexCoord;
 } PosStripTexture;
-
-extern PosStripTexture gPosStripTexture;
-
-extern s32 gAwardStripCharacterYOffsets[][2];
-
-extern s32 gAwardStripCharacterZOffsets[][2];
-
-extern s32 gAwardStripKartYOffsets[];
-
-extern const char gAwardTrackNsbtxName[];
-
-// Hanegame: the texture the race position strips are drawn with (the award scene uses award_track instead).
-extern const char gHanegameNsbtxName[];
-
-extern BattleKartAiParams data_0216600c;
-
-extern BattleKartAiParams data_02166028;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

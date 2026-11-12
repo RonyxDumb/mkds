@@ -12,14 +12,6 @@ typedef struct ParticipantKartRecordNode {
     /* 0c */ ParticipantKartRecord mRecord;
 } ParticipantKartRecordNode;
 
-typedef struct KartSurfaceSoundIds {
-    /* 00 */ u32 mSoundIds[3];
-} KartSurfaceSoundIds;
-
-extern KartSurfaceSoundIds gKartSurfaceSoundIds;
-extern s32 gKartSurfaceKind12SpeedLimitGoals[5];
-extern s32 gKartSurfaceKind12VerticalSpeeds[5];
-
 void AdvanceParticipantKartRecords(Kart *kart);
 void AdvanceKartWobble(Kart *kart);
 void StartKartRaceEnd(Kart *kart);

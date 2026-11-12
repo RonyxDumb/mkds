@@ -11,8 +11,6 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 
-extern const char gCharacterNsbcaFormat[];
-
 extern u16 data_usa_021656d8;
 
 extern u16 data_usa_021656dc;
@@ -77,27 +75,13 @@ extern const char gKartModelMenuPrefix[];
 
 extern const char gKartModelSlashPrefix[];
 
-extern s32 gStarEffectEngineScale;
-
-extern s32 data_0216593c;
-
-extern s32 data_02165944;
-
-extern s32 data_0216594c;
-
-extern s32 data_02165950;
-
-extern u32 gKartStarEffectIds[];
-
-// Three words, three more words and two halfwords; data_02165ff0, data_0216600c and data_02166028 are one each.
+// Three words, three more words and two halfwords; gBattleKartAiParamsHard, gBattleKartAiParamsDefault and gBattleKartAiParamsNormal are one each.
 typedef struct BattleKartAiParams {
     /* 00 */ s32 mUnk_00[3];
     /* 0c */ s32 mUnk_0c[3];
     /* 18 */ s16 mInflateWaitFrameCount;
     /* 1a */ s16 mInflateBalloonsLeftLimit;
 } BattleKartAiParams;
-
-extern BattleKartAiParams data_02165ff0;
 
 extern const s32 data_02166048;
 
@@ -110,32 +94,6 @@ extern const char *const gTeamEmblemNames[];
 extern const char gTeamEmblemNsbtxFormat[];
 
 extern const char gEmblemNsbtxFormat[];
-
-extern s32 data_021659a0;
-
-extern s32 data_021659a4;
-
-extern s32 data_021659a8;
-
-extern s32 data_021659ac;
-
-extern s32 data_021659b0;
-
-extern s32 gKartNameTagColorQuadScaleY;
-
-extern s32 data_021659b8;
-
-extern s32 data_021659bc;
-
-extern s32 gKartNameTagColorQuadScaleX;
-
-extern s32 data_021659c4;
-
-extern s32 data_021659c8;
-
-extern s32 data_021659cc;
-
-extern s32 data_021659d0;
 
 extern const char gEmblemSBNclrName[];
 

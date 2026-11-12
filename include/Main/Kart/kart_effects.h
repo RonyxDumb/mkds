@@ -41,8 +41,8 @@ typedef struct KartSurfaceEffectRow {
 
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0201c528.h"
+#include "Main/MapObjects/data_02155000.h"
 
-extern const OtherKartPairs gOtherKartPairs[];
 extern KartSurfaceEffectRow gKartSurfaceEffectRows[];
 extern KartSurfaceEffectRow gKartSurfaceEffectRow1;
 extern KartSurfaceEffectRow gKartSurfaceEffectRow2;
@@ -51,17 +51,6 @@ extern KartSurfaceEffectRow gKartSurfaceEffectRow4;
 extern KartSurfaceEffectRow gKartSurfaceEffectRow5;
 extern KartSurfaceEffectRow gKartSurfaceEffectRow6;
 extern KartSurfaceEffectRow gKartSurfaceEffectRow7;
-extern s32 data_02165934;
-extern s32 data_02165938;
-extern s32 data_02165940;
-extern s32 data_02165954;
-extern s32 data_02165958;
-extern s32 data_0216595c;
-extern s32 data_02165960;
-extern s32 data_02165964;
-extern s32 data_02165968;
-extern s32 gKartEffectVelocityFactors[];
-extern Vec3 data_02165984;
 extern ParticleEmitter *gFirstCourseCameraEffect;
 extern ParticleEmitter *gKartBoostCameraEffect;
 extern ParticleEmitter *gSecondCourseCameraEffect;
@@ -127,3 +116,28 @@ void ComputeKartSidePoints(Kart *kart);
 void InitKartEffects(u32 kartCount);
 // Returns the KartEffects record of Kart number n.
 KartEffects *GetKartEffects(int kartIndex);
+
+extern Vec3 gOldLuigiAgbFirstChaseEffectDirection;
+extern s32 gKartStarEffectDirectionSpeedMax;
+extern const s32 gKartSideOffsetsX[2];
+extern s32 data_02165940;
+extern void (*const gKartSurfaceEffectFunctions[9])(struct Kart *p);
+extern s32 gStarEffectEngineScale;
+extern const Vec3 gKartSideDirectionVectors[2];
+extern s32 gOldLuigiAgbFirstChaseEffectHeightDrop;
+extern const s32 gKartStarEffectOffsetByCharacter[13];
+extern s32 gKartEffectVelocityFactors[3];
+extern u32 gKartStarEffectIds[3];
+extern s32 data_02165960;
+extern s32 data_02165958;
+extern s32 gKartStarEffectAxisSpeedMin;
+extern s32 data_02165968;
+extern const OtherKartPairs gOtherKartPairs[8];
+extern s32 gOldLuigiAgbFirstChaseEffectBaseDistance;
+extern s32 data_02165964;
+extern const u32 gKartBoostCameraEffectIds[2];
+extern s32 gOldLuigiAgbFirstChaseEffectDistanceSlope;
+extern s32 gKartStarEffectDirectionSpeedMin;
+extern s32 data_0216595c;
+extern const OtherKartEffectKind gOtherKartEffectKinds[2];
+extern s32 gKartStarEffectAxisSpeedMax;

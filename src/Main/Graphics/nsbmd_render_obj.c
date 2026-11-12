@@ -27,6 +27,7 @@
 #include "code_02010804.h"
 #include "code_02010c84.h"
 #include "code_020172d0.h"
+#include "Main/Kart/kart_effects.h"
 
 // Appends the entry for file b, uploads the texture of file c, and binds the model set of b to it when there is one.
 void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {

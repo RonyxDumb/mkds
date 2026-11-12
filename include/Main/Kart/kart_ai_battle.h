@@ -5,6 +5,7 @@
 #include "Main/Kart/kart_effects_ahead.h"
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/Kart/code_02080cd0.h"
+#include "Main/MapObjects/data_02165000.h"
 
 typedef struct MapObject MapObject;
 
@@ -114,3 +115,12 @@ typedef struct KartAiSpeedLimit KartAiSpeedLimit;
 typedef struct KartAi KartAi;
 
 void SetupBattleKartAiSpeedLimit(KartAiSpeedLimit *speedLimit, KartAi *kartAi);
+
+extern const Vec3 gBattleKartAiZeroVector;
+extern const Vec3 gVec3UnitY;
+extern BattleKartAiParams gBattleKartAiParamsHard;
+extern BattleKartAiParams gBattleKartAiParamsDefault;
+extern BattleKartAiParams gBattleKartAiParamsNormal;
+extern u16 gSearchStartIndex;
+extern struct BattleKartAiParams *gBattleKartAiParams;
+extern s32 gEntryYDifferenceLimit;

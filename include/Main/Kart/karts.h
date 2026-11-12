@@ -170,8 +170,4 @@ unsigned int IsMissionRunWithKind2Shapes(void);
 
 typedef struct Kart Kart;
 
-// The functions every Kart starts with, copied into Kart.mSlotFunctions by InitKart. Slots 0, 1, 6, 7 and 8 keep these;
-// slots 2 to 5 are zero here and always replaced by InitKart.
-extern void (*gKartDefaultSlotFunctions[9])(Kart *a);
-
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2);

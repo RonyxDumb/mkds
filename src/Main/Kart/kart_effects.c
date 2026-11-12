@@ -35,6 +35,31 @@
 #include "fx_mtx43.h"
 #include "Main/Kart/karts.h"
 
+Vec3 gOldLuigiAgbFirstChaseEffectDirection = {0, -4096, 0};
+s32 gKartStarEffectDirectionSpeedMax = 0x21;
+const s32 gKartSideOffsetsX[2] = {0x1800, -6144};
+s32 data_02165940 = 0x4000;
+void (*const gKartSurfaceEffectFunctions[9])(struct Kart *p) = {SurfaceEffectStopKartCurrentEffects, ApplyKartCurrentEffectRow0, ApplyKartCurrentEffectRow1, ApplyKartSideEffectsRow2, ApplyKartSideEffectsRow3, ApplyKartSideEffectsRow4, ApplyKartSideEffectsRow5, ApplyKartSideEffectsRow6, ApplyKartCurrentEffectRow7};
+s32 gStarEffectEngineScale = 0x1000;
+const Vec3 gKartSideDirectionVectors[2] = {{0x733, 0xccd, -1843}, {-1843, 0xccd, -1843}};
+s32 gOldLuigiAgbFirstChaseEffectHeightDrop = 0x3000;
+const s32 gKartStarEffectOffsetByCharacter[13] = {0x6140, 0x8cd0, 0x4cd0, 0xa660, 0x6140, 0x6e10, 0x4cd0, 0x6140, 0x4cd0, 0x6140, 0x6e10, 0x6e10, 0x4cd0};
+s32 gKartEffectVelocityFactors[3] = {0xb33, 0xccd, 0xe66};
+u32 gKartStarEffectIds[3] = {0x42, 0x43, 0x44};
+s32 data_02165960 = 0x2000;
+s32 data_02165958 = 0x5800;
+s32 gKartStarEffectAxisSpeedMin = 0x52;
+s32 data_02165968 = -8192;
+const OtherKartPairs gOtherKartPairs[8] = {{{{1, 2}, {3, 4}, {5, 6}, {7, -1}}}, {{{0, 2}, {3, 4}, {5, 6}, {7, -1}}}, {{{0, 1}, {3, 4}, {5, 6}, {7, -1}}}, {{{0, 1}, {2, 4}, {5, 6}, {7, -1}}}, {{{0, 1}, {2, 3}, {5, 6}, {7, -1}}}, {{{0, 1}, {2, 3}, {4, 6}, {7, -1}}}, {{{0, 1}, {2, 3}, {4, 5}, {7, -1}}}, {{{0, 1}, {2, 3}, {4, 5}, {6, -1}}}};
+s32 gOldLuigiAgbFirstChaseEffectBaseDistance = 0x5800;
+s32 data_02165964 = 0x5800;
+const u32 gKartBoostCameraEffectIds[2] = {6, 7};
+s32 gOldLuigiAgbFirstChaseEffectDistanceSlope = 0x1000;
+s32 gKartStarEffectDirectionSpeedMin = 0x14;
+s32 data_0216595c = -4096;
+const OtherKartEffectKind gOtherKartEffectKinds[2] = {{0, AdvanceOtherKartEffect}, {1, AdvanceOtherKartEffect}};
+s32 gKartStarEffectAxisSpeedMax = 0x148;
+
 KartEffects *GetKartEffects(int kartIndex) {
     return &gKartEffects[kartIndex];
 }
@@ -692,7 +717,7 @@ void AdvanceOtherKartEffect(ParticleEmitter *effect, s32 phase) {
 
 // Starts two effects for each pair of the other karts; each effect switches between the pair's two karts.
 void StartEffectsAtOtherKarts(s32 pairSetIndex) {
-    OtherKartEffectKind *effectKind;
+    const OtherKartEffectKind *effectKind;
     s32 kindIndex;
     KartIndexPair *pair;
     s32 startedCount;
@@ -899,14 +924,14 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     }
     VEC_CrossProduct(&data_02155a08, &forwardFlat, &axis);
     speedRatio = MUL_FIXED12_ROUNDED(kart->mVelocityLength, gCourseCameraEffectSpeedReciprocal);
-    rotatedVector = data_02165984;
+    rotatedVector = gOldLuigiAgbFirstChaseEffectDirection;
     extraDistance = 0;
     if (speedRatio > 0x1000) {
         speedRatio = 0x1000;
     }
     if (kart->mMotionFlags & KART_MOTION_REVERSING) {
         speedRatio = speedRatio * 0xffffffff;
-        extraDistance = data_02165938;
+        extraDistance = gOldLuigiAgbFirstChaseEffectBaseDistance;
     }
     angle = MUL_FIXED12_ROUNDED(speedRatio, 0x38e3);
     MTX_RotAxis33(&rotation, &axis, FX_SinIdx(angle), FX_CosIdx(angle));
@@ -916,11 +941,11 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     directionHalfwords.z = rotatedVector.z;
     effect->mAxisSpeed = (s16) (MUL_FIXED12_ROUNDED(0x1000 - speedRatio, 0x800) + 0x800);
     effect->mDirection = directionHalfwords;
-    distanceSlope = data_02165954 + extraDistance;
-    VEC_MultAdd(data_02165938 + (s32) (((s64) distanceSlope * (s64) speedRatio + 0x800) >> 12), &forwardFlat,
+    distanceSlope = gOldLuigiAgbFirstChaseEffectDistanceSlope + extraDistance;
+    VEC_MultAdd(gOldLuigiAgbFirstChaseEffectBaseDistance + (s32) (((s64) distanceSlope * (s64) speedRatio + 0x800) >> 12), &forwardFlat,
                 &chaseCamera->mViewPos, &effectPos);
     effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
-    effectPos.y = effectPos.y - MUL_FIXED12_ROUNDED(data_02165934, speedRatio);
+    effectPos.y = effectPos.y - MUL_FIXED12_ROUNDED(gOldLuigiAgbFirstChaseEffectHeightDrop, speedRatio);
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = effectPos.z + effect->mResource->mHeader->mPositionOffset.z;
@@ -1298,15 +1323,15 @@ void AdvanceKartStarEffects(s32 kartIndex) {
 
     kart = GetKart(kartIndex);
     secondValue =
-        MulFixed12Rounded(data_0216593c + MulFixed12Rounded(kart->mVelocityLengthRatio, data_02165950 - data_0216593c),
+        MulFixed12Rounded(gKartStarEffectAxisSpeedMin + MulFixed12Rounded(kart->mVelocityLengthRatio, gKartStarEffectAxisSpeedMax - gKartStarEffectAxisSpeedMin),
                           gStarEffectEngineScale);
     firstValue =
-        MulFixed12Rounded(data_02165944 + MulFixed12Rounded(kart->mVelocityLengthRatio, data_0216594c - data_02165944),
+        MulFixed12Rounded(gKartStarEffectDirectionSpeedMin + MulFixed12Rounded(kart->mVelocityLengthRatio, gKartStarEffectDirectionSpeedMax - gKartStarEffectDirectionSpeedMin),
                           gStarEffectEngineScale);
     starIndex = 0;
     do {
         if (starEffects->mEffects[starIndex] != NULL) {
-            VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, data_02155854[kart->mKartModelsEntry->mCharacterIndex]),
+            VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, gKartStarEffectOffsetByCharacter[kart->mKartModelsEntry->mCharacterIndex]),
                         &kart->mUnk_12c, &kart->mPos, &effectPos);
             PlaceEffect(starEffects->mEffects[starIndex], &effectPos);
             velocity.x = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.x, 0xc00);

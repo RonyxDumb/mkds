@@ -56,6 +56,15 @@
 #include "code_02148538.h"
 #include "Main/Kart/karts.h"
 
+const Vec3 gBattleKartAiZeroVector = {0, 0, 0};
+const Vec3 gVec3UnitY = {0, 0x1000, 0};
+BattleKartAiParams gBattleKartAiParamsHard = {{0, 0xccd, 0x1000}, {0, 0xccd, 0x1000}, 8, 0};
+BattleKartAiParams gBattleKartAiParamsDefault = {{0, 0x800, 0x1000}, {0x554, 0xaa8, 0x1000}, 0xc, 2};
+BattleKartAiParams gBattleKartAiParamsNormal = {{0, 0x800, 0x1000}, {0, 0x800, 0x1000}, 0xa, 1};
+u16 gSearchStartIndex;
+BattleKartAiParams *gBattleKartAiParams;
+s32 gEntryYDifferenceLimit;
+
 void SetupBattleKartAiSpeedLimit(KartAiSpeedLimit *speedLimit, KartAi *kartAi) {
     speedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;
     speedLimit->mSpeedLimit = speedLimit->mBaseSpeedLimit;
@@ -169,15 +178,15 @@ void SetupBattleKartAiParams(void) {
     RaceSetup *raceSetup;
 
     gSearchStartIndex = 0;
-    gBattleKartAiParams = &data_0216600c;
+    gBattleKartAiParams = &gBattleKartAiParamsDefault;
     raceSetup = gRaceSetup;
     if (raceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
         switch (raceSetup->mCpuDifficulty) {
             case CPU_DIFFICULTY_NORMAL:
-                gBattleKartAiParams = &data_02166028;
+                gBattleKartAiParams = &gBattleKartAiParamsNormal;
                 break;
             case CPU_DIFFICULTY_HARD:
-                gBattleKartAiParams = &data_02165ff0;
+                gBattleKartAiParams = &gBattleKartAiParamsHard;
                 break;
         }
     } else {
@@ -189,7 +198,7 @@ void SetupBattleKartAiParams(void) {
 }
 
 void ResetBattleKartAi(KartAi *kartAi) {
-    Vec3 zeroVector = data_02155ebc;
+    Vec3 zeroVector = gBattleKartAiZeroVector;
 
     kartAi->mSideOffset = zeroVector;
     kartAi->mSideOffsetFrames = 0;

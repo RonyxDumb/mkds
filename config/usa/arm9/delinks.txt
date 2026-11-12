@@ -1693,6 +1693,7 @@ src/Main/Kart/course_models.c:
     .text       start:0x02062ed8 end:0x020638c0
     .rodata     start:0x02154990 end:0x02154a20
     .data       start:0x021653fc end:0x021654c0
+    .bss        start:0x0217aafc end:0x0217abf0
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_killer_render.c:
@@ -1755,7 +1756,7 @@ src/Main/Kart/kart_participant_record.c:
 src/Main/Kart/kart_drift.c:
     complete
     .text       start:0x0206bcb0 end:0x0206f04c
-    .data       start:0x0216558c end:0x0216559c
+    .data       start:0x021654c0 end:0x0216569c
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_contact.c:
@@ -1825,11 +1826,15 @@ src/Main/Kart/shadow_model.c:
 src/Main/Kart/character_animation.c:
     complete
     .text       start:0x0207ae58 end:0x0207b960
+    .data       start:0x021658e0 end:0x021658f0
+    .bss        start:0x0217ad14 end:0x0217ae14
 
 // provisional: file name and boundaries
 src/Main/Kart/point_link_cursor.c:
     complete
     .text       start:0x0207b960 end:0x0207ffa4
+    .rodata     start:0x0215560c end:0x021557bc
+    .bss        start:0x0217ae14 end:0x0217ae4c
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_effects_ahead.c:
@@ -1855,6 +1860,8 @@ src/Main/Kart/kart_killer_effect.c:
 src/Main/Kart/kart_effects.c:
     complete
     .text       start:0x02081618 end:0x020846c0
+    .rodata     start:0x021557f8 end:0x02155908
+    .data       start:0x02165934 end:0x02165990
 
 // provisional: file name and boundaries
 src/Main/Graphics/nsbmd_render_obj.c:
@@ -1875,11 +1882,13 @@ src/Main/Graphics/nsbmd_draw.c:
 src/Main/Kart/kart_ai.c:
     complete
     .text       start:0x0208537c end:0x02086058
+    .bss        start:0x0217ae9c end:0x0217aea4
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_name_tags.c:
     complete
     .text       start:0x02086058 end:0x02086e8c
+    .data       start:0x021659a0 end:0x021659d4
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_name_tag_draw.c:
@@ -1922,6 +1931,9 @@ src/Main/Kart/kart_model_path.c:
 src/Main/Kart/kart_ai_battle.c:
     complete
     .text       start:0x020888b4 end:0x02089d14
+    .rodata     start:0x02155eb0 end:0x02155ec8
+    .data       start:0x02165ff0 end:0x02166044
+    .bss        start:0x0217b008 end:0x0217b014
 
 // provisional: file name and boundaries
 src/Main/Graphics/stem_sets.c:
@@ -1961,11 +1973,14 @@ src/Main/Graphics/effects.c:
 src/Main/Kart/kart_ai_staff_roll_advance.c:
     complete
     .text       start:0x0208bd20 end:0x0208c4e8
+    .bss        start:0x0217b038 end:0x0217b058
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_level.c:
     complete
     .text       start:0x0208c4e8 end:0x0208d978
+    .rodata     start:0x02155fcc end:0x02155fd8
+    .bss        start:0x0217b058 end:0x0217b05c
 
 src/Main/Graphics/model_effects.c:
     complete
@@ -1976,6 +1991,7 @@ src/Main/Graphics/model_effects.c:
 src/Main/Kart/kart_ai_item_throw.c:
     complete
     .text       start:0x0208eb10 end:0x020901a0
+    .data       start:0x021663d8 end:0x02166548
 
 // provisional: file name and boundaries
 src/Main/Kart/use_item.c:
