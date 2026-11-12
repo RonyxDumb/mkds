@@ -33,15 +33,35 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "Main/Item/data_0215a000.h"
 #include "Main/Item/code_020f73fc.h"
 #include "Main/Item/pooled_item_box_init.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Sound/data_0216c000.h"
 
-const MapObjectKindData gMissionRunBoxKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0};
+const u16 data_0215a030 = 1;
+const u16 gItemObjectExcludedUntilCourseHitBit = 0x2000;
+const MapObjectKindDescriptor data_usa_0215a034 = {
+    0,
+    {0, 0},
+    0x144,
+    (void (*)(void *, CourseMapRow *, void *)) InitMissionRunBoxMapObject,
+    CreateMissionRunBoxKindData,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    {NULL, NULL, NULL, NULL}};
+
+const MapObjectKindData gMissionRunBoxKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1,
+                                                  1,    0,    0, 0,        0,       0,       0,    0};
 MtxFx33 gItemFBoxRotation;
-StateCallbacks gDramStateTable[6] = {{(UnkFunc *) DramState0ReturnArgument, UpdateDramState0}, {NULL, NULL}, {EnterDramState2, UpdateDramState2}, {(UnkFunc *) DramState3ReturnArgument, UpdateDramState3}, {EnterDramState4, UpdateDramState4}, {EnterDramState5, UpdateDramState5}};
+StateCallbacks gDramStateTable[6] = {{(UnkFunc *) DramState0ReturnArgument, UpdateDramState0},
+                                     {NULL, NULL},
+                                     {EnterDramState2, UpdateDramState2},
+                                     {(UnkFunc *) DramState3ReturnArgument, UpdateDramState3},
+                                     {EnterDramState4, UpdateDramState4},
+                                     {EnterDramState5, UpdateDramState5}};
 
 #pragma thumb on
 

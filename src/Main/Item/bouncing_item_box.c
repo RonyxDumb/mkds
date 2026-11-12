@@ -33,7 +33,6 @@
 #include "Main/Sound/sound_source_list.h"
 #include "code_0214a748.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Item/data_0215a000.h"
 #include "code_0212df7c.h"
 #include "Main/Race/entry_race_ended.h"
 #include "Main/Menu/data_0217d000.h"

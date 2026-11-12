@@ -1,6 +1,5 @@
 #include "Main/Sound/surface_sound_ids.h"
 
-#include "Main/Item/data_0215a000.h"
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/data_0217c000.h"

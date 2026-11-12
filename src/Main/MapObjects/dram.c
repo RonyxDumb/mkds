@@ -16,7 +16,6 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "Main/Item/data_0215a000.h"
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/map_objects_get.h"

@@ -44,6 +44,7 @@
 #include "Main/MapObjects/wanwan_reset.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
+#include "Main/Item/dram_box.h"
 
 MapObjectKindRow gMapObjectKindRows[133] = {
     {101, (MapObjectKindDescriptor *) &gItemBoxKindDescriptor, NULL},

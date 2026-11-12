@@ -19,7 +19,6 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/Item/data_027e0000.h"
-#include "Main/Item/data_0215a000.h"
 #include "Main/Item/entry_kart_sound.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/MapObjects/data_0217c000.h"

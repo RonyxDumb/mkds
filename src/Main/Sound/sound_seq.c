@@ -35,7 +35,6 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_set_load.h"
 #include "code_0212df7c.h"
-#include "Main/Item/data_0215a000.h"
 #include "Main/Sound/data_0210b000.h"
 #include "Main/Sound/data_0210e000.h"
 #include "code_0212ba34.h"

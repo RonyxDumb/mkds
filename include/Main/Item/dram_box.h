@@ -11,6 +11,7 @@
 #include "Main/Item/pooled_map_object.h"
 #include "Main/MapObjects/choropu.h" // CollisionMapObject
 #include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 extern MtxFx33 gItemFBoxRotation;
 
@@ -44,3 +45,7 @@ void CreateDram(void);
 
 extern const MapObjectKindData gMissionRunBoxKindData;
 extern StateCallbacks gDramStateTable[6];
+
+extern const u16 data_0215a030;
+extern const u16 gItemObjectExcludedUntilCourseHitBit;
+extern const MapObjectKindDescriptor data_usa_0215a034;
