@@ -70,7 +70,7 @@ unsigned int ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u
                                        unsigned int serverFilter, unsigned int maxServers);
 
 #include "00/unk_021b4000.h"
-#include "00/code_0218a9bc.h"
+#include "00/sb_queryengine.h"
 
 // Object of 0x638 bytes ServerBrowserNewA allocates. SBEngineCleanup passes 0x20 to closesocket and
 // the addresses of 0x14 and 0x08 to FIFOClear.
@@ -89,7 +89,6 @@ typedef struct MatchingServerList {
 struct MatchingServerList;
 
 
-#include "00/code_0218acb0.h"
 
 extern InvalidKeyNames gInvalidKeys;
 extern char gKeyIndexFormat[];

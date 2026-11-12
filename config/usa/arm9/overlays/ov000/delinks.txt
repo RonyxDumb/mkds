@@ -248,44 +248,9 @@ src/00/code_0218a71c.c:
     .text       start:0x0218a6e8 end:0x0218a8e4
 
 // provisional: file name and boundaries
-src/00/code_0218a918.c:
+src/00/sb_queryengine.c:
     complete
-    .text       start:0x0218a8e4 end:0x0218a988
-
-// provisional: file name and boundaries
-src/00/code_0218a9bc.c:
-    complete
-    .text       start:0x0218a988 end:0x0218aae0
-
-// provisional: file name and boundaries
-src/00/code_0218ab14.c:
-    complete
-    .text       start:0x0218aae0 end:0x0218aae4
-
-// provisional: file name and boundaries
-src/00/code_0218ab18.c:
-    complete
-    .text       start:0x0218aae4 end:0x0218ac7c
-
-// provisional: file name and boundaries
-src/00/code_0218acb0.c:
-    complete
-    .text       start:0x0218ac7c end:0x0218acc0
-
-// provisional: file name and boundaries
-src/00/code_0218acf4.c:
-    complete
-    .text       start:0x0218acc0 end:0x0218ae28
-
-// provisional: file name and boundaries
-src/00/code_0218ae5c.c:
-    complete
-    .text       start:0x0218ae28 end:0x0218ae34
-
-// provisional: file name and boundaries
-src/00/code_0218ae68.c:
-    complete
-    .text       start:0x0218ae34 end:0x0218ae70
+    .text       start:0x0218a8e4 end:0x0218ae70
 
 // provisional: file name and boundaries
 src/00/code_0218aea4.c:
