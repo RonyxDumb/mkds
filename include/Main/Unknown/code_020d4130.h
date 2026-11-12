@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Unknown/code_020e6b58.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Unknown/unk_0217a000.h" // Camera
 

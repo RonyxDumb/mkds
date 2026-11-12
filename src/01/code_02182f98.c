@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "Main/Unknown/code_0209bef0.h"
 #include "ITCM/code_01ff8000.h"
-#include "code_02146cbc.h"
+#include "fx_mtx33.h"
 #include "code_02147cd8.h"
 
 void ResetCoinShadowRotationIndex(void) {

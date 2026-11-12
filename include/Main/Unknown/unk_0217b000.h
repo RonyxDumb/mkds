@@ -11,7 +11,7 @@
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/Unknown/code_020e6b58.h"
 #include "ITCM/sphere_collision.h" // CourseCollision
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/Unknown/code_0209bc74.h" // MapObjectModel

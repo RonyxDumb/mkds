@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_02084000.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Kart/kart_drift.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/MapObjects/bound.h"
@@ -19,7 +19,6 @@
 #include "Main/Unknown/code_020d3000.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Unknown/code_02146000.h"
-#include "code_02146cbc.h"
 #include "code_02147cd8.h"
 #include "ITCM/code_01ff8000.h"
 

@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_0209bef0.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Unknown/unk_02156000.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/MapObjects/bound.h"
@@ -20,7 +20,6 @@
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_02166000.h"
-#include "code_02146cbc.h"
 #include "code_02147cd8.h"
 
 void InitBasabasa(MapObject *mapObject) {

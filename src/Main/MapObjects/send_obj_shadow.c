@@ -17,7 +17,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020e55b4.h"
-#include "code_02146cbc.h"
+#include "fx_mtx33.h"
 
 void SendObjShadowMaterial(void) {
     u32 plttBase;

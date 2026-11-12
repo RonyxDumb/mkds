@@ -1,5 +1,5 @@
 #include "Main/MapObjects/crab.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 
 #include "Main/Unknown/code_0209b634.h"
 #include "Main/Unknown/code_0209bef0.h"
@@ -20,7 +20,6 @@
 #include "Main/Unknown/code_020e6b58.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
-#include "code_02146cbc.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/MapObjects/sound_if_kart_star_or.h"
 #include "Main/Unknown/code_020f36d8.h"

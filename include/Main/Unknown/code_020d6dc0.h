@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
-#include "code_02146d78.h" // MtxFx33
+#include "fx_mtx33.h"
 
 typedef struct GroupFollowerWithSpeeds GroupFollowerWithSpeeds;
 typedef struct SegmentProgress SegmentProgress;

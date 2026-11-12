@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 
 // 0x20-byte wobble of Teresa at 0xbc and 0xdc (written by StartTeresa), of Crab at 0xb0 and 0xd0 and of the trophy

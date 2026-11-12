@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 
 // Element of 0x10 bytes: a position, then two halfwords.

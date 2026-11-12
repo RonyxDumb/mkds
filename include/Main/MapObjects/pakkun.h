@@ -4,7 +4,7 @@
 #include "Main/MapObjects/pakkun_spit.h"
 #include "Main/Unknown/code_0209bc74.h" // MapObjectModel
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 
 // Object up to 0x200 bytes: the shared part, a counter at 0xa4 that cycles between 0xac and 0xb0, a state at 0xb4,

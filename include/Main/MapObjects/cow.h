@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 
 // Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.

@@ -3,7 +3,7 @@
 #include "Main/System/heap.h"
 #include "Main/Scene/scene_connection.h"
 #include "code_02010c84.h"
-#include "code_02146cbc.h"
+#include "fx_mtx33.h"
 #include "code_0214a748.h"
 #include "Main/Item/item_in_use.h"
 #include "ITCM/code_01ff8000.h"

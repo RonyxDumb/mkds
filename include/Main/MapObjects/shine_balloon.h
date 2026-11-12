@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
 // Object of the list FindMapObjectKindUpdateList(0x70): the shared MapObject part, then the words and the pointer

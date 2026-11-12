@@ -13,7 +13,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_020f36d8.h"
-#include "code_02146cbc.h"
+#include "fx_mtx33.h"
 #include "code_02147cd8.h"
 
 void InitChandelierObjects(MapObjectList *objectList) {

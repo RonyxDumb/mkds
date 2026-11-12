@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
 // Object of UpdatePicture: after the shared part, a halfword at 0xa0, the phase at 0xa4, a counter at 0xa8 and the

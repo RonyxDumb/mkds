@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020e6b58.h"
 #include "Main/Unknown/code_020f36d8.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 
 void UpdateViewFrustum(MtxFx43 *viewMatrix);

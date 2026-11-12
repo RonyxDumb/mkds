@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Item/held_item.h" // BouncingItemObject
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Unknown/code_020ffc4c.h"
 #include "Main/Item/item_object_throw.h"

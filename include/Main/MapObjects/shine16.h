@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
 
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
 // Object of kind 0x6a (Shine16), also typed MapObject (code_020a3f2c.c) where the

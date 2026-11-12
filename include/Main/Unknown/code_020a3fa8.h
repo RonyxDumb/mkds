@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/balloon.h" // Balloon
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
 // The balloons of one kart (0x38 bytes, one per kart index in the kind 0x69 object; Standings.mKartBalloons points at

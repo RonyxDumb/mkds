@@ -1,6 +1,6 @@
 #include "code_020184e4.h"
 
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "code_02147288.h"
 #include "code_02147cd8.h"
 #include "g3imm.h"
@@ -15,7 +15,6 @@
 #include "registers.h"
 #include "code_0201c4e8.h"
 #include "code_0201c528.h"
-#include "code_02146cbc.h"
 #include "Main/Unknown/code_02146000.h"
 #include "code_021471bc.h"
 

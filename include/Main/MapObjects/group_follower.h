@@ -13,7 +13,7 @@ typedef struct Unk020d6538_a {
 } Unk020d6538_a;
 
 #include "Main/Unknown/code_020f36d8.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 
 // 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; SetDrawListSlot

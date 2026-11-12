@@ -23,7 +23,7 @@
 #include "Main/Unknown/code_020ea000.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0215a000.h"
-#include "code_02146cbc.h"
+#include "fx_mtx33.h"
 #include "code_02147cd8.h"
 
 MapObjectKindData *CreateDramKindData(void) {

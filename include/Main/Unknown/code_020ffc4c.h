@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 
 // Object of kind 0xd2 (Dram) and the functions of this file: 0xc0 bytes.

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
 #include "Main/Unknown/code_02080b1c.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
 // Sman: a map object of kind 0x19d in two parts (top and bottom models); state 1 sends the top up and down while the

@@ -49,8 +49,7 @@
 #include "Main/Unknown/code_02146000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02012b30.h"
-#include "code_02146cbc.h"
-#include "code_02146d78.h"
+#include "fx_mtx33.h"
 #include "code_02147cd8.h"
 #include "Main/Race/kart.h"
 
