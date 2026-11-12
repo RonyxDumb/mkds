@@ -56,6 +56,32 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/wanwan.h"
 
+#pragma thumb off
+
+const MapObjectKindDescriptor gWanwanOnChainKindDescriptor = {
+    0,
+    {0, 0},
+    0x20c,
+    (void (*)(void *, CourseMapRow *, void *)) InitWanwanOnChain,
+    (MapObjectKindData *(*)(void)) CreateWanwanKindData,
+    (MapObjectList *(*)(void)) CreateWanwanDrawList,
+    NULL,
+    NULL,
+    CreateWanwanUpdateList,
+    NULL,
+    {NULL, NULL, NULL, NULL}};
+const MapObjectKindDescriptor gWanwanOnPathKindDescriptor = {
+    0,
+    {0, 0},
+    0x20c,
+    (void (*)(void *, CourseMapRow *, void *)) InitWanwanOnPath,
+    (MapObjectKindData *(*)(void)) CreateWanwanKindData,
+    (MapObjectList *(*)(void)) CreateWanwanDrawList,
+    NULL,
+    NULL,
+    CreateWanwanUpdateList,
+    NULL,
+    {NULL, NULL, NULL, NULL}};
 StateCallbacks gWanwanStateTable[] = {
     {EnterWanwanState0, UpdateWanwanState0},    {EnterWanwanState1, UpdateWanwanState1},
     {EnterWanwanState2, UpdateWanwanState2},    {EnterWanwanState3, UpdateWanwanState3},
@@ -65,8 +91,6 @@ Quaternion gWanwanResetSurfaceOrientation = {{0, 0, 0, 0x1000}};
 SoundStartParams gWanwanTouchGroundSoundParams = {0x12d, NULL, 2, 0};
 struct ShadowModel *gWanwanRockShadow;
 struct Nsbmd *gWanwan;
-
-#pragma thumb off
 
 static inline s64 WanwanXzLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);

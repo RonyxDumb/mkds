@@ -8407,8 +8407,8 @@ gDossunKindDescriptor kind:data(any) addr:0x02158204
 gDossunUpdateListData kind:data(any) addr:0x02158238
 gDossunDrawListData kind:data(any) addr:0x02158260
 gDossunKindData kind:data(any) addr:0x0215828c
-data_usa_021582cc kind:data(any) addr:0x021582cc
-data_usa_02158300 kind:data(any) addr:0x02158300
+gWanwanOnChainKindDescriptor kind:data(any) addr:0x021582cc
+gWanwanOnPathKindDescriptor kind:data(any) addr:0x02158300
 gWanwanUpdateListData kind:data(any) addr:0x02158334
 gWanwanDrawListData kind:data(any) addr:0x0215835c
 gWanwanKindData kind:data(any) addr:0x02158388

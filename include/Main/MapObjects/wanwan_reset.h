@@ -7,6 +7,7 @@
 #include "Main/MapObjects/wanwan.h" // Wanwan
 #include "Main/Kart/shadow_model.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 typedef struct CourseMapRow CourseMapRow;
 
@@ -22,3 +23,6 @@ void CreateWanwanAndRockShadow(void);
 
 extern struct ShadowModel *gWanwanRockShadow;
 extern struct Nsbmd *gWanwan;
+
+extern const MapObjectKindDescriptor gWanwanOnChainKindDescriptor;
+extern const MapObjectKindDescriptor gWanwanOnPathKindDescriptor;

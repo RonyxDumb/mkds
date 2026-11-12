@@ -41,6 +41,7 @@
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/MapObjects/earthen_pipe.h"
 #include "Main/MapObjects/dossun_kind_descriptor.h"
+#include "Main/MapObjects/wanwan_reset.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
 
@@ -54,8 +55,8 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {403, (MapObjectKindDescriptor *) &gDossunKindDescriptor, NULL},
     {404, NULL, NULL},
     {401, (MapObjectKindDescriptor *) &gKuriboKindDescriptor, NULL},
-    {406, (MapObjectKindDescriptor *) &data_usa_021582cc, NULL},
-    {421, (MapObjectKindDescriptor *) &data_usa_02158300, NULL},
+    {406, (MapObjectKindDescriptor *) &gWanwanOnChainKindDescriptor, NULL},
+    {421, (MapObjectKindDescriptor *) &gWanwanOnPathKindDescriptor, NULL},
     {407, (MapObjectKindDescriptor *) &data_usa_021583d8, NULL},
     {408, (MapObjectKindDescriptor *) &gMkdEfBubbleKindDescriptor, NULL},
     {409, (MapObjectKindDescriptor *) &data_usa_02158b80, NULL},
