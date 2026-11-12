@@ -2,7 +2,7 @@
 #include "Main/System/heap.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/state_machine_init.h"
-#include "Main/Menu/choises_s_tiles.h"
+#include "Main/Menu/choises_s.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
 #include "fx_mtx33.h"

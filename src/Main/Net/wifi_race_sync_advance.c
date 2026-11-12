@@ -19,7 +19,7 @@
 #include "os_thread.h"
 #include "Main/Race/race_progress_kart.h"
 #include "Main/Race/cup_records.h"
-#include "Main/Menu/choises_s_tiles.h"
+#include "Main/Menu/choises_s.h"
 #include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"

@@ -10106,17 +10106,17 @@ gCupCourseIds kind:data(any) addr:0x0216801c
 @3647 kind:data(any) addr:0x02168304 local
 @3648 kind:data(any) addr:0x02168320 local
 @3649 kind:data(any) addr:0x0216833c local
-data_usa_0216835c kind:data(any) addr:0x0216835c
-data_usa_02168370 kind:data(any) addr:0x02168370
-data_usa_02168384 kind:data(any) addr:0x02168384
-data_usa_02168398 kind:data(any) addr:0x02168398
-data_usa_021683ac kind:data(any) addr:0x021683ac
-data_usa_021683c0 kind:data(any) addr:0x021683c0
-data_usa_021683d4 kind:data(any) addr:0x021683d4
-data_usa_021683ec kind:data(any) addr:0x021683ec
-data_usa_02168418 kind:data(any) addr:0x02168418
-data_usa_0216842c kind:data(any) addr:0x0216842c
-data_usa_02168440 kind:data(any) addr:0x02168440
+gChoisesSNscr6Name kind:data(any) addr:0x0216835c
+gChoisesSNscr3Name kind:data(any) addr:0x02168370
+gChoisesSNscr2Name kind:data(any) addr:0x02168384
+gChoisesSNscr4Name kind:data(any) addr:0x02168398
+gChoisesSNscr5Name kind:data(any) addr:0x021683ac
+gChoisesSNscr1Name kind:data(any) addr:0x021683c0
+@5715 kind:data(any) addr:0x021683d4 local
+@5154 kind:data(any) addr:0x021683ec local
+@5955 kind:data(any) addr:0x02168418 local
+@5956 kind:data(any) addr:0x0216842c local
+@6632 kind:data(any) addr:0x02168440 local
 @1821 kind:data(any) addr:0x0216844c local
 @1822 kind:data(any) addr:0x0216845c local
 @1823 kind:data(any) addr:0x0216846c local

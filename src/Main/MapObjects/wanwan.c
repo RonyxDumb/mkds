@@ -35,7 +35,7 @@
 #include "ITCM/kart_motion.h"
 #include "ITCM/sphere_collision.h"
 #include "ITCM/code_01ffc000.h"
-#include "Main/Menu/choises_s_tiles.h"
+#include "Main/Menu/choises_s.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/System/heap_call.h"
 #include "Main/MapObjects/update_list_slot.h"

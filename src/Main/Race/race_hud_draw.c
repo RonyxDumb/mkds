@@ -44,7 +44,7 @@
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Graphics/oam.h"
 #include "Main/System/heap_call.h"
-#include "Main/Menu/choises_s_tiles.h"
+#include "Main/Menu/choises_s.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/file_in_loaded.h"
 #include "Main/Race/race_goal_player_character.h"

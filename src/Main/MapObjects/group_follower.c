@@ -5,7 +5,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Menu/choises_s_tiles.h"
+#include "Main/Menu/choises_s.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/MapObjects/data_02156000.h"

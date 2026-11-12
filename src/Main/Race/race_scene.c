@@ -43,7 +43,6 @@
 #include "Main/Race/race.h"
 #include "Main/Race/race_hud_draw.h"
 #include "Main/Menu/choises_s.h"
-#include "Main/Menu/choises_s_tiles.h"
 #include "Main/Race/data_02164000.h"
 #include "code_021458c4.h"
 #include "Main/Race/grand_prix_next_course.h"

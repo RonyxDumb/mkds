@@ -1,5 +1,4 @@
 #include "Main/Menu/choises_s_list_chars.h"
-#include "Main/Menu/choises_s_screen_map.h"
 #include "Main/Menu/choises_s.h"
 #include "Main/Sound/sound_seq.h"
 

@@ -25,7 +25,7 @@
 #include "tp.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/entry_race_ended.h"
-#include "Main/Menu/choises_s_tiles.h"
+#include "Main/Menu/choises_s.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/code_020e66e4.h"
 #include "Main/MapObjects/code_020e6b58.h"
