@@ -9,6 +9,14 @@
 #include "mb_data.h"
 #include "data_02180000.h"
 
+u32 gBgExtPaletteLoadBankMask = 0;
+u32 gBgExtPaletteLoadBase = 0;
+u32 gBgExtPaletteLoadBaseOffset = 0;
+u32 gObjExtPaletteLoadBankMask = 0;
+u32 gObjExtPaletteLoadBase = 0;
+u32 gSubBgExtPaletteLoadBankMask = 0;
+u32 gSubObjExtPaletteLoadBankMask = 0;
+
 void GX_LoadBGPltt(const void *src, u32 offset, u32 size) {
     if (GXi_DmaId != -1 && size > 0x1c) {
         MI_DmaCopy16(GXi_DmaId, src, (void *) (0x5000000 + offset), size);

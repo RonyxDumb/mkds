@@ -81,3 +81,24 @@ void GXS_LoadBGPltt(const void *src, u32 offset, u32 size);
 // Copies size bytes from src to the main BG palette at 0x5000000 + offset; DMA for more than 0x1c bytes, else
 // MIi_CpuCopy16.
 void GX_LoadBGPltt(const void *src, u32 offset, u32 size);
+
+// The bank mask kept between the begin and end call of that load group; 0 when no load is open.
+extern u32 gSubBgExtPaletteLoadBankMask;
+
+// Address the OBJ extended palette load starts from; 0 when idle.
+extern u32 gObjExtPaletteLoadBase;
+
+// The bank mask kept between the begin and end call of that load group; 0 when no load is open.
+extern u32 gObjExtPaletteLoadBankMask;
+
+// Subtracted from the load offset: 0x4000 when only bank G is mapped, else 0.
+extern u32 gBgExtPaletteLoadBaseOffset;
+
+// Address the BG extended palette load starts from; set by the begin call, 0 when idle.
+extern u32 gBgExtPaletteLoadBase;
+
+// The bank mask kept between the begin and end call of that load group; 0 when no load is open.
+extern u32 gBgExtPaletteLoadBankMask;
+
+// The bank mask kept between the begin and end call of that load group; 0 when no load is open.
+extern u32 gSubObjExtPaletteLoadBankMask;

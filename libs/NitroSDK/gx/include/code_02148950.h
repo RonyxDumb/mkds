@@ -122,3 +122,16 @@ u32 GX_GetBankForTex(void);
 // 1 while the main display is on; GX_DispOff clears it, GX_DispOn sets it, GX_SetGraphicsMode writes mode 0 while it is
 // 0 and clears it when its first argument is 0. Initial value 1.
 extern u8 gDispOn[];
+
+// Id from OS_GetLockID, taken in GX_Init; disableBankForX_ hands it to the lock-table release.
+extern u16 gVramLockId;
+
+// Display mode value (the bits at 16 and up of the main display word) kept while the display is off and by
+// GX_SetGraphicsMode; GX_DispOn writes it back.
+extern u16 gSavedDispMode;
+
+// 13 bank-mask halfwords: [0] banks that are directly accessible, then the banks given to the background, sprites,
+// second processor, texture, texture palette, clear image, background and sprite extended palettes, sub background, sub
+// sprites, sub background and sub sprite extended palettes.
+extern u16 gVramBankGroups[];
+

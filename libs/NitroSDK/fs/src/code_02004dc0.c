@@ -326,7 +326,7 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
 
     if (data != 0 && selector == 0) {
         saved = DGT_SetOverlayTableMode(1);
-        if (FSi_CompareDigest(data_0216f2dc, data, size) == 0) {
+        if (FSi_CompareDigest(SDK_OVERLAYTABLE_DIGEST, data, size) == 0) {
             OS_Terminate();
         }
         DGT_SetOverlayTableMode(saved);

@@ -11,6 +11,10 @@
 #include "code_0200fe74.h"
 #include "registers.h"
 
+u16 gVramLockId = 0;
+u16 gSavedDispMode = 0;
+u16 gVramBankGroups[13] = {0};
+
 u8 gDispOn[4] = {1, 0, 0, 0};
 
 void GX_VRAMCNT_SetLCDC_(u32 lcdc) {
@@ -408,42 +412,42 @@ u16 resetBankForX_(u16 *group) {
 
 u16 GX_ResetBankForBGExtPltt(void) {
     reg_GX_DISPCNT &= ~0x40000000;
-    return resetBankForX_(&data_021802be);
+    return resetBankForX_(&gVramBankGroups[7]);
 }
 
 u16 GX_ResetBankForOBJExtPltt(void) {
     reg_GX_DISPCNT &= ~0x80000000;
-    return resetBankForX_(&data_021802c0);
+    return resetBankForX_(&gVramBankGroups[8]);
 }
 
 u16 GX_ResetBankForTex(void) {
-    return resetBankForX_(&data_021802b8);
+    return resetBankForX_(&gVramBankGroups[4]);
 }
 
 u16 GX_ResetBankForTexPltt(void) {
-    return resetBankForX_(&data_021802ba);
+    return resetBankForX_(&gVramBankGroups[5]);
 }
 
 u16 GX_ResetBankForClearImage(void) {
-    return resetBankForX_(&data_021802bc);
+    return resetBankForX_(&gVramBankGroups[6]);
 }
 
 u16 GX_ResetBankForSubBG(void) {
-    return resetBankForX_(&data_021802c2);
+    return resetBankForX_(&gVramBankGroups[9]);
 }
 
 u16 GX_ResetBankForSubOBJ(void) {
-    return resetBankForX_(&data_021802c4);
+    return resetBankForX_(&gVramBankGroups[10]);
 }
 
 u16 GX_ResetBankForSubBGExtPltt(void) {
     reg_GXS_DB_DISPCNT &= ~0x40000000;
-    return resetBankForX_(&data_021802c6);
+    return resetBankForX_(&gVramBankGroups[11]);
 }
 
 u16 GX_ResetBankForSubOBJExtPltt(void) {
     reg_GXS_DB_DISPCNT &= ~0x80000000;
-    return resetBankForX_(&data_021802c8);
+    return resetBankForX_(&gVramBankGroups[12]);
 }
 
 u32 disableBankForX_(u16 *group) {
@@ -483,37 +487,37 @@ u32 disableBankForX_(u16 *group) {
 }
 
 u32 GX_DisableBankForBG(void) {
-    return disableBankForX_(&data_021802b2);
+    return disableBankForX_(&gVramBankGroups[1]);
 }
 
 u32 GX_DisableBankForOBJ(void) {
-    return disableBankForX_(&data_021802b4);
+    return disableBankForX_(&gVramBankGroups[2]);
 }
 
 u32 GX_DisableBankForBGExtPltt(void) {
     reg_GX_DISPCNT &= ~0x40000000;
-    return disableBankForX_(&data_021802be);
+    return disableBankForX_(&gVramBankGroups[7]);
 }
 
 u32 GX_DisableBankForOBJExtPltt(void) {
     reg_GX_DISPCNT &= ~0x80000000;
-    return disableBankForX_(&data_021802c0);
+    return disableBankForX_(&gVramBankGroups[8]);
 }
 
 u32 GX_DisableBankForTex(void) {
-    return disableBankForX_(&data_021802b8);
+    return disableBankForX_(&gVramBankGroups[4]);
 }
 
 u32 GX_DisableBankForTexPltt(void) {
-    return disableBankForX_(&data_021802ba);
+    return disableBankForX_(&gVramBankGroups[5]);
 }
 
 u32 GX_DisableBankForClearImage(void) {
-    return disableBankForX_(&data_021802bc);
+    return disableBankForX_(&gVramBankGroups[6]);
 }
 
 u32 GX_DisableBankForARM7(void) {
-    return disableBankForX_(&data_021802b6);
+    return disableBankForX_(&gVramBankGroups[3]);
 }
 
 u32 GX_DisableBankForLCDC(void) {
@@ -521,21 +525,21 @@ u32 GX_DisableBankForLCDC(void) {
 }
 
 u32 GX_DisableBankForSubBG(void) {
-    return disableBankForX_(&data_021802c2);
+    return disableBankForX_(&gVramBankGroups[9]);
 }
 
 u32 GX_DisableBankForSubOBJ(void) {
-    return disableBankForX_(&data_021802c4);
+    return disableBankForX_(&gVramBankGroups[10]);
 }
 
 u32 GX_DisableBankForSubBGExtPltt(void) {
     reg_GXS_DB_DISPCNT &= ~0x40000000;
-    return disableBankForX_(&data_021802c6);
+    return disableBankForX_(&gVramBankGroups[11]);
 }
 
 u32 GX_DisableBankForSubOBJExtPltt(void) {
     reg_GXS_DB_DISPCNT &= ~0x80000000;
-    return disableBankForX_(&data_021802c8);
+    return disableBankForX_(&gVramBankGroups[12]);
 }
 
 u32 GX_GetBankForTex(void) {

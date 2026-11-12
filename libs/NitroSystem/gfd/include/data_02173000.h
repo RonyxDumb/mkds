@@ -24,14 +24,6 @@ extern NNS_GfdLnkPlttVramManager gPlttVramManager;
 
 extern NNSiGfdLnkVramBlock *data_02173254;
 
-extern vu16 wvrLockId;
-
-extern vu16 wvrVRam;
-
-extern u32 data_02173280;
-
-extern void (*wvrCallback)(u32, s32);
-
 extern GxCommandBuffer *NNS_G3dGeBuffer;
 
 extern vu32 NNS_G3dFlagGXDmaAsync;

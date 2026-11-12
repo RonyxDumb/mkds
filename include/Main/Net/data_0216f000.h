@@ -42,7 +42,7 @@ struct MPLink;
 
 extern struct MPLink *gMPLink;
 
-extern u8 data_0216f2dc[];
+extern u8 SDK_OVERLAYTABLE_DIGEST[];
 
 extern u8 OverlaySignatures[][0x14];
 

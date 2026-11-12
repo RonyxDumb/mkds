@@ -9,16 +9,46 @@
 #include "mb_data.h"
 #include "data_02180000.h"
 
+u32 gTextureLoadFirstBase = 0;
+u32 gTextureLoadFirstSize = 0;
+u32 gTextureLoadSecondBase = 0;
+u32 gTextureLoadBankMask = 0;
+
+const u16 gTextureBlockTable[16][3] = {
+    {0x0000, 0x0000, 0x0000},
+    {0x6800, 0x0000, 0x0000},
+    {0x6820, 0x0000, 0x0000},
+    {0x6800, 0x0000, 0x0000},
+    {0x6840, 0x0000, 0x0000},
+    {0x6800, 0x6840, 0x0020},
+    {0x6820, 0x0000, 0x0000},
+    {0x6800, 0x0000, 0x0000},
+    {0x6860, 0x0000, 0x0000},
+    {0x6800, 0x6860, 0x0020},
+    {0x6820, 0x6860, 0x0020},
+    {0x6800, 0x6860, 0x0040},
+    {0x6840, 0x0000, 0x0000},
+    {0x6800, 0x6840, 0x0020},
+    {0x6820, 0x0000, 0x0000},
+    {0x6800, 0x0000, 0x0000},
+};
+
+s32 gTexturePaletteLoadBankMask = 0;
+u8 *gTexturePaletteLoadBase = 0;
+
+const u16 gTexturePaletteBaseTable[8] = {0x0000, 0x6880, 0x6890, 0x6880, 0x6894, 0x0000, 0x6890, 0x6880};
+
+u32 gClearImageLoadBankMask = 0;
+u8 *gClearImageLoadBase = 0;
+
 void GX_BeginLoadTex(void) {
     u32 mask;
-    u32 row;
 
     mask = GX_ResetBankForTex();
-    row = mask * 6;
     gTextureLoadBankMask = mask;
-    gTextureLoadFirstBase = *(u16 *) (gTextureBlockTable + row) << 12;
-    gTextureLoadSecondBase = *(u16 *) (data_021616ce + row) << 12;
-    gTextureLoadFirstSize = *(u16 *) (data_021616d0 + row) << 12;
+    gTextureLoadFirstBase = gTextureBlockTable[mask][0] << 12;
+    gTextureLoadSecondBase = gTextureBlockTable[mask][1] << 12;
+    gTextureLoadFirstSize = gTextureBlockTable[mask][2] << 12;
 }
 
 void GX_LoadTex(const void *src, u32 offset, u32 size) {

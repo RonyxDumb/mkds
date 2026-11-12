@@ -8,6 +8,11 @@
 #include "code_0214d5b8.h"
 #include "code_0200fe74.h"
 
+void (*wvrCallback)(u32, s32) = 0;
+u32 wvrArg = 0;
+vu16 wvrVRam = 0;
+vu16 wvrLockId = 0;
+
 s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
     u32 enabled;
 
@@ -72,7 +77,7 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
     } else {
         wvrCallback = callback;
     }
-    data_02173280 = arg;
+    wvrArg = arg;
     if (PXI_SendWordByFifo(0xf, 0x10000, 0) < 0) {
         OSi_UnlockVram(wvrVRam, wvrLockId);
         wvrVRam = 0;
@@ -104,7 +109,7 @@ s32 WVR_TerminateAsync(void (*callback)(u32, s32), u32 arg) {
     } else {
         wvrCallback = callback;
     }
-    data_02173280 = arg;
+    wvrArg = arg;
     if (PXI_SendWordByFifo(0xf, 0x20000, 0) < 0) {
         wvrCallback = 0;
         OS_RestoreInterrupts(enabled);
@@ -123,7 +128,7 @@ void WvrReceiveCallback(u32 tag, u32 data) {
     command = data & 0xffff0000;
     result = data & 0xff;
     callback = wvrCallback;
-    callbackArg = data_02173280;
+    callbackArg = wvrArg;
     switch (command) {
         case 0x10000:
             if (result == 7 && wvrVRam != 0 && wvrLockId != 0) {
@@ -141,7 +146,7 @@ void WvrReceiveCallback(u32 tag, u32 data) {
     }
     if (callback != 0) {
         wvrCallback = 0;
-        data_02173280 = 0;
+        wvrArg = 0;
         callback(callbackArg, result);
     }
 }
