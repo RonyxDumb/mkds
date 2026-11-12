@@ -11,6 +11,7 @@
 #include "00/code_02180608.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Net/wifi_session.h"
 
 WiFiVSMatching *gWiFiVSMatching;
 

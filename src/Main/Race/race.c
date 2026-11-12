@@ -92,6 +92,7 @@
 #include "Main/Course/code_02042064.h"
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/kart_standing_rank.h"
+#include "Main/Net/wifi_session.h"
 
 s16 gToonTableFramesLimit = 2;
 u16 gFadeFogRemaining = 0x48;

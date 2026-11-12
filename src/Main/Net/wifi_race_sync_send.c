@@ -1,5 +1,6 @@
 #include "Main/Net/wifi_race_sync_send.h"
 #include "00/Menu/wi_fi_vs_matching.h"
+#include "Main/Net/wifi_session.h"
 
 u32 FinishWiFiRaceSyncSend(void) {
     u32 value0;

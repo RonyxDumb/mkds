@@ -2,6 +2,7 @@
 #include "Main/System/heap.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "code_0200fc8c.h"
+#include "Main/Net/wifi_session.h"
 
 // Allocator registered with the net layer; the first argument is unused; interrupts off.
 void *WiFiSessionHeapAlloc(u32 unused, u32 size, s32 alignment) {

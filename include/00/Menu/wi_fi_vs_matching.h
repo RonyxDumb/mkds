@@ -36,7 +36,6 @@ void InitWiFiVSMatching(void *heap);
 #include "gfd_VramTransferManager.h"
 
 extern MenuShared *gMenuShared;
-extern WiFiSession *gWiFiSession;
 extern u8 gWiFiVSMatchingTotalScalePercents[30];
 extern u8 gWiFiVSMatchingEmblemScalePercents[40];
 

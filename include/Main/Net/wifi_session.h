@@ -68,3 +68,5 @@ void PackWiFiSessionIndices(void);
 void PackWiFiSessionIndicesWrapper(void);
 
 extern char gKartFilterString[0x64];
+
+extern struct WiFiSession *gWiFiSession;

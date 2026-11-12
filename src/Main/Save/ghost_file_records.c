@@ -13,6 +13,7 @@
 #include "code_0214d018.h"
 #include "Main/MapObjects/data_0217a000.h" // GhostListEntry
 #include "code_021522a0.h"
+#include "Main/Net/wifi_session.h"
 
 u32 gSecondTotalLimitBase = 0xf4240;
 

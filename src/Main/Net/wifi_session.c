@@ -39,9 +39,19 @@
 #include "Main/System/heap_call.h"
 #include "code_020176c0.h"
 
-char gKartFilterString[0x64];
-
 #pragma opt_arithtransformation off
+
+StateCallbacks gWiFiSessionStateTable[7] = {
+    {0, 0},
+    {EnterWiFiSessionState1, UpdateWiFiSessionState1},
+    {0, 0},
+    {EnterWiFiSessionState3, UpdateWiFiSessionState3},
+    {EnterWiFiSessionState4Nop, UpdateWiFiSessionState4},
+    {EnterWiFiSessionState5, UpdateWiFiSessionState5},
+    {0, UpdateWiFiSessionState6Nop},
+};
+WiFiSession *gWiFiSession;
+char gKartFilterString[0x64];
 
 void PackWiFiSessionIndicesWrapper(void) {
     PackWiFiSessionIndices();
@@ -891,16 +901,6 @@ void ClearWiFiDisconnectStatus(void) {
 u32 GetWiFiSessionErrorCodeNegated(void) {
     return ((0x0u) - ((gWiFiSession->mErrorCode)));
 }
-
-StateCallbacks gWiFiSessionStateTable[7] = {
-    {0, 0},
-    {EnterWiFiSessionState1, UpdateWiFiSessionState1},
-    {0, 0},
-    {EnterWiFiSessionState3, UpdateWiFiSessionState3},
-    {EnterWiFiSessionState4Nop, UpdateWiFiSessionState4},
-    {EnterWiFiSessionState5, UpdateWiFiSessionState5},
-    {0, UpdateWiFiSessionState6Nop},
-};
 
 u32 GetWiFiLinkLevel(void) {
     return DWC_GetLinkLevel();
