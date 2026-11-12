@@ -6,6 +6,13 @@
 #include "code_0200aeb4.h"
 #include "code_02008934.h"
 #include "mb_data.h"
+#include "code_02003024.h"
+#include "fs_file.h"
+#include "code_02003be0.h"
+#include "code_02008908.h"
+#include "code_0200c0d8.h"
+#include "code_02009928.h"
+#include "code_02142eac.h"
 
 struct SegmentBuffer;
 
@@ -59,3 +66,32 @@ typedef struct MB_CommPWork {
 
 u32 MBi_calc_nextsendblock(u32 first, u32 second);
 void MBi_calc_sendblock(u32 entryIndex);
+
+int MBi_CommParentSendData(void);
+u32 MBi_CommParentSendBlock(void);
+
+typedef struct DataRangeLoadJob {
+    /* 00 */ WorkerTask mUnk_00;
+    /* 10 */ MBiCacheInfo *mDataRange;
+    /* 14 */ MBiCacheList *mDataRangeTable;
+} DataRangeLoadJob;
+
+extern u8 data_usa_02161784;
+
+void MBi_ReloadCache(DataRangeLoadJob *job);
+u32 MBi_CommParentSendDLFileInfo(void);
+
+int MBi_CommParentSendMsg(u8 messageKind, u32 childMask);
+
+void MBi_CommParentRecvData(Unk021432ac *header);
+void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child);
+void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData);
+void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data);
+void MBi_CommChangeParentState(u32 child, u32 value, void *data);
+u32 MB_CommResponseRequest(u32 child, u32 pairIndex);
+u32 MB_CommIsBootable(u32 child);
+void *MB_CommGetChildUser(u32 child);
+void MBi_CommCallParentError(u32 aid, u16 errcode);
+u32 IsChildAidValid(u32 aid);
+
+void MB_CommSetParentStateCallback(UnkFunc *p0);

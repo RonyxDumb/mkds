@@ -1,9 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02007148.h"
-#include "code_02007624.h"
-#include "code_02007ea0.h"
+#include "mb_parent.h"
 #include "Main/Unknown/code_02009000.h"
 #include "code_02009928.h"
 #include "code_0200ad00.h"

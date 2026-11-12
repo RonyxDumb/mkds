@@ -128,34 +128,9 @@ src/Main/Net/request_id.c:
     .text       start:0x020070f0 end:0x02007148
 
 // provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02007148.c:
+libs/NitroSDK/mb/src/mb_parent.c:
     complete
-    .text       start:0x02007148 end:0x020071b4
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_020071b4.c:
-    complete
-    .text       start:0x020071b4 end:0x02007478
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02007478.c:
-    complete
-    .text       start:0x02007478 end:0x020075f8
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_020075f8.c:
-    complete
-    .text       start:0x020075f8 end:0x02007624
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02007624.c:
-    complete
-    .text       start:0x02007624 end:0x02007ea0
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02007ea0.c:
-    complete
-    .text       start:0x02007ea0 end:0x02007ec4
+    .text       start:0x02007148 end:0x02007ec4
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_02007ec4.c:
