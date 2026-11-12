@@ -44,6 +44,7 @@
 #include "Main/Menu/select_cup_course_index.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/select_race_rule_load.h"
+#include "Main/Menu/select_cup_course.h"
 
 #pragma thumb on
 

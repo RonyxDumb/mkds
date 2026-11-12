@@ -39,6 +39,8 @@
 #include "Main/Sound/sound_system.h"
 
 #pragma thumb on
+SelectCupCourse *gSelectCupCourse;
+
 static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) {
     BOOL result;
     BOOL recentlyLost;

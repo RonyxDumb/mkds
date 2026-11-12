@@ -32,6 +32,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/select_cup_course.h"
 
 char *gSelectCupMNcgrName = "common/select_cup_m.nce.ncgr";
 char *gSelectCupCourseMONclrName = "common/select_cup_course_m_o.nclr";

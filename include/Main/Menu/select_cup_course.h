@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0217d000.h"
 
 void AdvanceSelectCupCourseState3(void);
 void AdvanceSelectCupCourseState4(void);
@@ -16,3 +17,5 @@ void LocateAndQueueSelectCupGrid(void);
 // others by the result of IsBackupFlagSet (IsBitSetInAnyParticipant in mode 4) for the flag of that cup; changes
 // nothing.
 u32 GetSelectCupGridCupEnabled(u32 cupIndex);
+
+extern struct SelectCupCourse *gSelectCupCourse;

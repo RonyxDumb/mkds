@@ -764,7 +764,5 @@ extern u32 data_0217d024[];
 
 extern SoundHandlePool gPlayingSoundPool;
 
-extern SelectCupCourse *gSelectCupCourse;
-
 extern u32 data_0217d020;
 
