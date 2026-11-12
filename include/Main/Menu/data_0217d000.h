@@ -729,8 +729,6 @@ extern s32 (*data_0217d01c)(SoundParams *);
 
 extern NNSFndList gSoundSources;
 
-extern u32 gFileSndArcOpen;
-
 extern s32 gKingTeresaState;
 
 extern s32 gPreviousKingTeresaState;
@@ -805,4 +803,3 @@ extern SelectCupCourse *gSelectCupCourse;
 
 extern u32 data_0217d020;
 
-extern void *data_0217d06c;

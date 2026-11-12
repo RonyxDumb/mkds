@@ -32,7 +32,7 @@
 #include "code_02148950.h"
 #include "registers.h"
 #include "Main/System/heap.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 
 WiFiStateCallbacks gWiFiVSSettingCallbacks = {InitWiFiVSSetting, ReleaseWiFiVSSetting, AdvanceWiFiVSSetting,
                                               WriteWiFiVSSettingRegisters};

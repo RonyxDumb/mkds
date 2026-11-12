@@ -39,3 +39,5 @@ typedef struct RacePointLink RacePointLink;
 void AdvancePointLinkCursorTo(PointLinkCursor *linkCursor, RacePointLink *pointLink);
 
 s16 GetPointLinkFirstValue(PointLinkCursor *linkCursor);
+
+extern const Vec3 gPointLinkVec3Zero;

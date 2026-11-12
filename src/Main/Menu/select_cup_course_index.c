@@ -27,11 +27,11 @@
 #include "registers.h"
 #include "Main/Graphics/time_format.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Menu/data_0217d068.h"
 #include "code_0212df7c.h"
 #include "Main/Race/race_setup.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Sound/sound_system.h"
 
 char *gSelectCupMNcgrName = "common/select_cup_m.nce.ncgr";
 char *gSelectCupCourseMONclrName = "common/select_cup_course_m_o.nclr";

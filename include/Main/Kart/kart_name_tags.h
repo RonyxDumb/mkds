@@ -64,3 +64,5 @@ extern s32 gKartNameTagEntry3ScaleX;
 extern s32 gKartNameTagEntry1XOffset;
 extern s32 gKartNameTagEntry3ScaleY;
 extern s32 gKartNameTagEntry2XOffset;
+
+extern const Vec3 gChaseDistanceLimitsSquared;

@@ -1524,6 +1524,11 @@ gWiFiTopMenuCallbacks kind:data(any) addr:0x021b0aa4
 @5589 kind:data(any) addr:0x021b0ae4 local
 @5590 kind:data(any) addr:0x021b0b00 local
 @5591 kind:data(any) addr:0x021b0b1c local
+@5605 kind:data(any) addr:0x021b0ab4 local
+@5606 kind:data(any) addr:0x021b0acc local
+@5607 kind:data(any) addr:0x021b0ae4 local
+@5608 kind:data(any) addr:0x021b0b00 local
+@5609 kind:data(any) addr:0x021b0b1c local
 @2870 kind:data(any) addr:0x021b0b34 local
 @2871 kind:data(any) addr:0x021b0b40 local
 @3245 kind:data(any) addr:0x021b0b4c local

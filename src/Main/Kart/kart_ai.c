@@ -23,10 +23,10 @@
 #include "code_0201750c.h"
 #include "Main/Race/race_clock.h"
 
+#pragma thumb on
+
 KartAiParamRow *gKartAiParamRow;
 KartAiShared *gKartAiShared;
-
-#pragma thumb on
 
 // Picks the row of 'kartAIparam.bin' for the course and the mode; no row in battle and when mUnk_00c is 5 or 6.
 void SetKartAiParamRow(void) {
@@ -36,7 +36,7 @@ void SetKartAiParamRow(void) {
     raceSetup = gRaceSetup;
     if (raceSetup->mRaceKind != RACE_KIND_AWARD && raceSetup->mMode != MODE_BATTLE &&
         raceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        paramRow = GetKartModelFile(gKartAIparamBinName);
+        paramRow = GetKartModelFile("kartAIparam.bin");
         raceSetup = gRaceSetup;
         if (raceSetup->mMode == MODE_GRAND_PRIX) {
             paramRow = &paramRow[(raceSetup->mCourseId - 1) * 12 + raceSetup->mEngineIndex];

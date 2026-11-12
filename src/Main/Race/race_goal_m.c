@@ -42,7 +42,6 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "Main/Net/wifi_session.h"
 #include "code_02142eac.h"
@@ -60,6 +59,7 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 #include "code_02147cd8.h"
+#include "Main/Sound/sound_system.h"
 
 const Vec3 gVec3Zero = {0, 0, 0};
 struct RaceTaPositions *gRaceTaPositions;

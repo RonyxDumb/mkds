@@ -30,11 +30,11 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Menu/data_0215c000.h"
 #include "Main/Menu/data_02175628.h"
-#include "Main/Menu/data_0217d068.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_gpx.h"
 #include "01/Menu/record_time_attack.h"
 #include "Main/Sound/data_0216c000.h"
+#include "Main/Sound/sound_system.h"
 
 char *gRecordVSMTransientBnclName = "Record_VS_m_transient.bncl";
 const u16 gRecordVSGridLabelIndices[3][3] = {{2, 3, 4}, {5, 7, 9}, {6, 8, 0xa}};

@@ -13,7 +13,6 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "00/Lib/DWC/code_0219b580.h"
@@ -22,6 +21,7 @@
 #include "Main/Net/wifi_race_sync_finish.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Kart/karts.h"
+#include "Main/Sound/sound_system.h"
 
 void UpdateRaceClock(void) {
     RaceProgress *raceProgress;

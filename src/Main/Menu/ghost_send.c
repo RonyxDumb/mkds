@@ -60,7 +60,7 @@
 #include "Main/Menu/select_character.h"
 #include "Main/Net/scan_ghost_info.h"
 #include "registers.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 
 const s16 gTimeAttackGhostSendMLabelTextRows[3][4] = {{0, 0xdc, 0x10, 0}, {1, 0x50, 0xc, 1}, {2, 0x82, 0x10, 2}};
 GhostSceneCallbacks gTimeAttackGhostSendCallbacks = {InitTimeAttackGhostSend, AdvanceTimeAttackGhostSend, ReleaseTimeAttackGhostSend, WriteTimeAttackGhostSendRegisters};

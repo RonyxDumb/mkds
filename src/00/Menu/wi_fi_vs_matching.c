@@ -9,7 +9,7 @@
 #include "Main/Race/race_setup.h"
 #include "00/unk_021b4000.h"
 #include "00/code_02180608.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 
 void InitWiFiVSMatchingLabels(void) {
     s32 subObjSizeLeft;

@@ -17,7 +17,7 @@
 KartAppear *CreateKartAppear(void *heap) {
     KartAppear *kartAppear;
     kartAppear = HeapAlloc(heap, 4);
-    kartAppear->mFileData = FindFileInLoadedArchives(gKartAppearFileName);
+    kartAppear->mFileData = FindFileInLoadedArchives("/kart_appear.ktbl");
     return kartAppear;
 }
 

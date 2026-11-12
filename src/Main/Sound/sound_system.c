@@ -18,13 +18,15 @@
 #include "code_0212df7c.h"
 #include "output_effect.h"
 #include "code_0212ba34.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Sound/sound_set_load.h"
 
-u16 gSeqTrackMask = 0xf;
-s32 gSoundOutputEffectType = -1;
-s32 gSceneSeqVolume = 0x50;
 u32 gSoundFadeSteps = 0xa;
+s32 gSceneSeqVolume = 0x50;
+s32 gSoundOutputEffectType = -1;
+u16 gSeqTrackMask = 0xf;
+void *gSoundOutputEffectBuffer;
+NNSSndSeqPlayer *gSharedSeqHandle;
+u32 gFileSndArcOpen;
 
 void SetFileSndArcOpen(u32 flag) {
     gFileSndArcOpen = flag;
@@ -45,7 +47,7 @@ u32 GetSoundFadeSteps(void) {
 void InitSoundSystem(void *heapMemory, u32 heapSize, const u8 *filePath) {
     NNS_SndInit();
     gCurrentSndHeap = NNS_SndHeapCreate(heapMemory, heapSize);
-    data_0217d06c = NNS_SndHeapAlloc(gCurrentSndHeap, 0x1020, SoundHeapAllocNop, NULL, 0);
+    gSoundOutputEffectBuffer = NNS_SndHeapAlloc(gCurrentSndHeap, 0x1020, SoundHeapAllocNop, NULL, 0);
     if (filePath != NULL) {
         NNS_SndArcInit(&gFileSndArc, filePath, gCurrentSndHeap, 0);
         gFileSndArcOpen = 1;
@@ -58,7 +60,7 @@ void InitSoundSystem(void *heapMemory, u32 heapSize, const u8 *filePath) {
 void SoundHeapAllocNop(void *memory, u32 size, void *data1, u32 data2) {}
 
 void StartSoundOutputEffect(u32 type) {
-    NNS_SndCaptureStartOutputEffect((void *) (((u32) data_0217d06c + 0x1f) & ~0x1f), 0x1000, type);
+    NNS_SndCaptureStartOutputEffect((void *) (((u32) gSoundOutputEffectBuffer + 0x1f) & ~0x1f), 0x1000, type);
     gSoundOutputEffectType = type;
 }
 

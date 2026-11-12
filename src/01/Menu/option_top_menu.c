@@ -13,7 +13,7 @@
 #include "Main/Menu/txt_system.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Menu/record_vs.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 
 const u8 gOptionTopMenuOffsetTableIndices[3][4] = {{0, 3, 6, 9}, {1, 4, 7, 0xa}, {2, 5, 8, 0xb}};
 const s32 gOptionTopMenuOffsetCellCounts[3] = {4, 4, 4};

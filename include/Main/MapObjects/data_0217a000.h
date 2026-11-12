@@ -1516,7 +1516,7 @@ typedef struct KartAiShared {
 extern u8 *gKartEntryNameTexBuffer;
 extern u16 *gKartEntryNamePlltBuffer;
 extern u8 *gKartNameTagMaskedTexBuffer;
-extern Vec3 *gKartDistanceLimitsSquared;
+extern const Vec3 *gKartDistanceLimitsSquared;
 extern u16 *gKartEmblemPlltBuffer;
 extern s32 data_0217aedc;
 extern MtxFx44 gKartNameTagProjection;

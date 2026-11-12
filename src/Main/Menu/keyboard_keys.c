@@ -19,11 +19,11 @@
 #include "Main/Sound/sound_seq.h"
 #include "code_0212df7c.h"
 #include "Main/Menu/data_02175628.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "registers.h"
 #include "code_0200fe74.h"
 #include "code_0213ecf8.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gKeyboardLayoutRectCounts[6] = {0xd, 0x3b, 0x32, 0x37, 0x3a, 0x3a};
 const KeyboardCursorTargets gKeyboardCursorTargets[6] = {

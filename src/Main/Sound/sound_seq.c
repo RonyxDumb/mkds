@@ -36,7 +36,6 @@
 #include "Main/Sound/sound_set_load.h"
 #include "code_0212df7c.h"
 #include "Main/Item/data_0215a000.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Sound/data_0210b000.h"
 #include "Main/Sound/data_0210e000.h"
 #include "code_0212ba34.h"

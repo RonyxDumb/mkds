@@ -7,7 +7,6 @@
 #include "g2.h"
 #include "gx_load2d.h"
 #include "Main/Menu/data_02175628.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "Main/System/heap_call.h"
@@ -18,6 +17,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Race/race_hud_sub_screen_shine16_cells.h"
+#include "Main/Sound/sound_system.h"
 
 EmblemChoises *gEmblemChoises;
 

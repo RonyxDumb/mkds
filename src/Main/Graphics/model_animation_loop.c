@@ -14,6 +14,8 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "registers.h"
 
+const u16 gKartNameTagQuadVertices[12] = {0xf000, 0x2000, 0, 0xf000, 0, 0, 0x1000, 0, 0, 0x1000, 0x2000, 0};
+
 void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
     modelAnimation->mLoopMode = loopFlag == 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP;
     modelAnimation->mDone = 0;

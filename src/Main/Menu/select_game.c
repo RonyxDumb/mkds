@@ -25,13 +25,13 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "code_0212df7c.h"
 #include "code_0214d018.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 SelectGame *gSelectGame;
 

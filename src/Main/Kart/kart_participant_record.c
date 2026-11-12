@@ -100,12 +100,12 @@
 #include "Main/Kart/kart_ai_staff_roll_advance.h"
 #include "Main/Sound/race_end_seq.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "Main/Menu/data_0217d068.h"
 #include "code_020172d0.h"
 #include "fx_mtx43.h"
 #include "ITCM/code_01ffb000.h"
 #include "ITCM/sphere_collision.h"
 #include "Main/MapObjects/data_0206b000.h"
+#include "Main/Sound/sound_system.h"
 
 const u32 gKartSurfaceKind1Effects[8] = {0, 0, 0, 4, 0, 0, 0, 0};
 const s32 gKartOffsetCycleY[8] = {0x1000, 0x100e, 0x102d, 0x104c, 0x105b, 0x104c, 0x102d, 0x100e};

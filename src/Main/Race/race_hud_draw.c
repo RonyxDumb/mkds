@@ -50,7 +50,6 @@
 #include "Main/Race/race_goal_player_character.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "g2d_Animation.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "code_0214c778.h"
@@ -60,6 +59,7 @@
 #include "Main/Race/race_hud_draw_nop.h"
 #include "Main/Race/race_goal_s_draw.h"
 #include "Main/Race/race_m_number_pair.h"
+#include "Main/Sound/sound_system.h"
 
 RaceHud *gRaceHud;
 u16 *gRaceHudSubScreenPalettes;

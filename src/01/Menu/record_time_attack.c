@@ -24,7 +24,7 @@
 #include "01/code_02198000.h"
 #include "01/unk_021a9000.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 
 RecordTAtt *gRecordTAtt;
 

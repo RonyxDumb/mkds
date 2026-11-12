@@ -28,7 +28,6 @@
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/packed_index.h"
 #include "Main/Graphics/layout_table_entry.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "os_tick.h"
@@ -38,6 +37,7 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_character.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gCourseRowCellIndices[4] = {0, 1, 2, 3};
 const u16 gCourseTimerDigitCellIndices[10] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};

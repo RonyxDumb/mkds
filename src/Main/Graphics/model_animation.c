@@ -9,6 +9,7 @@
 #include "code_02013740.h"
 #include "code_02013bdc.h"
 
+const AnmFrameCountGetter gAnmFrameCountGetters[5] = {(AnmFrameCountGetter) JointGetAnmObjFrameCount, (AnmFrameCountGetter) TexSrtGetAnmObjFrameCount, (AnmFrameCountGetter) TexPatGetAnmObjFrameCount, (AnmFrameCountGetter) VisGetAnmObjFrameCount, (AnmFrameCountGetter) MatCGetAnmObjFrameCount};
 u32 gAnmObjSizeRequired;
 
 u32 JointGetAnmObjFrameCount(Unk020882fc *anmObj) {

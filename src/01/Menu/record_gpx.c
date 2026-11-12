@@ -18,7 +18,7 @@
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "registers.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 
 RecordGpx *gRecordGpx;
 

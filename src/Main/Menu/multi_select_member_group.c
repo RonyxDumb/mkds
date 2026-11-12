@@ -57,12 +57,12 @@
 #include "code_0212c9d4.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Menu/data_0217d068.h"
 #include "code_0212df7c.h"
 #include "code_0213ecf8.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 #include "Main/Menu/multi_select_ns_input.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gMemberRowRectIndices[4][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {9, 0xa, 0xb}};
 const LabelMessageRow gMemberGroupLabelMessageRows[5] = {{0, 0x82, 0xd, 4, -1}, {1, 0x82, 0xd, 5, -1}, {2, 0x82, 0xd, 6, -1}, {3, 0x82, 0xd, 7, -1}, {4, 0xaf, 0xd, 0x59, 2}};

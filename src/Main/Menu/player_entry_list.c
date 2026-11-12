@@ -31,7 +31,6 @@
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "code_0213ecf8.h"
@@ -46,6 +45,7 @@
 #include "Main/Menu/select_character.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Race/followed_kart_or.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gTitleCellIndices[4] = {0, 1, 2, 0};
 const u16 gNormalTimerDigitCellIndices[10] = {0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38};

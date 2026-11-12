@@ -22,7 +22,6 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "code_0212df7c.h"
 #include "code_0214d018.h"
@@ -31,6 +30,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0214cfe4.h"
 #include "01/Menu/record_time_attack.h"
+#include "Main/Sound/sound_system.h"
 
 RecordList *gRecordList;
 RecordVS *gRecordVS;

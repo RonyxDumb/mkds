@@ -38,10 +38,10 @@
 #include "Main/Kart/code_0208fd8c.h"
 #include "code_0212df7c.h"
 #include "Main/Race/race_end_condition.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/kart_standing_rank.h"
 #include "Main/Kart/karts.h"
+#include "Main/Sound/sound_system.h"
 
 const u32 gShineBattleTimeLimits[4] = {0xffff, 0x1e, 0x1e, 0x1e};
 Standings *gStandings;

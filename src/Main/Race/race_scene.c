@@ -3,7 +3,6 @@
 #include "Main/Scene/menu_scene.h"
 #include "Main/Menu/data_02175628.h"
 #include "Main/Race/data_020f36d8.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Menu/data_02175000.h"
@@ -48,6 +47,7 @@
 #include "code_021458c4.h"
 #include "Main/Race/grand_prix_next_course.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 static inline u32 IsSlot8PairPresentOrRecentlyLost(void) {
     InputSlotIndex slotIndex = UNK_02175628_INDEX_8;

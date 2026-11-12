@@ -64,6 +64,7 @@ const u32 gThreeCourseIds[3] = {0x2c, 0x2f, 0x2b};
 const u32 gSixCourseIds[6] = {0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f};
 const u16 gCharacterSndBankMasks[13] = {0x10, 1, 2, 4, 0x20, 0x40, 0x80, 8, 0x400, 0x100, 0x200, 0x800, 0x1000};
 const u32 gCupIndicesEightCups[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+vu16 gInputSlot8PairWords[75];
 
 static inline u32 BuildCourseListNextRandomBelowU16(RandomState64 *randomState64, u32 limit) {
     u64 result;

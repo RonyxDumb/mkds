@@ -42,7 +42,6 @@
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "gx_load3d.h"
@@ -97,6 +96,7 @@
 #include "Main/Kart/kart_resources.h"
 #include "ITCM/kart_motion.h"
 #include "Main/Race/race_clock.h"
+#include "Main/Sound/sound_system.h"
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2) {
     if ((shadowModel->mFlags & 1) != 0) {

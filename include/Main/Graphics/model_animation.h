@@ -40,8 +40,6 @@ typedef struct ModelAnimation {
     /* 34 */ NNSG3dAnmObj *mPreviousAnmObj;
 } ModelAnimation;
 
-extern s32 (*gAnmFrameCountGetters[])(NNSG3dAnmObj *a);
-
 typedef struct AnmResourceHead {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mFrameCount;
@@ -51,7 +49,6 @@ typedef struct Unk020882fc {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ AnmResourceHead *mUnk_08;
 } Unk020882fc;
-
 
 s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation);
 void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation);
@@ -70,3 +67,7 @@ unsigned int TexSrtGetAnmObjFrameCount(Unk020882fc *anmObj);
 unsigned int JointGetAnmObjFrameCount(Unk020882fc *anmObj);
 
 extern u32 gAnmObjSizeRequired;
+
+typedef s32 (*AnmFrameCountGetter)(NNSG3dAnmObj *a);
+
+extern const AnmFrameCountGetter gAnmFrameCountGetters[5];

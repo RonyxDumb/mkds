@@ -11,12 +11,12 @@
 #include "01/unk_021a9000.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "01/unk_021a8000.h"
 #include "code_0212df7c.h"
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 char *gTimeAttackTopMenuSNcgrName = "ta/TimeAttack_top_menu_s.nce.ncgr";
 char *gTimeAttackTopMenuSNcerName = "ta/TimeAttack_top_menu_s.nce.ncer";

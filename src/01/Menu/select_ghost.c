@@ -20,12 +20,12 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "registers.h"
 #include "code_02148950.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "01/unk_021a8000.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gSelectGhostSTableIndices[6] = {0, 1, 2, 4, 3, 5};
 char *gSelectGhostSONcerName = "ta/select_ghost_s_o.nce.ncer";

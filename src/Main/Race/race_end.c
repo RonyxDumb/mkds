@@ -28,7 +28,6 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "code_0212df7c.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/low_byte.h"
@@ -36,6 +35,7 @@
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
+#include "Main/Sound/sound_system.h"
 
 RaceEnd *gRaceEnd;
 

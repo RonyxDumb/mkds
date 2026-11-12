@@ -33,7 +33,6 @@
 #include "code_0214cfe4.h"
 #include "code_0212df7c.h"
 #include "code_0214d018.h"
-#include "Main/Menu/data_0217d068.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
 #include "Main/Graphics/scene_text.h"
@@ -51,6 +50,7 @@
 #include "Main/Graphics/back_screen.h"
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 Keyboard *gKeyboard;
 

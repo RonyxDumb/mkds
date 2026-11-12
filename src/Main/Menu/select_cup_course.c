@@ -32,11 +32,11 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "code_0212df7c.h"
 #include "registers.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/select_cup_grid.h"
+#include "Main/Sound/sound_system.h"
 
 #pragma thumb on
 static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) {

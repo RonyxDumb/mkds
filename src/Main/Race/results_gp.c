@@ -19,7 +19,6 @@
 #include "Main/Graphics/scene_text.h"
 #include "code_02148950.h"
 #include "Main/Menu/data_02175628.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
@@ -41,6 +40,7 @@
 #include "Main/Race/race_setup_input.h"
 #include "Main/Race/gp_records_killer.h"
 #include "Main/MapObjects/data_02154000.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gEngineMessageIndexTable[4] = {0x6e, 0x6f, 0x70, 0};
 const u16 gCupNameLeftCharIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};

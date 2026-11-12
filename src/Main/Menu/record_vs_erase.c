@@ -24,13 +24,13 @@
 #include "Main/Menu/select_return.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Menu/data_02175628.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Graphics/oam.h"
 #include "code_0212df7c.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "code_02148950.h"
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gRecordVSEraseRow0MessageIndices[4] = {6, 7, 8, 0};
 const u16 gRecordVSEraseGridLabelWidths[3][3] = {{0x70, 0x70, 0x70}, {0x20, 0x20, 0x20}, {0x20, 0x20, 0x20}};

@@ -27,7 +27,6 @@
 #include "code_02147cd8.h"
 #include "Main/Menu/data_0215c000.h"
 #include "Main/Sound/race_end_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "01/Race/race_hud_coin_cells.h"

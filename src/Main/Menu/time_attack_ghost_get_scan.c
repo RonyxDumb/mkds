@@ -15,7 +15,6 @@
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Race/ghost_list.h"
@@ -80,6 +79,7 @@
 #include "Main/Net/connection_sharing.h"
 #include "Main/Net/connect_non_multiboot.h"
 #include "Main/Graphics/oam.h"
+#include "Main/Sound/sound_system.h"
 
 const s16 gTimeAttackGhostGetScanMLabelTextRows[3][4] = {{0, 0xdc, 0x10, 0}, {1, 0x50, 0xc, 1}, {2, 0x82, 0x10, 2}};
 GhostSceneCallbacks gTimeAttackGhostGetScanCallbacks = {InitTimeAttackGhostGetScan, AdvanceTimeAttackGhostGetScan,

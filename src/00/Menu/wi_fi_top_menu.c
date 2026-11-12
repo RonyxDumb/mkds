@@ -19,7 +19,6 @@
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Menu/data_02175628.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "g2.h"
@@ -32,6 +31,7 @@
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
+#include "Main/Sound/sound_system.h"
 
 const u8 gWiFiTopMenuSTableIndices[3] = {6, 7, 8};
 const u8 gWiFiTopMenuCellIndices[3] = {9, 0xa, 0xb};

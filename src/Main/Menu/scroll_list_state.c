@@ -22,13 +22,13 @@
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "gfd_VramTransferManager.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Graphics/oam.h"
 #include "code_0214d018.h"
 #include "code_0214cfe4.h"
 #include "Main/System/heap.h"
+#include "Main/Sound/sound_system.h"
 
 ScrollList *gScrollList;
 

@@ -243,8 +243,6 @@ extern FileReadThread gFileReadThread;
 
 extern vu16 gEmblemInputSlotWords[];
 
-extern vu16 gInputSlot8PairWords[];
-
 // Object at gWvrState: a word and a function pointer.
 // Values of WvrState.mState (3 is also tested and never named here).
 #define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
@@ -271,7 +269,6 @@ typedef struct UnreadHalfwordGroups {
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
 } UnreadHalfwordGroups;
-
 
 // Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
 // words.
@@ -342,5 +339,4 @@ typedef struct RomArchiveTransfer {
 extern RomArchiveTransfer gRomArchiveTransfer;
 
 extern void (*gFrameCallback)(s32);
-
 

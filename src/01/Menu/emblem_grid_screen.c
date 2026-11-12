@@ -1,7 +1,7 @@
 #include "01/Menu/emblem_grid_screen.h"
 #include "01/MapObjects/lld.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 #include "player.h"
 #include "Main/Graphics/oam.h"
 #include "01/Menu/emblem_grid.h"

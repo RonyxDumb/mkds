@@ -1,7 +1,6 @@
 #include "Main/Menu/multi_select_ns_input.h"
 #include "Main/System/heap.h"
 #include "Main/Net/led_pattern.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212d214.h"
 #include "code_0212df7c.h"
@@ -47,6 +46,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 u32 MultiSelectNSGetPairX(InputSlotPair *pair) {
     return pair->mPairX;

@@ -31,6 +31,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "01/code_02192000.h"
+#include "Main/Race/race_setup_input.h"
 
 EmblemInput *gEmblemInput;
 

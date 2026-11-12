@@ -13,7 +13,6 @@
 #include "Main/Graphics/time_format.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Menu/data_02175628.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "01/code_021a1000.h"
 #include "code_0212df7c.h"
@@ -27,6 +26,7 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/race_setup.h"
+#include "Main/Sound/sound_system.h"
 
 const s16 gSelectEngineDownStepsFlagClear[4] = {1, 1, -2, 0};
 const s16 gSelectEngineRightStepsFlagSet[4] = {1, 0, 1, 0};

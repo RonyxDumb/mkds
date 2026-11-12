@@ -13,7 +13,6 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/Sound/sound_set_load.h"
@@ -21,6 +20,7 @@
 #include "code_0212df7c.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/seq_queue.h"
+#include "Main/Sound/sound_system.h"
 
 s32 gRaceEndSeqCallCount;
 s32 gRaceEndNextSeqPending;

@@ -17,7 +17,6 @@
 #include "code_0212d214.h"
 #include "Main/Menu/data_02180728.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Menu/data_02175628.h"
 #include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
@@ -44,6 +43,7 @@
 #include "Main/System/result_archive_path.h"
 #include "code_0214d018.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Sound/sound_system.h"
 
 const u8 gTxtSystemCanvasSizes[8][2] = {{0x16, 0xb}, {0x16, 7}, {0x16, 0xb}, {0x16, 7}, {0x16, 2}, {9, 2}, {9, 2}, {0, 0}};
 const s16 gTxtSystemBgOffsets[2] = {0xa0, -176};

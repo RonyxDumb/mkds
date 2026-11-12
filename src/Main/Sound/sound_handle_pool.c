@@ -21,7 +21,6 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "code_0212df7c.h"
 
 void StartMissionRunCountSeq(s32 count, s32 countLimit) {

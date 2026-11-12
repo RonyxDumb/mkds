@@ -1069,6 +1069,7 @@ src/Main/Race/race_setup_input.c:
     complete
     .text       start:0x020435c4 end:0x0204673c
     .rodata     start:0x021540c0 end:0x02154128
+    .bss        start:0x02175908 end:0x021759a0
 
 // provisional: file name and boundaries
 src/Main/Race/time_attack_next_scene.c:
@@ -1380,6 +1381,7 @@ src/Main/Save/backup_records_write.c:
 src/Main/Kart/kart_appear.c:
     complete
     .text       start:0x02056444 end:0x02056464
+    .data       start:0x0216526c end:0x02165280
 
 // provisional: file name and boundaries
 src/Main/Save/ghost_record.c:
@@ -1820,6 +1822,7 @@ src/Main/Kart/point_link_cursor.c:
 src/Main/Kart/kart_effects_ahead.c:
     complete
     .text       start:0x0207ffa4 end:0x020810e4
+    .rodata     start:0x021557ec end:0x021557f8
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_spin_follow_effect_release.c:
@@ -1862,12 +1865,14 @@ src/Main/Graphics/nsbmd_draw.c:
 src/Main/Kart/kart_ai.c:
     complete
     .text       start:0x0208537c end:0x02086058
+    .data       start:0x02165990 end:0x021659a0
     .bss        start:0x0217ae9c end:0x0217aea4
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_name_tags.c:
     complete
     .text       start:0x02086058 end:0x02086e8c
+    .rodata     start:0x02155a3c end:0x02155a48
     .data       start:0x021659a0 end:0x021659d4
 
 // provisional: file name and boundaries
@@ -1884,6 +1889,7 @@ src/Main/Kart/kart_name_tag_colored.c:
 src/Main/Graphics/model_animation_loop.c:
     complete
     .text       start:0x02087934 end:0x02087cd0
+    .rodata     start:0x02155a74 end:0x02155a8c
 
 // provisional: file name and boundaries
 src/Main/Graphics/model_animation_looping.c:
@@ -1899,6 +1905,7 @@ src/Main/Graphics/model_animation_loop_mode.c:
 src/Main/Graphics/model_animation.c:
     complete
     .text       start:0x02087d0c end:0x02088338
+    .rodata     start:0x02155cd8 end:0x02155cec
     .bss        start:0x0217af00 end:0x0217af04
 
 // provisional: file name and boundaries
@@ -3888,6 +3895,7 @@ src/Main/Sound/sound_system.c:
     complete
     .text       start:0x0210d740 end:0x0210d9a0
     .data       start:0x0216cb00 end:0x0216cb10
+    .bss        start:0x0217d044 end:0x0217d050
 
 // provisional: file name and boundaries
 src/Main/Sound/sound_mode.c:

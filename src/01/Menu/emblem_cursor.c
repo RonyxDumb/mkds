@@ -11,7 +11,6 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "01/unk_021a7000.h"
 #include "code_0212df7c.h"
@@ -47,6 +46,7 @@
 #include "01/code_021a2408.h"
 #include "Main/Graphics/oam_upload.h"
 #include "Main/Sound/seq_queue.h"
+#include "Main/Sound/sound_system.h"
 
 const s32 gEmblemLPressButtonCursorIndices[4] = {0, 6, 3, 9};
 const s32 gEmblemSubBg3AffineMatrix[4] = {0x400, 0, 0, 0x400};

@@ -8144,6 +8144,8 @@ gKeyboardLayoutRectCounts kind:data(any) addr:0x021567fc
 gKeyboardCursorTargets kind:data(any) addr:0x02156808
 gShineBalloonEndFlag kind:data(any) addr:0x02156838
 gShineBalloonEndSecondFlag kind:data(any) addr:0x0215683c
+gShineBalloonEndFlag kind:data(any) addr:0x02156838
+gShineBalloonEndSecondFlag kind:data(any) addr:0x0215683c
 gTitleDisplaySettingsDesc kind:data(any) addr:0x02156840
 gFrameOffsets kind:data(any) addr:0x02156868
 data_02156874 kind:data(any) addr:0x02156874
@@ -9505,7 +9507,7 @@ gPacketSendTimerFrames kind:data(any) addr:0x02165228
 gPacketPortParams kind:data(any) addr:0x0216522c
 gMPDataToPortParams kind:data(any) addr:0x0216523c
 gRecordSceneCallbacks kind:data(any) addr:0x0216524c
-gKartAppearFileName kind:data(any) addr:0x0216526c
+@831 kind:data(any) addr:0x0216526c local
 gLogoSceneCallbacks kind:data(any) addr:0x02165280
 gQueueMPChunkParams kind:data(any) addr:0x021652a0
 gMPStateTable kind:data(any) addr:0x021652b0
@@ -9631,7 +9633,7 @@ data_02165968 kind:data(any) addr:0x02165968
 gKartEffectVelocityFactors kind:data(any) addr:0x0216596c
 gKartStarEffectIds kind:data(any) addr:0x02165978
 gOldLuigiAgbFirstChaseEffectDirection kind:data(any) addr:0x02165984
-gKartAIparamBinName kind:data(any) addr:0x02165990
+@4544 kind:data(any) addr:0x02165990 local
 gKartNameTagEntry3ScaleY kind:data(any) addr:0x021659a0
 gKartNameTagEntry1XOffset kind:data(any) addr:0x021659a4
 gKartNameTagEntry3ScaleX kind:data(any) addr:0x021659a8
@@ -11884,7 +11886,7 @@ data_0217d054 kind:bss addr:0x0217d034
 gCurrentSoundSetPlayer kind:bss addr:0x0217d040
 gFileSndArcOpen kind:bss addr:0x0217d044
 gSharedSeqHandle kind:bss addr:0x0217d048
-data_0217d06c kind:bss addr:0x0217d04c
+gSoundOutputEffectBuffer kind:bss addr:0x0217d04c
 gScenePlayers kind:bss addr:0x0217d050
 gScenePlayersSeqPlayer kind:bss addr:0x0217d05c
 gSoundModeHolder kind:bss addr:0x0217d064

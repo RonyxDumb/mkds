@@ -21,7 +21,6 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "code_0212df7c.h"
 #include "Main/Menu/data_02175628.h"
 #include "Main/Menu/menu_screen_switch.h"
@@ -41,6 +40,7 @@
 #include "Main/Save/buddy_record.h"
 #include "Main/System/thread_function_queue_run.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Sound/sound_system.h"
 
 char *gSelectCupGridMBNclrName = "common/select_cup_m_b.nclr";
 const u16 gSelectCupGridCupMessageIndices[8][4] = {{0x2d, 0x2e, 0x2f, 0x30}, {0x31, 0x32, 0x33, 0x34}, {0x35, 0x36, 0x37, 0x38}, {0x39, 0x3a, 0x3b, 0x3c}, {0x3d, 0x3e, 0x3f, 0x40}, {0x41, 0x42, 0x43, 0x44}, {0x45, 0x46, 0x47, 0x48}, {0x49, 0x4a, 0x4b, 0x4c}};

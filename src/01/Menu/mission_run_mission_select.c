@@ -13,7 +13,6 @@
 #include "Main/Race/race_setup.h"
 #include "Main/Graphics/time_format.h"
 #include "Main/Menu/select_return.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "01/code_021a0000.h"
@@ -28,6 +27,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/result_archive_path.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gMissionRunMSselValueMTableIndices[6] = {0x15, 0x14, 0x13, 0x16, 0x17, 0x18};
 const s16 gMissionRunMSselRightSteps[9] = {1, 1, 0, 5, 0, 1, 1, 0, -4};

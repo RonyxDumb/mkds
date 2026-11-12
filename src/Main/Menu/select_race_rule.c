@@ -18,7 +18,6 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "Main/Menu/data_0217d000.h"
 #include "code_0212c7a0.h"
@@ -43,6 +42,7 @@
 #include "code_0212df7c.h"
 #include "Main/Menu/player_entry_list.h"
 #include "Main/Menu/select_cup_course_index.h"
+#include "Main/Sound/sound_system.h"
 
 #pragma thumb on
 

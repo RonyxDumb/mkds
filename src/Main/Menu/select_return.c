@@ -29,8 +29,8 @@
 #include "gx_load2d.h"
 #include "Main/System/result_archive_path.h"
 #include "code_0212df7c.h"
-#include "Main/Menu/data_0217d068.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Sound/sound_system.h"
 
 const u8 gSelectChoisesNscrOrigins[2][2] = {{2, 8}, {2, 0xe}};
 const ByteRect gSelectChoisesTileRect = {1, 1, 1, 2};

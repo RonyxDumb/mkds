@@ -24,6 +24,8 @@
 #include "code_0201c528.h"
 #include "Main/Kart/karts.h"
 
+const Vec3 gPointLinkVec3Zero = {0, 0, 0};
+
 void StartKartAheadEffectIfSelectedEntry(Kart *kart) {
     ParticleEmitter *effect;
 

@@ -15,7 +15,6 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "Main/Menu/data_0217d000.h"
 #include "code_0212c7a0.h"
@@ -55,6 +54,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "Main/Graphics/text_draw.h"
 #include "gfd_VramTransferManager.h"
+#include "Main/Sound/sound_system.h"
 
 SelectRaceRule *gSelectRaceRule;
 

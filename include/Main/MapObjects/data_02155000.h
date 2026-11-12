@@ -28,8 +28,6 @@ extern const u16 data_02155a2c[];
 
 extern const Vec3 data_02155ccc;
 
-extern const Vec3 gPointLinkVec3Zero;
-
 struct ParticleEmitter;
 
 struct Kart;
@@ -94,11 +92,7 @@ extern const StemSetParams gCompleteStems;
 
 extern const StemSetParams gFailedStems;
 
-extern Vec3 gChaseDistanceLimitsSquared;
-
 extern const u32 data_02155a54;
-
-extern const u16 gKartNameTagQuadVertices[12];
 
 extern const Vec3 data_usa_021557c4;
 

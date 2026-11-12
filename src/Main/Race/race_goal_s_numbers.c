@@ -12,10 +12,10 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Menu/data_02175628.h"
 #include "Main/MapObjects/data_0217b000.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "Main/Race/race_clock.h"
+#include "Main/Sound/sound_system.h"
 
 void StartRaceGoalS(void) {
     s32 sortKeys[8];

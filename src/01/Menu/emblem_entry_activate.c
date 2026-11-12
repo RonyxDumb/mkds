@@ -1,7 +1,7 @@
 #include "01/Menu/emblem_entry_activate.h"
 #include "01/MapObjects/lld.h"
 #include "Main/Menu/keyboard_keys.h"
-#include "Main/Menu/data_0217d068.h"
+#include "Main/Sound/sound_system.h"
 #include "player.h"
 #include "01/Menu/emblem_grid.h"
 #include "01/Menu/emblem_screen_upload.h"

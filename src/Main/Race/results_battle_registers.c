@@ -53,7 +53,6 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "00/Lib/DWC/code_0219b580.h"
@@ -70,6 +69,7 @@
 #include "gx_load2d.h"
 #include "code_0214d018.h"
 #include "Main/Menu/time_attack_ghost_get_scan.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gResultsBattleSubLabelCanvasEntries[16][4] = {
     {0, 0x30, 0x10, 0},     {1, 0x30, 0x10, 1},     {2, 0x30, 0x10, 2},     {3, 0x30, 0x10, 3},

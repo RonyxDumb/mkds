@@ -16,13 +16,13 @@
 #include "01/unk_021a9000.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/MapObjects/data_0217a000.h"
-#include "Main/Menu/data_0217d068.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "01/Menu/select_ghost.h"
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
 #include "Main/Sound/data_0216c000.h"
+#include "Main/Sound/sound_system.h"
 
 const u16 gRecordTopMenuGradeSTableIndices[3] = {2, 3, 4};
 const u16 gRecordTopMenuRowCellIndices[3] = {9, 0xa, 0xb};

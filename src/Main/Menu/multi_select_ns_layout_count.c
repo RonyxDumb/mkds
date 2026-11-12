@@ -44,7 +44,6 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Menu/data_0217d068.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "code_0212df7c.h"
 #include "code_0214cfe4.h"
@@ -69,6 +68,7 @@
 #include "Main/System/interpolation.h"
 #include "Main/Menu/select_character.h"
 #include "registers.h"
+#include "Main/Sound/sound_system.h"
 
 struct WLMenuCallbacks gMemberKeyStartCallbacks = {InitMultiSelectMemberKeyStart, AdvanceMultiSelectMemberKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
 struct WLMenuCallbacks gMemberNoKeyStartCallbacks = {InitMultiSelectMemberNoKeyStart, AdvanceMultiSelectMemberNoKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
