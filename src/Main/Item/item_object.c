@@ -34,6 +34,7 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/Item/item_pool.h"
+#include "Main/Item/item_owner_bit_and_normal.h"
 
 const Vec3 gItemVec3UnitY = {0, 0x1000, 0};
 SoundStartParams gSoundStartParamsDefault = {0, NULL, 1, 0};

@@ -3656,6 +3656,11 @@ src/Main/Item/item_object.c:
     .data       start:0x0216c678 end:0x0216c688
 
 // provisional: file name and boundaries
+src/Main/Item/item_owner_bit_and_normal.c:
+    complete
+    .rodata     start:0x02159cac end:0x02159cbc
+
+// provisional: file name and boundaries
 src/Main/Item/item_koura_w.c:
     complete
     .text       start:0x020f9c6c end:0x020fcb3c

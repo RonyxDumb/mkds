@@ -127,7 +127,6 @@ void ResetItemKouraW(ItemKouraW *item);
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse);
 
 extern Vec3 gKouraWVec3UnitY;
-extern Vec3 gCourseMapItemVec3UnitY;
 
 extern StateCallbacks gItemKouraWStateTable[8];
 extern volatile s32 gKouraWState7MaxRadiusSquared;
