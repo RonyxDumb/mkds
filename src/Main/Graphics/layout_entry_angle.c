@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "g2d_CharCanvas.h"
-#include "code_02146cb0.h"
+#include "fx_mtx22.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "code_02147cd8.h"
 #include "gx.h"

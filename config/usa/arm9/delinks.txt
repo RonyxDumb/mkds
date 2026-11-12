@@ -4079,14 +4079,9 @@ libs/NitroSDK/cp/src/cp_context.c:
     .text       start:0x02146bb8 end:0x02146c98
 
 // provisional: file name and boundaries
-libs/NitroSDK/fx/src/code_02146c98.c:
+libs/NitroSDK/fx/src/fx_mtx22.c:
     complete
-    .text       start:0x02146c98 end:0x02146cb0
-
-// provisional: file name and boundaries
-libs/NitroSDK/fx/src/code_02146cb0.c:
-    complete
-    .text       start:0x02146cb0 end:0x02146cbc
+    .text       start:0x02146c98 end:0x02146cbc
 
 // provisional: file name and boundaries
 libs/NitroSDK/fx/src/code_02146cbc.c:

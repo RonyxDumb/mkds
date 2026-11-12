@@ -4,3 +4,5 @@
 #include "code_02012b30.h" // MtxFx22
 
 void MTX_Identity22_(MtxFx22 *dst);
+
+void MTX_Rot22_(MtxFx22 *dst, s32 sinVal, s32 cosVal);
