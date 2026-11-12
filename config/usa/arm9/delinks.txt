@@ -320,7 +320,7 @@ libs/NitroSDK/os/src/code_0200fc8c.c:
 libs/NitroSystem/g3d/src/code_0200fe74.c:
     complete
     .text       start:0x0200fe74 end:0x020107e4
-    .bss        start:0x02170264 end:0x0217027c
+    .bss        start:0x02170264 end:0x021704e0
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/kernel.c:

@@ -169,7 +169,9 @@ typedef struct NNSG3dGlb {
     /* 100 */ MtxFx43 mInvCameraMtx;
     /* 130 */ MtxFx43 mSrtCameraMtx;
     /* 160 */ MtxFx43 mInvSrtCameraMtx;
-    /* 190 */ u8 mUnk_190[0xb0]; // inverse base matrix, inverse projection matrix and inverse camera-projection matrix
+    /* 190 */ MtxFx43 mInvBaseMtx;
+    /* 1c0 */ MtxFx44 mInvProjMtx;
+    /* 200 */ MtxFx44 mInvCameraProjMtx;
     /* 240 */ Vec3 mCamPos;
     /* 24c */ Vec3 mCamUp;
     /* 258 */ Vec3 mCamTarget;

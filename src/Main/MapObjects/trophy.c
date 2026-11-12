@@ -100,9 +100,9 @@ void SetupTrophy(void) {
 
         cameraUp = gTrophyCameraUp;
         cameraPos = gTrophyCameraPos;
-        gCameraLookAtVectors[0] = cameraPos;
-        gCameraLookAtVectors[1] = cameraUp;
-        gCameraLookAtVectors[2] = cameraTarget;
+        NNS_G3dGlb.mCamPos = cameraPos;
+        NNS_G3dGlb.mCamUp = cameraUp;
+        NNS_G3dGlb.mCamTarget = cameraTarget;
         G3i_LookAt_(&cameraPos, &cameraUp, &cameraTarget, 0, &NNS_G3dGlb.mCameraMtx);
         NNS_G3dGlb.mFlag &= ~0xe8;
         SetG3xSwapBits(gDisplaySettings, 1, 1);

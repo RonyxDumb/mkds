@@ -88,9 +88,9 @@ void ApplyCameraLookAt(Camera *camera) {
     Vec3 *viewPos = &camera->mViewPos;
     Vec3 *viewLookAt = &camera->mViewLookAt;
 
-    gCameraLookAtVectors[0] = *viewPos;
-    gCameraLookAtVectors[1] = camera->mUp;
-    gCameraLookAtVectors[2] = *viewLookAt;
+    NNS_G3dGlb.mCamPos = *viewPos;
+    NNS_G3dGlb.mCamUp = camera->mUp;
+    NNS_G3dGlb.mCamTarget = *viewLookAt;
     G3i_LookAt_(viewPos, &camera->mUp, viewLookAt, 0, &NNS_G3dGlb.mCameraMtx);
     NNS_G3dGlb.mFlag &= ~0xe8;
 }

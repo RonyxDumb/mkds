@@ -1491,9 +1491,9 @@ void SetupLightFrustumAndLookAt(s32 unusedArg1, s32 yOffset) {
     target.y += yOffset;
     VEC_Subtract(&target, &gKartModelMenuCameraPosition, &viewDirection);
     VEC_CrossProduct(&referenceAxis, &viewDirection, &camUp);
-    gCameraLookAtVectors[0] = gKartModelMenuCameraPosition;
-    gCameraLookAtVectors[1] = camUp;
-    gCameraLookAtVectors[2] = target;
+    NNS_G3dGlb.mCamPos = gKartModelMenuCameraPosition;
+    NNS_G3dGlb.mCamUp = camUp;
+    NNS_G3dGlb.mCamTarget = target;
     G3i_LookAt_(&gKartModelMenuCameraPosition, &camUp, &target, 0, &NNS_G3dGlb.mCameraMtx);
     NNS_G3dGlb.mFlag &= ~0xe8;
     NNS_G3dGlbFlushP();

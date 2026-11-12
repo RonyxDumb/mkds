@@ -2,6 +2,7 @@
 
 #include "code_0200fc8c.h"
 #include "os_tick.h"
+#include "code_02010c84.h"
 #include "code_02013740.h"
 #include "code_02147cd8.h"
 #include "data_02170000.h"
@@ -9,6 +10,7 @@
 
 u32 gVramBankLockedMask;
 u16 gVramBankLockIds[9];
+NNSG3dGlb NNS_G3dGlb;
 
 // Sets the texture offset and size ratio of each material in the list.
 void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data, NNSG3dResTex *tex,

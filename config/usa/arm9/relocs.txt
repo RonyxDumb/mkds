@@ -12600,9 +12600,9 @@ from:0x02076bc0 kind:load to:0x0217ac90 module:main
 from:0x02076bc4 kind:load to:0x0217ac7c module:main
 from:0x02076bc8 kind:load to:0x02154fc4 module:main
 from:0x02076c1c kind:arm_call to:0x0214abb4 module:main
-from:0x02076c3c kind:load to:0x021704bc module:main
-from:0x02076c40 kind:load to:0x021704c8 module:main
-from:0x02076c44 kind:load to:0x021704d4 module:main
+from:0x02076c3c kind:load to:0x0217027c add:0x240 module:main
+from:0x02076c40 kind:load to:0x0217027c add:0x24c module:main
+from:0x02076c44 kind:load to:0x0217027c add:0x258 module:main
 from:0x02076c48 kind:load to:0x0217027c add:0x4c module:main
 from:0x02076c4c kind:load to:0x0217027c module:main
 from:0x02076c9c kind:arm_call to:0x0214b048 module:main
@@ -12894,9 +12894,9 @@ from:0x02078910 kind:load to:0x021656d8 module:main
 from:0x02078914 kind:load to:0x02155188 module:main
 from:0x02078918 kind:load to:0x021656f0 module:main
 from:0x0207891c kind:load to:0x021656fc module:main
-from:0x02078920 kind:load to:0x021704bc module:main
-from:0x02078924 kind:load to:0x021704c8 module:main
-from:0x02078928 kind:load to:0x021704d4 module:main
+from:0x02078920 kind:load to:0x0217027c add:0x240 module:main
+from:0x02078924 kind:load to:0x0217027c add:0x24c module:main
+from:0x02078928 kind:load to:0x0217027c add:0x258 module:main
 from:0x0207892c kind:load to:0x0217027c add:0x4c module:main
 from:0x02078930 kind:load to:0x0217027c add:0x80 module:main
 from:0x0207893e kind:thumb_call_arm to:0x02147f34 module:main
@@ -17371,9 +17371,9 @@ from:0x020a2e1c kind:load to:0x0217027c add:0x8 module:main
 from:0x020a2e20 kind:load to:0x0217027c module:main
 from:0x020a2e24 kind:load to:0x021676d0 module:main
 from:0x020a2e28 kind:load to:0x021676c4 module:main
-from:0x020a2e2c kind:load to:0x021704bc module:main
-from:0x020a2e30 kind:load to:0x021704c8 module:main
-from:0x020a2e34 kind:load to:0x021704d4 module:main
+from:0x020a2e2c kind:load to:0x0217027c add:0x240 module:main
+from:0x020a2e30 kind:load to:0x0217027c add:0x24c module:main
+from:0x020a2e34 kind:load to:0x0217027c add:0x258 module:main
 from:0x020a2e38 kind:load to:0x0217027c add:0x4c module:main
 from:0x020a2e3c kind:load to:0x02175580 module:main
 from:0x020a2e84 kind:load to:0x02148504 module:main
