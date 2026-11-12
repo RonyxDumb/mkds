@@ -276,28 +276,8 @@ src/01/code_021a2034.c:
 // provisional: file name and boundaries
 src/01/code_021a2398.c:
     complete
-    .text       start:0x021a2378 end:0x021a23e8
-
-// provisional: file name and boundaries
-src/01/code_021a2408.c:
-    complete
-    .text       start:0x021a23e8 end:0x021a2a20
-
-// provisional: file name and boundaries
-src/01/code_021a2a40.c:
-    complete
-    .text       start:0x021a2a20 end:0x021a5120
-
-// provisional: file name and boundaries
-src/01/code_021a5140.c:
-    complete
-    .text       start:0x021a5120 end:0x021a59ac
+    .text       start:0x021a2378 end:0x021a6410
     .data       start:0x021a96cc end:0x021a9908
-
-// provisional: file name and boundaries
-src/01/code_021a59cc.c:
-    complete
-    .text       start:0x021a59ac end:0x021a6410
     .bss        start:0x021ca400 end:0x021ca404
 
 // provisional: file name and boundaries
