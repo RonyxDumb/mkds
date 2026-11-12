@@ -53,7 +53,5 @@ extern const char *gArchiveNames[20];
 
 extern void *gRaceDisplaySettingsDescs[];
 
-extern const char gGhostPathFormat[];
-
 extern const SceneCallbacks gRaceSceneCallbacks;
 

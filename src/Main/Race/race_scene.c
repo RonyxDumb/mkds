@@ -68,7 +68,7 @@ BOOL TryFormatGhostPath(u32 courseId, void *buffer, u32 size) {
     if (cupCourseIndex == -1) {
         return FALSE;
     }
-    OS_SNPrintf(buffer, size, gGhostPathFormat, cupCourseIndex & 0xff);
+    OS_SNPrintf(buffer, size, "/data/ghost/ghost_%03d.bin", cupCourseIndex & 0xff);
     return TRUE;
 }
 

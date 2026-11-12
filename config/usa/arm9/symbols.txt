@@ -9299,7 +9299,7 @@ gWLMenuMessageToRaceCallbacks kind:data(any) addr:0x021646d0
 gMenuSceneCallbacks kind:data(any) addr:0x021646f8
 gRaceDisplaySettingsDescs kind:data(any) addr:0x02164718
 gRaceSceneCallbacks kind:data(any) addr:0x02164734
-gGhostPathFormat kind:data(any) addr:0x02164754
+@5801 kind:data(any) addr:0x02164754 local
 @643 kind:data(any) addr:0x02164770 local
 @5123 kind:data(any) addr:0x0216478c local
 gTitleSceneCallbacks kind:data(any) addr:0x02164798
