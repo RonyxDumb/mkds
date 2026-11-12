@@ -46,14 +46,11 @@ unsigned int DramState0ReturnArgument(unsigned int value);
 void UpdateDram(u32 unused,
                 Dram *dram); /* the whole per-object step; the group also has a pre-step, PickDramAngleChoices */
 
-
 extern MapObjectDrawList *gDramDrawList;
 
 extern MapObjectDrawList data_0215a100;
 
 extern MapObjectList *gDramUpdateList;
-
-extern MapObjectList data_0215a12c;
 
 MapObjectKindData *CreateDramKindData(void);
 MapObjectDrawList *CreateDramDrawList(void);

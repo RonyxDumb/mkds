@@ -8640,7 +8640,7 @@ gMissionRunBoxKindData kind:data(any) addr:0x0215a068
 gDramAngleChoiceRows kind:data(any) addr:0x0215a0a8
 gDramKindDescriptor kind:data(any) addr:0x0215a0cc
 data_0215a100 kind:data(any) addr:0x0215a100
-data_0215a12c kind:data(any) addr:0x0215a12c
+gDramUpdateListInitial kind:data(any) addr:0x0215a12c
 gItemTeresaPickWeights kind:data(any) addr:0x0215a154
 gItemTeresaBattleKartOrder kind:data(any) addr:0x0215a164
 gItemInfoTeresa kind:data(any) addr:0x0215a174
