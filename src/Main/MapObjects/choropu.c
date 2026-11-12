@@ -62,6 +62,7 @@
 #include "Main/Sound/sound_distance_change_reset.h"
 #include "fx_mtx43.h"
 #include "Main/MapObjects/choropu_state.h"
+#include "Main/MapObjects/collision_hit_link_create.h"
 
 const MapObjectKindData gBusAKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithVehicle,
                                          (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithVehicle,
@@ -1261,9 +1262,9 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
         return FALSE;
     }
     if ((s64) object->mCollisionData.mUnk_100 * object->mCollisionData.mUnk_100 < squaredRadialDistance) {
-        regionFlags |= data_021588e8;
+        regionFlags |= gCylinderOuterRegionFlag;
     } else {
-        regionFlags |= data_021588ec;
+        regionFlags |= gCylinderInnerRegionFlag;
     }
     distanceAxis1 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[1]);
     if (distanceAxis1 > 0) {
@@ -1305,7 +1306,7 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
         distanceAxis0 = Vec3NormalizeXZAndGetLengthOrZero(&offset, &offset);
         radialOverlap = combinedRadius - distanceAxis0;
         if (distanceAxis0 == 0) {
-            normal = data_021588f0;
+            normal = gCylinderInnerZeroDistanceNormal;
         } else {
             normal.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].x, offset.x);
             normal.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].y, offset.x);
@@ -1320,7 +1321,7 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
     distanceAxis0 = Vec3NormalizeXZAndGetLengthOrZero(&offset, &offset);
     radialOverlap = combinedRadius - distanceAxis0;
     if (distanceAxis0 == 0) {
-        normal = data_021588fc;
+        normal = gCylinderOuterZeroDistanceNormal;
     } else {
         normal.x = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].x, offset.x);
         normal.y = MUL_FIXED12_NO_ROUND(object->mMapObject.mMatrix.mRows[0].y, offset.x);

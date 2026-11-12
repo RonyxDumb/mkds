@@ -17,6 +17,7 @@
 
 #include "Main/MapObjects/rotary.h"
 #include "Main/MapObjects/pukupuku.h"
+#include "Main/MapObjects/bridge.h"
 
 #pragma thumb on
 

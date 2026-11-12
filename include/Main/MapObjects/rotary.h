@@ -30,10 +30,3 @@ void DrawAllBridges(void *viewMatrix);
 
 extern StateCallbacks gRotaryStateTable[4];
 
-extern struct Nsbmd *gGearWhite;
-extern struct Nsbmd *gTestCylinder;
-extern struct Nsbmd *gRotaryRoom;
-extern struct MapObjectList *gRotaryUpdateList;
-extern struct Nsbmd *gRotaryBridge;
-extern struct Nsbmd *gGearBlack;
-extern void *gRotaryDrawList;

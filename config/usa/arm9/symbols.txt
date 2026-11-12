@@ -8470,10 +8470,10 @@ gKoopaBlockKindDescriptor kind:data(any) addr:0x02158820
 gKoopaBlockUpdateListData kind:data(any) addr:0x02158854
 gKoopaBlockDrawListData kind:data(any) addr:0x0215887c
 gKoopaBlockKindData kind:data(any) addr:0x021588a8
-data_021588e8 kind:data(any) addr:0x021588e8
-data_021588ec kind:data(any) addr:0x021588ec
-data_021588f0 kind:data(any) addr:0x021588f0
-data_021588fc kind:data(any) addr:0x021588fc
+gCylinderOuterRegionFlag kind:data(any) addr:0x021588e8
+gCylinderInnerRegionFlag kind:data(any) addr:0x021588ec
+gCylinderInnerZeroDistanceNormal kind:data(any) addr:0x021588f0
+gCylinderOuterZeroDistanceNormal kind:data(any) addr:0x021588fc
 gGroupFollowerSpeed kind:data(any) addr:0x02158908
 data_usa_0215890c kind:data(any) addr:0x0215890c
 data_usa_02158940 kind:data(any) addr:0x02158940

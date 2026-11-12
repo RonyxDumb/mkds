@@ -27,9 +27,5 @@ extern u16 gKoopaBlockFlag;
 // Objects whose layout isn't known yet.
 extern const u16 gKuriboFlag;
 extern s32 gGroupFollowerSpeed;
-extern u16 data_021588e8;
-extern u16 data_021588ec;
-extern Vec3 data_021588f0;
-extern Vec3 data_021588fc;
 extern const u16 data_02158b7c;
 extern const u16 gRotaryFlag;

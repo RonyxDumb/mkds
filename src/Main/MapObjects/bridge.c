@@ -30,8 +30,24 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/choropu_state.h"
 
-const Vec3 gChoropuZeroVector = {0, 0, 0};
 #pragma thumb off
+
+const Vec3 gChoropuZeroVector = {0, 0, 0};
+struct MapObjectList *gChoropuUpdateList;
+struct MapObjectDrawList *gChoropuDrawList;
+struct NsbmdModel *gChoropu;
+struct ModelAnimation *gBridgeNsbca;
+struct MapObjectDrawList *gChoropuShadowDrawList;
+struct BridgeDrawList *gBridgeDrawList;
+struct MapObjectList *gBridgeUpdateList;
+struct Nsbmd *gRotaryRoom;
+struct Nsbmd *gBridge;
+struct Nsbmd *gGearWhite;
+struct Nsbmd *gGearBlack;
+struct MapObjectList *gRotaryUpdateList;
+struct Nsbmd *gRotaryBridge;
+void *gRotaryDrawList;
+struct Nsbmd *gTestCylinder;
 
 BOOL IsBridgeKind(u32 kind) {
     switch (kind) {
