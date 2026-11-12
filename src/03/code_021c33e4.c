@@ -1,10 +1,28 @@
 #include "03/code_021c33e4.h"
+#include "03/code_021c34c4.h"
+#include "03/unk_021da000.h"
+#include "03/code_021bf098.h"
+#include "03/code_021c209c.h"
+#include "03/code_021c34ac.h"
 #include "03/code_021cdbd0.h"
 #include "03/code_021d1dd0.h"
 #include "03/code_021d1f70.h"
 #include "03/code_021d2940.h"
 #include "code_0200fc8c.h"
 #include "pm.h"
+
+void UpdateYb5MultiNextButtonsIn(void) {
+    if (GetButtonResult() != -2) {
+        EnableButtonTouch();
+        SetUpdateFunction(UpdateYb5MultiNext);
+    }
+}
+
+void UpdateYb5MultiNext(void) {
+    UpdateYb5MultiNextInput();
+    UpdateYb5MultiNextNop();
+    UpdateYb5MultiNextResult();
+}
 
 void UpdateYb5MultiNextInput(void) {
     int allKeysPressed;
