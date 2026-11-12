@@ -354,7 +354,7 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
     u32 plttKey;
     s32 tex4x4Ok;
     s32 plttOk;
-    NNSG3dResMdlSet *mdlSet;
+    NNSG3dResMdlSet *modelSet;
 
     switch (file->mSigVal) {
         case 0x30444d42:
@@ -403,9 +403,9 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                 NNS_G3dPlttLoad(tex, 1);
             }
             if (file->mSigVal == 0x30444d42) {
-                mdlSet = NNS_G3dGetMdlSet(file);
+                modelSet = NNS_G3dGetMdlSet(file);
                 if (tex != 0) {
-                    NNS_G3dBindMdlSet(mdlSet, tex);
+                    NNS_G3dBindMdlSet(modelSet, tex);
                 }
             }
             return 1;
@@ -422,11 +422,11 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
 
 // Frees the texture and palette memory of a model or texture file and releases the models bound to it.
 void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
-    NNSG3dResMdlSet *mdlSet;
+    NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *tex;
-    NNSG3dTexKey texKey;
+    NNSG3dTexKey textureKey;
     NNSG3dTexKey tex4x4Key;
-    u32 plttKey;
+    u32 paletteKey;
 
     switch (file->mSigVal) {
         case 0x30415642:
@@ -436,9 +436,9 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
         case 0x30505442:
             return;
         case 0x30444d42:
-            mdlSet = NNS_G3dGetMdlSet(file);
+            modelSet = NNS_G3dGetMdlSet(file);
             if (NNS_G3dGetTex(file) != 0) {
-                NNS_G3dReleaseMdlSet(mdlSet);
+                NNS_G3dReleaseMdlSet(modelSet);
             }
             break;
         case 0x30585442:
@@ -450,15 +450,15 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
     if (tex == 0) {
         return;
     }
-    plttKey = NNS_G3dPlttReleasePlttKey(tex);
-    NNS_G3dTexReleaseTexKey(tex, &texKey, &tex4x4Key);
-    if (plttKey != 0) {
-        data_021619f8(plttKey);
+    paletteKey = NNS_G3dPlttReleasePlttKey(tex);
+    NNS_G3dTexReleaseTexKey(tex, &textureKey, &tex4x4Key);
+    if (paletteKey != 0) {
+        data_021619f8(paletteKey);
     }
     if (tex4x4Key != 0) {
         NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);
     }
-    if (texKey != 0) {
-        NNS_GfdDefaultFuncFreeTexVram(texKey);
+    if (textureKey != 0) {
+        NNS_GfdDefaultFuncFreeTexVram(textureKey);
     }
 }
