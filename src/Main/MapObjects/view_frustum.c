@@ -40,6 +40,7 @@
 #include "Main/Sound/sound_sources.h"
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/MapObjects/earthen_pipe.h"
+#include "Main/MapObjects/dossun_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
 
 MapObjectKindRow gMapObjectKindRows[133] = {
@@ -49,7 +50,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {405, (MapObjectKindDescriptor *) &data_usa_02158974, &data_usa_02158a18},
     {410, (MapObjectKindDescriptor *) &data_usa_0215890c, &data_usa_021589a8},
     {412, (MapObjectKindDescriptor *) &data_usa_02158940, &data_usa_021589e0},
-    {403, (MapObjectKindDescriptor *) &data_usa_02158204, NULL},
+    {403, (MapObjectKindDescriptor *) &gDossunKindDescriptor, NULL},
     {404, NULL, NULL},
     {401, (MapObjectKindDescriptor *) &gKuriboKindDescriptor, NULL},
     {406, (MapObjectKindDescriptor *) &data_usa_021582cc, NULL},

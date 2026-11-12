@@ -8403,7 +8403,7 @@ gKuriboUpdateListData kind:data(any) addr:0x02158164
 gKuriboDrawListData kind:data(any) addr:0x0215818c
 gKuriboKindData kind:data(any) addr:0x021581b8
 gKuriboItemNormal kind:data(any) addr:0x021581f8
-data_usa_02158204 kind:data(any) addr:0x02158204
+gDossunKindDescriptor kind:data(any) addr:0x02158204
 gDossunUpdateListData kind:data(any) addr:0x02158238
 gDossunDrawListData kind:data(any) addr:0x02158260
 gDossunKindData kind:data(any) addr:0x0215828c
