@@ -13,12 +13,7 @@ src/00/code_ov000_021804e0.c:
 // provisional: file name and boundaries
 src/00/code_02180600.c:
     complete
-    .text       start:0x021805e0 end:0x021805e8
-
-// provisional: file name and boundaries
-src/00/code_02180608.c:
-    complete
-    .text       start:0x021805e8 end:0x02180bd0
+    .text       start:0x021805e0 end:0x02180bd0
     .data       start:0x021b07e0 end:0x021b0a38
 
 // provisional: file name and boundaries
