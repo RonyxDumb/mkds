@@ -89,3 +89,5 @@ u16 DWCs_DecodeHeader(const void *message);
 void DWCs_EncodeHeader(DWCTransportHeader *header, u16 type, u32 size);
 void DWC_SetUserRecvCallback(void (*callback)(u32, void *, u32));
 void DWC_SetUserSendCallback(u32 (*callback)(void));
+
+extern char gDwcMagicStrings[3];

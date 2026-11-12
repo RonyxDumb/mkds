@@ -22,6 +22,8 @@
 #include "code_02134398.h"
 #include "00/Lib/NitroWiFi/util.h"
 
+DWCInetControl *gInetControl;
+
 void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslThreadPriority) {
     if (gInetControl == NULL) {
         MI_CpuFill8(inetCntl, 0, 12);
@@ -42,13 +44,13 @@ void DWC_InitInet(void *inetCntl) {
 void DWC_SetAuthServer(s32 type) {
     switch (type) {
         case 0:
-            DWC_Auth_SetCustomNas(gNasTestUrl);
+            DWC_Auth_SetCustomNas("https://nas.test.nintendowifi.net/ac");
             break;
         case 1:
-            DWC_Auth_SetCustomNas(gNasDevelopUrl);
+            DWC_Auth_SetCustomNas("https://nas.dev.nintendowifi.net/ac");
             break;
         case 2:
-            DWC_Auth_SetCustomNas(gNasReleaseUrl);
+            DWC_Auth_SetCustomNas("https://nas.nintendowifi.net/ac");
             break;
     }
 }

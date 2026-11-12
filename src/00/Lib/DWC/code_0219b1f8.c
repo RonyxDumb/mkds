@@ -24,6 +24,8 @@
 #include "00/Lib/GameSpy/code_021a3a18.h"
 #include "code_0213a460.h"
 
+s32 stLastSocketError;
+
 // GP callback slot 3 (message). The first branch hands the text to DWCi_GPRecvBuddyAuthCallback (the "I have authorized
 // ..." sentence); the second takes GPCM-prefixed text with a MAT tag and forwards it to the matching code only in state
 // 5 or matching mode 2 and 3.

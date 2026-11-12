@@ -4,7 +4,7 @@
 
 void gti2MessageCheck(const char **messagePointer, s32 *lengthPointer) {
     if (*messagePointer == NULL) {
-        *messagePointer = data_ov000_021b3fc8;
+        *messagePointer = "";
         *lengthPointer = 0;
     } else if (*lengthPointer == -1) {
         *lengthPointer = strlen(*messagePointer) + 1;

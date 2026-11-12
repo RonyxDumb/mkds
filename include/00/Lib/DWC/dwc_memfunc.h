@@ -14,3 +14,7 @@ void DWC_Free(unsigned int name, unsigned int ptr, unsigned int size);
 void *DWC_AllocEx(unsigned int name, unsigned int size, unsigned int align);
 void *DWC_Alloc(u32 name, u32 size);
 u32 DWC_SetMemFunc(void *(*alloc)(u32, u32, s32), void (*free)(u32, void *));
+
+// Objects whose layout isn't known yet.
+extern u8 gAllocFunc[4];
+extern u8 gFreeFunc[4];

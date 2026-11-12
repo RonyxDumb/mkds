@@ -9,6 +9,7 @@
 #include "00/code_02192d64.h"
 
 #include "00/code_0219c000.h"
+#include "00/code_0219c93c.h"
 
 u32 DWCi_CheckLogin(void);
 void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 param);
@@ -18,3 +19,8 @@ void DWCi_GPConnect(char *authToken, char *partnerChallenge, void (*callback)(),
 void DWCi_RemoteAuthCallback(char *authToken, char *partnerChallenge);
 void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 param);
 s32 ReportWiFiLoginGpResult(s32 result);
+
+extern void (*stRemoteAuthCallback)();
+// Points at WiFiConnection.mLogin: set by InitWiFiLogin (once per login), set to 0 by DWCi_ShutdownLogin.
+extern struct WiFiLogin *gWiFiLogin;
+extern void *pStRemoteAuthParam;

@@ -18,6 +18,8 @@
 #include "string.h"
 #include "code_02134398.h"
 
+char gDwcMagicStrings[3] = "DT";
+
 void DWC_SetUserSendCallback(u32 (*callback)(void)) {
     u32 value0 = (u32) callback;
     u32 value1;

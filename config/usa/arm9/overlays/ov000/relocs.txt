@@ -8154,7 +8154,7 @@ from:0x021abbdc kind:load to:0x0214d1fc module:main
 from:0x021abbec kind:load to:0x0214d1fc module:main
 from:0x021abbfc kind:thumb_call to:0x021abc6c module:overlay(0)
 from:0x021abc06 kind:thumb_call to:0x021ac348 module:overlay(0)
-from:0x021abc14 kind:load to:0x021b4ba5 module:overlay(0)
+from:0x021abc14 kind:load to:0x021b4ba4 add:0x1 module:overlay(0)
 from:0x021abc28 kind:thumb_call to:0x021ac348 module:overlay(0)
 from:0x021abc46 kind:thumb_call to:0x021abc6c module:overlay(0)
 from:0x021abc50 kind:thumb_call to:0x021abc6c module:overlay(0)

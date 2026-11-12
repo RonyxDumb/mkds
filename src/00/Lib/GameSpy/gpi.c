@@ -41,7 +41,7 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
         p.mGpiConnection->mCallbacks[i].mParam = 0;
     }
     p.mGpiConnection->mDebugBuffer = NULL;
-    gpiDebug(&p, gGpiInitializeDebugText);
+    gpiDebug(&p, "\n\n\n\n\n*************\ngpiInitialize\n");
     r = GpiResetConnection(&p);
     if (r != 0) {
         gpiDestroy(&p);

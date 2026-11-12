@@ -61,9 +61,6 @@ typedef struct CPSConfig {
     /* 2c */ u32 mYieldWait;
 } CPSConfig;
 
-// Objects whose layout isn't known yet.
-extern u8 gFreeFunc[];
-extern u8 gAllocFunc[];
 extern u8 SOCLiYieldWait[];
 
 extern u8 gMatchingMaskedParticipantIndices[0x20];
@@ -107,6 +104,3 @@ extern u32 matchup2ip;
 extern u32 matchup1ip;
 extern void *negotiateList;
 extern u8 gNatNegReceiveBuffer[];
-extern s32 stLastSocketError;
-extern void *pStRemoteAuthParam;
-extern void (*stRemoteAuthCallback)();

@@ -38,7 +38,6 @@ extern char gBmKey[];
 extern char gKaKey[];
 extern char gUnsolicitedMessageString[];
 extern char gServerClosedErrorString[];
-extern char gGpiInitializeDebugText[];
 extern u8 gAuthaddKey[];
 extern u8 gFromprofileidKey[];
 extern u8 gSigKey[];

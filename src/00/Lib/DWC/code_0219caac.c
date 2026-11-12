@@ -1,5 +1,6 @@
 #include "00/Lib/DWC/code_0219caac.h"
 #include "code_0214d018.h"
+#include "00/Lib/DWC/code_0219c3e4.h"
 
 // Returns mPendingStatsRequestCount of gWiFiBuddySync (no NULL test); DWCi_FriendProcess reports an error when requests
 // are pending but the stats link is gone.

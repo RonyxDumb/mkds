@@ -1652,12 +1652,12 @@ gHttpUrlPrefix kind:data(any) addr:0x021b1228
 gHttpsUrlPrefix kind:data(any) addr:0x021b1230
 gUrlPathSeparator kind:data(any) addr:0x021b123c
 gHttpBufferName kind:data(any) addr:0x021b1240
-gStringFormat kind:data(any) addr:0x021b1250
-gPostFirstPairFormat kind:data(any) addr:0x021b1254
-gPostNextPairFormat kind:data(any) addr:0x021b1258
-gHeaderItemFormat kind:data(any) addr:0x021b1260
-gHttpPostRequestFormat kind:data(any) addr:0x021b126c
-gHttpGetRequestFormat kind:data(any) addr:0x021b12c0
+@1484 kind:data(any) addr:0x021b1250 local
+@1511 kind:data(any) addr:0x021b1254 local
+@1512 kind:data(any) addr:0x021b1258 local
+@1531 kind:data(any) addr:0x021b1260 local
+@1547 kind:data(any) addr:0x021b126c local
+@1548 kind:data(any) addr:0x021b12c0 local
 gHttpLowReceiveBufferName kind:data(any) addr:0x021b12e0
 gHttpLowSendBufferName kind:data(any) addr:0x021b12f4
 gContentLengthHeaderText kind:data(any) addr:0x021b1308
@@ -1827,7 +1827,7 @@ gBmKey kind:data(any) addr:0x021b2670
 gKaKey kind:data(any) addr:0x021b2678
 gUnsolicitedMessageString kind:data(any) addr:0x021b2680
 gServerClosedErrorString kind:data(any) addr:0x021b26b0
-gGpiInitializeDebugText kind:data(any) addr:0x021b26d8
+@1620 kind:data(any) addr:0x021b26d8 local
 gInvalidProfileErrorString kind:data(any) addr:0x021b26fc
 gDelbuddyKey kind:data(any) addr:0x021b2710
 data_ov000_021b275c kind:data(any) addr:0x021b271c
@@ -2179,8 +2179,8 @@ gGt2BufferShortenStartAssert kind:data(any) addr:0x021b3e64
 gGt2BufferFileName kind:data(any) addr:0x021b3e7c
 gGt2BufferShortenLengthAssert kind:data(any) addr:0x021b3e88
 gGt2BufferWriteDataAssert kind:data(any) addr:0x021b3eac
-gGt2BufferWriteU16Assert kind:data(any) addr:0x021b3ed0
-gGt2BufferWriteByteAssert kind:data(any) addr:0x021b3ef4
+@183 kind:data(any) addr:0x021b3ed0 local
+@187 kind:data(any) addr:0x021b3ef4 local
 gGt2CallbackSocketAssert kind:data(any) addr:0x021b3f10
 gGt2CallbackFileName kind:data(any) addr:0x021b3f18
 gGt2CallbackConnectionAssert kind:data(any) addr:0x021b3f28
@@ -2189,9 +2189,9 @@ gGt2MainConnectionAssert kind:data(any) addr:0x021b3f4c
 gGt2MainFileName kind:data(any) addr:0x021b3f58
 gGti2MagicString kind:data(any) addr:0x021b3f64
 gPingTimeId kind:data(any) addr:0x021b3f68
-gGt2MessageEndAssert kind:data(any) addr:0x021b3f70
-gGt2MessageFileName kind:data(any) addr:0x021b3f78
-data_ov000_021b3fc8 kind:data(any) addr:0x021b3f88
+@557 kind:data(any) addr:0x021b3f70 local
+@558 kind:data(any) addr:0x021b3f78 local
+@40 kind:data(any) addr:0x021b3f88 local
 gGt2HostLengthAssert kind:data(any) addr:0x021b3f8c
 gGt2UtilityFileName kind:data(any) addr:0x021b3fac
 gAddressPortFormat kind:data(any) addr:0x021b3fbc
@@ -2204,11 +2204,11 @@ gGamenameHostnameFormat kind:data(any) addr:0x021b400c
 data_ov000_021b4054 kind:data(any) addr:0x021b4014
 gDwcGpCommandString kind:data(any) addr:0x021b4018
 gDwcGpCommandMatchString kind:data(any) addr:0x021b4020
-data_ov000_021b4064 kind:data(any) addr:0x021b4024
-gDwcNameKeyFormat kind:data(any) addr:0x021b4028
-gBuddyAuthorizedMessage kind:data(any) addr:0x021b4038
-gDwcGpSstrKeyMatchScMax kind:data(any) addr:0x021b4070
-gDwcGpSstrKeyMatchScNum kind:data(any) addr:0x021b4074
+@2695 kind:data(any) addr:0x021b4024 local
+@1556 kind:data(any) addr:0x021b4028 local
+@2354 kind:data(any) addr:0x021b4038 local
+@1553 kind:data(any) addr:0x021b4070 local
+@1554 kind:data(any) addr:0x021b4074 local
 gUnsignedFormat kind:data(any) addr:0x021b4078
 gMatchingSignature kind:data(any) addr:0x021b407c
 gDwcPidKey kind:data(any) addr:0x021b4084
@@ -2238,10 +2238,10 @@ gYString kind:data(any) addr:0x021b41a0
 gNString kind:data(any) addr:0x021b41a4
 gAndEmptyParensString kind:data(any) addr:0x021b41a8
 gDwcMagicStrings kind:data(any) addr:0x021b41b0
-gKeyValueStringFormat kind:data(any) addr:0x021b41b4
-gNasTestUrl kind:data(any) addr:0x021b41c0
-gNasDevelopUrl kind:data(any) addr:0x021b41e8
-gNasReleaseUrl kind:data(any) addr:0x021b420c
+@1447 kind:data(any) addr:0x021b41b4 local
+@1800 kind:data(any) addr:0x021b41c0 local
+@1801 kind:data(any) addr:0x021b41e8 local
+@1802 kind:data(any) addr:0x021b420c local
 gCurrentQr2Rec kind:data(any) addr:0x021b422c
 gNatnegMagicBytes kind:data(any) addr:0x021b4230
 gStaticQr2Rec kind:data(any) addr:0x021b4238
@@ -2316,7 +2316,6 @@ gMd5WordIndexes kind:data(any) addr:0x021b4a24
 gMd5PaddingBytes kind:data(any) addr:0x021b4a64
 gMd5StepConstants kind:data(any) addr:0x021b4aa4
 gSha1PaddingBytes kind:data(any) addr:0x021b4ba4
-gSha1ZeroPaddingBytes kind:data(any) addr:0x021b4ba5
 gIcmpEchoReplyEnabled kind:data(any) addr:0x021b4be4
 gHelperThreadsPriority kind:data(any) addr:0x021b4be8
 gMacBroadcast kind:data(any) addr:0x021b4bec

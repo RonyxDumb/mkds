@@ -14,8 +14,6 @@ typedef struct DWCInetControl {
 
 #include "00/Lib/GameSpy/code_021a3a18.h"
 
-extern DWCInetControl *gInetControl;
-
 u32 DWCi_CheckDisconnected(void);
 BOOL DWC_CleanupInetAsync(void);
 void DWC_CleanupInet(void);
@@ -26,3 +24,5 @@ void DWC_ConnectInetAsync(void);
 void DWC_SetAuthServer(s32 type);
 void DWC_InitInet(void *inetCntl);
 void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslThreadPriority);
+
+extern DWCInetControl *gInetControl;

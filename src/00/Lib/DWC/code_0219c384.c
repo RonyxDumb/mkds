@@ -2,6 +2,9 @@
 
 #include "00/unk_021b5000.h"
 
+s32 stDwcErrorCode;
+s32 stDwcLastError;
+
 s32 DWC_GetLastError(s32 *errorCode) {
     if (errorCode != NULL) {
         *errorCode = stDwcErrorCode;

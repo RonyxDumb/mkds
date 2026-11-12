@@ -23,14 +23,14 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
     if (DWCi_GetFriendBuddyStatus(friendData, &status) != 0) {
         if (status.mStatus == 6) {
             if (maxEntry != NULL) {
-                if (DWC_GetCommonValueString(gDwcGpSstrKeyMatchScMax, valueText, status.mStatusString, 0x2f) > 0) {
+                if (DWC_GetCommonValueString("SCM", valueText, status.mStatusString, 0x2f) > 0) {
                     *maxEntry = strtoul(valueText, NULL, 10);
                 } else {
                     *maxEntry = 0;
                 }
             }
             if (numEntry != NULL) {
-                if (DWC_GetCommonValueString(gDwcGpSstrKeyMatchScNum, valueText, status.mStatusString, 0x2f) > 0) {
+                if (DWC_GetCommonValueString("SCN", valueText, status.mStatusString, 0x2f) > 0) {
                     *numEntry = strtoul(valueText, NULL, 10);
                 } else {
                     *numEntry = 0;

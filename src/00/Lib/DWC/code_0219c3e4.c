@@ -38,6 +38,10 @@
 #include "00/Lib/GameSpy/code_02198a8c.h"
 #include "00/Lib/DWC/code_0219b580.h"
 
+void (*stRemoteAuthCallback)();
+void *pStRemoteAuthParam;
+WiFiLogin *gWiFiLogin;
+
 void DWCi_LoginAsync(void) {
     DWCi_RemoteLogin(DWCi_RemoteAuthCallback, NULL);
     gWiFiLogin->mState = 1;
@@ -154,7 +158,7 @@ void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 par
     gWiFiLogin->mConnectPending = FALSE;
     if (arg->mResult == 0) {
         if (gWiFiLogin->mState == 2) {
-            if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(1, data_ov000_021b4064, NULL)) == 0) {
+            if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(1, "", NULL)) == 0) {
                 if (gWiFiLogin->mUserData->mGsProfileId == arg->mProfile) {
                     if (DWCi_GT2Startup() == 0 && DWCi_QR2Startup(arg->mProfile) == 0) {
                         gWiFiLogin->mState = 5;

@@ -3,6 +3,9 @@
 #include "03/Net/essid_wcm.h"
 #include "code_0214d018.h"
 
+u8 gAllocFunc[4];
+u8 gFreeFunc[4];
+
 u32 DWC_SetMemFunc(void *(*alloc)(u32, u32, s32), void (*free)(u32, void *)) {
     u32 value0 = (u32) alloc;
     u32 value1 = (u32) free;

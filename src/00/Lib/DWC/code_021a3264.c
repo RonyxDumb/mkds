@@ -13,8 +13,10 @@
 #include "string.h"
 #include "code_02134398.h"
 
+MATHRandContext32 gRandContext32;
+
 u32 DWC_SetCommonKeyValueString(void *key, void *value, void *string, u32 separator) {
-    OS_SNPrintf(string, 0x1000, gKeyValueStringFormat, separator, key, separator, value);
+    OS_SNPrintf(string, 0x1000, "%c%s%c%s", separator, key, separator, value);
     return strlen(string);
 }
 

@@ -14,7 +14,7 @@ u32 gti2EndReliableMessage(Gt2Connection *connection) {
     int *messageInfo;
     v1 = DarrayGetCount(connection->mOutgoingBufferMessages);
     if (v1 <= 0) {
-        AssertionFailed(gGt2MessageEndAssert, gGt2MessageFileName, NULL, 0x475);
+        AssertionFailed("len > 0", "gt2Message.c", NULL, 0x475);
     }
     messageInfo = DarrayGetElement(connection->mOutgoingBufferMessages, v1 + -1);
     v1 = SendConnectionBytes(connection, connection->mSendBuffer.mData + *messageInfo, messageInfo[1]);

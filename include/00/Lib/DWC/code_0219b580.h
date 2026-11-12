@@ -113,7 +113,6 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
 // DWC_ShutdownFriendsMatch.
 extern WiFiConnection *gWiFiConnection;
 extern void *stGt2ConnectionList[32];
-extern DWCConnectionInfo stConnectionInfoList[32];
 
 void DWCi_GPErrorCallback(u32 connection, int arg);
 void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 index);
@@ -153,3 +152,5 @@ void DWC_ShutdownFriendsMatch(void);
 void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumber, const char *gameName,
                           const char *secretKey, s32 sendBufferSize, s32 receiveBufferSize, void *friendList,
                           s32 friendListLength);
+
+extern DWCConnectionInfo stConnectionInfoList[32];

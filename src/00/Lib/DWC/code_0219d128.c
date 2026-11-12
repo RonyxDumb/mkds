@@ -166,7 +166,7 @@ void DWCi_GPRecvBuddyRequestCallback(GpConnection *connection, u32 *arg) {
 
 u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, u32 *arg, u32 param) {
     int compareResult;
-    compareResult = strcmp((const char *) (arg[2]), gBuddyAuthorizedMessage);
+    compareResult = strcmp((const char *) (arg[2]), "I have authorized your request to add me to your list");
     if (compareResult == 0) {
         GpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
         return 1;

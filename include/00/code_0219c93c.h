@@ -52,7 +52,4 @@ typedef struct WiFiLogin {
     /* 255 */ char mGsbrcd[0xf];
 } WiFiLogin;
 
-// Points at WiFiConnection.mLogin: set by InitWiFiLogin (once per login), set to 0 by DWCi_ShutdownLogin.
-extern WiFiLogin *gWiFiLogin;
-
 void DWCi_CloseLogin(void);
