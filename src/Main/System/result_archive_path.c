@@ -39,6 +39,239 @@
 #include "Main/Menu/menu_shared_clear.h"
 
 
+#pragma explicit_zero_data on
+char gArchiveSlotInfosEmptyPath19[] = "";
+char gArchiveSlotInfosEmptyPath4[] = "";
+char gArchiveSlotInfosEmptyPath5[] = "";
+char gArchiveSlotInfosEmptyPath20[] = "";
+char gArchiveSlotInfosEmptyPath11[] = "";
+char gArchiveSlotInfosEmptyPath9[] = "";
+char gCourseArchiveNamesEmptyName0[] = "";
+char gArchiveSlotInfosEmptyPath13[] = "";
+char gArchiveSlotInfosEmptyPath3[] = "";
+char gArchiveSlotInfosEmptyPath12[] = "";
+#pragma explicit_zero_data off
+char gModeArchiveNameNt[] = "nt";
+char gModeArchiveNameGp[] = "gp";
+char gLanguageCodeFr[] = "fr";
+char gLanguageCodeGe[] = "ge";
+char gModeArchiveNameVs[] = "vs";
+char gLanguageCodeIt[] = "it";
+char gLanguageCodeUs6[] = "us";
+char gModeArchiveNameTa[] = "ta";
+char gModeArchiveNameMg[] = "mg";
+char gLanguageCodeEs[] = "es";
+char gModeArchiveNameMr[] = "mr";
+char gLanguageCodeUs1[] = "us";
+char gLanguageCodeJa[] = "ja";
+char gArchiveNameCKL[] = "CKL";
+char gArchiveNameCRS[] = "CRS";
+char gArchiveNameEFT[] = "EFT";
+char gArchiveNameKME[] = "KME";
+char gArchiveNameM2L[] = "M2L";
+char gArchiveNameCKS[] = "CKS";
+char gArchiveNameG2L[] = "G2L";
+char gArchiveNameKM2[] = "KM2";
+char gArchiveNameLOC[] = "LOC";
+char gArchiveNameK2D[] = "K2D";
+char gArchiveNameR2L[] = "R2L";
+char gArchiveNameR2D[] = "R2D";
+char gArchiveNameS2D[] = "S2D";
+char gArchiveNameGE2[] = "GE2";
+char gArchiveNameKSB[] = "KSB";
+char gArchiveNameSND[] = "SND";
+char gArchiveNameMAR[] = "MAR";
+char gArchiveNameKM1[] = "KM1";
+char gArchiveNameMA2[] = "MA2";
+char gArchiveNameCST[] = "CST";
+char gSceneNameRace[] = "Race";
+char gSceneNameMenu1[] = "Menu";
+char gSceneNameMenu4[] = "Menu";
+char gSceneNameLogo[] = "Logo";
+char gSceneNameTest[] = "Test";
+char gCourseArchiveNameAward[] = "Award";
+char gSceneNameTitle[] = "Title";
+char gSceneNameGhost[] = "Ghost";
+char gSceneNameWLMenu[] = "WLMenu";
+char gSceneNameEmblem[] = "Emblem";
+char gSceneNameOption[] = "Option";
+char gSceneNameRecord[] = "Record";
+char gSceneNameResult[] = "Result";
+char gSceneNameEnding[] = "Ending";
+char gSceneNameNickname[] = "Nickname";
+char gSceneNameWiFiMenu[] = "WiFiMenu";
+char gSceneNameKeyboard[] = "Keyboard";
+char gCourseArchiveNameMrStage1[] = "mr_stage1";
+char gCourseArchiveNameMrStage3[] = "mr_stage3";
+char gCourseArchiveNameMrStage4[] = "mr_stage4";
+char gCourseArchiveNameStaffRoll[] = "StaffRoll";
+char gCourseArchiveNameMrStage2[] = "mr_stage2";
+char gCourseArchiveNameOldBabyGc[] = "old_baby_gc";
+char gCourseArchiveNameTestCircle[] = "test_circle";
+char gCourseArchiveNameBankCourse[] = "bank_course";
+char gCourseArchiveNameTownCourse[] = "town_course";
+char gCourseArchiveNameSnowCourse[] = "snow_course";
+char gCourseArchiveNameOldSkyAgb[] = "old_sky_agb";
+char gCourseArchiveNameMiniStage1[] = "mini_stage1";
+char gCourseArchiveNameMiniStage2[] = "mini_stage2";
+char gCourseArchiveNameMiniStage3[] = "mini_stage3";
+char gCourseArchiveNameMiniStage4[] = "mini_stage4";
+char gCourseArchiveNameOldMomo64[] = "old_momo_64";
+char gCourseArchiveNameMarioCourse[] = "mario_course";
+char gCourseArchiveNameBeachCourse[] = "beach_course";
+char gCourseArchiveNameKoopaCourse[] = "koopa_course";
+char gCourseArchiveNameOldChoco64[] = "old_choco_64";
+char gCourseArchiveNameOldYoshiGc[] = "old_yoshi_gc";
+char gArchiveSlotPathDataMain2D[] = "/data/Main2D";
+char gCourseArchiveNameOldMarioGc[] = "old_mario_gc";
+char gCourseArchiveNameLuigiCourse[] = "luigi_course";
+char gCourseArchiveNameDokanCourse[] = "dokan_course";
+char gCourseArchiveNameTest1Course[] = "test1_course";
+char gCourseArchiveNameWarioCourse[] = "wario_course";
+char gCourseArchiveNameOldLuigiGc[] = "old_luigi_gc";
+char gCourseArchiveNameOldNokoSfc[] = "old_noko_sfc";
+char gCourseArchiveNameClockCourse[] = "clock_course";
+char gCourseArchiveNameCrossCourse[] = "cross_course";
+char gCourseArchiveNameRidgeCourse[] = "ridge_course";
+char gCourseArchiveNameMiniBlock64[] = "mini_block_64";
+char gCourseArchiveNameMiniDokanGc[] = "mini_dokan_gc";
+char gCourseArchiveNameStaffRollTrue[] = "StaffRollTrue";
+char gCourseArchiveNameDonkeyCourse[] = "donkey_course";
+char gCourseArchiveNameOldMarioSfc[] = "old_mario_sfc";
+char gCourseArchiveNameOldKoopaAgb[] = "old_koopa_agb";
+char gCourseArchiveNameOldPeachAgb[] = "old_peach_agb";
+char gCourseArchiveNameOldFrappe64[] = "old_frappe_64";
+char gCourseArchiveNameGardenCourse[] = "garden_course";
+char gCourseArchiveNameDesertCourse[] = "desert_course";
+char gCourseArchiveNameOldDonutSfc[] = "old_donut_sfc";
+char gCourseArchiveNameOldLuigiAgb[] = "old_luigi_agb";
+char gCourseArchiveNameOldKinokoGc[] = "old_kinoko_gc";
+char gCourseArchiveNameOldChocoSfc[] = "old_choco_sfc";
+char gCourseArchiveNameRainbowCourse[] = "rainbow_course";
+char gCourseArchiveNamePinballCourse[] = "pinball_course";
+char gCourseArchiveNameStadiumCourse[] = "stadium_course";
+char gCourseArchiveNameMansionCourse[] = "mansion_course";
+char gCourseArchiveNameAirshipCourse[] = "airship_course";
+char gCourseArchiveNameOldHyudoro64[] = "old_hyudoro_64";
+char gCourseArchiveNameNokonokoCourse[] = "nokonoko_course";
+char gCourseArchiveNameMiniBlockCourse[] = "mini_block_course";
+char gArchiveSlotPathDataGeneralMenu[] = "/data/GeneralMenu";
+char gArchiveSlotPathDataMain2DCarc[] = "/data/Main2D.carc";
+char gArchiveSlotPathDataMainRaceCarc[] = "/data/MainRace.carc";
+char gArchiveSlotPathDataMainEffectCarc[] = "/data/MainEffect.carc";
+char gArchiveSlotPathDataGeneralMenuCarc[] = "/data/GeneralMenu.carc";
+const char *gModeArchiveNames[6] = {gModeArchiveNameGp, gModeArchiveNameTa, gModeArchiveNameMg, gModeArchiveNameVs, gModeArchiveNameMr, gModeArchiveNameNt};
+char gArchiveSlotPathDataKartModelMenuCarc[] = "/data/KartModelMenu.carc";
+char gArchiveSlotPathDataCharacterKartSelect[] = "/data/CharacterKartSelect";
+char gArchiveSlotPathDataKartModelMainACarc[] = "/data/KartModelMainA.carc";
+char gArchiveSlotPathDataKartModelMainBCarc[] = "/data/KartModelMainB.carc";
+char gArchiveSlotPathDataCharacterKartSelectCarc[] = "/data/CharacterKartSelect.carc";
+
+const SceneName gSceneNames[16] = {
+    {gSceneNameTitle, -1},
+    {gSceneNameMenu1, 184320},
+    {gSceneNameRace, -1},
+    {gSceneNameEmblem, -1},
+    {gSceneNameMenu4, -1},
+    {gSceneNameTest, -1},
+    {gSceneNameWLMenu, -1},
+    {gSceneNameOption, -1},
+    {gSceneNameRecord, -1},
+    {gSceneNameLogo, -1},
+    {gSceneNameResult, 665600},
+    {gSceneNameNickname, -1},
+    {gSceneNameWiFiMenu, -1},
+    {gSceneNameGhost, -1},
+    {gSceneNameKeyboard, -1},
+    {gSceneNameEnding, -1},
+};
+
+const CourseNameEntry gCourseArchiveNames[55] = {
+    {gCourseArchiveNamesEmptyName0, 2},
+    {gCourseArchiveNameOldYoshiGc, 0},
+    {gCourseArchiveNameOldMarioGc, 0},
+    {gCourseArchiveNameLuigiCourse, 0},
+    {gCourseArchiveNameDokanCourse, 0},
+    {gCourseArchiveNameTest1Course, 0},
+    {gCourseArchiveNameDonkeyCourse, 0},
+    {gCourseArchiveNameWarioCourse, 0},
+    {gCourseArchiveNameNokonokoCourse, 0},
+    {gCourseArchiveNameOldBabyGc, 0},
+    {gCourseArchiveNameOldMarioSfc, 0},
+    {gCourseArchiveNameOldMomo64, 1},
+    {gCourseArchiveNameOldKoopaAgb, 0},
+    {gCourseArchiveNameOldPeachAgb, 0},
+    {gCourseArchiveNameOldLuigiGc, 1},
+    {gCourseArchiveNameOldNokoSfc, 0},
+    {gCourseArchiveNameOldFrappe64, 0},
+    {gCourseArchiveNameClockCourse, 0},
+    {gCourseArchiveNameMansionCourse, 1},
+    {gCourseArchiveNameAirshipCourse, 0},
+    {gCourseArchiveNameCrossCourse, 1},
+    {gCourseArchiveNameTestCircle, 0},
+    {gCourseArchiveNameBankCourse, 0},
+    {gCourseArchiveNameOldHyudoro64, 0},
+    {gCourseArchiveNameRidgeCourse, 0},
+    {gCourseArchiveNameMarioCourse, 0},
+    {gCourseArchiveNameGardenCourse, 0},
+    {gCourseArchiveNameDesertCourse, 0},
+    {gCourseArchiveNameTownCourse, 0},
+    {gCourseArchiveNameRainbowCourse, 0},
+    {gCourseArchiveNameSnowCourse, 0},
+    {gCourseArchiveNameBeachCourse, 1},
+    {gCourseArchiveNameKoopaCourse, 0},
+    {gCourseArchiveNamePinballCourse, 0},
+    {gCourseArchiveNameStadiumCourse, 0},
+    {gCourseArchiveNameOldDonutSfc, 0},
+    {gCourseArchiveNameOldChoco64, 0},
+    {gCourseArchiveNameOldLuigiAgb, 0},
+    {gCourseArchiveNameOldKinokoGc, 0},
+    {gCourseArchiveNameOldChocoSfc, 0},
+    {gCourseArchiveNameOldSkyAgb, 0},
+    {gCourseArchiveNameMiniBlockCourse, 0},
+    {gCourseArchiveNameMiniBlock64, 0},
+    {gCourseArchiveNameMiniDokanGc, 0},
+    {gCourseArchiveNameMiniStage1, 0},
+    {gCourseArchiveNameMiniStage2, 0},
+    {gCourseArchiveNameMiniStage3, 0},
+    {gCourseArchiveNameMiniStage4, 0},
+    {gCourseArchiveNameMrStage1, 0},
+    {gCourseArchiveNameMrStage2, 0},
+    {gCourseArchiveNameMrStage3, 0},
+    {gCourseArchiveNameMrStage4, 0},
+    {gCourseArchiveNameAward, 0},
+    {gCourseArchiveNameStaffRoll, 0},
+    {gCourseArchiveNameStaffRollTrue, 0},
+};
+
+const ArchiveSlotInfo gArchiveSlotInfos[21] = {
+    {gArchiveSlotPathDataMainRaceCarc, -1, 8, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotPathDataMain2DCarc, 2, 9, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataMain2D, -1, 10, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath3, 13, 6, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotInfosEmptyPath4, -1, -1, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotInfosEmptyPath5, 9, -1, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataKartModelMainACarc, -1, 11, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotPathDataKartModelMainBCarc, -1, 12, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotPathDataKartModelSubCarc, -1, -1, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotInfosEmptyPath9, -1, -1, {0, 0, 0}, 1, 0, 286720},
+    {gArchiveSlotPathDataKartModelMenuCarc, -1, -1, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotInfosEmptyPath11, 12, 4, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath12, -1, 5, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath13, -1, 7, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotPathDataCharacterKartSelectCarc, 15, -1, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataCharacterKartSelect, -1, -1, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataGeneralMenuCarc, 17, -1, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataGeneralMenu, -1, -1, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataMainEffectCarc, -1, 13, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath19, -1, -1, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath20, -1, -1, {0, 0, 0}, 0, 0, -1},
+};
+
+char gArchiveSlotPathDataKartModelSubCarc[] = "/data/KartModelSub.carc";
+const char *gLanguageCodes[7] = {gLanguageCodeJa, gLanguageCodeUs1, gLanguageCodeFr, gLanguageCodeGe, gLanguageCodeIt, gLanguageCodeEs, gLanguageCodeUs6};
+const char *gArchiveNames[20] = {gArchiveNameMAR, gArchiveNameMA2, gArchiveNameM2L, gArchiveNameCRS, gArchiveNameSND, gArchiveNameK2D, gArchiveNameKM1, gArchiveNameKM2, gArchiveNameKSB, gArchiveNameLOC, gArchiveNameKME, gArchiveNameR2D, gArchiveNameR2L, gArchiveNameCST, gArchiveNameCKS, gArchiveNameCKL, gArchiveNameGE2, gArchiveNameG2L, gArchiveNameEFT, gArchiveNameS2D};
+
 #pragma thumb on
 
 void BuildResultArchivePath(char *path) {
