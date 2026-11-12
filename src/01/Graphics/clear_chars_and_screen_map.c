@@ -1,6 +1,13 @@
 #include "01/Graphics/clear_chars_and_screen_map.h"
+#include "01/unk_021a9000.h"
+#include "Main/Net/multiboot_parent_finish.h"
 
 #pragma optimize_for_size on
+
+LogoScene *gLogoScene;
+s32 gTestSceneCharTableIndex;
+TestScene *gTestScene;
+u16 gTestSceneCharText[206];
 
 void ClearChars(u16 *chars) {
     s32 i;

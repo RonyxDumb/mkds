@@ -88,3 +88,5 @@ void StartCoinRiseOverKart(Coin *coin, Kart *kart);
 
 extern MapObjectKindDescriptor gCoinKindDescriptor;
 extern const u16 gCoinShadowRotationAngles[3];
+
+extern u16 gCoinShadowRotationIndex;
