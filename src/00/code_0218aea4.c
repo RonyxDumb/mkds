@@ -5,11 +5,9 @@
 #include "00/types_0218b928.h"
 #include "03/code_021bb03c.h" // SocketAddress
 #include "00/code_0218d000.h"
-#include "00/code_021a3668.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/unk_021b2000.h"
 #include "code_02134398.h"
-#include "00/code_021a3678.h"
 #include "00/code_0218dd8c.h"
 #include "code_0214177c.h"
 #include "00/unk_021b4000.h"

@@ -29,7 +29,7 @@
 #include "Main/Net/wifi_session_heap.h"
 #include "00/code_021a3758.h"
 #include "00/unk_021b5000.h"
-#include "00/code_021a369c.h"
+#include "00/dwc_memfunc.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Unknown/code_02046000.h"
 #include "Main/Net/player_record.h"

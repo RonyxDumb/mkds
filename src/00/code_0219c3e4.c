@@ -13,7 +13,7 @@
 #include "00/code_0218e8d4.h"
 #include "00/code_02187484.h"
 #include "03/code_021b94b8.h"
-#include "00/code_021a369c.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_021a1ae0.h"
 #include "os_tick.h"
 #include "code_02133048.h"

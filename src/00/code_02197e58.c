@@ -9,7 +9,7 @@
 #include "00/unk_021b2000.h"
 #include "00/code_02198a8c.h"
 #include "00/code_02198d04.h"
-#include "00/code_021a3668.h"
+#include "00/dwc_memfunc.h"
 #include "00/unk_021b3000.h"
 
 void gti2CloseConnection(Gt2Connection *connection, int hard) {

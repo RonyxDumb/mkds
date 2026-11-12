@@ -11,7 +11,7 @@
 #include "00/code_021a5000.h"
 #include "00/unk_021b1000.h"
 #include "00/code_02185954.h"
-#include "00/code_021a369c.h"
+#include "00/dwc_memfunc.h"
 #include "00/unk_021b4000.h"
 #include "code_0214d018.h"
 #include "00/code_0218e2dc.h"

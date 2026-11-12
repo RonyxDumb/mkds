@@ -3,7 +3,7 @@
 #include "00/code_021947e4.h"
 #include "00/code_02196594.h"
 #include "00/code_021965a0.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_02196590.h"
 #include "00/unk_021b2000.h"
 #include "string.h"
@@ -32,7 +32,6 @@
 #include "00/code_0218e2dc.h"
 #include "00/code_02194000.h"
 #include "00/unk_021b4000.h"
-#include "00/code_021a3668.h"
 
 s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation) {
     GpiConnection *gpState = connection->mGpiConnection;

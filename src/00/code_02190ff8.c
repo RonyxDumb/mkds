@@ -15,7 +15,7 @@
 #include "string.h"
 #include "code_02134398.h"
 #include "00/code_021947e4.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_02196590.h"
 #include "code_02139f70.h"
 #include "code_0213a460.h"

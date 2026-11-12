@@ -2,7 +2,7 @@
 #include "00/code_0218f960.h"
 
 #include "00/code_02196590.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "string.h"
 #include "code_02134398.h"
 #include "03/code_021b94b8.h"
@@ -16,8 +16,6 @@
 #include "00/code_02196000.h"
 #include "00/unk_021b3000.h"
 #include "00/code_02196594.h"
-#include "00/code_021a3668.h"
-#include "00/code_021a3678.h"
 #include "code_0213a460.h"
 #include "00/code_021947e4.h"
 #include "00/unk_021b2000.h"

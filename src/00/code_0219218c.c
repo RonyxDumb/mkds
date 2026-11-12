@@ -11,7 +11,7 @@
 #include "00/code_02193000.h"
 #include "00/code_02196590.h"
 #include "00/code_02196594.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "string.h"
 #include "code_02134398.h"
 #include "code_0213a460.h"
@@ -30,7 +30,6 @@
 #include "00/code_02196480.h"
 #include "00/code_02190cd4.h"
 #include "00/code_02196000.h"
-#include "00/code_021a3668.h"
 #include "00/code_02193b88.h"
 
 u32 GpiUnpackDate(u32 *connection, s32 date, u32 *day, u32 *month, u32 *year) {

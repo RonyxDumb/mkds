@@ -2,6 +2,12 @@
 
 #include "types.h"
 
+void DWCi_GsFree(void *ptr);
+
+void *DWCi_GsRealloc(void *ptr, u32 size);
+
+void *DWCi_GsMalloc(u32 size);
+
 void *DWC_ReallocEx(u32 name, void *ptr, u32 heldSize, u32 wantedSize, u32 align);
 void *DWC_Realloc(u32 name, void *ptr, u32 oldsize, u32 newsize);
 void DWC_Free(unsigned int name, unsigned int ptr, unsigned int size);

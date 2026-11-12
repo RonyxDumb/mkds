@@ -14,8 +14,7 @@
 #include "00/code_021a4b84.h"
 #include "code_021384cc.h"
 #include "code_02139f70.h"
-#include "00/code_021a3668.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_021a6d5c.h"
 
 s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *gamename, const char *secretKey,

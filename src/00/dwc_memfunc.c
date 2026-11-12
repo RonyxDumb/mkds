@@ -1,4 +1,4 @@
-#include "00/code_021a369c.h"
+#include "00/dwc_memfunc.h"
 #include "00/unk_021b5000.h"
 #include "03/code_021b94b8.h"
 #include "code_0214d018.h"
@@ -46,4 +46,23 @@ void *DWC_ReallocEx(u32 name, void *ptr, u32 heldSize, u32 wantedSize, u32 align
         (*(UnkWordFunc *) (*(u32 *) &gFreeFunc))(name, ptr, heldSize);
     }
     return moved;
+}
+
+void *DWCi_GsMalloc(u32 size) {
+    return DWC_Alloc(5, size);
+}
+
+void *DWCi_GsRealloc(void *ptr, u32 size) {
+    return DWC_Realloc(5, ptr, size, size);
+}
+
+void DWCi_GsFree(void *ptr) {
+    u32 value0 = (u32) ptr;
+    u32 value1;
+    u32 value2;
+    u32 value3;
+    value1 = (value0) + (0u);
+    value0 = 5u;
+    value2 = 0u;
+    DWC_Free(value0, value1, value2);
 }

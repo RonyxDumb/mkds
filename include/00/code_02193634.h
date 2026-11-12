@@ -8,7 +8,7 @@
 #include "00/code_021906e4.h"
 #include "00/code_021947e4.h"
 #include "00/code_02196594.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_02196590.h"
 #include "00/unk_021b2000.h"
 #include "string.h"

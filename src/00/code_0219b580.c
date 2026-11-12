@@ -43,7 +43,7 @@
 #include "00/code_021a6934.h"
 #include "00/code_02185954.h"
 #include "03/code_021b94b8.h"
-#include "00/code_021a369c.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_021a2ccc.h"
 #include "00/code_021a3a18.h"
 #include "00/code_0218a000.h"

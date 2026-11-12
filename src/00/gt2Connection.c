@@ -3,7 +3,7 @@
 #include "00/code_02198d04.h"
 #include "00/gt2Socket.h"
 #include "00/code_0219a61c.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "string.h"
 #include "code_02134398.h"
 #include "00/code_0218e2dc.h"

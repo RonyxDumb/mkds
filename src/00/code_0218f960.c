@@ -20,7 +20,7 @@
 #include "00/code_02190548.h"
 #include "00/code_021948f8.h"
 #include "00/code_02196594.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_02196590.h"
 #include "code_0213a460.h"
 #include "00/code_0218e0fc.h"
@@ -32,7 +32,6 @@
 #include "00/code_02193000.h"
 #include "00/code_02193b88.h"
 #include "00/code_02192000.h"
-#include "00/code_021a3668.h"
 #include "00/unk_021b23b0.h"
 
 s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {

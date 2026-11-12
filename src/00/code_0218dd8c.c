@@ -4,12 +4,10 @@
 #include "string.h"
 #include "code_02134398.h"
 
-#include "00/code_021a3678.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_021a3000.h"
 #include "00/code_0218d818.h"
 #include "code_021382a8.h"
-#include "00/code_021a3668.h"
 
 Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 e, s32 (*hashFn)(void *, s32), s32 (*compFn)(void *, void *),
                            void (*h)(void *)) {

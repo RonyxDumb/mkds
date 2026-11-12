@@ -4,13 +4,11 @@
 #include "string.h"
 #include "code_02134398.h"
 #include "00/unk_021b2000.h"
-#include "00/code_021a3678.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
 #include "Main/Unknown/code_02133000.h"
 #include "code_021382a8.h"
-#include "00/code_021a3668.h"
 
 void DarrayCallElemCallback(void *b, s32 c) {
     Darray *a = b;

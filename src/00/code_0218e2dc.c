@@ -15,7 +15,7 @@
 #include "03/code_021b94b8.h"
 #include "00/code_021a6fa8.h"
 #include "00/code_021a86bc.h"
-#include "00/code_021a3690.h"
+#include "00/dwc_memfunc.h"
 #include "00/code_021a8dd8.h"
 #include "code_02139f70.h"
 #include "code_0214177c.h"

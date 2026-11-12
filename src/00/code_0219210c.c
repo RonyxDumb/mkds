@@ -1,6 +1,6 @@
 #include "00/code_0219210c.h"
 #include "00/code_021919ac.h"
-#include "00/code_021a3668.h"
+#include "00/dwc_memfunc.h"
 
 void gpiFreeInfoCache(GpiProfile *profile) {
     if (profile->mCache != NULL) {
