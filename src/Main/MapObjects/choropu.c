@@ -61,6 +61,84 @@
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/Sound/sound_distance_change_reset.h"
 #include "fx_mtx43.h"
+#include "Main/MapObjects/choropu_state.h"
+
+const MapObjectKindData gBusAKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithVehicle,
+                                         (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithVehicle,
+                                         5,
+                                         0x4c000,
+                                         0,
+                                         0,
+                                         (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnVehicle,
+                                         1,
+                                         1,
+                                         0x17f,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0};
+const MapObjectKindData gTruckAKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithVehicle,
+                                         (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithVehicle,
+                                         5,
+                                         0x32000,
+                                         0,
+                                         0,
+                                         (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnVehicle,
+                                         1,
+                                         1,
+                                         0x180,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0};
+const MapObjectKindData gCarAKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithVehicle,
+                                         (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithVehicle,
+                                         5,
+                                         0x19000,
+                                         0,
+                                         0,
+                                         (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnVehicle,
+                                         1,
+                                         1,
+                                         0x181,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0};
+Quaternion gIdentityQuaternion = {{0, 0, 0, 0x1000}};
+const MapObjectList gVehicleUpdateListData = {NULL, 0, {0, 0}, InitVehicleUpdateList, NULL, UpdateVehicle, NULL, 0, NULL, 0, NULL};
+const VehicleDrawList gVehicleDrawListData = {{NULL,
+                                        0,
+                                        {0, 0},
+                                        (void (*)(MapObjectList *)) InitVehicleDrawList,
+                                        (void (*)(MapObjectList *)) SetVehicleLinkDirection,
+                                        (UnkFunc *) DrawVehicle,
+                                        NULL,
+                                        1,
+                                        NULL,
+                                        0,
+                                        NULL},
+                                       {0, 0, 0, 0},
+                                       {0, 0, 0},
+                                       0,
+                                       0};
+struct Nsbmd *gCarA;
+ModelAnimation *gCarANsbtp;
+struct Nsbmd *gTruckA;
+struct Nsbmd *gBusA;
+struct Nsbmd *gCarTire;
+struct ShadowModel *gBusAShadow;
+struct ShadowModel *gCarAShadow;
+struct ShadowModel *gTruckAShadow;
+struct VehicleDrawList *gVehicleDrawList;
+struct MapObjectList *gVehicleUpdateList;
+ModelAnimation *gTruckANsbtp;
 
 #pragma thumb on
 
@@ -83,21 +161,21 @@ void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
 void *CreateCarAKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
-    *kindData = data_02158b3c;
+    *kindData = gCarAKindData;
     return kindData;
 }
 
 void *CreateTruckAKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
-    *kindData = data_02158afc;
+    *kindData = gTruckAKindData;
     return kindData;
 }
 
 void *CreateBusAKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
-    *kindData = data_02158abc;
+    *kindData = gBusAKindData;
     return kindData;
 }
 
@@ -105,7 +183,7 @@ void *CreateVehicleDrawList(void) {
     VehicleDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     gVehicleDrawList = drawList;
-    *drawList = data_02158a7c;
+    *drawList = gVehicleDrawListData;
     SetDrawListSlot(&gVehicleDrawList);
     return gVehicleDrawList;
 }
@@ -114,7 +192,7 @@ void *CreateVehicleUpdateList(void) {
     MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
 
     gVehicleUpdateList = updateList;
-    *updateList = data_02158a54;
+    *updateList = gVehicleUpdateListData;
     SetUpdateListSlot(&gVehicleUpdateList);
     return gVehicleUpdateList;
 }
@@ -352,7 +430,7 @@ void StartVehicleHitReaction(Vehicle *vehicle, Vec3 *hitterPosition) {
         upwardSpeed = vehicle->mMapObject.mPosStep.y;
     }
     vehicle->mMapObject.mPosStep.y = upwardSpeed + VEHICLE_HIT_UPWARD_SPEED;
-    vehicle->mMapObject.mFlags |= data_02158a50;
+    vehicle->mMapObject.mFlags |= gVehicleHitFlag;
     vehicle->mHitReactionTimer = VEHICLE_HIT_TIMER_START;
 }
 
@@ -459,20 +537,20 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     ModelAnimation **animationSlot;
     s32 count;
 
-    carFile = FindCourseMapObjFile(gCarANsbmdName);
-    truckFile = FindCourseMapObjFile(gTruckANsbmdName);
+    carFile = FindCourseMapObjFile("car_a.nsbmd");
+    truckFile = FindCourseMapObjFile("truck_a.nsbmd");
     drawList->mLinkCullEnabled =
         gRaceSetup->mMode != MODE_MISSION_RUN && GetEntryRaceEnded() == 0 && (u16) gRaceSetup->mEntryIndex < 8;
     drawList->mLinkCullActive = FALSE;
     CreateNsbmd(&gCarA, carFile, NULL);
     CreateNsbmd(&gTruckA, truckFile, NULL);
-    CreateNsbmd(&gBusA, FindCourseMapObjFile(gBusANsbmdName), NULL);
-    CreateNsbmd(&gCarTire, FindCourseMapObjFile(gCarTireNsbmdName), NULL);
-    CreateShadowModel(&gCarAShadow, FindCourseMapObjFile(gCarAShadowNsbmdName), 7);
-    CreateShadowModel(&gTruckAShadow, FindCourseMapObjFile(gTruckAShadowNsbmdName), 7);
-    CreateShadowModel(&gBusAShadow, FindCourseMapObjFile(gBusAShadowNsbmdName), 7);
-    CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FindCourseMapObjFile(gCarANsbtpName));
-    CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FindCourseMapObjFile(gTruckANsbtpName));
+    CreateNsbmd(&gBusA, FindCourseMapObjFile("bus_a.nsbmd"), NULL);
+    CreateNsbmd(&gCarTire, FindCourseMapObjFile("car_tire.nsbmd"), NULL);
+    CreateShadowModel(&gCarAShadow, FindCourseMapObjFile("car_a_shadow.nsbmd"), 7);
+    CreateShadowModel(&gTruckAShadow, FindCourseMapObjFile("truck_a_shadow.nsbmd"), 7);
+    CreateShadowModel(&gBusAShadow, FindCourseMapObjFile("bus_a_shadow.nsbmd"), 7);
+    CreateModelAnimation(2, gCarA, &gCarANsbtp, carFile, FindCourseMapObjFile("car_a.nsbtp"));
+    CreateModelAnimation(2, gTruckA, &gTruckANsbtp, truckFile, FindCourseMapObjFile("truck_a.nsbtp"));
     SetNsbmdPolygonIdLightEmiAll(gCarA, 0x3f, 2, 0x294a);
     for (carMaterialIndex = 0, carModel = gCarA->mResMdl; carMaterialIndex < carModel->mInfo.mNumMat;
          carMaterialIndex++) {
@@ -1303,3 +1381,5 @@ void ComputeCollisionPointMotion(CollisionMapObject *object, Vec3 *position, Vec
         *angleChange = Vec3DotUnrounded(&object->mCollisionData.mAngleChangeVector, contactNormal);
     }
 }
+
+const u16 gVehicleHitFlag = 1;

@@ -26,6 +26,54 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02147cd8.h"
 #include "Main/Item/item_koura_w.h"
+#include "Main/MapObjects/pukupuku_init.h"
+#include "Main/MapObjects/rotary_state.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+StateCallbacks gRotaryStateTable[4] = {{EnterRotaryState0, UpdateRotaryState0},
+                                       {(UnkFunc *) RotaryState1ReturnArgument, UpdateRotaryState1},
+                                       {EnterRotaryState2, UpdateRotaryState2},
+                                       {(UnkFunc *) RotaryState3ReturnArgument, UpdateRotaryState3}};
+const RotaryKindInfo gRotaryTestCylinderKindInfo = {0, 0x12b000, 0x32000, 0, 0x165, 1, 0x177};
+const RotaryKindInfo gRotaryRoomKindInfo = {1, 0x1d8000, 0x19000, 3, 0x800, 1, 0x16a};
+const RotaryKindInfo gRotaryGearBlackKindInfo = {1, 0x12c000, 0x32000, 1, 0x800, 1, 0x177};
+const MapObjectKindDescriptor gRotaryGearBlackKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x160,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitRotary,
+                                                   CreateRotaryGearTestCylinderKindData,
+                                                   (MapObjectList * (*) (void) ) CreateRotaryDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateRotaryUpdateList};
+const MapObjectKindDescriptor gRotaryRoomKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x160,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitRotary,
+                                                   CreateRotaryRoomKindData,
+                                                   (MapObjectList * (*) (void) ) CreateRotaryDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateRotaryUpdateList};
+const RotaryKindInfo gRotaryBridgeKindInfo = {0, 0x50000, 0x866000, 4, 0x800, 1, -1};
+const MapObjectKindDescriptor gRotaryTestCylinderKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x160,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitRotary,
+                                                   CreateRotaryGearTestCylinderKindData,
+                                                   (MapObjectList * (*) (void) ) CreateRotaryDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateRotaryUpdateList};
+const MapObjectKindDescriptor gRotaryBridgeKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x160,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitRotary,
+                                                   CreateRotaryBridgeKindData,
+                                                   (MapObjectList * (*) (void) ) CreateRotaryDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateRotaryUpdateList};
 
 #pragma thumb off
 
@@ -74,23 +122,23 @@ void CreateRotary(BridgeDrawList *list) {
         if (modelLoaded[object->mModelIndex] == 0) {
             switch (object->mModelIndex) {
                 case ROTARY_MODEL_TEST_CYLINDER:
-                    CreateNsbmd(&gTestCylinder, FindCourseMapObjFile(gTestCylinderNsbmdName), NULL);
+                    CreateNsbmd(&gTestCylinder, FindCourseMapObjFile("test_cylinder.nsbmd"), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gTestCylinder, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_GEAR_BLACK:
-                    CreateNsbmd(&gGearBlack, FindCourseMapObjFile(gGearBlackNsbmdName), NULL);
+                    CreateNsbmd(&gGearBlack, FindCourseMapObjFile("gear_black.nsbmd"), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gGearBlack, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_GEAR_WHITE:
-                    CreateNsbmd(&gGearWhite, FindCourseMapObjFile(gGearWhiteNsbmdName), NULL);
+                    CreateNsbmd(&gGearWhite, FindCourseMapObjFile("gear_white.nsbmd"), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gGearWhite, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_ROOM:
-                    CreateNsbmd(&gRotaryRoom, FindCourseMapObjFile(gRotaryRoomNsbmdName), NULL);
+                    CreateNsbmd(&gRotaryRoom, FindCourseMapObjFile("rotary_room.nsbmd"), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gRotaryRoom, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_BRIDGE:
-                    CreateNsbmd(&gRotaryBridge, FindCourseMapObjFile(gRotaryBridgeNsbmdName), NULL);
+                    CreateNsbmd(&gRotaryBridge, FindCourseMapObjFile("rotary_bridge.nsbmd"), NULL);
                     SetNsbmdPolygonIdLightEmiAll(gRotaryBridge, 0x3f, 2, 0x294a);
                     break;
             }
@@ -195,7 +243,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     object->mCollisionMapObject.mCollisionData.mUnk_120 = kindInfo->mUnk_10;
     object->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_CYLINDER;
     object->mCollisionMapObject.mCollisionData.mUnk_138 = kindInfo->mCollisionFlag;
-    object->mCollisionMapObject.mMapObject.mFlags |= data_02158d58;
+    object->mCollisionMapObject.mMapObject.mFlags |= gRotaryFlag;
     object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_RAMP_UP;
     object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     object->mModelIndex = kindInfo->mModelIndex;
@@ -316,3 +364,6 @@ void DrawBridge(CollisionMapObject *object, void *viewMatrix, u32 alpha) {
 void DrawAllBridges(void *viewMatrix) {
     DrawVisibleMapObjects(&gBridgeDrawList->mMapObjectList, viewMatrix, DrawBridge);
 }
+
+const u16 gRotaryFlag = 1;
+

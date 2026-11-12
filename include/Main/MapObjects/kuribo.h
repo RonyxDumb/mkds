@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/code_020d6dc0.h"
 
 void CreateKuribo(void);
 
@@ -33,3 +35,7 @@ void EnterKuriboState1(Kuribo *kuribo);
 void UpdateKuriboState0(Kuribo *kuribo);
 
 void EnterKuriboState0(Kuribo *kuribo);
+
+extern StateCallbacks gKuriboStateTable[6];
+extern const struct Quaternion gKuriboBombResetOrientation;
+extern const struct Quaternion gKuriboBombResetTargetOrientation;

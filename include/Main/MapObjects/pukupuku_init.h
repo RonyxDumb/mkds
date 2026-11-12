@@ -4,6 +4,8 @@
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 #include "Main/MapObjects/pushed_motion.h" // PushedObject
+#include "Main/MapObjects/attractor.h"
+#include "Main/Menu/second_menu_scene.h"
 
 typedef struct Rotary Rotary;
 
@@ -21,13 +23,6 @@ typedef struct Pukupuku {
 } Pukupuku;
 
 extern MapObjectList *gRotaryUpdateList;
-extern MapObjectList data_02158e9c;
-
-extern MapObjectDrawList data_02158ec4;
-
-extern MapObjectKindData data_02158ef0;
-extern MapObjectKindData data_02158f30;
-extern MapObjectKindData data_02158f70;
 
 void UpdateRotary(u32 unused, Rotary *object);
 MapObjectList *CreateRotaryUpdateList(void);
@@ -36,3 +31,10 @@ MapObjectKindData *CreateRotaryBridgeKindData(void);
 MapObjectKindData *CreateRotaryRoomKindData(void);
 MapObjectKindData *CreateRotaryGearTestCylinderKindData(void);
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position);
+
+extern const MapObjectDrawList gRotaryDrawListData;
+extern const MapObjectKindData gRotaryBridgeKindData;
+extern const MapObjectKindData gRotaryRoomKindData;
+extern const MapObjectList gRotaryUpdateListData;
+extern const MapObjectKindData gRotaryGearTestCylinderKindData;
+extern StateCallbacks gPukupukuStateTable[4];

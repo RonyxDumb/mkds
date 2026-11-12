@@ -6,9 +6,6 @@
 #include "Main/MapObjects/choropu.h"
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 
-extern const MapObjectDrawList data_02158be4;
-extern const MapObjectDrawList data_02158c10;
-
 // Object of kind 0xcc (Bridge) that InitBridge fills.
 typedef struct Bridge {
     /* 000 */ CollisionMapObject mCollisionMapObject;
@@ -32,3 +29,5 @@ void *CreateChoropuShadowDrawList(void);
 void *CreateChoropuUpdateList(void);
 void SetupDrawChoropu(void);
 void DrawChoropu(s32 unused, Choropu *choropu, s32 unusedArg, u16 alpha);
+
+extern const Vec3 gChoropuZeroVector;

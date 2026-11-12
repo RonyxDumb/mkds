@@ -15,10 +15,22 @@
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
 
+#include "Main/MapObjects/rotary.h"
+#include "Main/MapObjects/pukupuku.h"
+
+const MapObjectDrawList gRotaryDrawListData = {
+    {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRotary, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0};
+const MapObjectKindData gRotaryBridgeKindData = {NULL, NULL, 5, 0x50000, 0x866000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+const MapObjectKindData gRotaryRoomKindData = {NULL, NULL, 5, 0x1d8000, 0x19000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+const MapObjectList gRotaryUpdateListData = {
+    NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitRotaryObjects, NULL, (UnkFunc *) UpdateRotary, NULL, 0, NULL, 0, NULL};
+const MapObjectKindData gRotaryGearTestCylinderKindData = {NULL, NULL, 5, 0x12c000, 0x32000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuState0, UpdatePukupukuState0}, {EnterPukupukuState1, UpdatePukupukuState1}, {EnterPukupukuState2, UpdatePukupukuState2}, {EnterPukupukuState3, UpdatePukupukuState3}};
+
 #pragma thumb on
 
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
-    InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, data_0216c1ec, 4, pukupuku);
+    InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);
     pukupuku->mPushedObject.mMapObject.mPos.y =
         pukupuku->mPushedObject.mMapObject.mPos.y +
         MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.y, 0xa000);
@@ -46,7 +58,7 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
 MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158f70;
+    *kindData = gRotaryGearTestCylinderKindData;
     kindData->mHeightRangeMax = 0x2bc000;
     return kindData;
 }
@@ -54,14 +66,14 @@ MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
 MapObjectKindData *CreateRotaryRoomKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158f30;
+    *kindData = gRotaryRoomKindData;
     return kindData;
 }
 
 MapObjectKindData *CreateRotaryBridgeKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158ef0;
+    *kindData = gRotaryBridgeKindData;
     return kindData;
 }
 
@@ -69,7 +81,7 @@ MapObjectDrawList *CreateRotaryDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gRotaryDrawList = drawList;
-    *drawList = data_02158ec4;
+    *drawList = gRotaryDrawListData;
     SetDrawListSlot(&gRotaryDrawList);
     return gRotaryDrawList;
 }
@@ -78,7 +90,7 @@ MapObjectList *CreateRotaryUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gRotaryUpdateList = updateList;
-    *updateList = data_02158e9c;
+    *updateList = gRotaryUpdateListData;
     SetUpdateListSlot(&gRotaryUpdateList);
     return gRotaryUpdateList;
 }

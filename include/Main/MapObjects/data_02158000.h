@@ -3,8 +3,6 @@
 #include "types.h"
 #include "Main/MapObjects/attractor.h" // MapObjectList, MapObjectKindData
 
-extern struct Quaternion data_02158140;
-extern struct Quaternion data_02158150;
 extern Vec3 data_021581f8;
 extern MapObjectList data_02158238;
 extern struct DossunDrawList data_02158260;
@@ -40,20 +38,15 @@ extern MapObjectDrawList data_021587b0;
 extern MapObjectKindData data_021587dc;
 extern u16 data_0215881c;
 
-extern const u32 data_02158094[];
-
 // Objects whose layout isn't known yet.
 extern u16 data_02158160;
 extern u16 data_0215877c;
 extern u16 data_02158780;
 extern s32 data_02158908;
-extern u16 data_02158bb4;
-extern u16 data_02158bb8;
 extern u16 data_02158c88;
 extern u16 data_021588e8;
 extern u16 data_021588ec;
 extern Vec3 data_021588f0;
 extern Vec3 data_021588fc;
 extern const u16 data_02158b7c;
-extern Vec3 data_02158c7c;
-extern u16 data_02158d58;
+extern const u16 gRotaryFlag;

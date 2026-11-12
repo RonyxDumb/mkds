@@ -211,7 +211,6 @@ extern KartPhysicalParamTable *gKartPhysicalParamTable;
 
 extern struct SPLManager *gMissionRunSPLManager;
 
-
 // Function pointers set by RegisterKartAiCallbacks (the reset targets take different parameters).
 extern void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);
 extern void (*gKartAiSetupCallback)(struct KartAi *kartAi, s32 kartIndex);
@@ -750,7 +749,6 @@ extern ModelAnimation *gMkdEfBubbleNsbta;
 extern struct Nsbmd *gKoopaBlock;
 extern NsbmdModel *gChoropu;
 extern NsbmdModel *gObPakkunSf;
-extern u16 *gAttractorStrengths;
 extern s32 gKouraWBlockTimer;
 extern s32 gThunderBlockTimer;
 
@@ -877,11 +875,9 @@ extern u16 gNextPolygonId;
 extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
 extern struct BridgeDrawList *gBridgeDrawList;
-extern Vec3 **gAttractorPositions;
 // Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
 extern NsbmdModel *gItemModels[];
 struct ItemObject;
-
 
 extern s32 gKeyboardOffsetX;
 extern s32 gKeyboardOffsetY;
@@ -944,17 +940,6 @@ extern ModelAnimation *gBridgeNsbca;
 extern struct MapObjectDrawList *data_0217b7c0;
 extern struct MapObjectDrawList *data_0217b7bc;
 extern struct MapObjectList *data_0217b7b4;
-extern struct ShadowModel *gCarAShadow;
-extern ModelAnimation *gCarANsbtp;
-extern struct Nsbmd *gCarTire;
-extern struct Nsbmd *gTruckA;
-extern struct ShadowModel *gTruckAShadow;
-extern struct VehicleDrawList *gVehicleDrawList;
-extern struct Nsbmd *gCarA;
-extern struct MapObjectList *gVehicleUpdateList;
-extern ModelAnimation *gTruckANsbtp;
-extern struct Nsbmd *gBusA;
-extern struct ShadowModel *gBusAShadow;
 extern struct MapObjectList *gBridgeUpdateList;
 extern struct Nsbmd *gGearWhite;
 extern struct Nsbmd *gGearBlack;
@@ -975,7 +960,6 @@ extern s16 *gFoundCollisionSlotIndices;
 extern struct Nsbmd *gPendulum;
 extern struct ShadowModel *gPendulumShadow;
 extern struct Nsbmd *gSecondHand;
-extern struct MapObjectList *gAttractorUpdateList;
 extern s32 gJgStateCounter;
 extern u16 gJgFinalLap;
 extern u16 gJgState2FrameCount;

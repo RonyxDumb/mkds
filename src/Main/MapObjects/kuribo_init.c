@@ -38,9 +38,21 @@
 #include "Main/System/state_machine_init.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/group_follower_advance.h"
+#include "Main/MapObjects/kuribo.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/dossun.h"
 
 // Object not known yet; it only sets the order of the tables below
-const u8 data_020da414_pad[1] = {1};
+u8 data_020da414_pad = 0;
+const MapObjectKindDescriptor gKuriboKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x108,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitKuribo,
+                                                   CreateKuriboKindData,
+                                                   (MapObjectList * (*) (void) ) CreateKuriboDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateKuriboUpdateList};
 
 #pragma thumb on
 
@@ -108,3 +120,4 @@ MapObjectKindData *CreateWaterKindData(void) {
     }
     return object;
 }
+

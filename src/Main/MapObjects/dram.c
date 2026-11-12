@@ -1,4 +1,6 @@
 #include "Main/MapObjects/dram.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/Item/dram_box.h"
 #include "Main/System/heap.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/woodbox.h"
@@ -17,6 +19,8 @@
 #include "Main/Item/data_0215a000.h"
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
+
+const u16 gDramAngleChoiceRows[6][3] = {{0, 1, 2}, {2, 0, 1}, {1, 2, 0}, {0, 2, 1}, {1, 0, 2}, {2, 1, 0}};
 
 MapObjectKindData *CreateDramKindData(void) {
     MapObjectKindData *block;
@@ -67,7 +71,7 @@ void PickDramAngleChoices(MapObjectList *list) {
     RandomState64 *random;
     void **dramObjects;
     Dram *dram;
-    u16 *row;
+    const u16 *row;
     s32 count, index;
     u16 rowIndex;
 
@@ -171,3 +175,13 @@ void UpdateDramState5(Dram *dram) {
     dram->mMapObject.mStateMachine.mNextState = 1;
     dram->mMapObject.mStateMachine.mNextStateRequested = 1;
 }
+
+const MapObjectKindDescriptor gDramKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0xc0,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitDram,
+                                                   CreateDramKindData,
+                                                   (MapObjectList * (*) (void) ) CreateDramDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateDramUpdateList};

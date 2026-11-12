@@ -12,9 +12,9 @@
 #include "code_02012b30.h"
 #include "Main/MapObjects/code_020d6dc0.h" // Quaternion
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
+#include "Main/Graphics/nsbmd_render_obj.h"
+#include "Main/Kart/shadow_model.h"
 
-extern const MapObjectList data_02158a54;
-extern const MapObjectList data_02158bbc;
 extern const MapObjectList data_02158cc0;
 
 // Vehicle.mHitReactionTimer: set to the first value on a hit, counted down; above the second the vehicle is thrown.
@@ -42,12 +42,7 @@ extern const MapObjectList data_02158cc0;
 #define ROTARY_STATE_SLOW_DOWN 2
 #define ROTARY_STATE_PAUSE 3
 
-extern const u16 data_02158a50;
-extern const MapObjectKindData data_02158c3c;
 extern const MapObjectKindData data_02158d18;
-extern const MapObjectKindData data_02158abc;
-extern const MapObjectKindData data_02158afc;
-extern const MapObjectKindData data_02158b3c;
 
 // Object ComputeSphereHitOnCollisionBox and ComputeSphereHitOnCollisionCylinder compare against: two vectors, a word
 // and a vector.
@@ -67,8 +62,6 @@ typedef struct VehicleDrawList {
     /* 03c */ BOOL mLinkCullActive;
 } VehicleDrawList;
 
-extern const VehicleDrawList data_02158a7c;
-
 typedef struct ItemObject ItemObject;
 
 // Object a pointer at 0x154 of Vehicle points to.
@@ -87,8 +80,6 @@ typedef struct VehicleKindInfo {
     /* 2c */ s32 mRunSoundId;
     /* 30 */ s32 mBounceSoundId;
 } VehicleKindInfo;
-
-extern const Quaternion gIdentityQuaternion;
 
 // Choropu record: the shared part of the map objects, then its own words and the shadow.
 typedef struct Choropu {
@@ -227,3 +218,22 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
                                          Vec3 *pointMotion, u16 *angleChange);
 void ComputeCollisionPointMotion(CollisionMapObject *object, Vec3 *position, Vec3 *contactNormal, Vec3 *pointMotion,
                                  u16 *angleChange);
+
+extern const MapObjectKindData gBusAKindData;
+extern const MapObjectKindData gTruckAKindData;
+extern const MapObjectKindData gCarAKindData;
+extern Quaternion gIdentityQuaternion;
+extern const MapObjectList gVehicleUpdateListData;
+extern const u16 gVehicleHitFlag;
+extern const VehicleDrawList gVehicleDrawListData;
+extern struct Nsbmd *gCarA;
+extern ModelAnimation *gCarANsbtp;
+extern struct Nsbmd *gTruckA;
+extern struct ShadowModel *gBusAShadow;
+extern struct Nsbmd *gCarTire;
+extern struct Nsbmd *gBusA;
+extern struct ShadowModel *gCarAShadow;
+extern struct ShadowModel *gTruckAShadow;
+extern struct VehicleDrawList *gVehicleDrawList;
+extern struct MapObjectList *gVehicleUpdateList;
+extern ModelAnimation *gTruckANsbtp;

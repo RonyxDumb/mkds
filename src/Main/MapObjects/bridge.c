@@ -28,6 +28,9 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/choropu_state.h"
+
+const Vec3 gChoropuZeroVector = {0, 0, 0};
 
 #pragma thumb off
 
@@ -45,9 +48,9 @@ BOOL IsBridgeKind(u32 kind) {
 void CreateBridge(void) {
     void *file;
 
-    file = FindCourseMapObjFile(gBridgeNsbmdName);
+    file = FindCourseMapObjFile("bridge.nsbmd");
     CreateNsbmd(&gBridge, file, NULL);
-    CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile(gBridgeNsbcaName));
+    CreateModelAnimation(0, gBridge, &gBridgeNsbca, file, FindCourseMapObjFile("bridge.nsbca"));
     gBridgeDrawList->mAnimationFrameCount = GetModelAnimationFrameCountFixed(gBridgeNsbca);
     SetNsbmdPolygonIdLightEmiAll(gBridge, 0x3f, 2, 0x294a);
     SetMapObjectsModel(&gBridgeDrawList->mMapObjectList, gBridge);
@@ -101,7 +104,7 @@ void *CreateChoropuKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158c3c;
+    *kindData = gChoropuKindData;
     return kindData;
 }
 
@@ -110,7 +113,7 @@ void *CreateChoropuDrawList(void) {
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7bc = drawList;
-    *drawList = data_02158c10;
+    *drawList = gChoropuDrawListData;
     SetDrawListSlot(&data_0217b7bc);
     return data_0217b7bc;
 }
@@ -120,7 +123,7 @@ void *CreateChoropuShadowDrawList(void) {
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217b7c0 = drawList;
-    *drawList = data_02158be4;
+    *drawList = gChoropuShadowDrawListData;
     SetDrawListSlot(&data_0217b7c0);
     return data_0217b7c0;
 }
@@ -130,7 +133,7 @@ void *CreateChoropuUpdateList(void) {
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217b7b4 = updateList;
-    *updateList = data_02158bbc;
+    *updateList = gChoropuUpdateListData;
     SetUpdateListSlot(&data_0217b7b4);
     return data_0217b7b4;
 }

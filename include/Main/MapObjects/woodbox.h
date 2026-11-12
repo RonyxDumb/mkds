@@ -4,6 +4,7 @@
 #include "Main/Kart/shadow_model.h" // ShadowModel
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/MapObjects/code_020ebef8.h" // Woodbox1
+#include "Main/Menu/second_menu_scene.h"
 
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
@@ -62,3 +63,11 @@ void UpdateWoodbox1State1(Woodbox1 *woodbox);
 void EnterWoodbox1State1(Woodbox1 *woodbox);
 
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox);
+
+extern const u16 gWoodbox1SecondFlag;
+// Objects whose layout isn't known yet.
+extern const u16 gWoodbox1Flag;
+extern const u16 gWoodbox1ThirdFlag;
+extern s32 gSavedModelAlpha;
+extern Vec3 gWoodbox1GroundUp;
+extern StateCallbacks gWoodbox1StateTable[4];

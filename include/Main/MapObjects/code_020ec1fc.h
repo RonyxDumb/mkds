@@ -48,9 +48,9 @@ typedef struct Unk02159538 {
     /* 3c */ u32 mUnk_3c;
 } Unk02159538;
 
-extern const MapObjectList data_021594e4;
-extern const Woodbox1DrawList data_0215950c;
-extern const Unk02159538 data_02159538;
+extern const MapObjectList gWoodbox1UpdateListData;
+extern const Woodbox1DrawList gWoodbox1DrawListData;
+extern const Unk02159538 gWoodbox1KindData;
 
 void DrawWoodbox1(void *mapObjectList, Woodbox1 *woodbox, void *unused, u32 maxAlpha);
 MapObjectList *CreateWoodbox1UpdateList(void);

@@ -34,6 +34,57 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Item/item_koura_w.h"
+#include "Main/MapObjects/bridge.h"
+
+const MapObjectList gChoropuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, (UnkFunc *) UpdateChoropu, NULL, 0, NULL, 0, NULL};
+const MapObjectDrawList gChoropuShadowDrawListData = {{NULL,
+                                          0,
+                                          {0, 0},
+                                          NULL,
+                                          (void (*)(MapObjectList *)) SetupDrawChoropuShadow,
+                                          (UnkFunc *) DrawChoropuShadow,
+                                          NULL,
+                                          1,
+                                          NULL,
+                                          1,
+                                          NULL},
+                                         0};
+const MapObjectDrawList gChoropuDrawListData = {{NULL,
+                                          0,
+                                          {0, 0},
+                                          (void (*)(MapObjectList *)) CreateChoropu,
+                                          (void (*)(MapObjectList *)) SetupDrawChoropu,
+                                          (UnkFunc *) DrawChoropu,
+                                          NULL,
+                                          2,
+                                          NULL,
+                                          0,
+                                          NULL},
+                                         0};
+const MapObjectKindData gChoropuKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithChoropu,
+                                         (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithChoropu,
+                                         1,
+                                         0x9000,
+                                         0,
+                                         0,
+                                         NULL,
+                                         1,
+                                         0,
+                                         0x129,
+                                         0x12a,
+                                         0,
+                                         0,
+                                         0,
+                                         0,
+                                         0};
+StateCallbacks gChoropuStateTable[8] = {{EnterChoropuState0, UpdateChoropuState0},
+                                        {EnterChoropuState1, UpdateChoropuState1},
+                                        {EnterChoropuState2, UpdateChoropuState2},
+                                        {EnterChoropuState3, UpdateChoropuState3},
+                                        {EnterChoropuState4, UpdateChoropuState4},
+                                        {EnterChoropuState5, UpdateChoropuState5},
+                                        {EnterChoropuState6, UpdateChoropuState6},
+                                        {(UnkFunc *) ChoropuState7ReturnArgument, UpdateChoropuState7}};
 
 void SetupDrawChoropuShadow(void) {
     u32 unused;
@@ -51,8 +102,8 @@ void UpdateChoropu(u32 unused, Choropu *choropu) {
 void EnterChoropuState0(Choropu *choropu) {
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0;
-    choropu->mMapObject.mFlags |= data_02158bb8;
-    choropu->mMapObject.mFlags |= data_02158bb4;
+    choropu->mMapObject.mFlags |= gChoropuSecondFlag;
+    choropu->mMapObject.mFlags |= gChoropuFlag;
 }
 
 void UpdateChoropuState0(Choropu *choropu) {
@@ -66,8 +117,8 @@ void EnterChoropuState1(Choropu *choropu) {
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0x1000;
     choropu->mSpinAngle = 0;
-    choropu->mMapObject.mFlags |= data_02158bb8;
-    choropu->mMapObject.mFlags |= data_02158bb4;
+    choropu->mMapObject.mFlags |= gChoropuSecondFlag;
+    choropu->mMapObject.mFlags |= gChoropuFlag;
 }
 
 void UpdateChoropuState1(Choropu *choropu) {
@@ -141,8 +192,8 @@ void UpdateChoropuState4(Choropu *choropu) {
 void EnterChoropuState5(Choropu *choropu) {
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0;
-    choropu->mMapObject.mFlags |= data_02158bb8;
-    choropu->mMapObject.mFlags |= data_02158bb4;
+    choropu->mMapObject.mFlags |= gChoropuSecondFlag;
+    choropu->mMapObject.mFlags |= gChoropuFlag;
 }
 
 void UpdateChoropuState5(Choropu *choropu) {
@@ -153,7 +204,7 @@ void UpdateChoropuState5(Choropu *choropu) {
 }
 
 void EnterChoropuState6(Choropu *choropu) {
-    choropu->mMapObject.mFlags = (((choropu->mMapObject.mFlags)) | ((data_02158bb4)));
+    choropu->mMapObject.mFlags = (((choropu->mMapObject.mFlags)) | ((gChoropuFlag)));
 }
 
 void UpdateChoropuState6(Choropu *choropu) {
@@ -216,7 +267,7 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
             choropu->mMapObject.mPosStep.y = 0x4000;
             choropu->mMapObject.mStateMachine.mNextState = 6;
             choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
-            choropu->mMapObject.mFlags |= data_02158bb4;
+            choropu->mMapObject.mFlags |= gChoropuFlag;
             StartSoundIfKartStarOrKiller(&choropu->mMapObject, kart);
             break;
     }
@@ -240,11 +291,11 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
             choropu->mMapObject.mPosStep.y = 0x4000;
             choropu->mMapObject.mStateMachine.mNextState = 6;
             choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
-            choropu->mMapObject.mFlags |= data_02158bb4;
+            choropu->mMapObject.mFlags |= gChoropuFlag;
             StartMissionRunKouraEffects(itemObject);
         } else {
             VEC_Subtract(&choropu->mMapObject.mPos, &choropu->mMapObject.mPos, &offset);
-            if ((s64) offset.z * data_02158c7c.x - (s64) offset.x * data_02158c7c.z < 0) {
+            if ((s64) offset.z * gChoropuZeroVector.x - (s64) offset.x * gChoropuZeroVector.z < 0) {
                 choropu->mSpinDirection = 1;
             } else {
                 choropu->mSpinDirection = 0;
@@ -252,7 +303,7 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
             choropu->mMapObject.mPosStep.y = 0x4000;
             choropu->mMapObject.mStateMachine.mNextState = 6;
             choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
-            choropu->mMapObject.mFlags |= data_02158bb4;
+            choropu->mMapObject.mFlags |= gChoropuFlag;
         }
     }
     return secondResponsePtr[0];
@@ -263,10 +314,13 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
 void CreateChoropu(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile(gChoropuNsbmdName);
-    nsbtpFile = FindCourseMapObjFile(gChoropuNsbtpName);
+    nsbmdFile = FindCourseMapObjFile("choropu.nsbmd");
+    nsbtpFile = FindCourseMapObjFile("choropu.nsbtp");
     CreateNsbmdModel(&gChoropu, nsbmdFile, nsbtpFile, 0);
     SetNsbmdModelFixedAttributes(gChoropu);
 }
 
 #pragma thumb off
+
+const u16 gChoropuFlag = 1;
+const u16 gChoropuSecondFlag = 8;

@@ -38,14 +38,28 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/kuribo_init.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+const u32 gWaterCMaterialName[4] = {0x65746177, 0x4372, 0, 0};
+const MapObjectKindDescriptor gWaterKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0xa0,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitWater,
+                                                   CreateWaterKindData};
+const MapObjectKindDescriptor gWaterEfctKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0xa0,
+                                                   (void (*)(void *, CourseMapRow *, void *)) CreateWaterEfct,
+                                                   CreateWaterEfctKindData};
+Water *gWater;
+MapObject *gWaterMapObject;
+WaterEfct *gWaterEfct;
 
 // The map object InitWater last received; InitWaterFields reads its x/z and DrawWater its mFlags; one water map object
 // per course is assumed (a second would overwrite it).
-MapObject *gWaterMapObject;
-WaterEfct *gWaterEfct;
-Water *gWater;
 
-// The mInitObject slot of the five water kinds (data_usa_021580a4): stores the map object in gWaterMapObject, clears
+// The mInitObject slot of the five water kinds (gWaterKindDescriptor): stores the map object in gWaterMapObject, clears
 // mFlags bits 2 and 8, sets mUnk_66 to 0x1f, runs the creator the kind row holds (third argument), then loads the three
 // water_efct files into gWater; once per water map object.
 void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
@@ -313,7 +327,7 @@ void InitWaterModels(Water *water) {
         NNS_G3dMdlSetMdlPolygonID(modelResMdl, materialIndex, 2);
     }
     modelCResMdl = water->mModelC.mResMdl;
-    alphaMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) modelCResMdl + modelCResMdl->mOfsMat + 4, data_02158094);
+    alphaMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) modelCResMdl + modelCResMdl->mOfsMat + 4, gWaterCMaterialName);
     if (water->mModelAFile != NULL) {
         modelAAlpha = water->mModelAAlpha;
         materialIndex = 0;
@@ -392,3 +406,4 @@ void ComputeWeightedPointXz(const Vec3 *points, Vec3 *result, s32 weight0, s32 w
     result->x = result->x + MUL_FIXED24_NO_ROUND(points[3].x, weight3);
     result->z = result->z + MUL_FIXED24_NO_ROUND(points[3].z, weight3);
 }
+

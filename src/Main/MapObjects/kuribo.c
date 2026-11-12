@@ -40,6 +40,15 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/segment_curve.h"
 
+StateCallbacks gKuriboStateTable[6] = {{EnterKuriboState0, UpdateKuriboState0},
+                                       {EnterKuriboState1, UpdateKuriboState1},
+                                       {EnterKuriboState2, UpdateKuriboState2},
+                                       {(UnkFunc *) EnterKuriboState3, UpdateKuriboState3},
+                                       {(UnkFunc *) EnterKuriboState4, UpdateKuriboState4},
+                                       {EnterKuriboState5, UpdateKuriboState5}};
+const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};
+const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, 0x1000}};
+
 void EnterKuriboState0(Kuribo *kuribo) {
     kuribo->mScaleFactorY = 0x1000u;
     kuribo->mScaleFactorYSpeed = 0x0u;
@@ -269,8 +278,8 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firs
 
 void ResetKuriboForItemBomb(Kuribo *kuribo) {
     kuribo->mOrientationBlendAmount = 0x1000;
-    kuribo->mOrientation = data_02158140;
-    kuribo->mTargetOrientation = data_02158150;
+    kuribo->mOrientation = gKuriboBombResetOrientation;
+    kuribo->mTargetOrientation = gKuriboBombResetTargetOrientation;
     SetStateMachineState(&kuribo->mMapObject.mStateMachine, 1);
     kuribo->mMapObject.mPosStep.x = 0;
     kuribo->mMapObject.mPosStep.y = 0;
@@ -282,8 +291,8 @@ void ResetKuriboForItemBomb(Kuribo *kuribo) {
 void CreateKuribo(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile(gKuriboNsbmdName);
-    nsbtpFile = FindCourseMapObjFile(gKuriboNsbtpName);
+    nsbmdFile = FindCourseMapObjFile("kuribo.nsbmd");
+    nsbtpFile = FindCourseMapObjFile("kuribo.nsbtp");
     CreateNsbmdModel(&gKuribo, nsbmdFile, nsbtpFile, 0);
     SetNsbmdModelFixedAttributes(gKuribo);
 }

@@ -1,4 +1,5 @@
 #include "Main/MapObjects/attractor.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 #include "fx_mtx33.h"
 
 #include "Main/System/heap.h"
@@ -37,6 +38,17 @@
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Kart/karts.h"
+
+StateCallbacks gJgStateTable[7] = {{(UnkFunc *) EnterJgState0, (UnkFunc *) JgState0ReturnArgument},
+                                   {EnterJgState1, UpdateJgState1},
+                                   {EnterJgState2, UpdateJgState2},
+                                   {EnterJgState3, UpdateJgState3},
+                                   {EnterJgState4, UpdateJgState4},
+                                   {EnterJgState5, UpdateJgState5},
+                                   {EnterJgState6, UpdateJgState6}};
+u16 *gAttractorStrengths;
+Vec3 **gAttractorPositions;
+struct MapObjectList *gAttractorUpdateList;
 
 void SetJgState4(void) {
     u32 raceKindValue;
@@ -192,10 +204,10 @@ void CreateJg(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    InitNsbmdModel(&gJgMain, FindSceneFile(gJgMainNsbmdName), FindSceneFile(gJgMainNsbtpName), 0);
+    InitNsbmdModel(&gJgMain, FindSceneFile("jg_main.nsbmd"), FindSceneFile("jg_main.nsbtp"), 0);
     SetNsbmdModelFixedAttributes(&gJgMain);
     gJgMain.mPolygonAttributes |= 0xc0;
-    InitNsbmdModel(&gJgCloud, FindSceneFile(gJgCloudNsbmdName), NULL, 0);
+    InitNsbmdModel(&gJgCloud, FindSceneFile("jg_cloud.nsbmd"), NULL, 0);
     SetNsbmdModelFixedAttributes(&gJgCloud);
     gJgCloud.mPolygonAttributes |= 0xc0;
     data_0217b8a4 = HeapAlloc(heap, 0x78);
@@ -243,11 +255,11 @@ void CreateJg(void) {
         sourceRow++;
         kindRow++;
     }
-    CreateNsbmdModel(&gJgKindRows[0].mLapModel, FindSceneFile(gLapCountNsbmdName), FindSceneFile(gLapCountNsbtpName),
+    CreateNsbmdModel(&gJgKindRows[0].mLapModel, FindSceneFile("lap_count.nsbmd"), FindSceneFile("lap_count.nsbtp"),
                      0);
     SetNsbmdModelFixedAttributes(gJgKindRows[0].mLapModel);
     gJgKindRows[0].mLapModel->mPolygonAttributes |= 0xc0;
-    CreateNsbmdModel(&gJgKindRows[1].mLapModel, FindSceneFile(gLapFinalNsbmdName), 0, 0);
+    CreateNsbmdModel(&gJgKindRows[1].mLapModel, FindSceneFile("lap_final.nsbmd"), 0, 0);
     SetNsbmdModelFixedAttributes(gJgKindRows[1].mLapModel);
     gJgKindRows[1].mLapModel->mPolygonAttributes |= 0xc0;
 }
@@ -345,7 +357,7 @@ void UpdateMapObjectSoundSource(MapObject *object) {
         distanceSquared = GetHorizontalCameraDistanceSquared(&object->mPos);
         sound->mSoundSource.mDistanceSquared = distanceSquared;
         if (IsMapObjectOutOfRangeOrMaskedAtDistance(object, distanceSquared) != FALSE) {
-            object->mDistanceSquaredAndFlags |= data_02159310;
+            object->mDistanceSquaredAndFlags |= gAttractorDistanceFlag;
             if ((sound->mSoundSource.mSourceFlags & 1) != 0) {
                 SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
             }
@@ -430,3 +442,14 @@ void CallMapObjectListCallback(MapObjectList *list) {
         }
     }
 }
+
+const MapObjectKindDescriptor gAttractorKindDescriptor = {0,
+                                                          {0, 0},
+                                                          0xa4,
+                                                          (void (*)(void *, CourseMapRow *, void *)) InitAttractorMapObject,
+                                                          CreateAttractorKindData,
+                                                          0,
+                                                          0,
+                                                          0,
+                                                          CreateAttractorUpdateList};
+const u32 gAttractorDistanceFlag = 4;

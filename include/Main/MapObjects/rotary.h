@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Item/item_koura_w.h"
+#include "Main/Menu/second_menu_scene.h"
 
 typedef struct RotaryKindInfo RotaryKindInfo;
 typedef struct CollisionMapObject CollisionMapObject;
@@ -23,3 +24,5 @@ void *CreateBridgeUpdateList(void);
 void UpdateBridge(s32 unused, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawBridge(CollisionMapObject *object, void *viewMatrix, u32 alpha);
 void DrawAllBridges(void *viewMatrix);
+
+extern StateCallbacks gRotaryStateTable[4];

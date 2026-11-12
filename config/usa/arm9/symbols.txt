@@ -8417,12 +8417,12 @@ data_usa_0215801c kind:data(any) addr:0x0215801c
 data_usa_0215804c kind:data(any) addr:0x0215804c
 gGroupPathZeroLengthUp kind:data(any) addr:0x0215807c
 gGroupPathUpAxis kind:data(any) addr:0x02158088
-data_02158094 kind:data(any) addr:0x02158094
-data_usa_021580a4 kind:data(any) addr:0x021580a4
-data_usa_021580d8 kind:data(any) addr:0x021580d8
-data_usa_0215810c kind:data(any) addr:0x0215810c
-data_02158140 kind:data(any) addr:0x02158140
-data_02158150 kind:data(any) addr:0x02158150
+gWaterCMaterialName kind:data(any) addr:0x02158094
+gWaterKindDescriptor kind:data(any) addr:0x021580a4
+gWaterEfctKindDescriptor kind:data(any) addr:0x021580d8
+gKuriboKindDescriptor kind:data(any) addr:0x0215810c
+gKuriboBombResetOrientation kind:data(any) addr:0x02158140
+gKuriboBombResetTargetOrientation kind:data(any) addr:0x02158150
 data_02158160 kind:data(any) addr:0x02158160
 gKuriboUpdateListData kind:data(any) addr:0x02158164
 gKuriboDrawListData kind:data(any) addr:0x0215818c
@@ -8485,40 +8485,40 @@ data_usa_02158974 kind:data(any) addr:0x02158974
 data_usa_021589a8 kind:data(any) addr:0x021589a8
 data_usa_021589e0 kind:data(any) addr:0x021589e0
 data_usa_02158a18 kind:data(any) addr:0x02158a18
-data_02158a50 kind:data(any) addr:0x02158a50
-data_02158a54 kind:data(any) addr:0x02158a54
-data_02158a7c kind:data(any) addr:0x02158a7c
-data_02158abc kind:data(any) addr:0x02158abc
-data_02158afc kind:data(any) addr:0x02158afc
-data_02158b3c kind:data(any) addr:0x02158b3c
+gVehicleHitFlag kind:data(any) addr:0x02158a50
+gVehicleUpdateListData kind:data(any) addr:0x02158a54
+gVehicleDrawListData kind:data(any) addr:0x02158a7c
+gBusAKindData kind:data(any) addr:0x02158abc
+gTruckAKindData kind:data(any) addr:0x02158afc
+gCarAKindData kind:data(any) addr:0x02158b3c
 data_02158b7c kind:data(any) addr:0x02158b7c
 data_usa_02158b80 kind:data(any) addr:0x02158b80
-data_02158bb4 kind:data(any) addr:0x02158bb4
-data_02158bb8 kind:data(any) addr:0x02158bb8
-data_02158bbc kind:data(any) addr:0x02158bbc
-data_02158be4 kind:data(any) addr:0x02158be4
-data_02158c10 kind:data(any) addr:0x02158c10
-data_02158c3c kind:data(any) addr:0x02158c3c
-data_02158c7c kind:data(any) addr:0x02158c7c
+gChoropuFlag kind:data(any) addr:0x02158bb4
+gChoropuSecondFlag kind:data(any) addr:0x02158bb8
+gChoropuUpdateListData kind:data(any) addr:0x02158bbc
+gChoropuShadowDrawListData kind:data(any) addr:0x02158be4
+gChoropuDrawListData kind:data(any) addr:0x02158c10
+gChoropuKindData kind:data(any) addr:0x02158c3c
+gChoropuZeroVector kind:data(any) addr:0x02158c7c
 data_02158c88 kind:data(any) addr:0x02158c88
 data_usa_02158c8c kind:data(any) addr:0x02158c8c
 data_02158cc0 kind:data(any) addr:0x02158cc0
 data_02158ce8 kind:data(any) addr:0x02158ce8
 data_02158d18 kind:data(any) addr:0x02158d18
-data_02158d58 kind:data(any) addr:0x02158d58
-data_usa_02158d5c kind:data(any) addr:0x02158d5c
-data_usa_02158d78 kind:data(any) addr:0x02158d78
-data_usa_02158d94 kind:data(any) addr:0x02158d94
-data_usa_02158db0 kind:data(any) addr:0x02158db0
-data_usa_02158dcc kind:data(any) addr:0x02158dcc
-data_usa_02158e00 kind:data(any) addr:0x02158e00
-data_usa_02158e34 kind:data(any) addr:0x02158e34
-data_usa_02158e68 kind:data(any) addr:0x02158e68
-data_02158e9c kind:data(any) addr:0x02158e9c
-data_02158ec4 kind:data(any) addr:0x02158ec4
-data_02158ef0 kind:data(any) addr:0x02158ef0
-data_02158f30 kind:data(any) addr:0x02158f30
-data_02158f70 kind:data(any) addr:0x02158f70
+gRotaryFlag kind:data(any) addr:0x02158d58
+gRotaryRoomKindInfo kind:data(any) addr:0x02158d5c
+gRotaryBridgeKindInfo kind:data(any) addr:0x02158d78
+gRotaryGearBlackKindInfo kind:data(any) addr:0x02158d94
+gRotaryTestCylinderKindInfo kind:data(any) addr:0x02158db0
+gRotaryGearBlackKindDescriptor kind:data(any) addr:0x02158dcc
+gRotaryTestCylinderKindDescriptor kind:data(any) addr:0x02158e00
+gRotaryRoomKindDescriptor kind:data(any) addr:0x02158e34
+gRotaryBridgeKindDescriptor kind:data(any) addr:0x02158e68
+gRotaryUpdateListData kind:data(any) addr:0x02158e9c
+gRotaryDrawListData kind:data(any) addr:0x02158ec4
+gRotaryBridgeKindData kind:data(any) addr:0x02158ef0
+gRotaryRoomKindData kind:data(any) addr:0x02158f30
+gRotaryGearTestCylinderKindData kind:data(any) addr:0x02158f70
 data_usa_02158fb0 kind:data(any) addr:0x02158fb0
 gPukupukuPushedFlag kind:data(any) addr:0x02158fe4
 gPukupukuState2Flag kind:data(any) addr:0x02158fe8
@@ -8541,7 +8541,7 @@ data_usa_02159248 kind:data(any) addr:0x02159248
 data_0215927c kind:data(any) addr:0x0215927c
 data_021592a4 kind:data(any) addr:0x021592a4
 data_021592d0 kind:data(any) addr:0x021592d0
-data_02159310 kind:data(any) addr:0x02159310
+gAttractorDistanceFlag kind:data(any) addr:0x02159310
 gAttractorKindDescriptor kind:data(any) addr:0x02159314
 gAttractorUpdateListData kind:data(any) addr:0x02159348
 gAttractorKindData kind:data(any) addr:0x02159370
@@ -8561,12 +8561,12 @@ data_02159440 kind:data(any) addr:0x02159440
 data_02159494 kind:data(any) addr:0x02159494
 data_usa_021594a0 kind:data(any) addr:0x021594a0
 data_021594d4 kind:data(any) addr:0x021594d4
-data_021594d8 kind:data(any) addr:0x021594d8
-data_021594dc kind:data(any) addr:0x021594dc
-data_021594e0 kind:data(any) addr:0x021594e0
-data_021594e4 kind:data(any) addr:0x021594e4
-data_0215950c kind:data(any) addr:0x0215950c
-data_02159538 kind:data(any) addr:0x02159538
+gWoodbox1Flag kind:data(any) addr:0x021594d8
+gWoodbox1SecondFlag kind:data(any) addr:0x021594dc
+gWoodbox1ThirdFlag kind:data(any) addr:0x021594e0
+gWoodbox1UpdateListData kind:data(any) addr:0x021594e4
+gWoodbox1DrawListData kind:data(any) addr:0x0215950c
+gWoodbox1KindData kind:data(any) addr:0x02159538
 data_02159578 kind:data(any) addr:0x02159578
 gVec3UnitX kind:data(any) addr:0x0215957c
 data_02159588 kind:data(any) addr:0x02159588
@@ -8642,7 +8642,7 @@ data_0215a030 kind:data(any) addr:0x0215a030
 data_usa_0215a034 kind:data(any) addr:0x0215a034
 gMissionRunBoxKindData kind:data(any) addr:0x0215a068
 gDramAngleChoiceRows kind:data(any) addr:0x0215a0a8
-data_usa_0215a0cc kind:data(any) addr:0x0215a0cc
+gDramKindDescriptor kind:data(any) addr:0x0215a0cc
 data_0215a100 kind:data(any) addr:0x0215a100
 data_0215a12c kind:data(any) addr:0x0215a12c
 gItemTeresaPickWeights kind:data(any) addr:0x0215a154
@@ -10362,8 +10362,8 @@ data_usa_0216be18 kind:data(any) addr:0x0216be18
 data_usa_0216be28 kind:data(any) addr:0x0216be28
 data_usa_0216be38 kind:data(any) addr:0x0216be38
 gKuriboStateTable kind:data(any) addr:0x0216be48
-gKuriboNsbmdName kind:data(any) addr:0x0216be78
-gKuriboNsbtpName kind:data(any) addr:0x0216be88
+@4119 kind:data(any) addr:0x0216be78 local
+@4120 kind:data(any) addr:0x0216be88 local
 @3439 kind:data(any) addr:0x0216be98 local
 @3440 kind:data(any) addr:0x0216bea8 local
 data_0216bedc kind:data(any) addr:0x0216bebc
@@ -10386,27 +10386,27 @@ data_usa_0216c004 kind:data(any) addr:0x0216c004
 data_usa_0216c00c kind:data(any) addr:0x0216c00c
 data_usa_0216c018 kind:data(any) addr:0x0216c018
 gIdentityQuaternion kind:data(any) addr:0x0216c024
-gCarANsbmdName kind:data(any) addr:0x0216c034
-gTruckANsbmdName kind:data(any) addr:0x0216c040
-gBusANsbmdName kind:data(any) addr:0x0216c050
-gCarTireNsbmdName kind:data(any) addr:0x0216c05c
-gCarAShadowNsbmdName kind:data(any) addr:0x0216c06c
-gTruckAShadowNsbmdName kind:data(any) addr:0x0216c080
-gBusAShadowNsbmdName kind:data(any) addr:0x0216c098
-gCarANsbtpName kind:data(any) addr:0x0216c0ac
-gTruckANsbtpName kind:data(any) addr:0x0216c0b8
+@6292 kind:data(any) addr:0x0216c034 local
+@6293 kind:data(any) addr:0x0216c040 local
+@6294 kind:data(any) addr:0x0216c050 local
+@6295 kind:data(any) addr:0x0216c05c local
+@6296 kind:data(any) addr:0x0216c06c local
+@6297 kind:data(any) addr:0x0216c080 local
+@6298 kind:data(any) addr:0x0216c098 local
+@6299 kind:data(any) addr:0x0216c0ac local
+@6300 kind:data(any) addr:0x0216c0b8 local
 gChoropuStateTable kind:data(any) addr:0x0216c0c8
-gChoropuNsbmdName kind:data(any) addr:0x0216c108
-gChoropuNsbtpName kind:data(any) addr:0x0216c118
-gBridgeNsbmdName kind:data(any) addr:0x0216c128
-gBridgeNsbcaName kind:data(any) addr:0x0216c138
+@4048 kind:data(any) addr:0x0216c108 local
+@4049 kind:data(any) addr:0x0216c118 local
+@3863 kind:data(any) addr:0x0216c128 local
+@3864 kind:data(any) addr:0x0216c138 local
 gRotaryStateTable kind:data(any) addr:0x0216c148
-gTestCylinderNsbmdName kind:data(any) addr:0x0216c168
-gGearBlackNsbmdName kind:data(any) addr:0x0216c17c
-gGearWhiteNsbmdName kind:data(any) addr:0x0216c190
-gRotaryRoomNsbmdName kind:data(any) addr:0x0216c1a4
-gRotaryBridgeNsbmdName kind:data(any) addr:0x0216c1b8
-data_0216c1ec kind:data(any) addr:0x0216c1cc
+@4080 kind:data(any) addr:0x0216c168 local
+@4081 kind:data(any) addr:0x0216c17c local
+@4082 kind:data(any) addr:0x0216c190 local
+@4083 kind:data(any) addr:0x0216c1a4 local
+@4084 kind:data(any) addr:0x0216c1b8 local
+gPukupukuStateTable kind:data(any) addr:0x0216c1cc
 @3932 kind:data(any) addr:0x0216c1ec local
 @4721 kind:data(any) addr:0x0216c1fc local
 @4722 kind:data(any) addr:0x0216c210 local
@@ -10429,9 +10429,9 @@ gLapCountNsbmdName kind:data(any) addr:0x0216c384
 gLapCountNsbtpName kind:data(any) addr:0x0216c394
 gLapFinalNsbmdName kind:data(any) addr:0x0216c3a4
 gSavedModelAlpha kind:data(any) addr:0x0216c3b4
-data_0216c3d8 kind:data(any) addr:0x0216c3b8
+gWoodbox1GroundUp kind:data(any) addr:0x0216c3b8
 gWoodbox1StateTable kind:data(any) addr:0x0216c3c4
-gWoodbox1NsbmdName kind:data(any) addr:0x0216c3e4
+@7173 kind:data(any) addr:0x0216c3e4 local
 gPushedObjectStateTable kind:data(any) addr:0x0216c3f4
 @4146 kind:data(any) addr:0x0216c40c local
 @4147 kind:data(any) addr:0x0216c420 local

@@ -8,20 +8,6 @@ extern CollisionHitRecord data_0216b8c4;
 
 extern CollisionHitRecord data_0216b8ec;
 
-extern const StateCallbacks gKuriboStateTable[];
-
-
-
-// Objects whose layout isn't known yet.
-extern const char gKuriboNsbmdName[];
-
-extern const char gKuriboNsbtpName[];
-
-
-
-
-
-
 extern u8 *gKartResponsesByKind[][4];
 
 extern u8 *gKartFirstResponsesByKind[][4];

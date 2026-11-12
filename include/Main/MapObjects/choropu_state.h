@@ -2,6 +2,8 @@
 
 #include "types.h"
 #include "Main/MapObjects/choropu.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 
 void CreateChoropu(void);
 
@@ -44,3 +46,11 @@ void UpdateChoropu(u32 unused, Choropu *choropu);
 void DrawChoropuShadow(void *unused0, Choropu *choropu, u32 unused1, u32 alpha);
 
 void SetupDrawChoropuShadow(void);
+
+extern const u16 gChoropuFlag;
+extern const u16 gChoropuSecondFlag;
+extern const MapObjectList gChoropuUpdateListData;
+extern const MapObjectDrawList gChoropuShadowDrawListData;
+extern const MapObjectDrawList gChoropuDrawListData;
+extern const MapObjectKindData gChoropuKindData;
+extern StateCallbacks gChoropuStateTable[8];

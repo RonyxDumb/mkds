@@ -50,15 +50,13 @@
 #include "Main/MapObjects/pushed_motion.h"
 #include "01/Race/mission_run_state.h"
 
-const MapObjectList data_021594e4 = {
+const MapObjectList gWoodbox1UpdateListData = {
     0, 0, {0, 0}, &ClearWoodbox1Pointer, 0, &AdvanceWoodbox1, 0, 0, 0, 0, 0,
 };
-
-const Woodbox1DrawList data_0215950c = {
+const Woodbox1DrawList gWoodbox1DrawListData = {
     0, 0, {0, 0}, &CreateWoodbox1, 0, &DrawWoodbox1, 0, 1, 0, 0, 0, 0,
 };
-
-const Unk02159538 data_02159538 = {
+const Unk02159538 gWoodbox1KindData = {
     &CollideKartWithWoodbox1,
     &CollideItemObjectWithWoodbox1,
     4,
@@ -76,6 +74,9 @@ const Unk02159538 data_02159538 = {
     0,
     0,
 };
+s32 gSavedModelAlpha = -1;
+Vec3 gWoodbox1GroundUp = {0, 0x1000, 0};
+StateCallbacks gWoodbox1StateTable[4] = {{EnterWoodbox1State0, NULL}, {EnterWoodbox1State1, UpdateWoodbox1State1}, {EnterWoodbox1State2, UpdateWoodbox1State2}, {NULL, UpdateWoodbox1State3}};
 
 BOOL HitPushedObjectByKart(PushedObject *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
@@ -101,7 +102,7 @@ Unk02159538 *CreateWoodbox1KindData(void) {
     Unk02159538 *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02159538;
+    *kindData = gWoodbox1KindData;
     return kindData;
 }
 
@@ -110,7 +111,7 @@ Woodbox1DrawList *CreateWoodbox1DrawList(void) {
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     data_0217bbec = drawList;
-    *drawList = data_0215950c;
+    *drawList = gWoodbox1DrawListData;
     SetDrawListSlot(&data_0217bbec);
     return data_0217bbec;
 }
@@ -120,7 +121,7 @@ MapObjectList *CreateWoodbox1UpdateList(void) {
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     data_0217bbf4 = updateList;
-    *updateList = data_021594e4;
+    *updateList = gWoodbox1UpdateListData;
     SetUpdateListSlot(&data_0217bbf4);
     return data_0217bbf4;
 }
@@ -177,7 +178,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunCountForMapObjectKind(woodbox->mMapObject.mKind);
     }
-    woodbox->mMapObject.mFlags |= data_021594d8;
+    woodbox->mMapObject.mFlags |= gWoodbox1Flag;
     if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
@@ -215,9 +216,9 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
 }
 
 void EnterWoodbox1State1(Woodbox1 *woodbox) {
-    woodbox->mMapObject.mFlags |= data_021594d8;
-    woodbox->mMapObject.mFlags |= data_021594dc;
-    woodbox->mMapObject.mFlags |= data_021594e0;
+    woodbox->mMapObject.mFlags |= gWoodbox1Flag;
+    woodbox->mMapObject.mFlags |= gWoodbox1SecondFlag;
+    woodbox->mMapObject.mFlags |= gWoodbox1ThirdFlag;
 }
 
 #pragma thumb off
@@ -408,7 +409,7 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 
 #pragma thumb on
 
 void CreateWoodbox1(MapObjectList *list) {
-    CreateNsbmd(&gWoodbox1, FindCourseMapObjFile(gWoodbox1NsbmdName), NULL);
+    CreateNsbmd(&gWoodbox1, FindCourseMapObjFile("woodbox1.nsbmd"), NULL);
     SetNsbmdPolygonIdLightEmiAll(gWoodbox1, 0x3f, 2, 0x294a);
 }
 
@@ -422,7 +423,7 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
 
     if (CollideSphereWithCourse(&woodbox->mMapObject.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL,
                                 NULL, NULL, NULL, NULL, NULL) == 0) {
-        woodbox->mGroundUp = data_0216c3d8;
+        woodbox->mGroundUp = gWoodbox1GroundUp;
     }
     woodbox->mMapObject.mPos.y = woodbox->mMapObject.mPos.y + woodbox->mMapObject.mExtent.x;
     woodbox->mBasePos = woodbox->mMapObject.mPos;
@@ -867,3 +868,7 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     }
     gSavedModelAlpha = -1;
 }
+
+const u16 gWoodbox1SecondFlag = 2;
+const u16 gWoodbox1ThirdFlag = 8;
+const u16 gWoodbox1Flag = 1;

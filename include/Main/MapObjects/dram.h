@@ -60,3 +60,5 @@ MapObjectDrawList *CreateDramDrawList(void);
 MapObjectList *CreateDramUpdateList(void);
 void DrawDram(void *unusedFirst, Dram *dram, void *unusedThird, s32 maxAlpha);
 void PickDramAngleChoices(MapObjectList *list);
+
+extern const u16 gDramAngleChoiceRows[6][3];

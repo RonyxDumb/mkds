@@ -143,6 +143,7 @@ void CreateYoshiWater(void);
 void CreateHyudoroWater(void);
 void InitWaterModels(Water *water);
 void CreateWaterEfct(MapObject *mapObject);
+extern const u32 gWaterCMaterialName[4];
 void GetCurveWeights(s32 weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *e);
 void GetCurveAndSlopeWeights(s32 weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
                              s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3, s32 *i);
