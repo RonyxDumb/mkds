@@ -8044,7 +8044,7 @@ gKartNameTagQuadVertices kind:data(any) addr:0x02155a74
 data_usa_02155a8c kind:data(any) addr:0x02155a8c
 data_usa_02155aac kind:data(any) addr:0x02155aac
 data_usa_02155acc kind:data(any) addr:0x02155acc
-data_02155ccc kind:data(any) addr:0x02155ccc
+gKartNameTagInitialPos kind:data(any) addr:0x02155ccc
 gAnmFrameCountGetters kind:data(any) addr:0x02155cd8
 gCharacterPNames kind:data(any) addr:0x02155cec
 gCharacterENames kind:data(any) addr:0x02155cf0

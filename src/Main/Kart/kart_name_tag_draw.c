@@ -32,6 +32,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/Race/race.h"
 #include "registers.h"
+#include "Main/Graphics/model_animation_looping.h"
 
 void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed) {
     u16 heightTexCoord;
@@ -157,7 +158,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
 
 void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap) {
     kartObject->mTexPlttEntries = HeapAlloc(heap, 0x90);
-    kartObject->mPos = data_02155ccc;
+    kartObject->mPos = gKartNameTagInitialPos;
     kartObject->mKartIndex = kartIndex;
     kartObject->mTexPlttEntries->mEntries[0] = data_021659ec;
     kartObject->mTexPlttEntries->mEntries[1] = data_02165a34;

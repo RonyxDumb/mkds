@@ -26,8 +26,6 @@ extern const u16 gTeamPaletteColors[];
 
 extern const u16 data_02155a2c[];
 
-extern const Vec3 data_02155ccc;
-
 struct ParticleEmitter;
 
 struct Kart;

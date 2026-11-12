@@ -1900,6 +1900,7 @@ src/Main/Graphics/model_animation_loop.c:
 src/Main/Graphics/model_animation_looping.c:
     complete
     .text       start:0x02087cd0 end:0x02087cfc
+    .rodata     start:0x02155ccc end:0x02155cd8
 
 // provisional: file name and boundaries
 src/Main/Graphics/model_animation_loop_mode.c:
