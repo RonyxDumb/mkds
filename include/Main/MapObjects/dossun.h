@@ -53,13 +53,10 @@ typedef struct KuriboDrawList {
     /* 14 */ u8 mUnk_14[0x18];
 } KuriboDrawList;
 
-// 0x2c bytes: functions at 0x08 and 0x10.
+// 0x2c bytes: a list and a word.
 typedef struct DossunDrawList {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ void (*mInit)(void);
-    /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ void (*mForEachObject)(void *a, Dossun *p, void *c, s32 d);
-    /* 14 */ u8 mUnk_14[0x18];
+    /* 00 */ MapObjectList mList;
+    /* 28 */ u32 mUnk_28;
 } DossunDrawList;
 
 MapObjectKindData *CreateDossunKindData(void);
@@ -92,6 +89,3 @@ extern struct Nsbmd *gDossun;
 extern MapObjectList *gDossunUpdateList;
 extern MtxFx43 gDossunDrawMatrix;
 
-extern const MapObjectList gDossunUpdateListData;
-extern const struct DossunDrawList gDossunDrawListData;
-extern const MapObjectKindData gDossunKindData;
